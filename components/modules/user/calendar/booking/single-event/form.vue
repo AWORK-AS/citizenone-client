@@ -118,7 +118,7 @@
                     <div class="w-fit flex items-center cursor-pointer"
                     @click="state.formEvent.exclude_weekend = !state.formEvent.exclude_weekend">
                         <FormCheckbox id="change_password" :value="state.formEvent.exclude_weekend" />
-                        {{  $t('bookings.formEvent.slots.excludeWeekend')  }}
+                        <span class="text-sm text-gray-600">{{  $t('bookings.formEvent.slots.excludeWeekend')  }}</span>
                     </div>
                 </div>
                 <div class="block md:flex items-center space-y-2 gap-x-2 py-2" v-if="state.formEvent.is_recurring">
@@ -223,33 +223,38 @@
                     <FormError :error="state?.error?.errors?.slots?.[0]" />
                 </div>
                 <div class="max-h-96 overflow-y-auto pr-3 space-y-3">
-                    <div v-for="(item, idx) in state.formEvent.slots" class="grow grid grid-cols-1 md:grid-cols-[1fr_1fr_150px_30px] items-center gap-3">
-                        <div class="space-y-1" >
-                            <FormLabel :for="`start_time_${idx}`" :label="$t('bookings.formEvent.slots.startTime')" />
-                            <FormTimeField :id="`start_time_${idx}`" :name="`start_time_${idx}`" :placeholder="$t('bookings.formEvent.slots.startTime')"
-                                v-model="item.start_time"
-                                class="border border-primary placeholder-gray-500 text-gray-900 rounded-md focus:outline-none focus:ring-primary-700 focus:border-primary-700 focus:z-10 sm:text-sm" />
+                    <div v-for="(item, idx) in state.formEvent.slots">
+                        <div class="grow grid grid-cols-1 md:grid-cols-[1fr_1fr_150px_30px] items-center gap-3">
+                            <div class="space-y-1">
+                                <FormLabel :for="`start_time_${idx}`" :label="$t('bookings.formEvent.slots.startTime')" />
+                                <FormTimeField :id="`start_time_${idx}`" :name="`start_time_${idx}`" :placeholder="$t('bookings.formEvent.slots.startTime')"
+                                    v-model="item.start_time"
+                                    class="border border-primary placeholder-gray-500 text-gray-900 rounded-md focus:outline-none focus:ring-primary-700 focus:border-primary-700 focus:z-10 sm:text-sm" />
+                            </div>
+                            <div class="space-y-1">
+                                <FormLabel :for="`end_time_${idx}`" :label="$t('bookings.formEvent.slots.endTime')" />
+                                <FormTimeField :id="`end_time_${idx}`" :name="`end_time_${idx}`" :placeholder="$t('bookings.formEvent.slots.endTime')"
+                                    v-model="item.end_time"
+                                    class="border border-primary placeholder-gray-500 text-gray-900 rounded-md focus:outline-none focus:ring-primary-700 focus:border-primary-700 focus:z-10 sm:text-sm" />
+                            </div>
+                            <div class="space-y-1">
+                                <FormLabel :for="`capacity_${idx}`" :label="$t('bookings.formEvent.slots.capacity')" />
+                                <FormNumberField :id="`capacity_${idx}`" :name="`capacity_${idx}`" :placeholder="$t('bookings.formEvent.slots.capacity')"
+                                    v-model="item.capacity"
+                                    class="border border-primary placeholder-gray-500 text-gray-900 rounded-md focus:outline-none focus:ring-primary-700 focus:border-primary-700 focus:z-10 sm:text-sm" />
+                            </div>
+                            <div v-if="state.formEvent.slots.length > 1" class="space-y-1">
+                                <Tooltip :text="$t('bookings.formEvent.slots.removeSlot')" position="left"
+                                    class="mt-7">
+                                    <button type="button" @click="removeSlot(idx)">
+                                        <Icon name="ph:trash" class="h-6 w-6 text-red-700 hover:text-red-600" aria-hidden="true" />
+                                    </button>
+                                </Tooltip>
+                            </div>
                         </div>
-                        <div class="space-y-1">
-                            <FormLabel :for="`end_time_${idx}`" :label="$t('bookings.formEvent.slots.endTime')" />
-                            <FormTimeField :id="`end_time_${idx}`" :name="`end_time_${idx}`" :placeholder="$t('bookings.formEvent.slots.endTime')"
-                                v-model="item.end_time"
-                                class="border border-primary placeholder-gray-500 text-gray-900 rounded-md focus:outline-none focus:ring-primary-700 focus:border-primary-700 focus:z-10 sm:text-sm" />
-                        </div>
-                        <div class="space-y-1">
-                            <FormLabel :for="`capacity_${idx}`" :label="$t('bookings.formEvent.slots.capacity')" />
-                            <FormNumberField :id="`capacity_${idx}`" :name="`capacity_${idx}`" :placeholder="$t('bookings.formEvent.slots.capacity')"
-                                v-model="item.capacity"
-                                class="border border-primary placeholder-gray-500 text-gray-900 rounded-md focus:outline-none focus:ring-primary-700 focus:border-primary-700 focus:z-10 sm:text-sm" />
-                        </div>
-                        <div v-if="state.formEvent.slots.length > 1" class="space-y-1">
-                            <Tooltip :text="$t('bookings.formEvent.slots.removeSlot')" position="left"
-                                class="mt-7">
-                                <button type="button" @click="removeSlot(idx)">
-                                    <Icon name="ph:trash" class="h-6 w-6 text-red-700 hover:text-red-600" aria-hidden="true" />
-                                </button>
-                            </Tooltip>
-                        </div>
+                    </div>
+                    <div class="space-y-1">
+                        <FormError :error="state?.error?.errors?.time_slots?.[0]" />
                     </div>
                 </div>
             </div>
@@ -626,7 +631,7 @@ function handleNext() {
             ]
         }
     }
-    else if (state.currentStep === 2 && validateSlots()) {
+    else if (state.currentStep === 2 && validateSlots() && validateTimeSlots()) {
         state.currentStep = 3
         state.steps = [
             { id: '01', name: 'Information', href: '#', status: 'completed' },
@@ -660,6 +665,7 @@ function addMinutesToTime(time: string, minsToAdd: number) {
 }
 
 function addSlot() {
+    if (!validateTimeSlots()) return
     const slots = state.formEvent.slots
     const lastSlot = slots[slots.length - 1]
 
@@ -690,6 +696,7 @@ watch(() => state.formEvent.slots, (newSlots) => {
         return total + Number(slot.capacity || 0)
     }, 0)
     validateSlots()
+    validateTimeSlots()
 }, { deep: true, })
 
 function validateSlots() {
@@ -699,10 +706,36 @@ function validateSlots() {
     } else if (state.formEvent.spots < 1) {
         error = t('bookings.formEvent.slots.validationError')
     }
+    if (!error) return true;
+    
     state.error = {
         message: t('bookings.formEvent.slots.validationError'),
         errors: {
             slots: [error],
+        }
+    }
+    return error === ''
+}
+
+function validateTimeSlots() {
+    let error = ''
+    for (const slot of state.formEvent.slots) {
+        if (slot.start_time && slot.end_time) {
+            const start = new Date(`1970-01-01T${slot.start_time}`);
+            const end = new Date(`1970-01-01T${slot.end_time}`);
+
+            if (start >= end) {
+                error = 'Start time must be before end time';
+                break
+            } else {
+                error = '';
+            }
+        }
+    }
+    state.error = {
+        message: t('bookings.formEvent.slots.validationError'),
+        errors: {
+            time_slots: [error],
         }
     }
     return error === ''
