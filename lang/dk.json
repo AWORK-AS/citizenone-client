@@ -1214,6 +1214,7 @@
         "inquiryStayData": {
             "inquiryAndStayData": "Henvendelses- og opholdsdata",
             "inquiryData": {
+                "conversationSummary": "Samtaleresumé",
                 "dateOfInquiry": "Dato for henvendelse",
                 "inquiryData": "Henvendelsesdata",
                 "inquirerName": "Navn på henvender",

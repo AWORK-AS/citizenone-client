@@ -1214,6 +1214,7 @@
         "inquiryStayData": {
             "inquiryAndStayData": "Inquiry and stay data",
             "inquiryData": {
+                "conversationSummary": "Conversation summary",
                 "dateOfInquiry": "Date of inquiry",
                 "inquiryData": "Inquiry data",
                 "inquirerName": "Inquirer name",
