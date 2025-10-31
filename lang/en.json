@@ -553,7 +553,11 @@
                 "selectTimeSlot": "Select from available time slots",
                 "full": "Full",
                 "noSlots": "The selected date has no available time slots. Please try other dates.",
-                "selectSlot": "Please select an available time slot."
+                "selectSlot": "Please select an available time slot.",
+                "eventDetails": "Event details",
+                "selectSchedule": "Select schedule",
+                "yourDetails": "Your details",
+                "confirmation": "Confirmation"
             }
         },
         "loading": {
