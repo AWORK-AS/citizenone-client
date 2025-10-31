@@ -557,6 +557,7 @@ function handleBackStep() {
 }
 
 function handleNextStep() {
+    if (state.currentStep === 2 && !state.formBooking.time_slot) return
     state.currentStep = state.currentStep + 1
 }
 
