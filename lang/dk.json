@@ -542,8 +542,17 @@
                 "endTime": "Sluttid",
                 "capacity": "Kapacitet",
                 "remove": "Fjern",
+                "addSlot": "Tilføj tidsrum",
                 "removeSlot": "Fjern dette bookingtidspunkt",
-                "validationError": "Bookingtidspunkt og kapacitet er påkrævet"
+                "validationError": "Bookingtidspunkt og kapacitet er påkrævet",
+                "excludeWeekend": "Udeluk weekender"
+            },
+            "appointment": {
+                "selectDate": "Vælg en dato",
+                "dateSelected": "Dato valgt",
+                "selectTimeSlot": "Vælg blandt ledige tidsrum",
+                "full": "Fuldt",
+                "noSlots": "Den valgte dato har ingen ledige tidsintervaller. Prøv venligst andre datoer."
             }
         },
         "loading": {

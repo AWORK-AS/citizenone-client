@@ -44,6 +44,7 @@ const state = reactive({
         is_recurring: false,
         recurring: '',
         recurring_until: '',
+        exclude_weekend: false,
         name: '',
         description: '',
         address: '',
@@ -89,11 +90,13 @@ async function fetchEvent() {
             const eventData = response.data
             const eventSession = response.data?.event_course_sessions?.[0]
             const bookingSetting = response.data?.booking_setting
+            console.log(bookingSetting)
             state.formEvent = {
                 date_time_start: moment(eventSession?.date_time_start).format('YYYY-MM-DD H:mm'),
                 date_time_end: moment(eventSession?.date_time_end).format('YYYY-MM-DD H:mm'),
                 is_recurring: eventSession?.is_recurring ? true : false,
                 recurring: eventSession?.recurring_type ?? 'everyday',
+                exclude_weekend: bookingSetting?.exclude_weekend ?? false,
                 recurring_until: eventSession?.recurring_end_date ?? '',
                 name: eventData?.name ?? '',
                 description: eventData?.description ?? '',
@@ -133,6 +136,7 @@ async function saveEvent(eventDetails: any) {
         params.append('is_recurring', eventDetails.is_recurring)
         params.append('recurring', eventDetails.recurring)
         params.append('recurring_until', eventDetails.recurring_until)
+        params.append('exclude_weekend', eventDetails.exclude_weekend)
         params.append('name', eventDetails.name)
         params.append('description', eventDetails.description)
         params.append('address', eventDetails.address)

@@ -542,8 +542,17 @@
                 "endTime": "End time",
                 "capacity": "Capacity",
                 "remove": "Remove",
+                "addSlot": "Add slot",
                 "removeSlot": "Remove this booking slot",
-                "validationError": "Booking slot and capacity is required"
+                "validationError": "Booking slot and capacity is required",
+                "excludeWeekend": "Exclude weekends"
+            },
+            "appointment": {
+                "selectDate": "Select a date",
+                "dateSelected": "Date selected",
+                "selectTimeSlot": "Select from available time slots",
+                "full": "Full",
+                "noSlots": "The selected date has no available time slots. Please try other dates."
             }
         },
         "loading": {
