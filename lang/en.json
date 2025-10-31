@@ -544,6 +544,11 @@
                 "remove": "Remove",
                 "removeSlot": "Remove this booking slot",
                 "validationError": "Booking slot and capacity is required"
+            },
+            "appointment": {
+                "selectDate": "Select a date",
+                "dateSelected": "Date selected",
+                "selectTimeSlot": "Select from available time slots"
             }
         },
         "loading": {

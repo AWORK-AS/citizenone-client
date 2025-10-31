@@ -544,6 +544,11 @@
                 "remove": "Fjern",
                 "removeSlot": "Fjern dette bookingtidspunkt",
                 "validationError": "Bookingtidspunkt og kapacitet er påkrævet"
+            },
+            "appointment": {
+                "selectDate": "Vælg en dato",
+                "dateSelected": "Dato valgt",
+                "selectTimeSlot": "Vælg blandt ledige tidsrum"
             }
         },
         "loading": {

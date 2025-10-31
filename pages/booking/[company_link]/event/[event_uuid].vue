@@ -62,9 +62,9 @@
                                             <div class="grow grid grid-cols-1 md:grid-cols-[1fr_1fr] gap-6">
                                                 <div class="w-full">
                                                     <div class="space-y-1 w-[308px]">
-                                                        <FormLabel for="date_time_end" :label="'Pick a date'" />
+                                                        <FormLabel for="date_time_end" :label="$t('bookings.formEvent.appointment.selectDate')" />
                                                         <FormCalendarDatePicker id="selected_date" name="selected_date"
-                                                            :placeholder="`${$t('bookings.formEvent.information.dateTimeEnd')}`"
+                                                            :placeholder="$t('bookings.formEvent.appointment.dateSelected')"
                                                             :min-date="state.courseEventDetails?.event_course_sessions[0]?.date_time_start.split(' ')[0]"
                                                             :max-date="state.courseEventDetails?.event_course_sessions[0]?.date_time_end.split(' ')[0]"
                                                             v-model="state.formBooking.selected_date" />
@@ -73,7 +73,7 @@
                                                     </div>
                                                 </div>
                                                 <div class="space-y-1">
-                                                    <FormLabel for="select_timeslot" :label="'Select timeslot'" />
+                                                    <FormLabel for="select_timeslot" :label="$t('bookings.formEvent.appointment.selectTimeSlot')" />
                                                     <fieldset>
                                                         <RadioGroup v-model="state.formBooking.selected_time_slot"
                                                             class="mt-6 grid grid-cols-1 gap-y-6 sm:grid-cols-1 sm:gap-x-4 max-h-96 overflow-y-auto pl-1 pr-3 py-3 space-y-1">
