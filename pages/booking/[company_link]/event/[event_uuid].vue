@@ -108,6 +108,7 @@
                                                                 </div>
                                                             </RadioGroupOption>
                                                         </RadioGroup>
+                                                        <FormError :error="state?.error?.errors?.time_slot?.[0]" />
                                                     </fieldset>
                                                 </div>
                                             </div>
@@ -540,6 +541,12 @@ watch(() => state.selected_date, (newvalue) => {
     fetchBookingSlots()
 })
 
+watch(() => state.formBooking.time_slot, (newvalue) => {
+    if (newvalue) {
+        delete state.error?.errors?.time_slot
+    }
+})
+
 async function fetchBookingSlots() {
     state.error = {}
     try {
@@ -557,6 +564,12 @@ function handleBackStep() {
 }
 
 function handleNextStep() {
+    if (state.currentStep === 2 && !state.formBooking.time_slot) {
+        if (!state.error) state.error = {} as any;
+        if (!(state.error as any).errors) (state.error as any).errors = {};
+        (state.error as any).errors.time_slot = [t('bookings.formEvent.appointment.selectSlot')];
+        return
+    }
     state.currentStep = state.currentStep + 1
 }
 

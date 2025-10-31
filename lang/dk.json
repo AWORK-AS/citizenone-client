@@ -552,7 +552,8 @@
                 "dateSelected": "Dato valgt",
                 "selectTimeSlot": "Vælg blandt ledige tidsrum",
                 "full": "Fuldt",
-                "noSlots": "Den valgte dato har ingen ledige tidsintervaller. Prøv venligst andre datoer."
+                "noSlots": "Den valgte dato har ingen ledige tidsintervaller. Prøv venligst andre datoer.",
+                "selectSlot": "Vælg venligst et ledigt tidsrum."
             }
         },
         "loading": {
