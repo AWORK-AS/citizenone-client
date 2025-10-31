@@ -549,7 +549,9 @@
             "appointment": {
                 "selectDate": "Vælg en dato",
                 "dateSelected": "Dato valgt",
-                "selectTimeSlot": "Vælg blandt ledige tidsrum"
+                "selectTimeSlot": "Vælg blandt ledige tidsrum",
+                "full": "Fuldt",
+                "noSlots": "Den valgte dato har ingen ledige tidsintervaller. Prøv venligst andre datoer."
             }
         },
         "loading": {

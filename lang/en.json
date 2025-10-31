@@ -549,7 +549,9 @@
             "appointment": {
                 "selectDate": "Select a date",
                 "dateSelected": "Date selected",
-                "selectTimeSlot": "Select from available time slots"
+                "selectTimeSlot": "Select from available time slots",
+                "full": "Full",
+                "noSlots": "The selected date has no available time slots. Please try other dates."
             }
         },
         "loading": {

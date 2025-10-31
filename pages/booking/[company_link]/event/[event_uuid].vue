@@ -61,13 +61,13 @@
                                         <form>
                                             <div class="grow grid grid-cols-1 md:grid-cols-[1fr_1fr] gap-6">
                                                 <div class="w-full">
-                                                    <div class="space-y-1 w-[308px]">
+                                                    <div class="space-y-3 w-[308px]">
                                                         <FormLabel for="date_time_end" :label="$t('bookings.formEvent.appointment.selectDate')" />
                                                         <FormCalendarDatePicker id="selected_date" name="selected_date"
                                                             :placeholder="$t('bookings.formEvent.appointment.dateSelected')"
                                                             :min-date="state.courseEventDetails?.event_course_sessions[0]?.date_time_start.split(' ')[0]"
                                                             :max-date="state.courseEventDetails?.event_course_sessions[0]?.date_time_end.split(' ')[0]"
-                                                            v-model="state.formBooking.selected_date" />
+                                                            v-model="state.selected_date" />
                                                         <FormError :error="''" />
                                                         <FormError :error="''" />
                                                     </div>
@@ -75,26 +75,34 @@
                                                 <div class="space-y-1">
                                                     <FormLabel for="select_timeslot" :label="$t('bookings.formEvent.appointment.selectTimeSlot')" />
                                                     <fieldset>
-                                                        <RadioGroup v-model="state.formBooking.selected_time_slot"
-                                                            class="mt-6 grid grid-cols-1 gap-y-6 sm:grid-cols-1 sm:gap-x-4 max-h-96 overflow-y-auto pl-1 pr-3 py-3 space-y-1">
-                                                            <RadioGroupOption as="template" v-for="timeSlot in state.courseEventDetails?.booking_setting?.time_slots || []"
+                                                        
+                                                        <RadioGroup v-model="state.formBooking.time_slot"
+                                                            class="grid grid-cols-1 gap-y-6 sm:grid-cols-1 sm:gap-x-4 max-h-96 overflow-y-auto pl-1 pr-3 py-3 space-y-1">
+                                                            
+                                                            <div v-if="!state.date_time_slots?.length" class="text-gray-600 font-semibold text-sm mt-4">
+                                                                {{ $t('bookings.formEvent.appointment.noSlots') }}
+                                                            </div>
+
+                                                            <RadioGroupOption as="template" v-for="timeSlot in state.date_time_slots"
                                                                 :key="timeSlot.id" :value="timeSlot" :aria-label="`${timeSlot.start_time} - ${timeSlot.end_time}`"
-                                                                v-slot="{ active, checked }">
+                                                                v-slot="{ active, checked }" :disabled="timeSlot.capacity < 1">
                                                                 <div
-                                                                    :class="[active ? 'border-primary ring-1 ring-primary' : 'border-gray-300', 'relative flex cursor-pointer rounded-lg border bg-white p-4 shadow-xs focus:outline-hidden']">
-                                                                    <span class="flex flex-1">
+                                                                    :class="[active ? 'border-primary ring-1 ring-primary' : 'border-gray-300', 'relative flex cursor-pointer rounded-lg border bg-white p-4 shadow-xs focus:outline-hidden', timeSlot.capacity < 1 ? '!border-gray-300 !bg-gray-100 !text-gray-400' : 'text-gray-900']">
+                                                                    <span class="flex flex-1">  
                                                                         <span class="flex flex-col">
-                                                                            <p class="block text-sm font-medium text-gray-900">
+                                                                            <p class="w-full block text-sm font-medium ">
                                                                                 <span>
                                                                                     {{ `${timeSlot.start_time} - ${timeSlot.end_time}` }}
                                                                                 </span>
-                                                                                
                                                                             </p>
                                                                         </span>
                                                                     </span>
                                                                     <Icon name="ph:check-circle"
                                                                         :class="[!checked ? 'invisible' : '', 'size-5 text-primary']"
                                                                         aria-hidden="true" />
+                                                                    <span v-if="timeSlot.capacity < 1" class="text-red-500 text-sm font-medium">
+                                                                        {{ $t('bookings.formEvent.appointment.full') }}
+                                                                    </span>
                                                                     <span
                                                                         :class="[active ? 'border' : 'border-1', checked ? 'border-primary' : 'border-transparent', 'pointer-events-none absolute -inset-px rounded-lg']"
                                                                         aria-hidden="true" />
@@ -395,6 +403,7 @@
 </template>
 
 <script setup lang="ts">
+import moment from 'moment'
 import { onlineBookingSettingsService } from '@/components/api/user/OnlineBookingSettingsService'
 import { onlineBookingService } from '@/components/api/user/OnlineBookingService'
 import { useVuelidate } from "@vuelidate/core"
@@ -427,14 +436,15 @@ const state = reactive({
         notes: '',
         social_security_number: '',
         date_of_birth: '',
-        selected_date: '',
-        selected_time_slot: ''
+        time_slot: null as any
     },
     isPageLoading: false,
     slideOver: {
         isLanguageSwitcherOpen: false
     },
     successfullyBooked: false,
+    selected_date: '',
+    date_time_slots: []
 })
 
 const rules = computed(() => {
@@ -513,11 +523,28 @@ async function fetchCourseEvent() {
         const response = await onlineBookingService.getCourseEvent(eventUuid)
         if (response?.data) {
             state.courseEventDetails = response?.data
+            state.selected_date = moment().format('YYYY-MM-DD')
         }
     } catch (error: any) {
         state.error = error
     }
     state.isPageLoading = false
+}
+
+watch(() => state.selected_date, () => {
+    fetchBookingSlots()
+})
+
+async function fetchBookingSlots() {
+    state.error = {}
+    try {
+        const response = await onlineBookingService.getBookingSlots(state.courseEventDetails.booking_setting.uuid, state.selected_date)
+        if (response?.data) {
+            state.date_time_slots = response?.data
+        }
+    } catch (error: any) {
+        state.error = error
+    }
 }
 
 function handleBackStep() {
@@ -548,6 +575,7 @@ async function signUpForCourseEvent() {
             notes: state.formBooking.notes,
             social_security_number: state.formBooking.social_security_number,
             date_of_birth: state.formBooking.date_of_birth,
+            time_slot: state.formBooking.time_slot?.uuid || null
         }
         const response = await onlineBookingService.bookCourseEvent(eventUuid, params)
         if (response.data) {
