@@ -215,7 +215,7 @@
                 <div class="space-y-1">
                     <FormError :error="state?.error?.errors?.slots?.[0]" />
                 </div>
-                <div class="max-h-96 overflow-y-auto pr-3">
+                <div class="max-h-96 overflow-y-auto pr-3 space-y-3">
                     <div v-for="(item, idx) in state.formEvent.slots" class="grow grid grid-cols-1 md:grid-cols-[1fr_1fr_150px_30px] items-center gap-3">
                         <div class="space-y-1" >
                             <FormLabel :for="`start_time_${idx}`" :label="$t('bookings.formEvent.slots.startTime')" />
