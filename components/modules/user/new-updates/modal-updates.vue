@@ -56,8 +56,9 @@ function closeModal() {
 }
 
 const state = reactive({
-    currentVersion: '2025-10-24',
+    currentVersion: '2025-10-31',
     availableVersions: [
+        '2025-10-31',
         '2025-10-24',
         '2025-10-17',
         '2025-10-10',
@@ -75,6 +76,43 @@ const state = reactive({
 
 const allUpdates: Record<string, Record<string, { title: string, description: string[] }[]>> = {
     en: {
+        '2025-10-31': [
+            {
+                title: 'Check-in and check-out on the citizen (with automatic notification after 24 hours)',
+                description: [
+                    'The system now supports check-in and check-out on the citizen with enhanced functionality that sends an automatic notification 24 hours after check-out.',
+                    'The notification informs that the check-out has been logged and can be found in the log, ensuring better traceability and follow-up.'
+                ],
+            },
+            {
+                title: 'Inquiry data and stay data for organizations within social welfare',
+                description: [
+                    'Organizations and companies within the social welfare industry with a facility type of crisis center or homeless shelter can now access inquiry and stay data.',
+                    'This enables more precise reporting and analysis of citizen cases and stays in social institutions.'
+                ],
+            },
+            {
+                title: 'Room management for citizens',
+                description: [
+                    'New functionality has been added for room management, allowing administrators to manage room allocation and status for citizens.',
+                    'This provides better visibility into available rooms, occupancy, and resource utilization at facilities such as crisis centers and homeless shelters.'
+                ],
+            },
+            {
+                title: 'Conversation summary for citizens linked to inquiry data',
+                description: [
+                    'It is now possible to add conversation summaries for citizens as part of their inquiry data.',
+                    'This allows for more complete documentation of citizen cases and ensures that relevant notes and conversations are recorded alongside other data.'
+                ],
+            },
+            {
+                title: 'Simplified signup form',
+                description: [
+                    'Other fields in the signup form have been removed to improve and streamline the signup process.',
+                    'This change reduces complexity and makes it faster and more intuitive for users to create an account.'
+                ],
+            }
+        ],
         '2025-10-24': [
             {
                 title: 'Ability to create multiple duty schedule drafts for a single department or for the entire organization',
@@ -373,6 +411,43 @@ const allUpdates: Record<string, Record<string, { title: string, description: st
         ],
     },
     dk: {
+        '2025-10-31': [
+            {
+                title: 'Tjek-ind og tjek-ud på borgeren (med automatisk notifikation efter 24 timer)',
+                description: [
+                    'Systemet understøtter nu tjek-ind og tjek-ud på borgeren med en forbedret funktion, der automatisk sender en notifikation 24 timer efter tjek-ud.',
+                    'Notifikationen informerer om, at tjek-ud er registreret og kan findes i loggen, hvilket sikrer bedre sporbarhed og opfølgning.'
+                ],
+            },
+            {
+                title: 'Forespørgselsdata og opholdsdata for organisationer inden for social velfærd',
+                description: [
+                    'Organisationer og virksomheder inden for social velfærd med facilitetstype krisecenter eller herberg kan nu få adgang til forespørgselsdata og opholdsdata.',
+                    'Dette giver mulighed for mere præcis rapportering og analyse af borgerforløb i sociale institutioner.'
+                ],
+            },
+            {
+                title: 'Værelsesstyring for borgere',
+                description: [
+                    'Der er nu tilføjet funktionalitet til værelsesstyring, som gør det muligt at administrere tildeling og status for værelser til borgere.',
+                    'Dette giver et bedre overblik over ledige værelser, beboelsesstatus og ressourceudnyttelse på faciliteter som krisecentre og herberger.'
+                ],
+            },
+            {
+                title: 'Samtalereferat for borgere i forbindelse med forespørgselsdata',
+                description: [
+                    'Det er nu muligt at tilføje samtalereferater for borgere som en del af deres forespørgselsdata.',
+                    'Dette giver en mere komplet registrering af borgerforløb og sikrer, at relevante noter og samtaler dokumenteres sammen med øvrige data.'
+                ],
+            },
+            {
+                title: 'Forenklet tilmeldingsformular',
+                description: [
+                    'Andre felter i tilmeldingsformularen er blevet fjernet for at forbedre og forenkle tilmeldingsprocessen.',
+                    'Denne ændring reducerer kompleksiteten og gør det hurtigere og mere intuitivt for brugere at oprette en konto.'
+                ],
+            }
+        ],
         '2025-10-24': [
             {
                 title: 'Mulighed for at oprette flere udkast af vagtplaner for en enkelt afdeling eller for hele organisationen',

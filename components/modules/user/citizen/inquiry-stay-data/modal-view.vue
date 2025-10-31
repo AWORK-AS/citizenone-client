@@ -39,6 +39,14 @@
                             {{ props?.selectedCitizen?.data?.inquiry_data?.outcome }}
                         </p>
                     </div>
+                    <div class="space-y-1 text-sm">
+                        <p>
+                            {{ $t('citizens.inquiryStayData.inquiryData.conversationSummary') }}:
+                        </p>
+                        <p class="ml-3">
+                            {{ props?.selectedCitizen?.data?.conversation_summary }}
+                        </p>
+                    </div>
                 </div>
                 <div class="mt-5 space-y-1">
                     <h3 class="text-sm font-semibold">
