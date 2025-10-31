@@ -114,6 +114,13 @@
                         </Tooltip>
                     </div>
                 </div>
+                <div class="block md:flex items-center space-y-2 gap-x-2 py-2">
+                    <div class="w-fit flex items-center cursor-pointer"
+                    @click="state.formEvent.exclude_weekend = !state.formEvent.exclude_weekend">
+                        <FormCheckbox id="change_password" :value="state.formEvent.exclude_weekend" />
+                        {{  $t('bookings.formEvent.slots.excludeWeekend')  }}
+                    </div>
+                </div>
                 <div class="block md:flex items-center space-y-2 gap-x-2 py-2" v-if="state.formEvent.is_recurring">
                     <p>
                         {{ $t('bookings.formEvent.information.createThisEvent') }}
@@ -451,6 +458,7 @@ const state = reactive({
         close_registration: false,
         is_online_booking: false,
         is_reminder_enabled: false,
+        exclude_weekend: false
     },
     isPageLoading: false,
     modal: {
@@ -498,6 +506,7 @@ watch(() => props.selectedEvent, (selectedEvent: any) => {
             close_registration: selectedEvent?.close_registration,
             is_online_booking: selectedEvent?.is_online_booking,
             is_reminder_enabled: selectedEvent?.is_reminder_enabled,
+            exclude_weekend: selectedEvent?.exclude_weekend || false,
         }
         avatarUrl.value = selectedEvent?.image ? selectedEvent?.image : `/img/icons/asset-02.svg`
     }

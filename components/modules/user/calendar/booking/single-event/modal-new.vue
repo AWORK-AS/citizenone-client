@@ -78,7 +78,8 @@ async function saveEvent(eventDetails: any) {
         params.append('date_time_end', eventDetails.date_time_end)
         params.append('is_recurring', eventDetails.is_recurring)
         params.append('recurring', eventDetails.recurring)
-        params.append('recurring_until', eventDetails.recurring_until)
+        params.append('recurring_until', eventDetails.recurring_until),
+        params.append('exclude_weekend', eventDetails.exclude_weekend)
         params.append('name', eventDetails.name)
         params.append('description', eventDetails.description)
         params.append('address', eventDetails.address)

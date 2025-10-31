@@ -544,7 +544,8 @@
                 "remove": "Remove",
                 "addSlot": "Add slot",
                 "removeSlot": "Remove this booking slot",
-                "validationError": "Booking slot and capacity is required"
+                "validationError": "Booking slot and capacity is required",
+                "excludeWeekend": "Exclude weekends"
             },
             "appointment": {
                 "selectDate": "Select a date",

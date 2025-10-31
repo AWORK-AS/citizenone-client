@@ -544,7 +544,8 @@
                 "remove": "Fjern",
                 "addSlot": "Tilføj tidsrum",
                 "removeSlot": "Fjern dette bookingtidspunkt",
-                "validationError": "Bookingtidspunkt og kapacitet er påkrævet"
+                "validationError": "Bookingtidspunkt og kapacitet er påkrævet",
+                "excludeWeekend": "Udeluk weekender"
             },
             "appointment": {
                 "selectDate": "Vælg en dato",
