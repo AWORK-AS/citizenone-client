@@ -3644,6 +3644,8 @@
         "createdBy": "Oprettet af",
         "filter": {
             "chooseWhatToDisplay": "Vælg, hvad der skal vises",
+            "dateRangeDescription": "Klik på datofeltet for at vælge den periode, du ønsker vist i dit overblik. Systemet gemmer automatisk dit valg til næste gang, du logger ind. Som udgangspunkt vises overblikket for de næste 7 dage",
+            "dateRangeTitle": "Oversigtsperiodeindstilling",
             "endDate": "Slutdato",
             "filterDailyOverview": "Filtrer dagligt overblik",
             "items": {

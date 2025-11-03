@@ -21,11 +21,17 @@
                         {{ $t('showHide') }}
                     </span>
                 </button>
-                <button class="text-sm text-primary hover:text-primary-700 hover:underline"
-                    @click="state.modal.isDailyOverviewDateRangeOpen = true">
-                    ({{ formatDateToReadable(state.dateRange.formDateRange.start_date) }} -
-                    {{ formatDateToReadable(state.dateRange.formDateRange.end_date) }})
-                </button>
+                <div class="flex items-center gap-x-1">
+                    <button class="text-sm text-primary hover:text-primary-700 hover:underline"
+                        @click="state.modal.isDailyOverviewDateRangeOpen = true">
+                        ({{ formatDateToReadable(state.dateRange.formDateRange.start_date) }} -
+                        {{ formatDateToReadable(state.dateRange.formDateRange.end_date) }})
+                    </button>
+                    <div>
+                        <Icon name="ph:question" class="w-4 h-4 cursor-pointer text-gray-700" aria-hidden="true"
+                            @click="state.modal.isDateRangeHelperOpen = true" />
+                    </div>
+                </div>
             </div>
 
             <div class="mt-2">
@@ -155,6 +161,8 @@
             <ModulesUserDailyOverviewFilterModalDateRange :isModalOpen="state.modal.isDailyOverviewDateRangeOpen"
                 :dateRange="state.dateRange" @close="state.modal.isDailyOverviewDateRangeOpen = false"
                 @filterDate="filterDailyOverviewByDate" />
+            <ModulesUserDailyOverviewFilterModalDateRangeHelper :isModalOpen="state.modal.isDateRangeHelperOpen"
+                @close="state.modal.isDateRangeHelperOpen = false" />
             <ModulesUserDailyOverviewQuickRiskAssessmentModalNew :isModalOpen="state.modal.isQuickRiskAssessmentOpen"
                 @close="state.modal.isQuickRiskAssessmentOpen = false" />
 
@@ -185,6 +193,7 @@ const state = reactive({
     } as any,
     modal: {
         isDailyOverviewDateRangeOpen: false,
+        isDateRangeHelperOpen: false,
         isFilterDailyOverviewOpen: false,
         isGuidedTourDailyOverviewOpen: false,
         isQuickRiskAssessmentOpen: false,

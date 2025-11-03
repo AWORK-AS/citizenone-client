@@ -3644,6 +3644,8 @@
         "createdBy": "Created by",
         "filter": {
             "chooseWhatToDisplay": "Choose what to display",
+            "dateRangeDescription": "Click the date field to select the period you want to display in your overview. The system automatically saves your selection for the next time you log in. By default, the overview shows the next 7 days",
+            "dateRangeTitle": "Overview period setting",
             "endDate": "End date",
             "filterDailyOverview": "Filter daily overview",
             "items": {

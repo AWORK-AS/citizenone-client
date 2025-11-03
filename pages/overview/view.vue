@@ -27,6 +27,10 @@
                     ({{ formatDateToReadable(state.dateRange.formDateRange.start_date) }} -
                     {{ formatDateToReadable(state.dateRange.formDateRange.end_date) }})
                 </button>
+                <div>
+                    <Icon name="ph:question" class="w-4 h-4 cursor-pointer text-gray-700" aria-hidden="true"
+                        @click="state.modal.isDateRangeHelperOpen = true" />
+                </div>
             </div>
 
             <div class="mt-6">
@@ -49,6 +53,8 @@
             <ModulesUserDailyOverviewFilterModalDateRange :isModalOpen="state.modal.isDailyOverviewDateRangeOpen"
                 :dateRange="state.dateRange" @close="state.modal.isDailyOverviewDateRangeOpen = false"
                 @filterDate="filterDailyOverviewByDate" />
+            <ModulesUserDailyOverviewFilterModalDateRangeHelper :isModalOpen="state.modal.isDateRangeHelperOpen"
+                @close="state.modal.isDateRangeHelperOpen = false" />
         </NuxtLayout>
     </div>
 </template>
@@ -73,6 +79,7 @@ const state = reactive({
     } as any,
     modal: {
         isDailyOverviewDateRangeOpen: false,
+        isDateRangeHelperOpen: false,
         isFilterDailyOverviewViewAllOpen: false,
     },
 })
