@@ -3,7 +3,7 @@
         <Alert type="danger" :text="state?.error?.message"
             v-if="state.error?.message && state.error.message.length > 0" />
         <h3 class="text-primary text-base font-medium py-2">
-            {{ $t('overview.dailyMedicineOverview.dailyMedicineOverview') }}
+            {{ $t('overview.medicationOverview.medicationOverview') }}
         </h3>
 
         <div class="border-2 border-gray-300 border-dashed rounded-md flex items-center justify-center min-h-96 max-h-96 text-sm mt-2"
@@ -56,13 +56,13 @@
                                     :text="(() => {
                                         switch (due_date?.status) {
                                             case 'delivered':
-                                                return $t('overview.dailyMedicineOverview.delivered');
+                                                return $t('overview.medicationOverview.delivered');
                                             case 'deviated':
-                                                return $t('overview.dailyMedicineOverview.deviated');
+                                                return $t('overview.medicationOverview.deviated');
                                             case 'given':
                                                 return customPagesStore.getCustomPagesName?.giveMedicine;
                                             default:
-                                                return $t('overview.dailyMedicineOverview.not') + ' ' + customPagesStore.getCustomPagesName?.giveMedicine?.toLowerCase();
+                                                return $t('overview.medicationOverview.not') + ' ' + customPagesStore.getCustomPagesName?.giveMedicine?.toLowerCase();
                                         }
                                     })()">
                                     <span :class="[

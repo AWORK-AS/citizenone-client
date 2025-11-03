@@ -10,12 +10,12 @@
                         <div class="w-fit flex items-center cursor-pointer text-sm"
                             @click="setViewAllShowCitizenDailyEvents()">
                             <FormCheckbox :value="dailyOverviewStore.getViewAllFilter.showCitizenDailyEvents" />
-                            {{ $t('overview.filter.items.citizensDailyEvents') }}
+                            {{ $t('overview.filter.items.citizensEvents') }}
                         </div>
                         <div class="w-fit flex items-center cursor-pointer text-sm"
                             @click="setViewAllShowCitizenMedicineOverview()">
                             <FormCheckbox :value="dailyOverviewStore.getViewAllFilter.showCitizenMedicineOverview" />
-                            {{ $t('overview.filter.items.dailyMedicineOverview') }}
+                            {{ $t('overview.filter.items.medicationOverview') }}
                         </div>
                         <div class="w-fit flex items-center cursor-pointer text-sm"
                             @click="setViewAllShowLatestJournalNotes()">

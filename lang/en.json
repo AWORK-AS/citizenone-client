@@ -3638,18 +3638,10 @@
             "dateAdmitted": "Date admitted",
             "dateDischarged": "Date discharged"
         },
-        "citizensDailyEvents": "Citizens daily events",
+        "citizensEvents": "Citizens' events",
         "citizensDiagnoses": "Citizens diagnoses",
         "citizensOrigin": "Citizens origin",
         "createdBy": "Created by",
-        "dailyMedicineOverview": {
-            "dailyMedicineOverview": "Daily medicine overview",
-            "delivered": "Delivered",
-            "deviated": "Deviated",
-            "given": "Given",
-            "not": "Not",
-            "notGiven": "Not given"
-        },
         "filter": {
             "chooseWhatToDisplay": "Choose what to display",
             "endDate": "End date",
@@ -3659,10 +3651,10 @@
                 "calendar": "Calendar",
                 "citizensAddictions": "Citizens substance abuse",
                 "citizensAdmissionAndDischarged": "Citizens admission and discharged",
-                "citizensDailyEvents": "Citizens daily events",
+                "citizensEvents": "Citizens' events",
                 "citizensDiagnoses": "Citizens diagnoses",
                 "citizensOrigin": "Citizens origin",
-                "dailyMedicineOverview": "Daily medicine overview",
+                "medicationOverview": "Medication overview",
                 "gender": "Gender",
                 "goalsStatistics": "Goals statistics",
                 "incidentStatistics": "Incident statistics",
@@ -3698,6 +3690,14 @@
         "latestJournal": {
             "latestJournal": "Latest journal notes",
             "score": "Score"
+        },
+        "medicationOverview": {
+            "medicationOverview": "Medication overview",
+            "delivered": "Delivered",
+            "deviated": "Deviated",
+            "given": "Given",
+            "not": "Not",
+            "notGiven": "Not given"
         },
         "medicineDeviationStatistics": {
             "medicineDeviationStatistics": "Medicine deviated",

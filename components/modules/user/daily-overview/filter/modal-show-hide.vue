@@ -10,13 +10,13 @@
                         <div class="w-fit flex items-center cursor-pointer text-sm"
                             @click="setDailyOverviewFilterShowCitizensDailyEvents()">
                             <FormCheckbox :value="dailyOverviewStore.getDailyOverviewFilter.showCitizensDailyEvents" />
-                            {{ $t('overview.filter.items.citizensDailyEvents') }}
+                            {{ $t('overview.filter.items.citizensEvents') }}
                         </div>
                         <div class="w-fit flex items-center cursor-pointer text-sm"
                             @click="setDailyOverviewFilterShowDailyMedicineOverview()">
                             <FormCheckbox
                                 :value="dailyOverviewStore.getDailyOverviewFilter.showDailyMedicineOverview" />
-                            {{ $t('overview.filter.items.dailyMedicineOverview') }}
+                            {{ $t('overview.filter.items.medicationOverview') }}
                         </div>
                         <div class="w-fit flex items-center cursor-pointer text-sm"
                             @click="setDailyOverviewFilterShowLatestJournal()">

@@ -3638,18 +3638,10 @@
             "dateAdmitted": "Indskrivningsdato",
             "dateDischarged": "Udskrivningsdato"
         },
-        "citizensDailyEvents": "Borgeres daglige begivenheder",
+        "citizensEvents": "Borgeres begivenheder",
         "citizensDiagnoses": "Borgernes diagnoser",
         "citizensOrigin": "Borgernes oprindelse",
         "createdBy": "Oprettet af",
-        "dailyMedicineOverview": {
-            "dailyMedicineOverview": "Daglig medicinoversigt",
-            "delivered": "Udleveret",
-            "deviated": "Afvigelse",
-            "given": "Givet",
-            "not": "Ikke",
-            "notGiven": "Ikke givet"
-        },
         "filter": {
             "chooseWhatToDisplay": "Vælg, hvad der skal vises",
             "endDate": "Slutdato",
@@ -3659,10 +3651,10 @@
                 "calendar": "Kalender",
                 "citizensAddictions": "Borgers stofmisbrug",
                 "citizensAdmissionAndDischarged": "Borgernes indskrivning og udskrivning",
-                "citizensDailyEvents": "Borgeres daglige begivenheder",
+                "citizensEvents": "Borgeres begivenheder",
                 "citizensDiagnoses": "Borgernes diagnoser",
                 "citizensOrigin": "Borgernes oprindelse",
-                "dailyMedicineOverview": "Daglig medicinoversigt",
+                "medicationOverview": "Medicinoversigt",
                 "gender": "Køn",
                 "goalsStatistics": "Målsstatistik",
                 "incidentStatistics": "Hændelsesstatistik",
@@ -3698,6 +3690,14 @@
         "latestJournal": {
             "latestJournal": "Seneste journalnotater",
             "score": "Score"
+        },
+        "medicationOverview": {
+            "medicationOverview": "Medicinoversigt",
+            "delivered": "Udleveret",
+            "deviated": "Afvigelse",
+            "given": "Givet",
+            "not": "Ikke",
+            "notGiven": "Ikke givet"
         },
         "medicineDeviationStatistics": {
             "medicineDeviationStatistics": "Medicin afveget",
