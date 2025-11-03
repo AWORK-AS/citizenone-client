@@ -6,7 +6,7 @@
             v-if="state.error?.message && state.error.message.length > 0" />
         <div class="space-y-3">
             <div class="space-y-1">
-                <FormLabel for="citizen_uuid" :label="$t('dailyOverview.quickRiskAssessment.form.citizen')" />
+                <FormLabel for="citizen_uuid" :label="$t('overview.quickRiskAssessment.form.citizen')" />
                 <FormSelect id="citizen_uuid" v-model="state.formRiskAssessment.citizen_uuid"
                     :options="state.options.citizens" />
                 <FormError :error="v$?.formRiskAssessment?.citizen_uuid?.$errors[0]?.$message.toString()" />
@@ -18,17 +18,16 @@
                         <button type="button" class="text-sm text-primary hover:text-primary-700"
                             @click="state.usePredefinedJournalTitle = !state.usePredefinedJournalTitle">
                             <span v-if="state.usePredefinedJournalTitle">
-                                {{ $t('dailyOverview.quickRiskAssessment.form.enterJournalTitleManually') }}
+                                {{ $t('overview.quickRiskAssessment.form.enterJournalTitleManually') }}
                             </span>
                             <span v-else>
-                                {{ $t('dailyOverview.quickRiskAssessment.form.usePredefinedJournalTitle') }}
+                                {{ $t('overview.quickRiskAssessment.form.usePredefinedJournalTitle') }}
                             </span>
                         </button>
                     </div>
                     <div class="space-y-1" v-if="state.usePredefinedJournalTitle">
                         <div class="flex justify-between items-center py-0.5">
-                            <FormLabel for="predefined_title"
-                                :label="$t('dailyOverview.quickRiskAssessment.form.title')" />
+                            <FormLabel for="predefined_title" :label="$t('overview.quickRiskAssessment.form.title')" />
                             <span class="text-xs cursor-pointer text-tertiary hover:text-tertiary-800"
                                 @click="state.modal.isAddJournalTitleOpen = true">
                                 {{ $t('journalTitles.addNewJournalTitle') }}
@@ -40,15 +39,15 @@
                         <FormError :error="props?.error?.errors?.title?.[0]" />
                     </div>
                     <div class="space-y-1" v-else>
-                        <FormLabel for="title" :label="$t('dailyOverview.quickRiskAssessment.form.title')" />
+                        <FormLabel for="title" :label="$t('overview.quickRiskAssessment.form.title')" />
                         <FormTextField id="title" name="title"
-                            :placeholder="$t('dailyOverview.quickRiskAssessment.form.title')"
+                            :placeholder="$t('overview.quickRiskAssessment.form.title')"
                             v-model="state.formRiskAssessment.title" />
                         <FormError :error="v$?.formRiskAssessment?.title?.$errors[0]?.$message.toString()" />
                         <FormError :error="props?.error?.errors?.title?.[0]" />
                     </div>
                     <div class="space-y-1">
-                        <FormLabel for="date" :label="$t('dailyOverview.quickRiskAssessment.form.date')" />
+                        <FormLabel for="date" :label="$t('overview.quickRiskAssessment.form.date')" />
                         <FormDateField id="date" name="date" placeholder="Date"
                             v-model="state.formRiskAssessment.date" />
                         <FormError :error="v$?.formRiskAssessment?.date?.$errors[0]?.$message.toString()" />
@@ -81,16 +80,16 @@
                                     active && checked ? 'text-white ring-1' : '',
                                     'cursor-pointer flex items-center justify-center rounded-md px-2 py-2 text-xs']">
                                     <span v-if="assessment.title === 'None'">
-                                        {{ $t('dailyOverview.quickRiskAssessment.form.risk.none') }}
+                                        {{ $t('overview.quickRiskAssessment.form.risk.none') }}
                                     </span>
                                     <span v-if="assessment.title === 'No risk'">
-                                        {{ $t('dailyOverview.quickRiskAssessment.form.risk.noRisk') }}
+                                        {{ $t('overview.quickRiskAssessment.form.risk.noRisk') }}
                                     </span>
                                     <span v-if="assessment.title === 'Increased risk'">
-                                        {{ $t('dailyOverview.quickRiskAssessment.form.risk.increasedRisk') }}
+                                        {{ $t('overview.quickRiskAssessment.form.risk.increasedRisk') }}
                                     </span>
                                     <span v-if="assessment.title === 'Acute increased risk'">
-                                        {{ $t('dailyOverview.quickRiskAssessment.form.risk.acuteIncreasedRisk') }}
+                                        {{ $t('overview.quickRiskAssessment.form.risk.acuteIncreasedRisk') }}
                                     </span>
                                 </div>
                             </RadioGroupOption>
@@ -141,7 +140,7 @@
                 <div class="space-y-1" v-if="state.formRiskAssessment.assessment !== null">
                     <div class="flex items-center">
                         <p class="text-sm text-gray-600">
-                            {{ $t('dailyOverview.quickRiskAssessment.form.note') }}
+                            {{ $t('overview.quickRiskAssessment.form.note') }}
                         </p>
                         <div class="flex-1 flex items-center gap-x-2 justify-end">
                             <div class="w-fit flex gap-2 item-center text-end text-sm cursor-pointer text-primary hover:text-primary-700"
@@ -149,7 +148,7 @@
                                 <div class="flex items-center">
                                     <Icon name="ph:arrows-clockwise" class="h-4 w-4" aria-hidden="true" />
                                 </div>
-                                {{ $t('dailyOverview.quickRiskAssessment.form.generateNote') }}
+                                {{ $t('overview.quickRiskAssessment.form.generateNote') }}
                             </div>
                             <input ref="riskAssessmentFileInput" type="file" @change="handleRiskAssessmentFileChange"
                                 class="hidden" />
@@ -158,7 +157,7 @@
                                 <div class="flex items-center">
                                     <Icon name="ph:upload" class="h-4 w-4" aria-hidden="true" />
                                 </div>
-                                {{ $t('dailyOverview.quickRiskAssessment.form.attachFile') }}
+                                {{ $t('overview.quickRiskAssessment.form.attachFile') }}
                             </div>
                         </div>
                     </div>
@@ -171,7 +170,7 @@
                     <div class="w-fit flex items-center cursor-pointer"
                         @click="state.formRiskAssessment.is_draft = !state.formRiskAssessment.is_draft">
                         <FormCheckbox :value="state.formRiskAssessment.is_draft" />
-                        {{ $t('dailyOverview.quickRiskAssessment.form.draft') }}
+                        {{ $t('overview.quickRiskAssessment.form.draft') }}
                     </div>
                 </div>
             </div>

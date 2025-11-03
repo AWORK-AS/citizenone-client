@@ -3,7 +3,7 @@
         <ol role="list" class="flex items-center space-x-4 text-xs">
             <li>
                 <div>
-                    <button class="text-gray-400 hover:text-gray-500" @click="navigateTo('/daily-overview')">
+                    <button class="text-gray-400 hover:text-gray-500" @click="navigateTo('/overview')">
                         <Icon name="heroicons:home" class="size-5 shrink-0" aria-hidden="true" />
                         <span class="sr-only">
                             {{ $t('home') }}

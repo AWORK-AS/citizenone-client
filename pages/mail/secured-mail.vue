@@ -318,7 +318,7 @@ watch(() => userStore.getUser, (user: any) => {
     if (user) {
         state.loading.isUserLoading = false
         if (!user?.is_secure_mail_active) {
-            navigateTo(`/daily-overview`)
+            navigateTo(`/overview`)
             errorAlert(`${t('alert.somethingWentWrong')}!`, `${t('youDontHaveAccessToThisPage')}.`)
         } else {
             fetchEmailConfiguration()

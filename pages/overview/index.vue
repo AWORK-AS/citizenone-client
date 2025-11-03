@@ -3,10 +3,10 @@
         <NuxtLayout name="user">
 
             <Head>
-                <Title>{{ $t('dailyOverview.dailyOverview') }} - {{ runtimeConfig?.public?.appName }}</Title>
+                <Title>{{ $t('overview.overview') }} - {{ runtimeConfig?.public?.appName }}</Title>
             </Head>
 
-            <template #header>{{ $t('dailyOverview.dailyOverview') }}</template>
+            <template #header>{{ $t('overview.overview') }}</template>
             <template #guided-tour>
                 <Tooltip :text="$t('guidedTour')" @click="openGuidedTour()">
                     <Icon name="ph:question" class="size-6 cursor-pointer text-gray-700" aria-hidden="true" />
@@ -31,105 +31,105 @@
             <div class="mt-2">
                 <div class="space-y-10">
                     <div class="flex gap-x-3 justify-end">
-                        <FormButton buttonStyle="primary" @click="navigateTo('/daily-overview/view')">
-                            {{ $t('dailyOverview.viewAll') }}
+                        <FormButton buttonStyle="primary" @click="navigateTo('/overview/view')">
+                            {{ $t('overview.viewAll') }}
                         </FormButton>
                         <FormButton buttonStyle="primary" @click="state.modal.isQuickRiskAssessmentOpen = true"
                             v-if="userStore.getUser?.company?.quick_risk_assessment_enabled">
-                            {{ $t('dailyOverview.quickRiskAssessment.quickRiskAssessment') }}
+                            {{ $t('overview.quickRiskAssessment.quickRiskAssessment') }}
                         </FormButton>
                     </div>
 
-                    <div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-5" v-if="dailyOverviewStore.getDailyOverviewFilter.showCitizensDailyEvents ||
-                        dailyOverviewStore.getDailyOverviewFilter.showDailyMedicineOverview ||
-                        dailyOverviewStore.getDailyOverviewFilter.showLatestJournal">
-                        <div v-if="dailyOverviewStore.getDailyOverviewFilter.showCitizensDailyEvents">
+                    <div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-5" v-if="overviewStore.getDailyOverviewFilter.showCitizensDailyEvents ||
+                        overviewStore.getDailyOverviewFilter.showDailyMedicineOverview ||
+                        overviewStore.getDailyOverviewFilter.showLatestJournal">
+                        <div v-if="overviewStore.getDailyOverviewFilter.showCitizensDailyEvents">
                             <ModulesUserDailyOverviewCitizensDailyEvents :dateRange="state.dateRange.formDateRange" />
                         </div>
                         <ModulesUserDailyOverviewCitizensMedicineOverview :dateRange="state.dateRange.formDateRange"
-                            v-if="dailyOverviewStore.getDailyOverviewFilter.showDailyMedicineOverview" />
-                        <div v-if="dailyOverviewStore.getDailyOverviewFilter.showLatestJournal">
+                            v-if="overviewStore.getDailyOverviewFilter.showDailyMedicineOverview" />
+                        <div v-if="overviewStore.getDailyOverviewFilter.showLatestJournal">
                             <ModulesUserDailyOverviewLatestJournal :dateRange="state.dateRange.formDateRange"
                                 :viewAll="false" />
                         </div>
                     </div>
 
-                    <div class="grid grid-cols-1 md:grid-cols-3 gap-5" v-if="dailyOverviewStore.getDailyOverviewFilter.showTreatments ||
-                        dailyOverviewStore.getDailyOverviewFilter.showMyDailyEvents ||
-                        dailyOverviewStore.getDailyOverviewFilter.showBulletBoard">
-                        <div v-if="dailyOverviewStore.getDailyOverviewFilter.showTreatments">
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-5" v-if="overviewStore.getDailyOverviewFilter.showTreatments ||
+                        overviewStore.getDailyOverviewFilter.showMyDailyEvents ||
+                        overviewStore.getDailyOverviewFilter.showBulletBoard">
+                        <div v-if="overviewStore.getDailyOverviewFilter.showTreatments">
                             <ModulesUserDailyOverviewTreatments :dateRange="state.dateRange.formDateRange" />
                         </div>
-                        <div v-if="dailyOverviewStore.getDailyOverviewFilter.showMyDailyEvents">
+                        <div v-if="overviewStore.getDailyOverviewFilter.showMyDailyEvents">
                             <ModulesUserDailyOverviewMyEventToday :dateRange="state.dateRange.formDateRange" />
                         </div>
                         <ModulesUserDailyOverviewBulletBoard :dateRange="state.dateRange.formDateRange"
-                            v-if="dailyOverviewStore.getDailyOverviewFilter.showBulletBoard" />
+                            v-if="overviewStore.getDailyOverviewFilter.showBulletBoard" />
                     </div>
 
                     <div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-5">
-                        <div v-if="dailyOverviewStore.getDailyOverviewFilter.showCitizensAdmissionAndDischarged">
+                        <div v-if="overviewStore.getDailyOverviewFilter.showCitizensAdmissionAndDischarged">
                             <ModulesUserDailyOverviewCitizensAdmissionDischarged
                                 :dateRange="state.dateRange.formDateRange" />
                         </div>
-                        <div v-if="dailyOverviewStore.getDailyOverviewFilter.showCitizensOrigin">
+                        <div v-if="overviewStore.getDailyOverviewFilter.showCitizensOrigin">
                             <ModulesUserDailyOverviewCitizensOrigin />
                         </div>
-                        <div class="space-y-3" v-if="dailyOverviewStore.getDailyOverviewFilter.showCitizensAddictions">
+                        <div class="space-y-3" v-if="overviewStore.getDailyOverviewFilter.showCitizensAddictions">
                             <ModulesUserDailyOverviewCitizensAddictions :dateRange="state.dateRange.formDateRange"
-                                v-if="dailyOverviewStore.getDailyOverviewFilter.showCitizensAddictions" />
+                                v-if="overviewStore.getDailyOverviewFilter.showCitizensAddictions" />
                             <ModulesUserDailyOverviewCitizensAddictionsCount :dateRange="state.dateRange.formDateRange"
-                                v-if="dailyOverviewStore.getDailyOverviewFilter.showCitizensAddictions" />
+                                v-if="overviewStore.getDailyOverviewFilter.showCitizensAddictions" />
                         </div>
-                        <div class="space-y-3" v-if="dailyOverviewStore.getDailyOverviewFilter.showCitizensDiagnoses">
+                        <div class="space-y-3" v-if="overviewStore.getDailyOverviewFilter.showCitizensDiagnoses">
                             <ModulesUserDailyOverviewCitizensDiagnoses :dateRange="state.dateRange.formDateRange"
-                                v-if="dailyOverviewStore.getDailyOverviewFilter.showCitizensDiagnoses" />
+                                v-if="overviewStore.getDailyOverviewFilter.showCitizensDiagnoses" />
                             <ModulesUserDailyOverviewCitizensDiagnosesCount :dateRange="state.dateRange.formDateRange"
-                                v-if="dailyOverviewStore.getDailyOverviewFilter.showCitizensDiagnoses" />
+                                v-if="overviewStore.getDailyOverviewFilter.showCitizensDiagnoses" />
                         </div>
-                        <div class="space-y-3" v-if="dailyOverviewStore.getDailyOverviewFilter.showRiskAssessment">
+                        <div class="space-y-3" v-if="overviewStore.getDailyOverviewFilter.showRiskAssessment">
                             <ModulesUserDailyOverviewCitizensRiskAssessment :dateRange="state.dateRange.formDateRange"
-                                v-if="dailyOverviewStore.getDailyOverviewFilter.showRiskAssessment" />
+                                v-if="overviewStore.getDailyOverviewFilter.showRiskAssessment" />
                         </div>
-                        <div class="space-y-3" v-if="dailyOverviewStore.getDailyOverviewFilter.showGender">
+                        <div class="space-y-3" v-if="overviewStore.getDailyOverviewFilter.showGender">
                             <ModulesUserDailyOverviewCitizensGender
-                                v-if="dailyOverviewStore.getDailyOverviewFilter.showGender" />
+                                v-if="overviewStore.getDailyOverviewFilter.showGender" />
                         </div>
                     </div>
 
                     <div>
-                        <div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-5" v-if="dailyOverviewStore.getDailyOverviewFilter.showStatusesScoreStatistics ||
-                            dailyOverviewStore.getDailyOverviewFilter.showGoalsScoreStatistics ||
-                            dailyOverviewStore.getDailyOverviewFilter.showIncidentStatistics ||
-                            dailyOverviewStore.getDailyOverviewFilter.showMedicineDeviationStatistics ||
-                            dailyOverviewStore.getDailyOverviewFilter.showJournalScoreStatistics ||
-                            dailyOverviewStore.getDailyOverviewFilter.showSubgoalsScoreStatistics ||
-                            dailyOverviewStore.getDailyOverviewFilter.showUseOfForceStatistics">
-                            <div v-if="dailyOverviewStore.getDailyOverviewFilter.showStatusesScoreStatistics">
+                        <div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-5" v-if="overviewStore.getDailyOverviewFilter.showStatusesScoreStatistics ||
+                            overviewStore.getDailyOverviewFilter.showGoalsScoreStatistics ||
+                            overviewStore.getDailyOverviewFilter.showIncidentStatistics ||
+                            overviewStore.getDailyOverviewFilter.showMedicineDeviationStatistics ||
+                            overviewStore.getDailyOverviewFilter.showJournalScoreStatistics ||
+                            overviewStore.getDailyOverviewFilter.showSubgoalsScoreStatistics ||
+                            overviewStore.getDailyOverviewFilter.showUseOfForceStatistics">
+                            <div v-if="overviewStore.getDailyOverviewFilter.showStatusesScoreStatistics">
                                 <ModulesUserDailyOverviewStatusesScoreStatistics
                                     :dateRange="state.dateRange.formDateRange" />
                             </div>
-                            <div v-if="dailyOverviewStore.getDailyOverviewFilter.showGoalsScoreStatistics">
+                            <div v-if="overviewStore.getDailyOverviewFilter.showGoalsScoreStatistics">
                                 <ModulesUserDailyOverviewGoalsScoreStatistics
                                     :dateRange="state.dateRange.formDateRange" />
                             </div>
-                            <div v-if="dailyOverviewStore.getDailyOverviewFilter.showIncidentStatistics">
+                            <div v-if="overviewStore.getDailyOverviewFilter.showIncidentStatistics">
                                 <ModulesUserDailyOverviewIncidentReportsStatistics
                                     :dateRange="state.dateRange.formDateRange" />
                             </div>
-                            <div v-if="dailyOverviewStore.getDailyOverviewFilter.showMedicineDeviationStatistics">
+                            <div v-if="overviewStore.getDailyOverviewFilter.showMedicineDeviationStatistics">
                                 <ModulesUserDailyOverviewMedicineDeviationStatistics
                                     :dateRange="state.dateRange.formDateRange" />
                             </div>
-                            <div v-if="dailyOverviewStore.getDailyOverviewFilter.showJournalScoreStatistics">
+                            <div v-if="overviewStore.getDailyOverviewFilter.showJournalScoreStatistics">
                                 <ModulesUserDailyOverviewJournalScoreStatistics
                                     :dateRange="state.dateRange.formDateRange" />
                             </div>
-                            <div v-if="dailyOverviewStore.getDailyOverviewFilter.showSubgoalsScoreStatistics">
+                            <div v-if="overviewStore.getDailyOverviewFilter.showSubgoalsScoreStatistics">
                                 <ModulesUserDailyOverviewSubgoalsScoreStatistics
                                     :dateRange="state.dateRange.formDateRange" />
                             </div>
-                            <div v-if="dailyOverviewStore.getDailyOverviewFilter.showUseOfForceStatistics">
+                            <div v-if="overviewStore.getDailyOverviewFilter.showUseOfForceStatistics">
                                 <ModulesUserDailyOverviewUseOfForceStatistics
                                     :dateRange="state.dateRange.formDateRange" />
                             </div>
@@ -137,7 +137,7 @@
                     </div>
                     <div>
                         <p class="text-xl font-bold text-primary">
-                            {{ $t('dailyOverview.from') }} CitizenOne<sup class="text-sm">&#8482;</sup>
+                            {{ $t('overview.from') }} CitizenOne<sup class="text-sm">&#8482;</sup>
                         </p>
                         <div class="mt-2 grid grid-cols-1 md:grid-cols-7 gap-5">
                             <div class="min-h-44 md:col-span-4">
@@ -172,7 +172,7 @@ import { useDailyOverviewStore } from '@/store/daily-overview'
 import { useDatetimeFormatter } from '@/composables/datetimeFormatter'
 
 const runtimeConfig = useRuntimeConfig()
-const dailyOverviewStore = useDailyOverviewStore()
+const overviewStore = useDailyOverviewStore()
 const userStore = useUserStore() as any
 const { formatDateToReadable } = useDatetimeFormatter()
 

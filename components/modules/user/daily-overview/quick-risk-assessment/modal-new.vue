@@ -1,6 +1,6 @@
 <template>
     <div>
-        <Modal size="lg" :title="$t('dailyOverview.quickRiskAssessment.quickRiskAssessment')" :show="props.isModalOpen"
+        <Modal size="lg" :title="$t('overview.quickRiskAssessment.quickRiskAssessment')" :show="props.isModalOpen"
             @close="closeModal">
             <template #modal-body>
                 <LoadingSpinner :isActive="state.isPageLoading">
@@ -92,7 +92,7 @@ async function saveQuickRiskAssessment(quickRiskAssessmentDetails: any) {
         const response = await journalService.saveJournal(params)
         if (response?.data) {
             closeModal()
-            successAlert(`${t('alert.success')}!`, `${t('dailyOverview.quickRiskAssessment.alert.quickRiskAssessmentSuccessfullyAdded')}.`)
+            successAlert(`${t('alert.success')}!`, `${t('overview.quickRiskAssessment.alert.quickRiskAssessmentSuccessfullyAdded')}.`)
         }
     } catch (error: any) {
         state.error = error

@@ -1,14 +1,14 @@
 <template>
     <LoadingSpinner :isActive="state.isPageLoading">
         <h3 class="text-primary text-base font-medium py-2">
-            {{ $t('dailyOverview.news') }}
+            {{ $t('overview.news') }}
         </h3>
         <Alert type="danger" :text="state?.error?.message"
             v-if="state.error?.message && state.error.message.length > 0" />
 
         <div class="border-2 border-gray-300 border-dashed rounded-md flex items-center justify-center h-80 text-sm mt-10"
             v-if="state.salesCampaigns?.data?.length === 0">
-            {{ $t('dailyOverview.noNewsToShow') }}
+            {{ $t('overview.noNewsToShow') }}
         </div>
 
         <div class="min-h-96" v-else>
@@ -35,7 +35,7 @@
                                         <FormButton buttonStyle="primary"
                                             @click="navigateToExternalLink(salesCampaign?.link)"
                                             class="w-full rounded-md">
-                                            {{ $t('dailyOverview.openLink') }}
+                                            {{ $t('overview.openLink') }}
                                         </FormButton>
                                     </div>
                                 </div>

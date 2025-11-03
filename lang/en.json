@@ -2195,165 +2195,6 @@
     "confirmation": "Confirmation",
     "contactUs": "Contact us",
     "create": "Create",
-    "dailyOverview": {
-        "addDailyEvents": "Add daily events",
-        "bulletBoard": "Bullet board",
-        "calendar": "Calendar",
-        "campaign": "Campaign",
-        "citizens": "Citizens",
-        "citizensAddictions": "Citizens substance abuse",
-        "citizensAdmissionAndDischarged": {
-            "citizensAdmissionAndDischarged": "Citizens admission and discharged",
-            "dateAdmitted": "Date admitted",
-            "dateDischarged": "Date discharged"
-        },
-        "citizensDailyEvents": "Citizens daily events",
-        "citizensDiagnoses": "Citizens diagnoses",
-        "citizensOrigin": "Citizens origin",
-        "createdBy": "Created by",
-        "dailyMedicineOverview": {
-            "dailyMedicineOverview": "Daily medicine overview",
-            "delivered": "Delivered",
-            "deviated": "Deviated",
-            "given": "Given",
-            "not": "Not",
-            "notGiven": "Not given"
-        },
-        "dailyOverview": "Daily overview",
-        "filter": {
-            "chooseWhatToDisplay": "Choose what to display",
-            "endDate": "End date",
-            "filterDailyOverview": "Filter daily overview",
-            "items": {
-                "bulletBoard": "Bullet board",
-                "calendar": "Calendar",
-                "citizensAddictions": "Citizens substance abuse",
-                "citizensAdmissionAndDischarged": "Citizens admission and discharged",
-                "citizensDailyEvents": "Citizens daily events",
-                "citizensDiagnoses": "Citizens diagnoses",
-                "citizensOrigin": "Citizens origin",
-                "dailyMedicineOverview": "Daily medicine overview",
-                "gender": "Gender",
-                "goalsStatistics": "Goals statistics",
-                "incidentStatistics": "Incident statistics",
-                "journalStatistics": "Journal statistics",
-                "latestJournal": "Latest journal notes",
-                "medicineDeviationStatistics": "Medicine deviated",
-                "myDailyEvents": "My daily events",
-                "riskAssessment": "Risk assessment",
-                "statusesStatistics": "Statuses statistics",
-                "subgoalsStatistics": "Subgoals statistics",
-                "treatments": "Treatments",
-                "useOfForceStatistics": "Use of force statistics"
-            },
-            "show": "Show",
-            "startDate": "Start date"
-        },
-        "from": "From",
-        "gender": {
-            "gender": "Gender",
-            "female": "Female",
-            "male": "Male",
-            "nonbinary": "Nonbinary",
-            "willNotDisclose": "Will note disclose"
-        },
-        "incidentStatistics": {
-            "incidentStatistics": "Incident statistics",
-            "harmless": "Harmless",
-            "lowRisk": "Low risk",
-            "moderateRisk": "Moderate risk",
-            "highRisk": "High risk"
-        },
-        "journalStatistics": "Journal statistics",
-        "latestJournal": {
-            "latestJournal": "Latest journal notes",
-            "score": "Score"
-        },
-        "medicineDeviationStatistics": {
-            "medicineDeviationStatistics": "Medicine deviated",
-            "deviated": "Deviated"
-        },
-        "myDailyEvents": "My daily events",
-        "news": "News",
-        "noBulletBoardToShow": "No bullet board to show",
-        "noDataToDisplay": "No data to display",
-        "noEventsForToday": "No events for today",
-        "noJournalsToShow": "No journals to show",
-        "noMedicinesToShow": "No medicines to show",
-        "noNewsToShow": "No news to show",
-        "openLink": "Open link",
-        "plansGoalsAndSubgoals": {
-            "goalsStatistics": "Goals statistics",
-            "statusesStatistics": "Statuses statistics",
-            "subgoalsStatistics": "Subgoals statistics"
-        },
-        "poll": {
-            "from": "From",
-            "noPollToShow": "No poll to show",
-            "poll": "Poll",
-            "sentBy": "Sent by"
-        },
-        "quickRiskAssessment": {
-            "alert": {
-                "quickRiskAssessmentSuccessfullyAdded": "Quick risk assessment successfully added"
-            },
-            "form": {
-                "addNewJournalTitle": "Add new journal title",
-                "attachFile": "Attach file",
-                "citizen": "Citizen",
-                "date": "Date",
-                "draft": "Draft",
-                "enterJournalTitleManually": "Enter journal title manually",
-                "generateNote": "Generate note",
-                "note": "Note",
-                "risk": {
-                    "acuteIncreasedRisk": "Acute increased risk",
-                    "increasedRisk": "Increased risk",
-                    "none": "None",
-                    "noRisk": "No risk"
-                },
-                "title": "Title",
-                "usePredefinedJournalTitle": "Use predefined journal title"
-            },
-            "quickRiskAssessment": "Quick risk assessment"
-        },
-        "riskAssessment": {
-            "risk": {
-                "acuteIncreasedRisk": "Acute increased risk",
-                "increasedRisk": "Increased risk",
-                "none": "None",
-                "noRisk": "No risk"
-            },
-            "riskAssessment": "Risk assessment"
-        },
-        "treatments": {
-            "areaTypes": {
-                "functionalLevel": "Functional level",
-                "musculoskeletalSystem": "Musculoskeletal system",
-                "nutrition": "Nutrition",
-                "skinAndMucousMembranes": "Skin and mucous membranes",
-                "communication": "Communication",
-                "psychosocialConditions": "Psychosocial conditions",
-                "respirationAndCirculation": "Respiration and circulation",
-                "sexuality": "Sexuality",
-                "painAndSensoryImpressions": "Pain and sensory impressions",
-                "sleepAndRest": "Sleep and rest",
-                "knowledgeAndDevelopment": "Knowledge and development",
-                "excretionOfWaste": "Excretion of waste"
-            },
-            "completionDate": "Completion date",
-            "noTreatmentsToShow": "No treatments to show",
-            "treatments": "Treatments"
-        },
-        "useForceStatistics": {
-            "useForceStatistics": "Use of force statistics",
-            "harmless": "Harmless",
-            "lowRisk": "Low risk",
-            "moderateRisk": "Moderate risk",
-            "highRisk": "High risk"
-        },
-        "viewAll": "View all"
-    },
     "department": {
         "all": "All",
         "allDepartment": "All department",
@@ -3785,6 +3626,165 @@
     },
     "next": "Next",
     "noResultFound": "No result found",
+    "overview": {
+        "addDailyEvents": "Add daily events",
+        "bulletBoard": "Bullet board",
+        "calendar": "Calendar",
+        "campaign": "Campaign",
+        "citizens": "Citizens",
+        "citizensAddictions": "Citizens substance abuse",
+        "citizensAdmissionAndDischarged": {
+            "citizensAdmissionAndDischarged": "Citizens admission and discharged",
+            "dateAdmitted": "Date admitted",
+            "dateDischarged": "Date discharged"
+        },
+        "citizensDailyEvents": "Citizens daily events",
+        "citizensDiagnoses": "Citizens diagnoses",
+        "citizensOrigin": "Citizens origin",
+        "createdBy": "Created by",
+        "dailyMedicineOverview": {
+            "dailyMedicineOverview": "Daily medicine overview",
+            "delivered": "Delivered",
+            "deviated": "Deviated",
+            "given": "Given",
+            "not": "Not",
+            "notGiven": "Not given"
+        },
+        "filter": {
+            "chooseWhatToDisplay": "Choose what to display",
+            "endDate": "End date",
+            "filterDailyOverview": "Filter daily overview",
+            "items": {
+                "bulletBoard": "Bullet board",
+                "calendar": "Calendar",
+                "citizensAddictions": "Citizens substance abuse",
+                "citizensAdmissionAndDischarged": "Citizens admission and discharged",
+                "citizensDailyEvents": "Citizens daily events",
+                "citizensDiagnoses": "Citizens diagnoses",
+                "citizensOrigin": "Citizens origin",
+                "dailyMedicineOverview": "Daily medicine overview",
+                "gender": "Gender",
+                "goalsStatistics": "Goals statistics",
+                "incidentStatistics": "Incident statistics",
+                "journalStatistics": "Journal statistics",
+                "latestJournal": "Latest journal notes",
+                "medicineDeviationStatistics": "Medicine deviated",
+                "myDailyEvents": "My daily events",
+                "riskAssessment": "Risk assessment",
+                "statusesStatistics": "Statuses statistics",
+                "subgoalsStatistics": "Subgoals statistics",
+                "treatments": "Treatments",
+                "useOfForceStatistics": "Use of force statistics"
+            },
+            "show": "Show",
+            "startDate": "Start date"
+        },
+        "from": "From",
+        "gender": {
+            "gender": "Gender",
+            "female": "Female",
+            "male": "Male",
+            "nonbinary": "Nonbinary",
+            "willNotDisclose": "Will note disclose"
+        },
+        "incidentStatistics": {
+            "incidentStatistics": "Incident statistics",
+            "harmless": "Harmless",
+            "lowRisk": "Low risk",
+            "moderateRisk": "Moderate risk",
+            "highRisk": "High risk"
+        },
+        "journalStatistics": "Journal statistics",
+        "latestJournal": {
+            "latestJournal": "Latest journal notes",
+            "score": "Score"
+        },
+        "medicineDeviationStatistics": {
+            "medicineDeviationStatistics": "Medicine deviated",
+            "deviated": "Deviated"
+        },
+        "myDailyEvents": "My daily events",
+        "news": "News",
+        "noBulletBoardToShow": "No bullet board to show",
+        "noDataToDisplay": "No data to display",
+        "noEventsForToday": "No events for today",
+        "noJournalsToShow": "No journals to show",
+        "noMedicinesToShow": "No medicines to show",
+        "noNewsToShow": "No news to show",
+        "openLink": "Open link",
+        "overview": "Overview",
+        "plansGoalsAndSubgoals": {
+            "goalsStatistics": "Goals statistics",
+            "statusesStatistics": "Statuses statistics",
+            "subgoalsStatistics": "Subgoals statistics"
+        },
+        "poll": {
+            "from": "From",
+            "noPollToShow": "No poll to show",
+            "poll": "Poll",
+            "sentBy": "Sent by"
+        },
+        "quickRiskAssessment": {
+            "alert": {
+                "quickRiskAssessmentSuccessfullyAdded": "Quick risk assessment successfully added"
+            },
+            "form": {
+                "addNewJournalTitle": "Add new journal title",
+                "attachFile": "Attach file",
+                "citizen": "Citizen",
+                "date": "Date",
+                "draft": "Draft",
+                "enterJournalTitleManually": "Enter journal title manually",
+                "generateNote": "Generate note",
+                "note": "Note",
+                "risk": {
+                    "acuteIncreasedRisk": "Acute increased risk",
+                    "increasedRisk": "Increased risk",
+                    "none": "None",
+                    "noRisk": "No risk"
+                },
+                "title": "Title",
+                "usePredefinedJournalTitle": "Use predefined journal title"
+            },
+            "quickRiskAssessment": "Quick risk assessment"
+        },
+        "riskAssessment": {
+            "risk": {
+                "acuteIncreasedRisk": "Acute increased risk",
+                "increasedRisk": "Increased risk",
+                "none": "None",
+                "noRisk": "No risk"
+            },
+            "riskAssessment": "Risk assessment"
+        },
+        "treatments": {
+            "areaTypes": {
+                "functionalLevel": "Functional level",
+                "musculoskeletalSystem": "Musculoskeletal system",
+                "nutrition": "Nutrition",
+                "skinAndMucousMembranes": "Skin and mucous membranes",
+                "communication": "Communication",
+                "psychosocialConditions": "Psychosocial conditions",
+                "respirationAndCirculation": "Respiration and circulation",
+                "sexuality": "Sexuality",
+                "painAndSensoryImpressions": "Pain and sensory impressions",
+                "sleepAndRest": "Sleep and rest",
+                "knowledgeAndDevelopment": "Knowledge and development",
+                "excretionOfWaste": "Excretion of waste"
+            },
+            "completionDate": "Completion date",
+            "noTreatmentsToShow": "No treatments to show",
+            "treatments": "Treatments"
+        },
+        "useForceStatistics": {
+            "useForceStatistics": "Use of force statistics",
+            "harmless": "Harmless",
+            "lowRisk": "Low risk",
+            "moderateRisk": "Moderate risk",
+            "highRisk": "High risk"
+        },
+        "viewAll": "View all"
+    },
     "pageNotFound": "Page not found",
     "pagination": {
         "of": "of",
@@ -4555,13 +4555,13 @@
         "calendar": "Calendar",
         "companyId": "Company ID",
         "coupons": "Coupons",
-        "dailyOverview": "Daily overview",
         "citizens": "Citizens",
         "documents": "Documents",
         "dutySchedules": "Duty schedules",
         "leads": "Leads",
         "mail": "Mail",
         "messages": "Messages",
+        "overview": "Overview",
         "protocols": "Protocols"
     },
     "showAll": "Show all",

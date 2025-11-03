@@ -1,7 +1,7 @@
 <template>
     <LoadingSpinner :isActive="state.isPageLoading">
         <h3 class="text-primary text-base font-medium py-2">
-            {{ $t('dailyOverview.useForceStatistics.useForceStatistics') }}
+            {{ $t('overview.useForceStatistics.useForceStatistics') }}
             ({{ state.total_use_of_force_statistics }})
         </h3>
         <Alert type="danger" :text="state?.error?.message"
@@ -14,13 +14,13 @@
                     class="flex items-center space-x-4">
                     <p class="w-1/4 text-sm text-left">
                         <span v-if="risk_level.toString() === 'harmless'">{{
-                            $t('dailyOverview.useForceStatistics.harmless') }}</span>
+                            $t('overview.useForceStatistics.harmless') }}</span>
                         <span v-if="risk_level.toString() === 'low_risk'">{{
-                            $t('dailyOverview.useForceStatistics.lowRisk') }}</span>
+                            $t('overview.useForceStatistics.lowRisk') }}</span>
                         <span v-if="risk_level.toString() === 'moderate_risk'">{{
-                            $t('dailyOverview.useForceStatistics.moderateRisk') }}</span>
+                            $t('overview.useForceStatistics.moderateRisk') }}</span>
                         <span v-if="risk_level.toString() === 'high_risk'">{{
-                            $t('dailyOverview.useForceStatistics.highRisk') }}</span>
+                            $t('overview.useForceStatistics.highRisk') }}</span>
                     </p>
                     <div class="flex-1">
                         <div class="h-2 bg-gray-300 rounded-full relative">

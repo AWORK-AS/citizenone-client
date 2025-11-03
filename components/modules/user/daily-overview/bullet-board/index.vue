@@ -1,12 +1,12 @@
 <template>
     <LoadingSpinner :isActive="state.isPageLoading">
-        <h3 class="text-primary text-base font-medium py-2">{{ $t('dailyOverview.bulletBoard') }}</h3>
+        <h3 class="text-primary text-base font-medium py-2">{{ $t('overview.bulletBoard') }}</h3>
         <Alert type="danger" :text="state?.error?.message"
             v-if="state.error?.message && state.error.message.length > 0" />
 
         <div class="border-2 border-gray-300 border-dashed rounded-md flex items-center justify-center min-h-96 max-h-96 text-sm mt-2"
             v-if="state.news?.data?.length === 0">
-            {{ $t('dailyOverview.noBulletBoardToShow') }}
+            {{ $t('overview.noBulletBoardToShow') }}
         </div>
 
         <div class="min-h-96" v-else>
@@ -37,7 +37,7 @@
                                 <div class="mt-4" v-if="news?.link">
                                     <FormButton buttonStyle="primary" @click="navigateToExternalLink(news?.link)"
                                         class="w-full rounded-md">
-                                        {{ $t('dailyOverview.openLink') }}
+                                        {{ $t('overview.openLink') }}
                                     </FormButton>
                                 </div>
                             </div>

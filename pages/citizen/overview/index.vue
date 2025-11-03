@@ -3,10 +3,10 @@
         <NuxtLayout name="citizen">
 
             <Head>
-                <Title>{{ $t('dailyOverview.dailyOverview') }} - {{ runtimeConfig?.public?.appName }}</Title>
+                <Title>{{ $t('overview.dailyOverview') }} - {{ runtimeConfig?.public?.appName }}</Title>
             </Head>
 
-            <template #header>{{ $t('dailyOverview.dailyOverview') }}</template>
+            <template #header>{{ $t('overview.dailyOverview') }}</template>
 
             <div class="mt-2">
                 <div class="space-y-10">

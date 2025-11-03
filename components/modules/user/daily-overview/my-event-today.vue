@@ -3,19 +3,19 @@
         <Alert type="danger" :text="state?.error?.message"
             v-if="state.error?.message && state.error.message.length > 0" />
         <h3 class="text-primary text-base font-medium py-2">
-            {{ $t('dailyOverview.calendar') }}
+            {{ $t('overview.calendar') }}
         </h3>
 
         <div class="border-2 border-gray-300 border-dashed rounded-md flex items-center justify-center min-h-96 max-h-96 text-sm mt-2"
             v-if="state.myCalendarEvents?.data?.length === 0">
             <div>
                 <p>
-                    {{ $t('dailyOverview.noEventsForToday') }}
+                    {{ $t('overview.noEventsForToday') }}
                 </p>
                 <div class="flex items-center justify-center mt-2">
                     <button class="w-fit text-center text-primary hover:text-primary-700"
                         @click="navigateTo('/calendar')">
-                        {{ $t('dailyOverview.addDailyEvents') }}
+                        {{ $t('overview.addDailyEvents') }}
                     </button>
                 </div>
             </div>

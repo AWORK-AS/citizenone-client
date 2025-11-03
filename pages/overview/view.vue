@@ -3,12 +3,12 @@
         <NuxtLayout name="user">
 
             <Head>
-                <Title>{{ $t('dailyOverview.dailyOverview') }} - {{ runtimeConfig?.public?.appName }}</Title>
+                <Title>{{ $t('overview.overview') }} - {{ runtimeConfig?.public?.appName }}</Title>
             </Head>
 
-            <template #header>{{ $t('dailyOverview.dailyOverview') }}</template>
+            <template #header>{{ $t('overview.overview') }}</template>
             <div>
-                <NuxtLink class="flex items-center gap-x-2 mb-3 max-w-fit hover:cursor-pointer" to="/daily-overview">
+                <NuxtLink class="flex items-center gap-x-2 mb-3 max-w-fit hover:cursor-pointer" to="/overview">
                     <Icon name="ph:arrow-left" size="20" class="text-black" />
                     <span>{{ $t('back') }}</span>
                 </NuxtLink>
@@ -31,13 +31,13 @@
 
             <div class="mt-6">
                 <div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-5">
-                    <div v-if="dailyOverviewStore.getViewAllFilter.showCitizenDailyEvents">
+                    <div v-if="overviewStore.getViewAllFilter.showCitizenDailyEvents">
                         <ModulesUserDailyOverviewCitizensDailyEvents :dateRange="state.dateRange.formDateRange" />
                     </div>
-                    <div v-if="dailyOverviewStore.getViewAllFilter.showCitizenMedicineOverview">
+                    <div v-if="overviewStore.getViewAllFilter.showCitizenMedicineOverview">
                         <ModulesUserDailyOverviewCitizensMedicineOverview :dateRange="state.dateRange.formDateRange" />
                     </div>
-                    <div v-if="dailyOverviewStore.getViewAllFilter.showLatestJournalNotes">
+                    <div v-if="overviewStore.getViewAllFilter.showLatestJournalNotes">
                         <ModulesUserDailyOverviewLatestJournal :dateRange="state.dateRange.formDateRange"
                             :viewAll="true" />
                     </div>
@@ -60,7 +60,7 @@ import { useDatetimeFormatter } from '@/composables/datetimeFormatter'
 import { useDailyOverviewStore } from '@/store/daily-overview'
 
 const runtimeConfig = useRuntimeConfig()
-const dailyOverviewStore = useDailyOverviewStore()
+const overviewStore = useDailyOverviewStore()
 const userStore = useUserStore()
 const { formatDateToReadable } = useDatetimeFormatter()
 

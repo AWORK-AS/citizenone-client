@@ -3,12 +3,12 @@
         <Alert type="danger" :text="state?.error?.message"
             v-if="state.error?.message && state.error.message.length > 0" />
         <h3 class="text-primary text-base font-medium py-2">
-            {{ $t('dailyOverview.treatments.treatments') }}
+            {{ $t('overview.treatments.treatments') }}
         </h3>
 
         <div class="border-2 border-gray-300 border-dashed rounded-md flex items-center justify-center min-h-96 max-h-96 text-sm mt-2"
             v-if="state.treatments?.data?.length === 0">
-            {{ $t('dailyOverview.treatments.noTreatmentsToShow') }}
+            {{ $t('overview.treatments.noTreatmentsToShow') }}
         </div>
 
         <div class="bg-white shadow-md rounded-md border-l-8 border-secondary mt-2 text-sm divide-y overflow-scroll min-h-96 max-h-96"
@@ -24,7 +24,7 @@
                             {{ treatment?.citizen?.firstname + ' ' + treatment?.citizen?.lastname }}
                         </p>
                         <p class="text-xxs" v-if="treatment?.user?.firstname || treatment?.user?.lastname">
-                            {{ $t('dailyOverview.createdBy') }}
+                            {{ $t('overview.createdBy') }}
                             {{ treatment?.user?.firstname + ' ' +
                                 treatment?.user?.lastname }}
                         </p>
@@ -32,62 +32,62 @@
                             <p class="text-xxs truncate">
                                 <span v-if="treatment?.area_type === 'functional_level'">
                                     {{
-                                        $t('dailyOverview.treatments.areaTypes.functionalLevel')
+                                        $t('overview.treatments.areaTypes.functionalLevel')
                                     }}
                                 </span>
                                 <span v-if="treatment?.area_type === 'musculoskeletal_system'">
                                     {{
-                                        $t('dailyOverview.treatments.areaTypes.musculoskeletalSystem')
+                                        $t('overview.treatments.areaTypes.musculoskeletalSystem')
                                     }}
                                 </span>
                                 <span v-if="treatment?.area_type === 'nutrition'">
                                     {{
-                                        $t('dailyOverview.treatments.areaTypes.nutrition')
+                                        $t('overview.treatments.areaTypes.nutrition')
                                     }}
                                 </span>
                                 <span v-if="treatment?.area_type === 'skin_and_mucous_membranes'">
                                     {{
-                                        $t('dailyOverview.treatments.areaTypes.skinAndMucousMembranes')
+                                        $t('overview.treatments.areaTypes.skinAndMucousMembranes')
                                     }}
                                 </span>
                                 <span v-if="treatment?.area_type === 'communication'">
                                     {{
-                                        $t('dailyOverview.treatments.areaTypes.communication')
+                                        $t('overview.treatments.areaTypes.communication')
                                     }}
                                 </span>
                                 <span v-if="treatment?.area_type === 'psychosocial_conditions'">
                                     {{
-                                        $t('dailyOverview.treatments.areaTypes.psychosocialConditions')
+                                        $t('overview.treatments.areaTypes.psychosocialConditions')
                                     }}
                                 </span>
                                 <span v-if="treatment?.area_type === 'respiration_and_circulation'">
                                     {{
-                                        $t('dailyOverview.treatments.areaTypes.respirationAndCirculation')
+                                        $t('overview.treatments.areaTypes.respirationAndCirculation')
                                     }}
                                 </span>
                                 <span v-if="treatment?.area_type === 'sexuality'">
                                     {{
-                                        $t('dailyOverview.treatments.areaTypes.sexuality')
+                                        $t('overview.treatments.areaTypes.sexuality')
                                     }}
                                 </span>
                                 <span v-if="treatment?.area_type === 'pain_and_sensory_impressions'">
                                     {{
-                                        $t('dailyOverview.treatments.areaTypes.painAndSensoryImpressions')
+                                        $t('overview.treatments.areaTypes.painAndSensoryImpressions')
                                     }}
                                 </span>
                                 <span v-if="treatment?.area_type === 'sleep_and_rest'">
                                     {{
-                                        $t('dailyOverview.treatments.areaTypes.sleepAndRest')
+                                        $t('overview.treatments.areaTypes.sleepAndRest')
                                     }}
                                 </span>
                                 <span v-if="treatment?.area_type === 'knowledge_and_development'">
                                     {{
-                                        $t('dailyOverview.treatments.areaTypes.knowledgeAndDevelopment')
+                                        $t('overview.treatments.areaTypes.knowledgeAndDevelopment')
                                     }}
                                 </span>
                                 <span v-if="treatment?.area_type === 'excretion_of_waste'">
                                     {{
-                                        $t('dailyOverview.treatments.areaTypes.excretionOfWaste')
+                                        $t('overview.treatments.areaTypes.excretionOfWaste')
                                     }}
                                 </span>
                             </p>
@@ -98,7 +98,7 @@
                             </h3>
                             <p v-html="treatment?.description" class="text-xs" />
                             <p class="content text-xs text-muted-400 mt-1">
-                                {{ $t('dailyOverview.treatments.completionDate') }}:
+                                {{ $t('overview.treatments.completionDate') }}:
                                 <span>{{ formatDateToReadable(treatment?.completion_date) }}</span>
                             </p>
                         </div>

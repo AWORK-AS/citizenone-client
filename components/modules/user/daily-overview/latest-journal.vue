@@ -3,12 +3,12 @@
         <Alert type="danger" :text="state?.error?.message"
             v-if="state.error?.message && state.error.message.length > 0" />
         <h3 class="text-primary text-base font-medium py-2">
-            {{ $t('dailyOverview.latestJournal.latestJournal') }}
+            {{ $t('overview.latestJournal.latestJournal') }}
         </h3>
 
         <div class="border-2 border-gray-300 border-dashed rounded-md flex items-center justify-center min-h-96 max-h-96 text-sm mt-2"
             v-if="state.citizens?.data?.length === 0">
-            {{ $t('dailyOverview.noJournalsToShow') }}
+            {{ $t('overview.noJournalsToShow') }}
         </div>
 
         <div class="bg-white shadow-md rounded-md border-l-8 border-secondary mt-2 text-sm divide-y overflow-scroll min-h-96 max-h-96"
@@ -31,7 +31,7 @@
                                 {{ citizen?.firstname + ' ' + citizen?.lastname }}
                             </p>
                             <p class="text-xxs" v-if="journal?.user?.firstname && journal?.user?.lastname">
-                                {{ $t('dailyOverview.createdBy') }}
+                                {{ $t('overview.createdBy') }}
                                 {{ journal?.user?.firstname + ' ' +
                                     journal?.user?.lastname }}
                             </p>
@@ -45,7 +45,7 @@
                                 </p>
                             </div>
                             <p class="text-xs ml-1">
-                                {{ $t('dailyOverview.latestJournal.score') }}:
+                                {{ $t('overview.latestJournal.score') }}:
                                 {{ journal?.score }}
                             </p>
                         </div>
@@ -68,7 +68,7 @@
                             </p>
                             <p class="text-xxs"
                                 v-if="citizen?.citizen_journal?.user?.firstname && citizen?.citizen_journal?.user?.lastname">
-                                {{ $t('dailyOverview.createdBy') }}
+                                {{ $t('overview.createdBy') }}
                                 {{ citizen?.citizen_journal?.user?.firstname + ' ' +
                                     citizen?.citizen_journal?.user?.lastname }}
                             </p>
@@ -82,7 +82,7 @@
                                 </p>
                             </div>
                             <p class="text-xs ml-1">
-                                {{ $t('dailyOverview.latestJournal.score') }}:
+                                {{ $t('overview.latestJournal.score') }}:
                                 {{ citizen?.citizen_journal?.score }}
                             </p>
                         </div>
