@@ -44,6 +44,7 @@ const state = reactive({
         is_recurring: false,
         recurring: '',
         recurring_until: '',
+        exclude_weekend: false,
         name: '',
         description: '',
         address: '',
@@ -51,6 +52,7 @@ const state = reactive({
         city: '',
         image: '',
         spots: '1',
+        slots: [] as any,
         tags: [] as any,
         price: '',
         is_tax_included: false,
@@ -88,11 +90,13 @@ async function fetchEvent() {
             const eventData = response.data
             const eventSession = response.data?.event_course_sessions?.[0]
             const bookingSetting = response.data?.booking_setting
+            console.log(bookingSetting)
             state.formEvent = {
                 date_time_start: moment(eventSession?.date_time_start).format('YYYY-MM-DD H:mm'),
                 date_time_end: moment(eventSession?.date_time_end).format('YYYY-MM-DD H:mm'),
                 is_recurring: eventSession?.is_recurring ? true : false,
                 recurring: eventSession?.recurring_type ?? 'everyday',
+                exclude_weekend: bookingSetting?.exclude_weekend ?? false,
                 recurring_until: eventSession?.recurring_end_date ?? '',
                 name: eventData?.name ?? '',
                 description: eventData?.description ?? '',
@@ -101,6 +105,7 @@ async function fetchEvent() {
                 city: eventData?.city ?? '',
                 image: eventData?.image,
                 spots: eventData?.slots_available?.toString() ?? '1',
+                slots: bookingSetting?.time_slots || [],
                 tags: [],
                 price: bookingSetting?.price ?? '',
                 is_tax_included: bookingSetting?.is_tax_included ?? false,
@@ -131,6 +136,7 @@ async function saveEvent(eventDetails: any) {
         params.append('is_recurring', eventDetails.is_recurring)
         params.append('recurring', eventDetails.recurring)
         params.append('recurring_until', eventDetails.recurring_until)
+        params.append('exclude_weekend', eventDetails.exclude_weekend)
         params.append('name', eventDetails.name)
         params.append('description', eventDetails.description)
         params.append('address', eventDetails.address)
@@ -145,6 +151,13 @@ async function saveEvent(eventDetails: any) {
         params.append('close_registration', eventDetails.close_registration)
         params.append('is_online_booking', eventDetails.is_online_booking)
         params.append('is_reminder_enabled', eventDetails.is_reminder_enabled)
+
+        eventDetails.slots.forEach((slot: any, i: number) => {
+            params.append(`slots[${i}][start_time]`, slot.start_time)
+            params.append(`slots[${i}][end_time]`, slot.end_time)
+            params.append(`slots[${i}][capacity]`, slot.capacity)
+        })
+        
         const response = await coursesEventsService.updateEventCourse(eventUuid, params)
         if (response.data) {
             refreshCoursesEvents()

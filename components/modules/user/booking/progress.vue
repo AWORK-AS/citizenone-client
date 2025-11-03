@@ -1,7 +1,7 @@
 <template>
     <nav aria-label="Progress">
         <ol role="list" class="divide-y divide-gray-300 rounded-md border border-gray-300 md:flex md:divide-y-0">
-            <li v-for="(step, stepIdx) in steps" :key="step.name" class="relative md:flex md:flex-1">
+            <li v-for="(step, stepIdx) in steps" :key="stepIdx" class="relative md:flex md:flex-1">
                 <a v-if="step.status === 'completed'" :href="step.href" class="group flex w-full items-center">
                     <span class="flex items-center px-6 py-4 text-sm font-medium">
                         <span
@@ -44,6 +44,8 @@
 </template>
 
 <script setup lang="ts">
+import { useI18n } from 'vue-i18n'
+
 const props = defineProps({
     currentStep: {
         type: Number,
@@ -51,31 +53,26 @@ const props = defineProps({
     },
 })
 
-let steps = [
-    { id: '01', name: 'Event details', href: '#', status: 'current' },
-    { id: '02', name: 'Your details', href: '#', status: 'upcoming' },
-    { id: '03', name: 'Confirmation', href: '#', status: 'upcoming' },
-]
+const { t } = useI18n();
 
-watch(() => props.currentStep, (currentStep: number) => {
-    if (currentStep === 1) {
-        steps = [
-            { id: '01', name: 'Event details', href: '#', status: 'current' },
-            { id: '02', name: 'Your details', href: '#', status: 'upcoming' },
-            { id: '03', name: 'Confirmation', href: '#', status: 'upcoming' },
-        ]
-    } else if (currentStep === 2) {
-        steps = [
-            { id: '01', name: 'Event details', href: '#', status: 'completed' },
-            { id: '02', name: 'Your details', href: '#', status: 'current' },
-            { id: '03', name: 'Confirmation', href: '#', status: 'upcoming' },
-        ]
-    } else if (currentStep === 3) {
-        steps = [
-            { id: '01', name: 'Event details', href: '#', status: 'completed' },
-            { id: '02', name: 'Your details', href: '#', status: 'completed' },
-            { id: '03', name: 'Confirmation', href: '#', status: 'current' },
-        ]
-    }
+const steps = computed(() => {
+    const stepList = [
+        { id: '01', key: 'eventDetails' },
+        { id: '02', key: 'selectSchedule' },
+        { id: '03', key: 'yourDetails' },
+        { id: '04', key: 'confirmation' },
+    ]
+
+    return stepList.map((s, i) => ({
+        id: s.id,
+        name: t(`bookings.formEvent.appointment.${s.key}`),
+        href: '#',
+        status:
+        props.currentStep === i + 1
+            ? 'current'
+            : props.currentStep > i + 1
+            ? 'completed'
+            : 'upcoming',
+    }))
 })
 </script>

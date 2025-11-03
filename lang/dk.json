@@ -536,7 +536,35 @@
                 "information": "Information",
                 "settings": "Indstillinger",
                 "summary": "Opsummering"
+            },
+            "slots": {
+                "startTime": "Starttid",
+                "endTime": "Sluttid",
+                "capacity": "Kapacitet",
+                "remove": "Fjern",
+                "addSlot": "Tilføj tidsrum",
+                "removeSlot": "Fjern dette bookingtidspunkt",
+                "validationError": "Bookingtidspunkt og kapacitet er påkrævet",
+                "excludeWeekend": "Udeluk weekender"
+            },
+            "appointment": {
+                "selectDate": "Vælg en dato",
+                "dateSelected": "Dato valgt",
+                "selectTimeSlot": "Vælg blandt ledige tidsrum",
+                "full": "Fuldt",
+                "noSlots": "Den valgte dato har ingen ledige tidsintervaller. Prøv venligst andre datoer.",
+                "selectSlot": "Vælg venligst et ledigt tidsrum.",
+                "eventDetails": "Begivenhedsdetaljer",
+                "selectSchedule": "Vælg tidsplan",
+                "yourDetails": "Dine oplysninger",
+                "confirmation": "Bekræftelse"
             }
+        },
+        "loading": {
+            "fetchingUpcomingEvents": "Henter kommende begivenheder",
+            "loadingEventDetails": "Indlæser begivenhedsdetaljer",
+            "theSystemIsRetrievening": "Systemet henter og indlæser begivenhedsoplysninger. Vent venligst, mens vi forbereder detaljerne til visning",
+            "wereGatheringAllTheExcitingEvents": "Vi samler alle de spændende begivenheder til dig. Hold ud – det tager ikke lang tid"
         },
         "newBooking": "Ny booking",
         "newEvent": "Ny begivenhed",
@@ -1133,8 +1161,15 @@
             "foreignCityOfOrigin": "Udenlandsk oprindelsesby",
             "gender": "Køn",
             "hourlyRate": "Timepris",
+            "inquiryData": {
+                "conversationSummary": "Samtaleresumé",
+                "dateOfInquiry": "Dato for henvendelse",
+                "inquirerName": "Navn på henvender",
+                "outcome": "Udfald (f.eks. tilbudt plads, afslag, henvisning)",
+                "purpose": "Formål"
+            },
             "lastname": "Efternavn",
-            "medicationAllergies": "Medicinallergier",
+            "medicationAllergies": "Medicinallergier (CAVE)",
             "municipality": "Kommune",
             "note": "Bemærkning",
             "payingMunicipality": "Betalingskommune",
@@ -1145,8 +1180,24 @@
             "postCode": "Postnummer",
             "region": "Region",
             "responsibleMunicipality": "Handlekommune",
+            "room": "Værelse",
             "section": "Paragraf",
             "ssn": "CPR-nummer",
+            "stayData": {
+                "accommodationEndDate": "Opholdets slutdato",
+                "accommodationStartDate": "Opholdets startdato",
+                "accompanyingChildren": {
+                    "accompanyingChildren": "Medfølgende børn",
+                    "age": "Alder",
+                    "gender": "Køn",
+                    "name": "Navn",
+                    "origin": "Oprindelse"
+                },
+                "dischargeReason": "Udskrivningsårsag",
+                "journalNumber": "Journalnummer",
+                "municipalityOfResidenceAfter": "Bopælskommune efter ophold",
+                "municipalityOfResidenceBefore": "Bopælskommune før ophold"
+            },
             "street": "Gade",
             "trafficLights": {
                 "green": "Grøn",
@@ -1164,6 +1215,39 @@
             "importCitizens": "Importer borgere",
             "importTemplate": "Importskabelon",
             "noFileSelected": "Ingen fil valgt"
+        },
+        "inquiryStayData": {
+            "inquiryAndStayData": "Henvendelses- og opholdsdata",
+            "inquiryData": {
+                "conversationSummary": "Samtaleresumé",
+                "dateOfInquiry": "Dato for henvendelse",
+                "inquiryData": "Henvendelsesdata",
+                "inquirerName": "Navn på henvender",
+                "outcome": "Resultat",
+                "purpose": "Formål"
+            },
+            "stayData": {
+                "accommodationEndDate": "Opholdets slutdato",
+                "accommodationStartDate": "Opholdets startdato",
+                "accompanyingChildren": {
+                    "accompanyingChildren": "Medfølgende børn",
+                    "age": "Alder",
+                    "gender": "Køn",
+                    "name": "Navn",
+                    "origin": "Oprindelse"
+                },
+                "dischargeReason": "Udskrivningsårsag",
+                "journalNumber": "Journalnummer",
+                "municipalityOfResidenceAfter": "Bopælskommune efter ophold",
+                "municipalityOfResidenceBefore": "Bopælskommune før ophold",
+                "stayData": "Opholdsdata"
+            }
+        },
+        "rooms": "Værelser",
+        "sections": {
+            "citizenDetails": "Borgeroplysninger",
+            "inquiryData": "Henvendelsesdata",
+            "stayData": "Opholdsdata"
         },
         "statuses": {
             "alert": {
@@ -1337,7 +1421,7 @@
                 "weeklyAllocation": "Ugentlig tildeling"
             }
         },
-        "medicationAllergies": "Medicinallergier",
+        "medicationAllergies": "Medicinallergier (CAVE)",
         "medicineJournals": {
             "alert": {
                 "successfullyActivated": "Medicin aktiveret med succes",
@@ -3544,7 +3628,7 @@
     },
     "medicationAllergies": {
         "addNewMedicationAllergy": "Tilføj ny medicinallergi",
-        "medicationAllergies": "Medicinallergier",
+        "medicationAllergies": "Medicinallergier (CAVE)",
         "medicationAllergy": "Medicinallergi",
         "editMedicationAllergy": "Rediger medicinallergi",
         "form": {
@@ -4086,6 +4170,11 @@
             "phone": "Telefon",
             "iHaveReadAndAcceptThe": "Jeg har læst og accepterer",
             "termsAndConditions": "Vilkår og betingelser",
+            "typeOfFacility": {
+                "crisisCenter": "Krisecenter",
+                "homelessShelter": "Herberg",
+                "typeOfFacility": "Type af tilbud"
+            },
             "loginHere": "Log ind her",
             "agreetoTAC": "Du skal acceptere vilkårene og betingelserne"
         },
@@ -4217,6 +4306,32 @@
             },
             "name": "Navn",
             "user": "Bruger"
+        }
+    },
+    "rooms": {
+        "addNewRoom": "Tilføj nyt værelse",
+        "rooms": "Værelser",
+        "editRoom": "Rediger værelse",
+        "form": {
+            "alert": {
+                "roomSuccessfullyUpdated": "Værelse opdateret",
+                "newRoomSuccessfullySaved": "Nyt værelse gemt"
+            },
+            "name": "Navn"
+        },
+        "newRoom": "Nyt værelse",
+        "table": {
+            "actions": {
+                "delete": "Slet",
+                "edit": "Rediger"
+            },
+            "alert": {
+                "roomSuccessfullyDeleted": "Værelse slettet"
+            },
+            "confirmation": {
+                "deleteRoomConfirmation": "Er du sikker på, at du vil slette dette værelse"
+            },
+            "name": "Navn"
         }
     },
     "save": "Gem",
@@ -4353,11 +4468,12 @@
             "journalTitles": "Journal titler",
             "licenseOverview": "Licensoversigt",
             "licenses": "Licenser",
-            "medicationAllergies": "Medicinallergier",
+            "medicationAllergies": "Medicinallergier (CAVE)",
             "medicines": "Medicin",
             "profile": "Profil",
             "relationships": "Forhold",
             "roles": "Roller",
+            "rooms": "Værelser",
             "sections": "Paragraffer",
             "storage": "Lager",
             "subscription": "Abonnement",

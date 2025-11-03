@@ -47,6 +47,7 @@ const state = reactive({
         city: '',
         image: '',
         spots: '1',
+        slots: [],
         tags: [],
         price: '',
         is_tax_included: false,
@@ -77,7 +78,8 @@ async function saveEvent(eventDetails: any) {
         params.append('date_time_end', eventDetails.date_time_end)
         params.append('is_recurring', eventDetails.is_recurring)
         params.append('recurring', eventDetails.recurring)
-        params.append('recurring_until', eventDetails.recurring_until)
+        params.append('recurring_until', eventDetails.recurring_until),
+        params.append('exclude_weekend', eventDetails.exclude_weekend)
         params.append('name', eventDetails.name)
         params.append('description', eventDetails.description)
         params.append('address', eventDetails.address)
@@ -92,6 +94,13 @@ async function saveEvent(eventDetails: any) {
         params.append('close_registration', eventDetails.close_registration)
         params.append('is_online_booking', eventDetails.is_online_booking)
         params.append('is_reminder_enabled', eventDetails.is_reminder_enabled)
+
+        eventDetails.slots.forEach((slot: any, i: number) => {
+            params.append(`slots[${i}][start_time]`, slot.start_time)
+            params.append(`slots[${i}][end_time]`, slot.end_time)
+            params.append(`slots[${i}][capacity]`, slot.capacity)
+        })
+
         const response = await coursesEventsService.saveEventCourse(params)
         if (response.data) {
             refreshCoursesEvents()

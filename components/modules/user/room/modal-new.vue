@@ -1,11 +1,11 @@
 <template>
     <div>
-        <Modal size="xs" :title="$t('bookingTags.newBookingTag')" :show="props.isModalOpen" @close="closeModal">
+        <Modal size="xs" :title="$t('rooms.newRoom')" :show="props.isModalOpen" @close="closeModal">
             <template #modal-body>
                 <LoadingSpinner :isActive="state.isPageLoading">
-                    <ModulesUserBookingTagModalForm formType="create" :selectedTag="state.formTag" :error="state.error"
+                    <ModulesUserRoomModalForm formType="create" :selectedRoom="state.formRoom" :error="state.error"
                         @isPageLoading="(value: boolean) => state.isPageLoading = value" @closeModal="closeModal"
-                        @submitForm="saveBookingTag" />
+                        @submitForm="saveRoom" />
                 </LoadingSpinner>
             </template>
         </Modal>
@@ -13,7 +13,7 @@
 </template>
 
 <script setup lang="ts">
-import { bookingTagService } from '@/components/api/user/BookingTagService'
+import { roomService } from '@/components/api/user/RoomService'
 import { useAlert } from '@/composables/alert'
 import { useI18n } from "vue-i18n"
 import type { Error } from '@/types'
@@ -27,11 +27,11 @@ const props = defineProps({
         required: true,
     },
 })
-const emit = defineEmits(['close', 'refreshBookingTags'])
+const emit = defineEmits(['close', 'refreshRooms'])
 
 const state = reactive({
     error: {} as Error,
-    formTag: {
+    formRoom: {
         name: '',
     },
     isPageLoading: false,
@@ -41,21 +41,21 @@ function closeModal() {
     emit('close')
 }
 
-function refreshBookingTags() {
-    emit('refreshBookingTags')
+function refreshRooms() {
+    emit('refreshRooms')
 }
 
-async function saveBookingTag(tagDetails: any) {
+async function saveRoom(roomDetails: any) {
     state.error = {}
     state.isPageLoading = true
     try {
         const params = {
-            tag: tagDetails.name,
+            name: roomDetails.name,
         }
-        const response = await bookingTagService.saveBookingTag(params)
+        const response = await roomService.saveRoom(params)
         if (response.data) {
-            successAlert(`${t('alert.success')}!`, `${t('bookingTags.form.alert.newBookingTagSuccessfullySaved')}.`)
-            refreshBookingTags()
+            successAlert(`${t('alert.success')}!`, `${t('rooms.form.alert.newRoomSuccessfullySaved')}.`)
+            refreshRooms()
             closeModal()
         }
     } catch (error: any) {

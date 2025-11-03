@@ -70,6 +70,7 @@ const state = reactive({
         birthday: '',
         phone: '',
         departments: [],
+        rooms: [],
         street: '',
         foreign_city_uuid: '',
         region_uuid: '',
@@ -104,6 +105,27 @@ const state = reactive({
         has_chat_access: false,
         has_duty_schedule_access: false,
         has_bullet_board_access: false,
+        inquiryData: {
+            conversation_summary: '',
+            inquiry_date: '',
+            inquirer_name: '',
+            outcome: '',
+            purpose: '',
+        },
+        stayData: {
+            accommodation_end_date: '',
+            accommodation_start_date: '',
+            journal_number: '',
+            accompanying_children: [{
+                name: '',
+                gender: '',
+                age: '',
+                origin: '',
+            }],
+            residence_before_uuid: '',
+            residence_after_uuid: '',
+            discharge_reason: '',
+        },
     } as CitizenForm,
     isPageLoading: false,
 })
@@ -124,6 +146,9 @@ async function saveCitizen(citizenDetails: any) {
         params.append('birthday', citizenDetails.birthday)
         params.append('phone', citizenDetails.phone)
         params.append('departments_uuid', JSON.stringify(citizenDetails.departments))
+        if (citizenDetails.rooms) {
+            params.append('room_uuid', JSON.stringify(citizenDetails.rooms))
+        }
         params.append('street', citizenDetails.street)
         params.append('region_uuid', citizenDetails.region)
         params.append('municipality_uuid', citizenDetails.municipality)
@@ -169,6 +194,22 @@ async function saveCitizen(citizenDetails: any) {
         params.append('green', citizenDetails.green)
         params.append('yellow', citizenDetails.yellow)
         params.append('red', citizenDetails.red)
+        params.append('conversation_summary', citizenDetails.inquiryData.conversation_summary)
+        params.append('inquiry_date', citizenDetails.inquiryData.inquiry_date)
+        params.append('inquirer_name', citizenDetails.inquiryData.inquirer_name)
+        params.append('outcome', citizenDetails.inquiryData.outcome)
+        params.append('purpose', citizenDetails.inquiryData.purpose)
+        params.append('end_date', citizenDetails.stayData.accommodation_end_date)
+        params.append('start_date', citizenDetails.stayData.accommodation_start_date)
+        params.append('journal_number', citizenDetails.stayData.journal_number)
+        params.append('accompanying_children', JSON.stringify(citizenDetails.stayData.accompanying_children))
+        if (citizenDetails.stayData.residence_before_uuid) {
+            params.append('residence_before_uuid', citizenDetails.stayData.residence_before_uuid)
+        }
+        if (citizenDetails.stayData.residence_after_uuid) {
+            params.append('residence_after_uuid', citizenDetails.stayData.residence_after_uuid)
+        }
+        params.append('discharge_reason', citizenDetails.stayData.discharge_reason)
         const response = await citizenService.saveCitizen(params)
         if (response.data) {
             successAlert(`${t('alert.success')}!`, `${t('citizens.form.alert.successfullyAdded')}.`)

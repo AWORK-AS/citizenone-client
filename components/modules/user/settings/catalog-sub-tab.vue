@@ -141,6 +141,14 @@ watch(() => userStore.getUser, (newValue: any) => {
                 ]
             },
             {
+                name: 'settings.tabs.rooms',
+                isTranslateName: true,
+                href: `/settings/rooms`,
+                routeNames: [
+                    'settings-rooms'
+                ]
+            },
+            {
                 name: 'settings.tabs.scheduleTags',
                 isTranslateName: true,
                 href: `/settings/schedule-tags`,
@@ -182,17 +190,17 @@ function changeTab(value: any) {
     if (value === '/settings/absences') {
         navigateTo(`/settings/absences`)
     }
-    else if (value === '/settings/departments') {
-        navigateTo(`/settings/departments`)
+    else if (value === '/settings/addictions') {
+        navigateTo(`/settings/addictions`)
     }
     else if (value === '/settings/booking-tags') {
         navigateTo(`/settings/booking-tags`)
     }
-    else if (value === '/settings/addictions') {
-        navigateTo(`/settings/addictions`)
-    }
     else if (value === '/settings/calendar-tags') {
         navigateTo(`/settings/calendar-tags`)
+    }
+    else if (value === '/settings/departments') {
+        navigateTo(`/settings/departments`)
     }
     else if (value === '/settings/diagnoses') {
         navigateTo(`/settings/diagnoses`)
@@ -209,14 +217,20 @@ function changeTab(value: any) {
     else if (value === '/settings/journal-titles') {
         navigateTo(`/settings/journal-titles`)
     }
-    else if (value === '/settings/relationships') {
-        navigateTo(`/settings/relationships`)
-    }
     else if (value === '/settings/medication-allergies') {
         navigateTo(`/settings/medication-allergies`)
     }
     else if (value === '/settings/medicines') {
         navigateTo(`/settings/medicines`)
+    }
+    else if (value === '/settings/relationships') {
+        navigateTo(`/settings/relationships`)
+    }
+    else if (value === '/settings/roles') {
+        navigateTo(`/settings/roles`)
+    }
+    else if (value === '/settings/rooms') {
+        navigateTo(`/settings/rooms`)
     }
     else if (value === '/settings/schedule-tags') {
         navigateTo(`/settings/schedule-tags`)

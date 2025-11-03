@@ -13,6 +13,9 @@
                                 <span v-if="step.name === 'Information'">
                                     {{ $t('bookings.formEvent.tabs.information') }}
                                 </span>
+                                <span v-if="step.name === 'Slots'">
+                                    Slots
+                                </span>
                                 <span v-if="step.name === 'Settings'">
                                     {{ $t('bookings.formEvent.tabs.settings') }}
                                 </span>
@@ -32,6 +35,9 @@
                             <span v-if="step.name === 'Information'">
                                 {{ $t('bookings.formEvent.tabs.information') }}
                             </span>
+                             <span v-if="step.name === 'Slots'">
+                                Slots
+                            </span>
                             <span v-if="step.name === 'Settings'">
                                 {{ $t('bookings.formEvent.tabs.settings') }}
                             </span>
@@ -49,6 +55,9 @@
                             <p class="ml-4 text-sm font-medium text-gray-500 group-hover:text-gray-900">
                                 <span v-if="step.name === 'Information'">
                                     {{ $t('bookings.formEvent.tabs.information') }}
+                                </span>
+                                <span v-if="step.name === 'Slots'">
+                                    Slots
                                 </span>
                                 <span v-if="step.name === 'Settings'">
                                     {{ $t('bookings.formEvent.tabs.settings') }}
@@ -72,7 +81,7 @@
                 </li>
             </ol>
         </nav>
-        <form @submit.prevent="handleNext()" class="mt-6">
+        <form @submit.prevent="" class="mt-6">
             <Alert type="danger" :text="props?.error?.message"
                 v-if="props.error?.message && props.error.message.length > 0" />
             <div class="space-y-3" v-if="state.currentStep === 1">
@@ -103,6 +112,13 @@
                                 <Icon name="ph:repeat" class="h-6 w-6" aria-hidden="true" />
                             </button>
                         </Tooltip>
+                    </div>
+                </div>
+                <div class="block md:flex items-center space-y-2 gap-x-2 py-2">
+                    <div class="w-fit flex items-center cursor-pointer"
+                    @click="state.formEvent.exclude_weekend = !state.formEvent.exclude_weekend">
+                        <FormCheckbox id="change_password" :value="state.formEvent.exclude_weekend" />
+                        <span class="text-sm text-gray-600">{{  $t('bookings.formEvent.slots.excludeWeekend')  }}</span>
                     </div>
                 </div>
                 <div class="block md:flex items-center space-y-2 gap-x-2 py-2" v-if="state.formEvent.is_recurring">
@@ -198,13 +214,51 @@
             </div>
             <div class="space-y-3" v-if="state.currentStep === 2">
                 <div class="space-y-1">
-                    <FormLabel for="spots" :label="$t('bookings.formEvent.settings.availableSpotsAtThisEvent')" />
-                    <FormNumberField id="spots" name="spots"
-                        :placeholder="$t('bookings.formEvent.settings.availableSpotsAtThisEvent')"
-                        v-model="state.formEvent.spots" @input="validateSpotsQuantity" />
-                    <FormError :error="v$?.formEvent?.spots?.$errors[0]?.$message.toString()" />
-                    <FormError :error="state?.error?.errors?.spots?.[0]" />
+                    <FormButton type="button" buttonStyle="cancel" class="col-start-2 rounded-md" @click="addSlot()">
+                        <Icon name="ph:plus" class="h-4 w-4" aria-hidden="true" />
+                        {{ $t('bookings.formEvent.slots.addSlot') }}
+                    </FormButton>
                 </div>
+                <div class="space-y-1">
+                    <FormError :error="state?.error?.errors?.slots?.[0]" />
+                </div>
+                <div class="max-h-96 overflow-y-auto pr-3 space-y-3">
+                    <div v-for="(item, idx) in state.formEvent.slots">
+                        <div class="grow grid grid-cols-1 md:grid-cols-[1fr_1fr_150px_30px] items-center gap-3">
+                            <div class="space-y-1">
+                                <FormLabel :for="`start_time_${idx}`" :label="$t('bookings.formEvent.slots.startTime')" />
+                                <FormTimeField :id="`start_time_${idx}`" :name="`start_time_${idx}`" :placeholder="$t('bookings.formEvent.slots.startTime')"
+                                    v-model="item.start_time"
+                                    class="border border-primary placeholder-gray-500 text-gray-900 rounded-md focus:outline-none focus:ring-primary-700 focus:border-primary-700 focus:z-10 sm:text-sm" />
+                            </div>
+                            <div class="space-y-1">
+                                <FormLabel :for="`end_time_${idx}`" :label="$t('bookings.formEvent.slots.endTime')" />
+                                <FormTimeField :id="`end_time_${idx}`" :name="`end_time_${idx}`" :placeholder="$t('bookings.formEvent.slots.endTime')"
+                                    v-model="item.end_time"
+                                    class="border border-primary placeholder-gray-500 text-gray-900 rounded-md focus:outline-none focus:ring-primary-700 focus:border-primary-700 focus:z-10 sm:text-sm" />
+                            </div>
+                            <div class="space-y-1">
+                                <FormLabel :for="`capacity_${idx}`" :label="$t('bookings.formEvent.slots.capacity')" />
+                                <FormNumberField :id="`capacity_${idx}`" :name="`capacity_${idx}`" :placeholder="$t('bookings.formEvent.slots.capacity')"
+                                    v-model="item.capacity"
+                                    class="border border-primary placeholder-gray-500 text-gray-900 rounded-md focus:outline-none focus:ring-primary-700 focus:border-primary-700 focus:z-10 sm:text-sm" />
+                            </div>
+                            <div v-if="state.formEvent.slots.length > 1" class="space-y-1">
+                                <Tooltip :text="$t('bookings.formEvent.slots.removeSlot')" position="left"
+                                    class="mt-7">
+                                    <button type="button" @click="removeSlot(idx)">
+                                        <Icon name="ph:trash" class="h-6 w-6 text-red-700 hover:text-red-600" aria-hidden="true" />
+                                    </button>
+                                </Tooltip>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="space-y-1">
+                        <FormError :error="state?.error?.errors?.time_slots?.[0]" />
+                    </div>
+                </div>
+            </div>
+            <div class="space-y-3" v-if="state.currentStep === 3">
                 <div class="space-y-1">
                     <div class="flex justify-between items-center py-0.5">
                         <FormLabel for="schedule_tag_uuid" :label="$t('dutySchedules.form.tags')" />
@@ -279,7 +333,7 @@
                     </div>
                 </div>
             </div>
-            <div class="space-y-3" v-if="state.currentStep === 3">
+            <div class="space-y-3" v-if="state.currentStep === 4">
                 <Alert type="success" :text="`${t('bookings.alert.eventSuccessfullyAdded')}.`"
                     v-if="props.formType === 'create'" />
                 <Alert type="success" :text="`${t('bookings.alert.eventSuccessfullyUpdated')}.`" v-else />
@@ -304,7 +358,7 @@
                 </div>
             </div>
             <div class="mt-6">
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-3" v-if="state.currentStep === 3">
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-3" v-if="state.currentStep === 4">
                     <FormButton type="button" buttonStyle="cancel" class="col-start-2 rounded-md" @click="closeForm()">
                         {{ $t('close') }}
                     </FormButton>
@@ -315,14 +369,14 @@
                         {{ $t('cancel') }}
                     </FormButton>
                     <FormButton type="button" buttonStyle="cancel" class="rounded-md" @click="handleBack()"
-                        v-if="state.currentStep === 2">
+                        v-if="state.currentStep > 1">
                         {{ $t('back') }}
                     </FormButton>
                     <FormButton type="submit" buttonStyle="primary" class="rounded-md" @click="handleNext()"
-                        v-if="state.currentStep === 1">
+                        v-if="state.currentStep >= 1">
                         {{ $t('next') }}
                     </FormButton>
-                    <FormButton type="submit" buttonStyle="primary" class="rounded-md" v-if="state.currentStep === 2">
+                    <FormButton type="submit" buttonStyle="primary" class="rounded-md" v-if="state.currentStep === 4">
                         {{ props.formType === 'create' ? $t('save') :
                             $t('update') }}
                     </FormButton>
@@ -400,7 +454,8 @@ const state = reactive({
         post_code: '',
         city: '',
         image: '',
-        spots: props.selectedEvent.spots || '1',
+        slots: <any>[],
+        spots: props.selectedEvent.spots || '0',
         tags: [],
         price: '',
         is_tax_included: false,
@@ -408,6 +463,7 @@ const state = reactive({
         close_registration: false,
         is_online_booking: false,
         is_reminder_enabled: false,
+        exclude_weekend: false
     },
     isPageLoading: false,
     modal: {
@@ -426,8 +482,9 @@ const state = reactive({
     },
     steps: [
         { id: '01', name: 'Information', href: '#', status: 'current' },
-        { id: '02', name: 'Settings', href: '#', status: 'upcoming' },
-        { id: '03', name: 'Summary', href: '#', status: 'upcoming' },
+        { id: '02', name: 'Slots', href: '#', status: 'upcoming' },
+        { id: '03', name: 'Settings', href: '#', status: 'upcoming' },
+        { id: '04', name: 'Summary', href: '#', status: 'upcoming' },
     ],
 })
 
@@ -446,6 +503,7 @@ watch(() => props.selectedEvent, (selectedEvent: any) => {
             city: selectedEvent?.city,
             image: '',
             spots: selectedEvent?.spots,
+            slots: formatExistingTimeSlots(selectedEvent?.slots),
             tags: selectedEvent?.tags,
             price: selectedEvent?.price,
             is_tax_included: selectedEvent?.is_tax_included,
@@ -453,6 +511,7 @@ watch(() => props.selectedEvent, (selectedEvent: any) => {
             close_registration: selectedEvent?.close_registration,
             is_online_booking: selectedEvent?.is_online_booking,
             is_reminder_enabled: selectedEvent?.is_reminder_enabled,
+            exclude_weekend: selectedEvent?.exclude_weekend || false,
         }
         avatarUrl.value = selectedEvent?.image ? selectedEvent?.image : `/img/icons/asset-02.svg`
     }
@@ -534,8 +593,27 @@ function handleBack() {
         state.currentStep = 1
         state.steps = [
             { id: '01', name: 'Information', href: '#', status: 'current' },
-            { id: '02', name: 'Settings', href: '#', status: 'upcoming' },
-            { id: '03', name: 'Summary', href: '#', status: 'upcoming' },
+            { id: '02', name: 'Slots', href: '#', status: 'upcoming' },
+            { id: '03', name: 'Settings', href: '#', status: 'upcoming' },
+            { id: '04', name: 'Summary', href: '#', status: 'upcoming' },
+        ]
+    }
+    if (state.currentStep === 3) {
+        state.currentStep = 2
+        state.steps = [
+            { id: '01', name: 'Information', href: '#', status: 'completed' },
+            { id: '02', name: 'Slots', href: '#', status: 'current' },
+            { id: '03', name: 'Settings', href: '#', status: 'upcoming' },
+            { id: '04', name: 'Summary', href: '#', status: 'upcoming' },
+        ]
+    }
+    if (state.currentStep === 4) {
+        state.currentStep = 3
+        state.steps = [
+            { id: '01', name: 'Information', href: '#', status: 'completed' },
+            { id: '02', name: 'Slots', href: '#', status: 'completed' },
+            { id: '03', name: 'Settings', href: '#', status: 'current' },
+            { id: '04', name: 'Summary', href: '#', status: 'upcoming' },
         ]
     }
 }
@@ -547,23 +625,143 @@ function handleNext() {
             state.currentStep = 2
             state.steps = [
                 { id: '01', name: 'Information', href: '#', status: 'completed' },
-                { id: '02', name: 'Settings', href: '#', status: 'current' },
-                { id: '03', name: 'Summary', href: '#', status: 'upcoming' },
+                { id: '02', name: 'Slots', href: '#', status: 'current' },
+                { id: '03', name: 'Settings', href: '#', status: 'upcoming' },
+                { id: '04', name: 'Summary', href: '#', status: 'upcoming' },
             ]
         }
     }
-    else if (state.currentStep === 2 && Object.keys(props.eventData)?.length === 0) {
-        submitForm()
-    }
-    else if (state.currentStep === 2 && Object.keys(props.eventData)?.length > 0) {
+    else if (state.currentStep === 2 && validateSlots() && validateTimeSlots()) {
         state.currentStep = 3
         state.steps = [
             { id: '01', name: 'Information', href: '#', status: 'completed' },
-            { id: '02', name: 'Settings', href: '#', status: 'completed' },
-            { id: '03', name: 'Summary', href: '#', status: 'current' },
+            { id: '02', name: 'Slots', href: '#', status: 'completed' },
+            { id: '03', name: 'Settings', href: '#', status: 'current' },
+            { id: '04', name: 'Summary', href: '#', status: 'upcoming' },
+        ]
+    }
+    else if (state.currentStep === 3 && Object.keys(props.eventData)?.length === 0) {
+        submitForm()
+    }
+    else if (state.currentStep === 3 && Object.keys(props.eventData)?.length > 0) {
+        state.currentStep = 4
+        state.steps = [
+            { id: '01', name: 'Information', href: '#', status: 'completed' },
+            { id: '02', name: 'Slots', href: '#', status: 'completed' },
+            { id: '03', name: 'Settings', href: '#', status: 'completed' },
+            { id: '04', name: 'Summary', href: '#', status: 'current' },
         ]
     }
 }
+
+function addMinutesToTime(time: string, minsToAdd: number) {
+    const [hours, minutes] = time.split(":").map(Number)
+    const date = new Date()
+    date.setHours(hours)
+    date.setMinutes(minutes + minsToAdd)
+    const newHours = String(date.getHours()).padStart(2, "0")
+    const newMinutes = String(date.getMinutes()).padStart(2, "0")
+    return `${newHours}:${newMinutes}`
+}
+
+function formatExistingTimeSlots(data: any) {
+    const slots = data
+
+    const uniqueSlots = []
+    const seen = new Set()
+
+    for (const slot of slots) {
+        const key = `${slot.start_time}-${slot.end_time}-${slot.capacity}`
+        if (!seen.has(key)) {
+            seen.add(key)
+            uniqueSlots.push({
+                start_time: slot.start_time,
+                end_time: slot.end_time,
+                capacity: slot.capacity
+            })
+        }
+    }
+    console.log(uniqueSlots)
+    return uniqueSlots
+}
+
+function addSlot() {
+    if (!validateTimeSlots()) return
+    const slots = state.formEvent.slots
+    const lastSlot = slots[slots.length - 1]
+
+    let start = "06:00"
+    let end = "06:30"
+
+    if (lastSlot) {
+        // Use the previous slot's end_time as the next start
+        start = lastSlot.end_time
+        end = addMinutesToTime(start, 30) // adds 30 minutes
+    }
+
+    slots.push({
+        start_time: start,
+        end_time: end,
+        capacity: 1,
+    })
+}
+
+function removeSlot(idx: number) {
+    if (state.formEvent.slots.length === 1) return
+    state.formEvent.slots.splice(idx, 1)
+}
+
+watch(() => state.formEvent.slots, (newSlots) => {
+    // Update total spots to total number of slot capacity
+    state.formEvent.spots =  newSlots.reduce((total: any, slot: any) => {
+        return total + Number(slot.capacity || 0)
+    }, 0)
+    validateSlots()
+    validateTimeSlots()
+}, { deep: true, })
+
+function validateSlots() {
+    let error = ''
+    if (!state.formEvent.slots.length) {
+        error = t('bookings.formEvent.slots.validationError')
+    } else if (state.formEvent.spots < 1) {
+        error = t('bookings.formEvent.slots.validationError')
+    }
+    if (!error) return true;
+    
+    state.error = {
+        message: t('bookings.formEvent.slots.validationError'),
+        errors: {
+            slots: [error],
+        }
+    }
+    return error === ''
+}
+
+function validateTimeSlots() {
+    let error = ''
+    for (const slot of state.formEvent.slots) {
+        if (slot.start_time && slot.end_time) {
+            const start = new Date(`1970-01-01T${slot.start_time}`);
+            const end = new Date(`1970-01-01T${slot.end_time}`);
+
+            if (start >= end) {
+                error = 'Start time must be before end time';
+                break
+            } else {
+                error = '';
+            }
+        }
+    }
+    state.error = {
+        message: t('bookings.formEvent.slots.validationError'),
+        errors: {
+            time_slots: [error],
+        }
+    }
+    return error === ''
+}
+
 
 function triggerFileInput() {
     if (image.value) {
@@ -603,7 +801,7 @@ async function navigateToExternalLink(link: string) {
 }
 
 function submitForm() {
-    if (state.currentStep === 2) {
+    if (state.currentStep === 3) {
         state.error = {}
         v$.value.$validate()
         if (!v$.value.$error) {

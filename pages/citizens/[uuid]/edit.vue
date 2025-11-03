@@ -81,6 +81,7 @@ const state = reactive({
         birthday: '',
         phone: '',
         departments: [],
+        rooms: [],
         street: '',
         foreign_city_uuid: '',
         region_uuid: '',
@@ -115,6 +116,27 @@ const state = reactive({
         has_chat_access: false,
         has_duty_schedule_access: false,
         has_bullet_board_access: false,
+        inquiryData: {
+            conversation_summary: '',
+            inquiry_date: '',
+            inquirer_name: '',
+            outcome: '',
+            purpose: '',
+        },
+        stayData: {
+            accommodation_end_date: '',
+            accommodation_start_date: '',
+            journal_number: '',
+            accompanying_children: [{
+                name: '',
+                gender: '',
+                age: '',
+                origin: '',
+            }],
+            residence_before_uuid: '',
+            residence_after_uuid: '',
+            discharge_reason: '',
+        },
     } as CitizenForm,
     isPageLoading: false,
     modal: {
@@ -142,26 +164,27 @@ async function fetchCitizen() {
                 birthday: response?.data?.birthday ?? '',
                 phone: response?.data?.phone ?? '',
                 departments: [],
+                rooms: [],
                 street: response?.data?.address?.street ?? '',
-                foreign_city_uuid: response?.data?.foreign_city?.uuid.toString() ?? '',
-                region_uuid: response?.data?.address?.region?.uuid.toString() ?? '',
-                municipality_uuid: response?.data?.address?.municipality?.uuid.toString() ?? '',
-                city_uuid: response?.data?.address?.city?.uuid.toString() ?? '',
+                foreign_city_uuid: response?.data?.foreign_city?.uuid?.toString() ?? '',
+                region_uuid: response?.data?.address?.region?.uuid?.toString() ?? '',
+                municipality_uuid: response?.data?.address?.municipality?.uuid?.toString() ?? '',
+                city_uuid: response?.data?.address?.city?.uuid?.toString() ?? '',
                 post_code: response?.data?.address?.post_code ?? '',
-                origin: response?.data?.origin?.uuid.toString() ?? '',
+                origin: response?.data?.origin?.uuid?.toString() ?? '',
                 diagnoses: [],
                 medication_allergies: [],
                 addictions: [],
                 date_admitted: response?.data?.date_admitted ?? '',
                 date_discharged: response?.data?.date_discharged ?? '',
                 is_discharge_reminded: response?.data?.is_discharge_reminded ?? false,
-                section: response?.data?.section?.uuid.toString() ?? '',
+                section: response?.data?.section?.uuid?.toString() ?? '',
                 pricing: response?.data?.pricing ?? '',
                 pricing_start_date: response?.data?.pricing_start_date ?? '',
-                primary_case_worker_uuid: response?.data?.primary_case_worker?.uuid.toString() ?? '',
-                paying_municipality: response?.data?.paying_municipality?.uuid.toString() ?? '',
-                assessment_municipality: response?.data?.assessment_municipality?.uuid.toString() ?? '',
-                responsible_municipality: response?.data?.responsible_municipality?.uuid.toString() ?? '',
+                primary_case_worker_uuid: response?.data?.primary_case_worker?.uuid?.toString() ?? '',
+                paying_municipality: response?.data?.paying_municipality?.uuid?.toString() ?? '',
+                assessment_municipality: response?.data?.assessment_municipality?.uuid?.toString() ?? '',
+                responsible_municipality: response?.data?.responsible_municipality?.uuid?.toString() ?? '',
                 ean_number: response?.data?.ean_number ?? '',
                 transportation: response?.data?.transportation ?? '',
                 hourly_rate: response?.data?.hourly_rate ?? '',
@@ -176,9 +199,33 @@ async function fetchCitizen() {
                 has_chat_access: response?.data?.has_chat_access ?? '',
                 has_duty_schedule_access: response?.data?.has_duty_schedule_access ?? '',
                 has_bullet_board_access: response?.data?.has_bullet_board_access ?? '',
+                inquiryData: {
+                    conversation_summary: response?.data?.conversation_summary ?? '',
+                    inquiry_date: response?.data?.inquiry_data?.inquiry_date ?? '',
+                    inquirer_name: response?.data?.inquiry_data?.inquirer_name ?? '',
+                    outcome: response?.data?.inquiry_data?.outcome ?? '',
+                    purpose: response?.data?.inquiry_data?.purpose ?? '',
+                },
+                stayData: {
+                    accommodation_end_date: response?.data?.stay_data?.end_date ?? '',
+                    accommodation_start_date: response?.data?.stay_data?.start_date ?? '',
+                    journal_number: response?.data?.stay_data?.journal_number ?? '',
+                    accompanying_children: response?.data?.stay_data?.accompanying_children ?? [{
+                        name: '',
+                        gender: '',
+                        age: '',
+                        origin: '',
+                    }],
+                    residence_before_uuid: response?.data?.stay_data?.residence_before_municipality?.uuid?.toString() ?? '',
+                    residence_after_uuid: response?.data?.stay_data?.residence_after_municipality?.uuid?.toString() ?? '',
+                    discharge_reason: response?.data?.stay_data?.discharge_reason ?? '',
+                },
             }
             response?.data?.departments?.forEach((department: any) => {
                 state.formCitizen.departments.push(department?.uuid)
+            })
+            response?.data?.rooms?.forEach((room: any) => {
+                state.formCitizen.rooms.push(room?.uuid)
             })
             response?.data?.diagnoses?.forEach((diagnosis: any) => {
                 state.formCitizen.diagnoses.push(diagnosis?.uuid)
@@ -212,6 +259,9 @@ async function updateCitizen(citizenDetails: any) {
         params.append('birthday', citizenDetails.birthday)
         params.append('phone', citizenDetails.phone)
         params.append('departments_uuid', JSON.stringify(citizenDetails.departments))
+        if (citizenDetails.rooms) {
+            params.append('room_uuid', JSON.stringify(citizenDetails.rooms))
+        }
         params.append('street', citizenDetails.street)
         if (citizenDetails.region) {
             params.append('region_uuid', citizenDetails.region)
@@ -273,6 +323,22 @@ async function updateCitizen(citizenDetails: any) {
         params.append('has_chat_access', citizenDetails.has_chat_access)
         params.append('has_duty_schedule_access', citizenDetails.has_duty_schedule_access)
         params.append('has_bullet_board_access', citizenDetails.has_bullet_board_access)
+        params.append('conversation_summary', citizenDetails.inquiryData.conversation_summary)
+        params.append('inquiry_date', citizenDetails.inquiryData.inquiry_date)
+        params.append('inquirer_name', citizenDetails.inquiryData.inquirer_name)
+        params.append('outcome', citizenDetails.inquiryData.outcome)
+        params.append('purpose', citizenDetails.inquiryData.purpose)
+        params.append('end_date', citizenDetails.stayData.accommodation_end_date)
+        params.append('start_date', citizenDetails.stayData.accommodation_start_date)
+        params.append('journal_number', citizenDetails.stayData.journal_number)
+        params.append('accompanying_children', JSON.stringify(citizenDetails.stayData.accompanying_children))
+        if (citizenDetails.stayData.residence_before_uuid) {
+            params.append('residence_before_uuid', citizenDetails.stayData.residence_before_uuid)
+        }
+        if (citizenDetails.stayData.residence_after_uuid) {
+            params.append('residence_after_uuid', citizenDetails.stayData.residence_after_uuid)
+        }
+        params.append('discharge_reason', citizenDetails.stayData.discharge_reason)
         const response = await citizenService.updateCitizen(citizenUuid, params)
         if (response.data) {
             successAlert(`${t('alert.success')}!`, `${t('citizens.form.alert.successfullyUpdate')}.`)

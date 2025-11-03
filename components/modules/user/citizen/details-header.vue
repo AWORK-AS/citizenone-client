@@ -159,6 +159,14 @@
                                             {{ formatDateToReadable(state.selectedCitizen?.data?.date_discharged) }}
                                         </p>
                                     </div>
+                                    <button
+                                        class="flex items-center gap-x-1 text-sm font-medium text-gray-700 outline-none hover:text-primary"
+                                        @click="state.modal.isInquiryStayDataOpen = true">
+                                        <div class="flex items-center">
+                                            <Icon name="ph:file" class="h-4 w-4" aria-hidden="true" />
+                                        </div>
+                                        {{ $t('citizens.inquiryStayData.inquiryAndStayData') }}
+                                    </button>
                                 </div>
                                 <div class="space-y-1">
                                     <div class="flex items-center gap-x-1"
@@ -271,6 +279,14 @@
                                         {{ allergy?.name }}
                                     </span>
                                 </div>
+                                <div class="text-xs flex items-center flex-wrap gap-1"
+                                    v-if="state.selectedCitizen?.data?.rooms?.length > 0 && hasRoomsAccess()">
+                                    <p>{{ $t('citizens.rooms') }}:</p>
+                                    <span v-for="(room, index) in state.selectedCitizen?.data?.rooms" :key=index
+                                        class="bg-primary p-1 text-white rounded-md text-xxs">
+                                        {{ room?.name }}
+                                    </span>
+                                </div>
                             </div>
                             <div class="text-xs font-medium text-gray-700"
                                 :class="state.showExpandedNote ? '' : 'line-clamp-2'" v-if="hasNoteAccess()">
@@ -301,6 +317,8 @@
                 </div>
             </div>
 
+            <ModulesUserCitizenInquiryStayDataModalView :isModalOpen="state.modal.isInquiryStayDataOpen"
+                @close="state.modal.isInquiryStayDataOpen = false" :selectedCitizen="state.selectedCitizen" />
             <ModulesUserCitizenInterventionHoursModalView :isModalOpen="state.modal.isViewPatienCareHoursOpen"
                 @close="state.modal.isViewPatienCareHoursOpen = false" @refreshCitizenDetails="fetchCitizen()" />
             <ModulesUserCitizenUseOfForceModalRelevantHelpLinks :isModalOpen="state.modal.isViewRelevantHelpLinksOpen"
@@ -333,6 +351,7 @@ const state = reactive({
     error: {} as Error,
     isPageLoading: false,
     modal: {
+        isInquiryStayDataOpen: false,
         isViewPatienCareHoursOpen: false,
         isViewRelevantHelpLinksOpen: false,
     },
@@ -467,6 +486,11 @@ function hasDiagnosesAccess() {
 function hasMedicationAllergiesAccess() {
     return isAdmin(userStore.getUser?.roles) ||
         userStore.getUser?.company?.citizen_displays?.some((display: any) => display.en_name === 'Medication allergies')
+}
+
+function hasRoomsAccess() {
+    return isAdmin(userStore.getUser?.roles) ||
+        userStore.getUser?.company?.citizen_displays?.some((display: any) => display.en_name === 'Rooms')
 }
 
 function hasNoteAccess() {

@@ -8,6 +8,7 @@ export interface CitizenForm {
     birthday: string,
     phone: string,
     departments: string[],
+    rooms: string[],
     street: string,
     foreign_city_uuid: string,
     region_uuid: string,
@@ -42,4 +43,6 @@ export interface CitizenForm {
     has_chat_access: boolean,
     has_duty_schedule_access: boolean,
     has_bullet_board_access: boolean,
+    inquiryData: any,
+    stayData: any,
 }

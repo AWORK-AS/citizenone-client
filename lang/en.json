@@ -536,7 +536,35 @@
                 "information": "Information",
                 "settings": "Settings",
                 "summary": "Summary"
+            },
+            "slots": {
+                "startTime": "Start time",
+                "endTime": "End time",
+                "capacity": "Capacity",
+                "remove": "Remove",
+                "addSlot": "Add slot",
+                "removeSlot": "Remove this booking slot",
+                "validationError": "Booking slot and capacity is required",
+                "excludeWeekend": "Exclude weekends"
+            },
+            "appointment": {
+                "selectDate": "Select a date",
+                "dateSelected": "Date selected",
+                "selectTimeSlot": "Select from available time slots",
+                "full": "Full",
+                "noSlots": "The selected date has no available time slots. Please try other dates.",
+                "selectSlot": "Please select an available time slot.",
+                "eventDetails": "Event details",
+                "selectSchedule": "Select schedule",
+                "yourDetails": "Your details",
+                "confirmation": "Confirmation"
             }
+        },
+        "loading": {
+            "fetchingUpcomingEvents": "Fetching upcoming events",
+            "loadingEventDetails": "Loading event details",
+            "theSystemIsRetrievening": "The system is retrieving and loading the event information. Please wait while we prepare the event details for display",
+            "wereGatheringAllTheExcitingEvents": "We're gathering all the exciting events for you. Hang tight - it won't take long"
         },
         "newBooking": "New booking",
         "newEvent": "New event",
@@ -1133,8 +1161,15 @@
             "foreignCityOfOrigin": "Foreign city of origin",
             "gender": "Gender",
             "hourlyRate": "Hourly rate",
+            "inquiryData": {
+                "conversationSummary": "Conversation summary",
+                "dateOfInquiry": "Date of inquiry",
+                "inquirerName": "Inquirer name",
+                "outcome": "Outcome (e.g. offered a place, rejection, referral)",
+                "purpose": "Purpose"
+            },
             "lastname": "Last name",
-            "medicationAllergies": "Medication allergies",
+            "medicationAllergies": "Medication allergies (CAVE)",
             "municipality": "Municipality",
             "note": "Note",
             "payingMunicipality": "Paying municipality",
@@ -1145,8 +1180,24 @@
             "postCode": "Post Code",
             "region": "Region",
             "responsibleMunicipality": "Responsible municipality",
+            "room": "Room",
             "section": "Section",
             "ssn": "Social security number",
+            "stayData": {
+                "accommodationEndDate": "Accommodation end date",
+                "accommodationStartDate": "Accommodation start date",
+                "accompanyingChildren": {
+                    "accompanyingChildren": "Accompanying children",
+                    "age": "Age",
+                    "gender": "Gender",
+                    "name": "Name",
+                    "origin": "Origin"
+                },
+                "dischargeReason": "Discharge reason",
+                "journalNumber": "Journal number",
+                "municipalityOfResidenceAfter": "Municipality of residence after",
+                "municipalityOfResidenceBefore": "Municipality of residence before"
+            },
             "street": "Street",
             "trafficLights": {
                 "green": "Green",
@@ -1164,6 +1215,39 @@
             "importCitizens": "Import citizens",
             "importTemplate": "Import template",
             "noFileSelected": "No file selected"
+        },
+        "inquiryStayData": {
+            "inquiryAndStayData": "Inquiry and stay data",
+            "inquiryData": {
+                "conversationSummary": "Conversation summary",
+                "dateOfInquiry": "Date of inquiry",
+                "inquiryData": "Inquiry data",
+                "inquirerName": "Inquirer name",
+                "outcome": "Outcome",
+                "purpose": "Purpose"
+            },
+            "stayData": {
+                "accommodationEndDate": "Accommodation end date",
+                "accommodationStartDate": "Accommodation start date",
+                "accompanyingChildren": {
+                    "accompanyingChildren": "Accompanying children",
+                    "age": "Age",
+                    "gender": "Gender",
+                    "name": "Name",
+                    "origin": "Origin"
+                },
+                "dischargeReason": "Discharge reason",
+                "journalNumber": "Journal number",
+                "municipalityOfResidenceAfter": "Municipality of residence after",
+                "municipalityOfResidenceBefore": "Municipality of residence before",
+                "stayData": "Stay data"
+            }
+        },
+        "rooms": "Rooms",
+        "sections": {
+            "citizenDetails": "Citizen details",
+            "inquiryData": "Inquiry data",
+            "stayData": "Stay data"
         },
         "statuses": {
             "alert": {
@@ -1337,7 +1421,7 @@
                 "weeklyAllocation": "Weekly allocation"
             }
         },
-        "medicationAllergies": "Medication allergies",
+        "medicationAllergies": "Medication allergies (CAVE)",
         "medicineJournals": {
             "alert": {
                 "successfullyActivated": "Medicine successfully activated",
@@ -3544,7 +3628,7 @@
     },
     "medicationAllergies": {
         "addNewMedicationAllergy": "Add new medication allergy",
-        "medicationAllergies": "Medication allergies",
+        "medicationAllergies": "Medication allergies (CAVE)",
         "medicationAllergy": "Medication allergy",
         "editMedicationAllergy": "Edit medication allergy",
         "form": {
@@ -4086,6 +4170,11 @@
             "phone": "Phone",
             "iHaveReadAndAcceptThe": "I have read and accept the",
             "termsAndConditions": "Terms and Conditions",
+            "typeOfFacility": {
+                "crisisCenter": "Crisis center",
+                "homelessShelter": "Homeless shelter",
+                "typeOfFacility": "Type of facility"
+            },
             "loginHere": "Login here",
             "agreetoTAC": "You must agree to the terms and conditions"
         },
@@ -4217,6 +4306,32 @@
             },
             "name": "Name",
             "user": "User"
+        }
+    },
+    "rooms": {
+        "addNewRoom": "Add new room",
+        "rooms": "Rooms",
+        "editRoom": "Edit room",
+        "form": {
+            "alert": {
+                "roomSuccessfullyUpdated": "Room successfully updated",
+                "newRoomSuccessfullySaved": "New room successfully saved"
+            },
+            "name": "Name"
+        },
+        "newRoom": "New room",
+        "table": {
+            "actions": {
+                "delete": "Delete",
+                "edit": "Edit"
+            },
+            "alert": {
+                "roomSuccessfullyDeleted": "Room successfully deleted"
+            },
+            "confirmation": {
+                "deleteRoomConfirmation": "Are you sure you want to delete this room"
+            },
+            "name": "Name"
         }
     },
     "save": "Save",
@@ -4353,11 +4468,12 @@
             "journalTitles": "Journal titles",
             "licenseOverview": "License overview",
             "licenses": "Licenses",
-            "medicationAllergies": "Medication allergies",
+            "medicationAllergies": "Medication allergies (CAVE)",
             "medicines": "Medicines",
             "profile": "Profile",
             "relationships": "Relationships",
             "roles": "Roles",
+            "rooms": "Rooms",
             "sections": "Sections",
             "storage": "Storage",
             "subscription": "Subscription",
