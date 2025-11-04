@@ -3467,6 +3467,32 @@
             "smtpEncryption": "SMTP kryptering"
         }
     },
+    "massUnits": {
+        "addNewMassUnit": "Tilføj ny masseenhed",
+        "editMassUnit": "Rediger masseenhed",
+        "form": {
+            "alert": {
+                "massUnitSuccessfullyUpdated": "Masseenhed blev opdateret",
+                "newMassUnitSuccessfullySaved": "Ny masseenhed blev gemt"
+            },
+            "name": "Navn"
+        },
+        "massUnits": "Masseenheder",
+        "newMassUnit": "Ny masseenhed",
+        "table": {
+            "actions": {
+                "delete": "Slet",
+                "edit": "Rediger"
+            },
+            "alert": {
+                "massUnitSuccessfullyDeleted": "Masseenhed blev slettet"
+            },
+            "confirmation": {
+                "deleteMassUnitConfirmation": "Er du sikker på, at du vil slette denne masseenhed"
+            },
+            "name": "Navn"
+        }
+    },
     "medicationAllergies": {
         "addNewMedicationAllergy": "Tilføj ny medicinallergi",
         "medicationAllergies": "Medicinallergier (CAVE)",
@@ -4470,6 +4496,7 @@
             "journalTitles": "Journal titler",
             "licenseOverview": "Licensoversigt",
             "licenses": "Licenser",
+            "massUnits": "Masseenheder",
             "medicationAllergies": "Medicinallergier (CAVE)",
             "medicines": "Medicin",
             "profile": "Profil",
