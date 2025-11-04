@@ -67,6 +67,7 @@
                                 {{ $t('citizens.medicineJournals.form.strength') }}:
                             </span>
                             {{ state.selectedMedicine?.strength }}
+                            {{ state.selectedMedicine?.mass_unit?.name }}
                         </p>
                         <p>
                             <span class="font-semibold">
