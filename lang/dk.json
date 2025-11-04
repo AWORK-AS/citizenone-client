@@ -1470,7 +1470,8 @@
                 "strength": "Styrke",
                 "time": "Tid",
                 "treatmentReason": "Behandlingsårsag",
-                "treatmentReasonPlaceholder": "Hvad er årsagen til, at borgeren får denne medicin"
+                "treatmentReasonPlaceholder": "Hvad er årsagen til, at borgeren får denne medicin",
+                "unit": "Enhed"
             },
             "history": {
                 "alert": {

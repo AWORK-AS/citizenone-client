@@ -65,6 +65,14 @@
                         <FormError :error="props?.error?.errors?.current_stocks?.[0]" />
                     </div>
                 </div>
+                <div class="space-y-1">
+                    <FormLabel for="max_daily_dose" :label="$t('citizens.medicineJournals.form.maxDailyDose')" />
+                    <FormTextField id="max_daily_dose" name="max_daily_dose"
+                        :placeholder="$t('citizens.medicineJournals.form.maxDailyDose')"
+                        v-model="state.formMedicine.max_daily_dose" @input="handleMaxDailyDoseInput" />
+                    <FormError :error="v$?.formMedicine?.max_daily_dose?.$errors[0]?.$message.toString()" />
+                    <FormError :error="props?.error?.errors?.max_daily_dose?.[0]" />
+                </div>
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
                     <div class="space-y-1">
                         <FormLabel for="strength" :label="$t('citizens.medicineJournals.form.strength')" />
@@ -75,12 +83,16 @@
                         <FormError :error="props?.error?.errors?.strength?.[0]" />
                     </div>
                     <div class="space-y-1">
-                        <FormLabel for="max_daily_dose" :label="$t('citizens.medicineJournals.form.maxDailyDose')" />
-                        <FormTextField id="max_daily_dose" name="max_daily_dose"
-                            :placeholder="$t('citizens.medicineJournals.form.maxDailyDose')"
-                            v-model="state.formMedicine.max_daily_dose" @input="handleMaxDailyDoseInput" />
-                        <FormError :error="v$?.formMedicine?.max_daily_dose?.$errors[0]?.$message.toString()" />
-                        <FormError :error="props?.error?.errors?.max_daily_dose?.[0]" />
+                        <div class="flex justify-between items-center py-0.5">
+                            <FormLabel for="unit" :label="$t('citizens.medicineJournals.form.unit')" />
+                            <span class="text-xs cursor-pointer text-tertiary hover:text-tertiary-800"
+                                @click="state.modal.isAddMassUnitOpen = true">
+                                {{ $t('massUnits.addNewMassUnit') }}
+                            </span>
+                        </div>
+                        <FormSelect id="unit" :options="state.options.units" v-model="state.formMedicine.unit" />
+                        <FormError :error="v$?.formCitizen?.unit?.$errors[0]?.$message.toString()" />
+                        <FormError :error="props?.error?.errors?.mas_unit_uuid?.[0]" />
                     </div>
                 </div>
                 <div class="space-y-1" v-if="!state.formMedicine.is_pn_medicine">
@@ -218,12 +230,16 @@
         <ModulesUserCitizenContactModalNewDoctor :isModalOpen="state.modal.isAddDoctorOpen"
             @close="state.modal.isAddDoctorOpen = false" @refreshCaseworkers="fetchCitizenDoctors"
             v-if="state.modal.isAddDoctorOpen" />
+        <ModulesUserMassUnitModalNew :isModalOpen="state.modal.isAddMassUnitOpen"
+            @close="state.modal.isAddMassUnitOpen = false" @refreshUnits="fetchAllMassUnits"
+            v-if="state.modal.isAddMassUnitOpen" />
     </div>
 </template>
 
 <script setup lang="ts">
 import { citizenDoctorService } from '@/components/api/user/CitizenDoctorService'
 import { dosageService } from '@/components/api/user/DosageService'
+import { massUnitService } from '@/components/api/user/MassUnitService'
 import { medicineService } from '@/components/api/user/MedicineService'
 import { timeIntervalService } from '@/components/api/user/TimeIntervalService'
 import { useVuelidate } from "@vuelidate/core"
@@ -263,6 +279,7 @@ const state = reactive({
         schedule_frequency: [],
         current_stocks: '',
         strength: '',
+        unit: '',
         max_daily_dose: '',
         max_dosage_per_time: [],
         package_leaflet_link: '',
@@ -276,6 +293,7 @@ const state = reactive({
     } as any,
     modal: {
         isAddDoctorOpen: false,
+        isAddMassUnitOpen: false,
         isAddNewMedicineOpen: false,
     },
     options: {
@@ -297,6 +315,7 @@ const state = reactive({
             { value: 'annually', label: `${t('citizens.medicineJournals.scheduleFrequencies.annually')}` },
         ],
         time: [] as any,
+        units: [] as any,
     }
 })
 
@@ -308,6 +327,7 @@ onMounted(() => {
         is_pn_medicine: props.selectedMedicine?.is_pn_medicine ? true : false,
         medicine: props.selectedMedicine.medicine,
         strength: props.selectedMedicine.strength,
+        unit: props.selectedMedicine.unit,
         dosage: props.selectedMedicine.dosage,
         max_dosage_per_time: props?.selectedMedicine?.max_dosage_per_time ?? [],
         max_daily_dose: language.locale.value === 'dk' ? props.selectedMedicine.max_daily_dose?.toString() : props.selectedMedicine.max_daily_dose?.toString(),
@@ -325,6 +345,7 @@ onMounted(() => {
     fetchDosageForm()
     fetchAllMedicines()
     fetchCitizenDoctors()
+    fetchAllMassUnits()
     fetchTimeIntervals()
     if (props?.selectedMedicine?.max_dosage_per_time === null) {
         addMaxDosagePerTime()
@@ -516,6 +537,27 @@ async function fetchCitizenDoctors() {
                 })
             )
             state.options.doctors = options
+        }
+    } catch (error: any) {
+        emit('error', error)
+    }
+    emit('isPageLoading', false)
+}
+
+async function fetchAllMassUnits() {
+    emit('error', {})
+    emit('isPageLoading', true)
+    try {
+        const response = await massUnitService.getAllMassUnits()
+        if (response) {
+            let options: any = []
+            response.data.forEach(
+                (item: any) => options.push({
+                    value: item.uuid,
+                    label: item.name,
+                })
+            )
+            state.options.units = options
         }
     } catch (error: any) {
         emit('error', error)

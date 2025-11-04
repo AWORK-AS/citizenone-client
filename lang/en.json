@@ -1470,7 +1470,8 @@
                 "strength": "Strength",
                 "time": "Time",
                 "treatmentReason": "Treatment reason",
-                "treatmentReasonPlaceholder": "What is the reason the citizen is receiving this medication"
+                "treatmentReasonPlaceholder": "What is the reason the citizen is receiving this medication",
+                "unit": "Unit"
             },
             "history": {
                 "alert": {
