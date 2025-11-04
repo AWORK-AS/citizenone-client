@@ -32,16 +32,18 @@
                                     <td width="10%">
                                         <span>74312{{ company?.id }}</span>
                                     </td>
-                                    <td width="20%">
+                                    <td width="15%">
                                         <p>{{ company?.name }}</p>
-                                        <p class="text-sm">
+                                    </td>
+                                    <td width="15%">
+                                        <p>
                                             {{ company?.phone }}
                                         </p>
                                     </td>
-                                    <td width="15%">
+                                    <td width="10%">
                                         <span>{{ company?.cvr }}</span>
                                     </td>
-                                    <td width="15%">
+                                    <td width="10%">
                                         <span>{{ company?.website }}</span>
                                     </td>
                                     <td width="20%">
@@ -67,7 +69,8 @@
                                             <FormButton type="button"
                                                 :buttonStyle="company.is_active ? 'danger' : 'success'"
                                                 class="rounded-md" @click="activateDeactivateCompany(index, company)">
-                                                <Icon name="ph:pencil-simple" class="size-4" />
+                                                <Icon name="ph:x" class="size-4" v-if="company.is_active" />
+                                                <Icon name="ph:check" class="size-4" v-else />
                                                 {{ company.is_active ?
                                                     $t('superadmin.companies.table.actions.deactivate') :
                                                     $t('superadmin.companies.table.actions.activate') }}
@@ -111,6 +114,7 @@ const state = reactive({
     columnHeaders: [
         { name: 'superadmin.companies.table.id', sorter: true, key: 'id' },
         { name: 'superadmin.companies.table.name', sorter: true, key: 'name' },
+        { name: 'superadmin.companies.table.phone', sorter: true, key: 'phone' },
         { name: 'superadmin.companies.table.cvr', sorter: true, key: 'cvr' },
         { name: 'superadmin.companies.table.website', sorter: true, key: 'website' },
         { name: 'superadmin.companies.table.status' },
