@@ -82,11 +82,13 @@
                             :isLoading="state.isTableLoading" :sortData="employeeStore.getSortData" @sort="sort">
                             <template #body v-if="!(state.isTableLoading || (state.employees?.data?.length === 0))">
                                 <tr v-for="(employee, index) in state.employees?.data" :key="index">
-                                    <td width="25%">
+                                    <td width="30%">
                                         <div class="flex items-center gap-x-2">
                                             <img :src="employee?.profile_image ?? `https://ui-avatars.com/api/?background=42AED9&color=fff&name=${employee?.firstname + ' ' + employee?.lastname}`"
                                                 class="h-11 w-11 rounded-full bg-gray-50 object-cover" />
-                                            <span>{{ employee?.firstname }} {{ employee?.lastname }}</span>
+                                            <span>
+                                                {{ employee?.firstname }} {{ employee?.lastname }}
+                                            </span>
                                         </div>
                                     </td>
                                     <td width="20%">
@@ -95,7 +97,7 @@
                                     <td width="20%">
                                         <span>{{ employee?.phone }}</span>
                                     </td>
-                                    <td width="15%">
+                                    <td width="10%">
                                         <div class="flex items-center gap-x-2" v-for="(role, index) in employee?.roles"
                                             :key="index">
                                             <span v-if="role.name === 'Admin'">
@@ -111,53 +113,55 @@
                                     </td>
                                     <td width="20%">
                                         <div class="flex items-end gap-2">
-                                            <FormButton type="button" buttonStyle="action" class="rounded-md"
-                                                @click="navigateTo(`/employees/${employee.uuid}/view-details`)">
-                                                <Icon name="ph:eye" class="size-4" />
-                                                {{ $t('employees.table.actions.view') }}
-                                            </FormButton>
-                                            <FormButton type="button" buttonStyle="action" class="rounded-md"
-                                                @click="navigateTo(`/employees/${employee.uuid}/edit`)"
+                                            <Tooltip :text="$t('employees.table.actions.view')">
+                                                <FormButton type="button" buttonStyle="action" class="rounded-md"
+                                                    @click="navigateTo(`/employees/${employee.uuid}/view-details`)">
+                                                    <Icon name="ph:eye" class="size-4" />
+                                                </FormButton>
+                                            </Tooltip>
+                                            <Tooltip :text="$t('employees.table.actions.edit')"
                                                 v-if="employee?.is_editable">
-                                                <Icon name="ph:pencil-simple" class="size-4" />
-                                                {{ $t('employees.table.actions.edit') }}
-                                            </FormButton>
-                                            <FormButton type="button" buttonStyle="action" class="rounded-md"
-                                                @click="messageEmployee(employee)"
+                                                <FormButton type="button" buttonStyle="action" class="rounded-md"
+                                                    @click="navigateTo(`/employees/${employee.uuid}/edit`)">
+                                                    <Icon name="ph:pencil-simple" class="size-4" />
+                                                </FormButton>
+                                            </Tooltip>
+                                            <Tooltip :text="$t('employees.table.actions.message')"
                                                 v-if="userStore.getUser?.id !== employee?.id">
-                                                <Icon name="ph:chat-circle" class="size-4" />
-                                                {{ $t('employees.table.actions.message') }}
-                                            </FormButton>
-                                            <FormButton type="button" buttonStyle="action" class="rounded-md"
-                                                @click="navigateTo(`/calendar?employee_uuid=${employee?.uuid}`)">
-                                                <Icon name="ph:calendar-blank" class="size-4" />
-                                                {{ $t('employees.table.actions.calendar') }}
-                                            </FormButton>
-                                            <FormButton type="button" buttonStyle="action" class="rounded-md"
-                                                @click="giveRemoveSecureMailAccess(employee)"
+                                                <FormButton type="button" buttonStyle="action" class="rounded-md"
+                                                    @click="messageEmployee(employee)">
+                                                    <Icon name="ph:chat-circle" class="size-4" />
+                                                </FormButton>
+                                            </Tooltip>
+                                            <Tooltip :text="$t('employees.table.actions.calendar')">
+                                                <FormButton type="button" buttonStyle="action" class="rounded-md"
+                                                    @click="navigateTo(`/calendar?employee_uuid=${employee?.uuid}`)">
+                                                    <Icon name="ph:calendar-blank" class="size-4" />
+                                                </FormButton>
+                                            </Tooltip>
+                                            <Tooltip :text="employee?.has_secure_mail_access ?
+                                                $t('employees.table.actions.removeSecureMailAccess') :
+                                                $t('employees.table.actions.giveSecureMail')"
                                                 v-if="userStore.getUser?.is_secure_mail_active && !employee?.has_secure_mail_access">
-                                                <Icon name="ph:x" class="size-4"
-                                                    v-if="employee?.has_secure_mail_access" />
-                                                <Icon name="ph:check" class="size-4" v-else />
-                                                <span v-if="employee?.has_secure_mail_access">
-                                                    {{ $t('employees.table.actions.removeSecureMailAccess') }}
-                                                </span>
-                                                <span v-else>
-                                                    {{ $t('employees.table.actions.giveSecureMail') }}
-                                                </span>
-                                            </FormButton>
-                                            <FormButton type="button" buttonStyle="action" class="rounded-md"
-                                                @click="giveAIAccessConfirmation(employee)"
+                                                <FormButton type="button" buttonStyle="action" class="rounded-md"
+                                                    @click="giveRemoveSecureMailAccess(employee)">
+                                                    <Icon name="ph:envelope-open" class="size-4" />
+                                                </FormButton>
+                                            </Tooltip>
+                                            <Tooltip :text="$t('employees.table.actions.giveAIAccess')"
                                                 v-if="userStore.getUser?.has_ai_access && !employee?.has_ai_access">
-                                                <Icon name="ph:check" class="size-4" />
-                                                {{ $t('employees.table.actions.giveAIAccess') }}
-                                            </FormButton>
-                                            <FormButton type="button" buttonStyle="action" class="rounded-md"
-                                                @click="giveBookingAccessConfirmation(employee)"
+                                                <FormButton type="button" buttonStyle="action" class="rounded-md"
+                                                    @click="giveAIAccessConfirmation(employee)">
+                                                    <Icon name="ic:round-accessibility" class="size-4" />
+                                                </FormButton>
+                                            </Tooltip>
+                                            <Tooltip :text="$t('employees.table.actions.giveBookingAccess')"
                                                 v-if="userStore.getUser?.has_booking_app_access && !employee?.has_booking_app_access">
-                                                <Icon name="ph:check" class="size-4" />
-                                                {{ $t('employees.table.actions.giveBookingAccess') }}
-                                            </FormButton>
+                                                <FormButton type="button" buttonStyle="action" class="rounded-md"
+                                                    @click="giveBookingAccessConfirmation(employee)">
+                                                    <Icon name="ph:calendar-check" class="size-4" />
+                                                </FormButton>
+                                            </Tooltip>
                                         </div>
                                     </td>
                                 </tr>
