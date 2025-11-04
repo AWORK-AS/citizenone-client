@@ -2360,7 +2360,7 @@
                     "timeOut": "Time out",
                     "whatDoYouWantTheEndTimeToBeChangeTo": "What do you want the end time to be changed to",
                     "whatDoYouWantTheStartTimeToBeChangeTo": "What do you want the start time to be changed to",
-                    "whyDoYouWantToChangeTheTimes": "Why do you want to change the times"
+                    "whyDoYouWantToChangeTheTimes": "Please explain why you want to change the times"
                 },
                 "requestAChange": "Request a change",
                 "table": {

@@ -2358,9 +2358,9 @@
                     "sendRequest": "Send anmodning",
                     "timeIn": "Tid ind",
                     "timeOut": "Tid ud",
-                    "whatDoYouWantTheEndTimeToBeChangeTo": "Hvad onsker du sluttiden ændret til",
-                    "whatDoYouWantTheStartTimeToBeChangeTo": "Hvad onsker du modetiden ændret til",
-                    "whyDoYouWantToChangeTheTimes": "Hvorfor onsker du at æendre tiderne"
+                    "whatDoYouWantTheEndTimeToBeChangeTo": "Hvad ønsker du sluttiden ændret til",
+                    "whatDoYouWantTheStartTimeToBeChangeTo": "Hvad ønsker du mødetiden ændret til",
+                    "whyDoYouWantToChangeTheTimes": "Forklar venligst hvorfor du ønsker at ændre tiderne"
                 },
                 "requestAChange": "Anmod om ændring",
                 "table": {
