@@ -2712,6 +2712,7 @@
                 "workingHours": "Working hours",
                 "vacationDays": "Vacation days"
             },
+            "employeeId": "Employee ID",
             "firstname": "First name",
             "header": {
                 "comprehensiveEmploymentDetailsWithinTheOrganization": "Comprehensive employment details within the organization",
