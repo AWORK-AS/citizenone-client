@@ -3395,7 +3395,8 @@
         "form": {
             "alert": {
                 "emailSuccessfullyFowarded": "Email successfully forwarded",
-                "emailSuccessfullySent": "Email successfully sent"
+                "emailSuccessfullySent": "Email successfully sent",
+                "enteredCodeMismatched": "Entered code mismatched"
             },
             "attachFiles": {
                 "attachFiles": "Attach files",
@@ -3406,10 +3407,14 @@
                 "citizenFiles": "Citizen files",
                 "organizationFiles": "Organization files"
             },
+            "confirmCode": "Confirm the code",
+            "createCode": "Create a code to open the secure email",
             "encryptMessage": "Encrypt message",
+            "enterCode": "Enter a self-chosen code",
             "message": "Message",
-            "password": "Password",
-            "passwordHint": "Password hint",
+            "passwordHint": "Write a small hint that can help the recipient remember the password",
+            "passwordHintPlaceholder": "Enter the password hint",
+            "reenterCode": "Enter the self-chosen code again",
             "send": "Send",
             "subject": "Subject",
             "to": "To"

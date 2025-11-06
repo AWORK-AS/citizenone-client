@@ -3395,7 +3395,8 @@
         "form": {
             "alert": {
                 "emailSuccessfullyFowarded": "E-mail videresendt med succes",
-                "emailSuccessfullySent": "E-mail sendt med succes"
+                "emailSuccessfullySent": "E-mail sendt med succes",
+                "enteredCodeMismatched": "Indtastet kode stemmer ikke overens"
             },
             "attachFiles": {
                 "attachFiles": "Vedhæft filer",
@@ -3406,10 +3407,14 @@
                 "citizenFiles": "Borgerfiler",
                 "organizationFiles": "Organisationsfiler"
             },
+            "confirmCode": "Bekræft koden",
+            "createCode": "Lav en kode for at åbne den sikre mail",
             "encryptMessage": "Krypter besked",
+            "enterCode": "Indtast en selvvalgt kode",
             "message": "Besked",
-            "password": "Adgangskode",
-            "passwordHint": "Adgangskodehint",
+            "passwordHint": "Skriv et lille hint, der kan hjælpe modtageren med at huske adgangskoden",
+            "passwordHintPlaceholder": "Indtast hint til adgangskoden",
+            "reenterCode": "Indtast den selvvalgte kode igen",
             "send": "Send",
             "subject": "Emne",
             "to": "Til"
