@@ -70,6 +70,10 @@
                                             ]" @click="setSelectedEmail(emailIndex, email)">
                                                 <div>
                                                     <div class="flex items-center gap-x-2">
+                                                        <div>
+                                                            <Icon name="ph:lock-key-fill"
+                                                                class="w-4 h-4 text-[#95cf55]" />
+                                                        </div>
                                                         <img :src="`https://ui-avatars.com/api/?background=42AED9&color=fff&name=${email?.email}`"
                                                             class="rounded-full w-11 h-11 object-cover" />
                                                         <div class="grow">

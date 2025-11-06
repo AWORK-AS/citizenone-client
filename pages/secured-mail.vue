@@ -23,7 +23,13 @@
             <div class="mt-10 sm:mx-auto sm:w-full sm:max-w-3xl">
                 <Alert type="danger" :text="state?.error?.message"
                     v-if="state.error?.message && state.error.message.length > 0" />
-                <div class="space-y-3 md:bg-white md:shadow-sm sm:rounded-lg">
+                <div class="flex items-center gap-x-1">
+                    <div class="flex items-center">
+                        <Icon name="ph:lock-key-fill" class="w-4 h-4 text-[#95cf55]" />
+                    </div>
+                    <h3>{{ $t('mail.secured.encrypted') }}</h3>
+                </div>
+                <div class="mt-5 space-y-3 md:bg-white md:shadow-sm sm:rounded-lg">
                     <form class="mt-5 px-6 py-3 sm:px-12 md:py-8 space-y-3" method="POST"
                         @submit.prevent="unlockMessage" v-if="!state.showMessage">
                         <h3 class="font-medium text-lg md:text-xl">

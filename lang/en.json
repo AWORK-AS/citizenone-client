@@ -3437,6 +3437,7 @@
                 "readMessage": "Read message",
                 "send": "Send"
             },
+            "encrypted": "Encrypted",
             "from": "From",
             "replySecurely": "Reply securely",
             "secured": "Secured",

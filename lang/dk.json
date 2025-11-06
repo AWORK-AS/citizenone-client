@@ -3437,6 +3437,7 @@
                 "readMessage": "Læs besked",
                 "send": "Send"
             },
+            "encrypted": "Krypteret",
             "from": "Fra",
             "replySecurely": "Svar sikkert",
             "secured": "Sikker",
