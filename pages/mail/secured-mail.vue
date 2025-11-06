@@ -123,11 +123,16 @@
                                             'absolute top-0 left-0 h-full w-full bg-white rounded-md overflow-x-scroll divide-y divide-gray-100'
                                         ]">
                                             <div class="px-6 py-4">
-                                                <button class="flex items-center gap-x-2"
-                                                    @click="state.selectedEmail = null">
-                                                    <Icon name="ph:arrow-left" size="20" class="text-black" />
-                                                    <span>{{ $t('back') }}</span>
-                                                </button>
+                                                <div class="flex justify-between">
+                                                    <button class="flex items-center gap-x-2"
+                                                        @click="state.selectedEmail = null">
+                                                        <Icon name="ph:arrow-left" size="20" class="text-black" />
+                                                        <span>{{ $t('back') }}</span>
+                                                    </button>
+                                                    <div class="flex items-center">
+                                                        <Icon name="ph:lock-key-fill" class="w-6 h-6 text-[#95cf55]" />
+                                                    </div>
+                                                </div>
                                                 <div class="mt-3 space-y-3">
                                                     <div>
                                                         <p class="text-sm">
@@ -205,6 +210,10 @@
                                                         </div>
                                                     </div>
                                                 </div>
+                                                <p class="text-lg font-semibold"
+                                                    v-if="history?.subject && history?.subject?.length > 0">
+                                                    {{ history?.subject }}
+                                                </p>
                                                 <div v-html="history?.message"></div>
                                                 <div class="flex flex-wrap items-center gap-2">
                                                     <div v-for="(attachment, attachmentIndex) in history?.attachments"
