@@ -63,14 +63,8 @@
                                                         <span v-if="item.name === 'Protocols'">
                                                             {{ $t('sidebar.protocols') }}
                                                         </span>
-                                                        <div class="grow flex items-center gap-x-2"
-                                                            v-if="item.name === 'Mail'">
-                                                            <span v-if="item.name === 'Mail'">
-                                                                {{ $t('sidebar.mail') }}
-                                                            </span>
-                                                            <Badge type="coming-soon" class="text-xxs truncate w-fit">
-                                                                Beta
-                                                            </Badge>
+                                                        <div v-if="item.name === 'Mail'">
+                                                            {{ $t('sidebar.mail') }}
                                                         </div>
                                                         <span v-if="item.name === 'Documents'">
                                                             {{ $t('sidebar.documents') }}
@@ -172,13 +166,8 @@
                                         <span v-if="item.name === 'Protocols'">
                                             {{ $t('sidebar.protocols') }}
                                         </span>
-                                        <div class="grow flex items-center gap-x-2" v-if="item.name === 'Mail'">
-                                            <span v-if="item.name === 'Mail'">
-                                                {{ $t('sidebar.mail') }}
-                                            </span>
-                                            <Badge type="coming-soon" class="text-xxs truncate w-fit">
-                                                Beta
-                                            </Badge>
+                                        <div v-if="item.name === 'Mail'">
+                                            {{ $t('sidebar.mail') }}
                                         </div>
                                         <span v-if="item.name === 'Documents'">
                                             {{ $t('sidebar.documents') }}
