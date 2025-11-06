@@ -1,6 +1,7 @@
 <template>
     <div>
-        <Modal size="md" :title="$t('mail.compose')" :show="props.isModalOpen" @close="closeModal">
+        <Modal size="md" :title="$t('mail.compose')" titleIcon="ph:envelope-open" titleIconColor="42add8"
+            :show="props.isModalOpen" @close="closeModal">
             <template #modal-body>
                 <LoadingSpinner :isActive="state.isPageLoading">
                     <form @submit.prevent="submitForm()" id="formEmail">
