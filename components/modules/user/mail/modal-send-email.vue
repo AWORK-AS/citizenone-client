@@ -28,11 +28,14 @@
                                 <FormError :error="v$?.formEmail?.content?.$errors[0]?.$message.toString()" />
                                 <FormError :error="state?.error?.errors?.content?.[0]" />
                             </div>
-                            <div class="space-y-1">
-                                <div class="w-fit flex items-center cursor-pointer"
-                                    @click="state.formEmail.encrypt_message = !state.formEmail.encrypt_message">
-                                    <FormCheckbox :value="state.formEmail.encrypt_message" />
+                            <div class="space-y-1 flex items-center gap-x-2">
+                                <FormSwitch :value="state.formEmail.encrypt_message"
+                                    @toggleSwitch="state.formEmail.encrypt_message = !state.formEmail.encrypt_message" />
+                                <p>
                                     {{ $t('mail.form.encryptMessage') }}
+                                </p>
+                                <div class="flex items-center">
+                                    <Icon name="ph:lock-key-fill" class="w-4 h-4 text-[#95cf55]" />
                                 </div>
                             </div>
                             <div class="space-y-1" v-if="state.formEmail.encrypt_message">
