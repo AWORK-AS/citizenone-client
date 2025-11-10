@@ -16,6 +16,18 @@ class OnlineBookingService extends BaseAPIService {
     async getBookingSlots(bookingSettingUuid: any, bookingTimeSlotDate: any, params?: any): Promise<any> {
         return await this.request(`/user/online-booking/courses-events/booking-settings/${bookingSettingUuid}/time-slots/${bookingTimeSlotDate}`, 'GET', params)
     }
+
+    async login(params: object): Promise<any> {
+        return await this.request(`/auth/booking/login`, 'POST', params)
+    }
+
+    async verifyResetPassword(token: any): Promise<any> {
+        return await this.request(`/auth/booking/verify-token/${token}`, 'POST')
+    }
+
+    async setPassword(params: object): Promise<any> {
+        return await this.request(`/auth/booking/setup-password`, 'POST', params)
+    }
 }
 
 export const onlineBookingService = new OnlineBookingService()
