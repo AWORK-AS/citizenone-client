@@ -109,9 +109,9 @@ async function verifyCode() {
             userStore.setLanguage(response?.data?.user?.language?.code)
             language.locale.value = response?.data?.user?.language?.code
             if (['Admin', 'User'].includes(response.data.user?.role)) {
-                navigateTo('/daily-overview')
+                navigateTo('/overview')
             } else if (response.data.user?.role === 'Citizen') {
-                navigateTo('/citizen/daily-overview')
+                navigateTo('/citizen/overview')
             } else if (response.data.user?.role === 'Relative') {
                 navigateTo('/relative/citizens')
             }

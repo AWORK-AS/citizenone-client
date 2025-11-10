@@ -33,10 +33,10 @@ const state = reactive({
 })
 
 function changeTab(value: any) {
-    if (value === t('employees.tabs.employeeInformations')) {
+    if (value === `/employees/${employeeUuid}/view-details`) {
         navigateTo(`/employees/${employeeUuid}/view-details`)
     }
-    else if (value === customPagesStore.getCustomPagesName?.dutySchedules) {
+    else if (value === `/employees/${employeeUuid}/duty-schedule`) {
         navigateTo(`/employees/${employeeUuid}/duty-schedule`)
     }
 }

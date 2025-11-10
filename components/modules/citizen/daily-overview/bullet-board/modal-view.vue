@@ -25,7 +25,7 @@
                         <div class="mt-4" v-if="props.selectedNews?.link">
                             <FormButton buttonStyle="primary" @click="navigateToExternalLink(props.selectedNews?.link)"
                                 class="w-full rounded-md">
-                                {{ $t('dailyOverview.openLink') }}
+                                {{ $t('overview.openLink') }}
                             </FormButton>
                         </div>
                     </div>

@@ -1,6 +1,6 @@
 <template>
     <div>
-        <Modal size="sm" :title="$t('dailyOverview.filter.chooseWhatToDisplay')" :show="props.isModalOpen"
+        <Modal size="sm" :title="$t('overview.filter.chooseWhatToDisplay')" :show="props.isModalOpen"
             @close="closeModal">
             <template #modal-body>
                 <Alert type="danger" :text="state?.error?.message"
@@ -10,54 +10,54 @@
                         <div class="w-fit flex items-center cursor-pointer text-sm"
                             @click="setDailyOverviewFilterShowCitizensDailyEvents()">
                             <FormCheckbox :value="dailyOverviewStore.getDailyOverviewFilter.showCitizensDailyEvents" />
-                            {{ $t('dailyOverview.filter.items.citizensDailyEvents') }}
+                            {{ $t('overview.filter.items.citizensEvents') }}
                         </div>
                         <div class="w-fit flex items-center cursor-pointer text-sm"
                             @click="setDailyOverviewFilterShowDailyMedicineOverview()">
                             <FormCheckbox
                                 :value="dailyOverviewStore.getDailyOverviewFilter.showDailyMedicineOverview" />
-                            {{ $t('dailyOverview.filter.items.dailyMedicineOverview') }}
+                            {{ $t('overview.filter.items.medicationOverview') }}
                         </div>
                         <div class="w-fit flex items-center cursor-pointer text-sm"
                             @click="setDailyOverviewFilterShowLatestJournal()">
                             <FormCheckbox :value="dailyOverviewStore.getDailyOverviewFilter.showLatestJournal" />
-                            {{ $t('dailyOverview.filter.items.latestJournal') }}
+                            {{ $t('overview.filter.items.latestJournal') }}
                         </div>
                         <div class="w-fit flex items-center cursor-pointer text-sm"
                             @click="setDailyOverviewFilterShowTreatments()">
                             <FormCheckbox :value="dailyOverviewStore.getDailyOverviewFilter.showTreatments" />
-                            {{ $t('dailyOverview.filter.items.treatments') }}
+                            {{ $t('overview.filter.items.treatments') }}
                         </div>
                         <div class="w-fit flex items-center cursor-pointer text-sm"
                             @click="setDailyOverviewFilterShowMyDailyEvents()">
                             <FormCheckbox :value="dailyOverviewStore.getDailyOverviewFilter.showMyDailyEvents" />
-                            {{ $t('dailyOverview.filter.items.calendar') }}
+                            {{ $t('overview.filter.items.calendar') }}
                         </div>
                         <div class="w-fit flex items-center cursor-pointer text-sm"
                             @click="setDailyOverviewFilterShowBulletBoard()">
                             <FormCheckbox :value="dailyOverviewStore.getDailyOverviewFilter.showBulletBoard" />
-                            {{ $t('dailyOverview.filter.items.bulletBoard') }}
+                            {{ $t('overview.filter.items.bulletBoard') }}
                         </div>
                         <div class="w-fit flex items-center cursor-pointer text-sm"
                             @click="setDailyOverviewFilterShowCitizensAdmissionAndDischarged()">
                             <FormCheckbox
                                 :value="dailyOverviewStore.getDailyOverviewFilter.showCitizensAdmissionAndDischarged" />
-                            {{ $t('dailyOverview.filter.items.citizensAdmissionAndDischarged') }}
+                            {{ $t('overview.filter.items.citizensAdmissionAndDischarged') }}
                         </div>
                         <div class="w-fit flex items-center cursor-pointer text-sm"
                             @click="setDailyOverviewFilterShowCitizensOrigin()">
                             <FormCheckbox :value="dailyOverviewStore.getDailyOverviewFilter.showCitizensOrigin" />
-                            {{ $t('dailyOverview.filter.items.citizensOrigin') }}
+                            {{ $t('overview.filter.items.citizensOrigin') }}
                         </div>
                         <div class="w-fit flex items-center cursor-pointer text-sm"
                             @click="setDailyOverviewFilterShowCitizenAdditictions()">
                             <FormCheckbox :value="dailyOverviewStore.getDailyOverviewFilter.showCitizensAddictions" />
-                            {{ $t('dailyOverview.filter.items.citizensAddictions') }}
+                            {{ $t('overview.filter.items.citizensAddictions') }}
                         </div>
                         <div class="w-fit flex items-center cursor-pointer text-sm"
                             @click="setDailyOverviewFilterShowCitizensDiagnoses()">
                             <FormCheckbox :value="dailyOverviewStore.getDailyOverviewFilter.showCitizensDiagnoses" />
-                            {{ $t('dailyOverview.filter.items.citizensDiagnoses') }}
+                            {{ $t('overview.filter.items.citizensDiagnoses') }}
                         </div>
                         <div class="w-fit flex items-center cursor-pointer text-sm"
                             @click="setDailyOverviewFilterShowRiskAssessment()">
@@ -67,46 +67,46 @@
                         <div class="w-fit flex items-center cursor-pointer text-sm"
                             @click="setDailyOverviewFilterShowGender()">
                             <FormCheckbox :value="dailyOverviewStore.getDailyOverviewFilter.showGender" />
-                            {{ $t('dailyOverview.filter.items.gender') }}
+                            {{ $t('overview.filter.items.gender') }}
                         </div>
                         <div class="w-fit flex items-center cursor-pointer text-sm"
                             @click="setDailyOverviewFilterShowStatusesScoreStatistics()">
                             <FormCheckbox
                                 :value="dailyOverviewStore.getDailyOverviewFilter.showStatusesScoreStatistics" />
-                            {{ $t('dailyOverview.filter.items.statusesStatistics') }}
+                            {{ $t('overview.filter.items.statusesStatistics') }}
                         </div>
                         <div class="w-fit flex items-center cursor-pointer text-sm"
                             @click="setDailyOverviewFilterShowGoalsScoreStatistics()">
                             <FormCheckbox :value="dailyOverviewStore.getDailyOverviewFilter.showGoalsScoreStatistics" />
-                            {{ $t('dailyOverview.filter.items.goalsStatistics') }}
+                            {{ $t('overview.filter.items.goalsStatistics') }}
                         </div>
                         <div class="w-fit flex items-center cursor-pointer text-sm"
                             @click="setDailyOverviewFilterShowIncidentStatistics()">
                             <FormCheckbox :value="dailyOverviewStore.getDailyOverviewFilter.showIncidentStatistics" />
-                            {{ $t('dailyOverview.filter.items.incidentStatistics') }}
+                            {{ $t('overview.filter.items.incidentStatistics') }}
                         </div>
                         <div class="w-fit flex items-center cursor-pointer text-sm"
                             @click="setDailyOverviewFilterShowMedicineDeviationStatistics()">
                             <FormCheckbox
                                 :value="dailyOverviewStore.getDailyOverviewFilter.showMedicineDeviationStatistics" />
-                            {{ $t('dailyOverview.filter.items.medicineDeviationStatistics') }}
+                            {{ $t('overview.filter.items.medicineDeviationStatistics') }}
                         </div>
                         <div class="w-fit flex items-center cursor-pointer text-sm"
                             @click="setDailyOverviewFilterShowJournalScoreStatistics()">
                             <FormCheckbox
                                 :value="dailyOverviewStore.getDailyOverviewFilter.showJournalScoreStatistics" />
-                            {{ $t('dailyOverview.filter.items.journalStatistics') }}
+                            {{ $t('overview.filter.items.journalStatistics') }}
                         </div>
                         <div class="w-fit flex items-center cursor-pointer text-sm"
                             @click="setDailyOverviewFilterShowSubgoalsScoreStatistics()">
                             <FormCheckbox
                                 :value="dailyOverviewStore.getDailyOverviewFilter.showSubgoalsScoreStatistics" />
-                            {{ $t('dailyOverview.filter.items.subgoalsStatistics') }}
+                            {{ $t('overview.filter.items.subgoalsStatistics') }}
                         </div>
                         <div class="w-fit flex items-center cursor-pointer text-sm"
                             @click="setDailyOverviewFilterShowUseOfForceStatistics()">
                             <FormCheckbox :value="dailyOverviewStore.getDailyOverviewFilter.showUseOfForceStatistics" />
-                            {{ $t('dailyOverview.filter.items.useOfForceStatistics') }}
+                            {{ $t('overview.filter.items.useOfForceStatistics') }}
                         </div>
                     </div>
                     <div class="mt-5 flex gap-x-3 justify-end">

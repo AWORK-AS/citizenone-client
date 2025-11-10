@@ -179,7 +179,7 @@ function generateWeekSource() {
     const weeks = []
 
     let startWeek = moment().startOf('year').startOf('isoWeek').subtract(3, 'months')
-    let endWeek = moment().endOf('year').endOf('isoWeek').add(3, 'months')
+    let endWeek = moment().endOf('year').add(1, 'years').endOf('isoWeek')
 
     while (startWeek.isBefore(endWeek) || startWeek.isSame(endWeek, 'week')) {
         let weekNumber = startWeek.isoWeek()
@@ -218,7 +218,7 @@ function generateWeekDestination() {
     const weeks = []
 
     let startWeek = moment().startOf('isoWeek')
-    let endWeek = moment().endOf('year').endOf('isoWeek').add(3, 'months')
+    let endWeek = moment().endOf('year').add(1, 'years').endOf('isoWeek')
 
     while (startWeek.isBefore(endWeek) || startWeek.isSame(endWeek, 'week')) {
         let weekNumber = startWeek.isoWeek()

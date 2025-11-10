@@ -3,12 +3,12 @@
         <NuxtLayout name="user">
 
             <Head>
-                <Title>{{ $t('dailyOverview.dailyOverview') }} - {{ runtimeConfig?.public?.appName }}</Title>
+                <Title>{{ $t('overview.overview') }} - {{ runtimeConfig?.public?.appName }}</Title>
             </Head>
 
-            <template #header>{{ $t('dailyOverview.dailyOverview') }}</template>
+            <template #header>{{ $t('overview.overview') }}</template>
             <div>
-                <NuxtLink class="flex items-center gap-x-2 mb-3 max-w-fit hover:cursor-pointer" to="/daily-overview">
+                <NuxtLink class="flex items-center gap-x-2 mb-3 max-w-fit hover:cursor-pointer" to="/overview">
                     <Icon name="ph:arrow-left" size="20" class="text-black" />
                     <span>{{ $t('back') }}</span>
                 </NuxtLink>
@@ -27,17 +27,21 @@
                     ({{ formatDateToReadable(state.dateRange.formDateRange.start_date) }} -
                     {{ formatDateToReadable(state.dateRange.formDateRange.end_date) }})
                 </button>
+                <div>
+                    <Icon name="ph:question" class="w-4 h-4 cursor-pointer text-gray-700" aria-hidden="true"
+                        @click="state.modal.isDateRangeHelperOpen = true" />
+                </div>
             </div>
 
             <div class="mt-6">
                 <div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-5">
-                    <div v-if="dailyOverviewStore.getViewAllFilter.showCitizenDailyEvents">
+                    <div v-if="overviewStore.getViewAllFilter.showCitizenDailyEvents">
                         <ModulesUserDailyOverviewCitizensDailyEvents :dateRange="state.dateRange.formDateRange" />
                     </div>
-                    <div v-if="dailyOverviewStore.getViewAllFilter.showCitizenMedicineOverview">
+                    <div v-if="overviewStore.getViewAllFilter.showCitizenMedicineOverview">
                         <ModulesUserDailyOverviewCitizensMedicineOverview :dateRange="state.dateRange.formDateRange" />
                     </div>
-                    <div v-if="dailyOverviewStore.getViewAllFilter.showLatestJournalNotes">
+                    <div v-if="overviewStore.getViewAllFilter.showLatestJournalNotes">
                         <ModulesUserDailyOverviewLatestJournal :dateRange="state.dateRange.formDateRange"
                             :viewAll="true" />
                     </div>
@@ -49,6 +53,8 @@
             <ModulesUserDailyOverviewFilterModalDateRange :isModalOpen="state.modal.isDailyOverviewDateRangeOpen"
                 :dateRange="state.dateRange" @close="state.modal.isDailyOverviewDateRangeOpen = false"
                 @filterDate="filterDailyOverviewByDate" />
+            <ModulesUserDailyOverviewFilterModalDateRangeHelper :isModalOpen="state.modal.isDateRangeHelperOpen"
+                @close="state.modal.isDateRangeHelperOpen = false" />
         </NuxtLayout>
     </div>
 </template>
@@ -60,7 +66,7 @@ import { useDatetimeFormatter } from '@/composables/datetimeFormatter'
 import { useDailyOverviewStore } from '@/store/daily-overview'
 
 const runtimeConfig = useRuntimeConfig()
-const dailyOverviewStore = useDailyOverviewStore()
+const overviewStore = useDailyOverviewStore()
 const userStore = useUserStore()
 const { formatDateToReadable } = useDatetimeFormatter()
 
@@ -73,6 +79,7 @@ const state = reactive({
     } as any,
     modal: {
         isDailyOverviewDateRangeOpen: false,
+        isDateRangeHelperOpen: false,
         isFilterDailyOverviewViewAllOpen: false,
     },
 })

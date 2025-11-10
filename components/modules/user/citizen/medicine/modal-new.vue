@@ -46,6 +46,7 @@ const state = reactive({
         schedule_frequency: [],
         current_stocks: '',
         strength: '',
+        unit: '',
         max_daily_dose: '',
         max_dosage_per_time: [
             { time: '', dosage: '' },
@@ -85,6 +86,7 @@ async function saveMedicine(medicineDetails: any) {
         }
         params.append('current_stocks', medicineDetails.current_stocks)
         params.append('strength', medicineDetails.strength)
+        params.append('mass_unit_uuid', medicineDetails.unit)
         params.append('max_daily_dose', medicineDetails.max_daily_dose.replace(',', '.'))
         params.append('max_dosage_per_time', JSON.stringify(medicineDetails.max_dosage_per_time))
         params.append('package_leaflet_link', medicineDetails.package_leaflet_link)

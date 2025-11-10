@@ -155,7 +155,7 @@ onMounted(() => {
     animateAssets()
     const rememberMe = localStorage.getItem("remember_me")
     if (rememberMe) {
-        navigateTo('/daily-overview')
+        navigateTo('/overview')
     }
 })
 
@@ -203,11 +203,11 @@ async function login() {
                     userStore.setLanguage(response?.data?.user?.language?.code)
                     language.locale.value = response?.data?.user?.language?.code
                     if (response.data.user?.role === 'Citizen') {
-                        navigateTo('/citizen/daily-overview')
+                        navigateTo('/citizen/overview')
                     } else if (response.data.user?.role === 'Relative') {
                         navigateTo('/relative/citizens')
                     } else {
-                        navigateTo('/daily-overview')
+                        navigateTo('/overview')
                     }
                 }
             }

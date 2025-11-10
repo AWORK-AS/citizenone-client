@@ -22,7 +22,7 @@
                     :class="$route.name === 'mail-secured-mail' ? 'text-primary bg-white shadow-md hover:bg-gray-100' : 'shadow-sm bg-gray-100 hover:bg-gray-200'"
                     @click="navigateTo('/mail/secured-mail')">
                     <div>
-                        <Icon name="ic:baseline-security" class="h-6 w-6" aria-hidden="true" />
+                        <Icon name="ph:lock-key-fill" class="h-6 w-6 text-[#95cf55]" aria-hidden="true" />
                     </div>
                     <p class="text-xxs">{{ $t('mail.secured.secured') }}</p>
                     <p class="text-xxs">{{ $t('mail.mail') }}</p>

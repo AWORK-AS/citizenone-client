@@ -3,14 +3,14 @@
         <NuxtLayout name="user">
 
             <Head>
-                <Title>{{ $t('units.units') }} - {{ runtimeConfig?.public?.appName }}</Title>
+                <Title>{{ $t('massUnits.massUnits') }} - {{ runtimeConfig?.public?.appName }}</Title>
             </Head>
 
             <template #breadcrumb>
                 <Breadcrumb :links="breadcrumbLinks" />
             </template>
 
-            <template #header>{{ $t('units.units') }}</template>
+            <template #header>{{ $t('massUnits.massUnits') }}</template>
 
             <ModulesUserSettingsTab />
 
@@ -18,9 +18,9 @@
 
             <div class="mt-8">
                 <div class="flex justify-end items-center mb-5">
-                    <FormButton buttonStyle="action" class="rounded-lg" @click="navigateTo('/settings/units/new')">
+                    <FormButton buttonStyle="action" class="rounded-lg" @click="navigateTo('/settings/mass-units/new')">
                         <Icon name="ph:plus" class="h-4 w-4" aria-hidden="true" />
-                        {{ $t('units.addNewUnit') }}
+                        {{ $t('massUnits.addNewMassUnit') }}
                     </FormButton>
                 </div>
                 <div class="space-y-5">
@@ -38,14 +38,14 @@
                                     <td width="30%">
                                         <div class="flex items-end justify-end gap-2">
                                             <FormButton type="button" buttonStyle="action" class="rounded-md"
-                                                @click="navigateTo(`/settings/units/${unit.uuid}/edit`)">
+                                                @click="navigateTo(`/settings/mass-units/${unit.uuid}/edit`)">
                                                 <Icon name="ph:pencil-simple" class="size-4" />
-                                                {{ $t('units.table.actions.edit') }}
+                                                {{ $t('massUnits.table.actions.edit') }}
                                             </FormButton>
                                             <FormButton type="button" buttonStyle="danger" class="rounded-md"
                                                 @click="deleteUnitConfirmation(unit)">
                                                 <Icon name="ph:trash" class="size-4" />
-                                                {{ $t('units.table.actions.delete') }}
+                                                {{ $t('massUnits.table.actions.delete') }}
                                             </FormButton>
                                         </div>
                                     </td>
@@ -57,7 +57,7 @@
                 </div>
             </div>
             <DialogConfirmation :isModalOpen="state.modal.isDeleteUnitOpen"
-                :message="$t('units.table.confirmation.deleteUnitConfirmation') + '?'"
+                :message="$t('massUnits.table.confirmation.deleteMassUnitConfirmation') + '?'"
                 @close="state.modal.isDeleteUnitOpen = false" @confirm="deleteUnit" />
         </NuxtLayout>
     </div>
@@ -65,7 +65,7 @@
 
 
 <script setup lang="ts">
-import { unitService } from '@/components/api/user/UnitService'
+import { massUnitService } from '@/components/api/user/MassUnitService'
 import { useI18n } from "vue-i18n"
 import { useAlert } from '@/composables/alert'
 import type { Error } from '@/types'
@@ -76,15 +76,15 @@ const { t } = useI18n()
 let currentTablePage = 1
 const breadcrumbLinks = [
     {
-        name: 'units.units',
+        name: 'massUnits.massUnits',
         translate: true,
-        href: '/settings/units',
+        href: '/settings/mass-units',
     },
 ]
 
 const state = reactive({
     columnHeaders: [
-        { name: 'units.table.name', sorter: true, key: 'name' },
+        { name: 'massUnits.table.name', sorter: true, key: 'name' },
         { name: '' }
     ],
     dataFilter: {
@@ -95,12 +95,12 @@ const state = reactive({
     modal: {
         isDeleteUnitOpen: false,
     },
-    units: [] as any,
     selectedUnit: {} as any,
     sortData: {
         sortField: 'id',
         sortOrder: 'descend',
     },
+    units: [] as any,
 })
 
 onMounted(() => {
@@ -117,7 +117,7 @@ async function fetchUnits() {
             sortOrder: state.sortData.sortOrder,
             ...state.dataFilter
         }
-        const response = await unitService.getUnits(params)
+        const response = await massUnitService.getMassUnits(params)
         if (response) {
             state.units = response
         }
@@ -161,10 +161,10 @@ async function deleteUnit() {
     state.error = {}
     state.isTableLoading = true
     try {
-        const response = await unitService.deleteUnit(state.selectedUnit.uuid)
+        const response = await massUnitService.deleteMassUnit(state.selectedUnit.uuid)
         if (response?.message === 'Success.' || response?.message === 'Succes.') {
             fetchUnits()
-            successAlert(`${t('alert.success')}!`, `${t('units.alert.unitSuccessfullyDeleted')}.`)
+            successAlert(`${t('alert.success')}!`, `${t('massUnits.table.alert.massUnitSuccessfullyDeleted')}.`)
         }
     } catch (error: any) {
         state.error = error

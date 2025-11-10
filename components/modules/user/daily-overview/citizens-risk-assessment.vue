@@ -13,7 +13,7 @@
                     <div class="flex items-center gap-x-2">
                         <div class="w-2.5 h-2.5 bg-green-700 rounded-sm"></div>
                         <p class="text-sm">
-                            {{ $t('dailyOverview.riskAssessment.risk.noRisk') }}
+                            {{ $t('overview.riskAssessment.risk.noRisk') }}
                         </p>
                     </div>
                     <p class="text-sm">
@@ -28,7 +28,7 @@
                 <div class="flex items-center gap-x-2">
                     <div class="w-2.5 h-2.5 bg-yellow-500 rounded-sm"></div>
                     <p class="text-sm">
-                        {{ $t('dailyOverview.riskAssessment.risk.increasedRisk') }}
+                        {{ $t('overview.riskAssessment.risk.increasedRisk') }}
                     </p>
                 </div>
                 <p class="text-sm">
@@ -42,7 +42,7 @@
                 <div class="flex items-center gap-x-2">
                     <div class="w-2.5 h-2.5 bg-red-600 rounded-sm"></div>
                     <p class="text-sm">
-                        {{ $t('dailyOverview.riskAssessment.risk.acuteIncreasedRisk') }}
+                        {{ $t('overview.riskAssessment.risk.acuteIncreasedRisk') }}
                     </p>
                 </div>
                 <p class="text-sm">

@@ -18,7 +18,13 @@
                             <div class="relative z-20">
                                 <div class="flex items-center">
                                     <DialogTitle as="h3" class="text-lg leading-6 font-medium text-gray-900">
-                                        {{ props.title }}
+                                        <div class="flex items-center gap-x-1">
+                                            <div class="flex items-center" v-if="props.titleIcon">
+                                                <Icon :name="props.titleIcon"
+                                                    :class="`w-5 h-5 text-[#${props.titleIconColor}]`" />
+                                            </div>
+                                            {{ props.title }}
+                                        </div>
                                     </DialogTitle>
                                     <div class="grow flex justify-end">
                                         <button type="button"
@@ -50,6 +56,14 @@ const props = defineProps({
         default: 'sm',
     },
     title: {
+        type: String,
+        required: false,
+    },
+    titleIcon: {
+        type: String,
+        required: false,
+    },
+    titleIconColor: {
         type: String,
         required: false,
     },

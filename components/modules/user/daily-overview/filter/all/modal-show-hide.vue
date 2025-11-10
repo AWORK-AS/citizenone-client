@@ -1,6 +1,6 @@
 <template>
     <div>
-        <Modal size="sm" :title="$t('dailyOverview.filter.chooseWhatToDisplay')" :show="props.isModalOpen"
+        <Modal size="sm" :title="$t('overview.filter.chooseWhatToDisplay')" :show="props.isModalOpen"
             @close="closeModal">
             <template #modal-body>
                 <Alert type="danger" :text="state?.error?.message"
@@ -10,17 +10,17 @@
                         <div class="w-fit flex items-center cursor-pointer text-sm"
                             @click="setViewAllShowCitizenDailyEvents()">
                             <FormCheckbox :value="dailyOverviewStore.getViewAllFilter.showCitizenDailyEvents" />
-                            {{ $t('dailyOverview.filter.items.citizensDailyEvents') }}
+                            {{ $t('overview.filter.items.citizensEvents') }}
                         </div>
                         <div class="w-fit flex items-center cursor-pointer text-sm"
                             @click="setViewAllShowCitizenMedicineOverview()">
                             <FormCheckbox :value="dailyOverviewStore.getViewAllFilter.showCitizenMedicineOverview" />
-                            {{ $t('dailyOverview.filter.items.dailyMedicineOverview') }}
+                            {{ $t('overview.filter.items.medicationOverview') }}
                         </div>
                         <div class="w-fit flex items-center cursor-pointer text-sm"
                             @click="setViewAllShowLatestJournalNotes()">
                             <FormCheckbox :value="dailyOverviewStore.getViewAllFilter.showLatestJournalNotes" />
-                            {{ $t('dailyOverview.filter.items.latestJournal') }}
+                            {{ $t('overview.filter.items.latestJournal') }}
                         </div>
                     </div>
                     <div class="mt-5 flex gap-x-3 justify-end">

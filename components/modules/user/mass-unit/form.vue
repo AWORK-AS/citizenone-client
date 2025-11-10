@@ -1,16 +1,20 @@
 <template>
-    <form @submit.prevent="submitForm()" class="max-w-xl">
+    <form @submit.prevent="submitForm()" class="mt-6 max-w-xl">
         <Alert type="danger" :text="props?.error?.message"
             v-if="props.error?.message && props.error.message.length > 0" />
-        <div class="space-y-1">
-            <FormLabel for="name" :label="$t('units.form.name')" />
-            <FormTextField id="name" name="name" :placeholder="$t('units.form.name')" v-model="state.formUnit.name" />
-            <FormError :error="v$?.formUnit?.name?.$errors[0]?.$message.toString()" />
-            <FormError :error="props?.error?.errors?.name?.[0]" />
+        <div class="space-y-3">
+            <div class="space-y-1">
+                <FormLabel for="name" :label="$t('massUnits.form.name')" />
+                <FormTextField id="name" name="name" :placeholder="$t('massUnits.form.name')"
+                    v-model="state.formUnit.name" />
+                <FormError :error="v$?.formUnit?.name?.$errors[0]?.$message.toString()" />
+                <FormError :error="props?.error?.errors?.name?.[0]" />
+            </div>
         </div>
         <div class="mt-6">
             <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
-                <FormButton type="button" buttonStyle="cancel" class="rounded-md" @click="emit('closeModal')">
+                <FormButton type="button" buttonStyle="cancel" class="rounded-md"
+                    @click="navigateTo('/settings/mass-units')">
                     {{ $t('cancel') }}
                 </FormButton>
                 <FormButton type="submit" buttonStyle="primary" class="rounded-md">
@@ -42,7 +46,8 @@ const props = defineProps({
         required: false,
     },
 })
-const emit = defineEmits(['closeModal', 'isPageLoading', 'submitForm'])
+
+const emit = defineEmits(['isPageLoading', 'submitForm'])
 
 const { t } = useI18n()
 

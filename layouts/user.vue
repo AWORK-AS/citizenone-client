@@ -28,7 +28,7 @@
                             <div
                                 class="flex grow flex-col gap-y-5 overflow-y-auto bg-primary px-6 pb-4 ring-1 ring-white/10">
                                 <div class="mt-5">
-                                    <span @click="navigateTo('/daily-overview')">
+                                    <span @click="navigateTo('/overview')">
                                         <LogoWhite />
                                     </span>
                                 </div>
@@ -42,8 +42,8 @@
                                                         <Icon :name="item.icon" class="h-5 w-5 shrink-0"
                                                             :class="[item.activeRouteNames.includes($route.name) ? 'text-secondary-25' : 'text-secondary-100']"
                                                             aria-hidden="true" />
-                                                        <span v-if="item.name === 'Daily overview'">
-                                                            {{ $t('sidebar.dailyOverview') }}
+                                                        <span v-if="item.name === 'Overview'">
+                                                            {{ $t('sidebar.overview') }}
                                                         </span>
                                                         <span v-if="item.name === 'Citizens'">
                                                             {{ customPagesStore.getCustomPagesName?.citizens }}
@@ -63,14 +63,8 @@
                                                         <span v-if="item.name === 'Protocols'">
                                                             {{ $t('sidebar.protocols') }}
                                                         </span>
-                                                        <div class="grow flex items-center gap-x-2"
-                                                            v-if="item.name === 'Mail'">
-                                                            <span v-if="item.name === 'Mail'">
-                                                                {{ $t('sidebar.mail') }}
-                                                            </span>
-                                                            <Badge type="coming-soon" class="text-xxs truncate w-fit">
-                                                                Beta
-                                                            </Badge>
+                                                        <div v-if="item.name === 'Mail'">
+                                                            {{ $t('sidebar.mail') }}
                                                         </div>
                                                         <span v-if="item.name === 'Documents'">
                                                             {{ $t('sidebar.documents') }}
@@ -139,7 +133,7 @@
                     class="z-10 w-screen absolute -bottom-32 -left-32 opacity-25">
 
                 <div class="z-20 mt-5">
-                    <span @click="navigateTo('/daily-overview')">
+                    <span @click="navigateTo('/overview')">
                         <LogoWhite />
                     </span>
                 </div>
@@ -151,8 +145,8 @@
                                     <div v-if="!item.children" @click="navigateTo(item.href)"
                                         :class="[item.activeRouteNames.includes($route.name) ? 'text-secondary-25' : 'text-secondary-100 hover:text-secondary-25', 'group flex gap-x-3 rounded-md p-3 text-sm leading-6 font-semibold cursor-pointer']">
                                         <Icon :name="item.icon" class="h-6 w-6 shrink-0" aria-hidden="true" />
-                                        <span v-if="item.name === 'Daily overview'">
-                                            {{ $t('sidebar.dailyOverview') }}
+                                        <span v-if="item.name === 'Overview'">
+                                            {{ $t('sidebar.overview') }}
                                         </span>
                                         <span v-if="item.name === 'Citizens'">
                                             {{ customPagesStore.getCustomPagesName?.citizens }}
@@ -172,13 +166,8 @@
                                         <span v-if="item.name === 'Protocols'">
                                             {{ $t('sidebar.protocols') }}
                                         </span>
-                                        <div class="grow flex items-center gap-x-2" v-if="item.name === 'Mail'">
-                                            <span v-if="item.name === 'Mail'">
-                                                {{ $t('sidebar.mail') }}
-                                            </span>
-                                            <Badge type="coming-soon" class="text-xxs truncate w-fit">
-                                                Beta
-                                            </Badge>
+                                        <div v-if="item.name === 'Mail'">
+                                            {{ $t('sidebar.mail') }}
                                         </div>
                                         <span v-if="item.name === 'Documents'">
                                             {{ $t('sidebar.documents') }}
@@ -509,11 +498,11 @@ const routeName = router?.currentRoute?.value?.name
 let navigation = [] as any
 // let navigation = [
 //     {
-//         name: 'Daily overview',
-//         href: '/daily-overview',
+//         name: 'Overview',
+//         href: '/overview',
 //         icon: 'material-symbols:dashboard',
 //         activeRouteNames: [
-//             'daily-overview',
+//             'overview',
 //         ]
 //     },
 //     {
@@ -635,11 +624,11 @@ function generateSidebarLinks(user: any) {
     const userHasLeadsActive = user?.company?.is_leads_active
     const userHasPageAttendanceAccess = user?.pages?.some((page: any) => page.name === "Attendance")
     navigation.push({
-        name: 'Daily overview',
-        href: '/daily-overview',
+        name: 'Overview',
+        href: '/overview',
         icon: 'material-symbols:dashboard',
         activeRouteNames: [
-            'daily-overview',
+            'overview',
         ]
     })
     navigation.push({
@@ -846,7 +835,7 @@ function handleBackGuidedTour(back: any) {
         state.modal.isGuidedTourDailyOverviewOpen = false
         state.modal.isGuidedTourWelcomeOpen = true
     }
-    if (back === 'daily-overview') {
+    if (back === 'overview') {
         state.modal.isGuidedTourCitizensOverviewOpen = false
         state.modal.isGuidedTourDailyOverviewOpen = true
     }
@@ -869,7 +858,7 @@ function handleBackGuidedTour(back: any) {
 }
 
 function handleNextGuidedTour(next: any) {
-    if (next === 'daily-overview') {
+    if (next === 'overview') {
         state.modal.isGuidedTourWelcomeOpen = false
         state.modal.isGuidedTourDailyOverviewOpen = true
     }

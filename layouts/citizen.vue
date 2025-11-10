@@ -27,7 +27,7 @@
                             <div
                                 class="flex grow flex-col gap-y-5 overflow-y-auto bg-primary px-6 pb-4 ring-1 ring-white/10">
                                 <div class="mt-5">
-                                    <span @click="navigateTo('/citizen/daily-overview')">
+                                    <span @click="navigateTo('/citizen/overview')">
                                         <LogoWhite />
                                     </span>
                                 </div>
@@ -41,8 +41,8 @@
                                                         <Icon :name="item.icon" class="h-5 w-5 shrink-0"
                                                             :class="[item.activeRouteNames.includes($route.name) ? 'text-secondary-25' : 'text-secondary-100']"
                                                             aria-hidden="true" />
-                                                        <span v-if="item.name === 'Daily overview'">
-                                                            {{ $t('sidebar.dailyOverview') }}
+                                                        <span v-if="item.name === 'Overview'">
+                                                            {{ $t('sidebar.overview') }}
                                                         </span>
                                                         <span v-if="item.name === 'Duty schedules'">
                                                             {{ customPagesStore.getCustomPagesName?.dutySchedules }}
@@ -89,7 +89,7 @@
                     class="z-10 w-screen absolute -bottom-32 -left-32 opacity-25">
 
                 <div class="z-20 mt-5">
-                    <span @click="navigateTo('/citizen/daily-overview')">
+                    <span @click="navigateTo('/citizen/overview')">
                         <LogoWhite />
                     </span>
                 </div>
@@ -101,8 +101,8 @@
                                     <div v-if="!item.children" @click="navigateTo(item.href)"
                                         :class="[item.activeRouteNames.includes($route.name) ? 'text-secondary-25' : 'text-secondary-100 hover:text-secondary-25', 'group flex gap-x-3 rounded-md p-3 text-sm leading-6 font-semibold cursor-pointer']">
                                         <Icon :name="item.icon" class="h-6 w-6 shrink-0" aria-hidden="true" />
-                                        <span v-if="item.name === 'Daily overview'">
-                                            {{ $t('sidebar.dailyOverview') }}
+                                        <span v-if="item.name === 'Overview'">
+                                            {{ $t('sidebar.overview') }}
                                         </span>
                                         <span v-if="item.name === 'Duty schedules'">
                                             {{ customPagesStore.getCustomPagesName?.dutySchedules }}
@@ -284,8 +284,8 @@ const routeName = router?.currentRoute?.value?.name
 
 const navigation = [
     {
-        name: 'Daily overview',
-        href: '/citizen/daily-overview',
+        name: 'Overview',
+        href: '/citizen/overview',
         icon: 'material-symbols:dashboard',
         activeRouteNames: [
             'citizen-daily-overview',

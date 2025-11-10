@@ -95,7 +95,8 @@
                         <FormError :error="props?.error?.errors?.departments_uuid?.[0]" />
                     </div>
                 </div>
-                <div class="space-y-1">
+                <div class="space-y-1"
+                    v-if="userStore.getUser?.company?.industry?.system_name === 'social_welfare' && ['crisis_center', 'homeless_shelter'].includes(userStore.getUser?.company?.subcategory)">
                     <div class="flex justify-between items-center py-0.5">
                         <FormLabel for="rooms" :label="$t('citizens.form.room')" />
                         <span class="text-xs cursor-pointer text-tertiary hover:text-tertiary-800"

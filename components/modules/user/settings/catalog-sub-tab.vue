@@ -109,6 +109,14 @@ watch(() => userStore.getUser, (newValue: any) => {
                 ]
             },
             {
+                name: 'settings.tabs.massUnits',
+                isTranslateName: true,
+                href: `/settings/mass-units`,
+                routeNames: [
+                    'settings-mass-units'
+                ]
+            },
+            {
                 name: 'settings.tabs.medicationAllergies',
                 isTranslateName: true,
                 href: `/settings/medication-allergies`,
@@ -216,6 +224,9 @@ function changeTab(value: any) {
     }
     else if (value === '/settings/journal-titles') {
         navigateTo(`/settings/journal-titles`)
+    }
+    else if (value === '/settings/mass-units') {
+        navigateTo(`/settings/mass-units`)
     }
     else if (value === '/settings/medication-allergies') {
         navigateTo(`/settings/medication-allergies`)

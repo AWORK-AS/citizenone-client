@@ -1470,7 +1470,8 @@
                 "strength": "Styrke",
                 "time": "Tid",
                 "treatmentReason": "Behandlingsårsag",
-                "treatmentReasonPlaceholder": "Hvad er årsagen til, at borgeren får denne medicin"
+                "treatmentReasonPlaceholder": "Hvad er årsagen til, at borgeren får denne medicin",
+                "unit": "Enhed"
             },
             "history": {
                 "alert": {
@@ -2195,165 +2196,6 @@
     "confirmation": "Bekræftelse",
     "contactUs": "Kontakt os",
     "create": "Opret",
-    "dailyOverview": {
-        "addDailyEvents": "Tilføj daglige begivenheder",
-        "bulletBoard": "Opslagstavle",
-        "calendar": "Kalender",
-        "campaign": "Kampagne",
-        "citizens": "Borgere",
-        "citizensAddictions": "Borgers stofmisbrug",
-        "citizensAdmissionAndDischarged": {
-            "citizensAdmissionAndDischarged": "Borgernes indskrivning og udskrivning",
-            "dateAdmitted": "Indskrivningsdato",
-            "dateDischarged": "Udskrivningsdato"
-        },
-        "citizensDailyEvents": "Borgeres daglige begivenheder",
-        "citizensDiagnoses": "Borgernes diagnoser",
-        "citizensOrigin": "Borgernes oprindelse",
-        "createdBy": "Oprettet af",
-        "dailyMedicineOverview": {
-            "dailyMedicineOverview": "Daglig medicinoversigt",
-            "delivered": "Udleveret",
-            "deviated": "Afvigelse",
-            "given": "Givet",
-            "not": "Ikke",
-            "notGiven": "Ikke givet"
-        },
-        "dailyOverview": "Daglig oversigt",
-        "filter": {
-            "chooseWhatToDisplay": "Vælg, hvad der skal vises",
-            "endDate": "Slutdato",
-            "filterDailyOverview": "Filtrer dagligt overblik",
-            "items": {
-                "bulletBoard": "Opslagstavle",
-                "calendar": "Kalender",
-                "citizensAddictions": "Borgers stofmisbrug",
-                "citizensAdmissionAndDischarged": "Borgernes indskrivning og udskrivning",
-                "citizensDailyEvents": "Borgeres daglige begivenheder",
-                "citizensDiagnoses": "Borgernes diagnoser",
-                "citizensOrigin": "Borgernes oprindelse",
-                "dailyMedicineOverview": "Daglig medicinoversigt",
-                "gender": "Køn",
-                "goalsStatistics": "Målsstatistik",
-                "incidentStatistics": "Hændelsesstatistik",
-                "journalStatistics": "Journalstatistik",
-                "latestJournal": "Seneste journalnotater",
-                "medicineDeviationStatistics": "Medicin afveget",
-                "myDailyEvents": "Mine daglige begivenheder",
-                "riskAssessment": "Risikovurdering",
-                "subgoalsStatistics": "Delmålsstatistik",
-                "statusesStatistics": "Statusstatistik",
-                "treatments": "Behandlinger",
-                "useOfForceStatistics": "Brug af magt statistik"
-            },
-            "show": "Vis",
-            "startDate": "Startdato"
-        },
-        "from": "Fra",
-        "gender": {
-            "gender": "Køn",
-            "female": "Kvinde",
-            "male": "Mand",
-            "nonbinary": "Ikke-binær",
-            "willNotDisclose": "Vil ikke oplyse"
-        },
-        "incidentStatistics": {
-            "incidentStatistics": "Hændelsesstatistik",
-            "harmless": "Harmløs",
-            "lowRisk": "Lav risiko",
-            "moderateRisk": "Moderat risiko",
-            "highRisk": "Høj risiko"
-        },
-        "journalStatistics": "Journalstatistik",
-        "latestJournal": {
-            "latestJournal": "Seneste journalnotater",
-            "score": "Score"
-        },
-        "medicineDeviationStatistics": {
-            "medicineDeviationStatistics": "Medicin afveget",
-            "deviated": "Afveget"
-        },
-        "myDailyEvents": "Mine daglige begivenheder",
-        "news": "Nyheder",
-        "noDataToDisplay": "Ingen data at vise",
-        "noBulletBoardToShow": "Ingen opslagstavle at vise",
-        "noEventsForToday": "Ingen begivenheder for i dag",
-        "noJournalsToShow": "Ingen journaler at vise",
-        "noMedicinesToShow": "Ingen medicin at vise",
-        "noNewsToShow": "Ingen nyheder at vise",
-        "openLink": "Åbn link",
-        "plansGoalsAndSubgoals": {
-            "goalsStatistics": "Målsstatistik",
-            "statusesStatistics": "Statusstatistik",
-            "subgoalsStatistics": "Delmålsstatistik"
-        },
-        "poll": {
-            "from": "Fra",
-            "noPollToShow": "Ingen afstemning at vise",
-            "poll": "Afstemning",
-            "sentBy": "Sendt af"
-        },
-        "quickRiskAssessment": {
-            "alert": {
-                "quickRiskAssessmentSuccessfullyAdded": "Hurtig risikovurdering blev tilføjet"
-            },
-            "form": {
-                "addNewJournalTitle": "Tilføj ny journaltitel",
-                "attachFile": "Vedhæft fil",
-                "citizen": "Borger",
-                "date": "Dato",
-                "draft": "Udkast",
-                "enterJournalTitleManually": "Indtast journaltitel manuelt",
-                "generateNote": "Generer note",
-                "note": "Note",
-                "title": "Titel",
-                "risk": {
-                    "acuteIncreasedRisk": "Akut øget risiko",
-                    "increasedRisk": "Øget risiko",
-                    "none": "Ingen",
-                    "noRisk": "Ingen risiko"
-                },
-                "usePredefinedJournalTitle": "Brug foruddefineret journaltitel"
-            },
-            "quickRiskAssessment": "Hurtig risikovurdering"
-        },
-        "riskAssessment": {
-            "risk": {
-                "acuteIncreasedRisk": "Akut øget risiko",
-                "increasedRisk": "Øget risiko",
-                "none": "Ingen",
-                "noRisk": "Ingen risiko"
-            },
-            "riskAssessment": "Risikovurdering"
-        },
-        "treatments": {
-            "areaTypes": {
-                "functionalLevel": "Functional level",
-                "musculoskeletalSystem": "Musculoskeletal system",
-                "nutrition": "Nutrition",
-                "skinAndMucousMembranes": "Skin and mucous membranes",
-                "communication": "Communication",
-                "psychosocialConditions": "Psychosocial conditions",
-                "respirationAndCirculation": "Respiration and circulation",
-                "sexuality": "Sexuality",
-                "painAndSensoryImpressions": "Pain and sensory impressions",
-                "sleepAndRest": "Sleep and rest",
-                "knowledgeAndDevelopment": "Knowledge and development",
-                "excretionOfWaste": "Excretion of waste"
-            },
-            "completionDate": "Afslutningsdato",
-            "noTreatmentsToShow": "Ingen behandlinger at vise",
-            "treatments": "Behandlinger"
-        },
-        "useForceStatistics": {
-            "useForceStatistics": "Brug af magt statistik",
-            "harmless": "Harmløs",
-            "lowRisk": "Lav risiko",
-            "moderateRisk": "Moderat risiko",
-            "highRisk": "Høj risiko"
-        },
-        "viewAll": "Se alle"
-    },
     "department": {
         "all": "Alle",
         "allDepartment": "Alle afdelinger",
@@ -2483,7 +2325,7 @@
         },
         "holidays": "Helligdage",
         "month": "Måned",
-        "newSchedule": "Ny vagtplan",
+        "newSchedule": "Ny vagt",
         "noScheduleFound": "Ingen tidsplan fundet",
         "removeSchedule": "Fjern tidsplan",
         "requesters": {
@@ -2516,9 +2358,9 @@
                     "sendRequest": "Send anmodning",
                     "timeIn": "Tid ind",
                     "timeOut": "Tid ud",
-                    "whatDoYouWantTheEndTimeToBeChangeTo": "Hvad onsker du sluttiden ændret til",
-                    "whatDoYouWantTheStartTimeToBeChangeTo": "Hvad onsker du modetiden ændret til",
-                    "whyDoYouWantToChangeTheTimes": "Hvorfor onsker du at æendre tiderne"
+                    "whatDoYouWantTheEndTimeToBeChangeTo": "Hvad ønsker du sluttiden ændret til",
+                    "whatDoYouWantTheStartTimeToBeChangeTo": "Hvad ønsker du mødetiden ændret til",
+                    "whyDoYouWantToChangeTheTimes": "Forklar venligst hvorfor du ønsker at ændre tiderne"
                 },
                 "requestAChange": "Anmod om ændring",
                 "table": {
@@ -2870,6 +2712,7 @@
                 "workingHours": "Arbejdstimer",
                 "vacationDays": "Feriedage"
             },
+            "employeeId": "Medarbejder-ID",
             "firstname": "Fornavn",
             "header": {
                 "comprehensiveEmploymentDetailsWithinTheOrganization": "Omfattende ansættelsesoplysninger inden for organisationen",
@@ -3552,7 +3395,8 @@
         "form": {
             "alert": {
                 "emailSuccessfullyFowarded": "E-mail videresendt med succes",
-                "emailSuccessfullySent": "E-mail sendt med succes"
+                "emailSuccessfullySent": "E-mail sendt med succes",
+                "enteredCodeMismatched": "Indtastet kode stemmer ikke overens"
             },
             "attachFiles": {
                 "attachFiles": "Vedhæft filer",
@@ -3563,10 +3407,14 @@
                 "citizenFiles": "Borgerfiler",
                 "organizationFiles": "Organisationsfiler"
             },
+            "confirmCode": "Bekræft koden",
+            "createCode": "Lav en kode for at åbne den sikre mail",
             "encryptMessage": "Krypter besked",
+            "enterCode": "Indtast en selvvalgt kode",
             "message": "Besked",
-            "password": "Adgangskode",
-            "passwordHint": "Adgangskodehint",
+            "passwordHint": "Skriv et lille hint, der kan hjælpe modtageren med at huske adgangskoden",
+            "passwordHintPlaceholder": "Indtast hint til adgangskoden",
+            "reenterCode": "Indtast den selvvalgte kode igen",
             "send": "Send",
             "subject": "Emne",
             "to": "Til"
@@ -3594,10 +3442,11 @@
                 "readMessage": "Læs besked",
                 "send": "Send"
             },
+            "encrypted": "Krypteret",
             "from": "Fra",
             "replySecurely": "Svar sikkert",
             "secured": "Sikker",
-            "securedMail": "Sikker mail",
+            "securedMail": "Sikker Mail",
             "sent": {
                 "sentWith": "Sendt med",
                 "citizenOneMail": "CitizenOne mail",
@@ -3624,6 +3473,32 @@
             "smtpUsername": "SMTP brugernavn",
             "smtpPassword": "SMTP adgangskode",
             "smtpEncryption": "SMTP kryptering"
+        }
+    },
+    "massUnits": {
+        "addNewMassUnit": "Tilføj ny masseenhed",
+        "editMassUnit": "Rediger masseenhed",
+        "form": {
+            "alert": {
+                "massUnitSuccessfullyUpdated": "Masseenhed blev opdateret",
+                "newMassUnitSuccessfullySaved": "Ny masseenhed blev gemt"
+            },
+            "name": "Navn"
+        },
+        "massUnits": "Masseenheder",
+        "newMassUnit": "Ny masseenhed",
+        "table": {
+            "actions": {
+                "delete": "Slet",
+                "edit": "Rediger"
+            },
+            "alert": {
+                "massUnitSuccessfullyDeleted": "Masseenhed blev slettet"
+            },
+            "confirmation": {
+                "deleteMassUnitConfirmation": "Er du sikker på, at du vil slette denne masseenhed"
+            },
+            "name": "Navn"
         }
     },
     "medicationAllergies": {
@@ -3785,6 +3660,167 @@
     },
     "next": "Næste",
     "noResultFound": "Ingen resultater fundet",
+    "overview": {
+        "addDailyEvents": "Tilføj daglige begivenheder",
+        "bulletBoard": "Opslagstavle",
+        "calendar": "Kalender",
+        "campaign": "Kampagne",
+        "citizens": "Borgere",
+        "citizensAddictions": "Borgers stofmisbrug",
+        "citizensAdmissionAndDischarged": {
+            "citizensAdmissionAndDischarged": "Borgernes indskrivning og udskrivning",
+            "dateAdmitted": "Indskrivningsdato",
+            "dateDischarged": "Udskrivningsdato"
+        },
+        "citizensEvents": "Borgeres begivenheder",
+        "citizensDiagnoses": "Borgernes diagnoser",
+        "citizensOrigin": "Borgernes oprindelse",
+        "createdBy": "Oprettet af",
+        "filter": {
+            "chooseWhatToDisplay": "Vælg, hvad der skal vises",
+            "dateRangeDescription": "Klik på datofeltet for at vælge den periode, du ønsker vist i dit overblik. Systemet gemmer automatisk dit valg til næste gang, du logger ind. Som udgangspunkt vises overblikket for de næste 7 dage",
+            "dateRangeTitle": "Oversigtsperiodeindstilling",
+            "endDate": "Slutdato",
+            "filterDailyOverview": "Filtrer dagligt overblik",
+            "items": {
+                "bulletBoard": "Opslagstavle",
+                "calendar": "Kalender",
+                "citizensAddictions": "Borgers stofmisbrug",
+                "citizensAdmissionAndDischarged": "Borgernes indskrivning og udskrivning",
+                "citizensEvents": "Borgeres begivenheder",
+                "citizensDiagnoses": "Borgernes diagnoser",
+                "citizensOrigin": "Borgernes oprindelse",
+                "medicationOverview": "Medicinoversigt",
+                "gender": "Køn",
+                "goalsStatistics": "Målsstatistik",
+                "incidentStatistics": "Hændelsesstatistik",
+                "journalStatistics": "Journalstatistik",
+                "latestJournal": "Seneste journalnotater",
+                "medicineDeviationStatistics": "Medicin afveget",
+                "myDailyEvents": "Mine daglige begivenheder",
+                "riskAssessment": "Risikovurdering",
+                "subgoalsStatistics": "Delmålsstatistik",
+                "statusesStatistics": "Statusstatistik",
+                "treatments": "Behandlinger",
+                "useOfForceStatistics": "Brug af magt statistik"
+            },
+            "show": "Vis",
+            "startDate": "Startdato"
+        },
+        "from": "Fra",
+        "gender": {
+            "gender": "Køn",
+            "female": "Kvinde",
+            "male": "Mand",
+            "nonbinary": "Ikke-binær",
+            "willNotDisclose": "Vil ikke oplyse"
+        },
+        "incidentStatistics": {
+            "incidentStatistics": "Hændelsesstatistik",
+            "harmless": "Harmløs",
+            "lowRisk": "Lav risiko",
+            "moderateRisk": "Moderat risiko",
+            "highRisk": "Høj risiko"
+        },
+        "journalStatistics": "Journalstatistik",
+        "latestJournal": {
+            "latestJournal": "Seneste journalnotater",
+            "score": "Score"
+        },
+        "medicationOverview": {
+            "medicationOverview": "Medicinoversigt",
+            "delivered": "Udleveret",
+            "deviated": "Afvigelse",
+            "given": "Givet",
+            "not": "Ikke",
+            "notGiven": "Ikke givet"
+        },
+        "medicineDeviationStatistics": {
+            "medicineDeviationStatistics": "Medicin afveget",
+            "deviated": "Afveget"
+        },
+        "myDailyEvents": "Mine daglige begivenheder",
+        "news": "Nyheder",
+        "noDataToDisplay": "Ingen data at vise",
+        "noBulletBoardToShow": "Ingen opslagstavle at vise",
+        "noEventsForToday": "Ingen begivenheder for i dag",
+        "noJournalsToShow": "Ingen journaler at vise",
+        "noMedicinesToShow": "Ingen medicin at vise",
+        "noNewsToShow": "Ingen nyheder at vise",
+        "openLink": "Åbn link",
+        "overview": "Oversigt",
+        "plansGoalsAndSubgoals": {
+            "goalsStatistics": "Målsstatistik",
+            "statusesStatistics": "Statusstatistik",
+            "subgoalsStatistics": "Delmålsstatistik"
+        },
+        "poll": {
+            "from": "Fra",
+            "noPollToShow": "Ingen afstemning at vise",
+            "poll": "Afstemning",
+            "sentBy": "Sendt af"
+        },
+        "quickRiskAssessment": {
+            "alert": {
+                "quickRiskAssessmentSuccessfullyAdded": "Hurtig risikovurdering blev tilføjet"
+            },
+            "form": {
+                "addNewJournalTitle": "Tilføj ny journaltitel",
+                "attachFile": "Vedhæft fil",
+                "citizen": "Borger",
+                "date": "Dato",
+                "draft": "Udkast",
+                "enterJournalTitleManually": "Indtast journaltitel manuelt",
+                "generateNote": "Generer note",
+                "note": "Note",
+                "title": "Titel",
+                "risk": {
+                    "acuteIncreasedRisk": "Akut øget risiko",
+                    "increasedRisk": "Øget risiko",
+                    "none": "Ingen",
+                    "noRisk": "Ingen risiko"
+                },
+                "usePredefinedJournalTitle": "Brug foruddefineret journaltitel"
+            },
+            "quickRiskAssessment": "Hurtig risikovurdering"
+        },
+        "riskAssessment": {
+            "risk": {
+                "acuteIncreasedRisk": "Akut øget risiko",
+                "increasedRisk": "Øget risiko",
+                "none": "Ingen",
+                "noRisk": "Ingen risiko"
+            },
+            "riskAssessment": "Risikovurdering"
+        },
+        "treatments": {
+            "areaTypes": {
+                "functionalLevel": "Functional level",
+                "musculoskeletalSystem": "Musculoskeletal system",
+                "nutrition": "Nutrition",
+                "skinAndMucousMembranes": "Skin and mucous membranes",
+                "communication": "Communication",
+                "psychosocialConditions": "Psychosocial conditions",
+                "respirationAndCirculation": "Respiration and circulation",
+                "sexuality": "Sexuality",
+                "painAndSensoryImpressions": "Pain and sensory impressions",
+                "sleepAndRest": "Sleep and rest",
+                "knowledgeAndDevelopment": "Knowledge and development",
+                "excretionOfWaste": "Excretion of waste"
+            },
+            "completionDate": "Afslutningsdato",
+            "noTreatmentsToShow": "Ingen behandlinger at vise",
+            "treatments": "Behandlinger"
+        },
+        "useForceStatistics": {
+            "useForceStatistics": "Brug af magt statistik",
+            "harmless": "Harmløs",
+            "lowRisk": "Lav risiko",
+            "moderateRisk": "Moderat risiko",
+            "highRisk": "Høj risiko"
+        },
+        "viewAll": "Se alle"
+    },
     "pageNotFound": "Side ikke fundet",
     "pagination": {
         "of": "af",
@@ -4468,6 +4504,7 @@
             "journalTitles": "Journal titler",
             "licenseOverview": "Licensoversigt",
             "licenses": "Licenser",
+            "massUnits": "Masseenheder",
             "medicationAllergies": "Medicinallergier (CAVE)",
             "medicines": "Medicin",
             "profile": "Profil",
@@ -4555,13 +4592,13 @@
         "calendar": "Kalender",
         "companyId": "Virksomheds-ID",
         "coupons": "Kuponer",
-        "dailyOverview": "Daglig oversigt",
         "citizens": "Borgere",
         "documents": "Dokumenter",
         "dutySchedules": "Vagtskema",
         "leads": "Leads",
         "mail": "Mail",
         "messages": "Beskeder",
+        "overview": "Oversigt",
         "protocols": "Protokol"
     },
     "showAll": "Vis alle",

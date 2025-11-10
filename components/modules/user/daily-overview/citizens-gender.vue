@@ -1,7 +1,7 @@
 <template>
     <LoadingSpinner :isActive="state.isPageLoading">
         <h3 class="text-primary text-base font-medium py-2">
-            {{ $t('dailyOverview.gender.gender') }}
+            {{ $t('overview.gender.gender') }}
         </h3>
         <Alert type="danger" :text="state?.error?.message"
             v-if="state.error?.message && state.error.message.length > 0" />
@@ -11,7 +11,7 @@
             <div class="space-y-1">
                 <div class="flex items-center justify-between">
                     <p class="text-sm">
-                        {{ $t('dailyOverview.gender.male') }}
+                        {{ $t('overview.gender.male') }}
                     </p>
                     <p class="text-sm">
                         {{ state.citizensGender?.data?.male }}
@@ -19,7 +19,7 @@
                 </div>
                 <div class="flex items-center justify-between">
                     <p class="text-sm">
-                        {{ $t('dailyOverview.gender.female') }}
+                        {{ $t('overview.gender.female') }}
                     </p>
                     <p class="text-sm">
                         {{ state.citizensGender?.data?.female }}
@@ -27,7 +27,7 @@
                 </div>
                 <div class="flex items-center justify-between">
                     <p class="text-sm">
-                        {{ $t('dailyOverview.gender.willNotDisclose') }}
+                        {{ $t('overview.gender.willNotDisclose') }}
                     </p>
                     <p class="text-sm">
                         {{ state.citizensGender?.data?.will_not_disclose }}
