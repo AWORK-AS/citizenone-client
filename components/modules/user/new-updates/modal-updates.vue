@@ -56,8 +56,9 @@ function closeModal() {
 }
 
 const state = reactive({
-    currentVersion: '2025-10-31',
+    currentVersion: '2025-11-07',
     availableVersions: [
+        '2025-11-07',
         '2025-10-31',
         '2025-10-24',
         '2025-10-17',
@@ -76,6 +77,43 @@ const state = reactive({
 
 const allUpdates: Record<string, Record<string, { title: string, description: string[] }[]>> = {
     en: {
+        '2025-11-07': [
+            {
+                title: 'Additional field (strength) in medicine journal',
+                description: [
+                    'When creating or editing a medicine journal, a new field called "strength" has been added.',
+                    'This allows for more precise recording of medication details and improves clarity in dosage documentation.'
+                ],
+            },
+            {
+                title: 'Daily overview renamed to Overview',
+                description: [
+                    'The section previously titled "Daily overview" has been renamed to "Overview".',
+                    'This change provides a clearer and more general overview section for users.'
+                ],
+            },
+            {
+                title: '“Citizens’ daily events” renamed to “Citizens’ events” in the overview',
+                description: [
+                    'In the overview, the title "Citizens’ daily events" has been updated to "Citizens’ events".',
+                    'This reflects that events are not limited to daily occurrences and enhances consistency in naming.'
+                ],
+            },
+            {
+                title: '“Daily medication overview” renamed to “Medication overview” in the overview',
+                description: [
+                    'The section name "Daily medication overview" has been changed to "Medication overview".',
+                    'This better represents the broader functionality and coverage of the overview.'
+                ],
+            },
+            {
+                title: 'Additional options in “Copy multiple weeks’ schedules”',
+                description: [
+                    'More options have been added for selecting the weeks’ source and destination when copying multiple weeks’ schedules.',
+                    'This provides greater flexibility and control when managing schedules.'
+                ],
+            }
+        ],
         '2025-10-31': [
             {
                 title: 'Check-in and check-out on the citizen (with automatic notification after 24 hours)',
@@ -411,6 +449,43 @@ const allUpdates: Record<string, Record<string, { title: string, description: st
         ],
     },
     dk: {
+        '2025-11-07': [
+            {
+                title: 'Ekstra felt (styrke) i medicinjournalen',
+                description: [
+                    'Ved oprettelse eller redigering af en medicinjournal er der tilføjet et nyt felt kaldet "styrke".',
+                    'Dette gør det muligt at registrere medicinoplysninger mere præcist og giver bedre klarhed i doseringsdokumentationen.'
+                ],
+            },
+            {
+                title: 'Dagligt overblik omdøbt til Overblik',
+                description: [
+                    'Sektionen, der tidligere hed "Dagligt overblik", er blevet omdøbt til "Overblik".',
+                    'Ændringen giver en tydeligere og mere generel oversigtssektion for brugerne.'
+                ],
+            },
+            {
+                title: '“Borgernes daglige hændelser” omdøbt til “Borgernes hændelser” i overblikket',
+                description: [
+                    'I overblikket er titlen "Borgernes daglige hændelser" ændret til "Borgernes hændelser".',
+                    'Dette afspejler, at hændelser ikke kun er begrænset til daglige begivenheder, og sikrer større ensartethed i navngivningen.'
+                ],
+            },
+            {
+                title: '“Dagligt medicinoverblik” omdøbt til “Medicinoverblik” i overblikket',
+                description: [
+                    'Sektionen "Dagligt medicinoverblik" er blevet ændret til "Medicinoverblik".',
+                    'Dette repræsenterer bedre den bredere funktionalitet og dækning af overblikket.'
+                ],
+            },
+            {
+                title: 'Flere valgmuligheder i “Kopiér flere ugers skemaer”',
+                description: [
+                    'Der er tilføjet flere valgmuligheder for valg af kilde- og destinationsuger, når der kopieres flere ugers skemaer.',
+                    'Dette giver større fleksibilitet og kontrol ved håndtering af skemaer.'
+                ],
+            }
+        ],
         '2025-10-31': [
             {
                 title: 'Tjek-ind og tjek-ud på borgeren (med automatisk notifikation efter 24 timer)',
