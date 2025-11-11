@@ -35,7 +35,7 @@
                     </div>
                     <div class="flex items-center gap-x-3">
                         <FormButton buttonStyle="action" class="rounded-lg"
-                            @click="state.modal.isNewInquiryOpen = true">
+                            @click="state.modal.isAddInquiryOpen = true">
                             <Icon name="ph:plus" class="h-4 w-4" aria-hidden="true" />
                             {{ $t('inquiries.newInquiry') }}
                         </FormButton>
@@ -95,6 +95,12 @@
                 </div>
             </div>
 
+            <ModulesUserInquiryModalNew :isModalOpen="state.modal.isAddInquiryOpen"
+                @close="state.modal.isAddInquiryOpen = false" @refreshInquiries="fetchInquiries" />
+            <ModulesUserInquiryModalEdit :isModalOpen="state.modal.isEditInquiryOpen"
+                :selectedInquiry="state.selectedInquiry" @close="state.modal.isEditInquiryOpen = false"
+                @refreshInquiries="fetchInquiries" />
+
             <DialogConfirmation :isModalOpen="state.modal.isDeleteInquiryOpen"
                 :message="$t('inquiries.table.deleteInquiryConfirmation') + '?'"
                 @close="state.modal.isDeleteInquiryOpen = false" @confirm="deleteInquiry" />
@@ -142,8 +148,8 @@ const state = reactive({
     isTableLoading: false,
     inquiries: [] as any,
     modal: {
+        isAddInquiryOpen: false,
         isEditInquiryOpen: false,
-        isNewInquiryOpen: false,
         isDeleteInquiryOpen: false,
     },
     selectedInquiry: {} as any,
