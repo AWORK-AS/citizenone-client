@@ -329,9 +329,6 @@ const breadcrumbLinks = [
 ]
 
 const state = reactive({
-    columnFilter: [
-        { column: 'medicine' },
-    ],
     columnHeaders: [
         { name: 'citizens.medicineJournals.table.medicine' },
         { name: 'citizens.medicineJournals.table.strength' },

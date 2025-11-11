@@ -108,9 +108,6 @@ const breadcrumbLinks = [
 ]
 
 const state = reactive({
-    columnFilter: [
-        { column: 'title' },
-    ],
     columnHeaders: [
         { name: 'tasks.table.title', sorter: true, key: 'title' },
         { name: 'tasks.table.content' },

@@ -2211,6 +2211,7 @@
                 "departmentSuccessfullyUpdated": "Afdeling opdateret med succes",
                 "newDepartmentSuccessfullySaved": "Ny afdeling gemt med succes"
             },
+            "color": "Farve",
             "name": "Navn"
         },
         "newDepartment": "Ny afdeling",
@@ -2225,6 +2226,7 @@
             "confirmation": {
                 "deleteDepartmentConfirmation": "Er du sikker på, at du vil slette denne afdeling"
             },
+            "color": "Farve",
             "name": "Navn"
         }
     },

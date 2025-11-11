@@ -2211,6 +2211,7 @@
                 "departmentSuccessfullyUpdated": "Department successfully updated",
                 "newDepartmentSuccessfullySaved": "New department successfully saved"
             },
+            "color": "Color",
             "name": "Name"
         },
         "newDepartment": "New department",
@@ -2222,6 +2223,7 @@
             "alert": {
                 "departmentSuccessfullyDeleted": "Department successfully deleted"
             },
+            "color": "Color",
             "confirmation": {
                 "deleteDepartmentConfirmation": "Are you sure you want to delete this department"
             },

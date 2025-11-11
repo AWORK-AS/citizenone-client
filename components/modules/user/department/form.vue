@@ -2,12 +2,20 @@
     <form @submit.prevent="submitForm()" class="mt-6 max-w-xl">
         <Alert type="danger" :text="props?.error?.message"
             v-if="props.error?.message && props.error.message.length > 0" />
-        <div class="space-y-1">
-            <FormLabel for="name" :label="$t('departments.form.name')" />
-            <FormTextField id="name" name="name" :placeholder="$t('departments.form.name')"
-                v-model="state.formDepartment.name" />
-            <FormError :error="v$?.formDepartment?.name?.$errors[0]?.$message.toString()" />
-            <FormError :error="props?.error?.errors?.name?.[0]" />
+        <div class="space-y-3">
+            <div class="space-y-1">
+                <FormLabel for="name" :label="$t('departments.form.name')" />
+                <FormTextField id="name" name="name" :placeholder="$t('departments.form.name')"
+                    v-model="state.formDepartment.name" />
+                <FormError :error="v$?.formDepartment?.name?.$errors[0]?.$message.toString()" />
+                <FormError :error="props?.error?.errors?.name?.[0]" />
+            </div>
+            <div class="space-y-1 flex items-center gap-x-1">
+                <FormLabel for="color" :label="$t('departments.form.color')" />
+                <FormColorPicker id="color" v-model="state.formDepartment.color" />
+                <FormError :error="v$?.formTag?.color?.$errors[0]?.$message.toString()" />
+                <FormError :error="props?.error?.errors?.color?.[0]" />
+            </div>
         </div>
         <div class="mt-6">
             <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
@@ -52,6 +60,7 @@ const state = reactive({
     error: {} as Error,
     formDepartment: {
         name: '',
+        color: '#000000',
     },
 })
 
@@ -59,6 +68,7 @@ watch(() => props.selectedDepartment, (newValue: any) => {
     if (newValue != null) {
         state.formDepartment = {
             name: newValue.name,
+            color: newValue.color,
         }
     }
 })

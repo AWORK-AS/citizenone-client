@@ -76,9 +76,6 @@ let currentTablePage = 1
 const expandedRecords = reactive([] as boolean[])
 
 const state = reactive({
-    columnFilter: [
-        { column: 'title' },
-    ],
     columnHeaders: [
         { name: 'procedures.table.title', sorter: true, key: 'title' },
         { name: 'procedures.table.content' },

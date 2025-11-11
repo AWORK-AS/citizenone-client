@@ -102,10 +102,6 @@ const pollUuid = router?.currentRoute?.value?.params?.pollUuid
 let currentTablePage = 1
 
 const state = reactive({
-    columnFilter: [
-        { column: 'title' },
-        { column: 'status' },
-    ],
     columnHeaders: [
         { name: 'superadmin.polls.table.title', sorter: true, key: 'title' },
         { name: 'superadmin.polls.table.description' },

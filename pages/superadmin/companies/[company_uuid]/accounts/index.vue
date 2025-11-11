@@ -103,11 +103,6 @@ let currentTablePage = 1
 
 const state = reactive({
     accounts: [] as any,
-    columnFilter: [
-        { column: 'name' },
-        { column: 'email' },
-        { column: 'phone' },
-    ],
     columnHeaders: [
         { name: 'superadmin.accounts.table.name', sorter: true, key: 'firstname' },
         { name: 'superadmin.accounts.table.email', sorter: true, key: 'email' },

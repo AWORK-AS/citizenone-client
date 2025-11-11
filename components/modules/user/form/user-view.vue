@@ -40,13 +40,9 @@ import type { Error } from '@/types'
 let currentTablePage = 1
 
 const state = reactive({
-    columnFilter: [
-        { column: 'title' },
-    ],
     columnHeaders: [
         { name: 'forms.table.title', sorter: true, key: 'title' },
         { name: 'forms.table.description' },
-        // { name: '' },
     ],
     dataFilter: {
         search: ''
