@@ -50,6 +50,10 @@
                         </select>
                     </div>
                     <div class="flex items-center gap-x-3">
+                        <FormButton buttonStyle="action" class="rounded-lg" @click="navigateTo('/citizens/inquiries')">
+                            <Icon name="ph:list-bullets" class="h-4 w-4" aria-hidden="true" />
+                            {{ $t('citizens.inquiries.inquiries') }}
+                        </FormButton>
                         <FormButton buttonStyle="action" class="rounded-lg" @click="navigateTo('/citizens/new')"
                             v-if="userStore.getUser?.roles?.[0]?.name === 'Admin'">
                             <Icon name="ph:plus" class="h-4 w-4" aria-hidden="true" />
@@ -101,7 +105,7 @@
                                     <td width="20%">
                                         <p v-if="citizen?.email">{{ citizen?.email }}</p>
                                         <p v-else class="text-primary hover:text-primary-hover cursor-pointer"
-                                            @click="state.modal.showPurchaseEmail = true">
+                                            @click="state.modal.isShowPurchaseEmail = true">
                                             {{ $t('citizens.purchaseEmail.purchaseEmail') }}
                                         </p>
                                     </td>
@@ -158,10 +162,10 @@
 
             <ModulesUserCitizenModalImport :isModalOpen="state.modal.isImportCitizensOpen"
                 @close="state.modal.isImportCitizensOpen = false" />
-            <ModulesUserCitizenModalPurchaseEmail :isModalOpen="state.modal.showPurchaseEmail"
-                @close="state.modal.showPurchaseEmail = false" />
-            <ModulesUserCitizenModalLatestJournal :isModalOpen="state.modal.showNote"
-                :selectedCitizen="state.selectedCitizen" @close="state.modal.showNote = false" />
+            <ModulesUserCitizenModalPurchaseEmail :isModalOpen="state.modal.isShowPurchaseEmail"
+                @close="state.modal.isShowPurchaseEmail = false" />
+            <ModulesUserCitizenModalLatestJournal :isModalOpen="state.modal.isShowNote"
+                :selectedCitizen="state.selectedCitizen" @close="state.modal.isShowNote = false" />
 
             <ModulesUserGuidedTourModalCitizens v-if="state.modal.isGuidedTourCitizensOverviewOpen"
                 :isModalOpen="state.modal.isGuidedTourCitizensOverviewOpen" :isGuidedTour="false"
@@ -202,8 +206,8 @@ const state = reactive({
     modal: {
         isGuidedTourCitizensOverviewOpen: false,
         isImportCitizensOpen: false,
-        showNote: false,
-        showPurchaseEmail: false,
+        isShowNote: false,
+        isShowPurchaseEmail: false,
     },
     selectedCitizen: [],
 })
@@ -278,7 +282,7 @@ function changePageLength(event: any) {
 
 function showCitizenNote(citizen: any) {
     state.selectedCitizen = citizen
-    state.modal.showNote = true
+    state.modal.isShowNote = true
 }
 
 async function exportCitizens() {

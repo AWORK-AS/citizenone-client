@@ -1,0 +1,25 @@
+import BaseAPIService from '@/components/api/BaseAPIService'
+
+class CitizenInquiryService extends BaseAPIService {
+    async getInquiries(params: object): Promise<any> {
+        return await this.request(`/user/citizen-inquiries`, 'GET', params)
+    }
+
+    async getSelectedInquiry(inquiryUuid: any): Promise<any> {
+        return await this.request(`/user/citizen-inquiries/${inquiryUuid}`, 'GET')
+    }
+
+    async saveInquiry(params: object): Promise<any> {
+        return await this.request(`/user/citizen-inquiries`, 'POST', params)
+    }
+
+    async updateInquiry(inquiryUuid: any, params: object): Promise<any> {
+        return await this.request(`/user/citizen-inquiries/${inquiryUuid}/update`, 'POST', params)
+    }
+
+    async deleteInquiry(inquiryUuid: any): Promise<any> {
+        return await this.request(`/user/citizen-inquiries/${inquiryUuid}`, 'DELETE')
+    }
+}
+
+export const citizenInquiryService = new CitizenInquiryService()

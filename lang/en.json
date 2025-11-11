@@ -809,13 +809,139 @@
             "delete": "Delete",
             "viewSchedule": "View schedule"
         },
-        "citizens": "Citizens",
         "caseWorker": {
             "addNewCaseworker": "Add new case worker",
             "alert": {
                 "newCaseWorkerSuccessfullyAdded": "New case worker successfully added"
             },
             "newCaseWorker": "New case worker"
+        },
+        "citizens": "Citizens",
+        "citizenJournals": {
+            "actions": {
+                "addToFavorite": "Add to favorite",
+                "copy": "Copy",
+                "delete": "Delete",
+                "edit": "Edit",
+                "journalLogs": "Journal logs",
+                "lock": "Lock journal",
+                "move": "Move",
+                "removeFromFavorite": "Remove from favorite",
+                "unlock": "Unlock journal"
+            },
+            "alert": {
+                "addedToFavorites": "Journal successfully added to favorites",
+                "deletedSuccessfully": "Journal successfully deleted",
+                "lockJournal": "Journal successfully locked",
+                "removedToFavorites": "Journal successfully removed from favorites",
+                "successfullyAdded": "New journal successfully saved",
+                "successfullyCopied": "Journal successfully copied",
+                "successfullyMoved": "Journal successfully moved",
+                "successfullyUpdated": "Journal successfully updated",
+                "unlockJournal": "Journal successfully unlocked"
+            },
+            "confirmation": {
+                "copyConfirmation": "Are you sure you want to copy this journal to the selected citizen",
+                "deleteConfirmation": "Are you sure you want to delete this journal",
+                "moveConfirmation": "Are you sure you want to move this journal to the selected citizen"
+            },
+            "copy": {
+                "citizen": "Citizen",
+                "copy": "Copy",
+                "copyJournal": "Copy journal"
+            },
+            "createdBy": "Created by",
+            "currentLevels": {
+                "currentLevel": "Current level",
+                "minorChallenges": "Minor challenges",
+                "moderateChallenges": "Moderate challenges",
+                "significantChallenges": "Significant challenges",
+                "severeChallenges": "Severe challenges",
+                "verySubstantialChallenges": "Very substantial challenges"
+            },
+            "download": "Download",
+            "downloadJournals": {
+                "downloadJournals": "Download journals",
+                "include": "Include",
+                "includeRiskAssessment": "Include risk assessment"
+            },
+            "editNote": "Edit note",
+            "filter": {
+                "date": "Date",
+                "filterDate": "Filter date",
+                "journalNoteView": "Journal note view",
+                "riskAssessmentView": "Risk assessment view",
+                "searchJournal": "Search journal",
+                "standardView": "Standard view"
+            },
+            "form": {
+                "attachFile": "Attach file",
+                "content": "Content",
+                "copyJournalNoteToPlanOrGoalOrSubgoal": "Copy journal note to plan, goal or subgoal",
+                "copyRiskAssessmentToPlanOrGoalOrSubgoal": "Copy risk assessment to plan, goal or subgoal",
+                "currentLevels": {
+                    "currentLevel": "Current level",
+                    "minorChallenges": "Minor challenges",
+                    "moderateChallenges": "Moderate challenges",
+                    "significantChallenges": "Significant challenges",
+                    "severeChallenges": "Severe challenges",
+                    "verySubstantialChallenges": "Very substantial challenges"
+                },
+                "date": "Date",
+                "draft": "Draft",
+                "enterJournalTitleManually": "Enter journal title manually",
+                "forTeeth": "For teeth",
+                "generateNote": "Generate note",
+                "goal": "Goal",
+                "hideCurrentPlansGoalsAndSubgoals": "Hide current plans, goals, and subgoals",
+                "journalNoteTags": "Journal note tags",
+                "note": "Note",
+                "plan": "Plan",
+                "risk": {
+                    "acuteIncreasedRisk": "Acute increased risk",
+                    "increasedRisk": "Increased risk",
+                    "none": "None",
+                    "noRisk": "No risk"
+                },
+                "riskAssessment": {
+                    "acuteIncreasedRiskStatus": "is not doing well, at significant risk, and urgent intervention or support is needed",
+                    "colors": {
+                        "green": "Green",
+                        "red": "Red",
+                        "yellow": "Yellow"
+                    },
+                    "increasedRiskStatus": "Is showing signs of struggle, needs monitoring, support, or coping strategies",
+                    "noRiskStatus": "Is usually doing well when in green",
+                    "riskAssessment": "Risk assessment"
+                },
+                "riskAssessmentTags": "Risk assessment tags",
+                "showCurrentPlansGoalsAndSubgoals": "Show current plans, goals, and subgoals",
+                "subgoal": "Subgoal",
+                "tags": "Tags",
+                "teeth": "Teeth",
+                "title": "Title",
+                "usePredefinedJournalTitle": "Use predefined journal title"
+            },
+            "journalLogs": {
+                "date": "Date",
+                "deletedNotes": "Deleted notes",
+                "deletedBy": "Deleted by",
+                "description": "Description",
+                "journalLogs": "Journal logs",
+                "newData": "New data",
+                "previousData": "Previous data",
+                "updatedBy": "Updated by"
+            },
+            "move": {
+                "citizen": "Citizen",
+                "move": "Move",
+                "moveJournal": "Move journal"
+            },
+            "newNote": "New note",
+            "on": "On"
+        },
+        "confirmation": {
+            "archiveConfirmation": "Are you sure you want to archive this citizen"
         },
         "contacts": {
             "alert": {
@@ -1002,132 +1128,6 @@
             "uploadFile": "Upload file",
             "useTemplate": "Use template"
         },
-        "citizenJournals": {
-            "actions": {
-                "addToFavorite": "Add to favorite",
-                "copy": "Copy",
-                "delete": "Delete",
-                "edit": "Edit",
-                "journalLogs": "Journal logs",
-                "lock": "Lock journal",
-                "move": "Move",
-                "removeFromFavorite": "Remove from favorite",
-                "unlock": "Unlock journal"
-            },
-            "alert": {
-                "addedToFavorites": "Journal successfully added to favorites",
-                "deletedSuccessfully": "Journal successfully deleted",
-                "lockJournal": "Journal successfully locked",
-                "removedToFavorites": "Journal successfully removed from favorites",
-                "successfullyAdded": "New journal successfully saved",
-                "successfullyCopied": "Journal successfully copied",
-                "successfullyMoved": "Journal successfully moved",
-                "successfullyUpdated": "Journal successfully updated",
-                "unlockJournal": "Journal successfully unlocked"
-            },
-            "confirmation": {
-                "copyConfirmation": "Are you sure you want to copy this journal to the selected citizen",
-                "deleteConfirmation": "Are you sure you want to delete this journal",
-                "moveConfirmation": "Are you sure you want to move this journal to the selected citizen"
-            },
-            "copy": {
-                "citizen": "Citizen",
-                "copy": "Copy",
-                "copyJournal": "Copy journal"
-            },
-            "createdBy": "Created by",
-            "currentLevels": {
-                "currentLevel": "Current level",
-                "minorChallenges": "Minor challenges",
-                "moderateChallenges": "Moderate challenges",
-                "significantChallenges": "Significant challenges",
-                "severeChallenges": "Severe challenges",
-                "verySubstantialChallenges": "Very substantial challenges"
-            },
-            "download": "Download",
-            "downloadJournals": {
-                "downloadJournals": "Download journals",
-                "include": "Include",
-                "includeRiskAssessment": "Include risk assessment"
-            },
-            "editNote": "Edit note",
-            "filter": {
-                "date": "Date",
-                "filterDate": "Filter date",
-                "journalNoteView": "Journal note view",
-                "riskAssessmentView": "Risk assessment view",
-                "searchJournal": "Search journal",
-                "standardView": "Standard view"
-            },
-            "form": {
-                "attachFile": "Attach file",
-                "content": "Content",
-                "copyJournalNoteToPlanOrGoalOrSubgoal": "Copy journal note to plan, goal or subgoal",
-                "copyRiskAssessmentToPlanOrGoalOrSubgoal": "Copy risk assessment to plan, goal or subgoal",
-                "currentLevels": {
-                    "currentLevel": "Current level",
-                    "minorChallenges": "Minor challenges",
-                    "moderateChallenges": "Moderate challenges",
-                    "significantChallenges": "Significant challenges",
-                    "severeChallenges": "Severe challenges",
-                    "verySubstantialChallenges": "Very substantial challenges"
-                },
-                "date": "Date",
-                "draft": "Draft",
-                "enterJournalTitleManually": "Enter journal title manually",
-                "forTeeth": "For teeth",
-                "generateNote": "Generate note",
-                "goal": "Goal",
-                "hideCurrentPlansGoalsAndSubgoals": "Hide current plans, goals, and subgoals",
-                "journalNoteTags": "Journal note tags",
-                "note": "Note",
-                "plan": "Plan",
-                "risk": {
-                    "acuteIncreasedRisk": "Acute increased risk",
-                    "increasedRisk": "Increased risk",
-                    "none": "None",
-                    "noRisk": "No risk"
-                },
-                "riskAssessment": {
-                    "acuteIncreasedRiskStatus": "is not doing well, at significant risk, and urgent intervention or support is needed",
-                    "colors": {
-                        "green": "Green",
-                        "red": "Red",
-                        "yellow": "Yellow"
-                    },
-                    "increasedRiskStatus": "Is showing signs of struggle, needs monitoring, support, or coping strategies",
-                    "noRiskStatus": "Is usually doing well when in green",
-                    "riskAssessment": "Risk assessment"
-                },
-                "riskAssessmentTags": "Risk assessment tags",
-                "showCurrentPlansGoalsAndSubgoals": "Show current plans, goals, and subgoals",
-                "subgoal": "Subgoal",
-                "tags": "Tags",
-                "teeth": "Teeth",
-                "title": "Title",
-                "usePredefinedJournalTitle": "Use predefined journal title"
-            },
-            "journalLogs": {
-                "date": "Date",
-                "deletedNotes": "Deleted notes",
-                "deletedBy": "Deleted by",
-                "description": "Description",
-                "journalLogs": "Journal logs",
-                "newData": "New data",
-                "previousData": "Previous data",
-                "updatedBy": "Updated by"
-            },
-            "move": {
-                "citizen": "Citizen",
-                "move": "Move",
-                "moveJournal": "Move journal"
-            },
-            "newNote": "New note",
-            "on": "On"
-        },
-        "confirmation": {
-            "archiveConfirmation": "Are you sure you want to archive this citizen"
-        },
         "editCitizen": "Edit citizen",
         "exportCitizens": "Export citizens",
         "form": {
@@ -1215,6 +1215,40 @@
             "importCitizens": "Import citizens",
             "importTemplate": "Import template",
             "noFileSelected": "No file selected"
+        },
+        "inquiries": {
+            "inquiries": "Inquiries",
+            "editInquiry": "Edit inquiry",
+            "form": {
+                "alert": {
+                    "newInquirySuccessfullySaved": "New inquiry successfully saved",
+                    "inquirySuccessfullyUpdated": "Inquiry successfully updated"
+                },
+                "conversationSummary": "Conversation summary",
+                "dateOfInquiry": "Date of inquiry",
+                "inquirerName": "Inquirer name",
+                "outcome": "Outcome (e.g. offered a place, rejection, referral)",
+                "purpose": "Purpose"
+            },
+            "newInquiry": "New inquiry",
+            "table": {
+                "actions": {
+                    "delete": "Delete",
+                    "edit": "Edit"
+                },
+                "alert": {
+                    "inquirySuccessfullyDeleted": "Inquiry successfully deleted"
+                },
+                "createdBy": "Created by",
+                "confirmation": {
+                    "deleteInquiryConfirmation": "Are you sure you want to delete this inquiry"
+                },
+                "conversationSummary": "Conversation summary",
+                "dateOfInquiry": "Date of inquiry",
+                "inquirerName": "Inquirer name",
+                "outcome": "Outcome (e.g. offered a place, rejection, referral)",
+                "purpose": "Purpose"
+            }
         },
         "inquiryStayData": {
             "inquiryAndStayData": "Inquiry and stay data",
