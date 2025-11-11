@@ -529,6 +529,7 @@ async function fetchEmployee() {
                 }
             })
             state.selectedEmployee = {
+                employee_id: response?.data?.employee_id ?? '',
                 firstname: response?.data?.firstname ?? '',
                 lastname: response?.data?.lastname ?? '',
                 email: response?.data?.email ?? '',
