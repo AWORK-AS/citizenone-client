@@ -3157,14 +3157,17 @@
         "newInquiry": "New inquiry",
         "table": {
             "actions": {
+                "convertAsCitizen": "Convert as citizen",
                 "delete": "Delete",
                 "edit": "Edit"
             },
             "alert": {
-                "inquirySuccessfullyDeleted": "Inquiry successfully deleted"
+                "inquirySuccessfullyDeleted": "Inquiry successfully deleted",
+                "participantSuccessfullyConvertedAsCitizen": "Participant successfully converted as citizen"
             },
             "createdBy": "Created by",
             "confirmation": {
+                "convertAsCitizenConfirmation": "Are you sure you want to convert this participant as citizen",
                 "deleteInquiryConfirmation": "Are you sure you want to delete this inquiry"
             },
             "conversationSummary": "Conversation summary",

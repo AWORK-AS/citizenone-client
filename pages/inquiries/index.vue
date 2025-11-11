@@ -79,6 +79,12 @@
                                                     <Icon name="ph:pencil-simple" class="size-4" />
                                                 </FormButton>
                                             </Tooltip>
+                                            <Tooltip :text="$t('inquiries.table.actions.convertAsCitizen')">
+                                                <FormButton type="button" buttonStyle="action" class="rounded-md"
+                                                    @click="convertInquiryConfirmation(inquiry)">
+                                                    <Icon name="ph:check" class="size-4" />
+                                                </FormButton>
+                                            </Tooltip>
                                             <Tooltip :text="$t('inquiries.table.actions.delete')">
                                                 <FormButton type="button" buttonStyle="danger" class="rounded-md"
                                                     @click="deleteConfirmation(inquiry)">
@@ -101,8 +107,11 @@
                 :selectedInquiry="state.selectedInquiry" @close="state.modal.isEditInquiryOpen = false"
                 @refreshInquiries="fetchInquiries" />
 
+            <DialogConfirmation :isModalOpen="state.modal.isConvertInquiryOpen"
+                :message="$t('inquiries.table.confirmation.convertAsCitizenConfirmation') + '?'"
+                @close="state.modal.isConvertInquiryOpen = false" @confirm="convertInquiry" />
             <DialogConfirmation :isModalOpen="state.modal.isDeleteInquiryOpen"
-                :message="$t('inquiries.table.deleteInquiryConfirmation') + '?'"
+                :message="$t('inquiries.table.confirmation.deleteInquiryConfirmation') + '?'"
                 @close="state.modal.isDeleteInquiryOpen = false" @confirm="deleteInquiry" />
         </NuxtLayout>
     </div>
@@ -149,6 +158,7 @@ const state = reactive({
     inquiries: [] as any,
     modal: {
         isAddInquiryOpen: false,
+        isConvertInquiryOpen: false,
         isEditInquiryOpen: false,
         isDeleteInquiryOpen: false,
     },
@@ -217,6 +227,27 @@ function editInquiry(inquiry: any) {
     state.modal.isEditInquiryOpen = true
 }
 
+function convertInquiryConfirmation(inquiry: any) {
+    state.selectedInquiry = inquiry
+    state.modal.isConvertInquiryOpen = true
+}
+
+async function convertInquiry() {
+    state.error = {}
+    state.isTableLoading = true
+    try {
+        const inquiryUuid = state.selectedInquiry?.uuid
+        const response = await citizenInquiryService.convertInquiry(inquiryUuid)
+        if (response) {
+            fetchInquiries()
+            successAlert(`${t('alert.success')}!`, `${t('inquiries.table.alert.participantSuccessfullyConvertedAsCitizen')}.`)
+        }
+    } catch (error: any) {
+        state.error = error
+    }
+    state.isTableLoading = false
+}
+
 function deleteConfirmation(inquiry: any) {
     state.selectedInquiry = inquiry
     state.modal.isDeleteInquiryOpen = true
@@ -230,7 +261,7 @@ async function deleteInquiry() {
         const response = await citizenInquiryService.deleteInquiry(inquiryUuid)
         if (response) {
             fetchInquiries()
-            successAlert(`${t('alert.success')}!`, `${t('citizens.inquiry.form.alert.inquirySuccessfullyDeleted')}.`)
+            successAlert(`${t('alert.success')}!`, `${t('inquiries.table.alert.inquirySuccessfullyDeleted')}.`)
         }
     } catch (error: any) {
         state.error = error

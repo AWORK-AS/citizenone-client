@@ -20,6 +20,10 @@ class CitizenInquiryService extends BaseAPIService {
     async deleteInquiry(inquiryUuid: any): Promise<any> {
         return await this.request(`/user/citizen-inquiries/${inquiryUuid}`, 'DELETE')
     }
+
+    async convertInquiry(inquiryUuid: any): Promise<any> {
+        return await this.request(`/user/citizen-inquiries/${inquiryUuid}/convert-inquiry`, 'POST')
+    }
 }
 
 export const citizenInquiryService = new CitizenInquiryService()

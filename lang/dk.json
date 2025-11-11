@@ -3157,14 +3157,17 @@
         "newInquiry": "Ny forespørgsel",
         "table": {
             "actions": {
+                "convertAsCitizen": "Konverter til borger",
                 "delete": "Slet",
                 "edit": "Rediger"
             },
             "alert": {
-                "inquirySuccessfullyDeleted": "Forespørgsel slettet"
+                "inquirySuccessfullyDeleted": "Forespørgsel slettet",
+                "participantSuccessfullyConvertedAsCitizen": "Deltager blev succesfuldt statsborger"
             },
             "createdBy": "Oprettet af",
             "confirmation": {
+                "convertAsCitizenConfirmation": "Er du sikker på, at du vil konvertere denne deltager til borger",
                 "deleteInquiryConfirmation": "Er du sikker på, at du vil slette denne forespørgsel?"
             },
             "conversationSummary": "Samtalesammenfatning",
