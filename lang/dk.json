@@ -1216,40 +1216,6 @@
             "importTemplate": "Importskabelon",
             "noFileSelected": "Ingen fil valgt"
         },
-        "inquiries": {
-            "inquiries": "Forespørgsler",
-            "editInquiry": "Rediger forespørgsel",
-            "form": {
-                "alert": {
-                    "newInquirySuccessfullySaved": "Ny forespørgsel er blevet gemt",
-                    "inquirySuccessfullyUpdated": "Forespørgsel opdateret"
-                },
-                "conversationSummary": "Samtalesammenfatning",
-                "dateOfInquiry": "Dato for forespørgsel",
-                "inquirerName": "Navn på spørger",
-                "outcome": "Resultat (f.eks. tilbudt en plads, afvist, videresendt)",
-                "purpose": "Formål"
-            },
-            "newInquiry": "Ny forespørgsel",
-            "table": {
-                "actions": {
-                    "delete": "Slet",
-                    "edit": "Rediger"
-                },
-                "alert": {
-                    "inquirySuccessfullyDeleted": "Forespørgsel slettet"
-                },
-                "createdBy": "Oprettet af",
-                "confirmation": {
-                    "deleteInquiryConfirmation": "Er du sikker på, at du vil slette denne forespørgsel?"
-                },
-                "conversationSummary": "Samtalesammenfatning",
-                "dateOfInquiry": "Dato for forespørgsel",
-                "inquirerName": "Navn på spørger",
-                "outcome": "Resultat (f.eks. tilbudt en plads, afvist, videresendt)",
-                "purpose": "Formål"
-            }
-        },
         "inquiryStayData": {
             "inquiryAndStayData": "Henvendelses- og opholdsdata",
             "inquiryData": {
@@ -3172,6 +3138,44 @@
     "hideAll": "Skjul alle",
     "home": "Hjem",
     "guidedTour": "Guidet tur",
+    "inquiries": {
+        "inquiries": "Forespørgsler",
+        "editInquiry": "Rediger forespørgsel",
+        "form": {
+            "alert": {
+                "newInquirySuccessfullySaved": "Ny forespørgsel er blevet gemt",
+                "inquirySuccessfullyUpdated": "Forespørgsel opdateret"
+            },
+            "conversationSummary": "Samtalesammenfatning",
+            "dateOfInquiry": "Dato for forespørgsel",
+            "firstname": "Fornavn",
+            "inquirerName": "Navn på spørger",
+            "lastname": "Efternavn",
+            "outcome": "Resultat (f.eks. tilbudt en plads, afvist, videresendt)",
+            "purpose": "Formål"
+        },
+        "newInquiry": "Ny forespørgsel",
+        "table": {
+            "actions": {
+                "delete": "Slet",
+                "edit": "Rediger"
+            },
+            "alert": {
+                "inquirySuccessfullyDeleted": "Forespørgsel slettet"
+            },
+            "createdBy": "Oprettet af",
+            "confirmation": {
+                "deleteInquiryConfirmation": "Er du sikker på, at du vil slette denne forespørgsel?"
+            },
+            "conversationSummary": "Samtalesammenfatning",
+            "dateOfInquiry": "Dato for forespørgsel",
+            "firstname": "Fornavn",
+            "inquirerName": "Navn på spørger",
+            "lastname": "Efternavn",
+            "outcome": "Resultat (f.eks. tilbudt en plads, afvist, videresendt)",
+            "purpose": "Formål"
+        }
+    },
     "invitation": {
         "alert": {
             "invalidInvitationLink": "Ugyldigt invitationslink"

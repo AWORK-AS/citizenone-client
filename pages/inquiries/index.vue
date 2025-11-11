@@ -4,29 +4,18 @@
 
             <Head>
                 <Title>
-                    {{ $t('citizens.inquiries.inquiries') }}
+                    {{ $t('inquiries.inquiries') }}
                     -
                     {{ runtimeConfig?.public?.appName }}
                 </Title>
             </Head>
 
             <template #breadcrumb>
-                <Breadcrumb :links="breadcrumbLinks">
-                    <template #custom-link>
-                        <div class="flex items-center">
-                            <Icon name="heroicons:chevron-right" class="size-3 shrink-0 text-gray-400"
-                                aria-hidden="true" />
-                            <button @click="navigateTo('/citizens')"
-                                class="ml-4 text-sm font-medium text-gray-500 hover:text-gray-700">
-                                {{ customPagesStore.getCustomPagesName?.citizens }}
-                            </button>
-                        </div>
-                    </template>
-                </Breadcrumb>
+                <Breadcrumb :links="breadcrumbLinks" />
             </template>
 
             <template #header>
-                {{ $t('citizens.inquiries.inquiries') }}
+                {{ $t('inquiries.inquiries') }}
             </template>
 
             <div>
@@ -46,9 +35,9 @@
                     </div>
                     <div class="flex items-center gap-x-3">
                         <FormButton buttonStyle="action" class="rounded-lg"
-                            @click="navigateTo('/citizens/inquiries/new')">
+                            @click="state.modal.isNewInquiryOpen = true">
                             <Icon name="ph:plus" class="h-4 w-4" aria-hidden="true" />
-                            {{ $t('citizens.inquiries.newInquiry') }}
+                            {{ $t('inquiries.newInquiry') }}
                         </FormButton>
                     </div>
                 </div>
@@ -67,20 +56,26 @@
                                     <td width="15%">
                                         <span>{{ inquiry?.inquirer_name }}</span>
                                     </td>
-                                    <td width="15%">
+                                    <td width="10%">
+                                        <span>{{ inquiry?.firstname }}</span>
+                                    </td>
+                                    <td width="10%">
+                                        <span>{{ inquiry?.lastname }}</span>
+                                    </td>
+                                    <td width="10%">
                                         <span>{{ inquiry?.outcome }}</span>
                                     </td>
-                                    <td width="15%">
+                                    <td width="10%">
                                         <span>{{ inquiry?.purpose }}</span>
                                     </td>
                                     <td width="20%">
                                         <span>{{ inquiry?.conversation_summary }}</span>
                                     </td>
-                                    <td width="20%">
+                                    <td width="10%">
                                         <div class="flex items-end justify-end gap-2">
                                             <Tooltip :text="$t('inquiries.table.actions.edit')">
                                                 <FormButton type="button" buttonStyle="action" class="rounded-md"
-                                                    @click="navigateTo(`/citizens/inquiries/${inquiry.uuid}/edit`)">
+                                                    @click="editInquiry(inquiry)">
                                                     <Icon name="ph:pencil-simple" class="size-4" />
                                                 </FormButton>
                                             </Tooltip>
@@ -101,7 +96,7 @@
             </div>
 
             <DialogConfirmation :isModalOpen="state.modal.isDeleteInquiryOpen"
-                :message="$t('citizens.inquiries.table.deleteInquiryConfirmation') + '?'"
+                :message="$t('inquiries.table.deleteInquiryConfirmation') + '?'"
                 @close="state.modal.isDeleteInquiryOpen = false" @confirm="deleteInquiry" />
         </NuxtLayout>
     </div>
@@ -123,19 +118,21 @@ const { t } = useI18n()
 
 const breadcrumbLinks = [
     {
-        name: 'citizens.inquiries.inquiries',
+        name: 'inquiries.inquiries',
         translate: true,
-        href: `/citizens/inquiries`,
+        href: `/inquiries`,
     },
 ]
 
 const state = reactive({
     columnHeaders: [
-        { name: 'citizens.inquiries.table.dateOfInquiry', sorter: true, key: 'inquiry_date' },
-        { name: 'citizens.inquiries.table.inquirerName', sorter: true, key: 'inquirer_name' },
-        { name: 'citizens.inquiries.table.outcome' },
-        { name: 'citizens.inquiries.table.purpose' },
-        { name: 'citizens.inquiries.table.conversationSummary' },
+        { name: 'inquiries.table.dateOfInquiry', sorter: true, key: 'inquiry_date' },
+        { name: 'inquiries.table.inquirerName', sorter: true, key: 'inquirer_name' },
+        { name: 'inquiries.table.firstname', sorter: true, key: 'firstname' },
+        { name: 'inquiries.table.lastname', sorter: true, key: 'lastname' },
+        { name: 'inquiries.table.outcome' },
+        { name: 'inquiries.table.purpose' },
+        { name: 'inquiries.table.conversationSummary' },
         { name: '' },
     ],
     dataFilter: {
@@ -145,6 +142,8 @@ const state = reactive({
     isTableLoading: false,
     inquiries: [] as any,
     modal: {
+        isEditInquiryOpen: false,
+        isNewInquiryOpen: false,
         isDeleteInquiryOpen: false,
     },
     selectedInquiry: {} as any,
@@ -205,6 +204,11 @@ function changePageLength(event: any) {
     inquiryStore.setCurrentPageNumber(1)
     inquiryStore.setCurrentPageLength(event.target.value)
     fetchInquiries()
+}
+
+function editInquiry(inquiry: any) {
+    state.selectedInquiry = inquiry
+    state.modal.isEditInquiryOpen = true
 }
 
 function deleteConfirmation(inquiry: any) {

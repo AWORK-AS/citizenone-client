@@ -50,9 +50,9 @@
                         </select>
                     </div>
                     <div class="flex items-center gap-x-3">
-                        <FormButton buttonStyle="action" class="rounded-lg" @click="navigateTo('/citizens/inquiries')">
+                        <FormButton buttonStyle="action" class="rounded-lg" @click="navigateTo('/inquiries')">
                             <Icon name="ph:list-bullets" class="h-4 w-4" aria-hidden="true" />
-                            {{ $t('citizens.inquiries.inquiries') }}
+                            {{ $t('inquiries.inquiries') }}
                         </FormButton>
                         <FormButton buttonStyle="action" class="rounded-lg" @click="navigateTo('/citizens/new')"
                             v-if="userStore.getUser?.roles?.[0]?.name === 'Admin'">

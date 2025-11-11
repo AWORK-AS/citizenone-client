@@ -1216,40 +1216,6 @@
             "importTemplate": "Import template",
             "noFileSelected": "No file selected"
         },
-        "inquiries": {
-            "inquiries": "Inquiries",
-            "editInquiry": "Edit inquiry",
-            "form": {
-                "alert": {
-                    "newInquirySuccessfullySaved": "New inquiry successfully saved",
-                    "inquirySuccessfullyUpdated": "Inquiry successfully updated"
-                },
-                "conversationSummary": "Conversation summary",
-                "dateOfInquiry": "Date of inquiry",
-                "inquirerName": "Inquirer name",
-                "outcome": "Outcome (e.g. offered a place, rejection, referral)",
-                "purpose": "Purpose"
-            },
-            "newInquiry": "New inquiry",
-            "table": {
-                "actions": {
-                    "delete": "Delete",
-                    "edit": "Edit"
-                },
-                "alert": {
-                    "inquirySuccessfullyDeleted": "Inquiry successfully deleted"
-                },
-                "createdBy": "Created by",
-                "confirmation": {
-                    "deleteInquiryConfirmation": "Are you sure you want to delete this inquiry"
-                },
-                "conversationSummary": "Conversation summary",
-                "dateOfInquiry": "Date of inquiry",
-                "inquirerName": "Inquirer name",
-                "outcome": "Outcome (e.g. offered a place, rejection, referral)",
-                "purpose": "Purpose"
-            }
-        },
         "inquiryStayData": {
             "inquiryAndStayData": "Inquiry and stay data",
             "inquiryData": {
@@ -3172,6 +3138,44 @@
     "guidedTour": "Guided tour",
     "hideAll": "Hide all",
     "home": "Home",
+    "inquiries": {
+        "inquiries": "Inquiries",
+        "editInquiry": "Edit inquiry",
+        "form": {
+            "alert": {
+                "newInquirySuccessfullySaved": "New inquiry successfully saved",
+                "inquirySuccessfullyUpdated": "Inquiry successfully updated"
+            },
+            "conversationSummary": "Conversation summary",
+            "dateOfInquiry": "Date of inquiry",
+            "firstname": "First name",
+            "inquirerName": "Inquirer name",
+            "lastname": "Last name",
+            "outcome": "Outcome (e.g. offered a place, rejection, referral)",
+            "purpose": "Purpose"
+        },
+        "newInquiry": "New inquiry",
+        "table": {
+            "actions": {
+                "delete": "Delete",
+                "edit": "Edit"
+            },
+            "alert": {
+                "inquirySuccessfullyDeleted": "Inquiry successfully deleted"
+            },
+            "createdBy": "Created by",
+            "confirmation": {
+                "deleteInquiryConfirmation": "Are you sure you want to delete this inquiry"
+            },
+            "conversationSummary": "Conversation summary",
+            "dateOfInquiry": "Date of inquiry",
+            "firstname": "First name",
+            "inquirerName": "Inquirer name",
+            "lastname": "Last name",
+            "outcome": "Outcome (e.g. offered a place, rejection, referral)",
+            "purpose": "Purpose"
+        }
+    },
     "invitation": {
         "alert": {
             "invalidInvitationLink": "Invalid invitation link"
