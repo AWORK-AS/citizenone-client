@@ -49,6 +49,9 @@ const state = reactive({
         citizens_uuid: [],
         users_uuid: [],
         send_invitation: false,
+        is_recurring: false,
+        recurring: '',
+        recurring_until: '',
     },
 })
 
@@ -77,6 +80,9 @@ async function saveSchedule(scheduleDetails: any) {
             citizens_uuid: scheduleDetails.citizens_uuid,
             users_uuid: scheduleDetails.users_uuid,
             send_invitation: scheduleDetails.send_invitation,
+            is_recurring: scheduleDetails.is_recurring,
+            recurring: scheduleDetails.recurring,
+            recurring_until: scheduleDetails.recurring_until,
         }
         const response = await myCalendarService.saveSchedule(params)
         if (response?.data) {

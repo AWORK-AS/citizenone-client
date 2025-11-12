@@ -18,9 +18,7 @@ import { myCalendarService } from '@/components/api/user/MyCalendarService'
 import { useAlert } from '@/composables/alert'
 import { useI18n } from "vue-i18n"
 import type { Error } from '@/types'
-import { useUserStore } from '@/store/user'
 
-const userStore = useUserStore() as any
 const { successAlert } = useAlert()
 const { t } = useI18n()
 
@@ -47,6 +45,9 @@ const state = reactive({
         calendar_tag_uuid: [],
         is_private: false,
         send_invitation: false,
+        is_recurring: false,
+        recurring: '',
+        recurring_until: '',
     },
 })
 
@@ -73,6 +74,9 @@ async function saveSchedule(scheduleDetails: any) {
             calendar_tag_uuid: scheduleDetails.calendar_tag_uuid,
             is_private: scheduleDetails.is_private,
             send_invitation: scheduleDetails.send_invitation,
+            is_recurring: scheduleDetails.is_recurring,
+            recurring: scheduleDetails.recurring,
+            recurring_until: scheduleDetails.recurring_until,
         }
         const response = await myCalendarService.saveSchedule(params)
         if (response?.data) {

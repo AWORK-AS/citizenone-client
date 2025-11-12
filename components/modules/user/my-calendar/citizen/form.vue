@@ -71,6 +71,30 @@
                     {{ $t('events.form.private') }}
                 </div>
             </div>
+            <div class="space-y-1" v-if="props.formType === 'create'">
+                <div class="w-fit flex items-center cursor-pointer"
+                    @click="state.formSchedule.is_recurring = !state.formSchedule.is_recurring">
+                    <FormCheckbox :value="state.formSchedule.is_recurring" />
+                    {{ $t('bookings.formEvent.information.createMultipleEvents') }}
+                </div>
+            </div>
+            <div class="space-y-3" v-if="state.formSchedule.is_recurring">
+                <div class="space-y-1">
+                    <FormLabel for="recurring" :label="$t('events.createThisEvent')" />
+                    <FormSelect id="recurring" :options="state.options.recurringSchedules"
+                        v-model="state.formSchedule.recurring" />
+                    <FormError :error="v$?.formSchedule?.recurring?.$errors[0]?.$message.toString()" />
+                    <FormError :error="state?.error?.errors?.recurring_uuid?.[0]" />
+                </div>
+                <div class="space-y-1">
+                    <FormLabel for="recurring_until" :label="$t('events.form.recurring.until')" />
+                    <FormDateField id="recurring_until" name="recurring_until"
+                        :placeholder="`${$t('events.form.recurring.until')}`"
+                        v-model="state.formSchedule.recurring_until" />
+                    <FormError :error="v$?.formSchedule.recurring_until?.$errors[0]?.$message.toString()" />
+                    <FormError :error="state?.error?.errors?.recurring_until?.[0]" />
+                </div>
+            </div>
         </div>
         <div class="mt-6">
             <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
@@ -139,6 +163,9 @@ const state = reactive({
         calendar_tag_uuid: [],
         is_private: false,
         send_invitation: false,
+        is_recurring: false,
+        recurring: '',
+        recurring_until: '',
     },
     modal: {
         isAddNewCalendarTag: false,
@@ -146,6 +173,14 @@ const state = reactive({
     },
     options: {
         citizens: [] as Option[],
+        recurringSchedules: [
+            { value: 'everyday', label: `${t('events.form.recurring.everyDay')}` },
+            { value: 'every_week', label: `${t('events.form.recurring.everyWeek')}` },
+            { value: 'every_second_week', label: `${t('events.form.recurring.everySecondWeek')}` },
+            { value: 'every_third_week', label: `${t('events.form.recurring.everyThirdWeek')}` },
+            { value: 'every_fourth_week', label: `${t('events.form.recurring.everyFourthWeek')}` },
+            { value: 'every_month', label: `${t('events.form.recurring.everyMonth')}` },
+        ],
         tags: [] as Option[],
         units: [] as Option[],
         users: [] as Option[]
@@ -169,6 +204,9 @@ onMounted(() => {
         calendar_tag_uuid: props.selectedSchedule.calendar_tag_uuid,
         is_private: props.selectedSchedule.is_private,
         send_invitation: props.selectedSchedule.send_invitation,
+        is_recurring: props.selectedSchedule.is_recurring,
+        recurring: props.selectedSchedule.recurring,
+        recurring_until: props.selectedSchedule.recurring_until,
     }
 })
 

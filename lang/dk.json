@@ -2821,6 +2821,7 @@
         "calendar": "Kalender",
         "citizens": "Borgere",
         "createdBy": "Oprettet af",
+        "createThisEvent": "Opret denne begivenhed",
         "confirmation": {
             "deleteConfirmation": "Er du sikker på, at du vil slette denne begivenhed"
         },
@@ -2836,6 +2837,17 @@
             "employees": "Medarbejdere",
             "eventOwner": "Begivenhedsejer",
             "private": "Privat",
+            "recurring": {
+                "addThisSessions": "Tilføj denne session",
+                "everyDay": "Hver dag",
+                "everyWeek": "Hver uge",
+                "everySecondWeek": "Hver anden uge",
+                "everyThirdWeek": "Hver tredje uge",
+                "everyFourthWeek": "Hver fjerde uge",
+                "everyMonth": "Hver måned",
+                "repeat": "Gentag",
+                "until": "Indtil"
+            },
             "sendInvitation": "Send invitationen",
             "tags": "Etiketter",
             "title": "Titel"

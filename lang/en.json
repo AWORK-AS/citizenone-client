@@ -2819,8 +2819,9 @@
             "successfullyUpdated": "Event successfully updated"
         },
         "calendar": "Calendar",
-        "createdBy": "Created by",
         "citizens": "Citizens",
+        "createdBy": "Created by",
+        "createThisEvent": "Create this event",
         "confirmation": {
             "deleteConfirmation": "Are you sure you want to delete this event"
         },
@@ -2836,6 +2837,17 @@
             "employees": "Employees",
             "eventOwner": "Event owner",
             "private": "Private",
+            "recurring": {
+                "addThisSessions": "Add this session",
+                "everyDay": "Every day",
+                "everyWeek": "Every week",
+                "everySecondWeek": "Every second week",
+                "everyThirdWeek": "Every third week",
+                "everyFourthWeek": "Every fourth week",
+                "everyMonth": "Every month",
+                "repeat": "Repeat",
+                "until": "Until"
+            },
             "sendInvitation": "Send invitation",
             "tags": "Tags",
             "title": "Title"
