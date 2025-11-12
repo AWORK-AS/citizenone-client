@@ -2830,6 +2830,7 @@
         "employees": "Medarbejdere",
         "eventOwner": "Begivenhedsejer",
         "form": {
+            "applyChangesToFutureEvents": "Anvend ændringer på fremtidige begivenheder",
             "citizens": "Borgere",
             "datetimeStart": "Start dato og tid",
             "dateTimeEnd": "Slut dato og tid",

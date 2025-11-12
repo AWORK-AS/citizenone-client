@@ -2830,6 +2830,7 @@
         "employees": "Employees",
         "eventOwner": "Event owner",
         "form": {
+            "applyChangesToFutureEvents": "Apply changes to future events",
             "citizens": "Citizens",
             "datetimeStart": "Date time start",
             "dateTimeEnd": "Date time end",
