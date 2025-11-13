@@ -4262,11 +4262,7 @@
             "phone": "Telefon",
             "iHaveReadAndAcceptThe": "Jeg har læst og accepterer",
             "termsAndConditions": "Vilkår og betingelser",
-            "typeOfFacility": {
-                "crisisCenter": "Krisecenter",
-                "homelessShelter": "Herberg",
-                "typeOfFacility": "Type af tilbud"
-            },
+            "typeOfFacility": "Type af tilbud",
             "loginHere": "Log ind her",
             "agreetoTAC": "Du skal acceptere vilkårene og betingelserne"
         },

@@ -55,8 +55,7 @@
                         </div>
                         <div class="space-y-1"
                             v-if="state.options.industries.find((industry: any) => industry.value === state.formRegister.industry)?.system_name === 'social_welfare'">
-                            <FormLabel for="facility_type_uuid"
-                                :label="$t('register.form.typeOfFacility.typeOfFacility')" />
+                            <FormLabel for="facility_type_uuid" :label="$t('register.form.typeOfFacility')" />
                             <FormSelect id="facility_type_uuid" :options="state.options.typeOfFacilities"
                                 v-model="state.formRegister.facility_type_uuid" />
                             <FormError :error="v$?.formRegister?.facility_type_uuid?.$errors[0]?.$message.toString()" />
