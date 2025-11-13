@@ -458,24 +458,24 @@ const allUpdates: Record<string, Record<string, { title: string, description: st
                 ],
             },
             {
-                title: 'Dagligt overblik omdøbt til Overblik',
+                title: 'Dagligt oversigt omdøbt til Oversigt',
                 description: [
-                    'Sektionen, der tidligere hed "Dagligt overblik", er blevet omdøbt til "Overblik".',
+                    'Sektionen, der tidligere hed "Dagligt oversigt", er blevet omdøbt til "Oversigt".',
                     'Ændringen giver en tydeligere og mere generel oversigtssektion for brugerne.'
                 ],
             },
             {
-                title: '“Borgernes daglige hændelser” omdøbt til “Borgernes hændelser” i overblikket',
+                title: '“Borgernes daglige begivenheder” omdøbt til “Borgernes begivenheder” i oversigten',
                 description: [
-                    'I overblikket er titlen "Borgernes daglige hændelser" ændret til "Borgernes hændelser".',
-                    'Dette afspejler, at hændelser ikke kun er begrænset til daglige begivenheder, og sikrer større ensartethed i navngivningen.'
+                    'I oversigten er titlen "Borgernes daglige begivenheder" ændret til "Borgernes begivenheder".',
+                    'Dette afspejler, at begivenheder ikke kun er begrænset til daglige begivenheder, og sikrer større ensartethed i navngivningen.'
                 ],
             },
             {
-                title: '“Dagligt medicinoverblik” omdøbt til “Medicinoverblik” i overblikket',
+                title: '“Dagligt medicinoversigt” omdøbt til “Medicinoversigt” i oversigten',
                 description: [
-                    'Sektionen "Dagligt medicinoverblik" er blevet ændret til "Medicinoverblik".',
-                    'Dette repræsenterer bedre den bredere funktionalitet og dækning af overblikket.'
+                    'Sektionen "Dagligt medicinoversigt”" er blevet ændret til "Medicinoversigt".',
+                    'Dette repræsenterer bedre den bredere funktionalitet og dækning af oversigten.'
                 ],
             },
             {
