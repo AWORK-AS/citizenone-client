@@ -105,6 +105,18 @@ const state = reactive({
     },
 })
 
+onMounted(() => {
+    state.formInquiry = {
+        inquiry_date: props.selectedInquiry?.inquiry_date,
+        inquirer_name: props.selectedInquiry?.inquirer_name,
+        first_name: props.selectedInquiry?.first_name,
+        last_name: props.selectedInquiry?.last_name,
+        outcome: props.selectedInquiry?.outcome,
+        purpose: props.selectedInquiry?.purpose,
+        conversation_summary: props.selectedInquiry?.conversation_summary,
+    }
+})
+
 watch(() => props.selectedInquiry, (newValue: any) => {
     if (newValue != null) {
         state.formInquiry = {

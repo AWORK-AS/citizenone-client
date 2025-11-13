@@ -119,14 +119,12 @@
 
 <script setup lang="ts">
 import { citizenInquiryService } from '@/components/api/user/CitizenInquiryService'
-import { useCustomPagesStore } from '@/store/custom-pages'
 import { useInquiryStore } from '@/store/inquiry'
 import { useI18n } from "vue-i18n"
 import { useAlert } from '@/composables/alert'
 import type { Error } from '@/types'
 
 const runtimeConfig = useRuntimeConfig()
-const customPagesStore = useCustomPagesStore() as any
 const inquiryStore = useInquiryStore() as any
 const { successAlert } = useAlert()
 const { t } = useI18n()
