@@ -4906,6 +4906,7 @@
                 "lastname": "Last name",
                 "emailAddress": "Email address",
                 "phone": "Phone",
+                "typeOfFacility": "Type of facility",
                 "website": "Website"
             },
             "importCompanies": {

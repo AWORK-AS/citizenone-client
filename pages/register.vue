@@ -165,17 +165,8 @@ const state = reactive({
     } as any,
     isPageLoading: false,
     options: {
-        typeOfFacilities: [
-            {
-                value: 'crisis_center',
-                label: t('register.form.typeOfFacility.crisisCenter')
-            },
-            {
-                value: 'homeless_shelter',
-                label: t('register.form.typeOfFacility.homelessShelter')
-            }
-        ] as any,
         industries: [] as any,
+        typeOfFacilities: [] as any,
     },
     slideOver: {
         isLanguageSwitcherOpen: false

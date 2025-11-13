@@ -4906,6 +4906,7 @@
                 "lastname": "Efternavn",
                 "emailAddress": "E-mailadresse",
                 "phone": "Telefon",
+                "typeOfFacility": "Type af tilbud",
                 "website": "Websted"
             },
             "importCompanies": {
