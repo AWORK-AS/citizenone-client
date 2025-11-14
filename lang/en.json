@@ -3189,7 +3189,12 @@
             "inquirerName": "Inquirer name",
             "lastname": "Last name",
             "outcome": "Outcome (e.g. offered a place, rejection, referral)",
-            "purpose": "Purpose"
+            "purpose": "Purpose",
+            "status": {
+                "forConversion": "For conversion",
+                "convertedAsCitizen": "Converted as citizen",
+                "status": "Status"
+            }
         }
     },
     "invitation": {

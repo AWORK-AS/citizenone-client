@@ -3189,7 +3189,12 @@
             "inquirerName": "Navn på spørger",
             "lastname": "Efternavn",
             "outcome": "Resultat (f.eks. tilbudt en plads, afvist, videresendt)",
-            "purpose": "Formål"
+            "purpose": "Formål",
+            "status": {
+                "forConversion": "Til konvertering",
+                "convertedAsCitizen": "Konverteret som borger",
+                "status": "Status"
+            }
         }
     },
     "invitation": {

@@ -51,7 +51,16 @@
                             <template #body v-if="!(state.isTableLoading || (state.inquiries?.data?.length === 0))">
                                 <tr v-for="(inquiry, index) in state.inquiries?.data" :key="index">
                                     <td width="15%">
-                                        {{ inquiry?.inquiry_date }}
+                                        {{ formatDateToReadable(inquiry?.inquiry_date) }}
+                                    </td>
+                                    <td width="15%">
+                                        <Badge :type="inquiry?.citizen_id ? 'active' : 'primary'" class="w-fit">
+                                            <p class="text-xxs truncate">
+                                                {{ inquiry?.citizen_id ?
+                                                    $t('inquiries.table.status.convertedAsCitizen') :
+                                                    $t('inquiries.table.status.forConversion') }}
+                                            </p>
+                                        </Badge>
                                     </td>
                                     <td width="15%">
                                         <span>{{ inquiry?.inquirer_name }}</span>
@@ -68,7 +77,7 @@
                                     <td width="10%">
                                         <span>{{ inquiry?.purpose }}</span>
                                     </td>
-                                    <td width="20%">
+                                    <td width="15%">
                                         <span>{{ inquiry?.conversation_summary }}</span>
                                     </td>
                                     <td width="10%">
@@ -79,7 +88,8 @@
                                                     <Icon name="ph:pencil-simple" class="size-4" />
                                                 </FormButton>
                                             </Tooltip>
-                                            <Tooltip :text="$t('inquiries.table.actions.convertAsCitizen')">
+                                            <Tooltip :text="$t('inquiries.table.actions.convertAsCitizen')"
+                                                v-if="!inquiry?.citizen_id">
                                                 <FormButton type="button" buttonStyle="action" class="rounded-md"
                                                     @click="convertInquiryConfirmation(inquiry)">
                                                     <Icon name="ph:check" class="size-4" />
@@ -120,12 +130,14 @@
 <script setup lang="ts">
 import { citizenInquiryService } from '@/components/api/user/CitizenInquiryService'
 import { useInquiryStore } from '@/store/inquiry'
+import { useDatetimeFormatter } from '@/composables/datetimeFormatter'
 import { useI18n } from "vue-i18n"
 import { useAlert } from '@/composables/alert'
 import type { Error } from '@/types'
 
 const runtimeConfig = useRuntimeConfig()
 const inquiryStore = useInquiryStore() as any
+const { formatDateToReadable } = useDatetimeFormatter()
 const { successAlert } = useAlert()
 const { t } = useI18n()
 
@@ -140,6 +152,7 @@ const breadcrumbLinks = [
 const state = reactive({
     columnHeaders: [
         { name: 'inquiries.table.dateOfInquiry', sorter: true, key: 'inquiry_date' },
+        { name: 'inquiries.table.status.status', sorter: true, key: 'citizen_id' },
         { name: 'inquiries.table.inquirerName', sorter: true, key: 'inquirer_name' },
         { name: 'inquiries.table.firstname', sorter: true, key: 'firstname' },
         { name: 'inquiries.table.lastname', sorter: true, key: 'lastname' },
