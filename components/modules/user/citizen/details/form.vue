@@ -418,7 +418,7 @@
             </div>
         </div>
         <div class="grid grid-cols-1 gap-x-8 gap-y-4 pb-10 mb-10 xl:grid-cols-3 border-b border-gray-900/10"
-            v-if="userStore.getUser?.company?.industry?.system_name === 'social_welfare' && ['crisis_center', 'homeless_shelter'].includes(userStore.getUser?.company?.subcategory)">
+            v-if="userStore.getUser?.company?.industry?.system_name === 'social_welfare' && userStore.getUser?.company?.facility_type_id">
             <div>
                 <h2 class="text-base font-semibold leading-7 text-gray-900">
                     {{ $t('citizens.sections.inquiryData') }}
@@ -468,7 +468,7 @@
             </div>
         </div>
         <div class="grid grid-cols-1 gap-x-8 gap-y-4 pb-10 mb-10 xl:grid-cols-3 border-b border-gray-900/10"
-            v-if="userStore.getUser?.company?.industry?.system_name === 'social_welfare' && ['crisis_center', 'homeless_shelter'].includes(userStore.getUser?.company?.subcategory)">
+            v-if="userStore.getUser?.company?.industry?.system_name === 'social_welfare' && userStore.getUser?.company?.facility_type_id">
             <div>
                 <h2 class="text-base font-semibold leading-7 text-gray-900">
                     {{ $t('citizens.sections.stayData') }}
