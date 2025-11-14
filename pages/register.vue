@@ -61,9 +61,9 @@
                             <FormError :error="v$?.formRegister?.facility_type_uuid?.$errors[0]?.$message.toString()" />
                             <FormError :error="state?.error?.errors?.facility_type_uuid?.[0]" />
                         </div>
-                        <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-3 py-1">
                             <div class="space-y-1">
-                                <FormLabel for="firstname" :label="$t('register.form.firstname')" />
+                                <!-- <FormLabel for="firstname" :label="$t('register.form.firstname')" /> -->
                                 <FormTextField id="firstname" name="firstname"
                                     :placeholder="$t('register.form.firstname')"
                                     v-model="state.formRegister.firstname" />
@@ -71,22 +71,22 @@
                                 <FormError :error="state?.error?.errors?.firstname?.[0]" />
                             </div>
                             <div class="space-y-1">
-                                <FormLabel for="lastname" :label="$t('register.form.lastname')" />
+                                <!-- <FormLabel for="lastname" :label="$t('register.form.lastname')" /> -->
                                 <FormTextField id="lastname" name="lastname" :placeholder="$t('register.form.lastname')"
                                     v-model="state.formRegister.lastname" />
                                 <FormError :error="v$?.formRegister?.lastname?.$errors[0]?.$message.toString()" />
                                 <FormError :error="state?.error?.errors?.lastname?.[0]" />
                             </div>
                         </div>
-                        <div class="space-y-1">
-                            <FormLabel for="phone" :label="$t('register.form.phone')" />
+                        <div class="space-y-1 py-1">
+                            <!-- <FormLabel for="phone" :label="$t('register.form.phone')" /> -->
                             <FormTextField id="phone" name="phone" :placeholder="$t('register.form.phone')"
                                 v-model="state.formRegister.phone" />
                             <FormError :error="v$?.formRegister?.phone?.$errors[0]?.$message.toString()" />
                             <FormError :error="state?.error?.errors?.phone?.[0]" />
                         </div>
-                        <div class="space-y-1">
-                            <FormLabel for="email" :label="$t('register.form.emailAddress')" />
+                        <div class="space-y-1 py-1">
+                            <!-- <FormLabel for="email" :label="$t('register.form.emailAddress')" /> -->
                             <FormTextField id="email" name="email" :placeholder="$t('register.form.emailAddress')"
                                 v-model="state.formRegister.email" />
                             <FormError :error="v$?.formRegister?.email?.$errors[0]?.$message.toString()" />
@@ -110,7 +110,7 @@
                         </div>
                         <div>
                             <FormButton type="submit" buttonStyle="primary" class="w-full">
-                                {{ $t('register.form.createAccount') }}
+                                {{ $t('register.form.createFreeAccount') }}
                             </FormButton>
                         </div>
                         <p class="text-center text-sm leading-6 text-gray-500 cursor-pointer" @click="navigateTo('/')">

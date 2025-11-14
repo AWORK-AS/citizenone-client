@@ -3189,7 +3189,12 @@
             "inquirerName": "Inquirer name",
             "lastname": "Last name",
             "outcome": "Outcome (e.g. offered a place, rejection, referral)",
-            "purpose": "Purpose"
+            "purpose": "Purpose",
+            "status": {
+                "forConversion": "For conversion",
+                "convertedAsCitizen": "Converted as citizen",
+                "status": "Status"
+            }
         }
     },
     "invitation": {
@@ -3465,7 +3470,7 @@
             },
             "confirmCode": "Confirm the code",
             "createCode": "Create a code to open the secure email",
-            "encryptMessage": "Encrypt message",
+            "encryptMessage": "Send email as Secure Mail",
             "enterCode": "Enter a self-chosen code",
             "message": "Message",
             "passwordHint": "Write a small hint that can help the recipient remember the password",
@@ -4249,7 +4254,7 @@
     },
     "register": {
         "form": {
-            "createAccount": "Create account",
+            "createFreeAccount": "Create free account",
             "alreadyHaveAnAccount": "Already have an account",
             "companyName": "Company name",
             "cvr": "CVR",

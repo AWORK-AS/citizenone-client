@@ -129,8 +129,11 @@
                                                         <Icon name="ph:arrow-left" size="20" class="text-black" />
                                                         <span>{{ $t('back') }}</span>
                                                     </button>
-                                                    <div class="flex items-center">
+                                                    <div class="flex items-center gap-x-1">
                                                         <Icon name="ph:lock-key-fill" class="w-6 h-6 text-[#95cf55]" />
+                                                        <p class="text-sm">
+                                                            {{ $t('mail.secured.encrypted') }}
+                                                        </p>
                                                     </div>
                                                 </div>
                                                 <div class="mt-3 space-y-3">

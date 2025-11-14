@@ -31,6 +31,7 @@
 <script setup lang="ts">
 import { citizenService } from '@/components/api/user/CitizenService'
 import { employeeService } from '@/components/api/user/EmployeeService'
+import { useDepartmentStore } from '@/store/department'
 import { useVuelidate } from "@vuelidate/core"
 import { required, helpers } from '@vuelidate/validators'
 import { useI18n } from "vue-i18n"
@@ -38,6 +39,7 @@ import { useAlert } from '@/composables/alert'
 import type { Error } from '@/types'
 
 const router = useRouter()
+const departmentStore = useDepartmentStore()
 const { successAlert } = useAlert()
 const { t } = useI18n()
 const employeeUuid = router?.currentRoute?.value?.params?.employee_uuid
@@ -95,6 +97,7 @@ async function fetchAvailableCitizens() {
     state.isTableLoading = true
     try {
         const params = {
+            department: departmentStore.getSelectedDepartmentName,
             user_uuid: employeeUuid,
         }
         const response = await citizenService.getAllAssignee(params)
