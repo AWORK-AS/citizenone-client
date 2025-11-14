@@ -24,8 +24,7 @@
                     <div>
                         <Icon name="ph:lock-key-fill" class="h-6 w-6 text-[#95cf55]" aria-hidden="true" />
                     </div>
-                    <p class="text-xxs">{{ $t('mail.secured.secured') }}</p>
-                    <p class="text-xxs">{{ $t('mail.mail') }}</p>
+                    <p class="text-xxs">{{ $t('mail.secured.securedMail') }}</p>
                 </button>
                 <Badge type="notification" class="w-fit absolute -right-2 -top-2">
                     {{ props?.unreadSecuredMessage ?? 0 }}

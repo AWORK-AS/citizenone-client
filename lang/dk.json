@@ -3432,7 +3432,7 @@
         },
         "connectYourMessage": "Forbind din mail til systemet, så du kan se dine modtagne og sendte mails",
         "connectYourMail": "Forbind din mail",
-        "compose": "Opret",
+        "compose": "Send e-mail",
         "content": {
             "from": "Fra",
             "on": "Den",
@@ -3470,7 +3470,7 @@
             },
             "confirmCode": "Bekræft koden",
             "createCode": "Lav en kode for at åbne den sikre mail",
-            "encryptMessage": "Krypter besked",
+            "encryptMessage": "Send e-mail som Sikker Mail",
             "enterCode": "Indtast en selvvalgt kode",
             "message": "Besked",
             "passwordHint": "Skriv et lille hint, der kan hjælpe modtageren med at huske adgangskoden",
