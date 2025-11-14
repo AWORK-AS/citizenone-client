@@ -4249,7 +4249,7 @@
     },
     "register": {
         "form": {
-            "createAccount": "Create account",
+            "createFreeAccount": "Create free account",
             "alreadyHaveAnAccount": "Already have an account",
             "companyName": "Company name",
             "cvr": "CVR",

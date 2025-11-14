@@ -4249,7 +4249,7 @@
     },
     "register": {
         "form": {
-            "createAccount": "Opret konto",
+            "createFreeAccount": "Opret gratis konto",
             "alreadyHaveAnAccount": "Har du allerede en konto",
             "companyName": "Firmanavn",
             "cvr": "CVR",
