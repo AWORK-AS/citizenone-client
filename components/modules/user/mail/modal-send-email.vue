@@ -1,6 +1,7 @@
 <template>
     <div>
-        <Modal size="md" :title="$t('mail.compose')" :show="props.isModalOpen" @close="closeModal">
+        <Modal size="md" :title="$t('mail.compose')" titleIcon="ph:envelope-open" titleIconColor="42add8"
+            :show="props.isModalOpen" @close="closeModal">
             <template #modal-body>
                 <LoadingSpinner :isActive="state.isPageLoading">
                     <form @submit.prevent="submitForm()" id="formEmail">
@@ -28,24 +29,38 @@
                                 <FormError :error="v$?.formEmail?.content?.$errors[0]?.$message.toString()" />
                                 <FormError :error="state?.error?.errors?.content?.[0]" />
                             </div>
-                            <div class="space-y-1">
-                                <div class="w-fit flex items-center cursor-pointer"
-                                    @click="state.formEmail.encrypt_message = !state.formEmail.encrypt_message">
-                                    <FormCheckbox :value="state.formEmail.encrypt_message" />
+                            <div class="space-y-1 flex items-center gap-x-2">
+                                <FormSwitch :value="state.formEmail.encrypt_message"
+                                    @toggleSwitch="state.formEmail.encrypt_message = !state.formEmail.encrypt_message" />
+                                <p>
                                     {{ $t('mail.form.encryptMessage') }}
+                                </p>
+                                <div class="flex items-center">
+                                    <Icon name="ph:lock-key-fill" class="w-4 h-4 text-[#95cf55]" />
+                                </div>
+                            </div>
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-x-3">
+                                <div class="space-y-1" v-if="state.formEmail.encrypt_message">
+                                    <FormLabel for="password" :label="$t('mail.form.createCode')" />
+                                    <FormTextField id="password" name="password"
+                                        :placeholder="$t('mail.form.enterCode')" v-model="state.formEmail.password" />
+                                    <FormError :error="v$?.formEmail?.password?.$errors[0]?.$message.toString()" />
+                                    <FormError :error="state?.error?.errors?.password?.[0]" />
+                                </div>
+                                <div class="space-y-1" v-if="state.formEmail.encrypt_message">
+                                    <FormLabel for="confirm_password" :label="$t('mail.form.confirmCode')" />
+                                    <FormTextField id="confirm_password" name="confirm_password"
+                                        :placeholder="$t('mail.form.reenterCode')"
+                                        v-model="state.formEmail.confirm_password" />
+                                    <FormError
+                                        :error="v$?.formEmail?.confirm_password?.$errors[0]?.$message.toString()" />
+                                    <FormError :error="state?.error?.errors?.confirm_password?.[0]" />
                                 </div>
                             </div>
                             <div class="space-y-1" v-if="state.formEmail.encrypt_message">
-                                <FormLabel for="password" :label="$t('mail.form.password')" />
-                                <FormTextField id="password" name="password" :placeholder="$t('mail.form.password')"
-                                    v-model="state.formEmail.password" />
-                                <FormError :error="v$?.formEmail?.password?.$errors[0]?.$message.toString()" />
-                                <FormError :error="state?.error?.errors?.password?.[0]" />
-                            </div>
-                            <div class="space-y-1" v-if="state.formEmail.encrypt_message">
                                 <FormLabel for="password_hint" :label="$t('mail.form.passwordHint')" />
-                                <FormTextField id="password_hint" name="password"
-                                    :placeholder="$t('mail.form.passwordHint')"
+                                <FormTextField id="password_hint" name="password_hint"
+                                    :placeholder="$t('mail.form.passwordHintPlaceholder')"
                                     v-model="state.formEmail.password_hint" />
                                 <FormError :error="v$?.formEmail?.password_hint?.$errors[0]?.$message.toString()" />
                                 <FormError :error="state?.error?.errors?.password_hint?.[0]" />
@@ -161,7 +176,7 @@ import { citizenDocumentService } from '@/components/api/user/CitizenDocumentSer
 import { documentService } from '@/components/api/user/DocumentService'
 import { mailSMTPService } from '@/components/api/user/MailSMTPService'
 import { useVuelidate } from '@vuelidate/core'
-import { required, helpers } from '@vuelidate/validators'
+import { required, helpers, sameAs } from '@vuelidate/validators'
 import { useAlert } from '@/composables/alert'
 import { useI18n } from 'vue-i18n'
 import type { Error } from '@/types'
@@ -191,6 +206,7 @@ const state = reactive({
         content: '',
         encrypt_message: false,
         password: '',
+        confirm_password: '',
         password_hint: '',
         fileOption: 'Attach file from computer',
         files: [] as File[],
@@ -224,6 +240,13 @@ const rules = computed(() => {
                     required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
                 },
                 password: {
+                    required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
+                },
+                confirm_password: {
+                    required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
+                    sameAsPassword: helpers.withMessage(`${t('mail.form.alert.enteredCodeMismatched')}.`, sameAs(state.formEmail.password)),
+                },
+                password_hint: {
                     required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
                 },
             },

@@ -82,11 +82,6 @@ const { formatDateTimeToReadable } = useDatetimeFormatter()
 let currentTablePage = 1
 
 const state = reactive({
-    columnFilter: [
-        { column: 'invoice_number' },
-        { column: 'company_name' },
-        { column: 'status' },
-    ],
     columnHeaders: [
         { name: 'superadmin.invoices.table.date', sorter: true, key: 'created_at' },
         { name: 'superadmin.invoices.table.status' },

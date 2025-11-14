@@ -120,10 +120,6 @@ const state = reactive({
         },
     ],
     citizenProtocols: [] as any,
-    columnFilter: [
-        { column: 'citizen' },
-        { column: 'status' },
-    ],
     columnHeaders: [
         { name: 'protocols.table.citizens.date', sorter: true, key: 'date' },
         { name: 'protocols.table.citizens.citizen' },

@@ -16,12 +16,7 @@
 <script setup lang="ts">
 import moment from 'moment'
 import { coursesEventsService } from '@/components/api/user/CoursesEventsService'
-import { useAlert } from '@/composables/alert'
-import { useI18n } from "vue-i18n"
 import type { Error } from '@/types'
-
-const { successAlert } = useAlert()
-const { t } = useI18n()
 
 const props = defineProps({
     isModalOpen: {
@@ -157,7 +152,7 @@ async function saveEvent(eventDetails: any) {
             params.append(`slots[${i}][end_time]`, slot.end_time)
             params.append(`slots[${i}][capacity]`, slot.capacity)
         })
-        
+
         const response = await coursesEventsService.updateEventCourse(eventUuid, params)
         if (response.data) {
             refreshCoursesEvents()

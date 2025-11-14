@@ -202,10 +202,6 @@ const breadcrumbLinks = [
 ]
 
 const state = reactive({
-    columnFilter: [
-        { column: 'name' },
-        { column: 'license' },
-    ],
     columnHeaders: [
         { name: 'settings.licenseOverview.table.license', sorter: true, key: 'license' },
         { name: 'settings.licenseOverview.table.user' },

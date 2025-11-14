@@ -105,12 +105,6 @@ let currentTablePage = 1
 
 const state = reactive({
     companies: [] as any,
-    columnFilter: [
-        { column: 'name' },
-        { column: 'cvr' },
-        { column: 'website' },
-        { column: '' },
-    ],
     columnHeaders: [
         { name: 'superadmin.companies.table.id', sorter: true, key: 'id' },
         { name: 'superadmin.companies.table.name', sorter: true, key: 'name' },

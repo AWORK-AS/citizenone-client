@@ -85,10 +85,6 @@ const { t } = useI18n()
 let currentTablePage = 1
 
 const state = reactive({
-    columnFilter: [
-        { column: 'title' },
-        { column: 'status' },
-    ],
     columnHeaders: [
         { name: 'superadmin.polls.table.title', sorter: true, key: 'title' },
         { name: 'superadmin.polls.table.status', sorter: true, key: 'is_active' },

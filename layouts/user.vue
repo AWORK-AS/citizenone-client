@@ -63,14 +63,8 @@
                                                         <span v-if="item.name === 'Protocols'">
                                                             {{ $t('sidebar.protocols') }}
                                                         </span>
-                                                        <div class="grow flex items-center gap-x-2"
-                                                            v-if="item.name === 'Mail'">
-                                                            <span v-if="item.name === 'Mail'">
-                                                                {{ $t('sidebar.mail') }}
-                                                            </span>
-                                                            <Badge type="coming-soon" class="text-xxs truncate w-fit">
-                                                                Beta
-                                                            </Badge>
+                                                        <div v-if="item.name === 'Mail'">
+                                                            {{ $t('sidebar.mail') }}
                                                         </div>
                                                         <span v-if="item.name === 'Documents'">
                                                             {{ $t('sidebar.documents') }}
@@ -172,13 +166,8 @@
                                         <span v-if="item.name === 'Protocols'">
                                             {{ $t('sidebar.protocols') }}
                                         </span>
-                                        <div class="grow flex items-center gap-x-2" v-if="item.name === 'Mail'">
-                                            <span v-if="item.name === 'Mail'">
-                                                {{ $t('sidebar.mail') }}
-                                            </span>
-                                            <Badge type="coming-soon" class="text-xxs truncate w-fit">
-                                                Beta
-                                            </Badge>
+                                        <div v-if="item.name === 'Mail'">
+                                            {{ $t('sidebar.mail') }}
                                         </div>
                                         <span v-if="item.name === 'Documents'">
                                             {{ $t('sidebar.documents') }}
@@ -507,73 +496,6 @@ const router = useRouter()
 const routeName = router?.currentRoute?.value?.name
 
 let navigation = [] as any
-// let navigation = [
-//     {
-//         name: 'Overview',
-//         href: '/overview',
-//         icon: 'material-symbols:dashboard',
-//         activeRouteNames: [
-//             'overview',
-//         ]
-//     },
-//     {
-//         name: 'Citizens',
-//         href: '/citizens',
-//         icon: 'heroicons:user-group',
-//         activeRouteNames: [
-//             'citizens',
-//             'citizens-new',
-//             'citizens-uuid-edit',
-//             'citizens-uuid-journals',
-//             'citizens-uuid-medicine-journals',
-//             'citizens-uuid-plans-and-goals',
-//             'citizens-uuid-nursing-areas',
-//             'citizens-uuid-documents',
-//             'citizens-uuid-documents-document_uuid',
-//             'citizens-uuid-attendance',
-//             'citizens-uuid-attendance-citizen_protocol_uuid',
-//             'citizens-uuid-calendar',
-//             'citizens-uuid-wallets',
-//             'citizens-uuid-wallets-wallet_uuid',
-//             'citizens-uuid-contacts',
-//         ]
-//     },
-//     {
-//         name: 'Calendar',
-//         href: '/calendar',
-//         icon: 'ph:calendar-blank',
-//         activeRouteNames: [
-//             'calendar'
-//         ]
-//     },
-//     {
-//         name: 'Duty schedules',
-//         href: '/schedules',
-//         icon: 'ph:calendar-dots',
-//         activeRouteNames: [
-//             'schedules',
-//             'schedules-draft'
-//         ]
-//     },
-//     {
-//         name: 'Documents',
-//         href: '/drive',
-//         icon: 'ph:folder',
-//         activeRouteNames: [
-//             'drive'
-//         ]
-//     },
-//     {
-//         name: 'Bullet Board',
-//         href: '/news',
-//         icon: 'ph:newspaper',
-//         activeRouteNames: [
-//             'news',
-//             'news-new',
-//             'news-edit-uuid',
-//         ]
-//     },
-// ] as any
 
 const sidebarOpen = ref(false)
 

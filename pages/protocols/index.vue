@@ -113,9 +113,6 @@ const breadcrumbLinks = [
 
 const state = reactive({
     citizenOptions: [],
-    columnFilter: [
-        { column: 'name' },
-    ],
     columnHeaders: [
         { name: 'protocols.table.protocolName', sorter: true, key: 'name' },
         { name: 'protocols.table.startDate', sorter: true, key: 'start_date' },

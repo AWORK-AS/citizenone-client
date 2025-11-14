@@ -40,6 +40,10 @@
                         <FormButton buttonStyle="primary" @click="navigateTo('/overview/view')">
                             {{ $t('overview.viewAll') }}
                         </FormButton>
+                        <FormButton buttonStyle="action" class="rounded-lg" @click="navigateTo('/inquiries')">
+                            <Icon name="ph:list-bullets" class="h-4 w-4" aria-hidden="true" />
+                            {{ $t('inquiries.inquiries') }}
+                        </FormButton>
                         <FormButton buttonStyle="primary" @click="state.modal.isQuickRiskAssessmentOpen = true"
                             v-if="userStore.getUser?.company?.quick_risk_assessment_enabled">
                             {{ $t('overview.quickRiskAssessment.quickRiskAssessment') }}

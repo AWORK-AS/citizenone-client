@@ -78,10 +78,6 @@ const companyUuid = router?.currentRoute?.value?.params?.company_uuid
 let currentTablePage = 1
 
 const state = reactive({
-    columnFilter: [
-        { column: 'name' },
-        { column: '' },
-    ],
     columnHeaders: [
         { name: 'superadmin.companies.companyApps.table.name', sorter: true, key: 'name' },
         { name: 'superadmin.companies.companyApps.table.status' },

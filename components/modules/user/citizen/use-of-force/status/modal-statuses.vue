@@ -124,9 +124,6 @@ const props = defineProps({
 const emit = defineEmits(['close', 'refreshData'])
 
 const state = reactive({
-    columnFilter: [
-        { column: 'status' },
-    ],
     columnHeaders: [
         { name: 'citizens.useOfForce.statuses.table.title', sorter: true, key: 'title' },
         { name: 'citizens.useOfForce.statuses.table.status', sorter: true, key: 'status' },

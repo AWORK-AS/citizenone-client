@@ -97,10 +97,6 @@ const { t } = useI18n()
 let currentTablePage = 1
 
 const state = reactive({
-    columnFilter: [
-        { column: 'title' },
-        { column: 'status' },
-    ],
     columnHeaders: [
         { name: 'superadmin.salesCampaign.table.image' },
         { name: 'superadmin.salesCampaign.table.title', sorter: true, key: 'title' },

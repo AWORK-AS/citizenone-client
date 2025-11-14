@@ -32,10 +32,14 @@
                             :isLoading="state.isTableLoading" :sortData="state.sortData" @sort="sort">
                             <template #body v-if="!(state.isTableLoading || (state.departments?.data?.length === 0))">
                                 <tr v-for="(department, index) in state.departments?.data" :key="index">
-                                    <td width="50%">
+                                    <td width="35%">
                                         <span>{{ department?.name }}</span>
                                     </td>
-                                    <td width="50%">
+                                    <td width="35%">
+                                        <span :style="{ backgroundColor: department?.color }"
+                                            class="inline-block w-8 h-8 rounded" />
+                                    </td>
+                                    <td width="30%">
                                         <div class="flex items-end justify-end gap-2">
                                             <FormButton type="button" buttonStyle="action" class="rounded-md"
                                                 @click="navigateTo(`/settings/departments/${department.uuid}/edit`)">
@@ -82,11 +86,9 @@ const breadcrumbLinks = [
 ]
 
 const state = reactive({
-    columnFilter: [
-        { column: 'name' },
-    ],
     columnHeaders: [
         { name: 'departments.table.name', sorter: true, key: 'name' },
+        { name: 'departments.table.color' },
         { name: '' },
     ],
     dataFilter: {

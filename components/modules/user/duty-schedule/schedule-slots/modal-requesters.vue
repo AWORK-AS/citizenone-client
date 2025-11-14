@@ -72,9 +72,6 @@ const { t } = useI18n()
 let currentTablePage = 1
 
 const state = reactive({
-    columnFilter: [
-        { column: 'name' },
-    ],
     columnHeaders: [
         { name: 'dutySchedules.requesters.table.name' },
         { name: '' },

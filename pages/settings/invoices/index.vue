@@ -116,11 +116,6 @@ const breadcrumbLinks = [
 ]
 
 const state = reactive({
-    columnFilter: [
-        { column: 'status' },
-        { column: 'invoice_number' },
-        { column: 'company_name' },
-    ],
     columnHeaders: [
         { name: 'invoices.table.date', sorter: true, key: 'created_at' },
         { name: 'invoices.table.status' },

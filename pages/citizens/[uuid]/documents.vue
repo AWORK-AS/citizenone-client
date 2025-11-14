@@ -243,9 +243,6 @@ const breadcrumbLinks = [
 ]
 
 const state = reactive({
-    columnFilter: [
-        { column: 'name' },
-    ],
     columnHeaders: [
         { name: 'citizens.documents.table.name', sorter: true, key: 'name' },
         { name: 'citizens.documents.table.owner' },

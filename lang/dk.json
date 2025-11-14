@@ -809,13 +809,139 @@
             "delete": "Slet",
             "viewSchedule": "Se tidsplan"
         },
-        "citizens": "Borgere",
         "caseWorker": {
             "addNewCaseworker": "Tilføj ny sagsbehandler",
             "alert": {
                 "newCaseWorkerSuccessfullyAdded": "Ny sagsbehandler tilføjet med succes"
             },
             "newCaseWorker": "Ny sagsbehandler"
+        },
+        "citizens": "Borgere",
+        "citizenJournals": {
+            "actions": {
+                "addToFavorite": "Føj til favoritter",
+                "copy": "Kopiér",
+                "delete": "Slet",
+                "edit": "Rediger",
+                "journalLogs": "Journallogs",
+                "lock": "Lås journal",
+                "move": "Flyt",
+                "removeFromFavorite": "Fjern fra favoritter",
+                "unlock": "Lås journal op"
+            },
+            "alert": {
+                "addedToFavorites": "Journal tilføjet til favoritter med succes",
+                "deletedSuccessfully": "Journal slettet med succes",
+                "lockJournal": "Journal låst med succes",
+                "removedToFavorites": "Journal fjernet fra favoritter med succes",
+                "successfullyAdded": "Ny journal gemt med succes",
+                "successfullyCopied": "Journalen blev kopieret succesfuldt",
+                "successfullyMoved": "Journalen blev flyttet succesfuldt",
+                "successfullyUpdated": "Journal opdateret med succes",
+                "unlockJournal": "Journal låst op med succes"
+            },
+            "confirmation": {
+                "copyConfirmation": "Er du sikker på, at du vil kopiere denne journal til den valgte borger",
+                "deleteConfirmation": "Er du sikker på, at du vil slette denne journal",
+                "moveConfirmation": "Er du sikker på, at du vil flytte denne journal til den valgte borger"
+            },
+            "copy": {
+                "citizen": "Borger",
+                "copy": "Kopier",
+                "copyJournal": "Kopier journal"
+            },
+            "createdBy": "Oprettet af",
+            "currentLevels": {
+                "currentLevel": "Nuværende niveau",
+                "minorChallenges": "Mindre udfordringer",
+                "moderateChallenges": "Moderate udfordringer",
+                "significantChallenges": "Markante udfordringer",
+                "severeChallenges": "Alvorlige udfordringer",
+                "verySubstantialChallenges": "Meget store udfordringer"
+            },
+            "download": "Download",
+            "downloadJournals": {
+                "downloadJournals": "Download journaler",
+                "include": "Inkluder",
+                "includeRiskAssessment": "Inkluder risikovurdering"
+            },
+            "editNote": "Rediger notat",
+            "filter": {
+                "date": "Dato",
+                "filterDate": "Filtrer dato",
+                "journalNoteView": "Journalnotatvisning",
+                "riskAssessmentView": "Risikovurderingsvisning",
+                "searchJournal": "Søg i journal",
+                "standardView": "Standardvisning"
+            },
+            "form": {
+                "attachFile": "Vedhæft fil",
+                "content": "Indhold",
+                "copyJournalNoteToPlanOrGoalOrSubgoal": "Kopiér journalnote til plan, mål eller delmål",
+                "copyRiskAssessmentToPlanOrGoalOrSubgoal": "Kopiér risikovurdering til plan, mål eller delmål",
+                "currentLevels": {
+                    "currentLevel": "Nuværende niveau",
+                    "minorChallenges": "Mindre udfordringer",
+                    "moderateChallenges": "Moderate udfordringer",
+                    "significantChallenges": "Markante udfordringer",
+                    "severeChallenges": "Alvorlige udfordringer",
+                    "verySubstantialChallenges": "Meget store udfordringer"
+                },
+                "date": "Dato",
+                "draft": "Udkast",
+                "enterJournalTitleManually": "Indtast journal titel manuelt",
+                "forTeeth": "Til tænder",
+                "goal": "Mål",
+                "generateNote": "Generer note",
+                "hideCurrentPlansGoalsAndSubgoals": "Skjul nuværende planer, mål og delmål",
+                "journalNoteTags": "Journalnotetag",
+                "note": "Note",
+                "plan": "Plan",
+                "risk": {
+                    "acuteIncreasedRisk": "Akut øget risiko",
+                    "increasedRisk": "Øget risiko",
+                    "none": "Ingen",
+                    "noRisk": "Ingen risiko"
+                },
+                "riskAssessment": {
+                    "acuteIncreasedRiskStatus": "har det ikke godt, er i betydelig risiko, og der er behov for hurtig intervention eller støtte",
+                    "colors": {
+                        "green": "Grøn",
+                        "red": "Rød",
+                        "yellow": "Gul"
+                    },
+                    "increasedRiskStatus": "viser tegn på udfordringer, har brug for overvågning, støtte eller mestringsstrategier",
+                    "noRiskStatus": "har det normalt godt, når status er grøn",
+                    "riskAssessment": "Risikovurdering"
+                },
+                "riskAssessmentTags": "Risikovurderingstag",
+                "showCurrentPlansGoalsAndSubgoals": "Vis nuværende planer, mål og delmål",
+                "subgoal": "Delmål",
+                "tags": "Etiketter",
+                "teeth": "Tænder",
+                "title": "Titel",
+                "usePredefinedJournalTitle": "Brug foruddefineret journal titel"
+            },
+            "journalLogs": {
+                "date": "Dato",
+                "deletedNotes": "Slettede noter",
+                "deletedBy": "Slettet af",
+                "description": "Beskrivelse",
+                "journalLogs": "Journallogs",
+                "newData": "Nye data",
+                "previousData": "Tidligere data",
+                "updatedBy": "Opdateret af"
+            },
+            "move": {
+                "citizen": "Borger",
+                "move": "Flyt",
+                "moveJournal": "Flyt journal"
+            },
+            "newNote": "Nyt notat",
+            "on": "Den"
+        },
+        "confirmation": {
+            "archiveConfirmation": "Er du sikker på, at du vil arkivere denne borger"
         },
         "contacts": {
             "alert": {
@@ -1001,132 +1127,6 @@
             "upgradeStorage": "Opgradér lager",
             "uploadFile": "Upload fil",
             "useTemplate": "Brug skabelon"
-        },
-        "citizenJournals": {
-            "actions": {
-                "addToFavorite": "Føj til favoritter",
-                "copy": "Kopiér",
-                "delete": "Slet",
-                "edit": "Rediger",
-                "journalLogs": "Journallogs",
-                "lock": "Lås journal",
-                "move": "Flyt",
-                "removeFromFavorite": "Fjern fra favoritter",
-                "unlock": "Lås journal op"
-            },
-            "alert": {
-                "addedToFavorites": "Journal tilføjet til favoritter med succes",
-                "deletedSuccessfully": "Journal slettet med succes",
-                "lockJournal": "Journal låst med succes",
-                "removedToFavorites": "Journal fjernet fra favoritter med succes",
-                "successfullyAdded": "Ny journal gemt med succes",
-                "successfullyCopied": "Journalen blev kopieret succesfuldt",
-                "successfullyMoved": "Journalen blev flyttet succesfuldt",
-                "successfullyUpdated": "Journal opdateret med succes",
-                "unlockJournal": "Journal låst op med succes"
-            },
-            "confirmation": {
-                "copyConfirmation": "Er du sikker på, at du vil kopiere denne journal til den valgte borger",
-                "deleteConfirmation": "Er du sikker på, at du vil slette denne journal",
-                "moveConfirmation": "Er du sikker på, at du vil flytte denne journal til den valgte borger"
-            },
-            "copy": {
-                "citizen": "Borger",
-                "copy": "Kopier",
-                "copyJournal": "Kopier journal"
-            },
-            "createdBy": "Oprettet af",
-            "currentLevels": {
-                "currentLevel": "Nuværende niveau",
-                "minorChallenges": "Mindre udfordringer",
-                "moderateChallenges": "Moderate udfordringer",
-                "significantChallenges": "Markante udfordringer",
-                "severeChallenges": "Alvorlige udfordringer",
-                "verySubstantialChallenges": "Meget store udfordringer"
-            },
-            "download": "Download",
-            "downloadJournals": {
-                "downloadJournals": "Download journaler",
-                "include": "Inkluder",
-                "includeRiskAssessment": "Inkluder risikovurdering"
-            },
-            "editNote": "Rediger notat",
-            "filter": {
-                "date": "Dato",
-                "filterDate": "Filtrer dato",
-                "journalNoteView": "Journalnotatvisning",
-                "riskAssessmentView": "Risikovurderingsvisning",
-                "searchJournal": "Søg i journal",
-                "standardView": "Standardvisning"
-            },
-            "form": {
-                "attachFile": "Vedhæft fil",
-                "content": "Indhold",
-                "copyJournalNoteToPlanOrGoalOrSubgoal": "Kopiér journalnote til plan, mål eller delmål",
-                "copyRiskAssessmentToPlanOrGoalOrSubgoal": "Kopiér risikovurdering til plan, mål eller delmål",
-                "currentLevels": {
-                    "currentLevel": "Nuværende niveau",
-                    "minorChallenges": "Mindre udfordringer",
-                    "moderateChallenges": "Moderate udfordringer",
-                    "significantChallenges": "Markante udfordringer",
-                    "severeChallenges": "Alvorlige udfordringer",
-                    "verySubstantialChallenges": "Meget store udfordringer"
-                },
-                "date": "Dato",
-                "draft": "Udkast",
-                "enterJournalTitleManually": "Indtast journal titel manuelt",
-                "forTeeth": "Til tænder",
-                "goal": "Mål",
-                "generateNote": "Generer note",
-                "hideCurrentPlansGoalsAndSubgoals": "Skjul nuværende planer, mål og delmål",
-                "journalNoteTags": "Journalnotetag",
-                "note": "Note",
-                "plan": "Plan",
-                "risk": {
-                    "acuteIncreasedRisk": "Akut øget risiko",
-                    "increasedRisk": "Øget risiko",
-                    "none": "Ingen",
-                    "noRisk": "Ingen risiko"
-                },
-                "riskAssessment": {
-                    "acuteIncreasedRiskStatus": "har det ikke godt, er i betydelig risiko, og der er behov for hurtig intervention eller støtte",
-                    "colors": {
-                        "green": "Grøn",
-                        "red": "Rød",
-                        "yellow": "Gul"
-                    },
-                    "increasedRiskStatus": "viser tegn på udfordringer, har brug for overvågning, støtte eller mestringsstrategier",
-                    "noRiskStatus": "har det normalt godt, når status er grøn",
-                    "riskAssessment": "Risikovurdering"
-                },
-                "riskAssessmentTags": "Risikovurderingstag",
-                "showCurrentPlansGoalsAndSubgoals": "Vis nuværende planer, mål og delmål",
-                "subgoal": "Delmål",
-                "tags": "Etiketter",
-                "teeth": "Tænder",
-                "title": "Titel",
-                "usePredefinedJournalTitle": "Brug foruddefineret journal titel"
-            },
-            "journalLogs": {
-                "date": "Dato",
-                "deletedNotes": "Slettede noter",
-                "deletedBy": "Slettet af",
-                "description": "Beskrivelse",
-                "journalLogs": "Journallogs",
-                "newData": "Nye data",
-                "previousData": "Tidligere data",
-                "updatedBy": "Opdateret af"
-            },
-            "move": {
-                "citizen": "Borger",
-                "move": "Flyt",
-                "moveJournal": "Flyt journal"
-            },
-            "newNote": "Nyt notat",
-            "on": "Den"
-        },
-        "confirmation": {
-            "archiveConfirmation": "Er du sikker på, at du vil arkivere denne borger"
         },
         "editCitizen": "Rediger Borger",
         "exportCitizens": "Eksporter borgere",
@@ -2211,6 +2211,7 @@
                 "departmentSuccessfullyUpdated": "Afdeling opdateret med succes",
                 "newDepartmentSuccessfullySaved": "Ny afdeling gemt med succes"
             },
+            "color": "Farve",
             "name": "Navn"
         },
         "newDepartment": "Ny afdeling",
@@ -2225,6 +2226,7 @@
             "confirmation": {
                 "deleteDepartmentConfirmation": "Er du sikker på, at du vil slette denne afdeling"
             },
+            "color": "Farve",
             "name": "Navn"
         }
     },
@@ -2819,6 +2821,7 @@
         "calendar": "Kalender",
         "citizens": "Borgere",
         "createdBy": "Oprettet af",
+        "createThisEvent": "Opret denne begivenhed",
         "confirmation": {
             "deleteConfirmation": "Er du sikker på, at du vil slette denne begivenhed"
         },
@@ -2827,6 +2830,7 @@
         "employees": "Medarbejdere",
         "eventOwner": "Begivenhedsejer",
         "form": {
+            "applyChangesToFutureEvents": "Anvend ændringer på fremtidige begivenheder",
             "citizens": "Borgere",
             "datetimeStart": "Start dato og tid",
             "dateTimeEnd": "Slut dato og tid",
@@ -2834,6 +2838,17 @@
             "employees": "Medarbejdere",
             "eventOwner": "Begivenhedsejer",
             "private": "Privat",
+            "recurring": {
+                "addThisSessions": "Tilføj denne session",
+                "everyDay": "Hver dag",
+                "everyWeek": "Hver uge",
+                "everySecondWeek": "Hver anden uge",
+                "everyThirdWeek": "Hver tredje uge",
+                "everyFourthWeek": "Hver fjerde uge",
+                "everyMonth": "Hver måned",
+                "repeat": "Gentag",
+                "until": "Indtil"
+            },
             "sendInvitation": "Send invitationen",
             "tags": "Etiketter",
             "title": "Titel"
@@ -3136,6 +3151,47 @@
     "hideAll": "Skjul alle",
     "home": "Hjem",
     "guidedTour": "Guidet tur",
+    "inquiries": {
+        "inquiries": "Forespørgsler",
+        "editInquiry": "Rediger forespørgsel",
+        "form": {
+            "alert": {
+                "newInquirySuccessfullySaved": "Ny forespørgsel er blevet gemt",
+                "inquirySuccessfullyUpdated": "Forespørgsel opdateret"
+            },
+            "conversationSummary": "Samtalesammenfatning",
+            "dateOfInquiry": "Dato for forespørgsel",
+            "firstname": "Fornavn",
+            "inquirerName": "Navn på spørger",
+            "lastname": "Efternavn",
+            "outcome": "Resultat (f.eks. tilbudt en plads, afvist, videresendt)",
+            "purpose": "Formål"
+        },
+        "newInquiry": "Ny forespørgsel",
+        "table": {
+            "actions": {
+                "convertAsCitizen": "Konverter til borger",
+                "delete": "Slet",
+                "edit": "Rediger"
+            },
+            "alert": {
+                "inquirySuccessfullyDeleted": "Forespørgsel slettet",
+                "participantSuccessfullyConvertedAsCitizen": "Deltager blev succesfuldt statsborger"
+            },
+            "createdBy": "Oprettet af",
+            "confirmation": {
+                "convertAsCitizenConfirmation": "Er du sikker på, at du vil konvertere denne deltager til borger",
+                "deleteInquiryConfirmation": "Er du sikker på, at du vil slette denne forespørgsel?"
+            },
+            "conversationSummary": "Samtalesammenfatning",
+            "dateOfInquiry": "Dato for forespørgsel",
+            "firstname": "Fornavn",
+            "inquirerName": "Navn på spørger",
+            "lastname": "Efternavn",
+            "outcome": "Resultat (f.eks. tilbudt en plads, afvist, videresendt)",
+            "purpose": "Formål"
+        }
+    },
     "invitation": {
         "alert": {
             "invalidInvitationLink": "Ugyldigt invitationslink"
@@ -3395,7 +3451,8 @@
         "form": {
             "alert": {
                 "emailSuccessfullyFowarded": "E-mail videresendt med succes",
-                "emailSuccessfullySent": "E-mail sendt med succes"
+                "emailSuccessfullySent": "E-mail sendt med succes",
+                "enteredCodeMismatched": "Indtastet kode stemmer ikke overens"
             },
             "attachFiles": {
                 "attachFiles": "Vedhæft filer",
@@ -3406,10 +3463,14 @@
                 "citizenFiles": "Borgerfiler",
                 "organizationFiles": "Organisationsfiler"
             },
+            "confirmCode": "Bekræft koden",
+            "createCode": "Lav en kode for at åbne den sikre mail",
             "encryptMessage": "Krypter besked",
+            "enterCode": "Indtast en selvvalgt kode",
             "message": "Besked",
-            "password": "Adgangskode",
-            "passwordHint": "Adgangskodehint",
+            "passwordHint": "Skriv et lille hint, der kan hjælpe modtageren med at huske adgangskoden",
+            "passwordHintPlaceholder": "Indtast hint til adgangskoden",
+            "reenterCode": "Indtast den selvvalgte kode igen",
             "send": "Send",
             "subject": "Emne",
             "to": "Til"
@@ -3437,10 +3498,11 @@
                 "readMessage": "Læs besked",
                 "send": "Send"
             },
+            "encrypted": "Krypteret",
             "from": "Fra",
             "replySecurely": "Svar sikkert",
             "secured": "Sikker",
-            "securedMail": "Sikker mail",
+            "securedMail": "Sikker Mail",
             "sent": {
                 "sentWith": "Sendt med",
                 "citizenOneMail": "CitizenOne mail",
@@ -4200,11 +4262,7 @@
             "phone": "Telefon",
             "iHaveReadAndAcceptThe": "Jeg har læst og accepterer",
             "termsAndConditions": "Vilkår og betingelser",
-            "typeOfFacility": {
-                "crisisCenter": "Krisecenter",
-                "homelessShelter": "Herberg",
-                "typeOfFacility": "Type af tilbud"
-            },
+            "typeOfFacility": "Type af tilbud",
             "loginHere": "Log ind her",
             "agreetoTAC": "Du skal acceptere vilkårene og betingelserne"
         },
@@ -4848,6 +4906,7 @@
                 "lastname": "Efternavn",
                 "emailAddress": "E-mailadresse",
                 "phone": "Telefon",
+                "typeOfFacility": "Type af tilbud",
                 "website": "Websted"
             },
             "importCompanies": {
