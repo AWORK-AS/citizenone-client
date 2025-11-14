@@ -11,7 +11,7 @@
                         <p>
                             {{ $t('citizens.inquiryStayData.inquiryData.dateOfInquiry') }}:
                         </p>
-                        <p>
+                        <p v-if="props?.selectedCitizen?.data?.inquiry_data?.inquiry_date">
                             {{ formatDateToReadable(props?.selectedCitizen?.data?.inquiry_data?.inquiry_date) }}
                         </p>
                     </div>
@@ -64,7 +64,7 @@
                         <p>
                             {{ $t('citizens.inquiryStayData.stayData.accommodationStartDate') }}:
                         </p>
-                        <p>
+                        <p v-if="props?.selectedCitizen?.data?.stay_data?.start_date">
                             {{ formatDateToReadable(props?.selectedCitizen?.data?.stay_data?.start_date) }}
                         </p>
                     </div>
@@ -72,7 +72,7 @@
                         <p>
                             {{ $t('citizens.inquiryStayData.stayData.accommodationEndDate') }}:
                         </p>
-                        <p>
+                        <p v-if="props?.selectedCitizen?.data?.stay_data?.end_date">
                             {{ formatDateToReadable(props?.selectedCitizen?.data?.stay_data?.end_date) }}
                         </p>
                     </div>
