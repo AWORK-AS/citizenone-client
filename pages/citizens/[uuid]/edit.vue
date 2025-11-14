@@ -29,7 +29,7 @@
                     <span>{{ $t('back') }}</span>
                 </NuxtLink>
                 <LoadingSpinner :isActive="state.isPageLoading">
-                    <div class="max-w-3xl flex justify-end">
+                    <div class="flex justify-end">
                         <FormButton type="button" buttonStyle="warning" class="rounded-md"
                             @click="confirmCitizenArchiving">
                             {{ $t('citizens.archiveCitizen') }}
@@ -200,7 +200,7 @@ async function fetchCitizen() {
                 has_duty_schedule_access: response?.data?.has_duty_schedule_access ?? '',
                 has_bullet_board_access: response?.data?.has_bullet_board_access ?? '',
                 inquiryData: {
-                    conversation_summary: response?.data?.conversation_summary ?? '',
+                    conversation_summary: response?.data?.inquiry_data?.conversation_summary ?? '',
                     inquiry_date: response?.data?.inquiry_data?.inquiry_date ?? '',
                     inquirer_name: response?.data?.inquiry_data?.inquirer_name ?? '',
                     outcome: response?.data?.inquiry_data?.outcome ?? '',
