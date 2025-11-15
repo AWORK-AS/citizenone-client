@@ -155,7 +155,7 @@ onMounted(() => {
     animateAssets()
     const rememberMe = localStorage.getItem("remember_me")
     if (rememberMe) {
-        navigateTo('/overview')
+        navigateTo('/client/appointments')
     }
 })
 
@@ -200,9 +200,9 @@ async function login() {
                     localStorage.setItem("_token", response.data?.token)
                     departmentStore.resetSelectedDepartmentName()
                     userStore.setUser(response?.data?.user)
-                    userStore.setLanguage(response?.data?.user?.language?.code)
-                    language.locale.value = response?.data?.user?.language?.code
-                    navigateTo('/client/overview')
+                    userStore.setLanguage(response?.data?.user?.language?.code || 'dk')
+                    language.locale.value = response?.data?.user?.language?.code || 'dk'
+                    navigateTo('/client/appointments')
                 }
             }
         } catch (error: any) {

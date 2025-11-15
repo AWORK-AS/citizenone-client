@@ -699,6 +699,18 @@
         "bulletBoard": "Bullet board",
         "featured": "Featured"
     },
+    "client": {
+        "appointments": "Appointments",
+        "viewAppointment": "View Appointment",
+        "appointmentsTable": {
+            "eventName": "Event name",
+            "description": "Description",
+            "address": "Address",
+            "city": "City",
+            "date": "Date",
+            "time": "Time"
+        }
+    },
     "calendar": {
         "citizens": "Citizens",
         "days": {
@@ -3189,12 +3201,7 @@
             "inquirerName": "Inquirer name",
             "lastname": "Last name",
             "outcome": "Outcome (e.g. offered a place, rejection, referral)",
-            "purpose": "Purpose",
-            "status": {
-                "forConversion": "For conversion",
-                "convertedAsCitizen": "Converted as citizen",
-                "status": "Status"
-            }
+            "purpose": "Purpose"
         }
     },
     "invitation": {
@@ -3470,7 +3477,7 @@
             },
             "confirmCode": "Confirm the code",
             "createCode": "Create a code to open the secure email",
-            "encryptMessage": "Send email as Secure Mail",
+            "encryptMessage": "Encrypt message",
             "enterCode": "Enter a self-chosen code",
             "message": "Message",
             "passwordHint": "Write a small hint that can help the recipient remember the password",
@@ -4254,7 +4261,7 @@
     },
     "register": {
         "form": {
-            "createFreeAccount": "Create free account",
+            "createAccount": "Create account",
             "alreadyHaveAnAccount": "Already have an account",
             "companyName": "Company name",
             "cvr": "CVR",
