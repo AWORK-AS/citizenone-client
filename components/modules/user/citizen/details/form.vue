@@ -96,7 +96,7 @@
                     </div>
                 </div>
                 <div class="space-y-1"
-                    v-if="userStore.getUser?.company?.industry?.system_name === 'social_welfare' && ['crisis_center', 'homeless_shelter'].includes(userStore.getUser?.company?.subcategory)">
+                    v-if="userStore.getUser?.company?.industry?.system_name === 'social_welfare' && ['Crisis center', 'Shelter'].includes(userStore.getUser?.company?.facility_type?.en_name)">
                     <div class="flex justify-between items-center py-0.5">
                         <FormLabel for="rooms" :label="$t('citizens.form.room')" />
                         <span class="text-xs cursor-pointer text-tertiary hover:text-tertiary-800"
@@ -418,23 +418,13 @@
             </div>
         </div>
         <div class="grid grid-cols-1 gap-x-8 gap-y-4 pb-10 mb-10 xl:grid-cols-3 border-b border-gray-900/10"
-            v-if="userStore.getUser?.company?.industry?.system_name === 'social_welfare' && userStore.getUser?.company?.facility_type_id">
+            v-if="userStore.getUser?.company?.industry?.system_name === 'social_welfare' && ['Crisis center', 'Shelter'].includes(userStore.getUser?.company?.facility_type?.en_name)">
             <div>
                 <h2 class="text-base font-semibold leading-7 text-gray-900">
                     {{ $t('citizens.sections.inquiryData') }}
                 </h2>
             </div>
             <div class="md:col-span-2 space-y-3 bg-white shadow-sm ring-1 ring-gray-900/5 rounded-lg px-4 py-6 sm:p-8">
-                <div class="space-y-1">
-                    <FormLabel for="conversation_summary"
-                        :label="$t('citizens.form.inquiryData.conversationSummary')" />
-                    <FormTextArea id="conversation_summary" name="conversation_summary"
-                        :placeholder="$t('citizens.form.inquiryData.conversationSummary')"
-                        v-model="state.formCitizen.inquiryData.conversation_summary" />
-                    <FormError
-                        :error="v$?.formCitizen?.inquiryData.conversation_summary?.$errors[0]?.$message.toString()" />
-                    <FormError :error="props?.error?.errors?.conversation_summary?.[0]" />
-                </div>
                 <div class="space-y-1">
                     <FormLabel for="inquiry_date" :label="$t('citizens.form.inquiryData.dateOfInquiry')" />
                     <FormDateField id="inquiry_date" name="inquiry_date"
@@ -465,10 +455,20 @@
                     <FormError :error="v$?.formCitizen?.inquiryData.purpose?.$errors[0]?.$message.toString()" />
                     <FormError :error="props?.error?.errors?.purpose?.[0]" />
                 </div>
+                <div class="space-y-1">
+                    <FormLabel for="conversation_summary"
+                        :label="$t('citizens.form.inquiryData.conversationSummary')" />
+                    <FormTextArea id="conversation_summary" name="conversation_summary"
+                        :placeholder="$t('citizens.form.inquiryData.conversationSummary')"
+                        v-model="state.formCitizen.inquiryData.conversation_summary" />
+                    <FormError
+                        :error="v$?.formCitizen?.inquiryData.conversation_summary?.$errors[0]?.$message.toString()" />
+                    <FormError :error="props?.error?.errors?.conversation_summary?.[0]" />
+                </div>
             </div>
         </div>
         <div class="grid grid-cols-1 gap-x-8 gap-y-4 pb-10 mb-10 xl:grid-cols-3 border-b border-gray-900/10"
-            v-if="userStore.getUser?.company?.industry?.system_name === 'social_welfare' && userStore.getUser?.company?.facility_type_id">
+            v-if="userStore.getUser?.company?.industry?.system_name === 'social_welfare' && ['Crisis center', 'Shelter'].includes(userStore.getUser?.company?.facility_type?.en_name)">
             <div>
                 <h2 class="text-base font-semibold leading-7 text-gray-900">
                     {{ $t('citizens.sections.stayData') }}
