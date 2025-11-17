@@ -59,8 +59,7 @@
                     <FormError :error="v$?.formShift.date_time_end?.$errors[0]?.$message.toString()" />
                 </div>
             </div>
-
-            <div class="space-y-1" v-if="props.formType === 'create'">
+            <div class="space-y-1">
                 <div class="w-fit flex items-center cursor-pointer"
                     @click="state.formShift.is_recurring = !state.formShift.is_recurring">
                     <FormCheckbox :value="state.formShift.is_recurring" />
@@ -82,6 +81,13 @@
                         v-model="state.formShift.recurring_until" />
                     <FormError :error="v$?.formShift.recurring_until?.$errors[0]?.$message.toString()" />
                     <FormError :error="state?.error?.errors?.recurring_until?.[0]" />
+                </div>
+            </div>
+            <div class="space-y-1" v-if="props.formType === 'update' && state.formShift.is_recurring">
+                <div class="w-fit flex items-center cursor-pointer"
+                    @click="state.formShift.is_apply_to_all = !state.formShift.is_apply_to_all">
+                    <FormCheckbox :value="state.formShift.is_apply_to_all" />
+                    {{ $t('dutySchedules.form.recurring.applyChangesToAllRecurringShifts') }}
                 </div>
             </div>
             <div class="space-y-1"
@@ -201,6 +207,7 @@ const state = reactive({
         is_recurring: false,
         recurring: '',
         recurring_until: '',
+        is_apply_to_all: false,
         citizens: [],
         schedule_tag_uuid: [],
         department_uuid: [],

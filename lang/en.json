@@ -2322,6 +2322,7 @@
             "note": "Note",
             "private": "Private",
             "recurring": {
+                "applyChangesToAllRecurringShifts": "Apply changes to all recurring shifts",
                 "everyDay": "Every day",
                 "everyWeek": "Every week",
                 "everySecondWeek": "Every second week",

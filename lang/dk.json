@@ -2322,6 +2322,7 @@
             "note": "Bemærkning",
             "private": "Privat",
             "recurring": {
+                "applyChangesToAllRecurringShifts": "Anvend ændringer på alle tilbagevendende vagter",
                 "everyDay": "Hver dag",
                 "everyWeek": "Hver uge",
                 "everySecondWeek": "Hver anden uge",
