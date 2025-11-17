@@ -31,9 +31,20 @@
                                 <div class="space-y-1">
                                     <FormLabel for="industry" :label="$t('superadmin.companies.form.industry')" />
                                     <FormSelect id="industry" :options="state.options.industries"
-                                        v-model="state.formCompany.industry" />
-                                    <FormError :error="v$?.formCompany?.industry?.$errors[0]?.$message.toString()" />
-                                    <FormError :error="state?.error?.errors?.industry?.[0]" />
+                                        v-model="state.formCompany.industry_uuid" />
+                                    <FormError
+                                        :error="v$?.formCompany?.industry_uuid?.$errors[0]?.$message.toString()" />
+                                    <FormError :error="state?.error?.errors?.industry_uuid?.[0]" />
+                                </div>
+                                <div class="space-y-1"
+                                    v-if="state.options.industries.find((industry: any) => industry.value === state.formCompany.industry_uuid)?.system_name === 'social_welfare'">
+                                    <FormLabel for="facility_type_uuid"
+                                        :label="$t('superadmin.companies.form.typeOfFacility')" />
+                                    <FormSelect id="facility_type_uuid" :options="state.options.typeOfFacilities"
+                                        v-model="state.formCompany.facility_type_uuid" />
+                                    <FormError
+                                        :error="v$?.formCompany?.facility_type_uuid?.$errors[0]?.$message.toString()" />
+                                    <FormError :error="state?.error?.errors?.facility_type_uuid?.[0]" />
                                 </div>
                                 <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
                                     <div class="space-y-1">
@@ -114,6 +125,7 @@
 <script setup lang="ts">
 import { companyService } from '@/components/api/superadmin/CompanyService'
 import { industryService } from '@/components/api/superadmin/IndustryService'
+import { facilityTypeService } from '@/components/api/user/FacilityTypeService'
 import { useAlert } from '@/composables/alert'
 import { useVuelidate } from "@vuelidate/core"
 import { required, helpers } from '@vuelidate/validators'
@@ -129,7 +141,8 @@ const state = reactive({
     error: {} as Error,
     formCompany: {
         name: '',
-        industry: '',
+        industry_uuid: '',
+        facility_type_uuid: '',
         firstname: '',
         lastname: '',
         email: '',
@@ -140,6 +153,7 @@ const state = reactive({
     isPageLoading: false,
     options: {
         industries: [] as any,
+        typeOfFacilities: [] as any,
     },
 })
 
@@ -149,7 +163,7 @@ const rules = computed(() => {
             name: {
                 required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
             },
-            industry: {
+            industry_uuid: {
                 required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
             },
             firstname: {
@@ -171,11 +185,13 @@ const v$ = useVuelidate(rules, state)
 
 onMounted(() => {
     fetchAllIndustries()
+    fetchAllFacilityTypes()
 })
 
 watch(() => language.locale.value, (newValue: any) => {
     if (newValue != null) {
         fetchAllIndustries()
+        fetchAllFacilityTypes()
     }
 })
 
@@ -190,9 +206,31 @@ async function fetchAllIndustries() {
                 (industry: any) => options.push({
                     value: industry?.uuid,
                     label: language.locale.value === 'en' ? industry.en_name : industry.dk_name,
+                    system_name: industry.system_name,
                 })
             )
             state.options.industries = options
+        }
+    } catch (error: any) {
+        state.error = error
+    }
+    state.isPageLoading = false
+}
+
+async function fetchAllFacilityTypes() {
+    state.error = {}
+    state.isPageLoading = true
+    try {
+        const response = await facilityTypeService.getAllFacilityTypes()
+        if (response.data) {
+            let options: any = []
+            response.data.forEach(
+                (item: any) => options.push({
+                    value: item?.uuid,
+                    label: language.locale.value === 'en' ? item.en_name : item.dk_name,
+                })
+            )
+            state.options.typeOfFacilities = options
         }
     } catch (error: any) {
         state.error = error
@@ -208,7 +246,8 @@ async function saveCompany() {
         try {
             const params = {
                 name: state.formCompany.name,
-                industry_uuid: state.formCompany.industry,
+                industry_uuid: state.formCompany.industry_uuid,
+                facility_type_uuid: state.formCompany.facility_type_uuid,
                 firstname: state.formCompany.firstname,
                 lastname: state.formCompany.lastname,
                 email: state.formCompany.email,

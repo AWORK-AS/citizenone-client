@@ -56,8 +56,9 @@ function closeModal() {
 }
 
 const state = reactive({
-    currentVersion: '2025-11-07',
+    currentVersion: '2025-11-14',
     availableVersions: [
+        '2025-11-14',
         '2025-11-07',
         '2025-10-31',
         '2025-10-24',
@@ -77,6 +78,43 @@ const state = reactive({
 
 const allUpdates: Record<string, Record<string, { title: string, description: string[] }[]>> = {
     en: {
+        '2025-11-14': [
+            {
+                title: 'Department dropdown color customization',
+                description: [
+                    'It is now possible to change the department dropdown color based on the department being displayed.',
+                    'This provides a visual color indicator in addition to the department name, improving clarity and quick recognition.'
+                ],
+            },
+            {
+                title: 'Updates to the registration form',
+                description: [
+                    'Various improvements have been made to the registration form.',
+                    'These changes enhance usability, streamline the registration process, and improve data accuracy.'
+                ],
+            },
+            {
+                title: 'Citizens’ inquiries and conversion process',
+                description: [
+                    'Enhancements have been made to the handling of citizens’ inquiries.',
+                    'It is now easier to manage inquiries and convert an inquiry into a registered citizen.'
+                ],
+            },
+            {
+                title: 'Secured mail UI update',
+                description: [
+                    'The user interface for secured mail has been updated.',
+                    'These improvements provide a clearer layout and improve the overall messaging experience.'
+                ],
+            },
+            {
+                title: 'Dashboard client login for events',
+                description: [
+                    'A new feature has been added allowing clients to log in to view events via the dashboard.',
+                    'This improves accessibility and provides a more streamlined experience for event-related information.'
+                ],
+            }
+        ],
         '2025-11-07': [
             {
                 title: 'Additional field (strength) in medicine journal',
@@ -449,6 +487,43 @@ const allUpdates: Record<string, Record<string, { title: string, description: st
         ],
     },
     dk: {
+        '2025-11-14': [
+            {
+                title: 'Farvetilpasning af afdelings-dropdown',
+                description: [
+                    'Det er nu muligt at ændre farven på afdelings-dropdownen baseret på den afdeling, der vises.',
+                    'Dette giver en visuel farveindikator ud over afdelingens navn og gør det lettere hurtigt at genkende afdelingen.'
+                ],
+            },
+            {
+                title: 'Ændringer i registreringsformularen',
+                description: [
+                    'Der er foretaget forskellige forbedringer af registreringsformularen.',
+                    'Disse ændringer forbedrer brugervenligheden, effektiviserer registreringsprocessen og øger datakvaliteten.'
+                ],
+            },
+            {
+                title: 'Borgerhenvendelser og konvertering til borger',
+                description: [
+                    'Håndteringen af borgerhenvendelser er blevet forbedret.',
+                    'Det er nu lettere at administrere henvendelser og konvertere en henvendelse til en registreret borger.'
+                ],
+            },
+            {
+                title: 'Opdatering af UI for sikker mail',
+                description: [
+                    'Brugergrænsefladen for sikker mail er blevet opdateret.',
+                    'Opdateringen giver et tydeligere layout og forbedrer den samlede beskedoplevelse.'
+                ],
+            },
+            {
+                title: 'Dashboard-klientlogin til begivenheder',
+                description: [
+                    'Der er tilføjet en ny funktion, der gør det muligt for klienter at logge ind på dashboardet for at se begivenheder.',
+                    'Dette forbedrer tilgængeligheden og giver en mere strømlinet oplevelse i forbindelse med begivenhedsoplysninger.'
+                ],
+            }
+        ],
         '2025-11-07': [
             {
                 title: 'Ekstra felt (styrke) i medicinjournalen',
@@ -458,24 +533,24 @@ const allUpdates: Record<string, Record<string, { title: string, description: st
                 ],
             },
             {
-                title: 'Dagligt overblik omdøbt til Overblik',
+                title: 'Dagligt oversigt omdøbt til Oversigt',
                 description: [
-                    'Sektionen, der tidligere hed "Dagligt overblik", er blevet omdøbt til "Overblik".',
+                    'Sektionen, der tidligere hed "Dagligt oversigt", er blevet omdøbt til "Oversigt".',
                     'Ændringen giver en tydeligere og mere generel oversigtssektion for brugerne.'
                 ],
             },
             {
-                title: '“Borgernes daglige hændelser” omdøbt til “Borgernes hændelser” i overblikket',
+                title: '“Borgernes daglige begivenheder” omdøbt til “Borgernes begivenheder” i oversigten',
                 description: [
-                    'I overblikket er titlen "Borgernes daglige hændelser" ændret til "Borgernes hændelser".',
-                    'Dette afspejler, at hændelser ikke kun er begrænset til daglige begivenheder, og sikrer større ensartethed i navngivningen.'
+                    'I oversigten er titlen "Borgernes daglige begivenheder" ændret til "Borgernes begivenheder".',
+                    'Dette afspejler, at begivenheder ikke kun er begrænset til daglige begivenheder, og sikrer større ensartethed i navngivningen.'
                 ],
             },
             {
-                title: '“Dagligt medicinoverblik” omdøbt til “Medicinoverblik” i overblikket',
+                title: '“Dagligt medicinoversigt” omdøbt til “Medicinoversigt” i oversigten',
                 description: [
-                    'Sektionen "Dagligt medicinoverblik" er blevet ændret til "Medicinoverblik".',
-                    'Dette repræsenterer bedre den bredere funktionalitet og dækning af overblikket.'
+                    'Sektionen "Dagligt medicinoversigt”" er blevet ændret til "Medicinoversigt".',
+                    'Dette repræsenterer bedre den bredere funktionalitet og dækning af oversigten.'
                 ],
             },
             {

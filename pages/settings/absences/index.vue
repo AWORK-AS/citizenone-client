@@ -82,9 +82,6 @@ const breadcrumbLinks = [
 
 const state = reactive({
     absences: [] as any,
-    columnFilter: [
-        { column: 'name' },
-    ],
     columnHeaders: [
         { name: 'absences.table.name', sorter: true, key: 'name' },
         { name: '' },

@@ -56,6 +56,7 @@ const state = reactive({
     error: {} as Error,
     formDepartment: {
         name: '',
+        color: '#000000',
     },
     isPageLoading: false,
 })
@@ -72,6 +73,7 @@ async function fetchDepartment() {
         if (response) {
             state.formDepartment = {
                 name: response?.data?.name ?? '',
+                color: response?.data?.color ?? '',
             }
         }
     } catch (error: any) {
@@ -86,6 +88,7 @@ async function updateDepartment(departmentDetails: any) {
     try {
         const params = {
             name: departmentDetails.name,
+            color: departmentDetails.color,
         }
         const response = await departmentService.updateDepartment(departmentUuid, params)
         if (response.data) {

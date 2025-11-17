@@ -216,9 +216,6 @@ const breadcrumbLinks = [
 ]
 
 const state = reactive({
-    columnFilter: [
-        { column: 'name' },
-    ],
     columnHeaders: [
         { name: 'drive.table.name', sorter: true, key: 'name' },
         { name: 'drive.table.owner' },

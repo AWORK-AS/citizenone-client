@@ -33,6 +33,13 @@
                 </div>
             </div>
 
+            <div class="flex gap-x-3 justify-end">
+                <FormButton buttonStyle="action" class="rounded-lg" @click="navigateTo('/inquiries')">
+                    <Icon name="ph:list-bullets" class="h-4 w-4" aria-hidden="true" />
+                    {{ $t('inquiries.inquiries') }}
+                </FormButton>
+            </div>
+
             <div class="mt-6">
                 <div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-5">
                     <div v-if="overviewStore.getViewAllFilter.showCitizenDailyEvents">

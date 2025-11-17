@@ -85,6 +85,13 @@
                     {{ $t('events.form.sendInvitation') }}
                 </div>
             </div>
+            <div class="space-y-1">
+                <div class="w-fit flex items-center cursor-pointer"
+                    @click="state.formSchedule.apply_changes_to_future_events = !state.formSchedule.apply_changes_to_future_events">
+                    <FormCheckbox :value="state.formSchedule.apply_changes_to_future_events" />
+                    {{ $t('events.form.applyChangesToFutureEvents') }}
+                </div>
+            </div>
         </div>
         <div class="mt-6">
             <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
@@ -154,6 +161,7 @@ const state = reactive({
         users_uuid: [],
         calendar_tag_uuid: [] as any,
         send_invitation: false,
+        apply_changes_to_future_events: false,
     },
     modal: {
         isAddNewCalendarTag: false,
@@ -185,6 +193,7 @@ onMounted(() => {
         users_uuid: props.selectedSchedule.users_uuid,
         calendar_tag_uuid: [],
         send_invitation: props.selectedSchedule.send_invitation,
+        apply_changes_to_future_events: false,
     }
     props.selectedSchedule.calendar_tags?.forEach((tag: any) => {
         state.formSchedule.calendar_tag_uuid.push(tag.uuid)

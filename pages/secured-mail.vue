@@ -171,6 +171,20 @@
                         </div>
                     </div>
                 </div>
+                <div class="mt-5">
+                    <p class="text-xs px-2 text-center" v-if="language.locale.value === 'dk'">
+                        Denne sikre mail er sendt via <span class="font-semibold text-primary">CitizenOne</span>. Vi
+                        beskytter alle beskeder med kryptering og opbevarer
+                        data på ISO 27001-certificerede servere i EU. CitizenOne overholder fuldt ud EUs
+                        databeskyttelsesforordning (GDPR).
+                    </p>
+                    <p class="text-xs px-2 text-center" v-else>
+                        This secure email is sent via <span class="font-semibold text-primary">CitizenOne</span>. We
+                        protect all messages with encryption and store data
+                        on ISO 27001 certified servers in the EU. CitizenOne fully complies with the EU's General Data
+                        Protection Regulation (GDPR).
+                    </p>
+                </div>
             </div>
         </div>
         <ModulesUserLanguageSlideOver :isOpen="state.slideOver.isLanguageSwitcherOpen"

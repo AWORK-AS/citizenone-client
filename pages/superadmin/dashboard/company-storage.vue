@@ -59,9 +59,6 @@ let currentTablePage = 1
 
 const state = reactive({
     companyStorage: [] as any,
-    columnFilter: [
-        { column: 'name' },
-    ],
     columnHeaders: [
         { name: 'superadmin.dashboard.companyStorage.table.name', sorter: true, key: 'name' },
         { name: 'superadmin.dashboard.companyStorage.table.storagePaid' },

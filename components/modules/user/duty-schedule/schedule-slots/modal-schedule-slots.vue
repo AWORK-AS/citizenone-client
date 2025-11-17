@@ -134,10 +134,6 @@ const language = useI18n()
 let currentTablePage = 1
 
 const state = reactive({
-    columnFilter: [
-        { column: 'shift_type' },
-        { column: 'available_slots' },
-    ],
     columnHeaders: [
         { name: 'dutySchedules.scheduleSlots.table.department' },
         { name: 'dutySchedules.scheduleSlots.table.shiftType' },

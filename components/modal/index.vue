@@ -20,8 +20,8 @@
                                     <DialogTitle as="h3" class="text-lg leading-6 font-medium text-gray-900">
                                         <div class="flex items-center gap-x-1">
                                             <div class="flex items-center" v-if="props.titleIcon">
-                                                <Icon :name="props.titleIcon"
-                                                    :class="`w-5 h-5 text-[#${props.titleIconColor}]`" />
+                                                <Icon :name="props.titleIcon" class="w-5 h-5"
+                                                    :style="`color: #${props.titleIconColor};`" />
                                             </div>
                                             {{ props.title }}
                                         </div>

@@ -76,10 +76,6 @@ const { formatDateTimeToReadable } = useDatetimeFormatter()
 let currentTablePage = 1
 
 const state = reactive({
-    columnFilter: [
-        { column: 'status' },
-        { column: 'reference_number' },
-    ],
     columnHeaders: [
         { name: 'superadmin.orders.table.date', sorter: true, key: 'created_at' },
         { name: 'superadmin.orders.table.status' },

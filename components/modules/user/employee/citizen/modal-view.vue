@@ -148,7 +148,7 @@ function confirmDeleteCitizen(citizen: any) {
 
 async function deleteCitizen() {
     state.error = {}
-    state.isPageLoading = true
+    state.isTableLoading = true
     try {
         const params = {
             user_uuid: employeeUuid,
@@ -162,6 +162,6 @@ async function deleteCitizen() {
     } catch (error: any) {
         state.error = error
     }
-    state.isPageLoading = false
+    state.isTableLoading = false
 }
 </script>

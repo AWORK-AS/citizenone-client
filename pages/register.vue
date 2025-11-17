@@ -55,15 +55,15 @@
                         </div>
                         <div class="space-y-1"
                             v-if="state.options.industries.find((industry: any) => industry.value === state.formRegister.industry)?.system_name === 'social_welfare'">
-                            <FormLabel for="facilty_type" :label="$t('register.form.typeOfFacility.typeOfFacility')" />
-                            <FormSelect id="facilty_type" :options="state.options.typeOfFacilities"
-                                v-model="state.formRegister.facilty_type" />
-                            <FormError :error="v$?.formRegister?.facilty_type?.$errors[0]?.$message.toString()" />
-                            <FormError :error="state?.error?.errors?.facilty_type?.[0]" />
+                            <FormLabel for="facility_type_uuid" :label="$t('register.form.typeOfFacility')" />
+                            <FormSelect id="facility_type_uuid" :options="state.options.typeOfFacilities"
+                                v-model="state.formRegister.facility_type_uuid" />
+                            <FormError :error="v$?.formRegister?.facility_type_uuid?.$errors[0]?.$message.toString()" />
+                            <FormError :error="state?.error?.errors?.facility_type_uuid?.[0]" />
                         </div>
-                        <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-3 py-1">
                             <div class="space-y-1">
-                                <FormLabel for="firstname" :label="$t('register.form.firstname')" />
+                                <!-- <FormLabel for="firstname" :label="$t('register.form.firstname')" /> -->
                                 <FormTextField id="firstname" name="firstname"
                                     :placeholder="$t('register.form.firstname')"
                                     v-model="state.formRegister.firstname" />
@@ -71,22 +71,22 @@
                                 <FormError :error="state?.error?.errors?.firstname?.[0]" />
                             </div>
                             <div class="space-y-1">
-                                <FormLabel for="lastname" :label="$t('register.form.lastname')" />
+                                <!-- <FormLabel for="lastname" :label="$t('register.form.lastname')" /> -->
                                 <FormTextField id="lastname" name="lastname" :placeholder="$t('register.form.lastname')"
                                     v-model="state.formRegister.lastname" />
                                 <FormError :error="v$?.formRegister?.lastname?.$errors[0]?.$message.toString()" />
                                 <FormError :error="state?.error?.errors?.lastname?.[0]" />
                             </div>
                         </div>
-                        <div class="space-y-1">
-                            <FormLabel for="phone" :label="$t('register.form.phone')" />
+                        <div class="space-y-1 py-1">
+                            <!-- <FormLabel for="phone" :label="$t('register.form.phone')" /> -->
                             <FormTextField id="phone" name="phone" :placeholder="$t('register.form.phone')"
                                 v-model="state.formRegister.phone" />
                             <FormError :error="v$?.formRegister?.phone?.$errors[0]?.$message.toString()" />
                             <FormError :error="state?.error?.errors?.phone?.[0]" />
                         </div>
-                        <div class="space-y-1">
-                            <FormLabel for="email" :label="$t('register.form.emailAddress')" />
+                        <div class="space-y-1 py-1">
+                            <!-- <FormLabel for="email" :label="$t('register.form.emailAddress')" /> -->
                             <FormTextField id="email" name="email" :placeholder="$t('register.form.emailAddress')"
                                 v-model="state.formRegister.email" />
                             <FormError :error="v$?.formRegister?.email?.$errors[0]?.$message.toString()" />
@@ -110,7 +110,7 @@
                         </div>
                         <div>
                             <FormButton type="submit" buttonStyle="primary" class="w-full">
-                                {{ $t('register.form.createAccount') }}
+                                {{ $t('register.form.createFreeAccount') }}
                             </FormButton>
                         </div>
                         <p class="text-center text-sm leading-6 text-gray-500 cursor-pointer" @click="navigateTo('/')">
@@ -132,6 +132,7 @@
 <script setup lang="ts">
 import { authService } from '@/components/api/user/AuthService'
 import { industryService } from '@/components/api/user/IndustryService'
+import { facilityTypeService } from '@/components/api/user/FacilityTypeService'
 import { useVuelidate } from "@vuelidate/core"
 import { required, helpers, minLength, sameAs } from '@vuelidate/validators'
 import { useUserStore } from '@/store/user'
@@ -155,7 +156,7 @@ const state = reactive({
     error: {} as Error,
     formRegister: {
         industry: '',
-        facilty_type: '',
+        facility_type_uuid: '',
         firstname: '',
         lastname: '',
         phone: '',
@@ -164,17 +165,8 @@ const state = reactive({
     } as any,
     isPageLoading: false,
     options: {
-        typeOfFacilities: [
-            {
-                value: 'crisis_center',
-                label: t('register.form.typeOfFacility.crisisCenter')
-            },
-            {
-                value: 'homeless_shelter',
-                label: t('register.form.typeOfFacility.homelessShelter')
-            }
-        ] as any,
         industries: [] as any,
+        typeOfFacilities: [] as any,
     },
     slideOver: {
         isLanguageSwitcherOpen: false
@@ -207,21 +199,13 @@ const v$ = useVuelidate(rules, state)
 onMounted(() => {
     animateAssets()
     fetchAllIndustries()
+    fetchAllFacilityTypes()
 })
 
 watch(() => language.locale.value, (newValue: any) => {
     if (newValue != null) {
         fetchAllIndustries()
-        state.options.typeOfFacilities = [
-            {
-                value: 'crisis_center',
-                label: t('register.form.typeOfFacility.crisisCenter')
-            },
-            {
-                value: 'homeless_shelter',
-                label: t('register.form.typeOfFacility.homelessShelter')
-            }
-        ]
+        fetchAllFacilityTypes()
     }
 })
 
@@ -264,6 +248,27 @@ async function fetchAllIndustries() {
     state.isPageLoading = false
 }
 
+async function fetchAllFacilityTypes() {
+    state.error = {}
+    state.isPageLoading = true
+    try {
+        const response = await facilityTypeService.getAllFacilityTypes()
+        if (response.data) {
+            let options: any = []
+            response.data.forEach(
+                (item: any) => options.push({
+                    value: item?.uuid,
+                    label: language.locale.value === 'en' ? item.en_name : item.dk_name,
+                })
+            )
+            state.options.typeOfFacilities = options
+        }
+    } catch (error: any) {
+        state.error = error
+    }
+    state.isPageLoading = false
+}
+
 async function register() {
     state.error = {}
     v$.value.$validate()
@@ -277,7 +282,7 @@ async function register() {
         try {
             const params = {
                 industry_uuid: state.formRegister.industry,
-                facilty_type: state.formRegister.facilty_type,
+                facility_type_uuid: state.formRegister.facility_type_uuid,
                 firstname: state.formRegister.firstname,
                 lastname: state.formRegister.lastname,
                 phone: state.formRegister.phone,

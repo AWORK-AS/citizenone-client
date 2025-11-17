@@ -77,11 +77,6 @@ const { t } = useI18n()
 let currentTablePage = 1
 
 const state = reactive({
-    columnFilter: [
-        { column: 'name' },
-        { column: 'email' },
-        { column: 'phone' },
-    ],
     columnHeaders: [
         { name: 'superadmin.users.table.name', sorter: true, key: 'firstname' },
         { name: 'superadmin.users.table.email', sorter: true, key: 'email' },

@@ -162,7 +162,7 @@
                                     <button
                                         class="flex items-center gap-x-1 text-sm font-medium text-gray-700 outline-none hover:text-primary"
                                         @click="state.modal.isInquiryStayDataOpen = true"
-                                        v-if="userStore.getUser?.company?.industry?.system_name === 'social_welfare' && ['crisis_center', 'homeless_shelter'].includes(userStore.getUser?.company?.subcategory)">
+                                        v-if="userStore.getUser?.company?.industry?.system_name === 'social_welfare' && ['Crisis center', 'Shelter'].includes(userStore.getUser?.company?.facility_type?.en_name)">
                                         <div class="flex items-center">
                                             <Icon name="ph:file" class="h-4 w-4" aria-hidden="true" />
                                         </div>
@@ -282,7 +282,7 @@
                                 </div>
                                 <div class="text-xs flex items-center flex-wrap gap-1"
                                     v-if="state.selectedCitizen?.data?.rooms?.length > 0 && hasRoomsAccess() &&
-                                        userStore.getUser?.company?.industry?.system_name === 'social_welfare' && ['crisis_center', 'homeless_shelter'].includes(userStore.getUser?.company?.subcategory)">
+                                        userStore.getUser?.company?.industry?.system_name === 'social_welfare' && ['Crisis center', 'Shelter'].includes(userStore.getUser?.company?.facility_type?.en_name)">
                                     <p>{{ $t('citizens.rooms') }}:</p>
                                     <span v-for="(room, index) in state.selectedCitizen?.data?.rooms" :key=index
                                         class="bg-primary p-1 text-white rounded-md text-xxs">
