@@ -2313,6 +2313,7 @@
         "form": {
             "citizens": "Borgere",
             "countSickLeaveAsWorkedHours": "Tæl sygefravær som arbejdstimer",
+            "createMultipleSchedules": "Opret flere vagter",
             "datetimeStart": "Start dato og tid",
             "dateTimeEnd": "Slut dato og tid",
             "departments": "Afdelinger",
@@ -2320,6 +2321,16 @@
             "inMeeting": "I møde",
             "note": "Bemærkning",
             "private": "Privat",
+            "recurring": {
+                "everyDay": "Hver dag",
+                "everyWeek": "Hver uge",
+                "everySecondWeek": "Hver anden uge",
+                "everyThirdWeek": "Hver tredje uge",
+                "everyFourthWeek": "Hver fjerde uge",
+                "everyMonth": "Hver måned",
+                "repeat": "Gentag",
+                "until": "Indtil"
+            },
             "tags": "Etiketter",
             "title": "Titel",
             "useCompensatoryTime": "Brug afspadseringstid",

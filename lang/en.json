@@ -2313,6 +2313,7 @@
         "form": {
             "citizens": "Citizens",
             "countSickLeaveAsWorkedHours": "Count sick leave as worked hours",
+            "createMultipleSchedules": "Create multiple schedules",
             "datetimeStart": "Date time start",
             "dateTimeEnd": "Date time end",
             "departments": "Departments",
@@ -2320,6 +2321,16 @@
             "inMeeting": "In Meeting",
             "note": "Note",
             "private": "Private",
+            "recurring": {
+                "everyDay": "Every day",
+                "everyWeek": "Every week",
+                "everySecondWeek": "Every second week",
+                "everyThirdWeek": "Every third week",
+                "everyFourthWeek": "Every fourth week",
+                "everyMonth": "Every month",
+                "repeat": "Repeat",
+                "until": "Until"
+            },
             "tags": "Tags",
             "title": "Title",
             "useCompensatoryTime": "Use compensatory time",
