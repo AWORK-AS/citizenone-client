@@ -59,7 +59,7 @@
                     <FormError :error="v$?.formShift.date_time_end?.$errors[0]?.$message.toString()" />
                 </div>
             </div>
-            <div class="space-y-1">
+            <div class="space-y-1" v-if="props.formType === 'create'">
                 <div class="w-fit flex items-center cursor-pointer"
                     @click="state.formShift.is_recurring = !state.formShift.is_recurring">
                     <FormCheckbox :value="state.formShift.is_recurring" />
@@ -83,7 +83,7 @@
                     <FormError :error="state?.error?.errors?.recurring_until?.[0]" />
                 </div>
             </div>
-            <div class="space-y-1" v-if="props.formType === 'update' && state.formShift.is_recurring">
+            <div class="space-y-1" v-if="props.formType === 'update'">
                 <div class="w-fit flex items-center cursor-pointer"
                     @click="state.formShift.is_apply_to_all = !state.formShift.is_apply_to_all">
                     <FormCheckbox :value="state.formShift.is_apply_to_all" />
