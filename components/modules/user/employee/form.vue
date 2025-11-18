@@ -55,7 +55,7 @@
                     <FormError :error="v$?.formEmployee?.email?.$errors[0]?.$message.toString()" />
                     <FormError :error="props?.error?.errors?.email?.[0]" />
                 </div>
-                <div class="space-y-3" ref="passwordField">
+                <div class="space-y-3" ref="passwordField" v-if="props.formType === 'update'">
                     <div class="space-y-1">
                         <div class="w-fit flex items-center cursor-pointer"
                             @click="state.isChangePassword = !state.isChangePassword">
@@ -240,14 +240,25 @@
                 </p>
             </div>
             <div class="md:col-span-2 space-y-3 bg-white shadow-sm ring-1 ring-gray-900/5 rounded-lg px-4 py-6 sm:p-8">
-                <div class="space-y-1" ref="employmentDateField" v-if="isAdmin(userStore.getUser?.roles)">
-                    <FormLabel for="employment_date" :label="$t('employees.form.employment.employmentDate')" />
-                    <FormDateField id="employment_date" name="employment_date"
-                        :placeholder="$t('employees.form.employment.employmentDate')"
-                        v-model="state.formEmployee.employment.employment_date" />
-                    <FormError
-                        :error="v$?.formEmployee?.employment?.employment_date?.$errors[0]?.$message.toString()" />
-                    <FormError :error="props?.error?.errors?.employment_date?.[0]" />
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
+                    <div class="space-y-1" ref="salaryIDField">
+                        <FormLabel for="salary_id" :label="$t('employees.form.employment.salaryID')" />
+                        <FormTextField id="salary_id" name="salary_id"
+                            :placeholder="$t('employees.form.employment.salaryID')"
+                            v-model="state.formEmployee.employment.salary_id" />
+                        <FormError
+                            :error="v$?.formEmployee?.employment?.annual_norm_hours?.$errors[0]?.$message.toString()" />
+                        <FormError :error="props?.error?.errors?.annual_norm_hours?.[0]" />
+                    </div>
+                    <div class="space-y-1" ref="employmentDateField" v-if="isAdmin(userStore.getUser?.roles)">
+                        <FormLabel for="employment_date" :label="$t('employees.form.employment.employmentDate')" />
+                        <FormDateField id="employment_date" name="employment_date"
+                            :placeholder="$t('employees.form.employment.employmentDate')"
+                            v-model="state.formEmployee.employment.employment_date" />
+                        <FormError
+                            :error="v$?.formEmployee?.employment?.employment_date?.$errors[0]?.$message.toString()" />
+                        <FormError :error="props?.error?.errors?.employment_date?.[0]" />
+                    </div>
                 </div>
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
                     <div class="space-y-1" ref="annualNormHoursField" v-if="isAdmin(userStore.getUser?.roles)">
@@ -536,6 +547,7 @@ const regionField = ref<HTMLElement | null>(null)
 const municipalityField = ref<HTMLElement | null>(null)
 const cityField = ref<HTMLElement | null>(null)
 const postCodeField = ref<HTMLElement | null>(null)
+const salaryIDField = ref<HTMLElement | null>(null)
 const employmentDateField = ref<HTMLElement | null>(null)
 const annualNormHoursField = ref<HTMLElement | null>(null)
 const vacationDaysField = ref<HTMLElement | null>(null)
@@ -565,6 +577,7 @@ const state = reactive({
         media_risks: [],
         pages: [],
         employment: {
+            salary_id: '',
             employment_date: '',
             job_title_uuid: '',
             job_specialties: [],
@@ -662,6 +675,7 @@ watch(() => props.selectedEmployee, (newValue: any) => {
                 trustees: newValue.emergencyInfo.trustees,
             },
             employment: {
+                salary_id: newValue.employment.salary_id,
                 employment_date: newValue.employment.employment_date,
                 job_title_uuid: newValue.employment.job_title_uuid,
                 job_specialties: newValue.employment.job_specialties,
@@ -1028,6 +1042,8 @@ function submitForm() {
             cityField.value.scrollIntoView({ behavior: 'smooth', block: 'center' })
         } else if (v$.value.formEmployee.post_code?.$error && postCodeField.value) {
             postCodeField.value.scrollIntoView({ behavior: 'smooth', block: 'center' })
+        } else if (v$.value.formEmployee.employment.salary_id?.$error && salaryIDField.value) {
+            salaryIDField.value.scrollIntoView({ behavior: 'smooth', block: 'center' })
         } else if (v$.value.formEmployee.employment.employment_date?.$error && employmentDateField.value) {
             employmentDateField.value.scrollIntoView({ behavior: 'smooth', block: 'center' })
         } else if (v$.value.formEmployee.employment.job_title_uuid?.$error && jobTitleField.value) {

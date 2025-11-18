@@ -2724,6 +2724,7 @@
                 "employmentStatus": "Ansættelsesstatus",
                 "jobSpecialty": "Jobspecialitet",
                 "jobTitle": "Jobtitel",
+                "salaryID": "Løn-ID",
                 "workingHours": "Arbejdstimer",
                 "vacationDays": "Feriedage"
             },
