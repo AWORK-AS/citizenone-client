@@ -4505,6 +4505,7 @@
                     "successfullyUpdated": "Firma opdateret med succes"
                 },
                 "checkinOut": "Check ind/ud",
+                "allowChangePassword": "Tillad medarbejdere at ændre adgangskode",
                 "allowPlans": "Tillad medarbejdere at oprette planer",
                 "allowGoals": "Tillad medarbejdere at oprette mål",
                 "allowSubGoals": "Tillad medarbejdere at oprette delmål",
