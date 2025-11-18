@@ -79,7 +79,8 @@
                         <FormError :error="state?.error?.errors?.page_uuid?.[0]" />
                     </div>
                 </div>
-                <div class="md:col-span-8 grid md:grid-cols-1">
+                <div class="md:col-span-8 grid md:grid-cols-1"
+                    v-if="userStore.getUser?.company?.change_password_enabled">
                     <div class="space-y-1">
                         <div class="w-fit flex items-center cursor-pointer"
                             @click="state.isChangePassword = !state.isChangePassword">
