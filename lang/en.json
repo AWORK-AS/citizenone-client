@@ -2703,6 +2703,7 @@
             },
             "address": "Address",
             "birthday": "Birthday",
+            "changePassword": "Change password",
             "city": "City",
             "department": "Department",
             "emailAddress": "Email address",
@@ -2746,6 +2747,7 @@
             },
             "municipality": "Municipality",
             "pageAccess": "Page access",
+            "password": "Password",
             "permissions": {
                 "create": "Create",
                 "delete": "Delete",

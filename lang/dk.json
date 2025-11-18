@@ -2703,6 +2703,7 @@
             },
             "address": "Adresse",
             "birthday": "Fødselsdag",
+            "changePassword": "Skift adgangskode",
             "city": "By",
             "department": "Afdeling",
             "emailAddress": "E-mail adresse",
@@ -2746,6 +2747,7 @@
             },
             "municipality": "Kommune",
             "pageAccess": "Sideadgang",
+            "password": "Adgangskode",
             "permissions": {
                 "create": "Opret",
                 "delete": "Slet",

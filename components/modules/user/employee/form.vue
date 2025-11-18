@@ -55,6 +55,22 @@
                     <FormError :error="v$?.formEmployee?.email?.$errors[0]?.$message.toString()" />
                     <FormError :error="props?.error?.errors?.email?.[0]" />
                 </div>
+                <div class="space-y-3" ref="passwordField">
+                    <div class="space-y-1">
+                        <div class="w-fit flex items-center cursor-pointer"
+                            @click="state.isChangePassword = !state.isChangePassword">
+                            <FormCheckbox id="change_password" :value="state.isChangePassword" />
+                            {{ $t('employees.form.changePassword') }}
+                        </div>
+                    </div>
+                    <div class="space-y-1" v-if="state.isChangePassword">
+                        <FormLabel for="password" :label="$t('employees.form.password')" />
+                        <FormPasswordField id="password" name="password" :placeholder="$t('employees.form.password')"
+                            v-model="state.formEmployee.password" />
+                        <FormError :error="v$?.formEmployee?.password?.$errors[0]?.$message.toString()" />
+                        <FormError :error="state?.error?.errors?.password?.[0]" />
+                    </div>
+                </div>
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
                     <div class="space-y-1" ref="phoneField">
                         <FormLabel for="phone" :label="$t('employees.form.phone')" />
@@ -511,6 +527,7 @@ const language = useI18n()
 const firstnameField = ref<HTMLElement | null>(null)
 const lastnameField = ref<HTMLElement | null>(null)
 const emailField = ref<HTMLElement | null>(null)
+const passwordField = ref<HTMLElement | null>(null)
 const phoneField = ref<HTMLElement | null>(null)
 const birthdayField = ref<HTMLElement | null>(null)
 const roleField = ref<HTMLElement | null>(null)
@@ -533,6 +550,7 @@ const state = reactive({
         firstname: '',
         lastname: '',
         email: '',
+        password: '',
         phone: '',
         birthday: '',
         seniority_date: '',
@@ -560,7 +578,9 @@ const state = reactive({
             trustees: [],
         },
         show_working_hours: false,
+        count_sick_leave: false,
     } as EmployeeForm,
+    isChangePassword: false,
     modal: {
         isAddDepartmentOpen: false,
         isAddJobSpecialtyOpen: false,
@@ -623,6 +643,7 @@ watch(() => props.selectedEmployee, (newValue: any) => {
             firstname: newValue.firstname,
             lastname: newValue.lastname,
             email: newValue.email,
+            password: '',
             phone: newValue.phone,
             birthday: newValue.birthday,
             seniority_date: newValue.seniority_date,
@@ -650,6 +671,7 @@ watch(() => props.selectedEmployee, (newValue: any) => {
                 vacation_days: newValue.employment.vacation_days,
             },
             show_working_hours: newValue.show_working_hours,
+            count_sick_leave: newValue.count_sick_leave,
         }
         fetchMunicipalitiesPerRegion(newValue.region_uuid)
         fetchCities(newValue.municipality_uuid)
@@ -672,56 +694,25 @@ watch(() => props.selectedEmployee, (newValue: any) => {
 })
 
 const rules = computed(() => {
-    return {
-        formEmployee: {
-            firstname: {
-                required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
+    if (state.isChangePassword) {
+        return {
+            formEmployee: {
+                firstname: {
+                    required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
+                },
+                password: {
+                    required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
+                },
             },
-            // lastname: {
-            //     required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
-            // },
-            // email: {
-            //     required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
-            // },
-            // phone: {
-            //     required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
-            // },
-            // birthday: {
-            //     required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
-            // },
-            // street: {
-            //     required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
-            // },
-            // region_uuid: {
-            //     required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
-            // },
-            // municipality_uuid: {
-            //     required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
-            // },
-            // city_uuid: {
-            //     required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
-            // },
-            // post_code: {
-            //     required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
-            // },
-            // role: {
-            //     required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
-            // },
-            // employment: {
-            //     employment_date: {
-            //         required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required)
-            //     },
-            //     job_title_uuid: {
-            //         required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required)
-            //     },
-            //     working_hours: {
-            //         required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required)
-            //     },
-            //     employment_status: {
-            //         required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required)
-            //     },
-            // }
-        },
+        }
+    } else {
+        return {
+            formEmployee: {
+                firstname: {
+                    required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
+                },
+            },
+        }
     }
 })
 
@@ -1019,6 +1010,8 @@ function submitForm() {
             lastnameField.value.scrollIntoView({ behavior: 'smooth', block: 'center' })
         } else if (v$.value.formEmployee.email?.$error && emailField.value) {
             emailField.value.scrollIntoView({ behavior: 'smooth', block: 'center' })
+        } else if (v$.value.formEmployee.password?.$error && passwordField.value) {
+            passwordField.value.scrollIntoView({ behavior: 'smooth', block: 'center' })
         } else if (v$.value.formEmployee.phone?.$error && phoneField.value) {
             phoneField.value.scrollIntoView({ behavior: 'smooth', block: 'center' })
         } else if (v$.value.formEmployee.birthday?.$error && birthdayField.value) {

@@ -87,6 +87,7 @@ const state = reactive({
         firstname: '',
         lastname: '',
         email: '',
+        password: '',
         phone: '',
         birthday: '',
         seniority_date: '',
@@ -138,6 +139,7 @@ async function fetchEmployee() {
                 firstname: response?.data?.firstname ?? '',
                 lastname: response?.data?.lastname ?? '',
                 email: response?.data?.email ?? '',
+                password: '',
                 phone: response?.data?.phone ?? '',
                 birthday: response?.data?.birthday ?? '',
                 seniority_date: response?.data?.seniority_date ?? '',
@@ -210,6 +212,9 @@ async function updateEmployee(employeeDetails: any) {
         params.append('firstname', employeeDetails.firstname)
         params.append('lastname', employeeDetails.lastname)
         params.append('email', employeeDetails.email)
+        if (employeeDetails.password) {
+            params.append('password', employeeDetails.password)
+        }
         params.append('phone', employeeDetails.phone)
         params.append('birthday', employeeDetails.birthday)
         params.append('seniority_date', employeeDetails.seniority_date)
