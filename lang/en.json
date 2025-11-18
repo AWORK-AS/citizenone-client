@@ -4515,6 +4515,7 @@
                 "citizensDisplay": "Citizen's display",
                 "companyName": "Company name",
                 "cvr": "CVR",
+                "enableEmailNotifications": "Enable email notifications",
                 "groupChat": "Group chat",
                 "lockPastSchedules": "Lock past schedules",
                 "municipality": "Municipality",

@@ -4515,6 +4515,7 @@
                 "citizensDisplay": "Borgerens visning",
                 "companyName": "Firmanavn",
                 "cvr": "CVR",
+                "enableEmailNotifications": "Aktivér e-mail-notifikationer",
                 "groupChat": "Gruppechat",
                 "lockPastSchedules": "Lås tidligere vagtplaner",
                 "municipality": "Kommune",
