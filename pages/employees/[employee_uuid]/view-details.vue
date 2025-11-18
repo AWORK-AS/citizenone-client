@@ -48,9 +48,15 @@
                             </div>
                             <div
                                 class="md:col-span-2 space-y-3 bg-white shadow-sm ring-1 ring-gray-900/5 rounded-lg px-4 py-6 sm:px-8 sm:py-6">
-                                <div class="space-y-1">
-                                    <Label :label="$t('employees.form.employeeId')" />
-                                    <p class="font-medium">{{ state.selectedEmployee.employee_id }}</p>
+                                <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
+                                    <div class="space-y-1">
+                                        <Label :label="$t('employees.form.employeeId')" />
+                                        <p class="font-medium">{{ state.selectedEmployee.employee_id }}</p>
+                                    </div>
+                                    <div class="space-y-1">
+                                        <Label :label="$t('employees.form.employment.salaryID')" />
+                                        <p class="font-medium">{{ state.selectedEmployee.salary_id }}</p>
+                                    </div>
                                 </div>
                                 <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
                                     <div class="space-y-1">
