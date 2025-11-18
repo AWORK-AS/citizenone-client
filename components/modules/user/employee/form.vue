@@ -473,7 +473,8 @@
         </div>
         <div class="mt-6">
             <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
-                <FormButton type="button" buttonStyle="cancel" class="rounded-md" @click="navigateTo('/employees')">
+                <FormButton type="button" buttonStyle="cancel" class="rounded-md"
+                    @click="navigateTo(router?.currentRoute?.value?.name === 'employees-employee_uuid-edit' ? `/employees` : `/employees/${employeeUuid}/view-details`)">
                     {{ $t('cancel') }}
                 </FormButton>
                 <FormButton type="submit" buttonStyle="primary" class="rounded-md">
@@ -529,6 +530,8 @@ const props = defineProps({
     },
 })
 const emit = defineEmits(['isPageLoading', 'submitForm'])
+const router = useRouter()
+const employeeUuid = router?.currentRoute?.value?.params?.employee_uuid
 const userStore = useUserStore() as any
 const image = ref<HTMLInputElement | null>(null)
 const avatarUrl = ref('/img/avatars/user.svg')
