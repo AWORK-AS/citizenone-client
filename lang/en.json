@@ -4443,6 +4443,7 @@
         }
     },
     "save": "Save",
+    "saving": "Saving",
     "scheduleTags": {
         "addNewScheduleTag": "Add new schedule tag",
         "alert": {

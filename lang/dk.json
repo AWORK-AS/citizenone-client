@@ -4443,6 +4443,7 @@
         }
     },
     "save": "Gem",
+    "saving": "Gemmer",
     "scheduleTags": {
         "addNewScheduleTag": "Tilføj ny vagtplan tag",
         "alert": {

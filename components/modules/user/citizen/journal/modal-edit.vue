@@ -51,24 +51,26 @@ async function updateJournal(journalDetails: any) {
     state.error = {}
     state.isPageLoading = true
     try {
-        const journalUuid = journalDetails.uuid
+        const journalUuid = journalDetails.formJournal.uuid
         const params = {
-            title: journalDetails.title,
-            date: journalDetails.date,
-            content: journalDetails.content,
-            journal_note_tags_uuid: journalDetails.journal_note_tags,
-            is_draft: journalDetails.is_draft,
-            assessment: journalDetails.assessment,
-            note: journalDetails.note,
-            risk_assessment_tags_uuid: journalDetails.risk_assessment_tags,
-            score: journalDetails.score,
-            teeth_uuid: journalDetails.teeth,
+            title: journalDetails.formJournal.title,
+            date: journalDetails.formJournal.date,
+            content: journalDetails.formJournal.content,
+            journal_note_tags_uuid: journalDetails.formJournal.journal_note_tags,
+            is_draft: journalDetails.formJournal.is_draft,
+            assessment: journalDetails.formJournal.assessment,
+            note: journalDetails.formJournal.note,
+            risk_assessment_tags_uuid: journalDetails.formJournal.risk_assessment_tags,
+            score: journalDetails.formJournal.score,
+            teeth_uuid: journalDetails.formJournal.teeth,
         }
         const response = await journalService.updateJournal(journalUuid, params)
         if (response?.data) {
             refreshJournal()
-            closeModal()
-            successAlert(`${t('alert.success')}!`, `${t('citizens.citizenJournals.alert.successfullyUpdated')}.`)
+            if (!journalDetails.isAutoSaving) {
+                closeModal()
+                successAlert(`${t('alert.success')}!`, `${t('citizens.citizenJournals.alert.successfullyUpdated')}.`)
+            }
         }
     } catch (error: any) {
         state.error = error
