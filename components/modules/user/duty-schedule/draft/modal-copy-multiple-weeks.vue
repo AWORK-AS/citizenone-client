@@ -182,19 +182,19 @@ function generateWeekSource() {
     let endWeek = moment().endOf('year').add(1, 'years').endOf('isoWeek')
 
     while (startWeek.isBefore(endWeek) || startWeek.isSame(endWeek, 'week')) {
-        let weekNumber = startWeek.isoWeek()
-        let weekYear = startWeek.year()
-        let weekEnd = moment(startWeek).endOf('isoWeek') // Ensure it ends on Sunday
+        const weekNumber = startWeek.isoWeek()
+        const weekYear = startWeek.isoWeekYear() // <-- FIX
+        const weekEnd = moment(startWeek).endOf('isoWeek')
 
-        let formattedStart = `${startWeek.format('DD.')} ${months[startWeek.month()]} ${startWeek.format('YYYY')}`
-        let formattedEnd = `${weekEnd.format('DD.')} ${months[weekEnd.month()]} ${weekEnd.format('YYYY')}`
+        const formattedStart = `${startWeek.format('DD.')} ${months[startWeek.month()]} ${startWeek.format('YYYY')}`
+        const formattedEnd = `${weekEnd.format('DD.')} ${months[weekEnd.month()]} ${weekEnd.format('YYYY')}`
 
         weeks.push({
             value: `${weekYear} - ${t('dutySchedules.copy.week')} ${weekNumber}`,
             label: `${weekYear} - ${t('dutySchedules.copy.week')} ${weekNumber} (${formattedStart} - ${formattedEnd})`,
         })
 
-        startWeek.add(1, 'week') // Move to the next Monday
+        startWeek.add(1, 'week')
     }
 
     state.options.weeks_sources = weeks
@@ -221,19 +221,19 @@ function generateWeekDestination() {
     let endWeek = moment().endOf('year').add(1, 'years').endOf('isoWeek')
 
     while (startWeek.isBefore(endWeek) || startWeek.isSame(endWeek, 'week')) {
-        let weekNumber = startWeek.isoWeek()
-        let weekYear = startWeek.year()
-        let weekEnd = moment(startWeek).endOf('isoWeek') // Ensure it ends on Sunday
+        const weekNumber = startWeek.isoWeek()
+        const weekYear = startWeek.isoWeekYear() // <-- FIX
+        const weekEnd = moment(startWeek).endOf('isoWeek')
 
-        let formattedStart = `${startWeek.format('DD.')} ${months[startWeek.month()]} ${startWeek.format('YYYY')}`
-        let formattedEnd = `${weekEnd.format('DD.')} ${months[weekEnd.month()]} ${weekEnd.format('YYYY')}`
+        const formattedStart = `${startWeek.format('DD.')} ${months[startWeek.month()]} ${startWeek.format('YYYY')}`
+        const formattedEnd = `${weekEnd.format('DD.')} ${months[weekEnd.month()]} ${weekEnd.format('YYYY')}`
 
         weeks.push({
             value: `${weekYear} - ${t('dutySchedules.copy.week')} ${weekNumber}`,
             label: `${weekYear} - ${t('dutySchedules.copy.week')} ${weekNumber} (${formattedStart} - ${formattedEnd})`,
         })
 
-        startWeek.add(1, 'week') // Move to the next Monday
+        startWeek.add(1, 'week')
     }
 
     state.options.weeks_destinations = weeks
