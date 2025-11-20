@@ -55,7 +55,7 @@
                                     </div>
                                     <div class="space-y-1">
                                         <Label :label="$t('employees.form.employment.salaryID')" />
-                                        <p class="font-medium">{{ state.selectedEmployee.salary_id }}</p>
+                                        <p class="font-medium">{{ state.selectedEmployee.employment?.salary_id }}</p>
                                     </div>
                                 </div>
                                 <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
@@ -492,6 +492,7 @@ const state = reactive({
         permissions: [],
         media_risks: [],
         employment: {
+            salary_id: '',
             employment_date: '',
             job_title: '',
             employee_specialties: '',
@@ -551,6 +552,7 @@ async function fetchEmployee() {
                 permissions: response?.data?.permissions ?? [],
                 media_risks: response?.data?.media_risks ?? [],
                 employment: {
+                    salary_id: response?.data?.employee_detail?.salary_id,
                     employment_date: response?.data?.employee_detail?.date_of_employment,
                     job_title: response?.data?.employee_detail?.job?.title,
                     employee_specialties: concatenatedJobSpecialties,
