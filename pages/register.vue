@@ -26,7 +26,7 @@
                         <Alert type="danger" :text="state?.error?.message"
                             v-if="state.error?.message && state.error.message.length > 0" />
                         <h3 class="font-medium text-lg md:text-xl">
-                            {{ $t('register.form.createAccount') }}
+                            {{ $t('register.form.createFreeAccount') }}
                         </h3>
                         <div class="space-y-1">
                             <div class="flex items-center gap-x-1">
@@ -252,7 +252,7 @@ async function fetchAllFacilityTypes() {
     state.error = {}
     state.isPageLoading = true
     try {
-        const response = await facilityTypeService.getAllFacilityTypes()
+        const response = await facilityTypeService.getAllFacilityTypesWithoutAuthentication()
         if (response.data) {
             let options: any = []
             response.data.forEach(
