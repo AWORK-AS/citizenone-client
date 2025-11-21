@@ -16,9 +16,9 @@
                 </div>
                 <div class="space-y-1">
                     <FormLabel for="user" :label="$t('plansandgoals.notifications.form.users')" />
-                    <FormSelectMultiple id="user" :options="state.options.users"
+                    <FormSelectMultiple id="user" :options="state.options.contactPersons"
                         v-model="state.formNotification.user" />
-                    <FormError :error="v$?.formNotification?.user_uuid?.$errors[0]?.$message.toString()" />
+                    <FormError :error="v$?.formNotification?.user?.$errors[0]?.$message.toString()" />
                     <FormError :error="props?.error?.errors?.user?.[0]" />
                 </div>
                 <div class="space-y-1">
@@ -47,12 +47,12 @@
 </template>
 
 <script setup lang="ts">
-import { userService } from '@/components/api/user/UserService'
+import moment from 'moment'
+import { citizenContactService } from '@/components/api/user/CitizenContactService'
 import ClassicEditor from '@ckeditor/ckeditor5-build-classic'
 import { useVuelidate } from "@vuelidate/core"
 import { required, helpers } from '@vuelidate/validators'
 import { useI18n } from "vue-i18n"
-import { useDepartmentStore } from '@/store/department'
 import type { Error } from '@/types'
 
 const props = defineProps({
@@ -71,7 +71,8 @@ const props = defineProps({
 })
 const emit = defineEmits(['closeModal', 'submitForm'])
 const { t } = useI18n()
-const departmentStore = useDepartmentStore()
+const router = useRouter()
+const citizenUuid = router?.currentRoute?.value?.params?.uuid as any
 const editor = ref(ClassicEditor)
 const editorStatusConfig = ref({
     // Add your custom configuration here
@@ -96,39 +97,39 @@ const state = reactive({
     } as any,
     isPageLoading: false,
     options: {
-        users: []
+        contactPersons: []
     },
 })
 
 onMounted(() => {
     state.formNotification = {
-        date_time: props.selectedNotification?.date_time,
+        date_time: props.selectedNotification?.date_time || moment().format('YYYY-MM-DD HH:mm'),
         user: [],
         note: props.selectedNotification?.note,
     }
-    fetchAllUsers()
+    fetchOurContactPersons()
     props?.selectedNotification?.notification_users?.forEach((notificationUser: any) => {
         state.formNotification.user.push(notificationUser?.user?.uuid)
     })
 })
 
-async function fetchAllUsers() {
+async function fetchOurContactPersons() {
     state.error = {}
     state.isPageLoading = true
     try {
         const params = {
-            department: departmentStore.getSelectedDepartmentName
+            citizen_uuid: citizenUuid,
         }
-        const response = await userService.getAllUsers(params)
+        const response = await citizenContactService.getAllCitizenContactPersons(params)
         if (response.data) {
             let options: any = []
             response.data.forEach(
-                (user: any) => options.push({
-                    value: user?.uuid,
-                    label: user?.firstname + " " + user?.lastname,
+                (item: any) => options.push({
+                    value: item?.employee?.uuid,
+                    label: item?.employee?.firstname + " " + item?.employee?.lastname,
                 })
             )
-            state.options.users = options
+            state.options.contactPersons = options
         }
     } catch (error: any) {
         state.error = error
@@ -156,6 +157,7 @@ const v$ = useVuelidate(rules, state)
 
 function submitForm() {
     v$.value.$validate()
+    console.log('test', v$.value)
     if (!v$.value.$error) {
         emit('submitForm', state.formNotification)
     }
