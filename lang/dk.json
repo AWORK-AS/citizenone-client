@@ -2323,7 +2323,7 @@
                 "type": {
                     "add": "Tilføj",
                     "deduct": "Træk fra",
-                    "Type": "Type"
+                    "type": "Type"
                 }
             },
             "newExtraHours": "Nye ekstra timer",

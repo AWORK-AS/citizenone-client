@@ -2323,7 +2323,7 @@
                 "type": {
                     "add": "Add",
                     "deduct": "Deduct",
-                    "Type": "Type"
+                    "type": "Type"
                 }
             },
             "newExtraHours": "New extra hours",
