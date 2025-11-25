@@ -1792,6 +1792,13 @@
                 "edit": "Rediger",
                 "latestJournalEntry": "Seneste journalnotat",
                 "latestRiskAssessment": "Seneste risikovurdering",
+                "medicationOverview": "Medicinoversigt",
+                "plansAndGoals": {
+                    "expiringPlansAndGoals": "Udløbende planer og mål",
+                    "expiredPlansAndGoals": "Udløbne planer og mål",
+                    "noPlansAndGoals": "Ingen planer og mål",
+                    "plansAndGoals": "Planer og mål"
+                },
                 "view": "Se"
             },
             "department": "Afdeling",

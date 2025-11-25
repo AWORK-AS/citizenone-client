@@ -123,6 +123,24 @@
                                                     <Icon name="ph:eye" class="size-4" />
                                                 </FormButton>
                                             </Tooltip>
+                                            <Tooltip :text="$t('citizens.table.actions.medicationOverview')">
+                                                <FormButton type="button" buttonStyle="action" class="rounded-md"
+                                                    @click="navigateTo(`/citizens/${citizen.uuid}/medicine-journals`)">
+                                                    <Icon name="solar:jar-of-pills-2-linear" class="size-4" />
+                                                </FormButton>
+                                            </Tooltip>
+                                            <Tooltip :text="citizen?.plans_goals_status === 'none' ? $t('citizens.table.actions.plansAndGoals.noPlansAndGoals') :
+                                                citizen?.plans_goals_status === 'expiring' ? $t('citizens.table.actions.plansAndGoals.expiringPlansAndGoals') :
+                                                    citizen?.plans_goals_status === 'expired' ? $t('citizens.table.actions.plansAndGoals.expiredPlansAndGoals') :
+                                                        $t('citizens.table.actions.plansAndGoals.plansAndGoals')">
+                                                <FormButton type="button" :buttonStyle="citizen?.plans_goals_status === 'none' ? 'plans-none' :
+                                                    citizen?.plans_goals_status === 'expiring' ? 'plans-expiring' :
+                                                        citizen?.plans_goals_status === 'expired' ? 'plans-expired' :
+                                                            'action'" class="rounded-md"
+                                                    @click="navigateTo(`/citizens/${citizen.uuid}/plans-and-goals/all`)">
+                                                    <Icon name="ph:list-checks" class="size-4" />
+                                                </FormButton>
+                                            </Tooltip>
                                             <Tooltip :text="$t('citizens.table.actions.edit')">
                                                 <FormButton type="button" buttonStyle="action" class="rounded-md"
                                                     @click="navigateTo(`/citizens/${citizen.uuid}/edit`)"

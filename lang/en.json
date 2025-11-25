@@ -1792,6 +1792,13 @@
                 "edit": "Edit",
                 "latestJournalEntry": "Latest journal entry",
                 "latestRiskAssessment": "Latest risk assessment",
+                "medicationOverview": "Medication overview",
+                "plansAndGoals": {
+                    "expiringPlansAndGoals": "Expiring plans and goals",
+                    "expiredPlansAndGoals": "Expired plans and goals",
+                    "noPlansAndGoals": "No plans and goals",
+                    "plansAndGoals": "Plans and goals"
+                },
                 "view": "View"
             },
             "department": "Department",
