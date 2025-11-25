@@ -2309,6 +2309,52 @@
         },
         "dutySchedules": "Vagtplaner",
         "editSchedule": "Rediger tidsplan",
+        "extraHours": {
+            "editExtraHours": "Rediger ekstra timer",
+            "extraHours": "Ekstra timer",
+            "form": {
+                "alert": {
+                    "extraHoursSuccessfullyAdded": "Ekstra timer blev tilføjet",
+                    "extraHoursSuccessfullyUpdated": "Ekstra timer blev opdateret"
+                },
+                "date": "Dato",
+                "hours": "Timer",
+                "note": "Bemærkning",
+                "type": {
+                    "add": "Tilføj",
+                    "deduct": "Træk fra",
+                    "Type": "Type"
+                }
+            },
+            "newExtraHours": "Nye ekstra timer",
+            "table": {
+                "actions": {
+                    "approve": "Godkend",
+                    "delete": "Slet",
+                    "edit": "Rediger",
+                    "reject": "Afvis"
+                },
+                "alert": {
+                    "extraHoursSuccessfullyApproved": "Ekstra timer blev godkendt",
+                    "extraHoursSuccessfullyDeleted": "Ekstra timer blev slettet",
+                    "extraHoursSuccessfullyRejected": "Ekstra timer blev afvist"
+                },
+                "confirmation": {
+                    "approveExtraHoursConfirmation": "Er du sikker på, at du vil godkende disse ekstra timer?",
+                    "deleteExtraHoursConfirmation": "Er du sikker på, at du vil slette disse ekstra timer?",
+                    "rejectExtraHoursConfirmation": "Er du sikker på, at du vil afvise disse ekstra timer?"
+                },
+                "date": "Dato",
+                "hours": "Timer",
+                "note": "Bemærkning",
+                "status": "Status",
+                "type": {
+                    "add": "Tilføj",
+                    "deduct": "Træk fra",
+                    "type": "Type"
+                }
+            }
+        },
         "filterDate": "Filtrer dato",
         "form": {
             "citizens": "Borgere",

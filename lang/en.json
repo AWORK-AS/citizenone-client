@@ -2309,6 +2309,52 @@
         },
         "dutySchedules": "Duty schedules",
         "editSchedule": "Edit schedule",
+        "extraHours": {
+            "editExtraHours": "Edit extra hours",
+            "extraHours": "Extra hours",
+            "form": {
+                "alert": {
+                    "extraHoursSuccessfullyAdded": "Extra hours successfully added",
+                    "extraHoursSuccessfullyUpdated": "Extra hours successfully updated"
+                },
+                "date": "Date",
+                "hours": "Hours",
+                "note": "Note",
+                "type": {
+                    "add": "Add",
+                    "deduct": "Deduct",
+                    "Type": "Type"
+                }
+            },
+            "newExtraHours": "New extra hours",
+            "table": {
+                "actions": {
+                    "approve": "Approve",
+                    "delete": "Delete",
+                    "edit": "Edit",
+                    "reject": "Reject"
+                },
+                "alert": {
+                    "extraHoursSuccessfullyApproved": "Extra hours successfully approved",
+                    "extraHoursSuccessfullyDeleted": "Extra hours successfully deleted",
+                    "extraHoursSuccessfullyRejected": "Extra hours successfully rejected"
+                },
+                "confirmation": {
+                    "approveExtraHoursConfirmation": "Are you sure you want to approve this extra hours",
+                    "deleteExtraHoursConfirmation": "Are you sure you want to delete this extra hours",
+                    "rejectExtraHoursConfirmation": "Are you sure you want to reject this extra hours"
+                },
+                "date": "Date",
+                "hours": "Hours",
+                "note": "Note",
+                "status": "Status",
+                "type": {
+                    "add": "Add",
+                    "deduct": "Deduct",
+                    "type": "Type"
+                }
+            }
+        },
         "filterDate": "Filter date",
         "form": {
             "citizens": "Citizens",

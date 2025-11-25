@@ -297,8 +297,8 @@
                                                                 {{ employee?.lastname }}
                                                             </p>
                                                         </div>
-                                                        <div>
-                                                            <Tooltip position="left"
+                                                        <div class="flex items-center gap-x-1">
+                                                            <Tooltip position="right"
                                                                 :text="$t('dutySchedules.copy.copyEmployeeSchedule')">
                                                                 <button
                                                                     class="bg-gray-200 w-6 h-6 text-sm text-gray-600 rounded-sm hover:bg-gray-400 hover:text-gray-200 flex items-center justify-center"
@@ -307,9 +307,18 @@
                                                                         aria-hidden="true" />
                                                                 </button>
                                                             </Tooltip>
+                                                            <Tooltip position="right"
+                                                                :text="$t('dutySchedules.extraHours.extraHours')">
+                                                                <button
+                                                                    class="bg-gray-200 w-6 h-6 text-sm text-gray-600 rounded-sm hover:bg-gray-400 hover:text-gray-200 flex items-center justify-center"
+                                                                    @click="viewExtraHours(employee)">
+                                                                    <Icon name="mdi:clock-outline" class="h-3 w-3"
+                                                                        aria-hidden="true" />
+                                                                </button>
+                                                            </Tooltip>
                                                         </div>
                                                     </div>
-                                                    <div class="-mt-2 ml-12">
+                                                    <div class="-mt-1 ml-12">
                                                         <p class="text-xxs">
                                                             {{ employee?.employee_detail?.job?.title }}
                                                         </p>
@@ -711,6 +720,9 @@
             <ModulesUserDutyScheduleModalViewShift :isModalOpen="state.modal.isViewShiftOpen"
                 :selectedEmployeeSchedule="state.viewShift.selectedEmployeeSchedule"
                 @close="state.modal.isViewShiftOpen = false" />
+            <ModulesUserDutyScheduleExtraHoursModalView :isModalOpen="state.modal.isManageExtraHoursOpen"
+                :selectedEmployee="state.manageExtraHours.selectedEmployee"
+                @close="state.modal.isManageExtraHoursOpen = false" @refreshDutySchedules="fetchDutySchedule()" />
             <ModulesUserDutyScheduleTimeRequestsModalRequests
                 :isModalOpen="state.modal.isManageTimeAdjustmentRequestsOpen"
                 :selectedDate="state.manageTimeRequest.selectedDate"
@@ -791,6 +803,10 @@ const state = reactive({
     manageScheduleSlot: {
         selectedDay: [],
     },
+    manageExtraHours: {
+        selectedEmployee: {},
+        selectedSchedule: {},
+    },
     manageTimeRequest: {
         selectedDate: '',
         selectedEmployee: {},
@@ -807,6 +823,7 @@ const state = reactive({
         isDepartmentSickLeaveDateRangeOpen: false,
         isDownloadOpen: false,
         isEditShiftOpen: false,
+        isManageExtraHoursOpen: false,
         isManageScheduleSlotOpen: false,
         isManageTimeAdjustmentRequestsOpen: false,
         isManageSwapScheduleRequestsOpen: false,
@@ -1309,6 +1326,11 @@ function isEmployeeSelectedAsWeeklyScheduleSource(employee: any) {
 function copyEmployeeWeeklySchedule(weeklySchedule: any) {
     state.copy.selectedEmployeeWeeklySchedule = weeklySchedule
     state.copy.selectedWeekNumber = weekNumber?.value
+}
+
+function viewExtraHours(employee: any) {
+    state.manageExtraHours.selectedEmployee = employee
+    state.modal.isManageExtraHoursOpen = true
 }
 
 async function pasteEmployeeWeeklySchedule(weeklySchedule: any) {
