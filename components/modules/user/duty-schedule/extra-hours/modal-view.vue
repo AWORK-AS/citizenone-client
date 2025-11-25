@@ -82,7 +82,6 @@
 </template>
 
 <script setup lang="ts">
-import moment from 'moment'
 import { useDatetimeFormatter } from '@/composables/datetimeFormatter'
 import { extraHoursService } from '@/components/api/user/ExtraHoursService'
 import { useI18n } from "vue-i18n"
