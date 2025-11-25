@@ -2311,6 +2311,7 @@
         "editSchedule": "Rediger tidsplan",
         "extraHours": {
             "editExtraHours": "Rediger ekstra timer",
+            "editExtraHoursRequest": "Rediger anmodning om ekstra timer",
             "extraHours": "Ekstra timer",
             "extraHoursRequests": "Anmodninger om ekstra timer",
             "form": {

@@ -2311,6 +2311,7 @@
         "editSchedule": "Edit schedule",
         "extraHours": {
             "editExtraHours": "Edit extra hours",
+            "editExtraHoursRequest": "Edit extra hours request",
             "extraHours": "Extra hours",
             "extraHoursRequests": "Extra hours requests",
             "form": {
