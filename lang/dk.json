@@ -2312,8 +2312,11 @@
         "extraHours": {
             "editExtraHours": "Rediger ekstra timer",
             "extraHours": "Ekstra timer",
+            "extraHoursRequests": "Anmodninger om ekstra timer",
             "form": {
                 "alert": {
+                    "extraHoursRequestSuccessfullyAdded": "Anmodning om ekstra timer blev tilføjet",
+                    "extraHoursRequestSuccessfullyUpdated": "Anmodning om ekstra timer blev opdateret",
                     "extraHoursSuccessfullyAdded": "Ekstra timer blev tilføjet",
                     "extraHoursSuccessfullyUpdated": "Ekstra timer blev opdateret"
                 },
@@ -2327,6 +2330,7 @@
                 }
             },
             "newExtraHours": "Nye ekstra timer",
+            "newExtraHoursRequest": "Ny anmodning om ekstra timer",
             "table": {
                 "actions": {
                     "approve": "Godkend",
@@ -2336,6 +2340,7 @@
                 },
                 "alert": {
                     "extraHoursSuccessfullyApproved": "Ekstra timer blev godkendt",
+                    "extraHoursRequestSuccessfullyDeleted": "Anmodning om ekstra timer blev slettet",
                     "extraHoursSuccessfullyDeleted": "Ekstra timer blev slettet",
                     "extraHoursSuccessfullyRejected": "Ekstra timer blev afvist"
                 },
@@ -2347,7 +2352,12 @@
                 "date": "Dato",
                 "hours": "Timer",
                 "note": "Bemærkning",
-                "status": "Status",
+                "status": {
+                    "approved": "Godkendt",
+                    "pending": "Afventer",
+                    "rejected": "Afvist",
+                    "status": "Status"
+                },
                 "type": {
                     "add": "Tilføj",
                     "deduct": "Træk fra",

@@ -22,12 +22,12 @@
                                 <template #body
                                     v-if="!(state.isTableLoading || (state.extraHours?.data?.length === 0))">
                                     <tr v-for="(extraHours, index) in state.extraHours?.data" :key="index">
-                                        <td width="15%">
+                                        <td width="20%">
                                             <p class="truncate">
                                                 {{ formatDateToReadable(extraHours?.date) }}
                                             </p>
                                         </td>
-                                        <td width="20%">
+                                        <td width="10%">
                                             <span v-if="extraHours.extra_hours_type === 'add'">
                                                 {{ $t('dutySchedules.extraHours.table.type.add') }}
                                             </span>
@@ -35,39 +35,53 @@
                                                 {{ $t('dutySchedules.extraHours.table.type.deduct') }}
                                             </span>
                                         </td>
-                                        <td width="20%">
+                                        <td width="15%">
                                             <p>
                                                 {{ formatNumber(language.locale.value, extraHours?.extra_hours) }}
                                             </p>
                                         </td>
-                                        <td width="25%">
+                                        <td width="20%">
                                             <p>
                                                 {{ extraHours?.note }}
                                             </p>
                                         </td>
+                                        <td width="15%">
+                                            <span v-if="extraHours?.extra_hours_status === 'pending'">
+                                                {{ $t('dutySchedules.extraHours.table.status.pending') }}
+                                            </span>
+                                            <span v-if="extraHours?.extra_hours_status === 'approved'">
+                                                {{ $t('dutySchedules.extraHours.table.status.approved') }}
+                                            </span>
+                                            <span v-if="extraHours?.extra_hours_status === 'rejected'">
+                                                {{ $t('dutySchedules.extraHours.table.status.rejected') }}
+                                            </span>
+                                        </td>
                                         <td width="20%">
                                             <div class="flex items-end gap-2">
-                                                <Tooltip :text="$t('dutySchedules.extraHours.table.actions.edit')">
-                                                    <FormButton type="button" buttonStyle="action" class="rounded-md"
-                                                        @click="editExtraHours(extraHours)">
+                                                <Tooltip :text="$t('dutySchedules.extraHours.table.actions.edit')"
+                                                    @click="editExtraHours(extraHours)">
+                                                    <FormButton type="button" buttonStyle="action" class="rounded-md">
                                                         <Icon name="ph:pencil-simple" class="size-4" />
                                                     </FormButton>
                                                 </Tooltip>
-                                                <Tooltip :text="$t('dutySchedules.extraHours.table.actions.approve')">
-                                                    <FormButton type="button" buttonStyle="success" class="rounded-md"
-                                                        @click="confirmApproveExtraHoursRequest(extraHours)">
+                                                <Tooltip :text="$t('dutySchedules.extraHours.table.actions.approve')"
+                                                    @click="confirmApproveExtraHoursRequest(extraHours)"
+                                                    v-if="['pending', 'rejected'].includes(extraHours?.extra_hours_status)">
+                                                    <FormButton type="button" buttonStyle="success" class="rounded-md">
                                                         <Icon name="ph:check" class="size-4" />
                                                     </FormButton>
                                                 </Tooltip>
-                                                <Tooltip :text="$t('dutySchedules.extraHours.table.actions.reject')">
-                                                    <FormButton type="button" buttonStyle="danger" class="rounded-md"
-                                                        @click="confirmRejectExtraHoursRequest(extraHours)">
+                                                <Tooltip :text="$t('dutySchedules.extraHours.table.actions.reject')"
+                                                    @click="confirmRejectExtraHoursRequest(extraHours)"
+                                                    v-if="['pending', 'approved'].includes(extraHours?.extra_hours_status)">
+                                                    <FormButton type="button" buttonStyle="danger" class="rounded-md">
                                                         <Icon name="ph:x" class="size-4" />
                                                     </FormButton>
                                                 </Tooltip>
-                                                <Tooltip :text="$t('dutySchedules.extraHours.table.actions.delete')">
-                                                    <FormButton type="button" buttonStyle="danger" class="rounded-md"
-                                                        @click="confirmDeleteExtraHours(extraHours)">
+                                                <Tooltip :text="$t('dutySchedules.extraHours.table.actions.delete')"
+                                                    @click="confirmDeleteExtraHours(extraHours)"
+                                                    v-if="['approve', 'rejected'].includes(extraHours?.extra_hours_status)">
+                                                    <FormButton type="button" buttonStyle="danger" class="rounded-md">
                                                         <Icon name="ph:trash" class="size-4" />
                                                     </FormButton>
                                                 </Tooltip>
@@ -94,9 +108,9 @@
                 <DialogConfirmation :isModalOpen="state.modal.isRejectRequest"
                     :message="$t('dutySchedules.extraHours.table.confirmation.rejectExtraHoursConfirmation') + '?'"
                     @close="state.modal.isRejectRequest = false" @confirm="rejectExtraHoursRequest" />
-                <DialogConfirmation :isModalOpen="state.modal.isRejectRequest"
+                <DialogConfirmation :isModalOpen="state.modal.isDeleteExtraHoursOpen"
                     :message="$t('dutySchedules.extraHours.table.confirmation.rejectExtraHoursConfirmation') + '?'"
-                    @close="state.modal.isRejectRequest = false" @confirm="isDeleteExtraHours" />
+                    @close="state.modal.isDeleteExtraHoursOpen = false" @confirm="deleteExtraHours" />
             </template>
         </Modal>
     </div>
@@ -135,7 +149,7 @@ const state = reactive({
         { name: 'dutySchedules.extraHours.table.type.type', sorter: true, key: 'extra_hours_type' },
         { name: 'dutySchedules.extraHours.table.hours', sorter: true, key: 'extra_hours' },
         { name: 'dutySchedules.extraHours.table.note' },
-        { name: 'dutySchedules.extraHours.table.status' },
+        { name: 'dutySchedules.extraHours.table.status.status', sorter: true, key: 'extra_hours_status' },
         { name: '' },
     ],
     dataFilter: {
@@ -233,7 +247,7 @@ async function approveExtraHoursRequest() {
         const response = await extraHoursService.approveExtraHour(extraHoursUuid)
         if (response) {
             fetchExtraHours()
-            successAlert(`${t('alert.success')}!`, `${t('dutySchedules.extraHours.alert.extraHoursSuccessfullyApproved')}.`)
+            successAlert(`${t('alert.success')}!`, `${t('dutySchedules.extraHours.table.alert.extraHoursSuccessfullyApproved')}.`)
             emit('refreshDutySchedules')
         }
     } catch (error: any) {
@@ -255,7 +269,7 @@ async function rejectExtraHoursRequest() {
         const response = await extraHoursService.rejectExtraHour(extraHoursUuid)
         if (response) {
             fetchExtraHours()
-            successAlert(`${t('alert.success')}!`, `${t('dutySchedules.extraHours.alert.extraHoursSuccessfullyRejected')}.`)
+            successAlert(`${t('alert.success')}!`, `${t('dutySchedules.extraHours.table.alert.extraHoursSuccessfullyRejected')}.`)
             emit('refreshDutySchedules')
         }
     } catch (error: any) {
@@ -269,7 +283,7 @@ function confirmDeleteExtraHours(extraHours: any) {
     state.modal.isDeleteExtraHoursOpen = true
 }
 
-async function isDeleteExtraHours() {
+async function deleteExtraHours() {
     state.error = {}
     state.isTableLoading = true
     try {
@@ -277,7 +291,7 @@ async function isDeleteExtraHours() {
         const response = await extraHoursService.deleteExtraHour(extraHoursUuid)
         if (response) {
             fetchExtraHours()
-            successAlert(`${t('alert.success')}!`, `${t('dutySchedules.extraHours.alert.extraHoursSuccessfullyDeleted')}.`)
+            successAlert(`${t('alert.success')}!`, `${t('dutySchedules.extraHours.table.alert.extraHoursSuccessfullyDeleted')}.`)
             emit('refreshDutySchedules')
         }
     } catch (error: any) {

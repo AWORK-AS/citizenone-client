@@ -2312,8 +2312,11 @@
         "extraHours": {
             "editExtraHours": "Edit extra hours",
             "extraHours": "Extra hours",
+            "extraHoursRequests": "Extra hours requests",
             "form": {
                 "alert": {
+                    "extraHoursRequestSuccessfullyAdded": "Extra hours request successfully added",
+                    "extraHoursRequestSuccessfullyUpdated": "Extra hours request successfully updated",
                     "extraHoursSuccessfullyAdded": "Extra hours successfully added",
                     "extraHoursSuccessfullyUpdated": "Extra hours successfully updated"
                 },
@@ -2327,6 +2330,7 @@
                 }
             },
             "newExtraHours": "New extra hours",
+            "newExtraHoursRequest": "New extra hours request",
             "table": {
                 "actions": {
                     "approve": "Approve",
@@ -2336,6 +2340,7 @@
                 },
                 "alert": {
                     "extraHoursSuccessfullyApproved": "Extra hours successfully approved",
+                    "extraHoursRequestSuccessfullyDeleted": "Extra hours request successfully deleted",
                     "extraHoursSuccessfullyDeleted": "Extra hours successfully deleted",
                     "extraHoursSuccessfullyRejected": "Extra hours successfully rejected"
                 },
@@ -2347,7 +2352,12 @@
                 "date": "Date",
                 "hours": "Hours",
                 "note": "Note",
-                "status": "Status",
+                "status": {
+                    "approved": "Approved",
+                    "pending": "Pending",
+                    "rejected": "Rejected",
+                    "status": "Status"
+                },
                 "type": {
                     "add": "Add",
                     "deduct": "Deduct",
