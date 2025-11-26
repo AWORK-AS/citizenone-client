@@ -30,7 +30,7 @@
                     <FormError :error="v$?.formNotification?.note?.$errors[0]?.$message.toString()" />
                     <FormError :error="props?.error?.errors?.note?.[0]" />
                 </div>
-                <div class="space-y-1" v-if="props.formType === 'create'">
+                <div class="space-y-1">
                     <div class="w-fit flex items-center cursor-pointer"
                         @click="state.formNotification.is_recurring = !state.formNotification.is_recurring">
                         <FormCheckbox :value="state.formNotification.is_recurring" />
