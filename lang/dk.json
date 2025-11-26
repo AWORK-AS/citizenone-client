@@ -1744,8 +1744,8 @@
                 "editVitals": "Rediger vitale tegn",
                 "form": {
                     "alert": {
-                        "vitalsSuccessfullyAdded": "Vitale tegn er blevet tilføjet",
-                        "vitalsSuccessfullyUpdated": "Vitale tegn er blevet opdateret"
+                        "vitalsSuccessfullyAdded": "Vitale værdier er blevet tilføjet",
+                        "vitalsSuccessfullyUpdated": "Vitale værdier er blevet opdateret"
                     },
                     "bloodPressure": "Blodtryk",
                     "bloodSugar": "Blodsukker",
@@ -1758,17 +1758,17 @@
                     },
                     "pulse": "Puls",
                     "temperature": "Temperatur",
-                    "vitals": "Vitale tegn",
+                    "vitals": "Vitale værdier",
                     "weight": "Vægt"
                 },
-                "newVitals": "Nye vitale tegn",
+                "newVitals": "Nye vitale værdier",
                 "table": {
                     "actions": {
                         "delete": "Slet",
                         "edit": "Rediger"
                     },
                     "alert": {
-                        "vitalsSuccessfullyDeleted": "Vitale tegn er blevet slettet"
+                        "vitalsSuccessfullyDeleted": "Vitale værdier er blevet slettet"
                     },
                     "bloodPressure": "Blodtryk",
                     "bloodSugar": "Blodsukker",
@@ -1777,10 +1777,10 @@
                     },
                     "pulse": "Puls",
                     "temperature": "Temperatur",
-                    "vitals": "Vitale tegn",
+                    "vitals": "Vitale værdier",
                     "weight": "Vægt"
                 },
-                "vitals": "Vitale tegn"
+                "vitals": "Vitale værdier"
             }
         },
         "purchaseEmail": {
