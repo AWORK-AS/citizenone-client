@@ -30,6 +30,14 @@ export default defineNuxtConfig({
     }
   },
 
+  build: {
+    filenames: {
+      app: '[name].[contenthash].js',
+      chunk: '[name].[contenthash].js',
+      css: '[name].[contenthash].css'
+    }
+  },
+
   css: ['~/assets/css/main.css'],
   devtools: { enabled: true },
 
