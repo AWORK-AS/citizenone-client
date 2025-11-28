@@ -4136,6 +4136,18 @@
                 },
                 "dateTime": "Dato og tid",
                 "note": "Bemærkning",
+                "recurring": {
+                    "addThisSessions": "Tilføj denne session",
+                    "everyDay": "Hver dag",
+                    "everyWeek": "Hver uge",
+                    "everySecondWeek": "Hver anden uge",
+                    "everyThirdWeek": "Hver tredje uge",
+                    "everyFourthWeek": "Hver fjerde uge",
+                    "everyMonth": "Hver måned",
+                    "recurring": "Tilbagevendende",
+                    "repeat": "Gentag",
+                    "until": "Indtil"
+                },
                 "users": "Brugere"
             }
         },
