@@ -142,6 +142,9 @@ onMounted(() => {
         date_time: props.selectedNotification?.date_time || moment().format('YYYY-MM-DD HH:mm'),
         user: [],
         note: props.selectedNotification?.note,
+        is_recurring: props.selectedNotification?.is_recurring ? true : false,
+        recurring: props.selectedNotification?.recurring,
+        recurring_until: props.selectedNotification?.recurring_until,
     }
     fetchOurContactPersons()
     props?.selectedNotification?.notification_users?.forEach((notificationUser: any) => {
@@ -193,7 +196,6 @@ const v$ = useVuelidate(rules, state)
 
 function submitForm() {
     v$.value.$validate()
-    console.log('test', v$.value)
     if (!v$.value.$error) {
         emit('submitForm', state.formNotification)
     }
