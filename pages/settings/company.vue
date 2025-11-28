@@ -164,6 +164,13 @@
                             </p>
                         </div>
                         <div class="space-y-1 flex items-center gap-x-2">
+                            <FormSwitch :value="state.formCompany.transfer_norm_hours_enabled"
+                                @toggleSwitch="state.formCompany.transfer_norm_hours_enabled = !state.formCompany.transfer_norm_hours_enabled" />
+                            <p>
+                                {{ $t('settings.company.form.transferNormHours') }}
+                            </p>
+                        </div>
+                        <div class="space-y-1 flex items-center gap-x-2">
                             <FormSwitch :value="state.formCompany.social_og_boligstyrelsen"
                                 @toggleSwitch="state.formCompany.social_og_boligstyrelsen = !state.formCompany.social_og_boligstyrelsen" />
                             <p>
@@ -236,6 +243,7 @@ const state = reactive({
         goals_enabled: false,
         subgoals_enabled: false,
         is_lock_past_schedules: false,
+        transfer_norm_hours_enabled: false,
         social_og_boligstyrelsen: false,
         quick_risk_assessment_enabled: false,
     },
@@ -291,6 +299,7 @@ watch(() => userStore.getUser, (newValue: any) => {
             goals_enabled: newValue?.company?.employee_create_goals_enabled ? true : false,
             subgoals_enabled: newValue?.company?.employee_create_subgoals_enabled ? true : false,
             is_lock_past_schedules: newValue?.company?.is_lock_past_schedules ? true : false,
+            transfer_norm_hours_enabled: newValue?.company?.transfer_norm_hours_enabled ? true : false,
             social_og_boligstyrelsen: newValue?.company?.social_og_boligstyrelsen ? true : false,
             quick_risk_assessment_enabled: newValue?.company?.quick_risk_assessment_enabled ? true : false,
         }
@@ -407,6 +416,7 @@ async function submitForm() {
                 employee_create_goals_enabled: state.formCompany.goals_enabled,
                 employee_create_subgoals_enabled: state.formCompany.subgoals_enabled,
                 is_lock_past_schedules: state.formCompany.is_lock_past_schedules,
+                transfer_norm_hours_enabled: state.formCompany.transfer_norm_hours_enabled,
                 social_og_boligstyrelsen: state.formCompany.social_og_boligstyrelsen,
                 quick_risk_assessment_enabled: state.formCompany.quick_risk_assessment_enabled,
             }

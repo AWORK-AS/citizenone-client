@@ -4602,6 +4602,7 @@
                 "quickRiskAssessment": "Quick risk assessment",
                 "region": "Region",
                 "street": "Street",
+                "transferNormHours": "Transfer norm hours to next year if not used",
                 "website": "Website"
             }
         },
