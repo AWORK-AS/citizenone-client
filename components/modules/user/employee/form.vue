@@ -222,7 +222,7 @@
                         {{ $t('employees.form.showWorkingHours') }}
                     </div>
                 </div>
-                <div class="space-y-1" v-if="props.formType === 'update' && isAdmin(userStore.getUser?.roles)">
+                <div class="space-y-1" v-if="isAdmin(userStore.getUser?.roles)">
                     <FormLabel for="pages" :label="$t('employees.form.pageAccess')" />
                     <FormSelectMultiple id="pages" :options="state.options.pages" v-model="state.formEmployee.pages" />
                     <FormError :error="v$?.formEmployee?.pages?.$errors[0]?.$message.toString()" />
