@@ -147,7 +147,7 @@ async function fetchEmployee() {
                 street: response?.data?.employee_address?.street ?? '',
                 region_uuid: response?.data?.employee_address?.region?.uuid?.toString() ?? '',
                 municipality_uuid: response?.data?.employee_address?.municipality?.uuid?.toString() ?? '',
-                city: response?.data?.employee_address?.city?.uuid?.toString() ?? '',
+                city: response?.data?.employee_address?.city ?? '',
                 post_code: response?.data?.employee_address?.post_code ?? '',
                 permissions: response?.data?.permissions ?? [],
                 show_working_hours: response?.data?.show_working_hours ?? false,
