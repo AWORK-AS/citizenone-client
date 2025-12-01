@@ -1792,6 +1792,13 @@
                 "edit": "Edit",
                 "latestJournalEntry": "Latest journal entry",
                 "latestRiskAssessment": "Latest risk assessment",
+                "medicationOverview": "Medication overview",
+                "plansAndGoals": {
+                    "expiringPlansAndGoals": "Expiring plans and goals",
+                    "expiredPlansAndGoals": "Expired plans and goals",
+                    "noPlansAndGoals": "No plans and goals",
+                    "plansAndGoals": "Plans and goals"
+                },
                 "view": "View"
             },
             "department": "Department",
@@ -2309,10 +2316,68 @@
         },
         "dutySchedules": "Duty schedules",
         "editSchedule": "Edit schedule",
+        "extraHours": {
+            "editExtraHours": "Edit extra hours",
+            "editExtraHoursRequest": "Edit extra hours request",
+            "extraHours": "Extra hours",
+            "extraHoursRequests": "Extra hours requests",
+            "form": {
+                "alert": {
+                    "extraHoursRequestSuccessfullyAdded": "Extra hours request successfully added",
+                    "extraHoursRequestSuccessfullyUpdated": "Extra hours request successfully updated",
+                    "extraHoursSuccessfullyAdded": "Extra hours successfully added",
+                    "extraHoursSuccessfullyUpdated": "Extra hours successfully updated"
+                },
+                "date": "Date",
+                "hours": "Hours",
+                "note": "Note",
+                "type": {
+                    "add": "Add",
+                    "deduct": "Deduct",
+                    "type": "Type"
+                }
+            },
+            "newExtraHours": "New extra hours",
+            "newExtraHoursRequest": "New extra hours request",
+            "table": {
+                "actions": {
+                    "approve": "Approve",
+                    "delete": "Delete",
+                    "edit": "Edit",
+                    "reject": "Reject"
+                },
+                "alert": {
+                    "extraHoursSuccessfullyApproved": "Extra hours successfully approved",
+                    "extraHoursRequestSuccessfullyDeleted": "Extra hours request successfully deleted",
+                    "extraHoursSuccessfullyDeleted": "Extra hours successfully deleted",
+                    "extraHoursSuccessfullyRejected": "Extra hours successfully rejected"
+                },
+                "confirmation": {
+                    "approveExtraHoursConfirmation": "Are you sure you want to approve this extra hours",
+                    "deleteExtraHoursConfirmation": "Are you sure you want to delete this extra hours",
+                    "rejectExtraHoursConfirmation": "Are you sure you want to reject this extra hours"
+                },
+                "date": "Date",
+                "hours": "Hours",
+                "note": "Note",
+                "status": {
+                    "approved": "Approved",
+                    "pending": "Pending",
+                    "rejected": "Rejected",
+                    "status": "Status"
+                },
+                "type": {
+                    "add": "Add",
+                    "deduct": "Deduct",
+                    "type": "Type"
+                }
+            }
+        },
         "filterDate": "Filter date",
         "form": {
             "citizens": "Citizens",
             "countSickLeaveAsWorkedHours": "Count sick leave as worked hours",
+            "createMultipleSchedules": "Create multiple schedules",
             "datetimeStart": "Date time start",
             "dateTimeEnd": "Date time end",
             "departments": "Departments",
@@ -2320,6 +2385,17 @@
             "inMeeting": "In Meeting",
             "note": "Note",
             "private": "Private",
+            "recurring": {
+                "applyChangesToAllRecurringShifts": "Apply changes to all recurring shifts",
+                "everyDay": "Every day",
+                "everyWeek": "Every week",
+                "everySecondWeek": "Every second week",
+                "everyThirdWeek": "Every third week",
+                "everyFourthWeek": "Every fourth week",
+                "everyMonth": "Every month",
+                "repeat": "Repeat",
+                "until": "Until"
+            },
             "tags": "Tags",
             "title": "Title",
             "useCompensatoryTime": "Use compensatory time",
@@ -2691,6 +2767,7 @@
             },
             "address": "Address",
             "birthday": "Birthday",
+            "changePassword": "Change password",
             "city": "City",
             "department": "Department",
             "emailAddress": "Email address",
@@ -2711,6 +2788,7 @@
                 "employmentStatus": "Employment status",
                 "jobSpecialty": "Job specialty",
                 "jobTitle": "Job title",
+                "salaryID": "Salary ID",
                 "workingHours": "Working hours",
                 "vacationDays": "Vacation days"
             },
@@ -2734,6 +2812,7 @@
             },
             "municipality": "Municipality",
             "pageAccess": "Page access",
+            "password": "Password",
             "permissions": {
                 "create": "Create",
                 "delete": "Delete",
@@ -4028,6 +4107,18 @@
                 },
                 "dateTime": "Date time",
                 "note": "Note",
+                "recurring": {
+                    "addThisSessions": "Add this session",
+                    "everyDay": "Every day",
+                    "everyWeek": "Every week",
+                    "everySecondWeek": "Every second week",
+                    "everyThirdWeek": "Every third week",
+                    "everyFourthWeek": "Every fourth week",
+                    "everyMonth": "Every month",
+                    "repeat": "Repeat",
+                    "until": "Until"
+                },
+                "repeatNotification": "Repeat notification",
                 "users": "Users"
             },
             "newNotification": "New notification",
@@ -4045,6 +4136,18 @@
                 },
                 "dateTime": "Date time",
                 "note": "Note",
+                "recurring": {
+                    "addThisSessions": "Add this session",
+                    "everyDay": "Every day",
+                    "everyWeek": "Every week",
+                    "everySecondWeek": "Every second week",
+                    "everyThirdWeek": "Every third week",
+                    "everyFourthWeek": "Every fourth week",
+                    "everyMonth": "Every month",
+                    "recurring": "Recurring",
+                    "repeat": "Repeat",
+                    "until": "Until"
+                },
                 "users": "Users"
             }
         },
@@ -4428,6 +4531,7 @@
         }
     },
     "save": "Save",
+    "saving": "Saving",
     "scheduleTags": {
         "addNewScheduleTag": "Add new schedule tag",
         "alert": {
@@ -4493,6 +4597,7 @@
                     "successfullyUpdated": "Company successfully updated"
                 },
                 "checkinOut": "Check in/out",
+                "allowChangePassword": "Allow employees to change password",
                 "allowPlans": "Allow employees to create plans",
                 "allowGoals": "Allow employees to create goals",
                 "allowSubGoals": "Allow employees to create subgoals",
@@ -4500,6 +4605,7 @@
                 "citizensDisplay": "Citizen's display",
                 "companyName": "Company name",
                 "cvr": "CVR",
+                "enableEmailNotifications": "Enable email notifications",
                 "groupChat": "Group chat",
                 "lockPastSchedules": "Lock past schedules",
                 "municipality": "Municipality",
@@ -4508,6 +4614,7 @@
                 "quickRiskAssessment": "Quick risk assessment",
                 "region": "Region",
                 "street": "Street",
+                "transferNormHours": "Transfer norm hours to next year if not used",
                 "website": "Website"
             }
         },
@@ -4734,6 +4841,7 @@
         "updateSubscription": "Update subscription"
     },
     "support": {
+        "chatWithSupport": "Chat with support",
         "courseDetails": "If you and your colleagues need a course in CitizenOne, click the button below to see what we can offer to get you well prepared",
         "getAGuidedTour": "Get a guided tour",
         "goToSupportcenter": "Go to supportcenter",

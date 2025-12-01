@@ -135,7 +135,7 @@ async function saveRecord(recordDetails: any) {
         const response = await nursingAreasService.saveNursingProfessionalRecord(params)
         if (response.data) {
             successAlert(`${t('alert.success')}!`, `${t('citizens.nursingAreas.form.alert.successfullyAdded')}.`)
-            navigateTo(`/citizens/${citizenUuid}/nursing-areas`)
+            navigateTo(`/citizens/${citizenUuid}/nursing-areas?open=nursing-professional-records`)
         }
     } catch (error: any) {
         state.error = error

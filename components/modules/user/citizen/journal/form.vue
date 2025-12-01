@@ -1,10 +1,23 @@
 <template>
-    <form @submit.prevent="submitForm()">
+    <form @submit.prevent="state.isAutoSaving = false; state.hasChanges = true; submitForm()">
         <Alert type="danger" :text="props?.error?.message"
             v-if="props.error?.message && props.error.message.length > 0" />
         <Alert type="danger" :text="state?.error?.message"
             v-if="state.error?.message && state.error.message.length > 0" />
         <div class="space-y-3">
+            <div v-if="state.isAutoSaving" class="flex items-center gap-x-1">
+                <Icon name="ph:spinner" class="w-5 h-5 spin" />
+                <div>
+                    <span class="text-base">
+                        {{ $t('saving') }}
+                    </span>
+                    <span class="dot1">.</span>
+                    <span class="dot2">.</span>
+                    <span class="dot3">.</span>
+                    <span class="dot4">.</span>
+                    <span class="dot5">.</span>
+                </div>
+            </div>
             <div class="grid md:grid-cols-2 gap-x-3">
                 <div class="md:col-span-2">
                     <button type="button" class="text-sm text-primary hover:text-primary-700"
@@ -362,6 +375,8 @@ const router = useRouter()
 const citizenUuid = router?.currentRoute?.value?.params?.uuid
 const contentFileInput = ref(null) as any
 const riskAssessmentFileInput = ref(null) as any
+let autoSaveInterval = null as any
+let firstLoad = true
 
 const editor = ref(ClassicEditor)
 const editorContentConfig = ref({
@@ -394,6 +409,7 @@ const editorNoteConfig = ref({
 }) as any
 
 const state = reactive({
+    isAutoSaving: false,
     error: {} as Error,
     formJournal: {
         id: '',
@@ -418,6 +434,7 @@ const state = reactive({
         teeth: [],
         is_for_teeth: false,
     } as any,
+    hasChanges: false,
     modal: {
         isAddJournalNoteTagsOpen: false,
         isAddJournalTitleOpen: false,
@@ -542,6 +559,28 @@ watch(() => props.selectedJournal, (newValue: any) => {
     }
 })
 
+watch(() => state.formJournal, () => {
+    if (props.formType === 'update' && !firstLoad) {
+        state.hasChanges = true
+        state.isAutoSaving = true
+    }
+    if (firstLoad) {
+        firstLoad = !firstLoad
+    }
+}, { deep: true })
+
+watch(() => state.hasChanges, (hasChanges) => {
+    if (hasChanges && !firstLoad && props.formType === 'update') {
+        state.isAutoSaving = true
+        autoSaveInterval = setInterval(() => {
+            submitForm()
+        }, 3000)
+    } else {
+        clearInterval(autoSaveInterval)
+        state.isAutoSaving = false
+    }
+}, { immediate: true })
+
 const rules = computed(() => {
     if (state.formJournal.copy_journal_note_to_plan_or_goal_or_subgoal) {
         return {
@@ -589,8 +628,12 @@ const v$ = useVuelidate(rules, state)
 
 function submitForm() {
     v$.value.$validate()
-    if (!v$.value.$error) {
-        emit('submitForm', state.formJournal)
+    if (!v$.value.$error && state.hasChanges) {
+        state.hasChanges = false
+        emit('submitForm', {
+            isAutoSaving: state.isAutoSaving,
+            formJournal: state.formJournal
+        })
     }
 }
 
@@ -993,3 +1036,19 @@ async function fetchAllSubgoalsForRiskAssessment(goalUuid: any) {
     emit('isPageLoading', false)
 }
 </script>
+
+<style scoped>
+.spin {
+    animation: spin 1.5s linear infinite;
+}
+
+@keyframes spin {
+    0% {
+        transform: rotate(0deg);
+    }
+
+    100% {
+        transform: rotate(360deg);
+    }
+}
+</style>

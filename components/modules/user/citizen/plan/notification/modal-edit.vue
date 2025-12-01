@@ -57,6 +57,9 @@ async function updateNotification(notificationDetails: any) {
             date_time: notificationDetails.date_time,
             user_uuid: notificationDetails.user,
             note: notificationDetails.note,
+            is_recurring: notificationDetails.is_recurring,
+            recurring: notificationDetails.recurring,
+            recurring_until: notificationDetails.recurring_until,
         }
         const response = await planGoalSubgoalNotificationService.updateNotification(notificationUuid, params)
         if (response?.data) {

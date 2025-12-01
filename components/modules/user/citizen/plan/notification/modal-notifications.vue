@@ -25,6 +25,66 @@
                                             <p>
                                                 {{ formatDateTimeToReadable(notification.date_time) }}
                                             </p>
+                                            <Badge type="primary" class="w-fit text-xxs space-y-1"
+                                                v-if="notification?.is_recurring">
+                                                <div class="flex items-center flex-wrap gap-x-0.5">
+                                                    <p>
+                                                        {{
+                                                            $t('plansandgoals.notifications.table.recurring.recurring')
+                                                        }}
+                                                    </p>
+                                                    <div class="lowercase">
+                                                        <p v-if="notification?.recurring === 'everyday'">
+                                                            {{
+                                                                $t('plansandgoals.notifications.table.recurring.everyDay')
+                                                            }}
+                                                        </p>
+
+                                                        <p v-if="notification?.recurring === 'every_week'">
+                                                            {{
+                                                                $t('plansandgoals.notifications.table.recurring.everyWeek')
+                                                            }}
+                                                        </p>
+
+                                                        <p v-if="notification?.recurring === 'every_second_week'">
+                                                            {{
+                                                                $t('plansandgoals.notifications.table.recurring.everySecondWeek')
+                                                            }}
+                                                        </p>
+
+                                                        <p v-if="notification?.recurring === 'every_third_week'">
+                                                            {{
+                                                                $t('plansandgoals.notifications.table.recurring.everyThirdWeek')
+                                                            }}
+                                                        </p>
+
+                                                        <p v-if="notification?.recurring === 'every_fourth_week'">
+                                                            {{
+                                                                $t('plansandgoals.notifications.table.recurring.everyFourthWeek')
+                                                            }}
+                                                        </p>
+
+                                                        <p v-if="notification?.recurring === 'every_month'">
+                                                            {{
+                                                                $t('plansandgoals.notifications.table.recurring.everyMonth')
+                                                            }}
+                                                        </p>
+
+                                                    </div>
+                                                </div>
+                                            </Badge>
+                                            <Badge type="primary" class="w-fit text-xxs space-y-1"
+                                                v-if="notification?.is_recurring">
+                                                <div class="flex items-center flex-wrap gap-x-0.5">
+
+                                                    <p class="lowercase">
+                                                        {{ $t('plansandgoals.notifications.table.recurring.until') }}
+                                                    </p>
+                                                    <p>
+                                                        {{ formatDateToReadable(notification?.recurring_until) }}
+                                                    </p>
+                                                </div>
+                                            </Badge>
                                         </td>
                                         <td width="30%">
                                             <p v-for="(notificationUser, index) in notification?.notification_users"
@@ -79,7 +139,7 @@ import { useAlert } from '@/composables/alert'
 import { useI18n } from "vue-i18n"
 import type { Error } from '@/types'
 
-const { formatDateTimeToReadable } = useDatetimeFormatter()
+const { formatDateTimeToReadable, formatDateToReadable } = useDatetimeFormatter()
 const { successAlert } = useAlert()
 const { t } = useI18n()
 let currentTablePage = 1

@@ -79,7 +79,8 @@
                         <FormError :error="state?.error?.errors?.page_uuid?.[0]" />
                     </div>
                 </div>
-                <div class="md:col-span-8 grid md:grid-cols-1">
+                <div class="md:col-span-8 grid md:grid-cols-1"
+                    v-if="userStore.getUser?.company?.change_password_enabled">
                     <div class="space-y-1">
                         <div class="w-fit flex items-center cursor-pointer"
                             @click="state.isChangePassword = !state.isChangePassword">
@@ -93,6 +94,15 @@
                             :placeholder="$t('settings.profile.form.password')" v-model="state.formProfile.password" />
                         <FormError :error="v$?.formProfile?.password?.$errors[0]?.$message.toString()" />
                         <FormError :error="state?.error?.errors?.password?.[0]" />
+                    </div>
+                </div>
+                <div class="md:col-span-8 grid md:grid-cols-1">
+                    <div class="space-y-1 flex items-center gap-x-2">
+                        <FormSwitch :value="state.formProfile.email_notifications_enabled"
+                            @toggleSwitch="state.formProfile.email_notifications_enabled = !state.formProfile.email_notifications_enabled" />
+                        <p>
+                            {{ $t('settings.company.form.enableEmailNotifications') }}
+                        </p>
                     </div>
                 </div>
             </div>
@@ -136,7 +146,8 @@ const state = reactive({
         language_uuid: '',
         pages: [] as any,
         password: '',
-    },
+        email_notifications_enabled: false,
+    } as any,
     isChangePassword: false,
     isPageLoading: false,
     options: {
@@ -218,6 +229,7 @@ watch(() => userStore.getUser, (newValue: any) => {
             language_uuid: newValue?.language?.uuid,
             pages: [],
             password: '',
+            email_notifications_enabled: newValue?.email_notifications_enabled ?? false,
         }
         newValue?.pages.forEach((page: any) => {
             state.formProfile.pages.push(page?.uuid)
@@ -289,6 +301,7 @@ async function submitForm() {
             if (state.formProfile.password) {
                 params.append('password', state.formProfile.password)
             }
+            params.append('email_notifications_enabled', state.formProfile.email_notifications_enabled)
             const response = await userService.updateUser(params)
             if (response.data) {
                 userStore.setLanguage(response?.data?.language?.code)

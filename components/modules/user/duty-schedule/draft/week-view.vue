@@ -206,7 +206,7 @@
                                                             </p>
                                                         </div>
                                                         <div>
-                                                            <Tooltip position="left"
+                                                            <Tooltip position="right"
                                                                 :text="$t('dutySchedules.copy.copyEmployeeSchedule')">
                                                                 <button
                                                                     class="bg-gray-200 w-6 h-6 text-sm text-gray-600 rounded-sm hover:bg-gray-400 hover:text-gray-200 flex items-center justify-center"
@@ -217,7 +217,7 @@
                                                             </Tooltip>
                                                         </div>
                                                     </div>
-                                                    <div class="-mt-2 ml-10">
+                                                    <div class="-mt-1 ml-10">
                                                         <p class="text-xxs">
                                                             {{ employee?.employee_detail?.job?.title }}
                                                         </p>
@@ -899,6 +899,9 @@ async function saveShift(shiftDetails: any) {
         shift_type_uuid: shiftType,
         date_time_start: shiftDetails.date_time_start,
         date_time_end: shiftDetails.date_time_end,
+        is_recurring: shiftDetails.is_recurring,
+        recurring: shiftDetails.recurring,
+        recurring_until: shiftDetails.recurring_until,
         user_uuid: state.weeklySchedules?.data?.[employeeIndex].uuid,
         citizen_uuid: shiftDetails?.citizens,
         schedule_tag_uuid: shiftDetails.schedule_tag_uuid,
@@ -1164,6 +1167,7 @@ function updateSelectedSchedule(shiftDetails: any) {
         shift_type_uuid: shiftDetails.shift_type,
         date_time_start: shiftDetails?.date_time_start,
         date_time_end: shiftDetails?.date_time_end,
+        is_apply_to_all: shiftDetails?.is_apply_to_all,
         user_uuid: state.editShift.selectedEmployeeSchedule.user_uuid,
         citizen_uuid: shiftDetails.citizens,
         schedule_tag_uuid: shiftDetails.schedule_tag_uuid,

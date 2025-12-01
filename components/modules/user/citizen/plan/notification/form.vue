@@ -16,9 +16,9 @@
                 </div>
                 <div class="space-y-1">
                     <FormLabel for="user" :label="$t('plansandgoals.notifications.form.users')" />
-                    <FormSelectMultiple id="user" :options="state.options.users"
+                    <FormSelectMultiple id="user" :options="state.options.contactPersons"
                         v-model="state.formNotification.user" />
-                    <FormError :error="v$?.formNotification?.user_uuid?.$errors[0]?.$message.toString()" />
+                    <FormError :error="v$?.formNotification?.user?.$errors[0]?.$message.toString()" />
                     <FormError :error="props?.error?.errors?.user?.[0]" />
                 </div>
                 <div class="space-y-1">
@@ -29,6 +29,31 @@
                     </ckeditor>
                     <FormError :error="v$?.formNotification?.note?.$errors[0]?.$message.toString()" />
                     <FormError :error="props?.error?.errors?.note?.[0]" />
+                </div>
+                <div class="space-y-1">
+                    <div class="w-fit flex items-center cursor-pointer"
+                        @click="state.formNotification.is_recurring = !state.formNotification.is_recurring">
+                        <FormCheckbox :value="state.formNotification.is_recurring" />
+                        {{ $t('plansandgoals.notifications.form.repeatNotification') }}
+                    </div>
+                </div>
+                <div class="space-y-3" v-if="state.formNotification.is_recurring">
+                    <div class="space-y-1">
+                        <FormLabel for="recurring" :label="$t('plansandgoals.notifications.form.recurring.repeat')" />
+                        <FormSelect id="recurring" :options="state.options.recurringSchedules"
+                            v-model="state.formNotification.recurring" />
+                        <FormError :error="v$?.formNotification?.recurring?.$errors[0]?.$message.toString()" />
+                        <FormError :error="state?.error?.errors?.recurring_uuid?.[0]" />
+                    </div>
+                    <div class="space-y-1">
+                        <FormLabel for="recurring_until"
+                            :label="$t('plansandgoals.notifications.form.recurring.until')" />
+                        <FormDateField id="recurring_until" name="recurring_until"
+                            :placeholder="`${$t('plansandgoals.notifications.form.recurring.until')}`"
+                            v-model="state.formNotification.recurring_until" />
+                        <FormError :error="v$?.formNotification.recurring_until?.$errors[0]?.$message.toString()" />
+                        <FormError :error="state?.error?.errors?.recurring_until?.[0]" />
+                    </div>
                 </div>
             </div>
             <div class="mt-6">
@@ -47,12 +72,12 @@
 </template>
 
 <script setup lang="ts">
-import { userService } from '@/components/api/user/UserService'
+import moment from 'moment'
+import { citizenContactService } from '@/components/api/user/CitizenContactService'
 import ClassicEditor from '@ckeditor/ckeditor5-build-classic'
 import { useVuelidate } from "@vuelidate/core"
 import { required, helpers } from '@vuelidate/validators'
 import { useI18n } from "vue-i18n"
-import { useDepartmentStore } from '@/store/department'
 import type { Error } from '@/types'
 
 const props = defineProps({
@@ -71,7 +96,8 @@ const props = defineProps({
 })
 const emit = defineEmits(['closeModal', 'submitForm'])
 const { t } = useI18n()
-const departmentStore = useDepartmentStore()
+const router = useRouter()
+const citizenUuid = router?.currentRoute?.value?.params?.uuid as any
 const editor = ref(ClassicEditor)
 const editorStatusConfig = ref({
     // Add your custom configuration here
@@ -93,42 +119,56 @@ const state = reactive({
         date_time: '',
         user: [],
         note: '',
+        is_recurring: false,
+        recurring: '',
+        recurring_until: '',
     } as any,
     isPageLoading: false,
     options: {
-        users: []
+        contactPersons: [],
+        recurringSchedules: [
+            { value: 'everyday', label: `${t('plansandgoals.notifications.form.recurring.everyDay')}` },
+            { value: 'every_week', label: `${t('plansandgoals.notifications.form.recurring.everyWeek')}` },
+            { value: 'every_second_week', label: `${t('plansandgoals.notifications.form.recurring.everySecondWeek')}` },
+            { value: 'every_third_week', label: `${t('plansandgoals.notifications.form.recurring.everyThirdWeek')}` },
+            { value: 'every_fourth_week', label: `${t('plansandgoals.notifications.form.recurring.everyFourthWeek')}` },
+            { value: 'every_month', label: `${t('plansandgoals.notifications.form.recurring.everyMonth')}` },
+        ],
     },
 })
 
 onMounted(() => {
     state.formNotification = {
-        date_time: props.selectedNotification?.date_time,
+        date_time: props.selectedNotification?.date_time || moment().format('YYYY-MM-DD HH:mm'),
         user: [],
         note: props.selectedNotification?.note,
+        is_recurring: props.selectedNotification?.is_recurring ? true : false,
+        recurring: props.selectedNotification?.recurring,
+        recurring_until: props.selectedNotification?.recurring_until,
     }
-    fetchAllUsers()
+    fetchOurContactPersons()
     props?.selectedNotification?.notification_users?.forEach((notificationUser: any) => {
         state.formNotification.user.push(notificationUser?.user?.uuid)
     })
 })
 
-async function fetchAllUsers() {
+async function fetchOurContactPersons() {
     state.error = {}
     state.isPageLoading = true
     try {
         const params = {
-            department: departmentStore.getSelectedDepartmentName
+            citizen_uuid: citizenUuid,
         }
-        const response = await userService.getAllUsers(params)
+        const response = await citizenContactService.getAllCitizenContactPersons(params)
         if (response.data) {
             let options: any = []
             response.data.forEach(
-                (user: any) => options.push({
-                    value: user?.uuid,
-                    label: user?.firstname + " " + user?.lastname,
+                (item: any) => options.push({
+                    value: item?.employee?.uuid,
+                    label: item?.employee?.firstname + " " + item?.employee?.lastname,
                 })
             )
-            state.options.users = options
+            state.options.contactPersons = options
         }
     } catch (error: any) {
         state.error = error

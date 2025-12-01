@@ -3,6 +3,7 @@ export interface EmployeeForm {
     firstname: string,
     lastname: string,
     email: string,
+    password: string,
     phone: string,
     birthday: string,
     seniority_date: string,
@@ -17,6 +18,7 @@ export interface EmployeeForm {
     emergencyInfo: any,
     permissions: Permission[]
     show_working_hours: boolean,
+    count_sick_leave: boolean,
     media_risks: any
     pages: any
 }

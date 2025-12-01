@@ -149,7 +149,7 @@
                                                 myCalendarEvent?.type === 'my_self' && 'border-primary',
                                                 'border-l-4'
                                             ]" @click="editMyCalendarEvent(myCalendarEvent)">
-                                            <p class="text-xs">
+                                            <p class="text-xs truncate">
                                                 {{ myCalendarEvent?.title }}
                                             </p>
                                             <p class="text-xxs">

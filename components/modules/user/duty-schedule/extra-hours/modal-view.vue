@@ -1,0 +1,312 @@
+<template>
+    <div>
+        <Modal size="4xl"
+            :title="`${$t('dutySchedules.extraHours.extraHours')} - ${props.selectedEmployee?.firstname} ${props.selectedEmployee?.lastname}`"
+            :show="props.isModalOpen" @close="closeModal">
+            <template #modal-body>
+                <div>
+                    <div class="flex justify-end items-center mb-5">
+                        <FormButton buttonStyle="action" class="rounded-lg"
+                            @click="state.modal.isAddNewExtraHoursOpen = true">
+                            <Icon name="ph:plus" class="h-4 w-4" aria-hidden="true" />
+                            {{ isAdmin(userStore.getUser?.role) ?
+                                $t('dutySchedules.extraHours.newExtraHours') :
+                                $t('dutySchedules.extraHours.newExtraHoursRequest') }}
+                        </FormButton>
+                    </div>
+                    <div class="space-y-5">
+                        <Alert type="danger" :text="state?.error?.message"
+                            v-if="state.error?.message && state.error.message.length > 0" />
+                        <TableSearch @search="handleSearch" />
+                        <div class="table-responsive">
+                            <Table :columnHeaders="state.columnHeaders" :data="state.extraHours"
+                                :isLoading="state.isTableLoading" :sortData="state.sortData" @sort="sort">
+                                <template #body
+                                    v-if="!(state.isTableLoading || (state.extraHours?.data?.length === 0))">
+                                    <tr v-for="(extraHours, index) in state.extraHours?.data" :key="index">
+                                        <td width="20%">
+                                            <p class="truncate">
+                                                {{ formatDateToReadable(extraHours?.date) }}
+                                            </p>
+                                        </td>
+                                        <td width="10%">
+                                            <span v-if="extraHours.extra_hours_type === 'add'">
+                                                {{ $t('dutySchedules.extraHours.table.type.add') }}
+                                            </span>
+                                            <span v-if="extraHours.extra_hours_type === 'deduct'">
+                                                {{ $t('dutySchedules.extraHours.table.type.deduct') }}
+                                            </span>
+                                        </td>
+                                        <td width="15%">
+                                            <p>
+                                                {{ formatNumber(language.locale.value, extraHours?.extra_hours) }}
+                                            </p>
+                                        </td>
+                                        <td width="20%">
+                                            <p>
+                                                {{ extraHours?.note }}
+                                            </p>
+                                        </td>
+                                        <td width="15%">
+                                            <span v-if="extraHours?.extra_hours_status === 'pending'">
+                                                {{ $t('dutySchedules.extraHours.table.status.pending') }}
+                                            </span>
+                                            <span v-if="extraHours?.extra_hours_status === 'approved'">
+                                                {{ $t('dutySchedules.extraHours.table.status.approved') }}
+                                            </span>
+                                            <span v-if="extraHours?.extra_hours_status === 'rejected'">
+                                                {{ $t('dutySchedules.extraHours.table.status.rejected') }}
+                                            </span>
+                                        </td>
+                                        <td width="20%">
+                                            <div class="flex items-end gap-2">
+                                                <Tooltip :text="$t('dutySchedules.extraHours.table.actions.edit')"
+                                                    @click="editExtraHours(extraHours)"
+                                                    v-if="isAdmin(userStore.getUser?.role) || ['pending'].includes(extraHours?.extra_hours_status)">
+                                                    <FormButton type=" button" buttonStyle="action" class="rounded-md">
+                                                        <Icon name="ph:pencil-simple" class="size-4" />
+                                                    </FormButton>
+                                                </Tooltip>
+                                                <Tooltip :text="$t('dutySchedules.extraHours.table.actions.approve')"
+                                                    @click="confirmApproveExtraHoursRequest(extraHours)"
+                                                    v-if="isAdmin(userStore.getUser?.role) && ['pending', 'rejected'].includes(extraHours?.extra_hours_status)">
+                                                    <FormButton type="button" buttonStyle="success" class="rounded-md">
+                                                        <Icon name="ph:check" class="size-4" />
+                                                    </FormButton>
+                                                </Tooltip>
+                                                <Tooltip :text="$t('dutySchedules.extraHours.table.actions.reject')"
+                                                    @click="confirmRejectExtraHoursRequest(extraHours)"
+                                                    v-if="isAdmin(userStore.getUser?.role) && ['pending', 'approved'].includes(extraHours?.extra_hours_status)">
+                                                    <FormButton type="button" buttonStyle="danger" class="rounded-md">
+                                                        <Icon name="ph:x" class="size-4" />
+                                                    </FormButton>
+                                                </Tooltip>
+                                                <Tooltip :text="$t('dutySchedules.extraHours.table.actions.delete')"
+                                                    @click="confirmDeleteExtraHours(extraHours)"
+                                                    v-if="isAdmin(userStore.getUser?.role) ||
+                                                        (!isAdmin(userStore.getUser?.role) && ['pending'].includes(extraHours?.extra_hours_status))">
+                                                    <FormButton type="button" buttonStyle="danger" class="rounded-md">
+                                                        <Icon name="ph:trash" class="size-4" />
+                                                    </FormButton>
+                                                </Tooltip>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                </template>
+                            </Table>
+                        </div>
+                        <Pagination :data="state.extraHours" @previous="previous" @next="next" />
+                    </div>
+                </div>
+                <ModulesUserDutyScheduleExtraHoursModalNew :isModalOpen="state.modal.isAddNewExtraHoursOpen"
+                    :selectedEmployee="props.selectedEmployee" @close="state.modal.isAddNewExtraHoursOpen = false"
+                    @refreshExtraHours="fetchExtraHours" @refreshDutySchedules="emit('refreshDutySchedules')" />
+                <ModulesUserDutyScheduleExtraHoursModalEdit :isModalOpen="state.modal.isEditExtraHoursOpen"
+                    :selectedEmployee="props.selectedEmployee"
+                    :selectedExtraHoursRequest="state.selectedExtraHoursRequest"
+                    @close="state.modal.isEditExtraHoursOpen = false" @refreshExtraHours="fetchExtraHours"
+                    @refreshDutySchedules="emit('refreshDutySchedules')" />
+                <DialogConfirmation :isModalOpen="state.modal.isApproveRequest"
+                    :message="$t('dutySchedules.extraHours.table.confirmation.approveExtraHoursConfirmation') + '?'"
+                    @close="state.modal.isApproveRequest = false" @confirm="approveExtraHoursRequest" />
+                <DialogConfirmation :isModalOpen="state.modal.isRejectRequest"
+                    :message="$t('dutySchedules.extraHours.table.confirmation.rejectExtraHoursConfirmation') + '?'"
+                    @close="state.modal.isRejectRequest = false" @confirm="rejectExtraHoursRequest" />
+                <DialogConfirmation :isModalOpen="state.modal.isDeleteExtraHoursOpen"
+                    :message="$t('dutySchedules.extraHours.table.confirmation.deleteExtraHoursConfirmation') + '?'"
+                    @close="state.modal.isDeleteExtraHoursOpen = false" @confirm="deleteExtraHours" />
+            </template>
+        </Modal>
+    </div>
+</template>
+
+<script setup lang="ts">
+import { useDatetimeFormatter } from '@/composables/datetimeFormatter'
+import { extraHoursService } from '@/components/api/user/ExtraHoursService'
+import { useNumberFormatter } from '@/composables/numberFormatter'
+import { useI18n } from "vue-i18n"
+import { useAlert } from '@/composables/alert'
+import { useUserStore } from '@/store/user'
+import type { Error } from '@/types'
+
+const props = defineProps({
+    isModalOpen: {
+        type: Boolean,
+        required: true,
+    },
+    selectedEmployee: {
+        type: Object,
+        required: true,
+    },
+})
+const emit = defineEmits(['close', 'refreshDutySchedules'])
+
+const { formatDateToReadable } = useDatetimeFormatter()
+const { formatNumber } = useNumberFormatter()
+const { successAlert } = useAlert()
+const { t } = useI18n()
+const language = useI18n()
+const userStore = useUserStore() as any
+let currentTablePage = 1
+
+const state = reactive({
+    columnHeaders: [
+        { name: 'dutySchedules.extraHours.table.date', sorter: true, key: 'date' },
+        { name: 'dutySchedules.extraHours.table.type.type', sorter: true, key: 'extra_hours_type' },
+        { name: 'dutySchedules.extraHours.table.hours', sorter: true, key: 'extra_hours' },
+        { name: 'dutySchedules.extraHours.table.note' },
+        { name: 'dutySchedules.extraHours.table.status.status', sorter: true, key: 'extra_hours_status' },
+        { name: '' },
+    ],
+    dataFilter: {
+        search: ''
+    },
+    error: {} as Error,
+    isTableLoading: false,
+    modal: {
+        isAddNewExtraHoursOpen: false,
+        isApproveRequest: false,
+        isDeleteExtraHoursOpen: false,
+        isEditExtraHoursOpen: false,
+        isRejectRequest: false,
+    },
+    extraHours: [] as any,
+    selectedExtraHoursRequest: [] as any,
+    sortData: {
+        sortField: 'date',
+        sortOrder: 'descend',
+    },
+})
+
+watch(() => props.isModalOpen, (isModalOpen: Boolean) => {
+    if (isModalOpen) {
+        state.error = {}
+        fetchExtraHours()
+    }
+})
+
+function closeModal() {
+    emit('close')
+}
+
+async function fetchExtraHours() {
+    state.error = {}
+    state.isTableLoading = true
+    try {
+        const params = {
+            user_uuid: props.selectedEmployee?.uuid,
+            page: currentTablePage,
+            sortField: state.sortData.sortField,
+            sortOrder: state.sortData.sortOrder,
+            ...state.dataFilter
+        }
+        const response = await extraHoursService.getExtraHours(params)
+        if (response) {
+            state.extraHours = response
+        }
+    } catch (error: any) {
+        state.error = error
+    }
+    state.isTableLoading = false
+}
+
+function previous() {
+    currentTablePage--
+    fetchExtraHours()
+}
+
+function next() {
+    currentTablePage++
+    fetchExtraHours()
+}
+
+function sort(sortingData: any) {
+    currentTablePage = 1
+    state.sortData = {
+        sortField: sortingData.column,
+        sortOrder: sortingData.sort,
+    }
+    fetchExtraHours()
+}
+
+function handleSearch(value: any) {
+    currentTablePage = 1
+    state.dataFilter.search = value?.[0] == '' ? [] : value
+    fetchExtraHours()
+}
+
+function isAdmin(role: any) {
+    return role && role === 'Admin'
+}
+
+function editExtraHours(extraHours: any) {
+    state.selectedExtraHoursRequest = extraHours
+    state.modal.isEditExtraHoursOpen = true
+}
+
+function confirmApproveExtraHoursRequest(extraHours: any) {
+    state.selectedExtraHoursRequest = extraHours
+    state.modal.isApproveRequest = true
+}
+
+async function approveExtraHoursRequest() {
+    state.error = {}
+    state.isTableLoading = true
+    try {
+        const extraHoursUuid = state.selectedExtraHoursRequest.uuid
+        const response = await extraHoursService.approveExtraHour(extraHoursUuid)
+        if (response) {
+            fetchExtraHours()
+            successAlert(`${t('alert.success')}!`, `${t('dutySchedules.extraHours.table.alert.extraHoursSuccessfullyApproved')}.`)
+            emit('refreshDutySchedules')
+        }
+    } catch (error: any) {
+        state.error = error
+    }
+    state.isTableLoading = false
+}
+
+function confirmRejectExtraHoursRequest(extraHours: any) {
+    state.selectedExtraHoursRequest = extraHours
+    state.modal.isRejectRequest = true
+}
+
+async function rejectExtraHoursRequest() {
+    state.error = {}
+    state.isTableLoading = true
+    try {
+        const extraHoursUuid = state.selectedExtraHoursRequest.uuid
+        const response = await extraHoursService.rejectExtraHour(extraHoursUuid)
+        if (response) {
+            fetchExtraHours()
+            successAlert(`${t('alert.success')}!`, `${t('dutySchedules.extraHours.table.alert.extraHoursSuccessfullyRejected')}.`)
+            emit('refreshDutySchedules')
+        }
+    } catch (error: any) {
+        state.error = error
+    }
+    state.isTableLoading = false
+}
+
+function confirmDeleteExtraHours(extraHours: any) {
+    state.selectedExtraHoursRequest = extraHours
+    state.modal.isDeleteExtraHoursOpen = true
+}
+
+async function deleteExtraHours() {
+    state.error = {}
+    state.isTableLoading = true
+    try {
+        const extraHoursUuid = state.selectedExtraHoursRequest.uuid
+        const response = await extraHoursService.deleteExtraHour(extraHoursUuid)
+        if (response) {
+            fetchExtraHours()
+            successAlert(`${t('alert.success')}!`, `${t('dutySchedules.extraHours.table.alert.extraHoursSuccessfullyDeleted')}.`)
+            emit('refreshDutySchedules')
+        }
+    } catch (error: any) {
+        state.error = error
+    }
+    state.isTableLoading = false
+}
+</script>

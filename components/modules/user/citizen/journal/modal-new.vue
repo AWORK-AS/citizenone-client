@@ -218,39 +218,39 @@ async function saveJournal(journalDetails: any) {
     state.isPageLoading = true
     try {
         let journal_note_plan_goal_subgoal_uuid = ''
-        if (journalDetails.journal_note_subgoal) {
-            journal_note_plan_goal_subgoal_uuid = journalDetails.journal_note_subgoal
-        } else if (journalDetails.journal_note_goal) {
-            journal_note_plan_goal_subgoal_uuid = journalDetails.journal_note_goal
+        if (journalDetails.formJournal.journal_note_subgoal) {
+            journal_note_plan_goal_subgoal_uuid = journalDetails.formJournal.journal_note_subgoal
+        } else if (journalDetails.formJournal.journal_note_goal) {
+            journal_note_plan_goal_subgoal_uuid = journalDetails.formJournal.journal_note_goal
         } else {
-            journal_note_plan_goal_subgoal_uuid = journalDetails.journal_note_plan
+            journal_note_plan_goal_subgoal_uuid = journalDetails.formJournal.journal_note_plan
         }
 
         let risk_assessment_plan_goal_subgoal_uuid = ''
-        if (journalDetails.risk_assessment_subgoal) {
-            risk_assessment_plan_goal_subgoal_uuid = journalDetails.risk_assessment_subgoal
-        } else if (journalDetails.risk_assessment_goal) {
-            risk_assessment_plan_goal_subgoal_uuid = journalDetails.risk_assessment_goal
+        if (journalDetails.formJournal.risk_assessment_subgoal) {
+            risk_assessment_plan_goal_subgoal_uuid = journalDetails.formJournal.risk_assessment_subgoal
+        } else if (journalDetails.formJournal.risk_assessment_goal) {
+            risk_assessment_plan_goal_subgoal_uuid = journalDetails.formJournal.risk_assessment_goal
         } else {
-            risk_assessment_plan_goal_subgoal_uuid = journalDetails.risk_assessment_plan
+            risk_assessment_plan_goal_subgoal_uuid = journalDetails.formJournal.risk_assessment_plan
         }
 
         const params = {
             citizen_uuid: citizenUuid,
-            title: journalDetails.title,
-            date: journalDetails.date,
-            copy_journal_note_to_plan_or_goal_or_subgoal: journalDetails.copy_journal_note_to_plan_or_goal_or_subgoal,
+            title: journalDetails.formJournal.title,
+            date: journalDetails.formJournal.date,
+            copy_journal_note_to_plan_or_goal_or_subgoal: journalDetails.formJournal.copy_journal_note_to_plan_or_goal_or_subgoal,
             journal_note_plan_goal_subgoal_uuid: journal_note_plan_goal_subgoal_uuid,
-            copy_risk_assessment_to_plan_or_goal_or_subgoal: journalDetails.copy_risk_assessment_to_plan_or_goal_or_subgoal,
+            copy_risk_assessment_to_plan_or_goal_or_subgoal: journalDetails.formJournal.copy_risk_assessment_to_plan_or_goal_or_subgoal,
             risk_assessment_plan_goal_subgoal_uuid: risk_assessment_plan_goal_subgoal_uuid,
-            content: journalDetails.content,
-            journal_note_tags_uuid: journalDetails.journal_note_tags,
-            is_draft: journalDetails.is_draft,
-            assessment: journalDetails.assessment,
-            note: journalDetails.note,
-            risk_assessment_tags_uuid: journalDetails.risk_assessment_tags,
-            score: journalDetails.score,
-            teeth_uuid: journalDetails.teeth,
+            content: journalDetails.formJournal.content,
+            journal_note_tags_uuid: journalDetails.formJournal.journal_note_tags,
+            is_draft: journalDetails.formJournal.is_draft,
+            assessment: journalDetails.formJournal.assessment,
+            note: journalDetails.formJournal.note,
+            risk_assessment_tags_uuid: journalDetails.formJournal.risk_assessment_tags,
+            score: journalDetails.formJournal.score,
+            teeth_uuid: journalDetails.formJournal.teeth,
         }
         const response = await journalService.saveJournal(params)
         if (response?.data) {

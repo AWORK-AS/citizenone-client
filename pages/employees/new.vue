@@ -56,6 +56,7 @@ const state = reactive({
         firstname: '',
         lastname: '',
         email: '',
+        password: '',
         phone: '',
         birthday: '',
         seniority_date: '',
@@ -72,6 +73,7 @@ const state = reactive({
         media_risks: [],
         pages: [],
         employment: {
+            salary_id: '',
             employment_date: '',
             job_uuid: '',
             working_hours: '',
@@ -111,6 +113,7 @@ async function saveEmployee(employeeDetails: any) {
         params.append('municipality_uuid', employeeDetails.municipality_uuid)
         params.append('city_uuid', employeeDetails.city_uuid)
         params.append('post_code', employeeDetails.post_code)
+        params.append('salary_id', employeeDetails.employment.salary_id)
         params.append('employment_date', employeeDetails.employment.employment_date)
         params.append('job_title_uuid', employeeDetails.employment.job_title_uuid)
         params.append('job_specialties_uuid', JSON.stringify(employeeDetails.employment.job_specialties))

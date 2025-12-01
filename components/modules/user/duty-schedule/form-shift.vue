@@ -59,6 +59,37 @@
                     <FormError :error="v$?.formShift.date_time_end?.$errors[0]?.$message.toString()" />
                 </div>
             </div>
+            <div class="space-y-1" v-if="props.formType === 'create'">
+                <div class="w-fit flex items-center cursor-pointer"
+                    @click="state.formShift.is_recurring = !state.formShift.is_recurring">
+                    <FormCheckbox :value="state.formShift.is_recurring" />
+                    {{ $t('dutySchedules.form.createMultipleSchedules') }}
+                </div>
+            </div>
+            <div class="space-y-3" v-if="state.formShift.is_recurring">
+                <div class="space-y-1">
+                    <FormLabel for="recurring" :label="$t('dutySchedules.form.recurring.repeat')" />
+                    <FormSelect id="recurring" :options="state.options.recurringSchedules"
+                        v-model="state.formShift.recurring" />
+                    <FormError :error="v$?.formShift?.recurring?.$errors[0]?.$message.toString()" />
+                    <FormError :error="state?.error?.errors?.recurring_uuid?.[0]" />
+                </div>
+                <div class="space-y-1">
+                    <FormLabel for="recurring_until" :label="$t('dutySchedules.form.recurring.until')" />
+                    <FormDateField id="recurring_until" name="recurring_until"
+                        :placeholder="`${$t('dutySchedules.form.recurring.until')}`"
+                        v-model="state.formShift.recurring_until" />
+                    <FormError :error="v$?.formShift.recurring_until?.$errors[0]?.$message.toString()" />
+                    <FormError :error="state?.error?.errors?.recurring_until?.[0]" />
+                </div>
+            </div>
+            <div class="space-y-1" v-if="props.formType === 'update'">
+                <div class="w-fit flex items-center cursor-pointer"
+                    @click="state.formShift.is_apply_to_all = !state.formShift.is_apply_to_all">
+                    <FormCheckbox :value="state.formShift.is_apply_to_all" />
+                    {{ $t('dutySchedules.form.recurring.applyChangesToAllRecurringShifts') }}
+                </div>
+            </div>
             <div class="space-y-1"
                 v-if="!(['vacation-leave', 'sick-leave'].includes(state.options.shifts.find((shift: any) => shift.value === state.formShift.shift_type)?.system_name))">
                 <FormLabel for="citizens" :label="$t('dutySchedules.form.citizens')" />
@@ -173,6 +204,10 @@ const state = reactive({
         shift_type: '',
         date_time_start: moment().startOf('day').add(8, 'hours').format('YYYY-MM-DD H:mm'),
         date_time_end: moment().startOf('day').add(17, 'hours').format('YYYY-MM-DD H:mm'),
+        is_recurring: false,
+        recurring: '',
+        recurring_until: '',
+        is_apply_to_all: false,
         citizens: [],
         schedule_tag_uuid: [],
         department_uuid: [],
@@ -188,6 +223,14 @@ const state = reactive({
     options: {
         citizens: [],
         departments: [],
+        recurringSchedules: [
+            { value: 'everyday', label: `${t('dutySchedules.form.recurring.everyDay')}` },
+            { value: 'every_week', label: `${t('dutySchedules.form.recurring.everyWeek')}` },
+            { value: 'every_second_week', label: `${t('dutySchedules.form.recurring.everySecondWeek')}` },
+            { value: 'every_third_week', label: `${t('dutySchedules.form.recurring.everyThirdWeek')}` },
+            { value: 'every_fourth_week', label: `${t('dutySchedules.form.recurring.everyFourthWeek')}` },
+            { value: 'every_month', label: `${t('dutySchedules.form.recurring.everyMonth')}` },
+        ],
         scheduleTags: [],
         shifts: [] as any
     }
@@ -237,18 +280,40 @@ watch(() => state.formShift.shift_type, (selectedShift) => {
 })
 
 const rules = computed(() => {
-    return {
-        formShift: {
-            shift_type: {
-                required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
+    if (state.formShift.is_recurring) {
+        return {
+            formShift: {
+                shift_type: {
+                    required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
+                },
+                date_time_start: {
+                    required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
+                },
+                date_time_end: {
+                    required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
+                },
+                recurring: {
+                    required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
+                },
+                recurring_until: {
+                    required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
+                },
             },
-            date_time_start: {
-                required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
+        }
+    } else {
+        return {
+            formShift: {
+                shift_type: {
+                    required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
+                },
+                date_time_start: {
+                    required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
+                },
+                date_time_end: {
+                    required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
+                },
             },
-            date_time_end: {
-                required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
-            },
-        },
+        }
     }
 })
 const v$ = useVuelidate(rules, state)

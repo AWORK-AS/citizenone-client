@@ -3,7 +3,7 @@
         <div class="space-y-3">
             <Alert type="danger" :text="state?.error?.message"
                 v-if="state.error?.message && state.error.message.length > 0" />
-            <div class="flex justify-end items-center mb-5 gap-x-2">
+            <div class="flex justify-end items-center mb-5 gap-x-2" v-if="state.records?.data?.length === 0">
                 <FormButton buttonStyle="action" class="rounded-lg"
                     @click="navigateTo(`/citizens/${citizenUuid}/nursing-areas/nursing-professional-records/new`)">
                     <Icon name="ph:plus" class="h-4 w-4" aria-hidden="true" />
