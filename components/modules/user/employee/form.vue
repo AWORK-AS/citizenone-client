@@ -150,9 +150,10 @@
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
                     <div class="space-y-1" ref="cityField">
                         <FormLabel for="city" :label="$t('employees.form.city')" />
-                        <FormSelect id="city" :options="state.options.cities" v-model="state.formEmployee.city_uuid" />
-                        <FormError :error="v$?.formEmployee?.city_uuid?.$errors[0]?.$message.toString()" />
-                        <FormError :error="props?.error?.errors?.city_uuid?.[0]" />
+                        <FormTextField id="city" name="city" :placeholder="$t('employees.form.city')"
+                            v-model="state.formEmployee.city" />
+                        <FormError :error="v$?.formEmployee?.city?.$errors[0]?.$message.toString()" />
+                        <FormError :error="props?.error?.errors?.city?.[0]" />
                     </div>
                     <div class="space-y-1" ref="postCodeField">
                         <FormLabel for="post_code" :label="$t('employees.form.postCode')" />
@@ -574,7 +575,7 @@ const state = reactive({
         street: '',
         region_uuid: '',
         municipality_uuid: '',
-        city_uuid: '',
+        city: '',
         post_code: '',
         permissions: [],
         media_risks: [],
@@ -668,7 +669,7 @@ watch(() => props.selectedEmployee, (newValue: any) => {
             street: newValue.street,
             region_uuid: newValue.region_uuid,
             municipality_uuid: newValue.municipality_uuid,
-            city_uuid: newValue.city_uuid,
+            city: newValue.city,
             post_code: newValue.post_code,
             permissions: [],
             media_risks: newValue.media_risks,
@@ -1041,7 +1042,7 @@ function submitForm() {
             regionField.value.scrollIntoView({ behavior: 'smooth', block: 'center' })
         } else if (v$.value.formEmployee.municipality_uuid?.$error && municipalityField.value) {
             municipalityField.value.scrollIntoView({ behavior: 'smooth', block: 'center' })
-        } else if (v$.value.formEmployee.city_uuid?.$error && cityField.value) {
+        } else if (v$.value.formEmployee.city?.$error && cityField.value) {
             cityField.value.scrollIntoView({ behavior: 'smooth', block: 'center' })
         } else if (v$.value.formEmployee.post_code?.$error && postCodeField.value) {
             postCodeField.value.scrollIntoView({ behavior: 'smooth', block: 'center' })

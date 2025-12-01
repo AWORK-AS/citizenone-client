@@ -12,7 +12,7 @@ export interface EmployeeForm {
     street: string,
     region_uuid: string,
     municipality_uuid: string,
-    city_uuid: string,
+    city: string,
     post_code: string,
     employment: any,
     emergencyInfo: any,

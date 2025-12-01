@@ -96,7 +96,7 @@ const state = reactive({
         street: '',
         region_uuid: '',
         municipality_uuid: '',
-        city_uuid: '',
+        city: '',
         post_code: '',
         permissions: [],
         show_working_hours: false,
@@ -149,7 +149,7 @@ async function fetchEmployee() {
                 street: response?.data?.employee_address?.street ?? '',
                 region_uuid: response?.data?.employee_address?.region?.uuid?.toString() ?? '',
                 municipality_uuid: response?.data?.employee_address?.municipality?.uuid?.toString() ?? '',
-                city_uuid: response?.data?.employee_address?.city?.uuid?.toString() ?? '',
+                city: response?.data?.employee_address?.city?.uuid?.toString() ?? '',
                 post_code: response?.data?.employee_address?.post_code ?? '',
                 permissions: response?.data?.permissions ?? [],
                 show_working_hours: response?.data?.show_working_hours ?? false,
@@ -232,7 +232,7 @@ async function updateEmployee(employeeDetails: any) {
         params.append('street', employeeDetails.street)
         params.append('region_uuid', employeeDetails.region_uuid)
         params.append('municipality_uuid', employeeDetails.municipality_uuid)
-        params.append('city_uuid', employeeDetails.city_uuid)
+        params.append('city', employeeDetails.city)
         params.append('post_code', employeeDetails.post_code)
         params.append('salary_id', employeeDetails.employment.salary_id)
         params.append('employment_date', employeeDetails.employment.employment_date)

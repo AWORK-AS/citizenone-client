@@ -547,7 +547,7 @@ async function fetchEmployee() {
                 street: response?.data?.employee_address?.street ?? '',
                 region: response?.data?.employee_address?.region?.name ?? '',
                 municipality: response?.data?.employee_address?.municipality?.name ?? '',
-                city: response?.data?.employee_address?.city?.name ?? '',
+                city: response?.data?.employee_address?.city ?? '',
                 post_code: response?.data?.employee_address?.post_code ?? '',
                 permissions: response?.data?.permissions ?? [],
                 media_risks: response?.data?.media_risks ?? [],
