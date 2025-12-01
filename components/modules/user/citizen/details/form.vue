@@ -134,9 +134,10 @@
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
                     <div class="space-y-1">
                         <FormLabel for="city" :label="$t('citizens.form.city')" />
-                        <FormSelect id="city" :options="state.options.cities" v-model="state.formCitizen.city" />
+                        <FormTextField id="city" name="city" :placeholder="$t('citizens.form.city')"
+                            v-model="state.formCitizen.city" />
                         <FormError :error="v$?.formCitizen?.city?.$errors[0]?.$message.toString()" />
-                        <FormError :error="props?.error?.errors?.city_uuid?.[0]" />
+                        <FormError :error="props?.error?.errors?.city?.[0]" />
                     </div>
                     <div class="space-y-1">
                         <FormLabel for="post_code" :label="$t('citizens.form.postCode')" />
@@ -811,7 +812,7 @@ watch(() => props.selectedCitizen, (selectedCitizen: any) => {
             street: selectedCitizen.street,
             region: selectedCitizen.region_uuid,
             municipality: selectedCitizen.municipality_uuid,
-            city: selectedCitizen.city_uuid,
+            city: selectedCitizen.city,
             post_code: selectedCitizen.post_code,
             origin: selectedCitizen.origin,
             diagnoses: selectedCitizen.diagnoses,
@@ -1217,10 +1218,6 @@ function submitForm() {
     if (!v$.value.$error) {
         if (!state.formCitizen.region) {
             state.formCitizen.municipality = ''
-            state.formCitizen.city = ''
-        }
-        if (!state.formCitizen.municipality) {
-            state.formCitizen.city = ''
         }
         emit('submitForm', state.formCitizen)
     }

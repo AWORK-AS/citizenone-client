@@ -75,7 +75,7 @@ const state = reactive({
         foreign_city_uuid: '',
         region_uuid: '',
         municipality_uuid: '',
-        city_uuid: '',
+        city: '',
         post_code: '',
         origin: '',
         diagnoses: [],
@@ -152,7 +152,7 @@ async function saveCitizen(citizenDetails: any) {
         params.append('street', citizenDetails.street)
         params.append('region_uuid', citizenDetails.region)
         params.append('municipality_uuid', citizenDetails.municipality)
-        params.append('city_uuid', citizenDetails.city)
+        params.append('city', citizenDetails.city)
         params.append('post_code', citizenDetails.post_code)
         if (citizenDetails.is_foreign_city) {
             params.append('foreign_city_uuid', citizenDetails.foreign_city)
