@@ -44,14 +44,14 @@
                     <FormError :error="v$?.formNews?.content?.$errors[0]?.$message.toString()" />
                     <FormError :error="props?.error?.errors?.content?.[0]" />
                 </div>
-                <div v-if="userStore.getUser?.has_citizen_app" class="space-y-1">
+                <div class="space-y-1">
                     <FormLabel for="audience" :label="$t('news.form.audience')" />
                     <FormSelectMultiple id="audience" :options="state.options.audiences"
                         v-model="state.formNews.audience" />
                     <FormError :error="v$?.formNews?.audience?.$errors[0]?.$message.toString()" />
                     <FormError :error="props?.error?.errors?.audience_uuid?.[0]" />
                 </div>
-                <div v-if="userStore.getUser?.has_citizen_app" class="space-y-1">
+                <div class="space-y-1">
                     <div class="flex justify-between items-center py-0.5">
                         <FormLabel for="departments" :label="$t('news.form.department')" />
                         <span class="text-xs cursor-pointer text-tertiary hover:text-tertiary-800"
