@@ -50,7 +50,7 @@ const state = reactive({
         department_uuid: [],
         use_compensatory_time: false,
         note: '',
-        count_sick_leave: false,
+        do_no_count_sick_leave: false,
     },
 })
 

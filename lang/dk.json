@@ -2377,12 +2377,12 @@
         "filterDate": "Filtrer dato",
         "form": {
             "citizens": "Borgere",
-            "countSickLeaveAsWorkedHours": "Tæl sygefravær som arbejdstimer",
             "createMultipleSchedules": "Opret flere vagter",
             "datetimeStart": "Start dato og tid",
             "dateTimeEnd": "Slut dato og tid",
             "departments": "Afdelinger",
             "description": "Beskrivelse",
+            "doNotCountSickLeaveAsWorkingHours": "Tæl ikke sygefravær som arbejdstimer",
             "inMeeting": "I møde",
             "note": "Bemærkning",
             "private": "Privat",

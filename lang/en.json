@@ -2377,12 +2377,12 @@
         "filterDate": "Filter date",
         "form": {
             "citizens": "Citizens",
-            "countSickLeaveAsWorkedHours": "Count sick leave as worked hours",
             "createMultipleSchedules": "Create multiple schedules",
             "datetimeStart": "Date time start",
             "dateTimeEnd": "Date time end",
             "departments": "Departments",
             "description": "Description",
+            "doNotCountSickLeaveAsWorkingHours": "Do not count sick leave as working hours",
             "inMeeting": "In Meeting",
             "note": "Note",
             "private": "Private",

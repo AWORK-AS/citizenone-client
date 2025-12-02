@@ -18,7 +18,7 @@ export interface EmployeeForm {
     emergencyInfo: any,
     permissions: Permission[]
     show_working_hours: boolean,
-    count_sick_leave: boolean,
+    do_no_count_sick_leave: boolean,
     media_risks: any
     pages: any
 }

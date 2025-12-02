@@ -142,9 +142,9 @@
             <div class="space-y-1"
                 v-if="(['sick-leave'].includes(state.options.shifts.find((shift: any) => shift.value === state.formShift.shift_type)?.system_name))">
                 <div class="w-fit flex items-center cursor-pointer"
-                    @click="state.formShift.count_sick_leave = !state.formShift.count_sick_leave">
-                    <FormCheckbox id="count_sick_leave" :value="state.formShift.count_sick_leave" />
-                    {{ $t('dutySchedules.form.countSickLeaveAsWorkedHours') }}
+                    @click="state.formShift.do_no_count_sick_leave = !state.formShift.do_no_count_sick_leave">
+                    <FormCheckbox id="do_no_count_sick_leave" :value="state.formShift.do_no_count_sick_leave" />
+                    {{ $t('dutySchedules.form.doNotCountSickLeaveAsWorkingHours') }}
                 </div>
             </div>
         </div>
@@ -213,7 +213,7 @@ const state = reactive({
         department_uuid: [],
         use_compensatory_time: false,
         note: '',
-        count_sick_leave: false,
+        do_no_count_sick_leave: false,
     },
     modal: {
         isAddDepartmentOpen: false,
@@ -251,7 +251,7 @@ onMounted(() => {
     state.formShift.schedule_tag_uuid = props.selectedShift.schedule_tag_uuid
     state.formShift.department_uuid = props.selectedShift.department_uuid
     state.formShift.note = props.selectedShift.note
-    state.formShift.count_sick_leave = props.selectedShift.count_sick_leave
+    state.formShift.do_no_count_sick_leave = props.selectedShift.do_no_count_sick_leave
 })
 
 watch(() => state.formShift.shift_type, (selectedShift) => {
