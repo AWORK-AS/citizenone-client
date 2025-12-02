@@ -91,6 +91,49 @@
                         <TableSearch @search="handleSearch" />
                     </div>
                 </div>
+                <div>
+                    <div class="flex justify-between items-center mb-5">
+                        <div class="flex items-center gap-x-1 text-sm">
+                            <span>{{ $t('entriesPerPage') }}:</span>
+                            <select class="focus:outline-none bg-transparent" @change="changePageLength"
+                                id="citizensPageLength">
+                                <option value="10" :selected="draftDutyScheduleStore.getCurrentPageLength === '10'">
+                                    10
+                                </option>
+                                <option value="20" :selected="draftDutyScheduleStore.getCurrentPageLength === '20'">
+                                    20
+                                </option>
+                                <option value="30" :selected="draftDutyScheduleStore.getCurrentPageLength === '30'">
+                                    30
+                                </option>
+                                <option value="40" :selected="draftDutyScheduleStore.getCurrentPageLength === '40'">
+                                    40
+                                </option>
+                                <option value="50" :selected="draftDutyScheduleStore.getCurrentPageLength === '50'">
+                                    50
+                                </option>
+                                <option value="100" :selected="draftDutyScheduleStore.getCurrentPageLength === '100'">
+                                    100
+                                </option>
+                                <option value="200" :selected="draftDutyScheduleStore.getCurrentPageLength === '200'">
+                                    200
+                                </option>
+                                <option value="300" :selected="draftDutyScheduleStore.getCurrentPageLength === '300'">
+                                    300
+                                </option>
+                                <option value="400" :selected="draftDutyScheduleStore.getCurrentPageLength === '400'">
+                                    400
+                                </option>
+                                <option value="500" :selected="draftDutyScheduleStore.getCurrentPageLength === '500'">
+                                    500
+                                </option>
+                                <option value="all" :selected="draftDutyScheduleStore.getCurrentPageLength === 'all'">
+                                    {{ $t('all') }}
+                                </option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
                 <div class="bg-primary h-3 rounded-full transition-all ease-in-out duration-500 mb-1.5"
                     :style="{ width: `${state.progress.percentage}%` }" v-if="state.progress.showProgressBar" />
                 <div class="isolate flex flex-auto flex-col bg-white">
@@ -529,6 +572,7 @@ import { draftScheduleService } from '@/components/api/user/DraftScheduleService
 import { useDepartmentStore } from '@/store/department'
 import { useDatetimeFormatter } from '@/composables/datetimeFormatter'
 import { useNumberFormatter } from '@/composables/numberFormatter'
+import { useDraftDutyScheduleStore } from '@/store/draft-duty-schedule'
 import { useUserStore } from '@/store/user'
 import { useAlert } from '@/composables/alert'
 import { useI18n } from "vue-i18n"
@@ -537,16 +581,15 @@ import type { Error } from '@/types'
 const language = useI18n()
 const userStore = useUserStore() as any
 const departmentStore = useDepartmentStore()
+const draftDutyScheduleStore = useDraftDutyScheduleStore() as any
 const { formatDateToReadable } = useDatetimeFormatter()
 const { formatNumber } = useNumberFormatter()
 const { successAlert } = useAlert()
 const { t } = useI18n()
 const currentDate = ref(moment())
-const selectedDay = ref(moment())
 const month = computed(() => currentDate.value.format('MMMM'))
 const year = computed(() => currentDate.value.format('YYYY'))
 const expandedRecords = reactive([] as boolean[])
-let currentTablePage = 1
 
 const state = reactive({
     addShift: {
@@ -783,12 +826,13 @@ async function fetchDraftDutySchedule() {
         const startOfWeekFormatted = startOfWeek.format('YYYY-MM-DD')
         const endOfWeekFormatted = endOfWeek.format('YYYY-MM-DD')
         const params = {
+            page: draftDutyScheduleStore.getCurrentPageNumber,
+            page_length: draftDutyScheduleStore.getCurrentPageLength,
             date_start: startOfWeekFormatted,
             date_end: endOfWeekFormatted,
             filter_date_start: moment(state.shiftDateRange.formDateRange.start_date).format('YYYY-MM-DD'),
             filter_date_end: moment(state.shiftDateRange.formDateRange.end_date).format('YYYY-MM-DD'),
             department: departmentStore.getSelectedDepartmentName,
-            page: currentTablePage,
             sortField: state.sortData.sortField,
             sortOrder: state.sortData.sortOrder,
             ...state.dataFilter,
@@ -816,18 +860,26 @@ function sortDutySchedule() {
 }
 
 function handleSearch(value: any) {
-    currentTablePage = 1
+    draftDutyScheduleStore.setCurrentPageNumber(1)
     state.dataFilter.search = value?.[0] == '' ? [] : value
     fetchDraftDutySchedule()
 }
 
 function previous() {
-    currentTablePage--
+    const currentTablePage = draftDutyScheduleStore.getCurrentPageNumber - 1
+    draftDutyScheduleStore.setCurrentPageNumber(currentTablePage)
     fetchDraftDutySchedule()
 }
 
 function next() {
-    currentTablePage++
+    const currentTablePage = draftDutyScheduleStore.getCurrentPageNumber + 1
+    draftDutyScheduleStore.setCurrentPageNumber(currentTablePage)
+    fetchDraftDutySchedule()
+}
+
+function changePageLength(event: any) {
+    draftDutyScheduleStore.setCurrentPageNumber(1)
+    draftDutyScheduleStore.setCurrentPageLength(event.target.value)
     fetchDraftDutySchedule()
 }
 

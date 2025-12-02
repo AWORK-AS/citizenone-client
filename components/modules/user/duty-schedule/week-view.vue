@@ -838,11 +838,9 @@ const customPagesStore = useCustomPagesStore() as any
 const { formatDateToReadable } = useDatetimeFormatter()
 const { formatNumber } = useNumberFormatter()
 const currentDate = ref(moment())
-const selectedDay = ref(moment())
 const month = computed(() => currentDate.value.format('MMMM'))
 const year = computed(() => currentDate.value.format('YYYY'))
 const expandedRecords = reactive([] as boolean[])
-let currentTablePage = 1
 
 const state = reactive({
     addShift: {

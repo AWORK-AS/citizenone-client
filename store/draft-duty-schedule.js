@@ -1,6 +1,6 @@
 import { defineStore } from 'pinia'
 
-export const useDutyScheduleStore = defineStore('dutyScheduleStore',
+export const useDraftDutyScheduleStore = defineStore('draftDutyScheduleStore',
     {
         persist: true,
         state: () => ({
