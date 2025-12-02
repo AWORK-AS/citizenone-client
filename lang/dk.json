@@ -3232,22 +3232,22 @@
     "home": "Hjem",
     "guidedTour": "Guidet tur",
     "inquiries": {
-        "inquiries": "Forespørgsler",
-        "editInquiry": "Rediger forespørgsel",
+        "inquiries": "Henvendelser",
+        "editInquiry": "Rediger henvendelser",
         "form": {
             "alert": {
-                "newInquirySuccessfullySaved": "Ny forespørgsel er blevet gemt",
+                "newInquirySuccessfullySaved": "Ny henvendelser er blevet gemt",
                 "inquirySuccessfullyUpdated": "Forespørgsel opdateret"
             },
             "conversationSummary": "Samtalesammenfatning",
-            "dateOfInquiry": "Dato for forespørgsel",
+            "dateOfInquiry": "Dato for henvendelser",
             "firstname": "Fornavn",
             "inquirerName": "Navn på spørger",
             "lastname": "Efternavn",
             "outcome": "Resultat (f.eks. tilbudt en plads, afvist, videresendt)",
             "purpose": "Formål"
         },
-        "newInquiry": "Ny forespørgsel",
+        "newInquiry": "Ny henvendelser",
         "table": {
             "actions": {
                 "convertAsCitizen": "Konverter til borger",
@@ -3261,10 +3261,10 @@
             "createdBy": "Oprettet af",
             "confirmation": {
                 "convertAsCitizenConfirmation": "Er du sikker på, at du vil konvertere denne deltager til borger",
-                "deleteInquiryConfirmation": "Er du sikker på, at du vil slette denne forespørgsel?"
+                "deleteInquiryConfirmation": "Er du sikker på, at du vil slette denne henvendelser?"
             },
             "conversationSummary": "Samtalesammenfatning",
-            "dateOfInquiry": "Dato for forespørgsel",
+            "dateOfInquiry": "Dato for henvendelser",
             "firstname": "Fornavn",
             "inquirerName": "Navn på spørger",
             "lastname": "Efternavn",
