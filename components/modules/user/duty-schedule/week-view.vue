@@ -95,6 +95,49 @@
                         <TableSearch @search="handleSearch" />
                     </div>
                 </div>
+                <div>
+                    <div class="flex justify-between items-center mb-5">
+                        <div class="flex items-center gap-x-1 text-sm">
+                            <span>{{ $t('entriesPerPage') }}:</span>
+                            <select class="focus:outline-none bg-transparent" @change="changePageLength"
+                                id="citizensPageLength">
+                                <option value="10" :selected="dutyScheduleStore.getCurrentPageLength === '10'">
+                                    10
+                                </option>
+                                <option value="20" :selected="dutyScheduleStore.getCurrentPageLength === '20'">
+                                    20
+                                </option>
+                                <option value="30" :selected="dutyScheduleStore.getCurrentPageLength === '30'">
+                                    30
+                                </option>
+                                <option value="40" :selected="dutyScheduleStore.getCurrentPageLength === '40'">
+                                    40
+                                </option>
+                                <option value="50" :selected="dutyScheduleStore.getCurrentPageLength === '50'">
+                                    50
+                                </option>
+                                <option value="100" :selected="dutyScheduleStore.getCurrentPageLength === '100'">
+                                    100
+                                </option>
+                                <option value="200" :selected="dutyScheduleStore.getCurrentPageLength === '200'">
+                                    200
+                                </option>
+                                <option value="300" :selected="dutyScheduleStore.getCurrentPageLength === '300'">
+                                    300
+                                </option>
+                                <option value="400" :selected="dutyScheduleStore.getCurrentPageLength === '400'">
+                                    400
+                                </option>
+                                <option value="500" :selected="dutyScheduleStore.getCurrentPageLength === '500'">
+                                    500
+                                </option>
+                                <option value="all" :selected="dutyScheduleStore.getCurrentPageLength === 'all'">
+                                    {{ $t('all') }}
+                                </option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
                 <div class="bg-primary h-3 rounded-full transition-all ease-in-out duration-500 mb-1.5"
                     :style="{ width: `${state.progress.percentage}%` }" v-if="state.progress.showProgressBar" />
                 <div class="isolate flex flex-auto flex-col bg-white">
@@ -169,7 +212,8 @@
                                         </span>
                                         <div v-if="getSlotCount(day.longName) > 0"
                                             class="absolute top-2 left-24 text-xxs flex items-center justify-center w-5 h-5 bg-red-400 text-white rounded-full">
-                                            {{ getSlotCount(day.longName) > 99 ? '99+' : getSlotCount(day.longName) }}
+                                            {{ getSlotCount(day.longName) > 99 ? '99+' : getSlotCount(day.longName)
+                                            }}
                                         </div>
                                     </Tooltip>
                                     <div :text="$t('dutySchedules.scheduleSlots.scheduleSlots')" v-for="day in weekDays"
@@ -375,7 +419,8 @@
                                                     <div class="col-span-3 space-y-2">
                                                         <p v-for="(time, timeIndex) in employee?.hours"
                                                             :key="timeIndex">
-                                                            {{ language.locale.value === 'en' ? time?.shift?.en_name :
+                                                            {{ language.locale.value === 'en' ? time?.shift?.en_name
+                                                                :
                                                                 time?.shift?.dk_name }}
                                                         </p>
                                                     </div>
@@ -685,7 +730,8 @@
                                                 <div class="absolute inset-0 bg-primary bg-opacity-90 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300"
                                                     v-if="!isDailyScheduleCopied(employeeIndex, weekIndex, weekNumber) && !isDailyScheduleCopiedEmpty()">
                                                     <p class="text-white text-xs text-center">
-                                                        {{ $t('dutySchedules.copyPaste.clickHereToPasteTheSchedule') }}
+                                                        {{ $t('dutySchedules.copyPaste.clickHereToPasteTheSchedule')
+                                                        }}
                                                     </p>
                                                 </div>
                                             </div>
@@ -779,11 +825,13 @@ import { useDepartmentStore } from '@/store/department'
 import { useDatetimeFormatter } from '@/composables/datetimeFormatter'
 import { useCustomPagesStore } from '@/store/custom-pages'
 import { useNumberFormatter } from '@/composables/numberFormatter'
+import { useDutyScheduleStore } from '@/store/duty-schedule'
 import { useUserStore } from '@/store/user'
 import { useI18n } from "vue-i18n"
 import type { Error } from '@/types'
 
 const language = useI18n()
+const dutyScheduleStore = useDutyScheduleStore() as any
 const userStore = useUserStore() as any
 const departmentStore = useDepartmentStore()
 const customPagesStore = useCustomPagesStore() as any
@@ -1058,12 +1106,13 @@ async function fetchDutySchedule() {
         const startOfWeekFormatted = startOfWeek.format('YYYY-MM-DD')
         const endOfWeekFormatted = endOfWeek.format('YYYY-MM-DD')
         const params = {
+            page: dutyScheduleStore.getCurrentPageNumber,
+            page_length: dutyScheduleStore.getCurrentPageLength,
             date_start: startOfWeekFormatted,
             date_end: endOfWeekFormatted,
             filter_date_start: moment(state.shiftDateRange.formDateRange.start_date).format('YYYY-MM-DD'),
             filter_date_end: moment(state.shiftDateRange.formDateRange.end_date).format('YYYY-MM-DD'),
             department: departmentStore.getSelectedDepartmentName,
-            page: currentTablePage,
             sortField: state.sortData.sortField,
             sortOrder: state.sortData.sortOrder,
             ...state.dataFilter,
@@ -1091,18 +1140,26 @@ function sortDutySchedule() {
 }
 
 function handleSearch(value: any) {
-    currentTablePage = 1
+    dutyScheduleStore.setCurrentPageNumber(1)
     state.dataFilter.search = value?.[0] == '' ? [] : value
     fetchDutySchedule()
 }
 
 function previous() {
-    currentTablePage--
+    const currentTablePage = dutyScheduleStore.getCurrentPageNumber - 1
+    dutyScheduleStore.setCurrentPageNumber(currentTablePage)
     fetchDutySchedule()
 }
 
 function next() {
-    currentTablePage++
+    const currentTablePage = dutyScheduleStore.getCurrentPageNumber + 1
+    dutyScheduleStore.setCurrentPageNumber(currentTablePage)
+    fetchDutySchedule()
+}
+
+function changePageLength(event: any) {
+    dutyScheduleStore.setCurrentPageNumber(1)
+    dutyScheduleStore.setCurrentPageLength(event.target.value)
     fetchDutySchedule()
 }
 
