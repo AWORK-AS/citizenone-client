@@ -2560,6 +2560,7 @@
             "sickLeave": "Sygefravær",
             "vacationLeave": "Ferie"
         },
+        "showEmployeesWorkingToday": "Vis medarbejdere, der arbejder i dag",
         "sort": {
             "sortNamesInAscendingOrder": "Sorter navne i stigende rækkefølge",
             "sortNamesInDescendingOrder": "Sorter navne i faldende rækkefølge"
@@ -2572,8 +2573,8 @@
             "timer": "Timer"
         },
         "totalHours": "Samlet antal timer",
-        "typeofShift": "Vagttyper",
-        "typeofShifts": "Vagttyper",
+        "typeOfShift": "Vagttyper",
+        "typeOfShifts": "Vagttyper",
         "viewCalendar": "Se kalender",
         "viewSchedule": {
             "citizens": "Borgere",
@@ -2581,7 +2582,7 @@
             "dateTimeEnd": "Dato og tid slut",
             "departments": "Afdelinger",
             "note": "Bemærkning",
-            "typeofShift": "Type af vagt",
+            "typeOfShift": "Type af vagt",
             "viewSchedule": "Se tidsplan"
         },
         "week": "Uge",

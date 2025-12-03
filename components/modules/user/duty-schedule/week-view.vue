@@ -21,7 +21,7 @@
                 <header class="grid grid-cols-1 xl:grid-cols-3 xl:items-center justify-between py-4 gap-3">
                     <div>
                         <div class="font-medium mt-2">
-                            {{ $t('dutySchedules.typeofShifts') }}:
+                            {{ $t('dutySchedules.typeOfShifts') }}:
                             <button class="text-xs text-primary hover:text-primary-700 hover:underline"
                                 @click="state.modal.isDepartmentSickLeaveDateRangeOpen = true">
                                 ({{ formatDateToReadable(state.shiftDateRange.formDateRange.start_date) }} -
@@ -943,6 +943,7 @@ const state = reactive({
         totalRequests: 0,
     },
     showAllShifts: false,
+    showEmployeesWorkingToday: false,
     shiftPercentage: {} as any,
     shiftDateRange: {
         formDateRange: {
@@ -1117,6 +1118,7 @@ async function fetchDutySchedulePercentage() {
             start_date: moment(state.shiftDateRange.formDateRange.start_date).format('YYYY-MM-DD'),
             end_date: moment(state.shiftDateRange.formDateRange.end_date).format('YYYY-MM-DD'),
             department: departmentStore.getSelectedDepartmentName,
+            show_employees_working_today: state.showEmployeesWorkingToday,
         }
         const response = await dutyScheduleService.getDutyScheduleAbsencePercentage(params)
         if (response) {
@@ -1149,6 +1151,7 @@ async function fetchDutySchedule() {
             filter_date_start: moment(state.shiftDateRange.formDateRange.start_date).format('YYYY-MM-DD'),
             filter_date_end: moment(state.shiftDateRange.formDateRange.end_date).format('YYYY-MM-DD'),
             department: departmentStore.getSelectedDepartmentName,
+            show_employees_working_today: state.showEmployeesWorkingToday,
             sortField: state.sortData.sortField,
             sortOrder: state.sortData.sortOrder,
             ...state.dataFilter,

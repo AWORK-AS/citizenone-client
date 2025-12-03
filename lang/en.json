@@ -2560,6 +2560,7 @@
             "sickLeave": "Sick leave",
             "vacationLeave": "Vacation leave"
         },
+        "showEmployeesWorkingToday": "Show employees working today",
         "sort": {
             "sortNamesInAscendingOrder": "Sort names in ascending order",
             "sortNamesInDescendingOrder": "Sort names in descending order"
@@ -2572,8 +2573,8 @@
             "timer": "Timer"
         },
         "totalHours": "Total hours",
-        "typeofShift": "Type of shift",
-        "typeofShifts": "Type of shifts",
+        "typeOfShift": "Type of shift",
+        "typeOfShifts": "Type of shifts",
         "viewCalendar": "View calendar",
         "viewSchedule": {
             "citizens": "Citizens",
@@ -2581,7 +2582,7 @@
             "dateTimeEnd": "Date time end",
             "departments": "Departments",
             "note": "Note",
-            "typeofShift": "Type of shift",
+            "typeOfShift": "Type of shift",
             "viewSchedule": "View schedule"
         },
         "week": "Week",

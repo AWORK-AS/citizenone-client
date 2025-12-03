@@ -37,7 +37,7 @@
                 </div>
             </div>
             <div class="space-y-1">
-                <FormLabel for="shift_type" :label="$t('dutySchedules.typeofShift')" />
+                <FormLabel for="shift_type" :label="$t('dutySchedules.typeOfShift')" />
                 <FormSelect id="shift_type" name="shift_type" :options="state.options.shifts"
                     v-model="state.formShift.shift_type" />
                 <FormError :error="v$?.formShift?.shift_type?.$errors[0]?.$message.toString()" />
