@@ -283,3 +283,21 @@ table td {
 .zsiq_floatmain {
     display: none !important;
 }
+
+/* ----------------------------------------------------------------------------------------------------
+    Duty schedule
+---------------------------------------------------------------------------------------------------- */
+
+#fixed-header-week-view {
+    position: relative;
+    transition: top 0.3s ease; /* Smooth transition */
+}
+
+.fixed-header-week-view-top {
+    position: fixed !important;
+    top: 4rem;
+    left: 20rem;
+    right: 2rem;
+    z-index: 10;
+    background: white;
+}

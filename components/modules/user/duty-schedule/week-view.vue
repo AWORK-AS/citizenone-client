@@ -144,7 +144,7 @@
                     <div class="flex max-w-full flex-none flex-col sm:max-w-none md:max-w-full">
                         <div>
                             <div>
-                                <div class="grid grid-cols-9">
+                                <div class="grid grid-cols-9" id="fixed-header-week-view">
                                     <div class="col-span-2 border-0.5">
                                         <div class="flex items-center gap-x-3 px-3 pt-3">
                                             <p class="text-sm font-medium">
@@ -298,7 +298,8 @@
                                     </div>
                                 </div>
 
-                                <div class="relative mt-0.5 overflow-y-auto" style="max-height: 82vh;"
+                                <!-- <div class="relative mt-0.5 overflow-y-auto" style="max-height: 82vh;" -->
+                                <div class="relative mt-0.5"
                                     @click="!isWeeklyScheduleCopied(weekNumber) && !isAllWeeklyScheduleCopiedEmpty() && !isPastWeek() && pasteWeeklySchedule(weekNumber)"
                                     :class="[
                                         isWeeklyScheduleCopied(weekNumber) && 'border-1.5 border-dashed border-gray-700',
@@ -1129,9 +1130,9 @@ async function fetchDutySchedulePercentage() {
 
 async function fetchDutySchedule() {
     state.error = {}
-    state.weeklySchedules = []
-    state.originalWeeklySchedules = []
-    state.isPageLoading = true
+    // state.weeklySchedules = []
+    // state.originalWeeklySchedules = []
+    // state.isPageLoading = true
     try {
         const dateMoment = moment(currentDate.value)
         const startOfWeek = dateMoment.clone().startOf('isoWeek')
@@ -1626,4 +1627,34 @@ async function updateDutySchedule(scheduleUuid: any, params: object, employeeInd
         fetchDutySchedule()
     }
 }
+
+onMounted(() => {
+    window.addEventListener('scroll', handleScroll)
+})
+
+onBeforeUnmount(() => {
+    window.removeEventListener('scroll', handleScroll)
+})
+
+let lastScrollTop = 0
+const headerHeight = 450  // The height of the header
+
+function handleScroll() {
+    const header = document.getElementById('fixed-header-week-view')
+    if (!header) return
+
+    const currentScroll = window.pageYOffset || document.documentElement.scrollTop
+
+    // If scrolling down and we reach the bottom of the header
+    if (currentScroll > headerHeight) {
+        header.classList.add('fixed-header-week-view-top')
+    } else {
+        // If scrolling up, remove the fixed position
+        header.classList.remove('fixed-header-week-view-top')
+    }
+
+    // Update the last scroll position for the next scroll event
+    lastScrollTop = currentScroll <= 0 ? 0 : currentScroll // Prevent negative scroll
+}
+
 </script>
