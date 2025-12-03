@@ -290,9 +290,6 @@ const rules = computed(() => {
             date_time_end: {
                 required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
             },
-            job_title_uuid: {
-                required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
-            },
             available_slots: {
                 required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
             },
