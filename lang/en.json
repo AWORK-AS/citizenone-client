@@ -4607,6 +4607,7 @@
                 "companyName": "Company name",
                 "cvr": "CVR",
                 "enableEmailNotifications": "Enable email notifications",
+                "enableSystemNotifications": "Enable system notifications",
                 "groupChat": "Group chat",
                 "lockPastSchedules": "Lock past schedules",
                 "municipality": "Municipality",
