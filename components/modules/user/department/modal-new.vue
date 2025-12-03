@@ -33,6 +33,7 @@ const state = reactive({
     error: {} as Error,
     formDepartment: {
         name: '',
+        shift_type_uuid: [],
         color: '#000000',
     },
     isPageLoading: false,
@@ -52,6 +53,7 @@ async function saveDepartment(departmentDetails: any) {
     try {
         const params = {
             name: departmentDetails.name,
+            shift_type_uuid: departmentDetails.shift_type_uuid,
             color: departmentDetails.color,
         }
         const response = await departmentService.saveDepartment(params)
