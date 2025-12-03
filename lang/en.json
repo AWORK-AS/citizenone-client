@@ -2516,6 +2516,8 @@
                     "scheduleSlotSuccessfullyUpdated": "Schedule slot successfully updated"
                 },
                 "date": "Date",
+                "dateTimeEnd": "Date and time end",
+                "dateTimeStart": "Date and time start",
                 "department": "Department",
                 "jobSpecialty": "Job specialty",
                 "jobTitle": "Job title",
@@ -4608,6 +4610,7 @@
                 "cvr": "CVR",
                 "enableEmailNotifications": "Enable email notifications",
                 "enableSystemNotifications": "Enable system notifications",
+                "isSortByStatus": "Allow displaying \"Substitutes\" at the bottom of the shift plan and \"Permanent staff\" at the top",
                 "groupChat": "Group chat",
                 "lockPastSchedules": "Lock past schedules",
                 "municipality": "Municipality",

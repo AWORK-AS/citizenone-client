@@ -2516,6 +2516,8 @@
                     "scheduleSlotSuccessfullyUpdated": "Tidspunkt opdateret med succes"
                 },
                 "date": "Dato",
+                "dateTimeEnd": "Slutdato og -tid",
+                "dateTimeStart": "Startdato og -tid",
                 "department": "Afdelinger",
                 "jobSpecialty": "Jobspecialitet",
                 "jobTitle": "Jobtitel",
@@ -4608,6 +4610,7 @@
                 "cvr": "CVR",
                 "enableEmailNotifications": "Aktivér e-mail-notifikationer",
                 "enableSystemNotifications": "Aktivér systemnotifikationer",
+                "isSortByStatus": "Tillad visning af \"Vikarer\" nederst i vagtplanen og \"Fast personale\" øverst",
                 "groupChat": "Gruppechat",
                 "lockPastSchedules": "Lås tidligere vagtplaner",
                 "municipality": "Kommune",
