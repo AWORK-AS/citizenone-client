@@ -2406,6 +2406,8 @@
         "month": "Month",
         "newSchedule": "New schedule",
         "noScheduleFound": "No schedule found",
+        "previousCompensatoryHours": "Previous compensatory hours",
+        "previousAvailableVacationHours": "Previous available vacation hours",
         "removeSchedule": "Remove schedule",
         "requesters": {
             "confirmation": {
@@ -2524,8 +2526,6 @@
                 "numberOfShifts": "Number of shifts",
                 "shiftType": "Shift type",
                 "status": "Status",
-                "timeIn": "Time in",
-                "timeOut": "Time out",
                 "workingHours": "Working hours"
             },
             "numberOfShifts": "Number of shifts",
@@ -2540,15 +2540,16 @@
                     "viewRequesters": "View requesters"
                 },
                 "date": "Date",
+                "dateTimeEnd": "Date and time end",
+                "dateTimeStart": "Date and time start",
                 "department": "Department",
+                "departments": "Departments",
                 "inactive": "Inactive",
                 "jobTitle": "Job title",
+                "jobTitles": "Job titles",
                 "numberOfShifts": "Number of shifts",
                 "shiftType": "Shift type",
                 "status": "Status",
-                "time": "Time",
-                "timeIn": "Time in",
-                "timeOut": "Time out",
                 "workingHours": "Working hours"
             }
         },

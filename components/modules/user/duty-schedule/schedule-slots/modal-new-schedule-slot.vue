@@ -39,13 +39,12 @@ const emit = defineEmits(['close', 'refreshScheduleSlot', 'refreshDutySchedules'
 const state = reactive({
     error: {} as Error,
     formScheduleSlot: {
-        date: '',
+        date_time_start: moment(props.selectedDay?.fullDate).startOf('day').add(8, 'hours').format('YYYY-MM-DD H:mm'),
+        date_time_end: moment(props.selectedDay?.fullDate).startOf('day').add(17, 'hours').format('YYYY-MM-DD H:mm'),
         department_uuid: '',
-        job_title_uuid: '',
-        job_specialty_uuid: '',
+        job_title_uuid: [],
+        job_specialty_uuid: [],
         available_slots: '',
-        time_in: '',
-        time_out: '',
         shift_type: '',
     },
     isPageLoading: false,
@@ -62,13 +61,12 @@ function refreshScheduleSlot() {
 async function saveScheduleSlot(scheduleSlotDetails: any) {
     try {
         const params = {
-            date: moment(props.selectedDay?.fullDate).format('YYYY-MM-DD'),
+            date_time_start: scheduleSlotDetails.date_time_start,
+            date_time_end: scheduleSlotDetails.date_time_end,
             department_uuid: scheduleSlotDetails.department_uuid,
             job_title_uuid: scheduleSlotDetails.job_title_uuid,
             job_specialty_uuid: scheduleSlotDetails.job_specialty_uuid,
             available_slots: scheduleSlotDetails.available_slots,
-            time_in: scheduleSlotDetails.time_in,
-            time_out: scheduleSlotDetails.time_out,
             shift_type_uuid: scheduleSlotDetails.shift_type,
         }
         const response = await scheduleSlotService.saveScheduleSlot(params)

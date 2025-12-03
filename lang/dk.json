@@ -2406,6 +2406,8 @@
         "month": "Måned",
         "newSchedule": "Ny vagt",
         "noScheduleFound": "Ingen tidsplan fundet",
+        "previousCompensatoryHours": "Forrige afspadseringstimer",
+        "previousAvailableVacationHours": "Forrige tilgængelige ferietimer",
         "removeSchedule": "Fjern tidsplan",
         "requesters": {
             "confirmation": {
@@ -2524,8 +2526,6 @@
                 "numberOfShifts": "Antal vagter",
                 "shiftType": "Vagttype",
                 "status": "Status",
-                "timeIn": "Tid ind",
-                "timeOut": "Tid ud",
                 "workingHours": "Arbejdstimer"
             },
             "numberOfShifts": "Antal vagter",
@@ -2540,15 +2540,16 @@
                     "viewRequesters": "Se anmodere"
                 },
                 "date": "Dato",
+                "dateTimeEnd": "Slutdato og -tid",
+                "dateTimeStart": "Startdato og -tid",
                 "department": "Afdelinger",
+                "departments": "Afdelinger",
                 "inactive": "Inaktiv",
                 "jobTitle": "Jobtitel",
+                "jobTitles": "Jobtitler",
                 "numberOfShifts": "Antal vagter",
                 "shiftType": "Vagttype",
                 "status": "Tid",
-                "time": "Time",
-                "timeIn": "Tid ind",
-                "timeOut": "Tid ud",
                 "workingHours": "Arbejdstimer"
             }
         },

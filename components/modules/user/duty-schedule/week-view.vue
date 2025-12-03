@@ -457,12 +457,29 @@
                                                     </div>
                                                     <div class="col-span-7 space-y-2 mt-1">
                                                         <div :class="[
-                                                            employee?.compensatory_hours?.total_in_hours > 0 ? 'text-green-700' : 'text-red-700',
+                                                            employee?.total_norm_hours?.compensatory_hours > 0 ? 'text-green-700' : 'text-red-700',
                                                             'flex items-center gap-1'
                                                         ]">
                                                             <Icon name="ph:clock" class="h-3 w-3" aria-hidden="true" />
                                                             {{
                                                                 $t('dutySchedules.compensatoryHours')
+                                                            }}:
+                                                            {{
+                                                                formatNumber(language.locale.value,
+                                                                    employee?.total_norm_hours?.compensatory_hours)
+                                                                ??
+                                                                0
+                                                            }}
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-span-7 space-y-2 mt-1">
+                                                        <div :class="[
+                                                            employee?.compensatory_hours?.total_in_hours > 0 ? 'text-green-700' : 'text-red-700',
+                                                            'flex items-center gap-1'
+                                                        ]">
+                                                            <Icon name="ph:clock" class="h-3 w-3" aria-hidden="true" />
+                                                            {{
+                                                                $t('dutySchedules.previousCompensatoryHours')
                                                             }}:
                                                             {{
                                                                 formatNumber(language.locale.value,
@@ -474,12 +491,27 @@
                                                     </div>
                                                     <div class="col-span-7 space-y-2 mt-1">
                                                         <div :class="[
-                                                            employee?.available_vacation_hours > 0 ? 'text-green-700' : 'text-red-700',
+                                                            employee?.total_norm_hours?.available_vacation_hours > 0 ? 'text-green-700' : 'text-red-700',
                                                             'flex items-center gap-1'
                                                         ]">
                                                             <Icon name="ph:clock" class="h-3 w-3" aria-hidden="true" />
                                                             {{
                                                                 $t('dutySchedules.availableVacationHours')
+                                                            }}:
+                                                            {{
+                                                                formatNumber(language.locale.value,
+                                                                    employee?.total_norm_hours?.available_vacation_hours) ?? 0
+                                                            }}
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-span-7 space-y-2 mt-1">
+                                                        <div :class="[
+                                                            employee?.available_vacation_hours > 0 ? 'text-green-700' : 'text-red-700',
+                                                            'flex items-center gap-1'
+                                                        ]">
+                                                            <Icon name="ph:clock" class="h-3 w-3" aria-hidden="true" />
+                                                            {{
+                                                                $t('dutySchedules.previousAvailableVacationHours')
                                                             }}:
                                                             {{
                                                                 formatNumber(language.locale.value,
