@@ -397,7 +397,7 @@ async function fetchAllDepartments() {
             state.options.departments = options
             if (props.formType === 'create') {
                 state.formShift.department_uuid = []
-                if (!['All department', 'Alle afdelinger'].includes(departmentStore.getSelectedDepartmentName)) {
+                if (!['All departments', 'Alle afdelinger'].includes(departmentStore.getSelectedDepartmentName)) {
                     state.formShift.department_uuid.push(departmentStore.getSelectedDepartment?.uuid)
                 }
             }
