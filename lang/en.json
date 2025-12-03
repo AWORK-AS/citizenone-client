@@ -2220,7 +2220,8 @@
                 "newDepartmentSuccessfullySaved": "New department successfully saved"
             },
             "color": "Color",
-            "name": "Name"
+            "name": "Name",
+            "shiftTypes": "Shift types"
         },
         "newDepartment": "New department",
         "table": {
@@ -2235,7 +2236,8 @@
             "confirmation": {
                 "deleteDepartmentConfirmation": "Are you sure you want to delete this department"
             },
-            "name": "Name"
+            "name": "Name",
+            "shiftTypes": "Shift types"
         }
     },
     "diagnoses": {
