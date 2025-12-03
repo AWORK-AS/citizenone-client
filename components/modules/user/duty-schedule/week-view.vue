@@ -7,26 +7,35 @@
         <LoadingSpinner :isActive="state.isPageLoading">
             <div class="flex flex-col lg:flex-row justify-between gap-3">
                 <div class="lg:order-none order-last">
-                    <div class="font-medium mt-2">
+                    <div class="font-medium mt-2 space-x-0.5">
                         {{ $t('dutySchedules.typeOfShifts') }}:
                         <button class="text-xs text-primary hover:text-primary-700 hover:underline"
                             @click="state.modal.isDepartmentSickLeaveDateRangeOpen = true">
                             ({{ formatDateToReadable(state.shiftDateRange.formDateRange.start_date) }} -
                             {{ formatDateToReadable(state.shiftDateRange.formDateRange.end_date) }})
                         </button>
+                        <button @click="state.showAllShiftTypes = !state.showAllShiftTypes"
+                            class="text-primary text-xs hover:text-primary-700">
+                            {{ state.showAllShiftTypes ?
+                                $t('showLess') :
+                                $t('showMore') }}
+                        </button>
                     </div>
-                    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-x-4 text-sm">
-                        <div class="flex items-center justify-between gap-x-2"
-                            v-for="(shiftPercentage, index) in state.shiftPercentage?.data" :key="index">
-                            <div class="flex items-center gap-x-2">
-                                <div class="w-3 h-3 rounded-sm" :style="{ backgroundColor: shiftPercentage?.color }">
+                    <div :class="[!state.showAllShiftTypes && 'line-clamp-1 h-6']">
+                        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-x-4 text-sm">
+                            <div class="flex items-center justify-between gap-x-2"
+                                v-for="(shiftPercentage, index) in state.shiftPercentage?.data" :key="index">
+                                <div class="flex items-center gap-x-2">
+                                    <div class="w-3 h-3 rounded-sm"
+                                        :style="{ backgroundColor: shiftPercentage?.color }">
+                                    </div>
+                                    <span>
+                                        {{ language.locale.value === 'en' ? shiftPercentage?.en_name :
+                                            shiftPercentage?.dk_name }}
+                                    </span>
                                 </div>
-                                <span>
-                                    {{ language.locale.value === 'en' ? shiftPercentage?.en_name :
-                                        shiftPercentage?.dk_name }}
-                                </span>
+                                <p class="text-xs">{{ shiftPercentage?.percentage }}%</p>
                             </div>
-                            <p class="text-xs">{{ shiftPercentage?.percentage }}%</p>
                         </div>
                     </div>
                 </div>
@@ -952,6 +961,7 @@ const state = reactive({
     },
     selectedDate: moment().format('YYYY-MM-DD'),
     showAllShifts: false,
+    showAllShiftTypes: false,
     showEmployeesWorkingToday: false,
     shiftPercentage: {} as any,
     shiftDateRange: {
@@ -991,8 +1001,10 @@ watch(() => departmentStore.getSelectedDepartmentName, (newValue: any) => {
 })
 
 watch(() => state.selectedDate, (newSelectedDate: any) => {
-    currentDate.value = moment(newSelectedDate)
-    fetchDutySchedule()
+    if (newSelectedDate) {
+        currentDate.value = moment(newSelectedDate)
+        fetchDutySchedule()
+    }
 })
 
 onMounted(() => {
@@ -1156,6 +1168,7 @@ async function fetchDutySchedule() {
     // state.isPageLoading = true
     state.progress.totalRequests = state.progress.totalRequests + 1
     state.progress.pendingRequests = state.progress.pendingRequests + 1
+    identifyTheProgressPercentage()
     try {
         const dateMoment = moment(currentDate.value)
         const startOfWeek = dateMoment.clone().startOf('isoWeek')
@@ -1255,6 +1268,7 @@ function toggleExpanded(index: number) {
 function previousWeek() {
     state.customWeekLabel = 'week'
     currentDate.value = moment(currentDate.value).subtract(1, 'week')
+    state.selectedDate = moment(currentDate.value).format('YYYY-MM-DD')
     fetchDutySchedule()
 }
 
@@ -1267,6 +1281,7 @@ function setToday() {
 function nextWeek() {
     state.customWeekLabel = 'week'
     currentDate.value = moment(currentDate.value).add(1, 'week')
+    state.selectedDate = moment(currentDate.value).format('YYYY-MM-DD')
     fetchDutySchedule()
 }
 
@@ -1667,7 +1682,7 @@ onBeforeUnmount(() => {
 })
 
 let lastScrollTop = 0
-const headerHeight = 500  // The height of the header
+const headerHeight = 380  // The height of the header
 
 function handleScroll() {
     const header = document.getElementById('fixed-header-week-view')
