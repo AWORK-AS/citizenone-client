@@ -680,6 +680,13 @@ watch(() => departmentStore.getSelectedDepartmentName, (newValue: any) => {
     }
 })
 
+watch(() => state.selectedDate, (newSelectedDate: any) => {
+    if (newSelectedDate) {
+        currentDate.value = moment(newSelectedDate)
+        fetchDraftDutySchedule()
+    }
+})
+
 onMounted(() => {
     fetchDraftDutySchedule()
     window.addEventListener('keydown', handleKeyDown)
@@ -829,9 +836,12 @@ async function fetchDutySchedulePercentage() {
 
 async function fetchDraftDutySchedule() {
     state.error = {}
-    state.weeklySchedules = []
-    state.originalWeeklySchedules = []
-    state.isPageLoading = true
+    // state.weeklySchedules = []
+    // state.originalWeeklySchedules = []
+    // state.isPageLoading = true
+    state.progress.totalRequests = state.progress.totalRequests + 1
+    state.progress.pendingRequests = state.progress.pendingRequests + 1
+    identifyTheProgressPercentage()
     try {
         const dateMoment = moment(currentDate.value)
         const startOfWeek = dateMoment.clone().startOf('isoWeek')
@@ -856,9 +866,15 @@ async function fetchDraftDutySchedule() {
             state.originalWeeklySchedules = JSON.parse(JSON.stringify(response?.data))
             fetchDutySchedulePercentage()
             expandedRecords.splice(0, expandedRecords.length, ...response.data.map(() => true))
+            state.progress.totalRequests = state.progress.totalRequests - 1
+            state.progress.pendingRequests = state.progress.pendingRequests - 1
+            identifyTheProgressPercentage()
         }
     } catch (error: any) {
         state.error = error
+        state.progress.totalRequests = state.progress.totalRequests - 1
+        state.progress.pendingRequests = state.progress.pendingRequests - 1
+        identifyTheProgressPercentage()
     }
     state.isPageLoading = false
 }
@@ -910,6 +926,7 @@ function toggleExpanded(index: number) {
 function previousWeek() {
     state.customWeekLabel = 'week'
     currentDate.value = moment(currentDate.value).subtract(1, 'week')
+    state.selectedDate = moment(currentDate.value).format('YYYY-MM-DD')
     fetchDraftDutySchedule()
 }
 
@@ -922,6 +939,7 @@ function setToday() {
 function nextWeek() {
     state.customWeekLabel = 'week'
     currentDate.value = moment(currentDate.value).add(1, 'week')
+    state.selectedDate = moment(currentDate.value).format('YYYY-MM-DD')
     fetchDraftDutySchedule()
 }
 
