@@ -1681,5 +1681,4 @@ function handleScroll() {
     // Update the last scroll position for the next scroll event
     lastScrollTop = currentScroll <= 0 ? 0 : currentScroll // Prevent negative scroll
 }
-
 </script>
