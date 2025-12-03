@@ -37,19 +37,18 @@
                                             </p>
                                         </td>
                                         <td width="30%">
-                                            <div class="flex flex-wrap gap-1">
+                                            <div class="space-y-1 w-full">
                                                 <div v-for="(job_title, index) in slot?.job_titles" :key="index">
-                                                    <p class="text-xxs bg-primary text-white p-1 rounded-md">
-                                                        {{ job_title?.title }}
-                                                    </p>
-                                                </div>
-                                            </div>
-                                            <div class="flex flex-wrap gap-1">
-                                                <div v-for="(job_specialty, index) in slot?.schedule_specialties"
-                                                    :key="index">
-                                                    <p class="text-xxs bg-primary text-white p-1 rounded-md">
-                                                        {{ job_specialty?.title }}
-                                                    </p>
+                                                    <span>{{ job_title?.title }}</span>
+                                                    <div class="flex gap-1">
+                                                        <div v-for="(speciality, index) in job_title?.specialties"
+                                                            :key="index">
+                                                            <p
+                                                                class="truncate text-xxs bg-primary text-white p-1 rounded-md">
+                                                                {{ speciality?.job_specialty?.title }}
+                                                            </p>
+                                                        </div>
+                                                    </div>
                                                 </div>
                                             </div>
                                         </td>

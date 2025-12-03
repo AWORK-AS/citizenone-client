@@ -48,7 +48,7 @@
                     </span>
                 </div>
                 <FormSelectMultiple id="job_title_uuid" name="job_title_uuid" :options="state.options.jobTitles"
-                    v-model="state.formScheduleSlot.job_title_uuid" @change="changeJobTitle" />
+                    v-model="state.formScheduleSlot.job_title_uuid" />
                 <FormError :error="v$?.formScheduleSlot?.job_title_uuid?.$errors[0]?.$message.toString()" />
                 <FormError :error="props?.error?.errors?.job_title_uuid?.[0]" />
             </div>
@@ -159,13 +159,11 @@ onMounted(() => {
     fetchDepartments()
     fetchAllShifts()
     fetchJobTitles()
-    // if (props.selectedScheduleSlot?.job?.uuid) {
-    //     fetchJobSpecialties(props.selectedScheduleSlot?.job?.uuid)
-    // }
     if (props.selectedScheduleSlot?.job_titles) {
         props.selectedScheduleSlot.job_titles.forEach((jobTitle: any) => {
             state.formScheduleSlot.job_title_uuid.push(jobTitle?.uuid)
         })
+        fetchJobSpecialties(state.formScheduleSlot.job_title_uuid)
     }
     if (props.selectedScheduleSlot?.departments) {
         props.selectedScheduleSlot.departments.forEach((department: any) => {
@@ -173,10 +171,9 @@ onMounted(() => {
         })
     }
     if (props.selectedScheduleSlot?.schedule_specialties) {
-        props.selectedScheduleSlot.schedule_specialties.forEach((job_specialty: any) => {
-            state.formScheduleSlot.job_specialty_uuid.push(job_specialty?.uuid)
+        props.selectedScheduleSlot.schedule_specialties.forEach((scheduleSpeciality: any) => {
+            state.formScheduleSlot.job_specialty_uuid.push(scheduleSpeciality?.job_specialty?.uuid)
         })
-        // fetchJobSpecialties(state.formScheduleSlot.job_title_uuid)
     }
 })
 
@@ -248,10 +245,9 @@ async function fetchJobTitles() {
     emit('isPageLoading', false)
 }
 
-function changeJobTitle(jobTitleUuid: any) {
-    state.formScheduleSlot.job_specialty_uuid = []
-    fetchJobSpecialties(jobTitleUuid)
-}
+watch(() => state.formScheduleSlot.job_title_uuid, () => {
+    fetchJobSpecialties(state.formScheduleSlot.job_title_uuid)
+})
 
 async function fetchJobSpecialties(jobTitleUuid: any) {
     state.error = {}
