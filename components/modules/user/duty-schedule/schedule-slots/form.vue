@@ -53,14 +53,13 @@
                 <FormError :error="props?.error?.errors?.job_title_uuid?.[0]" />
             </div>
             <div class="space-y-1">
-                <!-- <div class="flex justify-between items-center py-0.5">
+                <div class="flex justify-between items-center py-0.5">
                     <FormLabel for="job_specialty_uuid" :label="$t('dutySchedules.scheduleSlots.form.jobSpecialty')" />
                     <span class="text-xs cursor-pointer text-tertiary hover:text-tertiary-800"
                         @click="addNewJobSpecialty">
                         {{ $t('jobSpecialties.addNewJobSpecialty') }}
                     </span>
-                </div> -->
-                <FormLabel for="job_specialty_uuid" :label="$t('dutySchedules.scheduleSlots.form.jobSpecialty')" />
+                </div>
                 <FormSelectMultiple id="job_specialty_uuid" name="job_specialty_uuid"
                     :options="state.options.jobSpecialties" v-model="state.formScheduleSlot.job_specialty_uuid" />
                 <FormError :error="v$?.formScheduleSlot?.job_specialty_uuid?.$errors[0]?.$message.toString()" />
@@ -90,10 +89,9 @@
             @close="state.modal.isAddDepartmentOpen = false" @refreshDepartments="fetchDepartments" />
         <ModulesUserJobTitleModalNew :isModalOpen="state.modal.isAddJobTitleOpen"
             @close="state.modal.isAddJobTitleOpen = false" @refreshJobTitles="fetchJobTitles" />
-        <!-- <ModulesUserJobSpecialtyModalNew :isModalOpen="state.modal.isAddJobSpecialtyOpen"
-            :selectedJobTitleUuid="state.formScheduleSlot.job_title_uuid"
-            @close="state.modal.isAddJobSpecialtyOpen = false"
-            @refreshJobSpecialty="fetchJobSpecialties(state.formScheduleSlot.job_title_uuid)" /> -->
+        <ModulesUserJobSpecialtyModalNew :isModalOpen="state.modal.isAddJobSpecialtyOpen"
+            @close="state.modal.isAddJobSpecialtyOpen = false" @refreshJobTitles="fetchJobTitles"
+            @refreshJobSpecialty="fetchJobSpecialties(state.formScheduleSlot.job_title_uuid)" />
     </form>
 </template>
 

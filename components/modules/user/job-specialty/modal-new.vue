@@ -26,10 +26,6 @@ const props = defineProps({
         type: Boolean,
         required: true,
     },
-    selectedJobTitleUuid: {
-        type: String,
-        required: false,
-    }
 })
 const emit = defineEmits(['close', 'refreshJobTitles', 'refreshJobSpecialty'])
 
