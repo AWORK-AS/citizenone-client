@@ -2380,6 +2380,7 @@
         "form": {
             "citizens": "Borgere",
             "createMultipleSchedules": "Opret flere vagter",
+            "date": "Dato",
             "datetimeStart": "Start dato og tid",
             "dateTimeEnd": "Slut dato og tid",
             "departments": "Afdelinger",

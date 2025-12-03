@@ -5,70 +5,62 @@
         <Alert type="danger" :text="state?.copyShiftError?.message"
             v-if="state.copyShiftError?.message && state.copyShiftError.message.length > 0" />
         <LoadingSpinner :isActive="state.isPageLoading">
-            <div class="flex justify-end gap-x-3">
-                <FormButton buttonStyle="action" class="rounded-lg" @click="navigateTo('/schedules/draft')"
-                    v-if="isAdmin(userStore.getUser?.role)">
-                    <Icon name="ph:note" class="h-4 w-4" aria-hidden="true" />
-                    {{ customPagesStore.getCustomPagesName?.dutySchedules }}
-                    {{ $t('dutySchedules.draft.draft')?.toLowerCase() }}
-                </FormButton>
-                <FormButton buttonStyle="action" class="rounded-lg" @click="state.modal.isDownloadOpen = true">
-                    <Icon name="ph:download" class="h-4 w-4" aria-hidden="true" />
-                    {{ $t('dutySchedules.download.download') }}
-                </FormButton>
-            </div>
-            <div class="flex h-full flex-col">
-                <header class="grid grid-cols-1 xl:grid-cols-3 xl:items-center justify-between py-4 gap-3">
-                    <div>
-                        <div class="font-medium mt-2">
-                            {{ $t('dutySchedules.typeOfShifts') }}:
-                            <button class="text-xs text-primary hover:text-primary-700 hover:underline"
-                                @click="state.modal.isDepartmentSickLeaveDateRangeOpen = true">
-                                ({{ formatDateToReadable(state.shiftDateRange.formDateRange.start_date) }} -
-                                {{ formatDateToReadable(state.shiftDateRange.formDateRange.end_date) }})
-                            </button>
-                        </div>
-                        <div class="grid grid-cols-1 md:grid-cols-2 gap-x-4 text-sm">
-                            <div class="flex items-center justify-between gap-x-2"
-                                v-for="(shiftPercentage, index) in state.shiftPercentage?.data" :key="index">
-                                <div class="flex items-center gap-x-2">
-                                    <div class="w-3 h-3 rounded-sm"
-                                        :style="{ backgroundColor: shiftPercentage?.color }"></div>
-                                    <span>
-                                        {{ language.locale.value === 'en' ? shiftPercentage?.en_name :
-                                            shiftPercentage?.dk_name }}
-                                    </span>
+            <div class="flex flex-col lg:flex-row justify-between gap-3">
+                <div class="lg:order-none order-last">
+                    <div class="font-medium mt-2">
+                        {{ $t('dutySchedules.typeOfShifts') }}:
+                        <button class="text-xs text-primary hover:text-primary-700 hover:underline"
+                            @click="state.modal.isDepartmentSickLeaveDateRangeOpen = true">
+                            ({{ formatDateToReadable(state.shiftDateRange.formDateRange.start_date) }} -
+                            {{ formatDateToReadable(state.shiftDateRange.formDateRange.end_date) }})
+                        </button>
+                    </div>
+                    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-x-4 text-sm">
+                        <div class="flex items-center justify-between gap-x-2"
+                            v-for="(shiftPercentage, index) in state.shiftPercentage?.data" :key="index">
+                            <div class="flex items-center gap-x-2">
+                                <div class="w-3 h-3 rounded-sm" :style="{ backgroundColor: shiftPercentage?.color }">
                                 </div>
-                                <p class="text-xs">{{ shiftPercentage?.percentage }}%</p>
+                                <span>
+                                    {{ language.locale.value === 'en' ? shiftPercentage?.en_name :
+                                        shiftPercentage?.dk_name }}
+                                </span>
                             </div>
+                            <p class="text-xs">{{ shiftPercentage?.percentage }}%</p>
                         </div>
                     </div>
-                    <h3 class="text-base font-semibold leading-6 text-gray-900 text-center">
-                        <span v-if="month === 'January'">{{ $t('calendar.month.January') }}</span>
-                        <span v-if="month === 'February'">{{ $t('calendar.month.February') }}</span>
-                        <span v-if="month === 'March'">{{ $t('calendar.month.March') }}</span>
-                        <span v-if="month === 'April'">{{ $t('calendar.month.April') }}</span>
-                        <span v-if="month === 'May'">{{ $t('calendar.month.May') }}</span>
-                        <span v-if="month === 'June'">{{ $t('calendar.month.June') }}</span>
-                        <span v-if="month === 'July'">{{ $t('calendar.month.July') }}</span>
-                        <span v-if="month === 'August'">{{ $t('calendar.month.August') }}</span>
-                        <span v-if="month === 'September'">{{ $t('calendar.month.September') }}</span>
-                        <span v-if="month === 'October'">{{ $t('calendar.month.October') }}</span>
-                        <span v-if="month === 'November'">{{ $t('calendar.month.November') }}</span>
-                        <span v-if="month === 'December'">{{ $t('calendar.month.December') }}</span>
-                        {{ year }}
-                    </h3>
-                    <div class="flex items-center justify-end">
+                </div>
+                <div class="flex items-start justify-end gap-x-3">
+                    <FormButton buttonStyle="action" class="rounded-lg" @click="navigateTo('/schedules/draft')"
+                        v-if="isAdmin(userStore.getUser?.role)">
+                        <Icon name="ph:note" class="h-4 w-4" aria-hidden="true" />
+                        {{ customPagesStore.getCustomPagesName?.dutySchedules }}
+                        {{ $t('dutySchedules.draft.draft')?.toLowerCase() }}
+                    </FormButton>
+                    <FormButton buttonStyle="action" class="rounded-lg" @click="state.modal.isDownloadOpen = true">
+                        <Icon name="ph:download" class="h-4 w-4" aria-hidden="true" />
+                        {{ $t('dutySchedules.download.download') }}
+                    </FormButton>
+                </div>
+            </div>
+            <div class="flex h-full flex-col">
+                <header class="grid grid-cols-1 xl:grid-cols-2 xl:items-center justify-between py-4 gap-3">
+                    <div class="space-y-1 flex items-center gap-x-2">
+                        <FormSwitch :value="dutyScheduleStore.getShowEmployeesWorkingToday"
+                            @toggleSwitch="dutyScheduleStore.setShowEmployeesWorkingToday(!dutyScheduleStore.getShowEmployeesWorkingToday)" />
+                        <p>
+                            {{ $t('dutySchedules.showEmployeesWorkingToday') }}
+                        </p>
+                    </div>
+                    <div class="flex items-center justify-start md:justify-end">
                         <div class="relative flex items-center rounded-md bg-white shadow-sm md:items-stretch">
                             <button @click="previousWeek" type="button"
                                 class="flex h-9 w-12 items-center justify-center rounded-l-md border-y border-l border-gray-300 pr-1 text-gray-400 hover:text-gray-500 focus:relative md:w-9 md:pr-0 md:hover:bg-gray-50">
                                 <span class="sr-only">Previous week</span>
                                 <Icon name="heroicons:chevron-left" class="h-5 w-5" aria-hidden="true" />
                             </button>
-                            <button @click="setToday" type="button"
-                                class="hidden border-y border-gray-300 px-3.5 text-sm font-semibold text-gray-900 hover:bg-gray-50 focus:relative md:block">
-                                {{ $t('calendar.today') }}
-                            </button>
+                            <FormDateField id="date" name="date" :placeholder="$t('dutySchedules.form.date')"
+                                dateType="duty-schedule" v-model="state.selectedDate" />
                             <span class="relative -mx-px h-5 w-px bg-gray-300 md:hidden" />
                             <button @click="nextWeek" type="button"
                                 class="flex h-9 w-12 items-center justify-center rounded-r-md border-y border-r border-gray-300 pl-1 text-gray-400 hover:text-gray-500 focus:relative md:w-9 md:pl-0 md:hover:bg-gray-50">
@@ -78,16 +70,7 @@
                         </div>
                     </div>
                 </header>
-                <div class="flex items-center">
-                    <div class="space-y-1 flex items-center gap-x-2">
-                        <FormSwitch :value="dutyScheduleStore.getShowEmployeesWorkingToday"
-                            @toggleSwitch="dutyScheduleStore.setShowEmployeesWorkingToday(!dutyScheduleStore.getShowEmployeesWorkingToday)" />
-                        <p>
-                            {{ $t('dutySchedules.showEmployeesWorkingToday') }}
-                        </p>
-                    </div>
-                </div>
-                <div class="my-5 flex items-center gap-x-2">
+                <div class="flex items-center gap-x-2">
                     <Tooltip
                         :text="state.sortData.sortOrder === 'ascend' ? $t('dutySchedules.sort.sortNamesInDescendingOrder') : $t('dutySchedules.sort.sortNamesInAscendingOrder')"
                         position="right">
@@ -104,8 +87,23 @@
                         <TableSearch @search="handleSearch" />
                     </div>
                 </div>
-                <div class="space-y-2 mb-5">
+                <div class="space-y-2 mt-4 mb-2">
                     <div class="flex justify-between items-center">
+                        <h3 class="text-base font-semibold leading-6 text-gray-900 text-center">
+                            <span v-if="month === 'January'">{{ $t('calendar.month.January') }}</span>
+                            <span v-if="month === 'February'">{{ $t('calendar.month.February') }}</span>
+                            <span v-if="month === 'March'">{{ $t('calendar.month.March') }}</span>
+                            <span v-if="month === 'April'">{{ $t('calendar.month.April') }}</span>
+                            <span v-if="month === 'May'">{{ $t('calendar.month.May') }}</span>
+                            <span v-if="month === 'June'">{{ $t('calendar.month.June') }}</span>
+                            <span v-if="month === 'July'">{{ $t('calendar.month.July') }}</span>
+                            <span v-if="month === 'August'">{{ $t('calendar.month.August') }}</span>
+                            <span v-if="month === 'September'">{{ $t('calendar.month.September') }}</span>
+                            <span v-if="month === 'October'">{{ $t('calendar.month.October') }}</span>
+                            <span v-if="month === 'November'">{{ $t('calendar.month.November') }}</span>
+                            <span v-if="month === 'December'">{{ $t('calendar.month.December') }}</span>
+                            {{ year }}
+                        </h3>
                         <div class="flex items-center gap-x-1 text-sm">
                             <span>{{ $t('entriesPerPage') }}:</span>
                             <select class="focus:outline-none bg-transparent" @change="changePageLength"
@@ -221,7 +219,8 @@
                                         </span>
                                         <div v-if="getSlotCount(day.longName) > 0"
                                             class="absolute top-2 left-24 text-xxs flex items-center justify-center w-5 h-5 bg-red-400 text-white rounded-full">
-                                            {{ getSlotCount(day.longName) > 99 ? '99+' : getSlotCount(day.longName)
+                                            {{
+                                                getSlotCount(day.longName) > 99 ? '99+' : getSlotCount(day.longName)
                                             }}
                                         </div>
                                     </Tooltip>
@@ -951,6 +950,7 @@ const state = reactive({
         showProgressBar: false,
         totalRequests: 0,
     },
+    selectedDate: moment().format('YYYY-MM-DD'),
     showAllShifts: false,
     showEmployeesWorkingToday: false,
     shiftPercentage: {} as any,
@@ -988,6 +988,11 @@ watch(() => departmentStore.getSelectedDepartmentName, (newValue: any) => {
     if (newValue != null) {
         fetchDutySchedule()
     }
+})
+
+watch(() => state.selectedDate, (newSelectedDate: any) => {
+    currentDate.value = moment(newSelectedDate)
+    fetchDutySchedule()
 })
 
 onMounted(() => {

@@ -2380,6 +2380,7 @@
         "form": {
             "citizens": "Citizens",
             "createMultipleSchedules": "Create multiple schedules",
+            "date": "Date",
             "datetimeStart": "Date time start",
             "dateTimeEnd": "Date time end",
             "departments": "Departments",
