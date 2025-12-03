@@ -1133,6 +1133,8 @@ async function fetchDutySchedule() {
     // state.weeklySchedules = []
     // state.originalWeeklySchedules = []
     // state.isPageLoading = true
+    state.progress.totalRequests = state.progress.totalRequests + 1
+    state.progress.pendingRequests = state.progress.pendingRequests + 1
     try {
         const dateMoment = moment(currentDate.value)
         const startOfWeek = dateMoment.clone().startOf('isoWeek')
@@ -1157,9 +1159,15 @@ async function fetchDutySchedule() {
             state.originalWeeklySchedules = JSON.parse(JSON.stringify(response?.data))
             fetchDutySchedulePercentage()
             expandedRecords.splice(0, expandedRecords.length, ...response.data.map(() => true))
+            state.progress.totalRequests = state.progress.totalRequests - 1
+            state.progress.pendingRequests = state.progress.pendingRequests - 1
+            identifyTheProgressPercentage()
         }
     } catch (error: any) {
         state.error = error
+        state.progress.totalRequests = state.progress.totalRequests - 1
+        state.progress.pendingRequests = state.progress.pendingRequests - 1
+        identifyTheProgressPercentage()
     }
     state.isPageLoading = false
 }
