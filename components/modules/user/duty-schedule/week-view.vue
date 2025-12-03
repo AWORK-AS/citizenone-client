@@ -440,7 +440,7 @@
                                                     <div
                                                         class="col-span-7 space-y-2 mt-4 border-t-0.5 border-gray-200 pt-3">
                                                         <div :class="[
-                                                            employee?.compensatory_hours?.total_in_hours > 0 ? 'text-green-700' : 'text-red-700',
+                                                            employee?.extra_hours > 0 ? 'text-green-700' : 'text-red-700',
                                                             'flex items-center gap-1'
                                                         ]">
                                                             <Icon name="ph:clock" class="h-3 w-3" aria-hidden="true" />
@@ -472,9 +472,10 @@
                                                             }}
                                                         </div>
                                                     </div>
-                                                    <div class="col-span-7 space-y-2 mt-1">
+                                                    <div class="col-span-7 space-y-2 mt-1"
+                                                        v-if="userStore.getUser?.company?.transfer_norm_hours_enabled">
                                                         <div :class="[
-                                                            employee?.compensatory_hours?.total_in_hours > 0 ? 'text-green-700' : 'text-red-700',
+                                                            employee?.previous_year_norm_hours?.compensatory_hours > 0 ? 'text-green-700' : 'text-red-700',
                                                             'flex items-center gap-1'
                                                         ]">
                                                             <Icon name="ph:clock" class="h-3 w-3" aria-hidden="true" />
@@ -483,7 +484,7 @@
                                                             }}:
                                                             {{
                                                                 formatNumber(language.locale.value,
-                                                                    employee?.compensatory_hours?.total_in_hours)
+                                                                    employee?.previous_year_norm_hours?.compensatory_hours)
                                                                 ??
                                                                 0
                                                             }}
@@ -504,9 +505,10 @@
                                                             }}
                                                         </div>
                                                     </div>
-                                                    <div class="col-span-7 space-y-2 mt-1">
+                                                    <div class="col-span-7 space-y-2 mt-1"
+                                                        v-if="userStore.getUser?.company?.transfer_norm_hours_enabled">
                                                         <div :class="[
-                                                            employee?.available_vacation_hours > 0 ? 'text-green-700' : 'text-red-700',
+                                                            employee?.previous_year_norm_hours?.available_vacation_hours > 0 ? 'text-green-700' : 'text-red-700',
                                                             'flex items-center gap-1'
                                                         ]">
                                                             <Icon name="ph:clock" class="h-3 w-3" aria-hidden="true" />
@@ -515,7 +517,8 @@
                                                             }}:
                                                             {{
                                                                 formatNumber(language.locale.value,
-                                                                    employee?.available_vacation_hours) ?? 0
+                                                                    employee?.previous_year_norm_hours?.available_vacation_hours)
+                                                                ?? 0
                                                             }}
                                                         </div>
                                                     </div>
