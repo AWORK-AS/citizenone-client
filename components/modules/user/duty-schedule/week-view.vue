@@ -78,6 +78,15 @@
                         </div>
                     </div>
                 </header>
+                <div class="flex items-center">
+                    <div class="space-y-1 flex items-center gap-x-2">
+                        <FormSwitch :value="dutyScheduleStore.getShowEmployeesWorkingToday"
+                            @toggleSwitch="dutyScheduleStore.setShowEmployeesWorkingToday(!dutyScheduleStore.getShowEmployeesWorkingToday)" />
+                        <p>
+                            {{ $t('dutySchedules.showEmployeesWorkingToday') }}
+                        </p>
+                    </div>
+                </div>
                 <div class="my-5 flex items-center gap-x-2">
                     <Tooltip
                         :text="state.sortData.sortOrder === 'ascend' ? $t('dutySchedules.sort.sortNamesInDescendingOrder') : $t('dutySchedules.sort.sortNamesInAscendingOrder')"
@@ -95,8 +104,8 @@
                         <TableSearch @search="handleSearch" />
                     </div>
                 </div>
-                <div>
-                    <div class="flex justify-between items-center mb-5">
+                <div class="space-y-2 mb-5">
+                    <div class="flex justify-between items-center">
                         <div class="flex items-center gap-x-1 text-sm">
                             <span>{{ $t('entriesPerPage') }}:</span>
                             <select class="focus:outline-none bg-transparent" @change="changePageLength"
@@ -990,6 +999,11 @@ onBeforeUnmount(() => {
     window.removeEventListener('keydown', handleKeyDown)
 })
 
+watch(() => dutyScheduleStore.getShowEmployeesWorkingToday, (status: boolean) => {
+    dutyScheduleStore.setShowEmployeesWorkingToday(status)
+    fetchDutySchedule()
+})
+
 function handleKeyDown(event: KeyboardEvent) {
     if (event.key === 'Escape') {
         stopCopying()
@@ -1151,7 +1165,7 @@ async function fetchDutySchedule() {
             filter_date_start: moment(state.shiftDateRange.formDateRange.start_date).format('YYYY-MM-DD'),
             filter_date_end: moment(state.shiftDateRange.formDateRange.end_date).format('YYYY-MM-DD'),
             department: departmentStore.getSelectedDepartmentName,
-            show_employees_working_today: state.showEmployeesWorkingToday,
+            show_employees_working_today: dutyScheduleStore.getShowEmployeesWorkingToday,
             sortField: state.sortData.sortField,
             sortOrder: state.sortData.sortOrder,
             ...state.dataFilter,
