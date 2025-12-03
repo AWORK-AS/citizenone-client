@@ -1,5 +1,5 @@
 <template>
-    <form @submit.prevent="saveShift()" id="formShift">
+    <form @submit.prevent="saveShift()" id="formDutySchedule">
         <div class="space-y-3">
             <Alert type="danger" :text="props?.error?.message"
                 v-if="props.error?.message && props.error.message.length > 0" />
@@ -462,7 +462,7 @@ async function saveShift() {
 </script>
 
 <style>
-#formShift .multiselect-dropdown {
+#formDutySchedule .multiselect-dropdown {
     max-height: 5rem !important;
 }
 </style>
