@@ -3,7 +3,7 @@
         <Modal size="xs" :title="$t('jobSpecialties.newJobSpecialty')" :show="props.isModalOpen" @close="closeModal">
             <template #modal-body>
                 <LoadingSpinner :isActive="state.isPageLoading">
-                    <ModulesUserJobTitleModalForm formType="create" :selectedJobTitle="state.formJobTitle"
+                    <ModulesUserJobSpecialtyModalForm formType="create" :selectedJobTitle="state.formJobTitle"
                         :error="state.error" @isPageLoading="(value: boolean) => state.isPageLoading = value"
                         @closeModal="closeModal" @submitForm="saveJobTitle" />
                 </LoadingSpinner>
@@ -31,7 +31,7 @@ const props = defineProps({
         required: false,
     }
 })
-const emit = defineEmits(['close', 'refreshJobSpecialty'])
+const emit = defineEmits(['close', 'refreshJobTitles', 'refreshJobSpecialty'])
 
 const state = reactive({
     error: {} as Error,
@@ -45,6 +45,10 @@ function closeModal() {
     emit('close')
 }
 
+function refreshJobTitles() {
+    emit('refreshJobTitles')
+}
+
 function refreshJobSpecialty() {
     emit('refreshJobSpecialty')
 }
@@ -54,12 +58,13 @@ async function saveJobTitle(jobTitleDetails: any) {
     state.isPageLoading = true
     try {
         const params = {
-            job_title_uuid: props?.selectedJobTitleUuid,
+            job_title_uuid: jobTitleDetails.job_title_uuid,
             title: jobTitleDetails.title,
         }
         const response = await jobSpecialtyService.saveJobSpecialty(params)
         if (response.data) {
             successAlert(`${t('alert.success')}!`, `${t('jobSpecialties.form.alert.newJobSpecialtySuccessfullySaved')}.`)
+            refreshJobTitles()
             refreshJobSpecialty()
             closeModal()
         }

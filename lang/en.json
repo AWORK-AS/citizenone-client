@@ -3391,6 +3391,8 @@
                 "jobSpecialtySuccessfullyUpdated": "Job specialty successfully updated",
                 "newJobSpecialtySuccessfullySaved": "New job specialty successfully saved"
             },
+            "jobSpecialtyTitle": "Job specialty title",
+            "jobTitle": "Job title",
             "title": "Title"
         },
         "jobSpecialties": "Job specialties",

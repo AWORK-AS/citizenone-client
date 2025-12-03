@@ -89,7 +89,7 @@
         <ModulesUserDepartmentModalNew :isModalOpen="state.modal.isAddDepartmentOpen"
             @close="state.modal.isAddDepartmentOpen = false" @refreshDepartments="fetchDepartments" />
         <ModulesUserJobTitleModalNew :isModalOpen="state.modal.isAddJobTitleOpen"
-            @close="state.modal.isAddJobTitleOpen = false" @refreshJobTitle="fetchJobTitles" />
+            @close="state.modal.isAddJobTitleOpen = false" @refreshJobTitles="fetchJobTitles" />
         <!-- <ModulesUserJobSpecialtyModalNew :isModalOpen="state.modal.isAddJobSpecialtyOpen"
             :selectedJobTitleUuid="state.formScheduleSlot.job_title_uuid"
             @close="state.modal.isAddJobSpecialtyOpen = false"

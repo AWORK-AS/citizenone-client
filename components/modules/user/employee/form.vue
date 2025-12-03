@@ -301,7 +301,7 @@
                             <FormLabel for="job_specialties"
                                 :label="$t('dutySchedules.scheduleSlots.form.jobSpecialty')" />
                             <span class="text-xs cursor-pointer text-tertiary hover:text-tertiary-800"
-                                @click="addNewJobSpecialty">
+                                @click="state.modal.isAddJobSpecialtyOpen = true">
                                 {{ $t('jobSpecialties.addNewJobSpecialty') }}
                             </span>
                         </div>
@@ -491,10 +491,10 @@
         <ModulesUserRoleModalNew :isModalOpen="state.modal.isAddRoleOpen" @close="state.modal.isAddRoleOpen = false"
             @refreshRoles="fetchRoles" />
         <ModulesUserJobTitleModalNew :isModalOpen="state.modal.isAddJobTitleOpen"
-            @close="state.modal.isAddJobTitleOpen = false" @refreshJobTitle="fetchJobTitles" />
+            @close="state.modal.isAddJobTitleOpen = false" @refreshJobTitles="fetchJobTitles" />
         <ModulesUserJobSpecialtyModalNew :isModalOpen="state.modal.isAddJobSpecialtyOpen"
             :selectedJobTitleUuid="state.formEmployee.employment.job_title_uuid"
-            @close="state.modal.isAddJobSpecialtyOpen = false"
+            @close="state.modal.isAddJobSpecialtyOpen = false" @refreshJobTitles="fetchJobTitles"
             @refreshJobSpecialty="fetchJobSpecialties(state.formEmployee.employment.job_title_uuid)" />
     </form>
 </template>
@@ -859,14 +859,6 @@ async function fetchJobTitles() {
 function changeJobTitle(jobTitleUuid: any) {
     if (jobTitleUuid) {
         fetchJobSpecialties(jobTitleUuid)
-    }
-}
-
-function addNewJobSpecialty() {
-    if (state.formEmployee.employment.job_title_uuid) {
-        state.modal.isAddJobSpecialtyOpen = true
-    } else {
-        errorAlert(`${t('alert.required')}!`, `${t('alert.jobTitleRequired')}.`)
     }
 }
 

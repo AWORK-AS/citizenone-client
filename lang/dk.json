@@ -3391,6 +3391,8 @@
                 "jobSpecialtySuccessfullyUpdated": "Jobspecialitet opdateret med succes",
                 "newJobSpecialtySuccessfullySaved": "Ny jobspecialitet gemt med succes"
             },
+            "jobSpecialtyTitle": "Jobspecialitetstitel",
+            "jobTitle": "Jobtitel",
             "title": "Titel"
         },
         "jobSpecialties": "Jobspecialiteter",
