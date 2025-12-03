@@ -88,18 +88,22 @@ async function fetchDepartments() {
 }
 
 function selectDepartment(event: any) {
+    const department = state.departments?.data?.find((department: any) => department.name === event.target.value)
     const departmentColor = state.departments?.data?.find((department: any) => department.name === event.target.value)?.color
     citizenStore.setCurrentPageNumber(1)
     employeeStore.setCurrentPageNumber(1)
+    departmentStore.setSelectedDepartment(department)
     departmentStore.setSelectedDepartmentName(event.target.value)
     departmentStore.setSelectedDepartmentColor(departmentColor)
     successAlert(`${t('alert.success')}!`, `${t('department.changedDepartmentTo')} ${event.target.value === '' ? t('department.all')?.toLowerCase() : event.target.value}.`)
 }
 
 function changeDepartment(departmentName: string) {
+    const department = state.departments?.data?.find((department: any) => department.name === departmentName)
     const departmentColor = state.departments?.data?.find((department: any) => department.name === departmentName)?.color
     citizenStore.setCurrentPageNumber(1)
     employeeStore.setCurrentPageNumber(1)
+    departmentStore.setSelectedDepartment(department)
     departmentStore.setSelectedDepartmentName(departmentName)
     departmentStore.setSelectedDepartmentColor(departmentColor)
     successAlert(`${t('alert.success')}!`, `${t('department.changedDepartmentTo')} ${departmentName === '' ? t('department.all')?.toLowerCase() : departmentName}.`)

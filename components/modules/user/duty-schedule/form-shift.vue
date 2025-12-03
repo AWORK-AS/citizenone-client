@@ -43,108 +43,110 @@
                 <FormError :error="v$?.formShift?.shift_type?.$errors[0]?.$message.toString()" />
                 <FormError :error="props?.error?.errors?.shift_uuid?.[0]" />
             </div>
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
+            <div class="space-y-3" v-if="state.formShift.shift_type">
                 <div class="space-y-1">
-                    <FormLabel for="date_time_start" :label="$t('dutySchedules.form.datetimeStart')" />
-                    <FormDateTimeField id="date_time_start" name="date_time_start"
-                        :placeholder="`${$t('dutySchedules.form.datetimeStart')}`"
-                        v-model="state.formShift.date_time_start" />
-                    <FormError :error="v$?.formShift.date_time_start?.$errors[0]?.$message.toString()" />
+                    <div class="flex justify-between items-center py-0.5">
+                        <FormLabel for="department_uuid" :label="$t('dutySchedules.form.departments')" />
+                        <span class="text-xs cursor-pointer text-tertiary hover:text-tertiary-800"
+                            @click="state.modal.isAddDepartmentOpen = true">
+                            {{ $t('departments.addNewDepartment') }}
+                        </span>
+                    </div>
+                    <FormSelectMultiple id="department_uuid" name="department_uuid" :options="state.options.departments"
+                        v-model="state.formShift.department_uuid" />
+                    <FormError :error="v$?.formShift?.department_uuid?.$errors[0]?.$message.toString()" />
+                    <FormError :error="state?.error?.errors?.department_uuid?.[0]" />
+                </div>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
+                    <div class="space-y-1">
+                        <FormLabel for="date_time_start" :label="$t('dutySchedules.form.datetimeStart')" />
+                        <FormDateTimeField id="date_time_start" name="date_time_start"
+                            :placeholder="`${$t('dutySchedules.form.datetimeStart')}`"
+                            v-model="state.formShift.date_time_start" />
+                        <FormError :error="v$?.formShift.date_time_start?.$errors[0]?.$message.toString()" />
+                    </div>
+                    <div class="space-y-1">
+                        <FormLabel for="date_time_end" :label="$t('dutySchedules.form.dateTimeEnd')" />
+                        <FormDateTimeField id="date_time_end" name="date_time_end"
+                            :placeholder="`${$t('dutySchedules.form.dateTimeEnd')}`"
+                            v-model="state.formShift.date_time_end" />
+                        <FormError :error="v$?.formShift.date_time_end?.$errors[0]?.$message.toString()" />
+                    </div>
+                </div>
+                <div class="space-y-1" v-if="props.formType === 'create'">
+                    <div class="w-fit flex items-center cursor-pointer"
+                        @click="state.formShift.is_recurring = !state.formShift.is_recurring">
+                        <FormCheckbox :value="state.formShift.is_recurring" />
+                        {{ $t('dutySchedules.form.createMultipleSchedules') }}
+                    </div>
+                </div>
+                <div class="space-y-3" v-if="state.formShift.is_recurring">
+                    <div class="space-y-1">
+                        <FormLabel for="recurring" :label="$t('dutySchedules.form.recurring.repeat')" />
+                        <FormSelect id="recurring" :options="state.options.recurringSchedules"
+                            v-model="state.formShift.recurring" />
+                        <FormError :error="v$?.formShift?.recurring?.$errors[0]?.$message.toString()" />
+                        <FormError :error="state?.error?.errors?.recurring_uuid?.[0]" />
+                    </div>
+                    <div class="space-y-1">
+                        <FormLabel for="recurring_until" :label="$t('dutySchedules.form.recurring.until')" />
+                        <FormDateField id="recurring_until" name="recurring_until"
+                            :placeholder="`${$t('dutySchedules.form.recurring.until')}`"
+                            v-model="state.formShift.recurring_until" />
+                        <FormError :error="v$?.formShift.recurring_until?.$errors[0]?.$message.toString()" />
+                        <FormError :error="state?.error?.errors?.recurring_until?.[0]" />
+                    </div>
+                </div>
+                <div class="space-y-1" v-if="props.formType === 'update'">
+                    <div class="w-fit flex items-center cursor-pointer"
+                        @click="state.formShift.is_apply_to_all = !state.formShift.is_apply_to_all">
+                        <FormCheckbox :value="state.formShift.is_apply_to_all" />
+                        {{ $t('dutySchedules.form.recurring.applyChangesToAllRecurringShifts') }}
+                    </div>
+                </div>
+                <div class="space-y-1"
+                    v-if="!(['vacation-leave', 'sick-leave'].includes(state.options.shifts.find((shift: any) => shift.value === state.formShift.shift_type)?.system_name))">
+                    <FormLabel for="citizens" :label="$t('dutySchedules.form.citizens')" />
+                    <FormSelectMultiple id="citizens" :options="state.options.citizens"
+                        v-model="state.formShift.citizens" />
+                    <FormError :error="v$?.formShift?.citizens?.$errors[0]?.$message.toString()" />
+                    <FormError :error="state?.error?.errors?.citizen_uuid?.[0]" />
+                </div>
+                <div
+                    v-if="['vacation-leave'].includes(state.options.shifts.find((shift: any) => shift.value === state.formShift.shift_type)?.system_name)">
+                    <div class="w-fit flex items-center cursor-pointer"
+                        @click="state.formShift.use_compensatory_time = !state.formShift.use_compensatory_time">
+                        <FormCheckbox :value="state.formShift.use_compensatory_time" />
+                        {{ $t('dutySchedules.form.useCompensatoryTime') }}
+                    </div>
                 </div>
                 <div class="space-y-1">
-                    <FormLabel for="date_time_end" :label="$t('dutySchedules.form.dateTimeEnd')" />
-                    <FormDateTimeField id="date_time_end" name="date_time_end"
-                        :placeholder="`${$t('dutySchedules.form.dateTimeEnd')}`"
-                        v-model="state.formShift.date_time_end" />
-                    <FormError :error="v$?.formShift.date_time_end?.$errors[0]?.$message.toString()" />
-                </div>
-            </div>
-            <div class="space-y-1" v-if="props.formType === 'create'">
-                <div class="w-fit flex items-center cursor-pointer"
-                    @click="state.formShift.is_recurring = !state.formShift.is_recurring">
-                    <FormCheckbox :value="state.formShift.is_recurring" />
-                    {{ $t('dutySchedules.form.createMultipleSchedules') }}
-                </div>
-            </div>
-            <div class="space-y-3" v-if="state.formShift.is_recurring">
-                <div class="space-y-1">
-                    <FormLabel for="recurring" :label="$t('dutySchedules.form.recurring.repeat')" />
-                    <FormSelect id="recurring" :options="state.options.recurringSchedules"
-                        v-model="state.formShift.recurring" />
-                    <FormError :error="v$?.formShift?.recurring?.$errors[0]?.$message.toString()" />
-                    <FormError :error="state?.error?.errors?.recurring_uuid?.[0]" />
+                    <div class="flex justify-between items-center py-0.5">
+                        <FormLabel for="schedule_tag_uuid" :label="$t('dutySchedules.form.tags')" />
+                        <span class="text-xs cursor-pointer text-tertiary hover:text-tertiary-800"
+                            @click="state.modal.isAddNewScheduleTagOpen = true">
+                            {{ $t('scheduleTags.addNewScheduleTag') }}
+                        </span>
+                    </div>
+                    <FormSelectMultiple id="schedule_tag_uuid" name="schedule_tag_uuid"
+                        :options="state.options.scheduleTags" v-model="state.formShift.schedule_tag_uuid" />
+                    <FormError :error="v$?.formShift?.schedule_tag_uuid?.$errors[0]?.$message.toString()" />
+                    <FormError :error="state?.error?.errors?.schedule_tag_uuid?.[0]" />
                 </div>
                 <div class="space-y-1">
-                    <FormLabel for="recurring_until" :label="$t('dutySchedules.form.recurring.until')" />
-                    <FormDateField id="recurring_until" name="recurring_until"
-                        :placeholder="`${$t('dutySchedules.form.recurring.until')}`"
-                        v-model="state.formShift.recurring_until" />
-                    <FormError :error="v$?.formShift.recurring_until?.$errors[0]?.$message.toString()" />
-                    <FormError :error="state?.error?.errors?.recurring_until?.[0]" />
+                    <FormLabel for="note" :label="`${$t('dutySchedules.form.note')}.`" />
+                    <FormTextArea id="note" name="note" :placeholder="$t('dutySchedules.form.note')"
+                        v-model="state.formShift.note" />
+                    <FormError :error="v$?.formShift?.note?.$errors[0]?.$message.toString()" />
+                    <FormError :error="state?.error?.errors?.note?.[0]" />
                 </div>
-            </div>
-            <div class="space-y-1" v-if="props.formType === 'update'">
-                <div class="w-fit flex items-center cursor-pointer"
-                    @click="state.formShift.is_apply_to_all = !state.formShift.is_apply_to_all">
-                    <FormCheckbox :value="state.formShift.is_apply_to_all" />
-                    {{ $t('dutySchedules.form.recurring.applyChangesToAllRecurringShifts') }}
-                </div>
-            </div>
-            <div class="space-y-1"
-                v-if="!(['vacation-leave', 'sick-leave'].includes(state.options.shifts.find((shift: any) => shift.value === state.formShift.shift_type)?.system_name))">
-                <FormLabel for="citizens" :label="$t('dutySchedules.form.citizens')" />
-                <FormSelectMultiple id="citizens" :options="state.options.citizens"
-                    v-model="state.formShift.citizens" />
-                <FormError :error="v$?.formShift?.citizens?.$errors[0]?.$message.toString()" />
-                <FormError :error="state?.error?.errors?.citizen_uuid?.[0]" />
-            </div>
-            <div
-                v-if="['vacation-leave'].includes(state.options.shifts.find((shift: any) => shift.value === state.formShift.shift_type)?.system_name)">
-                <div class="w-fit flex items-center cursor-pointer"
-                    @click="state.formShift.use_compensatory_time = !state.formShift.use_compensatory_time">
-                    <FormCheckbox :value="state.formShift.use_compensatory_time" />
-                    {{ $t('dutySchedules.form.useCompensatoryTime') }}
-                </div>
-            </div>
-            <div class="space-y-1">
-                <div class="flex justify-between items-center py-0.5">
-                    <FormLabel for="schedule_tag_uuid" :label="$t('dutySchedules.form.tags')" />
-                    <span class="text-xs cursor-pointer text-tertiary hover:text-tertiary-800"
-                        @click="state.modal.isAddNewScheduleTagOpen = true">
-                        {{ $t('scheduleTags.addNewScheduleTag') }}
-                    </span>
-                </div>
-                <FormSelectMultiple id="schedule_tag_uuid" name="schedule_tag_uuid"
-                    :options="state.options.scheduleTags" v-model="state.formShift.schedule_tag_uuid" />
-                <FormError :error="v$?.formShift?.schedule_tag_uuid?.$errors[0]?.$message.toString()" />
-                <FormError :error="state?.error?.errors?.schedule_tag_uuid?.[0]" />
-            </div>
-            <div class="space-y-1">
-                <div class="flex justify-between items-center py-0.5">
-                    <FormLabel for="department_uuid" :label="$t('dutySchedules.form.departments')" />
-                    <span class="text-xs cursor-pointer text-tertiary hover:text-tertiary-800"
-                        @click="state.modal.isAddDepartmentOpen = true">
-                        {{ $t('departments.addNewDepartment') }}
-                    </span>
-                </div>
-                <FormSelectMultiple id="department_uuid" name="department_uuid" :options="state.options.departments"
-                    v-model="state.formShift.department_uuid" />
-                <FormError :error="v$?.formShift?.department_uuid?.$errors[0]?.$message.toString()" />
-                <FormError :error="state?.error?.errors?.department_uuid?.[0]" />
-            </div>
-            <div class="space-y-1">
-                <FormLabel for="note" :label="`${$t('dutySchedules.form.note')}.`" />
-                <FormTextArea id="note" name="note" :placeholder="$t('dutySchedules.form.note')"
-                    v-model="state.formShift.note" />
-                <FormError :error="v$?.formShift?.note?.$errors[0]?.$message.toString()" />
-                <FormError :error="state?.error?.errors?.note?.[0]" />
-            </div>
-            <div class="space-y-1"
-                v-if="(['sick-leave'].includes(state.options.shifts.find((shift: any) => shift.value === state.formShift.shift_type)?.system_name))">
-                <div class="w-fit flex items-center cursor-pointer"
-                    @click="state.formShift.do_no_count_sick_leave = !state.formShift.do_no_count_sick_leave">
-                    <FormCheckbox id="do_no_count_sick_leave" :value="state.formShift.do_no_count_sick_leave" />
-                    {{ $t('dutySchedules.form.doNotCountSickLeaveAsWorkingHours') }}
+                <div class="space-y-1"
+                    v-if="(['sick-leave'].includes(state.options.shifts.find((shift: any) => shift.value === state.formShift.shift_type)?.system_name))">
+                    <div class="w-fit flex items-center cursor-pointer"
+                        @click="state.formShift.do_no_count_sick_leave = !state.formShift.do_no_count_sick_leave">
+                        <FormCheckbox id="do_no_count_sick_leave" :value="state.formShift.do_no_count_sick_leave" />
+                        {{ $t('dutySchedules.form.doNotCountSickLeaveAsWorkingHours') }}
+                    </div>
                 </div>
             </div>
         </div>
@@ -174,6 +176,7 @@ import { citizenService } from '@/components/api/user/CitizenService'
 import { useVuelidate } from "@vuelidate/core"
 import { required, helpers } from '@vuelidate/validators'
 import { shiftService } from '@/components/api/user/ShiftService'
+import { useDepartmentStore } from '@/store/department'
 import { useI18n } from "vue-i18n"
 import type { Error } from '@/types'
 
@@ -198,6 +201,8 @@ const props = defineProps({
 const { t } = useI18n()
 const emit = defineEmits(['close', 'isPageLoading', 'saveShift'])
 const language = useI18n()
+const departmentStore = useDepartmentStore() as any
+
 const state = reactive({
     error: {} as Error,
     formShift: {
@@ -214,7 +219,7 @@ const state = reactive({
         use_compensatory_time: false,
         note: '',
         do_no_count_sick_leave: false,
-    },
+    } as any,
     modal: {
         isAddDepartmentOpen: false,
         isAddNewScheduleTagOpen: false,
@@ -286,6 +291,9 @@ const rules = computed(() => {
                 shift_type: {
                     required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
                 },
+                department_uuid: {
+                    required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
+                },
                 date_time_start: {
                     required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
                 },
@@ -304,6 +312,9 @@ const rules = computed(() => {
         return {
             formShift: {
                 shift_type: {
+                    required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
+                },
+                department_uuid: {
                     required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
                 },
                 date_time_start: {
@@ -367,8 +378,6 @@ async function fetchAllCalendarTags() {
     emit('isPageLoading', false)
 }
 
-
-
 async function fetchAllDepartments() {
     state.error = {}
     emit('isPageLoading', true)
@@ -386,6 +395,12 @@ async function fetchAllDepartments() {
                 })
             )
             state.options.departments = options
+            if (props.formType === 'create') {
+                state.formShift.department_uuid = []
+                if (!['All department', 'Alle afdelinger'].includes(departmentStore.getSelectedDepartmentName)) {
+                    state.formShift.department_uuid.push(departmentStore.getSelectedDepartment?.uuid)
+                }
+            }
         }
     } catch (error: any) {
         state.error = error
