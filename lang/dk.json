@@ -680,6 +680,18 @@
         "bulletBoard": "Opslagstavle",
         "featured": "Fremhævet"
     },
+    "client": {
+        "appointments": "Aftaler",
+        "viewAppointment": "Se aftale",
+        "appointmentsTable": {
+            "eventName": "Begivenhedsnavn",
+            "description": "Beskrivelse",
+            "address": "Adresse",
+            "city": "By",
+            "date": "Dato",
+            "time": "Tid"
+        }
+    },
     "calendar": {
         "citizens": "Borgere",
         "days": {
