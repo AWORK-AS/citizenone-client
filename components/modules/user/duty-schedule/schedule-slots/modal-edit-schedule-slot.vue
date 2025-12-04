@@ -52,13 +52,12 @@ async function updateScheduleSlot(scheduleSlotDetails: any) {
     try {
         const scheduleSlotUuid = props.selectedScheduleSlot?.uuid
         const params = {
-            date: scheduleSlotDetails.date,
+            date_time_start: scheduleSlotDetails.date_time_start,
+            date_time_end: scheduleSlotDetails.date_time_end,
             department_uuid: scheduleSlotDetails.department_uuid,
             job_title_uuid: scheduleSlotDetails.job_title_uuid,
             job_specialty_uuid: scheduleSlotDetails.job_specialty_uuid,
             available_slots: scheduleSlotDetails.available_slots,
-            time_in: scheduleSlotDetails.time_in,
-            time_out: scheduleSlotDetails.time_out,
             shift_type_uuid: scheduleSlotDetails.shift_type,
         }
         const response = await scheduleSlotService.updateScheduleSlot(scheduleSlotUuid, params)

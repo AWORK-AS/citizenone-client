@@ -56,6 +56,7 @@ const state = reactive({
         firstname: '',
         lastname: '',
         email: '',
+        password: '',
         phone: '',
         birthday: '',
         seniority_date: '',
@@ -64,14 +65,15 @@ const state = reactive({
         street: '',
         region_uuid: '',
         municipality_uuid: '',
-        city_uuid: '',
+        city: '',
         post_code: '',
         permissions: [],
         show_working_hours: false,
-        count_sick_leave: false,
+        do_no_count_sick_leave: false,
         media_risks: [],
         pages: [],
         employment: {
+            salary_id: '',
             employment_date: '',
             job_uuid: '',
             working_hours: '',
@@ -103,14 +105,15 @@ async function saveEmployee(employeeDetails: any) {
         params.append('role', employeeDetails.role)
         params.append('permission', JSON.stringify(employeeDetails.permissions))
         params.append('show_working_hours', employeeDetails.show_working_hours)
-        params.append('count_sick_leave', employeeDetails.count_sick_leave)
+        params.append('do_no_count_sick_leave', employeeDetails.do_no_count_sick_leave)
         params.append('mediarisk_uuid', JSON.stringify(employeeDetails.media_risks))
         params.append('page_uuid', JSON.stringify(employeeDetails.pages))
         params.append('street', employeeDetails.street)
         params.append('region_uuid', employeeDetails.region_uuid)
         params.append('municipality_uuid', employeeDetails.municipality_uuid)
-        params.append('city_uuid', employeeDetails.city_uuid)
+        params.append('city', employeeDetails.city)
         params.append('post_code', employeeDetails.post_code)
+        params.append('salary_id', employeeDetails.employment.salary_id)
         params.append('employment_date', employeeDetails.employment.employment_date)
         params.append('job_title_uuid', employeeDetails.employment.job_title_uuid)
         params.append('job_specialties_uuid', JSON.stringify(employeeDetails.employment.job_specialties))

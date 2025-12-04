@@ -285,6 +285,7 @@
         "success": "Succes",
         "successfullySubscribed": "Du har abonneret med succes"
     },
+    "all": "Alle",
     "apps": {
         "activate": "Aktivér",
         "activated": "Aktiveret",
@@ -448,18 +449,7 @@
                 "dateTimeEnd": "Dato og tid slut",
                 "dateTimeStart": "Dato og tid start",
                 "description": "Beskrivelse",
-                "name": "Navn",
-                "recurring": {
-                    "addThisSessions": "Tilføj denne session",
-                    "everyDay": "Hver dag",
-                    "everyWeek": "Hver uge",
-                    "everySecondWeek": "Hver anden uge",
-                    "everyThirdWeek": "Hver tredje uge",
-                    "everyFourthWeek": "Hver fjerde uge",
-                    "everyMonth": "Hver måned",
-                    "repeat": "Gentag",
-                    "until": "Indtil"
-                }
+                "name": "Navn"
             },
             "settings": {
                 "availableSpotsAtThisEvent": "Tilgængelige pladser ved denne begivenhed",
@@ -500,16 +490,7 @@
                 "description": "Beskrivelse",
                 "image": "Billede",
                 "name": "Navn",
-                "postcode": "Postnummer",
-                "recurring": {
-                    "everyDay": "Hver dag",
-                    "everyWeek": "Hver uge",
-                    "everySecondWeek": "Hver anden uge",
-                    "everyThirdWeek": "Hver tredje uge",
-                    "everyFourthWeek": "Hver fjerde uge",
-                    "everyMonth": "Hver måned",
-                    "until": "Indtil"
-                }
+                "postcode": "Postnummer"
             },
             "settings": {
                 "availableSpotsAtThisEvent": "Tilgængelige pladser ved denne begivenhed",
@@ -1756,8 +1737,8 @@
                 "editVitals": "Rediger vitale tegn",
                 "form": {
                     "alert": {
-                        "vitalsSuccessfullyAdded": "Vitale tegn er blevet tilføjet",
-                        "vitalsSuccessfullyUpdated": "Vitale tegn er blevet opdateret"
+                        "vitalsSuccessfullyAdded": "Vitale værdier er blevet tilføjet",
+                        "vitalsSuccessfullyUpdated": "Vitale værdier er blevet opdateret"
                     },
                     "bloodPressure": "Blodtryk",
                     "bloodSugar": "Blodsukker",
@@ -1770,17 +1751,17 @@
                     },
                     "pulse": "Puls",
                     "temperature": "Temperatur",
-                    "vitals": "Vitale tegn",
+                    "vitals": "Vitale værdier",
                     "weight": "Vægt"
                 },
-                "newVitals": "Nye vitale tegn",
+                "newVitals": "Nye vitale værdier",
                 "table": {
                     "actions": {
                         "delete": "Slet",
                         "edit": "Rediger"
                     },
                     "alert": {
-                        "vitalsSuccessfullyDeleted": "Vitale tegn er blevet slettet"
+                        "vitalsSuccessfullyDeleted": "Vitale værdier er blevet slettet"
                     },
                     "bloodPressure": "Blodtryk",
                     "bloodSugar": "Blodsukker",
@@ -1789,10 +1770,10 @@
                     },
                     "pulse": "Puls",
                     "temperature": "Temperatur",
-                    "vitals": "Vitale tegn",
+                    "vitals": "Vitale værdier",
                     "weight": "Vægt"
                 },
-                "vitals": "Vitale tegn"
+                "vitals": "Vitale værdier"
             }
         },
         "purchaseEmail": {
@@ -1804,6 +1785,13 @@
                 "edit": "Rediger",
                 "latestJournalEntry": "Seneste journalnotat",
                 "latestRiskAssessment": "Seneste risikovurdering",
+                "medicationOverview": "Medicinoversigt",
+                "plansAndGoals": {
+                    "expiringPlansAndGoals": "Udløbende planer og mål",
+                    "expiredPlansAndGoals": "Udløbne planer og mål",
+                    "noPlansAndGoals": "Ingen planer og mål",
+                    "plansAndGoals": "Planer og mål"
+                },
                 "view": "Se"
             },
             "department": "Afdeling",
@@ -2224,7 +2212,8 @@
                 "newDepartmentSuccessfullySaved": "Ny afdeling gemt med succes"
             },
             "color": "Farve",
-            "name": "Navn"
+            "name": "Navn",
+            "shiftTypes": "Vagttyper"
         },
         "newDepartment": "Ny afdeling",
         "table": {
@@ -2239,7 +2228,8 @@
                 "deleteDepartmentConfirmation": "Er du sikker på, at du vil slette denne afdeling"
             },
             "color": "Farve",
-            "name": "Navn"
+            "name": "Navn",
+            "shiftTypes": "Vagttyper"
         }
     },
     "diagnoses": {
@@ -2278,8 +2268,6 @@
             "scheduleSuccessfullyUpdated": "Tidsplan opdateret med succes"
         },
         "annualNormHours": "Årlige normtimer",
-        "availableVacationHours": "Tilgængelige ferietimer",
-        "compensatoryHours": "Afspadseringstimer",
         "confirmation": {
             "deleteConfirmation": "Er du sikker på, at du vil slette denne tidsplan"
         },
@@ -2321,14 +2309,73 @@
         },
         "dutySchedules": "Vagtplaner",
         "editSchedule": "Rediger tidsplan",
+        "extraHours": {
+            "editExtraHours": "Rediger ekstra timer",
+            "editExtraHoursRequest": "Rediger anmodning om ekstra timer",
+            "extraHours": "Ekstra timer",
+            "extraHoursRequests": "Anmodninger om ekstra timer",
+            "form": {
+                "alert": {
+                    "extraHoursRequestSuccessfullyAdded": "Anmodning om ekstra timer blev tilføjet",
+                    "extraHoursRequestSuccessfullyUpdated": "Anmodning om ekstra timer blev opdateret",
+                    "extraHoursSuccessfullyAdded": "Ekstra timer blev tilføjet",
+                    "extraHoursSuccessfullyUpdated": "Ekstra timer blev opdateret"
+                },
+                "date": "Dato",
+                "hours": "Timer",
+                "note": "Bemærkning",
+                "type": {
+                    "add": "Tilføj",
+                    "deduct": "Træk fra",
+                    "type": "Type"
+                }
+            },
+            "newExtraHours": "Nye ekstra timer",
+            "newExtraHoursRequest": "Ny anmodning om ekstra timer",
+            "table": {
+                "actions": {
+                    "approve": "Godkend",
+                    "delete": "Slet",
+                    "edit": "Rediger",
+                    "reject": "Afvis"
+                },
+                "alert": {
+                    "extraHoursSuccessfullyApproved": "Ekstra timer blev godkendt",
+                    "extraHoursRequestSuccessfullyDeleted": "Anmodning om ekstra timer blev slettet",
+                    "extraHoursSuccessfullyDeleted": "Ekstra timer blev slettet",
+                    "extraHoursSuccessfullyRejected": "Ekstra timer blev afvist"
+                },
+                "confirmation": {
+                    "approveExtraHoursConfirmation": "Er du sikker på, at du vil godkende disse ekstra timer?",
+                    "deleteExtraHoursConfirmation": "Er du sikker på, at du vil slette disse ekstra timer?",
+                    "rejectExtraHoursConfirmation": "Er du sikker på, at du vil afvise disse ekstra timer?"
+                },
+                "date": "Dato",
+                "hours": "Timer",
+                "note": "Bemærkning",
+                "status": {
+                    "approved": "Godkendt",
+                    "pending": "Afventer",
+                    "rejected": "Afvist",
+                    "status": "Status"
+                },
+                "type": {
+                    "add": "Tilføj",
+                    "deduct": "Træk fra",
+                    "type": "Type"
+                }
+            }
+        },
         "filterDate": "Filtrer dato",
         "form": {
             "citizens": "Borgere",
-            "countSickLeaveAsWorkedHours": "Tæl sygefravær som arbejdstimer",
+            "createMultipleSchedules": "Opret flere vagter",
+            "date": "Dato",
             "datetimeStart": "Start dato og tid",
             "dateTimeEnd": "Slut dato og tid",
             "departments": "Afdelinger",
             "description": "Beskrivelse",
+            "doNotCountSickLeaveAsWorkingHours": "Tæl ikke sygefravær som arbejdstimer",
             "inMeeting": "I møde",
             "note": "Bemærkning",
             "private": "Privat",
@@ -2340,6 +2387,16 @@
         "holidays": "Helligdage",
         "month": "Måned",
         "newSchedule": "Ny vagt",
+        "normHours": {
+            "availableVacationHours": "Tilgængelige ferietimer",
+            "compensatoryHours": "Afspadseringstimer",
+            "compensatoryHoursThisYear": "Afspadseringstimer i år",
+            "compensatoryHourFromPreviousYear": "Afspadseringstimer fra tidligere år",
+            "totalCompensatoryHours": "Samlede afspadseringstimer",
+            "totalVacationHours": "Samlede ferietimer",
+            "vacationHoursThisYear": "Ferietimer i år",
+            "vacationHoursFromPreviousYear": "Ferietimer fra tidligere år"
+        },
         "noScheduleFound": "Ingen tidsplan fundet",
         "removeSchedule": "Fjern tidsplan",
         "requesters": {
@@ -2451,14 +2508,14 @@
                     "scheduleSlotSuccessfullyUpdated": "Tidspunkt opdateret med succes"
                 },
                 "date": "Dato",
+                "dateTimeEnd": "Slutdato og -tid",
+                "dateTimeStart": "Startdato og -tid",
                 "department": "Afdelinger",
                 "jobSpecialty": "Jobspecialitet",
                 "jobTitle": "Jobtitel",
                 "numberOfShifts": "Antal vagter",
                 "shiftType": "Vagttype",
                 "status": "Status",
-                "timeIn": "Tid ind",
-                "timeOut": "Tid ud",
                 "workingHours": "Arbejdstimer"
             },
             "numberOfShifts": "Antal vagter",
@@ -2473,15 +2530,16 @@
                     "viewRequesters": "Se anmodere"
                 },
                 "date": "Dato",
+                "dateTimeEnd": "Slutdato og -tid",
+                "dateTimeStart": "Startdato og -tid",
                 "department": "Afdelinger",
+                "departments": "Afdelinger",
                 "inactive": "Inaktiv",
                 "jobTitle": "Jobtitel",
+                "jobTitles": "Jobtitler",
                 "numberOfShifts": "Antal vagter",
                 "shiftType": "Vagttype",
                 "status": "Tid",
-                "time": "Time",
-                "timeIn": "Tid ind",
-                "timeOut": "Tid ud",
                 "workingHours": "Arbejdstimer"
             }
         },
@@ -2492,6 +2550,7 @@
             "sickLeave": "Sygefravær",
             "vacationLeave": "Ferie"
         },
+        "showEmployeesWorkingToday": "Vis medarbejdere, der arbejder i dag",
         "sort": {
             "sortNamesInAscendingOrder": "Sorter navne i stigende rækkefølge",
             "sortNamesInDescendingOrder": "Sorter navne i faldende rækkefølge"
@@ -2504,8 +2563,8 @@
             "timer": "Timer"
         },
         "totalHours": "Samlet antal timer",
-        "typeofShift": "Vagttyper",
-        "typeofShifts": "Vagttyper",
+        "typeOfShift": "Vagttyper",
+        "typeOfShifts": "Vagttyper",
         "viewCalendar": "Se kalender",
         "viewSchedule": {
             "citizens": "Borgere",
@@ -2513,7 +2572,7 @@
             "dateTimeEnd": "Dato og tid slut",
             "departments": "Afdelinger",
             "note": "Bemærkning",
-            "typeofShift": "Type af vagt",
+            "typeOfShift": "Type af vagt",
             "viewSchedule": "Se tidsplan"
         },
         "week": "Uge",
@@ -2703,6 +2762,7 @@
             },
             "address": "Adresse",
             "birthday": "Fødselsdag",
+            "changePassword": "Skift adgangskode",
             "city": "By",
             "department": "Afdeling",
             "emailAddress": "E-mail adresse",
@@ -2723,6 +2783,7 @@
                 "employmentStatus": "Ansættelsesstatus",
                 "jobSpecialty": "Jobspecialitet",
                 "jobTitle": "Jobtitel",
+                "salaryID": "Løn-ID",
                 "workingHours": "Arbejdstimer",
                 "vacationDays": "Feriedage"
             },
@@ -2746,6 +2807,7 @@
             },
             "municipality": "Kommune",
             "pageAccess": "Sideadgang",
+            "password": "Adgangskode",
             "permissions": {
                 "create": "Opret",
                 "delete": "Slet",
@@ -2850,17 +2912,6 @@
             "employees": "Medarbejdere",
             "eventOwner": "Begivenhedsejer",
             "private": "Privat",
-            "recurring": {
-                "addThisSessions": "Tilføj denne session",
-                "everyDay": "Hver dag",
-                "everyWeek": "Hver uge",
-                "everySecondWeek": "Hver anden uge",
-                "everyThirdWeek": "Hver tredje uge",
-                "everyFourthWeek": "Hver fjerde uge",
-                "everyMonth": "Hver måned",
-                "repeat": "Gentag",
-                "until": "Indtil"
-            },
             "sendInvitation": "Send invitationen",
             "tags": "Etiketter",
             "title": "Titel"
@@ -3164,22 +3215,22 @@
     "home": "Hjem",
     "guidedTour": "Guidet tur",
     "inquiries": {
-        "inquiries": "Forespørgsler",
-        "editInquiry": "Rediger forespørgsel",
+        "inquiries": "Henvendelser",
+        "editInquiry": "Rediger henvendelser",
         "form": {
             "alert": {
-                "newInquirySuccessfullySaved": "Ny forespørgsel er blevet gemt",
+                "newInquirySuccessfullySaved": "Ny henvendelser er blevet gemt",
                 "inquirySuccessfullyUpdated": "Forespørgsel opdateret"
             },
             "conversationSummary": "Samtalesammenfatning",
-            "dateOfInquiry": "Dato for forespørgsel",
+            "dateOfInquiry": "Dato for henvendelser",
             "firstname": "Fornavn",
             "inquirerName": "Navn på spørger",
             "lastname": "Efternavn",
             "outcome": "Resultat (f.eks. tilbudt en plads, afvist, videresendt)",
             "purpose": "Formål"
         },
-        "newInquiry": "Ny forespørgsel",
+        "newInquiry": "Ny henvendelser",
         "table": {
             "actions": {
                 "convertAsCitizen": "Konverter til borger",
@@ -3193,10 +3244,10 @@
             "createdBy": "Oprettet af",
             "confirmation": {
                 "convertAsCitizenConfirmation": "Er du sikker på, at du vil konvertere denne deltager til borger",
-                "deleteInquiryConfirmation": "Er du sikker på, at du vil slette denne forespørgsel?"
+                "deleteInquiryConfirmation": "Er du sikker på, at du vil slette denne henvendelser?"
             },
             "conversationSummary": "Samtalesammenfatning",
-            "dateOfInquiry": "Dato for forespørgsel",
+            "dateOfInquiry": "Dato for henvendelser",
             "firstname": "Fornavn",
             "inquirerName": "Navn på spørger",
             "lastname": "Efternavn",
@@ -3264,7 +3315,6 @@
             "date": "Dato",
             "invoiceNumber": "Fakturanummer",
             "new": "Ny",
-            "recurring": "Tilbagevendende",
             "status": "Status",
             "serviceFee": "Servicegebyr"
         }
@@ -3320,6 +3370,8 @@
                 "jobSpecialtySuccessfullyUpdated": "Jobspecialitet opdateret med succes",
                 "newJobSpecialtySuccessfullySaved": "Ny jobspecialitet gemt med succes"
             },
+            "jobSpecialtyTitle": "Jobspecialitetstitel",
+            "jobTitle": "Jobtitel",
             "title": "Titel"
         },
         "jobSpecialties": "Jobspecialiteter",
@@ -4040,6 +4092,7 @@
                 },
                 "dateTime": "Dato og tid",
                 "note": "Bemærkning",
+                "repeatNotification": "Gentag notifikation",
                 "users": "Brugere"
             },
             "newNotification": "Ny notifikation",
@@ -4264,6 +4317,70 @@
             }
         }
     },
+    "recurring": {
+        "applyChangesToAllRecurringShifts": "Anvend ændringer på alle tilbagevendende vagter",
+        "addThisSessions": "Tilføj denne session",
+        "custom": "Brugerdefineret",
+        "day": "Dag",
+        "days": {
+            "monday": "Mandag",
+            "tuesday": "Tirsdag",
+            "wednesday": "Onsdag",
+            "thursday": "Torsdag",
+            "friday": "Fredag",
+            "saturday": "Lørdag",
+            "sunday": "Søndag",
+            "weekday": "Hverdage",
+            "weekendDay": "Weekenddag"
+        },
+        "every": "Hver",
+        "everyDay": "Hver dag",
+        "everyWeek": "Hver uge",
+        "everySecondWeek": "Hver anden uge",
+        "everyThirdWeek": "Hver tredje uge",
+        "everyFourthWeek": "Hver fjerde uge",
+        "everyMonth": "Hver måned",
+        "everyYear": "Hvert år",
+        "frequency": {
+            "daily": "Dagligt",
+            "frequency": "Hyppighed",
+            "monthly": {
+                "each": "Hver",
+                "monthly": "Månedligt",
+                "onThe": {
+                    "first": "Første",
+                    "second": "Andet",
+                    "third": "Tredje",
+                    "fourth": "Fjerde",
+                    "fifth": "Femte",
+                    "nextToLast": "Næstsidste",
+                    "last": "Sidste",
+                    "onThe": "På"
+                }
+            },
+            "weekly": "Ugentligt",
+            "yearly": {
+                "January": "Januar",
+                "February": "Februar",
+                "March": "Marts",
+                "April": "April",
+                "May": "Maj",
+                "June": "Juni",
+                "July": "Juli",
+                "August": "August",
+                "September": "September",
+                "October": "Oktober",
+                "November": "November",
+                "December": "December",
+                "daysOfWeek": "Ugedage",
+                "yearly": "Årligt"
+            }
+        },
+        "recurring": "Tilbagevendende",
+        "repeat": "Gentag",
+        "until": "Indtil",
+        "youAreEditingARecurringShift": "Du redigerer en tilbagevendende vagt"
+    },
     "register": {
         "form": {
             "createFreeAccount": "Opret gratis konto",
@@ -4440,6 +4557,7 @@
         }
     },
     "save": "Gem",
+    "saving": "Gemmer",
     "scheduleTags": {
         "addNewScheduleTag": "Tilføj ny vagtplan tag",
         "alert": {
@@ -4505,6 +4623,7 @@
                     "successfullyUpdated": "Firma opdateret med succes"
                 },
                 "checkinOut": "Check ind/ud",
+                "allowChangePassword": "Tillad medarbejdere at ændre adgangskode",
                 "allowPlans": "Tillad medarbejdere at oprette planer",
                 "allowGoals": "Tillad medarbejdere at oprette mål",
                 "allowSubGoals": "Tillad medarbejdere at oprette delmål",
@@ -4512,6 +4631,9 @@
                 "citizensDisplay": "Borgerens visning",
                 "companyName": "Firmanavn",
                 "cvr": "CVR",
+                "enableEmailNotifications": "Aktivér e-mail-notifikationer",
+                "enableSystemNotifications": "Aktivér systemnotifikationer",
+                "isSortByStatus": "Tillad visning af \"Vikarer\" nederst i vagtplanen og \"Fast personale\" øverst",
                 "groupChat": "Gruppechat",
                 "lockPastSchedules": "Lås tidligere vagtplaner",
                 "municipality": "Kommune",
@@ -4520,6 +4642,7 @@
                 "quickRiskAssessment": "Hurtig risikovurdering",
                 "region": "Region",
                 "street": "Gade",
+                "transferNormHours": "Overfør normtimer til næste år, hvis de ikke er brugt",
                 "website": "Hjemmeside"
             }
         },
@@ -4746,6 +4869,7 @@
         "updateSubscription": "Opdater abonnement"
     },
     "support": {
+        "chatWithSupport": "Chat med support",
         "courseDetails": "Hvis du og dine kollegaer har brug for et kursus i CitizenOne, så klik på knappen nedenfor for at se, hvad vi kan tilbyde, så I bliver godt klædt på",
         "getAGuidedTour": "Få en guided tour",
         "goToSupportcenter": "Gå til support",
@@ -5085,7 +5209,6 @@
                 "data": "Data",
                 "date": "Dato",
                 "new": "Ny",
-                "recurring": "Tilbagevendende",
                 "referenceNumber": "Referencenummer",
                 "status": "Status",
                 "type": "Type",
@@ -5103,7 +5226,6 @@
                 "date": "Dato",
                 "invoiceNumber": "Fakturanummer",
                 "new": "Ny",
-                "recurring": "Tilbagevendende",
                 "status": "Status"
             }
         },

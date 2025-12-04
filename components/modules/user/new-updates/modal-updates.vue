@@ -56,8 +56,10 @@ function closeModal() {
 }
 
 const state = reactive({
-    currentVersion: '2025-11-07',
+    currentVersion: '2025-11-28',
     availableVersions: [
+        '2025-11-28',
+        '2025-11-14',
         '2025-11-07',
         '2025-10-31',
         '2025-10-24',
@@ -77,6 +79,108 @@ const state = reactive({
 
 const allUpdates: Record<string, Record<string, { title: string, description: string[] }[]>> = {
     en: {
+        '2025-11-28': [
+            {
+                title: 'Transfer Zoho chat to support slide-over',
+                description: [
+                    'The Zoho chat feature is now integrated into a slide-over panel.',
+                    'This improves accessibility and maintains focus on the main content while allowing quick interactions.'
+                ],
+            },
+            {
+                title: 'Add page access in the new employees form',
+                description: [
+                    'The new employee form has been updated to include page access options.',
+                    'This streamlines the setup process for new hires and enhances their onboarding experience.'
+                ],
+            },
+            {
+                title: 'Recurring events in the calendar',
+                description: [
+                    'When editing a single event, the system now prompts whether the changes should apply to only this event or all future recurring events.',
+                    'This feature enhances flexibility and precision when managing recurring events.'
+                ],
+            },
+            {
+                title: 'Recurring automatic week rotation in the duty schedule',
+                description: [
+                    'Admins can now create a recurring automatic week rotation in the duty schedule.',
+                    'Admins can set an end date for the recurring pattern.'
+                ],
+            },
+            {
+                title: 'Notification settings customization',
+                description: [
+                    'A new setting allows users to enable/disable notifications based on whether the employee is on shift.',
+                    'Additionally, a general option has been added to disable all email notifications, giving users more control over their notification preferences.'
+                ],
+            },
+            {
+                title: 'Adding/deducting extra hours in the duty schedule',
+                description: [
+                    'Admins and employees can now add or deduct extra hours from the weekly schedule without creating a specific shift.',
+                    'A mandatory note field is required for each adjustment, and there are two workflows available for managing these changes.'
+                ],
+            },
+            {
+                title: 'Centralized password management for admins',
+                description: [
+                    'Admins can now manage password control centrally from the company settings.',
+                    'This eliminates the "Change password" option for users and enables admins to generate new passwords for them.'
+                ],
+            },
+            {
+                title: 'Citizen overview visual enhancements',
+                description: [
+                    'Two visual icons have been added to the citizen’s action icons for better status tracking.',
+                    'The plus icon reflects the status of the citizen’s plans/goals, while the pill icon provides direct access to the medication overview.'
+                ],
+            },
+            {
+                title: 'Recurring notifications in plans and goals',
+                description: [
+                    'In the plans and goals section, recurring notifications can now be created.',
+                    'These notifications can be assigned only to the citizen’s assigned contact persons, ensuring targeted and relevant alerts.'
+                ],
+            }
+        ],
+        '2025-11-14': [
+            {
+                title: 'Department dropdown color customization',
+                description: [
+                    'It is now possible to change the department dropdown color based on the department being displayed.',
+                    'This provides a visual color indicator in addition to the department name, improving clarity and quick recognition.'
+                ],
+            },
+            {
+                title: 'Updates to the registration form',
+                description: [
+                    'Various improvements have been made to the registration form.',
+                    'These changes enhance usability, streamline the registration process, and improve data accuracy.'
+                ],
+            },
+            {
+                title: 'Citizens’ inquiries and conversion process',
+                description: [
+                    'Enhancements have been made to the handling of citizens’ inquiries.',
+                    'It is now easier to manage inquiries and convert an inquiry into a registered citizen.'
+                ],
+            },
+            {
+                title: 'Secured mail UI update',
+                description: [
+                    'The user interface for secured mail has been updated.',
+                    'These improvements provide a clearer layout and improve the overall messaging experience.'
+                ],
+            },
+            {
+                title: 'Dashboard client login for events',
+                description: [
+                    'A new feature has been added allowing clients to log in to view events via the dashboard.',
+                    'This improves accessibility and provides a more streamlined experience for event-related information.'
+                ],
+            }
+        ],
         '2025-11-07': [
             {
                 title: 'Additional field (strength) in medicine journal',
@@ -449,6 +553,108 @@ const allUpdates: Record<string, Record<string, { title: string, description: st
         ],
     },
     dk: {
+        '2025-11-28': [
+            {
+                title: 'Overfør Zoho chat til understøttelse af slide-over',
+                description: [
+                    'Zoho chatfunktionen er nu integreret i et slide-over panel.',
+                    'Dette forbedrer tilgængeligheden og bevarer fokus på hovedindholdet, samtidig med at det giver hurtig interaktion.'
+                ],
+            },
+            {
+                title: 'Tilføj sideadgang i formularen for nye medarbejdere',
+                description: [
+                    'Formularen for nye medarbejdere er blevet opdateret med sideadgangsmuligheder.',
+                    'Dette strømline opsætningsprocessen for nye medarbejdere og forbedrer deres onboarding-oplevelse.'
+                ],
+            },
+            {
+                title: 'Tilbagevendende begivenheder i kalenderen',
+                description: [
+                    'Når du redigerer en enkelt begivenhed, spørger systemet, om ændringerne kun skal gælde denne begivenhed eller alle fremtidige tilbagevendende begivenheder.',
+                    'Denne funktion forbedrer fleksibilitet og præcision, når du administrerer tilbagevendende begivenheder.'
+                ],
+            },
+            {
+                title: 'Tilbagevendende automatisk uge rotation i vagtplanen',
+                description: [
+                    'Administratorer kan nu oprette en tilbagevendende automatisk uge rotation i vagtplanen.',
+                    'Administratorer kan sætte en slutdato for den tilbagevendende rotation.'
+                ],
+            },
+            {
+                title: 'Tilpasning af notifikationsindstillinger',
+                description: [
+                    'En ny indstilling giver brugerne mulighed for at aktivere/deaktivere notifikationer baseret på, om medarbejderen er på vagt.',
+                    'Derudover er der tilføjet en generel mulighed for at deaktivere alle e-mailnotifikationer, hvilket giver brugerne mere kontrol over deres notifikationspræferencer.'
+                ],
+            },
+            {
+                title: 'Tilføjelse/fradrag af ekstra timer i vagtplanen',
+                description: [
+                    'Administratorer og medarbejdere kan nu tilføje eller trække ekstra timer fra den ugentlige vagtplan uden at oprette en specifik vagt.',
+                    'Der kræves et obligatorisk notefelt for hver justering, og der er to workflows tilgængelige til at administrere disse ændringer.'
+                ],
+            },
+            {
+                title: 'Centraliseret password management for administratorer',
+                description: [
+                    'Administratorer kan nu administrere passwordkontrol centralt fra virksomhedens indstillinger.',
+                    'Dette fjerner muligheden "Skift password" for brugerne og giver administratorer mulighed for at generere nye passwords til dem.'
+                ],
+            },
+            {
+                title: 'Visuelle forbedringer i borgeroversigten',
+                description: [
+                    'To visuelle ikoner er blevet tilføjet til borgerens handlingsikoner for bedre statussporing.',
+                    'Plus-ikonet afspejler status for borgerens planer/mål, mens pille-ikonet giver direkte adgang til medicinoversigten.'
+                ],
+            },
+            {
+                title: 'Tilbagevendende notifikationer i planer og mål',
+                description: [
+                    'I sektionen for planer og mål kan der nu oprettes tilbagevendende notifikationer.',
+                    'Disse notifikationer kan kun tildeles de borgerens tildelte kontaktpersoner, hvilket sikrer målrettede og relevante advarsler.'
+                ],
+            }
+        ],
+        '2025-11-14': [
+            {
+                title: 'Farvetilpasning af afdelings-dropdown',
+                description: [
+                    'Det er nu muligt at ændre farven på afdelings-dropdownen baseret på den afdeling, der vises.',
+                    'Dette giver en visuel farveindikator ud over afdelingens navn og gør det lettere hurtigt at genkende afdelingen.'
+                ],
+            },
+            {
+                title: 'Ændringer i registreringsformularen',
+                description: [
+                    'Der er foretaget forskellige forbedringer af registreringsformularen.',
+                    'Disse ændringer forbedrer brugervenligheden, effektiviserer registreringsprocessen og øger datakvaliteten.'
+                ],
+            },
+            {
+                title: 'Borgerhenvendelser og konvertering til borger',
+                description: [
+                    'Håndteringen af borgerhenvendelser er blevet forbedret.',
+                    'Det er nu lettere at administrere henvendelser og konvertere en henvendelse til en registreret borger.'
+                ],
+            },
+            {
+                title: 'Opdatering af UI for sikker mail',
+                description: [
+                    'Brugergrænsefladen for sikker mail er blevet opdateret.',
+                    'Opdateringen giver et tydeligere layout og forbedrer den samlede beskedoplevelse.'
+                ],
+            },
+            {
+                title: 'Dashboard-klientlogin til begivenheder',
+                description: [
+                    'Der er tilføjet en ny funktion, der gør det muligt for klienter at logge ind på dashboardet for at se begivenheder.',
+                    'Dette forbedrer tilgængeligheden og giver en mere strømlinet oplevelse i forbindelse med begivenhedsoplysninger.'
+                ],
+            }
+        ],
         '2025-11-07': [
             {
                 title: 'Ekstra felt (styrke) i medicinjournalen',

@@ -27,7 +27,7 @@ const props = defineProps({
         required: true,
     },
 })
-const emit = defineEmits(['close', 'refreshJobTitle'])
+const emit = defineEmits(['close', 'refreshJobTitles'])
 
 const state = reactive({
     error: {} as Error,
@@ -41,8 +41,8 @@ function closeModal() {
     emit('close')
 }
 
-function refreshJobTitle() {
-    emit('refreshJobTitle')
+function refreshJobTitles() {
+    emit('refreshJobTitles')
 }
 
 async function saveJobTitle(jobTitleDetails: any) {
@@ -55,7 +55,7 @@ async function saveJobTitle(jobTitleDetails: any) {
         const response = await jobTitleService.saveJobTitle(params)
         if (response.data) {
             successAlert(`${t('alert.success')}!`, `${t('jobTitles.form.alert.newJobTitleSuccessfullySaved')}.`)
-            refreshJobTitle()
+            refreshJobTitles()
             closeModal()
         }
     } catch (error: any) {

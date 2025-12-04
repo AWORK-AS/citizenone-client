@@ -3,6 +3,7 @@ export interface EmployeeForm {
     firstname: string,
     lastname: string,
     email: string,
+    password: string,
     phone: string,
     birthday: string,
     seniority_date: string,
@@ -11,12 +12,13 @@ export interface EmployeeForm {
     street: string,
     region_uuid: string,
     municipality_uuid: string,
-    city_uuid: string,
+    city: string,
     post_code: string,
     employment: any,
     emergencyInfo: any,
     permissions: Permission[]
     show_working_hours: boolean,
+    do_no_count_sick_leave: boolean,
     media_risks: any
     pages: any
 }

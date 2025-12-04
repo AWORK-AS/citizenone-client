@@ -15,7 +15,7 @@
             <ModulesUserSettingsTab />
 
             <LoadingSpinner :isActive="state.isPageLoading">
-                <form @submit.prevent="submitForm()" class="mt-8 max-w-3xl">
+                <form @submit.prevent="submitForm()" class="mt-8 max-w-4xl">
                     <Alert type="danger" :text="state?.error?.message"
                         v-if="state.error?.message && state.error.message.length > 0" />
                     <div class="grid grid-cols-1 gap-3">
@@ -129,6 +129,13 @@
                             </p>
                         </div>
                         <div class="space-y-1 flex items-center gap-x-2">
+                            <FormSwitch :value="state.formCompany.change_password_enabled"
+                                @toggleSwitch="state.formCompany.change_password_enabled = !state.formCompany.change_password_enabled" />
+                            <p>
+                                {{ $t('settings.company.form.allowChangePassword') }}
+                            </p>
+                        </div>
+                        <div class="space-y-1 flex items-center gap-x-2">
                             <FormSwitch :value="state.formCompany.plans_enabled"
                                 @toggleSwitch="state.formCompany.plans_enabled = !state.formCompany.plans_enabled" />
                             <p>
@@ -154,6 +161,20 @@
                                 @toggleSwitch="state.formCompany.is_lock_past_schedules = !state.formCompany.is_lock_past_schedules" />
                             <p>
                                 {{ $t('settings.company.form.lockPastSchedules') }}
+                            </p>
+                        </div>
+                        <div class="space-y-1 flex items-center gap-x-2">
+                            <FormSwitch :value="state.formCompany.transfer_norm_hours_enabled"
+                                @toggleSwitch="state.formCompany.transfer_norm_hours_enabled = !state.formCompany.transfer_norm_hours_enabled" />
+                            <p>
+                                {{ $t('settings.company.form.transferNormHours') }}
+                            </p>
+                        </div>
+                        <div class="space-y-1 flex items-center gap-x-2">
+                            <FormSwitch :value="state.formCompany.is_sort_by_status"
+                                @toggleSwitch="state.formCompany.is_sort_by_status = !state.formCompany.is_sort_by_status" />
+                            <p>
+                                {{ $t('settings.company.form.isSortByStatus') }}
                             </p>
                         </div>
                         <div class="space-y-1 flex items-center gap-x-2">
@@ -224,10 +245,13 @@ const state = reactive({
         is_2fa_enabled: false,
         group_chat_enabled: false,
         checkin_enabled: false,
+        change_password_enabled: false,
         plans_enabled: false,
         goals_enabled: false,
         subgoals_enabled: false,
         is_lock_past_schedules: false,
+        transfer_norm_hours_enabled: false,
+        is_sort_by_status: false,
         social_og_boligstyrelsen: false,
         quick_risk_assessment_enabled: false,
     },
@@ -278,10 +302,13 @@ watch(() => userStore.getUser, (newValue: any) => {
             is_2fa_enabled: newValue?.company?.is_2fa_enabled ? true : false,
             group_chat_enabled: newValue?.company?.group_chat_enabled ? true : false,
             checkin_enabled: newValue?.company?.checkin_enabled ? true : false,
+            change_password_enabled: newValue?.company?.change_password_enabled ? true : false,
             plans_enabled: newValue?.company?.employee_create_plans_enabled ? true : false,
             goals_enabled: newValue?.company?.employee_create_goals_enabled ? true : false,
             subgoals_enabled: newValue?.company?.employee_create_subgoals_enabled ? true : false,
             is_lock_past_schedules: newValue?.company?.is_lock_past_schedules ? true : false,
+            transfer_norm_hours_enabled: newValue?.company?.transfer_norm_hours_enabled ? true : false,
+            is_sort_by_status: newValue?.company?.is_sort_by_status ? true : false,
             social_og_boligstyrelsen: newValue?.company?.social_og_boligstyrelsen ? true : false,
             quick_risk_assessment_enabled: newValue?.company?.quick_risk_assessment_enabled ? true : false,
         }
@@ -393,10 +420,13 @@ async function submitForm() {
                 is_2fa_enabled: state.formCompany.is_2fa_enabled,
                 group_chat_enabled: state.formCompany.group_chat_enabled,
                 checkin_enabled: state.formCompany.checkin_enabled,
+                change_password_enabled: state.formCompany.change_password_enabled,
                 employee_create_plans_enabled: state.formCompany.plans_enabled,
                 employee_create_goals_enabled: state.formCompany.goals_enabled,
                 employee_create_subgoals_enabled: state.formCompany.subgoals_enabled,
                 is_lock_past_schedules: state.formCompany.is_lock_past_schedules,
+                transfer_norm_hours_enabled: state.formCompany.transfer_norm_hours_enabled,
+                is_sort_by_status: state.formCompany.is_sort_by_status,
                 social_og_boligstyrelsen: state.formCompany.social_og_boligstyrelsen,
                 quick_risk_assessment_enabled: state.formCompany.quick_risk_assessment_enabled,
             }

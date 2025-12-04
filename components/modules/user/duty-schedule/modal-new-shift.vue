@@ -42,12 +42,15 @@ const state = reactive({
         shift_type: '',
         date_time_start: moment().startOf('day').add(8, 'hours').format('YYYY-MM-DD H:mm'),
         date_time_end: moment().startOf('day').add(17, 'hours').format('YYYY-MM-DD H:mm'),
+        is_recurring: false,
+        recurring: '',
+        recurring_until: '',
         citizens: [],
         schedule_tag_uuid: [],
         department_uuid: [],
         use_compensatory_time: false,
         note: '',
-        count_sick_leave: false,
+        do_no_count_sick_leave: false,
     },
 })
 

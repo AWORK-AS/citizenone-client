@@ -35,7 +35,7 @@
                             <span v-if="step.name === 'Information'">
                                 {{ $t('bookings.formEvent.tabs.information') }}
                             </span>
-                             <span v-if="step.name === 'Slots'">
+                            <span v-if="step.name === 'Slots'">
                                 Slots
                             </span>
                             <span v-if="step.name === 'Settings'">
@@ -116,9 +116,9 @@
                 </div>
                 <div class="block md:flex items-center space-y-2 gap-x-2 py-2">
                     <div class="w-fit flex items-center cursor-pointer"
-                    @click="state.formEvent.exclude_weekend = !state.formEvent.exclude_weekend">
+                        @click="state.formEvent.exclude_weekend = !state.formEvent.exclude_weekend">
                         <FormCheckbox id="change_password" :value="state.formEvent.exclude_weekend" />
-                        <span class="text-sm text-gray-600">{{  $t('bookings.formEvent.slots.excludeWeekend')  }}</span>
+                        <span class="text-sm text-gray-600">{{ $t('bookings.formEvent.slots.excludeWeekend') }}</span>
                     </div>
                 </div>
                 <div class="block md:flex items-center space-y-2 gap-x-2 py-2" v-if="state.formEvent.is_recurring">
@@ -132,12 +132,11 @@
                         <FormError :error="state?.error?.errors?.recurring_uuid?.[0]" />
                     </div>
                     <p>
-                        {{ $t('bookings.formEvent.information.recurring.until') }}
+                        {{ $t('recurring.until') }}
                     </p>
                     <div>
                         <FormDateField id="recurring_until" name="recurring_until"
-                            :placeholder="`${$t('bookings.formEvent.information.recurring.until')}`"
-                            v-model="state.formEvent.recurring_until" />
+                            :placeholder="`${$t('recurring.until')}`" v-model="state.formEvent.recurring_until" />
                         <FormError :error="v$?.formEvent.recurring_until?.$errors[0]?.$message.toString()" />
                         <FormError :error="state?.error?.errors?.recurring_until?.[0]" />
                     </div>
@@ -226,28 +225,29 @@
                     <div v-for="(item, idx) in state.formEvent.slots">
                         <div class="grow grid grid-cols-1 md:grid-cols-[1fr_1fr_150px_30px] items-center gap-3">
                             <div class="space-y-1">
-                                <FormLabel :for="`start_time_${idx}`" :label="$t('bookings.formEvent.slots.startTime')" />
-                                <FormTimeField :id="`start_time_${idx}`" :name="`start_time_${idx}`" :placeholder="$t('bookings.formEvent.slots.startTime')"
-                                    v-model="item.start_time"
+                                <FormLabel :for="`start_time_${idx}`"
+                                    :label="$t('bookings.formEvent.slots.startTime')" />
+                                <FormTimeField :id="`start_time_${idx}`" :name="`start_time_${idx}`"
+                                    :placeholder="$t('bookings.formEvent.slots.startTime')" v-model="item.start_time"
                                     class="border border-primary placeholder-gray-500 text-gray-900 rounded-md focus:outline-none focus:ring-primary-700 focus:border-primary-700 focus:z-10 sm:text-sm" />
                             </div>
                             <div class="space-y-1">
                                 <FormLabel :for="`end_time_${idx}`" :label="$t('bookings.formEvent.slots.endTime')" />
-                                <FormTimeField :id="`end_time_${idx}`" :name="`end_time_${idx}`" :placeholder="$t('bookings.formEvent.slots.endTime')"
-                                    v-model="item.end_time"
+                                <FormTimeField :id="`end_time_${idx}`" :name="`end_time_${idx}`"
+                                    :placeholder="$t('bookings.formEvent.slots.endTime')" v-model="item.end_time"
                                     class="border border-primary placeholder-gray-500 text-gray-900 rounded-md focus:outline-none focus:ring-primary-700 focus:border-primary-700 focus:z-10 sm:text-sm" />
                             </div>
                             <div class="space-y-1">
                                 <FormLabel :for="`capacity_${idx}`" :label="$t('bookings.formEvent.slots.capacity')" />
-                                <FormNumberField :id="`capacity_${idx}`" :name="`capacity_${idx}`" :placeholder="$t('bookings.formEvent.slots.capacity')"
-                                    v-model="item.capacity"
+                                <FormNumberField :id="`capacity_${idx}`" :name="`capacity_${idx}`"
+                                    :placeholder="$t('bookings.formEvent.slots.capacity')" v-model="item.capacity"
                                     class="border border-primary placeholder-gray-500 text-gray-900 rounded-md focus:outline-none focus:ring-primary-700 focus:border-primary-700 focus:z-10 sm:text-sm" />
                             </div>
                             <div v-if="state.formEvent.slots.length > 1" class="space-y-1">
-                                <Tooltip :text="$t('bookings.formEvent.slots.removeSlot')" position="left"
-                                    class="mt-7">
+                                <Tooltip :text="$t('bookings.formEvent.slots.removeSlot')" position="left" class="mt-7">
                                     <button type="button" @click="removeSlot(idx)">
-                                        <Icon name="ph:trash" class="h-6 w-6 text-red-700 hover:text-red-600" aria-hidden="true" />
+                                        <Icon name="ph:trash" class="h-6 w-6 text-red-700 hover:text-red-600"
+                                            aria-hidden="true" />
                                     </button>
                                 </Tooltip>
                             </div>
@@ -472,12 +472,12 @@ const state = reactive({
     options: {
         bookingTags: [],
         recurringSchedules: [
-            { value: 'everyday', label: `${t('bookings.formEvent.information.recurring.everyDay')}` },
-            { value: 'every_week', label: `${t('bookings.formEvent.information.recurring.everyWeek')}` },
-            { value: 'every_second_week', label: `${t('bookings.formEvent.information.recurring.everySecondWeek')}` },
-            { value: 'every_third_week', label: `${t('bookings.formEvent.information.recurring.everyThirdWeek')}` },
-            { value: 'every_fourth_week', label: `${t('bookings.formEvent.information.recurring.everyFourthWeek')}` },
-            { value: 'every_month', label: `${t('bookings.formEvent.information.recurring.everyMonth')}` },
+            { value: 'everyday', label: `${t('recurring.everyDay')}` },
+            { value: 'every_week', label: `${t('recurring.everyWeek')}` },
+            { value: 'every_second_week', label: `${t('recurring.everySecondWeek')}` },
+            { value: 'every_third_week', label: `${t('recurring.everyThirdWeek')}` },
+            { value: 'every_fourth_week', label: `${t('recurring.everyFourthWeek')}` },
+            { value: 'every_month', label: `${t('recurring.everyMonth')}` },
         ]
     },
     steps: [
@@ -681,7 +681,6 @@ function formatExistingTimeSlots(data: any) {
             })
         }
     }
-    console.log(uniqueSlots)
     return uniqueSlots
 }
 
@@ -713,7 +712,7 @@ function removeSlot(idx: number) {
 
 watch(() => state.formEvent.slots, (newSlots) => {
     // Update total spots to total number of slot capacity
-    state.formEvent.spots =  newSlots.reduce((total: any, slot: any) => {
+    state.formEvent.spots = newSlots.reduce((total: any, slot: any) => {
         return total + Number(slot.capacity || 0)
     }, 0)
     validateSlots()
@@ -728,7 +727,7 @@ function validateSlots() {
         error = t('bookings.formEvent.slots.validationError')
     }
     if (!error) return true;
-    
+
     state.error = {
         message: t('bookings.formEvent.slots.validationError'),
         errors: {

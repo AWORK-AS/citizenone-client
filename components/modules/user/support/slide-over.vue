@@ -62,6 +62,12 @@
                                                     </FormButton>
                                                 </div>
                                                 <div class="mt-2">
+                                                    <FormButton buttonStyle="primary" @click="toggleChatVisibility()"
+                                                        class="w-full rounded-md">
+                                                        {{ $t('support.chatWithSupport') }}
+                                                    </FormButton>
+                                                </div>
+                                                <div class="mt-2">
                                                     <FormButton buttonStyle="primary"
                                                         @click="state.modal.isGuidedTourWelcomeOpen = true"
                                                         class="w-full rounded-md">
@@ -258,6 +264,18 @@ async function navigateToSupport() {
         }
     })
 }
+
+function toggleChatVisibility() {
+    const chatElement = document.querySelector('.zsiq_floatmain') as any
+    if (chatElement) {
+        chatElement.style.setProperty('display', 'block', 'important')
+        chatElement.style.setProperty('height', '100px', 'important')
+
+        chatElement.click()
+        closeSlide()
+    }
+}
+
 
 async function navigateToCourses() {
     await navigateTo('https://citizenone.dk/priser/kurser', {

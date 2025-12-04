@@ -48,9 +48,15 @@
                             </div>
                             <div
                                 class="md:col-span-2 space-y-3 bg-white shadow-sm ring-1 ring-gray-900/5 rounded-lg px-4 py-6 sm:px-8 sm:py-6">
-                                <div class="space-y-1">
-                                    <Label :label="$t('employees.form.employeeId')" />
-                                    <p class="font-medium">{{ state.selectedEmployee.employee_id }}</p>
+                                <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
+                                    <div class="space-y-1">
+                                        <Label :label="$t('employees.form.employeeId')" />
+                                        <p class="font-medium">{{ state.selectedEmployee.employee_id }}</p>
+                                    </div>
+                                    <div class="space-y-1">
+                                        <Label :label="$t('employees.form.employment.salaryID')" />
+                                        <p class="font-medium">{{ state.selectedEmployee.employment?.salary_id }}</p>
+                                    </div>
                                 </div>
                                 <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
                                     <div class="space-y-1">
@@ -486,6 +492,7 @@ const state = reactive({
         permissions: [],
         media_risks: [],
         employment: {
+            salary_id: '',
             employment_date: '',
             job_title: '',
             employee_specialties: '',
@@ -540,11 +547,12 @@ async function fetchEmployee() {
                 street: response?.data?.employee_address?.street ?? '',
                 region: response?.data?.employee_address?.region?.name ?? '',
                 municipality: response?.data?.employee_address?.municipality?.name ?? '',
-                city: response?.data?.employee_address?.city?.name ?? '',
+                city: response?.data?.employee_address?.city ?? '',
                 post_code: response?.data?.employee_address?.post_code ?? '',
                 permissions: response?.data?.permissions ?? [],
                 media_risks: response?.data?.media_risks ?? [],
                 employment: {
+                    salary_id: response?.data?.employee_detail?.salary_id,
                     employment_date: response?.data?.employee_detail?.date_of_employment,
                     job_title: response?.data?.employee_detail?.job?.title,
                     employee_specialties: concatenatedJobSpecialties,

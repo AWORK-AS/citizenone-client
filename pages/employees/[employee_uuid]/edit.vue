@@ -81,6 +81,7 @@ const state = reactive({
         firstname: '',
         lastname: '',
         email: '',
+        password: '',
         phone: '',
         birthday: '',
         seniority_date: '',
@@ -89,14 +90,15 @@ const state = reactive({
         street: '',
         region_uuid: '',
         municipality_uuid: '',
-        city_uuid: '',
+        city: '',
         post_code: '',
         permissions: [],
         show_working_hours: false,
-        count_sick_leave: false,
+        do_no_count_sick_leave: false,
         media_risks: [],
         pages: [],
         employment: {
+            salary_id: '',
             employment_date: '',
             job_title_uuid: '',
             job_specialties: '',
@@ -136,6 +138,7 @@ async function fetchEmployee() {
                 firstname: response?.data?.firstname ?? '',
                 lastname: response?.data?.lastname ?? '',
                 email: response?.data?.email ?? '',
+                password: '',
                 phone: response?.data?.phone ?? '',
                 birthday: response?.data?.birthday ?? '',
                 seniority_date: response?.data?.seniority_date ?? '',
@@ -144,14 +147,15 @@ async function fetchEmployee() {
                 street: response?.data?.employee_address?.street ?? '',
                 region_uuid: response?.data?.employee_address?.region?.uuid?.toString() ?? '',
                 municipality_uuid: response?.data?.employee_address?.municipality?.uuid?.toString() ?? '',
-                city_uuid: response?.data?.employee_address?.city?.uuid?.toString() ?? '',
+                city: response?.data?.employee_address?.city ?? '',
                 post_code: response?.data?.employee_address?.post_code ?? '',
                 permissions: response?.data?.permissions ?? [],
                 show_working_hours: response?.data?.show_working_hours ?? false,
-                count_sick_leave: response?.data?.count_sick_leave ?? false,
+                do_no_count_sick_leave: response?.data?.do_no_count_sick_leave ?? false,
                 media_risks: [],
                 pages: [],
                 employment: {
+                    salary_id: response?.data?.employee_detail?.salary_id ?? '',
                     employment_date: response?.data?.employee_detail?.date_of_employment ?? '',
                     job_title_uuid: response?.data?.employee_detail?.job?.uuid ?? '',
                     job_specialties: [],
@@ -208,6 +212,9 @@ async function updateEmployee(employeeDetails: any) {
         params.append('firstname', employeeDetails.firstname)
         params.append('lastname', employeeDetails.lastname)
         params.append('email', employeeDetails.email)
+        if (employeeDetails.password) {
+            params.append('password', employeeDetails.password)
+        }
         params.append('phone', employeeDetails.phone)
         params.append('birthday', employeeDetails.birthday)
         params.append('seniority_date', employeeDetails.seniority_date)
@@ -215,7 +222,7 @@ async function updateEmployee(employeeDetails: any) {
         params.append('role', employeeDetails.role)
         params.append('permission', JSON.stringify(employeeDetails.permissions))
         params.append('show_working_hours', employeeDetails.show_working_hours)
-        params.append('count_sick_leave', employeeDetails.count_sick_leave)
+        params.append('do_no_count_sick_leave', employeeDetails.do_no_count_sick_leave)
         params.append('media_risk_uuid', JSON.stringify(employeeDetails.media_risks))
         if (employeeDetails.pages) {
             params.append('page_uuid', JSON.stringify(employeeDetails.pages))
@@ -223,8 +230,9 @@ async function updateEmployee(employeeDetails: any) {
         params.append('street', employeeDetails.street)
         params.append('region_uuid', employeeDetails.region_uuid)
         params.append('municipality_uuid', employeeDetails.municipality_uuid)
-        params.append('city_uuid', employeeDetails.city_uuid)
+        params.append('city', employeeDetails.city)
         params.append('post_code', employeeDetails.post_code)
+        params.append('salary_id', employeeDetails.employment.salary_id)
         params.append('employment_date', employeeDetails.employment.employment_date)
         params.append('job_title_uuid', employeeDetails.employment.job_title_uuid)
         params.append('job_specialties_uuid', JSON.stringify(employeeDetails.employment.job_specialties))

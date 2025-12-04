@@ -56,8 +56,9 @@ const state = reactive({
     error: {} as Error,
     formDepartment: {
         name: '',
+        shift_type_uuid: [],
         color: '#000000',
-    },
+    } as any,
     isPageLoading: false,
 })
 
@@ -73,8 +74,12 @@ async function fetchDepartment() {
         if (response) {
             state.formDepartment = {
                 name: response?.data?.name ?? '',
+                shift_type_uuid: [],
                 color: response?.data?.color ?? '',
             }
+            response?.data?.shifts?.forEach((shift: any) => {
+                state.formDepartment.shift_type_uuid.push(shift.uuid)
+            })
         }
     } catch (error: any) {
         state.error = error
@@ -88,6 +93,7 @@ async function updateDepartment(departmentDetails: any) {
     try {
         const params = {
             name: departmentDetails.name,
+            shift_type_uuid: departmentDetails.shift_type_uuid,
             color: departmentDetails.color,
         }
         const response = await departmentService.updateDepartment(departmentUuid, params)

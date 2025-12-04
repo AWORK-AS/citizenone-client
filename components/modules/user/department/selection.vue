@@ -13,7 +13,7 @@
                 <div>
                     <MenuButton
                         class="inline-flex w-full items-center justify-center gap-x-2 rounded-md px-5 py-2 text-xs font-semibold text-white shadow-sm"
-                        :style="{ backgroundColor: departmentStore.getSelectedDepartmentColor ?? '#205E77' }">
+                        :style="{ backgroundColor: departmentStore.getSelectedDepartmentColor ? departmentStore.getSelectedDepartmentColor : '#205E77' }">
                         {{ $t('department.department') }}:
                         {{ departmentStore.getSelectedDepartmentName === '' ? state.departments?.data?.[0]?.name :
                             departmentStore.getSelectedDepartmentName }}
@@ -88,18 +88,22 @@ async function fetchDepartments() {
 }
 
 function selectDepartment(event: any) {
+    const department = state.departments?.data?.find((department: any) => department.name === event.target.value)
     const departmentColor = state.departments?.data?.find((department: any) => department.name === event.target.value)?.color
     citizenStore.setCurrentPageNumber(1)
     employeeStore.setCurrentPageNumber(1)
+    departmentStore.setSelectedDepartment(department)
     departmentStore.setSelectedDepartmentName(event.target.value)
     departmentStore.setSelectedDepartmentColor(departmentColor)
     successAlert(`${t('alert.success')}!`, `${t('department.changedDepartmentTo')} ${event.target.value === '' ? t('department.all')?.toLowerCase() : event.target.value}.`)
 }
 
 function changeDepartment(departmentName: string) {
+    const department = state.departments?.data?.find((department: any) => department.name === departmentName)
     const departmentColor = state.departments?.data?.find((department: any) => department.name === departmentName)?.color
     citizenStore.setCurrentPageNumber(1)
     employeeStore.setCurrentPageNumber(1)
+    departmentStore.setSelectedDepartment(department)
     departmentStore.setSelectedDepartmentName(departmentName)
     departmentStore.setSelectedDepartmentColor(departmentColor)
     successAlert(`${t('alert.success')}!`, `${t('department.changedDepartmentTo')} ${departmentName === '' ? t('department.all')?.toLowerCase() : departmentName}.`)

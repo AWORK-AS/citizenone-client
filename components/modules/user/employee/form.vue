@@ -55,6 +55,22 @@
                     <FormError :error="v$?.formEmployee?.email?.$errors[0]?.$message.toString()" />
                     <FormError :error="props?.error?.errors?.email?.[0]" />
                 </div>
+                <div class="space-y-3" ref="passwordField" v-if="props.formType === 'update'">
+                    <div class="space-y-1">
+                        <div class="w-fit flex items-center cursor-pointer"
+                            @click="state.isChangePassword = !state.isChangePassword">
+                            <FormCheckbox id="change_password" :value="state.isChangePassword" />
+                            {{ $t('employees.form.changePassword') }}
+                        </div>
+                    </div>
+                    <div class="space-y-1" v-if="state.isChangePassword">
+                        <FormLabel for="password" :label="$t('employees.form.password')" />
+                        <FormPasswordField id="password" name="password" :placeholder="$t('employees.form.password')"
+                            v-model="state.formEmployee.password" />
+                        <FormError :error="v$?.formEmployee?.password?.$errors[0]?.$message.toString()" />
+                        <FormError :error="state?.error?.errors?.password?.[0]" />
+                    </div>
+                </div>
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
                     <div class="space-y-1" ref="phoneField">
                         <FormLabel for="phone" :label="$t('employees.form.phone')" />
@@ -134,9 +150,10 @@
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
                     <div class="space-y-1" ref="cityField">
                         <FormLabel for="city" :label="$t('employees.form.city')" />
-                        <FormSelect id="city" :options="state.options.cities" v-model="state.formEmployee.city_uuid" />
-                        <FormError :error="v$?.formEmployee?.city_uuid?.$errors[0]?.$message.toString()" />
-                        <FormError :error="props?.error?.errors?.city_uuid?.[0]" />
+                        <FormTextField id="city" name="city" :placeholder="$t('employees.form.city')"
+                            v-model="state.formEmployee.city" />
+                        <FormError :error="v$?.formEmployee?.city?.$errors[0]?.$message.toString()" />
+                        <FormError :error="props?.error?.errors?.city?.[0]" />
                     </div>
                     <div class="space-y-1" ref="postCodeField">
                         <FormLabel for="post_code" :label="$t('employees.form.postCode')" />
@@ -206,7 +223,7 @@
                         {{ $t('employees.form.showWorkingHours') }}
                     </div>
                 </div>
-                <div class="space-y-1" v-if="props.formType === 'update' && isAdmin(userStore.getUser?.roles)">
+                <div class="space-y-1" v-if="isAdmin(userStore.getUser?.roles)">
                     <FormLabel for="pages" :label="$t('employees.form.pageAccess')" />
                     <FormSelectMultiple id="pages" :options="state.options.pages" v-model="state.formEmployee.pages" />
                     <FormError :error="v$?.formEmployee?.pages?.$errors[0]?.$message.toString()" />
@@ -224,14 +241,25 @@
                 </p>
             </div>
             <div class="md:col-span-2 space-y-3 bg-white shadow-sm ring-1 ring-gray-900/5 rounded-lg px-4 py-6 sm:p-8">
-                <div class="space-y-1" ref="employmentDateField" v-if="isAdmin(userStore.getUser?.roles)">
-                    <FormLabel for="employment_date" :label="$t('employees.form.employment.employmentDate')" />
-                    <FormDateField id="employment_date" name="employment_date"
-                        :placeholder="$t('employees.form.employment.employmentDate')"
-                        v-model="state.formEmployee.employment.employment_date" />
-                    <FormError
-                        :error="v$?.formEmployee?.employment?.employment_date?.$errors[0]?.$message.toString()" />
-                    <FormError :error="props?.error?.errors?.employment_date?.[0]" />
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
+                    <div class="space-y-1" ref="salaryIDField">
+                        <FormLabel for="salary_id" :label="$t('employees.form.employment.salaryID')" />
+                        <FormTextField id="salary_id" name="salary_id"
+                            :placeholder="$t('employees.form.employment.salaryID')"
+                            v-model="state.formEmployee.employment.salary_id" />
+                        <FormError
+                            :error="v$?.formEmployee?.employment?.annual_norm_hours?.$errors[0]?.$message.toString()" />
+                        <FormError :error="props?.error?.errors?.annual_norm_hours?.[0]" />
+                    </div>
+                    <div class="space-y-1" ref="employmentDateField" v-if="isAdmin(userStore.getUser?.roles)">
+                        <FormLabel for="employment_date" :label="$t('employees.form.employment.employmentDate')" />
+                        <FormDateField id="employment_date" name="employment_date"
+                            :placeholder="$t('employees.form.employment.employmentDate')"
+                            v-model="state.formEmployee.employment.employment_date" />
+                        <FormError
+                            :error="v$?.formEmployee?.employment?.employment_date?.$errors[0]?.$message.toString()" />
+                        <FormError :error="props?.error?.errors?.employment_date?.[0]" />
+                    </div>
                 </div>
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
                     <div class="space-y-1" ref="annualNormHoursField" v-if="isAdmin(userStore.getUser?.roles)">
@@ -273,7 +301,7 @@
                             <FormLabel for="job_specialties"
                                 :label="$t('dutySchedules.scheduleSlots.form.jobSpecialty')" />
                             <span class="text-xs cursor-pointer text-tertiary hover:text-tertiary-800"
-                                @click="addNewJobSpecialty">
+                                @click="state.modal.isAddJobSpecialtyOpen = true">
                                 {{ $t('jobSpecialties.addNewJobSpecialty') }}
                             </span>
                         </div>
@@ -446,7 +474,8 @@
         </div>
         <div class="mt-6">
             <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
-                <FormButton type="button" buttonStyle="cancel" class="rounded-md" @click="navigateTo('/employees')">
+                <FormButton type="button" buttonStyle="cancel" class="rounded-md"
+                    @click="navigateTo(router?.currentRoute?.value?.name === 'employees-employee_uuid-edit' ? `/employees` : `/employees/${employeeUuid}/view-details`)">
                     {{ $t('cancel') }}
                 </FormButton>
                 <FormButton type="submit" buttonStyle="primary" class="rounded-md">
@@ -462,10 +491,9 @@
         <ModulesUserRoleModalNew :isModalOpen="state.modal.isAddRoleOpen" @close="state.modal.isAddRoleOpen = false"
             @refreshRoles="fetchRoles" />
         <ModulesUserJobTitleModalNew :isModalOpen="state.modal.isAddJobTitleOpen"
-            @close="state.modal.isAddJobTitleOpen = false" @refreshJobTitle="fetchJobTitles" />
+            @close="state.modal.isAddJobTitleOpen = false" @refreshJobTitles="fetchJobTitles" />
         <ModulesUserJobSpecialtyModalNew :isModalOpen="state.modal.isAddJobSpecialtyOpen"
-            :selectedJobTitleUuid="state.formEmployee.employment.job_title_uuid"
-            @close="state.modal.isAddJobSpecialtyOpen = false"
+            @close="state.modal.isAddJobSpecialtyOpen = false" @refreshJobTitles="fetchJobTitles"
             @refreshJobSpecialty="fetchJobSpecialties(state.formEmployee.employment.job_title_uuid)" />
     </form>
 </template>
@@ -502,6 +530,8 @@ const props = defineProps({
     },
 })
 const emit = defineEmits(['isPageLoading', 'submitForm'])
+const router = useRouter()
+const employeeUuid = router?.currentRoute?.value?.params?.employee_uuid
 const userStore = useUserStore() as any
 const image = ref<HTMLInputElement | null>(null)
 const avatarUrl = ref('/img/avatars/user.svg')
@@ -511,6 +541,7 @@ const language = useI18n()
 const firstnameField = ref<HTMLElement | null>(null)
 const lastnameField = ref<HTMLElement | null>(null)
 const emailField = ref<HTMLElement | null>(null)
+const passwordField = ref<HTMLElement | null>(null)
 const phoneField = ref<HTMLElement | null>(null)
 const birthdayField = ref<HTMLElement | null>(null)
 const roleField = ref<HTMLElement | null>(null)
@@ -519,6 +550,7 @@ const regionField = ref<HTMLElement | null>(null)
 const municipalityField = ref<HTMLElement | null>(null)
 const cityField = ref<HTMLElement | null>(null)
 const postCodeField = ref<HTMLElement | null>(null)
+const salaryIDField = ref<HTMLElement | null>(null)
 const employmentDateField = ref<HTMLElement | null>(null)
 const annualNormHoursField = ref<HTMLElement | null>(null)
 const vacationDaysField = ref<HTMLElement | null>(null)
@@ -533,6 +565,7 @@ const state = reactive({
         firstname: '',
         lastname: '',
         email: '',
+        password: '',
         phone: '',
         birthday: '',
         seniority_date: '',
@@ -541,12 +574,13 @@ const state = reactive({
         street: '',
         region_uuid: '',
         municipality_uuid: '',
-        city_uuid: '',
+        city: '',
         post_code: '',
         permissions: [],
         media_risks: [],
         pages: [],
         employment: {
+            salary_id: '',
             employment_date: '',
             job_title_uuid: '',
             job_specialties: [],
@@ -560,7 +594,9 @@ const state = reactive({
             trustees: [],
         },
         show_working_hours: false,
+        do_no_count_sick_leave: false,
     } as EmployeeForm,
+    isChangePassword: false,
     modal: {
         isAddDepartmentOpen: false,
         isAddJobSpecialtyOpen: false,
@@ -623,6 +659,7 @@ watch(() => props.selectedEmployee, (newValue: any) => {
             firstname: newValue.firstname,
             lastname: newValue.lastname,
             email: newValue.email,
+            password: '',
             phone: newValue.phone,
             birthday: newValue.birthday,
             seniority_date: newValue.seniority_date,
@@ -631,7 +668,7 @@ watch(() => props.selectedEmployee, (newValue: any) => {
             street: newValue.street,
             region_uuid: newValue.region_uuid,
             municipality_uuid: newValue.municipality_uuid,
-            city_uuid: newValue.city_uuid,
+            city: newValue.city,
             post_code: newValue.post_code,
             permissions: [],
             media_risks: newValue.media_risks,
@@ -641,6 +678,7 @@ watch(() => props.selectedEmployee, (newValue: any) => {
                 trustees: newValue.emergencyInfo.trustees,
             },
             employment: {
+                salary_id: newValue.employment.salary_id,
                 employment_date: newValue.employment.employment_date,
                 job_title_uuid: newValue.employment.job_title_uuid,
                 job_specialties: newValue.employment.job_specialties,
@@ -650,6 +688,7 @@ watch(() => props.selectedEmployee, (newValue: any) => {
                 vacation_days: newValue.employment.vacation_days,
             },
             show_working_hours: newValue.show_working_hours,
+            do_no_count_sick_leave: newValue.do_no_count_sick_leave,
         }
         fetchMunicipalitiesPerRegion(newValue.region_uuid)
         fetchCities(newValue.municipality_uuid)
@@ -672,56 +711,25 @@ watch(() => props.selectedEmployee, (newValue: any) => {
 })
 
 const rules = computed(() => {
-    return {
-        formEmployee: {
-            firstname: {
-                required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
+    if (state.isChangePassword) {
+        return {
+            formEmployee: {
+                firstname: {
+                    required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
+                },
+                password: {
+                    required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
+                },
             },
-            // lastname: {
-            //     required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
-            // },
-            // email: {
-            //     required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
-            // },
-            // phone: {
-            //     required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
-            // },
-            // birthday: {
-            //     required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
-            // },
-            // street: {
-            //     required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
-            // },
-            // region_uuid: {
-            //     required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
-            // },
-            // municipality_uuid: {
-            //     required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
-            // },
-            // city_uuid: {
-            //     required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
-            // },
-            // post_code: {
-            //     required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
-            // },
-            // role: {
-            //     required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
-            // },
-            // employment: {
-            //     employment_date: {
-            //         required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required)
-            //     },
-            //     job_title_uuid: {
-            //         required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required)
-            //     },
-            //     working_hours: {
-            //         required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required)
-            //     },
-            //     employment_status: {
-            //         required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required)
-            //     },
-            // }
-        },
+        }
+    } else {
+        return {
+            formEmployee: {
+                firstname: {
+                    required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
+                },
+            },
+        }
     }
 })
 
@@ -850,14 +858,6 @@ async function fetchJobTitles() {
 function changeJobTitle(jobTitleUuid: any) {
     if (jobTitleUuid) {
         fetchJobSpecialties(jobTitleUuid)
-    }
-}
-
-function addNewJobSpecialty() {
-    if (state.formEmployee.employment.job_title_uuid) {
-        state.modal.isAddJobSpecialtyOpen = true
-    } else {
-        errorAlert(`${t('alert.required')}!`, `${t('alert.jobTitleRequired')}.`)
     }
 }
 
@@ -1019,6 +1019,8 @@ function submitForm() {
             lastnameField.value.scrollIntoView({ behavior: 'smooth', block: 'center' })
         } else if (v$.value.formEmployee.email?.$error && emailField.value) {
             emailField.value.scrollIntoView({ behavior: 'smooth', block: 'center' })
+        } else if (v$.value.formEmployee.password?.$error && passwordField.value) {
+            passwordField.value.scrollIntoView({ behavior: 'smooth', block: 'center' })
         } else if (v$.value.formEmployee.phone?.$error && phoneField.value) {
             phoneField.value.scrollIntoView({ behavior: 'smooth', block: 'center' })
         } else if (v$.value.formEmployee.birthday?.$error && birthdayField.value) {
@@ -1031,10 +1033,12 @@ function submitForm() {
             regionField.value.scrollIntoView({ behavior: 'smooth', block: 'center' })
         } else if (v$.value.formEmployee.municipality_uuid?.$error && municipalityField.value) {
             municipalityField.value.scrollIntoView({ behavior: 'smooth', block: 'center' })
-        } else if (v$.value.formEmployee.city_uuid?.$error && cityField.value) {
+        } else if (v$.value.formEmployee.city?.$error && cityField.value) {
             cityField.value.scrollIntoView({ behavior: 'smooth', block: 'center' })
         } else if (v$.value.formEmployee.post_code?.$error && postCodeField.value) {
             postCodeField.value.scrollIntoView({ behavior: 'smooth', block: 'center' })
+        } else if (v$.value.formEmployee.employment.salary_id?.$error && salaryIDField.value) {
+            salaryIDField.value.scrollIntoView({ behavior: 'smooth', block: 'center' })
         } else if (v$.value.formEmployee.employment.employment_date?.$error && employmentDateField.value) {
             employmentDateField.value.scrollIntoView({ behavior: 'smooth', block: 'center' })
         } else if (v$.value.formEmployee.employment.job_title_uuid?.$error && jobTitleField.value) {
