@@ -537,7 +537,6 @@ async function fetchCourseEvent() {
 }
 
 watch(() => state.selected_date, (newvalue) => {
-    console.log('newvalue', newvalue)
     fetchBookingSlots()
 })
 
