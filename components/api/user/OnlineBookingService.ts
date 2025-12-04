@@ -21,6 +21,10 @@ class OnlineBookingService extends BaseAPIService {
         return await this.request(`/auth/booking/login`, 'POST', params)
     }
 
+    async logout(): Promise<any> {
+        return await this.request(`/auth/booking/logout`, 'POST')
+    }
+
     async verifyResetPassword(token: any): Promise<any> {
         return await this.request(`/auth/booking/verify-token/${token}`, 'POST')
     }

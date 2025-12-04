@@ -251,8 +251,7 @@ import {
     TransitionChild,
     TransitionRoot,
 } from '@headlessui/vue'
-import { authService } from '@/components/api/user/AuthService'
-import { citizenService } from '@/components/api/citizen/CitizenService'
+import { onlineBookingService } from '@/components/api/user/OnlineBookingService'
 import { useCustomPagesStore } from '@/store/custom-pages'
 import { useUserStore } from '@/store/user'
 import { useI18n } from "vue-i18n"
@@ -325,12 +324,12 @@ async function logout() {
     state.error = {}
     state.isPageLoading = true
     try {
-        // const response = await authService.logout()
-        // if (response) {
+        const response = await onlineBookingService.logout()
+        if (response) {
             localStorage.removeItem("_token")
             userStore.resetUser()
             navigateTo('/booking/login')
-        // }
+        }
     } catch (error: any) {
         state.error = error
     }
