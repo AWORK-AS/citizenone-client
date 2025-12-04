@@ -681,7 +681,6 @@ function formatExistingTimeSlots(data: any) {
             })
         }
     }
-    console.log(uniqueSlots)
     return uniqueSlots
 }
 
