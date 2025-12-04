@@ -216,7 +216,7 @@
                                                                     <Icon name="ph:clock" class="h-3 w-3"
                                                                         aria-hidden="true" />
                                                                     {{
-                                                                        $t('dutySchedules.compensatoryHours')
+                                                                        $t('dutySchedules.normHours.compensatoryHours')
                                                                     }}:
                                                                     {{
                                                                         formatNumber(language.locale.value,
@@ -232,7 +232,7 @@
                                                                     <Icon name="ph:clock" class="h-3 w-3"
                                                                         aria-hidden="true" />
                                                                     {{
-                                                                        $t('dutySchedules.availableVacationHours')
+                                                                        $t('dutySchedules.normHours.availableVacationHours')
                                                                     }}:
                                                                     {{
                                                                         formatNumber(language.locale.value,

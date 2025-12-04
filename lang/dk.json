@@ -2276,8 +2276,6 @@
             "scheduleSuccessfullyUpdated": "Tidsplan opdateret med succes"
         },
         "annualNormHours": "Årlige normtimer",
-        "availableVacationHours": "Tilgængelige ferietimer",
-        "compensatoryHours": "Afspadseringstimer",
         "confirmation": {
             "deleteConfirmation": "Er du sikker på, at du vil slette denne tidsplan"
         },
@@ -2408,9 +2406,17 @@
         "holidays": "Helligdage",
         "month": "Måned",
         "newSchedule": "Ny vagt",
+        "normHours": {
+            "availableVacationHours": "Tilgængelige ferietimer",
+            "compensatoryHours": "Afspadseringstimer",
+            "compensatoryHoursThisYear": "Afspadseringstimer i år",
+            "compensatoryHourFromPreviousYear": "Afspadseringstimer fra tidligere år",
+            "totalCompensatoryHours": "Samlede afspadseringstimer",
+            "totalVacationHours": "Samlede ferietimer",
+            "vacationHoursThisYear": "Ferietimer i år",
+            "vacationHoursFromPreviousYear": "Ferietimer fra tidligere år"
+        },
         "noScheduleFound": "Ingen tidsplan fundet",
-        "previousCompensatoryHours": "Forrige afspadseringstimer",
-        "previousAvailableVacationHours": "Forrige tilgængelige ferietimer",
         "removeSchedule": "Fjern tidsplan",
         "requesters": {
             "confirmation": {

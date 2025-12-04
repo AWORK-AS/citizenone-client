@@ -476,11 +476,11 @@
                                                     <div class="col-span-7 space-y-2 mt-1">
                                                         <div :class="[
                                                             employee?.total_norm_hours?.compensatory_hours > 0 ? 'text-green-700' : 'text-red-700',
-                                                            'flex items-center gap-1'
-                                                        ]">
+                                                            'flex items-center gap-1 w-fit cursor-pointer'
+                                                        ]" @click="viewCompensatoryHours(employee)">
                                                             <Icon name="ph:clock" class="h-3 w-3" aria-hidden="true" />
                                                             {{
-                                                                $t('dutySchedules.compensatoryHours')
+                                                                $t('dutySchedules.normHours.compensatoryHours')
                                                             }}:
                                                             {{
                                                                 formatNumber(language.locale.value,
@@ -490,53 +490,18 @@
                                                             }}
                                                         </div>
                                                     </div>
-                                                    <div class="col-span-7 space-y-2 mt-1"
-                                                        v-if="userStore.getUser?.company?.transfer_norm_hours_enabled">
-                                                        <div :class="[
-                                                            employee?.previous_year_norm_hours?.compensatory_hours > 0 ? 'text-green-700' : 'text-red-700',
-                                                            'flex items-center gap-1'
-                                                        ]">
-                                                            <Icon name="ph:clock" class="h-3 w-3" aria-hidden="true" />
-                                                            {{
-                                                                $t('dutySchedules.previousCompensatoryHours')
-                                                            }}:
-                                                            {{
-                                                                formatNumber(language.locale.value,
-                                                                    employee?.previous_year_norm_hours?.compensatory_hours)
-                                                                ??
-                                                                0
-                                                            }}
-                                                        </div>
-                                                    </div>
                                                     <div class="col-span-7 space-y-2 mt-1">
                                                         <div :class="[
                                                             employee?.total_norm_hours?.available_vacation_hours > 0 ? 'text-green-700' : 'text-red-700',
-                                                            'flex items-center gap-1'
-                                                        ]">
+                                                            'flex items-center gap-1 w-fit cursor-pointer'
+                                                        ]" @click="viewAvailableVacationHours(employee)">
                                                             <Icon name="ph:clock" class="h-3 w-3" aria-hidden="true" />
                                                             {{
-                                                                $t('dutySchedules.availableVacationHours')
+                                                                $t('dutySchedules.normHours.availableVacationHours')
                                                             }}:
                                                             {{
                                                                 formatNumber(language.locale.value,
                                                                     employee?.total_norm_hours?.available_vacation_hours) ?? 0
-                                                            }}
-                                                        </div>
-                                                    </div>
-                                                    <div class="col-span-7 space-y-2 mt-1"
-                                                        v-if="userStore.getUser?.company?.transfer_norm_hours_enabled">
-                                                        <div :class="[
-                                                            employee?.previous_year_norm_hours?.available_vacation_hours > 0 ? 'text-green-700' : 'text-red-700',
-                                                            'flex items-center gap-1'
-                                                        ]">
-                                                            <Icon name="ph:clock" class="h-3 w-3" aria-hidden="true" />
-                                                            {{
-                                                                $t('dutySchedules.previousAvailableVacationHours')
-                                                            }}:
-                                                            {{
-                                                                formatNumber(language.locale.value,
-                                                                    employee?.previous_year_norm_hours?.available_vacation_hours)
-                                                                ?? 0
                                                             }}
                                                         </div>
                                                     </div>
@@ -824,6 +789,12 @@
             </div>
             <ModulesUserDutyScheduleModalDownload :isModalOpen="state.modal.isDownloadOpen"
                 @close="state.modal.isDownloadOpen = false" />
+            <ModulesUserDutyScheduleNormHoursModalCompensatoryHours :isModalOpen="state.modal.isCompensatoryHoursOpen"
+                :selectedEmployee="state.normHours.selectedEmployeeSchedule"
+                @close="state.modal.isCompensatoryHoursOpen = false" />
+            <ModulesUserDutyScheduleNormHoursModalVacationHours :isModalOpen="state.modal.isVacationHoursOpen"
+                :selectedEmployee="state.normHours.selectedEmployeeSchedule"
+                @close="state.modal.isVacationHoursOpen = false" />
             <ModulesUserDutyScheduleModalShiftDateRange :isModalOpen="state.modal.isDepartmentSickLeaveDateRangeOpen"
                 :dateRange="state.shiftDateRange" @close="state.modal.isDepartmentSickLeaveDateRangeOpen = false"
                 @filterDate="filterDutyScheduleDate" />
@@ -938,6 +909,7 @@ const state = reactive({
     },
     modal: {
         isAddShiftOpen: false,
+        isCompensatoryHoursOpen: false,
         isCopyMultipleWeeklyScheduleOpen: false,
         isDepartmentSickLeaveDateRangeOpen: false,
         isDownloadOpen: false,
@@ -948,6 +920,7 @@ const state = reactive({
         isManageSwapScheduleRequestsOpen: false,
         isRequestTimeAdjustmentOpen: false,
         isRequestSwapScheduleOpen: false,
+        isVacationHoursOpen: false,
         isViewShiftOpen: false,
     } as any,
     newShift: {
@@ -955,6 +928,9 @@ const state = reactive({
         selectedEmployee: {},
     },
     newShiftError: {} as Error,
+    normHours: {
+        selectedEmployeeSchedule: {}
+    },
     progress: {
         percentage: 100,
         pendingRequests: 0,
@@ -1306,6 +1282,16 @@ const weekDays = computed(() => {
 
 function isPastWeek() {
     return moment(currentDate.value).format('YYYY-MM-DD') < moment().format('YYYY-MM-DD')
+}
+
+function viewCompensatoryHours(employee: any) {
+    state.normHours.selectedEmployeeSchedule = employee
+    state.modal.isCompensatoryHoursOpen = true
+}
+
+function viewAvailableVacationHours(employee: any) {
+    state.normHours.selectedEmployeeSchedule = employee
+    state.modal.isVacationHoursOpen = true
 }
 
 function openAddNewShiftModal(employee: any, employeeIndex: number, weekIndex: any, week: any) {
