@@ -1013,7 +1013,6 @@ async function saveShift(shiftDetails: any) {
         date_time_end: shiftDetails.date_time_end,
         is_recurring: shiftDetails.recurring.is_recurring,
         recurring: shiftDetails.recurring.recurring,
-        recurring_until: shiftDetails.recurring.recurring_until,
         user_uuid: state.weeklySchedules?.data?.[employeeIndex].uuid,
         citizen_uuid: shiftDetails?.citizens,
         schedule_tag_uuid: shiftDetails.schedule_tag_uuid,
@@ -1021,6 +1020,28 @@ async function saveShift(shiftDetails: any) {
         use_compensatory_time: shiftDetails.use_compensatory_time,
         note: shiftDetails.note,
         do_no_count_sick_leave: shiftDetails.do_no_count_sick_leave,
+    } as any
+    if (shiftDetails.recurring.recurring !== 'custom') {
+        params.recurring_until = shiftDetails.recurring.recurring_until
+    } else {
+        params.frequency = shiftDetails.recurring.frequency
+        params.every = shiftDetails.recurring.every
+        if (shiftDetails.recurring.frequency === 'weekly') {
+            params.weekly_on = shiftDetails.recurring.weekly_on
+        } else if (shiftDetails.recurring.frequency === 'monthly') {
+            if (!shiftDetails.recurring.monthly_on_the_enabled) {
+                params.monthly_each = shiftDetails.recurring.monthly_each
+            } else {
+                params.monthly_on_the_sequence = shiftDetails.recurring.monthly_on_the_sequence
+                params.monthly_on_the_day = shiftDetails.recurring.monthly_on_the_day
+            }
+        } else if (shiftDetails.recurring.frequency === 'yearly') {
+            params.yearly_in_months = shiftDetails.recurring.yearly_in_months
+            if (shiftDetails.recurring.yearly_on_the_enabled) {
+                params.yearly_on_the_sequence = shiftDetails.recurring.yearly_on_the_sequence
+                params.yearly_on_the_day = shiftDetails.recurring.yearly_on_the_day
+            }
+        }
     }
     saveDutySchedule(params)
 }
