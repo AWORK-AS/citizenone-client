@@ -42,13 +42,18 @@ const state = reactive({
         shift_type: '',
         date_time_start: moment().startOf('day').add(8, 'hours').format('YYYY-MM-DD H:mm'),
         date_time_end: moment().startOf('day').add(17, 'hours').format('YYYY-MM-DD H:mm'),
+        recurring: {
+            is_recurring: false,
+            recurring: '',
+            recurring_until: '',
+            is_apply_to_all: false,
+        },
         citizens: [] as any,
         schedule_tag_uuid: [] as any,
         department_uuid: [] as any,
         use_compensatory_time: false,
         note: '',
         do_no_count_sick_leave: false,
-        is_recurring: false,
     },
 })
 
@@ -77,7 +82,7 @@ watch(() => props.selectedEmployeeSchedule, (selectedEmployeeSchedule: any) => {
         })
         state.formShift.note = selectedEmployeeSchedule?.note
         state.formShift.do_no_count_sick_leave = selectedEmployeeSchedule?.do_no_count_sick_leave
-        state.formShift.is_recurring = selectedEmployeeSchedule?.is_recurring
+        state.formShift.recurring.is_recurring = selectedEmployeeSchedule?.recurring.is_recurring
     }
 })
 

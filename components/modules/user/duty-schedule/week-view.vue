@@ -1171,7 +1171,7 @@ async function fetchDutySchedule() {
             state.weeklySchedules = response
             state.originalWeeklySchedules = JSON.parse(JSON.stringify(response?.data))
             fetchDutySchedulePercentage()
-            expandedRecords.splice(0, expandedRecords.length, ...response.data.map(() => true))
+            // expandedRecords.splice(0, expandedRecords.length, ...response.data.map(() => true))
             state.progress.totalRequests = state.progress.totalRequests - 1
             state.progress.pendingRequests = state.progress.pendingRequests - 1
             identifyTheProgressPercentage()
@@ -1345,9 +1345,9 @@ async function saveShift(shiftDetails: any) {
         shift_type_uuid: shiftType,
         date_time_start: shiftDetails.date_time_start,
         date_time_end: shiftDetails.date_time_end,
-        is_recurring: shiftDetails.is_recurring,
-        recurring: shiftDetails.recurring,
-        recurring_until: shiftDetails.recurring_until,
+        is_recurring: shiftDetails.recurring.is_recurring,
+        recurring: shiftDetails.recurring.recurring,
+        recurring_until: shiftDetails.recurring.recurring_until,
         user_uuid: state.weeklySchedules?.data?.[employeeIndex].uuid,
         citizen_uuid: shiftDetails?.citizens,
         schedule_tag_uuid: shiftDetails.schedule_tag_uuid,
@@ -1601,6 +1601,9 @@ function editSchedule(employee: any, employeeIndex: number, weekIndex: any, shif
         scheduleUuid: shift?.schedule_uuid,
         date_time_start: shift?.date_time_start,
         date_time_end: shift?.date_time_end,
+        recurring: {
+            is_recurring: shift?.is_recurring
+        },
         user_uuid: userUuid,
         date: date,
         shift_type: shift?.type,
@@ -1608,7 +1611,6 @@ function editSchedule(employee: any, employeeIndex: number, weekIndex: any, shif
         departments: shift?.departments,
         note: shift?.note,
         do_no_count_sick_leave: shift?.do_no_count_sick_leave,
-        is_recurring: shift?.is_recurring,
         employeeIndex: employeeIndex,
         weekIndex: weekIndex,
         shiftIndex: shiftIndex,
@@ -1625,7 +1627,7 @@ function updateSelectedSchedule(shiftDetails: any) {
         shift_type_uuid: shiftDetails.shift_type,
         date_time_start: shiftDetails?.date_time_start,
         date_time_end: shiftDetails?.date_time_end,
-        is_apply_to_all: shiftDetails?.is_apply_to_all,
+        is_apply_to_all: shiftDetails?.recurring?.is_apply_to_all,
         user_uuid: state.editShift.selectedEmployeeSchedule.user_uuid,
         citizen_uuid: shiftDetails.citizens,
         schedule_tag_uuid: shiftDetails.schedule_tag_uuid,
