@@ -4342,11 +4342,15 @@
         "everyMonth": "Hver måned",
         "everyYear": "Hvert år",
         "frequency": {
-            "daily": "Dagligt",
+            "daily": {
+                "daily": "Dagligt",
+                "days": "Dage"
+            },
             "frequency": "Hyppighed",
             "monthly": {
                 "each": "Hver",
                 "monthly": "Månedligt",
+                "months": "Måneder",
                 "onThe": {
                     "first": "Første",
                     "second": "Andet",
@@ -4358,7 +4362,10 @@
                     "onThe": "På"
                 }
             },
-            "weekly": "Ugentligt",
+            "weekly": {
+                "weekly": "Ugentligt",
+                "weeks": "Uger"
+            },
             "yearly": {
                 "January": "Januar",
                 "February": "Februar",
@@ -4373,7 +4380,8 @@
                 "November": "November",
                 "December": "December",
                 "daysOfWeek": "Ugedage",
-                "yearly": "Årligt"
+                "yearly": "Årligt",
+                "years": "År"
             }
         },
         "recurring": "Tilbagevendende",

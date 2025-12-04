@@ -3252,7 +3252,12 @@
             "inquirerName": "Inquirer name",
             "lastname": "Last name",
             "outcome": "Outcome (e.g. offered a place, rejection, referral)",
-            "purpose": "Purpose"
+            "purpose": "Purpose",
+            "status": {
+                "forConversion": "For conversion",
+                "convertedAsCitizen": "Converted as citizen",
+                "status": "Status"
+            }
         }
     },
     "invitation": {
@@ -4337,11 +4342,15 @@
         "everyMonth": "Every month",
         "everyYear": "Every year",
         "frequency": {
-            "daily": "Daily",
+            "daily": {
+                "daily": "Daily",
+                "days": "Days"
+            },
             "frequency": "Frequency",
             "monthly": {
                 "each": "Each",
                 "monthly": "Monthly",
+                "months": "Months",
                 "onThe": {
                     "first": "First",
                     "second": "Second",
@@ -4353,7 +4362,10 @@
                     "onThe": "On the"
                 }
             },
-            "weekly": "Weekly",
+            "weekly": {
+                "weekly": "Weekly",
+                "weeks": "Weeks"
+            },
             "yearly": {
                 "January": "January",
                 "February": "February",
@@ -4368,7 +4380,8 @@
                 "November": "November",
                 "December": "December",
                 "daysOfWeek": "Days of week",
-                "yearly": "Yearly"
+                "yearly": "Yearly",
+                "years": "Years"
             }
         },
         "recurring": "Recurring",
@@ -4378,7 +4391,7 @@
     },
     "register": {
         "form": {
-            "createAccount": "Create account",
+            "createFreeAccount": "Create free account",
             "alreadyHaveAnAccount": "Already have an account",
             "companyName": "Company name",
             "cvr": "CVR",
