@@ -347,8 +347,8 @@
                                                         class="col-span-7 space-y-2 mt-4 border-t-0.5 border-gray-200 pt-3">
                                                         <div :class="[
                                                             employee?.compensatory_hours?.total_in_hours > 0 ? 'text-green-700' : 'text-red-700',
-                                                            'flex items-center gap-1'
-                                                        ]">
+                                                            'flex items-center gap-1 w-fit cursor-pointer'
+                                                        ]" @click="viewCompensatoryHours(employee)">
                                                             <Icon name="ph:clock" class="h-3 w-3" aria-hidden="true" />
                                                             {{
                                                                 $t('dutySchedules.normHours.compensatoryHours')
@@ -364,8 +364,8 @@
                                                     <div class="col-span-7 space-y-2 mt-1">
                                                         <div :class="[
                                                             employee?.available_vacation_hours > 0 ? 'text-green-700' : 'text-red-700',
-                                                            'flex items-center gap-1'
-                                                        ]">
+                                                            'flex items-center gap-1 w-fit cursor-pointer'
+                                                        ]" @click="viewAvailableVacationHours(employee)">
                                                             <Icon name="ph:clock" class="h-3 w-3" aria-hidden="true" />
                                                             {{
                                                                 $t('dutySchedules.normHours.availableVacationHours')
@@ -553,6 +553,12 @@
                     <Pagination :data="state.weeklySchedules" @previous="previous" @next="next" />
                 </div>
             </div>
+            <ModulesUserDutyScheduleNormHoursModalCompensatoryHours :isModalOpen="state.modal.isCompensatoryHoursOpen"
+                :selectedEmployee="state.normHours.selectedEmployeeSchedule"
+                @close="state.modal.isCompensatoryHoursOpen = false" />
+            <ModulesUserDutyScheduleNormHoursModalVacationHours :isModalOpen="state.modal.isVacationHoursOpen"
+                :selectedEmployee="state.normHours.selectedEmployeeSchedule"
+                @close="state.modal.isVacationHoursOpen = false" />
             <ModulesUserDutyScheduleModalShiftDateRange :isModalOpen="state.modal.isDepartmentSickLeaveDateRangeOpen"
                 :dateRange="state.shiftDateRange" @close="state.modal.isDepartmentSickLeaveDateRangeOpen = false"
                 @filterDate="filterDutyScheduleDate" />
@@ -629,16 +635,21 @@ const state = reactive({
     isPageLoading: false,
     modal: {
         isAddShiftOpen: false,
+        isCompensatoryHoursOpen: false,
         isCopyMultipleWeeklyScheduleOpen: false,
         isDepartmentSickLeaveDateRangeOpen: false,
         isEditShiftOpen: false,
         isPublishScheduleOpen: false,
+        isVacationHoursOpen: false,
     } as any,
     newShift: {
         selectedDate: '',
         selectedEmployee: {},
     },
     newShiftError: {} as Error,
+    normHours: {
+        selectedEmployeeSchedule: {}
+    },
     progress: {
         percentage: 100,
         pendingRequests: 0,
@@ -964,6 +975,16 @@ const weekDays = computed(() => {
 
 function isPastWeek() {
     return moment(currentDate.value).format('YYYY-MM-DD') < moment().format('YYYY-MM-DD')
+}
+
+function viewCompensatoryHours(employee: any) {
+    state.normHours.selectedEmployeeSchedule = employee
+    state.modal.isCompensatoryHoursOpen = true
+}
+
+function viewAvailableVacationHours(employee: any) {
+    state.normHours.selectedEmployeeSchedule = employee
+    state.modal.isVacationHoursOpen = true
 }
 
 function openAddNewShiftModal(employee: any, employeeIndex: number, weekIndex: any, week: any) {
