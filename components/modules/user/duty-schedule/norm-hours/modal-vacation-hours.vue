@@ -6,7 +6,7 @@
                 <div class="space-y-1">
                     <div class="flex items-center gap-x-1">
                         <p class="text-sm">
-                            {{ $t('dutySchedules.normHours.compensatoryHoursThisYear') }}:
+                            {{ $t('dutySchedules.normHours.vacationHoursThisYear') }}:
                         </p>
                         <p :class="[
                             props.selectedEmployee?.current_norm_hours?.available_vacation_hours > 0 ? 'text-green-700' : 'text-red-700',
@@ -20,7 +20,7 @@
                     </div>
                     <div class="flex items-center gap-x-1">
                         <p class="text-sm">
-                            {{ $t('dutySchedules.normHours.compensatoryHourFromPreviousYear') }}:
+                            {{ $t('dutySchedules.normHours.vacationHoursFromPreviousYear') }}:
                         </p>
                         <p :class="[
                             props.selectedEmployee?.previous_year_norm_hours?.available_vacation_hours > 0 ? 'text-green-700' : 'text-red-700',
@@ -34,7 +34,7 @@
                     </div>
                     <div class="flex items-center gap-x-1">
                         <p class="text-sm">
-                            {{ $t('dutySchedules.normHours.totalCompensatoryHours') }}:
+                            {{ $t('dutySchedules.normHours.totalVacationHours') }}:
                         </p>
                         <p :class="[
                             props.selectedEmployee?.total_norm_hours?.available_vacation_hours > 0 ? 'text-green-700' : 'text-red-700',
