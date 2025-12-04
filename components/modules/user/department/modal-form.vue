@@ -113,7 +113,8 @@ async function fetchAllShifts() {
     state.error = {}
     emit('isPageLoading', true)
     try {
-        const response = await shiftService.getAllShifts()
+        const params = {}
+        const response = await shiftService.getAllShifts(params)
         if (response?.data) {
             let options: any = []
             response.data.forEach(
