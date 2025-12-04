@@ -343,7 +343,7 @@
                                                             {{ time?.yearly_hours }}
                                                         </p>
                                                     </div>
-                                                    <div
+                                                    <!-- <div
                                                         class="col-span-7 space-y-2 mt-4 border-t-0.5 border-gray-200 pt-3">
                                                         <div :class="[
                                                             employee?.compensatory_hours?.total_in_hours > 0 ? 'text-green-700' : 'text-red-700',
@@ -374,7 +374,7 @@
                                                                 employee?.available_vacation_hours ?? 0
                                                             }}
                                                         </div>
-                                                    </div>
+                                                    </div> -->
                                                 </div>
                                                 <div>
                                                     <button @click="toggleExpanded(employeeIndex)"
@@ -878,7 +878,6 @@ async function fetchDraftDutySchedule() {
             state.weeklySchedules = response
             state.originalWeeklySchedules = JSON.parse(JSON.stringify(response?.data))
             fetchDutySchedulePercentage()
-            expandedRecords.splice(0, expandedRecords.length, ...response.data.map(() => true))
             state.progress.totalRequests = state.progress.totalRequests - 1
             state.progress.pendingRequests = state.progress.pendingRequests - 1
             identifyTheProgressPercentage()
@@ -891,6 +890,13 @@ async function fetchDraftDutySchedule() {
     }
     state.isPageLoading = false
 }
+
+watch(() => state.weeklySchedules, (newSchedules) => {
+    // Update the expanded records only if the number of records changes.
+    if (newSchedules && newSchedules.data.length !== expandedRecords.length) {
+        expandedRecords.splice(0, expandedRecords.length, ...newSchedules.data.map(() => true))
+    }
+})
 
 function sortDutySchedule() {
     if (state.sortData.sortOrder === 'ascend') {
