@@ -20,8 +20,10 @@
 
                 <ModulesUserEmployeeTabs />
 
-                <Alert type="danger" :text="state?.error?.message"
-                    v-if="state.error?.message && state.error.message.length > 0" />
+                <div class="mt-5">
+                    <Alert type="danger" :text="state?.error?.message"
+                        v-if="state.error?.message && state.error.message.length > 0" />
+                </div>
 
                 <LoadingSpinner :isActive="state.isPageLoading">
                     <div class="flex h-full flex-col">
