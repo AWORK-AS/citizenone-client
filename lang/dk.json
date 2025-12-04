@@ -4321,7 +4321,6 @@
         "applyChangesToAllRecurringShifts": "Anvend ændringer på alle tilbagevendende vagter",
         "addThisSessions": "Tilføj denne session",
         "custom": "Brugerdefineret",
-        "day": "Dag",
         "days": {
             "monday": "Mandag",
             "tuesday": "Tirsdag",
@@ -4344,43 +4343,51 @@
         "frequency": {
             "daily": {
                 "daily": "Dagligt",
+                "day": "Dag",
                 "days": "Dage"
             },
             "frequency": "Hyppighed",
             "monthly": {
+                "day": "Dag",
                 "each": "Hver",
                 "monthly": "Månedligt",
-                "months": "Måneder",
-                "onThe": {
-                    "first": "Første",
-                    "second": "Andet",
-                    "third": "Tredje",
-                    "fourth": "Fjerde",
-                    "fifth": "Femte",
-                    "nextToLast": "Næstsidste",
-                    "last": "Sidste",
-                    "onThe": "På"
-                }
+                "month": "Måned",
+                "months": "Måneder"
+            },
+            "onThe": {
+                "first": "Første",
+                "second": "Andet",
+                "third": "Tredje",
+                "fourth": "Fjerde",
+                "fifth": "Femte",
+                "nextToLast": "Næstsidste",
+                "last": "Sidste",
+                "onThe": "På"
             },
             "weekly": {
                 "weekly": "Ugentligt",
+                "week": "Uge",
+                "weekOn": "Uge på",
                 "weeks": "Uger"
             },
             "yearly": {
-                "January": "Januar",
-                "February": "Februar",
-                "March": "Marts",
-                "April": "April",
-                "May": "Maj",
-                "June": "Juni",
-                "July": "Juli",
-                "August": "August",
-                "September": "September",
-                "October": "Oktober",
-                "November": "November",
-                "December": "December",
+                "january": "Januar",
+                "february": "Februar",
+                "march": "Marts",
+                "april": "April",
+                "may": "Maj",
+                "june": "Juni",
+                "july": "Juli",
+                "august": "August",
+                "september": "September",
+                "october": "Oktober",
+                "november": "November",
+                "december": "December",
                 "daysOfWeek": "Ugedage",
+                "onThe": "På",
                 "yearly": "Årligt",
+                "year": "År",
+                "yearIn": "År i",
                 "years": "År"
             }
         },
