@@ -25,11 +25,8 @@
 
                 <LoadingSpinner :isActive="state.isPageLoading">
                     <div class="flex h-full flex-col">
-                        <header class="grid grid-cols-1 md:grid-cols-3 md:items-center justify-between py-4 gap-3">
-                            <div>
-
-                            </div>
-                            <h3 class="text-base font-semibold leading-6 text-gray-900 text-center">
+                        <header class="grid grid-cols-1 md:grid-cols-2 md:items-center justify-between py-4 gap-3">
+                            <h3 class="text-base font-semibold leading-6 text-gray-900">
                                 <span v-if="month === 'January'">{{ $t('calendar.month.January') }}</span>
                                 <span v-if="month === 'February'">{{ $t('calendar.month.February') }}</span>
                                 <span v-if="month === 'March'">{{ $t('calendar.month.March') }}</span>
@@ -44,17 +41,15 @@
                                 <span v-if="month === 'December'">{{ $t('calendar.month.December') }}</span>
                                 {{ year }}
                             </h3>
-                            <div class="flex items-center justify-end">
+                            <div class="flex items-center justify-start md:justify-end">
                                 <div class="relative flex items-center rounded-md bg-white shadow-sm md:items-stretch">
                                     <button @click="previousWeek" type="button"
                                         class="flex h-9 w-12 items-center justify-center rounded-l-md border-y border-l border-gray-300 pr-1 text-gray-400 hover:text-gray-500 focus:relative md:w-9 md:pr-0 md:hover:bg-gray-50">
                                         <span class="sr-only">Previous week</span>
                                         <Icon name="heroicons:chevron-left" class="h-5 w-5" aria-hidden="true" />
                                     </button>
-                                    <button @click="setToday" type="button"
-                                        class="hidden border-y border-gray-300 px-3.5 text-sm font-semibold text-gray-900 hover:bg-gray-50 focus:relative md:block">
-                                        {{ $t('calendar.today') }}
-                                    </button>
+                                    <FormDateField id="date" name="date" :placeholder="$t('dutySchedules.form.date')"
+                                        dateType="duty-schedule" v-model="state.selectedDate" />
                                     <span class="relative -mx-px h-5 w-px bg-gray-300 md:hidden" />
                                     <button @click="nextWeek" type="button"
                                         class="flex h-9 w-12 items-center justify-center rounded-r-md border-y border-r border-gray-300 pl-1 text-gray-400 hover:text-gray-500 focus:relative md:w-9 md:pl-0 md:hover:bg-gray-50">
@@ -69,8 +64,8 @@
                                 <div>
                                     <div>
                                         <div class="shadow grid grid-cols-9">
-                                            <div class="col-span-2 border-0.5">
-                                                <div class="flex items-center gap-x-3 px-3 pt-3">
+                                            <div class="col-span-2 border-0.5 flex items-center">
+                                                <div class="px-3">
                                                     <p class="text-sm font-medium">
                                                         {{ $t('dutySchedules.week') }} {{ weekNumber }}
                                                     </p>
@@ -211,8 +206,8 @@
                                                                 class="col-span-7 space-y-2 mt-4 border-t-0.5 border-gray-200 pt-3">
                                                                 <div :class="[
                                                                     employee?.compensatory_hours?.total_in_hours > 0 ? 'text-green-700' : 'text-red-700',
-                                                                    'flex items-center gap-1'
-                                                                ]">
+                                                                    'flex items-center gap-1 w-fit cursor-pointer'
+                                                                ]" @click="viewCompensatoryHours(employee)">
                                                                     <Icon name="ph:clock" class="h-3 w-3"
                                                                         aria-hidden="true" />
                                                                     {{
@@ -227,8 +222,8 @@
                                                             <div class="col-span-7 space-y-2 mt-1">
                                                                 <div :class="[
                                                                     employee?.available_vacation_hours > 0 ? 'text-green-700' : 'text-red-700',
-                                                                    'flex items-center gap-1'
-                                                                ]">
+                                                                    'flex items-center gap-1 w-fit cursor-pointer'
+                                                                ]" @click="viewAvailableVacationHours(employee)">
                                                                     <Icon name="ph:clock" class="h-3 w-3"
                                                                         aria-hidden="true" />
                                                                     {{
@@ -312,6 +307,12 @@
                     </div>
                 </LoadingSpinner>
             </div>
+            <ModulesUserDutyScheduleNormHoursModalCompensatoryHours :isModalOpen="state.modal.isCompensatoryHoursOpen"
+                :selectedEmployee="state.normHours.selectedEmployeeSchedule"
+                @close="state.modal.isCompensatoryHoursOpen = false" />
+            <ModulesUserDutyScheduleNormHoursModalVacationHours :isModalOpen="state.modal.isVacationHoursOpen"
+                :selectedEmployee="state.normHours.selectedEmployeeSchedule"
+                @close="state.modal.isVacationHoursOpen = false" />
         </NuxtLayout>
     </div>
 </template>
@@ -353,6 +354,14 @@ const state = reactive({
     customWeekLabel: 'week',
     error: {} as Error,
     isPageLoading: false,
+    modal: {
+        isCompensatoryHoursOpen: false,
+        isVacationHoursOpen: false,
+    },
+    normHours: {
+        selectedEmployeeSchedule: {}
+    },
+    selectedDate: moment().format('YYYY-MM-DD'),
     shiftDateRange: {
         formDateRange: {
             start_date: moment().startOf('week').add(1, 'day'),
@@ -371,6 +380,13 @@ watch(() => departmentStore.getSelectedDepartmentName, (newValue: any) => {
 
 onMounted(() => {
     fetchDutySchedule()
+})
+
+watch(() => state.selectedDate, (newSelectedDate: any) => {
+    if (newSelectedDate) {
+        currentDate.value = moment(newSelectedDate)
+        fetchDutySchedule()
+    }
 })
 
 function sortMultiDayShiftsFirst(shifts: any) {
@@ -480,9 +496,20 @@ function toggleExpanded(index: number) {
     expandedRecords[index] = !expandedRecords[index]
 }
 
+function viewCompensatoryHours(employee: any) {
+    state.normHours.selectedEmployeeSchedule = employee
+    state.modal.isCompensatoryHoursOpen = true
+}
+
+function viewAvailableVacationHours(employee: any) {
+    state.normHours.selectedEmployeeSchedule = employee
+    state.modal.isVacationHoursOpen = true
+}
+
 function previousWeek() {
     state.customWeekLabel = 'week'
     currentDate.value = moment(currentDate.value).subtract(1, 'week')
+    state.selectedDate = moment(currentDate.value).format('YYYY-MM-DD')
     fetchDutySchedule()
 }
 
@@ -495,6 +522,7 @@ function setToday() {
 function nextWeek() {
     state.customWeekLabel = 'week'
     currentDate.value = moment(currentDate.value).add(1, 'week')
+    state.selectedDate = moment(currentDate.value).format('YYYY-MM-DD')
     fetchDutySchedule()
 }
 
