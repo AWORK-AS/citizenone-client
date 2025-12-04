@@ -39,17 +39,16 @@
                 </div>
                 <div class="space-y-3" v-if="state.formNotification.is_recurring">
                     <div class="space-y-1">
-                        <FormLabel for="recurring" :label="$t('plansandgoals.notifications.form.recurring.repeat')" />
+                        <FormLabel for="recurring" :label="$t('recurring.repeat')" />
                         <FormSelect id="recurring" :options="state.options.recurringSchedules"
                             v-model="state.formNotification.recurring" />
                         <FormError :error="v$?.formNotification?.recurring?.$errors[0]?.$message.toString()" />
                         <FormError :error="state?.error?.errors?.recurring_uuid?.[0]" />
                     </div>
                     <div class="space-y-1">
-                        <FormLabel for="recurring_until"
-                            :label="$t('plansandgoals.notifications.form.recurring.until')" />
+                        <FormLabel for="recurring_until" :label="$t('recurring.until')" />
                         <FormDateField id="recurring_until" name="recurring_until"
-                            :placeholder="`${$t('plansandgoals.notifications.form.recurring.until')}`"
+                            :placeholder="`${$t('recurring.until')}`"
                             v-model="state.formNotification.recurring_until" />
                         <FormError :error="v$?.formNotification.recurring_until?.$errors[0]?.$message.toString()" />
                         <FormError :error="state?.error?.errors?.recurring_until?.[0]" />
@@ -127,12 +126,12 @@ const state = reactive({
     options: {
         contactPersons: [],
         recurringSchedules: [
-            { value: 'everyday', label: `${t('plansandgoals.notifications.form.recurring.everyDay')}` },
-            { value: 'every_week', label: `${t('plansandgoals.notifications.form.recurring.everyWeek')}` },
-            { value: 'every_second_week', label: `${t('plansandgoals.notifications.form.recurring.everySecondWeek')}` },
-            { value: 'every_third_week', label: `${t('plansandgoals.notifications.form.recurring.everyThirdWeek')}` },
-            { value: 'every_fourth_week', label: `${t('plansandgoals.notifications.form.recurring.everyFourthWeek')}` },
-            { value: 'every_month', label: `${t('plansandgoals.notifications.form.recurring.everyMonth')}` },
+            { value: 'everyday', label: `${t('recurring.everyDay')}` },
+            { value: 'every_week', label: `${t('recurring.everyWeek')}` },
+            { value: 'every_second_week', label: `${t('recurring.everySecondWeek')}` },
+            { value: 'every_third_week', label: `${t('recurring.everyThirdWeek')}` },
+            { value: 'every_fourth_week', label: `${t('recurring.everyFourthWeek')}` },
+            { value: 'every_month', label: `${t('recurring.everyMonth')}` },
         ],
     },
 })

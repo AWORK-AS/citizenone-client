@@ -26,7 +26,7 @@
                                     <td width="10%">
                                         <div>
                                             <Badge type="primary" class="w-fit" v-if="data?.type === 'recurring'">
-                                                {{ $t('superadmin.orders.table.recurring') }}
+                                                {{ $t('recurring.recurring') }}
                                             </Badge>
                                             <Badge type="active" class="w-fit" v-else>
                                                 {{ $t('superadmin.orders.table.new') }}

@@ -30,43 +30,43 @@
                                                 <div class="flex items-center flex-wrap gap-x-0.5">
                                                     <p>
                                                         {{
-                                                            $t('plansandgoals.notifications.table.recurring.recurring')
+                                                            $t('recurring.recurring')
                                                         }}
                                                     </p>
                                                     <div class="lowercase">
                                                         <p v-if="notification?.recurring === 'everyday'">
                                                             {{
-                                                                $t('plansandgoals.notifications.table.recurring.everyDay')
+                                                                $t('recurring.everyDay')
                                                             }}
                                                         </p>
 
                                                         <p v-if="notification?.recurring === 'every_week'">
                                                             {{
-                                                                $t('plansandgoals.notifications.table.recurring.everyWeek')
+                                                                $t('recurring.everyWeek')
                                                             }}
                                                         </p>
 
                                                         <p v-if="notification?.recurring === 'every_second_week'">
                                                             {{
-                                                                $t('plansandgoals.notifications.table.recurring.everySecondWeek')
+                                                                $t('recurring.everySecondWeek')
                                                             }}
                                                         </p>
 
                                                         <p v-if="notification?.recurring === 'every_third_week'">
                                                             {{
-                                                                $t('plansandgoals.notifications.table.recurring.everyThirdWeek')
+                                                                $t('recurring.everyThirdWeek')
                                                             }}
                                                         </p>
 
                                                         <p v-if="notification?.recurring === 'every_fourth_week'">
                                                             {{
-                                                                $t('plansandgoals.notifications.table.recurring.everyFourthWeek')
+                                                                $t('recurring.everyFourthWeek')
                                                             }}
                                                         </p>
 
                                                         <p v-if="notification?.recurring === 'every_month'">
                                                             {{
-                                                                $t('plansandgoals.notifications.table.recurring.everyMonth')
+                                                                $t('recurring.everyMonth')
                                                             }}
                                                         </p>
 
@@ -78,7 +78,7 @@
                                                 <div class="flex items-center flex-wrap gap-x-0.5">
 
                                                     <p class="lowercase">
-                                                        {{ $t('plansandgoals.notifications.table.recurring.until') }}
+                                                        {{ $t('recurring.until') }}
                                                     </p>
                                                     <p>
                                                         {{ formatDateToReadable(notification?.recurring_until) }}

@@ -1614,7 +1614,6 @@ function editSchedule(employee: any, employeeIndex: number, weekIndex: any, shif
         shiftIndex: shiftIndex,
     }
     state.modal.isEditShiftOpen = true
-    console.log('shift', shift)
 }
 
 function updateSelectedSchedule(shiftDetails: any) {

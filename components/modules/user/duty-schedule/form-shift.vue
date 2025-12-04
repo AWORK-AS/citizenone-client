@@ -36,7 +36,7 @@
                     </div>
                 </div>
             </div>
-            <Alert type="warning" :text="$t('dutySchedules.form.recurring.youAreEditingARecurringShift')"
+            <Alert type="warning" :text="$t('recurring.youAreEditingARecurringShift')"
                 v-if="props.selectedShift?.is_recurring" />
             <div class="space-y-1">
                 <FormLabel for="shift_type" :label="$t('dutySchedules.typeOfShift')" />
@@ -84,17 +84,16 @@
                 </div>
                 <div class="space-y-3" v-if="state.formShift.is_recurring">
                     <div class="space-y-1">
-                        <FormLabel for="recurring" :label="$t('dutySchedules.form.recurring.repeat')" />
+                        <FormLabel for="recurring" :label="$t('recurring.repeat')" />
                         <FormSelect id="recurring" :options="state.options.recurringSchedules"
                             v-model="state.formShift.recurring" />
                         <FormError :error="v$?.formShift?.recurring?.$errors[0]?.$message.toString()" />
                         <FormError :error="state?.error?.errors?.recurring_uuid?.[0]" />
                     </div>
                     <div class="space-y-1">
-                        <FormLabel for="recurring_until" :label="$t('dutySchedules.form.recurring.until')" />
+                        <FormLabel for="recurring_until" :label="$t('recurring.until')" />
                         <FormDateField id="recurring_until" name="recurring_until"
-                            :placeholder="`${$t('dutySchedules.form.recurring.until')}`"
-                            v-model="state.formShift.recurring_until" />
+                            :placeholder="`${$t('recurring.until')}`" v-model="state.formShift.recurring_until" />
                         <FormError :error="v$?.formShift.recurring_until?.$errors[0]?.$message.toString()" />
                         <FormError :error="state?.error?.errors?.recurring_until?.[0]" />
                     </div>
@@ -103,7 +102,7 @@
                     <div class="w-fit flex items-center cursor-pointer"
                         @click="state.formShift.is_apply_to_all = !state.formShift.is_apply_to_all">
                         <FormCheckbox :value="state.formShift.is_apply_to_all" />
-                        {{ $t('dutySchedules.form.recurring.applyChangesToAllRecurringShifts') }}
+                        {{ $t('recurring.applyChangesToAllRecurringShifts') }}
                     </div>
                 </div>
                 <div class="space-y-1"
@@ -231,12 +230,12 @@ const state = reactive({
         citizens: [],
         departments: [],
         recurringSchedules: [
-            { value: 'everyday', label: `${t('dutySchedules.form.recurring.everyDay')}` },
-            { value: 'every_week', label: `${t('dutySchedules.form.recurring.everyWeek')}` },
-            { value: 'every_second_week', label: `${t('dutySchedules.form.recurring.everySecondWeek')}` },
-            { value: 'every_third_week', label: `${t('dutySchedules.form.recurring.everyThirdWeek')}` },
-            { value: 'every_fourth_week', label: `${t('dutySchedules.form.recurring.everyFourthWeek')}` },
-            { value: 'every_month', label: `${t('dutySchedules.form.recurring.everyMonth')}` },
+            { value: 'everyday', label: `${t('recurring.everyDay')}` },
+            { value: 'every_week', label: `${t('recurring.everyWeek')}` },
+            { value: 'every_second_week', label: `${t('recurring.everySecondWeek')}` },
+            { value: 'every_third_week', label: `${t('recurring.everyThirdWeek')}` },
+            { value: 'every_fourth_week', label: `${t('recurring.everyFourthWeek')}` },
+            { value: 'every_month', label: `${t('recurring.everyMonth')}` },
         ],
         scheduleTags: [],
         shifts: [] as any

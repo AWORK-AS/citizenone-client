@@ -449,18 +449,7 @@
                 "dateTimeEnd": "Dato og tid slut",
                 "dateTimeStart": "Dato og tid start",
                 "description": "Beskrivelse",
-                "name": "Navn",
-                "recurring": {
-                    "addThisSessions": "Tilføj denne session",
-                    "everyDay": "Hver dag",
-                    "everyWeek": "Hver uge",
-                    "everySecondWeek": "Hver anden uge",
-                    "everyThirdWeek": "Hver tredje uge",
-                    "everyFourthWeek": "Hver fjerde uge",
-                    "everyMonth": "Hver måned",
-                    "repeat": "Gentag",
-                    "until": "Indtil"
-                }
+                "name": "Navn"
             },
             "settings": {
                 "availableSpotsAtThisEvent": "Tilgængelige pladser ved denne begivenhed",
@@ -501,16 +490,7 @@
                 "description": "Beskrivelse",
                 "image": "Billede",
                 "name": "Navn",
-                "postcode": "Postnummer",
-                "recurring": {
-                    "everyDay": "Hver dag",
-                    "everyWeek": "Hver uge",
-                    "everySecondWeek": "Hver anden uge",
-                    "everyThirdWeek": "Hver tredje uge",
-                    "everyFourthWeek": "Hver fjerde uge",
-                    "everyMonth": "Hver måned",
-                    "until": "Indtil"
-                }
+                "postcode": "Postnummer"
             },
             "settings": {
                 "availableSpotsAtThisEvent": "Tilgængelige pladser ved denne begivenhed",
@@ -2387,18 +2367,6 @@
             "inMeeting": "I møde",
             "note": "Bemærkning",
             "private": "Privat",
-            "recurring": {
-                "applyChangesToAllRecurringShifts": "Anvend ændringer på alle tilbagevendende vagter",
-                "everyDay": "Hver dag",
-                "everyWeek": "Hver uge",
-                "everySecondWeek": "Hver anden uge",
-                "everyThirdWeek": "Hver tredje uge",
-                "everyFourthWeek": "Hver fjerde uge",
-                "everyMonth": "Hver måned",
-                "repeat": "Gentag",
-                "until": "Indtil",
-                "youAreEditingARecurringShift": "Du redigerer en tilbagevendende vagt"
-            },
             "tags": "Etiketter",
             "title": "Titel",
             "useCompensatoryTime": "Brug afspadseringstid",
@@ -2932,17 +2900,6 @@
             "employees": "Medarbejdere",
             "eventOwner": "Begivenhedsejer",
             "private": "Privat",
-            "recurring": {
-                "addThisSessions": "Tilføj denne session",
-                "everyDay": "Hver dag",
-                "everyWeek": "Hver uge",
-                "everySecondWeek": "Hver anden uge",
-                "everyThirdWeek": "Hver tredje uge",
-                "everyFourthWeek": "Hver fjerde uge",
-                "everyMonth": "Hver måned",
-                "repeat": "Gentag",
-                "until": "Indtil"
-            },
             "sendInvitation": "Send invitationen",
             "tags": "Etiketter",
             "title": "Titel"
@@ -3346,7 +3303,6 @@
             "date": "Dato",
             "invoiceNumber": "Fakturanummer",
             "new": "Ny",
-            "recurring": "Tilbagevendende",
             "status": "Status",
             "serviceFee": "Servicegebyr"
         }
@@ -4124,17 +4080,6 @@
                 },
                 "dateTime": "Dato og tid",
                 "note": "Bemærkning",
-                "recurring": {
-                    "addThisSessions": "Tilføj denne session",
-                    "everyDay": "Hver dag",
-                    "everyWeek": "Hver uge",
-                    "everySecondWeek": "Hver anden uge",
-                    "everyThirdWeek": "Hver tredje uge",
-                    "everyFourthWeek": "Hver fjerde uge",
-                    "everyMonth": "Hver måned",
-                    "repeat": "Gentag",
-                    "until": "Indtil"
-                },
                 "repeatNotification": "Gentag notifikation",
                 "users": "Brugere"
             },
@@ -4153,18 +4098,6 @@
                 },
                 "dateTime": "Dato og tid",
                 "note": "Bemærkning",
-                "recurring": {
-                    "addThisSessions": "Tilføj denne session",
-                    "everyDay": "Hver dag",
-                    "everyWeek": "Hver uge",
-                    "everySecondWeek": "Hver anden uge",
-                    "everyThirdWeek": "Hver tredje uge",
-                    "everyFourthWeek": "Hver fjerde uge",
-                    "everyMonth": "Hver måned",
-                    "recurring": "Tilbagevendende",
-                    "repeat": "Gentag",
-                    "until": "Indtil"
-                },
                 "users": "Brugere"
             }
         },
@@ -4371,6 +4304,70 @@
                 "attended": "Tilstede"
             }
         }
+    },
+    "recurring": {
+        "applyChangesToAllRecurringShifts": "Anvend ændringer på alle tilbagevendende vagter",
+        "addThisSessions": "Tilføj denne session",
+        "custom": "Brugerdefineret",
+        "day": "Dag",
+        "days": {
+            "monday": "Mandag",
+            "tuesday": "Tirsdag",
+            "wednesday": "Onsdag",
+            "thursday": "Torsdag",
+            "friday": "Fredag",
+            "saturday": "Lørdag",
+            "sunday": "Søndag",
+            "weekday": "Hverdage",
+            "weekendDay": "Weekenddag"
+        },
+        "every": "Hver",
+        "everyDay": "Hver dag",
+        "everyWeek": "Hver uge",
+        "everySecondWeek": "Hver anden uge",
+        "everyThirdWeek": "Hver tredje uge",
+        "everyFourthWeek": "Hver fjerde uge",
+        "everyMonth": "Hver måned",
+        "everyYear": "Hvert år",
+        "frequency": {
+            "daily": "Dagligt",
+            "frequency": "Hyppighed",
+            "monthly": {
+                "each": "Hver",
+                "monthly": "Månedligt",
+                "onThe": {
+                    "first": "Første",
+                    "second": "Andet",
+                    "third": "Tredje",
+                    "fourth": "Fjerde",
+                    "fifth": "Femte",
+                    "nextToLast": "Næstsidste",
+                    "last": "Sidste",
+                    "onThe": "På"
+                }
+            },
+            "weekly": "Ugentligt",
+            "yearly": {
+                "January": "Januar",
+                "February": "Februar",
+                "March": "Marts",
+                "April": "April",
+                "May": "Maj",
+                "June": "Juni",
+                "July": "Juli",
+                "August": "August",
+                "September": "September",
+                "October": "Oktober",
+                "November": "November",
+                "December": "December",
+                "daysOfWeek": "Ugedage",
+                "yearly": "Årligt"
+            }
+        },
+        "recurring": "Tilbagevendende",
+        "repeat": "Gentag",
+        "until": "Indtil",
+        "youAreEditingARecurringShift": "Du redigerer en tilbagevendende vagt"
     },
     "register": {
         "form": {
@@ -5200,7 +5197,6 @@
                 "data": "Data",
                 "date": "Dato",
                 "new": "Ny",
-                "recurring": "Tilbagevendende",
                 "referenceNumber": "Referencenummer",
                 "status": "Status",
                 "type": "Type",
@@ -5218,7 +5214,6 @@
                 "date": "Dato",
                 "invoiceNumber": "Fakturanummer",
                 "new": "Ny",
-                "recurring": "Tilbagevendende",
                 "status": "Status"
             }
         },
