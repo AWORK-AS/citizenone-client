@@ -1257,6 +1257,7 @@ function editSchedule(employee: any, employeeIndex: number, weekIndex: any, shif
         departments: shift?.departments,
         note: shift?.note,
         do_no_count_sick_leave: shift?.do_no_count_sick_leave,
+        is_recurring: shift?.is_recurring,
         employeeIndex: employeeIndex,
         weekIndex: weekIndex,
         shiftIndex: shiftIndex,

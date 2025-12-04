@@ -36,6 +36,8 @@
                     </div>
                 </div>
             </div>
+            <Alert type="warning" :text="$t('dutySchedules.form.recurring.youAreEditingARecurringShift')"
+                v-if="props.selectedShift?.is_recurring" />
             <div class="space-y-1">
                 <FormLabel for="shift_type" :label="$t('dutySchedules.typeOfShift')" />
                 <FormSelect id="shift_type" name="shift_type" :options="state.options.shifts"

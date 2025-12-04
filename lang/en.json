@@ -2396,7 +2396,8 @@
                 "everyFourthWeek": "Every fourth week",
                 "everyMonth": "Every month",
                 "repeat": "Repeat",
-                "until": "Until"
+                "until": "Until",
+                "youAreEditingARecurringShift": "You are editing a recurring shift"
             },
             "tags": "Tags",
             "title": "Title",

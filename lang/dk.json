@@ -2396,7 +2396,8 @@
                 "everyFourthWeek": "Hver fjerde uge",
                 "everyMonth": "Hver måned",
                 "repeat": "Gentag",
-                "until": "Indtil"
+                "until": "Indtil",
+                "youAreEditingARecurringShift": "Du redigerer en tilbagevendende vagt"
             },
             "tags": "Etiketter",
             "title": "Titel",
