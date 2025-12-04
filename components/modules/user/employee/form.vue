@@ -241,7 +241,7 @@
                 </p>
             </div>
             <div class="md:col-span-2 space-y-3 bg-white shadow-sm ring-1 ring-gray-900/5 rounded-lg px-4 py-6 sm:p-8">
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-3" v-if="isAdmin(userStore.getUser?.roles)">
                     <div class="space-y-1" ref="salaryIDField">
                         <FormLabel for="salary_id" :label="$t('employees.form.employment.salaryID')" />
                         <FormTextField id="salary_id" name="salary_id"
@@ -251,7 +251,7 @@
                             :error="v$?.formEmployee?.employment?.annual_norm_hours?.$errors[0]?.$message.toString()" />
                         <FormError :error="props?.error?.errors?.annual_norm_hours?.[0]" />
                     </div>
-                    <div class="space-y-1" ref="employmentDateField" v-if="isAdmin(userStore.getUser?.roles)">
+                    <div class="space-y-1" ref="employmentDateField">
                         <FormLabel for="employment_date" :label="$t('employees.form.employment.employmentDate')" />
                         <FormDateField id="employment_date" name="employment_date"
                             :placeholder="$t('employees.form.employment.employmentDate')"
