@@ -1361,7 +1361,7 @@ async function saveShift(shiftDetails: any) {
         do_not_count_sick_leave: shiftDetails.do_not_count_sick_leave,
         is_recurring: shiftDetails.recurring.is_recurring,
         recurring: shiftDetails.recurring.recurring,
-        recurring_until: shiftDetails.recurring.recurring_until
+        recurring_until: shiftDetails.recurring.recurring_until,
     } as any
     if (shiftDetails.recurring.recurring === 'custom') {
         params.frequency = shiftDetails.recurring.frequency

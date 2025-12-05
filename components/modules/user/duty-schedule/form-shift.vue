@@ -98,7 +98,7 @@
                         <FormError :error="v$?.formShift?.recurring.recurring?.$errors[0]?.$message.toString()" />
                         <FormError :error="state?.error?.errors?.recurring_uuid?.[0]" />
                     </div>
-                    <div class="space-y-1" v-if="state.formShift.recurring.recurring !== 'custom'">
+                    <div class="space-y-1">
                         <FormLabel for="recurring_until" :label="$t('recurring.until')" />
                         <FormDateField id="recurring_until" name="recurring_until"
                             :placeholder="`${$t('recurring.until')}`"
@@ -524,6 +524,9 @@ const rules = computed(() => {
                 },
                 recurring: {
                     recurring: {
+                        required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
+                    },
+                    recurring_until: {
                         required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
                     },
                 }
