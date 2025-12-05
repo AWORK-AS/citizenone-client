@@ -74,6 +74,13 @@ watch(() => language.locale.value, () => {
     fetchDepartments()
 })
 
+watch(() => state.departments, (departments: any) => {
+    if (departmentStore.getSelectedDepartmentName === '') {
+        departmentStore.setSelectedDepartment(departments?.data?.[0])
+        departmentStore.setSelectedDepartmentName(departments?.data?.[0]?.name)
+    }
+})
+
 async function fetchDepartments() {
     state.error = {}
     try {
