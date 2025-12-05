@@ -34,8 +34,7 @@
 
                 <div>
                     <div class="mt-8 flex justify-end items-center mb-5 gap-x-2">
-                        <FormButton buttonStyle="action" class="rounded-lg"
-                            @click="navigateTo(`/citizens/${citizenUuid}/children/new`)">
+                        <FormButton buttonStyle="action" class="rounded-lg" @click="state.modal.isAddChildOpen = true">
                             <Icon name="ph:plus" class="h-4 w-4" aria-hidden="true" />
                             {{ $t('children.newChild') }}
                         </FormButton>
@@ -81,16 +80,15 @@
                         </Table>
                     </div>
                     <Pagination :data="state.children" @previous="previous" @next="next" />
-                    <!-- </div>
-                <ModulesUserCitizenContactModalNew :isModalOpen="state.modal.isAddContactOpen"
-                    @close="state.modal.isAddContactOpen = false" @refreshContacts="fetchChildren" />
-                <ModulesUserCitizenContactModalEdit :isModalOpen="state.modal.isEditContactOpen"
-                    :selectedContact="state.selectedContact" @close="state.modal.isEditContactOpen = false"
-                    @refreshContacts="fetchChildren" /> -->
-                    <DialogConfirmation :isModalOpen="state.modal.isDeleteChildOpen"
-                        :message="$t('children.table.confirmation.deleteConfirmation') + '?'"
-                        @close="state.modal.isDeleteChildOpen = false" @confirm="deleteContact" />
                 </div>
+                <ModulesUserCitizenChildModalNew :isModalOpen="state.modal.isAddChildOpen"
+                    @close="state.modal.isAddChildOpen = false" @refreshContacts="fetchChildren" />
+                <ModulesUserCitizenChildModalEdit :isModalOpen="state.modal.isEditChildOpen"
+                    :selectedChild="state.selectedChild" @close="state.modal.isEditChildOpen = false"
+                    @refreshChildren="fetchChildren" />
+                <DialogConfirmation :isModalOpen="state.modal.isDeleteChildOpen"
+                    :message="$t('children.table.confirmation.deleteConfirmation') + '?'"
+                    @close="state.modal.isDeleteChildOpen = false" @confirm="deleteContact" />
             </div>
         </NuxtLayout>
     </div>
@@ -135,7 +133,9 @@ const state = reactive({
     error: {} as Error,
     isTableLoading: false,
     modal: {
+        isAddChildOpen: false,
         isDeleteChildOpen: false,
+        isEditChildOpen: false,
     },
     selectedChild: {} as any,
     sortData: {
