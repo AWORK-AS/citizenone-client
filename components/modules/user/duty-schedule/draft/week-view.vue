@@ -42,8 +42,7 @@
                     </div>
                 </div>
                 <div class="flex items-start justify-end gap-x-3">
-                    <FormButton buttonStyle="action" class="rounded-lg"
-                        @click="state.modal.isPublishScheduleOpen = true">
+                    <FormButton buttonStyle="action" class="rounded-lg" @click="state.modal.isPublishDraftOpen = true">
                         <Icon name="ph:check" class="h-4 w-4" aria-hidden="true" />
                         {{ $t('dutySchedules.draft.publish') }}
                     </FormButton>
@@ -553,6 +552,8 @@
                     <Pagination :data="state.weeklySchedules" @previous="previous" @next="next" />
                 </div>
             </div>
+            <ModulesUserDutyScheduleDraftModalPublish :isModalOpen="state.modal.isPublishDraftOpen"
+                @close="state.modal.isPublishDraftOpen = false" @refreshDutySchedules="fetchDraftDutySchedule()" />
             <ModulesUserDutyScheduleNormHoursModalCompensatoryHours :isModalOpen="state.modal.isCompensatoryHoursOpen"
                 :selectedEmployee="state.normHours.selectedEmployeeSchedule"
                 @close="state.modal.isCompensatoryHoursOpen = false" />
@@ -575,11 +576,11 @@
                 :isModalOpen="state.modal.isCopyMultipleWeeklyScheduleOpen"
                 @close="state.modal.isCopyMultipleWeeklyScheduleOpen = false"
                 @refreshDutySchedules="fetchDraftDutySchedule()" />
-            <DialogConfirmation :isModalOpen="state.modal.isPublishScheduleOpen"
+            <!-- <DialogConfirmation :isModalOpen="state.modal.isPublishDraftOpen"
                 :message="['All departments', 'Alle afdelinger'].includes(departmentStore.getSelectedDepartmentName) ?
                     $t('dutySchedules.draft.confirmation.publishForAllDepartmentConfirmation') + '?' :
                     $t('dutySchedules.draft.confirmation.publishForSpecificDepartmentConfirmation') + ' ' + departmentStore.getSelectedDepartmentName + '?'"
-                @close="state.modal.isPublishScheduleOpen = false" @confirm="publishSchedule" />
+                @close="state.modal.isPublishDraftOpen = false" @confirm="publishSchedule" /> -->
         </LoadingSpinner>
     </div>
 </template>
@@ -639,7 +640,7 @@ const state = reactive({
         isCopyMultipleWeeklyScheduleOpen: false,
         isDepartmentSickLeaveDateRangeOpen: false,
         isEditShiftOpen: false,
-        isPublishScheduleOpen: false,
+        isPublishDraftOpen: false,
         isVacationHoursOpen: false,
     } as any,
     newShift: {
