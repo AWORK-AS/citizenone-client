@@ -2377,6 +2377,7 @@
             "description": "Description",
             "doNotCountSickLeaveAsWorkingHours": "Do not count sick leave as working hours",
             "inMeeting": "In Meeting",
+            "markAsSickLeave": "Mark as sick leave",
             "note": "Note",
             "private": "Private",
             "tags": "Tags",

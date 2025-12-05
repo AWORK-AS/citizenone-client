@@ -1349,6 +1349,7 @@ async function saveShift(shiftDetails: any) {
     const shiftType = shiftDetails.shift_type
     const params = {
         shift_type_uuid: shiftType,
+        is_sleeping_sick_leave: shiftDetails.is_sleeping_sick_leave,
         date_time_start: shiftDetails.date_time_start,
         date_time_end: shiftDetails.date_time_end,
         is_recurring: shiftDetails.recurring.is_recurring,
@@ -1652,6 +1653,7 @@ function updateSelectedSchedule(shiftDetails: any) {
     const shiftIndex = state.editShift.selectedEmployeeSchedule.shiftIndex
     const params = {
         shift_type_uuid: shiftDetails.shift_type,
+        is_sleeping_sick_leave: shiftDetails.is_sleeping_sick_leave,
         date_time_start: shiftDetails?.date_time_start,
         date_time_end: shiftDetails?.date_time_end,
         is_apply_to_all: shiftDetails?.recurring?.is_apply_to_all,

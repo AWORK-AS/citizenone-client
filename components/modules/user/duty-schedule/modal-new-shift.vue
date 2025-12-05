@@ -40,6 +40,7 @@ const state = reactive({
     isPageLoading: false,
     formShift: {
         shift_type: '',
+        is_sleeping_sick_leave: false,
         date_time_start: moment().startOf('day').add(8, 'hours').format('YYYY-MM-DD H:mm'),
         date_time_end: moment().startOf('day').add(17, 'hours').format('YYYY-MM-DD H:mm'),
         recurring: {

@@ -46,6 +46,14 @@
                 <FormError :error="props?.error?.errors?.shift_uuid?.[0]" />
             </div>
             <div class="space-y-3" v-if="state.formShift.shift_type">
+                <div class="space-y-1"
+                    v-if="(['sleeping-night-shift'].includes(state.options.shifts.find((shift: any) => shift.value === state.formShift.shift_type)?.system_name))">
+                    <div class="w-fit flex items-center cursor-pointer"
+                        @click="state.formShift.is_sleeping_sick_leave = !state.formShift.is_sleeping_sick_leave">
+                        <FormCheckbox :value="state.formShift.is_sleeping_sick_leave" />
+                        {{ $t('dutySchedules.form.markAsSickLeave') }}
+                    </div>
+                </div>
                 <div class="space-y-1">
                     <div class="flex justify-between items-center py-0.5">
                         <FormLabel for="department_uuid" :label="$t('dutySchedules.form.departments')" />
@@ -328,6 +336,7 @@ const state = reactive({
     error: {} as Error,
     formShift: {
         shift_type: '',
+        is_sleeping_sick_leave: false,
         date_time_start: moment().startOf('day').add(8, 'hours').format('YYYY-MM-DD H:mm'),
         date_time_end: moment().startOf('day').add(17, 'hours').format('YYYY-MM-DD H:mm'),
         recurring: {
@@ -462,6 +471,7 @@ onMounted(() => {
     fetchAllScheduleTags()
     fetchAllCitizensPerUserDepartment()
     state.formShift.shift_type = props.selectedShift.shift_type
+    state.formShift.is_sleeping_sick_leave = props.selectedShift.is_sleeping_sick_leave
     state.formShift.date_time_start = props.selectedShift.date_time_start
     state.formShift.date_time_end = props.selectedShift.date_time_end
     state.formShift.citizens = props.selectedShift.citizens
