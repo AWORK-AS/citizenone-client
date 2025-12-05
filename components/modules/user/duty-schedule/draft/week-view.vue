@@ -1014,8 +1014,6 @@ async function saveShift(shiftDetails: any) {
         is_sleeping_sick_leave: shiftDetails.is_sleeping_sick_leave,
         date_time_start: shiftDetails.date_time_start,
         date_time_end: shiftDetails.date_time_end,
-        is_recurring: shiftDetails.recurring.is_recurring,
-        recurring: shiftDetails.recurring.recurring,
         user_uuid: state.weeklySchedules?.data?.[employeeIndex].uuid,
         citizen_uuid: shiftDetails?.citizens,
         schedule_tag_uuid: shiftDetails.schedule_tag_uuid,
@@ -1023,10 +1021,11 @@ async function saveShift(shiftDetails: any) {
         use_compensatory_time: shiftDetails.use_compensatory_time,
         note: shiftDetails.note,
         do_not_count_sick_leave: shiftDetails.do_not_count_sick_leave,
+        is_recurring: shiftDetails.recurring.is_recurring,
+        recurring: shiftDetails.recurring.recurring,
+        recurring_until: shiftDetails.recurring.recurring_until,
     } as any
-    if (shiftDetails.recurring.recurring !== 'custom') {
-        params.recurring_until = shiftDetails.recurring.recurring_until
-    } else {
+    if (shiftDetails.recurring.recurring === 'custom') {
         params.frequency = shiftDetails.recurring.frequency
         params.every = shiftDetails.recurring.every
         if (shiftDetails.recurring.frequency === 'weekly') {
