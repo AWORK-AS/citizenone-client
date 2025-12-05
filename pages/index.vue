@@ -198,6 +198,8 @@ async function login() {
                     state.modal.isGoogle2faVerificationOpen = true
                 } else {
                     localStorage.setItem("_token", response.data?.token)
+                    departmentStore.resetSelectedDepartment()
+                    departmentStore.resetSelectedDepartmentColor()
                     departmentStore.resetSelectedDepartmentName()
                     userStore.setUser(response?.data?.user)
                     userStore.setLanguage(response?.data?.user?.language?.code)
