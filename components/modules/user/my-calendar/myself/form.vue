@@ -454,9 +454,6 @@ const rules = computed(() => {
     if (state.formSchedule.recurring.is_recurring) {
         return {
             formSchedule: {
-                citizens: {
-                    required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
-                },
                 title: {
                     required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
                 },
@@ -473,15 +470,12 @@ const rules = computed(() => {
                     recurring_until: {
                         required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
                     },
-                }
+                },
             },
         }
     } else {
         return {
             formSchedule: {
-                citizens: {
-                    required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
-                },
                 title: {
                     required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
                 },
@@ -491,6 +485,7 @@ const rules = computed(() => {
                 date_time_end: {
                     required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
                 },
+                recurring: {},
             },
         }
     }
@@ -500,6 +495,7 @@ const v$ = useVuelidate(rules, state)
 
 function submitForm() {
     v$.value.$validate()
+    console.log('test', v$.value)
     if (!v$.value.$error) {
         emit('submitForm', state.formSchedule)
     }

@@ -462,9 +462,6 @@ const rules = computed(() => {
     if (state.formSchedule.recurring.is_recurring) {
         return {
             formSchedule: {
-                citizens: {
-                    required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
-                },
                 title: {
                     required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
                 },
@@ -487,9 +484,6 @@ const rules = computed(() => {
     } else {
         return {
             formSchedule: {
-                citizens: {
-                    required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
-                },
                 title: {
                     required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
                 },
@@ -499,6 +493,7 @@ const rules = computed(() => {
                 date_time_end: {
                     required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
                 },
+                recurring: {},
             },
         }
     }

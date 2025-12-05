@@ -1126,7 +1126,7 @@
         "form": {
             "addictions": "Substance abuse",
             "alert": {
-                "successfullyAdded": "New citizens successfully saved",
+                "successfullyAdded": "New citizen successfully saved",
                 "successfullyUpdate": "Citizen successfully updated"
             },
             "allocatedHours": {

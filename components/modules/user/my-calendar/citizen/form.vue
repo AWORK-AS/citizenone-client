@@ -7,7 +7,7 @@
                 <FormLabel for="citizens" :label="$t('events.form.citizens')" />
                 <FormSelectMultiple id="citizens" name="citizens" :options="state.options.citizens"
                     v-model="state.formSchedule.citizens" />
-                <FormError :error="v$?.formProtocol?.citizens?.$errors[0]?.$message.toString()" />
+                <FormError :error="v$?.formSchedule?.citizens?.$errors[0]?.$message.toString()" />
                 <FormError :error="props?.error?.errors?.citizens_uuid?.[0]" />
             </div>
             <div class="space-y-1">
