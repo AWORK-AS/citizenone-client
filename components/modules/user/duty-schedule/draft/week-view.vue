@@ -1021,7 +1021,7 @@ async function saveShift(shiftDetails: any) {
         department_uuid: shiftDetails.department_uuid,
         use_compensatory_time: shiftDetails.use_compensatory_time,
         note: shiftDetails.note,
-        do_no_count_sick_leave: shiftDetails.do_no_count_sick_leave,
+        do_not_count_sick_leave: shiftDetails.do_not_count_sick_leave,
     } as any
     if (shiftDetails.recurring.recurring !== 'custom') {
         params.recurring_until = shiftDetails.recurring.recurring_until
@@ -1288,7 +1288,7 @@ function editSchedule(employee: any, employeeIndex: number, weekIndex: any, shif
         tags: shift?.tags,
         departments: shift?.departments,
         note: shift?.note,
-        do_no_count_sick_leave: shift?.do_no_count_sick_leave,
+        do_not_count_sick_leave: shift?.do_not_count_sick_leave,
         employeeIndex: employeeIndex,
         weekIndex: weekIndex,
         shiftIndex: shiftIndex,
@@ -1312,7 +1312,7 @@ function updateSelectedSchedule(shiftDetails: any) {
         schedule_tag_uuid: shiftDetails.schedule_tag_uuid,
         department_uuid: shiftDetails.department_uuid,
         note: shiftDetails.note,
-        do_no_count_sick_leave: shiftDetails.do_no_count_sick_leave,
+        do_not_count_sick_leave: shiftDetails.do_not_count_sick_leave,
     }
     updateDutySchedule(scheduleUuid, params, employeeIndex, weekIndex, shiftIndex)
 }

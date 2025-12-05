@@ -594,7 +594,7 @@ const state = reactive({
             trustees: [],
         },
         show_working_hours: false,
-        do_no_count_sick_leave: false,
+        do_not_count_sick_leave: false,
     } as EmployeeForm,
     isChangePassword: false,
     modal: {
@@ -688,7 +688,7 @@ watch(() => props.selectedEmployee, (newValue: any) => {
                 vacation_days: newValue.employment.vacation_days,
             },
             show_working_hours: newValue.show_working_hours,
-            do_no_count_sick_leave: newValue.do_no_count_sick_leave,
+            do_not_count_sick_leave: newValue.do_not_count_sick_leave,
         }
         fetchMunicipalitiesPerRegion(newValue.region_uuid)
         fetchCities(newValue.municipality_uuid)

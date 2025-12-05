@@ -65,7 +65,7 @@ const state = reactive({
         department_uuid: [] as any,
         use_compensatory_time: false,
         note: '',
-        do_no_count_sick_leave: false,
+        do_not_count_sick_leave: false,
     },
 })
 
@@ -94,7 +94,7 @@ watch(() => props.selectedEmployeeSchedule, (selectedEmployeeSchedule: any) => {
             state.formShift.department_uuid.push(department.uuid)
         })
         state.formShift.note = selectedEmployeeSchedule?.note
-        state.formShift.do_no_count_sick_leave = selectedEmployeeSchedule?.do_no_count_sick_leave
+        state.formShift.do_not_count_sick_leave = selectedEmployeeSchedule?.do_not_count_sick_leave
         state.formShift.recurring.is_recurring = selectedEmployeeSchedule?.recurring.is_recurring
     }
 })
