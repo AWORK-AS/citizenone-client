@@ -2163,7 +2163,7 @@
             "region": "Region",
             "ssn": "Social security number",
             "street": "Street"
-        },
+        }
     },
     "clientInvoices": {
         "clientInvoices": "Client invoices",
