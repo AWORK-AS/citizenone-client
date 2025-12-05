@@ -2121,7 +2121,7 @@
     },
     "children": {
         "children": "Børn",
-        "editCitizen": "Rediger børn",
+        "editChild": "Rediger børn",
         "form": {
             "alert": {
                 "childSuccessfullyAdded": "Barn blev gemt",

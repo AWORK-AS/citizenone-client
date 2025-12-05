@@ -68,9 +68,14 @@
                                         <div class="flex items-end justify-end gap-2">
                                             <Tooltip :text="$t('children.table.actions.edit')">
                                                 <FormButton type="button" buttonStyle="action" class="rounded-md"
-                                                    @click="navigateTo(`/citizens/children/${citizenUuid}/children/${citizenUuid}/edit`)"
-                                                    v-if="userStore.getUser?.roles?.[0]?.name === 'Admin'">
+                                                    @click="editChild(child)">
                                                     <Icon name="ph:pencil-simple" class="size-4" />
+                                                </FormButton>
+                                            </Tooltip>
+                                            <Tooltip :text="$t('children.table.actions.delete')">
+                                                <FormButton type="button" buttonStyle="danger" class="rounded-md"
+                                                    @click="deleteChildConfirmation(child)">
+                                                    <Icon name="heroicons:trash" class="size-4" />
                                                 </FormButton>
                                             </Tooltip>
                                         </div>
@@ -82,7 +87,7 @@
                     <Pagination :data="state.children" @previous="previous" @next="next" />
                 </div>
                 <ModulesUserCitizenChildModalNew :isModalOpen="state.modal.isAddChildOpen"
-                    @close="state.modal.isAddChildOpen = false" @refreshContacts="fetchChildren" />
+                    @close="state.modal.isAddChildOpen = false" @refreshChildren="fetchChildren" />
                 <ModulesUserCitizenChildModalEdit :isModalOpen="state.modal.isEditChildOpen"
                     :selectedChild="state.selectedChild" @close="state.modal.isEditChildOpen = false"
                     @refreshChildren="fetchChildren" />
@@ -196,9 +201,10 @@ function handleSearch(value: any) {
 
 function editChild(child: any) {
     state.selectedChild = child
+    state.modal.isEditChildOpen = true
 }
 
-function deleteContactConfirmation(child: any) {
+function deleteChildConfirmation(child: any) {
     state.selectedChild = child
     state.modal.isDeleteChildOpen = true
 }

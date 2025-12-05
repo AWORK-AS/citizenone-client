@@ -219,6 +219,21 @@ watch(() => state.formChild.social_security_number, (ssn) => {
 onMounted(() => {
     fetchRegions()
     fetchMunicipalities()
+    state.formChild = {
+        firstname: props.selectedChild?.firstname,
+        lastname: props.selectedChild?.lastname,
+        gender: props.selectedChild?.gender,
+        email: props.selectedChild?.email,
+        social_security_number: props.selectedChild?.social_security_number,
+        birthday: props.selectedChild?.birthday,
+        phone: props.selectedChild?.phone,
+        street: props.selectedChild?.street,
+        region_uuid: props.selectedChild?.region?.uuid,
+        municipality_uuid: props.selectedChild?.municipality?.uuid,
+        city: props.selectedChild?.city,
+        post_code: props.selectedChild?.post_code,
+    }
+    console.log('test', props.selectedChild)
 })
 
 const isValidDate = (y: string, m: string, d: string): boolean => {

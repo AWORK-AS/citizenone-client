@@ -2121,7 +2121,7 @@
     },
     "children": {
         "children": "Chilren",
-        "editCitizen": "Edit children",
+        "editChild": "Edit children",
         "form": {
             "alert": {
                 "childSuccessfullyAdded": "Child successfully saved",
