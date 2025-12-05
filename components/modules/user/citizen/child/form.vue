@@ -180,19 +180,19 @@ watch(() => language.locale.value, () => {
 })
 
 watch(() => state.formChild.social_security_number, (ssn) => {
-    if (ssn.length === 10) {
+    if (ssn?.length === 10) {
         state.formChild.social_security_number = ssn.slice(0, 6) + '-' + ssn.slice(6)
     }
 })
 
 watch(() => state.formChild.social_security_number, (ssn) => {
     // Format social security number with a hyphen after six digits
-    if (ssn.length === 10) {
+    if (ssn?.length === 10) {
         state.formChild.social_security_number = ssn.slice(0, 6) + '-' + ssn.slice(6)
     }
 
     // Check if the length is at least six digits to derive the birthdate
-    if (ssn.length >= 6) {
+    if (ssn?.length >= 6) {
         const day = ssn.slice(0, 2)
         const month = ssn.slice(2, 4)
         let year = ssn.slice(4, 6)
@@ -219,6 +219,7 @@ watch(() => state.formChild.social_security_number, (ssn) => {
 onMounted(() => {
     fetchRegions()
     fetchMunicipalities()
+    fetchMunicipalitiesPerRegion(props.selectedChild?.region?.uuid)
     state.formChild = {
         firstname: props.selectedChild?.firstname,
         lastname: props.selectedChild?.lastname,
@@ -233,7 +234,6 @@ onMounted(() => {
         city: props.selectedChild?.city,
         post_code: props.selectedChild?.post_code,
     }
-    console.log('test', props.selectedChild)
 })
 
 const isValidDate = (y: string, m: string, d: string): boolean => {
@@ -244,7 +244,7 @@ const isValidDate = (y: string, m: string, d: string): boolean => {
 const formattedSocialSecurityNumber = computed<string>({
     get() {
         const ssn = state.formChild.social_security_number
-        if (ssn.length === 10) {
+        if (ssn?.length === 10) {
             return ssn.slice(0, 6) + '-' + ssn.slice(6)
         }
         return ssn
@@ -256,7 +256,7 @@ const formattedSocialSecurityNumber = computed<string>({
 
 function updateSocialSecurityNumber(event: Event) {
     const target = event.target as HTMLInputElement
-    state.formChild.social_security_number = target.value.replace(/-/g, '')
+    state.formChild.social_security_number = target.value?.replace(/-/g, '')
 }
 
 function changeSelectedRegion(regionUuid: string) {
