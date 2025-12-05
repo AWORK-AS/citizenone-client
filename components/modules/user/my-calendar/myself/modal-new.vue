@@ -1,6 +1,6 @@
 <template>
     <div>
-        <Modal size="xs" :title="$t('events.newEvent')" :show="props.isModalOpen" @close="closeModal">
+        <Modal size="sm" :title="$t('events.newEvent')" :show="props.isModalOpen" @close="closeModal">
             <template #modal-body>
                 <LoadingSpinner :isActive="state.isPageLoading">
                     <ModulesUserMyCalendarMyselfForm formType="create" :selectedSchedule="state.formSchedule"
@@ -93,6 +93,8 @@ async function saveSchedule(scheduleDetails: any) {
             users_uuid: scheduleDetails.users_uuid,
             calendar_tag_uuid: scheduleDetails.calendar_tag_uuid,
             send_invitation: scheduleDetails.send_invitation,
+            is_recurring: scheduleDetails.recurring.is_recurring,
+            recurring: scheduleDetails.recurring.recurring,
         } as any
         if (scheduleDetails.recurring.recurring !== 'custom') {
             params.recurring_until = scheduleDetails.recurring.recurring_until

@@ -88,6 +88,8 @@ async function saveSchedule(scheduleDetails: any) {
             calendar_tag_uuid: scheduleDetails.calendar_tag_uuid,
             is_private: scheduleDetails.is_private,
             send_invitation: scheduleDetails.send_invitation,
+            is_recurring: scheduleDetails.recurring.is_recurring,
+            recurring: scheduleDetails.recurring.recurring,
         } as any
         if (scheduleDetails.recurring.recurring !== 'custom') {
             params.recurring_until = scheduleDetails.recurring.recurring_until

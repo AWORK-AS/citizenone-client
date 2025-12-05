@@ -94,6 +94,8 @@ async function saveSchedule(scheduleDetails: any) {
             citizens_uuid: scheduleDetails.citizens_uuid,
             users_uuid: scheduleDetails.users_uuid,
             send_invitation: scheduleDetails.send_invitation,
+            is_recurring: scheduleDetails.recurring.is_recurring,
+            recurring: scheduleDetails.recurring.recurring,
         } as any
         if (scheduleDetails.recurring.recurring !== 'custom') {
             params.recurring_until = scheduleDetails.recurring.recurring_until
