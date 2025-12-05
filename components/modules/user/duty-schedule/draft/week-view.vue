@@ -770,32 +770,33 @@ function sortMultiDayShiftsFirst(shifts: any) {
 }
 
 function calculateShiftWidth(shift: any, weekIndex: string) {
-    const startDay = moment(shift?.date_time_start).startOf('day')
-    const endDay = moment(shift?.date_time_end).startOf('day')
-    const dayDifference = endDay.diff(startDay, 'days')
+    const shiftStart = moment(shift.date_time_start).startOf('day')
+    const shiftEnd = moment(shift.date_time_end).startOf('day')
 
-    if (weekIndex === 'sunday') {
-        return 'auto'
+    const weekStart = moment(currentDate.value).startOf('isoWeek')
+    const weekEnd = moment(currentDate.value).endOf('isoWeek')
+
+    // Clamp the shift range to the current week range
+    const visibleStart = shiftStart.isBefore(weekStart) ? weekStart : shiftStart
+    const visibleEnd = shiftEnd.isAfter(weekEnd) ? weekEnd : shiftEnd
+
+    let dayDifference = visibleEnd.diff(visibleStart, 'days')
+
+    // Special case: if shift ends at exactly 00:00, don't count the last day
+    const endsAtMidnight = moment(shift.date_time_end).format('HH:mm:ss') === '00:00:00'
+    if (endsAtMidnight) {
+        dayDifference--
     }
 
-    if (dayDifference === 1) {
-        if (moment(shift?.date_time_end).format('HH:mm:ss') === '00:00:00') {
-            return 'auto'
+    if (weekIndex === 'sunday') return 'auto'
 
-        } else {
-            return '17.5rem' // Width for shifts spanning 2 days
-        }
-    } else if (dayDifference === 2) {
-        return '27rem' // Width for shifts spanning 3 days
-    } else if (dayDifference === 3) {
-        return '36.5rem' // Width for shifts spanning 4 days
-    } else if (dayDifference === 4) {
-        return '46rem' // Width for shifts spanning 5 days
-    } else if (dayDifference === 5) {
-        return '55.5rem' // Width for shifts spanning 6 days
-    } else if (dayDifference >= 6) {
-        return '65rem' // Width for shifts spanning 7 days
-    }
+    if (dayDifference <= 0) return 'auto'
+    if (dayDifference === 1) return '17.5rem'
+    if (dayDifference === 2) return '27rem'
+    if (dayDifference === 3) return '36.5rem'
+    if (dayDifference === 4) return '46rem'
+    if (dayDifference === 5) return '55.5rem'
+    return '65rem'
 }
 
 function calculateMarginTop(schedules: any, weekIndex: string, shiftIndex: number) {
