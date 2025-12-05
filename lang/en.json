@@ -1803,6 +1803,7 @@
         "tabs": {
             "attendance": "Attendance",
             "calendar": "Calendar",
+            "children": "Children",
             "contacts": "Contacts",
             "documents": "Documents",
             "economy": "Economy",
@@ -2158,6 +2159,7 @@
             "gender": "Gender",
             "lastname": "Last name",
             "municipality": "Municipality",
+            "name": "Name",
             "phone": "Phone",
             "postCode": "Post Code",
             "region": "Region",

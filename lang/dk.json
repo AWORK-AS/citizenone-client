@@ -1803,6 +1803,7 @@
         "tabs": {
             "attendance": "Fremmøde",
             "calendar": "Kalender",
+            "children": "Børn",
             "contacts": "Kontakter",
             "documents": "Dokumenter",
             "economy": "Økonomi",
@@ -2158,6 +2159,7 @@
             "gender": "Køn",
             "lastname": "Efternavn",
             "municipality": "Kommune",
+            "name": "Navn",
             "phone": "Telefon",
             "postCode": "Postnummer",
             "region": "Region",

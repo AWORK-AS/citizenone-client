@@ -17,7 +17,7 @@ class CitizenChildService extends BaseAPIService {
         return await this.request(`/user/citizen-children/${citizenChildrenUuid}`, 'PUT', params)
     }
 
-    async deleteCitizenChild(citizenChildrenUuid: any, params: object): Promise<any> {
+    async deleteCitizenChild(citizenChildrenUuid: any): Promise<any> {
         return await this.request(`/user/citizen-children/${citizenChildrenUuid}`, 'DELETE')
     }
 }
