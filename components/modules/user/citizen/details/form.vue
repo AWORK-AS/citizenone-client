@@ -873,19 +873,19 @@ watch(() => language.locale.value, (language: any) => {
 })
 
 watch(() => state.formCitizen.social_security_number, (ssn) => {
-    if (ssn.length === 10) {
+    if (ssn?.length === 10) {
         state.formCitizen.social_security_number = ssn.slice(0, 6) + '-' + ssn.slice(6)
     }
 })
 
 watch(() => state.formCitizen.social_security_number, (ssn) => {
     // Format social security number with a hyphen after six digits
-    if (ssn.length === 10) {
+    if (ssn?.length === 10) {
         state.formCitizen.social_security_number = ssn.slice(0, 6) + '-' + ssn.slice(6)
     }
 
     // Check if the length is at least six digits to derive the birthdate
-    if (ssn.length >= 6) {
+    if (ssn?.length >= 6) {
         const day = ssn.slice(0, 2)
         const month = ssn.slice(2, 4)
         let year = ssn.slice(4, 6)
@@ -1244,7 +1244,7 @@ function onCitizenImageChange(event: any) {
 const formattedSocialSecurityNumber = computed<string>({
     get() {
         const ssn = state.formCitizen.social_security_number
-        if (ssn.length === 10) {
+        if (ssn?.length === 10) {
             return ssn.slice(0, 6) + '-' + ssn.slice(6)
         }
         return ssn
