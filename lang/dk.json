@@ -2118,6 +2118,53 @@
             "walletTransactions": "Transaktionshistorik"
         }
     },
+    "children": {
+        "children": "Børn",
+        "editCitizen": "Rediger børn",
+        "form": {
+            "alert": {
+                "childSuccessfullyAdded": "Barn blev gemt",
+                "childSuccessfullyUpdate": "Barn blev opdateret"
+            },
+            "birthday": "Fødselsdag",
+            "city": "By",
+            "emailAddress": "E-mailadresse",
+            "firstname": "Fornavn",
+            "gender": "Køn",
+            "lastname": "Efternavn",
+            "municipality": "Kommune",
+            "phone": "Telefon",
+            "postCode": "Postnummer",
+            "region": "Region",
+            "ssn": "Cpr-nummer",
+            "street": "Gade"
+        },
+        "newChild": "Nyt barn",
+        "table": {
+            "actions": {
+                "delete": "Slet",
+                "edit": "Rediger"
+            },
+            "alert": {
+                "childSuccessfullyDeleted": "Barn blev slettet"
+            },
+            "birthday": "Fødselsdag",
+            "city": "By",
+            "confirmation": {
+                "deleteConfirmation": "Er du sikker på, at du vil slette dette barn?"
+            },
+            "emailAddress": "E-mailadresse",
+            "firstname": "Fornavn",
+            "gender": "Køn",
+            "lastname": "Efternavn",
+            "municipality": "Kommune",
+            "phone": "Telefon",
+            "postCode": "Postnummer",
+            "region": "Region",
+            "ssn": "Cpr-nummer",
+            "street": "Gade"
+        }
+    },
     "clientInvoices": {
         "clientInvoices": "Kundefakturaer",
         "editInvoice": "Rediger faktura",

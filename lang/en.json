@@ -2118,6 +2118,53 @@
             "walletTransactions": "Wallet transactions"
         }
     },
+    "children": {
+        "children": "Chilren",
+        "editCitizen": "Edit children",
+        "form": {
+            "alert": {
+                "childSuccessfullyAdded": "Child successfully saved",
+                "childSuccessfullyUpdate": "Child successfully updated"
+            },
+            "birthday": "Birthday",
+            "city": "City",
+            "emailAddress": "Email address",
+            "firstname": "First name",
+            "gender": "Gender",
+            "lastname": "Last name",
+            "municipality": "Municipality",
+            "phone": "Phone",
+            "postCode": "Post Code",
+            "region": "Region",
+            "ssn": "Social security number",
+            "street": "Street"
+        },
+        "newChild": "New child",
+        "table": {
+            "actions": {
+                "delete": "Delete",
+                "edit": "Edit"
+            },
+            "alert": {
+                "childSuccessfullyDeleted": "Child successfully deleted"
+            },
+            "birthday": "Birthday",
+            "city": "City",
+            "confirmation": {
+                "deleteConfirmation": "Are you sure you want to delete this child"
+            },
+            "emailAddress": "Email address",
+            "firstname": "First name",
+            "gender": "Gender",
+            "lastname": "Last name",
+            "municipality": "Municipality",
+            "phone": "Phone",
+            "postCode": "Post Code",
+            "region": "Region",
+            "ssn": "Social security number",
+            "street": "Street"
+        },
+    },
     "clientInvoices": {
         "clientInvoices": "Client invoices",
         "editInvoice": "Edit invoice",
