@@ -7,140 +7,119 @@
         <Alert type="danger" :text="state?.copyShiftError?.message"
             v-if="state.copyShiftError?.message && state.copyShiftError.message.length > 0" />
         <LoadingSpinner :isActive="state.isPageLoading">
-            <div class="flex flex-col lg:flex-row justify-between gap-3">
-                <div class="lg:order-none order-last">
-                    <div class="font-medium mt-2 space-x-0.5">
-                        {{ $t('dutySchedules.typeOfShifts') }}:
-                        <button class="text-xs text-primary hover:text-primary-700 hover:underline"
-                            @click="state.modal.isDepartmentSickLeaveDateRangeOpen = true">
-                            ({{ formatDateToReadable(state.shiftDateRange.formDateRange.start_date) }} -
-                            {{ formatDateToReadable(state.shiftDateRange.formDateRange.end_date) }})
-                        </button>
-                        <button @click="state.showAllShiftTypes = !state.showAllShiftTypes"
-                            class="text-primary text-xs hover:text-primary-700">
-                            {{ state.showAllShiftTypes ?
-                                $t('showLess') :
-                                $t('showMore') }}
-                        </button>
-                    </div>
-                    <div :class="[!state.showAllShiftTypes && 'line-clamp-1 h-6']">
-                        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-x-4 text-sm">
-                            <div class="flex items-center justify-between gap-x-2"
-                                v-for="(shiftPercentage, index) in state.shiftPercentage?.data" :key="index">
-                                <div class="flex items-center gap-x-2">
-                                    <div class="w-3 h-3 rounded-sm"
-                                        :style="{ backgroundColor: shiftPercentage?.color }">
-                                    </div>
-                                    <span>
-                                        {{ language.locale.value === 'en' ? shiftPercentage?.en_name :
-                                            shiftPercentage?.dk_name }}
-                                    </span>
-                                </div>
-                                <p class="text-xs">{{ shiftPercentage?.percentage }}%</p>
+            <div class="flex h-full flex-col">
+                <header class="grid grid-cols-1 xl:grid-cols-3 justify-between gap-3 py-3">
+                    <div class="space-y-2">
+                        <div class="flex items-center">
+                            <div class="relative flex items-center rounded-md bg-white shadow-sm md:items-stretch">
+                                <button @click="previousWeek()" type="button"
+                                    class="flex h-11 w-12 items-center justify-center rounded-l-md border-y border-l border-gray-300 pr-1 text-gray-400 hover:text-gray-500 focus:relative md:w-9 md:pr-0 md:hover:bg-gray-50">
+                                    <span class="sr-only">Previous week</span>
+                                    <Icon name="heroicons:chevron-left" class="h-5 w-5" aria-hidden="true" />
+                                </button>
+                                <FormDateField id="date" name="date" :placeholder="$t('dutySchedules.form.date')"
+                                    dateType="duty-schedule" v-model="state.selectedDate" />
+                                <span class="relative -mx-px h-5 w-px bg-gray-300 md:hidden" />
+                                <button @click="nextWeek()" type="button"
+                                    class="flex h-11 w-12 items-center justify-center rounded-r-md border-y border-r border-gray-300 pl-1 text-gray-400 hover:text-gray-500 focus:relative md:w-9 md:pl-0 md:hover:bg-gray-50">
+                                    <span class="sr-only">Next week</span>
+                                    <Icon name="heroicons:chevron-right" class="h-5 w-5" aria-hidden="true" />
+                                </button>
                             </div>
                         </div>
-                    </div>
-                </div>
-                <div class="flex items-start justify-end gap-x-3">
-                    <FormButton buttonStyle="action" class="rounded-lg" @click="state.modal.isPublishDraftOpen = true">
-                        <Icon name="ph:check" class="h-4 w-4" aria-hidden="true" />
-                        {{ $t('dutySchedules.draft.publish') }}
-                    </FormButton>
-                </div>
-            </div>
-            <div class="flex h-full flex-col">
-                <header class="grid grid-cols-1 xl:grid-cols-2 xl:items-center justify-between py-4 gap-3">
-                    <div />
-                    <div class="flex items-center justify-start md:justify-end">
-                        <div class="relative flex items-center rounded-md bg-white shadow-sm md:items-stretch">
-                            <button @click="previousWeek" type="button"
-                                class="flex h-9 w-12 items-center justify-center rounded-l-md border-y border-l border-gray-300 pr-1 text-gray-400 hover:text-gray-500 focus:relative md:w-9 md:pr-0 md:hover:bg-gray-50">
-                                <span class="sr-only">Previous week</span>
-                                <Icon name="heroicons:chevron-left" class="h-5 w-5" aria-hidden="true" />
-                            </button>
-                            <FormDateField id="date" name="date" :placeholder="$t('dutySchedules.form.date')"
-                                dateType="duty-schedule" v-model="state.selectedDate" />
-                            <span class="relative -mx-px h-5 w-px bg-gray-300 md:hidden" />
-                            <button @click="nextWeek" type="button"
-                                class="flex h-9 w-12 items-center justify-center rounded-r-md border-y border-r border-gray-300 pl-1 text-gray-400 hover:text-gray-500 focus:relative md:w-9 md:pl-0 md:hover:bg-gray-50">
-                                <span class="sr-only">Next week</span>
-                                <Icon name="heroicons:chevron-right" class="h-5 w-5" aria-hidden="true" />
-                            </button>
-                        </div>
-                    </div>
-                </header>
-                <div class="flex items-center gap-x-2">
-                    <Tooltip
-                        :text="state.sortData.sortOrder === 'ascend' ? $t('dutySchedules.sort.sortNamesInDescendingOrder') : $t('dutySchedules.sort.sortNamesInAscendingOrder')"
-                        position="right">
-                        <button
-                            class="flex items-center justify-center gap-x-2 outline-none rounded-md text-xs truncate font-semibold bg-tertiary border border-tertiary text-white hover:bg-tertiary-800 px-3 py-3.5"
-                            @click="sortDutySchedule">
-                            <Icon name="heroicons:arrow-down" class="h-4 w-4" aria-hidden="true"
-                                v-show="state.sortData?.sortOrder === 'ascend'" />
-                            <Icon name="heroicons:arrow-up" class="h-4 w-4" aria-hidden="true"
-                                v-show="state.sortData?.sortOrder === 'descend'" />
+                        <button @click="setToday()" class="text-primary text-sm hover:text-primary-700">
+                            {{ $t('goToToday') }}
                         </button>
-                    </Tooltip>
-                    <div class="grow">
+                    </div>
+                    <div />
+                    <div>
                         <TableSearch @search="handleSearch" />
                     </div>
-                </div>
-                <div class="space-y-2 mt-4 mb-2">
-                    <div class="flex justify-between items-center">
-                        <h3 class="text-base font-semibold leading-6 text-gray-900 text-center">
-                            <span v-if="month === 'January'">{{ $t('calendar.month.January') }}</span>
-                            <span v-if="month === 'February'">{{ $t('calendar.month.February') }}</span>
-                            <span v-if="month === 'March'">{{ $t('calendar.month.March') }}</span>
-                            <span v-if="month === 'April'">{{ $t('calendar.month.April') }}</span>
-                            <span v-if="month === 'May'">{{ $t('calendar.month.May') }}</span>
-                            <span v-if="month === 'June'">{{ $t('calendar.month.June') }}</span>
-                            <span v-if="month === 'July'">{{ $t('calendar.month.July') }}</span>
-                            <span v-if="month === 'August'">{{ $t('calendar.month.August') }}</span>
-                            <span v-if="month === 'September'">{{ $t('calendar.month.September') }}</span>
-                            <span v-if="month === 'October'">{{ $t('calendar.month.October') }}</span>
-                            <span v-if="month === 'November'">{{ $t('calendar.month.November') }}</span>
-                            <span v-if="month === 'December'">{{ $t('calendar.month.December') }}</span>
-                            {{ year }}
-                        </h3>
-                        <div class="flex items-center gap-x-1 text-sm">
-                            <span>{{ $t('entriesPerPage') }}:</span>
-                            <select class="focus:outline-none bg-transparent" @change="changePageLength"
-                                id="citizensPageLength">
-                                <option value="10" :selected="draftDutyScheduleStore.getCurrentPageLength === '10'">
-                                    10
-                                </option>
-                                <option value="20" :selected="draftDutyScheduleStore.getCurrentPageLength === '20'">
-                                    20
-                                </option>
-                                <option value="30" :selected="draftDutyScheduleStore.getCurrentPageLength === '30'">
-                                    30
-                                </option>
-                                <option value="40" :selected="draftDutyScheduleStore.getCurrentPageLength === '40'">
-                                    40
-                                </option>
-                                <option value="50" :selected="draftDutyScheduleStore.getCurrentPageLength === '50'">
-                                    50
-                                </option>
-                                <option value="100" :selected="draftDutyScheduleStore.getCurrentPageLength === '100'">
-                                    100
-                                </option>
-                                <option value="200" :selected="draftDutyScheduleStore.getCurrentPageLength === '200'">
-                                    200
-                                </option>
-                                <option value="300" :selected="draftDutyScheduleStore.getCurrentPageLength === '300'">
-                                    300
-                                </option>
-                                <option value="400" :selected="draftDutyScheduleStore.getCurrentPageLength === '400'">
-                                    400
-                                </option>
-                                <option value="500" :selected="draftDutyScheduleStore.getCurrentPageLength === '500'">
-                                    500
-                                </option>
-                                <option value="all" :selected="draftDutyScheduleStore.getCurrentPageLength === 'all'">
-                                    {{ $t('all') }}
-                                </option>
-                            </select>
+                </header>
+                <div class="space-y-2 mt-3 mb-3">
+                    <div class="flex flex-col justify-between gap-3 md:flex-row">
+                        <div class="bg-white border border-gray-200 rounded-md px-4 py-1.5">
+                            <h3 class="text-base font-semibold leading-6 text-gray-900 text-center">
+                                <span v-if="month === 'January'">{{ $t('calendar.month.January') }}</span>
+                                <span v-if="month === 'February'">{{ $t('calendar.month.February') }}</span>
+                                <span v-if="month === 'March'">{{ $t('calendar.month.March') }}</span>
+                                <span v-if="month === 'April'">{{ $t('calendar.month.April') }}</span>
+                                <span v-if="month === 'May'">{{ $t('calendar.month.May') }}</span>
+                                <span v-if="month === 'June'">{{ $t('calendar.month.June') }}</span>
+                                <span v-if="month === 'July'">{{ $t('calendar.month.July') }}</span>
+                                <span v-if="month === 'August'">{{ $t('calendar.month.August') }}</span>
+                                <span v-if="month === 'September'">{{ $t('calendar.month.September') }}</span>
+                                <span v-if="month === 'October'">{{ $t('calendar.month.October') }}</span>
+                                <span v-if="month === 'November'">{{ $t('calendar.month.November') }}</span>
+                                <span v-if="month === 'December'">{{ $t('calendar.month.December') }}</span>
+                                {{ year }}
+                            </h3>
+                        </div>
+                        <div class="flex items-center gap-x-2">
+                            <Tooltip
+                                :text="state.sortData.sortOrder === 'ascend' ? $t('dutySchedules.sort.sortNamesInDescendingOrder') : $t('dutySchedules.sort.sortNamesInAscendingOrder')"
+                                position="left">
+                                <button
+                                    class="flex items-center justify-center gap-x-2 outline-none rounded-md text-xs truncate font-semibold bg-tertiary border border-tertiary text-white hover:bg-tertiary-800 px-2 py-2"
+                                    @click="sortDutySchedule">
+                                    <Icon name="heroicons:arrow-down" class="h-5 w-5" aria-hidden="true"
+                                        v-show="state.sortData?.sortOrder === 'ascend'" />
+                                    <Icon name="heroicons:arrow-up" class="h-5 w-5" aria-hidden="true"
+                                        v-show="state.sortData?.sortOrder === 'descend'" />
+                                </button>
+                            </Tooltip>
+                            <div class="bg-white border border-gray-200 rounded-md px-3 py-2">
+                                <div class="flex items-center gap-x-1 text-sm">
+                                    <span>{{ $t('entriesPerPage') }}:</span>
+                                    <select class="focus:outline-none bg-transparent" @change="changePageLength"
+                                        id="citizensPageLength">
+                                        <option value="10"
+                                            :selected="draftDutyScheduleStore.getCurrentPageLength === '10'">
+                                            10
+                                        </option>
+                                        <option value="20"
+                                            :selected="draftDutyScheduleStore.getCurrentPageLength === '20'">
+                                            20
+                                        </option>
+                                        <option value="30"
+                                            :selected="draftDutyScheduleStore.getCurrentPageLength === '30'">
+                                            30
+                                        </option>
+                                        <option value="40"
+                                            :selected="draftDutyScheduleStore.getCurrentPageLength === '40'">
+                                            40
+                                        </option>
+                                        <option value="50"
+                                            :selected="draftDutyScheduleStore.getCurrentPageLength === '50'">
+                                            50
+                                        </option>
+                                        <option value="100"
+                                            :selected="draftDutyScheduleStore.getCurrentPageLength === '100'">
+                                            100
+                                        </option>
+                                        <option value="200"
+                                            :selected="draftDutyScheduleStore.getCurrentPageLength === '200'">
+                                            200
+                                        </option>
+                                        <option value="300"
+                                            :selected="draftDutyScheduleStore.getCurrentPageLength === '300'">
+                                            300
+                                        </option>
+                                        <option value="400"
+                                            :selected="draftDutyScheduleStore.getCurrentPageLength === '400'">
+                                            400
+                                        </option>
+                                        <option value="500"
+                                            :selected="draftDutyScheduleStore.getCurrentPageLength === '500'">
+                                            500
+                                        </option>
+                                        <option value="all"
+                                            :selected="draftDutyScheduleStore.getCurrentPageLength === 'all'">
+                                            {{ $t('all') }}
+                                        </option>
+                                    </select>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -520,8 +499,6 @@
                     <Pagination :data="state.weeklySchedules" @previous="previous" @next="next" />
                 </div>
             </div>
-            <ModulesUserDutyScheduleDraftModalPublish :isModalOpen="state.modal.isPublishDraftOpen"
-                @close="state.modal.isPublishDraftOpen = false" @refreshDutySchedules="fetchDraftDutySchedule()" />
             <ModulesUserDutyScheduleNormHoursModalCompensatoryHours :isModalOpen="state.modal.isCompensatoryHoursOpen"
                 :selectedEmployee="state.normHours.selectedEmployeeSchedule"
                 @close="state.modal.isCompensatoryHoursOpen = false" />
@@ -544,11 +521,6 @@
                 :isModalOpen="state.modal.isCopyMultipleWeeklyScheduleOpen"
                 @close="state.modal.isCopyMultipleWeeklyScheduleOpen = false"
                 @refreshDutySchedules="fetchDraftDutySchedule()" />
-            <!-- <DialogConfirmation :isModalOpen="state.modal.isPublishDraftOpen"
-                :message="['All departments', 'Alle afdelinger'].includes(departmentStore.getSelectedDepartmentName) ?
-                    $t('dutySchedules.draft.confirmation.publishForAllDepartmentConfirmation') + '?' :
-                    $t('dutySchedules.draft.confirmation.publishForSpecificDepartmentConfirmation') + ' ' + departmentStore.getSelectedDepartmentName + '?'"
-                @close="state.modal.isPublishDraftOpen = false" @confirm="publishSchedule" /> -->
         </LoadingSpinner>
     </div>
 </template>
@@ -922,6 +894,7 @@ function previousWeek() {
 function setToday() {
     state.customWeekLabel = 'week'
     currentDate.value = moment()
+    state.selectedDate = moment(currentDate.value).format('YYYY-MM-DD')
     fetchDraftDutySchedule()
 }
 
@@ -1009,21 +982,6 @@ async function saveShift(shiftDetails: any) {
         }
     }
     saveDutySchedule(params)
-}
-
-async function publishSchedule() {
-    try {
-        const params = {
-            department: departmentStore.getSelectedDepartmentName
-        }
-        const response = await draftScheduleService.publishSchedule(params)
-        if (response) {
-            successAlert(`${t('alert.success')}!`, `${t('dutySchedules.draft.alert.successfullyPublished')}.`)
-            navigateTo('/schedules')
-        }
-    } catch (error: any) {
-        state.error = error
-    }
 }
 
 async function saveDutySchedule(params: object) {
@@ -1316,7 +1274,7 @@ onBeforeUnmount(() => {
 })
 
 let lastScrollTop = 0
-const headerHeight = 390  // The height of the header
+const headerHeight = 305  // The height of the header
 
 function handleScroll() {
     const header = document.getElementById('fixed-header-week-view')

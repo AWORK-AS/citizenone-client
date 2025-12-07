@@ -37,14 +37,20 @@
                 </Breadcrumb>
             </template>
 
-            <template #header>
-                {{ customPagesStore.getCustomPagesName?.dutySchedules }}
-                <span class="lowercase">
-                    {{ $t('dutySchedules.draft.draft') }}
-                </span>
+            <template #guided-tour>
+                <div class="flex flex-wrap items-center gap-3">
+                    <button @click="state.modal.isShowAllShiftTypes = !state.modal.isShowAllShiftTypes"
+                        class="text-primary text-sm hover:text-primary-700">
+                        {{ $t('dutySchedules.showTheDistributionOfShiftTypes') }}
+                    </button>
+                    <FormButton buttonStyle="action" class="rounded-lg" @click="state.modal.isPublishDraftOpen = true">
+                        <Icon name="ph:check" class="h-4 w-4" aria-hidden="true" />
+                        {{ $t('dutySchedules.draft.publish') }}
+                    </FormButton>
+                </div>
             </template>
 
-            <NuxtLink class="flex items-center gap-x-2 mb-3 max-w-fit hover:cursor-pointer" to="/schedules">
+            <NuxtLink class="-mt-4 flex items-center gap-x-2 mb-3 max-w-fit hover:cursor-pointer" to="/schedules">
                 <Icon name="ph:arrow-left" size="20" class="text-black" />
                 <span>{{ $t('back') }}</span>
             </NuxtLink>
@@ -67,6 +73,11 @@
             <div class="space-y-5">
                 <ModulesUserDutyScheduleDraftWeekView v-if="state.calendarView === 'week'" />
             </div>
+
+            <ModulesUserDutyScheduleDraftModalShiftTypes :isModalOpen="state.modal.isShowAllShiftTypes"
+                @close="state.modal.isShowAllShiftTypes = false" />
+            <ModulesUserDutyScheduleDraftModalPublish :isModalOpen="state.modal.isPublishDraftOpen"
+                @close="state.modal.isPublishDraftOpen = false" />
         </NuxtLayout>
     </div>
 </template>
@@ -74,11 +85,14 @@
 <script setup lang="ts">
 const runtimeConfig = useRuntimeConfig()
 import { useCustomPagesStore } from '@/store/custom-pages'
-import { useUserStore } from '@/store/user'
 
 const customPagesStore = useCustomPagesStore() as any
 
 const state = reactive({
     calendarView: 'week',
+    modal: {
+        isPublishDraftOpen: false,
+        isShowAllShiftTypes: false,
+    },
 })
 </script>

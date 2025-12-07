@@ -42,8 +42,8 @@
                         <TableSearch @search="handleSearch" />
                     </div>
                 </header>
-                <div class="space-y-2 mt-4 mb-3">
-                    <div class="flex justify-between items-center">
+                <div class="space-y-2 mt-3 mb-3">
+                    <div class="flex flex-col justify-between gap-3 md:flex-row">
                         <div class="bg-white border border-gray-200 rounded-md px-4 py-1.5">
                             <h3 class="text-base font-semibold leading-6 text-gray-900 text-center">
                                 <span v-if="month === 'January'">{{ $t('calendar.month.January') }}</span>
@@ -68,13 +68,13 @@
                                 <button
                                     class="flex items-center justify-center gap-x-2 outline-none rounded-md text-xs truncate font-semibold bg-tertiary border border-tertiary text-white hover:bg-tertiary-800 px-2 py-2"
                                     @click="sortDutySchedule">
-                                    <Icon name="heroicons:arrow-down" class="h-4 w-4" aria-hidden="true"
+                                    <Icon name="heroicons:arrow-down" class="h-5 w-5" aria-hidden="true"
                                         v-show="state.sortData?.sortOrder === 'ascend'" />
-                                    <Icon name="heroicons:arrow-up" class="h-4 w-4" aria-hidden="true"
+                                    <Icon name="heroicons:arrow-up" class="h-5 w-5" aria-hidden="true"
                                         v-show="state.sortData?.sortOrder === 'descend'" />
                                 </button>
                             </Tooltip>
-                            <div class="bg-white border border-gray-200 rounded-md px-3 py-1.5">
+                            <div class="bg-white border border-gray-200 rounded-md px-3 py-2">
                                 <div class="flex items-center gap-x-1">
                                     <span>{{ $t('entriesPerPage') }}:</span>
                                     <select class="focus:outline-none bg-transparent" @change="changePageLength"
@@ -1637,7 +1637,7 @@ onBeforeUnmount(() => {
 })
 
 let lastScrollTop = 0
-const headerHeight = 380  // The height of the header
+const headerHeight = 270  // The height of the header
 
 function handleScroll() {
     const header = document.getElementById('fixed-header-week-view')
