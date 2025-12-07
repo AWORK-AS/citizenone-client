@@ -380,8 +380,7 @@
                                                             {{ $t('dutySchedules.extraHours.extraHours') }}:
                                                             {{
                                                                 formatNumber(language.locale.value,
-                                                                    employee?.extra_hours)
-                                                                ?? 0
+                                                                    employee?.extra_hours || 0)
                                                             }}
                                                         </p>
                                                         <div class="p-0 m-0 text-xxs text-primary cursor-pointer hover:text-primary-700"
@@ -465,7 +464,7 @@
                                                             }}:
                                                             {{
                                                                 formatNumber(language.locale.value,
-                                                                    employee?.total_norm_hours?.available_vacation_hours) ?? 0
+                                                                    employee?.total_norm_hours?.available_vacation_hours || 0)
                                                             }}
                                                         </div>
                                                     </div>
@@ -807,8 +806,6 @@ import moment from 'moment'
 import { Menu, MenuButton, MenuItem, MenuItems } from '@headlessui/vue'
 import { dutyScheduleService } from '@/components/api/user/DutyScheduleService'
 import { useDepartmentStore } from '@/store/department'
-import { useDatetimeFormatter } from '@/composables/datetimeFormatter'
-import { useCustomPagesStore } from '@/store/custom-pages'
 import { useNumberFormatter } from '@/composables/numberFormatter'
 import { useDutyScheduleStore } from '@/store/duty-schedule'
 import { useUserStore } from '@/store/user'
@@ -819,8 +816,6 @@ const language = useI18n()
 const dutyScheduleStore = useDutyScheduleStore() as any
 const userStore = useUserStore() as any
 const departmentStore = useDepartmentStore()
-const customPagesStore = useCustomPagesStore() as any
-const { formatDateToReadable } = useDatetimeFormatter()
 const { formatNumber } = useNumberFormatter()
 const currentDate = ref(moment())
 const month = computed(() => currentDate.value.format('MMMM'))

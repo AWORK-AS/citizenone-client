@@ -41,7 +41,7 @@
                 <ModulesUserDutyScheduleModalShiftDateRange
                     :isModalOpen="state.modal.isDepartmentSickLeaveDateRangeOpen" :dateRange="state.shiftDateRange"
                     @close="state.modal.isDepartmentSickLeaveDateRangeOpen = false"
-                    @filterDate="filterDutyScheduleDate" />
+                    @filterDate="filterShiftTypesByDateRange" />
             </template>
         </Modal>
     </div>
@@ -111,7 +111,7 @@ async function fetchDutySchedulePercentage() {
     state.isPageLoading = false
 }
 
-function filterDutyScheduleDate(formDateRange: any) {
+function filterShiftTypesByDateRange(formDateRange: any) {
     state.shiftDateRange.formDateRange.start_date = formDateRange?.[0]
     state.shiftDateRange.formDateRange.end_date = formDateRange?.[1]
     fetchDutySchedulePercentage()

@@ -530,8 +530,6 @@
 import moment from 'moment'
 import { draftScheduleService } from '@/components/api/user/DraftScheduleService'
 import { useDepartmentStore } from '@/store/department'
-import { useDatetimeFormatter } from '@/composables/datetimeFormatter'
-import { useNumberFormatter } from '@/composables/numberFormatter'
 import { useDraftDutyScheduleStore } from '@/store/draft-duty-schedule'
 import { useUserStore } from '@/store/user'
 import { useAlert } from '@/composables/alert'
@@ -542,10 +540,6 @@ const language = useI18n()
 const userStore = useUserStore() as any
 const departmentStore = useDepartmentStore()
 const draftDutyScheduleStore = useDraftDutyScheduleStore() as any
-const { formatDateToReadable } = useDatetimeFormatter()
-const { formatNumber } = useNumberFormatter()
-const { successAlert } = useAlert()
-const { t } = useI18n()
 const currentDate = ref(moment())
 const month = computed(() => currentDate.value.format('MMMM'))
 const year = computed(() => currentDate.value.format('YYYY'))
