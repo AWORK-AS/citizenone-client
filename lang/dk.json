@@ -4371,7 +4371,7 @@
         }
     },
     "recurring": {
-        "applyChangesToAllRecurringShifts": "Anvend ændringer på alle tilbagevendende vagter",
+        "applyChangesToAllRecurringShifts": "Anvend også ændring for fremtidige vagter",
         "addThisSessions": "Tilføj denne session",
         "custom": "Brugerdefineret",
         "days": {
@@ -4447,7 +4447,7 @@
         "recurring": "Tilbagevendende",
         "repeat": "Gentag",
         "until": "Indtil",
-        "youAreEditingARecurringShift": "Du redigerer en tilbagevendende vagt"
+        "youAreEditingARecurringShift": "Du redigerer en gentagende vagt"
     },
     "register": {
         "form": {
