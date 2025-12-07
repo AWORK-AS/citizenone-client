@@ -151,7 +151,7 @@
                                             <Tooltip :text="$t('citizens.table.actions.latestJournalEntry')">
                                                 <FormButton type="button" buttonStyle="action" class="rounded-md"
                                                     @click="showCitizenNote(citizen)">
-                                                    <Icon name="ph:note-blank" class="size-4" />
+                                                    <Icon name="ph:note" class="size-4" />
                                                 </FormButton>
                                             </Tooltip>
                                             <FormButton type="button"

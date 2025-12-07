@@ -255,7 +255,7 @@
                         <button type="button" class="mr-2 p-2.5 relative text-primary hover:text-primary-700"
                             @click="navigateTo('/journal-notifications')"
                             v-if="userStore.getUser?.unread_notification_count > 0">
-                            <Icon name="ph:bell" class="h-6 w-6 absolute top-0 left-0" aria-hidden="true" />
+                            <Icon name="ph:note" class="h-6 w-6 absolute top-0 left-0" aria-hidden="true" />
                             <Badge type="notification"
                                 class="w-5 h-5 flex items-center justify-center absolute -top-4 left-4">
                                 {{ userStore.getUser?.unread_notification_count ?? 0 }}
