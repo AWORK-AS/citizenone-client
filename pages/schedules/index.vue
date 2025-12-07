@@ -26,11 +26,22 @@
                 </Breadcrumb>
             </template>
 
-            <template #header>
-                {{ customPagesStore.getCustomPagesName?.dutySchedules }}
-            </template>
             <template #guided-tour>
-                <div class="flex items-center gap-x-1">
+                <div class="flex flex-wrap items-center gap-3">
+                    <button @click="state.modal.isShowAllShiftTypes = !state.modal.isShowAllShiftTypes"
+                        class="text-primary text-sm hover:text-primary-700">
+                        {{ $t('dutySchedules.showTheDistributionOfShiftTypes') }}
+                    </button>
+                    <FormButton buttonStyle="action" class="rounded-lg" @click="navigateTo('/schedules/draft')"
+                        v-if="isAdmin(userStore.getUser?.role)">
+                        <Icon name="ph:note" class="h-4 w-4" aria-hidden="true" />
+                        {{ customPagesStore.getCustomPagesName?.dutySchedules }}
+                        {{ $t('dutySchedules.draft.draft')?.toLowerCase() }}
+                    </FormButton>
+                    <FormButton buttonStyle="action" class="rounded-lg" @click="state.modal.isDownloadOpen = true">
+                        <Icon name="ph:download" class="h-4 w-4" aria-hidden="true" />
+                        {{ $t('dutySchedules.download.download') }}
+                    </FormButton>
                     <Tooltip :text="$t('dutySchedules.activityLogs')" @click="openDutySchedulesActivityLogs()">
                         <Icon name="ph:clock-counter-clockwise" class="size-6 cursor-pointer text-gray-700"
                             aria-hidden="true" />
@@ -56,30 +67,38 @@
                 </FormButton>
             </div> -->
 
-            <div class="mt-5 space-y-5">
+            <div class="space-y-5">
                 <ModulesUserDutyScheduleWeekView v-if="state.calendarView === 'week'" />
             </div>
 
+            <ModulesUserDutyScheduleModalShiftTypes :isModalOpen="state.modal.isShowAllShiftTypes"
+                @close="state.modal.isShowAllShiftTypes = false" />
             <ModulesUserDutyScheduleActivityLogsModalHistory :isModalOpen="state.modal.isActivityLogsOpen"
                 @close="state.modal.isActivityLogsOpen = false" />
             <ModulesUserGuidedTourModalDutySchedule v-if="state.modal.isGuidedTourDutyScheduleOpen"
                 :isModalOpen="state.modal.isGuidedTourDutyScheduleOpen" :isGuidedTour="false"
                 @close="state.modal.isGuidedTourDutyScheduleOpen = false" />
         </NuxtLayout>
+        <ModulesUserDutyScheduleModalDownload :isModalOpen="state.modal.isDownloadOpen"
+            @close="state.modal.isDownloadOpen = false" />
     </div>
 </template>
 
 <script setup lang="ts">
 const runtimeConfig = useRuntimeConfig()
+import { useUserStore } from '@/store/user'
 import { useCustomPagesStore } from '@/store/custom-pages'
 
 const customPagesStore = useCustomPagesStore() as any
+const userStore = useUserStore() as any
 
 const state = reactive({
     calendarView: 'week',
     modal: {
         isActivityLogsOpen: false,
+        isDownloadOpen: false,
         isGuidedTourDutyScheduleOpen: false,
+        isShowAllShiftTypes: false,
     },
 })
 
@@ -89,5 +108,9 @@ function openDutySchedulesActivityLogs() {
 
 function openGuidedTour() {
     state.modal.isGuidedTourDutyScheduleOpen = true
+}
+
+function isAdmin(role: any) {
+    return role && role === 'Admin'
 }
 </script>

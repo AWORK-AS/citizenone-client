@@ -1,9 +1,11 @@
 <template>
     <div class="relative inline-block" @mouseover="showTooltip" @mouseleave="hideTooltip">
-        <slot />
-        <div v-if="visible" class="absolute z-50 p-2 text-sm text-white bg-primary rounded shadow-lg tooltip"
-            :class="positionClasses">
-            <p class="truncate text-xxs">{{ text }}</p>
+        <div class="flex items-center">
+            <slot />
+            <div v-if="visible" class="absolute z-50 p-2 text-sm text-white bg-primary rounded shadow-lg tooltip"
+                :class="positionClasses">
+                <p class="truncate text-xxs">{{ text }}</p>
+            </div>
         </div>
     </div>
 </template>

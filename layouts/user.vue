@@ -401,14 +401,14 @@
                     id="animatedImage">
                 <main class="py-10 relative">
                     <div class="px-4 sm:px-6 lg:px-8">
-                        <div>
+                        <div class="flex items-center justify-between flex-wrap gap-3">
                             <slot name="breadcrumb"></slot>
+                            <slot name="guided-tour"></slot>
                         </div>
                         <div class="mt-4 flex justify-between items-center">
                             <h1 class="text-2xl text-primary font-bold">
                                 <slot name="header"></slot>
                             </h1>
-                            <slot name="guided-tour"></slot>
                             <slot name="new-feature"></slot>
                         </div>
                         <div class="mt-4">

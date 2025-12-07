@@ -2596,14 +2596,8 @@
                 "workingHours": "Working hours"
             }
         },
-        "shifts": {
-            "awakeNightShift": "Awake night shift",
-            "sleepingNightShift": "Sleeping night shift",
-            "regularShift": "Regular shift",
-            "sickLeave": "Sick leave",
-            "vacationLeave": "Vacation leave"
-        },
         "showEmployeesWorkingToday": "Show employees working today",
+        "showTheDistributionOfShiftTypes": "Show the distribution of shift types",
         "sort": {
             "sortNamesInAscendingOrder": "Sort names in ascending order",
             "sortNamesInDescendingOrder": "Sort names in descending order"

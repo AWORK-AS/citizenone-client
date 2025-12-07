@@ -5,53 +5,6 @@
         <Alert type="danger" :text="state?.copyShiftError?.message"
             v-if="state.copyShiftError?.message && state.copyShiftError.message.length > 0" />
         <LoadingSpinner :isActive="state.isPageLoading">
-            <div class="flex flex-col lg:flex-row justify-between gap-3">
-                <div class="lg:order-none order-last">
-                    <div class="font-medium mt-2 space-x-0.5">
-                        {{ $t('dutySchedules.typeOfShifts') }}:
-                        <button class="text-xs text-primary hover:text-primary-700 hover:underline"
-                            @click="state.modal.isDepartmentSickLeaveDateRangeOpen = true">
-                            ({{ formatDateToReadable(state.shiftDateRange.formDateRange.start_date) }} -
-                            {{ formatDateToReadable(state.shiftDateRange.formDateRange.end_date) }})
-                        </button>
-                        <button @click="state.showAllShiftTypes = !state.showAllShiftTypes"
-                            class="text-primary text-xs hover:text-primary-700">
-                            {{ state.showAllShiftTypes ?
-                                $t('showLess') :
-                                $t('showMore') }}
-                        </button>
-                    </div>
-                    <div :class="[!state.showAllShiftTypes && 'line-clamp-1 h-6']">
-                        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-x-4 text-sm">
-                            <div class="flex items-center justify-between gap-x-2"
-                                v-for="(shiftPercentage, index) in state.shiftPercentage?.data" :key="index">
-                                <div class="flex items-center gap-x-2">
-                                    <div class="w-3 h-3 rounded-sm"
-                                        :style="{ backgroundColor: shiftPercentage?.color }">
-                                    </div>
-                                    <span>
-                                        {{ language.locale.value === 'en' ? shiftPercentage?.en_name :
-                                            shiftPercentage?.dk_name }}
-                                    </span>
-                                </div>
-                                <p class="text-xs">{{ shiftPercentage?.percentage }}%</p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="flex items-start justify-end gap-x-3">
-                    <FormButton buttonStyle="action" class="rounded-lg" @click="navigateTo('/schedules/draft')"
-                        v-if="isAdmin(userStore.getUser?.role)">
-                        <Icon name="ph:note" class="h-4 w-4" aria-hidden="true" />
-                        {{ customPagesStore.getCustomPagesName?.dutySchedules }}
-                        {{ $t('dutySchedules.draft.draft')?.toLowerCase() }}
-                    </FormButton>
-                    <FormButton buttonStyle="action" class="rounded-lg" @click="state.modal.isDownloadOpen = true">
-                        <Icon name="ph:download" class="h-4 w-4" aria-hidden="true" />
-                        {{ $t('dutySchedules.download.download') }}
-                    </FormButton>
-                </div>
-            </div>
             <div class="flex h-full flex-col">
                 <header class="grid grid-cols-1 xl:grid-cols-2 xl:items-center justify-between py-4 gap-3">
                     <div class="space-y-1 flex items-center gap-x-2">
@@ -781,17 +734,12 @@
                     <Pagination :data="state.weeklySchedules" @previous="previous" @next="next" />
                 </div>
             </div>
-            <ModulesUserDutyScheduleModalDownload :isModalOpen="state.modal.isDownloadOpen"
-                @close="state.modal.isDownloadOpen = false" />
             <ModulesUserDutyScheduleNormHoursModalCompensatoryHours :isModalOpen="state.modal.isCompensatoryHoursOpen"
                 :selectedEmployee="state.normHours.selectedEmployeeSchedule"
                 @close="state.modal.isCompensatoryHoursOpen = false" />
             <ModulesUserDutyScheduleNormHoursModalVacationHours :isModalOpen="state.modal.isVacationHoursOpen"
                 :selectedEmployee="state.normHours.selectedEmployeeSchedule"
                 @close="state.modal.isVacationHoursOpen = false" />
-            <ModulesUserDutyScheduleModalShiftDateRange :isModalOpen="state.modal.isDepartmentSickLeaveDateRangeOpen"
-                :dateRange="state.shiftDateRange" @close="state.modal.isDepartmentSickLeaveDateRangeOpen = false"
-                @filterDate="filterDutyScheduleDate" />
             <ModulesUserDutyScheduleModalNewShift :isModalOpen="state.modal.isAddShiftOpen" :error="state.newShiftError"
                 :selectedDate="state.newShift.selectedDate" :selectedEmployee="state.newShift.selectedEmployee"
                 @close="state.modal.isAddShiftOpen = false" @saveShift="saveShift"
@@ -906,7 +854,6 @@ const state = reactive({
         isCompensatoryHoursOpen: false,
         isCopyMultipleWeeklyScheduleOpen: false,
         isDepartmentSickLeaveDateRangeOpen: false,
-        isDownloadOpen: false,
         isEditShiftOpen: false,
         isManageExtraHoursOpen: false,
         isManageScheduleSlotOpen: false,
@@ -1113,26 +1060,6 @@ function getMultiDayShift(shifts: any) {
         })
 }
 
-async function fetchDutySchedulePercentage() {
-    state.error = {}
-    state.isPageLoading = true
-    try {
-        const params = {
-            start_date: moment(state.shiftDateRange.formDateRange.start_date).format('YYYY-MM-DD'),
-            end_date: moment(state.shiftDateRange.formDateRange.end_date).format('YYYY-MM-DD'),
-            department: departmentStore.getSelectedDepartmentName,
-            show_employees_working_today: state.showEmployeesWorkingToday,
-        }
-        const response = await dutyScheduleService.getDutyScheduleAbsencePercentage(params)
-        if (response) {
-            state.shiftPercentage = response
-        }
-    } catch (error: any) {
-        state.error = error
-    }
-    state.isPageLoading = false
-}
-
 async function fetchDutySchedule() {
     state.error = {}
     // state.weeklySchedules = []
@@ -1164,7 +1091,6 @@ async function fetchDutySchedule() {
         if (response) {
             state.weeklySchedules = response
             state.originalWeeklySchedules = JSON.parse(JSON.stringify(response?.data))
-            fetchDutySchedulePercentage()
             state.progress.totalRequests = state.progress.totalRequests - 1
             state.progress.pendingRequests = state.progress.pendingRequests - 1
             identifyTheProgressPercentage()

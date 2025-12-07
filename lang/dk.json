@@ -2596,14 +2596,8 @@
                 "workingHours": "Arbejdstimer"
             }
         },
-        "shifts": {
-            "awakeNightShift": "Vågen nattevagt",
-            "sleepingNightShift": "Sovende nattevagt",
-            "regularShift": "Almindelig vagt",
-            "sickLeave": "Sygefravær",
-            "vacationLeave": "Ferie"
-        },
         "showEmployeesWorkingToday": "Vis medarbejdere, der arbejder i dag",
+        "showTheDistributionOfShiftTypes": "Vis vagttypers fordeling",
         "sort": {
             "sortNamesInAscendingOrder": "Sorter navne i stigende rækkefølge",
             "sortNamesInDescendingOrder": "Sorter navne i faldende rækkefølge"
