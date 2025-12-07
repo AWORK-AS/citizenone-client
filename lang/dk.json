@@ -2551,8 +2551,8 @@
             },
             "confirmation": {
                 "deleteConfirmation": "Er du sikker på, at du vil slette dette tidspunkt",
-                "requestConfirmation": "Onsker du at tage denne vagt",
-                "requestConfirmButton": "Ja, jeg onsker vagten"
+                "requestConfirmation": "Ønsker du at tage denne vagt",
+                "requestConfirmButton": "Ja, jeg ønsker vagten"
             },
             "editOfferedShift": "Rediger udbudt vagt",
             "form": {
