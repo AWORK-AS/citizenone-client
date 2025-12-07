@@ -67,7 +67,7 @@
                 </FormButton>
             </div> -->
 
-            <div class="space-y-5">
+            <div class="-mt-4 space-y-5">
                 <ModulesUserDutyScheduleWeekView v-if="state.calendarView === 'week'" />
             </div>
 

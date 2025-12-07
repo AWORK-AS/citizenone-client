@@ -8,6 +8,7 @@
 
             <template #header>{{ $t('overview.overview') }}</template>
             <template #guided-tour>
+                <div />
                 <Tooltip :text="$t('guidedTour')" @click="openGuidedTour()">
                     <Icon name="ph:question" class="size-6 cursor-pointer text-gray-700" aria-hidden="true" />
                 </Tooltip>
