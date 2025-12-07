@@ -2320,6 +2320,9 @@
         "confirmation": {
             "deleteConfirmation": "Er du sikker på, at du vil slette denne tidsplan"
         },
+        "conflict": {
+            "youHaveConflictingShiftsOnThisDay": "Du har vagter der konflikter på denne dag"
+        },
         "copy": {
             "copy": "Kopiér",
             "copyEmployeeSchedule": "Kopiér medarbejder vagtplan",

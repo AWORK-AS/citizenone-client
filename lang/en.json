@@ -2320,6 +2320,9 @@
         "confirmation": {
             "deleteConfirmation": "Are you sure you want to delete this schedule"
         },
+        "conflict": {
+            "youHaveConflictingShiftsOnThisDay": "You have conflicting shifts on this day"
+        },
         "copy": {
             "copy": "Copy",
             "copyEmployeeSchedule": "Copy employee schedule",
