@@ -2359,16 +2359,16 @@
         "dutySchedules": "Vagtplaner",
         "editSchedule": "Rediger tidsplan",
         "extraHours": {
-            "editExtraHours": "Rediger ekstra timer",
-            "editExtraHoursRequest": "Rediger anmodning om ekstra timer",
-            "extraHours": "Ekstra timer",
-            "extraHoursRequests": "Anmodninger om ekstra timer",
+            "editExtraHours": "Rediger x-timer",
+            "editExtraHoursRequest": "Rediger anmodning om x-timer",
+            "extraHours": "X-timer",
+            "extraHoursRequests": "Anmodninger om x-timer",
             "form": {
                 "alert": {
-                    "extraHoursRequestSuccessfullyAdded": "Anmodning om ekstra timer blev tilføjet",
-                    "extraHoursRequestSuccessfullyUpdated": "Anmodning om ekstra timer blev opdateret",
-                    "extraHoursSuccessfullyAdded": "Ekstra timer blev tilføjet",
-                    "extraHoursSuccessfullyUpdated": "Ekstra timer blev opdateret"
+                    "extraHoursRequestSuccessfullyAdded": "Anmodning om x-timer blev tilføjet",
+                    "extraHoursRequestSuccessfullyUpdated": "Anmodning om x-timer blev opdateret",
+                    "extraHoursSuccessfullyAdded": "X-timer blev tilføjet",
+                    "extraHoursSuccessfullyUpdated": "X-timer blev opdateret"
                 },
                 "date": "Dato",
                 "hours": "Timer",
@@ -2379,8 +2379,8 @@
                     "type": "Type"
                 }
             },
-            "newExtraHours": "Nye ekstra timer",
-            "newExtraHoursRequest": "Ny anmodning om ekstra timer",
+            "newExtraHours": "Nye x-timer",
+            "newExtraHoursRequest": "Ny anmodning om x-timer",
             "table": {
                 "actions": {
                     "approve": "Godkend",
@@ -2389,15 +2389,15 @@
                     "reject": "Afvis"
                 },
                 "alert": {
-                    "extraHoursSuccessfullyApproved": "Ekstra timer blev godkendt",
-                    "extraHoursRequestSuccessfullyDeleted": "Anmodning om ekstra timer blev slettet",
-                    "extraHoursSuccessfullyDeleted": "Ekstra timer blev slettet",
-                    "extraHoursSuccessfullyRejected": "Ekstra timer blev afvist"
+                    "extraHoursSuccessfullyApproved": "X-timer blev godkendt",
+                    "extraHoursRequestSuccessfullyDeleted": "Anmodning om x-timer blev slettet",
+                    "extraHoursSuccessfullyDeleted": "X-timer blev slettet",
+                    "extraHoursSuccessfullyRejected": "X-timer blev afvist"
                 },
                 "confirmation": {
-                    "approveExtraHoursConfirmation": "Er du sikker på, at du vil godkende disse ekstra timer?",
-                    "deleteExtraHoursConfirmation": "Er du sikker på, at du vil slette disse ekstra timer?",
-                    "rejectExtraHoursConfirmation": "Er du sikker på, at du vil afvise disse ekstra timer?"
+                    "approveExtraHoursConfirmation": "Er du sikker på, at du vil godkende disse x-timer?",
+                    "deleteExtraHoursConfirmation": "Er du sikker på, at du vil slette disse x-timer?",
+                    "rejectExtraHoursConfirmation": "Er du sikker på, at du vil afvise disse x-timer?"
                 },
                 "date": "Dato",
                 "hours": "Timer",

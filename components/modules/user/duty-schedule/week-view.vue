@@ -403,6 +403,17 @@
                                                             {{ $t('dutySchedules.totalHours') }}:
                                                             {{ employee?.total_hours ?? 0 }}
                                                         </p>
+                                                        <p :class="[
+                                                            employee?.extra_hours > 0 ? 'text-green-700' : 'text-red-700',
+                                                            'text-xxs'
+                                                        ]">
+                                                            {{ $t('dutySchedules.extraHours.extraHours') }}:
+                                                            {{
+                                                                formatNumber(language.locale.value,
+                                                                    employee?.extra_hours)
+                                                                ?? 0
+                                                            }}
+                                                        </p>
                                                         <div class="p-0 m-0 text-xxs text-primary cursor-pointer hover:text-primary-700"
                                                             @click="navigateTo(`/calendar?employee_uuid=${employee?.uuid}`)">
                                                             {{ $t('dutySchedules.viewCalendar') }}
@@ -457,23 +468,6 @@
                                                     </div>
                                                     <div
                                                         class="col-span-7 space-y-2 mt-4 border-t-0.5 border-gray-200 pt-3">
-                                                        <div :class="[
-                                                            employee?.extra_hours > 0 ? 'text-green-700' : 'text-red-700',
-                                                            'flex items-center gap-1'
-                                                        ]">
-                                                            <Icon name="ph:clock" class="h-3 w-3" aria-hidden="true" />
-                                                            {{
-                                                                $t('dutySchedules.extraHours.extraHours')
-                                                            }}:
-                                                            {{
-                                                                formatNumber(language.locale.value,
-                                                                    employee?.extra_hours)
-                                                                ??
-                                                                0
-                                                            }}
-                                                        </div>
-                                                    </div>
-                                                    <div class="col-span-7 space-y-2 mt-1">
                                                         <div :class="[
                                                             employee?.total_norm_hours?.compensatory_hours > 0 ? 'text-green-700' : 'text-red-700',
                                                             'flex items-center gap-1 w-fit cursor-pointer'
