@@ -35,7 +35,8 @@
             </template>
 
             <div>
-                <div class="flex justify-between items-center mb-5">
+                <div
+                    class="flex justify-between items-start flex-col md:flex-row md:items-center md:justify-between gap-3 mb-5">
                     <div class="flex items-center gap-x-1">
                         <span>{{ $t('entriesPerPage') }}:</span>
                         <select class="focus:outline-none bg-transparent" @change="changePageLength"
@@ -49,7 +50,7 @@
                             <option value="500">500</option>
                         </select>
                     </div>
-                    <div class="flex items-center gap-x-3">
+                    <div class="flex flex-wrap items-center gap-3">
                         <FormButton buttonStyle="action" class="rounded-lg" @click="navigateTo('/inquiries')">
                             <Icon name="ph:list-bullets" class="h-4 w-4" aria-hidden="true" />
                             {{ $t('inquiries.inquiries') }}
