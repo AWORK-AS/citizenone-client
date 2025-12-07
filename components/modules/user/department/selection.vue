@@ -1,7 +1,7 @@
 <template>
     <LoadingSpinner :isActive="state.isPageLoading">
         <div class="block md:hidden" v-if="state.departments?.data?.length > 0">
-            <select class="focus:outline-none" @change="selectDepartment" id="selectDepartment">
+            <select class="w-32 sm:w-fit focus:outline-none" @change="selectDepartment" id="selectDepartment">
                 <option v-for="(department, index) in state.departments?.data" :key="index" :value="department.name"
                     :selected="department?.name === departmentStore.getSelectedDepartmentName">
                     {{ department?.name }}

@@ -5,7 +5,7 @@
             {{ userStore.getUser?.company?.name }}
         </p>
         <div class="block md:hidden" v-if="state.companies?.data?.length > 1">
-            <select class="focus:outline-none" @change="selectCompany" id="selectCompany">
+            <select class="w-32 sm:w-fit focus:outline-none" @change="selectCompany" id="selectCompany">
                 <option v-for="(data, index) in state.companies?.data" :key="index"
                     :value="JSON.stringify(data?.company)"
                     :selected="data?.company?.uuid === companyStore.getSelectedCompany?.uuid">
