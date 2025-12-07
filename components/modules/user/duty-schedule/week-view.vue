@@ -519,7 +519,8 @@
                                             <div class="p-3 border-0.5" v-for="(week, weekIndex) in employee?.weeks"
                                                 :key="weekIndex" :class="[
                                                     isDailyScheduleCopied(employeeIndex, weekIndex, weekNumber) && 'border-1.5 border-dashed border-gray-700',
-                                                    !isDailyScheduleCopied(employeeIndex, weekIndex, weekNumber) && !isDailyScheduleCopiedEmpty() && 'cursor-copy relative group'
+                                                    !isDailyScheduleCopied(employeeIndex, weekIndex, weekNumber) && !isDailyScheduleCopiedEmpty() && 'cursor-copy relative group',
+                                                    hasConflict(week) && 'border-1.5 border-red-500',
                                                 ]"
                                                 @click="!isDailyScheduleCopied(employeeIndex, weekIndex, weekNumber) && !isDailyScheduleCopiedEmpty() && pasteEmployeeDailySchedule(employeeIndex, weekIndex)">
                                                 <div class="space-y-2"
@@ -598,7 +599,6 @@
                                                     <div class="text-xs">
                                                         <div v-for="(shift, shiftIndex) in sortMultiDayShiftsFirst(week?.shifts)"
                                                             :key="shiftIndex" :class="[
-                                                                shift?.is_conflict && 'border-1.5 border-red-500',
                                                                 'rounded-md p-1 relative mb-2.5'
                                                             ]" :style="{
                                                                 backgroundColor: `${shift?.type?.color}`,
@@ -1288,6 +1288,11 @@ const weekDays = computed(() => {
 
 function isPastWeek() {
     return moment(currentDate.value).format('YYYY-MM-DD') < moment().format('YYYY-MM-DD')
+}
+
+function hasConflict(week: any) {
+    const hasConflict = week?.shifts?.some((shift: any) => shift.is_conflict === true)
+    return hasConflict
 }
 
 function viewCompensatoryHours(employee: any) {

@@ -342,38 +342,6 @@
                                                             {{ time?.yearly_hours }}
                                                         </p>
                                                     </div>
-                                                    <!-- <div
-                                                        class="col-span-7 space-y-2 mt-4 border-t-0.5 border-gray-200 pt-3">
-                                                        <div :class="[
-                                                            employee?.compensatory_hours?.total_in_hours > 0 ? 'text-green-700' : 'text-red-700',
-                                                            'flex items-center gap-1 w-fit cursor-pointer'
-                                                        ]" @click="viewCompensatoryHours(employee)">
-                                                            <Icon name="ph:clock" class="h-3 w-3" aria-hidden="true" />
-                                                            {{
-                                                                $t('dutySchedules.normHours.compensatoryHours')
-                                                            }}:
-                                                            {{
-                                                                formatNumber(language.locale.value,
-                                                                    employee?.compensatory_hours?.total_in_hours)
-                                                                ??
-                                                                0
-                                                            }}
-                                                        </div>
-                                                    </div>
-                                                    <div class="col-span-7 space-y-2 mt-1">
-                                                        <div :class="[
-                                                            employee?.available_vacation_hours > 0 ? 'text-green-700' : 'text-red-700',
-                                                            'flex items-center gap-1 w-fit cursor-pointer'
-                                                        ]" @click="viewAvailableVacationHours(employee)">
-                                                            <Icon name="ph:clock" class="h-3 w-3" aria-hidden="true" />
-                                                            {{
-                                                                $t('dutySchedules.normHours.availableVacationHours')
-                                                            }}:
-                                                            {{
-                                                                employee?.available_vacation_hours ?? 0
-                                                            }}
-                                                        </div>
-                                                    </div> -->
                                                 </div>
                                                 <div>
                                                     <button @click="toggleExpanded(employeeIndex)"
@@ -387,7 +355,8 @@
                                             <div class="p-3 border-0.5" v-for="(week, weekIndex) in employee?.weeks"
                                                 :key="weekIndex" :class="[
                                                     isDailyScheduleCopied(employeeIndex, weekIndex, weekNumber) && 'border-1.5 border-dashed border-gray-700',
-                                                    !isDailyScheduleCopied(employeeIndex, weekIndex, weekNumber) && !isDailyScheduleCopiedEmpty() && 'cursor-copy relative group'
+                                                    !isDailyScheduleCopied(employeeIndex, weekIndex, weekNumber) && !isDailyScheduleCopiedEmpty() && 'cursor-copy relative group',
+                                                    hasConflict(week) && 'border-1.5 border-red-500',
                                                 ]"
                                                 @click="!isDailyScheduleCopied(employeeIndex, weekIndex, weekNumber) && !isDailyScheduleCopiedEmpty() && pasteEmployeeDailySchedule(employeeIndex, weekIndex)">
                                                 <div class="space-y-2"
@@ -414,7 +383,6 @@
                                                     <div class="text-xs">
                                                         <div v-for="(shift, shiftIndex) in sortMultiDayShiftsFirst(week?.shifts)"
                                                             :key="shiftIndex" :class="[
-                                                                shift?.is_conflict && 'border-1.5 border-red-500',
                                                                 'rounded-md p-1 relative mb-2.5'
                                                             ]" :style="{
                                                                 backgroundColor: `${shift?.type?.color}`,
@@ -985,14 +953,9 @@ function isPastWeek() {
     return moment(currentDate.value).format('YYYY-MM-DD') < moment().format('YYYY-MM-DD')
 }
 
-function viewCompensatoryHours(employee: any) {
-    state.normHours.selectedEmployeeSchedule = employee
-    state.modal.isCompensatoryHoursOpen = true
-}
-
-function viewAvailableVacationHours(employee: any) {
-    state.normHours.selectedEmployeeSchedule = employee
-    state.modal.isVacationHoursOpen = true
+function hasConflict(week: any) {
+    const hasConflict = week?.shifts?.some((shift: any) => shift.is_conflict === true)
+    return hasConflict
 }
 
 function openAddNewShiftModal(employee: any, employeeIndex: number, weekIndex: any, week: any) {
