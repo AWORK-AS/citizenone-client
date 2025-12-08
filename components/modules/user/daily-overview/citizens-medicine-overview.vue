@@ -50,7 +50,7 @@
                             <p>
                                 {{ medicine?.medicine?.ingredients }}
                             </p>
-                            <div class="mt-1 text-xxs flex flex-wrap gap-x-1 gap-y-3 py-1"
+                            <div class="mt-1 text-xxs flex flex-wrap gap-x-1 gap-y-1.5 py-1"
                                 v-if="medicine.due_dates?.length > 0">
                                 <Tooltip v-for="(due_date, dueDateIndex) in medicine.due_dates" :key="dueDateIndex"
                                     :text="(() => {
