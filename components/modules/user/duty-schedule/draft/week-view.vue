@@ -961,6 +961,7 @@ async function saveShift(shiftDetails: any) {
         if (shiftDetails.recurring.frequency === 'weekly') {
             params.weekly_on = shiftDetails.recurring.weekly_on
         } else if (shiftDetails.recurring.frequency === 'monthly') {
+            params.monthly_on_the_enabled = shiftDetails.recurring.monthly_on_the_enabled
             if (!shiftDetails.recurring.monthly_on_the_enabled) {
                 params.monthly_each = shiftDetails.recurring.monthly_each
             } else {

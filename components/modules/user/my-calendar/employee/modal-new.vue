@@ -104,6 +104,7 @@ async function saveSchedule(scheduleDetails: any) {
             if (scheduleDetails.recurring.frequency === 'weekly') {
                 params.weekly_on = scheduleDetails.recurring.weekly_on
             } else if (scheduleDetails.recurring.frequency === 'monthly') {
+                params.monthly_on_the_enabled = scheduleDetails.recurring.monthly_on_the_enabled
                 if (!scheduleDetails.recurring.monthly_on_the_enabled) {
                     params.monthly_each = scheduleDetails.recurring.monthly_each
                 } else {
