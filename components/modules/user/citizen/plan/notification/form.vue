@@ -1,6 +1,6 @@
 <template>
     <LoadingSpinner :isActive="state.isPageLoading">
-        <form @submit.prevent="submitForm()">
+        <form @submit.prevent="submitForm()" id="formNotification">
             <Alert type="danger" :text="props?.error?.message"
                 v-if="props.error?.message && props.error.message.length > 0" />
             <Alert type="danger" :text="state?.error?.message"
@@ -475,3 +475,9 @@ function submitForm() {
     }
 }
 </script>
+
+<style>
+#formNotification .multiselect-dropdown {
+    max-height: 5rem !important;
+}
+</style>
