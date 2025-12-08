@@ -480,7 +480,7 @@
                                                 :key="weekIndex" :class="[
                                                     isDailyScheduleCopied(employeeIndex, weekIndex, weekNumber) && 'border-1.5 border-dashed border-gray-700',
                                                     !isDailyScheduleCopied(employeeIndex, weekIndex, weekNumber) && !isDailyScheduleCopiedEmpty() && 'cursor-copy relative group',
-                                                    hasConflict(week) && 'border-1.5 border-red-500',
+                                                    hasConflict(week) && 'border-1.5 border-red-500 rounded-md',
                                                 ]"
                                                 @click="!isDailyScheduleCopied(employeeIndex, weekIndex, weekNumber) && !isDailyScheduleCopiedEmpty() && pasteEmployeeDailySchedule(employeeIndex, weekIndex)">
                                                 <div class="space-y-2"
