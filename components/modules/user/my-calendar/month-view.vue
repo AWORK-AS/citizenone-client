@@ -410,7 +410,7 @@ function previousMonth() {
     updateDays()
     emit('changeMonthYear', state.currentYear, state.currentMonth)
 }
-setToday
+
 function setToday() {
     state.currentMonth = today.month()
     state.currentYear = today.year()
