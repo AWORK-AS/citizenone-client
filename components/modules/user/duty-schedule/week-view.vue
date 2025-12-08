@@ -378,10 +378,7 @@
                                                             'text-xxs'
                                                         ]">
                                                             {{ $t('dutySchedules.extraHours.extraHours') }}:
-                                                            {{
-                                                                formatNumber(language.locale.value,
-                                                                    employee?.extra_hours || 0)
-                                                            }}
+                                                            {{ employee?.extra_hours }}
                                                         </p>
                                                         <div class="p-0 m-0 text-xxs text-primary cursor-pointer hover:text-primary-700"
                                                             @click="navigateTo(`/calendar?employee_uuid=${employee?.uuid}`)">
