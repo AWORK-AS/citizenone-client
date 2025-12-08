@@ -122,6 +122,7 @@
 import moment from 'moment'
 import { useDatetimeFormatter } from '@/composables/datetimeFormatter'
 import { scheduleSlotService } from '@/components/api/user/ScheduleSlotService'
+import { useDepartmentStore } from '@/store/department'
 import { useI18n } from "vue-i18n"
 import { useAlert } from '@/composables/alert'
 import type { Error } from '@/types'
@@ -137,6 +138,7 @@ const props = defineProps({
     },
 })
 const emit = defineEmits(['close', 'refreshDutySchedules'])
+const departmentStore = useDepartmentStore()
 
 const { formatDateToReadable, formatDateTimeToReadable } = useDatetimeFormatter()
 const { successAlert } = useAlert()
@@ -195,6 +197,7 @@ async function fetchScheduleSlots() {
     state.isTableLoading = true
     try {
         const params = {
+            department: departmentStore.getSelectedDepartmentName,
             date_start: moment(props.selectedDay?.fullDate).format('YYYY-MM-DD'),
             date_end: moment(props.selectedDay?.fullDate).format('YYYY-MM-DD'),
             page: currentTablePage,
