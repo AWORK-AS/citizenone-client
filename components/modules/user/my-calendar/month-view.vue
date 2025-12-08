@@ -44,7 +44,7 @@
                                 <Icon name="heroicons:chevron-left" class="h-5 w-5" aria-hidden="true" />
                             </button>
                             <FormDateField id="date" name="date" :placeholder="$t('dutySchedules.form.date')"
-                                dateType="duty-schedule" v-model="state.selectedDate" />
+                                dateType="calendar" v-model="state.selectedDate" />
                             <span class="relative -mx-px h-5 w-px bg-gray-300 md:hidden" />
                             <button type="button" @click="nextMonth()"
                                 class="flex h-11 w-12 items-center justify-center rounded-r-md border-y border-r border-gray-300 pl-1 text-gray-400 hover:text-gray-500 focus:relative md:w-9 md:pl-0 md:hover:bg-gray-50">
@@ -410,7 +410,7 @@ function previousMonth() {
     updateDays()
     emit('changeMonthYear', state.currentYear, state.currentMonth)
 }
-
+setToday
 function setToday() {
     state.currentMonth = today.month()
     state.currentYear = today.year()

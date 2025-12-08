@@ -37,18 +37,16 @@
                 </h3>
                 <div class="flex items-center">
                     <div class="relative flex items-center rounded-md bg-white shadow-sm md:items-stretch">
-                        <button @click="previousWeek" type="button"
-                            class="flex h-9 w-12 items-center justify-center rounded-l-md border-y border-l border-gray-300 pr-1 text-gray-400 hover:text-gray-500 focus:relative md:w-9 md:pr-0 md:hover:bg-gray-50">
+                        <button @click="previousWeek()" type="button"
+                            class="flex h-11 w-12 items-center justify-center rounded-l-md border-y border-l border-gray-300 pr-1 text-gray-400 hover:text-gray-500 focus:relative md:w-9 md:pr-0 md:hover:bg-gray-50">
                             <span class="sr-only">Previous week</span>
                             <Icon name="heroicons:chevron-left" class="h-5 w-5" aria-hidden="true" />
                         </button>
-                        <button @click="setToday" type="button"
-                            class="hidden border-y border-gray-300 px-3.5 text-sm font-semibold text-gray-900 hover:bg-gray-50 focus:relative md:block">
-                            {{ $t('calendar.today') }}
-                        </button>
+                        <FormDateField id="date" name="date" :placeholder="$t('dutySchedules.form.date')"
+                            dateType="calendar" v-model="state.selectedDate" />
                         <span class="relative -mx-px h-5 w-px bg-gray-300 md:hidden" />
-                        <button @click="nextWeek" type="button"
-                            class="flex h-9 w-12 items-center justify-center rounded-r-md border-y border-r border-gray-300 pl-1 text-gray-400 hover:text-gray-500 focus:relative md:w-9 md:pl-0 md:hover:bg-gray-50">
+                        <button @click="nextWeek()" type="button"
+                            class="flex h-11 w-12 items-center justify-center rounded-r-md border-y border-r border-gray-300 pl-1 text-gray-400 hover:text-gray-500 focus:relative md:w-9 md:pl-0 md:hover:bg-gray-50">
                             <span class="sr-only">Next week</span>
                             <Icon name="heroicons:chevron-right" class="h-5 w-5" aria-hidden="true" />
                         </button>
@@ -366,7 +364,20 @@ const state = reactive({
     modal: {
         isDeleteScheduleOpen: false,
     },
+    selectedDate: moment().format('YYYY-MM-DD'),
     selectedSchedule: {}
+})
+
+watch(() => state.selectedDate, (newSelectedDate: any) => {
+    if (newSelectedDate) {
+        currentDate.value = moment(newSelectedDate)
+        const dateMoment = moment(currentDate.value)
+        const startOfWeek = dateMoment.clone().startOf('isoWeek')
+        const endOfWeek = dateMoment.clone().endOf('isoWeek')
+        const startOfWeekFormatted = startOfWeek.format('YYYY-MM-DD')
+        const endOfWeekFormatted = endOfWeek.format('YYYY-MM-DD')
+        emit('changeDatePerWeek', [startOfWeekFormatted, endOfWeekFormatted])
+    }
 })
 
 const previousWeek = () => {
@@ -377,6 +388,7 @@ const previousWeek = () => {
     const startOfWeekFormatted = startOfWeek.format('YYYY-MM-DD')
     const endOfWeekFormatted = endOfWeek.format('YYYY-MM-DD')
     emit('changeDatePerWeek', [startOfWeekFormatted, endOfWeekFormatted])
+    state.selectedDate = moment(state.selectedDate).subtract(1, 'week').format('YYYY-MM-DD')
 }
 
 const setToday = () => {
@@ -387,6 +399,7 @@ const setToday = () => {
     const startOfWeekFormatted = startOfWeek.format('YYYY-MM-DD')
     const endOfWeekFormatted = endOfWeek.format('YYYY-MM-DD')
     emit('changeDatePerWeek', [startOfWeekFormatted, endOfWeekFormatted])
+    state.selectedDate = moment(currentDate.value).format('YYYY-MM-DD')
 }
 
 const nextWeek = () => {
@@ -397,6 +410,7 @@ const nextWeek = () => {
     const startOfWeekFormatted = startOfWeek.format('YYYY-MM-DD')
     const endOfWeekFormatted = endOfWeek.format('YYYY-MM-DD')
     emit('changeDatePerWeek', [startOfWeekFormatted, endOfWeekFormatted])
+    state.selectedDate = moment(state.selectedDate).add(1, 'week').format('YYYY-MM-DD')
 }
 
 function editMyCalendarEvent(myCalendarEvent: any) {
