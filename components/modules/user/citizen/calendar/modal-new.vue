@@ -46,6 +46,23 @@ const state = reactive({
         unit_uuid: '',
         is_private: false,
         send_invitation: false,
+        recurring: {
+            is_recurring: false,
+            recurring: '',
+            recurring_until: '',
+            frequency: '',
+            every: '',
+            weekly_on: [],
+            monthly_on_the_enabled: false,
+            monthly_each: [],
+            monthly_on_the_sequence: '',
+            monthly_on_the_day: '',
+            yearly_in_months: [],
+            yearly_on_the_enabled: false,
+            yearly_on_the_sequence: '',
+            yearly_on_the_day: '',
+            is_apply_to_all: false,
+        },
     },
 })
 
@@ -71,6 +88,27 @@ async function saveSchedule(scheduleDetails: any) {
             unit_uuid: scheduleDetails.unit_uuid,
             is_private: scheduleDetails.is_private,
             send_invitation: scheduleDetails.send_invitation,
+        } as any
+        if (scheduleDetails.recurring.recurring === 'custom') {
+            params.frequency = scheduleDetails.recurring.frequency
+            params.every = scheduleDetails.recurring.every
+            if (scheduleDetails.recurring.frequency === 'weekly') {
+                params.weekly_on = scheduleDetails.recurring.weekly_on
+            } else if (scheduleDetails.recurring.frequency === 'monthly') {
+                params.monthly_on_the_enabled = scheduleDetails.recurring.monthly_on_the_enabled
+                if (!scheduleDetails.recurring.monthly_on_the_enabled) {
+                    params.monthly_each = scheduleDetails.recurring.monthly_each
+                } else {
+                    params.monthly_on_the_sequence = scheduleDetails.recurring.monthly_on_the_sequence
+                    params.monthly_on_the_day = scheduleDetails.recurring.monthly_on_the_day
+                }
+            } else if (scheduleDetails.recurring.frequency === 'yearly') {
+                params.yearly_in_months = scheduleDetails.recurring.yearly_in_months
+                if (scheduleDetails.recurring.yearly_on_the_enabled) {
+                    params.yearly_on_the_sequence = scheduleDetails.recurring.yearly_on_the_sequence
+                    params.yearly_on_the_day = scheduleDetails.recurring.yearly_on_the_day
+                }
+            }
         }
         const response = await myCalendarService.saveSchedule(params)
         if (response?.data) {

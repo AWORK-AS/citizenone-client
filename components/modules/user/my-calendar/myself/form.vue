@@ -495,7 +495,6 @@ const v$ = useVuelidate(rules, state)
 
 function submitForm() {
     v$.value.$validate()
-    console.log('test', v$.value)
     if (!v$.value.$error) {
         emit('submitForm', state.formSchedule)
     }
