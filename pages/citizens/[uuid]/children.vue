@@ -127,7 +127,7 @@ const state = reactive({
     columnHeaders: [
         { name: 'children.table.name', sorter: true, key: 'firstname' },
         { name: 'children.table.emailAddress', sorter: true, key: 'email' },
-        { name: 'children.table.ssn', sorter: true, key: 'ssn' },
+        { name: 'children.table.ssn', sorter: true, key: 'social_security_number' },
         { name: 'children.table.phone', sorter: true, key: 'phone' },
         { name: '' },
     ],
