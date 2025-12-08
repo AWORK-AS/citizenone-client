@@ -32,123 +32,145 @@
                 </div>
                 <div class="space-y-1">
                     <div class="w-fit flex items-center cursor-pointer"
-                        @click="state.formNotification.is_recurring = !state.formNotification.is_recurring">
-                        <FormCheckbox :value="state.formNotification.is_recurring" />
+                        @click="state.formNotification.recurring.is_recurring = !state.formNotification.recurring.is_recurring">
+                        <FormCheckbox :value="state.formNotification.recurring.is_recurring" />
                         {{ $t('plansandgoals.notifications.form.repeatNotification') }}
                     </div>
                 </div>
-                <div class="space-y-3" v-if="state.formNotification.recurring.recurring === 'custom'">
-                    <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
-                        <div class="space-y-1">
-                            <FormLabel for="frequency" :label="$t('recurring.frequency.frequency')" />
-                            <FormSelect id="frequency" :options="state.options.recurring.frequency"
-                                v-model="state.formNotification.recurring.frequency" />
-                            <FormError
-                                :error="v$?.formNotification?.recurring.frequency?.$errors[0]?.$message.toString()" />
-                            <FormError :error="state?.error?.errors?.frequency?.[0]" />
-                        </div>
-                        <div class="space-y-1">
-                            <FormLabel for="daily_every" :label="`${$t('recurring.every')} (${state.formNotification.recurring.frequency === 'daily' ? $t('recurring.frequency.daily.days') :
-                                state.formNotification.recurring.frequency === 'weekly' ? $t('recurring.frequency.weekly.weeks') :
-                                    state.formNotification.recurring.frequency === 'monthly' ? $t('recurring.frequency.monthly.months') :
-                                        $t('recurring.frequency.yearly.years')
-                                })`" />
-                            <FormSelect id="daily_every" :options="state.formNotification.recurring.frequency === 'daily' ? state.options.recurring.zeroTo999Days :
-                                state.formNotification.recurring.frequency === 'weekly' ? state.options.recurring.zeroTo999Weeks :
-                                    state.formNotification.recurring.frequency === 'monthly' ? state.options.recurring.zeroTo999Months :
-                                        state.options.recurring.zeroTo999Years"
-                                v-model="state.formNotification.recurring.every" />
-                            <FormError
-                                :error="v$?.formNotification?.recurring.every?.$errors[0]?.$message.toString()" />
-                            <FormError :error="state?.error?.errors?.every?.[0]" />
-                        </div>
+
+                <div class="space-y-3" v-if="state.formNotification.recurring.is_recurring">
+                    <div class="space-y-1">
+                        <FormLabel for="recurring" :label="$t('recurring.repeat')" />
+                        <FormSelect id="recurring" :options="state.options.recurring.recurringSchedules"
+                            v-model="state.formNotification.recurring.recurring" />
+                        <FormError
+                            :error="v$?.formNotification?.recurring.recurring?.$errors[0]?.$message.toString()" />
+                        <FormError :error="state?.error?.errors?.recurring_uuid?.[0]" />
                     </div>
-                    <div>
-                        <div class="space-y-1" v-if="state.formNotification.recurring.frequency === 'weekly'">
-                            <FormLabel for="weekly_on" :label="$t('recurring.frequency.weekly.weekOn')" />
-                            <FormSelectMultiple id="weekly_on" :options="state.options.recurring.weekOn"
-                                v-model="state.formNotification.recurring.weekly_on" />
-                            <FormError
-                                :error="v$?.formNotification?.recurring.weekly_on?.$errors[0]?.$message.toString()" />
-                            <FormError :error="state?.error?.errors?.weekly_on?.[0]" />
-                        </div>
-                        <div class="space-y-1" v-if="state.formNotification.recurring.frequency === 'monthly'">
-                            <div class="flex items-center gap-x-2">
-                                <FormSwitch :value="state.formNotification.recurring.monthly_on_the_enabled"
-                                    @toggleSwitch="state.formNotification.recurring.monthly_on_the_enabled = !state.formNotification.recurring.monthly_on_the_enabled" />
-                                <p>
-                                    <span v-if="!state.formNotification.recurring.monthly_on_the_enabled">
-                                        {{ $t('recurring.frequency.monthly.each') }}
-                                        ({{ $t('recurring.frequency.monthly.day') }})
-                                    </span>
-                                    <span v-else>
-                                        {{ $t('recurring.frequency.onThe.onThe') }}
-                                    </span>
-                                </p>
-                            </div>
-                            <div class="space-y-1" v-if="!state.formNotification.recurring.monthly_on_the_enabled">
-                                <FormSelectMultiple id="monthly_each" :options="state.options.recurring.monthlyEach"
-                                    v-model="state.formNotification.recurring.monthly_each" />
+                    <div class="space-y-1">
+                        <FormLabel for="recurring_until" :label="$t('recurring.until')" />
+                        <FormDateField id="recurring_until" name="recurring_until"
+                            :placeholder="`${$t('recurring.until')}`"
+                            v-model="state.formNotification.recurring.recurring_until" />
+                        <FormError
+                            :error="v$?.formNotification.recurring.recurring_until?.$errors[0]?.$message.toString()" />
+                        <FormError :error="state?.error?.errors?.recurring_until?.[0]" />
+                    </div>
+                    <div class="space-y-3" v-if="state.formNotification.recurring.recurring === 'custom'">
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
+                            <div class="space-y-1">
+                                <FormLabel for="frequency" :label="$t('recurring.frequency.frequency')" />
+                                <FormSelect id="frequency" :options="state.options.recurring.frequency"
+                                    v-model="state.formNotification.recurring.frequency" />
                                 <FormError
-                                    :error="v$?.formNotification?.recurring.monthly_each?.$errors[0]?.$message.toString()" />
-                                <FormError :error="state?.error?.errors?.monthly_each?.[0]" />
+                                    :error="v$?.formNotification?.recurring.frequency?.$errors[0]?.$message.toString()" />
+                                <FormError :error="state?.error?.errors?.frequency?.[0]" />
                             </div>
-                            <div v-else>
-                                <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
-                                    <div class="space-y-1">
-                                        <FormSelect id="monthly_on_the_sequence"
-                                            :options="state.options.recurring.monthlyOnTheSequences"
-                                            v-model="state.formNotification.recurring.monthly_on_the_sequence" />
-                                        <FormError
-                                            :error="v$?.formNotification?.recurring.monthly_on_the_sequence?.$errors[0]?.$message.toString()" />
-                                        <FormError :error="state?.error?.errors?.monthly_on_the_sequence?.[0]" />
-                                    </div>
-                                    <div class="space-y-1">
-                                        <FormSelect id="monthly_on_the_day"
-                                            :options="state.options.recurring.monthlyOnTheDays"
-                                            v-model="state.formNotification.recurring.monthly_on_the_day" />
-                                        <FormError
-                                            :error="v$?.formNotification?.recurring.monthly_on_the_day?.$errors[0]?.$message.toString()" />
-                                        <FormError :error="state?.error?.errors?.monthly_on_the_day?.[0]" />
+                            <div class="space-y-1">
+                                <FormLabel for="daily_every" :label="`${$t('recurring.every')} (${state.formNotification.recurring.frequency === 'daily' ? $t('recurring.frequency.daily.days') :
+                                    state.formNotification.recurring.frequency === 'weekly' ? $t('recurring.frequency.weekly.weeks') :
+                                        state.formNotification.recurring.frequency === 'monthly' ? $t('recurring.frequency.monthly.months') :
+                                            $t('recurring.frequency.yearly.years')
+                                    })`" />
+                                <FormSelect id="daily_every" :options="state.formNotification.recurring.frequency === 'daily' ? state.options.recurring.zeroTo999Days :
+                                    state.formNotification.recurring.frequency === 'weekly' ? state.options.recurring.zeroTo999Weeks :
+                                        state.formNotification.recurring.frequency === 'monthly' ? state.options.recurring.zeroTo999Months :
+                                            state.options.recurring.zeroTo999Years"
+                                    v-model="state.formNotification.recurring.every" />
+                                <FormError
+                                    :error="v$?.formNotification?.recurring.every?.$errors[0]?.$message.toString()" />
+                                <FormError :error="state?.error?.errors?.every?.[0]" />
+                            </div>
+                        </div>
+                        <div>
+                            <div class="space-y-1" v-if="state.formNotification.recurring.frequency === 'weekly'">
+                                <FormLabel for="weekly_on" :label="$t('recurring.frequency.weekly.weekOn')" />
+                                <FormSelectMultiple id="weekly_on" :options="state.options.recurring.weekOn"
+                                    v-model="state.formNotification.recurring.weekly_on" />
+                                <FormError
+                                    :error="v$?.formNotification?.recurring.weekly_on?.$errors[0]?.$message.toString()" />
+                                <FormError :error="state?.error?.errors?.weekly_on?.[0]" />
+                            </div>
+                            <div class="space-y-1" v-if="state.formNotification.recurring.frequency === 'monthly'">
+                                <div class="flex items-center gap-x-2">
+                                    <FormSwitch :value="state.formNotification.recurring.monthly_on_the_enabled"
+                                        @toggleSwitch="state.formNotification.recurring.monthly_on_the_enabled = !state.formNotification.recurring.monthly_on_the_enabled" />
+                                    <p>
+                                        <span v-if="!state.formNotification.recurring.monthly_on_the_enabled">
+                                            {{ $t('recurring.frequency.monthly.each') }}
+                                            ({{ $t('recurring.frequency.monthly.day') }})
+                                        </span>
+                                        <span v-else>
+                                            {{ $t('recurring.frequency.onThe.onThe') }}
+                                        </span>
+                                    </p>
+                                </div>
+                                <div class="space-y-1" v-if="!state.formNotification.recurring.monthly_on_the_enabled">
+                                    <FormSelectMultiple id="monthly_each" :options="state.options.recurring.monthlyEach"
+                                        v-model="state.formNotification.recurring.monthly_each" />
+                                    <FormError
+                                        :error="v$?.formNotification?.recurring.monthly_each?.$errors[0]?.$message.toString()" />
+                                    <FormError :error="state?.error?.errors?.monthly_each?.[0]" />
+                                </div>
+                                <div v-else>
+                                    <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
+                                        <div class="space-y-1">
+                                            <FormSelect id="monthly_on_the_sequence"
+                                                :options="state.options.recurring.monthlyOnTheSequences"
+                                                v-model="state.formNotification.recurring.monthly_on_the_sequence" />
+                                            <FormError
+                                                :error="v$?.formNotification?.recurring.monthly_on_the_sequence?.$errors[0]?.$message.toString()" />
+                                            <FormError :error="state?.error?.errors?.monthly_on_the_sequence?.[0]" />
+                                        </div>
+                                        <div class="space-y-1">
+                                            <FormSelect id="monthly_on_the_day"
+                                                :options="state.options.recurring.monthlyOnTheDays"
+                                                v-model="state.formNotification.recurring.monthly_on_the_day" />
+                                            <FormError
+                                                :error="v$?.formNotification?.recurring.monthly_on_the_day?.$errors[0]?.$message.toString()" />
+                                            <FormError :error="state?.error?.errors?.monthly_on_the_day?.[0]" />
+                                        </div>
                                     </div>
                                 </div>
                             </div>
-                        </div>
-                        <div class="space-y-3" v-if="state.formNotification.recurring.frequency === 'yearly'">
-                            <div class="space-y-1">
-                                <FormLabel for="yearly_in_months" :label="$t('recurring.frequency.yearly.yearIn')" />
-                                <FormSelectMultiple id="yearly_in_months"
-                                    :options="state.options.recurring.yearlyMonths"
-                                    v-model="state.formNotification.recurring.yearly_in_months" />
-                                <FormError
-                                    :error="v$?.formNotification?.recurring.yearly_in_months?.$errors[0]?.$message.toString()" />
-                                <FormError :error="state?.error?.errors?.yearly_in_months?.[0]" />
-                            </div>
-                            <div class="space-y-1">
+                            <div class="space-y-3" v-if="state.formNotification.recurring.frequency === 'yearly'">
                                 <div class="space-y-1">
-                                    <div class="w-fit flex items-center cursor-pointer"
-                                        @click="state.formNotification.recurring.yearly_on_the_enabled = !state.formNotification.recurring.yearly_on_the_enabled">
-                                        <FormCheckbox :value="state.formNotification.recurring.yearly_on_the_enabled" />
-                                        {{ $t('recurring.frequency.yearly.onThe') }}
-                                    </div>
+                                    <FormLabel for="yearly_in_months"
+                                        :label="$t('recurring.frequency.yearly.yearIn')" />
+                                    <FormSelectMultiple id="yearly_in_months"
+                                        :options="state.options.recurring.yearlyMonths"
+                                        v-model="state.formNotification.recurring.yearly_in_months" />
+                                    <FormError
+                                        :error="v$?.formNotification?.recurring.yearly_in_months?.$errors[0]?.$message.toString()" />
+                                    <FormError :error="state?.error?.errors?.yearly_in_months?.[0]" />
                                 </div>
-                                <div class="grid grid-cols-1 md:grid-cols-2 gap-3"
-                                    v-if="state.formNotification.recurring.yearly_on_the_enabled">
+                                <div class="space-y-1">
                                     <div class="space-y-1">
-                                        <FormSelect id="yearly_on_the_sequence"
-                                            :options="state.options.recurring.yearlyOnTheSequences"
-                                            v-model="state.formNotification.recurring.yearly_on_the_sequence" />
-                                        <FormError
-                                            :error="v$?.formNotification?.recurring.yearly_on_the_sequence?.$errors[0]?.$message.toString()" />
-                                        <FormError :error="state?.error?.errors?.yearly_on_the_sequence?.[0]" />
+                                        <div class="w-fit flex items-center cursor-pointer"
+                                            @click="state.formNotification.recurring.yearly_on_the_enabled = !state.formNotification.recurring.yearly_on_the_enabled">
+                                            <FormCheckbox
+                                                :value="state.formNotification.recurring.yearly_on_the_enabled" />
+                                            {{ $t('recurring.frequency.yearly.onThe') }}
+                                        </div>
                                     </div>
-                                    <div class="space-y-1">
-                                        <FormSelect id="yearly_on_the_day"
-                                            :options="state.options.recurring.yearlyOnTheDays"
-                                            v-model="state.formNotification.recurring.yearly_on_the_day" />
-                                        <FormError
-                                            :error="v$?.formNotification?.recurring.yearly_on_the_day?.$errors[0]?.$message.toString()" />
-                                        <FormError :error="state?.error?.errors?.yearly_on_the_day?.[0]" />
+                                    <div class="grid grid-cols-1 md:grid-cols-2 gap-3"
+                                        v-if="state.formNotification.recurring.yearly_on_the_enabled">
+                                        <div class="space-y-1">
+                                            <FormSelect id="yearly_on_the_sequence"
+                                                :options="state.options.recurring.yearlyOnTheSequences"
+                                                v-model="state.formNotification.recurring.yearly_on_the_sequence" />
+                                            <FormError
+                                                :error="v$?.formNotification?.recurring.yearly_on_the_sequence?.$errors[0]?.$message.toString()" />
+                                            <FormError :error="state?.error?.errors?.yearly_on_the_sequence?.[0]" />
+                                        </div>
+                                        <div class="space-y-1">
+                                            <FormSelect id="yearly_on_the_day"
+                                                :options="state.options.recurring.yearlyOnTheDays"
+                                                v-model="state.formNotification.recurring.yearly_on_the_day" />
+                                            <FormError
+                                                :error="v$?.formNotification?.recurring.yearly_on_the_day?.$errors[0]?.$message.toString()" />
+                                            <FormError :error="state?.error?.errors?.yearly_on_the_day?.[0]" />
+                                        </div>
                                     </div>
                                 </div>
                             </div>
@@ -439,6 +461,7 @@ const rules = computed(() => {
             note: {
                 required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
             },
+            recurring: {}
         },
     }
 })
