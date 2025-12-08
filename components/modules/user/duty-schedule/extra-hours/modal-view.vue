@@ -8,9 +8,13 @@
                     <div class="flex justify-between items-center mb-5">
                         <div class="flex flex-col md:flex-row gap-x-1 flex-wrap font-medium">
                             {{ $t('dutySchedules.extraHours.extraHours') }}:
-                            {{
-                                formatNumber(language.locale.value, state.extraHours?.extra_hours || 0)
-                            }}
+                            <span :class="[
+                                state.extraHours?.extra_hours > 0 ? 'text-green-700' : 'text-red-700',
+                            ]">
+                                {{
+                                    formatNumber(language.locale.value, state.extraHours?.extra_hours || 0)
+                                }}
+                            </span>
                             <button class="w-fit text-xs text-primary hover:text-primary-700 hover:underline"
                                 @click="state.modal.isExtraHoursDateRangeOpen = true">
                                 ({{ formatDateToReadable(state.shiftDateRange.formDateRange.start_date) }} -
