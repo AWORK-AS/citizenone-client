@@ -67,6 +67,7 @@ async function updateNotification(notificationDetails: any) {
             if (notificationDetails.recurring.frequency === 'weekly') {
                 params.weekly_on = notificationDetails.recurring.weekly_on
             } else if (notificationDetails.recurring.frequency === 'monthly') {
+                params.monthly_on_the_enabled = notificationDetails.recurring.monthly_on_the_enabled
                 if (!notificationDetails.recurring.monthly_on_the_enabled) {
                     params.monthly_each = notificationDetails.recurring.monthly_each
                 } else {
