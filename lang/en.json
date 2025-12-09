@@ -2422,7 +2422,12 @@
                 }
             }
         },
-        "filterDate": "Filter date",
+        "filter": {
+            "departments": "Departments",
+            "employees": "Employees",
+            "employmentStatus": "Employment status",
+            "filterDate": "Filter date"
+        },
         "form": {
             "citizens": "Citizens",
             "createMultipleSchedules": "Create multiple schedules",

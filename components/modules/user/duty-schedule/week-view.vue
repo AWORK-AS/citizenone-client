@@ -62,6 +62,14 @@
                             </h3>
                         </div>
                         <div class="flex items-center gap-x-2">
+                            <button class="flex items-center gap-x-1 text-sm text-primary group"
+                                @click="state.modal.isFilterDutyScheduleOpen = true">
+                                <Icon name="ic:outline-filter-list"
+                                    class="text-primary w-6 h-6 group-hover:text-primary-700" />
+                                <span class="group-hover:text-primary-700">
+                                    {{ $t('filter') }}
+                                </span>
+                            </button>
                             <Tooltip
                                 :text="state.sortData.sortOrder === 'ascend' ? $t('dutySchedules.sort.sortNamesInDescendingOrder') : $t('dutySchedules.sort.sortNamesInAscendingOrder')"
                                 position="left">
@@ -747,6 +755,8 @@
                     <Pagination :data="state.weeklySchedules" @previous="previous" @next="next" />
                 </div>
             </div>
+            <ModulesUserDutyScheduleModalFilter :isModalOpen="state.modal.isFilterDutyScheduleOpen"
+                @close="state.modal.isFilterDutyScheduleOpen = false" @setFilter="setFilter" />
             <ModulesUserDutyScheduleNormHoursModalCompensatoryHours :isModalOpen="state.modal.isCompensatoryHoursOpen"
                 :selectedEmployee="state.normHours.selectedEmployeeSchedule"
                 @close="state.modal.isCompensatoryHoursOpen = false" />
@@ -840,6 +850,11 @@ const state = reactive({
         selectedEmployeeSchedule: {},
     } as any,
     error: {} as Error,
+    filter: {
+        department_uuids: [],
+        employment_status: [],
+        employee_uuids: [],
+    },
     isPageLoading: false,
     manageScheduleSlot: {
         selectedDay: [],
@@ -864,6 +879,7 @@ const state = reactive({
         isCopyMultipleWeeklyScheduleOpen: false,
         isDepartmentSickLeaveDateRangeOpen: false,
         isEditShiftOpen: false,
+        isFilterDutyScheduleOpen: false,
         isManageExtraHoursOpen: false,
         isManageScheduleSlotOpen: false,
         isManageTimeAdjustmentRequestsOpen: false,
@@ -904,7 +920,6 @@ const state = reactive({
     },
     isRemoveShift: false,
     isUpdateShift: false,
-    originalWeeklySchedules: [] as any,
     viewShift: {
         selectedEmployeeSchedule: {},
     } as any,
@@ -1064,9 +1079,6 @@ function getMultiDayShift(shifts: any) {
 
 async function fetchDutySchedule() {
     state.error = {}
-    // state.weeklySchedules = []
-    // state.originalWeeklySchedules = []
-    // state.isPageLoading = true
     state.progress.totalRequests = state.progress.totalRequests + 1
     state.progress.pendingRequests = state.progress.pendingRequests + 1
     identifyTheProgressPercentage()
@@ -1088,11 +1100,19 @@ async function fetchDutySchedule() {
             sortField: state.sortData.sortField,
             sortOrder: state.sortData.sortOrder,
             ...state.dataFilter,
+        } as any
+        if (state.filter.department_uuids?.length > 0) {
+            params.department_uuids = Array(state.filter.department_uuids)
+        }
+        if (state.filter.employment_status) {
+            params.employment_status = Array(state.filter.employment_status)
+        }
+        if (state.filter.employee_uuids?.length > 0) {
+            params.employee_uuids = Array(state.filter.employee_uuids)
         }
         const response = await dutyScheduleService.getDutySchedules(params)
         if (response) {
             state.weeklySchedules = response
-            state.originalWeeklySchedules = JSON.parse(JSON.stringify(response?.data))
             state.progress.totalRequests = state.progress.totalRequests - 1
             state.progress.pendingRequests = state.progress.pendingRequests - 1
             identifyTheProgressPercentage()
@@ -1112,6 +1132,13 @@ watch(() => state.weeklySchedules, (newSchedules) => {
         expandedRecords.splice(0, expandedRecords.length, ...newSchedules.data.map(() => true))
     }
 })
+
+function setFilter(filter: any) {
+    state.filter.department_uuids = filter.department_uuids
+    state.filter.employment_status = filter.employment_status
+    state.filter.employee_uuids = filter.employee_uuids
+    fetchDutySchedule()
+}
 
 function sortDutySchedule() {
     if (state.sortData.sortOrder === 'ascend') {

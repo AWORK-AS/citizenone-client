@@ -2422,7 +2422,12 @@
                 }
             }
         },
-        "filterDate": "Filtrer dato",
+        "filter": {
+            "departments": "Afdelinger",
+            "employees": "Medarbejdere",
+            "employmentStatus": "Ansættelsesstatus",
+            "filterDate": "Filtrer dato"
+        },
         "form": {
             "citizens": "Borgere",
             "createMultipleSchedules": "Opret flere vagter",

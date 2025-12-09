@@ -1,10 +1,11 @@
 <template>
     <div>
-        <Modal size="xs" :title="`${$t('dutySchedules.filterDate')}`" :show="props.isModalOpen" @close="closeModal">
+        <Modal size="xs" :title="`${$t('dutySchedules.filter.filterDate')}`" :show="props.isModalOpen"
+            @close="closeModal">
             <template #modal-body>
                 <form @submit.prevent="filterRevenue" class="mt-3">
                     <div class="space-y-3">
-                        <FormDateRangeField name="date_range" :placeholder="$t('dutySchedules.filterDate')"
+                        <FormDateRangeField name="date_range" :placeholder="$t('dutySchedules.filter.filterDate')"
                             v-model="state.filter.date_range" />
                         <FormError :error="v$?.date_range?.$errors[0]?.$message.toString()" />
                     </div>
