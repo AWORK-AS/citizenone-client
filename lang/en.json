@@ -884,12 +884,12 @@
                 "draft": "Draft",
                 "enterJournalTitleManually": "Enter journal title manually",
                 "forTeeth": "For teeth",
-                "generateNote": "Generate note",
                 "goal": "Goal",
                 "hideCurrentPlansGoalsAndSubgoals": "Hide current plans, goals, and subgoals",
                 "journalNoteTags": "Journal note tags",
                 "note": "Note",
                 "plan": "Plan",
+                "prepareWithAI": "Prepare with AI",
                 "risk": {
                     "acuteIncreasedRisk": "Acute increased risk",
                     "increasedRisk": "Increased risk",
@@ -3953,8 +3953,8 @@
                 "date": "Date",
                 "draft": "Draft",
                 "enterJournalTitleManually": "Enter journal title manually",
-                "generateNote": "Generate note",
                 "note": "Note",
+                "prepareWithAI": "Prepare with AI",
                 "risk": {
                     "acuteIncreasedRisk": "Acute increased risk",
                     "increasedRisk": "Increased risk",

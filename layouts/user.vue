@@ -272,11 +272,11 @@
                         </button>
 
                         <!-- Separator -->
-                        <div class="hidden lg:block lg:h-6 lg:w-px lg:bg-gray-900/10" aria-hidden="true"
-                            v-if="userStore.getUser?.unread_notification_count > 0 || userStore.getUser?.unread_messages_count > 0" />
+                        <!-- <div class="hidden lg:block lg:h-6 lg:w-px lg:bg-gray-900/10" aria-hidden="true"
+                            v-if="userStore.getUser?.unread_notification_count > 0 || userStore.getUser?.unread_messages_count > 0" /> -->
 
                         <button type="button"
-                            class="-m-2.5 p-2.5 flex items-center gap-x-1 text-sm text-primary hover:text-primary-700"
+                            class="flex items-center gap-x-1 text-sm text-primary hover:text-primary-700"
                             @click="openSupport">
                             <Icon name="material-symbols:support" class="md:ml-2 h-8 w-8 md:w-6 md:h-6"
                                 aria-hidden="true" />

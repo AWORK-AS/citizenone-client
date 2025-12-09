@@ -372,7 +372,7 @@
         }
     },
     "assistants": {
-        "assistants": "Assistance",
+        "assistants": "Spørg Al",
         "askAnything": "Spørg om hvad som helst",
         "generatingResponse": "Genererer svar. Vent venligst",
         "helloHowCanIAssistYouToday": "Hej, hvordan kan jeg hjælpe dig i dag",
@@ -885,11 +885,11 @@
                 "enterJournalTitleManually": "Indtast journal titel manuelt",
                 "forTeeth": "Til tænder",
                 "goal": "Mål",
-                "generateNote": "Generer note",
                 "hideCurrentPlansGoalsAndSubgoals": "Skjul nuværende planer, mål og delmål",
                 "journalNoteTags": "Journalnotetag",
                 "note": "Note",
                 "plan": "Plan",
+                "prepareWithAI": "Udarbejd med Al",
                 "risk": {
                     "acuteIncreasedRisk": "Akut øget risiko",
                     "increasedRisk": "Øget risiko",
@@ -3953,15 +3953,15 @@
                 "date": "Dato",
                 "draft": "Udkast",
                 "enterJournalTitleManually": "Indtast journaltitel manuelt",
-                "generateNote": "Generer note",
                 "note": "Note",
-                "title": "Titel",
+                "prepareWithAI": "Udarbejd med Al",
                 "risk": {
                     "acuteIncreasedRisk": "Akut øget risiko",
                     "increasedRisk": "Øget risiko",
                     "none": "Ingen",
                     "noRisk": "Ingen risiko"
                 },
+                "title": "Titel",
                 "usePredefinedJournalTitle": "Brug foruddefineret journaltitel"
             },
             "quickRiskAssessment": "Hurtig risikovurdering"
