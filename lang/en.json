@@ -1181,6 +1181,7 @@
                 "accommodationStartDate": "Accommodation start date",
                 "accompanyingChildren": {
                     "accompanyingChildren": "Accompanying children",
+                    "cprNumber": "CPR number",
                     "age": "Age",
                     "gender": "Gender",
                     "name": "Name",
@@ -1224,6 +1225,7 @@
                 "accommodationStartDate": "Accommodation start date",
                 "accompanyingChildren": {
                     "accompanyingChildren": "Accompanying children",
+                    "cprNumber": "CPR number",
                     "age": "Age",
                     "gender": "Gender",
                     "name": "Name",
@@ -2129,6 +2131,7 @@
             },
             "birthday": "Birthday",
             "city": "City",
+            "cprNumber": "CPR number",
             "emailAddress": "Email address",
             "firstname": "First name",
             "gender": "Gender",
@@ -2154,6 +2157,7 @@
             "confirmation": {
                 "deleteConfirmation": "Are you sure you want to delete this child"
             },
+            "cprNumber": "CPR number",
             "emailAddress": "Email address",
             "firstname": "First name",
             "gender": "Gender",

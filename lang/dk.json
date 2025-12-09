@@ -1181,6 +1181,7 @@
                 "accommodationStartDate": "Opholdets startdato",
                 "accompanyingChildren": {
                     "accompanyingChildren": "Medfølgende børn",
+                    "cprNumber": "CPR-nummer",
                     "age": "Alder",
                     "gender": "Køn",
                     "name": "Navn",
@@ -1224,6 +1225,7 @@
                 "accommodationStartDate": "Opholdets startdato",
                 "accompanyingChildren": {
                     "accompanyingChildren": "Medfølgende børn",
+                    "cprNumber": "CPR-nummer",
                     "age": "Alder",
                     "gender": "Køn",
                     "name": "Navn",
@@ -2129,6 +2131,7 @@
             },
             "birthday": "Fødselsdag",
             "city": "By",
+            "cprNumber": "CPR-nummer",
             "emailAddress": "E-mailadresse",
             "firstname": "Fornavn",
             "gender": "Køn",
@@ -2154,6 +2157,7 @@
             "confirmation": {
                 "deleteConfirmation": "Er du sikker på, at du vil slette dette barn?"
             },
+            "cprNumber": "CPR-nummer",
             "emailAddress": "E-mailadresse",
             "firstname": "Fornavn",
             "gender": "Køn",

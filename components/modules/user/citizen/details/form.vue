@@ -545,7 +545,7 @@
                                 class="bg-white shadow-sm ring-1 ring-gray-900/5 rounded-lg space-y-3 px-4 py-6 sm:p-8">
                                 <div class="flex items-center gap-x-2">
                                     <div class="grow grid grid-cols-1 md:grid-cols-2 gap-3">
-                                        <div class="space-y-1">
+                                        <div class="col-span-2 space-y-1">
                                             <FormLabel :for="`name_${accompanyingChildenIndex}`"
                                                 :label="$t('citizens.form.stayData.accompanyingChildren.name')" />
                                             <FormTextField :id="`name_${accompanyingChildenIndex}`"
@@ -553,6 +553,16 @@
                                                 :placeholder="$t('citizens.form.stayData.accompanyingChildren.name')"
                                                 :value="child.name"
                                                 @keyup="(event: any) => state.formCitizen.stayData.accompanying_children[accompanyingChildenIndex].name = event.target.value" />
+                                        </div>
+                                        <div class="space-y-1">
+                                            <FormLabel :for="`ssn_${accompanyingChildenIndex}`"
+                                                :label="$t('citizens.form.stayData.accompanyingChildren.cprNumber')" />
+                                            <FormTextField :id="`ssn_${accompanyingChildenIndex}`"
+                                                :name="`name_${accompanyingChildenIndex}`"
+                                                :placeholder="$t('citizens.form.stayData.accompanyingChildren.cprNumber')"
+                                                :maxLength="10"
+                                                :value="child.social_security_number?.length === 10 ? child.social_security_number?.slice(0, 6) + '-' + child.social_security_number?.slice(6) : child.social_security_number"
+                                                @keyup="(event: any) => state.formCitizen.stayData.accompanying_children[accompanyingChildenIndex].social_security_number = event.target.value" />
                                         </div>
                                         <div class="space-y-1">
                                             <FormLabel for="gender"
@@ -738,6 +748,7 @@ const state = reactive({
             journal_number: '',
             accompanying_children: [{
                 name: '',
+                social_security_number: '',
                 gender: '',
                 age: '',
                 origin: '',

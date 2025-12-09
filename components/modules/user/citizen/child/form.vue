@@ -29,53 +29,53 @@
                     <FormError :error="props?.error?.errors?.gender?.[0]" />
                 </div>
                 <div class="space-y-1">
-                    <FormLabel for="email" :label="$t('citizens.form.emailAddress')" />
-                    <FormTextField id="email" name="email" :placeholder="$t('citizens.form.emailAddress')"
+                    <FormLabel for="email" :label="$t('children.form.emailAddress')" />
+                    <FormTextField id="email" name="email" :placeholder="$t('children.form.emailAddress')"
                         v-model="state.formChild.email" />
                     <FormError :error="v$?.formChild?.email?.$errors[0]?.$message.toString()" />
                     <FormError :error="props?.error?.errors?.email?.[0]" />
                 </div>
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
                     <div class="space-y-1">
-                        <FormLabel for="social_security_number" :label="$t('citizens.form.ssn')" />
+                        <FormLabel for="social_security_number" :label="$t('children.form.cprNumber')" />
                         <FormTextField id="social_security_number" name="social_security_number"
-                            :placeholder="$t('citizens.form.ssn')" :maxLength="10"
+                            :placeholder="$t('children.form.cprNumber')" :maxLength="10"
                             v-model="formattedSocialSecurityNumber" @input="updateSocialSecurityNumber" />
                         <FormError :error="v$?.formChild?.social_security_number?.$errors[0]?.$message.toString()" />
                         <FormError :error="props?.error?.errors?.social_security_number?.[0]" />
                     </div>
                     <div class="space-y-1">
-                        <FormLabel for="birthday" :label="$t('citizens.form.birthday')" />
-                        <FormDateField id="birthday" name="birthday" :placeholder="$t('citizens.form.birthday')"
+                        <FormLabel for="birthday" :label="$t('children.form.birthday')" />
+                        <FormDateField id="birthday" name="birthday" :placeholder="$t('children.form.birthday')"
                             v-model="state.formChild.birthday" />
                         <FormError :error="v$?.formChild?.birthday?.$errors[0]?.$message.toString()" />
                         <FormError :error="props?.error?.errors?.birthday?.[0]" />
                     </div>
                 </div>
                 <div class="space-y-1">
-                    <FormLabel for="phone" :label="$t('citizens.form.phone')" />
-                    <FormTextField id="phone" name="phone" :placeholder="$t('citizens.form.phone')"
+                    <FormLabel for="phone" :label="$t('children.form.phone')" />
+                    <FormTextField id="phone" name="phone" :placeholder="$t('children.form.phone')"
                         v-model="state.formChild.phone" />
                     <FormError :error="v$?.formChild?.phone?.$errors[0]?.$message.toString()" />
                     <FormError :error="props?.error?.errors?.phone?.[0]" />
                 </div>
                 <div class="space-y-1">
-                    <FormLabel for="street" :label="$t('citizens.form.street')" />
-                    <FormTextField id="street" name="street" :placeholder="$t('citizens.form.street')"
+                    <FormLabel for="street" :label="$t('children.form.street')" />
+                    <FormTextField id="street" name="street" :placeholder="$t('children.form.street')"
                         v-model="state.formChild.street" />
                     <FormError :error="v$?.formChild?.street?.$errors[0]?.$message.toString()" />
                     <FormError :error="props?.error?.errors?.street?.[0]" />
                 </div>
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
                     <div class="space-y-1">
-                        <FormLabel for="region_uuid" :label="$t('citizens.form.region')" />
+                        <FormLabel for="region_uuid" :label="$t('children.form.region')" />
                         <FormSelect id="region_uuid" :options="state.options.regions"
                             v-model="state.formChild.region_uuid" @change="changeSelectedRegion" />
                         <FormError :error="v$?.formChild?.region_uuid?.$errors[0]?.$message.toString()" />
                         <FormError :error="props?.error?.errors?.region_uuid?.[0]" />
                     </div>
                     <div class="space-y-1">
-                        <FormLabel for="municipality_uuid" :label="$t('citizens.form.municipality')" />
+                        <FormLabel for="municipality_uuid" :label="$t('children.form.municipality')" />
                         <FormSelect id="municipality_uuid" :options="state.options.municipalitiesPerRegion"
                             v-model="state.formChild.municipality_uuid" />
                         <FormError :error="v$?.formChild?.municipality_uuid?.$errors[0]?.$message.toString()" />
@@ -84,15 +84,15 @@
                 </div>
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
                     <div class="space-y-1">
-                        <FormLabel for="city" :label="$t('citizens.form.city')" />
-                        <FormTextField id="city" name="city" :placeholder="$t('citizens.form.city')"
+                        <FormLabel for="city" :label="$t('children.form.city')" />
+                        <FormTextField id="city" name="city" :placeholder="$t('children.form.city')"
                             v-model="state.formChild.city" />
                         <FormError :error="v$?.formChild?.city?.$errors[0]?.$message.toString()" />
                         <FormError :error="props?.error?.errors?.city?.[0]" />
                     </div>
                     <div class="space-y-1">
-                        <FormLabel for="post_code" :label="$t('citizens.form.postCode')" />
-                        <FormTextField id="post_code" name="post_code" :placeholder="$t('citizens.form.postCode')"
+                        <FormLabel for="post_code" :label="$t('children.form.postCode')" />
+                        <FormTextField id="post_code" name="post_code" :placeholder="$t('children.form.postCode')"
                             v-model="state.formChild.post_code" />
                         <FormError :error="v$?.formChild?.post_code?.$errors[0]?.$message.toString()" />
                         <FormError :error="props?.error?.errors?.post_code?.[0]" />
