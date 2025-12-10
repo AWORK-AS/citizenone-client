@@ -2366,6 +2366,7 @@
         "draftTemplates": {
             "draftTemplates": "Draft templates",
             "newDraft": "New Draft Template",
+            "viewDraftTemplate": "View Draft Template",
             "table": {
                 "actions": {
                     "delete": "Delete",
