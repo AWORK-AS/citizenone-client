@@ -545,14 +545,23 @@
                                 class="bg-white shadow-sm ring-1 ring-gray-900/5 rounded-lg space-y-3 px-4 py-6 sm:p-8">
                                 <div class="flex items-center gap-x-2">
                                     <div class="grow grid grid-cols-1 md:grid-cols-2 gap-3">
-                                        <div class="col-span-2 space-y-1">
-                                            <FormLabel :for="`name_${accompanyingChildenIndex}`"
-                                                :label="$t('citizens.form.stayData.accompanyingChildren.name')" />
-                                            <FormTextField :id="`name_${accompanyingChildenIndex}`"
-                                                :name="`name_${accompanyingChildenIndex}`"
-                                                :placeholder="$t('citizens.form.stayData.accompanyingChildren.name')"
-                                                :value="child.name"
-                                                @keyup="(event: any) => state.formCitizen.stayData.accompanying_children[accompanyingChildenIndex].name = event.target.value" />
+                                        <div class="space-y-1">
+                                            <FormLabel :for="`firstname_${accompanyingChildenIndex}`"
+                                                :label="$t('citizens.form.stayData.accompanyingChildren.firstname')" />
+                                            <FormTextField :id="`firstname_${accompanyingChildenIndex}`"
+                                                :name="`firstname_${accompanyingChildenIndex}`"
+                                                :placeholder="$t('citizens.form.stayData.accompanyingChildren.firstname')"
+                                                :value="child.firstname"
+                                                @keyup="(event: any) => state.formCitizen.stayData.accompanying_children[accompanyingChildenIndex].firstname = event.target.value" />
+                                        </div>
+                                        <div class="space-y-1">
+                                            <FormLabel :for="`lastname_${accompanyingChildenIndex}`"
+                                                :label="$t('citizens.form.stayData.accompanyingChildren.lastname')" />
+                                            <FormTextField :id="`lastname_${accompanyingChildenIndex}`"
+                                                :name="`lastname_${accompanyingChildenIndex}`"
+                                                :placeholder="$t('citizens.form.stayData.accompanyingChildren.lastname')"
+                                                :value="child.lastname"
+                                                @keyup="(event: any) => state.formCitizen.stayData.accompanying_children[accompanyingChildenIndex].lastname = event.target.value" />
                                         </div>
                                         <div class="space-y-1">
                                             <FormLabel :for="`ssn_${accompanyingChildenIndex}`"

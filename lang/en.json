@@ -1183,8 +1183,9 @@
                     "accompanyingChildren": "Accompanying children",
                     "cprNumber": "CPR number",
                     "age": "Age",
+                    "firstname": "First name",
                     "gender": "Gender",
-                    "name": "Name",
+                    "lastname": "Last name",
                     "origin": "Origin"
                 },
                 "dischargeReason": "Discharge reason",
@@ -1227,8 +1228,9 @@
                     "accompanyingChildren": "Accompanying children",
                     "cprNumber": "CPR number",
                     "age": "Age",
+                    "firstname": "First name",
                     "gender": "Gender",
-                    "name": "Name",
+                    "lastname": "Last name",
                     "origin": "Origin"
                 },
                 "dischargeReason": "Discharge reason",

@@ -1183,8 +1183,9 @@
                     "accompanyingChildren": "Medfølgende børn",
                     "cprNumber": "CPR-nummer",
                     "age": "Alder",
+                    "firstname": "Fornavn",
                     "gender": "Køn",
-                    "name": "Navn",
+                    "lastname": "Efternavn",
                     "origin": "Oprindelse"
                 },
                 "dischargeReason": "Udskrivningsårsag",
@@ -1227,8 +1228,9 @@
                     "accompanyingChildren": "Medfølgende børn",
                     "cprNumber": "CPR-nummer",
                     "age": "Alder",
+                    "firstname": "Fornavn",
                     "gender": "Køn",
-                    "name": "Navn",
+                    "lastname": "Last name",
                     "origin": "Oprindelse"
                 },
                 "dischargeReason": "Udskrivningsårsag",
