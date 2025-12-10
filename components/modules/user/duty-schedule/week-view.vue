@@ -339,7 +339,8 @@
                                                         </div>
                                                         <div class="flex items-center gap-x-1">
                                                             <Tooltip position="right"
-                                                                :text="$t('dutySchedules.copy.copyEmployeeSchedule')">
+                                                                :text="$t('dutySchedules.copy.copyEmployeeSchedule')"
+                                                                v-if="isAdmin(userStore.getUser?.role)">
                                                                 <button
                                                                     class="bg-gray-200 w-6 h-6 text-sm text-gray-600 rounded-sm hover:bg-gray-400 hover:text-gray-200 flex items-center justify-center"
                                                                     @click="copyEmployeeWeeklySchedule(employee)">
