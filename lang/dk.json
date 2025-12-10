@@ -5513,9 +5513,9 @@
     },
     "update": "Opdater",
     "updates": {
-        "newUpdates": "Nye opdateringer",
         "newUpdatesFrom": "Nye opdateringer fra",
-        "showUpdate": "Vis opdatering"
+        "showUpdate": "Vis opdatering",
+        "updates": "Opdateringer"
     },
     "validation": {
         "thisFieldIsRequired": "Dette felt er påkrævet"

@@ -4,7 +4,7 @@
             @click="state.modal.isNewUpdatesOpen = true">
             <Icon name="ph:lightbulb" class="h-6 w-6 md:h-4 md:w-4" aria-hidden="true" />
             <p class="text-sm font-semibold hidden md:block">
-                {{ $t('updates.newUpdates') }}
+                {{ $t('updates.updates') }}
             </p>
         </button>
         <ModulesUserNewUpdatesModalUpdates :isModalOpen="state.modal.isNewUpdatesOpen"
