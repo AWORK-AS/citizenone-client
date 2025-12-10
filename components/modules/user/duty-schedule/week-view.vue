@@ -134,6 +134,7 @@
                 </div>
                 <div class="bg-primary h-3 rounded-full transition-all ease-in-out duration-500 mb-1.5"
                     :style="{ width: `${state.progress.percentage}%` }" v-if="state.progress.showProgressBar" />
+                <div class="h-3 mb-1.5" v-else />
                 <div class="isolate flex flex-auto flex-col bg-white">
                     <div class="flex max-w-full flex-none flex-col sm:max-w-none md:max-w-full">
                         <div>
