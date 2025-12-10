@@ -93,6 +93,7 @@
                 </div>
             </div>
             <div class="space-y-3" v-if="state.formSchedule.recurring.is_recurring">
+                <!--here current-->
                 <div class="space-y-1">
                     <FormLabel for="recurring" :label="$t('recurring.repeat')" />
                     <FormSelect id="recurring" :options="state.options.recurring.recurringSchedules"

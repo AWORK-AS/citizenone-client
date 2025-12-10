@@ -2363,6 +2363,43 @@
             "draft": "Draft",
             "publish": "Publish"
         },
+        "draftTemplates": {
+            "draftTemplates": "Draft templates",
+            "newDraft": "New Draft Template",
+            "table": {
+                "actions": {
+                    "delete": "Delete",
+                    "edit": "Edit"
+                },
+                "alert": {
+                    "draftTemplateSuccessfullyDeleted": "Draft template successfully deleted"
+                },
+                "confirmation": {
+                    "deleteDraftTemplateConfirmation": "Are you sure you want to delete this draft template"
+                },
+                "name": "Name",
+                "isRecurring": "Is recurring",
+                "recurring": "Recurring",
+                "nonRecurring": "Non-recurring",
+                "repeat": "Repeat",
+                "recurringUntil": "Recurring until"
+            },
+            "recurring": {
+                "everyDay": "Every day",
+                "everyWeek": "Every week",
+                "everySecondWeek": "Every two weeks",
+                "everyThirdWeek": "Every three weeks",
+                "everyFourthWeek": "Every four weeks",
+                "everyMonth": "Every month",
+                "custom": "Custom"
+            },
+            "form": {
+                "name": "Template name",
+                "isRecurring": "Recurring template",
+                "recurringUntil": "Until",
+                "repeat": "Repeat"
+            }
+        },
         "dutySchedules": "Duty schedules",
         "editSchedule": "Edit schedule",
         "extraHours": {
