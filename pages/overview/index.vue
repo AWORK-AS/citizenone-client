@@ -188,6 +188,7 @@ import { useDatetimeFormatter } from '@/composables/datetimeFormatter'
 const runtimeConfig = useRuntimeConfig()
 const overviewStore = useDailyOverviewStore()
 const userStore = useUserStore() as any
+const route = useRoute()
 const { formatDateToReadable } = useDatetimeFormatter()
 
 const state = reactive({
@@ -206,6 +207,10 @@ const state = reactive({
     }
 })
 
+onMounted(() => {
+    scrollToBottomIfNeeded()
+})
+
 watch(() => userStore.getUser, (user: any) => {
     if (user) {
         if (user?.overview_date_start && user?.overview_date_end) {
@@ -216,6 +221,37 @@ watch(() => userStore.getUser, (user: any) => {
         }
     }
 })
+
+function scrollToBottomIfNeeded() {
+    if (route.hash === '#news' && typeof window !== 'undefined') {
+        nextTick(function () {
+            var totalDuration = 3000    // 3 seconds
+            var interval = 200          // scroll every 200ms
+            var elapsed = 0
+
+            function attemptScroll() {
+                var doc = document.documentElement
+                var body = document.body
+                var maxScroll = (doc && doc.scrollHeight) || (body && body.scrollHeight) || 0
+
+                window.scrollTo({
+                    top: maxScroll,
+                    behavior: 'smooth'
+                })
+
+                elapsed += interval
+
+                if (elapsed < totalDuration) {
+                    setTimeout(function () {
+                        attemptScroll()
+                    }, interval)
+                }
+            }
+
+            attemptScroll()
+        })
+    }
+}
 
 function openGuidedTour() {
     state.modal.isGuidedTourDailyOverviewOpen = true
