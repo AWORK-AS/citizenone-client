@@ -23,7 +23,7 @@
                 <div class="grid grid-cols-1 md:grid-cols-12 gap-x-10 gap-y-4">
                     <LoadingSpinner :isActive="state.isChatLoading"
                         class="md:col-span-5 xl:col-span-4 bg-white rounded-md overflow-y-auto" style="height: 80vh;">
-                        <ModulesUserMessagesChats :chats="state.chats" />
+                        <ModulesUserMessagesChats :chats="state.chats" @loadMoreMessages="fetchAdditionalChats" />
                     </LoadingSpinner>
                     <LoadingSpinner :isActive="state.isChatHistoryDividerLoading"
                         class="md:col-span-7 xl:col-span-8 bg-white rounded-md pb-6">
@@ -308,6 +308,7 @@ const currentRoute = router?.currentRoute?.value?.name
 const scrollableChatHistory = ref<HTMLElement | null>(null)
 let currentPage = 1
 let scrollHeight = 0
+let currentTablePage = 1
 const fileInput = ref(null) as any
 const files = ref<File[]>([])
 const breadcrumbLinks = [
@@ -354,11 +355,11 @@ onMounted(() => {
     scrollHeight = scrollableChatHistory.value?.scrollHeight ?? 0
 })
 
-window.setInterval(() => {
-    if (currentRoute === 'messages-chat_uuid') {
-        fetchChats()
-    }
-}, 10000)
+// window.setInterval(() => {
+//     if (currentRoute === 'messages-chat_uuid') {
+//         fetchChats()
+//     }
+// }, 10000)
 
 function closeUpgradeStorageModal() {
     state.modal.isUpgradeStorageOpen = false
@@ -388,7 +389,10 @@ async function fetchChats() {
     state.error = {}
     state.isChatLoading = true
     try {
-        const response = await messageService.fetchChats()
+        const params = {
+            page: currentTablePage
+        }
+        const response = await messageService.fetchChats(params)
         if (response) {
             state.chats = response
         }
@@ -396,6 +400,30 @@ async function fetchChats() {
         state.error = { message: error.message }
     }
     state.isChatLoading = false
+}
+
+async function fetchAdditionalChats() {
+    state.error = {}
+    state.isPageLoading = true
+    try {
+        currentTablePage = currentTablePage + 1
+        const params = {
+            page: currentTablePage
+        }
+        const response = await messageService.fetchChats(params)
+        if (response) {
+            state.chats.data?.push(...response?.data)
+            if (response?.meta) {
+                state.chats.meta = response?.meta
+            }
+            if (response?.links) {
+                state.chats.links = response?.links
+            }
+        }
+    } catch (error: any) {
+        state.error = { message: error.message }
+    }
+    state.isPageLoading = false
 }
 
 async function fetchChatHistory() {
