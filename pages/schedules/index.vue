@@ -38,11 +38,6 @@
                         {{ customPagesStore.getCustomPagesName?.dutySchedules }}
                         {{ $t('dutySchedules.draft.draft')?.toLowerCase() }}
                     </FormButton>
-                    <FormButton buttonStyle="action" class="rounded-lg" @click="navigateTo('/schedules/draft-templates')"
-                        v-if="isAdmin(userStore.getUser?.role)">
-                        <Icon name="ph:note" class="h-4 w-4" aria-hidden="true" />
-                        {{ $t('dutySchedules.draftTemplates.draftTemplates') }}
-                    </FormButton>
                     <FormButton buttonStyle="action" class="rounded-lg" @click="state.modal.isDownloadOpen = true">
                         <Icon name="ph:download" class="h-4 w-4" aria-hidden="true" />
                         {{ $t('dutySchedules.download.download') }}

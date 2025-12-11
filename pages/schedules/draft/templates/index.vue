@@ -24,7 +24,18 @@
                     <div class="flex items-center">
                         <Icon name="heroicons:chevron-right" class="size-3 shrink-0 text-gray-400"
                             aria-hidden="true" />
-                        <button @click="navigateTo('/schedules/draft-templates')"
+                        <button @click="navigateTo('/schedules/draft')"
+                            class="ml-4 text-sm font-medium text-gray-500 hover:text-gray-700">
+                            {{ customPagesStore.getCustomPagesName?.dutySchedules }}
+                            <span class="lowercase">
+                                {{ $t('dutySchedules.draft.draft') }}
+                            </span>
+                        </button>
+                    </div>
+                    <div class="flex items-center">
+                        <Icon name="heroicons:chevron-right" class="size-3 shrink-0 text-gray-400"
+                            aria-hidden="true" />
+                        <button @click="navigateTo('/schedules/draft/templates')"
                             class="ml-4 text-sm font-medium text-gray-500 hover:text-gray-700">
                             {{ customPagesStore.getCustomPagesName?.dutySchedules }}
                             <span class="lowercase">
@@ -95,7 +106,7 @@
                                     <div class="flex items-end gap-2">
                                         <Tooltip :text="$t('dutySchedules.draftTemplates.table.actions.view')">
                                             <FormButton type="button" buttonStyle="action" class="rounded-md"
-                                                @click="navigateTo(`/schedules/draft-templates/${draftTemplate.uuid}/view-details`)">
+                                                @click="navigateTo(`/schedules/draft/templates/${draftTemplate.uuid}/view-details`)">
                                                 <Icon name="ph:eye" class="size-4" />
                                             </FormButton>
                                         </Tooltip>
@@ -108,7 +119,7 @@
 
                                         <Tooltip :text="$t('dutySchedules.draftTemplates.table.actions.delete')">
                                             <FormButton type="button" buttonStyle="danger" class="rounded-md"
-                                                @click="navigateTo(`/schedules/draft-templates/${draftTemplate.uuid}/view-details`)">
+                                                @click="navigateTo(`/schedules/draft/templates/${draftTemplate.uuid}/view-details`)">
                                                 <Icon name="ph:trash" class="size-4" />
                                             </FormButton>
                                         </Tooltip>
