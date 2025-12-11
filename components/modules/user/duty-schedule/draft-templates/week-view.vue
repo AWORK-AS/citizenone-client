@@ -545,6 +545,9 @@ const month = computed(() => currentDate.value.format('MMMM'))
 const year = computed(() => currentDate.value.format('YYYY'))
 const expandedRecords = reactive([] as boolean[])
 
+const router = useRouter()
+const draftTemplateUuid = router?.currentRoute?.value?.params?.uuid
+
 const state = reactive({
     addShift: {
         selectedEmployeeSchedule: {}
@@ -940,6 +943,7 @@ async function saveShift(shiftDetails: any) {
     const employeeIndex = state.addShift.selectedEmployeeSchedule.employeeIndex
     const shiftType = shiftDetails.shift_type
     const params = {
+        draft_template_uuid: draftTemplateUuid,
         shift_type_uuid: shiftType,
         is_sleeping_sick_leave: shiftDetails.is_sleeping_sick_leave,
         date_time_start: shiftDetails.date_time_start,
@@ -954,6 +958,8 @@ async function saveShift(shiftDetails: any) {
         is_recurring: shiftDetails.recurring.is_recurring,
         recurring: shiftDetails.recurring.recurring,
         recurring_until: shiftDetails.recurring.recurring_until,
+        is_private: shiftDetails.is_private ?? false,
+        in_meeting: shiftDetails.in_meeting ?? false,
     } as any
     if (shiftDetails.recurring.recurring === 'custom') {
         params.frequency = shiftDetails.recurring.frequency
