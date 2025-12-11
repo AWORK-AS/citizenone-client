@@ -10,7 +10,7 @@
                     <FormError :error="props?.error?.errors?.name?.[0]" />
                 </div>
 
-                <div class="space-y-1" v-if="props.formType === 'create'">
+                <div class="space-y-1">
                     <div class="w-fit flex items-center cursor-pointer" @click="state.formTemplate.recurring.is_recurring = !state.formTemplate.recurring.is_recurring">
                         <FormCheckbox :value="state.formTemplate.recurring.is_recurring" />
                         {{ $t('dutySchedules.draftTemplates.form.isRecurring') }}
@@ -311,26 +311,27 @@ const state = reactive({
 
 onMounted(() => {
     if (props.formType === 'update') {
-        state.formTemplate.name = props.selectedDraftTemplate.name
-        state.formTemplate.recurring.is_recurring = props.selectedDraftTemplate.is_recurring
-        state.formTemplate.recurring.recurring = props.selectedDraftTemplate.recurring
-        state.formTemplate.recurring.recurring_until = props.selectedDraftTemplate.recurring_until
 
-        if (props.selectedDraftTemplate.recurring === 'custom') {
-            state.formTemplate.recurring.frequency = props.selectedDraftTemplate.frequency
-            state.formTemplate.recurring.every = props.selectedDraftTemplate.every
-            if (props.selectedDraftTemplate.frequency === 'weekly') {
-                state.formTemplate.recurring.weekly_on = props.selectedDraftTemplate.weekly_on
-            } else if (props.selectedDraftTemplate.frequency === 'monthly') {
-                state.formTemplate.recurring.monthly_on_the_enabled = props.selectedDraftTemplate.monthly_on_the_enabled
-                state.formTemplate.recurring.monthly_each = props.selectedDraftTemplate.monthly_each
-                state.formTemplate.recurring.monthly_on_the_sequence = props.selectedDraftTemplate.monthly_on_the_sequence
-                state.formTemplate.recurring.monthly_on_the_day = props.selectedDraftTemplate.monthly_on_the_day
-            } else if (props.selectedDraftTemplate.frequency === 'yearly') {
-                state.formTemplate.recurring.yearly_in_months = props.selectedDraftTemplate.yearly_in_months
-                state.formTemplate.recurring.yearly_on_the_enabled = props.selectedDraftTemplate.yearly_on_the_enabled
-                state.formTemplate.recurring.yearly_on_the_sequence = props.selectedDraftTemplate.yearly_on_the_sequence
-                state.formTemplate.recurring.yearly_on_the_day = props.selectedDraftTemplate.yearly_on_the_day
+        state.formTemplate.name = props.selectedDraftTemplate.name
+        state.formTemplate.recurring.is_recurring = props.selectedDraftTemplate.recurring.is_recurring
+        state.formTemplate.recurring.recurring = props.selectedDraftTemplate.recurring.recurring
+        state.formTemplate.recurring.recurring_until = props.selectedDraftTemplate.recurring.recurring_until
+
+        if (props.selectedDraftTemplate.recurring.recurring === 'custom') {
+            state.formTemplate.recurring.frequency = props.selectedDraftTemplate.recurring?.frequency
+            state.formTemplate.recurring.every = props.selectedDraftTemplate.recurring?.every
+            if (props.selectedDraftTemplate.recurring?.frequency === 'weekly') {
+                state.formTemplate.recurring.weekly_on = props.selectedDraftTemplate.recurring?.weekly_on
+            } else if (props.selectedDraftTemplate.recurring?.frequency === 'monthly') {
+                state.formTemplate.recurring.monthly_on_the_enabled = props.selectedDraftTemplate.recurring?.monthly_on_the_enabled
+                state.formTemplate.recurring.monthly_each = props.selectedDraftTemplate.recurring?.monthly_each
+                state.formTemplate.recurring.monthly_on_the_sequence = props.selectedDraftTemplate.recurring?.monthly_on_the_sequence
+                state.formTemplate.recurring.monthly_on_the_day = props.selectedDraftTemplate.recurring?.monthly_on_the_day
+            } else if (props.selectedDraftTemplate.recurring?.frequency === 'yearly') {
+                state.formTemplate.recurring.yearly_in_months = props.selectedDraftTemplate.recurring?.yearly_in_months
+                state.formTemplate.recurring.yearly_on_the_enabled = props.selectedDraftTemplate.recurring?.yearly_on_the_enabled
+                state.formTemplate.recurring.yearly_on_the_sequence = props.selectedDraftTemplate.recurring?.yearly_on_the_sequence
+                state.formTemplate.recurring.yearly_on_the_day = props.selectedDraftTemplate.recurring?.yearly_on_the_day
             }
         }
     }

@@ -1,6 +1,6 @@
 <template>
     <div>
-        <Modal size="xs" :title="$t('dutySchedules.draftTemplates.newDraft')" :show="props.isModalOpen" @close="closeModal">
+        <Modal size="xs" :title="$t('dutySchedules.draftTemplates.editDraft')" :show="props.isModalOpen" @close="closeModal">
             <template #modal-body>
                 <LoadingSpinner :isActive="state.isPageLoading">
                     <ModulesUserDutyScheduleDraftTemplatesNewTemplateForm formType="update"
@@ -98,20 +98,20 @@ async function fetchDraftTemplate() {
             state.formTemplate.recurring.recurring_until = response.data.recurring_until
 
             if (response.data.recurring === 'custom') {
-                state.formTemplate.recurring.frequency = response.data.frequency
-                state.formTemplate.recurring.every = response.data.every
-                if (response.data.frequency === 'weekly') {
-                    state.formTemplate.recurring.weekly_on = response.data.weekly_on
-                } else if (response.data.frequency === 'monthly') {
-                    state.formTemplate.recurring.monthly_on_the_enabled = response.data.monthly_on_the_enabled
-                    state.formTemplate.recurring.monthly_each = response.data.monthly_each
-                    state.formTemplate.recurring.monthly_on_the_sequence = response.data.monthly_on_the_sequence
-                    state.formTemplate.recurring.monthly_on_the_day = response.data.monthly_on_the_day
-                } else if (response.data.frequency === 'yearly') {
-                    state.formTemplate.recurring.yearly_in_months = response.data.yearly_in_months
-                    state.formTemplate.recurring.yearly_on_the_enabled = response.data.yearly_on_the_enabled
-                    state.formTemplate.recurring.yearly_on_the_sequence = response.data.yearly_on_the_sequence
-                    state.formTemplate.recurring.yearly_on_the_day = response.data.yearly_on_the_day
+                state.formTemplate.recurring.frequency = response.data.recurring_rules.frequency
+                state.formTemplate.recurring.every = response.data.recurring_rules.every
+                if (response.data.recurring_rules.frequency === 'weekly') {
+                    state.formTemplate.recurring.weekly_on = response.data.recurring_rules.weekly_on
+                } else if (response.data.recurring_rules.frequency === 'monthly') {
+                    state.formTemplate.recurring.monthly_on_the_enabled = response.data.recurring_rules.monthly_on_the_enabled
+                    state.formTemplate.recurring.monthly_each = response.data.recurring_rules.monthly_each
+                    state.formTemplate.recurring.monthly_on_the_sequence = response.data.recurring_rules.monthly_on_the_sequence
+                    state.formTemplate.recurring.monthly_on_the_day = response.data.recurring_rules.monthly_on_the_day
+                } else if (response.data.recurring_rules.frequency === 'yearly') {
+                    state.formTemplate.recurring.yearly_in_months = response.data.recurring_rules.yearly_in_months
+                    state.formTemplate.recurring.yearly_on_the_enabled = response.data.recurring_rules.yearly_on_the_enabled
+                    state.formTemplate.recurring.yearly_on_the_sequence = response.data.recurring_rules.yearly_on_the_sequence
+                    state.formTemplate.recurring.yearly_on_the_day = response.data.recurring_rules.yearly_on_the_day
                 }
             }
         }
@@ -130,31 +130,31 @@ async function saveTemplate(draftTemplateDetails: any) {
         const draftTemplateUuid = props.selectedDraftTemplate?.uuid
         const params = {
             name: draftTemplateDetails.name,
-            // is_recurring: draftTemplateDetails.recurring.is_recurring,
-            // recurring: draftTemplateDetails.recurring.recurring,
-            // recurring_until: draftTemplateDetails.recurring.recurring_until,
+            is_recurring: draftTemplateDetails.recurring.is_recurring,
+            recurring: draftTemplateDetails.recurring.recurring,
+            recurring_until: draftTemplateDetails.recurring.recurring_until,
         } as any
-        // if (draftTemplateDetails.recurring.recurring === 'custom') {
-        //     params.frequency = draftTemplateDetails.recurring.frequency
-        //     params.every = draftTemplateDetails.recurring.every
-        //     if (draftTemplateDetails.recurring.frequency === 'weekly') {
-        //         params.weekly_on = draftTemplateDetails.recurring.weekly_on
-        //     } else if (draftTemplateDetails.recurring.frequency === 'monthly') {
-        //         params.monthly_on_the_enabled = draftTemplateDetails.recurring.monthly_on_the_enabled
-        //         if (!draftTemplateDetails.recurring.monthly_on_the_enabled) {
-        //             params.monthly_each = draftTemplateDetails.recurring.monthly_each
-        //         } else {
-        //             params.monthly_on_the_sequence = draftTemplateDetails.recurring.monthly_on_the_sequence
-        //             params.monthly_on_the_day = draftTemplateDetails.recurring.monthly_on_the_day
-        //         }
-        //     } else if (draftTemplateDetails.recurring.frequency === 'yearly') {
-        //         params.yearly_in_months = draftTemplateDetails.recurring.yearly_in_months
-        //         if (draftTemplateDetails.recurring.yearly_on_the_enabled) {
-        //             params.yearly_on_the_sequence = draftTemplateDetails.recurring.yearly_on_the_sequence
-        //             params.yearly_on_the_day = draftTemplateDetails.recurring.yearly_on_the_day
-        //         }
-        //     }
-        // }
+        if (draftTemplateDetails.recurring.recurring === 'custom') {
+            params.frequency = draftTemplateDetails.recurring.frequency
+            params.every = draftTemplateDetails.recurring.every
+            if (draftTemplateDetails.recurring.frequency === 'weekly') {
+                params.weekly_on = draftTemplateDetails.recurring.weekly_on
+            } else if (draftTemplateDetails.recurring.frequency === 'monthly') {
+                params.monthly_on_the_enabled = draftTemplateDetails.recurring.monthly_on_the_enabled
+                if (!draftTemplateDetails.recurring.monthly_on_the_enabled) {
+                    params.monthly_each = draftTemplateDetails.recurring.monthly_each
+                } else {
+                    params.monthly_on_the_sequence = draftTemplateDetails.recurring.monthly_on_the_sequence
+                    params.monthly_on_the_day = draftTemplateDetails.recurring.monthly_on_the_day
+                }
+            } else if (draftTemplateDetails.recurring.frequency === 'yearly') {
+                params.yearly_in_months = draftTemplateDetails.recurring.yearly_in_months
+                if (draftTemplateDetails.recurring.yearly_on_the_enabled) {
+                    params.yearly_on_the_sequence = draftTemplateDetails.recurring.yearly_on_the_sequence
+                    params.yearly_on_the_day = draftTemplateDetails.recurring.yearly_on_the_day
+                }
+            }
+        }
 
         const response = await draftTemplateService.updateDraftTemplate(draftTemplateUuid, params)
         if (response?.data) {
