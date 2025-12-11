@@ -581,13 +581,13 @@
                                                 v-model="state.formCitizen.stayData.accompanying_children[accompanyingChildenIndex].gender" />
                                         </div>
                                         <div class="space-y-1">
-                                            <FormLabel :for="`age_${accompanyingChildenIndex}`"
-                                                :label="$t('citizens.form.stayData.accompanyingChildren.age')" />
-                                            <FormTextField :id="`age_${accompanyingChildenIndex}`"
-                                                :name="`age_${accompanyingChildenIndex}`"
-                                                :placeholder="$t('citizens.form.stayData.accompanyingChildren.age')"
-                                                :value="child.age"
-                                                @keyup="(event: any) => state.formCitizen.stayData.accompanying_children[accompanyingChildenIndex].age = event.target.value" />
+                                            <FormLabel :for="`birthday_${accompanyingChildenIndex}`"
+                                                :label="$t('citizens.form.stayData.accompanyingChildren.birthday')" />
+                                            <FormDateField :id="`birthday_${accompanyingChildenIndex}`"
+                                                :name="`birthday_${accompanyingChildenIndex}`"
+                                                :placeholder="$t('citizens.form.stayData.accompanyingChildren.birthday')"
+                                                :value="child.birthday"
+                                                @keyup="(event: any) => state.formCitizen.stayData.accompanying_children[accompanyingChildenIndex].birthday = event.target.value" />
                                         </div>
                                         <div class="space-y-1">
                                             <FormLabel :for="`origin_${accompanyingChildenIndex}`"

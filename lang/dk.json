@@ -1181,6 +1181,7 @@
                 "accommodationStartDate": "Opholdets startdato",
                 "accompanyingChildren": {
                     "accompanyingChildren": "Medfølgende børn",
+                    "birthday": "Fødselsdag",
                     "cprNumber": "CPR-nummer",
                     "age": "Alder",
                     "firstname": "Fornavn",
@@ -1226,6 +1227,7 @@
                 "accommodationStartDate": "Opholdets startdato",
                 "accompanyingChildren": {
                     "accompanyingChildren": "Medfølgende børn",
+                    "birthday": "Fødselsdag",
                     "cprNumber": "CPR-nummer",
                     "age": "Alder",
                     "firstname": "Fornavn",

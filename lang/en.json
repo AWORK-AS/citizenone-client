@@ -1181,6 +1181,7 @@
                 "accommodationStartDate": "Accommodation start date",
                 "accompanyingChildren": {
                     "accompanyingChildren": "Accompanying children",
+                    "birthday": "Birthday",
                     "cprNumber": "CPR number",
                     "age": "Age",
                     "firstname": "First name",
@@ -1226,6 +1227,7 @@
                 "accommodationStartDate": "Accommodation start date",
                 "accompanyingChildren": {
                     "accompanyingChildren": "Accompanying children",
+                    "birthday": "Birthday",
                     "cprNumber": "CPR number",
                     "age": "Age",
                     "firstname": "First name",
