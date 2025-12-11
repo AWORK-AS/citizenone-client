@@ -66,63 +66,65 @@
                                     </div>
                                 </div>
                                 <div v-if="state.chat?.data?.type === 'group'">
-                                    <div class="h-10 w-full grid grid-cols-12 items-center">
-                                        <div class="col-span-1">
-                                            <div class="relative">
-                                                <img src="/img/avatars/user.svg" alt="Item 1"
-                                                    class="w-7 h-7 rounded-full object-cover relative top-1.5 left-1">
-                                                <img src="/img/avatars/user.svg" alt="Item 1"
-                                                    class="w-7 h-7 rounded-full object-cover absolute -top-2.5 left-4">
-                                                <img src="/img/avatars/user.svg" alt="Item 1"
-                                                    class="w-7 h-7 rounded-full object-cover absolute top-2.5 left-7">
+                                    <div class="flex items-center justify-between">
+                                        <div class="grow flex items-center">
+                                            <div class="mr-6">
+                                                <div class="relative w-9 h-9">
+                                                    <img src="/img/avatars/user.svg" alt="Item 1"
+                                                        class="w-7 h-7 rounded-full object-cover relative top-1.5 left-1">
+                                                    <img src="/img/avatars/user.svg" alt="Item 1"
+                                                        class="w-7 h-7 rounded-full object-cover absolute -top-2.5 left-4">
+                                                    <img src="/img/avatars/user.svg" alt="Item 1"
+                                                        class="w-7 h-7 rounded-full object-cover absolute top-2.5 left-7">
+                                                </div>
+                                            </div>
+                                            <div class="flex-1">
+                                                <Tooltip :text="state.chat?.data?.name" v-if="state.chat?.data?.name">
+                                                    <h4 class="font-semibold text-sm">
+                                                        {{ state.chat?.data?.name }}
+                                                    </h4>
+                                                </Tooltip>
+
+                                                <Tooltip :text="`${chatGroupMembers(state.chat?.data)}.`" v-else>
+                                                    <h4 class="font-semibold text-sm line-clamp-1">
+                                                        {{ chatGroupMembers(state.chat?.data) }}.
+                                                    </h4>
+                                                </Tooltip>
+
+                                                <p class="text-xs line-clamp-1">
+                                                    {{ state.chat?.data?.subject }}
+                                                </p>
+
+                                                <p class="text-xxs" v-if="state.chat?.data?.unread_messages > 0">
+                                                    {{ state.chat?.data?.unread_messages }}
+                                                    <span class="lowercase">
+                                                        {{ $t('messages.unreadMessages') }}
+                                                    </span>
+                                                </p>
                                             </div>
                                         </div>
-                                        <div class="col-span-11 flex items-center">
-                                            <div class="w-full flex items-center justify-between">
-                                                <div>
-                                                    <Tooltip :text="state.chat?.data?.name"
-                                                        v-if="state.chat?.data?.name">
-                                                        <h4 class="font-semibold text-sm" v-if="state.chat?.data?.name">
-                                                            {{ state.chat?.data?.name }}
-                                                        </h4>
-                                                    </Tooltip>
-                                                    <Tooltip :text="`${chatGroupMembers(state.chat?.data)}.`" v-else>
-                                                        <h4 class="font-semibold text-sm line-clamp-1">
-                                                            {{ chatGroupMembers(state.chat?.data) }}.
-                                                        </h4>
-                                                    </Tooltip>
-                                                    <p class="text-xs line-clamp-1">
-                                                        {{ state.chat?.data?.subject }}
-                                                    </p>
-                                                    <p class="text-xxs" v-if="state.chat?.data?.unread_messages > 0">
-                                                        {{ state.chat?.data?.unread_messages }}
-                                                        <span class="lowercase">
-                                                            {{ $t('messages.unreadMessages') }}
-                                                        </span>
-                                                    </p>
-                                                </div>
-                                                <div class="flex items-center space-x-1">
-                                                    <Tooltip :text="$t('messages.groupChat.editGroupName')">
-                                                        <button v-if="state.chat?.data?.type === 'group'"
-                                                            @click="editGroupChatName()">
-                                                            <Icon name="ph:pencil-simple"
-                                                                class="h-5 w-5 text-primary hover:text-primary-700"
-                                                                aria-hidden="true" />
-                                                        </button>
-                                                    </Tooltip>
-                                                    <Tooltip :text="$t('messages.groupChat.groupMembers')">
-                                                        <button v-if="state.chat?.data?.type === 'group'"
-                                                            @click="state.modal.isManageGroupChatMembersOpen = true">
-                                                            <Icon name="ph:users-three"
-                                                                class="h-6 w-6 text-primary hover:text-primary-700"
-                                                                aria-hidden="true" />
-                                                        </button>
-                                                    </Tooltip>
-                                                </div>
-                                            </div>
+
+                                        <div class="flex items-center space-x-1">
+                                            <Tooltip :text="$t('messages.groupChat.editGroupName')">
+                                                <button v-if="state.chat?.data?.type === 'group'"
+                                                    @click="editGroupChatName()">
+                                                    <Icon name="ph:pencil-simple"
+                                                        class="h-5 w-5 text-primary hover:text-primary-700"
+                                                        aria-hidden="true" />
+                                                </button>
+                                            </Tooltip>
+                                            <Tooltip :text="$t('messages.groupChat.groupMembers')">
+                                                <button v-if="state.chat?.data?.type === 'group'"
+                                                    @click="state.modal.isManageGroupChatMembersOpen = true">
+                                                    <Icon name="ph:users-three"
+                                                        class="h-6 w-6 text-primary hover:text-primary-700"
+                                                        aria-hidden="true" />
+                                                </button>
+                                            </Tooltip>
                                         </div>
                                     </div>
                                 </div>
+
                             </div>
                         </div>
                         <div class="overflow-y-auto pt-4 mb-4" style="height: 62vh;" ref="scrollableChatHistory"
