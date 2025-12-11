@@ -788,8 +788,8 @@ async function fetchDutySchedulePercentage() {
 
 async function fetchDraftDutySchedule() {
     state.error = {}
-    state.weeklySchedules = []
-    state.originalWeeklySchedules = []
+    // state.weeklySchedules = []
+    // state.originalWeeklySchedules = []
     state.isPageLoading = true
     state.progress.totalRequests = state.progress.totalRequests + 1
     state.progress.pendingRequests = state.progress.pendingRequests + 1
