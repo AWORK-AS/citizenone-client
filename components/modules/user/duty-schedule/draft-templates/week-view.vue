@@ -772,6 +772,7 @@ async function fetchDutySchedulePercentage() {
     state.isPageLoading = true
     try {
         const params = {
+            draft_template_uuid: draftTemplateUuid,
             start_date: moment(state.shiftDateRange.formDateRange.start_date).format('YYYY-MM-DD'),
             end_date: moment(state.shiftDateRange.formDateRange.end_date).format('YYYY-MM-DD'),
             department: departmentStore.getSelectedDepartmentName,
