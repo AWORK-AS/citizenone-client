@@ -873,7 +873,7 @@ watch(() => props.selectedCitizen, (selectedCitizen: any) => {
                 accommodation_end_date: selectedCitizen.stayData.accommodation_end_date,
                 accommodation_start_date: selectedCitizen.stayData.accommodation_start_date,
                 journal_number: selectedCitizen.stayData.journal_number,
-                accompanying_children: selectedCitizen.stayData.accompanying_children,
+                accompanying_children: selectedCitizen.stayData.accompanying_children ?? [],
                 residence_before_uuid: selectedCitizen.stayData.residence_before_uuid,
                 residence_after_uuid: selectedCitizen.stayData.residence_after_uuid,
                 discharge_reason: selectedCitizen.stayData.discharge_reason,

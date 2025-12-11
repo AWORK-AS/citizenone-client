@@ -210,7 +210,7 @@ async function fetchCitizen() {
                     accommodation_end_date: response?.data?.stay_data?.end_date ?? '',
                     accommodation_start_date: response?.data?.stay_data?.start_date ?? '',
                     journal_number: response?.data?.stay_data?.journal_number ?? '',
-                    accompanying_children: response?.data?.stay_data?.accompanying_children ?? [{
+                    accompanying_children: response?.data?.children ?? [{
                         name: '',
                         gender: '',
                         age: '',
