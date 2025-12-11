@@ -2127,7 +2127,7 @@
     },
     "children": {
         "children": "Chilren",
-        "editChild": "Edit children",
+        "editChild": "Edit child",
         "form": {
             "alert": {
                 "childSuccessfullyAdded": "Child successfully saved",
@@ -2141,6 +2141,7 @@
             "gender": "Gender",
             "lastname": "Last name",
             "municipality": "Municipality",
+            "origin": "Origin",
             "phone": "Phone",
             "postCode": "Post Code",
             "region": "Region",
@@ -2168,6 +2169,7 @@
             "lastname": "Last name",
             "municipality": "Municipality",
             "name": "Name",
+            "origin": "Origin",
             "phone": "Phone",
             "postCode": "Post Code",
             "region": "Region",

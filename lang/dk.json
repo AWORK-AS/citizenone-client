@@ -2127,7 +2127,7 @@
     },
     "children": {
         "children": "Børn",
-        "editChild": "Rediger børn",
+        "editChild": "Rediger barn",
         "form": {
             "alert": {
                 "childSuccessfullyAdded": "Barn blev gemt",
@@ -2141,6 +2141,7 @@
             "gender": "Køn",
             "lastname": "Efternavn",
             "municipality": "Kommune",
+            "origin": "Oprindelse",
             "phone": "Telefon",
             "postCode": "Postnummer",
             "region": "Region",
@@ -2168,6 +2169,7 @@
             "lastname": "Efternavn",
             "municipality": "Kommune",
             "name": "Navn",
+            "origin": "Oprindelse",
             "phone": "Telefon",
             "postCode": "Postnummer",
             "region": "Region",
