@@ -9,6 +9,23 @@
                 <Breadcrumb :links="breadcrumbLinks" />
             </template>
 
+            <template #guided-tour>
+                <div class="flex flex-wrap items-center gap-3">
+                    <button @click="state.modal.isShowAllShiftTypes = !state.modal.isShowAllShiftTypes"
+                        class="text-primary text-sm hover:text-primary-700">
+                        {{ $t('dutySchedules.showTheDistributionOfShiftTypes') }}
+                    </button>
+                    <!-- <FormButton buttonStyle="action" class="rounded-lg" @click="navigateTo('/schedules/draft/templates')">
+                        <Icon name="ph:note" class="h-4 w-4" aria-hidden="true" />
+                        {{ $t('dutySchedules.draftTemplates.draftTemplates') }}
+                    </FormButton> -->
+                    <!-- <FormButton buttonStyle="action" class="rounded-lg" @click="state.modal.isPublishDraftOpen = true">
+                        <Icon name="ph:check" class="h-4 w-4" aria-hidden="true" />
+                        {{ $t('dutySchedules.draft.publish') }}
+                    </FormButton> -->
+                </div>
+            </template>
+
             <template #header>{{ $t('dutySchedules.draftTemplates.viewDraftTemplate') }}</template>
 
             <div>
@@ -21,6 +38,9 @@
                     <ModulesUserDutyScheduleDraftTemplatesWeekView v-if="state.calendarView === 'week'" />
                 </div>
             </div>
+
+            <ModulesUserDutyScheduleDraftTemplatesModalShiftTypes :isModalOpen="state.modal.isShowAllShiftTypes"
+                @close="state.modal.isShowAllShiftTypes = false" />
 
         </NuxtLayout>
     </div>
@@ -61,6 +81,9 @@ const state = reactive({
     error: {} as Error,
     isPageLoading: false,
     calendarView: 'week',
+    modal: {
+        isShowAllShiftTypes: false,
+    }
 })
 
 </script>
