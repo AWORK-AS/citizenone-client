@@ -586,8 +586,7 @@
                                             <FormDateField :id="`birthday_${accompanyingChildenIndex}`"
                                                 :name="`birthday_${accompanyingChildenIndex}`"
                                                 :placeholder="$t('citizens.form.stayData.accompanyingChildren.birthday')"
-                                                :value="child.birthday"
-                                                @change="(event: any) => state.formCitizen.stayData.accompanying_children[accompanyingChildenIndex].birthday = event.target.value" />
+                                                v-model="state.formCitizen.stayData.accompanying_children[accompanyingChildenIndex].birthday" />
                                         </div>
                                         <div class="space-y-1">
                                             <FormLabel :for="`origin_${accompanyingChildenIndex}`"
@@ -651,6 +650,7 @@
 </template>
 
 <script setup lang="ts">
+import moment from 'moment'
 import { useVuelidate } from "@vuelidate/core"
 import { required, helpers } from '@vuelidate/validators'
 import { citizenCaseworkerService } from '@/components/api/user/CitizenCaseworkerService'
