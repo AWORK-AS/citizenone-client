@@ -93,10 +93,23 @@
                                 </td>
                                 <td width="20%">
                                     <div class="flex items-end gap-2">
-                                        <Tooltip :text="$t('employees.table.actions.view')">
+                                        <Tooltip :text="$t('dutySchedules.draftTemplates.table.actions.view')">
                                             <FormButton type="button" buttonStyle="action" class="rounded-md"
                                                 @click="navigateTo(`/schedules/draft-templates/${draftTemplate.uuid}/view-details`)">
                                                 <Icon name="ph:eye" class="size-4" />
+                                            </FormButton>
+                                        </Tooltip>
+
+                                        <Tooltip :text="$t('dutySchedules.draftTemplates.table.actions.edit')">
+                                            <FormButton type="button" buttonStyle="action" class="rounded-md">
+                                                <Icon name="ph:pencil" class="size-4" />
+                                            </FormButton>
+                                        </Tooltip>
+
+                                        <Tooltip :text="$t('dutySchedules.draftTemplates.table.actions.delete')">
+                                            <FormButton type="button" buttonStyle="danger" class="rounded-md"
+                                                @click="navigateTo(`/schedules/draft-templates/${draftTemplate.uuid}/view-details`)">
+                                                <Icon name="ph:trash" class="size-4" />
                                             </FormButton>
                                         </Tooltip>
                                     </div>

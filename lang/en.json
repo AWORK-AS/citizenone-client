@@ -2370,7 +2370,8 @@
             "table": {
                 "actions": {
                     "delete": "Delete",
-                    "edit": "Edit"
+                    "edit": "Edit",
+                    "view": "View"
                 },
                 "alert": {
                     "draftTemplateSuccessfullyDeleted": "Draft template successfully deleted"
