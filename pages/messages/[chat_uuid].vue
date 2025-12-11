@@ -185,12 +185,12 @@
                                                                 </button>
                                                             </Tooltip>
                                                         </div>
+                                                        <p class="text-xs mt-1"
+                                                            v-if="index === state.messages.length - 1 && message?.receipt?.created_at">
+                                                            {{ $t('messages.seen') }}
+                                                            {{ formatDateTimeToReadable(message?.receipt?.created_at) }}
+                                                        </p>
                                                     </div>
-                                                    <p class="text-xs text-gray-500 mt-1"
-                                                        v-if="index === state.messages.length - 1 && message?.receipt?.created_at">
-                                                        {{ $t('messages.seen') }}
-                                                        {{ formatDateTimeToReadable(message?.receipt?.created_at) }}
-                                                    </p>
                                                 </Tooltip>
                                             </div>
                                             <div class="flex-shrink-0 flex items-center">
@@ -346,7 +346,6 @@ onMounted(() => {
     channel.bind('chat-message', (response: any) => {
         state.messages.push(response?.data)
         scrollToBottom()
-        fetchChats()
     })
     fetchChat()
     fetchChats()
