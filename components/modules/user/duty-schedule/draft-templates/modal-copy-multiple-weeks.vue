@@ -73,6 +73,9 @@ const { successAlert } = useAlert()
 const emit = defineEmits(['close', 'saveShift'])
 const departmentStore = useDepartmentStore()
 
+const router = useRouter()
+const draftTemplateUuid = router?.currentRoute?.value?.params?.uuid
+
 const state = reactive({
     error: {} as Error,
     isPageLoading: false,
@@ -251,6 +254,7 @@ async function copyWeeklyDutySchedule() {
     state.isPageLoading = true
     try {
         const params = {
+            draft_template_uuid: draftTemplateUuid,
             department: departmentStore.getSelectedDepartmentName,
             weeks_source: state.formCopy.weeks_source,
             weeks_destination: state.formCopy.weeks_destination,

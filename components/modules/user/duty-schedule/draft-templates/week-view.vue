@@ -1047,6 +1047,7 @@ async function pasteEmployeeDailySchedule(employeeIndex: number, weekIndex: numb
     const userDestination = state.weeklySchedules?.data?.[employeeIndex]
     const dateDestination = state.weeklySchedules?.data?.[employeeIndex].weeks[weekIndex].date
     const params = {
+        draft_template_uuid: draftTemplateUuid,
         user_uuid_source: userSource.uuid,
         user_uuid_destination: userDestination.uuid,
         date_source: dateSource,
@@ -1101,6 +1102,7 @@ async function pasteEmployeeWeeklySchedule(weeklySchedule: any) {
         state.progress.pendingRequests = state.progress.pendingRequests + 1
         identifyTheProgressPercentage()
         const params = {
+            draft_template_uuid: draftTemplateUuid,
             user_uuid_source: state?.copy.selectedEmployeeWeeklySchedule?.uuid,
             user_uuid_destination: weeklySchedule?.uuid,
             week_source: state.copy.selectedWeekNumber,
@@ -1139,6 +1141,7 @@ function copyWeeklySchedule(weekNumber: number) {
 function pasteWeeklySchedule(weekNumber: number) {
     state.weeklySchedules = state.copy.allEmployeeSchedules.weeklySchedules
     const params = {
+        draft_template_uuid: draftTemplateUuid,
         department: departmentStore.getSelectedDepartmentName,
         week_source: state.copy.allEmployeeSchedules.weekNumber,
         week_destination: weekNumber,
