@@ -587,7 +587,7 @@
                                                 :name="`birthday_${accompanyingChildenIndex}`"
                                                 :placeholder="$t('citizens.form.stayData.accompanyingChildren.birthday')"
                                                 :value="child.birthday"
-                                                @keyup="(event: any) => state.formCitizen.stayData.accompanying_children[accompanyingChildenIndex].birthday = event.target.value" />
+                                                @change="(event: any) => state.formCitizen.stayData.accompanying_children[accompanyingChildenIndex].birthday = event.target.value" />
                                         </div>
                                         <div class="space-y-1">
                                             <FormLabel :for="`origin_${accompanyingChildenIndex}`"
