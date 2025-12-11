@@ -517,7 +517,7 @@
                 :selectedEmployeeSchedule="state.editShift.selectedEmployeeSchedule"
                 @close="state.modal.isEditShiftOpen = false" @resetEditShiftError="state.editShiftError = {}"
                 @updateShift="updateSelectedSchedule" />
-            <ModulesUserDutyScheduleDraftModalCopyMultipleWeeks
+            <ModulesUserDutyScheduleDraftTemplatesModalCopyMultipleWeeks
                 :isModalOpen="state.modal.isCopyMultipleWeeklyScheduleOpen"
                 @close="state.modal.isCopyMultipleWeeklyScheduleOpen = false"
                 @refreshDutySchedules="fetchDraftDutySchedule()" />
@@ -788,9 +788,6 @@ async function fetchDutySchedulePercentage() {
 
 async function fetchDraftDutySchedule() {
     state.error = {}
-    // state.weeklySchedules = []
-    // state.originalWeeklySchedules = []
-    state.isPageLoading = true
     state.progress.totalRequests = state.progress.totalRequests + 1
     state.progress.pendingRequests = state.progress.pendingRequests + 1
     identifyTheProgressPercentage()
