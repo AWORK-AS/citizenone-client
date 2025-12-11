@@ -96,6 +96,13 @@
                     </div>
                 </div>
             </li>
+            <li>
+                <div class="text-center py-3" v-if="props.chats?.links && props.chats?.links?.next !== null">
+                    <button class="text-sm" @click="$emit('loadMoreMessages')">
+                        {{ $t('mail.loadMore') }}
+                    </button>
+                </div>
+            </li>
         </ul>
         <ModulesUserMessagesModalNewChat :isModalOpen="state.modal.isNewChatOpen"
             @close="state.modal.isNewChatOpen = false" />
