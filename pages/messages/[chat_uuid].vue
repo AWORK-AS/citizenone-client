@@ -366,9 +366,12 @@ function closeUpgradeStorageModal() {
     state.error = {}
 }
 
-function refreshChatDetails() {
+function refreshChatDetails(chatDetails: any) {
     fetchChat()
-    fetchChats()
+    const currentChatIndex = state.chats?.data.findIndex((chat: any) => chat.uuid === chatUuid)
+    if (currentChatIndex >= 0) {
+        state.chats.data[currentChatIndex].name = chatDetails?.name
+    }
 }
 
 async function fetchChat() {
