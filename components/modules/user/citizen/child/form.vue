@@ -73,13 +73,6 @@
                     <FormError :error="v$?.formChild?.street?.$errors[0]?.$message.toString()" />
                     <FormError :error="props?.error?.errors?.street?.[0]" />
                 </div>
-                <div class="space-y-1">
-                    <FormLabel for="street" :label="$t('children.form.street')" />
-                    <FormTextField id="street" name="street" :placeholder="$t('children.form.street')"
-                        v-model="state.formChild.street" />
-                    <FormError :error="v$?.formChild?.street?.$errors[0]?.$message.toString()" />
-                    <FormError :error="props?.error?.errors?.street?.[0]" />
-                </div>
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
                     <div class="space-y-1">
                         <FormLabel for="region_uuid" :label="$t('children.form.region')" />
