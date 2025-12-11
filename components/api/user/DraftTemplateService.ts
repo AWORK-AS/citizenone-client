@@ -5,6 +5,10 @@ class DraftTemplateService extends BaseAPIService {
         return await this.request(`/user/draft-templates`, 'GET', params)
     }
 
+    async getDraftTemplateDetails(uuid: string): Promise<any> {
+        return await this.request(`/user/draft-templates/${uuid}`, 'GET')
+    }
+
     async saveDraftTemplate(params: object): Promise<any> {
         return await this.request(`/user/draft-templates`, 'POST', params)
     }

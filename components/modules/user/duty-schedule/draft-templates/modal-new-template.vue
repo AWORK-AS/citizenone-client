@@ -4,7 +4,7 @@
             <template #modal-body>
                 <LoadingSpinner :isActive="state.isPageLoading">
                     <ModulesUserDutyScheduleDraftTemplatesNewTemplateForm formType="create"
-                        :selectedTemplate="state.formTemplate"
+                        :selected-draft-template="state.formTemplate"
                         :error="state.error"
                         @closeModal="closeModal"
                         @submitForm="saveTemplate" />

@@ -181,7 +181,11 @@ const props = defineProps({
     formType: {
         type: String,
         required: true,
-    }
+    },
+    selectedDraftTemplate: {
+        type: Object,
+        required: true,
+    },
 })
 const emit = defineEmits(['closeModal', 'submitForm'])
 const { t } = useI18n()
@@ -303,6 +307,33 @@ const state = reactive({
         },
     },
     
+})
+
+onMounted(() => {
+    if (props.formType === 'update') {
+        state.formTemplate.name = props.selectedDraftTemplate.name
+        state.formTemplate.recurring.is_recurring = props.selectedDraftTemplate.is_recurring
+        state.formTemplate.recurring.recurring = props.selectedDraftTemplate.recurring
+        state.formTemplate.recurring.recurring_until = props.selectedDraftTemplate.recurring_until
+
+        if (props.selectedDraftTemplate.recurring === 'custom') {
+            state.formTemplate.recurring.frequency = props.selectedDraftTemplate.frequency
+            state.formTemplate.recurring.every = props.selectedDraftTemplate.every
+            if (props.selectedDraftTemplate.frequency === 'weekly') {
+                state.formTemplate.recurring.weekly_on = props.selectedDraftTemplate.weekly_on
+            } else if (props.selectedDraftTemplate.frequency === 'monthly') {
+                state.formTemplate.recurring.monthly_on_the_enabled = props.selectedDraftTemplate.monthly_on_the_enabled
+                state.formTemplate.recurring.monthly_each = props.selectedDraftTemplate.monthly_each
+                state.formTemplate.recurring.monthly_on_the_sequence = props.selectedDraftTemplate.monthly_on_the_sequence
+                state.formTemplate.recurring.monthly_on_the_day = props.selectedDraftTemplate.monthly_on_the_day
+            } else if (props.selectedDraftTemplate.frequency === 'yearly') {
+                state.formTemplate.recurring.yearly_in_months = props.selectedDraftTemplate.yearly_in_months
+                state.formTemplate.recurring.yearly_on_the_enabled = props.selectedDraftTemplate.yearly_on_the_enabled
+                state.formTemplate.recurring.yearly_on_the_sequence = props.selectedDraftTemplate.yearly_on_the_sequence
+                state.formTemplate.recurring.yearly_on_the_day = props.selectedDraftTemplate.yearly_on_the_day
+            }
+        }
+    }
 })
 
 const rules = computed(() => {

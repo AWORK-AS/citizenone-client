@@ -43,6 +43,11 @@ const breadcrumbLinks = [
     {
         name: 'dutySchedules.draftTemplates.draftTemplates',
         translate: true,
+        href: `/schedules/draft-templates`,
+    },
+    {
+        name: 'dutySchedules.draftTemplates.viewDraftTemplate',
+        translate: true,
         href: `/schedules/draft-templates/${draftTemplateUuid}/view-details`,
     },
 ]

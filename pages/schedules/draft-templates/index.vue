@@ -101,7 +101,7 @@
                                         </Tooltip>
 
                                         <Tooltip :text="$t('dutySchedules.draftTemplates.table.actions.edit')">
-                                            <FormButton type="button" buttonStyle="action" class="rounded-md">
+                                            <FormButton type="button" buttonStyle="action" class="rounded-md" @click="editDraftTemplate(draftTemplate)">
                                                 <Icon name="ph:pencil" class="size-4" />
                                             </FormButton>
                                         </Tooltip>
@@ -126,6 +126,13 @@
             :isModalOpen="state.modal.isNewTemplateModalOpen"
             @refresh-draft-templates="fetchDraftTemplates"
             @close="state.modal.isNewTemplateModalOpen = false"   
+        />
+
+        <ModulesUserDutyScheduleDraftTemplatesModalEditTemplate
+            :isModalOpen="state.modal.isEditTemplateModalOpen"
+            :selectedDraftTemplate="state.selectedDraftTemplate"
+            @refresh-draft-templates="fetchDraftTemplates"
+            @close="state.modal.isEditTemplateModalOpen = false"   
         />
 
     </NuxtLayout>
@@ -166,6 +173,7 @@ const state = reactive({
     isTableLoading: false,
     modal: {
         isNewTemplateModalOpen: false,
+        isEditTemplateModalOpen: false,
     },
     selectedDraftTemplate: {} as any,
 });
@@ -198,5 +206,10 @@ function changePageLength(event: any) {
     const selectedLength = event.target.value
     // Implement logic to change page length and fetch data accordingly
     console.log('Selected page length:', selectedLength)
+}
+
+function editDraftTemplate(draftTemplate: any) {
+    state.selectedDraftTemplate = draftTemplate
+    state.modal.isEditTemplateModalOpen = true
 }
 </script>
