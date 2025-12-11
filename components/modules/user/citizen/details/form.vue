@@ -538,6 +538,11 @@
                     <p class="text-sm text-gray-600">
                         {{ $t('citizens.form.stayData.accompanyingChildren.accompanyingChildren') }}
                     </p>
+                    <div v-if="state.formCitizen.stayData.accompanying_children?.length < 1" class="py-3">
+                        <FormButton buttonStyle="primary" @click="addAccompanyingChild()" class="w-full rounded-md">
+                            {{ $t('citizens.form.stayData.addAccompanyingChild') }}
+                        </FormButton>
+                    </div>
                     <div class="space-y-6">
                         <div v-for="(child, accompanyingChildenIndex) in state.formCitizen.stayData.accompanying_children"
                             :key="accompanyingChildenIndex" class="relative">
@@ -581,6 +586,9 @@
                                                 v-model="state.formCitizen.stayData.accompanying_children[accompanyingChildenIndex].gender" />
                                         </div>
                                         <div class="space-y-1">
+                                            {{
+                                                state.formCitizen.stayData.accompanying_children[accompanyingChildenIndex].birthday
+                                            }}
                                             <FormLabel :for="`birthday_${accompanyingChildenIndex}`"
                                                 :label="$t('citizens.form.stayData.accompanyingChildren.birthday')" />
                                             <FormDateField :id="`birthday_${accompanyingChildenIndex}`"
@@ -602,8 +610,7 @@
                             </div>
                             <button type="button"
                                 class="absolute -top-3 -right-3 bg-red-700 hover:bg-red-600 rounded-full w-8 h-8 flex items-center justify-center"
-                                @click="removeAccompanyingChild(accompanyingChildenIndex)"
-                                v-if="state.formCitizen.stayData.accompanying_children.length > 1">
+                                @click="removeAccompanyingChild(accompanyingChildenIndex)">
                                 <Icon name="ph:trash" class="h-4 w-4 text-white" aria-hidden="true" />
                             </button>
                             <button type="button"
@@ -1281,9 +1288,11 @@ function updateSocialSecurityNumber(event: Event) {
 
 function addAccompanyingChild() {
     state.formCitizen.stayData.accompanying_children.push({
-        name: '',
+        firstname: '',
+        lastname: '',
+        social_security_number: '',
         gender: '',
-        age: '',
+        birthday: '',
         origin: '',
     })
 }

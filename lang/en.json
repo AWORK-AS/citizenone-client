@@ -1179,6 +1179,7 @@
             "stayData": {
                 "accommodationEndDate": "Accommodation end date",
                 "accommodationStartDate": "Accommodation start date",
+                "addAccompanyingChild": "Add accompanying child",
                 "accompanyingChildren": {
                     "accompanyingChildren": "Accompanying children",
                     "birthday": "Birthday",

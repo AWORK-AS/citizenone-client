@@ -1179,6 +1179,7 @@
             "stayData": {
                 "accommodationEndDate": "Opholdets slutdato",
                 "accommodationStartDate": "Opholdets startdato",
+                "addAccompanyingChild": "Tilføj ledsagende barn",
                 "accompanyingChildren": {
                     "accompanyingChildren": "Medfølgende børn",
                     "birthday": "Fødselsdag",
