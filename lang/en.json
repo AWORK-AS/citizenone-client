@@ -1179,12 +1179,15 @@
             "stayData": {
                 "accommodationEndDate": "Accommodation end date",
                 "accommodationStartDate": "Accommodation start date",
+                "addAccompanyingChild": "Add accompanying child",
                 "accompanyingChildren": {
                     "accompanyingChildren": "Accompanying children",
+                    "birthday": "Birthday",
                     "cprNumber": "CPR number",
                     "age": "Age",
+                    "firstname": "First name",
                     "gender": "Gender",
-                    "name": "Name",
+                    "lastname": "Last name",
                     "origin": "Origin"
                 },
                 "dischargeReason": "Discharge reason",
@@ -1225,10 +1228,12 @@
                 "accommodationStartDate": "Accommodation start date",
                 "accompanyingChildren": {
                     "accompanyingChildren": "Accompanying children",
+                    "birthday": "Birthday",
                     "cprNumber": "CPR number",
                     "age": "Age",
+                    "firstname": "First name",
                     "gender": "Gender",
-                    "name": "Name",
+                    "lastname": "Last name",
                     "origin": "Origin"
                 },
                 "dischargeReason": "Discharge reason",
@@ -2123,7 +2128,7 @@
     },
     "children": {
         "children": "Chilren",
-        "editChild": "Edit children",
+        "editChild": "Edit child",
         "form": {
             "alert": {
                 "childSuccessfullyAdded": "Child successfully saved",
@@ -2137,6 +2142,7 @@
             "gender": "Gender",
             "lastname": "Last name",
             "municipality": "Municipality",
+            "origin": "Origin",
             "phone": "Phone",
             "postCode": "Post Code",
             "region": "Region",
@@ -2164,6 +2170,7 @@
             "lastname": "Last name",
             "municipality": "Municipality",
             "name": "Name",
+            "origin": "Origin",
             "phone": "Phone",
             "postCode": "Post Code",
             "region": "Region",
@@ -2505,10 +2512,19 @@
             "totalCompensatoryHours": "Total compensatory hours",
             "totalVacationHours": "Total vacation hours",
             "vacationHoursThisYear": "Vacation hours this year",
-            "vacationHoursFromPreviousYear": "Vacation hours from previous year"
+            "vacationHoursFromPreviousYear": "Vacation hours from previous year",
+            "annualNormHours": "Annual norm hours",
+            "info1": "The employee’s individual annual norm is always used.",
+            "info2": "If the employee has been employed partway through the year, the annual norm will be calculated proportionally based on the employment start date.",
+            "info3": "Compensatory and vacation hours are calculated from that annual norm."
         },
         "noScheduleFound": "No schedule found",
-        "removeSchedule": "Remove schedule",
+        "removeSchedule": {
+            "confirmation": {
+                "removeScheduleConfirmation": "Are you sure you want to remove this schedule"
+            },
+            "removeSchedule": "Remove schedule"
+        },
         "requesters": {
             "confirmation": {
                 "approveConfirmation": "Are you sure you want to approve this request",
@@ -2652,6 +2668,14 @@
                 "status": "Status",
                 "workingHours": "Working hours"
             }
+        },
+        "shiftSpan": {
+            "start": "Shift start",
+            "middle": "Continues",
+            "end": "Shift end",
+            "entireShift": "Entire shift",
+            "onlyShift": "This day only",
+            "deleteConfirmMessage": "Do you want to delete the entire shift (from start date to end date), or only this day?"
         },
         "showEmployeesWorkingToday": "Show employees working today",
         "showTheDistributionOfShiftTypes": "Show the distribution of shift types",

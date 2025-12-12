@@ -19,7 +19,7 @@
                     <div class="grid grid-cols-1 md:grid-cols-12 gap-x-10 gap-y-4" v-if="state.chats?.data?.length > 0">
                         <div class="md:col-span-5 xl:col-span-4 bg-white rounded-md overflow-y-auto"
                             style="height: 80vh;">
-                            <ModulesUserMessagesChats :chats="state.chats" />
+                            <ModulesUserMessagesChats :chats="state.chats" @loadMoreMessages="fetchAdditionalChats" />
                         </div>
                     </div>
                     <div v-else class="mx-auto max-w-lg py-20">
@@ -104,6 +104,7 @@ const breadcrumbLinks = [
         href: '/messages',
     },
 ]
+let currentTablePage = 1
 
 const state = reactive({
     chats: [] as any,
@@ -172,9 +173,36 @@ async function fetchChats() {
     state.error = {}
     state.isPageLoading = true
     try {
-        const response = await messageService.fetchChats()
+        const params = {
+            page: currentTablePage
+        }
+        const response = await messageService.fetchChats(params)
         if (response) {
             state.chats = response
+        }
+    } catch (error: any) {
+        state.error = { message: error.message }
+    }
+    state.isPageLoading = false
+}
+
+async function fetchAdditionalChats() {
+    state.error = {}
+    state.isPageLoading = true
+    try {
+        currentTablePage = currentTablePage + 1
+        const params = {
+            page: currentTablePage
+        }
+        const response = await messageService.fetchChats(params)
+        if (response) {
+            state.chats.data?.push(...response?.data)
+            if (response?.meta) {
+                state.chats.meta = response?.meta
+            }
+            if (response?.links) {
+                state.chats.links = response?.links
+            }
         }
     } catch (error: any) {
         state.error = { message: error.message }

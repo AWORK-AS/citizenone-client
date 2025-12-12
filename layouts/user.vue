@@ -251,7 +251,7 @@
                             class="flex items-center gap-x-1 text-sm text-primary hover:text-primary-700"
                             @click="navigateTo('/overview#news')">
                             <Icon name="ph:megaphone" class="h-6 w-6 md:w-6 md:h-6" aria-hidden="true" />
-                            <span class="hidden md:block">
+                            <span class="text-sm font-semibold hidden md:block">
                                 {{ $t('news.news') }}
                             </span>
                         </button>

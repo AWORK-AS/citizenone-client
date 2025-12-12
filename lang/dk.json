@@ -1179,12 +1179,15 @@
             "stayData": {
                 "accommodationEndDate": "Opholdets slutdato",
                 "accommodationStartDate": "Opholdets startdato",
+                "addAccompanyingChild": "Tilføj ledsagende barn",
                 "accompanyingChildren": {
                     "accompanyingChildren": "Medfølgende børn",
+                    "birthday": "Fødselsdag",
                     "cprNumber": "CPR-nummer",
                     "age": "Alder",
+                    "firstname": "Fornavn",
                     "gender": "Køn",
-                    "name": "Navn",
+                    "lastname": "Efternavn",
                     "origin": "Oprindelse"
                 },
                 "dischargeReason": "Udskrivningsårsag",
@@ -1225,10 +1228,12 @@
                 "accommodationStartDate": "Opholdets startdato",
                 "accompanyingChildren": {
                     "accompanyingChildren": "Medfølgende børn",
+                    "birthday": "Fødselsdag",
                     "cprNumber": "CPR-nummer",
                     "age": "Alder",
+                    "firstname": "Fornavn",
                     "gender": "Køn",
-                    "name": "Navn",
+                    "lastname": "Last name",
                     "origin": "Oprindelse"
                 },
                 "dischargeReason": "Udskrivningsårsag",
@@ -2123,7 +2128,7 @@
     },
     "children": {
         "children": "Børn",
-        "editChild": "Rediger børn",
+        "editChild": "Rediger barn",
         "form": {
             "alert": {
                 "childSuccessfullyAdded": "Barn blev gemt",
@@ -2137,6 +2142,7 @@
             "gender": "Køn",
             "lastname": "Efternavn",
             "municipality": "Kommune",
+            "origin": "Oprindelse",
             "phone": "Telefon",
             "postCode": "Postnummer",
             "region": "Region",
@@ -2164,6 +2170,7 @@
             "lastname": "Efternavn",
             "municipality": "Kommune",
             "name": "Navn",
+            "origin": "Oprindelse",
             "phone": "Telefon",
             "postCode": "Postnummer",
             "region": "Region",
@@ -2457,10 +2464,19 @@
             "totalCompensatoryHours": "Samlede afspadseringstimer",
             "totalVacationHours": "Samlede ferietimer",
             "vacationHoursThisYear": "Ferietimer i år",
-            "vacationHoursFromPreviousYear": "Ferietimer fra tidligere år"
+            "vacationHoursFromPreviousYear": "Ferietimer fra tidligere år",
+            "annualNormHours": "Årlig norm i timer",
+            "info1": "Medarbejderens individuelle årlige norm anvendes altid.",
+            "info2": "Hvis medarbejderen er startet i løbet af året, beregnes den årlige norm forholdsmæssigt ud fra ansættelsesdatoen.",
+            "info3": "Afspadserings- og ferietimer beregnes ud fra denne årlige norm."
         },
         "noScheduleFound": "Ingen tidsplan fundet",
-        "removeSchedule": "Fjern tidsplan",
+        "removeSchedule": {
+            "confirmation": {
+                "removeScheduleConfirmation": "Er du sikker på, at du vil fjerne denne vagt?"
+            },
+            "removeSchedule": "Fjern tidsplan"
+        },
         "requesters": {
             "confirmation": {
                 "approveConfirmation": "Er du sikker på, at du vil godkende denne anmodning",
@@ -2604,6 +2620,14 @@
                 "status": "Tid",
                 "workingHours": "Arbejdstimer"
             }
+        },
+        "shiftSpan": {
+            "start": "Vagt start",
+            "middle": "Vagt fortsat",
+            "end": "Vagt slut",
+            "entireShift": "Hele vagten",
+            "onlyShift": "Kun denne dag",
+            "deleteConfirmMessage": "Vil du slette hele vagten (fra startdato til slutdato) eller kun denne dag?"
         },
         "showEmployeesWorkingToday": "Vis medarbejdere, der arbejder i dag",
         "showTheDistributionOfShiftTypes": "Vis vagttypers fordeling",

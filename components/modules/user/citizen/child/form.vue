@@ -60,6 +60,13 @@
                     <FormError :error="props?.error?.errors?.phone?.[0]" />
                 </div>
                 <div class="space-y-1">
+                    <FormLabel for="origin" :label="$t('children.form.origin')" />
+                    <FormTextField id="origin" name="origin" :placeholder="$t('children.form.origin')"
+                        v-model="state.formChild.origin" />
+                    <FormError :error="v$?.formChild?.origin?.$errors[0]?.$message.toString()" />
+                    <FormError :error="props?.error?.errors?.origin?.[0]" />
+                </div>
+                <div class="space-y-1">
                     <FormLabel for="street" :label="$t('children.form.street')" />
                     <FormTextField id="street" name="street" :placeholder="$t('children.form.street')"
                         v-model="state.formChild.street" />
@@ -150,6 +157,7 @@ const state = reactive({
         social_security_number: '',
         birthday: '',
         phone: '',
+        origin: '',
         street: '',
         region_uuid: '',
         municipality_uuid: '',
@@ -228,6 +236,7 @@ onMounted(() => {
         social_security_number: props.selectedChild?.social_security_number,
         birthday: props.selectedChild?.birthday,
         phone: props.selectedChild?.phone,
+        origin: props.selectedChild?.origin,
         street: props.selectedChild?.street,
         region_uuid: props.selectedChild?.region?.uuid,
         municipality_uuid: props.selectedChild?.municipality?.uuid,

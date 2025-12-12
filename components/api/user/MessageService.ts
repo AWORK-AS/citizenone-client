@@ -1,8 +1,8 @@
 import BaseAPIService from '@/components/api/BaseAPIService'
 
 class MessageService extends BaseAPIService {
-    async fetchChats(): Promise<any> {
-        return await this.request(`/user/chats`, 'GET')
+    async fetchChats(params: object): Promise<any> {
+        return await this.request(`/user/chats`, 'GET', params)
     }
 
     async fetchChat(chatUuid: any): Promise<any> {

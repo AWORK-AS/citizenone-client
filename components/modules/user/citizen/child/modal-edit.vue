@@ -60,6 +60,7 @@ async function updateChild(childDetails: any) {
             social_security_number: childDetails.social_security_number,
             birthday: childDetails.birthday,
             phone: childDetails.phone,
+            origin: childDetails.origin,
             street: childDetails.street,
             region_uuid: childDetails.region_uuid,
             municipality_uuid: childDetails.municipality_uuid,

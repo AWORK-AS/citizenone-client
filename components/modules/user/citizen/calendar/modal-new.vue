@@ -88,6 +88,9 @@ async function saveSchedule(scheduleDetails: any) {
             unit_uuid: scheduleDetails.unit_uuid,
             is_private: scheduleDetails.is_private,
             send_invitation: scheduleDetails.send_invitation,
+            is_recurring: scheduleDetails.recurring.is_recurring,
+            recurring: scheduleDetails.recurring.recurring,
+            recurring_until: scheduleDetails.recurring.recurring_until,
         } as any
         if (scheduleDetails.recurring.recurring === 'custom') {
             params.frequency = scheduleDetails.recurring.frequency

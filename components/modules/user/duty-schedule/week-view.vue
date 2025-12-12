@@ -134,6 +134,7 @@
                 </div>
                 <div class="bg-primary h-3 rounded-full transition-all ease-in-out duration-500 mb-1.5"
                     :style="{ width: `${state.progress.percentage}%` }" v-if="state.progress.showProgressBar" />
+                <div class="h-3 mb-1.5" v-else />
                 <div class="isolate flex flex-auto flex-col bg-white">
                     <div class="flex max-w-full flex-none flex-col sm:max-w-none md:max-w-full">
                         <div>
@@ -339,7 +340,8 @@
                                                         </div>
                                                         <div class="flex items-center gap-x-1">
                                                             <Tooltip position="right"
-                                                                :text="$t('dutySchedules.copy.copyEmployeeSchedule')">
+                                                                :text="$t('dutySchedules.copy.copyEmployeeSchedule')"
+                                                                v-if="isAdmin(userStore.getUser?.role)">
                                                                 <button
                                                                     class="bg-gray-200 w-6 h-6 text-sm text-gray-600 rounded-sm hover:bg-gray-400 hover:text-gray-200 flex items-center justify-center"
                                                                     @click="copyEmployeeWeeklySchedule(employee)">
@@ -373,10 +375,17 @@
                                                                 </span><span v-else>.</span>
                                                             </span>
                                                         </div>
-                                                        <p class="text-xxs">
-                                                            {{ $t('dutySchedules.annualNormHours') }}:
-                                                            {{ employee?.annual_norm_hours ?? 0 }}
-                                                        </p>
+
+                                                        <div class="flex items-center gap-1 cursor-pointer"
+                                                            @click="state.modal.isAnnualNormHoursInfoOpen = true">
+                                                            <p class="text-xxs">
+                                                                {{ $t('dutySchedules.annualNormHours') }}:
+                                                                {{ employee?.annual_norm_hours ?? 0 }}
+                                                            </p>
+                                                            <Icon name="ph:question" class="h-3.5 w-3.5"
+                                                                aria-hidden="true" />
+                                                        </div>
+
                                                         <p class="text-xxs">
                                                             {{ $t('dutySchedules.totalHours') }}:
                                                             {{ employee?.total_hours ?? 0 }}
@@ -606,6 +615,11 @@
                                                                     </div>
                                                                 </div>
                                                             </div>
+                                                            <div v-if="shift?.shift_span_position" class="px-1 py-0.5 text-xxs text-white">
+                                                                <p v-if="shift?.shift_span_position === 'start'">{{ $t('dutySchedules.shiftSpan.start') }}</p>
+                                                                <p v-if="shift?.shift_span_position === 'middle'">{{ $t('dutySchedules.shiftSpan.middle') }}</p>
+                                                                <p v-if="shift?.shift_span_position === 'end'">{{ $t('dutySchedules.shiftSpan.end') }}</p>
+                                                            </div>
                                                             <div :class="[
                                                                 shift?.citizen_schedules?.length > 0 && 'mt-1'
                                                             ]" v-if="shift?.citizen_schedules?.length > 0">
@@ -642,10 +656,10 @@
                                                             </div>
                                                             <button
                                                                 class="bg-gray-200 w-4 h-4 text-sm text-gray-600 rounded-full flex items-center justify-center absolute -right-1 -top-1"
-                                                                @click="removeShift(week, employeeIndex, weekIndex, shift, shiftIndex)"
+                                                                @click="removeShiftConfirmation(shift)"
                                                                 v-if="isAdmin(userStore.getUser?.role)">
                                                                 <Tooltip position="left"
-                                                                    :text="$t('dutySchedules.removeSchedule')">
+                                                                    :text="$t('dutySchedules.removeSchedule.removeSchedule')">
                                                                     <Icon name="ph:x" class="h-2 w-2"
                                                                         aria-hidden="true" />
                                                                 </Tooltip>
@@ -760,6 +774,8 @@
             <ModulesUserDutyScheduleNormHoursModalCompensatoryHours :isModalOpen="state.modal.isCompensatoryHoursOpen"
                 :selectedEmployee="state.normHours.selectedEmployeeSchedule"
                 @close="state.modal.isCompensatoryHoursOpen = false" />
+            <ModulesUserDutyScheduleNormHoursModalInfo :isModalOpen="state.modal.isAnnualNormHoursInfoOpen"
+                @close="state.modal.isAnnualNormHoursInfoOpen = false" />
             <ModulesUserDutyScheduleNormHoursModalVacationHours :isModalOpen="state.modal.isVacationHoursOpen"
                 :selectedEmployee="state.normHours.selectedEmployeeSchedule"
                 @close="state.modal.isVacationHoursOpen = false" />
@@ -772,6 +788,12 @@
                 :selectedEmployeeSchedule="state.editShift.selectedEmployeeSchedule"
                 @close="state.modal.isEditShiftOpen = false" @resetEditShiftError="state.editShiftError = {}"
                 @updateShift="updateSelectedSchedule" />
+            <ModulesUserDutyScheduleModalRemoveShiftConfirmation
+                :isModalOpen="state.modal.isRemoveShiftConfirmationOpen"
+                @close="state.modal.isRemoveShiftConfirmationOpen = false" @confirm="removeShift" />
+            <ModulesUserDutyScheduleModalRemoveShiftSpanConfirmation
+                :isModalOpen="state.modal.isRemoveShiftSpanConfirmationOpen"
+                @close="state.modal.isRemoveShiftSpanConfirmationOpen = false" @confirm-single="removeShift" @confirm-entire="removeEntireShiftSpan"  />
             <ModulesUserDutyScheduleModalViewShift :isModalOpen="state.modal.isViewShiftOpen"
                 :selectedEmployeeSchedule="state.viewShift.selectedEmployeeSchedule"
                 @close="state.modal.isViewShiftOpen = false" />
@@ -884,10 +906,13 @@ const state = reactive({
         isManageScheduleSlotOpen: false,
         isManageTimeAdjustmentRequestsOpen: false,
         isManageSwapScheduleRequestsOpen: false,
+        isRemoveShiftConfirmationOpen: false,
+        isRemoveShiftSpanConfirmationOpen: false,
         isRequestTimeAdjustmentOpen: false,
         isRequestSwapScheduleOpen: false,
         isVacationHoursOpen: false,
         isViewShiftOpen: false,
+        isAnnualNormHoursInfoOpen: false,
     } as any,
     newShift: {
         selectedDate: '',
@@ -903,6 +928,9 @@ const state = reactive({
         showProgressBar: false,
         totalRequests: 0,
     },
+    removeShift: {
+        selectedShift: {}
+    } as any,
     selectedDate: moment().format('YYYY-MM-DD'),
     showAllShifts: false,
     showAllShiftTypes: false,
@@ -918,7 +946,6 @@ const state = reactive({
         sortField: 'firstname',
         sortOrder: 'ascend',
     },
-    isRemoveShift: false,
     isUpdateShift: false,
     viewShift: {
         selectedEmployeeSchedule: {},
@@ -1530,9 +1557,17 @@ async function saveCopiedWeeklyDutySchedule(params: object) {
     }
 }
 
-async function removeShift(week: any, employeeIndex: number, weekIndex: number, shift: any, shiftIndex: number) {
-    state.isRemoveShift = true
-    const scheduleUuid = shift.schedule_uuid
+function removeShiftConfirmation(shift: any) {
+    state.removeShift.selectedShift = shift
+    if (shift.shift_span_position !== 'single') {
+        state.modal.isRemoveShiftSpanConfirmationOpen = true
+        return
+    }
+    state.modal.isRemoveShiftConfirmationOpen = true
+}
+
+async function removeShift() {
+    const scheduleUuid = state.removeShift.selectedShift.schedule_uuid
     try {
         state.progress.totalRequests = state.progress.totalRequests + 1
         state.progress.pendingRequests = state.progress.pendingRequests + 1
@@ -1549,8 +1584,30 @@ async function removeShift(week: any, employeeIndex: number, weekIndex: number, 
         state.progress.totalRequests = state.progress.totalRequests - 1
         state.progress.pendingRequests = state.progress.pendingRequests - 1
         identifyTheProgressPercentage()
-    } finally {
-        state.isRemoveShift = false
+    }
+}
+
+async function removeEntireShiftSpan() {
+    const scheduleUuid = state.removeShift.selectedShift.schedule_uuid
+    try {
+        state.progress.totalRequests = state.progress.totalRequests + 1
+        state.progress.pendingRequests = state.progress.pendingRequests + 1
+        identifyTheProgressPercentage()
+        const params = {
+            delete_entire_shift: true
+        }
+        const response = await dutyScheduleService.deleteDutySchedule(scheduleUuid, params)
+        if (response) {
+            state.progress.totalRequests = state.progress.totalRequests - 1
+            state.progress.pendingRequests = state.progress.pendingRequests - 1
+            identifyTheProgressPercentage()
+            fetchDutySchedule()
+        }
+    } catch (error: any) {
+        state.error = error
+        state.progress.totalRequests = state.progress.totalRequests - 1
+        state.progress.pendingRequests = state.progress.pendingRequests - 1
+        identifyTheProgressPercentage()
     }
 }
 

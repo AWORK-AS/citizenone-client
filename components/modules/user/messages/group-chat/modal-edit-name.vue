@@ -94,7 +94,7 @@ async function submitForm() {
             if (response) {
                 closeModal()
                 successAlert(`${t('alert.success')}!`, `${t('messages.groupChat.alert.groupNameSuccessfullyUpdated')}.`)
-                emit('refreshChatDetails')
+                emit('refreshChatDetails', state.formGroupChat)
                 state.formGroupChat.name = ''
                 v$.value.$reset()
             }
