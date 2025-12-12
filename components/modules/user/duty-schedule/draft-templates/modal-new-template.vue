@@ -44,20 +44,7 @@ const state = reactive({
         name: '',
         recurring: {
             is_recurring: false,
-            recurring: '',
-            recurring_until: '',
-            frequency: '',
-            every: '',
-            weekly_on: [],
-            monthly_on_the_enabled: false,
-            monthly_each: [],
-            monthly_on_the_sequence: '',
-            monthly_on_the_day: '',
-            yearly_in_months: [],
-            yearly_on_the_enabled: false,
-            yearly_on_the_sequence: '',
-            yearly_on_the_day: '',
-            is_apply_to_all: false,
+            week_rotations: '',
         },
     }
 })
@@ -78,30 +65,8 @@ async function saveTemplate(draftTemplateDetails: any) {
         const params = {
             name: draftTemplateDetails.name,
             is_recurring: draftTemplateDetails.recurring.is_recurring,
-            recurring: draftTemplateDetails.recurring.recurring,
-            recurring_until: draftTemplateDetails.recurring.recurring_until,
+            week_rotations: draftTemplateDetails.recurring.week_rotations,
         } as any
-        if (draftTemplateDetails.recurring.recurring === 'custom') {
-            params.frequency = draftTemplateDetails.recurring.frequency
-            params.every = draftTemplateDetails.recurring.every
-            if (draftTemplateDetails.recurring.frequency === 'weekly') {
-                params.weekly_on = draftTemplateDetails.recurring.weekly_on
-            } else if (draftTemplateDetails.recurring.frequency === 'monthly') {
-                params.monthly_on_the_enabled = draftTemplateDetails.recurring.monthly_on_the_enabled
-                if (!draftTemplateDetails.recurring.monthly_on_the_enabled) {
-                    params.monthly_each = draftTemplateDetails.recurring.monthly_each
-                } else {
-                    params.monthly_on_the_sequence = draftTemplateDetails.recurring.monthly_on_the_sequence
-                    params.monthly_on_the_day = draftTemplateDetails.recurring.monthly_on_the_day
-                }
-            } else if (draftTemplateDetails.recurring.frequency === 'yearly') {
-                params.yearly_in_months = draftTemplateDetails.recurring.yearly_in_months
-                if (draftTemplateDetails.recurring.yearly_on_the_enabled) {
-                    params.yearly_on_the_sequence = draftTemplateDetails.recurring.yearly_on_the_sequence
-                    params.yearly_on_the_day = draftTemplateDetails.recurring.yearly_on_the_day
-                }
-            }
-        }
 
         const response = await draftTemplateService.saveDraftTemplate(params)
         if (response?.data) {

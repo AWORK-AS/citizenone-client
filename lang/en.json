@@ -2401,7 +2401,8 @@
                 "name": "Template name",
                 "isRecurring": "Recurring template",
                 "recurringUntil": "Until",
-                "repeat": "Repeat"
+                "repeat": "Repeat",
+                "weekRotations":"Week rotations"
             }
         },
         "dutySchedules": "Duty schedules",
