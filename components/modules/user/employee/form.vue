@@ -263,7 +263,10 @@
                 </div>
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
                     <div class="space-y-1" ref="annualNormHoursField" v-if="isAdmin(userStore.getUser?.roles)">
-                        <FormLabel for="annual_norm_hours" :label="$t('employees.form.employment.annualNormHours')" />
+                        <div class="flex items-center gap-x-2">
+                            <FormLabel for="annual_norm_hours" :label="$t('employees.form.employment.annualNormHours')" />
+                            <Icon name="ph:question" class="size-4 cursor-pointer text-gray-700" aria-hidden="true" @click="state.modal.isAnnualNormHoursInfoOpen = true" />
+                        </div>   
                         <FormTextField id="annual_norm_hours" name="annual_norm_hours"
                             :placeholder="$t('employees.form.employment.annualNormHours')"
                             v-model="state.formEmployee.employment.annual_norm_hours" />
@@ -495,6 +498,8 @@
         <ModulesUserJobSpecialtyModalNew :isModalOpen="state.modal.isAddJobSpecialtyOpen"
             @close="state.modal.isAddJobSpecialtyOpen = false" @refreshJobTitles="fetchJobTitles"
             @refreshJobSpecialty="fetchJobSpecialties(state.formEmployee.employment.job_title_uuid)" />
+        <ModulesUserDutyScheduleNormHoursModalInfo :isModalOpen="state.modal.isAnnualNormHoursInfoOpen"
+                @close="state.modal.isAnnualNormHoursInfoOpen = false" />
     </form>
 </template>
 
@@ -603,6 +608,7 @@ const state = reactive({
         isAddJobTitleOpen: false,
         isAddRoleOpen: false,
         isShowMediaRiskExplainationOpen: false,
+        isAnnualNormHoursInfoOpen: false,
     },
     permissions: {
         read: false,
