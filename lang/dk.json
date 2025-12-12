@@ -2621,6 +2621,11 @@
                 "workingHours": "Arbejdstimer"
             }
         },
+        "shiftSpan": {
+            "start": "Vagt start",
+            "middle": "Vagt fortsat",
+            "end": "Vagt slut"
+        },
         "showEmployeesWorkingToday": "Vis medarbejdere, der arbejder i dag",
         "showTheDistributionOfShiftTypes": "Vis vagttypers fordeling",
         "sort": {

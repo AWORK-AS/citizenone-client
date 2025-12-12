@@ -2621,6 +2621,11 @@
                 "workingHours": "Working hours"
             }
         },
+        "shiftSpan": {
+            "start": "Shift start",
+            "middle": "Continues",
+            "end": "Shift end"
+        },
         "showEmployeesWorkingToday": "Show employees working today",
         "showTheDistributionOfShiftTypes": "Show the distribution of shift types",
         "sort": {

@@ -615,6 +615,11 @@
                                                                     </div>
                                                                 </div>
                                                             </div>
+                                                            <div v-if="shift?.shift_span_position" class="px-1 py-0.5 text-xxs text-white">
+                                                                <p v-if="shift?.shift_span_position === 'start'">{{ $t('dutySchedules.shiftSpan.start') }}</p>
+                                                                <p v-if="shift?.shift_span_position === 'middle'">{{ $t('dutySchedules.shiftSpan.middle') }}</p>
+                                                                <p v-if="shift?.shift_span_position === 'end'">{{ $t('dutySchedules.shiftSpan.end') }}</p>
+                                                            </div>
                                                             <div :class="[
                                                                 shift?.citizen_schedules?.length > 0 && 'mt-1'
                                                             ]" v-if="shift?.citizen_schedules?.length > 0">
