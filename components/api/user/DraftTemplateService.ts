@@ -20,6 +20,10 @@ class DraftTemplateService extends BaseAPIService {
     async deleteDraftTemplate(uuid: string): Promise<any> {
         return await this.request(`/user/draft-templates/${uuid}`, 'DELETE')
     }
+
+    async applyDraftTemplate(uuid: string): Promise<any> {
+        return await this.request(`/user/draft-templates/${uuid}/apply-template`, 'POST')
+    }
 }
 
 export const draftTemplateService = new DraftTemplateService()
