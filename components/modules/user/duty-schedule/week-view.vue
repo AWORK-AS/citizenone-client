@@ -791,6 +791,9 @@
             <ModulesUserDutyScheduleModalRemoveShiftConfirmation
                 :isModalOpen="state.modal.isRemoveShiftConfirmationOpen"
                 @close="state.modal.isRemoveShiftConfirmationOpen = false" @confirm="removeShift" />
+            <ModulesUserDutyScheduleModalRemoveShiftSpanConfirmation
+                :isModalOpen="state.modal.isRemoveShiftSpanConfirmationOpen"
+                @close="state.modal.isRemoveShiftSpanConfirmationOpen = false" @confirm-single="removeShift" @confirm-entire="removeEntireShiftSpan"  />
             <ModulesUserDutyScheduleModalViewShift :isModalOpen="state.modal.isViewShiftOpen"
                 :selectedEmployeeSchedule="state.viewShift.selectedEmployeeSchedule"
                 @close="state.modal.isViewShiftOpen = false" />
@@ -904,6 +907,7 @@ const state = reactive({
         isManageTimeAdjustmentRequestsOpen: false,
         isManageSwapScheduleRequestsOpen: false,
         isRemoveShiftConfirmationOpen: false,
+        isRemoveShiftSpanConfirmationOpen: false,
         isRequestTimeAdjustmentOpen: false,
         isRequestSwapScheduleOpen: false,
         isVacationHoursOpen: false,
@@ -1555,6 +1559,10 @@ async function saveCopiedWeeklyDutySchedule(params: object) {
 
 function removeShiftConfirmation(shift: any) {
     state.removeShift.selectedShift = shift
+    if (shift.shift_span_position !== 'single') {
+        state.modal.isRemoveShiftSpanConfirmationOpen = true
+        return
+    }
     state.modal.isRemoveShiftConfirmationOpen = true
 }
 
@@ -1565,6 +1573,30 @@ async function removeShift() {
         state.progress.pendingRequests = state.progress.pendingRequests + 1
         identifyTheProgressPercentage()
         const response = await dutyScheduleService.deleteDutySchedule(scheduleUuid)
+        if (response) {
+            state.progress.totalRequests = state.progress.totalRequests - 1
+            state.progress.pendingRequests = state.progress.pendingRequests - 1
+            identifyTheProgressPercentage()
+            fetchDutySchedule()
+        }
+    } catch (error: any) {
+        state.error = error
+        state.progress.totalRequests = state.progress.totalRequests - 1
+        state.progress.pendingRequests = state.progress.pendingRequests - 1
+        identifyTheProgressPercentage()
+    }
+}
+
+async function removeEntireShiftSpan() {
+    const scheduleUuid = state.removeShift.selectedShift.schedule_uuid
+    try {
+        state.progress.totalRequests = state.progress.totalRequests + 1
+        state.progress.pendingRequests = state.progress.pendingRequests + 1
+        identifyTheProgressPercentage()
+        const params = {
+            delete_entire_shift: true
+        }
+        const response = await dutyScheduleService.deleteDutySchedule(scheduleUuid, params)
         if (response) {
             state.progress.totalRequests = state.progress.totalRequests - 1
             state.progress.pendingRequests = state.progress.pendingRequests - 1
