@@ -2464,7 +2464,11 @@
             "totalCompensatoryHours": "Total compensatory hours",
             "totalVacationHours": "Total vacation hours",
             "vacationHoursThisYear": "Vacation hours this year",
-            "vacationHoursFromPreviousYear": "Vacation hours from previous year"
+            "vacationHoursFromPreviousYear": "Vacation hours from previous year",
+            "annualNormHours": "Annual norm hours",
+            "info1": "The employee’s individual annual norm is always used.",
+            "info2": "If the employee has been employed partway through the year, the annual norm will be calculated proportionally based on the employment start date.",
+            "info3": "Compensatory and vacation hours are calculated from that annual norm."
         },
         "noScheduleFound": "No schedule found",
         "removeSchedule": {
