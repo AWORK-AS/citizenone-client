@@ -2370,6 +2370,54 @@
             "draft": "Draft",
             "publish": "Publish"
         },
+        "draftTemplates": {
+            "draftTemplates": "Draft templates",
+            "newDraft": "New Draft Template",
+            "editDraft": "Edit Draft Template",
+            "viewDraftTemplate": "Draft Template Schedules",
+            "table": {
+                "actions": {
+                    "delete": "Delete",
+                    "edit": "Edit",
+                    "view": "View",
+                    "apply": "Apply"
+                },
+                "alert": {
+                    "draftTemplateSuccessfullyDeleted": "Draft template successfully deleted",
+                    "deleteConfirmation": "Are you sure you want to delete this draft template?"
+                },
+                "confirmation": {
+                    "deleteDraftTemplateConfirmation": "Are you sure you want to delete this draft template"
+                },
+                "name": "Name",
+                "weekRotations": "Week rotations",
+                "isRecurring": "Is recurring",
+                "recurring": "Recurring",
+                "nonRecurring": "Non-recurring",
+                "repeat": "Repeat",
+                "recurringUntil": "Recurring until"
+            },
+            "recurring": {
+                "everyDay": "Every day",
+                "everyWeek": "Every week",
+                "everySecondWeek": "Every two weeks",
+                "everyThirdWeek": "Every three weeks",
+                "everyFourthWeek": "Every four weeks",
+                "everyMonth": "Every month",
+                "custom": "Custom"
+            },
+            "form": {
+                "name": "Template name",
+                "isRecurring": "Recurring template",
+                "recurringUntil": "Until",
+                "repeat": "Repeat",
+                "weekRotations":"Week rotations",
+                "applyTemplate": "Apply template",
+                "weekNumber": "Week number",
+                "year": "Year",
+                "week": "Week"
+            }
+        },
         "dutySchedules": "Duty schedules",
         "editSchedule": "Edit schedule",
         "extraHours": {

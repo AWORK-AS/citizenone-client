@@ -43,6 +43,10 @@
                         class="text-primary text-sm hover:text-primary-700">
                         {{ $t('dutySchedules.showTheDistributionOfShiftTypes') }}
                     </button>
+                    <FormButton buttonStyle="action" class="rounded-lg" @click="navigateTo('/schedules/draft/templates')">
+                        <Icon name="ph:note" class="h-4 w-4" aria-hidden="true" />
+                        {{ $t('dutySchedules.draftTemplates.draftTemplates') }}
+                    </FormButton>
                     <FormButton buttonStyle="action" class="rounded-lg" @click="state.modal.isPublishDraftOpen = true">
                         <Icon name="ph:check" class="h-4 w-4" aria-hidden="true" />
                         {{ $t('dutySchedules.draft.publish') }}
