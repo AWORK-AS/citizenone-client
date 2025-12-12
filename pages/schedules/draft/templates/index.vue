@@ -82,6 +82,7 @@
                         :columnHeaders="state.columnHeaders"
                         :isLoading="state.isTableLoading"
                         :noDataMessage="$t('dutySchedules.draftTemplates.table.noDraftTemplates')"
+                        :sortData="draftTemplateStore.getSortData" @sort="sort"
                     >
                         <template #body v-if="!(state.isTableLoading || (state.draftTemplates?.length === 0))">
                             <tr v-for="draftTemplate in state.draftTemplates" :key="draftTemplate.uuid" class="hover:bg-gray-50">
@@ -132,6 +133,7 @@
                         </template>
                     </Table>
                 </div>
+                    <Pagination :data="state.draftTemplates" @previous="previous" @next="next" />
             </div>
         </div>
 
@@ -167,12 +169,14 @@
 <script setup lang="ts">
 import { draftTemplateService } from '@/components/api/user/DraftTemplateService'
 import { useCustomPagesStore } from "@/store/custom-pages";
+import { useDraftTemplateStore } from '@/store/draft-template';
 import { useI18n } from "vue-i18n"
 import { useAlert } from '@/composables/alert'
 import type { Error } from '@/types'
 
 const runtimeConfig = useRuntimeConfig();
 const customPagesStore = useCustomPagesStore() as any;
+const draftTemplateStore = useDraftTemplateStore();
 const { t } = useI18n()
 const { successAlert } = useAlert()
 
@@ -183,6 +187,9 @@ const state = reactive({
         { name: 'dutySchedules.draftTemplates.table.weekRotations', sorter: false, key: 'week_rotations' },
         { name: '', sorter: false, key: 'actions' },
     ],
+    dataFilter: {
+        search: ''
+    },
     draftTemplates: [] as any,
     error: {} as Error,
     isTableLoading: false,
@@ -203,7 +210,14 @@ async function fetchDraftTemplates() {
     state.error = {}
     state.isTableLoading = true
     try {
-        const response = await draftTemplateService.getDraftTemplates({})
+        const params = {
+            page_length: draftTemplateStore.getCurrentPageLength,
+            page_number: draftTemplateStore.getCurrentPageNumber,
+            sort_field: draftTemplateStore.getSortData.sortField,
+            sort_order: draftTemplateStore.getSortData.sortOrder,
+            ...state.dataFilter
+        }
+        const response = await draftTemplateService.getDraftTemplates(params)
         if (response?.data) {
             state.draftTemplates = response.data
         }
@@ -214,15 +228,36 @@ async function fetchDraftTemplates() {
     }
 }
 
-function handleSearch(searchQuery: string) {
-    // Implement search logic here, possibly filtering state.draftTemplates based on searchQuery
-    console.log('Search query:', searchQuery)
+function previous() {
+    const currentTablePage = draftTemplateStore.getCurrentPageNumber - 1
+    draftTemplateStore.setCurrentPageNumber(currentTablePage)
+    fetchDraftTemplates()
+}
+
+function next() {
+    const currentTablePage = draftTemplateStore.getCurrentPageNumber + 1
+    draftTemplateStore.setCurrentPageNumber(currentTablePage)
+    fetchDraftTemplates()
+}
+
+function sort(sortingData: any) {
+    draftTemplateStore.setCurrentPageNumber(1)
+    const sortField = sortingData.column
+    const sortOrder = sortingData.sort
+    draftTemplateStore.setSortData(sortField, sortOrder)
+    fetchDraftTemplates()
+}
+
+function handleSearch(value: any) {
+    draftTemplateStore.setCurrentPageNumber(1)
+    state.dataFilter.search = value?.[0] == '' ? [] : value
+    fetchDraftTemplates()
 }
 
 function changePageLength(event: any) {
-    const selectedLength = event.target.value
-    // Implement logic to change page length and fetch data accordingly
-    console.log('Selected page length:', selectedLength)
+    draftTemplateStore.setCurrentPageNumber(1)
+    draftTemplateStore.setCurrentPageLength(event.target.value)
+    fetchDraftTemplates()
 }
 
 function editDraftTemplate(draftTemplate: any) {
