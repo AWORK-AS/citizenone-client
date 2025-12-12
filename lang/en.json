@@ -2372,7 +2372,8 @@
                 "actions": {
                     "delete": "Delete",
                     "edit": "Edit",
-                    "view": "View"
+                    "view": "View",
+                    "apply": "Apply"
                 },
                 "alert": {
                     "draftTemplateSuccessfullyDeleted": "Draft template successfully deleted"
@@ -2402,7 +2403,11 @@
                 "isRecurring": "Recurring template",
                 "recurringUntil": "Until",
                 "repeat": "Repeat",
-                "weekRotations":"Week rotations"
+                "weekRotations":"Week rotations",
+                "applyTemplate": "Apply template",
+                "weekNumber": "Week number",
+                "year": "Year",
+                "week": "Week"
             }
         },
         "dutySchedules": "Duty schedules",

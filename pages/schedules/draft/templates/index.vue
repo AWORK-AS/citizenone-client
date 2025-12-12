@@ -122,6 +122,10 @@
                                                 <Icon name="ph:trash" class="size-4" />
                                             </FormButton>
                                         </Tooltip>
+
+                                        <FormButton type="button" buttonStyle="action" class="rounded-md" @click="applyDraftTemplate(draftTemplate)">
+                                            {{ $t('dutySchedules.draftTemplates.table.actions.apply') }}
+                                        </FormButton>
                                     </div>
                                 </td>
                             </tr>
@@ -143,6 +147,13 @@
             :selectedDraftTemplate="state.selectedDraftTemplate"
             @refresh-draft-templates="fetchDraftTemplates"
             @close="state.modal.isEditTemplateModalOpen = false"   
+        />
+
+        <ModulesUserDutyScheduleDraftTemplatesModalApplyTemplate
+            :isModalOpen="state.modal.isApplyTemplateModalOpen"
+            :selectedDraftTemplate="state.selectedDraftTemplate"
+            @refresh-draft-templates="fetchDraftTemplates"
+            @close="state.modal.isApplyTemplateModalOpen = false"
         />
 
     </NuxtLayout>
@@ -174,6 +185,7 @@ const state = reactive({
     modal: {
         isNewTemplateModalOpen: false,
         isEditTemplateModalOpen: false,
+        isApplyTemplateModalOpen: false,
     },
     selectedDraftTemplate: {} as any,
 });
@@ -211,5 +223,10 @@ function changePageLength(event: any) {
 function editDraftTemplate(draftTemplate: any) {
     state.selectedDraftTemplate = draftTemplate
     state.modal.isEditTemplateModalOpen = true
+}
+
+function applyDraftTemplate(draftTemplate: any) {
+    state.selectedDraftTemplate = draftTemplate
+    state.modal.isApplyTemplateModalOpen = true
 }
 </script>
