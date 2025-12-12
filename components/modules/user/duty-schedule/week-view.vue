@@ -644,10 +644,10 @@
                                                             </div>
                                                             <button
                                                                 class="bg-gray-200 w-4 h-4 text-sm text-gray-600 rounded-full flex items-center justify-center absolute -right-1 -top-1"
-                                                                @click="removeShift(week, employeeIndex, weekIndex, shift, shiftIndex)"
+                                                                @click="removeShiftConfirmation(shift)"
                                                                 v-if="isAdmin(userStore.getUser?.role)">
                                                                 <Tooltip position="left"
-                                                                    :text="$t('dutySchedules.removeSchedule')">
+                                                                    :text="$t('dutySchedules.removeSchedule.removeSchedule')">
                                                                     <Icon name="ph:x" class="h-2 w-2"
                                                                         aria-hidden="true" />
                                                                 </Tooltip>
@@ -774,6 +774,9 @@
                 :selectedEmployeeSchedule="state.editShift.selectedEmployeeSchedule"
                 @close="state.modal.isEditShiftOpen = false" @resetEditShiftError="state.editShiftError = {}"
                 @updateShift="updateSelectedSchedule" />
+            <ModulesUserDutyScheduleModalRemoveShiftConfirmation
+                :isModalOpen="state.modal.isRemoveShiftConfirmationOpen"
+                @close="state.modal.isRemoveShiftConfirmationOpen = false" @confirm="removeShift" />
             <ModulesUserDutyScheduleModalViewShift :isModalOpen="state.modal.isViewShiftOpen"
                 :selectedEmployeeSchedule="state.viewShift.selectedEmployeeSchedule"
                 @close="state.modal.isViewShiftOpen = false" />
@@ -886,6 +889,7 @@ const state = reactive({
         isManageScheduleSlotOpen: false,
         isManageTimeAdjustmentRequestsOpen: false,
         isManageSwapScheduleRequestsOpen: false,
+        isRemoveShiftConfirmationOpen: false,
         isRequestTimeAdjustmentOpen: false,
         isRequestSwapScheduleOpen: false,
         isVacationHoursOpen: false,
@@ -905,6 +909,9 @@ const state = reactive({
         showProgressBar: false,
         totalRequests: 0,
     },
+    removeShift: {
+        selectedShift: {}
+    } as any,
     selectedDate: moment().format('YYYY-MM-DD'),
     showAllShifts: false,
     showAllShiftTypes: false,
@@ -920,7 +927,6 @@ const state = reactive({
         sortField: 'firstname',
         sortOrder: 'ascend',
     },
-    isRemoveShift: false,
     isUpdateShift: false,
     viewShift: {
         selectedEmployeeSchedule: {},
@@ -1532,9 +1538,13 @@ async function saveCopiedWeeklyDutySchedule(params: object) {
     }
 }
 
-async function removeShift(week: any, employeeIndex: number, weekIndex: number, shift: any, shiftIndex: number) {
-    state.isRemoveShift = true
-    const scheduleUuid = shift.schedule_uuid
+function removeShiftConfirmation(shift: any) {
+    state.removeShift.selectedShift = shift
+    state.modal.isRemoveShiftConfirmationOpen = true
+}
+
+async function removeShift() {
+    const scheduleUuid = state.removeShift.selectedShift.schedule_uuid
     try {
         state.progress.totalRequests = state.progress.totalRequests + 1
         state.progress.pendingRequests = state.progress.pendingRequests + 1
@@ -1551,8 +1561,6 @@ async function removeShift(week: any, employeeIndex: number, weekIndex: number, 
         state.progress.totalRequests = state.progress.totalRequests - 1
         state.progress.pendingRequests = state.progress.pendingRequests - 1
         identifyTheProgressPercentage()
-    } finally {
-        state.isRemoveShift = false
     }
 }
 

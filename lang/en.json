@@ -2467,7 +2467,12 @@
             "vacationHoursFromPreviousYear": "Vacation hours from previous year"
         },
         "noScheduleFound": "No schedule found",
-        "removeSchedule": "Remove schedule",
+        "removeSchedule": {
+            "confirmation": {
+                "removeScheduleConfirmation": "Are you sure you want to remove this schedule"
+            },
+            "removeSchedule": "Remove schedule"
+        },
         "requesters": {
             "confirmation": {
                 "approveConfirmation": "Are you sure you want to approve this request",
