@@ -375,10 +375,15 @@
                                                                 </span><span v-else>.</span>
                                                             </span>
                                                         </div>
-                                                        <p class="text-xxs">
-                                                            {{ $t('dutySchedules.annualNormHours') }}:
-                                                            {{ employee?.annual_norm_hours ?? 0 }}
-                                                        </p>
+
+                                                        <div class="flex items-center gap-2 cursor-pointer" @click="state.modal.isAnnualNormHoursInfoOpen = true">
+                                                             <p class="text-xxs">
+                                                                {{ $t('dutySchedules.annualNormHours') }}:
+                                                                {{ employee?.annual_norm_hours ?? 0 }}
+                                                            </p>
+                                                            <Icon name="ph:question" class="h-4 w-4" aria-hidden="true" />
+                                                        </div>
+                                                       
                                                         <p class="text-xxs">
                                                             {{ $t('dutySchedules.totalHours') }}:
                                                             {{ employee?.total_hours ?? 0 }}
@@ -762,6 +767,8 @@
             <ModulesUserDutyScheduleNormHoursModalCompensatoryHours :isModalOpen="state.modal.isCompensatoryHoursOpen"
                 :selectedEmployee="state.normHours.selectedEmployeeSchedule"
                 @close="state.modal.isCompensatoryHoursOpen = false" />
+            <ModulesUserDutyScheduleNormHoursModalInfo :isModalOpen="state.modal.isAnnualNormHoursInfoOpen"
+                @close="state.modal.isAnnualNormHoursInfoOpen = false" />
             <ModulesUserDutyScheduleNormHoursModalVacationHours :isModalOpen="state.modal.isVacationHoursOpen"
                 :selectedEmployee="state.normHours.selectedEmployeeSchedule"
                 @close="state.modal.isVacationHoursOpen = false" />
@@ -890,6 +897,7 @@ const state = reactive({
         isRequestSwapScheduleOpen: false,
         isVacationHoursOpen: false,
         isViewShiftOpen: false,
+        isAnnualNormHoursInfoOpen: false,
     } as any,
     newShift: {
         selectedDate: '',
