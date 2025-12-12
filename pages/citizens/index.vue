@@ -51,7 +51,8 @@
                         </select>
                     </div>
                     <div class="flex flex-wrap items-center gap-3">
-                        <FormButton buttonStyle="action" class="rounded-lg" @click="navigateTo('/inquiries')">
+                        <FormButton buttonStyle="action" class="rounded-lg" @click="navigateTo('/inquiries')"
+                            v-if="userStore.getUser?.company?.industry?.system_name === 'social_welfare' && ['Crisis center', 'Shelter'].includes(userStore.getUser?.company?.facility_type?.en_name)">
                             <Icon name="ph:list-bullets" class="h-4 w-4" aria-hidden="true" />
                             {{ $t('inquiries.inquiries') }}
                         </FormButton>
