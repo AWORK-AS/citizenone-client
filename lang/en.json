@@ -2621,6 +2621,14 @@
                 "workingHours": "Working hours"
             }
         },
+        "shiftSpan": {
+            "start": "Shift start",
+            "middle": "Continues",
+            "end": "Shift end",
+            "entireShift": "Entire shift",
+            "onlyShift": "This day only",
+            "deleteConfirmMessage": "Do you want to delete the entire shift (from start date to end date), or only this day?"
+        },
         "showEmployeesWorkingToday": "Show employees working today",
         "showTheDistributionOfShiftTypes": "Show the distribution of shift types",
         "sort": {

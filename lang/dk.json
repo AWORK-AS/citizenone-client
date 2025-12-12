@@ -2621,6 +2621,14 @@
                 "workingHours": "Arbejdstimer"
             }
         },
+        "shiftSpan": {
+            "start": "Vagt start",
+            "middle": "Vagt fortsat",
+            "end": "Vagt slut",
+            "entireShift": "Hele vagten",
+            "onlyShift": "Kun denne dag",
+            "deleteConfirmMessage": "Vil du slette hele vagten (fra startdato til slutdato) eller kun denne dag?"
+        },
         "showEmployeesWorkingToday": "Vis medarbejdere, der arbejder i dag",
         "showTheDistributionOfShiftTypes": "Vis vagttypers fordeling",
         "sort": {
