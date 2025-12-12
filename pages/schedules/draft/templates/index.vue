@@ -90,15 +90,15 @@
                                 </td>
                                 <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
                                     <span v-if="draftTemplate.is_recurring">
-                                        {{ $t(recurringMapping[draftTemplate.recurring]) }}
+                                        {{ $t('dutySchedules.draftTemplates.table.recurring') }}
                                     </span>
                                     <span v-else>
                                         {{ $t('dutySchedules.draftTemplates.table.nonRecurring') }}
                                     </span>
                                 </td>
                                 <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                                    <span v-if="draftTemplate.is_recurring">
-                                        {{ draftTemplate.recurring_until ? draftTemplate.recurring_until : $t('dutySchedules.draftTemplates.table.noEndDate') }}
+                                    <span>
+                                        {{ draftTemplate.week_rotations ? draftTemplate.week_rotations : 1 }}
                                     </span>
                                 </td>
                                 <td width="20%">
@@ -161,21 +161,11 @@ const customPagesStore = useCustomPagesStore() as any;
 const { t } = useI18n()
 const { successAlert } = useAlert()
 
-const recurringMapping: any = {
-    'everyday': 'dutySchedules.draftTemplates.recurring.everyday',
-    'every_week': 'dutySchedules.draftTemplates.recurring.everyWeek',
-    'every_second_week': 'dutySchedules.draftTemplates.recurring.everySecondWeek',
-    'every_third_week': 'dutySchedules.draftTemplates.recurring.everyThirdWeek',
-    'every_fourth_week': 'dutySchedules.draftTemplates.recurring.everyFourthWeek',
-    'every_month': 'dutySchedules.draftTemplates.recurring.everyMonth',
-    'custom': 'dutySchedules.draftTemplates.recurring.custom',
-}
-
 const state = reactive({
     columnHeaders: [
         { name: 'dutySchedules.draftTemplates.table.name', sorter: true, key: 'name' },
-        { name: 'dutySchedules.draftTemplates.table.recurring', sorter: true, key: 'recurring' },
-        { name: 'dutySchedules.draftTemplates.table.recurringUntil', sorter: false, key: 'recurring_until' },
+        { name: 'dutySchedules.draftTemplates.table.recurring', sorter: true, key: 'is_recurring' },
+        { name: 'dutySchedules.draftTemplates.table.weekRotations', sorter: false, key: 'week_rotations' },
         { name: '', sorter: false, key: 'actions' },
     ],
     draftTemplates: [] as any,

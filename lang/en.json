@@ -2381,6 +2381,7 @@
                     "deleteDraftTemplateConfirmation": "Are you sure you want to delete this draft template"
                 },
                 "name": "Name",
+                "weekRotations": "Week rotations",
                 "isRecurring": "Is recurring",
                 "recurring": "Recurring",
                 "nonRecurring": "Non-recurring",
