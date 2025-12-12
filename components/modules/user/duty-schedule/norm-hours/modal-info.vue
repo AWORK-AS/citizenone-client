@@ -3,9 +3,9 @@
         <Modal size="sm" :title="$t('dutySchedules.normHours.annualNormHours')" :show="props.isModalOpen"
             @close="closeModal">
             <template #modal-body>
-                <div class="space-y-1">
-                    <div class="flex items-center gap-x-1">
-                        <ul class="space-y-2 list-disc">
+                <div>
+                    <div>
+                        <ul class="space-y-3">
                             <li>
                                 <p class="text-sm">{{ $t('dutySchedules.normHours.info1') }}</p>
                             </li>

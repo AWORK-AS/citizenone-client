@@ -376,14 +376,16 @@
                                                             </span>
                                                         </div>
 
-                                                        <div class="flex items-center gap-2 cursor-pointer" @click="state.modal.isAnnualNormHoursInfoOpen = true">
-                                                             <p class="text-xxs">
+                                                        <div class="flex items-center gap-2 cursor-pointer"
+                                                            @click="state.modal.isAnnualNormHoursInfoOpen = true">
+                                                            <p class="text-xxs">
                                                                 {{ $t('dutySchedules.annualNormHours') }}:
                                                                 {{ employee?.annual_norm_hours ?? 0 }}
                                                             </p>
-                                                            <Icon name="ph:question" class="h-4 w-4" aria-hidden="true" />
+                                                            <Icon name="ph:question" class="h-4 w-4"
+                                                                aria-hidden="true" />
                                                         </div>
-                                                       
+
                                                         <p class="text-xxs">
                                                             {{ $t('dutySchedules.totalHours') }}:
                                                             {{ employee?.total_hours ?? 0 }}
