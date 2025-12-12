@@ -118,7 +118,7 @@
 
                                         <Tooltip :text="$t('dutySchedules.draftTemplates.table.actions.delete')">
                                             <FormButton type="button" buttonStyle="danger" class="rounded-md"
-                                                @click="navigateTo(`/schedules/draft/templates/${draftTemplate.uuid}/view-details`)">
+                                                @click="confirmTemplateRemoval(draftTemplate)">
                                                 <Icon name="ph:trash" class="size-4" />
                                             </FormButton>
                                         </Tooltip>
@@ -156,6 +156,10 @@
             @close="state.modal.isApplyTemplateModalOpen = false"
         />
 
+        <DialogConfirmation :isModalOpen="state.modal.isRemoveTemplateOpen"
+            :message="$t('dutySchedules.draftTemplates.table.confirmation.deleteDraftTemplateConfirmation') + '?'"
+            @close="state.modal.isRemoveTemplateOpen = false" @confirm="removeTemplate" />
+
     </NuxtLayout>
   </div>
 </template>
@@ -186,6 +190,7 @@ const state = reactive({
         isNewTemplateModalOpen: false,
         isEditTemplateModalOpen: false,
         isApplyTemplateModalOpen: false,
+        isRemoveTemplateOpen: false,
     },
     selectedDraftTemplate: {} as any,
 });
@@ -228,5 +233,26 @@ function editDraftTemplate(draftTemplate: any) {
 function applyDraftTemplate(draftTemplate: any) {
     state.selectedDraftTemplate = draftTemplate
     state.modal.isApplyTemplateModalOpen = true
+}
+
+function confirmTemplateRemoval(template: any) {
+    state.selectedDraftTemplate = template
+    state.modal.isRemoveTemplateOpen = true
+}
+
+async function removeTemplate() {
+    state.error = {}
+    state.isTableLoading = true
+    try {
+        const draftTemplateUuid = state.selectedDraftTemplate.uuid
+        const response = await draftTemplateService.deleteDraftTemplate(draftTemplateUuid)
+        if (response?.message === 'Success.' || response?.message === 'Succes.') {
+            successAlert(`${t('alert.success')}!`, `${t('dutySchedules.draftTemplates.table.alert.draftTemplateSuccessfullyDeleted')}.`)
+            fetchDraftTemplates()
+        }
+    } catch (error: any) {
+        state.error = error
+    }
+    state.isTableLoading = false
 }
 </script>
