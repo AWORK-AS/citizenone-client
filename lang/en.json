@@ -372,7 +372,7 @@
         }
     },
     "assistants": {
-        "assistants": "Assistants",
+        "askAI": "Ask AI",
         "askAnything": "Ask anything",
         "generatingResponse": "Generating response. Please wait",
         "helloHowCanIAssistYouToday": "Hello, how can I assist you today",
@@ -2411,7 +2411,7 @@
                 "isRecurring": "Recurring template",
                 "recurringUntil": "Until",
                 "repeat": "Repeat",
-                "weekRotations":"Week rotations",
+                "weekRotations": "Week rotations",
                 "applyTemplate": "Apply template",
                 "weekNumber": "Week number",
                 "year": "Year",

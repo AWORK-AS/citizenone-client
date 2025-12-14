@@ -372,7 +372,7 @@
         }
     },
     "assistants": {
-        "assistants": "Spørg AI",
+        "askAI": "Spørg AI",
         "askAnything": "Spørg om hvad som helst",
         "generatingResponse": "Genererer svar. Vent venligst",
         "helloHowCanIAssistYouToday": "Hej, hvordan kan jeg hjælpe dig i dag",

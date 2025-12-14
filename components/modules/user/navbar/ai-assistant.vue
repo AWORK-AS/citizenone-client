@@ -4,7 +4,7 @@
             @click="userStore.getUser?.has_ai_access ? state.modal.isAIAssistantOpen = true : navigateTo('/apps')">
             <Icon name="ic:round-accessibility" class="h-8 w-8 md:w-6 md:h-6" aria-hidden="true" />
             <p class="text-sm font-semibold hidden md:block">
-                {{ $t('assistants.assistants') }}
+                {{ $t('assistants.askAI') }}
             </p>
         </FormButton>
         <ModulesUserAssistantModalAssistant :isModalOpen="state.modal.isAIAssistantOpen"
