@@ -2370,6 +2370,54 @@
             "draft": "Kladde",
             "publish": "Offentliggør"
         },
+        "draftTemplates": {
+            "draftTemplates": "Udkastskabeloner",
+            "newDraft": "Ny udkastsskabelon",
+            "editDraft": "Rediger udkastsskabelon",
+            "viewDraftTemplate": "Udkastsskabelonoversigt",
+            "table": {
+                "actions": {
+                    "delete": "Slet",
+                    "edit": "Rediger",
+                    "view": "Se",
+                    "apply": "Anvend"
+                },
+                "alert": {
+                    "draftTemplateSuccessfullyDeleted": "Udkastsskabelon blev slettet",
+                    "deleteConfirmation": "Er du sikker på, at du vil slette denne udkastsskabelon?"
+                },
+                "confirmation": {
+                    "deleteDraftTemplateConfirmation": "Er du sikker på, at du vil slette denne udkastsskabelon?"
+                },
+                "name": "Navn",
+                "weekRotations": "Ugerotationer",
+                "isRecurring": "Er gentagende",
+                "recurring": "Gentagende",
+                "nonRecurring": "Ikke-gentagende",
+                "repeat": "Gentag",
+                "recurringUntil": "Gentager indtil"
+            },
+            "recurring": {
+                "everyDay": "Hver dag",
+                "everyWeek": "Hver uge",
+                "everySecondWeek": "Hver anden uge",
+                "everyThirdWeek": "Hver tredje uge",
+                "everyFourthWeek": "Hver fjerde uge",
+                "everyMonth": "Hver måned",
+                "custom": "Brugerdefineret"
+            },
+            "form": {
+                "name": "Skabelonnavn",
+                "isRecurring": "Gentagende skabelon",
+                "recurringUntil": "Indtil",
+                "repeat": "Gentag",
+                "weekRotations": "Ugerotationer",
+                "applyTemplate": "Anvend skabelon",
+                "weekNumber": "Ugenummer",
+                "year": "År",
+                "week": "Uge"
+            }
+        },
         "dutySchedules": "Vagtplaner",
         "editSchedule": "Rediger tidsplan",
         "extraHours": {
