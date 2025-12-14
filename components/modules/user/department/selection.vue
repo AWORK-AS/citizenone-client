@@ -14,7 +14,6 @@
                     <MenuButton
                         class="inline-flex w-full items-center justify-center gap-x-2 rounded-md px-5 py-2 text-xs font-semibold text-white shadow-sm"
                         :style="{ backgroundColor: departmentStore.getSelectedDepartmentColor ? departmentStore.getSelectedDepartmentColor : '#205E77' }">
-                        {{ $t('department.department') }}:
                         {{ departmentStore.getSelectedDepartmentName === '' ? state.departments?.data?.[0]?.name :
                             departmentStore.getSelectedDepartmentName }}
                         <Icon name="heroicons:chevron-down" class="-mr-1 h-5 w-5 text-white" aria-hidden="true" />
