@@ -12,7 +12,7 @@
             <Menu as="div" class="relative inline-block text-left w-34">
                 <div>
                     <MenuButton
-                        class="inline-flex w-full items-center justify-center gap-x-2 rounded-md px-5 py-2 text-xs font-semibold text-white shadow-sm"
+                        class="inline-flex w-full items-center justify-center gap-x-2 rounded-md px-5 py-2 text-sm font-semibold text-white shadow-sm"
                         :style="{ backgroundColor: departmentStore.getSelectedDepartmentColor ? departmentStore.getSelectedDepartmentColor : '#205E77' }">
                         {{ departmentStore.getSelectedDepartmentName === '' ? state.departments?.data?.[0]?.name :
                             departmentStore.getSelectedDepartmentName }}
