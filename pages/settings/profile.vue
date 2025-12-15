@@ -17,7 +17,8 @@
             <div class="mt-10 space-y-5">
                 <Disclosure as="div" v-slot="{ open }"
                     class="bg-white ring-1 ring-gray-200 rounded-md border-t-3 border-secondary" :defaultOpen="true">
-                    <DisclosureButton class="w-full flex justify-between items-center text-left px-5 py-6">
+                    <DisclosureButton class="w-full flex justify-between items-center text-left px-5 py-6"
+                        @click="handleProfileToggle(open)">
                         <div class="flex items-center gap-x-2">
                             <h3 class="font-semibold text-sm">
                                 {{ $t('settings.profile.profile') }}
@@ -28,7 +29,7 @@
                     </DisclosureButton>
 
                     <DisclosurePanel as="dd" class="px-5 pb-5">
-                        <ModulesUserSettingsProfile />
+                        <ModulesUserSettingsProfile :isFirstLoad="state.isProfileFirstLoad" />
                     </DisclosurePanel>
                 </Disclosure>
 
@@ -65,4 +66,12 @@ const breadcrumbLinks = [
         href: '/settings/profile',
     },
 ]
+
+const state = reactive({
+    isProfileFirstLoad: true
+})
+
+function handleProfileToggle(open: boolean) {
+    if (!open) state.isProfileFirstLoad = false
+}
 </script>
