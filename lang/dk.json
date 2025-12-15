@@ -4781,6 +4781,7 @@
                 "groupChat": "Gruppechat",
                 "lockPastSchedules": "Lås tidligere vagtplaner",
                 "municipality": "Kommune",
+                "onlySendItWhenIAmOnADutyShift": "Send kun, når jeg er på en vagt",
                 "phone": "Telefon",
                 "postCode": "Postnummer",
                 "quickRiskAssessment": "Hurtig risikovurdering",
