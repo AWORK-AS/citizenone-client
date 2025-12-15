@@ -21,8 +21,8 @@ class ShiftService extends BaseAPIService {
         return await this.request(`/user/shift-types/${shiftUuid}`, 'DELETE')
     }
 
-    async getAllShifts(): Promise<any> {
-        return await this.request(`/user/shift-types/all/list`, 'GET')
+    async getAllShifts(params: object): Promise<any> {
+        return await this.request(`/user/shift-types/all/list`, 'GET', params)
     }
 }
 

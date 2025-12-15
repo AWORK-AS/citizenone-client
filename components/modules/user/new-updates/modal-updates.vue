@@ -56,8 +56,9 @@ function closeModal() {
 }
 
 const state = reactive({
-    currentVersion: '2025-11-28',
+    currentVersion: '2025-12-12',
     availableVersions: [
+        '2025-12-12',
         '2025-11-28',
         '2025-11-14',
         '2025-11-07',
@@ -79,6 +80,38 @@ const state = reactive({
 
 const allUpdates: Record<string, Record<string, { title: string, description: string[] }[]>> = {
     en: {
+        '2025-12-12': [
+            {
+                title: 'Advanced search and filtering in shift schedule and calendar',
+                description: [
+                    'Users can now search directly for a specific day in the shift schedule and calendar instead of navigating week by week.',
+                    'Navigation has been expanded to allow moving by month as well as by week.',
+                    'The overview can be filtered to display one or more selected employees.',
+                    'Additional filters have been added for employment status and department to improve clarity and planning.'
+                ],
+            },
+            {
+                title: 'Duty shift schedule optimizations',
+                description: [
+                    'Multiple performance and usability optimizations have been applied to the duty shift schedule.',
+                    'These improvements result in faster interactions and a smoother scheduling experience for both admins and employees.'
+                ],
+            },
+            {
+                title: 'Multi-day shift handling',
+                description: [
+                    'When creating a shift that spans multiple days, the system now automatically splits it into separate daily shifts.',
+                    'This ensures more accurate scheduling, reporting, and easier adjustments on a per-day basis.'
+                ],
+            },
+            {
+                title: 'Custom recurring options across scheduling and notifications',
+                description: [
+                    'Custom recurring patterns can now be configured for the duty schedule, calendar events, and plans and goals notifications.',
+                    'This provides greater flexibility for defining complex or non-standard recurrence rules across the platform.'
+                ],
+            }
+        ],
         '2025-11-28': [
             {
                 title: 'Transfer Zoho chat to support slide-over',
@@ -553,6 +586,38 @@ const allUpdates: Record<string, Record<string, { title: string, description: st
         ],
     },
     dk: {
+        '2025-12-12': [
+            {
+                title: 'Avanceret søgning og filtrering i vagtplan og kalender',
+                description: [
+                    'Brugere kan nu søge direkte efter en bestemt dag i vagtplanen og kalenderen i stedet for at navigere uge for uge.',
+                    'Navigationen er blevet udvidet, så det nu er muligt at bevæge sig både måned for måned og uge for uge.',
+                    'Oversigten kan filtreres til at vise én eller flere valgte medarbejdere.',
+                    'Der er tilføjet yderligere filtre for ansættelsesstatus og afdeling for at forbedre overblik og planlægning.'
+                ],
+            },
+            {
+                title: 'Optimeringer af vagtplan for rådighedsvagter',
+                description: [
+                    'Der er gennemført flere optimeringer af ydeevne og brugervenlighed i vagtplanen for rådighedsvagter.',
+                    'Disse forbedringer giver hurtigere interaktioner og en mere smidig planlægningsoplevelse for både administratorer og medarbejdere.'
+                ],
+            },
+            {
+                title: 'Håndtering af vagter over flere dage',
+                description: [
+                    'Når der oprettes en vagt, der strækker sig over flere dage, opdeler systemet den nu automatisk i separate daglige vagter.',
+                    'Dette sikrer mere præcis planlægning, rapportering og lettere justeringer på dagsniveau.'
+                ],
+            },
+            {
+                title: 'Brugerdefinerede gentagelser på tværs af planlægning og notifikationer',
+                description: [
+                    'Brugerdefinerede gentagelsesmønstre kan nu konfigureres for vagtplanen, kalenderbegivenheder samt notifikationer for planer og mål.',
+                    'Dette giver større fleksibilitet til at definere komplekse eller ikke-standard gentagelsesregler på tværs af platformen.'
+                ],
+            }
+        ],
         '2025-11-28': [
             {
                 title: 'Overfør Zoho chat til understøttelse af slide-over',

@@ -132,6 +132,15 @@ watch(() => userStore.getUser, (newValue: any) => {
         })
     }
 
+    if (newValue?.company?.industry?.system_name === 'social_welfare' && ['Crisis center', 'Shelter'].includes(newValue?.company?.facility_type?.en_name)) {
+        state.tabs.push({
+            name: 'citizens.tabs.children',
+            isTranslateName: true,
+            href: `/citizens/${citizenUuid}/children`,
+            routeNames: ['citizens-uuid-children']
+        })
+    }
+
     // Check if current route is allowed
     const currentRouteName = route.name as string
     const isCurrentRouteAccessible = state.tabs.some((tab: any) =>

@@ -26,7 +26,7 @@
                         <Alert type="danger" :text="state?.error?.message"
                             v-if="state.error?.message && state.error.message.length > 0" />
                         <h3 class="font-medium text-lg md:text-xl">
-                            {{ $t('register.form.createAccount') }}
+                            {{ $t('register.form.createFreeAccount') }}
                         </h3>
                         <div class="space-y-1">
                             <FormLabel for="name" :label="$t('register.form.companyName')" />
@@ -116,7 +116,7 @@
                         </div>
                         <div>
                             <FormButton type="submit" buttonStyle="primary" class="w-full">
-                                {{ $t('register.form.createAccount') }}
+                                {{ $t('register.form.createFreeAccount') }}
                             </FormButton>
                         </div>
                         <p class="text-center text-sm leading-6 text-gray-500 cursor-pointer"

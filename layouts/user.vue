@@ -227,7 +227,7 @@
 
         <div class="lg:pl-72 bg-gray-50 min-h-screen">
             <div
-                class="sticky top-0 z-40 flex h-16 shrink-0 items-center gap-x-4 border-b border-gray-200 bg-white px-4 shadow-sm sm:gap-x-6 sm:px-6 lg:px-8">
+                class="sticky top-0 z-40 flex h-16 shrink-0 items-center gap-x-3 border-b border-gray-200 bg-white px-4 shadow-sm sm:gap-x-6 sm:px-6 lg:px-8">
                 <button type="button" class="-m-2.5 p-2.5 text-gray-700 lg:hidden" @click="sidebarOpen = true">
                     <span class="sr-only">Open sidebar</span>
                     <Icon name="heroicons:bars-3" class="h-6 w-6" aria-hidden="true" />
@@ -245,17 +245,32 @@
                         <div>
                             <ModulesUserDepartmentSelection />
                         </div>
+                        <div>
+                            <ModulesUserNavbarAiAssistant class="hidden md:block" />
+                        </div>
+                        <div>
+                            <ModulesUserNavbarSubscribeButton
+                                v-if="state.showSubscribeButton && userStore.getUser?.user_subscription === null"
+                                class="hidden md:block" />
+                        </div>
                     </div>
                     <div class="flex items-center gap-x-1 lg:gap-x-3">
+                        <button type="button"
+                            class="flex items-center gap-x-1 text-sm text-primary hover:text-primary-700"
+                            @click="navigateTo('/overview#news')">
+                            <Icon name="ph:megaphone" class="h-6 w-6" aria-hidden="true" />
+                            <span class="text-xs font-semibold hidden md:block">
+                                {{ $t('news.news') }}
+                            </span>
+                        </button>
                         <ModulesUserNavbarNewUpdates />
-                        <ModulesUserNavbarAiAssistant v-if="userStore.getUser?.has_ai_access" />
-                        <ModulesUserNavbarSubscribeButton
-                            v-if="state.showSubscribeButton && userStore.getUser?.user_subscription === null"
-                            class="hidden md:block" />
+
+                        <div class="hidden lg:block lg:h-6 lg:w-px lg:bg-gray-900/10" aria-hidden="true" />
+
                         <button type="button" class="mr-2 p-2.5 relative text-primary hover:text-primary-700"
                             @click="navigateTo('/journal-notifications')"
                             v-if="userStore.getUser?.unread_notification_count > 0">
-                            <Icon name="ph:bell" class="h-6 w-6 absolute top-0 left-0" aria-hidden="true" />
+                            <Icon name="ph:note" class="h-6 w-6 absolute -top-0.5 left-0" aria-hidden="true" />
                             <Badge type="notification"
                                 class="w-5 h-5 flex items-center justify-center absolute -top-4 left-4">
                                 {{ userStore.getUser?.unread_notification_count ?? 0 }}
@@ -264,23 +279,20 @@
 
                         <button type="button" class="mr-2 p-2.5 relative text-primary hover:text-primary-700"
                             @click="navigateTo('/messages')" v-if="userStore.getUser?.unread_messages_count > 0">
-                            <Icon name="ph:chat-circle" class="h-6 w-6 absolute top-0 left-0" aria-hidden="true" />
+                            <Icon name="ph:chat-circle" class="h-6 w-6 absolute -top-0.5 left-0" aria-hidden="true" />
                             <Badge type="notification"
-                                class="w-5 h-5 flex items-center justify-center absolute -top-4 left-4">
+                                class="w-5 h-5 flex items-center justify-center absolute -top-4 left-3">
                                 {{ userStore.getUser?.unread_messages_count ?? 0 }}
                             </Badge>
                         </button>
 
-                        <!-- Separator -->
-                        <div class="hidden lg:block lg:h-6 lg:w-px lg:bg-gray-900/10" aria-hidden="true"
-                            v-if="userStore.getUser?.unread_notification_count > 0 || userStore.getUser?.unread_messages_count > 0" />
-
                         <button type="button"
-                            class="-m-2.5 p-2.5 flex items-center gap-x-1 text-sm text-primary hover:text-primary-700"
+                            class="flex items-center gap-x-1 text-sm text-primary hover:text-primary-700"
                             @click="openSupport">
-                            <Icon name="material-symbols:support" class="md:ml-2 h-8 w-8 md:w-6 md:h-6"
-                                aria-hidden="true" />
-                            <span class="hidden md:block">Support</span>
+                            <Icon name="material-symbols:support" class="h-6 w-6" aria-hidden="true" />
+                            <span class="text-xs font-semibold hidden md:block">
+                                {{ $t('support.support') }}
+                            </span>
                         </button>
 
                         <!-- Separator -->
@@ -288,7 +300,7 @@
                         <Menu as="div" class="relative">
                             <MenuButton class="-m-1.5 flex items-center p-1.5">
                                 <span class="sr-only">Open user menu</span>
-                                <img class="h-8 w-8 rounded-full bg-gray-50 object-cover"
+                                <img class="h-6 w-6 md:h-8 md:w-8 rounded-full bg-gray-50 object-cover"
                                     :src="userStore.getUser?.profile_image ? userStore.getUser?.profile_image : '/img/avatars/user.svg'"
                                     alt="User" />
                                 <span class="hidden lg:flex lg:items-center">
@@ -401,14 +413,14 @@
                     id="animatedImage">
                 <main class="py-10 relative">
                     <div class="px-4 sm:px-6 lg:px-8">
-                        <div>
+                        <div class="flex items-center justify-between flex-wrap gap-3">
                             <slot name="breadcrumb"></slot>
+                            <slot name="guided-tour"></slot>
                         </div>
                         <div class="mt-4 flex justify-between items-center">
                             <h1 class="text-2xl text-primary font-bold">
                                 <slot name="header"></slot>
                             </h1>
-                            <slot name="guided-tour"></slot>
                             <slot name="new-feature"></slot>
                         </div>
                         <div class="mt-4">

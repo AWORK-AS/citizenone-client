@@ -42,7 +42,7 @@
                                     <td width="10%">
                                         <div>
                                             <Badge type="primary" class="w-fit" v-if="invoice?.type === 'recurring'">
-                                                {{ $t('invoices.table.recurring') }}
+                                                {{ $t('recurring.recurring') }}
                                             </Badge>
                                             <Badge type="active" class="w-fit" v-else>
                                                 {{ $t('invoices.table.new') }}

@@ -35,7 +35,8 @@
             </template>
 
             <div>
-                <div class="flex justify-between items-center mb-5">
+                <div
+                    class="flex justify-between items-start flex-col md:flex-row md:items-center md:justify-between gap-3 mb-5">
                     <div class="flex items-center gap-x-1">
                         <span>{{ $t('entriesPerPage') }}:</span>
                         <select class="focus:outline-none bg-transparent" @change="changePageLength"
@@ -49,8 +50,9 @@
                             <option value="500">500</option>
                         </select>
                     </div>
-                    <div class="flex items-center gap-x-3">
-                        <FormButton buttonStyle="action" class="rounded-lg" @click="navigateTo('/inquiries')">
+                    <div class="flex flex-wrap items-center gap-3">
+                        <FormButton buttonStyle="action" class="rounded-lg" @click="navigateTo('/inquiries')"
+                            v-if="userStore.getUser?.company?.industry?.system_name === 'social_welfare' && ['Crisis center', 'Shelter'].includes(userStore.getUser?.company?.facility_type?.en_name)">
                             <Icon name="ph:list-bullets" class="h-4 w-4" aria-hidden="true" />
                             {{ $t('inquiries.inquiries') }}
                         </FormButton>
@@ -151,7 +153,7 @@
                                             <Tooltip :text="$t('citizens.table.actions.latestJournalEntry')">
                                                 <FormButton type="button" buttonStyle="action" class="rounded-md"
                                                     @click="showCitizenNote(citizen)">
-                                                    <Icon name="ph:note-blank" class="size-4" />
+                                                    <Icon name="ph:note" class="size-4" />
                                                 </FormButton>
                                             </Tooltip>
                                             <FormButton type="button"

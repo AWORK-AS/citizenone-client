@@ -101,14 +101,7 @@
                     <p class="text-sm text-gray-600">
                         {{ $t('citizens.citizenJournals.form.content') }}
                     </p>
-                    <div class="flex-1 flex items-center gap-x-2 justify-end">
-                        <div class="w-fit flex gap-2 item-center text-end text-sm cursor-pointer text-primary hover:text-primary-700"
-                            v-if="userStore.getUser?.has_ai_access" @click="generateNoteForJournalContent">
-                            <div class="flex items-center">
-                                <Icon name="ph:arrows-clockwise" class="h-4 w-4" aria-hidden="true" />
-                            </div>
-                            {{ $t('citizens.citizenJournals.form.generateNote') }}
-                        </div>
+                    <div class="flex-1 flex items-center gap-x-4 justify-end">
                         <div>
                             <input ref="contentFileInput" type="file" @change="handleContentFileChange"
                                 class="hidden" />
@@ -120,6 +113,13 @@
                                 {{ $t('citizens.citizenJournals.form.attachFile') }}
                             </div>
                         </div>
+                        <FormButton buttonStyle="AI" buttonSize="xs" class="px-4"
+                            v-if="userStore.getUser?.has_ai_access" @click="generateNoteForJournalContent">
+                            <div class="flex items-center">
+                                <Icon name="ph:arrows-clockwise" class="h-4 w-4" aria-hidden="true" />
+                            </div>
+                            {{ $t('citizens.citizenJournals.form.prepareWithAI') }}
+                        </FormButton>
                     </div>
                 </div>
                 <ckeditor :editor="editor" v-model="state.formJournal.content" :config="editorContentConfig"></ckeditor>
@@ -212,14 +212,7 @@
                     <p class="text-sm text-gray-600">
                         {{ $t('citizens.citizenJournals.form.note') }}
                     </p>
-                    <div class="flex-1 flex items-center gap-x-2 justify-end">
-                        <div class="w-fit flex gap-2 item-center text-end text-sm cursor-pointer text-primary hover:text-primary-700"
-                            v-if="userStore.getUser?.has_ai_access" @click="generateNoteForRiskAssessmentNote">
-                            <div class="flex items-center">
-                                <Icon name="ph:arrows-clockwise" class="h-4 w-4" aria-hidden="true" />
-                            </div>
-                            {{ $t('citizens.citizenJournals.form.generateNote') }}
-                        </div>
+                    <div class="flex-1 flex items-center gap-x-4 justify-end">
                         <input ref="riskAssessmentFileInput" type="file" @change="handleRiskAssessmentFileChange"
                             class="hidden" />
                         <div class="w-fit flex gap-2 item-center text-end text-sm cursor-pointer text-primary hover:text-primary-700"
@@ -229,6 +222,13 @@
                             </div>
                             {{ $t('citizens.citizenJournals.form.attachFile') }}
                         </div>
+                        <FormButton buttonStyle="AI" buttonSize="xs" class="px-4"
+                            v-if="userStore.getUser?.has_ai_access" @click="generateNoteForRiskAssessmentNote">
+                            <div class="flex items-center">
+                                <Icon name="ph:arrows-clockwise" class="h-4 w-4" aria-hidden="true" />
+                            </div>
+                            {{ $t('citizens.citizenJournals.form.prepareWithAI') }}
+                        </FormButton>
                     </div>
                 </div>
                 <ckeditor :editor="editor" v-model="state.formJournal.note" :config="editorNoteConfig"></ckeditor>

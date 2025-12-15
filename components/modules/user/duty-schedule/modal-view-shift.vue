@@ -7,7 +7,7 @@
                     <div class="space-y-3">
                         <div class="flex items-center gap-x-1">
                             <p class="text-sm text-gray-600">
-                                {{ $t('dutySchedules.viewSchedule.typeofShift') }}:
+                                {{ $t('dutySchedules.viewSchedule.typeOfShift') }}:
                             </p>
                             <p class="text-sm" v-if="language.locale.value === 'en'">
                                 {{ props?.selectedEmployeeSchedule?.shift_type?.en_name }}

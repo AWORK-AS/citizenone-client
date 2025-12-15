@@ -2,8 +2,8 @@
     <div>
         <div class="lg:grid lg:grid-cols-12 lg:gap-x-16">
             <div class="py-4 lg:col-start-8 lg:col-end-13 lg:row-start-1 lg:mt-9 xl:col-start-9">
-                <div class="flex items-center justify-between">
-                    <h3 class="text-base font-semibold leading-6 text-gray-900">
+                <div class="flex justify-between">
+                    <h3 class="mt-3 text-base font-semibold leading-6 text-gray-900">
                         <span v-if="month === 'January'">{{ $t('calendar.month.January') }}</span>
                         <span v-if="month === 'February'">{{ $t('calendar.month.February') }}</span>
                         <span v-if="month === 'March'">{{ $t('calendar.month.March') }}</span>
@@ -18,22 +18,27 @@
                         <span v-if="month === 'December'">{{ $t('calendar.month.December') }}</span>
                         {{ year }}
                     </h3>
-                    <div class="relative flex items-center rounded-md bg-white shadow-sm md:items-stretch">
-                        <button type="button" @click="previousMonth"
-                            class="flex h-9 w-12 items-center justify-center rounded-l-md border-y border-l border-gray-300 pr-1 text-gray-400 hover:text-gray-500 focus:relative md:w-9 md:pr-0 md:hover:bg-gray-50">
-                            <span class="sr-only">Previous month</span>
-                            <Icon name="heroicons:chevron-left" class="h-5 w-5" aria-hidden="true" />
-                        </button>
-                        <button type="button" @click="setToday"
-                            class="hidden border-y border-gray-300 px-3.5 text-sm font-semibold text-gray-900 hover:bg-gray-50 focus:relative md:block">
-                            {{ $t('calendar.today') }}
-                        </button>
-                        <span class="relative -mx-px h-5 w-px bg-gray-300 md:hidden" />
-                        <button type="button" @click="nextMonth"
-                            class="flex h-9 w-12 items-center justify-center rounded-r-md border-y border-r border-gray-300 pl-1 text-gray-400 hover:text-gray-500 focus:relative md:w-9 md:pl-0 md:hover:bg-gray-50">
-                            <span class="sr-only">Next month</span>
-                            <Icon name="heroicons:chevron-right" class="h-5 w-5" aria-hidden="true" />
-                        </button>
+                    <div class="space-y-2">
+                        <div class="relative flex items-center rounded-md bg-white shadow-sm md:items-stretch">
+                            <button type="button" @click="previousMonth"
+                                class="flex h-11 w-12 items-center justify-center rounded-l-md border-y border-l border-gray-300 pr-1 text-gray-400 hover:text-gray-500 focus:relative md:w-9 md:pr-0 md:hover:bg-gray-50">
+                                <span class="sr-only">Previous month</span>
+                                <Icon name="heroicons:chevron-left" class="h-5 w-5" aria-hidden="true" />
+                            </button>
+                            <FormDateField id="date" name="date" :placeholder="$t('dutySchedules.form.date')"
+                                dateType="calendar" v-model="state.selectedDate" />
+                            <span class="relative -mx-px h-5 w-px bg-gray-300 md:hidden" />
+                            <button type="button" @click="nextMonth"
+                                class="flex h-11 w-12 items-center justify-center rounded-r-md border-y border-r border-gray-300 pl-1 text-gray-400 hover:text-gray-500 focus:relative md:w-9 md:pl-0 md:hover:bg-gray-50">
+                                <span class="sr-only">Next month</span>
+                                <Icon name="heroicons:chevron-right" class="h-5 w-5" aria-hidden="true" />
+                            </button>
+                        </div>
+                        <div class="flex justify-end">
+                            <button @click="setToday()" class="text-primary text-sm hover:text-primary-700 text">
+                                {{ $t('goToToday') }}
+                            </button>
+                        </div>
                     </div>
                 </div>
                 <div class="mt-6 grid grid-cols-7 text-xs leading-6 text-gray-500">
@@ -282,6 +287,16 @@ watch(() => props.myCalendarEvents, (myCalendarEvents: any) => {
     }
 })
 
+watch(() => state.selectedDate, (newSelectedDate: any) => {
+    if (newSelectedDate) {
+        const selectedDate = moment(newSelectedDate, 'YYYY-MM-DD')
+        currentMonth.value = selectedDate.clone().startOf('month')
+        month.value = currentMonth.value.format('MMMM')
+        year.value = currentMonth.value.format('YYYY')
+        emit('changeMonthYear', year.value, currentMonth.value.month())
+    }
+})
+
 function generateDays(month: any) {
     const startOfMonth = month.clone().startOf('month').startOf('isoWeek')
     const endOfMonth = month.clone().endOf('month').endOf('isoWeek')
@@ -306,6 +321,7 @@ function previousMonth() {
     year.value = currentMonth.value.format('YYYY')
     days.value = generateDays(currentMonth.value)
     emit('changeMonthYear', year.value, currentMonth.value.month())
+    state.selectedDate = moment(state.selectedDate).subtract(1, 'month').format('YYYY-MM-DD')
 }
 
 function setToday() {
@@ -324,6 +340,7 @@ function nextMonth() {
     year.value = currentMonth.value.format('YYYY')
     days.value = generateDays(currentMonth.value)
     emit('changeMonthYear', year.value, currentMonth.value.month())
+    state.selectedDate = moment(state.selectedDate).add(1, 'month').format('YYYY-MM-DD')
 }
 
 function selectDay(selectedDay: any) {

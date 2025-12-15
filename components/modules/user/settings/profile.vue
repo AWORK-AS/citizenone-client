@@ -105,6 +105,24 @@
                         </p>
                     </div>
                 </div>
+                <div class="md:col-span-8 grid md:grid-cols-1" v-if="state.formProfile.email_notifications_enabled">
+                    <div class="space-y-1 flex items-center gap-x-2">
+                        <FormSwitch :value="state.formProfile.shift_based_notifications_enabled"
+                            @toggleSwitch="state.formProfile.shift_based_notifications_enabled = !state.formProfile.shift_based_notifications_enabled" />
+                        <p>
+                            {{ $t('settings.company.form.onlySendItWhenIAmOnADutyShift') }}
+                        </p>
+                    </div>
+                </div>
+                <div class="md:col-span-8 grid md:grid-cols-1">
+                    <div class="space-y-1 flex items-center gap-x-2">
+                        <FormSwitch :value="state.formProfile.system_notifications_enabled"
+                            @toggleSwitch="state.formProfile.system_notifications_enabled = !state.formProfile.system_notifications_enabled" />
+                        <p>
+                            {{ $t('settings.company.form.enableSystemNotifications') }}
+                        </p>
+                    </div>
+                </div>
             </div>
             <div class="mt-6">
                 <FormButton type="submit" buttonStyle="primary" class="rounded-md w-full">
@@ -147,6 +165,8 @@ const state = reactive({
         pages: [] as any,
         password: '',
         email_notifications_enabled: false,
+        shift_based_notifications_enabled: false,
+        system_notifications_enabled: false,
     } as any,
     isChangePassword: false,
     isPageLoading: false,
@@ -230,6 +250,8 @@ watch(() => userStore.getUser, (newValue: any) => {
             pages: [],
             password: '',
             email_notifications_enabled: newValue?.email_notifications_enabled ?? false,
+            shift_based_notifications_enabled: newValue?.shift_based_notifications_enabled ?? false,
+            system_notifications_enabled: newValue?.system_notifications_enabled ?? false,
         }
         newValue?.pages.forEach((page: any) => {
             state.formProfile.pages.push(page?.uuid)
@@ -302,6 +324,8 @@ async function submitForm() {
                 params.append('password', state.formProfile.password)
             }
             params.append('email_notifications_enabled', state.formProfile.email_notifications_enabled)
+            params.append('shift_based_notifications_enabled', state.formProfile.shift_based_notifications_enabled)
+            params.append('system_notifications_enabled', state.formProfile.system_notifications_enabled)
             const response = await userService.updateUser(params)
             if (response.data) {
                 userStore.setLanguage(response?.data?.language?.code)

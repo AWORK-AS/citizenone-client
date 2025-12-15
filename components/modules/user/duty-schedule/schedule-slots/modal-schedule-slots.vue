@@ -36,27 +36,38 @@
                                                     slot?.shift?.dk_name }}
                                             </p>
                                         </td>
-                                        <td width="20%">
-                                            <span>{{ slot?.job?.title }}</span>
-                                            <div class="flex flex-wrap gap-1">
-                                                <div v-for="(job_specialty, index) in slot?.schedule_specialties"
-                                                    :key="index">
-                                                    <p class="text-xxs bg-primary text-white p-1 rounded-md">
-                                                        {{ job_specialty?.title }}
-                                                    </p>
+                                        <td width="30%">
+                                            <div class="space-y-1 w-full">
+                                                <div v-for="(job_title, index) in slot?.job_titles" :key="index">
+                                                    <span>{{ job_title?.title }}</span>
+                                                    <div class="flex gap-1">
+                                                        <div v-for="(speciality, index) in job_title?.specialties"
+                                                            :key="index">
+                                                            <p
+                                                                class="truncate text-xxs bg-primary text-white p-1 rounded-md">
+                                                                {{ speciality?.job_specialty?.title }}
+                                                            </p>
+                                                        </div>
+                                                    </div>
                                                 </div>
                                             </div>
                                         </td>
-                                        <td width="25%">
+                                        <td width="10%">
                                             <div class="truncate">
-                                                <span>{{ moment(slot?.time_in, "HH:mm").format('HH:mm') }}</span> -
-                                                <span>{{ moment(slot?.time_out, "HH:mm").format('HH:mm') }}</span>
+                                                <span>{{ formatDateTimeToReadable(slot?.date_time_start) }}</span>
                                             </div>
                                         </td>
-                                        <td width="5%">
-                                            <span>{{ slot?.available_slots }}</span>
+                                        <td width="10%">
+                                            <div class="truncate">
+                                                <span>{{ formatDateTimeToReadable(slot?.date_time_end) }}</span>
+                                            </div>
                                         </td>
-                                        <td width="15%">
+                                        <td width="10%">
+                                            <p>
+                                                {{ slot?.available_slots }}
+                                            </p>
+                                        </td>
+                                        <td width="10%">
                                             <div class="flex items-end gap-2">
                                                 <Tooltip
                                                     :text="$t('dutySchedules.scheduleSlots.table.actions.viewRequesters')">
@@ -111,6 +122,7 @@
 import moment from 'moment'
 import { useDatetimeFormatter } from '@/composables/datetimeFormatter'
 import { scheduleSlotService } from '@/components/api/user/ScheduleSlotService'
+import { useDepartmentStore } from '@/store/department'
 import { useI18n } from "vue-i18n"
 import { useAlert } from '@/composables/alert'
 import type { Error } from '@/types'
@@ -126,8 +138,9 @@ const props = defineProps({
     },
 })
 const emit = defineEmits(['close', 'refreshDutySchedules'])
+const departmentStore = useDepartmentStore()
 
-const { formatDateToReadable } = useDatetimeFormatter()
+const { formatDateToReadable, formatDateTimeToReadable } = useDatetimeFormatter()
 const { successAlert } = useAlert()
 const { t } = useI18n()
 const language = useI18n()
@@ -135,10 +148,11 @@ let currentTablePage = 1
 
 const state = reactive({
     columnHeaders: [
-        { name: 'dutySchedules.scheduleSlots.table.department' },
+        { name: 'dutySchedules.scheduleSlots.table.departments' },
         { name: 'dutySchedules.scheduleSlots.table.shiftType' },
-        { name: 'dutySchedules.scheduleSlots.table.jobTitle' },
-        { name: 'dutySchedules.scheduleSlots.table.time' },
+        { name: 'dutySchedules.scheduleSlots.table.jobTitles' },
+        { name: 'dutySchedules.scheduleSlots.table.dateTimeStart' },
+        { name: 'dutySchedules.scheduleSlots.table.dateTimeEnd' },
         { name: 'dutySchedules.scheduleSlots.table.numberOfShifts' },
         { name: '' },
 
@@ -183,6 +197,7 @@ async function fetchScheduleSlots() {
     state.isTableLoading = true
     try {
         const params = {
+            department: departmentStore.getSelectedDepartmentName,
             date_start: moment(props.selectedDay?.fullDate).format('YYYY-MM-DD'),
             date_end: moment(props.selectedDay?.fullDate).format('YYYY-MM-DD'),
             page: currentTablePage,

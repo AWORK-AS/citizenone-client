@@ -134,9 +134,10 @@
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
                     <div class="space-y-1">
                         <FormLabel for="city" :label="$t('citizens.form.city')" />
-                        <FormSelect id="city" :options="state.options.cities" v-model="state.formCitizen.city" />
+                        <FormTextField id="city" name="city" :placeholder="$t('citizens.form.city')"
+                            v-model="state.formCitizen.city" />
                         <FormError :error="v$?.formCitizen?.city?.$errors[0]?.$message.toString()" />
-                        <FormError :error="props?.error?.errors?.city_uuid?.[0]" />
+                        <FormError :error="props?.error?.errors?.city?.[0]" />
                     </div>
                     <div class="space-y-1">
                         <FormLabel for="post_code" :label="$t('citizens.form.postCode')" />
@@ -537,6 +538,11 @@
                     <p class="text-sm text-gray-600">
                         {{ $t('citizens.form.stayData.accompanyingChildren.accompanyingChildren') }}
                     </p>
+                    <div v-if="state.formCitizen.stayData.accompanying_children?.length < 1" class="py-3">
+                        <FormButton buttonStyle="primary" @click="addAccompanyingChild()" class="w-full rounded-md">
+                            {{ $t('citizens.form.stayData.addAccompanyingChild') }}
+                        </FormButton>
+                    </div>
                     <div class="space-y-6">
                         <div v-for="(child, accompanyingChildenIndex) in state.formCitizen.stayData.accompanying_children"
                             :key="accompanyingChildenIndex" class="relative">
@@ -545,13 +551,32 @@
                                 <div class="flex items-center gap-x-2">
                                     <div class="grow grid grid-cols-1 md:grid-cols-2 gap-3">
                                         <div class="space-y-1">
-                                            <FormLabel :for="`name_${accompanyingChildenIndex}`"
-                                                :label="$t('citizens.form.stayData.accompanyingChildren.name')" />
-                                            <FormTextField :id="`name_${accompanyingChildenIndex}`"
+                                            <FormLabel :for="`firstname_${accompanyingChildenIndex}`"
+                                                :label="$t('citizens.form.stayData.accompanyingChildren.firstname')" />
+                                            <FormTextField :id="`firstname_${accompanyingChildenIndex}`"
+                                                :name="`firstname_${accompanyingChildenIndex}`"
+                                                :placeholder="$t('citizens.form.stayData.accompanyingChildren.firstname')"
+                                                :value="child.firstname"
+                                                @keyup="(event: any) => state.formCitizen.stayData.accompanying_children[accompanyingChildenIndex].firstname = event.target.value" />
+                                        </div>
+                                        <div class="space-y-1">
+                                            <FormLabel :for="`lastname_${accompanyingChildenIndex}`"
+                                                :label="$t('citizens.form.stayData.accompanyingChildren.lastname')" />
+                                            <FormTextField :id="`lastname_${accompanyingChildenIndex}`"
+                                                :name="`lastname_${accompanyingChildenIndex}`"
+                                                :placeholder="$t('citizens.form.stayData.accompanyingChildren.lastname')"
+                                                :value="child.lastname"
+                                                @keyup="(event: any) => state.formCitizen.stayData.accompanying_children[accompanyingChildenIndex].lastname = event.target.value" />
+                                        </div>
+                                        <div class="space-y-1">
+                                            <FormLabel :for="`ssn_${accompanyingChildenIndex}`"
+                                                :label="$t('citizens.form.stayData.accompanyingChildren.cprNumber')" />
+                                            <FormTextField :id="`ssn_${accompanyingChildenIndex}`"
                                                 :name="`name_${accompanyingChildenIndex}`"
-                                                :placeholder="$t('citizens.form.stayData.accompanyingChildren.name')"
-                                                :value="child.name"
-                                                @keyup="(event: any) => state.formCitizen.stayData.accompanying_children[accompanyingChildenIndex].name = event.target.value" />
+                                                :placeholder="$t('citizens.form.stayData.accompanyingChildren.cprNumber')"
+                                                :maxLength="10"
+                                                :value="child.social_security_number?.length === 10 ? child.social_security_number?.slice(0, 6) + '-' + child.social_security_number?.slice(6) : child.social_security_number"
+                                                @keyup="(event: any) => state.formCitizen.stayData.accompanying_children[accompanyingChildenIndex].social_security_number = event.target.value" />
                                         </div>
                                         <div class="space-y-1">
                                             <FormLabel for="gender"
@@ -561,13 +586,15 @@
                                                 v-model="state.formCitizen.stayData.accompanying_children[accompanyingChildenIndex].gender" />
                                         </div>
                                         <div class="space-y-1">
-                                            <FormLabel :for="`age_${accompanyingChildenIndex}`"
-                                                :label="$t('citizens.form.stayData.accompanyingChildren.age')" />
-                                            <FormTextField :id="`age_${accompanyingChildenIndex}`"
-                                                :name="`age_${accompanyingChildenIndex}`"
-                                                :placeholder="$t('citizens.form.stayData.accompanyingChildren.age')"
-                                                :value="child.age"
-                                                @keyup="(event: any) => state.formCitizen.stayData.accompanying_children[accompanyingChildenIndex].age = event.target.value" />
+                                            {{
+                                                state.formCitizen.stayData.accompanying_children[accompanyingChildenIndex].birthday
+                                            }}
+                                            <FormLabel :for="`birthday_${accompanyingChildenIndex}`"
+                                                :label="$t('citizens.form.stayData.accompanyingChildren.birthday')" />
+                                            <FormDateField :id="`birthday_${accompanyingChildenIndex}`"
+                                                :name="`birthday_${accompanyingChildenIndex}`"
+                                                :placeholder="$t('citizens.form.stayData.accompanyingChildren.birthday')"
+                                                v-model="state.formCitizen.stayData.accompanying_children[accompanyingChildenIndex].birthday" />
                                         </div>
                                         <div class="space-y-1">
                                             <FormLabel :for="`origin_${accompanyingChildenIndex}`"
@@ -583,8 +610,7 @@
                             </div>
                             <button type="button"
                                 class="absolute -top-3 -right-3 bg-red-700 hover:bg-red-600 rounded-full w-8 h-8 flex items-center justify-center"
-                                @click="removeAccompanyingChild(accompanyingChildenIndex)"
-                                v-if="state.formCitizen.stayData.accompanying_children.length > 1">
+                                @click="removeAccompanyingChild(accompanyingChildenIndex)">
                                 <Icon name="ph:trash" class="h-4 w-4 text-white" aria-hidden="true" />
                             </button>
                             <button type="button"
@@ -631,6 +657,7 @@
 </template>
 
 <script setup lang="ts">
+import moment from 'moment'
 import { useVuelidate } from "@vuelidate/core"
 import { required, helpers } from '@vuelidate/validators'
 import { citizenCaseworkerService } from '@/components/api/user/CitizenCaseworkerService'
@@ -737,6 +764,7 @@ const state = reactive({
             journal_number: '',
             accompanying_children: [{
                 name: '',
+                social_security_number: '',
                 gender: '',
                 age: '',
                 origin: '',
@@ -811,7 +839,7 @@ watch(() => props.selectedCitizen, (selectedCitizen: any) => {
             street: selectedCitizen.street,
             region: selectedCitizen.region_uuid,
             municipality: selectedCitizen.municipality_uuid,
-            city: selectedCitizen.city_uuid,
+            city: selectedCitizen.city,
             post_code: selectedCitizen.post_code,
             origin: selectedCitizen.origin,
             diagnoses: selectedCitizen.diagnoses,
@@ -852,7 +880,7 @@ watch(() => props.selectedCitizen, (selectedCitizen: any) => {
                 accommodation_end_date: selectedCitizen.stayData.accommodation_end_date,
                 accommodation_start_date: selectedCitizen.stayData.accommodation_start_date,
                 journal_number: selectedCitizen.stayData.journal_number,
-                accompanying_children: selectedCitizen.stayData.accompanying_children,
+                accompanying_children: selectedCitizen.stayData.accompanying_children ?? [],
                 residence_before_uuid: selectedCitizen.stayData.residence_before_uuid,
                 residence_after_uuid: selectedCitizen.stayData.residence_after_uuid,
                 discharge_reason: selectedCitizen.stayData.discharge_reason,
@@ -872,19 +900,19 @@ watch(() => language.locale.value, (language: any) => {
 })
 
 watch(() => state.formCitizen.social_security_number, (ssn) => {
-    if (ssn.length === 10) {
+    if (ssn?.length === 10) {
         state.formCitizen.social_security_number = ssn.slice(0, 6) + '-' + ssn.slice(6)
     }
 })
 
 watch(() => state.formCitizen.social_security_number, (ssn) => {
     // Format social security number with a hyphen after six digits
-    if (ssn.length === 10) {
+    if (ssn?.length === 10) {
         state.formCitizen.social_security_number = ssn.slice(0, 6) + '-' + ssn.slice(6)
     }
 
     // Check if the length is at least six digits to derive the birthdate
-    if (ssn.length >= 6) {
+    if (ssn?.length >= 6) {
         const day = ssn.slice(0, 2)
         const month = ssn.slice(2, 4)
         let year = ssn.slice(4, 6)
@@ -1217,10 +1245,6 @@ function submitForm() {
     if (!v$.value.$error) {
         if (!state.formCitizen.region) {
             state.formCitizen.municipality = ''
-            state.formCitizen.city = ''
-        }
-        if (!state.formCitizen.municipality) {
-            state.formCitizen.city = ''
         }
         emit('submitForm', state.formCitizen)
     }
@@ -1247,7 +1271,7 @@ function onCitizenImageChange(event: any) {
 const formattedSocialSecurityNumber = computed<string>({
     get() {
         const ssn = state.formCitizen.social_security_number
-        if (ssn.length === 10) {
+        if (ssn?.length === 10) {
             return ssn.slice(0, 6) + '-' + ssn.slice(6)
         }
         return ssn
@@ -1264,9 +1288,11 @@ function updateSocialSecurityNumber(event: Event) {
 
 function addAccompanyingChild() {
     state.formCitizen.stayData.accompanying_children.push({
-        name: '',
+        firstname: '',
+        lastname: '',
+        social_security_number: '',
         gender: '',
-        age: '',
+        birthday: '',
         origin: '',
     })
 }

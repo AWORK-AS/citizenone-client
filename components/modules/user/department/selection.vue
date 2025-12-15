@@ -1,7 +1,7 @@
 <template>
     <LoadingSpinner :isActive="state.isPageLoading">
         <div class="block md:hidden" v-if="state.departments?.data?.length > 0">
-            <select class="focus:outline-none" @change="selectDepartment" id="selectDepartment">
+            <select class="w-24 sm:w-fit focus:outline-none" @change="selectDepartment" id="selectDepartment">
                 <option v-for="(department, index) in state.departments?.data" :key="index" :value="department.name"
                     :selected="department?.name === departmentStore.getSelectedDepartmentName">
                     {{ department?.name }}
@@ -12,9 +12,8 @@
             <Menu as="div" class="relative inline-block text-left w-34">
                 <div>
                     <MenuButton
-                        class="inline-flex w-full items-center justify-center gap-x-2 rounded-md px-5 py-2 text-xs font-semibold text-white shadow-sm"
+                        class="inline-flex w-full items-center justify-center gap-x-2 rounded-md px-5 py-2 text-sm font-semibold text-white shadow-sm"
                         :style="{ backgroundColor: departmentStore.getSelectedDepartmentColor ? departmentStore.getSelectedDepartmentColor : '#205E77' }">
-                        {{ $t('department.department') }}:
                         {{ departmentStore.getSelectedDepartmentName === '' ? state.departments?.data?.[0]?.name :
                             departmentStore.getSelectedDepartmentName }}
                         <Icon name="heroicons:chevron-down" class="-mr-1 h-5 w-5 text-white" aria-hidden="true" />
@@ -74,6 +73,13 @@ watch(() => language.locale.value, () => {
     fetchDepartments()
 })
 
+watch(() => state.departments, (departments: any) => {
+    if (departmentStore.getSelectedDepartmentName === '') {
+        departmentStore.setSelectedDepartment(departments?.data?.[0])
+        departmentStore.setSelectedDepartmentName(departments?.data?.[0]?.name)
+    }
+})
+
 async function fetchDepartments() {
     state.error = {}
     try {
@@ -88,18 +94,22 @@ async function fetchDepartments() {
 }
 
 function selectDepartment(event: any) {
+    const department = state.departments?.data?.find((department: any) => department.name === event.target.value)
     const departmentColor = state.departments?.data?.find((department: any) => department.name === event.target.value)?.color
     citizenStore.setCurrentPageNumber(1)
     employeeStore.setCurrentPageNumber(1)
+    departmentStore.setSelectedDepartment(department)
     departmentStore.setSelectedDepartmentName(event.target.value)
     departmentStore.setSelectedDepartmentColor(departmentColor)
     successAlert(`${t('alert.success')}!`, `${t('department.changedDepartmentTo')} ${event.target.value === '' ? t('department.all')?.toLowerCase() : event.target.value}.`)
 }
 
 function changeDepartment(departmentName: string) {
+    const department = state.departments?.data?.find((department: any) => department.name === departmentName)
     const departmentColor = state.departments?.data?.find((department: any) => department.name === departmentName)?.color
     citizenStore.setCurrentPageNumber(1)
     employeeStore.setCurrentPageNumber(1)
+    departmentStore.setSelectedDepartment(department)
     departmentStore.setSelectedDepartmentName(departmentName)
     departmentStore.setSelectedDepartmentColor(departmentColor)
     successAlert(`${t('alert.success')}!`, `${t('department.changedDepartmentTo')} ${departmentName === '' ? t('department.all')?.toLowerCase() : departmentName}.`)

@@ -92,7 +92,7 @@
                                             {{ state.selectedCitizen?.data?.address?.municipality?.name }},
                                         </span>
                                         <span v-if="state.selectedCitizen?.data?.address?.city">
-                                            {{ state.selectedCitizen?.data?.address?.city?.name }},
+                                            {{ state.selectedCitizen?.data?.address?.city }},
                                         </span>
                                         <span v-if="state.selectedCitizen?.data?.address?.post_code">
                                             {{ state.selectedCitizen?.data?.address?.post_code }}

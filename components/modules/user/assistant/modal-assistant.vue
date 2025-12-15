@@ -1,6 +1,6 @@
 <template>
     <div>
-        <Modal size="xl" :title="$t('assistants.assistants')" :show="props.isModalOpen" @close="closeModal">
+        <Modal size="xl" :title="$t('assistants.askAI')" :show="props.isModalOpen" @close="closeModal">
             <template #modal-body>
                 <Alert type="danger" :text="state?.error?.message"
                     v-if="state.error?.message && state.error.message.length > 0" />

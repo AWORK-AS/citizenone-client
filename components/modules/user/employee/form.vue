@@ -150,9 +150,10 @@
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
                     <div class="space-y-1" ref="cityField">
                         <FormLabel for="city" :label="$t('employees.form.city')" />
-                        <FormSelect id="city" :options="state.options.cities" v-model="state.formEmployee.city_uuid" />
-                        <FormError :error="v$?.formEmployee?.city_uuid?.$errors[0]?.$message.toString()" />
-                        <FormError :error="props?.error?.errors?.city_uuid?.[0]" />
+                        <FormTextField id="city" name="city" :placeholder="$t('employees.form.city')"
+                            v-model="state.formEmployee.city" />
+                        <FormError :error="v$?.formEmployee?.city?.$errors[0]?.$message.toString()" />
+                        <FormError :error="props?.error?.errors?.city?.[0]" />
                     </div>
                     <div class="space-y-1" ref="postCodeField">
                         <FormLabel for="post_code" :label="$t('employees.form.postCode')" />
@@ -240,7 +241,7 @@
                 </p>
             </div>
             <div class="md:col-span-2 space-y-3 bg-white shadow-sm ring-1 ring-gray-900/5 rounded-lg px-4 py-6 sm:p-8">
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-3" v-if="isAdmin(userStore.getUser?.roles)">
                     <div class="space-y-1" ref="salaryIDField">
                         <FormLabel for="salary_id" :label="$t('employees.form.employment.salaryID')" />
                         <FormTextField id="salary_id" name="salary_id"
@@ -250,7 +251,7 @@
                             :error="v$?.formEmployee?.employment?.annual_norm_hours?.$errors[0]?.$message.toString()" />
                         <FormError :error="props?.error?.errors?.annual_norm_hours?.[0]" />
                     </div>
-                    <div class="space-y-1" ref="employmentDateField" v-if="isAdmin(userStore.getUser?.roles)">
+                    <div class="space-y-1" ref="employmentDateField">
                         <FormLabel for="employment_date" :label="$t('employees.form.employment.employmentDate')" />
                         <FormDateField id="employment_date" name="employment_date"
                             :placeholder="$t('employees.form.employment.employmentDate')"
@@ -262,7 +263,12 @@
                 </div>
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
                     <div class="space-y-1" ref="annualNormHoursField" v-if="isAdmin(userStore.getUser?.roles)">
-                        <FormLabel for="annual_norm_hours" :label="$t('employees.form.employment.annualNormHours')" />
+                        <div class="flex items-center gap-x-1">
+                            <FormLabel for="annual_norm_hours"
+                                :label="$t('employees.form.employment.annualNormHours')" />
+                            <Icon name="ph:question" class="size-4 cursor-pointer text-gray-700" aria-hidden="true"
+                                @click="state.modal.isAnnualNormHoursInfoOpen = true" />
+                        </div>
                         <FormTextField id="annual_norm_hours" name="annual_norm_hours"
                             :placeholder="$t('employees.form.employment.annualNormHours')"
                             v-model="state.formEmployee.employment.annual_norm_hours" />
@@ -300,7 +306,7 @@
                             <FormLabel for="job_specialties"
                                 :label="$t('dutySchedules.scheduleSlots.form.jobSpecialty')" />
                             <span class="text-xs cursor-pointer text-tertiary hover:text-tertiary-800"
-                                @click="addNewJobSpecialty">
+                                @click="state.modal.isAddJobSpecialtyOpen = true">
                                 {{ $t('jobSpecialties.addNewJobSpecialty') }}
                             </span>
                         </div>
@@ -474,7 +480,7 @@
         <div class="mt-6">
             <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
                 <FormButton type="button" buttonStyle="cancel" class="rounded-md"
-                    @click="navigateTo(router?.currentRoute?.value?.name === 'employees-employee_uuid-edit' ? `/employees` : `/employees/${employeeUuid}/view-details`)">
+                    @click="navigateTo(router?.currentRoute?.value?.name !== 'employees-employee_uuid-edit' ? `/employees` : `/employees/${employeeUuid}/view-details`)">
                     {{ $t('cancel') }}
                 </FormButton>
                 <FormButton type="submit" buttonStyle="primary" class="rounded-md">
@@ -490,11 +496,12 @@
         <ModulesUserRoleModalNew :isModalOpen="state.modal.isAddRoleOpen" @close="state.modal.isAddRoleOpen = false"
             @refreshRoles="fetchRoles" />
         <ModulesUserJobTitleModalNew :isModalOpen="state.modal.isAddJobTitleOpen"
-            @close="state.modal.isAddJobTitleOpen = false" @refreshJobTitle="fetchJobTitles" />
+            @close="state.modal.isAddJobTitleOpen = false" @refreshJobTitles="fetchJobTitles" />
         <ModulesUserJobSpecialtyModalNew :isModalOpen="state.modal.isAddJobSpecialtyOpen"
-            :selectedJobTitleUuid="state.formEmployee.employment.job_title_uuid"
-            @close="state.modal.isAddJobSpecialtyOpen = false"
+            @close="state.modal.isAddJobSpecialtyOpen = false" @refreshJobTitles="fetchJobTitles"
             @refreshJobSpecialty="fetchJobSpecialties(state.formEmployee.employment.job_title_uuid)" />
+        <ModulesUserDutyScheduleNormHoursModalInfo :isModalOpen="state.modal.isAnnualNormHoursInfoOpen"
+            @close="state.modal.isAnnualNormHoursInfoOpen = false" />
     </form>
 </template>
 
@@ -574,7 +581,7 @@ const state = reactive({
         street: '',
         region_uuid: '',
         municipality_uuid: '',
-        city_uuid: '',
+        city: '',
         post_code: '',
         permissions: [],
         media_risks: [],
@@ -594,7 +601,7 @@ const state = reactive({
             trustees: [],
         },
         show_working_hours: false,
-        count_sick_leave: false,
+        do_not_count_sick_leave: false,
     } as EmployeeForm,
     isChangePassword: false,
     modal: {
@@ -603,6 +610,7 @@ const state = reactive({
         isAddJobTitleOpen: false,
         isAddRoleOpen: false,
         isShowMediaRiskExplainationOpen: false,
+        isAnnualNormHoursInfoOpen: false,
     },
     permissions: {
         read: false,
@@ -668,7 +676,7 @@ watch(() => props.selectedEmployee, (newValue: any) => {
             street: newValue.street,
             region_uuid: newValue.region_uuid,
             municipality_uuid: newValue.municipality_uuid,
-            city_uuid: newValue.city_uuid,
+            city: newValue.city,
             post_code: newValue.post_code,
             permissions: [],
             media_risks: newValue.media_risks,
@@ -688,7 +696,7 @@ watch(() => props.selectedEmployee, (newValue: any) => {
                 vacation_days: newValue.employment.vacation_days,
             },
             show_working_hours: newValue.show_working_hours,
-            count_sick_leave: newValue.count_sick_leave,
+            do_not_count_sick_leave: newValue.do_not_count_sick_leave,
         }
         fetchMunicipalitiesPerRegion(newValue.region_uuid)
         fetchCities(newValue.municipality_uuid)
@@ -858,14 +866,6 @@ async function fetchJobTitles() {
 function changeJobTitle(jobTitleUuid: any) {
     if (jobTitleUuid) {
         fetchJobSpecialties(jobTitleUuid)
-    }
-}
-
-function addNewJobSpecialty() {
-    if (state.formEmployee.employment.job_title_uuid) {
-        state.modal.isAddJobSpecialtyOpen = true
-    } else {
-        errorAlert(`${t('alert.required')}!`, `${t('alert.jobTitleRequired')}.`)
     }
 }
 
@@ -1041,7 +1041,7 @@ function submitForm() {
             regionField.value.scrollIntoView({ behavior: 'smooth', block: 'center' })
         } else if (v$.value.formEmployee.municipality_uuid?.$error && municipalityField.value) {
             municipalityField.value.scrollIntoView({ behavior: 'smooth', block: 'center' })
-        } else if (v$.value.formEmployee.city_uuid?.$error && cityField.value) {
+        } else if (v$.value.formEmployee.city?.$error && cityField.value) {
             cityField.value.scrollIntoView({ behavior: 'smooth', block: 'center' })
         } else if (v$.value.formEmployee.post_code?.$error && postCodeField.value) {
             postCodeField.value.scrollIntoView({ behavior: 'smooth', block: 'center' })

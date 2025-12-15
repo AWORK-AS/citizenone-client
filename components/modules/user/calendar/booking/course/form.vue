@@ -204,7 +204,7 @@
                             <div class="block md:flex items-center space-y-2 gap-x-2 py-2"
                                 v-if="state.formCourse.sessions[sessionIndex].is_recurring">
                                 <p>
-                                    {{ $t('bookings.formCourse.sessions.recurring.addThisSessions') }}
+                                    {{ $t('recurring.addThisSessions') }}
                                 </p>
                                 <div class="space-y-1 grow">
                                     <FormSelect :id="`recurring_${sessionIndex}`"
@@ -212,7 +212,7 @@
                                         v-model="state.formCourse.sessions[sessionIndex].recurring" />
                                 </div>
                                 <p>
-                                    {{ $t('bookings.formCourse.sessions.recurring.until') }}
+                                    {{ $t('recurring.until') }}
                                 </p>
                                 <div>
                                     <FormDateField :id="`recurring_until_${sessionIndex}`" name="recurring_until"
@@ -462,12 +462,12 @@ const state = reactive({
     options: {
         bookingTags: [],
         recurringSchedules: [
-            { value: 'everyday', label: `${t('bookings.formCourse.sessions.recurring.everyDay')}` },
-            { value: 'every_week', label: `${t('bookings.formCourse.sessions.recurring.everyWeek')}` },
-            { value: 'every_second_week', label: `${t('bookings.formCourse.sessions.recurring.everySecondWeek')}` },
-            { value: 'every_third_week', label: `${t('bookings.formCourse.sessions.recurring.everyThirdWeek')}` },
-            { value: 'every_fourth_week', label: `${t('bookings.formCourse.sessions.recurring.everyFourthWeek')}` },
-            { value: 'every_month', label: `${t('bookings.formCourse.sessions.recurring.everyMonth')}` },
+            { value: 'everyday', label: `${t('recurring.everyDay')}` },
+            { value: 'every_week', label: `${t('recurring.everyWeek')}` },
+            { value: 'every_second_week', label: `${t('recurring.everySecondWeek')}` },
+            { value: 'every_third_week', label: `${t('recurring.everyThirdWeek')}` },
+            { value: 'every_fourth_week', label: `${t('recurring.everyFourthWeek')}` },
+            { value: 'every_month', label: `${t('recurring.everyMonth')}` },
         ]
     },
     steps: [

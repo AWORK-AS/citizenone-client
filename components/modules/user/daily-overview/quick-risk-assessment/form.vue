@@ -142,14 +142,7 @@
                         <p class="text-sm text-gray-600">
                             {{ $t('overview.quickRiskAssessment.form.note') }}
                         </p>
-                        <div class="flex-1 flex items-center gap-x-2 justify-end">
-                            <div class="w-fit flex gap-2 item-center text-end text-sm cursor-pointer text-primary hover:text-primary-700"
-                                v-if="userStore.getUser?.has_ai_access" @click="generateNoteForRiskAssessmentNote">
-                                <div class="flex items-center">
-                                    <Icon name="ph:arrows-clockwise" class="h-4 w-4" aria-hidden="true" />
-                                </div>
-                                {{ $t('overview.quickRiskAssessment.form.generateNote') }}
-                            </div>
+                        <div class="flex-1 flex items-center gap-x-4 justify-end">
                             <input ref="riskAssessmentFileInput" type="file" @change="handleRiskAssessmentFileChange"
                                 class="hidden" />
                             <div class="w-fit flex gap-2 item-center text-end text-sm cursor-pointer text-primary hover:text-primary-700"
@@ -159,6 +152,13 @@
                                 </div>
                                 {{ $t('overview.quickRiskAssessment.form.attachFile') }}
                             </div>
+                            <FormButton buttonStyle="AI" buttonSize="xs" class="px-4"
+                                v-if="userStore.getUser?.has_ai_access" @click="generateNoteForRiskAssessmentNote">
+                                <div class="flex items-center">
+                                    <Icon name="ph:arrows-clockwise" class="h-4 w-4" aria-hidden="true" />
+                                </div>
+                                {{ $t('overview.quickRiskAssessment.form.prepareWithAI') }}
+                            </FormButton>
                         </div>
                     </div>
                     <ckeditor :editor="editor" v-model="state.formRiskAssessment.note" :config="editorNoteConfig">

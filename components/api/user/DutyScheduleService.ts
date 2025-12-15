@@ -13,8 +13,8 @@ class DutyScheduleService extends BaseAPIService {
         return await this.request(`/user/duty-schedules/${scheduleUuid}`, 'PUT', params)
     }
 
-    async deleteDutySchedule(scheduleUuid: any): Promise<any> {
-        return await this.request(`/user/duty-schedules/${scheduleUuid}`, 'DELETE')
+    async deleteDutySchedule(scheduleUuid: any, params?: object): Promise<any> {
+        return await this.request(`/user/duty-schedules/${scheduleUuid}`, 'DELETE', params)
     }
 
     async downloadDutySchedules(params: object): Promise<any> {

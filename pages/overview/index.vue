@@ -8,6 +8,7 @@
 
             <template #header>{{ $t('overview.overview') }}</template>
             <template #guided-tour>
+                <div />
                 <Tooltip :text="$t('guidedTour')" @click="openGuidedTour()">
                     <Icon name="ph:question" class="size-6 cursor-pointer text-gray-700" aria-hidden="true" />
                 </Tooltip>
@@ -150,7 +151,7 @@
                         <p class="text-xl font-bold text-primary">
                             {{ $t('overview.from') }} CitizenOne<sup class="text-sm">&#8482;</sup>
                         </p>
-                        <div class="mt-2 grid grid-cols-1 md:grid-cols-7 gap-5">
+                        <div class="mt-2 grid grid-cols-1 md:grid-cols-7 gap-5" ref="newsSection" id="news">
                             <div class="min-h-44 md:col-span-4">
                                 <ModulesUserDailyOverviewNews />
                             </div>
@@ -187,6 +188,8 @@ import { useDatetimeFormatter } from '@/composables/datetimeFormatter'
 const runtimeConfig = useRuntimeConfig()
 const overviewStore = useDailyOverviewStore()
 const userStore = useUserStore() as any
+const route = useRoute()
+const newsSection = ref<HTMLElement | null>(null)
 const { formatDateToReadable } = useDatetimeFormatter()
 
 const state = reactive({
@@ -205,6 +208,10 @@ const state = reactive({
     }
 })
 
+onMounted(() => {
+    scrollToNewsIfNeeded()
+})
+
 watch(() => userStore.getUser, (user: any) => {
     if (user) {
         if (user?.overview_date_start && user?.overview_date_end) {
@@ -215,6 +222,19 @@ watch(() => userStore.getUser, (user: any) => {
         }
     }
 })
+
+function scrollToNewsIfNeeded() {
+    if (route.hash === '#news' && newsSection.value) {
+        nextTick(() => {
+            setTimeout(() => {
+                newsSection.value?.scrollIntoView({
+                    behavior: 'smooth',
+                    block: 'start'
+                })
+            }, 3000) // delay 3 seconds
+        })
+    }
+}
 
 function openGuidedTour() {
     state.modal.isGuidedTourDailyOverviewOpen = true

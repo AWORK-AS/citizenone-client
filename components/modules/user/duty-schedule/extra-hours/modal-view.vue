@@ -5,7 +5,22 @@
             :show="props.isModalOpen" @close="closeModal">
             <template #modal-body>
                 <div>
-                    <div class="flex justify-end items-center mb-5">
+                    <div class="flex justify-between items-center mb-5">
+                        <div class="flex flex-col md:flex-row gap-x-1 flex-wrap font-medium">
+                            {{ $t('dutySchedules.extraHours.extraHours') }}:
+                            <span :class="[
+                                state.extraHours?.extra_hours > 0 ? 'text-green-700' : 'text-red-700',
+                            ]">
+                                {{
+                                    formatNumber(language.locale.value, state.extraHours?.extra_hours || 0)
+                                }}
+                            </span>
+                            <button class="w-fit text-xs text-primary hover:text-primary-700 hover:underline"
+                                @click="state.modal.isExtraHoursDateRangeOpen = true">
+                                ({{ formatDateToReadable(state.shiftDateRange.formDateRange.start_date) }} -
+                                {{ formatDateToReadable(state.shiftDateRange.formDateRange.end_date) }})
+                            </button>
+                        </div>
                         <FormButton buttonStyle="action" class="rounded-lg"
                             @click="state.modal.isAddNewExtraHoursOpen = true">
                             <Icon name="ph:plus" class="h-4 w-4" aria-hidden="true" />
@@ -98,6 +113,9 @@
                         <Pagination :data="state.extraHours" @previous="previous" @next="next" />
                     </div>
                 </div>
+                <ModulesUserDutyScheduleModalShiftDateRange :isModalOpen="state.modal.isExtraHoursDateRangeOpen"
+                    :dateRange="state.shiftDateRange" @close="state.modal.isExtraHoursDateRangeOpen = false"
+                    @filterDate="filterExtraHoursByDateRange" />
                 <ModulesUserDutyScheduleExtraHoursModalNew :isModalOpen="state.modal.isAddNewExtraHoursOpen"
                     :selectedEmployee="props.selectedEmployee" @close="state.modal.isAddNewExtraHoursOpen = false"
                     @refreshExtraHours="fetchExtraHours" @refreshDutySchedules="emit('refreshDutySchedules')" />
@@ -121,6 +139,7 @@
 </template>
 
 <script setup lang="ts">
+import moment from 'moment'
 import { useDatetimeFormatter } from '@/composables/datetimeFormatter'
 import { extraHoursService } from '@/components/api/user/ExtraHoursService'
 import { useNumberFormatter } from '@/composables/numberFormatter'
@@ -168,10 +187,17 @@ const state = reactive({
         isApproveRequest: false,
         isDeleteExtraHoursOpen: false,
         isEditExtraHoursOpen: false,
+        isExtraHoursDateRangeOpen: false,
         isRejectRequest: false,
     },
     extraHours: [] as any,
     selectedExtraHoursRequest: [] as any,
+    shiftDateRange: {
+        formDateRange: {
+            start_date: moment().startOf('week').add(1, 'day'),
+            end_date: moment().startOf('week').add(7, 'day'),
+        },
+    } as any,
     sortData: {
         sortField: 'date',
         sortOrder: 'descend',
@@ -198,6 +224,8 @@ async function fetchExtraHours() {
             page: currentTablePage,
             sortField: state.sortData.sortField,
             sortOrder: state.sortData.sortOrder,
+            start_date: moment(state.shiftDateRange.formDateRange.start_date).format('YYYY-MM-DD'),
+            end_date: moment(state.shiftDateRange.formDateRange.end_date).format('YYYY-MM-DD'),
             ...state.dataFilter
         }
         const response = await extraHoursService.getExtraHours(params)
@@ -232,6 +260,12 @@ function sort(sortingData: any) {
 function handleSearch(value: any) {
     currentTablePage = 1
     state.dataFilter.search = value?.[0] == '' ? [] : value
+    fetchExtraHours()
+}
+
+function filterExtraHoursByDateRange(formDateRange: any) {
+    state.shiftDateRange.formDateRange.start_date = formDateRange?.[0]
+    state.shiftDateRange.formDateRange.end_date = formDateRange?.[1]
     fetchExtraHours()
 }
 

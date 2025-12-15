@@ -7,7 +7,7 @@
                 <header class="grid grid-cols-1 md:grid-cols-3 md:items-center justify-between py-4 gap-3">
                     <div>
                         <div class="font-medium mt-2">
-                            {{ $t('dutySchedules.typeofShifts') }}:
+                            {{ $t('dutySchedules.typeOfShifts') }}:
                             <button class="text-xs text-primary hover:text-primary-700 hover:underline"
                                 @click="state.modal.isDepartmentSickLeaveDateRangeOpen = true">
                                 ({{ formatDateToReadable(state.shiftDateRange.formDateRange.start_date) }} -
