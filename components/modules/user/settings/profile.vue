@@ -144,6 +144,13 @@ import { useAlert } from '@/composables/alert'
 import { useI18n } from "vue-i18n"
 import type { Error } from '@/types'
 
+const props = defineProps({
+    isFirstLoad: {
+        type: Boolean,
+        required: false,
+    },
+})
+
 const userStore = useUserStore() as any
 const language = useI18n()
 const { successAlert } = useAlert()
@@ -232,6 +239,9 @@ const rulesFormProfile = computed(() => {
 onMounted(() => {
     fetchLanguages()
     fetchPages()
+    if (!props.isFirstLoad) {
+        setUser()
+    }
 })
 
 watch(() => userStore.getUser, (newValue: any) => {
@@ -258,6 +268,30 @@ watch(() => userStore.getUser, (newValue: any) => {
         })
     }
 })
+
+function setUser() {
+    const user = userStore.getUser
+    if (user.profile_image) {
+        avatarUrl.value = user.profile_image
+    }
+    state.formProfile = {
+        image: '',
+        firstname: user?.firstname,
+        lastname: user?.lastname,
+        email: user?.email,
+        phone: user?.phone,
+        birthday: user?.birthday,
+        language_uuid: user?.language?.uuid,
+        pages: [],
+        password: '',
+        email_notifications_enabled: user?.email_notifications_enabled ?? false,
+        shift_based_notifications_enabled: user?.shift_based_notifications_enabled ?? false,
+        system_notifications_enabled: user?.system_notifications_enabled ?? false,
+    }
+    user?.pages.forEach((page: any) => {
+        state.formProfile.pages.push(page?.uuid)
+    })
+}
 
 async function fetchLanguages() {
     state.error = {}
