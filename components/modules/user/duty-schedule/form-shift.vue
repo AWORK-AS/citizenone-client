@@ -47,11 +47,11 @@
             </div>
             <div class="space-y-3" v-if="state.formShift.shift_type">
                 <div class="space-y-1"
-                    v-if="(['sleeping-night-shift'].includes(state.options.shifts.find((shift: any) => shift.value === state.formShift.shift_type)?.system_name))">
+                    v-if="(['sick-leave'].includes(state.options.shifts.find((shift: any) => shift.value === state.formShift.shift_type)?.system_name))">
                     <div class="w-fit flex items-center cursor-pointer"
                         @click="state.formShift.is_sleeping_sick_leave = !state.formShift.is_sleeping_sick_leave">
                         <FormCheckbox :value="state.formShift.is_sleeping_sick_leave" />
-                        {{ $t('dutySchedules.form.markAsSickLeave') }}
+                        {{ $t('dutySchedules.form.forSleepingNightShift') }}
                     </div>
                 </div>
                 <div class="space-y-1">
