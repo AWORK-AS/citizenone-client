@@ -1855,7 +1855,8 @@
                     "verySubstantialChallenges": "Very substantial challenges"
                 },
                 "name": "Name",
-                "score": "Score"
+                "score": "Score",
+                "titleOfTheTreatment": "Title of the treatment"
             },
             "newTreatment": "New treatment",
             "statuses": {
@@ -1958,7 +1959,8 @@
                 },
                 "inProgress": "In progress",
                 "name": "Name",
-                "score": "Score"
+                "score": "Score",
+                "titleOfTheTreatment": "Title of the treatment"
             },
             "treatments": "Treatments"
         },
