@@ -10,7 +10,12 @@
                 <Breadcrumb :links="breadcrumbLinks" />
             </template>
 
-            <template #header>{{ $t('forms.forms') }}</template>
+            <template #header>
+                {{ $t('forms.forms') }}
+                <p class="text-sm font-normal text-gray-900">
+                    {{ $t('forms.formsSublabel') }}.
+                </p>
+            </template>
 
             <LoadingSpinner :isActive="state.isPageLoading">
                 <ModulesUserFormAdminView class="mt-8" v-if="!state.isPageLoading && state.isAdmin" />

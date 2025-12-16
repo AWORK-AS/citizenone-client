@@ -3298,6 +3298,7 @@
             "uploadFile": "Upload file"
         },
         "forms": "Forms",
+        "formsSublabel": "With forms, you can create templates for reports on citizens' plans, goals, and sub-goals, as well as for other types of reporting within the organization. The possibilities are many",
         "formDescription": "Form description",
         "formTitle": "Form title",
         "newForm": "New form",
