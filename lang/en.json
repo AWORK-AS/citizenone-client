@@ -680,18 +680,6 @@
         "bulletBoard": "Bullet board",
         "featured": "Featured"
     },
-    "client": {
-        "appointments": "Appointments",
-        "viewAppointment": "View Appointment",
-        "appointmentsTable": {
-            "eventName": "Event name",
-            "description": "Description",
-            "address": "Address",
-            "city": "City",
-            "date": "Date",
-            "time": "Time"
-        }
-    },
     "calendar": {
         "citizens": "Citizens",
         "days": {
@@ -2180,6 +2168,18 @@
             "street": "Street"
         }
     },
+    "client": {
+        "appointments": "Appointments",
+        "viewAppointment": "View Appointment",
+        "appointmentsTable": {
+            "eventName": "Event name",
+            "description": "Description",
+            "address": "Address",
+            "city": "City",
+            "date": "Date",
+            "time": "Time"
+        }
+    },
     "clientInvoices": {
         "clientInvoices": "Client invoices",
         "editInvoice": "Edit invoice",
@@ -2226,6 +2226,34 @@
             "companySwitchDescription": "Please wait while we reload the page to switch to your selected company",
             "companySwitchTitle": "Company Switch in Progress",
             "switchCompany": "Switch company"
+        }
+    },
+    "contactJobTitles": {
+        "addNewContactJobTitle": "Add new contact job title",
+        "alert": {
+            "contactJobTitleSuccessfullyDeleted": "Contact job title successfully deleted"
+        },
+        "editContactJobTitle": "Edit contact job title",
+        "form": {
+            "alert": {
+                "contactJobTitleSuccessfullyUpdated": "Contact job title successfully updated",
+                "newContactJobTitleSuccessfullySaved": "New contact job title successfully saved"
+            },
+            "titleDanish": "Title (danish)",
+            "titleEnglish": "Title (english)"
+        },
+        "newContactJobTitle": "New contact job title",
+        "contactJobTitles": "Contact job titles",
+        "table": {
+            "actions": {
+                "delete": "Delete",
+                "edit": "Edit"
+            },
+            "confirmation": {
+                "deleteContactJobTitleConfirmation": "Are you sure you want to delete this contact job title"
+            },
+            "titleDanish": "Title (danish)",
+            "titleEnglish": "Title (english)"
         }
     },
     "customPages": {
@@ -4834,6 +4862,7 @@
             "calendarTags": "Calendar tags",
             "catalog": "Catalog",
             "company": "Company",
+            "contactJobTitles": "Contact job titles",
             "customPages": "Glossary",
             "departments": "Departments",
             "diagnoses": "Diagnoses",

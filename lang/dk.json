@@ -680,18 +680,6 @@
         "bulletBoard": "Opslagstavle",
         "featured": "Fremhævet"
     },
-    "client": {
-        "appointments": "Aftaler",
-        "viewAppointment": "Se aftale",
-        "appointmentsTable": {
-            "eventName": "Begivenhedsnavn",
-            "description": "Beskrivelse",
-            "address": "Adresse",
-            "city": "By",
-            "date": "Dato",
-            "time": "Tid"
-        }
-    },
     "calendar": {
         "citizens": "Borgere",
         "days": {
@@ -2180,6 +2168,18 @@
             "street": "Gade"
         }
     },
+    "client": {
+        "appointments": "Aftaler",
+        "viewAppointment": "Se aftale",
+        "appointmentsTable": {
+            "eventName": "Begivenhedsnavn",
+            "description": "Beskrivelse",
+            "address": "Adresse",
+            "city": "By",
+            "date": "Dato",
+            "time": "Tid"
+        }
+    },
     "clientInvoices": {
         "clientInvoices": "Kundefakturaer",
         "editInvoice": "Rediger faktura",
@@ -2226,6 +2226,34 @@
             "companySwitchDescription": "Vent venligst, mens vi genindlæser siden for at skifte til det valgte firma",
             "companySwitchTitle": "Firmaskift i gang",
             "switchCompany": "Skift firma"
+        }
+    },
+    "contactJobTitles": {
+        "addNewContactJobTitle": "Tilføj ny kontaktjobtitel",
+        "alert": {
+            "contactJobTitleSuccessfullyDeleted": "Kontaktjobtitel blev slettet"
+        },
+        "editContactJobTitle": "Rediger kontaktjobtitel",
+        "form": {
+            "alert": {
+                "contactJobTitleSuccessfullyUpdated": "Kontaktjobtitel blev opdateret",
+                "newContactJobTitleSuccessfullySaved": "Ny kontaktjobtitel blev gemt"
+            },
+            "titleDanish": "Titel (dansk)",
+            "titleEnglish": "Titel (engelsk)"
+        },
+        "newContactJobTitle": "Ny kontaktjobtitel",
+        "contactJobTitles": "Kontaktjobtitler",
+        "table": {
+            "actions": {
+                "delete": "Slet",
+                "edit": "Rediger"
+            },
+            "confirmation": {
+                "deleteContactJobTitleConfirmation": "Er du sikker på, at du vil slette denne kontaktjobtitel?"
+            },
+            "titleDanish": "Titel (dansk)",
+            "titleEnglish": "Titel (engelsk)"
         }
     },
     "customPages": {
@@ -4834,6 +4862,7 @@
             "calendarTags": "Kalenderetiketter",
             "catalog": "Katalog",
             "company": "Virksomhed",
+            "contactJobTitles": "Kontaktjobtitler",
             "customPages": "Ordliste",
             "departments": "Afdelinger",
             "diagnoses": "Diagnoser",

@@ -126,11 +126,6 @@ const state = reactive({
         isDeleteShiftOpen: false,
         isStandardShiftOpen: false,
     },
-    pagination: {
-        current_page: 1,
-        last_page: 1,
-        total: 0,
-    },
     shifts: [] as any,
     selectedShift: {} as any,
     sortData: {
