@@ -1,26 +1,18 @@
 export function useNumberFormatter() {
     function formatNumber(language: string, amount: any) {
-        if (isNaN(amount) || amount === null || amount === undefined) {
-            return '0.00'
+        if (amount === null || amount === undefined || isNaN(Number(amount))) {
+            return language === "dk" ? "0,00" : "0.00";
         }
 
-        let numberStr = parseFloat(amount).toFixed(2)
-        let [integerPart, decimalPart] = numberStr.split('.')
+        const numberStr = Number(amount).toFixed(2);
+        const [integerPart, decimalPart] = numberStr.split(".");
 
-        let formattedIntegerPart: string
-
-        if (language === 'dk') {
-            // Danish: thousands = '.', decimal = ','
-            formattedIntegerPart = integerPart.replace(/\B(?=(\d{3})+(?!\d))/g, '.')
-            return decimalPart === '00'
-                ? formattedIntegerPart
-                : `${formattedIntegerPart},${decimalPart}`
+        if (language === "dk") {
+            const formattedIntegerPart = integerPart.replace(/\B(?=(\d{3})+(?!\d))/g, ".");
+            return `${formattedIntegerPart},${decimalPart}`; // always 2 decimals
         } else {
-            // Default (e.g., 'en'): thousands = ',', decimal = '.'
-            formattedIntegerPart = integerPart.replace(/\B(?=(\d{3})+(?!\d))/g, ',')
-            return decimalPart === '00'
-                ? formattedIntegerPart
-                : `${formattedIntegerPart}.${decimalPart}`
+            const formattedIntegerPart = integerPart.replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+            return `${formattedIntegerPart}.${decimalPart}`; // always 2 decimals
         }
     }
 
