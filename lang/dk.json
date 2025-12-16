@@ -1855,7 +1855,8 @@
                     "verySubstantialChallenges": "Meget store udfordringer"
                 },
                 "name": "Navn",
-                "score": "Score"
+                "score": "Score",
+                "titleOfTheTreatment": "Behandlingens titel"
             },
             "newTreatment": "Ny behandling",
             "statuses": {
@@ -1958,7 +1959,8 @@
                 },
                 "inProgress": "I gang",
                 "name": "Navn",
-                "score": "Score"
+                "score": "Score",
+                "titleOfTheTreatment": "Behandlingens titel"
             },
             "treatments": "Behandlinger"
         },
@@ -3296,6 +3298,7 @@
             "uploadFile": "Upload fil"
         },
         "forms": "Formularer",
+        "formsSublabel": "Med formularer kan du oprette skabeloner til rapporter på borgernes planer, mål og delmål samt til anden form for afrapportering i organisationen. Mulighederne er mange",
         "formDescription": "Formularbeskrivelse",
         "formTitle": "Formulartitel",
         "newForm": "Ny formular",

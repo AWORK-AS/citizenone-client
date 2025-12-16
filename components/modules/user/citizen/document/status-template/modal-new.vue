@@ -7,19 +7,19 @@
                     <form @submit.prevent="submitForm()" id="formTemplate">
                         <div class="space-y-3">
                             <div class="space-y-1">
+                                <FormLabel for="form" :label="$t('citizens.documents.createTemplate.form.form')" />
+                                <FormSelect id="form" :options="state.options.forms"
+                                    v-model="state.formTemplate.form_uuid" />
+                                <FormError :error="v$?.formTemplate?.form_uuid?.$errors[0]?.$message.toString()" />
+                                <FormError :error="state?.error?.errors?.form_uuid?.[0]" />
+                            </div>
+                            <div class="space-y-1">
                                 <FormLabel for="folder"
                                     :label="$t('citizens.documents.createTemplate.form.folderName')" />
                                 <FormSelect id="folder" :options="state.options.folders"
                                     v-model="state.formTemplate.folder_uuid" />
                                 <FormError :error="v$?.formTemplate?.folder_uuid?.$errors[0]?.$message.toString()" />
                                 <FormError :error="state?.error?.errors?.folder_uuid?.[0]" />
-                            </div>
-                            <div class="space-y-1">
-                                <FormLabel for="form" :label="$t('citizens.documents.createTemplate.form.form')" />
-                                <FormSelect id="form" :options="state.options.forms"
-                                    v-model="state.formTemplate.form_uuid" />
-                                <FormError :error="v$?.formTemplate?.form_uuid?.$errors[0]?.$message.toString()" />
-                                <FormError :error="state?.error?.errors?.form_uuid?.[0]" />
                             </div>
                             <div class="grid md:grid-cols-3 gap-x-3">
                                 <div class="space-y-1">

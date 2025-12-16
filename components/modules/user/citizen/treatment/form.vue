@@ -12,8 +12,9 @@
             </div>
             <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
                 <div class="space-y-1">
-                    <FormLabel for="name" :label="$t('citizens.treatments.form.name')" />
-                    <FormTextField id="name" name="name" :placeholder="$t('citizens.treatments.form.name')"
+                    <FormLabel for="name" :label="$t('citizens.treatments.form.titleOfTheTreatment')" />
+                    <FormTextField id="name" name="name"
+                        :placeholder="$t('citizens.treatments.form.titleOfTheTreatment')"
                         v-model="state.formTreatment.name" />
                     <FormError :error="v$?.formTreatment?.name?.$errors[0]?.$message.toString()" />
                     <FormError :error="props?.error?.errors?.name?.[0]" />
