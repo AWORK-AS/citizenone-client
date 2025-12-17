@@ -2549,6 +2549,7 @@
             "info3": "Compensatory and vacation hours are calculated from that annual norm."
         },
         "noScheduleFound": "No schedule found",
+        "pinSelfToTopOfSchedule": "Pin myself to the top of the schedule",
         "removeSchedule": {
             "confirmation": {
                 "removeScheduleConfirmation": "Are you sure you want to remove this schedule"

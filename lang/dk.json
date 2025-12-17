@@ -2549,6 +2549,7 @@
             "info3": "Afspadserings- og ferietimer beregnes ud fra denne årlige norm."
         },
         "noScheduleFound": "Ingen tidsplan fundet",
+        "pinSelfToTopOfSchedule": "Fastgør mig selv øverst i vagtplanen",
         "removeSchedule": {
             "confirmation": {
                 "removeScheduleConfirmation": "Er du sikker på, at du vil fjerne denne vagt?"
