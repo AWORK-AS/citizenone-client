@@ -291,7 +291,7 @@ onMounted(() => {
         id: props.selectedContact?.id,
         uuid: props.selectedContact?.uuid,
         title: props.selectedContact?.title,
-        contact_job_title_uuid: props.selectedContact?.contact_job_title_uuid,
+        contact_job_title_uuid: props.selectedContact?.contact_job_title?.uuid,
         relationship: props.selectedContact?.relationship?.uuid,
         company_name: props.selectedContact?.company_name,
         employee: props.selectedContact?.employee?.uuid,
@@ -330,7 +330,7 @@ watch(() => props.selectedContact, (newValue: any) => {
             id: props.selectedContact?.id,
             uuid: props.selectedContact?.uuid,
             title: props.selectedContact?.title,
-            contact_job_title_uuid: props.selectedContact?.contact_job_title_uuid,
+            contact_job_title_uuid: props.selectedContact?.contact_job_title?.uuid,
             relationship: props.selectedContact?.relationship?.uuid,
             company_name: props.selectedContact?.company_name,
             employee: props.selectedContact?.employee?.uuid,
@@ -487,6 +487,7 @@ async function fetchAllRetionships() {
                 })
             )
             state.options.relationships = options
+            state.formContact.relationship = props.selectedContact?.relationship?.uuid ?? ''
         }
     } catch (error: any) {
         state.error = error
@@ -526,6 +527,8 @@ async function fetchAllContactJobTitles() {
                 })
             )
             state.options.contactJobTitles = options
+            state.formContact.title = state.options.contactJobTitles.find((contactJobTitle: any) => contactJobTitle.value === props.selectedContact?.contact_job_title?.uuid)?.system_name
+            fetchAllRetionships()
         }
     } catch (error: any) {
         state.error = error
