@@ -441,7 +441,7 @@
                                                                 @click="removeShift(week, employeeIndex, weekIndex, shift, shiftIndex)"
                                                                 v-if="isAdmin(userStore.getUser?.role)">
                                                                 <Tooltip position="left"
-                                                                    :text="$t('dutySchedules.removeSchedule')">
+                                                                    :text="$t('dutySchedules.removeSchedule.removeSchedule')">
                                                                     <Icon name="ph:x" class="h-2 w-2"
                                                                         aria-hidden="true" />
                                                                 </Tooltip>
