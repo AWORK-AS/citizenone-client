@@ -521,7 +521,7 @@ async function fetchAllContactJobTitles() {
             response.data.forEach(
                 (item: any) => options.push({
                     value: item?.uuid,
-                    label: language.locale.value === 'en' ? item?.en_name : item?.dk_name,
+                    label: language.locale.value === 'en' ? item?.en_title : item?.dk_title,
                     system_name: item?.system_name,
                 })
             )

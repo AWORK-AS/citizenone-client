@@ -4,7 +4,7 @@
             @close="closeModal">
             <template #modal-body>
                 <LoadingSpinner :isActive="state.isPageLoading">
-                    <ModulesUserCitizenContactJobTitleForm formType="create"
+                    <ModulesUserCitizenContactJobTitleModalForm formType="create"
                         :selectedContactJobTitle="state.formContactJobTitle" :error="state.error"
                         @isPageLoading="(value: boolean) => state.isPageLoading = value" @closeModal="closeModal"
                         @submitForm="saveContactJobTitle" />
