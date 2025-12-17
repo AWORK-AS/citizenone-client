@@ -55,13 +55,13 @@ async function updateContact(contactDetails: any) {
         let params = {}
         if (contactDetails.title === 'our_contact_person') {
             params = {
-                title: contactDetails.title,
+                contact_job_title_uuid: contactDetails.contact_job_title_uuid,
                 employee_uuid: contactDetails.employee,
                 notifications: contactDetails.notifications,
             }
         } else {
             params = {
-                title: contactDetails.title,
+                contact_job_title_uuid: contactDetails.contact_job_title_uuid,
                 relationship_uuid: contactDetails.title === 'relatives' ? contactDetails.relationship : '',
                 company_name: contactDetails.company_name,
                 firstname: contactDetails.firstname,
