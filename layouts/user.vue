@@ -1,6 +1,5 @@
 <template>
     <LoadingSpinner :isActive="state.isPageLoading">
-
         <TransitionRoot as="template" :show="sidebarOpen">
             <Dialog as="div" class="relative z-50 lg:hidden" @close="sidebarOpen = false">
                 <TransitionChild as="template" enter="transition-opacity ease-linear duration-300"

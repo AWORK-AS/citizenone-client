@@ -61,7 +61,6 @@ const departmentStore = useDepartmentStore()
 const citizenStore = useCitizenStore() as any
 const employeeStore = useEmployeeStore() as any
 const userStore = useUserStore() as any
-console.log('userStore', userStore.getUser)
 
 const state = reactive({
     departments: [] as any,
@@ -81,6 +80,15 @@ watch(() => state.departments, (departments: any) => {
     if (departmentStore.getSelectedDepartmentName === '') {
         departmentStore.setSelectedDepartment(departments?.data?.[0])
         departmentStore.setSelectedDepartmentName(departments?.data?.[0]?.name)
+    }
+})
+
+watch(() => userStore.getUser, (user: any) => {
+    const selectedDepartment = user?.selected_department
+    if (selectedDepartment) {
+        departmentStore.setSelectedDepartment(selectedDepartment)
+        departmentStore.setSelectedDepartmentName(selectedDepartment?.name)
+        departmentStore.setSelectedDepartmentColor(selectedDepartment?.color)
     }
 })
 
