@@ -2398,7 +2398,14 @@
                 "publishForAllDepartmentConfirmation": "Are you sure you want to publish this schedule for all departments"
             },
             "draft": "Draft",
-            "publish": "Publish"
+            "publish": "Publish",
+            "selectDepartment": {
+                "message": "Before you can view or edit draft shift plans, please select where you want to plan shifts.",
+                "form": {
+                    "department": "Department",
+                    "proceed": "Proceed"
+                }
+            }
         },
         "draftTemplates": {
             "draftTemplates": "Draft templates",

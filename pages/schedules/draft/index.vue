@@ -59,29 +59,18 @@
                 <span>{{ $t('back') }}</span>
             </NuxtLink>
 
-            <!-- <div class="flex items-center gap-x-3">
-                <FormButton :buttonStyle="state.calendarView === 'default' ? 'primary' : ''"
-                    @click="setCalendarView('default')" class="rounded-md">
-                    {{ $t('calendar.view.defaultView') }}
-                </FormButton>
-                <FormButton :buttonStyle="state.calendarView === 'week' ? 'primary' : ''"
-                    @click="setCalendarView('week')" class="rounded-md">
-                    {{ $t('calendar.view.weekView') }}
-                </FormButton>
-                <FormButton :buttonStyle="state.calendarView === 'month' ? 'primary' : ''"
-                    @click="setCalendarView('month')" class="rounded-md">
-                    {{ $t('calendar.view.monthView') }}
-                </FormButton>
-            </div> -->
-
             <div class="space-y-5">
-                <ModulesUserDutyScheduleDraftWeekView v-if="state.calendarView === 'week'" />
+                <ModulesUserDutyScheduleDraftWeekView v-if="state.calendarView === 'week' && state.hasContext" />
             </div>
 
             <ModulesUserDutyScheduleDraftModalShiftTypes :isModalOpen="state.modal.isShowAllShiftTypes"
                 @close="state.modal.isShowAllShiftTypes = false" />
             <ModulesUserDutyScheduleDraftModalPublish :isModalOpen="state.modal.isPublishDraftOpen"
                 @close="state.modal.isPublishDraftOpen = false" />
+            <ModulesUserDutyScheduleDraftModalSelectDepartment
+                :isModalOpen="state.modal.isSelectDepartmentModalOpen"
+                @close="state.modal.isSelectDepartmentModalOpen = false"
+                @select-department="selectDepartment" />
         </NuxtLayout>
     </div>
 </template>
@@ -94,9 +83,20 @@ const customPagesStore = useCustomPagesStore() as any
 
 const state = reactive({
     calendarView: 'week',
+    hasContext: false,
     modal: {
         isPublishDraftOpen: false,
         isShowAllShiftTypes: false,
+        isSelectDepartmentModalOpen: true,
     },
 })
+
+onMounted(() => {
+    state.hasContext = false
+})
+
+function selectDepartment(departmentUuid: string) {
+    state.hasContext = true
+    state.modal.isSelectDepartmentModalOpen = false
+}
 </script>

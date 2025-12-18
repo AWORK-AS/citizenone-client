@@ -2398,7 +2398,14 @@
                 "publishForSpecificDepartmentConfirmation": "Er du sikker på, at du vil offentliggøre denne vagtplan for alle afdelinger"
             },
             "draft": "Kladde",
-            "publish": "Offentliggør"
+            "publish": "Offentliggør",
+            "selectDepartment": {
+                "message": "Før du kan se eller redigere udkast til vagtplaner, skal du vælge, hvor du vil planlægge vagter.",
+                "form": {
+                    "department": "Afdeling",
+                    "proceed": "Fortsæt"
+                }
+            }
         },
         "draftTemplates": {
             "draftTemplates": "Udkastskabeloner",
