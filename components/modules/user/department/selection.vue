@@ -52,6 +52,7 @@ import { useAlert } from '@/composables/alert'
 import { useI18n } from "vue-i18n"
 import { useCitizenStore } from '@/store/citizen'
 import { useEmployeeStore } from '@/store/employee'
+import { useUserStore } from '@/store/user'
 
 const { t } = useI18n()
 const { successAlert } = useAlert()
@@ -59,6 +60,8 @@ const language = useI18n()
 const departmentStore = useDepartmentStore()
 const citizenStore = useCitizenStore() as any
 const employeeStore = useEmployeeStore() as any
+const userStore = useUserStore() as any
+console.log('userStore', userStore.getUser)
 
 const state = reactive({
     departments: [] as any,
