@@ -94,8 +94,8 @@ language.locale.value = userStore.getLanguage
 const state = reactive({
     error: {} as Error,
     formUser: {
-        password: null,
-        confirm_password: null,
+        password: '',
+        confirm_password: '',
     },
     isPageLoading: false,
     slideOver: {

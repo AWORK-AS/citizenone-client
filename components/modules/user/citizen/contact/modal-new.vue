@@ -38,6 +38,7 @@ const state = reactive({
     formContact: {
         uuid: '',
         title: '',
+        contact_job_title_uuid: '',
         employees_uuid: [],
         firstname: '',
         lastname: '',
@@ -74,14 +75,14 @@ async function saveContact(contactDetails: any) {
         if (contactDetails.title === 'our_contact_person') {
             params = {
                 citizen_uuid: citizenUuid,
-                title: contactDetails.title,
+                contact_job_title_uuid: contactDetails.contact_job_title_uuid,
                 employees_uuid: contactDetails.employees,
                 notifications: contactDetails.notifications,
             }
         } else {
             params = {
                 citizen_uuid: citizenUuid,
-                title: contactDetails.title,
+                contact_job_title_uuid: contactDetails.contact_job_title_uuid,
                 employees_uuid: contactDetails.employees,
                 relationship_uuid: contactDetails.title === 'relatives' ? contactDetails.relationship : '',
                 company_name: contactDetails.company_name,

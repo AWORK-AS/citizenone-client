@@ -37,8 +37,8 @@
                     </div>
                 </header>
                 <div class="space-y-2 mt-3 mb-3">
-                    <div class="flex flex-col justify-between gap-3 md:flex-row">
-                        <div class="bg-white border border-gray-200 rounded-md px-4 py-1.5">
+                    <div class="grid grid-cols-1 xl:grid-cols-3 gap-3 py-3">
+                        <div class="w-fit bg-white border border-gray-200 rounded-md px-4 py-2">
                             <h3 class="text-base font-semibold leading-6 text-gray-900 text-center">
                                 <span v-if="month === 'January'">{{ $t('calendar.month.January') }}</span>
                                 <span v-if="month === 'February'">{{ $t('calendar.month.February') }}</span>
@@ -55,7 +55,16 @@
                                 {{ year }}
                             </h3>
                         </div>
-                        <div class="flex items-center gap-x-2">
+                        <div>
+                            <div class="space-y-1 flex items-center gap-x-2">
+                                <FormSwitch :value="userStore.getUser?.is_draft_schedule_pinned ? true : false"
+                                    @toggleSwitch="pinSelfToTopOfSchedule()" />
+                                <p>
+                                    {{ $t('dutySchedules.pinSelfToTopOfSchedule') }}
+                                </p>
+                            </div>
+                        </div>
+                        <div class="flex items-center justify-end gap-x-2">
                             <Tooltip
                                 :text="state.sortData.sortOrder === 'ascend' ? $t('dutySchedules.sort.sortNamesInDescendingOrder') : $t('dutySchedules.sort.sortNamesInAscendingOrder')"
                                 position="left">
@@ -264,10 +273,15 @@
                                                                 </span><span v-else>.</span>
                                                             </span>
                                                         </div>
-                                                        <p class="text-xxs">
-                                                            {{ $t('dutySchedules.annualNormHours') }}:
-                                                            {{ employee?.annual_norm_hours ?? 0 }}
-                                                        </p>
+                                                        <div class="flex items-center gap-1 cursor-pointer"
+                                                            @click="state.modal.isAnnualNormHoursInfoOpen = true">
+                                                            <p class="text-xxs">
+                                                                {{ $t('dutySchedules.annualNormHours') }}:
+                                                                {{ employee?.annual_norm_hours ?? 0 }}
+                                                            </p>
+                                                            <Icon name="ph:question" class="h-3.5 w-3.5"
+                                                                aria-hidden="true" />
+                                                        </div>
                                                         <p class="text-xxs">
                                                             {{ $t('dutySchedules.totalHours') }}:
                                                             {{ employee?.total_hours ?? 0 }}
@@ -442,7 +456,7 @@
                                                                 @click="removeShift(week, employeeIndex, weekIndex, shift, shiftIndex)"
                                                                 v-if="isAdmin(userStore.getUser?.role)">
                                                                 <Tooltip position="left"
-                                                                    :text="$t('dutySchedules.removeSchedule')">
+                                                                    :text="$t('dutySchedules.removeSchedule.removeSchedule')">
                                                                     <Icon name="ph:x" class="h-2 w-2"
                                                                         aria-hidden="true" />
                                                                 </Tooltip>
@@ -503,6 +517,8 @@
             <ModulesUserDutyScheduleNormHoursModalCompensatoryHours :isModalOpen="state.modal.isCompensatoryHoursOpen"
                 :selectedEmployee="state.normHours.selectedEmployeeSchedule"
                 @close="state.modal.isCompensatoryHoursOpen = false" />
+            <ModulesUserDutyScheduleNormHoursModalInfo :isModalOpen="state.modal.isAnnualNormHoursInfoOpen"
+                @close="state.modal.isAnnualNormHoursInfoOpen = false" />
             <ModulesUserDutyScheduleNormHoursModalVacationHours :isModalOpen="state.modal.isVacationHoursOpen"
                 :selectedEmployee="state.normHours.selectedEmployeeSchedule"
                 @close="state.modal.isVacationHoursOpen = false" />
@@ -577,6 +593,7 @@ const state = reactive({
         isEditShiftOpen: false,
         isPublishDraftOpen: false,
         isVacationHoursOpen: false,
+        isAnnualNormHoursInfoOpen: false,
     } as any,
     newShift: {
         selectedDate: '',
@@ -935,6 +952,27 @@ function openAddNewShiftModal(employee: any, employeeIndex: number, weekIndex: a
     }
     state.newShift.selectedDate = week?.date
     state.newShift.selectedEmployee = employee
+}
+
+async function pinSelfToTopOfSchedule() {
+    try {
+        state.progress.totalRequests = state.progress.totalRequests + 1
+        state.progress.pendingRequests = state.progress.pendingRequests + 1
+        identifyTheProgressPercentage()
+        const response = await draftScheduleService.pinSelfToTopOfSchedule()
+        if (response) {
+            state.progress.totalRequests = state.progress.totalRequests - 1
+            state.progress.pendingRequests = state.progress.pendingRequests - 1
+            identifyTheProgressPercentage()
+            fetchDraftDutySchedule()
+            userStore.setUserIsDraftSchedulePinned(!userStore.getUser?.is_draft_schedule_pinned)
+        }
+    } catch (error: any) {
+        state.progress.totalRequests = state.progress.totalRequests - 1
+        state.progress.pendingRequests = state.progress.pendingRequests - 1
+        identifyTheProgressPercentage()
+        state.error = error
+    }
 }
 
 async function saveShift(shiftDetails: any) {

@@ -64,12 +64,10 @@
                     </select>
                 </div>
                 <div class="flex flex-wrap items-center gap-3">
-                    <MenuButton @click="state.modal.isNewTemplateModalOpen = true">
-                        <FormButton buttonStyle="action" class="rounded-lg">
-                            <Icon name="ph:plus" class="h-4 w-4" aria-hidden="true" />
-                            {{ $t('dutySchedules.draftTemplates.newDraft') }}
-                        </FormButton>
-                    </MenuButton>
+                    <FormButton  @click="state.modal.isNewTemplateModalOpen = true" buttonStyle="action" class="rounded-lg">
+                        <Icon name="ph:plus" class="h-4 w-4" aria-hidden="true" />
+                        {{ $t('dutySchedules.draftTemplates.newDraft') }}
+                    </FormButton>
                 </div>
             </div>
             
@@ -81,11 +79,10 @@
                         :data="state.draftTemplates"
                         :columnHeaders="state.columnHeaders"
                         :isLoading="state.isTableLoading"
-                        :noDataMessage="$t('dutySchedules.draftTemplates.table.noDraftTemplates')"
                         :sortData="draftTemplateStore.getSortData" @sort="sort"
                     >
-                        <template #body v-if="!(state.isTableLoading || (state.draftTemplates?.length === 0))">
-                            <tr v-for="draftTemplate in state.draftTemplates" :key="draftTemplate.uuid" class="hover:bg-gray-50">
+                        <template #body v-if="!(state.isTableLoading || (state.draftTemplates?.data?.length === 0))">
+                            <tr v-for="draftTemplate in state.draftTemplates.data" :key="draftTemplate.uuid" class="hover:bg-gray-50">
                                 <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
                                     {{ draftTemplate.name }}
                                 </td>
@@ -219,7 +216,7 @@ async function fetchDraftTemplates() {
         }
         const response = await draftTemplateService.getDraftTemplates(params)
         if (response?.data) {
-            state.draftTemplates = response.data
+            state.draftTemplates = response
         }
     } catch (error: any) {
         state.error = error

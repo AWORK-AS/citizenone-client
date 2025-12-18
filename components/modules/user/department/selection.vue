@@ -12,9 +12,8 @@
             <Menu as="div" class="relative inline-block text-left w-34">
                 <div>
                     <MenuButton
-                        class="inline-flex w-full items-center justify-center gap-x-2 rounded-md px-5 py-2 text-xs font-semibold text-white shadow-sm"
+                        class="inline-flex w-full items-center justify-center gap-x-2 rounded-md px-5 py-2 text-sm font-semibold text-white shadow-sm"
                         :style="{ backgroundColor: departmentStore.getSelectedDepartmentColor ? departmentStore.getSelectedDepartmentColor : '#205E77' }">
-                        {{ $t('department.department') }}:
                         {{ departmentStore.getSelectedDepartmentName === '' ? state.departments?.data?.[0]?.name :
                             departmentStore.getSelectedDepartmentName }}
                         <Icon name="heroicons:chevron-down" class="-mr-1 h-5 w-5 text-white" aria-hidden="true" />
@@ -45,6 +44,7 @@
 
 <script setup lang="ts">
 import { departmentService } from '@/components/api/user/DepartmentService'
+import { userService } from '@/components/api/user/UserService'
 import { useDepartmentStore } from '@/store/department'
 import { Menu, MenuButton, MenuItem, MenuItems } from '@headlessui/vue'
 import type { Error } from '@/types'
@@ -52,6 +52,7 @@ import { useAlert } from '@/composables/alert'
 import { useI18n } from "vue-i18n"
 import { useCitizenStore } from '@/store/citizen'
 import { useEmployeeStore } from '@/store/employee'
+import { useUserStore } from '@/store/user'
 
 const { t } = useI18n()
 const { successAlert } = useAlert()
@@ -59,6 +60,7 @@ const language = useI18n()
 const departmentStore = useDepartmentStore()
 const citizenStore = useCitizenStore() as any
 const employeeStore = useEmployeeStore() as any
+const userStore = useUserStore() as any
 
 const state = reactive({
     departments: [] as any,
@@ -81,6 +83,15 @@ watch(() => state.departments, (departments: any) => {
     }
 })
 
+watch(() => userStore.getUser, (user: any) => {
+    const selectedDepartment = user?.selected_department
+    if (selectedDepartment) {
+        departmentStore.setSelectedDepartment(selectedDepartment)
+        departmentStore.setSelectedDepartmentName(selectedDepartment?.name)
+        departmentStore.setSelectedDepartmentColor(selectedDepartment?.color)
+    }
+})
+
 async function fetchDepartments() {
     state.error = {}
     try {
@@ -94,25 +105,52 @@ async function fetchDepartments() {
     }
 }
 
-function selectDepartment(event: any) {
+async function selectDepartment(event: any) {
     const department = state.departments?.data?.find((department: any) => department.name === event.target.value)
     const departmentColor = state.departments?.data?.find((department: any) => department.name === event.target.value)?.color
-    citizenStore.setCurrentPageNumber(1)
-    employeeStore.setCurrentPageNumber(1)
-    departmentStore.setSelectedDepartment(department)
-    departmentStore.setSelectedDepartmentName(event.target.value)
-    departmentStore.setSelectedDepartmentColor(departmentColor)
-    successAlert(`${t('alert.success')}!`, `${t('department.changedDepartmentTo')} ${event.target.value === '' ? t('department.all')?.toLowerCase() : event.target.value}.`)
+
+    state.error = {}
+    state.isPageLoading = true
+    try {
+        const params = {
+            department_uuid: department?.uuid
+        }
+        const response = await userService.updateSelectedDepartment(params)
+        if (response) {
+            citizenStore.setCurrentPageNumber(1)
+            employeeStore.setCurrentPageNumber(1)
+            departmentStore.setSelectedDepartment(department)
+            departmentStore.setSelectedDepartmentName(event.target.value)
+            departmentStore.setSelectedDepartmentColor(departmentColor)
+            successAlert(`${t('alert.success')}!`, `${t('department.changedDepartmentTo')} ${event.target.value === '' ? t('department.all')?.toLowerCase() : event.target.value}.`)
+        }
+    } catch (error: any) {
+        state.error = error
+    }
+    state.isPageLoading = false
 }
 
-function changeDepartment(departmentName: string) {
+async function changeDepartment(departmentName: string) {
     const department = state.departments?.data?.find((department: any) => department.name === departmentName)
     const departmentColor = state.departments?.data?.find((department: any) => department.name === departmentName)?.color
-    citizenStore.setCurrentPageNumber(1)
-    employeeStore.setCurrentPageNumber(1)
-    departmentStore.setSelectedDepartment(department)
-    departmentStore.setSelectedDepartmentName(departmentName)
-    departmentStore.setSelectedDepartmentColor(departmentColor)
-    successAlert(`${t('alert.success')}!`, `${t('department.changedDepartmentTo')} ${departmentName === '' ? t('department.all')?.toLowerCase() : departmentName}.`)
+    state.error = {}
+    state.isPageLoading = true
+    try {
+        const params = {
+            department_uuid: department?.uuid
+        }
+        const response = await userService.updateSelectedDepartment(params)
+        if (response) {
+            citizenStore.setCurrentPageNumber(1)
+            employeeStore.setCurrentPageNumber(1)
+            departmentStore.setSelectedDepartment(department)
+            departmentStore.setSelectedDepartmentName(departmentName)
+            departmentStore.setSelectedDepartmentColor(departmentColor)
+            successAlert(`${t('alert.success')}!`, `${t('department.changedDepartmentTo')} ${departmentName === '' ? t('department.all')?.toLowerCase() : departmentName}.`)
+        }
+    } catch (error: any) {
+        state.error = error
+    }
+    state.isPageLoading = false
 }
 </script>

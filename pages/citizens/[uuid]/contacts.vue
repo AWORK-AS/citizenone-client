@@ -52,23 +52,12 @@
                             <template #body v-if="!(state.isTableLoading || (state.contacts?.data?.length === 0))">
                                 <tr v-for="(contact, index) in state.contacts?.data" :key="index">
                                     <td width="20%">
-                                        <span v-if="contact?.title === 'case_manager'">
-                                            {{ $t('citizens.contacts.titles.caseManager') }}
+                                        <span>
+                                            {{ language.locale.value === 'en' ? contact?.contact_job_title?.en_title :
+                                                contact?.contact_job_title?.dk_title }}
                                         </span>
-                                        <span v-if="contact?.title === 'dentist'">
-                                            {{ $t('citizens.contacts.titles.dentist') }}
-                                        </span>
-                                        <span v-if="contact?.title === 'doctor'">
-                                            {{ $t('citizens.contacts.titles.doctor') }}
-                                        </span>
-                                        <span v-if="contact?.title === 'external_contact'">
-                                            {{ $t('citizens.contacts.titles.externalContact') }}
-                                        </span>
-                                        <span v-if="contact?.title === 'our_contact_person'">
-                                            {{ $t('citizens.contacts.titles.ourContactPerson') }}
-                                        </span>
-                                        <span v-if="contact?.title === 'relatives'">
-                                            {{ $t('citizens.contacts.titles.relatives') }}
+                                        {{ contact?.relationship }}
+                                        <span v-if="contact?.contact_job_title?.system_name === 'relatives'">
                                             <Badge type="primary" class="w-fit mt-1" v-if="contact?.relationship">
                                                 <p class="text-xxs px-2">
                                                     {{ contact?.relationship?.name }}
@@ -156,6 +145,7 @@ import type { Error } from '@/types'
 const runtimeConfig = useRuntimeConfig()
 const { successAlert } = useAlert()
 const { t } = useI18n()
+const language = useI18n()
 const customPagesStore = useCustomPagesStore() as any
 const router = useRouter()
 const citizenUuid = router?.currentRoute?.value?.params?.uuid as any

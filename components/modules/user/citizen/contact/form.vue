@@ -7,10 +7,17 @@
         <LoadingSpinner :isActive="state.isPageLoading">
             <div class="space-y-3">
                 <div class="space-y-1">
-                    <FormLabel for="title" :label="$t('citizens.contacts.form.title')" />
-                    <FormSelect id="title" :options="state.options.titles" v-model="state.formContact.title" />
-                    <FormError :error="v$?.formContact?.title?.$errors[0]?.$message.toString()" />
-                    <FormError :error="props?.error?.errors?.title?.[0]" />
+                    <div class="flex justify-between items-center py-0.5">
+                        <FormLabel for="contact_job_title_uuid" :label="$t('citizens.contacts.form.title')" />
+                        <span class="text-xs cursor-pointer text-tertiary hover:text-tertiary-800"
+                            @click="state.modal.isAddContactJobTitleOpen = true">
+                            {{ $t('contactJobTitles.addNewContactJobTitle') }}
+                        </span>
+                    </div>
+                    <FormSelect id="contact_job_title_uuid" :options="state.options.contactJobTitles"
+                        v-model="state.formContact.contact_job_title_uuid" />
+                    <FormError :error="v$?.formContact?.contact_job_title_uuid?.$errors[0]?.$message.toString()" />
+                    <FormError :error="props?.error?.errors?.contact_job_title_uuid?.[0]" />
                 </div>
                 <div class="space-y-1" v-if="state.formContact.title === 'relatives'">
                     <div class="flex justify-between items-center py-0.5">
@@ -184,6 +191,9 @@
                     </FormButton>
                 </div>
             </div>
+            <ModulesUserCitizenContactJobTitleModalNew :isModalOpen="state.modal.isAddContactJobTitleOpen"
+                @close="state.modal.isAddContactJobTitleOpen = false"
+                @refreshContactJobTitles="fetchAllContactJobTitles" />
             <ModulesUserRelationshipModalNew :isModalOpen="state.modal.isAddNewRelationshipOpen"
                 @close="state.modal.isAddNewRelationshipOpen = false" @refreshRelationships="fetchAllRetionships" />
         </LoadingSpinner>
@@ -191,6 +201,7 @@
 </template>
 
 <script setup lang="ts">
+import { contactJobTitlesService } from '@/components/api/user/ContactJobTitlesService'
 import { relationshipService } from '@/components/api/user/RelationshipService'
 import { regionService } from '@/components/api/user/RegionService'
 import { municipalityService } from '@/components/api/user/MunicipalityService'
@@ -231,6 +242,7 @@ const state = reactive({
         id: '',
         uuid: '',
         title: '',
+        contact_job_title_uuid: '',
         relationship: '',
         company_name: '',
         employee: '',
@@ -252,29 +264,24 @@ const state = reactive({
     },
     isPageLoading: false,
     modal: {
+        isAddContactJobTitleOpen: false,
         isAddNewRelationshipOpen: false,
     },
     options: {
         cities: [],
+        contactJobTitles: [] as any,
         employees: [],
         employees_without_all_users_option: [],
         municipalities: [],
         notification_types: [] as any,
         relationships: [],
         regions: [],
-        titles: [
-            { value: 'case_manager', label: `${t('citizens.contacts.titles.caseManager')}` },
-            { value: 'dentist', label: `${t('citizens.contacts.titles.dentist')}` },
-            { value: 'doctor', label: `${t('citizens.contacts.titles.doctor')}` },
-            { value: 'external_contact', label: `${t('citizens.contacts.titles.externalContact')}` },
-            { value: 'our_contact_person', label: `${t('citizens.contacts.titles.ourContactPerson')}` },
-            { value: 'relatives', label: `${t('citizens.contacts.titles.relatives')}` },
-        ],
         risk_levels: [],
     }
 })
 
 onMounted(() => {
+    fetchAllContactJobTitles()
     fetchNotificationTypes()
     fetchRiskLevels()
     fetchRegions()
@@ -284,6 +291,7 @@ onMounted(() => {
         id: props.selectedContact?.id,
         uuid: props.selectedContact?.uuid,
         title: props.selectedContact?.title,
+        contact_job_title_uuid: props.selectedContact?.contact_job_title?.uuid,
         relationship: props.selectedContact?.relationship?.uuid,
         company_name: props.selectedContact?.company_name,
         employee: props.selectedContact?.employee?.uuid,
@@ -322,6 +330,7 @@ watch(() => props.selectedContact, (newValue: any) => {
             id: props.selectedContact?.id,
             uuid: props.selectedContact?.uuid,
             title: props.selectedContact?.title,
+            contact_job_title_uuid: props.selectedContact?.contact_job_title?.uuid,
             relationship: props.selectedContact?.relationship?.uuid,
             company_name: props.selectedContact?.company_name,
             employee: props.selectedContact?.employee?.uuid,
@@ -353,16 +362,17 @@ watch(() => props.selectedContact, (newValue: any) => {
     }
 })
 
-watch(() => state.formContact.title, (newValue: any) => {
+watch(() => state.formContact.contact_job_title_uuid, () => {
     state.error = {}
-    if (newValue === 'our_contact_person' && props.formType === 'create') {
+    state.formContact.title = state.options.contactJobTitles.find((contactJobTitle: any) => contactJobTitle.value === state.formContact.contact_job_title_uuid)?.system_name
+    if (state.formContact.title === 'our_contact_person' && props.formType === 'create') {
         fetchAllUsers()
     }
-    else if (newValue === 'our_contact_person' && props.formType === 'update') {
+    else if (state.formContact.title === 'our_contact_person' && props.formType === 'update') {
         fetchAllUsersWithoutAllUsersOption()
     }
 
-    if (newValue === 'relatives') {
+    if (state.formContact.title === 'relatives') {
         fetchAllRetionships()
     }
 })
@@ -385,7 +395,7 @@ const rules = computed(() => {
         } else {
             return {
                 formContact: {
-                    title: {
+                    contact_job_title_uuid: {
                         required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
                     },
                     firstname: {
@@ -406,7 +416,7 @@ const rules = computed(() => {
         } else {
             return {
                 formContact: {
-                    title: {
+                    contact_job_title_uuid: {
                         required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
                     },
                     firstname: {
@@ -477,6 +487,7 @@ async function fetchAllRetionships() {
                 })
             )
             state.options.relationships = options
+            state.formContact.relationship = props.selectedContact?.relationship?.uuid ?? ''
         }
     } catch (error: any) {
         state.error = error
@@ -498,6 +509,31 @@ function submitForm() {
         }
         emit('submitForm', state.formContact)
     }
+}
+
+async function fetchAllContactJobTitles() {
+    state.error = {}
+    state.isPageLoading = true
+    try {
+        const params = {}
+        const response = await contactJobTitlesService.getAllContactJobTitles(params)
+        if (response?.data) {
+            let options: any = []
+            response.data.forEach(
+                (item: any) => options.push({
+                    value: item?.uuid,
+                    label: language.locale.value === 'en' ? item?.en_title : item?.dk_title,
+                    system_name: item?.system_name,
+                })
+            )
+            state.options.contactJobTitles = options
+            state.formContact.title = state.options.contactJobTitles.find((contactJobTitle: any) => contactJobTitle.value === props.selectedContact?.contact_job_title?.uuid)?.system_name
+            fetchAllRetionships()
+        }
+    } catch (error: any) {
+        state.error = error
+    }
+    state.isPageLoading = false
 }
 
 async function fetchNotificationTypes() {
