@@ -1,6 +1,6 @@
 <template>
     <LoadingSpinner :isActive="state.isPageLoading">
-        <div class="block md:hidden" v-if="state.departments?.data?.length > 0">
+        <div class="block xl:hidden" v-if="state.departments?.data?.length > 0">
             <select class="w-24 sm:w-fit focus:outline-none" @change="selectDepartment" id="selectDepartment">
                 <option v-for="(department, index) in state.departments?.data" :key="index" :value="department.name"
                     :selected="department?.name === departmentStore.getSelectedDepartmentName">
@@ -8,7 +8,7 @@
                 </option>
             </select>
         </div>
-        <div class="hidden md:block" v-if="state.departments?.data?.length > 0">
+        <div class="hidden xl:block" v-if="state.departments?.data?.length > 0">
             <Menu as="div" class="relative inline-block text-left w-34">
                 <div>
                     <MenuButton

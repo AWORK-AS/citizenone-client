@@ -238,14 +238,16 @@
                 <div class="flex flex-1 gap-x-4 self-stretch lg:gap-x-6">
                     <div
                         class="flex-1 flex flex-col justify-center gap-x-2 md:flex-row md:items-center md:justify-start">
-                        <div>
-                            <ModulesUserCompanySelection />
+                        <div class="flex flex-col justify-center gap-x-2 xl:flex-row xl:items-center xl:justify-start">
+                            <div>
+                                <ModulesUserCompanySelection />
+                            </div>
+                            <div>
+                                <ModulesUserDepartmentSelection />
+                            </div>
                         </div>
                         <div>
-                            <ModulesUserDepartmentSelection />
-                        </div>
-                        <div>
-                            <ModulesUserNavbarAiAssistant class="hidden md:block" />
+                            <ModulesUserNavbarAiAssistant class="hidden xl:block" />
                         </div>
                         <div>
                             <ModulesUserNavbarSubscribeButton
@@ -254,11 +256,20 @@
                         </div>
                     </div>
                     <div class="flex items-center gap-x-1 lg:gap-x-3">
+                        <div class="xl:hidden">
+                            <FormButton buttonStyle="AI" buttonSize="xs" class="px-0 md:px-4"
+                                @click="userStore.getUser?.has_ai_access ? state.modal.isAIAssistantOpen = true : navigateTo('/apps')">
+                                <Icon name="ic:round-accessibility" class="h-6 w-6 md:w-5 md:h-5" aria-hidden="true" />
+                                <p class="text-sm font-semibold hidden lg:block">
+                                    {{ $t('assistants.askAI') }}
+                                </p>
+                            </FormButton>
+                        </div>
                         <button type="button"
                             class="flex items-center gap-x-1 text-sm text-primary hover:text-primary-700"
                             @click="navigateTo('/overview#news')">
                             <Icon name="ph:megaphone" class="h-6 w-6" aria-hidden="true" />
-                            <span class="text-xs font-semibold hidden md:block">
+                            <span class="text-xs font-semibold hidden lg:block">
                                 {{ $t('news.news') }}
                             </span>
                         </button>
@@ -289,7 +300,7 @@
                             class="flex items-center gap-x-1 text-sm text-primary hover:text-primary-700"
                             @click="openSupport">
                             <Icon name="material-symbols:support" class="h-6 w-6" aria-hidden="true" />
-                            <span class="text-xs font-semibold hidden md:block">
+                            <span class="text-xs font-semibold hidden lg:block">
                                 {{ $t('support.support') }}
                             </span>
                         </button>
@@ -302,7 +313,7 @@
                                 <img class="h-6 w-6 md:h-8 md:w-8 rounded-full bg-gray-50 object-cover"
                                     :src="userStore.getUser?.profile_image ? userStore.getUser?.profile_image : '/img/avatars/user.svg'"
                                     alt="User" />
-                                <span class="hidden lg:flex lg:items-center">
+                                <span class="hidden xl:flex xl:items-center">
                                     <span class="ml-4 text-sm font-semibold leading-6 text-gray-700" aria-hidden="true">
                                         {{ userStore.getUser?.firstname }} {{ userStore.getUser?.lastname }}
                                     </span>
@@ -472,6 +483,8 @@
             :isModalOpen="state.modal.isGuidedTourEndOpen" :isGuidedTour="true"
             @close="state.modal.isGuidedTourEndOpen = false" @back="handleBackGuidedTour"
             @next="handleNextGuidedTour" />
+        <ModulesUserAssistantModalAssistant :isModalOpen="state.modal.isAIAssistantOpen"
+            @close="state.modal.isAIAssistantOpen = false" />
     </LoadingSpinner>
 </template>
 
@@ -516,6 +529,7 @@ const state = reactive({
     isSidebarLoading: true,
     modal: {
         is2faRequiredOpen: false,
+        isAIAssistantOpen: false,
         isCheckinReminderOpen: false,
         isGuidedTourCalendarOpen: false,
         isGuidedTourCitizensOverviewOpen: false,
