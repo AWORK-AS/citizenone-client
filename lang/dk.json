@@ -2522,6 +2522,7 @@
             "departments": "Afdelinger",
             "description": "Beskrivelse",
             "doNotCountSickLeaveAsWorkingHours": "Tæl ikke sygefravær som arbejdstimer",
+            "DoNotCountWeekends": "Tæl ikke weekender med",
             "forSleepingNightShift": "For sovende nattevagt",
             "inMeeting": "I møde",
             "note": "Bemærkning",

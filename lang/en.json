@@ -2522,6 +2522,7 @@
             "departments": "Departments",
             "description": "Description",
             "doNotCountSickLeaveAsWorkingHours": "Do not count sick leave as working hours",
+            "DoNotCountWeekends": "Do not count weekends",
             "forSleepingNightShift": "For sleeping night shift",
             "inMeeting": "In Meeting",
             "note": "Note",
