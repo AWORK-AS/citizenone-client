@@ -2400,10 +2400,15 @@
             "draft": "Draft",
             "publish": "Publish",
             "selectDepartment": {
-                "message": "Before you can view or edit draft shift plans, please select where you want to plan shifts.",
+                "title": "Confirm Working Context",
+                "message": {
+                    "message1": "You are about to edit duty schedule drafts for",
+                    "message2": "All changes will apply to this department.",
+                    "message3": "Please confirm to continue, or change the department if this is not correct."
+                },
                 "form": {
                     "department": "Department",
-                    "proceed": "Proceed"
+                    "confirm": "Confirm"
                 }
             }
         },

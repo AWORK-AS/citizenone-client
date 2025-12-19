@@ -1,15 +1,15 @@
 <template>
     <form @submit.prevent="selectDepartment" id="formDutySchedule">
         <div class="space-y-3">
-                <Alert type="danger" :text="props?.error?.message" v-if="props.error?.message && props.error.message.length > 0" />
-                
-                <div class="space-y-1">
-                    <FormLabel for="department_uuid" :label="$t('dutySchedules.draft.selectDepartment.form.department')" />
-                    <FormSelect id="department_uuid" name="department_uuid" :placeholder="$t('dutySchedules.draft.selectDepartment.form.department')" :options="state.options.departments"
-                        v-model="state.formDepartment.department_uuid" />
-                    <FormError :error="v$?.formDepartment?.department_uuid?.$errors[0]?.$message.toString()" />
-                    <FormError :error="props?.error?.errors?.department_uuid?.[0]" />
-                </div>
+            <Alert type="danger" :text="props?.error?.message" v-if="props.error?.message && props.error.message.length > 0" />
+            
+            <div class="space-y-1">
+                <FormLabel for="department_uuid" :label="$t('dutySchedules.draft.selectDepartment.form.department')" />
+                <FormSelect id="department_uuid" name="department_uuid" :placeholder="$t('dutySchedules.draft.selectDepartment.form.department')" :options="state.options.departments"
+                    v-model="state.formDepartment.department_uuid" />
+                <FormError :error="v$?.formDepartment?.department_uuid?.$errors[0]?.$message.toString()" />
+                <FormError :error="props?.error?.errors?.department_uuid?.[0]" />
+            </div>
         </div>
 
         <div class="mt-6">
@@ -18,7 +18,7 @@
                     {{ $t('cancel') }}
                 </FormButton>
                 <FormButton type="submit" buttonStyle="primary" class="rounded-md w-full">
-                    {{ $t('dutySchedules.draft.selectDepartment.form.proceed') }}
+                    {{ $t('dutySchedules.draft.selectDepartment.form.confirm') }}
                 </FormButton>
             </div>
         </div>

@@ -2400,10 +2400,15 @@
             "draft": "Kladde",
             "publish": "Offentliggør",
             "selectDepartment": {
-                "message": "Før du kan se eller redigere udkast til vagtplaner, skal du vælge, hvor du vil planlægge vagter.",
+                "title": "Bekræft Arbejdskontekst",
+                "message": {
+                    "message1": "Du er ved at redigere vagtplansudkast for",
+                    "message2": "Alle ændringer vil gælde for denne afdeling.",
+                    "message3": "Bekræft venligst for at fortsætte, eller skift afdeling hvis dette ikke er korrekt."
+                },
                 "form": {
                     "department": "Afdeling",
-                    "proceed": "Fortsæt"
+                    "confirm": "Bekræft"
                 }
             }
         },

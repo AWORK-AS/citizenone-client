@@ -95,7 +95,7 @@ onMounted(() => {
     state.hasContext = false
 })
 
-function selectDepartment(departmentUuid: string) {
+function selectDepartment() {
     state.hasContext = true
     state.modal.isSelectDepartmentModalOpen = false
 }
