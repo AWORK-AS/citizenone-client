@@ -4805,6 +4805,7 @@
                 "allowSubGoals": "Tillad medarbejdere at oprette delmål",
                 "city": "By",
                 "citizensDisplay": "Borgerens visning",
+                "chooseNotificationDepartments": "Vælg hvilke afdelinger du vil modtage notifikationer fra",
                 "companyName": "Firmanavn",
                 "cvr": "CVR",
                 "enableEmailNotifications": "Aktivér e-mail-notifikationer",

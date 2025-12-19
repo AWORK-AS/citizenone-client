@@ -4805,6 +4805,7 @@
                 "allowSubGoals": "Allow employees to create subgoals",
                 "city": "City",
                 "citizensDisplay": "Citizen's display",
+                "chooseNotificationDepartments": "Choose which departments you want notifications from",
                 "companyName": "Company name",
                 "cvr": "CVR",
                 "enableEmailNotifications": "Enable email notifications",
