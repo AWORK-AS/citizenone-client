@@ -37,6 +37,8 @@
                 </Breadcrumb>
             </template>
 
+            <template #header>{{ customPagesStore.getCustomPagesName?.dutySchedules }} {{ $t('dutySchedules.draft.draft').toLowerCase() }} - {{ departmentStore.getSelectedDepartmentName }}</template>
+
             <template #guided-tour>
                 <div class="flex flex-wrap items-center gap-3">
                     <button @click="state.modal.isShowAllShiftTypes = !state.modal.isShowAllShiftTypes"
@@ -54,12 +56,12 @@
                 </div>
             </template>
 
-            <NuxtLink class="-mt-4 flex items-center gap-x-2 mb-3 max-w-fit hover:cursor-pointer" to="/schedules">
-                <Icon name="ph:arrow-left" size="20" class="text-black" />
-                <span>{{ $t('back') }}</span>
-            </NuxtLink>
-
             <div class="space-y-5">
+                <NuxtLink class="flex items-center gap-x-2 mb-3 max-w-fit hover:cursor-pointer" to="/schedules">
+                    <Icon name="ph:arrow-left" size="20" class="text-black" />
+                    <span>{{ $t('back') }}</span>
+                </NuxtLink>
+
                 <ModulesUserDutyScheduleDraftWeekView v-if="state.calendarView === 'week' && state.hasContext" />
             </div>
 
@@ -78,8 +80,10 @@
 <script setup lang="ts">
 const runtimeConfig = useRuntimeConfig()
 import { useCustomPagesStore } from '@/store/custom-pages'
+import { useDepartmentStore } from '@/store/department'
 
 const customPagesStore = useCustomPagesStore() as any
+const departmentStore = useDepartmentStore() as any
 
 const state = reactive({
     calendarView: 'week',

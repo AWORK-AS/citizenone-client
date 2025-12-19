@@ -46,9 +46,13 @@
             </Breadcrumb>
         </template>
 
-        <template #header>{{ $t('dutySchedules.draftTemplates.draftTemplates') }}</template>
+        <template #header>{{ $t('dutySchedules.draftTemplates.draftTemplates') }} - {{ departmentStore.getSelectedDepartmentName }}</template>
 
         <div>
+            <NuxtLink class="flex items-center gap-x-2 mb-3 max-w-fit hover:cursor-pointer" to="/schedules">
+                <Icon name="ph:arrow-left" size="20" class="text-black" />
+                <span>{{ $t('back') }}</span>
+            </NuxtLink>
             <div class="flex-none lg:flex justify-between items-center space-y-3 mb-5">
                 <div class="flex items-center gap-x-1">
                     <span>{{ $t('entriesPerPage') }}:</span>
@@ -170,10 +174,12 @@ import { useDraftTemplateStore } from '@/store/draft-template';
 import { useI18n } from "vue-i18n"
 import { useAlert } from '@/composables/alert'
 import type { Error } from '@/types'
+import { useDepartmentStore } from '@/store/department';
 
 const runtimeConfig = useRuntimeConfig();
 const customPagesStore = useCustomPagesStore() as any;
 const draftTemplateStore = useDraftTemplateStore();
+const departmentStore = useDepartmentStore() as any;
 const { t } = useI18n()
 const { successAlert } = useAlert()
 
@@ -212,6 +218,7 @@ async function fetchDraftTemplates() {
             page_number: draftTemplateStore.getCurrentPageNumber,
             sort_field: draftTemplateStore.getSortData.sortField,
             sort_order: draftTemplateStore.getSortData.sortOrder,
+            department: departmentStore.getSelectedDepartmentName,
             ...state.dataFilter
         }
         const response = await draftTemplateService.getDraftTemplates(params)
