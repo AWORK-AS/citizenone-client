@@ -49,7 +49,7 @@
         <template #header>{{ $t('dutySchedules.draftTemplates.draftTemplates') }} - {{ departmentStore.getSelectedDepartmentName }}</template>
 
         <div>
-            <NuxtLink class="flex items-center gap-x-2 mb-3 max-w-fit hover:cursor-pointer" to="/schedules">
+            <NuxtLink class="flex items-center gap-x-2 mb-3 max-w-fit hover:cursor-pointer" to="/schedules/draft">
                 <Icon name="ph:arrow-left" size="20" class="text-black" />
                 <span>{{ $t('back') }}</span>
             </NuxtLink>
