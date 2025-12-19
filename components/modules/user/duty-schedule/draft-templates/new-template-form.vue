@@ -120,6 +120,12 @@ onMounted(() => {
     }
 })
 
+watch(() => state.formTemplate.department_uuid, (uuids: any) => {
+    if (uuids.includes('all-departments') && uuids.length > 1) {
+        state.formTemplate.department_uuid = ['all-departments']
+    }
+})
+
 const rules = computed(() => {
     if (state.formTemplate.recurring.is_recurring) {
         return {
@@ -180,10 +186,12 @@ async function fetchAllDepartments() {
                 })
             )
             state.options.departments = options
-            // state.formTemplate.departments = []
-            // if (!['All departments', 'Alle afdelinger'].includes(departmentStore.getSelectedDepartmentName)) {
-            //     state.formTemplate.departments = [departmentStore.getSelectedDepartment?.uuid]
-            // }
+            if (props.formType === 'create') {
+                state.formTemplate.department_uuid = []
+                if (!['All departments', 'Alle afdelinger'].includes(departmentStore.getSelectedDepartmentName)) {
+                    state.formTemplate.department_uuid = [departmentStore.getSelectedDepartment?.uuid]
+                }
+            }
         }
     } catch (error: any) {
         state.error = error
