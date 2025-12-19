@@ -11,6 +11,21 @@
                 </div>
 
                 <div class="space-y-1">
+                    <FormLabel for="department_uuid" :label="$t('dutySchedules.draft.selectDepartment.form.department')" />
+                    <FormSelectMultiple id="department_uuid" name="department_uuid" :placeholder="$t('dutySchedules.draft.selectDepartment.form.department')" :options="state.options.departments"
+                        v-model="state.formTemplate.department_uuid" />
+                    <FormError :error="v$?.formTemplate?.department_uuid?.$errors[0]?.$message.toString()" />
+                    <FormError :error="props?.error?.errors?.department_uuid?.[0]" />
+                </div>
+
+                <div class="space-y-1">
+                    <div class="w-fit flex items-center cursor-pointer" @click="state.formTemplate.is_admin_only = !state.formTemplate.is_admin_only">
+                        <FormCheckbox :value="state.formTemplate.is_admin_only" />
+                        {{ $t('dutySchedules.draftTemplates.form.adminsOnly') }}
+                    </div>
+                </div>
+
+                <div class="space-y-1">
                     <div class="w-fit flex items-center cursor-pointer" @click="state.formTemplate.recurring.is_recurring = !state.formTemplate.recurring.is_recurring">
                         <FormCheckbox :value="state.formTemplate.recurring.is_recurring" />
                         {{ $t('dutySchedules.draftTemplates.form.isRecurring') }}
@@ -47,6 +62,9 @@ import { useVuelidate } from "@vuelidate/core"
 import { required, helpers } from '@vuelidate/validators'
 import { useI18n } from "vue-i18n"
 import type { Error } from '@/types'
+import { useDepartmentStore } from '@/store/department'
+import { useUserStore } from '@/store/user'
+import { departmentService } from '@/components/api/user/DepartmentService'
 
 const props = defineProps({
     error: {
@@ -62,8 +80,10 @@ const props = defineProps({
         required: true,
     },
 })
-const emit = defineEmits(['closeModal', 'submitForm'])
+const emit = defineEmits(['closeModal', 'submitForm', 'isLoading'])
 const { t } = useI18n()
+const departmentStore = useDepartmentStore() as any
+const userStore = useUserStore() as any
 
 interface Option {
     value: string
@@ -75,17 +95,26 @@ const state = reactive({
     isPageLoading: false,
     formTemplate: {
         name: '',
+        is_admin_only: false,
+        department_uuid: [] as Array<any>,
         recurring: {
             is_recurring: false,
             week_rotations: '',
+            
         },
-    },    
+    },
+    options: {
+        departments: [] as Array<any>,
+    },
 })
 
 onMounted(() => {
-    if (props.formType === 'update') {
+    fetchAllDepartments()
 
+    if (props.formType === 'update') {
         state.formTemplate.name = props.selectedDraftTemplate.name
+        state.formTemplate.department_uuid = [...props.selectedDraftTemplate.department_uuid]
+        state.formTemplate.is_admin_only = props.selectedDraftTemplate.is_admin_only
         state.formTemplate.recurring.is_recurring = props.selectedDraftTemplate.recurring.is_recurring
         state.formTemplate.recurring.week_rotations = props.selectedDraftTemplate.recurring.week_rotations
     }
@@ -124,7 +153,6 @@ function submitForm() {
     v$.value.$validate()
     console.log(v$.value.$error)
     if (!v$.value.$error) {
-        console.log(state.formTemplate)
         emit('submitForm', state.formTemplate)
     }
 }
@@ -133,6 +161,34 @@ function validateWeekRotationQuantity(event: Event) {
     const input = event.target as HTMLInputElement
     input.value = input.value.replace(/[^0-9]/g, '').slice(0, 10)
     state.formTemplate.recurring.week_rotations = input.value
+}
+
+async function fetchAllDepartments() {
+    state.error = {}
+    emit('isLoading', true)
+    try {
+        const params = {
+            employee_uuid: userStore.getUser?.uuid
+        }
+        const response = await departmentService.getAllDepartments(params)
+        if (response) {
+            let options: any = []
+            response.data.forEach(
+                (item: any) => options.push({
+                    value: item.uuid,
+                    label: item.name,
+                })
+            )
+            state.options.departments = options
+            // state.formTemplate.departments = []
+            // if (!['All departments', 'Alle afdelinger'].includes(departmentStore.getSelectedDepartmentName)) {
+            //     state.formTemplate.departments = [departmentStore.getSelectedDepartment?.uuid]
+            // }
+        }
+    } catch (error: any) {
+        state.error = error
+    }
+    emit('isLoading', false)
 }
 </script>
 

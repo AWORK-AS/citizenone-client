@@ -47,6 +47,8 @@ const state = reactive({
         id: '',
         uuid: '',
         name: '',
+        department_uuid: [] as Array<any>,
+        is_admin_only: false,
         recurring: {
             is_recurring: false,
             week_rotations: '',
@@ -66,6 +68,22 @@ watch(() => props.isModalOpen, (isModalOpen: boolean) => {
     if (isModalOpen) {
         fetchDraftTemplate()
         state.draftTemplateData = {}
+    }
+})
+
+watch(() => props.selectedDraftTemplate, (selectedDraftTemplate: any) => {
+    if (selectedDraftTemplate && props.isModalOpen) {
+        state.formTemplate = {
+            id: selectedDraftTemplate.id,
+            uuid: selectedDraftTemplate.uuid,
+            name: selectedDraftTemplate.name,
+            department_uuid: [...props.selectedDraftTemplate.departments.map((dept: any) => dept.uuid)],
+            is_admin_only: selectedDraftTemplate.is_admin_only,
+            recurring: {
+                is_recurring: selectedDraftTemplate.is_recurring,
+                week_rotations: selectedDraftTemplate.week_rotations,
+            },
+        }
     }
 })
 
@@ -98,6 +116,8 @@ async function saveTemplate(draftTemplateDetails: any) {
         const draftTemplateUuid = props.selectedDraftTemplate?.uuid
         const params = {
             name: draftTemplateDetails.name,
+            department_uuid: draftTemplateDetails.department_uuid,
+            is_admin_only: draftTemplateDetails.is_admin_only,
             is_recurring: draftTemplateDetails.recurring.is_recurring,
             week_rotations: draftTemplateDetails.recurring.week_rotations,
         } as any

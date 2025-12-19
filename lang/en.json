@@ -2457,7 +2457,8 @@
                 "applyTemplate": "Apply template",
                 "weekNumber": "Week number",
                 "year": "Year",
-                "week": "Week"
+                "week": "Week",
+                "adminsOnly": "Administrators only"
             }
         },
         "dutySchedules": "Duty schedules",

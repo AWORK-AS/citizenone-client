@@ -2457,7 +2457,8 @@
                 "applyTemplate": "Anvend skabelon",
                 "weekNumber": "Ugenummer",
                 "year": "År",
-                "week": "Uge"
+                "week": "Uge",
+                "adminsOnly": "Kun administratorer"
             }
         },
         "dutySchedules": "Vagtplaner",
