@@ -73,7 +73,8 @@ async function saveTemplate(draftTemplateDetails: any) {
             name: draftTemplateDetails.name,
             is_admin_only: draftTemplateDetails.is_admin_only,
             department_uuid: draftTemplateDetails.department_uuid,
-            recurring: draftTemplateDetails.recurring,
+            is_recurring: draftTemplateDetails.recurring.is_recurring,
+            week_rotations: draftTemplateDetails.recurring.week_rotations,
         } as any
 
         const response = await draftTemplateService.saveDraftTemplate(params)
