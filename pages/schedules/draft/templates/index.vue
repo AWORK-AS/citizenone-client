@@ -225,13 +225,17 @@ watch(() => departmentStore.getSelectedDepartmentName, () => {
 async function fetchDraftTemplates() {
     state.error = {}
     state.isTableLoading = true
+    let selectedDepartment = departmentStore.getSelectedDepartmentName
+    if (selectedDepartment === 'All departments' || selectedDepartment === 'Alle afdelinger') {
+        selectedDepartment = 'all-departments'
+    }
     try {
         const params = {
             page_length: draftTemplateStore.getCurrentPageLength,
             page_number: draftTemplateStore.getCurrentPageNumber,
             sort_field: draftTemplateStore.getSortData.sortField,
             sort_order: draftTemplateStore.getSortData.sortOrder,
-            department: departmentStore.getSelectedDepartmentName,
+            department: selectedDepartment,
             ...state.dataFilter
         }
         const response = await draftTemplateService.getDraftTemplates(params)
