@@ -6,16 +6,16 @@
             <div class="grid grid-cols-1 gap-y-3">
                 <div class="space-y-1">
                     <FormLabel for="week_number" :label="$t('dutySchedules.draftTemplates.form.weekNumber')" />
-                    <FormSelectMultiple id="week_number" :options="weeks" v-model="state.formTemplate.week_number" />
-                    <FormError :error="v$?.formTemplate?. week_number?.$errors[0]?.$message.toString()" />
-                    <FormError :error="props?.error?.errors?. week_number?.[0]" />
+                    <FormSelectMultiple id="week_number" :options="weeks" v-model="state.formTemplate.weeks" />
+                    <FormError :error="v$?.formTemplate?. weeks?.$errors[0]?.$message.toString()" />
+                    <FormError :error="props?.error?.errors?. weeks?.[0]" />
                 </div>
 
                 <div class="space-y-1">
                     <FormLabel for="year" :label="$t('dutySchedules.draftTemplates.form.year')" />
-                    <FormSelectMultiple id="year" :options="years" v-model="state.formTemplate.year" />
-                    <FormError :error="v$?.formTemplate?.year?.$errors[0]?.$message.toString()" />
-                    <FormError :error="props?. error?.errors?.year?.[0]" />
+                    <FormSelectMultiple id="year" :options="years" v-model="state.formTemplate.years" />
+                    <FormError :error="v$?.formTemplate?. years?.$errors[0]?.$message.toString()" />
+                    <FormError :error="props?. error?.errors?.years?.[0]" />
                 </div>
 
             </div>
@@ -77,18 +77,18 @@ const state = reactive({
     error: {} as Error,
     isPageLoading: false,
     formTemplate: {
-        week_number: [] as string[],
-        year: [] as string[],
+        weeks: [] as string[],
+        years: [] as string[],
     },    
 })
 
 const rules = computed(() => {
     return {
         formTemplate:  {
-            week_number: {
+            weeks: {
                 required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
             },
-            year: {
+            years: {
                 required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
             },
         },

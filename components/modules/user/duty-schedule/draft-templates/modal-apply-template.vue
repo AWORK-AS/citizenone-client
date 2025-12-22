@@ -67,8 +67,8 @@ async function applyTemplate(applyDetails: any) {
 
     try {
         const params = {
-           week_number: applyDetails.week_number,
-           year: applyDetails.year,
+           weeks: applyDetails.weeks,
+           years: applyDetails.years,
         } as any
 
         const response = await draftTemplateService.applyDraftTemplate(props.selectedDraftTemplate.uuid, params)
