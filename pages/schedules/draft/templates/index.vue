@@ -209,6 +209,10 @@ onMounted(() => {
     fetchDraftTemplates()
 })
 
+watch(() => departmentStore.getSelectedDepartmentName, () => {
+    fetchDraftTemplates()
+})
+
 async function fetchDraftTemplates() {
     state.error = {}
     state.isTableLoading = true
