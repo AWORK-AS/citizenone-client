@@ -62,7 +62,6 @@ function refreshDraftTemplates() {
 }
 
 async function applyTemplate(applyDetails: any) {
-    console.log('applyDetails', applyDetails)
     state.error = {}
     state.isPageLoading = true
 
@@ -80,6 +79,8 @@ async function applyTemplate(applyDetails: any) {
         }
     } catch (error: any) {
         state.error = error
+    } finally {
+        state.isPageLoading = false
     }
 }
 </script>
