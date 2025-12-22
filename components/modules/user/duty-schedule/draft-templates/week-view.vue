@@ -685,7 +685,7 @@ watch(() => state.selectedDate, (newSelectedDate: any) => {
 
 onMounted(() => {
     fetchDraftDutySchedule()
-    window.addEventListener('keydown', handleKeyDown)
+    window.addEventListener('scroll', handleScroll)
 })
 
 onBeforeUnmount(() => {
@@ -1322,10 +1322,6 @@ async function updateDutySchedule(scheduleUuid: any, params: object, employeeInd
         fetchDraftDutySchedule()
     }
 }
-
-onMounted(() => {
-    window.addEventListener('scroll', handleScroll)
-})
 
 onBeforeUnmount(() => {
     window.removeEventListener('scroll', handleScroll)
