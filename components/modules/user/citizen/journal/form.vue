@@ -66,7 +66,8 @@
             <div v-if="props.formType === 'create'">
                 <div class="w-fit flex items-center cursor-pointer"
                     @click="state.formJournal.copy_journal_note_to_plan_or_goal_or_subgoal = !state.formJournal.copy_journal_note_to_plan_or_goal_or_subgoal">
-                    <FormCheckbox :value="state.formJournal.copy_journal_note_to_plan_or_goal_or_subgoal" />
+                    <FormCheckbox id="copy_journal_note_to_plan_or_goal_or_subgoal"
+                        :value="state.formJournal.copy_journal_note_to_plan_or_goal_or_subgoal" />
                     {{ $t('citizens.citizenJournals.form.copyJournalNoteToPlanOrGoalOrSubgoal') }}
                 </div>
             </div>
@@ -253,7 +254,8 @@
                 <div class="w-fit flex items-center cursor-pointer"
                     @click="state.formJournal.copy_risk_assessment_to_plan_or_goal_or_subgoal = !state.formJournal.copy_risk_assessment_to_plan_or_goal_or_subgoal"
                     v-if="props.formType === 'create' && state.formJournal.assessment !== null">
-                    <FormCheckbox :value="state.formJournal.copy_risk_assessment_to_plan_or_goal_or_subgoal" />
+                    <FormCheckbox id="copy_risk_assessment_to_plan_or_goal_or_subgoal"
+                        :value="state.formJournal.copy_risk_assessment_to_plan_or_goal_or_subgoal" />
                     {{ $t('citizens.citizenJournals.form.copyRiskAssessmentToPlanOrGoalOrSubgoal') }}
                 </div>
             </div>
@@ -286,7 +288,7 @@
             <div class="space-y-1">
                 <div class="w-fit flex items-center cursor-pointer"
                     @click="state.formJournal.is_draft = !state.formJournal.is_draft">
-                    <FormCheckbox :value="state.formJournal.is_draft" />
+                    <FormCheckbox id="is_draft" :value="state.formJournal.is_draft" />
                     {{ $t('citizens.citizenJournals.form.draft') }}
                 </div>
             </div>
@@ -294,7 +296,7 @@
                 <div class="space-y-1">
                     <div class="w-fit flex items-center cursor-pointer"
                         @click="state.formJournal.is_for_teeth = !state.formJournal.is_for_teeth">
-                        <FormCheckbox :value="state.formJournal.is_for_teeth" />
+                        <FormCheckbox id="is_for_teeth" :value="state.formJournal.is_for_teeth" />
                         {{ $t('citizens.citizenJournals.form.forTeeth') }}
                     </div>
                 </div>
@@ -376,7 +378,8 @@ const citizenUuid = router?.currentRoute?.value?.params?.uuid
 const contentFileInput = ref(null) as any
 const riskAssessmentFileInput = ref(null) as any
 let autoSaveInterval = null as any
-let firstLoad = true
+let isInitialized = true
+let suppressChangeTracking = true
 
 const editor = ref(ClassicEditor)
 const editorContentConfig = ref({
@@ -476,45 +479,66 @@ const state = reactive({
 })
 
 onMounted(() => {
+    suppressChangeTracking = true
+
     fetchAllPlans()
     fetchAllGoalsForJournalNote()
     fetchAllGoalsForRiskAssessment()
     fetchAllJournalNoteTags()
     fetchAllJournalTitles()
     fetchAllTeeth()
-    state.formJournal = {
-        id: props.selectedJournal.id,
-        uuid: props.selectedJournal.uuid,
-        content: props.selectedJournal.content ?? '',
-        journal_note_tags: [],
-        date: props.selectedJournal.date,
-        copy_journal_note_to_plan_or_goal_or_subgoal: props.selectedJournal.copy_journal_note_to_plan_or_goal_or_subgoal,
-        journal_note_plan: '',
-        journal_note_goal: '',
-        journal_note_subgoal: '',
-        copy_risk_assessment_to_plan_or_goal_or_subgoal: props.selectedJournal.copy_risk_assessment_to_plan_or_goal_or_subgoal,
-        risk_assessment_plan: '',
-        risk_assessment_goal: '',
-        risk_assessment_subgoal: '',
-        title: props.selectedJournal.title,
-        is_draft: props.selectedJournal.is_draft,
-        assessment: props.selectedJournal.assessment,
-        note: props.selectedJournal.note === null ? '' : props.selectedJournal.note,
-        risk_assessment_tags: [],
-        score: props.selectedJournal.score,
-        is_for_teeth: props.selectedJournal.teeth ? true : false,
-        teeth: [],
-    }
-    props.selectedJournal.journal_tags?.forEach((journalTag: any) => {
-        state.formJournal.journal_note_tags.push(journalTag?.uuid)
-    })
-    props.selectedJournal.risk_tags?.forEach((riskAssessmentTag: any) => {
-        state.formJournal.risk_assessment_tags.push(riskAssessmentTag?.uuid)
-    })
-    props.selectedJournal.teeth?.forEach((tooth: any) => {
-        state.formJournal.teeth.push(tooth?.uuid)
+    // setFormJournalFromSelected(props.selectedJournal)
+    // state.formJournal = {
+    //     id: props.selectedJournal.id,
+    //     uuid: props.selectedJournal.uuid,
+    //     content: props.selectedJournal.content ?? '',
+    //     journal_note_tags: [],
+    //     date: props.selectedJournal.date,
+    //     copy_journal_note_to_plan_or_goal_or_subgoal: props.selectedJournal.copy_journal_note_to_plan_or_goal_or_subgoal,
+    //     journal_note_plan: '',
+    //     journal_note_goal: '',
+    //     journal_note_subgoal: '',
+    //     copy_risk_assessment_to_plan_or_goal_or_subgoal: props.selectedJournal.copy_risk_assessment_to_plan_or_goal_or_subgoal,
+    //     risk_assessment_plan: '',
+    //     risk_assessment_goal: '',
+    //     risk_assessment_subgoal: '',
+    //     title: props.selectedJournal.title,
+    //     is_draft: props.selectedJournal.is_draft,
+    //     assessment: props.selectedJournal.assessment,
+    //     note: props.selectedJournal.note === null ? '' : props.selectedJournal.note,
+    //     risk_assessment_tags: [],
+    //     score: props.selectedJournal.score,
+    //     is_for_teeth: props.selectedJournal.teeth ? true : false,
+    //     teeth: [],
+    // }
+    // props.selectedJournal.journal_tags?.forEach((journalTag: any) => {
+    //     state.formJournal.journal_note_tags.push(journalTag?.uuid)
+    // })
+    // props.selectedJournal.risk_tags?.forEach((riskAssessmentTag: any) => {
+    //     state.formJournal.risk_assessment_tags.push(riskAssessmentTag?.uuid)
+    // })
+    // props.selectedJournal.teeth?.forEach((tooth: any) => {
+    //     state.formJournal.teeth.push(tooth?.uuid)
+    // })
+
+    runSilently(() => {
+        setFormJournalFromSelected(props.selectedJournal)
+        state.hasChanges = false
+        state.isAutoSaving = false
     })
 })
+
+function runSilently(fn: () => void) {
+    suppressChangeTracking = true
+    try {
+        fn()
+    } finally {
+        // release on next tick so all nested reactive updates settle
+        nextTick(() => {
+            suppressChangeTracking = false
+        })
+    }
+}
 
 watch(() => language.locale.value, (newValue: any) => {
     if (newValue != null) {
@@ -524,54 +548,37 @@ watch(() => language.locale.value, (newValue: any) => {
 
 watch(() => props.selectedJournal, (newValue: any) => {
     if (newValue != null) {
-        state.formJournal = {
-            id: newValue.id,
-            uuid: newValue.uuid,
-            content: newValue.content ?? '',
-            journal_note_tags: [],
-            date: newValue.date,
-            copy_journal_note_to_plan_or_goal_or_subgoal: newValue.copy_journal_note_to_plan_or_goal_or_subgoal,
-            journal_note_plan: '',
-            journal_note_goal: '',
-            journal_note_subgoal: '',
-            copy_risk_assessment_to_plan_or_goal_or_subgoal: newValue.copy_risk_assessment_to_plan_or_goal_or_subgoal,
-            risk_assessment_plan: '',
-            risk_assessment_goal: '',
-            risk_assessment_subgoal: '',
-            title: newValue.title,
-            is_draft: newValue.is_draft,
-            assessment: newValue.assessment,
-            note: newValue.note === null ? '' : newValue.note,
-            risk_assessment_tags: [],
-            score: newValue.score,
-            is_for_teeth: newValue.is_for_teeth,
-            teeth: [],
-        }
-        newValue.journal_tags?.forEach((journalTag: any) => {
-            state.formJournal.journal_note_tags.push(journalTag?.uuid)
-        })
-        newValue.risk_tags?.forEach((riskAssessmentTag: any) => {
-            state.formJournal.risk_assessment_tags.push(riskAssessmentTag?.uuid)
-        })
-        newValue.teeth?.forEach((tooth: any) => {
-            state.formJournal.teeth.push(tooth?.uuid)
+        if (!newValue) return
+        // switching journals is also programmatic; do it silently
+        runSilently(() => {
+            setFormJournalFromSelected(newValue)
+            state.hasChanges = false
+            state.isAutoSaving = false
         })
     }
 })
 
 watch(() => state.formJournal, () => {
-    if (props.formType === 'update' && !firstLoad) {
+    if (!isInitialized) return
+
+    // Guard 2: ignore programmatic + initial editor sync changes
+    if (suppressChangeTracking) return
+
+    // Only mark changes for update form
+    if (props.formType === 'update') {
         state.hasChanges = true
         state.isAutoSaving = true
-    }
-    if (firstLoad) {
-        firstLoad = !firstLoad
     }
 }, { deep: true })
 
 watch(() => state.hasChanges, (hasChanges) => {
-    if (hasChanges && !firstLoad && props.formType === 'update') {
+    if (!isInitialized) return
+    if (suppressChangeTracking) return
+
+    if (hasChanges && props.formType === 'update') {
         state.isAutoSaving = true
+        clearInterval(autoSaveInterval)
+
         autoSaveInterval = setInterval(() => {
             submitForm()
         }, 3000)
@@ -580,6 +587,41 @@ watch(() => state.hasChanges, (hasChanges) => {
         state.isAutoSaving = false
     }
 }, { immediate: true })
+
+function setFormJournalFromSelected(journal: any) {
+    state.formJournal = {
+        id: journal.id,
+        uuid: journal.uuid,
+        content: journal.content ?? '',
+        journal_note_tags: [],
+        date: journal.date,
+        copy_journal_note_to_plan_or_goal_or_subgoal: journal.copy_journal_note_to_plan_or_goal_or_subgoal,
+        journal_note_plan: '',
+        journal_note_goal: '',
+        journal_note_subgoal: '',
+        copy_risk_assessment_to_plan_or_goal_or_subgoal: journal.copy_risk_assessment_to_plan_or_goal_or_subgoal,
+        risk_assessment_plan: '',
+        risk_assessment_goal: '',
+        risk_assessment_subgoal: '',
+        title: journal.title,
+        is_draft: journal.is_draft,
+        assessment: journal.assessment,
+        note: journal.note === null ? '' : journal.note,
+        risk_assessment_tags: [],
+        score: journal.score,
+        is_for_teeth: journal.is_for_teeth,
+        teeth: [],
+    }
+    journal.journal_tags?.forEach((journalTag: any) => {
+        state.formJournal.journal_note_tags.push(journalTag?.uuid)
+    })
+    journal.risk_tags?.forEach((riskAssessmentTag: any) => {
+        state.formJournal.risk_assessment_tags.push(riskAssessmentTag?.uuid)
+    })
+    journal.teeth?.forEach((tooth: any) => {
+        state.formJournal.teeth.push(tooth?.uuid)
+    })
+}
 
 const rules = computed(() => {
     if (state.formJournal.copy_journal_note_to_plan_or_goal_or_subgoal) {

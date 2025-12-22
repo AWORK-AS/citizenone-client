@@ -3,7 +3,7 @@
         <FormButton buttonStyle="AI" buttonSize="xs" class="px-0 md:px-4"
             @click="userStore.getUser?.has_ai_access ? state.modal.isAIAssistantOpen = true : navigateTo('/apps')">
             <Icon name="ic:round-accessibility" class="h-8 w-8 md:w-5 md:h-5" aria-hidden="true" />
-            <p class="text-sm font-semibold hidden md:block">
+            <p class="text-sm font-semibold hidden lg:block">
                 {{ $t('assistants.askAI') }}
             </p>
         </FormButton>

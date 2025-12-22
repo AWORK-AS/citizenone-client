@@ -262,6 +262,43 @@ table td {
     background-color: #205E77;
 }
 
+/* Pagination container */
+.carousel__pagination {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+    flex-wrap: wrap;          /* ✅ allows wrapping on small screens */
+    padding: 10px 12px;
+}
+
+/* Dots */
+.carousel__pagination button,
+.carousel__pagination .dot {
+    width: 10px;
+    height: 10px;
+    border-radius: 999px;
+    opacity: 0.5;
+}
+
+/* Active dot */
+.carousel__pagination .is-active {
+    opacity: 1;
+    transform: scale(1.15);
+}
+
+/* Responsive tweaks */
+@media (max-width: 768px) {
+    .carousel__pagination { gap: 8px; }
+    .carousel__pagination button,
+    .carousel__pagination .dot { width: 8px; height: 8px; }
+}
+
+@media (max-width: 420px) {
+    .carousel__pagination { gap: 6px; }
+    .carousel__pagination button,
+    .carousel__pagination .dot { width: 6px; height: 6px; }
+}
+
 /* ----------------------------------------------------------------------------------------------------
     Animation
 ---------------------------------------------------------------------------------------------------- */
