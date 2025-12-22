@@ -2,21 +2,20 @@
     <div>
         <form @submit.prevent="submitForm()" id="formTemplate">
             <Alert type="danger" :text="props?.error?.message"
-                v-if="props.error?.message && props.error.message.length > 0" />
+                v-if="props.error?. message && props.error.message. length > 0" />
             <div class="grid grid-cols-1 gap-y-3">
                 <div class="space-y-1">
                     <FormLabel for="week_number" :label="$t('dutySchedules.draftTemplates.form.weekNumber')" />
-                    <FormSelect id="week_number" :options="options" v-model="state.formTemplate.week_number" />
-                    <FormError :error="v$?.formTemplate?.week_number?.$errors[0]?.$message.toString()" />
-                    <FormError :error="props?.error?.errors?.week_number?.[0]" />
+                    <FormSelectMultiple id="week_number" :options="weeks" v-model="state.formTemplate.week_number" />
+                    <FormError :error="v$?.formTemplate?. week_number?.$errors[0]?.$message.toString()" />
+                    <FormError :error="props?.error?.errors?. week_number?.[0]" />
                 </div>
 
                 <div class="space-y-1">
                     <FormLabel for="year" :label="$t('dutySchedules.draftTemplates.form.year')" />
-                    <FormTextField id="year" name="year" :placeholder="$t('dutySchedules.draftTemplates.form.year')"
-                        v-model="state.formTemplate.year" />
+                    <FormSelectMultiple id="year" :options="years" v-model="state.formTemplate.year" />
                     <FormError :error="v$?.formTemplate?.year?.$errors[0]?.$message.toString()" />
-                    <FormError :error="props?.error?.errors?.year?.[0]" />
+                    <FormError :error="props?. error?.errors?.year?.[0]" />
                 </div>
 
             </div>
@@ -43,10 +42,10 @@ import type { Error } from '@/types'
 
 const props = defineProps({
     error: {
-        type: Object,
+        type:  Object,
         required: false,
     },
-    formType: {
+    formType:  {
         type: String,
         required: true,
     },
@@ -63,23 +62,29 @@ interface Option {
     label: string
 }
 
-const options = Array.from({ length: 52 }, (_, i) => {
+const weeks = Array.from({ length: 52 }, (_, i) => {
     const week = String(i + 1)
     return { value: week, label: t('dutySchedules.draftTemplates.form.week') + ' ' + week }
+}) as Option[]
+
+const currentYear = new Date().getFullYear()
+const years = Array.from({ length: 20 }, (_, i) => {
+    const year = String(currentYear + i)
+    return { value: year, label:  year }
 }) as Option[]
 
 const state = reactive({
     error: {} as Error,
     isPageLoading: false,
     formTemplate: {
-        week_number: '',
-        year: '',
+        week_number: [] as string[],
+        year: [] as string[],
     },    
 })
 
 const rules = computed(() => {
     return {
-        formTemplate: {
+        formTemplate:  {
             week_number: {
                 required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
             },
