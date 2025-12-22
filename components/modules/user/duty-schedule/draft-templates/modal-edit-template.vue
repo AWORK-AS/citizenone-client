@@ -52,6 +52,7 @@ const state = reactive({
         recurring: {
             is_recurring: false,
             week_rotations: '',
+            recurring_until: ''
         },
     },
 })
@@ -82,6 +83,7 @@ watch(() => props.selectedDraftTemplate, (selectedDraftTemplate: any) => {
             recurring: {
                 is_recurring: selectedDraftTemplate.is_recurring,
                 week_rotations: selectedDraftTemplate.week_rotations,
+                recurring_until: selectedDraftTemplate.recurring_until,
             },
         }
     }
@@ -100,6 +102,7 @@ async function fetchDraftTemplate() {
             state.formTemplate.name = response.data.name
             state.formTemplate.recurring.is_recurring = response.data.is_recurring
             state.formTemplate.recurring.week_rotations = response.data.week_rotations
+            state.formTemplate.recurring.recurring_until = response.data.recurring_until
         }
     } catch (error: any) {
         state.error = error
@@ -120,6 +123,7 @@ async function saveTemplate(draftTemplateDetails: any) {
             is_admin_only: draftTemplateDetails.is_admin_only,
             is_recurring: draftTemplateDetails.recurring.is_recurring,
             week_rotations: draftTemplateDetails.recurring.week_rotations,
+            recurring_until: draftTemplateDetails.recurring.recurring_until,
         } as any
 
         const response = await draftTemplateService.updateDraftTemplate(draftTemplateUuid, params)

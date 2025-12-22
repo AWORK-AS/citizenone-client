@@ -39,6 +39,13 @@
                         <FormError :error="v$?.formTemplate?.recurring.week_rotations?.$errors[0]?.$message.toString()" />
                         <FormError :error="state?.error?.errors?.recurring_uuid?.[0]" />
                     </div>
+                    <div class="space-y-1">
+                        <FormLabel for="recurring_until" :label="$t('dutySchedules.draftTemplates.form.recurringUntil')" />
+                        <FormDateField id="recurring_until" name="recurring_until"
+                            :placeholder="`${$t('recurring.until')}`" v-model="state.formTemplate.recurring.recurring_until" />
+                        <FormError :error="v$?.formTemplate.recurring.recurring_until?.$errors[0]?.$message.toString()" />
+                        <FormError :error="state?.error?.errors?.recurring_until?.[0]" />
+                    </div>
                 </div>
 
             </div>
@@ -100,6 +107,7 @@ const state = reactive({
         recurring: {
             is_recurring: false,
             week_rotations: '',
+            recurring_until: ''
             
         },
     },
@@ -116,7 +124,8 @@ onMounted(() => {
         state.formTemplate.department_uuid = [...props.selectedDraftTemplate.department_uuid]
         state.formTemplate.is_admin_only = props.selectedDraftTemplate.is_admin_only
         state.formTemplate.recurring.is_recurring = props.selectedDraftTemplate.recurring.is_recurring
-        state.formTemplate.recurring.week_rotations = props.selectedDraftTemplate.recurring.week_rotations
+        state.formTemplate.recurring.week_rotations = props.selectedDraftTemplate.recurring.week_rotations,
+        state.formTemplate.recurring.recurring_until = props.selectedDraftTemplate.recurring.recurring_until
     }
 })
 

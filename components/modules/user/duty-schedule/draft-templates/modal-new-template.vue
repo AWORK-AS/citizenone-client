@@ -48,6 +48,7 @@ const state = reactive({
         recurring: {
             is_recurring: false,
             week_rotations: '',
+            recurring_until: ''
         },
     }
 })
@@ -75,6 +76,7 @@ async function saveTemplate(draftTemplateDetails: any) {
             department_uuid: draftTemplateDetails.department_uuid,
             is_recurring: draftTemplateDetails.recurring.is_recurring,
             week_rotations: draftTemplateDetails.recurring.week_rotations,
+            recurring_until: draftTemplateDetails.recurring.recurring_until,
         } as any
 
         const response = await draftTemplateService.saveDraftTemplate(params)
