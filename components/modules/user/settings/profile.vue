@@ -407,6 +407,7 @@ async function submitForm() {
             params.append('email_notifications_enabled', state.formProfile.email_notifications_enabled)
             params.append('shift_based_notifications_enabled', state.formProfile.shift_based_notifications_enabled)
             params.append('system_notifications_enabled', state.formProfile.system_notifications_enabled)
+            params.append('department_uuid', JSON.stringify(state.formProfile.department_uuid))
             const response = await userService.updateUser(params)
             if (response.data) {
                 userStore.setLanguage(response?.data?.language?.code)
