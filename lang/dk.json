@@ -2437,7 +2437,8 @@
                 "recurring": "Gentagende",
                 "nonRecurring": "Ikke-gentagende",
                 "repeat": "Gentag",
-                "recurringUntil": "Gentager indtil"
+                "recurringUntil": "Gentager indtil",
+                "departments": "Afdelinger"
             },
             "recurring": {
                 "everyDay": "Hver dag",

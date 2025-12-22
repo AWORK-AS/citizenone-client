@@ -99,6 +99,14 @@
                                     </span>
                                 </td>
                                 <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                                    <div class="text-xxs flex flex-wrap gap-1">
+                                        <span v-for="(department, index) in draftTemplate?.departments" :key=index
+                                            class=" px-2 py-1 text-white rounded-md" :style="{ backgroundColor: department?.color }">
+                                            {{ department?.name }}
+                                        </span>
+                                    </div>
+                                </td>
+                                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
                                     <span>
                                         {{ draftTemplate.week_rotations ? draftTemplate.week_rotations : 1 }}
                                     </span>
@@ -187,6 +195,7 @@ const state = reactive({
     columnHeaders: [
         { name: 'dutySchedules.draftTemplates.table.name', sorter: true, key: 'name' },
         { name: 'dutySchedules.draftTemplates.table.recurring', sorter: true, key: 'is_recurring' },
+        { name: 'dutySchedules.draftTemplates.table.departments', sorter: true, key: 'departments' },
         { name: 'dutySchedules.draftTemplates.table.weekRotations', sorter: false, key: 'week_rotations' },
         { name: '', sorter: false, key: 'actions' },
     ],
