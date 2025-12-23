@@ -328,6 +328,39 @@
                                                             {{ time?.yearly_hours }}
                                                         </p>
                                                     </div>
+                                                                                                        <div
+                                                        class="col-span-7 space-y-2 mt-4 border-t-0.5 border-gray-200 pt-3">
+                                                        <div :class="[
+                                                            employee?.total_norm_hours?.compensatory_hours > 0 ? 'text-green-700' : 'text-red-700',
+                                                            'flex items-center gap-1 w-fit cursor-pointer'
+                                                        ]" @click="viewCompensatoryHours(employee)">
+                                                            <Icon name="ph:clock" class="h-3 w-3" aria-hidden="true" />
+                                                            {{
+                                                                $t('dutySchedules.normHours.compensatoryHours')
+                                                            }}:
+                                                            {{
+                                                                formatNumber(language.locale.value,
+                                                                    employee?.total_norm_hours?.compensatory_hours)
+                                                                ??
+                                                                0
+                                                            }}
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-span-7 space-y-2 mt-1">
+                                                        <div :class="[
+                                                            employee?.total_norm_hours?.available_vacation_hours > 0 ? 'text-green-700' : 'text-red-700',
+                                                            'flex items-center gap-1 w-fit cursor-pointer'
+                                                        ]" @click="viewAvailableVacationHours(employee)">
+                                                            <Icon name="ph:clock" class="h-3 w-3" aria-hidden="true" />
+                                                            {{
+                                                                $t('dutySchedules.normHours.availableVacationHours')
+                                                            }}:
+                                                            {{
+                                                                formatNumber(language.locale.value,
+                                                                    employee?.total_norm_hours?.available_vacation_hours || 0)
+                                                            }}
+                                                        </div>
+                                                    </div>
                                                 </div>
                                                 <div>
                                                     <button @click="toggleExpanded(employeeIndex)"
@@ -541,6 +574,7 @@ import { draftTemplateScheduleService } from '@/components/api/user/DraftTemplat
 import { useDepartmentStore } from '@/store/department'
 import { useDraftDutyScheduleStore } from '@/store/draft-duty-schedule'
 import { useUserStore } from '@/store/user'
+import { useNumberFormatter } from '@/composables/numberFormatter'
 import { useAlert } from '@/composables/alert'
 import { useI18n } from "vue-i18n"
 import type { Error } from '@/types'
@@ -549,6 +583,7 @@ const language = useI18n()
 const userStore = useUserStore() as any
 const departmentStore = useDepartmentStore()
 const draftDutyScheduleStore = useDraftDutyScheduleStore() as any
+const { formatNumber } = useNumberFormatter()
 const currentDate = ref(moment())
 const month = computed(() => currentDate.value.format('MMMM'))
 const year = computed(() => currentDate.value.format('YYYY'))
@@ -650,7 +685,7 @@ watch(() => state.selectedDate, (newSelectedDate: any) => {
 
 onMounted(() => {
     fetchDraftDutySchedule()
-    window.addEventListener('keydown', handleKeyDown)
+    window.addEventListener('scroll', handleScroll)
 })
 
 onBeforeUnmount(() => {
@@ -937,6 +972,16 @@ function hasConflict(week: any) {
     return hasConflict
 }
 
+function viewCompensatoryHours(employee: any) {
+    state.normHours.selectedEmployeeSchedule = employee
+    state.modal.isCompensatoryHoursOpen = true
+}
+
+function viewAvailableVacationHours(employee: any) {
+    state.normHours.selectedEmployeeSchedule = employee
+    state.modal.isVacationHoursOpen = true
+}
+
 function openAddNewShiftModal(employee: any, employeeIndex: number, weekIndex: any, week: any) {
     state.modal.isAddShiftOpen = true
     state.addShift.selectedEmployeeSchedule = {
@@ -955,6 +1000,7 @@ async function saveShift(shiftDetails: any) {
         draft_template_uuid: draftTemplateUuid,
         shift_type_uuid: shiftType,
         is_sleeping_sick_leave: shiftDetails.is_sleeping_sick_leave,
+        do_not_count_weekends: shiftDetails.do_not_count_weekends,
         date_time_start: shiftDetails.date_time_start,
         date_time_end: shiftDetails.date_time_end,
         user_uuid: state.weeklySchedules?.data?.[employeeIndex].uuid,
@@ -1238,6 +1284,7 @@ function updateSelectedSchedule(shiftDetails: any) {
     const params = {
         shift_type_uuid: shiftDetails.shift_type,
         is_sleeping_sick_leave: shiftDetails.is_sleeping_sick_leave,
+        do_not_count_weekends: shiftDetails.do_not_count_weekends,
         date_time_start: shiftDetails?.date_time_start,
         date_time_end: shiftDetails?.date_time_end,
         is_apply_to_all: shiftDetails?.recurring?.is_apply_to_all,
@@ -1277,10 +1324,6 @@ async function updateDutySchedule(scheduleUuid: any, params: object, employeeInd
         fetchDraftDutySchedule()
     }
 }
-
-onMounted(() => {
-    window.addEventListener('scroll', handleScroll)
-})
 
 onBeforeUnmount(() => {
     window.removeEventListener('scroll', handleScroll)

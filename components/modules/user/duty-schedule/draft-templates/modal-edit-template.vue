@@ -47,9 +47,12 @@ const state = reactive({
         id: '',
         uuid: '',
         name: '',
+        department_uuid: [] as Array<any>,
+        is_admin_only: false,
         recurring: {
             is_recurring: false,
             week_rotations: '',
+            recurring_until: ''
         },
     },
 })
@@ -69,6 +72,23 @@ watch(() => props.isModalOpen, (isModalOpen: boolean) => {
     }
 })
 
+watch(() => props.selectedDraftTemplate, (selectedDraftTemplate: any) => {
+    if (selectedDraftTemplate && props.isModalOpen) {
+        state.formTemplate = {
+            id: selectedDraftTemplate.id,
+            uuid: selectedDraftTemplate.uuid,
+            name: selectedDraftTemplate.name,
+            department_uuid: [...props.selectedDraftTemplate.departments.map((dept: any) => dept.uuid)],
+            is_admin_only: selectedDraftTemplate.is_admin_only,
+            recurring: {
+                is_recurring: selectedDraftTemplate.is_recurring,
+                week_rotations: selectedDraftTemplate.week_rotations,
+                recurring_until: selectedDraftTemplate.recurring_until,
+            },
+        }
+    }
+})
+
 async function fetchDraftTemplate() {
     state.error = {}
     state.isPageLoading = true
@@ -82,6 +102,7 @@ async function fetchDraftTemplate() {
             state.formTemplate.name = response.data.name
             state.formTemplate.recurring.is_recurring = response.data.is_recurring
             state.formTemplate.recurring.week_rotations = response.data.week_rotations
+            state.formTemplate.recurring.recurring_until = response.data.recurring_until
         }
     } catch (error: any) {
         state.error = error
@@ -98,8 +119,11 @@ async function saveTemplate(draftTemplateDetails: any) {
         const draftTemplateUuid = props.selectedDraftTemplate?.uuid
         const params = {
             name: draftTemplateDetails.name,
+            department_uuid: draftTemplateDetails.department_uuid,
+            is_admin_only: draftTemplateDetails.is_admin_only,
             is_recurring: draftTemplateDetails.recurring.is_recurring,
             week_rotations: draftTemplateDetails.recurring.week_rotations,
+            recurring_until: draftTemplateDetails.recurring.recurring_until,
         } as any
 
         const response = await draftTemplateService.updateDraftTemplate(draftTemplateUuid, params)

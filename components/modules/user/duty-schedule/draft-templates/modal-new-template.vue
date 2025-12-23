@@ -6,6 +6,7 @@
                     <ModulesUserDutyScheduleDraftTemplatesNewTemplateForm formType="create"
                         :selected-draft-template="state.formTemplate"
                         :error="state.error"
+                        @is-loading="setLoading"
                         @closeModal="closeModal"
                         @submitForm="saveTemplate" />
                 </LoadingSpinner>
@@ -42,9 +43,12 @@ const state = reactive({
         id: '',
         uuid: '',
         name: '',
+        departments: [] as Array<any>,
+        is_admin_only: false,
         recurring: {
             is_recurring: false,
             week_rotations: '',
+            recurring_until: ''
         },
     }
 })
@@ -57,6 +61,10 @@ function refreshDraftTemplates() {
     emit('refreshDraftTemplates')
 }
 
+function setLoading(value: boolean) {
+    state.isPageLoading = value
+}
+
 async function saveTemplate(draftTemplateDetails: any) {
     state.error = {}
     state.isPageLoading = true
@@ -64,8 +72,11 @@ async function saveTemplate(draftTemplateDetails: any) {
     try {
         const params = {
             name: draftTemplateDetails.name,
+            is_admin_only: draftTemplateDetails.is_admin_only,
+            department_uuid: draftTemplateDetails.department_uuid,
             is_recurring: draftTemplateDetails.recurring.is_recurring,
             week_rotations: draftTemplateDetails.recurring.week_rotations,
+            recurring_until: draftTemplateDetails.recurring.recurring_until,
         } as any
 
         const response = await draftTemplateService.saveDraftTemplate(params)

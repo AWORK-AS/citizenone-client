@@ -46,9 +46,13 @@
             </Breadcrumb>
         </template>
 
-        <template #header>{{ $t('dutySchedules.draftTemplates.draftTemplates') }}</template>
+        <template #header>{{ $t('dutySchedules.draftTemplates.draftTemplates') }} - {{ departmentStore.getSelectedDepartmentName }}</template>
 
         <div>
+            <NuxtLink class="flex items-center gap-x-2 mb-3 max-w-fit hover:cursor-pointer" to="/schedules/draft">
+                <Icon name="ph:arrow-left" size="20" class="text-black" />
+                <span>{{ $t('back') }}</span>
+            </NuxtLink>
             <div class="flex-none lg:flex justify-between items-center space-y-3 mb-5">
                 <div class="flex items-center gap-x-1">
                     <span>{{ $t('entriesPerPage') }}:</span>
@@ -93,6 +97,14 @@
                                     <span v-else>
                                         {{ $t('dutySchedules.draftTemplates.table.nonRecurring') }}
                                     </span>
+                                </td>
+                                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                                    <div class="text-xxs flex flex-wrap gap-1">
+                                        <span v-for="(department, index) in draftTemplate?.departments" :key=index
+                                            class=" px-2 py-1 text-white rounded-md" :style="{ backgroundColor: department?.color }">
+                                            {{ department?.name }}
+                                        </span>
+                                    </div>
                                 </td>
                                 <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
                                     <span>
@@ -170,10 +182,12 @@ import { useDraftTemplateStore } from '@/store/draft-template';
 import { useI18n } from "vue-i18n"
 import { useAlert } from '@/composables/alert'
 import type { Error } from '@/types'
+import { useDepartmentStore } from '@/store/department';
 
 const runtimeConfig = useRuntimeConfig();
 const customPagesStore = useCustomPagesStore() as any;
 const draftTemplateStore = useDraftTemplateStore();
+const departmentStore = useDepartmentStore() as any;
 const { t } = useI18n()
 const { successAlert } = useAlert()
 
@@ -181,6 +195,7 @@ const state = reactive({
     columnHeaders: [
         { name: 'dutySchedules.draftTemplates.table.name', sorter: true, key: 'name' },
         { name: 'dutySchedules.draftTemplates.table.recurring', sorter: true, key: 'is_recurring' },
+        { name: 'dutySchedules.draftTemplates.table.departments', sorter: true, key: 'departments' },
         { name: 'dutySchedules.draftTemplates.table.weekRotations', sorter: false, key: 'week_rotations' },
         { name: '', sorter: false, key: 'actions' },
     ],
@@ -203,15 +218,24 @@ onMounted(() => {
     fetchDraftTemplates()
 })
 
+watch(() => departmentStore.getSelectedDepartmentName, () => {
+    fetchDraftTemplates()
+})
+
 async function fetchDraftTemplates() {
     state.error = {}
     state.isTableLoading = true
+    let selectedDepartment = departmentStore.getSelectedDepartmentName
+    if (selectedDepartment === 'All departments' || selectedDepartment === 'Alle afdelinger') {
+        selectedDepartment = 'all-departments'
+    }
     try {
         const params = {
             page_length: draftTemplateStore.getCurrentPageLength,
             page_number: draftTemplateStore.getCurrentPageNumber,
             sort_field: draftTemplateStore.getSortData.sortField,
             sort_order: draftTemplateStore.getSortData.sortOrder,
+            department: selectedDepartment,
             ...state.dataFilter
         }
         const response = await draftTemplateService.getDraftTemplates(params)
