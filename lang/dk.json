@@ -2398,7 +2398,19 @@
                 "publishForSpecificDepartmentConfirmation": "Er du sikker på, at du vil offentliggøre denne vagtplan for alle afdelinger"
             },
             "draft": "Kladde",
-            "publish": "Offentliggør"
+            "publish": "Offentliggør",
+            "selectDepartment": {
+                "title": "Bekræft Arbejdskontekst",
+                "message": {
+                    "message1": "Du er ved at redigere vagtplansudkast for",
+                    "message2": "Alle ændringer vil gælde for denne afdeling.",
+                    "message3": "Bekræft venligst for at fortsætte, eller skift afdeling hvis dette ikke er korrekt."
+                },
+                "form": {
+                    "department": "Afdeling",
+                    "confirm": "Bekræft"
+                }
+            }
         },
         "draftTemplates": {
             "draftTemplates": "Udkastskabeloner",
@@ -2425,7 +2437,8 @@
                 "recurring": "Gentagende",
                 "nonRecurring": "Ikke-gentagende",
                 "repeat": "Gentag",
-                "recurringUntil": "Gentager indtil"
+                "recurringUntil": "Gentager indtil",
+                "departments": "Afdelinger"
             },
             "recurring": {
                 "everyDay": "Hver dag",
@@ -2445,7 +2458,8 @@
                 "applyTemplate": "Anvend skabelon",
                 "weekNumber": "Ugenummer",
                 "year": "År",
-                "week": "Uge"
+                "week": "Uge",
+                "adminsOnly": "Kun administratorer"
             }
         },
         "dutySchedules": "Vagtplaner",

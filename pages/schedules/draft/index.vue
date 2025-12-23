@@ -37,6 +37,8 @@
                 </Breadcrumb>
             </template>
 
+            <template #header>{{ customPagesStore.getCustomPagesName?.dutySchedules }} {{ $t('dutySchedules.draft.draft').toLowerCase() }} - {{ departmentStore.getSelectedDepartmentName }}</template>
+
             <template #guided-tour>
                 <div class="flex flex-wrap items-center gap-3">
                     <button @click="state.modal.isShowAllShiftTypes = !state.modal.isShowAllShiftTypes"
@@ -54,34 +56,23 @@
                 </div>
             </template>
 
-            <NuxtLink class="-mt-4 flex items-center gap-x-2 mb-3 max-w-fit hover:cursor-pointer" to="/schedules">
-                <Icon name="ph:arrow-left" size="20" class="text-black" />
-                <span>{{ $t('back') }}</span>
-            </NuxtLink>
-
-            <!-- <div class="flex items-center gap-x-3">
-                <FormButton :buttonStyle="state.calendarView === 'default' ? 'primary' : ''"
-                    @click="setCalendarView('default')" class="rounded-md">
-                    {{ $t('calendar.view.defaultView') }}
-                </FormButton>
-                <FormButton :buttonStyle="state.calendarView === 'week' ? 'primary' : ''"
-                    @click="setCalendarView('week')" class="rounded-md">
-                    {{ $t('calendar.view.weekView') }}
-                </FormButton>
-                <FormButton :buttonStyle="state.calendarView === 'month' ? 'primary' : ''"
-                    @click="setCalendarView('month')" class="rounded-md">
-                    {{ $t('calendar.view.monthView') }}
-                </FormButton>
-            </div> -->
-
             <div class="space-y-5">
-                <ModulesUserDutyScheduleDraftWeekView v-if="state.calendarView === 'week'" />
+                <NuxtLink class="flex items-center gap-x-2 mb-3 max-w-fit hover:cursor-pointer" to="/schedules">
+                    <Icon name="ph:arrow-left" size="20" class="text-black" />
+                    <span>{{ $t('back') }}</span>
+                </NuxtLink>
+
+                <ModulesUserDutyScheduleDraftWeekView v-if="state.calendarView === 'week' && state.hasContext" />
             </div>
 
             <ModulesUserDutyScheduleDraftModalShiftTypes :isModalOpen="state.modal.isShowAllShiftTypes"
                 @close="state.modal.isShowAllShiftTypes = false" />
             <ModulesUserDutyScheduleDraftModalPublish :isModalOpen="state.modal.isPublishDraftOpen"
                 @close="state.modal.isPublishDraftOpen = false" />
+            <ModulesUserDutyScheduleDraftModalSelectDepartment
+                :isModalOpen="state.modal.isSelectDepartmentModalOpen"
+                @close="state.modal.isSelectDepartmentModalOpen = false"
+                @select-department="selectDepartment" />
         </NuxtLayout>
     </div>
 </template>
@@ -89,14 +80,27 @@
 <script setup lang="ts">
 const runtimeConfig = useRuntimeConfig()
 import { useCustomPagesStore } from '@/store/custom-pages'
+import { useDepartmentStore } from '@/store/department'
 
 const customPagesStore = useCustomPagesStore() as any
+const departmentStore = useDepartmentStore() as any
 
 const state = reactive({
     calendarView: 'week',
+    hasContext: false,
     modal: {
         isPublishDraftOpen: false,
         isShowAllShiftTypes: false,
+        isSelectDepartmentModalOpen: true,
     },
 })
+
+onMounted(() => {
+    state.hasContext = false
+})
+
+function selectDepartment() {
+    state.hasContext = true
+    state.modal.isSelectDepartmentModalOpen = false
+}
 </script>

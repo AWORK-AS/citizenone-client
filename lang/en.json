@@ -2398,7 +2398,19 @@
                 "publishForAllDepartmentConfirmation": "Are you sure you want to publish this schedule for all departments"
             },
             "draft": "Draft",
-            "publish": "Publish"
+            "publish": "Publish",
+            "selectDepartment": {
+                "title": "Confirm Working Context",
+                "message": {
+                    "message1": "You are about to edit duty schedule drafts for",
+                    "message2": "All changes will apply to this department.",
+                    "message3": "Please confirm to continue, or change the department if this is not correct."
+                },
+                "form": {
+                    "department": "Department",
+                    "confirm": "Confirm"
+                }
+            }
         },
         "draftTemplates": {
             "draftTemplates": "Draft templates",
@@ -2425,7 +2437,8 @@
                 "recurring": "Recurring",
                 "nonRecurring": "Non-recurring",
                 "repeat": "Repeat",
-                "recurringUntil": "Recurring until"
+                "recurringUntil": "Recurring until",
+                "departments": "Departments"
             },
             "recurring": {
                 "everyDay": "Every day",
@@ -2445,7 +2458,8 @@
                 "applyTemplate": "Apply template",
                 "weekNumber": "Week number",
                 "year": "Year",
-                "week": "Week"
+                "week": "Week",
+                "adminsOnly": "Administrators only"
             }
         },
         "dutySchedules": "Duty schedules",

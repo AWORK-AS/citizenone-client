@@ -62,14 +62,13 @@ function refreshDraftTemplates() {
 }
 
 async function applyTemplate(applyDetails: any) {
-    console.log('applyDetails', applyDetails)
     state.error = {}
     state.isPageLoading = true
 
     try {
         const params = {
-           week_number: applyDetails.week_number,
-           year: applyDetails.year,
+           weeks: applyDetails.weeks,
+           years: applyDetails.years,
         } as any
 
         const response = await draftTemplateService.applyDraftTemplate(props.selectedDraftTemplate.uuid, params)
@@ -80,6 +79,8 @@ async function applyTemplate(applyDetails: any) {
         }
     } catch (error: any) {
         state.error = error
+    } finally {
+        state.isPageLoading = false
     }
 }
 </script>
