@@ -15,6 +15,8 @@
             <template #header>{{ $t('journalNotifications.unreadJournalNotes') }}</template>
 
             <div class="min-h-44 space-y-3">
+                <Alert type="danger" :text="state?.errorSelectedJournal?.message"
+                    v-if="state.errorSelectedJournal?.message && state.errorSelectedJournal.message.length > 0" />
                 <Alert type="danger" :text="state?.error?.message"
                     v-if="state.error?.message && state.error.message.length > 0" />
                 <LoadingSpinner :isActive="state.isPageLoading">
@@ -65,7 +67,7 @@
             </div>
             <ModulesUserCitizenJournalModalEdit :isModalOpen="state.modal.isEditJournalOpen"
                 :selectedJournal="state.selectedJournal" @close="state.modal.isEditJournalOpen = false"
-                @refreshJournal="markNotificationAsRead" />
+                @refreshJournal="" />
         </NuxtLayout>
     </div>
 </template>
@@ -91,6 +93,7 @@ const breadcrumbLinks = [
 
 const state = reactive({
     error: {} as Error,
+    errorSelectedJournal: {} as Error,
     isPageLoading: false,
     modal: {
         isEditJournalOpen: false,
@@ -121,39 +124,43 @@ async function fetchNotifications() {
 function viewNotification(notification: any) {
     // const notificationId = notification?.id
     // navigateTo(`/journal-notifications/${notificationId}`)
-    state.modal.isEditJournalOpen = true
     state.selectedNotification = notification
     fetchSelectedJournal()
 }
 
 async function fetchSelectedJournal() {
     state.error = {}
+    state.errorSelectedJournal = {}
     state.isPageLoading = true
     try {
         const journalUuid = state.selectedNotification?.data?.uuid
         const response = await journalService.getJournal(journalUuid)
         if (response) {
+            state.modal.isEditJournalOpen = true
             state.selectedJournal = response?.data
         }
     } catch (error: any) {
-        state.error = error
+        state.errorSelectedJournal = error
+        state.modal.isEditJournalOpen = false
+        markNotificationAsRead()
     }
     state.isPageLoading = false
 }
 
 async function markNotificationAsRead() {
-    // state.error = {}
-    // state.isPageLoading = true
-    // try {
-    //     const journalNotificationId = state.selectedNotification?.id
-    //     const response = await notificationService.markAsRead(journalNotificationId)
-    //     if (response) {
-    //         userStore.minusUserNotificationCount()
-    //     }
-    // } catch (error: any) {
-    //     state.error = error
-    // }
-    // state.isPageLoading = false
+    state.error = {}
+    state.isPageLoading = true
+    try {
+        const journalNotificationId = state.selectedNotification?.id
+        const response = await notificationService.markAsRead(journalNotificationId)
+        if (response) {
+            userStore.minusUserNotificationCount()
+            fetchNotifications()
+        }
+    } catch (error: any) {
+        state.error = error
+    }
+    state.isPageLoading = false
 }
 
 async function markAllAsRead() {
