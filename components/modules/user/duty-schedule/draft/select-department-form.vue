@@ -86,9 +86,7 @@ async function fetchAllDepartments() {
     state.error = {}
     emit('isPageLoading', true)
     try {
-        const params = {
-            employee_uuid: userStore.getUser?.uuid
-        }
+        const params = {}
         const response = await departmentService.getAllDepartments(params)
         if (response) {
             let options: any = []
