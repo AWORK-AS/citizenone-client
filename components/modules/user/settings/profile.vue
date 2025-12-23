@@ -284,7 +284,7 @@ watch(() => userStore.getUser, (newValue: any) => {
             state.formProfile.pages.push(page?.uuid)
         })
         newValue?.notification_departments?.forEach((department: any) => {
-            state.formProfile.notification_departments?.push(department?.uuid)
+            state.formProfile.department_uuid?.push(department?.uuid)
         })
     }
 })
@@ -312,7 +312,7 @@ function setUser() {
         state.formProfile.pages.push(page?.uuid)
     })
     user?.notification_departments?.forEach((department: any) => {
-        state.formProfile.notification_departments?.push(department?.uuid)
+        state.formProfile.department_uuid?.push(department?.uuid)
     })
 }
 
