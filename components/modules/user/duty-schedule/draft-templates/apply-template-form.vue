@@ -22,7 +22,7 @@
                                             type="checkbox" 
                                             @change="toggleAllWeeks"
                                             :checked="allWeeksSelected"
-                                            class="peer w-5 h-5 appearance-none border bg-white border-primary rounded-sm mr-2 checked:bg-secondary checked:border-secondary focus:ring-0"
+                                            class="peer w-5 h-5 appearance-none border bg-white border-primary rounded-sm mr-2 checked:bg-secondary checked:border-secondary focus:ring-0 cursor-pointer"
                                         />
                                         <span class="pointer-events-none absolute w-5 h-5 flex items-center justify-center">
                                             <Icon name="ph:check-bold" class="h-4 w-4 text-white" />
