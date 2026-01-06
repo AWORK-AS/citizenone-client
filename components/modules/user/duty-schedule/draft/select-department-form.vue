@@ -10,6 +10,13 @@
                 <FormError :error="v$?.formDepartment?.department_uuid?.$errors[0]?.$message.toString()" />
                 <FormError :error="props?.error?.errors?.department_uuid?.[0]" />
             </div>
+            <div class="space-y-1">
+                <div class="w-fit flex items-center cursor-pointer select-none"
+                    @click="state.formDepartment.do_not_show_again = !state.formDepartment.do_not_show_again">
+                    <FormCheckbox :value="state.formDepartment.do_not_show_again" />
+                    {{ $t('dutySchedules.draft.selectDepartment.form.doNotShowAgain') }}
+                </div>
+            </div>
         </div>
 
         <div class="mt-6">
@@ -30,6 +37,7 @@ import { useI18n } from "vue-i18n"
 import type { Error } from '@/types'
 import { departmentService } from '@/components/api/user/DepartmentService'
 import { useDepartmentStore } from '@/store/department'
+import { useDraftDutyScheduleStore } from '@/store/draft-duty-schedule'
 import { useVuelidate } from "@vuelidate/core"
 import { required, helpers } from '@vuelidate/validators'
 import { useUserStore } from '@/store/user'
@@ -47,6 +55,7 @@ const emit = defineEmits(['close', 'isPageLoading', 'selectDepartment'])
 const language = useI18n()
 const departmentStore = useDepartmentStore() as any
 const userStore = useUserStore() as any
+const draftDutyScheduleStore = useDraftDutyScheduleStore() as any
 
 const state = reactive({
     error: {} as Error,
@@ -55,6 +64,7 @@ const state = reactive({
     selectedDepartmentUuid: '' as string | null,
     formDepartment: {
         department_uuid: '' as string | null,
+        do_not_show_again: false,
     },
     options: {
         departments: [] as Array<any>,
@@ -126,6 +136,10 @@ async function selectDepartment() {
         if (response) {
             emit('selectDepartment', state.formDepartment.department_uuid)
             departmentStore.setSelectedDepartmentName(department?.label)
+
+            if (state.formDepartment.do_not_show_again) {
+                draftDutyScheduleStore.setShowDepartmentPopup(false)
+            }
         }
     } catch (error: any) {
         state.error = error

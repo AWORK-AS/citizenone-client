@@ -2408,6 +2408,7 @@
                 },
                 "form": {
                     "department": "Department",
+                    "doNotShowAgain": "Don't show this again",
                     "confirm": "Confirm"
                 }
             }

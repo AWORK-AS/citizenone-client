@@ -2408,6 +2408,7 @@
                 },
                 "form": {
                     "department": "Afdeling",
+                    "doNotShowAgain": "Vis ikke dette igen",
                     "confirm": "Bekræft"
                 }
             }
