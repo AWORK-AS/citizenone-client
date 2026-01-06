@@ -1528,16 +1528,18 @@ function isWeeklyScheduleCopied(weekNumber: number) {
 function copyWeeklySchedule(weekNumber: number) {
     state.copy.allEmployeeSchedules = {
         weekNumber: weekNumber,
+        yearSource: currentDate.value.year(),
         weeklySchedules: state.weeklySchedules?.data
     }
 }
 
 function pasteWeeklySchedule(weekNumber: number) {
-    state.weeklySchedules = state.copy.allEmployeeSchedules.weeklySchedules
     const params = {
         department: departmentStore.getSelectedDepartmentName,
         week_source: state.copy.allEmployeeSchedules.weekNumber,
         week_destination: weekNumber,
+        year_source: state.copy.allEmployeeSchedules.yearSource,
+        year_destination: currentDate.value.year(),
     }
     saveCopiedWeeklyDutySchedule(params)
 }
