@@ -836,6 +836,7 @@ async function fetchDraftDutySchedule() {
     state.error = {}
     state.progress.totalRequests = state.progress.totalRequests + 1
     state.progress.pendingRequests = state.progress.pendingRequests + 1
+    state.isPageLoading = true
     identifyTheProgressPercentage()
     try {
         const dateMoment = moment(currentDate.value)
