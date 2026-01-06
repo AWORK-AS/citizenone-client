@@ -331,8 +331,8 @@
                                             'col-span-9 grid grid-cols-9'
                                         ]" v-if="!isCopiedWeek() || !isEmployeeSelectedAsWeeklyScheduleSource(employee)"
                                             @click="isEmployeeWeeklyScheduleCopied() && (!isCopiedWeek() || !isEmployeeSelectedAsWeeklyScheduleSource(employee)) && pasteEmployeeWeeklySchedule(employee)">
-                                            <div class="p-3 col-span-2 border-0.5">
-                                                <div class="relative">
+                                            <div class="col-span-2 border-0.5">
+                                                <div class="px-3 pt-3 pb-1 relative">
                                                     <div class="flex justify-between">
                                                         <div class="flex items-center gap-x-2">
                                                             <img :src="employee?.profile_image ?? `https://ui-avatars.com/api/?background=42AED9&color=fff&name=${employee?.firstname + ' ' + employee?.lastname}`"
@@ -413,93 +413,127 @@
                                                     </div>
                                                 </div>
                                                 <div :class="[
-                                                    expandedRecords[employeeIndex] && 'hidden',
-                                                    'text-xs grid grid-cols-7'
-                                                ]"
-                                                    v-if="isAdmin(userStore.getUser?.role) || (!isAdmin(userStore.getUser?.role) && userStore.getUser?.show_working_hours)">
-                                                    <div class="col-span-3 space-y-2" />
-                                                    <div class="col-span-2 flex gap-2 flex-col items-end">
-                                                        <p class="text-xxs py-2">
-                                                            <span v-if="state.customWeekLabel === 'week'">
-                                                                {{ $t('dutySchedules.week') }}
-                                                            </span>
-                                                            <span v-if="state.customWeekLabel === 'month'">
-                                                                {{ $t('dutySchedules.month') }}
-                                                            </span>
-                                                            <span v-if="state.customWeekLabel === 'custom'">
-                                                                {{ $t('dutySchedules.custom') }}
-                                                            </span>
-                                                        </p>
-                                                    </div>
-                                                    <div
-                                                        class="col-span-2 flex gap-2 flex-col items-end border-l-0.5 border-gray-200 ml-3">
-                                                        <p class="text-xxs py-2">
-                                                            {{ $t('dutySchedules.yearToDate') }}
-                                                        </p>
-                                                    </div>
-                                                    <div class="col-span-3 space-y-2">
-                                                        <p v-for="(time, timeIndex) in employee?.hours"
-                                                            :key="timeIndex">
-                                                            {{ language.locale.value === 'en' ? time?.shift?.en_name
-                                                                :
-                                                                time?.shift?.dk_name }}
-                                                        </p>
-                                                    </div>
-                                                    <div class="col-span-2 flex gap-2 flex-col items-end">
-                                                        <p v-for="(time, timeIndex) in employee?.hours"
-                                                            :key="timeIndex">
-                                                            {{ time?.weekly_hours }}
-                                                        </p>
-                                                    </div>
-                                                    <div
-                                                        class="col-span-2 flex gap-2 flex-col items-end border-l-0.5 border-gray-200 ml-3">
-                                                        <p v-for="(time, timeIndex) in employee?.hours"
-                                                            :key="timeIndex">
-                                                            {{ time?.yearly_hours }}
-                                                        </p>
-                                                    </div>
-                                                    <div
-                                                        class="col-span-7 space-y-2 mt-4 border-t-0.5 border-gray-200 pt-3">
-                                                        <div :class="[
-                                                            employee?.total_norm_hours?.compensatory_hours > 0 ? 'text-green-700' : 'text-red-700',
-                                                            'flex items-center gap-1 w-fit cursor-pointer'
-                                                        ]" @click="viewCompensatoryHours(employee)">
-                                                            <Icon name="ph:clock" class="h-3 w-3" aria-hidden="true" />
-                                                            {{
-                                                                $t('dutySchedules.normHours.compensatoryHours')
-                                                            }}:
-                                                            {{
-                                                                formatNumber(language.locale.value,
-                                                                    employee?.total_norm_hours?.compensatory_hours)
-                                                                ??
-                                                                0
-                                                            }}
+                                                    expandedRecords[employeeIndex] && 'hidden'
+                                                ]">
+                                                    <div class="text-xs grid grid-cols-7"
+                                                        v-if="isAdmin(userStore.getUser?.role) || (!isAdmin(userStore.getUser?.role) && userStore.getUser?.show_working_hours)">
+                                                        <div class="col-span-3 space-y-2" />
+                                                        <div class="col-span-2 flex gap-2 flex-col items-end">
+                                                            <p class="text-xxs py-2 pr-2">
+                                                                <span v-if="state.customWeekLabel === 'week'">
+                                                                    {{ $t('dutySchedules.week') }}
+                                                                </span>
+                                                                <span v-if="state.customWeekLabel === 'month'">
+                                                                    {{ $t('dutySchedules.month') }}
+                                                                </span>
+                                                                <span v-if="state.customWeekLabel === 'custom'">
+                                                                    {{ $t('dutySchedules.custom') }}
+                                                                </span>
+                                                            </p>
+                                                        </div>
+                                                        <div
+                                                            class="col-span-2 flex gap-2 flex-col items-end border-l-0.5 border-gray-200">
+                                                            <p class="text-xxs py-2 pr-2">
+                                                                {{ $t('dutySchedules.yearToDate') }}
+                                                            </p>
                                                         </div>
                                                     </div>
-                                                    <div class="col-span-7 space-y-2 mt-1">
-                                                        <div :class="[
-                                                            employee?.total_norm_hours?.available_vacation_hours > 0 ? 'text-green-700' : 'text-red-700',
-                                                            'flex items-center gap-1 w-fit cursor-pointer'
-                                                        ]" @click="viewAvailableVacationHours(employee)">
-                                                            <Icon name="ph:clock" class="h-3 w-3" aria-hidden="true" />
-                                                            {{
-                                                                $t('dutySchedules.normHours.availableVacationHours')
-                                                            }}:
-                                                            {{
-                                                                formatNumber(language.locale.value,
-                                                                    employee?.total_norm_hours?.available_vacation_hours || 0)
-                                                            }}
+                                                    <div class="text-xs grid grid-cols-7">
+                                                        <div class="col-span-3">
+                                                            <div v-for="(time, timeIndex) in employee?.hours"
+                                                                :key="timeIndex" :class="[
+                                                                    timeIndex % 2 ? 'bg-white' : 'bg-gray-100',
+                                                                    'py-1'
+                                                                ]">
+                                                                <div class="pl-3">
+                                                                    <Tooltip
+                                                                        :text="language.locale.value === 'en' ? time?.shift?.en_name : time?.shift?.dk_name">
+                                                                        <div class="flex items-center gap-x-1">
+                                                                            <div>
+                                                                                <div :class="`w-2 h-2 rounded-sm`"
+                                                                                    :style="{ background: time?.shift?.color }" />
+                                                                            </div>
+                                                                            <div class="truncate w-36">
+                                                                                {{ language.locale.value === 'en' ?
+                                                                                    time?.shift?.en_name :
+                                                                                    time?.shift?.dk_name
+                                                                                }}
+                                                                            </div>
+                                                                        </div>
+                                                                    </Tooltip>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-span-2">
+                                                            <div v-for="(time, timeIndex) in employee?.hours"
+                                                                :key="timeIndex" :class="[
+                                                                    timeIndex % 2 ? 'bg-white' : 'bg-gray-100',
+                                                                ]">
+                                                                <div class="text-right py-1 pr-2">
+                                                                    {{ time?.weekly_hours }}
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-span-2 border-l-0.5 border-gray-200">
+                                                            <div v-for="(time, timeIndex) in employee?.hours"
+                                                                :key="timeIndex" :class="[
+                                                                    timeIndex % 2 ? 'bg-white' : 'bg-gray-100',
+                                                                ]">
+                                                                <div class="text-right py-1 pr-2">
+                                                                    {{ time?.yearly_hours }}
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="text-xs grid grid-cols-7">
+                                                        <div
+                                                            class="px-3 col-span-7 space-y-2 mt-4 border-t-0.5 border-gray-200 pt-3">
+                                                            <div :class="[
+                                                                employee?.total_norm_hours?.compensatory_hours > 0 ? 'text-green-700' : 'text-red-700',
+                                                                'flex items-center gap-1 w-fit cursor-pointer'
+                                                            ]" @click="viewCompensatoryHours(employee)">
+                                                                <Icon name="ph:clock" class="h-3 w-3"
+                                                                    aria-hidden="true" />
+                                                                {{
+                                                                    $t('dutySchedules.normHours.compensatoryHours')
+                                                                }}:
+                                                                {{
+                                                                    formatNumber(language.locale.value,
+                                                                        employee?.total_norm_hours?.compensatory_hours)
+                                                                    ??
+                                                                    0
+                                                                }}
+                                                            </div>
+                                                        </div>
+                                                        <div class="px-3 col-span-7 space-y-2 mt-1">
+                                                            <div :class="[
+                                                                employee?.total_norm_hours?.available_vacation_hours > 0 ? 'text-green-700' : 'text-red-700',
+                                                                'flex items-center gap-1 w-fit cursor-pointer'
+                                                            ]" @click="viewAvailableVacationHours(employee)">
+                                                                <Icon name="ph:clock" class="h-3 w-3"
+                                                                    aria-hidden="true" />
+                                                                {{
+                                                                    $t('dutySchedules.normHours.availableVacationHours')
+                                                                }}:
+                                                                {{
+                                                                    formatNumber(language.locale.value,
+                                                                        employee?.total_norm_hours?.available_vacation_hours ||
+                                                                        0)
+                                                                }}
+                                                            </div>
                                                         </div>
                                                     </div>
                                                 </div>
-                                                <div
-                                                    v-if="isAdmin(userStore.getUser?.role) || (!isAdmin(userStore.getUser?.role) && userStore.getUser?.show_working_hours)">
-                                                    <button @click="toggleExpanded(employeeIndex)"
-                                                        class="text-primary text-xs hover:text-primary-700">
-                                                        {{ !expandedRecords[employeeIndex] ?
-                                                            $t('showLess') :
-                                                            $t('showMore') }}
-                                                    </button>
+                                                <div class="px-3 pb-3">
+                                                    <div
+                                                        v-if="isAdmin(userStore.getUser?.role) || (!isAdmin(userStore.getUser?.role) && userStore.getUser?.show_working_hours)">
+                                                        <button @click="toggleExpanded(employeeIndex)"
+                                                            class="text-primary text-xs hover:text-primary-700">
+                                                            {{ !expandedRecords[employeeIndex] ?
+                                                                $t('showLess') :
+                                                                $t('showMore') }}
+                                                        </button>
+                                                    </div>
                                                 </div>
                                             </div>
                                             <div class="p-3 border-0.5" v-for="(week, weekIndex) in employee?.weeks"
