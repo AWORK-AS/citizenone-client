@@ -152,21 +152,21 @@
                     <FormError :error="v$?.formMedicine?.package_leaflet_link?.$errors[0]?.$message.toString()" />
                     <FormError :error="props?.error?.errors?.package_leaflet_link?.[0]" />
                 </div>
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
-                    <div class="space-y-1">
-                        <FormLabel for="start_date" :label="$t('citizens.medicineJournals.form.startDate')" />
-                        <FormDateField id="start_date" name="start_date" placeholder="Date"
-                            v-model="state.formMedicine.start_date" />
-                        <FormError :error="v$?.formMedicine?.start_date?.$errors[0]?.$message.toString()" />
-                        <FormError :error="props?.error?.errors?.start_date?.[0]" />
-                    </div>
-                    <div class="space-y-1">
-                        <FormLabel for="end_date" :label="$t('citizens.medicineJournals.form.endDate')" />
-                        <FormDateField id="end_date" name="end_date" placeholder="Date"
-                            v-model="state.formMedicine.end_date" />
-                        <FormError :error="v$?.formMedicine?.end_date?.$errors[0]?.$message.toString()" />
-                        <FormError :error="props?.error?.errors?.end_date?.[0]" />
-                    </div>
+                <div class="space-y-1">
+                    <FormLabel for="start_date" :label="$t('citizens.medicineJournals.form.startDate')" />
+                    <FormDateField id="start_date" name="start_date"
+                        :placeholder="$t('citizens.medicineJournals.form.startDate')"
+                        v-model="state.formMedicine.start_date" />
+                    <FormError :error="v$?.formMedicine?.start_date?.$errors[0]?.$message.toString()" />
+                    <FormError :error="props?.error?.errors?.start_date?.[0]" />
+                </div>
+                <div class="space-y-1">
+                    <FormLabel for="end_date" :label="$t('citizens.medicineJournals.form.endDate')" />
+                    <FormDateField id="end_date" name="end_date"
+                        :placeholder="$t('citizens.medicineJournals.form.endDate')"
+                        v-model="state.formMedicine.end_date" />
+                    <FormError :error="v$?.formMedicine?.end_date?.$errors[0]?.$message.toString()" />
+                    <FormError :error="props?.error?.errors?.end_date?.[0]" />
                 </div>
                 <div class="space-y-1">
                     <div class="flex justify-between items-center py-0.5">
