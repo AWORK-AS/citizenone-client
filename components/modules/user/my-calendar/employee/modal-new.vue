@@ -14,13 +14,12 @@
 </template>
 
 <script setup lang="ts">
+import moment from 'moment'
 import { myCalendarService } from '@/components/api/user/MyCalendarService'
 import { useAlert } from '@/composables/alert'
 import { useI18n } from "vue-i18n"
 import type { Error } from '@/types'
-import { useUserStore } from '@/store/user'
 
-const userStore = useUserStore() as any
 const { successAlert } = useAlert()
 const { t } = useI18n()
 
@@ -41,8 +40,8 @@ const state = reactive({
         employees: [],
         title: '',
         description: '',
-        date_time_start: '',
-        date_time_end: '',
+        date_time_start: moment().startOf('day').format('YYYY-MM-DD HH:mm'),
+        date_time_end: moment().startOf('day').add(1, 'hour').format('YYYY-MM-DD HH:mm'),
         unit_uuid: '',
         calendar_tag_uuid: [],
         is_private: false,
