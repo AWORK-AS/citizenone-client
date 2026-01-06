@@ -2408,15 +2408,16 @@
                 },
                 "form": {
                     "department": "Department",
+                    "doNotShowAgain": "Don't show this again",
                     "confirm": "Confirm"
                 }
             }
         },
         "draftTemplates": {
-            "draftTemplates": "Draft templates",
-            "newDraft": "New Draft Template",
-            "editDraft": "Edit Draft Template",
-            "viewDraftTemplate": "Draft Template Schedules",
+            "draftTemplates": "Templates",
+            "newDraft": "New Template",
+            "editDraft": "Edit Template",
+            "viewDraftTemplate": "Schedule Templates",
             "table": {
                 "actions": {
                     "delete": "Delete",
@@ -2425,11 +2426,11 @@
                     "apply": "Apply"
                 },
                 "alert": {
-                    "draftTemplateSuccessfullyDeleted": "Draft template successfully deleted",
-                    "deleteConfirmation": "Are you sure you want to delete this draft template?"
+                    "draftTemplateSuccessfullyDeleted": "Template successfully deleted",
+                    "deleteConfirmation": "Are you sure you want to delete this template"
                 },
                 "confirmation": {
-                    "deleteDraftTemplateConfirmation": "Are you sure you want to delete this draft template"
+                    "deleteDraftTemplateConfirmation": "Are you sure you want to delete this template"
                 },
                 "name": "Name",
                 "weekRotations": "Week rotations",

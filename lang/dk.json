@@ -2408,15 +2408,16 @@
                 },
                 "form": {
                     "department": "Afdeling",
+                    "doNotShowAgain": "Vis ikke dette igen",
                     "confirm": "Bekræft"
                 }
             }
         },
         "draftTemplates": {
-            "draftTemplates": "Udkastskabeloner",
-            "newDraft": "Ny udkastsskabelon",
-            "editDraft": "Rediger udkastsskabelon",
-            "viewDraftTemplate": "Udkastsskabelonoversigt",
+            "draftTemplates": "Skabeloner",
+            "newDraft": "Ny skabelon",
+            "editDraft": "Rediger skabelon",
+            "viewDraftTemplate": "Skabelonvisning",
             "table": {
                 "actions": {
                     "delete": "Slet",
@@ -2425,11 +2426,11 @@
                     "apply": "Anvend"
                 },
                 "alert": {
-                    "draftTemplateSuccessfullyDeleted": "Udkastsskabelon blev slettet",
-                    "deleteConfirmation": "Er du sikker på, at du vil slette denne udkastsskabelon?"
+                    "draftTemplateSuccessfullyDeleted": "Skabelon blev slettet",
+                    "deleteConfirmation": "Er du sikker på, at du vil slette denne skabelon?"
                 },
                 "confirmation": {
-                    "deleteDraftTemplateConfirmation": "Er du sikker på, at du vil slette denne udkastsskabelon?"
+                    "deleteDraftTemplateConfirmation": "Er du sikker på, at du vil slette denne skabelon?"
                 },
                 "name": "Navn",
                 "weekRotations": "Ugerotationer",

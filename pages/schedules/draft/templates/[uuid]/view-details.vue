@@ -18,7 +18,7 @@
                 </div>
             </template>
 
-            <template #header>{{ state?.draftTemplate?.name }} - {{ departmentStore?.getSelectedDepartmentName }}</template>
+            <template #header v-if="state?.draftTemplate?.name">{{ state?.draftTemplate?.name }} - {{ departmentStore?.getSelectedDepartmentName }}</template>
 
             <div>
                 <NuxtLink class="flex items-center gap-x-2 mb-3 max-w-fit hover:cursor-pointer" to="/schedules/draft/templates">
