@@ -105,7 +105,17 @@
                         </p>
                     </div>
                 </div>
-                <div class="md:col-span-8 grid md:grid-cols-1" v-if="state.formProfile.email_notifications_enabled">
+                <div class="md:col-span-8 grid md:grid-cols-1">
+                    <div class="space-y-1 flex items-center gap-x-2">
+                        <FormSwitch :value="state.formProfile.system_notifications_enabled"
+                            @toggleSwitch="state.formProfile.system_notifications_enabled = !state.formProfile.system_notifications_enabled" />
+                        <p>
+                            {{ $t('settings.company.form.enableSystemNotifications') }}
+                        </p>
+                    </div>
+                </div>
+                <div class="md:col-span-8 grid md:grid-cols-1"
+                    v-if="state.formProfile.email_notifications_enabled || state.formProfile.system_notifications_enabled">
                     <div class="space-y-1 flex items-center gap-x-2">
                         <FormSwitch :value="state.formProfile.shift_based_notifications_enabled"
                             @toggleSwitch="state.formProfile.shift_based_notifications_enabled = !state.formProfile.shift_based_notifications_enabled" />
@@ -114,13 +124,15 @@
                         </p>
                     </div>
                 </div>
-                <div class="md:col-span-8 grid md:grid-cols-1">
-                    <div class="space-y-1 flex items-center gap-x-2">
-                        <FormSwitch :value="state.formProfile.system_notifications_enabled"
-                            @toggleSwitch="state.formProfile.system_notifications_enabled = !state.formProfile.system_notifications_enabled" />
-                        <p>
-                            {{ $t('settings.company.form.enableSystemNotifications') }}
-                        </p>
+                <div class="md:col-span-8 grid md:grid-cols-1"
+                    v-if="state.formProfile.email_notifications_enabled || state.formProfile.system_notifications_enabled">
+                    <div class="space-y-1">
+                        <FormLabel for="department_uuid"
+                            :label="$t('settings.company.form.chooseNotificationDepartments')" />
+                        <FormSelectMultiple id="department_uuid" :options="state.options.departments"
+                            v-model="state.formProfile.department_uuid" />
+                        <FormError :error="v$?.formProfile?.department_uuid?.$errors[0]?.$message.toString()" />
+                        <FormError :error="state?.error?.errors?.department_uuid?.[0]" />
                     </div>
                 </div>
             </div>
@@ -136,6 +148,7 @@
 <script setup lang="ts">
 import { useVuelidate } from "@vuelidate/core"
 import { required, helpers } from '@vuelidate/validators'
+import { departmentService } from '@/components/api/user/DepartmentService'
 import { languageService } from '@/components/api/user/LanguageService'
 import { pageService } from '@/components/api/user/PageService'
 import { userService } from "@/components/api/user/UserService"
@@ -174,10 +187,12 @@ const state = reactive({
         email_notifications_enabled: false,
         shift_based_notifications_enabled: false,
         system_notifications_enabled: false,
+        department_uuid: [],
     } as any,
     isChangePassword: false,
     isPageLoading: false,
     options: {
+        departments: [],
         languages: [],
         pages: [],
     },
@@ -237,6 +252,7 @@ const rulesFormProfile = computed(() => {
 })
 
 onMounted(() => {
+    fetchDepartments()
     fetchLanguages()
     fetchPages()
     if (!props.isFirstLoad) {
@@ -262,9 +278,13 @@ watch(() => userStore.getUser, (newValue: any) => {
             email_notifications_enabled: newValue?.email_notifications_enabled ?? false,
             shift_based_notifications_enabled: newValue?.shift_based_notifications_enabled ?? false,
             system_notifications_enabled: newValue?.system_notifications_enabled ?? false,
+            department_uuid: [],
         }
         newValue?.pages.forEach((page: any) => {
             state.formProfile.pages.push(page?.uuid)
+        })
+        newValue?.notification_departments?.forEach((department: any) => {
+            state.formProfile.department_uuid?.push(department?.uuid)
         })
     }
 })
@@ -291,6 +311,33 @@ function setUser() {
     user?.pages.forEach((page: any) => {
         state.formProfile.pages.push(page?.uuid)
     })
+    user?.notification_departments?.forEach((department: any) => {
+        state.formProfile.department_uuid?.push(department?.uuid)
+    })
+}
+
+
+
+async function fetchDepartments() {
+    state.error = {}
+    state.isPageLoading = true
+    try {
+        const params = {}
+        const response = await departmentService.getAllDepartments(params)
+        if (response) {
+            let options: any = []
+            response.data.forEach(
+                (item: any) => options.push({
+                    value: item.uuid,
+                    label: item.name,
+                })
+            )
+            state.options.departments = options
+        }
+    } catch (error: any) {
+        state.error = error
+    }
+    state.isPageLoading = false
 }
 
 async function fetchLanguages() {
@@ -360,6 +407,7 @@ async function submitForm() {
             params.append('email_notifications_enabled', state.formProfile.email_notifications_enabled)
             params.append('shift_based_notifications_enabled', state.formProfile.shift_based_notifications_enabled)
             params.append('system_notifications_enabled', state.formProfile.system_notifications_enabled)
+            params.append('department_uuid', JSON.stringify(state.formProfile.department_uuid))
             const response = await userService.updateUser(params)
             if (response.data) {
                 userStore.setLanguage(response?.data?.language?.code)

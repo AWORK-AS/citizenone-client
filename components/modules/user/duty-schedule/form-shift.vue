@@ -54,6 +54,14 @@
                         {{ $t('dutySchedules.form.forSleepingNightShift') }}
                     </div>
                 </div>
+                <div class="space-y-1"
+                    v-if="(['vacation-leave'].includes(state.options.shifts.find((shift: any) => shift.value === state.formShift.shift_type)?.system_name))">
+                    <div class="w-fit flex items-center cursor-pointer"
+                        @click="state.formShift.do_not_count_weekends = !state.formShift.do_not_count_weekends">
+                        <FormCheckbox :value="state.formShift.do_not_count_weekends" />
+                        {{ $t('dutySchedules.form.DoNotCountWeekends') }}
+                    </div>
+                </div>
                 <div class="space-y-1">
                     <div class="flex justify-between items-center py-0.5">
                         <FormLabel for="department_uuid" :label="$t('dutySchedules.form.departments')" />
@@ -337,6 +345,7 @@ const state = reactive({
     formShift: {
         shift_type: '',
         is_sleeping_sick_leave: false,
+        do_not_count_weekends: false,
         date_time_start: moment().startOf('day').add(8, 'hours').format('YYYY-MM-DD H:mm'),
         date_time_end: moment().startOf('day').add(17, 'hours').format('YYYY-MM-DD H:mm'),
         recurring: {
@@ -472,6 +481,7 @@ onMounted(() => {
     fetchAllCitizensPerUserDepartment()
     state.formShift.shift_type = props.selectedShift.shift_type
     state.formShift.is_sleeping_sick_leave = props.selectedShift.is_sleeping_sick_leave
+    state.formShift.do_not_count_weekends = props.selectedShift.do_not_count_weekends
     state.formShift.date_time_start = props.selectedShift.date_time_start
     state.formShift.date_time_end = props.selectedShift.date_time_end
     state.formShift.citizens = props.selectedShift.citizens
@@ -707,7 +717,7 @@ async function fetchAllCitizensPerUserDepartment() {
             response.data.forEach(
                 (citizen: any) => options.push({
                     value: citizen?.uuid,
-                    label: citizen?.firstname + " " + citizen?.lastname,
+                    label: citizen?.firstname + " " + (citizen?.lastname ?? ''),
                 })
             )
             state.options.citizens = options

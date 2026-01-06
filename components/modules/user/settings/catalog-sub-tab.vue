@@ -60,6 +60,14 @@ watch(() => userStore.getUser, (newValue: any) => {
                 ]
             },
             {
+                name: 'settings.tabs.contactJobTitles',
+                isTranslateName: true,
+                href: `/settings/contact-job-titles`,
+                routeNames: [
+                    'settings-contact-job-titles'
+                ]
+            },
+            {
                 name: 'settings.tabs.departments',
                 isTranslateName: true,
                 href: `/settings/departments`,
@@ -206,6 +214,9 @@ function changeTab(value: any) {
     }
     else if (value === '/settings/calendar-tags') {
         navigateTo(`/settings/calendar-tags`)
+    }
+    else if (value === '/settings/contact-job-titles') {
+        navigateTo(`/settings/contact-job-titles`)
     }
     else if (value === '/settings/departments') {
         navigateTo(`/settings/departments`)

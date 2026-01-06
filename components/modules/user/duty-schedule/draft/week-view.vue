@@ -37,8 +37,8 @@
                     </div>
                 </header>
                 <div class="space-y-2 mt-3 mb-3">
-                    <div class="flex flex-col justify-between gap-3 md:flex-row">
-                        <div class="bg-white border border-gray-200 rounded-md px-4 py-1.5">
+                    <div class="grid grid-cols-1 xl:grid-cols-3 gap-3 py-3">
+                        <div class="w-fit bg-white border border-gray-200 rounded-md px-4 py-2">
                             <h3 class="text-base font-semibold leading-6 text-gray-900 text-center">
                                 <span v-if="month === 'January'">{{ $t('calendar.month.January') }}</span>
                                 <span v-if="month === 'February'">{{ $t('calendar.month.February') }}</span>
@@ -55,7 +55,16 @@
                                 {{ year }}
                             </h3>
                         </div>
-                        <div class="flex items-center gap-x-2">
+                        <div>
+                            <div class="space-y-1 flex items-center gap-x-2">
+                                <FormSwitch :value="userStore.getUser?.is_draft_schedule_pinned ? true : false"
+                                    @toggleSwitch="pinSelfToTopOfSchedule()" />
+                                <p>
+                                    {{ $t('dutySchedules.pinSelfToTopOfSchedule') }}
+                                </p>
+                            </div>
+                        </div>
+                        <div class="flex items-center justify-end gap-x-2">
                             <Tooltip
                                 :text="state.sortData.sortOrder === 'ascend' ? $t('dutySchedules.sort.sortNamesInDescendingOrder') : $t('dutySchedules.sort.sortNamesInAscendingOrder')"
                                 position="left">
@@ -264,10 +273,15 @@
                                                                 </span><span v-else>.</span>
                                                             </span>
                                                         </div>
-                                                        <p class="text-xxs">
-                                                            {{ $t('dutySchedules.annualNormHours') }}:
-                                                            {{ employee?.annual_norm_hours ?? 0 }}
-                                                        </p>
+                                                        <div class="flex items-center gap-1 cursor-pointer"
+                                                            @click="state.modal.isAnnualNormHoursInfoOpen = true">
+                                                            <p class="text-xxs">
+                                                                {{ $t('dutySchedules.annualNormHours') }}:
+                                                                {{ employee?.annual_norm_hours ?? 0 }}
+                                                            </p>
+                                                            <Icon name="ph:question" class="h-3.5 w-3.5"
+                                                                aria-hidden="true" />
+                                                        </div>
                                                         <p class="text-xxs">
                                                             {{ $t('dutySchedules.totalHours') }}:
                                                             {{ employee?.total_hours ?? 0 }}
@@ -321,6 +335,39 @@
                                                             :key="timeIndex">
                                                             {{ time?.yearly_hours }}
                                                         </p>
+                                                    </div>
+                                                    <div
+                                                        class="col-span-7 space-y-2 mt-4 border-t-0.5 border-gray-200 pt-3">
+                                                        <div :class="[
+                                                            employee?.total_norm_hours?.compensatory_hours > 0 ? 'text-green-700' : 'text-red-700',
+                                                            'flex items-center gap-1 w-fit cursor-pointer'
+                                                        ]" @click="viewCompensatoryHours(employee)">
+                                                            <Icon name="ph:clock" class="h-3 w-3" aria-hidden="true" />
+                                                            {{
+                                                                $t('dutySchedules.normHours.compensatoryHours')
+                                                            }}:
+                                                            {{
+                                                                formatNumber(language.locale.value,
+                                                                    employee?.total_norm_hours?.compensatory_hours)
+                                                                ??
+                                                                0
+                                                            }}
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-span-7 space-y-2 mt-1">
+                                                        <div :class="[
+                                                            employee?.total_norm_hours?.available_vacation_hours > 0 ? 'text-green-700' : 'text-red-700',
+                                                            'flex items-center gap-1 w-fit cursor-pointer'
+                                                        ]" @click="viewAvailableVacationHours(employee)">
+                                                            <Icon name="ph:clock" class="h-3 w-3" aria-hidden="true" />
+                                                            {{
+                                                                $t('dutySchedules.normHours.availableVacationHours')
+                                                            }}:
+                                                            {{
+                                                                formatNumber(language.locale.value,
+                                                                    employee?.total_norm_hours?.available_vacation_hours || 0)
+                                                            }}
+                                                        </div>
                                                     </div>
                                                 </div>
                                                 <div>
@@ -442,7 +489,7 @@
                                                                 @click="removeShift(week, employeeIndex, weekIndex, shift, shiftIndex)"
                                                                 v-if="isAdmin(userStore.getUser?.role)">
                                                                 <Tooltip position="left"
-                                                                    :text="$t('dutySchedules.removeSchedule')">
+                                                                    :text="$t('dutySchedules.removeSchedule.removeSchedule')">
                                                                     <Icon name="ph:x" class="h-2 w-2"
                                                                         aria-hidden="true" />
                                                                 </Tooltip>
@@ -503,6 +550,8 @@
             <ModulesUserDutyScheduleNormHoursModalCompensatoryHours :isModalOpen="state.modal.isCompensatoryHoursOpen"
                 :selectedEmployee="state.normHours.selectedEmployeeSchedule"
                 @close="state.modal.isCompensatoryHoursOpen = false" />
+            <ModulesUserDutyScheduleNormHoursModalInfo :isModalOpen="state.modal.isAnnualNormHoursInfoOpen"
+                @close="state.modal.isAnnualNormHoursInfoOpen = false" />
             <ModulesUserDutyScheduleNormHoursModalVacationHours :isModalOpen="state.modal.isVacationHoursOpen"
                 :selectedEmployee="state.normHours.selectedEmployeeSchedule"
                 @close="state.modal.isVacationHoursOpen = false" />
@@ -533,7 +582,7 @@ import { draftScheduleService } from '@/components/api/user/DraftScheduleService
 import { useDepartmentStore } from '@/store/department'
 import { useDraftDutyScheduleStore } from '@/store/draft-duty-schedule'
 import { useUserStore } from '@/store/user'
-import { useAlert } from '@/composables/alert'
+import { useNumberFormatter } from '@/composables/numberFormatter'
 import { useI18n } from "vue-i18n"
 import type { Error } from '@/types'
 
@@ -541,6 +590,7 @@ const language = useI18n()
 const userStore = useUserStore() as any
 const departmentStore = useDepartmentStore()
 const draftDutyScheduleStore = useDraftDutyScheduleStore() as any
+const { formatNumber } = useNumberFormatter()
 const currentDate = ref(moment())
 const month = computed(() => currentDate.value.format('MMMM'))
 const year = computed(() => currentDate.value.format('YYYY'))
@@ -577,6 +627,7 @@ const state = reactive({
         isEditShiftOpen: false,
         isPublishDraftOpen: false,
         isVacationHoursOpen: false,
+        isAnnualNormHoursInfoOpen: false,
     } as any,
     newShift: {
         selectedDate: '',
@@ -926,6 +977,16 @@ function hasConflict(week: any) {
     return hasConflict
 }
 
+function viewCompensatoryHours(employee: any) {
+    state.normHours.selectedEmployeeSchedule = employee
+    state.modal.isCompensatoryHoursOpen = true
+}
+
+function viewAvailableVacationHours(employee: any) {
+    state.normHours.selectedEmployeeSchedule = employee
+    state.modal.isVacationHoursOpen = true
+}
+
 function openAddNewShiftModal(employee: any, employeeIndex: number, weekIndex: any, week: any) {
     state.modal.isAddShiftOpen = true
     state.addShift.selectedEmployeeSchedule = {
@@ -937,12 +998,34 @@ function openAddNewShiftModal(employee: any, employeeIndex: number, weekIndex: a
     state.newShift.selectedEmployee = employee
 }
 
+async function pinSelfToTopOfSchedule() {
+    try {
+        state.progress.totalRequests = state.progress.totalRequests + 1
+        state.progress.pendingRequests = state.progress.pendingRequests + 1
+        identifyTheProgressPercentage()
+        const response = await draftScheduleService.pinSelfToTopOfSchedule()
+        if (response) {
+            state.progress.totalRequests = state.progress.totalRequests - 1
+            state.progress.pendingRequests = state.progress.pendingRequests - 1
+            identifyTheProgressPercentage()
+            fetchDraftDutySchedule()
+            userStore.setUserIsDraftSchedulePinned(!userStore.getUser?.is_draft_schedule_pinned)
+        }
+    } catch (error: any) {
+        state.progress.totalRequests = state.progress.totalRequests - 1
+        state.progress.pendingRequests = state.progress.pendingRequests - 1
+        identifyTheProgressPercentage()
+        state.error = error
+    }
+}
+
 async function saveShift(shiftDetails: any) {
     const employeeIndex = state.addShift.selectedEmployeeSchedule.employeeIndex
     const shiftType = shiftDetails.shift_type
     const params = {
         shift_type_uuid: shiftType,
         is_sleeping_sick_leave: shiftDetails.is_sleeping_sick_leave,
+        do_not_count_weekends: shiftDetails.do_not_count_weekends,
         date_time_start: shiftDetails.date_time_start,
         date_time_end: shiftDetails.date_time_end,
         user_uuid: state.weeklySchedules?.data?.[employeeIndex].uuid,
@@ -1221,6 +1304,7 @@ function updateSelectedSchedule(shiftDetails: any) {
     const params = {
         shift_type_uuid: shiftDetails.shift_type,
         is_sleeping_sick_leave: shiftDetails.is_sleeping_sick_leave,
+        do_not_count_weekends: shiftDetails.do_not_count_weekends,
         date_time_start: shiftDetails?.date_time_start,
         date_time_end: shiftDetails?.date_time_end,
         is_apply_to_all: shiftDetails?.recurring?.is_apply_to_all,

@@ -46,6 +46,12 @@ export const useUserStore = defineStore('userStore', {
         setUser(user) {
             this.user = user
         },
+        setUserIsDraftSchedulePinned(status) {
+            this.user.is_draft_schedule_pinned = status
+        },
+        setUserIsSchedulePinned(status) {
+            this.user.is_schedule_pinned = status
+        },
         setUserCheckinStatus(status) {
             this.user.checkin_enabled = status
         },

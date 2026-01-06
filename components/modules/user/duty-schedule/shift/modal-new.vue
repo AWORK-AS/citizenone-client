@@ -32,7 +32,11 @@ const emit = defineEmits(['close', 'refreshShifts'])
 const state = reactive({
     error: {} as Error,
     formShift: {
-        name: '',
+        en_name: '',
+        dk_name: '',
+        time_in: '',
+        time_out: '',
+        color: '#000000',
     },
     isPageLoading: false,
 })

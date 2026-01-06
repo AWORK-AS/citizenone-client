@@ -46,7 +46,7 @@
                             <div class="flex items-center justify-start md:justify-end">
                                 <div class="relative flex items-center rounded-md bg-white shadow-sm md:items-stretch">
                                     <button @click="previousWeek" type="button"
-                                        class="flex h-9 w-12 items-center justify-center rounded-l-md border-y border-l border-gray-300 pr-1 text-gray-400 hover:text-gray-500 focus:relative md:w-9 md:pr-0 md:hover:bg-gray-50">
+                                        class="flex h-11 w-12 items-center justify-center rounded-l-md border-y border-l border-gray-300 pr-1 text-gray-400 hover:text-gray-500 focus:relative md:w-9 md:pr-0 md:hover:bg-gray-50">
                                         <span class="sr-only">Previous week</span>
                                         <Icon name="heroicons:chevron-left" class="h-5 w-5" aria-hidden="true" />
                                     </button>
@@ -54,7 +54,7 @@
                                         dateType="duty-schedule" v-model="state.selectedDate" />
                                     <span class="relative -mx-px h-5 w-px bg-gray-300 md:hidden" />
                                     <button @click="nextWeek" type="button"
-                                        class="flex h-9 w-12 items-center justify-center rounded-r-md border-y border-r border-gray-300 pl-1 text-gray-400 hover:text-gray-500 focus:relative md:w-9 md:pl-0 md:hover:bg-gray-50">
+                                        class="flex h-11 w-12 items-center justify-center rounded-r-md border-y border-r border-gray-300 pl-1 text-gray-400 hover:text-gray-500 focus:relative md:w-9 md:pl-0 md:hover:bg-gray-50">
                                         <span class="sr-only">Next week</span>
                                         <Icon name="heroicons:chevron-right" class="h-5 w-5" aria-hidden="true" />
                                     </button>
@@ -152,6 +152,13 @@
                                                                 <p class="text-xxs">
                                                                     {{ $t('dutySchedules.totalHours') }}:
                                                                     {{ employee?.total_hours ?? 0 }}
+                                                                </p>
+                                                                <p :class="[
+                                                                    employee?.extra_hours > 0 ? 'text-green-700' : 'text-red-700',
+                                                                    'text-xxs'
+                                                                ]">
+                                                                    {{ $t('dutySchedules.extraHours.extraHours') }}:
+                                                                    {{ employee?.extra_hours }}
                                                                 </p>
                                                                 <div class="p-0 m-0 text-xxs text-primary cursor-pointer hover:text-primary-700"
                                                                     @click="navigateTo(`/calendar?employee_uuid=${employee?.uuid}`)">
@@ -272,6 +279,20 @@
                                                                             }}
                                                                         </p>
                                                                     </div>
+                                                                    <div v-if="shift?.shift_span_position"
+                                                                        class="px-1 py-0.5 text-xxs text-white">
+                                                                        <p
+                                                                            v-if="shift?.shift_span_position === 'start'">
+                                                                            {{
+                                                                                $t('dutySchedules.shiftSpan.start') }}</p>
+                                                                        <p
+                                                                            v-if="shift?.shift_span_position === 'middle'">
+                                                                            {{
+                                                                                $t('dutySchedules.shiftSpan.middle') }}</p>
+                                                                        <p v-if="shift?.shift_span_position === 'end'">
+                                                                            {{
+                                                                                $t('dutySchedules.shiftSpan.end') }}</p>
+                                                                    </div>
                                                                     <div :class="[
                                                                         shift?.citizen_schedules?.length > 0 && 'mt-1'
                                                                     ]" v-if="shift?.citizen_schedules?.length > 0">
@@ -281,6 +302,17 @@
                                                                             {{ citizenSchedule?.citizen?.firstname }}
                                                                             {{ citizenSchedule?.citizen?.lastname }}
                                                                         </p>
+                                                                    </div>
+                                                                    <div class="text-xxs text-white px-1 py-0.5"
+                                                                        v-if="shift?.departments?.length > 0">
+                                                                        {{ $t('departments.departments') }}:
+                                                                        <span
+                                                                            v-for="(department, departmentIndex) in shift?.departments"
+                                                                            :key="departmentIndex">
+                                                                            {{ department?.name }}<span
+                                                                                v-if="departmentIndex < shift?.departments.length - 1">,
+                                                                            </span><span v-else>.</span>
+                                                                        </span>
                                                                     </div>
                                                                     <div class="flex items-center flex-wrap gap-y-0.5 mt-1"
                                                                         v-if="shift?.tags?.length > 0">

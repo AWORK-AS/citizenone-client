@@ -15,10 +15,12 @@
             <template #header>{{ $t('journalNotifications.unreadJournalNotes') }}</template>
 
             <div class="min-h-44 space-y-3">
+                <Alert type="danger" :text="state?.errorSelectedJournal?.message"
+                    v-if="state.errorSelectedJournal?.message && state.errorSelectedJournal.message.length > 0" />
                 <Alert type="danger" :text="state?.error?.message"
                     v-if="state.error?.message && state.error.message.length > 0" />
                 <LoadingSpinner :isActive="state.isPageLoading">
-                    <div class="max-w-3xl" v-if="state.notifications.length > 0">
+                    <div v-if="state.notifications.length > 0">
                         <div class="flex justify-end">
                             <FormButton buttonStyle="primary" buttonSize="xs" @click="markAllAsRead"
                                 class="w-fit rounded-md">
@@ -63,6 +65,9 @@
                     </div>
                 </LoadingSpinner>
             </div>
+            <ModulesUserCitizenJournalModalEdit :isModalOpen="state.modal.isEditJournalOpen"
+                :selectedJournal="state.selectedJournal" @close="state.modal.isEditJournalOpen = false"
+                @refreshJournal="" />
         </NuxtLayout>
     </div>
 </template>
@@ -70,6 +75,7 @@
 
 <script setup lang="ts">
 import { useDatetimeFormatter } from '@/composables/datetimeFormatter'
+import { journalService } from '@/components/api/user/JournalService'
 import { notificationService } from '@/components/api/user/NotificationService'
 import { useUserStore } from '@/store/user'
 import type { Error } from '@/types'
@@ -87,8 +93,14 @@ const breadcrumbLinks = [
 
 const state = reactive({
     error: {} as Error,
+    errorSelectedJournal: {} as Error,
     isPageLoading: false,
+    modal: {
+        isEditJournalOpen: false,
+    },
     notifications: [] as any,
+    selectedJournal: {} as any,
+    selectedNotification: {} as any,
 })
 
 onMounted(() => {
@@ -110,8 +122,45 @@ async function fetchNotifications() {
 }
 
 function viewNotification(notification: any) {
-    const notificationId = notification?.id
-    navigateTo(`/journal-notifications/${notificationId}`)
+    // const notificationId = notification?.id
+    // navigateTo(`/journal-notifications/${notificationId}`)
+    state.selectedNotification = notification
+    fetchSelectedJournal()
+}
+
+async function fetchSelectedJournal() {
+    state.error = {}
+    state.errorSelectedJournal = {}
+    state.isPageLoading = true
+    try {
+        const journalUuid = state.selectedNotification?.data?.uuid
+        const response = await journalService.getJournal(journalUuid)
+        if (response) {
+            state.modal.isEditJournalOpen = true
+            state.selectedJournal = response?.data
+        }
+    } catch (error: any) {
+        state.errorSelectedJournal = error
+        state.modal.isEditJournalOpen = false
+        markNotificationAsRead()
+    }
+    state.isPageLoading = false
+}
+
+async function markNotificationAsRead() {
+    state.error = {}
+    state.isPageLoading = true
+    try {
+        const journalNotificationId = state.selectedNotification?.id
+        const response = await notificationService.markAsRead(journalNotificationId)
+        if (response) {
+            userStore.minusUserNotificationCount()
+            fetchNotifications()
+        }
+    } catch (error: any) {
+        state.error = error
+    }
+    state.isPageLoading = false
 }
 
 async function markAllAsRead() {

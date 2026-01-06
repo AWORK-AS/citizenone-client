@@ -6,7 +6,7 @@
             v-if="state.copyShiftError?.message && state.copyShiftError.message.length > 0" />
         <LoadingSpinner :isActive="state.isPageLoading">
             <div class="flex h-full flex-col">
-                <header class="grid grid-cols-1 xl:grid-cols-3 justify-between gap-3 py-3">
+                <header class="grid grid-cols-1 xl:grid-cols-3 gap-3 py-3">
                     <div class="space-y-2">
                         <div class="flex items-center">
                             <div class="relative flex items-center rounded-md bg-white shadow-sm md:items-stretch">
@@ -43,8 +43,8 @@
                     </div>
                 </header>
                 <div class="space-y-2 mt-3 mb-3">
-                    <div class="flex flex-col justify-between gap-3 md:flex-row">
-                        <div class="bg-white border border-gray-200 rounded-md px-4 py-1.5">
+                    <div class="grid grid-cols-1 xl:grid-cols-3 gap-3 py-3">
+                        <div class="w-fit bg-white border border-gray-200 rounded-md px-4 py-2">
                             <h3 class="text-base font-semibold leading-6 text-gray-900 text-center">
                                 <span v-if="month === 'January'">{{ $t('calendar.month.January') }}</span>
                                 <span v-if="month === 'February'">{{ $t('calendar.month.February') }}</span>
@@ -61,7 +61,16 @@
                                 {{ year }}
                             </h3>
                         </div>
-                        <div class="flex items-center gap-x-2">
+                        <div>
+                            <div class="space-y-1 flex items-center gap-x-2">
+                                <FormSwitch :value="userStore.getUser?.is_schedule_pinned ? true : false"
+                                    @toggleSwitch="pinSelfToTopOfSchedule()" />
+                                <p>
+                                    {{ $t('dutySchedules.pinSelfToTopOfSchedule') }}
+                                </p>
+                            </div>
+                        </div>
+                        <div class="flex items-center justify-end gap-x-2">
                             <button class="flex items-center gap-x-1 text-sm text-primary group"
                                 @click="state.modal.isFilterDutyScheduleOpen = true">
                                 <Icon name="ic:outline-filter-list"
@@ -615,10 +624,14 @@
                                                                     </div>
                                                                 </div>
                                                             </div>
-                                                            <div v-if="shift?.shift_span_position" class="px-1 py-0.5 text-xxs text-white">
-                                                                <p v-if="shift?.shift_span_position === 'start'">{{ $t('dutySchedules.shiftSpan.start') }}</p>
-                                                                <p v-if="shift?.shift_span_position === 'middle'">{{ $t('dutySchedules.shiftSpan.middle') }}</p>
-                                                                <p v-if="shift?.shift_span_position === 'end'">{{ $t('dutySchedules.shiftSpan.end') }}</p>
+                                                            <div v-if="shift?.shift_span_position"
+                                                                class="px-1 py-0.5 text-xxs text-white">
+                                                                <p v-if="shift?.shift_span_position === 'start'">{{
+                                                                    $t('dutySchedules.shiftSpan.start') }}</p>
+                                                                <p v-if="shift?.shift_span_position === 'middle'">{{
+                                                                    $t('dutySchedules.shiftSpan.middle') }}</p>
+                                                                <p v-if="shift?.shift_span_position === 'end'">{{
+                                                                    $t('dutySchedules.shiftSpan.end') }}</p>
                                                             </div>
                                                             <div :class="[
                                                                 shift?.citizen_schedules?.length > 0 && 'mt-1'
@@ -793,7 +806,8 @@
                 @close="state.modal.isRemoveShiftConfirmationOpen = false" @confirm="removeShift" />
             <ModulesUserDutyScheduleModalRemoveShiftSpanConfirmation
                 :isModalOpen="state.modal.isRemoveShiftSpanConfirmationOpen"
-                @close="state.modal.isRemoveShiftSpanConfirmationOpen = false" @confirm-single="removeShift" @confirm-entire="removeEntireShiftSpan"  />
+                @close="state.modal.isRemoveShiftSpanConfirmationOpen = false" @confirm-single="removeShift"
+                @confirm-entire="removeEntireShiftSpan" />
             <ModulesUserDutyScheduleModalViewShift :isModalOpen="state.modal.isViewShiftOpen"
                 :selectedEmployeeSchedule="state.viewShift.selectedEmployeeSchedule"
                 @close="state.modal.isViewShiftOpen = false" />
@@ -999,37 +1013,6 @@ function handleKeyDown(event: KeyboardEvent) {
 
 function isAdmin(role: any) {
     return role && role === 'Admin'
-}
-
-function setCustomWeekLabel(startDate: any, endDate: any) {
-    const start = new Date(startDate) as any
-    const end = new Date(endDate) as any
-
-    // Calculate difference in days
-    const diffDays = Math.ceil((end - start) / (1000 * 60 * 60 * 24)) + 1
-
-    // Check for week
-    const isWeek =
-        (start.getDay() === 0 || start.getDay() === 1) && diffDays === 7
-
-    // Check for full month
-    const isFirstDayOfMonth = start.getDate() === 1
-    const isLastDayOfMonth =
-        end.getDate() === new Date(end.getFullYear(), end.getMonth() + 1, 0).getDate()
-    const isSameMonth =
-        start.getMonth() === end.getMonth() &&
-        start.getFullYear() === end.getFullYear()
-
-    const isMonth = isFirstDayOfMonth && isLastDayOfMonth && isSameMonth
-
-    if (isWeek) {
-        state.customWeekLabel = 'week'
-    }
-    else if (isMonth) {
-        state.customWeekLabel = 'month'
-    } else {
-        state.customWeekLabel = 'custom'
-    }
 }
 
 function sortMultiDayShiftsFirst(shifts: any) {
@@ -1326,12 +1309,34 @@ function requestSwapSchedule(shift: any) {
     state.modal.isRequestSwapScheduleOpen = true
 }
 
+async function pinSelfToTopOfSchedule() {
+    try {
+        state.progress.totalRequests = state.progress.totalRequests + 1
+        state.progress.pendingRequests = state.progress.pendingRequests + 1
+        identifyTheProgressPercentage()
+        const response = await dutyScheduleService.pinSelfToTopOfSchedule()
+        if (response) {
+            state.progress.totalRequests = state.progress.totalRequests - 1
+            state.progress.pendingRequests = state.progress.pendingRequests - 1
+            identifyTheProgressPercentage()
+            fetchDutySchedule()
+            userStore.setUserIsSchedulePinned(!userStore.getUser?.is_schedule_pinned)
+        }
+    } catch (error: any) {
+        state.progress.totalRequests = state.progress.totalRequests - 1
+        state.progress.pendingRequests = state.progress.pendingRequests - 1
+        identifyTheProgressPercentage()
+        state.error = error
+    }
+}
+
 async function saveShift(shiftDetails: any) {
     const employeeIndex = state.addShift.selectedEmployeeSchedule.employeeIndex
     const shiftType = shiftDetails.shift_type
     const params = {
         shift_type_uuid: shiftType,
         is_sleeping_sick_leave: shiftDetails.is_sleeping_sick_leave,
+        do_not_count_weekends: shiftDetails.do_not_count_weekends,
         date_time_start: shiftDetails.date_time_start,
         date_time_end: shiftDetails.date_time_end,
         user_uuid: state.weeklySchedules?.data?.[employeeIndex].uuid,
@@ -1666,6 +1671,7 @@ function updateSelectedSchedule(shiftDetails: any) {
     const params = {
         shift_type_uuid: shiftDetails.shift_type,
         is_sleeping_sick_leave: shiftDetails.is_sleeping_sick_leave,
+        do_not_count_weekends: shiftDetails.do_not_count_weekends,
         date_time_start: shiftDetails?.date_time_start,
         date_time_end: shiftDetails?.date_time_end,
         is_apply_to_all: shiftDetails?.recurring?.is_apply_to_all,

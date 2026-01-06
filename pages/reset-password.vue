@@ -36,28 +36,31 @@
                         </button>
                     </div>
 
-                    <form class="mt-5 space-y-3" method="POST" @submit.prevent="resetPassword">
-                        <Alert type="danger" :text="state?.error?.message"
-                            v-if="state.error?.message && state.error.message.length > 0" />
-                        <h3 class="font-medium">
-                            {{ $t('resetPassword.resetPassword') }}
-                        </h3>
-                        <div class="space-y-1">
-                            <FormLabel for="password" :label="$t('resetPassword.form.password')" />
-                            <FormPasswordField id="password" name="password"
-                                :placeholder="$t('resetPassword.form.password')" v-model="state.formUser.password" />
-                            <FormError :error="v$?.formUser?.password?.$errors[0]?.$message.toString()" />
-                            <FormError :error="state?.error?.errors?.password?.[0]" />
+                    <form class="mt-5" method="POST" @submit.prevent="resetPassword">
+                        <div class="space-y-3">
+                            <Alert type="danger" :text="state?.error?.message"
+                                v-if="state.error?.message && state.error.message.length > 0" />
+                            <h3 class="font-medium">
+                                {{ $t('resetPassword.resetPassword') }}
+                            </h3>
+                            <div class="space-y-1">
+                                <FormLabel for="password" :label="$t('resetPassword.form.password')" />
+                                <FormPasswordField id="password" name="password"
+                                    :placeholder="$t('resetPassword.form.password')"
+                                    v-model="state.formUser.password" />
+                                <FormError :error="v$?.formUser?.password?.$errors[0]?.$message.toString()" />
+                                <FormError :error="state?.error?.errors?.password?.[0]" />
+                            </div>
+                            <div class="space-y-1">
+                                <FormLabel for="confirm_password" :label="$t('resetPassword.form.confirmPassword')" />
+                                <FormPasswordField id="confirm_password" name="confirm_password"
+                                    :placeholder="$t('resetPassword.form.confirmPassword')"
+                                    v-model="state.formUser.confirm_password" />
+                                <FormError :error="v$?.formUser?.confirm_password?.$errors[0]?.$message.toString()" />
+                                <FormError :error="state?.error?.errors?.confirm_password?.[0]" />
+                            </div>
                         </div>
-                        <div class="space-y-1">
-                            <FormLabel for="confirm_password" :label="$t('resetPassword.form.confirmPassword')" />
-                            <FormPasswordField id="confirm_password" name="confirm_password"
-                                :placeholder="$t('resetPassword.form.confirmPassword')"
-                                v-model="state.formUser.confirm_password" />
-                            <FormError :error="v$?.formUser?.confirm_password?.$errors[0]?.$message.toString()" />
-                            <FormError :error="state?.error?.errors?.confirm_password?.[0]" />
-                        </div>
-                        <div>
+                        <div class="mt-5">
                             <FormButton type="submit" buttonStyle="primary" class="w-full">
                                 {{ $t('resetPassword.resetPassword') }}
                             </FormButton>

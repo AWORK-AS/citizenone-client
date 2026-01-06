@@ -2,11 +2,41 @@
     <form @submit.prevent="submitForm()" class="max-w-xl">
         <Alert type="danger" :text="props?.error?.message"
             v-if="props.error?.message && props.error.message.length > 0" />
-        <div class="space-y-1">
-            <FormLabel for="name" :label="$t('shifts.form.name')" />
-            <FormTextField id="name" name="name" :placeholder="$t('shifts.form.name')" v-model="state.formShift.name" />
-            <FormError :error="v$?.formShift?.name?.$errors[0]?.$message.toString()" />
-            <FormError :error="props?.error?.errors?.name?.[0]" />
+        <div class="space-y-3">
+            <div class="space-y-1">
+                <FormLabel for="en_name" :label="$t('shifts.form.nameEnglish')" />
+                <FormTextField id="en_name" name="en_name" :placeholder="$t('shifts.form.nameEnglish')"
+                    v-model="state.formShift.en_name" />
+                <FormError :error="v$?.formShift?.en_name?.$errors[0]?.$message.toString()" />
+                <FormError :error="props?.error?.errors?.en_name?.[0]" />
+            </div>
+            <div class="space-y-1">
+                <FormLabel for="dk_name" :label="$t('shifts.form.nameDanish')" />
+                <FormTextField id="dk_name" name="dk_name" :placeholder="$t('shifts.form.nameDanish')"
+                    v-model="state.formShift.dk_name" />
+                <FormError :error="v$?.formShift?.dk_name?.$errors[0]?.$message.toString()" />
+                <FormError :error="props?.error?.errors?.dk_name?.[0]" />
+            </div>
+            <div class="space-y-1">
+                <FormLabel for="time_in" :label="$t('shifts.form.timeIn')" />
+                <FormTimeField id="time_in" name="time_in" :placeholder="$t('shifts.form.timeIn')"
+                    v-model="state.formShift.time_in" />
+                <FormError :error="v$?.formShift?.time_in?.$errors[0]?.$message.toString()" />
+                <FormError :error="props?.error?.errors?.time_in?.[0]" />
+            </div>
+            <div class="space-y-1">
+                <FormLabel for="time_out" :label="$t('shifts.form.timeOut')" />
+                <FormTimeField id="time_out" name="time_out" :placeholder="$t('shifts.form.timeOut')"
+                    v-model="state.formShift.time_out" />
+                <FormError :error="v$?.formShift?.time_out?.$errors[0]?.$message.toString()" />
+                <FormError :error="props?.error?.errors?.time_out?.[0]" />
+            </div>
+            <div class="space-y-1">
+                <FormLabel for="color" :label="$t('shifts.form.color')" />
+                <FormColorPicker id="color" v-model="state.formShift.color" />
+                <FormError :error="v$?.formShift?.color?.$errors[0]?.$message.toString()" />
+                <FormError :error="props?.error?.errors?.color?.[0]" />
+            </div>
         </div>
         <div class="mt-6">
             <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
@@ -49,14 +79,22 @@ const { t } = useI18n()
 const state = reactive({
     error: {} as Error,
     formShift: {
-        name: '',
+        en_name: '',
+        dk_name: '',
+        time_in: '',
+        time_out: '',
+        color: '#000000',
     },
 })
 
 watch(() => props.selectedAddiction, (newValue: any) => {
     if (newValue != null) {
         state.formShift = {
-            name: newValue.name,
+            en_name: newValue.en_name,
+            dk_name: newValue.dk_name,
+            time_in: newValue.time_in,
+            time_out: newValue.time_out,
+            color: newValue.color,
         }
     }
 })
@@ -64,7 +102,19 @@ watch(() => props.selectedAddiction, (newValue: any) => {
 const rules = computed(() => {
     return {
         formShift: {
-            name: {
+            en_name: {
+                required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
+            },
+            dk_name: {
+                required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
+            },
+            time_in: {
+                required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
+            },
+            time_out: {
+                required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
+            },
+            color: {
                 required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
             },
         },

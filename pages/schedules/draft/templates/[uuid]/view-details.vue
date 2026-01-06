@@ -15,18 +15,10 @@
                         class="text-primary text-sm hover:text-primary-700">
                         {{ $t('dutySchedules.showTheDistributionOfShiftTypes') }}
                     </button>
-                    <!-- <FormButton buttonStyle="action" class="rounded-lg" @click="navigateTo('/schedules/draft/templates')">
-                        <Icon name="ph:note" class="h-4 w-4" aria-hidden="true" />
-                        {{ $t('dutySchedules.draftTemplates.draftTemplates') }}
-                    </FormButton> -->
-                    <!-- <FormButton buttonStyle="action" class="rounded-lg" @click="state.modal.isPublishDraftOpen = true">
-                        <Icon name="ph:check" class="h-4 w-4" aria-hidden="true" />
-                        {{ $t('dutySchedules.draft.publish') }}
-                    </FormButton> -->
                 </div>
             </template>
 
-            <template #header>{{ $t('dutySchedules.draftTemplates.viewDraftTemplate') }}</template>
+            <template #header>{{ state?.draftTemplate?.name }} - {{ departmentStore?.getSelectedDepartmentName }}</template>
 
             <div>
                 <NuxtLink class="flex items-center gap-x-2 mb-3 max-w-fit hover:cursor-pointer" to="/schedules/draft/templates">
@@ -48,9 +40,12 @@
 
 <script setup lang="ts">
 import { useCustomPagesStore } from "@/store/custom-pages";
+import { useDepartmentStore } from "@/store/department";
+import { draftTemplateService } from "@/components/api/user/DraftTemplateService";
 
 const runtimeConfig = useRuntimeConfig();
 const customPagesStore = useCustomPagesStore() as any;
+const departmentStore = useDepartmentStore() as any;
 const router = useRouter()
 const draftTemplateUuid = router?.currentRoute?.value?.params?.uuid
 
@@ -83,7 +78,25 @@ const state = reactive({
     calendarView: 'week',
     modal: {
         isShowAllShiftTypes: false,
-    }
+    },
+    draftTemplate: {} as any,
 })
+
+onMounted(() => {
+    fetchDraftTemplate()
+})
+
+async function fetchDraftTemplate() {
+    state.isPageLoading = true
+    try {
+        const response = await draftTemplateService.getDraftTemplateDetails(draftTemplateUuid as string)
+        if (response) {
+            state.draftTemplate = response.data
+        }
+    } catch (error: any) {
+        state.error = error
+    }
+    state.isPageLoading = false
+}
 
 </script>
