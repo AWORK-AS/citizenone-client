@@ -50,6 +50,7 @@ const state = reactive({
     error: {} as Error,
     formRole: {
         name: '',
+        permissions: [],
     },
     isPageLoading: false,
 })
@@ -60,6 +61,7 @@ async function saveRole(roleDetails: any) {
     try {
         const params = {
             name: roleDetails.name,
+            permission_uuid: roleDetails.permissions,
         }
         const response = await roleService.saveRole(params)
         if (response.data) {

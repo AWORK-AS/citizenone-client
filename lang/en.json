@@ -4735,7 +4735,8 @@
                 "roleSuccessfullyUpdated": "Role successfully updated",
                 "newRoleSuccessfullySaved": "New role successfully saved"
             },
-            "name": "Name"
+            "name": "Name",
+            "permissions": "Permissions"
         },
         "newRole": "New role",
         "roles": "Roles",
@@ -4749,6 +4750,7 @@
                 "deleteRoleConfirmation": "Are you sure you want to delete this role"
             },
             "name": "Name",
+            "permissions": "Permissions",
             "user": "User"
         }
     },

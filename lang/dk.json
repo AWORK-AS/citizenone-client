@@ -4735,7 +4735,8 @@
                 "roleSuccessfullyUpdated": "Rolle opdateret med succes",
                 "newRoleSuccessfullySaved": "Ny rolle gemt med succes"
             },
-            "name": "Navn"
+            "name": "Navn",
+            "permissions": "Tilladelser"
         },
         "newRole": "Ny rolle",
         "roles": "Roller",
@@ -4749,6 +4750,7 @@
                 "deleteRoleConfirmation": "Er du sikker på, at du vil slette denne rolle"
             },
             "name": "Navn",
+            "permissions": "Tilladelser",
             "user": "Bruger"
         }
     },
