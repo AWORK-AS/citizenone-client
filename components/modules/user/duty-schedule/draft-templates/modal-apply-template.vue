@@ -4,7 +4,7 @@
             <template #modal-body>
                 <LoadingSpinner :isActive="state.isPageLoading">
                     <ModulesUserDutyScheduleDraftTemplatesApplyTemplateForm formType="create"
-                        :selected-draft-template="state.formTemplate"
+                        :selected-draft-template="props.selectedDraftTemplate"
                         :error="state.error"
                         @closeModal="closeModal"
                         @submitForm="applyTemplate" />
@@ -54,6 +54,8 @@ const state = reactive({
 })
 
 function closeModal() {
+    state.error = {}
+    state.isPageLoading = false
     emit('close')
 }
 
