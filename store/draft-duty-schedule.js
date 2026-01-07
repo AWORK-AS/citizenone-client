@@ -6,7 +6,6 @@ export const useDraftDutyScheduleStore = defineStore('draftDutyScheduleStore',
         state: () => ({
             currentPageLength: 10,
             currentPageNumber: 1,
-            showDepartmentPopup: true,
         }),
         actions: {
             setCurrentPageLength(pageLength) {
@@ -15,14 +14,10 @@ export const useDraftDutyScheduleStore = defineStore('draftDutyScheduleStore',
             setCurrentPageNumber(pageNumber) {
                 this.currentPageNumber = pageNumber
             },
-            setShowDepartmentPopup(status) {
-                this.showDepartmentPopup = status
-            }
         },
         getters: {
             getCurrentPageLength: (state) => state.currentPageLength,
             getCurrentPageNumber: (state) => state.currentPageNumber,
-            getShowDepartmentPopup: (state) => state.showDepartmentPopup,
         },
     },
 )

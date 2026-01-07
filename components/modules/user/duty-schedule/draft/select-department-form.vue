@@ -14,7 +14,12 @@
                 <div class="w-fit flex items-center cursor-pointer select-none"
                     @click="state.formDepartment.do_not_show_again = !state.formDepartment.do_not_show_again">
                     <FormCheckbox :value="state.formDepartment.do_not_show_again" />
-                    {{ $t('dutySchedules.draft.selectDepartment.form.doNotShowAgain') }}
+                    <div class="flex items-center gap-x-1">
+                        <span>{{ $t('dutySchedules.draft.selectDepartment.form.doNotShowAgain') }}</span>
+                        <Tooltip position="right" :text="$t('dutySchedules.draft.selectDepartment.form.donNotShowAgainInfo')">
+                            <Icon name="ph:question" class="h-5 w-5 text-gray-700" aria-hidden="true" />
+                        </Tooltip>
+                    </div>
                 </div>
             </div>
         </div>
@@ -33,14 +38,13 @@
 </template>
 
 <script setup lang="ts">
+import moment from "moment"
 import { useI18n } from "vue-i18n"
 import type { Error } from '@/types'
 import { departmentService } from '@/components/api/user/DepartmentService'
 import { useDepartmentStore } from '@/store/department'
-import { useDraftDutyScheduleStore } from '@/store/draft-duty-schedule'
 import { useVuelidate } from "@vuelidate/core"
 import { required, helpers } from '@vuelidate/validators'
-import { useUserStore } from '@/store/user'
 import { userService } from "~/components/api/user/UserService"
 
 const props = defineProps({
@@ -52,10 +56,7 @@ const props = defineProps({
 
 const { t } = useI18n()
 const emit = defineEmits(['close', 'isPageLoading', 'selectDepartment'])
-const language = useI18n()
 const departmentStore = useDepartmentStore() as any
-const userStore = useUserStore() as any
-const draftDutyScheduleStore = useDraftDutyScheduleStore() as any
 
 const state = reactive({
     error: {} as Error,
@@ -138,7 +139,8 @@ async function selectDepartment() {
             departmentStore.setSelectedDepartmentName(department?.label)
 
             if (state.formDepartment.do_not_show_again) {
-                draftDutyScheduleStore.setShowDepartmentPopup(false)
+                const now = moment().format('YYYY-MM-DD')
+                localStorage.setItem('schedulesDraftContextHidden', now)
             }
         }
     } catch (error: any) {

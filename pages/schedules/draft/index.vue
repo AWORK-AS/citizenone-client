@@ -81,27 +81,24 @@
 const runtimeConfig = useRuntimeConfig()
 import { useCustomPagesStore } from '@/store/custom-pages'
 import { useDepartmentStore } from '@/store/department'
-import { useDraftDutyScheduleStore } from '@/store/draft-duty-schedule'
 
 const customPagesStore = useCustomPagesStore() as any
 const departmentStore = useDepartmentStore() as any
-const draftDutyScheduleStore = useDraftDutyScheduleStore() as any
 
 const state = reactive({
     calendarView: 'week',
-    hasContext: false,
+    hasContext: true,
     modal: {
         isPublishDraftOpen: false,
         isShowAllShiftTypes: false,
-        isSelectDepartmentModalOpen: true,
+        isSelectDepartmentModalOpen: false,
     },
 })
 
 onMounted(() => {
-    state.hasContext = false
-    if (!draftDutyScheduleStore.getShowDepartmentPopup) {
-        state.hasContext = true
-        state.modal.isSelectDepartmentModalOpen = false
+    if (!localStorage.getItem('schedulesDraftContextHidden')) {
+        state.hasContext = false
+        state.modal.isSelectDepartmentModalOpen = true
     }
 })
 

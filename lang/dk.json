@@ -2437,6 +2437,7 @@
                 "form": {
                     "department": "Afdeling",
                     "doNotShowAgain": "Vis ikke dette igen",
+                    "donNotShowAgainInfo": "Skjul bekræftelsesdialogen indtil næste session.",
                     "confirm": "Bekræft"
                 }
             }
