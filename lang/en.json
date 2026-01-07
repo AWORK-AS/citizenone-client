@@ -2349,6 +2349,34 @@
             "name": "Name"
         }
     },
+    "dosageForms": {
+        "addNewDosageForm": "Add new dosage form",
+        "alert": {
+            "dosageFormSuccessfullyDeleted": "Dosage form successfully deleted"
+        },
+        "editDosageForm": "Edit dosage form",
+        "form": {
+            "alert": {
+                "dosageFormSuccessfullyUpdated": "Dosage form successfully updated",
+                "newDosageFormSuccessfullySaved": "New dosage form successfully saved"
+            },
+            "nameDanish": "Name (danish)",
+            "nameEnglish": "Name (english)"
+        },
+        "newDosageForm": "New dosage form",
+        "dosageForms": "Dosage forms",
+        "table": {
+            "actions": {
+                "delete": "Delete",
+                "edit": "Edit"
+            },
+            "confirmation": {
+                "deleteDosageFormConfirmation": "Are you sure you want to delete this dosage form"
+            },
+            "nameDanish": "Name (danish)",
+            "nameEnglish": "Name (english)"
+        }
+    },
     "dutySchedules": {
         "activityLogs": "Activity logs",
         "alert": {
@@ -4884,6 +4912,7 @@
             "customPages": "Glossary",
             "departments": "Departments",
             "diagnoses": "Diagnoses",
+            "dosageForms": "Dosage forms",
             "foreignCities": "Foreign cities",
             "invoices": "Invoices",
             "jobTitles": "Job titles",

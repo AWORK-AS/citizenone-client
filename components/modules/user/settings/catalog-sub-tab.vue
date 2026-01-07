@@ -84,6 +84,14 @@ watch(() => userStore.getUser, (newValue: any) => {
                 ]
             },
             {
+                name: 'settings.tabs.dosageForms',
+                isTranslateName: true,
+                href: `/settings/dosage-forms`,
+                routeNames: [
+                    'settings-dosage-forms'
+                ]
+            },
+            {
                 name: 'settings.tabs.foreignCities',
                 isTranslateName: true,
                 href: `/settings/foreign-cities`,

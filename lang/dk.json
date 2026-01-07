@@ -2349,6 +2349,34 @@
             "name": "Navn"
         }
     },
+    "dosageForms": {
+        "addNewDosageForm": "Tilføj ny doseringsform",
+        "alert": {
+            "dosageFormSuccessfullyDeleted": "Doseringsform blev slettet"
+        },
+        "editDosageForm": "Rediger doseringsform",
+        "form": {
+            "alert": {
+                "dosageFormSuccessfullyUpdated": "Doseringsform blev opdateret",
+                "newDosageFormSuccessfullySaved": "Ny doseringsform blev gemt"
+            },
+            "nameDanish": "Navn (dansk)",
+            "nameEnglish": "Navn (engelsk)"
+        },
+        "newDosageForm": "Ny doseringsform",
+        "dosageForms": "Doseringsformer",
+        "table": {
+            "actions": {
+                "delete": "Slet",
+                "edit": "Rediger"
+            },
+            "confirmation": {
+                "deleteDosageFormConfirmation": "Er du sikker på, at du vil slette denne doseringsform?"
+            },
+            "nameDanish": "Navn (dansk)",
+            "nameEnglish": "Navn (engelsk)"
+        }
+    },
     "dutySchedules": {
         "activityLogs": "Aktivitetslogs",
         "alert": {
@@ -4884,6 +4912,7 @@
             "customPages": "Ordliste",
             "departments": "Afdelinger",
             "diagnoses": "Diagnoser",
+            "dosageForms": "Doseringsformer",
             "foreignCities": "Udenlandske byer",
             "invoices": "Fakturaer",
             "jobTitles": "Jobtitler",
