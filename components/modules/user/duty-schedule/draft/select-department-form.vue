@@ -33,6 +33,7 @@
 </template>
 
 <script setup lang="ts">
+import moment from "moment"
 import { useI18n } from "vue-i18n"
 import type { Error } from '@/types'
 import { departmentService } from '@/components/api/user/DepartmentService'
@@ -138,7 +139,8 @@ async function selectDepartment() {
             departmentStore.setSelectedDepartmentName(department?.label)
 
             if (state.formDepartment.do_not_show_again) {
-                draftDutyScheduleStore.setShowDepartmentPopup(false)
+                const now = moment().format('YYYY-MM-DD')
+                localStorage.setItem('schedulesDraftContextHidden', now)
             }
         }
     } catch (error: any) {

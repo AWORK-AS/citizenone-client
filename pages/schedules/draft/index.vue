@@ -99,7 +99,7 @@ const state = reactive({
 
 onMounted(() => {
     state.hasContext = false
-    if (!draftDutyScheduleStore.getShowDepartmentPopup) {
+    if (localStorage.getItem('schedulesDraftContextHidden')) {
         state.hasContext = true
         state.modal.isSelectDepartmentModalOpen = false
     }
