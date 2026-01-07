@@ -1,12 +1,7 @@
 <template>
-    <flat-pickr
-        v-model="state.dateValue"
-        :config="state.datePickerConfig"
-        :id="props.id"
-        :name="props.name"
+    <flat-pickr v-model="state.dateValue" :config="state.datePickerConfig" :id="props.id" :name="props.name"
         :placeholder="props.placeholder"
-        class="hidden appearance-none w-full px-3 py-2.5 border border-primary placeholder-gray-500 text-gray-900 rounded-md focus:outline-none focus:ring-primary focus:border-primary focus:z-10 sm:text-sm"
-    />
+        class="hidden appearance-none w-full px-3 py-2.5 border border-primary placeholder-gray-500 text-gray-900 rounded-md focus:outline-none focus:ring-primary focus:border-primary focus:z-10 sm:text-sm" />
 </template>
 
 <script setup lang="ts">
@@ -51,8 +46,8 @@ watch(() => state.dateValue, (newValue) => {
 
 watch(() => locale.value, (lang) => {
     state.datePickerConfig.locale = lang === 'dk'
-    ? { ...Danish, firstDayOfWeek: 1 }
-    : { firstDayOfWeek: 1 }
+        ? { ...Danish, firstDayOfWeek: 1 }
+        : { firstDayOfWeek: 1 }
 })
 
 watch(() => props.modelValue, (newValue) => {

@@ -39,7 +39,8 @@ const state = reactive({
     dateValue: props.modelValue ? new Date(props.modelValue) : '',
     datePickerConfig: {
         enableTime: false,
-        dateFormat: 'd. F Y',
+        // Updated dateFormat to include week number (w token for ISO week number)
+        dateFormat: 'd. F Y (W)',
         disableMobile: true,
         locale: {
             firstDayOfWeek: 1, // Set Monday as the first day of the week
