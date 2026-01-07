@@ -2409,6 +2409,7 @@
                 "form": {
                     "department": "Department",
                     "doNotShowAgain": "Don't show this again",
+                    "donNotShowAgainInfo": "Hide the confirmation dialog until the next session.",
                     "confirm": "Confirm"
                 }
             }
