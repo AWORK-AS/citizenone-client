@@ -32,7 +32,7 @@
                             :isLoading="state.isTableLoading" :sortData="state.sortData" @sort="sort">
                             <template #body v-if="!(state.isTableLoading || (state.roles?.data?.length === 0))">
                                 <tr v-for="(role, index) in state.roles?.data" :key="index">
-                                    <td width="70%">
+                                    <td width="35%">
                                         <span v-if="role.name === 'Admin'">
                                             {{ $t('roles.table.admin') }}
                                         </span>
@@ -42,6 +42,14 @@
                                         <span v-else>
                                             {{ role?.name }}
                                         </span>
+                                    </td>
+                                    <td width="35%">
+                                        <div class="text-xxs flex flex-wrap gap-1">
+                                            <span v-for="(permission, index) in role?.permissions" :key=index
+                                                class="bg-primary px-2 py-1 text-white rounded-md">
+                                                {{ permission?.name }}
+                                            </span>
+                                        </div>
                                     </td>
                                     <td width="30%">
                                         <div class="flex items-end justify-end gap-2">
@@ -94,6 +102,7 @@ const breadcrumbLinks = [
 const state = reactive({
     columnHeaders: [
         { name: 'roles.table.name', sorter: true, key: 'name' },
+        { name: 'roles.table.permissions' },
         { name: '' }
     ],
     dataFilter: {
