@@ -2418,6 +2418,7 @@
             "downloadOverview": "Download overview"
         },
         "draft": {
+            "pageTitle": "Duty schedules draft",
             "alert": {
                 "successfullyPublished": "Schedules successfully published"
             },

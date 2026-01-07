@@ -2418,6 +2418,7 @@
             "downloadOverview": "Download oversigt"
         },
         "draft": {
+            "pageTitle": "Vagtplanskladde",
             "alert": {
                 "successfullyPublished": "Vagtplaner offentliggjort med succes"
             },

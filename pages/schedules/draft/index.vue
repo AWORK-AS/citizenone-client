@@ -4,8 +4,7 @@
 
             <Head>
                 <Title>
-                    {{ customPagesStore.getCustomPagesName?.dutySchedules }}
-                    {{ $t('dutySchedules.draft.draft')?.toLowerCase() }}
+                    {{ $t('dutySchedules.draft.pageTitle') }}
                     -
                     {{ runtimeConfig?.public?.appName }}
                 </Title>
@@ -27,17 +26,14 @@
                                 aria-hidden="true" />
                             <button @click="navigateTo('/schedules/draft')"
                                 class="ml-4 text-sm font-medium text-gray-500 hover:text-gray-700">
-                                {{ customPagesStore.getCustomPagesName?.dutySchedules }}
-                                <span class="lowercase">
-                                    {{ $t('dutySchedules.draft.draft') }}
-                                </span>
+                                {{ $t('dutySchedules.draft.pageTitle') }}
                             </button>
                         </div>
                     </template>
                 </Breadcrumb>
             </template>
 
-            <template #header>{{ customPagesStore.getCustomPagesName?.dutySchedules }} {{ $t('dutySchedules.draft.draft').toLowerCase() }} - {{ departmentStore.getSelectedDepartmentName }}</template>
+            <template #header>{{ $t('dutySchedules.draft.pageTitle') }} - {{ departmentStore.getSelectedDepartmentName }}</template>
 
             <template #guided-tour>
                 <div class="flex flex-wrap items-center gap-3">

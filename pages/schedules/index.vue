@@ -35,8 +35,7 @@
                     <FormButton buttonStyle="action" class="rounded-lg" @click="navigateTo('/schedules/draft')"
                         v-if="isAdmin(userStore.getUser?.role)">
                         <Icon name="ph:note" class="h-4 w-4" aria-hidden="true" />
-                        {{ customPagesStore.getCustomPagesName?.dutySchedules }}
-                        {{ $t('dutySchedules.draft.draft')?.toLowerCase() }}
+                        {{ $t('dutySchedules.draft.pageTitle') }}
                     </FormButton>
                     <FormButton buttonStyle="action" class="rounded-lg" @click="state.modal.isDownloadOpen = true">
                         <Icon name="ph:download" class="h-4 w-4" aria-hidden="true" />
