@@ -72,7 +72,7 @@ async function fetchRole() {
                 permissions: [],
             }
             response?.data?.permissions.forEach((permission: any) => {
-                state.formRole.permissions.push(permission.name)
+                state.formRole.permissions.push(permission?.uuid)
             })
         }
     } catch (error: any) {
