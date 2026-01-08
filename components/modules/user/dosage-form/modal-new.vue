@@ -1,13 +1,11 @@
 <template>
     <div>
-        <Modal size="xs" :title="$t('contactJobTitles.newContactJobTitle')" :show="props.isModalOpen"
-            @close="closeModal">
+        <Modal size="xs" :title="$t('dosageForms.newDosageForm')" :show="props.isModalOpen" @close="closeModal">
             <template #modal-body>
                 <LoadingSpinner :isActive="state.isPageLoading">
-                    <ModulesUserCitizenContactJobTitleModalForm formType="create"
-                        :selectedContactJobTitle="state.formContactJobTitle" :error="state.error"
-                        @isPageLoading="(value: boolean) => state.isPageLoading = value" @closeModal="closeModal"
-                        @submitForm="saveContactJobTitle" />
+                    <ModulesUserDosageFormModalForm formType="create" :selectedDosageForm="state.formDosageForm"
+                        :error="state.error" @isPageLoading="(value: boolean) => state.isPageLoading = value"
+                        @closeModal="closeModal" @submitForm="saveDosageForm" />
                 </LoadingSpinner>
             </template>
         </Modal>
@@ -15,7 +13,7 @@
 </template>
 
 <script setup lang="ts">
-import { contactJobTitlesService } from '@/components/api/user/ContactJobTitlesService'
+import { dosageFormService } from '@/components/api/user/DosageFormService'
 import { useAlert } from '@/composables/alert'
 import { useI18n } from "vue-i18n"
 import type { Error } from '@/types'
@@ -29,13 +27,13 @@ const props = defineProps({
         required: true,
     },
 })
-const emit = defineEmits(['close', 'refreshContactJobTitles'])
+const emit = defineEmits(['close', 'refreshDosageForms'])
 
 const state = reactive({
     error: {} as Error,
-    formContactJobTitle: {
-        en_title: '',
-        dk_title: '',
+    formDosageForm: {
+        en_name: '',
+        dk_name: '',
     },
     isPageLoading: false,
 })
@@ -44,22 +42,22 @@ function closeModal() {
     emit('close')
 }
 
-function refreshContactJobTitles() {
-    emit('refreshContactJobTitles')
+function refreshDosageForms() {
+    emit('refreshDosageForms')
 }
 
-async function saveContactJobTitle(contactJobTitleDetails: any) {
+async function saveDosageForm(dosageFormDetails: any) {
     state.error = {}
     state.isPageLoading = true
     try {
         const params = {
-            en_title: contactJobTitleDetails.en_title,
-            dk_title: contactJobTitleDetails.dk_title,
+            en_name: dosageFormDetails.en_name,
+            dk_name: dosageFormDetails.dk_name,
         }
-        const response = await contactJobTitlesService.saveContactJobTitle(params)
+        const response = await dosageFormService.saveDosageForm(params)
         if (response.data) {
-            successAlert(`${t('alert.success')}!`, `${t('contactJobTitles.form.alert.newContactJobTitleSuccessfullySaved')}.`)
-            refreshContactJobTitles()
+            successAlert(`${t('alert.success')}!`, `${t('dosageForms.form.alert.newDosageFormSuccessfullySaved')}.`)
+            refreshDosageForms()
             closeModal()
         }
     } catch (error: any) {

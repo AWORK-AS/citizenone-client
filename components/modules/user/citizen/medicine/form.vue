@@ -50,8 +50,15 @@
                     !state.formMedicine.is_pn_medicine && 'md:grid-cols-2'
                 ]">
                     <div class="space-y-1">
-                        <FormLabel for="dosage" :label="$t('citizens.medicineJournals.form.dosageForm')" />
-                        <FormSelect id="dosage" :options="state.options.dosage_form"
+                        <!-- <FormLabel for="dosage" :label="$t('citizens.medicineJournals.form.dosageForm')" /> -->
+                        <div class="flex justify-between items-center py-0.5">
+                            <FormLabel for="dosage" :label="$t('citizens.medicineJournals.form.dosageForm')" />
+                            <span class="text-xs cursor-pointer text-tertiary hover:text-tertiary-800"
+                                @click="state.modal.isAddDosageFormOpen = true">
+                                {{ $t('dosageForms.addNewDosageForm') }}
+                            </span>
+                        </div>
+                        <FormSelect id="dosage" :options="state.options.dosage_forms"
                             v-model="state.formMedicine.dosage" />
                         <FormError :error="v$?.formMedicine?.dosage?.$errors[0]?.$message.toString()" />
                         <FormError :error="props?.error?.errors?.dosage_uuid?.[0]" />
@@ -230,6 +237,8 @@
         <ModulesUserCitizenContactModalNewDoctor :isModalOpen="state.modal.isAddDoctorOpen"
             @close="state.modal.isAddDoctorOpen = false" @refreshCaseworkers="fetchCitizenDoctors"
             v-if="state.modal.isAddDoctorOpen" />
+        <ModulesUserDosageFormModalNew :isModalOpen="state.modal.isAddDosageFormOpen"
+            @close="state.modal.isAddDosageFormOpen = false" @refreshDosageForms="fetchDosageForms" />
         <ModulesUserMassUnitModalNew :isModalOpen="state.modal.isAddMassUnitOpen"
             @close="state.modal.isAddMassUnitOpen = false" @refreshUnits="fetchAllMassUnits"
             v-if="state.modal.isAddMassUnitOpen" />
@@ -238,7 +247,7 @@
 
 <script setup lang="ts">
 import { citizenDoctorService } from '@/components/api/user/CitizenDoctorService'
-import { dosageService } from '@/components/api/user/DosageService'
+import { dosageFormService } from '@/components/api/user/DosageFormService'
 import { massUnitService } from '@/components/api/user/MassUnitService'
 import { medicineService } from '@/components/api/user/MedicineService'
 import { timeIntervalService } from '@/components/api/user/TimeIntervalService'
@@ -293,12 +302,13 @@ const state = reactive({
     } as any,
     modal: {
         isAddDoctorOpen: false,
+        isAddDosageFormOpen: false,
         isAddMassUnitOpen: false,
         isAddNewMedicineOpen: false,
     },
     options: {
         doctors: [],
-        dosage_form: [],
+        dosage_forms: [],
         medicines: [],
         schedule_frequencies: [
             { value: 'everyday', label: `${t('citizens.medicineJournals.scheduleFrequencies.everyday')}` },
@@ -342,7 +352,7 @@ onMounted(() => {
         schedule_frequency: props.selectedMedicine.schedule_frequency,
         current_stocks: props.selectedMedicine.current_stocks?.toString(),
     }
-    fetchDosageForm()
+    fetchDosageForms()
     fetchAllMedicines()
     fetchCitizenDoctors()
     fetchAllMassUnits()
@@ -479,20 +489,20 @@ function submitForm() {
     }
 }
 
-async function fetchDosageForm() {
+async function fetchDosageForms() {
     emit('error', {})
     emit('isPageLoading', true)
     try {
-        const response = await dosageService.getAllDosages()
+        const response = await dosageFormService.getAllDosageForms()
         if (response) {
             let options: any = []
             response.data.forEach(
                 (item: any) => options.push({
                     value: item.uuid,
-                    label: item.name,
+                    label: language.locale.value === 'en' ? item?.en_name : item?.dk_name,
                 })
             )
-            state.options.dosage_form = options
+            state.options.dosage_forms = options
         }
     } catch (error: any) {
         emit('error', error)

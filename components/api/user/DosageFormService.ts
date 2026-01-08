@@ -21,8 +21,8 @@ class DosageFormService extends BaseAPIService {
         return await this.request(`/user/dosage-forms/${dosageFormUuid}`, 'DELETE')
     }
 
-    async getAllDosageForms(params: object): Promise<any> {
-        return await this.request(`/user/dosage-forms/all/list`, 'GET', params)
+    async getAllDosageForms(): Promise<any> {
+        return await this.request(`/user/dosage-forms/all/list`, 'GET')
     }
 }
 

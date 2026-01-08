@@ -4,18 +4,18 @@
             v-if="props.error?.message && props.error.message.length > 0" />
         <div class="space-y-3">
             <div class="space-y-1">
-                <FormLabel for="en_title" :label="$t('contactJobTitles.form.titleEnglish')" />
-                <FormTextField id="en_title" name="en_title" :placeholder="$t('contactJobTitles.form.titleEnglish')"
-                    v-model="state.formContactJobTitle.en_title" />
-                <FormError :error="v$?.formContactJobTitle?.en_title?.$errors[0]?.$message.toString()" />
-                <FormError :error="props?.error?.errors?.en_title?.[0]" />
+                <FormLabel for="en_name" :label="$t('dosageForms.form.nameEnglish')" />
+                <FormTextField id="en_name" name="en_name" :placeholder="$t('dosageForms.form.nameEnglish')"
+                    v-model="state.formDosageForm.en_name" />
+                <FormError :error="v$?.formDosageForm?.en_name?.$errors[0]?.$message.toString()" />
+                <FormError :error="props?.error?.errors?.en_name?.[0]" />
             </div>
             <div class="space-y-1">
-                <FormLabel for="dk_title" :label="$t('contactJobTitles.form.titleDanish')" />
-                <FormTextField id="dk_title" name="dk_title" :placeholder="$t('contactJobTitles.form.titleDanish')"
-                    v-model="state.formContactJobTitle.dk_title" />
-                <FormError :error="v$?.formContactJobTitle?.dk_title?.$errors[0]?.$message.toString()" />
-                <FormError :error="props?.error?.errors?.dk_title?.[0]" />
+                <FormLabel for="dk_name" :label="$t('dosageForms.form.nameDanish')" />
+                <FormTextField id="dk_name" name="dk_name" :placeholder="$t('dosageForms.form.nameDanish')"
+                    v-model="state.formDosageForm.dk_name" />
+                <FormError :error="v$?.formDosageForm?.dk_name?.$errors[0]?.$message.toString()" />
+                <FormError :error="props?.error?.errors?.dk_name?.[0]" />
             </div>
         </div>
         <div class="mt-6">
@@ -47,7 +47,7 @@ const props = defineProps({
         type: String,
         required: true,
     },
-    selectedAddiction: {
+    selectedDosageForm: {
         type: Object,
         required: false,
     },
@@ -58,28 +58,28 @@ const { t } = useI18n()
 
 const state = reactive({
     error: {} as Error,
-    formContactJobTitle: {
-        en_title: '',
-        dk_title: '',
+    formDosageForm: {
+        en_name: '',
+        dk_name: '',
     },
 })
 
-watch(() => props.selectedAddiction, (newValue: any) => {
+watch(() => props.selectedDosageForm, (newValue: any) => {
     if (newValue != null) {
-        state.formContactJobTitle = {
-            en_title: newValue.en_title,
-            dk_title: newValue.dk_title,
+        state.formDosageForm = {
+            en_name: newValue.en_name,
+            dk_name: newValue.dk_name,
         }
     }
 })
 
 const rules = computed(() => {
     return {
-        formContactJobTitle: {
-            en_title: {
+        formDosageForm: {
+            en_name: {
                 required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
             },
-            dk_title: {
+            dk_name: {
                 required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
             },
         },
@@ -92,7 +92,7 @@ function submitForm() {
     state.error = {}
     v$.value.$validate()
     if (!v$.value.$error) {
-        emit('submitForm', state.formContactJobTitle)
+        emit('submitForm', state.formDosageForm)
     }
 }
 </script>
