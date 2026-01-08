@@ -44,7 +44,8 @@ const state = reactive({
         disableMobile: true,
         locale: {
             firstDayOfWeek: 1, // Set Monday as the first day of the week
-        }
+        },
+        weekNumbers: true,
     }
 })
 
