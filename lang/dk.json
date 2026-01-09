@@ -3424,18 +3424,58 @@
     "inquiries": {
         "inquiries": "Henvendelser",
         "editInquiry": "Rediger henvendelser",
+        "crisisCenterInquiry": "Krisecenter henvendelser",
+        "shelterInquiry": "Herberger og forsorgshjem henvendelser",
         "form": {
             "alert": {
                 "newInquirySuccessfullySaved": "Ny henvendelser er blevet gemt",
                 "inquirySuccessfullyUpdated": "Forespørgsel opdateret"
             },
             "conversationSummary": "Samtalesammenfatning",
+            "cpr": "Borgerens CPR-nummer",
             "dateOfInquiry": "Dato for henvendelser",
             "firstname": "Fornavn",
             "inquirerName": "Navn på spørger",
             "lastname": "Efternavn",
+            "notes": "Egne noter",
             "outcome": "Resultat (f.eks. tilbudt en plads, afvist, videresendt)",
-            "purpose": "Formål"
+            "purpose": "Formål",
+            "options": {
+                "inquiryType": {
+                    "shelter": "Herberger og forsorgshjem",
+                    "crisisCenter": "Krisecenter"
+                },
+                "contactedBy": {
+                    "theCitizenThemselves": "Borgeren selv",
+                    "familyFriends": "Familie/ven/nabo/kollega/bekendt",
+                    "municipalEmployee": "Medarbejder i kommunen",
+                    "police": "Politiet/kriminalforsorgen",
+                    "healthcareProfessional": "Sundhedspersonale",
+                    "employeeFromAnotherCrisisCenter": "Medarbejder fra et andet krisecenter",
+                    "other": "Andre"
+                },
+                "assessment": {
+                    "yes": "Ja",
+                    "no": "Nej",
+                    "unknown": "Ved ikke"
+                },
+                "yesNo": {
+                    "yes": "Ja",
+                    "no": "Nej"
+                }
+            },
+            "crisisCenter": {
+                "fields": {
+                    "contactedBy": "Hvem henvender sig til krisecentret?",
+                    "topic": "Hvad handler henvendelsen om?",
+                    "assessment": "Vurderer du, at borgeren er inden for målgruppen af §109?",
+                    "receivedVisit": "Får borgeren en visitationssamtale/midlertidig indlogering?",
+                    "notOfferedInterview": "Hvorfor tilbydes borgeren ikke en visitationssamtale?",
+                    "guidance": "Krisecenteret vejleder/anviser borgeren til:"
+
+
+                }
+            }
         },
         "newInquiry": "Ny henvendelser",
         "table": {

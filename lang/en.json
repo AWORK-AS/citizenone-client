@@ -3424,18 +3424,58 @@
     "inquiries": {
         "inquiries": "Inquiries",
         "editInquiry": "Edit inquiry",
+        "crisisCenterInquiry": "Crisis center inquiry",
+        "shelterInquiry": "Shelter inquiry",
         "form": {
             "alert": {
                 "newInquirySuccessfullySaved": "New inquiry successfully saved",
                 "inquirySuccessfullyUpdated": "Inquiry successfully updated"
             },
             "conversationSummary": "Conversation summary",
+            "cpr": "Citizen's CPR number",
             "dateOfInquiry": "Date of inquiry",
             "firstname": "First name",
             "inquirerName": "Inquirer name",
             "lastname": "Last name",
+            "notes":"Own notes",
             "outcome": "Outcome (e.g. offered a place, rejection, referral)",
-            "purpose": "Purpose"
+            "purpose": "Purpose",
+            "options": {
+                "inquiryType": {
+                    "shelter": "Shelter",
+                    "crisisCenter": "Crisis center"
+                },
+                "contactedBy": {
+                    "theCitizenThemselves": "The citizen themselves",
+                    "familyFriends": "Family member/friend/neighbor/colleague/acquaintance",
+                    "municipalEmployee": "Municipal employee",
+                    "police": "Police/Prison and Probation Service",
+                    "healthcareProfessional": "Healthcare professional",
+                    "employeeFromAnotherCrisisCenter": "Employee from another crisis center",
+                    "other": "Other"
+                },
+                "assessment": {
+                    "yes": "Yes",
+                    "no": "No",
+                    "unknown": "Don't know"
+                },
+                "yesNo": {
+                    "yes": "Yes",
+                    "no": "No"
+                }
+            },
+            "crisisCenter": {
+                "fields": {
+                    "contactedBy": "Who is contacting the crisis center?",
+                    "topic": "What is the inquiry about?",
+                    "assessment": "Do you assess that the citizen falls within the target group under Section 109?",
+                    "receivedVisit": "Does the citizen receive an intake interview/temporary accommodation?",
+                    "notOfferedInterview": "Why is the citizen not offered an intake interview?",
+                    "guidance": "The crisis center advises/refers the citizen to:"
+
+
+                }
+            }
         },
         "newInquiry": "New inquiry",
         "table": {

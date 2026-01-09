@@ -1,9 +1,9 @@
 <template>
     <div>
-        <Modal size="md" :title="$t('inquiries.newInquiry')" :show="props.isModalOpen" @close="closeModal">
+        <Modal size="md" :title="inquiryType === 'shelter' ? $t('inquiries.shelterInquiry') : $t('inquiries.crisisCenterInquiry')" :show="props.isModalOpen" @close="closeModal">
             <template #modal-body>
                 <LoadingSpinner :isActive="state.isPageLoading">
-                    <ModulesUserInquiryModalForm formType="create" :selectedInquiry="state.formInquiry"
+                    <ModulesUserInquiryModalCrisisCenterForm v-if="inquiryType === 'crisis_center'" formType="create" :selectedInquiry="state.formInquiry"
                         :error="state.error" @isPageLoading="(value: boolean) => state.isPageLoading = value"
                         @closeModal="closeModal" @submitForm="saveInquiry" />
                 </LoadingSpinner>
@@ -22,6 +22,10 @@ const { successAlert } = useAlert()
 const { t } = useI18n()
 
 const props = defineProps({
+    inquiryType: {
+        type: String,
+        required: true,
+    },
     isModalOpen: {
         type: Boolean,
         required: true,
@@ -44,6 +48,7 @@ const state = reactive({
 })
 
 function closeModal() {
+    state.error = {}
     emit('close')
 }
 
@@ -56,10 +61,19 @@ async function saveInquiry(inquiryDetails: any) {
     state.isPageLoading = true
     try {
         const params = {
+            inquiry_type: inquiryDetails.inquiry_type,
+            cpr: inquiryDetails.cpr,
             inquiry_date: inquiryDetails.inquiry_date,
             inquirer_name: inquiryDetails.inquirer_name,
             first_name: inquiryDetails.first_name,
             last_name: inquiryDetails.last_name,
+            contacted_by: inquiryDetails.contacted_by,
+            topic_uuid: inquiryDetails.topic_uuid,
+            target_group_crisis_center: inquiryDetails.target_group_crisis_center,
+            received_visit: inquiryDetails.received_visit === 'yes',
+            assessment_uuid: inquiryDetails.assessment_uuid,
+            guidance_uuid: inquiryDetails.guidance_uuid,
+            notes: inquiryDetails.notes,
             outcome: inquiryDetails.outcome,
             purpose: inquiryDetails.purpose,
             conversation_summary: inquiryDetails.conversation_summary,

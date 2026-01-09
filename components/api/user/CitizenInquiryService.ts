@@ -24,6 +24,19 @@ class CitizenInquiryService extends BaseAPIService {
     async convertInquiry(inquiryUuid: any): Promise<any> {
         return await this.request(`/user/citizen-inquiries/${inquiryUuid}/convert-inquiry`, 'POST')
     }
+
+    // Crisis Center inquiry specific endpoints
+    async getAboutList(): Promise<any> {
+        return await this.request(`/user/inquiry-topics/all/list`, 'GET')
+    }
+
+    async getAssessmentReasonList(): Promise<any> {
+        return await this.request(`/user/inquiry-no-assessment-reasons/all/list`, 'GET')
+    }
+
+    async getGuidanceList(): Promise<any> {
+        return await this.request(`/user/inquiry-guidances/all/list`, 'GET')
+    }
 }
 
 export const citizenInquiryService = new CitizenInquiryService()
