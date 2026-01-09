@@ -36,13 +36,22 @@ const emit = defineEmits(['close', 'refreshInquiries'])
 const state = reactive({
     error: {} as Error,
     formInquiry: {
+        inquiry_type: 'crisis_center',
+        cpr: '',
         inquiry_date: '',
         inquirer_name: '',
         first_name: '',
         last_name: '',
+        contacted_by: '',
         outcome: '',
         purpose: '',
+        topic_uuid: [],
+        target_group_crisis_center: [],
+        received_visit: '',
+        assessment_uuid: [],
+        guidance_uuid: [],
         conversation_summary: '',
+        notes: ''
     },
     isPageLoading: false,
 })
