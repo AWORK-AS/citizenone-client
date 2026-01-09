@@ -14,9 +14,9 @@
                         <div class="flex items-center">
                             <Icon name="heroicons:chevron-right" class="size-3 shrink-0 text-gray-400"
                                 aria-hidden="true" />
-                            <button @click="navigateTo(`/citizens/children/${citizenUuid}/children`)"
+                            <button @click="navigateTo(`/citizens`)"
                                 class="ml-4 text-sm font-medium text-gray-500 hover:text-gray-700">
-                                {{ customPagesStore.getCustomPagesName?.children }}
+                                {{ customPagesStore.getCustomPagesName?.citizens }}
                             </button>
                         </div>
                     </template>
@@ -66,6 +66,12 @@
                                     </td>
                                     <td width="20%">
                                         <div class="flex items-end justify-end gap-2">
+                                            <Tooltip :text="$t('children.table.actions.view')">
+                                                <FormButton type="button" buttonStyle="action" class="rounded-md"
+                                                    @click="navigateTo(`/citizens/${citizenUuid}/children/${child.uuid}/journals`)">
+                                                    <Icon name="ph:eye" class="size-4" />
+                                                </FormButton>
+                                            </Tooltip>
                                             <Tooltip :text="$t('children.table.actions.edit')">
                                                 <FormButton type="button" buttonStyle="action" class="rounded-md"
                                                     @click="editChild(child)">

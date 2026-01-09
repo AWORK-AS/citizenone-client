@@ -52,6 +52,7 @@ const state = reactive({
     error: {} as Error,
     formRole: {
         name: '',
+        permissions: [] as any,
     },
     isPageLoading: false,
 })
@@ -68,7 +69,11 @@ async function fetchRole() {
         if (response) {
             state.formRole = {
                 name: response?.data?.name ?? '',
+                permissions: [],
             }
+            response?.data?.permissions.forEach((permission: any) => {
+                state.formRole.permissions.push(permission?.uuid)
+            })
         }
     } catch (error: any) {
         state.error = error
@@ -82,6 +87,7 @@ async function updateRole(roleDetails: any) {
     try {
         const params = {
             name: roleDetails.name,
+            permission_uuid: roleDetails.permissions,
         }
         const response = await roleService.updateRole(roleId, params)
         if (response.data) {

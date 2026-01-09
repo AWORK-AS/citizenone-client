@@ -2,12 +2,12 @@
     <div>
         <form @submit.prevent="submitForm()" id="formTemplate">
             <Alert type="danger" :text="props?.error?.message"
-                v-if="props.error?. message && props.error.message. length > 0" />
+                v-if="props.error?.message && props.error.message.length > 0" />
             <div class="grid grid-cols-1 gap-y-3">
                 <div class="space-y-1">
                     <FormLabel for="year" :label="$t('dutySchedules.draftTemplates.form.year')" />
                     <FormSelectMultiple id="year" :options="years" v-model="state.formTemplate.years" />
-                    <FormError :error="v$?. formTemplate?.years?.$errors[0]?.$message.toString()" />
+                    <FormError :error="v$?.formTemplate?.years?.$errors[0]?.$message.toString()" />
                     <FormError :error="props?.error?.errors?.years?.[0]" />
                 </div>
 
@@ -41,7 +41,8 @@
                                             type="checkbox" 
                                             :value="week.value"
                                             v-model="state.formTemplate.weeks"
-                                            class="peer w-5 h-5 appearance-none border border-primary rounded-sm checked:bg-secondary checked:border-secondary focus:ring-0 cursor-pointer"
+                                            @change="handleWeekChange(week.value, $event)"
+                                            class="peer w-5 h-5 appearance-none border border-primary rounded-sm checked:bg-secondary checked:border-secondary focus: ring-0 cursor-pointer"
                                         />
                                         <span class="pointer-events-none absolute top-0 left-0 w-5 h-5 flex items-center justify-center opacity-0 peer-checked:opacity-100 transition-opacity">
                                             <Icon name="ph:check-bold" class="h-4 w-4 text-white" />
@@ -61,7 +62,7 @@
 
             </div>
             <div class="mt-6">
-                <div class="grid grid-cols-1 md: grid-cols-2 gap-3">
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
                     <FormButton type="button" buttonStyle="cancel" class="rounded-md" @click="emit('closeModal')">
                         {{ $t('cancel') }}
                     </FormButton>
@@ -124,23 +125,88 @@ const state = reactive({
 })
 
 const allWeeksSelected = computed(() => {
-    return state.formTemplate.weeks. length === weeks.length
+    return state.formTemplate.weeks.length === weeks.length
 })
 
-function toggleAllWeeks(event:  Event) {
+function toggleAllWeeks(event: Event) {
     const checked = (event.target as HTMLInputElement).checked
     if (checked) {
-        state.formTemplate. weeks = weeks.map(week => week.value)
+        state.formTemplate.weeks = weeks.map(week => week.value)
     } else {
-        state.formTemplate. weeks = []
+        state.formTemplate.weeks = []
     }
+}
+
+// Helper function to get week number from a date
+function getWeekNumber(date: Date): number {
+    const d = new Date(Date.UTC(date.getFullYear(), date.getMonth(), date.getDate()))
+    const dayNum = d.getUTCDay() || 7
+    d.setUTCDate(d.getUTCDate() + 4 - dayNum)
+    const yearStart = new Date(Date.UTC(d.getUTCFullYear(), 0, 1))
+    const weekNum = Math.ceil((((d.getTime() - yearStart.getTime()) / 86400000) + 1) / 7)
+    return weekNum
+}
+
+function handleWeekChange(weekValue: string, event: Event) {
+    const checked = (event.target as HTMLInputElement).checked
+    const weekNumber = parseInt(weekValue)
+    const weekRotations = props.selectedDraftTemplate?.week_rotations || 1
+    const recurringUntil = props.selectedDraftTemplate?.recurring_until
+    
+    nextTick(() => {
+        if (checked) {
+            const weeksToSelect:  string[] = []
+            
+            if (recurringUntil) {
+                // Calculate weeks until recurring_until date
+                const recurringDate = new Date(recurringUntil)
+                const recurringWeek = getWeekNumber(recurringDate)
+                const currentYear = new Date().getFullYear()
+                const selectedYear = state.formTemplate.years[0] ?  parseInt(state.formTemplate.years[0]) : currentYear
+                
+                // If recurring_until is in the same year
+                if (recurringDate.getFullYear() === selectedYear) {
+                    for (let i = weekNumber; i <= Math.min(recurringWeek, 52); i++) {
+                        weeksToSelect.push(String(i))
+                    }
+                } else if (recurringDate.getFullYear() > selectedYear) {
+                    // If recurring_until is in a future year, select all weeks from selected week to end of year
+                    for (let i = weekNumber; i <= 52; i++) {
+                        weeksToSelect.push(String(i))
+                    }
+                } else {
+                    // If recurring_until is in the past, just select based on week_rotations
+                    for (let i = 0; i < weekRotations; i++) {
+                        const targetWeek = weekNumber + i
+                        if (targetWeek <= 52) {
+                            weeksToSelect.push(String(targetWeek))
+                        }
+                    }
+                }
+            } else {
+                // Just use week_rotations
+                for (let i = 0; i < weekRotations; i++) {
+                    const targetWeek = weekNumber + i
+                    if (targetWeek <= 52) {
+                        weeksToSelect.push(String(targetWeek))
+                    }
+                }
+            }
+            
+            // Merge with existing selections (remove duplicates)
+            const newWeeks = [...new Set([...state.formTemplate.weeks, ...weeksToSelect])]
+            state.formTemplate.weeks = newWeeks.sort((a, b) => parseInt(a) - parseInt(b))
+        } else {
+            state.formTemplate.weeks = state.formTemplate.weeks.filter(w => w !== weekValue)
+        }
+    })
 }
 
 const rules = computed(() => {
     return {
         formTemplate: {
             weeks: {
-                required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
+                required:  helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
             },
             years: {
                 required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),

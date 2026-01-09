@@ -7,7 +7,6 @@ import { useUserStore } from '@/store/user'
 import { useAlert } from '@/composables/alert'
 import { useI18n } from "vue-i18n"
 
-const router = useRouter()
 const route = useRoute()
 const citizenUuid = route?.params?.uuid
 const userStore = useUserStore()
@@ -161,32 +160,35 @@ watch(() => userStore.getUser, (newValue: any) => {
 })
 
 function changeTab(value: any) {
-    if (value === 'Journals' || value === 'Journaler') {
+    if (value === `/citizens/${citizenUuid}/journals`) {
         navigateTo(`/citizens/${citizenUuid}/journals`)
     }
-    else if (value === 'Medicine card' || value === 'Medicinkort') {
+    else if (value === `/citizens/${citizenUuid}/medicine-journals`) {
         navigateTo(`/citizens/${citizenUuid}/medicine-journals`)
     }
-    else if (value === 'Plans and goals' || value === 'Planer og mål') {
+    else if (value === `/citizens/${citizenUuid}/plans-and-goals/all`) {
         navigateTo(`/citizens/${citizenUuid}/plans-and-goals/all`)
     }
-    else if (value === 'Nursing areas' || value === 'Sygeplejeområder') {
+    else if (value === `/citizens/${citizenUuid}/nursing-areas`) {
         navigateTo(`/citizens/${citizenUuid}/nursing-areas`)
     }
-    else if (value === 'Documents' || value === 'Dokumenter') {
+    else if (value === `/citizens/${citizenUuid}/documents`) {
         navigateTo(`/citizens/${citizenUuid}/documents`)
     }
-    else if (value === 'Attendance' || value === 'Fremmøde') {
+    else if (value === `/citizens/${citizenUuid}/attendance`) {
         navigateTo(`/citizens/${citizenUuid}/attendance`)
     }
-    else if (value === 'Calendar' || value === 'Kalender') {
+    else if (value === `/citizens/${citizenUuid}/calendar`) {
         navigateTo(`/citizens/${citizenUuid}/calendar`)
     }
-    else if (value === 'Economy' || value === 'Økonomi') {
+    else if (value === `/citizens/${citizenUuid}/wallets`) {
         navigateTo(`/citizens/${citizenUuid}/wallets`)
     }
-    else if (value === 'Contacts' || value === 'Kontakter') {
+    else if (value === `/citizens/${citizenUuid}/contacts`) {
         navigateTo(`/citizens/${citizenUuid}/contacts`)
+    }
+    else if (value === `/citizens/${citizenUuid}/children`) {
+        navigateTo(`/citizens/${citizenUuid}/children`)
     }
 }
 </script>
