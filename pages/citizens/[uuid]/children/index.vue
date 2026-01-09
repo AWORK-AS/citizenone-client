@@ -66,6 +66,12 @@
                                     </td>
                                     <td width="20%">
                                         <div class="flex items-end justify-end gap-2">
+                                            <Tooltip :text="$t('children.table.actions.view')">
+                                                <FormButton type="button" buttonStyle="action" class="rounded-md"
+                                                    @click="navigateTo(`/citizens/${citizenUuid}/children/${child.uuid}/journals`)">
+                                                    <Icon name="ph:eye" class="size-4" />
+                                                </FormButton>
+                                            </Tooltip>
                                             <Tooltip :text="$t('children.table.actions.edit')">
                                                 <FormButton type="button" buttonStyle="action" class="rounded-md"
                                                     @click="editChild(child)">

@@ -2117,6 +2117,7 @@
         }
     },
     "children": {
+        "child": "Barn",
         "children": "Børn",
         "editChild": "Rediger barn",
         "form": {
@@ -2143,7 +2144,8 @@
         "table": {
             "actions": {
                 "delete": "Slet",
-                "edit": "Rediger"
+                "edit": "Rediger",
+                "view": "Se"
             },
             "alert": {
                 "childSuccessfullyDeleted": "Barn blev slettet"

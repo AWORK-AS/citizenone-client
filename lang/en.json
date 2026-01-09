@@ -2117,7 +2117,8 @@
         }
     },
     "children": {
-        "children": "Chilren",
+        "child": "Child",
+        "children": "Children",
         "editChild": "Edit child",
         "form": {
             "alert": {
@@ -2143,7 +2144,8 @@
         "table": {
             "actions": {
                 "delete": "Delete",
-                "edit": "Edit"
+                "edit": "Edit",
+                "view": "View"
             },
             "alert": {
                 "childSuccessfullyDeleted": "Child successfully deleted"
