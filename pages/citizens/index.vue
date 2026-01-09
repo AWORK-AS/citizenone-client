@@ -72,6 +72,44 @@
                             <Icon name="ph:file-arrow-down" class="h-4 w-4" aria-hidden="true" />
                             {{ $t('citizens.exportCitizens') }}
                         </FormButton>
+                        <Menu v-if="userStore.getUser?.company?.industry?.system_name === 'social_welfare' && ['Crisis center', 'Shelter'].includes(userStore.getUser?.company?.facility_type?.en_name)" as="div" class="relative inline-block text-left z-20">
+                            <div>
+                                <MenuButton>
+                                    <FormButton buttonStyle="action" class="rounded-lg">
+                                        <Icon name="ph:file-arrow-down" class="h-4 w-4" aria-hidden="true" />
+                                        {{ $t('inquiries.exportInquiries') }}
+                                    </FormButton>
+                                </MenuButton>
+                            </div>
+
+                            <transition enter-active-class="transition duration-100 ease-out"
+                                enter-from-class="transform scale-95 opacity-0" enter-to-class="transform scale-100 opacity-100"
+                                leave-active-class="transition duration-75 ease-in"
+                                leave-from-class="transform scale-100 opacity-100"
+                                leave-to-class="transform scale-95 opacity-0">
+                                <MenuItems
+                                    class="absolute right-0 mt-2 min-w-44 origin-top-right divide-y divide-gray-100 rounded-md bg-white shadow-lg ring-1 ring-black/5 focus:outline-none">
+                                    <div class="px-1 py-1">
+                                        <MenuItem v-slot="{ active }">
+                                            <button :class="[
+                                                active && 'bg-gray-100',
+                                                'group flex w-full justify-start items-center rounded-md px-2 py-2.5 text-sm text-left',
+                                            ]" @click="exportInquiries({ inquiry_type: 'shelter' })">
+                                                {{ $t('inquiries.form.options.inquiryType.shelter') }}
+                                            </button>
+                                        </MenuItem>
+                                        <MenuItem v-slot="{ active }">
+                                            <button :class="[
+                                                active && 'bg-gray-100',
+                                                'group flex w-full items-center rounded-md px-2 py-2.5 text-sm',
+                                            ]" @click="exportInquiries({ inquiry_type: 'crisis_center' })">
+                                                {{ $t('inquiries.form.options.inquiryType.crisisCenter') }}
+                                            </button>
+                                        </MenuItem>
+                                    </div>
+                                </MenuItems>
+                            </transition>
+                        </Menu>
                     </div>
                 </div>
                 <div class="space-y-5">
@@ -195,6 +233,7 @@
 </template>
 
 <script setup lang="ts">
+import { Menu, MenuButton, MenuItems, MenuItem } from '@headlessui/vue'
 import { citizenService } from '@/components/api/user/CitizenService'
 import { useDepartmentStore } from '@/store/department'
 import { useCustomPagesStore } from '@/store/custom-pages'
@@ -202,12 +241,15 @@ import { useCitizenStore } from '@/store/citizen'
 import { useUserStore } from '@/store/user'
 import type { Error } from '@/types'
 import { saveAs } from 'file-saver'
+import { citizenInquiryService } from '@/components/api/user/CitizenInquiryService'
+import { useI18n } from 'vue-i18n'
 
 const runtimeConfig = useRuntimeConfig()
 const departmentStore = useDepartmentStore()
 const customPagesStore = useCustomPagesStore() as any
 const citizenStore = useCitizenStore() as any
 const userStore = useUserStore() as any
+const { t } = useI18n()
 
 const state = reactive({
     columnHeaders: [
@@ -315,6 +357,25 @@ async function exportCitizens() {
         const response = await citizenService.exportCitizens(params)
         if (response) {
             saveAs(response, customPagesStore.getCustomPagesName?.citizens)
+        }
+    } catch (error: any) {
+        state.error = error
+    }
+    state.isTableLoading = false
+}
+
+async function exportInquiries(params: { inquiry_type: string }) {
+    state.error = {}
+    state.isTableLoading = true
+    try {
+        const queryParams = {
+            ...params
+        }
+        const response = await citizenInquiryService.exportInquiries(queryParams)
+        if (response) {
+            let fileName = params.inquiry_type === 'shelter' ? t('inquiries.shelterInquiry') : t('inquiries.crisisCenterInquiry')
+
+            saveAs(response, `${customPagesStore.getCustomPagesName?.citizens}-${fileName}`)
         }
     } catch (error: any) {
         state.error = error

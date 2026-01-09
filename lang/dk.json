@@ -3426,18 +3426,102 @@
     "inquiries": {
         "inquiries": "Henvendelser",
         "editInquiry": "Rediger henvendelser",
+        "crisisCenterInquiry": "Krisecenter henvendelser",
+        "shelterInquiry": "Herberger og forsorgshjem henvendelser",
+        "exportInquiries": "Eksporter henvendelser",
         "form": {
             "alert": {
                 "newInquirySuccessfullySaved": "Ny henvendelser er blevet gemt",
                 "inquirySuccessfullyUpdated": "Forespørgsel opdateret"
             },
             "conversationSummary": "Samtalesammenfatning",
+            "cpr": "Borgerens CPR-nummer",
             "dateOfInquiry": "Dato for henvendelser",
-            "firstname": "Fornavn",
+            "firstname": "Borgerens fornavn",
             "inquirerName": "Navn på spørger",
-            "lastname": "Efternavn",
+            "lastname": "Borgerens efternavn",
+            "notes": "Egne noter",
             "outcome": "Resultat (f.eks. tilbudt en plads, afvist, videresendt)",
-            "purpose": "Formål"
+            "purpose": "Formål",
+            "options": {
+                "inquiryType": {
+                    "shelter": "Herberger og forsorgshjem",
+                    "crisisCenter": "Krisecenter"
+                },
+                "contactedBy": {
+                    "theCitizenThemselves": "Borgeren selv",
+                    "familyFriends": "Familie/ven/nabo/kollega/bekendt",
+                    "municipalEmployee": "Medarbejder i kommunen",
+                    "police": "Politiet/kriminalforsorgen",
+                    "healthcareProfessional": "Sundhedspersonale",
+                    "employeeFromAnotherCrisisCenter": "Medarbejder fra et andet krisecenter",
+                    "other": "Andre"
+                },
+                "assessment": {
+                    "yes": "Ja",
+                    "no": "Nej",
+                    "unknown": "Ved ikke"
+                },
+                "yesNo": {
+                    "yes": "Ja",
+                    "no": "Nej"
+                },
+                "cprMissingReason": {
+                    "citizenDoesNotHaveCprNumber": "Borgeren har ikke et CPR-nummer",
+                    "shelterDoesntHaveNumber": "Herberget eller forsorgshjemmet mv. har ikke kendskab til borgerens CPR-nummer"
+                },
+                "nonAdmissionReason": {
+                    "expelledDueToViolentBehavior": "Borgeren er bortvist for voldelig opførsel eller lignende",
+                    "citizenDeclinedOffer": "Borgeren takkede selv nej til tilbuddet",
+                    "other": "Borgeren er af andre årsager ikke blevet indskrevet på tilbuddet"
+                },
+                "notInServiceTargetGroupReason": {
+                    "activeSubstanceAbuseProblem": "Borgeren har eller har haft et aktivt misbrug",
+                    "inactiveSubstanceAbuseProblem": "Borgeren har ikke et aktivt misbrug",
+                    "mentalDifficulties": "Borgeren har psykiske vanskeligheder",
+                    "mentalFunctionalImpairment": "Borgeren har en psykisk funktionsnedsættelse i form af intellektuel/kognitiv forstyrrelse",
+                    "exposeToViolence": "Borgeren er voldsudsat eller udsat for trusler om vold fra en nær relation",
+                    "unexposeToViolence": "Borgeren er ikke voldsudsat eller udsat for trusler om vold fra en i nær relation",
+                    "childrenAccompany": "Borgeren har børn, der medfølger",
+                    "petsAccompany": "Borgeren har husdyr, der medfølger",
+                    "notWithinGenderFramework": "Borgeren er ikke inden for tilbuddets ramme for køn",
+                    "notWithinAgeFramework": "Borgeren er ikke inden for tilbuddets ramme for alder",
+                    "physicalFunctionalImpairment": "Borgeren har en fysisk funktionsnedsættelse",
+                    "notWithinServiceTargetGroup": "Borgeren er af andre årsager ikke inden for tilbuddets målgruppe eller ramme"
+                },
+                "referralDestination": {
+                    "shelterViaVacancyOverview": "Herberget eller forsorgshjem mv. efter § 110 i lov om social service, som er fundet på pladsoversigten",
+                    "shelterUnusedVacancyOverview": "Herberget eller forsorgshjem mv. efter § 110 i lov om social service, hvor pladsoversigten ikke er anvendt",
+                    "nightCafeWarmingCenter": "Natcafé/varmestue",
+                    "boardingHouseHostel": "Pensionat/vandrehjem",
+                    "womensCrisisCenter": "Kvindekrisecenter efter § 109 i lov om social service",
+                    "selfSolution": "Selvløsning: Borgeren takker nej til hjælp om henvisning",
+                    "other": "Andet"
+                }
+            },
+            "shelter": {
+                "fields": {
+                    "cprMissingReason": "Intet CPR-nummer? Vælg begrundelse:",
+                    "vacantPlaceAvailable": "Er der ledig plads på herberget eller forsorgshjemmet mv.?",
+                    "inShelterTargetGroup": "Er borgeren i målgruppen for § 110?",
+                    "fitsInTargetGroup": "Passer borgeren til tilbuddets målgruppe?",
+                    "nonAdmissionReason": "Hvorfor fik borgeren ikke en plads?",
+                    "notInServiceTargetGroupReason": "Hvorfor passer borgeren ikke til tilbuddets målgruppe eller rammer?",
+                    "referralDestination": "Hvor henvises borgeren til i stedet?"
+                }
+            },
+            "crisisCenter": {
+                "fields": {
+                    "contactedBy": "Hvem henvender sig til krisecentret?",
+                    "topic": "Hvad handler henvendelsen om?",
+                    "assessment": "Vurderer du, at borgeren er inden for målgruppen af §109?",
+                    "receivedVisit": "Får borgeren en visitationssamtale/midlertidig indlogering?",
+                    "notOfferedInterview": "Hvorfor tilbydes borgeren ikke en visitationssamtale?",
+                    "guidance": "Krisecenteret vejleder/anviser borgeren til:"
+
+
+                }
+            }
         },
         "newInquiry": "Ny henvendelser",
         "table": {
