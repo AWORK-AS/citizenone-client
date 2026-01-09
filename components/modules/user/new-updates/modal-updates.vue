@@ -56,8 +56,9 @@ function closeModal() {
 }
 
 const state = reactive({
-    currentVersion: '2025-12-12',
+    currentVersion: '2026-01-09',
     availableVersions: [
+        '2026-01-09',
         '2025-12-12',
         '2025-11-28',
         '2025-11-14',
@@ -80,6 +81,121 @@ const state = reactive({
 
 const allUpdates: Record<string, Record<string, { title: string, description: string[] }[]>> = {
     en: {
+        '2026-01-09': [
+            {
+                title: 'Recurring events in the calendar',
+                description: [
+                    'When editing a single event, the system now prompts users to choose whether to apply changes to just this event or all future events.',
+                    'This functionality ensures more flexibility and control over recurring events.'
+                ],
+            },
+            {
+                title: 'Automatic recurring week rotation in duty schedule',
+                description: [
+                    'Admins can now create automatic recurring week rotations in the duty schedule, such as an 8-week rotation, that repeats until manually stopped.',
+                    'The system will prompt admins when editing a duty shift within a recurring rotation, asking whether the edit should apply only to this shift or the entire recurring pattern.'
+                ],
+            },
+            {
+                title: 'Ability to search for a specific day in the shift schedule and calendar',
+                description: [
+                    'Users can now search for a specific day in the shift schedule and calendar, enabling more precise navigation without needing to scroll week by week.',
+                    'This improvement includes the ability to navigate by month as well.'
+                ],
+            },
+            {
+                title: 'Filter options in shift plans',
+                description: [
+                    'The shift plan overview now includes filter options to select one or more employees.',
+                    'Additionally, filters for employment status have been added, allowing for more tailored planning and clarity.'
+                ],
+            },
+            {
+                title: 'Viewing employee shifts across departments',
+                description: [
+                    'Users can now toggle visibility of shifts across departments for all employees.',
+                    'This feature is available only if multiple departments have been set up in the organization.'
+                ],
+            },
+            {
+                title: 'Multi-day shift handling improvements',
+                description: [
+                    'When creating shifts spanning multiple days, the system will now automatically split them into separate shifts for each day.',
+                    'A visual connection, such as a line or start/end text, will be added to indicate the continuity of the shift across days.'
+                ],
+            },
+            {
+                title: 'Shift Creation Flow Enhancements',
+                description: [
+                    'The shift creation flow has been optimized: users must first select the shift type before other display options appear.',
+                    'The department field is now automatically filled with the selected department by default, but it can be changed during the creation process.'
+                ],
+            },
+            {
+                title: 'Remember selected department in top bar',
+                description: [
+                    'Once a department is selected in the top bar, it will remain selected for future actions until changed.',
+                    'This streamlines the process for admins and schedulers working within a specific department.'
+                ],
+            },
+            {
+                title: 'Create custom job titles under "Contacts" on citizens',
+                description: [
+                    'Admins can now create custom job titles under the "Contacts" section for citizens.',
+                    'This helps track specific roles or titles within the organization.'
+                ],
+            },
+            {
+                title: 'Pin yourself in the shift schedule',
+                description: [
+                    'Users can now pin themselves in the shift schedule to ensure they always appear at the top of the list.',
+                    'This feature helps users easily identify their shifts, especially in large teams.'
+                ],
+            },
+            {
+                title: 'Vacation scheduling and shift replacement',
+                description: [
+                    'When an employee creates a vacation request, any existing shifts will be automatically removed and offered to others for replacement, similar to sick leave handling.'
+                ],
+            },
+            {
+                title: 'Optimizing Duty Shift Offering',
+                description: [
+                    'Duty shift offerings have been optimized to show only shifts relevant to the assigned department.',
+                    'A job title field now allows multiple titles to be added, and night shifts spanning multiple days can be offered as a single shift.'
+                ],
+            },
+            {
+                title: 'Calendar department filter',
+                description: [
+                    'Events in the calendar will now be filtered by the selected department, ensuring users only see events relevant to their department.',
+                    'The start time for events will be automatically set to 1 hour later than the start time until manually adjusted.',
+                    'The employee field on an event will now display only employees from the selected department.'
+                ],
+            },
+            {
+                title: 'Role inclusion in export files',
+                description: [
+                    'When exporting employees, the role field will now be included in the export file.',
+                    'This ensures the exported data includes the roles associated with each employee.'
+                ],
+            },
+            {
+                title: 'Adding "Sugetabletter" to the "Dosage form" list',
+                description: [
+                    'The "Sugetabletter" option has been added to the "Dosage form" list in the medicine creation and edit forms.',
+                    'This allows for better management of dosage forms within the system.',
+                    'Management of dosage form is also available in the catalog settings.'
+                ],
+            },
+            {
+                title: 'Permissions in Catalog roles',
+                description: [
+                    'It is now possible to assign specific permissions in the roles area for tasks like managing the duty schedule, allowing for more granular control over user access.',
+                    'For example, a "Duty Shift Coordinator" role can be created with limited access to only the duty schedule.'
+                ],
+            }
+        ],
         '2025-12-12': [
             {
                 title: 'Advanced search and filtering in shift schedule and calendar',
@@ -586,6 +702,121 @@ const allUpdates: Record<string, Record<string, { title: string, description: st
         ],
     },
     dk: {
+        '2026-01-09': [
+            {
+                title: 'Gentagende begivenheder i kalenderen',
+                description: [
+                    'Når en enkelt begivenhed redigeres, vil systemet nu bede brugeren vælge, om ændringerne skal anvendes kun til denne begivenhed eller alle fremtidige begivenheder.',
+                    'Denne funktionalitet giver mere fleksibilitet og kontrol over gentagende begivenheder.'
+                ],
+            },
+            {
+                title: 'Automatisk gentagende uge rotation i vagtplanen',
+                description: [
+                    'Administratorer kan nu oprette automatisk gentagende uge rotationer i vagtplanen, såsom en 8-ugers rotation, der gentages, indtil den stoppes manuelt.',
+                    'Systemet vil bede administratorer om at vælge, om redigeringen kun skal gælde denne vagt eller hele den gentagende mønster, når en vagt redigeres i en gentagende rotation.'
+                ],
+            },
+            {
+                title: 'Mulighed for at søge efter en specifik dag i vagtplanen og kalenderen',
+                description: [
+                    'Brugere kan nu søge efter en specifik dag i vagtplanen og kalenderen, hvilket muliggør mere præcis navigation uden at skulle rulle uge for uge.',
+                    'Denne forbedring inkluderer også muligheden for at navigere efter måned.'
+                ],
+            },
+            {
+                title: 'Filtermuligheder i vagtplaner',
+                description: [
+                    'Vagtplanoversigten inkluderer nu filtermuligheder for at vælge én eller flere medarbejdere.',
+                    'Der er også tilføjet filtre for ansættelsesstatus, hvilket giver mere skræddersyet planlægning og klarhed.'
+                ],
+            },
+            {
+                title: 'Visning af medarbejderes vagter på tværs af afdelinger',
+                description: [
+                    'Brugere kan nu slå synligheden af vagter på tværs af afdelinger til for alle medarbejdere.',
+                    'Denne funktion er kun tilgængelig, hvis flere afdelinger er oprettet i organisationen.'
+                ],
+            },
+            {
+                title: 'Forbedringer i håndtering af flerdagsvagter',
+                description: [
+                    'Når der oprettes vagter, der strækker sig over flere dage, vil systemet nu automatisk opdele dem i separate vagter for hver dag.',
+                    'En visuel forbindelse, såsom en linje eller start/slut tekst, vil blive tilføjet for at angive kontinuiteten af vagten på tværs af dage.'
+                ],
+            },
+            {
+                title: 'Forbedringer i vagtoprettelsesflow',
+                description: [
+                    'Vagtoprettelsesflowet er blevet optimeret: Brugeren skal først vælge vagtens type, før de øvrige displaymuligheder vises.',
+                    'Afdelingsfeltet er nu automatisk udfyldt med den valgte afdeling som standard, men kan ændres under oprettelsesprocessen.'
+                ],
+            },
+            {
+                title: 'Husk valgt afdeling i topbaren',
+                description: [
+                    'Når en afdeling er valgt i topbaren, vil den forblive valgt til fremtidige handlinger, indtil den ændres.',
+                    'Dette strømliner processen for administratorer og planlæggere, der arbejder inden for en specifik afdeling.'
+                ],
+            },
+            {
+                title: 'Oprette brugerdefinerede jobtitler under "Kontakter" på borgere',
+                description: [
+                    'Administratorer kan nu oprette brugerdefinerede jobtitler under "Kontakter" sektionen for borgere.',
+                    'Dette hjælper med at spore specifikke roller eller titler inden for organisationen.'
+                ],
+            },
+            {
+                title: 'Fastgør dig selv i vagtplanen',
+                description: [
+                    'Brugere kan nu fastgøre sig selv i vagtplanen for at sikre, at de altid vises øverst på listen.',
+                    'Denne funktion hjælper brugerne med nemt at identificere deres vagter, især i store teams.'
+                ],
+            },
+            {
+                title: 'Ferieplanlægning og vagtudskiftning',
+                description: [
+                    'Når en medarbejder opretter en ferieanmodning, vil eventuelle eksisterende vagter automatisk blive fjernet og tilbudt andre til at erstatte, på samme måde som ved sygefravær.'
+                ],
+            },
+            {
+                title: 'Optimering af vagtshift-tilbud',
+                description: [
+                    'Vagtshift-tilbud er blevet optimeret til kun at vise vagter, der er relevante for den tildelte afdeling.',
+                    'Et jobtitel-felt gør det nu muligt at tilføje flere titler, og nattevagter, der strækker sig over flere dage, kan nu tilbydes som én vagt.'
+                ],
+            },
+            {
+                title: 'Kalenderafdelingsfilter',
+                description: [
+                    'Begivenheder i kalenderen vil nu blive filtreret efter den valgte afdeling, så brugerne kun ser begivenheder, der er relevante for deres afdeling.',
+                    'Starttiden for begivenheder vil automatisk blive sat til 1 time senere end starttiden, indtil den justeres manuelt.',
+                    'Medarbejderfeltet på en begivenhed vil nu kun vise medarbejdere fra den valgte afdeling.'
+                ],
+            },
+            {
+                title: 'Inklusion af rolle i eksportfiler',
+                description: [
+                    'Når medarbejdere eksporteres, vil rolle-feltet nu blive inkluderet i eksportfilen.',
+                    'Dette sikrer, at de eksporterede data inkluderer de roller, der er tilknyttet hver medarbejder.'
+                ],
+            },
+            {
+                title: 'Tilføjelse af "Sugetabletter" til "Dosage form" listen',
+                description: [
+                    'Muligheden for "Sugetabletter" er blevet tilføjet til "Dosage form" listen i oprettelse og redigering af medicinformularer.',
+                    'Dette muliggør bedre håndtering af doseringsformer i systemet.',
+                    'Håndtering af doseringsform er også tilgængelig i katalogindstillingerne.'
+                ],
+            },
+            {
+                title: 'Rettigheder i katalogroller',
+                description: [
+                    'Det er nu muligt at tildele specifikke rettigheder i rollerområdet for opgaver som at administrere vagtplanen, hvilket giver mere detaljeret kontrol over brugeradgang.',
+                    'For eksempel kan en "Duty Shift Coordinator"-rolle oprettes med begrænset adgang kun til vagtplanen.'
+                ],
+            }
+        ],
         '2025-12-12': [
             {
                 title: 'Avanceret søgning og filtrering i vagtplan og kalender',
