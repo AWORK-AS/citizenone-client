@@ -3462,6 +3462,49 @@
                 "yesNo": {
                     "yes": "Yes",
                     "no": "No"
+                },
+                "cprMissingReason": {
+                    "citizenDoesNotHaveCprNumber": "The citizen does not have a CPR number",
+                    "shelterDoesntHaveNumber": "The shelter or care home etc. does not know the citizen’s CPR number"
+                },
+                "nonAdmissionReason": {
+                    "expelledDueToViolentBehavior": "The citizen has been expelled due to violent behavior or similar",
+                    "citizenDeclinedOffer": "The citizen declined the offer themselves",
+                    "other": "For other reasons, the citizen was not admitted to the offer"
+                },
+                "notInServiceTargetGroupReason": {
+                    "activeSubstanceAbuseProblem": "The citizen has or has had an active substance abuse problem",
+                    "inactiveSubstanceAbuseProblem": "The citizen does not have an active substance abuse problem",
+                    "mentalDifficulties": "The citizen has mental difficulties",
+                    "mentalFunctionalImpairment": "The citizen has a mental functional impairment in the form of an intellectual/cognitive disorder",
+                    "exposeToViolence": "The citizen is exposed to violence or threats of violence from a close relation",
+                    "unexposeToViolence": "The citizen is not exposed to violence or threats of violence from a close relation",
+                    "childrenAccompany": "The citizen has children accompanying them",
+                    "petsAccompany": "The citizen has pets accompanying them",
+                    "notWithinGenderFramework": "The citizen is not within the offer’s gender framework",
+                    "notWithinAgeFramework": "The citizen is not within the offer’s age framework",
+                    "physicalFunctionalImpairment": "The citizen has a physical functional impairment",
+                    "notWithinServiceTargetGroup": "For other reasons, the citizen is not within the offer’s target group or framework"
+                },
+                "referralDestination": {
+                    "shelterViaVacancyOverview": "Shelter or care home etc. under § 110 of the Social Services Act, found via the capacity overview",
+                    "shelterUnusedVacancyOverview": "Shelter or care home etc. under § 110 of the Social Services Act, where the capacity overview was not used",
+                    "nightCafeWarmingCenter": "Night café / warming center",
+                    "boardingHouseHostel": "Boarding house / hostel",
+                    "womensCrisisCenter": "Women’s crisis center under § 109 of the Social Services Act",
+                    "selfSolution": "Self-solution: The citizen declines help with referral",
+                    "other": "Other"
+                }
+            },
+            "shelter": {
+                "fields": {
+                    "cprMissingReason": "No CPR number? Choose reason",
+                    "vacantPlaceAvailable": "Is there available space at the shelter or care home etc.?",
+                    "inShelterTargetGroup": "Is the citizen part of the target group under § 110?",
+                    "fitsInTargetGroup": "Does the citizen fit the offer’s target group?",
+                    "nonAdmissionReason": "Why did the citizen not get a place?",
+                    "notInServiceTargetGroupReason": "Why does the citizen not fit the offer’s target group or framework?",
+                    "referralDestination": "Where is the citizen referred instead?"
                 }
             },
             "crisisCenter": {
@@ -3472,8 +3515,6 @@
                     "receivedVisit": "Does the citizen receive an intake interview/temporary accommodation?",
                     "notOfferedInterview": "Why is the citizen not offered an intake interview?",
                     "guidance": "The crisis center advises/refers the citizen to:"
-
-
                 }
             }
         },

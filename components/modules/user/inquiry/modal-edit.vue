@@ -5,7 +5,9 @@
                 <LoadingSpinner :isActive="state.isPageLoading">
                     <ModulesUserInquiryModalCrisisCenterForm v-if="props.selectedInquiry.inquiry_type === 'crisis_center'" formType="update" :selectedInquiry="props.selectedInquiry"
                         :error="state.error" @isPageLoading="(value: boolean) => state.isPageLoading = value"
-                        @closeModal="closeModal" @submitForm="updateInquiry" />
+                        @closeModal="closeModal" @submitForm="updateCrisisCenterInquiry" />
+                    <ModulesUserInquiryModalShelterForm v-if="props.selectedInquiry.inquiry_type === 'shelter'" formType="update" :selectedInquiry="props.selectedInquiry" :error="state.error" @isPageLoading="(value: boolean) => state.isPageLoading = value"
+                        @closeModal="closeModal" @submitForm="updateShelterInquiry" />
                 </LoadingSpinner>
             </template>
         </Modal>
@@ -47,7 +49,7 @@ function refreshInquiries() {
     emit('refreshInquiries')
 }
 
-async function updateInquiry(inquiryDetails: any) {
+async function updateCrisisCenterInquiry(inquiryDetails: any) {
     state.error = {}
     state.isPageLoading = true
     try {
@@ -65,6 +67,42 @@ async function updateInquiry(inquiryDetails: any) {
             received_visit: inquiryDetails.received_visit === 'yes',
             assessment_uuid: inquiryDetails.assessment_uuid,
             guidance_uuid: inquiryDetails.guidance_uuid,
+            notes: inquiryDetails.notes,
+            outcome: inquiryDetails.outcome,
+            purpose: inquiryDetails.purpose,
+            conversation_summary: inquiryDetails.conversation_summary,
+        }
+        const response = await citizenInquiryService.updateInquiry(inquiryUuid, params)
+        if (response?.data) {
+            refreshInquiries()
+            closeModal()
+            successAlert(`${t('alert.success')}!`, `${t('inquiries.form.alert.inquirySuccessfullyUpdated')}.`)
+        }
+    } catch (error: any) {
+        state.error = error
+    }
+    state.isPageLoading = false
+}
+
+async function updateShelterInquiry(inquiryDetails: any) {
+    state.error = {}
+    state.isPageLoading = true
+    try {
+        const inquiryUuid = props.selectedInquiry.uuid
+        const params = {
+            inquiry_type: inquiryDetails.inquiry_type,
+            cpr: inquiryDetails.cpr,
+            cpr_missing_reason: inquiryDetails.cpr_missing_reason,
+            inquiry_date: inquiryDetails.inquiry_date,
+            inquirer_name: inquiryDetails.inquirer_name,
+            first_name: inquiryDetails.first_name,
+            last_name: inquiryDetails.last_name,
+            vacant_place_available: inquiryDetails.vacant_place_available === 'yes',
+            in_shelter_target_group: inquiryDetails.in_shelter_target_group  === 'yes',
+            fits_in_target_group: inquiryDetails.fits_in_target_group  === 'yes',
+            non_admission_reason: inquiryDetails.non_admission_reason,
+            not_in_service_target_group_reason: inquiryDetails.not_in_service_target_group_reason,
+            referral_destination: inquiryDetails.referral_destination,
             notes: inquiryDetails.notes,
             outcome: inquiryDetails.outcome,
             purpose: inquiryDetails.purpose,
