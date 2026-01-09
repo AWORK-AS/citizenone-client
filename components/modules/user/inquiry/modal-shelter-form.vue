@@ -11,6 +11,7 @@
                     <FormError :error="v$?.formInquiry?.inquiry_date?.$errors[0]?.$message.toString()" />
                     <FormError :error="props?.error?.errors?.inquiry_date?.[0]" />
                 </div>
+
                 <div class="space-y-1">
                     <FormLabel for="cpr" :label="$t('inquiries.form.cpr')" />
                     <FormTextField id="cpr" name="cpr" :placeholder="$t('inquiries.form.cpr')"
@@ -18,7 +19,9 @@
                     <FormError :error="v$?.formInquiry?.cpr?.$errors[0]?.$message.toString()" />
                     <FormError :error="props?.error?.errors?.cpr?.[0]" />
                 </div>
-                <div class="space-y-1">
+
+                <!-- Question 2b: CPR Missing Reason - Only show if CPR is empty -->
+                <div class="space-y-1" v-if="showCprMissingReason">
                     <FormLabel for="cpr_missing_reason" :label="$t('inquiries.form.shelter.fields.cprMissingReason')" />
                     <FormSelect id="cpr_missing_reason"
                                             :options="state.options.cprMissingReason"
@@ -26,6 +29,8 @@
                     <FormError :error="v$?.formInquiry?.cpr_missing_reason?.$errors[0]?.$message.toString()" />
                     <FormError :error="props?.error?.errors?.cpr_missing_reason?.[0]" />
                 </div>
+
+
                 <div class="space-y-1">
                     <FormLabel for="inquirer_name" :label="$t('inquiries.form.inquirerName')" />
                     <FormTextField id="inquirer_name" name="inquirer_name" :placeholder="$t('inquiries.form.inquirerName')"
@@ -33,6 +38,7 @@
                     <FormError :error="v$?.formInquiry?.inquirer_name?.$errors[0]?.$message.toString()" />
                     <FormError :error="props?.error?.errors?.inquirer_name?.[0]" />
                 </div>
+
                 <div class="space-y-1">
                     <FormLabel for="first_name" :label="$t('inquiries.form.firstname')" />
                     <FormTextField id="first_name" name="first_name" :placeholder="$t('inquiries.form.firstname')"
@@ -40,6 +46,7 @@
                     <FormError :error="v$?.formInquiry?.first_name?.$errors[0]?.$message.toString()" />
                     <FormError :error="props?.error?.errors?.first_name?.[0]" />
                 </div>
+
                 <div class="space-y-1">
                     <FormLabel for="last_name" :label="$t('inquiries.form.lastname')" />
                     <FormTextField id="last_name" name="last_name" :placeholder="$t('inquiries.form.lastname')"
@@ -47,6 +54,7 @@
                     <FormError :error="v$?.formInquiry?.last_name?.$errors[0]?.$message.toString()" />
                     <FormError :error="props?.error?.errors?.last_name?.[0]" />
                 </div>
+
                 <div class="space-y-1">
                     <FormLabel for="vacant_place_available" :label="$t('inquiries.form.shelter.fields.vacantPlaceAvailable')" />
                     <FormSelect id="vacant_place_available"
@@ -55,6 +63,7 @@
                     <FormError :error="v$?.formInquiry?.vacant_place_available?.$errors[0]?.$message.toString()" />
                     <FormError :error="props?.error?.errors?.vacant_place_available?.[0]" />
                 </div>
+
                 <div class="space-y-1">
                     <FormLabel for="in_shelter_target_group" :label="$t('inquiries.form.shelter.fields.inShelterTargetGroup')" />
                     <FormSelect id="in_shelter_target_group"
@@ -63,7 +72,9 @@
                     <FormError :error="v$?.formInquiry?.in_shelter_target_group?.$errors[0]?.$message.toString()" />
                     <FormError :error="props?.error?.errors?.in_shelter_target_group?.[0]" />
                 </div>
-                <div class="space-y-1">
+
+                <!-- Question 5: Fits in Target Group - Only show if in_shelter_target_group is "yes" -->
+                <div class="space-y-1" v-if="showFitsInTargetGroup">
                     <FormLabel for="fits_in_target_group" :label="$t('inquiries.form.shelter.fields.fitsInTargetGroup')" />
                     <FormSelect id="fits_in_target_group"
                                             :options="state.options.yesNo"
@@ -71,7 +82,9 @@
                     <FormError :error="v$?.formInquiry?.fits_in_target_group?.$errors[0]?.$message.toString()" />
                     <FormError :error="props?.error?.errors?.fits_in_target_group?.[0]" />
                 </div>
-                <div class="space-y-1">
+                
+                <!-- Question 6a: Non Admission Reason - Only if in target group + fits target group + space available -->
+                <div class="space-y-1" v-if="showNonAdmissionReason">
                     <FormLabel for="non_admission_reason" :label="$t('inquiries.form.shelter.fields.nonAdmissionReason')" />
                     <FormSelect id="non_admission_reason"
                                             :options="state.options.nonAdmissionReason"
@@ -79,7 +92,9 @@
                     <FormError :error="v$?.formInquiry?.non_admission_reason?.$errors[0]?.$message.toString()" />
                     <FormError :error="props?.error?.errors?.non_admission_reason?.[0]" />
                 </div>
-                <div class="space-y-1">
+
+                <!-- Question 6b: Not In Service Target Group Reason - Only if in target group + doesn't fit -->
+                <div class="space-y-1" v-if="showNotInServiceTargetGroupReason">
                     <FormLabel for="not_in_service_target_group_reason" :label="$t('inquiries.form.shelter.fields.notInServiceTargetGroupReason')" />
                     <FormSelect id="not_in_service_target_group_reason"
                                             :options="state.options.notInServiceTargetGroupReason"
@@ -87,7 +102,9 @@
                     <FormError :error="v$?.formInquiry?.not_in_service_target_group_reason?.$errors[0]?.$message.toString()" />
                     <FormError :error="props?.error?.errors?.not_in_service_target_group_reason?.[0]" />
                 </div>
-                <div class="space-y-1">
+
+                <!-- Question 7: Referral Destination - Show in rejection scenarios -->
+                <div class="space-y-1" v-if="showReferralDestination">
                     <FormLabel for="referral_destination" :label="$t('inquiries.form.shelter.fields.referralDestination')" />
                     <FormSelect id="referral_destination"
                                             :options="state.options.referralDestination"
@@ -234,6 +251,108 @@ const state = reactive({
     }
 })
 
+// Computed properties for conditional field visibility
+const showCprMissingReason = computed(() => {
+    // Show if CPR is empty or whitespace
+    return !state.formInquiry.cpr || state.formInquiry.cpr.trim() === ''
+})
+
+const showFitsInTargetGroup = computed(() => {
+    // Show only if citizen is in shelter target group
+    return state.formInquiry.in_shelter_target_group === 'yes'
+})
+
+const showNonAdmissionReason = computed(() => {
+    // Question 6a: Show if in target group + fits target group + space available
+    return state.formInquiry.in_shelter_target_group === 'yes' &&
+           state.formInquiry.fits_in_target_group === 'yes' &&
+           state.formInquiry.vacant_place_available === 'yes'
+})
+
+const showNotInServiceTargetGroupReason = computed(() => {
+    // Question 6b: Show if in target group but doesn't fit offer's target group
+    return state.formInquiry.in_shelter_target_group === 'yes' &&
+           state.formInquiry.fits_in_target_group === 'no'
+})
+
+const showReferralDestination = computed(() => {
+    // Question 7: Show in these scenarios: 
+    // 1. Fits target group but no space available
+    // 2. Doesn't fit target group (after showing 6b)
+    // 3. Fits target group, space available, but not admitted (after showing 6a)
+    
+    if (state.formInquiry.in_shelter_target_group !== 'yes') {
+        return false // Don't show if not in target group at all
+    }
+    
+    // Scenario:  Fits target group + no space
+    if (state.formInquiry.fits_in_target_group === 'yes' && 
+        state.formInquiry.vacant_place_available === 'no') {
+        return true
+    }
+    
+    // Scenario: Doesn't fit target group
+    if (state.formInquiry.fits_in_target_group === 'no') {
+        return true
+    }
+    
+    // Scenario: Fits target group + space available but not admitted (has filled 6a)
+    if (state.formInquiry.fits_in_target_group === 'yes' && 
+        state.formInquiry.vacant_place_available === 'yes' &&
+        state.formInquiry.non_admission_reason) {
+        return true
+    }
+    
+    return false
+})
+
+// Watchers to clear dependent fields when conditions change
+watch(() => state.formInquiry.cpr, (newValue) => {
+    // Clear CPR missing reason if CPR is provided
+    if (newValue && newValue.trim() !== '') {
+        state.formInquiry.cpr_missing_reason = ''
+    }
+})
+
+watch(() => state.formInquiry.in_shelter_target_group, (newValue) => {
+    // Clear all dependent fields if not in target group
+    if (newValue === 'no') {
+        state.formInquiry.fits_in_target_group = ''
+        state.formInquiry.non_admission_reason = ''
+        state.formInquiry.not_in_service_target_group_reason = ''
+        state.formInquiry.referral_destination = ''
+    }
+})
+
+watch(() => state.formInquiry.fits_in_target_group, (newValue) => {
+    // Clear non_admission_reason if doesn't fit target group
+    if (newValue === 'no') {
+        state.formInquiry.non_admission_reason = ''
+    }
+    // Clear not_in_service_target_group_reason if fits target group
+    if (newValue === 'yes') {
+        state.formInquiry.not_in_service_target_group_reason = ''
+    }
+})
+
+watch(() => state.formInquiry.vacant_place_available, (newValue) => {
+    // Clear non_admission_reason if no space available
+    if (newValue === 'no') {
+        state.formInquiry.non_admission_reason = ''
+    }
+})
+
+// Watch combinations for referral destination
+watch([
+    () => state.formInquiry.fits_in_target_group,
+    () => state.formInquiry.vacant_place_available,
+], () => {
+    // Clear referral destination if conditions no longer met
+    if (! showReferralDestination.value) {
+        state.formInquiry.referral_destination = ''
+    }
+})
+
 onMounted(() => {
     state.formInquiry = {
         inquiry_type: 'shelter',
@@ -254,8 +373,6 @@ onMounted(() => {
         conversation_summary: props.selectedInquiry?.conversation_summary,
         notes: props.selectedInquiry?.notes || ''
     }
-
-
 })
 
 watch(() => props.selectedInquiry, (newValue: any) => {
@@ -285,9 +402,6 @@ watch(() => props.selectedInquiry, (newValue: any) => {
 const rules = computed(() => {
     return {
         formInquiry: {
-            cpr: {
-                required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
-            },
             inquiry_date: {
                 required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
             },
