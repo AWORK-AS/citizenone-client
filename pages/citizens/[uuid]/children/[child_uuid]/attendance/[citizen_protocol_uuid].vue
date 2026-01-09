@@ -1,0 +1,373 @@
+<template>
+    <div>
+        <NuxtLayout name="user">
+
+            <Head>
+                <Title>{{ state.selectedProtocol?.data?.name ?? '' }} - {{ runtimeConfig?.public?.appName }}</Title>
+            </Head>
+
+            <template #breadcrumb>
+                <Breadcrumb :links="state.breadcrumbLinks">
+                    <template #custom-link>
+                        <div class="flex items-center">
+                            <Icon name="heroicons:chevron-right" class="size-3 shrink-0 text-gray-400"
+                                aria-hidden="true" />
+                            <button @click="navigateTo('/citizens')"
+                                class="ml-4 text-sm font-medium text-gray-500 hover:text-gray-700">
+                                {{ customPagesStore.getCustomPagesName?.citizens }}
+                            </button>
+                        </div>
+                    </template>
+                </Breadcrumb>
+            </template>
+
+            <template #header>
+                {{ $t('citizens.attendance.protocol') + ': ' + (state.selectedProtocol?.data?.name ?? '') }}
+            </template>
+
+            <div class="space-y-5">
+                <NuxtLink class="flex items-center gap-x-2 mb-3 max-w-fit hover:cursor-pointer"
+                    :to="`/citizens/${citizenUuid}/children/${childUuid}/attendance`">
+                    <Icon name="ph:arrow-left" size="20" class="text-black" />
+                    <span>{{ $t('back') }}</span>
+                </NuxtLink>
+
+                <ModulesUserCitizenChildDetailsHeader />
+                <ModulesUserCitizenChildJournalTabs />
+
+                <div>
+                    <div class="mt-8 space-y-5">
+                        <Alert type="danger" :text="state?.error?.message"
+                            v-if="state.error?.message && state.error.message.length > 0" />
+                        <div class="flex justify-between flex-col-reverse md:flex-row md:items-center gap-3">
+                            <div class="w-48 flex items-center gap-2">
+                                {{ $t('show') }}:
+                                <FormSelect id="page_limit" name="page_limit" :options="state.options.page_limit"
+                                    v-model="state.page_limit" />
+                            </div>
+                            <div class="flex flex-col-reverse md:flex-row gap-2 md:items-center">
+                                <div class="flex gap-x-2">
+                                    <Badge type="primary" class="w-fit">
+                                        {{ $t('protocols.table.status.attended') }}:
+                                        {{ state.citizenProtocolsCount?.data?.attended ?? 0 }}
+                                        ({{ state.citizenProtocolsCount?.data?.attended_percent ?? 0 }}%)
+                                    </Badge>
+                                    <Badge type="inactive" class="w-fit">
+                                        {{ $t('protocols.table.status.absent') }}:
+                                        {{ state.citizenProtocolsCount?.data?.absent ?? 0 }}
+                                        ({{ state.citizenProtocolsCount?.data?.absent_percent ?? 0 }}%)
+                                    </Badge>
+                                </div>
+                                <FormButton buttonStyle="action" class="rounded-lg" @click="downloadProtocol()">
+                                    {{ $t('protocols.download') }}
+                                </FormButton>
+                            </div>
+                        </div>
+                        <div class="md:grid grid-cols-3 gap-x-3 space-y-3 md:space-y-0">
+                            <FormDateRangeField name="date_range"
+                                :placeholder="$t('citizens.citizenJournals.filter.filterDate')"
+                                v-model="state.filter.date_range" />
+                            <div class="col-span-2">
+                                <TableSearch @search="handleSearch" />
+                            </div>
+                        </div>
+                        <div class="table-responsive">
+                            <Table :columnHeaders="state.columnHeaders" :data="state.citizenProtocols"
+                                :isLoading="state.isTableLoading" :sortData="state.sortData" @sort="sort">
+                                <template #body
+                                    v-if="!(state.isTableLoading || (state.citizenProtocols?.data?.length === 0))">
+                                    <tr v-for="(citizenProtocol, index) in state.citizenProtocols?.data" :key="index">
+                                        <td width="50%">
+                                            <span>{{ formatDateToReadable(citizenProtocol?.date) }}</span>
+                                        </td>
+                                        <td width="50%">
+                                            <Badge
+                                                :type="citizenProtocol?.status === 'attended' ? 'primary' : 'inactive'"
+                                                class="w-fit" v-if="citizenProtocol?.status">
+                                                <p class="text-xs">
+                                                    <span v-if="citizenProtocol?.status === 'attended'">
+                                                        {{ $t('protocols.table.status.attended') }}
+                                                    </span>
+                                                    <span v-if="citizenProtocol?.status === 'absent'">
+                                                        {{ $t('protocols.table.status.absent') }}
+                                                    </span>
+                                                    <span v-if="citizenProtocol?.absence?.name">
+                                                        - {{ citizenProtocol?.absence?.name }}
+                                                    </span>
+                                                </p>
+                                            </Badge>
+                                            <span v-else>-</span>
+                                        </td>
+                                    </tr>
+                                </template>
+                            </Table>
+                        </div>
+                        <Pagination :data="state.citizenProtocols" @previous="previous" @next="next" />
+                    </div>
+                </div>
+            </div>
+            <DialogConfirmation :isModalOpen="state.modal.isRemoveCitizenOpen"
+                :message="$t('citizens.citizenJournals.confirmation.deleteConfirmation') + '?'"
+                @close="state.modal.isRemoveCitizenOpen = false" @confirm="removeCitizen" />
+        </NuxtLayout>
+    </div>
+</template>
+
+<script setup lang="ts">
+import moment from 'moment'
+import { useDatetimeFormatter } from '@/composables/datetimeFormatter'
+import { citizenProtocolService } from '@/components/api/user/CitizenProtocolService'
+import { protocolService } from '@/components/api/user/ProtocolService'
+import { useCustomPagesStore } from '@/store/custom-pages'
+import { useI18n } from "vue-i18n"
+import { saveAs } from 'file-saver'
+import type { Error } from '@/types'
+
+const runtimeConfig = useRuntimeConfig()
+const { t } = useI18n()
+const { formatDateToReadable } = useDatetimeFormatter()
+const customPagesStore = useCustomPagesStore() as any
+const router = useRouter()
+const citizenUuid = router?.currentRoute?.value?.params?.uuid
+const childUuid = router?.currentRoute?.value?.params?.child_uuid
+const citizenProtocolUuid = router?.currentRoute?.value?.params?.citizen_protocol_uuid
+let currentTablePage = 1
+
+const state = reactive({
+    breadcrumbLinks: [
+        {
+            name: 'citizens.tabs.children',
+            translate: true,
+            href: `/citizens/${citizenUuid}/children`,
+        },
+        {
+            name: 'citizens.tabs.attendance',
+            translate: true,
+            href: `/citizens/${citizenUuid}/children/${childUuid}/attendance`,
+        },
+    ],
+    citizenProtocols: [] as any,
+    citizenProtocolsCount: [] as any,
+    columnHeaders: [
+        { name: 'protocols.table.citizens.date', sorter: true, key: 'date' },
+        { name: 'protocols.table.citizens.status', sorter: true, key: 'status' },
+    ],
+    dataFilter: {
+        search: '',
+        start_date: '',
+        end_date: '',
+    },
+    error: {} as Error,
+    filter: {
+        date_range: [],
+    },
+    isPageLoading: false,
+    isTableLoading: false,
+    modal: {
+        isRemoveCitizenOpen: false
+    },
+    options: {
+        page_limit: [
+            { value: 20, label: "20" },
+            { value: 50, label: "50" },
+            { value: 100, label: "100" },
+            { value: 'all', label: "All" },
+        ]
+    },
+    page_limit: 20,
+    selectedCitizenProtocol: [] as any,
+    selectedProtocol: [] as any,
+    searchFilter: [] as any,
+    sortData: {
+        sortField: 'id',
+        sortOrder: 'descend',
+    },
+})
+
+onMounted(() => {
+    fetchProtocol()
+    fetchCitizenProtocolsCount()
+    fetchCitizenProtocols()
+})
+
+watch(() => state.page_limit, (newValue: any) => {
+    if (newValue != null) {
+        fetchCitizenProtocols()
+    }
+})
+
+watch(() => state.filter.date_range, (dates: any) => {
+    state.dataFilter.start_date = dates?.[0]
+    state.dataFilter.end_date = dates?.[1]
+    fetchCitizenProtocols()
+})
+
+async function fetchProtocol() {
+    state.error = {}
+    state.isPageLoading = true
+    try {
+        const response = await protocolService.getProtocol(citizenProtocolUuid)
+        if (response) {
+            state.selectedProtocol = response
+            state.breadcrumbLinks.push({
+                name: t('citizens.attendance.protocol') + ': ' + (response?.data?.name ?? ''),
+                translate: false,
+                href: `/citizens/${citizenUuid}/attendance/${citizenProtocolUuid}`,
+            })
+        }
+    } catch (error: any) {
+        state.error = error
+    }
+    state.isPageLoading = false
+}
+
+async function fetchCitizenProtocolsCount() {
+    state.error = {}
+    state.isPageLoading = true
+    try {
+        const params = {
+            protocol_uuid: citizenProtocolUuid,
+            ...state.dataFilter
+        }
+        const response = await protocolService.getCitizenProtocolsCount(citizenUuid, params)
+        if (response) {
+            state.citizenProtocolsCount = response
+        }
+    } catch (error: any) {
+        state.error = error
+    }
+    state.isPageLoading = false
+}
+
+async function fetchCitizenProtocols() {
+    state.error = {}
+    state.isTableLoading = true
+    try {
+        const params = {
+            protocol_uuid: citizenProtocolUuid,
+            page: currentTablePage,
+            page_limit: state.page_limit,
+            sortField: state.sortData.sortField,
+            sortOrder: state.sortData.sortOrder,
+            ...state.dataFilter
+        }
+        const response = await protocolService.getCitizenProtocolsByCitizen(citizenUuid, params)
+        if (response) {
+            state.citizenProtocols = response
+        }
+    } catch (error: any) {
+        state.error = error
+    }
+    state.isTableLoading = false
+}
+
+function previous() {
+    currentTablePage--
+    fetchCitizenProtocols()
+}
+
+function next() {
+    currentTablePage++
+    fetchCitizenProtocols()
+}
+
+function sort(sortingData: any) {
+    currentTablePage = 1
+    state.sortData = {
+        sortField: sortingData.column,
+        sortOrder: sortingData.sort,
+    }
+    fetchCitizenProtocols()
+}
+
+function handleSearch(value: any) {
+    currentTablePage = 1
+    state.dataFilter.search = value?.[0] == '' ? [] : value
+    fetchCitizenProtocols()
+}
+
+async function setDateRange(event: any) {
+    const dateRange = event.target.value
+    const dates = dateRange.split(" to ")
+    const startDate = moment(dates[0], "DD. MMMM YYYY").format("YYYY-MM-DD")
+    const endDate = dates[1] ? moment(dates[1], "DD. MMMM YYYY").format("YYYY-MM-DD") : startDate
+    state.dataFilter.start_date = startDate
+    state.dataFilter.end_date = endDate
+    if (startDate !== 'Invalid date') {
+        fetchCitizenProtocols()
+        fetchCitizenProtocolsCount()
+    }
+}
+
+async function downloadProtocol() {
+    state.error = {}
+    state.isTableLoading = true
+    try {
+        const protocolUuid = citizenProtocolUuid as string
+        const params = {
+            citizen_uuid: citizenUuid
+        }
+        const response = await citizenProtocolService.downloadCitizenProtocol(protocolUuid, params)
+        if (response) {
+            saveAs(response, protocolUuid)
+        }
+    } catch (error: any) {
+        state.error = error
+    }
+    state.isTableLoading = false
+}
+
+async function markAsAbsent(citizenProtocolUuid: string) {
+    state.error = {}
+    state.isTableLoading = true
+    try {
+        const params = {
+            status: 'absent',
+        }
+        const response = await citizenProtocolService.updateCitizenProtocol(citizenProtocolUuid, params)
+        if (response?.data) {
+            fetchCitizenProtocols()
+        }
+    } catch (error: any) {
+        state.error = error
+    }
+    state.isTableLoading = false
+}
+
+async function markAsPresent(citizenProtocolUuid: string) {
+    state.error = {}
+    state.isTableLoading = true
+    try {
+        const params = {
+            status: 'attended',
+        }
+        const response = await citizenProtocolService.updateCitizenProtocol(citizenProtocolUuid, params)
+        if (response?.data) {
+            fetchCitizenProtocols()
+        }
+    } catch (error: any) {
+        state.error = error
+    }
+    state.isTableLoading = false
+}
+
+function confirmRemoving(citizenProtocol: any) {
+    state.selectedCitizenProtocol = citizenProtocol
+    state.modal.isRemoveCitizenOpen = true
+}
+
+async function removeCitizen() {
+    state.error = {}
+    state.isTableLoading = true
+    try {
+        const citizenProtocolUuid = state.selectedCitizenProtocol?.uuid
+        const response = await citizenProtocolService.deleteCitizenProtocol(citizenProtocolUuid)
+        if (response) {
+            fetchCitizenProtocols()
+        }
+    } catch (error: any) {
+        state.error = error
+    }
+    state.isTableLoading = false
+}
+</script>

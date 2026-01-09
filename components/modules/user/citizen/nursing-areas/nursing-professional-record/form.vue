@@ -445,7 +445,7 @@
         <div class="mt-6">
             <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
                 <FormButton type="button" buttonStyle="cancel" class="rounded-md"
-                    @click="navigateTo(`/citizens/${citizenUuid}/nursing-areas`)">
+                    @click="navigateTo(['citizens-uuid-children-child_uuid-nursing-areas-nursing-professional-records-new', 'citizens-uuid-children-child_uuid-nursing-areas-nursing-professional-records-record_uuid-edit'].includes(router?.currentRoute?.value?.name as string) ? `/citizens/${citizenUuid}/children/${childUuid}/nursing-areas?open=nursing-professional-records` : `/citizens/${citizenUuid}/nursing-areas?open=nursing-professional-records`)">
                     {{ $t('cancel') }}
                 </FormButton>
                 <FormButton type="submit" buttonStyle="primary" class="rounded-md w-full">
@@ -471,6 +471,7 @@ import type { Error } from '@/types'
 
 const router = useRouter()
 const citizenUuid = router?.currentRoute?.value?.params?.uuid as any
+const childUuid = router?.currentRoute?.value?.params?.child_uuid as any
 const functionalLevelFileInput = ref(null) as any
 const musculoskeletalSystemFileInput = ref(null) as any
 const nutritionFileInput = ref(null) as any

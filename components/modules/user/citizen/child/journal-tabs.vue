@@ -9,6 +9,7 @@ import { useI18n } from "vue-i18n"
 
 const route = useRoute()
 const citizenUuid = route?.params?.uuid
+const childUuid = route?.params?.child_uuid
 const userStore = useUserStore()
 const { t } = useI18n()
 const { errorAlert } = useAlert()
@@ -40,8 +41,8 @@ watch(() => userStore.getUser, (newValue: any) => {
         state.tabs.push({
             name: 'citizens.tabs.journals',
             isTranslateName: true,
-            href: `/citizens/${citizenUuid}/journals`,
-            routeNames: ['citizens-uuid-journals']
+            href: `/citizens/${citizenUuid}/children/${childUuid}/journals`,
+            routeNames: ['citizens-uuid-children-child_uuid-journals']
         })
     }
 
@@ -49,8 +50,8 @@ watch(() => userStore.getUser, (newValue: any) => {
         state.tabs.push({
             name: 'citizens.tabs.medicineCard',
             isTranslateName: true,
-            href: `/citizens/${citizenUuid}/medicine-journals`,
-            routeNames: ['citizens-uuid-medicine-journals']
+            href: `/citizens/${citizenUuid}/children/${childUuid}/medicine-journals`,
+            routeNames: ['citizens-uuid-children-child_uuid-medicine-journals']
         })
     }
 
@@ -58,11 +59,11 @@ watch(() => userStore.getUser, (newValue: any) => {
         state.tabs.push({
             name: 'citizens.tabs.plansAndGoals',
             isTranslateName: true,
-            href: `/citizens/${citizenUuid}/plans-and-goals/all`,
+            href: `/citizens/${citizenUuid}/children/${childUuid}/plans-and-goals/all`,
             routeNames: [
-                'citizens-uuid-plans-and-goals-all',
-                'citizens-uuid-plans-and-goals-active',
-                'citizens-uuid-plans-and-goals-archived',
+                'citizens-uuid-children-child_uuid-plans-and-goals-all',
+                'citizens-uuid-children-child_uuid-plans-and-goals-active',
+                'citizens-uuid-children-child_uuid-plans-and-goals-archived',
             ]
         })
     }
@@ -71,11 +72,11 @@ watch(() => userStore.getUser, (newValue: any) => {
         state.tabs.push({
             name: 'citizens.tabs.health',
             isTranslateName: true,
-            href: `/citizens/${citizenUuid}/nursing-areas?open=nursing-professional-records`,
+            href: `/citizens/${citizenUuid}/children/${childUuid}/nursing-areas?open=nursing-professional-records`,
             routeNames: [
-                'citizens-uuid-nursing-areas',
-                'citizens-uuid-nursing-areas-new',
-                'citizens-uuid-nursing-areas-record_uuid-edit'
+                'citizens-uuid-children-child_uuid-nursing-areas',
+                'citizens-uuid-children-child_uuid-nursing-areas-new',
+                'citizens-uuid-children-child_uuid-nursing-areas-record_uuid-edit'
             ]
         })
     }
@@ -84,8 +85,8 @@ watch(() => userStore.getUser, (newValue: any) => {
         state.tabs.push({
             name: 'citizens.tabs.documents',
             isTranslateName: true,
-            href: `/citizens/${citizenUuid}/documents`,
-            routeNames: ['citizens-uuid-documents']
+            href: `/citizens/${citizenUuid}/children/${childUuid}/documents`,
+            routeNames: ['citizens-uuid-children-child_uuid-documents']
         })
     }
 
@@ -93,10 +94,10 @@ watch(() => userStore.getUser, (newValue: any) => {
         state.tabs.push({
             name: 'citizens.tabs.attendance',
             isTranslateName: true,
-            href: `/citizens/${citizenUuid}/attendance`,
+            href: `/citizens/${citizenUuid}/children/${childUuid}/attendance`,
             routeNames: [
-                'citizens-uuid-attendance',
-                'citizens-uuid-attendance-citizen_protocol_uuid'
+                'citizens-uuid-children-child_uuid-attendance',
+                'citizens-uuid-children-child_uuid-attendance-citizen_protocol_uuid'
             ]
         })
     }
@@ -105,8 +106,8 @@ watch(() => userStore.getUser, (newValue: any) => {
         state.tabs.push({
             name: 'citizens.tabs.calendar',
             isTranslateName: true,
-            href: `/citizens/${citizenUuid}/calendar`,
-            routeNames: ['citizens-uuid-calendar']
+            href: `/citizens/${citizenUuid}/children/${childUuid}/calendar`,
+            routeNames: ['citizens-uuid-children-child_uuid-calendar']
         })
     }
 
@@ -114,10 +115,10 @@ watch(() => userStore.getUser, (newValue: any) => {
         state.tabs.push({
             name: 'citizens.tabs.economy',
             isTranslateName: true,
-            href: `/citizens/${citizenUuid}/wallets`,
+            href: `/citizens/${citizenUuid}/children/${childUuid}/wallets`,
             routeNames: [
-                'citizens-uuid-wallets',
-                'citizens-uuid-wallets-wallet_uuid'
+                'citizens-uuid-children-child_uuid-wallets',
+                'citizens-uuid-children-child_uuid-wallets-wallet_uuid'
             ]
         })
     }
@@ -126,17 +127,8 @@ watch(() => userStore.getUser, (newValue: any) => {
         state.tabs.push({
             name: 'citizens.tabs.contacts',
             isTranslateName: true,
-            href: `/citizens/${citizenUuid}/contacts`,
-            routeNames: ['citizens-uuid-contacts']
-        })
-    }
-
-    if (newValue?.company?.industry?.system_name === 'social_welfare' && ['Crisis center', 'Shelter'].includes(newValue?.company?.facility_type?.en_name)) {
-        state.tabs.push({
-            name: 'citizens.tabs.children',
-            isTranslateName: true,
-            href: `/citizens/${citizenUuid}/children`,
-            routeNames: ['citizens-uuid-children']
+            href: `/citizens/${citizenUuid}/children/${childUuid}/contacts`,
+            routeNames: ['citizens-uuid-children-child_uuid-contacts']
         })
     }
 
@@ -160,35 +152,32 @@ watch(() => userStore.getUser, (newValue: any) => {
 })
 
 function changeTab(value: any) {
-    if (value === `/citizens/${citizenUuid}/journals`) {
-        navigateTo(`/citizens/${citizenUuid}/journals`)
+    if (value === `/citizens/${citizenUuid}/children/${childUuid}/journals`) {
+        navigateTo(`/citizens/${citizenUuid}/children/${childUuid}/journals`)
     }
-    else if (value === `/citizens/${citizenUuid}/medicine-journals`) {
-        navigateTo(`/citizens/${citizenUuid}/medicine-journals`)
+    else if (value === `/citizens/${citizenUuid}/children/${childUuid}/medicine-journals`) {
+        navigateTo(`/citizens/${citizenUuid}/children/${childUuid}/medicine-journals`)
     }
-    else if (value === `/citizens/${citizenUuid}/plans-and-goals/all`) {
-        navigateTo(`/citizens/${citizenUuid}/plans-and-goals/all`)
+    else if (value === `/citizens/${citizenUuid}/children/${childUuid}/plans-and-goals/all`) {
+        navigateTo(`/citizens/${citizenUuid}/children/${childUuid}/plans-and-goals/all`)
     }
-    else if (value === `/citizens/${citizenUuid}/nursing-areas`) {
-        navigateTo(`/citizens/${citizenUuid}/nursing-areas`)
+    else if (value === `/citizens/${citizenUuid}/children/${childUuid}/nursing-areas?open=nursing-professional-records`) {
+        navigateTo(`/citizens/${citizenUuid}/children/${childUuid}/nursing-areas`)
     }
-    else if (value === `/citizens/${citizenUuid}/documents`) {
-        navigateTo(`/citizens/${citizenUuid}/documents`)
+    else if (value === `/citizens/${citizenUuid}/children/${childUuid}/documents`) {
+        navigateTo(`/citizens/${citizenUuid}/children/${childUuid}/documents`)
     }
-    else if (value === `/citizens/${citizenUuid}/attendance`) {
-        navigateTo(`/citizens/${citizenUuid}/attendance`)
+    else if (value === `/citizens/${citizenUuid}/children/${childUuid}/attendance`) {
+        navigateTo(`/citizens/${citizenUuid}/children/${childUuid}/attendance`)
     }
-    else if (value === `/citizens/${citizenUuid}/calendar`) {
-        navigateTo(`/citizens/${citizenUuid}/calendar`)
+    else if (value === `/citizens/${citizenUuid}/children/${childUuid}/calendar`) {
+        navigateTo(`/citizens/${citizenUuid}/children/${childUuid}/calendar`)
     }
-    else if (value === `/citizens/${citizenUuid}/wallets`) {
-        navigateTo(`/citizens/${citizenUuid}/wallets`)
+    else if (value === `/citizens/${citizenUuid}/children/${childUuid}/wallets`) {
+        navigateTo(`/citizens/${citizenUuid}/children/${childUuid}/wallets`)
     }
-    else if (value === `/citizens/${citizenUuid}/contacts`) {
-        navigateTo(`/citizens/${citizenUuid}/contacts`)
-    }
-    else if (value === `/citizens/${citizenUuid}/children`) {
-        navigateTo(`/citizens/${citizenUuid}/children`)
+    else if (value === `/citizens/${citizenUuid}/children/${childUuid}/contacts`) {
+        navigateTo(`/citizens/${citizenUuid}/children/${childUuid}/contacts`)
     }
 }
 </script>
