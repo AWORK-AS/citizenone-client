@@ -219,11 +219,11 @@ onMounted(() => {
         contacted_by: props.selectedInquiry?.contacted_by || '',
         outcome: props.selectedInquiry?.outcome,
         purpose: props.selectedInquiry?.purpose,
-        topic_uuid: props.selectedInquiry?.topic_uuid || [],
+        topic_uuid: props.selectedInquiry?.topics.map((topic: any) => topic.uuid) || [],
         target_group_crisis_center: props.selectedInquiry?.target_group_crisis_center || [],
         received_visit: props.selectedInquiry?.received_visit || false,
-        assessment_uuid: props.selectedInquiry?.assessment_uuid || [],
-        guidance_uuid: props.selectedInquiry?.guidance_uuid || [],
+        assessment_uuid: props.selectedInquiry?.no_assessment_reasons.map((reason: any) => reason.uuid) || [],
+        guidance_uuid: props.selectedInquiry?.guidances.map((guidance: any) => guidance.uuid) || [],
         conversation_summary: props.selectedInquiry?.conversation_summary,
         notes: props.selectedInquiry?.notes || ''
     }
