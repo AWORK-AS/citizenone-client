@@ -72,6 +72,45 @@
                                 </MenuItems>
                             </transition>
                         </Menu>
+
+                        <Menu as="div" class="relative inline-block text-left z-20">
+                            <div>
+                                <MenuButton>
+                                    <FormButton buttonStyle="action" class="rounded-lg">
+                                        <Icon name="ph:file-arrow-down" class="h-4 w-4" aria-hidden="true" />
+                                        {{ $t('inquiries.exportInquiries') }}
+                                    </FormButton>
+                                </MenuButton>
+                            </div>
+
+                            <transition enter-active-class="transition duration-100 ease-out"
+                                enter-from-class="transform scale-95 opacity-0" enter-to-class="transform scale-100 opacity-100"
+                                leave-active-class="transition duration-75 ease-in"
+                                leave-from-class="transform scale-100 opacity-100"
+                                leave-to-class="transform scale-95 opacity-0">
+                                <MenuItems
+                                    class="absolute right-0 mt-2 min-w-44 origin-top-right divide-y divide-gray-100 rounded-md bg-white shadow-lg ring-1 ring-black/5 focus:outline-none">
+                                    <div class="px-1 py-1">
+                                        <MenuItem v-slot="{ active }">
+                                            <button :class="[
+                                                active && 'bg-gray-100',
+                                                'group flex w-full justify-start items-center rounded-md px-2 py-2.5 text-sm text-left',
+                                            ]" @click="exportInquiries({ inquiry_type: 'shelter' })">
+                                                {{ $t('inquiries.form.options.inquiryType.shelter') }}
+                                            </button>
+                                        </MenuItem>
+                                        <MenuItem v-slot="{ active }">
+                                            <button :class="[
+                                                active && 'bg-gray-100',
+                                                'group flex w-full items-center rounded-md px-2 py-2.5 text-sm',
+                                            ]" @click="exportInquiries({ inquiry_type: 'crisis_center' })">
+                                                {{ $t('inquiries.form.options.inquiryType.crisisCenter') }}
+                                            </button>
+                                        </MenuItem>
+                                    </div>
+                                </MenuItems>
+                            </transition>
+                        </Menu>
                     </div>
                 </div>
                 <div class="space-y-5">
@@ -168,10 +207,13 @@ import { useDatetimeFormatter } from '@/composables/datetimeFormatter'
 import { useI18n } from "vue-i18n"
 import { useAlert } from '@/composables/alert'
 import type { Error } from '@/types'
+import { saveAs } from 'file-saver'
+import { useCustomPagesStore } from '@/store/custom-pages'
 
 const runtimeConfig = useRuntimeConfig()
 const inquiryStore = useInquiryStore() as any
 const { formatDateToReadable } = useDatetimeFormatter()
+const customPagesStore = useCustomPagesStore() as any
 const { successAlert } = useAlert()
 const { t } = useI18n()
 
@@ -318,6 +360,25 @@ async function deleteInquiry() {
         if (response) {
             fetchInquiries()
             successAlert(`${t('alert.success')}!`, `${t('inquiries.table.alert.inquirySuccessfullyDeleted')}.`)
+        }
+    } catch (error: any) {
+        state.error = error
+    }
+    state.isTableLoading = false
+}
+
+async function exportInquiries(params: { inquiry_type: string }) {
+    state.error = {}
+    state.isTableLoading = true
+    try {
+        const queryParams = {
+            ...params
+        }
+        const response = await citizenInquiryService.exportInquiries(queryParams)
+        if (response) {
+            let fileName = params.inquiry_type === 'shelter' ? t('inquiries.shelterInquiry') : t('inquiries.crisisCenterInquiry')
+
+            saveAs(response, `${customPagesStore.getCustomPagesName?.citizens}-${fileName}`)
         }
     } catch (error: any) {
         state.error = error

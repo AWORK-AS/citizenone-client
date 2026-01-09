@@ -3426,6 +3426,7 @@
         "editInquiry": "Edit inquiry",
         "crisisCenterInquiry": "Crisis center inquiry",
         "shelterInquiry": "Shelter inquiry",
+        "exportInquiries": "Export inquiries",
         "form": {
             "alert": {
                 "newInquirySuccessfullySaved": "New inquiry successfully saved",

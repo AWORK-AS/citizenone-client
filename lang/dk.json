@@ -3426,6 +3426,7 @@
         "editInquiry": "Rediger henvendelser",
         "crisisCenterInquiry": "Krisecenter henvendelser",
         "shelterInquiry": "Herberger og forsorgshjem henvendelser",
+        "exportInquiries": "Eksporter henvendelser",
         "form": {
             "alert": {
                 "newInquirySuccessfullySaved": "Ny henvendelser er blevet gemt",

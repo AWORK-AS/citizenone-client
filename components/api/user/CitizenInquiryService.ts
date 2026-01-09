@@ -37,6 +37,11 @@ class CitizenInquiryService extends BaseAPIService {
     async getGuidanceList(): Promise<any> {
         return await this.request(`/user/inquiry-guidances/all/list`, 'GET')
     }
+
+    // Export inquiries
+    async exportInquiries(params: object): Promise<any> {
+        return await this.request(`/user/citizen-inquiries/export/download`, 'GET', params)
+    }
 }
 
 export const citizenInquiryService = new CitizenInquiryService()
