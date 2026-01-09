@@ -55,35 +55,39 @@
                     <FormError :error="v$?.formInquiry?.topic_uuid?.$errors[0]?.$message.toString()" />
                     <FormError :error="props?.error?.errors?.topic_uuid?.[0]" />
                 </div>
-                <div class="space-y-1">
+                <!-- Question 5: Assessment - Only show if topic includes "inquiry about place" -->
+                <div class="space-y-1" v-if="showAssessmentFields">
                     <FormLabel for="assessment" :label="$t('inquiries.form.crisisCenter.fields.assessment')" />
                     <FormSelect id="assessment"
-                                            :options="state.options.assessment"
-                                            v-model="state.formInquiry.target_group_crisis_center" />
+                                :options="state.options.assessment"
+                                v-model="state.formInquiry.target_group_crisis_center" />
                     <FormError :error="v$?.formInquiry?.target_group_crisis_center?.$errors[0]?.$message.toString()" />
                     <FormError :error="props?.error?.errors?.target_group_crisis_center?.[0]" />
                 </div>
-                <div class="space-y-1">
+                <!-- Question 6: Received Visit - Only show if assessment is "yes" or "unknown" -->
+                <div class="space-y-1" v-if="showReceivedVisitField">
                     <FormLabel for="received_visit" :label="$t('inquiries.form.crisisCenter.fields.receivedVisit')" />
                     <FormSelect id="received_visit"
-                                            :options="state.options.yesNo"
-                                            v-model="state.formInquiry.received_visit" />
+                                :options="state.options.yesNo"
+                                v-model="state.formInquiry.received_visit" />
                     <FormError :error="v$?.formInquiry?.received_visit?.$errors[0]?.$message.toString()" />
                     <FormError :error="props?.error?.errors?.received_visit?.[0]" />
                 </div>
-                <div class="space-y-1">
+                <!-- Question 7: Assessment Reason - Only show if received_visit is "no" -->
+                <div class="space-y-1" v-if="showAssessmentReasonAndGuidance">
                     <FormLabel for="assessment_reason" :label="$t('inquiries.form.crisisCenter.fields.notOfferedInterview')" />
                     <FormSelectMultiple id="assessment_reason"
-                                            :options="state.options.assessment_reason_list"
-                                            v-model="state.formInquiry.assessment_uuid" />
+                                        :options="state.options.assessment_reason_list"
+                                        v-model="state.formInquiry.assessment_uuid" />
                     <FormError :error="v$?.formInquiry?.assessment_uuid?.$errors[0]?.$message.toString()" />
                     <FormError :error="props?.error?.errors?.assessment_uuid?.[0]" />
                 </div>
-                <div class="space-y-1">
+                <!-- Question 8: Guidance - Only show if received_visit is "no" -->
+                <div class="space-y-1" v-if="showAssessmentReasonAndGuidance">
                     <FormLabel for="guidance" :label="$t('inquiries.form.crisisCenter.fields.guidance')" />
                     <FormSelectMultiple id="guidance"
-                                            :options="state.options.guidance_list"
-                                            v-model="state.formInquiry.guidance_uuid" />
+                                        :options="state.options.guidance_list"
+                                        v-model="state.formInquiry.guidance_uuid" />
                     <FormError :error="v$?.formInquiry?.guidance_uuid?.$errors[0]?.$message.toString()" />
                     <FormError :error="props?.error?.errors?.guidance_uuid?.[0]" />
                 </div>
@@ -171,11 +175,11 @@ const state = reactive({
         contacted_by: '',
         outcome: '',
         purpose: '',
-        topic_uuid: [],
-        target_group_crisis_center: [],
+        topic_uuid: [] as any,
+        target_group_crisis_center: [] as any,
         received_visit: '',
-        assessment_uuid: [],
-        guidance_uuid: [],
+        assessment_uuid: [] as any,
+        guidance_uuid: [] as any,
         conversation_summary: '',
         notes: ''
     },
@@ -205,7 +209,10 @@ const state = reactive({
             { value: 'yes', label: `${t('inquiries.form.options.yesNo.yes')}` },
             { value: 'no', label: `${t('inquiries.form.options.yesNo.no')}` },
         ],
-    }
+    },
+    inquiryAboutData: [] as any,
+    assessmentReasonData: [] as any,
+    guidanceData: [] as any,
 })
 
 onMounted(() => {
@@ -277,6 +284,52 @@ const rules = computed(() => {
 
 const v$ = useVuelidate(rules, state)
 
+// Computed fields for conditional field rendering
+const showAssessmentFields = computed(() => {
+    const inquiryAboutPlace: string = 'inquiry-about-an-available-place-at-this-crisis-center'
+    const inquiryAboutPlaceUuid = state.inquiryAboutData.find((item: any) => item.system_name === inquiryAboutPlace)?.uuid
+    return state.formInquiry.topic_uuid?.includes(inquiryAboutPlaceUuid)
+})
+
+const showReceivedVisitField = computed(() => {
+    return showAssessmentFields.value && 
+           (state.formInquiry.target_group_crisis_center === 'yes' || 
+            state.formInquiry.target_group_crisis_center === 'unknown')
+})
+
+const showAssessmentReasonAndGuidance = computed(() => {
+    return showReceivedVisitField.value && 
+           state.formInquiry.received_visit === 'no'
+})
+
+// Watch for changes and clear dependent fields for Dynamic Form
+watch(() => state.formInquiry.topic_uuid, (newValue, oldValue) => {
+    // If "inquiry about place" is no longer selected, clear dependent fields
+    if (!showAssessmentFields.value) {
+        state.formInquiry.target_group_crisis_center = []
+        state.formInquiry.received_visit = ''
+        state.formInquiry.assessment_uuid = []
+        state.formInquiry.guidance_uuid = []
+    }
+})
+
+watch(() => state.formInquiry.target_group_crisis_center, (newValue) => {
+    // If assessment changes to "no", skip to end and clear intermediate fields
+    if (newValue === 'no') {
+        state.formInquiry.received_visit = ''
+        state.formInquiry.assessment_uuid = []
+        state.formInquiry.guidance_uuid = []
+    }
+})
+
+watch(() => state.formInquiry.received_visit, (newValue) => {
+    // If received_visit changes to "yes", clear reason and guidance
+    if (newValue === 'yes') {
+        state.formInquiry.assessment_uuid = []
+        state.formInquiry.guidance_uuid = []
+    }
+})
+
 async function fetchInquiryAboutListOptions() {
     state.error = {}
     state.isPageLoading = true
@@ -287,9 +340,11 @@ async function fetchInquiryAboutListOptions() {
                 return {
                     value: item.uuid,
                     label: locale.value === 'en' ? item.en_name : item.dk_name,
+                    system_name: item.system_name
                 }
             })
             state.options.about_list = options
+            state.inquiryAboutData = response.data
         }
     } catch (error: any) {
         state.error = error
@@ -307,9 +362,11 @@ async function fetchAssessmentReasonListOptions() {
                 return {
                     value: item.uuid,
                     label: locale.value === 'en' ? item.en_name : item.dk_name,
+                    system_name: item.system_name
                 }
             })
             state.options.assessment_reason_list = options
+            state.assessmentReasonData = response.data
         }
     } catch (error: any) {
         state.error = error
@@ -327,9 +384,11 @@ async function fetchGuidanceListOptions() {
                 return {
                     value: item.uuid,
                     label: locale.value === 'en' ? item.en_name : item.dk_name,
+                    system_name: item.system_name
                 }
             })
             state.options.guidance_list = options
+            state.guidanceData = response.data
         }
     } catch (error: any) {
         state.error = error
