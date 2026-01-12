@@ -3425,6 +3425,7 @@
     "guidedTour": "Guidet tur",
     "hideAll": "Skjul alle",
     "home": "Hjem",
+    "imageFailedToLoad": "Billedet kunne ikke indlæses",
     "inquiries": {
         "inquiries": "Henvendelser",
         "editInquiry": "Rediger henvendelser",
@@ -3760,16 +3761,19 @@
     "login": {
         "doYouNeedHelp": "Har du brug for hjælp",
         "login": "Log ind",
-        "SignInToYourAccount": "Log ind på din konto",
+        "loginToContinueTo": "Log ind for at fortsætte til",
+        "signinToYourAccount": "Log ind på din konto",
         "form": {
             "createAccountHere": "Opret konto her",
-            "emailAddress": "E-mail adresse",
+            "emailAddress": "E-mailadresse",
             "dontHaveAnAccount": "Har du ikke en konto",
             "forgotPassword": "Glemt adgangskode",
             "login": "Log ind",
             "password": "Adgangskode",
             "rememberMeFor14Days": "Husk mig i 14 dage"
-        }
+        },
+        "seeWhatsNew": "Se hvad der er nyt",
+        "welcomeBack": "Velkommen tilbage"
     },
     "logs": {
         "table": {

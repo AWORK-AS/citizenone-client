@@ -3425,6 +3425,7 @@
     "guidedTour": "Guided tour",
     "hideAll": "Hide all",
     "home": "Home",
+    "imageFailedToLoad": "Image failed to load",
     "inquiries": {
         "inquiries": "Inquiries",
         "editInquiry": "Edit inquiry",
@@ -3760,7 +3761,8 @@
     "login": {
         "doYouNeedHelp": "Do you need help",
         "login": "Login",
-        "SignInToYourAccount": "Sign in to your account",
+        "loginToContinueTo": " Log in to continue to",
+        "signinToYourAccount": "Sign in to your account",
         "form": {
             "createAccountHere": "Create account here",
             "emailAddress": "Email address",
@@ -3769,7 +3771,9 @@
             "login": "Login",
             "password": "Password",
             "rememberMeFor14Days": "Remember me for 14 days"
-        }
+        },
+        "seeWhatsNew": "See what's new",
+        "welcomeBack": "Welcome back"
     },
     "logs": {
         "table": {
