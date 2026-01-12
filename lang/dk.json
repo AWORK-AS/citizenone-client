@@ -1416,12 +1416,13 @@
                 "successfullyDeactivated": "Medicin deaktiveret med succes",
                 "successfullyDeleted": "Medicin slettet med succes"
             },
-            "download": "Download",
             "confirmation": {
                 "activateConfirmation": "Er du sikker på, at du vil aktivere denne medicin",
                 "deactivateConfirmation": "Er du sikker på, at du vil deaktivere denne medicin",
                 "deleteConfirmation": "Er du sikker på, at du vil slette denne medicin"
             },
+            "download": "Download",
+            "downloadOverview": "Download oversigt",
             "editMedicine": "Rediger Medicin",
             "form": {
                 "activateMedicine": "Aktivér medicin",
@@ -1431,6 +1432,7 @@
                     "successfullyUpdated": "Medicin opdateret med succes"
                 },
                 "currentStocks": "Nuværende lagre",
+                "date": "Dato",
                 "deactivate": "Deaktiver",
                 "deactivated": "Deaktiveret",
                 "description": "Beskrivelse",
@@ -3518,8 +3520,6 @@
                     "receivedVisit": "Får borgeren en visitationssamtale/midlertidig indlogering?",
                     "notOfferedInterview": "Hvorfor tilbydes borgeren ikke en visitationssamtale?",
                     "guidance": "Krisecenteret vejleder/anviser borgeren til:"
-
-
                 }
             }
         },

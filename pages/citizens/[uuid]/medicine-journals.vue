@@ -53,6 +53,11 @@
                                 <Icon name="ph:plus" class="h-4 w-4" aria-hidden="true" />
                                 {{ $t('citizens.medicineJournals.newMedicine') }}
                             </FormButton>
+                            <FormButton buttonStyle="action" class="rounded-md"
+                                @click="state.modal.isDownloadMedicineOverviewOpen = true">
+                                <Icon name="ph:download" class="h-4 w-4" aria-hidden="true" />
+                                {{ $t('citizens.medicineJournals.downloadOverview') }}
+                            </FormButton>
                         </div>
                     </div>
                 </div>
@@ -289,6 +294,8 @@
                     :isModalOpen="state.modal.isGiveMedicinesOpen" @close="state.modal.isGiveMedicinesOpen = false" />
                 <ModulesUserCitizenMedicineHistoryModalHistory :isModalOpen="state.modal.isViewMedicineHistoryOpen"
                     :selectedMedicine="state.selectedMedicine" @close="state.modal.isViewMedicineHistoryOpen = false" />
+                <ModulesUserCitizenMedicineModalDownload :isModalOpen="state.modal.isDownloadMedicineOverviewOpen"
+                    @close="state.modal.isDownloadMedicineOverviewOpen = false" />
                 <DialogConfirmation :isModalOpen="state.modal.isActivateMedicineOpen"
                     :message="$t('citizens.medicineJournals.confirmation.activateConfirmation') + '?'"
                     @close="state.modal.isActivateMedicineOpen = false" @confirm="toggleActivateDeactivateMedicine" />
@@ -348,6 +355,7 @@ const state = reactive({
         isActivateMedicineOpen: false,
         isDeactivateMedicineOpen: false,
         isDeleteMedicineOpen: false,
+        isDownloadMedicineOverviewOpen: false,
         isEditMedicineOpen: false,
         isFilterMedicineOpen: false,
         isGiveMedicineOpen: false,
