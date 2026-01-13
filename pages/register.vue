@@ -5,52 +5,82 @@
     </Head>
 
     <LoadingSpinner :isActive="state.isPageLoading">
-        <div
-            class="bg-[#f5fafe] relative overflow-clip flex min-h-screen flex-1 flex-col justify-center py-12 sm:px-6 lg:px-8">
-            <img src="/img/icons/asset-01.svg" alt="Image failed to load"
-                class="w-52 md:w-1/5 absolute -top-28 -right-24 opacity-0 transition-opacity duration-500"
-                id="animatedAsset01">
-            <img src="/img/icons/asset-02.svg" alt="Image failed to load"
-                class="w-52 md:w-1/4 absolute -bottom-48 -left-44 opacity-0 transition-opacity duration-500"
-                id="animatedAsset02">
-            <div class="px-4 md:px-0 sm:mx-auto sm:w-full sm:max-w-3xl relative">
-                <Logo @click="navigateTo('/')" class="mx-auto" />
-                <button type="button" class="-m-2.5 rounded-full w-8 absolute right-5 top-1.5" @click="selectLanguage">
-                    <img :src="identifyFlag()" alt="flag">
-                </button>
-            </div>
-
-            <div class="md:mt-10 sm:mx-auto sm:w-full sm:max-w-3xl">
-                <div class="md:bg-white md:shadow-sm px-6 py-3 md:py-8 sm:rounded-lg sm:px-12">
-                    <form class="mt-5 space-y-3" method="POST" @submit.prevent="register">
-                        <Alert type="danger" :text="state?.error?.message"
-                            v-if="state.error?.message && state.error.message.length > 0" />
-                        <h3 class="font-medium text-lg md:text-xl">
-                            {{ $t('register.form.createFreeAccount') }}
-                        </h3>
-                        <div class="space-y-1">
-                            <div class="flex items-center gap-x-1">
-                                <div class="bg-secondary rounded-full flex items-center p-0.5">
-                                    <Icon name="ph:check" class="w-3 h-3 text-white" />
-                                </div>
-                                <p class="text-sm">
-                                    {{ $t('register.noCommitment') }}
-                                </p>
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-x-5 min-h-screen">
+            <div class="w-full max-w-xl mx-auto pt-20 px-5 lg:px-0">
+                <div class="flex items-end justify-between">
+                    <Logo class="w-40" @click="navigateTo('/')" />
+                    <p class="text-xs text-gray-700">
+                        {{ $t('register.step') }} {{ state.progress.currentStep }}
+                        <span class="lowercase">{{ $t('register.of') }}</span> 2
+                    </p>
+                </div>
+                <div class="mt-5 flex items-center gap-x-2">
+                    <div class="h-2.5 w-full rounded-full bg-gray-200">
+                        <div class="h-2.5 rounded-full bg-secondary transition-all duration-300"
+                            :style="{ width: `${Math.round((state.progress.currentStep1Progress / 4) * 100)}%` }"></div>
+                    </div>
+                    <div class="h-2.5 w-full rounded-full bg-gray-200">
+                        <div class="h-2.5 rounded-full bg-secondary transition-all duration-300"
+                            :style="{ width: `${Math.round((state.progress.currentStep2Progress / 1) * 100)}%` }"></div>
+                    </div>
+                    <img class="w-4" src="/img/icons/asset-app.png" :alt="$t('imageFailedToLoad')" />
+                </div>
+                <form class="mt-5" method="POST" @submit.prevent="register">
+                    <Alert type="danger" :text="state?.error?.message"
+                        v-if="state.error?.message && state.error.message.length > 0" />
+                    <div class="space-y-1">
+                        <div class="mt-10 flex justify-between items-center">
+                            <h3 class="font-bold text-2xl md:text-3xl">
+                                {{ $t('register.form.createYourAccount') }}
+                            </h3>
+                            <button type="button" class="rounded-full w-8" @click="selectLanguage">
+                                <img :src="identifyFlag()" alt="flag">
+                            </button>
+                        </div>
+                        <p class="text-sm text-gray-600">
+                            {{ $t('register.form.justAFewClicksAndYoureIn') }}
+                        </p>
+                    </div>
+                    <div class="mt-5 space-y-3" v-if="state.progress.currentStep === 1">
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-3 py-1">
+                            <div class="space-y-1">
+                                <FormLabel for="firstname" :label="$t('register.form.firstname')" />
+                                <FormTextField id="firstname" name="firstname"
+                                    :placeholder="$t('register.form.firstname')"
+                                    v-model="state.formRegister.firstname" />
+                                <FormError
+                                    :error="vRules1$?.formRegister?.firstname?.$errors[0]?.$message.toString()" />
+                                <FormError :error="state?.error?.errors?.firstname?.[0]" />
                             </div>
-                            <div class="flex items-center gap-x-1">
-                                <div class="bg-secondary rounded-full flex items-center p-0.5">
-                                    <Icon name="ph:check" class="w-3 h-3 text-white" />
-                                </div>
-                                <p class="text-sm">
-                                    {{ $t('register.youCanExplore') }}
-                                </p>
+                            <div class="space-y-1">
+                                <FormLabel for="lastname" :label="$t('register.form.lastname')" />
+                                <FormTextField id="lastname" name="lastname" :placeholder="$t('register.form.lastname')"
+                                    v-model="state.formRegister.lastname" />
+                                <FormError :error="vRules1$?.formRegister?.lastname?.$errors[0]?.$message.toString()" />
+                                <FormError :error="state?.error?.errors?.lastname?.[0]" />
                             </div>
                         </div>
+                        <div class="space-y-1 py-1">
+                            <FormLabel for="email" :label="$t('register.form.emailAddress')" />
+                            <FormTextField id="email" name="email" :placeholder="$t('register.form.emailAddress')"
+                                v-model="state.formRegister.email" />
+                            <FormError :error="vRules1$?.formRegister?.email?.$errors[0]?.$message.toString()" />
+                            <FormError :error="state?.error?.errors?.email?.[0]" />
+                        </div>
+                        <div class="space-y-1 py-1">
+                            <FormLabel for="phone" :label="$t('register.form.phone')" />
+                            <FormTextField id="phone" name="phone" :placeholder="$t('register.form.phone')"
+                                v-model="state.formRegister.phone" />
+                            <FormError :error="vRules1$?.formRegister?.phone?.$errors[0]?.$message.toString()" />
+                            <FormError :error="state?.error?.errors?.phone?.[0]" />
+                        </div>
+                    </div>
+                    <div class="mt-5 space-y-3" v-else>
                         <div class="space-y-1">
                             <FormLabel for="industry" :label="$t('register.form.industry')" />
                             <FormSelect id="industry" :options="state.options.industries"
                                 v-model="state.formRegister.industry" />
-                            <FormError :error="v$?.formRegister?.industry?.$errors[0]?.$message.toString()" />
+                            <FormError :error="vRules2$?.formRegister?.industry?.$errors[0]?.$message.toString()" />
                             <FormError :error="state?.error?.errors?.industry?.[0]" />
                         </div>
                         <div class="space-y-1"
@@ -58,69 +88,70 @@
                             <FormLabel for="facility_type_uuid" :label="$t('register.form.typeOfFacility')" />
                             <FormSelect id="facility_type_uuid" :options="state.options.typeOfFacilities"
                                 v-model="state.formRegister.facility_type_uuid" />
-                            <FormError :error="v$?.formRegister?.facility_type_uuid?.$errors[0]?.$message.toString()" />
+                            <FormError
+                                :error="vRules2$?.formRegister?.facility_type_uuid?.$errors[0]?.$message.toString()" />
                             <FormError :error="state?.error?.errors?.facility_type_uuid?.[0]" />
                         </div>
-                        <div class="grid grid-cols-1 md:grid-cols-2 gap-3 py-1">
-                            <div class="space-y-1">
-                                <!-- <FormLabel for="firstname" :label="$t('register.form.firstname')" /> -->
-                                <FormTextField id="firstname" name="firstname"
-                                    :placeholder="$t('register.form.firstname')"
-                                    v-model="state.formRegister.firstname" />
-                                <FormError :error="v$?.formRegister?.firstname?.$errors[0]?.$message.toString()" />
-                                <FormError :error="state?.error?.errors?.firstname?.[0]" />
+                    </div>
+                    <div class="mt-5">
+                        <FormButton type="submit" buttonStyle="primary" class="w-full"
+                            v-if="state.progress.currentStep === 1">
+                            {{ $t('register.form.continue') }}
+                        </FormButton>
+                        <FormButton type="submit" buttonStyle="primary" class="w-full" v-else>
+                            {{ $t('register.form.createFreeAccount') }}
+                        </FormButton>
+                    </div>
+                    <p class="mt-3 text-center text-sm">
+                        {{ $t('register.form.bySigningUpYouAgreeTo') }}
+                        <span class="cursor-pointer lowercase text-tertiary hover:text-tertiary/90"
+                            @click="navigateToTAC">
+                            {{ $t('register.form.termsAndConditions') }}.
+                        </span>
+                    </p>
+                    <p class="mt-3 text-center text-sm leading-6 text-gray-500 cursor-pointer" @click="navigateTo('/')">
+                        {{ $t('register.form.alreadyHaveAnAccount') }}?
+                        {{ ' ' }}
+                        <a class="font-semibold text-primary hover:text-primary-800 cursor-pointer">
+                            {{ $t('register.form.signin') }}
+                        </a>
+                    </p>
+                </form>
+            </div>
+            <div class="hidden lg:block p-4">
+                <div class="bg-secondary h-full w-full relative overflow-hidden rounded-md">
+                    <div class="square-grid-overlay"></div>
+                    <div class="relative z-10 h-full w-full p-6 flex">
+                        <div class="h-[75%] rounded-2xl bg-white/10 backdrop-blur-lg p-8 m-auto max-w-lg">
+                            <div class="h-full flex flex-col justify-between">
+                                <LogoWhite @click="navigateTo('/')" />
+
+                                <div>
+                                    <blockquote class="text-white text-2xl pr-5 leading-relaxed">
+                                        “{{ $t('register.review.review1.content') }}.”
+                                    </blockquote>
+                                    <div class="mt-16 flex gap-x-3">
+                                        <div>
+                                            <img class="size-16 rounded-full object-cover object-center"
+                                                src="https://citizenone.dk/wp-content/uploads/2025/01/Rolf-Hauritz.jpg"
+                                                :alt="$t('imageFailedToLoad')" />
+                                        </div>
+                                        <div class="text-white">
+                                            <p class="font-semibold">
+                                                Rolf Hauritz
+                                            </p>
+                                            <p class="text-sm">
+                                                {{ $t('register.review.review1.directorAndProfessionalLead') }}
+                                            </p>
+                                            <p class="text-sm">
+                                                {{ $t('register.review.review1.tranerne') }}
+                                            </p>
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
-                            <div class="space-y-1">
-                                <!-- <FormLabel for="lastname" :label="$t('register.form.lastname')" /> -->
-                                <FormTextField id="lastname" name="lastname" :placeholder="$t('register.form.lastname')"
-                                    v-model="state.formRegister.lastname" />
-                                <FormError :error="v$?.formRegister?.lastname?.$errors[0]?.$message.toString()" />
-                                <FormError :error="state?.error?.errors?.lastname?.[0]" />
-                            </div>
                         </div>
-                        <div class="space-y-1 py-1">
-                            <!-- <FormLabel for="phone" :label="$t('register.form.phone')" /> -->
-                            <FormTextField id="phone" name="phone" :placeholder="$t('register.form.phone')"
-                                v-model="state.formRegister.phone" />
-                            <FormError :error="v$?.formRegister?.phone?.$errors[0]?.$message.toString()" />
-                            <FormError :error="state?.error?.errors?.phone?.[0]" />
-                        </div>
-                        <div class="space-y-1 py-1">
-                            <!-- <FormLabel for="email" :label="$t('register.form.emailAddress')" /> -->
-                            <FormTextField id="email" name="email" :placeholder="$t('register.form.emailAddress')"
-                                v-model="state.formRegister.email" />
-                            <FormError :error="v$?.formRegister?.email?.$errors[0]?.$message.toString()" />
-                            <FormError :error="state?.error?.errors?.email?.[0]" />
-                        </div>
-                        <div class="space-y-1">
-                            <div class="w-fit flex items-center cursor-pointer"
-                                @click="state.formRegister.agreeToTerms = !state.formRegister.agreeToTerms">
-                                <FormCheckbox :value="state.formRegister.agreeToTerms" />
-                                <span class="text-sm">
-                                    {{ $t('register.form.iHaveReadAndAcceptThe') }}
-                                    <span class="cursor-pointer text-tertiary hover:text-tertiary/90"
-                                        @click="navigateToTAC">
-                                        {{ $t('register.form.termsAndConditions') }}
-                                    </span>
-                                </span>
-                            </div>
-                            <span v-if="state.agreeToTermsValidation" class="text-sm text-red-500">
-                                <span>{{ $t('register.form.agreetoTAC') }}</span>
-                            </span>
-                        </div>
-                        <div>
-                            <FormButton type="submit" buttonStyle="primary" class="w-full">
-                                {{ $t('register.form.createFreeAccount') }}
-                            </FormButton>
-                        </div>
-                        <p class="text-center text-sm leading-6 text-gray-500 cursor-pointer" @click="navigateTo('/')">
-                            {{ $t('register.form.alreadyHaveAnAccount') }}?
-                            {{ ' ' }}
-                            <a class="text-primary hover:text-primary-800 cursor-pointer">
-                                {{ $t('register.form.loginHere') }}
-                            </a>
-                        </p>
-                    </form>
+                    </div>
                 </div>
             </div>
         </div>
@@ -168,36 +199,49 @@ const state = reactive({
         industries: [] as any,
         typeOfFacilities: [] as any,
     },
+    progress: {
+        currentStep: 1,
+        currentStep1Progress: 0,
+        currentStep2Progress: 0,
+    },
     slideOver: {
         isLanguageSwitcherOpen: false
     },
 })
 
-const rules = computed(() => {
+const rules1 = computed(() => {
     return {
         formRegister: {
-            industry: {
-                required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
-            },
             firstname: {
                 required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
             },
             lastname: {
                 required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
             },
-            phone: {
+            email: {
                 required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
             },
-            email: {
+            phone: {
                 required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
             },
         }
     }
 })
-const v$ = useVuelidate(rules, state)
+
+const rules2 = computed(() => {
+    return {
+        formRegister: {
+            industry: {
+                required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
+            },
+        }
+    }
+})
+const vRules1$ = useVuelidate(rules1, state)
+const vRules2$ = useVuelidate(rules2, state)
 
 onMounted(() => {
-    animateAssets()
+    // animateAssets()
     fetchAllIndustries()
     fetchAllFacilityTypes()
 })
@@ -208,6 +252,34 @@ watch(() => language.locale.value, (newValue: any) => {
         fetchAllFacilityTypes()
     }
 })
+
+watch(() => ({
+    firstname: state.formRegister.firstname,
+    lastname: state.formRegister.lastname,
+    email: state.formRegister.email,
+    phone: state.formRegister.phone,
+}), ({ firstname, lastname, email, phone }) => {
+    const isFilled = (value: unknown) => {
+        return String(value ?? "").trim().length > 0
+    }
+    let progress = 0
+    if (isFilled(firstname)) progress += 1
+    if (isFilled(lastname)) progress += 1
+    if (isFilled(email)) progress += 1
+    if (isFilled(phone)) progress += 1
+    state.progress.currentStep1Progress = progress
+}, { immediate: true })
+
+watch(() => ({
+    industry: state.formRegister.industry
+}), ({ industry }) => {
+    const isFilled = (value: unknown) => {
+        return String(value ?? "").trim().length > 0
+    }
+    let progress = 0
+    if (isFilled(industry)) progress += 1
+    state.progress.currentStep2Progress = progress
+}, { immediate: true })
 
 function animateAssets() {
     const observer = new IntersectionObserver((entries) => {
@@ -271,33 +343,47 @@ async function fetchAllFacilityTypes() {
 
 async function register() {
     state.error = {}
-    v$.value.$validate()
-    if (!state.formRegister.agreeToTerms) {
-        state.agreeToTermsValidation = true
-    } else {
-        state.agreeToTermsValidation = false
-    }
-    if (!v$.value.$error && state.formRegister.agreeToTerms) {
-        state.isPageLoading = true
-        try {
-            const params = {
-                industry_uuid: state.formRegister.industry,
-                facility_type_uuid: state.formRegister.facility_type_uuid,
-                firstname: state.formRegister.firstname,
-                lastname: state.formRegister.lastname,
-                phone: state.formRegister.phone,
-                email: state.formRegister.email,
-            }
-            const response = await authService.register(params)
-            if (response.data) {
-                gtagReportConversion('https://app.citizenone.dk')
-                successAlert(`${t('alert.success')}!`, `${t('alert.accountSuccessfullyCreated')}.`)
-                navigateTo('/')
-            }
-        } catch (error: any) {
-            state.error = error
+    if (state.progress.currentStep === 1) {
+        vRules1$.value.$validate()
+        if (!vRules1$.value.$error) {
+            state.progress.currentStep = 2
         }
-        state.isPageLoading = false
+    } else {
+        vRules2$.value.$validate()
+        if (!vRules2$.value.$error) {
+            state.isPageLoading = true
+            try {
+                const params = {
+                    industry_uuid: state.formRegister.industry,
+                    facility_type_uuid: state.formRegister.facility_type_uuid,
+                    firstname: state.formRegister.firstname,
+                    lastname: state.formRegister.lastname,
+                    phone: state.formRegister.phone,
+                    email: state.formRegister.email,
+                }
+                const response = await authService.register(params)
+                if (response.data) {
+                    gtagReportConversion('https://app.citizenone.dk')
+                    successAlert(`${t('alert.success')}!`, `${t('alert.accountSuccessfullyCreated')}.`)
+                    navigateTo('/')
+                }
+            } catch (error: any) {
+                state.error = error
+
+                const errors = error?.errors
+
+                const hasStep1Error =
+                    !!errors?.firstname?.length ||
+                    !!errors?.lastname?.length ||
+                    !!errors?.email?.length ||
+                    !!errors?.phone?.length
+
+                if (hasStep1Error) {
+                    state.progress.currentStep = 1
+                }
+            }
+            state.isPageLoading = false
+        }
     }
 }
 
