@@ -31,14 +31,24 @@
                     <div class="space-y-1">
                         <div class="mt-10 flex justify-between items-center">
                             <h3 class="font-bold text-2xl md:text-3xl">
-                                {{ $t('register.form.createYourAccount') }}
+                                <span v-if="state.progress.currentStep === 1">
+                                    {{ $t('register.form.createYourAccount') }}
+                                </span>
+                                <span v-else>
+                                    {{ $t('register.form.letsTalkAboutYou') }}
+                                </span>
                             </h3>
                             <button type="button" class="rounded-full w-8" @click="selectLanguage">
                                 <img :src="identifyFlag()" alt="flag">
                             </button>
                         </div>
                         <p class="text-sm text-gray-600">
-                            {{ $t('register.form.justAFewClicksAndYoureIn') }}
+                            <span v-if="state.progress.currentStep === 1">
+                                {{ $t('register.form.justAFewClicksAndYoureIn') }}
+                            </span>
+                            <span v-else>
+                                {{ $t('register.form.personalizeYourCitizenOneExperience') }}
+                            </span>
                         </p>
                     </div>
                     <div class="mt-5 space-y-3" v-if="state.progress.currentStep === 1">
