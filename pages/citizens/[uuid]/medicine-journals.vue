@@ -296,7 +296,7 @@
                     :selectedMedicine="state.selectedMedicine" @close="state.modal.isViewMedicineHistoryOpen = false" />
                 <ModulesUserCitizenMedicineModalDownload :isModalOpen="state.modal.isDownloadMedicineOverviewOpen"
                     @close="state.modal.isDownloadMedicineOverviewOpen = false" />
-                <DialogConfirmation :isModalOpen="state.modal.isActivateMedicineOpen"
+                <!-- <DialogConfirmation :isModalOpen="state.modal.isActivateMedicineOpen"
                     :message="$t('citizens.medicineJournals.confirmation.activateConfirmation') + '?'"
                     @close="state.modal.isActivateMedicineOpen = false" @confirm="toggleActivateDeactivateMedicine" />
                 <DialogConfirmation :isModalOpen="state.modal.isDeactivateMedicineOpen"
@@ -304,7 +304,7 @@
                     @close="state.modal.isDeactivateMedicineOpen = false" @confirm="toggleActivateDeactivateMedicine" />
                 <DialogConfirmation :isModalOpen="state.modal.isDeleteMedicineOpen"
                     :message="$t('citizens.medicineJournals.confirmation.deleteConfirmation') + '?'"
-                    @close="state.modal.isDeleteMedicineOpen = false" @confirm="deleteMedicine" />
+                    @close="state.modal.isDeleteMedicineOpen = false" @confirm="deleteMedicine" /> -->
             </div>
         </NuxtLayout>
     </div>
