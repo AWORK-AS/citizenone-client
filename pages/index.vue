@@ -5,13 +5,13 @@
     </Head>
 
     <LoadingSpinner :isActive="state.isPageLoading">
-        <div class="flex min-h-full flex-1 flex-col justify-center py-12 sm:px-6 lg:px-8">
+        <div class="bg-[#f9fafaff] flex h-screen min-h-full flex-1 flex-col justify-center py-12 sm:px-6 lg:px-8">
             <div class="flex items-center justify-center">
                 <Logo @click="navigateTo('/')" />
             </div>
 
             <div class="mt-10 p-3 md:p-0 sm:mx-auto sm:w-full sm:max-w-7xl">
-                <div class="bg-[#f9fafaff] shadow rounded-lg">
+                <div class="bg-white shadow rounded-lg">
                     <div class="grid grid-cols-1 lg:grid-cols-2">
                         <div class="hidden lg:block p-3">
                             <div class="relative h-[600px] w-full overflow-hidden rounded-md ">
@@ -19,7 +19,7 @@
                                     src="https://citizenone.dk/wp-content/uploads/2025/03/DSC_6902-1024x684-1.jpg"
                                     :alt="$t('imageFailedToLoad')" />
 
-                                <div class="absolute inset-0 bg-white/10"></div>
+                                <div class="absolute inset-0 bg-black/15"></div>
 
                                 <div class="absolute -top-28 -right-20">
                                     <img src="/img/icons/asset-01.svg" alt="Image failed to load" class="z-10 w-60"
