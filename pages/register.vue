@@ -21,7 +21,7 @@
                     </div>
                     <div class="h-2.5 w-full rounded-full bg-gray-200">
                         <div class="h-2.5 rounded-full bg-secondary transition-all duration-300"
-                            :style="{ width: `${Math.round((state.progress.currentStep2Progress / 1) * 100)}%` }"></div>
+                            :style="{ width: `${Math.round((state.progress.currentStep2Progress / 2) * 100)}%` }"></div>
                     </div>
                     <img class="w-4" src="/img/icons/asset-app.png" :alt="$t('imageFailedToLoad')" />
                 </div>
@@ -102,6 +102,22 @@
                                 :error="vRules2$?.formRegister?.facility_type_uuid?.$errors[0]?.$message.toString()" />
                             <FormError :error="state?.error?.errors?.facility_type_uuid?.[0]" />
                         </div>
+                        <div class="space-y-1">
+                            <div class="w-fit flex items-center cursor-pointer"
+                                @click="state.formRegister.agreeToTerms = !state.formRegister.agreeToTerms">
+                                <FormCheckbox :value="state.formRegister.agreeToTerms" />
+                                <span class="text-sm">
+                                    {{ $t('register.form.iHaveReadAndAcceptThe') }}
+                                    <span class="cursor-pointer text-tertiary hover:text-tertiary/90"
+                                        @click="navigateToTAC">
+                                        {{ $t('register.form.termsAndConditions') }}
+                                    </span>
+                                </span>
+                            </div>
+                            <span v-if="state.agreeToTermsValidation" class="text-sm text-red-500">
+                                <span>{{ $t('register.form.agreetoTAC') }}</span>
+                            </span>
+                        </div>
                     </div>
                     <div class="mt-5">
                         <FormButton type="submit" buttonStyle="primary" class="w-full"
@@ -112,13 +128,6 @@
                             {{ $t('register.form.createFreeAccount') }}
                         </FormButton>
                     </div>
-                    <p class="mt-3 text-center text-sm">
-                        {{ $t('register.form.bySigningUpYouAgreeTo') }}
-                        <span class="cursor-pointer lowercase text-tertiary hover:text-tertiary/90"
-                            @click="navigateToTAC">
-                            {{ $t('register.form.termsAndConditions') }}.
-                        </span>
-                    </p>
                     <p class="mt-3 text-center text-sm leading-6 text-gray-500 cursor-pointer" @click="navigateTo('/')">
                         {{ $t('register.form.alreadyHaveAnAccount') }}?
                         {{ ' ' }}
@@ -291,13 +300,15 @@ watch(() => ({
 }, { immediate: true })
 
 watch(() => ({
-    industry: state.formRegister.industry
-}), ({ industry }) => {
+    industry: state.formRegister.industry,
+    agreeToTerms: state.formRegister.agreeToTerms,
+}), ({ industry, agreeToTerms }) => {
     const isFilled = (value: unknown) => {
         return String(value ?? "").trim().length > 0
     }
     let progress = 0
     if (isFilled(industry)) progress += 1
+    if (agreeToTerms) progress += 1
     state.progress.currentStep2Progress = progress
 }, { immediate: true })
 
@@ -370,7 +381,12 @@ async function register() {
         }
     } else {
         vRules2$.value.$validate()
-        if (!vRules2$.value.$error) {
+        if (!state.formRegister.agreeToTerms) {
+            state.agreeToTermsValidation = true
+        } else {
+            state.agreeToTermsValidation = false
+        }
+        if (!vRules2$.value.$error && state.formRegister.agreeToTerms) {
             state.isPageLoading = true
             try {
                 const params = {
