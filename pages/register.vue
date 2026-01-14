@@ -129,7 +129,7 @@
                 </form>
             </div>
             <div class="hidden lg:block p-4">
-                <div class="bg-secondary h-full w-full relative overflow-hidden rounded-md">
+                <div class="relative bg-secondary h-full w-full overflow-hidden rounded-md">
                     <div class="square-grid-overlay"></div>
                     <div class="relative z-10 h-full w-full p-6 flex">
                         <div class="h-[75%] rounded-2xl bg-white/10 backdrop-blur-lg p-8 m-auto max-w-lg">
@@ -161,6 +161,16 @@
                                 </div>
                             </div>
                         </div>
+                    </div>
+
+                    <div class="absolute -top-28 -right-20">
+                        <img src="/img/icons/asset-01.svg" alt="Image failed to load" class="z-10 w-60"
+                            id="animatedAsset01">
+                    </div>
+
+                    <div class="absolute -bottom-28 -left-20 opacity-50">
+                        <img src="/img/icons/asset-02.svg" alt="Image failed to load" class="z-10 w-60"
+                            id="animatedAsset02">
                     </div>
                 </div>
             </div>
@@ -251,7 +261,7 @@ const vRules1$ = useVuelidate(rules1, state)
 const vRules2$ = useVuelidate(rules2, state)
 
 onMounted(() => {
-    // animateAssets()
+    animateAssets()
     fetchAllIndustries()
     fetchAllFacilityTypes()
 })
@@ -303,8 +313,8 @@ function animateAssets() {
     })
 
     const animatedAsset01 = document.getElementById('animatedAsset01') as any
-    const animatedAsset02 = document.getElementById('animatedAsset02') as any
     observer.observe(animatedAsset01)
+    const animatedAsset02 = document.getElementById('animatedAsset02') as any
     observer.observe(animatedAsset02)
 }
 
