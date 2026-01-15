@@ -2450,7 +2450,8 @@
         },
         "published": {
             "publishedVersions": "Published versions",
-             "seePrevious": "See previous published versions",
+            "seePrevious": "See previous published versions",
+            "viewPublishedVersion": "View published version",
             "version": "Version",
             "table": {
                 "versionNumber": "Version number",
