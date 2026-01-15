@@ -1,5 +1,5 @@
 <template>
-    <form @submit.prevent="submitForm()" class="mt-6 max-w-xl">
+    <form @submit.prevent="submitForm()" class="mt-6 pb-16 max-w-xl">
         <Alert type="danger" :text="state?.error?.message"
             v-if="state.error?.message && state.error.message.length > 0" />
         <Alert type="danger" :text="props?.error?.message"
@@ -108,7 +108,7 @@ async function fetchAllPermissions() {
             response.data.forEach(
                 (item: any) => options.push({
                     value: item?.uuid,
-                    label: item?.name?.charAt(0)?.toUpperCase() + item?.name?.slice(1),
+                    label: item?.name,
                 })
             )
             state.options.permissions = options
