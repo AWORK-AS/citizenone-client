@@ -36,6 +36,10 @@ const props = defineProps({
         type: Object,
         required: true,
     },
+    selectedTemplateUuids: {
+        type: Array,
+        required: true,
+    },
 })
 
 const emit = defineEmits(['close', 'saveTemplate', 'refreshDraftTemplates'])

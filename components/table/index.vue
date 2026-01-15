@@ -2,6 +2,19 @@
     <table>
         <thead>
             <tr>
+                <th v-if="props.selection" width="50">
+                    <label class="inline-flex items-center cursor-pointer relative">
+                        <input 
+                            type="checkbox" 
+                            :checked="isAllSelected"
+                            @change="handleSelectAll"
+                            class="peer w-5 h-5 appearance-none border bg-white border-primary rounded-sm mr-2 checked:bg-secondary checked:border-secondary focus:ring-0 cursor-pointer"
+                        />
+                        <span class="pointer-events-none absolute w-5 h-5 flex items-center justify-center">
+                            <Icon name="ph:check-bold" class="h-4 w-4 text-white" />
+                        </span>
+                    </label>
+                </th>
                 <th v-for="(item, index) in props.columnHeaders" :key="index" :width="props.width">
                     <div class="flex items-center gap-x-2" :class="[
                         item.textAlign === 'left' && 'text-left',
@@ -27,9 +40,9 @@
             </tr>
         </thead>
         <tbody>
-            <slot name="body"></slot>
+            <slot name="body" :selectedRows="selectedRows" :handleRowSelect="handleRowSelect"></slot>
             <tr v-if="props.isLoading || (props.data.data && props.data.data.length === 0)">
-                <td :colspan="props.columnHeaders.length" class="text-center h-36">
+                <td :colspan="props.selection ? props.columnHeaders.length + 1 : props.columnHeaders.length" class="text-center h-36">
                     <div class="flex items-center justify-center flex-col gap-2" v-if="props.isLoading">
                         <div class="w-16 h-16 border-b-2 border-gray-900 rounded-full animate-spin"></div>
                         Loading...
@@ -70,6 +83,47 @@ const props = defineProps({
         type: Number,
         required: false,
         default: 100,
+    },
+    selection: {
+        type: Boolean,
+        required: false,
+        default: false,
+    },
+    rowKey: {
+        type: String,
+        required: false,
+        default: 'id',
     }
 })
+
+const emit = defineEmits(['sort', 'selectionChange'])
+
+const selectedRows = ref<any[]>([])
+
+const isAllSelected = computed(() => {
+    if (!props.data.data || props.data.data.length === 0) return false
+    return selectedRows.value.length === props. data.data.length
+})
+
+const handleSelectAll = (event: Event) => {
+    const target = event.target as HTMLInputElement
+    if (target.checked) {
+        selectedRows.value = [... props.data.data]
+    } else {
+        selectedRows.value = []
+    }
+    emit('selectionChange', selectedRows.value.map(r => r[props.rowKey]))
+}
+
+const handleRowSelect = (row: any) => {
+    const rowKey = props.rowKey
+    const index = selectedRows.value.findIndex(r => r[rowKey] == row[rowKey])
+
+    if (index > -1) {
+        selectedRows.value.splice(index, 1)
+    } else {
+        selectedRows.value.push(row)
+    }
+    emit('selectionChange', selectedRows.value.map(r => r[rowKey]))
+}
 </script>
