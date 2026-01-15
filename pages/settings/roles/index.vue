@@ -47,7 +47,7 @@
                                         <div class="text-xxs flex flex-wrap gap-1">
                                             <span v-for="(permission, index) in role?.permissions" :key=index
                                                 class="bg-primary px-2 py-1 text-white rounded-md">
-                                                {{ permission?.name }}
+                                                {{ permission?.name.replaceAll('_', ' ') }}
                                             </span>
                                         </div>
                                     </td>
