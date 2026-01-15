@@ -85,6 +85,9 @@
                                 <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
                                     {{ $t('dutySchedules.published.version') }}-{{ publishedVersion.version_number }}
                                 </td>
+                                <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
+                                    {{ dateTimeFormatter.formatDateTimeToReadable(publishedVersion.created_at) }}
+                                </td>
                                 <td width="20%">
                                     <div class="flex items-end gap-2">
                                         <Tooltip :text="$t('dutySchedules.published.table.actions.view')">
@@ -118,11 +121,12 @@ const runtimeConfig = useRuntimeConfig();
 const customPagesStore = useCustomPagesStore() as any;
 const publishedVersionsStore = usePublishedVersionsStore();
 const { t } = useI18n()
+const dateTimeFormatter = useDatetimeFormatter()
 
 const state = reactive({
     columnHeaders: [
         { name: 'dutySchedules.published.table.versionNumber', sorter: true, key: 'version_number' },
-        { name: 'dutySchedules.published.table.versionNumber', sorter: true, key: 'version_number' },
+        { name: 'dutySchedules.published.table.dateCreated', sorter: true, key: 'created_at' },
         { name: '', sorter: false, key: 'actions' },
     ],
     dataFilter: {
