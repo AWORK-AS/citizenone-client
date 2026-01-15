@@ -23,6 +23,14 @@
                                                 {{ state.selectedChild?.data?.firstname }}
                                                 {{ state.selectedChild?.data?.lastname }}
                                             </h1>
+                                            <p class="text-sm">
+                                                - {{ $t('children.childOf') }}
+                                                <span class="text-secondary hover:text-secondary-800 cursor-pointer"
+                                                    @click="navigateTo(`/citizens/${citizenUuid}/children`)">
+                                                    {{ state.selectedChild?.data?.citizen?.firstname }}
+                                                    {{ state.selectedChild?.data?.citizen?.lastname }}
+                                                </span>
+                                            </p>
                                             <!-- <Tooltip :text="$t('citizens.table.actions.edit')">
                                                 <Icon name="ph:pencil-simple"
                                                     class="w-6 h-6 cursor-pointer text-primary"
@@ -64,7 +72,8 @@
                                         <Tooltip :text="$t('citizens.form.birthday')" class="flex items-center">
                                             <Icon name="ph:cake" class="h-4 w-4" aria-hidden="true" />
                                         </Tooltip>
-                                        <p class="text-sm font-medium text-gray-700">
+                                        <p class="text-sm font-medium text-gray-700"
+                                            v-if="state.selectedChild?.data?.birthday">
                                             {{ formatDateToReadable(state.selectedChild?.data?.birthday) }}
                                         </p>
                                     </div>
@@ -103,6 +112,7 @@ import type { Error } from '@/types'
 const router = useRouter()
 const { formatDateToReadable } = useDatetimeFormatter()
 const userStore = useUserStore() as any
+const citizenUuid = router?.currentRoute?.value?.params?.uuid
 const childUuid = router?.currentRoute?.value?.params?.child_uuid
 
 const state = reactive({
