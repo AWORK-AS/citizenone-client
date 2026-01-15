@@ -2458,7 +2458,8 @@
                     "delete": "Slet",
                     "edit": "Rediger",
                     "view": "Se",
-                    "apply": "Anvend"
+                    "apply": "Anvend",
+                    "applySelected": "Anvend valgte"
                 },
                 "alert": {
                     "draftTemplateSuccessfullyDeleted": "Skabelon blev slettet",

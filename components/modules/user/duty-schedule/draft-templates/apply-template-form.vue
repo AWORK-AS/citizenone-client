@@ -37,17 +37,17 @@
                                 <tr v-for="week in weeks" :key="week.value" class="hover:bg-gray-50">
                                     <td class="px-4 py-3 whitespace-nowrap">
                                         <label class="inline-flex items-center cursor-pointer relative">
-                                        <input 
-                                            type="checkbox" 
-                                            :value="week.value"
-                                            v-model="state.formTemplate.weeks"
-                                            @change="handleWeekChange(week.value, $event)"
-                                            class="peer w-5 h-5 appearance-none border border-primary rounded-sm checked:bg-secondary checked:border-secondary focus: ring-0 cursor-pointer"
-                                        />
-                                        <span class="pointer-events-none absolute top-0 left-0 w-5 h-5 flex items-center justify-center opacity-0 peer-checked:opacity-100 transition-opacity">
-                                            <Icon name="ph:check-bold" class="h-4 w-4 text-white" />
-                                        </span>
-                                    </label>
+                                            <input 
+                                                type="checkbox" 
+                                                :value="week.value"
+                                                v-model="state.formTemplate.weeks"
+                                                @change="handleWeekChange(week.value, $event)"
+                                                class="peer w-5 h-5 appearance-none border border-primary rounded-sm checked:bg-secondary checked:border-secondary focus: ring-0 cursor-pointer"
+                                            />
+                                            <span class="pointer-events-none absolute top-0 left-0 w-5 h-5 flex items-center justify-center opacity-0 peer-checked:opacity-100 transition-opacity">
+                                                <Icon name="ph:check-bold" class="h-4 w-4 text-white" />
+                                            </span>
+                                        </label>
                                     </td>
                                     <td class="px-4 py-3 whitespace-nowrap text-sm text-gray-900">
                                         {{ week.label }}

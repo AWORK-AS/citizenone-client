@@ -71,7 +71,7 @@
                     </FormButton>
                     <FormButton v-if="state.selectedTemplateUuids?.length" @click="state.modal.isApplyTemplateModalOpen = true" buttonStyle="action" class="rounded-lg">
                         <Icon name="ph:check" class="h-4 w-4" aria-hidden="true" />
-                        {{ $t('dutySchedules.draftTemplates.table.actions.apply') }}
+                        {{ $t('dutySchedules.draftTemplates.table.actions.applySelected') }}
                     </FormButton>
                 </div>
             </div>
@@ -150,9 +150,12 @@
                                             </FormButton>
                                         </Tooltip>
 
-                                        <FormButton type="button" buttonStyle="action" class="rounded-md" @click="applyDraftTemplate(draftTemplate)">
-                                            {{ $t('dutySchedules.draftTemplates.table.actions.apply') }}
-                                        </FormButton>
+                                        <Tooltip :text="$t('dutySchedules.draftTemplates.table.actions.apply')">
+                                            <FormButton type="button" buttonStyle="action" class="rounded-md"
+                                                @click="applyDraftTemplate(draftTemplate)">
+                                                <Icon name="ph:check" class="size-4" />
+                                            </FormButton>
+                                        </Tooltip>
                                     </div>
                                 </td>
                             </tr>
