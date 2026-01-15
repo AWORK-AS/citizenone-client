@@ -2,10 +2,6 @@
     <div class="space-y-5">
         <Alert type="danger" :text="state?.error?.message"
             v-if="state.error?.message && state.error.message.length > 0" />
-        <Alert type="danger" :text="state?.errorUpdateShift?.message"
-            v-if="state.errorUpdateShift?.message && state.errorUpdateShift.message.length > 0" />
-        <Alert type="danger" :text="state?.copyShiftError?.message"
-            v-if="state.copyShiftError?.message && state.copyShiftError.message.length > 0" />
         <LoadingSpinner :isActive="state.isPageLoading">
             <div class="flex h-full flex-col">
                 <header class="grid grid-cols-1 xl:grid-cols-3 justify-between gap-3 py-3">
@@ -19,7 +15,7 @@
                                 </button>
                                 <FormDateField id="date" name="date" :placeholder="$t('dutySchedules.form.date')"
                                     dateType="duty-schedule" v-model="state.selectedDate" />
-                                <span class="relative -mx-px h-5 w-px bg-gray-300 md:hidden" />
+                                <span class="relative -mx-px h-5 w-px bg-gray-300 md: hidden" />
                                 <button @click="nextWeek()" type="button"
                                     class="flex h-11 w-12 items-center justify-center rounded-r-md border-y border-r border-gray-300 pl-1 text-gray-400 hover:text-gray-500 focus:relative md:w-9 md:pl-0 md:hover:bg-gray-50">
                                     <span class="sr-only">Next week</span>
@@ -135,29 +131,11 @@
                                             <p class="text-sm font-medium">
                                                 {{ $t('dutySchedules.week') }} {{ weekNumber }}
                                             </p>
-                                            <Tooltip :text="$t('dutySchedules.copy.copyThisWeeksSchedule')">
-                                                <button
-                                                    class="bg-gray-200 w-6 h-6 text-sm text-gray-600 rounded-sm hover:bg-gray-400 hover:text-gray-200 flex items-center justify-center"
-                                                    @click="copyWeeklySchedule(weekNumber)">
-                                                    <Icon name="mdi:content-copy" class="h-3 w-3" aria-hidden="true" />
-                                                </button>
-                                            </Tooltip>
-                                            <div class="flex-1 flex justify-end gap-x-2"
-                                                v-if="isAdmin(userStore.getUser?.role)">
-                                                <Tooltip :text="$t('dutySchedules.copy.copyMultipleWeeksSchedule')">
-                                                    <button
-                                                        class="bg-gray-200 w-6 h-6 text-sm text-gray-600 rounded-sm hover:bg-gray-400 hover:text-gray-200 flex items-center justify-center"
-                                                        @click="state.modal.isCopyMultipleWeeklyScheduleOpen = true">
-                                                        <Icon name="mdi:content-copy" class="h-3 w-3"
-                                                            aria-hidden="true" />
-                                                    </button>
-                                                </Tooltip>
-                                            </div>
                                         </div>
                                         <div class="px-3 pb-2">
                                             <button @click="toggleShowHideAllShifts()"
                                                 class="text-primary text-xs hover:text-primary-700">
-                                                {{ state.showAllShifts ?
+                                                {{ state.showAllShifts ? 
                                                     $t('hideAll') :
                                                     $t('showAll') }}
                                             </button>
@@ -194,38 +172,15 @@
                                     </div>
                                 </div>
 
-                                <div class="relative mt-0.5"
-                                    @click="!isWeeklyScheduleCopied(weekNumber) && !isAllWeeklyScheduleCopiedEmpty() && !isPastWeek() && pasteWeeklySchedule(weekNumber)"
-                                    :class="[
-                                        isWeeklyScheduleCopied(weekNumber) && 'border-1.5 border-dashed border-gray-700',
-                                        !isWeeklyScheduleCopied(weekNumber) && !isAllWeeklyScheduleCopiedEmpty() && !isPastWeek() && 'cursor-copy relative group',
-                                        !isWeeklyScheduleCopied(weekNumber) && !isAllWeeklyScheduleCopiedEmpty() && isPastWeek() && 'cursor-not-allowed'
-                                    ]">
+                                <div class="relative mt-0.5">
                                     <div v-for="(employee, employeeIndex) in state.weeklySchedules?.data"
-                                        :key="employeeIndex" class="grid grid-cols-9"
-                                        v-if="!isWeeklyScheduleCopied(weekNumber)">
-                                        <div class="col-span-9 flex flex-col items-center space-y-2 py-8 cursor-pointer border-1.5 border-dashed border-gray-700"
-                                            @click="stopCopying()"
-                                            v-if="isCopiedWeek() && isEmployeeWeeklyScheduleCopied() && isEmployeeSelectedAsWeeklyScheduleSource(employee)">
-                                            <p class="text-center text-sm">
-                                                {{ $t('dutySchedules.copyPaste.stopCopying') }}
-                                            </p>
-                                            <p class="text-center text-xxs">
-                                                {{
-                                                    $t('dutySchedules.copyPaste.clickHereToStopCopyingTheSchedule')
-                                                }}
-                                            </p>
-                                        </div>
-                                        <div :class="[
-                                            isEmployeeWeeklyScheduleCopied() && 'cursor-copy relative group',
-                                            'col-span-9 grid grid-cols-9'
-                                        ]" v-if="!isCopiedWeek() || !isEmployeeSelectedAsWeeklyScheduleSource(employee)"
-                                            @click="isEmployeeWeeklyScheduleCopied() && (!isCopiedWeek() || !isEmployeeSelectedAsWeeklyScheduleSource(employee)) && pasteEmployeeWeeklySchedule(employee)">
+                                        :key="employeeIndex" class="grid grid-cols-9">
+                                        <div class="col-span-9 grid grid-cols-9">
                                             <div class="col-span-2 border-0.5">
                                                 <div class="px-3 pt-3 pb-1 relative">
                                                     <div class="flex justify-between">
                                                         <div class="flex items-center gap-x-2">
-                                                            <img :src="employee?.profile_image ?? `https://ui-avatars.com/api/?background=42AED9&color=fff&name=${employee?.firstname + ' ' + employee?.lastname}`"
+                                                            <img :src="employee?.profile_image ??  `https://ui-avatars.com/api/?background=42AED9&color=fff&name=${employee?.firstname + ' ' + employee?.lastname}`"
                                                                 :class="[
                                                                     employee?.shift_threshold === 'high' && 'border-green-700',
                                                                     employee?.shift_threshold === 'moderate' && 'border-yellow-500',
@@ -236,17 +191,6 @@
                                                                 {{ employee?.firstname }}
                                                                 {{ employee?.lastname }}
                                                             </p>
-                                                        </div>
-                                                        <div>
-                                                            <Tooltip position="right"
-                                                                :text="$t('dutySchedules.copy.copyEmployeeSchedule')">
-                                                                <button
-                                                                    class="bg-gray-200 w-6 h-6 text-sm text-gray-600 rounded-sm hover:bg-gray-400 hover:text-gray-200 flex items-center justify-center"
-                                                                    @click="copyEmployeeWeeklySchedule(employee)">
-                                                                    <Icon name="mdi:content-copy" class="h-3 w-3"
-                                                                        aria-hidden="true" />
-                                                                </button>
-                                                            </Tooltip>
                                                         </div>
                                                     </div>
                                                     <div class="-mt-1 ml-10">
@@ -259,7 +203,7 @@
                                                                 v-for="(department, departmentIndex) in employee?.departments"
                                                                 :key="departmentIndex">
                                                                 {{ department?.name }}<span
-                                                                    v-if="departmentIndex < employee.departments.length - 1">,
+                                                                    v-if="departmentIndex as number < employee.departments.length - 1">,
                                                                 </span><span v-else>.</span>
                                                             </span>
                                                         </div>
@@ -268,7 +212,7 @@
                                                             @click="state.modal.isAnnualNormHoursInfoOpen = true">
                                                             <p class="text-xxs">
                                                                 {{ $t('dutySchedules.annualNormHours') }}:
-                                                                {{ employee?.annual_norm_hours ?? 0 }}
+                                                                {{ employee?.annual_norm_hours ??  0 }}
                                                             </p>
                                                             <Icon name="ph:question" class="h-3.5 w-3.5"
                                                                 aria-hidden="true" />
@@ -279,16 +223,16 @@
                                                             {{ employee?.total_hours ?? 0 }}
                                                         </p>
                                                         <div class="p-0 m-0 text-xxs text-primary cursor-pointer hover:text-primary-700"
-                                                            @click="navigateTo(`/calendar?employee_uuid=${employee?.uuid}`)">
+                                                            @click="navigateTo(`/calendar? employee_uuid=${employee?.uuid}`)">
                                                             {{ $t('dutySchedules.viewCalendar') }}
                                                         </div>
                                                     </div>
                                                 </div>
                                                 <div :class="[
-                                                    expandedRecords[employeeIndex] && 'hidden'
+                                                    expandedRecords[employeeIndex as number] && 'hidden'
                                                 ]">
                                                     <div class="text-xs grid grid-cols-7"
-                                                        v-if="isAdmin(userStore.getUser?.role) || (!isAdmin(userStore.getUser?.role) && userStore.getUser?.show_working_hours)">
+                                                        v-if="isAdmin(userStore.getUser?.role) || (! isAdmin(userStore.getUser?.role) && userStore.getUser?.show_working_hours)">
                                                         <div class="col-span-3 space-y-2" />
                                                         <div class="col-span-2 flex gap-2 flex-col items-end">
                                                             <p class="text-xxs py-2 pr-2">
@@ -314,7 +258,7 @@
                                                         <div class="col-span-3">
                                                             <div v-for="(time, timeIndex) in employee?.hours"
                                                                 :key="timeIndex" :class="[
-                                                                    timeIndex % 2 ? 'bg-white' : 'bg-gray-100',
+                                                                    timeIndex as number % 2 ?  'bg-white' : 'bg-gray-100',
                                                                     'py-1'
                                                                 ]">
                                                                 <div class="pl-3">
@@ -326,8 +270,8 @@
                                                                                     :style="{ background: time?.shift?.color }" />
                                                                             </div>
                                                                             <div class="truncate w-36">
-                                                                                {{ language.locale.value === 'en' ?
-                                                                                    time?.shift?.en_name :
+                                                                                {{ language.locale.value === 'en' ? 
+                                                                                    time?.shift?.en_name : 
                                                                                     time?.shift?.dk_name
                                                                                 }}
                                                                             </div>
@@ -339,7 +283,7 @@
                                                         <div class="col-span-2">
                                                             <div v-for="(time, timeIndex) in employee?.hours"
                                                                 :key="timeIndex" :class="[
-                                                                    timeIndex % 2 ? 'bg-white' : 'bg-gray-100',
+                                                                    timeIndex as number % 2 ? 'bg-white' : 'bg-gray-100',
                                                                 ]">
                                                                 <div class="text-right py-1 pr-2">
                                                                     {{ time?.weekly_hours }}
@@ -349,7 +293,7 @@
                                                         <div class="col-span-2 border-l-0.5 border-gray-200">
                                                             <div v-for="(time, timeIndex) in employee?.hours"
                                                                 :key="timeIndex" :class="[
-                                                                    timeIndex % 2 ? 'bg-white' : 'bg-gray-100',
+                                                                    timeIndex as number % 2 ? 'bg-white' : 'bg-gray-100',
                                                                 ]">
                                                                 <div class="text-right py-1 pr-2">
                                                                     {{ time?.yearly_hours }}
@@ -361,14 +305,14 @@
                                                         <div
                                                             class="px-3 col-span-7 space-y-2 mt-4 border-t-0.5 border-gray-200 pt-3">
                                                             <div :class="[
-                                                                employee?.total_norm_hours?.compensatory_hours > 0 ? 'text-green-700' : 'text-red-700',
+                                                                employee?.total_norm_hours?.compensatory_hours > 0 ?  'text-green-700' : 'text-red-700',
                                                                 'flex items-center gap-1 w-fit cursor-pointer'
                                                             ]" @click="viewCompensatoryHours(employee)">
                                                                 <Icon name="ph:clock" class="h-3 w-3"
                                                                     aria-hidden="true" />
                                                                 {{
                                                                     $t('dutySchedules.normHours.compensatoryHours')
-                                                                }}:
+                                                                }}: 
                                                                 {{
                                                                     formatNumber(language.locale.value,
                                                                         employee?.total_norm_hours?.compensatory_hours)
@@ -379,14 +323,14 @@
                                                         </div>
                                                         <div class="px-3 col-span-7 space-y-2 mt-1">
                                                             <div :class="[
-                                                                employee?.total_norm_hours?.available_vacation_hours > 0 ? 'text-green-700' : 'text-red-700',
+                                                                employee?.total_norm_hours?.available_vacation_hours > 0 ? 'text-green-700' :  'text-red-700',
                                                                 'flex items-center gap-1 w-fit cursor-pointer'
                                                             ]" @click="viewAvailableVacationHours(employee)">
                                                                 <Icon name="ph:clock" class="h-3 w-3"
                                                                     aria-hidden="true" />
                                                                 {{
                                                                     $t('dutySchedules.normHours.availableVacationHours')
-                                                                }}:
+                                                                }}: 
                                                                 {{
                                                                     formatNumber(language.locale.value,
                                                                         employee?.total_norm_hours?.available_vacation_hours ||
@@ -397,9 +341,9 @@
                                                     </div>
                                                 </div>
                                                 <div class="px-3 pb-3">
-                                                    <button @click="toggleExpanded(employeeIndex)"
+                                                    <button @click="toggleExpanded(employeeIndex as number)"
                                                         class="text-primary text-xs hover:text-primary-700">
-                                                        {{ !expandedRecords[employeeIndex] ?
+                                                        {{ ! expandedRecords[employeeIndex as number] ? 
                                                             $t('showLess') :
                                                             $t('showMore') }}
                                                     </button>
@@ -407,38 +351,15 @@
                                             </div>
                                             <div class="p-3 border-0.5" v-for="(week, weekIndex) in employee?.weeks"
                                                 :key="weekIndex" :class="[
-                                                    isDailyScheduleCopied(employeeIndex, weekIndex, weekNumber) && 'border-1.5 border-dashed border-gray-700',
-                                                    !isDailyScheduleCopied(employeeIndex, weekIndex, weekNumber) && !isDailyScheduleCopiedEmpty() && 'cursor-copy relative group',
                                                     hasConflict(week) && 'border-1.5 border-red-500 rounded-md',
-                                                ]"
-                                                @click="!isDailyScheduleCopied(employeeIndex, weekIndex, weekNumber) && !isDailyScheduleCopiedEmpty() && pasteEmployeeDailySchedule(employeeIndex, weekIndex)">
-                                                <div class="space-y-2"
-                                                    v-if="!isDailyScheduleCopied(employeeIndex, weekIndex, weekNumber)">
-                                                    <div class="flex justify-end gap-2"
-                                                        v-if="isAdmin(userStore.getUser?.role)">
-                                                        <Tooltip position="left" :text="$t('dutySchedules.copy.copy')">
-                                                            <button
-                                                                class="bg-gray-200 w-6 h-6 text-sm text-gray-600 rounded-sm hover:bg-gray-400 hover:text-gray-200 flex items-center justify-center"
-                                                                @click="copyEmployeeDailySchedule(employeeIndex, weekIndex, employee, weekNumber)">
-                                                                <Icon name="mdi:content-copy" class="h-3 w-3"
-                                                                    aria-hidden="true" />
-                                                            </button>
-                                                        </Tooltip>
-                                                        <Tooltip position="left"
-                                                            :text="$t('dutySchedules.newSchedule')">
-                                                            <button
-                                                                class="bg-gray-200 w-6 h-6 text-sm text-gray-600 rounded-sm hover:bg-gray-400 hover:text-gray-200"
-                                                                @click="openAddNewShiftModal(employee, employeeIndex, weekIndex, week)">
-                                                                +
-                                                            </button>
-                                                        </Tooltip>
-                                                    </div>
+                                                ]">
+                                                <div class="space-y-2">
                                                     <div class="text-xs">
                                                         <div v-for="(shift, shiftIndex) in sortMultiDayShiftsFirst(week?.shifts)"
                                                             :key="shiftIndex" :class="[
                                                                 'rounded-md p-1 relative mb-2.5'
                                                             ]" :style="{
-                                                                backgroundColor: `${shift?.type?.color}`,
+                                                                backgroundColor:  `${shift?.type?.color}`,
                                                                 width: `${calculateShiftWidth(shift, weekIndex.toString())}`,
                                                                 marginTop: `${calculateMarginTop(employee?.weeks, weekIndex.toString(), shiftIndex)}rem`
                                                             }">
@@ -446,9 +367,7 @@
                                                                 v-if="shift?.type?.system_name === 'sick-leave'">
                                                                 S
                                                             </div>
-                                                            <div class="flex justify-between text-white"
-                                                                :class="isAdmin(userStore.getUser?.role) ? 'cursor-pointer' : 'cursor-not-allowed'"
-                                                                @click="editSchedule(employee, employeeIndex, weekIndex, shift, shiftIndex)">
+                                                            <div class="flex justify-between text-white">
                                                                 <div class="relative w-full">
                                                                     <div class="bg-white border-0.5 border-gray-300 w-4 h-4 rounded-full absolute -left-2 top-2.5 flex items-center justify-center"
                                                                         v-if="shift?.is_from_lastweek">
@@ -493,7 +412,7 @@
                                                                     v-for="(department, departmentIndex) in shift?.departments"
                                                                     :key="departmentIndex">
                                                                     {{ department?.name }}<span
-                                                                        v-if="departmentIndex < shift?.departments.length - 1">,
+                                                                        v-if="departmentIndex as number < shift?.departments.length - 1">,
                                                                     </span><span v-else>.</span>
                                                                 </span>
                                                             </div>
@@ -510,59 +429,11 @@
                                                                     </div>
                                                                 </Tooltip>
                                                             </div>
-                                                            <button
-                                                                class="bg-gray-200 w-4 h-4 text-sm text-gray-600 rounded-full flex items-center justify-center absolute -right-1 -top-1"
-                                                                @click="removeShift(week, employeeIndex, weekIndex, shift, shiftIndex)"
-                                                                v-if="isAdmin(userStore.getUser?.role)">
-                                                                <Tooltip position="left"
-                                                                    :text="$t('dutySchedules.removeSchedule.removeSchedule')">
-                                                                    <Icon name="ph:x" class="h-2 w-2"
-                                                                        aria-hidden="true" />
-                                                                </Tooltip>
-                                                            </button>
                                                         </div>
                                                     </div>
                                                 </div>
-                                                <div class="flex flex-col items-center space-y-2 mt-3 cursor-pointer"
-                                                    v-else @click="stopCopying()">
-                                                    <p class="text-center text-sm">
-                                                        {{ $t('dutySchedules.copyPaste.stopCopying') }}
-                                                    </p>
-                                                    <p class="text-center text-xxs">
-                                                        {{
-                                                            $t('dutySchedules.copyPaste.clickHereToStopCopyingTheSchedule')
-                                                        }}
-                                                    </p>
-                                                </div>
-                                                <div class="absolute inset-0 bg-primary bg-opacity-90 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300"
-                                                    v-if="!isDailyScheduleCopied(employeeIndex, weekIndex, weekNumber) && !isDailyScheduleCopiedEmpty()">
-                                                    <p class="text-white text-xs text-center">
-                                                        {{ $t('dutySchedules.copyPaste.clickHereToPasteTheSchedule') }}
-                                                    </p>
-                                                </div>
-                                            </div>
-                                            <div class="absolute inset-0 bg-primary bg-opacity-90 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300"
-                                                v-if="isEmployeeWeeklyScheduleCopied()">
-                                                <p class="text-white text-xs text-center">
-                                                    {{ $t('dutySchedules.copyPaste.clickHereToPasteTheSchedule') }}
-                                                </p>
                                             </div>
                                         </div>
-                                    </div>
-                                    <div class="flex flex-col items-center space-y-2 mt-3 cursor-pointer" v-else
-                                        @click="stopCopying()">
-                                        <p class="text-center text-sm pt-5">
-                                            {{ $t('dutySchedules.copyPaste.stopCopying') }}
-                                        </p>
-                                        <p class="text-center text-xxs pb-10">
-                                            {{ $t('dutySchedules.copyPaste.clickHereToStopCopyingTheSchedule') }}
-                                        </p>
-                                    </div>
-                                    <div class="absolute inset-0 bg-primary bg-opacity-90 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300"
-                                        v-if="!isWeeklyScheduleCopied(weekNumber) && !isAllWeeklyScheduleCopiedEmpty()">
-                                        <p class="text-white text-xs text-center">
-                                            {{ $t('dutySchedules.copyPaste.clickHereToPasteTheSchedule') }}
-                                        </p>
                                     </div>
                                 </div>
                             </div>
@@ -584,19 +455,6 @@
             <ModulesUserDutyScheduleModalShiftDateRange :isModalOpen="state.modal.isDepartmentSickLeaveDateRangeOpen"
                 :dateRange="state.shiftDateRange" @close="state.modal.isDepartmentSickLeaveDateRangeOpen = false"
                 @filterDate="filterDutyScheduleDate" />
-            <ModulesUserDutyScheduleModalNewShift :isModalOpen="state.modal.isAddShiftOpen" :error="state.newShiftError"
-                :selectedDate="state.newShift.selectedDate" :selectedEmployee="state.newShift.selectedEmployee"
-                @close="state.modal.isAddShiftOpen = false" @saveShift="saveShift"
-                @resetNewShiftError="state.newShiftError = {}" />
-            <ModulesUserDutyScheduleModalEditShift :isModalOpen="state.modal.isEditShiftOpen"
-                :error="state.editShiftError" :selectedEmployee="state.editShift.selectedEmployee"
-                :selectedEmployeeSchedule="state.editShift.selectedEmployeeSchedule"
-                @close="state.modal.isEditShiftOpen = false" @resetEditShiftError="state.editShiftError = {}"
-                @updateShift="updateSelectedSchedule" />
-            <ModulesUserDutyScheduleDraftTemplatesModalCopyMultipleWeeks
-                :isModalOpen="state.modal.isCopyMultipleWeeklyScheduleOpen"
-                @close="state.modal.isCopyMultipleWeeklyScheduleOpen = false"
-                @refreshDutySchedules="fetchDraftDutySchedule()" />
         </LoadingSpinner>
     </div>
 </template>
@@ -604,12 +462,10 @@
 
 <script setup lang="ts">
 import moment from 'moment'
-import { draftTemplateScheduleService } from '@/components/api/user/DraftTemplateScheduleService'
 import { useDepartmentStore } from '@/store/department'
 import { useDraftDutyScheduleStore } from '@/store/draft-duty-schedule'
 import { useUserStore } from '@/store/user'
 import { useNumberFormatter } from '@/composables/numberFormatter'
-import { useAlert } from '@/composables/alert'
 import { useI18n } from "vue-i18n"
 import type { Error } from '@/types'
 import { publishedVersionsService } from '~/components/api/user/PublishedVersionsService'
@@ -628,45 +484,20 @@ const router = useRouter()
 const draftTemplateUuid = router?.currentRoute?.value?.params?.uuid
 
 const state = reactive({
-    addShift: {
-        selectedEmployeeSchedule: {}
-    } as any,
-    copy: {
-        allEmployeeSchedules: {},
-        selectedEmployeeDailySchedule: {},
-        selectedEmployeeWeeklySchedule: {},
-        selectedWeekNumber: null,
-    } as any,
-    copyShiftError: {} as Error,
     customWeekLabel: 'week',
     dataFilter: {
         search: ''
     },
-    editShiftError: {} as Error,
-    editShift: {
-        selectedEmployee: {},
-        selectedEmployeeSchedule: {},
-    } as any,
     error: {} as Error,
-    errorUpdateShift: {} as Error,
     isPageLoading: false,
     modal: {
-        isAddShiftOpen: false,
         isCompensatoryHoursOpen: false,
-        isCopyMultipleWeeklyScheduleOpen: false,
         isDepartmentSickLeaveDateRangeOpen: false,
-        isEditShiftOpen: false,
-        isPublishDraftOpen: false,
         isVacationHoursOpen: false,
         isAnnualNormHoursInfoOpen: false,
     } as any,
-    newShift: {
-        selectedDate: '',
-        selectedEmployee: {},
-    },
-    newShiftError: {} as Error,
     normHours: {
-        selectedEmployeeSchedule: {}
+        selectedEmployeeSchedule:  {}
     },
     progress: {
         percentage: 100,
@@ -676,8 +507,6 @@ const state = reactive({
     },
     selectedDate: moment().format('YYYY-MM-DD'),
     showAllShifts: false,
-    showAllShiftTypes: false,
-    shiftPercentage: {} as any,
     shiftDateRange: {
         formDateRange: {
             start_date: moment().startOf('week').add(1, 'day'),
@@ -688,13 +517,10 @@ const state = reactive({
         sortField: 'firstname',
         sortOrder: 'ascend',
     },
-    isRemoveShift: false,
-    isUpdateShift: false,
-    originalWeeklySchedules: [] as any,
     weeklySchedules: [] as any,
 })
 
-watch(() => state.progress.percentage, (newPercentage: any) => {
+watch(() => state.progress.percentage, (newPercentage:  any) => {
     if (newPercentage < 100) {
         state.progress.showProgressBar = true
     }
@@ -724,14 +550,8 @@ onMounted(() => {
 })
 
 onBeforeUnmount(() => {
-    window.removeEventListener('keydown', handleKeyDown)
+    window.removeEventListener('scroll', handleScroll)
 })
-
-function handleKeyDown(event: KeyboardEvent) {
-    if (event.key === 'Escape') {
-        stopCopying()
-    }
-}
 
 function isAdmin(role: any) {
     return role && role === 'Admin'
@@ -748,14 +568,11 @@ function setCustomWeekLabel(startDate: any, endDate: any) {
     const start = new Date(startDate) as any
     const end = new Date(endDate) as any
 
-    // Calculate difference in days
     const diffDays = Math.ceil((end - start) / (1000 * 60 * 60 * 24)) + 1
 
-    // Check for week
     const isWeek =
         (start.getDay() === 0 || start.getDay() === 1) && diffDays === 7
 
-    // Check for full month
     const isFirstDayOfMonth = start.getDate() === 1
     const isLastDayOfMonth =
         end.getDate() === new Date(end.getFullYear(), end.getMonth() + 1, 0).getDate()
@@ -776,32 +593,34 @@ function setCustomWeekLabel(startDate: any, endDate: any) {
 }
 
 function sortMultiDayShiftsFirst(shifts: any) {
+    if (! shifts || ! Array.isArray(shifts)) {
+        return []
+    }
+    
     const sortedShifts = shifts.sort((a: any, b: any) => {
         const aMultiDay = moment(a.date_time_end).startOf('day').diff(moment(a.date_time_start).startOf('day'), 'days') >= 1
         const bMultiDay = moment(b.date_time_end).startOf('day').diff(moment(b.date_time_start).startOf('day'), 'days') >= 1
 
-        if (aMultiDay && !bMultiDay) return -1 // a comes first
-        if (!aMultiDay && bMultiDay) return 1  // b comes first
-        return 0 // Keep order for same type
+        if (aMultiDay && !bMultiDay) return -1
+        if (!aMultiDay && bMultiDay) return 1
+        return 0
     })
     return sortedShifts
 }
 
-function calculateShiftWidth(shift: any, weekIndex: string) {
+function calculateShiftWidth(shift:  any, weekIndex: string) {
     const shiftStart = moment(shift.date_time_start).startOf('day')
     const shiftEnd = moment(shift.date_time_end).startOf('day')
 
     const weekStart = moment(currentDate.value).startOf('isoWeek')
     const weekEnd = moment(currentDate.value).endOf('isoWeek')
 
-    // Clamp the shift range to the current week range
     const visibleStart = shiftStart.isBefore(weekStart) ? weekStart : shiftStart
     const visibleEnd = shiftEnd.isAfter(weekEnd) ? weekEnd : shiftEnd
 
     let dayDifference = visibleEnd.diff(visibleStart, 'days')
 
-    // Special case: if shift ends at exactly 00:00, don't count the last day
-    const endsAtMidnight = moment(shift.date_time_end).format('HH:mm:ss') === '00:00:00'
+    const endsAtMidnight = moment(shift.date_time_end).format('HH:mm: ss') === '00:00:00'
     if (endsAtMidnight) {
         dayDifference--
     }
@@ -821,7 +640,7 @@ function calculateMarginTop(schedules: any, weekIndex: string, shiftIndex: numbe
     const weekDaysOrder = ['monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday', 'sunday']
     const dayIndex = weekDaysOrder.indexOf(weekIndex)
 
-    if (weekIndex === 'monday' || shiftIndex > 0) return 0 // If the current index is in the future, return 0
+    if (weekIndex === 'monday' || shiftIndex > 0) return 0
 
     let overlapCount = 0
 
@@ -836,35 +655,18 @@ function calculateMarginTop(schedules: any, weekIndex: string, shiftIndex: numbe
 }
 
 function getMultiDayShift(shifts: any) {
-    return shifts
-        .find((shift: any) => {
-            const startDay = moment(shift.date_time_start).startOf('day')
-            const endDay = moment(shift.date_time_end).startOf('day')
-            const isMultiDay = endDay.diff(startDay, 'days') >= 1
-            const isExcluded = endDay.diff(startDay, 'days') === 1 && moment(shift.date_time_end).format('HH:mm:ss') === '00:00:00'
-
-            return isMultiDay && !isExcluded
-        })
-}
-
-async function fetchDutySchedulePercentage() {
-    state.error = {}
-    state.isPageLoading = true
-    try {
-        const params = {
-            draft_template_uuid: draftTemplateUuid,
-            start_date: moment(state.shiftDateRange.formDateRange.start_date).format('YYYY-MM-DD'),
-            end_date: moment(state.shiftDateRange.formDateRange.end_date).format('YYYY-MM-DD'),
-            department: departmentStore.getSelectedDepartmentName,
-        }
-        const response = await draftTemplateScheduleService.getDraftDutyScheduleAbsencePercentage(params)
-        if (response) {
-            state.shiftPercentage = response
-        }
-    } catch (error: any) {
-        state.error = error
+    if (!shifts || !Array.isArray(shifts)) {
+        return undefined
     }
-    state.isPageLoading = false
+    
+    return shifts.find((shift: any) => {
+        const startDay = moment(shift.date_time_start).startOf('day')
+        const endDay = moment(shift.date_time_end).startOf('day')
+        const isMultiDay = endDay.diff(startDay, 'days') >= 1
+        const isExcluded = endDay.diff(startDay, 'days') === 1 && moment(shift.date_time_end).format('HH:mm:ss') === '00:00:00'
+
+        return isMultiDay && !isExcluded
+    })
 }
 
 async function fetchDraftDutySchedule() {
@@ -880,18 +682,26 @@ async function fetchDraftDutySchedule() {
         const startOfWeekFormatted = startOfWeek.format('YYYY-MM-DD')
         const endOfWeekFormatted = endOfWeek.format('YYYY-MM-DD')
         const params = {
-
+            page: draftDutyScheduleStore.getCurrentPageNumber,
+            page_length: draftDutyScheduleStore.getCurrentPageLength,
+            date_start: startOfWeekFormatted,
+            date_end: endOfWeekFormatted,
+            filter_date_start: moment(state.shiftDateRange.formDateRange.start_date).format('YYYY-MM-DD'),
+            filter_date_end: moment(state.shiftDateRange.formDateRange.end_date).format('YYYY-MM-DD'),
+            department:  departmentStore.getSelectedDepartmentName,
+            sortField: state.sortData.sortField,
+            sortOrder: state.sortData.sortOrder,
+            ...state.dataFilter,
         }
-        const response = await publishedVersionsService.getPublishedVersionDetails(draftTemplateUuid as string)
+        const response = await publishedVersionsService.getPublishedVersionDetails(draftTemplateUuid as string, params)
         if (response) {
             state.weeklySchedules = response
-            state.originalWeeklySchedules = JSON.parse(JSON.stringify(response?.data))
-            fetchDutySchedulePercentage()
             state.progress.totalRequests = state.progress.totalRequests - 1
             state.progress.pendingRequests = state.progress.pendingRequests - 1
             identifyTheProgressPercentage()
         }
     } catch (error: any) {
+        console.log(error)
         state.error = error
         state.progress.totalRequests = state.progress.totalRequests - 1
         state.progress.pendingRequests = state.progress.pendingRequests - 1
@@ -901,7 +711,6 @@ async function fetchDraftDutySchedule() {
 }
 
 watch(() => state.weeklySchedules, (newSchedules) => {
-    // Update the expanded records only if the number of records changes.
     if (newSchedules && newSchedules.data.length !== expandedRecords.length) {
         expandedRecords.splice(0, expandedRecords.length, ...newSchedules.data.map(() => true))
     }
@@ -989,10 +798,6 @@ const weekDays = computed(() => {
     })
 })
 
-function isPastWeek() {
-    return moment(currentDate.value).format('YYYY-MM-DD') < moment().format('YYYY-MM-DD')
-}
-
 function hasConflict(week: any) {
     const hasConflict = week?.shifts?.some((shift: any) => shift.is_conflict === true)
     return hasConflict
@@ -1008,85 +813,6 @@ function viewAvailableVacationHours(employee: any) {
     state.modal.isVacationHoursOpen = true
 }
 
-function openAddNewShiftModal(employee: any, employeeIndex: number, weekIndex: any, week: any) {
-    state.modal.isAddShiftOpen = true
-    state.addShift.selectedEmployeeSchedule = {
-        employeeIndex: employeeIndex,
-        weekIndex: weekIndex,
-        ...week
-    }
-    state.newShift.selectedDate = week?.date
-    state.newShift.selectedEmployee = employee
-}
-
-async function saveShift(shiftDetails: any) {
-    const employeeIndex = state.addShift.selectedEmployeeSchedule.employeeIndex
-    const shiftType = shiftDetails.shift_type
-    const params = {
-        draft_template_uuid: draftTemplateUuid,
-        shift_type_uuid: shiftType,
-        is_sleeping_sick_leave: shiftDetails.is_sleeping_sick_leave,
-        do_not_count_weekends: shiftDetails.do_not_count_weekends,
-        date_time_start: shiftDetails.date_time_start,
-        date_time_end: shiftDetails.date_time_end,
-        user_uuid: state.weeklySchedules?.data?.[employeeIndex].uuid,
-        citizen_uuid: shiftDetails?.citizens,
-        schedule_tag_uuid: shiftDetails.schedule_tag_uuid,
-        department_uuid: shiftDetails.department_uuid,
-        use_compensatory_time: shiftDetails.use_compensatory_time,
-        note: shiftDetails.note,
-        do_not_count_sick_leave: shiftDetails.do_not_count_sick_leave,
-        is_recurring: shiftDetails.recurring.is_recurring,
-        recurring: shiftDetails.recurring.recurring,
-        recurring_until: shiftDetails.recurring.recurring_until,
-        is_private: shiftDetails.is_private ?? false,
-        in_meeting: shiftDetails.in_meeting ?? false,
-    } as any
-    if (shiftDetails.recurring.recurring === 'custom') {
-        params.frequency = shiftDetails.recurring.frequency
-        params.every = shiftDetails.recurring.every
-        if (shiftDetails.recurring.frequency === 'weekly') {
-            params.weekly_on = shiftDetails.recurring.weekly_on
-        } else if (shiftDetails.recurring.frequency === 'monthly') {
-            params.monthly_on_the_enabled = shiftDetails.recurring.monthly_on_the_enabled
-            if (!shiftDetails.recurring.monthly_on_the_enabled) {
-                params.monthly_each = shiftDetails.recurring.monthly_each
-            } else {
-                params.monthly_on_the_sequence = shiftDetails.recurring.monthly_on_the_sequence
-                params.monthly_on_the_day = shiftDetails.recurring.monthly_on_the_day
-            }
-        } else if (shiftDetails.recurring.frequency === 'yearly') {
-            params.yearly_in_months = shiftDetails.recurring.yearly_in_months
-            if (shiftDetails.recurring.yearly_on_the_enabled) {
-                params.yearly_on_the_sequence = shiftDetails.recurring.yearly_on_the_sequence
-                params.yearly_on_the_day = shiftDetails.recurring.yearly_on_the_day
-            }
-        }
-    }
-    saveDutySchedule(params)
-}
-
-async function saveDutySchedule(params: object) {
-    try {
-        state.progress.totalRequests = state.progress.totalRequests + 1
-        state.progress.pendingRequests = state.progress.pendingRequests + 1
-        identifyTheProgressPercentage()
-        const response = await draftTemplateScheduleService.saveDraftDutySchedule(params)
-        if (response) {
-            state.progress.totalRequests = state.progress.totalRequests - 1
-            state.progress.pendingRequests = state.progress.pendingRequests - 1
-            identifyTheProgressPercentage()
-            fetchDraftDutySchedule()
-            state.modal.isAddShiftOpen = false
-        }
-    } catch (error: any) {
-        state.newShiftError = error
-        state.progress.totalRequests = state.progress.totalRequests - 1
-        state.progress.pendingRequests = state.progress.pendingRequests - 1
-        identifyTheProgressPercentage()
-    }
-}
-
 function identifyTheProgressPercentage() {
     if (state.progress.totalRequests === 0) {
         state.progress.percentage = 100
@@ -1098,265 +824,8 @@ function identifyTheProgressPercentage() {
     }
 }
 
-function isDailyScheduleCopiedEmpty() {
-    return Object.keys(state.copy.selectedEmployeeDailySchedule).length === 0
-}
-
-function isDailyScheduleCopied(employeeIndex: number, weekIndex: number, weekNumber: number) {
-    return state.copy.selectedEmployeeDailySchedule.employeeIndex === employeeIndex && state.copy.selectedEmployeeDailySchedule.weekIndex === weekIndex && state.copy.selectedEmployeeDailySchedule.weekNumber === weekNumber
-}
-
-function copyEmployeeDailySchedule(employeeIndex: number, weekIndex: any, employee: any, weekNumber: number) {
-    state.copy.selectedEmployeeDailySchedule = {
-        employeeIndex: employeeIndex,
-        weekNumber: weekNumber,
-        weekIndex: weekIndex,
-        employee: employee,
-    }
-}
-
-function stopCopying() {
-    state.copy.allEmployeeSchedules = {}
-    state.copy.selectedEmployeeDailySchedule = {}
-    state.copy.selectedEmployeeWeeklySchedule = {}
-}
-
-async function pasteEmployeeDailySchedule(employeeIndex: number, weekIndex: number) {
-    const copiedSelectedEmployeeSchedule = state.copy.selectedEmployeeDailySchedule
-    const copiedWeekIndex = copiedSelectedEmployeeSchedule.weekIndex
-
-    const userSource = copiedSelectedEmployeeSchedule.employee
-    const dateSource = copiedSelectedEmployeeSchedule.employee.weeks[copiedWeekIndex].date
-    const userDestination = state.weeklySchedules?.data?.[employeeIndex]
-    const dateDestination = state.weeklySchedules?.data?.[employeeIndex].weeks[weekIndex].date
-    const params = {
-        draft_template_uuid: draftTemplateUuid,
-        user_uuid_source: userSource.uuid,
-        user_uuid_destination: userDestination.uuid,
-        date_source: dateSource,
-        date_destination: dateDestination,
-    }
-    copyDutySchedule(params)
-}
-
-async function copyDutySchedule(params: object) {
-    state.copyShiftError = {}
-    try {
-        state.progress.totalRequests = state.progress.totalRequests + 1
-        state.progress.pendingRequests = state.progress.pendingRequests + 1
-        identifyTheProgressPercentage()
-        const response = await draftTemplateScheduleService.saveDraftDutySchedule(params)
-        if (response) {
-            state.progress.totalRequests = state.progress.totalRequests - 1
-            state.progress.pendingRequests = state.progress.pendingRequests - 1
-            identifyTheProgressPercentage()
-            fetchDraftDutySchedule()
-            state.modal.isAddShiftOpen = false
-        }
-    } catch (error: any) {
-        state.copyShiftError = error
-        state.progress.totalRequests = state.progress.totalRequests - 1
-        state.progress.pendingRequests = state.progress.pendingRequests - 1
-        identifyTheProgressPercentage()
-    }
-}
-
-function isCopiedWeek() {
-    return state.copy.selectedWeekNumber === weekNumber?.value
-}
-
-function isEmployeeWeeklyScheduleCopied() {
-    return Object.keys(state.copy.selectedEmployeeWeeklySchedule).length > 0
-}
-
-function isEmployeeSelectedAsWeeklyScheduleSource(weeklySchedule: any) {
-    return state.copy.selectedEmployeeWeeklySchedule?.uuid === weeklySchedule?.uuid
-}
-
-function copyEmployeeWeeklySchedule(weeklySchedule: any) {
-    state.copy.selectedEmployeeWeeklySchedule = weeklySchedule
-    state.copy.selectedWeekNumber = weekNumber?.value
-}
-
-async function pasteEmployeeWeeklySchedule(weeklySchedule: any) {
-    state.copyShiftError = {}
-    try {
-        state.progress.totalRequests = state.progress.totalRequests + 1
-        state.progress.pendingRequests = state.progress.pendingRequests + 1
-        identifyTheProgressPercentage()
-        const params = {
-            draft_template_uuid: draftTemplateUuid,
-            user_uuid_source: state?.copy.selectedEmployeeWeeklySchedule?.uuid,
-            user_uuid_destination: weeklySchedule?.uuid,
-            week_source: state.copy.selectedWeekNumber,
-            week_destination: weekNumber?.value,
-        }
-        const response = await draftTemplateScheduleService.copyEmployeeWeeklyDraftDutySchedule(params)
-        if (response) {
-            state.progress.totalRequests = state.progress.totalRequests - 1
-            state.progress.pendingRequests = state.progress.pendingRequests - 1
-            identifyTheProgressPercentage()
-            fetchDraftDutySchedule()
-        }
-    } catch (error: any) {
-        state.copyShiftError = error
-        state.progress.totalRequests = state.progress.totalRequests - 1
-        state.progress.pendingRequests = state.progress.pendingRequests - 1
-        identifyTheProgressPercentage()
-    }
-}
-
-function isAllWeeklyScheduleCopiedEmpty() {
-    return Object.keys(state.copy.allEmployeeSchedules).length === 0
-}
-
-function isWeeklyScheduleCopied(weekNumber: number) {
-    return state.copy.allEmployeeSchedules.weekNumber === weekNumber
-}
-
-function copyWeeklySchedule(weekNumber: number) {
-    state.copy.allEmployeeSchedules = {
-        weekNumber: weekNumber,
-        weeklySchedules: state.weeklySchedules
-    }
-}
-
-function pasteWeeklySchedule(weekNumber: number) {
-    state.weeklySchedules = state.copy.allEmployeeSchedules.weeklySchedules
-    const params = {
-        draft_template_uuid: draftTemplateUuid,
-        department: departmentStore.getSelectedDepartmentName,
-        week_source: state.copy.allEmployeeSchedules.weekNumber,
-        week_destination: weekNumber,
-    }
-    saveCopiedWeeklyDutySchedule(params)
-}
-
-async function saveCopiedWeeklyDutySchedule(params: object) {
-    try {
-        state.progress.totalRequests = state.progress.totalRequests + 1
-        state.progress.pendingRequests = state.progress.pendingRequests + 1
-        identifyTheProgressPercentage()
-        const response = await draftTemplateScheduleService.saveDraftDutySchedule(params)
-        if (response) {
-            state.progress.totalRequests = state.progress.totalRequests - 1
-            state.progress.pendingRequests = state.progress.pendingRequests - 1
-            identifyTheProgressPercentage()
-            fetchDraftDutySchedule()
-        }
-    } catch (error: any) {
-        state.error = error
-        state.progress.totalRequests = state.progress.totalRequests - 1
-        state.progress.pendingRequests = state.progress.pendingRequests - 1
-        identifyTheProgressPercentage()
-    }
-}
-
-async function removeShift(week: any, employeeIndex: number, weekIndex: number, shift: any, shiftIndex: number) {
-    state.isRemoveShift = true
-    const scheduleUuid = shift.schedule_uuid
-    try {
-        state.progress.totalRequests = state.progress.totalRequests + 1
-        state.progress.pendingRequests = state.progress.pendingRequests + 1
-        identifyTheProgressPercentage()
-        const response = await draftTemplateScheduleService.deleteDraftDutySchedule(scheduleUuid)
-        if (response) {
-            state.progress.totalRequests = state.progress.totalRequests - 1
-            state.progress.pendingRequests = state.progress.pendingRequests - 1
-            identifyTheProgressPercentage()
-            fetchDraftDutySchedule()
-        }
-    } catch (error: any) {
-        state.error = error
-        state.progress.totalRequests = state.progress.totalRequests - 1
-        state.progress.pendingRequests = state.progress.pendingRequests - 1
-        identifyTheProgressPercentage()
-    } finally {
-        state.isRemoveShift = false
-    }
-}
-
-function editSchedule(employee: any, employeeIndex: number, weekIndex: any, shift: any, shiftIndex: number) {
-    const date = state.weeklySchedules?.data?.[employeeIndex].weeks[weekIndex].date
-    const userUuid = state.weeklySchedules?.data?.[employeeIndex].uuid
-    state.editShift.selectedEmployee = employee
-    state.editShift.selectedEmployeeSchedule = {
-        citizen_schedules: shift?.citizen_schedules,
-        scheduleUuid: shift?.schedule_uuid,
-        date_time_start: shift?.date_time_start,
-        date_time_end: shift?.date_time_end,
-        recurring: {
-            is_recurring: shift?.is_recurring,
-        },
-        user_uuid: userUuid,
-        date: date,
-        shift_type: shift?.type,
-        tags: shift?.tags,
-        departments: shift?.departments,
-        note: shift?.note,
-        do_not_count_sick_leave: shift?.do_not_count_sick_leave,
-        employeeIndex: employeeIndex,
-        weekIndex: weekIndex,
-        shiftIndex: shiftIndex,
-    }
-    state.modal.isEditShiftOpen = true
-}
-
-function updateSelectedSchedule(shiftDetails: any) {
-    const scheduleUuid = state.editShift.selectedEmployeeSchedule.scheduleUuid
-    const employeeIndex = state.editShift.selectedEmployeeSchedule.employeeIndex
-    const weekIndex = state.editShift.selectedEmployeeSchedule.weekIndex
-    const shiftIndex = state.editShift.selectedEmployeeSchedule.shiftIndex
-    const params = {
-        shift_type_uuid: shiftDetails.shift_type,
-        is_sleeping_sick_leave: shiftDetails.is_sleeping_sick_leave,
-        do_not_count_weekends: shiftDetails.do_not_count_weekends,
-        date_time_start: shiftDetails?.date_time_start,
-        date_time_end: shiftDetails?.date_time_end,
-        is_apply_to_all: shiftDetails?.recurring?.is_apply_to_all,
-        user_uuid: state.editShift.selectedEmployeeSchedule.user_uuid,
-        citizen_uuid: shiftDetails.citizens,
-        schedule_tag_uuid: shiftDetails.schedule_tag_uuid,
-        department_uuid: shiftDetails.department_uuid,
-        note: shiftDetails.note,
-        do_not_count_sick_leave: shiftDetails.do_not_count_sick_leave,
-    }
-    updateDutySchedule(scheduleUuid, params, employeeIndex, weekIndex, shiftIndex)
-}
-
-async function updateDutySchedule(scheduleUuid: any, params: object, employeeIndex: number, weekIndex: any, shiftIndex: number) {
-    state.isUpdateShift = true
-    let errorUpdateShift = {}
-    try {
-        state.progress.totalRequests = state.progress.totalRequests + 1
-        state.progress.pendingRequests = state.progress.pendingRequests + 1
-        identifyTheProgressPercentage()
-        const response = await draftTemplateScheduleService.updateDraftDutySchedule(scheduleUuid, params)
-        if (response) {
-            state.progress.totalRequests = state.progress.totalRequests - 1
-            state.progress.pendingRequests = state.progress.pendingRequests - 1
-            state.modal.isEditShiftOpen = false
-            identifyTheProgressPercentage()
-            fetchDraftDutySchedule()
-        }
-    } catch (error: any) {
-        errorUpdateShift = error
-        state.progress.totalRequests = state.progress.totalRequests - 1
-        state.progress.pendingRequests = state.progress.pendingRequests - 1
-        identifyTheProgressPercentage()
-    } finally {
-        state.errorUpdateShift = errorUpdateShift
-        state.isUpdateShift = false
-        fetchDraftDutySchedule()
-    }
-}
-
-onBeforeUnmount(() => {
-    window.removeEventListener('scroll', handleScroll)
-})
-
 let lastScrollTop = 0
-const headerHeight = 305  // The height of the header
+const headerHeight = 305
 
 function handleScroll() {
     const header = document.getElementById('fixed-header-week-view')
@@ -1364,15 +833,12 @@ function handleScroll() {
 
     const currentScroll = window.pageYOffset || document.documentElement.scrollTop
 
-    // If scrolling down and we reach the bottom of the header
     if (currentScroll > headerHeight) {
         header.classList.add('fixed-header-week-view-top')
     } else {
-        // If scrolling up, remove the fixed position
         header.classList.remove('fixed-header-week-view-top')
     }
 
-    // Update the last scroll position for the next scroll event
-    lastScrollTop = currentScroll <= 0 ? 0 : currentScroll // Prevent negative scroll
+    lastScrollTop = currentScroll <= 0 ? 0 :  currentScroll
 }
 </script>
