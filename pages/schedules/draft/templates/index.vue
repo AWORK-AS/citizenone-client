@@ -69,6 +69,10 @@
                         <Icon name="ph:plus" class="h-4 w-4" aria-hidden="true" />
                         {{ $t('dutySchedules.draftTemplates.newDraft') }}
                     </FormButton>
+                    <FormButton v-if="state.selectedTemplateUuids?.length" @click="state.modal.isApplyTemplateModalOpen = true" buttonStyle="action" class="rounded-lg">
+                        <Icon name="ph:check" class="h-4 w-4" aria-hidden="true" />
+                        {{ $t('dutySchedules.draftTemplates.table.actions.apply') }}
+                    </FormButton>
                 </div>
             </div>
             
@@ -307,7 +311,6 @@ function editDraftTemplate(draftTemplate: any) {
 
 function applyDraftTemplate(draftTemplate: any) {
     state.selectedDraftTemplate = draftTemplate
-    state.selectedTemplateUuids = [draftTemplate.uuid]
     state.modal.isApplyTemplateModalOpen = true
 }
 
