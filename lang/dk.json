@@ -2448,6 +2448,17 @@
                 }
             }
         },
+        "published": {
+            "publishedVersions": "Publicerede versioner",
+            "seePrevious": "Se tidligere publicerede versioner",
+            "version": "Version",
+            "table": {
+                "versionNumber": "Versionsnummer",
+                "actions": {
+                    "view": "Se"
+                }
+            }
+        },
         "draftTemplates": {
             "draftTemplates": "Skabeloner",
             "newDraft": "Ny skabelon",
