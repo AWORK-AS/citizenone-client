@@ -1455,6 +1455,7 @@
                 "packageLeafletLink": "Package leaflet link",
                 "pnMedicine": "PN-medicine",
                 "scheduleFrequency": "How often should citizens take the medicine",
+                "scheduleUntil": "Until when should citizens take the medicine",
                 "selfAdminister": "Self-administer",
                 "startDate": "Date of prescription",
                 "strength": "Strength",

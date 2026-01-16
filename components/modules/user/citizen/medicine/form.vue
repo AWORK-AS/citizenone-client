@@ -46,8 +46,8 @@
                     <FormError :error="state?.error?.errors?.recurring_uuid?.[0]" />
                 </div>
                 <div class="space-y-1" v-if="!state.formMedicine.is_pn_medicine">
-                    <FormLabel for="recurring_until" :label="$t('recurring.until')" />
-                    <FormDateField id="recurring_until" name="recurring_until" :placeholder="`${$t('recurring.until')}`"
+                    <FormLabel for="recurring_until" :label="$t('citizens.medicineJournals.form.scheduleUntil')" />
+                    <FormDateField id="recurring_until" name="recurring_until" :placeholder="`${$t('citizens.medicineJournals.form.scheduleUntil')}`"
                         v-model="state.formMedicine.schedule_frequency.recurring_until" />
                     <FormError :error="v$?.formMedicine.schedule_frequency?.recurring_until?.$errors[0]?.$message.toString()" />
                     <FormError :error="state?.error?.errors?.recurring_until?.[0]" />
@@ -568,7 +568,7 @@ onMounted(() => {
         current_stocks: props.selectedMedicine.current_stocks?.toString(),
         schedule_frequency: {
             recurring: props.selectedMedicine?.schedule_frequency,
-            recurring_until: props.selectedMedicine?.recurring_rules?.recurring_until,
+            recurring_until: props.selectedMedicine?.recurring_until,
             frequency: props.selectedMedicine?.recurring_rules?.frequency,
             every: props.selectedMedicine?.recurring_rules?.every,
             weekly_on: props.selectedMedicine?.recurring_rules?.weekly_on || [],

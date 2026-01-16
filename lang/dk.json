@@ -1455,6 +1455,7 @@
                 "packageLeafletLink": "Link til indlægsseddel",
                 "pnMedicine": "PN-medicin",
                 "scheduleFrequency": "Hvor tit skal borger have medicinen",
+                "scheduleUntil": "Indtil hvornår skal borger have medicinen",
                 "selfAdminister": "Selvadministrerende medicin",
                 "startDate": "Dato for ordinering",
                 "strength": "Styrke",

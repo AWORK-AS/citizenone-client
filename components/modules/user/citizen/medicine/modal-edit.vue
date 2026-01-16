@@ -57,6 +57,8 @@ const state = reactive({
         medication_storage: '',
         ingredients: '',
         description: '',
+        recurring_until: '',
+        recurring_rules: {} as any
     },
     isPageLoading: false,
 })
@@ -91,6 +93,8 @@ watch(() => props.isModalOpen, (isModalOpen) => {
             medication_storage: props.selectedMedicine?.medication_storage,
             ingredients: props.selectedMedicine?.ingredients,
             description: props.selectedMedicine?.description,
+            recurring_until: props.selectedMedicine?.recurring_until || '',
+            recurring_rules: props.selectedMedicine?.recurring_rules || {} as any
         }
     }
 })
@@ -107,7 +111,30 @@ async function updateMedicine(medicineDetails: any) {
         params.append('medicine_uuid', medicineDetails.medicine)
         params.append('dosage_uuid', medicineDetails.dosage)
         if (!medicineDetails.is_pn_medicine) {
-            params.append('schedule_frequency', medicineDetails.schedule_frequency)
+            params.append('schedule_frequency', medicineDetails.schedule_frequency.recurring)
+            params.append('recurring_until', medicineDetails.schedule_frequency.recurring_until)
+
+            if (medicineDetails.schedule_frequency.recurring === 'custom') {
+                params.append('frequency', medicineDetails.schedule_frequency.frequency)
+                params.append('every', medicineDetails.schedule_frequency.every)
+                if (medicineDetails.schedule_frequency.frequency === 'weekly') {
+                    params.append('weekly_on', JSON.stringify(medicineDetails.schedule_frequency.weekly_on))
+                } else if (medicineDetails.schedule_frequency.frequency === 'monthly') {
+                    params.append('monthly_on_the_enabled', medicineDetails.schedule_frequency.monthly_on_the_enabled)
+                    if (!medicineDetails.schedule_frequency.monthly_on_the_enabled) {
+                        params.append('monthly_each', JSON.stringify(medicineDetails.schedule_frequency.monthly_each))
+                    } else {
+                        params.append('monthly_on_the_sequence', medicineDetails.schedule_frequency.monthly_on_the_sequence)
+                        params.append('monthly_on_the_day', medicineDetails.schedule_frequency.monthly_on_the_day)
+                    }
+                } else if (medicineDetails.schedule_frequency.frequency === 'yearly') {
+                    params.append('yearly_in_months', JSON.stringify(medicineDetails.schedule_frequency.yearly_in_months))
+                    if (medicineDetails.schedule_frequency.yearly_on_the_enabled) {
+                        params.append('yearly_on_the_sequence', medicineDetails.schedule_frequency.yearly_on_the_sequence)
+                        params.append('yearly_on_the_day', medicineDetails.schedule_frequency.yearly_on_the_day)
+                    }
+                }
+            }
         }
         params.append('current_stocks', medicineDetails.current_stocks)
         params.append('strength', medicineDetails.strength)
