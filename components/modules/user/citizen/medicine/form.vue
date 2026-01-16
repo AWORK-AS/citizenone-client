@@ -49,7 +49,7 @@
                     <FormLabel for="recurring_until" :label="$t('citizens.medicineJournals.form.scheduleUntil')" />
                     <FormDateField id="recurring_until" name="recurring_until" :placeholder="`${$t('citizens.medicineJournals.form.scheduleUntil')}`"
                         v-model="state.formMedicine.schedule_frequency.recurring_until" />
-                    <FormError :error="v$?.formMedicine.schedule_frequency?.recurring_until?.$errors[0]?.$message.toString()" />
+                    <FormError :error="v$?.formMedicine?.recurring_until?.$errors[0]?.$message.toString()" />
                     <FormError :error="state?.error?.errors?.recurring_until?.[0]" />
                 </div>
                 <div class="space-y-3" v-if="state.formMedicine.schedule_frequency?.recurring === 'custom'">
@@ -630,6 +630,9 @@ const rules = computed(() => {
                     strength: {
                         required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
                     },
+                    recurring_until: {
+                        required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
+                    },
                     dosage: {
                         required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
                     },
@@ -680,6 +683,9 @@ const rules = computed(() => {
             return {
                 formMedicine: {
                     medicine: {
+                        required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
+                    },
+                    recurring_until: {
                         required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
                     },
                     strength: {
