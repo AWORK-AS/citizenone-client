@@ -48,6 +48,10 @@ class UserService extends BaseAPIService {
     async updateSelectedDepartment(params: object): Promise<any> {
         return await this.request(`/user/change-selected-department`, 'PUT', params)
     }
+
+    async uploadCompanyLogo(params: FormData): Promise<any> {
+        return await this.request(`user/company/settings/company/upload-logo`, 'POST', params)
+    }
 }
 
 export const userService = new UserService()

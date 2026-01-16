@@ -19,6 +19,31 @@
                     <Alert type="danger" :text="state?.error?.message"
                         v-if="state.error?.message && state.error.message.length > 0" />
                     <div class="grid grid-cols-1 gap-3">
+                        <!-- Company Logo for PDF Branding -->
+                        <div class="space-y-1">
+                            <FormLabel label="Company Logo" />
+                            <input type="file" ref="logoInput" @change="onLogoChange"
+                                accept="image/png,image/jpeg,image/svg+xml" class="hidden" />
+                            <div class="flex items-center gap-4">
+                                <div class="relative cursor-pointer" @click="triggerLogoInput">
+                                    <div v-if="!logoPreviewUrl" class="w-32 h-32 rounded-md border-2 border-dashed border-gray-300 bg-gray-50 flex items-center justify-center hover:border-primary hover:bg-gray-100 transition-colors">
+                                        <Icon name="ph:upload-simple" class="w-8 h-8 text-gray-400" />
+                                    </div>
+                                    <template v-else>
+                                        <img :src="logoPreviewUrl" alt="Company logo"
+                                            class="w-32 h-32 rounded-md object-contain border-2 border-gray-200 bg-white" />
+                                        <div class="rounded-md absolute inset-0 bg-black bg-opacity-50 text-white opacity-0 hover:opacity-100 transition-opacity flex items-center justify-center">
+                                            <span class="text-xs">{{ $t('changeImage') }}</span>
+                                        </div>
+                                    </template>
+                                </div>
+                                <button v-if="logoPreviewUrl" type="button" @click="removeLogo"
+                                    class="text-red-500 text-sm hover:text-red-700">
+                                    {{ $t('remove') }}
+                                </button>
+                            </div>
+                        </div>
+
                         <div class="space-y-1">
                             <FormLabel for="name" :label="$t('settings.company.form.companyName')" />
                             <FormTextField id="name" name="name" :placeholder="$t('settings.company.form.companyName')"
@@ -220,6 +245,10 @@ const userStore = useUserStore()
 const language = useI18n()
 const { successAlert } = useAlert()
 const { t } = useI18n()
+
+// Company logo for PDF branding
+const logoInput = ref<HTMLInputElement | null>(null)
+const logoPreviewUrl = ref('')
 const breadcrumbLinks = [
     {
         name: 'settings.tabs.company',
@@ -254,6 +283,7 @@ const state = reactive({
         is_sort_by_status: false,
         social_og_boligstyrelsen: false,
         quick_risk_assessment_enabled: false,
+        logo: null as File | null,
     },
     isPageLoading: false,
     options: {
@@ -311,6 +341,11 @@ watch(() => userStore.getUser, (newValue: any) => {
             is_sort_by_status: newValue?.company?.is_sort_by_status ? true : false,
             social_og_boligstyrelsen: newValue?.company?.social_og_boligstyrelsen ? true : false,
             quick_risk_assessment_enabled: newValue?.company?.quick_risk_assessment_enabled ? true : false,
+            logo: null,
+        }
+        // Load existing company logo if available
+        if (newValue?.company?.logo_url) {
+            logoPreviewUrl.value = newValue.company.logo_url
         }
         fetchMunicipalitiesPerRegion(newValue?.company?.company_address?.region?.uuid)
         newValue?.company?.citizen_displays?.forEach((item: any) => {
@@ -397,6 +432,43 @@ function validateCVR(event: Event) {
     const input = event.target as HTMLInputElement
     input.value = input.value.replace(/[^0-9]/g, '').slice(0, 8)
     state.formCompany.cvr = input.value
+}
+
+// Logo upload functions
+function triggerLogoInput() {
+    logoInput.value?.click()
+}
+
+async function onLogoChange(event: Event) {
+    const target = event.target as HTMLInputElement
+    const file = target.files?.[0]
+    if (file) {
+        state.formCompany.logo = file
+        // Show preview immediately
+        const reader = new FileReader()
+        reader.onload = (e) => {
+            logoPreviewUrl.value = e.target?.result as string
+        }
+        reader.readAsDataURL(file)
+
+        // Upload to server
+        try {
+            const formData = new FormData()
+            formData.append('logo', file)
+            const response = await userService.uploadCompanyLogo(formData)
+            if (response.data?.logo_url) {
+                logoPreviewUrl.value = response.data.logo_url
+            }
+            successAlert(`${t('alert.success')}!`, 'Logo uploaded successfully.')
+        } catch (error: any) {
+            state.error = error
+        }
+    }
+}
+
+function removeLogo() {
+    state.formCompany.logo = null
+    logoPreviewUrl.value = ''
 }
 
 async function submitForm() {
