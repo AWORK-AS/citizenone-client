@@ -187,11 +187,22 @@
                                                                 </button>
                                                             </Tooltip>
                                                         </div>
-                                                        <p class="text-xs mt-1"
-                                                            v-if="index === state.messages.length - 1 && message?.receipt?.created_at">
-                                                            {{ $t('messages.seen') }}
-                                                            {{ formatDateTimeToReadable(message?.receipt?.created_at) }}
-                                                        </p>
+                                                       <!-- seen indicator -->
+                                                            <div v-if="message?.receipts?.length > 0" class="flex items-center mt-1 justify-end">
+                                                                <span class="text-xs text-gray-600 mr-1">{{ $t('messages.seen') }}</span>
+                                                                <div class="flex -space-x-2">
+                                                                    <img
+                                                                        v-for="(receipt, rIndex) in message.receipts.slice(0, 5)"
+                                                                        :key="rIndex"
+                                                                        :src="receipt?.user?.profile_image ?? '/img/avatars/user.svg'"
+                                                                        :title="receipt?.user?.firstname + ' ' + (receipt?.user?.lastname ?? '')"
+                                                                        class="w-4 h-4 rounded-full border border-white object-cover"
+                                                                    />
+                                                                </div>
+                                                                <span v-if="message.receipts.length > 5" class="text-xs text-gray-600 ml-1">
+                                                                    +{{ message.receipts.length - 5 }}
+                                                                </span>
+                                                            </div>
                                                     </div>
                                                 </Tooltip>
                                             </div>
