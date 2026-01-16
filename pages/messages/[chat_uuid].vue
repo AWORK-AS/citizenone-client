@@ -189,7 +189,7 @@
                                                         </div>
                                                     </div>
                                                 </Tooltip>
-                                                <!-- seen indicator (outside bubble, below) -->
+                                                <!-- seen indicator -->
                                                 <ModulesUserMessagesTooltipSeenBy
                                                     v-if="message?.receipts?.length > 0"
                                                     :receipts="message.receipts">
