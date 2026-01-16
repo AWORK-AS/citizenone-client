@@ -69,6 +69,10 @@
                         <Icon name="ph:plus" class="h-4 w-4" aria-hidden="true" />
                         {{ $t('dutySchedules.draftTemplates.newDraft') }}
                     </FormButton>
+                    <FormButton v-if="state.selectedTemplates?.length" @click="state.modal.isApplyTemplateModalOpen = true" buttonStyle="action" class="rounded-lg">
+                        <Icon name="ph:check" class="h-4 w-4" aria-hidden="true" />
+                        {{ $t('dutySchedules.draftTemplates.table.actions.applySelected') }}
+                    </FormButton>
                 </div>
             </div>
             
@@ -81,9 +85,25 @@
                         :columnHeaders="state.columnHeaders"
                         :isLoading="state.isTableLoading"
                         :sortData="draftTemplateStore.getSortData" @sort="sort"
+                        :selection="true"
+                        rowKey="uuid"
+                        @selection-change="handleRowSelect"
                     >
-                        <template #body v-if="!(state.isTableLoading || (state.draftTemplates?.data?.length === 0))">
+                        <template #body="{ selectedRows, handleRowSelect }" v-if="!(state.isTableLoading || (state.draftTemplates?.data?.length === 0))">
                             <tr v-for="draftTemplate in state.draftTemplates.data" :key="draftTemplate.uuid" class="hover:bg-gray-50">
+                                <td>
+                                    <label class="inline-flex items-center cursor-pointer relative">
+                                        <input 
+                                            type="checkbox" 
+                                            :checked="selectedRows.some(r => r.uuid === draftTemplate.uuid)"
+                                            @change="handleRowSelect(draftTemplate)"
+                                            class="peer w-5 h-5 appearance-none border border-primary rounded-sm checked:bg-secondary checked:border-secondary focus: ring-0 cursor-pointer"
+                                        />
+                                        <span class="pointer-events-none absolute top-0 left-0 w-5 h-5 flex items-center justify-center opacity-0 peer-checked:opacity-100 transition-opacity">
+                                            <Icon name="ph:check-bold" class="h-4 w-4 text-white" />
+                                        </span>
+                                    </label>
+                                </td>
                                 <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
                                     {{ draftTemplate.name }}
                                 </td>
@@ -130,9 +150,12 @@
                                             </FormButton>
                                         </Tooltip>
 
-                                        <FormButton type="button" buttonStyle="action" class="rounded-md" @click="applyDraftTemplate(draftTemplate)">
-                                            {{ $t('dutySchedules.draftTemplates.table.actions.apply') }}
-                                        </FormButton>
+                                        <Tooltip :text="$t('dutySchedules.draftTemplates.table.actions.apply')">
+                                            <FormButton type="button" buttonStyle="action" class="rounded-md"
+                                                @click="applyDraftTemplate(draftTemplate)">
+                                                <Icon name="ph:check" class="size-4" />
+                                            </FormButton>
+                                        </Tooltip>
                                     </div>
                                 </td>
                             </tr>
@@ -160,6 +183,7 @@
         <ModulesUserDutyScheduleDraftTemplatesModalApplyTemplate
             :isModalOpen="state.modal.isApplyTemplateModalOpen"
             :selectedDraftTemplate="state.selectedDraftTemplate"
+            :selectedTemplates="state.selectedTemplates"
             @refresh-draft-templates="fetchDraftTemplates"
             @close="state.modal.isApplyTemplateModalOpen = false"
         />
@@ -209,6 +233,7 @@ const state = reactive({
         isRemoveTemplateOpen: false,
     },
     selectedDraftTemplate: {} as any,
+    selectedTemplates: [] as string[],
 });
 
 onMounted(() => {
@@ -278,13 +303,18 @@ function changePageLength(event: any) {
     fetchDraftTemplates()
 }
 
+function handleRowSelect(selectedRows: any) {
+    state.selectedTemplates = selectedRows
+}
+
 function editDraftTemplate(draftTemplate: any) {
     state.selectedDraftTemplate = draftTemplate
     state.modal.isEditTemplateModalOpen = true
 }
 
 function applyDraftTemplate(draftTemplate: any) {
-    state.selectedDraftTemplate = draftTemplate
+    // state.selectedDraftTemplate = draftTemplate
+    state.selectedTemplates = [draftTemplate]
     state.modal.isApplyTemplateModalOpen = true
 }
 
