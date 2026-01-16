@@ -402,23 +402,21 @@ async function navigateToExternalLink(link: any) {
 }
 
 interface FrequencyRule {
-    frequency: 'daily' | 'weekly' | 'monthly' | 'yearly';
-    every: number;
+    frequency:  'daily' | 'weekly' | 'monthly' | 'yearly';
+    every:  number;
     weekly_on?:  string[];
     monthly_on_day?: number;
-    monthly_on_the?:  {
-        sequence: string;
-        day: string;
-    };
-    yearly_on?:  {
+    monthly_on_the_enabled?: boolean;
+    monthly_on_the_sequence?: string;
+    monthly_on_the_day?: string;
+    yearly_on?: {
         month: string;
         day: number;
     };
-    yearly_on_the?: {
-        sequence: string;
-        day: string;
-        month: string;
-    };
+    yearly_on_the_enabled?: boolean;
+    yearly_on_the_sequence?: string;
+    yearly_on_the_day?: string;
+    yearly_on_the_month?: string;
 }
 
 function formatCustomFrequency(rule:  FrequencyRule): string {
@@ -452,9 +450,9 @@ function formatCustomFrequency(rule:  FrequencyRule): string {
             'february': t('recurring.frequency.yearly.february'),
             'march': t('recurring.frequency.yearly.march'),
             'april': t('recurring.frequency.yearly.april'),
-            'may':  t('recurring.frequency.yearly.may'),
+            'may': t('recurring.frequency.yearly.may'),
             'june': t('recurring.frequency.yearly.june'),
-            'july': t('recurring.frequency.yearly.july'),
+            'july':  t('recurring.frequency.yearly.july'),
             'august': t('recurring.frequency.yearly.august'),
             'september': t('recurring.frequency.yearly.september'),
             'october': t('recurring.frequency.yearly.october'),
@@ -466,7 +464,7 @@ function formatCustomFrequency(rule:  FrequencyRule): string {
     
     // Helper function to format sequence
     const formatSequence = (sequence: string): string => {
-        const sequenceMap: { [key: string]: string } = {
+        const sequenceMap:  { [key: string]: string } = {
             'first': t('recurring.frequency.onThe.first'),
             'second': t('recurring.frequency.onThe.second'),
             'third': t('recurring.frequency.onThe.third'),
@@ -489,17 +487,17 @@ function formatCustomFrequency(rule:  FrequencyRule): string {
         result = `${everyText} ${every} ${unitText}`;
     } else if (frequency === 'weekly') {
         const unitText = every === 1 
-            ? t('recurring.frequency.weekly.week').toLowerCase()
+            ?  t('recurring.frequency.weekly.week').toLowerCase()
             : t('recurring.frequency.weekly.weeks').toLowerCase();
         result = `${everyText} ${every} ${unitText}`;
     } else if (frequency === 'monthly') {
         const unitText = every === 1 
-            ? t('recurring.frequency.monthly.month').toLowerCase()
+            ?  t('recurring.frequency.monthly.month').toLowerCase()
             : t('recurring.frequency.monthly.months').toLowerCase();
         result = `${everyText} ${every} ${unitText}`;
     } else if (frequency === 'yearly') {
         const unitText = every === 1 
-            ? t('recurring.frequency.yearly.year').toLowerCase()
+            ?  t('recurring.frequency.yearly.year').toLowerCase()
             : t('recurring.frequency.yearly.years').toLowerCase();
         result = `${everyText} ${every} ${unitText}`;
     }
@@ -512,25 +510,23 @@ function formatCustomFrequency(rule:  FrequencyRule): string {
     
     // Handle monthly frequency
     if (frequency === 'monthly') {
-        if (rule.monthly_on_day) {
+        if (rule.monthly_on_the_enabled && rule.monthly_on_the_sequence && rule.monthly_on_the_day) {
+            const onTheText = t('recurring.frequency.onThe.onThe').toLowerCase();
+            result += ` ${onTheText} ${formatSequence(rule.monthly_on_the_sequence)} ${formatDay(rule.monthly_on_the_day)}`;
+        } else if (rule.monthly_on_day) {
             const dayText = t('recurring.frequency.monthly.day').toLowerCase();
             result += ` on ${dayText} ${rule.monthly_on_day}`;
-        } else if (rule.monthly_on_the) {
-            const { sequence, day } = rule.monthly_on_the;
-            const onTheText = t('recurring.frequency.onThe.onThe').toLowerCase();
-            result += ` ${onTheText} ${formatSequence(sequence)} ${formatDay(day)}`;
         }
     }
     
     // Handle yearly frequency
     if (frequency === 'yearly') {
-        if (rule.yearly_on) {
+        if (rule.yearly_on_the_enabled && rule.yearly_on_the_sequence && rule.yearly_on_the_day && rule.yearly_on_the_month) {
+            const onTheText = t('recurring.frequency.onThe.onThe').toLowerCase();
+            result += ` ${onTheText} ${formatSequence(rule.yearly_on_the_sequence)} ${formatDay(rule.yearly_on_the_day)} of ${formatMonth(rule.yearly_on_the_month)}`;
+        } else if (rule.yearly_on) {
             const { month, day } = rule.yearly_on;
             result += ` on ${formatMonth(month)} ${day}`;
-        } else if (rule.yearly_on_the) {
-            const { sequence, day, month } = rule.yearly_on_the;
-            const onTheText = t('recurring.frequency.onThe.onThe').toLowerCase();
-            result += ` ${onTheText} ${formatSequence(sequence)} ${formatDay(day)} of ${formatMonth(month)}`;
         }
     }
     
