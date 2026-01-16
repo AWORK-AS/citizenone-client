@@ -38,16 +38,6 @@
                     <FormError :error="v$?.formMedicine?.medicine?.$errors[0]?.$message.toString()" />
                     <FormError :error="props?.error?.errors?.medicine_uuid?.[0]" />
                 </div>
-                <!-- <div class="space-y-1" v-if="!state.formMedicine.is_pn_medicine">
-                    <FormLabel for="schedule_frequency"
-                        :label="`${$t('citizens.medicineJournals.form.scheduleFrequency')}?`" />
-                    <FormSelect id="schedule_frequency" name="schedule_frequency"
-                        :options="state.options.schedule_frequencies" v-model="state.formMedicine.schedule_frequency" />
-                    <FormError :error="v$?.formMedicine?.schedule_frequency?.$errors[0]?.$message.toString()" />
-                    <FormError :error="props?.error?.errors?.schedule_frequency?.[0]" />
-                </div> -->
-
-                <!-- Frequency Recurring Fields -->
                 <div class="space-y-1" v-if="!state.formMedicine.is_pn_medicine">
                     <FormLabel for="recurring" :label="$t('citizens.medicineJournals.form.scheduleFrequency')" />
                     <FormSelect id="recurring" :options="state.options.schedule_frequencies?.recurringSchedules"
@@ -577,21 +567,19 @@ onMounted(() => {
         description: props.selectedMedicine.description,
         current_stocks: props.selectedMedicine.current_stocks?.toString(),
         schedule_frequency: {
-            is_recurring: props.selectedMedicine?.schedule_frequency?.is_recurring,
-            recurring: props.selectedMedicine?.schedule_frequency?.recurring,
-            recurring_until: props.selectedMedicine?.schedule_frequency?.recurring_until,
-            frequency: props.selectedMedicine?.schedule_frequency?.frequency,
-            every: props.selectedMedicine?.schedule_frequency?.every,
-            weekly_on: [],
-            monthly_on_the_enabled: false,
-            monthly_each: [],
-            monthly_on_the_sequence: '',
-            monthly_on_the_day: '',
-            yearly_in_months: [],
-            yearly_on_the_enabled: false,
-            yearly_on_the_sequence: '',
-            yearly_on_the_day: '',
-            is_apply_to_all: false,
+            recurring: props.selectedMedicine?.schedule_frequency,
+            recurring_until: props.selectedMedicine?.recurring_rules?.recurring_until,
+            frequency: props.selectedMedicine?.recurring_rules?.frequency,
+            every: props.selectedMedicine?.recurring_rules?.every,
+            weekly_on: props.selectedMedicine?.recurring_rules?.weekly_on || [],
+            monthly_on_the_enabled: props.selectedMedicine?.recurring_rules?.monthly_on_the_enabled || false,
+            monthly_each: props.selectedMedicine?.recurring_rules?.monthly_each || [],
+            monthly_on_the_sequence: props.selectedMedicine?.recurring_rules?.monthly_on_the_sequence || '',
+            monthly_on_the_day: props.selectedMedicine?.recurring_rules?.monthly_on_the_day || '',
+            yearly_in_months: props.selectedMedicine?.recurring_rules?.yearly_in_months || [],
+            yearly_on_the_enabled: props.selectedMedicine?.recurring_rules?.yearly_on_the_enabled || false,
+            yearly_on_the_sequence: props.selectedMedicine?.recurring_rules?.yearly_on_the_sequence || '',
+            yearly_on_the_day: props.selectedMedicine?.recurring_rules?.yearly_on_the_day || '',
         },
     }
     fetchDosageForms()
