@@ -2448,6 +2448,19 @@
                 }
             }
         },
+        "published": {
+            "publishedVersions": "Published versions",
+            "seePrevious": "See previous published versions",
+            "viewPublishedVersion": "View published version",
+            "version": "Version",
+            "table": {
+                "versionNumber": "Version number",
+                "dateCreated": "Date created",
+                "actions": {
+                    "view": "View"
+                }
+            }
+        },
         "draftTemplates": {
             "draftTemplates": "Templates",
             "newDraft": "New Template",
