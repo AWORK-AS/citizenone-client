@@ -1455,6 +1455,7 @@
                 "packageLeafletLink": "Package leaflet link",
                 "pnMedicine": "PN-medicine",
                 "scheduleFrequency": "How often should citizens take the medicine",
+                "scheduleUntil": "Until when should citizens take the medicine",
                 "selfAdminister": "Self-administer",
                 "startDate": "Date of prescription",
                 "strength": "Strength",
@@ -2448,6 +2449,19 @@
                 }
             }
         },
+        "published": {
+            "publishedVersions": "Published versions",
+            "seePrevious": "See previous published versions",
+            "viewPublishedVersion": "View published version",
+            "version": "Version",
+            "table": {
+                "versionNumber": "Version number",
+                "dateCreated": "Date created",
+                "actions": {
+                    "view": "View"
+                }
+            }
+        },
         "draftTemplates": {
             "draftTemplates": "Templates",
             "newDraft": "New Template",
@@ -2458,7 +2472,8 @@
                     "delete": "Delete",
                     "edit": "Edit",
                     "view": "View",
-                    "apply": "Apply"
+                    "apply": "Apply",
+                    "applySelected": "Apply selected"
                 },
                 "alert": {
                     "draftTemplateSuccessfullyDeleted": "Template successfully deleted",
