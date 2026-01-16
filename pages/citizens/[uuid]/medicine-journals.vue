@@ -207,6 +207,7 @@
                                                         }
                                                     })()">
                                                         <span :class="[
+                                                            !dosage.status && 'bg-secondary',
                                                             dosage?.status === null && 'bg-secondary',
                                                             dosage?.status === 'delivered' && 'bg-primary',
                                                             dosage?.status === 'deviated' && 'bg-red-600',
