@@ -5,7 +5,7 @@
     </Head>
 
     <LoadingSpinner :isActive="state.isPageLoading">
-        <div class="flex min-h-full flex-1 flex-col justify-center py-12 sm:px-6 lg:px-8">
+        <div class="bg-[#f9fafaff] flex h-screen min-h-full flex-1 flex-col justify-center py-12 sm:px-6 lg:px-8">
             <div class="flex items-center justify-center">
                 <Logo @click="navigateTo('/')" />
             </div>
@@ -19,12 +19,14 @@
                                     src="https://citizenone.dk/wp-content/uploads/2025/03/DSC_6902-1024x684-1.jpg"
                                     :alt="$t('imageFailedToLoad')" />
 
+                                <div class="absolute inset-0 bg-black/15"></div>
+
                                 <div class="absolute -top-28 -right-20">
                                     <img src="/img/icons/asset-01.svg" alt="Image failed to load" class="z-10 w-60"
                                         id="animatedAsset01">
                                 </div>
 
-                                <div class="absolute -bottom-28 -left-20 opacity-50">
+                                <div class="absolute -bottom-28 -left-20 opacity-80">
                                     <img src="/img/icons/asset-02.svg" alt="Image failed to load" class="z-10 w-60"
                                         id="animatedAsset02">
                                 </div>

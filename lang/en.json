@@ -2120,6 +2120,7 @@
     },
     "children": {
         "child": "Child",
+        "childOf": "Child of",
         "children": "Children",
         "editChild": "Edit child",
         "form": {
@@ -2444,6 +2445,19 @@
                     "doNotShowAgain": "Don't show this again",
                     "donNotShowAgainInfo": "Hide the confirmation dialog until the next session.",
                     "confirm": "Confirm"
+                }
+            }
+        },
+        "published": {
+            "publishedVersions": "Published versions",
+            "seePrevious": "See previous published versions",
+            "viewPublishedVersion": "View published version",
+            "version": "Version",
+            "table": {
+                "versionNumber": "Version number",
+                "dateCreated": "Date created",
+                "actions": {
+                    "view": "View"
                 }
             }
         },
@@ -4695,25 +4709,41 @@
     },
     "register": {
         "form": {
-            "createFreeAccount": "Create free account",
+            "agreetoTAC": "You must agree to the terms and conditions",
             "alreadyHaveAnAccount": "Already have an account",
+            "bySigningUpYouAgreeTo": "By signing up you agree to CitizenOne's",
             "companyName": "Company name",
-            "cvr": "CVR",
-            "industry": "Industry",
-            "firstname": "First name",
-            "lastname": "Last name",
-            "emailAddress": "Email address",
-            "password": "Password",
             "confirmPassword": "Confirm Password",
-            "phone": "Phone",
+            "continue": "Continue",
+            "createFreeAccount": "Create free account",
+            "createYourAccount": "Create your account",
+            "cvr": "CVR",
+            "emailAddress": "Email address",
+            "firstname": "First name",
             "iHaveReadAndAcceptThe": "I have read and accept the",
-            "termsAndConditions": "Terms and Conditions",
-            "typeOfFacility": "Type of facility",
+            "industry": "Industry",
+            "justAFewClicksAndYoureIn": "Just a few clicks and you're in",
+            "lastname": "Last name",
+            "letsTalkAboutYou": "Let's talk about you",
             "loginHere": "Login here",
-            "agreetoTAC": "You must agree to the terms and conditions"
+            "password": "Password",
+            "personalizeYourCitizenOneExperience": "Personalize your CitizenOne experience",
+            "phone": "Phone",
+            "signin": "Sign in",
+            "termsAndConditions": "Terms and Conditions",
+            "typeOfFacility": "Type of facility"
         },
         "noCommitment": "There's no commitment, and you don't need to link a payment card",
+        "of": "Of",
         "register": "Register",
+        "review": {
+            "review1": {
+                "content": "It has been great moving over to CitizenOne, as it just works. It's easy to access, and you don't have to sit and puzzle over what to do. It has truly streamlined our day-to-day work",
+                "directorAndProfessionalLead": "Director and Professional Lead",
+                "tranerne": "Tranerne Sørupvej - part of Trane & Co"
+            }
+        },
+        "step": "Step",
         "youCanExplore": "You can explore CitizenOne's features for free after signing up"
     },
     "relationships": {

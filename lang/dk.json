@@ -2120,6 +2120,7 @@
     },
     "children": {
         "child": "Barn",
+        "childOf": "Barn af",
         "children": "Børn",
         "editChild": "Rediger barn",
         "form": {
@@ -2444,6 +2445,19 @@
                     "doNotShowAgain": "Vis ikke dette igen",
                     "donNotShowAgainInfo": "Skjul bekræftelsesdialogen indtil næste session.",
                     "confirm": "Bekræft"
+                }
+            }
+        },
+        "published": {
+            "publishedVersions": "Publicerede versioner",
+            "seePrevious": "Se tidligere publicerede versioner",
+            "viewPublishedVersion": "Se publiceret version",
+            "version": "Version",
+            "table": {
+                "versionNumber": "Versionsnummer",
+                "dateCreated": "Dato oprettet",
+                "actions": {
+                    "view": "Se"
                 }
             }
         },
@@ -4695,26 +4709,42 @@
     },
     "register": {
         "form": {
-            "createFreeAccount": "Opret gratis konto",
+            "agreetoTAC": "Du skal acceptere vilkår og betingelser",
             "alreadyHaveAnAccount": "Har du allerede en konto",
-            "companyName": "Firmanavn",
-            "cvr": "CVR",
-            "industry": "Industri",
-            "firstname": "Fornavn",
-            "lastname": "Efternavn",
-            "emailAddress": "E-mail adresse",
-            "password": "Adgangskode",
+            "bySigningUpYouAgreeTo": "Ved at oprette dig accepterer du CitizenOne's",
+            "companyName": "Virksomhedsnavn",
             "confirmPassword": "Bekræft adgangskode",
-            "phone": "Telefon",
+            "continue": "Fortsæt",
+            "createFreeAccount": "Opret gratis konto",
+            "createYourAccount": "Opret din konto",
+            "cvr": "CVR",
+            "emailAddress": "E-mailadresse",
+            "firstname": "Fornavn",
             "iHaveReadAndAcceptThe": "Jeg har læst og accepterer",
-            "termsAndConditions": "Vilkår og betingelser",
-            "typeOfFacility": "Type af tilbud",
+            "industry": "Branche",
+            "justAFewClicksAndYoureIn": "Få klik - og du er i gang",
+            "lastname": "Efternavn",
+            "letsTalkAboutYou": "Lad os tale om dig",
             "loginHere": "Log ind her",
-            "agreetoTAC": "Du skal acceptere vilkårene og betingelserne"
+            "password": "Adgangskode",
+            "personalizeYourCitizenOneExperience": "Tilpas din CitizenOne-oplevelse",
+            "phone": "Telefon",
+            "signin": "Log ind",
+            "termsAndConditions": "Vilkår og betingelser",
+            "typeOfFacility": "Type af tilbud"
         },
-        "noCommitment": "Der er ingen binding, og du behøver ikke at tilknytte et betalingskort",
-        "register": "Registrer",
-        "youCanExplore": "Du kan udforske CitizenOnes funktioner gratis efter tilmelding"
+        "noCommitment": "Der er ingen binding, og du behøver ikke tilknytte et betalingskort",
+        "of": "Af",
+        "register": "Opret konto",
+        "review": {
+            "review1": {
+                "content": "Det har været rigtig godt at skifte til CitizenOne, da det bare fungerer. Det er nemt at tilgå, og man skal ikke sidde og tænke over, hvad man skal gøre. Det har virkelig effektiviseret vores daglige arbejde",
+                "directorAndProfessionalLead": "Direktør og faglig leder",
+                "tranerne": "Tranerne Sørupvej - en del af Trane & Co"
+            }
+        },
+        "step": "Trin",
+        "youCanExplore": "Du kan gratis udforske CitizenOnes funktioner efter oprettelse"
     },
     "relationships": {
         "addNewRelationship": "Tilføj nyt forhold",
