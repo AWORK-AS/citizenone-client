@@ -2472,7 +2472,8 @@
                     "delete": "Delete",
                     "edit": "Edit",
                     "view": "View",
-                    "apply": "Apply"
+                    "apply": "Apply",
+                    "applySelected": "Apply selected"
                 },
                 "alert": {
                     "draftTemplateSuccessfullyDeleted": "Template successfully deleted",
