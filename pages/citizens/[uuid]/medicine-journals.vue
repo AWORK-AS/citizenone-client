@@ -183,6 +183,11 @@
                                                             $t('citizens.medicineJournals.scheduleFrequencies.annually')
                                                         }}
                                                     </span>
+                                                    <span v-if="medicine?.schedule_frequency === 'custom'">
+                                                        {{
+                                                            formatCustomFrequency(medicine?.recurring_rules)
+                                                        }}
+                                                    </span>
                                                 </div>
                                             </div>
                                             <div class="mt-2 text-xxs flex flex-wrap gap-x-1 gap-y-3 cursor-default"
@@ -393,6 +398,142 @@ async function navigateToExternalLink(link: any) {
             target: '_blank',
         }
     })
+}
+
+interface FrequencyRule {
+    frequency: 'daily' | 'weekly' | 'monthly' | 'yearly';
+    every: number;
+    weekly_on?:  string[];
+    monthly_on_day?: number;
+    monthly_on_the?:  {
+        sequence: string;
+        day: string;
+    };
+    yearly_on?:  {
+        month: string;
+        day: number;
+    };
+    yearly_on_the?: {
+        sequence: string;
+        day: string;
+        month: string;
+    };
+}
+
+function formatCustomFrequency(rule:  FrequencyRule): string {
+    const { frequency, every } = rule;
+    
+    // Helper function to capitalize first letter
+    const capitalize = (str: string): string => {
+        return str.charAt(0).toUpperCase() + str.slice(1);
+    };
+    
+    // Helper function to format day names
+    const formatDay = (day: string): string => {
+        const dayMap: { [key: string]:  string } = {
+            'monday': t('recurring.days.monday'),
+            'tuesday': t('recurring.days.tuesday'),
+            'wednesday': t('recurring.days.wednesday'),
+            'thursday': t('recurring.days.thursday'),
+            'friday': t('recurring.days.friday'),
+            'saturday':  t('recurring.days.saturday'),
+            'sunday': t('recurring.days.sunday'),
+            'weekday': t('recurring.days.weekday'),
+            'weekend_day': t('recurring.days.weekendDay'),
+        };
+        return dayMap[day] || capitalize(day);
+    };
+    
+    // Helper function to format month names
+    const formatMonth = (month: string): string => {
+        const monthMap: { [key: string]: string } = {
+            'january': t('recurring.frequency.yearly.january'),
+            'february': t('recurring.frequency.yearly.february'),
+            'march': t('recurring.frequency.yearly.march'),
+            'april': t('recurring.frequency.yearly.april'),
+            'may':  t('recurring.frequency.yearly.may'),
+            'june': t('recurring.frequency.yearly.june'),
+            'july': t('recurring.frequency.yearly.july'),
+            'august': t('recurring.frequency.yearly.august'),
+            'september': t('recurring.frequency.yearly.september'),
+            'october': t('recurring.frequency.yearly.october'),
+            'november': t('recurring.frequency.yearly.november'),
+            'december': t('recurring.frequency.yearly.december'),
+        };
+        return monthMap[month] || capitalize(month);
+    };
+    
+    // Helper function to format sequence
+    const formatSequence = (sequence: string): string => {
+        const sequenceMap: { [key: string]: string } = {
+            'first': t('recurring.frequency.onThe.first'),
+            'second': t('recurring.frequency.onThe.second'),
+            'third': t('recurring.frequency.onThe.third'),
+            'fourth': t('recurring.frequency.onThe.fourth'),
+            'fifth': t('recurring.frequency.onThe.fifth'),
+            'next_to_last': t('recurring.frequency.onThe.nextToLast'),
+            'last': t('recurring.frequency.onThe.last'),
+        };
+        return sequenceMap[sequence] || capitalize(sequence.replace('_', ' '));
+    };
+    
+    // Build the frequency string using translations
+    let result = '';
+    const everyText = t('recurring.every');
+    
+    if (frequency === 'daily') {
+        const unitText = every === 1 
+            ? t('recurring.frequency.daily.day').toLowerCase()
+            : t('recurring.frequency.daily.days').toLowerCase();
+        result = `${everyText} ${every} ${unitText}`;
+    } else if (frequency === 'weekly') {
+        const unitText = every === 1 
+            ? t('recurring.frequency.weekly.week').toLowerCase()
+            : t('recurring.frequency.weekly.weeks').toLowerCase();
+        result = `${everyText} ${every} ${unitText}`;
+    } else if (frequency === 'monthly') {
+        const unitText = every === 1 
+            ? t('recurring.frequency.monthly.month').toLowerCase()
+            : t('recurring.frequency.monthly.months').toLowerCase();
+        result = `${everyText} ${every} ${unitText}`;
+    } else if (frequency === 'yearly') {
+        const unitText = every === 1 
+            ? t('recurring.frequency.yearly.year').toLowerCase()
+            : t('recurring.frequency.yearly.years').toLowerCase();
+        result = `${everyText} ${every} ${unitText}`;
+    }
+    
+    // Handle weekly frequency
+    if (frequency === 'weekly' && rule.weekly_on && rule.weekly_on.length > 0) {
+        const days = rule.weekly_on.map(formatDay).join(', ');
+        result += ` on ${days}`;
+    }
+    
+    // Handle monthly frequency
+    if (frequency === 'monthly') {
+        if (rule.monthly_on_day) {
+            const dayText = t('recurring.frequency.monthly.day').toLowerCase();
+            result += ` on ${dayText} ${rule.monthly_on_day}`;
+        } else if (rule.monthly_on_the) {
+            const { sequence, day } = rule.monthly_on_the;
+            const onTheText = t('recurring.frequency.onThe.onThe').toLowerCase();
+            result += ` ${onTheText} ${formatSequence(sequence)} ${formatDay(day)}`;
+        }
+    }
+    
+    // Handle yearly frequency
+    if (frequency === 'yearly') {
+        if (rule.yearly_on) {
+            const { month, day } = rule.yearly_on;
+            result += ` on ${formatMonth(month)} ${day}`;
+        } else if (rule.yearly_on_the) {
+            const { sequence, day, month } = rule.yearly_on_the;
+            const onTheText = t('recurring.frequency.onThe.onThe').toLowerCase();
+            result += ` ${onTheText} ${formatSequence(sequence)} ${formatDay(day)} of ${formatMonth(month)}`;
+        }
+    }
+    
+    return result;
 }
 
 async function fetchCitizenMedicines() {
