@@ -112,7 +112,8 @@ const handleSelectAll = (event: Event) => {
     } else {
         selectedRows.value = []
     }
-    emit('selectionChange', selectedRows.value.map(r => r[props.rowKey]))
+    // emit('selectionChange', selectedRows.value.map(r => r[props.rowKey]))
+    emit('selectionChange', selectedRows.value)
 }
 
 const handleRowSelect = (row: any) => {
@@ -124,6 +125,7 @@ const handleRowSelect = (row: any) => {
     } else {
         selectedRows.value.push(row)
     }
-    emit('selectionChange', selectedRows.value.map(r => r[rowKey]))
+    // emit('selectionChange', selectedRows.value.map(r => r[rowKey]))
+    emit('selectionChange', selectedRows.value)
 }
 </script>

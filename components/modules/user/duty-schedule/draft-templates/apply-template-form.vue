@@ -22,11 +22,14 @@
                                             type="checkbox" 
                                             @change="toggleAllWeeks"
                                             :checked="allWeeksSelected"
-                                            class="peer w-5 h-5 appearance-none border bg-white border-primary rounded-sm mr-2 checked:bg-secondary checked:border-secondary focus:ring-0 cursor-pointer"
+                                            class="peer w-5 h-5 appearance-none border bg-white border-primary rounded-sm mr-2 checked: bg-secondary checked:border-secondary focus:ring-0 cursor-pointer"
                                         />
                                         <span class="pointer-events-none absolute w-5 h-5 flex items-center justify-center">
                                             <Icon name="ph:check-bold" class="h-4 w-4 text-white" />
                                         </span>
+                                    </th>
+                                    <th scope="col" class="px-4 py-3 text-left font-medium text-white">
+                                        {{ $t('dutySchedules.draftTemplates.draftTemplates') }}
                                     </th>
                                     <th scope="col" class="px-4 py-3 text-left font-medium text-white">
                                         {{ $t('dutySchedules.draftTemplates.form.week') }}
@@ -50,7 +53,23 @@
                                         </label>
                                     </td>
                                     <td class="px-4 py-3 whitespace-nowrap text-sm text-gray-900">
-                                        {{ week.label }}
+                                        <div class="flex items-center justify-between">
+                                            <div v-if="getTemplatesForWeek(week.value).length > 0" class="flex gap-1 flex-wrap">
+                                                <span 
+                                                    v-for="template in getTemplatesForWeek(week.value)" 
+                                                    :key="template.id"
+                                                    class="px-2 py-0.5 text-xs rounded-full bg-tertiary text-white"
+                                                    :title="template.name"
+                                                >
+                                                    {{ template.name }}
+                                                </span>
+                                            </div>
+                                        </div>
+                                    </td>
+                                    <td class="px-4 py-3 whitespace-nowrap text-sm text-gray-900">
+                                        <div class="flex items-center justify-between">
+                                            <span>{{ week.label }}</span>
+                                        </div>
                                     </td>
                                 </tr>
                             </tbody>
@@ -67,8 +86,7 @@
                         {{ $t('cancel') }}
                     </FormButton>
                     <FormButton type="submit" buttonStyle="primary" class="rounded-md w-full">
-                        {{ props.formType === 'create' ? $t('save') :
-                            $t('update') }}
+                        {{ props.formType === 'create' ?  $t('save') : $t('update') }}
                     </FormButton>
                 </div>
             </div>
@@ -95,13 +113,31 @@ const props = defineProps({
         type: Object,
         required: true,
     },
+    selectedTemplates: {
+        type: Array,
+        required: false,
+    },
 })
 const emit = defineEmits(['closeModal', 'submitForm'])
 const { t } = useI18n()
 
 interface Option {
-    value: string
+    value:  string
     label: string
+}
+
+interface Template {
+    id: number
+    uuid: string
+    name: string
+    is_recurring: boolean
+    recurring_until: string | null
+    week_rotations:  number
+    departments?:  any[]
+}
+
+interface WeekTemplateMap {
+    [weekNumber: string]: Template[]
 }
 
 const weeks = Array.from({ length: 52 }, (_, i) => {
@@ -121,7 +157,8 @@ const state = reactive({
     formTemplate: {
         weeks: [] as string[],
         years:  [] as string[],
-    },    
+    },
+    weekTemplateMap: {} as WeekTemplateMap,
 })
 
 const allWeeksSelected = computed(() => {
@@ -130,14 +167,88 @@ const allWeeksSelected = computed(() => {
 
 function toggleAllWeeks(event: Event) {
     const checked = (event.target as HTMLInputElement).checked
+    
     if (checked) {
-        state.formTemplate.weeks = weeks.map(week => week.value)
+        // Get templates - prioritize selectedTemplates array if available
+        const templates = (props.selectedTemplates && props.selectedTemplates.length > 0)
+            ? props.selectedTemplates.map((t: any) => {
+                // Handle if template is wrapped in _custom. value (from your sample data)
+                return t._custom?.value || t
+              })
+            : [props.selectedDraftTemplate]
+        
+        // Select all weeks
+        state.formTemplate.weeks = weeks.map(week => week. value)
+        
+        // Clear weekTemplateMap
+        state.weekTemplateMap = {}
+        
+        const currentYear = new Date().getFullYear()
+        const selectedYear = state. formTemplate.years[0] 
+            ? parseInt(state.formTemplate.years[0]) 
+            : currentYear
+        
+        // For each template, calculate coverage starting from week 1
+        templates. forEach((template: any) => {
+            const weekRotations = template?. week_rotations || 1
+            const recurringUntil = template?.recurring_until
+            const startWeek = 1 // Starting from week 1
+            
+            let coveredWeeks:  number[] = []
+            
+            if (recurringUntil) {
+                // Calculate weeks until recurring_until date
+                const recurringDate = new Date(recurringUntil)
+                const recurringWeek = getWeekNumber(recurringDate)
+                
+                // If recurring_until is in the same year
+                if (recurringDate.getFullYear() === selectedYear) {
+                    for (let i = startWeek; i <= Math.min(recurringWeek, 52); i++) {
+                        coveredWeeks.push(i)
+                    }
+                } else if (recurringDate.getFullYear() > selectedYear) {
+                    // If recurring_until is in a future year, select all weeks from start to end of year
+                    for (let i = startWeek; i <= 52; i++) {
+                        coveredWeeks.push(i)
+                    }
+                } else {
+                    // If recurring_until is in the past, just select based on week_rotations
+                    for (let i = 0; i < weekRotations; i++) {
+                        const targetWeek = startWeek + i
+                        if (targetWeek <= 52) {
+                            coveredWeeks.push(targetWeek)
+                        }
+                    }
+                }
+            } else {
+                // Just use week_rotations
+                for (let i = 0; i < weekRotations; i++) {
+                    const targetWeek = startWeek + i
+                    if (targetWeek <= 52) {
+                        coveredWeeks.push(targetWeek)
+                    }
+                }
+            }
+            
+            // Add template to each covered week
+            coveredWeeks.forEach(weekNum => {
+                const weekStr = String(weekNum)
+                if (! state.weekTemplateMap[weekStr]) {
+                    state. weekTemplateMap[weekStr] = []
+                }
+                
+                const exists = state.weekTemplateMap[weekStr].some((t: any) => t.id === template.id)
+                if (!exists) {
+                    state.weekTemplateMap[weekStr].push(template)
+                }
+            })
+        })
     } else {
-        state.formTemplate.weeks = []
+        state.formTemplate. weeks = []
+        state.weekTemplateMap = {}
     }
 }
 
-// Helper function to get week number from a date
 function getWeekNumber(date: Date): number {
     const d = new Date(Date.UTC(date.getFullYear(), date.getMonth(), date.getDate()))
     const dayNum = d.getUTCDay() || 7
@@ -147,66 +258,161 @@ function getWeekNumber(date: Date): number {
     return weekNum
 }
 
+function calculateTemplateCoverage(
+    template: Template,
+    startWeek: number,
+    selectedYear: number
+): number[] {
+    const coveredWeeks: number[] = []
+    const weekRotations = template.week_rotations || 1
+    const recurringUntil = template.recurring_until
+
+    if (recurringUntil) {
+        const recurringDate = new Date(recurringUntil)
+        const recurringWeek = getWeekNumber(recurringDate)
+        const recurringYear = recurringDate.getFullYear()
+
+        if (recurringYear === selectedYear) {
+            for (let i = startWeek; i <= Math.min(recurringWeek, 52); i++) {
+                coveredWeeks.push(i)
+            }
+        } else if (recurringYear > selectedYear) {
+            for (let i = startWeek; i <= 52; i++) {
+                coveredWeeks.push(i)
+            }
+        } else {
+            for (let i = 0; i < weekRotations; i++) {
+                const targetWeek = startWeek + i
+                if (targetWeek <= 52) {
+                    coveredWeeks.push(targetWeek)
+                }
+            }
+        }
+    } else {
+        for (let i = 0; i < weekRotations; i++) {
+            const targetWeek = startWeek + i
+            if (targetWeek <= 52) {
+                coveredWeeks.push(targetWeek)
+            }
+        }
+    }
+
+    return coveredWeeks
+}
+
+// Update the week-template mapping
+function updateWeekTemplateMap(weekNumber: number, templates: Template[]) {
+    const currentYear = new Date().getFullYear()
+    const selectedYear = state.formTemplate.years[0]
+        ? parseInt(state.formTemplate.years[0])
+        : currentYear
+
+    const allCoveredWeeks = new Set<number>()
+
+    templates.forEach(template => {
+        const coveredWeeks = calculateTemplateCoverage(template, weekNumber, selectedYear)
+        coveredWeeks.forEach(week => allCoveredWeeks.add(week))
+    })
+
+    allCoveredWeeks.forEach(week => {
+        const weekStr = String(week)
+        if (! state.weekTemplateMap[weekStr]) {
+            state.weekTemplateMap[weekStr] = []
+        }
+
+        templates.forEach(template => {
+            const coveredByThisTemplate = calculateTemplateCoverage(template, weekNumber, selectedYear)
+            if (coveredByThisTemplate.includes(week)) {
+                const exists = state.weekTemplateMap[weekStr].some(t => t.id === template.id)
+                if (!exists) {
+                    state.weekTemplateMap[weekStr].push(template)
+                }
+            }
+        })
+    })
+}
+
+// Remove template from week mapping when unchecking
+function removeFromWeekTemplateMap(weekNumber: number, templates: Template[]) {
+    const currentYear = new Date().getFullYear()
+    const selectedYear = state.formTemplate.years[0]
+        ?  parseInt(state.formTemplate.years[0])
+        : currentYear
+
+    templates.forEach(template => {
+        const coveredWeeks = calculateTemplateCoverage(template, weekNumber, selectedYear)
+        coveredWeeks.forEach(week => {
+            const weekStr = String(week)
+            if (state.weekTemplateMap[weekStr]) {
+                state.weekTemplateMap[weekStr] = state.weekTemplateMap[weekStr].filter(
+                    t => t.id !== template.id
+                )
+                if (state.weekTemplateMap[weekStr].length === 0) {
+                    delete state.weekTemplateMap[weekStr]
+                }
+            }
+        })
+    })
+}
+
 function handleWeekChange(weekValue: string, event: Event) {
     const checked = (event.target as HTMLInputElement).checked
     const weekNumber = parseInt(weekValue)
-    const weekRotations = props.selectedDraftTemplate?.week_rotations || 1
-    const recurringUntil = props.selectedDraftTemplate?.recurring_until
-    
+
+    const templates = (props.selectedTemplates && props.selectedTemplates.length > 0)
+        ? props.selectedTemplates.map((t: any) => {
+            return t._custom?.value || t
+          })
+        : [props.selectedDraftTemplate]
+
     nextTick(() => {
         if (checked) {
-            const weeksToSelect:  string[] = []
-            
-            if (recurringUntil) {
-                // Calculate weeks until recurring_until date
-                const recurringDate = new Date(recurringUntil)
-                const recurringWeek = getWeekNumber(recurringDate)
+            const allWeeksToSelect = new Set<number>()
+
+            templates.forEach((template: Template) => {
                 const currentYear = new Date().getFullYear()
-                const selectedYear = state.formTemplate.years[0] ?  parseInt(state.formTemplate.years[0]) : currentYear
-                
-                // If recurring_until is in the same year
-                if (recurringDate.getFullYear() === selectedYear) {
-                    for (let i = weekNumber; i <= Math.min(recurringWeek, 52); i++) {
-                        weeksToSelect.push(String(i))
-                    }
-                } else if (recurringDate.getFullYear() > selectedYear) {
-                    // If recurring_until is in a future year, select all weeks from selected week to end of year
-                    for (let i = weekNumber; i <= 52; i++) {
-                        weeksToSelect.push(String(i))
-                    }
-                } else {
-                    // If recurring_until is in the past, just select based on week_rotations
-                    for (let i = 0; i < weekRotations; i++) {
-                        const targetWeek = weekNumber + i
-                        if (targetWeek <= 52) {
-                            weeksToSelect.push(String(targetWeek))
-                        }
-                    }
-                }
-            } else {
-                // Just use week_rotations
-                for (let i = 0; i < weekRotations; i++) {
-                    const targetWeek = weekNumber + i
-                    if (targetWeek <= 52) {
-                        weeksToSelect.push(String(targetWeek))
-                    }
-                }
-            }
-            
-            // Merge with existing selections (remove duplicates)
+                const selectedYear = state.formTemplate.years[0]
+                    ? parseInt(state.formTemplate.years[0])
+                    : currentYear
+
+                const coveredWeeks = calculateTemplateCoverage(template, weekNumber, selectedYear)
+                coveredWeeks.forEach(week => allWeeksToSelect.add(week))
+            })
+
+            const weeksToSelect = Array.from(allWeeksToSelect).map(w => String(w))
+
+            updateWeekTemplateMap(weekNumber, templates)
+
             const newWeeks = [...new Set([...state.formTemplate.weeks, ...weeksToSelect])]
             state.formTemplate.weeks = newWeeks.sort((a, b) => parseInt(a) - parseInt(b))
         } else {
+            removeFromWeekTemplateMap(weekNumber, templates)
+
             state.formTemplate.weeks = state.formTemplate.weeks.filter(w => w !== weekValue)
+
+            const coveredByOtherSelections = new Set<string>()
+            state.formTemplate.weeks.forEach(week => {
+                if (state.weekTemplateMap[week] && state.weekTemplateMap[week].length > 0) {
+                    coveredByOtherSelections.add(week)
+                }
+            })
+
+            state.formTemplate.weeks = state.formTemplate.weeks.filter(w =>
+                coveredByOtherSelections.has(w)
+            )
         }
     })
+}
+
+function getTemplatesForWeek(weekNumber: string): Template[] {
+    return state.weekTemplateMap[weekNumber] || []
 }
 
 const rules = computed(() => {
     return {
         formTemplate: {
             weeks: {
-                required:  helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
+                required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
             },
             years: {
                 required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
@@ -219,21 +425,24 @@ const v$ = useVuelidate(rules, state)
 
 function submitForm() {
     v$.value.$validate()
-    if (!v$.value.$error) {
-        emit('submitForm', state.formTemplate)
+    if (! v$.value.$error) {
+        emit('submitForm', {
+            ...state.formTemplate,
+            weekTemplateMap: state.weekTemplateMap
+        })
     }
 }
 </script>
 
 <style>
 #formTemplate .multiselect-dropdown {
-    max-height: 5rem !important;
+    max-height: 5rem ! important;
 }
 
 #formTemplate tbody {
     display: block;
     max-height: 15rem;
-    overflow-y:  auto;
+    overflow-y: auto;
 }
 
 #formTemplate thead, #formTemplate tbody tr {

@@ -69,7 +69,7 @@
                         <Icon name="ph:plus" class="h-4 w-4" aria-hidden="true" />
                         {{ $t('dutySchedules.draftTemplates.newDraft') }}
                     </FormButton>
-                    <FormButton v-if="state.selectedTemplateUuids?.length" @click="state.modal.isApplyTemplateModalOpen = true" buttonStyle="action" class="rounded-lg">
+                    <FormButton v-if="state.selectedTemplates?.length" @click="state.modal.isApplyTemplateModalOpen = true" buttonStyle="action" class="rounded-lg">
                         <Icon name="ph:check" class="h-4 w-4" aria-hidden="true" />
                         {{ $t('dutySchedules.draftTemplates.table.actions.applySelected') }}
                     </FormButton>
@@ -183,7 +183,7 @@
         <ModulesUserDutyScheduleDraftTemplatesModalApplyTemplate
             :isModalOpen="state.modal.isApplyTemplateModalOpen"
             :selectedDraftTemplate="state.selectedDraftTemplate"
-            :selectedTemplateUuids="state.selectedTemplateUuids"
+            :selectedTemplates="state.selectedTemplates"
             @refresh-draft-templates="fetchDraftTemplates"
             @close="state.modal.isApplyTemplateModalOpen = false"
         />
@@ -233,7 +233,7 @@ const state = reactive({
         isRemoveTemplateOpen: false,
     },
     selectedDraftTemplate: {} as any,
-    selectedTemplateUuids: [] as string[],
+    selectedTemplates: [] as string[],
 });
 
 onMounted(() => {
@@ -304,7 +304,7 @@ function changePageLength(event: any) {
 }
 
 function handleRowSelect(selectedRows: any) {
-    state.selectedTemplateUuids = selectedRows
+    state.selectedTemplates = selectedRows
 }
 
 function editDraftTemplate(draftTemplate: any) {
@@ -313,7 +313,8 @@ function editDraftTemplate(draftTemplate: any) {
 }
 
 function applyDraftTemplate(draftTemplate: any) {
-    state.selectedDraftTemplate = draftTemplate
+    // state.selectedDraftTemplate = draftTemplate
+    state.selectedTemplates = [draftTemplate]
     state.modal.isApplyTemplateModalOpen = true
 }
 

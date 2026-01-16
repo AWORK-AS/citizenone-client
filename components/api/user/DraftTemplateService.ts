@@ -21,8 +21,8 @@ class DraftTemplateService extends BaseAPIService {
         return await this.request(`/user/draft-templates/${uuid}`, 'DELETE')
     }
 
-    async applyDraftTemplate(uuid: string, params: object): Promise<any> {
-        return await this.request(`/user/draft-templates/${uuid}/apply-template`, 'POST', params)
+    async applyDraftTemplate(params: object): Promise<any> {
+        return await this.request(`/user/draft-templates/multi-apply-template`, 'POST', params)
     }
 }
 

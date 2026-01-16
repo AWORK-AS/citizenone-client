@@ -5,6 +5,7 @@
                 <LoadingSpinner :isActive="state.isPageLoading">
                     <ModulesUserDutyScheduleDraftTemplatesApplyTemplateForm formType="create"
                         :selected-draft-template="props.selectedDraftTemplate"
+                        :selected-templates="props.selectedTemplates"
                         :error="state.error"
                         @closeModal="closeModal"
                         @submitForm="applyTemplate" />
@@ -36,7 +37,7 @@ const props = defineProps({
         type: Object,
         required: true,
     },
-    selectedTemplateUuids: {
+    selectedTemplates: {
         type: Array,
         required: true,
     },
@@ -75,9 +76,10 @@ async function applyTemplate(applyDetails: any) {
         const params = {
            weeks: applyDetails.weeks,
            years: applyDetails.years,
+           template_uuids: props.selectedTemplates.map((template: any) => template.uuid),
         } as any
 
-        const response = await draftTemplateService.applyDraftTemplate(props.selectedDraftTemplate.uuid, params)
+        const response = await draftTemplateService.applyDraftTemplate(params)
         if (response?.data) {
             refreshDraftTemplates()
             closeModal()
