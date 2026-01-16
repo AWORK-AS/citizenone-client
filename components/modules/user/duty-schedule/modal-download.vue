@@ -193,6 +193,6 @@ async function downloadDutySchedule() {
 
 <style>
 #formShift .multiselect-dropdown {
-    max-height: 6rem !important;
+    max-height: 5rem !important;
 }
 </style>

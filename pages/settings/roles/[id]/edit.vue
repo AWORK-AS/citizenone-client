@@ -52,6 +52,7 @@ const state = reactive({
     error: {} as Error,
     formRole: {
         name: '',
+        predefined: false,
         permissions: [] as any,
     },
     isPageLoading: false,
@@ -69,6 +70,7 @@ async function fetchRole() {
         if (response) {
             state.formRole = {
                 name: response?.data?.name ?? '',
+                predefined: response?.data?.predefined ?? false,
                 permissions: [],
             }
             response?.data?.permissions.forEach((permission: any) => {

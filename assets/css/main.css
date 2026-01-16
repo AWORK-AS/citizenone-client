@@ -31,7 +31,7 @@ input:disabled {
 }
 
 #cmp-icon {
-    @apply left-auto right-4 bottom-16 lg:bottom-20 lg:left-12 !important;
+    @apply bottom-2.5 left-2.5 !important;
 }
 
 /* ----------------------------------------------------------------------------------------------------
@@ -341,4 +341,33 @@ table td {
     right: 2rem;
     z-index: 10;
     background: white;
+}
+
+/* ----------------------------------------------------------------------------------------------------
+    Register
+---------------------------------------------------------------------------------------------------- */
+
+.square-grid-overlay {
+    --square-grid--gap: 71px;
+    --square-grid--bg-pos: calc(50% - var(--square-grid--gap) / 2);
+
+    --square-grid--background-image: url("data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNzEiIGhlaWdodD0iNzEiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+CiA8Zz4KICA8cmVjdCBvcGFjaXR5PSIwLjMiIHN0cm9rZS13aWR0aD0iMC41IiBpZD0ic3ZnXzEiIGhlaWdodD0iNzEiIHdpZHRoPSI3MSIgeT0iMCIgeD0iMCIgc3Ryb2tlPSIjZmZmIiBmaWxsPSJub25lIi8+CiA8L2c+Cjwvc3ZnPg==");
+
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    left: 0;
+    top: 0;
+
+    background-image: var(--square-grid--background-image);
+    background-repeat: repeat;
+    background-size: var(--square-grid--gap) auto;
+    background-position: var(--square-grid--bg-pos) var(--square-grid--bg-pos);
+
+    pointer-events: none;
+
+    /* Soft fade-out toward edges */
+    -webkit-mask-image: radial-gradient(rgb(0, 0, 0) 33%, rgba(0, 0, 0, 0) 72%);
+    mask-image: radial-gradient(rgb(0, 0, 0) 33%, rgba(0, 0, 0, 0) 72%);
 }

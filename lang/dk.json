@@ -1416,12 +1416,13 @@
                 "successfullyDeactivated": "Medicin deaktiveret med succes",
                 "successfullyDeleted": "Medicin slettet med succes"
             },
-            "download": "Download",
             "confirmation": {
                 "activateConfirmation": "Er du sikker på, at du vil aktivere denne medicin",
                 "deactivateConfirmation": "Er du sikker på, at du vil deaktivere denne medicin",
                 "deleteConfirmation": "Er du sikker på, at du vil slette denne medicin"
             },
+            "download": "Download",
+            "downloadOverview": "Download oversigt",
             "editMedicine": "Rediger Medicin",
             "form": {
                 "activateMedicine": "Aktivér medicin",
@@ -1431,6 +1432,7 @@
                     "successfullyUpdated": "Medicin opdateret med succes"
                 },
                 "currentStocks": "Nuværende lagre",
+                "date": "Dato",
                 "deactivate": "Deaktiver",
                 "deactivated": "Deaktiveret",
                 "description": "Beskrivelse",
@@ -1453,6 +1455,7 @@
                 "packageLeafletLink": "Link til indlægsseddel",
                 "pnMedicine": "PN-medicin",
                 "scheduleFrequency": "Hvor tit skal borger have medicinen",
+                "scheduleUntil": "Indtil hvornår skal borger have medicinen",
                 "selfAdminister": "Selvadministrerende medicin",
                 "startDate": "Dato for ordinering",
                 "strength": "Styrke",
@@ -2118,6 +2121,7 @@
     },
     "children": {
         "child": "Barn",
+        "childOf": "Barn af",
         "children": "Børn",
         "editChild": "Rediger barn",
         "form": {
@@ -2445,6 +2449,19 @@
                 }
             }
         },
+        "published": {
+            "publishedVersions": "Publicerede versioner",
+            "seePrevious": "Se tidligere publicerede versioner",
+            "viewPublishedVersion": "Se publiceret version",
+            "version": "Version",
+            "table": {
+                "versionNumber": "Versionsnummer",
+                "dateCreated": "Dato oprettet",
+                "actions": {
+                    "view": "Se"
+                }
+            }
+        },
         "draftTemplates": {
             "draftTemplates": "Skabeloner",
             "newDraft": "Ny skabelon",
@@ -2455,7 +2472,8 @@
                     "delete": "Slet",
                     "edit": "Rediger",
                     "view": "Se",
-                    "apply": "Anvend"
+                    "apply": "Anvend",
+                    "applySelected": "Anvend valgte"
                 },
                 "alert": {
                     "draftTemplateSuccessfullyDeleted": "Skabelon blev slettet",
@@ -3423,6 +3441,7 @@
     "guidedTour": "Guidet tur",
     "hideAll": "Skjul alle",
     "home": "Hjem",
+    "imageFailedToLoad": "Billedet kunne ikke indlæses",
     "inquiries": {
         "inquiries": "Henvendelser",
         "editInquiry": "Rediger henvendelser",
@@ -3518,8 +3537,6 @@
                     "receivedVisit": "Får borgeren en visitationssamtale/midlertidig indlogering?",
                     "notOfferedInterview": "Hvorfor tilbydes borgeren ikke en visitationssamtale?",
                     "guidance": "Krisecenteret vejleder/anviser borgeren til:"
-
-
                 }
             }
         },
@@ -3760,16 +3777,19 @@
     "login": {
         "doYouNeedHelp": "Har du brug for hjælp",
         "login": "Log ind",
-        "SignInToYourAccount": "Log ind på din konto",
+        "loginToContinueTo": "Log ind for at fortsætte til",
+        "signinToYourAccount": "Log ind på din konto",
         "form": {
             "createAccountHere": "Opret konto her",
-            "emailAddress": "E-mail adresse",
+            "emailAddress": "E-mailadresse",
             "dontHaveAnAccount": "Har du ikke en konto",
             "forgotPassword": "Glemt adgangskode",
             "login": "Log ind",
             "password": "Adgangskode",
             "rememberMeFor14Days": "Husk mig i 14 dage"
-        }
+        },
+        "seeWhatsNew": "Se hvad der er nyt",
+        "welcomeBack": "Velkommen tilbage"
     },
     "logs": {
         "table": {
@@ -4022,7 +4042,7 @@
         "newMessage": "Ny besked",
         "noMessagesYet": "Ingen beskeder endnu",
         "startTheConversation": "Start samtalen",
-        "seen": "Sett",
+        "seen": "Læst",
         "send": "Send",
         "subject": "Emne",
         "unreadMessages": "Ulæste beskeder",
@@ -4691,26 +4711,42 @@
     },
     "register": {
         "form": {
-            "createFreeAccount": "Opret gratis konto",
+            "agreetoTAC": "Du skal acceptere vilkår og betingelser",
             "alreadyHaveAnAccount": "Har du allerede en konto",
-            "companyName": "Firmanavn",
-            "cvr": "CVR",
-            "industry": "Industri",
-            "firstname": "Fornavn",
-            "lastname": "Efternavn",
-            "emailAddress": "E-mail adresse",
-            "password": "Adgangskode",
+            "bySigningUpYouAgreeTo": "Ved at oprette dig accepterer du CitizenOne's",
+            "companyName": "Virksomhedsnavn",
             "confirmPassword": "Bekræft adgangskode",
-            "phone": "Telefon",
+            "continue": "Fortsæt",
+            "createFreeAccount": "Opret gratis konto",
+            "createYourAccount": "Opret din konto",
+            "cvr": "CVR",
+            "emailAddress": "E-mailadresse",
+            "firstname": "Fornavn",
             "iHaveReadAndAcceptThe": "Jeg har læst og accepterer",
-            "termsAndConditions": "Vilkår og betingelser",
-            "typeOfFacility": "Type af tilbud",
+            "industry": "Branche",
+            "justAFewClicksAndYoureIn": "Få klik - og du er i gang",
+            "lastname": "Efternavn",
+            "letsTalkAboutYou": "Lad os tale om dig",
             "loginHere": "Log ind her",
-            "agreetoTAC": "Du skal acceptere vilkårene og betingelserne"
+            "password": "Adgangskode",
+            "personalizeYourCitizenOneExperience": "Tilpas din CitizenOne-oplevelse",
+            "phone": "Telefon",
+            "signin": "Log ind",
+            "termsAndConditions": "Vilkår og betingelser",
+            "typeOfFacility": "Type af tilbud"
         },
-        "noCommitment": "Der er ingen binding, og du behøver ikke at tilknytte et betalingskort",
-        "register": "Registrer",
-        "youCanExplore": "Du kan udforske CitizenOnes funktioner gratis efter tilmelding"
+        "noCommitment": "Der er ingen binding, og du behøver ikke tilknytte et betalingskort",
+        "of": "Af",
+        "register": "Opret konto",
+        "review": {
+            "review1": {
+                "content": "Det har været rigtig godt at skifte til CitizenOne, da det bare fungerer. Det er nemt at tilgå, og man skal ikke sidde og tænke over, hvad man skal gøre. Det har virkelig effektiviseret vores daglige arbejde",
+                "directorAndProfessionalLead": "Direktør og faglig leder",
+                "tranerne": "Tranerne Sørupvej - en del af Trane & Co"
+            }
+        },
+        "step": "Trin",
+        "youCanExplore": "Du kan gratis udforske CitizenOnes funktioner efter oprettelse"
     },
     "relationships": {
         "addNewRelationship": "Tilføj nyt forhold",

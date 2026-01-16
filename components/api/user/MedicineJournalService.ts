@@ -32,6 +32,10 @@ class MedicineJournalService extends BaseAPIService {
     async downloadMedicine(medicineUuid: any): Promise<any> {
         return await this.request(`/user/citizen-medicines/${medicineUuid}/download`, 'GET')
     }
+
+    async downloadMedicineOverview(params: object): Promise<any> {
+        return await this.request(`/user/citizen-medicines/download/overview`, 'GET', params)
+    }
 }
 
 export const medicineJournalService = new MedicineJournalService()

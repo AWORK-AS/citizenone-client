@@ -1422,6 +1422,7 @@
                 "deleteConfirmation": "Are you sure you want to delete this medicine"
             },
             "download": "Download",
+            "downloadOverview": "Download overview",
             "editMedicine": "Edit medicine",
             "form": {
                 "activateMedicine": "Activate medicine",
@@ -1431,6 +1432,7 @@
                     "successfullyUpdated": "Medicine successfully update"
                 },
                 "currentStocks": "Current stocks",
+                "date": "Date",
                 "deactivate": "Deactivate",
                 "deactivated": "Deactivated",
                 "description": "Description",
@@ -1453,6 +1455,7 @@
                 "packageLeafletLink": "Package leaflet link",
                 "pnMedicine": "PN-medicine",
                 "scheduleFrequency": "How often should citizens take the medicine",
+                "scheduleUntil": "Until when should citizens take the medicine",
                 "selfAdminister": "Self-administer",
                 "startDate": "Date of prescription",
                 "strength": "Strength",
@@ -2118,6 +2121,7 @@
     },
     "children": {
         "child": "Child",
+        "childOf": "Child of",
         "children": "Children",
         "editChild": "Edit child",
         "form": {
@@ -2445,6 +2449,19 @@
                 }
             }
         },
+        "published": {
+            "publishedVersions": "Published versions",
+            "seePrevious": "See previous published versions",
+            "viewPublishedVersion": "View published version",
+            "version": "Version",
+            "table": {
+                "versionNumber": "Version number",
+                "dateCreated": "Date created",
+                "actions": {
+                    "view": "View"
+                }
+            }
+        },
         "draftTemplates": {
             "draftTemplates": "Templates",
             "newDraft": "New Template",
@@ -2455,7 +2472,8 @@
                     "delete": "Delete",
                     "edit": "Edit",
                     "view": "View",
-                    "apply": "Apply"
+                    "apply": "Apply",
+                    "applySelected": "Apply selected"
                 },
                 "alert": {
                     "draftTemplateSuccessfullyDeleted": "Template successfully deleted",
@@ -3423,6 +3441,7 @@
     "guidedTour": "Guided tour",
     "hideAll": "Hide all",
     "home": "Home",
+    "imageFailedToLoad": "Image failed to load",
     "inquiries": {
         "inquiries": "Inquiries",
         "editInquiry": "Edit inquiry",
@@ -3440,7 +3459,7 @@
             "firstname": "Citizen first name",
             "inquirerName": "Inquirer name",
             "lastname": "Citizen last name",
-            "notes":"Own notes",
+            "notes": "Own notes",
             "outcome": "Outcome (e.g. offered a place, rejection, referral)",
             "purpose": "Purpose",
             "options": {
@@ -3758,7 +3777,8 @@
     "login": {
         "doYouNeedHelp": "Do you need help",
         "login": "Login",
-        "SignInToYourAccount": "Sign in to your account",
+        "loginToContinueTo": " Log in to continue to",
+        "signinToYourAccount": "Sign in to your account",
         "form": {
             "createAccountHere": "Create account here",
             "emailAddress": "Email address",
@@ -3767,7 +3787,9 @@
             "login": "Login",
             "password": "Password",
             "rememberMeFor14Days": "Remember me for 14 days"
-        }
+        },
+        "seeWhatsNew": "See what's new",
+        "welcomeBack": "Welcome back"
     },
     "logs": {
         "table": {
@@ -4689,25 +4711,41 @@
     },
     "register": {
         "form": {
-            "createFreeAccount": "Create free account",
+            "agreetoTAC": "You must agree to the terms and conditions",
             "alreadyHaveAnAccount": "Already have an account",
+            "bySigningUpYouAgreeTo": "By signing up you agree to CitizenOne's",
             "companyName": "Company name",
-            "cvr": "CVR",
-            "industry": "Industry",
-            "firstname": "First name",
-            "lastname": "Last name",
-            "emailAddress": "Email address",
-            "password": "Password",
             "confirmPassword": "Confirm Password",
-            "phone": "Phone",
+            "continue": "Continue",
+            "createFreeAccount": "Create free account",
+            "createYourAccount": "Create your account",
+            "cvr": "CVR",
+            "emailAddress": "Email address",
+            "firstname": "First name",
             "iHaveReadAndAcceptThe": "I have read and accept the",
-            "termsAndConditions": "Terms and Conditions",
-            "typeOfFacility": "Type of facility",
+            "industry": "Industry",
+            "justAFewClicksAndYoureIn": "Just a few clicks and you're in",
+            "lastname": "Last name",
+            "letsTalkAboutYou": "Let's talk about you",
             "loginHere": "Login here",
-            "agreetoTAC": "You must agree to the terms and conditions"
+            "password": "Password",
+            "personalizeYourCitizenOneExperience": "Personalize your CitizenOne experience",
+            "phone": "Phone",
+            "signin": "Sign in",
+            "termsAndConditions": "Terms and Conditions",
+            "typeOfFacility": "Type of facility"
         },
         "noCommitment": "There's no commitment, and you don't need to link a payment card",
+        "of": "Of",
         "register": "Register",
+        "review": {
+            "review1": {
+                "content": "It has been great moving over to CitizenOne, as it just works. It's easy to access, and you don't have to sit and puzzle over what to do. It has truly streamlined our day-to-day work",
+                "directorAndProfessionalLead": "Director and Professional Lead",
+                "tranerne": "Tranerne Sørupvej - part of Trane & Co"
+            }
+        },
+        "step": "Step",
         "youCanExplore": "You can explore CitizenOne's features for free after signing up"
     },
     "relationships": {
