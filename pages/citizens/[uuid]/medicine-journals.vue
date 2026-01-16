@@ -420,6 +420,9 @@ interface FrequencyRule {
 }
 
 function formatCustomFrequency(rule:  FrequencyRule): string {
+    if (!rule || !rule.frequency || !rule.every) {
+        return '';
+    }
     const { frequency, every } = rule;
     
     // Helper function to capitalize first letter
