@@ -86,7 +86,7 @@
                                     <FormError :error="state?.error?.errors?.confirm_password?.[0]" />
                                 </div>
                             </div>
-                            <div class="mt-6">
+                            <div class="mt-5">
                                 <FormButton type="submit" buttonStyle="primary" class="w-full">
                                     {{ $t('setupPassword.setPassword') }}
                                 </FormButton>

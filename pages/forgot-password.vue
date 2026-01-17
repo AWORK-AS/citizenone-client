@@ -55,33 +55,35 @@
                             </div>
                         </div>
 
-                        <form class="mt-5 space-y-3 p-8 lg:p-28" method="POST" @submit.prevent="forgotPassword">
-                            <Alert type="danger" :text="state?.error?.message"
-                                v-if="state.error?.message && state.error.message.length > 0" />
-                            <div class="flex items-center justify-between">
-                                <h3 class="font-medium">
-                                    {{ $t('forgotPassword.forgotPassword') }}
-                                </h3>
-                                <button type="button" class="rounded-full w-8" @click="selectLanguage">
-                                    <img :src="identifyFlag()" alt="flag">
-                                </button>
+                        <form class="mt-5 p-8 lg:p-28" method="POST" @submit.prevent="forgotPassword">
+                            <div class="space-y-3">
+                                <Alert type="danger" :text="state?.error?.message"
+                                    v-if="state.error?.message && state.error.message.length > 0" />
+                                <div class="flex items-center justify-between">
+                                    <h3 class="font-medium">
+                                        {{ $t('forgotPassword.forgotPassword') }}
+                                    </h3>
+                                    <button type="button" class="rounded-full w-8" @click="selectLanguage">
+                                        <img :src="identifyFlag()" alt="flag">
+                                    </button>
+                                </div>
+                                <p>
+                                    {{ $t('forgotPassword.enterEmailAssociated') }}
+                                </p>
+                                <div class="space-y-1">
+                                    <FormLabel for="email" :label="$t('forgotPassword.emailAddress')" />
+                                    <FormTextField id="email" name="email"
+                                        :placeholder="$t('forgotPassword.emailAddress')" v-model="state.email" />
+                                    <FormError :error="v$?.email?.$errors[0]?.$message.toString()" />
+                                    <FormError :error="state?.error?.errors?.email?.[0]" />
+                                </div>
                             </div>
-                            <p>
-                                {{ $t('forgotPassword.enterEmailAssociated') }}
-                            </p>
-                            <div class="space-y-1">
-                                <FormLabel for="email" :label="$t('forgotPassword.emailAddress')" />
-                                <FormTextField id="email" name="email" :placeholder="$t('forgotPassword.emailAddress')"
-                                    v-model="state.email" />
-                                <FormError :error="v$?.email?.$errors[0]?.$message.toString()" />
-                                <FormError :error="state?.error?.errors?.email?.[0]" />
-                            </div>
-                            <div>
+                            <div class="mt-5">
                                 <FormButton type="submit" buttonStyle="primary" class="w-full">
                                     {{ $t('forgotPassword.requestPasswordReset') }}
                                 </FormButton>
                             </div>
-                            <p class="text-center text-sm leading-6 text-gray-500">
+                            <p class="mt-2 text-center text-sm leading-6 text-gray-500">
                                 {{ $t('forgotPassword.or') }}
                                 {{ ' ' }}
                                 <a class="text-primary hover:text-primary-800 cursor-pointer" @click="navigateTo('/')">
