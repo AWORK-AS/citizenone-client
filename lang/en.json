@@ -3412,6 +3412,7 @@
     "forgotPassword": {
         "emailAddress": "Email address",
         "enterEmailAssociated": "Enter the email address associated with your account to reset your password",
+        "forgotPassword": "Forgot password",
         "loginHereInstead": "Login here instead",
         "or": "Or",
         "requestPasswordReset": "Request password reset"
