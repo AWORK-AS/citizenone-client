@@ -33,7 +33,16 @@
                 </Breadcrumb>
             </template>
 
-            <template #header>{{ $t('dutySchedules.draft.pageTitle') }} - {{ departmentStore.getSelectedDepartmentName }}</template>
+            <template #header>
+                <div class="flex items-center gap-x-6">
+                    <span>
+                        {{ $t('dutySchedules.draft.pageTitle') }} - {{ departmentStore.getSelectedDepartmentName }}
+                    </span>
+                    <NuxtLink to="/schedules/draft/published" class="text-primary text-sm hover:text-primary-700 font-normal">
+                        {{ $t('dutySchedules.published.seePrevious') }}
+                    </NuxtLink>
+                </div>
+            </template>
 
             <template #guided-tour>
                 <div class="flex flex-wrap items-center gap-3">

@@ -1,5 +1,5 @@
 <template>
-    <form @submit.prevent="submitForm()" class="mt-6 max-w-xl">
+    <form @submit.prevent="submitForm()" class="mt-6 pb-16 max-w-xl">
         <Alert type="danger" :text="state?.error?.message"
             v-if="state.error?.message && state.error.message.length > 0" />
         <Alert type="danger" :text="props?.error?.message"
@@ -7,8 +7,8 @@
         <div class="space-y-3">
             <div class="space-y-1">
                 <FormLabel for="name" :label="$t('roles.form.name')" />
-                <FormTextField id="name" name="name" :placeholder="$t('roles.form.name')"
-                    v-model="state.formRole.name" />
+                <FormTextField  id="name" name="name" :placeholder="$t('roles.form.name')"
+                    v-model="state.formRole.name" :style="state.formRole?.predefined ? 'pointer-events: none; opacity: 0.6; cursor: not-allowed;' : ''" />
                 <FormError :error="v$?.formRole?.name?.$errors[0]?.$message.toString()" />
                 <FormError :error="props?.error?.errors?.name?.[0]" />
             </div>
@@ -66,6 +66,7 @@ const state = reactive({
     isPageLoading: false,
     formRole: {
         name: '',
+        predefined: false,
         permissions: [],
     },
     options: {
@@ -81,6 +82,7 @@ watch(() => props.selectedRole, (newValue: any) => {
     if (newValue != null) {
         state.formRole = {
             name: newValue.name,
+            predefined: newValue.predefined || false,
             permissions: newValue.permissions || [],
         }
     }
@@ -108,7 +110,7 @@ async function fetchAllPermissions() {
             response.data.forEach(
                 (item: any) => options.push({
                     value: item?.uuid,
-                    label: item?.name?.charAt(0)?.toUpperCase() + item?.name?.slice(1),
+                    label: item?.name?.replaceAll('_', ' '),
                 })
             )
             state.options.permissions = options

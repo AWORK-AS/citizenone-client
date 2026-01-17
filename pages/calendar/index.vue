@@ -206,6 +206,7 @@ const state = reactive({
         unit_uuid: '',
         is_private: false,
         calendar_tags: [],
+        is_recurring: false,
     },
     options: {
         citizens: [] as any,
@@ -435,6 +436,7 @@ function editMyCalendarEvent(selectedCalendarEvent: any) {
     state.selectedSchedule.unit_uuid = selectedCalendarEvent.unit?.uuid ?? ''
     state.selectedSchedule.is_private = selectedCalendarEvent.is_private ? true : false
     state.selectedSchedule.calendar_tags = selectedCalendarEvent.calendar_tags ?? []
+    state.selectedSchedule.is_recurring = selectedCalendarEvent.is_recurring ?? false
     state.modal.isEditEventOpen = true
 }
 
