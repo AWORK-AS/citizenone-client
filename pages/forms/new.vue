@@ -64,6 +64,7 @@ async function saveForm(formDetails: any) {
         const params = {
             title: formDetails.title,
             description: formDetails.description,
+            document_title: formDetails.document_title,
             fields: formDetails.fields,
             is_active: true,
         }

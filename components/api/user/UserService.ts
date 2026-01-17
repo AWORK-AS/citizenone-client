@@ -52,6 +52,10 @@ class UserService extends BaseAPIService {
     async uploadCompanyLogo(params: FormData): Promise<any> {
         return await this.request(`user/company/settings/company/upload-logo`, 'POST', params)
     }
+    
+    async deleteCompanyLogo(): Promise<any> {
+        return await this.request(`user/company/settings/company/delete-logo`, 'DELETE')
+    }
 }
 
 export const userService = new UserService()

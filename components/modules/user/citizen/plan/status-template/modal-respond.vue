@@ -398,7 +398,8 @@ async function submitResponseAndDownloadPDF() {
             successAlert(`${t('alert.success')}!`, `${t('plansandgoals.createStatusTemplate.alert.statusTemplateSuccessfullyAdded')}.`)
             closeModal()
             closeModalNew()
-            saveAs(response)
+            const filename = state.form?.data?.document_title || state.form?.data?.title || 'download'
+            saveAs(response, `${filename}.pdf`)
         }
     } catch (error: any) {
         state.error = error

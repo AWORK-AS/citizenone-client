@@ -284,6 +284,7 @@ const state = reactive({
         social_og_boligstyrelsen: false,
         quick_risk_assessment_enabled: false,
         logo: null as File | null,
+        should_delete_logo: false,
     },
     isPageLoading: false,
     options: {
@@ -450,25 +451,13 @@ async function onLogoChange(event: Event) {
             logoPreviewUrl.value = e.target?.result as string
         }
         reader.readAsDataURL(file)
-
-        // Upload to server
-        try {
-            const formData = new FormData()
-            formData.append('logo', file)
-            const response = await userService.uploadCompanyLogo(formData)
-            if (response.data?.logo_url) {
-                logoPreviewUrl.value = response.data.logo_url
-            }
-            successAlert(`${t('alert.success')}!`, 'Logo uploaded successfully.')
-        } catch (error: any) {
-            state.error = error
-        }
     }
 }
 
 function removeLogo() {
     state.formCompany.logo = null
     logoPreviewUrl.value = ''
+    state.formCompany.should_delete_logo = true 
 }
 
 async function submitForm() {
@@ -477,6 +466,25 @@ async function submitForm() {
         state.error = {}
         state.isPageLoading = true
         try {
+            
+            if (state.formCompany.should_delete_logo) {
+
+              
+                await userService.deleteCompanyLogo()
+                state.formCompany.should_delete_logo = false
+            } else if (state.formCompany.logo) {
+
+               
+                const formData = new FormData()
+                formData.append('logo', state.formCompany.logo)
+                const logoResponse = await userService.uploadCompanyLogo(formData)
+                if (logoResponse.data?.logo_url) {
+                    logoPreviewUrl.value = logoResponse.data.logo_url
+                }
+                state.formCompany.logo = null 
+            }
+            
+            
             const params = {
                 name: state.formCompany.name,
                 cvr: state.formCompany.cvr,
@@ -502,9 +510,22 @@ async function submitForm() {
                 social_og_boligstyrelsen: state.formCompany.social_og_boligstyrelsen,
                 quick_risk_assessment_enabled: state.formCompany.quick_risk_assessment_enabled,
             }
+            
             const response = await userService.updateCompany(params)
+            
             if (response.data) {
                 userStore.setUserCheckinStatus(state.formCompany.checkin_enabled)
+                
+                
+                const currentUser: any = { ...userStore.getUser }
+                if (currentUser?.company && response.data?.logo_url) {
+                    currentUser.company.logo_url = response.data.logo_url
+                    userStore.setUser(currentUser)
+                } else if (currentUser?.company && state.formCompany.should_delete_logo) {
+                    currentUser.company.logo_url = null
+                    userStore.setUser(currentUser)
+                }
+                
                 successAlert(`${t('alert.success')}!`, `${t('settings.company.form.alert.successfullyUpdated')}.`)
             }
         } catch (error: any) {
