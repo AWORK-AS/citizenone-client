@@ -4079,7 +4079,11 @@
             "image": "Image",
             "featured": "Featured",
             "link": "Link",
-            "title": "Title"
+            "title": "Title",
+            "attachments": "File Attachments",
+            "clickToUpload": "Click to upload files",
+            "multipleFilesAllowed": "Multiple files allowed",
+            "existingAttachments": "Existing Attachments"
         },
         "news": "News",
         "newNews": "New news",

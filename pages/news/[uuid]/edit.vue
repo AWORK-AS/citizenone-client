@@ -61,6 +61,7 @@ const state = reactive({
         department: [],
         is_featured: false,
         is_active: false,
+        attachments: [] as any[],
     } as any,
     isPageLoading: false,
 })
@@ -111,6 +112,9 @@ async function updateNews(newsDetails: any) {
         params.append('department_uuid', JSON.stringify(newsDetails.department))
         params.append('is_featured', newsDetails.is_featured)
         params.append('is_active', newsDetails.is_active)
+        newsDetails.attachments.forEach((file: any, index: number) => {
+            params.append(`attachments[${index}]`, file)
+        })
         const response = await newsService.updateNews(newsUuid, params)
         if (response.data) {
             successAlert(`${t('alert.success')}!`, `${t('news.form.alert.newsSuccessfullyUpdated')}.`)

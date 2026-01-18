@@ -4079,10 +4079,14 @@
             "image": "Billede",
             "featured": "Fremhævet",
             "link": "Link",
-            "title": "Titel"
+            "title": "Titel",
+            "attachments": "Vedhæftede filer",
+            "clickToUpload": "Klik for at uploade filer",
+            "multipleFilesAllowed": "Flere filer tilladt",
+            "existingAttachments": "Eksisterende vedhæftede filer"
         },
         "news": "Nyheder",
-        "newNews": "Ny nyhed",
+        "newNews": "Nyt opslag",
         "table": {
             "actions": {
                 "delete": "Slet",
