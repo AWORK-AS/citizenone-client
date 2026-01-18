@@ -85,6 +85,7 @@ async function fetchNews() {
                 department: [],
                 is_featured: response?.data?.is_featured ?? '',
                 is_active: response?.data?.is_active ?? '',
+                attachments: response?.data?.attachments ?? [],
             }
             response?.data?.audiences?.forEach((department: any) => {
                 state.formNews.audience.push(department?.uuid)
@@ -115,6 +116,9 @@ async function updateNews(newsDetails: any) {
         newsDetails.attachments.forEach((file: any, index: number) => {
             params.append(`attachments[${index}]`, file)
         })
+        if (!newsDetails.attachments.length) {
+            params.append('clear_attachments', 'true')
+        }
         const response = await newsService.updateNews(newsUuid, params)
         if (response.data) {
             successAlert(`${t('alert.success')}!`, `${t('news.form.alert.newsSuccessfullyUpdated')}.`)
