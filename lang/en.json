@@ -3110,6 +3110,34 @@
         },
         "viewEmployee": "View employee"
     },
+    "employeeGroups": {
+        "employeeGroups": "Employee groups",
+        "newEmployeeGroup": "New employee group",
+        "editEmployeeGroup": "Edit employee group",
+         "table": {
+            "alert": {
+                "employeeGroupSuccessfullyDeleted": "Employee group successfully deleted"
+            },
+            "actions": {
+                "delete": "Delete",
+                "edit": "Edit"
+            },
+            "confirmation": {
+                "deleteEmployeeGroupConfirmation": "Are you sure you want to delete this employee group"
+            },
+            "name": "Name"
+        },
+        "form": {
+            "employeeGroup": "Employee group",
+            "employees": "Employees",
+            "department": "Department",
+            "alert": {
+                "employeeGroupSuccessfullyUpdated": "Employee group successfully updated",
+                "newEmployeeGroupSuccessfullySaved": "New employee group successfully saved"
+            },
+            "name": "Name"
+        }
+    },
     "entriesPerPage": "Entries per page",
     "events": {
         "alert": {
@@ -5066,6 +5094,7 @@
             "departments": "Departments",
             "diagnoses": "Diagnoses",
             "dosageForms": "Dosage forms",
+            "employeeGroups": "Employee groups",
             "foreignCities": "Foreign cities",
             "invoices": "Invoices",
             "jobTitles": "Job titles",
