@@ -72,6 +72,7 @@ async function fetchForm() {
             state.formForm = {
                 title: response.data?.title ?? '',
                 description: response.data?.description ?? '',
+                document_title: response.data?.document_title ?? '',
                 fields: [],
             }
             response?.data?.form_fields?.forEach((field: any) => {
@@ -95,6 +96,7 @@ async function updateForm(formDetails: any) {
         const params = {
             title: formDetails.title,
             description: formDetails.description,
+            document_title: formDetails.document_title,
             fields: formDetails.fields,
             is_active: true,
         }
