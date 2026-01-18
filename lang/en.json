@@ -4875,6 +4875,26 @@
             "name": "Name",
             "permissions": "Permissions",
             "user": "User"
+        },
+        "permissions": {
+            "scheduler": "Scheduler",
+            "createSchedule": "create schedule",
+            "readSchedule": "view schedule",
+            "viewSchedule": "view schedule",
+            "updateSchedule": "update schedule",
+            "deleteSchedule": "delete schedule",
+            "createCitizenJournal": "create citizen journal",
+            "viewCitizenJournal": "view citizen journal",
+            "updateCitizenJournal": "update citizen journal",
+            "deleteCitizenJournal": "delete citizen journal",
+            "createCitizenCalendar": "create citizen calendar",
+            "viewCitizenCalendar": "view citizen calendar",
+            "updateCitizenCalendar": "update citizen calendar",
+            "deleteCitizenCalendar": "delete citizen calendar",
+            "createCitizenHealth": "create citizen health",
+            "viewCitizenHealth": "view citizen health",
+            "updateCitizenHealth": "update citizen health",
+            "deleteCitizenHealth": "delete citizen health"
         }
     },
     "rooms": {

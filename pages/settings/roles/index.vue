@@ -47,7 +47,7 @@
                                         <div class="text-xxs flex flex-wrap gap-1">
                                             <span v-for="(permission, index) in role?.permissions" :key=index
                                                 class="bg-primary px-2 py-1 text-white rounded-md">
-                                                {{ permission?.name.replaceAll('_', ' ') }}
+                                                {{ $t(PERMISSION_LABELS[permission?.name] || permission?.name) }}
                                             </span>
                                         </div>
                                     </td>
@@ -125,6 +125,27 @@ const state = reactive({
         sortOrder: 'descend',
     },
 })
+
+const PERMISSION_LABELS:  Record<string, string> = {
+    'scheduler': 'roles.permissions.scheduler',
+    'create_schedule': 'roles.permissions.createSchedule',
+    'read_schedule': 'roles.permissions.readSchedule',
+    'view_schedule': 'roles.permissions.viewSchedule',
+    'update_schedule': 'roles.permissions.updateSchedule',
+    'delete_schedule': 'roles.permissions.deleteSchedule',
+    'create_citizen_journal': 'roles.permissions.createCitizenJournal',
+    'view_citizen_journal': 'roles.permissions.viewCitizenJournal',
+    'update_citizen_journal': 'roles.permissions.updateCitizenJournal',
+    'delete_citizen_journal': 'roles.permissions.deleteCitizenJournal',
+    'create_citizen_calendar': 'roles.permissions.createCitizenCalendar',
+    'view_citizen_calendar': 'roles.permissions.viewCitizenCalendar',
+    'update_citizen_calendar': 'roles.permissions.updateCitizenCalendar',
+    'delete_citizen_calendar': 'roles.permissions.deleteCitizenCalendar',
+    'create_citizen_health': 'roles.permissions.createCitizenHealth',
+    'view_citizen_health':  'roles.permissions.viewCitizenHealth',
+    'update_citizen_health': 'roles.permissions.updateCitizenHealth',
+    'delete_citizen_health': 'roles.permissions.deleteCitizenHealth'
+}
 
 onMounted(() => {
     fetchRoles()

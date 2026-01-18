@@ -4875,6 +4875,26 @@
             "name": "Navn",
             "permissions": "Tilladelser",
             "user": "Bruger"
+        },
+        "permissions": {
+            "scheduler": "Vagtplanlægger",
+            "createSchedule": "opret vagtplan",
+            "readSchedule": "se vagtplan",
+            "viewSchedule": "se vagtplan",
+            "updateSchedule": "rediger vagtplan",
+            "deleteSchedule": "slet vagtplan",
+            "createCitizenJournal": "opret borgerjournal",
+            "viewCitizenJournal": "se borgerjournal",
+            "updateCitizenJournal": "rediger borgerjournal",
+            "deleteCitizenJournal": "slet borgerjournal",
+            "createCitizenCalendar": "opret borgerkalender",
+            "viewCitizenCalendar": "se borgerkalender",
+            "updateCitizenCalendar": "rediger borgerkalender",
+            "deleteCitizenCalendar": "slet borgerkalender",
+            "createCitizenHealth": "opret borgersundhed",
+            "viewCitizenHealth": "se borgersundhed",
+            "updateCitizenHealth": "rediger borgersundhed",
+            "deleteCitizenHealth": "slet borgersundhed"
         }
     },
     "rooms": {
