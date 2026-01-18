@@ -85,7 +85,7 @@
                     {{ $t('events.form.sendInvitation') }}
                 </div>
             </div>
-            <div class="space-y-1">
+            <div class="space-y-1" v-if="props.selectedSchedule?.is_recurring">
                 <div class="w-fit flex items-center cursor-pointer"
                     @click="state.formSchedule.apply_changes_to_future_events = !state.formSchedule.apply_changes_to_future_events">
                     <FormCheckbox :value="state.formSchedule.apply_changes_to_future_events" />

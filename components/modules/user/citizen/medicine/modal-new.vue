@@ -43,7 +43,6 @@ const state = reactive({
         is_pn_medicine: false,
         medicine: '',
         dosage: '',
-        schedule_frequency: [],
         current_stocks: '',
         strength: '',
         unit: '',
@@ -59,6 +58,23 @@ const state = reactive({
         medication_storage: '',
         ingredients: '',
         description: '',
+        schedule_frequency: {
+            is_recurring: true,
+            recurring: '',
+            recurring_until: '',
+            frequency: '',
+            every: '',
+            weekly_on: [],
+            monthly_on_the_enabled: false,
+            monthly_each: [],
+            monthly_on_the_sequence: '',
+            monthly_on_the_day: '',
+            yearly_in_months: [],
+            yearly_on_the_enabled: false,
+            yearly_on_the_sequence: '',
+            yearly_on_the_day: '',
+            is_apply_to_all: false,
+        },
     },
 })
 
@@ -81,9 +97,6 @@ async function saveMedicine(medicineDetails: any) {
         params.append('is_pn_medicine', medicineDetails.is_pn_medicine)
         params.append('medicine_uuid', medicineDetails.medicine)
         params.append('dosage_uuid', medicineDetails.dosage)
-        if (!medicineDetails.is_pn_medicine) {
-            params.append('schedule_frequency', medicineDetails.schedule_frequency)
-        }
         params.append('current_stocks', medicineDetails.current_stocks)
         params.append('strength', medicineDetails.strength)
         params.append('mass_unit_uuid', medicineDetails.unit)
@@ -97,6 +110,35 @@ async function saveMedicine(medicineDetails: any) {
         params.append('medication_storage', medicineDetails.medication_storage)
         params.append('ingredients', medicineDetails.ingredients)
         params.append('description', medicineDetails.description)
+
+        if (!medicineDetails.is_pn_medicine) {
+            params.append('schedule_frequency', medicineDetails.schedule_frequency.recurring)
+            params.append('recurring_until', medicineDetails.schedule_frequency.recurring_until)
+
+            if (medicineDetails.schedule_frequency.recurring === 'custom') {
+                params.append('frequency', medicineDetails.schedule_frequency.frequency)
+                params.append('every', medicineDetails.schedule_frequency.every)
+                if (medicineDetails.schedule_frequency.frequency === 'weekly') {
+                    params.append('weekly_on', JSON.stringify(medicineDetails.schedule_frequency.weekly_on))
+                } else if (medicineDetails.schedule_frequency.frequency === 'monthly') {
+                    params.append('monthly_on_the_enabled', medicineDetails.schedule_frequency.monthly_on_the_enabled)
+                    if (!medicineDetails.schedule_frequency.monthly_on_the_enabled) {
+                        params.append('monthly_each', JSON.stringify(medicineDetails.schedule_frequency.monthly_each))
+                    } else {
+                        params.append('monthly_on_the_sequence', medicineDetails.schedule_frequency.monthly_on_the_sequence)
+                        params.append('monthly_on_the_day', medicineDetails.schedule_frequency.monthly_on_the_day)
+                    }
+                } else if (medicineDetails.schedule_frequency.frequency === 'yearly') {
+                    params.append('yearly_in_months', JSON.stringify(medicineDetails.schedule_frequency.yearly_in_months))
+                    if (medicineDetails.schedule_frequency.yearly_on_the_enabled) {
+                        params.append('yearly_on_the_sequence', medicineDetails.schedule_frequency.yearly_on_the_sequence)
+                        params.append('yearly_on_the_day', medicineDetails.schedule_frequency.yearly_on_the_day)
+                    }
+                }
+            }
+        }
+
+
         const response = await medicineJournalService.saveMedicine(params)
         if (response?.data) {
             refreshMedicines()

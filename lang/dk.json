@@ -1455,6 +1455,7 @@
                 "packageLeafletLink": "Link til indlægsseddel",
                 "pnMedicine": "PN-medicin",
                 "scheduleFrequency": "Hvor tit skal borger have medicinen",
+                "scheduleUntil": "Indtil hvornår skal borger have medicinen",
                 "selfAdminister": "Selvadministrerende medicin",
                 "startDate": "Dato for ordinering",
                 "strength": "Styrke",
@@ -2448,6 +2449,19 @@
                 }
             }
         },
+        "published": {
+            "publishedVersions": "Publicerede versioner",
+            "seePrevious": "Se tidligere publicerede versioner",
+            "viewPublishedVersion": "Se publiceret version",
+            "version": "Version",
+            "table": {
+                "versionNumber": "Versionsnummer",
+                "dateCreated": "Dato oprettet",
+                "actions": {
+                    "view": "Se"
+                }
+            }
+        },
         "draftTemplates": {
             "draftTemplates": "Skabeloner",
             "newDraft": "Ny skabelon",
@@ -2458,7 +2472,8 @@
                     "delete": "Slet",
                     "edit": "Rediger",
                     "view": "Se",
-                    "apply": "Anvend"
+                    "apply": "Anvend",
+                    "applySelected": "Anvend valgte"
                 },
                 "alert": {
                     "draftTemplateSuccessfullyDeleted": "Skabelon blev slettet",
@@ -3412,6 +3427,7 @@
     "forgotPassword": {
         "emailAddress": "E-mail adresse",
         "enterEmailAssociated": "Indtast e-mailadressen, der er tilknyttet din konto, for at nulstille din adgangskode",
+        "forgotPassword": "Glemt adgangskode",
         "loginHereInstead": "Log ind her i stedet",
         "or": "Eller",
         "requestPasswordReset": "Anmod om nulstilling af adgangskode"
@@ -4027,7 +4043,7 @@
         "newMessage": "Ny besked",
         "noMessagesYet": "Ingen beskeder endnu",
         "startTheConversation": "Start samtalen",
-        "seen": "Sett",
+        "seen": "Læst",
         "send": "Send",
         "subject": "Emne",
         "unreadMessages": "Ulæste beskeder",
@@ -4859,6 +4875,26 @@
             "name": "Navn",
             "permissions": "Tilladelser",
             "user": "Bruger"
+        },
+        "permissions": {
+            "scheduler": "Vagtplanlægger",
+            "createSchedule": "opret vagtplan",
+            "readSchedule": "se vagtplan",
+            "viewSchedule": "se vagtplan",
+            "updateSchedule": "rediger vagtplan",
+            "deleteSchedule": "slet vagtplan",
+            "createCitizenJournal": "opret borgerjournal",
+            "viewCitizenJournal": "se borgerjournal",
+            "updateCitizenJournal": "rediger borgerjournal",
+            "deleteCitizenJournal": "slet borgerjournal",
+            "createCitizenCalendar": "opret borgerkalender",
+            "viewCitizenCalendar": "se borgerkalender",
+            "updateCitizenCalendar": "rediger borgerkalender",
+            "deleteCitizenCalendar": "slet borgerkalender",
+            "createCitizenHealth": "opret borgersundhed",
+            "viewCitizenHealth": "se borgersundhed",
+            "updateCitizenHealth": "rediger borgersundhed",
+            "deleteCitizenHealth": "slet borgersundhed"
         }
     },
     "rooms": {

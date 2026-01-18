@@ -1,5 +1,5 @@
 <template>
-    <form @submit.prevent="submitForm()" class="mt-6 max-w-xl">
+    <form @submit.prevent="submitForm()" class="mt-6 pb-16 max-w-xl">
         <Alert type="danger" :text="state?.error?.message"
             v-if="state.error?.message && state.error.message.length > 0" />
         <Alert type="danger" :text="props?.error?.message"
@@ -7,14 +7,14 @@
         <div class="space-y-3">
             <div class="space-y-1">
                 <FormLabel for="name" :label="$t('roles.form.name')" />
-                <FormTextField id="name" name="name" :placeholder="$t('roles.form.name')"
-                    v-model="state.formRole.name" />
+                <FormTextField  id="name" name="name" :placeholder="$t('roles.form.name')"
+                    v-model="state.formRole.name" :style="state.formRole?.predefined ? 'pointer-events: none; opacity: 0.6; cursor: not-allowed;' : ''" />
                 <FormError :error="v$?.formRole?.name?.$errors[0]?.$message.toString()" />
                 <FormError :error="props?.error?.errors?.name?.[0]" />
             </div>
             <div class="space-y-1">
                 <FormLabel for="permissions" :label="$t('roles.form.permissions')" />
-                <FormSelectMultiple id="permissions" :options="state.options.permissions"
+                <FormSelectMultiple id="permissions" :options="translatedPermissions"
                     v-model="state.formRole.permissions" />
                 <FormError :error="v$?.formRole?.permissions?.$errors[0]?.$message.toString()" />
                 <FormError :error="props?.error?.errors?.permission_uuid?.[0]" />
@@ -59,18 +59,38 @@ const props = defineProps({
 
 const emit = defineEmits(['isPageLoading', 'submitForm'])
 
-const { t } = useI18n()
+const { t, locale } = useI18n()
+
+const PERMISSION_LABELS:  Record<string, string> = {
+    'scheduler': 'roles.permissions.scheduler',
+    'create_schedule': 'roles.permissions.createSchedule',
+    'read_schedule': 'roles.permissions.readSchedule',
+    'view_schedule': 'roles.permissions.viewSchedule',
+    'update_schedule': 'roles.permissions.updateSchedule',
+    'delete_schedule': 'roles.permissions.deleteSchedule',
+    'create_citizen_journal': 'roles.permissions.createCitizenJournal',
+    'view_citizen_journal': 'roles.permissions.viewCitizenJournal',
+    'update_citizen_journal': 'roles.permissions.updateCitizenJournal',
+    'delete_citizen_journal': 'roles.permissions.deleteCitizenJournal',
+    'create_citizen_calendar': 'roles.permissions.createCitizenCalendar',
+    'view_citizen_calendar': 'roles.permissions.viewCitizenCalendar',
+    'update_citizen_calendar': 'roles.permissions.updateCitizenCalendar',
+    'delete_citizen_calendar': 'roles.permissions.deleteCitizenCalendar',
+    'create_citizen_health': 'roles.permissions.createCitizenHealth',
+    'view_citizen_health':  'roles.permissions.viewCitizenHealth',
+    'update_citizen_health': 'roles.permissions.updateCitizenHealth',
+    'delete_citizen_health': 'roles.permissions.deleteCitizenHealth'
+}
 
 const state = reactive({
     error: {} as Error,
-    isPageLoading: false,
+    isPageLoading:  false,
     formRole: {
         name: '',
-        permissions: [],
+        predefined: false,
+        permissions:  [],
     },
-    options: {
-        permissions: [] as any,
-    }
+    permissions: [] as Array<{ uuid: string, name: string }>,
 })
 
 onMounted(() => {
@@ -81,6 +101,7 @@ watch(() => props.selectedRole, (newValue: any) => {
     if (newValue != null) {
         state.formRole = {
             name: newValue.name,
+            predefined: newValue.predefined || false,
             permissions: newValue.permissions || [],
         }
     }
@@ -104,20 +125,28 @@ async function fetchAllPermissions() {
     try {
         const response = await permissionService.getAllPermissions()
         if (response?.data) {
-            let options: any = []
-            response.data.forEach(
-                (item: any) => options.push({
-                    value: item?.uuid,
-                    label: item?.name?.charAt(0)?.toUpperCase() + item?.name?.slice(1),
-                })
-            )
-            state.options.permissions = options
+            state.permissions = response.data.map((item: any) => ({
+                uuid: item?.uuid,
+                name: item?.name,
+            }))
         }
-    } catch (error: any) {
+    } catch (error:  any) {
         state.error = error
     }
     emit('isPageLoading', false)
 }
+
+const translatedPermissions = computed(() => {
+    const currentLocale = locale.value
+    
+    return state.permissions.map((permission) => {
+        const translationKey = PERMISSION_LABELS[permission.name]
+        return {
+            value: permission.uuid,
+            label: translationKey ?  t(translationKey) : permission.name,
+        }
+    })
+})
 
 function submitForm() {
     state.error = {}

@@ -1,68 +1,102 @@
 <template>
 
     <Head>
-        <Title>Forgot Password - {{ runtimeConfig?.public?.appName }}</Title>
+        <Title>{{ $t('forgotPassword.forgotPassword') }} - {{ runtimeConfig?.public?.appName }}</Title>
     </Head>
 
     <LoadingSpinner :isActive="state.isPageLoading">
-        <div class="flex h-screen flex-1">
-            <div class="relative hidden w-0 flex-1 lg:block overflow-clip">
-                <img src="https://citizenone.dk/wp-content/uploads/2024/09/CitizenOne-6.jpg" alt="Image failed to load"
-                    class="absolute inset-0 h-full w-full object-cover" />
-                <img src="https://citizenone.dk/wp-content/uploads/2025/03/citizenone-journalsystem.svg"
-                    alt="Image failed to load" class="absolute w-1/2" style="top: -16%; left: -11%;" />
-                <div>
-                    <img src="/img/icons/asset-01.svg" alt="Image failed to load"
-                        class="absolute w-2/4 -bottom-56 -right-12" />
-                    <p class="absolute bottom-10 right-10 text-lg text-white flex items-center gap-x-2">
-                        <img src="/img/icons/shield.svg" alt="Image failed to load" class="w-8 h-8" />
-                        ISO-certificeret serverlagring beliggende i EU
-                    </p>
-                </div>
+        <div class="bg-[#f9fafaff] flex h-screen min-h-full flex-1 flex-col justify-center py-12 sm:px-6 lg:px-8">
+            <div class="flex items-center justify-center">
+                <Logo @click="navigateTo('/')" />
             </div>
-            <div
-                class="relative overflow-clip flex flex-1 flex-col justify-center px-4 py-12 sm:px-6 lg:flex-none lg:px-20 xl:px-24">
-                <img src="/img/icons/asset-01.svg" alt="Image failed to load"
-                    class="w-64 lg:w-1/2 absolute -top-32 -right-32 opacity-0 transition-opacity duration-500"
-                    id="animatedAsset01">
-                <img src="/img/icons/asset-02.svg" alt="Image failed to load"
-                    class="w-64 lg:w-1/2 absolute -bottom-32 -left-32 opacity-0 transition-opacity duration-500"
-                    id="animatedAsset02">
-                <div class="mx-auto w-full max-w-sm lg:w-96">
-                    <div class="flex items-center justify-between">
-                        <Logo @click="navigateTo('/')" />
-                        <button type="button" class="-m-2.5 rounded-full w-8" @click="selectLanguage">
-                            <img :src="identifyFlag()" alt="flag">
-                        </button>
-                    </div>
 
-                    <form class="mt-5 space-y-3" method="POST" @submit.prevent="forgotPassword">
-                        <Alert type="danger" :text="state?.error?.message"
-                            v-if="state.error?.message && state.error.message.length > 0" />
-                        <p>
-                            {{ $t('forgotPassword.enterEmailAssociated') }}
-                        </p>
-                        <div class="space-y-1">
-                            <FormLabel for="email" :label="$t('forgotPassword.emailAddress')" />
-                            <FormTextField id="email" name="email" :placeholder="$t('forgotPassword.emailAddress')"
-                                v-model="state.email" />
-                            <FormError :error="v$?.email?.$errors[0]?.$message.toString()" />
-                            <FormError :error="state?.error?.errors?.email?.[0]" />
+            <div class="mt-10 p-3 md:p-0 sm:mx-auto sm:w-full sm:max-w-7xl">
+                <div class="bg-white shadow rounded-lg">
+                    <div class="grid grid-cols-1 lg:grid-cols-2">
+                        <div class="hidden lg:block p-3">
+                            <div class="relative h-[600px] w-full overflow-hidden rounded-md ">
+                                <img class="h-full w-full object-cover"
+                                    src="https://citizenone.dk/wp-content/uploads/2025/03/DSC_6902-1024x684-1.jpg"
+                                    :alt="$t('imageFailedToLoad')" />
+
+                                <div class="absolute inset-0 bg-black/15"></div>
+
+                                <div class="absolute -top-28 -right-20">
+                                    <img src="/img/icons/asset-01.svg" alt="Image failed to load" class="z-10 w-60"
+                                        id="animatedAsset01">
+                                </div>
+
+                                <div class="absolute -bottom-28 -left-20 opacity-80">
+                                    <img src="/img/icons/asset-02.svg" alt="Image failed to load" class="z-10 w-60"
+                                        id="animatedAsset02">
+                                </div>
+
+                                <div
+                                    class="absolute inset-0 flex items-center justify-center text-white text-3xl font-bold">
+                                    <div class="text-center">
+                                        <h4 class="text-base">
+                                            {{ $t('login.welcomeBack') }}👋
+                                        </h4>
+                                        <h3 class="mt-5 text-4xl">
+                                            <span class="font-normal">
+                                                {{ $t('login.loginToContinueTo') }}
+                                            </span>
+                                            <br />
+                                            <span>CitizenOne</span>.
+                                        </h3>
+                                        <div class="mt-10 flex justify-center">
+                                            <FormButton type="button" buttonStyle="primary" class="w-fit"
+                                                @click="navigateToHomePage('https://citizenone.dk')">
+                                                {{ $t('login.seeWhatsNew') }}
+                                            </FormButton>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
-                        <div>
-                            <FormButton type="submit" buttonStyle="primary" class="w-full">
-                                {{ $t('forgotPassword.requestPasswordReset') }}
-                            </FormButton>
-                        </div>
-                        <p class="text-center text-sm leading-6 text-gray-500">
-                            {{ $t('forgotPassword.or') }}
-                            {{ ' ' }}
-                            <a class="text-primary hover:text-primary-800 cursor-pointer" @click="navigateTo('/')">
-                                {{ $t('forgotPassword.loginHereInstead') }}
-                            </a>
-                        </p>
-                    </form>
+
+                        <form class="mt-5 p-8 lg:p-28" method="POST" @submit.prevent="forgotPassword">
+                            <div class="space-y-3">
+                                <Alert type="danger" :text="state?.error?.message"
+                                    v-if="state.error?.message && state.error.message.length > 0" />
+                                <div class="flex items-center justify-between">
+                                    <h3 class="font-medium">
+                                        {{ $t('forgotPassword.forgotPassword') }}
+                                    </h3>
+                                    <button type="button" class="rounded-full w-8" @click="selectLanguage">
+                                        <img :src="identifyFlag()" alt="flag">
+                                    </button>
+                                </div>
+                                <p>
+                                    {{ $t('forgotPassword.enterEmailAssociated') }}
+                                </p>
+                                <div class="space-y-1">
+                                    <FormLabel for="email" :label="$t('forgotPassword.emailAddress')" />
+                                    <FormTextField id="email" name="email"
+                                        :placeholder="$t('forgotPassword.emailAddress')" v-model="state.email" />
+                                    <FormError :error="v$?.email?.$errors[0]?.$message.toString()" />
+                                    <FormError :error="state?.error?.errors?.email?.[0]" />
+                                </div>
+                            </div>
+                            <div class="mt-5">
+                                <FormButton type="submit" buttonStyle="primary" class="w-full">
+                                    {{ $t('forgotPassword.requestPasswordReset') }}
+                                </FormButton>
+                            </div>
+                            <p class="mt-2 text-center text-sm leading-6 text-gray-500">
+                                {{ $t('forgotPassword.or') }}
+                                {{ ' ' }}
+                                <a class="text-primary hover:text-primary-800 cursor-pointer" @click="navigateTo('/')">
+                                    {{ $t('forgotPassword.loginHereInstead') }}
+                                </a>
+                            </p>
+                        </form>
+                    </div>
                 </div>
+
+                <p class="mt-8 text-center text-sm/6 text-gray-500">
+                    ISO-certificeret serverlagring beliggende i EU
+                </p>
             </div>
         </div>
         <ModulesUserLanguageSlideOver :isOpen="state.slideOver.isLanguageSwitcherOpen"
@@ -161,5 +195,11 @@ function identifyFlag() {
             return '/img/icons/flags/denmark.svg'
         }
     }
+}
+
+async function navigateToHomePage(link: any) {
+    await navigateTo(link, {
+        external: true
+    })
 }
 </script>
