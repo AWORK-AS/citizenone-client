@@ -5012,7 +5012,9 @@
                 "region": "Region",
                 "street": "Street",
                 "transferNormHours": "Transfer norm hours to next year if not used",
-                "website": "Website"
+                "website": "Website",
+                "companyLogo": "Company logo",
+                "remove": "Remove company logo"
             }
         },
         "licenseOverview": {

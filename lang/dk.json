@@ -5012,7 +5012,9 @@
                 "region": "Region",
                 "street": "Gade",
                 "transferNormHours": "Overfør normtimer til næste år, hvis de ikke er brugt",
-                "website": "Hjemmeside"
+                "website": "Hjemmeside",
+                "companyLogo": "Firmalogo",
+                "remove": "Fjern firmalogo"
             }
         },
         "licenseOverview": {

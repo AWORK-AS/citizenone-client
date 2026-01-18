@@ -19,9 +19,13 @@
                     <Alert type="danger" :text="state?.error?.message"
                         v-if="state.error?.message && state.error.message.length > 0" />
                     <div class="grid grid-cols-1 gap-3">
-                        <!-- Company Logo for PDF Branding -->
                         <div class="space-y-1">
-                            <FormLabel label="Company Logo" />
+                            <div class="flex gap-x-4 items-center">
+                                <FormLabel :label="$t('settings.company.form.companyLogo')" />
+                                <Tooltip v-if="logoPreviewUrl" :text="$t('settings.company.form.remove')">
+                                    <Icon name="ph:trash" class="p-2 size-4 cursor-pointer text-red-500 text-sm hover:text-red-700" @click="removeLogo" />
+                                </Tooltip>
+                            </div>
                             <input type="file" ref="logoInput" @change="onLogoChange"
                                 accept="image/png,image/jpeg,image/svg+xml" class="hidden" />
                             <div class="flex items-center gap-4">
@@ -37,10 +41,6 @@
                                         </div>
                                     </template>
                                 </div>
-                                <button v-if="logoPreviewUrl" type="button" @click="removeLogo"
-                                    class="text-red-500 text-sm hover:text-red-700">
-                                    {{ $t('remove') }}
-                                </button>
                             </div>
                         </div>
 
