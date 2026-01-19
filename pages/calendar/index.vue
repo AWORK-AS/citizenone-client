@@ -178,6 +178,7 @@ const state = reactive({
     formCalendar: {
         citizens_uuid: [],
         users_uuid: employeeUuid ? [employeeUuid] : [],
+        employee_group_uuid: [],
     },
     isPageLoading: false,
     modal: {
@@ -353,6 +354,9 @@ async function fetchMyCalendarEvents() {
         }
         if (state.formCalendar.users_uuid) {
             params.employee_uuid = Array(state.formCalendar.users_uuid)
+        }
+        if (state.formCalendar.employee_group_uuid) {
+            params.employee_group_uuid = Array(state.formCalendar.employee_group_uuid)
         }
 
         if (state.filter.tags_uuid) {

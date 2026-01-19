@@ -17,6 +17,13 @@
                 <FormError :error="v$?.form?.description?.$errors[0]?.$message.toString()" />
                 <FormError :error="state?.error?.errors?.description?.[0]" />
             </div>
+            <!-- Document Title for downloadable PDF(no CRUD) -->
+            <div class="space-y-1">
+                <FormLabel for="document_title" label="Document Title" />
+                <FormTextField id="document_title" name="document_title"
+                    placeholder="Document Title"
+                    v-model="state.form.document_title" />
+            </div>
         </div>
 
         <div class="space-y-3 px-4 py-6 sm:p-8 bg-white shadow-sm ring-1 ring-gray-900/5 rounded-lg">
@@ -412,6 +419,7 @@ const state = reactive({
         description: '',
         fields: [] as any,
         title: '',
+        document_title: '',
     },
     showFieldsAdder: true,
 })
@@ -421,6 +429,9 @@ watch(() => props.selectedForm, (selectedForm: any) => {
         state.form.title = selectedForm.title
         state.form.description = selectedForm.description
         state.form.fields = selectedForm.fields
+        if (selectedForm.document_title) {
+            state.form.document_title = selectedForm.document_title
+        }
     }
 }, { immediate: true })
 

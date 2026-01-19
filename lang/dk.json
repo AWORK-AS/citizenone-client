@@ -3110,6 +3110,34 @@
         },
         "viewEmployee": "Se medarbejder"
     },
+    "employeeGroups": {
+        "employeeGroups": "Medarbejdergrupper",
+        "newEmployeeGroup": "Ny medarbejdergruppe",
+        "editEmployeeGroup": "Rediger medarbejdergruppe",
+        "table": {
+            "alert": {
+                "employeeGroupSuccessfullyDeleted": "Medarbejdergruppe slettet med succes"
+            },
+            "actions": {
+                "delete": "Slet",
+                "edit": "Rediger"
+            },
+            "confirmation": {
+                "deleteEmployeeGroupConfirmation": "Er du sikker på, at du vil slette denne medarbejdergruppe"
+            },
+            "name": "Navn"
+        },
+        "form": {
+            "employeeGroup": "Medarbejdergruppe",
+            "employees": "Medarbejdere",
+            "department": "Afdeling",
+            "alert": {
+                "employeeGroupSuccessfullyUpdated": "Medarbejdergruppe opdateret med succes",
+                "newEmployeeGroupSuccessfullySaved": "Ny medarbejdergruppe gemt med succes"
+            },
+            "name": "Navn"
+        }
+    },
     "entriesPerPage": "Indlæg pr. side",
     "events": {
         "alert": {
@@ -3139,7 +3167,8 @@
             "private": "Privat",
             "sendInvitation": "Send invitationen",
             "tags": "Etiketter",
-            "title": "Titel"
+            "title": "Titel",
+            "employeeGroups":"Employee groups"
         },
         "holidays": "Helligdage",
         "invitees": "Inviterede",
@@ -4079,10 +4108,14 @@
             "image": "Billede",
             "featured": "Fremhævet",
             "link": "Link",
-            "title": "Titel"
+            "title": "Titel",
+            "attachments": "Vedhæftede filer",
+            "clickToUpload": "Klik for at uploade filer",
+            "multipleFilesAllowed": "Flere filer tilladt",
+            "existingAttachments": "Eksisterende vedhæftede filer"
         },
         "news": "Nyheder",
-        "newNews": "Ny nyhed",
+        "newNews": "Nyt opslag",
         "table": {
             "actions": {
                 "delete": "Slet",
@@ -4102,6 +4135,7 @@
     "overview": {
         "addDailyEvents": "Tilføj daglige begivenheder",
         "bulletBoard": "Opslagstavle",
+        "bulletBoardAttachments": "Opslagstavle vedhæftede filer",
         "calendar": "Kalender",
         "campaign": "Kampagne",
         "citizens": "Borgere",
@@ -4875,6 +4909,26 @@
             "name": "Navn",
             "permissions": "Tilladelser",
             "user": "Bruger"
+        },
+        "permissions": {
+            "scheduler": "Vagtplanlægger",
+            "createSchedule": "opret vagtplan",
+            "readSchedule": "se vagtplan",
+            "viewSchedule": "se vagtplan",
+            "updateSchedule": "rediger vagtplan",
+            "deleteSchedule": "slet vagtplan",
+            "createCitizenJournal": "opret borgerjournal",
+            "viewCitizenJournal": "se borgerjournal",
+            "updateCitizenJournal": "rediger borgerjournal",
+            "deleteCitizenJournal": "slet borgerjournal",
+            "createCitizenCalendar": "opret borgerkalender",
+            "viewCitizenCalendar": "se borgerkalender",
+            "updateCitizenCalendar": "rediger borgerkalender",
+            "deleteCitizenCalendar": "slet borgerkalender",
+            "createCitizenHealth": "opret borgersundhed",
+            "viewCitizenHealth": "se borgersundhed",
+            "updateCitizenHealth": "rediger borgersundhed",
+            "deleteCitizenHealth": "slet borgersundhed"
         }
     },
     "rooms": {
@@ -4992,7 +5046,9 @@
                 "region": "Region",
                 "street": "Gade",
                 "transferNormHours": "Overfør normtimer til næste år, hvis de ikke er brugt",
-                "website": "Hjemmeside"
+                "website": "Hjemmeside",
+                "companyLogo": "Firmalogo",
+                "remove": "Fjern firmalogo"
             }
         },
         "licenseOverview": {

@@ -3110,6 +3110,34 @@
         },
         "viewEmployee": "View employee"
     },
+    "employeeGroups": {
+        "employeeGroups": "Employee groups",
+        "newEmployeeGroup": "New employee group",
+        "editEmployeeGroup": "Edit employee group",
+         "table": {
+            "alert": {
+                "employeeGroupSuccessfullyDeleted": "Employee group successfully deleted"
+            },
+            "actions": {
+                "delete": "Delete",
+                "edit": "Edit"
+            },
+            "confirmation": {
+                "deleteEmployeeGroupConfirmation": "Are you sure you want to delete this employee group"
+            },
+            "name": "Name"
+        },
+        "form": {
+            "employeeGroup": "Employee group",
+            "employees": "Employees",
+            "department": "Department",
+            "alert": {
+                "employeeGroupSuccessfullyUpdated": "Employee group successfully updated",
+                "newEmployeeGroupSuccessfullySaved": "New employee group successfully saved"
+            },
+            "name": "Name"
+        }
+    },
     "entriesPerPage": "Entries per page",
     "events": {
         "alert": {
@@ -3139,7 +3167,8 @@
             "private": "Private",
             "sendInvitation": "Send invitation",
             "tags": "Tags",
-            "title": "Title"
+            "title": "Title",
+            "employeeGroups":"Employee groups"
         },
         "holidays": "Holidays",
         "invitees": "Invitees",
@@ -4079,7 +4108,11 @@
             "image": "Image",
             "featured": "Featured",
             "link": "Link",
-            "title": "Title"
+            "title": "Title",
+            "attachments": "File Attachments",
+            "clickToUpload": "Click to upload files",
+            "multipleFilesAllowed": "Multiple files allowed",
+            "existingAttachments": "Existing Attachments"
         },
         "news": "News",
         "newNews": "New news",
@@ -4092,7 +4125,7 @@
             "content": "Content",
             "featured": "Featured",
             "image": "Image",
-            "inactive": "Inctive",
+            "inactive": "Inactive",
             "status": "Status",
             "title": "Title"
         }
@@ -4102,6 +4135,7 @@
     "overview": {
         "addDailyEvents": "Add daily events",
         "bulletBoard": "Bullet board",
+        "bulletBoardAttachments": "Bullet board attachments",
         "calendar": "Calendar",
         "campaign": "Campaign",
         "citizens": "Citizens",
@@ -4875,6 +4909,26 @@
             "name": "Name",
             "permissions": "Permissions",
             "user": "User"
+        },
+        "permissions": {
+            "scheduler": "Scheduler",
+            "createSchedule": "create schedule",
+            "readSchedule": "view schedule",
+            "viewSchedule": "view schedule",
+            "updateSchedule": "update schedule",
+            "deleteSchedule": "delete schedule",
+            "createCitizenJournal": "create citizen journal",
+            "viewCitizenJournal": "view citizen journal",
+            "updateCitizenJournal": "update citizen journal",
+            "deleteCitizenJournal": "delete citizen journal",
+            "createCitizenCalendar": "create citizen calendar",
+            "viewCitizenCalendar": "view citizen calendar",
+            "updateCitizenCalendar": "update citizen calendar",
+            "deleteCitizenCalendar": "delete citizen calendar",
+            "createCitizenHealth": "create citizen health",
+            "viewCitizenHealth": "view citizen health",
+            "updateCitizenHealth": "update citizen health",
+            "deleteCitizenHealth": "delete citizen health"
         }
     },
     "rooms": {
@@ -4992,7 +5046,9 @@
                 "region": "Region",
                 "street": "Street",
                 "transferNormHours": "Transfer norm hours to next year if not used",
-                "website": "Website"
+                "website": "Website",
+                "companyLogo": "Company logo",
+                "remove": "Remove company logo"
             }
         },
         "licenseOverview": {
@@ -5040,6 +5096,7 @@
             "departments": "Departments",
             "diagnoses": "Diagnoses",
             "dosageForms": "Dosage forms",
+            "employeeGroups": "Employee groups",
             "foreignCities": "Foreign cities",
             "invoices": "Invoices",
             "jobTitles": "Job titles",
