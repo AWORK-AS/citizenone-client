@@ -92,6 +92,14 @@ watch(() => userStore.getUser, (newValue: any) => {
                 ]
             },
             {
+                name: 'settings.tabs.employeeGroups',
+                isTranslateName: true,
+                href: `/settings/employee-groups`,
+                routeNames: [
+                    'settings-employee-groups'
+                ]
+            },
+            {
                 name: 'settings.tabs.foreignCities',
                 isTranslateName: true,
                 href: `/settings/foreign-cities`,
@@ -228,6 +236,9 @@ function changeTab(value: any) {
     }
     else if (value === '/settings/departments') {
         navigateTo(`/settings/departments`)
+    }
+    else if (value === '/settings/employee-groups') {
+        navigateTo(`/settings/employee-groups`)
     }
     else if (value === '/settings/diagnoses') {
         navigateTo(`/settings/diagnoses`)

@@ -79,13 +79,32 @@
                 <FormError :error="v$?.formSchedule?.citizens_uuid?.$errors[0]?.$message.toString()" />
                 <FormError :error="props?.error?.errors?.citizens_uuid?.[0]" />
             </div>
-            <div class="space-y-1" v-if="props.formType === 'create'">
+            
+            
+            <div class="space-y-1 flex items-center gap-x-2">
+                <FormSwitch :value="state.formSchedule.is_groups"
+                    @toggleSwitch="state.formSchedule.is_groups = !state.formSchedule.is_groups" />
+                <p>
+                    {{ $t('events.form.employeeGroups') }}
+                </p>
+            </div>
+
+            <div class="space-y-1" v-if="props.formType === 'create' && !state.formSchedule.is_groups">
                 <FormLabel for="users_uuid" :label="$t('events.form.employees')" />
                 <FormSelectMultiple id="users_uuid" name="users_uuid" :options="state.options.users"
                     v-model="state.formSchedule.users_uuid" />
                 <FormError :error="v$?.formSchedule?.users_uuid?.$errors[0]?.$message.toString()" />
                 <FormError :error="props?.error?.errors?.users_uuid?.[0]" />
             </div>
+            <div v-else class="space-y-1" v-if="props.formType === 'create' && state.formSchedule.is_groups">
+                <FormLabel for="employee_group_uuid" :label="$t('events.form.employeeGroups')" />
+                <FormSelectMultiple id="employee_group_uuid" name="employee_group_uuid" :options="state.options.employee_groups"
+                    v-model="state.formSchedule.employee_group_uuid" />
+                <FormError :error="v$?.formSchedule?.employee_group_uuid?.$errors[0]?.$message.toString()" />
+                <FormError :error="props?.error?.errors?.employee_group_uuid?.[0]" />
+            </div>
+
+
             <div class="space-y-1" v-if="props.formType === 'create'">
                 <div class="w-fit flex items-center cursor-pointer"
                     @click="state.formSchedule.send_invitation = !state.formSchedule.send_invitation">
@@ -263,6 +282,7 @@ import { required, helpers } from '@vuelidate/validators'
 import { useI18n } from "vue-i18n"
 import { useDepartmentStore } from '@/store/department'
 import type { Error } from '@/types'
+import { employeeGroupService } from '@/components/api/user/EmployeeGroupService'
 
 const props = defineProps({
     error: {
@@ -302,6 +322,8 @@ const state = reactive({
         is_private: false,
         citizens_uuid: [],
         users_uuid: [],
+        employee_group_uuid: [],
+        is_groups: false,
         calendar_tag_uuid: [],
         send_invitation: false,
         recurring: {
@@ -417,6 +439,7 @@ const state = reactive({
         tags: [] as Option[],
         units: [] as Option[],
         users: [] as Option[],
+        employee_groups: [] as Option[]
     }
 })
 
@@ -424,6 +447,7 @@ onMounted(() => {
     fetchAllCalendarTags()
     fetchAllCitizens()
     fetchAllUsers()
+    fetchAllEmployeeGroups()
     fetchAllUnits()
 
     state.formSchedule.date_time_start = props.selectedSchedule.date_time_start
@@ -591,6 +615,28 @@ async function fetchAllUsers() {
                 })
             )
             state.options.users = options
+        }
+    } catch (error: any) {
+        state.error = error
+    }
+    state.isPageLoading = false
+}
+
+async function fetchAllEmployeeGroups() {
+    state.error = {}
+    state.isPageLoading = true
+    try {
+        const params = {}
+        const response = await employeeGroupService.getEmployeeGroups(params)
+        if (response.data) {
+            let options: any = []
+            response.data.forEach(
+                (group: any) => options.push({
+                    value: group?.uuid,
+                    label: group?.name,
+                })
+            )
+            state.options.employee_groups = options
         }
     } catch (error: any) {
         state.error = error
