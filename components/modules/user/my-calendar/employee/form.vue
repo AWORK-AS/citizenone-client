@@ -3,13 +3,28 @@
         <Alert type="danger" :text="props?.error?.message"
             v-if="props.error?.message && props.error.message.length > 0" />
         <div class="grid grid-cols-1 gap-y-3">
-            <div class="space-y-1" v-if="props.formType === 'create'">
+            <div class="space-y-1 flex items-center gap-x-2">
+                <FormSwitch :value="state.formSchedule.owner_is_groups"
+                    @toggleSwitch="state.formSchedule.owner_is_groups = !state.formSchedule.owner_is_groups" />
+                <p>
+                    {{ $t('events.form.employeeGroups') }}
+                </p>
+            </div>
+
+            <div class="space-y-1" v-if="props.formType === 'create' && !state.formSchedule.owner_is_groups">
                 <FormLabel for="employees"
                     :label="`${$t('events.form.employees')} (${$t('events.form.eventOwner')})`" />
                 <FormSelectMultiple id="employees" name="employees" :options="state.options.users"
                     v-model="state.formSchedule.employees" />
                 <FormError :error="v$?.formSchedule?.employees?.$errors[0]?.$message.toString()" />
                 <FormError :error="props?.error?.errors?.employee_uuid?.[0]" />
+            </div>
+            <div class="space-y-1" v-if="props.formType === 'create' && state.formSchedule.owner_is_groups">
+                <FormLabel for="user_group_uuid" :label="`${$t('events.form.employeeGroups')} (${$t('events.form.eventOwner')})`" />
+                <FormSelectMultiple id="user_group_uuid" name="user_group_uuid" :options="state.options.employee_groups"
+                    v-model="state.formSchedule.user_group_uuid" />
+                <FormError :error="v$?.formSchedule?.user_group_uuid?.$errors[0]?.$message.toString()" />
+                <FormError :error="props?.error?.errors?.user_group_uuid?.[0]" />
             </div>
             <div class="space-y-1">
                 <FormLabel for="title" :label="$t('events.form.title')" />
@@ -314,6 +329,8 @@ const state = reactive({
         id: '',
         uuid: '',
         employees: [],
+        owner_is_groups: false,
+        user_group_uuid: [] as string[],
         title: '',
         description: '',
         date_time_start: '',
