@@ -175,7 +175,7 @@ function handleSearch(value: any) {
     fetchAccounts()
 }
 
-async function activateDeactivateAccount(index: number, account: any) {
+async function activateDeactivateAccount(index: any, account: any) {
     state.error = {}
     state.isTableLoading = true
     try {

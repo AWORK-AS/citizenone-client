@@ -3169,7 +3169,7 @@
             "sendInvitation": "Send invitationen",
             "tags": "Etiketter",
             "title": "Titel",
-            "employeeGroups":"Employee groups"
+            "employeeGroups": "Employee groups"
         },
         "holidays": "Helligdage",
         "invitees": "Inviterede",
@@ -5521,6 +5521,7 @@
             "tabs": {
                 "apps": "Apps",
                 "accounts": "Kontoer",
+                "invoices": "Fakturaer",
                 "licenseOverview": "Licensoversigt",
                 "licenses": "Licenser"
             }

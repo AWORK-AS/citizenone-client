@@ -81,8 +81,8 @@ const props = defineProps({
 })
 const emit = defineEmits(['closeModal', 'submitForm'])
 const file = ref<HTMLInputElement | null>(null)
-
 const { t } = useI18n()
+const language = useI18n()
 
 const state = reactive({
     error: {} as Error,
@@ -108,7 +108,7 @@ onMounted(() => {
         id: props.selectedWalletTransaction?.id,
         uuid: props.selectedWalletTransaction?.uuid,
         type: props.selectedWalletTransaction?.type,
-        amount: props.selectedWalletTransaction?.amount,
+        amount: language.locale.value === 'dk' ? props.selectedWalletTransaction?.amount?.toString().replace('.', ',') : props.selectedWalletTransaction?.amount,
         note: props.selectedWalletTransaction?.note,
         file: '',
     }
