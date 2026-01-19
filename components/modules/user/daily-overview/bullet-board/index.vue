@@ -57,7 +57,7 @@
                                             
                                             <div class="flex-1 min-w-0">
                                                 <p class="text-xs text-gray-700 group-hover:text-gray-900 truncate font-medium">
-                                                    {{ attachment.name }}
+                                                    {{ attachment.file_name }}
                                                 </p>
                                                 <p class="text-xs text-gray-400">
                                                     {{ formatFileSize(attachment.size) }}
