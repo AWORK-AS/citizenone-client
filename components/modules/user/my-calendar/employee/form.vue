@@ -5,7 +5,7 @@
         <div class="grid grid-cols-1 gap-y-3">
             <div class="space-y-1 flex items-center gap-x-2">
                 <FormSwitch :value="state.formSchedule.owner_is_groups"
-                    @toggleSwitch="state.formSchedule.owner_is_groups = !state.formSchedule.owner_is_groups" />
+                    @toggleSwitch="toggleOwner" />
                 <p>
                     {{ $t('events.form.employeeGroups') }}
                 </p>
@@ -20,11 +20,11 @@
                 <FormError :error="props?.error?.errors?.employee_uuid?.[0]" />
             </div>
             <div class="space-y-1" v-if="props.formType === 'create' && state.formSchedule.owner_is_groups">
-                <FormLabel for="user_group_uuid" :label="`${$t('events.form.employeeGroups')} (${$t('events.form.eventOwner')})`" />
-                <FormSelectMultiple id="user_group_uuid" name="user_group_uuid" :options="state.options.employee_groups"
-                    v-model="state.formSchedule.user_group_uuid" />
-                <FormError :error="v$?.formSchedule?.user_group_uuid?.$errors[0]?.$message.toString()" />
-                <FormError :error="props?.error?.errors?.user_group_uuid?.[0]" />
+                <FormLabel for="employee_group_uuid" :label="`${$t('events.form.employeeGroups')} (${$t('events.form.eventOwner')})`" />
+                <FormSelectMultiple id="employee_group_uuid" name="employee_group_uuid" :options="state.options.employee_groups"
+                    v-model="state.formSchedule.employee_group_uuid" />
+                <FormError :error="v$?.formSchedule?.employee_group_uuid?.$errors[0]?.$message.toString()" />
+                <FormError :error="props?.error?.errors?.employee_group_uuid?.[0]" />
             </div>
             <div class="space-y-1">
                 <FormLabel for="title" :label="$t('events.form.title')" />
@@ -98,7 +98,7 @@
             
             <div class="space-y-1 flex items-center gap-x-2">
                 <FormSwitch :value="state.formSchedule.is_groups"
-                    @toggleSwitch="state.formSchedule.is_groups = !state.formSchedule.is_groups" />
+                    @toggleSwitch="toggleEmployees" />
                 <p>
                     {{ $t('events.form.employeeGroups') }}
                 </p>
@@ -112,11 +112,11 @@
                 <FormError :error="props?.error?.errors?.users_uuid?.[0]" />
             </div>
             <div v-else class="space-y-1" v-if="props.formType === 'create' && state.formSchedule.is_groups">
-                <FormLabel for="employee_group_uuid" :label="$t('events.form.employeeGroups')" />
-                <FormSelectMultiple id="employee_group_uuid" name="employee_group_uuid" :options="state.options.employee_groups"
-                    v-model="state.formSchedule.employee_group_uuid" />
-                <FormError :error="v$?.formSchedule?.employee_group_uuid?.$errors[0]?.$message.toString()" />
-                <FormError :error="props?.error?.errors?.employee_group_uuid?.[0]" />
+                <FormLabel for="user_group_uuid" :label="$t('events.form.employeeGroups')" />
+                <FormSelectMultiple id="user_group_uuid" name="user_group_uuid" :options="state.options.employee_groups"
+                    v-model="state.formSchedule.user_group_uuid" />
+                <FormError :error="v$?.formSchedule?.user_group_uuid?.$errors[0]?.$message.toString()" />
+                <FormError :error="props?.error?.errors?.user_group_uuid?.[0]" />
             </div>
 
 
@@ -330,7 +330,7 @@ const state = reactive({
         uuid: '',
         employees: [],
         owner_is_groups: false,
-        user_group_uuid: [] as string[],
+        employee_group_uuid: [] as string[],
         title: '',
         description: '',
         date_time_start: '',
@@ -339,7 +339,7 @@ const state = reactive({
         is_private: false,
         citizens_uuid: [],
         users_uuid: [],
-        employee_group_uuid: [],
+        user_group_uuid: [],
         is_groups: false,
         calendar_tag_uuid: [],
         send_invitation: false,
@@ -523,6 +523,18 @@ function submitForm() {
     if (!v$.value.$error) {
         emit('submitForm', state.formSchedule)
     }
+}
+
+function toggleOwner() {
+    state.formSchedule.owner_is_groups = !state.formSchedule.owner_is_groups
+    state.formSchedule.employees = []
+    state.formSchedule.employee_group_uuid = []
+}
+
+function toggleEmployees() {
+    state.formSchedule.is_groups = !state.formSchedule.is_groups
+    state.formSchedule.users_uuid = []
+    state.formSchedule.user_group_uuid = []
 }
 
 function formatDateTimeToYYYYmmddHHmm(inputDate: string): string {
