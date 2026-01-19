@@ -157,7 +157,7 @@ const breadcrumbLinks = [
 
 const state = reactive({
     columnHeaders: [
-        { name: 'citizens.walletTransactions.table.date', sorter: true, key: 'date' },
+        { name: 'citizens.walletTransactions.table.date', sorter: true, key: 'created_at' },
         { name: 'citizens.walletTransactions.table.type', sorter: true, key: 'type' },
         { name: 'citizens.walletTransactions.table.amount', sorter: true, key: 'amount' },
         { name: 'citizens.walletTransactions.table.note' },
