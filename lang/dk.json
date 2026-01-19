@@ -3167,7 +3167,8 @@
             "private": "Privat",
             "sendInvitation": "Send invitationen",
             "tags": "Etiketter",
-            "title": "Titel"
+            "title": "Titel",
+            "employeeGroups":"Employee groups"
         },
         "holidays": "Helligdage",
         "invitees": "Inviterede",

@@ -47,6 +47,7 @@ const state = reactive({
         is_private: false,
         citizens_uuid: [],
         users_uuid: [],
+        employee_group_uuid: [],
         send_invitation: false,
         recurring: {
             is_recurring: false,
@@ -92,6 +93,7 @@ async function saveSchedule(scheduleDetails: any) {
             is_private: scheduleDetails.is_private,
             citizens_uuid: scheduleDetails.citizens_uuid,
             users_uuid: scheduleDetails.users_uuid,
+            employee_group_uuid: scheduleDetails.employee_group_uuid,
             send_invitation: scheduleDetails.send_invitation,
             is_recurring: scheduleDetails.recurring.is_recurring,
             recurring: scheduleDetails.recurring.recurring,
