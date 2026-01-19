@@ -79,7 +79,25 @@ const PERMISSION_LABELS:  Record<string, string> = {
     'create_citizen_health': 'roles.permissions.createCitizenHealth',
     'view_citizen_health':  'roles.permissions.viewCitizenHealth',
     'update_citizen_health': 'roles.permissions.updateCitizenHealth',
-    'delete_citizen_health': 'roles.permissions.deleteCitizenHealth'
+    'delete_citizen_health': 'roles.permissions.deleteCitizenHealth',
+    'create_citizen_medicine': 'roles.permissions.createCitizenMedicine',
+    'update_citizen_medicine': 'roles.permissions.updateCitizenMedicine',
+    'delete_citizen_medicine': 'roles.permissions.deleteCitizenMedicine',
+    'create_citizen_plan': 'roles.permissions.createCitizenPlan',
+    'update_citizen_plan': 'roles.permissions.updateCitizenPlan',
+    'delete_citizen_plan': 'roles.permissions.deleteCitizenPlan',
+    'create_citizen_document': 'roles.permissions.createCitizenDocument',
+    'update_citizen_document': 'roles.permissions.updateCitizenDocument',
+    'delete_citizen_document': 'roles.permissions.deleteCitizenDocument',
+    'create_citizen_economy': 'roles.permissions.createCitizenEconomy',
+    'update_citizen_economy': 'roles.permissions.updateCitizenEconomy',
+    'delete_citizen_economy': 'roles.permissions.deleteCitizenEconomy',
+    'create_citizen_contact': 'roles.permissions.createCitizenContact',
+    'update_citizen_contact': 'roles.permissions.updateCitizenContact',
+    'delete_citizen_contact': 'roles.permissions.deleteCitizenContact',
+    'create_citizen_children': 'roles.permissions.createCitizenChildren',
+    'update_citizen_children': 'roles.permissions.updateCitizenChildren',
+    'delete_citizen_children': 'roles.permissions.deleteCitizenChildren',
 }
 
 const state = reactive({

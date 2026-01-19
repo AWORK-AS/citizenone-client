@@ -4929,7 +4929,25 @@
             "createCitizenHealth": "opret borgersundhed",
             "viewCitizenHealth": "se borgersundhed",
             "updateCitizenHealth": "rediger borgersundhed",
-            "deleteCitizenHealth": "slet borgersundhed"
+            "deleteCitizenHealth": "slet borgersundhed",
+            "createCitizenMedicine": "opret borgermedicin",
+            "updateCitizenMedicine": "rediger borgermedicin",
+            "deleteCitizenMedicine": "slet borgermedicin",
+            "createCitizenPlan": "opret borgerplan",
+            "updateCitizenPlan": "rediger borgerplan",
+            "deleteCitizenPlan": "slet borgerplan",
+            "createCitizenDocument": "opret borgerdokument",
+            "updateCitizenDocument": "rediger borgerdokument",
+            "deleteCitizenDocument": "slet borgerdokument",
+            "createCitizenEconomy": "opret borgerøkonomi",
+            "updateCitizenEconomy": "rediger borgerøkonomi",
+            "deleteCitizenEconomy": "slet borgerøkonomi",
+            "createCitizenContact": "opret borgerkontakt",
+            "updateCitizenContact": "rediger borgerkontakt",
+            "deleteCitizenContact": "slet borgerkontakt",
+            "createCitizenChildren": "opret borgerbørn",
+            "updateCitizenChildren": "rediger borgerbørn",
+            "deleteCitizenChildren": "slet borgerbørn"
         }
     },
     "rooms": {

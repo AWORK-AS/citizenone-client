@@ -4929,7 +4929,25 @@
             "createCitizenHealth": "create citizen health",
             "viewCitizenHealth": "view citizen health",
             "updateCitizenHealth": "update citizen health",
-            "deleteCitizenHealth": "delete citizen health"
+            "deleteCitizenHealth": "delete citizen health",
+            "createCitizenMedicine": "create citizen medicine",
+            "updateCitizenMedicine": "update citizen medicine",
+            "deleteCitizenMedicine": "delete citizen medicine",
+            "createCitizenPlan": "create citizen plan",
+            "updateCitizenPlan": "update citizen plan",
+            "deleteCitizenPlan": "delete citizen plan",
+            "createCitizenDocument": "create citizen document",
+            "updateCitizenDocument": "update citizen document",
+            "deleteCitizenDocument": "delete citizen document",
+            "createCitizenEconomy": "create citizen economy",
+            "updateCitizenEconomy": "update citizen economy",
+            "deleteCitizenEconomy": "delete citizen economy",
+            "createCitizenContact": "create citizen contact",
+            "updateCitizenContact": "update citizen contact",
+            "deleteCitizenContact": "delete citizen contact",
+            "createCitizenChildren": "create citizen children",
+            "updateCitizenChildren": "update citizen children",
+            "deleteCitizenChildren": "delete citizen children"
         }
     },
     "rooms": {
