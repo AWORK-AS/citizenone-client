@@ -88,7 +88,7 @@
                         </span>
                     </button>
                 </div>
-                <div class="lg:col-span-3 grid grid-cols-1 md:grid-cols-2 items-center gap-x-3">
+                <div class="lg:col-span-3 grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 items-center gap-x-3">
                     <div>
                         <FormLabel for="citizens_uuid" :label="$t('calendar.citizens')" />:
                         <FormSelectMultiple id="citizens_uuid" name="citizens_uuid" :options="state.options.citizens"
@@ -98,6 +98,11 @@
                         <FormLabel for="users_uuid" :label="$t('calendar.employees')" />:
                         <FormSelectMultiple id="users_uuid" name="users_uuid" :options="state.options.users"
                             v-model="state.formCalendar.users_uuid" @change="changeUsersUuid" />
+                    </div>
+                    <div>
+                        <FormLabel for="employee_group_uuid" :label="$t('calendar.employeeGroups')" />:
+                        <FormSelectMultiple id="employee_group_uuid" name="employee_group_uuid" :options="state.options.employeeGroups"
+                            v-model="state.formCalendar.employee_group_uuid" @change="changeEmployeeGroupUuid" />
                     </div>
                 </div>
             </div>
@@ -150,6 +155,7 @@ import { useCalendarStore } from '@/store/calendar'
 import { useDepartmentStore } from '@/store/department'
 import { useUserStore } from '@/store/user'
 import type { Error } from '@/types'
+import { employeeGroupService } from '~/components/api/user/EmployeeGroupService'
 // import { saveAs } from 'file-saver'
 
 const runtimeConfig = useRuntimeConfig()
@@ -178,7 +184,7 @@ const state = reactive({
     formCalendar: {
         citizens_uuid: [],
         users_uuid: employeeUuid ? [employeeUuid] : [],
-        employee_group_uuid: [],
+        employee_group_uuid: [] as any,
     },
     isPageLoading: false,
     modal: {
@@ -212,12 +218,14 @@ const state = reactive({
     options: {
         citizens: [] as any,
         users: [] as any,
+        employeeGroups: [] as any,
     }
 })
 
 onMounted(() => {
     fetchAllCitizens()
     fetchAllUsers()
+    fetchAllEmployeeGroups()
     if (calendarStore.getCalendarView === 'default') {
         state.calendarView = 'default'
         const firstDayOfMonth = moment().startOf('month').format('Y-M-D')
@@ -249,12 +257,14 @@ onMounted(() => {
 watch(() => language.locale.value, () => {
     fetchAllCitizens()
     fetchAllUsers()
+    fetchAllEmployeeGroups()
 })
 
 watch(() => departmentStore.getSelectedDepartmentName, (newValue: any) => {
     if (newValue != null) {
         fetchAllCitizens()
         fetchAllUsers()
+        fetchAllEmployeeGroups()
         fetchMyCalendarEvents()
     }
 })
@@ -311,6 +321,30 @@ async function fetchAllUsers() {
     state.isPageLoading = false
 }
 
+async function fetchAllEmployeeGroups() {
+    state.error = {}
+    state.isPageLoading = true
+    try {
+        const params = {
+            department: departmentStore.getSelectedDepartmentName
+        }
+        const response = await employeeGroupService.getEmployeeGroups(params)
+        if (response.data) {
+            let options: any = []
+            response.data.forEach(
+                (employeeGroup: any) => options.push({
+                    value: employeeGroup?.uuid,
+                    label: employeeGroup?.name,
+                })
+            )
+            state.options.employeeGroups = options
+        }
+    } catch (error: any) {
+        state.error = error
+    }
+    state.isPageLoading = false
+}
+
 function changeCitizensUuid(citizensUuid: any) {
     if (citizensUuid) {
         state.formCalendar.citizens_uuid = citizensUuid
@@ -325,6 +359,15 @@ function changeUsersUuid(usersUuid: any) {
         state.formCalendar.users_uuid = usersUuid
     } else {
         state.formCalendar.users_uuid = []
+    }
+    fetchMyCalendarEvents()
+}
+
+function changeEmployeeGroupUuid(employeeGroupUuid: any) {
+    if (employeeGroupUuid) {
+        state.formCalendar.employee_group_uuid = [...employeeGroupUuid]
+    } else {
+        state.formCalendar.employee_group_uuid = []
     }
     fetchMyCalendarEvents()
 }
