@@ -3114,7 +3114,7 @@
         "employeeGroups": "Employee groups",
         "newEmployeeGroup": "New employee group",
         "editEmployeeGroup": "Edit employee group",
-         "table": {
+        "table": {
             "alert": {
                 "employeeGroupSuccessfullyDeleted": "Employee group successfully deleted"
             },
@@ -3168,7 +3168,7 @@
             "sendInvitation": "Send invitation",
             "tags": "Tags",
             "title": "Title",
-            "employeeGroups":"Employee groups"
+            "employeeGroups": "Employee groups"
         },
         "holidays": "Holidays",
         "invitees": "Invitees",

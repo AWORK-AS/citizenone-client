@@ -27,12 +27,12 @@
                             :isLoading="state.isTableLoading" :sortData="state.sortData" @sort="sort">
                             <template #body v-if="!(state.isTableLoading || (state.invoices?.data?.length === 0))">
                                 <tr v-for="(invoice, index) in state.invoices?.data" :key="index">
-                                    <td width="20%">
+                                    <td width="25%">
                                         <div>
                                             {{ formatDateTimeToReadable(invoice?.created_at) }}
                                         </div>
                                     </td>
-                                    <td width="10%">
+                                    <td width="15%">
                                         <div>
                                             <Badge type="primary" class="w-fit" v-if="invoice?.type === 'recurring'">
                                                 {{ $t('recurring.recurring') }}
@@ -42,7 +42,7 @@
                                             </Badge>
                                         </div>
                                     </td>
-                                    <td width="15%">
+                                    <td width="30%">
                                         <div>
                                             {{ invoice?.invoice_number }}
                                         </div>
@@ -51,13 +51,6 @@
                                         <p class="capitalize">
                                             {{ formatAmount(invoice?.total_amount) }}
                                         </p>
-                                    </td>
-                                    <td width="25%">
-                                        <div>
-                                            <p>
-                                                {{ invoice?.user?.company?.name }}
-                                            </p>
-                                        </div>
                                     </td>
                                     <td width="15%">
                                         <div class="flex items-end gap-2">
@@ -98,7 +91,6 @@ const state = reactive({
         { name: 'superadmin.invoices.table.status' },
         { name: 'superadmin.invoices.table.invoiceNumber', sorter: true, key: 'invoice_number' },
         { name: 'superadmin.invoices.table.amount', sorter: true, key: 'total_amount' },
-        { name: 'superadmin.invoices.table.company' },
         { name: '' },
     ],
     dataFilter: {
