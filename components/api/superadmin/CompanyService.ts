@@ -25,6 +25,10 @@ class CompanyService extends BaseAPIService {
         return await this.request(`/superadmin/companies/${companyUuid}/apps`, 'GET', params)
     }
 
+    async getInvoicesPerCompany(companyUuid: any, params: object): Promise<any> {
+        return await this.request(`/superadmin/companies/${companyUuid}/invoices`, 'GET', params)
+    }
+
     async importCompanies(params: object): Promise<any> {
         return await this.request(`/superadmin/imports`, 'POST', params)
     }

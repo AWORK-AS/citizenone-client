@@ -5464,6 +5464,7 @@
             "tabs": {
                 "apps": "Apps",
                 "accounts": "Kontoer",
+                "invoices": "Fakturaer",
                 "licenseOverview": "Licensoversigt",
                 "licenses": "Licenser"
             }

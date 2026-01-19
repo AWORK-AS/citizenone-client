@@ -5464,6 +5464,7 @@
             "tabs": {
                 "accounts": "Accounts",
                 "apps": "Apps",
+                "invoices": "Invoices",
                 "licenseOverview": "License overview",
                 "licenses": "Licenses"
             }
