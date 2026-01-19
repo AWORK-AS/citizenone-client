@@ -3110,6 +3110,34 @@
         },
         "viewEmployee": "Se medarbejder"
     },
+    "employeeGroups": {
+        "employeeGroups": "Medarbejdergrupper",
+        "newEmployeeGroup": "Ny medarbejdergruppe",
+        "editEmployeeGroup": "Rediger medarbejdergruppe",
+        "table": {
+            "alert": {
+                "employeeGroupSuccessfullyDeleted": "Medarbejdergruppe slettet med succes"
+            },
+            "actions": {
+                "delete": "Slet",
+                "edit": "Rediger"
+            },
+            "confirmation": {
+                "deleteEmployeeGroupConfirmation": "Er du sikker på, at du vil slette denne medarbejdergruppe"
+            },
+            "name": "Navn"
+        },
+        "form": {
+            "employeeGroup": "Medarbejdergruppe",
+            "employees": "Medarbejdere",
+            "department": "Afdeling",
+            "alert": {
+                "employeeGroupSuccessfullyUpdated": "Medarbejdergruppe opdateret med succes",
+                "newEmployeeGroupSuccessfullySaved": "Ny medarbejdergruppe gemt med succes"
+            },
+            "name": "Navn"
+        }
+    },
     "entriesPerPage": "Indlæg pr. side",
     "events": {
         "alert": {
@@ -3139,7 +3167,8 @@
             "private": "Privat",
             "sendInvitation": "Send invitationen",
             "tags": "Etiketter",
-            "title": "Titel"
+            "title": "Titel",
+            "employeeGroups":"Employee groups"
         },
         "holidays": "Helligdage",
         "invitees": "Inviterede",
