@@ -3176,7 +3176,7 @@
         "myself": "Mig selv",
         "newEvent": "Ny begivenhed",
         "noEventFound": "Ingen begivenhed fundet",
-        "pleaseSelectWhomYouWouldLikeToCreateTheEventFor": "Please select whom you would like to create the event for",
+        "pleaseSelectWhomYouWouldLikeToCreateTheEventFor": "Vælg venligst, hvem du ønsker at oprette begivenheden for",
         "proceed": "Fortsæt",
         "subscribe": "Abonner"
     },
@@ -5115,6 +5115,7 @@
             "departments": "Afdelinger",
             "diagnoses": "Diagnoser",
             "dosageForms": "Doseringsformer",
+            "employeeGroups": "Medarbejdergrupper",
             "foreignCities": "Udenlandske byer",
             "invoices": "Fakturaer",
             "jobTitles": "Jobtitler",
