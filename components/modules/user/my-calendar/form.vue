@@ -419,13 +419,14 @@ onMounted(() => {
     fetchAllCitizens()
     fetchAllUsers()
     fetchAllUnits()
+
     state.formSchedule = {
         id: props.selectedSchedule.id,
         uuid: props.selectedSchedule.uuid,
         title: props.selectedSchedule.title,
         description: props.selectedSchedule.description,
-        date_time_start:  props.selectedSchedule.start ?  formatDateTimeToYYYYmmddHHmm(props.selectedSchedule.start) : formatDateToYYYYmmddHHmm('', false),
-        date_time_end: props.selectedSchedule.end ? formatDateTimeToYYYYmmddHHmm(props.selectedSchedule.end) : formatDateToYYYYmmddHHmm('', true),
+        date_time_start:  props.selectedSchedule.date_time_start ?  formatDateTimeToYYYYmmddHHmm(props.selectedSchedule.date_time_start) : formatDateToYYYYmmddHHmm('', false),
+        date_time_end: props.selectedSchedule.date_time_end ? formatDateTimeToYYYYmmddHHmm(props.selectedSchedule.date_time_end) : formatDateToYYYYmmddHHmm('', true),
         unit_uuid: props.selectedSchedule.unit_uuid,
         is_private: props.selectedSchedule.is_private,
         citizens_uuid: props.selectedSchedule.citizens_uuid,
