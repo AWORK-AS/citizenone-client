@@ -494,19 +494,6 @@ function changeMonthYear(year: any, month: any) {
 }
 
 function editMyCalendarEvent(selectedCalendarEvent: any) {
-    // console.log('selectedCalendarEvent', selectedCalendarEvent)
-    // state.selectedSchedule.uuid = selectedCalendarEvent.uuid
-    // state.selectedSchedule.title = selectedCalendarEvent.title
-    // state.selectedSchedule.description = selectedCalendarEvent.description
-    // state.selectedSchedule.start = selectedCalendarEvent.date_time_start
-    // state.selectedSchedule.end = selectedCalendarEvent.date_time_end
-    // state.selectedSchedule.unit_uuid = selectedCalendarEvent.unit?.uuid ?? ''
-    // state.selectedSchedule.is_private = selectedCalendarEvent.is_private ? true : false
-    // state.selectedSchedule.calendar_tags = selectedCalendarEvent.calendar_tags ?? []
-    // state.selectedSchedule.is_recurring = selectedCalendarEvent.is_recurring ?? false
-    // state.selectedSchedule.recurring.is_recurring = selectedCalendarEvent.is_recurring ?? false
-    // state.selectedSchedule.recurring.recurring_until = selectedCalendarEvent.recurring_until ?? false
-
     state.selectedSchedule = selectedCalendarEvent
     state.modal.isEditEventOpen = true
 }

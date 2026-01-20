@@ -435,7 +435,7 @@ onMounted(() => {
         apply_changes_to_future_events: false,
         recurring: {
             is_recurring: true,
-            recurring: props.selectedSchedule?.recurring || '',
+            recurring: props.selectedSchedule?.recurring_type || '',
             recurring_until: props.selectedSchedule?.recurring_until || '',
             frequency:  props.selectedSchedule?.recurring_rules?.frequency || '',
             every: props.selectedSchedule?.recurring_rules?.every || '',
