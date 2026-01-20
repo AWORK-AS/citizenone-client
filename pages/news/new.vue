@@ -63,6 +63,7 @@ const state = reactive({
         department: [],
         is_featured: false,
         is_active: false,
+        attachments: [] as any[],
     },
     isPageLoading: false,
     modal: {

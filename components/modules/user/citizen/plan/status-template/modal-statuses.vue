@@ -185,7 +185,11 @@ async function downloadStatus(status: any) {
         const attachmentUuid = status?.uuid
         const response = await planGoalSubgoalService.downloadPlanGoalSubgoalStatuses(attachmentUuid)
         if (response) {
-            saveAs(response)
+              const filename = status?.form?.document_title || 
+                           status?.form?.title || 
+                           status?.title || 
+                           "status"
+            saveAs(response, `${filename}.pdf`)
         }
     } catch (error: any) {
         state.error.message = error?.message || 'An error occurred during the download.'

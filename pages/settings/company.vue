@@ -20,6 +20,31 @@
                         v-if="state.error?.message && state.error.message.length > 0" />
                     <div class="grid grid-cols-1 gap-3">
                         <div class="space-y-1">
+                            <div class="flex gap-x-4 items-center">
+                                <FormLabel :label="$t('settings.company.form.companyLogo')" />
+                                <Tooltip v-if="logoPreviewUrl" :text="$t('settings.company.form.remove')">
+                                    <Icon name="ph:trash" class="p-2 size-4 cursor-pointer text-red-500 text-sm hover:text-red-700" @click="removeLogo" />
+                                </Tooltip>
+                            </div>
+                            <input type="file" ref="logoInput" @change="onLogoChange"
+                                accept="image/png,image/jpeg,image/svg+xml" class="hidden" />
+                            <div class="flex items-center gap-4">
+                                <div class="relative cursor-pointer" @click="triggerLogoInput">
+                                    <div v-if="!logoPreviewUrl" class="w-32 h-32 rounded-md border-2 border-dashed border-gray-300 bg-gray-50 flex items-center justify-center hover:border-primary hover:bg-gray-100 transition-colors">
+                                        <Icon name="ph:upload-simple" class="w-8 h-8 text-gray-400" />
+                                    </div>
+                                    <template v-else>
+                                        <img :src="logoPreviewUrl" alt="Company logo"
+                                            class="w-32 h-32 rounded-md object-contain border-2 border-gray-200 bg-white" />
+                                        <div class="rounded-md absolute inset-0 bg-black bg-opacity-50 text-white opacity-0 hover:opacity-100 transition-opacity flex items-center justify-center">
+                                            <span class="text-xs">{{ $t('changeImage') }}</span>
+                                        </div>
+                                    </template>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="space-y-1">
                             <FormLabel for="name" :label="$t('settings.company.form.companyName')" />
                             <FormTextField id="name" name="name" :placeholder="$t('settings.company.form.companyName')"
                                 v-model="state.formCompany.name" />
@@ -220,6 +245,10 @@ const userStore = useUserStore()
 const language = useI18n()
 const { successAlert } = useAlert()
 const { t } = useI18n()
+
+// Company logo for PDF branding
+const logoInput = ref<HTMLInputElement | null>(null)
+const logoPreviewUrl = ref('')
 const breadcrumbLinks = [
     {
         name: 'settings.tabs.company',
@@ -254,6 +283,8 @@ const state = reactive({
         is_sort_by_status: false,
         social_og_boligstyrelsen: false,
         quick_risk_assessment_enabled: false,
+        logo: null as File | null,
+        should_delete_logo: false,
     },
     isPageLoading: false,
     options: {
@@ -311,6 +342,11 @@ watch(() => userStore.getUser, (newValue: any) => {
             is_sort_by_status: newValue?.company?.is_sort_by_status ? true : false,
             social_og_boligstyrelsen: newValue?.company?.social_og_boligstyrelsen ? true : false,
             quick_risk_assessment_enabled: newValue?.company?.quick_risk_assessment_enabled ? true : false,
+            logo: null,
+        }
+        // Load existing company logo if available
+        if (newValue?.company?.logo_url) {
+            logoPreviewUrl.value = newValue.company.logo_url
         }
         fetchMunicipalitiesPerRegion(newValue?.company?.company_address?.region?.uuid)
         newValue?.company?.citizen_displays?.forEach((item: any) => {
@@ -399,12 +435,56 @@ function validateCVR(event: Event) {
     state.formCompany.cvr = input.value
 }
 
+// Logo upload functions
+function triggerLogoInput() {
+    logoInput.value?.click()
+}
+
+async function onLogoChange(event: Event) {
+    const target = event.target as HTMLInputElement
+    const file = target.files?.[0]
+    if (file) {
+        state.formCompany.logo = file
+        // Show preview immediately
+        const reader = new FileReader()
+        reader.onload = (e) => {
+            logoPreviewUrl.value = e.target?.result as string
+        }
+        reader.readAsDataURL(file)
+    }
+}
+
+function removeLogo() {
+    state.formCompany.logo = null
+    logoPreviewUrl.value = ''
+    state.formCompany.should_delete_logo = true 
+}
+
 async function submitForm() {
     v$.value.$validate()
     if (!v$.value.$error) {
         state.error = {}
         state.isPageLoading = true
         try {
+            
+            if (state.formCompany.should_delete_logo) {
+
+              
+                await userService.deleteCompanyLogo()
+                state.formCompany.should_delete_logo = false
+            } else if (state.formCompany.logo) {
+
+               
+                const formData = new FormData()
+                formData.append('logo', state.formCompany.logo)
+                const logoResponse = await userService.uploadCompanyLogo(formData)
+                if (logoResponse.data?.logo_url) {
+                    logoPreviewUrl.value = logoResponse.data.logo_url
+                }
+                state.formCompany.logo = null 
+            }
+            
+            
             const params = {
                 name: state.formCompany.name,
                 cvr: state.formCompany.cvr,
@@ -430,9 +510,22 @@ async function submitForm() {
                 social_og_boligstyrelsen: state.formCompany.social_og_boligstyrelsen,
                 quick_risk_assessment_enabled: state.formCompany.quick_risk_assessment_enabled,
             }
+            
             const response = await userService.updateCompany(params)
+            
             if (response.data) {
                 userStore.setUserCheckinStatus(state.formCompany.checkin_enabled)
+                
+                
+                const currentUser: any = { ...userStore.getUser }
+                if (currentUser?.company && response.data?.logo_url) {
+                    currentUser.company.logo_url = response.data.logo_url
+                    userStore.setUser(currentUser)
+                } else if (currentUser?.company && state.formCompany.should_delete_logo) {
+                    currentUser.company.logo_url = null
+                    userStore.setUser(currentUser)
+                }
+                
                 successAlert(`${t('alert.success')}!`, `${t('settings.company.form.alert.successfullyUpdated')}.`)
             }
         } catch (error: any) {

@@ -44,6 +44,106 @@
                     <FormError :error="v$?.formNews?.content?.$errors[0]?.$message.toString()" />
                     <FormError :error="props?.error?.errors?.content?.[0]" />
                 </div>
+                
+                <!-- File Attachment Section -->
+                <div class="space-y-1">
+                    <FormLabel for="attachments" :label="$t('news.form.attachments')" />
+                    <input 
+                        type="file" 
+                        ref="attachmentInput" 
+                        @change="onAttachmentChange" 
+                        class="hidden" 
+                        multiple
+                    />
+                    <div 
+                        class="border-2 border-dashed border-tertiary-25 rounded-md p-4 text-center cursor-pointer hover:border-primary transition-colors"
+                        @click="triggerAttachmentInput"
+                    >
+                        <div class="flex flex-col items-center gap-2">
+                            <svg class="w-8 h-8 text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12" />
+                            </svg>
+                            <span class="text-sm text-primary">
+                                {{ $t('news.form.clickToUpload') }}
+                            </span>
+                            <span class="text-xs text-primary">
+                                {{ $t('news.form.multipleFilesAllowed') }}
+                            </span>
+                        </div>
+                    </div>
+                    
+                    <!-- Display existing attachments (for edit mode) -->
+                    <div v-if="state.existingAttachments.length > 0" class="mt-3 space-y-2">
+                        <p class="text-xs text-tertiary font-medium">{{ $t('news.form.existingAttachments') }}</p>
+                        <div 
+                            v-for="(file, index) in state.existingAttachments" 
+                            :key="'existing-' + file.id"
+                            class="flex items-center justify-between p-3 bg-blue-50 rounded-md border border-blue-200"
+                        >
+                            <div class="flex items-center gap-3 flex-1 min-w-0">
+                                <!-- PDF Icon -->
+                                <Icon v-if="file.mime_type === 'application/pdf'" name="ph:file-pdf" class="w-6 h-6 text-primary flex-shrink-0" />
+                                <!-- Generic File Icon -->
+                                <Icon v-else name="ph:file" class="w-6 h-6 text-primary flex-shrink-0" />
+                                
+                                <div class="flex-1 min-w-0">
+                                    <a :href="file.url" target="_blank" class="text-sm text-tertiary hover:underline font-medium truncate block">
+                                        {{ file.name }}
+                                    </a>
+                                    <div class="flex items-center gap-2 text-xs text-tertiary-500 mt-0.5">
+                                        <span>{{ formatFileSize(file.size) }}</span>
+                                        <span>•</span>
+                                        <span>{{ file.mime_type }}</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <button 
+                                type="button"
+                                @click="removeExistingAttachment(index)"
+                                class="ml-3 text-red-500 hover:text-red-700 flex-shrink-0 p-1 rounded hover:bg-red-100 transition-colors"
+                                :title="$t('news.form.removeFile')"
+                            >
+                                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+                                </svg>
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <!-- Display newly uploaded files -->
+                    <div v-if="state.formNews.attachments.length > 0" class="mt-3 space-y-2">
+                        <p class="text-xs text-tertiary-600 font-medium">{{ $t('news.form.newAttachments') }}</p>
+                        <div 
+                            v-for="(file, index) in state.formNews.attachments" 
+                            :key="'new-' + index"
+                            class="flex items-center justify-between p-3 bg-green-50 rounded-md border border-green-200"
+                        >
+                            <div class="flex items-center gap-3 flex-1 min-w-0">
+                                <svg class="w-6 h-6 text-green-600 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+                                </svg>
+                                <div class="flex-1 min-w-0">
+                                    <span class="text-sm text-green-800 font-medium truncate block">{{ file.name }}</span>
+                                    <span class="text-xs text-tertiary-500 mt-0.5 block">{{ formatFileSize(file.size) }}</span>
+                                </div>
+                            </div>
+                            <button 
+                                type="button"
+                                @click="removeAttachment(index)"
+                                class="ml-3 text-red-500 hover:text-red-700 flex-shrink-0 p-1 rounded hover: bg-red-100 transition-colors"
+                                :title="$t('news.form.removeFile')"
+                            >
+                                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+                                </svg>
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <FormError :error="v$?.formNews?.attachments?.$errors[0]?.$message.toString()" />
+                    <FormError :error="props?.error?.errors?.attachments?.[0]" />
+                </div>
+                
                 <div class="space-y-1">
                     <FormLabel for="audience" :label="$t('news.form.audience')" />
                     <FormSelectMultiple id="audience" :options="state.options.audiences"
@@ -78,13 +178,12 @@
                 </div>
             </div>
             <div class="mt-6">
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
+                <div class="grid grid-cols-1 md: grid-cols-2 gap-3">
                     <FormButton type="button" buttonStyle="cancel" class="rounded-md" @click="navigateTo('/news')">
                         {{ $t('cancel') }}
                     </FormButton>
                     <FormButton type="submit" buttonStyle="primary" class="rounded-md">
-                        {{ props.formType === 'create' ? $t('save') :
-                            $t('update') }}
+                        {{ props.formType === 'create' ? $t('save') : $t('update') }}
                     </FormButton>
                 </div>
             </div>
@@ -123,7 +222,17 @@ const emit = defineEmits(['isPageLoading', 'submitForm'])
 
 const { t } = useI18n()
 const image = ref<HTMLInputElement | null>(null)
+const attachmentInput = ref<HTMLInputElement | null>(null)
 const avatarUrl = ref(`/img/icons/asset-02.svg`)
+
+interface ExistingAttachment {
+    id: number
+    name: string
+    file_name: string
+    mime_type: string
+    size:  number
+    url: string
+}
 
 const state = reactive({
     error: {} as Error,
@@ -131,12 +240,15 @@ const state = reactive({
         image: '',
         title: '',
         link: '',
-        content: '',
+        content:  '',
         is_featured: false,
         is_active: true,
         audience: [],
         department: [],
+        attachments: [] as any[],
     } as NewsForm,
+    existingAttachments: [] as ExistingAttachment[],
+    attachmentsToDelete: [] as number[],
     isPageLoading: false,
     modal: {
         isAddDepartmentOpen: false,
@@ -147,23 +259,41 @@ const state = reactive({
     }
 })
 
-watch(() => props.selectedNews, (newValue: any) => {
+watch(() => props.selectedNews, (newValue:  any) => {
     if (newValue != null) {
         state.formNews = {
             image: '',
             title: newValue.title,
             link: newValue.link,
             content: newValue.content,
-            is_featured: newValue.is_featured,
+            is_featured:  newValue.is_featured,
             is_active: newValue.is_active,
-            audience: newValue.audience,
-            department: newValue.department,
+            audience:  newValue.audience || newValue.audiences || [],
+            department: newValue.department || newValue.departments || [],
+            attachments: [],
         }
         if (newValue.image) {
             avatarUrl.value = newValue.image
         }
+        
+        // Load existing attachments from API response
+        if (newValue.attachments && Array.isArray(newValue.attachments)) {
+            state.existingAttachments = newValue.attachments.map((att: any) => ({
+                id: att.id,
+                name: att.name,
+                file_name: att.file_name,
+                mime_type: att.mime_type,
+                size: att.size,
+                url: att.url,
+            }))
+        } else {
+            state.existingAttachments = []
+        }
+        
+        // Reset attachments to delete
+        state.attachmentsToDelete = []
     }
-})
+}, { immediate: true })
 
 onMounted(() => {
     fetchAllAudiences()
@@ -176,7 +306,7 @@ async function fetchAllAudiences() {
     try {
         const response = await audienceService.getAllAudiences()
         if (response.data) {
-            let options: any = []
+            let options:  any = []
             response.data.forEach(
                 (item: any) => options.push({
                     value: item?.uuid,
@@ -185,7 +315,7 @@ async function fetchAllAudiences() {
             )
             state.options.audiences = options
         }
-    } catch (error: any) {
+    } catch (error:  any) {
         state.error = error
     }
     state.isPageLoading = false
@@ -228,10 +358,10 @@ const rules = computed(() => {
     } else {
         return {
             formNews: {
-                title: {
+                title:  {
                     required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
                 },
-                content: {
+                content:  {
                     required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
                 },
             },
@@ -244,13 +374,24 @@ const v$ = useVuelidate(rules, state)
 function submitForm() {
     v$.value.$validate()
     if (!v$.value.$error) {
-        emit('submitForm', state.formNews)
+        // Include attachments to delete in the form data
+        const formData = {
+            ...state.formNews,
+            attachmentsToDelete: state.attachmentsToDelete,
+        }
+        emit('submitForm', formData)
     }
 }
 
 function triggerFileInput() {
     if (image.value) {
         image.value.click()
+    }
+}
+
+function triggerAttachmentInput() {
+    if (attachmentInput.value) {
+        attachmentInput.value.click()
     }
 }
 
@@ -264,6 +405,35 @@ function onFileChange(event: any) {
         }
         reader.readAsDataURL(file)
     }
+}
+
+function onAttachmentChange(event: any) {
+    const files = Array.from(event.target.files) as File[]
+    state.formNews.attachments = [...state.formNews.attachments, ...files]
+    // Reset the input so the same file can be selected again if needed
+    if (attachmentInput.value) {
+        attachmentInput.value.value = ''
+    }
+}
+
+function removeAttachment(index: number) {
+    state.formNews.attachments.splice(index, 1)
+}
+
+function removeExistingAttachment(index: number) {
+    const attachment = state.existingAttachments[index]
+    if (attachment.id) {
+        state.attachmentsToDelete.push(attachment.id)
+    }
+    state.existingAttachments.splice(index, 1)
+}
+
+function formatFileSize(bytes: number): string {
+    if (bytes === 0) return '0 Bytes'
+    const k = 1024
+    const sizes = ['Bytes', 'KB', 'MB', 'GB']
+    const i = Math.floor(Math.log(bytes) / Math.log(k))
+    return Math.round((bytes / Math.pow(k, i)) * 100) / 100 + ' ' + sizes[i]
 }
 
 function changeIsFeatured() {

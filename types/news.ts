@@ -7,4 +7,5 @@ export interface NewsForm {
     is_active: boolean,
     audience: any,
     department: any,
+    attachments: any[]
 }

@@ -692,6 +692,7 @@
             "Sunday": "Søndag"
         },
         "employees": "Medarbejdere",
+        "employeeGroups": "Medarbejdergrupper",
         "month": {
             "January": "Januar",
             "February": "Februar",
@@ -3110,6 +3111,34 @@
         },
         "viewEmployee": "Se medarbejder"
     },
+    "employeeGroups": {
+        "employeeGroups": "Medarbejdergrupper",
+        "newEmployeeGroup": "Ny medarbejdergruppe",
+        "editEmployeeGroup": "Rediger medarbejdergruppe",
+        "table": {
+            "alert": {
+                "employeeGroupSuccessfullyDeleted": "Medarbejdergruppe slettet med succes"
+            },
+            "actions": {
+                "delete": "Slet",
+                "edit": "Rediger"
+            },
+            "confirmation": {
+                "deleteEmployeeGroupConfirmation": "Er du sikker på, at du vil slette denne medarbejdergruppe"
+            },
+            "name": "Navn"
+        },
+        "form": {
+            "employeeGroup": "Medarbejdergruppe",
+            "employees": "Medarbejdere",
+            "department": "Afdeling",
+            "alert": {
+                "employeeGroupSuccessfullyUpdated": "Medarbejdergruppe opdateret med succes",
+                "newEmployeeGroupSuccessfullySaved": "Ny medarbejdergruppe gemt med succes"
+            },
+            "name": "Navn"
+        }
+    },
     "entriesPerPage": "Indlæg pr. side",
     "events": {
         "alert": {
@@ -3139,14 +3168,15 @@
             "private": "Privat",
             "sendInvitation": "Send invitationen",
             "tags": "Etiketter",
-            "title": "Titel"
+            "title": "Titel",
+            "employeeGroups": "Employee groups"
         },
         "holidays": "Helligdage",
         "invitees": "Inviterede",
         "myself": "Mig selv",
         "newEvent": "Ny begivenhed",
         "noEventFound": "Ingen begivenhed fundet",
-        "pleaseSelectWhomYouWouldLikeToCreateTheEventFor": "Please select whom you would like to create the event for",
+        "pleaseSelectWhomYouWouldLikeToCreateTheEventFor": "Vælg venligst, hvem du ønsker at oprette begivenheden for",
         "proceed": "Fortsæt",
         "subscribe": "Abonner"
     },
@@ -3427,6 +3457,7 @@
     "forgotPassword": {
         "emailAddress": "E-mail adresse",
         "enterEmailAssociated": "Indtast e-mailadressen, der er tilknyttet din konto, for at nulstille din adgangskode",
+        "forgotPassword": "Glemt adgangskode",
         "loginHereInstead": "Log ind her i stedet",
         "or": "Eller",
         "requestPasswordReset": "Anmod om nulstilling af adgangskode"
@@ -4078,10 +4109,14 @@
             "image": "Billede",
             "featured": "Fremhævet",
             "link": "Link",
-            "title": "Titel"
+            "title": "Titel",
+            "attachments": "Vedhæftede filer",
+            "clickToUpload": "Klik for at uploade filer",
+            "multipleFilesAllowed": "Flere filer tilladt",
+            "existingAttachments": "Eksisterende vedhæftede filer"
         },
         "news": "Nyheder",
-        "newNews": "Ny nyhed",
+        "newNews": "Nyt opslag",
         "table": {
             "actions": {
                 "delete": "Slet",
@@ -4101,6 +4136,7 @@
     "overview": {
         "addDailyEvents": "Tilføj daglige begivenheder",
         "bulletBoard": "Opslagstavle",
+        "bulletBoardAttachments": "Opslagstavle vedhæftede filer",
         "calendar": "Kalender",
         "campaign": "Kampagne",
         "citizens": "Borgere",
@@ -4874,6 +4910,44 @@
             "name": "Navn",
             "permissions": "Tilladelser",
             "user": "Bruger"
+        },
+        "permissions": {
+            "scheduler": "Vagtplanlægger",
+            "createSchedule": "opret vagtplan",
+            "readSchedule": "se vagtplan",
+            "viewSchedule": "se vagtplan",
+            "updateSchedule": "rediger vagtplan",
+            "deleteSchedule": "slet vagtplan",
+            "createCitizenJournal": "opret borgerjournal",
+            "viewCitizenJournal": "se borgerjournal",
+            "updateCitizenJournal": "rediger borgerjournal",
+            "deleteCitizenJournal": "slet borgerjournal",
+            "createCitizenCalendar": "opret borgerkalender",
+            "viewCitizenCalendar": "se borgerkalender",
+            "updateCitizenCalendar": "rediger borgerkalender",
+            "deleteCitizenCalendar": "slet borgerkalender",
+            "createCitizenHealth": "opret borgersundhed",
+            "viewCitizenHealth": "se borgersundhed",
+            "updateCitizenHealth": "rediger borgersundhed",
+            "deleteCitizenHealth": "slet borgersundhed",
+            "createCitizenMedicine": "opret borgermedicin",
+            "updateCitizenMedicine": "rediger borgermedicin",
+            "deleteCitizenMedicine": "slet borgermedicin",
+            "createCitizenPlan": "opret borgerplan",
+            "updateCitizenPlan": "rediger borgerplan",
+            "deleteCitizenPlan": "slet borgerplan",
+            "createCitizenDocument": "opret borgerdokument",
+            "updateCitizenDocument": "rediger borgerdokument",
+            "deleteCitizenDocument": "slet borgerdokument",
+            "createCitizenEconomy": "opret borgerøkonomi",
+            "updateCitizenEconomy": "rediger borgerøkonomi",
+            "deleteCitizenEconomy": "slet borgerøkonomi",
+            "createCitizenContact": "opret borgerkontakt",
+            "updateCitizenContact": "rediger borgerkontakt",
+            "deleteCitizenContact": "slet borgerkontakt",
+            "createCitizenChildren": "opret borgerbørn",
+            "updateCitizenChildren": "rediger borgerbørn",
+            "deleteCitizenChildren": "slet borgerbørn"
         }
     },
     "rooms": {
@@ -4991,7 +5065,9 @@
                 "region": "Region",
                 "street": "Gade",
                 "transferNormHours": "Overfør normtimer til næste år, hvis de ikke er brugt",
-                "website": "Hjemmeside"
+                "website": "Hjemmeside",
+                "companyLogo": "Firmalogo",
+                "remove": "Fjern firmalogo"
             }
         },
         "licenseOverview": {
@@ -5039,6 +5115,7 @@
             "departments": "Afdelinger",
             "diagnoses": "Diagnoser",
             "dosageForms": "Doseringsformer",
+            "employeeGroups": "Medarbejdergrupper",
             "foreignCities": "Udenlandske byer",
             "invoices": "Fakturaer",
             "jobTitles": "Jobtitler",
@@ -5463,6 +5540,7 @@
             "tabs": {
                 "apps": "Apps",
                 "accounts": "Kontoer",
+                "invoices": "Fakturaer",
                 "licenseOverview": "Licensoversigt",
                 "licenses": "Licenser"
             }

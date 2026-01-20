@@ -39,6 +39,7 @@ const state = reactive({
         id: '',
         uuid: '',
         employee_uuid: [],
+        employee_group_uuid: [],
         title: '',
         description: '',
         date_time_start: moment().startOf('day').format('YYYY-MM-DD HH:mm'),
@@ -47,6 +48,7 @@ const state = reactive({
         is_private: false,
         citizens_uuid: [],
         users_uuid: [],
+        user_group_uuid: [],
         calendar_tag_uuid: [],
         send_invitation: false,
         recurring: {
@@ -84,6 +86,7 @@ async function saveSchedule(scheduleDetails: any) {
         const params = {
             calendar_type: 'my_self',
             employee_uuid: [userStore.getUser?.uuid],
+            employee_group_uuid: scheduleDetails.employee_group_uuid,
             title: scheduleDetails.title,
             description: scheduleDetails.description,
             date_time_start: scheduleDetails.date_time_start,
@@ -92,6 +95,7 @@ async function saveSchedule(scheduleDetails: any) {
             is_private: scheduleDetails.is_private,
             citizens_uuid: scheduleDetails.citizens_uuid,
             users_uuid: scheduleDetails.users_uuid,
+            user_group_uuid: scheduleDetails.user_group_uuid,
             calendar_tag_uuid: scheduleDetails.calendar_tag_uuid,
             send_invitation: scheduleDetails.send_invitation,
             is_recurring: scheduleDetails.recurring.is_recurring,
