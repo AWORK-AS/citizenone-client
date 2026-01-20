@@ -56,7 +56,6 @@
                                             {{ language.locale.value === 'en' ? contact?.contact_job_title?.en_title :
                                                 contact?.contact_job_title?.dk_title }}
                                         </span>
-                                        {{ contact?.relationship }}
                                         <span v-if="contact?.contact_job_title?.system_name === 'relatives'">
                                             <Badge type="primary" class="w-fit mt-1" v-if="contact?.relationship">
                                                 <p class="text-xxs px-2">
