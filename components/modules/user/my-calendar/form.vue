@@ -31,6 +31,143 @@
                 <FormError :error="v$?.formSchedule?.date_time_end?.$errors[0]?.$message.toString()" />
                 <FormError :error="props?.error?.errors?.date_time_end?.[0]" />
             </div>
+
+            <div class="" v-if="state.formSchedule.recurring.is_recurring">
+                <!-- Recurring Frequency Fields -->
+                <div class="space-y-1">
+                    <FormLabel for="recurring" :label="$t('recurring.repeat')" />
+                    <FormSelect id="recurring" :options="state.options.schedule_frequencies?.recurringSchedules"
+                        v-model="state.formSchedule.recurring.recurring" />
+                    <FormError :error="v$?.formSchedule?.recurring?.recurring?.$errors[0]?.$message?.toString()" />
+                    <FormError :error="state?.error?.errors?.recurring_uuid?.[0]" />
+                </div>
+                <div class="space-y-1">
+                    <FormLabel for="recurring_until" :label="$t('recurring.until')" />
+                    <FormDateField id="recurring_until" name="recurring_until" :placeholder="`${$t('recurring.until')}`"
+                        v-model="state.formSchedule.recurring.recurring_until" />
+                    <FormError :error="v$?.formSchedule?.recurring?.recurring_until?.$errors[0]?.$message.toString()" />
+                    <FormError :error="state?.error?.errors?.recurring_until?.[0]" />
+                </div>
+                <div class="space-y-3" v-if="state.formSchedule.recurring?.recurring === 'custom'">
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
+                        <div class="space-y-1">
+                            <FormLabel for="frequency" :label="$t('recurring.frequency.frequency')" />
+                            <FormSelect id="frequency" :options="state.options.schedule_frequencies?.frequency"
+                                v-model="state.formSchedule.recurring.frequency" />
+                            <FormError
+                                :error="v$?.formSchedule?.recurring?.frequency?.$errors[0]?.$message.toString()" />
+                            <FormError :error="state?.error?.errors?.frequency?.[0]" />
+                        </div>
+                        <div class="space-y-1">
+                            <FormLabel for="daily_every" :label="`${$t('recurring.every')} (${state.formSchedule.recurring?.frequency === 'daily' ? $t('recurring.frequency.daily.days') :
+                                state.formSchedule.recurring?.frequency === 'weekly' ?  $t('recurring.frequency.weekly.weeks') :
+                                    state.formSchedule.recurring?.frequency === 'monthly' ? $t('recurring.frequency.monthly.months') :
+                                        $t('recurring.frequency.yearly.years')
+                                })`" />
+                            <FormSelect id="daily_every" :options="state.formSchedule.recurring?.frequency === 'daily' ? state.options.schedule_frequencies?.zeroTo999Days : 
+                                state.formSchedule.recurring?.frequency === 'weekly' ? state.options.schedule_frequencies?.zeroTo999Weeks :
+                                    state.formSchedule.recurring?.frequency === 'monthly' ? state.options.schedule_frequencies?.zeroTo999Months :
+                                        state.options.schedule_frequencies?.zeroTo999Years"
+                                v-model="state.formSchedule.recurring.every" />
+                            <FormError :error="v$?.formSchedule?.recurring?.every?.$errors[0]?.$message.toString()" />
+                            <FormError :error="state?.error?.errors?.every?.[0]" />
+                        </div>
+                    </div>
+                    <div>
+                        <div class="space-y-1" v-if="state.formSchedule.recurring.frequency === 'weekly'">
+                            <FormLabel for="weekly_on" :label="$t('recurring.frequency.weekly.weekOn')" />
+                            <FormSelectMultiple id="weekly_on" :options="state.options.schedule_frequencies?.weekOn"
+                                v-model="state.formSchedule.recurring.weekly_on" />
+                            <FormError
+                                :error="v$?.formSchedule?.recurring?.weekly_on?.$errors[0]?.$message.toString()" />
+                            <FormError :error="state?.error?.errors?.weekly_on?.[0]" />
+                        </div>
+                        <div class="space-y-1" v-if="state.formSchedule.recurring?.frequency === 'monthly'">
+                            <div class="flex items-center gap-x-2">
+                                <FormSwitch :value="state.formSchedule.recurring?.monthly_on_the_enabled"
+                                    @toggleSwitch="state.formSchedule.recurring.monthly_on_the_enabled = !state.formSchedule.recurring?.monthly_on_the_enabled" />
+                                <p>
+                                    <span v-if="! state.formSchedule.recurring?.monthly_on_the_enabled">
+                                        {{ $t('recurring.frequency.monthly.each') }}
+                                        ({{ $t('recurring.frequency.monthly.day') }})
+                                    </span>
+                                    <span v-else>
+                                        {{ $t('recurring.frequency.onThe.onThe') }}
+                                    </span>
+                                </p>
+                            </div>
+                            <div class="space-y-1" v-if="! state.formSchedule.recurring.monthly_on_the_enabled">
+                                <FormSelectMultiple id="monthly_each" :options="state.options.schedule_frequencies?.monthlyEach"
+                                    v-model="state.formSchedule.recurring.monthly_each" />
+                                <FormError
+                                    :error="v$?.formSchedule?.recurring?.monthly_each?.$errors[0]?.$message.toString()" />
+                                <FormError :error="state?.error?.errors?.monthly_each?.[0]" />
+                            </div>
+                            <div v-else>
+                                <div class="grid grid-cols-1 md: grid-cols-2 gap-3">
+                                    <div class="space-y-1">
+                                        <FormSelect id="monthly_on_the_sequence"
+                                            :options="state.options.schedule_frequencies?.monthlyOnTheSequences"
+                                            v-model="state.formSchedule.recurring.monthly_on_the_sequence" />
+                                        <FormError
+                                            :error="v$?.formSchedule?.recurring?.monthly_on_the_sequence?.$errors[0]?.$message.toString()" />
+                                        <FormError :error="state?.error?.errors?.monthly_on_the_sequence?.[0]" />
+                                    </div>
+                                    <div class="space-y-1">
+                                        <FormSelect id="monthly_on_the_day"
+                                            :options="state.options.schedule_frequencies?.monthlyOnTheDays"
+                                            v-model="state.formSchedule.recurring.monthly_on_the_day" />
+                                        <FormError
+                                            :error="v$?.formSchedule?.recurring?.monthly_on_the_day?.$errors[0]?.$message.toString()" />
+                                        <FormError :error="state?.error?.errors?.monthly_on_the_day?.[0]" />
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="space-y-3" v-if="state.formSchedule.recurring?.frequency === 'yearly'">
+                            <div class="space-y-1">
+                                <FormLabel for="yearly_in_months" :label="$t('recurring.frequency.yearly.yearIn')" />
+                                <FormSelectMultiple id="yearly_in_months"
+                                    :options="state.options.schedule_frequencies?.yearlyMonths"
+                                    v-model="state.formSchedule.recurring.yearly_in_months" />
+                                <FormError
+                                    :error="v$?.formSchedule?.recurring?.yearly_in_months?.$errors[0]?.$message.toString()" />
+                                <FormError :error="state?.error?.errors?.yearly_in_months?.[0]" />
+                            </div>
+                            <div class="space-y-1">
+                                <div class="space-y-1">
+                                    <div class="w-fit flex items-center cursor-pointer"
+                                        @click="state.formSchedule.recurring.yearly_on_the_enabled = !state.formSchedule.recurring?.yearly_on_the_enabled">
+                                        <FormCheckbox :value="state.formSchedule.recurring?.yearly_on_the_enabled" />
+                                        {{ $t('recurring.frequency.yearly.onThe') }}
+                                    </div>
+                                </div>
+                                <div class="grid grid-cols-1 md: grid-cols-2 gap-3"
+                                    v-if="state.formSchedule.recurring?.yearly_on_the_enabled">
+                                    <div class="space-y-1">
+                                        <FormSelect id="yearly_on_the_sequence"
+                                            :options="state.options.schedule_frequencies?.yearlyOnTheSequences"
+                                            v-model="state.formSchedule.recurring.yearly_on_the_sequence" />
+                                        <FormError
+                                            :error="v$?.formSchedule?.recurring?.yearly_on_the_sequence?.$errors[0]?.$message.toString()" />
+                                        <FormError :error="state?.error?.errors?.yearly_on_the_sequence?.[0]" />
+                                    </div>
+                                    <div class="space-y-1">
+                                        <FormSelect id="yearly_on_the_day"
+                                            :options="state.options.schedule_frequencies?.yearlyOnTheDays"
+                                            v-model="state.formSchedule.recurring.yearly_on_the_day" />
+                                        <FormError
+                                            :error="v$?.formSchedule?.recurring?.yearly_on_the_day?.$errors[0]?.$message.toString()" />
+                                        <FormError :error="state?.error?.errors?.yearly_on_the_day?.[0]" />
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- End Frequency Recurring Fields -->
+            </div>
+
             <div class="space-y-1">
                 <div class="flex justify-between items-center py-0.5">
                     <FormLabel for="unit_uuid" :label="`${$t('units.form.doYouWantToReserveAUnit')}?`" />
@@ -94,7 +231,7 @@
             </div>
         </div>
         <div class="mt-6">
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
+            <div class="grid grid-cols-1 md: grid-cols-2 gap-3">
                 <FormButton type="button" buttonStyle="cancel" class="rounded-md" @click="emit('closeModal')">
                     {{ $t('cancel') }}
                 </FormButton>
@@ -162,6 +299,22 @@ const state = reactive({
         calendar_tag_uuid: [] as any,
         send_invitation: false,
         apply_changes_to_future_events: false,
+        recurring: {
+            is_recurring: true,
+            recurring:  '',
+            recurring_until: '',
+            frequency: '',
+            every: '',
+            weekly_on: [],
+            monthly_on_the_enabled: false,
+            monthly_each: [],
+            monthly_on_the_sequence: '',
+            monthly_on_the_day: '',
+            yearly_in_months: [],
+            yearly_on_the_enabled: false,
+            yearly_on_the_sequence: '',
+            yearly_on_the_day:  '',
+        },
     },
     modal: {
         isAddNewCalendarTag: false,
@@ -171,7 +324,93 @@ const state = reactive({
         citizens: [] as Option[],
         tags: [] as Option[],
         units: [] as Option[],
-        users: [] as Option[]
+        users: [] as Option[],
+        schedule_frequencies: {
+            frequency: [
+                { value: 'daily', label:  `${t('recurring.frequency.daily.daily')}` },
+                { value: 'weekly', label: `${t('recurring.frequency.weekly.weekly')}` },
+                { value: 'monthly', label: `${t('recurring.frequency.monthly.monthly')}` },
+                { value: 'yearly', label: `${t('recurring.frequency.yearly.yearly')}` },
+            ],
+            monthlyEach: generateMonthlyDaysOptions() as any,
+            monthlyOnTheDays: [
+                { value: 'monday', label: `${t('recurring.days.monday')}` },
+                { value: 'tuesday', label: `${t('recurring.days.tuesday')}` },
+                { value: 'wednesday', label: `${t('recurring.days.wednesday')}` },
+                { value: 'thursday', label: `${t('recurring.days.thursday')}` },
+                { value: 'friday', label: `${t('recurring.days.friday')}` },
+                { value: 'saturday', label: `${t('recurring.days.saturday')}` },
+                { value: 'sunday', label: `${t('recurring.days.sunday')}` },
+                { value: 'weekday', label: `${t('recurring.days.weekday')}` },
+                { value: 'weekend_day', label: `${t('recurring.days.weekendDay')}` },
+            ],
+            monthlyOnTheSequences: [
+                { value: 'first', label: `${t('recurring.frequency.onThe.first')}` },
+                { value: 'second', label: `${t('recurring.frequency.onThe.second')}` },
+                { value: 'third', label: `${t('recurring.frequency.onThe.third')}` },
+                { value: 'fourth', label: `${t('recurring.frequency.onThe.fourth')}` },
+                { value: 'fifth', label:  `${t('recurring.frequency.onThe.fifth')}` },
+                { value: 'next_to_last', label: `${t('recurring.frequency.onThe.nextToLast')}` },
+                { value: 'last', label: `${t('recurring.frequency.onThe.last')}` },
+            ],
+            recurringSchedules: [
+                { value: 'everyday', label: `${t('recurring.everyDay')}` },
+                { value: 'every_week', label: `${t('recurring.everyWeek')}` },
+                { value: 'every_second_week', label: `${t('recurring.everySecondWeek')}` },
+                { value: 'every_third_week', label: `${t('recurring.everyThirdWeek')}` },
+                { value: 'every_fourth_week', label: `${t('recurring.everyFourthWeek')}` },
+                { value: 'every_month', label: `${t('recurring.everyMonth')}` },
+                { value: 'every_year', label: `${t('recurring.everyYear')}` },
+                { value: 'custom', label: `${t('recurring.custom')}` },
+            ],
+            weekOn: [
+                { value: 'monday', label: `${t('recurring.days.monday')}` },
+                { value: 'tuesday', label: `${t('recurring.days.tuesday')}` },
+                { value: 'wednesday', label: `${t('recurring.days.wednesday')}` },
+                { value: 'thursday', label: `${t('recurring.days.thursday')}` },
+                { value: 'friday', label: `${t('recurring.days.friday')}` },
+                { value: 'saturday', label: `${t('recurring.days.saturday')}` },
+                { value: 'sunday', label: `${t('recurring.days.sunday')}` },
+            ],
+            yearlyMonths: [
+                { value:  'january', label: `${t('recurring.frequency.yearly.january')}` },
+                { value: 'february', label: `${t('recurring.frequency.yearly.february')}` },
+                { value: 'march', label: `${t('recurring.frequency.yearly.march')}` },
+                { value: 'april', label: `${t('recurring.frequency.yearly.april')}` },
+                { value: 'may', label: `${t('recurring.frequency.yearly.may')}` },
+                { value: 'june', label: `${t('recurring.frequency.yearly.june')}` },
+                { value: 'july', label: `${t('recurring.frequency.yearly.july')}` },
+                { value: 'august', label: `${t('recurring.frequency.yearly.august')}` },
+                { value: 'september', label: `${t('recurring.frequency.yearly.september')}` },
+                { value: 'october', label: `${t('recurring.frequency.yearly.october')}` },
+                { value: 'november', label: `${t('recurring.frequency.yearly.november')}` },
+                { value: 'december', label: `${t('recurring.frequency.yearly.december')}` },
+            ],
+            yearlyOnTheDays: [
+                { value: 'monday', label: `${t('recurring.days.monday')}` },
+                { value: 'tuesday', label: `${t('recurring.days.tuesday')}` },
+                { value: 'wednesday', label: `${t('recurring.days.wednesday')}` },
+                { value: 'thursday', label: `${t('recurring.days.thursday')}` },
+                { value: 'friday', label: `${t('recurring.days.friday')}` },
+                { value: 'saturday', label: `${t('recurring.days.saturday')}` },
+                { value: 'sunday', label: `${t('recurring.days.sunday')}` },
+                { value: 'weekday', label: `${t('recurring.days.weekday')}` },
+                { value: 'weekend_day', label: `${t('recurring.days.weekendDay')}` },
+            ],
+            yearlyOnTheSequences: [
+                { value: 'first', label: `${t('recurring.frequency.onThe.first')}` },
+                { value: 'second', label: `${t('recurring.frequency.onThe.second')}` },
+                { value: 'third', label: `${t('recurring.frequency.onThe.third')}` },
+                { value: 'fourth', label: `${t('recurring.frequency.onThe.fourth')}` },
+                { value: 'fifth', label: `${t('recurring.frequency.onThe.fifth')}` },
+                { value: 'next_to_last', label: `${t('recurring.frequency.onThe.nextToLast')}` },
+                { value: 'last', label: `${t('recurring.frequency.onThe.last')}` },
+            ],
+            zeroTo999Days: generateZeroTo999DaysOptions() as any,
+            zeroTo999Weeks: generateZeroTo999WeeksOptions() as any,
+            zeroTo999Months: generateZeroTo999MonthsOptions() as any,
+            zeroTo999Years: generateZeroTo999YearsOptions() as any,
+        }
     }
 })
 
@@ -185,7 +424,7 @@ onMounted(() => {
         uuid: props.selectedSchedule.uuid,
         title: props.selectedSchedule.title,
         description: props.selectedSchedule.description,
-        date_time_start: props.selectedSchedule.start ? formatDateTimeToYYYYmmddHHmm(props.selectedSchedule.start) : formatDateToYYYYmmddHHmm('', false),
+        date_time_start:  props.selectedSchedule.start ?  formatDateTimeToYYYYmmddHHmm(props.selectedSchedule.start) : formatDateToYYYYmmddHHmm('', false),
         date_time_end: props.selectedSchedule.end ? formatDateTimeToYYYYmmddHHmm(props.selectedSchedule.end) : formatDateToYYYYmmddHHmm('', true),
         unit_uuid: props.selectedSchedule.unit_uuid,
         is_private: props.selectedSchedule.is_private,
@@ -194,8 +433,24 @@ onMounted(() => {
         calendar_tag_uuid: [],
         send_invitation: props.selectedSchedule.send_invitation,
         apply_changes_to_future_events: false,
+        recurring: {
+            is_recurring: true,
+            recurring: props.selectedSchedule?.recurring || '',
+            recurring_until: props.selectedSchedule?.recurring_until || '',
+            frequency:  props.selectedSchedule?.recurring_rules?.frequency || '',
+            every: props.selectedSchedule?.recurring_rules?.every || '',
+            weekly_on: props.selectedSchedule?.recurring_rules?.weekly_on || [],
+            monthly_on_the_enabled: props.selectedSchedule?.recurring_rules?.monthly_on_the_enabled || false,
+            monthly_each: props.selectedSchedule?.recurring_rules?.monthly_each || [],
+            monthly_on_the_sequence: props.selectedSchedule?.recurring_rules?.monthly_on_the_sequence || '',
+            monthly_on_the_day: props.selectedSchedule?.recurring_rules?.monthly_on_the_day || '',
+            yearly_in_months: props.selectedSchedule?.recurring_rules?.yearly_in_months || [],
+            yearly_on_the_enabled: props.selectedSchedule?.recurring_rules?.yearly_on_the_enabled || false,
+            yearly_on_the_sequence:  props.selectedSchedule?.recurring_rules?.yearly_on_the_sequence || '',
+            yearly_on_the_day: props.selectedSchedule?.recurring_rules?.yearly_on_the_day || '',
+        },
     }
-    props.selectedSchedule.calendar_tags?.forEach((tag: any) => {
+    props.selectedSchedule.calendar_tags?.forEach((tag:  any) => {
         state.formSchedule.calendar_tag_uuid.push(tag.uuid)
     })
 })
@@ -203,15 +458,16 @@ onMounted(() => {
 const rules = computed(() => {
     return {
         formSchedule: {
-            title: {
+            title:  {
                 required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
             },
             date_time_start: {
                 required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
             },
-            date_time_end: {
+            date_time_end:  {
                 required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
             },
+            recurring: {},
         },
     }
 })
@@ -220,7 +476,7 @@ const v$ = useVuelidate(rules, state)
 
 function submitForm() {
     v$.value.$validate()
-    if (!v$.value.$error) {
+    if (! v$.value.$error) {
         emit('submitForm', state.formSchedule)
     }
 }
@@ -242,9 +498,9 @@ function formatDateTimeToYYYYmmddHHmm(inputDate: string): string {
 }
 
 function formatDateToYYYYmmddHHmm(dateString: string, is_end_date_time: boolean = false): string {
-    let date: Date
+    let date:  Date
 
-    if (!dateString) {
+    if (! dateString) {
         // If dateString is null or empty, use today's date
         date = new Date() // Current date and time
     } else {
@@ -276,7 +532,7 @@ async function fetchAllCalendarTags() {
     try {
         const response = await calendarTagService.getAllCalendarTags()
         if (response.data) {
-            let options: any = []
+            let options:  any = []
             response.data.forEach(
                 (tag: any) => options.push({
                     value: tag?.uuid,
@@ -285,7 +541,7 @@ async function fetchAllCalendarTags() {
             )
             state.options.tags = options
         }
-    } catch (error: any) {
+    } catch (error:  any) {
         state.error = error
     }
     state.isPageLoading = false
@@ -296,7 +552,7 @@ async function fetchAllCitizens() {
     state.isPageLoading = true
     try {
         const params = {
-            department: departmentStore.getSelectedDepartmentName
+            department:  departmentStore.getSelectedDepartmentName
         }
         const response = await citizenService.getAllCitizens(params)
         if (response.data) {
@@ -304,7 +560,7 @@ async function fetchAllCitizens() {
             response.data.forEach(
                 (citizen: any) => options.push({
                     value: citizen?.uuid,
-                    label: citizen?.firstname + " " + (citizen?.lastname ?? ''),
+                    label: citizen?.firstname + " " + (citizen?.lastname ??  ''),
                 })
             )
             state.options.citizens = options
@@ -359,10 +615,54 @@ async function fetchAllUnits() {
     }
     state.isPageLoading = false
 }
+
+function generateZeroTo999DaysOptions() {
+    let options = []
+    options.push({ value: String(1), label: String(1) + ` ${t('recurring.frequency.daily.day').toLocaleLowerCase()}` })
+    for (let i = 2; i <= 999; i++) {
+        options.push({ value: String(i), label: String(i) + ` ${t('recurring.frequency.daily.days').toLocaleLowerCase()}` })
+    }
+    return options;
+}
+
+function generateZeroTo999WeeksOptions() {
+    let options = []
+    options.push({ value: String(1), label: String(1) + ` ${t('recurring.frequency.weekly.week').toLocaleLowerCase()}` })
+    for (let i = 2; i <= 999; i++) {
+        options.push({ value: String(i), label: String(i) + ` ${t('recurring.frequency.weekly.weeks').toLocaleLowerCase()}` })
+    }
+    return options;
+}
+
+function generateZeroTo999MonthsOptions() {
+    let options = []
+    options.push({ value: String(1), label: String(1) + ` ${t('recurring.frequency.monthly.month').toLocaleLowerCase()}` })
+    for (let i = 2; i <= 999; i++) {
+        options.push({ value: String(i), label: String(i) + ` ${t('recurring.frequency.monthly.months').toLocaleLowerCase()}` })
+    }
+    return options;
+}
+
+function generateZeroTo999YearsOptions() {
+    let options = []
+    options.push({ value: String(1), label: String(1) + ` ${t('recurring.frequency.yearly.year').toLocaleLowerCase()}` })
+    for (let i = 2; i <= 999; i++) {
+        options.push({ value: String(i), label: String(i) + ` ${t('recurring.frequency.yearly.years').toLocaleLowerCase()}` })
+    }
+    return options;
+}
+
+function generateMonthlyDaysOptions() {
+    let options = []
+    for (let i = 1; i <= 31; i++) {
+        options.push({ value: String(i), label: String(i) })
+    }
+    return options;
+}
 </script>
 
 <style>
 #formSchedule .multiselect-dropdown {
-    max-height: 6rem !important;
+    max-height: 6rem ! important;
 }
 </style>
