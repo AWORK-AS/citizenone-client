@@ -72,7 +72,9 @@
                             <Icon name="ph:file-arrow-down" class="h-4 w-4" aria-hidden="true" />
                             {{ $t('citizens.exportCitizens') }}
                         </FormButton>
-                        <Menu v-if="userStore.getUser?.company?.industry?.system_name === 'social_welfare' && ['Crisis center', 'Shelter'].includes(userStore.getUser?.company?.facility_type?.en_name)" as="div" class="relative inline-block text-left z-20">
+                        <Menu
+                            v-if="userStore.getUser?.company?.industry?.system_name === 'social_welfare' && ['Crisis center', 'Shelter'].includes(userStore.getUser?.company?.facility_type?.en_name)"
+                            as="div" class="relative inline-block text-left z-20">
                             <div>
                                 <MenuButton>
                                     <FormButton buttonStyle="action" class="rounded-lg">
@@ -83,7 +85,8 @@
                             </div>
 
                             <transition enter-active-class="transition duration-100 ease-out"
-                                enter-from-class="transform scale-95 opacity-0" enter-to-class="transform scale-100 opacity-100"
+                                enter-from-class="transform scale-95 opacity-0"
+                                enter-to-class="transform scale-100 opacity-100"
                                 leave-active-class="transition duration-75 ease-in"
                                 leave-from-class="transform scale-100 opacity-100"
                                 leave-to-class="transform scale-95 opacity-0">
@@ -91,20 +94,20 @@
                                     class="absolute right-0 mt-2 min-w-44 origin-top-right divide-y divide-gray-100 rounded-md bg-white shadow-lg ring-1 ring-black/5 focus:outline-none">
                                     <div class="px-1 py-1">
                                         <MenuItem v-slot="{ active }">
-                                            <button :class="[
-                                                active && 'bg-gray-100',
-                                                'group flex w-full justify-start items-center rounded-md px-2 py-2.5 text-sm text-left',
-                                            ]" @click="exportInquiries({ inquiry_type: 'shelter' })">
-                                                {{ $t('inquiries.form.options.inquiryType.shelter') }}
-                                            </button>
+                                        <button :class="[
+                                            active && 'bg-gray-100',
+                                            'group flex w-full justify-start items-center rounded-md px-2 py-2.5 text-sm text-left',
+                                        ]" @click="exportInquiries({ inquiry_type: 'shelter' })">
+                                            {{ $t('inquiries.form.options.inquiryType.shelter') }}
+                                        </button>
                                         </MenuItem>
                                         <MenuItem v-slot="{ active }">
-                                            <button :class="[
-                                                active && 'bg-gray-100',
-                                                'group flex w-full items-center rounded-md px-2 py-2.5 text-sm',
-                                            ]" @click="exportInquiries({ inquiry_type: 'crisis_center' })">
-                                                {{ $t('inquiries.form.options.inquiryType.crisisCenter') }}
-                                            </button>
+                                        <button :class="[
+                                            active && 'bg-gray-100',
+                                            'group flex w-full items-center rounded-md px-2 py-2.5 text-sm',
+                                        ]" @click="exportInquiries({ inquiry_type: 'crisis_center' })">
+                                            {{ $t('inquiries.form.options.inquiryType.crisisCenter') }}
+                                        </button>
                                         </MenuItem>
                                     </div>
                                 </MenuItems>
@@ -253,10 +256,10 @@ const { t } = useI18n()
 
 const state = reactive({
     columnHeaders: [
-        { name: 'citizens.table.name', sorter: true, key: 'firstname' },
-        { name: 'citizens.table.email', sorter: true, key: 'email' },
-        { name: 'citizens.table.ssn', sorter: true, key: 'ssn' },
-        { name: 'citizens.table.phone', sorter: true, key: 'phone' },
+        { name: 'citizens.table.name', isTranslateName: true, sorter: true, key: 'firstname' },
+        { name: 'citizens.table.email', isTranslateName: true, sorter: true, key: 'email' },
+        { name: 'citizens.table.ssn', isTranslateName: true, sorter: true, key: 'ssn' },
+        { name: 'citizens.table.phone', isTranslateName: true, sorter: true, key: 'phone' },
         { name: '' },
     ],
     dataFilter: {

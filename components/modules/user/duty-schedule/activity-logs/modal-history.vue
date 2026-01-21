@@ -257,9 +257,9 @@ const emit = defineEmits(['close'])
 
 const state = reactive({
     columnHeaders: [
-        { name: 'activityLogs.table.createdAt', sorter: true, key: 'created_at' },
-        { name: 'activityLogs.table.user' },
-        { name: 'activityLogs.table.description' },
+        { name: 'activityLogs.table.createdAt', isTranslateName: true, sorter: true, key: 'created_at' },
+        { name: 'activityLogs.table.user', isTranslateName: true, },
+        { name: 'activityLogs.table.description', isTranslateName: true, },
     ],
     error: {} as Error,
     isTableLoading: false,

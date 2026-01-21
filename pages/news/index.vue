@@ -108,11 +108,11 @@ const breadcrumbLinks = [
 
 const state = reactive({
     columnHeaders: [
-        { name: 'news.table.image' },
-        { name: 'news.table.title', sorter: true, key: 'title' },
-        { name: 'news.table.content' },
-        { name: 'news.table.featured' },
-        { name: 'news.table.status', sorter: true, key: 'is_active' },
+        { name: 'news.table.image', isTranslateName: true, },
+        { name: 'news.table.title', isTranslateName: true, sorter: true, key: 'title' },
+        { name: 'news.table.content', isTranslateName: true, },
+        { name: 'news.table.featured', isTranslateName: true, },
+        { name: 'news.table.status', isTranslateName: true, sorter: true, key: 'is_active' },
         { name: '' },
     ],
     dataFilter: {

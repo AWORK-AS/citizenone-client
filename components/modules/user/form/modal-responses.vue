@@ -65,8 +65,8 @@ const { formatDateToReadable } = useDatetimeFormatter()
 
 const state = reactive({
     columnHeaders: [
-        { name: 'forms.responses.table.name' },
-        { name: 'forms.responses.table.responses' },
+        { name: 'forms.responses.table.name', isTranslateName: true, },
+        { name: 'forms.responses.table.responses', isTranslateName: true, },
     ],
     error: {} as Error,
     formJobTitle: {

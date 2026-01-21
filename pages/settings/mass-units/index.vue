@@ -84,7 +84,7 @@ const breadcrumbLinks = [
 
 const state = reactive({
     columnHeaders: [
-        { name: 'massUnits.table.name', sorter: true, key: 'name' },
+        { name: 'massUnits.table.name', isTranslateName: true, sorter: true, key: 'name' },
         { name: '' }
     ],
     dataFilter: {

@@ -232,11 +232,11 @@ let currentTablePage = 1
 
 const state = reactive({
     columnHeaders: [
-        { name: 'citizens.interventionHours.table.datetimeStart', sorter: true, key: 'date_time_start' },
-        { name: 'citizens.interventionHours.table.datetimeEnd', sorter: true, key: 'date_time_end' },
-        { name: 'citizens.interventionHours.table.note' },
-        { name: 'citizens.interventionHours.table.totalHours' },
-        { name: 'citizens.interventionHours.table.createdBy' },
+        { name: 'citizens.interventionHours.table.datetimeStart', isTranslateName: true, sorter: true, key: 'date_time_start' },
+        { name: 'citizens.interventionHours.table.datetimeEnd', isTranslateName: true, sorter: true, key: 'date_time_end' },
+        { name: 'citizens.interventionHours.table.note', isTranslateName: true, },
+        { name: 'citizens.interventionHours.table.totalHours', isTranslateName: true, },
+        { name: 'citizens.interventionHours.table.createdBy', isTranslateName: true, },
         { name: '' },
     ],
     contributionMargin: {} as any,

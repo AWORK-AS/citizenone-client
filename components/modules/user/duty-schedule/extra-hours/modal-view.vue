@@ -170,11 +170,11 @@ let currentTablePage = 1
 
 const state = reactive({
     columnHeaders: [
-        { name: 'dutySchedules.extraHours.table.date', sorter: true, key: 'date' },
-        { name: 'dutySchedules.extraHours.table.type.type', sorter: true, key: 'extra_hours_type' },
-        { name: 'dutySchedules.extraHours.table.hours', sorter: true, key: 'extra_hours' },
-        { name: 'dutySchedules.extraHours.table.note' },
-        { name: 'dutySchedules.extraHours.table.status.status', sorter: true, key: 'extra_hours_status' },
+        { name: 'dutySchedules.extraHours.table.date', isTranslateName: true, sorter: true, key: 'date' },
+        { name: 'dutySchedules.extraHours.table.type.type', isTranslateName: true, sorter: true, key: 'extra_hours_type' },
+        { name: 'dutySchedules.extraHours.table.hours', isTranslateName: true, sorter: true, key: 'extra_hours' },
+        { name: 'dutySchedules.extraHours.table.note', isTranslateName: true, },
+        { name: 'dutySchedules.extraHours.table.status.status', isTranslateName: true, sorter: true, key: 'extra_hours_status' },
         { name: '' },
     ],
     dataFilter: {

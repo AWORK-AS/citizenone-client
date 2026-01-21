@@ -41,8 +41,8 @@ let currentTablePage = 1
 
 const state = reactive({
     columnHeaders: [
-        { name: 'forms.table.title', sorter: true, key: 'title' },
-        { name: 'forms.table.description' },
+        { name: 'forms.table.title', isTranslateName: true, sorter: true, key: 'title' },
+        { name: 'forms.table.description', isTranslateName: true, },
     ],
     dataFilter: {
         search: ''

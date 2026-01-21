@@ -217,10 +217,10 @@ const breadcrumbLinks = [
 
 const state = reactive({
     columnHeaders: [
-        { name: 'drive.table.name', sorter: true, key: 'name' },
-        { name: 'drive.table.owner' },
-        { name: 'drive.table.dateCreated', sorter: true, key: 'created_at' },
-        { name: 'drive.table.lastModified', sorter: true, key: 'updated_at' },
+        { name: 'drive.table.name', isTranslateName: true, sorter: true, key: 'name' },
+        { name: 'drive.table.owner', isTranslateName: true, },
+        { name: 'drive.table.dateCreated', isTranslateName: true, sorter: true, key: 'created_at' },
+        { name: 'drive.table.lastModified', isTranslateName: true, sorter: true, key: 'updated_at' },
         { name: '' },
     ],
     dataFilter: {

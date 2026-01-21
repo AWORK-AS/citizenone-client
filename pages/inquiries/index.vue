@@ -45,7 +45,8 @@
                             </div>
 
                             <transition enter-active-class="transition duration-100 ease-out"
-                                enter-from-class="transform scale-95 opacity-0" enter-to-class="transform scale-100 opacity-100"
+                                enter-from-class="transform scale-95 opacity-0"
+                                enter-to-class="transform scale-100 opacity-100"
                                 leave-active-class="transition duration-75 ease-in"
                                 leave-from-class="transform scale-100 opacity-100"
                                 leave-to-class="transform scale-95 opacity-0">
@@ -53,20 +54,20 @@
                                     class="absolute right-0 mt-2 min-w-44 origin-top-right divide-y divide-gray-100 rounded-md bg-white shadow-lg ring-1 ring-black/5 focus:outline-none">
                                     <div class="px-1 py-1">
                                         <MenuItem v-slot="{ active }">
-                                            <button :class="[
-                                                active && 'bg-gray-100',
-                                                'group flex w-full justify-start items-center rounded-md px-2 py-2.5 text-sm text-left',
-                                            ]" @click="shelterNewInquiry">
-                                                {{ $t('inquiries.form.options.inquiryType.shelter') }}
-                                            </button>
+                                        <button :class="[
+                                            active && 'bg-gray-100',
+                                            'group flex w-full justify-start items-center rounded-md px-2 py-2.5 text-sm text-left',
+                                        ]" @click="shelterNewInquiry">
+                                            {{ $t('inquiries.form.options.inquiryType.shelter') }}
+                                        </button>
                                         </MenuItem>
                                         <MenuItem v-slot="{ active }">
-                                            <button :class="[
-                                                active && 'bg-gray-100',
-                                                'group flex w-full items-center rounded-md px-2 py-2.5 text-sm',
-                                            ]" @click="crisisCenterNewInquiry">
-                                                {{ $t('inquiries.form.options.inquiryType.crisisCenter') }}
-                                            </button>
+                                        <button :class="[
+                                            active && 'bg-gray-100',
+                                            'group flex w-full items-center rounded-md px-2 py-2.5 text-sm',
+                                        ]" @click="crisisCenterNewInquiry">
+                                            {{ $t('inquiries.form.options.inquiryType.crisisCenter') }}
+                                        </button>
                                         </MenuItem>
                                     </div>
                                 </MenuItems>
@@ -84,7 +85,8 @@
                             </div>
 
                             <transition enter-active-class="transition duration-100 ease-out"
-                                enter-from-class="transform scale-95 opacity-0" enter-to-class="transform scale-100 opacity-100"
+                                enter-from-class="transform scale-95 opacity-0"
+                                enter-to-class="transform scale-100 opacity-100"
                                 leave-active-class="transition duration-75 ease-in"
                                 leave-from-class="transform scale-100 opacity-100"
                                 leave-to-class="transform scale-95 opacity-0">
@@ -92,20 +94,20 @@
                                     class="absolute right-0 mt-2 min-w-44 origin-top-right divide-y divide-gray-100 rounded-md bg-white shadow-lg ring-1 ring-black/5 focus:outline-none">
                                     <div class="px-1 py-1">
                                         <MenuItem v-slot="{ active }">
-                                            <button :class="[
-                                                active && 'bg-gray-100',
-                                                'group flex w-full justify-start items-center rounded-md px-2 py-2.5 text-sm text-left',
-                                            ]" @click="exportInquiries({ inquiry_type: 'shelter' })">
-                                                {{ $t('inquiries.form.options.inquiryType.shelter') }}
-                                            </button>
+                                        <button :class="[
+                                            active && 'bg-gray-100',
+                                            'group flex w-full justify-start items-center rounded-md px-2 py-2.5 text-sm text-left',
+                                        ]" @click="exportInquiries({ inquiry_type: 'shelter' })">
+                                            {{ $t('inquiries.form.options.inquiryType.shelter') }}
+                                        </button>
                                         </MenuItem>
                                         <MenuItem v-slot="{ active }">
-                                            <button :class="[
-                                                active && 'bg-gray-100',
-                                                'group flex w-full items-center rounded-md px-2 py-2.5 text-sm',
-                                            ]" @click="exportInquiries({ inquiry_type: 'crisis_center' })">
-                                                {{ $t('inquiries.form.options.inquiryType.crisisCenter') }}
-                                            </button>
+                                        <button :class="[
+                                            active && 'bg-gray-100',
+                                            'group flex w-full items-center rounded-md px-2 py-2.5 text-sm',
+                                        ]" @click="exportInquiries({ inquiry_type: 'crisis_center' })">
+                                            {{ $t('inquiries.form.options.inquiryType.crisisCenter') }}
+                                        </button>
                                         </MenuItem>
                                     </div>
                                 </MenuItems>
@@ -227,14 +229,14 @@ const breadcrumbLinks = [
 
 const state = reactive({
     columnHeaders: [
-        { name: 'inquiries.table.dateOfInquiry', sorter: true, key: 'inquiry_date' },
-        { name: 'inquiries.table.status.status', sorter: true, key: 'citizen_id' },
-        { name: 'inquiries.table.inquirerName', sorter: true, key: 'inquirer_name' },
-        { name: 'inquiries.table.firstname', sorter: true, key: 'firstname' },
-        { name: 'inquiries.table.lastname', sorter: true, key: 'lastname' },
-        { name: 'inquiries.table.outcome' },
-        { name: 'inquiries.table.purpose' },
-        { name: 'inquiries.table.conversationSummary' },
+        { name: 'inquiries.table.dateOfInquiry', isTranslateName: true, sorter: true, key: 'inquiry_date' },
+        { name: 'inquiries.table.status.status', isTranslateName: true, sorter: true, key: 'citizen_id' },
+        { name: 'inquiries.table.inquirerName', isTranslateName: true, sorter: true, key: 'inquirer_name' },
+        { name: 'inquiries.table.firstname', isTranslateName: true, sorter: true, key: 'firstname' },
+        { name: 'inquiries.table.lastname', isTranslateName: true, sorter: true, key: 'lastname' },
+        { name: 'inquiries.table.outcome', isTranslateName: true, },
+        { name: 'inquiries.table.purpose', isTranslateName: true, },
+        { name: 'inquiries.table.conversationSummary', isTranslateName: true, },
         { name: '' },
     ],
     dataFilter: {

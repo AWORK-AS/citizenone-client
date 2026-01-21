@@ -159,9 +159,9 @@ const emit = defineEmits(['close'])
 
 const state = reactive({
     columnHeaders: [
-        { name: 'plansandgoals.notifications.table.dateTime', sorter: true, key: 'created_at' },
-        { name: 'plansandgoals.notifications.table.users' },
-        { name: 'plansandgoals.notifications.table.note' },
+        { name: 'plansandgoals.notifications.table.dateTime', isTranslateName: true, sorter: true, key: 'created_at' },
+        { name: 'plansandgoals.notifications.table.users', isTranslateName: true, },
+        { name: 'plansandgoals.notifications.table.note', isTranslateName: true, },
         { name: '' },
     ],
     dataFilter: {

@@ -85,7 +85,7 @@ const breadcrumbLinks = [
 
 const state = reactive({
     columnHeaders: [
-        { name: 'relationships.table.name', sorter: true, key: 'name' },
+        { name: 'relationships.table.name', isTranslateName: true, sorter: true, key: 'name' },
         { name: '' }
     ],
     dataFilter: {

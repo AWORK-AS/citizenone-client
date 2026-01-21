@@ -58,7 +58,7 @@
                                                 </div>
                                                 <p class="mt-1 text-xs text-muted-400">
                                                     <span>{{ formatDateToReadable(log?.new_data?.date)
-                                                        }}</span>
+                                                    }}</span>
                                                 </p>
                                             </div>
                                             <div class="mt-1">
@@ -174,7 +174,7 @@
                                                 </div>
                                                 <p class="mt-1 text-xs text-muted-400">
                                                     <span>{{ formatDateToReadable(log?.old_data?.date)
-                                                        }}</span>
+                                                    }}</span>
                                                 </p>
                                             </div>
                                             <div class="mt-1">
@@ -292,9 +292,9 @@ let currentTablePage = 1
 
 const state = reactive({
     columnHeaders: [
-        { name: 'citizens.citizenJournals.journalLogs.date', sorter: true, key: 'ß' },
-        { name: 'citizens.citizenJournals.journalLogs.description' },
-        { name: 'citizens.citizenJournals.journalLogs.updatedBy' },
+        { name: 'citizens.citizenJournals.journalLogs.date', isTranslateName: true, sorter: true, key: 'ß' },
+        { name: 'citizens.citizenJournals.journalLogs.description', isTranslateName: true, },
+        { name: 'citizens.citizenJournals.journalLogs.updatedBy', isTranslateName: true, },
     ],
     error: {} as Error,
     isTableLoading: false,

@@ -84,7 +84,7 @@ let currentTablePage = 1
 
 const state = reactive({
     columnHeaders: [
-        { name: 'addictions.table.name', sorter: true, key: 'name' },
+        { name: 'addictions.table.name', isTranslateName: true, sorter: true, key: 'name' },
         { name: '' },
     ],
     dataFilter: {

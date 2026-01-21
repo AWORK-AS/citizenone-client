@@ -29,7 +29,7 @@
                     <span>{{ $t('back') }}</span>
                 </NuxtLink>
 
-                <ModulesUserCitizenDetailsHeader />
+                <!-- <ModulesUserCitizenDetailsHeader /> -->
                 <ModulesUserCitizenJournalTabs />
 
                 <div>
@@ -343,11 +343,11 @@ const breadcrumbLinks = [
 
 const state = reactive({
     columnHeaders: [
-        { name: 'citizens.medicineJournals.table.medicine' },
-        { name: 'citizens.medicineJournals.table.strength' },
-        { name: 'citizens.medicineJournals.table.maxDailyDose' },
-        { name: 'citizens.medicineJournals.table.dosageForm' },
-        { name: 'citizens.medicineJournals.table.currentStocks' },
+        { name: 'citizens.medicineJournals.table.medicine', isTranslateName: true, },
+        { name: 'citizens.medicineJournals.table.strength', isTranslateName: true, },
+        { name: 'citizens.medicineJournals.table.maxDailyDose', isTranslateName: true, },
+        { name: 'citizens.medicineJournals.table.dosageForm', isTranslateName: true, },
+        { name: 'citizens.medicineJournals.table.currentStocks', isTranslateName: true, },
         { name: '' },
     ],
     dataFilter: {

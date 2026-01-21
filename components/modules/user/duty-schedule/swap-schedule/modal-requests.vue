@@ -105,10 +105,10 @@ let currentTablePage = 1
 
 const state = reactive({
     columnHeaders: [
-        { name: 'dutySchedules.scheduleRequests.swapSchedule.table.assignee' },
-        { name: 'dutySchedules.scheduleRequests.swapSchedule.table.shiftType' },
-        { name: 'dutySchedules.scheduleRequests.swapSchedule.table.schedule' },
-        { name: 'dutySchedules.scheduleRequests.swapSchedule.table.note' },
+        { name: 'dutySchedules.scheduleRequests.swapSchedule.table.assignee', isTranslateName: true, },
+        { name: 'dutySchedules.scheduleRequests.swapSchedule.table.shiftType', isTranslateName: true, },
+        { name: 'dutySchedules.scheduleRequests.swapSchedule.table.schedule', isTranslateName: true, },
+        { name: 'dutySchedules.scheduleRequests.swapSchedule.table.note', isTranslateName: true, },
         { name: '' },
     ],
     dataFilter: {

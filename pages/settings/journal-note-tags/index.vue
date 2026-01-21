@@ -89,8 +89,8 @@ const breadcrumbLinks = [
 
 const state = reactive({
     columnHeaders: [
-        { name: 'journalNoteTags.table.name', sorter: true, key: 'name' },
-        { name: 'journalNoteTags.table.color', sorter: false, key: 'color' },
+        { name: 'journalNoteTags.table.name', isTranslateName: true, sorter: true, key: 'name' },
+        { name: 'journalNoteTags.table.color', isTranslateName: true, sorter: false, key: 'color' },
         { name: '' }
     ],
     dataFilter: {

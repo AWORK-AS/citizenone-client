@@ -82,7 +82,7 @@ let currentTablePage = 1
 
 const state = reactive({
     columnHeaders: [
-        { name: 'diagnoses.table.name', sorter: true, key: 'name' },
+        { name: 'diagnoses.table.name', isTranslateName: true, sorter: true, key: 'name' },
         { name: '' },
     ],
     dataFilter: {

@@ -108,9 +108,9 @@ let currentTablePage = 1
 const state = reactive({
     apps: [] as any,
     columnHeaders: [
-        { name: 'superadmin.apps.table.name', sorter: true, key: 'name' },
-        { name: 'superadmin.apps.table.price', sorter: true, key: 'price' },
-        { name: 'superadmin.apps.table.type', sorter: true, key: 'type' },
+        { name: 'superadmin.apps.table.name', isTranslateName: true, sorter: true, key: 'name' },
+        { name: 'superadmin.apps.table.price', isTranslateName: true, sorter: true, key: 'price' },
+        { name: 'superadmin.apps.table.type', isTranslateName: true, sorter: true, key: 'type' },
         { name: '' },
     ],
     dataFilter: {
