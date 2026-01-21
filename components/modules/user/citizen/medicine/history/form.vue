@@ -88,8 +88,11 @@
             <div class="space-y-4" v-else>
                 <Disclosure v-slot="{ open }" v-for="(dosage, index) in state.formMedicineHistory.dosages" :key="index">
                     <div>
-                        <DisclosureButton class="w-full bg-gray-100 ring-1 ring-gray-100 flex justify-between p-3.5"
-                            :class="!open ? 'rounded-md' : 'rounded-tl-md rounded-tr-md'">
+                        <DisclosureButton :class="[
+                            !open ? 'rounded-md' : 'rounded-tl-md rounded-tr-md',
+                            dosage?.type === null ? 'ring-red-500' : 'ring-gray-100',
+                            'w-full bg-gray-100 ring-1 flex justify-between p-3.5'
+                        ]">
                             <p class="text-sm font-semibold text-gray-700">
                                 {{ t('citizens.medicineJournals.history.form.time') }}:
                                 {{ dosage?.time }}
@@ -100,8 +103,10 @@
                             </div>
                         </DisclosureButton>
                         <DisclosurePanel>
-                            <div
-                                class="bg-white shadow-sm ring-1 ring-gray-900/5 rounded-bl-lg rounded-br-lg px-4 py-6 sm:p-8">
+                            <div :class="[
+                                dosage?.type === null ? 'ring-red-500' : 'ring-gray-900/5',
+                                'bg-white shadow-sm ring-1 rounded-bl-lg rounded-br-lg px-4 py-6 sm:p-8'
+                            ]">
                                 <div class="space-y-3">
                                     <div class="space-y-1">
                                         <FormLabel :for="`quantity_${index}`"
