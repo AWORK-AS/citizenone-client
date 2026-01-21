@@ -8,11 +8,17 @@
                             <Alert type="danger" :text="state?.error?.message"
                                 v-if="state.error?.message && state.error.message.length > 0" />
                             <div class="space-y-1">
-                                <div class="flex justify-end">
-                                    <span class="text-xs cursor-pointer text-tertiary hover:text-tertiary-800"
-                                        @click="setToday">
-                                        {{ $t('filterDate.setToday') }}
-                                    </span>
+                                <div class="flex items-center space-x-3">
+                                    <div class="flex justify-end">
+                                        <span class="text-xs cursor-pointer text-tertiary hover:text-tertiary-700"
+                                            @click="setNext7Days">
+                                            {{ $t('filterDate.setNext7Days') }}
+                                        </span>
+                                        <span class="text-xs cursor-pointer text-tertiary hover:text-tertiary-800"
+                                            @click="setToday">
+                                            {{ $t('filterDate.setToday') }}
+                                        </span>
+                                    </div>
                                 </div>
                                 <FormDateRangeField name="date_range" :placeholder="$t('filterDate.filterDate')"
                                     v-model="state.filter.date_range" />
@@ -107,6 +113,12 @@ const v$ = useVuelidate(rules, state)
 
 function closeModal() {
     emit('close')
+}
+
+function setNext7Days() {
+    const firstDayOfTheWeek = moment().add(1, 'week').startOf('isoWeek').format('YYYY-MM-DD')
+    const lastDayOfTheWeek = moment().add(1, 'week').endOf('isoWeek').format('YYYY-MM-DD')
+    state.filter.date_range = [firstDayOfTheWeek, lastDayOfTheWeek]
 }
 
 function setToday() {
