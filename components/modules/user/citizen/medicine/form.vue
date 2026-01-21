@@ -43,13 +43,13 @@
                     <FormSelect id="recurring" :options="state.options.schedule_frequencies?.recurringSchedules"
                         v-model="state.formMedicine.schedule_frequency.recurring" />
                     <FormError :error="v$?.formMedicine?.schedule_frequency?.recurring?.$errors[0]?.$message?.toString()" />
-                    <FormError :error="state?.error?.errors?.recurring_uuid?.[0]" />
+                    <FormError :error="state?.error?.errors?.recurring?.[0]" />
                 </div>
                 <div class="space-y-1" v-if="!state.formMedicine.is_pn_medicine">
                     <FormLabel for="recurring_until" :label="$t('citizens.medicineJournals.form.scheduleUntil')" />
                     <FormDateField id="recurring_until" name="recurring_until" :placeholder="`${$t('citizens.medicineJournals.form.scheduleUntil')}`"
                         v-model="state.formMedicine.schedule_frequency.recurring_until" />
-                    <FormError :error="v$?.formMedicine?.recurring_until?.$errors[0]?.$message.toString()" />
+                    <FormError :error="v$?.formMedicine?.schedule_frequency?.recurring_until?.$errors[0]?.$message.toString()" />
                     <FormError :error="state?.error?.errors?.recurring_until?.[0]" />
                 </div>
                 <div class="space-y-3" v-if="state.formMedicine.schedule_frequency?.recurring === 'custom'">
@@ -566,21 +566,7 @@ onMounted(() => {
         ingredients: props.selectedMedicine.ingredients,
         description: props.selectedMedicine.description,
         current_stocks: props.selectedMedicine.current_stocks?.toString(),
-        schedule_frequency: {
-            recurring: props.selectedMedicine?.schedule_frequency,
-            recurring_until: props.selectedMedicine?.recurring_until,
-            frequency: props.selectedMedicine?.recurring_rules?.frequency,
-            every: props.selectedMedicine?.recurring_rules?.every,
-            weekly_on: props.selectedMedicine?.recurring_rules?.weekly_on || [],
-            monthly_on_the_enabled: props.selectedMedicine?.recurring_rules?.monthly_on_the_enabled || false,
-            monthly_each: props.selectedMedicine?.recurring_rules?.monthly_each || [],
-            monthly_on_the_sequence: props.selectedMedicine?.recurring_rules?.monthly_on_the_sequence || '',
-            monthly_on_the_day: props.selectedMedicine?.recurring_rules?.monthly_on_the_day || '',
-            yearly_in_months: props.selectedMedicine?.recurring_rules?.yearly_in_months || [],
-            yearly_on_the_enabled: props.selectedMedicine?.recurring_rules?.yearly_on_the_enabled || false,
-            yearly_on_the_sequence: props.selectedMedicine?.recurring_rules?.yearly_on_the_sequence || '',
-            yearly_on_the_day: props.selectedMedicine?.recurring_rules?.yearly_on_the_day || '',
-        },
+        schedule_frequency: props.selectedMedicine?.schedule_frequency,
     }
     fetchDosageForms()
     fetchAllMedicines()
@@ -618,7 +604,14 @@ const rules = computed(() => {
                     description: {
                         required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
                     },
-                    schedule_frequency: {},
+                    schedule_frequency: {
+                        recurring: {
+                            required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
+                        },
+                        recurring_until: {
+                            required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
+                        },
+                    },
                 },
             }
         } else {
@@ -628,9 +621,6 @@ const rules = computed(() => {
                         required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
                     },
                     strength: {
-                        required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
-                    },
-                    recurring_until: {
                         required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
                     },
                     dosage: {
@@ -648,7 +638,14 @@ const rules = computed(() => {
                     description: {
                         required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
                     },
-                    schedule_frequency: {},
+                    schedule_frequency: {
+                        recurring: {
+                            required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
+                        },
+                        recurring_until: {
+                            required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
+                        },
+                    },
                 },
             }
         }
@@ -685,9 +682,6 @@ const rules = computed(() => {
                     medicine: {
                         required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
                     },
-                    recurring_until: {
-                        required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
-                    },
                     strength: {
                         required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
                     },
@@ -706,7 +700,14 @@ const rules = computed(() => {
                     description: {
                         required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
                     },
-                    schedule_frequency: {},
+                    schedule_frequency: {
+                        recurring: {
+                            required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
+                        },
+                        recurring_until: {
+                            required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
+                        },
+                    },
                 },
             }
         }
