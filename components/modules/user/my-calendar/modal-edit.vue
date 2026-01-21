@@ -80,7 +80,13 @@ async function updateSchedule(scheduleDetails: any) {
             is_private: scheduleDetails.is_private,
             apply_changes_to_future_events: scheduleDetails.apply_changes_to_future_events,
         } as any
-         if (scheduleDetails.recurring.recurring === 'custom') {
+        
+        if (scheduleDetails.recurring.recurring) {
+            params.recurring = scheduleDetails.recurring.recurring
+            params.recurring_until = scheduleDetails.recurring.recurring_until
+        }
+
+        if (scheduleDetails.recurring.recurring === 'custom') {
             params.frequency = scheduleDetails.recurring.frequency
             params.every = scheduleDetails.recurring.every
             if (scheduleDetails.recurring.frequency === 'weekly') {
