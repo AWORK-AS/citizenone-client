@@ -1422,7 +1422,7 @@ async function saveDutySchedule(params: object) {
             identifyTheProgressPercentage()
             fetchDutySchedule()
             state.modal.isAddShiftOpen = false
-             setTimeout(() => {
+            setTimeout(() => {
                 state.isModalLoading = false
             }, 300)
         }
