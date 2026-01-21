@@ -80,8 +80,6 @@ async function updateSchedule(scheduleDetails: any) {
             is_private: scheduleDetails.is_private,
             apply_changes_to_future_events: scheduleDetails.apply_changes_to_future_events,
         } as any
-        console.log('scheduleDetails', scheduleDetails)
-        console.log('is_recurring', scheduleDetails.recurring.recurring === 'custom')
          if (scheduleDetails.recurring.recurring === 'custom') {
             params.frequency = scheduleDetails.recurring.frequency
             params.every = scheduleDetails.recurring.every
