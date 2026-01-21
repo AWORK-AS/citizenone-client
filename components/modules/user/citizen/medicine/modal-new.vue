@@ -105,7 +105,7 @@ async function saveMedicine(medicineDetails: any) {
         params.append('package_leaflet_link', medicineDetails.package_leaflet_link)
         params.append('start_date', medicineDetails.start_date)
         params.append('end_date', medicineDetails.end_date)
-        params.append('doctor_uuid', medicineDetails.doctor)
+        params.append('doctor_uuid', medicineDetails.doctor ?? '')
         params.append('treatment_reason', medicineDetails.treatment_reason)
         params.append('medication_storage', medicineDetails.medication_storage)
         params.append('ingredients', medicineDetails.ingredients)
