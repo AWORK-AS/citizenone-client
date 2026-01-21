@@ -70,7 +70,7 @@ async function updateSchedule(scheduleDetails: any) {
     state.isPageLoading = true
     try {
         const scheduleUuid = scheduleDetails.uuid
-        const params = {
+        let params = {
             title: scheduleDetails.title,
             description: scheduleDetails.description,
             date_time_start: scheduleDetails.date_time_start,
@@ -79,7 +79,31 @@ async function updateSchedule(scheduleDetails: any) {
             calendar_tag_uuid: scheduleDetails.calendar_tag_uuid,
             is_private: scheduleDetails.is_private,
             apply_changes_to_future_events: scheduleDetails.apply_changes_to_future_events,
+        } as any
+        console.log('scheduleDetails', scheduleDetails)
+        console.log('is_recurring', scheduleDetails.recurring.recurring === 'custom')
+         if (scheduleDetails.recurring.recurring === 'custom') {
+            params.frequency = scheduleDetails.recurring.frequency
+            params.every = scheduleDetails.recurring.every
+            if (scheduleDetails.recurring.frequency === 'weekly') {
+                params.weekly_on = scheduleDetails.recurring.weekly_on
+            } else if (scheduleDetails.recurring.frequency === 'monthly') {
+                params.monthly_on_the_enabled = scheduleDetails.recurring.monthly_on_the_enabled
+                if (!scheduleDetails.recurring.monthly_on_the_enabled) {
+                    params.monthly_each = JSON.stringify(scheduleDetails.recurring.monthly_each)
+                } else {
+                    params.monthly_on_the_sequence = scheduleDetails.recurring.monthly_on_the_sequence
+                    params.monthly_on_the_day = scheduleDetails.recurring.monthly_on_the_day
+                }
+            } else if (scheduleDetails.recurring.frequency === 'yearly') {
+                params.yearly_in_months = JSON.stringify(scheduleDetails.recurring.yearly_in_months)
+                if (scheduleDetails.recurring.yearly_on_the_enabled) {
+                    params.yearly_on_the_sequence = scheduleDetails.recurring.yearly_on_the_sequence
+                    params.yearly_on_the_day = scheduleDetails.recurring.yearly_on_the_day
+                }
+            }
         }
+        console.log('Params', params)
         const response = await myCalendarService.updateSchedule(scheduleUuid, params)
         if (response?.data) {
             refreshSchedules()
