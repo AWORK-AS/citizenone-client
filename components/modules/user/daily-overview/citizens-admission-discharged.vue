@@ -17,7 +17,7 @@
                 @click="navigateTo(`/citizens/${citizen?.uuid}/journals`)">
                 <Badge type="primary" class="w-fit">
                     <p class="text-xs px-2">
-                        {{ citizen?.firstname + ' ' + citizen?.lastname }}
+                        {{ citizen?.firstname + ' ' + (citizen?.lastname ?? '') }}
                     </p>
                 </Badge>
                 <div class="flex items-center gap-x-1 text-xs text-muted-400 mt-1" v-if="citizen?.date_admitted">

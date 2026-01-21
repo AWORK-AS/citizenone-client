@@ -71,7 +71,7 @@
                         <div class="flex flex-wrap gap-1 mt-1">
                             <div v-for="(owner, index) in event.calendar_owners" :key="index"
                                 class="bg-secondary text-xxs p-1 text-white rounded-md">
-                                {{ owner?.owner?.firstname }} {{ owner?.owner?.lastname }}
+                                {{ owner?.owner?.firstname }} {{ (owner?.owner?.lastname ?? '') }}
                             </div>
                         </div>
                     </div>
@@ -80,7 +80,7 @@
                         <div class="flex flex-wrap gap-1 mt-1">
                             <div v-for="(invitee, index) in event.calendar_users" :key="index"
                                 class="bg-secondary text-xxs p-1 text-white rounded-md">
-                                {{ invitee?.user?.firstname }} {{ invitee?.user?.lastname }}
+                                {{ invitee?.user?.firstname }} {{ (invitee?.user?.lastname ?? '') }}
                             </div>
                         </div>
                     </div>

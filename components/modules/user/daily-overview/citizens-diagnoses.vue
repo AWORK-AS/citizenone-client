@@ -16,7 +16,7 @@
                 class="pl-4 pr-3 py-4 cursor-pointer hover:bg-gray-100"
                 @click="navigateTo(`/citizens/${citizen?.uuid}/journals`)">
                 <p class="text-sm font-medium text-primary">
-                    {{ citizen?.firstname + ' ' + citizen?.lastname }}
+                    {{ citizen?.firstname + ' ' + (citizen?.lastname ?? '') }}
                 </p>
                 <div class="flex items-center gap-x-1 text-xs text-muted-400 mt-1">
                     <div class="text-xxs flex flex-wrap gap-2" v-if="citizen.diagnoses?.length > 0">

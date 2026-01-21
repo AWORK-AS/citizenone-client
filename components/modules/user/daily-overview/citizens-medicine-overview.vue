@@ -19,7 +19,7 @@
                     <div>
                         <div>
                             <div class="flex items-center gap-x-2">
-                                <img :src="medicine?.citizen?.image ?? `https://ui-avatars.com/api/?background=42AED9&color=fff&name=${medicine?.citizen?.firstname + ' ' + medicine?.citizen?.lastname}`"
+                                <img :src="medicine?.citizen?.image ?? `https://ui-avatars.com/api/?background=42AED9&color=fff&name=${medicine?.citizen?.firstname + ' ' + (medicine?.citizen?.lastname ?? '')}`"
                                     :class="[
                                         medicine?.citizen.latest_risk_assessment === null && 'border-secondary',
                                         medicine?.citizen.latest_risk_assessment?.assessment === 'no risk' && 'border-green-700',
@@ -27,7 +27,8 @@
                                         medicine?.citizen.latest_risk_assessment?.assessment === 'acute increased risk' && 'border-red-600',
                                         'rounded-full w-12 h-12 object-cover border-2'
                                     ]" />
-                                <span>{{ medicine?.citizen?.firstname + ' ' + medicine?.citizen?.lastname }}</span>
+                                <span>{{ medicine?.citizen?.firstname + ' ' + (medicine?.citizen?.lastname ?? '')
+                                    }}</span>
                             </div>
                             <Badge type="primary" class="flex items-center w-fit mt-1" v-if="medicine?.is_pn_medicine">
                                 <p class="text-xxs px-2">
@@ -79,7 +80,7 @@
                             </div>
                             <p class="text-xxs mt-0.5" v-if="medicine?.user?.firstname && medicine?.user?.lastname">
                                 {{ $t('overview.createdBy') }}
-                                {{ medicine?.user?.firstname + ' ' + medicine?.user?.lastname }}
+                                {{ medicine?.user?.firstname + ' ' + (medicine?.user?.lastname ?? '') }}
                             </p>
                         </div>
                     </div>
