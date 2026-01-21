@@ -1,6 +1,6 @@
 <template>
     <div>
-        <Modal size="4xl" :title="$t('citizens.medicineJournals.history.giveAllMedicines')" :show="props.isModalOpen"
+        <Modal size="xl" :title="$t('citizens.medicineJournals.history.giveAllMedicines')" :show="props.isModalOpen"
             @close="closeModal">
             <template #modal-body>
                 <LoadingSpinner :isActive="state.isPageLoading">
@@ -15,14 +15,13 @@
                                     v-model="state.formGiveMedicine.date" />
                             </div>
 
-                            <div class="table-responsive">
+                            <!-- <div class="table-responsive">
                                 <div class="table-responsive">
                                     <Table :columnHeaders="state.columnHeaders" :data="state.formGiveMedicine.medicines"
                                         :isLoading="false" :sortData="state.sortData">
                                         <template #body v-if="state.formGiveMedicine.medicines?.length">
                                             <tr v-for="(medicine, medicineIndex) in state.formGiveMedicine.medicines"
                                                 :key="medicineIndex" class="align-top">
-                                                <!-- Medicine column -->
                                                 <td width="20%">
                                                     <p class="truncate" v-if="language.locale.value === 'en'">
                                                         {{ medicine?.medicine?.en_name }}, {{
@@ -33,10 +32,7 @@
                                                             medicine?.medicine?.ingredients }}
                                                     </p>
                                                 </td>
-
-                                                <!-- Time columns -->
                                                 <td v-for="time in state.timeColumns" :key="time" class="min-w-[220px]">
-                                                    <!-- PN medicine: single set of fields (not time-based) -->
                                                     <div v-if="medicine.is_pn_medicine" class="space-y-2">
                                                         <FormTextField :id="`pn_dose_${medicineIndex}_${time}`"
                                                             :name="`pn_dose_${medicineIndex}_${time}`"
@@ -54,43 +50,42 @@
                                                             v-model="state.formGiveMedicine.medicines[medicineIndex].comment" />
                                                     </div>
 
-                                                    <!-- Non-PN medicine: time-based fields -->
                                                     <div v-else class="space-y-2">
                                                         <template
-                                                            v-if="getDosageIndexByTime(medicineIndex, time) !== -1">
+                                                            v-if="getDosageIndexByTime(Number(medicineIndex), time) !== -1">
                                                             <FormTextField :id="`dose_${medicineIndex}_${time}`"
                                                                 :name="`dose_${medicineIndex}_${time}`"
                                                                 :placeholder="$t('citizens.medicineJournals.history.form.dose')"
-                                                                v-model="state.formGiveMedicine.medicines[medicineIndex].dosages[getDosageIndexByTime(medicineIndex, time)].dosage"
+                                                                v-model="state.formGiveMedicine.medicines[medicineIndex].dosages[getDosageIndexByTime(Number(medicineIndex), time)].dosage"
                                                                 @input="(e: any) => {
                                                                     if (language.locale.value === 'dk') {
                                                                         const v = validateEuropeanDecimal(e?.target?.value ?? '')
-                                                                        state.formGiveMedicine.medicines[medicineIndex].dosages[getDosageIndexByTime(medicineIndex, time)].dosage = v
+                                                                        state.formGiveMedicine.medicines[medicineIndex].dosages[getDosageIndexByTime(Number(medicineIndex), time)].dosage = v
                                                                     }
                                                                 }" />
 
                                                             <FormSelect :id="`type_${medicineIndex}_${time}`"
                                                                 :name="`type_${medicineIndex}_${time}`"
                                                                 :options="getTypeOptions()"
-                                                                v-model="state.formGiveMedicine.medicines[medicineIndex].dosages[getDosageIndexByTime(medicineIndex, time)].type" />
+                                                                v-model="state.formGiveMedicine.medicines[medicineIndex].dosages[getDosageIndexByTime(Number(medicineIndex), time)].type" />
 
                                                             <FormTextArea :id="`comment_${medicineIndex}_${time}`"
                                                                 :name="`comment_${medicineIndex}_${time}`"
                                                                 :placeholder="$t('citizens.medicineJournals.history.form.comment')"
-                                                                v-model="state.formGiveMedicine.medicines[medicineIndex].dosages[getDosageIndexByTime(medicineIndex, time)].comment" />
+                                                                v-model="state.formGiveMedicine.medicines[medicineIndex].dosages[getDosageIndexByTime(Number(medicineIndex), time)].comment" />
                                                         </template>
 
-                                                        <template v-else>
+<template v-else>
                                                             <span class="text-sm text-gray-400">—</span>
                                                         </template>
-                                                    </div>
-                                                </td>
-                                            </tr>
-                                        </template>
-                                    </Table>
-                                </div>
+</div>
+</td>
+</tr>
+</template>
+</Table>
+</div>
 
-                            </div>
+</div> -->
 
                             <Disclosure v-slot="{ open }"
                                 v-for="(selectedMedicine, selecedMedicineIndex) in state.formGiveMedicine.medicines"
@@ -225,7 +220,7 @@
                                                                             :name="`quantity_${selecedMedicineIndex}_${dosageIndex}`"
                                                                             :placeholder="$t('citizens.medicineJournals.history.form.dose')"
                                                                             :value="dosage.dosage"
-                                                                            @keyup="(event: any) => handleQuantityInput(event, selecedMedicineIndex, dosageIndex)" />
+                                                                            @keyup="(event: any) => handleQuantityInput(event, Number(selecedMedicineIndex), Number(dosageIndex))" />
                                                                     </div>
                                                                     <div class="space-y-1">
                                                                         <p class="text-sm text-gray-600">
@@ -375,7 +370,7 @@ const state = reactive({
         sortField: '',
         sortOrder: '',
     },
-    timeColumns: [] as string[],
+    timeColumns: [] as any,
 })
 
 function closeModal() {
