@@ -42,14 +42,17 @@
                     <FormLabel for="recurring" :label="$t('citizens.medicineJournals.form.scheduleFrequency')" />
                     <FormSelect id="recurring" :options="state.options.schedule_frequencies?.recurringSchedules"
                         v-model="state.formMedicine.schedule_frequency.recurring" />
-                    <FormError :error="v$?.formMedicine?.schedule_frequency?.recurring?.$errors[0]?.$message?.toString()" />
+                    <FormError
+                        :error="v$?.formMedicine?.schedule_frequency?.recurring?.$errors[0]?.$message?.toString()" />
                     <FormError :error="state?.error?.errors?.recurring?.[0]" />
                 </div>
                 <div class="space-y-1" v-if="!state.formMedicine.is_pn_medicine">
                     <FormLabel for="recurring_until" :label="$t('citizens.medicineJournals.form.scheduleUntil')" />
-                    <FormDateField id="recurring_until" name="recurring_until" :placeholder="`${$t('citizens.medicineJournals.form.scheduleUntil')}`"
+                    <FormDateField id="recurring_until" name="recurring_until"
+                        :placeholder="`${$t('citizens.medicineJournals.form.scheduleUntil')}`"
                         v-model="state.formMedicine.schedule_frequency.recurring_until" />
-                    <FormError :error="v$?.formMedicine?.schedule_frequency?.recurring_until?.$errors[0]?.$message.toString()" />
+                    <FormError
+                        :error="v$?.formMedicine?.schedule_frequency?.recurring_until?.$errors[0]?.$message.toString()" />
                     <FormError :error="state?.error?.errors?.recurring_until?.[0]" />
                 </div>
                 <div class="space-y-3" v-if="state.formMedicine.schedule_frequency?.recurring === 'custom'">
@@ -73,7 +76,8 @@
                                     state.formMedicine.schedule_frequency?.frequency === 'monthly' ? state.options.schedule_frequencies?.zeroTo999Months :
                                         state.options.schedule_frequencies?.zeroTo999Years"
                                 v-model="state.formMedicine.schedule_frequency.every" />
-                            <FormError :error="v$?.formMedicine?.schedule_frequency?.every?.$errors[0]?.$message.toString()" />
+                            <FormError
+                                :error="v$?.formMedicine?.schedule_frequency?.every?.$errors[0]?.$message.toString()" />
                             <FormError :error="state?.error?.errors?.every?.[0]" />
                         </div>
                     </div>
@@ -101,7 +105,8 @@
                                 </p>
                             </div>
                             <div class="space-y-1" v-if="!state.formMedicine.schedule_frequency.monthly_on_the_enabled">
-                                <FormSelectMultiple id="monthly_each" :options="state.options.schedule_frequencies?.monthlyEach"
+                                <FormSelectMultiple id="monthly_each"
+                                    :options="state.options.schedule_frequencies?.monthlyEach"
                                     v-model="state.formMedicine.schedule_frequency.monthly_each" />
                                 <FormError
                                     :error="v$?.formMedicine?.schedule_frequency?.monthly_each?.$errors[0]?.$message.toString()" />
@@ -142,7 +147,8 @@
                                 <div class="space-y-1">
                                     <div class="w-fit flex items-center cursor-pointer"
                                         @click="state.formMedicine.schedule_frequency.yearly_on_the_enabled = !state.formMedicine.schedule_frequency?.yearly_on_the_enabled">
-                                        <FormCheckbox :value="state.formMedicine.schedule_frequency?.yearly_on_the_enabled" />
+                                        <FormCheckbox
+                                            :value="state.formMedicine.schedule_frequency?.yearly_on_the_enabled" />
                                         {{ $t('recurring.frequency.yearly.onThe') }}
                                     </div>
                                 </div>
@@ -609,14 +615,7 @@ const rules = computed(() => {
                     description: {
                         required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
                     },
-                    schedule_frequency: {
-                        recurring: {
-                            required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
-                        },
-                        recurring_until: {
-                            required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
-                        },
-                    },
+                    schedule_frequency: {},
                 },
             }
         } else {
@@ -679,6 +678,7 @@ const rules = computed(() => {
                     description: {
                         required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
                     },
+                    schedule_frequency: {},
                 },
             }
         } else {
