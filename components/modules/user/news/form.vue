@@ -48,7 +48,8 @@
                 <!-- File Attachment Section -->
                 <div class="space-y-1">
                     <FormLabel for="attachments" :label="$t('news.form.attachments')" />
-                    <input type="file" ref="attachmentInput" @change="onAttachmentChange" class="hidden" multiple />
+                    <input type="file" id="attachments" ref="attachmentInput" @change="onAttachmentChange"
+                        class="hidden" multiple />
                     <div class="border-2 border-dashed border-tertiary-25 rounded-md p-4 text-center cursor-pointer hover:border-primary transition-colors"
                         @click="triggerAttachmentInput">
                         <div class="flex flex-col items-center gap-2">
@@ -112,9 +113,9 @@
                                 </svg>
                                 <div class="flex-1 min-w-0">
                                     <span class="text-sm text-green-800 font-medium truncate block">{{ file.name
-                                        }}</span>
+                                    }}</span>
                                     <span class="text-xs text-tertiary-500 mt-0.5 block">{{ formatFileSize(file.size)
-                                        }}</span>
+                                    }}</span>
                                 </div>
                             </div>
                             <button type="button" @click="removeAttachment(index)"
@@ -141,7 +142,9 @@
                 </div>
                 <div class="space-y-1">
                     <div class="flex justify-between items-center py-0.5">
-                        <FormLabel for="departments" :label="$t('news.form.department')" />
+                        <p class="text-sm text-gray-600">
+                            {{ $t('news.form.department') }}
+                        </p>
                         <span class="text-xs cursor-pointer text-tertiary hover:text-tertiary-800"
                             @click="state.modal.isAddDepartmentOpen = true">
                             {{ $t('departments.addNewDepartment') }}
