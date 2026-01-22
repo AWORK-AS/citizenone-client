@@ -3185,6 +3185,7 @@
         "seeNewFeatures": "Se nye funktioner"
     },
     "filterDate": {
+        "custom": "Brugerdefineret",
         "filterDate": "Filtrer dato",
         "setNext7Days": "Sæt de næste 7 dage",
         "setToday": "Sæt til i dag"

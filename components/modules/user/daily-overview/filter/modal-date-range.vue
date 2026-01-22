@@ -11,12 +11,16 @@
                                 <div class="flex justify-end">
                                     <div class="flex items-center space-x-3">
                                         <span class="text-xs cursor-pointer text-tertiary hover:text-tertiary-700"
+                                            @click="setToday">
+                                            {{ $t('filterDate.setToday') }}
+                                        </span>
+                                        <span class="text-xs cursor-pointer text-tertiary hover:text-tertiary-700"
                                             @click="setNext7Days">
                                             {{ $t('filterDate.setNext7Days') }}
                                         </span>
                                         <span class="text-xs cursor-pointer text-tertiary hover:text-tertiary-700"
-                                            @click="setToday">
-                                            {{ $t('filterDate.setToday') }}
+                                            @click="setCustom">
+                                            {{ $t('filterDate.custom') }}
                                         </span>
                                     </div>
                                 </div>
@@ -67,6 +71,7 @@ const emit = defineEmits(['close', 'filterDate'])
 const state = reactive({
     error: {} as Error,
     filter: {
+        type: 'today', // custom | next_7_days | today
         date_range: [] as any,
     },
     isPageLoading: false,
@@ -115,15 +120,21 @@ function closeModal() {
     emit('close')
 }
 
+function setToday() {
+    state.filter.type = 'today'
+    const today = moment().format('YYYY-MM-DD')
+    state.filter.date_range = [today, today]
+}
+
 function setNext7Days() {
+    state.filter.type = 'next_7_days'
     const firstDayOfTheWeek = moment().add(1, 'week').startOf('isoWeek').format('YYYY-MM-DD')
     const lastDayOfTheWeek = moment().add(1, 'week').endOf('isoWeek').format('YYYY-MM-DD')
     state.filter.date_range = [firstDayOfTheWeek, lastDayOfTheWeek]
 }
 
-function setToday() {
-    const today = moment().format('YYYY-MM-DD')
-    state.filter.date_range = [today, today]
+function setCustom() {
+    state.filter.type = 'custom'
 }
 
 async function filterDailyOverview() {
@@ -132,9 +143,15 @@ async function filterDailyOverview() {
         state.error = {}
         state.isPageLoading = true
         try {
-            const params = {
-                date_start: state.formDateRange.start_date,
-                date_end: state.formDateRange.end_date,
+            const params = {} as any
+            if (state.filter.type === 'today') {
+                params.type = 'today'
+            } else if (state.filter.type === 'next_7_days') {
+                params.type = 'next_7_days'
+            } else {
+                params.type = 'custom'
+                params.overview_date_start = state.formDateRange.start_date
+                params.overview_date_end = state.formDateRange.end_date
             }
             const response = await dailyOverviewService.updateDateFilter(params)
             if (response.data) {

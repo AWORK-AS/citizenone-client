@@ -3185,6 +3185,7 @@
         "seeNewFeatures": "See new features"
     },
     "filterDate": {
+        "custom": "Custom",
         "filterDate": "Filter date",
         "setNext7Days": "Set next 7 days",
         "setToday": "Set today"
