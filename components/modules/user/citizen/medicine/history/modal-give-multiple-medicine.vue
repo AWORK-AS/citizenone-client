@@ -22,7 +22,7 @@
                                         <template #body v-if="state.formGiveMedicine.medicines?.length">
                                             <tr v-for="(medicine, medicineIndex) in state.formGiveMedicine.medicines"
                                                 :key="medicineIndex" class="align-top">
-                                                <td width="20%">
+                                                <td width="20%" v-if="!medicine?.is_pn_medicine">
                                                     <p class="truncate" v-if="language.locale.value === 'en'">
                                                         {{ medicine?.medicine?.en_name }}, {{
                                                             medicine?.medicine?.ingredients }}
@@ -32,7 +32,8 @@
                                                             medicine?.medicine?.ingredients }}
                                                     </p>
                                                 </td>
-                                                <td v-for="time in state.timeColumns" :key="time" class="min-w-[300px]">
+                                                <td v-for="time in state.timeColumns" :key="time" class="min-w-[300px]"
+                                                    v-if="!medicine?.is_pn_medicine">
                                                     <div v-if="medicine.is_pn_medicine" class="space-y-2">
                                                         <FormTextField :id="`pn_dose_${medicineIndex}_${time}`"
                                                             :name="`pn_dose_${medicineIndex}_${time}`"
@@ -59,7 +60,7 @@
 
                                                                     {{
                                                                         state.formGiveMedicine.medicines[medicineIndex].dosages[getDosageIndexByTime(Number(medicineIndex),
-                                                                            time)].dosage
+                                                                            time)].required_dosage
                                                                     }}
                                                                 </p>
                                                             </Badge>
@@ -109,20 +110,23 @@
                                 </div>
                             </div>
 
-                            <!--<Disclosure v-slot="{ open }"
+                            <Disclosure v-slot="{ open }"
                                 v-for="(selectedMedicine, selecedMedicineIndex) in state.formGiveMedicine.medicines"
                                 :key="selecedMedicineIndex">
-                                <div>
+                                <div v-if="selectedMedicine?.is_pn_medicine">
                                     <DisclosureButton
                                         class="w-full bg-gray-100 ring-1 ring-gray-100 flex justify-between p-3.5"
                                         :class="!open ? 'rounded-md' : 'rounded-tl-md rounded-tr-md'">
                                         <div class="text-sm font-semibold text-gray-700">
-                                            <p v-if="language.locale.value === 'en'">
+                                            <span v-if="language.locale.value === 'en'">
                                                 {{ selectedMedicine?.medicine?.en_name }}
-                                            </p>
-                                            <p v-if="language.locale.value === 'dk'">
+                                            </span>
+                                            <span v-if="language.locale.value === 'dk'">
                                                 {{ selectedMedicine?.medicine?.dk_name }}
-                                            </p>
+                                            </span>
+                                            <span>
+                                                , {{ selectedMedicine?.medicine?.ingredients }}
+                                            </span>
                                         </div>
                                         <div class="flex items-center">
                                             <Icon name="ic:round-keyboard-arrow-down" class="w-4 h-4" v-if="!open" />
@@ -314,7 +318,7 @@
                                         </div>
                                     </DisclosurePanel>
                                 </div>
-                            </Disclosure> -->
+                            </Disclosure>
                         </div>
                         <div class="mt-6">
                             <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
@@ -466,8 +470,12 @@ function generateEvaluationFrequenciesTimeIntervals() {
 watch(() => props.isModalOpen, (newValue) => {
     if (newValue) {
         fetchAllUsers()
-        fetchAllSelectedMedicines()
+        fetchAllSelectedMedicines(moment().format('YYYY-MM-DD'))
     }
+})
+
+watch(() => state.formGiveMedicine.date, (date: any) => {
+    fetchAllSelectedMedicines(date)
 })
 
 async function fetchAllUsers() {
@@ -491,11 +499,12 @@ async function fetchAllUsers() {
     state.isPageLoading = false
 }
 
-async function fetchAllSelectedMedicines() {
+async function fetchAllSelectedMedicines(date: any) {
     state.error = {}
     state.isPageLoading = true
     try {
         const params = {
+            date: date,
             citizen_medicine_uuid: Array(citizenMedicineStore.getSelectedMedicines),
         }
         const response = await medicineJournalService.getAllSelectedMedicines(params)
@@ -547,7 +556,7 @@ function generateDosage(selectedMedicine: any) {
         dosages.push({
             medicine_uuid: selectedMedicine?.uuid,
             time: dosage?.time,
-            // planned_dosage: dosage?.dosage ?? '',
+            required_dosage: dosage?.dosage ?? '',
             // planned_status: dosage?.status ?? null,
             dosage_unit: doseUnit,
             dosage: dosage?.dosage ?? '',
