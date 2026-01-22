@@ -32,27 +32,12 @@
                                                             medicine?.medicine?.ingredients }}
                                                     </p>
                                                 </td>
-                                                <td v-for="time in state.timeColumns" :key="time" class="min-w-[300px]"
-                                                    v-if="!medicine?.is_pn_medicine">
-                                                    <div v-if="medicine.is_pn_medicine" class="space-y-2">
-                                                        <FormTextField :id="`pn_dose_${medicineIndex}_${time}`"
-                                                            :name="`pn_dose_${medicineIndex}_${time}`"
-                                                            :placeholder="$t('citizens.medicineJournals.history.form.dose')"
-                                                            v-model="state.formGiveMedicine.medicines[medicineIndex].dosage" />
-
-                                                        <FormSelect :id="`pn_type_${medicineIndex}_${time}`"
-                                                            :name="`pn_type_${medicineIndex}_${time}`"
-                                                            :options="getTypeOptions()"
-                                                            v-model="state.formGiveMedicine.medicines[medicineIndex].type" />
-
-                                                        <FormTextArea :id="`pn_comment_${medicineIndex}_${time}`"
-                                                            :name="`pn_comment_${medicineIndex}_${time}`"
-                                                            :placeholder="$t('citizens.medicineJournals.history.form.comment')"
-                                                            v-model="state.formGiveMedicine.medicines[medicineIndex].comment" />
-                                                    </div>
-
-                                                    <div v-else class="space-y-2">
-                                                        <template
+                                                <td v-for="time in state.timeColumns" :key="time" :class="[
+                                                    getDosageIndexByTime(Number(medicineIndex), time) !== -1 && ['', null].includes(state.formGiveMedicine.medicines[medicineIndex].dosages[getDosageIndexByTime(Number(medicineIndex), time)].type) && 'bg-red-100',
+                                                    'min-w-[300px]'
+                                                ]" v-if="!medicine?.is_pn_medicine">
+                                                    <div class="space-y-2">
+                                                        <div
                                                             v-if="getDosageIndexByTime(Number(medicineIndex), time) !== -1">
                                                             <Badge type="primary" class="w-fit">
                                                                 <p class="text-xs">
@@ -92,16 +77,11 @@
                                                                     :placeholder="$t('citizens.medicineJournals.history.form.comment')"
                                                                     v-model="state.formGiveMedicine.medicines[medicineIndex].dosages[getDosageIndexByTime(Number(medicineIndex), time)].comment" />
                                                             </div>
+                                                        </div>
 
-                                                            <!-- <FormTextArea :id="`comment_${medicineIndex}_${time}`"
-                                                                :name="`comment_${medicineIndex}_${time}`"
-                                                                :placeholder="$t('citizens.medicineJournals.history.form.comment')"
-                                                                v-model="state.formGiveMedicine.medicines[medicineIndex].dosages[getDosageIndexByTime(Number(medicineIndex), time)].comment" /> -->
-                                                        </template>
-
-                                                        <template v-else>
+                                                        <div v-else>
                                                             <span class="text-sm text-gray-400">—</span>
-                                                        </template>
+                                                        </div>
                                                     </div>
                                                 </td>
                                             </tr>
@@ -119,13 +99,13 @@
                                         :class="!open ? 'rounded-md' : 'rounded-tl-md rounded-tr-md'">
                                         <div class="text-sm font-semibold text-gray-700">
                                             <span v-if="language.locale.value === 'en'">
-                                                {{ selectedMedicine?.medicine?.en_name }}
+                                                {{ selectedMedicine?.medicine?.en_name }},
                                             </span>
                                             <span v-if="language.locale.value === 'dk'">
-                                                {{ selectedMedicine?.medicine?.dk_name }}
+                                                {{ selectedMedicine?.medicine?.dk_name }},
                                             </span>
                                             <span>
-                                                , {{ selectedMedicine?.medicine?.ingredients }}
+                                                {{ selectedMedicine?.medicine?.ingredients }}
                                             </span>
                                         </div>
                                         <div class="flex items-center">
