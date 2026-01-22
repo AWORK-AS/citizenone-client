@@ -112,9 +112,9 @@
                                 </svg>
                                 <div class="flex-1 min-w-0">
                                     <span class="text-sm text-green-800 font-medium truncate block">{{ file.name
-                                    }}</span>
+                                        }}</span>
                                     <span class="text-xs text-tertiary-500 mt-0.5 block">{{ formatFileSize(file.size)
-                                    }}</span>
+                                        }}</span>
                                 </div>
                             </div>
                             <button type="button" @click="removeAttachment(index)"
@@ -166,7 +166,7 @@
                 </div>
             </div>
             <div class="mt-6">
-                <div class="grid grid-cols-1 md: grid-cols-2 gap-3">
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
                     <FormButton type="button" buttonStyle="cancel" class="rounded-md" @click="navigateTo('/news')">
                         {{ $t('cancel') }}
                     </FormButton>
