@@ -143,9 +143,15 @@ async function filterDailyOverview() {
         state.error = {}
         state.isPageLoading = true
         try {
-            const params = {
-                date_start: state.formDateRange.start_date,
-                date_end: state.formDateRange.end_date,
+            const params = {} as any
+            if (state.filter.type === 'today') {
+                params.filter_type = 'today'
+            } else if (state.filter.type === 'next_7_days') {
+                params.filter_type = 'next_7_days'
+            } else {
+                params.filter_type = 'custom'
+                params.overview_date_start = state.formDateRange.start_date
+                params.overview_date_end = state.formDateRange.end_date
             }
             const response = await dailyOverviewService.updateDateFilter(params)
             if (response.data) {

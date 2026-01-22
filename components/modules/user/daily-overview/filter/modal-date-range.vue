@@ -145,11 +145,11 @@ async function filterDailyOverview() {
         try {
             const params = {} as any
             if (state.filter.type === 'today') {
-                params.type = 'today'
+                params.filter_type = 'today'
             } else if (state.filter.type === 'next_7_days') {
-                params.type = 'next_7_days'
+                params.filter_type = 'next_7_days'
             } else {
-                params.type = 'custom'
+                params.filter_type = 'custom'
                 params.overview_date_start = state.formDateRange.start_date
                 params.overview_date_end = state.formDateRange.end_date
             }
