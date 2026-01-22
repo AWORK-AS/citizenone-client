@@ -1,6 +1,6 @@
 <template>
     <div>
-        <Modal size="xl" :title="$t('citizens.medicineJournals.history.giveAllMedicines')" :show="props.isModalOpen"
+        <Modal size="4xl" :title="$t('citizens.medicineJournals.history.giveAllMedicines')" :show="props.isModalOpen"
             @close="closeModal">
             <template #modal-body>
                 <LoadingSpinner :isActive="state.isPageLoading">
@@ -15,7 +15,7 @@
                                     v-model="state.formGiveMedicine.date" />
                             </div>
 
-                            <!-- <div class="table-responsive">
+                            <div class="table-responsive">
                                 <div class="table-responsive">
                                     <Table :columnHeaders="state.columnHeaders" :data="state.formGiveMedicine.medicines"
                                         :isLoading="false" :sortData="state.sortData">
@@ -32,7 +32,7 @@
                                                             medicine?.medicine?.ingredients }}
                                                     </p>
                                                 </td>
-                                                <td v-for="time in state.timeColumns" :key="time" class="min-w-[220px]">
+                                                <td v-for="time in state.timeColumns" :key="time" class="min-w-[300px]">
                                                     <div v-if="medicine.is_pn_medicine" class="space-y-2">
                                                         <FormTextField :id="`pn_dose_${medicineIndex}_${time}`"
                                                             :name="`pn_dose_${medicineIndex}_${time}`"
@@ -53,41 +53,63 @@
                                                     <div v-else class="space-y-2">
                                                         <template
                                                             v-if="getDosageIndexByTime(Number(medicineIndex), time) !== -1">
-                                                            <FormTextField :id="`dose_${medicineIndex}_${time}`"
-                                                                :name="`dose_${medicineIndex}_${time}`"
-                                                                :placeholder="$t('citizens.medicineJournals.history.form.dose')"
-                                                                v-model="state.formGiveMedicine.medicines[medicineIndex].dosages[getDosageIndexByTime(Number(medicineIndex), time)].dosage"
-                                                                @input="(e: any) => {
-                                                                    if (language.locale.value === 'dk') {
-                                                                        const v = validateEuropeanDecimal(e?.target?.value ?? '')
-                                                                        state.formGiveMedicine.medicines[medicineIndex].dosages[getDosageIndexByTime(Number(medicineIndex), time)].dosage = v
-                                                                    }
-                                                                }" />
+                                                            <Badge type="primary" class="w-fit">
+                                                                <p class="text-xs">
+                                                                    {{ medicine?.dosage_unit }}:
 
-                                                            <FormSelect :id="`type_${medicineIndex}_${time}`"
-                                                                :name="`type_${medicineIndex}_${time}`"
-                                                                :options="getTypeOptions()"
-                                                                v-model="state.formGiveMedicine.medicines[medicineIndex].dosages[getDosageIndexByTime(Number(medicineIndex), time)].type" />
+                                                                    {{
+                                                                        state.formGiveMedicine.medicines[medicineIndex].dosages[getDosageIndexByTime(Number(medicineIndex),
+                                                                            time)].dosage
+                                                                    }}
+                                                                </p>
+                                                            </Badge>
+                                                            <div class="space-y-1">
+                                                                <FormLabel :for="`dose_${medicineIndex}_${time}`"
+                                                                    :label="$t('citizens.medicineJournals.history.form.dose')" />
+                                                                <FormTextField :id="`dose_${medicineIndex}_${time}`"
+                                                                    :name="`dose_${medicineIndex}_${time}`"
+                                                                    :placeholder="$t('citizens.medicineJournals.history.form.dose')"
+                                                                    v-model="state.formGiveMedicine.medicines[medicineIndex].dosages[getDosageIndexByTime(Number(medicineIndex), time)].dosage" />
+                                                            </div>
+                                                            <div class="space-y-1">
+                                                                <p class="text-sm text-gray-600">
+                                                                    {{
+                                                                        $t('citizens.medicineJournals.history.form.type.type')
+                                                                    }}
+                                                                </p>
+                                                                <FormSelect :id="`type_${medicineIndex}_${time}`"
+                                                                    :name="`type_${medicineIndex}_${time}`"
+                                                                    :options="getTypeOptions()"
+                                                                    v-model="state.formGiveMedicine.medicines[medicineIndex].dosages[getDosageIndexByTime(Number(medicineIndex), time)].type" />
+                                                            </div>
 
-                                                            <FormTextArea :id="`comment_${medicineIndex}_${time}`"
+                                                            <div class="space-y-1">
+                                                                <FormLabel :for="`comment_${medicineIndex}_${time}`"
+                                                                    :label="$t('citizens.medicineJournals.history.form.comment')" />
+                                                                <FormTextArea :id="`comment_${medicineIndex}_${time}`"
+                                                                    :name="`comment_${medicineIndex}`"
+                                                                    :placeholder="$t('citizens.medicineJournals.history.form.comment')"
+                                                                    v-model="state.formGiveMedicine.medicines[medicineIndex].dosages[getDosageIndexByTime(Number(medicineIndex), time)].comment" />
+                                                            </div>
+
+                                                            <!-- <FormTextArea :id="`comment_${medicineIndex}_${time}`"
                                                                 :name="`comment_${medicineIndex}_${time}`"
                                                                 :placeholder="$t('citizens.medicineJournals.history.form.comment')"
-                                                                v-model="state.formGiveMedicine.medicines[medicineIndex].dosages[getDosageIndexByTime(Number(medicineIndex), time)].comment" />
+                                                                v-model="state.formGiveMedicine.medicines[medicineIndex].dosages[getDosageIndexByTime(Number(medicineIndex), time)].comment" /> -->
                                                         </template>
 
-<template v-else>
+                                                        <template v-else>
                                                             <span class="text-sm text-gray-400">—</span>
                                                         </template>
-</div>
-</td>
-</tr>
-</template>
-</Table>
-</div>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                        </template>
+                                    </Table>
+                                </div>
+                            </div>
 
-</div> -->
-
-                            <Disclosure v-slot="{ open }"
+                            <!--<Disclosure v-slot="{ open }"
                                 v-for="(selectedMedicine, selecedMedicineIndex) in state.formGiveMedicine.medicines"
                                 :key="selecedMedicineIndex">
                                 <div>
@@ -292,7 +314,7 @@
                                         </div>
                                     </DisclosurePanel>
                                 </div>
-                            </Disclosure>
+                            </Disclosure> -->
                         </div>
                         <div class="mt-6">
                             <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
@@ -343,7 +365,7 @@ const props = defineProps({
         required: true,
     },
 })
-const emit = defineEmits(['close', 'refreshMedicineHistories'])
+const emit = defineEmits(['close', 'refreshMedicines', 'refreshMedicineHistories'])
 const customPagesStore = useCustomPagesStore() as any
 
 const state = reactive({
@@ -375,6 +397,10 @@ const state = reactive({
 
 function closeModal() {
     emit('close')
+}
+
+function refreshMedicines() {
+    emit('refreshMedicines')
 }
 
 function refreshMedicineHistories() {
@@ -476,9 +502,14 @@ async function fetchAllSelectedMedicines() {
         if (response.data) {
             let medicines = [] as any
             response.data?.forEach((selectedMedicine: any) => {
+                const doseUnit =
+                    language.locale.value === 'dk'
+                        ? selectedMedicine?.dosage?.dk_name
+                        : selectedMedicine?.dosage?.en_name
                 if (selectedMedicine?.is_pn_medicine) {
                     medicines.push({
                         medicine: selectedMedicine?.medicine,
+                        dosage_unit: doseUnit,
                         is_pn_medicine: selectedMedicine?.is_pn_medicine,
                         citizen_medicine_uuid: selectedMedicine?.uuid,
                         dosage: '',
@@ -490,6 +521,7 @@ async function fetchAllSelectedMedicines() {
                 } else {
                     medicines.push({
                         medicine: selectedMedicine?.medicine,
+                        dosage_unit: doseUnit,
                         is_pn_medicine: selectedMedicine?.is_pn_medicine,
                         citizen_medicine_uuid: selectedMedicine?.uuid,
                         dosages: generateDosage(selectedMedicine),
@@ -507,13 +539,20 @@ async function fetchAllSelectedMedicines() {
 
 function generateDosage(selectedMedicine: any) {
     let dosages = [] as any
+    const doseUnit =
+        language.locale.value === 'dk'
+            ? selectedMedicine?.dosage?.dk_name
+            : selectedMedicine?.dosage?.en_name
     selectedMedicine?.max_dosage_per_time.forEach((dosage: any) => {
         dosages.push({
             medicine_uuid: selectedMedicine?.uuid,
             time: dosage?.time,
-            dosage: '',
-            type: '',
-            comment: '',
+            // planned_dosage: dosage?.dosage ?? '',
+            // planned_status: dosage?.status ?? null,
+            dosage_unit: doseUnit,
+            dosage: dosage?.dosage ?? '',
+            type: dosage?.status ?? '',
+            comment: dosage?.comment ?? '',
         })
     })
     return dosages
@@ -536,6 +575,7 @@ async function giveAllMedicines() {
             successAlert(`${t('alert.success')}!`, `${t('citizens.medicineJournals.history.form.alert.successfullyAdded')}.`)
             closeModal()
             citizenMedicineStore.resetSelectedMedicine()
+            refreshMedicines()
         }
     } catch (error: any) {
         state.error = error

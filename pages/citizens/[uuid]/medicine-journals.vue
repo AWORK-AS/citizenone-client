@@ -297,7 +297,8 @@
                     :selectedMedicine="state.selectedMedicine" @close="state.modal.isGiveMedicineOpen = false"
                     @refreshMedicines="fetchCitizenMedicines()" />
                 <ModulesUserCitizenMedicineHistoryModalGiveMultipleMedicine
-                    :isModalOpen="state.modal.isGiveMedicinesOpen" @close="state.modal.isGiveMedicinesOpen = false" />
+                    :isModalOpen="state.modal.isGiveMedicinesOpen" @close="state.modal.isGiveMedicinesOpen = false"
+                    @refreshMedicines="fetchCitizenMedicines()" />
                 <ModulesUserCitizenMedicineHistoryModalHistory :isModalOpen="state.modal.isViewMedicineHistoryOpen"
                     :selectedMedicine="state.selectedMedicine" @close="state.modal.isViewMedicineHistoryOpen = false" />
                 <ModulesUserCitizenMedicineModalDownload :isModalOpen="state.modal.isDownloadMedicineOverviewOpen"
