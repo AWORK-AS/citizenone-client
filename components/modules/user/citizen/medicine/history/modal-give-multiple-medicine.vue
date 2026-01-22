@@ -450,7 +450,8 @@ function generateEvaluationFrequenciesTimeIntervals() {
 watch(() => props.isModalOpen, (newValue) => {
     if (newValue) {
         fetchAllUsers()
-        fetchAllSelectedMedicines(moment().format('YYYY-MM-DD'))
+        state.formGiveMedicine.date = moment().format('YYYY-MM-DD')
+        fetchAllSelectedMedicines(state.formGiveMedicine.date)
     }
 })
 
