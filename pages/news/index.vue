@@ -38,7 +38,7 @@
                                         </div>
                                     </td>
                                     <td width="30%">
-                                        <span>{{ news?.content }}</span>
+                                        <span class="line-clamp-4">{{ news?.content }}</span>
                                     </td>
                                     <td width="15%">
                                         <div class="flex items-center gap-x-2">
