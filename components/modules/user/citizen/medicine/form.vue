@@ -646,9 +646,9 @@ const rules = computed(() => {
                         recurring: {
                             required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
                         },
-                        recurring_until: {
-                            required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
-                        },
+                        // recurring_until: {
+                        //     required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
+                        // },
                     },
                 },
             }
@@ -709,9 +709,9 @@ const rules = computed(() => {
                         recurring: {
                             required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
                         },
-                        recurring_until: {
-                            required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
-                        },
+                        // recurring_until: {
+                        //     required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
+                        // },
                     },
                 },
             }
