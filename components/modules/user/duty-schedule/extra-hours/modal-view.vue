@@ -84,14 +84,14 @@
                                                 </Tooltip>
                                                 <Tooltip :text="$t('dutySchedules.extraHours.table.actions.approve')"
                                                     @click="confirmApproveExtraHoursRequest(extraHours)"
-                                                    v-if="isAdmin(userStore.getUser?.role) && ['pending', 'rejected'].includes(extraHours?.extra_hours_status)">
+                                                    v-if="isAdmin(userStore.getUser?.role) && extraHours?.extra_hours_status === 'pending'"">
                                                     <FormButton type="button" buttonStyle="success" class="rounded-md">
                                                         <Icon name="ph:check" class="size-4" />
                                                     </FormButton>
                                                 </Tooltip>
                                                 <Tooltip :text="$t('dutySchedules.extraHours.table.actions.reject')"
                                                     @click="confirmRejectExtraHoursRequest(extraHours)"
-                                                    v-if="isAdmin(userStore.getUser?.role) && ['pending', 'approved'].includes(extraHours?.extra_hours_status)">
+                                                    v-if="isAdmin(userStore.getUser?.role) && extraHours?.extra_hours_status === 'pending'"">
                                                     <FormButton type="button" buttonStyle="danger" class="rounded-md">
                                                         <Icon name="ph:x" class="size-4" />
                                                     </FormButton>
