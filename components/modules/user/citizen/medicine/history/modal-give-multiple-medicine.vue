@@ -49,14 +49,14 @@
                                                                     }}
                                                                 </p>
                                                             </Badge>
-                                                            <div class="space-y-1">
+                                                            <!-- <div class="space-y-1">
                                                                 <FormLabel :for="`dose_${medicineIndex}_${time}`"
                                                                     :label="$t('citizens.medicineJournals.history.form.dose')" />
                                                                 <FormTextField :id="`dose_${medicineIndex}_${time}`"
                                                                     :name="`dose_${medicineIndex}_${time}`"
                                                                     :placeholder="$t('citizens.medicineJournals.history.form.dose')"
                                                                     v-model="state.formGiveMedicine.medicines[medicineIndex].dosages[getDosageIndexByTime(Number(medicineIndex), time)].dosage" />
-                                                            </div>
+                                                            </div> -->
                                                             <div class="space-y-1">
                                                                 <p class="text-sm text-gray-600">
                                                                     {{
