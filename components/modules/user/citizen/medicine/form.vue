@@ -760,8 +760,8 @@ async function fetchAllMedicines() {
                 (item: any) => options.push({
                     value: item?.uuid,
                     label: language.locale.value === 'en' ?
-                        item?.en_name + ', ' + item?.ingredients :
-                        item?.dk_name + ', ' + item?.ingredients,
+                        item?.en_name + ', ' + (item?.ingredients ?? '') :
+                        item?.dk_name + ', ' + (item?.ingredients ?? ''),
                 })
             )
             state.options.medicines = options
