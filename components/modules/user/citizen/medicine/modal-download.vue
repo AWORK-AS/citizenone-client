@@ -52,6 +52,8 @@ const props = defineProps({
 })
 const { t } = useI18n()
 const emit = defineEmits(['close'])
+const router = useRouter()
+const citizenUuid = router?.currentRoute?.value?.params?.uuid
 
 const state = reactive({
     error: {} as Error,
@@ -101,6 +103,7 @@ async function downloadMedicineOverview() {
     state.isPageLoading = true
     try {
         const params = {
+            citizen_uuid: citizenUuid,
             date_start: state.formDownload.date_start,
             date_end: state.formDownload.date_end,
         }
