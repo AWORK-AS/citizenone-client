@@ -43,6 +43,7 @@ import { required, helpers } from '@vuelidate/validators'
 import { useI18n } from "vue-i18n"
 import { saveAs } from 'file-saver'
 import type { Error } from '@/types'
+import { useCitizenMedicineStore } from '@/store/citizen-medicines'
 
 const props = defineProps({
     isModalOpen: {
@@ -54,6 +55,7 @@ const { t } = useI18n()
 const emit = defineEmits(['close'])
 const router = useRouter()
 const citizenUuid = router?.currentRoute?.value?.params?.uuid
+const citizenMedicineStore = useCitizenMedicineStore() as any
 
 const state = reactive({
     error: {} as Error,
@@ -104,6 +106,7 @@ async function downloadMedicineOverview() {
     try {
         const params = {
             citizen_uuid: citizenUuid,
+            citizen_medicine_uuid: Array(citizenMedicineStore.getSelectedMedicines),
             date_start: state.formDownload.date_start,
             date_end: state.formDownload.date_end,
         }
