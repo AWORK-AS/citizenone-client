@@ -97,16 +97,25 @@
                                     <DisclosureButton
                                         class="w-full bg-gray-100 ring-1 ring-gray-100 flex justify-between p-3.5"
                                         :class="!open ? 'rounded-md' : 'rounded-tl-md rounded-tr-md'">
-                                        <div class="text-sm font-semibold text-gray-700">
-                                            <span v-if="language.locale.value === 'en'">
-                                                {{ selectedMedicine?.medicine?.en_name }},
-                                            </span>
-                                            <span v-if="language.locale.value === 'dk'">
-                                                {{ selectedMedicine?.medicine?.dk_name }},
-                                            </span>
-                                            <span>
-                                                {{ selectedMedicine?.medicine?.ingredients }}
-                                            </span>
+                                        <div class="flex items-center gap-x-2 text-sm font-semibold text-gray-700">
+                                            <div>
+                                                <span v-if="language.locale.value === 'en'">
+                                                    {{ selectedMedicine?.medicine?.en_name }},
+                                                </span>
+                                                <span v-if="language.locale.value === 'dk'">
+                                                    {{ selectedMedicine?.medicine?.dk_name }},
+                                                </span>
+                                                <span>
+                                                    {{ selectedMedicine?.medicine?.ingredients }}
+                                                </span>
+                                            </div>
+                                            <Badge type="primary" class="w-fit">
+                                                <p class="text-xxs">
+                                                    {{
+                                                        $t('citizens.medicineJournals.table.pnMedicine')
+                                                    }}
+                                                </p>
+                                            </Badge>
                                         </div>
                                         <div class="flex items-center">
                                             <Icon name="ic:round-keyboard-arrow-down" class="w-4 h-4" v-if="!open" />
