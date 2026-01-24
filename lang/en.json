@@ -4326,6 +4326,8 @@
             "subgoalSuccessfullyUnrchived": "Subgoal successfully unarchived",
             "subgoalSuccessfullyDeleted": "Subgoal successfully deleted",
             "subgoalSuccessfullyUpdated": "Subgoal successfully updated"
+            
+
         },
         "categories": {
             "plansAndGoals": "Plans and goals",
@@ -4359,6 +4361,7 @@
                 "goal": "Goal",
                 "plan": "Plan",
                 "saveAndDownload": "Save and download PDF",
+                "saveAsDraft": "Draft",
                 "subgoal": "Subgoal"
             }
         },
