@@ -214,6 +214,25 @@ const state = reactive({
         is_private: false,
         calendar_tags: [],
         is_recurring: false,
+        recurring_until: '',
+        recurring_rules: {} as any,
+        recurring: {
+            is_recurring: false,
+            recurring: '',
+            recurring_until: '',
+            frequency: '',
+            every:  '',
+            weekly_on: [] as any[],
+            monthly_on_the_enabled: false,
+            monthly_each: [] as any[],
+            monthly_on_the_sequence: '',
+            monthly_on_the_day:  '',
+            yearly_in_months: [] as any[],
+            yearly_on_the_enabled:  false,
+            yearly_on_the_sequence: '',
+            yearly_on_the_day: '',
+            is_apply_to_all: false,
+        },
     },
     options: {
         citizens: [] as any,
@@ -475,15 +494,7 @@ function changeMonthYear(year: any, month: any) {
 }
 
 function editMyCalendarEvent(selectedCalendarEvent: any) {
-    state.selectedSchedule.uuid = selectedCalendarEvent.uuid
-    state.selectedSchedule.title = selectedCalendarEvent.title
-    state.selectedSchedule.description = selectedCalendarEvent.description
-    state.selectedSchedule.start = selectedCalendarEvent.date_time_start
-    state.selectedSchedule.end = selectedCalendarEvent.date_time_end
-    state.selectedSchedule.unit_uuid = selectedCalendarEvent.unit?.uuid ?? ''
-    state.selectedSchedule.is_private = selectedCalendarEvent.is_private ? true : false
-    state.selectedSchedule.calendar_tags = selectedCalendarEvent.calendar_tags ?? []
-    state.selectedSchedule.is_recurring = selectedCalendarEvent.is_recurring ?? false
+    state.selectedSchedule = selectedCalendarEvent
     state.modal.isEditEventOpen = true
 }
 
