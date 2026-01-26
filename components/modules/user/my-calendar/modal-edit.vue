@@ -100,7 +100,7 @@ async function updateSchedule(scheduleDetails: any) {
                     params.monthly_on_the_day = scheduleDetails.recurring.monthly_on_the_day
                 }
             } else if (scheduleDetails.recurring.frequency === 'yearly') {
-                params.yearly_in_months = JSON.stringify(scheduleDetails.recurring.yearly_in_months)
+                params.yearly_in_months = scheduleDetails.recurring.yearly_in_months
                 if (scheduleDetails.recurring.yearly_on_the_enabled) {
                     params.yearly_on_the_sequence = scheduleDetails.recurring.yearly_on_the_sequence
                     params.yearly_on_the_day = scheduleDetails.recurring.yearly_on_the_day
