@@ -42,14 +42,17 @@
                     <FormLabel for="recurring" :label="$t('citizens.medicineJournals.form.scheduleFrequency')" />
                     <FormSelect id="recurring" :options="state.options.schedule_frequencies?.recurringSchedules"
                         v-model="state.formMedicine.schedule_frequency.recurring" />
-                    <FormError :error="v$?.formMedicine?.schedule_frequency?.recurring?.$errors[0]?.$message?.toString()" />
-                    <FormError :error="state?.error?.errors?.recurring_uuid?.[0]" />
+                    <FormError
+                        :error="v$?.formMedicine?.schedule_frequency?.recurring?.$errors[0]?.$message?.toString()" />
+                    <FormError :error="state?.error?.errors?.recurring?.[0]" />
                 </div>
                 <div class="space-y-1" v-if="!state.formMedicine.is_pn_medicine">
                     <FormLabel for="recurring_until" :label="$t('citizens.medicineJournals.form.scheduleUntil')" />
-                    <FormDateField id="recurring_until" name="recurring_until" :placeholder="`${$t('citizens.medicineJournals.form.scheduleUntil')}`"
+                    <FormDateField id="recurring_until" name="recurring_until"
+                        :placeholder="`${$t('citizens.medicineJournals.form.scheduleUntil')}`"
                         v-model="state.formMedicine.schedule_frequency.recurring_until" />
-                    <FormError :error="v$?.formMedicine?.recurring_until?.$errors[0]?.$message.toString()" />
+                    <FormError
+                        :error="v$?.formMedicine?.schedule_frequency?.recurring_until?.$errors[0]?.$message.toString()" />
                     <FormError :error="state?.error?.errors?.recurring_until?.[0]" />
                 </div>
                 <div class="space-y-3" v-if="state.formMedicine.schedule_frequency?.recurring === 'custom'">
@@ -73,7 +76,8 @@
                                     state.formMedicine.schedule_frequency?.frequency === 'monthly' ? state.options.schedule_frequencies?.zeroTo999Months :
                                         state.options.schedule_frequencies?.zeroTo999Years"
                                 v-model="state.formMedicine.schedule_frequency.every" />
-                            <FormError :error="v$?.formMedicine?.schedule_frequency?.every?.$errors[0]?.$message.toString()" />
+                            <FormError
+                                :error="v$?.formMedicine?.schedule_frequency?.every?.$errors[0]?.$message.toString()" />
                             <FormError :error="state?.error?.errors?.every?.[0]" />
                         </div>
                     </div>
@@ -101,7 +105,8 @@
                                 </p>
                             </div>
                             <div class="space-y-1" v-if="!state.formMedicine.schedule_frequency.monthly_on_the_enabled">
-                                <FormSelectMultiple id="monthly_each" :options="state.options.schedule_frequencies?.monthlyEach"
+                                <FormSelectMultiple id="monthly_each"
+                                    :options="state.options.schedule_frequencies?.monthlyEach"
                                     v-model="state.formMedicine.schedule_frequency.monthly_each" />
                                 <FormError
                                     :error="v$?.formMedicine?.schedule_frequency?.monthly_each?.$errors[0]?.$message.toString()" />
@@ -142,7 +147,8 @@
                                 <div class="space-y-1">
                                     <div class="w-fit flex items-center cursor-pointer"
                                         @click="state.formMedicine.schedule_frequency.yearly_on_the_enabled = !state.formMedicine.schedule_frequency?.yearly_on_the_enabled">
-                                        <FormCheckbox :value="state.formMedicine.schedule_frequency?.yearly_on_the_enabled" />
+                                        <FormCheckbox
+                                            :value="state.formMedicine.schedule_frequency?.yearly_on_the_enabled" />
                                         {{ $t('recurring.frequency.yearly.onThe') }}
                                     </div>
                                 </div>
@@ -483,13 +489,18 @@ const state = reactive({
                 { value: 'last', label: `${t('recurring.frequency.onThe.last')}` },
             ],
             recurringSchedules: [
-                { value: 'everyday', label: `${t('recurring.everyDay')}` },
-                { value: 'every_week', label: `${t('recurring.everyWeek')}` },
-                { value: 'every_second_week', label: `${t('recurring.everySecondWeek')}` },
-                { value: 'every_third_week', label: `${t('recurring.everyThirdWeek')}` },
-                { value: 'every_fourth_week', label: `${t('recurring.everyFourthWeek')}` },
-                { value: 'every_month', label: `${t('recurring.everyMonth')}` },
-                { value: 'every_year', label: `${t('recurring.everyYear')}` },
+                { value: 'everyday', label: `${t('citizens.medicineJournals.scheduleFrequencies.everyday')}` },
+                { value: 'every_other_day', label: `${t('citizens.medicineJournals.scheduleFrequencies.every2Days')}` },
+                { value: 'every_third_day', label: `${t('citizens.medicineJournals.scheduleFrequencies.every3Days')}` },
+                { value: 'every_four_days', label: `${t('citizens.medicineJournals.scheduleFrequencies.every4Days')}` },
+                { value: 'every_five_days', label: `${t('citizens.medicineJournals.scheduleFrequencies.every5Days')}` },
+                { value: 'every_six_days', label: `${t('citizens.medicineJournals.scheduleFrequencies.every6Days')}` },
+                { value: 'weekly', label: `${t('citizens.medicineJournals.scheduleFrequencies.weekly')}` },
+                { value: 'biweekly', label: `${t('citizens.medicineJournals.scheduleFrequencies.biweekly')}` },
+                { value: 'monthly', label: `${t('citizens.medicineJournals.scheduleFrequencies.monthly')}` },
+                { value: 'bimonthly', label: `${t('citizens.medicineJournals.scheduleFrequencies.bimonthly')}` },
+                { value: 'quarterly', label: `${t('citizens.medicineJournals.scheduleFrequencies.quarterly')}` },
+                { value: 'annually', label: `${t('citizens.medicineJournals.scheduleFrequencies.annually')}` },
                 { value: 'custom', label: `${t('recurring.custom')}` },
             ],
             weekOn: [
@@ -566,21 +577,7 @@ onMounted(() => {
         ingredients: props.selectedMedicine.ingredients,
         description: props.selectedMedicine.description,
         current_stocks: props.selectedMedicine.current_stocks?.toString(),
-        schedule_frequency: {
-            recurring: props.selectedMedicine?.schedule_frequency,
-            recurring_until: props.selectedMedicine?.recurring_until,
-            frequency: props.selectedMedicine?.recurring_rules?.frequency,
-            every: props.selectedMedicine?.recurring_rules?.every,
-            weekly_on: props.selectedMedicine?.recurring_rules?.weekly_on || [],
-            monthly_on_the_enabled: props.selectedMedicine?.recurring_rules?.monthly_on_the_enabled || false,
-            monthly_each: props.selectedMedicine?.recurring_rules?.monthly_each || [],
-            monthly_on_the_sequence: props.selectedMedicine?.recurring_rules?.monthly_on_the_sequence || '',
-            monthly_on_the_day: props.selectedMedicine?.recurring_rules?.monthly_on_the_day || '',
-            yearly_in_months: props.selectedMedicine?.recurring_rules?.yearly_in_months || [],
-            yearly_on_the_enabled: props.selectedMedicine?.recurring_rules?.yearly_on_the_enabled || false,
-            yearly_on_the_sequence: props.selectedMedicine?.recurring_rules?.yearly_on_the_sequence || '',
-            yearly_on_the_day: props.selectedMedicine?.recurring_rules?.yearly_on_the_day || '',
-        },
+        schedule_frequency: props.selectedMedicine?.schedule_frequency,
     }
     fetchDosageForms()
     fetchAllMedicines()
@@ -630,9 +627,6 @@ const rules = computed(() => {
                     strength: {
                         required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
                     },
-                    recurring_until: {
-                        required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
-                    },
                     dosage: {
                         required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
                     },
@@ -648,7 +642,14 @@ const rules = computed(() => {
                     description: {
                         required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
                     },
-                    schedule_frequency: {},
+                    schedule_frequency: {
+                        recurring: {
+                            required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
+                        },
+                        // recurring_until: {
+                        //     required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
+                        // },
+                    },
                 },
             }
         }
@@ -677,15 +678,13 @@ const rules = computed(() => {
                     description: {
                         required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
                     },
+                    schedule_frequency: {},
                 },
             }
         } else {
             return {
                 formMedicine: {
                     medicine: {
-                        required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
-                    },
-                    recurring_until: {
                         required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
                     },
                     strength: {
@@ -706,7 +705,14 @@ const rules = computed(() => {
                     description: {
                         required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
                     },
-                    schedule_frequency: {},
+                    schedule_frequency: {
+                        recurring: {
+                            required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
+                        },
+                        // recurring_until: {
+                        //     required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
+                        // },
+                    },
                 },
             }
         }
@@ -754,8 +760,8 @@ async function fetchAllMedicines() {
                 (item: any) => options.push({
                     value: item?.uuid,
                     label: language.locale.value === 'en' ?
-                        item?.en_name + ', ' + item?.ingredients :
-                        item?.dk_name + ', ' + item?.ingredients,
+                        item?.en_name + ', ' + (item?.ingredients ?? '') :
+                        item?.dk_name + ', ' + (item?.ingredients ?? ''),
                 })
             )
             state.options.medicines = options

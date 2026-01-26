@@ -203,8 +203,8 @@ const breadcrumbLinks = [
 
 const state = reactive({
     columnHeaders: [
-        { name: 'settings.licenseOverview.table.license', sorter: true, key: 'license' },
-        { name: 'settings.licenseOverview.table.user' },
+        { name: 'settings.licenseOverview.table.license', isTranslateName: true, sorter: true, key: 'license' },
+        { name: 'settings.licenseOverview.table.user', isTranslateName: true, },
     ],
     dataFilter: {
         search: ''

@@ -110,11 +110,11 @@ const breadcrumbLinks = [
 
 const state = reactive({
     columnHeaders: [
-        { name: 'shifts.table.nameEnglish', sorter: true, key: 'en_name' },
-        { name: 'shifts.table.nameDanish', sorter: true, key: 'dk_name' },
-        { name: 'shifts.table.timeIn' },
-        { name: 'shifts.table.timeOut' },
-        { name: 'shifts.table.color' },
+        { name: 'shifts.table.nameEnglish', isTranslateName: true, sorter: true, key: 'en_name' },
+        { name: 'shifts.table.nameDanish', isTranslateName: true, sorter: true, key: 'dk_name' },
+        { name: 'shifts.table.timeIn', isTranslateName: true, },
+        { name: 'shifts.table.timeOut', isTranslateName: true, },
+        { name: 'shifts.table.color', isTranslateName: true, },
         { name: '' }
     ],
     dataFilter: {

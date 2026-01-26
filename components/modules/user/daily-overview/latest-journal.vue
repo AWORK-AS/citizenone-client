@@ -18,7 +18,7 @@
                     class="pl-4 pr-3 py-5 cursor-pointer hover:bg-gray-100"
                     @click="navigateTo(`/citizens/${citizen?.uuid}/journals`)" v-if="props?.viewAll">
                     <div class="flex gap-x-2">
-                        <img :src="citizen?.image ?? `https://ui-avatars.com/api/?background=42AED9&color=fff&name=${citizen?.firstname + ' ' + citizen?.lastname}`"
+                        <img :src="citizen?.image ?? `https://ui-avatars.com/api/?background=42AED9&color=fff&name=${citizen?.firstname + ' ' + (citizen?.lastname ?? '')}`"
                             :class="[
                                 citizen.latest_risk_assessment === null && 'border-secondary',
                                 citizen.latest_risk_assessment?.assessment === 'no risk' && 'border-green-700',
@@ -28,12 +28,11 @@
                             ]" />
                         <div>
                             <p class="text-sm font-medium text-primary">
-                                {{ citizen?.firstname + ' ' + citizen?.lastname }}
+                                {{ citizen?.firstname + ' ' + (citizen?.lastname ?? '') }}
                             </p>
                             <p class="text-xxs" v-if="journal?.user?.firstname && journal?.user?.lastname">
                                 {{ $t('overview.createdBy') }}
-                                {{ journal?.user?.firstname + ' ' +
-                                    journal?.user?.lastname }}
+                                {{ journal?.user?.firstname + ' ' + (journal?.user?.lastname ?? '') }}
                             </p>
                             <div class="px-1">
                                 <h3 class="text-base font-semibold">
@@ -54,7 +53,7 @@
                 <div v-else class="pl-4 pr-3 py-5 cursor-pointer hover:bg-gray-100"
                     @click="navigateTo(`/citizens/${citizen?.uuid}/journals`)">
                     <div class="flex gap-x-2">
-                        <img :src="citizen?.image ?? `https://ui-avatars.com/api/?background=42AED9&color=fff&name=${citizen?.firstname + ' ' + citizen?.lastname}`"
+                        <img :src="citizen?.image ?? `https://ui-avatars.com/api/?background=42AED9&color=fff&name=${citizen?.firstname + ' ' + (citizen?.lastname ?? '')}`"
                             :class="[
                                 citizen.latest_risk_assessment === null && 'border-secondary',
                                 citizen.latest_risk_assessment?.assessment === 'no risk' && 'border-green-700',
@@ -64,13 +63,13 @@
                             ]" />
                         <div>
                             <p class="text-sm font-medium text-primary">
-                                {{ citizen?.firstname + ' ' + citizen?.lastname }}
+                                {{ citizen?.firstname + ' ' + (citizen?.lastname ?? '') }}
                             </p>
                             <p class="text-xxs"
                                 v-if="citizen?.citizen_journal?.user?.firstname && citizen?.citizen_journal?.user?.lastname">
                                 {{ $t('overview.createdBy') }}
                                 {{ citizen?.citizen_journal?.user?.firstname + ' ' +
-                                    citizen?.citizen_journal?.user?.lastname }}
+                                    (citizen?.citizen_journal?.user?.lastname ?? '') }}
                             </p>
                             <div class="px-1">
                                 <h3 class="text-base font-semibold">

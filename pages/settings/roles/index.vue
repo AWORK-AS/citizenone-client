@@ -101,8 +101,8 @@ const breadcrumbLinks = [
 
 const state = reactive({
     columnHeaders: [
-        { name: 'roles.table.name', sorter: true, key: 'name' },
-        { name: 'roles.table.permissions' },
+        { name: 'roles.table.name', isTranslateName: true, sorter: true, key: 'name' },
+        { name: 'roles.table.permissions', isTranslateName: true, },
         { name: '' }
     ],
     dataFilter: {
@@ -126,7 +126,7 @@ const state = reactive({
     },
 })
 
-const PERMISSION_LABELS:  Record<string, string> = {
+const PERMISSION_LABELS: Record<string, string> = {
     'scheduler': 'roles.permissions.scheduler',
     'create_schedule': 'roles.permissions.createSchedule',
     'read_schedule': 'roles.permissions.readSchedule',
@@ -142,7 +142,7 @@ const PERMISSION_LABELS:  Record<string, string> = {
     'update_citizen_calendar': 'roles.permissions.updateCitizenCalendar',
     'delete_citizen_calendar': 'roles.permissions.deleteCitizenCalendar',
     'create_citizen_health': 'roles.permissions.createCitizenHealth',
-    'view_citizen_health':  'roles.permissions.viewCitizenHealth',
+    'view_citizen_health': 'roles.permissions.viewCitizenHealth',
     'update_citizen_health': 'roles.permissions.updateCitizenHealth',
     'delete_citizen_health': 'roles.permissions.deleteCitizenHealth'
 }

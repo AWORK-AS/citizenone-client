@@ -119,10 +119,10 @@ const breadcrumbLinks = [
 
 const state = reactive({
     columnHeaders: [
-        { name: 'clientInvoices.table.date', sorter: true, key: 'created_at' },
-        { name: 'clientInvoices.table.invoiceNumber', sorter: true, key: 'invoice_number' },
-        { name: 'clientInvoices.table.amount', sorter: true, key: 'total_amount' },
-        { name: 'clientInvoices.table.billedTo' },
+        { name: 'clientInvoices.table.date', isTranslateName: true, sorter: true, key: 'created_at' },
+        { name: 'clientInvoices.table.invoiceNumber', isTranslateName: true, sorter: true, key: 'invoice_number' },
+        { name: 'clientInvoices.table.amount', isTranslateName: true, sorter: true, key: 'total_amount' },
+        { name: 'clientInvoices.table.billedTo', isTranslateName: true, },
         { name: '' },
     ],
     dataFilter: {

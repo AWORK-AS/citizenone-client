@@ -2,7 +2,7 @@
     <div>
         <Modal size="sm" :title="$t('dutySchedules.editSchedule')" :show="props.isModalOpen" @close="closeModal">
             <template #modal-body>
-                <LoadingSpinner :isActive="state.isPageLoading">
+                <LoadingSpinner :isActive="props.isModalLoading || state.isPageLoading">
                     <ModulesUserDutyScheduleFormShift formType="update" :error="props.error"
                         :selectedEmployee="props.selectedEmployee" :selectedShift="state.formShift"
                         @close="closeModal()" @isPageLoading="(value: boolean) => state.isPageLoading = value"
@@ -24,6 +24,11 @@ const props = defineProps({
     isModalOpen: {
         type: Boolean,
         required: true,
+    },
+    isModalLoading: {
+        type: Boolean,
+        required: true,
+        default: false,
     },
     selectedEmployee: {
         type: Object,

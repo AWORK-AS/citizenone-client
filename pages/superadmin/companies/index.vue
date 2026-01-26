@@ -106,12 +106,12 @@ let currentTablePage = 1
 const state = reactive({
     companies: [] as any,
     columnHeaders: [
-        { name: 'superadmin.companies.table.id', sorter: true, key: 'id' },
-        { name: 'superadmin.companies.table.name', sorter: true, key: 'name' },
-        { name: 'superadmin.companies.table.phone', sorter: true, key: 'phone' },
-        { name: 'superadmin.companies.table.cvr', sorter: true, key: 'cvr' },
-        { name: 'superadmin.companies.table.website', sorter: true, key: 'website' },
-        { name: 'superadmin.companies.table.status' },
+        { name: 'superadmin.companies.table.id', isTranslateName: true, sorter: true, key: 'id' },
+        { name: 'superadmin.companies.table.name', isTranslateName: true, sorter: true, key: 'name' },
+        { name: 'superadmin.companies.table.phone', isTranslateName: true, sorter: true, key: 'phone' },
+        { name: 'superadmin.companies.table.cvr', isTranslateName: true, sorter: true, key: 'cvr' },
+        { name: 'superadmin.companies.table.website', isTranslateName: true, sorter: true, key: 'website' },
+        { name: 'superadmin.companies.table.status', isTranslateName: true, },
         { name: '' },
     ],
     dataFilter: {

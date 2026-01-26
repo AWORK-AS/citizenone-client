@@ -10,7 +10,7 @@
 
             <div class="mt-2">
                 <div class="space-y-10">
-                    
+
                     <div class="table-responsive">
                         <Table :columnHeaders="state.columnHeaders" :data="state.appointments"
                             :isLoading="state.isTableLoading">
@@ -19,18 +19,21 @@
                                     <td width="30%">
                                         <div class="flex items-center gap-x-2">
                                             <div>
-                                                <span>{{ appointment?.appointment?.booking_setting?.appointment?.name }}</span>
+                                                <span>{{ appointment?.appointment?.booking_setting?.appointment?.name
+                                                    }}</span>
                                             </div>
                                         </div>
                                     </td>
                                     <td width="30%">
-                                        <span class="truncate-ellipsis">{{ appointment?.appointment?.booking_setting?.appointment?.address }}</span>
+                                        <span class="truncate-ellipsis">{{
+                                            appointment?.appointment?.booking_setting?.appointment?.address }}</span>
                                     </td>
                                     <td width="15%">
                                         <span>{{ formatDateToReadable(appointment?.appointment?.date) }}</span>
                                     </td>
                                     <td width="15%">
-                                        <span>{{ appointment?.appointment?.start_time }} - {{ appointment?.appointment?.end_time }}</span>
+                                        <span>{{ appointment?.appointment?.start_time }} - {{
+                                            appointment?.appointment?.end_time }}</span>
                                     </td>
                                     <td width="10%">
                                         <div class="flex items-end justify-end gap-2">
@@ -47,11 +50,12 @@
                         </Table>
                     </div>
                     <Pagination :data="state.appointments" @previous="previous" @next="next" />
-                   
+
                 </div>
             </div>
 
-            <ModulesClientAppointmentModalView :is-modal-open="state.modal.isAppointmentView" :appointment="state.selectedAppointment" @close="state.modal.isAppointmentView = false"  />
+            <ModulesClientAppointmentModalView :is-modal-open="state.modal.isAppointmentView"
+                :appointment="state.selectedAppointment" @close="state.modal.isAppointmentView = false" />
         </NuxtLayout>
     </div>
 </template>
@@ -68,10 +72,10 @@ const { formatDateToReadable } = useDatetimeFormatter()
 
 const state = reactive({
     columnHeaders: [
-        { name: 'client.appointmentsTable.eventName', sorter: true, key: 'name' },
-        { name: 'client.appointmentsTable.address', sorter: false, key: 'address' },
-        { name: 'client.appointmentsTable.date', sorter: false, key: 'date' },
-        { name: 'client.appointmentsTable.time', sorter: false, key: 'time' },
+        { name: 'client.appointmentsTable.eventName', isTranslateName: true, sorter: true, key: 'name' },
+        { name: 'client.appointmentsTable.address', isTranslateName: true, sorter: false, key: 'address' },
+        { name: 'client.appointmentsTable.date', isTranslateName: true, sorter: false, key: 'date' },
+        { name: 'client.appointmentsTable.time', isTranslateName: true, sorter: false, key: 'time' },
         { name: '' },
     ],
     dataFilter: {
@@ -87,7 +91,7 @@ const state = reactive({
     bookingSettings: {},
 })
 
-onMounted(async() => {
+onMounted(async () => {
     fetchAppointments()
 })
 
@@ -108,8 +112,8 @@ async function fetchAppointments() {
         if (response?.data) {
             state.appointments = response.data
         }
-    } catch(error: any) {
-        state.error =error
+    } catch (error: any) {
+        state.error = error
     }
     state.isTableLoading = false
 }

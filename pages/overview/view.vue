@@ -93,10 +93,25 @@ const state = reactive({
 
 watch(() => userStore.getUser, (user: any) => {
     if (user) {
-        if (user?.overview_date_start && user?.overview_date_end) {
+        if (user?.daily_overview_date_filter?.filter_type === 'today') {
             state.dateRange.formDateRange = {
-                start_date: moment(user?.overview_date_start).format('YYYY-MM-DD'),
-                end_date: moment(user?.overview_date_end).format('YYYY-MM-DD'),
+                start_date: moment().format('YYYY-MM-DD'),
+                end_date: moment().format('YYYY-MM-DD'),
+            }
+        } else if (user?.daily_overview_date_filter?.filter_type === 'next_7_days') {
+            state.dateRange.formDateRange = {
+                start_date: moment().add(1, 'week').startOf('isoWeek').format('YYYY-MM-DD'),
+                end_date: moment().add(1, 'week').endOf('isoWeek').format('YYYY-MM-DD'),
+            }
+        } else if (user?.daily_overview_date_filter?.filter_type === 'custom') {
+            state.dateRange.formDateRange = {
+                start_date: moment(user?.daily_overview_date_filter?.overview_date_start).format('YYYY-MM-DD'),
+                end_date: moment(user?.daily_overview_date_filter?.overview_date_end).format('YYYY-MM-DD'),
+            }
+        } else {
+            state.dateRange.formDateRange = {
+                start_date: moment().startOf('isoWeek').format('YYYY-MM-DD'),
+                end_date: moment().endOf('isoWeek').format('YYYY-MM-DD'),
             }
         }
     }

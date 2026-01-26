@@ -77,11 +77,11 @@ let currentTablePage = 1
 
 const state = reactive({
     columnHeaders: [
-        { name: 'superadmin.orders.table.date', sorter: true, key: 'created_at' },
-        { name: 'superadmin.orders.table.status' },
-        { name: 'superadmin.orders.table.referenceNumber', sorter: true, key: 'reference_number' },
-        { name: 'superadmin.orders.table.type', sorter: true, key: 'type' },
-        { name: 'superadmin.orders.table.data' },
+        { name: 'superadmin.orders.table.date', isTranslateName: true, sorter: true, key: 'created_at' },
+        { name: 'superadmin.orders.table.status', isTranslateName: true, },
+        { name: 'superadmin.orders.table.referenceNumber', isTranslateName: true, sorter: true, key: 'reference_number' },
+        { name: 'superadmin.orders.table.type', isTranslateName: true, sorter: true, key: 'type' },
+        { name: 'superadmin.orders.table.data', isTranslateName: true, },
     ],
     dataFilter: {
         search: ''

@@ -99,9 +99,9 @@ const breadcrumbLinks = [
 
 const state = reactive({
     columnHeaders: [
-        { name: 'departments.table.name', sorter: true, key: 'name' },
-        { name: 'departments.table.color' },
-        { name: 'departments.table.shiftTypes' },
+        { name: 'departments.table.name', isTranslateName: true, sorter: true, key: 'name' },
+        { name: 'departments.table.color', isTranslateName: true, },
+        { name: 'departments.table.shiftTypes', isTranslateName: true, },
         { name: '' },
     ],
     dataFilter: {

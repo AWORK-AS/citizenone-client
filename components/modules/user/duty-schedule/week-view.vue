@@ -546,7 +546,7 @@
                                                 <div class="space-y-2"
                                                     v-if="!isDailyScheduleCopied(employeeIndex, weekIndex, weekNumber)">
                                                     <div class="flex justify-end gap-2"
-                                                        v-if="isAdmin(userStore.getUser?.role)">
+                                                        v-if="hasCreatePermission || isAdmin(userStore.getUser?.role)">
                                                         <Menu as="div"
                                                             class="absolute right-0 top-6 xl:relative xl:right-auto xl:top-auto xl:self-center">
                                                             <div>
@@ -630,7 +630,7 @@
                                                                 S
                                                             </div>
                                                             <div class="flex justify-between text-white cursor-pointer"
-                                                                @click="isAdmin(userStore.getUser?.role) ? editSchedule(employee, employeeIndex, weekIndex, shift, shiftIndex) : viewSchedule(employeeIndex, weekIndex, shift, shiftIndex)">
+                                                                @click="(hasUpdatePermission || isAdmin(userStore.getUser?.role)) ? editSchedule(employee, employeeIndex, weekIndex, shift, shiftIndex) : viewSchedule(employeeIndex, weekIndex, shift, shiftIndex)">
                                                                 <div class="relative w-full">
                                                                     <div class="bg-white border-0.5 border-gray-300 w-4 h-4 rounded-full absolute -left-2 top-2.5 flex items-center justify-center"
                                                                         v-if="shift?.is_from_lastweek">
@@ -704,7 +704,7 @@
                                                             <button
                                                                 class="bg-gray-200 w-4 h-4 text-sm text-gray-600 rounded-full flex items-center justify-center absolute -right-1 -top-1"
                                                                 @click="removeShiftConfirmation(shift)"
-                                                                v-if="isAdmin(userStore.getUser?.role)">
+                                                                v-if="hasDeletePermission || isAdmin(userStore.getUser?.role)">
                                                                 <Tooltip position="left"
                                                                     :text="$t('dutySchedules.removeSchedule.removeSchedule')">
                                                                     <Icon name="ph:x" class="h-2 w-2"
@@ -826,11 +826,11 @@
             <ModulesUserDutyScheduleNormHoursModalVacationHours :isModalOpen="state.modal.isVacationHoursOpen"
                 :selectedEmployee="state.normHours.selectedEmployeeSchedule"
                 @close="state.modal.isVacationHoursOpen = false" />
-            <ModulesUserDutyScheduleModalNewShift :isModalOpen="state.modal.isAddShiftOpen" :error="state.newShiftError"
+            <ModulesUserDutyScheduleModalNewShift :isModalOpen="state.modal.isAddShiftOpen" :isModalLoading="state.isModalLoading" :error="state.newShiftError"
                 :selectedDate="state.newShift.selectedDate" :selectedEmployee="state.newShift.selectedEmployee"
                 @close="state.modal.isAddShiftOpen = false" @saveShift="saveShift"
                 @resetNewShiftError="state.newShiftError = {}" />
-            <ModulesUserDutyScheduleModalEditShift :isModalOpen="state.modal.isEditShiftOpen"
+            <ModulesUserDutyScheduleModalEditShift :isModalLoading="state.isModalLoading" :isModalOpen="state.modal.isEditShiftOpen"
                 :error="state.editShiftError" :selectedEmployee="state.editShift.selectedEmployee"
                 :selectedEmployeeSchedule="state.editShift.selectedEmployeeSchedule"
                 @close="state.modal.isEditShiftOpen = false" @resetEditShiftError="state.editShiftError = {}"
@@ -926,6 +926,7 @@ const state = reactive({
         employee_uuids: [],
     },
     isPageLoading: false,
+    isModalLoading: false,
     manageScheduleSlot: {
         selectedDay: [],
     },
@@ -999,6 +1000,18 @@ const state = reactive({
         selectedEmployeeSchedule: {},
     } as any,
     weeklySchedules: [] as any,
+})
+
+const hasCreatePermission = computed(() => {
+    return !!userStore.user?.permissions.find((permission: any) => permission.name === 'create_schedule')
+})
+
+const hasUpdatePermission = computed(() => {
+    return !!userStore.user?.permissions.find((permission: any) => permission.name === 'update_schedule')
+})
+
+const hasDeletePermission = computed(() => {
+    return !!userStore.user?.permissions.find((permission: any) => permission.name === 'delete_schedule')
 })
 
 watch(() => state.progress.percentage, (newPercentage: any) => {
@@ -1410,6 +1423,7 @@ async function saveShift(shiftDetails: any) {
 
 async function saveDutySchedule(params: object) {
     try {
+        state.isModalLoading = true
         state.progress.totalRequests = state.progress.totalRequests + 1
         state.progress.pendingRequests = state.progress.pendingRequests + 1
         identifyTheProgressPercentage()
@@ -1420,12 +1434,16 @@ async function saveDutySchedule(params: object) {
             identifyTheProgressPercentage()
             fetchDutySchedule()
             state.modal.isAddShiftOpen = false
+            setTimeout(() => {
+                state.isModalLoading = false
+            }, 300)
         }
     } catch (error: any) {
         state.newShiftError = error
         state.progress.totalRequests = state.progress.totalRequests - 1
         state.progress.pendingRequests = state.progress.pendingRequests - 1
         identifyTheProgressPercentage()
+        state.isModalLoading = false
     }
 }
 
@@ -1725,6 +1743,7 @@ async function updateDutySchedule(scheduleUuid: any, params: object, employeeInd
     state.isUpdateShift = true
     state.editShiftError = {}
     try {
+        state.isModalLoading = true
         state.progress.totalRequests = state.progress.totalRequests + 1
         state.progress.pendingRequests = state.progress.pendingRequests + 1
         identifyTheProgressPercentage()
@@ -1744,6 +1763,9 @@ async function updateDutySchedule(scheduleUuid: any, params: object, employeeInd
     } finally {
         state.isUpdateShift = false
         fetchDutySchedule()
+        setTimeout(() => {
+            state.isModalLoading = false
+        }, 300)
     }
 }
 

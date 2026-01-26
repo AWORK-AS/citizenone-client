@@ -87,10 +87,10 @@ let currentTablePage = 1
 
 const state = reactive({
     columnHeaders: [
-        { name: 'superadmin.invoices.table.date', sorter: true, key: 'created_at' },
-        { name: 'superadmin.invoices.table.status' },
-        { name: 'superadmin.invoices.table.invoiceNumber', sorter: true, key: 'invoice_number' },
-        { name: 'superadmin.invoices.table.amount', sorter: true, key: 'total_amount' },
+        { name: 'superadmin.invoices.table.date', isTranslateName: true, sorter: true, key: 'created_at' },
+        { name: 'superadmin.invoices.table.status', isTranslateName: true, },
+        { name: 'superadmin.invoices.table.invoiceNumber', isTranslateName: true, sorter: true, key: 'invoice_number' },
+        { name: 'superadmin.invoices.table.amount', isTranslateName: true, sorter: true, key: 'total_amount' },
         { name: '' },
     ],
     dataFilter: {

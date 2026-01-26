@@ -1,6 +1,6 @@
 <template>
     <div>
-        <Modal size="xl" :title="$t('citizens.medicineJournals.history.giveAllMedicines')" :show="props.isModalOpen"
+        <Modal size="4xl" :title="$t('citizens.medicineJournals.history.giveAllMedicines')" :show="props.isModalOpen"
             @close="closeModal">
             <template #modal-body>
                 <LoadingSpinner :isActive="state.isPageLoading">
@@ -14,20 +14,108 @@
                                     :placeholder="$t('citizens.medicineJournals.history.form.date')"
                                     v-model="state.formGiveMedicine.date" />
                             </div>
+
+                            <div class="table-responsive">
+                                <div class="table-responsive">
+                                    <Table :columnHeaders="state.columnHeaders" :data="state.formGiveMedicine.medicines"
+                                        :isLoading="false" :sortData="state.sortData">
+                                        <template #body v-if="state.formGiveMedicine.medicines?.length">
+                                            <tr v-for="(medicine, medicineIndex) in state.formGiveMedicine.medicines"
+                                                :key="medicineIndex" class="align-top">
+                                                <td width="20%" v-if="!medicine?.is_pn_medicine">
+                                                    <p class="truncate" v-if="language.locale.value === 'en'">
+                                                        {{ medicine?.medicine?.en_name }}, {{
+                                                            medicine?.medicine?.ingredients }}
+                                                    </p>
+                                                    <p class="truncate" v-else-if="language.locale.value === 'dk'">
+                                                        {{ medicine?.medicine?.dk_name }}, {{
+                                                            medicine?.medicine?.ingredients }}
+                                                    </p>
+                                                </td>
+                                                <td v-for="time in state.timeColumns" :key="time" :class="[
+                                                    getDosageIndexByTime(Number(medicineIndex), time) !== -1 && ['', null].includes(state.formGiveMedicine.medicines[medicineIndex].dosages[getDosageIndexByTime(Number(medicineIndex), time)].type) && 'bg-red-100',
+                                                    'min-w-[300px]'
+                                                ]" v-if="!medicine?.is_pn_medicine">
+                                                    <div class="space-y-2">
+                                                        <div
+                                                            v-if="getDosageIndexByTime(Number(medicineIndex), time) !== -1">
+                                                            <Badge type="primary" class="w-fit">
+                                                                <p class="text-xs">
+                                                                    {{ medicine?.dosage_unit }}:
+
+                                                                    {{
+                                                                        state.formGiveMedicine.medicines[medicineIndex].dosages[getDosageIndexByTime(Number(medicineIndex),
+                                                                            time)].required_dosage
+                                                                    }}
+                                                                </p>
+                                                            </Badge>
+                                                            <!-- <div class="space-y-1">
+                                                                <FormLabel :for="`dose_${medicineIndex}_${time}`"
+                                                                    :label="$t('citizens.medicineJournals.history.form.dose')" />
+                                                                <FormTextField :id="`dose_${medicineIndex}_${time}`"
+                                                                    :name="`dose_${medicineIndex}_${time}`"
+                                                                    :placeholder="$t('citizens.medicineJournals.history.form.dose')"
+                                                                    v-model="state.formGiveMedicine.medicines[medicineIndex].dosages[getDosageIndexByTime(Number(medicineIndex), time)].dosage" />
+                                                            </div> -->
+                                                            <div class="space-y-1">
+                                                                <p class="text-sm text-gray-600">
+                                                                    {{
+                                                                        $t('citizens.medicineJournals.history.form.type.type')
+                                                                    }}
+                                                                </p>
+                                                                <FormSelect :id="`type_${medicineIndex}_${time}`"
+                                                                    :name="`type_${medicineIndex}_${time}`"
+                                                                    :options="getTypeOptions()"
+                                                                    v-model="state.formGiveMedicine.medicines[medicineIndex].dosages[getDosageIndexByTime(Number(medicineIndex), time)].type" />
+                                                            </div>
+
+                                                            <div class="space-y-1">
+                                                                <FormLabel :for="`comment_${medicineIndex}_${time}`"
+                                                                    :label="$t('citizens.medicineJournals.history.form.comment')" />
+                                                                <FormTextArea :id="`comment_${medicineIndex}_${time}`"
+                                                                    :name="`comment_${medicineIndex}`"
+                                                                    :placeholder="$t('citizens.medicineJournals.history.form.comment')"
+                                                                    v-model="state.formGiveMedicine.medicines[medicineIndex].dosages[getDosageIndexByTime(Number(medicineIndex), time)].comment" />
+                                                            </div>
+                                                        </div>
+
+                                                        <div v-else>
+                                                            <span class="text-sm text-gray-400">—</span>
+                                                        </div>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                        </template>
+                                    </Table>
+                                </div>
+                            </div>
+
                             <Disclosure v-slot="{ open }"
                                 v-for="(selectedMedicine, selecedMedicineIndex) in state.formGiveMedicine.medicines"
                                 :key="selecedMedicineIndex">
-                                <div>
+                                <div v-if="selectedMedicine?.is_pn_medicine">
                                     <DisclosureButton
                                         class="w-full bg-gray-100 ring-1 ring-gray-100 flex justify-between p-3.5"
                                         :class="!open ? 'rounded-md' : 'rounded-tl-md rounded-tr-md'">
-                                        <div class="text-sm font-semibold text-gray-700">
-                                            <p v-if="language.locale.value === 'en'">
-                                                {{ selectedMedicine?.medicine?.en_name }}
-                                            </p>
-                                            <p v-if="language.locale.value === 'dk'">
-                                                {{ selectedMedicine?.medicine?.dk_name }}
-                                            </p>
+                                        <div class="flex items-center gap-x-2 text-sm font-semibold text-gray-700">
+                                            <div>
+                                                <span v-if="language.locale.value === 'en'">
+                                                    {{ selectedMedicine?.medicine?.en_name }},
+                                                </span>
+                                                <span v-if="language.locale.value === 'dk'">
+                                                    {{ selectedMedicine?.medicine?.dk_name }},
+                                                </span>
+                                                <span>
+                                                    {{ selectedMedicine?.medicine?.ingredients }}
+                                                </span>
+                                            </div>
+                                            <Badge type="primary" class="w-fit">
+                                                <p class="text-xxs">
+                                                    {{
+                                                        $t('citizens.medicineJournals.table.pnMedicine')
+                                                    }}
+                                                </p>
+                                            </Badge>
                                         </div>
                                         <div class="flex items-center">
                                             <Icon name="ic:round-keyboard-arrow-down" class="w-4 h-4" v-if="!open" />
@@ -147,7 +235,7 @@
                                                                             :name="`quantity_${selecedMedicineIndex}_${dosageIndex}`"
                                                                             :placeholder="$t('citizens.medicineJournals.history.form.dose')"
                                                                             :value="dosage.dosage"
-                                                                            @keyup="(event: any) => handleQuantityInput(event, selecedMedicineIndex, dosageIndex)" />
+                                                                            @keyup="(event: any) => handleQuantityInput(event, Number(selecedMedicineIndex), Number(dosageIndex))" />
                                                                     </div>
                                                                     <div class="space-y-1">
                                                                         <p class="text-sm text-gray-600">
@@ -270,10 +358,11 @@ const props = defineProps({
         required: true,
     },
 })
-const emit = defineEmits(['close', 'refreshMedicineHistories'])
+const emit = defineEmits(['close', 'refreshMedicines', 'refreshMedicineHistories'])
 const customPagesStore = useCustomPagesStore() as any
 
 const state = reactive({
+    columnHeaders: [] as any,
     error: {} as Error,
     isPageLoading: false,
     formGiveMedicine: {
@@ -291,15 +380,65 @@ const state = reactive({
             { value: 'deviated', title: 'Deviated' },
             { value: 'given', title: 'Given' },
         ] as any
-    }
+    },
+    sortData: {
+        sortField: '',
+        sortOrder: '',
+    },
+    timeColumns: [] as any,
 })
 
 function closeModal() {
     emit('close')
 }
 
+function refreshMedicines() {
+    emit('refreshMedicines')
+}
+
 function refreshMedicineHistories() {
     emit('refreshMedicineHistories')
+}
+
+function buildColumnHeaders(selectedMedicines: any[]) {
+    const timeMap = new Map<string, true>()
+
+    selectedMedicines?.forEach((m: any) => {
+        m?.max_dosage_per_time?.forEach((d: any) => {
+            if (d?.time) timeMap.set(d.time, true)
+        })
+    })
+
+    const times = Array.from(timeMap.keys())
+
+    // ✅ store times for table body rendering
+    state.timeColumns.splice(0, state.timeColumns.length, ...times)
+
+    // ✅ Table header format
+    const newHeaders = [
+        { name: 'citizens.medicineJournals.table.medicine', isTranslateName: true, },
+        ...times.map((time) => ({ name: time, isTranslateName: false, })),
+    ]
+
+    // ✅ update in-place
+    state.columnHeaders.splice(0, state.columnHeaders.length, ...newHeaders)
+}
+
+function getDosageIndexByTime(medicineIndex: number, time: string) {
+    const dosages = state.formGiveMedicine.medicines?.[medicineIndex]?.dosages || []
+    return dosages.findIndex((d: any) => d?.time === time)
+}
+
+function getTypeOptions() {
+    return state.options.types.map((type: any) => ({
+        value: type.value,
+        label:
+            type.title === 'Delivered'
+                ? t('citizens.medicineJournals.history.form.type.delivered')
+                : type.title === 'Deviated'
+                    ? t('citizens.medicineJournals.history.form.type.deviated')
+                    : customPagesStore.getCustomPagesName?.giveMedicine ?? t('citizens.medicineJournals.history.form.type.given'),
+    }))
 }
 
 generateEvaluationFrequenciesTimeIntervals()
@@ -320,8 +459,13 @@ function generateEvaluationFrequenciesTimeIntervals() {
 watch(() => props.isModalOpen, (newValue) => {
     if (newValue) {
         fetchAllUsers()
-        fetchAllSelectedMedicines()
+        state.formGiveMedicine.date = moment().format('YYYY-MM-DD')
+        fetchAllSelectedMedicines(state.formGiveMedicine.date)
     }
+})
+
+watch(() => state.formGiveMedicine.date, (date: any) => {
+    fetchAllSelectedMedicines(date)
 })
 
 async function fetchAllUsers() {
@@ -345,20 +489,26 @@ async function fetchAllUsers() {
     state.isPageLoading = false
 }
 
-async function fetchAllSelectedMedicines() {
+async function fetchAllSelectedMedicines(date: any) {
     state.error = {}
     state.isPageLoading = true
     try {
         const params = {
+            date: date,
             citizen_medicine_uuid: Array(citizenMedicineStore.getSelectedMedicines),
         }
         const response = await medicineJournalService.getAllSelectedMedicines(params)
         if (response.data) {
             let medicines = [] as any
             response.data?.forEach((selectedMedicine: any) => {
+                const doseUnit =
+                    language.locale.value === 'dk'
+                        ? selectedMedicine?.dosage?.dk_name
+                        : selectedMedicine?.dosage?.en_name
                 if (selectedMedicine?.is_pn_medicine) {
                     medicines.push({
                         medicine: selectedMedicine?.medicine,
+                        dosage_unit: doseUnit,
                         is_pn_medicine: selectedMedicine?.is_pn_medicine,
                         citizen_medicine_uuid: selectedMedicine?.uuid,
                         dosage: '',
@@ -370,6 +520,7 @@ async function fetchAllSelectedMedicines() {
                 } else {
                     medicines.push({
                         medicine: selectedMedicine?.medicine,
+                        dosage_unit: doseUnit,
                         is_pn_medicine: selectedMedicine?.is_pn_medicine,
                         citizen_medicine_uuid: selectedMedicine?.uuid,
                         dosages: generateDosage(selectedMedicine),
@@ -377,6 +528,7 @@ async function fetchAllSelectedMedicines() {
                 }
             })
             state.formGiveMedicine.medicines = medicines
+            buildColumnHeaders(response.data)
         }
     } catch (error: any) {
         state.error = error
@@ -386,13 +538,20 @@ async function fetchAllSelectedMedicines() {
 
 function generateDosage(selectedMedicine: any) {
     let dosages = [] as any
+    const doseUnit =
+        language.locale.value === 'dk'
+            ? selectedMedicine?.dosage?.dk_name
+            : selectedMedicine?.dosage?.en_name
     selectedMedicine?.max_dosage_per_time.forEach((dosage: any) => {
         dosages.push({
             medicine_uuid: selectedMedicine?.uuid,
             time: dosage?.time,
-            dosage: '',
-            type: '',
-            comment: '',
+            required_dosage: dosage?.dosage ?? '',
+            // planned_status: dosage?.status ?? null,
+            dosage_unit: doseUnit,
+            dosage: dosage?.dosage ?? '',
+            type: dosage?.status ?? '',
+            comment: dosage?.comment ?? '',
         })
     })
     return dosages
@@ -415,6 +574,7 @@ async function giveAllMedicines() {
             successAlert(`${t('alert.success')}!`, `${t('citizens.medicineJournals.history.form.alert.successfullyAdded')}.`)
             closeModal()
             citizenMedicineStore.resetSelectedMedicine()
+            refreshMedicines()
         }
     } catch (error: any) {
         state.error = error

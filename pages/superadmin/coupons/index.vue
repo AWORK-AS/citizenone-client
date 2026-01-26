@@ -117,13 +117,13 @@ let currentTablePage = 1
 
 const state = reactive({
     columnHeaders: [
-        { name: 'superadmin.coupons.table.code', sorter: true, key: 'name' },
-        { name: 'superadmin.coupons.table.description' },
-        { name: 'superadmin.coupons.table.amount', sorter: true, key: 'amount' },
-        { name: 'superadmin.coupons.table.unit.unit', sorter: true, key: 'unit' },
-        { name: 'superadmin.coupons.table.quantity', sorter: true, key: 'quantity' },
-        { name: 'superadmin.coupons.table.expiration', sorter: true, key: 'expiration' },
-        { name: 'superadmin.coupons.table.status', sorter: true, key: 'is_active' },
+        { name: 'superadmin.coupons.table.code', isTranslateName: true, sorter: true, key: 'name' },
+        { name: 'superadmin.coupons.table.description', isTranslateName: true, },
+        { name: 'superadmin.coupons.table.amount', isTranslateName: true, sorter: true, key: 'amount' },
+        { name: 'superadmin.coupons.table.unit.unit', isTranslateName: true, sorter: true, key: 'unit' },
+        { name: 'superadmin.coupons.table.quantity', isTranslateName: true, sorter: true, key: 'quantity' },
+        { name: 'superadmin.coupons.table.expiration', isTranslateName: true, sorter: true, key: 'expiration' },
+        { name: 'superadmin.coupons.table.status', isTranslateName: true, sorter: true, key: 'is_active' },
         { name: '' },
     ],
     coupons: [] as any,

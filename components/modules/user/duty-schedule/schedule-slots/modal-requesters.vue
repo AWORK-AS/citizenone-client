@@ -73,7 +73,7 @@ let currentTablePage = 1
 
 const state = reactive({
     columnHeaders: [
-        { name: 'dutySchedules.requesters.table.name' },
+        { name: 'dutySchedules.requesters.table.name', isTranslateName: true, },
         { name: '' },
     ],
     error: {} as Error,

@@ -91,8 +91,8 @@ const breadcrumbLinks = [
 
 const state = reactive({
     columnHeaders: [
-        { name: 'contactJobTitles.table.titleEnglish', sorter: true, key: 'en_title' },
-        { name: 'contactJobTitles.table.titleDanish', sorter: true, key: 'dk_title' },
+        { name: 'contactJobTitles.table.titleEnglish', isTranslateName: true, sorter: true, key: 'en_title' },
+        { name: 'contactJobTitles.table.titleDanish', isTranslateName: true, sorter: true, key: 'dk_title' },
         { name: '' }
     ],
     contactJobTitles: [] as any,

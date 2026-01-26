@@ -148,12 +148,12 @@ let currentTablePage = 1
 
 const state = reactive({
     columnHeaders: [
-        { name: 'dutySchedules.scheduleSlots.table.departments' },
-        { name: 'dutySchedules.scheduleSlots.table.shiftType' },
-        { name: 'dutySchedules.scheduleSlots.table.jobTitles' },
-        { name: 'dutySchedules.scheduleSlots.table.dateTimeStart' },
-        { name: 'dutySchedules.scheduleSlots.table.dateTimeEnd' },
-        { name: 'dutySchedules.scheduleSlots.table.numberOfShifts' },
+        { name: 'dutySchedules.scheduleSlots.table.departments', isTranslateName: true, },
+        { name: 'dutySchedules.scheduleSlots.table.shiftType', isTranslateName: true, },
+        { name: 'dutySchedules.scheduleSlots.table.jobTitles', isTranslateName: true, },
+        { name: 'dutySchedules.scheduleSlots.table.dateTimeStart', isTranslateName: true, },
+        { name: 'dutySchedules.scheduleSlots.table.dateTimeEnd', isTranslateName: true, },
+        { name: 'dutySchedules.scheduleSlots.table.numberOfShifts', isTranslateName: true, },
         { name: '' },
 
     ],

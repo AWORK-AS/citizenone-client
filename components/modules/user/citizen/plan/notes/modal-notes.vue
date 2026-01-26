@@ -136,10 +136,10 @@ const emit = defineEmits(['close', 'refreshData'])
 
 const state = reactive({
     columnHeaders: [
-        { name: 'plansandgoals.table.title', sorter: true, key: 'title' },
-        { name: 'plansandgoals.table.notes', sorter: true, key: 'status' },
-        { name: 'plansandgoals.table.dateCreated' },
-        { name: 'plansandgoals.table.createdBy' },
+        { name: 'plansandgoals.table.title', isTranslateName: true, sorter: true, key: 'title' },
+        { name: 'plansandgoals.table.notes', isTranslateName: true, sorter: true, key: 'status' },
+        { name: 'plansandgoals.table.dateCreated', isTranslateName: true, },
+        { name: 'plansandgoals.table.createdBy', isTranslateName: true, },
         { name: '' },
     ],
     dataFilter: {

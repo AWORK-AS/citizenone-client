@@ -263,18 +263,18 @@
                                             <Tooltip
                                                 :text="`${$t('citizens.medicineJournals.table.actions.deactivate')}`"
                                                 v-else>
-                                                <FormButton type="button" buttonStyle="primary" class="rounded-md"
+                                                <FormButton type="button" buttonStyle="danger" class="rounded-md"
                                                     @click="confirmMedicineDeactivation(medicine)">
                                                     <Icon name="ph:x" class="size-4" />
                                                 </FormButton>
                                             </Tooltip>
-                                            <Tooltip :text="`${$t('citizens.medicineJournals.table.actions.delete')}`"
+                                            <!-- <Tooltip :text="`${$t('citizens.medicineJournals.table.actions.delete')}`"
                                                 v-if="medicine?.is_deletable">
                                                 <FormButton type="button" buttonStyle="danger" class="rounded-md"
                                                     @click="confirmMedicineDeletion(medicine)">
                                                     <Icon name="ph:trash" class="size-4" />
                                                 </FormButton>
-                                            </Tooltip>
+                                            </Tooltip> -->
                                         </div>
                                     </td>
                                 </tr>
@@ -297,18 +297,19 @@
                     :selectedMedicine="state.selectedMedicine" @close="state.modal.isGiveMedicineOpen = false"
                     @refreshMedicines="fetchCitizenMedicines()" />
                 <ModulesUserCitizenMedicineHistoryModalGiveMultipleMedicine
-                    :isModalOpen="state.modal.isGiveMedicinesOpen" @close="state.modal.isGiveMedicinesOpen = false" />
+                    :isModalOpen="state.modal.isGiveMedicinesOpen" @close="state.modal.isGiveMedicinesOpen = false"
+                    @refreshMedicines="fetchCitizenMedicines()" />
                 <ModulesUserCitizenMedicineHistoryModalHistory :isModalOpen="state.modal.isViewMedicineHistoryOpen"
                     :selectedMedicine="state.selectedMedicine" @close="state.modal.isViewMedicineHistoryOpen = false" />
                 <ModulesUserCitizenMedicineModalDownload :isModalOpen="state.modal.isDownloadMedicineOverviewOpen"
                     @close="state.modal.isDownloadMedicineOverviewOpen = false" />
                 <!-- <DialogConfirmation :isModalOpen="state.modal.isActivateMedicineOpen"
                     :message="$t('citizens.medicineJournals.confirmation.activateConfirmation') + '?'"
-                    @close="state.modal.isActivateMedicineOpen = false" @confirm="toggleActivateDeactivateMedicine" />
+                    @close="state.modal.isActivateMedicineOpen = false" @confirm="toggleActivateDeactivateMedicine" /> -->
                 <DialogConfirmation :isModalOpen="state.modal.isDeactivateMedicineOpen"
                     :message="$t('citizens.medicineJournals.confirmation.deactivateConfirmation') + '?'"
                     @close="state.modal.isDeactivateMedicineOpen = false" @confirm="toggleActivateDeactivateMedicine" />
-                <DialogConfirmation :isModalOpen="state.modal.isDeleteMedicineOpen"
+                <!-- <DialogConfirmation :isModalOpen="state.modal.isDeleteMedicineOpen"
                     :message="$t('citizens.medicineJournals.confirmation.deleteConfirmation') + '?'"
                     @close="state.modal.isDeleteMedicineOpen = false" @confirm="deleteMedicine" /> -->
             </div>
@@ -343,11 +344,11 @@ const breadcrumbLinks = [
 
 const state = reactive({
     columnHeaders: [
-        { name: 'citizens.medicineJournals.table.medicine' },
-        { name: 'citizens.medicineJournals.table.strength' },
-        { name: 'citizens.medicineJournals.table.maxDailyDose' },
-        { name: 'citizens.medicineJournals.table.dosageForm' },
-        { name: 'citizens.medicineJournals.table.currentStocks' },
+        { name: 'citizens.medicineJournals.table.medicine', isTranslateName: true, },
+        { name: 'citizens.medicineJournals.table.strength', isTranslateName: true, },
+        { name: 'citizens.medicineJournals.table.maxDailyDose', isTranslateName: true, },
+        { name: 'citizens.medicineJournals.table.dosageForm', isTranslateName: true, },
+        { name: 'citizens.medicineJournals.table.currentStocks', isTranslateName: true, },
         { name: '' },
     ],
     dataFilter: {
@@ -402,9 +403,9 @@ async function navigateToExternalLink(link: any) {
 }
 
 interface FrequencyRule {
-    frequency:  'daily' | 'weekly' | 'monthly' | 'yearly';
-    every:  number;
-    weekly_on?:  string[];
+    frequency: 'daily' | 'weekly' | 'monthly' | 'yearly';
+    every: number;
+    weekly_on?: string[];
     monthly_on_day?: number;
     monthly_on_the_enabled?: boolean;
     monthly_on_the_sequence?: string;
@@ -419,33 +420,33 @@ interface FrequencyRule {
     yearly_on_the_month?: string;
 }
 
-function formatCustomFrequency(rule:  FrequencyRule): string {
+function formatCustomFrequency(rule: FrequencyRule): string {
     if (!rule || !rule.frequency || !rule.every) {
         return '';
     }
     const { frequency, every } = rule;
-    
+
     // Helper function to capitalize first letter
     const capitalize = (str: string): string => {
         return str.charAt(0).toUpperCase() + str.slice(1);
     };
-    
+
     // Helper function to format day names
     const formatDay = (day: string): string => {
-        const dayMap: { [key: string]:  string } = {
+        const dayMap: { [key: string]: string } = {
             'monday': t('recurring.days.monday'),
             'tuesday': t('recurring.days.tuesday'),
             'wednesday': t('recurring.days.wednesday'),
             'thursday': t('recurring.days.thursday'),
             'friday': t('recurring.days.friday'),
-            'saturday':  t('recurring.days.saturday'),
+            'saturday': t('recurring.days.saturday'),
             'sunday': t('recurring.days.sunday'),
             'weekday': t('recurring.days.weekday'),
             'weekend_day': t('recurring.days.weekendDay'),
         };
         return dayMap[day] || capitalize(day);
     };
-    
+
     // Helper function to format month names
     const formatMonth = (month: string): string => {
         const monthMap: { [key: string]: string } = {
@@ -455,7 +456,7 @@ function formatCustomFrequency(rule:  FrequencyRule): string {
             'april': t('recurring.frequency.yearly.april'),
             'may': t('recurring.frequency.yearly.may'),
             'june': t('recurring.frequency.yearly.june'),
-            'july':  t('recurring.frequency.yearly.july'),
+            'july': t('recurring.frequency.yearly.july'),
             'august': t('recurring.frequency.yearly.august'),
             'september': t('recurring.frequency.yearly.september'),
             'october': t('recurring.frequency.yearly.october'),
@@ -464,10 +465,10 @@ function formatCustomFrequency(rule:  FrequencyRule): string {
         };
         return monthMap[month] || capitalize(month);
     };
-    
+
     // Helper function to format sequence
     const formatSequence = (sequence: string): string => {
-        const sequenceMap:  { [key: string]: string } = {
+        const sequenceMap: { [key: string]: string } = {
             'first': t('recurring.frequency.onThe.first'),
             'second': t('recurring.frequency.onThe.second'),
             'third': t('recurring.frequency.onThe.third'),
@@ -478,39 +479,39 @@ function formatCustomFrequency(rule:  FrequencyRule): string {
         };
         return sequenceMap[sequence] || capitalize(sequence.replace('_', ' '));
     };
-    
+
     // Build the frequency string using translations
     let result = '';
     const everyText = t('recurring.every');
-    
+
     if (frequency === 'daily') {
-        const unitText = every === 1 
+        const unitText = every === 1
             ? t('recurring.frequency.daily.day').toLowerCase()
             : t('recurring.frequency.daily.days').toLowerCase();
         result = `${everyText} ${every} ${unitText}`;
     } else if (frequency === 'weekly') {
-        const unitText = every === 1 
-            ?  t('recurring.frequency.weekly.week').toLowerCase()
+        const unitText = every === 1
+            ? t('recurring.frequency.weekly.week').toLowerCase()
             : t('recurring.frequency.weekly.weeks').toLowerCase();
         result = `${everyText} ${every} ${unitText}`;
     } else if (frequency === 'monthly') {
-        const unitText = every === 1 
-            ?  t('recurring.frequency.monthly.month').toLowerCase()
+        const unitText = every === 1
+            ? t('recurring.frequency.monthly.month').toLowerCase()
             : t('recurring.frequency.monthly.months').toLowerCase();
         result = `${everyText} ${every} ${unitText}`;
     } else if (frequency === 'yearly') {
-        const unitText = every === 1 
-            ?  t('recurring.frequency.yearly.year').toLowerCase()
+        const unitText = every === 1
+            ? t('recurring.frequency.yearly.year').toLowerCase()
             : t('recurring.frequency.yearly.years').toLowerCase();
         result = `${everyText} ${every} ${unitText}`;
     }
-    
+
     // Handle weekly frequency
     if (frequency === 'weekly' && rule.weekly_on && rule.weekly_on.length > 0) {
         const days = rule.weekly_on.map(formatDay).join(', ');
         result += ` on ${days}`;
     }
-    
+
     // Handle monthly frequency
     if (frequency === 'monthly') {
         if (rule.monthly_on_the_enabled && rule.monthly_on_the_sequence && rule.monthly_on_the_day) {
@@ -521,7 +522,7 @@ function formatCustomFrequency(rule:  FrequencyRule): string {
             result += ` on ${dayText} ${rule.monthly_on_day}`;
         }
     }
-    
+
     // Handle yearly frequency
     if (frequency === 'yearly') {
         if (rule.yearly_on_the_enabled && rule.yearly_on_the_sequence && rule.yearly_on_the_day && rule.yearly_on_the_month) {
@@ -532,7 +533,7 @@ function formatCustomFrequency(rule:  FrequencyRule): string {
             result += ` on ${formatMonth(month)} ${day}`;
         }
     }
-    
+
     return result;
 }
 
