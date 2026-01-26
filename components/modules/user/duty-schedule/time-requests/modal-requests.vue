@@ -21,9 +21,9 @@
                                         </td>
                                         <td width="20%">
                                             <span>{{ moment(request?.schedule?.time_in, "HH:mm").format('HH:mm')
-                                            }}</span> -
+                                                }}</span> -
                                             <span>{{ moment(request?.schedule?.time_out, "HH:mm").format('HH:mm')
-                                            }}</span>
+                                                }}</span>
                                         </td>
                                         <td width="20%">
                                             <span>{{ moment(request?.time_in, "HH:mm").format('HH:mm') }}</span> -
@@ -100,10 +100,10 @@ let currentTablePage = 1
 
 const state = reactive({
     columnHeaders: [
-        { name: 'dutySchedules.scheduleRequests.changeTime.table.shiftType' },
-        { name: 'dutySchedules.scheduleRequests.changeTime.table.originalTime' },
-        { name: 'dutySchedules.scheduleRequests.changeTime.table.requestedTime' },
-        { name: 'dutySchedules.scheduleRequests.changeTime.table.note' },
+        { name: 'dutySchedules.scheduleRequests.changeTime.table.shiftType', isTranslateName: true, },
+        { name: 'dutySchedules.scheduleRequests.changeTime.table.originalTime', isTranslateName: true, },
+        { name: 'dutySchedules.scheduleRequests.changeTime.table.requestedTime', isTranslateName: true, },
+        { name: 'dutySchedules.scheduleRequests.changeTime.table.note', isTranslateName: true, },
         { name: '' },
     ],
     dataFilter: {

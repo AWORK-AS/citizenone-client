@@ -77,9 +77,9 @@ const expandedRecords = reactive([] as boolean[])
 
 const state = reactive({
     columnHeaders: [
-        { name: 'procedures.table.title', sorter: true, key: 'title' },
-        { name: 'procedures.table.content' },
-        { name: 'procedures.table.status' },
+        { name: 'procedures.table.title', isTranslateName: true, sorter: true, key: 'title' },
+        { name: 'procedures.table.content', isTranslateName: true, },
+        { name: 'procedures.table.status', isTranslateName: true, },
         { name: '' },
     ],
     dataFilter: {

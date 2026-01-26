@@ -115,11 +115,11 @@ const invoiceUuid = router?.currentRoute?.value?.params?.invoice_uuid
 
 const state = reactive({
     columnHeaders: [
-        { name: 'superadmin.invoiceDetails.table.description' },
-        { name: 'superadmin.invoiceDetails.table.price' },
-        { name: 'superadmin.invoiceDetails.table.quantity' },
-        { name: 'superadmin.invoiceDetails.table.tax' },
-        { name: 'superadmin.invoiceDetails.table.amount' },
+        { name: 'superadmin.invoiceDetails.table.description', isTranslateName: true, },
+        { name: 'superadmin.invoiceDetails.table.price', isTranslateName: true, },
+        { name: 'superadmin.invoiceDetails.table.quantity', isTranslateName: true, },
+        { name: 'superadmin.invoiceDetails.table.tax', isTranslateName: true, },
+        { name: 'superadmin.invoiceDetails.table.amount', isTranslateName: true, },
     ],
     error: {} as Error,
     invoice: [] as any,

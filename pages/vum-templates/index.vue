@@ -99,8 +99,8 @@ const breadcrumbLinks = [
 
 const state = reactive({
     columnHeaders: [
-        { name: 'plansandgoals.VUMTemplates.table.templateName', sorter: true, key: 'name' },
-        { name: 'plansandgoals.VUMTemplates.table.status' },
+        { name: 'plansandgoals.VUMTemplates.table.templateName', isTranslateName: true, sorter: true, key: 'name' },
+        { name: 'plansandgoals.VUMTemplates.table.status', isTranslateName: true, },
         { name: '' },
     ],
     dataFilter: {

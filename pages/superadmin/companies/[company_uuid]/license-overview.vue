@@ -201,8 +201,8 @@ let currentTablePage = 1
 
 const state = reactive({
     columnHeaders: [
-        { name: 'superadmin.companies.licenseOverview.table.license', sorter: true, key: 'license' },
-        { name: 'superadmin.companies.licenseOverview.table.user' },
+        { name: 'superadmin.companies.licenseOverview.table.license', isTranslateName: true, sorter: true, key: 'license' },
+        { name: 'superadmin.companies.licenseOverview.table.user', isTranslateName: true, },
     ],
     dataFilter: {
         search: ''

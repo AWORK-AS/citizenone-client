@@ -58,8 +58,8 @@ let currentTablePage = 1
 
 const state = reactive({
     columnHeaders: [
-        { name: 'bookings.view.participants.table.name', sorter: true, key: 'firstname' },
-        { name: 'bookings.view.participants.table.emailAddress', sorter: true, key: 'email' },
+        { name: 'bookings.view.participants.table.name', isTranslateName: true, sorter: true, key: 'firstname' },
+        { name: 'bookings.view.participants.table.emailAddress', isTranslateName: true, sorter: true, key: 'email' },
         { name: '' },
     ],
     dataFilter: {

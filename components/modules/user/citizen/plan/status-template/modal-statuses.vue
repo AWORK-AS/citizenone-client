@@ -95,10 +95,10 @@ const emit = defineEmits(['close', 'refreshData'])
 
 const state = reactive({
     columnHeaders: [
-        { name: 'plansandgoals.table.dateCreated', sorter: true, key: 'created_at' },
-        { name: 'plansandgoals.table.title' },
-        { name: 'plansandgoals.table.description' },
-        { name: 'plansandgoals.table.createdBy' },
+        { name: 'plansandgoals.table.dateCreated', isTranslateName: true, sorter: true, key: 'created_at' },
+        { name: 'plansandgoals.table.title', isTranslateName: true, },
+        { name: 'plansandgoals.table.description', isTranslateName: true, },
+        { name: 'plansandgoals.table.createdBy', isTranslateName: true, },
         { name: '' },
     ],
     dataFilter: {
@@ -185,10 +185,10 @@ async function downloadStatus(status: any) {
         const attachmentUuid = status?.uuid
         const response = await planGoalSubgoalService.downloadPlanGoalSubgoalStatuses(attachmentUuid)
         if (response) {
-              const filename = status?.form?.document_title || 
-                           status?.form?.title || 
-                           status?.title || 
-                           "status"
+            const filename = status?.form?.document_title ||
+                status?.form?.title ||
+                status?.title ||
+                "status"
             saveAs(response, `${filename}.pdf`)
         }
     } catch (error: any) {

@@ -115,9 +115,9 @@ const breadcrumbLinks = [
 
 const state = reactive({
     columnHeaders: [
-        { name: 'citizens.wallets.table.name', sorter: true, key: 'name' },
-        { name: 'citizens.wallets.table.note' },
-        { name: 'citizens.wallets.table.available', sorter: true, key: 'available' },
+        { name: 'citizens.wallets.table.name', isTranslateName: true, sorter: true, key: 'name' },
+        { name: 'citizens.wallets.table.note', isTranslateName: true, },
+        { name: 'citizens.wallets.table.available', isTranslateName: true, sorter: true, key: 'available' },
         { name: '' },
     ],
     wallets: [] as any,

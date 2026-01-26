@@ -84,14 +84,14 @@
                                                 </Tooltip>
                                                 <Tooltip :text="$t('dutySchedules.extraHours.table.actions.approve')"
                                                     @click="confirmApproveExtraHoursRequest(extraHours)"
-                                                    v-if="isAdmin(userStore.getUser?.role) && ['pending', 'rejected'].includes(extraHours?.extra_hours_status)">
+                                                    v-if="isAdmin(userStore.getUser?.role) && extraHours?.extra_hours_status === 'pending'"">
                                                     <FormButton type="button" buttonStyle="success" class="rounded-md">
                                                         <Icon name="ph:check" class="size-4" />
                                                     </FormButton>
                                                 </Tooltip>
                                                 <Tooltip :text="$t('dutySchedules.extraHours.table.actions.reject')"
                                                     @click="confirmRejectExtraHoursRequest(extraHours)"
-                                                    v-if="isAdmin(userStore.getUser?.role) && ['pending', 'approved'].includes(extraHours?.extra_hours_status)">
+                                                    v-if="isAdmin(userStore.getUser?.role) && extraHours?.extra_hours_status === 'pending'"">
                                                     <FormButton type="button" buttonStyle="danger" class="rounded-md">
                                                         <Icon name="ph:x" class="size-4" />
                                                     </FormButton>
@@ -170,11 +170,11 @@ let currentTablePage = 1
 
 const state = reactive({
     columnHeaders: [
-        { name: 'dutySchedules.extraHours.table.date', sorter: true, key: 'date' },
-        { name: 'dutySchedules.extraHours.table.type.type', sorter: true, key: 'extra_hours_type' },
-        { name: 'dutySchedules.extraHours.table.hours', sorter: true, key: 'extra_hours' },
-        { name: 'dutySchedules.extraHours.table.note' },
-        { name: 'dutySchedules.extraHours.table.status.status', sorter: true, key: 'extra_hours_status' },
+        { name: 'dutySchedules.extraHours.table.date', isTranslateName: true, sorter: true, key: 'date' },
+        { name: 'dutySchedules.extraHours.table.type.type', isTranslateName: true, sorter: true, key: 'extra_hours_type' },
+        { name: 'dutySchedules.extraHours.table.hours', isTranslateName: true, sorter: true, key: 'extra_hours' },
+        { name: 'dutySchedules.extraHours.table.note', isTranslateName: true, },
+        { name: 'dutySchedules.extraHours.table.status.status', isTranslateName: true, sorter: true, key: 'extra_hours_status' },
         { name: '' },
     ],
     dataFilter: {

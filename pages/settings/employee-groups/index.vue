@@ -17,7 +17,8 @@
 
             <div class="mt-8">
                 <div class="flex justify-end items-center mb-5">
-                    <FormButton buttonStyle="action" class="rounded-lg" @click="navigateTo('/settings/employee-groups/new')">
+                    <FormButton buttonStyle="action" class="rounded-lg"
+                        @click="navigateTo('/settings/employee-groups/new')">
                         <Icon name="ph:plus" class="h-4 w-4" aria-hidden="true" />
                         {{ $t('employeeGroups.newEmployeeGroup') }}
                     </FormButton>
@@ -29,7 +30,8 @@
                     <div class="table-responsive">
                         <Table :columnHeaders="state.columnHeaders" :data="state.employeeGroups"
                             :isLoading="state.isTableLoading" :sortData="state.sortData" @sort="sort">
-                            <template #body v-if="!(state.isTableLoading || (state.employeeGroups?.data?.length === 0))">
+                            <template #body
+                                v-if="!(state.isTableLoading || (state.employeeGroups?.data?.length === 0))">
                                 <tr v-for="(employeeGroup, index) in state.employeeGroups?.data" :key="index">
                                     <td width="50%">
                                         <span>{{ employeeGroup?.name }}</span>
@@ -84,7 +86,7 @@ const breadcrumbLinks = [
 const state = reactive({
     employeeGroups: [] as any,
     columnHeaders: [
-        { name: 'employeeGroups.table.name', sorter: true, key: 'name' },
+        { name: 'employeeGroups.table.name', isTranslateName: true, sorter: true, key: 'name' },
         { name: '' },
     ],
     dataFilter: {

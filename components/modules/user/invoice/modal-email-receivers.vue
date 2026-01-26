@@ -80,8 +80,8 @@ let currentTablePage = 1
 
 const state = reactive({
     columnHeaders: [
-        { name: 'invoices.email.table.name', sorter: true, key: 'firstname' },
-        { name: 'invoices.email.table.email', sorter: true, key: 'email' },
+        { name: 'invoices.email.table.name', isTranslateName: true, sorter: true, key: 'firstname' },
+        { name: 'invoices.email.table.email', isTranslateName: true, sorter: true, key: 'email' },
         { name: '' },
     ],
     dataFilter: {

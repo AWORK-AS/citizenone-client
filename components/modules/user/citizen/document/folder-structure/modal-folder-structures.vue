@@ -88,7 +88,7 @@ let currentTablePage = 1
 
 const state = reactive({
     columnHeaders: [
-        { name: 'folderStructure.table.name', sorter: true, key: 'name' },
+        { name: 'folderStructure.table.name', isTranslateName: true, sorter: true, key: 'name' },
         { name: '' },
     ],
     dataFilter: {

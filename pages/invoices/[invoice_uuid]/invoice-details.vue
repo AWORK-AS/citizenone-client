@@ -125,11 +125,11 @@ const breadcrumbLinks = [
 
 const state = reactive({
     columnHeaders: [
-        { name: 'clientInvoices.table.description' },
-        { name: 'clientInvoices.table.price' },
-        { name: 'clientInvoices.table.quantity' },
-        { name: 'clientInvoices.table.tax' },
-        { name: 'clientInvoices.table.amount' },
+        { name: 'clientInvoices.table.description', isTranslateName: true, },
+        { name: 'clientInvoices.table.price', isTranslateName: true, },
+        { name: 'clientInvoices.table.quantity', isTranslateName: true, },
+        { name: 'clientInvoices.table.tax', isTranslateName: true, },
+        { name: 'clientInvoices.table.amount', isTranslateName: true, },
     ],
     error: {} as Error,
     invoice: [] as any,

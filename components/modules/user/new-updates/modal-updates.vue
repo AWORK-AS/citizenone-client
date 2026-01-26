@@ -56,8 +56,10 @@ function closeModal() {
 }
 
 const state = reactive({
-    currentVersion: '2026-01-09',
+    currentVersion: '2026-01-23',
     availableVersions: [
+        '2026-01-23',
+        '2026-01-16',
         '2026-01-09',
         '2025-12-12',
         '2025-11-28',
@@ -81,6 +83,102 @@ const state = reactive({
 
 const allUpdates: Record<string, Record<string, { title: string, description: string[] }[]>> = {
     en: {
+        '2026-01-23': [
+            {
+                title: 'Journal note editing restrictions',
+                description: [
+                    'Regular employees can now only edit their own journal notes, and only within 24 hours of creation.',
+                    'After the 24-hour window, only administrators can edit journal notes to ensure auditability and stronger content governance.'
+                ],
+            },
+            {
+                title: 'Optimized medicine overview performance',
+                description: [
+                    'The medicine overview has been optimized for improved load times and responsiveness, especially for larger datasets.',
+                    'The overview now reliably fetches and displays the full list of medicines to support complete planning and review.'
+                ],
+            },
+            {
+                title: 'Department data access isolation',
+                description: [
+                    'Users are now restricted to viewing data only for their assigned department(s).',
+                    'Cross-department visibility (e.g., users from Department A viewing Departments B, C, D) is no longer permitted, strengthening privacy and access control.'
+                ],
+            },
+            {
+                title: 'Updated UI for Forgot Password, Reset Password, and Setup Password',
+                description: [
+                    'The forgot password, reset password, and setup password pages have been updated to match the refreshed login UI.',
+                    'Improvements include consistent layout, spacing, and component styling for a cleaner, more cohesive authentication experience across devices.'
+                ],
+            },
+            {
+                title: 'Date filtering options added to overview',
+                description: [
+                    'A new date filter has been added to the overview to simplify planning and review by timeframe.',
+                    'Users can now filter by Today, Next 7 days, or a Custom date range.'
+                ],
+            },
+        ],
+        '2026-01-16': [
+            {
+                title: 'UI updates for Login, Sign Up, and Forgot Password',
+                description: [
+                    'The login, sign up, and forgot password pages have been refreshed with an updated UI for a cleaner and more consistent experience.',
+                    'Improved layout, spacing, and component styling make authentication flows easier to navigate across devices.'
+                ],
+            },
+            {
+                title: 'Granular permissions for Catalog roles',
+                description: [
+                    'It is now possible to assign specific permissions within the roles area in the Catalog, enabling more fine-grained access control.',
+                    'For example, you can create a "Duty Shift Coordinator" role that only has access to the duty schedule (and not other areas).',
+                    'This approach supports additional role types and permission combinations as needed by the organization.'
+                ],
+            },
+            {
+                title: 'Added "Sugetabletter" to Dosage form list',
+                description: [
+                    'The "Sugetabletter" option has been added to the "Dosage form" list in the medicine create/edit forms.',
+                    'This improves support for managing different medication dosage forms consistently across the system.'
+                ],
+            },
+            {
+                title: 'Download medication overview from medicine card',
+                description: [
+                    'A new option on the medicine card allows users to download a medication overview.',
+                    'The overview includes all medications and their scheduled administration times, providing an easy-to-share reference for planning and documentation.'
+                ],
+            },
+            {
+                title: 'Medication administration on fixed weekdays',
+                description: [
+                    'Medication schedules can now be configured to administer on fixed weekdays (e.g., Mondays, Wednesdays, and Fridays).',
+                    'This adds flexibility for recurring administration patterns that do not follow daily intervals.'
+                ],
+            },
+            {
+                title: 'Draft schedule published versions',
+                description: [
+                    'Schedules now support draft and published versions, allowing changes to be prepared before going live.',
+                    'Admins can review and adjust drafts before publishing, ensuring updates are released in a controlled way.'
+                ],
+            },
+            {
+                title: 'Child profile access',
+                description: [
+                    'Support for child profile access has been added, enabling appropriate users to access and manage child profiles as permitted.',
+                    'This improves usability for organizations managing care and scheduling for children while maintaining access controls.'
+                ],
+            },
+            {
+                title: 'Messaging read tracking',
+                description: [
+                    'Messaging now includes read tracking so senders can see when messages have been read.',
+                    'This improves communication clarity and reduces the need for manual follow-ups.'
+                ],
+            },
+        ],
         '2026-01-09': [
             {
                 title: 'Recurring events in the calendar',
@@ -702,6 +800,102 @@ const allUpdates: Record<string, Record<string, { title: string, description: st
         ],
     },
     dk: {
+        '2026-01-23': [
+            {
+                title: 'Begrænsninger for redigering af journalnoter',
+                description: [
+                    'Almindelige medarbejdere kan nu kun redigere deres egne journalnoter, og kun inden for 24 timer efter oprettelse.',
+                    'Efter 24-timers perioden kan kun administratorer redigere journalnoter for at sikre sporbarhed og stærkere styring af indhold.'
+                ],
+            },
+            {
+                title: 'Optimeret ydelse for medicinoverblik',
+                description: [
+                    'Medicinoverblikket er blevet optimeret for hurtigere indlæsning og bedre respons, især ved større datamængder.',
+                    'Overblikket henter og viser nu pålideligt hele listen af lægemidler for at understøtte komplet planlægning og gennemgang.'
+                ],
+            },
+            {
+                title: 'Adgangsbegrænsning mellem afdelinger',
+                description: [
+                    'Brugere er nu begrænset til kun at kunne se data for deres tildelte afdeling(er).',
+                    'Adgang på tværs af afdelinger (fx at en bruger fra Afdeling A kan se Afdeling B, C, D) er ikke længere tilladt, hvilket styrker privatliv og adgangskontrol.'
+                ],
+            },
+            {
+                title: 'Opdateret UI for Glemt adgangskode, Nulstil adgangskode og Opsæt adgangskode',
+                description: [
+                    'Siderne til glemt adgangskode, nulstil adgangskode og opsæt adgangskode er blevet opdateret, så de matcher det opfriskede login-UI.',
+                    'Forbedringerne omfatter ensartet layout, afstande og komponent-styling for en renere og mere sammenhængende oplevelse på tværs af enheder.'
+                ],
+            },
+            {
+                title: 'Datofilter tilføjet til overblikket',
+                description: [
+                    'Et nyt datofilter er blevet tilføjet til overblikket for at gøre planlægning og gennemgang efter tidsperiode enklere.',
+                    'Brugere kan nu filtrere efter I dag, Næste 7 dage eller et Brugerdefineret datointerval.'
+                ],
+            },
+        ],
+        '2026-01-16': [
+            {
+                title: 'UI-opdateringer til Login, Opret bruger og Glemt adgangskode',
+                description: [
+                    'Login-, opret bruger- og glemt adgangskode-siderne er blevet opdateret med et nyt og mere ensartet design.',
+                    'Forbedret layout, afstande og komponent-styling gør det nemmere at gennemføre login-flowet på tværs af enheder.'
+                ],
+            },
+            {
+                title: 'Detaljerede rettigheder for roller i Katalog',
+                description: [
+                    'Det er nu muligt at tildele specifikke rettigheder i rolleområdet under Katalog, så adgang kan styres mere præcist.',
+                    'For eksempel kan du oprette en rolle som “Vagtplanskoordinator”, der kun har adgang til vagtplanen (og ikke andre områder).',
+                    'Løsningen understøtter flere rolletyper og kombinationer af rettigheder efter behov.'
+                ],
+            },
+            {
+                title: '“Sugetabletter” tilføjet til listen over “Doseringsform”',
+                description: [
+                    'Muligheden “Sugetabletter” er tilføjet til listen “Doseringsform” i medicinens opret-/redigeringsformular.',
+                    'Dette giver bedre understøttelse af administration af doseringsformer i systemet.'
+                ],
+            },
+            {
+                title: 'Download medicinoverblik fra medicinkort',
+                description: [
+                    'Der er tilføjet en ny mulighed på medicinkortet til at downloade et medicinoverblik.',
+                    'Overblikket indeholder al medicin samt planlagte administrationstidspunkter, så det er nemt at dele og dokumentere.'
+                ],
+            },
+            {
+                title: 'Medicinadministration på faste ugedage',
+                description: [
+                    'Medicinplaner kan nu opsættes til administration på faste ugedage (fx mandag, onsdag og fredag).',
+                    'Det giver større fleksibilitet til gentagelser, der ikke følger et dagligt mønster.'
+                ],
+            },
+            {
+                title: 'Kladde- og publicerede versioner af vagtplaner',
+                description: [
+                    'Vagtplaner understøtter nu kladde- og publicerede versioner, så ændringer kan forberedes før de går live.',
+                    'Administratorer kan gennemgå og justere kladder, og først derefter publicere for en mere kontrolleret udrulning.'
+                ],
+            },
+            {
+                title: 'Adgang til børneprofiler',
+                description: [
+                    'Der er tilføjet understøttelse af adgang til børneprofiler, så relevante brugere kan tilgå og administrere børneprofiler efter tilladelser.',
+                    'Det forbedrer arbejdsgangen for organisationer, der håndterer planlægning og omsorg for børn, samtidig med at adgangskontrol bevares.'
+                ],
+            },
+            {
+                title: 'Beskeder – læsekvittering',
+                description: [
+                    'Beskeder understøtter nu læsekvittering, så afsender kan se, hvornår en besked er blevet læst.',
+                    'Det giver bedre overblik i kommunikationen og reducerer behovet for manuelle opfølgninger.'
+                ],
+            },
+        ],
         '2026-01-09': [
             {
                 title: 'Gentagende begivenheder i kalenderen',

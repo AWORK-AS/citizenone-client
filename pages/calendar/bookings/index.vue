@@ -168,9 +168,9 @@ const breadcrumbLinks = [
 
 const state = reactive({
     columnHeaders: [
-        { name: 'bookings.table.name', sorter: true, key: 'name' },
-        { name: 'bookings.table.link' },
-        { name: 'bookings.table.availableSlots' },
+        { name: 'bookings.table.name', isTranslateName: true, sorter: true, key: 'name' },
+        { name: 'bookings.table.link', isTranslateName: true, },
+        { name: 'bookings.table.availableSlots', isTranslateName: true, },
         { name: '' },
     ],
     courseEvents: [] as any,

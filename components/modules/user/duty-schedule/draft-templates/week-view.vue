@@ -584,11 +584,11 @@
             <ModulesUserDutyScheduleModalShiftDateRange :isModalOpen="state.modal.isDepartmentSickLeaveDateRangeOpen"
                 :dateRange="state.shiftDateRange" @close="state.modal.isDepartmentSickLeaveDateRangeOpen = false"
                 @filterDate="filterDutyScheduleDate" />
-            <ModulesUserDutyScheduleModalNewShift :isModalOpen="state.modal.isAddShiftOpen" :error="state.newShiftError"
+            <ModulesUserDutyScheduleModalNewShift :isModalOpen="state.modal.isAddShiftOpen" :isModalLoading="state.isModalLoading" :error="state.newShiftError"
                 :selectedDate="state.newShift.selectedDate" :selectedEmployee="state.newShift.selectedEmployee"
                 @close="state.modal.isAddShiftOpen = false" @saveShift="saveShift"
                 @resetNewShiftError="state.newShiftError = {}" />
-            <ModulesUserDutyScheduleModalEditShift :isModalOpen="state.modal.isEditShiftOpen"
+            <ModulesUserDutyScheduleModalEditShift :isModalOpen="state.modal.isEditShiftOpen" :isModalLoading="state.isModalLoading"
                 :error="state.editShiftError" :selectedEmployee="state.editShift.selectedEmployee"
                 :selectedEmployeeSchedule="state.editShift.selectedEmployeeSchedule"
                 @close="state.modal.isEditShiftOpen = false" @resetEditShiftError="state.editShiftError = {}"
@@ -649,6 +649,7 @@ const state = reactive({
     error: {} as Error,
     errorUpdateShift: {} as Error,
     isPageLoading: false,
+    isModalLoading: false,
     modal: {
         isAddShiftOpen: false,
         isCompensatoryHoursOpen: false,
@@ -1077,6 +1078,7 @@ async function saveShift(shiftDetails: any) {
 
 async function saveDutySchedule(params: object) {
     try {
+        state.isModalLoading = true
         state.progress.totalRequests = state.progress.totalRequests + 1
         state.progress.pendingRequests = state.progress.pendingRequests + 1
         identifyTheProgressPercentage()
@@ -1093,6 +1095,10 @@ async function saveDutySchedule(params: object) {
         state.progress.totalRequests = state.progress.totalRequests - 1
         state.progress.pendingRequests = state.progress.pendingRequests - 1
         identifyTheProgressPercentage()
+    } finally {
+        setTimeout(() => {
+            state.isModalLoading = false
+        }, 300)
     }
 }
 
@@ -1334,6 +1340,7 @@ function updateSelectedSchedule(shiftDetails: any) {
 }
 
 async function updateDutySchedule(scheduleUuid: any, params: object, employeeIndex: number, weekIndex: any, shiftIndex: number) {
+    state.isModalLoading = true
     state.isUpdateShift = true
     let errorUpdateShift = {}
     try {
@@ -1357,6 +1364,9 @@ async function updateDutySchedule(scheduleUuid: any, params: object, employeeInd
         state.errorUpdateShift = errorUpdateShift
         state.isUpdateShift = false
         fetchDraftDutySchedule()
+        setTimeout(() => {
+            state.isModalLoading = false
+        }, 300)
     }
 }
 

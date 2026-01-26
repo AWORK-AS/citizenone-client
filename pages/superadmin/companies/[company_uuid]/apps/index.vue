@@ -79,8 +79,8 @@ let currentTablePage = 1
 
 const state = reactive({
     columnHeaders: [
-        { name: 'superadmin.companies.companyApps.table.name', sorter: true, key: 'name' },
-        { name: 'superadmin.companies.companyApps.table.status' },
+        { name: 'superadmin.companies.companyApps.table.name', isTranslateName: true, sorter: true, key: 'name' },
+        { name: 'superadmin.companies.companyApps.table.status', isTranslateName: true, },
         { name: '' },
     ],
     companyApps: [] as any,

@@ -1,12 +1,13 @@
 <template>
     <div>
         <NuxtLayout name="user">
+
             <Head>
                 <Title>
-                {{ customPagesStore.getCustomPagesName?.dutySchedules }}
-                {{ $t("dutySchedules.draftTemplates.draftTemplates")?.toLowerCase() }}
-                -
-                {{ runtimeConfig?.public?.appName }}
+                    {{ customPagesStore.getCustomPagesName?.dutySchedules }}
+                    {{ $t("dutySchedules.draftTemplates.draftTemplates")?.toLowerCase() }}
+                    -
+                    {{ runtimeConfig?.public?.appName }}
                 </Title>
             </Head>
 
@@ -74,14 +75,11 @@
                 <TableSearch @search="handleSearch" />
 
                 <div class="table-responsive">
-                    <Table
-                        :data="state.publishedVersions"
-                        :columnHeaders="state.columnHeaders"
-                        :isLoading="state.isTableLoading"
-                        :sortData="publishedVersionsStore.getSortData" @sort="sort"
-                    >
+                    <Table :data="state.publishedVersions" :columnHeaders="state.columnHeaders"
+                        :isLoading="state.isTableLoading" :sortData="publishedVersionsStore.getSortData" @sort="sort">
                         <template #body v-if="!(state.isTableLoading || (state.publishedVersions?.data?.length === 0))">
-                            <tr v-for="publishedVersion in state.publishedVersions.data" :key="publishedVersion.uuid" class="hover:bg-gray-50">
+                            <tr v-for="publishedVersion in state.publishedVersions.data" :key="publishedVersion.uuid"
+                                class="hover:bg-gray-50">
                                 <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
                                     {{ $t('dutySchedules.published.version') }}-{{ publishedVersion.version_number }}
                                 </td>
@@ -125,9 +123,9 @@ const dateTimeFormatter = useDatetimeFormatter()
 
 const state = reactive({
     columnHeaders: [
-        { name: 'dutySchedules.published.table.versionNumber', sorter: true, key: 'version_number' },
-        { name: 'dutySchedules.published.table.dateCreated', sorter: true, key: 'created_at' },
-        { name: '', sorter: false, key: 'actions' },
+        { name: 'dutySchedules.published.table.versionNumber', isTranslateName: true, sorter: true, key: 'version_number' },
+        { name: 'dutySchedules.published.table.dateCreated', isTranslateName: true, sorter: true, key: 'created_at' },
+        { name: '' },
     ],
     dataFilter: {
         search: ''

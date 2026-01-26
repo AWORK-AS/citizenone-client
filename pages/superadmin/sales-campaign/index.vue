@@ -98,11 +98,11 @@ let currentTablePage = 1
 
 const state = reactive({
     columnHeaders: [
-        { name: 'superadmin.salesCampaign.table.image' },
-        { name: 'superadmin.salesCampaign.table.title', sorter: true, key: 'title' },
-        { name: 'superadmin.salesCampaign.table.link' },
-        { name: 'superadmin.salesCampaign.table.content' },
-        { name: 'superadmin.salesCampaign.table.status', sorter: true, key: 'is_active' },
+        { name: 'superadmin.salesCampaign.table.image', isTranslateName: true, },
+        { name: 'superadmin.salesCampaign.table.title', isTranslateName: true, sorter: true, key: 'title' },
+        { name: 'superadmin.salesCampaign.table.link', isTranslateName: true, },
+        { name: 'superadmin.salesCampaign.table.content', isTranslateName: true, },
+        { name: 'superadmin.salesCampaign.table.status', isTranslateName: true, sorter: true, key: 'is_active' },
         { name: '' },
     ],
     dataFilter: {

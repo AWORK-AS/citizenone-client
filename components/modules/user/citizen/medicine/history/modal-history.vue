@@ -152,23 +152,23 @@ watch(() => props.isModalOpen, (isModalOpen: any) => {
         fetchCitizenMedicineHistories()
         if (props.selectedMedicine?.is_pn_medicine) {
             state.columnHeaders = [
-                { name: 'citizens.medicineJournals.history.table.date', sorter: true, key: 'date' },
-                { name: 'citizens.medicineJournals.history.table.dose', sorter: true, key: 'quantity' },
-                { name: 'citizens.medicineJournals.history.table.type.type', sorter: true, key: 'type' },
-                { name: 'citizens.medicineJournals.history.table.evaluator' },
-                { name: 'citizens.medicineJournals.history.table.user' },
-                { name: 'citizens.medicineJournals.history.table.comment' },
-                { name: 'citizens.medicineJournals.history.table.dateCreated' },
+                { name: 'citizens.medicineJournals.history.table.date', isTranslateName: true, sorter: true, key: 'date' },
+                { name: 'citizens.medicineJournals.history.table.dose', isTranslateName: true, sorter: true, key: 'quantity' },
+                { name: 'citizens.medicineJournals.history.table.type.type', isTranslateName: true, sorter: true, key: 'type' },
+                { name: 'citizens.medicineJournals.history.table.evaluator', isTranslateName: true, },
+                { name: 'citizens.medicineJournals.history.table.user', isTranslateName: true, },
+                { name: 'citizens.medicineJournals.history.table.comment', isTranslateName: true, },
+                { name: 'citizens.medicineJournals.history.table.dateCreated', isTranslateName: true, },
                 { name: '' },
             ]
         } else {
             state.columnHeaders = [
-                { name: 'citizens.medicineJournals.history.table.date', sorter: true, key: 'date' },
-                { name: 'citizens.medicineJournals.history.table.dose', sorter: true, key: 'quantity' },
-                { name: 'citizens.medicineJournals.history.table.type.type', sorter: true, key: 'type' },
-                { name: 'citizens.medicineJournals.history.table.user' },
-                { name: 'citizens.medicineJournals.history.table.comment' },
-                { name: 'citizens.medicineJournals.history.table.dateCreated' },
+                { name: 'citizens.medicineJournals.history.table.date', isTranslateName: true, sorter: true, key: 'date' },
+                { name: 'citizens.medicineJournals.history.table.dose', isTranslateName: true, sorter: true, key: 'quantity' },
+                { name: 'citizens.medicineJournals.history.table.type.type', isTranslateName: true, sorter: true, key: 'type' },
+                { name: 'citizens.medicineJournals.history.table.user', isTranslateName: true, },
+                { name: 'citizens.medicineJournals.history.table.comment', isTranslateName: true, },
+                { name: 'citizens.medicineJournals.history.table.dateCreated', isTranslateName: true, },
                 { name: '' },
             ]
         }

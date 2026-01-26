@@ -103,11 +103,11 @@ let currentTablePage = 1
 
 const state = reactive({
     columnHeaders: [
-        { name: 'superadmin.polls.table.title', sorter: true, key: 'title' },
-        { name: 'superadmin.polls.table.description' },
-        { name: 'superadmin.polls.table.sender' },
-        { name: 'superadmin.polls.table.region' },
-        { name: 'superadmin.polls.table.status', sorter: true, key: 'is_active' },
+        { name: 'superadmin.polls.table.title', isTranslateName: true, sorter: true, key: 'title' },
+        { name: 'superadmin.polls.table.description', isTranslateName: true, },
+        { name: 'superadmin.polls.table.sender', isTranslateName: true, },
+        { name: 'superadmin.polls.table.region', isTranslateName: true, },
+        { name: 'superadmin.polls.table.status', isTranslateName: true, sorter: true, key: 'is_active' },
         { name: '' },
     ],
     dataFilter: {

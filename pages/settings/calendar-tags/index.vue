@@ -91,8 +91,8 @@ const breadcrumbLinks = [
 
 const state = reactive({
     columnHeaders: [
-        { name: 'calendarTags.table.name', sorter: true, key: 'tag' },
-        { name: 'calendarTags.table.color' },
+        { name: 'calendarTags.table.name', isTranslateName: true, sorter: true, key: 'tag' },
+        { name: 'calendarTags.table.color', isTranslateName: true, },
         { name: '' }
     ],
     dataFilter: {

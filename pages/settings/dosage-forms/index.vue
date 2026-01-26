@@ -90,8 +90,8 @@ const breadcrumbLinks = [
 
 const state = reactive({
     columnHeaders: [
-        { name: 'dosageForms.table.nameEnglish', sorter: true, key: 'en_name' },
-        { name: 'dosageForms.table.nameDanish', sorter: true, key: 'dk_name' },
+        { name: 'dosageForms.table.nameEnglish', isTranslateName: true, sorter: true, key: 'en_name' },
+        { name: 'dosageForms.table.nameDanish', isTranslateName: true, sorter: true, key: 'dk_name' },
         { name: '' }
     ],
     dataFilter: {

@@ -72,8 +72,8 @@ let currentTablePage = 1
 
 const state = reactive({
     columnHeaders: [
-        { name: 'employees.citizens.table.firstname' },
-        { name: 'employees.citizens.table.lastname' },
+        { name: 'employees.citizens.table.firstname', isTranslateName: true, },
+        { name: 'employees.citizens.table.lastname', isTranslateName: true, },
         { name: '' },
     ],
     citizens: [] as any,

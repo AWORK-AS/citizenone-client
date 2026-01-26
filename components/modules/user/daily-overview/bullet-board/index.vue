@@ -32,44 +32,43 @@
                                 </h3>
                                 <p :class="[
                                     news?.image && 'line-clamp-3',
-                                    'text-xs text-gray-400 mt-1 cursor-pointer'
+                                    'text-xs text-gray-400 mt-1 cursor-pointer line-clamp-5'
                                 ]" v-html="news?.content?.replace(/\n/g, '<br>')" @click="viewSelectedNews(news)" />
-                                
+
                                 <!-- Attachments Section -->
                                 <div v-if="news?.attachments && news.attachments.length > 0" class="mt-4">
                                     <div class="flex items-center gap-1 mb-2">
-                                        <svg class="w-4 h-4 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.172 7l-6.586 6.586a2 2 0 102.828 2.828l6.414-6.586a4 4 0 00-5.656-5.656l-6.415 6.585a6 6 0 108.486 8.486L20.5 13" />
+                                        <svg class="w-4 h-4 text-gray-500" fill="none" stroke="currentColor"
+                                            viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                                d="M15.172 7l-6.586 6.586a2 2 0 102.828 2.828l6.414-6.586a4 4 0 00-5.656-5.656l-6.415 6.585a6 6 0 108.486 8.486L20.5 13" />
                                         </svg>
                                         <span class="text-xs font-medium text-gray-600">
                                             {{ $t('overview.bulletBoardAttachments') }} ({{ news.attachments.length }})
                                         </span>
                                     </div>
                                     <div class="space-y-2 max-h-32 overflow-y-auto">
-                                        <a 
-                                            v-for="(attachment, attIndex) in news.attachments" 
-                                            :key="attIndex"
-                                            :href="attachment.original_url"
-                                            target="_blank"
-                                            class="flex items-center gap-2 p-2 bg-gray-50 hover:bg-gray-100 rounded-md transition-colors group"
-                                        >
+                                        <a v-for="(attachment, attIndex) in news.attachments" :key="attIndex"
+                                            :href="attachment.original_url" target="_blank"
+                                            class="flex items-center gap-2 p-2 bg-gray-50 hover:bg-gray-100 rounded-md transition-colors group">
                                             <Icon name="ph:file" class="w-6 h-6 text-primary flex-shrink-0" />
-                                            
+
                                             <div class="flex-1 min-w-0">
-                                                <p class="text-xs text-gray-700 group-hover:text-gray-900 truncate font-medium">
+                                                <p
+                                                    class="text-xs text-gray-700 group-hover:text-gray-900 truncate font-medium">
                                                     {{ attachment.file_name }}
                                                 </p>
                                                 <p class="text-xs text-gray-400">
                                                     {{ formatFileSize(attachment.size) }}
                                                 </p>
                                             </div>
-                                            
+
                                             <!-- Download Icon -->
-                                             <Icon name="ph:download" class="w-4 h-4 text-primary flex-shrink-0" />
+                                            <Icon name="ph:download" class="w-4 h-4 text-primary flex-shrink-0" />
                                         </a>
                                     </div>
                                 </div>
-                                
+
                                 <div class="mt-4" v-if="news?.link">
                                     <FormButton buttonStyle="primary" @click="navigateToExternalLink(news?.link)"
                                         class="w-full rounded-md">
@@ -179,7 +178,7 @@ async function navigateToExternalLink(link: any) {
 }
 
 function formatFileSize(bytes: number): string {
-    if (! bytes || bytes === 0) return '0 Bytes'
+    if (!bytes || bytes === 0) return '0 Bytes'
     const k = 1024
     const sizes = ['Bytes', 'KB', 'MB', 'GB']
     const i = Math.floor(Math.log(bytes) / Math.log(k))

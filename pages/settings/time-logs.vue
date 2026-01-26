@@ -62,10 +62,10 @@ const breadcrumbLinks = [
 
 const state = reactive({
     columnHeaders: [
-        { name: 'timeLogs.table.createdAt', sorter: true, key: 'created_at' },
-        { name: 'timeLogs.table.timein' },
-        { name: 'timeLogs.table.timeout' },
-        { name: 'timeLogs.table.summary' },
+        { name: 'timeLogs.table.createdAt', isTranslateName: true, sorter: true, key: 'created_at' },
+        { name: 'timeLogs.table.timein', isTranslateName: true, },
+        { name: 'timeLogs.table.timeout', isTranslateName: true, },
+        { name: 'timeLogs.table.summary', isTranslateName: true, },
     ],
     error: {} as Error,
     isTableLoading: false,

@@ -104,10 +104,10 @@ let currentTablePage = 1
 const state = reactive({
     accounts: [] as any,
     columnHeaders: [
-        { name: 'superadmin.accounts.table.name', sorter: true, key: 'firstname' },
-        { name: 'superadmin.accounts.table.email', sorter: true, key: 'email' },
-        { name: 'superadmin.accounts.table.phone', sorter: true, key: 'phone' },
-        { name: 'superadmin.accounts.table.role' },
+        { name: 'superadmin.accounts.table.name', isTranslateName: true, sorter: true, key: 'firstname' },
+        { name: 'superadmin.accounts.table.email', isTranslateName: true, sorter: true, key: 'email' },
+        { name: 'superadmin.accounts.table.phone', isTranslateName: true, sorter: true, key: 'phone' },
+        { name: 'superadmin.accounts.table.role', isTranslateName: true, },
         { name: '' },
     ],
     dataFilter: {

@@ -92,8 +92,8 @@ let currentTablePage = 1
 
 const state = reactive({
     columnHeaders: [
-        { name: 'employees.documents.table.file' },
-        { name: 'employees.documents.table.note' },
+        { name: 'employees.documents.table.file', isTranslateName: true, },
+        { name: 'employees.documents.table.note', isTranslateName: true, },
         { name: '' },
     ],
     documents: [] as any,
