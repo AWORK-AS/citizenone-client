@@ -47,7 +47,7 @@
                             <FormButton type="button" buttonStyle="cancel" @click="closeModal()">
                                 {{ $t('cancel') }}
                             </FormButton>
-                            <FormButton type="button" buttonStyle="primary" @click="proceedToStep2">
+                            <FormButton type="button" buttonStyle="primary" @click="proceedToStep2()">
                                 {{ $t('proceed') }}
                             </FormButton>
                         </div>
@@ -353,6 +353,7 @@ const state = reactive({
     modal: {
         isFormChangeWarningOpen: false,
     },
+    isConfirmingFormChange: false,
 })
 
 const rules = computed(() => {
@@ -371,6 +372,9 @@ const rules = computed(() => {
 const v$ = useVuelidate(rules, state)
 
 function closeModal() {
+    if (state.isConfirmingFormChange || state.modal.isFormChangeWarningOpen) {
+        return
+    }
     emit('close')
 }
 
@@ -581,11 +585,12 @@ async function fetchAllSubgoalsPerGoal(goalUuid: any) {
 
 async function proceedToStep2() {
     v$.value.$validate()
-    
+
     if (!v$.value.$error) {
         const formChanged = state.formStatusTemplate.form_uuid !== props.selectedStatus?.form?.uuid
 
         if (formChanged) {
+            state.isConfirmingFormChange = true
             state.modal.isFormChangeWarningOpen = true
             return
         }
@@ -598,17 +603,15 @@ async function proceedToStep2() {
 
 async function confirmFormChange() {
     state.modal.isFormChangeWarningOpen = false
-    await fetchFormByUuid(state.formStatusTemplate.form_uuid)
     state.currentStep = 2
+    await fetchFormByUuid(state.formStatusTemplate.form_uuid)
+    state.isConfirmingFormChange = false
 }
 
 function cancelFormChange() {
     state.modal.isFormChangeWarningOpen = false
     state.formStatusTemplate.form_uuid = props.selectedStatus?.form?.uuid || ''
-}
-
-function backToStep1() {
-    state.currentStep = 1
+    state.isConfirmingFormChange = false
 }
 
 async function fetchFormByUuid(formUuid: string) {
