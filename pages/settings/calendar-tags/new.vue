@@ -52,6 +52,7 @@ const state = reactive({
     error: {} as Error,
     formCalendarTag: {
         name: '',
+        departments: [],
         color: '#000000',
     },
     isPageLoading: false,
@@ -63,6 +64,7 @@ async function saveCalendarTag(tagDetails: any) {
     try {
         const params = {
             tag: tagDetails.name,
+            departments_uuid: tagDetails.departments,
             color: tagDetails.color,
         }
         const response = await calendarTagService.saveCalendarTag(params)
