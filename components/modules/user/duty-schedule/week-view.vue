@@ -370,7 +370,10 @@
                                                             </Tooltip>
                                                         </div>
                                                     </div>
-                                                    <div class="-mt-1 ml-12">
+                                                    <div :class="[
+                                                        expandedRecords[employeeIndex] && 'hidden',
+                                                        '-mt-1 ml-12'
+                                                    ]">
                                                         <p class="text-xxs">
                                                             {{ employee?.employee_detail?.job?.title }}
                                                         </p>
@@ -826,12 +829,14 @@
             <ModulesUserDutyScheduleNormHoursModalVacationHours :isModalOpen="state.modal.isVacationHoursOpen"
                 :selectedEmployee="state.normHours.selectedEmployeeSchedule"
                 @close="state.modal.isVacationHoursOpen = false" />
-            <ModulesUserDutyScheduleModalNewShift :isModalOpen="state.modal.isAddShiftOpen" :isModalLoading="state.isModalLoading" :error="state.newShiftError"
+            <ModulesUserDutyScheduleModalNewShift :isModalOpen="state.modal.isAddShiftOpen"
+                :isModalLoading="state.isModalLoading" :error="state.newShiftError"
                 :selectedDate="state.newShift.selectedDate" :selectedEmployee="state.newShift.selectedEmployee"
                 @close="state.modal.isAddShiftOpen = false" @saveShift="saveShift"
                 @resetNewShiftError="state.newShiftError = {}" />
-            <ModulesUserDutyScheduleModalEditShift :isModalLoading="state.isModalLoading" :isModalOpen="state.modal.isEditShiftOpen"
-                :error="state.editShiftError" :selectedEmployee="state.editShift.selectedEmployee"
+            <ModulesUserDutyScheduleModalEditShift :isModalLoading="state.isModalLoading"
+                :isModalOpen="state.modal.isEditShiftOpen" :error="state.editShiftError"
+                :selectedEmployee="state.editShift.selectedEmployee"
                 :selectedEmployeeSchedule="state.editShift.selectedEmployeeSchedule"
                 @close="state.modal.isEditShiftOpen = false" @resetEditShiftError="state.editShiftError = {}"
                 @updateShift="updateSelectedSchedule" />
