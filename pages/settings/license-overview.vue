@@ -88,10 +88,12 @@
                                     <Icon name="ph:check" class="h-6 w-5 flex-none text-primary" aria-hidden="true" />
                                     {{ userStore.getUser?.user_subscription?.deal?.departments }}
                                     <span v-if="userStore.getUser?.user_subscription?.deal?.departments > 1">
-                                        {{ $t('subscription.deal.departments') }}
+                                        {{ customPagesStore.getCustomPagesName?.department ??
+                                            $t('subscription.deal.departments') }}
                                     </span>
                                     <span v-else>
-                                        {{ $t('subscription.deal.department') }}
+                                        {{ customPagesStore.getCustomPagesName?.department ??
+                                            $t('subscription.deal.department') }}
                                     </span>
                                 </li>
                                 <li class="flex gap-x-2">
@@ -185,12 +187,14 @@
 
 <script setup lang="ts">
 import { licenseService } from '@/components/api/user/LicenseService'
+import { useCustomPagesStore } from '@/store/custom-pages'
 import { useUserStore } from '@/store/user'
 import { useAmountFormatter } from '@/composables/amountFormatter'
 import type { Error } from '@/types'
 
 const runtimeConfig = useRuntimeConfig()
 const { formatAmount } = useAmountFormatter()
+const customPagesStore = useCustomPagesStore() as any
 const userStore = useUserStore() as any
 let currentTablePage = 1
 const breadcrumbLinks = [

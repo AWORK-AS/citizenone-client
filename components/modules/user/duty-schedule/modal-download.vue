@@ -26,7 +26,8 @@
                                 <div class="space-y-1">
                                     <div class="flex justify-between items-center py-0.5">
                                         <p class="text-sm text-gray-600">
-                                            {{ $t('dutySchedules.download.department') }}
+                                            {{ customPagesStore.getCustomPagesName?.department ??
+                                                $t('dutySchedules.download.department') }}
                                         </p>
                                         <span class="text-xs cursor-pointer text-tertiary hover:text-tertiary-800"
                                             @click="state.modal.isAddDepartmentOpen = true">
@@ -64,6 +65,7 @@
 <script setup lang="ts">
 import { departmentService } from '@/components/api/user/DepartmentService'
 import { dutyScheduleService } from '@/components/api/user/DutyScheduleService'
+import { useCustomPagesStore } from '@/store/custom-pages'
 import type { Error } from '@/types'
 import { useVuelidate } from "@vuelidate/core"
 import { required, helpers } from '@vuelidate/validators'
@@ -78,6 +80,7 @@ const props = defineProps({
 })
 const { t } = useI18n()
 const emit = defineEmits(['close', 'saveShift'])
+const customPagesStore = useCustomPagesStore() as any
 
 const state = reactive({
     error: {} as Error,

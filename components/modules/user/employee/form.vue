@@ -99,7 +99,8 @@
                 ]">
                     <div class="space-y-1">
                         <div class="flex justify-between items-center py-0.5">
-                            <FormLabel for="departments" :label="$t('employees.form.department')" />
+                            <FormLabel for="departments"
+                                :label="customPagesStore.getCustomPagesName?.department ?? $t('employees.form.department')" />
                             <span class="text-xs cursor-pointer text-tertiary hover:text-tertiary-800"
                                 @click="state.modal.isAddDepartmentOpen = true">
                                 {{ $t('departments.addNewDepartment') }}
@@ -515,6 +516,7 @@ import { regionService } from '@/components/api/user/RegionService'
 import { municipalityService } from '@/components/api/user/MunicipalityService'
 import { cityService } from '@/components/api/user/CityService'
 import { mediaRiskService } from '@/components/api/user/MediaRiskService'
+import { useCustomPagesStore } from '@/store/custom-pages'
 import { useVuelidate } from "@vuelidate/core"
 import { required, helpers } from '@vuelidate/validators'
 import { useI18n } from "vue-i18n"
@@ -537,6 +539,7 @@ const props = defineProps({
     },
 })
 const emit = defineEmits(['isPageLoading', 'submitForm'])
+const customPagesStore = useCustomPagesStore() as any
 const router = useRouter()
 const employeeUuid = router?.currentRoute?.value?.params?.employee_uuid
 const userStore = useUserStore() as any

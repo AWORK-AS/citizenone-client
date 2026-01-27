@@ -86,7 +86,8 @@
                                 </div>
                                 <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
                                     <div class="space-y-1">
-                                        <Label :label="$t('employees.form.department')" />
+                                        <Label
+                                            :label="customPagesStore.getCustomPagesName?.department ?? $t('employees.form.department')" />
                                         <p class="font-medium" v-if="state.selectedEmployee?.departments?.length > 0">
                                             {{ state.selectedEmployee?.departments }}
                                         </p>
@@ -444,11 +445,13 @@
 <script setup lang="ts">
 import { useDatetimeFormatter } from '@/composables/datetimeFormatter'
 import { employeeService } from '@/components/api/user/EmployeeService'
+import { useCustomPagesStore } from '@/store/custom-pages'
 import { useUserStore } from '@/store/user'
 import type { Error } from '@/types'
 
 const runtimeConfig = useRuntimeConfig()
 const router = useRouter()
+const customPagesStore = useCustomPagesStore() as any
 const userStore = useUserStore() as any
 const { formatDateToReadable } = useDatetimeFormatter()
 const employeeUuid = router?.currentRoute?.value?.params?.employee_uuid

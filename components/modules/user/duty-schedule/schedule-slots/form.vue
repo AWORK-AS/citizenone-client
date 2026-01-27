@@ -21,7 +21,8 @@
             </div>
             <div class="space-y-1">
                 <div class="flex justify-between items-center py-0.5">
-                    <FormLabel for="departments" :label="$t('dutySchedules.scheduleSlots.form.department')" />
+                    <FormLabel for="departments"
+                        :label="customPagesStore.getCustomPagesName?.department ?? $t('dutySchedules.scheduleSlots.form.department')" />
                     <span class="text-xs cursor-pointer text-tertiary hover:text-tertiary-800"
                         @click="state.modal.isAddDepartmentOpen = true">
                         {{ $t('departments.addNewDepartment') }}
@@ -100,6 +101,7 @@ import { departmentService } from '@/components/api/user/DepartmentService'
 import { jobTitleService } from '@/components/api/user/JobTitleService'
 import { jobSpecialtyService } from '@/components/api/user/JobSpecialtyService'
 import { shiftService } from '@/components/api/user/ShiftService'
+import { useCustomPagesStore } from '@/store/custom-pages'
 import { useVuelidate } from "@vuelidate/core"
 import { required, helpers } from '@vuelidate/validators'
 import { useI18n } from "vue-i18n"
@@ -128,6 +130,7 @@ const emit = defineEmits(['isPageLoading', 'submitForm', 'closeModal'])
 const { errorAlert } = useAlert()
 const { t } = useI18n()
 const language = useI18n()
+const customPagesStore = useCustomPagesStore() as any
 
 const state = reactive({
     error: {} as Error,
