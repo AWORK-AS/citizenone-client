@@ -662,6 +662,7 @@
                 "bookingTagSuccessfullyUpdated": "Booking tag opdateret med succes",
                 "newBookingTagSuccessfullySaved": "Ny booking tag gemt med succes"
             },
+            "department": "Afdeling",
             "name": "Navn"
         },
         "newBookingTag": "Ny booking tag",
@@ -673,6 +674,7 @@
             "confirmation": {
                 "deleteBookingTagConfirmation": "Er du sikker på, at du vil slette denne booking tag"
             },
+            "department": "Afdeling",
             "name": "Navn"
         }
     },
@@ -753,6 +755,7 @@
                 "newCalendarTagSuccessfullySaved": "Ny kalenderetiket gemt med succes"
             },
             "color": "Farve",
+            "department": "Afdeling",
             "name": "Navn"
         },
         "newCalendarTag": "Ny kalenderetiket",
@@ -765,6 +768,7 @@
                 "deleteCalendarTagConfirmation": "Er du sikker på, at du vil slette dette kalenderetiket"
             },
             "color": "Farve",
+            "department": "Afdeling",
             "name": "Navn"
         }
     },
@@ -3752,6 +3756,7 @@
                 "newJournalTagSuccessfullySaved": "Nyt journalnotetag gemt med succes"
             },
             "color": "Farve",
+            "department": "Afdeling",
             "name": "Navn"
         },
         "journalNoteTags": "Journal-tags",
@@ -3765,6 +3770,7 @@
                 "deleteJournalTagConfirmation": "Er du sikker på, at du vil slette dette tag"
             },
             "color": "Farve",
+            "department": "Afdeling",
             "name": "Navn"
         }
     },
@@ -4993,6 +4999,7 @@
                 "newScheduleTagSuccessfullySaved": "Ny vagtplan tag gemt med succes"
             },
             "color": "Farve",
+            "department": "Afdeling",
             "name": "Navn"
         },
         "newScheduleTag": "Ny vagtplan tag",
@@ -5005,6 +5012,7 @@
                 "deleteScheduleTagConfirmation": "Er du sikker på, at du vil slette dette vagtplan tag"
             },
             "color": "Farve",
+            "department": "Afdeling",
             "name": "Navn"
         }
     },
