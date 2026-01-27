@@ -299,7 +299,7 @@
             </div>
         </div>
         <ModulesUserScheduleTagModalNew :isModalOpen="state.modal.isAddNewScheduleTagOpen"
-            @close="state.modal.isAddNewScheduleTagOpen = false" @refreshScheduleTags="fetchAllCalendarTags" />
+            @close="state.modal.isAddNewScheduleTagOpen = false" @refreshScheduleTags="fetchAllScheduleTags" />
         <ModulesUserDepartmentModalNew :isModalOpen="state.modal.isAddDepartmentOpen"
             @close="state.modal.isAddDepartmentOpen = false" @refreshDepartments="fetchAllDepartments" />
     </form>
@@ -475,7 +475,6 @@ onMounted(() => {
     state.showChildProtectionCertificateWarning = false
     v$.value.$reset()
     fetchAllShifts()
-    fetchAllCalendarTags()
     fetchAllDepartments()
     fetchAllScheduleTags()
     fetchAllCitizensPerUserDepartment()
@@ -632,27 +631,6 @@ async function fetchAllShifts() {
     emit('isPageLoading', false)
 }
 
-async function fetchAllCalendarTags() {
-    state.error = {}
-    emit('isPageLoading', true)
-    try {
-        const response = await scheduleTagService.getAllScheduleTags()
-        if (response?.data) {
-            let options: any = []
-            response.data.forEach(
-                (tag: any) => options.push({
-                    value: tag?.uuid,
-                    label: tag?.tag,
-                })
-            )
-            state.options.scheduleTags = options
-        }
-    } catch (error: any) {
-        state.error = error
-    }
-    emit('isPageLoading', false)
-}
-
 async function fetchAllDepartments() {
     state.error = {}
     emit('isPageLoading', true)
@@ -687,7 +665,10 @@ async function fetchAllScheduleTags() {
     state.error = {}
     emit('isPageLoading', true)
     try {
-        const response = await scheduleTagService.getAllScheduleTags()
+        const params = {
+            department: departmentStore.getSelectedDepartmentName,
+        }
+        const response = await scheduleTagService.getAllScheduleTags(params)
         if (response.data) {
             let options: any = []
             response.data.forEach(
