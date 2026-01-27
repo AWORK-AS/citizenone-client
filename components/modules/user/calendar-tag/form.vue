@@ -87,7 +87,7 @@ const state = reactive({
     },
     options: {
         departments: [] as any,
-    }
+    },
 })
 
 onMounted(() => {
