@@ -33,6 +33,7 @@ const state = reactive({
     error: {} as Error,
     formTag: {
         name: '',
+        departments: [],
         color: '#000000',
     },
     isPageLoading: false,
@@ -52,6 +53,7 @@ async function saveScheduleTag(tagDetails: any) {
     try {
         const params = {
             tag: tagDetails.name,
+            departments_uuid: tagDetails.departments,
             color: tagDetails.color,
         }
         const response = await scheduleTagService.saveScheduleTag(params)
