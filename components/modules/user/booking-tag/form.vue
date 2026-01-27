@@ -66,8 +66,8 @@ const props = defineProps({
 })
 
 const emit = defineEmits(['isPageLoading', 'submitForm'])
-const { t } = useI18n()
 const customPagesStore = useCustomPagesStore() as any
+const { t } = useI18n()
 
 const state = reactive({
     error: {} as Error,
