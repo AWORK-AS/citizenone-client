@@ -392,6 +392,7 @@
 import ClassicEditor from '@ckeditor/ckeditor5-build-classic'
 import { onlineBookingSettingsService } from '@/components/api/user/OnlineBookingSettingsService'
 import { bookingTagService } from '@/components/api/user/BookingTagService'
+import { useDepartmentStore } from '@/store/department'
 import { useVuelidate } from "@vuelidate/core"
 import { required, helpers } from '@vuelidate/validators'
 import { useI18n } from "vue-i18n"
@@ -417,6 +418,7 @@ const props = defineProps({
 })
 
 const emit = defineEmits(['isPageLoading', 'submitForm', 'closeModal', 'closeModalSelection'])
+const departmentStore = useDepartmentStore() as any
 
 const runtimeConfig = useRuntimeConfig()
 const { t } = useI18n()
@@ -571,7 +573,10 @@ async function fetchAllBookingTags() {
     state.error = {}
     state.isPageLoading = true
     try {
-        const response = await bookingTagService.getAllBookingTags()
+        const params = {
+            department: departmentStore.getSelectedDepartmentName,
+        }
+        const response = await bookingTagService.getAllBookingTags(params)
         if (response?.data) {
             let options: any = []
             response.data.forEach(
