@@ -548,7 +548,10 @@ async function fetchAllCalendarTags() {
     state.error = {}
     state.isPageLoading = true
     try {
-        const response = await calendarTagService.getAllCalendarTags()
+        const params = {
+            department: departmentStore.getSelectedDepartmentName,
+        }
+        const response = await calendarTagService.getAllCalendarTags(params)
         if (response.data) {
             let options: any = []
             response.data.forEach(

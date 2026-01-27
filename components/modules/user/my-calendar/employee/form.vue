@@ -4,8 +4,7 @@
             v-if="props.error?.message && props.error.message.length > 0" />
         <div class="grid grid-cols-1 gap-y-3">
             <div class="space-y-1 flex items-center gap-x-2">
-                <FormSwitch :value="state.formSchedule.owner_is_groups"
-                    @toggleSwitch="toggleOwner" />
+                <FormSwitch :value="state.formSchedule.owner_is_groups" @toggleSwitch="toggleOwner" />
                 <p>
                     {{ $t('events.form.employeeGroups') }}
                 </p>
@@ -20,9 +19,10 @@
                 <FormError :error="props?.error?.errors?.employee_uuid?.[0]" />
             </div>
             <div class="space-y-1" v-if="props.formType === 'create' && state.formSchedule.owner_is_groups">
-                <FormLabel for="employee_group_uuid" :label="`${$t('events.form.employeeGroups')} (${$t('events.form.eventOwner')})`" />
-                <FormSelectMultiple id="employee_group_uuid" name="employee_group_uuid" :options="state.options.employee_groups"
-                    v-model="state.formSchedule.employee_group_uuid" />
+                <FormLabel for="employee_group_uuid"
+                    :label="`${$t('events.form.employeeGroups')} (${$t('events.form.eventOwner')})`" />
+                <FormSelectMultiple id="employee_group_uuid" name="employee_group_uuid"
+                    :options="state.options.employee_groups" v-model="state.formSchedule.employee_group_uuid" />
                 <FormError :error="v$?.formSchedule?.employee_group_uuid?.$errors[0]?.$message.toString()" />
                 <FormError :error="props?.error?.errors?.employee_group_uuid?.[0]" />
             </div>
@@ -94,11 +94,10 @@
                 <FormError :error="v$?.formSchedule?.citizens_uuid?.$errors[0]?.$message.toString()" />
                 <FormError :error="props?.error?.errors?.citizens_uuid?.[0]" />
             </div>
-            
-            
+
+
             <div class="space-y-1 flex items-center gap-x-2">
-                <FormSwitch :value="state.formSchedule.is_groups"
-                    @toggleSwitch="toggleEmployees" />
+                <FormSwitch :value="state.formSchedule.is_groups" @toggleSwitch="toggleEmployees" />
                 <p>
                     {{ $t('events.form.employeeGroups') }}
                 </p>
@@ -586,7 +585,10 @@ async function fetchAllCalendarTags() {
     state.error = {}
     state.isPageLoading = true
     try {
-        const response = await calendarTagService.getAllCalendarTags()
+        const params = {
+            department: departmentStore.getSelectedDepartmentName,
+        }
+        const response = await calendarTagService.getAllCalendarTags(params)
         if (response.data) {
             let options: any = []
             response.data.forEach(
