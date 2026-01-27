@@ -75,9 +75,11 @@ import { userService } from '@/components/api/user/UserService'
 import { RadioGroup, RadioGroupOption } from '@headlessui/vue'
 import { useCitizenJournalStore } from '@/store/citizen-journal'
 import { useCustomPagesStore } from '@/store/custom-pages'
+import { useDepartmentStore } from '@/store/department'
 import type { Error } from '@/types'
 
 const customPagesStore = useCustomPagesStore() as any
+const departmentStore = useDepartmentStore() as any
 const citizenJournalStore = useCitizenJournalStore()
 
 const props = defineProps({
@@ -126,7 +128,10 @@ async function fetchAllJournalNoteTags() {
     state.error = {}
     state.isPageLoading = true
     try {
-        const response = await journalNoteTagService.getAllJournalNoteTags()
+        const params = {
+            department: departmentStore.getSelectedDepartmentName,
+        }
+        const response = await journalNoteTagService.getAllJournalNoteTags(params)
         if (response.data) {
             let options: any = []
             response.data.forEach(

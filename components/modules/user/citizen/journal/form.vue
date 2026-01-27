@@ -349,8 +349,9 @@ import { required, helpers } from '@vuelidate/validators'
 import { useCitizenStore } from '@/store/citizen'
 import { useUserStore } from '@/store/user'
 import { useI18n } from "vue-i18n"
-import type { Error } from '@/types'
 import { useCustomPagesStore } from '@/store/custom-pages'
+import { useDepartmentStore } from '@/store/department'
+import type { Error } from '@/types'
 
 const props = defineProps({
     error: {
@@ -368,6 +369,7 @@ const props = defineProps({
 })
 const emit = defineEmits(['closeModal', 'isPageLoading', 'submitForm'])
 const citizenStore = useCitizenStore() as any
+const departmentStore = useDepartmentStore() as any
 const userStore = useUserStore() as any
 const language = useI18n()
 
@@ -869,7 +871,10 @@ async function fetchAllJournalNoteTags() {
     state.error = {}
     emit('isPageLoading', true)
     try {
-        const response = await journalNoteTagService.getAllJournalNoteTags()
+        const params = {
+            department: departmentStore.getSelectedDepartmentName,
+        }
+        const response = await journalNoteTagService.getAllJournalNoteTags(params)
         if (response.data) {
             let options: any = []
             response.data.forEach(

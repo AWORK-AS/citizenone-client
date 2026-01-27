@@ -55,6 +55,7 @@ import { journalService } from '@/components/api/user/JournalService'
 import { useVuelidate } from "@vuelidate/core"
 import { required, helpers } from '@vuelidate/validators'
 import { useCustomPagesStore } from '@/store/custom-pages'
+import { useDepartmentStore } from '@/store/department'
 import type { Error } from '@/types'
 import { saveAs } from 'file-saver'
 import { useI18n } from "vue-i18n"
@@ -69,6 +70,7 @@ const emit = defineEmits(['close'])
 
 const { t } = useI18n()
 const customPagesStore = useCustomPagesStore() as any
+const departmentStore = useDepartmentStore() as any
 const router = useRouter()
 const citizenUuid = router?.currentRoute?.value?.params?.uuid
 
@@ -118,7 +120,10 @@ async function fetchAllJournalNoteTags() {
     state.error = {}
     state.isPageLoading = true
     try {
-        const response = await journalNoteTagService.getAllJournalNoteTags()
+        const params = {
+            department: departmentStore.getSelectedDepartmentName,
+        }
+        const response = await journalNoteTagService.getAllJournalNoteTags(params)
         if (response.data) {
             let options: any = []
             response.data.forEach(
