@@ -60,11 +60,11 @@
                         </div>
                         <div class="space-y-1">
                             <FormLabel for="daily_every" :label="`${$t('recurring.every')} (${state.formSchedule.recurring?.frequency === 'daily' ? $t('recurring.frequency.daily.days') :
-                                state.formSchedule.recurring?.frequency === 'weekly' ?  $t('recurring.frequency.weekly.weeks') :
+                                state.formSchedule.recurring?.frequency === 'weekly' ? $t('recurring.frequency.weekly.weeks') :
                                     state.formSchedule.recurring?.frequency === 'monthly' ? $t('recurring.frequency.monthly.months') :
                                         $t('recurring.frequency.yearly.years')
                                 })`" />
-                            <FormSelect id="daily_every" :options="state.formSchedule.recurring?.frequency === 'daily' ? state.options.schedule_frequencies?.zeroTo999Days : 
+                            <FormSelect id="daily_every" :options="state.formSchedule.recurring?.frequency === 'daily' ? state.options.schedule_frequencies?.zeroTo999Days :
                                 state.formSchedule.recurring?.frequency === 'weekly' ? state.options.schedule_frequencies?.zeroTo999Weeks :
                                     state.formSchedule.recurring?.frequency === 'monthly' ? state.options.schedule_frequencies?.zeroTo999Months :
                                         state.options.schedule_frequencies?.zeroTo999Years"
@@ -87,7 +87,7 @@
                                 <FormSwitch :value="state.formSchedule.recurring?.monthly_on_the_enabled"
                                     @toggleSwitch="state.formSchedule.recurring.monthly_on_the_enabled = !state.formSchedule.recurring?.monthly_on_the_enabled" />
                                 <p>
-                                    <span v-if="! state.formSchedule.recurring?.monthly_on_the_enabled">
+                                    <span v-if="!state.formSchedule.recurring?.monthly_on_the_enabled">
                                         {{ $t('recurring.frequency.monthly.each') }}
                                         ({{ $t('recurring.frequency.monthly.day') }})
                                     </span>
@@ -96,15 +96,16 @@
                                     </span>
                                 </p>
                             </div>
-                            <div class="space-y-1" v-if="! state.formSchedule.recurring.monthly_on_the_enabled">
-                                <FormSelectMultiple id="monthly_each" :options="state.options.schedule_frequencies?.monthlyEach"
+                            <div class="space-y-1" v-if="!state.formSchedule.recurring.monthly_on_the_enabled">
+                                <FormSelectMultiple id="monthly_each"
+                                    :options="state.options.schedule_frequencies?.monthlyEach"
                                     v-model="state.formSchedule.recurring.monthly_each" />
                                 <FormError
                                     :error="v$?.formSchedule?.recurring?.monthly_each?.$errors[0]?.$message.toString()" />
                                 <FormError :error="state?.error?.errors?.monthly_each?.[0]" />
                             </div>
                             <div v-else>
-                                <div class="grid grid-cols-1 md: grid-cols-2 gap-3">
+                                <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
                                     <div class="space-y-1">
                                         <FormSelect id="monthly_on_the_sequence"
                                             :options="state.options.schedule_frequencies?.monthlyOnTheSequences"
@@ -142,7 +143,7 @@
                                         {{ $t('recurring.frequency.yearly.onThe') }}
                                     </div>
                                 </div>
-                                <div class="grid grid-cols-1 md: grid-cols-2 gap-3"
+                                <div class="grid grid-cols-1 md:grid-cols-2 gap-3"
                                     v-if="state.formSchedule.recurring?.yearly_on_the_enabled">
                                     <div class="space-y-1">
                                         <FormSelect id="yearly_on_the_sequence"
@@ -231,7 +232,7 @@
             </div>
         </div>
         <div class="mt-6">
-            <div class="grid grid-cols-1 md: grid-cols-2 gap-3">
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
                 <FormButton type="button" buttonStyle="cancel" class="rounded-md" @click="emit('closeModal')">
                     {{ $t('cancel') }}
                 </FormButton>
@@ -301,7 +302,7 @@ const state = reactive({
         apply_changes_to_future_events: false,
         recurring: {
             is_recurring: true,
-            recurring:  '',
+            recurring: '',
             recurring_until: '',
             frequency: '',
             every: '',
@@ -313,7 +314,7 @@ const state = reactive({
             yearly_in_months: [],
             yearly_on_the_enabled: false,
             yearly_on_the_sequence: '',
-            yearly_on_the_day:  '',
+            yearly_on_the_day: '',
         },
     },
     modal: {
@@ -327,7 +328,7 @@ const state = reactive({
         users: [] as Option[],
         schedule_frequencies: {
             frequency: [
-                { value: 'daily', label:  `${t('recurring.frequency.daily.daily')}` },
+                { value: 'daily', label: `${t('recurring.frequency.daily.daily')}` },
                 { value: 'weekly', label: `${t('recurring.frequency.weekly.weekly')}` },
                 { value: 'monthly', label: `${t('recurring.frequency.monthly.monthly')}` },
                 { value: 'yearly', label: `${t('recurring.frequency.yearly.yearly')}` },
@@ -349,7 +350,7 @@ const state = reactive({
                 { value: 'second', label: `${t('recurring.frequency.onThe.second')}` },
                 { value: 'third', label: `${t('recurring.frequency.onThe.third')}` },
                 { value: 'fourth', label: `${t('recurring.frequency.onThe.fourth')}` },
-                { value: 'fifth', label:  `${t('recurring.frequency.onThe.fifth')}` },
+                { value: 'fifth', label: `${t('recurring.frequency.onThe.fifth')}` },
                 { value: 'next_to_last', label: `${t('recurring.frequency.onThe.nextToLast')}` },
                 { value: 'last', label: `${t('recurring.frequency.onThe.last')}` },
             ],
@@ -373,7 +374,7 @@ const state = reactive({
                 { value: 'sunday', label: `${t('recurring.days.sunday')}` },
             ],
             yearlyMonths: [
-                { value:  'january', label: `${t('recurring.frequency.yearly.january')}` },
+                { value: 'january', label: `${t('recurring.frequency.yearly.january')}` },
                 { value: 'february', label: `${t('recurring.frequency.yearly.february')}` },
                 { value: 'march', label: `${t('recurring.frequency.yearly.march')}` },
                 { value: 'april', label: `${t('recurring.frequency.yearly.april')}` },
@@ -425,7 +426,7 @@ onMounted(() => {
         uuid: props.selectedSchedule.uuid,
         title: props.selectedSchedule.title,
         description: props.selectedSchedule.description,
-        date_time_start:  props.selectedSchedule.date_time_start ?  formatDateTimeToYYYYmmddHHmm(props.selectedSchedule.date_time_start) : formatDateToYYYYmmddHHmm('', false),
+        date_time_start: props.selectedSchedule.date_time_start ? formatDateTimeToYYYYmmddHHmm(props.selectedSchedule.date_time_start) : formatDateToYYYYmmddHHmm('', false),
         date_time_end: props.selectedSchedule.date_time_end ? formatDateTimeToYYYYmmddHHmm(props.selectedSchedule.date_time_end) : formatDateToYYYYmmddHHmm('', true),
         unit_uuid: props.selectedSchedule.unit_uuid,
         is_private: props.selectedSchedule.is_private,
@@ -438,7 +439,7 @@ onMounted(() => {
             is_recurring: true,
             recurring: props.selectedSchedule?.recurring_type || '',
             recurring_until: props.selectedSchedule?.recurring_until || '',
-            frequency:  props.selectedSchedule?.recurring_rules?.frequency || '',
+            frequency: props.selectedSchedule?.recurring_rules?.frequency || '',
             every: props.selectedSchedule?.recurring_rules?.every || '',
             weekly_on: props.selectedSchedule?.recurring_rules?.weekly_on || [],
             monthly_on_the_enabled: props.selectedSchedule?.recurring_rules?.monthly_on_the_enabled || false,
@@ -447,11 +448,11 @@ onMounted(() => {
             monthly_on_the_day: props.selectedSchedule?.recurring_rules?.monthly_on_the_day || '',
             yearly_in_months: props.selectedSchedule?.recurring_rules?.yearly_in_months || [],
             yearly_on_the_enabled: props.selectedSchedule?.recurring_rules?.yearly_on_the_enabled || false,
-            yearly_on_the_sequence:  props.selectedSchedule?.recurring_rules?.yearly_on_the_sequence || '',
+            yearly_on_the_sequence: props.selectedSchedule?.recurring_rules?.yearly_on_the_sequence || '',
             yearly_on_the_day: props.selectedSchedule?.recurring_rules?.yearly_on_the_day || '',
         },
     }
-    props.selectedSchedule.calendar_tags?.forEach((tag:  any) => {
+    props.selectedSchedule.calendar_tags?.forEach((tag: any) => {
         state.formSchedule.calendar_tag_uuid.push(tag.uuid)
     })
 })
@@ -459,13 +460,13 @@ onMounted(() => {
 const rules = computed(() => {
     return {
         formSchedule: {
-            title:  {
+            title: {
                 required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
             },
             date_time_start: {
                 required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
             },
-            date_time_end:  {
+            date_time_end: {
                 required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
             },
             recurring: {},
@@ -477,7 +478,7 @@ const v$ = useVuelidate(rules, state)
 
 function submitForm() {
     v$.value.$validate()
-    if (! v$.value.$error) {
+    if (!v$.value.$error) {
         emit('submitForm', state.formSchedule)
     }
 }
@@ -499,9 +500,9 @@ function formatDateTimeToYYYYmmddHHmm(inputDate: string): string {
 }
 
 function formatDateToYYYYmmddHHmm(dateString: string, is_end_date_time: boolean = false): string {
-    let date:  Date
+    let date: Date
 
-    if (! dateString) {
+    if (!dateString) {
         // If dateString is null or empty, use today's date
         date = new Date() // Current date and time
     } else {
@@ -533,7 +534,7 @@ async function fetchAllCalendarTags() {
     try {
         const response = await calendarTagService.getAllCalendarTags()
         if (response.data) {
-            let options:  any = []
+            let options: any = []
             response.data.forEach(
                 (tag: any) => options.push({
                     value: tag?.uuid,
@@ -542,7 +543,7 @@ async function fetchAllCalendarTags() {
             )
             state.options.tags = options
         }
-    } catch (error:  any) {
+    } catch (error: any) {
         state.error = error
     }
     state.isPageLoading = false
@@ -553,7 +554,7 @@ async function fetchAllCitizens() {
     state.isPageLoading = true
     try {
         const params = {
-            department:  departmentStore.getSelectedDepartmentName
+            department: departmentStore.getSelectedDepartmentName
         }
         const response = await citizenService.getAllCitizens(params)
         if (response.data) {
@@ -561,7 +562,7 @@ async function fetchAllCitizens() {
             response.data.forEach(
                 (citizen: any) => options.push({
                     value: citizen?.uuid,
-                    label: citizen?.firstname + " " + (citizen?.lastname ??  ''),
+                    label: citizen?.firstname + " " + (citizen?.lastname ?? ''),
                 })
             )
             state.options.citizens = options
