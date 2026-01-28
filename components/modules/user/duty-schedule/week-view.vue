@@ -1008,15 +1008,15 @@ const state = reactive({
 })
 
 const hasCreatePermission = computed(() => {
-    return !!userStore.user?.permissions.find((permission: any) => permission.name === 'create_schedule')
+    return !!userStore.user?.permissions?.find((permission: any) => permission.name === 'create_schedule')
 })
 
 const hasUpdatePermission = computed(() => {
-    return !!userStore.user?.permissions.find((permission: any) => permission.name === 'update_schedule')
+    return !!userStore.user?.permissions?.find((permission: any) => permission.name === 'update_schedule')
 })
 
 const hasDeletePermission = computed(() => {
-    return !!userStore.user?.permissions.find((permission: any) => permission.name === 'delete_schedule')
+    return !!userStore.user?.permissions?.find((permission: any) => permission.name === 'delete_schedule')
 })
 
 watch(() => state.progress.percentage, (newPercentage: any) => {
@@ -1128,15 +1128,14 @@ function calculateMarginTop(schedules: any, weekIndex: string, shiftIndex: numbe
 }
 
 function getMultiDayShift(shifts: any) {
-    return shifts
-        .find((shift: any) => {
-            const startDay = moment(shift.date_time_start).startOf('day')
-            const endDay = moment(shift.date_time_end).startOf('day')
-            const isMultiDay = endDay.diff(startDay, 'days') >= 1
-            const isExcluded = endDay.diff(startDay, 'days') === 1 && moment(shift.date_time_end).format('HH:mm:ss') === '00:00:00'
+    return shifts?.find((shift: any) => {
+        const startDay = moment(shift.date_time_start).startOf('day')
+        const endDay = moment(shift.date_time_end).startOf('day')
+        const isMultiDay = endDay.diff(startDay, 'days') >= 1
+        const isExcluded = endDay.diff(startDay, 'days') === 1 && moment(shift.date_time_end).format('HH:mm:ss') === '00:00:00'
 
-            return isMultiDay && !isExcluded
-        })
+        return isMultiDay && !isExcluded
+    })
 }
 
 async function fetchDutySchedule() {

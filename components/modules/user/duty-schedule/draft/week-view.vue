@@ -842,15 +842,14 @@ function calculateMarginTop(schedules: any, weekIndex: string, shiftIndex: numbe
 }
 
 function getMultiDayShift(shifts: any) {
-    return shifts
-        .find((shift: any) => {
-            const startDay = moment(shift.date_time_start).startOf('day')
-            const endDay = moment(shift.date_time_end).startOf('day')
-            const isMultiDay = endDay.diff(startDay, 'days') >= 1
-            const isExcluded = endDay.diff(startDay, 'days') === 1 && moment(shift.date_time_end).format('HH:mm:ss') === '00:00:00'
+    return shifts?.find((shift: any) => {
+        const startDay = moment(shift.date_time_start).startOf('day')
+        const endDay = moment(shift.date_time_end).startOf('day')
+        const isMultiDay = endDay.diff(startDay, 'days') >= 1
+        const isExcluded = endDay.diff(startDay, 'days') === 1 && moment(shift.date_time_end).format('HH:mm:ss') === '00:00:00'
 
-            return isMultiDay && !isExcluded
-        })
+        return isMultiDay && !isExcluded
+    })
 }
 
 async function fetchDutySchedulePercentage() {
