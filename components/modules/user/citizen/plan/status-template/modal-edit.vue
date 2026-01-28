@@ -226,7 +226,7 @@
                                                                             v-for="(rating, ratingIndex) in JSON.parse(formField?.field)?.levels"
                                                                             :key="ratingIndex"
                                                                             class="w-full h-10 flex items-center justify-center border border-gray-300 rounded-sm"
-                                                                            :class="formField.responses === rating && 'bg-primary text-white'"
+                                                                            :class="Number(formField.responses) === Number(rating) && 'bg-primary text-white'"
                                                                             @click="changeRating(fieldIndex, rating)">
                                                                             {{ rating }}
                                                                         </button>
@@ -237,20 +237,25 @@
                                                     </div>
 
                                                     
-                                                    <div v-if="JSON.parse(formField?.field)?.type === 'uploadfile'"
-                                                        class="grow">
+                                                    <div v-if="JSON.parse(formField?.field)?.type === 'uploadfile'" class="grow">
                                                         <div class="p-5 space-y-3">
                                                             <div class="flex gap-x-3">
-                                                                <div>{{ fieldIndex + 1 }}.</div>
+                                                            <div>{{ fieldIndex + 1 }}.</div>
                                                                 <div class="grow space-y-4">
                                                                     <h3>
                                                                         {{ JSON.parse(formField?.field)?.value }}
-                                                                        <span
-                                                                            v-if="JSON.parse(formField?.field)?.required"
-                                                                            class="text-red-600">*</span>
+                                                                        <span v-if="JSON.parse(formField?.field)?.required" class="text-red-600">*</span>
                                                                     </h3>
-                                                                    <input type="file"
-                                                                        @change="onFileChange(fieldIndex, $event)">
+
+                                                                    <!-- Show current file if response exists -->
+                                                                    <div v-if="formField.responses">
+                                                                        <a :href="formField.responses" target="_blank" class="text-blue-600 underline">
+                                                                            Current file
+                                                                        </a>
+                                                                    </div>
+
+                                                                    <!-- File input for replacing -->
+                                                                    <input type="file" @change="onFileChange(fieldIndex, $event)">
                                                                 </div>
                                                             </div>
                                                         </div>
@@ -293,6 +298,7 @@
             </template>
         </Modal>
     </div>
+
 </template>
 
 <script setup lang="ts">
@@ -345,6 +351,8 @@ const state = reactive({
         goals: [],
         subgoals: [],
     },
+
+    status: {} as any
 })
 
 const rules = computed(() => {
@@ -369,10 +377,12 @@ function closeModal() {
 //doesnt populate yet
 watch(() => props.isModalOpen, async (isModalOpen: any) => {
     if (isModalOpen) {
-        state.formStatusTemplate.form_uuid = props.selectedStatus?.form?.uuid || ''
+        await fetchStatusDetail()
+
+        state.formStatusTemplate.form_uuid = state.status?.form?.uuid || ''
         
-        const modelType = props.selectedStatus?.model_type || ''
-        const modelUuid = props.selectedStatus?.model?.uuid || ''
+        const modelType = state.status?.model_type || ''
+        const modelUuid = state.status?.model?.uuid || ''
         
         state.formStatusTemplate.plan_uuid = ''
         state.formStatusTemplate.goal_uuid = ''
@@ -405,6 +415,21 @@ watch(() => props.isModalOpen, async (isModalOpen: any) => {
     }
 })
 
+async function fetchStatusDetail() {
+
+    state.error = {}
+    state.isPageLoading = true
+    try{
+        const response = await planGoalSubgoalService.getAttachmentDetails(props.selectedStatus.uuid)
+        if(response.data){
+            state.status = response.data
+        }
+    }catch (error: any) {
+        state.error = error
+    }
+    state.isPageLoading = false
+}
+
 async function fetchForm() {
     state.error = {}
     state.isPageLoading = true
@@ -419,6 +444,21 @@ async function fetchForm() {
                 }))
             }
             state.form = response
+
+            if (state.form?.data?.form_fields && state.status?.field_responses) {
+                for (let i = 0; i < state.form.data.form_fields.length; i++) {
+                    const formField = state.form.data.form_fields[i];
+
+                    for (let j = 0; j < state.status.field_responses.length; j++) {
+                        const fieldResponse = state.status.field_responses[j];
+
+                        if(formField.id === fieldResponse.form_field_id){
+                             state.form.data.form_fields[i].responses = state.status.field_responses[j].response
+                        }
+                    }
+                }
+            }
+
         }
     } catch (error: any) {
         state.error = error
