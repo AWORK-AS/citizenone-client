@@ -1,7 +1,8 @@
 <template>
     <div>
-        <Modal size="xl" :title="$t('plansandgoals.editStatusTemplate.editReport')" :show="props.isModalOpen"
-            @close="closeModal">
+        <Modal size="xl" :title="$t('plansandgoals.editStatusTemplate.editReport')" 
+                         :show="props.isModalOpen"
+                         @close="closeModal">
             <template #modal-body>
                 <LoadingSpinner :isActive="state.isPageLoading">
                     
@@ -10,13 +11,17 @@
                             <div class="space-y-3">
                                 <div class="space-y-1">
                                     <div class="flex justify-between items-center py-0.5">
-                                        <FormLabel for="form" :label="$t('citizens.documents.createTemplate.form.form')" />
+                                        <FormLabel 
+                                        for="form" 
+                                        :label="$t('citizens.documents.createTemplate.form.form')" />
                                         <span class="text-xs cursor-pointer text-tertiary hover:text-tertiary-800"
                                             @click="navigateTo('/forms')">
                                             {{ $t('citizens.documents.createTemplate.form.createNewForm') }}
                                         </span>
                                     </div>
-                                    <FormSelect id="form" :options="state.options.forms"
+                                    <FormSelect 
+                                        id="form" 
+                                        :options="state.options.forms"
                                         v-model="state.formStatusTemplate.form_uuid" />
                                     <FormError :error="v$?.formStatusTemplate?.form_uuid?.$errors[0]?.$message.toString()" />
                                     <FormError :error="state?.error?.errors?.form_uuid?.[0]" />
@@ -287,12 +292,6 @@
                 </LoadingSpinner>
             </template>
         </Modal>
-
-        <DialogConfirmation
-            :isModalOpen="state.modal.isFormChangeWarningOpen"
-            :message="$t('plansandgoals.editStatusTemplate.formChangeWarning')"
-            @close="cancelFormChange"
-            @confirm="confirmFormChange" />
     </div>
 </template>
 
@@ -310,7 +309,7 @@ import { useAlert } from '@/composables/alert'
 import type { Error } from '@/types'
 import { saveAs } from 'file-saver'
 
-const emit = defineEmits(['close', 'refreshData'])
+const emit = defineEmits(['close', 'refreshData',])
 const { t } = useI18n()
 const { successAlert } = useAlert()
 const router = useRouter()
@@ -324,10 +323,6 @@ const props = defineProps({
     selectedStatus: {
         type: Object,
         required: true,
-    },
-    selectedData: {
-        type: Object,
-        default: null,
     },
 })
 
@@ -350,10 +345,6 @@ const state = reactive({
         goals: [],
         subgoals: [],
     },
-    modal: {
-        isFormChangeWarningOpen: false,
-    },
-    isConfirmingFormChange: false,
 })
 
 const rules = computed(() => {
@@ -372,12 +363,10 @@ const rules = computed(() => {
 const v$ = useVuelidate(rules, state)
 
 function closeModal() {
-    if (state.isConfirmingFormChange || state.modal.isFormChangeWarningOpen) {
-        return
-    }
     emit('close')
 }
 
+//doesnt populate yet
 watch(() => props.isModalOpen, async (isModalOpen: any) => {
     if (isModalOpen) {
         state.formStatusTemplate.form_uuid = props.selectedStatus?.form?.uuid || ''
@@ -397,6 +386,7 @@ watch(() => props.isModalOpen, async (isModalOpen: any) => {
             state.formStatusTemplate.subgoal_uuid = modelUuid
         }
 
+        await fetchDraftData()    
         await fetchAllForms()
         await fetchAllPlans()
 
@@ -437,8 +427,8 @@ async function fetchForm() {
 }
 
 async function fetchDraftData() {
-    if (!props.selectedStatus?.uuid) return
-
+    state.error = {}
+    state.isPageLoading = true
     try {
         const response = await planGoalSubgoalService.getAttachmentDetails(props.selectedStatus.uuid)
         if (response?.data?.field_responses) {
@@ -456,8 +446,19 @@ async function fetchDraftData() {
                 }
             })
         }
-    } catch (error) {
-        console.error('Failed to fetch draft details:', error)
+    } catch (error: any) {
+        state.error = error
+    }
+    state.isPageLoading = false
+}
+
+async function proceedToStep2() {
+    v$.value.$validate()
+
+    if (!v$.value.$error) {
+        await fetchDraftData()
+        await fetchForm()
+        state.currentStep = 2
     }
 }
 
@@ -583,57 +584,6 @@ async function fetchAllSubgoalsPerGoal(goalUuid: any) {
     }
 }
 
-async function proceedToStep2() {
-    v$.value.$validate()
-
-    if (!v$.value.$error) {
-        const formChanged = state.formStatusTemplate.form_uuid !== props.selectedStatus?.form?.uuid
-
-        if (formChanged) {
-            state.isConfirmingFormChange = true
-            state.modal.isFormChangeWarningOpen = true
-            return
-        }
-
-        await fetchForm()
-        await fetchDraftData()
-        state.currentStep = 2
-    }
-}
-
-async function confirmFormChange() {
-    state.modal.isFormChangeWarningOpen = false
-    state.currentStep = 2
-    await fetchFormByUuid(state.formStatusTemplate.form_uuid)
-    state.isConfirmingFormChange = false
-}
-
-function cancelFormChange() {
-    state.modal.isFormChangeWarningOpen = false
-    state.formStatusTemplate.form_uuid = props.selectedStatus?.form?.uuid || ''
-    state.isConfirmingFormChange = false
-}
-
-async function fetchFormByUuid(formUuid: string) {
-    state.error = {}
-    state.isPageLoading = true
-    try {
-        const response = await formService.getForm(formUuid)
-        if (response) {
-            if (response.data?.form_fields) {
-                response.data.form_fields = response.data.form_fields.map((field: any) => ({
-                    ...field,
-                    responses: JSON.parse(field?.field)?.type === 'checkbox' ? [] : ""
-                }))
-            }
-            state.form = response
-        }
-    } catch (error: any) {
-        state.error = error
-    }
-    state.isPageLoading = false
-}
-
 function changeRadioButton(fieldIndex: number, event: Event) {
     const target = event.target as HTMLInputElement
     state.form.data.form_fields[fieldIndex].responses = target.value
@@ -658,23 +608,28 @@ function onFileChange(fieldIndex: number, event: any) {
     state.form.data.form_fields[fieldIndex].responses = file
 }
 
+
 async function submitResponse() {
     state.error = {}
     state.isPageLoading = true
     try {
         let params = new FormData()
-        params.append('is_draft', state.isDraft ? '1' : '0')
         params.append('form_uuid', state.formStatusTemplate.form_uuid || props.selectedStatus?.form?.uuid || state.form?.data?.uuid)
+        params.append('plan_goal_subgoal_uuid', props.selectedStatus?.model?.uuid || state.formStatusTemplate.plan_uuid || state.formStatusTemplate.goal_uuid || state.formStatusTemplate.subgoal_uuid)
+        params.append('is_draft', state.isDraft ? '1' : '0')
 
         state.form.data.form_fields.forEach((formField: any) => {
             const fieldType = JSON.parse(formField.field)?.type
             const fieldUuid = formField.uuid
 
             if (fieldType === 'uploadfile' && formField.responses instanceof File) {
+                // Handle file uploads separately
                 params.append(`responses[${fieldUuid}]`, formField.responses, formField.responses.name)
             } else if (Array.isArray(formField.responses)) {
+                // Handle checkboxes, which are arrays
                 params.append(`responses[${fieldUuid}]`, JSON.stringify(formField.responses))
             } else {
+                // Handle other field types (text, date, rating, etc.)
                 params.append(`responses[${fieldUuid}]`, formField.responses)
             }
         })
@@ -700,31 +655,28 @@ async function submitResponseAndDownloadPDF() {
     state.isPageLoading = true
     try {
         let params = new FormData()
-        params.append('is_draft', state.isDraft ? '1' : '0')
         params.append('form_uuid', state.formStatusTemplate.form_uuid || props.selectedStatus?.form?.uuid || state.form?.data?.uuid)
-        params.append('download_pdf', '1')
+        params.append('plan_goal_subgoal_uuid', props.selectedStatus?.model?.uuid || state.formStatusTemplate.plan_uuid || state.formStatusTemplate.goal_uuid || state.formStatusTemplate.subgoal_uuid)
+        params.append('is_draft', state.isDraft ? '1' : '0')
 
         state.form.data.form_fields.forEach((formField: any) => {
             const fieldType = JSON.parse(formField.field)?.type
             const fieldUuid = formField.uuid
 
             if (fieldType === 'uploadfile' && formField.responses instanceof File) {
+                // Handle file uploads separately
                 params.append(`responses[${fieldUuid}]`, formField.responses, formField.responses.name)
             } else if (Array.isArray(formField.responses)) {
+                // Handle checkboxes, which are arrays
                 params.append(`responses[${fieldUuid}]`, JSON.stringify(formField.responses))
             } else {
+                // Handle other field types (text, date, rating, etc.)
                 params.append(`responses[${fieldUuid}]`, formField.responses)
             }
         })
-
-        const response = await formFieldService.updateAttachmentResponses(
-            props.selectedStatus.uuid,
-            params
-        )
-
+        const response = await formFieldService.saveAndDownloadPdf(props.selectedStatus.uuid, params)
         if (response) {
-            successAlert(`${t('alert.success')}!`, `${t('plansandgoals.editStatusTemplate.alert.statusTemplateSuccessfullyUpdated')}.`)
-            emit('refreshData')
+            successAlert(`${t('alert.success')}!`, `${t('plansandgoals.editStatusTemplate.alert.statusTemplateSuccessfully')}.`)
             closeModal()
             const filename = state.form?.data?.document_title || state.form?.data?.title || 'download'
             saveAs(response, `${filename}.pdf`)
