@@ -34,6 +34,7 @@ const state = reactive({
     formShift: {
         en_name: '',
         dk_name: '',
+        pay_code: '',
         time_in: '',
         time_out: '',
         color: '#000000',
@@ -56,6 +57,7 @@ async function saveShift(shiftDetails: any) {
         const params = {
             en_name: shiftDetails.en_name,
             dk_name: shiftDetails.dk_name,
+            pay_code: shiftDetails.pay_code,
             time_in: shiftDetails.time_in ?? '',
             time_out: shiftDetails.time_out ?? '',
             color: shiftDetails.color,

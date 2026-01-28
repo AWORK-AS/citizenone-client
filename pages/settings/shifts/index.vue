@@ -32,7 +32,7 @@
                             :isLoading="state.isTableLoading" :sortData="state.sortData" @sort="sort">
                             <template #body v-if="!(state.isTableLoading || (state.shifts?.data?.length === 0))">
                                 <tr v-for="(shift, index) in state.shifts?.data" :key="index">
-                                    <td width="20%">
+                                    <td width="15%">
                                         <div class="flex items-center gap-x-1">
                                             <Tooltip :text="$t('shifts.table.standard')" position="right"
                                                 @click="state.modal.isStandardShiftOpen = true"
@@ -45,8 +45,11 @@
                                             <span>{{ shift?.en_name }}</span>
                                         </div>
                                     </td>
-                                    <td width="20%">
+                                    <td width="15%">
                                         <span>{{ shift?.dk_name }}</span>
+                                    </td>
+                                    <td width="10%">
+                                        <span>{{ shift?.pay_code }}</span>
                                     </td>
                                     <td width="10%">
                                         <span>{{ shift?.time_in }}</span>
@@ -112,6 +115,7 @@ const state = reactive({
     columnHeaders: [
         { name: 'shifts.table.nameEnglish', isTranslateName: true, sorter: true, key: 'en_name' },
         { name: 'shifts.table.nameDanish', isTranslateName: true, sorter: true, key: 'dk_name' },
+        { name: 'shifts.table.paycode', isTranslateName: true, sorter: true, key: 'pay_code' },
         { name: 'shifts.table.timeIn', isTranslateName: true, },
         { name: 'shifts.table.timeOut', isTranslateName: true, },
         { name: 'shifts.table.color', isTranslateName: true, },

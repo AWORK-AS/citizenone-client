@@ -5177,6 +5177,7 @@
             "color": "Color",
             "nameDanish": "Name (danish)",
             "nameEnglish": "Name (english)",
+            "paycode": "Paycode",
             "timeIn": "Time out",
             "timeOut": "Time in"
         },
@@ -5193,6 +5194,7 @@
             "color": "Color",
             "nameDanish": "Name (danish)",
             "nameEnglish": "Name (english)",
+            "paycode": "Paycode",
             "standard": "Standard",
             "standardShift": "Standard shift",
             "timeIn": "Time out",

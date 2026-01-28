@@ -18,6 +18,13 @@
                 <FormError :error="props?.error?.errors?.dk_name?.[0]" />
             </div>
             <div class="space-y-1">
+                <FormLabel for="pay_code" :label="$t('shifts.form.paycode')" />
+                <FormTextField id="pay_code" name="pay_code" :placeholder="$t('shifts.form.paycode')"
+                    v-model="state.formShift.pay_code" />
+                <FormError :error="v$?.formShift?.pay_code?.$errors[0]?.$message.toString()" />
+                <FormError :error="props?.error?.errors?.pay_code?.[0]" />
+            </div>
+            <div class="space-y-1">
                 <FormLabel for="time_in" :label="$t('shifts.form.timeIn')" />
                 <FormTimeField id="time_in" name="time_in" :placeholder="$t('shifts.form.timeIn')"
                     v-model="state.formShift.time_in" />
@@ -83,6 +90,7 @@ const state = reactive({
     formShift: {
         en_name: '',
         dk_name: '',
+        pay_code: '',
         time_in: '',
         time_out: '',
         color: '#000000',
@@ -94,6 +102,7 @@ watch(() => props.selectedShift, (newValue: any) => {
         state.formShift = {
             en_name: newValue.en_name,
             dk_name: newValue.dk_name,
+            pay_code: newValue.pay_code,
             time_in: newValue.time_in,
             time_out: newValue.time_out,
             color: newValue.color,

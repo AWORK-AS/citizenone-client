@@ -5177,6 +5177,7 @@
             "color": "Farve",
             "nameDanish": "Navn (dansk)",
             "nameEnglish": "Navn (engelsk)",
+            "paycode": "Lønningskode",
             "timeIn": "Tid ind",
             "timeOut": "Tid ud"
         },
@@ -5193,6 +5194,7 @@
             "color": "Farve",
             "nameDanish": "Navn (dansk)",
             "nameEnglish": "Navn (engelsk)",
+            "paycode": "Lønningskode",
             "standard": "Standard",
             "standardShift": "Standard vagt",
             "timeIn": "Tid ind",

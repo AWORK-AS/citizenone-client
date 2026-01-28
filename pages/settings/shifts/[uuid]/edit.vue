@@ -54,6 +54,7 @@ const state = reactive({
     formShift: {
         en_name: '',
         dk_name: '',
+        pay_code: '',
         time_in: '',
         time_out: '',
         color: '',
@@ -74,6 +75,7 @@ async function fetchShift() {
             state.formShift = {
                 en_name: response?.data?.en_name ?? '',
                 dk_name: response?.data?.dk_name ?? '',
+                pay_code: response?.data?.pay_code ?? '',
                 time_in: response?.data?.time_in ?? '',
                 time_out: response?.data?.time_out ?? '',
                 color: response?.data?.color ?? '',
@@ -92,6 +94,7 @@ async function updateShift(shiftDetails: any) {
         const params = {
             en_name: shiftDetails.en_name,
             dk_name: shiftDetails.dk_name,
+            pay_code: shiftDetails.pay_code,
             time_in: shiftDetails.time_in,
             time_out: shiftDetails.time_out,
             color: shiftDetails.color,
