@@ -191,12 +191,17 @@
                                                 v-if="myCalendarEvent.calendar_users?.length > 0">
                                                 <p>{{ $t('events.invitees') }}:</p>
                                                 <div class="flex flex-wrap gap-1 mt-1">
-                                                    <div v-for="(invitee, index) in myCalendarEvent.calendar_users"
+                                                    <div v-for="(invitee, index) in myCalendarEvent.calendar_users?.slice(0, 2)"
                                                         :key="index"
                                                         class="bg-secondary text-xxs p-1 text-white rounded-md">
                                                         {{ invitee?.user?.firstname }} {{ invitee?.user?.lastname }}
                                                     </div>
                                                 </div>
+                                                <button @click="showAllInvitees(myCalendarEvent)"
+                                                    class="mt-1 text-primary text-xs hover:text-primary-700"
+                                                    v-if="myCalendarEvent.calendar_users?.length > 2">
+                                                    {{ $t('showAll') }}...
+                                                </button>
                                             </div>
                                         </div>
                                     </div>
@@ -301,11 +306,16 @@
                             <div class="text-gray-500 text-xs mt-1" v-if="event.calendar_users?.length > 0">
                                 <p>{{ $t('events.invitees') }}:</p>
                                 <div class="flex flex-wrap gap-1 mt-1">
-                                    <div v-for="(invitee, index) in event.calendar_users" :key="index"
+                                    <div v-for="(invitee, index) in event.calendar_users?.slice(0, 2)" :key="index"
                                         class="bg-secondary text-xxs p-1 text-white rounded-md">
                                         {{ invitee?.user?.firstname }} {{ invitee?.user?.lastname }}
                                     </div>
                                 </div>
+                                <button @click="showAllInvitees(event)"
+                                    class="mt-1 text-primary text-xs hover:text-primary-700"
+                                    v-if="event.calendar_users?.length > 2">
+                                    {{ $t('showAll') }}...
+                                </button>
                             </div>
                         </div>
                         <Menu as="div"
@@ -340,6 +350,9 @@
                     </div>
                 </li>
             </ol>
+            <ModulesUserMyCalendarModalShowAllInvitees :isModalOpen="state.modal.isShowAllInviteesOpen"
+                :invitees="state.selectedSchedule?.calendar_users" @close="state.modal.isShowAllInviteesOpen = false"
+                v-if="state.modal.isShowAllInviteesOpen" />
             <DialogConfirmation :isModalOpen="state.modal.isDeleteScheduleOpen"
                 :message="$t('events.confirmation.deleteConfirmation') + '?'"
                 @close="state.modal.isDeleteScheduleOpen = false" @confirm="deleteMyCalendarEvent" />
@@ -370,9 +383,10 @@ const selectedDay = ref(moment())
 const state = reactive({
     modal: {
         isDeleteScheduleOpen: false,
+        isShowAllInviteesOpen: false,
     },
     selectedDate: moment().format('YYYY-MM-DD'),
-    selectedSchedule: {}
+    selectedSchedule: {} as any
 })
 
 watch(() => state.selectedDate, (newSelectedDate: any) => {
@@ -420,8 +434,15 @@ const nextWeek = () => {
     state.selectedDate = moment(state.selectedDate).add(1, 'week').format('YYYY-MM-DD')
 }
 
+function showAllInvitees(myCalendarEvent: any) {
+    state.selectedSchedule = myCalendarEvent
+    state.modal.isShowAllInviteesOpen = true
+}
+
 function editMyCalendarEvent(myCalendarEvent: any) {
-    emit('editMyCalendarEvent', myCalendarEvent)
+    if (!state.modal.isShowAllInviteesOpen) {
+        emit('editMyCalendarEvent', myCalendarEvent)
+    }
 }
 
 const month = computed(() => currentDate.value.format('MMMM'))
