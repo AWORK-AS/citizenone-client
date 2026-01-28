@@ -20,7 +20,7 @@ class PlanGoalSubgoalService extends BaseAPIService {
     async downloadPlanGoalSubgoalStatuses(attachmentUuid: any): Promise<any> {
         return await this.request(`/user/plan-goal-subgoal-attachments/${attachmentUuid}/download`, 'GET')
     }
-    async getAttachmentDetails(attachmentUuid: string): Promise<any> {
+    async getAttachmentDetails(attachmentUuid: any): Promise<any> {
         return await this.request(`/user/plan-goal-subgoal-attachments/${attachmentUuid}/details`, 'GET')
     }
 }

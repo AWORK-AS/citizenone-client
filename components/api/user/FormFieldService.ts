@@ -17,9 +17,8 @@ class FormFieldService extends BaseAPIService {
         return await this.request(`/user/plan-goal-subgoal-attachments/download `, 'POST', params)
     }
 
-    async updateAttachmentResponses(attachmentUuid: string, params: FormData): Promise<any> {
-        params.append('_method', 'PUT')
-        return await this.request(`/user/field-responses/${attachmentUuid}`, 'POST', params)
+    async updateAttachmentResponses(uuid: string, params: object): Promise<any> {
+        return await this.request(`/user/field-responses/${uuid}/update`, 'POST', params)
     }
 
 }
