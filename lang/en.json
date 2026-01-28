@@ -2585,6 +2585,7 @@
         },
         "form": {
             "citizens": "Citizens",
+            "compensatoryTimeOff": "Compensatory time off",
             "createMultipleSchedules": "Create multiple schedules",
             "date": "Date",
             "datetimeStart": "Date time start",
