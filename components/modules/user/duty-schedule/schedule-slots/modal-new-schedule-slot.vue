@@ -5,7 +5,7 @@
             <template #modal-body>
                 <LoadingSpinner :isActive="state.isPageLoading">
                     <ModulesUserDutyScheduleScheduleSlotsForm formType="create" :selectedDay="props.selectedDay"
-                        :selectedScheduleSlot="state.formScheduleSlot" :error="state.error"
+                        :selectedScheduleSlot="state.formScheduleSlot" :error="state.error" :isModalLoading="state.isModalLoading"
                         @isPageLoading="(value: boolean) => state.isPageLoading = value" @closeModal="closeModal"
                         @submitForm="saveScheduleSlot" />
                 </LoadingSpinner>
@@ -48,6 +48,7 @@ const state = reactive({
         shift_type: '',
     },
     isPageLoading: false,
+    isModalLoading: false,
 })
 
 function closeModal() {
@@ -60,6 +61,7 @@ function refreshScheduleSlot() {
 
 async function saveScheduleSlot(scheduleSlotDetails: any) {
     try {
+        state.isModalLoading = true
         const params = {
             date_time_start: scheduleSlotDetails.date_time_start,
             date_time_end: scheduleSlotDetails.date_time_end,
@@ -78,6 +80,10 @@ async function saveScheduleSlot(scheduleSlotDetails: any) {
         }
     } catch (error: any) {
         state.error = error
+    } finally {
+        setTimeout(() => {
+            state.isModalLoading = false
+        }, 300)
     }
 }
 </script>
