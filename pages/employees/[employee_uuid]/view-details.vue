@@ -193,13 +193,25 @@
                             </div>
                             <div
                                 class="md:col-span-2 space-y-3 bg-white shadow-sm ring-1 ring-gray-900/5 rounded-lg px-4 py-6 sm:px-8 sm:py-6">
-                                <div class="space-y-1" v-if="userStore.getUser?.roles?.[0]?.name === 'Admin'">
-                                    <Label :label="$t('employees.form.employment.employmentDate')" />
-                                    <p class="font-medium" v-if="state.selectedEmployee.employment.employment_date">
-                                        {{
-                                            formatDateToReadable(state.selectedEmployee.employment.employment_date)
-                                        }}
-                                    </p>
+                                <div class="grid grid-cols-1 md:grid-cols-2 gap-3"
+                                    v-if="userStore.getUser?.roles?.[0]?.name === 'Admin'">
+                                    <div class="space-y-1">
+                                        <Label :label="$t('employees.form.employment.employmentDate')" />
+                                        <p class="font-medium" v-if="state.selectedEmployee.employment.employment_date">
+                                            {{
+                                                formatDateToReadable(state.selectedEmployee.employment.employment_date)
+                                            }}
+                                        </p>
+                                    </div>
+                                    <div class="space-y-1" v-if="userStore.getUser?.roles?.[0]?.name === 'Admin'">
+                                        <Label :label="$t('employees.form.employment.terminationDate')" />
+                                        <p class="font-medium"
+                                            v-if="state.selectedEmployee.employment.termination_date">
+                                            {{
+                                                formatDateToReadable(state.selectedEmployee.employment.termination_date)
+                                            }}
+                                        </p>
+                                    </div>
                                 </div>
                                 <div class="grid grid-cols-1 md:grid-cols-2 gap-3"
                                     v-if="isAdmin(userStore.getUser?.roles)">
@@ -497,6 +509,7 @@ const state = reactive({
         employment: {
             salary_id: '',
             employment_date: '',
+            termination_date: '',
             job_title: '',
             employee_specialties: '',
             working_hours: '',
@@ -557,6 +570,7 @@ async function fetchEmployee() {
                 employment: {
                     salary_id: response?.data?.employee_detail?.salary_id,
                     employment_date: response?.data?.employee_detail?.date_of_employment,
+                    termination_date: response?.data?.employee_detail?.termination_date,
                     job_title: response?.data?.employee_detail?.job?.title,
                     employee_specialties: concatenatedJobSpecialties,
                     working_hours: response?.data?.employee_detail?.working_hours,
