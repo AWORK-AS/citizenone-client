@@ -100,6 +100,7 @@ const state = reactive({
         employment: {
             salary_id: '',
             employment_date: '',
+            termination_date: '',
             job_title_uuid: '',
             job_specialties: '',
             working_hours: '',
@@ -157,6 +158,7 @@ async function fetchEmployee() {
                 employment: {
                     salary_id: response?.data?.employee_detail?.salary_id ?? '',
                     employment_date: response?.data?.employee_detail?.date_of_employment ?? '',
+                    termination_date: response?.data?.employee_detail?.termination_date ?? '',
                     job_title_uuid: response?.data?.employee_detail?.job?.uuid ?? '',
                     job_specialties: [],
                     working_hours: response?.data?.employee_detail?.working_hours ?? '',
@@ -234,6 +236,7 @@ async function updateEmployee(employeeDetails: any) {
         params.append('post_code', employeeDetails.post_code)
         params.append('salary_id', employeeDetails.employment.salary_id)
         params.append('employment_date', employeeDetails.employment.employment_date)
+        params.append('termination_date', employeeDetails.employment.termination_date)
         params.append('job_title_uuid', employeeDetails.employment.job_title_uuid)
         params.append('job_specialties_uuid', JSON.stringify(employeeDetails.employment.job_specialties))
         params.append('working_hours', employeeDetails.employment.working_hours)

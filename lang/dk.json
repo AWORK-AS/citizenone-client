@@ -3014,6 +3014,7 @@
                 "jobSpecialty": "Jobspecialitet",
                 "jobTitle": "Jobtitel",
                 "salaryID": "Løn-ID",
+                "terminationDate": "Opsigelsesdato",
                 "workingHours": "Arbejdstimer",
                 "vacationDays": "Feriedage"
             },

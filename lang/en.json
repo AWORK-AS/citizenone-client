@@ -3014,6 +3014,7 @@
                 "jobSpecialty": "Job specialty",
                 "jobTitle": "Job title",
                 "salaryID": "Salary ID",
+                "terminationDate": "Termination date",
                 "workingHours": "Working hours",
                 "vacationDays": "Vacation days"
             },

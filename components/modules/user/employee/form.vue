@@ -243,7 +243,7 @@
             </div>
             <div class="md:col-span-2 space-y-3 bg-white shadow-sm ring-1 ring-gray-900/5 rounded-lg px-4 py-6 sm:p-8">
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-3" v-if="isAdmin(userStore.getUser?.roles)">
-                    <div class="space-y-1" ref="salaryIDField">
+                    <div class="space-y-1 col-span-1 md:col-span-2" ref="salaryIDField">
                         <FormLabel for="salary_id" :label="$t('employees.form.employment.salaryID')" />
                         <FormTextField id="salary_id" name="salary_id"
                             :placeholder="$t('employees.form.employment.salaryID')"
@@ -260,6 +260,15 @@
                         <FormError
                             :error="v$?.formEmployee?.employment?.employment_date?.$errors[0]?.$message.toString()" />
                         <FormError :error="props?.error?.errors?.employment_date?.[0]" />
+                    </div>
+                    <div class="space-y-1" ref="terminationDateField">
+                        <FormLabel for="termination_date" :label="$t('employees.form.employment.terminationDate')" />
+                        <FormDateField id="termination_date" name="termination_date"
+                            :placeholder="$t('employees.form.employment.terminationDate')"
+                            v-model="state.formEmployee.employment.termination_date" />
+                        <FormError
+                            :error="v$?.formEmployee?.employment?.termination_date?.$errors[0]?.$message.toString()" />
+                        <FormError :error="props?.error?.errors?.termination_date?.[0]" />
                     </div>
                 </div>
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
@@ -481,7 +490,7 @@
         <div class="mt-6">
             <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
                 <FormButton type="button" buttonStyle="cancel" class="rounded-md"
-                    @click="navigateTo(router?.currentRoute?.value?.name !== 'employees-employee_uuid-edit' ? `/employees` : `/employees/${employeeUuid}/view-details`)">
+                    @click="navigateTo(router?.currentRoute?.value?.name === 'employees-employee_uuid-edit' ? `/employees` : `/employees/${employeeUuid}/view-details`)">
                     {{ $t('cancel') }}
                 </FormButton>
                 <FormButton type="submit" buttonStyle="primary" class="rounded-md">
@@ -562,6 +571,7 @@ const cityField = ref<HTMLElement | null>(null)
 const postCodeField = ref<HTMLElement | null>(null)
 const salaryIDField = ref<HTMLElement | null>(null)
 const employmentDateField = ref<HTMLElement | null>(null)
+const terminationDateField = ref<HTMLElement | null>(null)
 const annualNormHoursField = ref<HTMLElement | null>(null)
 const vacationDaysField = ref<HTMLElement | null>(null)
 const jobTitleField = ref<HTMLElement | null>(null)
@@ -592,6 +602,7 @@ const state = reactive({
         employment: {
             salary_id: '',
             employment_date: '',
+            termination_date: '',
             job_title_uuid: '',
             job_specialties: [],
             working_hours: '',
@@ -691,6 +702,7 @@ watch(() => props.selectedEmployee, (newValue: any) => {
             employment: {
                 salary_id: newValue.employment.salary_id,
                 employment_date: newValue.employment.employment_date,
+                termination_date: newValue.employment.termination_date,
                 job_title_uuid: newValue.employment.job_title_uuid,
                 job_specialties: newValue.employment.job_specialties,
                 working_hours: newValue.employment.working_hours,
@@ -1052,6 +1064,8 @@ function submitForm() {
             salaryIDField.value.scrollIntoView({ behavior: 'smooth', block: 'center' })
         } else if (v$.value.formEmployee.employment.employment_date?.$error && employmentDateField.value) {
             employmentDateField.value.scrollIntoView({ behavior: 'smooth', block: 'center' })
+        } else if (v$.value.formEmployee.employment.termination_date?.$error && terminationDateField.value) {
+            terminationDateField.value.scrollIntoView({ behavior: 'smooth', block: 'center' })
         } else if (v$.value.formEmployee.employment.job_title_uuid?.$error && jobTitleField.value) {
             jobTitleField.value.scrollIntoView({ behavior: 'smooth', block: 'center' })
         } else if (v$.value.formEmployee.employment.working_hours?.$error && workingHoursField.value) {
