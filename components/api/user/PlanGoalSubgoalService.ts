@@ -23,5 +23,8 @@ class PlanGoalSubgoalService extends BaseAPIService {
     async getAttachmentDetails(attachmentUuid: any): Promise<any> {
         return await this.request(`/user/plan-goal-subgoal-attachments/${attachmentUuid}/details`, 'GET')
     }
+    async getPlanGoalSubgoalDetail(modelUuid: any): Promise<any>{
+        return await this.request(`user/plan-goal-subgoal/${modelUuid}/details`, 'GET')
+    }
 }
 export const planGoalSubgoalService = new PlanGoalSubgoalService()
