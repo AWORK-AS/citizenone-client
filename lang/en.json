@@ -3146,6 +3146,9 @@
         }
     },
     "entriesPerPage": "Entries per page",
+    "error": {
+        "somethingWentWrong": "We have registered this error. You don't have to do anything. We will get back to you as soon as possible"
+    },
     "events": {
         "alert": {
             "successfullyAdded": "New event successfully added",
@@ -4183,6 +4186,7 @@
                 "medicineDeviationStatistics": "Medicine deviated",
                 "myDailyEvents": "My daily events",
                 "riskAssessment": "Risk assessment",
+                "scheduleSlots": "Schedule slots",
                 "statusesStatistics": "Statuses statistics",
                 "subgoalsStatistics": "Subgoals statistics",
                 "treatments": "Treatments",
@@ -4277,6 +4281,7 @@
             },
             "riskAssessment": "Risk assessment"
         },
+        "scheduleSlots": "Schedule slots",
         "treatments": {
             "areaTypes": {
                 "functionalLevel": "Functional level",

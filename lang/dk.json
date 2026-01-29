@@ -3146,6 +3146,9 @@
         }
     },
     "entriesPerPage": "Indlæg pr. side",
+    "error": {
+        "somethingWentWrong": "Vi har registreret denne fejl. Du behøver ikke at gøre noget. Vi vender tilbage til dig hurtigst muligt"
+    },
     "events": {
         "alert": {
             "successfullyAdded": "Ny begivenhed blev tilføjet med succes",
@@ -4183,6 +4186,7 @@
                 "medicineDeviationStatistics": "Medicin afveget",
                 "myDailyEvents": "Mine daglige begivenheder",
                 "riskAssessment": "Risikovurdering",
+                "scheduleSlots": "Udbyd vagter",
                 "subgoalsStatistics": "Delmålsstatistik",
                 "statusesStatistics": "Statusstatistik",
                 "treatments": "Behandlinger",
@@ -4277,6 +4281,7 @@
             },
             "riskAssessment": "Risikovurdering"
         },
+        "scheduleSlots": "Udbyd vagter",
         "treatments": {
             "areaTypes": {
                 "functionalLevel": "Functional level",

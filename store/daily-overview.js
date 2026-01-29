@@ -12,18 +12,19 @@ export const useDailyOverviewStore = defineStore('dailyOverviewStore',
                 showCitizensDiagnoses: true,
                 showCitizensOrigin: true,
                 showDailyMedicineOverview: true,
+                showIncidentStatistics: true,
                 showGender: true,
                 showGoalsScoreStatistics: true,
-                showLatestJournal: true,
                 showJournalScoreStatistics: true,
+                showLatestJournal: true,
+                showMedicineDeviationStatistics: true,
                 showMyDailyEvents: true,
                 showRiskAssessment: true,
+                showScheduleSlots: true,
                 showStatusesScoreStatistics: true,
                 showSubgoalsScoreStatistics: true,
-                showIncidentStatistics: true,
-                showUseOfForceStatistics: true,
-                showMedicineDeviationStatistics: true,
                 showTreatments: true,
+                showUseOfForceStatistics: true,
             },
             viewAllFilter: {
                 showCitizenDailyEvents: true,
@@ -88,6 +89,9 @@ export const useDailyOverviewStore = defineStore('dailyOverviewStore',
             },
             setDailyOverviewFilterShowTreatments(flag) {
                 this.dailyOverviewFilter.showTreatments = flag
+            },
+            setDailyOverviewFilterShowScheduleSlots(flag) {
+                this.dailyOverviewFilter.showScheduleSlots = flag
             },
             setViewAllShowCitizenDailyEvents(flag) {
                 this.viewAllFilter.showCitizenDailyEvents = flag
