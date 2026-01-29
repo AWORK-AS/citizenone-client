@@ -2397,6 +2397,9 @@
             "scheduleSuccessfullyUpdated": "Tidsplan opdateret med succes"
         },
         "annualNormHours": "Årlige normtimer",
+        "averageWeeklyHours": {
+            "averageWeeklyHours": "Gennemsnitlige ugentlige timer"
+        },
         "confirmation": {
             "deleteConfirmation": "Er du sikker på, at du vil slette denne tidsplan"
         },
