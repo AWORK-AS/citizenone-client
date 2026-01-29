@@ -64,7 +64,8 @@
                     </form>
                 </LoadingSpinner>
                 <ModulesUserCitizenDocumentStatusTemplateModalEditRespond :isModalOpen="state.modal.isRespondOpen"
-                    :selectedFormStatusTemplate="state.formTemplate" :savedResponses="state.documentDetail?.attachment?.field_responses" 
+                    :selectedFormStatusTemplate="state.formTemplate"
+                    :savedResponses="state.documentDetail?.attachment?.field_responses"
                     @close="state.modal.isRespondOpen = false" @closeModalNew="closeModal()" />
             </template>
         </Modal>
@@ -91,7 +92,7 @@ const props = defineProps({
         type: Boolean,
         required: true,
     },
-    selectedDocument:{
+    selectedDocument: {
         type: Object,
         required: true
     }
@@ -198,29 +199,27 @@ async function fetchFileFolderDetail() {
     state.isPageLoading = true
     try {
         const response = await citizenDocumentService.getCitizenFileDetail(props.selectedDocument.uuid);
-        if(response){
+        if (response) {
             state.documentDetail = response.data
-            
+
             state.formTemplate.folder_uuid = state.documentDetail.folder.uuid
             state.formTemplate.attachment_uuid = state.documentDetail?.attachment?.uuid ?? 'null'
             state.formTemplate.current_file_uuid = state.documentDetail.uuid
             state.formTemplate.is_draft = state.documentDetail.is_draft
 
-            if(state.documentDetail.attachment_id){
+            if (state.documentDetail.attachment_id) {
                 state.formTemplate.form_uuid = state.documentDetail.attachment.form.uuid
                 const planGoalSubgoal = await planGoalSubgoalService.getPlanGoalSubgoalDetail(state.documentDetail.attachment.model.uuid)
-                if(planGoalSubgoal){
-                    console.log(planGoalSubgoal)
+                if (planGoalSubgoal) {
                     state.formTemplate.plan_uuid = planGoalSubgoal?.plan?.uuid
                     state.formTemplate.goal_uuid = planGoalSubgoal?.goal?.uuid
                     state.formTemplate.subgoal_uuid = planGoalSubgoal?.subgoal?.uuid
                 }
             }
         }
-        
+
     } catch (error: any) {
         state.error = error
-        console.log(error)
     }
     state.isPageLoading = false
 }

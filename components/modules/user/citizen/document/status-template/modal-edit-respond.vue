@@ -165,7 +165,8 @@
                                                                             v-if="JSON.parse(formField?.field)?.required"
                                                                             class="text-red-600">*</span>
                                                                     </h3>
-                                                                    <div class="flex items-center justify-between gap-x-2">
+                                                                    <div
+                                                                        class="flex items-center justify-between gap-x-2">
                                                                         <button
                                                                             v-for="(rating, ratingIndex) in JSON.parse(formField?.field)?.levels"
                                                                             :key="ratingIndex"
@@ -179,25 +180,30 @@
                                                             </div>
                                                         </div>
                                                     </div>
-                                                    <div v-if="JSON.parse(formField?.field)?.type === 'uploadfile'" class="grow">
+                                                    <div v-if="JSON.parse(formField?.field)?.type === 'uploadfile'"
+                                                        class="grow">
                                                         <div class="p-5 space-y-3">
                                                             <div class="flex gap-x-3">
-                                                            <div>{{ fieldIndex + 1 }}.</div>
+                                                                <div>{{ fieldIndex + 1 }}.</div>
                                                                 <div class="grow space-y-4">
                                                                     <h3>
                                                                         {{ JSON.parse(formField?.field)?.value }}
-                                                                        <span v-if="JSON.parse(formField?.field)?.required" class="text-red-600">*</span>
+                                                                        <span
+                                                                            v-if="JSON.parse(formField?.field)?.required"
+                                                                            class="text-red-600">*</span>
                                                                     </h3>
 
                                                                     <!-- Show current file if response exists -->
                                                                     <div v-if="formField.responses">
-                                                                        <a :href="formField.responses" target="_blank" class="text-blue-600 underline">
+                                                                        <a :href="formField.responses" target="_blank"
+                                                                            class="text-blue-600 underline">
                                                                             Current file
                                                                         </a>
                                                                     </div>
 
                                                                     <!-- File input for replacing -->
-                                                                    <input type="file" @change="onFileChange(fieldIndex, $event)">
+                                                                    <input type="file"
+                                                                        @change="onFileChange(fieldIndex, $event)">
                                                                 </div>
                                                             </div>
                                                         </div>
@@ -211,8 +217,7 @@
                         </div>
 
                         <div class="space-y-1">
-                            <div class="w-fit flex items-center cursor-pointer"
-                                @click="state.isDraft = !state.isDraft">
+                            <div class="w-fit flex items-center cursor-pointer" @click="state.isDraft = !state.isDraft">
                                 <FormCheckbox id="is_draft" :value="state.isDraft" />
                                 {{ $t('plansandgoals.createStatusTemplate.form.saveAsDraft') }}
                             </div>
@@ -254,18 +259,18 @@ import type { Error } from '@/types'
 import { saveAs } from 'file-saver'
 
 interface FieldResponse {
-  id: number
-  uuid: string
-  user_id: number
-  attachment_id: number
-  form_field_id: number
-  response: any
+    id: number
+    uuid: string
+    user_id: number
+    attachment_id: number
+    form_field_id: number
+    response: any
 }
 
 const props = defineProps<{
-  isModalOpen: boolean
-  selectedFormStatusTemplate: Record<string, any>
-  savedResponses?: FieldResponse[]
+    isModalOpen: boolean
+    selectedFormStatusTemplate: Record<string, any>
+    savedResponses?: FieldResponse[]
 }>()
 
 const emit = defineEmits(['close', 'closeModalNew'])
@@ -316,8 +321,8 @@ async function fetchForm() {
                     for (let j = 0; j < props.savedResponses.length; j++) {
                         const fieldResponse = props.savedResponses[j];
 
-                        if(formField.id === fieldResponse?.form_field_id){
-                             state.form.data.form_fields[i].responses = fieldResponse?.response
+                        if (formField.id === fieldResponse?.form_field_id) {
+                            state.form.data.form_fields[i].responses = fieldResponse?.response
                         }
                     }
                 }

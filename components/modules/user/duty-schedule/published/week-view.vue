@@ -135,7 +135,7 @@
                                         <div class="px-3 pb-2">
                                             <button @click="toggleShowHideAllShifts()"
                                                 class="text-primary text-xs hover:text-primary-700">
-                                                {{ state.showAllShifts ? 
+                                                {{ state.showAllShifts ?
                                                     $t('hideAll') :
                                                     $t('showAll') }}
                                             </button>
@@ -180,7 +180,7 @@
                                                 <div class="px-3 pt-3 pb-1 relative">
                                                     <div class="flex justify-between">
                                                         <div class="flex items-center gap-x-2">
-                                                            <img :src="employee?.profile_image ??  `https://ui-avatars.com/api/?background=42AED9&color=fff&name=${employee?.firstname + ' ' + employee?.lastname}`"
+                                                            <img :src="employee?.profile_image ?? `https://ui-avatars.com/api/?background=42AED9&color=fff&name=${employee?.firstname + ' ' + employee?.lastname}`"
                                                                 :class="[
                                                                     employee?.shift_threshold === 'high' && 'border-green-700',
                                                                     employee?.shift_threshold === 'moderate' && 'border-yellow-500',
@@ -207,12 +207,12 @@
                                                                 </span><span v-else>.</span>
                                                             </span>
                                                         </div>
-                                                        
+
                                                         <div class="flex items-center gap-1 cursor-pointer"
                                                             @click="state.modal.isAnnualNormHoursInfoOpen = true">
                                                             <p class="text-xxs">
                                                                 {{ $t('dutySchedules.annualNormHours') }}:
-                                                                {{ employee?.annual_norm_hours ??  0 }}
+                                                                {{ employee?.annual_norm_hours ?? 0 }}
                                                             </p>
                                                             <Icon name="ph:question" class="h-3.5 w-3.5"
                                                                 aria-hidden="true" />
@@ -232,7 +232,7 @@
                                                     expandedRecords[employeeIndex as number] && 'hidden'
                                                 ]">
                                                     <div class="text-xs grid grid-cols-7"
-                                                        v-if="isAdmin(userStore.getUser?.role) || (! isAdmin(userStore.getUser?.role) && userStore.getUser?.show_working_hours)">
+                                                        v-if="isAdmin(userStore.getUser?.role) || (!isAdmin(userStore.getUser?.role) && userStore.getUser?.show_working_hours)">
                                                         <div class="col-span-3 space-y-2" />
                                                         <div class="col-span-2 flex gap-2 flex-col items-end">
                                                             <p class="text-xxs py-2 pr-2">
@@ -258,7 +258,7 @@
                                                         <div class="col-span-3">
                                                             <div v-for="(time, timeIndex) in employee?.hours"
                                                                 :key="timeIndex" :class="[
-                                                                    timeIndex as number % 2 ?  'bg-white' : 'bg-gray-100',
+                                                                    timeIndex as number % 2 ? 'bg-white' : 'bg-gray-100',
                                                                     'py-1'
                                                                 ]">
                                                                 <div class="pl-3">
@@ -270,8 +270,8 @@
                                                                                     :style="{ background: time?.shift?.color }" />
                                                                             </div>
                                                                             <div class="truncate w-36">
-                                                                                {{ language.locale.value === 'en' ? 
-                                                                                    time?.shift?.en_name : 
+                                                                                {{ language.locale.value === 'en' ?
+                                                                                    time?.shift?.en_name :
                                                                                     time?.shift?.dk_name
                                                                                 }}
                                                                             </div>
@@ -305,14 +305,14 @@
                                                         <div
                                                             class="px-3 col-span-7 space-y-2 mt-4 border-t-0.5 border-gray-200 pt-3">
                                                             <div :class="[
-                                                                employee?.total_norm_hours?.compensatory_hours > 0 ?  'text-green-700' : 'text-red-700',
+                                                                employee?.total_norm_hours?.compensatory_hours > 0 ? 'text-green-700' : 'text-red-700',
                                                                 'flex items-center gap-1 w-fit cursor-pointer'
                                                             ]" @click="viewCompensatoryHours(employee)">
                                                                 <Icon name="ph:clock" class="h-3 w-3"
                                                                     aria-hidden="true" />
                                                                 {{
                                                                     $t('dutySchedules.normHours.compensatoryHours')
-                                                                }}: 
+                                                                }}:
                                                                 {{
                                                                     formatNumber(language.locale.value,
                                                                         employee?.total_norm_hours?.compensatory_hours)
@@ -323,14 +323,14 @@
                                                         </div>
                                                         <div class="px-3 col-span-7 space-y-2 mt-1">
                                                             <div :class="[
-                                                                employee?.total_norm_hours?.available_vacation_hours > 0 ? 'text-green-700' :  'text-red-700',
+                                                                employee?.total_norm_hours?.available_vacation_hours > 0 ? 'text-green-700' : 'text-red-700',
                                                                 'flex items-center gap-1 w-fit cursor-pointer'
                                                             ]" @click="viewAvailableVacationHours(employee)">
                                                                 <Icon name="ph:clock" class="h-3 w-3"
                                                                     aria-hidden="true" />
                                                                 {{
                                                                     $t('dutySchedules.normHours.availableVacationHours')
-                                                                }}: 
+                                                                }}:
                                                                 {{
                                                                     formatNumber(language.locale.value,
                                                                         employee?.total_norm_hours?.available_vacation_hours ||
@@ -343,7 +343,7 @@
                                                 <div class="px-3 pb-3">
                                                     <button @click="toggleExpanded(employeeIndex as number)"
                                                         class="text-primary text-xs hover:text-primary-700">
-                                                        {{ ! expandedRecords[employeeIndex as number] ? 
+                                                        {{ !expandedRecords[employeeIndex as number] ?
                                                             $t('showLess') :
                                                             $t('showMore') }}
                                                     </button>
@@ -359,7 +359,7 @@
                                                             :key="shiftIndex" :class="[
                                                                 'rounded-md p-1 relative mb-2.5'
                                                             ]" :style="{
-                                                                backgroundColor:  `${shift?.type?.color}`,
+                                                                backgroundColor: `${shift?.type?.color}`,
                                                                 width: `${calculateShiftWidth(shift, weekIndex.toString())}`,
                                                                 marginTop: `${calculateMarginTop(employee?.weeks, weekIndex.toString(), shiftIndex)}rem`
                                                             }">
@@ -497,7 +497,7 @@ const state = reactive({
         isAnnualNormHoursInfoOpen: false,
     } as any,
     normHours: {
-        selectedEmployeeSchedule:  {}
+        selectedEmployeeSchedule: {}
     },
     progress: {
         percentage: 100,
@@ -520,7 +520,7 @@ const state = reactive({
     weeklySchedules: [] as any,
 })
 
-watch(() => state.progress.percentage, (newPercentage:  any) => {
+watch(() => state.progress.percentage, (newPercentage: any) => {
     if (newPercentage < 100) {
         state.progress.showProgressBar = true
     }
@@ -593,10 +593,10 @@ function setCustomWeekLabel(startDate: any, endDate: any) {
 }
 
 function sortMultiDayShiftsFirst(shifts: any) {
-    if (! shifts || ! Array.isArray(shifts)) {
+    if (!shifts || !Array.isArray(shifts)) {
         return []
     }
-    
+
     const sortedShifts = shifts.sort((a: any, b: any) => {
         const aMultiDay = moment(a.date_time_end).startOf('day').diff(moment(a.date_time_start).startOf('day'), 'days') >= 1
         const bMultiDay = moment(b.date_time_end).startOf('day').diff(moment(b.date_time_start).startOf('day'), 'days') >= 1
@@ -608,7 +608,7 @@ function sortMultiDayShiftsFirst(shifts: any) {
     return sortedShifts
 }
 
-function calculateShiftWidth(shift:  any, weekIndex: string) {
+function calculateShiftWidth(shift: any, weekIndex: string) {
     const shiftStart = moment(shift.date_time_start).startOf('day')
     const shiftEnd = moment(shift.date_time_end).startOf('day')
 
@@ -658,7 +658,7 @@ function getMultiDayShift(shifts: any) {
     if (!shifts || !Array.isArray(shifts)) {
         return undefined
     }
-    
+
     return shifts.find((shift: any) => {
         const startDay = moment(shift.date_time_start).startOf('day')
         const endDay = moment(shift.date_time_end).startOf('day')
@@ -688,7 +688,7 @@ async function fetchDraftDutySchedule() {
             date_end: endOfWeekFormatted,
             filter_date_start: moment(state.shiftDateRange.formDateRange.start_date).format('YYYY-MM-DD'),
             filter_date_end: moment(state.shiftDateRange.formDateRange.end_date).format('YYYY-MM-DD'),
-            department:  departmentStore.getSelectedDepartmentName,
+            department: departmentStore.getSelectedDepartmentName,
             sortField: state.sortData.sortField,
             sortOrder: state.sortData.sortOrder,
             ...state.dataFilter,
@@ -701,7 +701,6 @@ async function fetchDraftDutySchedule() {
             identifyTheProgressPercentage()
         }
     } catch (error: any) {
-        console.log(error)
         state.error = error
         state.progress.totalRequests = state.progress.totalRequests - 1
         state.progress.pendingRequests = state.progress.pendingRequests - 1
@@ -839,6 +838,6 @@ function handleScroll() {
         header.classList.remove('fixed-header-week-view-top')
     }
 
-    lastScrollTop = currentScroll <= 0 ? 0 :  currentScroll
+    lastScrollTop = currentScroll <= 0 ? 0 : currentScroll
 }
 </script>

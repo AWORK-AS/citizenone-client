@@ -23,7 +23,6 @@
     </div>
 </template>
 
-
 <script setup lang="ts">
 import { myCalendarService } from '@/components/api/user/MyCalendarService'
 import { useAlert } from '@/composables/alert'
@@ -80,7 +79,7 @@ async function updateSchedule(scheduleDetails: any) {
             is_private: scheduleDetails.is_private,
             apply_changes_to_future_events: scheduleDetails.apply_changes_to_future_events,
         } as any
-        
+
         if (scheduleDetails.recurring.recurring) {
             params.recurring = scheduleDetails.recurring.recurring
             params.recurring_until = scheduleDetails.recurring.recurring_until
@@ -107,7 +106,6 @@ async function updateSchedule(scheduleDetails: any) {
                 }
             }
         }
-        console.log('Params', params)
         const response = await myCalendarService.updateSchedule(scheduleUuid, params)
         if (response?.data) {
             refreshSchedules()

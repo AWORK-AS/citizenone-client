@@ -1,47 +1,48 @@
 <template>
     <div>
-        <Modal size="xl" :title="$t('plansandgoals.editStatusTemplate.editReport')" 
-                         :show="props.isModalOpen"
-                         @close="closeModal">
+        <Modal size="xl" :title="$t('plansandgoals.editStatusTemplate.editReport')" :show="props.isModalOpen"
+            @close="closeModal">
             <template #modal-body>
                 <LoadingSpinner :isActive="state.isPageLoading">
-                    
+
                     <div v-if="state.currentStep === 1" class="space-y-5">
                         <div class="px-4 py-6 sm:p-8 bg-white shadow-sm ring-1 ring-gray-900/5 rounded-lg">
                             <div class="space-y-3">
                                 <div class="space-y-1">
                                     <div class="flex justify-between items-center py-0.5">
-                                        <FormLabel 
-                                        for="form" 
-                                        :label="$t('citizens.documents.createTemplate.form.form')" />
+                                        <FormLabel for="form"
+                                            :label="$t('citizens.documents.createTemplate.form.form')" />
                                         <span class="text-xs cursor-pointer text-tertiary hover:text-tertiary-800"
                                             @click="navigateTo('/forms')">
                                             {{ $t('citizens.documents.createTemplate.form.createNewForm') }}
                                         </span>
                                     </div>
-                                    <FormSelect 
-                                        id="form" 
-                                        :options="state.options.forms"
+                                    <FormSelect id="form" :options="state.options.forms"
                                         v-model="state.formStatusTemplate.form_uuid" />
-                                    <FormError :error="v$?.formStatusTemplate?.form_uuid?.$errors[0]?.$message.toString()" />
+                                    <FormError
+                                        :error="v$?.formStatusTemplate?.form_uuid?.$errors[0]?.$message.toString()" />
                                     <FormError :error="state?.error?.errors?.form_uuid?.[0]" />
                                 </div>
                                 <div class="grid md:grid-cols-3 gap-x-3">
                                     <div class="space-y-1">
-                                        <FormLabel for="journal_note_plan" :label="$t('citizens.documents.createTemplate.form.plan')" />
+                                        <FormLabel for="journal_note_plan"
+                                            :label="$t('citizens.documents.createTemplate.form.plan')" />
                                         <FormSelect id="journal_note_plan" :options="state.options.plans"
                                             v-model="state.formStatusTemplate.plan_uuid"
                                             @change="(planUuid: any) => fetchAllGoalsPerPlan(planUuid)" />
-                                        <FormError :error="v$?.formStatusTemplate?.plan_uuid?.$errors[0]?.$message.toString()" />
+                                        <FormError
+                                            :error="v$?.formStatusTemplate?.plan_uuid?.$errors[0]?.$message.toString()" />
                                     </div>
                                     <div class="space-y-1">
-                                        <FormLabel for="journal_note_goal" :label="$t('citizens.documents.createTemplate.form.goal')" />
+                                        <FormLabel for="journal_note_goal"
+                                            :label="$t('citizens.documents.createTemplate.form.goal')" />
                                         <FormSelect id="journal_note_goal" :options="state.options.goals"
                                             v-model="state.formStatusTemplate.goal_uuid"
                                             @change="(goalUuid: any) => fetchAllSubgoalsPerGoal(goalUuid)" />
                                     </div>
                                     <div class="space-y-1">
-                                        <FormLabel for="journal_note_subgoals" :label="$t('citizens.documents.createTemplate.form.subgoal')" />
+                                        <FormLabel for="journal_note_subgoals"
+                                            :label="$t('citizens.documents.createTemplate.form.subgoal')" />
                                         <FormSelect id="journal_note_subgoals" :options="state.options.subgoals"
                                             v-model="state.formStatusTemplate.subgoal_uuid" />
                                     </div>
@@ -58,7 +59,6 @@
                         </div>
                     </div>
 
-                    
                     <div v-else class="space-y-5">
                         <div class="space-y-3 px-4 py-6 sm:p-8 bg-white shadow-sm ring-1 ring-gray-900/5 rounded-lg">
                             <Alert type="danger" :text="state?.error?.message"
@@ -98,7 +98,7 @@
                                                         </div>
                                                     </div>
 
-                                                    
+
                                                     <div v-if="JSON.parse(formField?.field)?.type === 'textarea'"
                                                         class="grow">
                                                         <div class="p-5 space-y-3">
@@ -119,7 +119,7 @@
                                                         </div>
                                                     </div>
 
-                                                    
+
                                                     <div v-if="JSON.parse(formField?.field)?.type === 'datefield'"
                                                         class="grow">
                                                         <div class="p-5 space-y-3">
@@ -146,7 +146,7 @@
                                                         </div>
                                                     </div>
 
-                                                    
+
                                                     <div v-if="JSON.parse(formField?.field)?.type === 'choice'"
                                                         class="grow">
                                                         <div class="p-5 space-y-3">
@@ -163,7 +163,8 @@
                                                                         <div v-for="(radio, radioIndex) in JSON.parse(formField?.field)?.options"
                                                                             :key="radioIndex"
                                                                             class="flex items-center gap-x-2">
-                                                                            <label class="flex items-center gap-x-2 cursor-pointer">
+                                                                            <label
+                                                                                class="flex items-center gap-x-2 cursor-pointer">
                                                                                 <FormRadioButton
                                                                                     :name="`choice_${fieldIndex}`"
                                                                                     :value="radio"
@@ -178,7 +179,7 @@
                                                         </div>
                                                     </div>
 
-                                                    
+
                                                     <div v-if="JSON.parse(formField?.field)?.type === 'checkbox'"
                                                         class="grow">
                                                         <div class="p-5 space-y-3">
@@ -194,7 +195,8 @@
                                                                         <div v-for="(checkbox, checkboxIndex) in JSON.parse(formField?.field)?.options"
                                                                             :key="checkboxIndex"
                                                                             class="flex items-center gap-x-2">
-                                                                            <label class="flex items-center gap-x-2 cursor-pointer">
+                                                                            <label
+                                                                                class="flex items-center gap-x-2 cursor-pointer">
                                                                                 <FormCheckbox
                                                                                     :name="`choice_${fieldIndex}_${checkboxIndex}`"
                                                                                     :checked="formField.responses?.includes(checkbox)"
@@ -208,7 +210,7 @@
                                                         </div>
                                                     </div>
 
-                                                   
+
                                                     <div v-if="JSON.parse(formField?.field)?.type === 'rating'"
                                                         class="grow">
                                                         <div class="p-5 space-y-3">
@@ -221,7 +223,8 @@
                                                                             v-if="JSON.parse(formField?.field)?.required"
                                                                             class="text-red-600">*</span>
                                                                     </h3>
-                                                                    <div class="flex items-center justify-between gap-x-2">
+                                                                    <div
+                                                                        class="flex items-center justify-between gap-x-2">
                                                                         <button
                                                                             v-for="(rating, ratingIndex) in JSON.parse(formField?.field)?.levels"
                                                                             :key="ratingIndex"
@@ -236,26 +239,31 @@
                                                         </div>
                                                     </div>
 
-                                                    
-                                                    <div v-if="JSON.parse(formField?.field)?.type === 'uploadfile'" class="grow">
+
+                                                    <div v-if="JSON.parse(formField?.field)?.type === 'uploadfile'"
+                                                        class="grow">
                                                         <div class="p-5 space-y-3">
                                                             <div class="flex gap-x-3">
-                                                            <div>{{ fieldIndex + 1 }}.</div>
+                                                                <div>{{ fieldIndex + 1 }}.</div>
                                                                 <div class="grow space-y-4">
                                                                     <h3>
                                                                         {{ JSON.parse(formField?.field)?.value }}
-                                                                        <span v-if="JSON.parse(formField?.field)?.required" class="text-red-600">*</span>
+                                                                        <span
+                                                                            v-if="JSON.parse(formField?.field)?.required"
+                                                                            class="text-red-600">*</span>
                                                                     </h3>
 
                                                                     <!-- Show current file if response exists -->
                                                                     <div v-if="formField.responses">
-                                                                        <a :href="formField.responses" target="_blank" class="text-blue-600 underline">
+                                                                        <a :href="formField.responses" target="_blank"
+                                                                            class="text-blue-600 underline">
                                                                             Current file
                                                                         </a>
                                                                     </div>
 
                                                                     <!-- File input for replacing -->
-                                                                    <input type="file" @change="onFileChange(fieldIndex, $event)">
+                                                                    <input type="file"
+                                                                        @change="onFileChange(fieldIndex, $event)">
                                                                 </div>
                                                             </div>
                                                         </div>
@@ -269,8 +277,7 @@
                         </div>
 
                         <div class="space-y-1">
-                            <div class="w-fit flex items-center cursor-pointer"
-                                @click="state.isDraft = !state.isDraft">
+                            <div class="w-fit flex items-center cursor-pointer" @click="state.isDraft = !state.isDraft">
                                 <FormCheckbox id="is_draft" :value="state.isDraft" />
                                 {{ $t('plansandgoals.createStatusTemplate.form.saveAsDraft') }}
                             </div>
@@ -339,7 +346,7 @@ const state = reactive({
     isDraft: true,
 
     currentStep: 1,
-    formStatusTemplate: {  
+    formStatusTemplate: {
         form_uuid: '',
         plan_uuid: '',
         goal_uuid: '',
@@ -381,7 +388,7 @@ watch(() => props.isModalOpen, async (isModalOpen: any) => {
 
         state.formStatusTemplate.form_uuid = state.status?.form?.uuid || ''
 
-        await fetchDraftData()    
+        await fetchDraftData()
         await fetchAllForms()
         await fetchAllPlans()
 
@@ -397,22 +404,20 @@ watch(() => props.isModalOpen, async (isModalOpen: any) => {
 })
 
 async function fetchStatusDetail() {
-
     state.error = {}
     state.isPageLoading = true
-    try{
+    try {
         const response = await planGoalSubgoalService.getAttachmentDetails(props.selectedStatus.uuid)
-        if(response.data){
+        if (response.data) {
             state.status = response.data
-
             const planGoalSubgoal = await planGoalSubgoalService.getPlanGoalSubgoalDetail(state.status.model.uuid)
-            if(planGoalSubgoal){
+            if (planGoalSubgoal) {
                 state.formStatusTemplate.plan_uuid = planGoalSubgoal?.plan?.uuid
                 state.formStatusTemplate.goal_uuid = planGoalSubgoal?.goal?.uuid
                 state.formStatusTemplate.subgoal_uuid = planGoalSubgoal?.subgoal?.uuid
             }
         }
-    }catch (error: any) {
+    } catch (error: any) {
         state.error = error
     }
     state.isPageLoading = false
@@ -440,8 +445,8 @@ async function fetchForm() {
                     for (let j = 0; j < state.status.field_responses.length; j++) {
                         const fieldResponse = state.status.field_responses[j];
 
-                        if(formField.id === fieldResponse.form_field_id){
-                             state.form.data.form_fields[i].responses = state.status.field_responses[j].response
+                        if (formField.id === fieldResponse.form_field_id) {
+                            state.form.data.form_fields[i].responses = state.status.field_responses[j].response
                         }
                     }
                 }
