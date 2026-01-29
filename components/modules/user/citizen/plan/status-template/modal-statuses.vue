@@ -39,12 +39,15 @@
                                                 <Badge type="primary" class="w-fit" v-if="status?.is_draft">
                                                     <p class="text-xs">{{ $t('plansandgoals.isDraft') }}</p>
                                                 </Badge>
+                                                <Badge type="primary" class="w-fit" v-else>
+                                                    <p class="text-xs">{{ $t('activityLogs.table.actionTypes.published') }}</p>
+                                                </Badge>
                                             </div>
                                         </td>
                                         
                                         <td width="15%">
                                             <div class="flex items-end gap-2">
-                                                <FormButton class="rounded-md" buttonSize="sm"
+                                                <FormButton v-if="status.is_draft" class="rounded-md" buttonSize="sm"
                                                     @click="editDraft(status)">
                                                     <Icon name="ph:pencil-simple" class="size-4" />
                                                     {{ $t('plansandgoals.table.actions.edit') }}

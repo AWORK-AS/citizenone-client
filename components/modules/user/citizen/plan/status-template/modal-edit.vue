@@ -380,32 +380,13 @@ watch(() => props.isModalOpen, async (isModalOpen: any) => {
         await fetchStatusDetail()
 
         state.formStatusTemplate.form_uuid = state.status?.form?.uuid || ''
-        
-        const modelType = state.status?.model_type || ''
-        const modelUuid = state.status?.model?.uuid || ''
-        
-        state.formStatusTemplate.plan_uuid = ''
-        state.formStatusTemplate.goal_uuid = ''
-        state.formStatusTemplate.subgoal_uuid = ''
-        
-        if (modelType.includes('CitizenPlan')) {
-            state.formStatusTemplate.plan_uuid = modelUuid
-        } else if (modelType.includes('CitizenGoal')) {
-            state.formStatusTemplate.goal_uuid = modelUuid
-        } else if (modelType.includes('CitizenSubgoal')) {
-            state.formStatusTemplate.subgoal_uuid = modelUuid
-        }
 
         await fetchDraftData()    
         await fetchAllForms()
         await fetchAllPlans()
 
         if (state.formStatusTemplate.plan_uuid) {
-            const savedGoalUuid = state.formStatusTemplate.goal_uuid
-            const savedSubgoalUuid = state.formStatusTemplate.subgoal_uuid
             await fetchAllGoalsPerPlan(state.formStatusTemplate.plan_uuid)
-            state.formStatusTemplate.goal_uuid = savedGoalUuid
-            state.formStatusTemplate.subgoal_uuid = savedSubgoalUuid
         }
         if (state.formStatusTemplate.goal_uuid) {
             await fetchAllSubgoalsPerGoal(state.formStatusTemplate.goal_uuid)
@@ -423,6 +404,13 @@ async function fetchStatusDetail() {
         const response = await planGoalSubgoalService.getAttachmentDetails(props.selectedStatus.uuid)
         if(response.data){
             state.status = response.data
+
+            const planGoalSubgoal = await planGoalSubgoalService.getPlanGoalSubgoalDetail(state.status.model.uuid)
+            if(planGoalSubgoal){
+                state.formStatusTemplate.plan_uuid = planGoalSubgoal?.plan?.uuid
+                state.formStatusTemplate.goal_uuid = planGoalSubgoal?.goal?.uuid
+                state.formStatusTemplate.subgoal_uuid = planGoalSubgoal?.subgoal?.uuid
+            }
         }
     }catch (error: any) {
         state.error = error
@@ -434,7 +422,7 @@ async function fetchForm() {
     state.error = {}
     state.isPageLoading = true
     try {
-        const formUuid = props.selectedStatus?.form?.uuid
+        const formUuid = state.formStatusTemplate.form_uuid
         const response = await formService.getForm(formUuid)
         if (response) {
             if (response.data?.form_fields) {
@@ -567,8 +555,6 @@ async function fetchAllGoals() {
 
 async function fetchAllGoalsPerPlan(planUuid: any) {
     if (planUuid) {
-        state.formStatusTemplate.goal_uuid = ''
-        state.formStatusTemplate.subgoal_uuid = ''
         state.options.goals = []
         state.options.subgoals = []
         state.error = {}
@@ -591,8 +577,6 @@ async function fetchAllGoalsPerPlan(planUuid: any) {
         state.isPageLoading = false
     } else {
         fetchAllGoals()
-        state.formStatusTemplate.goal_uuid = ''
-        state.formStatusTemplate.subgoal_uuid = ''
         state.options.goals = []
         state.options.subgoals = []
     }
@@ -619,7 +603,6 @@ async function fetchAllSubgoalsPerGoal(goalUuid: any) {
         }
         state.isPageLoading = false
     } else {
-        state.formStatusTemplate.subgoal_uuid = ''
         state.options.subgoals = []
     }
 }
@@ -655,7 +638,12 @@ async function submitResponse() {
     try {
         let params = new FormData()
         params.append('form_uuid', state.formStatusTemplate.form_uuid || props.selectedStatus?.form?.uuid || state.form?.data?.uuid)
-        params.append('plan_goal_subgoal_uuid', props.selectedStatus?.model?.uuid || state.formStatusTemplate.plan_uuid || state.formStatusTemplate.goal_uuid || state.formStatusTemplate.subgoal_uuid)
+        params.append(
+            'plan_goal_subgoal_uuid',
+            state.formStatusTemplate.subgoal_uuid ||
+            state.formStatusTemplate.goal_uuid ||
+            state.formStatusTemplate.plan_uuid
+        )
         params.append('is_draft', state.isDraft ? '1' : '0')
 
         state.form.data.form_fields.forEach((formField: any) => {
@@ -693,10 +681,17 @@ async function submitResponse() {
 async function submitResponseAndDownloadPDF() {
     state.error = {}
     state.isPageLoading = true
+
     try {
         let params = new FormData()
         params.append('form_uuid', state.formStatusTemplate.form_uuid || props.selectedStatus?.form?.uuid || state.form?.data?.uuid)
-        params.append('plan_goal_subgoal_uuid', props.selectedStatus?.model?.uuid || state.formStatusTemplate.plan_uuid || state.formStatusTemplate.goal_uuid || state.formStatusTemplate.subgoal_uuid)
+        params.append(
+            'plan_goal_subgoal_uuid',
+            state.formStatusTemplate.subgoal_uuid ||
+            state.formStatusTemplate.goal_uuid ||
+            state.formStatusTemplate.plan_uuid
+        )
+
         params.append('is_draft', state.isDraft ? '1' : '0')
 
         state.form.data.form_fields.forEach((formField: any) => {
@@ -714,7 +709,7 @@ async function submitResponseAndDownloadPDF() {
                 params.append(`responses[${fieldUuid}]`, formField.responses)
             }
         })
-        const response = await formFieldService.saveAndDownloadPdf(props.selectedStatus.uuid, params)
+        const response = await formFieldService.savePlanGoalSubgoalResponsesAndDownloadPdfOnEdit(props.selectedStatus.uuid, params)
         if (response) {
             successAlert(`${t('alert.success')}!`, `${t('plansandgoals.editStatusTemplate.alert.statusTemplateSuccessfully')}.`)
             closeModal()
