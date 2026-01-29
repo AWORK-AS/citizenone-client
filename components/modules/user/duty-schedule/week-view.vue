@@ -832,6 +832,9 @@
             <ModulesUserDutyScheduleModalNewShift :isModalOpen="state.modal.isAddShiftOpen"
                 :isModalLoading="state.isModalLoading" :error="state.newShiftError"
                 :selectedDate="state.newShift.selectedDate" :selectedEmployee="state.newShift.selectedEmployee"
+                :showWarningDialog="state.showWarningDialog" :shiftWarnings="state.shiftWarnings"
+                @dateTimeChange="dateTimeChange"
+                @closeWarningDialog="closeWarningDialog"
                 @close="state.modal.isAddShiftOpen = false" @saveShift="saveShift"
                 @resetNewShiftError="state.newShiftError = {}" />
             <ModulesUserDutyScheduleModalEditShift :isModalLoading="state.isModalLoading"
@@ -1005,6 +1008,8 @@ const state = reactive({
         selectedEmployeeSchedule: {},
     } as any,
     weeklySchedules: [] as any,
+    shiftWarnings: [] as any,
+    showWarningDialog: false,
 })
 
 const hasCreatePermission = computed(() => {
@@ -1801,5 +1806,27 @@ function handleScroll() {
 
     // Update the last scroll position for the next scroll event
     lastScrollTop = currentScroll <= 0 ? 0 : currentScroll // Prevent negative scroll
+}
+
+async function dateTimeChange(employeeUuid: string, newDateTimeStart: string, newDateTimeEnd: string) {
+    try {
+        const params = {
+            date_time_start: newDateTimeStart,
+            date_time_end: newDateTimeEnd,
+            user_uuid: employeeUuid,
+        }
+        const response = await dutyScheduleService.scheduleValidation(params)
+        if (response.data && !response.data.valid) {
+            state.shiftWarnings = response.data.warnings
+            state.showWarningDialog = true
+        }
+    } catch (error: any) {
+        
+    }
+}
+
+function closeWarningDialog() {
+    state.showWarningDialog = false
+    state.shiftWarnings = []
 }
 </script>

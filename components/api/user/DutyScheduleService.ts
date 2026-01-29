@@ -40,6 +40,10 @@ class DutyScheduleService extends BaseAPIService {
     async pinSelfToTopOfSchedule(): Promise<any> {
         return await this.request(`/user/duty-schedules/employee/pin`, 'POST')
     }
+
+    async scheduleValidation(params: object): Promise<any> {
+        return await this.request(`/user/duty-schedules/schedule/validation`, 'POST', params)
+    }
 }
 
 export const dutyScheduleService = new DutyScheduleService()

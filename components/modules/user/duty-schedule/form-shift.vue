@@ -336,7 +336,7 @@ const props = defineProps({
     },
 })
 const { t } = useI18n()
-const emit = defineEmits(['close', 'isPageLoading', 'saveShift'])
+const emit = defineEmits(['close', 'isPageLoading', 'saveShift', 'dateTimeChange'])
 const language = useI18n()
 const departmentStore = useDepartmentStore() as any
 
@@ -513,6 +513,17 @@ watch(() => state.formShift.shift_type, (selectedShift) => {
         ).format('YYYY-MM-DD H:mm')
     }
 
+    emit('dateTimeChange', props.selectedEmployee.uuid, state.formShift.date_time_start, state.formShift.date_time_end)
+})
+
+watch(() => state.formShift.date_time_start, () => {
+    if (!state.formShift.shift_type) return
+    emit('dateTimeChange', props.selectedEmployee.uuid, state.formShift.date_time_start, state.formShift.date_time_end)
+})
+
+watch(() => state.formShift.date_time_end, () => {
+    if (!state.formShift.shift_type) return
+    emit('dateTimeChange', props.selectedEmployee.uuid, state.formShift.date_time_start, state.formShift.date_time_end)
 })
 
 const rules = computed(() => {

@@ -2806,7 +2806,11 @@
             "viewSchedule": "Se tidsplan"
         },
         "week": "Uge",
-        "yearToDate": "År til dato"
+        "yearToDate": "År til dato",
+        "shiftWarning": {
+            "warning": "Advarsel",
+            "warningsFound": "Advarsler er fundet i denne vagt."
+        }
     },
     "drive": {
         "alert": {

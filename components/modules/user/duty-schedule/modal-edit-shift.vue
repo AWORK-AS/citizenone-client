@@ -5,6 +5,7 @@
                 <LoadingSpinner :isActive="props.isModalLoading || state.isPageLoading">
                     <ModulesUserDutyScheduleFormShift formType="update" :error="props.error"
                         :selectedEmployee="props.selectedEmployee" :selectedShift="state.formShift"
+                        @dateTimeChange="dateTimeChange"
                         @close="closeModal()" @isPageLoading="(value: boolean) => state.isPageLoading = value"
                         @saveShift="updateShift" />
                 </LoadingSpinner>
@@ -39,7 +40,7 @@ const props = defineProps({
         required: true,
     },
 })
-const emit = defineEmits(['close', 'updateShift', 'resetEditShiftError'])
+const emit = defineEmits(['close', 'updateShift', 'resetEditShiftError', 'dateTimeChange'])
 const state = reactive({
     error: {} as Error,
     isPageLoading: false,
@@ -108,6 +109,10 @@ watch(() => props.selectedEmployeeSchedule, (selectedEmployeeSchedule: any) => {
 
 function closeModal() {
     emit('close')
+}
+
+function dateTimeChange(employeeUuid: string, newDateTimeStart: string, newDateTimeEnd: string) {
+    emit('dateTimeChange', employeeUuid, newDateTimeStart, newDateTimeEnd)
 }
 
 async function updateShift(shiftDetails: any) {

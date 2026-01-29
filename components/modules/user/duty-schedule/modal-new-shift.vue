@@ -5,8 +5,13 @@
                 <LoadingSpinner :isActive="props.isModalLoading || state.isPageLoading">
                     <ModulesUserDutyScheduleFormShift formType="create" :error="props.error"
                         :selectedEmployee="props.selectedEmployee" :selectedShift="state.formShift"
+                        @dateTimeChange="dateTimeChange"
                         @close="closeModal()" @isPageLoading="(value: boolean) => state.isPageLoading = value"
                         @saveShift="saveShift" />
+
+                    <ModulesUserDutyScheduleModalShiftWarning :isModalOpen="props.showWarningDialog"
+                        :warnings="props.shiftWarnings"
+                        @close="emit('closeWarningDialog')" />
                 </LoadingSpinner>
             </template>
         </Modal>
@@ -38,8 +43,18 @@ const props = defineProps({
         type: Object,
         required: true,
     },
+    showWarningDialog: {
+        type: Boolean,
+        required: false,
+        default: false,
+    },
+    shiftWarnings: {
+        type: Object,
+        required: false,
+        default: () => [],
+    },
 })
-const emit = defineEmits(['close', 'saveShift', 'resetNewShiftError'])
+const emit = defineEmits(['close', 'saveShift', 'resetNewShiftError', 'dateTimeChange', 'closeWarningDialog'])
 const state = reactive({
     error: {} as Error,
     isPageLoading: false,
@@ -85,6 +100,10 @@ watch(() => props.isModalOpen, (isModalOpen) => {
 
 function closeModal() {
     emit('close')
+}
+
+function dateTimeChange(employeeUuid: string, newDateTimeStart: string, newDateTimeEnd: string) {
+    emit('dateTimeChange', employeeUuid, newDateTimeStart, newDateTimeEnd)
 }
 
 async function saveShift(shiftDetails: any) {
