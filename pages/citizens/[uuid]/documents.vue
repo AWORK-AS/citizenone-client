@@ -1,7 +1,6 @@
 <template>
     <div>
         <NuxtLayout name="user">
-
             <Head>
                 <Title>{{ $t('citizens.tabs.documents') }} - {{ runtimeConfig?.public?.appName }}</Title>
             </Head>
@@ -38,8 +37,15 @@
                 <ModulesUserCitizenDetailsHeader />
                 <ModulesUserCitizenJournalTabs />
 
-                <div>
-                    <div class="mt-8 flex justify-end items-center gap-x-3">
+                <div class="flex">
+                    <div v-if="showDraftButton" class="mt-8 flex justify-start items-center gap-x-3">
+                        <FormButton buttonStyle="action" class="rounded-md"
+                            @click="viewDirectory(selectedDocument, true)">
+                            <Icon name="ph:file" class="h-4 w-4" aria-hidden="true" />
+                            {{ $t('citizens.documents.viewDraftFile') }}
+                        </FormButton>
+                    </div>
+                    <div class="mt-8 ml-auto flex justify-end items-center gap-x-3">
                         <FormButton buttonStyle="action" class="rounded-md"
                             @click="state.modal.isAddDirectoryOpen = true">
                             <Icon name="ph:plus" class="h-4 w-4" aria-hidden="true" />
@@ -123,14 +129,14 @@
                                             </Tooltip>
                                             <Tooltip :text="document?.is_shared ? $t('citizens.documents.table.actions.unshare') :
                                                 $t('citizens.documents.table.actions.share')"
-                                                v-if="document?.type === 'file'">
+                                                v-if="document?.type === 'file' && !is_draft">
                                                 <FormButton type="button" buttonStyle="primary" class="rounded-md"
                                                     @click="confirmDocumentShareUnshare(document)">
                                                     <Icon name="ph:share" class="size-4" />
                                                 </FormButton>
                                             </Tooltip>
                                             <Tooltip :text="$t('citizens.documents.table.actions.move')"
-                                                v-if="document?.type === 'file'">
+                                                v-if="document?.type === 'file' && !is_draft">
                                                 <FormButton type="button" buttonStyle="primary" class="rounded-md"
                                                     @click="moveFileConfirmation(document)">
                                                     <Icon name="ph:arrows-out" class="size-4" />
@@ -143,13 +149,14 @@
                                                 </FormButton>
                                             </Tooltip>
                                             <Tooltip :text="$t('citizens.documents.table.actions.access')"
-                                                v-if="isAdmin(userStore.getUser?.roles)">
+                                                v-if="isAdmin(userStore.getUser?.roles) && !is_draft">
                                                 <FormButton type="button" buttonStyle="primary" class="rounded-md"
                                                     @click="viewDocumentAccess(document)">
                                                     <Icon name="ph:lock" class="size-4" />
                                                 </FormButton>
                                             </Tooltip>
-                                            <Tooltip :text="$t('citizens.documents.table.actions.archive')">
+                                            <Tooltip :text="$t('citizens.documents.table.actions.archive')"
+                                                v-if="!is_draft">
                                                 <FormButton type="button" buttonStyle="primary" class="rounded-md"
                                                     @click="confirmDocumentArchiving(document)">
                                                     <Icon name="ph:archive-light" class="size-4" />
@@ -183,6 +190,9 @@
                 <ModulesUserCitizenDocumentModalEditDocument :isModalOpen="state.modal.isEditDocumentOpen"
                     :selectedDocument="state.selectedDocument" @close="state.modal.isEditDocumentOpen = false"
                     @refreshDocuments="fetchDocuments" />
+                <ModulesUserCitizenDocumentStatusTemplateModalEdit :is-modal-open="state.modal.isEditDocumentDraftOpen"
+                    :selectedDocument="state.selectedDocument" @close="state.modal.isEditDocumentDraftOpen = false" 
+                    @refreshDocuments="fetchDocuments"/>
                 <ModulesUserCitizenDocumentAccessModalView :isModalOpen="state.modal.isViewAccessOpen"
                     :selectedDocument="state.selectedDocument" @close="state.modal.isViewAccessOpen = false" />
                 <ModulesUserCitizenDocumentStatusTemplateModalNew :isModalOpen="state.modal.isCreateTemplateOpen"
@@ -231,9 +241,12 @@ const { t } = useI18n()
 const customPagesStore = useCustomPagesStore() as any
 const userStore = useUserStore() as any
 const router = useRouter()
+const route = useRoute()
 const citizenUuid = router?.currentRoute?.value?.params?.uuid as any
 const documentFile = ref(null) as any
+const is_draft = ref(false)
 let currentTablePage = 1
+const selectedDocument = ref() as any
 const breadcrumbLinks = [
     {
         name: 'citizens.tabs.documents',
@@ -264,6 +277,7 @@ const state = reactive({
         isDeleteDirectoryOpen: false,
         isDeleteFileOpen: false,
         isEditDocumentOpen: false,
+        isEditDocumentDraftOpen: false,
         isMoveFileOpen: false,
         isShareDocumentOpen: false,
         isUpgradeStorageOpen: false,
@@ -287,6 +301,15 @@ watch(() => router?.currentRoute?.value?.query, (newParams, oldParams) => {
     handleRouteChange()
 }, { deep: true })
 
+const showDraftButton = computed(() => {
+  return (
+    route?.path.includes('/citizens/') &&
+    route?.path.endsWith('/documents') &&
+    !!route?.query.folder_uuid &&
+    !route?.query.is_draft
+  )
+})
+
 const handleRouteChange = () => {
     fetchDocuments()
 }
@@ -305,6 +328,7 @@ async function fetchDocuments(folderUuid: any = null) {
     state.isTableLoading = true
     try {
         const folderUuid = router?.currentRoute?.value?.query?.folder_uuid
+        is_draft.value = is_draft.value = router?.currentRoute?.value?.query?.is_draft === 'true'
         const params = {
             citizen_uuid: citizenUuid,
             page: currentTablePage,
@@ -313,7 +337,7 @@ async function fetchDocuments(folderUuid: any = null) {
             ...state.dataFilter,
             ...(folderUuid && { folder_uuid: folderUuid }),
         }
-        const response = await citizenDocumentService.getCitizenFileFolders(params)
+        const response = (is_draft.value) ?  await citizenDocumentService.getCitizenFileFoldersDrafts(params) : await citizenDocumentService.getCitizenFileFolders(params) 
         if (response) {
             state.documents = response
         }
@@ -413,14 +437,29 @@ const resetFileInput = () => {
     }
 }
 
-async function viewDirectory(document: any) {
-    currentTablePage = 1
-    await navigateTo(`/citizens/${citizenUuid}/documents?folder_uuid=${document.uuid}`)
+async function viewDirectory(document: any, is_draft: boolean = false) {
+  selectedDocument.value = router?.currentRoute?.value?.query?.folder_uuid
+  currentTablePage = 1
+
+  const folderUuid = typeof document === 'string' ? document : document?.uuid || selectedDocument.value
+
+  let url = `/citizens/${citizenUuid}/documents?folder_uuid=${folderUuid}`
+
+  if (is_draft) {
+    url += `&is_draft=${is_draft}`
+  }
+
+  await navigateTo(url)
 }
+
 
 function editDocument(document: any) {
     state.selectedDocument = document
-    state.modal.isEditDocumentOpen = true
+    if(is_draft.value){
+        state.modal.isEditDocumentDraftOpen = true
+    }else{
+        state.modal.isEditDocumentOpen = true
+    }
 }
 
 function viewDocumentAccess(document: any) {
