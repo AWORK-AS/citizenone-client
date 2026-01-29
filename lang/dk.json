@@ -2838,6 +2838,7 @@
             }
         },
         "createNewFolder": "Opret ny mappe",
+        "viewDraftFile": "Se udkastfiler",
         "createTemplate": {
             "alert": {
                 "templateSuccessfullyAdded": "Skabelon tilføjet med succes"

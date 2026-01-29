@@ -1045,6 +1045,7 @@
                 "upgradeStorageConfirmation": "Do you want to upgrade your storage"
             },
             "createNewFolder": "Create new folder",
+            "viewDraftFile": "View draft files",
             "createTemplate": {
                 "alert": {
                     "templateSuccessfullyAdded": "Template successfully added"
