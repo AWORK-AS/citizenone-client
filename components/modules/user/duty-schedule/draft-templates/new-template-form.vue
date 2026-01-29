@@ -179,7 +179,6 @@ const v$ = useVuelidate(rules, state)
 
 function submitForm() {
     v$.value.$validate()
-    console.log(v$.value.$error)
     if (!v$.value.$error) {
         emit('submitForm', state.formTemplate)
     }

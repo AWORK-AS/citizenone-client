@@ -211,6 +211,14 @@
                                 </div>
                             </div>
                         </div>
+                       
+                        <div class="space-y-1">
+                            <div class="w-fit flex items-center cursor-pointer"
+                                @click="state.isDraft = !state.isDraft">
+                                <FormCheckbox id="is_draft" :value="state.isDraft" />
+                                {{ $t('plansandgoals.createStatusTemplate.form.saveAsDraft') }}
+                            </div>
+                        </div>
                         <div class="mt-6">
                             <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
                                 <FormButton type="button" buttonStyle="primary" class="rounded-md"
@@ -262,6 +270,7 @@ const state = reactive({
     error: {} as Error,
     form: [] as any,
     isPageLoading: false,
+    isDraft: false,
 })
 
 function closeModal() {
@@ -336,6 +345,7 @@ async function submitResponse() {
         } else {
             params.append('plan_goal_subgoal_uuid', props.selectFormStatusTemplate.plan_uuid.toString())
         }
+        params.append('is_draft', state.isDraft ? '1' : '0')
 
         state.form.data.form_fields.forEach((formField: any) => {
             const fieldType = JSON.parse(formField.field)?.type
@@ -377,6 +387,7 @@ async function submitResponseAndDownloadPDF() {
         } else {
             params.append('plan_goal_subgoal_uuid', props.selectFormStatusTemplate.plan_uuid.toString())
         }
+        params.append('is_draft', state.isDraft ? '1' : '0')
 
         state.form.data.form_fields.forEach((formField: any) => {
             const fieldType = JSON.parse(formField.field)?.type

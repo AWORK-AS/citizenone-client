@@ -50,10 +50,8 @@
                         </Table>
                     </div>
                     <Pagination :data="state.appointments" @previous="previous" @next="next" />
-
                 </div>
             </div>
-
             <ModulesClientAppointmentModalView :is-modal-open="state.modal.isAppointmentView"
                 :appointment="state.selectedAppointment" @close="state.modal.isAppointmentView = false" />
         </NuxtLayout>
@@ -61,7 +59,6 @@
 </template>
 
 <script setup lang="ts">
-import { useI18n } from "vue-i18n"
 import type { Error } from '@/types'
 import { bookingClientService } from '~/components/api/client/BookingClientService'
 import { useAppointmentStore } from '@/store/appointment'
@@ -131,10 +128,8 @@ function next() {
 }
 
 function viewAppointment(appointment: any) {
-    console.log('appointment', appointment)
     state.selectedAppointment = appointment
     state.bookingSettings = appointment?.appointment?.booking_setting
     state.modal.isAppointmentView = true
 }
-
 </script>

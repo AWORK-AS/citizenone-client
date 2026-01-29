@@ -45,11 +45,11 @@ class BaseAPIService {
                     this.revokeAccess()
                 case 500:
                     throw new APIError({
-                        message: "Server error. Please try again. If the problem persists, contact your system administrator"
+                        message: "We have registered this error. You don't have to do anything. We will get back to you as soon as possible."
                     })
                 default:
                     throw new APIError({
-                        message: "Something went wrong. Please try again. If the problem persists, contact your system administrator"
+                        message: "We have registered this error. You don't have to do anything. We will get back to you as soon as possible."
                     })
             }
         }

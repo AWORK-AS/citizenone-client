@@ -79,7 +79,12 @@
                             v-if="overviewStore.getDailyOverviewFilter.showBulletBoard" />
                     </div>
 
-                    <div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-5">
+                    <div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-5" v-if="overviewStore.getDailyOverviewFilter.showCitizensAdmissionAndDischarged ||
+                        overviewStore.getDailyOverviewFilter.showCitizensOrigin ||
+                        overviewStore.getDailyOverviewFilter.showCitizensAddictions ||
+                        overviewStore.getDailyOverviewFilter.showCitizensDiagnoses ||
+                        overviewStore.getDailyOverviewFilter.showRiskAssessment ||
+                        overviewStore.getDailyOverviewFilter.showGender">
                         <div v-if="overviewStore.getDailyOverviewFilter.showCitizensAdmissionAndDischarged">
                             <ModulesUserDailyOverviewCitizensAdmissionDischarged
                                 :dateRange="state.dateRange.formDateRange" />
@@ -146,6 +151,10 @@
                                     :dateRange="state.dateRange.formDateRange" />
                             </div>
                         </div>
+
+                    </div>
+                    <div v-if="overviewStore.getDailyOverviewFilter.showScheduleSlots">
+                        <ModulesUserDailyOverviewScheduleSlots :dateRange="state.dateRange.formDateRange" />
                     </div>
                     <div>
                         <p class="text-xl font-bold text-primary">
