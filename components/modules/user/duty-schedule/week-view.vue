@@ -403,6 +403,15 @@
                                                             {{ employee?.total_hours ?? 0 }}
                                                         </p>
                                                         <p :class="[
+                                                            employee?.average_weekly_work_time?.severity === 'info' ? 'text-green-700' : 
+                                                            employee?.average_weekly_work_time?.severity === 'warning' ? 'text-amber-700' : 
+                                                            'text-red-700',
+                                                            'text-xxs'
+                                                        ]">
+                                                            {{ $t('dutySchedules.averageWeeklyHours.averageWeeklyHours') }}:
+                                                            {{ employee?.average_weekly_work_time?.average_weekly_hours }}
+                                                        </p>
+                                                        <p :class="[
                                                             employee?.extra_hours > 0 ? 'text-green-700' : 'text-red-700',
                                                             'text-xxs'
                                                         ]">

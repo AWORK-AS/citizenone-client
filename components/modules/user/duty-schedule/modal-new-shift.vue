@@ -2,6 +2,8 @@
     <div>
         <Modal size="sm" :title="$t('dutySchedules.newSchedule')" :show="props.isModalOpen" @close="closeModal">
             <template #modal-body>
+                <Alert type="warning" :text="locale === 'en' ? props.selectedEmployee?.average_weekly_work_time?.message_en : props.selectedEmployee?.average_weekly_work_time?.message_dk"
+                    v-if="props.selectedEmployee?.average_weekly_work_time?.severity !== 'info'" />
                 <LoadingSpinner :isActive="props.isModalLoading || state.isPageLoading">
                     <ModulesUserDutyScheduleFormShift formType="create" :error="props.error"
                         :selectedEmployee="props.selectedEmployee" :selectedShift="state.formShift"
@@ -20,6 +22,7 @@
 
 <script setup lang="ts">
 import moment from 'moment'
+import { useI18n } from 'vue-i18n'
 
 const props = defineProps({
     error: {
@@ -54,7 +57,10 @@ const props = defineProps({
         default: () => [],
     },
 })
+
 const emit = defineEmits(['close', 'saveShift', 'resetNewShiftError', 'dateTimeChange', 'closeWarningDialog'])
+const { locale } = useI18n()
+
 const state = reactive({
     error: {} as Error,
     isPageLoading: false,
