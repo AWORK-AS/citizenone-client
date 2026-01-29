@@ -8,6 +8,10 @@
                         @dateTimeChange="dateTimeChange"
                         @close="closeModal()" @isPageLoading="(value: boolean) => state.isPageLoading = value"
                         @saveShift="updateShift" />
+
+                    <ModulesUserDutyScheduleModalShiftWarning :isModalOpen="props.showWarningDialog"
+                        :warnings="props.shiftWarnings"
+                        @close="emit('closeWarningDialog')" />
                 </LoadingSpinner>
             </template>
         </Modal>
@@ -39,8 +43,18 @@ const props = defineProps({
         type: Object,
         required: true,
     },
+    showWarningDialog: {
+        type: Boolean,
+        required: false,
+        default: false,
+    },
+    shiftWarnings: {
+        type: Object,
+        required: false,
+        default: () => [],
+    },
 })
-const emit = defineEmits(['close', 'updateShift', 'resetEditShiftError', 'dateTimeChange'])
+const emit = defineEmits(['close', 'updateShift', 'resetEditShiftError', 'dateTimeChange', 'closeWarningDialog'])
 const state = reactive({
     error: {} as Error,
     isPageLoading: false,

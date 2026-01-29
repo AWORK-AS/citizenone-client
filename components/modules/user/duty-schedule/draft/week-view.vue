@@ -594,13 +594,19 @@
                 @filterDate="filterDutyScheduleDate" />
             <ModulesUserDutyScheduleModalNewShift :isModalOpen="state.modal.isAddShiftOpen" :isModalLoading="state.isModalLoading" :error="state.newShiftError"
                 :selectedDate="state.newShift.selectedDate" :selectedEmployee="state.newShift.selectedEmployee"
-                :showWarningDialog="state.showWarningDialog" :shiftWarnings="state.shiftWarnings"
+                :showWarningDialog="state.showWarningDialog" 
+                :shiftWarnings="state.shiftWarnings"
                 @dateTimeChange="dateTimeChange"
+                @closeWarningDialog="closeWarningDialog"
                 @close="state.modal.isAddShiftOpen = false" @saveShift="saveShift"
                 @resetNewShiftError="state.newShiftError = {}" />
             <ModulesUserDutyScheduleModalEditShift :isModalOpen="state.modal.isEditShiftOpen" :isModalLoading="state.isModalLoading"
                 :error="state.editShiftError" :selectedEmployee="state.editShift.selectedEmployee"
                 :selectedEmployeeSchedule="state.editShift.selectedEmployeeSchedule"
+                :showWarningDialog="state.showWarningDialog" 
+                :shiftWarnings="state.shiftWarnings"
+                @dateTimeChange="dateTimeChange"
+                @closeWarningDialog="closeWarningDialog"
                 @close="state.modal.isEditShiftOpen = false" @resetEditShiftError="state.editShiftError = {}"
                 @updateShift="updateSelectedSchedule" />
             <ModulesUserDutyScheduleDraftModalCopyMultipleWeeks
