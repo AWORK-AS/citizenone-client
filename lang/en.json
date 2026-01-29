@@ -2807,7 +2807,11 @@
             "viewSchedule": "View schedule"
         },
         "week": "Week",
-        "yearToDate": "Year to date"
+        "yearToDate": "Year to date",
+        "shiftWarning": {
+            "warning": "Warning",
+            "warningsFound": "Warnings have been found in this shift."
+        }
     },
     "drive": {
         "alert": {
