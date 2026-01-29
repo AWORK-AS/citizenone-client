@@ -2847,6 +2847,7 @@
             }
         },
         "createNewFolder": "Opret ny mappe",
+        "viewDraftFile": "Se udkastfiler",
         "createTemplate": {
             "alert": {
                 "templateSuccessfullyAdded": "Skabelon tilføjet med succes"
@@ -4376,9 +4377,33 @@
                 "goal": "Mål",
                 "plan": "Plan",
                 "saveAndDownload": "Gem og download PDF",
-                "subgoal": "Delmål"
+                "saveAsDraft": "udkast",
+                "subgoal": "Delmål",
+                "editReport": "Rediger rapport"
             }
         },
+
+        "editStatusTemplate": {
+                "alert": {
+                    "statusTemplateSuccessfullyUpdated": "Rapporten er blevet opdateret"
+                },
+                "editReport": "Rediger rapport",
+                "formChangeWarning": "Hvis du skifter formularen, slettes alle dine nuværende svar. Vil du fortsætte?",
+                "form": {
+                    "answerForm": "Besvarelsesformular",
+                    "chooseLabel": "Vælg, om du vil downloade formularen til offline udfyldelse eller oprette et svar direkte",
+                    "downloadForm": "Download formular",
+                    "form": "Formular",
+                    "goal": "Mål",
+                    "plan": "Plan",
+                    "saveAndDownload": "Gem og download PDF",
+                    "saveAsDraft": "Kladde",
+                    "subgoal": "Delmål",
+                    "editReport": "Rediger rapport"
+                }
+            },
+            
+        "isDraft": "udkast",
         "currentPlansAndGoals": "Nuværende planer og mål",
         "dateCompleted": "Dato for fuldførelse",
         "dateCreated": "Oprettelsesdato",

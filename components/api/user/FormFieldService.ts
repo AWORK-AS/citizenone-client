@@ -16,6 +16,15 @@ class FormFieldService extends BaseAPIService {
     async savePlanGoalSubgoalResponsesAndDownloadPDF(params: object): Promise<any> {
         return await this.request(`/user/plan-goal-subgoal-attachments/download `, 'POST', params)
     }
+
+    async updateAttachmentResponses(uuid: string, params: object): Promise<any> {
+        return await this.request(`/user/field-responses/${uuid}/update`, 'POST', params)
+    }
+
+    async savePlanGoalSubgoalResponsesAndDownloadPdfOnEdit(attachmentUuid: any, params: object): Promise<any> {
+        return await this.request(`/user/plan-goal-subgoal-attachments/${attachmentUuid}/download`, 'POST', params)
+    }
+
 }
 
 export const formFieldService = new FormFieldService()

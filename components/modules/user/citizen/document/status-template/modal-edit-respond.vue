@@ -163,17 +163,14 @@
                                                                         {{ JSON.parse(formField?.field)?.value }}
                                                                         <span
                                                                             v-if="JSON.parse(formField?.field)?.required"
-                                                                            class="text-red-600">
-                                                                            *
-                                                                        </span>
+                                                                            class="text-red-600">*</span>
                                                                     </h3>
-                                                                    <div
-                                                                        class="flex items-center justify-between gap-x-2">
+                                                                    <div class="flex items-center justify-between gap-x-2">
                                                                         <button
                                                                             v-for="(rating, ratingIndex) in JSON.parse(formField?.field)?.levels"
                                                                             :key="ratingIndex"
                                                                             class="w-full h-10 flex items-center justify-center border border-gray-300 rounded-sm"
-                                                                            :class="formField.responses === rating && 'bg-primary text-white'"
+                                                                            :class="Number(formField.responses) === Number(rating) && 'bg-primary text-white'"
                                                                             @click="changeRating(fieldIndex, rating)">
                                                                             {{ rating }}
                                                                         </button>
@@ -182,24 +179,25 @@
                                                             </div>
                                                         </div>
                                                     </div>
-                                                    <div v-if="JSON.parse(formField?.field)?.type === 'uploadfile'"
-                                                        class="grow">
-                                                        <div>
-                                                            <div class="p-5 space-y-3">
-                                                                <div class="flex gap-x-3">
-                                                                    <div>{{ fieldIndex + 1 }}.</div>
-                                                                    <div class="grow space-y-4">
-                                                                        <h3>
-                                                                            {{ JSON.parse(formField?.field)?.value }}
-                                                                            <span
-                                                                                v-if="JSON.parse(formField?.field)?.required"
-                                                                                class="text-red-600">
-                                                                                *
-                                                                            </span>
-                                                                        </h3>
-                                                                        <input type="file"
-                                                                            @change="onFileChange(fieldIndex, $event)">
+                                                    <div v-if="JSON.parse(formField?.field)?.type === 'uploadfile'" class="grow">
+                                                        <div class="p-5 space-y-3">
+                                                            <div class="flex gap-x-3">
+                                                            <div>{{ fieldIndex + 1 }}.</div>
+                                                                <div class="grow space-y-4">
+                                                                    <h3>
+                                                                        {{ JSON.parse(formField?.field)?.value }}
+                                                                        <span v-if="JSON.parse(formField?.field)?.required" class="text-red-600">*</span>
+                                                                    </h3>
+
+                                                                    <!-- Show current file if response exists -->
+                                                                    <div v-if="formField.responses">
+                                                                        <a :href="formField.responses" target="_blank" class="text-blue-600 underline">
+                                                                            Current file
+                                                                        </a>
                                                                     </div>
+
+                                                                    <!-- File input for replacing -->
+                                                                    <input type="file" @change="onFileChange(fieldIndex, $event)">
                                                                 </div>
                                                             </div>
                                                         </div>
@@ -242,6 +240,7 @@
             </template>
         </Modal>
     </div>
+
 </template>
 
 
@@ -254,16 +253,21 @@ import { useAlert } from '@/composables/alert'
 import type { Error } from '@/types'
 import { saveAs } from 'file-saver'
 
-const props = defineProps({
-    isModalOpen: {
-        type: Boolean,
-        required: true,
-    },
-    selectedFormStatusTemplate: {
-        type: Object,
-        required: true,
-    },
-})
+interface FieldResponse {
+  id: number
+  uuid: string
+  user_id: number
+  attachment_id: number
+  form_field_id: number
+  response: any
+}
+
+const props = defineProps<{
+  isModalOpen: boolean
+  selectedFormStatusTemplate: Record<string, any>
+  savedResponses?: FieldResponse[]
+}>()
+
 const emit = defineEmits(['close', 'closeModalNew'])
 const { t } = useI18n()
 const { successAlert } = useAlert()
@@ -293,6 +297,7 @@ async function fetchForm() {
     state.error = {}
     state.isPageLoading = true
     try {
+        state.isDraft = props.selectedFormStatusTemplate?.is_draft
         const formUuid = props.selectedFormStatusTemplate?.form_uuid
         const response = await formService.getForm(formUuid)
         if (response) {
@@ -303,6 +308,20 @@ async function fetchForm() {
                 }))
             }
             state.form = response
+
+            if (state.form?.data?.form_fields && props.savedResponses) {
+                for (let i = 0; i < state.form.data.form_fields.length; i++) {
+                    const formField = state.form.data.form_fields[i];
+
+                    for (let j = 0; j < props.savedResponses.length; j++) {
+                        const fieldResponse = props.savedResponses[j];
+
+                        if(formField.id === fieldResponse?.form_field_id){
+                             state.form.data.form_fields[i].responses = fieldResponse?.response
+                        }
+                    }
+                }
+            }
         }
     } catch (error: any) {
         state.error = error
@@ -338,6 +357,9 @@ async function submitResponse() {
     state.error = {}
     state.isPageLoading = true
     try {
+        const attachment_uuid = props.selectedFormStatusTemplate.attachment_uuid
+        const current_file_uuid = props.selectedFormStatusTemplate.current_file_uuid
+
         let params = new FormData()
         params.append('folder_uuid', props.selectedFormStatusTemplate?.folder_uuid?.toString())
         params.append('form_uuid', props.selectedFormStatusTemplate?.form_uuid?.toString())
@@ -365,7 +387,7 @@ async function submitResponse() {
                 params.append(`responses[${fieldUuid}]`, formField.responses)
             }
         })
-        const response = await citizenDocumentTemplateService.saveDocumentResponses(params)
+        const response = await citizenDocumentTemplateService.updateDocumentResponses(params, attachment_uuid, current_file_uuid)
         if (response.data) {
             successAlert(`${t('alert.success')}!`, `${t('citizens.documents.createTemplate.alert.templateSuccessfullyAdded')}.`)
             closeModal()
@@ -381,6 +403,9 @@ async function submitResponseAndDownloadPDF() {
     state.error = {}
     state.isPageLoading = true
     try {
+        const attachment_uuid = props.selectedFormStatusTemplate.attachment_uuid
+        const current_file_uuid = props.selectedFormStatusTemplate.current_file_uuid
+
         let params = new FormData()
         params.append('folder_uuid', props.selectedFormStatusTemplate?.folder_uuid?.toString())
         params.append('form_uuid', props.selectedFormStatusTemplate?.form_uuid?.toString())
@@ -408,7 +433,7 @@ async function submitResponseAndDownloadPDF() {
                 params.append(`responses[${fieldUuid}]`, formField.responses)
             }
         })
-        const response = await citizenDocumentTemplateService.saveDocumentResponsesAndDownloadPDF(params)
+        const response = await citizenDocumentTemplateService.updateDocumentResponsesAndDownloadPDF(params, attachment_uuid, current_file_uuid)
         if (response) {
             successAlert(`${t('alert.success')}!`, `${t('citizens.documents.createTemplate.alert.templateSuccessfullyAdded')}.`)
             closeModal()

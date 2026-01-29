@@ -1049,6 +1049,7 @@
                 "upgradeStorageConfirmation": "Do you want to upgrade your storage"
             },
             "createNewFolder": "Create new folder",
+            "viewDraftFile": "View draft files",
             "createTemplate": {
                 "alert": {
                     "templateSuccessfullyAdded": "Template successfully added"
@@ -4343,6 +4344,8 @@
             "subgoalSuccessfullyUnrchived": "Subgoal successfully unarchived",
             "subgoalSuccessfullyDeleted": "Subgoal successfully deleted",
             "subgoalSuccessfullyUpdated": "Subgoal successfully updated"
+            
+
         },
         "categories": {
             "plansAndGoals": "Plans and goals",
@@ -4363,6 +4366,7 @@
         },
         "completed": "Completed",
         "completionDate": "Completion date",
+        
         "createStatusTemplate": {
             "alert": {
                 "statusTemplateSuccessfullyAdded": "Status template successfully added"
@@ -4376,9 +4380,32 @@
                 "goal": "Goal",
                 "plan": "Plan",
                 "saveAndDownload": "Save and download PDF",
-                "subgoal": "Subgoal"
+                "saveAsDraft": "Draft",
+                "subgoal": "Subgoal",
+                "editReport": "Edit Report"
             }
         },
+
+        "editStatusTemplate": {
+            "alert": {
+                "statusTemplateSuccessfullyUpdated": "Report successfully updated"
+            },
+            "editReport": "Edit report",
+            "formChangeWarning": "Changing the form will delete all your current responses. Do you want to continue?",
+            "form": {
+                "answerForm": "Answer form",
+                "chooseLabel": "Choose whether you want to download the form for offline completion or create a response directly",
+                "downloadForm": "Download form",
+                "form": "Form",
+                "goal": "Goal",
+                "plan": "Plan",
+                "saveAndDownload": "Save and download PDF",
+                "saveAsDraft": "Draft",
+                "subgoal": "Subgoal",
+                "editReport": "Edit Report"
+            }
+        },
+        "isDraft": "Draft",
         "currentPlansAndGoals": "Current plans and goals",
         "dateCompleted": "Date completed",
         "dateCreated": "Date created",
