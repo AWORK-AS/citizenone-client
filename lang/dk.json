@@ -2585,6 +2585,7 @@
         },
         "form": {
             "citizens": "Borgere",
+            "compensatoryTimeOff": "Afspadsering",
             "createMultipleSchedules": "Opret flere vagter",
             "date": "Dato",
             "datetimeStart": "Start dato og tid",

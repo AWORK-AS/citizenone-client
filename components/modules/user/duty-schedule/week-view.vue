@@ -1018,15 +1018,15 @@ const state = reactive({
 })
 
 const hasCreatePermission = computed(() => {
-    return !!userStore.user?.permissions.find((permission: any) => permission.name === 'create_schedule')
+    return !!userStore.user?.permissions?.find((permission: any) => permission.name === 'create_schedule')
 })
 
 const hasUpdatePermission = computed(() => {
-    return !!userStore.user?.permissions.find((permission: any) => permission.name === 'update_schedule')
+    return !!userStore.user?.permissions?.find((permission: any) => permission.name === 'update_schedule')
 })
 
 const hasDeletePermission = computed(() => {
-    return !!userStore.user?.permissions.find((permission: any) => permission.name === 'delete_schedule')
+    return !!userStore.user?.permissions?.find((permission: any) => permission.name === 'delete_schedule')
 })
 
 watch(() => state.progress.percentage, (newPercentage: any) => {
@@ -1138,15 +1138,14 @@ function calculateMarginTop(schedules: any, weekIndex: string, shiftIndex: numbe
 }
 
 function getMultiDayShift(shifts: any) {
-    return shifts
-        .find((shift: any) => {
-            const startDay = moment(shift.date_time_start).startOf('day')
-            const endDay = moment(shift.date_time_end).startOf('day')
-            const isMultiDay = endDay.diff(startDay, 'days') >= 1
-            const isExcluded = endDay.diff(startDay, 'days') === 1 && moment(shift.date_time_end).format('HH:mm:ss') === '00:00:00'
+    return shifts?.find((shift: any) => {
+        const startDay = moment(shift.date_time_start).startOf('day')
+        const endDay = moment(shift.date_time_end).startOf('day')
+        const isMultiDay = endDay.diff(startDay, 'days') >= 1
+        const isExcluded = endDay.diff(startDay, 'days') === 1 && moment(shift.date_time_end).format('HH:mm:ss') === '00:00:00'
 
-            return isMultiDay && !isExcluded
-        })
+        return isMultiDay && !isExcluded
+    })
 }
 
 async function fetchDutySchedule() {
@@ -1399,6 +1398,7 @@ async function saveShift(shiftDetails: any) {
         shift_type_uuid: shiftType,
         is_sleeping_sick_leave: shiftDetails.is_sleeping_sick_leave,
         do_not_count_weekends: shiftDetails.do_not_count_weekends,
+        compensatory_time_off: shiftDetails.compensatory_time_off,
         date_time_start: shiftDetails.date_time_start,
         date_time_end: shiftDetails.date_time_end,
         user_uuid: state.weeklySchedules?.data?.[employeeIndex].uuid,
@@ -1741,6 +1741,7 @@ function updateSelectedSchedule(shiftDetails: any) {
         shift_type_uuid: shiftDetails.shift_type,
         is_sleeping_sick_leave: shiftDetails.is_sleeping_sick_leave,
         do_not_count_weekends: shiftDetails.do_not_count_weekends,
+        compensatory_time_off: shiftDetails.compensatory_time_off,
         date_time_start: shiftDetails?.date_time_start,
         date_time_end: shiftDetails?.date_time_end,
         is_apply_to_all: shiftDetails?.recurring?.is_apply_to_all,

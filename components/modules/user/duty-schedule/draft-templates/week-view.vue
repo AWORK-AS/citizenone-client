@@ -263,7 +263,7 @@
                                                                 </span><span v-else>.</span>
                                                             </span>
                                                         </div>
-                                                        
+
                                                         <div class="flex items-center gap-1 cursor-pointer"
                                                             @click="state.modal.isAnnualNormHoursInfoOpen = true">
                                                             <p class="text-xxs">
@@ -584,12 +584,14 @@
             <ModulesUserDutyScheduleModalShiftDateRange :isModalOpen="state.modal.isDepartmentSickLeaveDateRangeOpen"
                 :dateRange="state.shiftDateRange" @close="state.modal.isDepartmentSickLeaveDateRangeOpen = false"
                 @filterDate="filterDutyScheduleDate" />
-            <ModulesUserDutyScheduleModalNewShift :isModalOpen="state.modal.isAddShiftOpen" :isModalLoading="state.isModalLoading" :error="state.newShiftError"
+            <ModulesUserDutyScheduleModalNewShift :isModalOpen="state.modal.isAddShiftOpen"
+                :isModalLoading="state.isModalLoading" :error="state.newShiftError"
                 :selectedDate="state.newShift.selectedDate" :selectedEmployee="state.newShift.selectedEmployee"
                 @close="state.modal.isAddShiftOpen = false" @saveShift="saveShift"
                 @resetNewShiftError="state.newShiftError = {}" />
-            <ModulesUserDutyScheduleModalEditShift :isModalOpen="state.modal.isEditShiftOpen" :isModalLoading="state.isModalLoading"
-                :error="state.editShiftError" :selectedEmployee="state.editShift.selectedEmployee"
+            <ModulesUserDutyScheduleModalEditShift :isModalOpen="state.modal.isEditShiftOpen"
+                :isModalLoading="state.isModalLoading" :error="state.editShiftError"
+                :selectedEmployee="state.editShift.selectedEmployee"
                 :selectedEmployeeSchedule="state.editShift.selectedEmployeeSchedule"
                 @close="state.modal.isEditShiftOpen = false" @resetEditShiftError="state.editShiftError = {}"
                 @updateShift="updateSelectedSchedule" />
@@ -1037,6 +1039,7 @@ async function saveShift(shiftDetails: any) {
         shift_type_uuid: shiftType,
         is_sleeping_sick_leave: shiftDetails.is_sleeping_sick_leave,
         do_not_count_weekends: shiftDetails.do_not_count_weekends,
+        compensatory_time_off: shiftDetails.compensatory_time_off,
         date_time_start: shiftDetails.date_time_start,
         date_time_end: shiftDetails.date_time_end,
         user_uuid: state.weeklySchedules?.data?.[employeeIndex].uuid,
@@ -1326,6 +1329,7 @@ function updateSelectedSchedule(shiftDetails: any) {
         shift_type_uuid: shiftDetails.shift_type,
         is_sleeping_sick_leave: shiftDetails.is_sleeping_sick_leave,
         do_not_count_weekends: shiftDetails.do_not_count_weekends,
+        compensatory_time_off: shiftDetails.compensatory_time_off,
         date_time_start: shiftDetails?.date_time_start,
         date_time_end: shiftDetails?.date_time_end,
         is_apply_to_all: shiftDetails?.recurring?.is_apply_to_all,
