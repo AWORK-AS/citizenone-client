@@ -176,8 +176,8 @@ async function fetchScheduleSlots() {
     try {
         const params = {
             department: departmentStore.getSelectedDepartmentName,
-            date_start: props.dateRange.end_date,
-            date_end: props.dateRange.start_date,
+            date_start: props.dateRange.start_date,
+            date_end: props.dateRange.end_date,
             page: currentTablePage,
             sortField: state.sortData.sortField,
             sortOrder: state.sortData.sortOrder,
