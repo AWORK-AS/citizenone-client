@@ -202,7 +202,6 @@
 
 <script setup lang="ts">
 import { dailyOverviewService } from '@/components/api/user/DailyOverviewService'
-import { Menu, MenuButton, MenuItems, MenuItem } from '@headlessui/vue'
 import { useDatetimeFormatter } from '@/composables/datetimeFormatter'
 import { planService } from '@/components/api/user/PlanService'
 import { goalService } from '@/components/api/user/GoalService'
@@ -212,7 +211,6 @@ import { useUserStore } from '@/store/user'
 import { useCitizenPlansAndGoalsStore } from '@/store/citizen-plans-and-goals'
 import { useCustomPagesStore } from '@/store/custom-pages'
 import type { Error } from '@/types'
-import { saveAs } from 'file-saver'
 
 const props = defineProps({
     dateRange: {
@@ -221,15 +219,9 @@ const props = defineProps({
     } as any,
 })
 
-const runtimeConfig = useRuntimeConfig()
 const { formatDateToReadable } = useDatetimeFormatter()
 const { successAlert } = useAlert()
 const { t } = useI18n()
-const citizenPlansAndGoalsStore = useCitizenPlansAndGoalsStore()
-const customPagesStore = useCustomPagesStore() as any
-const userStore = useUserStore() as any
-const router = useRouter()
-const citizenUuid = router?.currentRoute?.value?.params?.uuid
 let currentTablePage = 1
 
 const state = reactive({
@@ -242,7 +234,6 @@ const state = reactive({
         isArchiveGoalOpen: false,
         isArchivePlanOpen: false,
         isChartOpen: false,
-        isCreateStatusTemplateOpen: false,
         isDeletePlanOpen: false,
         isDeleteSingleGoalOpen: false,
         isEditPlanOpen: false,
@@ -308,7 +299,6 @@ function resetFilter() {
     state.dataFilter = []
     fetchPlans()
 }
-
 
 function previous() {
     currentTablePage--
