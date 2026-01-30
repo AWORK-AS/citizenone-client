@@ -8,10 +8,11 @@
             v-if="state.error?.message && state.error.message.length > 0" />
 
         <div>
-            <div
-                class="bg-white shadow-md rounded-md border-l-8 border-secondary mt-2 text-sm space-y-2 pr-5 pt-6 pb-7 pl-6 mr-1">
-                <!-- {{ state.scheduleSlots?.data?.length }} -->
-                <div class="space-y-2 mt-1">
+            <div :class="[
+                state.scheduleSlots?.data?.length === 0 ? 'flex items-center justify-center' : 'divide-y overflow-scroll',
+                'bg-white shadow-md rounded-md border-l-8 border-secondary mt-2 text-sm min-h-96 max-h-96'
+            ]">
+                <div class="space-y-2 pl-4 pr-5 py-5">
                     <div v-for="(slot, index) in state.scheduleSlots?.data" :key="index"
                         class="rounded-md p-1 cursor-pointer" :style="{ backgroundColor: slot?.shift?.color }"
                         @click="confirmSlotRequest(slot)">
@@ -20,6 +21,11 @@
                                 formatDateTimeToReadable(slot?.date_time_end) }}
                         </div>
                     </div>
+                </div>
+                <div v-if="state.scheduleSlots?.data?.length === 0">
+                    <p class="mt-10 text-center">
+                        {{ $t('theresNoDataAvailableToDisplay') }}.
+                    </p>
                 </div>
             </div>
             <ModulesUserDutyScheduleScheduleSlotsRequestAvailableSlotConfirmation
