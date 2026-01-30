@@ -71,6 +71,11 @@
                             <Icon name="ph:arrow-left" size="16" class="text-black" />
                             <span class="text-sm">{{ $t('back') }}</span>
                         </div>
+                        <div class="flex items-center gap-x-2 mb-3 max-w-fit hover:cursor-pointer"
+                            @click="goBackLocalFolder" v-if="state.viewMode === 'local' && (router.currentRoute.value.query.folder_uuid || state.folderStack.length)">
+                            <Icon name="ph:arrow-left" size="16" class="text-black" />
+                            <span class="text-sm">{{ $t('back') }}</span>
+                        </div>
                         <Table :columnHeaders="state.columnHeaders" 
                             :data="state.viewMode === 'google-drive' ? state.googleDriveFiles : state.documents"
                             :isLoading="state.isTableLoading" :sortData="state.sortData"
@@ -214,8 +219,11 @@
                 </div>
                 <ModulesUserDocumentModalNewDirectory :isModalOpen="state.modal.isAddDirectoryOpen"
                     @close="state.modal.isAddDirectoryOpen = false" @refreshDocuments="fetchDocuments" />
-                <ModulesUserDocumentModalNewGoogleDriveDirectory :isModalOpen="state.modal.isCreateGoogleDriveFolderOpen"
-                    @close="state.modal.isCreateGoogleDriveFolderOpen = false" @folderCreated="fetchGoogleDriveFiles" />
+                <ModulesUserDocumentModalNewGoogleDriveDirectory 
+                    :isModalOpen="state.modal.isCreateGoogleDriveFolderOpen"
+                    :parentFolderId="state.googleDriveFolderId || undefined"
+                    @close="state.modal.isCreateGoogleDriveFolderOpen = false" 
+                    @folderCreated="fetchGoogleDriveFiles(state.googleDriveFolderId)" />
                 <ModulesUserDocumentModalEditDocument :isModalOpen="state.modal.isEditDocumentOpen"
                     :selectedDocument="state.selectedDocument" @close="state.modal.isEditDocumentOpen = false"
                     @refreshDocuments="fetchDocuments" />
@@ -292,6 +300,7 @@ const state = reactive({
     dataFilter: {
         search: ''
     },
+    folderStack: [] as string[],
     error: {} as Error,
     isPageLoading: false,
     isTableLoading: false,
@@ -411,15 +420,21 @@ async function openGoogleDriveFile(file: any) {
 async function uploadToGoogleDrive() {
     const fileInput = document.createElement('input')
     fileInput.type = 'file'
+    fileInput.multiple = true
     fileInput.onchange = async (e: any) => {
-        const file = e.target.files?.[0]
-        if (!file) return
+        const files = e.target.files
+        if (!files || files.length === 0) return
         
         state.isPageLoading = true
         try {
-            await googledriveService.uploadFileToGoogleDrive(file)
+            console.log('upload parent id', state.googleDriveFolderId)
+
+            for (const file of files){
+                await googledriveService.uploadFileToGoogleDrive(file, state.googleDriveFolderId || undefined)
+            }
+
             successAlert(`${t('alert.success')}!`, 'File uploaded to Google Drive')
-            await fetchGoogleDriveFiles()
+            await fetchGoogleDriveFiles(state.googleDriveFolderId)
         } catch (error: any) {
             state.error = error
         }
@@ -506,15 +521,23 @@ async function fetchGoogleDriveFiles(parentFolderId: string | null = null) {
 
 function viewGoogleDriveDirectory(document: any) {
     if (document?.type !== 'folder') return
-    if (state.googleDriveFolderId) {
-        state.googleDriveFolderStack.push(state.googleDriveFolderId)
-    }
+    // Always push current folder id (can be null for root) so the back button shows
+    state.googleDriveFolderStack.push(state.googleDriveFolderId)
     fetchGoogleDriveFiles(document.id)
 }
 
 function goBackGoogleDriveFolder() {
     const previousFolderId = state.googleDriveFolderStack.pop() || null
     fetchGoogleDriveFiles(previousFolderId)
+}
+
+function goBackLocalFolder() {
+    const previousFolder = state.folderStack.pop() || null
+    if (previousFolder) {
+        navigateTo(`/drive?folder_uuid=${previousFolder}`)
+    } else {
+        navigateTo(`/drive`)
+    }
 }
 
 async function fetchDocuments(folderUuid: any = null) {
@@ -630,6 +653,10 @@ const resetFileInput = () => {
 
 async function viewDirectory(document: any) {
     currentTablePage = 1
+    const current = router?.currentRoute?.value?.query?.folder_uuid
+    if (current) {
+        state.folderStack.push(current as string)
+    }
     await navigateTo(`/drive?folder_uuid=${document.uuid}`)
 }
 

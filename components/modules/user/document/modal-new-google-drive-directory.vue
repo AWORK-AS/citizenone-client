@@ -53,6 +53,10 @@ const props = defineProps({
         type: Boolean,
         required: true,
     },
+    parentFolderId: {
+        type: String,
+        required: false,
+    },
 })
 
 const state = reactive({
@@ -71,7 +75,7 @@ async function submitForm() {
     state.error = {}
     state.isPageLoading = true
     try {
-        await googledriveService.createGoogleDriveFolder(state.folderName)
+        await googledriveService.createGoogleDriveFolder(state.folderName, props.parentFolderId)
         successAlert(`${t('alert.success')}!`, `${t('drive.alert.folderSuccessfullyAdded')}.`)
         emit('folderCreated')
         closeModal()
