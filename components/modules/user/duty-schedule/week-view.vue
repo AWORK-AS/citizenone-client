@@ -403,13 +403,15 @@
                                                             {{ employee?.total_hours ?? 0 }}
                                                         </p>
                                                         <p :class="[
-                                                            employee?.average_weekly_work_time?.severity === 'info' ? 'text-green-700' : 
-                                                            employee?.average_weekly_work_time?.severity === 'warning' ? 'text-amber-700' : 
-                                                            'text-red-700',
+                                                            employee?.average_weekly_work_time?.severity === 'info' ? 'text-green-700' :
+                                                                employee?.average_weekly_work_time?.severity === 'warning' ? 'text-amber-700' :
+                                                                    'text-red-700',
                                                             'text-xxs'
                                                         ]">
-                                                            {{ $t('dutySchedules.averageWeeklyHours.averageWeeklyHours') }}:
-                                                            {{ employee?.average_weekly_work_time?.average_weekly_hours }}
+                                                            {{ $t('dutySchedules.averageWeeklyHours.averageWeeklyHours')
+                                                            }}:
+                                                            {{ employee?.average_weekly_work_time?.average_weekly_hours
+                                                            }}
                                                         </p>
                                                         <p :class="[
                                                             employee?.extra_hours > 0 ? 'text-green-700' : 'text-red-700',
@@ -841,20 +843,16 @@
             <ModulesUserDutyScheduleModalNewShift :isModalOpen="state.modal.isAddShiftOpen"
                 :isModalLoading="state.isModalLoading" :error="state.newShiftError"
                 :selectedDate="state.newShift.selectedDate" :selectedEmployee="state.newShift.selectedEmployee"
-                :showWarningDialog="state.showWarningDialog" 
-                :shiftWarnings="state.shiftWarnings"
-                @dateTimeChange="dateTimeChange"
-                @closeWarningDialog="closeWarningDialog"
+                :showWarningDialog="state.showWarningDialog" :shiftWarnings="state.shiftWarnings"
+                @dateTimeChange="dateTimeChange" @closeWarningDialog="closeWarningDialog"
                 @close="state.modal.isAddShiftOpen = false" @saveShift="saveShift"
                 @resetNewShiftError="state.newShiftError = {}" />
             <ModulesUserDutyScheduleModalEditShift :isModalLoading="state.isModalLoading"
                 :isModalOpen="state.modal.isEditShiftOpen" :error="state.editShiftError"
                 :selectedEmployee="state.editShift.selectedEmployee"
                 :selectedEmployeeSchedule="state.editShift.selectedEmployeeSchedule"
-                :showWarningDialog="state.showWarningDialog" 
-                :shiftWarnings="state.shiftWarnings"
-                @dateTimeChange="dateTimeChange"
-                @closeWarningDialog="closeWarningDialog"
+                :showWarningDialog="state.showWarningDialog" :shiftWarnings="state.shiftWarnings"
+                @dateTimeChange="dateTimeChange" @closeWarningDialog="closeWarningDialog"
                 @close="state.modal.isEditShiftOpen = false" @resetEditShiftError="state.editShiftError = {}"
                 @updateShift="updateSelectedSchedule" />
             <ModulesUserDutyScheduleModalRemoveShiftConfirmation
@@ -1407,7 +1405,6 @@ async function saveShift(shiftDetails: any) {
         shift_type_uuid: shiftType,
         is_sleeping_sick_leave: shiftDetails.is_sleeping_sick_leave,
         do_not_count_weekends: shiftDetails.do_not_count_weekends,
-        compensatory_time_off: shiftDetails.compensatory_time_off,
         date_time_start: shiftDetails.date_time_start,
         date_time_end: shiftDetails.date_time_end,
         user_uuid: state.weeklySchedules?.data?.[employeeIndex].uuid,
@@ -1750,7 +1747,6 @@ function updateSelectedSchedule(shiftDetails: any) {
         shift_type_uuid: shiftDetails.shift_type,
         is_sleeping_sick_leave: shiftDetails.is_sleeping_sick_leave,
         do_not_count_weekends: shiftDetails.do_not_count_weekends,
-        compensatory_time_off: shiftDetails.compensatory_time_off,
         date_time_start: shiftDetails?.date_time_start,
         date_time_end: shiftDetails?.date_time_end,
         is_apply_to_all: shiftDetails?.recurring?.is_apply_to_all,
@@ -1836,7 +1832,7 @@ async function dateTimeChange(employeeUuid: string, newDateTimeStart: string, ne
             state.showWarningDialog = true
         }
     } catch (error: any) {
-        
+
     }
 }
 
