@@ -153,8 +153,14 @@
                         </div>
 
                     </div>
-                    <div v-if="overviewStore.getDailyOverviewFilter.showScheduleSlots">
-                        <ModulesUserDailyOverviewScheduleSlots :dateRange="state.dateRange.formDateRange" />
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-5"
+                        v-if="overviewStore.getDailyOverviewFilter.showScheduleSlots || overviewStore.getDailyOverviewFilter.showPlansAndGoals">
+                        <div v-if="overviewStore.getDailyOverviewFilter.showScheduleSlots">
+                            <ModulesUserDailyOverviewScheduleSlots :dateRange="state.dateRange.formDateRange" />
+                        </div>
+                        <div v-if="overviewStore.getDailyOverviewFilter.showPlansAndGoals">
+                            <ModulesUserDailyOverviewPlansAndGoals :dateRange="state.dateRange.formDateRange" />
+                        </div>
                     </div>
                     <div>
                         <p class="text-xl font-bold text-primary">

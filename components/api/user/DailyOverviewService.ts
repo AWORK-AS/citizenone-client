@@ -89,6 +89,10 @@ class DailyOverviewService extends BaseAPIService {
         return await this.request(`/user/schedule-slots`, 'GET', params)
     }
 
+    async getCitizenPlansAndGoals(params: object): Promise<any> {
+        return await this.request(`/user/citizen-plans/goals-and-sub-goals/all`, 'GET', params)
+    }
+
     async getNews(): Promise<any> {
         return await this.request(`/user/news/daily/overview`, 'GET')
     }

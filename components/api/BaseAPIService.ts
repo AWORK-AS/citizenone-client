@@ -45,11 +45,11 @@ class BaseAPIService {
                     this.revokeAccess()
                 case 500:
                     throw new APIError({
-                        message: "We have registered this error. You don't have to do anything. We will get back to you as soon as possible."
+                        message: "Vi har registreret denne fejl. Du behøver ikke at gøre noget. Vi vender tilbage til dig hurtigst muligt."
                     })
                 default:
                     throw new APIError({
-                        message: "We have registered this error. You don't have to do anything. We will get back to you as soon as possible."
+                        message: "Vi har registreret denne fejl. Du behøver ikke at gøre noget. Vi vender tilbage til dig hurtigst muligt."
                     })
             }
         }

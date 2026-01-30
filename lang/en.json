@@ -4291,6 +4291,7 @@
                 "latestJournal": "Latest journal notes",
                 "medicineDeviationStatistics": "Medicine deviated",
                 "myDailyEvents": "My daily events",
+                "plansAndGoals": "Plans and goals",
                 "riskAssessment": "Risk assessment",
                 "scheduleSlots": "Schedule slots",
                 "statusesStatistics": "Statuses statistics",
@@ -4345,6 +4346,7 @@
         "overview": "Overview",
         "plansGoalsAndSubgoals": {
             "goalsStatistics": "Goals statistics",
+            "plansAndGoals": "Plans and goals",
             "statusesStatistics": "Statuses statistics",
             "subgoalsStatistics": "Subgoals statistics"
         },
@@ -4445,8 +4447,6 @@
             "subgoalSuccessfullyUnrchived": "Subgoal successfully unarchived",
             "subgoalSuccessfullyDeleted": "Subgoal successfully deleted",
             "subgoalSuccessfullyUpdated": "Subgoal successfully updated"
-            
-
         },
         "categories": {
             "plansAndGoals": "Plans and goals",
@@ -4467,7 +4467,6 @@
         },
         "completed": "Completed",
         "completionDate": "Completion date",
-        
         "createStatusTemplate": {
             "alert": {
                 "statusTemplateSuccessfullyAdded": "Status template successfully added"
@@ -4486,7 +4485,6 @@
                 "editReport": "Edit Report"
             }
         },
-
         "editStatusTemplate": {
             "alert": {
                 "statusTemplateSuccessfullyUpdated": "Report successfully updated"
