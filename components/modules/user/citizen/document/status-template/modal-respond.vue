@@ -264,7 +264,7 @@ const props = defineProps({
         required: true,
     },
 })
-const emit = defineEmits(['close', 'closeModalNew'])
+const emit = defineEmits(['close', 'closeModalNew', 'refreshDocuments'])
 const { t } = useI18n()
 const { successAlert } = useAlert()
 
@@ -281,6 +281,10 @@ function closeModal() {
 
 function closeModalNew() {
     emit('closeModalNew')
+}
+
+function refreshDocuments(){
+    emit('refreshDocuments')
 }
 
 watch(() => props.isModalOpen, (isModalOpen: any) => {
@@ -370,6 +374,7 @@ async function submitResponse() {
             successAlert(`${t('alert.success')}!`, `${t('citizens.documents.createTemplate.alert.templateSuccessfullyAdded')}.`)
             closeModal()
             closeModalNew()
+            refreshDocuments()
         }
     } catch (error: any) {
         state.error = error
@@ -413,6 +418,7 @@ async function submitResponseAndDownloadPDF() {
             successAlert(`${t('alert.success')}!`, `${t('citizens.documents.createTemplate.alert.templateSuccessfullyAdded')}.`)
             closeModal()
             closeModalNew()
+            refreshDocuments()
             saveAs(response)
         }
     } catch (error: any) {
