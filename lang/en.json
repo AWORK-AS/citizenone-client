@@ -3259,12 +3259,16 @@
         "newExpense": "New expense",
         "table": {
             "alert": {
-                "expenseSuccessfullyDeleted": "Expense successfully deleted"
+                "expenseSuccessfullyDeleted": "Expense successfully deleted",
+                "expenseSuccessfullyReimbursed": "Expense successfully reimbursed",
+                "expenseSuccessfullyUnreimbursed": "Expense successfully unreimbursed"
             },
             "actions": {
                 "delete": "Delete",
                 "edit": "Edit",
-                "view": "View"
+                "view": "View",
+                "reimburse": "Reimburse",
+                "unreimburse": "Unreimburse"
             },
             "confirmation": {
                 "deleteExpenseConfirmation": "Are you sure you want to delete this expense?"

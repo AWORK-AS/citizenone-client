@@ -89,13 +89,13 @@
                                                     <Icon name="ph:trash" class="size-4" />
                                                 </FormButton>
                                             </Tooltip>
-                                            <Tooltip :text="$t('expenses.table.actions.unreimburse')" v-if="expense?.is_reimbursed">
+                                            <Tooltip :text="$t('expenses.table.actions.unreimburse')" v-if="expense?.is_reimbursed && isAdmin(userStore?.user?.roles)">
                                                 <FormButton type="button" buttonStyle="danger" class="rounded-md"
                                                     @click="unReimburse(expense)">
                                                     <Icon name="ph:x" class="size-4" />
                                                 </FormButton>
                                             </Tooltip>
-                                            <Tooltip :text="$t('expenses.table.actions.reimburse')" v-if="!expense?.is_reimbursed">
+                                            <Tooltip :text="$t('expenses.table.actions.reimburse')" v-if="!expense?.is_reimbursed && isAdmin(userStore?.user?.roles)">
                                                 <FormButton type="button" buttonStyle="success" class="rounded-md"
                                                     @click="reimburse(expense)">
                                                     <Icon name="ph:check" class="size-4" />
@@ -288,7 +288,7 @@ async function deleteExpense() {
         const response = await expenseService.deleteExpense(state.selectedExpense.uuid)
         if (response?.message === 'Success.' || response?.message === 'Succes.') {
             fetchExpenses()
-            successAlert(`${t('alert.success')}!`, `${t('expenses.alert.expenseSuccessfullyDeleted')}.`)
+            successAlert(`${t('alert.success')}!`, `${t('expenses.table.alert.expenseSuccessfullyDeleted')}.`)
         }
     } catch (error: any) {
         state.error = error
