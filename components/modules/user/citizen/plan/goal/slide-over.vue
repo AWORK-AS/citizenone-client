@@ -126,7 +126,7 @@
                                                                     </FormButton>
                                                                 </Tooltip>
                                                                 <Tooltip
-                                                                    :text="$t('plansandgoals.table.actions.statuses')">
+                                                                    :text="$t('plansandgoals.table.actions.reports')">
                                                                     <FormButton class="rounded-md" buttonSize="sm"
                                                                         @click="viewGoalStatuses(goal)">
                                                                         <Icon name="ph:file" class="size-4" />
@@ -331,7 +331,7 @@
                                                                                     </FormButton>
                                                                                 </Tooltip>
                                                                                 <Tooltip
-                                                                                    :text="$t('plansandgoals.table.actions.statuses')">
+                                                                                    :text="$t('plansandgoals.table.actions.reports')">
                                                                                     <FormButton class="rounded-md"
                                                                                         buttonSize="sm"
                                                                                         @click="viewSubgoalStatuses(subgoal)">
