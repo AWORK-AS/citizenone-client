@@ -2,18 +2,17 @@
     <div>
         <Modal size="sm" :title="$t('dutySchedules.newSchedule')" :show="props.isModalOpen" @close="closeModal">
             <template #modal-body>
-                <Alert type="warning" :text="locale === 'en' ? props.selectedEmployee?.average_weekly_work_time?.message_en : props.selectedEmployee?.average_weekly_work_time?.message_dk"
+                <Alert type="warning"
+                    :text="locale === 'en' ? props.selectedEmployee?.average_weekly_work_time?.message_en : props.selectedEmployee?.average_weekly_work_time?.message_dk"
                     v-if="props.selectedEmployee?.average_weekly_work_time?.severity !== 'info'" />
                 <LoadingSpinner :isActive="props.isModalLoading || state.isPageLoading">
                     <ModulesUserDutyScheduleFormShift formType="create" :error="props.error"
                         :selectedEmployee="props.selectedEmployee" :selectedShift="state.formShift"
-                        @dateTimeChange="dateTimeChange"
-                        @close="closeModal()" @isPageLoading="(value: boolean) => state.isPageLoading = value"
-                        @saveShift="saveShift" />
+                        @dateTimeChange="dateTimeChange" @close="closeModal()"
+                        @isPageLoading="(value: boolean) => state.isPageLoading = value" @saveShift="saveShift" />
 
                     <ModulesUserDutyScheduleModalShiftWarning :isModalOpen="props.showWarningDialog"
-                        :warnings="props.shiftWarnings"
-                        @close="emit('closeWarningDialog')" />
+                        :warnings="props.shiftWarnings" @close="emit('closeWarningDialog')" />
                 </LoadingSpinner>
             </template>
         </Modal>
@@ -68,7 +67,6 @@ const state = reactive({
         shift_type: '',
         is_sleeping_sick_leave: false,
         do_not_count_weekends: false,
-        compensatory_time_off: false,
         date_time_start: moment().startOf('day').add(8, 'hours').format('YYYY-MM-DD H:mm'),
         date_time_end: moment().startOf('day').add(17, 'hours').format('YYYY-MM-DD H:mm'),
         recurring: {
