@@ -54,19 +54,35 @@
                                         <span>{{ expense?.amount }}</span>
                                     </td>
                                     <td width="20%">
-                                        <span>{{ expense?.file_name_src }}</span>
+                                        <div class="text-tertiary hover:text-tertiary-700 cursor-pointer flex items-center gap-x-1"
+                                            v-if="expense?.file_url" @click="downloadFile(expense?.file_url)">
+                                            <Icon name="ph:file" class="size-6" />
+                                            <span class="truncate">{{ expense?.file_name_src }}</span>
+                                        </div>
                                     </td>
                                     <td width="10%">
                                         <span class="truncate">
-                                            {{ formatDateTimeToReadable(expense?.created_at) }}
+                                            {{ formatDateToReadable(expense?.expense_date) }}
                                         </span>
                                     </td>
                                     <td width="20%">
                                         <div class="flex items-end gap-2">
-                                            <Tooltip :text="$t('employees.table.actions.view')">
+                                            <Tooltip :text="$t('expenses.table.actions.view')">
                                                 <FormButton type="button" buttonStyle="action" class="rounded-md"
                                                     @click="navigateTo(`/drive/expenses/${expense?.uuid}`)">
                                                     <Icon name="ph:eye" class="size-4" />
+                                                </FormButton>
+                                            </Tooltip>
+                                            <Tooltip :text="$t('expenses.table.actions.edit')">
+                                                <FormButton type="button" buttonStyle="action" class="rounded-md"
+                                                    @click="editExpense(expense)">
+                                                    <Icon name="ph:pencil-simple" class="size-4" />
+                                                </FormButton>
+                                            </Tooltip>
+                                            <Tooltip :text="$t('expenses.table.actions.delete')">
+                                                <FormButton type="button" buttonStyle="danger" class="rounded-md"
+                                                    @click="deleteExpenseConfirmation(expense)">
+                                                    <Icon name="ph:trash" class="size-4" />
                                                 </FormButton>
                                             </Tooltip>
                                         </div>
@@ -78,9 +94,15 @@
                     <Pagination :data="state.expenses" @previous="previous" @next="next" />
                 </div>
 
+                <ModulesUserDocumentExpenseModalNew :isModalOpen="state.modal.isAddExpenseOpen"
+                    @close="state.modal.isAddExpenseOpen = false" @refreshExpenses="fetchExpenses" />
+                <ModulesUserDocumentExpenseModalEdit :isModalOpen="state.modal.isEditExpenseOpen"
+                    :selectedExpense="state.selectedExpense"
+                    @close="state.modal.isEditExpenseOpen = false" @refreshExpenses="fetchExpenses" />
+                    
                 <DialogConfirmation :isModalOpen="state.modal.isDeleteExpenseOpen"
-                    :message="$t('expense.confirmation.deleteExpenseConfirmation')"
-                    @close="state.modal.isDeleteExpenseOpen = false" @confirm="deleteDocument" />
+                    :message="$t('expenses.confirmation.deleteExpenseConfirmation')"
+                    @close="state.modal.isDeleteExpenseOpen = false" @confirm="deleteExpense" />
             </div>
         </NuxtLayout>
     </div>
@@ -96,7 +118,7 @@ import { saveAs } from 'file-saver'
 import { expenseService } from '@/components/api/user/ExpenseService'
 
 const runtimeConfig = useRuntimeConfig()
-const { formatDateTimeToReadable } = useDatetimeFormatter()
+const { formatDateToReadable } = useDatetimeFormatter()
 const { successAlert } = useAlert()
 const userStore = useUserStore() as any
 const { t } = useI18n()
@@ -123,7 +145,7 @@ const state = reactive({
         { name: 'expenses.table.category', isTranslateName: true, sorter: true, },
         { name: 'expenses.table.amount', isTranslateName: true, sorter: true, },
         { name: 'expenses.table.receipt', isTranslateName: true },
-        { name: 'expenses.table.date', isTranslateName: true, sorter: true, key: 'created_at' },
+        { name: 'expenses.table.date', isTranslateName: true, sorter: true, key: 'expense_date' },
         { name: '' },
     ],
     dataFilter: {
@@ -136,6 +158,7 @@ const state = reactive({
     modal: {
        isDeleteExpenseOpen: false,
        isAddExpenseOpen: false,
+       isEditExpenseOpen: false,
     },
     selectedExpense: {} as any,
     sortData: {
@@ -151,15 +174,6 @@ onMounted(() => {
 
 function isAdmin(roles: any) {
     return roles && roles.some((role: any) => role.name === 'Admin')
-}
-
-async function navigateToExternalLink(link: any) {
-    await navigateTo(link, {
-        external: true,
-        open: {
-            target: '_blank',
-        }
-    })
 }
 
 async function fetchExpenses(folderUuid: any = null) {
@@ -207,133 +221,48 @@ function handleSearch(value: any) {
     fetchExpenses()
 }
 
-// async function downloadFile(document: any) {
-//     state.error = {}
-//     state.isTableLoading = true
-//     try {
-//         const documentUuid = document?.uuid
-//         const response = await documentService.downloadFile(documentUuid)
-//         if (response) {
-//             saveAs(response, document?.name)
-//         }
-//     } catch (error: any) {
-//         state.error = error
-//     }
-//     state.isTableLoading = false
-// }
 
-function triggerFileInput() {
-    documentFile.value.click()
-}
+function downloadFile(fileUrl: string) {
+    const link = document.createElement('a');
+    link.href = fileUrl;
+    link.download = '';
+    link.target = '_blank';
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+};
 
-async function uploadFile(event: any) {
-    state.error = {}
-    state.isPageLoading = true
-    try {
-        const folderUuid = router?.currentRoute?.value?.query?.folder_uuid as any
-        const files = event.target.files
-
-        if (!files || files.length === 0) return
-
-        const params = new FormData()
-        params.append('type', 'file')
-        params.append('is_admin_access', 'false')
-
-        // Append all files with the same key, e.g., files[]
-        for (const file of files) {
-            params.append('files[]', file)
-        }
-
-        if (folderUuid) {
-            params.append('folder_uuid', folderUuid)
-        }
-        const response = await documentService.saveFileFolder(params)
-        if (response?.data) {
-            resetFileInput()
-            fetchDocuments()
-            successAlert(`${t('alert.success')}!`, `${t('drive.alert.fileSuccessfullyAdded')}.`)
-        }
-    } catch (error: any) {
-        state.error = error
-        resetFileInput()
-        if (error?.message === 'You do not have enough storage space to upload new files.') {
-            state.modal.isUpgradeStorageOpen = true
-        } else if (error?.message === 'Du har ikke nok lagerplads til at uploade nye filer.') {
-            state.modal.isUpgradeStorageOpen = true
+function editExpense(expense: any) {
+    state.selectedExpense = {
+        id: expense.id,
+        uuid: expense.uuid,
+        name: expense.name,
+        expense_category_uuid: expense.category?.uuid,
+        description: expense.description,
+        expense_date: expense.expense_date,
+        amount: expense.amount,
+        receipt: {
+            name: expense.file_name_src,
+            url: expense.file_url,
+            size: expense.size,
         }
     }
-    state.isPageLoading = false
+    state.modal.isEditExpenseOpen = true
 }
 
-const resetFileInput = () => {
-    if (documentFile.value) {
-        documentFile.value.value = null
-    }
+function deleteExpenseConfirmation(expense: any) {
+    state.selectedExpense = expense
+    state.modal.isDeleteExpenseOpen = true
 }
 
-async function viewDirectory(document: any) {
-    currentTablePage = 1
-    await navigateTo(`/drive?folder_uuid=${document.uuid}`)
-}
-
-function editDocument(document: any) {
-    state.selectedDocument = document
-    state.modal.isEditDocumentOpen = true
-}
-
-function viewDocumentAccess(document: any) {
-    state.selectedDocument = document
-    state.modal.isViewAccessOpen = true
-}
-
-function confirmDocumentArchiving(document: any) {
-    state.selectedDocument = document
-    state.modal.isArchiveDocumentOpen = true
-}
-
-async function archiveDocument() {
+async function deleteExpense() {
     state.error = {}
     state.isTableLoading = true
     try {
-        const documentUuid = state.selectedDocument?.uuid
-        const response = await documentService.archiveUnarchiveDocument(documentUuid)
-        if (response.data) {
-            successAlert(`${t('alert.success')}!`, `${t('drive.alert.documentSuccessfullyArchived')}.`)
-            fetchDocuments()
-        }
-    } catch (error: any) {
-        state.error = error
-    }
-    state.isTableLoading = false
-}
-
-function moveFileConfirmation(document: any) {
-    state.selectedDocument = document
-    state.modal.isMoveFileOpen = true
-}
-
-function deleteDirectoryConfirmation(document: any) {
-    state.selectedDocument = document
-    state.modal.isDeleteDirectoryOpen = true
-}
-
-function deleteFileConfirmation(document: any) {
-    state.selectedDocument = document
-    state.modal.isDeleteFileOpen = true
-}
-
-async function deleteDocument() {
-    state.error = {}
-    state.isTableLoading = true
-    try {
-        const response = await documentService.deleteDocument(state.selectedDocument.uuid)
+        const response = await expenseService.deleteExpense(state.selectedExpense.uuid)
         if (response?.message === 'Success.' || response?.message === 'Succes.') {
-            fetchDocuments()
-            if (state.selectedDocument.type === 'folder') {
-                successAlert(`${t('alert.success')}!`, `${t('drive.alert.deletedFolderSuccessfully')}.`)
-            } else {
-                successAlert(`${t('alert.success')}!`, `${t('drive.alert.deletedFileSuccessfully')}.`)
-            }
+            fetchExpenses()
+            successAlert(`${t('alert.success')}!`, `${t('expenses.alert.expenseSuccessfullyDeleted')}.`)
         }
     } catch (error: any) {
         state.error = error

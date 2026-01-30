@@ -3230,6 +3230,12 @@
         "addNewExpense": "Add new expense",
         "expenses": "Expenses",
         "editExpense": "Edit expense",
+        "alert": {
+            "expenseSuccessfullyDeleted": "Expense successfully deleted"
+        },
+        "confirmation": {
+            "deleteExpenseConfirmation":"Are you sure you want to delete this expense?"
+        },
         "form": {
             "alert": {
                 "expenseSuccessfullyUpdated": "Expense successfully updated",
@@ -3237,7 +3243,13 @@
             },
             "name": "Name",
             "expense": "Expense",
-            "status": "Status"
+            "status": "Status",
+            "category": "Category",
+            "date":"Date",
+            "amount": "Amount",
+            "description": "Description",
+            "receipt": "Receipt",
+            "clickToUpload": "Click to upload"
         },
         "newExpense": "New expense",
         "table": {
@@ -3246,7 +3258,8 @@
             },
             "actions": {
                 "delete": "Delete",
-                "edit": "Edit"
+                "edit": "Edit",
+                "view": "View"
             },
             "confirmation": {
                 "deleteExpenseConfirmation": "Are you sure you want to delete this expense?"

@@ -3227,29 +3227,51 @@
         }
     },
     "expenses": {
-        "addNewExpense": "Add new expense",
-        "expenses": "Expenses",
-        "editExpense": "Edit expense",
+        "addNewExpense": "Tilføj ny udgift",
+        "expenses": "Udgifter",
+        "editExpense": "Rediger udgift",
+        "alert": {
+            "expenseSuccessfullyDeleted": "Udgift slettet med succes"
+        },
+        "confirmation": {
+            "deleteExpenseConfirmation":"Er du sikker på, at du vil slette denne udgift?"
+        },
         "form": {
             "alert": {
-                "expenseSuccessfullyUpdated": "Expense successfully updated",
-                "newExpenseSuccessfullySaved": "New expense successfully saved"
+                "expenseSuccessfullyUpdated": "Udgift opdateret med succes",
+                "newExpenseSuccessfullySaved": "Ny udgift gemt med succes"
             },
-            "name": "Name"
+            "name": "Navn",
+            "expense": "Udgift",
+            "status": "Status",
+            "category": "Kategori",
+            "date":"Dato",
+            "amount": "Beløb",
+            "description": "Beskrivelse",
+            "receipt": "Kvittering",
+            "clickToUpload": "Klik for at uploade"
         },
-        "newExpense": "New expense",
+        "newExpense": "Ny udgift",
         "table": {
             "alert": {
-                "expenseSuccessfullyDeleted": "Expense successfully deleted"
+                "expenseSuccessfullyDeleted": "Udgift slettet med succes"
             },
             "actions": {
-                "delete": "Delete",
-                "edit": "Edit"
+                "delete": "Slet",
+                "edit": "Rediger",
+                "view": "Se"
             },
             "confirmation": {
-                "deleteExpenseConfirmation": "Are you sure you want to delete this expense?"
+                "deleteExpenseConfirmation": "Er du sikker på, at du vil slette denne udgift?"
             },
-            "name": "Name"
+            "name": "Navn",
+            "expense": "Udgift",
+            "employee": "Medarbejder",
+            "category": "Kategori",
+            "date": "Dato",
+            "amount": "Beløb",
+            "receipt": "Kvittering",
+            "status": "Status"
         }
     },
     "features": {

@@ -14,7 +14,7 @@ class ExpenseService extends BaseAPIService {
     }
 
     async updateExpense(expenseUuid: any, params: object): Promise<any> {
-        return await this.request(`/user/expenses/${expenseUuid}`, 'PUT', params)
+        return await this.request(`/user/expenses/${expenseUuid}/update`, 'POST', params)
     }
 
     async deleteExpense(expenseUuid: any): Promise<any> {
