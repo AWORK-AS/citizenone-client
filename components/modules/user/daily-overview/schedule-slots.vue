@@ -126,7 +126,7 @@ const props = defineProps({
 })
 
 const departmentStore = useDepartmentStore()
-const { formatDateToReadable, formatDateTimeToReadable } = useDatetimeFormatter()
+const { formatDateTimeToReadable } = useDatetimeFormatter()
 const { successAlert } = useAlert()
 const { t } = useI18n()
 const language = useI18n()
@@ -165,6 +165,12 @@ const state = reactive({
 watch(() => props.dateRange, () => {
     fetchScheduleSlots()
 }, { deep: true })
+
+watch(() => departmentStore.getSelectedDepartmentName, (newValue: any) => {
+    if (newValue != null) {
+        fetchScheduleSlots()
+    }
+})
 
 onMounted(() => {
     fetchScheduleSlots()
