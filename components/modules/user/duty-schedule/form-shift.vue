@@ -62,6 +62,14 @@
                         {{ $t('dutySchedules.form.DoNotCountWeekends') }}
                     </div>
                 </div>
+                <div
+                    v-if="['vacation-leave'].includes(state.options.shifts.find((shift: any) => shift.value === state.formShift.shift_type)?.system_name)">
+                    <div class="w-fit flex items-center cursor-pointer"
+                        @click="state.formShift.use_compensatory_time = !state.formShift.use_compensatory_time">
+                        <FormCheckbox :value="state.formShift.use_compensatory_time" />
+                        {{ $t('dutySchedules.form.useCompensatoryTime') }}
+                    </div>
+                </div>
                 <div class="space-y-1">
                     <div class="flex justify-between items-center py-0.5">
                         <FormLabel for="department_uuid" :label="$t('dutySchedules.form.departments')" />
@@ -248,14 +256,6 @@
                         v-model="state.formShift.citizens" />
                     <FormError :error="v$?.formShift?.citizens?.$errors[0]?.$message.toString()" />
                     <FormError :error="state?.error?.errors?.citizen_uuid?.[0]" />
-                </div>
-                <div
-                    v-if="['vacation-leave'].includes(state.options.shifts.find((shift: any) => shift.value === state.formShift.shift_type)?.system_name)">
-                    <div class="w-fit flex items-center cursor-pointer"
-                        @click="state.formShift.use_compensatory_time = !state.formShift.use_compensatory_time">
-                        <FormCheckbox :value="state.formShift.use_compensatory_time" />
-                        {{ $t('dutySchedules.form.useCompensatoryTime') }}
-                    </div>
                 </div>
                 <div class="space-y-1">
                     <div class="flex justify-between items-center py-0.5">
