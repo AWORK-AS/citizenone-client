@@ -113,6 +113,11 @@
                             <FormCheckbox :value="dailyOverviewStore.getDailyOverviewFilter.showScheduleSlots" />
                             {{ $t('overview.filter.items.scheduleSlots') }}
                         </div>
+                        <div class="w-fit flex items-center cursor-pointer text-sm"
+                            @click="setDailyOverviewFilterShowPlansAndGoals()">
+                            <FormCheckbox :value="dailyOverviewStore.getDailyOverviewFilter.showPlansAndGoals" />
+                            {{ $t('overview.filter.items.plansAndGoals') }}
+                        </div>
                     </div>
                     <div class="mt-5 flex gap-x-3 justify-end">
                         <FormButton buttonStyle="primary" @click="closeModal" class="rounded-md">
@@ -171,6 +176,7 @@ watch(() => userStore.getUser, (user: any) => {
         dailyOverviewStore.setDailyOverviewFilterShowMedicineDeviationStatistics(JSON.parse(user?.daily_overview_filter)?.showMedicineDeviationStatistics)
         dailyOverviewStore.setDailyOverviewFilterShowTreatments(JSON.parse(user?.daily_overview_filter)?.showTreatments)
         dailyOverviewStore.setDailyOverviewFilterShowScheduleSlots(JSON.parse(user?.daily_overview_filter)?.showScheduleSlots)
+        dailyOverviewStore.setDailyOverviewFilterShowPlansAndGoals(JSON.parse(user?.daily_overview_filter)?.showPlansAndGoals)
     }
 })
 
@@ -203,6 +209,7 @@ async function setDailyOverviewFilterShowBulletBoard() {
             showMedicineDeviationStatistics: dailyOverviewStore.getDailyOverviewFilter.showMedicineDeviationStatistics,
             showTreatments: dailyOverviewStore.getDailyOverviewFilter.showTreatments,
             showScheduleSlots: dailyOverviewStore.getDailyOverviewFilter.showScheduleSlots,
+            showPlansAndGoals: dailyOverviewStore.getDailyOverviewFilter.showPlansAndGoals,
         }
         const params = {
             daily_overview_filter: daily_overview_filter
@@ -242,6 +249,7 @@ async function setDailyOverviewFilterShowCitizenAdditictions() {
             showMedicineDeviationStatistics: dailyOverviewStore.getDailyOverviewFilter.showMedicineDeviationStatistics,
             showTreatments: dailyOverviewStore.getDailyOverviewFilter.showTreatments,
             showScheduleSlots: dailyOverviewStore.getDailyOverviewFilter.showScheduleSlots,
+            showPlansAndGoals: dailyOverviewStore.getDailyOverviewFilter.showPlansAndGoals,
         }
         const params = {
             daily_overview_filter: daily_overview_filter
@@ -281,6 +289,7 @@ async function setDailyOverviewFilterShowCitizensAdmissionAndDischarged() {
             showMedicineDeviationStatistics: dailyOverviewStore.getDailyOverviewFilter.showMedicineDeviationStatistics,
             showTreatments: dailyOverviewStore.getDailyOverviewFilter.showTreatments,
             showScheduleSlots: dailyOverviewStore.getDailyOverviewFilter.showScheduleSlots,
+            showPlansAndGoals: dailyOverviewStore.getDailyOverviewFilter.showPlansAndGoals,
         }
         const params = {
             daily_overview_filter: daily_overview_filter
@@ -320,6 +329,7 @@ async function setDailyOverviewFilterShowCitizensDailyEvents() {
             showMedicineDeviationStatistics: dailyOverviewStore.getDailyOverviewFilter.showMedicineDeviationStatistics,
             showTreatments: dailyOverviewStore.getDailyOverviewFilter.showTreatments,
             showScheduleSlots: dailyOverviewStore.getDailyOverviewFilter.showScheduleSlots,
+            showPlansAndGoals: dailyOverviewStore.getDailyOverviewFilter.showPlansAndGoals,
         }
         const params = {
             daily_overview_filter: daily_overview_filter
@@ -359,6 +369,7 @@ async function setDailyOverviewFilterShowCitizensDiagnoses() {
             showMedicineDeviationStatistics: dailyOverviewStore.getDailyOverviewFilter.showMedicineDeviationStatistics,
             showTreatments: dailyOverviewStore.getDailyOverviewFilter.showTreatments,
             showScheduleSlots: dailyOverviewStore.getDailyOverviewFilter.showScheduleSlots,
+            showPlansAndGoals: dailyOverviewStore.getDailyOverviewFilter.showPlansAndGoals,
         }
         const params = {
             daily_overview_filter: daily_overview_filter
@@ -398,6 +409,7 @@ async function setDailyOverviewFilterShowCitizensOrigin() {
             showMedicineDeviationStatistics: dailyOverviewStore.getDailyOverviewFilter.showMedicineDeviationStatistics,
             showTreatments: dailyOverviewStore.getDailyOverviewFilter.showTreatments,
             showScheduleSlots: dailyOverviewStore.getDailyOverviewFilter.showScheduleSlots,
+            showPlansAndGoals: dailyOverviewStore.getDailyOverviewFilter.showPlansAndGoals,
         }
         const params = {
             daily_overview_filter: daily_overview_filter
@@ -437,6 +449,7 @@ async function setDailyOverviewFilterShowDailyMedicineOverview() {
             showMedicineDeviationStatistics: dailyOverviewStore.getDailyOverviewFilter.showMedicineDeviationStatistics,
             showTreatments: dailyOverviewStore.getDailyOverviewFilter.showTreatments,
             showScheduleSlots: dailyOverviewStore.getDailyOverviewFilter.showScheduleSlots,
+            showPlansAndGoals: dailyOverviewStore.getDailyOverviewFilter.showPlansAndGoals,
         }
         const params = {
             daily_overview_filter: daily_overview_filter
@@ -476,6 +489,7 @@ async function setDailyOverviewFilterShowGender() {
             showMedicineDeviationStatistics: dailyOverviewStore.getDailyOverviewFilter.showMedicineDeviationStatistics,
             showTreatments: dailyOverviewStore.getDailyOverviewFilter.showTreatments,
             showScheduleSlots: dailyOverviewStore.getDailyOverviewFilter.showScheduleSlots,
+            showPlansAndGoals: dailyOverviewStore.getDailyOverviewFilter.showPlansAndGoals,
         }
         const params = {
             daily_overview_filter: daily_overview_filter
@@ -515,6 +529,7 @@ async function setDailyOverviewFilterShowLatestJournal() {
             showMedicineDeviationStatistics: dailyOverviewStore.getDailyOverviewFilter.showMedicineDeviationStatistics,
             showTreatments: dailyOverviewStore.getDailyOverviewFilter.showTreatments,
             showScheduleSlots: dailyOverviewStore.getDailyOverviewFilter.showScheduleSlots,
+            showPlansAndGoals: dailyOverviewStore.getDailyOverviewFilter.showPlansAndGoals,
         }
         const params = {
             daily_overview_filter: daily_overview_filter
@@ -554,6 +569,7 @@ async function setDailyOverviewFilterShowJournalScoreStatistics() {
             showMedicineDeviationStatistics: dailyOverviewStore.getDailyOverviewFilter.showMedicineDeviationStatistics,
             showTreatments: dailyOverviewStore.getDailyOverviewFilter.showTreatments,
             showScheduleSlots: dailyOverviewStore.getDailyOverviewFilter.showScheduleSlots,
+            showPlansAndGoals: dailyOverviewStore.getDailyOverviewFilter.showPlansAndGoals,
         }
         const params = {
             daily_overview_filter: daily_overview_filter
@@ -593,6 +609,7 @@ async function setDailyOverviewFilterShowMyDailyEvents() {
             showMedicineDeviationStatistics: dailyOverviewStore.getDailyOverviewFilter.showMedicineDeviationStatistics,
             showTreatments: dailyOverviewStore.getDailyOverviewFilter.showTreatments,
             showScheduleSlots: dailyOverviewStore.getDailyOverviewFilter.showScheduleSlots,
+            showPlansAndGoals: dailyOverviewStore.getDailyOverviewFilter.showPlansAndGoals,
         }
         const params = {
             daily_overview_filter: daily_overview_filter
@@ -632,6 +649,7 @@ async function setDailyOverviewFilterShowRiskAssessment() {
             showMedicineDeviationStatistics: dailyOverviewStore.getDailyOverviewFilter.showMedicineDeviationStatistics,
             showTreatments: dailyOverviewStore.getDailyOverviewFilter.showTreatments,
             showScheduleSlots: dailyOverviewStore.getDailyOverviewFilter.showScheduleSlots,
+            showPlansAndGoals: dailyOverviewStore.getDailyOverviewFilter.showPlansAndGoals,
         }
         const params = {
             daily_overview_filter: daily_overview_filter
@@ -671,6 +689,7 @@ async function setDailyOverviewFilterShowGoalsScoreStatistics() {
             showMedicineDeviationStatistics: dailyOverviewStore.getDailyOverviewFilter.showMedicineDeviationStatistics,
             showTreatments: dailyOverviewStore.getDailyOverviewFilter.showTreatments,
             showScheduleSlots: dailyOverviewStore.getDailyOverviewFilter.showScheduleSlots,
+            showPlansAndGoals: dailyOverviewStore.getDailyOverviewFilter.showPlansAndGoals,
         }
         const params = {
             daily_overview_filter: daily_overview_filter
@@ -710,6 +729,7 @@ async function setDailyOverviewFilterShowSubgoalsScoreStatistics() {
             showMedicineDeviationStatistics: dailyOverviewStore.getDailyOverviewFilter.showMedicineDeviationStatistics,
             showTreatments: dailyOverviewStore.getDailyOverviewFilter.showTreatments,
             showScheduleSlots: dailyOverviewStore.getDailyOverviewFilter.showScheduleSlots,
+            showPlansAndGoals: dailyOverviewStore.getDailyOverviewFilter.showPlansAndGoals,
         }
         const params = {
             daily_overview_filter: daily_overview_filter
@@ -749,6 +769,7 @@ async function setDailyOverviewFilterShowStatusesScoreStatistics() {
             showMedicineDeviationStatistics: dailyOverviewStore.getDailyOverviewFilter.showMedicineDeviationStatistics,
             showTreatments: dailyOverviewStore.getDailyOverviewFilter.showTreatments,
             showScheduleSlots: dailyOverviewStore.getDailyOverviewFilter.showScheduleSlots,
+            showPlansAndGoals: dailyOverviewStore.getDailyOverviewFilter.showPlansAndGoals,
         }
         const params = {
             daily_overview_filter: daily_overview_filter
@@ -788,6 +809,7 @@ async function setDailyOverviewFilterShowIncidentStatistics() {
             showMedicineDeviationStatistics: dailyOverviewStore.getDailyOverviewFilter.showMedicineDeviationStatistics,
             showTreatments: dailyOverviewStore.getDailyOverviewFilter.showTreatments,
             showScheduleSlots: dailyOverviewStore.getDailyOverviewFilter.showScheduleSlots,
+            showPlansAndGoals: dailyOverviewStore.getDailyOverviewFilter.showPlansAndGoals,
         }
         const params = {
             daily_overview_filter: daily_overview_filter
@@ -827,6 +849,7 @@ async function setDailyOverviewFilterShowUseOfForceStatistics() {
             showMedicineDeviationStatistics: dailyOverviewStore.getDailyOverviewFilter.showMedicineDeviationStatistics,
             showTreatments: dailyOverviewStore.getDailyOverviewFilter.showTreatments,
             showScheduleSlots: dailyOverviewStore.getDailyOverviewFilter.showScheduleSlots,
+            showPlansAndGoals: dailyOverviewStore.getDailyOverviewFilter.showPlansAndGoals,
         }
         const params = {
             daily_overview_filter: daily_overview_filter
@@ -866,6 +889,7 @@ async function setDailyOverviewFilterShowMedicineDeviationStatistics() {
             showMedicineDeviationStatistics: !dailyOverviewStore.getDailyOverviewFilter.showMedicineDeviationStatistics,
             showTreatments: dailyOverviewStore.getDailyOverviewFilter.showTreatments,
             showScheduleSlots: dailyOverviewStore.getDailyOverviewFilter.showScheduleSlots,
+            showPlansAndGoals: dailyOverviewStore.getDailyOverviewFilter.showPlansAndGoals,
         }
         const params = {
             daily_overview_filter: daily_overview_filter
@@ -905,6 +929,7 @@ async function setDailyOverviewFilterShowTreatments() {
             showMedicineDeviationStatistics: dailyOverviewStore.getDailyOverviewFilter.showMedicineDeviationStatistics,
             showTreatments: !dailyOverviewStore.getDailyOverviewFilter.showTreatments,
             showScheduleSlots: dailyOverviewStore.getDailyOverviewFilter.showScheduleSlots,
+            showPlansAndGoals: dailyOverviewStore.getDailyOverviewFilter.showPlansAndGoals,
         }
         const params = {
             daily_overview_filter: daily_overview_filter
@@ -944,6 +969,7 @@ async function setDailyOverviewFilterShowScheduleSlots() {
             showMedicineDeviationStatistics: dailyOverviewStore.getDailyOverviewFilter.showMedicineDeviationStatistics,
             showTreatments: dailyOverviewStore.getDailyOverviewFilter.showTreatments,
             showScheduleSlots: !dailyOverviewStore.getDailyOverviewFilter.showScheduleSlots,
+            showPlansAndGoals: dailyOverviewStore.getDailyOverviewFilter.showPlansAndGoals,
         }
         const params = {
             daily_overview_filter: daily_overview_filter
@@ -951,6 +977,46 @@ async function setDailyOverviewFilterShowScheduleSlots() {
         const response = await dailyOverviewService.updateDailyOverviewFilter(params)
         if (response) {
             dailyOverviewStore.setDailyOverviewFilterShowScheduleSlots(!dailyOverviewStore.getDailyOverviewFilter.showScheduleSlots)
+        }
+    } catch (error: any) {
+        state.error = error
+    }
+    state.isPageLoading = false
+}
+
+async function setDailyOverviewFilterShowPlansAndGoals() {
+    state.error = {}
+    state.isPageLoading = true
+    try {
+        const daily_overview_filter = {
+            showBulletBoard: dailyOverviewStore.getDailyOverviewFilter.showBulletBoard,
+            showCitizensAddictions: dailyOverviewStore.getDailyOverviewFilter.showCitizensAddictions,
+            showCitizensAdmissionAndDischarged: dailyOverviewStore.getDailyOverviewFilter.showCitizensAdmissionAndDischarged,
+            showCitizensDailyEvents: dailyOverviewStore.getDailyOverviewFilter.showCitizensDailyEvents,
+            showCitizensDiagnoses: dailyOverviewStore.getDailyOverviewFilter.showCitizensDiagnoses,
+            showCitizensOrigin: dailyOverviewStore.getDailyOverviewFilter.showCitizensOrigin,
+            showDailyMedicineOverview: dailyOverviewStore.getDailyOverviewFilter.showDailyMedicineOverview,
+            showGender: dailyOverviewStore.getDailyOverviewFilter.showGender,
+            showGoalsScoreStatistics: dailyOverviewStore.getDailyOverviewFilter.showGoalsScoreStatistics,
+            showLatestJournal: dailyOverviewStore.getDailyOverviewFilter.showLatestJournal,
+            showJournalScoreStatistics: dailyOverviewStore.getDailyOverviewFilter.showJournalScoreStatistics,
+            showMyDailyEvents: dailyOverviewStore.getDailyOverviewFilter.showMyDailyEvents,
+            showRiskAssessment: dailyOverviewStore.getDailyOverviewFilter.showRiskAssessment,
+            showStatusesScoreStatistics: dailyOverviewStore.getDailyOverviewFilter.showStatusesScoreStatistics,
+            showSubgoalsScoreStatistics: dailyOverviewStore.getDailyOverviewFilter.showSubgoalsScoreStatistics,
+            showIncidentStatistics: dailyOverviewStore.getDailyOverviewFilter.showIncidentStatistics,
+            showUseOfForceStatistics: dailyOverviewStore.getDailyOverviewFilter.showUseOfForceStatistics,
+            showMedicineDeviationStatistics: dailyOverviewStore.getDailyOverviewFilter.showMedicineDeviationStatistics,
+            showTreatments: dailyOverviewStore.getDailyOverviewFilter.showTreatments,
+            showScheduleSlots: dailyOverviewStore.getDailyOverviewFilter.showScheduleSlots,
+            showPlansAndGoals: !dailyOverviewStore.getDailyOverviewFilter.showPlansAndGoals,
+        }
+        const params = {
+            daily_overview_filter: daily_overview_filter
+        }
+        const response = await dailyOverviewService.updateDailyOverviewFilter(params)
+        if (response) {
+            dailyOverviewStore.setDailyOverviewFilterShowPlansAndGoals(!dailyOverviewStore.getDailyOverviewFilter.showPlansAndGoals)
         }
     } catch (error: any) {
         state.error = error
