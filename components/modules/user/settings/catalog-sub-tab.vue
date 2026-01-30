@@ -92,6 +92,14 @@ watch(() => userStore.getUser, (newValue: any) => {
                 ]
             },
             {
+                name: 'settings.tabs.expenseCategories',
+                isTranslateName: true,
+                href: `/settings/expense-categories`,
+                routeNames: [
+                    'settings-expense-categories'
+                ]
+            },
+            {
                 name: 'settings.tabs.employeeGroups',
                 isTranslateName: true,
                 href: `/settings/employee-groups`,

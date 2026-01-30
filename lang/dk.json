@@ -2896,6 +2896,7 @@
             "template": "Skabelon",
             "useTemplate": "Brug skabelon"
         },
+        "expenses": "Udgifter",
         "table": {
             "actions": {
                 "access": "Adgang",
@@ -3198,6 +3199,98 @@
         "subscribe": "Abonner"
     },
     "excludeVat": "ekskl. moms",
+    "expenseCategories": {
+        "addNewExpenseCategory": "Tilføj ny udgiftskategori",
+        "expenseCategories": "Udgiftskategorier",
+        "editExpenseCategory": "Rediger udgiftskategori",
+        "form": {
+            "expenseCategory": "Udgiftskategori",
+            "alert": {
+                "expenseCategorySuccessfullyUpdated": "Udgiftskategori opdateret med succes",
+                "newExpenseCategorySuccessfullySaved": "Ny udgiftskategori gemt med succes"
+            },
+            "name": "Navn"
+        },
+        "newExpenseCategory": "Ny udgiftskategori",
+        "table": {
+            "alert": {
+                "expenseCategorySuccessfullyDeleted": "Udgiftskategori slettet med succes"
+            },
+            "actions": {
+                "delete": "Slet",
+                "edit": "Rediger"
+            },
+            "confirmation": {
+                "deleteExpenseCategoryConfirmation": "Er du sikker på, at du vil slette denne udgiftskategori?"
+            },
+            "name": "Navn"
+        }
+    },
+    "expenses": {
+        "addNewExpense": "Tilføj ny udgift",
+        "expenses": "Udgifter",
+        "editExpense": "Rediger udgift",
+        "alert": {
+            "expenseSuccessfullyDeleted": "Udgift slettet med succes"
+        },
+        "confirmation": {
+            "deleteExpenseConfirmation":"Er du sikker på, at du vil slette denne udgift?"
+        },
+        "form": {
+            "alert": {
+                "expenseSuccessfullyUpdated": "Udgift opdateret med succes",
+                "newExpenseSuccessfullySaved": "Ny udgift gemt med succes"
+            },
+            "name": "Navn",
+            "expense": "Udgift",
+            "status": "Status",
+            "category": "Kategori",
+            "date":"Dato",
+            "amount": "Beløb",
+            "description": "Beskrivelse",
+            "receipt": "Kvittering",
+            "clickToUpload": "Klik for at uploade"
+        },
+        "newExpense": "Ny udgift",
+        "table": {
+            "alert": {
+                "expenseSuccessfullyDeleted": "Udgift slettet med succes",
+                "expenseSuccessfullyReimbursed": "Udgift refunderet med succes",
+                "expenseSuccessfullyUnreimbursed": "Udgift fjernet fra refusion med succes"
+            },
+            "actions": {
+                "delete": "Slet",
+                "edit": "Rediger",
+                "view": "Se",
+                "reimburse": "Refunder",
+                "unreimburse": "Fjern refusion"
+            },
+            "confirmation": {
+                "deleteExpenseConfirmation": "Er du sikker på, at du vil slette denne udgift?"
+            },
+            "name": "Navn",
+            "expense": "Udgift",
+            "employee": "Medarbejder",
+            "category": "Kategori",
+            "date": "Dato",
+            "amount": "Beløb",
+            "receipt": "Kvittering",
+            "status": "Status",
+            "reimbursed": "Refunderet",
+            "pending": "Afventer"
+        },
+        "viewExpense": {
+            "viewExpense": "Se udgift",
+            "employee": "Medarbejder",
+            "category": "Kategori",
+            "date": "Dato",
+            "name": "Navn",
+            "amount": "Beløb",
+            "description": "Beskrivelse",
+            "receipt": "Kvittering",
+            "expense": "Udgift"
+        }
+    },
     "features": {
         "seeNewFeatures": "Se nye funktioner"
     },
@@ -5165,6 +5258,7 @@
             "diagnoses": "Diagnoser",
             "dosageForms": "Doseringsformer",
             "employeeGroups": "Medarbejdergrupper",
+            "expenseCategories": "Udgiftskategorier",
             "foreignCities": "Udenlandske byer",
             "invoices": "Fakturaer",
             "jobTitles": "Jobtitler",
