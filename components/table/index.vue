@@ -47,7 +47,8 @@
                         Loading...
                     </div>
                     <div v-else>
-                        {{ $t('theresNoDataAvailableToDisplay') }}.
+                        <span v-if="props.emptyMessage && props.emptyMessage.length > 0">{{ props.emptyMessage }}</span>
+                        <span v-else>{{ $t('theresNoDataAvailableToDisplay') }}.</span>
                     </div>
                 </td>
             </tr>
@@ -87,6 +88,11 @@ const props = defineProps({
         type: Boolean,
         required: false,
         default: false,
+    },
+    emptyMessage: {
+        type: String,
+        required: false,
+        default: '',
     },
     rowKey: {
         type: String,

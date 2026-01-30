@@ -10,15 +10,24 @@
                 <Breadcrumb :links="breadcrumbLinks" />
             </template>
 
-            <template #header>{{ $t('drive.companyDocuments') }}</template>
+            <template #header>{{ $t('drive.companyDocuments') }}
+                <span v-if="state.viewMode === 'google-drive'" class="inline-flex items-center px-2.5 py-0.5 rounded-full text-sm font-medium bg-green-100 text-green-800">
+                                <Icon name="mdi:google-drive" class="h-4 w-4 mr-1" />
+                                Google Drive (active)
+                </span>
+                <span v-else-if="state.viewMode === 'local'" class="inline-flex items-center px-2.5 py-0.5 rounded-full text-sm font-medium bg-sky-100 text-sky-800">
+                                <Icon name="ph:folder-notch-open" class="h-4 w-4 mr-1" />
+                                CitizenOne Documents (active)
+                </span>
+            </template>
 
             <div class="space-y-5">
                 <div class="mt-8 flex flex-col md:flex-row justify-between gap-3">
                     <div class="flex items-center justify-end md:justify-start gap-x-3">
                         <FormButton buttonStyle="action" class="rounded-md"
-                            @click="navigateToExternalLink('https://drive.google.com/drive/u/0/home')">
-                            <Icon name="mdi:google-drive" class="h-4 w-4" aria-hidden="true" />
-                            Google Drive
+                            @click="toggleGoogleDriveView">
+                            <Icon v-if="state.viewMode !== 'google-drive'" name="mdi:google-drive" class="h-4 w-4" aria-hidden="true" />
+                            {{ state.viewMode === 'google-drive' ? 'CitizenOne Documents' : 'Google Drive' }}
                         </FormButton>
                         <FormButton buttonStyle="action" class="rounded-md"
                             @click="navigateToExternalLink('https://onedrive.live.com/')">
@@ -28,24 +37,24 @@
                     </div>
                     <div class="flex flex-wrap items-center justify-end gap-3">
                         <FormButton buttonStyle="action" class="rounded-md"
-                            @click="state.modal.isAddDirectoryOpen = true">
+                            @click="state.viewMode === 'google-drive' ? (state.modal.isCreateGoogleDriveFolderOpen = true) : (state.modal.isAddDirectoryOpen = true)">
                             <Icon name="ph:plus" class="h-4 w-4" aria-hidden="true" />
                             {{ $t('drive.createNewFolder') }}
                         </FormButton>
                         <LoadingSpinner :isActive="state.isPageLoading">
-                            <FormButton buttonStyle="action" class="rounded-md" @click="triggerFileInput">
+                            <FormButton buttonStyle="action" class="rounded-md" @click="state.viewMode === 'google-drive' ? uploadToGoogleDrive() : triggerFileInput()">
                                 <Icon name="ph:upload" class="h-4 w-4" aria-hidden="true" />
                                 {{ $t('drive.uploadFile') }}
                             </FormButton>
-                            <input type="file" ref="documentFile" @change="uploadFile" class="hidden" multiple />
+                            <input type="file" ref="documentFile" @change="uploadFile" class="hidden" multiple v-if="state.viewMode === 'local'" />
                         </LoadingSpinner>
                         <FormButton buttonStyle="action" class="rounded-md"
-                            @click="state.modal.isViewFolderStructureOpen = true">
+                            @click="state.modal.isViewFolderStructureOpen = true" v-if="state.viewMode === 'local'">
                             <Icon name="ph:folder-notch-open" class="h-4 w-4" aria-hidden="true" />
                             {{ $t('folderStructure.folderStructure') }}
                         </FormButton>
                         <FormButton buttonStyle="action" class="rounded-md"
-                            @click="state.modal.isCreateTemplateOpen = true">
+                            @click="state.modal.isCreateTemplateOpen = true" v-if="state.viewMode === 'local'">
                             <Icon name="ph:file" class="h-4 w-4" aria-hidden="true" />
                             {{ $t('drive.createTemplate.createTemplate') }}
                         </FormButton>
@@ -57,33 +66,58 @@
                         v-if="state.error?.message && state.error.message.length > 0" />
                     <TableSearch @search="handleSearch" />
                     <div class="table-responsive">
-                        <!-- <div class="flex items-center gap-x-2 mb-3 max-w-fit hover:cursor-pointer"
-                            @click="$router.back()" v-if="router?.currentRoute?.value?.query?.folder_uuid">
+                        <div class="flex items-center gap-x-2 mb-3 max-w-fit hover:cursor-pointer"
+                            @click="goBackGoogleDriveFolder" v-if="state.viewMode === 'google-drive' && state.googleDriveFolderStack.length">
                             <Icon name="ph:arrow-left" size="16" class="text-black" />
                             <span class="text-sm">{{ $t('back') }}</span>
-                        </div> -->
-                        <Table :columnHeaders="state.columnHeaders" :data="state.documents"
-                            :isLoading="state.isTableLoading" :sortData="state.sortData" @sort="sort">
-                            <template #body v-if="!(state.isTableLoading || (state.documents?.data?.length === 0))">
-                                <tr v-for="(document, index) in state.documents?.data" :key="index">
+                        </div>
+                        <Table :columnHeaders="state.columnHeaders" 
+                            :data="state.viewMode === 'google-drive' ? state.googleDriveFiles : state.documents"
+                            :isLoading="state.isTableLoading" :sortData="state.sortData"
+                            :emptyMessage="state.viewMode === 'google-drive' && !state.googleDriveConnected ? 'You have not activated or linked your Google Drive' : ''"
+                            @sort="sort">
+                            <template #body v-if="!(state.isTableLoading || ((state.viewMode === 'google-drive' ? state.googleDriveFiles : state.documents)?.data?.length === 0))">
+                                <tr v-for="(document, index) in (state.viewMode === 'google-drive' ? state.googleDriveFiles.data : state.documents?.data)" :key="index">
                                     <td width="25%">
-                                        <div class="text-tertiary hover:text-tertiary-700 cursor-pointer flex items-center gap-x-1"
-                                            v-if="document?.file_url" @click="downloadFile(document)">
-                                            <Icon name="ph:file" class="size-6" />
-                                            <Tooltip :text="$t('drive.form.forAdministratorsOnly')"
-                                                class="flex items-center" v-if="document?.is_admin_access">
-                                                <Icon name="ph:lock-key-fill" class="w-5 h-5 text-red-700" />
-                                            </Tooltip>
-                                            <span class="truncate">{{ document?.name }}</span>
+                                        <div v-if="state.viewMode === 'google-drive'">
+                                            <div class="text-tertiary hover:text-tertiary-700 cursor-pointer flex items-center gap-x-1"
+                                                v-if="document?.type === 'file'" @click="openGoogleDriveFile(document)">
+                                                <Icon name="ph:file" class="size-6" />
+                                                <Tooltip :text="$t('drive.form.forAdministratorsOnly')"
+                                                    class="flex items-center" v-if="document?.is_admin_access">
+                                                    <Icon name="ph:lock-key-fill" class="w-5 h-5 text-red-700" />
+                                                </Tooltip>
+                                                <span class="truncate">{{ document?.name }}</span>
+                                            </div>
+                                            <div class="text-black flex items-center gap-x-1"
+                                                v-else>
+                                                <Icon name="ph:folder-notch-open-light" class="size-6" />
+                                                <Tooltip :text="$t('drive.form.forAdministratorsOnly')"
+                                                    class="flex items-center" v-if="document?.is_admin_access">
+                                                    <Icon name="ph:lock-key-fill" class="w-5 h-5 text-red-700" />
+                                                </Tooltip>
+                                                <span class="truncate">{{ document?.name }}</span>
+                                            </div>
                                         </div>
-                                        <span v-else class="flex items-center gap-x-1">
-                                            <Icon name="ph:folder-notch-open-light" class="size-6" />
-                                            <Tooltip :text="$t('drive.form.forAdministratorsOnly')"
-                                                class="flex items-center" v-if="document?.is_admin_access">
-                                                <Icon name="ph:lock-key-fill" class="w-5 h-5 text-red-700" />
-                                            </Tooltip>
-                                            <span class="truncate">{{ document?.name }}</span>
-                                        </span>
+                                        <div v-else>
+                                            <div class="text-tertiary hover:text-tertiary-700 cursor-pointer flex items-center gap-x-1"
+                                                v-if="document?.file_url" @click="downloadFile(document)">
+                                                <Icon name="ph:file" class="size-6" />
+                                                <Tooltip :text="$t('drive.form.forAdministratorsOnly')"
+                                                    class="flex items-center" v-if="document?.is_admin_access">
+                                                    <Icon name="ph:lock-key-fill" class="w-5 h-5 text-red-700" />
+                                                </Tooltip>
+                                                <span class="truncate">{{ document?.name }}</span>
+                                            </div>
+                                            <span v-else class="flex items-center gap-x-1">
+                                                <Icon name="ph:folder-notch-open-light" class="size-6" />
+                                                <Tooltip :text="$t('drive.form.forAdministratorsOnly')"
+                                                    class="flex items-center" v-if="document?.is_admin_access">
+                                                    <Icon name="ph:lock-key-fill" class="w-5 h-5 text-red-700" />
+                                                </Tooltip>
+                                                <span class="truncate">{{ document?.name }}</span>
+                                            </span>
+                                        </div>
                                     </td>
                                     <td width="20%">
                                         <p class="truncate">
@@ -101,7 +135,29 @@
                                         </span>
                                     </td>
                                     <td width="15%">
-                                        <div class="flex items-end justify-end gap-2">
+                                        <div class="flex items-end justify-end gap-2" v-if="state.viewMode === 'google-drive'">
+                                            <!-- Google Drive: Folder View + Delete -->
+                                            <Tooltip :text="$t('drive.table.actions.view')" v-if="document?.type === 'folder'">
+                                                <FormButton type="button" buttonStyle="action" class="rounded-md"
+                                                    @click="viewGoogleDriveDirectory(document)">
+                                                    <Icon name="ph:eye" class="size-4" />
+                                                </FormButton>
+                                            </Tooltip>
+                                            <Tooltip :text="$t('drive.table.actions.move')" v-if="document?.type === 'file'">
+                                                <FormButton type="button" buttonStyle="action" class="rounded-md"
+                                                    @click="moveGoogleDriveFileConfirmation(document)">
+                                                    <Icon name="ph:arrows-out" class="size-4" />
+                                                </FormButton>
+                                            </Tooltip>
+                                            <Tooltip :text="$t('drive.table.actions.delete')">
+                                                <FormButton type="button" buttonStyle="danger" class="rounded-md"
+                                                    @click="deleteFromGoogleDrive(document)">
+                                                    <Icon name="ph:trash" class="size-4" />
+                                                </FormButton>
+                                            </Tooltip>
+                                        </div>
+                                        <div class="flex items-end justify-end gap-2" v-else>
+                                            <!-- Local files: Full actions -->
                                             <Tooltip :text="$t('drive.table.actions.view')"
                                                 v-if="document?.type === 'folder'">
                                                 <FormButton type="button" buttonStyle="action" class="rounded-md"
@@ -158,6 +214,8 @@
                 </div>
                 <ModulesUserDocumentModalNewDirectory :isModalOpen="state.modal.isAddDirectoryOpen"
                     @close="state.modal.isAddDirectoryOpen = false" @refreshDocuments="fetchDocuments" />
+                <ModulesUserDocumentModalNewGoogleDriveDirectory :isModalOpen="state.modal.isCreateGoogleDriveFolderOpen"
+                    @close="state.modal.isCreateGoogleDriveFolderOpen = false" @folderCreated="fetchGoogleDriveFiles" />
                 <ModulesUserDocumentModalEditDocument :isModalOpen="state.modal.isEditDocumentOpen"
                     :selectedDocument="state.selectedDocument" @close="state.modal.isEditDocumentOpen = false"
                     @refreshDocuments="fetchDocuments" />
@@ -166,6 +224,9 @@
                 <ModulesUserDocumentModalMoveFile :isModalOpen="state.modal.isMoveFileOpen"
                     :selectedDocument="state.selectedDocument" @close="state.modal.isMoveFileOpen = false"
                     @refreshDocuments="fetchDocuments" />
+                <ModulesUserDocumentModalMoveGoogleDriveFile :isModalOpen="state.modal.isMoveGoogleDriveFileOpen"
+                    :selectedDocument="state.selectedDocument" @close="state.modal.isMoveGoogleDriveFileOpen = false"
+                    @refreshDocuments="fetchGoogleDriveFiles(state.googleDriveFolderId)" />
                 <ModulesUserDocumentFolderStructureModalFolderStructures
                     :isModalOpen="state.modal.isViewFolderStructureOpen"
                     @close="state.modal.isViewFolderStructureOpen = false" />
@@ -182,6 +243,9 @@
                 <DialogConfirmation :isModalOpen="state.modal.isDeleteFileOpen"
                     :message="$t('drive.confirmation.deleteFileConfirmation') + '?'"
                     @close="state.modal.isDeleteFileOpen = false" @confirm="deleteDocument" />
+                <DialogConfirmation :isModalOpen="state.modal.isDeleteGoogleDriveFileOpen"
+                    :message="$t('drive.confirmation.deleteFileConfirmation') + '?'"
+                    @close="state.modal.isDeleteGoogleDriveFileOpen = false" @confirm="deleteGoogleDriveFile" />
                 <DialogConfirmation :isModalOpen="state.modal.isUpgradeStorageOpen" :title="$t('drive.upgradeStorage')"
                     :message="state.error?.message + ' ' + $t('drive.confirmation.upgradeStorageConfirmation') + '?'"
                     @close="closeUpgradeStorageModal" @confirm="navigateTo(`/storage/upgrade`)" />
@@ -193,6 +257,7 @@
 <script setup lang="ts">
 import { useDatetimeFormatter } from '@/composables/datetimeFormatter'
 import { documentService } from '@/components/api/user/DocumentService'
+import { googledriveService } from '@/components/api/user/GoogleDriveService'
 import { useI18n } from "vue-i18n"
 import { useAlert } from '@/composables/alert'
 import { useUserStore } from '@/store/user'
@@ -216,6 +281,7 @@ const breadcrumbLinks = [
 ]
 
 const state = reactive({
+    viewMode: 'local' as 'local' | 'google-drive',
     columnHeaders: [
         { name: 'drive.table.name', isTranslateName: true, sorter: true, key: 'name' },
         { name: 'drive.table.owner', isTranslateName: true, },
@@ -230,14 +296,20 @@ const state = reactive({
     isPageLoading: false,
     isTableLoading: false,
     documents: [] as any,
+    googleDriveFiles: [] as any,
+    googleDriveFolderId: null as string | null,
+    googleDriveFolderStack: [] as string[],
     modal: {
         isAddDirectoryOpen: false,
         isArchiveDocumentOpen: false,
         isCreateTemplateOpen: false,
+        isCreateGoogleDriveFolderOpen: false,
         isDeleteDirectoryOpen: false,
         isDeleteFileOpen: false,
+        isDeleteGoogleDriveFileOpen: false,
         isEditDocumentOpen: false,
         isMoveFileOpen: false,
+        isMoveGoogleDriveFileOpen: false,
         isUpgradeStorageOpen: false,
         isUploadFileOpen: false,
         isViewAccessOpen: false,
@@ -251,8 +323,31 @@ const state = reactive({
 })
 
 onMounted(() => {
-    fetchDocuments()
+    initDriveView()
 })
+
+async function initDriveView() {
+    state.isPageLoading = true
+    try {
+        const status = await googledriveService.getGoogleDriveStatus()
+        // Expecting status to indicate connection; accept several shapes
+        const connected = !!(status?.connected || status?.is_connected || status === true || status?.data?.connected)
+        if (connected) {
+            state.viewMode = 'google-drive'
+            state.googleDriveFolderId = null
+            state.googleDriveFolderStack = []
+            await fetchGoogleDriveFiles()
+        } else {
+            state.viewMode = 'local'
+            await fetchDocuments()
+        }
+    } catch (error: any) {
+        // fallback to local view on error
+        state.viewMode = 'local'
+        await fetchDocuments()
+    }
+    state.isPageLoading = false
+}
 
 watch(() => router?.currentRoute?.value?.query, (newParams, oldParams) => {
     handleRouteChange()
@@ -278,6 +373,148 @@ async function navigateToExternalLink(link: any) {
 function closeUpgradeStorageModal() {
     state.modal.isUpgradeStorageOpen = false
     state.error = {}
+}
+
+async function toggleGoogleDriveView() {
+    if (state.viewMode === 'local') {
+            state.isPageLoading = true
+            try {
+                const status = await googledriveService.getGoogleDriveStatus()
+                const connected = !!(status?.connected || status?.is_connected || status === true || status?.data?.connected)
+                state.googleDriveConnected = connected
+                state.viewMode = 'google-drive'
+                if (connected) {
+                    state.googleDriveFolderId = null
+                    state.googleDriveFolderStack = []
+                    await fetchGoogleDriveFiles()
+                } else {
+                    state.googleDriveFiles = { data: [], current_page: 1, per_page: 0, total: 0 }
+                }
+            } catch (error: any) {
+                state.googleDriveConnected = false
+                state.viewMode = 'google-drive'
+                state.googleDriveFiles = { data: [], current_page: 1, per_page: 0, total: 0 }
+            }
+            state.isPageLoading = false
+    } else {
+        state.viewMode = 'local'
+        fetchDocuments()
+    }
+}
+
+async function openGoogleDriveFile(file: any) {
+    if (file?.file_url) {
+        await navigateToExternalLink(file.file_url)
+    }
+}
+
+async function uploadToGoogleDrive() {
+    const fileInput = document.createElement('input')
+    fileInput.type = 'file'
+    fileInput.onchange = async (e: any) => {
+        const file = e.target.files?.[0]
+        if (!file) return
+        
+        state.isPageLoading = true
+        try {
+            await googledriveService.uploadFileToGoogleDrive(file)
+            successAlert(`${t('alert.success')}!`, 'File uploaded to Google Drive')
+            await fetchGoogleDriveFiles()
+        } catch (error: any) {
+            state.error = error
+        }
+        state.isPageLoading = false
+    }
+    fileInput.click()
+}
+
+async function deleteFromGoogleDrive(file: any) {
+    state.selectedDocument = file
+    state.modal.isDeleteGoogleDriveFileOpen = true
+}
+
+async function deleteGoogleDriveFile() {
+    state.error = {}
+    state.isPageLoading = true
+    try {
+        await googledriveService.deleteGoogleDriveFile(state.selectedDocument.id)
+        successAlert(`${t('alert.success')}!`, 'File deleted from Google Drive')
+        state.modal.isDeleteGoogleDriveFileOpen = false
+        await fetchGoogleDriveFiles()
+    } catch (error: any) {
+        state.error = error
+    }
+    state.isPageLoading = false
+}
+
+async function fetchGoogleDriveFiles(parentFolderId: string | null = null) {
+    state.error = {}
+    state.isTableLoading = true
+    try {
+        state.googleDriveFolderId = parentFolderId
+        const response = await googledriveService.getGoogleDriveFiles(parentFolderId || undefined)
+        console.log('Google Drive response:', response)
+        const files = Array.isArray(response)
+            ? response
+            : Array.isArray(response?.files)
+                ? response.files
+                : Array.isArray(response?.data)
+                    ? response.data
+                    : Array.isArray(response?.data?.files)
+                        ? response.data.files
+                        : Array.isArray(response?.data?.data)
+                            ? response.data.data
+                            : []
+        if (files?.length) {
+            // Transform Google Drive response to match table structure
+            const transformedFiles = files.map((file: any) => ({
+                id: file.id,
+                name: file.name,
+                file_url: file.webViewLink || file.webContentLink,
+                created_at: file.createdTime,
+                updated_at: file.modifiedTime,
+                user: { 
+                    firstname: 'Google', 
+                    lastname: 'Drive' 
+                },
+                type: file.mimeType?.includes('folder') ? 'folder' : 'file',
+                is_admin_access: false
+            }))
+            
+            state.googleDriveFiles = {
+                data: transformedFiles,
+                current_page: 1,
+                per_page: transformedFiles.length,
+                total: transformedFiles.length
+            }
+            
+            console.log('Transformed Google Drive files:', state.googleDriveFiles)
+        } else {
+            state.googleDriveFiles = {
+                data: [],
+                current_page: 1,
+                per_page: 0,
+                total: 0
+            }
+        }
+    } catch (error: any) {
+        console.error('Error fetching Google Drive files:', error)
+        state.error = error
+    }
+    state.isTableLoading = false
+}
+
+function viewGoogleDriveDirectory(document: any) {
+    if (document?.type !== 'folder') return
+    if (state.googleDriveFolderId) {
+        state.googleDriveFolderStack.push(state.googleDriveFolderId)
+    }
+    fetchGoogleDriveFiles(document.id)
+}
+
+function goBackGoogleDriveFolder() {
+    const previousFolderId = state.googleDriveFolderStack.pop() || null
+    fetchGoogleDriveFiles(previousFolderId)
 }
 
 async function fetchDocuments(folderUuid: any = null) {
@@ -430,6 +667,11 @@ async function archiveDocument() {
 function moveFileConfirmation(document: any) {
     state.selectedDocument = document
     state.modal.isMoveFileOpen = true
+}
+
+function moveGoogleDriveFileConfirmation(document: any) {
+    state.selectedDocument = document
+    state.modal.isMoveGoogleDriveFileOpen = true
 }
 
 function deleteDirectoryConfirmation(document: any) {
