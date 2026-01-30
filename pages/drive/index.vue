@@ -28,6 +28,11 @@
                     </div>
                     <div class="flex flex-wrap items-center justify-end gap-3">
                         <FormButton buttonStyle="action" class="rounded-md"
+                            @click="navigateTo('/drive/expenses')">
+                            <Icon name="ph:money" class="h-4 w-4" aria-hidden="true" />
+                            {{ $t('drive.expenses') }}
+                        </FormButton>
+                        <FormButton buttonStyle="action" class="rounded-md"
                             @click="state.modal.isAddDirectoryOpen = true">
                             <Icon name="ph:plus" class="h-4 w-4" aria-hidden="true" />
                             {{ $t('drive.createNewFolder') }}
