@@ -297,7 +297,7 @@
                                 </FormButton>
                             </div>
                             <div class="mt-2 flex justify-center gap-3">
-                                <FormButton type="button" buttonStyle="link" class="rounded-md" @click="closeModal()">
+                                <FormButton type="button" buttonStyle="link" class="rounded-md" @click="state.currentStep = 1">
                                     {{ $t('cancel') }}
                                 </FormButton>
                             </div>
@@ -383,22 +383,20 @@ function closeModal() {
     emit('close')
 }
 
-//doesnt populate yet
-watch(() => props.isModalOpen, async (isModalOpen: any) => {
+watch(() => props.isModalOpen, (isModalOpen: any) => {
     if (isModalOpen) {
-        await fetchStatusDetail()
-
+        
         state.formStatusTemplate.form_uuid = state.status?.form?.uuid || ''
-
-        await fetchDraftData()
-        await fetchAllForms()
-        await fetchAllPlans()
+        
+        fetchAllForms()
+        fetchAllPlans()
+        fetchStatusDetail()
 
         if (state.formStatusTemplate.plan_uuid) {
-            await fetchAllGoalsPerPlan(state.formStatusTemplate.plan_uuid)
+            fetchAllGoalsPerPlan(state.formStatusTemplate.plan_uuid)
         }
         if (state.formStatusTemplate.goal_uuid) {
-            await fetchAllSubgoalsPerGoal(state.formStatusTemplate.goal_uuid)
+            fetchAllSubgoalsPerGoal(state.formStatusTemplate.goal_uuid)
         }
 
         state.currentStep = 1
@@ -412,6 +410,9 @@ async function fetchStatusDetail() {
         const response = await planGoalSubgoalService.getAttachmentDetails(props.selectedStatus.uuid)
         if (response.data) {
             state.status = response.data
+            
+            state.formStatusTemplate.form_uuid = state.status.form.uuid
+
             const planGoalSubgoal = await planGoalSubgoalService.getPlanGoalSubgoalDetail(state.status.model.uuid)
             if (planGoalSubgoal) {
                 state.formStatusTemplate.plan_uuid = planGoalSubgoal?.plan?.uuid
@@ -461,37 +462,10 @@ async function fetchForm() {
     state.isPageLoading = false
 }
 
-async function fetchDraftData() {
-    state.error = {}
-    state.isPageLoading = true
-    try {
-        const response = await planGoalSubgoalService.getAttachmentDetails(props.selectedStatus.uuid)
-        if (response?.data?.field_responses) {
-            response.data.field_responses.forEach((fieldResponse: any) => {
-                const fieldIndex = state.form.data.form_fields.findIndex(
-                    (f: any) => f.uuid === fieldResponse.form_field_uuid
-                )
-                if (fieldIndex !== -1) {
-                    const fieldType = JSON.parse(state.form.data.form_fields[fieldIndex].field)?.type
-                    if (fieldType === 'checkbox') {
-                        state.form.data.form_fields[fieldIndex].responses = JSON.parse(fieldResponse.response || '[]')
-                    } else {
-                        state.form.data.form_fields[fieldIndex].responses = fieldResponse.response
-                    }
-                }
-            })
-        }
-    } catch (error: any) {
-        state.error = error
-    }
-    state.isPageLoading = false
-}
-
 async function proceedToStep2() {
     v$.value.$validate()
 
     if (!v$.value.$error) {
-        await fetchDraftData()
         await fetchForm()
         state.currentStep = 2
     }
@@ -515,7 +489,6 @@ async function fetchAllForms() {
     } catch (error: any) {
         state.error = error
     }
-    state.isPageLoading = false
 }
 
 async function fetchAllPlans() {
@@ -536,7 +509,6 @@ async function fetchAllPlans() {
     } catch (error: any) {
         state.error = error
     }
-    state.isPageLoading = false
 }
 
 async function fetchAllGoals() {
@@ -676,6 +648,7 @@ async function submitResponse() {
 
         if (response) {
             successAlert(`${t('alert.success')}!`, `${t('plansandgoals.editStatusTemplate.alert.statusTemplateSuccessfullyUpdated')}.`)
+            state.currentStep = 1
             emit('refreshData')
             closeModal()
         }
@@ -720,6 +693,7 @@ async function submitResponseAndDownloadPDF() {
         if (response) {
             successAlert(`${t('alert.success')}!`, `${t('plansandgoals.editStatusTemplate.alert.statusTemplateSuccessfully')}.`)
             closeModal()
+            state.currentStep = 1
             const filename = state.form?.data?.document_title || state.form?.data?.title || 'download'
             saveAs(response, `${filename}.pdf`)
         }
