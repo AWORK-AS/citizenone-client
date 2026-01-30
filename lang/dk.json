@@ -3254,12 +3254,16 @@
         "newExpense": "Ny udgift",
         "table": {
             "alert": {
-                "expenseSuccessfullyDeleted": "Udgift slettet med succes"
+                "expenseSuccessfullyDeleted": "Udgift slettet med succes",
+                "expenseSuccessfullyReimbursed": "Udgift refunderet med succes",
+                "expenseSuccessfullyUnreimbursed": "Udgift fjernet fra refusion med succes"
             },
             "actions": {
                 "delete": "Slet",
                 "edit": "Rediger",
-                "view": "Se"
+                "view": "Se",
+                "reimburse": "Refunder",
+                "unreimburse": "Fjern refusion"
             },
             "confirmation": {
                 "deleteExpenseConfirmation": "Er du sikker på, at du vil slette denne udgift?"
@@ -3271,7 +3275,20 @@
             "date": "Dato",
             "amount": "Beløb",
             "receipt": "Kvittering",
-            "status": "Status"
+            "status": "Status",
+            "reimbursed": "Refunderet",
+            "pending": "Afventer"
+        },
+        "viewExpense": {
+            "viewExpense": "Se udgift",
+            "employee": "Medarbejder",
+            "category": "Kategori",
+            "date": "Dato",
+            "name": "Navn",
+            "amount": "Beløb",
+            "description": "Beskrivelse",
+            "receipt": "Kvittering",
+            "expense": "Udgift"
         }
     },
     "features": {

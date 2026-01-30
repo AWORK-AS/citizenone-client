@@ -35,7 +35,7 @@
                             :isLoading="state.isTableLoading" :sortData="state.sortData" @sort="sort">
                             <template #body v-if="!(state.isTableLoading || (state.expenses?.data?.length === 0))">
                                 <tr v-for="(expense, index) in state.expenses?.data" :key="index">
-                                    <td width="20%">
+                                    <td width="15%">
                                         <div class="flex items-center gap-x-2">
                                             <img :src="expense?.user?.profile_image ?? `https://ui-avatars.com/api/?background=42AED9&color=fff&name=${expense?.user?.firstname + ' ' + expense?.user?.lastname}`"
                                                 class="h-11 w-11 rounded-full bg-gray-50 object-cover" />
@@ -53,7 +53,11 @@
                                     <td width="10%">
                                         <span>{{ expense?.amount }}</span>
                                     </td>
-                                    <td width="20%">
+                                    <td width="10%">
+                                        <div v-if="expense?.is_reimbursed" class="rounded-xl bg-green-100 text-green-800 px-2 py-1 text-xs font-semibold text-center w-fit">{{ $t('expenses.table.reimbursed') }}</div>
+                                        <div v-else class="rounded-xl bg-red-100 text-red-800 px-2 py-1 text-xs font-semibold text-center w-fit">{{ $t('expenses.table.pending') }}</div>
+                                    </td>
+                                    <td width="15%">
                                         <div class="text-tertiary hover:text-tertiary-700 cursor-pointer flex items-center gap-x-1"
                                             v-if="expense?.file_url" @click="downloadFile(expense?.file_url)">
                                             <Icon name="ph:file" class="size-6" />
@@ -69,7 +73,7 @@
                                         <div class="flex items-end gap-2">
                                             <Tooltip :text="$t('expenses.table.actions.view')">
                                                 <FormButton type="button" buttonStyle="action" class="rounded-md"
-                                                    @click="navigateTo(`/drive/expenses/${expense?.uuid}`)">
+                                                    @click="viewExpense(expense)">
                                                     <Icon name="ph:eye" class="size-4" />
                                                 </FormButton>
                                             </Tooltip>
@@ -85,6 +89,18 @@
                                                     <Icon name="ph:trash" class="size-4" />
                                                 </FormButton>
                                             </Tooltip>
+                                            <Tooltip :text="$t('expenses.table.actions.unreimburse')" v-if="expense?.is_reimbursed">
+                                                <FormButton type="button" buttonStyle="danger" class="rounded-md"
+                                                    @click="unReimburse(expense)">
+                                                    <Icon name="ph:x" class="size-4" />
+                                                </FormButton>
+                                            </Tooltip>
+                                            <Tooltip :text="$t('expenses.table.actions.reimburse')" v-if="!expense?.is_reimbursed">
+                                                <FormButton type="button" buttonStyle="success" class="rounded-md"
+                                                    @click="reimburse(expense)">
+                                                    <Icon name="ph:check" class="size-4" />
+                                                </FormButton>
+                                            </Tooltip>
                                         </div>
                                     </td>
                                 </tr>
@@ -94,6 +110,9 @@
                     <Pagination :data="state.expenses" @previous="previous" @next="next" />
                 </div>
 
+                <ModulesUserDocumentExpenseModalView :isModalOpen="state.modal.isViewExpenseOpen"
+                    :selectedExpense="state.selectedExpense" @editExpense="editExpense(state.selectedExpense)"
+                    @close="state.modal.isViewExpenseOpen = false" />
                 <ModulesUserDocumentExpenseModalNew :isModalOpen="state.modal.isAddExpenseOpen"
                     @close="state.modal.isAddExpenseOpen = false" @refreshExpenses="fetchExpenses" />
                 <ModulesUserDocumentExpenseModalEdit :isModalOpen="state.modal.isEditExpenseOpen"
@@ -144,6 +163,7 @@ const state = reactive({
         { name: 'expenses.table.name', isTranslateName: true, },
         { name: 'expenses.table.category', isTranslateName: true, sorter: true, },
         { name: 'expenses.table.amount', isTranslateName: true, sorter: true, },
+        { name: 'expenses.table.status', isTranslateName: true, sorter: true, },
         { name: 'expenses.table.receipt', isTranslateName: true },
         { name: 'expenses.table.date', isTranslateName: true, sorter: true, key: 'expense_date' },
         { name: '' },
@@ -159,6 +179,7 @@ const state = reactive({
        isDeleteExpenseOpen: false,
        isAddExpenseOpen: false,
        isEditExpenseOpen: false,
+       isViewExpenseOpen: false,
     },
     selectedExpense: {} as any,
     sortData: {
@@ -232,6 +253,11 @@ function downloadFile(fileUrl: string) {
     document.body.removeChild(link);
 };
 
+function viewExpense(expense: any) {
+    state.selectedExpense = expense
+    state.modal.isViewExpenseOpen = true
+}
+
 function editExpense(expense: any) {
     state.selectedExpense = {
         id: expense.id,
@@ -263,6 +289,39 @@ async function deleteExpense() {
         if (response?.message === 'Success.' || response?.message === 'Succes.') {
             fetchExpenses()
             successAlert(`${t('alert.success')}!`, `${t('expenses.alert.expenseSuccessfullyDeleted')}.`)
+        }
+    } catch (error: any) {
+        state.error = error
+    }
+    state.isTableLoading = false
+}
+
+async function reimburse(expense: any) {
+    state.error = {}
+    state.isTableLoading = true
+    try {
+        let params = {
+            is_reimbursed: true
+        }
+        const response = await expenseService.reimburseExpense(expense.uuid, params)
+        if (response?.data) {
+            fetchExpenses()
+            successAlert(`${t('alert.success')}!`, `${t('expenses.table.alert.expenseSuccessfullyReimbursed')}.`)
+        }
+    } catch (error: any) {
+        state.error = error
+    }
+    state.isTableLoading = false
+}
+
+async function unReimburse(expense: any) {
+    state.error = {}
+    state.isTableLoading = true
+    try {
+        const response = await expenseService.unReimburseExpense(expense.uuid)
+        if (response?.data) {
+            fetchExpenses()
+            successAlert(`${t('alert.success')}!`, `${t('expenses.table.alert.expenseSuccessfullyUnreimbursed')}.`)
         }
     } catch (error: any) {
         state.error = error
