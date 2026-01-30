@@ -1,19 +1,38 @@
 <template>
-    <h3 class="text-primary text-base font-medium py-2">
-        {{ $t('overview.scheduleSlots') }}
-    </h3>
-    <div>
-        <div
-            class="bg-white shadow-md rounded-md border-l-8 border-secondary mt-2 text-sm space-y-2 pr-5 pt-6 pb-7 pl-6 mr-1">
-            {{ state.scheduleSlots?.data?.length }}
+    <LoadingSpinner :isActive="state.isPageLoading">
+        <h3 class="text-primary text-base font-medium py-2">
+            {{ $t('overview.scheduleSlots') }}
+        </h3>
+
+        <Alert type="danger" :text="state?.error?.message"
+            v-if="state.error?.message && state.error.message.length > 0" />
+
+        <div>
+            <div
+                class="bg-white shadow-md rounded-md border-l-8 border-secondary mt-2 text-sm space-y-2 pr-5 pt-6 pb-7 pl-6 mr-1">
+                <!-- {{ state.scheduleSlots?.data?.length }} -->
+                <div class="space-y-2 mt-1">
+                    <div v-for="(slot, index) in state.scheduleSlots?.data" :key="index"
+                        class="rounded-md p-1 cursor-pointer" :style="{ backgroundColor: slot?.shift?.color }"
+                        @click="confirmSlotRequest(slot)">
+                        <div class="border border-white rounded-md p-2 text-white">
+                            {{ formatDateTimeToReadable(slot?.date_time_start) + ' - ' +
+                                formatDateTimeToReadable(slot?.date_time_end) }}
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <ModulesUserDutyScheduleScheduleSlotsRequestAvailableSlotConfirmation
+                :isModalOpen="state.modal.isRequestScheduleSlotOpen"
+                :message="$t('dutySchedules.scheduleSlots.confirmation.requestConfirmation') + '?'"
+                @close="state.modal.isRequestScheduleSlotOpen = false" @confirm="requestScheduleSlot" />
         </div>
-    </div>
+    </LoadingSpinner>
 </template>
 
 <script setup lang="ts">
-import { useDatetimeFormatter } from '@/composables/datetimeFormatter'
 import { dailyOverviewService } from '@/components/api/user/DailyOverviewService'
-import { scheduleSlotService } from '@/components/api/user/ScheduleSlotService'
+import { scheduleGrabberService } from '@/components/api/user/ScheduleGrabberService'
 import { useDepartmentStore } from '@/store/department'
 import { useI18n } from "vue-i18n"
 import { useAlert } from '@/composables/alert'
@@ -30,37 +49,16 @@ const departmentStore = useDepartmentStore()
 const { formatDateTimeToReadable } = useDatetimeFormatter()
 const { successAlert } = useAlert()
 const { t } = useI18n()
-const language = useI18n()
 let currentTablePage = 1
 
 const state = reactive({
-    columnHeaders: [
-        { name: 'dutySchedules.scheduleSlots.table.departments', isTranslateName: true, },
-        { name: 'dutySchedules.scheduleSlots.table.shiftType', isTranslateName: true, },
-        { name: 'dutySchedules.scheduleSlots.table.jobTitles', isTranslateName: true, },
-        { name: 'dutySchedules.scheduleSlots.table.dateTimeStart', isTranslateName: true, },
-        { name: 'dutySchedules.scheduleSlots.table.dateTimeEnd', isTranslateName: true, },
-        { name: 'dutySchedules.scheduleSlots.table.numberOfShifts', isTranslateName: true, },
-        { name: '' },
-
-    ],
-    dataFilter: {
-        search: ''
-    },
     error: {} as Error,
-    isTableLoading: false,
+    isPageLoading: false,
     modal: {
-        isAddNewScheduleSlotOpen: false,
-        isEditScheduleSlotOpen: false,
-        isDeleteScheduleSlotOpen: false,
-        isViewScheduleSlotRequestersOpen: false,
+        isRequestScheduleSlotOpen: false
     },
     scheduleSlots: [] as any,
-    selectedScheduleSlot: [] as any,
-    sortData: {
-        sortField: 'id',
-        sortOrder: 'descend',
-    },
+    selectedSlot: [] as any
 })
 
 watch(() => props.dateRange, () => {
@@ -79,16 +77,13 @@ onMounted(() => {
 
 async function fetchScheduleSlots() {
     state.error = {}
-    state.isTableLoading = true
+    state.isPageLoading = true
     try {
         const params = {
             department: departmentStore.getSelectedDepartmentName,
             date_start: props.dateRange.start_date,
             date_end: props.dateRange.end_date,
             page: currentTablePage,
-            sortField: state.sortData.sortField,
-            sortOrder: state.sortData.sortOrder,
-            ...state.dataFilter
         }
         const response = await dailyOverviewService.getScheduleSlots(params)
         if (response) {
@@ -97,63 +92,29 @@ async function fetchScheduleSlots() {
     } catch (error: any) {
         state.error = error
     }
-    state.isTableLoading = false
+    state.isPageLoading = false
 }
 
-function previous() {
-    currentTablePage--
-    fetchScheduleSlots()
+function confirmSlotRequest(slot: any) {
+    state.selectedSlot = slot
+    state.modal.isRequestScheduleSlotOpen = true
 }
 
-function next() {
-    currentTablePage++
-    fetchScheduleSlots()
-}
-
-function sort(sortingData: any) {
-    currentTablePage = 1
-    state.sortData = {
-        sortField: sortingData.column,
-        sortOrder: sortingData.sort,
-    }
-    fetchScheduleSlots()
-}
-
-function handleSearch(value: any) {
-    currentTablePage = 1
-    state.dataFilter.search = value?.[0] == '' ? [] : value
-    fetchScheduleSlots()
-}
-
-function viewScheduleSlotRequesters(slot: any) {
-    state.selectedScheduleSlot = slot
-    state.modal.isViewScheduleSlotRequestersOpen = true
-}
-
-function editScheduleSlot(slot: any) {
-    state.selectedScheduleSlot = slot
-    state.modal.isEditScheduleSlotOpen = true
-}
-
-function confirmScheduleSlotDeletion(slot: any) {
-    state.selectedScheduleSlot = slot
-    state.modal.isDeleteScheduleSlotOpen = true
-}
-
-async function deleteScheduleSlot() {
+async function requestScheduleSlot() {
     state.error = {}
-    state.isTableLoading = true
+    state.isPageLoading = true
     try {
-        const scheduleSlotUuid = state.selectedScheduleSlot.uuid
-        const response = await scheduleSlotService.deleteScheduleSlot(scheduleSlotUuid)
+        const params = {
+            slot_uuid: state.selectedSlot?.uuid
+        }
+        const response = await scheduleGrabberService.requestScheduleSlot(params)
         if (response) {
-            fetchScheduleSlots()
-            emit('refreshDutySchedules')
-            successAlert(`${t('alert.success')}!`, `${t('dutySchedules.scheduleSlots.alert.scheduleSlotSuccessfullyDeleted')}.`)
+            state.modal.isRequestScheduleSlotOpen = false
+            successAlert(`${t('alert.success')}!`, `${t('dutySchedules.scheduleSlots.alert.requestForThisScheduleSlotHasBennSuccessfullySent')}.`)
         }
     } catch (error: any) {
         state.error = error
     }
-    state.isTableLoading = false
+    state.isPageLoading = false
 }
 </script>
