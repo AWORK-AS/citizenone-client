@@ -3198,6 +3198,33 @@
         "subscribe": "Abonner"
     },
     "excludeVat": "ekskl. moms",
+    "expenseCategories": {
+        "addNewExpenseCategory": "Tilføj ny udgiftskategori",
+        "expenseCategories": "Udgiftskategorier",
+        "editExpenseCategory": "Rediger udgiftskategori",
+        "form": {
+            "expenseCategory": "Udgiftskategori",
+            "alert": {
+                "expenseCategorySuccessfullyUpdated": "Udgiftskategori opdateret med succes",
+                "newExpenseCategorySuccessfullySaved": "Ny udgiftskategori gemt med succes"
+            },
+            "name": "Navn"
+        },
+        "newExpenseCategory": "Ny udgiftskategori",
+        "table": {
+            "alert": {
+                "expenseCategorySuccessfullyDeleted": "Udgiftskategori slettet med succes"
+            },
+            "actions": {
+                "delete": "Slet",
+                "edit": "Rediger"
+            },
+            "confirmation": {
+                "deleteExpenseCategoryConfirmation": "Er du sikker på, at du vil slette denne udgiftskategori?"
+            },
+            "name": "Navn"
+        }
+    },
     "features": {
         "seeNewFeatures": "Se nye funktioner"
     },
@@ -5165,6 +5192,7 @@
             "diagnoses": "Diagnoser",
             "dosageForms": "Doseringsformer",
             "employeeGroups": "Medarbejdergrupper",
+            "expenseCategories": "Udgiftskategorier",
             "foreignCities": "Udenlandske byer",
             "invoices": "Fakturaer",
             "jobTitles": "Jobtitler",

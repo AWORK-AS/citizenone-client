@@ -3198,6 +3198,33 @@
         "subscribe": "Subscribe"
     },
     "excludeVat": "excl. vat",
+    "expenseCategories": {
+        "addNewExpenseCategory": "Add new expense category",
+        "expenseCategories": "Expense categories",
+        "editExpenseCategory": "Edit expense category",
+        "form": {
+            "expenseCategory": "Expense category",
+            "alert": {
+                "expenseCategorySuccessfullyUpdated": "Expense category successfully updated",
+                "newExpenseCategorySuccessfullySaved": "New expense category successfully saved"
+            },
+            "name": "Name"
+        },
+        "newExpenseCategory": "New expense category",
+        "table": {
+            "alert": {
+                "expenseCategorySuccessfullyDeleted": "Expense category successfully deleted"
+            },
+            "actions": {
+                "delete": "Delete",
+                "edit": "Edit"
+            },
+            "confirmation": {
+                "deleteExpenseCategoryConfirmation": "Are you sure you want to delete this expense category?"
+            },
+            "name": "Name"
+        }
+    },
     "features": {
         "seeNewFeatures": "See new features"
     },
@@ -5167,6 +5194,7 @@
             "diagnoses": "Diagnoses",
             "dosageForms": "Dosage forms",
             "employeeGroups": "Employee groups",
+            "expenseCategories": "Expense categories",
             "foreignCities": "Foreign cities",
             "invoices": "Invoices",
             "jobTitles": "Job titles",
