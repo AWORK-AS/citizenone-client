@@ -23,7 +23,9 @@
                                         :error="v$?.formStatusTemplate?.form_uuid?.$errors[0]?.$message.toString()" />
                                     <FormError :error="state?.error?.errors?.form_uuid?.[0]" />
                                 </div>
-                                <div class="grid md:grid-cols-3 gap-x-3">
+                                
+                                <!-- Uncomment if client want a function to able to move the report to other plan goal or subgoal -->
+                                <!-- <div class="grid md:grid-cols-3 gap-x-3">
                                     <div class="space-y-1">
                                         <FormLabel for="journal_note_plan"
                                             :label="$t('citizens.documents.createTemplate.form.plan')" />
@@ -46,7 +48,7 @@
                                         <FormSelect id="journal_note_subgoals" :options="state.options.subgoals"
                                             v-model="state.formStatusTemplate.subgoal_uuid" />
                                     </div>
-                                </div>
+                                </div> -->
                             </div>
                         </div>
                         <div class="grid grid-cols-2 gap-3">

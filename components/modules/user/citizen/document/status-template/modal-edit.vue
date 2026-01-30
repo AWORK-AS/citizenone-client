@@ -21,7 +21,9 @@
                                 <FormError :error="v$?.formTemplate?.folder_uuid?.$errors[0]?.$message.toString()" />
                                 <FormError :error="state?.error?.errors?.folder_uuid?.[0]" />
                             </div>
-                            <div class="grid md:grid-cols-3 gap-x-3">
+                            
+                            <!-- Uncomment if client want a function to able to move the report to other plan goal or subgoal -->
+                            <!-- <div class="grid md:grid-cols-3 gap-x-3">
                                 <div class="space-y-1">
                                     <FormLabel for="journal_note_plan"
                                         :label="$t('citizens.documents.createTemplate.form.plan')" />
@@ -49,7 +51,7 @@
                                         :error="v$?.formTemplate?.subgoal_uuid?.$errors[0]?.$message.toString()" />
                                     <FormError :error="state?.error?.errors?.subgoal_uuid?.[0]" />
                                 </div>
-                            </div>
+                            </div> -->
                         </div>
                         <div class="mt-6">
                             <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
@@ -66,7 +68,8 @@
                 <ModulesUserCitizenDocumentStatusTemplateModalEditRespond :isModalOpen="state.modal.isRespondOpen"
                     :selectedFormStatusTemplate="state.formTemplate"
                     :savedResponses="state.documentDetail?.attachment?.field_responses"
-                    @close="state.modal.isRespondOpen = false" @closeModalNew="closeModal()" />
+                    @close="state.modal.isRespondOpen = false" @closeModalNew="closeModal()" 
+                    @refreshDocuments="refreshDocuments()"/>
             </template>
         </Modal>
     </div>
