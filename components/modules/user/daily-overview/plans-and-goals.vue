@@ -3,12 +3,15 @@
         {{ $t('overview.plansGoalsAndSubgoals.plansAndGoals') }}
     </h3>
     <div
-        class="bg-white shadow-md rounded-md border-l-8 border-secondary mt-2 text-sm space-y-2 pr-5 pt-6 pb-7 pl-6 mr-1">
-        <div class="space-y-5">
-            <div class="bg-white ring-1 ring-gray-200 rounded-md p-5 border-l-4 border-secondary"
-                v-for="(plan, index) in state.plans?.data" :key="index">
-                <div class="flex flex-col md:flex-row md:items-center gap-3 md:gap-10">
+        class="bg-white shadow-md rounded-md border-l-8 border-secondary mt-2 text-sm divide-y overflow-scroll min-h-96 max-h-96">
+        <div class="space-y-5 pl-4 pr-5 py-5">
+            <div class="bg-white ring-1 ring-gray-200 rounded-md p-5" v-for="(plan, index) in state.plans?.data"
+                :key="index">
+                <div class="flex flex-col gap-3">
                     <div class="grow space-y-1">
+                        <p class="text-base font-semibold text-gray-700 xl:pr-0">
+                            {{ plan?.citizen?.firstname }} {{ plan?.citizen?.lastname }}
+                        </p>
                         <Badge type="plans-and-goals" class="w-fit" v-if="plan?.is_plans_with_goals">
                             <p class="text-xxs truncate">
                                 {{ $t('plansandgoals.categories.plansAndGoals') }}
@@ -170,6 +173,8 @@
         </div>
         <ModulesUserCitizenPlanModalEdit :isModalOpen="state.modal.isEditPlanOpen" :selectedPlan="state.selectedPlan"
             @close="closeEditPlanModal" @refreshPlans="fetchPlans" />
+        <ModulesUserCitizenPlanChartModalChart :isModalOpen="state.modal.isChartOpen" :selectedData="state.selectedPlan"
+            @close="state.modal.isChartOpen = false" />
         <ModulesUserCitizenPlanNotesModalNotes :isModalOpen="state.modal.isNotesOpen" :selectedData="state.selectedPlan"
             @close="closeNotesModal" @refreshData="fetchPlans" />
         <ModulesUserCitizenPlanStatusTemplateModalStatuses :isModalOpen="state.modal.isViewStatuses"
@@ -288,7 +293,7 @@ async function fetchPlans() {
             end_date: props.dateRange.end_date,
             ...state.dataFilter
         }
-        const response = await planService.getPlans(params)
+        const response = await dailyOverviewService.getCitizenPlansAndGoals(params)
         if (response) {
             state.plans = response
         }
