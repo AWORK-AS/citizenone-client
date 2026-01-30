@@ -498,13 +498,13 @@ function editMyCalendarEvent(selectedCalendarEvent: any) {
     state.modal.isEditEventOpen = true
 }
 
-async function deleteMyCalendarEvent(selectedCalendarEvent: any) {
+async function deleteMyCalendarEvent(selectedCalendarEvent: any, isDeleteFuture: boolean) {
     state.error = {}
     state.isPageLoading = true
     state.modal.isEditEventOpen = false
     try {
         const scheduleUuid = selectedCalendarEvent?.uuid
-        const response = await myCalendarService.deleteSchedule(scheduleUuid)
+        const response = await myCalendarService.deleteSchedule(scheduleUuid, {is_delete_future: isDeleteFuture})
         if (response) {
             fetchMyCalendarEvents()
             successAlert(`${t('alert.success')}!`, `${t('events.alert.successfullyDeleted')}.`)

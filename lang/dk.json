@@ -5940,7 +5940,8 @@
             "taskSuccessfullyDeleted": "Opgave slettet med succes"
         },
         "confirmation": {
-            "deleteConfirmation": "Er du sikker på, at du vil slette denne opgave"
+            "deleteConfirmation": "Er du sikker på, at du vil slette denne opgave",
+            "deleteFutureEvents": "Delete future events"
         },
         "editTask": "Rediger opgave",
         "form": {

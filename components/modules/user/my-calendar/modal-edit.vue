@@ -14,9 +14,15 @@
                             :error="state.error" @isPageLoading="(value: boolean) => state.isPageLoading = value"
                             @closeModal="closeModal" @submitForm="updateSchedule" />
                     </div>
-                    <DialogConfirmation :isModalOpen="state.modal.isDeleteScheduleOpen"
+                    <!-- <DialogConfirmation :isModalOpen="state.modal.isDeleteScheduleOpen"
                         :message="$t('events.confirmation.deleteConfirmation') + '?'"
-                        @close="state.modal.isDeleteScheduleOpen = false" @confirm="deleteMyCalendarEvent" />
+                        @close="state.modal.isDeleteScheduleOpen = false" @confirm="deleteMyCalendarEvent" /> -->
+                    <ModulesUserMyCalendarModalDelete
+                        :isModalOpen="state.modal.isDeleteScheduleOpen"
+                        :selectedSchedule="props.selectedSchedule"
+                        @deleteMyCalendarEvent="deleteMyCalendarEvent"
+                        @close="state.modal.isDeleteScheduleOpen = false"
+                        @confirm="deleteMyCalendarEvent" />
                 </LoadingSpinner>
             </template>
         </Modal>
@@ -56,8 +62,8 @@ function closeModal() {
     emit('close')
 }
 
-function deleteMyCalendarEvent() {
-    emit('deleteMyCalendarEvent', props.selectedSchedule)
+function deleteMyCalendarEvent(isDeleteFuture: boolean) {
+    emit('deleteMyCalendarEvent', props.selectedSchedule, isDeleteFuture)
 }
 
 function refreshSchedules() {
