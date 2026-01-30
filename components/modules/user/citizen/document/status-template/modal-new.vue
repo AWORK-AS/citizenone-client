@@ -65,7 +65,7 @@
                 </LoadingSpinner>
                 <ModulesUserCitizenDocumentStatusTemplateModalRespond :isModalOpen="state.modal.isRespondOpen"
                     :selectedFormStatusTemplate="state.formTemplate" @close="state.modal.isRespondOpen = false"
-                    @closeModalNew="closeModal()" />
+                    @closeModalNew="closeModal()" @refreshDocuments="refreshDocuments()"/>
             </template>
         </Modal>
     </div>
@@ -93,7 +93,7 @@ const props = defineProps({
 })
 const router = useRouter()
 const citizenUuid = router?.currentRoute?.value?.params?.uuid
-const emit = defineEmits(['close'])
+const emit = defineEmits(['close', 'refreshDocuments'])
 
 const state = reactive({
     error: {} as Error,
@@ -122,6 +122,11 @@ function closeModal() {
     resetForm()
 }
 
+function refreshDocuments(){
+    emit('refreshDocuments')
+    resetForm()
+}
+
 function resetForm() {
     state.formTemplate = {
         folder_uuid: '',
@@ -138,6 +143,7 @@ watch(() => props.isModalOpen, (isModalOpen: any) => {
         fetchAllFolders()
         fetchAllForms()
         fetchAllPlans()
+        fetchAllGoals()
     }
 })
 
@@ -212,6 +218,27 @@ async function fetchAllPlans() {
                 })
             )
             state.options.plans = options
+        }
+    } catch (error: any) {
+        state.error = error
+    }
+    state.isPageLoading = false
+}
+
+async function fetchAllGoals() {
+    state.error = {}
+    state.isPageLoading = true
+    try {
+        const response = await goalService.getAllGoalsPerCitizen(citizenUuid)
+        if (response.data) {
+            let options: any = []
+            response.data.forEach(
+                (goal: any) => options.push({
+                    value: goal?.uuid,
+                    label: goal?.name,
+                })
+            )
+            state.options.goals = options
         }
     } catch (error: any) {
         state.error = error
