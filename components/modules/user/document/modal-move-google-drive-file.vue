@@ -52,7 +52,13 @@ const props = defineProps({
         type: Object,
         required: true,
     },
+    parentFolderId: {
+        type: [String, null],
+        requried: false,
+        default: null,
+    }
 })
+
 const { t } = useI18n()
 const emit = defineEmits(['close', 'refreshDocuments'])
 
@@ -70,15 +76,15 @@ const state = reactive({
 watch(() => props.isModalOpen, (isModalOpen: any) => {
     if (isModalOpen) {
         state.formFile.folder_id = ''
-        fetchAllFolders()
+        fetchAllFolders(props.parentFolderId || undefined)
     }
 })
 
-async function fetchAllFolders() {
+async function fetchAllFolders(parentFolderId?: string) {
     state.error = {}
     state.isPageLoading = true
     try {
-        const response = await googledriveService.getGoogleDriveFiles()
+        const response = await googledriveService.getGoogleDriveFiles(parentFolderId || undefined)
         const files = Array.isArray(response) ? response : (response?.files || response?.data || [])
         const options = files
             .filter((item: any) => item?.mimeType?.includes('folder'))
@@ -92,6 +98,12 @@ async function fetchAllFolders() {
     }
     state.isPageLoading = false
 }
+
+watch(() => props.parentFolderId, (newId) => {
+    if (props.isModalOpen) {
+        fetchAllFolders(newId || undefined)
+    }
+})
 
 function closeModal() {
     emit('close')

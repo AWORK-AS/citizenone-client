@@ -28,7 +28,7 @@
                                 type="submit" 
                                 buttonStyle="action"
                                 :disabled="!state.folderName || state.isPageLoading">
-                                {{ $t('drive.form.create') }}
+                                {{ $t('drive.form.newFolder') }}
                             </FormButton>
                         </div>
                     </form>

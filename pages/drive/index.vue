@@ -11,14 +11,22 @@
             </template>
 
             <template #header>{{ $t('drive.companyDocuments') }}
-                <span v-if="state.viewMode === 'google-drive'" class="inline-flex items-center px-2.5 py-0.5 rounded-full text-sm font-medium bg-green-100 text-green-800">
-                                <Icon name="mdi:google-drive" class="h-4 w-4 mr-1" />
-                                Google Drive (active)
-                </span>
-                <span v-else-if="state.viewMode === 'local'" class="inline-flex items-center px-2.5 py-0.5 rounded-full text-sm font-medium bg-sky-100 text-sky-800">
-                                <Icon name="ph:folder-notch-open" class="h-4 w-4 mr-1" />
-                                CitizenOne Documents (active)
-                </span>
+                <div class="inline-flex items-center gap-x-2">
+                    <span v-if="state.viewMode === 'google-drive'" class="inline-flex items-center px-2.5 py-0.5 rounded-full text-sm font-medium bg-green-100 text-green-800">
+                        <Icon name="mdi:google-drive" class="h-4 w-4 mr-1" />
+                        Google Drive (active)
+                    </span>
+                    <button v-if="state.viewMode === 'google-drive'" type="button" @click="state.modal.isDriveInfoOpen = true" class="ml-1 flex items-center">
+                        <Icon name="ph:question" class="h-5 w-5 text-gray-600 hover:text-gray-800" aria-hidden="true"></Icon>
+                    </button>
+                    <span v-else-if="state.viewMode === 'local'" class="inline-flex items-center px-2.5 py-0.5 rounded-full text-sm font-medium bg-sky-100 text-sky-800">
+                        <Icon name="ph:folder-notch-open" class="h-4 w-4 mr-1" />
+                        CitizenOne Documents (active)
+                    </span>
+                    <button v-if="state.viewMode === 'local'" type="button" @click="state.modal.isDriveInfoOpen = true" class="ml-1 flex items-center">
+                        <Icon name="ph:question" class="h-5 w-5 text-gray-600 hover:text-gray-800" aria-hidden="true"></Icon>
+                    </button>
+                </div>
             </template>
 
             <div class="space-y-5">
@@ -233,15 +241,15 @@
                     :selectedDocument="state.selectedDocument" @close="state.modal.isMoveFileOpen = false"
                     @refreshDocuments="fetchDocuments" />
                 <ModulesUserDocumentModalMoveGoogleDriveFile :isModalOpen="state.modal.isMoveGoogleDriveFileOpen"
-                    :selectedDocument="state.selectedDocument" @close="state.modal.isMoveGoogleDriveFileOpen = false"
+                    :selectedDocument="state.selectedDocument" 
+                    :parentFolderId="state.googleDriveFolderId"
+                    @close="state.modal.isMoveGoogleDriveFileOpen = false"
                     @refreshDocuments="fetchGoogleDriveFiles(state.googleDriveFolderId)" />
                 <ModulesUserDocumentFolderStructureModalFolderStructures
                     :isModalOpen="state.modal.isViewFolderStructureOpen"
                     @close="state.modal.isViewFolderStructureOpen = false" />
-
                 <ModulesUserDocumentStatusTemplateModalNew :isModalOpen="state.modal.isCreateTemplateOpen"
                     @close="state.modal.isCreateTemplateOpen = false" />
-
                 <DialogConfirmation :isModalOpen="state.modal.isArchiveDocumentOpen"
                     :message="$t('drive.confirmation.archiveConfirmation') + '?'"
                     @close="state.modal.isArchiveDocumentOpen = false" @confirm="archiveDocument" />
@@ -254,6 +262,12 @@
                 <DialogConfirmation :isModalOpen="state.modal.isDeleteGoogleDriveFileOpen"
                     :message="$t('drive.confirmation.deleteFileConfirmation') + '?'"
                     @close="state.modal.isDeleteGoogleDriveFileOpen = false" @confirm="deleteGoogleDriveFile" />
+                <ModulesUserDocumentModalDocumentInfo :isModalOpen="state.modal.isDriveInfoOpen" 
+                    :variant="state.viewMode === 'google-drive' ? 'drive-google' : 'drive-local'"
+                    @close="state.modal.isDriveInfoOpen = false" />
+                <DialogConfirmation :isModalOpen="state.modal.isUpgradeStorageOpen" :title="$t('drive.upgradeStorage')"
+                    :message="state.error?.message + ' ' + $t('drive.confirmation.upgradeStorageConfirmation') + '?'"
+                    @close="closeUpgradeStorageModal" @confirm="navigateTo(`/storage/upgrade`)" />
                 <DialogConfirmation :isModalOpen="state.modal.isUpgradeStorageOpen" :title="$t('drive.upgradeStorage')"
                     :message="state.error?.message + ' ' + $t('drive.confirmation.upgradeStorageConfirmation') + '?'"
                     @close="closeUpgradeStorageModal" @confirm="navigateTo(`/storage/upgrade`)" />
@@ -323,12 +337,14 @@ const state = reactive({
         isUploadFileOpen: false,
         isViewAccessOpen: false,
         isViewFolderStructureOpen: false,
+        isDriveInfoOpen: false
     },
     selectedDocument: {} as any,
     sortData: {
         sortField: 'id',
         sortOrder: 'descend',
     },
+    googleDriveConnected: false,
 })
 
 onMounted(() => {
@@ -341,6 +357,7 @@ async function initDriveView() {
         const status = await googledriveService.getGoogleDriveStatus()
         // Expecting status to indicate connection; accept several shapes
         const connected = !!(status?.connected || status?.is_connected || status === true || status?.data?.connected)
+        state.googleDriveConnected = connected
         if (connected) {
             state.viewMode = 'google-drive'
             state.googleDriveFolderId = null
@@ -455,7 +472,7 @@ async function deleteGoogleDriveFile() {
         await googledriveService.deleteGoogleDriveFile(state.selectedDocument.id)
         successAlert(`${t('alert.success')}!`, 'File deleted from Google Drive')
         state.modal.isDeleteGoogleDriveFileOpen = false
-        await fetchGoogleDriveFiles()
+        await fetchGoogleDriveFiles(state.googleDriveFolderId)
     } catch (error: any) {
         state.error = error
     }
@@ -717,7 +734,8 @@ async function deleteDocument() {
     try {
         const response = await documentService.deleteDocument(state.selectedDocument.uuid)
         if (response?.message === 'Success.' || response?.message === 'Succes.') {
-            fetchDocuments()
+            const currentFolder = router?.currentRoute?.value?.query?.folder_uuid || undefined
+            fetchDocuments(currentFolder)
             if (state.selectedDocument.type === 'folder') {
                 successAlert(`${t('alert.success')}!`, `${t('drive.alert.deletedFolderSuccessfully')}.`)
             } else {
