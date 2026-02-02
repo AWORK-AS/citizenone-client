@@ -1731,6 +1731,7 @@ function editSchedule(employee: any, employeeIndex: number, weekIndex: any, shif
         departments: shift?.departments,
         note: shift?.note,
         do_not_count_sick_leave: shift?.do_not_count_sick_leave,
+        use_compensatory_time: shift?.use_compensatory_time,
         employeeIndex: employeeIndex,
         weekIndex: weekIndex,
         shiftIndex: shiftIndex,
