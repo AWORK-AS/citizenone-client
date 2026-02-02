@@ -92,6 +92,14 @@ async function fetchAllFolders(parentFolderId?: string) {
                 value: item.id,
                 label: item.name,
             }))
+
+        if (parentFolderId) {
+            options.unshift({
+                value: 'root',
+                label: t('drive.form.rootFolder'),
+            })
+        }
+
         state.options.folders = options
     } catch (error: any) {
         state.error = error

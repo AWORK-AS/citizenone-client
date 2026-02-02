@@ -2895,7 +2895,8 @@
             "name": "Navn",
             "newFolder": "Ny mappe",
             "template": "Skabelon",
-            "useTemplate": "Brug skabelon"
+            "useTemplate": "Brug skabelon",
+            "rootFolder": "-- Hovedmappe --"
         },
         "table": {
             "actions": {
