@@ -38,14 +38,12 @@
                 <ModulesUserCitizenJournalTabs />
 
                 <div class="flex">
-                    <div v-if="showDraftButton" class="mt-8 flex justify-start items-center gap-x-3">
-                        <FormButton buttonStyle="action" class="rounded-md"
+                    <div class="mt-8 ml-auto flex justify-end items-center gap-x-3">
+                        <FormButton v-if="showDraftButton" buttonStyle="action" class="rounded-md"
                             @click="viewDirectory(selectedDocument, true)">
                             <Icon name="ph:file" class="h-4 w-4" aria-hidden="true" />
                             {{ $t('citizens.documents.viewDraftFile') }}
                         </FormButton>
-                    </div>
-                    <div class="mt-8 ml-auto flex justify-end items-center gap-x-3">
                         <FormButton buttonStyle="action" class="rounded-md"
                             @click="state.modal.isAddDirectoryOpen = true">
                             <Icon name="ph:plus" class="h-4 w-4" aria-hidden="true" />
@@ -196,7 +194,7 @@
                 <ModulesUserCitizenDocumentAccessModalView :isModalOpen="state.modal.isViewAccessOpen"
                     :selectedDocument="state.selectedDocument" @close="state.modal.isViewAccessOpen = false" />
                 <ModulesUserCitizenDocumentStatusTemplateModalNew :isModalOpen="state.modal.isCreateTemplateOpen"
-                    @close="state.modal.isCreateTemplateOpen = false" />
+                    @close="state.modal.isCreateTemplateOpen = false" @refreshDocuments="fetchDocuments"/>
                 <ModulesUserCitizenDocumentModalMoveFile :isModalOpen="state.modal.isMoveFileOpen"
                     :selectedDocument="state.selectedDocument" @close="state.modal.isMoveFileOpen = false"
                     @refreshDocuments="fetchDocuments" />
