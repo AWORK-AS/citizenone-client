@@ -115,6 +115,7 @@ watch(() => props.selectedEmployeeSchedule, (selectedEmployeeSchedule: any) => {
         })
         state.formShift.note = selectedEmployeeSchedule?.note
         state.formShift.do_not_count_sick_leave = selectedEmployeeSchedule?.do_not_count_sick_leave
+        state.formShift.use_compensatory_time = selectedEmployeeSchedule?.use_compensatory_time
         state.formShift.recurring.is_recurring = selectedEmployeeSchedule?.recurring.is_recurring
     }
 })

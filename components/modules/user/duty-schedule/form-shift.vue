@@ -488,6 +488,7 @@ onMounted(() => {
     state.formShift.department_uuid = props.selectedShift.department_uuid
     state.formShift.note = props.selectedShift.note
     state.formShift.do_not_count_sick_leave = props.selectedShift.do_not_count_sick_leave
+    state.formShift.use_compensatory_time = props.selectedShift.use_compensatory_time
 })
 
 watch(() => state.formShift.shift_type, (selectedShift) => {
