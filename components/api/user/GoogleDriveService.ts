@@ -55,7 +55,7 @@ class GoogleDriveService extends BaseAPIService {
         })
     }
 
-    async getGoogleDriveFiles(parentFolderId?: string): Promise<any> {
+    async getGoogleDriveFiles(parentFolderId?: string, search?: string): Promise<any> {
         const token = localStorage.getItem('_token')
         const headers: Record<string, string> = {
             Accept: 'application/json',
@@ -65,10 +65,21 @@ class GoogleDriveService extends BaseAPIService {
             headers.Authorization = `Bearer ${token}`
         }
 
+        const queryParams: Record<string, string> = {}
+
+        if (parentFolderId) {
+            queryParams.parent_id = parentFolderId
+            queryParams.folder_id = parentFolderId
+        }
+
+        if (search) {
+            queryParams.search = search
+        }
+
         return await $fetch('/api/google-drive/files', {
             method: 'GET',
             headers,
-            query: parentFolderId ? { parent_id: parentFolderId, folder_id: parentFolderId } : undefined,
+            query: Object.keys(queryParams).length > 0 ? queryParams : undefined,
         })
     }
 

@@ -482,14 +482,14 @@ async function deleteGoogleDriveFile() {
     state.isPageLoading = false
 }
 
-async function fetchGoogleDriveFiles(parentFolderId: string | null = null) {
+async function fetchGoogleDriveFiles(parentFolderId: string | null = null, search: String | undefined = undefined) {
     state.error = {}
     state.isTableLoading = true
     try {
         state.googleDriveFolderId = parentFolderId
-        const response = await googledriveService.getGoogleDriveFiles(parentFolderId || undefined)
+        const response = await googledriveService.getGoogleDriveFiles(parentFolderId || undefined, search)
         console.log('Google Drive response:', response)
-        const files = Array.isArray(response)
+        let files = Array.isArray(response)
             ? response
             : Array.isArray(response?.files)
                 ? response.files
@@ -500,6 +500,7 @@ async function fetchGoogleDriveFiles(parentFolderId: string | null = null) {
                         : Array.isArray(response?.data?.data)
                             ? response.data.data
                             : []
+
         if (files?.length) {
             // Transform Google Drive response to match table structure
             const transformedFiles = files.map((file: any) => ({
@@ -603,8 +604,14 @@ function sort(sortingData: any) {
 
 function handleSearch(value: any) {
     currentTablePage = 1
-    state.dataFilter.search = value?.[0] == '' ? [] : value
-    fetchDocuments()
+    const searchValue = Array.isArray(value) ? value[0] ?? '' : value ?? ''
+    state.dataFilter.search = searchValue?.[0] == '' ? [] : searchValue
+
+    if(state.viewMode === 'google-drive') {
+        fetchGoogleDriveFiles(state.googleDriveFolderId, state.dataFilter.search || undefined)
+    } else {
+        fetchDocuments()
+    }
 }
 
 async function downloadFile(document: any) {
