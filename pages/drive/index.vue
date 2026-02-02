@@ -62,7 +62,7 @@
                             {{ $t('folderStructure.folderStructure') }}
                         </FormButton>
                         <FormButton buttonStyle="action" class="rounded-md"
-                            @click="state.modal.isCreateTemplateOpen = true" v-if="state.viewMode === 'local'">
+                            @click="state.modal.isCreateTemplateOpen = true" v-if="state.viewMode === 'local' || state.viewMode === 'google-drive'">
                             <Icon name="ph:file" class="h-4 w-4" aria-hidden="true" />
                             {{ $t('drive.createTemplate.createTemplate') }}
                         </FormButton>
@@ -248,7 +248,10 @@
                 <ModulesUserDocumentFolderStructureModalFolderStructures
                     :isModalOpen="state.modal.isViewFolderStructureOpen"
                     @close="state.modal.isViewFolderStructureOpen = false" />
-                <ModulesUserDocumentStatusTemplateModalNew :isModalOpen="state.modal.isCreateTemplateOpen"
+                <ModulesUserDocumentStatusTemplateModalNew 
+                    :isModalOpen="state.modal.isCreateTemplateOpen"
+                    :variant="state.viewMode"
+                    :parentFolderId="state.viewMode === 'google-drive' ? state.googleDriveFolderId : undefined"
                     @close="state.modal.isCreateTemplateOpen = false" />
                 <DialogConfirmation :isModalOpen="state.modal.isArchiveDocumentOpen"
                     :message="$t('drive.confirmation.archiveConfirmation') + '?'"

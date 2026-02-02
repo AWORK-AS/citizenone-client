@@ -72,6 +72,14 @@ class GoogleDriveService extends BaseAPIService {
         })
     }
 
+    async getGoogleDriveFolders(parentFolderId?: string): Promise<any> {
+        const response = await this.getGoogleDriveFiles(parentFolderId)
+        const files = Array.isArray(response) ? response 
+            : response?.files || response?.data?.files || response?.data || []
+
+        return files.filter((f:any) => f.mimeType?.includes('folder'))    
+    }
+
     async uploadFileToGoogleDrive(file: File, parentFolderId?: string): Promise<any> {
         const token = localStorage.getItem('_token')
         const formData = new FormData()
@@ -143,6 +151,47 @@ class GoogleDriveService extends BaseAPIService {
             method: 'POST',
             headers,
             body: { file_id: fileId, parent_id: parentId, folder_id: parentId, new_parent_id: parentId },
+        })
+    }
+
+    async generateFormPdf(formUuid: string, responses: Record<string, any>, parentId?: string, uploadToDrive: boolean = true): Promise<any> {
+        const token = localStorage.getItem('_token')
+        const headers: Record<string, string> = {}
+
+        if (token) {
+            headers.Authorization = `Bearer ${token}`
+        }
+
+        return await $fetch('/api/google-drive/generate-form-pdf', {
+            method: 'POST',
+            headers,
+            body: {
+                form_uuid: formUuid,
+                responses: responses,
+                parent_id: parentId,
+                upload_to_drive: uploadToDrive,
+            },
+        })
+    }
+
+    async generateFormPdfAndDownload(formUuid: string, responses: Record<string, any>, parentId?: string, uploadToDrive: boolean = true): Promise<Blob | null> {
+        const token = localStorage.getItem('_token')
+        const headers: Record<string, string> = {}
+
+        if (token) {
+            headers.Authorization = `Bearer ${token}`
+        }
+
+        return await $fetch('/api/google-drive/generate-form-pdf', {
+            method: 'POST',
+            headers,
+            body: {
+                form_uuid: formUuid,
+                responses: responses,
+                parent_id: parentId,
+                upload_to_drive: uploadToDrive,
+            },
+            responseType: 'blob',
         })
     }
 }
