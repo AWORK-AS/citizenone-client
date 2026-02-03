@@ -2823,6 +2823,7 @@
             "documentSuccessfullyArchived": "Dokument arkiveret med succes",
             "fileSuccessfullyAdded": "Ny fil gemt med succes",
             "fileSuccessfullyMoved": "Filen blev flyttet til en anden mappe med succes",
+            "fileSuccessfullyUpdated": "Fil opdateret med succes",
             "folderSuccessfullyAdded": "Ny mappe gemt med succes",
             "folderSuccessfullyUpdated": "Mappe opdateret med succes"
         },
@@ -2850,6 +2851,14 @@
             }
         },
         "createNewFolder": "Opret ny mappe",
+        "newDocument": "Nyt dokument",
+        "documentEditor": {
+            "title": "Dokumenteditor",
+            "documentName": "Dokumentnavn",
+            "save": "Gem",
+            "cancel": "Annuller",
+            "close": "Luk"
+        },
         "viewDraftFile": "Se udkastfiler",
         "createTemplate": {
             "alert": {
@@ -3234,7 +3243,7 @@
             "expenseSuccessfullyDeleted": "Udgift slettet med succes"
         },
         "confirmation": {
-            "deleteExpenseConfirmation":"Er du sikker på, at du vil slette denne udgift?"
+            "deleteExpenseConfirmation": "Er du sikker på, at du vil slette denne udgift?"
         },
         "form": {
             "alert": {
@@ -3245,7 +3254,7 @@
             "expense": "Udgift",
             "status": "Status",
             "category": "Kategori",
-            "date":"Dato",
+            "date": "Dato",
             "amount": "Beløb",
             "description": "Beskrivelse",
             "receipt": "Kvittering",
