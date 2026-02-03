@@ -132,12 +132,24 @@ async function fetchAllFolders() {
         let options: any = []
 
         if(props.variant === 'google-drive') {
+            // include root explicitly so user can select it
+            options.push({
+                value: 'root',
+                label: t('drive.form.rootFolder') || 'My Drive',
+            })
+
             const folders = await googledriveService.getGoogleDriveFolders(props.parentFolderId || undefined)
             folders.forEach((folder: any) => options.push ({
                 value: folder.id,
                 label: folder.name,
             }))
         } else {
+            // include app-level root if backend doesn't return it
+            options.push({
+                value: '',
+                label: t('drive.form.rootFolder') || 'Root',
+            })
+
             const response = await documentService.getAllFolders()
             if (response) {
                 response.data.forEach(
