@@ -56,8 +56,9 @@ function closeModal() {
 }
 
 const state = reactive({
-    currentVersion: '2026-01-23',
+    currentVersion: '2026-01-30',
     availableVersions: [
+        '2026-01-30',
         '2026-01-23',
         '2026-01-16',
         '2026-01-09',
@@ -83,6 +84,43 @@ const state = reactive({
 
 const allUpdates: Record<string, Record<string, { title: string, description: string[] }[]>> = {
     en: {
+        '2026-01-30': [
+            {
+                title: 'Change label option in glossary list',
+                description: [
+                    'Users can now change the label “Department” in the glossary list.',
+                    'This customization option enhances the flexibility of terminology across the system.'
+                ],
+            },
+            {
+                title: 'Save reports as draft',
+                description: [
+                    'Users now have the ability to save reports as drafts within the plans, goals, and documents sections.',
+                    'This allows users to come back, edit their drafts, and publish them at a later time.'
+                ],
+            },
+            {
+                title: 'Department-specific tags',
+                description: [
+                    'Tags can now be made department-specific, improving categorization and filtering based on departmental context.',
+                    'This ensures better organization and relevance of tags for each department.'
+                ],
+            },
+            {
+                title: 'Display plans, goals, and subgoals in Daily Overview',
+                description: [
+                    'Plans, goals, and subgoals will now be displayed in the Daily Overview, grouped by citizen.',
+                    'This enhances the daily review process, making it easier to track progress on specific individuals.'
+                ],
+            },
+            {
+                title: 'Display schedule slots in Daily Overview',
+                description: [
+                    'Schedule slots are now visible in the Daily Overview.',
+                    'This feature provides a clearer, more organized view of scheduled activities for the day.'
+                ],
+            },
+        ],
         '2026-01-23': [
             {
                 title: 'Journal note editing restrictions',
@@ -800,6 +838,43 @@ const allUpdates: Record<string, Record<string, { title: string, description: st
         ],
     },
     dk: {
+        '2026-01-30': [
+            {
+                title: 'Mulighed for at ændre label “Afdeling” i ordliste',
+                description: [
+                    'Brugere kan nu ændre label “Afdeling” i ordlisten.',
+                    'Denne tilpasningsmulighed øger fleksibiliteten i terminologien på tværs af systemet.'
+                ],
+            },
+            {
+                title: 'Gem rapporter som udkast',
+                description: [
+                    'Brugere har nu mulighed for at gemme rapporter som udkast indenfor planer, mål og dokumenter.',
+                    'Dette giver brugere mulighed for at komme tilbage, redigere deres udkast og derefter offentliggøre dem.'
+                ],
+            },
+            {
+                title: 'Afdelingsspecifikke tags',
+                description: [
+                    'Tags kan nu gøres afdelingsspecifikke, hvilket forbedrer kategorisering og filtrering baseret på afdelingens kontekst.',
+                    'Dette sikrer bedre organisation og relevans af tags for hver afdeling.'
+                ],
+            },
+            {
+                title: 'Vis planer, mål og delmål i Dagoversigten',
+                description: [
+                    'Planer, mål og delmål vil nu blive vist i Dagoversigten, grupperet per borger.',
+                    'Dette forbedrer den daglige gennemgangsproces, hvilket gør det nemmere at følge op på fremskridt for specifikke personer.'
+                ],
+            },
+            {
+                title: 'Vis tidsplan i Dagoversigten',
+                description: [
+                    'Tidsplaner vises nu i Dagoversigten.',
+                    'Denne funktion giver et klarere og mere organiseret billede af dagens planlagte aktiviteter.'
+                ],
+            },
+        ],
         '2026-01-23': [
             {
                 title: 'Begrænsninger for redigering af journalnoter',
