@@ -17,6 +17,14 @@ class DocumentService extends BaseAPIService {
         return await this.request(`/user/company-file-folders/${fileUuid}/move-file`, 'PUT', params)
     }
 
+    async getContent(documentUuid: any): Promise<any> {
+        return await this.request(`/user/company-file-folders/${documentUuid}/content`, 'GET')
+    }
+
+    async saveContent(documentUuid: any, params: object): Promise<any> {
+        return await this.request(`/user/company-file-folders/${documentUuid}/content`, 'PUT', params)
+    }
+
     async deleteDocument(documentUuid: any): Promise<any> {
         return await this.request(`/user/company-file-folders/${documentUuid}`, 'DELETE')
     }
@@ -39,6 +47,10 @@ class DocumentService extends BaseAPIService {
 
     async downloadFile(documentUuid: any): Promise<any> {
         return await this.request(`/user/company-file-folders/${documentUuid}/download`, 'GET')
+    }
+
+    async downloadPdf(documentUuid: any): Promise<any> {
+        return await this.request(`/user/company-file-folders/${documentUuid}/download-pdf`, 'GET')
     }
 
     async getAllFolders(): Promise<any> {
