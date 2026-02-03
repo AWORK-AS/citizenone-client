@@ -10,6 +10,7 @@
     "postinstall": "nuxt prepare"
   },
   "dependencies": {
+    "docx-preview": "^0.3.7",
     "flatpickr": "^4.6.13",
     "mammoth": "^1.11.0",
     "vue": "^3.4.34",
