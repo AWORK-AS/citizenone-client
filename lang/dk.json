@@ -2817,7 +2817,7 @@
         "drive-local":{
             "info-drive-1": "Du ser lige nu CitizenOne Documents-filer",
             "info-drive-2": "Hvis du også vil bruge Google drive så tryk 'Google Drive'-knappen i toppen. hvis du har linket din Google Drive konto",
-            "info-drive-3": "Skift mellem systemerne uden at miste filer — upload til det ønskede system via upload-knappen.."
+            "info-drive-3": "Skift mellem systemerne uden at miste filer - upload til det ønskede system via upload-knappen.."
         },
         "alert": {
             "deletedFileSuccessfully": "Fil slettet med succes",
