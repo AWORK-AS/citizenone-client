@@ -1,40 +1,33 @@
 import APIError from '@/components/api/user/APIError'
 
 class BaseAPIService {
-    async request(url: string, method: string, params: object = [], options: object = {}): Promise<any> {
+    async request(url: string, method: string, params: object = []): Promise<any> {
         const runtimeConfig = useRuntimeConfig()
         let config: any = null
-        
-        const defaultHeaders = {
-            Authorization: 'Bearer ' + localStorage.getItem('_token'),
-            Accept: 'application/json',
-        }
-
         if (method === 'GET') {
             // GET
             config = {
                 baseURL: runtimeConfig.public.apiBaseURL,
                 method: method,
-                headers: defaultHeaders,
+                headers: {
+                    Authorization: 'Bearer ' + localStorage.getItem('_token'),
+                    Accept: 'application/json',
+                },
                 async onRequest({ request, options }: { request: any, options: any }) {
                     options.params = params
                 },
-                ...options
             }
         } else {
             // POST, PUT, DELETE
             config = {
                 baseURL: runtimeConfig.public.apiBaseURL,
                 method: method,
-                headers: defaultHeaders,
+                headers: {
+                    Authorization: 'Bearer ' + localStorage.getItem('_token'),
+                    Accept: 'application/json',
+                },
                 body: params,
-                ...options
             }
-        }
-
-        // Merge custom headers if provided in options
-        if ((options as any).headers) {
-             config.headers = { ...config.headers, ...(options as any).headers }
         }
 
         try {
@@ -52,11 +45,11 @@ class BaseAPIService {
                     this.revokeAccess()
                 case 500:
                     throw new APIError({
-                        message: "Vi har registreret denne fejl. Du behøver ikke at gøre noget. Vi vender tilbage til dig hurtigst muligt."
+                        message: "Server error. Please try again. If the problem persists, contact your system administrator"
                     })
                 default:
                     throw new APIError({
-                        message: "Vi har registreret denne fejl. Du behøver ikke at gøre noget. Vi vender tilbage til dig hurtigst muligt."
+                        message: "Something went wrong. Please try again. If the problem persists, contact your system administrator"
                     })
             }
         }

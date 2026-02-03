@@ -18,13 +18,19 @@ class DocumentService extends BaseAPIService {
     }
 
     async getContent(documentUuid: any, mode: 'edit' | 'preview' = 'edit'): Promise<any> {
-        const options: any = {}
+        const response = await this.request(`/user/company-file-folders/${documentUuid}/content?mode=${mode}`, 'GET')
         
-        if (mode === 'preview') {
-            options.responseType = 'arrayBuffer'
+        if (mode === 'preview' && response.content) {
+            const binaryString = window.atob(response.content)
+            const len = binaryString.length
+            const bytes = new Uint8Array(len)
+            for (let i = 0; i < len; i++) {
+                bytes[i] = binaryString.charCodeAt(i)
+            }
+            return bytes.buffer
         }
         
-        return await this.request(`/user/company-file-folders/${documentUuid}/content?mode=${mode}`, 'GET', [], options)
+        return response
     }
 
     async saveContent(documentUuid: any, params: object): Promise<any> {

@@ -90,9 +90,6 @@ importers:
       autoprefixer:
         specifier: ^10.4.19
         version: 10.4.19(postcss@8.4.40)
-      ckeditor5:
-        specifier: ^42.0.2
-        version: 42.0.2
       file-saver:
         specifier: ^2.0.5
         version: 2.0.5

@@ -200,7 +200,7 @@
                     <DialogConfirmation :isModalOpen="state.modal.isUpgradeStorageOpen" :title="$t('drive.upgradeStorage')"
                         :message="state.error?.message + ' ' + $t('drive.confirmation.upgradeStorageConfirmation') + '?'"
                         @close="closeUpgradeStorageModal" @confirm="navigateTo(`/storage/upgrade`)" />
-                    <ModulesUserDocumentModalEditor :isOpen="state.modal.isDocumentEditorOpen"
+                    <ModulesUserDocumentModalEdit :isOpen="state.modal.isDocumentEditorOpen"
                         :isEditMode="state.isEditMode"
                         :initialName="state.docsFields.name"
                         :initialData="state.docsFields.content"
@@ -598,7 +598,8 @@ async function saveDocument(payload: any) {
     try {
         if (state.isEditMode && state.selectedDocument?.uuid) {
              await documentService.saveContent(state.selectedDocument.uuid, {
-                content: payload.content
+                content: payload.content,
+                name: payload.name
             });
             successAlert(`${t('alert.success')}!`, `${t('drive.alert.fileSuccessfullyUpdated')}.`);
         } else {
@@ -613,6 +614,7 @@ async function saveDocument(payload: any) {
             }
             formData.append('type', 'file')
             formData.append('is_admin_access', '0');
+            formData.append('name', payload.name)
 
             await documentService.saveFileFolder(formData);
             successAlert(`${t('alert.success')}!`, `${t('drive.alert.fileSuccessfullyAdded')}.`);
