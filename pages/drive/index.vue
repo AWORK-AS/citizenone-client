@@ -205,6 +205,11 @@
                         :initialName="state.docsFields.name"
                         :initialData="state.docsFields.content"
                         @close="closeDocumentEditor" @save="saveDocument" />
+                    <ModulesUserDocumentModalPreview 
+                        :is-open="state.modal.isViewDocumentOpen"
+                        :document-data="state.previewDocumentData"
+                        :document-name="state.selectedDocument?.name"
+                        @close="closePreviewModal" />
                 </div>
             </LoadingSpinner>
         </NuxtLayout>
@@ -213,6 +218,7 @@
 
 <script setup lang="ts">
 import { useDatetimeFormatter } from '@/composables/datetimeFormatter'
+import { useMammothConverter } from '@/composables/useMammothConverter'
 import { documentService } from '@/components/api/user/DocumentService'
 import { useI18n } from "vue-i18n"
 import { useAlert } from '@/composables/alert'
@@ -264,8 +270,10 @@ const state = reactive({
         isViewAccessOpen: false,
         isViewFolderStructureOpen: false,
         isDocumentEditorOpen: false,
+        isViewDocumentOpen: false,
     },
     selectedDocument: {} as any,
+    previewDocumentData: null as ArrayBuffer | null,
     docsFields: {
         name: '',
         content: ''
@@ -354,10 +362,29 @@ function handleSearch(value: any) {
     fetchDocuments()
 }
 
-
-
 const onDocumentClick = async (document: any) => {
-    downloadFile(document);
+    const ext = document.file_url.split('.').pop().toLowerCase();
+    
+    if (['docx', 'pages'].includes(ext)) {
+        await viewDocument(document);
+    } else {
+        downloadFile(document);
+    }
+}
+
+async function viewDocument(document: any) {
+    state.isPageLoading = true;
+    try {
+        const response = await documentService.getContent(document.uuid, 'preview');
+        
+        state.previewDocumentData = response;
+        state.selectedDocument = document;
+        state.modal.isViewDocumentOpen = true;
+    } catch (error: any) {
+        state.error = error;
+        console.error('Error loading document for preview:', error);
+    }
+    state.isPageLoading = false;
 }
 
 async function downloadFile(document: any) {
@@ -374,8 +401,6 @@ async function downloadFile(document: any) {
     }
     state.isTableLoading = false
 }
-
-
 
 async function downloadDocumentPdf(document: any) {
     state.error = {}
@@ -408,7 +433,6 @@ async function uploadFile(event: any) {
         params.append('type', 'file')
         params.append('is_admin_access', 'false')
 
-        // Append all files with the same key, e.g., files[]
         for (const file of files) {
             params.append('files[]', file)
         }
@@ -488,10 +512,18 @@ async function editDocument(document: any) {
     }
 }
 
+
 function viewDocumentAccess(document: any) {
     state.selectedDocument = document
     state.modal.isViewAccessOpen = true
 }
+
+function closePreviewModal() {
+    state.modal.isViewDocumentOpen = false
+    state.previewDocumentData = null
+    state.selectedDocument = {}
+}
+
 
 function confirmDocumentArchiving(document: any) {
     state.selectedDocument = document
