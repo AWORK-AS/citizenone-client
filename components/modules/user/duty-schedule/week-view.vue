@@ -1757,6 +1757,7 @@ function updateSelectedSchedule(shiftDetails: any) {
         department_uuid: shiftDetails.department_uuid,
         note: shiftDetails.note,
         do_not_count_sick_leave: shiftDetails.do_not_count_sick_leave,
+        use_compensatory_time: shiftDetails.use_compensatory_time,
     }
     updateDutySchedule(scheduleUuid, params, employeeIndex, weekIndex, shiftIndex)
 }
