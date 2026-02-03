@@ -112,8 +112,8 @@ async function saveMedicine(medicineDetails: any) {
         params.append('description', medicineDetails.description)
 
         if (!medicineDetails.is_pn_medicine) {
-            params.append('schedule_frequency', medicineDetails.schedule_frequency.recurring)
-            params.append('recurring_until', medicineDetails.schedule_frequency.recurring_until)
+            params.append('schedule_frequency', medicineDetails.schedule_frequency.recurring ?? '')
+            params.append('recurring_until', medicineDetails.schedule_frequency.recurring_until ?? '')
 
             if (medicineDetails.schedule_frequency.recurring === 'custom') {
                 params.append('frequency', medicineDetails.schedule_frequency.frequency)
