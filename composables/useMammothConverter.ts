@@ -13,7 +13,11 @@ export const useMammothConverter = () => {
             const result = await mammoth.convertToHtml(
                 { arrayBuffer },
                 {
+                    includeDefaultStyleMap: true,
                     styleMap: [
+                        // Preserve underline (by default Mammoth ignores it)
+                        "u => u",
+                        // Heading mappings
                         "p[style-name='Heading 1'] => h1:fresh",
                         "p[style-name='Heading 2'] => h2:fresh",
                         "p[style-name='Heading 3'] => h3:fresh",
@@ -40,6 +44,11 @@ export const useMammothConverter = () => {
             if (result.messages.length > 0) {
                 console.warn('Mammoth conversion warnings:', result.messages)
             }
+
+            // Note: Mammoth.js does not preserve font-family, font-size, or text-align
+            // These are fundamental limitations of the library
+            // The DOCX/PDF output will have these styles, but they won't be preserved when re-opening
+            console.warn('⚠️ Font styles (family, size, alignment) are not preserved by Mammoth.js when reading DOCX files')
 
             return result.value
         } catch (error) {
