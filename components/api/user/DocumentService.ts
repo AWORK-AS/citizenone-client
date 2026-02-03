@@ -17,8 +17,14 @@ class DocumentService extends BaseAPIService {
         return await this.request(`/user/company-file-folders/${fileUuid}/move-file`, 'PUT', params)
     }
 
-    async getContent(documentUuid: any): Promise<any> {
-        return await this.request(`/user/company-file-folders/${documentUuid}/content`, 'GET')
+    async getContent(documentUuid: any, mode: 'edit' | 'preview' = 'edit'): Promise<any> {
+        const options: any = {}
+        
+        if (mode === 'preview') {
+            options.responseType = 'arrayBuffer'
+        }
+        
+        return await this.request(`/user/company-file-folders/${documentUuid}/content?mode=${mode}`, 'GET', [], options)
     }
 
     async saveContent(documentUuid: any, params: object): Promise<any> {
