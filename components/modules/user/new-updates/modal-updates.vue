@@ -120,6 +120,27 @@ const allUpdates: Record<string, Record<string, { title: string, description: st
                     'This feature provides a clearer, more organized view of scheduled activities for the day.'
                 ],
             },
+            {
+                title: 'Indicate transportation usage for reimbursement',
+                description: [
+                    'Employees can now indicate that they have used transportation, and therefore have an expense to be reimbursed.',
+                    'This feature ensures employees can easily report transportation expenses for reimbursement processing.'
+                ],
+            },
+            {
+                title: 'Pay code / payroll item field per shift type',
+                description: [
+                    'A pay code or payroll item field has been added per shift type, and this will be included in shift exports and reports.',
+                    'This allows for better payroll tracking and reporting, ensuring accurate pay processing.'
+                ],
+            },
+            {
+                title: 'Termination date field for employee records',
+                description: [
+                    'A termination date field has been added to the employee create, edit, and view forms.',
+                    'When the termination date is reached, the employee’s access will be automatically disabled, ensuring secure and timely access control.'
+                ],
+            },
         ],
         '2026-01-23': [
             {
@@ -872,6 +893,27 @@ const allUpdates: Record<string, Record<string, { title: string, description: st
                 description: [
                     'Tidsplaner vises nu i Dagoversigten.',
                     'Denne funktion giver et klarere og mere organiseret billede af dagens planlagte aktiviteter.'
+                ],
+            },
+            {
+                title: 'Angiv transportbrug til refusion',
+                description: [
+                    'Medarbejdere kan nu angive, at de har brugt transport og derfor har en udgift, der skal refunderes.',
+                    'Denne funktion sikrer, at medarbejdere nemt kan rapportere transportudgifter til refusionsbehandling.'
+                ],
+            },
+            {
+                title: 'Lønskode / lønpostfelt pr. arbejdstype',
+                description: [
+                    'Et lønskode- eller lønpostfelt er blevet tilføjet pr. arbejdstype, og dette vil blive inkluderet i eksport og rapporter for arbejdstider.',
+                    'Dette muliggør bedre lønbehandling og rapportering, hvilket sikrer korrekt lønudbetaling.'
+                ],
+            },
+            {
+                title: 'Afslutningsdato-felt for medarbejderregistre',
+                description: [
+                    'Et afslutningsdato-felt er blevet tilføjet til oprettelse, redigering og visning af medarbejderformularer.',
+                    'Når afslutningsdatoen nås, vil medarbejderens adgang automatisk blive deaktiveret, hvilket sikrer rettidig og sikker adgangskontrol.'
                 ],
             },
         ],
