@@ -236,7 +236,7 @@
                     <ModulesUserDocumentModalEdit :isOpen="state.modal.isDocumentEditorOpen"
                         :isEditMode="state.isEditMode" :initialName="state.docsFields.name"
                         :initialData="state.docsFields.content" @close="closeDocumentEditor" @save="saveDocument" />
-                    <ModulesUserDocumentModalPreview :isModalOpen="state.modal.isViewDocumentOpen"
+                    <ModulesUserDocumentModalPreviewDocFile :isModalOpen="state.modal.isViewDocumentOpen"
                         :selectedDocument="state.selectedDocument" @close="state.modal.isViewDocumentOpen = false" />
                 </div>
             </LoadingSpinner>
