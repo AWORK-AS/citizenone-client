@@ -2916,6 +2916,7 @@
                 "edit": "Edit",
                 "delete": "Delete",
                 "download": "Download",
+                "downloadPDF": "Download PDF",
                 "move": "Move",
                 "view": "View"
             },
