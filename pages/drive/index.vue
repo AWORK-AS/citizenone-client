@@ -27,16 +27,48 @@
                             </FormButton>
                         </div>
                         <div class="flex flex-wrap items-center justify-end gap-3">
-                            <FormButton buttonStyle="action" class="rounded-md"
-                                @click="navigateTo('/drive/expenses')">
-                                <Icon name="ph:money" class="h-4 w-4" aria-hidden="true" />
-                                {{ $t('drive.expenses') }}
-                            </FormButton>
-                            <FormButton buttonStyle="action" class="rounded-md"
-                                @click="state.modal.isAddDirectoryOpen = true">
-                                <Icon name="ph:plus" class="h-4 w-4" aria-hidden="true" />
-                                {{ $t('drive.createNewFolder') }}
-                            </FormButton>
+                            <Menu as="div" class="w-full md:w-fit relative inline-block text-left z-20">
+                                <div>
+                                    <MenuButton class="w-full md:w-fit">
+                                        <FormButton buttonStyle="action" class="w-full md:w-fit rounded-lg">
+                                            <Icon name="ph:plus" class="h-4 w-4" aria-hidden="true" />
+                                            {{ $t('drive.new') }}
+                                        </FormButton>
+                                    </MenuButton>
+                                </div>
+
+                                <transition enter-active-class="transition duration-100 ease-out"
+                                    enter-from-class="transform scale-95 opacity-0"
+                                    enter-to-class="transform scale-100 opacity-100"
+                                    leave-active-class="transition duration-75 ease-in"
+                                    leave-from-class="transform scale-100 opacity-100"
+                                    leave-to-class="transform scale-95 opacity-0">
+                                    <MenuItems
+                                        class="absolute right-0 mt-2 w-56 origin-top-right divide-y divide-gray-100 rounded-md bg-white shadow-lg ring-1 ring-black/5 focus:outline-none">
+                                        <div class="px-1 py-1">
+                                            <MenuItem v-slot="{ active }"
+                                                @click="state.modal.isAddDirectoryOpen = true">
+                                            <button :class="[
+                                                active && 'bg-gray-100',
+                                                'group flex w-full items-center rounded-md px-2 py-2.5 text-sm',
+                                            ]">
+                                                <Icon name="ph:folder" class="mr-2 h-4 w-4" aria-hidden="true" />
+                                                {{ $t('drive.createNewFolder') }}
+                                            </button>
+                                            </MenuItem>
+                                            <MenuItem v-slot="{ active }" @click="openNewDocumentModal">
+                                            <button :class="[
+                                                active && 'bg-gray-100',
+                                                'group flex w-full items-center rounded-md px-2 py-2.5 text-sm',
+                                            ]">
+                                                <Icon name="ph:file-plus" class="mr-2 h-4 w-4" aria-hidden="true" />
+                                                {{ $t('drive.newDocument') }}
+                                            </button>
+                                            </MenuItem>
+                                        </div>
+                                    </MenuItems>
+                                </transition>
+                            </Menu>
                             <FormButton buttonStyle="action" class="rounded-md" @click="triggerFileInput">
                                 <Icon name="ph:upload" class="h-4 w-4" aria-hidden="true" />
                                 {{ $t('drive.uploadFile') }}
@@ -52,10 +84,9 @@
                                 <Icon name="ph:file" class="h-4 w-4" aria-hidden="true" />
                                 {{ $t('drive.createTemplate.createTemplate') }}
                             </FormButton>
-                            <FormButton buttonStyle="primary" class="rounded-md"
-                                @click="openNewDocumentModal">
-                                <Icon name="ph:file-plus" class="h-4 w-4" aria-hidden="true" />
-                                {{ $t('drive.newDocument') }}
+                            <FormButton buttonStyle="action" class="rounded-md" @click="navigateTo('/drive/expenses')">
+                                <Icon name="ph:money" class="h-4 w-4" aria-hidden="true" />
+                                {{ $t('drive.expenses') }}
                             </FormButton>
                         </div>
                     </div>
@@ -105,7 +136,8 @@
                                         </td>
                                         <td width="20%">
                                             <span class="truncate">
-                                                {{ document?.updated_at && formatDateTimeToReadable(document?.updated_at) }}
+                                                {{ document?.updated_at &&
+                                                    formatDateTimeToReadable(document?.updated_at) }}
                                             </span>
                                         </td>
                                         <td width="15%">
@@ -197,18 +229,15 @@
                     <DialogConfirmation :isModalOpen="state.modal.isDeleteFileOpen"
                         :message="$t('drive.confirmation.deleteFileConfirmation') + '?'"
                         @close="state.modal.isDeleteFileOpen = false" @confirm="deleteDocument" />
-                    <DialogConfirmation :isModalOpen="state.modal.isUpgradeStorageOpen" :title="$t('drive.upgradeStorage')"
+                    <DialogConfirmation :isModalOpen="state.modal.isUpgradeStorageOpen"
+                        :title="$t('drive.upgradeStorage')"
                         :message="state.error?.message + ' ' + $t('drive.confirmation.upgradeStorageConfirmation') + '?'"
                         @close="closeUpgradeStorageModal" @confirm="navigateTo(`/storage/upgrade`)" />
                     <ModulesUserDocumentModalEdit :isOpen="state.modal.isDocumentEditorOpen"
-                        :isEditMode="state.isEditMode"
-                        :initialName="state.docsFields.name"
-                        :initialData="state.docsFields.content"
-                        @close="closeDocumentEditor" @save="saveDocument" />
-                    <ModulesUserDocumentModalPreview 
-                        :is-open="state.modal.isViewDocumentOpen"
-                        :document-data="state.previewDocumentData"
-                        :document-name="state.selectedDocument?.name"
+                        :isEditMode="state.isEditMode" :initialName="state.docsFields.name"
+                        :initialData="state.docsFields.content" @close="closeDocumentEditor" @save="saveDocument" />
+                    <ModulesUserDocumentModalPreview :is-open="state.modal.isViewDocumentOpen"
+                        :document-data="state.previewDocumentData" :document-name="state.selectedDocument?.name"
                         @close="closePreviewModal" />
                 </div>
             </LoadingSpinner>
@@ -217,6 +246,7 @@
 </template>
 
 <script setup lang="ts">
+import { Menu, MenuButton, MenuItems, MenuItem } from '@headlessui/vue'
 import { useDatetimeFormatter } from '@/composables/datetimeFormatter'
 import { useMammothConverter } from '@/composables/useMammothConverter'
 import { documentService } from '@/components/api/user/DocumentService'
@@ -364,7 +394,7 @@ function handleSearch(value: any) {
 
 const onDocumentClick = async (document: any) => {
     const ext = document.file_url.split('.').pop().toLowerCase();
-    
+
     if (['docx', 'pages'].includes(ext)) {
         await viewDocument(document);
     } else {
@@ -376,7 +406,7 @@ async function viewDocument(document: any) {
     state.isPageLoading = true;
     try {
         const response = await documentService.getContent(document.uuid, 'preview');
-        
+
         state.previewDocumentData = response;
         state.selectedDocument = document;
         state.modal.isViewDocumentOpen = true;
@@ -407,7 +437,7 @@ async function downloadDocumentPdf(document: any) {
     state.isTableLoading = true
     try {
         const response = await documentService.downloadPdf(document.uuid)
-         if (response) {
+        if (response) {
             saveAs(response, document.name.split('.')[0] + '.pdf')
         }
     } catch (error: any) {
@@ -475,10 +505,10 @@ async function editDocument(document: any) {
         state.isPageLoading = true;
         try {
             const response = await documentService.getContent(document.uuid);
-            
+
             if (response.type === 'file_data') {
                 const { convertDocxToHtml } = useMammothConverter();
-                
+
                 // Decode base64 to ArrayBuffer
                 const binaryString = atob(response.file_data);
                 const bytes = new Uint8Array(binaryString.length);
@@ -486,9 +516,9 @@ async function editDocument(document: any) {
                     bytes[i] = binaryString.charCodeAt(i);
                 }
                 const arrayBuffer = bytes.buffer;
-                
+
                 const htmlContent = await convertDocxToHtml(arrayBuffer);
-                
+
                 state.selectedDocument = document;
                 state.docsFields.name = document.name;
                 state.docsFields.content = htmlContent;
@@ -506,7 +536,7 @@ async function editDocument(document: any) {
             console.error(error);
         }
         state.isPageLoading = false;
-    }else{
+    } else {
         state.selectedDocument = document
         state.modal.isEditDocumentOpen = true
     }
@@ -597,7 +627,7 @@ async function saveDocument(payload: any) {
     state.isPageLoading = true;
     try {
         if (state.isEditMode && state.selectedDocument?.uuid) {
-             await documentService.saveContent(state.selectedDocument.uuid, {
+            await documentService.saveContent(state.selectedDocument.uuid, {
                 content: payload.content,
                 name: payload.name
             });
@@ -619,8 +649,8 @@ async function saveDocument(payload: any) {
             await documentService.saveFileFolder(formData);
             successAlert(`${t('alert.success')}!`, `${t('drive.alert.fileSuccessfullyAdded')}.`);
         }
-        
-         fetchDocuments();
+
+        fetchDocuments();
 
     } catch (error: any) {
         state.error = error;

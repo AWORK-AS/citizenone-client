@@ -2906,6 +2906,7 @@
             "template": "Template",
             "useTemplate": "Use template"
         },
+        "new": "New",
         "table": {
             "actions": {
                 "access": "Access",

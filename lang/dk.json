@@ -2905,6 +2905,7 @@
             "template": "Skabelon",
             "useTemplate": "Brug skabelon"
         },
+        "new": "Ny",
         "expenses": "Udgifter",
         "table": {
             "actions": {
