@@ -191,10 +191,14 @@ async function fetchAllDepartments() {
         if (response) {
             let options: any = []
             response.data.forEach(
-                (item: any) => options.push({
-                    value: item.uuid,
-                    label: item.name,
-                })
+                (item: any) => {
+                    if (item.id != null) {
+                        options.push({
+                            value: item.uuid,
+                            label: item.name,
+                        })
+                    }
+                }
             )
             state.options.departments = options
         }
