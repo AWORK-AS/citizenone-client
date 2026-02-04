@@ -14,9 +14,6 @@
                             :error="state.error" @isPageLoading="(value: boolean) => state.isPageLoading = value"
                             @closeModal="closeModal" @submitForm="updateSchedule" />
                     </div>
-                    <!-- <DialogConfirmation :isModalOpen="state.modal.isDeleteScheduleOpen"
-                        :message="$t('events.confirmation.deleteConfirmation') + '?'"
-                        @close="state.modal.isDeleteScheduleOpen = false" @confirm="deleteMyCalendarEvent" /> -->
                     <ModulesUserMyCalendarModalDelete
                         :isModalOpen="state.modal.isDeleteScheduleOpen"
                         :selectedSchedule="props.selectedSchedule"
