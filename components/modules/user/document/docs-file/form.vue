@@ -79,9 +79,9 @@ const state = reactive({
 
 onMounted(() => {
     state.formDocument = {
-        name: props.selectedDocument.name,
-        content: props.selectedDocument.content,
-        is_admin_access: props.selectedDocument.is_admin_access,
+        name: '',
+        content: '',
+        is_admin_access: false,
     }
 })
 
@@ -92,8 +92,9 @@ watch(() => props.selectedDocument, (newValue: any) => {
             content: newValue.content,
             is_admin_access: newValue.is_admin_access,
         }
+        processContent()
     }
-})
+}, { deep: true })
 
 const rules = computed(() => {
     return {
@@ -112,6 +113,52 @@ function submitForm() {
     if (!v$.value.$error) {
         emit('submitForm', state.formDocument)
     }
+}
+
+function processContent() {
+    if (!state.formDocument.content) return ""
+    let processed = state.formDocument.content
+
+    const fontMap = {
+        "Times New Roman": "'Times New Roman'",
+        "Courier New": "'Courier New'",
+        "Lucida Sans Unicode": "'Lucida Sans Unicode'",
+        "Trebuchet MS": "'Trebuchet MS'",
+        "Comic Sans MS": "'Comic Sans MS'",
+        Arial: "Arial",
+        Georgia: "Georgia",
+        Tahoma: "Tahoma",
+        Verdana: "Verdana",
+        Impact: "Impact",
+    }
+
+    Object.entries(fontMap).forEach(([key, value]) => {
+        const safeRegex = new RegExp(
+            `(font-family:\\s*)([^"';]*${key}[^"';]*)`,
+            "gi",
+        )
+        processed = processed.replace(safeRegex, `$1${value}`)
+    })
+
+    processed = processed.replace(
+        /font-size:\s*([\d\.]+)(pt|px)/gi,
+        (match, value, unit) => {
+            let points = parseFloat(value)
+            if (unit.toLowerCase() === "px") {
+                points = points * 0.75
+            }
+
+            const validSizes = [
+                8, 9, 10, 11, 12, 14, 16, 18, 20, 22, 24, 26, 28, 36, 48, 72,
+            ]
+            const closest = validSizes.reduce((prev, curr) => {
+                return Math.abs(curr - points) < Math.abs(prev - points) ? curr : prev
+            })
+
+            return `font-size:${closest}pt`
+        },
+    )
+    state.formDocument.content = processed
 }
 </script>
 

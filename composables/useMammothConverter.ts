@@ -48,7 +48,7 @@ export const useMammothConverter = () => {
             // Note: Mammoth.js does not preserve font-family, font-size, or text-align
             // These are fundamental limitations of the library
             // The DOCX/PDF output will have these styles, but they won't be preserved when re-opening
-            console.warn('⚠️ Font styles (family, size, alignment) are not preserved by Mammoth.js when reading DOCX files')
+            // console.warn('⚠️ Font styles (family, size, alignment) are not preserved by Mammoth.js when reading DOCX files')
 
             return result.value
         } catch (error) {

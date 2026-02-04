@@ -2895,6 +2895,8 @@
             "deleteFolderConfirmation": "Er du sikker på, at du vil slette denne mappe",
             "upgradeStorageConfirmation": "Vil du opgradere din lagerplads"
         },
+        "editDocument": "Rediger dokument",
+        "expenses": "Udgifter",
         "form": {
             "editFile": "Rediger fil",
             "editFolder": "Rediger mappe",
@@ -2907,7 +2909,6 @@
             "useTemplate": "Brug skabelon"
         },
         "new": "Ny",
-        "expenses": "Udgifter",
         "table": {
             "actions": {
                 "access": "Adgang",

@@ -2895,6 +2895,7 @@
             "deleteFolderConfirmation": "Are you sure you want to delete this folder",
             "upgradeStorageConfirmation": "Do you want to upgrade your storage"
         },
+        "editDocument": "Edit document",
         "expenses": "Expenses",
         "form": {
             "editFile": "Edit file",

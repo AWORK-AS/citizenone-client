@@ -34,7 +34,8 @@ const state = reactive({
     error: {} as Error,
     formDocument: {
         name: '',
-        departments: [],
+        content: '',
+        is_admin_access: false,
     },
     isPageLoading: false,
 })

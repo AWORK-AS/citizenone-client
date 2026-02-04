@@ -1,185 +1,112 @@
 <template>
-    <Modal size="4xl" :title="isEditMode ? $t('drive.documentEditor.title') : $t('drive.newDocument')"
-        :show="props.isOpen" @close="close">
-        <template #modal-body>
-            <div class="px-4 pt-5 pb-4 sm:p-6 sm:pb-4">
-                <div class="mb-4">
-                    <FormLabel for="document-name" :label="$t('drive.documentEditor.documentName')" />
-                    <FormTextField id="document-name" name="document-name"
-                        :placeholder="$t('drive.documentEditor.documentName')" v-model="documentName" />
-                </div>
-
-                <div class="document-editor">
-                    <ckeditor :editor="editor" v-model="editorData" :config="editorConfig"></ckeditor>
-                </div>
-            </div>
-            <div class="mt-6">
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
-                    <FormButton type="button" buttonStyle="cancel" class="rounded-md" @click="emit('close')">
-                        {{ $t('cancel') }}
-                    </FormButton>
-                    <FormButton type="submit" buttonStyle="primary" class="rounded-md w-full" @click="save">
-                        {{ !props.isEditMode ? $t('save') : $t('update') }}
-                    </FormButton>
-                </div>
-            </div>
-        </template>
-    </Modal>
+    <div>
+        <Modal size="3xl" :title="$t('drive.editDocument')" :show="props.isModalOpen" @close="closeModal">
+            <template #modal-body>
+                <LoadingSpinner :isActive="state.isPageLoading">
+                    <ModulesUserDocumentDocsFileForm formType="update" :selectedDocument="state.formDocument"
+                        :error="state.error" @isPageLoading="(value: boolean) => state.isPageLoading = value"
+                        @closeModal="closeModal" @submitForm="updateDocument" />
+                </LoadingSpinner>
+            </template>
+        </Modal>
+    </div>
 </template>
 
 <script setup lang="ts">
-import ClassicEditor from "@ckeditor/ckeditor5-build-classic"
+import { useMammothConverter } from '@/composables/useMammothConverter'
+import { documentService } from '@/components/api/user/DocumentService'
+import { useAlert } from '@/composables/alert'
+import { useI18n } from "vue-i18n"
+import type { Error } from '@/types'
+
+const { successAlert } = useAlert()
+const { t } = useI18n()
 
 const props = defineProps({
-    isOpen: {
+    isModalOpen: {
         type: Boolean,
-        default: false,
+        required: true,
     },
-    initialData: {
-        type: String,
-        default: "",
+    selectedDocument: {
+        type: Object,
+        required: true,
     },
-    initialName: {
-        type: String,
-        default: "",
-    },
-    isEditMode: {
-        type: Boolean,
-        default: false,
-    },
-});
+})
+const emit = defineEmits(['close', 'refreshDocuments'])
+const router = useRouter()
 
-const emit = defineEmits(["close", "save"])
-
-const editor = ClassicEditor
-const editorData = ref(props.initialData)
-const documentName = ref(props.initialName)
-const isLoading = ref(false)
-
-const editorConfig = ref({
-    toolbar: {
-        items: [
-            "heading",
-            "|",
-            "bold",
-            "italic",
-            "link",
-            "|",
-            "bulletedList",
-            "numberedList",
-            "|",
-            "blockQuote",
-            "insertTable",
-            "|",
-            "undo",
-            "redo",
-        ],
-        shouldNotGroupWhenFull: true,
+const state = reactive({
+    error: {} as Error,
+    formDocument: {
+        name: '',
+        content: '',
+        is_admin_access: false,
     },
-});
+    isPageLoading: false,
+})
 
-watch(
-    () => props.isOpen,
-    (newVal) => {
-        if (newVal) {
-            editorData.value = processIncomingData(props.initialData);
-            documentName.value = props.initialName;
-            console.log(
-                "📄 Loading document content:",
-                props.initialData?.substring(0, 500),
-            );
+function closeModal() {
+    emit('close')
+}
+
+function refreshDocuments() {
+    emit('refreshDocuments')
+}
+
+watch(() => props.isModalOpen, (isModalOpen) => {
+    if (isModalOpen) {
+        state.formDocument.name = props.selectedDocument?.name ?? ''
+        state.formDocument.is_admin_access = props.selectedDocument?.is_admin_access ? true : false
+        fetchDocument()
+    }
+})
+
+async function fetchDocument() {
+    state.isPageLoading = true
+    try {
+        const params = {}
+        const documentUuid = props.selectedDocument?.uuid
+        const response = await documentService.getDocumentContent(documentUuid, params)
+        if (response) {
+            if (response.data?.type === 'file_data') {
+                const { convertDocxToHtml } = useMammothConverter()
+                const binaryString = atob(response?.data?.file_data)
+                const bytes = new Uint8Array(binaryString.length)
+                for (let i = 0; i < binaryString.length; i++) {
+                    bytes[i] = binaryString.charCodeAt(i)
+                }
+                const arrayBuffer = bytes.buffer
+                const htmlContent = await convertDocxToHtml(arrayBuffer)
+                state.formDocument.content = htmlContent
+            } else {
+                state.formDocument.content = response.content || ''
+            }
         }
-    },
-);
+    } catch (error: any) {
+        state.error = error
+    }
+    state.isPageLoading = false
+}
 
-const close = () => {
-    emit("close");
-};
-
-const save = () => {
-    isLoading.value = true;
-
-    const sanitizedContent = sanitizeContent(editorData.value);
-
-    emit("save", {
-        name: documentName.value,
-        content: sanitizedContent,
-    });
-    setTimeout(() => (isLoading.value = false), 1000);
-};
-
-const sanitizeContent = (html: string) => {
-    if (!html) return "";
-    let sanitized = html;
-
-    sanitized = sanitized.replace(
-        /font-family:\s*['"]([^'"]+)['"]/gi,
-        (match, fontName) => {
-            return `font-family:${fontName}`;
-        },
-    );
-
-    sanitized = sanitized.replace(
-        /font-size:\s*([\d\.]+)(px|pt)/gi,
-        (match, value, unit) => {
-            if (unit.toLowerCase() === "px") {
-                const points = Math.round(parseFloat(value) * 0.75);
-                return `font-size:${points}pt`;
-            }
-            return match; // Keep pt as is
-        },
-    );
-
-    return sanitized;
-};
-
-const processIncomingData = (html: string) => {
-    if (!html) return "";
-    let processed = html;
-
-    const fontMap = {
-        "Times New Roman": "'Times New Roman'",
-        "Courier New": "'Courier New'",
-        "Lucida Sans Unicode": "'Lucida Sans Unicode'",
-        "Trebuchet MS": "'Trebuchet MS'",
-        "Comic Sans MS": "'Comic Sans MS'",
-        Arial: "Arial",
-        Georgia: "Georgia",
-        Tahoma: "Tahoma",
-        Verdana: "Verdana",
-        Impact: "Impact",
-    };
-
-    Object.entries(fontMap).forEach(([key, value]) => {
-        const safeRegex = new RegExp(
-            `(font-family:\\s*)([^"';]*${key}[^"';]*)`,
-            "gi",
-        );
-        processed = processed.replace(safeRegex, `$1${value}`);
-    });
-
-    processed = processed.replace(
-        /font-size:\s*([\d\.]+)(pt|px)/gi,
-        (match, value, unit) => {
-            let points = parseFloat(value);
-            if (unit.toLowerCase() === "px") {
-                points = points * 0.75;
-            }
-
-            const validSizes = [
-                8, 9, 10, 11, 12, 14, 16, 18, 20, 22, 24, 26, 28, 36, 48, 72,
-            ];
-            const closest = validSizes.reduce((prev, curr) => {
-                return Math.abs(curr - points) < Math.abs(prev - points) ? curr : prev;
-            });
-
-            return `font-size:${closest}pt`;
-        },
-    );
-
-    console.log("🔄 Processed Data:", processed.substring(0, 500));
-    return processed;
-};
+async function updateDocument(documentDetails: any) {
+    state.error = {}
+    state.isPageLoading = true
+    try {
+        const documentUuid = props.selectedDocument?.uuid
+        const params = {
+            content: documentDetails.content,
+            name: documentDetails.name,
+            is_admin_access: documentDetails.is_admin_access,
+        }
+        const response = await documentService.updateDocumentContent(documentUuid, params)
+        if (response.data) {
+            successAlert(`${t('alert.success')}!`, `${t('drive.alert.fileSuccessfullyUpdated')}.`)
+            refreshDocuments()
+            closeModal()
+        }
+    } catch (error: any) {
+        state.error = error
+    }
+    state.isPageLoading = false
+}
 </script>
-
-<style scoped src="~/assets/css/editor-styles.css"></style>

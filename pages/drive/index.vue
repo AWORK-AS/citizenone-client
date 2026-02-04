@@ -57,7 +57,7 @@
                                             </button>
                                             </MenuItem>
                                             <MenuItem v-slot="{ active }"
-                                                @click="state.modal.isCreateDocumentOpen = true">
+                                                @click="state.modal.isCreateDocumentFileOpen = true">
                                             <button :class="[
                                                 active && 'bg-gray-100',
                                                 'group flex w-full items-center rounded-md px-2 py-2.5 text-sm',
@@ -234,11 +234,11 @@
                         :title="$t('drive.upgradeStorage')"
                         :message="state.error?.message + ' ' + $t('drive.confirmation.upgradeStorageConfirmation') + '?'"
                         @close="closeUpgradeStorageModal" @confirm="navigateTo(`/storage/upgrade`)" />
-                    <!-- <ModulesUserDocumentModalEdit :isOpen="state.modal.isDocumentEditorOpen"
-                        :isEditMode="state.isEditMode" :initialName="state.docsFields.name"
-                        :initialData="state.docsFields.content" @close="closeDocumentEditor" @save="saveDocument" /> -->
-                    <ModulesUserDocumentDocsFileModalNew :isModalOpen="state.modal.isCreateDocumentOpen"
-                        @close="state.modal.isCreateDocumentOpen = false" @refreshDocuments="fetchDocuments" />
+                    <ModulesUserDocumentDocsFileModalNew :isModalOpen="state.modal.isCreateDocumentFileOpen"
+                        @close="state.modal.isCreateDocumentFileOpen = false" @refreshDocuments="fetchDocuments" />
+                    <ModulesUserDocumentDocsFileModalEdit :isModalOpen="state.modal.isEditDocumentFileOpen"
+                        :selectedDocument="state.selectedDocument" @close="state.modal.isEditDocumentFileOpen = false"
+                        @refreshDocuments="fetchDocuments" />
                     <ModulesUserDocumentDocsFileModalPreview :isModalOpen="state.modal.isViewDocumentOpen"
                         :selectedDocument="state.selectedDocument" @close="state.modal.isViewDocumentOpen = false" />
                 </div>
@@ -293,10 +293,11 @@ const state = reactive({
         isAddDirectoryOpen: false,
         isArchiveDocumentOpen: false,
         isCreateTemplateOpen: false,
-        isCreateDocumentOpen: false,
+        isCreateDocumentFileOpen: false,
         isDeleteDirectoryOpen: false,
         isDeleteFileOpen: false,
         isEditDocumentOpen: false,
+        isEditDocumentFileOpen: false,
         isMoveFileOpen: false,
         isUpgradeStorageOpen: false,
         isUploadFileOpen: false,
@@ -404,21 +405,6 @@ function viewDownloadDocument(document: any) {
     }
 }
 
-// async function viewDocument(document: any) {
-//     state.isPageLoading = true;
-//     try {
-//         const response = await documentService.getContent(document.uuid, 'preview');
-
-//         state.previewDocumentData = response;
-//         state.selectedDocument = document;
-//         state.modal.isViewDocumentOpen = true;
-//     } catch (error: any) {
-//         state.error = error;
-//         console.error('Error loading document for preview:', error);
-//     }
-//     state.isPageLoading = false;
-// }
-
 async function downloadFile(document: any) {
     state.error = {}
     state.isTableLoading = true
@@ -502,43 +488,10 @@ async function viewDirectory(document: any) {
 }
 
 async function editDocument(document: any) {
-    const ext = document.file_url.split('.').pop().toLowerCase();
+    const ext = document.file_url.split('.').pop().toLowerCase()
     if (['html', 'htm', 'docx'].includes(ext)) {
-        state.isPageLoading = true;
-        try {
-            const params = {}
-            const response = await documentService.getDocumentContent(document.uuid, params)
-
-            if (response.type === 'file_data') {
-                const { convertDocxToHtml } = useMammothConverter();
-
-                // Decode base64 to ArrayBuffer
-                const binaryString = atob(response.file_data);
-                const bytes = new Uint8Array(binaryString.length);
-                for (let i = 0; i < binaryString.length; i++) {
-                    bytes[i] = binaryString.charCodeAt(i);
-                }
-                const arrayBuffer = bytes.buffer;
-
-                const htmlContent = await convertDocxToHtml(arrayBuffer);
-
-                state.selectedDocument = document;
-                state.docsFields.name = document.name;
-                state.docsFields.content = htmlContent;
-                state.isEditMode = true;
-                state.modal.isDocumentEditorOpen = true;
-            } else {
-                state.selectedDocument = document;
-                state.docsFields.name = document.name;
-                state.docsFields.content = response.content || '';
-                state.isEditMode = true;
-                state.modal.isDocumentEditorOpen = true;
-            }
-        } catch (error: any) {
-            state.error = error;
-            console.error(error);
-        }
-        state.isPageLoading = false;
+        state.selectedDocument = document
+        state.modal.isEditDocumentFileOpen = true
     } else {
         state.selectedDocument = document
         state.modal.isEditDocumentOpen = true
@@ -604,53 +557,4 @@ async function deleteDocument() {
     }
     state.isTableLoading = false
 }
-
-function openNewDocumentModal() {
-    state.selectedDocument = {}
-    state.docsFields.name = ''
-    state.docsFields.content = ''
-    state.isEditMode = false
-    state.modal.isDocumentEditorOpen = true
-}
-
-function closeDocumentEditor() {
-    state.modal.isDocumentEditorOpen = false
-}
-
-async function saveDocument(payload: any) {
-    state.modal.isDocumentEditorOpen = false
-    state.isPageLoading = true;
-    try {
-        if (state.isEditMode && state.selectedDocument?.uuid) {
-            await documentService.saveContent(state.selectedDocument.uuid, {
-                content: payload.content,
-                name: payload.name
-            });
-            successAlert(`${t('alert.success')}!`, `${t('drive.alert.fileSuccessfullyUpdated')}.`);
-        } else {
-            // Creating a new document
-            const blob = new Blob([payload.content], { type: 'text/html' });
-            const file = new File([blob], payload.name.endsWith('.html') ? payload.name : payload.name + '.html', { type: 'text/html' });
-            console.log(file)
-            const formData = new FormData();
-            formData.append('files[]', file);
-            if (router?.currentRoute?.value?.query?.folder_uuid) {
-                formData.append('folder_uuid', router.currentRoute.value.query.folder_uuid as string);
-            }
-            formData.append('type', 'file')
-            formData.append('is_admin_access', '0');
-            formData.append('name', payload.name)
-
-            await documentService.saveFileFolder(formData);
-            successAlert(`${t('alert.success')}!`, `${t('drive.alert.fileSuccessfullyAdded')}.`);
-        }
-
-        fetchDocuments();
-
-    } catch (error: any) {
-        state.error = error;
-    }
-    state.isPageLoading = false;
-}
-
 </script>
