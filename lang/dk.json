@@ -3245,7 +3245,8 @@
         "expenses": "Udgifter",
         "editExpense": "Rediger udgift",
         "alert": {
-            "expenseSuccessfullyDeleted": "Udgift slettet med succes"
+            "expenseSuccessfullyDeleted": "Udgift slettet med succes",
+            "receiptSuccessfullyDownloaded": "Kvittering downloadet med succes"
         },
         "confirmation": {
             "deleteExpenseConfirmation": "Er du sikker på, at du vil slette denne udgift?"

@@ -28,6 +28,10 @@ class ExpenseService extends BaseAPIService {
     async deleteExpense(expenseUuid: any): Promise<any> {
         return await this.request(`/user/expenses/${expenseUuid}`, 'DELETE')
     }
+
+    async downloadReceipt(expenseUuid: string): Promise<any> {
+        return await this.request(`/user/expenses/${expenseUuid}/download`, 'GET')
+    }
 }
 
 export const expenseService = new ExpenseService()
