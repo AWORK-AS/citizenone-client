@@ -19,18 +19,6 @@ class DocumentService extends BaseAPIService {
 
     async getContent(documentUuid: any, params: object): Promise<any> {
         return await this.request(`/user/company-file-folders/${documentUuid}/content`, 'GET', params)
-
-        // if (mode === 'preview' && response.content) {
-        //     const binaryString = window.atob(response.content)
-        //     const len = binaryString.length
-        //     const bytes = new Uint8Array(len)
-        //     for (let i = 0; i < len; i++) {
-        //         bytes[i] = binaryString.charCodeAt(i)
-        //     }
-        //     return bytes.buffer
-        // }
-
-        // return response
     }
 
     async saveContent(documentUuid: any, params: object): Promise<any> {
