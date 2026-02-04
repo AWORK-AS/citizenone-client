@@ -13,7 +13,13 @@
                 <FormError :error="props?.error?.errors?.name?.[0]" />
             </div>
             <div class="space-y-1">
-                <FormLabel for="expense_category_uuid" :label="$t('expenses.form.category')" />
+                <div class="flex justify-between items-center py-0.5">
+                    <FormLabel for="dosage" :label="$t('expenses.form.category')" />
+                    <span class="text-xs cursor-pointer text-tertiary hover:text-tertiary-800"
+                        @click="state.modal.addNewExpenseCategoryFormOpen = true">
+                        {{ $t('expenseCategories.addNewExpenseCategory') }}
+                    </span>
+                </div>
                 <FormSelect id="expense_category_uuid" :options="state.options.expenseCategories"
                     v-model="state.formExpense.expense_category_uuid" />
                 <FormError :error="v$?.formExpense?.expense_category_uuid?.$errors[0]?.$message.toString()" />
@@ -142,6 +148,8 @@
             </div>
         </div>
     </form>
+    <ModulesUserExpenseCategoryModalNew :isModalOpen="state.modal.addNewExpenseCategoryFormOpen"
+        @close="state.modal.addNewExpenseCategoryFormOpen = false" @refreshExpenseCategories="fetchExpenseCategories" />
 </template>
 
 <script setup lang="ts">
@@ -181,6 +189,9 @@ const state = reactive({
         expense_date: '',
         amount: '',
         receipt: {} as any
+    },
+    modal: {
+        addNewExpenseCategoryFormOpen: false,
     },
     options: {
         expenseCategories: [] as any

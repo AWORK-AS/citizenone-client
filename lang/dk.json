@@ -2916,6 +2916,7 @@
                 "edit": "Rediger",
                 "delete": "Slet",
                 "download": "Download",
+                "downloadPDF": "Download PDF",
                 "move": "Flyt",
                 "view": "Se"
             },
@@ -3244,7 +3245,8 @@
         "expenses": "Udgifter",
         "editExpense": "Rediger udgift",
         "alert": {
-            "expenseSuccessfullyDeleted": "Udgift slettet med succes"
+            "expenseSuccessfullyDeleted": "Udgift slettet med succes",
+            "receiptSuccessfullyDownloaded": "Kvittering downloadet med succes"
         },
         "confirmation": {
             "deleteExpenseConfirmation": "Er du sikker på, at du vil slette denne udgift?"
@@ -4240,7 +4242,8 @@
             "attachments": "Vedhæftede filer",
             "clickToUpload": "Klik for at uploade filer",
             "multipleFilesAllowed": "Flere filer tilladt",
-            "existingAttachments": "Eksisterende vedhæftede filer"
+            "existingAttachments": "Eksisterende vedhæftede filer",
+            "removeFile": "Fjern fil"
         },
         "news": "Nyheder",
         "newNews": "Nyt opslag",

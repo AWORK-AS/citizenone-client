@@ -2916,6 +2916,7 @@
                 "edit": "Edit",
                 "delete": "Delete",
                 "download": "Download",
+                "downloadPDF": "Download PDF",
                 "move": "Move",
                 "view": "View"
             },
@@ -3250,7 +3251,8 @@
         "expenses": "Expenses",
         "editExpense": "Edit expense",
         "alert": {
-            "expenseSuccessfullyDeleted": "Expense successfully deleted"
+            "expenseSuccessfullyDeleted": "Expense successfully deleted",
+            "receiptSuccessfullyDownloaded": "Receipt successfully downloaded"
         },
         "confirmation": {
             "deleteExpenseConfirmation": "Are you sure you want to delete this expense?"
@@ -4246,7 +4248,8 @@
             "attachments": "File Attachments",
             "clickToUpload": "Click to upload files",
             "multipleFilesAllowed": "Multiple files allowed",
-            "existingAttachments": "Existing Attachments"
+            "existingAttachments": "Existing Attachments",
+            "removeFile": "Remove file"
         },
         "news": "News",
         "newNews": "New news",
