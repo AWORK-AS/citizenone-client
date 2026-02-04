@@ -4240,7 +4240,8 @@
             "attachments": "Vedhæftede filer",
             "clickToUpload": "Klik for at uploade filer",
             "multipleFilesAllowed": "Flere filer tilladt",
-            "existingAttachments": "Eksisterende vedhæftede filer"
+            "existingAttachments": "Eksisterende vedhæftede filer",
+            "removeFile": "Fjern fil"
         },
         "news": "Nyheder",
         "newNews": "Nyt opslag",

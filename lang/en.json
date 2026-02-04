@@ -4246,7 +4246,8 @@
             "attachments": "File Attachments",
             "clickToUpload": "Click to upload files",
             "multipleFilesAllowed": "Multiple files allowed",
-            "existingAttachments": "Existing Attachments"
+            "existingAttachments": "Existing Attachments",
+            "removeFile": "Remove file"
         },
         "news": "News",
         "newNews": "New news",
