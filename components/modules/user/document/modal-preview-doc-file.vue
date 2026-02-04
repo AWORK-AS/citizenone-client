@@ -150,6 +150,7 @@ async function downloadFile(document: any) {
 :deep(.docx-preview-wrapper) {
     background: white;
     margin-bottom: 2rem;
+    padding: 40pt !important;
 }
 
 :deep(section.docx) {
