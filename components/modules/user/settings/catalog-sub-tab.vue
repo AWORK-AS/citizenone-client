@@ -165,6 +165,14 @@ watch(() => userStore.getUser, (newValue: any) => {
                 ]
             },
             {
+                name: 'settings.tabs.normPeriods',
+                isTranslateName: true,
+                href: `/settings/norm-periods`,
+                routeNames: [
+                    'settings-norm-periods'
+                ]
+            },
+            {
                 name: 'settings.tabs.relationships',
                 isTranslateName: true,
                 href: `/settings/relationships`,
@@ -251,6 +259,9 @@ function changeTab(value: any) {
     else if (value === '/settings/diagnoses') {
         navigateTo(`/settings/diagnoses`)
     }
+    else if (value === '/settings/expense-categories') {
+        navigateTo(`/settings/expense-categories`)
+    }
     else if (value === '/settings/foreign-cities') {
         navigateTo(`/settings/foreign-cities`)
     }
@@ -271,6 +282,9 @@ function changeTab(value: any) {
     }
     else if (value === '/settings/medicines') {
         navigateTo(`/settings/medicines`)
+    }
+    else if (value === '/settings/norm-periods') {
+        navigateTo(`/settings/norm-periods`)
     }
     else if (value === '/settings/relationships') {
         navigateTo(`/settings/relationships`)
