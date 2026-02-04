@@ -75,7 +75,7 @@ async function fetchDocument() {
         const response = await documentService.getDocumentContent(documentUuid, params)
         if (response) {
             state.selectedDocument = response
-            const binaryString = window.atob(state.selectedDocument?.data?.content)
+            const binaryString = window.atob(state.selectedDocument?.data?.file_data)
             const len = binaryString.length
             const bytes = new Uint8Array(len)
             for (let i = 0; i < len; i++) {
