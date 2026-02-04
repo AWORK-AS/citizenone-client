@@ -27,7 +27,7 @@
         </div>
         <div class="mt-6">
             <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
-                <FormButton type="button" buttonStyle="cancel" class="rounded-md" @click="emit('close')">
+                <FormButton type="button" buttonStyle="cancel" class="rounded-md" @click="emit('closeModal')">
                     {{ $t('cancel') }}
                 </FormButton>
                 <FormButton type="submit" buttonStyle="primary" class="rounded-md w-full">
@@ -59,7 +59,7 @@ const props = defineProps({
         required: true,
     },
 })
-const emit = defineEmits(['close', 'submitForm', 'isPageLoading'])
+const emit = defineEmits(['closeModal', 'submitForm', 'isPageLoading'])
 const { t } = useI18n()
 const editor = ClassicEditor
 const editorConfig = ref({
