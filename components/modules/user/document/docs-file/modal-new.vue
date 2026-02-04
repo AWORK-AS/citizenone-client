@@ -5,7 +5,7 @@
                 <LoadingSpinner :isActive="state.isPageLoading">
                     <ModulesUserDocumentDocsFileForm formType="create" :selectedDocument="state.formDocument"
                         :error="state.error" @isPageLoading="(value: boolean) => state.isPageLoading = value"
-                        @closeModal="closeModal" @submitForm="saveBookingTag" />
+                        @closeModal="closeModal" @submitForm="saveDocument" />
                 </LoadingSpinner>
             </template>
         </Modal>
@@ -13,7 +13,7 @@
 </template>
 
 <script setup lang="ts">
-import { bookingTagService } from '@/components/api/user/BookingTagService'
+import { documentService } from '@/components/api/user/DocumentService'
 import { useAlert } from '@/composables/alert'
 import { useI18n } from "vue-i18n"
 import type { Error } from '@/types'
@@ -27,7 +27,8 @@ const props = defineProps({
         required: true,
     },
 })
-const emit = defineEmits(['close', 'refreshBookingTags'])
+const emit = defineEmits(['close', 'refreshDocuments'])
+const router = useRouter()
 
 const state = reactive({
     error: {} as Error,
@@ -42,22 +43,29 @@ function closeModal() {
     emit('close')
 }
 
-function refreshBookingTags() {
-    emit('refreshBookingTags')
+function refreshDocuments() {
+    emit('refreshDocuments')
 }
 
-async function saveBookingTag(tagDetails: any) {
+async function saveDocument(documentDetails: any) {
     state.error = {}
     state.isPageLoading = true
     try {
-        const params = {
-            tag: tagDetails.name,
-            departments_uuid: tagDetails.departments,
+        const blob = new Blob([documentDetails.content], { type: 'text/html' })
+        const file = new File([blob], documentDetails.name.endsWith('.html') ? documentDetails.name : documentDetails.name + '.html', { type: 'text/html' })
+        console.log(file)
+        const formData = new FormData()
+        formData.append('files[]', file)
+        if (router?.currentRoute?.value?.query?.folder_uuid) {
+            formData.append('folder_uuid', router.currentRoute.value.query.folder_uuid as string)
         }
-        const response = await bookingTagService.saveBookingTag(params)
+        formData.append('type', 'file')
+        formData.append('is_admin_access', documentDetails.is_admin_access)
+        formData.append('name', documentDetails.name)
+        const response = await documentService.saveFileFolder(formData)
         if (response.data) {
-            successAlert(`${t('alert.success')}!`, `${t('bookingTags.form.alert.newBookingTagSuccessfullySaved')}.`)
-            refreshBookingTags()
+            successAlert(`${t('alert.success')}!`, `${t('drive.alert.fileSuccessfullyAdded')}.`)
+            refreshDocuments()
             closeModal()
         }
     } catch (error: any) {

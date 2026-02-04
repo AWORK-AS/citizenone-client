@@ -238,7 +238,7 @@
                         :isEditMode="state.isEditMode" :initialName="state.docsFields.name"
                         :initialData="state.docsFields.content" @close="closeDocumentEditor" @save="saveDocument" /> -->
                     <ModulesUserDocumentDocsFileModalNew :isModalOpen="state.modal.isCreateDocumentOpen"
-                        @close="state.modal.isCreateDocumentOpen = false" />
+                        @close="state.modal.isCreateDocumentOpen = false" @refreshDocuments="fetchDocuments" />
                     <ModulesUserDocumentDocsFileModalPreview :isModalOpen="state.modal.isViewDocumentOpen"
                         :selectedDocument="state.selectedDocument" @close="state.modal.isViewDocumentOpen = false" />
                 </div>
