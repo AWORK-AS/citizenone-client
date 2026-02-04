@@ -163,7 +163,7 @@
                                                         <Icon name="ph:pencil-simple" class="size-4" />
                                                     </FormButton>
                                                 </Tooltip>
-                                                <Tooltip :text="'Download PDF'"
+                                                <Tooltip :text="$t('drive.table.actions.downloadPDF')"
                                                     v-if="['html', 'htm', 'docx'].includes(document?.file_url?.split('.').pop().toLowerCase())">
                                                     <FormButton type="button" buttonStyle="action" class="rounded-md"
                                                         @click="downloadDocumentPdf(document)">
