@@ -42,6 +42,15 @@
             <FormError :error="props?.error?.errors?.end_day?.[0]" />
         </div>
         <div class="space-y-1">
+            <FormLabel for="department_uuid"
+                :label="$t('normPeriod.form.department')" />
+            <FormSelectMultiple id="department_uuid" name="department_uuid"
+                :placeholder="$t('normPeriod.form.department')"
+                :options="state.options.departments" v-model="state.formNormPeriod.department_uuids" />
+            <FormError :error="v$?.formNormPeriod?.department_uuids?.$errors[0]?.$message.toString()" />
+            <FormError :error="props?.error?.errors?.department_uuids?.[0]" />
+        </div>
+        <div class="space-y-1">
             <FormLabel for="description" :label="$t('normPeriod.form.description')" />
             <FormTextArea id="description" name="description" :placeholder="$t('normPeriod.form.description')"
                 v-model="state.formNormPeriod.description" />
@@ -68,6 +77,8 @@ import { useVuelidate } from "@vuelidate/core"
 import { required, helpers } from '@vuelidate/validators'
 import { useI18n } from "vue-i18n"
 import type { Error } from '@/types'
+import { useCustomPagesStore } from '@/store/custom-pages'
+import { departmentService } from '@/components/api/user/DepartmentService'
 
 const props = defineProps({
     error: {
@@ -86,6 +97,7 @@ const props = defineProps({
 const emit = defineEmits(['isPageLoading', 'submitForm'])
 
 const { t } = useI18n()
+const customPagesStore = useCustomPagesStore() as any
 
 const state = reactive({
     error: {} as Error,
@@ -96,6 +108,7 @@ const state = reactive({
         end_month: '',
         end_day: '',
         description: '',
+        department_uuids: [] as Array<string>,
         is_active: true
     },
     options: {
@@ -114,7 +127,12 @@ const state = reactive({
             { value: 12, label: t('months.december') },
         ],
         "days": Array.from({ length: 31 }, (_, i) => ({value: i + 1, label: (i + 1).toString()})),
+        departments: [] as Array<any>,
     }
+})
+
+onMounted(() => {
+    fetchAllDepartments()
 })
 
 watch(() => props.selectedNormPeriod, (newValue: any) => {
@@ -126,6 +144,7 @@ watch(() => props.selectedNormPeriod, (newValue: any) => {
             end_month: newValue.end_month,
             end_day: newValue.end_day,
             description: newValue.description,
+            department_uuids: newValue.department_uuids,
             is_active: newValue.is_active
         }
     }
@@ -161,5 +180,27 @@ function submitForm() {
     if (!v$.value.$error) {
         emit('submitForm', state.formNormPeriod)
     }
+}
+
+async function fetchAllDepartments() {
+    state.error = {}
+    emit('isPageLoading', true)
+    try {
+        const params = {}
+        const response = await departmentService.getAllDepartments(params)
+        if (response) {
+            let options: any = []
+            response.data.forEach(
+                (item: any) => options.push({
+                    value: item.uuid,
+                    label: item.name,
+                })
+            )
+            state.options.departments = options
+        }
+    } catch (error: any) {
+        state.error = error
+    }
+    emit('isPageLoading', false)
 }
 </script>

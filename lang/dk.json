@@ -4284,10 +4284,8 @@
             "startDay":"Startdag",
             "endMonth":"Slutmåned",
             "endDay":"Slutdag",
-            "amount": "Beløb",
             "description": "Beskrivelse",
-            "receipt": "Kvittering",
-            "clickToUpload": "Klik for at uploade"
+            "department": "Afdeling"
         },
         "newNormPeriod": "Ny normperiode",
         "table": {
@@ -4304,7 +4302,8 @@
             },
             "name": "Navn",
             "currentPeriod": "Nuværende periode",
-            "description": "Beskrivelse"
+            "description": "Beskrivelse",
+            "department": "Afdeling"
         },
         "viewNormPeriod": {
             "viewNormPeriod": "Vis normperiode",

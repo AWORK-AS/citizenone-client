@@ -37,7 +37,16 @@
                                     <td width="20%">
                                         <span>{{ normPeriod?.period_range }}</span>
                                     </td>
-                                    <td width="40%">
+                                    <td width="20%" class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                                        <div class="text-xxs flex flex-wrap gap-1">
+                                            <span v-for="(department, index) in normPeriod?.departments" :key=index
+                                                class=" px-2 py-1 text-white rounded-md"
+                                                :style="{ backgroundColor: department?.color }">
+                                                {{ department?.name }}
+                                            </span>
+                                        </div>
+                                    </td>
+                                    <td width="20%">
                                         <span>{{ normPeriod?.description }}</span>
                                     </td>
                                     <td width="20%">
@@ -91,7 +100,8 @@ const state = reactive({
     columnHeaders: [
         { name: 'normPeriod.table.name', isTranslateName: true, sorter: true, key: 'name' },
         { name: 'normPeriod.table.currentPeriod', isTranslateName: true, sorter: true, key: 'period_range' },
-        { name: 'normPeriod.table.description', isTranslateName: true, sorter: true, key: 'description' },
+        { name: 'normPeriod.table.department', isTranslateName: true, sorter: false, key: 'departments' },
+        { name: 'normPeriod.table.description', isTranslateName: true, sorter: false, key: 'description' },
         { name: '' },
     ],
     dataFilter: {

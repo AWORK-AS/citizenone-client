@@ -57,6 +57,7 @@ const state = reactive({
         end_month: '',
         end_day: '',
         description: '',
+        department_uuids: [] as Array<string>,
         is_active: true
     },
     isPageLoading: false,
@@ -73,6 +74,7 @@ async function saveNormPeriod(normPeriodDetails: any) {
             end_month: normPeriodDetails.end_month,
             end_day: normPeriodDetails.end_day,
             description: normPeriodDetails.description,
+            department_uuids: normPeriodDetails.department_uuids,
             is_active: normPeriodDetails.is_active
         }
         const response = await normPeriodService.saveNormPeriod(params)

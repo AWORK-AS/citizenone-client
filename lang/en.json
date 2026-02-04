@@ -4290,10 +4290,8 @@
             "startDay":"Start Day",
             "endMonth":"End Month",
             "endDay":"End Day",
-            "amount": "Amount",
             "description": "Description",
-            "receipt": "Receipt",
-            "clickToUpload": "Click to upload"
+            "department": "Department"
         },
         "newNormPeriod": "New norm period",
         "table": {
@@ -4310,7 +4308,8 @@
             },
             "name": "Name",
             "currentPeriod": "Current Period",
-            "description": "Description"
+            "description": "Description",
+            "department": "Department"
         },
         "viewNormPeriod": {
             "viewNormPeriod": "View norm period",
