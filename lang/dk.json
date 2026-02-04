@@ -2859,6 +2859,7 @@
             "cancel": "Annuller",
             "close": "Luk"
         },
+        "download": "Download",
         "viewDraftFile": "Se udkastfiler",
         "createTemplate": {
             "alert": {
@@ -2923,7 +2924,8 @@
             "owner": "Ejer"
         },
         "upgradeStorage": "Opgradér lagerplads",
-        "uploadFile": "Upload fil"
+        "uploadFile": "Upload fil",
+        "viewDocument": "Se dokument"
     },
     "employees": {
         "alert": {

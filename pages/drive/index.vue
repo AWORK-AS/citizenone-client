@@ -107,7 +107,7 @@
                                     <tr v-for="(document, index) in state.documents?.data" :key="index">
                                         <td width="25%">
                                             <div class="text-tertiary hover:text-tertiary-700 cursor-pointer flex items-center gap-x-1"
-                                                v-if="document?.file_url" @click="onDocumentClick(document)">
+                                                v-if="document?.file_url" @click="viewDownloadDocument(document)">
                                                 <Icon name="ph:file" class="size-6" />
                                                 <Tooltip :text="$t('drive.form.forAdministratorsOnly')"
                                                     class="flex items-center" v-if="document?.is_admin_access">
@@ -236,9 +236,8 @@
                     <ModulesUserDocumentModalEdit :isOpen="state.modal.isDocumentEditorOpen"
                         :isEditMode="state.isEditMode" :initialName="state.docsFields.name"
                         :initialData="state.docsFields.content" @close="closeDocumentEditor" @save="saveDocument" />
-                    <ModulesUserDocumentModalPreview :is-open="state.modal.isViewDocumentOpen"
-                        :document-data="state.previewDocumentData" :document-name="state.selectedDocument?.name"
-                        @close="closePreviewModal" />
+                    <ModulesUserDocumentModalPreview :isModalOpen="state.modal.isViewDocumentOpen"
+                        :selectedDocument="state.selectedDocument" @close="state.modal.isViewDocumentOpen = false" />
                 </div>
             </LoadingSpinner>
         </NuxtLayout>
@@ -392,30 +391,30 @@ function handleSearch(value: any) {
     fetchDocuments()
 }
 
-const onDocumentClick = async (document: any) => {
-    const ext = document.file_url.split('.').pop().toLowerCase();
-
-    if (['docx', 'pages'].includes(ext)) {
-        await viewDocument(document);
+function viewDownloadDocument(document: any) {
+    const extension = document.file_url.split('.').pop().toLowerCase()
+    if (['docx', 'pages'].includes(extension)) {
+        state.selectedDocument = document
+        state.modal.isViewDocumentOpen = true
     } else {
-        downloadFile(document);
+        downloadFile(document)
     }
 }
 
-async function viewDocument(document: any) {
-    state.isPageLoading = true;
-    try {
-        const response = await documentService.getContent(document.uuid, 'preview');
+// async function viewDocument(document: any) {
+//     state.isPageLoading = true;
+//     try {
+//         const response = await documentService.getContent(document.uuid, 'preview');
 
-        state.previewDocumentData = response;
-        state.selectedDocument = document;
-        state.modal.isViewDocumentOpen = true;
-    } catch (error: any) {
-        state.error = error;
-        console.error('Error loading document for preview:', error);
-    }
-    state.isPageLoading = false;
-}
+//         state.previewDocumentData = response;
+//         state.selectedDocument = document;
+//         state.modal.isViewDocumentOpen = true;
+//     } catch (error: any) {
+//         state.error = error;
+//         console.error('Error loading document for preview:', error);
+//     }
+//     state.isPageLoading = false;
+// }
 
 async function downloadFile(document: any) {
     state.error = {}
@@ -542,18 +541,10 @@ async function editDocument(document: any) {
     }
 }
 
-
 function viewDocumentAccess(document: any) {
     state.selectedDocument = document
     state.modal.isViewAccessOpen = true
 }
-
-function closePreviewModal() {
-    state.modal.isViewDocumentOpen = false
-    state.previewDocumentData = null
-    state.selectedDocument = {}
-}
-
 
 function confirmDocumentArchiving(document: any) {
     state.selectedDocument = document

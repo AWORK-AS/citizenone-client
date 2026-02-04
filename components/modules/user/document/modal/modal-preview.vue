@@ -1,113 +1,110 @@
 <template>
-    <Modal size="4xl" :title="documentName || 'Document Preview'" :show="isOpen" @close="closeModal">
-        <template #modal-body>
-            <div class="flex flex-col h-[80vh]">
-                <!-- Body -->
-                <div class="flex-1 relative flex flex-col bg-gray-300/50 overflow-hidden">
-                    <div v-show="isLoading" class="flex-1 flex flex-col items-center justify-center text-gray-500 p-8">
-                        <div class="w-8 h-8 border-4 border-gray-200 border-t-blue-500 rounded-full animate-spin mb-4"></div>
-                        <p>Rendering document...</p>
+    <div>
+        <Modal size="3xl" :title="props.selectedDocument?.name ?? $t('drive.viewDocument')" :show="props.isModalOpen"
+            @close="closeModal">
+            <template #modal-body>
+                <LoadingSpinner :isActive="state.isPageLoading">
+                    <Alert type="danger" :text="state?.error?.message"
+                        v-if="state.error?.message && state.error.message.length > 0" />
+                    <div class="flex flex-col h-[60vh]">
+                        <div class="flex-1 relative flex flex-col bg-gray-300/50 overflow-hidden">
+                            <div class="flex-1 overflow-y-auto overflow-x-hidden p-8 w-full bg-transparent">
+                                <div ref="previewContainer" class="w-full flex justify-center"></div>
+                            </div>
+                        </div>
                     </div>
-
-                    <div v-if="error" class="flex-1 flex flex-col items-center justify-center text-red-500 p-8">
-                        <div class="text-2xl font-bold mb-2">!</div>
-                        <p class="mb-4">{{ error }}</p>
-                        <button class="px-4 py-2 bg-gray-200 text-gray-700 rounded hover:bg-gray-300" @click="closeModal">Close</button>
+                    <div class="mt-6">
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
+                            <FormButton type="button" buttonStyle="cancel" class="rounded-md" @click="emit('close')">
+                                {{ $t('close') }}
+                            </FormButton>
+                            <FormButton type="submit" buttonStyle="primary" class="rounded-md w-full"
+                                @click="downloadFile">
+                                {{ $t('drive.download') }}
+                            </FormButton>
+                        </div>
                     </div>
-
-                    <div
-                        v-show="!isLoading && !error"
-                        class="flex-1 overflow-y-auto overflow-x-hidden p-8 w-full bg-transparent"
-                    >
-                        <div
-                            ref="previewContainer"
-                            class="w-full flex justify-center"
-                        ></div>
-                    </div>
-                </div>
-                <div class="mt-6">
-    <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
-        <FormButton type="button" buttonStyle="cancel" class="rounded-md" @click="emit('close')">
-            {{ $t('cancel') }}
-        </FormButton>
-        <FormButton type="submit" buttonStyle="primary" class="rounded-md w-full" @click="downloadDocument">
-            {{ $t('citizens.citizenJournals.download') }}
-        </FormButton>
+                </LoadingSpinner>
+            </template>
+        </Modal>
     </div>
-</div>
-            </div>
-        </template>
-    </Modal>
 </template>
 
 <script setup lang="ts">
-import { ref, watch, nextTick } from 'vue'
+import { documentService } from '@/components/api/user/DocumentService'
 import { renderAsync } from 'docx-preview'
+import type { Error } from '@/types'
+import { saveAs } from 'file-saver'
 
-interface Props {
-    isOpen: boolean
-    documentData?: ArrayBuffer | null
-    documentName?: string
-}
-
-const props = defineProps<Props>()
-const emit = defineEmits<{
-    close: []
-}>()
-
+const props = defineProps({
+    isModalOpen: {
+        type: Boolean,
+        required: true,
+    },
+    selectedDocument: {
+        type: Object,
+        required: true,
+    }
+})
 const previewContainer = ref<HTMLElement | null>(null)
-const isLoading = ref(false)
-const error = ref<string | null>(null)
+const emit = defineEmits(['close'])
 
-const closeModal = () => {
+const state = reactive({
+    error: {} as Error,
+    selectedDocument: {} as any,
+    isPageLoading: false,
+})
+
+function closeModal() {
     emit('close')
 }
 
-const downloadDocument = () => {
-    if (!props.documentData) return
+watch(() => props.isModalOpen, (isModalOpen) => {
+    if (isModalOpen) {
+        fetchDocument()
+    }
+})
 
-    // Create blob from buffer
-    const blob = new Blob([props.documentData], { 
-        type: 'application/vnd.openxmlformats-officedocument.wordprocessingml.document' 
-    })
-  
-    // Create link and trigger download
-    const url = window.URL.createObjectURL(blob)
-    const link = document.createElement('a')
-    link.href = url
-    link.download = props.documentName || 'document.docx'
-    document.body.appendChild(link)
-    link.click()
-  
-    // Cleanup
-    document.body.removeChild(link)
-    window.URL.revokeObjectURL(url)
+async function fetchDocument() {
+    state.isPageLoading = true
+    try {
+        const documentUuid = props.selectedDocument?.uuid
+        const params = {
+            mode: 'preview',
+        }
+        const response = await documentService.getContent(documentUuid, params)
+        if (response) {
+            state.selectedDocument = response
+            const binaryString = window.atob(response.content)
+            const len = binaryString.length
+            const bytes = new Uint8Array(len)
+            for (let i = 0; i < len; i++) {
+                bytes[i] = binaryString.charCodeAt(i)
+            }
+            renderDocument(bytes.buffer)
+        }
+    } catch (error: any) {
+        state.error = error
+    }
+    state.isPageLoading = false
 }
 
-const renderDocument = async () => {
-    if (!props.documentData || !previewContainer.value) {
-        return
-    }
-
-    isLoading.value = true
-    error.value = null
-
+async function renderDocument(buffer: ArrayBuffer) {
+    state.isPageLoading = true
     try {
         await nextTick()
-    
         if (previewContainer.value) {
             previewContainer.value.innerHTML = ''
         }
-
         await renderAsync(
-            props.documentData,
+            buffer,
             previewContainer.value!,
-            previewContainer.value!, 
+            previewContainer.value!,
             {
                 className: 'docx-preview-wrapper',
                 inWrapper: false,
                 ignoreWidth: false,
-                ignoreHeight: false, 
+                ignoreHeight: false,
                 ignoreFonts: false,
                 breakPages: true,
                 ignoreLastRenderedPageBreak: true,
@@ -118,34 +115,27 @@ const renderDocument = async () => {
                 debug: false
             }
         )
-    
-    } catch (err: any) {
-        console.error('Error rendering document:', err)
-        error.value = `Failed to load document preview.`
+    } catch (error: any) {
+        state.error = error
     } finally {
-        isLoading.value = false
+        state.isPageLoading = false
     }
 }
 
-watch(
-    () => props.isOpen,
-    async (newValue) => {
-        if (newValue && props.documentData) {
-            await nextTick()
-            renderDocument()
+async function downloadFile(document: any) {
+    state.error = {}
+    state.isPageLoading = true
+    try {
+        const documentUuid = props.selectedDocument?.uuid
+        const response = await documentService.downloadFile(documentUuid)
+        if (response) {
+            saveAs(response, document?.name)
         }
+    } catch (error: any) {
+        state.error = error
     }
-)
-
-watch(
-    () => props.documentData,
-    async (newValue) => {
-        if (newValue && props.isOpen) {
-            await nextTick()
-            renderDocument()
-        }
-    }
-)
+    state.isPageLoading = false
+}
 </script>
 
 <style scoped>
@@ -154,7 +144,7 @@ watch(
     padding: 0 !important;
     box-shadow: none !important;
     margin: 0 auto !important;
-    width: auto !important; 
+    width: auto !important;
 }
 
 :deep(.docx-preview-wrapper) {
@@ -164,7 +154,7 @@ watch(
 
 :deep(section.docx) {
     background: white !important;
-    box-shadow: 0 4px 20px rgba(0,0,0,0.08) !important;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08) !important;
     margin-bottom: 2rem !important;
     padding: 4rem !important;
 }

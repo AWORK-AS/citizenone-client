@@ -2860,6 +2860,7 @@
             "cancel": "Cancel",
             "close": "Close"
         },
+        "download": "Download",
         "createTemplate": {
             "alert": {
                 "templateSuccessfullyAdded": "Template successfully added"
@@ -2923,7 +2924,8 @@
             "owner": "Owner"
         },
         "upgradeStorage": "Upgrade storage",
-        "uploadFile": "Upload file"
+        "uploadFile": "Upload file",
+        "viewDocument": "View document"
     },
     "employees": {
         "alert": {
