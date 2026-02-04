@@ -56,7 +56,8 @@
                                                 {{ $t('drive.createNewFolder') }}
                                             </button>
                                             </MenuItem>
-                                            <MenuItem v-slot="{ active }" @click="openNewDocumentModal">
+                                            <MenuItem v-slot="{ active }"
+                                                @click="state.modal.isCreateDocumentOpen = true">
                                             <button :class="[
                                                 active && 'bg-gray-100',
                                                 'group flex w-full items-center rounded-md px-2 py-2.5 text-sm',
@@ -233,10 +234,12 @@
                         :title="$t('drive.upgradeStorage')"
                         :message="state.error?.message + ' ' + $t('drive.confirmation.upgradeStorageConfirmation') + '?'"
                         @close="closeUpgradeStorageModal" @confirm="navigateTo(`/storage/upgrade`)" />
-                    <ModulesUserDocumentModalEdit :isOpen="state.modal.isDocumentEditorOpen"
+                    <!-- <ModulesUserDocumentModalEdit :isOpen="state.modal.isDocumentEditorOpen"
                         :isEditMode="state.isEditMode" :initialName="state.docsFields.name"
-                        :initialData="state.docsFields.content" @close="closeDocumentEditor" @save="saveDocument" />
-                    <ModulesUserDocumentModalPreviewDocFile :isModalOpen="state.modal.isViewDocumentOpen"
+                        :initialData="state.docsFields.content" @close="closeDocumentEditor" @save="saveDocument" /> -->
+                    <ModulesUserDocumentDocsFileModalNew :isModalOpen="state.modal.isCreateDocumentOpen"
+                        @close="state.modal.isCreateDocumentOpen = false" />
+                    <ModulesUserDocumentDocsFileModalPreview :isModalOpen="state.modal.isViewDocumentOpen"
                         :selectedDocument="state.selectedDocument" @close="state.modal.isViewDocumentOpen = false" />
                 </div>
             </LoadingSpinner>
@@ -290,6 +293,7 @@ const state = reactive({
         isAddDirectoryOpen: false,
         isArchiveDocumentOpen: false,
         isCreateTemplateOpen: false,
+        isCreateDocumentOpen: false,
         isDeleteDirectoryOpen: false,
         isDeleteFileOpen: false,
         isEditDocumentOpen: false,
@@ -298,7 +302,6 @@ const state = reactive({
         isUploadFileOpen: false,
         isViewAccessOpen: false,
         isViewFolderStructureOpen: false,
-        isDocumentEditorOpen: false,
         isViewDocumentOpen: false,
     },
     selectedDocument: {} as any,
@@ -503,7 +506,8 @@ async function editDocument(document: any) {
     if (['html', 'htm', 'docx'].includes(ext)) {
         state.isPageLoading = true;
         try {
-            const response = await documentService.getContent(document.uuid);
+            const params = {}
+            const response = await documentService.getDocumentContent(document.uuid, params)
 
             if (response.type === 'file_data') {
                 const { convertDocxToHtml } = useMammothConverter();

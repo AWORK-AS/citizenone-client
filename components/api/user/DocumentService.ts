@@ -17,7 +17,7 @@ class DocumentService extends BaseAPIService {
         return await this.request(`/user/company-file-folders/${fileUuid}/move-file`, 'PUT', params)
     }
 
-    async getContent(documentUuid: any, params: object): Promise<any> {
+    async getDocumentContent(documentUuid: any, params: object): Promise<any> {
         return await this.request(`/user/company-file-folders/${documentUuid}/content`, 'GET', params)
     }
 

@@ -72,7 +72,7 @@ async function fetchDocument() {
         const params = {
             mode: 'preview',
         }
-        const response = await documentService.getContent(documentUuid, params)
+        const response = await documentService.getDocumentContent(documentUuid, params)
         if (response) {
             state.selectedDocument = response
             const binaryString = window.atob(state.selectedDocument?.data?.content)
