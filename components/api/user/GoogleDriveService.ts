@@ -165,6 +165,10 @@ class GoogleDriveService extends BaseAPIService {
         })
     }
 
+    async updateGoogleDriveFile(fileId: string, params: any): Promise<any> {
+        return await this.request(`/google-drive/files/${fileId}`, 'PATCH', params)
+    }
+
     async generateFormPdf(formUuid: string, responses: Record<string, any>, parentId?: string, uploadToDrive: boolean = true): Promise<any> {
         const token = localStorage.getItem('_token')
         const headers: Record<string, string> = {}

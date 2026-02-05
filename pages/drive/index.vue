@@ -160,6 +160,12 @@
                                                     <Icon name="ph:arrows-out" class="size-4" />
                                                 </FormButton>
                                             </Tooltip>
+                                            <Tooltip :text="$t('drive.table.actions.edit')" v-if="document?.type === 'file' || document?.type === 'folder'">
+                                                <FormButton type="button" buttonStyle="action" class="rounded-md"
+                                                    @click="editDocument(document)">
+                                                    <Icon name="ph:pencil-simple" class="size-4" />
+                                                </FormButton>
+                                            </Tooltip>
                                             <Tooltip :text="$t('drive.table.actions.delete')">
                                                 <FormButton type="button" buttonStyle="danger" class="rounded-md"
                                                     @click="deleteFromGoogleDrive(document)">
@@ -229,10 +235,16 @@
                     :isModalOpen="state.modal.isCreateGoogleDriveFolderOpen"
                     :parentFolderId="state.googleDriveFolderId || undefined"
                     @close="state.modal.isCreateGoogleDriveFolderOpen = false" 
-                    @folderCreated="fetchGoogleDriveFiles(state.googleDriveFolderId)" />
+                    @folderCreated="() => fetchGoogleDriveFiles(state.googleDriveFolderId)" />
                 <ModulesUserDocumentModalEditDocument :isModalOpen="state.modal.isEditDocumentOpen"
                     :selectedDocument="state.selectedDocument" @close="state.modal.isEditDocumentOpen = false"
                     @refreshDocuments="fetchDocuments" />
+                <ModulesUserDocumentModalEditGoogleDriveDocument
+                    :isModalOpen="state.modal.isEditGoogleDriveDocumentOpen"
+                    :selectedDocument="state.selectedDocument"
+                    :parentFolderId="state.googleDriveFolderId"
+                    @close="state.modal.isEditGoogleDriveDocumentOpen = false"
+                    @refreshDocuments="fetchGoogleDriveFiles" />
                 <ModulesUserDocumentAccessModalView :isModalOpen="state.modal.isViewAccessOpen"
                     :selectedDocument="state.selectedDocument" @close="state.modal.isViewAccessOpen = false" />
                 <ModulesUserDocumentModalMoveFile 
@@ -244,7 +256,7 @@
                     :selectedDocument="state.selectedDocument" 
                     :parentFolderId="state.googleDriveFolderId"
                     @close="state.modal.isMoveGoogleDriveFileOpen = false"
-                    @refreshDocuments="fetchGoogleDriveFiles(state.googleDriveFolderId)" />
+                    @refreshDocuments="fetchGoogleDriveFiles" />
                 <ModulesUserDocumentFolderStructureModalFolderStructures
                     :isModalOpen="state.modal.isViewFolderStructureOpen"
                     @close="state.modal.isViewFolderStructureOpen = false" />
@@ -341,6 +353,7 @@ const state = reactive({
         isDeleteFileOpen: false,
         isDeleteGoogleDriveFileOpen: false,
         isEditDocumentOpen: false,
+        isEditGoogleDriveDocumentOpen: false,
         isMoveFileOpen: false,
         isMoveGoogleDriveFileOpen: false,
         isUpgradeStorageOpen: false,
@@ -501,6 +514,7 @@ async function deleteGoogleDriveFile() {
 }
 
 async function fetchGoogleDriveFiles(parentFolderId: string | null = null, search: String | undefined = undefined) {
+    console.log('fetchGoogleDriveFiles called with parentFolderId:', parentFolderId, 'search:', search)
     state.error = {}
     state.isTableLoading = true
     try {
@@ -707,7 +721,12 @@ async function viewDirectory(document: any) {
 
 function editDocument(document: any) {
     state.selectedDocument = document
-    state.modal.isEditDocumentOpen = true
+    // Open Google Drive edit modal for Google Drive items, keep local modal unchanged
+    if (state.viewMode === 'google-drive' || document?.id) {
+        state.modal.isEditGoogleDriveDocumentOpen = true
+    } else {
+        state.modal.isEditDocumentOpen = true
+    }
 }
 
 function viewDocumentAccess(document: any) {
