@@ -439,7 +439,7 @@ async function viewDirectory(document: any, is_draft: boolean = false) {
   selectedDocument.value = router?.currentRoute?.value?.query?.folder_uuid
   currentTablePage = 1
 
-  const folderUuid = typeof document === 'string' ? document : document?.uuid || selectedDocument.value
+  const folderUuid = document?.uuid || selectedDocument.value 
 
   let url = `/citizens/${citizenUuid}/documents?folder_uuid=${folderUuid}`
 
