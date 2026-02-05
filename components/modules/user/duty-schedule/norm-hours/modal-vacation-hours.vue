@@ -75,7 +75,7 @@
                     </div>
                     <ModulesUserDutyScheduleNormHoursModalDateRange :isModalOpen="state.modal.isDateRangeOpen"
                         :dateRange="state.dateRange" @close="state.modal.isDateRangeOpen = false"
-                        @filterDate="filterModalVacationHours" />
+                        @filterDate="filterVacationHours" />
                 </LoadingSpinner>
             </template>
         </Modal>
@@ -130,7 +130,7 @@ watch(() => props.isModalOpen, (isModalOpen) => {
     }
 })
 
-function filterModalVacationHours(formDateRange: any) {
+function filterVacationHours(formDateRange: any) {
     state.dateRange.formDateRange.start_date = formDateRange.start_date
     state.dateRange.formDateRange.end_date = formDateRange.end_date
     fetchCompensatoryVacationHours()
