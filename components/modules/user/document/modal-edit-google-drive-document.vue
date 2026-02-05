@@ -6,7 +6,7 @@
             <template #modal-body>
                 <LoadingSpinner :isActive="state.isPageLoading">
                     <ModulesUserCitizenDocumentForm formType="update" :selectedDocument="props.selectedDocument"
-                        :error="state.error" @isPageLoading="(value: boolean) => state.isPageLoading = value"
+                        :error="state.error" :showAdminCheckbox="false" @isPageLoading="(value: boolean) => state.isPageLoading = value"
                         @closeModal="closeModal" @submitForm="updateGoogleDrive" />
                 </LoadingSpinner>
             </template>
@@ -67,7 +67,7 @@ async function updateGoogleDrive(details: any) {
         refreshDocuments(parentId)
         console.log('Emitted refreshDocuments for folder:', parentId)
         closeModal()
-        successAlert(`${t('alert.success')}!`, `${t('drive.alert.documentUpdated') || 'Document updated'}`)
+        successAlert(`${t('alert.success')}!`, `${t('drive.alert.folderSuccessfullyUpdated') || 'Document updated'}`)
     } catch (error: any) {
         state.error = error
     }

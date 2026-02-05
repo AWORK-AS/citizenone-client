@@ -6,7 +6,7 @@
             <template #modal-body>
                 <LoadingSpinner :isActive="state.isPageLoading">
                     <ModulesUserCitizenDocumentForm formType="update" :selectedDocument="props.selectedDocument"
-                        :error="state.error" @isPageLoading="(value: boolean) => state.isPageLoading = value"
+                        :error="state.error" :showAdminCheckbox="true" @isPageLoading="(value: boolean) => state.isPageLoading = value"
                         @closeModal="closeModal" @submitForm="updateDirectory" />
                 </LoadingSpinner>
             </template>

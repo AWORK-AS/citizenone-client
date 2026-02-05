@@ -722,7 +722,7 @@ async function viewDirectory(document: any) {
 function editDocument(document: any) {
     state.selectedDocument = document
     // Open Google Drive edit modal for Google Drive items, keep local modal unchanged
-    if (state.viewMode === 'google-drive' || document?.id) {
+    if (state.viewMode === 'google-drive') {
         state.modal.isEditGoogleDriveDocumentOpen = true
     } else {
         state.modal.isEditDocumentOpen = true
