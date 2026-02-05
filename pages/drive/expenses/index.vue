@@ -59,7 +59,7 @@
                                     </td>
                                     <td width="15%">
                                         <div class="text-tertiary hover:text-tertiary-700 cursor-pointer flex items-center gap-x-1"
-                                            v-if="expense?.file_url" @click="downloadReceipt(expense?.uuid)">
+                                            v-if="expense?.file_url" @click="downloadReceipt(expense)">
                                             <Icon name="ph:file" class="size-6" />
                                             <span class="truncate">{{ expense?.file_name_src }}</span>
                                         </div>
@@ -243,13 +243,13 @@ function handleSearch(value: any) {
 }
 
 
-async function downloadReceipt(expenseUuid: string) {
+async function downloadReceipt(expense: any) {
     state.isPageLoading = true
     state.error = {}
     try {
-        const response = await expenseService.downloadReceipt(expenseUuid)
+        const response = await expenseService.downloadReceipt(expense.uuid)
         if (response) {
-            saveAs(response, `${t('expenses.alert.receiptSuccessfullyDownloaded')}`)
+            saveAs(response, expense?.file_name_src || 'receipt')
         }
     } catch (error: any) {
         state.error.message = error?.message || 'An error occurred during the download.'
