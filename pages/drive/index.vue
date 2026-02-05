@@ -259,6 +259,12 @@
                 <DialogConfirmation :isModalOpen="state.modal.isDeleteDirectoryOpen"
                     :message="$t('drive.confirmation.deleteFolderConfirmation') + '?'"
                     @close="state.modal.isDeleteDirectoryOpen = false" @confirm="deleteDocument" />
+                <DialogConfirmation
+                    :isModalOpen="state.modal.isActiveGoogleDriveOpen"
+                    :title="$t('drive.googleDrive')"
+                    :message="$t('drive.googleDriveNotActivatedMessage') || 'Google Drive is not activated. Activate now?'"
+                    @close="state.modal.isActiveGoogleDriveOpen = false"
+                    @confirm="navigateToApps" />
                 <DialogConfirmation :isModalOpen="state.modal.isDeleteFileOpen"
                     :message="$t('drive.confirmation.deleteFileConfirmation') + '?'"
                     @close="state.modal.isDeleteFileOpen = false" @confirm="deleteDocument" />
@@ -328,6 +334,7 @@ const state = reactive({
     modal: {
         isAddDirectoryOpen: false,
         isArchiveDocumentOpen: false,
+        isActiveGoogleDriveOpen: false,
         isCreateTemplateOpen: false,
         isCreateGoogleDriveFolderOpen: false,
         isDeleteDirectoryOpen: false,
@@ -406,29 +413,40 @@ function closeUpgradeStorageModal() {
 
 async function toggleGoogleDriveView() {
     if (state.viewMode === 'local') {
-            state.isPageLoading = true
-            try {
-                const status = await googledriveService.getGoogleDriveStatus()
-                const connected = !!(status?.connected || status?.is_connected || status === true || status?.data?.connected)
-                state.googleDriveConnected = connected
+        state.isPageLoading = true
+        try {
+            const status = await googledriveService.getGoogleDriveStatus()
+            const connected = !!(status?.connected || status?.is_connected || status === true || status?.data?.connected)
+            state.googleDriveConnected = connected
+
+            if (connected) {
+                // only switch to google-drive when actually connected
                 state.viewMode = 'google-drive'
-                if (connected) {
-                    state.googleDriveFolderId = null
-                    state.googleDriveFolderStack = []
-                    await fetchGoogleDriveFiles()
-                } else {
-                    state.googleDriveFiles = { data: [], current_page: 1, per_page: 0, total: 0 }
-                }
-            } catch (error: any) {
-                state.googleDriveConnected = false
-                state.viewMode = 'google-drive'
+                state.googleDriveFolderId = null
+                state.googleDriveFolderStack = []
+                await fetchGoogleDriveFiles()
+            } else {
+                // keep local view and prompt activation
+                state.modal.isActiveGoogleDriveOpen = true
                 state.googleDriveFiles = { data: [], current_page: 1, per_page: 0, total: 0 }
             }
+        } catch (error: any) {
+            state.googleDriveConnected = false
+            // on error keep local view and prompt activation
+            state.modal.isActiveGoogleDriveOpen = true
+            state.googleDriveFiles = { data: [], current_page: 1, per_page: 0, total: 0 }
+        } finally {
             state.isPageLoading = false
+        }
     } else {
         state.viewMode = 'local'
         fetchDocuments()
     }
+}
+
+async function navigateToApps() {
+    state.modal.isActiveGoogleDriveOpen = false
+    await navigateTo ('/apps')
 }
 
 async function openGoogleDriveFile(file: any) {

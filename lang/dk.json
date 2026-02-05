@@ -2809,6 +2809,7 @@
         "yearToDate": "År til dato"
     },
     "drive": {
+        "googleDriveNotActivatedMessage": "Google Drive er ikke aktiveret. Vil du aktivere det? Klik på 'Bekræft' for at fortsætte.",
         "drive-google":{
             "info-drive-1": "Du ser lige nu Google Drive-filer, fordi du har linket din Google-konto.",
             "info-drive-2": "Hvis du også vil bruge det lokale system så tryk 'CitizenOne Documents'-knappen i toppen.",
