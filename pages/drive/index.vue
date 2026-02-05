@@ -49,13 +49,11 @@
                             <Icon name="ph:plus" class="h-4 w-4" aria-hidden="true" />
                             {{ $t('drive.createNewFolder') }}
                         </FormButton>
-                        <LoadingSpinner :isActive="state.isPageLoading">
                             <FormButton buttonStyle="action" class="rounded-md" @click="state.viewMode === 'google-drive' ? uploadToGoogleDrive() : triggerFileInput()">
                                 <Icon name="ph:upload" class="h-4 w-4" aria-hidden="true" />
                                 {{ $t('drive.uploadFile') }}
                             </FormButton>
                             <input type="file" ref="documentFile" @change="uploadFile" class="hidden" multiple v-if="state.viewMode === 'local'" />
-                        </LoadingSpinner>
                         <FormButton buttonStyle="action" class="rounded-md"
                             @click="state.modal.isViewFolderStructureOpen = true" v-if="state.viewMode === 'local'">
                             <Icon name="ph:folder-notch-open" class="h-4 w-4" aria-hidden="true" />
@@ -156,7 +154,7 @@
                                                     <Icon name="ph:eye" class="size-4" />
                                                 </FormButton>
                                             </Tooltip>
-                                            <Tooltip :text="$t('drive.table.actions.move')" v-if="document?.type === 'file'">
+                                            <Tooltip :text="$t('drive.table.actions.move')" v-if="document?.type === 'file' || document?.type === 'folder'">
                                                 <FormButton type="button" buttonStyle="action" class="rounded-md"
                                                     @click="moveGoogleDriveFileConfirmation(document)">
                                                     <Icon name="ph:arrows-out" class="size-4" />
@@ -237,8 +235,10 @@
                     @refreshDocuments="fetchDocuments" />
                 <ModulesUserDocumentAccessModalView :isModalOpen="state.modal.isViewAccessOpen"
                     :selectedDocument="state.selectedDocument" @close="state.modal.isViewAccessOpen = false" />
-                <ModulesUserDocumentModalMoveFile :isModalOpen="state.modal.isMoveFileOpen"
-                    :selectedDocument="state.selectedDocument" @close="state.modal.isMoveFileOpen = false"
+                <ModulesUserDocumentModalMoveFile 
+                    :isModalOpen="state.modal.isMoveFileOpen"
+                    :selectedDocument="state.selectedDocument" 
+                    @close="state.modal.isMoveFileOpen = false"
                     @refreshDocuments="fetchDocuments" />
                 <ModulesUserDocumentModalMoveGoogleDriveFile :isModalOpen="state.modal.isMoveGoogleDriveFileOpen"
                     :selectedDocument="state.selectedDocument" 
