@@ -1049,6 +1049,7 @@
                 "upgradeStorageConfirmation": "Vil du opgradere dit lager"
             },
             "createNewFolder": "Opret ny mappe",
+            "viewDraftFile": "Vis udkastfiler",
             "createTemplate": {
                 "alert": {
                     "templateSuccessfullyAdded": "Skabelon tilføjet med succes"
@@ -1488,6 +1489,7 @@
                     "date": "Dato",
                     "evaluator": "Evaluator",
                     "evaluationFrequency": "Hvornår vil du evaluere",
+                    "noMedicineToday": "Grunden til, at du ikke ser nogen mulighed for at udlevere medicin, er, at borgeren ikke skal have medicin i dag",
                     "time": "Tid",
                     "type": {
                         "type": "Type",
@@ -2862,7 +2864,6 @@
             "close": "Luk"
         },
         "download": "Download",
-        "viewDraftFile": "Se udkastfiler",
         "createTemplate": {
             "alert": {
                 "templateSuccessfullyAdded": "Skabelon tilføjet med succes"
@@ -2929,7 +2930,8 @@
         },
         "upgradeStorage": "Opgradér lagerplads",
         "uploadFile": "Upload fil",
-        "viewDocument": "Se dokument"
+        "viewDocument": "Se dokument",
+        "viewDraftFile": "Se udkastfiler"
     },
     "employees": {
         "alert": {
@@ -3185,7 +3187,8 @@
         "createdBy": "Oprettet af",
         "createThisEvent": "Opret denne begivenhed",
         "confirmation": {
-            "deleteConfirmation": "Er du sikker på, at du vil slette denne begivenhed"
+            "deleteConfirmation": "Er du sikker på, at du vil slette denne begivenhed",
+            "deleteFutureEvents": "Slet fremtidige begivenheder"
         },
         "delete": "Slet",
         "editEvent": "Rediger begivenhed",
@@ -3230,11 +3233,16 @@
         "newExpenseCategory": "Ny udgiftskategori",
         "table": {
             "alert": {
-                "expenseCategorySuccessfullyDeleted": "Udgiftskategori slettet med succes"
+                "expenseCategorySuccessfullyDeleted": "Udgiftskategori blev slettet",
+                "expenseSuccessfullyReimbursed": "Udgift blev refunderet",
+                "expenseSuccessfullyUnreimbursed": "Udgift blev ikke refunderet"
             },
             "actions": {
                 "delete": "Slet",
-                "edit": "Rediger"
+                "edit": "Rediger",
+                "view": "Vis",
+                "reimburse": "Refunder",
+                "unreimburse": "Ikke refundér"
             },
             "confirmation": {
                 "deleteExpenseCategoryConfirmation": "Er du sikker på, at du vil slette denne udgiftskategori?"

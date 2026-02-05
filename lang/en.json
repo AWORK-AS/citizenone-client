@@ -1489,6 +1489,7 @@
                     "dose": "Dose",
                     "evaluator": "Evaluator",
                     "evaluationFrequency": "What time do you want to evaluate",
+                    "noMedicineToday": "The reason you do not see any availability to provide medicine, is that the citizen should not have medicine today",
                     "time": "Time",
                     "type": {
                         "type": "Type",
@@ -2929,7 +2930,8 @@
         },
         "upgradeStorage": "Upgrade storage",
         "uploadFile": "Upload file",
-        "viewDocument": "View document"
+        "viewDocument": "View document",
+        "viewDraftFile": "View draft files"
     },
     "employees": {
         "alert": {
@@ -6034,7 +6036,8 @@
             "taskSuccessfullyDeleted": "Task successfully deleted"
         },
         "confirmation": {
-            "deleteConfirmation": "Are you sure you want to delete this task"
+            "deleteConfirmation": "Are you sure you want to delete this task",
+            "deleteFutureEvents": "Delete future events"
         },
         "editTask": "Edit task",
         "form": {
