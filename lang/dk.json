@@ -2809,6 +2809,7 @@
         "yearToDate": "År til dato"
     },
     "drive": {
+        "googleDrive": "Google Drive",
         "googleDriveNotActivatedMessage": "Google Drive er ikke aktiveret. Vil du aktivere det? Klik på 'Bekræft' for at fortsætte.",
         "drive-google":{
             "info-drive-1": "Du ser lige nu Google Drive-filer, fordi du har linket din Google-konto.",

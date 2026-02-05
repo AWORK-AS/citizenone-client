@@ -2809,6 +2809,7 @@
         "yearToDate": "Year to date"
     },
     "drive": {
+        "googleDrive": "Google Drive",
         "googleDriveNotActivatedMessage": "Google Drive is not activated. Would you like to activate it? Click 'Confirm' to proceed.",
         "drive-google": {
             "info-drive-1": "You are currently viewing Google Drive files because you have linked your Google account.",
