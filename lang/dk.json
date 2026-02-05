@@ -2615,6 +2615,7 @@
             "compensatoryHours": "Afspadseringstimer",
             "compensatoryHoursThisYear": "Afspadseringstimer i år",
             "compensatoryHourFromPreviousYear": "Afspadseringstimer fra tidligere år",
+            "date": "Dato",
             "totalCompensatoryHours": "Samlede afspadseringstimer",
             "totalVacationHours": "Samlede ferietimer",
             "vacationHoursThisYear": "Ferietimer i år",
@@ -4286,7 +4287,7 @@
             "normPeriodSuccessfullyDeleted": "Normperiode blev slettet"
         },
         "confirmation": {
-            "deleteNormPeriodConfirmation":"Er du sikker på, at du vil slette denne normperiode?"
+            "deleteNormPeriodConfirmation": "Er du sikker på, at du vil slette denne normperiode?"
         },
         "form": {
             "alert": {
@@ -4297,10 +4298,10 @@
             "normPeriod": "Normperiode",
             "status": "Status",
             "category": "Kategori",
-            "startMonth":"Startmåned",
-            "startDay":"Startdag",
-            "endMonth":"Slutmåned",
-            "endDay":"Slutdag",
+            "startMonth": "Startmåned",
+            "startDay": "Startdag",
+            "endMonth": "Slutmåned",
+            "endDay": "Slutdag",
             "description": "Beskrivelse",
             "department": "Afdeling"
         },
@@ -4315,7 +4316,7 @@
                 "view": "Vis"
             },
             "confirmation": {
-                "deleteNormPeriodConfirmation":"Er du sikker på, at du vil slette denne normperiode?"
+                "deleteNormPeriodConfirmation": "Er du sikker på, at du vil slette denne normperiode?"
             },
             "name": "Navn",
             "currentPeriod": "Nuværende periode",

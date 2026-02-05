@@ -44,6 +44,10 @@ class DutyScheduleService extends BaseAPIService {
     async scheduleValidation(params: object): Promise<any> {
         return await this.request(`/user/duty-schedules/schedule/validation`, 'POST', params)
     }
+
+    async getCompensatoryVacationHours(params: object): Promise<any> {
+        return await this.request(`/user/duty-schedules/overview/compensatory-vacation-hours`, 'GET', params)
+    }
 }
 
 export const dutyScheduleService = new DutyScheduleService()

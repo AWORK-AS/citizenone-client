@@ -2616,6 +2616,7 @@
             "compensatoryHours": "Compensatory hours",
             "compensatoryHoursThisYear": "Compensatory hours this period",
             "compensatoryHourFromPreviousYear": "Compensatory hours from previous period",
+            "date": "Date",
             "totalCompensatoryHours": "Total compensatory hours",
             "totalVacationHours": "Total vacation hours",
             "vacationHoursThisYear": "Vacation hours this period",
@@ -4292,7 +4293,7 @@
             "normPeriodSuccessfullyDeleted": "Norm period successfully deleted"
         },
         "confirmation": {
-            "deleteNormPeriodConfirmation":"Are you sure you want to delete this norm period?"
+            "deleteNormPeriodConfirmation": "Are you sure you want to delete this norm period?"
         },
         "form": {
             "alert": {
@@ -4303,10 +4304,10 @@
             "normPeriod": "Norm period",
             "status": "Status",
             "category": "Category",
-            "startMonth":"Start Month",
-            "startDay":"Start Day",
-            "endMonth":"End Month",
-            "endDay":"End Day",
+            "startMonth": "Start Month",
+            "startDay": "Start Day",
+            "endMonth": "End Month",
+            "endDay": "End Day",
             "description": "Description",
             "department": "Department"
         },
@@ -4321,7 +4322,7 @@
                 "view": "View"
             },
             "confirmation": {
-                "deleteNormPeriodConfirmation":"Are you sure you want to delete this norm period?"
+                "deleteNormPeriodConfirmation": "Are you sure you want to delete this norm period?"
             },
             "name": "Name",
             "currentPeriod": "Current Period",
