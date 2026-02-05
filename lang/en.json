@@ -2458,6 +2458,7 @@
                 }
             }
         },
+        "normPeriod": "Norm period",
         "published": {
             "publishedVersions": "Published versions",
             "seePrevious": "See previous published versions",
@@ -2613,12 +2614,12 @@
         "normHours": {
             "availableVacationHours": "Available vacation hours",
             "compensatoryHours": "Compensatory hours",
-            "compensatoryHoursThisYear": "Compensatory hours this year",
-            "compensatoryHourFromPreviousYear": "Compensatory hours from previous year",
+            "compensatoryHoursThisYear": "Compensatory hours this period",
+            "compensatoryHourFromPreviousYear": "Compensatory hours from previous period",
             "totalCompensatoryHours": "Total compensatory hours",
             "totalVacationHours": "Total vacation hours",
-            "vacationHoursThisYear": "Vacation hours this year",
-            "vacationHoursFromPreviousYear": "Vacation hours from previous year",
+            "vacationHoursThisYear": "Vacation hours this period",
+            "vacationHoursFromPreviousYear": "Vacation hours from previous period",
             "annualNormHours": "Annual norm hours",
             "info1": "The employee’s individual annual norm is always used.",
             "info2": "If the employee has been employed partway through the year, the annual norm will be calculated proportionally based on the employment start date.",

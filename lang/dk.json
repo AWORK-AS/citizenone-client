@@ -2457,6 +2457,7 @@
                 }
             }
         },
+        "normPeriod": "Norm periode",
         "published": {
             "publishedVersions": "Publicerede versioner",
             "seePrevious": "Se tidligere publicerede versioner",
