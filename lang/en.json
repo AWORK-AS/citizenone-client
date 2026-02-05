@@ -2458,6 +2458,7 @@
                 }
             }
         },
+        "normPeriod": "Norm period",
         "published": {
             "publishedVersions": "Published versions",
             "seePrevious": "See previous published versions",
@@ -2613,12 +2614,12 @@
         "normHours": {
             "availableVacationHours": "Available vacation hours",
             "compensatoryHours": "Compensatory hours",
-            "compensatoryHoursThisYear": "Compensatory hours this year",
-            "compensatoryHourFromPreviousYear": "Compensatory hours from previous year",
+            "compensatoryHoursThisYear": "Compensatory hours this period",
+            "compensatoryHourFromPreviousYear": "Compensatory hours from previous period",
             "totalCompensatoryHours": "Total compensatory hours",
             "totalVacationHours": "Total vacation hours",
-            "vacationHoursThisYear": "Vacation hours this year",
-            "vacationHoursFromPreviousYear": "Vacation hours from previous year",
+            "vacationHoursThisYear": "Vacation hours this period",
+            "vacationHoursFromPreviousYear": "Vacation hours from previous period",
             "annualNormHours": "Annual norm hours",
             "info1": "The employee’s individual annual norm is always used.",
             "info2": "If the employee has been employed partway through the year, the annual norm will be calculated proportionally based on the employment start date.",
@@ -4214,6 +4215,20 @@
         "unreadMessages": "Unread messages",
         "users": "Users"
     },
+    "months": {
+        "january": "January",
+        "february": "February",
+        "march": "March",
+        "april": "April",
+        "may": "May",
+        "june": "June",
+        "july": "July",
+        "august": "August",
+        "september": "September",
+        "october": "October",
+        "november": "November",
+        "december": "December"
+    },
     "navbar": {
         "apps": "Apps",
         "colleagues": "Colleagues",
@@ -4269,6 +4284,61 @@
     },
     "next": "Next",
     "noResultFound": "No result found",
+    "normPeriod": {
+        "addNormPeriod": "Add norm period",
+        "normPeriod": "Norm periods",
+        "editNormPeriod": "Edit norm period",
+        "alert": {
+            "normPeriodSuccessfullyDeleted": "Norm period successfully deleted"
+        },
+        "confirmation": {
+            "deleteNormPeriodConfirmation":"Are you sure you want to delete this norm period?"
+        },
+        "form": {
+            "alert": {
+                "normPeriodSuccessfullyUpdated": "Norm period successfully updated",
+                "newNormPeriodSuccessfullySaved": "New norm period successfully saved"
+            },
+            "name": "Name",
+            "normPeriod": "Norm period",
+            "status": "Status",
+            "category": "Category",
+            "startMonth":"Start Month",
+            "startDay":"Start Day",
+            "endMonth":"End Month",
+            "endDay":"End Day",
+            "description": "Description",
+            "department": "Department"
+        },
+        "newNormPeriod": "New norm period",
+        "table": {
+            "alert": {
+                "normPeriodSuccessfullyDeleted": "Norm period successfully deleted"
+            },
+            "actions": {
+                "delete": "Delete",
+                "edit": "Edit",
+                "view": "View"
+            },
+            "confirmation": {
+                "deleteNormPeriodConfirmation":"Are you sure you want to delete this norm period?"
+            },
+            "name": "Name",
+            "currentPeriod": "Current Period",
+            "description": "Description",
+            "department": "Department"
+        },
+        "viewNormPeriod": {
+            "viewNormPeriod": "View norm period",
+            "name": "Name",
+            "startMonth": "Start Month",
+            "startDay": "Start Day",
+            "endMonth": "End Month",
+            "endDay": "End Day",
+            "description": "Description",
+            "currentPeriod": "Current Period"
+        }
+    },
     "overview": {
         "addDailyEvents": "Add daily events",
         "bulletBoard": "Bullet board",
@@ -5291,6 +5361,7 @@
             "massUnits": "Mass units",
             "medicationAllergies": "Medication allergies (CAVE)",
             "medicines": "Medicines",
+            "normPeriods": "Norm periods",
             "profile": "Profile",
             "relationships": "Relationships",
             "roles": "Roles",

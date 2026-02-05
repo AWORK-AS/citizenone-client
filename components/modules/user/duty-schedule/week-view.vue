@@ -398,6 +398,13 @@
                                                                 aria-hidden="true" />
                                                         </div>
 
+                                                        <div v-if="employee?.norm_period" class="flex items-center gap-1 cursor-pointer">
+                                                            <p class="text-xxs">
+                                                                {{ $t('dutySchedules.normPeriod') }}:
+                                                                {{ employee?.norm_period?.display_label ?? '' }}
+                                                            </p>
+                                                        </div>
+
                                                         <p class="text-xxs">
                                                             {{ $t('dutySchedules.totalHours') }}:
                                                             {{ employee?.total_hours ?? 0 }}

@@ -2457,6 +2457,7 @@
                 }
             }
         },
+        "normPeriod": "Norm periode",
         "published": {
             "publishedVersions": "Publicerede versioner",
             "seePrevious": "Se tidligere publicerede versioner",
@@ -4208,6 +4209,20 @@
         "unreadMessages": "Ulæste beskeder",
         "users": "Brugere"
     },
+    "months": {
+        "january": "Januar",
+        "february": "Februar",
+        "march": "Marts",
+        "april": "April",
+        "may": "Maj",
+        "june": "Juni",
+        "july": "Juli",
+        "august": "August",
+        "september": "September",
+        "october": "Oktober",
+        "november": "November",
+        "december": "December"
+    },
     "navbar": {
         "apps": "Apps",
         "colleagues": "Kollegaer",
@@ -4263,6 +4278,61 @@
     },
     "next": "Næste",
     "noResultFound": "Ingen resultater fundet",
+    "normPeriod": {
+        "addNormPeriod": "Tilføj normperiode",
+        "normPeriod": "Normperioder",
+        "editNormPeriod": "Rediger normperiode",
+        "alert": {
+            "normPeriodSuccessfullyDeleted": "Normperiode blev slettet"
+        },
+        "confirmation": {
+            "deleteNormPeriodConfirmation":"Er du sikker på, at du vil slette denne normperiode?"
+        },
+        "form": {
+            "alert": {
+                "normPeriodSuccessfullyUpdated": "Normperiode blev opdateret",
+                "newNormPeriodSuccessfullySaved": "Ny normperiode blev gemt"
+            },
+            "name": "Navn",
+            "normPeriod": "Normperiode",
+            "status": "Status",
+            "category": "Kategori",
+            "startMonth":"Startmåned",
+            "startDay":"Startdag",
+            "endMonth":"Slutmåned",
+            "endDay":"Slutdag",
+            "description": "Beskrivelse",
+            "department": "Afdeling"
+        },
+        "newNormPeriod": "Ny normperiode",
+        "table": {
+            "alert": {
+                "normPeriodSuccessfullyDeleted": "Normperiode blev slettet"
+            },
+            "actions": {
+                "delete": "Slet",
+                "edit": "Rediger",
+                "view": "Vis"
+            },
+            "confirmation": {
+                "deleteNormPeriodConfirmation":"Er du sikker på, at du vil slette denne normperiode?"
+            },
+            "name": "Navn",
+            "currentPeriod": "Nuværende periode",
+            "description": "Beskrivelse",
+            "department": "Afdeling"
+        },
+        "viewNormPeriod": {
+            "viewNormPeriod": "Vis normperiode",
+            "name": "Navn",
+            "startMonth": "Startmåned",
+            "startDay": "Startdag",
+            "endMonth": "Slutmåned",
+            "endDay": "Slutdag",
+            "description": "Beskrivelse",
+            "currentPeriod": "Nuværende periode"
+        }
+    },
     "overview": {
         "addDailyEvents": "Tilføj daglige begivenheder",
         "bulletBoard": "Opslagstavle",
@@ -5285,6 +5355,7 @@
             "massUnits": "Masseenheder",
             "medicationAllergies": "Medicinallergier (CAVE)",
             "medicines": "Medicin",
+            "normPeriods": "Normperioder",
             "profile": "Profil",
             "relationships": "Forhold",
             "roles": "Roller",
