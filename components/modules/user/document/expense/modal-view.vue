@@ -48,7 +48,7 @@
                                 {{ $t('expenses.viewExpense.receipt') }}:
                             </span>
                             <div class="text-tertiary hover:text-tertiary-700 cursor-pointer flex items-center gap-x-1"
-                                v-if="props.selectedExpense?.file_url" @click="downloadFile(props.selectedExpense?.file_url)">
+                                v-if="props.selectedExpense?.file_url" @click="downloadReceipt(props.selectedExpense?.uuid)">
                                 <Icon name="ph:file" class="size-6" />
                                 <span class="truncate">{{ props.selectedExpense?.file_name_src }}</span>
                             </div>
@@ -77,6 +77,8 @@
 <script setup lang="ts">
 import { useI18n } from "vue-i18n"
 import { useDatetimeFormatter } from '@/composables/datetimeFormatter'
+import { expenseService } from '@/components/api/user/ExpenseService'
+import { saveAs } from 'file-saver'
 import type { Error } from '@/types'
 
 const props = defineProps({
@@ -91,6 +93,7 @@ const props = defineProps({
 })
 const emit = defineEmits(['close', 'editExpense'])
 const { formatDateToReadable } = useDatetimeFormatter()
+const { t } = useI18n()
 
 const state = reactive({
     error: {} as Error,
@@ -101,14 +104,18 @@ function closeModal() {
     emit('close')
 }
 
-function downloadFile(fileUrl: string) {
-    const link = document.createElement('a');
-    link.href = fileUrl;
-    link.download = '';
-    link.target = '_blank';
-    document.body.appendChild(link);
-    link.click();
-    document.body.removeChild(link);
-};
+async function downloadReceipt(expenseUuid: string) {
+    state.isPageLoading = true
+    state.error = {}
+    try {
+        const response = await expenseService.downloadReceipt(expenseUuid)
+        if (response) {
+            saveAs(response, props.selectedExpense?.file_name_src || 'receipt')
+        }
+    } catch (error: any) {
+        state.error.message = error?.message || 'An error occurred during the download.'
+    }
+    state.isPageLoading = false
+}
 
 </script>

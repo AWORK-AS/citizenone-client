@@ -2825,6 +2825,7 @@
             "documentSuccessfullyArchived": "Document successfully archived",
             "fileSuccessfullyAdded": "New file successfully saved",
             "fileSuccessfullyMoved": "File successfully moved",
+            "fileSuccessfullyUpdated": "File successfully updated",
             "folderSuccessfullyAdded": "New folder successfully saved",
             "folderSuccessfullyUpdated": "Folder successfully updated"
         },
@@ -2852,6 +2853,15 @@
             }
         },
         "createNewFolder": "Create new folder",
+        "newDocument": "New Document",
+        "documentEditor": {
+            "title": "Document Editor",
+            "documentName": "Document Name",
+            "save": "Save",
+            "cancel": "Cancel",
+            "close": "Close"
+        },
+        "download": "Download",
         "createTemplate": {
             "alert": {
                 "templateSuccessfullyAdded": "Template successfully added"
@@ -2886,6 +2896,7 @@
             "deleteFolderConfirmation": "Are you sure you want to delete this folder",
             "upgradeStorageConfirmation": "Do you want to upgrade your storage"
         },
+        "editDocument": "Edit document",
         "expenses": "Expenses",
         "form": {
             "editFile": "Edit file",
@@ -2898,6 +2909,7 @@
             "template": "Template",
             "useTemplate": "Use template"
         },
+        "new": "New",
         "table": {
             "actions": {
                 "access": "Access",
@@ -2905,6 +2917,7 @@
                 "edit": "Edit",
                 "delete": "Delete",
                 "download": "Download",
+                "downloadPDF": "Download PDF",
                 "move": "Move",
                 "view": "View"
             },
@@ -2914,7 +2927,8 @@
             "owner": "Owner"
         },
         "upgradeStorage": "Upgrade storage",
-        "uploadFile": "Upload file"
+        "uploadFile": "Upload file",
+        "viewDocument": "View document"
     },
     "employees": {
         "alert": {
@@ -3238,10 +3252,11 @@
         "expenses": "Expenses",
         "editExpense": "Edit expense",
         "alert": {
-            "expenseSuccessfullyDeleted": "Expense successfully deleted"
+            "expenseSuccessfullyDeleted": "Expense successfully deleted",
+            "receiptSuccessfullyDownloaded": "Receipt successfully downloaded"
         },
         "confirmation": {
-            "deleteExpenseConfirmation":"Are you sure you want to delete this expense?"
+            "deleteExpenseConfirmation": "Are you sure you want to delete this expense?"
         },
         "form": {
             "alert": {
@@ -3252,7 +3267,7 @@
             "expense": "Expense",
             "status": "Status",
             "category": "Category",
-            "date":"Date",
+            "date": "Date",
             "amount": "Amount",
             "description": "Description",
             "receipt": "Receipt",
@@ -4248,7 +4263,8 @@
             "attachments": "File Attachments",
             "clickToUpload": "Click to upload files",
             "multipleFilesAllowed": "Multiple files allowed",
-            "existingAttachments": "Existing Attachments"
+            "existingAttachments": "Existing Attachments",
+            "removeFile": "Remove file"
         },
         "news": "News",
         "newNews": "New news",

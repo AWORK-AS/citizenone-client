@@ -59,7 +59,7 @@
                                     </td>
                                     <td width="15%">
                                         <div class="text-tertiary hover:text-tertiary-700 cursor-pointer flex items-center gap-x-1"
-                                            v-if="expense?.file_url" @click="downloadFile(expense?.file_url)">
+                                            v-if="expense?.file_url" @click="downloadReceipt(expense)">
                                             <Icon name="ph:file" class="size-6" />
                                             <span class="truncate">{{ expense?.file_name_src }}</span>
                                         </div>
@@ -243,15 +243,19 @@ function handleSearch(value: any) {
 }
 
 
-function downloadFile(fileUrl: string) {
-    const link = document.createElement('a');
-    link.href = fileUrl;
-    link.download = '';
-    link.target = '_blank';
-    document.body.appendChild(link);
-    link.click();
-    document.body.removeChild(link);
-};
+async function downloadReceipt(expense: any) {
+    state.isPageLoading = true
+    state.error = {}
+    try {
+        const response = await expenseService.downloadReceipt(expense.uuid)
+        if (response) {
+            saveAs(response, expense?.file_name_src || 'receipt')
+        }
+    } catch (error: any) {
+        state.error.message = error?.message || 'An error occurred during the download.'
+    }
+    state.isPageLoading = false
+}
 
 function viewExpense(expense: any) {
     state.selectedExpense = expense

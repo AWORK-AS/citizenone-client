@@ -1,8 +1,8 @@
 import BaseAPIService from '@/components/api/BaseAPIService'
 
 class NotificationService extends BaseAPIService {
-    async getNotifications(): Promise<any> {
-        return await this.request(`/user/notifications`, 'GET')
+    async getNotifications(params?: any): Promise<any> {
+        return await this.request(`/user/notifications`, 'GET', params)
     }
 
     async getNotification(notificationId: any): Promise<any> {

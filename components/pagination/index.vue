@@ -14,13 +14,13 @@
             </button>
         </div>
         <div class="text-sm flex items-center justify-center">
-            <p v-if="props.data.meta.total > 0">
+            <p v-if="props.data?.meta?.total > 0">
                 {{ $t('pagination.showingFrom') }}
-                {{ props.data.meta && props.data.meta.from ? props.data.meta.from : 0 }}
+                {{ props.data?.meta && props.data?.meta?.from ? props.data?.meta?.from : 0 }}
                 {{ $t('pagination.to') }}
-                {{ props.data.meta && props.data.meta.to ? props.data.meta.to : 0 }}
+                {{ props.data?.meta && props.data?.meta?.to ? props.data?.meta?.to : 0 }}
                 {{ $t('pagination.of') }}
-                {{ props.data.meta && props.data.meta.total ? props.data.meta.total : 0 }}
+                {{ props.data?.meta && props.data?.meta?.total ? props.data?.meta?.total : 0 }}
             </p>
         </div>
     </div>

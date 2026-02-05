@@ -2824,6 +2824,7 @@
             "documentSuccessfullyArchived": "Dokument arkiveret med succes",
             "fileSuccessfullyAdded": "Ny fil gemt med succes",
             "fileSuccessfullyMoved": "Filen blev flyttet til en anden mappe med succes",
+            "fileSuccessfullyUpdated": "Fil opdateret med succes",
             "folderSuccessfullyAdded": "Ny mappe gemt med succes",
             "folderSuccessfullyUpdated": "Mappe opdateret med succes"
         },
@@ -2851,6 +2852,15 @@
             }
         },
         "createNewFolder": "Opret ny mappe",
+        "newDocument": "Nyt dokument",
+        "documentEditor": {
+            "title": "Dokumenteditor",
+            "documentName": "Dokumentnavn",
+            "save": "Gem",
+            "cancel": "Annuller",
+            "close": "Luk"
+        },
+        "download": "Download",
         "viewDraftFile": "Se udkastfiler",
         "createTemplate": {
             "alert": {
@@ -2886,6 +2896,8 @@
             "deleteFolderConfirmation": "Er du sikker på, at du vil slette denne mappe",
             "upgradeStorageConfirmation": "Vil du opgradere din lagerplads"
         },
+        "editDocument": "Rediger dokument",
+        "expenses": "Udgifter",
         "form": {
             "editFile": "Rediger fil",
             "editFolder": "Rediger mappe",
@@ -2897,7 +2909,7 @@
             "template": "Skabelon",
             "useTemplate": "Brug skabelon"
         },
-        "expenses": "Udgifter",
+        "new": "Ny",
         "table": {
             "actions": {
                 "access": "Adgang",
@@ -2905,6 +2917,7 @@
                 "edit": "Rediger",
                 "delete": "Slet",
                 "download": "Download",
+                "downloadPDF": "Download PDF",
                 "move": "Flyt",
                 "view": "Se"
             },
@@ -2914,7 +2927,8 @@
             "owner": "Ejer"
         },
         "upgradeStorage": "Opgradér lagerplads",
-        "uploadFile": "Upload fil"
+        "uploadFile": "Upload fil",
+        "viewDocument": "Se dokument"
     },
     "employees": {
         "alert": {
@@ -3232,10 +3246,11 @@
         "expenses": "Udgifter",
         "editExpense": "Rediger udgift",
         "alert": {
-            "expenseSuccessfullyDeleted": "Udgift slettet med succes"
+            "expenseSuccessfullyDeleted": "Udgift slettet med succes",
+            "receiptSuccessfullyDownloaded": "Kvittering downloadet med succes"
         },
         "confirmation": {
-            "deleteExpenseConfirmation":"Er du sikker på, at du vil slette denne udgift?"
+            "deleteExpenseConfirmation": "Er du sikker på, at du vil slette denne udgift?"
         },
         "form": {
             "alert": {
@@ -3246,7 +3261,7 @@
             "expense": "Udgift",
             "status": "Status",
             "category": "Kategori",
-            "date":"Dato",
+            "date": "Dato",
             "amount": "Beløb",
             "description": "Beskrivelse",
             "receipt": "Kvittering",
@@ -4242,7 +4257,8 @@
             "attachments": "Vedhæftede filer",
             "clickToUpload": "Klik for at uploade filer",
             "multipleFilesAllowed": "Flere filer tilladt",
-            "existingAttachments": "Eksisterende vedhæftede filer"
+            "existingAttachments": "Eksisterende vedhæftede filer",
+            "removeFile": "Fjern fil"
         },
         "news": "Nyheder",
         "newNews": "Nyt opslag",
