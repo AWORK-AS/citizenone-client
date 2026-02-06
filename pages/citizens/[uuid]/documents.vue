@@ -401,7 +401,6 @@ async function uploadFile(event: any) {
 
         const params = new FormData()
 
-        // Append all files with the same key, e.g., files[]
         for (const file of files) {
             params.append('files[]', file)
         }
@@ -443,7 +442,6 @@ async function viewDirectory(document: any, is_draft: boolean = false) {
     currentTablePage = 1
 
     let url = `/citizens/${citizenUuid}/documents?folder_uuid=${folderUuid}`
-    console.log('folderUuid', folderUuid)
     if (is_draft) {
         url += `&is_draft=${is_draft}`
     }
