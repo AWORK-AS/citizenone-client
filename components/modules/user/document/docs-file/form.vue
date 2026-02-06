@@ -92,7 +92,7 @@ watch(() => props.selectedDocument, (newValue: any) => {
             content: newValue.content,
             is_admin_access: newValue.is_admin_access,
         }
-        processContent()
+    // processContent()
     }
 }, { deep: true })
 
@@ -115,51 +115,55 @@ function submitForm() {
     }
 }
 
-function processContent() {
-    if (!state.formDocument.content) return ""
-    let processed = state.formDocument.content
+// function ramani para mo auto switch ang sa ribbon katung 
+// ma ano ang font style and size based on the populated content
+// since alaws mn tu gi dayun ug implement pwede rani wala or comment lng sa for now?    
 
-    const fontMap = {
-        "Times New Roman": "'Times New Roman'",
-        "Courier New": "'Courier New'",
-        "Lucida Sans Unicode": "'Lucida Sans Unicode'",
-        "Trebuchet MS": "'Trebuchet MS'",
-        "Comic Sans MS": "'Comic Sans MS'",
-        Arial: "Arial",
-        Georgia: "Georgia",
-        Tahoma: "Tahoma",
-        Verdana: "Verdana",
-        Impact: "Impact",
-    }
+// function processContent() {
+//     if (!state.formDocument.content) return ""
+//     let processed = state.formDocument.content
 
-    Object.entries(fontMap).forEach(([key, value]) => {
-        const safeRegex = new RegExp(
-            `(font-family:\\s*)([^"';]*${key}[^"';]*)`,
-            "gi",
-        )
-        processed = processed.replace(safeRegex, `$1${value}`)
-    })
+//     const fontMap = {
+//         "Times New Roman": "'Times New Roman'",
+//         "Courier New": "'Courier New'",
+//         "Lucida Sans Unicode": "'Lucida Sans Unicode'",
+//         "Trebuchet MS": "'Trebuchet MS'",
+//         "Comic Sans MS": "'Comic Sans MS'",
+//         Arial: "Arial",
+//         Georgia: "Georgia",
+//         Tahoma: "Tahoma",
+//         Verdana: "Verdana",
+//         Impact: "Impact",
+//     }
 
-    processed = processed.replace(
-        /font-size:\s*([\d\.]+)(pt|px)/gi,
-        (match, value, unit) => {
-            let points = parseFloat(value)
-            if (unit.toLowerCase() === "px") {
-                points = points * 0.75
-            }
+//     Object.entries(fontMap).forEach(([key, value]) => {
+//         const safeRegex = new RegExp(
+//             `(font-family:\\s*)([^"';]*${key}[^"';]*)`,
+//             "gi",
+//         )
+//         processed = processed.replace(safeRegex, `$1${value}`)
+//     })
 
-            const validSizes = [
-                8, 9, 10, 11, 12, 14, 16, 18, 20, 22, 24, 26, 28, 36, 48, 72,
-            ]
-            const closest = validSizes.reduce((prev, curr) => {
-                return Math.abs(curr - points) < Math.abs(prev - points) ? curr : prev
-            })
+//     processed = processed.replace(
+//         /font-size:\s*([\d\.]+)(pt|px)/gi,
+//         (match, value, unit) => {
+//             let points = parseFloat(value)
+//             if (unit.toLowerCase() === "px") {
+//                 points = points * 0.75
+//             }
 
-            return `font-size:${closest}pt`
-        },
-    )
-    state.formDocument.content = processed
-}
+//             const validSizes = [
+//                 8, 9, 10, 11, 12, 14, 16, 18, 20, 22, 24, 26, 28, 36, 48, 72,
+//             ]
+//             const closest = validSizes.reduce((prev, curr) => {
+//                 return Math.abs(curr - points) < Math.abs(prev - points) ? curr : prev
+//             })
+
+//             return `font-size:${closest}pt`
+//         },
+//     )
+//     state.formDocument.content = processed
+// }
 </script>
 
 <style scoped src="~/assets/css/editor-styles.css"></style>
