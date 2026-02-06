@@ -46,6 +46,11 @@ const state = reactive({
 })
 
 function closeModal() {
+    state.formDocument = {
+        name: '',
+        content: '',
+        is_admin_access: false,
+    }
     emit('close')
 }
 
