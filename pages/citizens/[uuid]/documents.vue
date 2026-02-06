@@ -1,6 +1,7 @@
 <template>
     <div>
         <NuxtLayout name="user">
+
             <Head>
                 <Title>{{ $t('citizens.tabs.documents') }} - {{ runtimeConfig?.public?.appName }}</Title>
             </Head>
@@ -189,12 +190,12 @@
                     :selectedDocument="state.selectedDocument" @close="state.modal.isEditDocumentOpen = false"
                     @refreshDocuments="fetchDocuments" />
                 <ModulesUserCitizenDocumentStatusTemplateModalEdit :is-modal-open="state.modal.isEditDocumentDraftOpen"
-                    :selectedDocument="state.selectedDocument" @close="state.modal.isEditDocumentDraftOpen = false" 
-                    @refreshDocuments="fetchDocuments"/>
+                    :selectedDocument="state.selectedDocument" @close="state.modal.isEditDocumentDraftOpen = false"
+                    @refreshDocuments="fetchDocuments" />
                 <ModulesUserCitizenDocumentAccessModalView :isModalOpen="state.modal.isViewAccessOpen"
                     :selectedDocument="state.selectedDocument" @close="state.modal.isViewAccessOpen = false" />
                 <ModulesUserCitizenDocumentStatusTemplateModalNew :isModalOpen="state.modal.isCreateTemplateOpen"
-                    @close="state.modal.isCreateTemplateOpen = false" @refreshDocuments="fetchDocuments"/>
+                    @close="state.modal.isCreateTemplateOpen = false" @refreshDocuments="fetchDocuments" />
                 <ModulesUserCitizenDocumentModalMoveFile :isModalOpen="state.modal.isMoveFileOpen"
                     :selectedDocument="state.selectedDocument" @close="state.modal.isMoveFileOpen = false"
                     @refreshDocuments="fetchDocuments" />
@@ -300,12 +301,12 @@ watch(() => router?.currentRoute?.value?.query, (newParams, oldParams) => {
 }, { deep: true })
 
 const showDraftButton = computed(() => {
-  return (
-    route?.path.includes('/citizens/') &&
-    route?.path.endsWith('/documents') &&
-    !!route?.query.folder_uuid &&
-    !route?.query.is_draft
-  )
+    return (
+        route?.path.includes('/citizens/') &&
+        route?.path.endsWith('/documents') &&
+        !!route?.query.folder_uuid &&
+        !route?.query.is_draft
+    )
 })
 
 const handleRouteChange = () => {
@@ -335,7 +336,7 @@ async function fetchDocuments(folderUuid: any = null) {
             ...state.dataFilter,
             ...(folderUuid && { folder_uuid: folderUuid }),
         }
-        const response = (is_draft.value) ?  await citizenDocumentService.getCitizenFileFoldersDrafts(params) : await citizenDocumentService.getCitizenFileFolders(params) 
+        const response = (is_draft.value) ? await citizenDocumentService.getCitizenFileFoldersDrafts(params) : await citizenDocumentService.getCitizenFileFolders(params)
         if (response) {
             state.documents = response
         }
@@ -436,26 +437,25 @@ const resetFileInput = () => {
 }
 
 async function viewDirectory(document: any, is_draft: boolean = false) {
-  selectedDocument.value = router?.currentRoute?.value?.query?.folder_uuid
-  currentTablePage = 1
+    const folderUuid = document?.uuid || route.query.folder_uuid
 
-  const folderUuid = document?.uuid || selectedDocument.value 
+    selectedDocument.value = folderUuid
+    currentTablePage = 1
 
-  let url = `/citizens/${citizenUuid}/documents?folder_uuid=${folderUuid}`
+    let url = `/citizens/${citizenUuid}/documents?folder_uuid=${folderUuid}`
+    console.log('folderUuid', folderUuid)
+    if (is_draft) {
+        url += `&is_draft=${is_draft}`
+    }
 
-  if (is_draft) {
-    url += `&is_draft=${is_draft}`
-  }
-
-  await navigateTo(url)
+    await navigateTo(url)
 }
-
 
 function editDocument(document: any) {
     state.selectedDocument = document
-    if(is_draft.value){
+    if (is_draft.value) {
         state.modal.isEditDocumentDraftOpen = true
-    }else{
+    } else {
         state.modal.isEditDocumentOpen = true
     }
 }
