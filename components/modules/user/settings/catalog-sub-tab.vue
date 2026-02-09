@@ -92,6 +92,14 @@ watch(() => userStore.getUser, (newValue: any) => {
                 ]
             },
             {
+                name: 'settings.tabs.employeeGroups',
+                isTranslateName: true,
+                href: `/settings/employee-groups`,
+                routeNames: [
+                    'settings-employee-groups'
+                ]
+            },
+            {
                 name: 'settings.tabs.expenseCategories',
                 isTranslateName: true,
                 href: `/settings/expense-categories`,
@@ -100,11 +108,11 @@ watch(() => userStore.getUser, (newValue: any) => {
                 ]
             },
             {
-                name: 'settings.tabs.employeeGroups',
+                name: 'settings.tabs.extraHoursTags',
                 isTranslateName: true,
-                href: `/settings/employee-groups`,
+                href: `/settings/extra-hours-tags`,
                 routeNames: [
-                    'settings-employee-groups'
+                    'settings-extra-hours-tags'
                 ]
             },
             {
@@ -253,14 +261,17 @@ function changeTab(value: any) {
     else if (value === '/settings/departments') {
         navigateTo(`/settings/departments`)
     }
-    else if (value === '/settings/employee-groups') {
-        navigateTo(`/settings/employee-groups`)
-    }
     else if (value === '/settings/diagnoses') {
         navigateTo(`/settings/diagnoses`)
     }
+    else if (value === '/settings/employee-groups') {
+        navigateTo(`/settings/employee-groups`)
+    }
     else if (value === '/settings/expense-categories') {
         navigateTo(`/settings/expense-categories`)
+    }
+    else if (value === '/settings/extra-hours-tags') {
+        navigateTo(`/settings/extra-hours-tags`)
     }
     else if (value === '/settings/foreign-cities') {
         navigateTo(`/settings/foreign-cities`)

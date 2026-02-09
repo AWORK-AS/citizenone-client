@@ -3317,6 +3317,34 @@
             "expense": "Expense"
         }
     },
+    "extraHoursTags": {
+        "addNewExtraHoursTag": "Add new extra hours tag",
+        "alert": {
+            "extraHoursTagSuccessfullyDeleted": "Extra hours tag successfully deleted"
+        },
+        "extraHoursTags": "Extra hours tags",
+        "editExtraHoursTag": "Edit extra hours tag",
+        "form": {
+            "alert": {
+                "extraHoursTagSuccessfullyUpdated": "Extra hours tag successfully updated",
+                "newExtraHoursTagSuccessfullySaved": "New extra hours tag successfully saved"
+            },
+            "department": "Department",
+            "name": "Name"
+        },
+        "newExtraHoursTag": "New extra hours tag",
+        "table": {
+            "actions": {
+                "delete": "Delete",
+                "edit": "Edit"
+            },
+            "confirmation": {
+                "deleteExtraHoursTagConfirmation": "Are you sure you want to delete this extra hours tag"
+            },
+            "department": "Department",
+            "name": "Name"
+        }
+    },
     "features": {
         "seeNewFeatures": "See new features"
     },
@@ -5355,6 +5383,7 @@
             "dosageForms": "Dosage forms",
             "employeeGroups": "Employee groups",
             "expenseCategories": "Expense categories",
+            "extraHoursTags": "Extra hours tags",
             "foreignCities": "Foreign cities",
             "invoices": "Invoices",
             "jobTitles": "Job titles",
