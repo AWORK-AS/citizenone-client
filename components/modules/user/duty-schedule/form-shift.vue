@@ -25,8 +25,7 @@
                         </p>
                         <p v-if="language.locale.value === 'dk'">
                             <span class="text-red-700">
-                                Underage borger fundet, og medarbejderen har ikke
-                                børnebeskyttelsescertifikat.
+                                OBS: Der er registreret en borger under 18 år, men den tilknyttede medarbejder har ikke en gyldig børneattest uploadet på sin brugerkonto.
                             </span>
                             <span class="cursor-pointer text-primary hover:text-primary-700"
                                 @click="state.showChildProtectionCertificateWarning = false">
