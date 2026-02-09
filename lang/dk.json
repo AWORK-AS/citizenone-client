@@ -2541,6 +2541,7 @@
                 "date": "Dato",
                 "hours": "Timer",
                 "note": "Bemærkning",
+                "tags": "Etiketter",
                 "type": {
                     "add": "Tilføj",
                     "deduct": "Træk fra",
@@ -2576,6 +2577,7 @@
                     "rejected": "Afvist",
                     "status": "Status"
                 },
+                "tags": "Etiketter",
                 "type": {
                     "add": "Tilføj",
                     "deduct": "Træk fra",

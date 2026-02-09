@@ -2541,6 +2541,7 @@
                 "date": "Date",
                 "hours": "Hours",
                 "note": "Note",
+                "tags": "Tags",
                 "type": {
                     "add": "Add",
                     "deduct": "Deduct",
@@ -2576,6 +2577,7 @@
                     "rejected": "Rejected",
                     "status": "Status"
                 },
+                "tags": "Tags",
                 "type": {
                     "add": "Add",
                     "deduct": "Deduct",

@@ -57,6 +57,7 @@ async function updateScheduleSlot(extraHoursDetails: any) {
         const params = {
             date: extraHoursDetails.date,
             extra_hours_type: extraHoursDetails.type,
+            extra_hours_tags_uuid: extraHoursDetails.extra_hours_tags,
             extra_hours: extraHoursDetails.hours,
             note: extraHoursDetails.note,
         }

@@ -36,6 +36,8 @@
                 </FormButton>
             </div>
         </div>
+        <ModulesUserDepartmentModalNew :isModalOpen="state.modal.isAddDepartmentOpen"
+            @close="state.modal.isAddDepartmentOpen = false" @refreshDepartments="fetchDepartments" />
     </form>
 </template>
 
