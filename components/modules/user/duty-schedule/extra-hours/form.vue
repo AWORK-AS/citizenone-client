@@ -28,7 +28,7 @@
                             {{ $t('extraHoursTags.addNewExtraHoursTag') }}
                         </span>
                     </div>
-                    <FormSelectMultiple id="type" name="type" :options="state.options.extraHoursTags"
+                    <FormSelectMultiple id="tags" name="tags" :options="state.options.extraHoursTags"
                         v-model="state.formExtraHours.extra_hours_tags" />
                     <FormError :error="v$?.formExtraHours?.extra_hours_tags?.$errors[0]?.$message.toString()" />
                     <FormError :error="props?.error?.errors?.extra_hours_tags_uuid?.[0]" />

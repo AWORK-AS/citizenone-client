@@ -53,16 +53,24 @@
                                             </span>
                                         </td>
                                         <td width="15%">
+                                            <div class="text-xxs flex flex-wrap gap-1">
+                                                <span v-for="(tag, index) in extraHours?.tags" :key=index
+                                                    class="bg-primary px-2 py-1 text-white rounded-md">
+                                                    {{ tag?.tag }}
+                                                </span>
+                                            </div>
+                                        </td>
+                                        <td width="15%">
                                             <p>
                                                 {{ formatNumber(language.locale.value, extraHours?.extra_hours) }}
                                             </p>
                                         </td>
-                                        <td width="20%">
+                                        <td width="15%">
                                             <p>
                                                 {{ extraHours?.note }}
                                             </p>
                                         </td>
-                                        <td width="15%">
+                                        <td width="10%">
                                             <span v-if="extraHours?.extra_hours_status === 'pending'">
                                                 {{ $t('dutySchedules.extraHours.table.status.pending') }}
                                             </span>
@@ -73,7 +81,7 @@
                                                 {{ $t('dutySchedules.extraHours.table.status.rejected') }}
                                             </span>
                                         </td>
-                                        <td width="20%">
+                                        <td width="15%">
                                             <div class="flex items-end gap-2">
                                                 <Tooltip :text="$t('dutySchedules.extraHours.table.actions.edit')"
                                                     @click="editExtraHours(extraHours)"
@@ -173,6 +181,7 @@ const state = reactive({
     columnHeaders: [
         { name: 'dutySchedules.extraHours.table.date', isTranslateName: true, sorter: true, key: 'date' },
         { name: 'dutySchedules.extraHours.table.type.type', isTranslateName: true, sorter: true, key: 'extra_hours_type' },
+        { name: 'dutySchedules.extraHours.table.tags', isTranslateName: true },
         { name: 'dutySchedules.extraHours.table.hours', isTranslateName: true, sorter: true, key: 'extra_hours' },
         { name: 'dutySchedules.extraHours.table.note', isTranslateName: true, },
         { name: 'dutySchedules.extraHours.table.status.status', isTranslateName: true, sorter: true, key: 'extra_hours_status' },
