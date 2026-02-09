@@ -1,6 +1,6 @@
 <template>
     <div>
-        <Modal size="md" :title="$t('dutySchedules.normHours.compensatoryHours')" :show="props.isModalOpen"
+        <Modal size="lg" :title="$t('dutySchedules.normHours.compensatoryHours')" :show="props.isModalOpen"
             @close="closeModal">
             <template #modal-body>
                 <LoadingSpinner :isActive="state.isPageLoading">
@@ -17,7 +17,7 @@
                     <div class="mt-5 space-y-1">
                         <div class="flex items-center gap-x-1">
                             <p class="text-sm">
-                                {{ $t('dutySchedules.normHours.vacationHoursThisYear') }}
+                                {{ $t('dutySchedules.normHours.compensatoryHoursThisYear') }}
                                 ({{ formatDateToReadable(state.dateRange.formDateRange.start_date) }} -
                                 {{ formatDateToReadable(state.dateRange.formDateRange.end_date) }}):
                             </p>
@@ -33,7 +33,7 @@
                         </div>
                         <div class="flex items-center gap-x-1">
                             <p class="text-sm">
-                                {{ $t('dutySchedules.normHours.vacationHoursFromPreviousYear') }}
+                                {{ $t('dutySchedules.normHours.compensatoryHourFromPreviousYear') }}
                                 ({{
                                     formatDateToReadable(moment(state.dateRange.formDateRange.start_date).subtract(1,
                                         'year').startOf('year').format('YYYY-MM-DD'))
@@ -126,6 +126,14 @@ function closeModal() {
 
 watch(() => props.isModalOpen, (isModalOpen) => {
     if (isModalOpen) {
+        fetchCompensatoryVacationHours()
+    }
+})
+
+watch(() => props.selectedEmployee, (selectedEmployee) => {
+    if (selectedEmployee.norm_period) {
+        state.dateRange.formDateRange.start_date = moment(selectedEmployee.norm_period.period_start).format('YYYY-MM-DD')
+        state.dateRange.formDateRange.end_date = moment(selectedEmployee.norm_period.period_end).format('YYYY-MM-DD')
         fetchCompensatoryVacationHours()
     }
 })
