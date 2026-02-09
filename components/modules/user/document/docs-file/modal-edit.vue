@@ -62,7 +62,7 @@ watch(() => props.isModalOpen, (isModalOpen) => {
     }
 })
 
-function resetForm(){
+function resetForm() {
     state.formDocument = {
         name: '',
         content: '',

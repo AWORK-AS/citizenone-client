@@ -2829,7 +2829,8 @@
             "fileSuccessfullyMoved": "File successfully moved",
             "fileSuccessfullyUpdated": "File successfully updated",
             "folderSuccessfullyAdded": "New folder successfully saved",
-            "folderSuccessfullyUpdated": "Folder successfully updated"
+            "folderSuccessfullyUpdated": "Folder successfully updated",
+            "modifyDocumentLayoutWarning": "Modifying this document can unintentionally change its original layout and structure. Please review all changes carefully before saving"
         },
         "access": {
             "access": "Access",

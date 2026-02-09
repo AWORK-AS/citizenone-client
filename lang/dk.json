@@ -2829,7 +2829,8 @@
             "fileSuccessfullyMoved": "Filen blev flyttet til en anden mappe med succes",
             "fileSuccessfullyUpdated": "Fil opdateret med succes",
             "folderSuccessfullyAdded": "Ny mappe gemt med succes",
-            "folderSuccessfullyUpdated": "Mappe opdateret med succes"
+            "folderSuccessfullyUpdated": "Mappe opdateret med succes",
+            "modifyDocumentLayoutWarning": "Ændring af dette dokument kan utilsigtet ændre dets oprindelige layout og struktur. Gennemgå venligst alle ændringer grundigt før du gemmer"
         },
         "access": {
             "access": "Adgang",
