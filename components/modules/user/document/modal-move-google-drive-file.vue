@@ -87,7 +87,13 @@ async function fetchAllFolders(parentFolderId?: string) {
         const response = await googledriveService.getGoogleDriveFiles(parentFolderId || undefined)
         const files = Array.isArray(response) ? response : (response?.files || response?.data || [])
         const options = files
-            .filter((item: any) => item?.mimeType?.includes('folder'))
+            .filter((item: any) => {
+                // Only include folders
+                if (!item?.mimeType?.includes('folder')) return false
+                // Exclude the folder/file being moved
+                if (item.id === props.selectedDocument?.id) return false
+                return true
+            })
             .map((item: any) => ({
                 value: item.id,
                 label: item.name,
