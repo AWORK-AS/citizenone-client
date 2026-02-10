@@ -61,7 +61,7 @@
             </div>
         </form>
         <ModulesUserExtraHoursTagModalNew :isModalOpen="state.modal.isAddExtraHoursTagsOpen"
-            @close="state.modal.isAddExtraHoursTagsOpen = false" @refreshAbsences="fetchExtraHoursTags" />
+            @close="state.modal.isAddExtraHoursTagsOpen = false" @refreshExtraHoursTags="fetchExtraHoursTags" />
     </LoadingSpinner>
 </template>
 
@@ -171,7 +171,7 @@ async function fetchExtraHoursTags() {
             response.data.forEach(
                 (item: any) => options.push({
                     value: item.uuid,
-                    label: item.name,
+                    label: item.tag,
                 })
             )
             state.options.extraHoursTags = options
