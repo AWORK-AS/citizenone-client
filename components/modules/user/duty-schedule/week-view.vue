@@ -173,8 +173,7 @@
                                                 </Tooltip>
                                             </div>
                                         </div>
-                                        <div class="px-3 pb-2"
-                                            v-if="isAdmin(userStore.getUser?.role) || (!isAdmin(userStore.getUser?.role) && userStore.getUser?.show_working_hours)">
+                                        <div class="px-3 pb-2" v-if="isAdmin(userStore.getUser?.role)">
                                             <button @click="toggleShowHideAllShifts()"
                                                 class="text-primary text-xs hover:text-primary-700">
                                                 {{ state.showAllShifts ?
@@ -398,7 +397,8 @@
                                                                 aria-hidden="true" />
                                                         </div>
 
-                                                        <div v-if="employee?.norm_period" class="flex items-center gap-1 cursor-pointer">
+                                                        <div v-if="employee?.norm_period"
+                                                            class="flex items-center gap-1 cursor-pointer">
                                                             <p class="text-xxs">
                                                                 {{ $t('dutySchedules.normPeriod') }}:
                                                                 {{ employee?.norm_period?.display_label ?? '' }}
@@ -547,7 +547,7 @@
                                                 </div>
                                                 <div class="px-3 pb-3">
                                                     <div
-                                                        v-if="isAdmin(userStore.getUser?.role) || (!isAdmin(userStore.getUser?.role) && userStore.getUser?.show_working_hours)">
+                                                        v-if="isAdmin(userStore.getUser?.role) || (!isAdmin(userStore.getUser?.role) && userStore.getUser?.show_working_hours && userStore.getUser?.uuid === employee?.uuid)">
                                                         <button @click="toggleExpanded(employeeIndex)"
                                                             class="text-primary text-xs hover:text-primary-700">
                                                             {{ !expandedRecords[employeeIndex] ?
