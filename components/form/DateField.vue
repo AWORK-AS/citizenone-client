@@ -24,6 +24,11 @@ const props = defineProps({
         type: String,
         required: false,
     },
+    disablePreviousWeeks: {
+        type: Boolean,
+        required: false,
+        default: false,
+    },
     name: {
         type: String,
         required: true,
@@ -46,6 +51,7 @@ const state = reactive({
             firstDayOfWeek: 1, // Set Monday as the first day of the week
         },
         weekNumbers: true,
+        minDate: props.disablePreviousWeeks ? moment().startOf('isoWeek').toDate() : new Date(0), // Disable previous weeks if enabled
     }
 })
 
@@ -79,6 +85,12 @@ watch(() => language.locale.value, (language: any) => {
 watch(() => props.modelValue, (newValue: any) => {
     if (newValue != null && newValue !== '') {
         state.dateValue = new Date(newValue)  // use Date object here
+    }
+})
+
+watch(() => props.disablePreviousWeeks, (newValue: any) => {
+    if (newValue != null) {
+        state.datePickerConfig.minDate = newValue ? moment().startOf('isoWeek').toDate() : new Date(0)
     }
 })
 
