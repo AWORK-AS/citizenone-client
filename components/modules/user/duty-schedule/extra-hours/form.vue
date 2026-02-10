@@ -118,7 +118,6 @@ onMounted(() => {
     fetchExtraHoursTags()
     props.selectedExtraHoursRequest?.tags?.forEach((tag: any) => {
         state.formExtraHours.extra_hours_tags.push(tag?.uuid)
-        console.log('tag', tag)
     })
 })
 
