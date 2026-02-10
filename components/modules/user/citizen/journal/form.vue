@@ -98,11 +98,21 @@
                 </div>
             </div>
             <div class="space-y-1">
-                <div class="flex items-center">
+            <!-- task 523-->
+                <div  class="flex items-center">
                     <p class="text-sm text-gray-600">
                         {{ $t('citizens.citizenJournals.form.content') }}
                     </p>
                     <div class="flex-1 flex items-center gap-x-4 justify-end">
+                        <button type="button" class="text-sm text-primary hover:text-primary-700"
+                            @click="state.modal.isSelectJournalContent = true">
+                            <span v-if="state.userPredefinedContents">
+                                {{ $t('citizens.citizenJournals.form.enterJournalContent') }}
+                            </span>
+                            <span v-else>
+                                {{ $t('citizens.citizenJournals.form.usePredefinedcontent') }}
+                            </span>
+                        </button>
                         <div>
                             <input ref="contentFileInput" type="file" @change="handleContentFileChange"
                                 class="hidden" />
@@ -317,8 +327,7 @@
                     {{ $t('cancel') }}
                 </FormButton>
                 <FormButton type="submit" buttonStyle="primary" class="rounded-md w-full">
-                    {{ props.formType === 'create' ? $t('save') :
-                        $t('update') }}
+                    {{ props.formType === 'create' ? $t('save') : $t('update') }}
                 </FormButton>
             </div>
         </div>
@@ -326,6 +335,14 @@
             @close="state.modal.isAddJournalTitleOpen = false" @refreshJournalTitles="fetchAllJournalTitles" />
         <ModulesUserJournalNoteTagModalNew :isModalOpen="state.modal.isAddJournalNoteTagsOpen"
             @close="state.modal.isAddJournalNoteTagsOpen = false" @refreshJournalNoteTags="fetchAllJournalNoteTags" />
+
+        <!-- fix me -->
+        <ModulesUserJournalContentModalSelect 
+            :isModalOpen="state.modal.isSelectJournalContent"
+            @close="state.modal.isSelectJournalContent = false"
+            @confirm="state.modal.isSelectJournalContent = false; 
+            state.userPredefinedContents = !state.userPredefinedContents"/>
+
         <DialogConfirmation :isModalOpen="state.modal.isUpgradeStorageOpen"
             :title="$t('citizens.documents.upgradeStorage')"
             :message="state.error?.message + ' ' + $t('citizens.documents.confirmation.upgradeStorageConfirmation') + '?'"
@@ -444,6 +461,7 @@ const state = reactive({
         isAddJournalNoteTagsOpen: false,
         isAddJournalTitleOpen: false,
         isUpgradeStorageOpen: false,
+        isSelectJournalContent: false,
     },
     options: {
         assessments: [
@@ -478,6 +496,7 @@ const state = reactive({
         teeth: [],
     },
     usePredefinedJournalTitle: false,
+    userPredefinedContents: false,
 })
 
 onMounted(() => {

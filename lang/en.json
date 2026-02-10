@@ -876,6 +876,7 @@
                 "date": "Date",
                 "draft": "Draft",
                 "enterJournalTitleManually": "Enter journal title manually",
+                "enterJournalContent": "Enter journal Content manually",
                 "forTeeth": "For teeth",
                 "goal": "Goal",
                 "hideCurrentPlansGoalsAndSubgoals": "Hide current plans, goals, and subgoals",
@@ -906,7 +907,8 @@
                 "tags": "Tags",
                 "teeth": "Teeth",
                 "title": "Title",
-                "usePredefinedJournalTitle": "Use predefined journal title"
+                "usePredefinedJournalTitle": "Use predefined journal title",
+                "usePredefinedcontent": "Use predefined content"
             },
             "journalLogs": {
                 "date": "Date",
@@ -3929,6 +3931,14 @@
                 "deleteJournalTitleConfirmation": "Are you sure you want to delete this journal title"
             },
             "title": "Title"
+        }
+    },
+    "journalcontents":{
+        "newjournalcontent":"New journal content",
+        "selectjournalcontent":"Select journal content",
+        "form":{
+            "newjournalcontentname":"Content name",
+            "content":"Content"
         }
     },
     "languageSwitcher": {
