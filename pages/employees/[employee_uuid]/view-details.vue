@@ -221,6 +221,12 @@
                                             {{ state.selectedEmployee.employment.annual_norm_hours ?? 0 }}
                                         </p>
                                     </div>
+                                    <div class="space-y-1">
+                                        <Label :label="$t('employees.form.employment.weeklyNormHours')" />
+                                        <p class="font-medium">
+                                            {{ state.selectedEmployee.employment.weekly_norm_hours ?? 0 }}
+                                        </p>
+                                    </div>
                                     <div class="space-y-1" v-if="isAdmin(userStore.getUser?.roles)">
                                         <Label :label="$t('employees.form.employment.vacationDays')" />
                                         <p class="font-medium">
@@ -576,6 +582,9 @@ async function fetchEmployee() {
                     working_hours: response?.data?.employee_detail?.working_hours,
                     employment_status: response?.data?.employee_detail?.status,
                     annual_norm_hours: response?.data?.employee_detail?.annual_norm_hours,
+                    weekly_norm_hours: response?.data?.employee_detail?.annual_norm_hours
+                    ? Math.round(Number(response?.data?.employee_detail?.annual_norm_hours) / 52)
+                    : '',
                     vacation_days: response?.data?.employee_detail?.vacation_days,
                 },
                 emergencyInfo: {

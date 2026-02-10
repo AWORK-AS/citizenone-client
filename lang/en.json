@@ -2399,6 +2399,7 @@
             "scheduleSuccessfullyUpdated": "Schedule successfully updated"
         },
         "annualNormHours": "Annual norm hours",
+        "weeklyNormHours": "Weekly norm hours",
         "averageWeeklyHours": {
             "averageWeeklyHours": "Average weekly hours"
         },
@@ -3046,6 +3047,10 @@
                 "jobTitle": "Job title",
                 "salaryID": "Salary ID",
                 "terminationDate": "Termination date",
+                "weeklyNormHours": "Weekly norm hours",
+                "weeks": "Weeks",
+                "hoursPerYear": "hours per year",
+                "hoursPerWeek": "hours per week",
                 "workingHours": "Working hours",
                 "vacationDays": "Vacation days"
             },
