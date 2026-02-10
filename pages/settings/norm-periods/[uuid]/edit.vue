@@ -61,7 +61,8 @@ const state = reactive({
         end_day: '',
         description: '',
         department_uuids: [] as Array<string>,
-        is_active: true
+        is_active: true,
+        update_all_users: false,
     },
     isPageLoading: false,
 })
@@ -84,7 +85,8 @@ async function fetchNormPeriod() {
                 end_day: response?.data?.end_day ?? 31,
                 description: response?.data?.description ?? '',
                 department_uuids: response?.data?.departments?.map((dept: any) => dept.uuid) ?? [],
-                is_active: response?.data?.is_active ?? true
+                is_active: response?.data?.is_active ?? true,
+                update_all_users: false,
             }
         }
     } catch (error: any) {
@@ -105,7 +107,8 @@ async function updateNormPeriod(normPeriodDetails: any) {
             end_day: normPeriodDetails.end_day,
             description: normPeriodDetails.description,
             department_uuids: normPeriodDetails.department_uuids,
-            is_active: normPeriodDetails.is_active
+            is_active: normPeriodDetails.is_active,
+            update_all_users: normPeriodDetails.update_all_users
         }
         const response = await normPeriodService.updateNormPeriod(normPeriodUuid, params)
         if (response.data) {

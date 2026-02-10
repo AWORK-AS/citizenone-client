@@ -24,6 +24,10 @@ class NormPeriodService extends BaseAPIService {
     async getAllNormPeriods(): Promise<any> {
         return await this.request(`/user/norm-periods/all/list`, 'GET')
     }
+
+    async assignUsers(normPeriodUuid: string, params: object): Promise<any> {
+        return await this.request(`/user/norm-periods/${normPeriodUuid}/assign-users`, 'POST', params)
+    } 
 }
 
 export const normPeriodService = new NormPeriodService()

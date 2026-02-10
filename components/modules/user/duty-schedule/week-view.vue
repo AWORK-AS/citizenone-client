@@ -398,11 +398,13 @@
                                                                 aria-hidden="true" />
                                                         </div>
 
-                                                        <div v-if="employee?.norm_period" class="flex items-center gap-1 cursor-pointer">
+                                                        <div v-if="employee?.norm_period" class="flex items-center gap-1 cursor-pointer" @click="openUserNormPeriodModal(employee)">
                                                             <p class="text-xxs">
                                                                 {{ $t('dutySchedules.normPeriod') }}:
                                                                 {{ employee?.norm_period?.display_label ?? '' }}
                                                             </p>
+                                                            <Icon name="ph:question" class="h-3.5 w-3.5"
+                                                                aria-hidden="true" />
                                                         </div>
 
                                                         <p class="text-xxs">
@@ -900,6 +902,9 @@
             <ModulesUserDutyScheduleModalCopyMultipleWeeks :isModalOpen="state.modal.isCopyMultipleWeeklyScheduleOpen"
                 @close="state.modal.isCopyMultipleWeeklyScheduleOpen = false"
                 @refreshDutySchedules="fetchDutySchedule()" />
+            <ModulesUserDutyScheduleNormHoursModalUserNormPeriod :isModalOpen="state.modal.isUserNormPeriodOpen" :selectedEmployee="state.normHours.selectedEmployee"
+                @close="state.modal.isUserNormPeriodOpen = false"
+                @refreshDutySchedules="fetchDutySchedule()" />
         </LoadingSpinner>
     </div>
 </template>
@@ -989,6 +994,7 @@ const state = reactive({
         isVacationHoursOpen: false,
         isViewShiftOpen: false,
         isAnnualNormHoursInfoOpen: false,
+        isUserNormPeriodOpen: false,
     } as any,
     newShift: {
         selectedDate: '',
@@ -996,7 +1002,8 @@ const state = reactive({
     },
     newShiftError: {} as Error,
     normHours: {
-        selectedEmployeeSchedule: {}
+        selectedEmployeeSchedule: {},
+        selectedEmployee: {} as any,
     },
     progress: {
         percentage: 100,
@@ -1848,5 +1855,11 @@ async function dateTimeChange(employeeUuid: string, newDateTimeStart: string, ne
 function closeWarningDialog() {
     state.showWarningDialog = false
     state.shiftWarnings = []
+}
+
+function openUserNormPeriodModal(employee: any) {
+    if (!isAdmin(userStore.getUser?.role)) return
+    state.normHours.selectedEmployee = employee
+    state.modal.isUserNormPeriodOpen = true
 }
 </script>
