@@ -97,10 +97,10 @@ const state = reactive({
     formExtraHours: {
         date: props.selectedExtraHoursRequest?.date || '',
         type: props.selectedExtraHoursRequest?.extra_hours_type || '',
-        extra_hours_tags: props.selectedExtraHoursRequest?.extra_hours_tags || [],
+        extra_hours_tags: [],
         hours: props.selectedExtraHoursRequest?.extra_hours || '',
         note: props.selectedExtraHoursRequest?.note || '',
-    },
+    } as any,
     isPageLoading: false,
     modal: {
         isAddExtraHoursTagsOpen: false,
@@ -116,6 +116,10 @@ const state = reactive({
 
 onMounted(() => {
     fetchExtraHoursTags()
+    props.selectedExtraHoursRequest?.tags?.forEach((tag: any) => {
+        state.formExtraHours.extra_hours_tags.push(tag?.uuid)
+        console.log('tag', tag)
+    })
 })
 
 watch(() => language.locale.value, () => {
