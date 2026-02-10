@@ -18,7 +18,7 @@
                 <span>{{ $t('back') }}</span>
             </NuxtLink>
             <LoadingSpinner :isActive="state.isPageLoading">
-                <ModulesUserExtraHoursTagForm formType="update" :selectedExtraHoursTag="state.formExtraHoursTag"
+                <ModulesUserExtraHoursTagForm formType="update" :selectedTag="state.formExtraHoursTag"
                     :error="state.error" @isPageLoading="(value: boolean) => state.isPageLoading = value"
                     @submitForm="updateExtraHoursTag" />
             </LoadingSpinner>
