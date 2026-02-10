@@ -4320,10 +4320,14 @@
     "noResultFound": "Ingen resultater fundet",
     "normPeriod": {
         "addNormPeriod": "Tilføj normperiode",
+        "addCustomNormPeriod": "Tilføj tilpasset normperiode",
+        "assignEmployee": "Tildel medarbejder til normperiode",
         "normPeriod": "Normperioder",
         "editNormPeriod": "Rediger normperiode",
+        "modalDescription": "At tilknytte en medarbejder til en normperiode betyder, at der anvendes en tilpasset periode til at beregne vedkommendes arbejdstimer, afspadsering og ferietimer.",
         "alert": {
-            "normPeriodSuccessfullyDeleted": "Normperiode blev slettet"
+            "normPeriodSuccessfullyDeleted": "Normperiode blev slettet",
+            "employeeAssigned": "Medarbejder blev tildelt normperioden"
         },
         "confirmation": {
             "deleteNormPeriodConfirmation": "Er du sikker på, at du vil slette denne normperiode?"
@@ -4342,7 +4346,8 @@
             "endMonth": "Slutmåned",
             "endDay": "Slutdag",
             "description": "Beskrivelse",
-            "department": "Afdeling"
+            "department": "Afdeling",
+            "updateAllUsers": "Opdater alle brugere, der har denne normperiode"
         },
         "newNormPeriod": "Ny normperiode",
         "table": {
