@@ -2399,6 +2399,7 @@
             "scheduleSuccessfullyUpdated": "Tidsplan opdateret med succes"
         },
         "annualNormHours": "Årlige normtimer",
+        "weeklyNormHours": "Ugentlige normtimer",
         "averageWeeklyHours": {
             "averageWeeklyHours": "Gennemsnitlige ugentlige timer"
         },
@@ -3046,6 +3047,10 @@
                 "jobTitle": "Jobtitel",
                 "salaryID": "Løn-ID",
                 "terminationDate": "Opsigelsesdato",
+                "weeklyNormHours": "Ugentlige normtimer",
+                "weeks": "Uger",
+                "hoursPerYear": "Timer per år",
+                "hoursPerWeek": "Timer per uge",
                 "workingHours": "Arbejdstimer",
                 "vacationDays": "Feriedage"
             },
