@@ -4,11 +4,11 @@
             v-if="props.error?.message && props.error.message.length > 0" />
         <div class="space-y-3">
             <div class="space-y-1">
-                <FormLabel for="title" :label="$t('journalcontents.form.newjournalcontentname')" />
-                <FormTextField id="title" name="title" :placeholder="$t('journalcontents.form.newjournalcontentname')"
-                    v-model="state.formJournalContent.title" />
-                <FormError :error="v$?.formJournalContent?.title?.$errors[0]?.$message.toString()" />
-                <FormError :error="props?.error?.errors?.title?.[0]" />
+                <FormLabel for="name" :label="$t('journalcontents.form.newjournalcontentname')" />
+                <FormTextField id="name" name="name" :placeholder="$t('journalcontents.form.newjournalcontentname')"
+                    v-model="state.formJournalContent.name" />
+                <FormError :error="v$?.formJournalContent?.name?.$errors[0]?.$message.toString()" />
+                <FormError :error="props?.error?.errors?.name?.[0]" />
             </div>
             <div class="space-y-1">
                 <FormLabel for="content" :label="$t('journalcontents.form.content')" />
@@ -74,7 +74,7 @@ const editorConfig = ref({
 const state = reactive({
     error: {} as Error,
     formJournalContent: {
-        title: '',
+        name: '',
         content: '',
     },
 })
@@ -82,7 +82,7 @@ const state = reactive({
 watch(() => props.selectedJournalContent, (newValue: any) => {
     if (newValue != null) {
         state.formJournalContent = {
-            title: newValue.title,
+            name: newValue.name,
             content: newValue.content,
         }
     }
@@ -91,7 +91,7 @@ watch(() => props.selectedJournalContent, (newValue: any) => {
 const rules = computed(() => {
     return {
         formJournalContent: {
-            title: {
+            name: {
                 required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
             },
             content: {

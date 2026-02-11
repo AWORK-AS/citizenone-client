@@ -5,7 +5,7 @@
                          @close="closeModal">
             <template #modal-body>
                 <LoadingSpinner :isActive="state.isPageLoading">
-                    <div class="space-y-3">
+                    <div id="formSelectJournalContent" class="space-y-3">
                         <div class="space-y-1">
                             <div class="flex justify-between items-center py-0.5">
                                 <FormLabel for="newcontent" :label="$t('journalcontents.form.newjournalcontentname')" />
@@ -42,6 +42,7 @@
 </template>
 
 <script setup lang="ts">
+import { journalContentService } from '@/components/api/user/JournalContentService'
 import { useI18n } from "vue-i18n"
 import type { Error } from '@/types'
 
@@ -89,10 +90,14 @@ function selectContent() {
 async function fetchJournalContents() {
     state.isPageLoading = true
     try {
-        // TODO: Replace with journalContentService.fetchJournalContents() when API is ready
-        // Expected response: array of { uuid, title, content }
-        // Map to options format: { value: item.uuid, label: item.title, content: item.content }
-        console.log('Fetch journal contents')
+        const response = await journalContentService.getJournalContents({})
+        if (response.data) {
+            state.options.journal_contents = response.data.map((item: any) => ({
+                value: item.uuid,
+                label: item.name,
+                content: item.content,
+            }))
+        }
     } catch (error: any) {
         state.error = error
     }
@@ -105,3 +110,9 @@ watch(() => props.isModalOpen, (newValue) => {
     }
 })
 </script>
+
+<style>
+#formSelectJournalContent .multiselect-dropdown {
+    max-height: 4.8rem !important;
+}
+</style>

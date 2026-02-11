@@ -15,6 +15,7 @@
 </template>
 
 <script setup lang="ts">
+import { journalContentService } from '@/components/api/user/JournalContentService'
 import { useAlert } from '@/composables/alert'
 import { useI18n } from "vue-i18n"
 import type { Error } from '@/types'
@@ -33,7 +34,7 @@ const emit = defineEmits(['close', 'refreshJournalContents'])
 const state = reactive({
     error: {} as Error,
     formJournalContent: {
-        title: '',
+        name: '',
         content: '',
     },
     isPageLoading: false,
@@ -52,11 +53,10 @@ async function saveJournalContent(journalContentDetails: any) {
     state.isPageLoading = true
     try {
         const params = {
-            title: journalContentDetails.title,
+            name: journalContentDetails.name,
             content: journalContentDetails.content,
         }
-        // TODO: Replace with journalContentService.saveJournalContent(params) when API is ready
-        console.log('Save journal content:', params)
+        await journalContentService.saveJournalContent(params)
         successAlert(`${t('alert.success')}!`, `${t('journalcontents.form.alert.newJournalContentSuccessfullySaved')}.`)
         refreshJournalContents()
         closeModal()
