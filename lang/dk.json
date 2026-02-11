@@ -877,6 +877,7 @@
                 "date": "Dato",
                 "draft": "Udkast",
                 "enterJournalTitleManually": "Indtast journal titel manuelt",
+                "enterJournalContent": "Indtast journalindhold manuelt",
                 "forTeeth": "Til tænder",
                 "goal": "Mål",
                 "hideCurrentPlansGoalsAndSubgoals": "Skjul nuværende planer, mål og delmål",
@@ -907,7 +908,8 @@
                 "tags": "Etiketter",
                 "teeth": "Tænder",
                 "title": "Titel",
-                "usePredefinedJournalTitle": "Brug foruddefineret journal titel"
+                "usePredefinedJournalTitle": "Brug foruddefineret journal titel",
+                "usePredefinedcontent": "Brug foruddefineret indhold"
             },
             "journalLogs": {
                 "date": "Dato",
