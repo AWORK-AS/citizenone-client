@@ -46,12 +46,8 @@ const state = reactive({
 })
 
 function closeModal() {
-    state.formDocument = {
-        name: '',
-        content: '',
-        is_admin_access: false,
-    }
     emit('close')
+    resetForm()
 }
 
 function refreshDocuments() {
@@ -65,6 +61,14 @@ watch(() => props.isModalOpen, (isModalOpen) => {
         fetchDocument()
     }
 })
+
+function resetForm() {
+    state.formDocument = {
+        name: '',
+        content: '',
+        is_admin_access: false,
+    }
+}
 
 async function fetchDocument() {
     state.isPageLoading = true

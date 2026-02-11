@@ -50,6 +50,13 @@
             <FormError :error="v$?.formNormPeriod?.department_uuids?.$errors[0]?.$message.toString()" />
             <FormError :error="props?.error?.errors?.department_uuids?.[0]" />
         </div>
+        <div class="space-y-3 my-2">
+            <div class="w-fit flex items-center cursor-pointer"
+                @click="state.formNormPeriod.update_all_users = !state.formNormPeriod.update_all_users">
+                <FormCheckbox id="update_all_users" :value="state.formNormPeriod.update_all_users" />
+                {{ $t('normPeriod.form.updateAllUsers') }}
+            </div>
+        </div>
         <div class="space-y-1">
             <FormLabel for="description" :label="$t('normPeriod.form.description')" />
             <FormTextArea id="description" name="description" :placeholder="$t('normPeriod.form.description')"
@@ -109,7 +116,8 @@ const state = reactive({
         end_day: '',
         description: '',
         department_uuids: [] as Array<string>,
-        is_active: true
+        is_active: true,
+        update_all_users: false,
     },
     options: {
         "months": [
@@ -145,7 +153,8 @@ watch(() => props.selectedNormPeriod, (newValue: any) => {
             end_day: newValue.end_day,
             description: newValue.description,
             department_uuids: newValue.department_uuids,
-            is_active: newValue.is_active
+            is_active: newValue.is_active,
+            update_all_users: state.formNormPeriod.update_all_users,
         }
     }
 })

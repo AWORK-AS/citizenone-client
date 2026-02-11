@@ -2401,6 +2401,7 @@
             "scheduleSuccessfullyUpdated": "Schedule successfully updated"
         },
         "annualNormHours": "Annual norm hours",
+        "weeklyNormHours": "Weekly norm hours",
         "averageWeeklyHours": {
             "averageWeeklyHours": "Average weekly hours"
         },
@@ -2543,6 +2544,7 @@
                 "date": "Date",
                 "hours": "Hours",
                 "note": "Note",
+                "tags": "Tags",
                 "type": {
                     "add": "Add",
                     "deduct": "Deduct",
@@ -2578,6 +2580,7 @@
                     "rejected": "Rejected",
                     "status": "Status"
                 },
+                "tags": "Tags",
                 "type": {
                     "add": "Add",
                     "deduct": "Deduct",
@@ -2831,7 +2834,8 @@
             "fileSuccessfullyMoved": "File successfully moved",
             "fileSuccessfullyUpdated": "File successfully updated",
             "folderSuccessfullyAdded": "New folder successfully saved",
-            "folderSuccessfullyUpdated": "Folder successfully updated"
+            "folderSuccessfullyUpdated": "Folder successfully updated",
+            "modifyDocumentLayoutWarning": "Modifying this document can unintentionally change its original layout and structure. Please review all changes carefully before saving"
         },
         "access": {
             "access": "Access",
@@ -3045,6 +3049,10 @@
                 "jobTitle": "Job title",
                 "salaryID": "Salary ID",
                 "terminationDate": "Termination date",
+                "weeklyNormHours": "Weekly norm hours",
+                "weeks": "Weeks",
+                "hoursPerYear": "hours per year",
+                "hoursPerWeek": "hours per week",
                 "workingHours": "Working hours",
                 "vacationDays": "Vacation days"
             },
@@ -3316,6 +3324,34 @@
             "description": "Description",
             "receipt": "Receipt",
             "expense": "Expense"
+        }
+    },
+    "extraHoursTags": {
+        "addNewExtraHoursTag": "Add new extra hours tag",
+        "alert": {
+            "extraHoursTagSuccessfullyDeleted": "Extra hours tag successfully deleted"
+        },
+        "extraHoursTags": "Extra hours tags",
+        "editExtraHoursTag": "Edit extra hours tag",
+        "form": {
+            "alert": {
+                "extraHoursTagSuccessfullyUpdated": "Extra hours tag successfully updated",
+                "newExtraHoursTagSuccessfullySaved": "New extra hours tag successfully saved"
+            },
+            "department": "Department",
+            "name": "Name"
+        },
+        "newExtraHoursTag": "New extra hours tag",
+        "table": {
+            "actions": {
+                "delete": "Delete",
+                "edit": "Edit"
+            },
+            "confirmation": {
+                "deleteExtraHoursTagConfirmation": "Are you sure you want to delete this extra hours tag"
+            },
+            "department": "Department",
+            "name": "Name"
         }
     },
     "features": {
@@ -4319,10 +4355,14 @@
     "noResultFound": "No result found",
     "normPeriod": {
         "addNormPeriod": "Add norm period",
+        "addCustomNormPeriod": "Add custom norm period",
+        "assignEmployee": "Assign Employee to norm period",
         "normPeriod": "Norm periods",
         "editNormPeriod": "Edit norm period",
+        "modalDescription": "Assigning an employee to a norm period means that a custom period is used to calculate their working, compensatory and vacation hours.",
         "alert": {
-            "normPeriodSuccessfullyDeleted": "Norm period successfully deleted"
+            "normPeriodSuccessfullyDeleted": "Norm period successfully deleted",
+            "employeeAssigned": "Employee was successfully assigned to the norm period"
         },
         "confirmation": {
             "deleteNormPeriodConfirmation": "Are you sure you want to delete this norm period?"
@@ -4341,7 +4381,8 @@
             "endMonth": "End Month",
             "endDay": "End Day",
             "description": "Description",
-            "department": "Department"
+            "department": "Department",
+            "updateAllUsers": "Update all employees within this department"
         },
         "newNormPeriod": "New norm period",
         "table": {
@@ -5384,6 +5425,7 @@
             "dosageForms": "Dosage forms",
             "employeeGroups": "Employee groups",
             "expenseCategories": "Expense categories",
+            "extraHoursTags": "Extra hours tags",
             "foreignCities": "Foreign cities",
             "invoices": "Invoices",
             "jobTitles": "Job titles",

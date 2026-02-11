@@ -236,9 +236,10 @@
                         @close="closeUpgradeStorageModal" @confirm="navigateTo(`/storage/upgrade`)" />
                     <ModulesUserDocumentDocsFileModalNew :isModalOpen="state.modal.isCreateDocumentFileOpen"
                         @close="state.modal.isCreateDocumentFileOpen = false" @refreshDocuments="fetchDocuments" />
-                    <ModulesUserDocumentDocsFileModalEdit :isModalOpen="state.modal.isEditDocumentFileOpen"
-                        :selectedDocument="state.selectedDocument" @close="state.modal.isEditDocumentFileOpen = false"
-                        @refreshDocuments="fetchDocuments" />
+                    <ModulesUserDocumentDocsFileModalEditLayoutWarning
+                        :isModalOpen="state.modal.isEditDocumentFileWarningOpen"
+                        :selectedDocument="state.selectedDocument"
+                        @close="state.modal.isEditDocumentFileWarningOpen = false" @refreshDocuments="fetchDocuments" />
                     <ModulesUserDocumentDocsFileModalPreview :isModalOpen="state.modal.isViewDocumentOpen"
                         :selectedDocument="state.selectedDocument" @close="state.modal.isViewDocumentOpen = false" />
                 </div>
@@ -250,7 +251,6 @@
 <script setup lang="ts">
 import { Menu, MenuButton, MenuItems, MenuItem } from '@headlessui/vue'
 import { useDatetimeFormatter } from '@/composables/datetimeFormatter'
-import { useMammothConverter } from '@/composables/useMammothConverter'
 import { documentService } from '@/components/api/user/DocumentService'
 import { useI18n } from "vue-i18n"
 import { useAlert } from '@/composables/alert'
@@ -298,6 +298,7 @@ const state = reactive({
         isDeleteFileOpen: false,
         isEditDocumentOpen: false,
         isEditDocumentFileOpen: false,
+        isEditDocumentFileWarningOpen: false,
         isMoveFileOpen: false,
         isUpgradeStorageOpen: false,
         isUploadFileOpen: false,
@@ -491,11 +492,17 @@ async function editDocument(document: any) {
     const ext = document.file_url.split('.').pop().toLowerCase()
     if (['html', 'htm', 'docx'].includes(ext)) {
         state.selectedDocument = document
-        state.modal.isEditDocumentFileOpen = true
+        state.modal.isEditDocumentFileWarningOpen = true
     } else {
         state.selectedDocument = document
         state.modal.isEditDocumentOpen = true
     }
+}
+
+async function confirmOpenEditDocFile() {
+    state.modal.isEditDocumentFileWarningOpen = false
+    await nextTick()
+    state.modal.isEditDocumentFileOpen = true
 }
 
 function viewDocumentAccess(document: any) {

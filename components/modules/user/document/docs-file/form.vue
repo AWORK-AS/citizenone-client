@@ -115,9 +115,9 @@ function submitForm() {
     }
 }
 
-// function ramani para mo auto switch ang sa ribbon katung 
-// ma ano ang font style and size based on the populated content
-// since alaws mn tu gi dayun ug implement pwede rani wala or comment lng sa for now?    
+// function intended to auto-switch the ribbon 
+// so that the font style and size adjust based on the populated content
+// since that wasn’t implemented right away, it’s fine to leave it out or just comment it for now   
 
 // function processContent() {
 //     if (!state.formDocument.content) return ""

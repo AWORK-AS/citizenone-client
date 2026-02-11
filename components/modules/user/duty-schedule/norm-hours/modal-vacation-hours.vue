@@ -1,6 +1,6 @@
 <template>
     <div>
-        <Modal size="md" :title="$t('dutySchedules.normHours.availableVacationHours')" :show="props.isModalOpen"
+        <Modal size="lg" :title="$t('dutySchedules.normHours.availableVacationHours')" :show="props.isModalOpen"
             @close="closeModal">
             <template #modal-body>
                 <LoadingSpinner :isActive="state.isPageLoading">
@@ -126,6 +126,14 @@ function closeModal() {
 
 watch(() => props.isModalOpen, (isModalOpen) => {
     if (isModalOpen) {
+        fetchCompensatoryVacationHours()
+    }
+})
+
+watch(() => props.selectedEmployee, (selectedEmployee) => {
+    if (selectedEmployee.norm_period) {
+        state.dateRange.formDateRange.start_date = moment(selectedEmployee.norm_period.period_start).format('YYYY-MM-DD')
+        state.dateRange.formDateRange.end_date = moment(selectedEmployee.norm_period.period_end).format('YYYY-MM-DD')
         fetchCompensatoryVacationHours()
     }
 })

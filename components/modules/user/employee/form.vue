@@ -281,10 +281,32 @@
                         </div>
                         <FormTextField id="annual_norm_hours" name="annual_norm_hours"
                             :placeholder="$t('employees.form.employment.annualNormHours')"
+                            @input="onYearlyInput"
                             v-model="state.formEmployee.employment.annual_norm_hours" />
+                        <p class="text-sm text-primary" v-if="state.info.showAnnualNormHoursCalculation">
+                            {{ annualNormHoursCalculation }}
+                        </p>
                         <FormError
                             :error="v$?.formEmployee?.employment?.annual_norm_hours?.$errors[0]?.$message.toString()" />
                         <FormError :error="props?.error?.errors?.annual_norm_hours?.[0]" />
+                    </div>
+                    <div class="space-y-1" ref="weeklyNormHoursField" v-if="isAdmin(userStore.getUser?.roles)">
+                        <div class="flex items-center gap-x-1">
+                            <FormLabel for="weekly_norm_hours"
+                                :label="$t('employees.form.employment.weeklyNormHours')" />
+                            <Icon name="ph:question" class="size-4 cursor-pointer text-gray-700" aria-hidden="true"
+                                @click="state.modal.isAnnualNormHoursInfoOpen = true" />
+                        </div>
+                        <FormTextField id="weekly_norm_hours" name="weekly_norm_hours"
+                            :placeholder="$t('employees.form.employment.weeklyNormHours')"
+                            @input="onWeeklyInput"
+                            v-model="state.formEmployee.employment.weekly_norm_hours" />
+                        <p class="text-sm text-primary" v-if="state.info.showWeeklyNormHoursCalculation">
+                            {{ weeklyNormHoursCalculation }}
+                        </p>
+                        <FormError
+                            :error="v$?.formEmployee?.employment?.weekly_norm_hours?.$errors[0]?.$message.toString()" />
+                        <FormError :error="props?.error?.errors?.weekly_norm_hours?.[0]" />
                     </div>
                     <div class="space-y-1" ref="vacationDaysField" v-if="isAdmin(userStore.getUser?.roles)">
                         <FormLabel for="vacation_days" :label="$t('employees.form.employment.vacationDays')" />
@@ -608,6 +630,7 @@ const state = reactive({
             working_hours: '',
             employment_status: '',
             annual_norm_hours: '',
+            weekly_norm_hours: '',
             vacation_days: '',
         },
         emergencyInfo: {
@@ -625,6 +648,10 @@ const state = reactive({
         isAddRoleOpen: false,
         isShowMediaRiskExplainationOpen: false,
         isAnnualNormHoursInfoOpen: false,
+    },
+    info: {
+        showAnnualNormHoursCalculation: false,
+        showWeeklyNormHoursCalculation: false,
     },
     permissions: {
         read: false,
@@ -708,6 +735,9 @@ watch(() => props.selectedEmployee, (newValue: any) => {
                 working_hours: newValue.employment.working_hours,
                 employment_status: newValue.employment.employment_status,
                 annual_norm_hours: newValue.employment.annual_norm_hours,
+                weekly_norm_hours: newValue.employment.annual_norm_hours
+                    ? Math.round(Number(newValue.employment.annual_norm_hours) / 52)
+                    : '',
                 vacation_days: newValue.employment.vacation_days,
             },
             show_working_hours: newValue.show_working_hours,
@@ -757,6 +787,20 @@ const rules = computed(() => {
 })
 
 const v$ = useVuelidate(rules, state)
+
+const weeklyNormHoursCalculation = computed(() => {
+    if (state.formEmployee.employment.annual_norm_hours) {
+        return `${state.formEmployee.employment.annual_norm_hours} ${t('employees.form.employment.hoursPerYear')} / 52 weeks = ${Math.round((Number(state.formEmployee.employment.annual_norm_hours) / 52 + Number.EPSILON) * 100) / 100} ${t('employees.form.employment.weeklyNormHours')}`
+    }
+    return ''
+})
+
+const annualNormHoursCalculation = computed(() => {
+    if (state.formEmployee.employment.weekly_norm_hours) {
+        return `${state.formEmployee.employment.weekly_norm_hours} ${t('employees.form.employment.hoursPerWeek')} * 52 weeks = ${Math.round((Number(state.formEmployee.employment.weekly_norm_hours) * 52 + Number.EPSILON) * 100) / 100} ${t('employees.form.employment.annualNormHours')}`
+    }
+    return ''
+})
 
 onMounted(() => {
     fetchMediaRisks()
@@ -1121,5 +1165,45 @@ function removePermission(permissionToRemove: string) {
 
 function removeMedia(mediaToRemove: string) {
     state.formEmployee.media_risks = state.formEmployee.media_risks.filter((media: string) => media !== mediaToRemove);
+}
+
+function onWeeklyInput(event: any) {
+    const value = event.target.value
+    state.formEmployee.employment.weekly_norm_hours = value
+    state.info.showAnnualNormHoursCalculation = true
+    state.info.showWeeklyNormHoursCalculation = false
+    
+    const weeklyHours = parseFloat(value)
+    if (!isNaN(weeklyHours) && weeklyHours >= 0) {
+        const calculatedAnnualHours = Math.round(weeklyHours * 52)
+        
+        const currentAnnual = state.formEmployee.employment.annual_norm_hours 
+            ? parseFloat(state.formEmployee.employment.annual_norm_hours) 
+            : NaN
+        
+        if (!Number.isFinite(currentAnnual) || calculatedAnnualHours !== currentAnnual) {
+            state.formEmployee.employment.annual_norm_hours = String(calculatedAnnualHours)
+        }
+    }
+}
+
+function onYearlyInput(event: any) {
+    const value = event.target.value
+    state.formEmployee.employment.annual_norm_hours = value
+    state.info.showWeeklyNormHoursCalculation = true
+    state.info.showAnnualNormHoursCalculation = false
+    
+    const annualHours = parseFloat(value)
+    if (!isNaN(annualHours) && annualHours >= 0) {
+        const calculatedWeeklyHours = Math.round(annualHours / 52)
+        
+        const currentWeekly = state.formEmployee.employment.weekly_norm_hours 
+            ? parseFloat(state.formEmployee.employment.weekly_norm_hours) 
+            : NaN
+        
+        if (!Number.isFinite(currentWeekly) || calculatedWeeklyHours !== currentWeekly) {
+            state.formEmployee.employment.weekly_norm_hours = String(calculatedWeeklyHours)
+        }
+    }
 }
 </script>

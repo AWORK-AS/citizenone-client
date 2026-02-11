@@ -44,6 +44,7 @@ const state = reactive({
         employee_uuid: '',
         date: '',
         extra_hours_type: '',
+        extra_hours_tags: [],
         extra_hours: '',
         note: '',
     },
@@ -64,6 +65,7 @@ async function saveScheduleSlot(extraHoursDetails: any) {
             user_uuid: props.selectedEmployee?.uuid,
             date: extraHoursDetails.date,
             extra_hours_type: extraHoursDetails.type,
+            extra_hours_tags_uuid: extraHoursDetails.extra_hours_tags,
             extra_hours: extraHoursDetails.hours,
             note: extraHoursDetails.note,
         }

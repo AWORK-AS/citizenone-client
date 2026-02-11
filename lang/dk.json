@@ -2399,6 +2399,7 @@
             "scheduleSuccessfullyUpdated": "Tidsplan opdateret med succes"
         },
         "annualNormHours": "Årlige normtimer",
+        "weeklyNormHours": "Ugentlige normtimer",
         "averageWeeklyHours": {
             "averageWeeklyHours": "Gennemsnitlige ugentlige timer"
         },
@@ -2541,6 +2542,7 @@
                 "date": "Dato",
                 "hours": "Timer",
                 "note": "Bemærkning",
+                "tags": "Etiketter",
                 "type": {
                     "add": "Tilføj",
                     "deduct": "Træk fra",
@@ -2576,6 +2578,7 @@
                     "rejected": "Afvist",
                     "status": "Status"
                 },
+                "tags": "Etiketter",
                 "type": {
                     "add": "Tilføj",
                     "deduct": "Træk fra",
@@ -2829,7 +2832,8 @@
             "fileSuccessfullyMoved": "Filen blev flyttet til en anden mappe med succes",
             "fileSuccessfullyUpdated": "Fil opdateret med succes",
             "folderSuccessfullyAdded": "Ny mappe gemt med succes",
-            "folderSuccessfullyUpdated": "Mappe opdateret med succes"
+            "folderSuccessfullyUpdated": "Mappe opdateret med succes",
+            "modifyDocumentLayoutWarning": "Ændring af dette dokument kan utilsigtet ændre dets oprindelige layout og struktur. Gennemgå venligst alle ændringer grundigt før du gemmer"
         },
         "access": {
             "access": "Adgang",
@@ -3043,6 +3047,10 @@
                 "jobTitle": "Jobtitel",
                 "salaryID": "Løn-ID",
                 "terminationDate": "Opsigelsesdato",
+                "weeklyNormHours": "Ugentlige normtimer",
+                "weeks": "Uger",
+                "hoursPerYear": "Timer per år",
+                "hoursPerWeek": "Timer per uge",
                 "workingHours": "Arbejdstimer",
                 "vacationDays": "Feriedage"
             },
@@ -3314,6 +3322,34 @@
             "description": "Beskrivelse",
             "receipt": "Kvittering",
             "expense": "Udgift"
+        }
+    },
+    "extraHoursTags": {
+        "addNewExtraHoursTag": "Tilføj nyt ekstra timer-tag",
+        "alert": {
+            "extraHoursTagSuccessfullyDeleted": "Ekstra timer-tag blev slettet"
+        },
+        "extraHoursTags": "Ekstra timer-tags",
+        "editExtraHoursTag": "Rediger ekstra timer-tag",
+        "form": {
+            "alert": {
+                "extraHoursTagSuccessfullyUpdated": "Ekstra timer-tag blev opdateret",
+                "newExtraHoursTagSuccessfullySaved": "Nyt ekstra timer-tag blev gemt"
+            },
+            "department": "Afdeling",
+            "name": "Navn"
+        },
+        "newExtraHoursTag": "Nyt ekstra timer-tag",
+        "table": {
+            "actions": {
+                "delete": "Slet",
+                "edit": "Rediger"
+            },
+            "confirmation": {
+                "deleteExtraHoursTagConfirmation": "Er du sikker på, at du vil slette dette ekstra timer-tag?"
+            },
+            "department": "Afdeling",
+            "name": "Navn"
         }
     },
     "features": {
@@ -4317,10 +4353,14 @@
     "noResultFound": "Ingen resultater fundet",
     "normPeriod": {
         "addNormPeriod": "Tilføj normperiode",
+        "addCustomNormPeriod": "Tilføj tilpasset normperiode",
+        "assignEmployee": "Tildel medarbejder til normperiode",
         "normPeriod": "Normperioder",
         "editNormPeriod": "Rediger normperiode",
+        "modalDescription": "At tilknytte en medarbejder til en normperiode betyder, at der anvendes en tilpasset periode til at beregne vedkommendes arbejdstimer, afspadsering og ferietimer.",
         "alert": {
-            "normPeriodSuccessfullyDeleted": "Normperiode blev slettet"
+            "normPeriodSuccessfullyDeleted": "Normperiode blev slettet",
+            "employeeAssigned": "Medarbejder blev tildelt normperioden"
         },
         "confirmation": {
             "deleteNormPeriodConfirmation": "Er du sikker på, at du vil slette denne normperiode?"
@@ -4339,7 +4379,8 @@
             "endMonth": "Slutmåned",
             "endDay": "Slutdag",
             "description": "Beskrivelse",
-            "department": "Afdeling"
+            "department": "Afdeling",
+            "updateAllUsers": "Opdater alle brugere, der har denne normperiode"
         },
         "newNormPeriod": "Ny normperiode",
         "table": {
@@ -5382,6 +5423,7 @@
             "dosageForms": "Doseringsformer",
             "employeeGroups": "Medarbejdergrupper",
             "expenseCategories": "Udgiftskategorier",
+            "extraHoursTags": "Ekstra timer tags",
             "foreignCities": "Udenlandske byer",
             "invoices": "Fakturaer",
             "jobTitles": "Jobtitler",
