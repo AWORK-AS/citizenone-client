@@ -3931,6 +3931,34 @@
             "title": "Titel"
         }
     },
+    "journalcontents":{
+        "journalContents": "Journal indhold",
+        "newJournalContent": "Nyt journal indhold",
+        "editJournalContent": "Rediger journal indhold",
+        "newjournalcontent": "Nyt journal indhold",
+        "selectjournalcontent": "Vælg journal indhold",
+        "form":{
+            "newjournalcontentname": "Indholdsnavn",
+            "content": "Indhold",
+            "alert": {
+                "newJournalContentSuccessfullySaved": "Journal indhold gemt",
+                "journalContentSuccessfullyUpdated": "Journal indhold opdateret"
+            }
+        },
+        "table": {
+            "name": "Navn",
+            "actions": {
+                "edit": "Rediger",
+                "delete": "Slet"
+            },
+            "alert": {
+                "journalContentSuccessfullyDeleted": "Journal indhold slettet"
+            },
+            "confirmation": {
+                "deleteJournalContentConfirmation": "Er du sikker på, at du vil slette dette journal indhold"
+            }
+        }
+    },
     "languageSwitcher": {
         "selectLanguage": "Vælg sprog"
     },
@@ -5359,6 +5387,7 @@
             "jobTitles": "Jobtitler",
             "journalNoteTags": "Journalnotetag",
             "journalTitles": "Journal titler",
+            "journalContents": "Journal indhold",
             "licenseOverview": "Licensoversigt",
             "licenses": "Licenser",
             "massUnits": "Masseenheder",

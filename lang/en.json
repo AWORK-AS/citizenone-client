@@ -3934,11 +3934,31 @@
         }
     },
     "journalcontents":{
+        "journalContents": "Journal content",
+        "newJournalContent":"New journal content",
+        "editJournalContent": "Edit journal content",
         "newjournalcontent":"New journal content",
         "selectjournalcontent":"Select journal content",
         "form":{
             "newjournalcontentname":"Content name",
-            "content":"Content"
+            "content":"Content",
+            "alert": {
+                "newJournalContentSuccessfullySaved": "Journal content successfully saved",
+                "journalContentSuccessfullyUpdated": "Journal content successfully updated"
+            }
+        },
+        "table": {
+            "name": "Name",
+            "actions": {
+                "edit": "Edit",
+                "delete": "Delete"
+            },
+            "alert": {
+                "journalContentSuccessfullyDeleted": "Journal content successfully deleted"
+            },
+            "confirmation": {
+                "deleteJournalContentConfirmation": "Are you sure you want to delete this journal content"
+            }
         }
     },
     "languageSwitcher": {
@@ -5369,6 +5389,7 @@
             "jobTitles": "Job titles",
             "journalNoteTags": "Journal note tags",
             "journalTitles": "Journal titles",
+            "journalContents": "Journal content",
             "licenseOverview": "License overview",
             "licenses": "Licenses",
             "massUnits": "Mass units",

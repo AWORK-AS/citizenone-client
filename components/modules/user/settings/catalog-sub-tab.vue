@@ -141,6 +141,14 @@ watch(() => userStore.getUser, (newValue: any) => {
                 ]
             },
             {
+                name: 'settings.tabs.journalContents',
+                isTranslateName: true,
+                href: `/settings/journal-contents`,
+                routeNames: [
+                    'settings-journal-contents'
+                ]
+            },
+            {
                 name: 'settings.tabs.massUnits',
                 isTranslateName: true,
                 href: `/settings/mass-units`,
@@ -273,6 +281,9 @@ function changeTab(value: any) {
     }
     else if (value === '/settings/journal-titles') {
         navigateTo(`/settings/journal-titles`)
+    }
+    else if (value === '/settings/journal-contents') {
+        navigateTo(`/settings/journal-contents`)
     }
     else if (value === '/settings/mass-units') {
         navigateTo(`/settings/mass-units`)
