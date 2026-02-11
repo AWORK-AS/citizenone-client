@@ -1,13 +1,12 @@
 <template>
     <div>
-        <Modal size="md"
-        :title="$t('journalContents.newJournalContent')"
-        :show="props.isModalOpen" @close="closeModal">
+        <Modal size="md" :title="$t('journalContents.newJournalContent')" :show="props.isModalOpen" @close="closeModal">
             <template #modal-body>
                 <LoadingSpinner :isActive="state.isPageLoading">
-                    <ModulesUserJournalContentModalForm formType="create" :selectedJournalContent="state.formJournalContent"
-                        :error="state.error" @isPageLoading="(value: boolean) => state.isPageLoading = value"
-                        @closeModal="closeModal" @submitForm="saveJournalContent" />
+                    <ModulesUserJournalContentModalForm formType="create"
+                        :selectedJournalContent="state.formJournalContent" :error="state.error"
+                        @isPageLoading="(value: boolean) => state.isPageLoading = value" @closeModal="closeModal"
+                        @submitForm="saveJournalContent" />
                 </LoadingSpinner>
             </template>
         </Modal>

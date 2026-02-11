@@ -11,7 +11,9 @@
                 <FormError :error="props?.error?.errors?.name?.[0]" />
             </div>
             <div class="space-y-1">
-                <FormLabel for="content" :label="$t('journalContents.form.content')" />
+                <p class="text-sm text-gray-600">
+                    {{ $t('journalContents.form.content') }}
+                </p>
                 <ckeditor :editor="editor" v-model="state.formJournalContent.content" :config="editorConfig" />
                 <FormError :error="v$?.formJournalContent?.content?.$errors[0]?.$message.toString()" />
                 <FormError :error="props?.error?.errors?.content?.[0]" />
@@ -32,10 +34,10 @@
 </template>
 
 <script setup lang="ts">
+import ClassicEditor from '@ckeditor/ckeditor5-build-classic'
 import { useVuelidate } from "@vuelidate/core"
 import { required, helpers } from '@vuelidate/validators'
 import { useI18n } from "vue-i18n"
-import ClassicEditor from '@ckeditor/ckeditor5-build-classic'
 import type { Error } from '@/types'
 
 const props = defineProps({
