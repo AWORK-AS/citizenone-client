@@ -52,6 +52,7 @@ function refreshExtraHours() {
 }
 
 async function updateScheduleSlot(extraHoursDetails: any) {
+    state.isPageLoading = true
     try {
         const extraHoursUuid = props.selectedExtraHoursRequest?.uuid
         const params = {
@@ -74,6 +75,7 @@ async function updateScheduleSlot(extraHoursDetails: any) {
     } catch (error: any) {
         state.error = error
     }
+    state.isPageLoading = false
 }
 
 function isAdmin(role: any) {
