@@ -6192,7 +6192,8 @@
         "updates": "Opdateringer"
     },
     "validation": {
-        "thisFieldIsRequired": "Dette felt er påkrævet"
+        "thisFieldIsRequired": "Dette felt er påkrævet",
+        "invalidNumber": "Ugyldigt nummer"
     },
     "verifyEmail": {
         "emailVerified": "Email verificeret",

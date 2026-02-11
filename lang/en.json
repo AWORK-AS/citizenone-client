@@ -6194,7 +6194,8 @@
         "updates": "Updates"
     },
     "validation": {
-        "thisFieldIsRequired": "This field is required"
+        "thisFieldIsRequired": "This field is required",
+        "invalidNumber": "Invalid number"
     },
     "verifyEmail": {
         "emailVerified": "Email verified",

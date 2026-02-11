@@ -289,6 +289,7 @@
                         <FormError
                             :error="v$?.formEmployee?.employment?.annual_norm_hours?.$errors[0]?.$message.toString()" />
                         <FormError :error="props?.error?.errors?.annual_norm_hours?.[0]" />
+                        <FormError :error="state?.error?.errors?.annual_norm_hours?.[0]" />
                     </div>
                     <div class="space-y-1" ref="weeklyNormHoursField" v-if="isAdmin(userStore.getUser?.roles)">
                         <div class="flex items-center gap-x-1">
@@ -307,6 +308,7 @@
                         <FormError
                             :error="v$?.formEmployee?.employment?.weekly_norm_hours?.$errors[0]?.$message.toString()" />
                         <FormError :error="props?.error?.errors?.weekly_norm_hours?.[0]" />
+                        <FormError :error="state?.error?.errors?.weekly_norm_hours?.[0]" />
                     </div>
                     <div class="space-y-1" ref="vacationDaysField" v-if="isAdmin(userStore.getUser?.roles)">
                         <FormLabel for="vacation_days" :label="$t('employees.form.employment.vacationDays')" />
@@ -1169,11 +1171,34 @@ function removeMedia(mediaToRemove: string) {
 
 function onWeeklyInput(event: any) {
     const value = event.target.value
+    const weeklyHours = parseFloat(value)
+
+    console.log('weeklyHours:', weeklyHours)
+
+    if (value === '') {
+        state.formEmployee.employment.weekly_norm_hours = ''
+        state.info.showAnnualNormHoursCalculation = false
+        state.info.showWeeklyNormHoursCalculation = false
+        delete state?.error?.errors?.weekly_norm_hours
+        return
+    }
+    if (isNaN(weeklyHours) || weeklyHours < 0 || /^\d*\.?\d*$/.test(value) === false) {
+        state.info.showWeeklyNormHoursCalculation = false
+        state.info.showAnnualNormHoursCalculation = false
+
+        state.error.errors = {
+            ...state.error.errors,
+            weekly_norm_hours: [t('validation.invalidNumber')]
+        }
+        return
+    }
+
+    delete state?.error?.errors?.weekly_norm_hours
+    delete state?.error?.errors?.annual_norm_hours
     state.formEmployee.employment.weekly_norm_hours = value
     state.info.showAnnualNormHoursCalculation = true
     state.info.showWeeklyNormHoursCalculation = false
     
-    const weeklyHours = parseFloat(value)
     if (!isNaN(weeklyHours) && weeklyHours >= 0) {
         const calculatedAnnualHours = Math.round(weeklyHours * 52)
         
@@ -1189,11 +1214,32 @@ function onWeeklyInput(event: any) {
 
 function onYearlyInput(event: any) {
     const value = event.target.value
+    const annualHours = parseFloat(value)
+
+    if (value === '') {
+        state.formEmployee.employment.annual_norm_hours = ''
+        state.info.showAnnualNormHoursCalculation = false
+        state.info.showWeeklyNormHoursCalculation = false
+        delete state?.error?.errors?.annual_norm_hours
+        return
+    }
+    if (isNaN(annualHours) || annualHours < 0 || /^\d*\.?\d*$/.test(value) === false) {
+        state.info.showWeeklyNormHoursCalculation = false
+        state.info.showAnnualNormHoursCalculation = false
+
+        state.error.errors = {
+            ...state.error.errors,
+            annual_norm_hours: [t('validation.invalidNumber')]
+        }
+        return
+    }
+
+    delete state?.error?.errors?.annual_norm_hours
+    delete state?.error?.errors?.weekly_norm_hours
     state.formEmployee.employment.annual_norm_hours = value
     state.info.showWeeklyNormHoursCalculation = true
     state.info.showAnnualNormHoursCalculation = false
     
-    const annualHours = parseFloat(value)
     if (!isNaN(annualHours) && annualHours >= 0) {
         const calculatedWeeklyHours = Math.round(annualHours / 52)
         
