@@ -25,7 +25,8 @@
                         </p>
                         <p v-if="language.locale.value === 'dk'">
                             <span class="text-red-700">
-                                OBS: Der er registreret en borger under 18 år, men den tilknyttede medarbejder har ikke en gyldig børneattest uploadet på sin brugerkonto.
+                                OBS: Der er registreret en borger under 18 år, men den tilknyttede medarbejder har ikke
+                                en gyldig børneattest uploadet på sin brugerkonto.
                             </span>
                             <span class="cursor-pointer text-primary hover:text-primary-700"
                                 @click="state.showChildProtectionCertificateWarning = false">
@@ -58,7 +59,14 @@
                     <div class="w-fit flex items-center cursor-pointer"
                         @click="state.formShift.do_not_count_weekends = !state.formShift.do_not_count_weekends">
                         <FormCheckbox :value="state.formShift.do_not_count_weekends" />
-                        {{ $t('dutySchedules.form.DoNotCountWeekends') }}
+                        {{ $t('dutySchedules.form.doNotCountWeekends') }}
+                    </div>
+                </div>
+                <div class="space-y-1">
+                    <div class="w-fit flex items-center cursor-pointer"
+                        @click="state.formShift.is_mark_as_leave = !state.formShift.is_mark_as_leave">
+                        <FormCheckbox :value="state.formShift.is_mark_as_leave" />
+                        {{ $t('dutySchedules.form.markAsLeave') }}
                     </div>
                 </div>
                 <div
@@ -345,6 +353,7 @@ const state = reactive({
         shift_type: '',
         is_sleeping_sick_leave: false,
         do_not_count_weekends: false,
+        is_mark_as_leave: false,
         date_time_start: moment().startOf('day').add(8, 'hours').format('YYYY-MM-DD H:mm'),
         date_time_end: moment().startOf('day').add(17, 'hours').format('YYYY-MM-DD H:mm'),
         recurring: {
@@ -480,6 +489,7 @@ onMounted(() => {
     state.formShift.shift_type = props.selectedShift.shift_type
     state.formShift.is_sleeping_sick_leave = props.selectedShift.is_sleeping_sick_leave
     state.formShift.do_not_count_weekends = props.selectedShift.do_not_count_weekends
+    state.formShift.is_mark_as_leave = props.selectedShift.is_mark_as_leave
     state.formShift.date_time_start = props.selectedShift.date_time_start
     state.formShift.date_time_end = props.selectedShift.date_time_end
     state.formShift.citizens = props.selectedShift.citizens

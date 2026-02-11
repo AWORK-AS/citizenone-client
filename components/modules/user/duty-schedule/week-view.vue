@@ -404,7 +404,8 @@
                                                             @click="state.modal.isAnnualNormHoursInfoOpen = true">
                                                             <p class="text-xxs">
                                                                 {{ $t('dutySchedules.weeklyNormHours') }}:
-                                                                {{ (Math.round(Number(employee?.annual_norm_hours) / 52)) ?? 0 }}
+                                                                {{ (Math.round(Number(employee?.annual_norm_hours) /
+                                                                    52)) ?? 0 }}
                                                             </p>
                                                             <Icon name="ph:question" class="h-3.5 w-3.5"
                                                                 aria-hidden="true" />
@@ -1447,6 +1448,7 @@ async function saveShift(shiftDetails: any) {
         shift_type_uuid: shiftType,
         is_sleeping_sick_leave: shiftDetails.is_sleeping_sick_leave,
         do_not_count_weekends: shiftDetails.do_not_count_weekends,
+        is_mark_as_leave: shiftDetails.is_mark_as_leave,
         date_time_start: shiftDetails.date_time_start,
         date_time_end: shiftDetails.date_time_end,
         user_uuid: state.weeklySchedules?.data?.[employeeIndex].uuid,
@@ -1790,6 +1792,7 @@ function updateSelectedSchedule(shiftDetails: any) {
         shift_type_uuid: shiftDetails.shift_type,
         is_sleeping_sick_leave: shiftDetails.is_sleeping_sick_leave,
         do_not_count_weekends: shiftDetails.do_not_count_weekends,
+        is_mark_as_leave: shiftDetails.is_mark_as_leave,
         date_time_start: shiftDetails?.date_time_start,
         date_time_end: shiftDetails?.date_time_end,
         is_apply_to_all: shiftDetails?.recurring?.is_apply_to_all,

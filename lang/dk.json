@@ -2602,9 +2602,10 @@
             "departments": "Afdelinger",
             "description": "Beskrivelse",
             "doNotCountSickLeaveAsWorkingHours": "Tæl ikke sygefravær som arbejdstimer",
-            "DoNotCountWeekends": "Tæl ikke weekender med",
+            "doNotCountWeekends": "Tæl ikke weekender med",
             "forSleepingNightShift": "For sovende nattevagt",
             "inMeeting": "I møde",
+            "markAsLeave": "Markér som ferie",
             "note": "Bemærkning",
             "private": "Privat",
             "tags": "Etiketter",
@@ -3967,13 +3968,13 @@
             "title": "Titel"
         }
     },
-    "journalcontents":{
+    "journalcontents": {
         "journalContents": "Journal indhold",
         "newJournalContent": "Nyt journal indhold",
         "editJournalContent": "Rediger journal indhold",
         "newjournalcontent": "Nyt journal indhold",
         "selectjournalcontent": "Vælg journal indhold",
-        "form":{
+        "form": {
             "newjournalcontentname": "Indholdsnavn",
             "content": "Indhold",
             "alert": {
