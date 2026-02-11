@@ -2607,7 +2607,7 @@
             "departments": "Departments",
             "description": "Description",
             "doNotCountSickLeaveAsWorkingHours": "Do not count sick leave as working hours",
-            "doNotCountWeekends": "Do not count weekends",
+            "DoNotCountWeekends": "Do not count weekends",
             "forSleepingNightShift": "For sleeping night shift",
             "inMeeting": "In Meeting",
             "markAsLeave": "Mark as leave",
@@ -3973,15 +3973,10 @@
             "title": "Title"
         }
     },
-    "journalcontents": {
-        "journalContents": "Journal content",
-        "newJournalContent": "New journal content",
+    "journalContents":{
+        "addnNewJournalContent":"New journal content",
         "editJournalContent": "Edit journal content",
-        "newjournalcontent": "New journal content",
-        "selectjournalcontent": "Select journal content",
-        "form": {
-            "newjournalcontentname": "Content name",
-            "content": "Content",
+        "form":{
             "alert": {
                 "newJournalContentSuccessfullySaved": "Journal content successfully saved",
                 "journalContentSuccessfullyUpdated": "Journal content successfully updated"
