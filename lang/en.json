@@ -2868,8 +2868,7 @@
             "documentName": "Document Name",
             "save": "Save",
             "cancel": "Cancel",
-            "close": "Close",
-            "select": "Select"
+            "close": "Close"
         },
         "download": "Download",
         "createTemplate": {
@@ -3983,6 +3982,8 @@
             "name":"Name"
         },
         "journalContents":"Journal contents",
+        "newJournalContent":"New journal content",
+        "selectJournalContent":"Select journal content",
         "table": {
             "actions": {
                 "edit": "Edit",
@@ -3996,10 +3997,7 @@
             },
             "content":"Content",
             "name":"Name"
-        },
-
-        "newJournalContent":"New journal content",
-        "selectJournalContent":"Select journal content"
+        }
     },
     "languageSwitcher": {
         "selectLanguage": "Select language"

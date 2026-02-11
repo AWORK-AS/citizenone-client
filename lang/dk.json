@@ -2866,8 +2866,7 @@
             "documentName": "Dokumentnavn",
             "save": "Gem",
             "cancel": "Annuller",
-            "close": "Luk",
-            "select": "vælge"
+            "close": "Luk"
         },
         "download": "Download",
         "createTemplate": {
@@ -3981,8 +3980,8 @@
             "name":"Navn"
         },
         "journalContents":"Journalindhold",
-
-
+        "newJournalContent":"Nyt journalindhold",
+        "selectJournalContent":"Vælg journalindhold",
         "table": {
             "actions": {
                 "edit": "Rediger",
@@ -3996,10 +3995,7 @@
             },
             "content":"Indhold",
             "name":"Navn"
-        },
-
-        "newJournalContent":"Nyt journalindhold",
-        "selectJournalContent":"Vælg journalindhold"
+        }
     },
     "languageSwitcher": {
         "selectLanguage": "Vælg sprog"
