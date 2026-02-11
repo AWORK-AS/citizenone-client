@@ -60,6 +60,7 @@ function refreshExtraHours() {
 }
 
 async function saveScheduleSlot(extraHoursDetails: any) {
+    state.isPageLoading = true
     try {
         const params = {
             user_uuid: props.selectedEmployee?.uuid,
@@ -83,6 +84,7 @@ async function saveScheduleSlot(extraHoursDetails: any) {
     } catch (error: any) {
         state.error = error
     }
+    state.isPageLoading = false
 }
 
 function isAdmin(role: any) {
