@@ -106,10 +106,7 @@
                     <div class="flex-1 flex items-center gap-x-4 justify-end">
                         <button type="button" class="text-sm text-primary hover:text-primary-700"
                             @click="state.modal.isSelectJournalContent = true">
-                            <span v-if="state.userPredefinedContents">
-                                {{ $t('citizens.citizenJournals.form.enterJournalContent') }}
-                            </span>
-                            <span v-else>
+                            <span>
                                 {{ $t('citizens.citizenJournals.form.usePredefinedcontent') }}
                             </span>
                         </button>
