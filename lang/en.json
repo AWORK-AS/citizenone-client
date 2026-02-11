@@ -2434,7 +2434,9 @@
             "download": "Download",
             "downloadType": "Download type",
             "downloadHoursInExcel": "Download hours in excel",
-            "downloadOverview": "Download overview"
+            "downloadOverview": "Download overview",
+            "filterDate": "Filter date",
+            "showLeavesOnly": "Show leaves only"
         },
         "draft": {
             "pageTitle": "Duty schedules draft",

@@ -2432,7 +2432,9 @@
             "download": "Download",
             "downloadType": "Downloadtype",
             "downloadHoursInExcel": "Download timer i Excel",
-            "downloadOverview": "Download oversigt"
+            "downloadOverview": "Download oversigt",
+            "filterDate": "Filtrer dato",
+            "showLeavesOnly": "Vis kun ferier"
         },
         "draft": {
             "pageTitle": "Vagtplanskladde",
