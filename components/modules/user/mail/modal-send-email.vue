@@ -411,6 +411,7 @@ async function sendEmail() {
                 content: '',
                 encrypt_message: false,
                 password: '',
+                confirm_password: '',
                 password_hint: '',
                 fileOption: 'Attach file from computer',
                 files: [],
