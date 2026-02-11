@@ -2626,6 +2626,7 @@
             "compensatoryHours": "Compensatory hours",
             "compensatoryHoursThisYear": "Compensatory hours this period",
             "compensatoryHourFromPreviousYear": "Compensatory hours from previous period",
+            "compensatoryHoursGraph": "Compensatory hours graph",
             "date": "Date",
             "totalCompensatoryHours": "Total compensatory hours",
             "totalVacationHours": "Total vacation hours",
