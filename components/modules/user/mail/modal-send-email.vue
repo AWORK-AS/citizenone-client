@@ -29,7 +29,8 @@
                                 <FormError :error="v$?.formEmail?.content?.$errors[0]?.$message.toString()" />
                                 <FormError :error="state?.error?.errors?.content?.[0]" />
                             </div>
-                            <div class="space-y-1 flex items-center gap-x-2">
+                            <div class="space-y-1 flex items-center gap-x-2"
+                                v-if="userStore.getUser?.is_secure_mail_active">
                                 <FormSwitch :value="state.formEmail.encrypt_message"
                                     @toggleSwitch="state.formEmail.encrypt_message = !state.formEmail.encrypt_message" />
                                 <p>
@@ -39,7 +40,8 @@
                                     <Icon name="ph:lock-key-fill" class="w-4 h-4 text-[#95cf55]" />
                                 </div>
                             </div>
-                            <div class="grid grid-cols-1 md:grid-cols-2 gap-x-3">
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-x-3"
+                                v-if="userStore.getUser?.is_secure_mail_active">
                                 <div class="space-y-1" v-if="state.formEmail.encrypt_message">
                                     <FormLabel for="password" :label="$t('mail.form.createCode')" />
                                     <FormTextField id="password" name="password"
@@ -178,6 +180,7 @@ import { mailSMTPService } from '@/components/api/user/MailSMTPService'
 import { useVuelidate } from '@vuelidate/core'
 import { required, helpers, sameAs } from '@vuelidate/validators'
 import { useAlert } from '@/composables/alert'
+import { useUserStore } from '@/store/user'
 import { useI18n } from 'vue-i18n'
 import type { Error } from '@/types'
 
@@ -195,6 +198,7 @@ const props = defineProps({
 const emit = defineEmits(['close', 'refreshSentEmails'])
 const { successAlert } = useAlert()
 const { t } = useI18n()
+const userStore = useUserStore() as any
 const file = ref<HTMLInputElement | null>(null)
 
 const state = reactive({
@@ -407,6 +411,7 @@ async function sendEmail() {
                 content: '',
                 encrypt_message: false,
                 password: '',
+                confirm_password: '',
                 password_hint: '',
                 fileOption: 'Attach file from computer',
                 files: [],

@@ -19,7 +19,7 @@
                                 <div class="space-y-1">
                                     <FormLabel for="date" :label="$t('dutySchedules.download.date')" />
                                     <FormDateRangeField id="date" name="date_range"
-                                        :placeholder="$t('citizens.citizenJournals.filter.filterDate')"
+                                        :placeholder="$t('dutySchedules.download.date')"
                                         v-model="state.filter.date_range" />
                                     <FormError :error="v$?.filter.date_range?.$errors[0]?.$message.toString()" />
                                 </div>
@@ -39,6 +39,13 @@
                                     <FormError
                                         :error="v$?.formDownload?.departments?.$errors[0]?.$message.toString()" />
                                     <FormError :error="state?.error?.errors?.departments_uuid?.[0]" />
+                                </div>
+                                <div class="space-y-1">
+                                    <div class="w-fit flex items-center cursor-pointer"
+                                        @click="state.formDownload.show_leaves_only = !state.formDownload.show_leaves_only">
+                                        <FormCheckbox :value="state.formDownload.show_leaves_only" />
+                                        {{ $t('dutySchedules.download.showLeavesOnly') }}
+                                    </div>
                                 </div>
                             </div>
                             <div class="mt-6">
@@ -93,6 +100,7 @@ const state = reactive({
         download_type: '',
         date_start: '',
         date_end: '',
+        show_leaves_only: false,
     },
     modal: {
         isAddDepartmentOpen: false,
@@ -111,6 +119,7 @@ watch(() => props.isModalOpen, () => {
     state.formDownload.download_type = ''
     state.options.downloadType[0].label = `${t('dutySchedules.download.downloadHoursInExcel')}`
     state.options.downloadType[1].label = `${t('dutySchedules.download.downloadOverview')}`
+    state.formDownload.show_leaves_only = false
     fetchDepartments()
 })
 
@@ -180,6 +189,7 @@ async function downloadDutySchedule() {
             download_type: state.formDownload.download_type,
             date_start: state.formDownload.date_start,
             date_end: state.formDownload.date_end,
+            show_leaves_only: state.formDownload.show_leaves_only,
         }
         const response = await dutyScheduleService.downloadDutySchedules(params)
         if (response) {

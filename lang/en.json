@@ -2435,7 +2435,9 @@
             "download": "Download",
             "downloadType": "Download type",
             "downloadHoursInExcel": "Download hours in excel",
-            "downloadOverview": "Download overview"
+            "downloadOverview": "Download overview",
+            "filterDate": "Filter date",
+            "showLeavesOnly": "Show leaves only"
         },
         "draft": {
             "pageTitle": "Duty schedules draft",
@@ -2605,9 +2607,10 @@
             "departments": "Departments",
             "description": "Description",
             "doNotCountSickLeaveAsWorkingHours": "Do not count sick leave as working hours",
-            "DoNotCountWeekends": "Do not count weekends",
+            "doNotCountWeekends": "Do not count weekends",
             "forSleepingNightShift": "For sleeping night shift",
             "inMeeting": "In Meeting",
+            "markAsLeave": "Mark as leave",
             "note": "Note",
             "private": "Private",
             "tags": "Tags",
@@ -3970,10 +3973,22 @@
             "title": "Title"
         }
     },
+<<<<<<< HEAD
     "journalContents":{
         "addnNewJournalContent":"New journal content",
         "editJournalContent": "Edit journal content",
         "form":{
+=======
+    "journalcontents": {
+        "journalContents": "Journal content",
+        "newJournalContent": "New journal content",
+        "editJournalContent": "Edit journal content",
+        "newjournalcontent": "New journal content",
+        "selectjournalcontent": "Select journal content",
+        "form": {
+            "newjournalcontentname": "Content name",
+            "content": "Content",
+>>>>>>> 666411091d0722b2e8fcfb49e14ec0fc07061ece
             "alert": {
                 "newJournalContentSuccessfullySaved": "Journal content successfully saved",
                 "journalContentSuccessfullyUpdated": "Journal content successfully updated"
