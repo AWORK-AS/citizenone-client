@@ -336,12 +336,10 @@
         <ModulesUserJournalNoteTagModalNew :isModalOpen="state.modal.isAddJournalNoteTagsOpen"
             @close="state.modal.isAddJournalNoteTagsOpen = false" @refreshJournalNoteTags="fetchAllJournalNoteTags" />
 
-        <!-- fix me -->
-        <ModulesUserJournalContentModalSelect 
+        <ModulesUserJournalContentModalSelect
             :isModalOpen="state.modal.isSelectJournalContent"
             @close="state.modal.isSelectJournalContent = false"
-            @confirm="state.modal.isSelectJournalContent = false; 
-            state.userPredefinedContents = !state.userPredefinedContents"/>
+            @select="onSelectJournalContent" />
 
         <DialogConfirmation :isModalOpen="state.modal.isUpgradeStorageOpen"
             :title="$t('citizens.documents.upgradeStorage')"
@@ -703,6 +701,12 @@ function submitForm() {
 function closeUpgradeStorageModal() {
     state.modal.isUpgradeStorageOpen = false
     state.error = {}
+}
+
+function onSelectJournalContent(selected: any) {
+    state.formJournal.content = selected.content
+    state.modal.isSelectJournalContent = false
+    state.userPredefinedContents = true
 }
 
 const triggerContentFileInput = () => {
