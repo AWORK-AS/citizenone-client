@@ -3973,12 +3973,6 @@
             "title": "Title"
         }
     },
-<<<<<<< HEAD
-    "journalContents":{
-        "addnNewJournalContent":"New journal content",
-        "editJournalContent": "Edit journal content",
-        "form":{
-=======
     "journalcontents": {
         "journalContents": "Journal content",
         "newJournalContent": "New journal content",
@@ -3988,7 +3982,6 @@
         "form": {
             "newjournalcontentname": "Content name",
             "content": "Content",
->>>>>>> 666411091d0722b2e8fcfb49e14ec0fc07061ece
             "alert": {
                 "newJournalContentSuccessfullySaved": "Journal content successfully saved",
                 "journalContentSuccessfullyUpdated": "Journal content successfully updated"

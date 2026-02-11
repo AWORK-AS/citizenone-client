@@ -9,19 +9,19 @@
                         <form @submit.prevent="handleDownload()" id="formShift">
                             <div class="space-y-3">
                                 <div class="space-y-1">
+                                    <FormLabel for="date" :label="$t('dutySchedules.download.date')" />
+                                    <FormDateRangeField id="date" name="date_range"
+                                        :placeholder="$t('dutySchedules.download.filterDate')"
+                                        v-model="state.filter.date_range" />
+                                    <FormError :error="v$?.filter.date_range?.$errors[0]?.$message.toString()" />
+                                </div>
+                                <div class="space-y-1">
                                     <FormLabel for="download_type" :label="$t('dutySchedules.download.downloadType')" />
                                     <FormSelect id="download_type" name="download_type"
                                         :options="state.options.downloadType"
                                         v-model="state.formDownload.download_type" />
                                     <FormError
                                         :error="v$?.formDownload?.download_type?.$errors[0]?.$message.toString()" />
-                                </div>
-                                <div class="space-y-1">
-                                    <FormLabel for="date" :label="$t('dutySchedules.download.date')" />
-                                    <FormDateRangeField id="date" name="date_range"
-                                        :placeholder="$t('dutySchedules.download.date')"
-                                        v-model="state.filter.date_range" />
-                                    <FormError :error="v$?.filter.date_range?.$errors[0]?.$message.toString()" />
                                 </div>
                                 <div class="space-y-1">
                                     <div class="flex justify-between items-center py-0.5">

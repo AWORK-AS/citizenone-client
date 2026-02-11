@@ -3971,12 +3971,6 @@
             "title": "Titel"
         }
     },
-<<<<<<< HEAD
-    "journalContents":{
-        "addnNewJournalContent":"Nyt journalindhold",
-        "editJournalContent": "Rediger journalindhold",
-        "form":{
-=======
     "journalcontents": {
         "journalContents": "Journal indhold",
         "newJournalContent": "Nyt journal indhold",
