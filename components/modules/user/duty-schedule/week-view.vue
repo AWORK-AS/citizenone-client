@@ -935,6 +935,7 @@ import { useUserStore } from '@/store/user'
 import { useI18n } from "vue-i18n"
 import type { Error } from '@/types'
 
+const emit = defineEmits(['setDutyScheduleCurrentDate'])
 const language = useI18n()
 const dutyScheduleStore = useDutyScheduleStore() as any
 const userStore = useUserStore() as any
@@ -1085,6 +1086,7 @@ watch(() => state.selectedDate, (newSelectedDate: any) => {
     if (newSelectedDate) {
         currentDate.value = moment(newSelectedDate)
         fetchDutySchedule()
+        emit('setDutyScheduleCurrentDate', state.selectedDate)
     }
 })
 

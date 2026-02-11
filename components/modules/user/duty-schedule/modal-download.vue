@@ -8,10 +8,40 @@
                             v-if="state.error?.message && state.error.message.length > 0" />
                         <form @submit.prevent="handleDownload()" id="formShift">
                             <div class="space-y-3">
+                                <fieldset>
+                                    <RadioGroup v-model="state.formDownload.mode"
+                                        class="mt-6 grid grid-cols-1 gap-y-6 md:grid-cols-2 md:gap-x-4">
+                                        <RadioGroupOption as="template" v-for="mode in state.options.downloadModeLists"
+                                            :key="mode.id" :value="mode" :aria-label="mode.title"
+                                            v-slot="{ active, checked }">
+                                            <div
+                                                :class="[active ? 'border-primary ring-1 ring-primary' : 'border-gray-300', 'relative flex cursor-pointer rounded-lg border bg-white p-4 shadow-xs focus:outline-hidden']">
+                                                <span class="flex flex-1">
+                                                    <span class="flex flex-col">
+                                                        <p class="block text-sm font-medium text-gray-900">
+                                                            <span v-if="mode.title === 'current_view'">
+                                                                {{ $t('dutySchedules.download.filter.currentView') }}
+                                                            </span>
+                                                            <span v-if="mode.title === 'filtered_view'">
+                                                                {{ $t('dutySchedules.download.filter.filteredView') }}
+                                                            </span>
+                                                        </p>
+                                                    </span>
+                                                </span>
+                                                <Icon name="ph:check-circle"
+                                                    :class="[!checked ? 'invisible' : '', 'size-5 text-primary']"
+                                                    aria-hidden="true" />
+                                                <span
+                                                    :class="[active ? 'border' : 'border-1', checked ? 'border-primary' : 'border-transparent', 'pointer-events-none absolute -inset-px rounded-lg']"
+                                                    aria-hidden="true" />
+                                            </div>
+                                        </RadioGroupOption>
+                                    </RadioGroup>
+                                </fieldset>
                                 <div class="space-y-1">
                                     <FormLabel for="date" :label="$t('dutySchedules.download.date')" />
                                     <FormDateRangeField id="date" name="date_range"
-                                        :placeholder="$t('dutySchedules.download.filterDate')"
+                                        :placeholder="$t('dutySchedules.download.filter.filterDate')"
                                         v-model="state.filter.date_range" />
                                     <FormError :error="v$?.filter.date_range?.$errors[0]?.$message.toString()" />
                                 </div>
@@ -40,11 +70,25 @@
                                         :error="v$?.formDownload?.departments?.$errors[0]?.$message.toString()" />
                                     <FormError :error="state?.error?.errors?.departments_uuid?.[0]" />
                                 </div>
-                                <div class="space-y-1">
-                                    <div class="w-fit flex items-center cursor-pointer"
-                                        @click="state.formDownload.show_leaves_only = !state.formDownload.show_leaves_only">
-                                        <FormCheckbox :value="state.formDownload.show_leaves_only" />
-                                        {{ $t('dutySchedules.download.showLeavesOnly') }}
+                                <div class="space-y-3" v-if="state.formDownload.mode.title === 'filtered_view'">
+                                    <div class="space-y-1">
+                                        <FormLabel for="employee_uuids" :label="$t('dutySchedules.filter.employees')" />
+                                        <FormSelectMultiple id="employee_uuids" :options="state.options.employees"
+                                            v-model="state.formDownload.employee_uuids" />
+                                    </div>
+                                    <div class="space-y-1">
+                                        <FormLabel for="employment_status"
+                                            :label="$t('dutySchedules.filter.employmentStatus')" />
+                                        <FormSelectMultiple id="employment_status"
+                                            :options="state.options.employment_status"
+                                            v-model="state.formDownload.employment_status" />
+                                    </div>
+                                    <div class="space-y-1">
+                                        <div class="w-fit flex items-center cursor-pointer"
+                                            @click="state.formDownload.show_leaves_only = !state.formDownload.show_leaves_only">
+                                            <FormCheckbox :value="state.formDownload.show_leaves_only" />
+                                            {{ $t('dutySchedules.download.showLeavesOnly') }}
+                                        </div>
                                     </div>
                                 </div>
                             </div>
@@ -70,8 +114,12 @@
 </template>
 
 <script setup lang="ts">
+import moment from 'moment'
+import { RadioGroup, RadioGroupOption } from '@headlessui/vue'
 import { departmentService } from '@/components/api/user/DepartmentService'
 import { dutyScheduleService } from '@/components/api/user/DutyScheduleService'
+import { userService } from '@/components/api/user/UserService'
+import { useDepartmentStore } from '@/store/department'
 import { useCustomPagesStore } from '@/store/custom-pages'
 import type { Error } from '@/types'
 import { useVuelidate } from "@vuelidate/core"
@@ -84,10 +132,15 @@ const props = defineProps({
         type: Boolean,
         required: true,
     },
+    selectedDate: {
+        type: String,
+        required: true,
+    }
 })
 const { t } = useI18n()
 const emit = defineEmits(['close', 'saveShift'])
 const customPagesStore = useCustomPagesStore() as any
+const departmentStore = useDepartmentStore() as any
 
 const state = reactive({
     error: {} as Error,
@@ -96,31 +149,57 @@ const state = reactive({
     },
     isPageLoading: false,
     formDownload: {
+        mode: 'current_view', // current_view | filtered_view
         departments: [],
+        employee_uuids: [],
+        employment_status: [],
         download_type: '',
         date_start: '',
         date_end: '',
         show_leaves_only: false,
-    },
+    } as any,
     modal: {
         isAddDepartmentOpen: false,
     },
     options: {
         departments: [],
+        downloadModeLists: [
+            { id: 1, title: 'current_view' },
+            { id: 2, title: 'filtered_view' },
+        ],
+        employees: [],
+        employment_status: [
+            { value: 'permanent', label: `${t('employees.employmentStatus.permanent')}` },
+            { value: 'temporary', label: `${t('employees.employmentStatus.temporary')}` },
+            { value: 'substitute', label: `${t('employees.employmentStatus.substitute')}` },
+        ],
         downloadType: [
+            { value: 'csv', label: 'Download hours in csv' },
             { value: 'excel', label: 'Download hours in excel' },
             { value: 'overview', label: 'Download duty schedule overview' }
         ]
     }
 })
 
-watch(() => props.isModalOpen, () => {
-    state.error = {}
-    state.formDownload.download_type = ''
-    state.options.downloadType[0].label = `${t('dutySchedules.download.downloadHoursInExcel')}`
-    state.options.downloadType[1].label = `${t('dutySchedules.download.downloadOverview')}`
-    state.formDownload.show_leaves_only = false
-    fetchDepartments()
+watch(() => props.isModalOpen, (isModalOpen: boolean) => {
+    if (isModalOpen) {
+        state.error = {}
+        state.formDownload.download_type = ''
+        state.formDownload.departments = []
+        state.options.downloadType[0].label = `${t('dutySchedules.download.downloadHoursInCSV')}`
+        state.options.downloadType[1].label = `${t('dutySchedules.download.downloadHoursInExcel')}`
+        state.options.downloadType[2].label = `${t('dutySchedules.download.downloadOverview')}`
+        state.formDownload.show_leaves_only = false
+        state.formDownload.date_start = moment(props.selectedDate).startOf('isoWeek').format('YYYY-MM-DD')
+        state.formDownload.date_end = moment(props.selectedDate).endOf('isoWeek').format('YYYY-MM-DD')
+        state.filter.date_range = [
+            moment(props.selectedDate).startOf('isoWeek').format('YYYY-MM-DD'),
+            moment(props.selectedDate).endOf('isoWeek').format('YYYY-MM-DD'),
+        ]
+        fetchDepartments()
+        fetchAllUsers()
+        state.formDownload.mode = state.options.downloadModeLists.find((item: any) => item.title === 'current_view')
+    }
 })
 
 const rules = computed(() => {
@@ -162,7 +241,9 @@ async function fetchDepartments() {
     state.error = {}
     state.isPageLoading = true
     try {
-        const params = {}
+        const params = {
+            department: departmentStore.getSelectedDepartmentName,
+        }
         const response = await departmentService.getAllDepartments(params)
         if (response) {
             let options: any = []
@@ -173,6 +254,32 @@ async function fetchDepartments() {
                 })
             )
             state.options.departments = options
+
+            if (!['All departments', 'Alle afdelinger'].includes(departmentStore.getSelectedDepartmentName)) {
+                state.formDownload.departments.push(departmentStore.getSelectedDepartment?.uuid)
+            }
+        }
+    } catch (error: any) {
+        state.error = error
+    }
+    state.isPageLoading = false
+}
+
+async function fetchAllUsers() {
+    state.error = {}
+    state.isPageLoading = true
+    try {
+        const params = {}
+        const response = await userService.getAllUsers(params)
+        if (response.data) {
+            let options: any = []
+            response.data.forEach(
+                (user: any) => options.push({
+                    value: user?.uuid,
+                    label: user?.firstname + " " + (user?.lastname ?? ''),
+                })
+            )
+            state.options.employees = options
         }
     } catch (error: any) {
         state.error = error
@@ -190,6 +297,12 @@ async function downloadDutySchedule() {
             date_start: state.formDownload.date_start,
             date_end: state.formDownload.date_end,
             show_leaves_only: state.formDownload.show_leaves_only,
+        } as any
+        if (state.formDownload.employment_status) {
+            params.employment_status = Array(state.formDownload.employment_status)
+        }
+        if (state.formDownload.employee_uuids?.length > 0) {
+            params.employee_uuids = Array(state.formDownload.employee_uuids)
         }
         const response = await dutyScheduleService.downloadDutySchedules(params)
         if (response) {

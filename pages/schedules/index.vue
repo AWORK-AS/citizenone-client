@@ -67,7 +67,8 @@
             </div> -->
 
             <div class="-mt-4 space-y-5">
-                <ModulesUserDutyScheduleWeekView v-if="state.calendarView === 'week'" />
+                <ModulesUserDutyScheduleWeekView v-if="state.calendarView === 'week'"
+                    @setDutyScheduleCurrentDate="setDutyScheduleCurrentDate" />
             </div>
 
             <ModulesUserDutyScheduleModalShiftTypes :isModalOpen="state.modal.isShowAllShiftTypes"
@@ -79,15 +80,16 @@
                 @close="state.modal.isGuidedTourDutyScheduleOpen = false" />
         </NuxtLayout>
         <ModulesUserDutyScheduleModalDownload :isModalOpen="state.modal.isDownloadOpen"
-            @close="state.modal.isDownloadOpen = false" />
+            :selectedDate="state.selectedDate" @close="state.modal.isDownloadOpen = false" />
     </div>
 </template>
 
 <script setup lang="ts">
-const runtimeConfig = useRuntimeConfig()
+import moment from 'moment'
 import { useUserStore } from '@/store/user'
 import { useCustomPagesStore } from '@/store/custom-pages'
 
+const runtimeConfig = useRuntimeConfig()
 const customPagesStore = useCustomPagesStore() as any
 const userStore = useUserStore() as any
 
@@ -99,6 +101,7 @@ const state = reactive({
         isGuidedTourDutyScheduleOpen: false,
         isShowAllShiftTypes: false,
     },
+    selectedDate: moment().format('YYYY-MM-DD'),
 })
 
 function openDutySchedulesActivityLogs() {
@@ -111,5 +114,9 @@ function openGuidedTour() {
 
 function isAdmin(role: any) {
     return role && role === 'Admin'
+}
+
+function setDutyScheduleCurrentDate(selectedDate: any) {
+    state.selectedDate = selectedDate
 }
 </script>

@@ -2434,9 +2434,14 @@
             "department": "Department",
             "download": "Download",
             "downloadType": "Download type",
+            "downloadHoursInCSV": "Download hours in CSV",
             "downloadHoursInExcel": "Download hours in excel",
             "downloadOverview": "Download overview",
-            "filterDate": "Filter date",
+            "filter": {
+                "currentView": "Current view",
+                "filterDate": "Filter date",
+                "filteredView": "Filtered view"
+            },
             "showLeavesOnly": "Show leaves only"
         },
         "draft": {
@@ -3973,20 +3978,20 @@
             "title": "Title"
         }
     },
-    "journalContents":{
-        "addnNewJournalContent":"New journal content",
+    "journalContents": {
+        "addnNewJournalContent": "New journal content",
         "editJournalContent": "Edit journal content",
-        "form":{
+        "form": {
             "alert": {
                 "newJournalContentSuccessfullySaved": "Journal content successfully saved",
                 "journalContentSuccessfullyUpdated": "Journal content successfully updated"
             },
-            "content":"Content",
-            "name":"Name"
+            "content": "Content",
+            "name": "Name"
         },
-        "journalContents":"Journal contents",
-        "newJournalContent":"New journal content",
-        "selectJournalContent":"Select journal content",
+        "journalContents": "Journal contents",
+        "newJournalContent": "New journal content",
+        "selectJournalContent": "Select journal content",
         "table": {
             "actions": {
                 "edit": "Edit",
@@ -3998,8 +4003,8 @@
             "confirmation": {
                 "deleteJournalContentConfirmation": "Are you sure you want to delete this journal content"
             },
-            "content":"Content",
-            "name":"Name"
+            "content": "Content",
+            "name": "Name"
         }
     },
     "languageSwitcher": {
