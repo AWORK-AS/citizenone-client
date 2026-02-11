@@ -1,6 +1,6 @@
 <template>
     <div>
-        <Modal size="xs" :title="$t('journalcontents.selectjournalcontent')"
+        <Modal size="xs" :title="$t('journalContents.selectJournalContent')"
                          :show="props.isModalOpen"
                          @close="closeModal">
             <template #modal-body>
@@ -8,10 +8,10 @@
                     <div id="formSelectJournalContent" class="space-y-3">
                         <div class="space-y-1">
                             <div class="flex justify-between items-center py-0.5">
-                                <FormLabel for="newcontent" :label="$t('journalcontents.form.newjournalcontentname')" />
+                                <FormLabel for="newcontent" :label="$t('journalContents.form.name')" />
                                 <span class="text-xs cursor-pointer text-tertiary hover:text-tertiary-800"
                                     @click="state.modal.isAddJournalContentOpen = true">
-                                    {{ $t('journalcontents.newjournalcontent') }}
+                                    {{ $t('journalContents.newJournalContent') }}
                                 </span>
                             </div>
                             <FormSelect id="predefined_content"
@@ -74,6 +74,7 @@ const state = reactive({
 })
 
 function closeModal() {
+    if (state.modal.isAddJournalContentOpen) return
     emit('close')
 }
 

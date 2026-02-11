@@ -773,6 +773,7 @@
         }
     },
     "cancel": "Annuller",
+    "select": "Vælg",
     "changeImage": "Skift billede",
     "citizens": {
         "addictions": "Stofmisbrug",
@@ -2865,7 +2866,8 @@
             "documentName": "Dokumentnavn",
             "save": "Gem",
             "cancel": "Annuller",
-            "close": "Luk"
+            "close": "Luk",
+            "select": "vælge"
         },
         "download": "Download",
         "createTemplate": {
@@ -3967,33 +3969,37 @@
             "title": "Titel"
         }
     },
-    "journalcontents":{
-        "journalContents": "Journal indhold",
-        "newJournalContent": "Nyt journal indhold",
-        "editJournalContent": "Rediger journal indhold",
-        "newjournalcontent": "Nyt journal indhold",
-        "selectjournalcontent": "Vælg journal indhold",
+    "journalContents":{
+        "addnNewJournalContent":"Nyt journalindhold",
+        "editJournalContent": "Rediger journalindhold",
         "form":{
-            "newjournalcontentname": "Indholdsnavn",
-            "content": "Indhold",
             "alert": {
-                "newJournalContentSuccessfullySaved": "Journal indhold gemt",
-                "journalContentSuccessfullyUpdated": "Journal indhold opdateret"
-            }
+                "newJournalContentSuccessfullySaved": "Journalindhold blev gemt",
+                "journalContentSuccessfullyUpdated": "Journalindhold blev opdateret"
+            },
+            "content":"Indhold",
+            "name":"Navn"
         },
+        "journalContents":"Journalindhold",
+
+
         "table": {
-            "name": "Navn",
             "actions": {
                 "edit": "Rediger",
                 "delete": "Slet"
             },
             "alert": {
-                "journalContentSuccessfullyDeleted": "Journal indhold slettet"
+                "journalContentSuccessfullyDeleted": "Journalindhold blev slettet"
             },
             "confirmation": {
-                "deleteJournalContentConfirmation": "Er du sikker på, at du vil slette dette journal indhold"
-            }
-        }
+                "deleteJournalContentConfirmation": "Er du sikker på, at du vil slette dette journalindhold"
+            },
+            "content":"Indhold",
+            "name":"Navn"
+        },
+
+        "newJournalContent":"Nyt journalindhold",
+        "selectJournalContent":"Vælg journalindhold"
     },
     "languageSwitcher": {
         "selectLanguage": "Vælg sprog"

@@ -1,7 +1,7 @@
 <template>
     <div>
         <Modal size="md"
-        :title="$t('journalcontents.newjournalcontent')"
+        :title="$t('journalContents.newJournalContent')"
         :show="props.isModalOpen" @close="closeModal">
             <template #modal-body>
                 <LoadingSpinner :isActive="state.isPageLoading">
@@ -57,7 +57,7 @@ async function saveJournalContent(journalContentDetails: any) {
             content: journalContentDetails.content,
         }
         await journalContentService.saveJournalContent(params)
-        successAlert(`${t('alert.success')}!`, `${t('journalcontents.form.alert.newJournalContentSuccessfullySaved')}.`)
+        successAlert(`${t('alert.success')}!`, `${t('journalContents.form.alert.newJournalContentSuccessfullySaved')}.`)
         refreshJournalContents()
         closeModal()
     } catch (error: any) {

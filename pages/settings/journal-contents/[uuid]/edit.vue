@@ -3,14 +3,14 @@
         <NuxtLayout name="user">
 
             <Head>
-                <Title>{{ $t('journalcontents.editJournalContent') }} - {{ runtimeConfig?.public?.appName }}</Title>
+                <Title>{{ $t('journalContents.editJournalContent') }} - {{ runtimeConfig?.public?.appName }}</Title>
             </Head>
 
             <template #breadcrumb>
                 <Breadcrumb :links="breadcrumbLinks" />
             </template>
 
-            <template #header>{{ $t('journalcontents.editJournalContent') }}</template>
+            <template #header>{{ $t('journalContents.editJournalContent') }}</template>
 
             <div>
                 <NuxtLink class="flex items-center gap-x-2 mb-3 max-w-fit hover:cursor-pointer"
@@ -41,12 +41,12 @@ const router = useRouter()
 const journalContentUuid = router?.currentRoute?.value?.params?.uuid
 const breadcrumbLinks = [
     {
-        name: 'journalcontents.journalContents',
+        name: 'journalContents.journalContents',
         translate: true,
         href: '/settings/journal-contents',
     },
     {
-        name: 'journalcontents.editJournalContent',
+        name: 'journalContents.editJournalContent',
         translate: true,
         href: `/settings/journal-contents/${journalContentUuid}/edit`,
     },
@@ -92,7 +92,7 @@ async function updateJournalContent(journalContentDetails: any) {
         }
         const response = await journalContentService.updateJournalContent(journalContentUuid, params)
         if (response.data) {
-            successAlert(`${t('alert.success')}!`, `${t('journalcontents.form.alert.journalContentSuccessfullyUpdated')}.`)
+            successAlert(`${t('alert.success')}!`, `${t('journalContents.form.alert.journalContentSuccessfullyUpdated')}.`)
             navigateTo('/settings/journal-contents')
         }
     } catch (error: any) {

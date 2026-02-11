@@ -773,6 +773,7 @@
         }
     },
     "cancel": "Cancel",
+    "select": "Select",
     "changeImage": "Change image",
     "citizens": {
         "addictions": "Substance abuse",
@@ -2867,7 +2868,8 @@
             "documentName": "Document Name",
             "save": "Save",
             "cancel": "Cancel",
-            "close": "Close"
+            "close": "Close",
+            "select": "Select"
         },
         "download": "Download",
         "createTemplate": {
@@ -3969,22 +3971,19 @@
             "title": "Title"
         }
     },
-    "journalcontents":{
-        "journalContents": "Journal content",
-        "newJournalContent":"New journal content",
+    "journalContents":{
+        "addnNewJournalContent":"New journal content",
         "editJournalContent": "Edit journal content",
-        "newjournalcontent":"New journal content",
-        "selectjournalcontent":"Select journal content",
         "form":{
-            "newjournalcontentname":"Content name",
-            "content":"Content",
             "alert": {
                 "newJournalContentSuccessfullySaved": "Journal content successfully saved",
                 "journalContentSuccessfullyUpdated": "Journal content successfully updated"
-            }
+            },
+            "content":"Content",
+            "name":"Name"
         },
+        "journalContents":"Journal contents",
         "table": {
-            "name": "Name",
             "actions": {
                 "edit": "Edit",
                 "delete": "Delete"
@@ -3994,8 +3993,13 @@
             },
             "confirmation": {
                 "deleteJournalContentConfirmation": "Are you sure you want to delete this journal content"
-            }
-        }
+            },
+            "content":"Content",
+            "name":"Name"
+        },
+
+        "newJournalContent":"New journal content",
+        "selectJournalContent":"Select journal content"
     },
     "languageSwitcher": {
         "selectLanguage": "Select language"
@@ -5431,7 +5435,7 @@
             "jobTitles": "Job titles",
             "journalNoteTags": "Journal note tags",
             "journalTitles": "Journal titles",
-            "journalContents": "Journal content",
+            "journalContents": "Journal contents",
             "licenseOverview": "License overview",
             "licenses": "Licenses",
             "massUnits": "Mass units",

@@ -3,14 +3,14 @@
         <NuxtLayout name="user">
 
             <Head>
-                <Title>{{ $t('journalcontents.journalContents') }} - {{ runtimeConfig?.public?.appName }}</Title>
+                <Title>{{ $t('journalContents.journalContents') }} - {{ runtimeConfig?.public?.appName }}</Title>
             </Head>
 
             <template #breadcrumb>
                 <Breadcrumb :links="breadcrumbLinks" />
             </template>
 
-            <template #header>{{ $t('journalcontents.journalContents') }}</template>
+            <template #header>{{ $t('journalContents.journalContents') }}</template>
 
             <ModulesUserSettingsTab />
             <ModulesUserSettingsCatalogSubTab id="sub-tab-catalog" class="mt-5" />
@@ -20,7 +20,7 @@
                     <FormButton buttonStyle="action" class="rounded-lg"
                         @click="navigateTo('/settings/journal-contents/new')">
                         <Icon name="ph:plus" class="h-4 w-4" aria-hidden="true" />
-                        {{ $t('journalcontents.newJournalContent') }}
+                        {{ $t('journalContents.newJournalContent') }}
                     </FormButton>
                 </div>
                 <div class="space-y-5">
@@ -40,12 +40,12 @@
                                             <FormButton type="button" buttonStyle="action" class="rounded-md"
                                                 @click="navigateTo(`/settings/journal-contents/${journalContent.uuid}/edit`)">
                                                 <Icon name="ph:pencil-simple" class="size-4" />
-                                                {{ $t('journalcontents.table.actions.edit') }}
+                                                {{ $t('journalContents.table.actions.edit') }}
                                             </FormButton>
                                             <FormButton type="button" buttonStyle="danger" class="rounded-md"
                                                 @click="deleteJournalContentConfirmation(journalContent)">
                                                 <Icon name="ph:trash" class="size-4" />
-                                                {{ $t('journalcontents.table.actions.delete') }}
+                                                {{ $t('journalContents.table.actions.delete') }}
                                             </FormButton>
                                         </div>
                                     </td>
@@ -57,7 +57,7 @@
                 </div>
             </div>
             <DialogConfirmation :isModalOpen="state.modal.isDeleteJournalContentOpen"
-                :message="$t('journalcontents.table.confirmation.deleteJournalContentConfirmation') + '?'"
+                :message="$t('journalContents.table.confirmation.deleteJournalContentConfirmation') + '?'"
                 @close="state.modal.isDeleteJournalContentOpen = false" @confirm="deleteJournalContent" />
         </NuxtLayout>
     </div>
@@ -75,7 +75,7 @@ const { t } = useI18n()
 let currentTablePage = 1
 const breadcrumbLinks = [
     {
-        name: 'journalcontents.journalContents',
+        name: 'journalContents.journalContents',
         translate: true,
         href: '/settings/journal-contents',
     },
@@ -83,7 +83,7 @@ const breadcrumbLinks = [
 
 const state = reactive({
     columnHeaders: [
-        { name: 'journalcontents.table.name', isTranslateName: true, sorter: true, key: 'name' },
+        { name: 'journalContents.table.name', isTranslateName: true, sorter: true, key: 'name' },
         { name: '' },
     ],
     dataFilter: {
@@ -163,7 +163,7 @@ async function deleteJournalContent() {
         const response = await journalContentService.deleteJournalContent(state.selectedJournalContent.uuid)
         if (response?.message === 'Success.' || response?.message === 'Succes.') {
             fetchJournalContents()
-            successAlert(`${t('alert.success')}!`, `${t('journalcontents.table.alert.journalContentSuccessfullyDeleted')}.`)
+            successAlert(`${t('alert.success')}!`, `${t('journalContents.table.alert.journalContentSuccessfullyDeleted')}.`)
         }
     } catch (error: any) {
         state.error = error

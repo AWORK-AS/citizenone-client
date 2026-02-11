@@ -4,17 +4,15 @@
             v-if="props.error?.message && props.error.message.length > 0" />
         <div class="space-y-3">
             <div class="space-y-1">
-                <FormLabel for="name" :label="$t('journalcontents.form.newjournalcontentname')" />
-                <FormTextField id="name" name="name" :placeholder="$t('journalcontents.form.newjournalcontentname')"
+                <FormLabel for="name" :label="$t('journalContents.form.name')" />
+                <FormTextField id="name" name="name" :placeholder="$t('journalContents.form.name')"
                     v-model="state.formJournalContent.name" />
                 <FormError :error="v$?.formJournalContent?.name?.$errors[0]?.$message.toString()" />
                 <FormError :error="props?.error?.errors?.name?.[0]" />
             </div>
             <div class="space-y-1">
-                <FormLabel for="content" :label="$t('journalcontents.form.content')" />
-                <client-only>
-                    <ckeditor :editor="editor" v-model="state.formJournalContent.content" :config="editorConfig" />
-                </client-only>
+                <FormLabel for="content" :label="$t('journalContents.form.content')" />
+                <ckeditor :editor="editor" v-model="state.formJournalContent.content" :config="editorConfig" />
                 <FormError :error="v$?.formJournalContent?.content?.$errors[0]?.$message.toString()" />
                 <FormError :error="props?.error?.errors?.content?.[0]" />
             </div>

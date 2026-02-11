@@ -3,14 +3,14 @@
         <NuxtLayout name="user">
 
             <Head>
-                <Title>{{ $t('journalcontents.newJournalContent') }} - {{ runtimeConfig?.public?.appName }}</Title>
+                <Title>{{ $t('journalContents.newJournalContent') }} - {{ runtimeConfig?.public?.appName }}</Title>
             </Head>
 
             <template #breadcrumb>
                 <Breadcrumb :links="breadcrumbLinks" />
             </template>
 
-            <template #header>{{ $t('journalcontents.newJournalContent') }}</template>
+            <template #header>{{ $t('journalContents.newJournalContent') }}</template>
 
             <div>
                 <NuxtLink class="flex items-center gap-x-2 mb-3 max-w-fit hover:cursor-pointer"
@@ -39,12 +39,12 @@ const { successAlert } = useAlert()
 const { t } = useI18n()
 const breadcrumbLinks = [
     {
-        name: 'journalcontents.journalContents',
+        name: 'journalContents.journalContents',
         translate: true,
         href: '/settings/journal-contents',
     },
     {
-        name: 'journalcontents.newJournalContent',
+        name: 'journalContents.newJournalContent',
         translate: true,
         href: '/settings/journal-contents/new',
     },
@@ -69,7 +69,7 @@ async function saveJournalContent(journalContentDetails: any) {
         }
         const response = await journalContentService.saveJournalContent(params)
         if (response.data) {
-            successAlert(`${t('alert.success')}!`, `${t('journalcontents.form.alert.newJournalContentSuccessfullySaved')}.`)
+            successAlert(`${t('alert.success')}!`, `${t('journalContents.form.alert.newJournalContentSuccessfullySaved')}.`)
             navigateTo('/settings/journal-contents')
         }
     } catch (error: any) {
