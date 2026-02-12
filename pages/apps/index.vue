@@ -289,6 +289,7 @@
 
 <script setup lang="ts">
 import { appService } from '@/components/api/user/AppService'
+import { zenegyService } from '@/components/api/user/ZenegyService'
 import { useI18n } from "vue-i18n"
 import { useAlert } from '@/composables/alert'
 import { useAmountFormatter } from '@/composables/amountFormatter'
@@ -333,6 +334,26 @@ const state = reactive({
 })
 
 onMounted(() => {
+    // Set up message listener for OAuth popup callback
+    const handlePopupMessage = (event: MessageEvent) => {
+        console.log('Message received from popup:', event.data, 'origin:', event.origin)
+        
+        if (event.data?.type === 'oauth-auth-complete') {
+            if (event.data?.success) {
+                console.log('OAuth auth complete, refreshing apps...')
+                state.isPageLoading = false
+                fetchApps()
+                successAlert(`${t('alert.success')}!`, `${t('apps.alert.appSuccessfullyActivated')}.`)
+            } else if (event.data?.error) {
+                console.error('OAuth auth failed:', event.data.error)
+                state.isPageLoading = false
+                state.error = { message: event.data.error }
+            }
+        }
+    }
+    
+    window.addEventListener('message', handlePopupMessage)
+    
     fetchApps()
 })
 
@@ -350,11 +371,35 @@ async function fetchApps() {
             state.apps.marketing = filterAppsByType(apps, 'marketing')
             state.apps.visual = filterAppsByType(apps, 'visual')
             state.apps.other = filterAppsByType(apps, 'other')
+            
+            // Check real Zenegy connection status
+            await updateZenegyStatus()
         }
     } catch (error: any) {
         state.error = error
     }
     state.isPageLoading = false
+}
+
+async function updateZenegyStatus() {
+    try {
+        // Check if Zenegy is actually connected
+        const status = await zenegyService.getZenegyStatus()
+        const isConnected = status?.connected || false
+        
+        const categories = ['marketing', 'visual', 'other']
+        categories.forEach(category => {
+            const zenegyApp = state.apps[category]?.find(
+                (app: any) => app.generic_name === 'zenegy'
+            )
+            if (zenegyApp) {
+                zenegyApp.user_activated = isConnected
+            }
+        })
+    } catch (error) {
+        // Silently fail - if status check fails, rely on database value
+        console.error('Failed to check Zenegy status:', error)
+    }
 }
 
 function filterAppsByType(apps: any, type: string) {
@@ -399,6 +444,7 @@ function confirmTACAcceptance(app: any) {
     if (!userStore.getUser?.user_subscription) {
         navigateTo(`/subscription/subscribe?error=${t('apps.subscriptionRequired')}.`)
     } else {
+        // Set selected app and open modal for all apps (including OAuth)
         state.selectedApp = app
         state.modal.isAcceptTACOpen = true
     }
@@ -408,7 +454,24 @@ async function activateApp(formApp: any) {
     state.error = {}
     state.isPageLoading = true
     try {
-        if (state.selectedApp?.is_free) {
+        if (state.selectedApp?.generic_name === 'zenegy' || state.selectedApp?.is_oauth) {
+            const response = await zenegyService.getAuthorizationUrl()
+            console.log('Zenegy response:', response)
+            if (response?.authorization_url || response?.authUrl || response?.auth_url) { 
+                const authUrl = response?.authorization_url || response?.authUrl || response?.auth_url
+                
+                // Open Zenegy OAuth in a popup
+                const popup = window.open(
+                    authUrl,
+                    'ZenegyAuth',
+                    'width=600,height=700,left=200,top=100'
+                )
+                
+                console.log('Zenegy popup opened')
+            } else {
+                console.error('No authUrl in response:', response)
+            }
+        } else if (state.selectedApp?.is_free) {
             const params = {
                 app_uuid: state.selectedApp?.uuid,
             }

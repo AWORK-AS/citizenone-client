@@ -295,6 +295,12 @@
             "messageSuccessfullySent": "Message successfully sent"
         },
         "apps": "Apps",
+        "authorizationDenied": "Authorization was denied",
+        "connecting": "Connecting",
+        "connectingApp": "Connecting App",
+        "connectionFailed": "Connection failed",
+        "missingAuthorizationCode": "Missing authorization code",
+        "processingConnection": "Processing connection...",
         "categories": {
             "marketing": "Marketing",
             "other": "Other",

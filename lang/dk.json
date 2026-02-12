@@ -295,6 +295,12 @@
             "messageSuccessfullySent": "Besked sendt med succes"
         },
         "apps": "Apps",
+        "authorizationDenied": "Autorisation blev afvist",
+        "connecting": "Forbinder",
+        "connectingApp": "Forbinder App",
+        "connectionFailed": "Forbindelse mislykkedes",
+        "missingAuthorizationCode": "Manglende autorisationskode",
+        "processingConnection": "Behandler forbindelse...",
         "categories": {
             "marketing": "Marketing",
             "other": "Andet",
