@@ -3155,8 +3155,10 @@
         },
         "tabs": {
             "dutySchedule": "Vagtplan",
-            "employeeInformations": "Medarbejderinformationer"
+            "employeeInformations": "Medarbejderinformationer",
+            "timeLogs": "Tidslogfiler"
         },
+        "timeLogs": "Tidslogfiler",
         "workingHours": {
             "fulltime": "Fuldtid",
             "parttime": "Deltid"

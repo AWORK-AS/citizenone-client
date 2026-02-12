@@ -3155,8 +3155,10 @@
         },
         "tabs": {
             "dutySchedule": "Duty schedule",
-            "employeeInformations": "Employee informations"
+            "employeeInformations": "Employee informations",
+            "timeLogs": "Time Logs"
         },
+        "timeLogs": "Time Logs",
         "workingHours": {
             "fulltime": "Full time",
             "parttime": "Part time"

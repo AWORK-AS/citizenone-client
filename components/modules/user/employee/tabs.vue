@@ -29,6 +29,14 @@ const state = reactive({
                 'employees-employee_uuid-duty-schedule',
             ]
         },
+        {
+            name: 'employees.tabs.timeLogs',
+            isTranslateName: true,
+            href: `/employees/${employeeUuid}/time-logs`,
+            routeNames: [
+                'employees-employee_uuid-time-logs',
+            ]
+        },
     ] as any
 })
 
@@ -38,6 +46,9 @@ function changeTab(value: any) {
     }
     else if (value === `/employees/${employeeUuid}/duty-schedule`) {
         navigateTo(`/employees/${employeeUuid}/duty-schedule`)
+    }
+    else if (value === `/employees/${employeeUuid}/time-logs`) {
+        navigateTo(`/employees/${employeeUuid}/time-logs`)
     }
 }
 </script>
