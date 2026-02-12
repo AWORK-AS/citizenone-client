@@ -77,10 +77,10 @@ const state = reactive({
 })
 
 onMounted(() => {
-    fetchActivityLogs()
+    fetchTimeLogs()
 })
 
-async function fetchActivityLogs() {
+async function fetchTimeLogs() {
     state.error = {}
     state.isTableLoading = true
     try {
@@ -101,12 +101,12 @@ async function fetchActivityLogs() {
 
 function previous() {
     currentTablePage--
-    fetchActivityLogs()
+    fetchTimeLogs()
 }
 
 function next() {
     currentTablePage++
-    fetchActivityLogs()
+    fetchTimeLogs()
 }
 
 function sort(sortingData: any) {
@@ -115,6 +115,6 @@ function sort(sortingData: any) {
         sortField: sortingData.column,
         sortOrder: sortingData.sort,
     }
-    fetchActivityLogs()
+    fetchTimeLogs()
 }
 </script>

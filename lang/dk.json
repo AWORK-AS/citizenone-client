@@ -2434,9 +2434,14 @@
             "department": "Afdelinger",
             "download": "Download",
             "downloadType": "Downloadtype",
+            "downloadHoursInCSV": "Download timer i CSV",
             "downloadHoursInExcel": "Download timer i Excel",
             "downloadOverview": "Download oversigt",
-            "filterDate": "Filtrer dato",
+            "filter": {
+                "currentView": "Nuværende visning",
+                "filterDate": "Filtrer dato",
+                "filteredView": "Filtreret visning"
+            },
             "showLeavesOnly": "Vis kun ferier"
         },
         "draft": {
@@ -3162,8 +3167,10 @@
         },
         "tabs": {
             "dutySchedule": "Vagtplan",
-            "employeeInformations": "Medarbejderinformationer"
+            "employeeInformations": "Medarbejderinformationer",
+            "timeLogs": "Tidslogfiler"
         },
+        "timeLogs": "Tidslogfiler",
         "workingHours": {
             "fulltime": "Fuldtid",
             "parttime": "Deltid"
@@ -3985,20 +3992,20 @@
             "title": "Titel"
         }
     },
-    "journalContents":{
-        "addnNewJournalContent":"Nyt journalindhold",
+    "journalContents": {
+        "addnNewJournalContent": "Nyt journalindhold",
         "editJournalContent": "Rediger journalindhold",
-        "form":{
+        "form": {
             "alert": {
                 "newJournalContentSuccessfullySaved": "Journalindhold blev gemt",
                 "journalContentSuccessfullyUpdated": "Journalindhold blev opdateret"
             },
-            "content":"Indhold",
-            "name":"Navn"
+            "content": "Indhold",
+            "name": "Navn"
         },
-        "journalContents":"Journalindhold",
-        "newJournalContent":"Nyt journalindhold",
-        "selectJournalContent":"Vælg journalindhold",
+        "journalContents": "Journalindhold",
+        "newJournalContent": "Nyt journalindhold",
+        "selectJournalContent": "Vælg journalindhold",
         "table": {
             "actions": {
                 "edit": "Rediger",
@@ -4010,8 +4017,8 @@
             "confirmation": {
                 "deleteJournalContentConfirmation": "Er du sikker på, at du vil slette dette journalindhold"
             },
-            "content":"Indhold",
-            "name":"Navn"
+            "content": "Indhold",
+            "name": "Navn"
         }
     },
     "languageSwitcher": {
