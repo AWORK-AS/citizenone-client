@@ -3,6 +3,9 @@
         <LoadingSpinner  :isActive="state.isPageLoading">
             <div class="graph-container" v-if="state.compensatoryReport.length > 0">
                 <!-- Summary Stats -->
+                <div class="flex items-center gap-x-1" v-if="props.selectedEmployee?.norm_period">
+                    <h3 class="leading-6 font-medium text-gray-900">{{ props.selectedEmployee?.norm_period?.name }} {{ props.selectedEmployee?.norm_period?.period }}</h3>   
+                </div>
                 <div class="summary-stats">
                     <div class="stat-card border-l-8 border-primary">
                         <div class="stat-label">{{ $t('dutySchedules.normHours.graph.totalNormHours') }}</div>
