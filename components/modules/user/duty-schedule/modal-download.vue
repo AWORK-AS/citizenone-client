@@ -128,6 +128,10 @@ import { useI18n } from "vue-i18n"
 import { saveAs } from 'file-saver'
 
 const props = defineProps({
+    filter: {
+        type: Object,
+        required: required,
+    },
     isModalOpen: {
         type: Boolean,
         required: true,
@@ -199,6 +203,14 @@ watch(() => props.isModalOpen, (isModalOpen: boolean) => {
         fetchDepartments()
         fetchAllUsers()
         state.formDownload.mode = state.options.downloadModeLists.find((item: any) => item.title === 'current_view')
+    }
+})
+
+watch(() => state.formDownload.mode, (mode: any) => {
+    if (mode.title === 'filtered_view') {
+        state.formDownload.departments = props.filter.department_uuids
+        state.formDownload.employment_status = props.filter.employment_status
+        state.formDownload.employee_uuids = props.filter.employee_uuids
     }
 })
 

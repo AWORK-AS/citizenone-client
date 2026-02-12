@@ -68,7 +68,8 @@
 
             <div class="-mt-4 space-y-5">
                 <ModulesUserDutyScheduleWeekView v-if="state.calendarView === 'week'"
-                    @setDutyScheduleCurrentDate="setDutyScheduleCurrentDate" />
+                    @setDutyScheduleCurrentDate="setDutyScheduleCurrentDate"
+                    @setDutyScheduleCurrentFilter="setDutyScheduleCurrentFilter" />
             </div>
 
             <ModulesUserDutyScheduleModalShiftTypes :isModalOpen="state.modal.isShowAllShiftTypes"
@@ -80,7 +81,7 @@
                 @close="state.modal.isGuidedTourDutyScheduleOpen = false" />
         </NuxtLayout>
         <ModulesUserDutyScheduleModalDownload :isModalOpen="state.modal.isDownloadOpen"
-            :selectedDate="state.selectedDate" @close="state.modal.isDownloadOpen = false" />
+            :selectedDate="state.selectedDate" :filter="state.filter" @close="state.modal.isDownloadOpen = false" />
     </div>
 </template>
 
@@ -95,6 +96,11 @@ const userStore = useUserStore() as any
 
 const state = reactive({
     calendarView: 'week',
+    filter: {
+        department_uuids: [],
+        employment_status: [],
+        employee_uuids: [],
+    },
     modal: {
         isActivityLogsOpen: false,
         isDownloadOpen: false,
@@ -118,5 +124,11 @@ function isAdmin(role: any) {
 
 function setDutyScheduleCurrentDate(selectedDate: any) {
     state.selectedDate = selectedDate
+}
+
+function setDutyScheduleCurrentFilter(filter: any) {
+    state.filter.department_uuids = filter.department_uuids
+    state.filter.employment_status = filter.employment_status
+    state.filter.employee_uuids = filter.employee_uuids
 }
 </script>
