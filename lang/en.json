@@ -2635,7 +2635,18 @@
             "annualNormHours": "Annual norm hours",
             "info1": "The employee’s individual annual norm is always used.",
             "info2": "If the employee has been employed partway through the year, the annual norm will be calculated proportionally based on the employment start date.",
-            "info3": "Compensatory and vacation hours are calculated from that annual norm."
+            "info3": "Compensatory and vacation hours are calculated from that annual norm.",
+            "graph": {
+                "totalNormHours": "Total norm hours",
+                "totalWorkedHours": "Total worked hours",
+                "compensatoryTimeBalance": "Compensatory time balance",
+                "credit": "Credit",
+                "deficit": "Deficit",
+                "compensatoryTimeOverview": "Compensatory time overview",
+                "normHours": "Norm hours",
+                "workedHours": "Worked hours",
+                "hours":"Hours"
+            }
         },
         "noScheduleFound": "No schedule found",
         "pinSelfToTopOfSchedule": "Pin myself to the top of the schedule",

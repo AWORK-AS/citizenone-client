@@ -5,20 +5,20 @@
                 <!-- Summary Stats -->
                 <div class="summary-stats">
                     <div class="stat-card border-l-8 border-primary">
-                        <div class="stat-label">Total Norm Hours</div>
-                        <div class="stat-value">{{ currentBalance?.cumulativeNorm.toFixed(2) }} hrs</div>
+                        <div class="stat-label">{{ $t('dutySchedules.normHours.graph.totalNormHours') }}</div>
+                        <div class="stat-value">{{ currentBalance?.cumulativeNorm.toFixed(2) }} {{ $t('dutySchedules.normHours.graph.hours') }}</div>
                     </div>
-                    <div class="stat-card border-l-8 border-green-500">
-                        <div class="stat-label">Total Worked Hours</div>
-                        <div class="stat-value">{{ currentBalance?.cumulativeWorked.toFixed(2) }} hrs</div>
+                    <div class="stat-card border-l-8 border-secondary">
+                        <div class="stat-label">{{ $t('dutySchedules.normHours.graph.totalWorkedHours') }}</div>
+                        <div class="stat-value">{{ currentBalance?.cumulativeWorked.toFixed(2) }} {{ $t('dutySchedules.normHours.graph.hours') }}</div>
                     </div>
                     <div class="stat-card border-l-8 border-amber-500"
-                        :class="{ positive: currentBalance?.isPositive, negative: !currentBalance?.isPositive }">
-                        <div class="stat-label">Current Comp Time Balance</div>
+                        :class="{ positive: !currentBalance?.isPositive, negative: currentBalance?.isPositive }">
+                        <div class="stat-label">{{ $t('dutySchedules.normHours.graph.compensatoryTimeBalance') }}</div>
                         <div class="stat-value">
-                            {{ Math.abs(currentBalance?.compTimeBalance || 0).toFixed(2) }} hrs
+                            {{ Math.abs(currentBalance?.compTimeBalance || 0).toFixed(2) }} {{ $t('dutySchedules.normHours.graph.hours') }}
                             <span class="balance-indicator">
-                                {{ currentBalance?.isPositive ? '(Credit)' : '(Deficit)' }}
+                                {{ !currentBalance?.isPositive ? `(${ $t('dutySchedules.normHours.graph.credit') })` : `(${ $t('dutySchedules.normHours.graph.deficit') })` }}
                             </span>
                         </div>
                     </div>
@@ -43,7 +43,9 @@ import {
     red, 
     gray 
 } from 'tailwindcss/colors'
+import { useI18n } from 'vue-i18n';
 
+const { t } = useI18n()
 const colors = resolveConfig(tailwindConfig).theme?.colors as Record<string, any>
 
 const props = defineProps({
@@ -89,7 +91,7 @@ async function fetchCompensatoryReport() {
 
 const chartOption = computed(() => ({
     title: {
-        text: 'Compensatory Time Overview',
+        text: t('dutySchedules.normHours.graph.compensatoryTimeOverview'),
         left: 'center',
         top: 10,
         textStyle: {
@@ -106,7 +108,7 @@ const chartOption = computed(() => ({
             },
         },
         formatter: (params: any) => {
-            const date = new Date(params[0].value[0]).toLocaleDateString('en-US', {
+            const date = new Date(params[0].value[0]).toLocaleDateString('da-DK', {
                 year: 'numeric',
                 month: 'short',
                 day: 'numeric',
@@ -122,7 +124,7 @@ const chartOption = computed(() => ({
               <span style="display: inline-block; width: 10px; height: 10px; border-radius: 50%; background: ${color}; margin-right: 8px;"></span>
               ${param.seriesName}:
             </span>
-            <span style="margin-left: 16px; font-weight: bold;">${value} hrs</span>
+            <span style="margin-left: 16px; font-weight: bold;">${value} ${t('dutySchedules.normHours.graph.hours')}</span>
           </div>
         `
             })
@@ -131,7 +133,7 @@ const chartOption = computed(() => ({
         },
     },
     legend: {
-        data: ['Norm Hours', 'Worked Hours', 'Comp Time Balance'],
+        data: [t('dutySchedules.normHours.graph.normHours'), t('dutySchedules.normHours.graph.workedHours'), t('dutySchedules.normHours.graph.compensatoryTimeBalance')],
         bottom: 60,
         icon: 'roundRect',
     },
@@ -148,19 +150,19 @@ const chartOption = computed(() => ({
         axisLabel: {
             formatter: (value: number) => {
                 const date = new Date(value)
-                return date.toLocaleDateString('en-US', { month: 'short', day: 'numeric' })
+                return date.toLocaleDateString('da-DK', { month: 'short', day: 'numeric' })
             },
         },
     },
     yAxis: {
         type: 'value',
-        name: 'Hours',
+        name: t('dutySchedules.normHours.graph.hours'),
         nameTextStyle: {
             fontSize: 14,
             padding: [0, 0, 0, -50],
         },
         axisLabel: {
-            formatter: '{value} hrs',
+            formatter: `{value} ${t('dutySchedules.normHours.graph.hours')}`,
         },
         splitLine: {
             lineStyle: {
@@ -190,7 +192,7 @@ const chartOption = computed(() => ({
     ],
     series: [
         {
-            name: 'Norm Hours',
+            name: t('dutySchedules.normHours.graph.normHours'),
             type: 'line',
             data: state.compensatoryReport.map((d) => [d.date, d.cumulative_norm]),
             smooth: true,
@@ -207,24 +209,24 @@ const chartOption = computed(() => ({
             },
         },
         {
-            name: 'Worked Hours',
+            name: t('dutySchedules.normHours.graph.workedHours'),
             type: 'line',
             data: state.compensatoryReport.map((d) => [d.date, d.cumulative_worked]),
             smooth: true,
             symbol: 'none',
             lineStyle: {
                 width: 2,
-                color: green[500],
+                color: '#41ADD8',
             },
             itemStyle: {
-                color: green[500],
+                color: '#41ADD8',
             },
             emphasis: {
                 focus: 'series',
             },
         },
         {
-            name: 'Comp Time Balance',
+            name: t('dutySchedules.normHours.graph.compensatoryTimeBalance'),
             type: 'line',
             data: state.compensatoryReport.map((d) => [d.date, d.comp_time_balance]),
             smooth: true,
