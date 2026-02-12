@@ -412,7 +412,7 @@
                                                         </div>
 
                                                         <div v-if="employee?.norm_period"
-                                                            class="flex items-center gap-1 cursor-pointer">
+                                                            class="flex items-center gap-1 cursor-pointer" @click="openUserNormPeriodModal(employee)">
                                                             <p class="text-xxs">
                                                                 {{ $t('dutySchedules.normPeriod') }}:
                                                                 {{ employee?.norm_period?.display_label ?? '' }}
