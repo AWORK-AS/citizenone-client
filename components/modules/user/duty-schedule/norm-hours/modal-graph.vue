@@ -1,6 +1,6 @@
 <template>
     <div>
-        <Modal size="4xl" :title="$t('dutySchedules.normHours.compensatoryHoursGraph')" :show="props.isModalOpen"
+        <Modal size="4xl" :title="`${$t('dutySchedules.normHours.compensatoryHoursGraph')} (${props.selectedEmployee.firstname} ${props.selectedEmployee.lastname})`" :show="props.isModalOpen"
             @close="closeModal">
             <template #modal-body>
                 <div>

@@ -45,7 +45,7 @@ import {
 } from 'tailwindcss/colors'
 import { useI18n } from 'vue-i18n';
 
-const { t } = useI18n()
+const { t, locale } = useI18n()
 const colors = resolveConfig(tailwindConfig).theme?.colors as Record<string, any>
 
 const props = defineProps({
@@ -108,7 +108,7 @@ const chartOption = computed(() => ({
             },
         },
         formatter: (params: any) => {
-            const date = new Date(params[0].value[0]).toLocaleDateString('da-DK', {
+            const date = new Date(params[0].value[0]).toLocaleDateString(locale.value === 'da' ? 'da-DK' : 'en-US', {
                 year: 'numeric',
                 month: 'short',
                 day: 'numeric',
@@ -150,7 +150,7 @@ const chartOption = computed(() => ({
         axisLabel: {
             formatter: (value: number) => {
                 const date = new Date(value)
-                return date.toLocaleDateString('da-DK', { month: 'short', day: 'numeric' })
+                return date.toLocaleDateString(locale.value === 'da' ? 'da-DK' : 'en-US', { month: 'short', day: 'numeric' })
             },
         },
     },
