@@ -1,7 +1,8 @@
 <template>
     <div>
-        <Modal size="4xl" :title="`${$t('dutySchedules.normHours.compensatoryHoursGraph')} (${props.selectedEmployee.firstname} ${props.selectedEmployee.lastname})`" :show="props.isModalOpen"
-            @close="closeModal">
+        <Modal size="3xl"
+            :title="`${$t('dutySchedules.normHours.compensatoryHoursGraph')} (${props.selectedEmployee.firstname} ${((props.selectedEmployee.lastname ?? ''))})`"
+            :show="props.isModalOpen" @close="closeModal">
             <template #modal-body>
                 <div>
                     <ModulesUserDutyScheduleNormHoursCompensatoryGraph :selectedEmployee="props.selectedEmployee" />
@@ -17,8 +18,6 @@
 </template>
 
 <script setup lang="ts">
-import { useI18n } from "vue-i18n"
-
 const props = defineProps({
     isModalOpen: {
         type: Boolean,

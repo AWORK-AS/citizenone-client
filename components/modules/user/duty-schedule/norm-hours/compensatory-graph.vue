@@ -1,27 +1,44 @@
 <template>
-    <div class="comp-time-graph">
-        <LoadingSpinner  :isActive="state.isPageLoading">
-            <div class="graph-container" v-if="state.compensatoryReport.length > 0">
+    <div>
+        <LoadingSpinner :isActive="state.isPageLoading">
+            <div class="space-y-5" v-if="state.compensatoryReport.length > 0">
                 <!-- Summary Stats -->
                 <div class="flex items-center gap-x-1" v-if="props.selectedEmployee?.norm_period">
-                    <h3 class="leading-6 font-medium text-gray-900">{{ props.selectedEmployee?.norm_period?.name }} {{ props.selectedEmployee?.norm_period?.period }}</h3>   
+                    <h3 class="text-sm font-medium text-gray-900">
+                        {{ props.selectedEmployee?.norm_period?.name }} {{
+                            props.selectedEmployee?.norm_period?.period }}
+                    </h3>
                 </div>
-                <div class="summary-stats">
-                    <div class="stat-card border-l-8 border-primary">
-                        <div class="stat-label">{{ $t('dutySchedules.normHours.graph.totalNormHours') }}</div>
-                        <div class="stat-value">{{ currentBalance?.cumulativeNorm.toFixed(2) }} {{ $t('dutySchedules.normHours.graph.hours') }}</div>
+                <div class="flex flex-wrap items-center gap-5">
+                    <div class="grow bg-gray-50 p-4 rounded-md border-l-8 border-primary">
+                        <div class="text-sm text-gray-500">
+                            {{ $t('dutySchedules.normHours.graph.totalNormHours') }}
+                        </div>
+                        <div class="mt-1 text-base font-semibold text-black">
+                            {{ currentBalance?.cumulativeNorm.toFixed(2) }} {{
+                                $t('dutySchedules.normHours.graph.hours') }}
+                        </div>
                     </div>
-                    <div class="stat-card border-l-8 border-secondary">
-                        <div class="stat-label">{{ $t('dutySchedules.normHours.graph.totalWorkedHours') }}</div>
-                        <div class="stat-value">{{ currentBalance?.cumulativeWorked.toFixed(2) }} {{ $t('dutySchedules.normHours.graph.hours') }}</div>
+                    <div class="grow bg-gray-50 p-4 rounded-md border-l-8 border-secondary">
+                        <div class="text-sm text-gray-500">
+                            {{ $t('dutySchedules.normHours.graph.totalWorkedHours') }}
+                        </div>
+                        <div class="mt-1 text-base font-semibold text-black">
+                            {{ currentBalance?.cumulativeWorked.toFixed(2) }} {{
+                                $t('dutySchedules.normHours.graph.hours') }}
+                        </div>
                     </div>
-                    <div class="stat-card border-l-8 border-amber-500"
+                    <div class="grow stat-card bg-gray-50 p-4 rounded-md border-l-8 border-amber-500"
                         :class="{ positive: !currentBalance?.isPositive, negative: currentBalance?.isPositive }">
-                        <div class="stat-label">{{ $t('dutySchedules.normHours.graph.compensatoryTimeBalance') }}</div>
-                        <div class="stat-value">
-                            {{ Math.abs(currentBalance?.compTimeBalance || 0).toFixed(2) }} {{ $t('dutySchedules.normHours.graph.hours') }}
+                        <div class="text-sm text-gray-500">
+                            {{ $t('dutySchedules.normHours.graph.compensatoryTimeBalance') }}
+                        </div>
+                        <div class="mt-1 text-base font-semibold text-black">
+                            {{ Math.abs(currentBalance?.compTimeBalance || 0).toFixed(2) }} {{
+                                $t('dutySchedules.normHours.graph.hours') }}
                             <span class="balance-indicator">
-                                {{ !currentBalance?.isPositive ? `(${ $t('dutySchedules.normHours.graph.credit') })` : `(${ $t('dutySchedules.normHours.graph.deficit') })` }}
+                                {{ !currentBalance?.isPositive ? `(${$t('dutySchedules.normHours.graph.credit')})` :
+                                    `(${$t('dutySchedules.normHours.graph.deficit')})` }}
                             </span>
                         </div>
                     </div>
@@ -37,19 +54,12 @@
 <script setup lang="ts">
 import { dutyScheduleService } from '@/components/api/user/DutyScheduleService';
 import type { Error } from '@/types'
-import tailwindConfig from '~/tailwind.config';
-import resolveConfig from 'tailwindcss/resolveConfig'
-import { 
-    blue, 
-    green, 
-    amber, 
-    red, 
-    gray 
+import {
+    amber
 } from 'tailwindcss/colors'
 import { useI18n } from 'vue-i18n';
 
 const { t, locale } = useI18n()
-const colors = resolveConfig(tailwindConfig).theme?.colors as Record<string, any>
 
 const props = defineProps({
     selectedEmployee: {
@@ -84,7 +94,9 @@ async function fetchCompensatoryReport() {
     try {
         const params = {}
         const response = await dutyScheduleService.getCompensatoryReport(props.selectedEmployee.uuid, params)
-        state.compensatoryReport = response.data
+        if (response) {
+            state.compensatoryReport = response.data
+        }
     } catch (error: any) {
         state.error = error
     } finally {
@@ -294,30 +306,6 @@ const currentBalance = computed(() => {
 </script>
 
 <style scoped>
-.comp-time-graph {
-    width: 100%;
-}
-
-.graph-container {
-    display: flex;
-    flex-direction: column;
-    gap: 1.5rem;
-}
-
-.summary-stats {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-    gap: 1rem;
-    margin-bottom: 1rem;
-}
-
-.stat-card {
-    padding: 1rem 1.5rem;
-    background: #f8f9fa;
-    border-radius: 8px;
-    /* border-left: 4px solid #5470c6; */
-}
-
 .stat-card.positive {
     border-left-color: #91cc75;
     background: #f0f9f4;
@@ -326,18 +314,6 @@ const currentBalance = computed(() => {
 .stat-card.negative {
     border-left-color: #ee6666;
     background: #fff5f5;
-}
-
-.stat-label {
-    font-size: 0.875rem;
-    color: #666;
-    margin-bottom: 0.5rem;
-}
-
-.stat-value {
-    font-size: 1.5rem;
-    font-weight: bold;
-    color: #333;
 }
 
 .balance-indicator {
@@ -360,20 +336,8 @@ const currentBalance = computed(() => {
 }
 
 @media (max-width: 768px) {
-    .comp-time-graph {
-        padding: 1rem;
-    }
-
-    .summary-stats {
-        grid-template-columns: 1fr;
-    }
-
     .chart {
         height: 400px;
-    }
-
-    .stat-value {
-        font-size: 1.25rem;
     }
 }
 </style>
