@@ -23,9 +23,12 @@
                                 <FormError :error="state?.error?.errors?.subject?.[0]" />
                             </div>
                             <div class="space-y-1">
-                                <FormLabel for="content" :label="$t('mail.form.message')" />
-                                <FormTextArea id="content" name="content" :placeholder="$t('mail.form.message')"
-                                    v-model="state.formEmail.content" />
+                                <p class="text-sm text-gray-600">
+                                    {{ $t('mail.form.message') }}
+                                </p>
+                                <ckeditor :editor="editor" v-model="state.formEmail.content"
+                                    :config="editorContentConfig">
+                                </ckeditor>
                                 <FormError :error="v$?.formEmail?.content?.$errors[0]?.$message.toString()" />
                                 <FormError :error="state?.error?.errors?.content?.[0]" />
                             </div>
@@ -173,6 +176,7 @@
 </template>
 
 <script setup lang="ts">
+import ClassicEditor from '@ckeditor/ckeditor5-build-classic'
 import { citizenService } from '@/components/api/user/CitizenService'
 import { citizenDocumentService } from '@/components/api/user/CitizenDocumentService'
 import { documentService } from '@/components/api/user/DocumentService'
@@ -200,6 +204,24 @@ const { successAlert } = useAlert()
 const { t } = useI18n()
 const userStore = useUserStore() as any
 const file = ref<HTMLInputElement | null>(null)
+const editor = ref(ClassicEditor)
+const editorContentConfig = ref({
+    // Add your custom configuration here
+    toolbar: ['undo', 'redo', 'heading', '|', 'bold', 'italic', 'link', 'bulletedList', 'numberedList', 'blockQuote'],
+    heading: {
+        options: [
+            { model: 'paragraph', title: 'Paragraph', class: 'ck-heading_paragraph' },
+            { model: 'heading1', view: 'h1', title: 'Heading 1', class: 'ck-heading_heading1' },
+            { model: 'heading2', view: 'h2', title: 'Heading 2', class: 'ck-heading_heading2' },
+            { model: 'heading3', view: 'h3', title: 'Heading 3', class: 'ck-heading_heading3' },
+            { model: 'heading4', view: 'h4', title: 'Heading 4', class: 'ck-heading_heading4' },
+            { model: 'heading5', view: 'h5', title: 'Heading 5', class: 'ck-heading_heading5' },
+            { model: 'heading6', view: 'h6', title: 'Heading 6', class: 'ck-heading_heading6' },
+        ]
+    },
+    // extraPlugins: [ContentUploadAdapterPlugin],
+    height: 500  // Set the editor height here
+}) as any
 
 const state = reactive({
     error: {} as Error,
