@@ -4119,6 +4119,7 @@
         },
         "forward": "Videre",
         "inbox": "Indbakke",
+        "insertSignature": "Indsæt underskrift",
         "loading": {
             "loadingEmailConfigurations": "Indlæser e-mailkonfigurationer",
             "loadingUserSettings": "Indlæser brugerindstillinger",

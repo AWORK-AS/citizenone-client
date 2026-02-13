@@ -23,9 +23,15 @@
                                 <FormError :error="state?.error?.errors?.subject?.[0]" />
                             </div>
                             <div class="space-y-1">
-                                <p class="text-sm text-gray-600">
-                                    {{ $t('mail.form.message') }}
-                                </p>
+                                <div class="flex justify-between items-center py-0.5">
+                                    <p class="text-sm text-gray-600">
+                                        {{ $t('mail.form.message') }}
+                                    </p>
+                                    <span class="text-xs cursor-pointer text-tertiary hover:text-tertiary-800"
+                                        @click="state.modal.isInsertSignatureOpen = true">
+                                        {{ $t('mail.insertSignature') }}
+                                    </span>
+                                </div>
                                 <ckeditor :editor="editor" v-model="state.formEmail.content"
                                     :config="editorContentConfig">
                                 </ckeditor>
@@ -170,6 +176,8 @@
                         </div>
                     </form>
                 </LoadingSpinner>
+                <ModulesUserMailSignatureModalInsertSignature :isModalOpen="state.modal.isInsertSignatureOpen"
+                    @close="state.modal.isInsertSignatureOpen = false" @setSignature="setSignature" />
             </template>
         </Modal>
     </div>
@@ -239,6 +247,9 @@ const state = reactive({
         citizens_uuid: [],
         citizen_files: [],
         company_files: [],
+    },
+    modal: {
+        isInsertSignatureOpen: false,
     },
     options: {
         attachFilesOptions: [
@@ -317,6 +328,12 @@ watch(() => state.formEmail.citizens_uuid, () => {
 
 function closeModal() {
     emit('close')
+}
+
+function setSignature(signature: any) {
+    if (signature) {
+        state.formEmail.content += signature?.signature
+    }
 }
 
 function triggerFileInput() {

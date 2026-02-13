@@ -4119,6 +4119,7 @@
         },
         "forward": "Forward",
         "inbox": "Inbox",
+        "insertSignature": "Insert signature",
         "loading": {
             "loadingEmailConfigurations": "Loading email configurations",
             "loadingUserSettings": "Loading user settings",
