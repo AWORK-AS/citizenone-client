@@ -1,9 +1,16 @@
-import { loadStripe } from '@stripe/stripe-js';
+import { loadStripe, type Stripe } from '@stripe/stripe-js';
 import stripeApi from '../components/api/stripeApi';
 
-const stripePromise = loadStripe(import.meta.env.VITE_STRIPE_PUBLISHABLE_KEY);
+let stripePromise: Promise<Stripe | null>;
 
-export async function processStripePayment(amount: number, citizenId: string) {
+export function getStripe(){
+    if (!stripePromise) {
+        stripePromise = loadStripe(import.meta.env.VITE_STRIPE_PUBLISHABLE_KEY);
+}
+    return stripePromise;
+}
+
+export async function payWithStripe(amount: number, citizenId: string, cardElement: any) {
     try {
         const { clientSecret } = await stripeApi.createPaymentIntent(amount, citizenId);
         const stripe = await stripePromise;
