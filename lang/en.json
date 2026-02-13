@@ -2650,7 +2650,7 @@
                 "compensatoryTimeOverview": "Compensatory time overview",
                 "normHours": "Norm hours",
                 "workedHours": "Worked hours",
-                "hours":"Hours"
+                "hours": "Hours"
             }
         },
         "noScheduleFound": "No schedule found",
@@ -4165,6 +4165,41 @@
             "imapUsername": "IMAP username",
             "imapPassword": "IMAP password",
             "portEncryption": "IMAP encryption",
+            "signatures": {
+                "editSignature": "Edit signature",
+                "form": {
+                    "alert": {
+                        "newEmailSignatureSuccessfullyAdded": "New email signature successfully added",
+                        "emailSignatureSuccessfullyUpdated": "Email signature successfully updated"
+                    },
+                    "default": "Default",
+                    "name": "Name",
+                    "signature": "Signature"
+                },
+                "newSignature": "New signature",
+                "signatures": "Signatures",
+                "table": {
+                    "actions": {
+                        "delete": "Delete",
+                        "edit": "Edit",
+                        "setToDefault": "Set to default",
+                        "signature": "Signature",
+                        "view": "View"
+                    },
+                    "alert": {
+                        "emailSignatureSuccessfullyDeleted": "Email signature successfully deleted",
+                        "emailSignatureSuccessfullySetToDefault": "Email signature successfully set to default"
+                    },
+                    "confirmation": {
+                        "deleteSignatureConfirmation": "Are you sure you want to delete this signature",
+                        "setSignatureToDefaultConfirmation": "Are you sure you want to set this signature as default"
+                    },
+                    "default": "Default",
+                    "name": "Name",
+                    "status": "Status"
+                }
+            },
+            "settings": "Settings",
             "smtp": "SMTP",
             "smtpHost": "SMTP Host",
             "smtpPort": "SMTP Port",

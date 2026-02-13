@@ -432,6 +432,7 @@
                                 <slot name="header"></slot>
                             </h1>
                             <slot name="new-feature"></slot>
+                            <slot name="settings"></slot>
                         </div>
                         <div class="mt-4">
                             <h3 class="text-lg text-gray-900">
