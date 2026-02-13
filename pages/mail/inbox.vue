@@ -98,7 +98,7 @@ const state = reactive({
 watch(() => userStore.getUser, (user: any) => {
     if (user) {
         state.loading.isUserLoading = false
-        if (!user?.is_secure_mail_active) {
+        if (!user?.has_mail_access) {
             navigateTo(`/overview`)
             errorAlert(`${t('alert.somethingWentWrong')}!`, `${t('youDontHaveAccessToThisPage')}.`)
         } else {
