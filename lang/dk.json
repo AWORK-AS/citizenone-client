@@ -2631,6 +2631,7 @@
             "compensatoryHours": "Afspadseringstimer",
             "compensatoryHoursThisYear": "Afspadseringstimer i år",
             "compensatoryHourFromPreviousYear": "Afspadseringstimer fra tidligere år",
+            "compensatoryHoursGraph": "Afspadseringstimer graf",
             "date": "Dato",
             "totalCompensatoryHours": "Samlede afspadseringstimer",
             "totalVacationHours": "Samlede ferietimer",
@@ -2639,7 +2640,18 @@
             "annualNormHours": "Årlig norm i timer",
             "info1": "Medarbejderens individuelle årlige norm anvendes altid.",
             "info2": "Hvis medarbejderen er startet i løbet af året, beregnes den årlige norm forholdsmæssigt ud fra ansættelsesdatoen.",
-            "info3": "Afspadserings- og ferietimer beregnes ud fra denne årlige norm."
+            "info3": "Afspadserings- og ferietimer beregnes ud fra denne årlige norm.",
+            "graph": {
+                "totalNormHours": "Samlede normtimer",
+                "totalWorkedHours": "Samlede arbejdstimer",
+                "compensatoryTimeBalance": "Afspadseringstid balance",
+                "credit": "Kredit",
+                "deficit": "Underskud",
+                "compensatoryTimeOverview": "Oversigt over afspadseringstid",
+                "normHours": "Normtimer",
+                "workedHours": "Arbejdstimer",
+                "hours":"Timer"
+            }
         },
         "noScheduleFound": "Ingen tidsplan fundet",
         "pinSelfToTopOfSchedule": "Fastgør mig selv øverst i vagtplanen",

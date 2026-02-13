@@ -54,7 +54,6 @@ async function saveDocument(documentDetails: any) {
     try {
         const blob = new Blob([documentDetails.content], { type: 'text/html' })
         const file = new File([blob], documentDetails.name.endsWith('.html') ? documentDetails.name : documentDetails.name + '.html', { type: 'text/html' })
-        console.log(file)
         const formData = new FormData()
         formData.append('files[]', file)
         if (router?.currentRoute?.value?.query?.folder_uuid) {

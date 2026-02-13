@@ -280,8 +280,7 @@
                                 @click="state.modal.isAnnualNormHoursInfoOpen = true" />
                         </div>
                         <FormTextField id="annual_norm_hours" name="annual_norm_hours"
-                            :placeholder="$t('employees.form.employment.annualNormHours')"
-                            @input="onYearlyInput"
+                            :placeholder="$t('employees.form.employment.annualNormHours')" @input="onYearlyInput"
                             v-model="state.formEmployee.employment.annual_norm_hours" />
                         <p class="text-sm text-primary" v-if="state.info.showAnnualNormHoursCalculation">
                             {{ annualNormHoursCalculation }}
@@ -299,8 +298,7 @@
                                 @click="state.modal.isAnnualNormHoursInfoOpen = true" />
                         </div>
                         <FormTextField id="weekly_norm_hours" name="weekly_norm_hours"
-                            :placeholder="$t('employees.form.employment.weeklyNormHours')"
-                            @input="onWeeklyInput"
+                            :placeholder="$t('employees.form.employment.weeklyNormHours')" @input="onWeeklyInput"
                             v-model="state.formEmployee.employment.weekly_norm_hours" />
                         <p class="text-sm text-primary" v-if="state.info.showWeeklyNormHoursCalculation">
                             {{ weeklyNormHoursCalculation }}
@@ -1173,8 +1171,6 @@ function onWeeklyInput(event: any) {
     const value = event.target.value
     const weeklyHours = parseFloat(value)
 
-    console.log('weeklyHours:', weeklyHours)
-
     if (value === '') {
         state.formEmployee.employment.weekly_norm_hours = ''
         state.info.showAnnualNormHoursCalculation = false
@@ -1198,14 +1194,14 @@ function onWeeklyInput(event: any) {
     state.formEmployee.employment.weekly_norm_hours = value
     state.info.showAnnualNormHoursCalculation = true
     state.info.showWeeklyNormHoursCalculation = false
-    
+
     if (!isNaN(weeklyHours) && weeklyHours >= 0) {
         const calculatedAnnualHours = Math.round(weeklyHours * 52)
-        
-        const currentAnnual = state.formEmployee.employment.annual_norm_hours 
-            ? parseFloat(state.formEmployee.employment.annual_norm_hours) 
+
+        const currentAnnual = state.formEmployee.employment.annual_norm_hours
+            ? parseFloat(state.formEmployee.employment.annual_norm_hours)
             : NaN
-        
+
         if (!Number.isFinite(currentAnnual) || calculatedAnnualHours !== currentAnnual) {
             state.formEmployee.employment.annual_norm_hours = String(calculatedAnnualHours)
         }
@@ -1239,14 +1235,14 @@ function onYearlyInput(event: any) {
     state.formEmployee.employment.annual_norm_hours = value
     state.info.showWeeklyNormHoursCalculation = true
     state.info.showAnnualNormHoursCalculation = false
-    
+
     if (!isNaN(annualHours) && annualHours >= 0) {
         const calculatedWeeklyHours = Math.round(annualHours / 52)
-        
-        const currentWeekly = state.formEmployee.employment.weekly_norm_hours 
-            ? parseFloat(state.formEmployee.employment.weekly_norm_hours) 
+
+        const currentWeekly = state.formEmployee.employment.weekly_norm_hours
+            ? parseFloat(state.formEmployee.employment.weekly_norm_hours)
             : NaN
-        
+
         if (!Number.isFinite(currentWeekly) || calculatedWeeklyHours !== currentWeekly) {
             state.formEmployee.employment.weekly_norm_hours = String(calculatedWeeklyHours)
         }

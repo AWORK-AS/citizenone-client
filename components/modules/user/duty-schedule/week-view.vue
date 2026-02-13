@@ -412,7 +412,8 @@
                                                         </div>
 
                                                         <div v-if="employee?.norm_period"
-                                                            class="flex items-center gap-1 cursor-pointer">
+                                                            class="flex items-center gap-1 cursor-pointer"
+                                                            @click="openUserNormPeriodModal(employee)">
                                                             <p class="text-xxs">
                                                                 {{ $t('dutySchedules.normPeriod') }}:
                                                                 {{ employee?.norm_period?.display_label ?? '' }}
@@ -526,6 +527,18 @@
                                                         <div
                                                             class="px-3 col-span-7 space-y-2 mt-4 border-t-0.5 border-gray-200 pt-3">
                                                             <div :class="[
+                                                                'text-primary',
+                                                                'flex items-center gap-1 w-fit cursor-pointer'
+                                                            ]" @click="openGraphModal(employee)">
+                                                                <Icon name="ph:chart-bar-bold" class="h-3 w-3"
+                                                                    aria-hidden="true" />
+                                                                {{
+                                                                    $t('dutySchedules.normHours.compensatoryHoursGraph')
+                                                                }}
+                                                            </div>
+                                                        </div>
+                                                        <div class="px-3 col-span-7 space-y-2 mt-1">
+                                                            <div :class="[
                                                                 employee?.total_norm_hours?.compensatory_hours > 0 ? 'text-green-700' : 'text-red-700',
                                                                 'flex items-center gap-1 w-fit cursor-pointer'
                                                             ]" @click="viewCompensatoryHours(employee)">
@@ -559,6 +572,7 @@
                                                                 }}
                                                             </div>
                                                         </div>
+
                                                     </div>
                                                 </div>
                                                 <div class="px-3 pb-3">
@@ -919,6 +933,8 @@
             <ModulesUserDutyScheduleNormHoursModalUserNormPeriod :isModalOpen="state.modal.isUserNormPeriodOpen"
                 :selectedEmployee="state.normHours.selectedEmployee" @close="state.modal.isUserNormPeriodOpen = false"
                 @refreshDutySchedules="fetchDutySchedule()" />
+            <ModulesUserDutyScheduleNormHoursModalGraph :isModalOpen="state.modal.isGraphOpen"
+                :selectedEmployee="state.normHours.selectedEmployee" @close="state.modal.isGraphOpen = false" />
         </LoadingSpinner>
     </div>
 </template>
@@ -935,7 +951,7 @@ import { useUserStore } from '@/store/user'
 import { useI18n } from "vue-i18n"
 import type { Error } from '@/types'
 
-const emit = defineEmits(['setDutyScheduleCurrentDate'])
+const emit = defineEmits(['setDutyScheduleCurrentDate', 'setDutyScheduleCurrentFilter'])
 const language = useI18n()
 const dutyScheduleStore = useDutyScheduleStore() as any
 const userStore = useUserStore() as any
@@ -1010,6 +1026,7 @@ const state = reactive({
         isViewShiftOpen: false,
         isAnnualNormHoursInfoOpen: false,
         isUserNormPeriodOpen: false,
+        isGraphOpen: false,
     } as any,
     newShift: {
         selectedDate: '',
@@ -1260,6 +1277,7 @@ function setFilter(filter: any) {
     state.filter.department_uuids = filter.department_uuids
     state.filter.employment_status = filter.employment_status
     state.filter.employee_uuids = filter.employee_uuids
+    emit('setDutyScheduleCurrentFilter', state.filter)
     fetchDutySchedule()
 }
 
@@ -1894,5 +1912,11 @@ function openUserNormPeriodModal(employee: any) {
     if (!isAdmin(userStore.getUser?.role)) return
     state.normHours.selectedEmployee = employee
     state.modal.isUserNormPeriodOpen = true
+}
+
+function openGraphModal(employee: any) {
+    if (!isAdmin(userStore.getUser?.role)) return
+    state.normHours.selectedEmployee = employee
+    state.modal.isGraphOpen = true
 }
 </script>
