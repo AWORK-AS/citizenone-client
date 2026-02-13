@@ -52,7 +52,6 @@ function refreshExpenses() {
 async function updateExpense(expenseDetails: any) {
     state.error = {}
     state.isPageLoading = true
-    console.log('expenseDetails', expenseDetails)
     try {
         let params = new FormData()
         params.append('name', expenseDetails.name)
