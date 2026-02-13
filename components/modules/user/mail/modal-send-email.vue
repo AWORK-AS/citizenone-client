@@ -332,7 +332,9 @@ function closeModal() {
 
 function setSignature(signature: any) {
     if (signature) {
-        state.formEmail.content += signature?.signature
+        // Remove any potential previous signature text and replace with the new one
+        const signatureRegex = /\n?____________________.*$/;  // Matches a signature line (often denoted by '--')
+        state.formEmail.content = state.formEmail.content.replace(signatureRegex, '') + '\n____________________\n' + signature?.signature;
     }
 }
 
