@@ -2650,7 +2650,7 @@
                 "compensatoryTimeOverview": "Oversigt over afspadseringstid",
                 "normHours": "Normtimer",
                 "workedHours": "Arbejdstimer",
-                "hours":"Timer"
+                "hours": "Timer"
             }
         },
         "noScheduleFound": "Ingen tidsplan fundet",
@@ -4119,6 +4119,7 @@
         },
         "forward": "Videre",
         "inbox": "Indbakke",
+        "insertSignature": "Indsæt underskrift",
         "loading": {
             "loadingEmailConfigurations": "Indlæser e-mailkonfigurationer",
             "loadingUserSettings": "Indlæser brugerindstillinger",
@@ -4165,6 +4166,41 @@
             "imapUsername": "IMAP brugernavn",
             "imapPassword": "IMAP adgangskode",
             "portEncryption": "IMAP kryptering",
+            "signatures": {
+                "editSignature": "Rediger underskrift",
+                "form": {
+                    "alert": {
+                        "newEmailSignatureSuccessfullyAdded": "Ny e-mail underskrift blev tilføjet",
+                        "emailSignatureSuccessfullyUpdated": "E-mail underskrift blev opdateret"
+                    },
+                    "default": "Standard",
+                    "name": "Navn",
+                    "signature": "Underskrift"
+                },
+                "newSignature": "Ny underskrift",
+                "signatures": "Underskrifter",
+                "table": {
+                    "actions": {
+                        "delete": "Slet",
+                        "edit": "Rediger",
+                        "setToDefault": "Sæt som standard",
+                        "signature": "Underskrift",
+                        "view": "Se"
+                    },
+                    "alert": {
+                        "emailSignatureSuccessfullyDeleted": "E-mail underskrift blev slettet",
+                        "emailSignatureSuccessfullySetToDefault": "E-mail underskrift blev sat som standard"
+                    },
+                    "confirmation": {
+                        "deleteSignatureConfirmation": "Er du sikker på, at du vil slette denne underskrift",
+                        "setSignatureToDefaultConfirmation": "Er du sikker på, at du vil sætte denne underskrift som standard"
+                    },
+                    "default": "Standard",
+                    "name": "Navn",
+                    "status": "Status"
+                }
+            },
+            "settings": "Indstillinger",
             "smtp": "SMTP",
             "smtpHost": "SMTP vært",
             "smtpPort": "SMTP port",
