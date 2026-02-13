@@ -319,7 +319,12 @@ async function downloadDutySchedule() {
         const response = await dutyScheduleService.downloadDutySchedules(params)
         if (response) {
             if (response) {
-                saveAs(response, 'Duty-schedule')
+                if (state.formDownload.type === 'csv') {
+                    const file = new Blob([response], { type: 'text/csv;charset=utf-8;' })
+                    saveAs(file, `${customPagesStore.getCustomPagesName?.dutySchedules}.csv`)
+                } else {
+                    saveAs(response, `${customPagesStore.getCustomPagesName?.dutySchedules}`)
+                }
             }
         }
     } catch (error: any) {
