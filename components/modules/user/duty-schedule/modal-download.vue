@@ -319,11 +319,11 @@ async function downloadDutySchedule() {
         const response = await dutyScheduleService.downloadDutySchedules(params)
         if (response) {
             if (response) {
-                if (state.formDownload.type === 'csv') {
+                if (state.formDownload.download_type === 'csv') {
                     const file = new Blob([response], { type: 'text/csv;charset=utf-8;' })
-                    saveAs(file, `${customPagesStore.getCustomPagesName?.dutySchedules}.csv`)
+                    saveAs(file, `${customPagesStore.getCustomPagesName?.dutySchedules?.replaceAll(' ', '-')}.csv`)
                 } else {
-                    saveAs(response, `${customPagesStore.getCustomPagesName?.dutySchedules}`)
+                    saveAs(response, `${customPagesStore.getCustomPagesName?.dutySchedules?.replaceAll(' ', '-')}`)
                 }
             }
         }
