@@ -4837,6 +4837,9 @@
         "plan": "Plan",
         "plans": "Planer",
         "reports": "Rapporter",
+        "followUps": "Opfølgninger",
+        "followUpNotifications": "Opfølgningsnotifikationer",
+        "noFollowUpNotifications": "Ingen opfølgningsnotifikationer",
         "statuses": "Statusser",
         "subgoal": "Delmål",
         "subgoals": "Delmål",
@@ -4853,7 +4856,8 @@
                 "seeGoals": "Se mål",
                 "seeSubgoals": "Se delmål",
                 "statuses": "Statusser",
-                "unarchive": "Gendan"
+                "unarchive": "Gendan",
+                "view": "Se"
             },
             "createdBy": "Oprettet af",
             "copiedFrom": "Kopieret fra",

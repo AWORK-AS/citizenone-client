@@ -4837,6 +4837,9 @@
         "plan": "Plan",
         "plans": "Plans",
         "reports": "Reports",
+        "followUps": "Follow Ups",
+        "followUpNotifications": "Follow-up Notifications",
+        "noFollowUpNotifications": "No follow-up notifications",
         "statuses": "Statuses",
         "subgoal": "Subgoal",
         "subgoals": "Subgoals",
@@ -4853,7 +4856,8 @@
                 "seeGoals": "See goals",
                 "seeSubgoals": "See subgoals",
                 "statuses": "Statuses",
-                "unarchive": "Unarchive"
+                "unarchive": "Unarchive",
+                "view": "View"
             },
             "createdBy": "Created by",
             "copiedFrom": "Copied from",
