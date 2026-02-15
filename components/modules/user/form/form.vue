@@ -30,7 +30,7 @@
                     @toggleSwitch="state.form.is_follow_up_enabled = !state.form.is_follow_up_enabled" />
                 <label class="text-sm font-medium text-gray-700 cursor-pointer"
                     @click="state.form.is_follow_up_enabled = !state.form.is_follow_up_enabled">
-                    Enable Reminder
+                    Enable Follow up
                 </label>
             </div>
         </div>
