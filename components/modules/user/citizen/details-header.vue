@@ -37,6 +37,17 @@
                                                     @click="navigateTo(`/citizens/${state.selectedCitizen?.data?.uuid}/view-edit`)"
                                                     v-if="userStore.getUser?.roles?.[0]?.name === 'Admin'" />
                                             </Tooltip>
+                                            <Tooltip :text="$t('plansandgoals.followUps')">
+                                                <div class="relative inline-flex mx-3 cursor-pointer" @click="state.modal.isFollowUpNotificationsOpen = true">
+                                                    <Icon name="ph:bell-ringing-light"
+                                                        class="w-6 h-6 text-primary"/>
+                                                    <span v-if="state.followUpReminderCount > 0"
+                                                        class="absolute -top-2 -right-2 inline-flex items-center justify-center w-5 h-5 text-[10px] font-bold text-white bg-red-500 rounded-full">
+                                                        {{ state.followUpReminderCount }}
+                                                    </span>
+                                            </div>
+                                            </Tooltip>
+                                            
                                         </div>
                                         <p class="text-sm font-medium text-gray-700"
                                             v-if="hasSocialSecurityNumberAccess()">
@@ -319,6 +330,12 @@
                 </div>
             </div>
 
+            <ModulesUserCitizenPlanStatusTemplateModalFollowUpNotifications
+                :isModalOpen="state.modal.isFollowUpNotificationsOpen"
+                :citizenUuid="citizenUuid as string"
+                @close="state.modal.isFollowUpNotificationsOpen = false"
+                @refreshCount="fetchFollowUpReminderCount" />
+
             <ModulesUserCitizenInquiryStayDataModalView :isModalOpen="state.modal.isInquiryStayDataOpen"
                 @close="state.modal.isInquiryStayDataOpen = false" :selectedCitizen="state.selectedCitizen" />
             <ModulesUserCitizenInterventionHoursModalView :isModalOpen="state.modal.isViewPatienCareHoursOpen"
@@ -332,6 +349,7 @@
 <script setup lang="ts">
 import { citizenService } from '@/components/api/user/CitizenService'
 import { interventionHoursService } from '@/components/api/user/InterventionHoursService'
+import { reportService } from '@/components/api/user/ReportService'
 import { useDatetimeFormatter } from '@/composables/datetimeFormatter'
 import { useCustomPagesStore } from '@/store/custom-pages'
 import { useCitizenStore } from '@/store/citizen'
@@ -352,7 +370,9 @@ const citizenUuid = router?.currentRoute?.value?.params?.uuid
 const state = reactive({
     error: {} as Error,
     isPageLoading: false,
+    followUpReminderCount: 0,
     modal: {
+        isFollowUpNotificationsOpen: false,
         isInquiryStayDataOpen: false,
         isViewPatienCareHoursOpen: false,
         isViewRelevantHelpLinksOpen: false,
@@ -363,6 +383,7 @@ const state = reactive({
 
 onMounted(() => {
     fetchCitizen()
+    fetchFollowUpReminderCount()
 })
 
 async function fetchCitizen() {
@@ -378,6 +399,16 @@ async function fetchCitizen() {
         state.error = error
     }
     state.isPageLoading = false
+}
+
+async function fetchFollowUpReminderCount() {
+    try {
+        const response = await reportService.getUserReportFollowUpByCitizen(citizenUuid)
+        if (response?.data) {
+            state.followUpReminderCount = response.data.length
+        }
+    } catch {
+    }
 }
 
 async function toggleLogin() {
