@@ -4703,7 +4703,13 @@
                 "saveAndDownload": "Gem og download PDF",
                 "saveAsDraft": "udkast",
                 "subgoal": "Delmål",
-                "editReport": "Rediger rapport"
+                "editReport": "Rediger rapport",
+                "setFollowUpDate": "Angiv opfølgningsdato",
+                "followUpIn": "Følg op om",
+                "days": "Dage",
+                "weeks": "Uger",
+                "months": "Måneder",
+                "years": "År"
             }
         },
         "editStatusTemplate": {

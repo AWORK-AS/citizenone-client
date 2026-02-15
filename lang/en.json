@@ -4703,7 +4703,13 @@
                 "saveAndDownload": "Save and download PDF",
                 "saveAsDraft": "Draft",
                 "subgoal": "Subgoal",
-                "editReport": "Edit Report"
+                "editReport": "Edit Report",
+                "setFollowUpDate": "Set follow-up date",
+                "followUpIn": "Follow up in",
+                "days": "Days",
+                "weeks": "Weeks",
+                "months": "Months",
+                "years": "Years"
             }
         },
         "editStatusTemplate": {
