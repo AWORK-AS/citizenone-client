@@ -14,7 +14,7 @@
             </div>
         </div>
 
-        <div class="bg-white shadow-md rounded-md border-l-8 border-orange-500 mt-2 text-sm divide-y overflow-scroll min-h-96 max-h-96"
+        <div class="bg-white shadow-md rounded-md border-l-8 border-primary mt-2 text-sm divide-y overflow-scroll min-h-96 max-h-96"
             v-else>
             <div v-for="(citizen, index) in state.citizensWithFollowUps?.data" :key="index"
                 class="pl-4 pr-3 py-4 cursor-pointer hover:bg-gray-50 transition-colors"
@@ -44,7 +44,7 @@
                         </p>
                         <div class="flex items-center gap-2 mt-1">
                             <span v-if="citizen.reminders.length > 1"
-                                class="text-xxs bg-orange-100 text-orange-700 px-2 py-0.5 rounded-full font-medium">
+                                class="text-xxs bg-blue-100 text-primary px-2 py-0.5 rounded-full font-medium">
                                 {{ citizen.reminders.length }} {{ $t('overview.followUpReminders.reminders') }}
                             </span>
                         </div>
@@ -59,7 +59,7 @@
                                 <Icon name="ph:calendar" class="h-4 w-4 text-gray-400 flex-shrink-0" />
                                 <p :class="[
                                     'text-xs font-medium',
-                                    isOverdue(getMostUrgentReminder(citizen)?.attachment?.follow_up_date) ? 'text-red-600' : 'text-orange-600'
+                                    isOverdue(getMostUrgentReminder(citizen)?.attachment?.follow_up_date) ? 'text-red-600' : 'text-secondary'
                                 ]">
                                     <span v-if="isOverdue(getMostUrgentReminder(citizen)?.attachment?.follow_up_date)">
                                         {{ $t('overview.followUpReminders.overdue') }}:

@@ -24,11 +24,6 @@
                             {{ $t('overview.filter.items.latestJournal') }}
                         </div>
                         <div class="w-fit flex items-center cursor-pointer text-sm"
-                            @click="setDailyOverviewFilterShowCitizensFollowUpReminders()">
-                            <FormCheckbox :value="dailyOverviewStore.getDailyOverviewFilter.showCitizensFollowUpReminders" />
-                            {{ $t('overview.filter.items.citizensFollowUpReminders') }}
-                        </div>
-                        <div class="w-fit flex items-center cursor-pointer text-sm"
                             @click="setDailyOverviewFilterShowTreatments()">
                             <FormCheckbox :value="dailyOverviewStore.getDailyOverviewFilter.showTreatments" />
                             {{ $t('overview.filter.items.treatments') }}
@@ -122,6 +117,11 @@
                             @click="setDailyOverviewFilterShowPlansAndGoals()">
                             <FormCheckbox :value="dailyOverviewStore.getDailyOverviewFilter.showPlansAndGoals" />
                             {{ $t('overview.filter.items.plansAndGoals') }}
+                        </div>
+                        <div class="w-fit flex items-center cursor-pointer text-sm"
+                            @click="setDailyOverviewFilterShowCitizensFollowUpReminders()">
+                            <FormCheckbox :value="dailyOverviewStore.getDailyOverviewFilter.showCitizensFollowUpReminders" />
+                            {{ $t('overview.filter.items.citizensFollowUpReminders') }}
                         </div>
                     </div>
                     <div class="mt-5 flex gap-x-3 justify-end">
