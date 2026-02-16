@@ -2400,6 +2400,8 @@
         }
     },
     "dutySchedules": {
+        "zenegy_sync": "Synkroniser med Zenegy",
+        "zenegy_sync_department_message": "Vælg den afdeling, som de synkroniserede Zenegy-medarbejdere skal tildeles.",
         "activityLogs": "Aktivitetslogs",
         "alert": {
             "newScheduleSuccessfullyAdded": "Ny vagtplan tilføjet med succes",

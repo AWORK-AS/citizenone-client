@@ -2400,6 +2400,8 @@
         }
     },
     "dutySchedules": {
+        "zenegy_sync": "Sync with Zenegy",
+        "zenegy_sync_department_message": "Select the department to assign the synced Zenegy employees to.",
         "activityLogs": "Activity logs",
         "alert": {
             "newScheduleSuccessfullyAdded": "New schedule successfully added",

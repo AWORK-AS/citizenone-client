@@ -337,7 +337,7 @@
                                                 <div class="px-3 pt-3 pb-1 relative">
                                                     <div class="flex justify-between">
                                                         <div class="flex items-center gap-x-2">
-                                                            <img :src="employee?.profile_image ?? `https://ui-avatars.com/api/?background=42AED9&color=fff&name=${employee?.firstname + ' ' + employee?.lastname}`"
+                                                            <img :src="employee?.profile_image ?? `https://ui-avatars.com/api/?background=42AED9&color=fff&name=${getDisplayName(employee).firstName + ' ' + getDisplayName(employee).lastName}`"
                                                                 :class="[
                                                                     employee?.shift_threshold === 'high' && 'border-green-700',
                                                                     employee?.shift_threshold === 'moderate' && 'border-yellow-500',
@@ -345,8 +345,8 @@
                                                                     'h-10 w-10 rounded-full bg-gray-50 object-cover border-2'
                                                                 ]" />
                                                             <p class="text-sm font-medium">
-                                                                {{ employee?.firstname }}
-                                                                {{ employee?.lastname }}
+                                                                {{ getDisplayName(employee).firstName }}
+                                                                {{ getDisplayName(employee).lastName }}
                                                             </p>
                                                         </div>
                                                         <div class="flex items-center gap-x-1">
@@ -933,6 +933,7 @@ import { useNumberFormatter } from '@/composables/numberFormatter'
 import { useDutyScheduleStore } from '@/store/duty-schedule'
 import { useUserStore } from '@/store/user'
 import { useI18n } from "vue-i18n"
+import { useAlert } from '@/composables/alert'
 import type { Error } from '@/types'
 
 const emit = defineEmits(['setDutyScheduleCurrentDate'])
@@ -941,10 +942,51 @@ const dutyScheduleStore = useDutyScheduleStore() as any
 const userStore = useUserStore() as any
 const departmentStore = useDepartmentStore()
 const { formatNumber } = useNumberFormatter()
+const { errorAlert } = useAlert()
 const currentDate = ref(moment())
 const month = computed(() => currentDate.value.format('MMMM'))
 const year = computed(() => currentDate.value.format('YYYY'))
 const expandedRecords = reactive([] as boolean[])
+
+function buildEmptyWeeks() {
+    const weekDaysOrder = ['monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday', 'sunday']
+    const startOfWeek = moment(currentDate.value).startOf('isoWeek')
+    const weekData = state.weeklySchedules?.week_data || {}
+
+    return weekDaysOrder.reduce((weeks: any, dayKey: string, index: number) => {
+        const fallbackDate = moment(startOfWeek).add(index, 'day').format('YYYY-MM-DD')
+        weeks[dayKey] = {
+            date: weekData?.[dayKey]?.date || fallbackDate,
+            shifts: [],
+            slots: [],
+            additional_hour_requests: 0,
+            swap_requests: 0,
+            total_slots: 0,
+        }
+        return weeks
+    }, {})
+}
+
+function buildEmptyWeekData() {
+    const weekDaysOrder = ['monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday', 'sunday']
+    const startOfWeek = moment(currentDate.value).startOf('isoWeek')
+
+    return weekDaysOrder.reduce((weekData: any, dayKey: string, index: number) => {
+        weekData[dayKey] = {
+            date: moment(startOfWeek).add(index, 'day').format('YYYY-MM-DD'),
+            total_slots: 0,
+            holiday: null,
+        }
+        return weekData
+    }, {})
+}
+
+function getDisplayName(employee: any) {
+    return {
+        firstName: employee?.firstname || employee?.firstName || '',
+        lastName: employee?.lastname || employee?.lastName || '',
+    }
+}
 
 const state = reactive({
     addShift: {
@@ -1379,6 +1421,10 @@ function viewAvailableVacationHours(employee: any) {
 }
 
 function openAddNewShiftModal(employee: any, employeeIndex: number, weekIndex: any, week: any) {
+    if (!employee?.uuid) {
+        errorAlert('Error', 'This employee is not linked to a local user yet.')
+        return
+    }
     state.modal.isAddShiftOpen = true
     state.addShift.selectedEmployeeSchedule = {
         employeeIndex: employeeIndex,
@@ -1445,6 +1491,11 @@ async function pinSelfToTopOfSchedule() {
 
 async function saveShift(shiftDetails: any) {
     const employeeIndex = state.addShift.selectedEmployeeSchedule.employeeIndex
+    const employeeUuid = state.weeklySchedules?.data?.[employeeIndex]?.uuid
+    if (!employeeUuid) {
+        errorAlert('Error', 'This employee is not linked to a local user yet.')
+        return
+    }
     const shiftType = shiftDetails.shift_type
     const params = {
         shift_type_uuid: shiftType,
@@ -1453,7 +1504,7 @@ async function saveShift(shiftDetails: any) {
         is_mark_as_leave: shiftDetails.is_mark_as_leave,
         date_time_start: shiftDetails.date_time_start,
         date_time_end: shiftDetails.date_time_end,
-        user_uuid: state.weeklySchedules?.data?.[employeeIndex].uuid,
+        user_uuid: employeeUuid,
         citizen_uuid: shiftDetails?.citizens,
         schedule_tag_uuid: shiftDetails.schedule_tag_uuid,
         department_uuid: shiftDetails.department_uuid,
@@ -1895,4 +1946,6 @@ function openUserNormPeriodModal(employee: any) {
     state.normHours.selectedEmployee = employee
     state.modal.isUserNormPeriodOpen = true
 }
+
+defineExpose({ refreshSchedule: fetchDutySchedule })
 </script>
