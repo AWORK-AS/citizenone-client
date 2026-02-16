@@ -38,16 +38,16 @@
                                                     v-if="userStore.getUser?.roles?.[0]?.name === 'Admin'" />
                                             </Tooltip>
                                             <Tooltip :text="$t('plansandgoals.followUps')">
-                                                <div class="relative inline-flex mx-1 cursor-pointer" @click="state.modal.isFollowUpNotificationsOpen = true">
-                                                    <Icon name="ph:bell-ringing-light"
-                                                        class="w-6 h-6 text-primary"/>
+                                                <div class="relative inline-flex mx-1 cursor-pointer"
+                                                    @click="state.modal.isFollowUpNotificationsOpen = true">
+                                                    <Icon name="ph:bell-ringing-light" class="w-6 h-6 text-primary" />
                                                     <span v-if="state.followUpReminderCount > 0"
                                                         class="absolute -top-2 -right-2 inline-flex items-center justify-center w-5 h-5 text-[10px] font-bold text-white bg-red-500 rounded-full">
                                                         {{ state.followUpReminderCount }}
                                                     </span>
-                                            </div>
+                                                </div>
                                             </Tooltip>
-                                            
+
                                         </div>
                                         <p class="text-sm font-medium text-gray-700"
                                             v-if="hasSocialSecurityNumberAccess()">
@@ -330,7 +330,8 @@
                 </div>
             </div>
 
-            <ModulesUserCitizenPlanStatusTemplateModalFollowUpNotifications :isModalOpen="state.modal.isFollowUpNotificationsOpen" :citizenUuid="citizenUuid as string"
+            <ModulesUserCitizenPlanStatusTemplateModalFollowUpNotifications
+                :isModalOpen="state.modal.isFollowUpNotificationsOpen" :citizenUuid="citizenUuid"
                 @close="state.modal.isFollowUpNotificationsOpen = false" @refreshCount="fetchFollowUpReminderCount" />
             <ModulesUserCitizenInquiryStayDataModalView :isModalOpen="state.modal.isInquiryStayDataOpen"
                 @close="state.modal.isInquiryStayDataOpen = false" :selectedCitizen="state.selectedCitizen" />
@@ -361,7 +362,7 @@ const language = useI18n()
 const customPagesStore = useCustomPagesStore() as any
 const citizenStore = useCitizenStore() as any
 const userStore = useUserStore() as any
-const citizenUuid = router?.currentRoute?.value?.params?.uuid
+const citizenUuid = router?.currentRoute?.value?.params?.uuid as string
 
 const state = reactive({
     error: {} as Error,

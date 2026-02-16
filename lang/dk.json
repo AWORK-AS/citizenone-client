@@ -4530,7 +4530,7 @@
             "startDate": "Startdato"
         },
         "followUpReminders": {
-            "title": "Opfølgningspåmindelser",
+            "followUpReminders": "Opfølgningspåmindelser",
             "noFollowUps": "Ingen afventende opfølgninger",
             "reportFollowUp": "Rapportopfølgning",
             "overdue": "Forsinket",
@@ -4711,20 +4711,20 @@
             "form": {
                 "answerForm": "Svar formular",
                 "chooseLabel": "Vælg, om du vil downloade formularen for offline udfyldelse eller oprette et svar direkte",
+                "days": "Dage",
                 "downloadForm": "Download formular",
+                "editReport": "Rediger rapport",
+                "followUpIn": "Følg op om",
                 "form": "Formular",
                 "goal": "Mål",
+                "months": "Måneder",
                 "plan": "Plan",
                 "saveAndDownload": "Gem og download PDF",
                 "saveAsDraft": "udkast",
-                "subgoal": "Delmål",
-                "editReport": "Rediger rapport",
-                "useFollowUpReminder": "Brug opfølgningspåmindelse",
                 "setFollowUpDate": "Angiv opfølgningsdato",
-                "followUpIn": "Følg op om",
-                "days": "Dage",
+                "subgoal": "Delmål",
+                "useFollowUpReminder": "Brug opfølgningspåmindelse",
                 "weeks": "Uger",
-                "months": "Måneder",
                 "years": "År"
             }
         },
@@ -4733,21 +4733,20 @@
                 "statusTemplateSuccessfullyUpdated": "Rapporten er blevet opdateret"
             },
             "editReport": "Rediger rapport",
-            "formChangeWarning": "Hvis du skifter formularen, slettes alle dine nuværende svar. Vil du fortsætte?",
             "form": {
                 "answerForm": "Besvarelsesformular",
                 "chooseLabel": "Vælg, om du vil downloade formularen til offline udfyldelse eller oprette et svar direkte",
                 "downloadForm": "Download formular",
+                "editReport": "Rediger rapport",
                 "form": "Formular",
                 "goal": "Mål",
                 "plan": "Plan",
                 "saveAndDownload": "Gem og download PDF",
                 "saveAsDraft": "Kladde",
-                "subgoal": "Delmål",
-                "editReport": "Rediger rapport"
-            }
+                "subgoal": "Delmål"
+            },
+            "formChangeWarning": "Hvis du skifter formularen, slettes alle dine nuværende svar. Vil du fortsætte?"
         },
-        "isDraft": "udkast",
         "currentPlansAndGoals": "Nuværende planer og mål",
         "dateCompleted": "Dato for fuldførelse",
         "dateCreated": "Oprettelsesdato",
@@ -4807,10 +4806,13 @@
             "title": "Titel",
             "useTemplate": "Brug skabelon"
         },
+        "followUpNotifications": "Opfølgningsnotifikationer",
+        "followUps": "Opfølgninger",
         "graph": "Graf",
         "goal": "Mål",
         "goals": "Mål",
         "inProgress": "I gang",
+        "isDraft": "udkast",
         "new": "Ny",
         "newGoal": "Nyt mål",
         "newNote": "Ny note",
@@ -4850,12 +4852,10 @@
                 "users": "Brugere"
             }
         },
+        "noFollowUpNotifications": "Ingen opfølgningsnotifikationer",
         "plan": "Plan",
         "plans": "Planer",
         "reports": "Rapporter",
-        "followUps": "Opfølgninger",
-        "followUpNotifications": "Opfølgningsnotifikationer",
-        "noFollowUpNotifications": "Ingen opfølgningsnotifikationer",
         "statuses": "Statusser",
         "subgoal": "Delmål",
         "subgoals": "Delmål",

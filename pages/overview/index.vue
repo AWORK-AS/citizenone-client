@@ -66,7 +66,8 @@
                                 :viewAll="false" />
                         </div>
                         <div v-if="overviewStore.getDailyOverviewFilter.showCitizensFollowUpReminders">
-                            <ModulesUserDailyOverviewCitizensFollowUpReminders :dateRange="state.dateRange.formDateRange" />
+                            <ModulesUserDailyOverviewCitizensFollowUpReminders
+                                :dateRange="state.dateRange.formDateRange" />
                         </div>
                     </div>
 

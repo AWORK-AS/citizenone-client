@@ -1,6 +1,7 @@
 <template>
     <div>
-        <Modal size="4xl" :title="$t('plansandgoals.followUpNotifications')" :show="props.isModalOpen" @close="closeModal">
+        <Modal size="4xl" :title="$t('plansandgoals.followUpNotifications')" :show="props.isModalOpen"
+            @close="closeModal">
             <template #modal-body>
                 <div class="space-y-5">
                     <Alert type="danger" :text="state?.error?.message"
@@ -21,7 +22,8 @@
                                     </td>
                                     <td width="15%">
                                         <span v-if="reminder?.attachment?.user">
-                                            {{ reminder?.attachment?.user?.firstname }} {{ reminder?.attachment?.user?.lastname }}
+                                            {{ reminder?.attachment?.user?.firstname }} {{
+                                                reminder?.attachment?.user?.lastname }}
                                         </span>
                                     </td>
                                     <td width="15%">
@@ -37,8 +39,8 @@
                     </div>
                 </div>
 
-                <ModulesUserCitizenPlanStatusTemplateModalViewReport :isModalOpen="state.isViewReportModalOpen" :report="state.selectedReport"
-                    @close="state.isViewReportModalOpen = false" />
+                <ModulesUserCitizenPlanStatusTemplateModalViewReport :isModalOpen="state.isViewReportModalOpen"
+                    :report="state.selectedReport" @close="state.isViewReportModalOpen = false" />
             </template>
         </Modal>
     </div>

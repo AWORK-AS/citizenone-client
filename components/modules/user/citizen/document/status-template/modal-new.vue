@@ -68,7 +68,7 @@
                 </LoadingSpinner>
                 <ModulesUserCitizenDocumentStatusTemplateModalRespond :isModalOpen="state.modal.isRespondOpen"
                     :selectedFormStatusTemplate="state.formTemplate" @close="state.modal.isRespondOpen = false"
-                    @closeModalNew="closeModal()" @refreshDocuments="refreshDocuments()"/>
+                    @closeModalNew="closeModal()" @refreshDocuments="refreshDocuments()" />
             </template>
         </Modal>
     </div>
@@ -126,7 +126,7 @@ function closeModal() {
     resetForm()
 }
 
-function refreshDocuments(){
+function refreshDocuments() {
     emit('refreshDocuments')
     resetForm()
 }

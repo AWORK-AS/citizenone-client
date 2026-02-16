@@ -3,13 +3,12 @@
         <Alert type="danger" :text="state?.error?.message"
             v-if="state.error?.message && state.error.message.length > 0" />
         <h3 class="text-primary text-base font-medium py-2">
-            {{ $t('overview.followUpReminders.title') }}
+            {{ $t('overview.followUpReminders.followUpReminders') }}
         </h3>
 
         <div class="border-2 border-gray-300 border-dashed rounded-md flex items-center justify-center min-h-96 max-h-96 text-sm mt-2"
             v-if="state.citizensWithFollowUps?.data?.length === 0">
             <div class="text-center">
-                <Icon name="ph:check-circle" class="h-12 w-12 mx-auto text-green-500 mb-2" />
                 <p>{{ $t('overview.followUpReminders.noFollowUps') }}</p>
             </div>
         </div>
@@ -28,7 +27,8 @@
                                 class="animate-ping absolute inline-flex h-full w-full rounded-full bg-red-400 opacity-75"></span>
                             <span v-else
                                 class="animate-ping absolute inline-flex h-full w-full rounded-full bg-orange-400 opacity-75"></span>
-                            <Icon :name="isOverdue(getMostUrgentReminder(citizen)?.attachment?.follow_up_date) ? 'ph:warning-fill' : 'ph:bell-fill'"
+                            <Icon
+                                :name="isOverdue(getMostUrgentReminder(citizen)?.attachment?.follow_up_date) ? 'ph:warning-fill' : 'ph:bell-fill'"
                                 :class="[
                                     isOverdue(getMostUrgentReminder(citizen)?.attachment?.follow_up_date) ? 'bg-red-500' : 'bg-orange-500',
                                     'relative inline-flex rounded-full h-5 w-5 text-white p-0.5'
@@ -61,16 +61,19 @@
                                     <span v-if="isOverdue(getMostUrgentReminder(citizen)?.attachment?.follow_up_date)">
                                         {{ $t('overview.followUpReminders.overdue') }}:
                                     </span>
-                                    <span v-else-if="isDueToday(getMostUrgentReminder(citizen)?.attachment?.follow_up_date)">
+                                    <span
+                                        v-else-if="isDueToday(getMostUrgentReminder(citizen)?.attachment?.follow_up_date)">
                                         {{ $t('overview.followUpReminders.dueToday') }}:
                                     </span>
                                     <span v-else>
                                         {{ $t('overview.followUpReminders.dueOn') }}:
                                     </span>
-                                    {{ formatDateToReadable(getMostUrgentReminder(citizen)?.attachment?.follow_up_date) }}
+                                    {{ formatDateToReadable(getMostUrgentReminder(citizen)?.attachment?.follow_up_date)
+                                    }}
                                 </p>
                             </div>
-                            <div class="flex items-center gap-x-2" v-if="getMostUrgentReminder(citizen)?.attachment?.user">
+                            <div class="flex items-center gap-x-2"
+                                v-if="getMostUrgentReminder(citizen)?.attachment?.user">
                                 <Icon name="ph:user" class="h-4 w-4 text-gray-400 flex-shrink-0" />
                                 <p class="text-xxs text-gray-500">
                                     {{ $t('overview.createdBy') }}
