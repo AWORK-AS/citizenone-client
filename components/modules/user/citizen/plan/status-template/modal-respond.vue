@@ -211,31 +211,37 @@
                                 </div>
                             </div>
                         </div>
-                       
-                        <!-- Follow-up Reminder (only shown when form has is_follow_up_enabled) -->
-                        <div v-if="state.form?.data?.is_follow_up_enabled" class="space-y-2">
-                            <label class="text-sm font-medium text-gray-700">
-                                {{ $t('plansandgoals.createStatusTemplate.form.setFollowUpDate') }}
-                            </label>
-                            <div class="flex items-center gap-x-3">
-                                <span class="text-sm text-gray-600">
-                                    {{ $t('plansandgoals.createStatusTemplate.form.followUpIn') }}
-                                </span>
-                                <div class="w-24">
-                                    <FormNumberField
-                                        name="follow_up_number"
-                                        placeholder="1"
-                                        v-model="state.followUpNumber"
-                                    />
-                                </div>
-                                <div class="w-40">
-                                    <FormSelect
-                                        id="follow_up_unit"
-                                        :options="followUpUnits"
-                                        :canClear="false"
-                                        :searchable="false"
-                                        v-model="state.followUpUnit"
-                                    />
+                        <div v-if="state.form?.data?.is_follow_up_enabled" class="space-y-3">
+                            <div class="w-fit flex items-center cursor-pointer"
+                                @click="state.useFollowUpReminder = !state.useFollowUpReminder">
+                                <FormCheckbox id="use_follow_up_reminder" :value="state.useFollowUpReminder" />
+                                {{ $t('plansandgoals.createStatusTemplate.form.useFollowUpReminder') }}
+                            </div>
+
+                            <div v-if="state.useFollowUpReminder" class="space-y-2 pl-6">
+                                <label class="text-sm font-medium text-gray-700">
+                                    {{ $t('plansandgoals.createStatusTemplate.form.setFollowUpDate') }}
+                                </label>
+                                <div class="flex items-center gap-x-3">
+                                    <span class="text-sm text-gray-600">
+                                        {{ $t('plansandgoals.createStatusTemplate.form.followUpIn') }}
+                                    </span>
+                                    <div class="w-24">
+                                        <FormNumberField
+                                            name="follow_up_number"
+                                            placeholder="1"
+                                            v-model="state.followUpNumber"
+                                        />
+                                    </div>
+                                    <div class="w-40">
+                                        <FormSelect
+                                            id="follow_up_unit"
+                                            :options="followUpUnits"
+                                            :canClear="false"
+                                            :searchable="false"
+                                            v-model="state.followUpUnit"
+                                        />
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -299,6 +305,7 @@ const state = reactive({
     form: [] as any,
     isPageLoading: false,
     isDraft: false,
+    useFollowUpReminder: false,
     followUpNumber: '1',
     followUpUnit: 'days',
 })
@@ -388,9 +395,11 @@ async function submitResponse() {
         }
         params.append('is_draft', state.isDraft ? '1' : '0')
 
-        const followUpDate = calculateFollowUpDate()
-        if (followUpDate) {
-            params.append('follow_up_date', followUpDate)
+        if (state.useFollowUpReminder) {
+            const followUpDate = calculateFollowUpDate()
+            if (followUpDate) {
+                params.append('follow_up_date', followUpDate)
+            }
         }
 
         state.form.data.form_fields.forEach((formField: any) => {
@@ -435,9 +444,11 @@ async function submitResponseAndDownloadPDF() {
         }
         params.append('is_draft', state.isDraft ? '1' : '0')
 
-        const followUpDate = calculateFollowUpDate()
-        if (followUpDate) {
-            params.append('follow_up_date', followUpDate)
+        if (state.useFollowUpReminder) {
+            const followUpDate = calculateFollowUpDate()
+            if (followUpDate) {
+                params.append('follow_up_date', followUpDate)
+            }
         }
 
         state.form.data.form_fields.forEach((formField: any) => {

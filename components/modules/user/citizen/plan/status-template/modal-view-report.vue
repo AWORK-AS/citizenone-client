@@ -3,8 +3,9 @@
         <Modal size="xl" :title="$t('plansandgoals.followUpNotifications')" :show="props.isModalOpen"
             @close="closeModal">
             <template #modal-body>
-                <div class="bg-white p-8 max-w-4xl mx-auto">
-                    <Alert type="danger" :text="state.error" v-if="state.error" class="mb-4" />
+                <LoadingSpinner :isActive="state.isDownloading">
+                    <div class="bg-white p-8 max-w-4xl mx-auto">
+                        <Alert type="danger" :text="state.error" v-if="state.error" class="mb-4" />
                     <div class="text-center mb-8">
                         <svg class="inline-block" width="186" height="40" viewBox="0 0 272 41" fill="none"
                             xmlns="http://www.w3.org/2000/svg">
@@ -172,9 +173,8 @@
                     </div>
 
                     <div class="flex justify-between gap-4 mt-6">
-                        <FormButton type="button" class="rounded-md flex-1" @click="downloadReport" :disabled="state.isDownloading">
+                        <FormButton type="button" buttonStyle="primary" class="rounded-md flex-1" @click="downloadReport" :disabled="state.isDownloading">
                             <Icon v-if="!state.isDownloading" name="ph:download" class="size-4" />
-                            <Icon v-else name="svg-spinners:90-ring-with-bg" class="size-4" />
                             {{ $t('plansandgoals.table.actions.download') }}
                         </FormButton>
                         <FormButton type="button" buttonStyle="cancel" class="flex-1" @click="closeModal">
@@ -182,6 +182,7 @@
                         </FormButton>
                     </div>
                 </div>
+                </LoadingSpinner>
             </template>
         </Modal>
     </div>
