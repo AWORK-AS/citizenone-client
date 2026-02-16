@@ -2431,6 +2431,12 @@
         "departmentSickLeaves": "Department sick leaves",
         "download": {
             "date": "Date",
+            "delimiter": {
+                "comma": "Comma",
+                "delimiter": "Delimiter",
+                "semicolon": "Semicolon",
+                "tab": "Tab"
+            },
             "department": "Department",
             "download": "Download",
             "downloadType": "Download type",

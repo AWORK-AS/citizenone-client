@@ -103,7 +103,7 @@ async function fetchTimeLogs() {
             sortField: state.sortData.sortField,
             sortOrder: state.sortData.sortOrder,
         }
-        const response = await employeeService.getEmployeeTimeLogs(params)
+        const response = await employeeService.getEmployeeTimeLogs(employeeUuid, params)
         if (response) {
             state.logs = response
         }

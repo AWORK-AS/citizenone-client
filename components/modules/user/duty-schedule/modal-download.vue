@@ -70,6 +70,13 @@
                                         :error="v$?.formDownload?.departments?.$errors[0]?.$message.toString()" />
                                     <FormError :error="state?.error?.errors?.departments_uuid?.[0]" />
                                 </div>
+                                <div class="space-y-1">
+                                    <FormLabel for="delimiter"
+                                        :label="$t('dutySchedules.download.delimiter.delimiter')" />
+                                    <FormSelect id="delimiter" name="delimiter" :options="state.options.delimiters"
+                                        v-model="state.formDownload.delimiter" />
+                                    <FormError :error="v$?.formDownload?.delimiter?.$errors[0]?.$message.toString()" />
+                                </div>
                                 <div class="space-y-3" v-if="state.formDownload.mode.title === 'filtered_view'">
                                     <div class="space-y-1">
                                         <FormLabel for="employee_uuids" :label="$t('dutySchedules.filter.employees')" />
@@ -155,6 +162,7 @@ const state = reactive({
     formDownload: {
         mode: 'current_view', // current_view | filtered_view
         departments: [],
+        delimiter: '',
         employee_uuids: [],
         employment_status: [],
         download_type: '',
@@ -167,6 +175,10 @@ const state = reactive({
     },
     options: {
         departments: [],
+        delimiters: [
+            { value: 'comma', label: `${t('dutySchedules.download.delimiter.comma')}` },
+            { value: 'semicolon', label: `${t('dutySchedules.download.delimiter.semicolon')}` },
+        ],
         downloadModeLists: [
             { id: 1, title: 'current_view' },
             { id: 2, title: 'filtered_view' },
@@ -309,6 +321,7 @@ async function downloadDutySchedule() {
             date_start: state.formDownload.date_start,
             date_end: state.formDownload.date_end,
             show_leaves_only: state.formDownload.show_leaves_only,
+            delimiter: state.formDownload.delimiter,
         } as any
         if (state.formDownload.employment_status) {
             params.employment_status = Array(state.formDownload.employment_status)
