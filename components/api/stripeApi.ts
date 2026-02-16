@@ -15,7 +15,7 @@ class stripeApi extends BaseAPIService {
     }
 
     async getStripeInvoice(invoiceId: string): Promise<any> {
-        return await this.request(`/stripe/invoices/${invoiceId}`, 'GET');
+        return await this.request(`stripe/invoices/${invoiceId}`, 'GET');
     }
 }
 
