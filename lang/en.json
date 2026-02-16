@@ -5581,6 +5581,7 @@
                 "deleteShiftConfirmation": "Are you sure you want to delete this shift"
             },
             "color": "Color",
+            "markedAsLeave": "Marked as leave",
             "nameDanish": "Name (danish)",
             "nameEnglish": "Name (english)",
             "paycode": "Paycode",
