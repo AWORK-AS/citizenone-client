@@ -27,7 +27,7 @@
 
       <!-- Payment Form -->
       <StripeCardElement
-        :amount="amount"
+        :amount= "Math.round(amount * 100)"
         :citizen-id="citizenId"
         @payment-success="handlePaymentSuccess"
         @payment-error="handlePaymentError"
