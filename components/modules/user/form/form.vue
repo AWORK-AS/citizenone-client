@@ -24,7 +24,6 @@
                     placeholder="Document Title"
                     v-model="state.form.document_title" />
             </div>
-            <!-- Enable Reminder toggle (Admin only) -->
             <div v-if="isAdmin" class="flex items-center gap-x-3 pt-2">
                 <FormSwitch :value="state.form.is_follow_up_enabled"
                     @toggleSwitch="state.form.is_follow_up_enabled = !state.form.is_follow_up_enabled" />

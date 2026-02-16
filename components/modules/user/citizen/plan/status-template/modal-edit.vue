@@ -278,7 +278,6 @@
                             </div>
                         </div>
 
-                        <!-- Follow-up Reminder (only shown when form has is_follow_up_enabled) -->
                         <div v-if="state.form?.data?.is_follow_up_enabled" class="space-y-2">
                             <label class="text-sm font-medium text-gray-700">
                                 {{ $t('plansandgoals.createStatusTemplate.form.setFollowUpDate') }}
