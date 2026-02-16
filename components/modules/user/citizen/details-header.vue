@@ -38,7 +38,7 @@
                                                     v-if="userStore.getUser?.roles?.[0]?.name === 'Admin'" />
                                             </Tooltip>
                                             <Tooltip :text="$t('plansandgoals.followUps')">
-                                                <div class="relative inline-flex mx-3 cursor-pointer" @click="state.modal.isFollowUpNotificationsOpen = true">
+                                                <div class="relative inline-flex mx-1 cursor-pointer" @click="state.modal.isFollowUpNotificationsOpen = true">
                                                     <Icon name="ph:bell-ringing-light"
                                                         class="w-6 h-6 text-primary"/>
                                                     <span v-if="state.followUpReminderCount > 0"

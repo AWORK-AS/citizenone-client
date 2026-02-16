@@ -1,8 +1,8 @@
 import BaseAPIService from '@/components/api/BaseAPIService'
 
 class ReportService extends BaseAPIService {
-    async getUserReportFollowUp(Params: object): Promise<any> {
-        return await this.request(`/user/report/reminder`, 'GET')
+    async getUserReportFollowUp(params: object): Promise<any> {
+        return await this.request(`/user/report/reminder`, 'GET', params)
     }
     async getUserReportFollowUpByCitizen(citizenUuid: any): Promise<any> {
         return await this.request(`/user/report/reminder/${citizenUuid}`, 'GET')

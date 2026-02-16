@@ -4,7 +4,7 @@
             @close="closeModal">
             <template #modal-body>
                 <div class="bg-white p-8 max-w-4xl mx-auto">
-                    <!-- CitizenOne Logo -->
+                    <Alert type="danger" :text="state.error" v-if="state.error" class="mb-4" />
                     <div class="text-center mb-8">
                         <svg class="inline-block" width="186" height="40" viewBox="0 0 272 41" fill="none"
                             xmlns="http://www.w3.org/2000/svg">
@@ -171,8 +171,13 @@
                         {{ $t('plansandgoals.noDataAvailable') }}
                     </div>
 
-                    <div class="flex justify-end mt-6">
-                        <FormButton type="button" buttonStyle="cancel" @click="closeModal">
+                    <div class="flex justify-between gap-4 mt-6">
+                        <FormButton type="button" class="rounded-md flex-1" @click="downloadReport" :disabled="state.isDownloading">
+                            <Icon v-if="!state.isDownloading" name="ph:download" class="size-4" />
+                            <Icon v-else name="svg-spinners:90-ring-with-bg" class="size-4" />
+                            {{ $t('plansandgoals.table.actions.download') }}
+                        </FormButton>
+                        <FormButton type="button" buttonStyle="cancel" class="flex-1" @click="closeModal">
                             {{ $t('close') }}
                         </FormButton>
                     </div>
@@ -183,6 +188,9 @@
 </template>
 
 <script setup lang="ts">
+import { planGoalSubgoalService } from '@/components/api/user/PlanGoalSubgoalService'
+import { saveAs } from 'file-saver'
+
 const props = defineProps({
     isModalOpen: {
         type: Boolean,
@@ -195,6 +203,11 @@ const props = defineProps({
 })
 
 const emit = defineEmits(['close'])
+
+const state = reactive({
+    isDownloading: false,
+    error: '' as string,
+})
 
 function closeModal() {
     emit('close')
@@ -222,5 +235,24 @@ function isCheckboxChecked(response: any, option: string): boolean {
         }
     }
     return false
+}
+
+async function downloadReport() {
+    state.isDownloading = true
+    state.error = ''
+    try {
+        const attachmentUuid = props.report?.uuid
+        const response = await planGoalSubgoalService.downloadPlanGoalSubgoalStatuses(attachmentUuid)
+        if (response) {
+            const filename = props.report?.form?.document_title ||
+                props.report?.form?.title ||
+                props.report?.title ||
+                "report"
+            saveAs(response, `${filename}.pdf`)
+        }
+    } catch (error: any) {
+        state.error = error?.message || 'An error occurred during the download.'
+    }
+    state.isDownloading = false
 }
 </script>
