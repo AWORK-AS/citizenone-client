@@ -124,7 +124,10 @@
                                         <div v-else
                                             class="w-32 h-32 rounded-md border-2 border-dashed border-gray-300 bg-gray-50 flex flex-col items-center justify-center hover:border-primary hover:bg-gray-100 transition-colors gap-1 p-2">
                                             <Icon name="ph:files" class="w-8 h-8 text-primary" />
-                                            <span class="text-xs text-gray-600 text-center">{{ state.formEmail.files.length }} {{ state.formEmail.files.length === 1 ? $t('mail.form.attachFiles.attachFiles') : $t('mail.form.attachFiles.attachFiles') }}</span>
+                                            <span class="text-xs text-gray-600 text-center">{{
+                                                state.formEmail.files.length }} {{ state.formEmail.files.length === 1 ?
+                                                    $t('mail.form.attachFiles.attachFiles') :
+                                                $t('mail.form.attachFiles.attachFiles') }}</span>
                                         </div>
                                     </div>
                                 </div>

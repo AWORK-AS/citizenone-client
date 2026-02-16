@@ -120,7 +120,8 @@
                         </div>
                         <div class="w-fit flex items-center cursor-pointer text-sm"
                             @click="setDailyOverviewFilterShowCitizensFollowUpReminders()">
-                            <FormCheckbox :value="dailyOverviewStore.getDailyOverviewFilter.showCitizensFollowUpReminders" />
+                            <FormCheckbox
+                                :value="dailyOverviewStore.getDailyOverviewFilter.showCitizensFollowUpReminders" />
                             {{ $t('overview.filter.items.citizensFollowUpReminders') }}
                         </div>
                     </div>

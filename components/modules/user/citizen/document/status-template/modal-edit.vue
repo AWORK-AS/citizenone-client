@@ -21,7 +21,7 @@
                                 <FormError :error="v$?.formTemplate?.folder_uuid?.$errors[0]?.$message.toString()" />
                                 <FormError :error="state?.error?.errors?.folder_uuid?.[0]" />
                             </div>
-                            
+
                             <!-- Uncomment if client want a function to able to move the report to other plan goal or subgoal -->
                             <!-- <div class="grid md:grid-cols-3 gap-x-3">
                                 <div class="space-y-1">
@@ -68,8 +68,8 @@
                 <ModulesUserCitizenDocumentStatusTemplateModalEditRespond :isModalOpen="state.modal.isRespondOpen"
                     :selectedFormStatusTemplate="state.formTemplate"
                     :savedResponses="state.documentDetail?.attachment?.field_responses"
-                    @close="state.modal.isRespondOpen = false" @closeModalNew="closeModal()" 
-                    @refreshDocuments="refreshDocuments()"/>
+                    @close="state.modal.isRespondOpen = false" @closeModalNew="closeModal()"
+                    @refreshDocuments="refreshDocuments()" />
             </template>
         </Modal>
     </div>

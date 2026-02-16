@@ -227,28 +227,19 @@
                                         {{ $t('plansandgoals.createStatusTemplate.form.followUpIn') }}
                                     </span>
                                     <div class="w-24">
-                                        <FormNumberField
-                                            name="follow_up_number"
-                                            placeholder="1"
-                                            v-model="state.followUpNumber"
-                                        />
+                                        <FormNumberField name="follow_up_number" placeholder="1"
+                                            v-model="state.followUpNumber" />
                                     </div>
                                     <div class="w-40">
-                                        <FormSelect
-                                            id="follow_up_unit"
-                                            :options="followUpUnits"
-                                            :canClear="false"
-                                            :searchable="false"
-                                            v-model="state.followUpUnit"
-                                        />
+                                        <FormSelect id="follow_up_unit" :options="followUpUnits" :canClear="false"
+                                            :searchable="false" v-model="state.followUpUnit" />
                                     </div>
                                 </div>
                             </div>
                         </div>
 
                         <div class="space-y-1">
-                            <div class="w-fit flex items-center cursor-pointer"
-                                @click="state.isDraft = !state.isDraft">
+                            <div class="w-fit flex items-center cursor-pointer" @click="state.isDraft = !state.isDraft">
                                 <FormCheckbox id="is_draft" :value="state.isDraft" />
                                 {{ $t('plansandgoals.createStatusTemplate.form.saveAsDraft') }}
                             </div>
@@ -317,7 +308,7 @@ const followUpUnits = [
     { value: 'years', label: t('plansandgoals.createStatusTemplate.form.years') },
 ]
 
-function calculateFollowUpDate(){
+function calculateFollowUpDate() {
     return `${state.followUpNumber} ${state.followUpUnit}`
 }
 

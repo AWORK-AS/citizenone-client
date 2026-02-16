@@ -4509,7 +4509,7 @@
                 "citizensAdmissionAndDischarged": "Citizens admission and discharged",
                 "citizensEvents": "Citizens' events",
                 "citizensDiagnoses": "Citizens diagnoses",
-                "citizensFollowUpReminders": "Follow-up Reminders",
+                "citizensFollowUpReminders": "Follow-up reminders",
                 "citizensOrigin": "Citizens origin",
                 "medicationOverview": "Medication overview",
                 "gender": "Gender",
@@ -4531,11 +4531,11 @@
             "startDate": "Start date"
         },
         "followUpReminders": {
-            "title": "Follow-up Reminders",
+            "followUpReminders": "Follow-up reminders",
             "noFollowUps": "No pending follow-ups",
             "reportFollowUp": "Report Follow-up",
             "overdue": "Overdue",
-            "dueToday": "Due Today",
+            "dueToday": "Due today",
             "dueOn": "Due on",
             "reminders": "reminders"
         },
@@ -4712,20 +4712,20 @@
             "form": {
                 "answerForm": "Answer form",
                 "chooseLabel": "Choose whether you want to download the form for offline completion or create a response directly",
+                "days": "Days",
                 "downloadForm": "Download form",
+                "editReport": "Edit Report",
+                "followUpIn": "Follow up in",
                 "form": "Form",
                 "goal": "Goal",
+                "months": "Months",
                 "plan": "Plan",
                 "saveAndDownload": "Save and download PDF",
                 "saveAsDraft": "Draft",
-                "subgoal": "Subgoal",
-                "editReport": "Edit Report",
-                "useFollowUpReminder": "Use follow-up reminder",
                 "setFollowUpDate": "Set follow-up date",
-                "followUpIn": "Follow up in",
-                "days": "Days",
+                "subgoal": "Subgoal",
+                "useFollowUpReminder": "Use follow-up reminder",
                 "weeks": "Weeks",
-                "months": "Months",
                 "years": "Years"
             }
         },
@@ -4734,21 +4734,20 @@
                 "statusTemplateSuccessfullyUpdated": "Report successfully updated"
             },
             "editReport": "Edit report",
-            "formChangeWarning": "Changing the form will delete all your current responses. Do you want to continue?",
             "form": {
                 "answerForm": "Answer form",
                 "chooseLabel": "Choose whether you want to download the form for offline completion or create a response directly",
                 "downloadForm": "Download form",
+                "editReport": "Edit Report",
                 "form": "Form",
                 "goal": "Goal",
                 "plan": "Plan",
                 "saveAndDownload": "Save and download PDF",
                 "saveAsDraft": "Draft",
-                "subgoal": "Subgoal",
-                "editReport": "Edit Report"
-            }
+                "subgoal": "Subgoal"
+            },
+            "formChangeWarning": "Changing the form will delete all your current responses. Do you want to continue?"
         },
-        "isDraft": "Draft",
         "currentPlansAndGoals": "Current plans and goals",
         "dateCompleted": "Date completed",
         "dateCreated": "Date created",
@@ -4808,10 +4807,13 @@
             "title": "Title",
             "useTemplate": "Use template"
         },
+        "followUpNotifications": "Follow-up Notifications",
+        "followUps": "Follow Ups",
         "graph": "Graph",
         "goal": "Goal",
         "goals": "Goals",
         "inProgress": "In progress",
+        "isDraft": "Draft",
         "new": "New",
         "newGoal": "New goal",
         "newNote": "New note",
@@ -4851,12 +4853,10 @@
                 "users": "Users"
             }
         },
+        "noFollowUpNotifications": "No follow-up notifications",
         "plan": "Plan",
         "plans": "Plans",
         "reports": "Reports",
-        "followUps": "Follow Ups",
-        "followUpNotifications": "Follow-up Notifications",
-        "noFollowUpNotifications": "No follow-up notifications",
         "statuses": "Statuses",
         "subgoal": "Subgoal",
         "subgoals": "Subgoals",

@@ -17,11 +17,9 @@
                 <FormError :error="v$?.form?.description?.$errors[0]?.$message.toString()" />
                 <FormError :error="state?.error?.errors?.description?.[0]" />
             </div>
-            <!-- Document Title for downloadable PDF(no CRUD) -->
             <div class="space-y-1">
                 <FormLabel for="document_title" label="Document Title" />
-                <FormTextField id="document_title" name="document_title"
-                    placeholder="Document Title"
+                <FormTextField id="document_title" name="document_title" placeholder="Document Title"
                     v-model="state.form.document_title" />
             </div>
             <div v-if="isAdmin" class="flex items-center gap-x-3 pt-2">
