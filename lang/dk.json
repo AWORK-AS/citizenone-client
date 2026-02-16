@@ -4509,6 +4509,7 @@
                 "citizensAdmissionAndDischarged": "Borgernes indskrivning og udskrivning",
                 "citizensEvents": "Borgeres begivenheder",
                 "citizensDiagnoses": "Borgernes diagnoser",
+                "citizensFollowUpReminders": "Opfølgningspåmindelser",
                 "citizensOrigin": "Borgernes oprindelse",
                 "medicationOverview": "Medicinoversigt",
                 "gender": "Køn",
@@ -4528,6 +4529,15 @@
             },
             "show": "Vis",
             "startDate": "Startdato"
+        },
+        "followUpReminders": {
+            "title": "Opfølgningspåmindelser",
+            "noFollowUps": "Ingen afventende opfølgninger",
+            "reportFollowUp": "Rapportopfølgning",
+            "overdue": "Forsinket",
+            "dueToday": "Forfalder i dag",
+            "dueOn": "Forfalder den",
+            "reminders": "påmindelser"
         },
         "from": "Fra",
         "gender": {
@@ -4709,7 +4719,14 @@
                 "saveAndDownload": "Gem og download PDF",
                 "saveAsDraft": "udkast",
                 "subgoal": "Delmål",
-                "editReport": "Rediger rapport"
+                "editReport": "Rediger rapport",
+                "useFollowUpReminder": "Brug opfølgningspåmindelse",
+                "setFollowUpDate": "Angiv opfølgningsdato",
+                "followUpIn": "Følg op om",
+                "days": "Dage",
+                "weeks": "Uger",
+                "months": "Måneder",
+                "years": "År"
             }
         },
         "editStatusTemplate": {
@@ -4837,6 +4854,9 @@
         "plan": "Plan",
         "plans": "Planer",
         "reports": "Rapporter",
+        "followUps": "Opfølgninger",
+        "followUpNotifications": "Opfølgningsnotifikationer",
+        "noFollowUpNotifications": "Ingen opfølgningsnotifikationer",
         "statuses": "Statusser",
         "subgoal": "Delmål",
         "subgoals": "Delmål",
@@ -4853,7 +4873,8 @@
                 "seeGoals": "Se mål",
                 "seeSubgoals": "Se delmål",
                 "statuses": "Statusser",
-                "unarchive": "Gendan"
+                "unarchive": "Gendan",
+                "view": "Se"
             },
             "createdBy": "Oprettet af",
             "copiedFrom": "Kopieret fra",

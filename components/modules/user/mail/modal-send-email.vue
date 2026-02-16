@@ -117,13 +117,14 @@
                                 <div class="flex flex-col items-center">
                                     <input type="file" ref="file" @change="onFileChange" class="hidden" multiple />
                                     <div class="relative cursor-pointer" @click="triggerFileInput">
-                                        <Icon name="ic:outline-drive-folder-upload" class="h-36 w-36"
-                                            aria-hidden="true" />
-                                        <div
-                                            class="rounded-full absolute inset-0 bg-black bg-opacity-50 text-white opacity-0 hover:opacity-100 transition-opacity">
-                                            <div class="flex items-center w-full h-full justify-center text-xs">
-                                                {{ $t('selectFiles') }}
-                                            </div>
+                                        <div v-if="!state.formEmail.files.length"
+                                            class="w-32 h-32 rounded-md border-2 border-dashed border-gray-300 bg-gray-50 flex items-center justify-center hover:border-primary hover:bg-gray-100 transition-colors">
+                                            <Icon name="ph:upload-simple" class="w-8 h-8 text-gray-400" />
+                                        </div>
+                                        <div v-else
+                                            class="w-32 h-32 rounded-md border-2 border-dashed border-gray-300 bg-gray-50 flex flex-col items-center justify-center hover:border-primary hover:bg-gray-100 transition-colors gap-1 p-2">
+                                            <Icon name="ph:files" class="w-8 h-8 text-primary" />
+                                            <span class="text-xs text-gray-600 text-center">{{ state.formEmail.files.length }} {{ state.formEmail.files.length === 1 ? $t('mail.form.attachFiles.attachFiles') : $t('mail.form.attachFiles.attachFiles') }}</span>
                                         </div>
                                     </div>
                                 </div>
