@@ -2431,6 +2431,12 @@
         "departmentSickLeaves": "Afdelingens sygefravær",
         "download": {
             "date": "Dato",
+            "delimiter": {
+                "comma": "Komma",
+                "delimiter": "Afgrænser",
+                "semicolon": "Semikolon",
+                "tab": "Tabulator"
+            },
             "department": "Afdelinger",
             "download": "Download",
             "downloadType": "Downloadtype",
