@@ -27,6 +27,7 @@ import { useRoute } from 'vue-router';
 import InvoiceStripe from '@/components/stripe/InvoiceStripe.vue';
 import stripeApi from '@/components/api/stripeApi';
 import { invoiceService } from '@/components/api/superadmin/InvoiceService';
+import 'vue3-carousel/dist/carousel.css';
 
 definePageMeta({
   layout: 'superadmin',
