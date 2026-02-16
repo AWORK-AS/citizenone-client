@@ -330,12 +330,8 @@
                 </div>
             </div>
 
-            <ModulesUserCitizenPlanStatusTemplateModalFollowUpNotifications
-                :isModalOpen="state.modal.isFollowUpNotificationsOpen"
-                :citizenUuid="citizenUuid as string"
-                @close="state.modal.isFollowUpNotificationsOpen = false"
-                @refreshCount="fetchFollowUpReminderCount" />
-
+            <ModulesUserCitizenPlanStatusTemplateModalFollowUpNotifications :isModalOpen="state.modal.isFollowUpNotificationsOpen" :citizenUuid="citizenUuid as string"
+                @close="state.modal.isFollowUpNotificationsOpen = false" @refreshCount="fetchFollowUpReminderCount" />
             <ModulesUserCitizenInquiryStayDataModalView :isModalOpen="state.modal.isInquiryStayDataOpen"
                 @close="state.modal.isInquiryStayDataOpen = false" :selectedCitizen="state.selectedCitizen" />
             <ModulesUserCitizenInterventionHoursModalView :isModalOpen="state.modal.isViewPatienCareHoursOpen"

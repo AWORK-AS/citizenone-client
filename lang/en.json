@@ -4503,6 +4503,7 @@
                 "citizensAdmissionAndDischarged": "Citizens admission and discharged",
                 "citizensEvents": "Citizens' events",
                 "citizensDiagnoses": "Citizens diagnoses",
+                "citizensFollowUpReminders": "Follow-up Reminders",
                 "citizensOrigin": "Citizens origin",
                 "medicationOverview": "Medication overview",
                 "gender": "Gender",
@@ -4522,6 +4523,14 @@
             },
             "show": "Show",
             "startDate": "Start date"
+        },
+        "followUpReminders": {
+            "title": "Follow-up Reminders",
+            "noFollowUps": "No pending follow-ups",
+            "reportFollowUp": "Report Follow-up",
+            "overdue": "Overdue",
+            "dueToday": "Due Today",
+            "dueOn": "Due on"
         },
         "from": "From",
         "gender": {

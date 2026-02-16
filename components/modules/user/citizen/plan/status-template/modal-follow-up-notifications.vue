@@ -37,9 +37,7 @@
                     </div>
                 </div>
 
-                <ModulesUserCitizenPlanStatusTemplateModalViewReport
-                    :isModalOpen="state.isViewReportModalOpen"
-                    :report="state.selectedReport"
+                <ModulesUserCitizenPlanStatusTemplateModalViewReport :isModalOpen="state.isViewReportModalOpen" :report="state.selectedReport"
                     @close="state.isViewReportModalOpen = false" />
             </template>
         </Modal>
