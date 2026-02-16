@@ -12,9 +12,18 @@ export function getStripe(){
 
 export async function payWithStripe(amount: number, citizenId: string, cardElement: any) {
     try {
-        const { clientSecret } = await stripeApi.createPaymentIntent(amount, citizenId);
-        const stripe = await stripePromise;
-        const { error } = await stripe!.confirmCardPayment(clientSecret);
+        const { client_secret } = await stripeApi.createPaymentIntent(amount, citizenId);
+
+        const stripe = await getStripe();
+        if (!stripe) {
+            throw new Error("Stripe not initialized");
+        }
+
+        const { error } = await stripe!.confirmCardPayment(client_secret, {
+        payment_method: {
+        card: cardElement
+        }
+    });
 
         if (error) {
             console.error("Payment failed:", error);
@@ -23,6 +32,7 @@ export async function payWithStripe(amount: number, citizenId: string, cardEleme
             console.log("Payment successful!");
             return { success: true };
         }   
+
     } catch (error) {
         console.error("Error processing payment:", error);
         return { success: false, error: error instanceof Error ? error.message : "Unknown error" };
