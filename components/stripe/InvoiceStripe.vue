@@ -174,7 +174,7 @@
 </template>
 
 <script setup lang="ts">
-import { ref, onMounted, computed } from 'vue';
+import { ref, onMounted, computed, watch } from 'vue';
 import { useRouter, useRoute } from 'vue-router';
 import StripeCheckoutButton from './StripeCheckoutButton.vue';
 import StripePaymentModal from './StripePaymentModal.vue';
@@ -205,14 +205,25 @@ interface Invoice {
   }>;
 }
 
+interface Props {
+  invoiceData?: Invoice | null;
+  loading?: boolean;
+  error?: string;
+}
+
 // Composables
 const router = useRouter();
 const route = useRoute();
+const props = withDefaults(defineProps<Props>(), {
+  invoiceData: null,
+  loading: undefined,
+  error: undefined,
+});
 
 // State
-const invoiceDetails = ref<Invoice | null>(null);
-const loading = ref(true);
-const error = ref('');
+const invoiceDetails = ref<Invoice | null>(props.invoiceData || null);
+const localLoading = ref(props.loading !== undefined ? props.loading : true);
+const localError = ref(props.error || '');
 const currentUserId = ref(''); // You'll need to get this from your auth store
 const paymentModalOpen = ref(false);
 const paymentError = ref('');
@@ -221,9 +232,32 @@ const paymentSuccess = ref(false);
 // Get invoice ID from route
 const invoiceId = computed(() => route.params.id as string);
 
-// Load invoice on mount
+// Use prop data if provided, otherwise use local state
+const loading = computed(() => props.loading !== undefined ? props.loading : localLoading.value);
+const error = computed(() => props.error !== undefined ? props.error : localError.value);
+
+// Watch for prop changes
+watch(() => props.invoiceData, (newData) => {
+  invoiceDetails.value = newData;
+}, { deep: true });
+
+watch(() => props.loading, (newLoading) => {
+  if (newLoading !== undefined) {
+    localLoading.value = newLoading;
+  }
+});
+
+watch(() => props.error, (newError) => {
+  if (newError !== undefined) {
+    localError.value = newError;
+  }
+});
+
+// Load invoice on mount (only if data not provided via props)
 onMounted(async () => {
-  loadInvoice();
+  if (!props.invoiceData) {
+    loadInvoice();
+  }
   // Get current user ID from your auth store/context
   // currentUserId.value = useAuthStore().userId;
 });
@@ -231,20 +265,20 @@ onMounted(async () => {
 // Load invoice details
 async function loadInvoice() {
   if (!invoiceId.value) {
-    error.value = 'Invalid invoice ID';
-    loading.value = false;
+    localError.value = 'Invalid invoice ID';
+    localLoading.value = false;
     return;
   }
 
   try {
-    loading.value = true;
-    error.value = '';
+    localLoading.value = true;
+    localError.value = '';
     invoiceDetails.value = await invoiceService.getInvoiceDetails(invoiceId.value);
   } catch (err) {
-    error.value = err instanceof Error ? err.message : 'Failed to load invoice';
+    localError.value = err instanceof Error ? err.message : 'Failed to load invoice';
     console.error('Error loading invoice:', err);
   } finally {
-    loading.value = false;
+    localLoading.value = false;
   }
 }
 
@@ -259,7 +293,7 @@ async function downloadInvoice() {
     await invoiceService.downloadInvoiceDetails(invoiceId.value);
   } catch (err) {
     console.error('Error downloading invoice:', err);
-    error.value = 'Failed to download invoice PDF';
+    localError.value = 'Failed to download invoice PDF';
   }
 }
 
