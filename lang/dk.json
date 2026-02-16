@@ -2621,7 +2621,6 @@
             "DoNotCountWeekends": "Tæl ikke weekender med",
             "forSleepingNightShift": "For sovende nattevagt",
             "inMeeting": "I møde",
-            "markAsLeave": "Markér som ferie",
             "note": "Bemærkning",
             "private": "Privat",
             "tags": "Etiketter",
@@ -5543,6 +5542,7 @@
                 "newShiftSuccessfullySaved": "Ny vagt gemt med succes"
             },
             "color": "Farve",
+            "markAsLeave": "Markér som ferie",
             "nameDanish": "Navn (dansk)",
             "nameEnglish": "Navn (engelsk)",
             "paycode": "Lønningskode",

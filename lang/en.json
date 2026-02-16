@@ -2621,7 +2621,6 @@
             "DoNotCountWeekends": "Do not count weekends",
             "forSleepingNightShift": "For sleeping night shift",
             "inMeeting": "In Meeting",
-            "markAsLeave": "Mark as leave",
             "note": "Note",
             "private": "Private",
             "tags": "Tags",
@@ -5543,6 +5542,7 @@
                 "newShiftSuccessfullySaved": "New shift successfully saved"
             },
             "color": "Color",
+            "markAsLeave": "Mark as leave",
             "nameDanish": "Name (danish)",
             "nameEnglish": "Name (english)",
             "paycode": "Paycode",
