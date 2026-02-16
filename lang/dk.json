@@ -4530,7 +4530,8 @@
             "reportFollowUp": "Rapportopfølgning",
             "overdue": "Forsinket",
             "dueToday": "Forfalder i dag",
-            "dueOn": "Forfalder den"
+            "dueOn": "Forfalder den",
+            "reminders": "påmindelser"
         },
         "from": "Fra",
         "gender": {

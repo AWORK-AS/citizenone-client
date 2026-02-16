@@ -4530,7 +4530,8 @@
             "reportFollowUp": "Report Follow-up",
             "overdue": "Overdue",
             "dueToday": "Due Today",
-            "dueOn": "Due on"
+            "dueOn": "Due on",
+            "reminders": "reminders"
         },
         "from": "From",
         "gender": {
