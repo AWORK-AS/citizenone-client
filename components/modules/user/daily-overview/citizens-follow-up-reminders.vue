@@ -22,10 +22,7 @@
                 <div class="flex gap-x-3">
                     <div class="relative">
                         <img :src="getCitizenImage(citizen)"
-                            :class="[
-                                getCitizenRiskBorderClass(citizen),
-                                'rounded-full w-12 h-12 object-cover border-2'
-                            ]" />
+                            class="rounded-full w-12 h-12 object-cover border-2 border-secondary" />
                         <span class="absolute -top-1 -right-1 flex h-5 w-5">
                             <span v-if="isOverdue(getMostUrgentReminder(citizen)?.attachment?.follow_up_date)"
                                 class="animate-ping absolute inline-flex h-full w-full rounded-full bg-red-400 opacity-75"></span>
@@ -177,26 +174,6 @@ function getCitizenImage(citizen: any): string {
 
     const name = `${citizen?.firstname || ''} ${citizen?.lastname || ''}`
     return `https://ui-avatars.com/api/?background=42AED9&color=fff&name=${encodeURIComponent(name)}`
-}
-function getCitizenRiskBorderClass(citizen: any): string {
-    const firstReminder = citizen?.reminders?.[0]
-    const citizenData = firstReminder?.attachment?.model?.citizen
-    const assessment = citizenData?.latest_risk_assessment
-
-    if (!assessment) {
-        return 'border-secondary'
-    }
-
-    switch (assessment.assessment) {
-        case 'no risk':
-            return 'border-green-700'
-        case 'increased risk':
-            return 'border-yellow-500'
-        case 'acute increased risk':
-            return 'border-red-600'
-        default:
-            return 'border-secondary'
-    }
 }
 function navigateToCitizen(citizen: any) {
     const firstReminder = citizen?.reminders?.[0]
