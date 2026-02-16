@@ -125,7 +125,7 @@
           :amount="Math.round(invoiceDetails.amount * 100)"
           :invoice-id="invoiceDetails.id"
           :citizen-id="currentUserId"
-          button-text="`Pay ${formatCurrency(invoiceDetails.amount)} ${invoiceDetails.currency || 'DKK'}`"
+          :button-text="`Pay ${formatCurrency(invoiceDetails.amount)} ${invoiceDetails.currency || 'DKK'}`"
           variant="primary"
           @payment-initiated="onPaymentInitiated"
         />
