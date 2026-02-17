@@ -43,17 +43,17 @@
                                     <td width="20%">
                                         <span>{{ formatDateTimeToReadable(log?.created_at) }}</span>
                                     </td>
-                                    <td width="15%">
+                                    <td width="20%">
                                         <span v-if="log?.date_time_start">
                                             {{ formatDateTimeToReadable(log?.date_time_start) }}
                                         </span>
                                     </td>
-                                    <td width="15%">
+                                    <td width="20%">
                                         <span v-if="log?.date_time_end">
                                             {{ formatDateTimeToReadable(log?.date_time_end) }}
                                         </span>
                                     </td>
-                                    <td width="15%">
+                                    <td width="10%">
                                         <Badge type="primary" class="w-fit truncate"
                                             v-if="log?.status === 'cancelled_by_citizen'">
                                             <p class="text-xxs">
@@ -75,7 +75,7 @@
                                     <td width="15%">
                                         <span>{{ log?.remarks }}</span>
                                     </td>
-                                    <td width="10%">
+                                    <td width="5%">
                                         <span>{{ log?.time_summary }}</span>
                                     </td>
                                     <td width="10%">
