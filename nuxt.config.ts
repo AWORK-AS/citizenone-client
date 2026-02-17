@@ -45,7 +45,6 @@ export default defineNuxtConfig({
     '@pinia/nuxt',
     '@pinia-plugin-persistedstate/nuxt',
     '@nuxt/icon',
-    'vue3-carousel-nuxt',
     "nuxt-echarts"
   ],
 
@@ -57,7 +56,8 @@ export default defineNuxtConfig({
   plugins: [
     '@/plugins/vue-notification.ts',
     '@/plugins/ckeditor.ts',
-    { src: '~/plugins/zoho-salesiq.client.ts', mode: 'client' }
+    { src: '~/plugins/zoho-salesiq.client.ts', mode: 'client' },
+    { src: '~/plugins/vue3-carousel.client.ts', mode: 'client' }
   ],
 
   postcss: {

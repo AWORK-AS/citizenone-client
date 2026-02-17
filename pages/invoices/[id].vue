@@ -22,7 +22,6 @@
 </template>
 
 <script setup lang="ts">
-import 'vue3-carousel/dist/carousel.css';
 import { ref, onMounted, computed } from 'vue';
 import { useRoute } from 'vue-router';
 import InvoiceStripe from '@/components/stripe/InvoiceStripe.vue';
@@ -58,13 +57,22 @@ async function loadInvoice() {
   try {
     loading.value = true;
     error.value = '';
+    console.log('Loading invoice with ID:', invoiceId.value, 'Is Stripe Invoice:', isStripeInvoice.value);
 
     if (isStripeInvoice.value) {
       // Fetch Stripe invoice directly
-      invoiceData.value = await stripeApi.getStripeInvoice(invoiceId.value);
+      //invoiceData.value = await stripeApi.getStripeInvoice(invoiceId.value);
+      const res = await fetch(`http://127.0.0.1:8000/api/stripe/invoices/${invoiceId.value}`);
+      if (!res.ok) {
+        throw new Error(`Failed to fetch Stripe invoice: ${res.statusText}`);
+      }
+      const data = await res.json();
+      invoiceData.value = data; // Assuming the API returns { invoice: { ... }
+      console.log('Fetched Stripe invoice data:', invoiceData.value);
     } else {
       // Fetch regular invoice from backend
       invoiceData.value = await invoiceService.getInvoiceDetails(invoiceId.value);
+      console.log('Fetched regular invoice data:', invoiceData.value);
     }
   } catch (err) {
     error.value = err instanceof Error ? err.message : 'Failed to load invoice';
