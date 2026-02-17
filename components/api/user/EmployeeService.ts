@@ -9,10 +9,6 @@ class EmployeeService extends BaseAPIService {
         return await this.request(`/user/employees/${employeeUuid}`, 'GET')
     }
 
-    async getEmployeeTimeLogs(employeeUuid: any, params: object): Promise<any> {
-        return await this.request(`/user/employees/${employeeUuid}/time-logs`, 'GET', params)
-    }
-
     async saveEmployee(params: object): Promise<any> {
         return await this.request(`/user/employees`, 'POST', params)
     }

@@ -89,7 +89,7 @@ async function fetchTimeLogs() {
             sortField: state.sortData.sortField,
             sortOrder: state.sortData.sortOrder,
         }
-        const response = await timeLogService.getTimeLogs(params)
+        const response = await timeLogService.getCurrentUserTimeLogs(params)
         if (response) {
             state.logs = response
         }

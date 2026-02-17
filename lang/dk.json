@@ -6229,13 +6229,60 @@
     },
     "theListIsEmpty": "Listen er tom",
     "timeLogs": {
+        "download": {
+            "date": "Dato",
+            "download": "Download",
+            "downloadType": "Download type",
+            "downloadHoursInCSV": "Download timer i CSV",
+            "downloadHoursInExcel": "Download timer i Excel"
+        },
+        "editTimeLog": "Rediger tidslog",
+        "filter": {
+            "allCancellations": "Alle aflysninger",
+            "heldSessionsOnly": "Kun afholdte sessioner",
+            "onlyCancellationsByCitizen": "Kun aflysninger af borger",
+            "onlyCancellationByEmployee": "Kun aflysninger af medarbejder"
+        },
+        "form": {
+            "alert": {
+                "timeLogSuccessfullyUpdated": "Tidslog blev opdateret",
+                "newTimeLogSuccessfullySaved": "Ny tidslog blev gemt"
+            },
+            "dateTimeEnd": "Slutdato og -tid",
+            "dateTimeStart": "Startdato og -tid",
+            "status": {
+                "cancelledByCitizen": "Aflyst af borger",
+                "cancelledByEmployee": "Aflyst af medarbejder",
+                "completed": "Afholdt (afsluttet)",
+                "status": "Status"
+            },
+            "remarks": "Bemærkninger"
+        },
+        "newTimeLog": "Ny tidslog",
         "table": {
+            "actions": {
+                "delete": "Slet",
+                "edit": "Rediger"
+            },
+            "alert": {
+                "timeLogSuccessfullyDeleted": "Tidslog blev slettet"
+            },
             "createdAt": "Oprettet den",
-            "timein": "Tid ind",
-            "timeout": "Tid ud",
+            "confirmation": {
+                "deleteTimeLogConfirmation": "Er du sikker på, at du vil slette denne tidslog?"
+            },
+            "dateTimeEnd": "Slutdato og -tid",
+            "dateTimeStart": "Startdato og -tid",
+            "remarks": "Bemærkninger",
+            "status": {
+                "cancelledByCitizen": "Aflyst af borger",
+                "cancelledByEmployee": "Aflyst af medarbejder",
+                "completed": "Afholdt (afsluttet)",
+                "status": "Status"
+            },
             "summary": "Tidsoversigt"
         },
-        "timeLogs": "Tidslogfiler"
+        "timeLogs": "Tidslogge"
     },
     "timeRegistration": {
         "checkIn": "Tjek ind",
