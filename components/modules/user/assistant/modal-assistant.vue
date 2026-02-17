@@ -13,6 +13,16 @@
                                 :class="message.type === 'user' ? 'text-right' : 'text-left'">
                                 <div
                                     :class="message.type === 'user' ? 'bg-secondary text-white p-1 rounded-lg' : 'bg-gray-200 p-1 rounded-lg'">
+                                    <!-- Attached files -->
+                                    <div v-if="message.files && message.files.length > 0"
+                                        class="flex flex-wrap gap-2 px-3 pt-2 pb-1"
+                                        :class="message.type === 'user' ? 'justify-end' : 'justify-start'">
+                                        <div v-for="(file, fIdx) in message.files" :key="fIdx"
+                                            class="flex items-center gap-1.5 text-xs px-2 py-1.5 rounded"
+                                            :class="message.type === 'user' ? 'bg-white/20 text-white' : 'bg-white text-gray-700'">
+                                            <span class="max-w-[150px] truncate">{{ file.name }}</span>
+                                        </div>
+                                    </div>
                                     <p class="px-4 py-2 rounded-lg inline-block"
                                         v-html="formatMessage(message?.text)" />
                                 </div>
@@ -28,9 +38,26 @@
                                 <span class="dot5">.</span>
                             </div>
                         </div>
-
+                        <div v-if="state.files.length > 0"
+                            class="flex flex-wrap gap-2 px-3 pt-2 border-t border-gray-300">
+                            <div v-for="(file, index) in state.files" :key="index"
+                                class="flex items-center gap-1 bg-gray-100 text-xs text-gray-700 px-2 py-3 rounded">
+                                <Icon name="ph:file" class="h-3.5 w-3.5" />
+                                <span class="max-w-[150px] truncate">{{ file.name }}</span>
+                                <button type="button" @click="removeFile(index)"
+                                    class="text-gray-400 hover:text-red-500">
+                                    <Icon name="ph:x" class="h-3.5 w-3.5" />
+                                </button>
+                            </div>
+                        </div>
                         <!-- Chat Input -->
                         <div class="flex items-center gap-x-2 p-2 border-t border-gray-300">
+                            <input ref="fileInput" type="file" multiple
+                                accept=".pdf,.doc,.docx,.xls,.xlsx,.csv,.txt,.jpg,.jpeg,.png" class="hidden"
+                                @change="onFilesSelected" />
+                            <button type="button" @click="($refs.fileInput as HTMLInputElement).click()">
+                                <Icon name="ph:paperclip" class="h-5 w-5 mx-2 cursor-pointer hover:text-secondary" />
+                            </button>
                             <FormTextField id="prompt" name="prompt" :placeholder="$t('assistants.askAnything')"
                                 v-model="state.newMessage" @keydown.enter="sendMessage" />
                             <FormButton buttonStyle="primary" @click="sendMessage">
@@ -47,6 +74,7 @@
 <script setup lang="ts">
 import { aIAssistantService } from '@/components/api/user/AIAssistantService'
 import { useI18n } from "vue-i18n"
+import { useAlert } from '@/composables/alert'
 import type { Error } from '@/types'
 
 const props = defineProps({
@@ -58,6 +86,9 @@ const props = defineProps({
 
 const emit = defineEmits(['close'])
 const { t } = useI18n()
+const { errorAlert } = useAlert()
+
+const MAX_FILE_SIZE = 20 * 1024 * 1024
 
 function closeModal() {
     emit('close')
@@ -69,11 +100,13 @@ const state = reactive({
     isGeneratingResponse: false,
     messages: [] as any,
     newMessage: '',
+    files: [] as File[],
 })
 
 watch(() => props.isModalOpen, (isModalOpen: boolean) => {
     if (isModalOpen) {
         state.messages = []
+        state.files = []
         state.messages.push({ type: 'bot', text: `${t('assistants.helloHowCanIAssistYouToday')}?` })
     }
 })
@@ -82,14 +115,29 @@ async function sendMessage() {
     state.error = {}
     state.isGeneratingResponse = true
     try {
+        const attachedFiles = state.files.map(f => ({ name: f.name, size: f.size }))
         state.messages.push({
             type: 'user',
             text: state.newMessage,
+            files: attachedFiles,
         })
-        const params = {
-            prompt: state.newMessage,
+
+        let params: FormData | object
+
+        if (state.files.length > 0) {
+            const formData = new FormData()
+            formData.append('prompt', state.newMessage)
+            state.files.forEach((file) => {
+                formData.append('files[]', file)
+            })
+            params = formData
+        } else {
+            params = { prompt: state.newMessage }
         }
+
         state.newMessage = ''
+        state.files = []
+
         const response = await aIAssistantService.sendMessage(params)
         if (response) {
             if (JSON.parse(response)?.output?.[0]?.content?.[0]?.text) {
@@ -113,6 +161,31 @@ function formatMessage(messageText: string) {
         .replace(/\n/g, '<br/>') // Replace newlines with <br/>
 
     return formattedMessage
+}
+function getTotalFilesSize(files: File[]) {
+    return files.reduce((total, file) => total + file.size, 0)
+}
+
+function onFilesSelected(event: Event) {
+    const input = event.target as HTMLInputElement
+    if (input.files) {
+        const newFiles = Array.from(input.files)
+        const currentSize = getTotalFilesSize(state.files)
+        const incomingSize = getTotalFilesSize(newFiles)
+
+        if (currentSize + incomingSize > MAX_FILE_SIZE) {
+            errorAlert(t('alert.error'), t('assistants.fileSizeExceeds'))
+            input.value = ''
+            return
+        }
+
+        state.files.push(...newFiles)
+    }
+    input.value = ''
+}
+
+function removeFile(index: number) {
+    state.files.splice(index, 1)
 }
 </script>
 

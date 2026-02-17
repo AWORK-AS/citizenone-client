@@ -376,7 +376,8 @@
         "askAnything": "Ask anything",
         "generatingResponse": "Generating response. Please wait",
         "helloHowCanIAssistYouToday": "Hello, how can I assist you today",
-        "send": "Send"
+        "send": "Send",
+        "fileSizeExceeds": "Total file size must not exceed 10MB"
     },
     "back": "Back",
     "bookings": {
