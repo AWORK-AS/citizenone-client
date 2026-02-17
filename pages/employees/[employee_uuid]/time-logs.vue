@@ -145,7 +145,7 @@ const state = reactive({
         { name: 'timeLogs.table.createdAt', isTranslateName: true, sorter: true, key: 'created_at' },
         { name: 'timeLogs.table.dateTimeStart', isTranslateName: true, sorter: true, key: 'date_time_start' },
         { name: 'timeLogs.table.dateTimeEnd', isTranslateName: true, sorter: true, key: 'date_time_end' },
-        { name: 'timeLogs.table.status.status', isTranslateName: true, },
+        { name: 'timeLogs.table.status.status', isTranslateName: true, sorter: true, key: 'status' },
         { name: 'timeLogs.table.remarks', isTranslateName: true, },
         { name: 'timeLogs.table.summary', isTranslateName: true, },
         { name: '' },
