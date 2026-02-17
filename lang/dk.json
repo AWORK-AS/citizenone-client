@@ -6247,7 +6247,8 @@
             "allCancellations": "Alle aflysninger",
             "heldSessionsOnly": "Kun afholdte sessioner",
             "onlyCancellationsByCitizen": "Kun aflysninger af borger",
-            "onlyCancellationByEmployee": "Kun aflysninger af medarbejder"
+            "onlyCancellationByEmployee": "Kun aflysninger af medarbejder",
+            "status": "Status"
         },
         "form": {
             "alert": {

@@ -104,7 +104,6 @@ watch(() => props.selectedTimeLog, (newValue: any) => {
             status: newValue.status,
             remarks: newValue.remarks,
         }
-        console.log('state.formTimeLog', state.formTimeLog)
     }
 })
 

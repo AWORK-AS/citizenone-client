@@ -21,17 +21,29 @@
                 <ModulesUserEmployeeTabs />
 
                 <div class="mt-10 space-y-5">
-                    <div class="flex flex-wrap items-center justify-end gap-3">
-                        <FormButton buttonStyle="action" class="rounded-lg"
-                            @click="state.modal.isAddNewTimeLogOpen = true">
-                            <Icon name="ph:plus" class="h-4 w-4" aria-hidden="true" />
-                            {{ $t('timeLogs.newTimeLog') }}
-                        </FormButton>
-                        <FormButton buttonStyle="action" class="rounded-lg"
-                            @click="state.modal.isDownloadTimeLogsOpen = true">
-                            <Icon name="ph:download" class="h-4 w-4" aria-hidden="true" />
-                            {{ $t('timeLogs.download.download') }}
-                        </FormButton>
+                    <div class="flex items-center justify-between">
+                        <div>
+                            <button class="flex items-center gap-x-1 text-sm text-primary group"
+                                @click="state.modal.isFilterTimeLogsOpen = true">
+                                <Icon name="ic:outline-filter-list"
+                                    class="text-primary w-6 h-6 group-hover:text-primary-700" />
+                                <span class="group-hover:text-primary-700">
+                                    {{ $t('filter') }}
+                                </span>
+                            </button>
+                        </div>
+                        <div class="flex flex-wrap items-center justify-end gap-3">
+                            <FormButton buttonStyle="action" class="rounded-lg"
+                                @click="state.modal.isAddNewTimeLogOpen = true">
+                                <Icon name="ph:plus" class="h-4 w-4" aria-hidden="true" />
+                                {{ $t('timeLogs.newTimeLog') }}
+                            </FormButton>
+                            <FormButton buttonStyle="action" class="rounded-lg"
+                                @click="state.modal.isDownloadTimeLogsOpen = true">
+                                <Icon name="ph:download" class="h-4 w-4" aria-hidden="true" />
+                                {{ $t('timeLogs.download.download') }}
+                            </FormButton>
+                        </div>
                     </div>
                     <Alert type="danger" :text="state?.error?.message"
                         v-if="state.error?.message && state.error.message.length > 0" />
@@ -41,15 +53,17 @@
                             <template #body v-if="!(state.isTableLoading || (state.logs?.data?.length === 0))">
                                 <tr v-for="(log, index) in state.logs?.data" :key="index">
                                     <td width="20%">
-                                        <span>{{ formatDateTimeToReadable(log?.created_at) }}</span>
+                                        <span class="truncate">
+                                            {{ formatDateTimeToReadable(log?.created_at) }}
+                                        </span>
                                     </td>
                                     <td width="20%">
-                                        <span v-if="log?.date_time_start">
+                                        <span class="truncate" v-if="log?.date_time_start">
                                             {{ formatDateTimeToReadable(log?.date_time_start) }}
                                         </span>
                                     </td>
                                     <td width="20%">
-                                        <span v-if="log?.date_time_end">
+                                        <span class="truncate" v-if="log?.date_time_end">
                                             {{ formatDateTimeToReadable(log?.date_time_end) }}
                                         </span>
                                     </td>
@@ -99,6 +113,8 @@
                     <Pagination :data="state.logs" @previous="previous" @next="next" />
                 </div>
             </div>
+            <ModulesUserTimeRegistrationModalFilter :isModalOpen="state.modal.isFilterTimeLogsOpen"
+                @close="state.modal.isFilterTimeLogsOpen = false" @setFilter="setFilter" />
             <ModulesUserTimeRegistrationModalDownload :isModalOpen="state.modal.isDownloadTimeLogsOpen"
                 @close="state.modal.isDownloadTimeLogsOpen = false" />
             <ModulesUserTimeRegistrationModalNew :isModalOpen="state.modal.isAddNewTimeLogOpen"
@@ -151,13 +167,17 @@ const state = reactive({
         { name: '' },
     ],
     error: {} as Error,
+    filter: {
+        statuses: []
+    },
     isTableLoading: false,
     logs: [] as any,
     modal: {
         isAddNewTimeLogOpen: false,
+        isDeleteTimeLogConfirmationOpen: false,
         isDownloadTimeLogsOpen: false,
         isEditTimeLogOpen: false,
-        isDeleteTimeLogConfirmationOpen: false,
+        isFilterTimeLogsOpen: false,
     },
     selectedTimeLog: {} as any,
     sortData: {
@@ -178,6 +198,9 @@ async function fetchTimeLogs() {
             page: currentTablePage,
             sortField: state.sortData.sortField,
             sortOrder: state.sortData.sortOrder,
+        } as any
+        if (state.filter.statuses?.length > 0) {
+            params.status = Array(state.filter.statuses)
         }
         const response = await timeLogService.getEmployeeTimeLogs(employeeUuid, params)
         if (response) {
@@ -231,5 +254,10 @@ async function deleteTimeLog() {
         state.error = error
     }
     state.isTableLoading = false
+}
+
+function setFilter(filter: any) {
+    state.filter.statuses = filter.statuses
+    fetchTimeLogs()
 }
 </script>

@@ -6247,7 +6247,8 @@
             "allCancellations": "All cancellations",
             "heldSessionsOnly": "Held sessions only",
             "onlyCancellationsByCitizen": "Only cancellations by citizen",
-            "onlyCancellationByEmployee": "Only cancellations by employee"
+            "onlyCancellationByEmployee": "Only cancellations by employee",
+            "status": "Status"
         },
         "form": {
             "alert": {
