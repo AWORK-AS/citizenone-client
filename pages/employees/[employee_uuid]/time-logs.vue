@@ -200,7 +200,7 @@ async function fetchTimeLogs() {
             sortOrder: state.sortData.sortOrder,
         } as any
         if (state.filter.statuses?.length > 0) {
-            params.status = Array(state.filter.statuses)
+            params.statuses = Array(state.filter.statuses)
         }
         const response = await timeLogService.getEmployeeTimeLogs(employeeUuid, params)
         if (response) {
