@@ -20,6 +20,8 @@ import type { Error } from '@/types'
 
 const { successAlert } = useAlert()
 const { t } = useI18n()
+const router = useRouter()
+const employeeUuid = router?.currentRoute?.value?.params?.employee_uuid
 
 const props = defineProps({
     isModalOpen: {
@@ -53,6 +55,7 @@ async function saveTimeLog(timeLogDetails: any) {
     state.isPageLoading = true
     try {
         const params = {
+            employee_uuid: employeeUuid,
             date_time_start: timeLogDetails.date_time_start,
             date_time_end: timeLogDetails.date_time_end,
             status: timeLogDetails.status,

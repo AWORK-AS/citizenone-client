@@ -109,10 +109,10 @@ import { useI18n } from "vue-i18n"
 import type { Error } from '@/types'
 
 const runtimeConfig = useRuntimeConfig()
-const router = useRouter()
 const { formatDateTimeToReadable } = useDatetimeFormatter()
 const { successAlert } = useAlert()
 const { t } = useI18n()
+const router = useRouter()
 const employeeUuid = router?.currentRoute?.value?.params?.employee_uuid
 let currentTablePage = 1
 const breadcrumbLinks = [
