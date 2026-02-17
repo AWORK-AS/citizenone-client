@@ -44,10 +44,14 @@
                                         <span>{{ formatDateTimeToReadable(log?.created_at) }}</span>
                                     </td>
                                     <td width="15%">
-                                        <span>{{ log?.date_time_start }}</span>
+                                        <span v-if="log?.date_time_start">
+                                            {{ formatDateTimeToReadable(log?.date_time_start) }}
+                                        </span>
                                     </td>
                                     <td width="15%">
-                                        <span>{{ log?.date_time_end }}</span>
+                                        <span v-if="log?.date_time_end">
+                                            {{ formatDateTimeToReadable(log?.date_time_end) }}
+                                        </span>
                                     </td>
                                     <td width="15%">
                                         <Badge type="primary" class="w-fit truncate"
