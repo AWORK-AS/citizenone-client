@@ -22,6 +22,7 @@
 </template>
 
 <script setup lang="ts">
+import 'vue3-carousel/dist/carousel.css';
 import { ref, onMounted, computed } from 'vue';
 import { useRoute } from 'vue-router';
 import InvoiceStripe from '@/components/stripe/InvoiceStripe.vue';
@@ -31,6 +32,7 @@ import { invoiceService } from '@/components/api/superadmin/InvoiceService';
 definePageMeta({
   layout: 'superadmin',
 });
+
 
 const route = useRoute();
 const loading = ref(true);
