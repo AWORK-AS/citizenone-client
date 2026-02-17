@@ -61,9 +61,9 @@ const props = defineProps({
         type: String,
         required: true,
     },
-    selectedAbsence: {
+    selectedTimeLog: {
         type: Object,
-        required: false,
+        required: true,
     },
 })
 const emit = defineEmits(['closeModal', 'isPageLoading', 'submitForm'])
@@ -87,7 +87,16 @@ const state = reactive({
     }
 })
 
-watch(() => props.selectedAbsence, (newValue: any) => {
+onMounted(() => {
+    state.formTimeLog = {
+        date_time_start: props.selectedTimeLog.date_time_start,
+        date_time_end: props.selectedTimeLog.date_time_end,
+        status: props.selectedTimeLog.status,
+        remarks: props.selectedTimeLog.remarks,
+    }
+})
+
+watch(() => props.selectedTimeLog, (newValue: any) => {
     if (newValue != null) {
         state.formTimeLog = {
             date_time_start: newValue.date_time_start,
@@ -95,6 +104,7 @@ watch(() => props.selectedAbsence, (newValue: any) => {
             status: newValue.status,
             remarks: newValue.remarks,
         }
+        console.log('state.formTimeLog', state.formTimeLog)
     }
 })
 

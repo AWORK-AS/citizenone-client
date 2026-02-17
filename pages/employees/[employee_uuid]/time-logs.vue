@@ -102,9 +102,10 @@
             <ModulesUserTimeRegistrationModalDownload :isModalOpen="state.modal.isDownloadTimeLogsOpen"
                 @close="state.modal.isDownloadTimeLogsOpen = false" />
             <ModulesUserTimeRegistrationModalNew :isModalOpen="state.modal.isAddNewTimeLogOpen"
-                @close="state.modal.isAddNewTimeLogOpen = false" />
+                @close="state.modal.isAddNewTimeLogOpen = false" @refreshTimeLogs="fetchTimeLogs" />
             <ModulesUserTimeRegistrationModalEdit :isModalOpen="state.modal.isEditTimeLogOpen"
-                :selectedTimeLog="state.selectedTimeLog" @close="state.modal.isEditTimeLogOpen = false" />
+                :selectedTimeLog="state.selectedTimeLog" @close="state.modal.isEditTimeLogOpen = false"
+                @refreshTimeLogs="fetchTimeLogs" />
             <DialogConfirmation :isModalOpen="state.modal.isDeleteTimeLogConfirmationOpen"
                 :message="`${$t('timeLogs.table.confirmation.deleteTimeLogConfirmation')}?`"
                 @close="state.modal.isDeleteTimeLogConfirmationOpen = false" @confirm="deleteTimeLog" />
