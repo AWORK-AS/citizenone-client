@@ -27,6 +27,11 @@
                             <Icon name="ph:plus" class="h-4 w-4" aria-hidden="true" />
                             {{ $t('timeLogs.newTimeLog') }}
                         </FormButton>
+                        <FormButton buttonStyle="action" class="rounded-lg"
+                            @click="state.modal.isDownloadTimeLogsOpen = true">
+                            <Icon name="ph:download" class="h-4 w-4" aria-hidden="true" />
+                            {{ $t('timeLogs.download.download') }}
+                        </FormButton>
                     </div>
                     <Alert type="danger" :text="state?.error?.message"
                         v-if="state.error?.message && state.error.message.length > 0" />
@@ -90,6 +95,8 @@
                     <Pagination :data="state.logs" @previous="previous" @next="next" />
                 </div>
             </div>
+            <ModulesUserTimeRegistrationModalDownload :isModalOpen="state.modal.isDownloadTimeLogsOpen"
+                @close="state.modal.isDownloadTimeLogsOpen = false" />
             <ModulesUserTimeRegistrationModalNew :isModalOpen="state.modal.isAddNewTimeLogOpen"
                 @close="state.modal.isAddNewTimeLogOpen = false" />
             <ModulesUserTimeRegistrationModalEdit :isModalOpen="state.modal.isEditTimeLogOpen"
@@ -143,6 +150,7 @@ const state = reactive({
     logs: [] as any,
     modal: {
         isAddNewTimeLogOpen: false,
+        isDownloadTimeLogsOpen: false,
         isEditTimeLogOpen: false,
         isDeleteTimeLogConfirmationOpen: false,
     },

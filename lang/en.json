@@ -6232,9 +6232,15 @@
         "download": {
             "date": "Date",
             "download": "Download",
-            "downloadType": "Download type",
-            "downloadHoursInCSV": "Download hours in CSV",
-            "downloadHoursInExcel": "Download hours in excel"
+            "downloadType": {
+                "downloadExcel": "Download excel",
+                "downloadPDF": "Download PDF",
+                "downloadType": "Download type"
+            },
+            "filter": {
+                "filterDate": "Filter date"
+            },
+            "status": "Status"
         },
         "editTimeLog": "Edit time log",
         "filter": {
