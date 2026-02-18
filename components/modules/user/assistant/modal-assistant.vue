@@ -124,13 +124,17 @@ function closeModal() {
     emit('close')
 }
 
-// Using reactive for the state
 const state = reactive({
     error: {} as Error,
     isGeneratingResponse: false,
     messages: [] as any,
     newMessage: '',
     files: [] as File[],
+    aiElements:{
+        conversationId: null as string | null,
+        vectorStoreId: null as string | null,
+        fileIds: [] as string[],
+    }
 })
 
 watch(() => props.isModalOpen, (isModalOpen: boolean) => {
@@ -138,7 +142,13 @@ watch(() => props.isModalOpen, (isModalOpen: boolean) => {
         state.messages = []
         state.files = []
         state.messages.push({ type: 'bot', text: `${t('assistants.helloHowCanIAssistYouToday')}?` })
+    } else {
+        clearAiElements()
     }
+})
+
+onUnmounted(() => {
+    clearAiElements()
 })
 
 async function sendMessage() {
@@ -158,29 +168,45 @@ async function sendMessage() {
         if (state.files.length > 0) {
             const formData = new FormData()
             formData.append('prompt', state.newMessage)
+            if (state.aiElements.conversationId) {
+                formData.append('conversation_id', state.aiElements.conversationId)
+            }
+            if (state.aiElements.vectorStoreId) {
+                formData.append('vector_store_id', state.aiElements.vectorStoreId)
+            }
             state.files.forEach((file) => {
                 formData.append('files[]', file)
             })
             params = formData
         } else {
-            params = { prompt: state.newMessage }
+            params = {
+                prompt: state.newMessage,
+                conversation_id: state.aiElements.conversationId,
+            }
         }
 
         state.newMessage = ''
         state.files = []
 
         const response = await aIAssistantService.sendMessage(params)
-        if (response) {
-            if (JSON.parse(response)?.choices?.[0]?.message?.content) {
+        if (response && response.output) {
+            const messageOutput = response.output.find((item: any) => item.type === 'message');
+            
+            if (messageOutput?.content?.[0]?.text) {
                 state.messages.push({
                     type: 'bot',
-                    text: JSON.parse(response)?.choices?.[0]?.message?.content,
+                    text: messageOutput.content[0].text,
                 })
-            } else if (JSON.parse(response)?.data?.[0]?.content?.[0]?.text?.value) {
-                state.messages.push({
-                    type: 'bot',
-                    text: JSON.parse(response)?.data?.[0]?.content?.[0]?.text?.value,
-                })
+            }
+            
+            if (response.conversation_id) {
+                state.aiElements.conversationId = response.conversation_id
+            }
+            if (response.tools?.[0]?.vector_store_ids){
+                state.aiElements.vectorStoreId = response.tools[0].vector_store_ids[0]
+            }
+            if (response.file_ids) {
+                 state.aiElements.fileIds.push(...response.file_ids)
             }
         }
     } catch (error: any) {
@@ -222,6 +248,19 @@ function onFilesSelected(event: Event) {
 
 function removeFile(index: number) {
     state.files.splice(index, 1)
+}
+
+function clearAiElements() {
+    if (state.aiElements.conversationId) {
+        const payload = {
+            vector_store_id: state.aiElements.vectorStoreId,
+            file_ids: state.aiElements.fileIds,
+        }
+        aIAssistantService.deleteThread(state.aiElements.conversationId, payload)
+    }
+    state.aiElements.conversationId = null
+    state.aiElements.vectorStoreId = null
+    state.aiElements.fileIds = []
 }
 </script>
 
