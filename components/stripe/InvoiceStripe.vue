@@ -14,7 +14,9 @@
 
     <!-- Invoice Content -->
     <div v-if="!loading && !error && invoiceDetails" class="invoice-content">
-      <h1>Invoice #{{ invoiceDetails.id }}</h1>
+      <h1>Invoice #: {{ invoiceDetails.id }}</h1>
+      <p>Customer: {{ invoiceDetails.customerName }}</p>
+      <p>Email: {{ invoiceDetails.customerEmail }}</p>
       <p>Status: {{ formatStatus(invoiceDetails.status) }}</p>
       <p>Total: {{ formatCurrency(invoiceDetails.amount) }} {{ invoiceDetails.currency }}</p>
 
@@ -37,6 +39,18 @@
           </tr>
         </tbody>
       </table>
+
+      <!-- Action buttons-->
+ <div class="invoice-actions">
+    <button @click="payWithStripe" class="stripe-btn" :disabled="loadingPay">
+      <span v-if="!loadingPay">Pay with Stripe</span>
+      <span v-else>Redirecting...</span>
+    </button>
+     
+    <button @click="downloadPdf" class="pdf-btn" :disabled="loadingPay">
+      Download PDF
+    </button>
+     </div>
     </div>
   </div>
 </template>
@@ -44,13 +58,14 @@
 <script setup lang="ts">
 import { ref, onMounted, computed } from 'vue';
 import { useRoute } from 'vue-router';
-import { invoiceService } from '@/components/api/superadmin/InvoiceService';
 
 interface Invoice {
   id: string;
   amount: number;
   currency: string;
   status: string;
+  customerName?: string;
+  customerEmail?: string;
   items: Array<{
     id: string;
     description: string;
@@ -67,6 +82,7 @@ const invoiceId = computed(() => route.params.id as string);
 const invoiceDetails = ref<Invoice | null>(null);
 const loading = ref(true);
 const error = ref('');
+const loadingPay = ref(false);
 
 // Load invoice on mount
 onMounted(() => {
@@ -88,20 +104,30 @@ async function loadInvoice() {
     if (!res.ok) throw new Error(`Failed to fetch invoice: ${res.statusText}`);
     const data = await res.json();
 
+    const invoice = data; // Assuming API returns { invoice: { ... } }
+    const invoiceFromApi = data?.invoice_id; // Adjust based on actual API response structure
+
+    if(!invoice || !invoiceFromApi) {
+      throw new Error('Invoice data is missing in the response');
+    }
+
     // Map Stripe response to InvoiceStripe format
     invoiceDetails.value = {
-      id: data.invoice_id,
-      amount: data.total,
-      currency: data.lines[0]?.currency || 'DKK',
-      status: data.status,
-      items: data.lines.map((line: any) => ({
+      id: invoiceFromApi, // Use the correct ID from the API response
+      amount: invoice.total ?? invoice.amount_due ?? 0,
+      currency: invoice.currency ?? 'dkk',
+      status: invoice.status ?? 'unknown',
+      customerName: invoice.customer_name ?? '',
+      customerEmail: invoice.customer_email ?? '',
+      items: invoice.lines?.map((line: any) => ({
         id: line.id,
         description: line.description,
         quantity: line.quantity,
         unitPrice: line.amount,
         amount: line.amount,
-      })),
+      })) ?? [],
     };
+
   } catch (err) {
     error.value = err instanceof Error ? err.message : 'Failed to load invoice';
     console.error(err);
@@ -125,6 +151,49 @@ function formatCurrency(amount: number): string {
 function formatStatus(status: string): string {
   if (!status) return 'Unknown';
   return status.charAt(0).toUpperCase() + status.slice(1).toLowerCase();
+}
+
+//Stripe Payment
+async function payWithStripe() {
+  if (!invoiceId.value) return;
+  loadingPay.value = true;
+
+  try {
+    // Call backend to create Stripe Checkout session
+    const res = await fetch(`http://127.0.0.1:8000/api/stripe/invoices/${invoiceId.value}/checkout-session`);
+    const data = await res.json();
+
+    if (data.hosted_invoice_url) {
+      window.open(data.hosted_invoice_url, '_blank');
+    }else{
+        throw new Error('Failed to create Stripe checkout session');
+    }
+   
+  } catch (err) {
+    console.error('Error creating Stripe checkout session:', err);
+  } finally {
+    loadingPay.value = false;
+  }
+}
+
+// PDF Download
+async function downloadPdf() {
+  if (!invoiceId.value) return;
+  loadingPay.value = true;
+
+  try {
+    const res = await fetch(`http://127.0.0.1:8000/api/stripe/invoices/${invoiceId.value}/pdf`);
+    const data = await res.json();
+    if (data.hosted_invoice_url) {
+      window.open(data.hosted_invoice_url, '_blank');
+    }else{
+        throw new Error('Failed to create PDF download link');
+    }
+  } catch (err) {
+    console.error('Error downloading PDF:', err);
+  } finally {
+    loadingPay.value = false;
+  }
 }
 </script>
 
@@ -167,5 +236,63 @@ function formatStatus(status: string): string {
   border: none;
   border-radius: 4px;
   cursor: pointer;
+}
+.invoice-content table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 16px;
+}
+.invoice-content th, .invoice-content td {
+  border: 1px solid #e5e7eb;
+  padding: 8px;
+  text-align: left;
+}
+.invoice-actions {
+  margin-top: 24px;
+  display: flex;
+  justify-content: space-between;
+  max-width: 100%;
+  gap: 16px;
+  padding: 0;
+  flex-wrap: wrap;
+}
+.stripe-btn, .pdf-btn {
+  padding: 10px 20px;
+  border: none;
+  border-radius: 6px;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s;
+  min-width: 150px;
+  margin-bottom: 8px;
+}
+.stripe-btn {
+  background-color: #3b82f6;
+  color: white;
+}
+.stripe-btn:hover:not(:disabled) {
+  background-color: #2563eb;
+}
+.pdf-btn {
+  background-color: #f3f4f6;
+  color: #1f2937;
+  border: 1px solid #d1d5db;
+}
+.pdf-btn:hover:not(:disabled) {
+  background-color: #e5e7eb;
+}
+.stripe-btn:disabled, .pdf-btn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+@media (max-width: 600px) {
+  .invoice-actions {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+  .stripe-btn, .pdf-btn {
+    width: 100%;
+  }
 }
 </style>
