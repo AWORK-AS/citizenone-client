@@ -814,6 +814,7 @@
                 "lock": "Lås journal",
                 "move": "Flyt",
                 "removeFromFavorite": "Fjern fra favoritter",
+                "share": "Del",
                 "unlock": "Lås journal op"
             },
             "alert": {
@@ -927,7 +928,13 @@
                 "moveJournal": "Flyt journal"
             },
             "newNote": "Nyt notat",
-            "on": "Den"
+            "on": "Den",
+            "shareJournal": {
+                "form": {
+                    "password": "Adgangskode"
+                },
+                "shareJournal": "Del journal"
+            }
         },
         "confirmation": {
             "archiveConfirmation": "Er du sikker på, at du vil arkivere denne borger"

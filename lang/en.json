@@ -814,6 +814,7 @@
                 "lock": "Lock journal",
                 "move": "Move",
                 "removeFromFavorite": "Remove from favorite",
+                "share": "Share",
                 "unlock": "Unlock journal"
             },
             "alert": {
@@ -927,7 +928,13 @@
                 "moveJournal": "Move journal"
             },
             "newNote": "New note",
-            "on": "On"
+            "on": "On",
+            "shareJournal": {
+                "form": {
+                    "password": "Password"
+                },
+                "shareJournal": "Share journal"
+            }
         },
         "confirmation": {
             "archiveConfirmation": "Are you sure you want to archive this citizen"
