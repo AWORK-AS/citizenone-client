@@ -83,9 +83,10 @@ async function submitForm() {
         try {
             const journalUuid = props?.selectedJournal?.uuid
             const params = {
+                journal_uuids: [journalUuid],
                 password: state.formShare.password,
             }
-            const response = await journalService.shareJournal(journalUuid, params)
+            const response = await journalService.shareJournal(params)
             if (response) {
                 state.selectedJournal = response
             }

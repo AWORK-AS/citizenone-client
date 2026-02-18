@@ -57,8 +57,8 @@ class JournalService extends BaseAPIService {
         return await this.request(`/user/citizen-journals/deleted/histories`, 'GET', params)
     }
 
-    async shareJournal(journalUuid: any, params: object): Promise<any> {
-        return await this.request(`/user/citizen-journals/${journalUuid}/share`, 'POST', params)
+    async shareJournal(params: object): Promise<any> {
+        return await this.request(`/user/citizen-journals/share/journal`, 'POST', params)
     }
 }
 
