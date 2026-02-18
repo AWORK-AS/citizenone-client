@@ -1947,5 +1947,8 @@ function openUserNormPeriodModal(employee: any) {
     state.modal.isUserNormPeriodOpen = true
 }
 
-defineExpose({ refreshSchedule: fetchDutySchedule })
+defineExpose({
+    refreshSchedule: fetchDutySchedule,
+    getScheduleEmployees: () => state.weeklySchedules?.data || [],
+})
 </script>
