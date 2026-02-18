@@ -930,7 +930,10 @@
             "newNote": "New note",
             "on": "On",
             "shareJournal": {
+                "citizenJournal": "Citizen journal",
                 "form": {
+                    "unlock": "Unlock",
+                    "unlockJournal": "Unlock journal",
                     "password": "Password"
                 },
                 "shareJournal": "Share journal"

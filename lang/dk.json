@@ -930,7 +930,10 @@
             "newNote": "Nyt notat",
             "on": "Den",
             "shareJournal": {
+                "citizenJournal": "Borgerjournal",
                 "form": {
+                    "unlock": "Lås op",
+                    "unlockJournal": "Lås op for journal",
                     "password": "Adgangskode"
                 },
                 "shareJournal": "Del journal"
