@@ -156,12 +156,7 @@ async function downloadTimeLogs() {
         const response = await timeLogService.downloadTimeLog(params)
         if (response) {
             if (response) {
-                if (state.formDownload.download_type === 'csv') {
-                    const file = new Blob([response], { type: 'text/csv;charset=utf-8;' })
-                    saveAs(file, `${customPagesStore.getCustomPagesName?.dutySchedules?.replaceAll(' ', '-')}.csv`)
-                } else {
-                    saveAs(response, `${customPagesStore.getCustomPagesName?.dutySchedules?.replaceAll(' ', '-')}`)
-                }
+                saveAs(response, `${t('timeLogs.timeLogs')?.replaceAll(' ', '-')}`)
             }
         }
     } catch (error: any) {
