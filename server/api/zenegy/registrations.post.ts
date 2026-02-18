@@ -7,7 +7,7 @@ export default defineEventHandler(async (event) => {
   const body = await readBody(event)
 
   try {
-    return await $fetch(`${baseURL}/zenegy/sync-users`, {
+    return await $fetch(`${baseURL}/zenegy/registrations/bulk`, {
       method: 'POST',
       headers: {
         'Authorization': `Bearer ${token}`,
@@ -16,9 +16,11 @@ export default defineEventHandler(async (event) => {
       body,
     })
   } catch (error: any) {
+    const responseData = error?.data || error?.response?._data || null
+    console.error('[Zenegy registrations] Backend error:', JSON.stringify(responseData))
     throw createError({
       statusCode: error.statusCode || 500,
-      message: error.message || 'Failed to sync Zenegy users',
+      message: JSON.stringify(responseData) || error.message || 'Failed to sync registrations to Zenegy',
     })
   }
 })

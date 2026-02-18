@@ -35,18 +35,26 @@ class ZenegyService extends BaseAPIService {
         })
     }
 
-    async syncUsers(employees: any[], departmentUuid?: string): Promise<any> {
+    async getRates(): Promise<any> {
         const token = localStorage.getItem('_token')
-        return await $fetch('/api/zenegy/sync-users', {
+        return await $fetch('/api/zenegy/rates', {
+            method: 'GET',
+            headers: {
+                'Authorization': `Bearer ${token}`,
+                'Accept': 'application/json',
+            },
+        })
+    }
+
+    async syncRegistrations(registrations: any[]): Promise<any> {
+        const token = localStorage.getItem('_token')
+        return await $fetch('/api/zenegy/registrations', {
             method: 'POST',
             headers: {
                 'Authorization': `Bearer ${token}`,
                 'Accept': 'application/json',
             },
-            body: {
-                employees,
-                department_uuid: departmentUuid,
-            },
+            body: { registrations },
         })
     }
 }
