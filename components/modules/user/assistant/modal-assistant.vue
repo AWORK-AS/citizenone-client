@@ -1,68 +1,98 @@
 <template>
     <div>
-        <Modal size="xl" :title="$t('assistants.askAI')" :show="props.isModalOpen" @close="closeModal">
+        <Modal size="xl" :title="$t('assistants.askAI')" titleIcon="ph:lightbulb" :show="props.isModalOpen"
+            @close="closeModal">
             <template #modal-body>
                 <Alert type="danger" :text="state?.error?.message"
                     v-if="state.error?.message && state.error.message.length > 0" />
-                <div class="space-y-5 text-sm text-gray-700">
-                    <!-- Chatbot Container -->
-                    <div class="flex flex-col h-[60vh] overflow-hidden border border-gray-300 rounded-lg">
-                        <!-- Chat messages -->
-                        <div class="flex-1 overflow-y-auto p-4 space-y-3">
-                            <div v-for="(message, index) in state.messages" :key="index"
-                                :class="message.type === 'user' ? 'text-right' : 'text-left'">
-                                <div
-                                    :class="message.type === 'user' ? 'bg-secondary text-white p-1 rounded-lg' : 'bg-gray-200 p-1 rounded-lg'">
-                                    <!-- Attached files -->
-                                    <div v-if="message.files && message.files.length > 0"
-                                        class="flex flex-wrap gap-2 px-3 pt-2 pb-1"
-                                        :class="message.type === 'user' ? 'justify-end' : 'justify-start'">
-                                        <div v-for="(file, fIdx) in message.files" :key="fIdx"
-                                            class="flex items-center gap-1.5 text-xs px-2 py-1.5 rounded"
-                                            :class="message.type === 'user' ? 'bg-white/20 text-white' : 'bg-white text-gray-700'">
-                                            <span class="max-w-[150px] truncate">{{ file.name }}</span>
+                <div class="flex flex-col h-[68vh] bg-transparent -mx-4 -mb-4 sm:-mx-6 sm:-mb-6">
+                    <!-- Chat container -->
+                    <div class="flex-1 overflow-y-auto scroll-smooth">
+                        <div class="max-w-3xl mx-auto px-4 py-6 space-y-6">
+                            <div v-for="(message, index) in state.messages" :key="index">
+                                <!-- User message -->
+                                <div v-if="message.type === 'user'" class="flex justify-end">
+                                    <div class="max-w-[80%]">
+                                        <div v-if="message.files && message.files.length > 0"
+                                            class="flex flex-wrap gap-1.5 justify-end mb-1.5">
+                                            <div v-for="(file, fIdx) in message.files" :key="fIdx"
+                                                class="flex items-center gap-1.5 text-xs bg-primary/10 text-primary px-2.5 py-1.5 rounded-lg">
+                                                <Icon name="ph:file" class="h-3.5 w-3.5 shrink-0" />
+                                                <span class="max-w-[150px] truncate">{{ file.name }}</span>
+                                            </div>
                                         </div>
+                                        <div class="bg-[#f0f0f0] text-gray-800 px-4 py-2.5 rounded-2xl rounded-br-md text-sm leading-relaxed"
+                                            v-html="formatMessage(message?.text)" />
                                     </div>
-                                    <p class="px-4 py-2 rounded-lg inline-block"
-                                        v-html="formatMessage(message?.text)" />
+                                </div>
+                                <div v-else class="flex items-start gap-3">
+                                    <div
+                                        class="shrink-0 w-8 h-8 rounded-full bg-primary flex items-center justify-center mt-0.5 shadow-sm">
+                                        <Icon name="ph:lightbulb" class="h-4 w-4 text-white" />
+                                    </div>
+                                    <div class="flex-1 min-w-0">
+                                        <div class="text-xs font-medium text-gray-400 mb-1">Ask AI</div>
+                                        <div class="text-sm text-gray-800 leading-relaxed"
+                                            v-html="formatMessage(message?.text)" />
+                                    </div>
                                 </div>
                             </div>
-                            <div class="bg-gray-200 p-1 rounded-lg" v-if="state.isGeneratingResponse">
-                                <span class="pl-4 py-2 rounded-lg inline-block">
-                                    {{ $t('assistants.generatingResponse') }}
-                                </span>
-                                <span class="dot1">.</span>
-                                <span class="dot2">.</span>
-                                <span class="dot3">.</span>
-                                <span class="dot4">.</span>
-                                <span class="dot5">.</span>
+                            <div v-if="state.isGeneratingResponse" class="flex items-start gap-3">
+                                <div
+                                    class="shrink-0 w-8 h-8 rounded-full bg-primary flex items-center justify-center mt-0.5 shadow-sm">
+                                    <Icon name="ph:lightbulb" class="h-4 w-4 text-white" />
+                                </div>
+                                <div class="flex-1">
+                                    <div class="flex items-center gap-0.5 py-2">
+                                        <span class="dot1">.</span>
+                                        <span class="dot2">.</span>
+                                        <span class="dot3">.</span>
+                                        <span class="dot4">.</span>
+                                        <span class="dot5">.</span>
+                                    </div>
+                                </div>
                             </div>
                         </div>
-                        <div v-if="state.files.length > 0"
-                            class="flex flex-wrap gap-2 px-3 pt-2 border-t border-gray-300">
-                            <div v-for="(file, index) in state.files" :key="index"
-                                class="flex items-center gap-1 bg-gray-100 text-xs text-gray-700 px-2 py-3 rounded">
-                                <Icon name="ph:file" class="h-3.5 w-3.5" />
-                                <span class="max-w-[150px] truncate">{{ file.name }}</span>
-                                <button type="button" @click="removeFile(index)"
-                                    class="text-gray-400 hover:text-red-500">
-                                    <Icon name="ph:x" class="h-3.5 w-3.5" />
+                    </div>
+                    <!-- Input area -->
+                    <div class="border-t border-gray-100 bg-white px-4 py-3">
+                        <div class="max-w-2xl mx-auto">
+                            <div v-if="state.files.length > 0" class="flex flex-wrap gap-1.5 mb-2">
+                                <div v-for="(file, index) in state.files" :key="index"
+                                    class="flex items-center gap-1.5 bg-gray-100 text-xs text-gray-600 pl-2.5 pr-1.5 py-1.5 rounded-lg">
+                                    <Icon name="ph:file" class="h-3.5 w-3.5 text-gray-400" />
+                                    <span class="max-w-[150px] truncate">{{ file.name }}</span>
+                                    <button type="button" @click="removeFile(index)"
+                                        class="text-gray-300 hover:text-red-500 hover:bg-red-50 rounded p-0.5 transition-colors">
+                                        <Icon name="ph:x" class="h-3 w-3" />
+                                    </button>
+                                </div>
+                            </div>
+                            <div
+                                class="flex items-center gap-2 bg-gray-50 border border-gray-200 rounded-2xl
+                                focus-within:border-primary/40 focus-within:ring-2 focus-within:ring-primary/10 transition-all px-3 py-1.5">
+
+                                <input ref="fileInput" type="file" multiple
+                                    accept=".pdf,.doc,.docx,.xls,.xlsx,.csv,.txt,.jpg,.jpeg,.png" class="hidden"
+                                    @change="onFilesSelected" />
+                                <button type="button" @click="($refs.fileInput as HTMLInputElement).click()"
+                                    class="shrink-0 px-1.5 pt-2 text-gray-400 hover:text-primary hover:bg-primary/5 rounded-lg transition-colors">
+                                    <Icon name="ph:paperclip" class="h-5 w-5" />
+                                </button>
+                                <div class="flex-1 [&_input]:border-none [&_input]:shadow-none [&_input]:bg-transparent [&_input]:ring-0
+                                    [&_input]:focus:ring-0 [&_input]:focus:border-none [&_input]:h-9 [&_input]:px-0">
+                                    <FormTextField id="prompt" name="prompt" :placeholder="$t('assistants.askAnything')"
+                                        v-model="state.newMessage" @keydown.enter="sendMessage" />
+                                </div>
+                                <button type="button" @click="sendMessage"
+                                    :disabled="!state.newMessage.trim() && state.files.length === 0"
+                                    class="shrink-0 w-8 h-8 flex items-center justify-center rounded-lg transition-all disabled:cursor-not-allowed"
+                                    :class="state.newMessage.trim() || state.files.length > 0
+                                        ? 'bg-primary text-white hover:bg-primary/90 shadow-sm'
+                                        : 'bg-gray-200 text-gray-400'">
+                                    <Icon name="ph:paper-plane-tilt" class="h-5 w-5" />
                                 </button>
                             </div>
-                        </div>
-                        <!-- Chat Input -->
-                        <div class="flex items-center gap-x-2 p-2 border-t border-gray-300">
-                            <input ref="fileInput" type="file" multiple
-                                accept=".pdf,.doc,.docx,.xls,.xlsx,.csv,.txt,.jpg,.jpeg,.png" class="hidden"
-                                @change="onFilesSelected" />
-                            <button type="button" @click="($refs.fileInput as HTMLInputElement).click()">
-                                <Icon name="ph:paperclip" class="h-5 w-5 mx-2 cursor-pointer hover:text-secondary" />
-                            </button>
-                            <FormTextField id="prompt" name="prompt" :placeholder="$t('assistants.askAnything')"
-                                v-model="state.newMessage" @keydown.enter="sendMessage" />
-                            <FormButton buttonStyle="primary" @click="sendMessage">
-                                {{ $t('assistants.send') }}
-                            </FormButton>
                         </div>
                     </div>
                 </div>
@@ -112,6 +142,7 @@ watch(() => props.isModalOpen, (isModalOpen: boolean) => {
 })
 
 async function sendMessage() {
+    if (!state.newMessage.trim() && state.files.length === 0) return
     state.error = {}
     state.isGeneratingResponse = true
     try {
@@ -140,10 +171,15 @@ async function sendMessage() {
 
         const response = await aIAssistantService.sendMessage(params)
         if (response) {
-            if (JSON.parse(response)?.output?.[0]?.content?.[0]?.text) {
+            if (JSON.parse(response)?.choices?.[0]?.message?.content) {
                 state.messages.push({
                     type: 'bot',
-                    text: JSON.parse(response)?.output?.[0]?.content?.[0]?.text,
+                    text: JSON.parse(response)?.choices?.[0]?.message?.content,
+                })
+            } else if (JSON.parse(response)?.data?.[0]?.content?.[0]?.text?.value) {
+                state.messages.push({
+                    type: 'bot',
+                    text: JSON.parse(response)?.data?.[0]?.content?.[0]?.text?.value,
                 })
             }
         }
@@ -155,12 +191,12 @@ async function sendMessage() {
 
 function formatMessage(messageText: string) {
     // Example format: If the message contains a structured citizen list, format it
-    const formattedMessage = messageText.replace(/---/g, '<hr/>') // Replace "---" with horizontal line
-        .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>') // Bold the text wrapped in **
-        .replace(/\*\[(.*?)\]\(.*?\)/g, '<a href="#">$1</a>') // Make links clickable
-        .replace(/\n/g, '<br/>') // Replace newlines with <br/>
+    // const formattedMessage = messageText.replace(/---/g, '<hr/>') // Replace "---" with horizontal line
+    //     .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>') // Bold the text wrapped in **
+    //     .replace(/\*\[(.*?)\]\(.*?\)/g, '<a href="#">$1</a>') // Make links clickable
+    //     .replace(/\n/g, '<br/>') // Replace newlines with <br/>
 
-    return formattedMessage
+    return messageText
 }
 function getTotalFilesSize(files: File[]) {
     return files.reduce((total, file) => total + file.size, 0)
