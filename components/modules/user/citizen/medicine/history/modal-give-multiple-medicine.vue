@@ -16,7 +16,7 @@
                             </div>
                             <Alert type="danger" :text="$t('citizens.medicineJournals.history.form.noMedicineToday')"
                                 v-if="state.formGiveMedicine.medicines?.length === 0" />
-                            <div class="table-responsive">
+                            <div class="table-responsive" v-if="state.formGiveMedicine.medicines?.length > 0">
                                 <div class="table-responsive">
                                     <Table :columnHeaders="state.columnHeaders" :data="state.formGiveMedicine.medicines"
                                         :isLoading="false" :sortData="state.sortData">
@@ -308,7 +308,8 @@
                                     @click="emit('close')">
                                     {{ $t('cancel') }}
                                 </FormButton>
-                                <FormButton type="submit" buttonStyle="primary" class="rounded-md w-full">
+                                <FormButton type="submit" buttonStyle="primary" class="rounded-md w-full"
+                                    v-if="state.formGiveMedicine.medicines?.length > 0">
                                     {{ $t('save') }}
                                 </FormButton>
                             </div>
