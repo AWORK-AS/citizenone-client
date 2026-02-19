@@ -163,32 +163,9 @@ async function sendMessage() {
             files: attachedFiles,
         })
 
-        let params: FormData | object
+        const formData = processPayload()
 
-        if (state.files.length > 0) {
-            const formData = new FormData()
-            formData.append('prompt', state.newMessage)
-            if (state.aiElements.conversationId) {
-                formData.append('conversation_id', state.aiElements.conversationId)
-            }
-            if (state.aiElements.vectorStoreId) {
-                formData.append('vector_store_id', state.aiElements.vectorStoreId)
-            }
-            state.files.forEach((file) => {
-                formData.append('files[]', file)
-            })
-            params = formData
-        } else {
-            params = {
-                prompt: state.newMessage,
-                conversation_id: state.aiElements.conversationId,
-            }
-        }
-
-        state.newMessage = ''
-        state.files = []
-
-        const response = await aIAssistantService.sendMessage(params)
+        const response = await aIAssistantService.sendMessage(formData)
         if (response && response.output) {
             const messageOutput = response.output.find((item: any) => item.type === 'message');
             
@@ -261,6 +238,28 @@ function clearAiElements() {
     state.aiElements.conversationId = null
     state.aiElements.vectorStoreId = null
     state.aiElements.fileIds = []
+}
+
+function processPayload(){
+    const formData = new FormData()
+
+    formData.append('prompt', state.newMessage)
+    if (state.aiElements.conversationId) {
+        formData.append('conversation_id', state.aiElements.conversationId)
+    }
+    if (state.aiElements.vectorStoreId) {
+        formData.append('vector_store_id', state.aiElements.vectorStoreId)
+    }
+    if (state.files.length > 0) {
+        state.files.forEach((file) => {
+            formData.append('files[]', file)
+        })
+    }
+
+    state.newMessage = ''
+    state.files = []
+
+    return formData
 }
 </script>
 
