@@ -2491,6 +2491,22 @@
                     "donNotShowAgainInfo": "Skjul bekræftelsesdialogen indtil næste session.",
                     "confirm": "Bekræft"
                 }
+            },
+            "preset": {
+                "saveAsPreset": "Gem som forudindstilling",
+                "applyPreset": "Anvend forudindstilling",
+                "viewPresets": "Se forudindstillinger",
+                "saveCurrentDraftAsPreset": "Gem nuværende kladde som forudindstilling",
+                "form": {
+                    "name": "Navn på forudindstilling",
+                    "description": "Beskrivelse",
+                    "dateStart": "Kladde startdato",
+                    "dateEnd": "Kladde slutdato",
+                    "presetDateRange": "Forudindstillingens datointerval",
+                    "affectedDepartments": "Berørte afdelinger",
+                    "affectedUsers": "Berørte brugere"
+                },
+                "saveSuccess": "Forudindstilling for vagtplanskladde gemt med succes!"
             }
         },
         "normPeriod": "Norm periode",

@@ -54,6 +54,14 @@
                         <Icon name="ph:note" class="h-4 w-4" aria-hidden="true" />
                         {{ $t('dutySchedules.draftTemplates.draftTemplates') }}
                     </FormButton>
+                    <FormButton buttonStyle="action" class="rounded-lg" @click="">
+                        <Icon name="ph:list-dashes-bold" class="h-4 w-4" aria-hidden="true" />
+                        {{ $t('dutySchedules.draft.preset.viewPresets') }}
+                    </FormButton>
+                    <FormButton buttonStyle="action" class="rounded-lg" @click="state.modal.isSaveAsPresetOpen = true">
+                        <Icon name="ph:floppy-disk" class="h-4 w-4" aria-hidden="true" />
+                        {{ $t('dutySchedules.draft.preset.saveAsPreset') }}
+                    </FormButton>
                     <FormButton buttonStyle="action" class="rounded-lg" @click="state.modal.isPublishDraftOpen = true">
                         <Icon name="ph:check" class="h-4 w-4" aria-hidden="true" />
                         {{ $t('dutySchedules.draft.publish') }}
@@ -78,6 +86,8 @@
                 :isModalOpen="state.modal.isSelectDepartmentModalOpen"
                 @close="state.modal.isSelectDepartmentModalOpen = false"
                 @select-department="selectDepartment" />
+            <ModulesUserDutySchedulePresetsModalNew :isModalOpen="state.modal.isSaveAsPresetOpen"
+                @close="state.modal.isSaveAsPresetOpen = false" />
         </NuxtLayout>
     </div>
 </template>
@@ -97,6 +107,7 @@ const state = reactive({
         isPublishDraftOpen: false,
         isShowAllShiftTypes: false,
         isSelectDepartmentModalOpen: false,
+        isSaveAsPresetOpen: false,
     },
 })
 
