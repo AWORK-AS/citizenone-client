@@ -2400,6 +2400,12 @@
         }
     },
     "dutySchedules": {
+        "zenegy_hours_let": "h",
+        "zenegy_shifts": "shifts",
+        "zenegy_assign_rates_description": "Assign a Zenegy rate to each shift type per employee.",
+        "zenegy_unknown_shift": "Unknown shift",
+        "date": "Shift Date",
+        "zenegy_employee": "Employee",
         "zenegy_sync": "Sync to Zenegy",
         "zenegy_date_range": "Date range",
         "zenegy_select_date_range": "Select date range",

@@ -2400,6 +2400,12 @@
         }
     },
     "dutySchedules": {
+        "zenegy_hours_let": "t",
+        "zenegy_shifts": "vagter",
+        "zenegy_assign_rates_description": "Tildel en Zenegy-sats til hver vagttype pr. medarbejder.",
+        "zenegy_unknown_shift": "Ukendt vagt",
+        "date": "Vagt dato",
+        "zenegy_employee": "Medarbejder",
         "zenegy_sync": "Synkroniser til Zenegy",
         "zenegy_date_range": "Datointerval",
         "zenegy_select_date_range": "Vælg datointerval",
