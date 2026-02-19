@@ -173,6 +173,65 @@
                                 </div>
                             </div>
                         </div>
+
+                        <!-- Supplement & Deduction Rate Assignments -->
+                        <div v-if="state.employeeExtraHoursTypes.length > 0" class="mt-4 space-y-3">
+                            <p class="text-sm font-medium text-gray-700">
+                                {{ $t('dutySchedules.zenegy_supplement_rates_title') }}
+                            </p>
+                            <p class="text-xs text-gray-500">
+                                {{ $t('dutySchedules.zenegy_supplement_rates_description') }}
+                            </p>
+                            <div class="max-h-72 space-y-3 overflow-y-auto">
+                                <div v-for="emp in state.employeeExtraHoursTypes" :key="emp.employeeUuid"
+                                    class="rounded-md border border-gray-200 p-3">
+                                    <p class="text-sm font-medium">{{ emp.employeeName }}</p>
+                                    <div class="mt-2 space-y-2">
+                                        <div v-for="entry in emp.extraHoursEntries" :key="entry.type"
+                                            class="flex items-center gap-x-3 text-sm">
+                                            <span class="shrink-0">
+                                                <span v-if="entry.type === 'add'"
+                                                    class="inline-flex items-center gap-1 text-green-700">
+                                                    <Icon name="ph:plus-circle" class="h-4 w-4" />
+                                                    {{ $t('dutySchedules.zenegy_supplement') }}
+                                                </span>
+                                                <span v-else
+                                                    class="inline-flex items-center gap-1 text-red-700">
+                                                    <Icon name="ph:minus-circle" class="h-4 w-4" />
+                                                    {{ $t('dutySchedules.zenegy_deduction') }}
+                                                </span>
+                                            </span>
+                                            <span class="text-xs text-gray-400">
+                                                ({{ entry.entryCount }}
+                                                {{ entry.entryCount === 1
+                                                    ? $t('dutySchedules.zenegy_entry')
+                                                    : $t('dutySchedules.zenegy_entries') }},
+                                                {{ entry.totalUnits }}{{ $t('dutySchedules.zenegy_hours_let') }})
+                                            </span>
+                                            <select v-model="entry.selectedSupplementRateUid"
+                                                class="ml-auto max-w-[220px] rounded border border-gray-300 px-2 py-1 text-xs">
+                                                <option value="" disabled>
+                                                    {{ $t('dutySchedules.zenegy_select_rate') }}
+                                                </option>
+                                                <template v-if="entry.type === 'add'">
+                                                    <option v-for="rate in emp.availableSupplementRates"
+                                                        :key="rate.uid" :value="rate.uid">
+                                                        {{ rate.name }}
+                                                    </option>
+                                                </template>
+                                                <template v-else>
+                                                    <option v-for="rate in emp.availableDeductionRates"
+                                                        :key="rate.uid" :value="rate.uid">
+                                                        {{ rate.name }}
+                                                    </option>
+                                                </template>
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
                         <div class="mt-4 grid grid-cols-2 gap-3">
                             <FormButton type="button" buttonStyle="cancel" class="rounded-md"
                                 @click="state.syncStep = 'configure'">
@@ -190,9 +249,9 @@
                     <div v-else-if="state.syncStep === 'review'" class="space-y-4">
                         <p class="text-sm text-gray-600">
                             {{ $t('dutySchedules.zenegy_review_description', { count:
-                                state.registrationsPreview.length }) }}
+                                state.registrationsPreview.length + state.supplementRegistrationsPreview.length }) }}
                         </p>
-                        <div v-if="state.registrationsPreview.length > 0"
+                        <div v-if="state.registrationsPreview.length > 0 || state.supplementRegistrationsPreview.length > 0"
                             class="max-h-96 divide-y divide-gray-200 overflow-y-auto rounded-md border border-gray-200">
                             <div v-for="group in groupedRegistrations" :key="group.userUid">
                                 <!-- Employee summary row -->
@@ -201,19 +260,47 @@
                                     <Icon name="ph:caret-right"
                                         :class="['h-4 w-4 shrink-0 transition-transform', state.expandedEmployees.has(group.userUid) ? 'rotate-90' : '']" />
                                     <span class="text-sm font-medium">{{ group.employeeName }}</span>
-                                    <span class="rounded-full bg-gray-100 px-2 py-0.5 text-xs text-gray-600">
-                                        {{ group.registrations.length }} {{ $t('dutySchedules.zenegy_shifts') }}
+                                    <span v-if="group.hourRegistrations.length > 0"
+                                        class="rounded-full bg-gray-100 px-2 py-0.5 text-xs text-gray-600">
+                                        {{ group.hourRegistrations.length }} {{ $t('dutySchedules.zenegy_shifts') }}
                                     </span>
-                                    <span class="ml-auto text-sm text-gray-500">{{ group.totalHours }}{{ $t('dutySchedules.zenegy_hours_let') }}</span>
+                                    <span v-if="group.supplementRegistrations.length > 0"
+                                        class="rounded-full bg-blue-50 px-2 py-0.5 text-xs text-blue-600">
+                                        {{ group.supplementRegistrations.length }} {{ $t('dutySchedules.zenegy_supplements') }}
+                                    </span>
+                                    <span class="ml-auto text-sm text-gray-500">
+                                        <span v-if="group.totalHours > 0">{{ group.totalHours }}{{ $t('dutySchedules.zenegy_hours_let') }}</span>
+                                        <span v-if="group.totalHours > 0 && (group.totalSupplementUnits > 0 || group.totalDeductionUnits > 0)"> | </span>
+                                        <span v-if="group.totalSupplementUnits > 0" class="text-green-600">+{{ group.totalSupplementUnits }}{{ $t('dutySchedules.zenegy_hours_let') }}</span>
+                                        <span v-if="group.totalSupplementUnits > 0 && group.totalDeductionUnits > 0"> </span>
+                                        <span v-if="group.totalDeductionUnits > 0" class="text-red-600">-{{ group.totalDeductionUnits }}{{ $t('dutySchedules.zenegy_hours_let') }}</span>
+                                    </span>
                                 </div>
-                                <!-- Expanded detail rows -->
-                                <table v-if="state.expandedEmployees.has(group.userUid)" class="w-full text-sm">
+                                <!-- Expanded detail rows (combined table) -->
+                                <table v-if="state.expandedEmployees.has(group.userUid) && (group.hourRegistrations.length > 0 || group.supplementRegistrations.length > 0)"
+                                    class="w-full text-sm">
+                                    <colgroup>
+                                        <col style="width: 25%" />
+                                        <col style="width: 25%" />
+                                        <col style="width: 35%" />
+                                        <col style="width: 15%" />
+                                    </colgroup>
                                     <tbody class="divide-y divide-gray-50">
-                                        <tr v-for="(reg, i) in group.registrations" :key="i" class="bg-gray-50/50">
+                                        <tr v-for="(reg, i) in group.hourRegistrations" :key="'h-' + i" class="bg-gray-50/50">
                                             <td class="py-1.5 pl-9 pr-3">{{ reg.date }}</td>
                                             <td class="px-3 py-1.5">{{ reg.shiftTypeName }}</td>
                                             <td class="px-3 py-1.5 text-xs text-gray-500">{{ getRateName(reg.hourPaymentRateUid) }}</td>
                                             <td class="px-3 py-1.5 text-right">{{ reg.hours }}{{ $t('dutySchedules.zenegy_hours_let') }}</td>
+                                        </tr>
+                                        <tr v-for="(reg, i) in group.supplementRegistrations" :key="'s-' + i"
+                                            :class="reg.type === 'add' ? 'bg-green-50/30' : 'bg-red-50/30'">
+                                            <td class="py-1.5 pl-9 pr-3">{{ reg.date }}</td>
+                                            <td class="px-3 py-1.5">
+                                                <span v-if="reg.type === 'add'" class="text-green-700">{{ $t('dutySchedules.zenegy_supplement') }}</span>
+                                                <span v-else class="text-red-700">{{ $t('dutySchedules.zenegy_deduction') }}</span>
+                                            </td>
+                                            <td class="px-3 py-1.5 text-xs text-gray-500">{{ reg.rateName }}</td>
+                                            <td class="px-3 py-1.5 text-right">{{ reg.units }}{{ $t('dutySchedules.zenegy_hours_let') }}</td>
                                         </tr>
                                     </tbody>
                                 </table>
@@ -228,8 +315,9 @@
                                 {{ $t('back') }}
                             </FormButton>
                             <FormButton type="button" buttonStyle="primary" class="rounded-md"
-                                :disabled="state.registrationsPreview.length === 0" @click="executeSyncToZenegy">
-                                {{ $t('dutySchedules.zenegy_sync') }} ({{ state.registrationsPreview.length }})
+                                :disabled="state.registrationsPreview.length === 0 && state.supplementRegistrationsPreview.length === 0"
+                                @click="executeSyncToZenegy">
+                                {{ $t('dutySchedules.zenegy_sync') }} ({{ state.registrationsPreview.length + state.supplementRegistrationsPreview.length }})
                             </FormButton>
                         </div>
                     </div>
@@ -240,7 +328,7 @@
                         <p class="text-lg font-medium">{{ $t('dutySchedules.zenegy_sync_success') }}</p>
                         <p class="text-sm text-gray-500">
                             {{ $t('dutySchedules.zenegy_sync_result_count', { count:
-                                state.registrationsPreview.length }) }}
+                                state.registrationsPreview.length + state.supplementRegistrationsPreview.length }) }}
                         </p>
                         <FormButton type="button" buttonStyle="primary" class="rounded-md"
                             @click="state.modal.isZenegySyncOpen = false">
@@ -261,6 +349,7 @@ import { useCustomPagesStore } from '@/store/custom-pages'
 import { useDepartmentStore } from '@/store/department'
 import { zenegyService } from '@/components/api/user/ZenegyService'
 import { dutyScheduleService } from '@/components/api/user/DutyScheduleService'
+import { extraHoursService } from '@/components/api/user/ExtraHoursService'
 import { useAlert } from '@/composables/alert'
 import { useI18n } from 'vue-i18n'
 
@@ -291,6 +380,7 @@ const state = reactive({
     scheduleEmployees: [] as Array<{
         uuid: string; firstname: string; lastname: string;
         selected: boolean; matchedZenegyUserUid: string | null;
+        matchedZenegyEmployeeUid: string | null;
     }>,
     selectAllEmployees: true,
     zenegyEmployeesRaw: [] as any[],
@@ -309,6 +399,26 @@ const state = reactive({
         from: string; to: string; hours: number;
         userUid: string; hourPaymentRateUid: string;
     }>,
+    // Supplement/deduction state
+    zenegySupplementRatesRaw: [] as any[],
+    fetchedExtraHoursData: [] as any[],
+    employeeExtraHoursTypes: [] as Array<{
+        employeeUuid: string; employeeName: string;
+        zenegyUserUid: string; zenegyEmployeeUid: string;
+        extraHoursEntries: Array<{
+            type: 'add' | 'deduct';
+            entryCount: number;
+            totalUnits: number;
+            selectedSupplementRateUid: string;
+        }>;
+        availableSupplementRates: Array<{ uid: string; name: string }>;
+        availableDeductionRates: Array<{ uid: string; name: string }>;
+    }>,
+    supplementRegistrationsPreview: [] as Array<{
+        employeeName: string; date: string; type: 'add' | 'deduct';
+        units: number; rateUid: string; rateName: string; rate: number;
+        zenegyEmployeeUid: string; zenegyUserUid: string; note: string;
+    }>,
     syncResult: null as any,
     expandedEmployees: new Set<string>(),
 })
@@ -321,11 +431,15 @@ const matchedEmployeeCount = computed(() =>
     state.scheduleEmployees.filter(e => e.matchedZenegyUserUid).length
 )
 
-const allShiftTypesAssigned = computed(() =>
-    state.employeeShiftTypes.every(emp =>
+const allShiftTypesAssigned = computed(() => {
+    const hourRatesOk = state.employeeShiftTypes.every(emp =>
         emp.shiftTypes.every(st => st.selectedRateUid)
     )
-)
+    const supplementRatesOk = state.employeeExtraHoursTypes.every(emp =>
+        emp.extraHoursEntries.every(entry => entry.selectedSupplementRateUid)
+    )
+    return hourRatesOk && supplementRatesOk
+})
 
 function getRateName(rateUid: string): string {
     const rate = state.zenegyRatesRaw.find((r: any) => (r.uid || r.id) === rateUid)
@@ -334,15 +448,43 @@ function getRateName(rateUid: string): string {
 }
 
 const groupedRegistrations = computed(() => {
-    const groups = new Map<string, { userUid: string; employeeName: string; registrations: typeof state.registrationsPreview; totalHours: number }>()
+    const groups = new Map<string, {
+        userUid: string; employeeName: string;
+        hourRegistrations: typeof state.registrationsPreview;
+        supplementRegistrations: typeof state.supplementRegistrationsPreview;
+        totalHours: number; totalSupplementUnits: number; totalDeductionUnits: number;
+    }>()
+
     for (const reg of state.registrationsPreview) {
         if (!groups.has(reg.userUid)) {
-            groups.set(reg.userUid, { userUid: reg.userUid, employeeName: reg.employeeName, registrations: [], totalHours: 0 })
+            groups.set(reg.userUid, {
+                userUid: reg.userUid, employeeName: reg.employeeName,
+                hourRegistrations: [], supplementRegistrations: [],
+                totalHours: 0, totalSupplementUnits: 0, totalDeductionUnits: 0,
+            })
         }
         const group = groups.get(reg.userUid)!
-        group.registrations.push(reg)
+        group.hourRegistrations.push(reg)
         group.totalHours = Math.round((group.totalHours + reg.hours) * 100) / 100
     }
+
+    for (const reg of state.supplementRegistrationsPreview) {
+        if (!groups.has(reg.zenegyUserUid)) {
+            groups.set(reg.zenegyUserUid, {
+                userUid: reg.zenegyUserUid, employeeName: reg.employeeName,
+                hourRegistrations: [], supplementRegistrations: [],
+                totalHours: 0, totalSupplementUnits: 0, totalDeductionUnits: 0,
+            })
+        }
+        const group = groups.get(reg.zenegyUserUid)!
+        group.supplementRegistrations.push(reg)
+        if (reg.type === 'add') {
+            group.totalSupplementUnits = Math.round((group.totalSupplementUnits + reg.units) * 100) / 100
+        } else {
+            group.totalDeductionUnits = Math.round((group.totalDeductionUnits + reg.units) * 100) / 100
+        }
+    }
+
     return Array.from(groups.values())
 })
 
@@ -381,35 +523,36 @@ function setDutyScheduleCurrentDate(selectedDate: any) {
 
 // --- Zenegy Sync Logic ---
 
-function matchEmployeeToZenegy(localEmployee: any, zenegyEmployees: any[]): string | null {
+function matchEmployeeToZenegy(localEmployee: any, zenegyEmployees: any[]): { zenegyUserUid: string; zenegyEmployeeUid: string } | null {
     for (const ze of zenegyEmployees) {
         const zenegyUid = ze.uid || ''
         const zenegyId = String(ze.id || '')
         const zenegyUserUid = ze.user?.uid || ze.uid || ''
+        const zenegyEmployeeUid = ze.uid || ''
         const zenegyEmail = (ze.contactEmail || ze.user?.email || '').toLowerCase().trim()
         const zenegyName = (ze.name || '').toLowerCase().trim()
 
         // 1. Match by zenegy_uid (UUID match)
         if (localEmployee.zenegy_uid && String(localEmployee.zenegy_uid) === zenegyUid) {
-            return zenegyUserUid
+            return { zenegyUserUid, zenegyEmployeeUid }
         }
         // 2. Match by zenegy_id (numeric ID match)
         if (localEmployee.zenegy_id && String(localEmployee.zenegy_id) === zenegyId) {
-            return zenegyUserUid
+            return { zenegyUserUid, zenegyEmployeeUid }
         }
         // 3. Match by employee_id
         if (localEmployee.employee_id && String(localEmployee.employee_id) === zenegyId) {
-            return zenegyUserUid
+            return { zenegyUserUid, zenegyEmployeeUid }
         }
         // 4. Email match
         const localEmail = (localEmployee.email || '').toLowerCase().trim()
         if (zenegyEmail && localEmail && zenegyEmail === localEmail) {
-            return zenegyUserUid
+            return { zenegyUserUid, zenegyEmployeeUid }
         }
         // 5. Name match
         const localName = `${localEmployee.firstname || ''} ${localEmployee.lastname || ''}`.toLowerCase().trim()
         if (zenegyName && localName && zenegyName.length > 2 && localName.length > 2 && zenegyName === localName) {
-            return zenegyUserUid
+            return { zenegyUserUid, zenegyEmployeeUid }
         }
     }
     return null
@@ -427,11 +570,16 @@ async function openZenegySyncModal() {
     state.sharedRates = []
     state.fetchedScheduleData = []
     state.employeeShiftTypes = []
+    state.zenegySupplementRatesRaw = []
+    state.fetchedExtraHoursData = []
+    state.employeeExtraHoursTypes = []
+    state.supplementRegistrationsPreview = []
 
     try {
-        const [zenegyEmployeesRes, zenegyRatesRes] = await Promise.all([
+        const [zenegyEmployeesRes, zenegyRatesRes, zenegySupplementRatesRes] = await Promise.all([
             zenegyService.getEmployees(),
             zenegyService.getRates(),
+            zenegyService.getSupplementRates(),
         ])
 
         // Store Zenegy employees
@@ -449,6 +597,10 @@ async function openZenegySyncModal() {
                 name: `${r.name}${r.number ? ` (${r.number})` : ''} - ${r.paymentPerRate} kr/t`,
             }))
 
+        // Store Zenegy supplement rates
+        const supplementRatesData = zenegySupplementRatesRes?.rates || zenegySupplementRatesRes?.data || []
+        state.zenegySupplementRatesRaw = Array.isArray(supplementRatesData) ? supplementRatesData : []
+
         // Build employee list from schedule and match to Zenegy
         const scheduleEmployees = weekViewRef.value?.getScheduleEmployees() || []
         state.scheduleEmployees = scheduleEmployees.map((emp: any) => {
@@ -458,7 +610,8 @@ async function openZenegySyncModal() {
                 firstname: emp.firstname || emp.firstName || '',
                 lastname: emp.lastname || emp.lastName || '',
                 selected: matched !== null,
-                matchedZenegyUserUid: matched,
+                matchedZenegyUserUid: matched?.zenegyUserUid || null,
+                matchedZenegyEmployeeUid: matched?.zenegyEmployeeUid || null,
             }
         })
         state.selectAllEmployees = state.scheduleEmployees
@@ -603,6 +756,111 @@ async function fetchAndBuildShiftTypes() {
                 }
             })
 
+        // Fetch approved extra hours for selected employees in date range
+        const extraHoursPromises = selectedEmployees.map(emp =>
+            extraHoursService.getExtraHours({
+                user_uuid: emp.uuid,
+                start_date: startDate,
+                end_date: endDate,
+                extra_hours_status: 'approved',
+                page_length: 500,
+            }).catch(() => ({ data: [] }))
+        )
+        const extraHoursResults = await Promise.all(extraHoursPromises)
+
+        const allExtraHours: any[] = []
+        extraHoursResults.forEach((result, index) => {
+            const entries = result?.data || []
+            if (Array.isArray(entries)) {
+                entries.forEach((entry: any) => {
+                    allExtraHours.push({
+                        ...entry,
+                        _localEmployeeUuid: selectedEmployees[index].uuid,
+                    })
+                })
+            }
+        })
+        state.fetchedExtraHoursData = allExtraHours
+
+        // Build supplement/deduction rate assignment data
+        const empExtraMap = new Map<string, {
+            name: string; zenegyUserUid: string; zenegyEmployeeUid: string;
+            addCount: number; addUnits: number; deductCount: number; deductUnits: number;
+        }>()
+
+        for (const eh of allExtraHours) {
+            const empUuid = eh._localEmployeeUuid || eh.user_uuid
+            if (!selectedEmployeeUuids.has(empUuid)) continue
+            const emp = selectedEmployees.find(e => e.uuid === empUuid)
+            if (!emp) continue
+
+            if (!empExtraMap.has(empUuid)) {
+                const empSchedule = allScheduleData.find((s: any) => s.uuid === empUuid)
+                const empName = empSchedule
+                    ? `${empSchedule.firstname || ''} ${empSchedule.lastname || ''}`.trim()
+                    : `${emp.firstname} ${emp.lastname}`.trim()
+                empExtraMap.set(empUuid, {
+                    name: empName,
+                    zenegyUserUid: emp.matchedZenegyUserUid!,
+                    zenegyEmployeeUid: emp.matchedZenegyEmployeeUid!,
+                    addCount: 0, addUnits: 0,
+                    deductCount: 0, deductUnits: 0,
+                })
+            }
+            const data = empExtraMap.get(empUuid)!
+            if (eh.extra_hours_type === 'add') {
+                data.addCount++
+                data.addUnits += Number(eh.extra_hours) || 0
+            } else if (eh.extra_hours_type === 'deduct') {
+                data.deductCount++
+                data.deductUnits += Number(eh.extra_hours) || 0
+            }
+        }
+
+        // Categorize supplement rates: type 1 = supplement, type 3 = deduction
+        const supplementRateOptions = state.zenegySupplementRatesRaw
+            .filter((r: any) => r.type === 1)
+            .map((r: any) => ({ uid: r.uid, name: `${r.name}${r.number ? ` (${r.number})` : ''}` }))
+        const deductionRateOptions = state.zenegySupplementRatesRaw
+            .filter((r: any) => r.type === 3)
+            .map((r: any) => ({ uid: r.uid, name: `${r.name}${r.number ? ` (${r.number})` : ''}` }))
+
+        state.employeeExtraHoursTypes = Array.from(empExtraMap.entries())
+            .filter(([_, data]) => data.addCount > 0 || data.deductCount > 0)
+            .map(([uuid, data]) => {
+                const entries: Array<{
+                    type: 'add' | 'deduct'; entryCount: number;
+                    totalUnits: number; selectedSupplementRateUid: string;
+                }> = []
+
+                if (data.addCount > 0) {
+                    entries.push({
+                        type: 'add',
+                        entryCount: data.addCount,
+                        totalUnits: Math.round(data.addUnits * 100) / 100,
+                        selectedSupplementRateUid: supplementRateOptions.length === 1 ? supplementRateOptions[0].uid : '',
+                    })
+                }
+                if (data.deductCount > 0) {
+                    entries.push({
+                        type: 'deduct',
+                        entryCount: data.deductCount,
+                        totalUnits: Math.round(data.deductUnits * 100) / 100,
+                        selectedSupplementRateUid: deductionRateOptions.length === 1 ? deductionRateOptions[0].uid : '',
+                    })
+                }
+
+                return {
+                    employeeUuid: uuid,
+                    employeeName: data.name,
+                    zenegyUserUid: data.zenegyUserUid,
+                    zenegyEmployeeUid: data.zenegyEmployeeUid,
+                    extraHoursEntries: entries,
+                    availableSupplementRates: supplementRateOptions,
+                    availableDeductionRates: deductionRateOptions,
+                }
+            })
+
         state.syncStep = 'assign-rates'
     } catch (e: any) {
         errorAlert(t('alert.error'), e?.message || 'Failed to load schedule data')
@@ -669,39 +927,114 @@ function buildRegistrationsPreview() {
     }
 
     state.registrationsPreview = registrations
+
+    // Build supplement registrations preview from extra hours
+    const supplementRateLookup = new Map<string, { rateUid: string; rateName: string; rate: number }>()
+    for (const emp of state.employeeExtraHoursTypes) {
+        for (const entry of emp.extraHoursEntries) {
+            const rateObj = state.zenegySupplementRatesRaw.find(
+                (r: any) => r.uid === entry.selectedSupplementRateUid
+            )
+            supplementRateLookup.set(`${emp.employeeUuid}::${entry.type}`, {
+                rateUid: entry.selectedSupplementRateUid,
+                rateName: rateObj?.name || '',
+                rate: rateObj?.rate || 0,
+            })
+        }
+    }
+
+    const supplementRegs: typeof state.supplementRegistrationsPreview = []
+    for (const eh of state.fetchedExtraHoursData) {
+        const empUuid = eh._localEmployeeUuid || eh.user_uuid
+        if (!selectedEmployeeUuids.has(empUuid)) continue
+
+        const emp = selectedEmployees.find(e => e.uuid === empUuid)
+        if (!emp) continue
+
+        const ehDate = moment(eh.date)
+        if (ehDate.isBefore(startMoment) || ehDate.isAfter(endMoment)) continue
+
+        const rateInfo = supplementRateLookup.get(`${empUuid}::${eh.extra_hours_type}`)
+        if (!rateInfo) continue
+
+        const empData = state.employeeExtraHoursTypes.find(e => e.employeeUuid === empUuid)
+
+        supplementRegs.push({
+            employeeName: empData?.employeeName || `${emp.firstname} ${emp.lastname}`.trim(),
+            date: eh.date,
+            type: eh.extra_hours_type,
+            units: Number(eh.extra_hours) || 0,
+            rateUid: rateInfo.rateUid,
+            rateName: rateInfo.rateName,
+            rate: rateInfo.rate,
+            zenegyEmployeeUid: emp.matchedZenegyEmployeeUid!,
+            zenegyUserUid: emp.matchedZenegyUserUid!,
+            note: eh.note || '',
+        })
+    }
+    state.supplementRegistrationsPreview = supplementRegs
+
     state.syncStep = 'review'
 }
 
 async function executeSyncToZenegy() {
-    if (state.registrationsPreview.length === 0) return
+    const hasHourRegs = state.registrationsPreview.length > 0
+    const hasSupplementRegs = state.supplementRegistrationsPreview.length > 0
+    if (!hasHourRegs && !hasSupplementRegs) return
+
     state.isSyncing = true
 
     try {
-        const payload = state.registrationsPreview
-            .filter(reg => reg.hours > 0)
-            .map(reg => ({
-                userUid: reg.userUid,
-                date: reg.date,
-                from: moment(reg.from).format('YYYY-MM-DDTHH:mm:ss'),
-                to: moment(reg.to).format('YYYY-MM-DDTHH:mm:ss'),
-                hours: reg.hours,
-                hourPaymentRateUid: reg.hourPaymentRateUid,
-            }))
+        const promises: Promise<any>[] = []
 
-        if (payload.length === 0) {
+        // Hour registrations payload (existing)
+        if (hasHourRegs) {
+            const hourPayload = state.registrationsPreview
+                .filter(reg => reg.hours > 0)
+                .map(reg => ({
+                    userUid: reg.userUid,
+                    date: reg.date,
+                    from: moment(reg.from).format('YYYY-MM-DDTHH:mm:ss'),
+                    to: moment(reg.to).format('YYYY-MM-DDTHH:mm:ss'),
+                    hours: reg.hours,
+                    hourPaymentRateUid: reg.hourPaymentRateUid,
+                }))
+            if (hourPayload.length > 0) {
+                promises.push(zenegyService.syncRegistrations(hourPayload))
+            }
+        }
+
+        // Supplement registrations payload
+        if (hasSupplementRegs) {
+            const supplementPayload = state.supplementRegistrationsPreview.map(reg => ({
+                employeeUid: reg.zenegyEmployeeUid,
+                registration: {
+                    rateUid: reg.rateUid,
+                    date: moment(reg.date).format('YYYY-MM-DDTHH:mm:ss'),
+                    rate: reg.rate,
+                    units: reg.units,
+                    status: 1,
+                    name: reg.rateName,
+                    description: reg.note || '',
+                },
+            }))
+            if (supplementPayload.length > 0) {
+                promises.push(zenegyService.syncSupplementRegistrations(supplementPayload))
+            }
+        }
+
+        if (promises.length === 0) {
             errorAlert(t('alert.warning'), t('dutySchedules.zenegy_no_registrations'))
             state.isSyncing = false
             return
         }
 
-        const response = await zenegyService.syncRegistrations(payload)
-        state.syncResult = response
+        const results = await Promise.all(promises)
+        state.syncResult = results
         state.syncStep = 'result'
         successAlert(`${t('alert.success')}!`, t('dutySchedules.zenegy_sync_success'))
     } catch (e: any) {
-        // Error message can be in multiple places depending on how $fetch wraps it
         const rawMsg = e?.data?.message || e?.response?._data?.message || e?.message || ''
-        // The message might be a JSON string, try to parse it
         let errorMsg = rawMsg
         try {
             const parsed = JSON.parse(rawMsg)
