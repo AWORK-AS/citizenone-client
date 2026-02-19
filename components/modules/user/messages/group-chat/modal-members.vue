@@ -18,9 +18,21 @@
                     <div class="mt-2 text-sm divide-y divide-dotted pb-4">
                         <div v-for="(member, index) in state.chatMembers?.data" :key="index"
                             class="flex items-center justify-between gap-x-2 py-2">
-                            <p>
-                                {{ member?.user?.firstname }} {{ member?.user?.lastname }}
-                            </p>
+                            <div class="flex items-center gap-x-2">
+                                <div class="relative">
+                                    <img :src="member?.user?.profile_image ?? `https://ui-avatars.com/api/?background=42AED9&color=fff&name=${employee?.firstname + ' ' + employee?.lastname}`"
+                                        class="h-11 w-11 rounded-full bg-gray-50 object-cover" />
+                                    <div :class="[
+                                        member?.user?.is_online ? 'bg-green-500' : 'bg-red-700',
+                                        'w-3 h-3 rounded-full absolute left-0 top-0 border-1 border-white'
+                                    ]">
+                                    </div>
+                                </div>
+                                <span>
+                                    {{ member?.user?.firstname }} {{ member?.user?.lastname }}
+                                </span>
+                            </div>
+
                             <Tooltip :text="$t('messages.groupChat.removeUser')">
                                 <button @click="confirmUserRemoval(member)">
                                     <Icon name="ph:user-minus" class="h-5 w-5" aria-hidden="true" />

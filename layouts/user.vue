@@ -315,8 +315,8 @@
                                         :src="userStore.getUser?.profile_image ? userStore.getUser?.profile_image : '/img/avatars/user.svg'"
                                         alt="User" />
                                     <div :class="[
-                                        userStore.getUser?.is_online ? 'bg-green-600' : 'bg-red-700',
-                                        'w-2.5 h-2.5 rounded-full absolute -right-1 top-1 border-1 border-white'
+                                        userStore.getUser?.is_online ? 'bg-green-500' : 'bg-red-700',
+                                        'w-2.5 h-2.5 rounded-full absolute -left-0.5 top-0 border-1 border-white'
                                     ]">
                                     </div>
                                 </div>

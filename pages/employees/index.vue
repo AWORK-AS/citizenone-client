@@ -88,8 +88,8 @@
                                                 <img :src="employee?.profile_image ?? `https://ui-avatars.com/api/?background=42AED9&color=fff&name=${employee?.firstname + ' ' + employee?.lastname}`"
                                                     class="h-11 w-11 rounded-full bg-gray-50 object-cover" />
                                                 <div :class="[
-                                                    employee?.is_online ? 'bg-green-600' : 'bg-red-700',
-                                                    'w-2.5 h-2.5 rounded-full absolute right-0 top-1 border-1 border-white'
+                                                    employee?.is_online ? 'bg-green-500' : 'bg-red-700',
+                                                    'w-3 h-3 rounded-full absolute left-0 top-0 border-1 border-white'
                                                 ]">
                                                 </div>
                                             </div>
