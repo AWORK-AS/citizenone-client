@@ -316,7 +316,7 @@
                                         alt="User" />
                                     <div :class="[
                                         userStore.getUser?.is_online ? 'bg-green-500' : 'bg-red-700',
-                                        'w-2.5 h-2.5 rounded-full absolute -left-0.5 top-0 border-1 border-white'
+                                        'w-3 h-3 rounded-full absolute -left-1.5 -top-0.5 border-1 border-white'
                                     ]">
                                     </div>
                                 </div>
