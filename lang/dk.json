@@ -932,9 +932,15 @@
             "shareJournal": {
                 "citizenJournal": "Borgerjournal",
                 "form": {
+                    "alert": {
+                        "enteredPasswordMismatched": "Indtastet adgangskode stemmer ikke overens",
+                        "journalSuccessfullyShared": "Journal blev delt med succes",
+                        "required8Characters": "Dette felt skal være mindst 8 tegn langt"
+                    },
+                    "confirmPassword": "Bekræft adgangskode",
+                    "password": "Adgangskode",
                     "unlock": "Lås op",
-                    "unlockJournal": "Lås op for journal",
-                    "password": "Adgangskode"
+                    "unlockJournal": "Lås op for journal"
                 },
                 "shareJournal": "Del journal"
             }

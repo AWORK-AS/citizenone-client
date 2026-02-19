@@ -932,9 +932,15 @@
             "shareJournal": {
                 "citizenJournal": "Citizen journal",
                 "form": {
+                    "alert": {
+                        "enteredPasswordMismatched": "Entered password mismatched",
+                        "journalSuccessfullyShared": "Journal successfully shared",
+                        "required8Characters": "This field should be at least 8 characters long"
+                    },
+                    "confirmPassword": "Confirm password",
+                    "password": "Password",
                     "unlock": "Unlock",
-                    "unlockJournal": "Unlock journal",
-                    "password": "Password"
+                    "unlockJournal": "Unlock journal"
                 },
                 "shareJournal": "Share journal"
             }

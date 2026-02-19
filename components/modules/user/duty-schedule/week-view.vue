@@ -1779,6 +1779,7 @@ function editSchedule(employee: any, employeeIndex: number, weekIndex: any, shif
     const date = state.weeklySchedules?.data?.[employeeIndex].weeks[weekIndex].date
     const userUuid = state.weeklySchedules?.data?.[employeeIndex].uuid
     state.editShift.selectedEmployee = employee
+    console.log('employee', employee)
     state.editShift.selectedEmployeeSchedule = {
         citizen_schedules: shift?.citizen_schedules,
         scheduleUuid: shift?.schedule_uuid,
