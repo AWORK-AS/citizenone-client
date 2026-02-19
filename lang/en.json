@@ -2827,6 +2827,22 @@
                 "workingHours": "Working hours"
             }
         },
+        "shareDutySchedule": {
+            "dutySchedule": "Duty schedule",
+            "form": {
+                "alert": {
+                    "enteredPasswordMismatched": "Entered password mismatched",
+                    "dutyScheduleSuccessfullyShared": "Duty schedule successfully shared",
+                    "required8Characters": "This field should be at least 8 characters long"
+                },
+                "confirmPassword": "Confirm password",
+                "employee": "Employee",
+                "password": "Password",
+                "unlock": "Unlock",
+                "unlockDutySchedule": "Unlock duty schedule"
+            },
+            "shareDutySchedule": "Share duty schedule"
+        },
         "shiftSpan": {
             "start": "Shift start",
             "middle": "Continues",
