@@ -8,26 +8,26 @@
                 <div class="flex flex-col h-[68vh] bg-transparent -mx-4 -mb-4 sm:-mx-6 sm:-mb-6">
                     <!-- Chat container -->
                     <div class="flex-1 overflow-y-auto scroll-smooth">
-                        <div class="max-w-3xl mx-auto px-4 py-6 space-y-6">
+                        <div class="px-4 sm:px-6 py-6 space-y-6">
                             <div v-for="(message, index) in state.messages" :key="index">
                                 <!-- User message -->
-                                <div v-if="message.type === 'user'" class="flex justify-end">
-                                    <div class="max-w-[80%]">
-                                        <div v-if="message.files && message.files.length > 0"
-                                            class="flex flex-wrap gap-1.5 justify-end mb-1.5">
-                                            <div v-for="(file, fIdx) in message.files" :key="fIdx"
-                                                class="flex items-center gap-1.5 text-xs bg-primary/10 text-primary px-2.5 py-1.5 rounded-lg">
-                                                <Icon name="ph:file" class="h-3.5 w-3.5 shrink-0" />
-                                                <span class="max-w-[150px] truncate">{{ file.name }}</span>
-                                            </div>
+                                <div v-if="message.type === 'user'" class="w-full bg-primary rounded-md px-4 py-3">
+                                    <div v-if="message.files && message.files.length > 0"
+                                        class="flex flex-wrap gap-1.5 justify-end mb-2">
+                                        <div v-for="(file, fIdx) in message.files" :key="fIdx"
+                                            class="flex items-center gap-1.5 text-xs bg-white/20 text-white px-2.5 py-1.5 rounded-md">
+                                            <Icon name="ph:file" class="h-3.5 w-3.5 shrink-0" />
+                                            <span class="max-w-[150px] truncate">{{ file.name }}</span>
                                         </div>
-                                        <div class="bg-[#f0f0f0] text-gray-800 px-4 py-2.5 rounded-2xl rounded-br-md text-sm leading-relaxed"
-                                            v-html="formatMessage(message?.text)" />
                                     </div>
+                                    <div class="text-sm text-white leading-relaxed text-right"
+                                        v-html="formatMessage(message?.text)" />
                                 </div>
-                                <div v-else class="flex items-start gap-3">
+                                <!-- AI message -->
+                                <div v-else
+                                    class="w-full bg-gray-50 border border-gray-100 rounded-md px-0 py-2 flex items-start gap-3 ">
                                     <div
-                                        class="shrink-0 w-8 h-8 rounded-full bg-primary flex items-center justify-center mt-0.5 shadow-sm">
+                                        class="shrink-0 w-8 h-8 rounded-full bg-primary flex items-center justify-center mt-0.5 ml-2 shadow-sm px-2">
                                         <Icon name="ph:lightbulb" class="h-4 w-4 text-white" />
                                     </div>
                                     <div class="flex-1 min-w-0">
@@ -37,29 +37,28 @@
                                     </div>
                                 </div>
                             </div>
-                            <div v-if="state.isGeneratingResponse" class="flex items-start gap-3">
+                            <div v-if="state.isGeneratingResponse"
+                                class="w-full bg-gray-50 border border-gray-100 rounded-xl px-1 py-3 flex items-start gap-3">
                                 <div
-                                    class="shrink-0 w-8 h-8 rounded-full bg-primary flex items-center justify-center mt-0.5 shadow-sm">
+                                    class="shrink-0 w-8 h-8 rounded-full bg-primary flex items-center justify-center shadow-sm ml-2">
                                     <Icon name="ph:lightbulb" class="h-4 w-4 text-white" />
                                 </div>
-                                <div class="flex-1">
-                                    <div class="flex items-center gap-0.5 py-2">
-                                        <span class="dot1">.</span>
-                                        <span class="dot2">.</span>
-                                        <span class="dot3">.</span>
-                                        <span class="dot4">.</span>
-                                        <span class="dot5">.</span>
-                                    </div>
+                                <div class="flex items-center gap-0.5 py-2">
+                                    <span class="dot1">.</span>
+                                    <span class="dot2">.</span>
+                                    <span class="dot3">.</span>
+                                    <span class="dot4">.</span>
+                                    <span class="dot5">.</span>
                                 </div>
                             </div>
                         </div>
                     </div>
                     <!-- Input area -->
-                    <div class="border-t border-gray-100 bg-white px-4 py-3">
-                        <div class="max-w-2xl mx-auto">
+                    <div class="border-t border-gray-100 bg-white px-4 sm:px-6 py-5">
+                        <div>
                             <div v-if="state.files.length > 0" class="flex flex-wrap gap-1.5 mb-2">
                                 <div v-for="(file, index) in state.files" :key="index"
-                                    class="flex items-center gap-1.5 bg-gray-100 text-xs text-gray-600 pl-2.5 pr-1.5 py-1.5 rounded-lg">
+                                    class="flex items-center gap-1.5 bg-gray-100 text-xs text-gray-600 pl-2.5 pr-1.5 py-1.5 rounded-md">
                                     <Icon name="ph:file" class="h-3.5 w-3.5 text-gray-400" />
                                     <span class="max-w-[150px] truncate">{{ file.name }}</span>
                                     <button type="button" @click="removeFile(index)"
@@ -69,7 +68,7 @@
                                 </div>
                             </div>
                             <div
-                                class="flex items-center gap-2 bg-gray-50 border border-gray-200 rounded-2xl
+                                class="flex items-center gap-2 bg-gray-50 border border-gray-200 rounded-md
                                 focus-within:border-primary/40 focus-within:ring-2 focus-within:ring-primary/10 transition-all px-3 py-1.5">
 
                                 <input ref="fileInput" type="file" multiple
@@ -130,7 +129,7 @@ const state = reactive({
     messages: [] as any,
     newMessage: '',
     files: [] as File[],
-    aiElements:{
+    aiElements: {
         conversationId: null as string | null,
         vectorStoreId: null as string | null,
         fileIds: [] as string[],
@@ -168,22 +167,22 @@ async function sendMessage() {
         const response = await aIAssistantService.sendMessage(formData)
         if (response && response.output) {
             const messageOutput = response.output.find((item: any) => item.type === 'message');
-            
+
             if (messageOutput?.content?.[0]?.text) {
                 state.messages.push({
                     type: 'bot',
                     text: messageOutput.content[0].text,
                 })
             }
-            
+
             if (response.conversation_id) {
                 state.aiElements.conversationId = response.conversation_id
             }
-            if (response.tools?.[0]?.vector_store_ids){
+            if (response.tools?.[0]?.vector_store_ids) {
                 state.aiElements.vectorStoreId = response.tools[0].vector_store_ids[0]
             }
             if (response.file_ids) {
-                 state.aiElements.fileIds.push(...response.file_ids)
+                state.aiElements.fileIds.push(...response.file_ids)
             }
         }
     } catch (error: any) {
@@ -240,7 +239,7 @@ function clearAiElements() {
     state.aiElements.fileIds = []
 }
 
-function processPayload(){
+function processPayload() {
     const formData = new FormData()
 
     formData.append('prompt', state.newMessage)
