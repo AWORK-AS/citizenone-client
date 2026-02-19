@@ -261,7 +261,7 @@ async function fetchJournals() {
             }
             const response = await journalService.unlockJournal(sharedJournalUuid, params)
             if (response) {
-                state.journals = response?.data
+                state.journals = response
                 state.showJournal = true
             }
         } catch (error: any) {
