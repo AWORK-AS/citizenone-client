@@ -376,7 +376,8 @@
         "askAnything": "Spørg om hvad som helst",
         "generatingResponse": "Genererer svar. Vent venligst",
         "helloHowCanIAssistYouToday": "Hej, hvordan kan jeg hjælpe dig i dag",
-        "send": "Send"
+        "send": "Send",
+        "fileSizeExceeds": "Den samlede filstørrelse må ikke overstige 10MB"
     },
     "back": "Tilbage",
     "bookings": {
