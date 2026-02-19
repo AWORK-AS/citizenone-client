@@ -1048,6 +1048,8 @@ async function executeSyncToZenegy() {
             userMessage = t('dutySchedules.zenegy_error_invalid_period')
         } else if (errorMsg.includes('REGISTRATION_ALREADY_EXISTS')) {
             userMessage = t('dutySchedules.zenegy_error_already_exists')
+        } else if (errorMsg.includes('REGISTRATION_CONFLICTED_EXISTING_REGISTRATION_IN_PERIOD')) {
+            userMessage = t('dutySchedules.zenegy_error_conflict_period')
         } else if (errorMsg.includes('USER_NOT_FOUND')) {
             userMessage = t('dutySchedules.zenegy_error_user_not_found')
         }

@@ -2436,6 +2436,7 @@
         "zenegy_error_invalid_period": "One or more dates fall outside the open payroll period in Zenegy. Please select dates within the current salary period.",
         "zenegy_error_already_exists": "One or more registrations already exist in Zenegy for the selected dates.",
         "zenegy_error_user_not_found": "One or more employees could not be found in Zenegy. Please check the employee matching.",
+        "zenegy_error_conflict_period": "Registrations already exist in Zenegy for the selected period. Please delete the existing registrations in Zenegy first or choose a different date range.",
         "activityLogs": "Activity logs",
         "alert": {
             "newScheduleSuccessfullyAdded": "New schedule successfully added",

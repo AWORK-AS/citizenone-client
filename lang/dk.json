@@ -2436,6 +2436,7 @@
         "zenegy_error_invalid_period": "En eller flere datoer falder uden for den åbne lønperiode i Zenegy. Vælg venligst datoer inden for den aktuelle lønperiode.",
         "zenegy_error_already_exists": "En eller flere registreringer findes allerede i Zenegy for de valgte datoer.",
         "zenegy_error_user_not_found": "En eller flere medarbejdere kunne ikke findes i Zenegy. Kontroller venligst medarbejdertilknytningen.",
+        "zenegy_error_conflict_period": "Der findes allerede registreringer i Zenegy for den valgte periode. Slet venligst de eksisterende registreringer i Zenegy først, eller vælg et andet datointerval.",
         "activityLogs": "Aktivitetslogs",
         "alert": {
             "newScheduleSuccessfullyAdded": "Ny vagtplan tilføjet med succes",
