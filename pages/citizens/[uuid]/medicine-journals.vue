@@ -381,6 +381,10 @@ onMounted(() => {
     fetchCitizenMedicines()
 })
 
+onUnmounted(() => {
+    citizenMedicineStore.resetSelectedMedicine()
+})
+
 watch(() => state.modal.isViewMedicineHistoryOpen, (isViewMedicineHistoryOpen: any) => {
     if (!isViewMedicineHistoryOpen) {
         fetchCitizenMedicines()

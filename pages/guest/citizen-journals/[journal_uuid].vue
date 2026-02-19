@@ -25,9 +25,8 @@
             <div class="mt-10 sm:mx-auto sm:w-full sm:max-w-3xl">
                 <Alert type="danger" :text="state?.error?.message"
                     v-if="state.error?.message && state.error.message.length > 0" />
-                <div class="mt-5 md:bg-white md:shadow-sm sm:rounded-lg">
-                    <form class="mt-5 px-6 py-3 sm:px-12 md:py-8" method="POST" @submit.prevent="fetchJournals"
-                        v-if="!state.showJournal">
+                <div class="mt-5 md:bg-white md:shadow-sm sm:rounded-lg" v-if="!state.showJournal">
+                    <form class="mt-5 px-6 py-3 sm:px-12 md:py-8" method="POST" @submit.prevent="fetchJournals">
                         <div class="space-y-3">
                             <h3 class="font-medium text-lg md:text-xl">
                                 {{ $t('citizens.citizenJournals.shareJournal.form.unlockJournal') }}
@@ -49,127 +48,126 @@
                             </FormButton>
                         </div>
                     </form>
-                    <div v-else class="space-y-5">
-                        <div class="bg-white ring-1 ring-gray-200 rounded-md p-5 border-l-4 border-secondary"
-                            v-for="(journal, index) in state.journals?.data" :key="index">
-                            <div class="space-y-3">
-                                <div class="space-y-1.5">
-                                    <div>
-                                        <div class="flex items-center gap-x-3 justify-between">
-                                            <div class="flex items-center gap-x-3">
-                                                <h3 class="text-md font-semibold">
-                                                    {{ journal.title }}
-                                                </h3>
-                                                <div v-if="journal.is_draft">
-                                                    <Badge type="primary">
-                                                        <p class="text-xs">
-                                                            {{ $t('citizens.citizenJournals.form.draft') }}
-                                                        </p>
-                                                    </Badge>
-                                                </div>
-                                            </div>
-                                            <div>
-                                                <Badge type="no-risk" v-if="journal.assessment === 'no risk'">
+                </div>
+                <div v-else class="space-y-5">
+                    <div class="bg-white ring-1 ring-gray-200 rounded-md p-5 border-l-4 border-secondary"
+                        v-for="(journal, index) in state.journals?.data" :key="index">
+                        <div class="space-y-3">
+                            <div class="space-y-1.5">
+                                <div>
+                                    <div class="flex items-center gap-x-3 justify-between">
+                                        <div class="flex items-center gap-x-3">
+                                            <h3 class="text-md font-semibold">
+                                                {{ journal.title }}
+                                            </h3>
+                                            <div v-if="journal.is_draft">
+                                                <Badge type="primary">
                                                     <p class="text-xs">
-                                                        {{ $t('citizens.citizenJournals.form.risk.noRisk') }}
-                                                    </p>
-                                                </Badge>
-                                                <Badge type="increased-risk"
-                                                    v-if="journal.assessment === 'increased risk'">
-                                                    <p class="text-xs">
-                                                        {{
-                                                            $t('citizens.citizenJournals.form.risk.increasedRisk')
-                                                        }}
-                                                    </p>
-                                                </Badge>
-                                                <Badge type="acute-increased-risk"
-                                                    v-if="journal.assessment === 'acute increased risk'">
-                                                    <p class="text-xs">
-                                                        {{
-                                                            $t('citizens.citizenJournals.form.risk.acuteIncreasedRisk')
-                                                        }}
+                                                        {{ $t('citizens.citizenJournals.form.draft') }}
                                                     </p>
                                                 </Badge>
                                             </div>
                                         </div>
-                                        <p class="mt-1 text-xs text-muted-400">
-                                            <span>{{ formatDateToReadable(journal.date) }}</span>
-                                        </p>
-                                        <div class="mt-1">
-                                            <Badge type="primary" class="w-fit" v-if="journal.score">
-                                                <p class="text-xxs" v-if="journal.score === 1">
+                                        <div>
+                                            <Badge type="no-risk" v-if="journal.assessment === 'no risk'">
+                                                <p class="text-xs">
+                                                    {{ $t('citizens.citizenJournals.form.risk.noRisk') }}
+                                                </p>
+                                            </Badge>
+                                            <Badge type="increased-risk" v-if="journal.assessment === 'increased risk'">
+                                                <p class="text-xs">
                                                     {{
-                                                        $t('plansandgoals.table.expectedLevels.minorChallenges')
+                                                        $t('citizens.citizenJournals.form.risk.increasedRisk')
                                                     }}
                                                 </p>
-                                                <p class="text-xxs" v-if="journal.score === 2">
+                                            </Badge>
+                                            <Badge type="acute-increased-risk"
+                                                v-if="journal.assessment === 'acute increased risk'">
+                                                <p class="text-xs">
                                                     {{
-                                                        $t('plansandgoals.table.expectedLevels.moderateChallenges')
-                                                    }}
-                                                </p>
-                                                <p class="text-xxs" v-if="journal.score === 3">
-                                                    {{
-                                                        $t('plansandgoals.table.expectedLevels.significantChallenges')
-                                                    }}
-                                                </p>
-                                                <p class="text-xxs" v-if="journal.score === 4">
-                                                    {{
-                                                        $t('plansandgoals.table.expectedLevels.severeChallenges')
-                                                    }}
-                                                </p>
-                                                <p class="text-xxs" v-if="journal.score === 5">
-                                                    {{
-                                                        $t('plansandgoals.table.expectedLevels.verySubstantialChallenges')
+                                                        $t('citizens.citizenJournals.form.risk.acuteIncreasedRisk')
                                                     }}
                                                 </p>
                                             </Badge>
                                         </div>
                                     </div>
-                                    <p class="text-sm text-muted-400">
-                                        <div v-html="journal.content" class="content" />
+                                    <p class="mt-1 text-xs text-muted-400">
+                                        <span>{{ formatDateToReadable(journal.date) }}</span>
                                     </p>
-                                    <div class="flex items-center gap-x-1">
-                                        <div class="px-2 py-1 rounded-full text-white text-xxs"
-                                            :style="`background:${journalTag?.color};`"
-                                            v-for="(journalTag, index) in journal?.journal_tags" :index="index">
-                                            {{ journalTag?.name }}
-                                        </div>
+                                    <div class="mt-1">
+                                        <Badge type="primary" class="w-fit" v-if="journal.score">
+                                            <p class="text-xxs" v-if="journal.score === 1">
+                                                {{
+                                                    $t('plansandgoals.table.expectedLevels.minorChallenges')
+                                                }}
+                                            </p>
+                                            <p class="text-xxs" v-if="journal.score === 2">
+                                                {{
+                                                    $t('plansandgoals.table.expectedLevels.moderateChallenges')
+                                                }}
+                                            </p>
+                                            <p class="text-xxs" v-if="journal.score === 3">
+                                                {{
+                                                    $t('plansandgoals.table.expectedLevels.significantChallenges')
+                                                }}
+                                            </p>
+                                            <p class="text-xxs" v-if="journal.score === 4">
+                                                {{
+                                                    $t('plansandgoals.table.expectedLevels.severeChallenges')
+                                                }}
+                                            </p>
+                                            <p class="text-xxs" v-if="journal.score === 5">
+                                                {{
+                                                    $t('plansandgoals.table.expectedLevels.verySubstantialChallenges')
+                                                }}
+                                            </p>
+                                        </Badge>
                                     </div>
-                                    <div class="text-sm text-muted-400">
-                                        <p class="font-semibold">
-                                            {{ $t('citizens.citizenJournals.form.riskAssessment.riskAssessment') }}:
-                                        </p>
-                                        <div v-html="journal.note" class="content" />
+                                </div>
+                                <p class="text-sm text-muted-400">
+                                    <div v-html="journal.content" class="content" />
+                                </p>
+                                <div class="flex items-center gap-x-1">
+                                    <div class="px-2 py-1 rounded-full text-white text-xxs"
+                                        :style="`background:${journalTag?.color};`"
+                                        v-for="(journalTag, index) in journal?.journal_tags" :index="index">
+                                        {{ journalTag?.name }}
                                     </div>
-                                    <div class="flex items-center gap-x-1">
-                                        <div class="px-2 py-1 rounded-full text-white text-xxs"
-                                            :style="`background:${riskTag?.color};`"
-                                            v-for="(riskTag, index) in journal?.risk_tags" :index="index">
-                                            {{ riskTag?.name }}
-                                        </div>
+                                </div>
+                                <div class="text-sm text-muted-400">
+                                    <p class="font-semibold">
+                                        {{ $t('citizens.citizenJournals.form.riskAssessment.riskAssessment') }}:
+                                    </p>
+                                    <div v-html="journal.note" class="content" />
+                                </div>
+                                <div class="flex items-center gap-x-1">
+                                    <div class="px-2 py-1 rounded-full text-white text-xxs"
+                                        :style="`background:${riskTag?.color};`"
+                                        v-for="(riskTag, index) in journal?.risk_tags" :index="index">
+                                        {{ riskTag?.name }}
                                     </div>
-                                    <div class="text-sm">
-                                        <p v-for="(tooth, index) in journal?.teeth" :key="index">
-                                            {{ tooth?.number }}.
-                                            {{ language.locale.value === 'en' ? tooth?.en_name : tooth?.dk_name }}
-                                        </p>
-                                    </div>
-                                    <p class="text-xs">
-                                        {{ $t('citizens.citizenJournals.createdBy') }}:
-                                        {{ journal.user?.firstname }} {{ journal.user?.lastname }}
-                                        <span class="lowercase">{{ $t('citizens.citizenJournals.on') }}</span>
-                                        {{ formatDateTimeToReadable(journal.created_at) }}
+                                </div>
+                                <div class="text-sm">
+                                    <p v-for="(tooth, index) in journal?.teeth" :key="index">
+                                        {{ tooth?.number }}.
+                                        {{ language.locale.value === 'en' ? tooth?.en_name : tooth?.dk_name }}
                                     </p>
                                 </div>
+                                <p class="text-xs">
+                                    {{ $t('citizens.citizenJournals.createdBy') }}:
+                                    {{ journal.user?.firstname }} {{ journal.user?.lastname }}
+                                    <span class="lowercase">{{ $t('citizens.citizenJournals.on') }}</span>
+                                    {{ formatDateTimeToReadable(journal.created_at) }}
+                                </p>
                             </div>
                         </div>
-                        <div v-if="state.journals?.data?.length === 0">
-                            <p class="text-center py-10">
-                                {{ $t('theresNoDataAvailableToDisplay') }}.
-                            </p>
-                        </div>
-                        <Pagination :data="state.journals" @previous="previous" @next="next" />
                     </div>
+                    <div v-if="state.journals?.data?.length === 0">
+                        <p class="text-center py-10">
+                            {{ $t('theresNoDataAvailableToDisplay') }}.
+                        </p>
+                    </div>
+                    <Pagination :data="state.journals" @previous="previous" @next="next" />
                 </div>
             </div>
         </div>
@@ -261,7 +259,7 @@ async function fetchJournals() {
             }
             const response = await journalService.unlockJournal(sharedJournalUuid, params)
             if (response) {
-                state.journals = response?.data
+                state.journals = response
                 state.showJournal = true
             }
         } catch (error: any) {
