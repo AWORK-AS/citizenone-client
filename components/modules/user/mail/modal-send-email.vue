@@ -116,13 +116,13 @@
                             <div class="space-y-1" v-if="state.formEmail.fileOption === 'Attach file from computer'">
                                 <div class="flex flex-col items-center">
                                     <input type="file" ref="file" @change="onFileChange" class="hidden" multiple />
-                                    <div class="relative cursor-pointer" @click="triggerFileInput">
+                                    <div class="w-full cursor-pointer" @click="triggerFileInput">
                                         <div v-if="!state.formEmail.files.length"
-                                            class="w-32 h-32 rounded-md border-2 border-dashed border-gray-300 bg-gray-50 flex items-center justify-center hover:border-primary hover:bg-gray-100 transition-colors">
+                                            class="w-full h-32 rounded-md border-2 border-dashed border-gray-300 bg-gray-50 flex items-center justify-center hover:border-primary hover:bg-gray-100 transition-colors">
                                             <Icon name="ph:upload-simple" class="w-8 h-8 text-gray-400" />
                                         </div>
                                         <div v-else
-                                            class="w-32 h-32 rounded-md border-2 border-dashed border-gray-300 bg-gray-50 flex flex-col items-center justify-center hover:border-primary hover:bg-gray-100 transition-colors gap-1 p-2">
+                                            class="w-full h-32 rounded-md border-2 border-dashed border-gray-300 bg-gray-50 flex flex-col items-center justify-center hover:border-primary hover:bg-gray-100 transition-colors gap-1 p-2">
                                             <Icon name="ph:files" class="w-8 h-8 text-primary" />
                                             <span class="text-xs text-gray-600 text-center">
                                                 {{ state.formEmail.files.length }} {{ state.formEmail.files.length === 1
@@ -312,6 +312,20 @@ const rules = computed(() => {
 
 const v$ = useVuelidate(rules, state)
 
+watch(() => props.isModalOpen, async (isModalOpen: boolean) => {
+    if (isModalOpen) {
+        const userSignature = userStore.getUser?.default_signature?.signature
+        if (userSignature) {
+            const signatureDelimiter = '\n------------------------------\n'
+            state.formEmail.content = state.formEmail.content.replace(/\n?------------------------------.*$/, '')
+            await nextTick()
+            if (!state.formEmail.content.includes(signatureDelimiter + userSignature)) {
+                state.formEmail.content += signatureDelimiter + userSignature
+            }
+        }
+    }
+})
+
 watch(() => props.selectedContact, (selectedContact: any) => {
     if (selectedContact?.email) {
         state.formEmail.recipient = [selectedContact.email]
@@ -337,9 +351,13 @@ function closeModal() {
 
 function setSignature(signature: any) {
     if (signature) {
-        // Remove any potential previous signature text and replace with the new one
-        const signatureRegex = /\n?____________________.*$/;  // Matches a signature line (often denoted by '--')
-        state.formEmail.content = state.formEmail.content.replace(signatureRegex, '') + '\n____________________\n' + signature?.signature;
+        const signatureDelimiter = '\n------------------------------\n'
+        state.formEmail.content = state.formEmail.content.replace(/\n?------------------------------.*$/, '')
+        nextTick(() => {
+            if (!state.formEmail.content.includes(signatureDelimiter + signature?.signature)) {
+                state.formEmail.content += signatureDelimiter + signature?.signature
+            }
+        })
     }
 }
 
