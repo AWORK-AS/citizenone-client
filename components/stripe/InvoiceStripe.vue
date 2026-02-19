@@ -183,18 +183,27 @@ async function downloadPdf() {
 
   try {
     const res = await fetch(`http://127.0.0.1:8000/api/stripe/invoices/${invoiceId.value}/pdf`);
-    const data = await res.json();
-    if (data.hosted_invoice_url) {
-      window.open(data.hosted_invoice_url, '_blank');
-    }else{
-        throw new Error('Failed to create PDF download link');
+
+    if (!res.ok) {
+       throw new Error(`Failed to fetch PDF: ${res.statusText}`);
     }
+
+    const blob = await res.blob();
+    const link = document.createElement('a');
+    link.href = window.URL.createObjectURL(blob);
+    link.download = `invoice_${invoiceId.value}.pdf`;
+    link.click();  
+
+    window.URL.revokeObjectURL(link.href); // Clean up URL object
+
   } catch (err) {
     console.error('Error downloading PDF:', err);
   } finally {
     loadingPay.value = false;
   }
 }
+
+
 </script>
 
 <style scoped>
@@ -267,19 +276,13 @@ async function downloadPdf() {
   min-width: 150px;
   margin-bottom: 8px;
 }
-.stripe-btn {
-  background-color: #3b82f6;
-  color: white;
-}
-.stripe-btn:hover:not(:disabled) {
-  background-color: #2563eb;
-}
-.pdf-btn {
+
+.stripe-btn, .pdf-btn {
   background-color: #f3f4f6;
   color: #1f2937;
   border: 1px solid #d1d5db;
 }
-.pdf-btn:hover:not(:disabled) {
+.stripe-btn:hover:not(:disabled), .pdf-btn:hover:not(:disabled) {
   background-color: #e5e7eb;
 }
 .stripe-btn:disabled, .pdf-btn:disabled {
