@@ -19,8 +19,15 @@
                             <div v-for="(chatMember, index) in excludeCurrentUserFromChatMembers(chat?.chat_members)"
                                 :index="index" class="grid grid-cols-12 items-center">
                                 <div class="col-span-2">
-                                    <img :src="chatMember?.user?.profile_image ?? '/img/avatars/user.svg'" alt="Item 1"
-                                        class="w-11 h-11 rounded-full object-cover">
+                                    <div class="w-fit relative">
+                                        <img :src="chatMember?.user?.profile_image ?? '/img/avatars/user.svg'"
+                                            alt="Item 1" class="w-11 h-11 rounded-full object-cover">
+                                        <div :class="[
+                                            chatMember?.user?.is_online ? 'bg-green-600' : 'bg-red-700',
+                                            'w-3 h-3 rounded-full absolute right-0 top-1 border-1 border-white'
+                                        ]">
+                                        </div>
+                                    </div>
                                 </div>
                                 <div class="col-span-10">
                                     <Tooltip
@@ -42,8 +49,15 @@
                         </div>
                         <div v-else class="grid grid-cols-12 items-center">
                             <div class="col-span-2">
-                                <img :src="chatToSelf(chat?.chat_members)[0]?.user?.profile_image ?? '/img/avatars/user.svg'"
-                                    alt="Item 1" class="w-11 h-11 rounded-full object-cover">
+                                <div class="relative w-fit">
+                                    <img :src="chatToSelf(chat?.chat_members)[0]?.user?.profile_image ?? '/img/avatars/user.svg'"
+                                        alt="Item 1" class="w-11 h-11 rounded-full object-cover">
+                                    <div :class="[
+                                        chatToSelf(chat?.chat_members)[0]?.user?.is_online ? 'bg-green-600' : 'bg-red-700',
+                                        'w-3 h-3 rounded-full absolute right-0 top-1 border-1 border-white'
+                                    ]">
+                                    </div>
+                                </div>
                             </div>
                             <div class="col-span-10">
                                 <Tooltip :text="chatToSelf(chat?.chat_members)[0]?.user?.firstname + ' ' +

@@ -84,8 +84,15 @@
                                 <tr v-for="(employee, index) in state.employees?.data" :key="index">
                                     <td width="30%">
                                         <div class="flex items-center gap-x-2">
-                                            <img :src="employee?.profile_image ?? `https://ui-avatars.com/api/?background=42AED9&color=fff&name=${employee?.firstname + ' ' + employee?.lastname}`"
-                                                class="h-11 w-11 rounded-full bg-gray-50 object-cover" />
+                                            <div class="relative">
+                                                <img :src="employee?.profile_image ?? `https://ui-avatars.com/api/?background=42AED9&color=fff&name=${employee?.firstname + ' ' + employee?.lastname}`"
+                                                    class="h-11 w-11 rounded-full bg-gray-50 object-cover" />
+                                                <div :class="[
+                                                    employee?.is_online ? 'bg-green-600' : 'bg-red-700',
+                                                    'w-2.5 h-2.5 rounded-full absolute right-0 top-1 border-1 border-white'
+                                                ]">
+                                                </div>
+                                            </div>
                                             <span>
                                                 {{ employee?.firstname }} {{ employee?.lastname }}
                                             </span>
