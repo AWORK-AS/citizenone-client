@@ -31,6 +31,9 @@
                                                         {{ medicine?.medicine?.dk_name }}, {{
                                                             medicine?.medicine?.ingredients }}
                                                     </p>
+                                                    <Alert type="danger"
+                                                        :text="$t('citizens.medicineJournals.history.form.noMedicineToday')"
+                                                        v-if="state.timeColumns?.length === 0" class="mt-2" />
                                                 </td>
                                                 <td v-for="time in state.timeColumns" :key="time" :class="[
                                                     getDosageIndexByTime(Number(medicineIndex), time) !== -1 && ['', null].includes(state.formGiveMedicine.medicines[medicineIndex].dosages[getDosageIndexByTime(Number(medicineIndex), time)].type) && 'bg-red-100',
@@ -49,14 +52,6 @@
                                                                     }}
                                                                 </p>
                                                             </Badge>
-                                                            <!-- <div class="space-y-1">
-                                                                <FormLabel :for="`dose_${medicineIndex}_${time}`"
-                                                                    :label="$t('citizens.medicineJournals.history.form.dose')" />
-                                                                <FormTextField :id="`dose_${medicineIndex}_${time}`"
-                                                                    :name="`dose_${medicineIndex}_${time}`"
-                                                                    :placeholder="$t('citizens.medicineJournals.history.form.dose')"
-                                                                    v-model="state.formGiveMedicine.medicines[medicineIndex].dosages[getDosageIndexByTime(Number(medicineIndex), time)].dosage" />
-                                                            </div> -->
                                                             <div class="space-y-1">
                                                                 <p class="text-sm text-gray-600">
                                                                     {{
