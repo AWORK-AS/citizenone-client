@@ -54,7 +54,8 @@
 
                     <div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-5" v-if="overviewStore.getDailyOverviewFilter.showCitizensDailyEvents ||
                         overviewStore.getDailyOverviewFilter.showDailyMedicineOverview ||
-                        overviewStore.getDailyOverviewFilter.showLatestJournal">
+                        overviewStore.getDailyOverviewFilter.showLatestJournal ||
+                        overviewStore.getDailyOverviewFilter.showCitizensFollowUpReminders">
                         <div v-if="overviewStore.getDailyOverviewFilter.showCitizensDailyEvents">
                             <ModulesUserDailyOverviewCitizensDailyEvents :dateRange="state.dateRange.formDateRange" />
                         </div>
@@ -63,6 +64,10 @@
                         <div v-if="overviewStore.getDailyOverviewFilter.showLatestJournal">
                             <ModulesUserDailyOverviewLatestJournal :dateRange="state.dateRange.formDateRange"
                                 :viewAll="false" />
+                        </div>
+                        <div v-if="overviewStore.getDailyOverviewFilter.showCitizensFollowUpReminders">
+                            <ModulesUserDailyOverviewCitizensFollowUpReminders
+                                :dateRange="state.dateRange.formDateRange" />
                         </div>
                     </div>
 

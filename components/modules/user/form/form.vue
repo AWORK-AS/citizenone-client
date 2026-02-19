@@ -17,12 +17,18 @@
                 <FormError :error="v$?.form?.description?.$errors[0]?.$message.toString()" />
                 <FormError :error="state?.error?.errors?.description?.[0]" />
             </div>
-            <!-- Document Title for downloadable PDF(no CRUD) -->
             <div class="space-y-1">
                 <FormLabel for="document_title" label="Document Title" />
-                <FormTextField id="document_title" name="document_title"
-                    placeholder="Document Title"
+                <FormTextField id="document_title" name="document_title" placeholder="Document Title"
                     v-model="state.form.document_title" />
+            </div>
+            <div v-if="isAdmin" class="flex items-center gap-x-3 pt-2">
+                <FormSwitch :value="state.form.is_follow_up_enabled"
+                    @toggleSwitch="state.form.is_follow_up_enabled = !state.form.is_follow_up_enabled" />
+                <label class="text-sm font-medium text-gray-700 cursor-pointer"
+                    @click="state.form.is_follow_up_enabled = !state.form.is_follow_up_enabled">
+                    Enable Follow up
+                </label>
             </div>
         </div>
 
@@ -393,6 +399,7 @@
 import { useVuelidate } from "@vuelidate/core"
 import { required, helpers } from '@vuelidate/validators'
 import { useI18n } from "vue-i18n"
+import { useUserStore } from '@/store/user'
 import type { Error } from '@/types'
 
 const props = defineProps({
@@ -412,6 +419,11 @@ const props = defineProps({
 const emit = defineEmits(['isPageLoading', 'submitForm'])
 
 const { t } = useI18n()
+const userStore = useUserStore() as any
+
+const isAdmin = computed(() => {
+    return userStore.getUser?.roles?.some((role: any) => role.name === 'Admin') ?? false
+})
 
 const state = reactive({
     error: {} as Error,
@@ -420,6 +432,7 @@ const state = reactive({
         fields: [] as any,
         title: '',
         document_title: '',
+        is_follow_up_enabled: false,
     },
     showFieldsAdder: true,
 })
@@ -431,6 +444,9 @@ watch(() => props.selectedForm, (selectedForm: any) => {
         state.form.fields = selectedForm.fields
         if (selectedForm.document_title) {
             state.form.document_title = selectedForm.document_title
+        }
+        if (selectedForm.is_follow_up_enabled !== undefined) {
+            state.form.is_follow_up_enabled = selectedForm.is_follow_up_enabled
         }
     }
 }, { immediate: true })

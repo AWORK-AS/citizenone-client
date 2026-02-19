@@ -56,6 +56,7 @@ const state = reactive({
         time_in: '',
         time_out: '',
         color: '',
+        is_leave_shift_type: false,
     },
     isPageLoading: false,
 })
@@ -71,6 +72,7 @@ async function saveShift(shiftDetails: any) {
             time_in: shiftDetails.time_in ?? '',
             time_out: shiftDetails.time_out ?? '',
             color: shiftDetails.color,
+            is_leave_shift_type: shiftDetails.is_leave_shift_type,
         }
         const response = await shiftService.saveShift(params)
         if (response.data) {

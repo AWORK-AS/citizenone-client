@@ -56,6 +56,10 @@ class JournalService extends BaseAPIService {
     async getDeletedJournalLogs(params: object): Promise<any> {
         return await this.request(`/user/citizen-journals/deleted/histories`, 'GET', params)
     }
+
+    async shareJournal(params: object): Promise<any> {
+        return await this.request(`/user/citizen-journals/share/journal`, 'POST', params)
+    }
 }
 
 export const journalService = new JournalService()

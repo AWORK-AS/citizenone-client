@@ -40,11 +40,12 @@
                                                     <p class="text-xs">{{ $t('plansandgoals.isDraft') }}</p>
                                                 </Badge>
                                                 <Badge type="primary" class="w-fit" v-else>
-                                                    <p class="text-xs">{{ $t('activityLogs.table.actionTypes.published') }}</p>
+                                                    <p class="text-xs">{{ $t('activityLogs.table.actionTypes.published')
+                                                        }}</p>
                                                 </Badge>
                                             </div>
                                         </td>
-                                        
+
                                         <td width="15%">
                                             <div class="flex items-end gap-2">
                                                 <FormButton v-if="status.is_draft" class="rounded-md" buttonSize="sm"
@@ -74,12 +75,9 @@
                 <DialogConfirmation :isModalOpen="state.modal.isDeleteStatusOpen"
                     :message="`${$t('plansandgoals.confirmation.deleteStatusConfirmation')}?`"
                     @close="state.modal.isDeleteStatusOpen = false" @confirm="deleteStatus" />
-                <ModulesUserCitizenPlanStatusTemplateModalEdit
-                    :isModalOpen="state.modal.isEditStatusOpen"
-                    :selectedStatus="state.selectedStatus"
-                    :selectedData="props.selectedData"
-                    @close="state.modal.isEditStatusOpen = false"
-                    @refreshData="fetchStatuses" />
+                <ModulesUserCitizenPlanStatusTemplateModalEdit :isModalOpen="state.modal.isEditStatusOpen"
+                    :selectedStatus="state.selectedStatus" :selectedData="props.selectedData"
+                    @close="state.modal.isEditStatusOpen = false" @refreshData="fetchStatuses" />
             </template>
         </Modal>
     </div>
@@ -109,9 +107,9 @@ const props = defineProps({
         type: Object,
         required: true,
     },
-     selectedStatus: {       
+    selectedStatus: {
         type: Object,
-        default: null,      
+        default: null,
     },
 })
 
@@ -140,7 +138,7 @@ const state = reactive({
         sortOrder: 'descend',
     },
     statuses: [] as any,
-    
+
 })
 
 function closeModal() {

@@ -44,6 +44,9 @@
                                             </Tooltip>
                                             <span>{{ shift?.en_name }}</span>
                                         </div>
+                                        <Badge type="primary" class="w-fit text-xxs" v-if="shift?.is_leave_shift_type">
+                                            {{ $t('shifts.table.markedAsLeave') }}
+                                        </Badge>
                                     </td>
                                     <td width="15%">
                                         <span>{{ shift?.dk_name }}</span>

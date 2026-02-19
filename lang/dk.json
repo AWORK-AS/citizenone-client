@@ -814,6 +814,7 @@
                 "lock": "Lås journal",
                 "move": "Flyt",
                 "removeFromFavorite": "Fjern fra favoritter",
+                "share": "Del",
                 "unlock": "Lås journal op"
             },
             "alert": {
@@ -927,7 +928,22 @@
                 "moveJournal": "Flyt journal"
             },
             "newNote": "Nyt notat",
-            "on": "Den"
+            "on": "Den",
+            "shareJournal": {
+                "citizenJournal": "Borgerjournal",
+                "form": {
+                    "alert": {
+                        "enteredPasswordMismatched": "Indtastet adgangskode stemmer ikke overens",
+                        "journalSuccessfullyShared": "Journal blev delt med succes",
+                        "required8Characters": "Dette felt skal være mindst 8 tegn langt"
+                    },
+                    "confirmPassword": "Bekræft adgangskode",
+                    "password": "Adgangskode",
+                    "unlock": "Lås op",
+                    "unlockJournal": "Lås op for journal"
+                },
+                "shareJournal": "Del journal"
+            }
         },
         "confirmation": {
             "archiveConfirmation": "Er du sikker på, at du vil arkivere denne borger"
@@ -2431,6 +2447,12 @@
         "departmentSickLeaves": "Afdelingens sygefravær",
         "download": {
             "date": "Dato",
+            "delimiter": {
+                "comma": "Komma",
+                "delimiter": "Afgrænser",
+                "semicolon": "Semikolon",
+                "tab": "Tabulator"
+            },
             "department": "Afdelinger",
             "download": "Download",
             "downloadType": "Downloadtype",
@@ -2615,7 +2637,6 @@
             "DoNotCountWeekends": "Tæl ikke weekender med",
             "forSleepingNightShift": "For sovende nattevagt",
             "inMeeting": "I møde",
-            "markAsLeave": "Markér som ferie",
             "note": "Bemærkning",
             "private": "Privat",
             "tags": "Etiketter",
@@ -4503,6 +4524,7 @@
                 "citizensAdmissionAndDischarged": "Borgernes indskrivning og udskrivning",
                 "citizensEvents": "Borgeres begivenheder",
                 "citizensDiagnoses": "Borgernes diagnoser",
+                "citizensFollowUpReminders": "Opfølgningspåmindelser",
                 "citizensOrigin": "Borgernes oprindelse",
                 "medicationOverview": "Medicinoversigt",
                 "gender": "Køn",
@@ -4522,6 +4544,15 @@
             },
             "show": "Vis",
             "startDate": "Startdato"
+        },
+        "followUpReminders": {
+            "followUpReminders": "Opfølgningspåmindelser",
+            "noFollowUps": "Ingen afventende opfølgninger",
+            "reportFollowUp": "Rapportopfølgning",
+            "overdue": "Forsinket",
+            "dueToday": "Forfalder i dag",
+            "dueOn": "Forfalder den",
+            "reminders": "påmindelser"
         },
         "from": "Fra",
         "gender": {
@@ -4696,14 +4727,21 @@
             "form": {
                 "answerForm": "Svar formular",
                 "chooseLabel": "Vælg, om du vil downloade formularen for offline udfyldelse eller oprette et svar direkte",
+                "days": "Dage",
                 "downloadForm": "Download formular",
+                "editReport": "Rediger rapport",
+                "followUpIn": "Følg op om",
                 "form": "Formular",
                 "goal": "Mål",
+                "months": "Måneder",
                 "plan": "Plan",
                 "saveAndDownload": "Gem og download PDF",
                 "saveAsDraft": "udkast",
+                "setFollowUpDate": "Angiv opfølgningsdato",
                 "subgoal": "Delmål",
-                "editReport": "Rediger rapport"
+                "useFollowUpReminder": "Brug opfølgningspåmindelse",
+                "weeks": "Uger",
+                "years": "År"
             }
         },
         "editStatusTemplate": {
@@ -4711,21 +4749,20 @@
                 "statusTemplateSuccessfullyUpdated": "Rapporten er blevet opdateret"
             },
             "editReport": "Rediger rapport",
-            "formChangeWarning": "Hvis du skifter formularen, slettes alle dine nuværende svar. Vil du fortsætte?",
             "form": {
                 "answerForm": "Besvarelsesformular",
                 "chooseLabel": "Vælg, om du vil downloade formularen til offline udfyldelse eller oprette et svar direkte",
                 "downloadForm": "Download formular",
+                "editReport": "Rediger rapport",
                 "form": "Formular",
                 "goal": "Mål",
                 "plan": "Plan",
                 "saveAndDownload": "Gem og download PDF",
                 "saveAsDraft": "Kladde",
-                "subgoal": "Delmål",
-                "editReport": "Rediger rapport"
-            }
+                "subgoal": "Delmål"
+            },
+            "formChangeWarning": "Hvis du skifter formularen, slettes alle dine nuværende svar. Vil du fortsætte?"
         },
-        "isDraft": "udkast",
         "currentPlansAndGoals": "Nuværende planer og mål",
         "dateCompleted": "Dato for fuldførelse",
         "dateCreated": "Oprettelsesdato",
@@ -4785,10 +4822,13 @@
             "title": "Titel",
             "useTemplate": "Brug skabelon"
         },
+        "followUpNotifications": "Opfølgningsnotifikationer",
+        "followUps": "Opfølgninger",
         "graph": "Graf",
         "goal": "Mål",
         "goals": "Mål",
         "inProgress": "I gang",
+        "isDraft": "udkast",
         "new": "Ny",
         "newGoal": "Nyt mål",
         "newNote": "Ny note",
@@ -4828,6 +4868,7 @@
                 "users": "Brugere"
             }
         },
+        "noFollowUpNotifications": "Ingen opfølgningsnotifikationer",
         "plan": "Plan",
         "plans": "Planer",
         "reports": "Rapporter",
@@ -4847,7 +4888,8 @@
                 "seeGoals": "Se mål",
                 "seeSubgoals": "Se delmål",
                 "statuses": "Statusser",
-                "unarchive": "Gendan"
+                "unarchive": "Gendan",
+                "view": "Se"
             },
             "createdBy": "Oprettet af",
             "copiedFrom": "Kopieret fra",
@@ -5537,6 +5579,7 @@
                 "newShiftSuccessfullySaved": "Ny vagt gemt med succes"
             },
             "color": "Farve",
+            "markAsLeave": "Markér som ferie",
             "nameDanish": "Navn (dansk)",
             "nameEnglish": "Navn (engelsk)",
             "paycode": "Lønningskode",
@@ -5554,6 +5597,7 @@
                 "deleteShiftConfirmation": "Er du sikker på, at du vil slette denne vagt"
             },
             "color": "Farve",
+            "markedAsLeave": "Markeret som ferie",
             "nameDanish": "Navn (dansk)",
             "nameEnglish": "Navn (engelsk)",
             "paycode": "Lønningskode",
@@ -6201,13 +6245,67 @@
     },
     "theListIsEmpty": "Listen er tom",
     "timeLogs": {
+        "download": {
+            "date": "Dato",
+            "download": "Download",
+            "downloadType": {
+                "downloadExcel": "Download Excel",
+                "downloadPDF": "Download PDF",
+                "downloadType": "Download type"
+            },
+            "filter": {
+                "filterDate": "Filtrer dato"
+            },
+            "status": "Status"
+        },
+        "editTimeLog": "Rediger tidslog",
+        "filter": {
+            "allCancellations": "Alle aflysninger",
+            "heldSessionsOnly": "Kun afholdte sessioner",
+            "onlyCancellationsByCitizen": "Kun aflysninger af borger",
+            "onlyCancellationByEmployee": "Kun aflysninger af medarbejder",
+            "status": "Status"
+        },
+        "form": {
+            "alert": {
+                "timeLogSuccessfullyUpdated": "Tidslog blev opdateret",
+                "newTimeLogSuccessfullySaved": "Ny tidslog blev gemt"
+            },
+            "dateTimeEnd": "Slutdato og -tid",
+            "dateTimeStart": "Startdato og -tid",
+            "status": {
+                "cancelledByCitizen": "Aflyst af borger",
+                "cancelledByEmployee": "Aflyst af medarbejder",
+                "completed": "Afholdt (afsluttet)",
+                "status": "Status"
+            },
+            "remarks": "Bemærkninger"
+        },
+        "newTimeLog": "Ny tidslog",
         "table": {
+            "actions": {
+                "delete": "Slet",
+                "edit": "Rediger"
+            },
+            "alert": {
+                "timeLogSuccessfullyDeleted": "Tidslog blev slettet"
+            },
             "createdAt": "Oprettet den",
-            "timein": "Tid ind",
-            "timeout": "Tid ud",
+            "confirmation": {
+                "deleteTimeLogConfirmation": "Er du sikker på, at du vil slette denne tidslog?"
+            },
+            "dateTimeEnd": "Slutdato og -tid",
+            "dateTimeStart": "Startdato og -tid",
+            "remarks": "Bemærkninger",
+            "status": {
+                "cancelledByCitizen": "Aflyst af borger",
+                "cancelledByEmployee": "Aflyst af medarbejder",
+                "completed": "Afholdt (afsluttet)",
+                "status": "Status"
+            },
             "summary": "Tidsoversigt"
         },
-        "timeLogs": "Tidslogfiler"
+        "timeLogs": "Tidslogge"
     },
     "timeRegistration": {
         "checkIn": "Tjek ind",

@@ -23,7 +23,7 @@
                                         :error="v$?.formStatusTemplate?.form_uuid?.$errors[0]?.$message.toString()" />
                                     <FormError :error="state?.error?.errors?.form_uuid?.[0]" />
                                 </div>
-                                
+
                                 <!-- Uncomment if client want a function to able to move the report to other plan goal or subgoal -->
                                 <!-- <div class="grid md:grid-cols-3 gap-x-3">
                                     <div class="space-y-1">
@@ -278,6 +278,33 @@
                             </div>
                         </div>
 
+                        <div v-if="state.form?.data?.is_follow_up_enabled" class="space-y-3">
+                            <div class="w-fit flex items-center cursor-pointer"
+                                @click="state.useFollowUpReminder = !state.useFollowUpReminder">
+                                <FormCheckbox id="use_follow_up_reminder" :value="state.useFollowUpReminder" />
+                                {{ $t('plansandgoals.createStatusTemplate.form.useFollowUpReminder') }}
+                            </div>
+
+                            <div v-if="state.useFollowUpReminder" class="space-y-2 pl-6">
+                                <label class="text-sm font-medium text-gray-700">
+                                    {{ $t('plansandgoals.createStatusTemplate.form.setFollowUpDate') }}
+                                </label>
+                                <div class="flex items-center gap-x-3">
+                                    <span class="text-sm text-gray-600">
+                                        {{ $t('plansandgoals.createStatusTemplate.form.followUpIn') }}
+                                    </span>
+                                    <div class="w-24">
+                                        <FormNumberField name="follow_up_number" placeholder="1"
+                                            v-model="state.followUpNumber" />
+                                    </div>
+                                    <div class="w-40">
+                                        <FormSelect id="follow_up_unit" :options="followUpUnits" :canClear="false"
+                                            :searchable="false" v-model="state.followUpUnit" />
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
                         <div class="space-y-1">
                             <div class="w-fit flex items-center cursor-pointer" @click="state.isDraft = !state.isDraft">
                                 <FormCheckbox id="is_draft" :value="state.isDraft" />
@@ -297,7 +324,8 @@
                                 </FormButton>
                             </div>
                             <div class="mt-2 flex justify-center gap-3">
-                                <FormButton type="button" buttonStyle="link" class="rounded-md" @click="state.currentStep = 1">
+                                <FormButton type="button" buttonStyle="link" class="rounded-md"
+                                    @click="state.currentStep = 1">
                                     {{ $t('cancel') }}
                                 </FormButton>
                             </div>
@@ -346,6 +374,7 @@ const state = reactive({
     form: [] as any,
     isPageLoading: false,
     isDraft: true,
+    useFollowUpReminder: false,
 
     currentStep: 1,
     formStatusTemplate: {
@@ -361,7 +390,9 @@ const state = reactive({
         subgoals: [],
     },
 
-    status: {} as any
+    status: {} as any,
+    followUpNumber: '1',
+    followUpUnit: 'days',
 })
 
 const rules = computed(() => {
@@ -379,15 +410,26 @@ const rules = computed(() => {
 
 const v$ = useVuelidate(rules, state)
 
+const followUpUnits = [
+    { value: 'days', label: t('plansandgoals.createStatusTemplate.form.days') },
+    { value: 'weeks', label: t('plansandgoals.createStatusTemplate.form.weeks') },
+    { value: 'months', label: t('plansandgoals.createStatusTemplate.form.months') },
+    { value: 'years', label: t('plansandgoals.createStatusTemplate.form.years') },
+]
+
+function calculateFollowUpDate() {
+    return `${state.followUpNumber} ${state.followUpUnit}`
+}
+
 function closeModal() {
     emit('close')
 }
 
 watch(() => props.isModalOpen, (isModalOpen: any) => {
     if (isModalOpen) {
-        
+
         state.formStatusTemplate.form_uuid = state.status?.form?.uuid || ''
-        
+
         fetchAllForms()
         fetchAllPlans()
         fetchStatusDetail()
@@ -410,7 +452,7 @@ async function fetchStatusDetail() {
         const response = await planGoalSubgoalService.getAttachmentDetails(props.selectedStatus.uuid)
         if (response.data) {
             state.status = response.data
-            
+
             state.formStatusTemplate.form_uuid = state.status.form.uuid
 
             const planGoalSubgoal = await planGoalSubgoalService.getPlanGoalSubgoalDetail(state.status.model.uuid)
@@ -625,6 +667,13 @@ async function submitResponse() {
         )
         params.append('is_draft', state.isDraft ? '1' : '0')
 
+        if (state.useFollowUpReminder) {
+            const followUpDate = calculateFollowUpDate()
+            if (followUpDate) {
+                params.append('follow_up_date', followUpDate)
+            }
+        }
+
         state.form.data.form_fields.forEach((formField: any) => {
             const fieldType = JSON.parse(formField.field)?.type
             const fieldUuid = formField.uuid
@@ -673,6 +722,13 @@ async function submitResponseAndDownloadPDF() {
         )
 
         params.append('is_draft', state.isDraft ? '1' : '0')
+
+        if (state.useFollowUpReminder) {
+            const followUpDate = calculateFollowUpDate()
+            if (followUpDate) {
+                params.append('follow_up_date', followUpDate)
+            }
+        }
 
         state.form.data.form_fields.forEach((formField: any) => {
             const fieldType = JSON.parse(formField.field)?.type

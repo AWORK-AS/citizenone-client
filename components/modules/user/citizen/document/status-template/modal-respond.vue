@@ -212,9 +212,35 @@
                             </div>
                         </div>
 
-                        <div class="space-y-1">
+                        <div v-if="state.form?.data?.is_follow_up_enabled" class="space-y-3">
                             <div class="w-fit flex items-center cursor-pointer"
-                                @click="state.isDraft = !state.isDraft">
+                                @click="state.useFollowUpReminder = !state.useFollowUpReminder">
+                                <FormCheckbox id="use_follow_up_reminder" :value="state.useFollowUpReminder" />
+                                {{ $t('plansandgoals.createStatusTemplate.form.useFollowUpReminder') }}
+                            </div>
+
+                            <div v-if="state.useFollowUpReminder" class="space-y-2 pl-6">
+                                <label class="text-sm font-medium text-gray-700">
+                                    {{ $t('plansandgoals.createStatusTemplate.form.setFollowUpDate') }}
+                                </label>
+                                <div class="flex items-center gap-x-3">
+                                    <span class="text-sm text-gray-600">
+                                        {{ $t('plansandgoals.createStatusTemplate.form.followUpIn') }}
+                                    </span>
+                                    <div class="w-24">
+                                        <FormNumberField name="follow_up_number" placeholder="1"
+                                            v-model="state.followUpNumber" />
+                                    </div>
+                                    <div class="w-40">
+                                        <FormSelect id="follow_up_unit" :options="followUpUnits" :canClear="false"
+                                            :searchable="false" v-model="state.followUpUnit" />
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="space-y-1">
+                            <div class="w-fit flex items-center cursor-pointer" @click="state.isDraft = !state.isDraft">
                                 <FormCheckbox id="is_draft" :value="state.isDraft" />
                                 {{ $t('plansandgoals.createStatusTemplate.form.saveAsDraft') }}
                             </div>
@@ -272,8 +298,22 @@ const state = reactive({
     error: {} as Error,
     form: [] as any,
     isPageLoading: false,
-    isDraft: false
+    isDraft: false,
+    useFollowUpReminder: false,
+    followUpNumber: '1',
+    followUpUnit: 'days',
 })
+
+const followUpUnits = [
+    { value: 'days', label: t('plansandgoals.createStatusTemplate.form.days') },
+    { value: 'weeks', label: t('plansandgoals.createStatusTemplate.form.weeks') },
+    { value: 'months', label: t('plansandgoals.createStatusTemplate.form.months') },
+    { value: 'years', label: t('plansandgoals.createStatusTemplate.form.years') },
+]
+
+function calculateFollowUpDate() {
+    return `${state.followUpNumber} ${state.followUpUnit}`
+}
 
 function closeModal() {
     emit('close')
@@ -283,7 +323,7 @@ function closeModalNew() {
     emit('closeModalNew')
 }
 
-function refreshDocuments(){
+function refreshDocuments() {
     emit('refreshDocuments')
 }
 
@@ -354,6 +394,13 @@ async function submitResponse() {
         }
         params.append('is_draft', state.isDraft ? '1' : '0')
 
+        if (state.useFollowUpReminder) {
+            const followUpDate = calculateFollowUpDate()
+            if (followUpDate) {
+                params.append('follow_up_date', followUpDate)
+            }
+        }
+
         state.form.data.form_fields.forEach((formField: any) => {
             const fieldType = JSON.parse(formField.field)?.type
             const fieldUuid = formField.uuid
@@ -397,6 +444,13 @@ async function submitResponseAndDownloadPDF() {
             params.append('plan_goal_subgoal_uuid', props.selectedFormStatusTemplate.plan_uuid?.toString())
         }
         params.append('is_draft', state.isDraft ? '1' : '0')
+
+        if (state.useFollowUpReminder) {
+            const followUpDate = calculateFollowUpDate()
+            if (followUpDate) {
+                params.append('follow_up_date', followUpDate)
+            }
+        }
 
         state.form.data.form_fields.forEach((formField: any) => {
             const fieldType = JSON.parse(formField.field)?.type
