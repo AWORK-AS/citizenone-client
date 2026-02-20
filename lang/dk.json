@@ -3003,7 +3003,8 @@
             "archiveConfirmation": "Er du sikker på, at du vil arkivere dette dokument",
             "deleteFileConfirmation": "Er du sikker på, at du vil slette denne fil",
             "deleteFolderConfirmation": "Er du sikker på, at du vil slette denne mappe",
-            "upgradeStorageConfirmation": "Vil du opgradere din lagerplads"
+            "upgradeStorageConfirmation": "Vil du opgradere din lagerplads",
+            "downloadWithCompanyLogoConfirmation": "Vil du downloade dette dokument med virksomhedens logo"
         },
         "editDocument": "Rediger dokument",
         "expenses": "Udgifter",

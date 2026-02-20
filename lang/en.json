@@ -3003,7 +3003,8 @@
             "archiveConfirmation": "Are you sure you want to archive this document",
             "deleteFileConfirmation": "Are you sure you want to delete this file",
             "deleteFolderConfirmation": "Are you sure you want to delete this folder",
-            "upgradeStorageConfirmation": "Do you want to upgrade your storage"
+            "upgradeStorageConfirmation": "Do you want to upgrade your storage",
+            "downloadWithCompanyLogoConfirmation": "Do you want to download this document with company logo"
         },
         "editDocument": "Edit document",
         "expenses": "Expenses",
