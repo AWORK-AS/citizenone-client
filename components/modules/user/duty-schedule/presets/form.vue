@@ -11,10 +11,10 @@
                             </span>
                             <p class="ml-4 text-sm font-medium text-gray-900">
                                 <span v-if="step.name === 'Preset'">
-                                    Preset
+                                    {{ $t('dutySchedules.draft.preset.form.preset') }}
                                 </span>
                                 <span v-if="step.name === 'Preview'">
-                                    Preview
+                                    {{ $t('dutySchedules.draft.preset.form.preview') }}
                                 </span>
                             </p>
                         </span>
@@ -27,10 +27,10 @@
                         </span>
                         <p class="ml-4 text-sm font-medium text-secondary">
                             <span v-if="step.name === 'Preset'">
-                                Preset
+                                {{ $t('dutySchedules.draft.preset.form.preset') }}
                             </span>
                             <span v-if="step.name === 'Preview'">
-                                Preview
+                                {{ $t('dutySchedules.draft.preset.form.preview') }}
                             </span>
                         </p>
                     </a>
@@ -42,10 +42,10 @@
                             </span>
                             <p class="ml-4 text-sm font-medium text-gray-500 group-hover:text-gray-900">
                                 <span v-if="step.name === 'Preset'">
-                                    Preset
+                                    {{ $t('dutySchedules.draft.preset.form.preset') }}
                                 </span>
                                 <span v-if="step.name === 'Preview'">
-                                    Preview
+                                    {{ $t('dutySchedules.draft.preset.form.preview') }}
                                 </span>
                             </p>
                         </span>
@@ -223,7 +223,6 @@ function handleBack() {
 
 function handleNext() {
     if (state.currentStep === 1) {
-        console.log('step', state.currentStep)
         v$.value.$validate()
         if (!v$.value.$error) {
             state.currentStep = 2
@@ -231,10 +230,9 @@ function handleNext() {
                 { id: '01', name: 'Preset', href: '#', status: 'completed' },
                 { id: '02', name: 'Preview', href: '#', status: 'current' },
             ]
+            previewPreset()
         }
-        previewPreset()
     } else {
-        console.log('step', state.currentStep)
         submitForm()
     }
 }

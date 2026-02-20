@@ -54,7 +54,7 @@
                         <Icon name="ph:note" class="h-4 w-4" aria-hidden="true" />
                         {{ $t('dutySchedules.draftTemplates.draftTemplates') }}
                     </FormButton>
-                    <FormButton buttonStyle="action" class="rounded-lg" @click="">
+                    <FormButton buttonStyle="action" class="rounded-lg" @click="state.modal.isPresetsOpen = true">
                         <Icon name="ph:list-dashes-bold" class="h-4 w-4" aria-hidden="true" />
                         {{ $t('dutySchedules.draft.preset.viewPresets') }}
                     </FormButton>
@@ -88,6 +88,7 @@
                 @select-department="selectDepartment" />
             <ModulesUserDutySchedulePresetsModalNew :isModalOpen="state.modal.isSaveAsPresetOpen"
                 @close="state.modal.isSaveAsPresetOpen = false" />
+            <ModulesUserDutySchedulePresetsModalTable :isModalOpen="state.modal.isPresetsOpen" @close="state.modal.isPresetsOpen = false" />
         </NuxtLayout>
     </div>
 </template>
@@ -108,6 +109,7 @@ const state = reactive({
         isShowAllShiftTypes: false,
         isSelectDepartmentModalOpen: false,
         isSaveAsPresetOpen: false,
+        isPresetsOpen: false,
     },
 })
 

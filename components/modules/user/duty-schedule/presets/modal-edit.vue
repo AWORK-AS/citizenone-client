@@ -1,11 +1,11 @@
 <template>
     <div>
-        <Modal size="md" :title="$t('dutySchedules.draft.preset.saveCurrentDraftAsPreset')" :show="props.isModalOpen" @close="closeModal">
+        <Modal size="md" :title="$t('dutySchedules.draft.preset.editDraftSchedulePreset')" :show="props.isModalOpen" @close="closeModal">
             <template #modal-body>
                 <LoadingSpinner :isActive="state.isPageLoading">
-                    <ModulesUserDutySchedulePresetsForm formType="create"
-                        :error="state.error" @isPageLoading="(value: boolean) => state.isPageLoading = value"
-                        @closeModal="closeModal" @submitForm="saveDraftSchedulePreset" />
+                    <ModulesUserDutySchedulePresetsFormEdit formType="update"
+                        :error="state.error" @isPageLoading="(value: boolean) => state.isPageLoading = value" :selectedPreset="props.selectedPreset"
+                        @closeModal="closeModal" @submitForm="updateDraftSchedulePreset" />
                 </LoadingSpinner>
             </template>
         </Modal>
@@ -24,11 +24,15 @@ const props = defineProps({
         type: Boolean,
         required: true,
     },
+    selectedPreset: {
+        type: Object,
+        required: true,
+    },
 })
 
 const { t } = useI18n()
 const { successAlert } = useAlert()
-const emit = defineEmits(['close'])
+const emit = defineEmits(['close', 'refreshPresets'])
 
 const state = reactive({
     error: {} as Error,
@@ -36,21 +40,19 @@ const state = reactive({
     formDutySchedulePreset: {
         name: '',
         description: '',
-        date_start: '',
-        date_end: '',
     },
 })
 
 function closeModal() {
-    state.error = {} as Error
     emit('close')
 }
 
-async function saveDraftSchedulePreset(draftSchedulePresetDetails: any) {
+async function updateDraftSchedulePreset(draftSchedulePresetDetails: any) {
     state.isPageLoading = true
     try {
-        await draftSchedulePresetService.savePreset(draftSchedulePresetDetails)
-        successAlert(`${t('alert.success')}!`, `${t('dutySchedules.draft.preset.saveSuccess')}`)
+        await draftSchedulePresetService.updatePreset(props.selectedPreset.uuid, draftSchedulePresetDetails)
+        successAlert(`${t('alert.success')}!`, `${t('dutySchedules.draft.preset.updateSuccess')}`)
+        emit('refreshPresets')
         closeModal()
     } catch (error: any) {
         state.error = error
