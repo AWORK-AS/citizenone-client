@@ -620,8 +620,8 @@ function calculateShiftWidth(shift: any, weekIndex: string) {
     const shiftStart = moment(shift.date_time_start).startOf('day')
     const shiftEnd = moment(shift.date_time_end).startOf('day')
 
-    const weekStart = moment(currentDate.value).startOf('isoWeek')
-    const weekEnd = moment(currentDate.value).endOf('isoWeek')
+    const weekStart = moment(state.selectedDate).startOf('isoWeek')
+    const weekEnd = moment(state.selectedDate).endOf('isoWeek')
 
     // Clamp the shift range to the current week range
     const visibleStart = shiftStart.isBefore(weekStart) ? weekStart : shiftStart
