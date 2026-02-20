@@ -200,6 +200,12 @@ const state = reactive({
 watch(() => props.isModalOpen, (isModalOpen: Boolean) => {
     if (isModalOpen) {
         state.error = {}
+        state.scheduleSlotsDateRange = {
+            formDateRange: {
+                start_date: moment(props.selectedDay?.fullDate).format('YYYY-MM-DD'),
+                end_date: moment(props.selectedDay?.fullDate).format('YYYY-MM-DD'),
+            },
+        }
         fetchScheduleSlots()
     }
 })
