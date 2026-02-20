@@ -3393,6 +3393,7 @@
         "table": {
             "alert": {
                 "expenseSuccessfullyDeleted": "Udgift slettet med succes",
+                "expenseSuccessfullyRejected": "Udgift afvist med succes",
                 "expenseSuccessfullyUpdated": "Udgift opdateret med succes",
                 "expenseSuccessfullyReimbursed": "Udgift udbetalt med succes",
                 "expenseSuccessfullyUnreimbursed": "Udgift annulleret med succes"
@@ -3402,10 +3403,12 @@
                 "edit": "Rediger",
                 "view": "Se",
                 "reimburse": "Udbetal udlæg",
-                "unreimburse": "Annuller udlæg"
+                "unreimburse": "Annuller udlæg",
+                "reject": "Afvis"
             },
             "confirmation": {
-                "deleteExpenseConfirmation": "Er du sikker på, at du vil slette denne udgift?"
+                "deleteExpenseConfirmation": "Er du sikker på, at du vil slette denne udgift?",
+                "rejectExpenseConfirmation": "Er du sikker på, at du vil afvise denne udgift?"
             },
             "name": "Navn",
             "expense": "Udgift",
@@ -3416,7 +3419,8 @@
             "receipt": "Kvittering",
             "status": "Status",
             "reimbursed": "Udlæg udbetalt",
-            "pending": "Afventer"
+            "pending": "Afventer",
+            "rejected": "Afvist"
         },
         "viewExpense": {
             "viewExpense": "Se udgift",
