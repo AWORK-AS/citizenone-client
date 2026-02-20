@@ -562,7 +562,7 @@ function previousWeek() {
 }
 
 function setToday() {
-    state.selectedDate = moment(state.selectedDate).format('YYYY-MM-DD')
+    state.selectedDate = moment().format('YYYY-MM-DD')
     fetchDutySchedule()
 }
 
