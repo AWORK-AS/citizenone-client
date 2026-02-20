@@ -9,10 +9,12 @@ class BaseAPIService {
             config = {
                 baseURL: runtimeConfig.public.apiBaseURL,
                 method: method,
-                params: params,
                 headers: {
                     Authorization: 'Bearer ' + localStorage.getItem('_token'),
                     Accept: 'application/json',
+                },
+                async onRequest({ request, options }: { request: any, options: any }) {
+                    options.params = params
                 },
             }
         } else {
