@@ -244,6 +244,14 @@ watch(() => userStore.getUser, (newValue: any) => {
                     'settings-units'
                 ]
             },
+            {
+                name: 'settings.tabs.dutyShiftRules',
+                isTranslateName: true,
+                href: `/settings/duty-shift-rules`,
+                routeNames: [
+                    'settings-duty-shift-rules'
+                ]
+            },
         ];
 
     }
@@ -329,5 +337,9 @@ function changeTab(value: any) {
     else if (value === '/settings/units') {
         navigateTo(`/settings/units`)
     }
+    else if (value === '/settings/duty-shift-rules') {
+        navigateTo(`/settings/duty-shift-rules`)
+    }
+
 }
 </script>

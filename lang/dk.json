@@ -2382,6 +2382,42 @@
             "name": "Navn"
         }
     },
+    "dutyShiftRules": {
+        "dutyShiftRules": "Vagtregler",
+        "newDutyShiftRule": "Ny vagtregel",
+        "editDutyShiftRule": "Rediger vagtregel",
+        "form": {
+            "name": "Navn",
+            "periodDays": "Periode (dage tilbage)",
+            "conditionType": "Betingelsestype",
+            "conditionTypes": {
+                "count": "Antal forekomster",
+                "consecutive": "Sammenhængende forekomster"
+            },
+            "threshold": "Minimumsantal",
+            "consecutiveDays": "Sammenhængende dage",
+            "shiftTypes": "Vagttyper",
+            "alert": {
+                "newDutyShiftRuleSuccessfullySaved": "Ny vagtregel gemt med succes",
+                "dutyShiftRuleSuccessfullyUpdated": "Vagtregel opdateret med succes"
+            }
+        },
+        "table": {
+            "name": "Navn",
+            "periodDays": "Periode (dage)",
+            "conditionType": "Betingelsestype",
+            "actions": {
+                "edit": "Rediger",
+                "delete": "Slet"
+            },
+            "alert": {
+                "dutyShiftRuleSuccessfullyDeleted": "Vagtregel slettet med succes"
+            },
+            "confirmation": {
+                "deleteDutyShiftRuleConfirmation": "Er du sikker på, at du vil slette denne vagtregel"
+            }
+        }
+    },
     "dosageForms": {
         "addNewDosageForm": "Tilføj ny doseringsform",
         "alert": {
@@ -5541,6 +5577,7 @@
             "customPages": "Ordliste",
             "departments": "Afdelinger",
             "diagnoses": "Diagnoser",
+            "dutyShiftRules": "Vagtregler",
             "dosageForms": "Doseringsformer",
             "employeeGroups": "Medarbejdergrupper",
             "expenseCategories": "Udgiftskategorier",

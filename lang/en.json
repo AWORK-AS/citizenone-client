@@ -2382,6 +2382,42 @@
             "name": "Name"
         }
     },
+    "dutyShiftRules": {
+        "dutyShiftRules": "Duty shift rules",
+        "newDutyShiftRule": "New duty shift rule",
+        "editDutyShiftRule": "Edit duty shift rule",
+        "form": {
+            "name": "Name",
+            "periodDays": "Period (days back)",
+            "conditionType": "Condition type",
+            "conditionTypes": {
+                "count": "Number of occurrences",
+                "consecutive": "Consecutive occurrences"
+            },
+            "threshold": "Minimum count",
+            "consecutiveDays": "Consecutive days",
+            "shiftTypes": "Shift types",
+            "alert": {
+                "newDutyShiftRuleSuccessfullySaved": "New duty shift rule successfully saved",
+                "dutyShiftRuleSuccessfullyUpdated": "Duty shift rule successfully updated"
+            }
+        },
+        "table": {
+            "name": "Name",
+            "periodDays": "Period (days)",
+            "conditionType": "Condition type",
+            "actions": {
+                "edit": "Edit",
+                "delete": "Delete"
+            },
+            "alert": {
+                "dutyShiftRuleSuccessfullyDeleted": "Duty shift rule successfully deleted"
+            },
+            "confirmation": {
+                "deleteDutyShiftRuleConfirmation": "Are you sure you want to delete this duty shift rule"
+            }
+        }
+    },
     "dosageForms": {
         "addNewDosageForm": "Add new dosage form",
         "alert": {
@@ -5541,6 +5577,7 @@
             "customPages": "Glossary",
             "departments": "Departments",
             "diagnoses": "Diagnoses",
+            "dutyShiftRules": "Duty shift rules",
             "dosageForms": "Dosage forms",
             "employeeGroups": "Employee groups",
             "expenseCategories": "Expense categories",
