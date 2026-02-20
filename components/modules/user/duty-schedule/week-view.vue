@@ -1095,6 +1095,7 @@ watch(() => state.progress.percentage, (newPercentage: any) => {
 
 watch(() => departmentStore.getSelectedDepartmentName, (newValue: any) => {
     if (newValue != null) {
+        dutyScheduleStore.setCurrentPageNumber(1)
         fetchDutySchedule()
     }
 })
