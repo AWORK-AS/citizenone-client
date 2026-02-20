@@ -14,7 +14,7 @@
 
     <!-- Invoice Content -->
     <div v-if="!loading && !error && invoiceDetails" class="invoice-content">
-      <h1>Invoice #: {{ invoiceDetails.id }}</h1>
+      <h1>Invoice number: {{ invoiceDetails.id }}</h1>
       <p>Customer: {{ invoiceDetails.customerName }}</p>
       <p>Email: {{ invoiceDetails.customerEmail }}</p>
       <p>Status: {{ formatStatus(invoiceDetails.status) }}</p>
@@ -34,23 +34,24 @@
           <tr v-for="item in invoiceDetails.items" :key="item.id">
             <td>{{ item.description }}</td>
             <td>{{ item.quantity }}</td>
-            <td>{{ formatCurrency(item.unitPrice) }}</td>
-            <td>{{ formatCurrency(item.amount) }}</td>
+            <td>{{ formatCurrency(item.unitPrice / 100) }}</td>
+            <td>{{ formatCurrency(item.amount / 100) }}</td>
           </tr>
         </tbody>
       </table>
 
       <!-- Action buttons-->
- <div class="invoice-actions">
-    <button @click="payWithStripe" class="stripe-btn" :disabled="loadingPay">
-      <span v-if="!loadingPay">Pay with Stripe</span>
-      <span v-else>Redirecting...</span>
-    </button>
-     
-    <button @click="downloadPdf" class="pdf-btn" :disabled="loadingPay">
-      Download PDF
-    </button>
-     </div>
+      <div class="invoice-actions">
+        <button @click="payWithStripe" class="stripe-btn" :disabled="loadingStripe">
+          <span v-if="!loadingStripe">Pay with Stripe</span>
+          <span v-else>Redirecting...</span>
+        </button>
+         
+        <button @click="downloadPdf" class="pdf-btn" :disabled="loadingPdf">
+          <span v-if="!loadingPdf">Download PDF</span>
+          <span v-else>Downloading...</span>
+        </button>
+      </div>
     </div>
   </div>
 </template>
@@ -59,6 +60,14 @@
 import { ref, onMounted, computed } from 'vue';
 import { useRoute } from 'vue-router';
 
+interface InvoiceItem {
+  id: string;
+  description: string;
+  quantity: number;
+  unitPrice: number;
+  amount: number;
+}
+
 interface Invoice {
   id: string;
   amount: number;
@@ -66,13 +75,8 @@ interface Invoice {
   status: string;
   customerName?: string;
   customerEmail?: string;
-  items: Array<{
-    id: string;
-    description: string;
-    quantity: number;
-    unitPrice: number;
-    amount: number;
-  }>;
+  items: InvoiceItem[];
+  hostedInvoiceUrl?: string;
 }
 
 // State
@@ -82,7 +86,8 @@ const invoiceId = computed(() => route.params.id as string);
 const invoiceDetails = ref<Invoice | null>(null);
 const loading = ref(true);
 const error = ref('');
-const loadingPay = ref(false);
+const loadingStripe = ref(false);
+const loadingPdf = ref(false);
 
 // Load invoice on mount
 onMounted(() => {
@@ -104,35 +109,32 @@ async function loadInvoice() {
     if (!res.ok) throw new Error(`Failed to fetch invoice: ${res.statusText}`);
     const data = await res.json();
 
-    const invoice = data; // Assuming API returns { invoice: { ... } }
-    const invoiceFromApi = data?.invoice_id; // Adjust based on actual API response structure
-
-    if(!invoice || !invoiceFromApi) {
+    if (!data || !data.invoice_id) {
       throw new Error('Invoice data is missing in the response');
     }
 
-    // Map Stripe response to InvoiceStripe format
+    // Map Stripe response to Invoice format
     invoiceDetails.value = {
-      id: invoiceFromApi, // Use the correct ID from the API response
-      amount: invoice.total ?? invoice.amount_due ?? 0,
-      currency: invoice.currency ?? 'dkk',
-      status: invoice.status ?? 'unknown',
-      customerName: invoice.customer_name ?? '',
-      customerEmail: invoice.customer_email ?? '',
-      items: invoice.lines?.map((line: any) => ({
+      id: data.invoice_id,
+      amount: data.total ?? data.amount_due ?? 0,
+      currency: data.currency ?? 'dkk',
+      status: data.status ?? 'unknown',
+      customerName: data.customer_name ?? '',
+      customerEmail: data.customer_email ?? '',
+      items: data.lines?.map((line: any) => ({
         id: line.id,
         description: line.description,
-        quantity: line.quantity,
-        unitPrice: line.amount,
-        amount: line.amount,
+        quantity: line.quantity ?? 1,
+        unitPrice: line.amount ?? 0,
+        amount: line.amount ?? 0,
       })) ?? [],
+      hostedInvoiceUrl: data.hosted_invoice_url ?? '', 
     };
-
   } catch (err) {
     error.value = err instanceof Error ? err.message : 'Failed to load invoice';
     console.error(err);
   } finally {
-    loading.value = false; // 🔹 Spinner stopper
+    loading.value = false;
   }
 }
 
@@ -153,56 +155,69 @@ function formatStatus(status: string): string {
   return status.charAt(0).toUpperCase() + status.slice(1).toLowerCase();
 }
 
-//Stripe Payment
+// Stripe Payment
 async function payWithStripe() {
   if (!invoiceId.value) return;
-  loadingPay.value = true;
+
+  loadingStripe.value = true;
 
   try {
-    // Call backend to create Stripe Checkout session
-    const res = await fetch(`http://127.0.0.1:8000/api/stripe/invoices/${invoiceId.value}/checkout-session`);
+    const res = await fetch(
+      `http://127.0.0.1:8000/api/stripe/invoices/${invoiceId.value}/checkout-session`,
+      { method: 'POST' }
+    );
+
+    if (!res.ok) throw new Error(`Failed to create Stripe checkout session: ${res.statusText}`);
     const data = await res.json();
 
-    if (data.hosted_invoice_url) {
-      window.open(data.hosted_invoice_url, '_blank');
-    }else{
-        throw new Error('Failed to create Stripe checkout session');
-    }
-   
+    if (!data.url) throw new Error('Checkout URL is missing in the response');
+
+    window.location.href = data.url; // Redirect til Stripe Checkout
   } catch (err) {
     console.error('Error creating Stripe checkout session:', err);
+    alert('Failed to initiate payment. Please try again later.');
   } finally {
-    loadingPay.value = false;
+    loadingStripe.value = false;
   }
 }
 
-// PDF Download
-async function downloadPdf() {
-  if (!invoiceId.value) return;
-  loadingPay.value = true;
-
-  try {
-    const res = await fetch(`http://127.0.0.1:8000/api/stripe/invoices/${invoiceId.value}/pdf`);
-
-    if (!res.ok) {
-       throw new Error(`Failed to fetch PDF: ${res.statusText}`);
+// PDF Download using hosted_invoice_url
+  async function downloadPdf() {
+    if (!invoiceDetails.value?.hostedInvoiceUrl) {
+      alert('PDF is not available yet.');
+      return;
     }
 
-    const blob = await res.blob();
-    const link = document.createElement('a');
-    link.href = window.URL.createObjectURL(blob);
-    link.download = `invoice_${invoiceId.value}.pdf`;
-    link.click();  
+  loadingPdf.value = true;
 
-    window.URL.revokeObjectURL(link.href); // Clean up URL object
+  try {
+    const response = await fetch(
+      `http://127.0.0.1:8000/api/stripe/invoices/${invoiceDetails.value.id}/pdf`
+    );
+
+    if (!response.ok) {
+      throw new Error('Failed to fetch PDF');
+    }
+
+    const blob = await response.blob();
+    const url = window.URL.createObjectURL(blob);
+
+    const link = document.createElement('a');
+    link.href = url;
+    link.download = `invoice_${invoiceDetails.value.id}.pdf`;
+    document.body.appendChild(link);
+    link.click();
+
+    link.remove();
+    window.URL.revokeObjectURL(url);
 
   } catch (err) {
     console.error('Error downloading PDF:', err);
+    alert('Failed to download PDF.');
   } finally {
-    loadingPay.value = false;
+    loadingPdf.value = false;
   }
 }
-
 
 </script>
 
@@ -276,7 +291,6 @@ async function downloadPdf() {
   min-width: 150px;
   margin-bottom: 8px;
 }
-
 .stripe-btn, .pdf-btn {
   background-color: #f3f4f6;
   color: #1f2937;
