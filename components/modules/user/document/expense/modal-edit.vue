@@ -67,7 +67,7 @@ async function updateExpense(expenseDetails: any) {
         if (response?.data) {
             refreshExpenses()
             closeModal()
-            successAlert(`${t('alert.success')}!`, `${t('drive.alert.folderSuccessfullyAdded')}.`)
+            successAlert(`${t('alert.success')}!`, `${t('expenses.table.alert.expenseSuccessfullyUpdated')}.`)
         }
     } catch (error: any) {
         state.error = error

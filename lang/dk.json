@@ -3346,15 +3346,15 @@
         "table": {
             "alert": {
                 "expenseCategorySuccessfullyDeleted": "Udgiftskategori blev slettet",
-                "expenseSuccessfullyReimbursed": "Udgift blev refunderet",
-                "expenseSuccessfullyUnreimbursed": "Udgift blev ikke refunderet"
+                "expenseSuccessfullyReimbursed": "Udgift udbetalt med succes",
+                "expenseSuccessfullyUnreimbursed": "Udgift annulleret med succes"
             },
             "actions": {
                 "delete": "Slet",
                 "edit": "Rediger",
                 "view": "Vis",
-                "reimburse": "Refunder",
-                "unreimburse": "Ikke refundér"
+                "reimburse": "Udbetal udlæg",
+                "unreimburse": "Annuller udbetaling"
             },
             "confirmation": {
                 "deleteExpenseCategoryConfirmation": "Er du sikker på, at du vil slette denne udgiftskategori?"
@@ -3392,15 +3392,16 @@
         "table": {
             "alert": {
                 "expenseSuccessfullyDeleted": "Udgift slettet med succes",
-                "expenseSuccessfullyReimbursed": "Udgift refunderet med succes",
-                "expenseSuccessfullyUnreimbursed": "Udgift fjernet fra refusion med succes"
+                "expenseSuccessfullyUpdated": "Udgift opdateret med succes",
+                "expenseSuccessfullyReimbursed": "Udgift udbetalt med succes",
+                "expenseSuccessfullyUnreimbursed": "Udgift annulleret med succes"
             },
             "actions": {
                 "delete": "Slet",
                 "edit": "Rediger",
                 "view": "Se",
-                "reimburse": "Refunder",
-                "unreimburse": "Fjern refusion"
+                "reimburse": "Udbetal udlæg",
+                "unreimburse": "Annuller udlæg"
             },
             "confirmation": {
                 "deleteExpenseConfirmation": "Er du sikker på, at du vil slette denne udgift?"
@@ -3413,7 +3414,7 @@
             "amount": "Beløb",
             "receipt": "Kvittering",
             "status": "Status",
-            "reimbursed": "Refunderet",
+            "reimbursed": "Udlæg udbetalt",
             "pending": "Afventer"
         },
         "viewExpense": {

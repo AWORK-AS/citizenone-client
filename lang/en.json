@@ -3346,15 +3346,15 @@
         "table": {
             "alert": {
                 "expenseCategorySuccessfullyDeleted": "Expense category successfully deleted",
-                "expenseSuccessfullyReimbursed": "Expense successfully reimbursed",
-                "expenseSuccessfullyUnreimbursed": "Expense successfully unreimbursed"
+                "expenseSuccessfullyReimbursed": "Expense successfully paid out",
+                "expenseSuccessfullyUnreimbursed": "Expense successfully unpaid"
             },
             "actions": {
                 "delete": "Delete",
                 "edit": "Edit",
                 "view": "View",
-                "reimburse": "Reimburse",
-                "unreimburse": "Unreimburse"
+                "reimburse": "Pay outlay",
+                "unreimburse": "Cancel outlay"
             },
             "confirmation": {
                 "deleteExpenseCategoryConfirmation": "Are you sure you want to delete this expense category?"
@@ -3392,15 +3392,16 @@
         "table": {
             "alert": {
                 "expenseSuccessfullyDeleted": "Expense successfully deleted",
-                "expenseSuccessfullyReimbursed": "Expense successfully reimbursed",
-                "expenseSuccessfullyUnreimbursed": "Expense successfully unreimbursed"
+                "expenseSuccessfullyUpdated": "Expense successfully updated",
+                "expenseSuccessfullyReimbursed": "Payment successfully disbursed",
+                "expenseSuccessfullyUnreimbursed": "Payment disbursement successfully cancelled"
             },
             "actions": {
                 "delete": "Delete",
                 "edit": "Edit",
                 "view": "View",
-                "reimburse": "Reimburse",
-                "unreimburse": "Unreimburse"
+                "reimburse": "Disburse payment",
+                "unreimburse": "Cancel payment disbursement"
             },
             "confirmation": {
                 "deleteExpenseConfirmation": "Are you sure you want to delete this expense?"
@@ -3413,7 +3414,7 @@
             "amount": "Amount",
             "receipt": "Receipt",
             "status": "Status",
-            "reimbursed": "Reimbursed",
+            "reimbursed": "Outlay paid",
             "pending": "Pending"
         },
         "viewExpense": {
