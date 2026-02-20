@@ -24,6 +24,10 @@ class TimeLogService extends BaseAPIService {
     async deleteTimeLog(timeLogUuid: any): Promise<any> {
         return await this.request(`/user/time-logs/${timeLogUuid}`, 'DELETE')
     }
+
+    async downloadTimeLog(params: object): Promise<any> {
+        return await this.request(`/user/time-logs/download/report`, 'GET', params)
+    }
 }
 
 export const timeLogService = new TimeLogService()

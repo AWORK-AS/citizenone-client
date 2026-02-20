@@ -22,16 +22,42 @@
                         :sortData="state.sortData" @sort="sort">
                         <template #body v-if="!(state.isTableLoading || (state.logs?.data?.length === 0))">
                             <tr v-for="(log, index) in state.logs?.data" :key="index">
-                                <td width="25%">
+                                <td width="20%">
                                     <span>{{ formatDateTimeToReadable(log?.created_at) }}</span>
                                 </td>
-                                <td width="25%">
-                                    <span>{{ log?.time_in }}</span>
+                                <td width="15%">
+                                    <span v-if="log?.date_time_start">
+                                        {{ formatDateTimeToReadable(log?.date_time_start) }}
+                                    </span>
                                 </td>
-                                <td width="25%">
-                                    <span>{{ log?.time_out }}</span>
+                                <td width="15%">
+                                    <span v-if="log?.date_time_end">
+                                        {{ formatDateTimeToReadable(log?.date_time_end) }}
+                                    </span>
                                 </td>
-                                <td width="25%">
+                                <td width="15%">
+                                    <Badge type="primary" class="w-fit truncate"
+                                        v-if="log?.status === 'cancelled_by_citizen'">
+                                        <p class="text-xxs">
+                                            {{ $t('timeLogs.table.status.cancelledByCitizen') }}
+                                        </p>
+                                    </Badge>
+                                    <Badge type="primary" class="w-fit truncate"
+                                        v-if="log?.status === 'cancelled_by_employee'">
+                                        <p class="text-xxs">
+                                            {{ $t('timeLogs.table.status.cancelledByEmployee') }}
+                                        </p>
+                                    </Badge>
+                                    <Badge type="primary" class="w-fit truncate" v-if="log?.status === 'completed'">
+                                        <p class="text-xxs">
+                                            {{ $t('timeLogs.table.status.completed') }}
+                                        </p>
+                                    </Badge>
+                                </td>
+                                <td width="15%">
+                                    <span>{{ log?.remarks }}</span>
+                                </td>
+                                <td width="20%">
                                     <span>{{ log?.time_summary }}</span>
                                 </td>
                             </tr>
@@ -63,8 +89,10 @@ const breadcrumbLinks = [
 const state = reactive({
     columnHeaders: [
         { name: 'timeLogs.table.createdAt', isTranslateName: true, sorter: true, key: 'created_at' },
-        { name: 'timeLogs.table.timein', isTranslateName: true, },
-        { name: 'timeLogs.table.timeout', isTranslateName: true, },
+        { name: 'timeLogs.table.dateTimeStart', isTranslateName: true, sorter: true, key: 'date_time_start' },
+        { name: 'timeLogs.table.dateTimeEnd', isTranslateName: true, sorter: true, key: 'date_time_end' },
+        { name: 'timeLogs.table.status.status', isTranslateName: true, },
+        { name: 'timeLogs.table.remarks', isTranslateName: true, },
         { name: 'timeLogs.table.summary', isTranslateName: true, },
     ],
     error: {} as Error,

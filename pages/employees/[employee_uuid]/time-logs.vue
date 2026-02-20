@@ -21,12 +21,29 @@
                 <ModulesUserEmployeeTabs />
 
                 <div class="mt-10 space-y-5">
-                    <div class="flex flex-wrap items-center justify-end gap-3">
-                        <FormButton buttonStyle="action" class="rounded-lg"
-                            @click="state.modal.isAddNewTimeLogOpen = true">
-                            <Icon name="ph:plus" class="h-4 w-4" aria-hidden="true" />
-                            {{ $t('timeLogs.newTimeLog') }}
-                        </FormButton>
+                    <div class="flex items-center justify-between">
+                        <div>
+                            <button class="flex items-center gap-x-1 text-sm text-primary group"
+                                @click="state.modal.isFilterTimeLogsOpen = true">
+                                <Icon name="ic:outline-filter-list"
+                                    class="text-primary w-6 h-6 group-hover:text-primary-700" />
+                                <span class="group-hover:text-primary-700">
+                                    {{ $t('filter') }}
+                                </span>
+                            </button>
+                        </div>
+                        <div class="flex flex-wrap items-center justify-end gap-3">
+                            <FormButton buttonStyle="action" class="rounded-lg"
+                                @click="state.modal.isAddNewTimeLogOpen = true">
+                                <Icon name="ph:plus" class="h-4 w-4" aria-hidden="true" />
+                                {{ $t('timeLogs.newTimeLog') }}
+                            </FormButton>
+                            <FormButton buttonStyle="action" class="rounded-lg"
+                                @click="state.modal.isDownloadTimeLogsOpen = true">
+                                <Icon name="ph:download" class="h-4 w-4" aria-hidden="true" />
+                                {{ $t('timeLogs.download.download') }}
+                            </FormButton>
+                        </div>
                     </div>
                     <Alert type="danger" :text="state?.error?.message"
                         v-if="state.error?.message && state.error.message.length > 0" />
@@ -36,15 +53,21 @@
                             <template #body v-if="!(state.isTableLoading || (state.logs?.data?.length === 0))">
                                 <tr v-for="(log, index) in state.logs?.data" :key="index">
                                     <td width="20%">
-                                        <span>{{ formatDateTimeToReadable(log?.created_at) }}</span>
+                                        <span class="truncate">
+                                            {{ formatDateTimeToReadable(log?.created_at) }}
+                                        </span>
                                     </td>
-                                    <td width="15%">
-                                        <span>{{ log?.date_time_start }}</span>
+                                    <td width="20%">
+                                        <span class="truncate" v-if="log?.date_time_start">
+                                            {{ formatDateTimeToReadable(log?.date_time_start) }}
+                                        </span>
                                     </td>
-                                    <td width="15%">
-                                        <span>{{ log?.date_time_end }}</span>
+                                    <td width="20%">
+                                        <span class="truncate" v-if="log?.date_time_end">
+                                            {{ formatDateTimeToReadable(log?.date_time_end) }}
+                                        </span>
                                     </td>
-                                    <td width="15%">
+                                    <td width="10%">
                                         <Badge type="primary" class="w-fit truncate"
                                             v-if="log?.status === 'cancelled_by_citizen'">
                                             <p class="text-xxs">
@@ -66,7 +89,7 @@
                                     <td width="15%">
                                         <span>{{ log?.remarks }}</span>
                                     </td>
-                                    <td width="10%">
+                                    <td width="5%">
                                         <span>{{ log?.time_summary }}</span>
                                     </td>
                                     <td width="10%">
@@ -90,10 +113,15 @@
                     <Pagination :data="state.logs" @previous="previous" @next="next" />
                 </div>
             </div>
+            <ModulesUserTimeRegistrationModalFilter :isModalOpen="state.modal.isFilterTimeLogsOpen"
+                @close="state.modal.isFilterTimeLogsOpen = false" @setFilter="setFilter" />
+            <ModulesUserTimeRegistrationModalDownload :isModalOpen="state.modal.isDownloadTimeLogsOpen"
+                @close="state.modal.isDownloadTimeLogsOpen = false" />
             <ModulesUserTimeRegistrationModalNew :isModalOpen="state.modal.isAddNewTimeLogOpen"
-                @close="state.modal.isAddNewTimeLogOpen = false" />
+                @close="state.modal.isAddNewTimeLogOpen = false" @refreshTimeLogs="fetchTimeLogs" />
             <ModulesUserTimeRegistrationModalEdit :isModalOpen="state.modal.isEditTimeLogOpen"
-                :selectedTimeLog="state.selectedTimeLog" @close="state.modal.isEditTimeLogOpen = false" />
+                :selectedTimeLog="state.selectedTimeLog" @close="state.modal.isEditTimeLogOpen = false"
+                @refreshTimeLogs="fetchTimeLogs" />
             <DialogConfirmation :isModalOpen="state.modal.isDeleteTimeLogConfirmationOpen"
                 :message="`${$t('timeLogs.table.confirmation.deleteTimeLogConfirmation')}?`"
                 @close="state.modal.isDeleteTimeLogConfirmationOpen = false" @confirm="deleteTimeLog" />
@@ -133,18 +161,23 @@ const state = reactive({
         { name: 'timeLogs.table.createdAt', isTranslateName: true, sorter: true, key: 'created_at' },
         { name: 'timeLogs.table.dateTimeStart', isTranslateName: true, sorter: true, key: 'date_time_start' },
         { name: 'timeLogs.table.dateTimeEnd', isTranslateName: true, sorter: true, key: 'date_time_end' },
-        { name: 'timeLogs.table.status.status', isTranslateName: true, },
+        { name: 'timeLogs.table.status.status', isTranslateName: true, sorter: true, key: 'status' },
         { name: 'timeLogs.table.remarks', isTranslateName: true, },
         { name: 'timeLogs.table.summary', isTranslateName: true, },
         { name: '' },
     ],
     error: {} as Error,
+    filter: {
+        statuses: []
+    },
     isTableLoading: false,
     logs: [] as any,
     modal: {
         isAddNewTimeLogOpen: false,
-        isEditTimeLogOpen: false,
         isDeleteTimeLogConfirmationOpen: false,
+        isDownloadTimeLogsOpen: false,
+        isEditTimeLogOpen: false,
+        isFilterTimeLogsOpen: false,
     },
     selectedTimeLog: {} as any,
     sortData: {
@@ -165,6 +198,9 @@ async function fetchTimeLogs() {
             page: currentTablePage,
             sortField: state.sortData.sortField,
             sortOrder: state.sortData.sortOrder,
+        } as any
+        if (state.filter.statuses?.length > 0) {
+            params.statuses = Array(state.filter.statuses)
         }
         const response = await timeLogService.getEmployeeTimeLogs(employeeUuid, params)
         if (response) {
@@ -218,5 +254,10 @@ async function deleteTimeLog() {
         state.error = error
     }
     state.isTableLoading = false
+}
+
+function setFilter(filter: any) {
+    state.filter.statuses = filter.statuses
+    fetchTimeLogs()
 }
 </script>

@@ -815,6 +815,7 @@
                 "lock": "Lock journal",
                 "move": "Move",
                 "removeFromFavorite": "Remove from favorite",
+                "share": "Share",
                 "unlock": "Unlock journal"
             },
             "alert": {
@@ -928,7 +929,22 @@
                 "moveJournal": "Move journal"
             },
             "newNote": "New note",
-            "on": "On"
+            "on": "On",
+            "shareJournal": {
+                "citizenJournal": "Citizen journal",
+                "form": {
+                    "alert": {
+                        "enteredPasswordMismatched": "Entered password mismatched",
+                        "journalSuccessfullyShared": "Journal successfully shared",
+                        "required8Characters": "This field should be at least 8 characters long"
+                    },
+                    "confirmPassword": "Confirm password",
+                    "password": "Password",
+                    "unlock": "Unlock",
+                    "unlockJournal": "Unlock journal"
+                },
+                "shareJournal": "Share journal"
+            }
         },
         "confirmation": {
             "archiveConfirmation": "Are you sure you want to archive this citizen"
@@ -2810,6 +2826,22 @@
                 "status": "Status",
                 "workingHours": "Working hours"
             }
+        },
+        "shareDutySchedule": {
+            "dutySchedule": "Duty schedule",
+            "form": {
+                "alert": {
+                    "enteredPasswordMismatched": "Entered password mismatched",
+                    "dutyScheduleSuccessfullyShared": "Duty schedule successfully shared",
+                    "required8Characters": "This field should be at least 8 characters long"
+                },
+                "confirmPassword": "Confirm password",
+                "employee": "Employee",
+                "password": "Password",
+                "unlock": "Unlock",
+                "unlockDutySchedule": "Unlock duty schedule"
+            },
+            "shareDutySchedule": "Share duty schedule"
         },
         "shiftSpan": {
             "start": "Shift start",
@@ -6233,16 +6265,23 @@
         "download": {
             "date": "Date",
             "download": "Download",
-            "downloadType": "Download type",
-            "downloadHoursInCSV": "Download hours in CSV",
-            "downloadHoursInExcel": "Download hours in excel"
+            "downloadType": {
+                "downloadExcel": "Download excel",
+                "downloadPDF": "Download PDF",
+                "downloadType": "Download type"
+            },
+            "filter": {
+                "filterDate": "Filter date"
+            },
+            "status": "Status"
         },
         "editTimeLog": "Edit time log",
         "filter": {
             "allCancellations": "All cancellations",
             "heldSessionsOnly": "Held sessions only",
             "onlyCancellationsByCitizen": "Only cancellations by citizen",
-            "onlyCancellationByEmployee": "Only cancellations by employee"
+            "onlyCancellationByEmployee": "Only cancellations by employee",
+            "status": "Status"
         },
         "form": {
             "alert": {

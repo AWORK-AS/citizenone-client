@@ -13,6 +13,7 @@
 </template>
 
 <script setup lang="ts">
+import moment from 'moment'
 import { timeLogService } from '@/components/api/user/TimeLogService'
 import { useAlert } from '@/composables/alert'
 import { useI18n } from "vue-i18n"
@@ -34,8 +35,8 @@ const emit = defineEmits(['close', 'refreshTimeLogs'])
 const state = reactive({
     error: {} as Error,
     formTimeLog: {
-        date_time_start: '',
-        date_time_end: '',
+        date_time_start: moment().startOf('day').add(8, 'hours').format('YYYY-MM-DD H:mm'),
+        date_time_end: moment().startOf('day').add(17, 'hours').format('YYYY-MM-DD H:mm'),
         status: '',
         remarks: '',
     },

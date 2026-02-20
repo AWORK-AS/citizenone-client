@@ -36,3 +36,5 @@ logs
 
 # Gitignore itself
 .gitignore
+
+.pnpm-store/

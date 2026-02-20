@@ -171,26 +171,26 @@ async function fetchEmployee() {
                     trustees: [],
                 },
             }
-            response?.data?.media_risks.forEach((media_risk: any) => {
+            response?.data?.media_risks?.forEach((media_risk: any) => {
                 state.formEmployee.media_risks.push(media_risk?.uuid)
             })
-            response?.data?.employee_specialties.forEach((job_specialty: any) => {
+            response?.data?.employee_specialties?.forEach((job_specialty: any) => {
                 state.formEmployee.employment.job_specialties.push(job_specialty?.uuid)
             })
-            response?.data?.departments.forEach((department: any) => {
+            response?.data?.departments?.forEach((department: any) => {
                 state.formEmployee.departments.push(department?.uuid)
             })
-            response?.data?.pages.forEach((page: any) => {
+            response?.data?.pages?.forEach((page: any) => {
                 state.formEmployee.pages.push(page?.uuid)
             })
-            response?.data?.employee_trustees.forEach((employee_trustee: any) => {
+            response?.data?.employee_trustees?.forEach((employee_trustee: any) => {
                 state.formEmployee.emergencyInfo.trustees.push({
                     name: employee_trustee?.name,
                     phone: employee_trustee?.phone,
                     email: employee_trustee?.email,
                 })
             })
-            response?.data?.emergency_contacts.forEach((emergency_contact: any) => {
+            response?.data?.emergency_contacts?.forEach((emergency_contact: any) => {
                 state.formEmployee.emergencyInfo.emergency_contacts.push({
                     name: emergency_contact?.name,
                     phone: emergency_contact?.phone,
