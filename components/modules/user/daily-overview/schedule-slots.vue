@@ -17,8 +17,31 @@
                         class="rounded-md p-1 cursor-pointer" :style="{ backgroundColor: slot?.shift?.color }"
                         @click="confirmSlotRequest(slot)">
                         <div class="border border-white rounded-md p-2 text-white">
-                            {{ formatDateTimeToReadable(slot?.date_time_start) + ' - ' +
-                                formatDateTimeToReadable(slot?.date_time_end) }}
+                            <div class="flex items-center gap-x-1">
+                                <p>
+                                    {{ language.locale.value === 'en' ? slot?.shift?.en_name : slot?.shift?.dk_name }}
+                                </p>
+                                ({{ formatDateTimeToReadable(slot?.date_time_start) + ' - ' +
+                                    formatDateTimeToReadable(slot?.date_time_end) }})
+                            </div>
+                            <div class="text-sm" v-if="slot?.departments?.length > 0">
+                                {{ $t('dutySchedules.scheduleSlots.table.departments') }}:
+                                <span v-for="(department, departmentIndex) in slot?.departments" :key="departmentIndex">
+                                    {{ department?.name }}<span v-if="departmentIndex < slot?.departments.length - 1">,
+                                    </span><span v-else>.</span>
+                                </span>
+                            </div>
+                            <div v-for="(job_title, index) in slot?.job_titles" :key="index">
+                                <span>{{ job_title?.title }}</span>
+                                <div class="flex gap-1">
+                                    <div v-for="(speciality, index) in job_title?.specialties" :key="index">
+                                        <p class="truncate text-xxs bg-primary text-white p-1 rounded-md">
+                                            {{ speciality?.job_specialty?.title }}
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+
                         </div>
                     </div>
                 </div>
@@ -55,6 +78,7 @@ const departmentStore = useDepartmentStore()
 const { formatDateTimeToReadable } = useDatetimeFormatter()
 const { successAlert } = useAlert()
 const { t } = useI18n()
+const language = useI18n()
 let currentTablePage = 1
 
 const state = reactive({
