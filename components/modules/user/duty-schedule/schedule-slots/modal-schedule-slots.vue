@@ -231,8 +231,8 @@ async function fetchScheduleSlots() {
     try {
         const params = {
             department: departmentStore.getSelectedDepartmentName,
-            start_date: moment(state.scheduleSlotsDateRange.formDateRange.start_date).format('YYYY-MM-DD'),
-            end_date: moment(state.scheduleSlotsDateRange.formDateRange.end_date).format('YYYY-MM-DD'),
+            date_start: moment(state.scheduleSlotsDateRange.formDateRange.start_date).format('YYYY-MM-DD'),
+            date_end: moment(state.scheduleSlotsDateRange.formDateRange.end_date).format('YYYY-MM-DD'),
             page: currentTablePage,
             sortField: state.sortData.sortField,
             sortOrder: state.sortData.sortOrder,
