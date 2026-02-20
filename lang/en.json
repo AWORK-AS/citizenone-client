@@ -2491,6 +2491,47 @@
                     "donNotShowAgainInfo": "Hide the confirmation dialog until the next session.",
                     "confirm": "Confirm"
                 }
+            },
+            "preset": {
+                "draftSchedulesPresets": "Draft schedules presets",
+                "saveAsPreset": "Save as preset",
+                "applyPreset": "Apply preset",
+                "viewPresets": "View presets",
+                "saveCurrentDraftAsPreset": "Save current draft as preset",
+                "editDraftSchedulePreset": "Edit draft schedules preset",
+                "saveSuccess": "Draft schedules preset successfully saved!",
+                "updateSuccess": "Draft schedules preset successfully updated!",
+                "deleteSuccess": "Draft schedules preset successfully deleted!",
+                "applySuccess": "Preset successfully applied to draft schedules!",
+                "form": {
+                    "name": "Preset name",
+                    "description": "Description",
+                    "dateStart": "Draft start date",
+                    "dateEnd": "Draft end date",
+                    "presetDateRange": "Preset date range",
+                    "affectedDepartments": "Affected departments",
+                    "affectedUsers": "Affected users",
+                    "preset": "Preset",
+                    "preview": "Preview",
+                    "apply": "Apply",
+                    "selectDateRange": "Select date range",
+                    "targetDateRange": "Target date range"
+                },
+                "table": {
+                    "name": "Preset name",
+                    "description": "Description",
+                    "date":"Date",
+                    "createdBy": "Created by",
+                    "actions": {
+                        "preview": "Preview",
+                        "apply": "Apply",
+                        "edit": "Edit",
+                        "delete": "Delete"
+                    }
+                },
+                "confirmation": {
+                    "deletePresetConfirmation": "Are you sure you want to delete this preset"
+                }
             }
         },
         "normPeriod": "Norm period",
