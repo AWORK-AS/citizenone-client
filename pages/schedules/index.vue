@@ -120,7 +120,7 @@
                                     <div v-for="(employee, index) in state.scheduleEmployees" :key="employee.uuid"
                                         :class="['flex items-center gap-x-2 text-sm', employee.matchedZenegyUserUid ? 'cursor-pointer' : 'opacity-50']"
                                         @click="employee.matchedZenegyUserUid && toggleEmployeeSelection(index)">
-                                        <div class="relative shrink-0">
+                                        <div class="relative shrink-0 pointer-events-none">
                                             <FormCheckbox :value="employee.selected"
                                                 :disabled="!employee.matchedZenegyUserUid" />
                                         </div>
@@ -213,18 +213,10 @@
                                                 <option value="" disabled>
                                                     {{ $t('dutySchedules.zenegy_select_rate') }}
                                                 </option>
-                                                <template v-if="entry.type === 'add'">
-                                                    <option v-for="rate in emp.availableSupplementRates"
-                                                        :key="rate.uid" :value="rate.uid">
-                                                        {{ rate.name }}
-                                                    </option>
-                                                </template>
-                                                <template v-else>
-                                                    <option v-for="rate in emp.availableDeductionRates"
-                                                        :key="rate.uid" :value="rate.uid">
-                                                        {{ rate.name }}
-                                                    </option>
-                                                </template>
+                                                <option v-for="rate in emp.availableSupplementRates"
+                                                    :key="rate.uid" :value="rate.uid">
+                                                    {{ rate.name }}
+                                                </option>
                                             </select>
                                         </div>
                                     </div>
@@ -633,6 +625,7 @@ function toggleSelectAllEmployees() {
 }
 
 function toggleEmployeeSelection(index: number) {
+    if (!state.scheduleEmployees[index].matchedZenegyUserUid) return
     state.scheduleEmployees[index].selected = !state.scheduleEmployees[index].selected
     state.selectAllEmployees = state.scheduleEmployees
         .filter(e => e.matchedZenegyUserUid)
@@ -817,13 +810,9 @@ async function fetchAndBuildShiftTypes() {
             }
         }
 
-        // Categorize supplement rates: type 1 = supplement, type 3 = deduction
-        const supplementRateOptions = state.zenegySupplementRatesRaw
-            .filter((r: any) => r.type === 1)
-            .map((r: any) => ({ uid: r.uid, name: `${r.name}${r.number ? ` (${r.number})` : ''}` }))
-        const deductionRateOptions = state.zenegySupplementRatesRaw
-            .filter((r: any) => r.type === 3)
-            .map((r: any) => ({ uid: r.uid, name: `${r.name}${r.number ? ` (${r.number})` : ''}` }))
+        // Show all supplement rates — don't filter by type since Zenegy has many undocumented type codes
+        const allSupplementRateOptions = state.zenegySupplementRatesRaw
+            .map((r: any) => ({ uid: r.uid, name: `${r.name}${r.number ? ` (${r.number})` : ''} - ${Number(r.rate).toLocaleString('da-DK')} kr` }))
 
         state.employeeExtraHoursTypes = Array.from(empExtraMap.entries())
             .filter(([_, data]) => data.addCount > 0 || data.deductCount > 0)
@@ -838,7 +827,7 @@ async function fetchAndBuildShiftTypes() {
                         type: 'add',
                         entryCount: data.addCount,
                         totalUnits: Math.round(data.addUnits * 100) / 100,
-                        selectedSupplementRateUid: supplementRateOptions.length === 1 ? supplementRateOptions[0].uid : '',
+                        selectedSupplementRateUid: allSupplementRateOptions.length === 1 ? allSupplementRateOptions[0].uid : '',
                     })
                 }
                 if (data.deductCount > 0) {
@@ -846,7 +835,7 @@ async function fetchAndBuildShiftTypes() {
                         type: 'deduct',
                         entryCount: data.deductCount,
                         totalUnits: Math.round(data.deductUnits * 100) / 100,
-                        selectedSupplementRateUid: deductionRateOptions.length === 1 ? deductionRateOptions[0].uid : '',
+                        selectedSupplementRateUid: allSupplementRateOptions.length === 1 ? allSupplementRateOptions[0].uid : '',
                     })
                 }
 
@@ -856,8 +845,8 @@ async function fetchAndBuildShiftTypes() {
                     zenegyUserUid: data.zenegyUserUid,
                     zenegyEmployeeUid: data.zenegyEmployeeUid,
                     extraHoursEntries: entries,
-                    availableSupplementRates: supplementRateOptions,
-                    availableDeductionRates: deductionRateOptions,
+                    availableSupplementRates: allSupplementRateOptions,
+                    availableDeductionRates: allSupplementRateOptions,
                 }
             })
 
@@ -1006,18 +995,24 @@ async function executeSyncToZenegy() {
 
         // Supplement registrations payload
         if (hasSupplementRegs) {
-            const supplementPayload = state.supplementRegistrationsPreview.map(reg => ({
-                employeeUid: reg.zenegyEmployeeUid,
-                registration: {
+            const supplementPayload = state.supplementRegistrationsPreview.map(reg => {
+                const rateObj = state.zenegySupplementRatesRaw.find((r: any) => r.uid === reg.rateUid)
+                const registration: any = {
                     rateUid: reg.rateUid,
                     date: moment(reg.date).format('YYYY-MM-DDTHH:mm:ss'),
-                    rate: reg.rate,
                     units: reg.units,
                     status: 1,
-                    name: reg.rateName,
                     description: reg.note || '',
-                },
-            }))
+                }
+                // Only include name/rate if the Zenegy rate allows overriding
+                if (rateObj?.overrideName) {
+                    registration.name = reg.rateName
+                }
+                if (rateObj?.overrideRate) {
+                    registration.rate = reg.rate
+                }
+                return { employeeUid: reg.zenegyEmployeeUid, registration }
+            })
             if (supplementPayload.length > 0) {
                 promises.push(zenegyService.syncSupplementRegistrations(supplementPayload))
             }
@@ -1052,6 +1047,10 @@ async function executeSyncToZenegy() {
             userMessage = t('dutySchedules.zenegy_error_conflict_period')
         } else if (errorMsg.includes('USER_NOT_FOUND')) {
             userMessage = t('dutySchedules.zenegy_error_user_not_found')
+        } else if (errorMsg.includes("doesn't meet the requirements for this rate")) {
+            userMessage = t('dutySchedules.zenegy_error_rate_requirements')
+        } else if (errorMsg.includes('Amount cannot be overriden')) {
+            userMessage = t('dutySchedules.zenegy_error_rate_override')
         }
 
         errorAlert(t('alert.error'), userMessage)

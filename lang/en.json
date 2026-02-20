@@ -2402,7 +2402,7 @@
     "dutySchedules": {
         "zenegy_hours_let": "h",
         "zenegy_shifts": "shifts",
-        "zenegy_assign_rates_description": "Assign a Zenegy rate to each shift type per employee.",
+        "zenegy_assign_rates_description": "Assign a rate to each shift type per employee.",
         "zenegy_unknown_shift": "Unknown shift",
         "zenegy_supplement_rates_title": "Supplement & Deduction Rates",
         "zenegy_supplement_rates_description": "Assign a rate for each extra hours type per employee.",
@@ -2419,7 +2419,7 @@
         "zenegy_select_employees": "Select employees",
         "zenegy_select_all": "Select all",
         "zenegy_no_employees": "No employees found in schedule.",
-        "zenegy_no_match": "No Zenegy match",
+        "zenegy_no_match": "No matching employees are listed on your Zenegy profile.",
         "zenegy_no_matched_employees": "No matched employees selected.",
         "zenegy_select_shift_types": "Shift types & payment rates",
         "zenegy_select_rate": "Select payment rate",
@@ -2437,6 +2437,8 @@
         "zenegy_error_already_exists": "One or more registrations already exist in Zenegy for the selected dates.",
         "zenegy_error_user_not_found": "One or more employees could not be found in Zenegy. Please check the employee matching.",
         "zenegy_error_conflict_period": "Registrations already exist in Zenegy for the selected period. Please delete the existing registrations in Zenegy first or choose a different date range.",
+        "zenegy_error_rate_requirements": "One or more employees do not meet the requirements for the selected rate in Zenegy. Please choose a different rate or check the employee's settings in Zenegy.",
+        "zenegy_error_rate_override": "The selected rate does not allow overriding the amount. Please choose a rate that supports custom amounts or use the rate's default amount.",
         "activityLogs": "Activity logs",
         "alert": {
             "newScheduleSuccessfullyAdded": "New schedule successfully added",
