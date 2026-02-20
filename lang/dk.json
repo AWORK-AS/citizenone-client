@@ -2491,6 +2491,47 @@
                     "donNotShowAgainInfo": "Skjul bekræftelsesdialogen indtil næste session.",
                     "confirm": "Bekræft"
                 }
+            },
+            "preset": {
+                "draftSchedulesPresets": "Forudindstillinger for vagtplanskladder",
+                "saveAsPreset": "Gem som forudindstilling",
+                "applyPreset": "Anvend forudindstilling",
+                "viewPresets": "Se forudindstillinger",
+                "saveCurrentDraftAsPreset": "Gem nuværende kladde som forudindstilling",
+                "editDraftSchedulePreset": "Rediger vagtplanskladde-forudindstilling",
+                "saveSuccess": "Forudindstilling for vagtplanskladde gemt med succes!",
+                "updateSuccess": "Forudindstilling for vagtplanskladde opdateret med succes!",
+                "deleteSuccess": "Forudindstilling for vagtplanskladde slettet med succes!",
+                "applySuccess": "Forudindstilling blev anvendt på vagtplanskladder med succes!",
+                "form": {
+                    "name": "Navn på forudindstilling",
+                    "description": "Beskrivelse",
+                    "dateStart": "Kladde startdato",
+                    "dateEnd": "Kladde slutdato",
+                    "presetDateRange": "Forudindstillingens datointerval",
+                    "affectedDepartments": "Berørte afdelinger",
+                    "affectedUsers": "Berørte brugere",
+                    "preset": "Forudindstilling",
+                    "preview": "Forhåndsvis",
+                    "apply": "Anvend",
+                    "selectDateRange": "Vælg datointerval",
+                    "targetDateRange": "Måldatointerval"
+                },
+                "table": {
+                    "name": "Navn på forudindstilling",
+                    "description": "Beskrivelse",
+                    "date": "Dato",
+                    "createdBy": "Oprettet af",
+                    "actions": {
+                        "preview": "Forhåndsvis",
+                        "apply": "Anvend",
+                        "edit": "Rediger",
+                        "delete": "Slet"
+                    }
+                },
+                "confirmation": {
+                    "deletePresetConfirmation": "Er du sikker på, at du vil slette denne forudindstilling"
+                }
             }
         },
         "normPeriod": "Norm periode",
