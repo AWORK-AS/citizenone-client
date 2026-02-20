@@ -2092,6 +2092,7 @@
                     "savedSuccessfully": "Wallet successfully saved",
                     "updatedSuccessfully": "Wallet successfully updated"
                 },
+                "deactivateByTheEndOfTheMonth": "Deactivate by the end of the month",
                 "name": "Name",
                 "note": "Note"
             },
@@ -2520,7 +2521,7 @@
                 "table": {
                     "name": "Preset name",
                     "description": "Description",
-                    "date":"Date",
+                    "date": "Date",
                     "createdBy": "Created by",
                     "actions": {
                         "preview": "Preview",

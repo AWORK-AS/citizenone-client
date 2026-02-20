@@ -2092,6 +2092,7 @@
                     "savedSuccessfully": "Pung gemt med succes",
                     "updatedSuccessfully": "Pung opdateret med succes"
                 },
+                "deactivateByTheEndOfTheMonth": "Deaktiver inden udgangen af måneden",
                 "name": "Navn",
                 "note": "Note"
             },
