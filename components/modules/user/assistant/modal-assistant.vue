@@ -20,8 +20,8 @@
                                             <span class="max-w-[150px] truncate">{{ file.name }}</span>
                                         </div>
                                     </div>
-                                    <div class="text-sm text-white leading-relaxed text-right"
-                                        v-html="formatMessage(message?.text)" />
+                                    <div class="text-sm text-white leading-relaxed text-right whitespace-pre-wrap">{{
+                                        message?.text }}</div>
                                 </div>
                                 <!-- AI message -->
                                 <div v-else
@@ -68,24 +68,23 @@
                                 </div>
                             </div>
                             <div
-                                class="flex items-center gap-2 bg-gray-50 border border-gray-200 rounded-md
+                                class="flex items-end gap-2 bg-gray-50 border border-gray-200 rounded-md
                                 focus-within:border-primary/40 focus-within:ring-2 focus-within:ring-primary/10 transition-all px-3 py-1.5">
 
                                 <input ref="fileInput" type="file" multiple
                                     accept=".pdf,.doc,.docx,.xls,.xlsx,.csv,.txt,.jpg,.jpeg,.png" class="hidden"
                                     @change="onFilesSelected" />
                                 <button type="button" @click="($refs.fileInput as HTMLInputElement).click()"
-                                    class="shrink-0 px-1.5 pt-2 text-gray-400 hover:text-primary hover:bg-primary/5 rounded-lg transition-colors">
+                                    class="shrink-0 px-1.5 py-1 text-gray-400 hover:text-primary hover:bg-primary/5 roundedmd transition-colors">
                                     <Icon name="ph:paperclip" class="h-5 w-5" />
                                 </button>
-                                <div class="flex-1 [&_input]:border-none [&_input]:shadow-none [&_input]:bg-transparent [&_input]:ring-0
-                                    [&_input]:focus:ring-0 [&_input]:focus:border-none [&_input]:h-9 [&_input]:px-0">
-                                    <FormTextField id="prompt" name="prompt" :placeholder="$t('assistants.askAnything')"
-                                        v-model="state.newMessage" @keydown.enter="sendMessage" />
-                                </div>
+                                <textarea ref="textareaRef" id="prompt" name="prompt"
+                                    :placeholder="$t('assistants.askAnything')" v-model="state.newMessage"
+                                    @keydown.enter.exact.prevent="sendMessage" @input="autoResize" rows="1"
+                                    class="flex-1 resize-none bg-transparent border-none shadow-none ring-0 focus:ring-0 focus:outline-none text-sm text-gray-900 placeholder-gray-400 py-2 px-0 min-h-[36px] max-h-[100px] leading-relaxed" />
                                 <button type="button" @click="sendMessage"
                                     :disabled="!state.newMessage.trim() && state.files.length === 0"
-                                    class="shrink-0 w-8 h-8 flex items-center justify-center rounded-lg transition-all disabled:cursor-not-allowed"
+                                    class="shrink-0 w-8 h-8 flex items-center justify-center rounded-lg transition-all disabled:cursor-not-allowed mb-0.5"
                                     :class="state.newMessage.trim() || state.files.length > 0
                                         ? 'bg-primary text-white hover:bg-primary/90 shadow-sm'
                                         : 'bg-gray-200 text-gray-400'">
@@ -118,6 +117,14 @@ const { t } = useI18n()
 const { errorAlert } = useAlert()
 
 const MAX_FILE_SIZE = 20 * 1024 * 1024
+const textareaRef = ref<HTMLTextAreaElement | null>(null)
+
+function autoResize() {
+    const el = textareaRef.value
+    if (!el) return
+    el.style.height = 'auto'
+    el.style.height = `${el.scrollHeight}px`
+}
 
 function closeModal() {
     emit('close')
@@ -257,6 +264,12 @@ function processPayload() {
 
     state.newMessage = ''
     state.files = []
+
+    nextTick(() => {
+        if (textareaRef.value) {
+            textareaRef.value.style.height = 'auto'
+        }
+    })
 
     return formData
 }
