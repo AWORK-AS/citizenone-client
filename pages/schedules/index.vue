@@ -41,7 +41,7 @@
                         <Icon name="ph:download" class="h-4 w-4" aria-hidden="true" />
                         {{ $t('dutySchedules.download.download') }}
                     </FormButton>
-                    <FormButton v-if="state.isZenegyConnected" buttonStyle="action" class="rounded-lg"
+                    <FormButton v-if="state.isZenegyConnected" class="rounded-lg !bg-green-700 !border-green-700 !text-white hover:!bg-green-800"
                         @click="openZenegySyncModal">
                         <Icon name="ph:arrows-clockwise" class="h-4 w-4" aria-hidden="true" />
                         {{ $t('dutySchedules.zenegy_sync') }}
@@ -90,20 +90,85 @@
         <Modal size="lg" :title="$t('dutySchedules.zenegy_sync')" :show="state.modal.isZenegySyncOpen"
             @close="state.modal.isZenegySyncOpen = false">
             <template #modal-body>
+                <p class="text-sm text-gray-500 mb-4">{{ $t('dutySchedules.zenegy_sync_description') }}</p>
                 <LoadingSpinner :isActive="state.isLoadingModalData || state.isSyncing">
 
                     <!-- Step 1: Configure -->
                     <div v-if="state.syncStep === 'configure'" class="space-y-5">
 
+                        <!-- Presets -->
+                        <div class="space-y-2">
+                            <FormLabel :label="$t('dutySchedules.zenegy_presets')" />
+                            <div class="flex items-center gap-2">
+                                <select v-model="state.selectedPresetIndex"
+                                    @change="state.selectedPresetIndex !== null && applyPreset(state.selectedPresetIndex)"
+                                    class="flex-1 rounded border border-gray-300 px-3 py-2 text-sm">
+                                    <option :value="null">{{ $t('dutySchedules.zenegy_no_preset') }}</option>
+                                    <option v-for="(preset, idx) in state.savedPresets" :key="idx" :value="idx">
+                                        {{ preset.name }}
+                                    </option>
+                                </select>
+                                <button v-if="state.selectedPresetIndex !== null" type="button"
+                                    class="text-red-500 hover:text-red-700"
+                                    @click="deletePreset(state.selectedPresetIndex!)">
+                                    <Icon name="ph:trash" class="h-4 w-4" />
+                                </button>
+                            </div>
+                            <div class="flex items-center gap-3">
+                                <button v-if="!state.showSavePresetInput" type="button"
+                                    class="text-xs text-primary hover:underline"
+                                    @click="state.showSavePresetInput = true">
+                                    {{ $t('dutySchedules.zenegy_save_preset') }}
+                                </button>
+                                <button v-if="state.selectedPresetIndex !== null && !state.showSavePresetInput"
+                                    type="button" class="text-xs text-primary hover:underline"
+                                    @click="updatePreset(state.selectedPresetIndex!)">
+                                    {{ $t('dutySchedules.zenegy_update_preset') }}
+                                </button>
+                            </div>
+                            <div v-if="state.showSavePresetInput" class="flex items-center gap-2">
+                                <input v-model="state.newPresetName" type="text"
+                                    :placeholder="$t('dutySchedules.zenegy_preset_name_placeholder')"
+                                    class="flex-1 rounded border border-gray-300 px-3 py-2 text-sm"
+                                    @keyup.enter="saveCurrentAsPreset" />
+                                <FormButton type="button" buttonStyle="primary" class="rounded-md text-xs"
+                                    :disabled="!state.newPresetName.trim()"
+                                    @click="saveCurrentAsPreset">
+                                    {{ $t('save') }}
+                                </FormButton>
+                                <button type="button" class="text-xs text-gray-400 hover:text-gray-600"
+                                    @click="state.showSavePresetInput = false; state.newPresetName = ''">
+                                    {{ $t('cancel') }}
+                                </button>
+                            </div>
+                        </div>
+
+                        <!-- Pay Period -->
+                        <div class="space-y-1">
+                            <FormLabel :label="$t('dutySchedules.zenegy_pay_period')" />
+                            <select v-model="state.selectedPayPeriodType"
+                                @change="state.selectedPayPeriodType && applyPayPeriodDateRange(state.selectedPayPeriodType)"
+                                class="w-full rounded border border-gray-300 px-3 py-2 text-sm">
+                                <option value="">{{ $t('dutySchedules.zenegy_custom_period') }}</option>
+                                <option value="monthly">{{ $t('dutySchedules.zenegy_period_monthly') }}</option>
+                                <option value="weekly">{{ $t('dutySchedules.zenegy_period_weekly') }}</option>
+                                <option value="biweekly">{{ $t('dutySchedules.zenegy_period_biweekly') }}</option>
+                            </select>
+                        </div>
+
                         <!-- Date Range -->
                         <div class="space-y-1">
                             <FormLabel :label="$t('dutySchedules.zenegy_date_range')" />
-                            <FormDateRangeField id="zenegy_date_range" name="zenegy_date_range"
-                                :placeholder="$t('dutySchedules.zenegy_select_date_range')"
-                                v-model="state.syncDateRange" />
+                            <div :class="{ 'rounded border border-red-500': state.configureAttempted && !state.syncDateRange?.length }">
+                                <FormDateRangeField id="zenegy_date_range" name="zenegy_date_range"
+                                    :placeholder="$t('dutySchedules.zenegy_select_date_range')"
+                                    v-model="state.syncDateRange" />
+                            </div>
+                            <FormError v-if="state.configureAttempted && !state.syncDateRange?.length"
+                                :error="$t('dutySchedules.zenegy_validation_date_range')" />
                         </div>
 
-                        <!-- Employee Selection -->
+                        <!-- Employee Selection (grouped by pay period) -->
                         <div class="space-y-2">
                             <FormLabel :label="$t('dutySchedules.zenegy_select_employees')" />
                             <div v-if="state.scheduleEmployees.length > 0">
@@ -116,22 +181,42 @@
                                     <span class="text-gray-400">({{ selectedEmployeeCount }}/{{
                                         matchedEmployeeCount }})</span>
                                 </div>
-                                <div class="mt-2 max-h-48 space-y-1 overflow-y-auto">
-                                    <div v-for="(employee, index) in state.scheduleEmployees" :key="employee.uuid"
-                                        :class="['flex items-center gap-x-2 text-sm', employee.matchedZenegyUserUid ? 'cursor-pointer' : 'opacity-50']"
-                                        @click="employee.matchedZenegyUserUid && toggleEmployeeSelection(index)">
-                                        <div class="relative shrink-0 pointer-events-none">
-                                            <FormCheckbox :value="employee.selected"
-                                                :disabled="!employee.matchedZenegyUserUid" />
+
+                                <!-- Mixed period warning -->
+                                <div v-if="selectedEmployeesHaveMixedPeriods"
+                                    class="mt-2 rounded-md border border-red-200 bg-red-50 px-3 py-2 text-xs text-red-700">
+                                    {{ $t('dutySchedules.zenegy_error_mixed_periods') }}
+                                </div>
+
+                                <div class="mt-2 max-h-60 space-y-3 overflow-y-auto">
+                                    <div v-for="[period, employees] in employeesGroupedByPeriod" :key="period">
+                                        <!-- Period group header -->
+                                        <div v-if="period >= 0" class="mb-1 text-xs font-semibold text-gray-500 uppercase tracking-wide">
+                                            {{ getPayPeriodLabel(period) }}
                                         </div>
-                                        <span>{{ employee.firstname }} {{ employee.lastname }}</span>
-                                        <span v-if="!employee.matchedZenegyUserUid" class="text-xs text-red-500">
+                                        <div v-else class="mb-1 text-xs font-semibold text-gray-400 uppercase tracking-wide">
                                             {{ $t('dutySchedules.zenegy_no_match') }}
-                                        </span>
+                                        </div>
+                                        <div class="space-y-1">
+                                            <div v-for="{ employee, originalIndex } in employees" :key="employee.uuid"
+                                                :class="['flex items-center gap-x-2 text-sm', employee.matchedZenegyUserUid ? 'cursor-pointer' : 'opacity-50']"
+                                                @click="employee.matchedZenegyUserUid && toggleEmployeeSelection(originalIndex)">
+                                                <div class="relative shrink-0 pointer-events-none">
+                                                    <FormCheckbox :value="employee.selected"
+                                                        :disabled="!employee.matchedZenegyUserUid" />
+                                                </div>
+                                                <span>{{ employee.firstname }} {{ employee.lastname }}</span>
+                                                <span v-if="!employee.matchedZenegyUserUid" class="text-xs text-red-500">
+                                                    {{ $t('dutySchedules.zenegy_no_match') }}
+                                                </span>
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
                             <p v-else class="text-sm text-gray-500">{{ $t('dutySchedules.zenegy_no_employees') }}</p>
+                            <FormError v-if="state.configureAttempted && selectedEmployeeCount === 0"
+                                :error="$t('dutySchedules.zenegy_validation_select_employee')" />
                         </div>
 
                         <!-- Action Buttons -->
@@ -141,8 +226,8 @@
                                 {{ $t('cancel') }}
                             </FormButton>
                             <FormButton type="button" buttonStyle="primary" class="rounded-md"
-                                :disabled="selectedEmployeeCount === 0 || !state.syncDateRange?.length"
-                                @click="fetchAndBuildShiftTypes">
+                                :class="{ 'opacity-50': selectedEmployeeCount === 0 || !state.syncDateRange?.length || selectedEmployeesHaveMixedPeriods }"
+                                @click="handleConfigureNext">
                                 {{ $t('next') }}
                             </FormButton>
                         </div>
@@ -163,7 +248,10 @@
                                         <span class="shrink-0">{{ st.name }}</span>
                                         <span class="text-xs text-gray-400">({{ st.shiftCount }})</span>
                                         <select v-model="st.selectedRateUid"
-                                            class="ml-auto max-w-[220px] rounded border border-gray-300 px-2 py-1 text-xs">
+                                            :class="['ml-auto max-w-[220px] rounded border px-2 py-1 text-xs',
+                                                state.assignRatesAttempted && !st.selectedRateUid
+                                                    ? 'border-red-500 ring-1 ring-red-500'
+                                                    : 'border-gray-300']">
                                             <option value="" disabled>{{ $t('dutySchedules.zenegy_select_rate') }}</option>
                                             <option v-for="rate in emp.availableRates" :key="rate.uid" :value="rate.uid">
                                                 {{ rate.name }}
@@ -209,7 +297,10 @@
                                                 {{ entry.totalUnits }}{{ $t('dutySchedules.zenegy_hours_let') }})
                                             </span>
                                             <select v-model="entry.selectedSupplementRateUid"
-                                                class="ml-auto max-w-[220px] rounded border border-gray-300 px-2 py-1 text-xs">
+                                                :class="['ml-auto max-w-[220px] rounded border px-2 py-1 text-xs',
+                                                    state.assignRatesAttempted && !entry.selectedSupplementRateUid
+                                                        ? 'border-red-500 ring-1 ring-red-500'
+                                                        : 'border-gray-300']">
                                                 <option value="" disabled>
                                                     {{ $t('dutySchedules.zenegy_select_rate') }}
                                                 </option>
@@ -224,14 +315,17 @@
                             </div>
                         </div>
 
+                        <FormError v-if="state.assignRatesAttempted && !allShiftTypesAssigned"
+                            :error="$t('dutySchedules.zenegy_validation_assign_rates')" />
+
                         <div class="mt-4 grid grid-cols-2 gap-3">
                             <FormButton type="button" buttonStyle="cancel" class="rounded-md"
                                 @click="state.syncStep = 'configure'">
                                 {{ $t('back') }}
                             </FormButton>
                             <FormButton type="button" buttonStyle="primary" class="rounded-md"
-                                :disabled="!allShiftTypesAssigned"
-                                @click="buildRegistrationsPreview">
+                                :class="{ 'opacity-50': !allShiftTypesAssigned }"
+                                @click="handleAssignRatesNext">
                                 {{ $t('dutySchedules.zenegy_review') }}
                             </FormButton>
                         </div>
@@ -315,14 +409,46 @@
                     </div>
 
                     <!-- Step 4: Result -->
-                    <div v-else-if="state.syncStep === 'result'" class="space-y-4 py-6 text-center">
-                        <Icon name="ph:check-circle" class="mx-auto h-12 w-12 text-green-500" />
-                        <p class="text-lg font-medium">{{ $t('dutySchedules.zenegy_sync_success') }}</p>
-                        <p class="text-sm text-gray-500">
-                            {{ $t('dutySchedules.zenegy_sync_result_count', { count:
-                                state.registrationsPreview.length + state.supplementRegistrationsPreview.length }) }}
-                        </p>
-                        <FormButton type="button" buttonStyle="primary" class="rounded-md"
+                    <div v-else-if="state.syncStep === 'result'" class="space-y-4 py-4">
+                        <!-- Summary -->
+                        <div class="text-center">
+                            <Icon v-if="state.syncResult?.every((r: any) => r.success)" name="ph:check-circle"
+                                class="mx-auto h-12 w-12 text-green-500" />
+                            <Icon v-else-if="state.syncResult?.some((r: any) => r.success)" name="ph:warning-circle"
+                                class="mx-auto h-12 w-12 text-yellow-500" />
+                            <Icon v-else name="ph:x-circle" class="mx-auto h-12 w-12 text-red-500" />
+                            <p class="mt-2 text-lg font-medium">
+                                {{ state.syncResult?.every((r: any) => r.success)
+                                    ? $t('dutySchedules.zenegy_sync_success')
+                                    : state.syncResult?.some((r: any) => r.success)
+                                        ? $t('dutySchedules.zenegy_sync_partial')
+                                        : $t('dutySchedules.zenegy_sync_failed') }}
+                            </p>
+                        </div>
+
+                        <!-- Per-employee results -->
+                        <div class="max-h-60 space-y-2 overflow-y-auto">
+                            <div v-for="(result, idx) in state.syncResult" :key="idx"
+                                :class="['flex items-center justify-between rounded-md px-3 py-2 text-sm',
+                                    result.success ? 'bg-green-50' : 'bg-red-50']">
+                                <div class="flex items-center gap-2">
+                                    <Icon :name="result.success ? 'ph:check-circle' : 'ph:x-circle'"
+                                        :class="result.success ? 'h-4 w-4 text-green-600' : 'h-4 w-4 text-red-600'" />
+                                    <span class="font-medium">{{ result.employeeName }}</span>
+                                    <span class="text-xs text-gray-500">
+                                        ({{ result.count }} {{ result.type === 'hours'
+                                            ? $t('dutySchedules.zenegy_hours')
+                                            : $t('dutySchedules.zenegy_supplements') }})
+                                    </span>
+                                </div>
+                                <span v-if="!result.success" class="ml-2 max-w-[200px] truncate text-xs text-red-600"
+                                    :title="result.error">
+                                    {{ result.error }}
+                                </span>
+                            </div>
+                        </div>
+
+                        <FormButton type="button" buttonStyle="primary" class="w-full rounded-md"
                             @click="state.modal.isZenegySyncOpen = false">
                             {{ $t('close') }}
                         </FormButton>
@@ -373,6 +499,7 @@ const state = reactive({
         uuid: string; firstname: string; lastname: string;
         selected: boolean; matchedZenegyUserUid: string | null;
         matchedZenegyEmployeeUid: string | null;
+        salaryPayoutPeriod: number;
     }>,
     selectAllEmployees: true,
     zenegyEmployeesRaw: [] as any[],
@@ -413,6 +540,15 @@ const state = reactive({
     }>,
     syncResult: null as any,
     expandedEmployees: new Set<string>(),
+    // Validation
+    configureAttempted: false,
+    assignRatesAttempted: false,
+    // Presets
+    savedPresets: [] as Array<{ name: string; employeeUuids: string[]; payPeriodType: 'monthly' | 'weekly' | 'biweekly' }>,
+    selectedPresetIndex: null as number | null,
+    newPresetName: '' as string,
+    showSavePresetInput: false,
+    selectedPayPeriodType: '' as '' | 'monthly' | 'weekly' | 'biweekly',
 })
 
 const selectedEmployeeCount = computed(() =>
@@ -422,6 +558,38 @@ const selectedEmployeeCount = computed(() =>
 const matchedEmployeeCount = computed(() =>
     state.scheduleEmployees.filter(e => e.matchedZenegyUserUid).length
 )
+
+function getPayPeriodLabel(period: number): string {
+    const labels: Record<number, string> = {
+        0: t('dutySchedules.zenegy_period_not_set'),
+        1: t('dutySchedules.zenegy_period_weekly'),
+        2: t('dutySchedules.zenegy_period_biweekly'),
+        4: t('dutySchedules.zenegy_period_monthly'),
+    }
+    return labels[period] || t('dutySchedules.zenegy_period_unknown', { code: period })
+}
+
+const employeesGroupedByPeriod = computed(() => {
+    const groups = new Map<number, Array<{ employee: typeof state.scheduleEmployees[0]; originalIndex: number }>>()
+    state.scheduleEmployees.forEach((emp, index) => {
+        const period = emp.matchedZenegyUserUid ? emp.salaryPayoutPeriod : -1
+        if (!groups.has(period)) groups.set(period, [])
+        groups.get(period)!.push({ employee: emp, originalIndex: index })
+    })
+    // Sort: matched periods first (by period number), unmatched (-1) last
+    return Array.from(groups.entries()).sort((a, b) => {
+        if (a[0] === -1) return 1
+        if (b[0] === -1) return -1
+        return a[0] - b[0]
+    })
+})
+
+const selectedEmployeesHaveMixedPeriods = computed(() => {
+    const selected = state.scheduleEmployees.filter(e => e.selected && e.matchedZenegyUserUid)
+    if (selected.length <= 1) return false
+    const periods = new Set(selected.map(e => e.salaryPayoutPeriod))
+    return periods.size > 1
+})
 
 const allShiftTypesAssigned = computed(() => {
     const hourRatesOk = state.employeeShiftTypes.every(emp =>
@@ -515,36 +683,39 @@ function setDutyScheduleCurrentDate(selectedDate: any) {
 
 // --- Zenegy Sync Logic ---
 
-function matchEmployeeToZenegy(localEmployee: any, zenegyEmployees: any[]): { zenegyUserUid: string; zenegyEmployeeUid: string } | null {
+function matchEmployeeToZenegy(localEmployee: any, zenegyEmployees: any[]): { zenegyUserUid: string; zenegyEmployeeUid: string; salaryPayoutPeriod: number } | null {
     for (const ze of zenegyEmployees) {
         const zenegyUid = ze.uid || ''
         const zenegyId = String(ze.id || '')
         const zenegyUserUid = ze.user?.uid || ze.uid || ''
         const zenegyEmployeeUid = ze.uid || ''
+        const salaryPayoutPeriod = ze.salaryPayoutPeriod || 0
         const zenegyEmail = (ze.contactEmail || ze.user?.email || '').toLowerCase().trim()
         const zenegyName = (ze.name || '').toLowerCase().trim()
 
+        const result = { zenegyUserUid, zenegyEmployeeUid, salaryPayoutPeriod }
+
         // 1. Match by zenegy_uid (UUID match)
         if (localEmployee.zenegy_uid && String(localEmployee.zenegy_uid) === zenegyUid) {
-            return { zenegyUserUid, zenegyEmployeeUid }
+            return result
         }
         // 2. Match by zenegy_id (numeric ID match)
         if (localEmployee.zenegy_id && String(localEmployee.zenegy_id) === zenegyId) {
-            return { zenegyUserUid, zenegyEmployeeUid }
+            return result
         }
         // 3. Match by employee_id
         if (localEmployee.employee_id && String(localEmployee.employee_id) === zenegyId) {
-            return { zenegyUserUid, zenegyEmployeeUid }
+            return result
         }
         // 4. Email match
         const localEmail = (localEmployee.email || '').toLowerCase().trim()
         if (zenegyEmail && localEmail && zenegyEmail === localEmail) {
-            return { zenegyUserUid, zenegyEmployeeUid }
+            return result
         }
         // 5. Name match
         const localName = `${localEmployee.firstname || ''} ${localEmployee.lastname || ''}`.toLowerCase().trim()
         if (zenegyName && localName && zenegyName.length > 2 && localName.length > 2 && zenegyName === localName) {
-            return { zenegyUserUid, zenegyEmployeeUid }
+            return result
         }
     }
     return null
@@ -566,6 +737,13 @@ async function openZenegySyncModal() {
     state.fetchedExtraHoursData = []
     state.employeeExtraHoursTypes = []
     state.supplementRegistrationsPreview = []
+    state.selectedPresetIndex = null
+    state.selectedPayPeriodType = ''
+    state.newPresetName = ''
+    state.showSavePresetInput = false
+    state.configureAttempted = false
+    state.assignRatesAttempted = false
+    loadPresets()
 
     try {
         const [zenegyEmployeesRes, zenegyRatesRes, zenegySupplementRatesRes] = await Promise.all([
@@ -604,6 +782,7 @@ async function openZenegySyncModal() {
                 selected: matched !== null,
                 matchedZenegyUserUid: matched?.zenegyUserUid || null,
                 matchedZenegyEmployeeUid: matched?.zenegyEmployeeUid || null,
+                salaryPayoutPeriod: matched?.salaryPayoutPeriod || 0,
             }
         })
         state.selectAllEmployees = state.scheduleEmployees
@@ -632,6 +811,124 @@ function toggleEmployeeSelection(index: number) {
         .every(e => e.selected)
 }
 
+// --- Preset functions ---
+function loadPresets() {
+    try {
+        const raw = localStorage.getItem('zenegy_sync_presets')
+        state.savedPresets = raw ? JSON.parse(raw) : []
+    } catch { state.savedPresets = [] }
+}
+
+function savePresetsToStorage() {
+    localStorage.setItem('zenegy_sync_presets', JSON.stringify(state.savedPresets))
+}
+
+function saveCurrentAsPreset() {
+    if (!state.newPresetName.trim()) return
+    const preset = {
+        name: state.newPresetName.trim(),
+        employeeUuids: state.scheduleEmployees.filter(e => e.selected).map(e => e.uuid),
+        payPeriodType: (state.selectedPayPeriodType || '') as '' | 'monthly' | 'weekly' | 'biweekly',
+    }
+    state.savedPresets.push(preset)
+    savePresetsToStorage()
+    state.selectedPresetIndex = state.savedPresets.length - 1
+    state.newPresetName = ''
+    state.showSavePresetInput = false
+}
+
+function applyPreset(index: number) {
+    const preset = state.savedPresets[index]
+    if (!preset) return
+    state.selectedPresetIndex = index
+
+    // Apply employee selections
+    state.scheduleEmployees.forEach(emp => {
+        if (emp.matchedZenegyUserUid) {
+            emp.selected = preset.employeeUuids.includes(emp.uuid)
+        }
+    })
+    state.selectAllEmployees = state.scheduleEmployees
+        .filter(e => e.matchedZenegyUserUid)
+        .every(e => e.selected)
+
+    // Auto-detect pay period from selected employees and fill date range
+    autoDetectAndApplyPayPeriod()
+}
+
+// Map Zenegy salaryPayoutPeriod codes to our dropdown values
+const zenegyPeriodToType: Record<number, string> = { 1: 'weekly', 2: 'biweekly', 4: 'monthly' }
+
+function autoDetectAndApplyPayPeriod() {
+    const selected = state.scheduleEmployees.filter(e => e.selected && e.matchedZenegyUserUid)
+    if (selected.length === 0) return
+
+    const periods = new Set(selected.map(e => e.salaryPayoutPeriod).filter(p => p > 0))
+    if (periods.size === 1) {
+        const period = [...periods][0]
+        const periodType = zenegyPeriodToType[period] || ''
+        state.selectedPayPeriodType = periodType as any
+        if (periodType) applyPayPeriodDateRange(periodType)
+    } else {
+        state.selectedPayPeriodType = ''
+    }
+}
+
+function applyPayPeriodDateRange(type: string) {
+    const today = moment()
+    let from: moment.Moment
+    let to: moment.Moment
+
+    if (type === 'monthly') {
+        from = today.clone().startOf('month')
+        to = today.clone().endOf('month')
+    } else if (type === 'weekly') {
+        from = today.clone().startOf('isoWeek')
+        to = today.clone().endOf('isoWeek')
+    } else if (type === 'biweekly') {
+        const weekNum = today.isoWeek()
+        const isEvenWeek = weekNum % 2 === 0
+        if (isEvenWeek) {
+            from = today.clone().subtract(1, 'week').startOf('isoWeek')
+            to = today.clone().endOf('isoWeek')
+        } else {
+            from = today.clone().startOf('isoWeek')
+            to = today.clone().add(1, 'week').endOf('isoWeek')
+        }
+    } else return
+
+    state.syncDateRange = [from.format('YYYY-MM-DD'), to.format('YYYY-MM-DD')]
+}
+
+function deletePreset(index: number) {
+    state.savedPresets.splice(index, 1)
+    savePresetsToStorage()
+    if (state.selectedPresetIndex === index) state.selectedPresetIndex = null
+    else if (state.selectedPresetIndex !== null && state.selectedPresetIndex > index) state.selectedPresetIndex--
+}
+
+function updatePreset(index: number) {
+    state.savedPresets[index] = {
+        ...state.savedPresets[index],
+        employeeUuids: state.scheduleEmployees.filter(e => e.selected).map(e => e.uuid),
+        payPeriodType: (state.selectedPayPeriodType || '') as '' | 'monthly' | 'weekly' | 'biweekly',
+    }
+    savePresetsToStorage()
+}
+
+function handleConfigureNext() {
+    state.configureAttempted = true
+    const isValid = selectedEmployeeCount.value > 0 && state.syncDateRange?.length && !selectedEmployeesHaveMixedPeriods.value
+    if (!isValid) return
+    fetchAndBuildShiftTypes()
+}
+
+function handleAssignRatesNext() {
+    state.assignRatesAttempted = true
+    if (!allShiftTypesAssigned.value) return
+    buildRegistrationsPreview()
+}
+
 async function fetchAndBuildShiftTypes() {
     const dateRange = state.syncDateRange
     if (!dateRange?.length || !dateRange[0] || !dateRange[1]) {
@@ -642,6 +939,12 @@ async function fetchAndBuildShiftTypes() {
     const selectedEmployees = state.scheduleEmployees.filter(e => e.selected && e.matchedZenegyUserUid)
     if (selectedEmployees.length === 0) {
         errorAlert(t('alert.warning'), t('dutySchedules.zenegy_no_matched_employees'))
+        return
+    }
+
+    // Check for mixed pay periods
+    if (selectedEmployeesHaveMixedPeriods.value) {
+        errorAlert(t('alert.warning'), t('dutySchedules.zenegy_error_mixed_periods'))
         return
     }
 
@@ -851,6 +1154,7 @@ async function fetchAndBuildShiftTypes() {
             })
 
         state.syncStep = 'assign-rates'
+        state.assignRatesAttempted = false
     } catch (e: any) {
         errorAlert(t('alert.error'), e?.message || 'Failed to load schedule data')
     } finally {
@@ -966,6 +1270,24 @@ function buildRegistrationsPreview() {
     state.syncStep = 'review'
 }
 
+function parseZenegyError(e: any): string {
+    const rawMsg = e?.data?.message || e?.response?._data?.message || e?.message || ''
+    let errorMsg = rawMsg
+    try {
+        const parsed = JSON.parse(rawMsg)
+        errorMsg = parsed?.message || rawMsg
+    } catch { /* not JSON, use as-is */ }
+
+    if (errorMsg.includes('RATE_FORBIDDEN_ACCESS')) return t('dutySchedules.zenegy_error_rate_forbidden')
+    if (errorMsg.includes('REGISTRATION_INVALID_PERIOD_RANGE')) return t('dutySchedules.zenegy_error_invalid_period')
+    if (errorMsg.includes('REGISTRATION_ALREADY_EXISTS')) return t('dutySchedules.zenegy_error_already_exists')
+    if (errorMsg.includes('REGISTRATION_CONFLICTED_EXISTING_REGISTRATION_IN_PERIOD')) return t('dutySchedules.zenegy_error_conflict_period')
+    if (errorMsg.includes('USER_NOT_FOUND')) return t('dutySchedules.zenegy_error_user_not_found')
+    if (errorMsg.includes("doesn't meet the requirements for this rate")) return t('dutySchedules.zenegy_error_rate_requirements')
+    if (errorMsg.includes('Amount cannot be overriden')) return t('dutySchedules.zenegy_error_rate_override')
+    return errorMsg || t('dutySchedules.zenegy_sync_failed')
+}
+
 async function executeSyncToZenegy() {
     const hasHourRegs = state.registrationsPreview.length > 0
     const hasSupplementRegs = state.supplementRegistrationsPreview.length > 0
@@ -973,89 +1295,87 @@ async function executeSyncToZenegy() {
 
     state.isSyncing = true
 
-    try {
-        const promises: Promise<any>[] = []
+    // Calculate period boundaries from selected date range
+    const dateRange = state.syncDateRange
+    const periodFrom = moment(dateRange[0]).startOf('day').format('YYYY-MM-DDTHH:mm:ss')
+    const periodTo = moment(dateRange[1]).endOf('day').format('YYYY-MM-DDTHH:mm:ss')
 
-        // Hour registrations payload (existing)
-        if (hasHourRegs) {
-            const hourPayload = state.registrationsPreview
-                .filter(reg => reg.hours > 0)
-                .map(reg => ({
-                    userUid: reg.userUid,
-                    date: reg.date,
-                    from: moment(reg.from).format('YYYY-MM-DDTHH:mm:ss'),
-                    to: moment(reg.to).format('YYYY-MM-DDTHH:mm:ss'),
-                    hours: reg.hours,
-                    hourPaymentRateUid: reg.hourPaymentRateUid,
-                }))
-            if (hourPayload.length > 0) {
-                promises.push(zenegyService.syncRegistrations(hourPayload))
-            }
+    // Group registrations by employee (userUid)
+    const hoursByEmployee = new Map<string, { name: string; regs: any[] }>()
+    for (const reg of state.registrationsPreview) {
+        if (reg.hours <= 0) continue
+        if (!hoursByEmployee.has(reg.userUid)) {
+            hoursByEmployee.set(reg.userUid, { name: reg.employeeName, regs: [] })
         }
+        hoursByEmployee.get(reg.userUid)!.regs.push({
+            userUid: reg.userUid,
+            date: reg.date,
+            from: moment(reg.from).format('YYYY-MM-DDTHH:mm:ss'),
+            to: moment(reg.to).format('YYYY-MM-DDTHH:mm:ss'),
+            hours: reg.hours,
+            hourPaymentRateUid: reg.hourPaymentRateUid,
+            periodFrom,
+            periodTo,
+        })
+    }
 
-        // Supplement registrations payload
-        if (hasSupplementRegs) {
-            const supplementPayload = state.supplementRegistrationsPreview.map(reg => {
-                const rateObj = state.zenegySupplementRatesRaw.find((r: any) => r.uid === reg.rateUid)
-                const registration: any = {
-                    rateUid: reg.rateUid,
-                    date: moment(reg.date).format('YYYY-MM-DDTHH:mm:ss'),
-                    units: reg.units,
-                    status: 1,
-                    description: reg.note || '',
-                }
-                // Only include name/rate if the Zenegy rate allows overriding
-                if (rateObj?.overrideName) {
-                    registration.name = reg.rateName
-                }
-                if (rateObj?.overrideRate) {
-                    registration.rate = reg.rate
-                }
-                return { employeeUid: reg.zenegyEmployeeUid, registration }
-            })
-            if (supplementPayload.length > 0) {
-                promises.push(zenegyService.syncSupplementRegistrations(supplementPayload))
-            }
+    // Group supplement registrations by employee
+    const supplementsByEmployee = new Map<string, { name: string; regs: any[] }>()
+    for (const reg of state.supplementRegistrationsPreview) {
+        const rateObj = state.zenegySupplementRatesRaw.find((r: any) => r.uid === reg.rateUid)
+        const registration: any = {
+            rateUid: reg.rateUid,
+            date: moment(reg.date).format('YYYY-MM-DDTHH:mm:ss'),
+            units: reg.units,
+            status: 1,
+            description: reg.note || '',
         }
+        if (rateObj?.overrideName) registration.name = reg.rateName
+        if (rateObj?.overrideRate) registration.rate = reg.rate
 
-        if (promises.length === 0) {
-            errorAlert(t('alert.warning'), t('dutySchedules.zenegy_no_registrations'))
-            state.isSyncing = false
-            return
+        const key = reg.zenegyEmployeeUid
+        if (!supplementsByEmployee.has(key)) {
+            supplementsByEmployee.set(key, { name: reg.employeeName, regs: [] })
         }
+        supplementsByEmployee.get(key)!.regs.push({ employeeUid: reg.zenegyEmployeeUid, registration })
+    }
 
-        const results = await Promise.all(promises)
-        state.syncResult = results
-        state.syncStep = 'result'
-        successAlert(`${t('alert.success')}!`, t('dutySchedules.zenegy_sync_success'))
-    } catch (e: any) {
-        const rawMsg = e?.data?.message || e?.response?._data?.message || e?.message || ''
-        let errorMsg = rawMsg
+    // Send per-employee, collect results
+    const results: Array<{ employeeName: string; type: 'hours' | 'supplements'; success: boolean; error?: string; count: number }> = []
+
+    // Send hour registrations per employee
+    for (const [userUid, { name, regs }] of hoursByEmployee) {
         try {
-            const parsed = JSON.parse(rawMsg)
-            errorMsg = parsed?.message || rawMsg
-        } catch { /* not JSON, use as-is */ }
-        let userMessage = t('dutySchedules.zenegy_sync_failed')
-
-        if (errorMsg.includes('RATE_FORBIDDEN_ACCESS')) {
-            userMessage = t('dutySchedules.zenegy_error_rate_forbidden')
-        } else if (errorMsg.includes('REGISTRATION_INVALID_PERIOD_RANGE')) {
-            userMessage = t('dutySchedules.zenegy_error_invalid_period')
-        } else if (errorMsg.includes('REGISTRATION_ALREADY_EXISTS')) {
-            userMessage = t('dutySchedules.zenegy_error_already_exists')
-        } else if (errorMsg.includes('REGISTRATION_CONFLICTED_EXISTING_REGISTRATION_IN_PERIOD')) {
-            userMessage = t('dutySchedules.zenegy_error_conflict_period')
-        } else if (errorMsg.includes('USER_NOT_FOUND')) {
-            userMessage = t('dutySchedules.zenegy_error_user_not_found')
-        } else if (errorMsg.includes("doesn't meet the requirements for this rate")) {
-            userMessage = t('dutySchedules.zenegy_error_rate_requirements')
-        } else if (errorMsg.includes('Amount cannot be overriden')) {
-            userMessage = t('dutySchedules.zenegy_error_rate_override')
+            await zenegyService.syncRegistrations(regs)
+            results.push({ employeeName: name, type: 'hours', success: true, count: regs.length })
+        } catch (e: any) {
+            results.push({ employeeName: name, type: 'hours', success: false, error: parseZenegyError(e), count: regs.length })
         }
+    }
 
-        errorAlert(t('alert.error'), userMessage)
-    } finally {
-        state.isSyncing = false
+    // Send supplement registrations per employee
+    for (const [empUid, { name, regs }] of supplementsByEmployee) {
+        try {
+            await zenegyService.syncSupplementRegistrations(regs)
+            results.push({ employeeName: name, type: 'supplements', success: true, count: regs.length })
+        } catch (e: any) {
+            results.push({ employeeName: name, type: 'supplements', success: false, error: parseZenegyError(e), count: regs.length })
+        }
+    }
+
+    state.syncResult = results
+    state.syncStep = 'result'
+    state.isSyncing = false
+
+    const successCount = results.filter(r => r.success).reduce((sum, r) => sum + r.count, 0)
+    const failCount = results.filter(r => !r.success).reduce((sum, r) => sum + r.count, 0)
+
+    if (failCount === 0) {
+        successAlert(`${t('alert.success')}!`, t('dutySchedules.zenegy_sync_success'))
+    } else if (successCount > 0) {
+        errorAlert(t('alert.warning'), t('dutySchedules.zenegy_sync_partial'))
+    } else {
+        errorAlert(t('alert.error'), t('dutySchedules.zenegy_sync_failed'))
     }
 }
 </script>
