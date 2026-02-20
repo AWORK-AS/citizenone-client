@@ -2676,7 +2676,7 @@
             "departments": "Afdelinger",
             "description": "Beskrivelse",
             "doNotCountSickLeaveAsWorkingHours": "Tæl ikke sygefravær som arbejdstimer",
-            "DoNotCountWeekends": "Tæl ikke weekender med",
+            "doNotCountWeekends": "Tæl ikke weekender med",
             "forSleepingNightShift": "For sovende nattevagt",
             "inMeeting": "I møde",
             "note": "Bemærkning",
@@ -2867,6 +2867,22 @@
                 "status": "Tid",
                 "workingHours": "Arbejdstimer"
             }
+        },
+        "shareDutySchedule": {
+            "dutySchedule": "Vagtplan",
+            "form": {
+                "alert": {
+                    "enteredPasswordMismatched": "Indtastet adgangskode stemmer ikke overens",
+                    "dutyScheduleSuccessfullyShared": "Vagtplan blev delt med succes",
+                    "required8Characters": "Dette felt skal være mindst 8 tegn langt"
+                },
+                "confirmPassword": "Bekræft adgangskode",
+                "employee": "Medarbejder",
+                "password": "Adgangskode",
+                "unlock": "Lås op",
+                "unlockDutySchedule": "Lås op for vagtplan"
+            },
+            "shareDutySchedule": "Del vagtplan"
         },
         "shiftSpan": {
             "start": "Vagt start",

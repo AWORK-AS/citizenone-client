@@ -52,6 +52,10 @@ class DutyScheduleService extends BaseAPIService {
     async getCompensatoryReport(uuid: string, params: object): Promise<any> {
         return await this.request(`/user/duty-schedules/compensatory-time/${uuid}/report`, 'GET', params)
     }
+
+    async shareDutySchedule(params: object): Promise<any> {
+        return await this.request(`/user/duty-schedules/share/schedules`, 'POST', params)
+    }
 }
 
 export const dutyScheduleService = new DutyScheduleService()

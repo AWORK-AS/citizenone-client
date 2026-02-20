@@ -2676,7 +2676,7 @@
             "departments": "Departments",
             "description": "Description",
             "doNotCountSickLeaveAsWorkingHours": "Do not count sick leave as working hours",
-            "DoNotCountWeekends": "Do not count weekends",
+            "doNotCountWeekends": "Do not count weekends",
             "forSleepingNightShift": "For sleeping night shift",
             "inMeeting": "In Meeting",
             "note": "Note",
@@ -2867,6 +2867,22 @@
                 "status": "Status",
                 "workingHours": "Working hours"
             }
+        },
+        "shareDutySchedule": {
+            "dutySchedule": "Duty schedule",
+            "form": {
+                "alert": {
+                    "enteredPasswordMismatched": "Entered password mismatched",
+                    "dutyScheduleSuccessfullyShared": "Duty schedule successfully shared",
+                    "required8Characters": "This field should be at least 8 characters long"
+                },
+                "confirmPassword": "Confirm password",
+                "employee": "Employee",
+                "password": "Password",
+                "unlock": "Unlock",
+                "unlockDutySchedule": "Unlock duty schedule"
+            },
+            "shareDutySchedule": "Share duty schedule"
         },
         "shiftSpan": {
             "start": "Shift start",

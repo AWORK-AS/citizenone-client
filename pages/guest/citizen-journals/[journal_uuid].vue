@@ -183,8 +183,6 @@ import { required, helpers } from '@vuelidate/validators'
 import { useUserStore } from '@/store/user'
 import { useI18n } from "vue-i18n"
 import { useDatetimeFormatter } from '@/composables/datetimeFormatter'
-import { fileHelper } from '@/composables/fileHelper'
-import { saveAs } from 'file-saver'
 import type { Error } from '@/types'
 
 const runtimeConfig = useRuntimeConfig()
@@ -206,9 +204,6 @@ const state = reactive({
     },
     isPageLoading: false,
     journals: [] as any,
-    modal: {
-        isReplySecuredMailOpen: false,
-    },
     showJournal: false,
     slideOver: {
         isLanguageSwitcherOpen: false
