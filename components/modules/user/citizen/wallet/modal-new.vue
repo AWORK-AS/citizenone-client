@@ -39,6 +39,7 @@ const state = reactive({
         uuid: '',
         name: '',
         note: '',
+        deactivate_end_of_month: false,
     },
 })
 
@@ -58,6 +59,7 @@ async function saveWallet(walletDetails: any) {
             citizen_uuid: citizenUuid,
             name: walletDetails.name,
             note: walletDetails.note,
+            deactivate_end_of_month: walletDetails.deactivate_end_of_month,
         }
         const response = await citizenWalletService.saveWallet(params)
         if (response?.data) {

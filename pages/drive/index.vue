@@ -166,7 +166,7 @@
                                                 <Tooltip :text="$t('drive.table.actions.downloadPDF')"
                                                     v-if="['html', 'htm', 'docx'].includes(document?.file_url?.split('.').pop().toLowerCase())">
                                                     <FormButton type="button" buttonStyle="action" class="rounded-md"
-                                                        @click="downloadDocumentPdf(document)">
+                                                        @click="openDownloadDocumentPdfDialog(document)">
                                                         <Icon name="ph:file-pdf" class="size-4" />
                                                     </FormButton>
                                                 </Tooltip>
@@ -242,6 +242,10 @@
                         @close="state.modal.isEditDocumentFileWarningOpen = false" @refreshDocuments="fetchDocuments" />
                     <ModulesUserDocumentDocsFileModalPreview :isModalOpen="state.modal.isViewDocumentOpen"
                         :selectedDocument="state.selectedDocument" @close="state.modal.isViewDocumentOpen = false" />
+                    <DialogConfirmation :isModalOpen="state.modal.isDownloadDialogConfirmationOpen"
+                        :message="$t('drive.confirmation.downloadWithCompanyLogoConfirmation') + '?'"
+                        @close="cancelCompanyLogoDownload"
+                        @confirm="confirmCompanyLogoDownload" />
                 </div>
             </LoadingSpinner>
         </NuxtLayout>
@@ -305,6 +309,7 @@ const state = reactive({
         isViewAccessOpen: false,
         isViewFolderStructureOpen: false,
         isViewDocumentOpen: false,
+        isDownloadDialogConfirmationOpen: false,
     },
     selectedDocument: {} as any,
     previewDocumentData: null as ArrayBuffer | null,
@@ -317,6 +322,8 @@ const state = reactive({
         sortField: 'id',
         sortOrder: 'descend',
     },
+    isCompanyLogoIncluded: false,
+    isAlreadyDownlaoding: false,
 })
 
 onMounted(() => {
@@ -406,6 +413,27 @@ function viewDownloadDocument(document: any) {
     }
 }
 
+function openDownloadDocumentPdfDialog(document: any) {
+    state.selectedDocument = document
+    state.modal.isDownloadDialogConfirmationOpen = true
+}
+
+function cancelCompanyLogoDownload() {
+    state.modal.isDownloadDialogConfirmationOpen = false
+    state.isCompanyLogoIncluded = false
+
+    if(!state.isAlreadyDownlaoding) {
+        downloadDocumentPdf(state.selectedDocument)
+    }
+}
+
+function confirmCompanyLogoDownload() {
+    state.modal.isDownloadDialogConfirmationOpen = false
+    state.isCompanyLogoIncluded = true
+
+    downloadDocumentPdf(state.selectedDocument)
+}
+
 async function downloadFile(document: any) {
     state.error = {}
     state.isTableLoading = true
@@ -424,15 +452,21 @@ async function downloadFile(document: any) {
 async function downloadDocumentPdf(document: any) {
     state.error = {}
     state.isTableLoading = true
+    state.isAlreadyDownlaoding = true
     try {
-        const response = await documentService.downloadPdf(document.uuid)
+        const params = {
+            is_company_logo_included: state.isCompanyLogoIncluded,
+        }
+        const response = await documentService.downloadPdf(document?.uuid, params)
         if (response) {
-            saveAs(response, document.name.split('.')[0] + '.pdf')
+            saveAs(response, state.selectedDocument.name.split('.')[0] + '.pdf')
         }
     } catch (error: any) {
         state.error = error
     }
     state.isTableLoading = false
+    state.isCompanyLogoIncluded = false
+    state.isAlreadyDownlaoding = false
 }
 
 function triggerFileInput() {

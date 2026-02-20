@@ -169,7 +169,7 @@ function navigateToSubscription() {
 }
 
 function handleNext() {
-    emit('next', 'daily-overview')
+    emit('next', 'overview')
 }
 
 async function navigateToExternalLink(link: any) {

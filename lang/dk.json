@@ -2092,6 +2092,7 @@
                     "savedSuccessfully": "Pung gemt med succes",
                     "updatedSuccessfully": "Pung opdateret med succes"
                 },
+                "deactivateByTheEndOfTheMonth": "Deaktiver inden udgangen af måneden",
                 "name": "Navn",
                 "note": "Note"
             },
@@ -2527,6 +2528,47 @@
                     "donNotShowAgainInfo": "Skjul bekræftelsesdialogen indtil næste session.",
                     "confirm": "Bekræft"
                 }
+            },
+            "preset": {
+                "draftSchedulesPresets": "Forudindstillinger for vagtplanskladder",
+                "saveAsPreset": "Gem som forudindstilling",
+                "applyPreset": "Anvend forudindstilling",
+                "viewPresets": "Se forudindstillinger",
+                "saveCurrentDraftAsPreset": "Gem nuværende kladde som forudindstilling",
+                "editDraftSchedulePreset": "Rediger vagtplanskladde-forudindstilling",
+                "saveSuccess": "Forudindstilling for vagtplanskladde gemt med succes!",
+                "updateSuccess": "Forudindstilling for vagtplanskladde opdateret med succes!",
+                "deleteSuccess": "Forudindstilling for vagtplanskladde slettet med succes!",
+                "applySuccess": "Forudindstilling blev anvendt på vagtplanskladder med succes!",
+                "form": {
+                    "name": "Navn på forudindstilling",
+                    "description": "Beskrivelse",
+                    "dateStart": "Kladde startdato",
+                    "dateEnd": "Kladde slutdato",
+                    "presetDateRange": "Forudindstillingens datointerval",
+                    "affectedDepartments": "Berørte afdelinger",
+                    "affectedUsers": "Berørte brugere",
+                    "preset": "Forudindstilling",
+                    "preview": "Forhåndsvis",
+                    "apply": "Anvend",
+                    "selectDateRange": "Vælg datointerval",
+                    "targetDateRange": "Måldatointerval"
+                },
+                "table": {
+                    "name": "Navn på forudindstilling",
+                    "description": "Beskrivelse",
+                    "date": "Dato",
+                    "createdBy": "Oprettet af",
+                    "actions": {
+                        "preview": "Forhåndsvis",
+                        "apply": "Anvend",
+                        "edit": "Rediger",
+                        "delete": "Slet"
+                    }
+                },
+                "confirmation": {
+                    "deletePresetConfirmation": "Er du sikker på, at du vil slette denne forudindstilling"
+                }
             }
         },
         "normPeriod": "Norm periode",
@@ -2671,7 +2713,7 @@
             "departments": "Afdelinger",
             "description": "Beskrivelse",
             "doNotCountSickLeaveAsWorkingHours": "Tæl ikke sygefravær som arbejdstimer",
-            "DoNotCountWeekends": "Tæl ikke weekender med",
+            "doNotCountWeekends": "Tæl ikke weekender med",
             "forSleepingNightShift": "For sovende nattevagt",
             "inMeeting": "I møde",
             "note": "Bemærkning",
@@ -2997,7 +3039,8 @@
             "archiveConfirmation": "Er du sikker på, at du vil arkivere dette dokument",
             "deleteFileConfirmation": "Er du sikker på, at du vil slette denne fil",
             "deleteFolderConfirmation": "Er du sikker på, at du vil slette denne mappe",
-            "upgradeStorageConfirmation": "Vil du opgradere din lagerplads"
+            "upgradeStorageConfirmation": "Vil du opgradere din lagerplads",
+            "downloadWithCompanyLogoConfirmation": "Vil du downloade dette dokument med virksomhedens logo"
         },
         "editDocument": "Rediger dokument",
         "expenses": "Udgifter",
@@ -3341,15 +3384,15 @@
         "table": {
             "alert": {
                 "expenseCategorySuccessfullyDeleted": "Udgiftskategori blev slettet",
-                "expenseSuccessfullyReimbursed": "Udgift blev refunderet",
-                "expenseSuccessfullyUnreimbursed": "Udgift blev ikke refunderet"
+                "expenseSuccessfullyReimbursed": "Udgift udbetalt med succes",
+                "expenseSuccessfullyUnreimbursed": "Udgift annulleret med succes"
             },
             "actions": {
                 "delete": "Slet",
                 "edit": "Rediger",
                 "view": "Vis",
-                "reimburse": "Refunder",
-                "unreimburse": "Ikke refundér"
+                "reimburse": "Udbetal udlæg",
+                "unreimburse": "Annuller udbetaling"
             },
             "confirmation": {
                 "deleteExpenseCategoryConfirmation": "Er du sikker på, at du vil slette denne udgiftskategori?"
@@ -3387,18 +3430,22 @@
         "table": {
             "alert": {
                 "expenseSuccessfullyDeleted": "Udgift slettet med succes",
-                "expenseSuccessfullyReimbursed": "Udgift refunderet med succes",
-                "expenseSuccessfullyUnreimbursed": "Udgift fjernet fra refusion med succes"
+                "expenseSuccessfullyRejected": "Udgift afvist med succes",
+                "expenseSuccessfullyUpdated": "Udgift opdateret med succes",
+                "expenseSuccessfullyReimbursed": "Udgift udbetalt med succes",
+                "expenseSuccessfullyUnreimbursed": "Udgift annulleret med succes"
             },
             "actions": {
                 "delete": "Slet",
                 "edit": "Rediger",
                 "view": "Se",
-                "reimburse": "Refunder",
-                "unreimburse": "Fjern refusion"
+                "reimburse": "Udbetal udlæg",
+                "unreimburse": "Annuller udlæg",
+                "reject": "Afvis"
             },
             "confirmation": {
-                "deleteExpenseConfirmation": "Er du sikker på, at du vil slette denne udgift?"
+                "deleteExpenseConfirmation": "Er du sikker på, at du vil slette denne udgift?",
+                "rejectExpenseConfirmation": "Er du sikker på, at du vil afvise denne udgift?"
             },
             "name": "Navn",
             "expense": "Udgift",
@@ -3408,8 +3455,9 @@
             "amount": "Beløb",
             "receipt": "Kvittering",
             "status": "Status",
-            "reimbursed": "Refunderet",
-            "pending": "Afventer"
+            "reimbursed": "Udlæg udbetalt",
+            "pending": "Afventer",
+            "rejected": "Afvist"
         },
         "viewExpense": {
             "viewExpense": "Se udgift",

@@ -25,6 +25,10 @@ class ExpenseService extends BaseAPIService {
         return await this.request(`/user/expenses/${expenseUuid}/unreimburse`, 'POST')
     }
 
+    async rejectExpense(expenseUuid: any): Promise<any> {
+        return await this.request(`/user/expenses/${expenseUuid}/reject`, 'POST')
+    }
+
     async deleteExpense(expenseUuid: any): Promise<any> {
         return await this.request(`/user/expenses/${expenseUuid}`, 'DELETE')
     }

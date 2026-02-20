@@ -132,8 +132,8 @@ function setToday() {
 
 function setNext7Days() {
     state.filter.type = 'next_7_days'
-    const firstDayOfTheWeek = moment().add(1, 'week').startOf('isoWeek').format('YYYY-MM-DD')
-    const lastDayOfTheWeek = moment().add(1, 'week').endOf('isoWeek').format('YYYY-MM-DD')
+    const firstDayOfTheWeek = moment().format('YYYY-MM-DD')
+    const lastDayOfTheWeek = moment().add(1, 'week').format('YYYY-MM-DD')
     state.filter.date_range = [firstDayOfTheWeek, lastDayOfTheWeek]
 }
 
