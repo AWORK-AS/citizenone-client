@@ -20,12 +20,12 @@
                                             <span class="max-w-[150px] truncate">{{ file.name }}</span>
                                         </div>
                                     </div>
-                                    <div class="text-sm text-white leading-relaxed text-right"
-                                        v-html="formatMessage(message?.text)" />
+                                    <div class="text-sm text-white leading-relaxed text-right whitespace-pre-wrap">{{
+                                        message?.text }}</div>
                                 </div>
                                 <!-- AI message -->
                                 <div v-else
-                                    class="w-full bg-gray-50 border border-gray-100 rounded-md px-0 py-2 flex items-start gap-3 ">
+                                    class="w-full bg-gray-50 border border-gray-100 rounded-md px-0 py-2 flex items-start gap-3">
                                     <div
                                         class="shrink-0 w-8 h-8 rounded-full bg-primary flex items-center justify-center mt-0.5 ml-2 shadow-sm px-2">
                                         <Icon name="ph:lightbulb" class="h-4 w-4 text-white" />
@@ -67,21 +67,22 @@
                                     </button>
                                 </div>
                             </div>
-                            <div
-                                class="flex items-center gap-2 bg-gray-50 border border-gray-200 rounded-md
-                                focus-within:border-primary/40 focus-within:ring-2 focus-within:ring-primary/10 transition-all px-3 py-1.5">
+                            <div class="flex items-center gap-2 bg-gray-50 border border-gray-200 rounded-md
+    focus-within:border-primary/40 focus-within:ring-2 focus-within:ring-primary/10 transition-all px-3 py-1.5">
 
                                 <input ref="fileInput" type="file" multiple
                                     accept=".pdf,.doc,.docx,.xls,.xlsx,.csv,.txt,.jpg,.jpeg,.png" class="hidden"
                                     @change="onFilesSelected" />
                                 <button type="button" @click="($refs.fileInput as HTMLInputElement).click()"
-                                    class="shrink-0 px-1.5 pt-2 text-gray-400 hover:text-primary hover:bg-primary/5 rounded-lg transition-colors">
+                                    class="shrink-0 px-1.5 pt-2 text-gray-400 hover:text-primary hover:bg-primary/5 roundedmd transition-colors">
                                     <Icon name="ph:paperclip" class="h-5 w-5" />
                                 </button>
-                                <div class="flex-1 [&_input]:border-none [&_input]:shadow-none [&_input]:bg-transparent [&_input]:ring-0
-                                    [&_input]:focus:ring-0 [&_input]:focus:border-none [&_input]:h-9 [&_input]:px-0">
-                                    <FormTextField id="prompt" name="prompt" :placeholder="$t('assistants.askAnything')"
-                                        v-model="state.newMessage" @keydown.enter="sendMessage" />
+                                <div class="flex-1 [&_textarea]:border-none [&_textarea]:shadow-none [&_textarea]:bg-transparent [&_textarea]:ring-0
+        [&_textarea]:focus:ring-0 [&_textarea]:focus:border-none [&_textarea]:px-0 [&_textarea]:resize-none
+        [&_textarea]:h-9 [&_textarea]:py-2">
+                                    <FormTextField id="prompt" name="prompt" type="text_area"
+                                        :placeholder="$t('assistants.askAnything')" v-model="state.newMessage"
+                                        @keydown.enter.exact.prevent="sendMessage" />
                                 </div>
                                 <button type="button" @click="sendMessage"
                                     :disabled="!state.newMessage.trim() && state.files.length === 0"
@@ -200,6 +201,7 @@ function formatMessage(messageText: string) {
 
     return messageText
 }
+
 function getTotalFilesSize(files: File[]) {
     return files.reduce((total, file) => total + file.size, 0)
 }
