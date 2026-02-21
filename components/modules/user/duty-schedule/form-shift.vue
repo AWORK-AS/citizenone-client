@@ -83,7 +83,15 @@
                     <FormError :error="v$?.formShift?.department_uuid?.$errors[0]?.$message.toString()" />
                     <FormError :error="state?.error?.errors?.department_uuid?.[0]" />
                 </div>
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
+
+                <div class="space-y-1" v-if="isVacationLeave">
+                    <div class="w-fit flex items-center cursor-pointer" @click="state.formShift.is_override_vacation_hours = !state.formShift.is_override_vacation_hours">
+                        <FormCheckbox id="override_vacation_hours" :value="state.formShift.is_override_vacation_hours" />
+                        {{ $t('dutySchedules.form.overrideVacationHours') }}
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-3" v-if="!isVacationLeave || (isVacationLeave && state.formShift.is_override_vacation_hours)">
                     <div class="space-y-1">
                         <FormLabel for="date_time_start" :label="$t('dutySchedules.form.datetimeStart')" />
                         <FormDateTimeField id="date_time_start" name="date_time_start"
@@ -371,6 +379,7 @@ const state = reactive({
         use_compensatory_time: false,
         note: '',
         do_not_count_sick_leave: false,
+        is_override_vacation_hours: false,
     } as any,
     modal: {
         isAddDepartmentOpen: false,
@@ -527,7 +536,31 @@ watch(() => state.formShift.date_time_end, () => {
     emit('dateTimeChange', props.selectedEmployee.uuid, state.formShift.date_time_start, state.formShift.date_time_end)
 })
 
+watch(() => state.formShift.shift_type, () => {
+    if (isVacationLeave.value) {
+        state.formShift.date_time_start = moment(props.selectedShift.date_time_start).startOf('day').add(8, 'hours').format('YYYY-MM-DD H:mm')
+        state.formShift.date_time_end = moment(props.selectedShift.date_time_start).startOf('day').add(15.4, 'hours').format('YYYY-MM-DD H:mm')
+    }
+})
+
+const isVacationLeave = computed(() => {
+    return ['vacation-leave'].includes(state.options.shifts.find((shift: any) => shift.value === state.formShift.shift_type)?.system_name)
+})
+
 const rules = computed(() => {
+    if (isVacationLeave.value) {
+        return {
+            formShift: {
+                shift_type: {
+                    required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
+                },
+                department_uuid: {
+                    required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
+                },
+            },
+        }
+    }
+
     if (state.formShift.recurring.is_recurring) {
         return {
             formShift: {
@@ -724,6 +757,7 @@ async function fetchAllCitizensPerUserDepartment() {
 async function saveShift() {
     v$.value.$validate()
     if (!v$.value.$error) {
+        console.log('Form is valid. Submitting data...', state.formShift)
         emit('saveShift', state.formShift)
     }
 }

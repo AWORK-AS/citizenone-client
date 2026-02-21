@@ -2685,7 +2685,8 @@
             "tags": "Etiketter",
             "title": "Titel",
             "useCompensatoryTime": "Brug afspadseringstid",
-            "users": "Brugere"
+            "users": "Brugere",
+            "overrideVacationHours": "Overskriv standard ferietimer"
         },
         "holidays": "Helligdage",
         "month": "Måned",

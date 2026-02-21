@@ -2685,7 +2685,8 @@
             "tags": "Tags",
             "title": "Title",
             "useCompensatoryTime": "Use compensatory time",
-            "users": "Users"
+            "users": "Users",
+            "overrideVacationHours": "Override default vacation hours"
         },
         "holidays": "Holidays",
         "month": "Month",
