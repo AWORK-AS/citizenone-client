@@ -61,7 +61,8 @@ async function saveNormPeriod(normPeriodDetails: any) {
             department_uuids: normPeriodDetails.department_uuids,
             is_active: normPeriodDetails.is_active
         }
-        const response = await normPeriodService.saveNormPeriod(params)
+        await normPeriodService.saveNormPeriod(params)
+        successAlert(`${t('alert.success')}!`, `${t('normPeriod.form.alert.newNormPeriodSuccessfullySaved')}.`)
         emit('refreshNormPeriods')
         emit('close')
     } catch (error: any) {

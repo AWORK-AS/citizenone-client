@@ -3256,7 +3256,10 @@
             "fulltime": "Full time",
             "parttime": "Part time"
         },
-        "viewEmployee": "View employee"
+        "viewEmployee": "View employee",
+        "normPeriods": {
+            "default": "Default period"
+        }
     },
     "employeeGroups": {
         "employeeGroups": "Employee groups",

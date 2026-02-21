@@ -411,17 +411,6 @@
                                                                 aria-hidden="true" />
                                                         </div>
 
-                                                        <div v-if="employee?.norm_period"
-                                                            class="flex items-center gap-1 cursor-pointer"
-                                                            @click="openUserNormPeriodModal(employee)">
-                                                            <p class="text-xxs">
-                                                                {{ $t('dutySchedules.normPeriod') }}:
-                                                                {{ employee?.norm_period?.display_label ?? '' }}
-                                                            </p>
-                                                            <Icon name="ph:question" class="h-3.5 w-3.5"
-                                                                aria-hidden="true" />
-                                                        </div>
-
                                                         <p class="text-xxs">
                                                             {{ $t('dutySchedules.totalHours') }}:
                                                             {{ employee?.total_hours ?? 0 }}
@@ -930,9 +919,6 @@
             <ModulesUserDutyScheduleModalCopyMultipleWeeks :isModalOpen="state.modal.isCopyMultipleWeeklyScheduleOpen"
                 @close="state.modal.isCopyMultipleWeeklyScheduleOpen = false"
                 @refreshDutySchedules="fetchDutySchedule()" />
-            <ModulesUserDutyScheduleNormHoursModalUserNormPeriod :isModalOpen="state.modal.isUserNormPeriodOpen"
-                :selectedEmployee="state.normHours.selectedEmployee" @close="state.modal.isUserNormPeriodOpen = false"
-                @refreshDutySchedules="fetchDutySchedule()" />
             <ModulesUserDutyScheduleNormHoursModalGraph :isModalOpen="state.modal.isGraphOpen"
                 :selectedEmployee="state.normHours.selectedEmployee" @close="state.modal.isGraphOpen = false" />
         </LoadingSpinner>
@@ -1025,7 +1011,6 @@ const state = reactive({
         isVacationHoursOpen: false,
         isViewShiftOpen: false,
         isAnnualNormHoursInfoOpen: false,
-        isUserNormPeriodOpen: false,
         isGraphOpen: false,
     } as any,
     newShift: {

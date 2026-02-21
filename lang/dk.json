@@ -3256,7 +3256,10 @@
             "fulltime": "Fuldtid",
             "parttime": "Deltid"
         },
-        "viewEmployee": "Se medarbejder"
+        "viewEmployee": "Se medarbejder",
+        "normPeriods": {
+            "default": "Standardperiode"
+        }
     },
     "employeeGroups": {
         "employeeGroups": "Medarbejdergrupper",
