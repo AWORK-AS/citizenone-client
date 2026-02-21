@@ -55,7 +55,7 @@
                 @click="state.formNormPeriod.update_all_users = !state.formNormPeriod.update_all_users">
                 <FormCheckbox id="update_all_users" :value="state.formNormPeriod.update_all_users" />
                 {{ $t('normPeriod.form.overrideNormPeriods') }}
-                <Icon name="ph:question" class="h-4 w-4 ml-1" aria-hidden="true" @click="state.modal.isOverrideModalOpen = true" />
+                <Icon name="ph:question" class="h-4 w-4 ml-1" aria-hidden="true" @click.stop="state.modal.isOverrideModalOpen = true" />
             </div>
         </div>
         <div class="space-y-1">
