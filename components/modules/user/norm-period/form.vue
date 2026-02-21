@@ -50,7 +50,7 @@
             <FormError :error="v$?.formNormPeriod?.department_uuids?.$errors[0]?.$message.toString()" />
             <FormError :error="props?.error?.errors?.department_uuids?.[0]" />
         </div>
-        <div class="space-y-3 my-2">
+        <div class="space-y-3 my-2" v-if="state.formNormPeriod.department_uuids.length">
             <div class="w-fit flex items-center cursor-pointer"
                 @click="state.formNormPeriod.update_all_users = !state.formNormPeriod.update_all_users">
                 <FormCheckbox id="update_all_users" :value="state.formNormPeriod.update_all_users" />
