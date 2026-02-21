@@ -227,7 +227,7 @@
                                         {{ $t('plansandgoals.createStatusTemplate.form.followUpIn') }}
                                     </span>
                                     <div class="w-24">
-                                        <FormNumberField name="follow_up_number" placeholder="1"
+                                        <FormNumberField name="follow_up_number" placeholder="1" :min="1"
                                             v-model="state.followUpNumber" />
                                     </div>
                                     <div class="w-40">
