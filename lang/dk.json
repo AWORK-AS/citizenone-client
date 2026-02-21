@@ -4531,7 +4531,9 @@
             "endDay": "Slutdag",
             "description": "Beskrivelse",
             "department": "Afdeling",
-            "updateAllUsers": "Opdater alle brugere, der har denne normperiode"
+            "overrideNormPeriods": "Tilsidesæt eksisterende medarbejdernormperioder",
+            "overrideInfo1": "Hvis markeret, vil alle medarbejdere i den/de valgte afdeling(er) blive tildelt denne normperiode, og eventuelle eksisterende normperioder, der er tildelt disse medarbejdere, vil blive tilsidesat.",
+            "overrideInfo2": "Hvis det ikke er markeret, vil medarbejdere i den/de valgte afdeling(er), der allerede har fået tildelt en normperiode, beholde deres eksisterende normperiode."
         },
         "newNormPeriod": "Ny normperiode",
         "table": {

@@ -54,7 +54,8 @@
             <div class="w-fit flex items-center cursor-pointer"
                 @click="state.formNormPeriod.update_all_users = !state.formNormPeriod.update_all_users">
                 <FormCheckbox id="update_all_users" :value="state.formNormPeriod.update_all_users" />
-                {{ $t('normPeriod.form.updateAllUsers') }}
+                {{ $t('normPeriod.form.overrideNormPeriods') }}
+                <Icon name="ph:question" class="h-4 w-4 ml-1" aria-hidden="true" @click="state.modal.isOverrideModalOpen = true" />
             </div>
         </div>
         <div class="space-y-1">
@@ -76,6 +77,9 @@
                 </FormButton>
             </div>
         </div>
+
+        <ModulesUserNormPeriodModalNormPeriodOverride :isModalOpen="state.modal.isOverrideModalOpen"
+            @close="state.modal.isOverrideModalOpen = false" />
     </form>
 </template>
 
@@ -118,6 +122,9 @@ const state = reactive({
         department_uuids: [] as Array<string>,
         is_active: true,
         update_all_users: false,
+    },
+    modal: {
+        isOverrideModalOpen: false,
     },
     options: {
         "months": [

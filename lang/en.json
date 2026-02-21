@@ -4531,7 +4531,9 @@
             "endDay": "End Day",
             "description": "Description",
             "department": "Department",
-            "updateAllUsers": "Update all employees within this department"
+            "overrideNormPeriods": "Override existing employee norm periods",
+            "overrideInfo1": "If checked, all employees within the selected department(s) will be assigned to this norm period, and any existing norm periods assigned to those employees will be overridden.",
+            "overrideInfo2": "If unchecked, employees within the selected department(s) who already have a norm period assigned will keep their existing norm period."
         },
         "newNormPeriod": "New norm period",
         "table": {
