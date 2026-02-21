@@ -94,7 +94,7 @@
                                     </div>
                                     <div class="space-y-1">
                                         <FormLabel :label="$t('dutySchedules.draft.preset.form.presetDateRange')" />
-                                        <p class="text-sm font-semibold text-gray-700">{{ formatDateToReadable(props.selectedPreset?.date_start) }} - {{ formatDateToReadable(props.selectedPreset?.date_end) }}</p>
+                                        <p class="text-sm font-semibold text-gray-700">{{ formatDateToReadable(state.presetPreview?.original_range?.start) }} - {{ formatDateToReadable(state.presetPreview?.original_range?.end) }}</p>
                                     </div>
                                     <div class="space-y-1">
                                         <FormLabel :label="$t('dutySchedules.draft.preset.form.targetDateRange')" />
