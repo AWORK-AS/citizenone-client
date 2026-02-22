@@ -2856,6 +2856,7 @@
                     "edit": "Rediger",
                     "viewRequesters": "Se anmodere"
                 },
+                "availableShifts": "Tilgængelige vagter",
                 "date": "Dato",
                 "dateTimeEnd": "Slutdato og -tid",
                 "dateTimeStart": "Startdato og -tid",

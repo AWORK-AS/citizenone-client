@@ -41,7 +41,10 @@
                                     </div>
                                 </div>
                             </div>
-
+                            <div>
+                                {{ $t('dutySchedules.scheduleSlots.table.availableShifts') }}:
+                                {{ slot?.available_slots }}
+                            </div>
                         </div>
                     </div>
                 </div>

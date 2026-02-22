@@ -2856,6 +2856,7 @@
                     "edit": "Edit",
                     "viewRequesters": "View requesters"
                 },
+                "availableShifts": "Available shifts",
                 "date": "Date",
                 "dateTimeEnd": "Date and time end",
                 "dateTimeStart": "Date and time start",
