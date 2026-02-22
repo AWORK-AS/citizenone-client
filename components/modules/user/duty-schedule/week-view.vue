@@ -18,7 +18,7 @@
                                     <Icon name="heroicons:chevron-left" class="h-5 w-5" aria-hidden="true" />
                                 </button>
                                 <FormDateField id="date" name="date" :placeholder="$t('dutySchedules.form.date')"
-                                    :disablePreviousWeeks="!isAdmin(userStore.getUser?.role)" dateType="duty-schedule"
+                                    :disablePreviousWeeks="isPreviousWeekDisabled()" dateType="duty-schedule"
                                     v-model="state.selectedDate" />
                                 <span class="relative -mx-px h-5 w-px bg-gray-300 md:hidden" />
                                 <button @click="nextWeek()" type="button"
@@ -1244,7 +1244,7 @@ function isPreviousWeekDisabled() {
     // For regular users, disable the previous week button only if we're in today's week
     if (!isAdmin(userStore.getUser?.role)) {
         // Disable the previous week button if we are in today's week (not in the future or past)
-        if (selectedDate.isSame(today, 'week')) {
+        if (selectedDate.isSame(today, 'week') && userStore.getUser?.company?.is_lock_past_schedules) {
             return true // Disable button if we are in today's week
         }
     }
