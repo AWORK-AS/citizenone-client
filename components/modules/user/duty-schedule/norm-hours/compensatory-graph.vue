@@ -170,7 +170,7 @@ const chartOption = computed(() => ({
             },
         },
         axisPointer: {
-        show: true,
+            show: true,
             label: {
                 formatter: (params: any) => {
                     // params.value is the timestamp of the current hover position
@@ -181,7 +181,7 @@ const chartOption = computed(() => ({
                         day: 'numeric'
                     });
                 },
-                backgroundColor: '#6a7985', // Matches your current styling
+                backgroundColor: '#6a7985',
             }
         }
     },
@@ -194,6 +194,15 @@ const chartOption = computed(() => ({
         },
         axisLabel: {
             formatter: `{value} ${t('dutySchedules.normHours.graph.hours')}`,
+        },
+        axisPointer: {
+            show: true,
+            label: {
+                formatter: (params: any) => {
+                    return `${formatNumber(locale.value, params.value)} ${t('dutySchedules.normHours.graph.hours')}`
+                },
+                backgroundColor: '#6a7985',
+            }
         },
         splitLine: {
             lineStyle: {
