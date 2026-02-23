@@ -211,7 +211,9 @@
                                 </div>
                             </div>
                         </div>
-                        <div v-if="state.form?.data?.is_follow_up_enabled" class="space-y-3">
+                        <div v-if="state.form?.data?.is_follow_up_enabled && 
+                            (props.selectFormStatusTemplate.subgoal_uuid || props.selectFormStatusTemplate.goal_uuid || props.selectFormStatusTemplate.plan_uuid)" 
+                            class="space-y-3">
                             <div class="w-fit flex items-center cursor-pointer"
                                 @click="state.useFollowUpReminder = !state.useFollowUpReminder">
                                 <FormCheckbox id="use_follow_up_reminder" :value="state.useFollowUpReminder" />
@@ -360,14 +362,10 @@ async function submitResponse() {
             params.append('plan_goal_subgoal_uuid', props.selectFormStatusTemplate.plan_uuid.toString())
         }
         params.append('is_draft', state.isDraft ? '1' : '0')
-        params.append('plan_goal_subgoal_uuid', props.selectFormStatusTemplate.follow_up_date.toString())
 
-        // if (state.useFollowUpReminder) {
-        //     const followUpDate = calculateFollowUpDate()
-        //     if (followUpDate) {
-        //         params.append('follow_up_date', followUpDate)
-        //     }
-        // }
+        if (state.useFollowUpReminder) {
+            params.append('use_follow_up_date', state.useFollowUpReminder ? '1' : '0')
+        }
 
         state.form.data.form_fields.forEach((formField: any) => {
             const fieldType = JSON.parse(formField.field)?.type
