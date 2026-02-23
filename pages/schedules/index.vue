@@ -42,7 +42,7 @@
                         {{ $t('dutySchedules.download.download') }}
                     </FormButton>
                     <Tooltip :text="$t('dutySchedules.shareDutySchedule.shareDutySchedule')"
-                        @click="state.modal.isShareDutyScheduleOpen = true">
+                        @click="state.modal.isViewSharedDutyScheduleOpen = true">
                         <Icon name="ph:share-fat" class="size-6 cursor-pointer text-gray-700" aria-hidden="true" />
                     </Tooltip>
                     <Tooltip :text="$t('dutySchedules.activityLogs')" @click="openDutySchedulesActivityLogs()">
@@ -82,8 +82,8 @@
                 :selectedDate="state.selectedDate" :filter="state.filter" @close="state.modal.isDownloadOpen = false" />
             <ModulesUserDutyScheduleActivityLogsModalHistory :isModalOpen="state.modal.isActivityLogsOpen"
                 @close="state.modal.isActivityLogsOpen = false" />
-            <ModulesUserDutyScheduleModalShare :isModalOpen="state.modal.isShareDutyScheduleOpen"
-                @close="state.modal.isShareDutyScheduleOpen = false" />
+            <ModulesUserDutyScheduleShareModalView :isModalOpen="state.modal.isViewSharedDutyScheduleOpen"
+                @close="state.modal.isViewSharedDutyScheduleOpen = false" />
             <ModulesUserGuidedTourModalDutySchedule v-if="state.modal.isGuidedTourDutyScheduleOpen"
                 :isModalOpen="state.modal.isGuidedTourDutyScheduleOpen" :isGuidedTour="false"
                 @close="state.modal.isGuidedTourDutyScheduleOpen = false" />
@@ -111,7 +111,7 @@ const state = reactive({
         isActivityLogsOpen: false,
         isDownloadOpen: false,
         isGuidedTourDutyScheduleOpen: false,
-        isShareDutyScheduleOpen: false,
+        isViewSharedDutyScheduleOpen: false,
         isShowAllShiftTypes: false,
     },
     selectedDate: moment().format('YYYY-MM-DD'),

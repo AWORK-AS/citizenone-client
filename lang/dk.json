@@ -930,7 +930,7 @@
             },
             "newNote": "Nyt notat",
             "on": "Den",
-            "shareJournal": {
+            "shareJournals": {
                 "citizenJournal": "Borgerjournal",
                 "form": {
                     "alert": {
@@ -938,12 +938,27 @@
                         "journalSuccessfullyShared": "Journal blev delt med succes",
                         "required8Characters": "Dette felt skal være mindst 8 tegn langt"
                     },
+                    "citizen": "Borger",
                     "confirmPassword": "Bekræft adgangskode",
                     "password": "Adgangskode",
                     "unlock": "Lås op",
                     "unlockJournal": "Lås op for journal"
                 },
-                "shareJournal": "Del journal"
+                "shareJournals": "Del journaler",
+                "sharedJournals": "Delte journaler",
+                "table": {
+                    "actions": {
+                        "delete": "Slet"
+                    },
+                    "alert": {
+                        "linkSuccessfullyDeleted": "Link blev slettet med succes"
+                    },
+                    "confirmation": {
+                        "deleteLinkConfirmation": "Er du sikker på, at du vil slette dette link?"
+                    },
+                    "citizen": "Borger",
+                    "link": "Link"
+                }
             }
         },
         "confirmation": {
@@ -2885,7 +2900,21 @@
                 "unlock": "Lås op",
                 "unlockDutySchedule": "Lås op for vagtplan"
             },
-            "shareDutySchedule": "Del vagtplan"
+            "shareDutySchedule": "Del vagtplan",
+            "sharedDutySchedule": "Delt vagtplan",
+            "table": {
+                "actions": {
+                    "delete": "Slet"
+                },
+                "alert": {
+                    "linkSuccessfullyDeleted": "Link blev slettet med succes"
+                },
+                "confirmation": {
+                    "deleteLinkConfirmation": "Er du sikker på, at du vil slette dette link?"
+                },
+                "employee": "Medarbejder",
+                "link": "Link"
+            }
         },
         "shiftSpan": {
             "start": "Vagt start",
@@ -3706,6 +3735,8 @@
             "enterYourAnswer": "Indtast dit svar",
             "question": "Spørgsmål",
             "required": "Påkrævet",
+            "inputYourQuestionTitleHere": "Indtast din spørgsmålstitel her",
+            "levels": "Niveauer",
             "rating": "Bedømmelse",
             "text": "Tekst",
             "textarea": "Tekstområde",
@@ -3714,6 +3745,8 @@
         "forms": "Formularer",
         "formsSublabel": "Med formularer kan du oprette skabeloner til rapporter på borgernes planer, mål og delmål samt til anden form for afrapportering i organisationen. Mulighederne er mange",
         "formDescription": "Formularbeskrivelse",
+        "documentTitle": "Dokumenttitel",
+        "enableFollowUp": "Aktiver opfølgning",
         "formTitle": "Formulartitel",
         "newForm": "Ny formular",
         "option": "Mulighed",
@@ -5538,6 +5571,7 @@
                 "cvr": "CVR",
                 "enableEmailNotifications": "Aktivér e-mail-notifikationer",
                 "enableSystemNotifications": "Aktivér systemnotifikationer",
+                "interventionNotificationHours": "Varslingstimer for indsats",
                 "isSortByStatus": "Tillad visning af \"Vikarer\" nederst i vagtplanen og \"Fast personale\" øverst",
                 "groupChat": "Gruppechat",
                 "lockPastSchedules": "Lås tidligere vagtplaner",

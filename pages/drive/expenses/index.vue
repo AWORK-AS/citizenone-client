@@ -78,7 +78,7 @@
                                                     <Icon name="ph:eye" class="size-4" />
                                                 </FormButton>
                                             </Tooltip>
-                                            <Tooltip :text="$t('expenses.table.actions.edit')">
+                                            <Tooltip :text="$t('expenses.table.actions.edit')" v-if="isAdmin(userStore?.user?.roles) && expense?.status === 'pending'">
                                                 <FormButton type="button" buttonStyle="action" class="rounded-md"
                                                     @click="editExpense(expense)">
                                                     <Icon name="ph:pencil-simple" class="size-4" />
