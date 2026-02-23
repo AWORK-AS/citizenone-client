@@ -18,8 +18,8 @@
                 <FormError :error="state?.error?.errors?.description?.[0]" />
             </div>
             <div class="space-y-1">
-                <FormLabel for="document_title" label="Document Title" />
-                <FormTextField id="document_title" name="document_title" placeholder="Document Title"
+                <FormLabel for="document_title" :label="$t('forms.documentTitle')" />
+                <FormTextField id="document_title" name="document_title" :placeholder="$t('forms.documentTitle')"
                     v-model="state.form.document_title" />
             </div>
             <div v-if="isAdmin" class="flex items-center gap-x-3 pt-2">
@@ -27,7 +27,7 @@
                     @toggleSwitch="state.form.is_follow_up_enabled = !state.form.is_follow_up_enabled" />
                 <label class="text-sm font-medium text-gray-700 cursor-pointer"
                     @click="state.form.is_follow_up_enabled = !state.form.is_follow_up_enabled">
-                    Enable Follow up
+                    {{ $t('forms.enableFollowUp') }}
                 </label>
             </div>
             <div v-if="state.form.is_follow_up_enabled" class="space-y-3 ml-12">
@@ -64,10 +64,10 @@
                                             <div class="mt-2">{{ fieldIndex + 1 }}.</div>
                                             <div class="grow space-y-3">
                                                 <FormTextField :name="'text_field_' + fieldIndex"
-                                                    placeholder="Input your question title here"
+                                                    :placeholder="$t('forms.fields.inputYourQuestionTitleHere')"
                                                     v-model="state.form.fields[fieldIndex].value" />
                                                 <FormTextField :name="'text_field_' + fieldIndex"
-                                                    placeholder="Enter your answer" :disabled="true" />
+                                                    :placeholder="$t('forms.fields.enterYourAnswer')" :disabled="true" />
                                             </div>
                                         </div>
                                     </div>
@@ -93,10 +93,10 @@
                                             <div class="mt-2">{{ fieldIndex + 1 }}.</div>
                                             <div class="grow space-y-3">
                                                 <FormTextField :name="'textarea_' + fieldIndex"
-                                                    placeholder="Input your question title here"
+                                                    :placeholder="$t('forms.fields.inputYourQuestionTitleHere')"
                                                     v-model="state.form.fields[fieldIndex].value" />
                                                 <FormTextArea :name="'textarea_' + fieldIndex"
-                                                    placeholder="Enter your answer" :disabled="true" />
+                                                    :placeholder="$t('forms.fields.enterYourAnswer')" :disabled="true" />
                                             </div>
                                         </div>
                                     </div>
@@ -122,7 +122,7 @@
                                             <div class="mt-2">{{ fieldIndex + 1 }}.</div>
                                             <div class="grow space-y-3">
                                                 <FormTextField :name="'text_field_' + fieldIndex"
-                                                    placeholder="Input your question title here"
+                                                    :placeholder="$t('forms.fields.inputYourQuestionTitleHere')"
                                                     v-model="state.form.fields[fieldIndex].value" />
                                                 <div class="space-y-3">
                                                     <div v-for="(radio, radioIndex) in state.form.fields[fieldIndex].options"
@@ -168,7 +168,7 @@
                                             <div class="mt-2">{{ fieldIndex + 1 }}.</div>
                                             <div class="grow space-y-3">
                                                 <FormTextField :name="'text_field_' + fieldIndex"
-                                                    placeholder="Input your question title here"
+                                                    :placeholder="$t('forms.fields.inputYourQuestionTitleHere')"
                                                     v-model="state.form.fields[fieldIndex].value" />
                                                 <div class="space-y-3">
                                                     <div v-for="(checkbox, checkboxIndex) in state.form.fields[fieldIndex].options"
@@ -215,7 +215,7 @@
                                             <div class="mt-2">{{ fieldIndex + 1 }}.</div>
                                             <div class="grow space-y-3">
                                                 <FormTextField :name="'textarea_' + fieldIndex"
-                                                    placeholder="Input your question title here"
+                                                    :placeholder="$t('forms.fields.inputYourQuestionTitleHere')"
                                                     v-model="state.form.fields[fieldIndex].value" />
                                                 <div class="flex items-center justify-between gap-x-2">
                                                     <div v-for="(rating, ratingIndex) in state.form.fields[fieldIndex].levels"
@@ -225,7 +225,7 @@
                                                     </div>
                                                 </div>
                                                 <div>
-                                                    Levels:
+                                                    {{ $t('forms.fields.levels') }}:
                                                     <select v-model="state.form.fields[fieldIndex].levels"
                                                         class="w-16 h-8 rounded-md pl-2 outline-none">
                                                         <option :value="2">2</option>
@@ -264,11 +264,11 @@
                                             <div class="mt-2">{{ fieldIndex + 1 }}.</div>
                                             <div class="grow space-y-3">
                                                 <FormTextField :name="'date_field_' + fieldIndex"
-                                                    placeholder="Input your question title here"
+                                                    :placeholder="$t('forms.fields.inputYourQuestionTitleHere')"
                                                     v-model="state.form.fields[fieldIndex].value" />
                                                 <div class="relative">
                                                     <FormDateField :name="'date_field_' + fieldIndex"
-                                                        placeholder="Enter your answer" :disabled="true" />
+                                                        :placeholder="$t('forms.fields.enterYourAnswer')" :disabled="true" />
                                                     <Icon name="ph:calendar"
                                                         class="h-5 w-5 absolute right-4 top-2.5 text-gray-500"
                                                         aria-hidden="true" />
@@ -299,7 +299,7 @@
                                                 <div class="mt-2">{{ fieldIndex + 1 }}.</div>
                                                 <div class="grow space-y-4">
                                                     <FormTextField :name="'upload_file_' + fieldIndex"
-                                                        placeholder="Input your question title here"
+                                                        :placeholder="$t('forms.fields.inputYourQuestionTitleHere')"
                                                         v-model="state.form.fields[fieldIndex].value" />
                                                     <div class="flex items-center gap-x-2 text-sm">
                                                         <Icon name="material-symbols:upload-rounded"
