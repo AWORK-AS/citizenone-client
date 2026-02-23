@@ -63,7 +63,7 @@
                         </FormButton>
                         <FormButton buttonStyle="action" class="rounded-lg"
                             @click="state.modal.isShareJournalsOpen = true">
-                            <Icon name="ph:plus" class="h-4 w-4" aria-hidden="true" />
+                            <Icon name="ph:share-fat" class="h-4 w-4" aria-hidden="true" />
                             {{ $t('citizens.citizenJournals.shareJournals.shareJournals') }}
                         </FormButton>
                         <FormButton buttonStyle="action" class="rounded-lg"
