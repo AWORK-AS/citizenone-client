@@ -912,7 +912,7 @@ function identifyFlag() {
 .marquee__inner {
     display: inline-block;
     padding-left: 100%;
-    animation: marquee-scroll 18s linear infinite;
+    animation: marquee-scroll 25s linear infinite;
 }
 
 @keyframes marquee-scroll {
