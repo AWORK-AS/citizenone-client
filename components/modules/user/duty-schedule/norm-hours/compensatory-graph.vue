@@ -15,7 +15,7 @@
                             {{ $t('dutySchedules.normHours.graph.totalNormHours') }}
                         </div>
                         <div class="mt-1 text-base font-semibold text-black">
-                            {{ currentBalance?.cumulativeNorm.toFixed(2) }} {{
+                            {{ formatNumber(locale, currentBalance?.cumulativeNorm) }} {{
                                 $t('dutySchedules.normHours.graph.hours') }}
                         </div>
                     </div>
@@ -24,7 +24,7 @@
                             {{ $t('dutySchedules.normHours.graph.totalWorkedHours') }}
                         </div>
                         <div class="mt-1 text-base font-semibold text-black">
-                            {{ currentBalance?.cumulativeWorked.toFixed(2) }} {{
+                            {{ formatNumber(locale, currentBalance?.cumulativeWorked) }} {{
                                 $t('dutySchedules.normHours.graph.hours') }}
                         </div>
                     </div>
@@ -34,7 +34,7 @@
                             {{ $t('dutySchedules.normHours.graph.compensatoryTimeBalance') }}
                         </div>
                         <div class="mt-1 text-base font-semibold text-black">
-                            {{ Math.abs(currentBalance?.compTimeBalance || 0).toFixed(2) }} {{
+                            {{ formatNumber(locale, Math.abs(currentBalance?.compTimeBalance || 0)) }} {{
                                 $t('dutySchedules.normHours.graph.hours') }}
                             <span class="balance-indicator">
                                 {{ !currentBalance?.isPositive ? `(${$t('dutySchedules.normHours.graph.credit')})` :
@@ -60,6 +60,7 @@ import {
 import { useI18n } from 'vue-i18n';
 
 const { t, locale } = useI18n()
+const { formatNumber } = useNumberFormatter()
 
 const props = defineProps({
     selectedEmployee: {
@@ -123,7 +124,7 @@ const chartOption = computed(() => ({
             },
         },
         formatter: (params: any) => {
-            const date = new Date(params[0].value[0]).toLocaleDateString(locale.value === 'da' ? 'da-DK' : 'en-US', {
+            const date = new Date(params[0].value[0]).toLocaleDateString(locale.value === 'dk' ? 'da-DK' : 'en-US', {
                 year: 'numeric',
                 month: 'short',
                 day: 'numeric',
@@ -139,7 +140,7 @@ const chartOption = computed(() => ({
               <span style="display: inline-block; width: 10px; height: 10px; border-radius: 50%; background: ${color}; margin-right: 8px;"></span>
               ${param.seriesName}:
             </span>
-            <span style="margin-left: 16px; font-weight: bold;">${value} ${t('dutySchedules.normHours.graph.hours')}</span>
+            <span style="margin-left: 16px; font-weight: bold;">${formatNumber(locale.value, value)} ${t('dutySchedules.normHours.graph.hours')}</span>
           </div>
         `
             })
@@ -165,9 +166,24 @@ const chartOption = computed(() => ({
         axisLabel: {
             formatter: (value: number) => {
                 const date = new Date(value)
-                return date.toLocaleDateString(locale.value === 'da' ? 'da-DK' : 'en-US', { month: 'short', day: 'numeric' })
+                return date.toLocaleDateString(locale.value === 'dk' ? 'da-DK' : 'en-US', { month: 'short', day: 'numeric' })
             },
         },
+        axisPointer: {
+        show: true,
+            label: {
+                formatter: (params: any) => {
+                    // params.value is the timestamp of the current hover position
+                    const date = new Date(params.value);
+                    return date.toLocaleDateString(locale.value === 'dk' ? 'da-DK' : 'en-US', {
+                        year: 'numeric',
+                        month: 'short',
+                        day: 'numeric'
+                    });
+                },
+                backgroundColor: '#6a7985', // Matches your current styling
+            }
+        }
     },
     yAxis: {
         type: 'value',
