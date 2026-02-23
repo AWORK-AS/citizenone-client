@@ -54,7 +54,8 @@
 
                     <div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-5" v-if="overviewStore.getDailyOverviewFilter.showCitizensDailyEvents ||
                         overviewStore.getDailyOverviewFilter.showDailyMedicineOverview ||
-                        overviewStore.getDailyOverviewFilter.showLatestJournal">
+                        overviewStore.getDailyOverviewFilter.showLatestJournal ||
+                        overviewStore.getDailyOverviewFilter.showCitizensFollowUpReminders">
                         <div v-if="overviewStore.getDailyOverviewFilter.showCitizensDailyEvents">
                             <ModulesUserDailyOverviewCitizensDailyEvents :dateRange="state.dateRange.formDateRange" />
                         </div>
@@ -63,6 +64,10 @@
                         <div v-if="overviewStore.getDailyOverviewFilter.showLatestJournal">
                             <ModulesUserDailyOverviewLatestJournal :dateRange="state.dateRange.formDateRange"
                                 :viewAll="false" />
+                        </div>
+                        <div v-if="overviewStore.getDailyOverviewFilter.showCitizensFollowUpReminders">
+                            <ModulesUserDailyOverviewCitizensFollowUpReminders
+                                :dateRange="state.dateRange.formDateRange" />
                         </div>
                     </div>
 
@@ -79,7 +84,12 @@
                             v-if="overviewStore.getDailyOverviewFilter.showBulletBoard" />
                     </div>
 
-                    <div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-5">
+                    <div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-5" v-if="overviewStore.getDailyOverviewFilter.showCitizensAdmissionAndDischarged ||
+                        overviewStore.getDailyOverviewFilter.showCitizensOrigin ||
+                        overviewStore.getDailyOverviewFilter.showCitizensAddictions ||
+                        overviewStore.getDailyOverviewFilter.showCitizensDiagnoses ||
+                        overviewStore.getDailyOverviewFilter.showRiskAssessment ||
+                        overviewStore.getDailyOverviewFilter.showGender">
                         <div v-if="overviewStore.getDailyOverviewFilter.showCitizensAdmissionAndDischarged">
                             <ModulesUserDailyOverviewCitizensAdmissionDischarged
                                 :dateRange="state.dateRange.formDateRange" />
@@ -145,6 +155,16 @@
                                 <ModulesUserDailyOverviewUseOfForceStatistics
                                     :dateRange="state.dateRange.formDateRange" />
                             </div>
+                        </div>
+
+                    </div>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-5"
+                        v-if="overviewStore.getDailyOverviewFilter.showScheduleSlots || overviewStore.getDailyOverviewFilter.showPlansAndGoals">
+                        <div v-if="overviewStore.getDailyOverviewFilter.showScheduleSlots">
+                            <ModulesUserDailyOverviewScheduleSlots :dateRange="state.dateRange.formDateRange" />
+                        </div>
+                        <div v-if="overviewStore.getDailyOverviewFilter.showPlansAndGoals">
+                            <ModulesUserDailyOverviewPlansAndGoals :dateRange="state.dateRange.formDateRange" />
                         </div>
                     </div>
                     <div>
@@ -221,8 +241,8 @@ watch(() => userStore.getUser, (user: any) => {
             }
         } else if (user?.daily_overview_date_filter?.filter_type === 'next_7_days') {
             state.dateRange.formDateRange = {
-                start_date: moment().add(1, 'week').startOf('isoWeek').format('YYYY-MM-DD'),
-                end_date: moment().add(1, 'week').endOf('isoWeek').format('YYYY-MM-DD'),
+                start_date: moment().format('YYYY-MM-DD'),
+                end_date: moment().add(1, 'week').format('YYYY-MM-DD'),
             }
         } else if (user?.daily_overview_date_filter?.filter_type === 'custom') {
             state.dateRange.formDateRange = {

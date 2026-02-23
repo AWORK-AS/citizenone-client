@@ -643,9 +643,9 @@ const rules = computed(() => {
                         required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
                     },
                     schedule_frequency: {
-                        recurring: {
-                            required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
-                        },
+                        // recurring: {
+                        //     required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
+                        // },
                         // recurring_until: {
                         //     required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
                         // },
@@ -706,9 +706,9 @@ const rules = computed(() => {
                         required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
                     },
                     schedule_frequency: {
-                        recurring: {
-                            required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
-                        },
+                        // recurring: {
+                        //     required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
+                        // },
                         // recurring_until: {
                         //     required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
                         // },

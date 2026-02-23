@@ -100,6 +100,22 @@ watch(() => userStore.getUser, (newValue: any) => {
                 ]
             },
             {
+                name: 'settings.tabs.expenseCategories',
+                isTranslateName: true,
+                href: `/settings/expense-categories`,
+                routeNames: [
+                    'settings-expense-categories'
+                ]
+            },
+            {
+                name: 'settings.tabs.extraHoursTags',
+                isTranslateName: true,
+                href: `/settings/extra-hours-tags`,
+                routeNames: [
+                    'settings-extra-hours-tags'
+                ]
+            },
+            {
                 name: 'settings.tabs.foreignCities',
                 isTranslateName: true,
                 href: `/settings/foreign-cities`,
@@ -133,6 +149,14 @@ watch(() => userStore.getUser, (newValue: any) => {
                 ]
             },
             {
+                name: 'settings.tabs.journalContents',
+                isTranslateName: true,
+                href: `/settings/journal-contents`,
+                routeNames: [
+                    'settings-journal-contents'
+                ]
+            },
+            {
                 name: 'settings.tabs.massUnits',
                 isTranslateName: true,
                 href: `/settings/mass-units`,
@@ -154,6 +178,14 @@ watch(() => userStore.getUser, (newValue: any) => {
                 href: `/settings/medicines`,
                 routeNames: [
                     'settings-medicines'
+                ]
+            },
+            {
+                name: 'settings.tabs.normPeriods',
+                isTranslateName: true,
+                href: `/settings/norm-periods`,
+                routeNames: [
+                    'settings-norm-periods'
                 ]
             },
             {
@@ -237,11 +269,17 @@ function changeTab(value: any) {
     else if (value === '/settings/departments') {
         navigateTo(`/settings/departments`)
     }
+    else if (value === '/settings/diagnoses') {
+        navigateTo(`/settings/diagnoses`)
+    }
     else if (value === '/settings/employee-groups') {
         navigateTo(`/settings/employee-groups`)
     }
-    else if (value === '/settings/diagnoses') {
-        navigateTo(`/settings/diagnoses`)
+    else if (value === '/settings/expense-categories') {
+        navigateTo(`/settings/expense-categories`)
+    }
+    else if (value === '/settings/extra-hours-tags') {
+        navigateTo(`/settings/extra-hours-tags`)
     }
     else if (value === '/settings/foreign-cities') {
         navigateTo(`/settings/foreign-cities`)
@@ -255,6 +293,9 @@ function changeTab(value: any) {
     else if (value === '/settings/journal-titles') {
         navigateTo(`/settings/journal-titles`)
     }
+    else if (value === '/settings/journal-contents') {
+        navigateTo(`/settings/journal-contents`)
+    }
     else if (value === '/settings/mass-units') {
         navigateTo(`/settings/mass-units`)
     }
@@ -263,6 +304,9 @@ function changeTab(value: any) {
     }
     else if (value === '/settings/medicines') {
         navigateTo(`/settings/medicines`)
+    }
+    else if (value === '/settings/norm-periods') {
+        navigateTo(`/settings/norm-periods`)
     }
     else if (value === '/settings/relationships') {
         navigateTo(`/settings/relationships`)

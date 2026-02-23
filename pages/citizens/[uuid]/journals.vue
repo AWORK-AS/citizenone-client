@@ -258,6 +258,12 @@
                                                     <Icon name="ph:lock-open" class="size-4" v-else />
                                                 </FormButton>
                                             </Tooltip>
+                                            <Tooltip :text="$t('citizens.citizenJournals.actions.share')">
+                                                <FormButton class="rounded-md" buttonStyle="primary" buttonSize="xs"
+                                                    @click="shareJournal(journal)">
+                                                    <Icon name="ph:share-fat" class="size-4" />
+                                                </FormButton>
+                                            </Tooltip>
                                             <Tooltip :text="$t('citizens.citizenJournals.actions.journalLogs')">
                                                 <FormButton class="rounded-md" buttonStyle="primary" buttonSize="xs"
                                                     @click="viewJournalLogs(journal)">
@@ -302,6 +308,8 @@
             <ModulesUserCitizenJournalModalMove :isModalOpen="state.modal.isMoveJournalOpen"
                 :selectedJournal="state.selectedJournal" @close="state.modal.isMoveJournalOpen = false"
                 @refreshJournal="fetchJournals" />
+            <ModulesUserCitizenJournalModalShare :isModalOpen="state.modal.isShareJournalOpen"
+                :selectedJournal="state.selectedJournal" @close="state.modal.isShareJournalOpen = false" />
             <ModulesUserCitizenJournalModalIndividualLogs :isModalOpen="state.modal.isViewLogsOpen"
                 :selectedJournal="state.selectedJournal" @close="state.modal.isViewLogsOpen = false" />
             <DialogConfirmation :isModalOpen="state.modal.isDeleteJournalOpen"
@@ -358,6 +366,7 @@ const state = reactive({
         isEditJournalOpen: false,
         isFilterJournalOpen: false,
         isMoveJournalOpen: false,
+        isShareJournalOpen: false,
         isViewLogsOpen: false,
     },
     selectedJournal: [] as any,
@@ -542,6 +551,11 @@ async function lockUnlockJournal(journalUuid: any) {
         state.error = error
     }
     state.isPageLoading = false
+}
+
+function shareJournal(journal: any) {
+    state.selectedJournal = journal
+    state.modal.isShareJournalOpen = true
 }
 
 function viewJournalLogs(journal: any) {

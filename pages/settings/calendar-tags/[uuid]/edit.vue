@@ -53,8 +53,9 @@ const state = reactive({
     error: {} as Error,
     formCalendarTag: {
         name: '',
+        departments: [],
         color: '#000000',
-    },
+    } as any,
     isPageLoading: false,
 })
 
@@ -70,8 +71,12 @@ async function fetchCalendarTag() {
         if (response) {
             state.formCalendarTag = {
                 name: response?.data?.tag ?? '',
+                departments: [],
                 color: response?.data?.color ?? '',
             }
+            response?.data?.departments?.forEach((department: any) => {
+                state.formCalendarTag.departments.push(department?.uuid)
+            })
         }
     } catch (error: any) {
         state.error = error
@@ -85,6 +90,7 @@ async function updateCalendarTag(tagDetails: any) {
     try {
         const params = {
             tag: tagDetails.name,
+            departments_uuid: tagDetails.departments,
             color: tagDetails.color,
         }
         const response = await calendarTagService.updateCalendarTag(calendarTagUuid, params)

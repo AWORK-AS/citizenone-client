@@ -131,8 +131,10 @@
                                         aria-hidden="true" />
                                     <span class="lowercase">
                                         {{ deal?.users }}
-                                        {{ deal?.departments > 1 ? $t('subscription.deal.departments') :
-                                            $t('subscription.deal.department') }}
+                                        {{ deal?.departments > 1 ? (customPagesStore.getCustomPagesName?.department ??
+                                            $t('subscription.deal.departments')) :
+                                            (customPagesStore.getCustomPagesName?.department ??
+                                                $t('subscription.deal.department')) }}
                                         {{ $t('subscription.deal.included') }}.
                                     </span>
                                     <Tooltip
@@ -426,12 +428,14 @@ import { RadioGroup, RadioGroupOption } from '@headlessui/vue'
 import { useAmountFormatter } from '@/composables/amountFormatter'
 import { useI18n } from "vue-i18n"
 import { useCouponStore } from '@/store/coupon'
+import { useCustomPagesStore } from '@/store/custom-pages'
 import { useUserStore } from '@/store/user'
 import type { Error } from '@/types'
 
 const runtimeConfig = useRuntimeConfig()
 const { formatAmount } = useAmountFormatter()
 const couponStore = useCouponStore()
+const customPagesStore = useCustomPagesStore() as any
 const userStore = useUserStore() as any
 const language = useI18n()
 const router = useRouter()

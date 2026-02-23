@@ -197,10 +197,15 @@
                             <div class="text-gray-500 text-xs mt-1" v-if="myCalendarEvent.calendar_users?.length > 0">
                                 <p>{{ $t('events.invitees') }}:</p>
                                 <div class="flex flex-wrap gap-1 mt-1">
-                                    <div v-for="(invitee, index) in myCalendarEvent.calendar_users" :key="index"
-                                        class="bg-secondary text-xxs p-1 text-white rounded-md">
+                                    <div v-for="(invitee, index) in myCalendarEvent.calendar_users?.slice(0, 5)"
+                                        :key="index" class="bg-secondary text-xxs p-1 text-white rounded-md">
                                         {{ invitee?.user?.firstname }} {{ invitee?.user?.lastname }}
                                     </div>
+                                    <button @click="showAllInvitees(myCalendarEvent)"
+                                        class="text-primary text-xs hover:text-primary-700"
+                                        v-if="myCalendarEvent.calendar_users?.length > 5">
+                                        {{ $t('showAll') }}...
+                                    </button>
                                 </div>
                             </div>
                         </div>
@@ -244,6 +249,9 @@
                 </li>
             </ol>
         </div>
+        <ModulesUserMyCalendarModalShowAllInvitees :isModalOpen="state.modal.isShowAllInviteesOpen"
+            :invitees="state.selectedSchedule?.calendar_users" @close="state.modal.isShowAllInviteesOpen = false"
+            v-if="state.modal.isShowAllInviteesOpen" />
         <DialogConfirmation :isModalOpen="state.modal.isDeleteScheduleOpen"
             :message="$t('events.confirmation.deleteConfirmation') + '?'"
             @close="state.modal.isDeleteScheduleOpen = false" @confirm="deleteMyCalendarEvent" />
@@ -276,9 +284,10 @@ const state = reactive({
     filteredCalendarHolidays: [] as any,
     modal: {
         isDeleteScheduleOpen: false,
+        isShowAllInviteesOpen: false,
     },
     selectedDate: moment().format('YYYY-MM-DD'),
-    selectedSchedule: {},
+    selectedSchedule: {} as any,
 })
 
 watch(() => props.myCalendarEvents, (myCalendarEvents: any) => {
@@ -389,6 +398,11 @@ function filterBasedOnSelectedDate() {
     } else {
         state.filteredCalendarHolidays = []
     }
+}
+
+function showAllInvitees(myCalendarEven: any) {
+    state.selectedSchedule = myCalendarEven
+    state.modal.isShowAllInviteesOpen = true
 }
 
 function editMyCalendarEvent(myCalendarEvent: any) {

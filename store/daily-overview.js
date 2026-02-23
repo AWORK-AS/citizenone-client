@@ -5,25 +5,28 @@ export const useDailyOverviewStore = defineStore('dailyOverviewStore',
         persist: true,
         state: () => ({
             dailyOverviewFilter: {
-                showBulletBoard: true,
-                showCitizensAddictions: true,
-                showCitizensAdmissionAndDischarged: true,
-                showCitizensDailyEvents: true,
-                showCitizensDiagnoses: true,
-                showCitizensOrigin: true,
-                showDailyMedicineOverview: true,
-                showGender: true,
-                showGoalsScoreStatistics: true,
-                showLatestJournal: true,
-                showJournalScoreStatistics: true,
-                showMyDailyEvents: true,
-                showRiskAssessment: true,
-                showStatusesScoreStatistics: true,
-                showSubgoalsScoreStatistics: true,
-                showIncidentStatistics: true,
-                showUseOfForceStatistics: true,
-                showMedicineDeviationStatistics: true,
-                showTreatments: true,
+                showBulletBoard: false,
+                showCitizensAddictions: false,
+                showCitizensAdmissionAndDischarged: false,
+                showCitizensDailyEvents: false,
+                showCitizensDiagnoses: false,
+                showCitizensFollowUpReminders: false,
+                showCitizensOrigin: false,
+                showDailyMedicineOverview: false,
+                showIncidentStatistics: false,
+                showGender: false,
+                showGoalsScoreStatistics: false,
+                showJournalScoreStatistics: false,
+                showLatestJournal: false,
+                showMedicineDeviationStatistics: false,
+                showMyDailyEvents: false,
+                showPlansAndGoals: false,
+                showRiskAssessment: false,
+                showScheduleSlots: false,
+                showStatusesScoreStatistics: false,
+                showSubgoalsScoreStatistics: false,
+                showTreatments: false,
+                showUseOfForceStatistics: false,
             },
             viewAllFilter: {
                 showCitizenDailyEvents: true,
@@ -46,6 +49,9 @@ export const useDailyOverviewStore = defineStore('dailyOverviewStore',
             },
             setDailyOverviewFilterShowCitizensDiagnoses(flag) {
                 this.dailyOverviewFilter.showCitizensDiagnoses = flag
+            },
+            setDailyOverviewFilterShowCitizensFollowUpReminders(flag) {
+                this.dailyOverviewFilter.showCitizensFollowUpReminders = flag
             },
             setDailyOverviewFilterShowCitizensOrigin(flag) {
                 this.dailyOverviewFilter.showCitizensOrigin = flag
@@ -88,6 +94,12 @@ export const useDailyOverviewStore = defineStore('dailyOverviewStore',
             },
             setDailyOverviewFilterShowTreatments(flag) {
                 this.dailyOverviewFilter.showTreatments = flag
+            },
+            setDailyOverviewFilterShowScheduleSlots(flag) {
+                this.dailyOverviewFilter.showScheduleSlots = flag
+            },
+            setDailyOverviewFilterShowPlansAndGoals(flag) {
+                this.dailyOverviewFilter.showPlansAndGoals = flag
             },
             setViewAllShowCitizenDailyEvents(flag) {
                 this.viewAllFilter.showCitizenDailyEvents = flag

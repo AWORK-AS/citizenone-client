@@ -33,6 +33,7 @@ const state = reactive({
     error: {} as Error,
     formTag: {
         name: '',
+        departments: [],
     },
     isPageLoading: false,
 })
@@ -51,6 +52,7 @@ async function saveBookingTag(tagDetails: any) {
     try {
         const params = {
             tag: tagDetails.name,
+            departments_uuid: tagDetails.departments,
         }
         const response = await bookingTagService.saveBookingTag(params)
         if (response.data) {

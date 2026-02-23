@@ -10,16 +10,17 @@
             <FormError :error="props?.error?.errors?.name?.[0]" />
         </div>
         <div class="space-y-1">
-            <FormLabel for="department_uuid" :label="$t('employeeGroups.form.department')" />
+            <FormLabel for="department_uuid"
+                :label="customPagesStore.getCustomPagesName?.department ?? $t('employeeGroups.form.department')" />
             <FormSelect id="department_uuid" name="department_uuid" :options="state.options.departments"
-                            v-model="state.formEmployeeGroup.department_uuid" />
+                v-model="state.formEmployeeGroup.department_uuid" />
             <FormError :error="v$?.formEmployeeGroup?.department_uuid?.$errors[0]?.$message.toString()" />
             <FormError :error="props?.error?.errors?.department_uuid?.[0]" />
         </div>
         <div class="space-y-1">
             <FormLabel for="employees_uuid" :label="$t('employeeGroups.form.employees')" />
             <FormSelectMultiple id="employees_uuid" name="employees_uuid" :options="state.options.employees"
-                            v-model="state.formEmployeeGroup.employees_uuid" />
+                v-model="state.formEmployeeGroup.employees_uuid" />
             <FormError :error="v$?.formEmployeeGroup?.name?.$errors[0]?.$message.toString()" />
             <FormError :error="props?.error?.errors?.name?.[0]" />
         </div>
@@ -46,6 +47,7 @@ import type { Error } from '@/types'
 import { userService } from "@/components/api/user/UserService"
 import { useDepartmentStore } from '@/store/department'
 import { departmentService } from "@/components/api/user/DepartmentService"
+import { useCustomPagesStore } from '@/store/custom-pages'
 
 const props = defineProps({
     error: {
@@ -62,7 +64,7 @@ const props = defineProps({
     },
 })
 const emit = defineEmits(['isPageLoading', 'submitForm'])
-
+const customPagesStore = useCustomPagesStore() as any
 const { t } = useI18n()
 const departmentStore = useDepartmentStore()
 
@@ -160,7 +162,7 @@ async function fetchAllEmployees() {
 
 watch(() => props.selectedEmployeeGroup, (newValue: any) => {
     if (newValue != null) {
-         if (props.formType === 'update') {
+        if (props.formType === 'update') {
             state.formEmployeeGroup.name = props.selectedEmployeeGroup?.name || ''
             state.formEmployeeGroup.department_uuid = props.selectedEmployeeGroup?.department_uuid || ''
             state.formEmployeeGroup.employees_uuid = props.selectedEmployeeGroup?.employees_uuid || []

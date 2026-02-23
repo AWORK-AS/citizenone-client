@@ -310,9 +310,16 @@
                         <Menu as="div" class="relative">
                             <MenuButton class="-m-1.5 flex items-center p-1.5">
                                 <span class="sr-only">Open user menu</span>
-                                <img class="h-6 w-6 md:h-8 md:w-8 rounded-full bg-gray-50 object-cover"
-                                    :src="userStore.getUser?.profile_image ? userStore.getUser?.profile_image : '/img/avatars/user.svg'"
-                                    alt="User" />
+                                <div class="relative">
+                                    <img class="h-6 w-6 md:h-8 md:w-8 rounded-full bg-gray-50 object-cover"
+                                        :src="userStore.getUser?.profile_image ? userStore.getUser?.profile_image : '/img/avatars/user.svg'"
+                                        alt="User" />
+                                    <div :class="[
+                                        userStore.getUser?.is_online ? 'bg-green-500' : 'bg-red-700',
+                                        'w-3 h-3 rounded-full absolute -left-1.5 -top-0.5 border-1 border-white'
+                                    ]">
+                                    </div>
+                                </div>
                                 <span class="hidden xl:flex xl:items-center">
                                     <span class="ml-4 text-sm font-semibold leading-6 text-gray-700" aria-hidden="true">
                                         {{ userStore.getUser?.firstname }} {{ userStore.getUser?.lastname }}
@@ -432,6 +439,7 @@
                                 <slot name="header"></slot>
                             </h1>
                             <slot name="new-feature"></slot>
+                            <slot name="settings"></slot>
                         </div>
                         <div class="mt-4">
                             <h3 class="text-lg text-gray-900">
@@ -578,7 +586,7 @@ watch(() => language.locale.value, (newLanguage: any) => {
 
 function generateSidebarLinks(user: any) {
     navigation = []
-    const userHasSecuredMailAccess = user?.is_secure_mail_active
+    const userHasSecuredMailAccess = user?.has_mail_access
     const userHasLeadsActive = user?.company?.is_leads_active
     const userHasPageAttendanceAccess = user?.pages?.some((page: any) => page.name === "Attendance")
     navigation.push({
@@ -700,16 +708,19 @@ function setCustomPageNames() {
     const selectedLanguage = language.locale.value
     const customPageAddictions = customPage('addictions')
     const customPageCitizens = customPage('citizens')
+    const customPageDepartment = customPage('department')
     const customPageDutySchedules = customPage('duty_schedules')
     const customPageRiskAssessment = customPage('risk_assessment')
     const customNameGiveMedicine = customPage('give_medicine')
     const addictionsName = selectedLanguage === 'en' ? customPageAddictions?.en_name : customPageAddictions?.dk_name
     const citizensName = selectedLanguage === 'en' ? customPageCitizens?.en_name : customPageCitizens?.dk_name
+    const departmentName = selectedLanguage === 'en' ? customPageDepartment?.en_name : customPageDepartment?.dk_name
     const dutySchedulesName = selectedLanguage === 'en' ? customPageDutySchedules?.en_name : customPageDutySchedules?.dk_name
     const riskAssessmentName = selectedLanguage === 'en' ? customPageRiskAssessment?.en_name : customPageRiskAssessment?.dk_name
     const giveMedicineName = selectedLanguage === 'en' ? customNameGiveMedicine?.en_name : customNameGiveMedicine?.dk_name
     customPagesStore.setAddictionsNaming(addictionsName)
     customPagesStore.setCitizensNaming(citizensName)
+    customPagesStore.setDepartmentNaming(departmentName)
     customPagesStore.setDutySchedulesNaming(dutySchedulesName)
     customPagesStore.setRiskAssessmentNaming(riskAssessmentName)
     customPagesStore.setGiveMedicineNaming(giveMedicineName)

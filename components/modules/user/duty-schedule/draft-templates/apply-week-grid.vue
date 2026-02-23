@@ -6,12 +6,8 @@
             <div class="flex items-center gap-3 mb-3">
                 <div class="flex items-center gap-2">
                     <label class="text-sm text-slate-600">Year</label>
-                    <select
-                        v-model.number="year"
-                        @change="regenerateWeeks"
-                        class="px-2 py-1 border rounded text-sm"
-                    >
-                        <option v-for="y in [2025,2026,2027]" :key="y" :value="y">{{ y }}</option>
+                    <select v-model.number="year" @change="regenerateWeeks" class="px-2 py-1 border rounded text-sm">
+                        <option v-for="y in [2025, 2026, 2027]" :key="y" :value="y">{{ y }}</option>
                     </select>
                 </div>
 
@@ -36,17 +32,11 @@
                             </div>
 
                             <!-- Weeks header (horizontally scrollable) -->
-                            <div
-                                class="flex-1 overflow-x-auto bg-white"
-                                ref="weeksHeaderRef"
-                            >
+                            <div class="flex-1 overflow-x-auto bg-white" ref="weeksHeaderRef">
                                 <div class="flex items-center gap-2 p-2 min-w-max">
-                                    <div
-                                        v-for="(w, i) in weeks"
-                                        :key="`${w.year ?? ''}-${i}`"
+                                    <div v-for="(w, i) in weeks" :key="`${w.year ?? ''}-${i}`"
                                         class="w-24 min-w-[96px] h-16 rounded bg-white border border-slate-200 flex flex-col items-center justify-center text-sm"
-                                        :title="`Week ${w.weekNumber} — ${fmtDate(w.start)} to ${fmtDate(w.end)}`"
-                                    >
+                                        :title="`Week ${w.weekNumber} — ${fmtDate(w.start)} to ${fmtDate(w.end)}`">
                                         <div class="font-semibold">W{{ w.weekNumber }}</div>
                                         <div class="text-xs text-slate-500 mt-1">{{ shortDate(w.start) }}</div>
                                     </div>
@@ -57,17 +47,12 @@
                         <!-- Rows -->
                         <div class="p-3 max-h-[560px] overflow-auto">
                             <div class="flex flex-col gap-3">
-                                <div
-                                    v-for="(tpl, tplIndex) in state.draftTemplates"
-                                    :key="tpl.id"
-                                    class="flex items-start"
-                                >
+                                <div v-for="(tpl, tplIndex) in state.draftTemplates" :key="tpl.id"
+                                    class="flex items-start">
                                     <!-- Template column -->
                                     <div class="w-56 min-w-[220px] p-2 border-r border-slate-200">
-                                        <div
-                                            :class="['rounded-md px-3 py-2 text-white inline-block', tpl.id === selectedTemplateId ? 'ring-2 ring-indigo-100' : '']"
-                                            :style="{ background: '#60A5FA' }"
-                                        >
+                                        <div :class="['rounded-md px-3 py-2 text-white inline-block', tpl.id === selectedTemplateId ? 'ring-2 ring-indigo-100' : '']"
+                                            :style="{ background: '#60A5FA' }">
                                             <div class="font-medium min-w-24">{{ tpl.name }}</div>
                                             <!-- <div v-if="tpl.startWeeks && tpl.startWeeks.length" class="text-xs opacity-90 mt-1">
                                                 Starts: <span v-for="(s, idx) in tpl.startWeeks" :key="idx">W{{ s }}<span v-if="idx < tpl.startWeeks.length -1">, </span></span>
@@ -76,35 +61,27 @@
                                     </div>
 
                                     <!-- Weeks row (each row scrolls horizontally) -->
-                                    <div
-                                        class="flex-1 h-full"
-                                        :ref="el => setRowRef(el, tplIndex)"
-                                    >
+                                    <div class="flex-1 h-full" :ref="el => setRowRef(el, tplIndex)">
                                         <div class="flex items-center gap-2 p-2 min-w-max">
-                                            <div
-                                                v-for="(w, wi) in weeks"
-                                                :key="`${tpl.id}-${wi}`"
+                                            <div v-for="(w, wi) in weeks" :key="`${tpl.id}-${wi}`"
                                                 class="relative w-24 min-w-[96px] h-16 flex items-center justify-center rounded"
                                                 :class="{
                                                     'cursor-pointer transform hover:-translate-y-1 hover:shadow-lg transition': !!selectedTemplateId,
                                                     'outline outline-2 outline-indigo-100': isInTemplateSpan(tpl, wi),
                                                     'shadow-inner': isStartOfTemplate(tpl, wi)
-                                                }"
-                                                @click="applySelectedTemplateToWeek(tpl.id, wi, $event)"
-                                            >
-                                                <div
-                                                    v-if="isInTemplateSpan(tpl, wi)"
-                                                    class="absolute inset-1 rounded"
-                                                    :style="{ background: tpl.color }"
-                                                ></div>
+                                                }" @click="applySelectedTemplateToWeek(tpl.id, wi, $event)">
+                                                <div v-if="isInTemplateSpan(tpl, wi)" class="absolute inset-1 rounded"
+                                                    :style="{ background: tpl.color }"></div>
 
-                                                <div v-if="isStartOfTemplate(tpl, wi)" class="absolute left-2 top-2 bg-black/10 text-xs px-2 rounded">
+                                                <div v-if="isStartOfTemplate(tpl, wi)"
+                                                    class="absolute left-2 top-2 bg-black/10 text-xs px-2 rounded">
                                                     Start
                                                 </div>
 
                                                 <div class="z-10 text-sm text-slate-700">
                                                     <span v-if="!isInTemplateSpan(tpl, wi)">—</span>
-                                                    <span v-else class="inline-block w-2 h-2 bg-white/80 rounded-full">&nbsp;</span>
+                                                    <span v-else
+                                                        class="inline-block w-2 h-2 bg-white/80 rounded-full">&nbsp;</span>
                                                 </div>
                                             </div>
                                         </div>
@@ -230,10 +207,7 @@ function placementConflicts(startIndex: number, lengthWeeks: number, ignoreTempl
 }
 
 function applySelectedTemplateToWeek(templateId: string, wi: number, ev?: MouseEvent) {
-    console.log('Apply template', templateId, 'to week index', wi)
-    
     const tpl = state.draftTemplates.find((t: any) => t.id === templateId)
-    console.log(tpl)
     if (!tpl) return
 
     tpl.startWeeks = tpl.startWeeks ?? []

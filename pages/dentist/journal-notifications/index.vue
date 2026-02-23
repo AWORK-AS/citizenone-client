@@ -55,6 +55,7 @@
                                 </div>
                             </li>
                         </ul>
+                        <Pagination :data="state.notifications" @previous="previous" @next="next" />
                     </div>
                     <div v-else class="min-h-44 flex items-center">
                         <p class="text-center grow">
@@ -84,11 +85,16 @@ const breadcrumbLinks = [
         href: '/journal-notifications',
     },
 ]
+let currentTablePage = 1
 
 const state = reactive({
     error: {} as Error,
     isPageLoading: false,
     notifications: [] as any,
+    sortData: {
+        sortField: 'id',
+        sortOrder: 'descend',
+    },
 })
 
 onMounted(() => {
@@ -99,7 +105,12 @@ async function fetchNotifications() {
     state.error = {}
     state.isPageLoading = true
     try {
-        const response = await notificationService.getNotifications()
+        const params = {
+            page: currentTablePage,
+            sortField: state.sortData.sortField,
+            sortOrder: state.sortData.sortOrder,
+        }
+        const response = await notificationService.getNotifications(params)
         if (response) {
             state.notifications = response
         }
@@ -107,6 +118,16 @@ async function fetchNotifications() {
         state.error = error
     }
     state.isPageLoading = false
+}
+
+function previous() {
+    currentTablePage = currentTablePage - 1
+    fetchNotifications()
+}
+
+function next() {
+    currentTablePage = currentTablePage + 1
+    fetchNotifications()
 }
 
 function viewNotification(notification: any) {

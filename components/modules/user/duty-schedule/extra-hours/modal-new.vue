@@ -44,6 +44,7 @@ const state = reactive({
         employee_uuid: '',
         date: '',
         extra_hours_type: '',
+        extra_hours_tags: [],
         extra_hours: '',
         note: '',
     },
@@ -59,11 +60,13 @@ function refreshExtraHours() {
 }
 
 async function saveScheduleSlot(extraHoursDetails: any) {
+    state.isPageLoading = true
     try {
         const params = {
             user_uuid: props.selectedEmployee?.uuid,
             date: extraHoursDetails.date,
             extra_hours_type: extraHoursDetails.type,
+            extra_hours_tags_uuid: extraHoursDetails.extra_hours_tags,
             extra_hours: extraHoursDetails.hours,
             note: extraHoursDetails.note,
         }
@@ -81,6 +84,7 @@ async function saveScheduleSlot(extraHoursDetails: any) {
     } catch (error: any) {
         state.error = error
     }
+    state.isPageLoading = false
 }
 
 function isAdmin(role: any) {

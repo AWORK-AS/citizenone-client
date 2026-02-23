@@ -21,8 +21,8 @@ class BookingTagService extends BaseAPIService {
         return await this.request(`/user/booking-tags/${bookingTagUuid}`, 'DELETE')
     }
 
-    async getAllBookingTags(): Promise<any> {
-        return await this.request(`/user/booking-tags/all/list`, 'GET')
+    async getAllBookingTags(params: object): Promise<any> {
+        return await this.request(`/user/booking-tags/all/list`, 'GET', params)
     }
 }
 

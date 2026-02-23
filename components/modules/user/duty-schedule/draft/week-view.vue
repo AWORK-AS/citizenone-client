@@ -282,6 +282,14 @@
                                                             <Icon name="ph:question" class="h-3.5 w-3.5"
                                                                 aria-hidden="true" />
                                                         </div>
+
+                                                        <div v-if="employee?.norm_period" class="flex items-center gap-1 cursor-pointer">
+                                                            <p class="text-xxs">
+                                                                {{ $t('dutySchedules.normPeriod') }}:
+                                                                {{ employee?.norm_period?.display_label ?? '' }}
+                                                            </p>
+                                                        </div>
+                                                        
                                                         <p class="text-xxs">
                                                             {{ $t('dutySchedules.totalHours') }}:
                                                             {{ employee?.total_hours ?? 0 }}
@@ -592,13 +600,19 @@
             <ModulesUserDutyScheduleModalShiftDateRange :isModalOpen="state.modal.isDepartmentSickLeaveDateRangeOpen"
                 :dateRange="state.shiftDateRange" @close="state.modal.isDepartmentSickLeaveDateRangeOpen = false"
                 @filterDate="filterDutyScheduleDate" />
-            <ModulesUserDutyScheduleModalNewShift :isModalOpen="state.modal.isAddShiftOpen" :isModalLoading="state.isModalLoading" :error="state.newShiftError"
+            <ModulesUserDutyScheduleModalNewShift :isModalOpen="state.modal.isAddShiftOpen"
+                :isModalLoading="state.isModalLoading" :error="state.newShiftError"
                 :selectedDate="state.newShift.selectedDate" :selectedEmployee="state.newShift.selectedEmployee"
+                :showWarningDialog="state.showWarningDialog" :shiftWarnings="state.shiftWarnings"
+                @dateTimeChange="dateTimeChange" @closeWarningDialog="closeWarningDialog"
                 @close="state.modal.isAddShiftOpen = false" @saveShift="saveShift"
                 @resetNewShiftError="state.newShiftError = {}" />
-            <ModulesUserDutyScheduleModalEditShift :isModalOpen="state.modal.isEditShiftOpen" :isModalLoading="state.isModalLoading"
-                :error="state.editShiftError" :selectedEmployee="state.editShift.selectedEmployee"
+            <ModulesUserDutyScheduleModalEditShift :isModalOpen="state.modal.isEditShiftOpen"
+                :isModalLoading="state.isModalLoading" :error="state.editShiftError"
+                :selectedEmployee="state.editShift.selectedEmployee"
                 :selectedEmployeeSchedule="state.editShift.selectedEmployeeSchedule"
+                :showWarningDialog="state.showWarningDialog" :shiftWarnings="state.shiftWarnings"
+                @dateTimeChange="dateTimeChange" @closeWarningDialog="closeWarningDialog"
                 @close="state.modal.isEditShiftOpen = false" @resetEditShiftError="state.editShiftError = {}"
                 @updateShift="updateSelectedSchedule" />
             <ModulesUserDutyScheduleDraftModalCopyMultipleWeeks
@@ -696,6 +710,8 @@ const state = reactive({
     isUpdateShift: false,
     originalWeeklySchedules: [] as any,
     weeklySchedules: [] as any,
+    shiftWarnings: [] as any,
+    showWarningDialog: false,
 })
 
 watch(() => state.progress.percentage, (newPercentage: any) => {
@@ -840,15 +856,14 @@ function calculateMarginTop(schedules: any, weekIndex: string, shiftIndex: numbe
 }
 
 function getMultiDayShift(shifts: any) {
-    return shifts
-        .find((shift: any) => {
-            const startDay = moment(shift.date_time_start).startOf('day')
-            const endDay = moment(shift.date_time_end).startOf('day')
-            const isMultiDay = endDay.diff(startDay, 'days') >= 1
-            const isExcluded = endDay.diff(startDay, 'days') === 1 && moment(shift.date_time_end).format('HH:mm:ss') === '00:00:00'
+    return shifts?.find((shift: any) => {
+        const startDay = moment(shift.date_time_start).startOf('day')
+        const endDay = moment(shift.date_time_end).startOf('day')
+        const isMultiDay = endDay.diff(startDay, 'days') >= 1
+        const isExcluded = endDay.diff(startDay, 'days') === 1 && moment(shift.date_time_end).format('HH:mm:ss') === '00:00:00'
 
-            return isMultiDay && !isExcluded
-        })
+        return isMultiDay && !isExcluded
+    })
 }
 
 async function fetchDutySchedulePercentage() {
@@ -1416,5 +1431,27 @@ function handleScroll() {
 
     // Update the last scroll position for the next scroll event
     lastScrollTop = currentScroll <= 0 ? 0 : currentScroll // Prevent negative scroll
+}
+
+async function dateTimeChange(employeeUuid: string, newDateTimeStart: string, newDateTimeEnd: string) {
+    try {
+        const params = {
+            date_time_start: newDateTimeStart,
+            date_time_end: newDateTimeEnd,
+            user_uuid: employeeUuid,
+        }
+        const response = await draftScheduleService.scheduleValidation(params)
+        if (response.data && !response.data.valid) {
+            state.shiftWarnings = response.data.warnings
+            state.showWarningDialog = true
+        }
+    } catch (error: any) {
+
+    }
+}
+
+function closeWarningDialog() {
+    state.showWarningDialog = false
+    state.shiftWarnings = []
 }
 </script>

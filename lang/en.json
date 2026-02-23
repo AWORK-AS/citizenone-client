@@ -376,7 +376,8 @@
         "askAnything": "Ask anything",
         "generatingResponse": "Generating response. Please wait",
         "helloHowCanIAssistYouToday": "Hello, how can I assist you today",
-        "send": "Send"
+        "send": "Send",
+        "fileSizeExceeds": "Total file size must not exceed 10MB"
     },
     "back": "Back",
     "bookings": {
@@ -662,6 +663,7 @@
                 "bookingTagSuccessfullyUpdated": "Booking tag successfully updated",
                 "newBookingTagSuccessfullySaved": "New booking tag successfully saved"
             },
+            "department": "Department",
             "name": "Name"
         },
         "newBookingTag": "New booking tag",
@@ -673,6 +675,7 @@
             "confirmation": {
                 "deleteBookingTagConfirmation": "Are you sure you want to delete this booking tag"
             },
+            "department": "Department",
             "name": "Name"
         }
     },
@@ -753,6 +756,7 @@
                 "newCalendarTagSuccessfullySaved": "New calendar tag successfully saved"
             },
             "color": "Color",
+            "department": "Department",
             "name": "Name"
         },
         "newCalendarTag": "New calendar tag",
@@ -765,10 +769,12 @@
                 "deleteCalendarTagConfirmation": "Are you sure you want to delete this calendar tag"
             },
             "color": "Color",
+            "department": "Department",
             "name": "Name"
         }
     },
     "cancel": "Cancel",
+    "select": "Select",
     "changeImage": "Change image",
     "citizens": {
         "addictions": "Substance abuse",
@@ -809,6 +815,7 @@
                 "lock": "Lock journal",
                 "move": "Move",
                 "removeFromFavorite": "Remove from favorite",
+                "share": "Share",
                 "unlock": "Unlock journal"
             },
             "alert": {
@@ -872,6 +879,7 @@
                 "date": "Date",
                 "draft": "Draft",
                 "enterJournalTitleManually": "Enter journal title manually",
+                "enterJournalContent": "Enter journal Content manually",
                 "forTeeth": "For teeth",
                 "goal": "Goal",
                 "hideCurrentPlansGoalsAndSubgoals": "Hide current plans, goals, and subgoals",
@@ -902,7 +910,8 @@
                 "tags": "Tags",
                 "teeth": "Teeth",
                 "title": "Title",
-                "usePredefinedJournalTitle": "Use predefined journal title"
+                "usePredefinedJournalTitle": "Use predefined journal title",
+                "usePredefinedcontent": "Use predefined content"
             },
             "journalLogs": {
                 "date": "Date",
@@ -920,7 +929,22 @@
                 "moveJournal": "Move journal"
             },
             "newNote": "New note",
-            "on": "On"
+            "on": "On",
+            "shareJournal": {
+                "citizenJournal": "Citizen journal",
+                "form": {
+                    "alert": {
+                        "enteredPasswordMismatched": "Entered password mismatched",
+                        "journalSuccessfullyShared": "Journal successfully shared",
+                        "required8Characters": "This field should be at least 8 characters long"
+                    },
+                    "confirmPassword": "Confirm password",
+                    "password": "Password",
+                    "unlock": "Unlock",
+                    "unlockJournal": "Unlock journal"
+                },
+                "shareJournal": "Share journal"
+            }
         },
         "confirmation": {
             "archiveConfirmation": "Are you sure you want to archive this citizen"
@@ -1045,6 +1069,7 @@
                 "upgradeStorageConfirmation": "Do you want to upgrade your storage"
             },
             "createNewFolder": "Create new folder",
+            "viewDraftFile": "View draft files",
             "createTemplate": {
                 "alert": {
                     "templateSuccessfullyAdded": "Template successfully added"
@@ -1484,6 +1509,7 @@
                     "dose": "Dose",
                     "evaluator": "Evaluator",
                     "evaluationFrequency": "What time do you want to evaluate",
+                    "noMedicineToday": "The reason you do not see any availability to provide medicine, is that the citizen should not have medicine today",
                     "time": "Time",
                     "type": {
                         "type": "Type",
@@ -2066,6 +2092,7 @@
                     "savedSuccessfully": "Wallet successfully saved",
                     "updatedSuccessfully": "Wallet successfully updated"
                 },
+                "deactivateByTheEndOfTheMonth": "Deactivate by the end of the month",
                 "name": "Name",
                 "note": "Note"
             },
@@ -2393,6 +2420,10 @@
             "scheduleSuccessfullyUpdated": "Schedule successfully updated"
         },
         "annualNormHours": "Annual norm hours",
+        "weeklyNormHours": "Weekly norm hours",
+        "averageWeeklyHours": {
+            "averageWeeklyHours": "Average weekly hours"
+        },
         "confirmation": {
             "deleteConfirmation": "Are you sure you want to delete this schedule"
         },
@@ -2418,11 +2449,24 @@
         "departmentSickLeaves": "Department sick leaves",
         "download": {
             "date": "Date",
+            "delimiter": {
+                "comma": "Comma",
+                "delimiter": "Delimiter",
+                "semicolon": "Semicolon",
+                "tab": "Tab"
+            },
             "department": "Department",
             "download": "Download",
+            "downloadLeavesOnly": "Download leaves only",
             "downloadType": "Download type",
+            "downloadHoursInCSV": "Download hours in CSV",
             "downloadHoursInExcel": "Download hours in excel",
-            "downloadOverview": "Download overview"
+            "downloadOverview": "Download overview",
+            "filter": {
+                "currentView": "Current view",
+                "filterDate": "Filter date",
+                "filteredView": "Filtered view"
+            }
         },
         "draft": {
             "pageTitle": "Duty schedules draft",
@@ -2448,8 +2492,50 @@
                     "donNotShowAgainInfo": "Hide the confirmation dialog until the next session.",
                     "confirm": "Confirm"
                 }
+            },
+            "preset": {
+                "draftSchedulesPresets": "Draft schedules presets",
+                "saveAsPreset": "Save as preset",
+                "applyPreset": "Apply preset",
+                "viewPresets": "View presets",
+                "saveCurrentDraftAsPreset": "Save current draft as preset",
+                "editDraftSchedulePreset": "Edit draft schedules preset",
+                "saveSuccess": "Draft schedules preset successfully saved!",
+                "updateSuccess": "Draft schedules preset successfully updated!",
+                "deleteSuccess": "Draft schedules preset successfully deleted!",
+                "applySuccess": "Preset successfully applied to draft schedules!",
+                "form": {
+                    "name": "Preset name",
+                    "description": "Description",
+                    "dateStart": "Draft start date",
+                    "dateEnd": "Draft end date",
+                    "presetDateRange": "Preset date range",
+                    "affectedDepartments": "Affected departments",
+                    "affectedUsers": "Affected users",
+                    "preset": "Preset",
+                    "preview": "Preview",
+                    "apply": "Apply",
+                    "selectDateRange": "Select date range",
+                    "targetDateRange": "Target date range"
+                },
+                "table": {
+                    "name": "Preset name",
+                    "description": "Description",
+                    "date": "Date",
+                    "createdBy": "Created by",
+                    "actions": {
+                        "preview": "Preview",
+                        "apply": "Apply",
+                        "edit": "Edit",
+                        "delete": "Delete"
+                    }
+                },
+                "confirmation": {
+                    "deletePresetConfirmation": "Are you sure you want to delete this preset"
+                }
             }
         },
+        "normPeriod": "Norm period",
         "published": {
             "publishedVersions": "Published versions",
             "seePrevious": "See previous published versions",
@@ -2531,6 +2617,7 @@
                 "date": "Date",
                 "hours": "Hours",
                 "note": "Note",
+                "tags": "Tags",
                 "type": {
                     "add": "Add",
                     "deduct": "Deduct",
@@ -2566,6 +2653,7 @@
                     "rejected": "Rejected",
                     "status": "Status"
                 },
+                "tags": "Tags",
                 "type": {
                     "add": "Add",
                     "deduct": "Deduct",
@@ -2581,6 +2669,7 @@
         },
         "form": {
             "citizens": "Citizens",
+            "compensatoryTimeOff": "Compensatory time off",
             "createMultipleSchedules": "Create multiple schedules",
             "date": "Date",
             "datetimeStart": "Date time start",
@@ -2588,7 +2677,7 @@
             "departments": "Departments",
             "description": "Description",
             "doNotCountSickLeaveAsWorkingHours": "Do not count sick leave as working hours",
-            "DoNotCountWeekends": "Do not count weekends",
+            "doNotCountWeekends": "Do not count weekends",
             "forSleepingNightShift": "For sleeping night shift",
             "inMeeting": "In Meeting",
             "note": "Note",
@@ -2596,7 +2685,8 @@
             "tags": "Tags",
             "title": "Title",
             "useCompensatoryTime": "Use compensatory time",
-            "users": "Users"
+            "users": "Users",
+            "overrideVacationHours": "Override default vacation hours"
         },
         "holidays": "Holidays",
         "month": "Month",
@@ -2604,16 +2694,29 @@
         "normHours": {
             "availableVacationHours": "Available vacation hours",
             "compensatoryHours": "Compensatory hours",
-            "compensatoryHoursThisYear": "Compensatory hours this year",
-            "compensatoryHourFromPreviousYear": "Compensatory hours from previous year",
+            "compensatoryHoursThisYear": "Compensatory hours this period",
+            "compensatoryHourFromPreviousYear": "Compensatory hours from previous period",
+            "compensatoryHoursGraph": "Compensatory hours graph",
+            "date": "Date",
             "totalCompensatoryHours": "Total compensatory hours",
             "totalVacationHours": "Total vacation hours",
-            "vacationHoursThisYear": "Vacation hours this year",
-            "vacationHoursFromPreviousYear": "Vacation hours from previous year",
+            "vacationHoursThisYear": "Vacation hours this period",
+            "vacationHoursFromPreviousYear": "Vacation hours from previous period",
             "annualNormHours": "Annual norm hours",
             "info1": "The employee’s individual annual norm is always used.",
             "info2": "If the employee has been employed partway through the year, the annual norm will be calculated proportionally based on the employment start date.",
-            "info3": "Compensatory and vacation hours are calculated from that annual norm."
+            "info3": "Compensatory and vacation hours are calculated from that annual norm.",
+            "graph": {
+                "totalNormHours": "Total norm hours",
+                "totalWorkedHours": "Total worked hours",
+                "compensatoryTimeBalance": "Compensatory time balance",
+                "credit": "Credit",
+                "deficit": "Deficit",
+                "compensatoryTimeOverview": "Compensatory time overview",
+                "normHours": "Norm hours",
+                "workedHours": "Worked hours",
+                "hours": "Hours"
+            }
         },
         "noScheduleFound": "No schedule found",
         "pinSelfToTopOfSchedule": "Pin myself to the top of the schedule",
@@ -2753,6 +2856,7 @@
                     "edit": "Edit",
                     "viewRequesters": "View requesters"
                 },
+                "availableShifts": "Available shifts",
                 "date": "Date",
                 "dateTimeEnd": "Date and time end",
                 "dateTimeStart": "Date and time start",
@@ -2766,6 +2870,22 @@
                 "status": "Status",
                 "workingHours": "Working hours"
             }
+        },
+        "shareDutySchedule": {
+            "dutySchedule": "Duty schedule",
+            "form": {
+                "alert": {
+                    "enteredPasswordMismatched": "Entered password mismatched",
+                    "dutyScheduleSuccessfullyShared": "Duty schedule successfully shared",
+                    "required8Characters": "This field should be at least 8 characters long"
+                },
+                "confirmPassword": "Confirm password",
+                "employee": "Employee",
+                "password": "Password",
+                "unlock": "Unlock",
+                "unlockDutySchedule": "Unlock duty schedule"
+            },
+            "shareDutySchedule": "Share duty schedule"
         },
         "shiftSpan": {
             "start": "Shift start",
@@ -2802,7 +2922,11 @@
             "viewSchedule": "View schedule"
         },
         "week": "Week",
-        "yearToDate": "Year to date"
+        "yearToDate": "Year to date",
+        "shiftWarning": {
+            "warning": "Warning",
+            "warningsFound": "Warnings have been found in this shift."
+        }
     },
     "drive": {
         "alert": {
@@ -2811,8 +2935,10 @@
             "documentSuccessfullyArchived": "Document successfully archived",
             "fileSuccessfullyAdded": "New file successfully saved",
             "fileSuccessfullyMoved": "File successfully moved",
+            "fileSuccessfullyUpdated": "File successfully updated",
             "folderSuccessfullyAdded": "New folder successfully saved",
-            "folderSuccessfullyUpdated": "Folder successfully updated"
+            "folderSuccessfullyUpdated": "Folder successfully updated",
+            "modifyDocumentLayoutWarning": "Modifying this document can unintentionally change its original layout and structure. Please review all changes carefully before saving"
         },
         "access": {
             "access": "Access",
@@ -2838,6 +2964,15 @@
             }
         },
         "createNewFolder": "Create new folder",
+        "newDocument": "New Document",
+        "documentEditor": {
+            "title": "Document Editor",
+            "documentName": "Document Name",
+            "save": "Save",
+            "cancel": "Cancel",
+            "close": "Close"
+        },
+        "download": "Download",
         "createTemplate": {
             "alert": {
                 "templateSuccessfullyAdded": "Template successfully added"
@@ -2870,8 +3005,11 @@
             "archiveConfirmation": "Are you sure you want to archive this document",
             "deleteFileConfirmation": "Are you sure you want to delete this file",
             "deleteFolderConfirmation": "Are you sure you want to delete this folder",
-            "upgradeStorageConfirmation": "Do you want to upgrade your storage"
+            "upgradeStorageConfirmation": "Do you want to upgrade your storage",
+            "downloadWithCompanyLogoConfirmation": "Do you want to download this document with company logo"
         },
+        "editDocument": "Edit document",
+        "expenses": "Expenses",
         "form": {
             "editFile": "Edit file",
             "editFolder": "Edit folder",
@@ -2883,6 +3021,7 @@
             "template": "Template",
             "useTemplate": "Use template"
         },
+        "new": "New",
         "table": {
             "actions": {
                 "access": "Access",
@@ -2890,6 +3029,7 @@
                 "edit": "Edit",
                 "delete": "Delete",
                 "download": "Download",
+                "downloadPDF": "Download PDF",
                 "move": "Move",
                 "view": "View"
             },
@@ -2899,7 +3039,9 @@
             "owner": "Owner"
         },
         "upgradeStorage": "Upgrade storage",
-        "uploadFile": "Upload file"
+        "uploadFile": "Upload file",
+        "viewDocument": "View document",
+        "viewDraftFile": "View draft files"
     },
     "employees": {
         "alert": {
@@ -3010,6 +3152,11 @@
                 "jobSpecialty": "Job specialty",
                 "jobTitle": "Job title",
                 "salaryID": "Salary ID",
+                "terminationDate": "Termination date",
+                "weeklyNormHours": "Weekly norm hours",
+                "weeks": "Weeks",
+                "hoursPerYear": "hours per year",
+                "hoursPerWeek": "hours per week",
                 "workingHours": "Working hours",
                 "vacationDays": "Vacation days"
             },
@@ -3103,13 +3250,18 @@
         },
         "tabs": {
             "dutySchedule": "Duty schedule",
-            "employeeInformations": "Employee informations"
+            "employeeInformations": "Employee informations",
+            "timeLogs": "Time Logs"
         },
+        "timeLogs": "Time Logs",
         "workingHours": {
             "fulltime": "Full time",
             "parttime": "Part time"
         },
-        "viewEmployee": "View employee"
+        "viewEmployee": "View employee",
+        "normPeriods": {
+            "default": "Default period"
+        }
     },
     "employeeGroups": {
         "employeeGroups": "Employee groups",
@@ -3140,6 +3292,9 @@
         }
     },
     "entriesPerPage": "Entries per page",
+    "error": {
+        "somethingWentWrong": "We have registered this error. You don't have to do anything. We will get back to you as soon as possible"
+    },
     "events": {
         "alert": {
             "successfullyAdded": "New event successfully added",
@@ -3151,7 +3306,8 @@
         "createdBy": "Created by",
         "createThisEvent": "Create this event",
         "confirmation": {
-            "deleteConfirmation": "Are you sure you want to delete this event"
+            "deleteConfirmation": "Are you sure you want to delete this event",
+            "deleteFutureEvents": "Delete future events"
         },
         "delete": "Delete",
         "editEvent": "Edit event",
@@ -3181,6 +3337,137 @@
         "subscribe": "Subscribe"
     },
     "excludeVat": "excl. vat",
+    "expenseCategories": {
+        "addNewExpenseCategory": "Add new expense category",
+        "expenseCategories": "Expense categories",
+        "editExpenseCategory": "Edit expense category",
+        "form": {
+            "expenseCategory": "Expense category",
+            "alert": {
+                "expenseCategorySuccessfullyUpdated": "Expense category successfully updated",
+                "newExpenseCategorySuccessfullySaved": "New expense category successfully saved"
+            },
+            "name": "Name"
+        },
+        "newExpenseCategory": "New expense category",
+        "table": {
+            "alert": {
+                "expenseCategorySuccessfullyDeleted": "Expense category successfully deleted",
+                "expenseSuccessfullyReimbursed": "Expense successfully paid out",
+                "expenseSuccessfullyUnreimbursed": "Expense successfully unpaid"
+            },
+            "actions": {
+                "delete": "Delete",
+                "edit": "Edit",
+                "view": "View",
+                "reimburse": "Pay outlay",
+                "unreimburse": "Cancel outlay"
+            },
+            "confirmation": {
+                "deleteExpenseCategoryConfirmation": "Are you sure you want to delete this expense category?"
+            },
+            "name": "Name"
+        }
+    },
+    "expenses": {
+        "addNewExpense": "Add new expense",
+        "expenses": "Expenses",
+        "editExpense": "Edit expense",
+        "alert": {
+            "expenseSuccessfullyDeleted": "Expense successfully deleted",
+            "receiptSuccessfullyDownloaded": "Receipt successfully downloaded"
+        },
+        "confirmation": {
+            "deleteExpenseConfirmation": "Are you sure you want to delete this expense?"
+        },
+        "form": {
+            "alert": {
+                "expenseSuccessfullyUpdated": "Expense successfully updated",
+                "newExpenseSuccessfullySaved": "New expense successfully saved"
+            },
+            "name": "Name",
+            "expense": "Expense",
+            "status": "Status",
+            "category": "Category",
+            "date": "Date",
+            "amount": "Amount",
+            "description": "Description",
+            "receipt": "Receipt",
+            "clickToUpload": "Click to upload"
+        },
+        "newExpense": "New expense",
+        "table": {
+            "alert": {
+                "expenseSuccessfullyDeleted": "Expense successfully deleted",
+                "expenseSuccessfullyRejected": "Expense successfully rejected",
+                "expenseSuccessfullyUpdated": "Expense successfully updated",
+                "expenseSuccessfullyReimbursed": "Payment successfully disbursed",
+                "expenseSuccessfullyUnreimbursed": "Payment disbursement successfully cancelled"
+            },
+            "actions": {
+                "delete": "Delete",
+                "edit": "Edit",
+                "view": "View",
+                "reimburse": "Disburse payment",
+                "unreimburse": "Cancel payment disbursement",
+                "reject": "Reject"
+            },
+            "confirmation": {
+                "deleteExpenseConfirmation": "Are you sure you want to delete this expense?",
+                "rejectExpenseConfirmation": "Are you sure you want to reject this expense?"
+            },
+            "name": "Name",
+            "expense": "Expense",
+            "employee": "Employee",
+            "category": "Category",
+            "date": "Date",
+            "amount": "Amount",
+            "receipt": "Receipt",
+            "status": "Status",
+            "reimbursed": "Outlay paid",
+            "pending": "Pending",
+            "rejected": "Rejected"
+        },
+        "viewExpense": {
+            "viewExpense": "View expense",
+            "employee": "Employee",
+            "category": "Category",
+            "date": "Date",
+            "name": "Name",
+            "amount": "Amount",
+            "description": "Description",
+            "receipt": "Receipt",
+            "expense": "Expense"
+        }
+    },
+    "extraHoursTags": {
+        "addNewExtraHoursTag": "Add new extra hours tag",
+        "alert": {
+            "extraHoursTagSuccessfullyDeleted": "Extra hours tag successfully deleted"
+        },
+        "extraHoursTags": "Extra hours tags",
+        "editExtraHoursTag": "Edit extra hours tag",
+        "form": {
+            "alert": {
+                "extraHoursTagSuccessfullyUpdated": "Extra hours tag successfully updated",
+                "newExtraHoursTagSuccessfullySaved": "New extra hours tag successfully saved"
+            },
+            "department": "Department",
+            "name": "Name"
+        },
+        "newExtraHoursTag": "New extra hours tag",
+        "table": {
+            "actions": {
+                "delete": "Delete",
+                "edit": "Edit"
+            },
+            "confirmation": {
+                "deleteExtraHoursTagConfirmation": "Are you sure you want to delete this extra hours tag"
+            },
+            "department": "Department",
+            "name": "Name"
+        }
+    },
     "features": {
         "seeNewFeatures": "See new features"
     },
@@ -3752,6 +4039,7 @@
                 "newJournalTagSuccessfullySaved": "New journal note tag successfully saved"
             },
             "color": "Color",
+            "department": "Department",
             "name": "Name"
         },
         "journalNoteTags": "Journal note tags",
@@ -3765,6 +4053,7 @@
                 "deleteJournalTagConfirmation": "Are you sure you want to delete this tag"
             },
             "color": "Color",
+            "department": "Department",
             "name": "Name"
         }
     },
@@ -3792,6 +4081,35 @@
                 "deleteJournalTitleConfirmation": "Are you sure you want to delete this journal title"
             },
             "title": "Title"
+        }
+    },
+    "journalContents": {
+        "addnNewJournalContent": "New journal content",
+        "editJournalContent": "Edit journal content",
+        "form": {
+            "alert": {
+                "newJournalContentSuccessfullySaved": "Journal content successfully saved",
+                "journalContentSuccessfullyUpdated": "Journal content successfully updated"
+            },
+            "content": "Content",
+            "name": "Name"
+        },
+        "journalContents": "Journal contents",
+        "newJournalContent": "New journal content",
+        "selectJournalContent": "Select journal content",
+        "table": {
+            "actions": {
+                "edit": "Edit",
+                "delete": "Delete"
+            },
+            "alert": {
+                "journalContentSuccessfullyDeleted": "Journal content successfully deleted"
+            },
+            "confirmation": {
+                "deleteJournalContentConfirmation": "Are you sure you want to delete this journal content"
+            },
+            "content": "Content",
+            "name": "Name"
         }
     },
     "languageSwitcher": {
@@ -3892,6 +4210,7 @@
         },
         "forward": "Forward",
         "inbox": "Inbox",
+        "insertSignature": "Insert signature",
         "loading": {
             "loadingEmailConfigurations": "Loading email configurations",
             "loadingUserSettings": "Loading user settings",
@@ -3938,6 +4257,41 @@
             "imapUsername": "IMAP username",
             "imapPassword": "IMAP password",
             "portEncryption": "IMAP encryption",
+            "signatures": {
+                "editSignature": "Edit signature",
+                "form": {
+                    "alert": {
+                        "newEmailSignatureSuccessfullyAdded": "New email signature successfully added",
+                        "emailSignatureSuccessfullyUpdated": "Email signature successfully updated"
+                    },
+                    "default": "Default",
+                    "name": "Name",
+                    "signature": "Signature"
+                },
+                "newSignature": "New signature",
+                "signatures": "Signatures",
+                "table": {
+                    "actions": {
+                        "delete": "Delete",
+                        "edit": "Edit",
+                        "setToDefault": "Set to default",
+                        "signature": "Signature",
+                        "view": "View"
+                    },
+                    "alert": {
+                        "emailSignatureSuccessfullyDeleted": "Email signature successfully deleted",
+                        "emailSignatureSuccessfullySetToDefault": "Email signature successfully set to default"
+                    },
+                    "confirmation": {
+                        "deleteSignatureConfirmation": "Are you sure you want to delete this signature",
+                        "setSignatureToDefaultConfirmation": "Are you sure you want to set this signature as default"
+                    },
+                    "default": "Default",
+                    "name": "Name",
+                    "status": "Status"
+                }
+            },
+            "settings": "Settings",
             "smtp": "SMTP",
             "smtpHost": "SMTP Host",
             "smtpPort": "SMTP Port",
@@ -4081,6 +4435,20 @@
         "unreadMessages": "Unread messages",
         "users": "Users"
     },
+    "months": {
+        "january": "January",
+        "february": "February",
+        "march": "March",
+        "april": "April",
+        "may": "May",
+        "june": "June",
+        "july": "July",
+        "august": "August",
+        "september": "September",
+        "october": "October",
+        "november": "November",
+        "december": "December"
+    },
     "navbar": {
         "apps": "Apps",
         "colleagues": "Colleagues",
@@ -4115,7 +4483,8 @@
             "attachments": "File Attachments",
             "clickToUpload": "Click to upload files",
             "multipleFilesAllowed": "Multiple files allowed",
-            "existingAttachments": "Existing Attachments"
+            "existingAttachments": "Existing Attachments",
+            "removeFile": "Remove file"
         },
         "news": "News",
         "newNews": "New news",
@@ -4135,6 +4504,70 @@
     },
     "next": "Next",
     "noResultFound": "No result found",
+    "normPeriod": {
+        "addNormPeriod": "Add norm period",
+        "addCustomNormPeriod": "Add custom norm period",
+        "assignEmployee": "Assign Employee to norm period",
+        "normPeriod": "Norm periods",
+        "editNormPeriod": "Edit norm period",
+        "modalDescription": "Assigning an employee to a norm period means that a custom period is used to calculate their working, compensatory and vacation hours.",
+        "alert": {
+            "normPeriodSuccessfullyDeleted": "Norm period successfully deleted",
+            "employeeAssigned": "Employee was successfully assigned to the norm period"
+        },
+        "confirmation": {
+            "deleteNormPeriodConfirmation": "Are you sure you want to delete this norm period?"
+        },
+        "form": {
+            "alert": {
+                "normPeriodSuccessfullyUpdated": "Norm period successfully updated",
+                "newNormPeriodSuccessfullySaved": "New norm period successfully saved"
+            },
+            "name": "Name",
+            "normPeriod": "Norm period",
+            "status": "Status",
+            "category": "Category",
+            "dateStart": "Start date",
+            "dateEnd": "End date",
+            "startMonth": "Start Month",
+            "startDay": "Start Day",
+            "endMonth": "End Month",
+            "endDay": "End Day",
+            "description": "Description",
+            "department": "Department",
+            "overrideNormPeriods": "Override existing employee norm periods",
+            "overrideInfo1": "If checked, all employees within the selected department(s) will be assigned to this norm period, and any existing norm periods assigned to those employees will be overridden.",
+            "overrideInfo2": "If unchecked, employees within the selected department(s) who already have a norm period assigned will keep their existing norm period."
+        },
+        "newNormPeriod": "New norm period",
+        "table": {
+            "alert": {
+                "normPeriodSuccessfullyDeleted": "Norm period successfully deleted"
+            },
+            "actions": {
+                "delete": "Delete",
+                "edit": "Edit",
+                "view": "View"
+            },
+            "confirmation": {
+                "deleteNormPeriodConfirmation": "Are you sure you want to delete this norm period?"
+            },
+            "name": "Name",
+            "currentPeriod": "Current Period",
+            "description": "Description",
+            "department": "Department"
+        },
+        "viewNormPeriod": {
+            "viewNormPeriod": "View norm period",
+            "name": "Name",
+            "startMonth": "Start Month",
+            "startDay": "Start Day",
+            "endMonth": "End Month",
+            "endDay": "End Day",
+            "description": "Description",
+            "currentPeriod": "Current Period"
+        }
+    },
     "overview": {
         "addDailyEvents": "Add daily events",
         "bulletBoard": "Bullet board",
@@ -4165,6 +4598,7 @@
                 "citizensAdmissionAndDischarged": "Citizens admission and discharged",
                 "citizensEvents": "Citizens' events",
                 "citizensDiagnoses": "Citizens diagnoses",
+                "citizensFollowUpReminders": "Follow-up reminders",
                 "citizensOrigin": "Citizens origin",
                 "medicationOverview": "Medication overview",
                 "gender": "Gender",
@@ -4174,7 +4608,9 @@
                 "latestJournal": "Latest journal notes",
                 "medicineDeviationStatistics": "Medicine deviated",
                 "myDailyEvents": "My daily events",
+                "plansAndGoals": "Plans and goals",
                 "riskAssessment": "Risk assessment",
+                "scheduleSlots": "Schedule slots",
                 "statusesStatistics": "Statuses statistics",
                 "subgoalsStatistics": "Subgoals statistics",
                 "treatments": "Treatments",
@@ -4182,6 +4618,15 @@
             },
             "show": "Show",
             "startDate": "Start date"
+        },
+        "followUpReminders": {
+            "followUpReminders": "Follow-up reminders",
+            "noFollowUps": "No pending follow-ups",
+            "reportFollowUp": "Report Follow-up",
+            "overdue": "Overdue",
+            "dueToday": "Due today",
+            "dueOn": "Due on",
+            "reminders": "reminders"
         },
         "from": "From",
         "gender": {
@@ -4227,6 +4672,7 @@
         "overview": "Overview",
         "plansGoalsAndSubgoals": {
             "goalsStatistics": "Goals statistics",
+            "plansAndGoals": "Plans and goals",
             "statusesStatistics": "Statuses statistics",
             "subgoalsStatistics": "Subgoals statistics"
         },
@@ -4269,6 +4715,7 @@
             },
             "riskAssessment": "Risk assessment"
         },
+        "scheduleSlots": "Schedule slots",
         "treatments": {
             "areaTypes": {
                 "functionalLevel": "Functional level",
@@ -4354,13 +4801,41 @@
             "form": {
                 "answerForm": "Answer form",
                 "chooseLabel": "Choose whether you want to download the form for offline completion or create a response directly",
+                "days": "Days",
                 "downloadForm": "Download form",
+                "editReport": "Edit Report",
+                "followUpIn": "Follow up in",
+                "form": "Form",
+                "goal": "Goal",
+                "months": "Months",
+                "plan": "Plan",
+                "saveAndDownload": "Save and download PDF",
+                "saveAsDraft": "Draft",
+                "setFollowUpDate": "Set follow-up date",
+                "subgoal": "Subgoal",
+                "useFollowUpReminder": "Use follow-up reminder",
+                "weeks": "Weeks",
+                "years": "Years"
+            }
+        },
+        "editStatusTemplate": {
+            "alert": {
+                "statusTemplateSuccessfullyUpdated": "Report successfully updated"
+            },
+            "editReport": "Edit report",
+            "form": {
+                "answerForm": "Answer form",
+                "chooseLabel": "Choose whether you want to download the form for offline completion or create a response directly",
+                "downloadForm": "Download form",
+                "editReport": "Edit Report",
                 "form": "Form",
                 "goal": "Goal",
                 "plan": "Plan",
                 "saveAndDownload": "Save and download PDF",
+                "saveAsDraft": "Draft",
                 "subgoal": "Subgoal"
-            }
+            },
+            "formChangeWarning": "Changing the form will delete all your current responses. Do you want to continue?"
         },
         "currentPlansAndGoals": "Current plans and goals",
         "dateCompleted": "Date completed",
@@ -4421,10 +4896,13 @@
             "title": "Title",
             "useTemplate": "Use template"
         },
+        "followUpNotifications": "Follow-up Notifications",
+        "followUps": "Follow Ups",
         "graph": "Graph",
         "goal": "Goal",
         "goals": "Goals",
         "inProgress": "In progress",
+        "isDraft": "Draft",
         "new": "New",
         "newGoal": "New goal",
         "newNote": "New note",
@@ -4464,6 +4942,7 @@
                 "users": "Users"
             }
         },
+        "noFollowUpNotifications": "No follow-up notifications",
         "plan": "Plan",
         "plans": "Plans",
         "reports": "Reports",
@@ -4483,7 +4962,8 @@
                 "seeGoals": "See goals",
                 "seeSubgoals": "See subgoals",
                 "statuses": "Statuses",
-                "unarchive": "Unarchive"
+                "unarchive": "Unarchive",
+                "view": "View"
             },
             "createdBy": "Created by",
             "copiedFrom": "Copied from",
@@ -4993,6 +5473,7 @@
                 "newScheduleTagSuccessfullySaved": "New schedule tag successfully saved"
             },
             "color": "Color",
+            "department": "Department",
             "name": "Name"
         },
         "newScheduleTag": "New schedule tag",
@@ -5005,6 +5486,7 @@
                 "deleteScheduleTagConfirmation": "Are you sure you want to delete this schedule tag"
             },
             "color": "Color",
+            "department": "Afdeling",
             "name": "Name"
         }
     },
@@ -5118,16 +5600,20 @@
             "diagnoses": "Diagnoses",
             "dosageForms": "Dosage forms",
             "employeeGroups": "Employee groups",
+            "expenseCategories": "Expense categories",
+            "extraHoursTags": "Extra hours tags",
             "foreignCities": "Foreign cities",
             "invoices": "Invoices",
             "jobTitles": "Job titles",
             "journalNoteTags": "Journal note tags",
             "journalTitles": "Journal titles",
+            "journalContents": "Journal contents",
             "licenseOverview": "License overview",
             "licenses": "Licenses",
             "massUnits": "Mass units",
             "medicationAllergies": "Medication allergies (CAVE)",
             "medicines": "Medicines",
+            "normPeriods": "Norm periods",
             "profile": "Profile",
             "relationships": "Relationships",
             "roles": "Roles",
@@ -5167,8 +5653,10 @@
                 "newShiftSuccessfullySaved": "New shift successfully saved"
             },
             "color": "Color",
+            "markAsLeaveType": "Mark as leave type",
             "nameDanish": "Name (danish)",
             "nameEnglish": "Name (english)",
+            "paycode": "Paycode",
             "timeIn": "Time out",
             "timeOut": "Time in"
         },
@@ -5183,8 +5671,10 @@
                 "deleteShiftConfirmation": "Are you sure you want to delete this shift"
             },
             "color": "Color",
+            "markedAsLeave": "Marked as leave",
             "nameDanish": "Name (danish)",
             "nameEnglish": "Name (english)",
+            "paycode": "Paycode",
             "standard": "Standard",
             "standardShift": "Standard shift",
             "timeIn": "Time out",
@@ -5797,7 +6287,8 @@
             "taskSuccessfullyDeleted": "Task successfully deleted"
         },
         "confirmation": {
-            "deleteConfirmation": "Are you sure you want to delete this task"
+            "deleteConfirmation": "Are you sure you want to delete this task",
+            "deleteFutureEvents": "Delete future events"
         },
         "editTask": "Edit task",
         "form": {
@@ -5828,10 +6319,64 @@
     },
     "theListIsEmpty": "The list is empty",
     "timeLogs": {
+        "download": {
+            "date": "Date",
+            "download": "Download",
+            "downloadType": {
+                "downloadExcel": "Download excel",
+                "downloadPDF": "Download PDF",
+                "downloadType": "Download type"
+            },
+            "filter": {
+                "filterDate": "Filter date"
+            },
+            "status": "Status"
+        },
+        "editTimeLog": "Edit time log",
+        "filter": {
+            "allCancellations": "All cancellations",
+            "heldSessionsOnly": "Held sessions only",
+            "onlyCancellationsByCitizen": "Only cancellations by citizen",
+            "onlyCancellationByEmployee": "Only cancellations by employee",
+            "status": "Status"
+        },
+        "form": {
+            "alert": {
+                "timeLogSuccessfullyUpdated": "Time log successfully updated",
+                "newTimeLogSuccessfullySaved": "New time log successfully saved"
+            },
+            "dateTimeEnd": "Date time end",
+            "dateTimeStart": "Date time start",
+            "status": {
+                "cancelledByCitizen": "Cancelled by citizen",
+                "cancelledByEmployee": "Cancelled by employee",
+                "completed": "Held (completed)",
+                "status": "Status"
+            },
+            "remarks": "Remarks"
+        },
+        "newTimeLog": "New time log",
         "table": {
+            "actions": {
+                "delete": "Delete",
+                "edit": "Edit"
+            },
+            "alert": {
+                "timeLogSuccessfullyDeleted": "Time log successfully deleted"
+            },
             "createdAt": "Created at",
-            "timein": "Time in",
-            "timeout": "Time out",
+            "confirmation": {
+                "deleteTimeLogConfirmation": "Are you sure you want to delete this time log"
+            },
+            "dateTimeEnd": "Date time end",
+            "dateTimeStart": "Date time start",
+            "remarks": "Remarks",
+            "status": {
+                "cancelledByCitizen": "Cancelled by citizen",
+                "cancelledByEmployee": "Cancelled by employee",
+                "completed": "Held (completed)",
+                "status": "Status"
+            },
             "summary": "Time summary"
         },
         "timeLogs": "Time Logs"
@@ -5876,7 +6421,8 @@
         "updates": "Updates"
     },
     "validation": {
-        "thisFieldIsRequired": "This field is required"
+        "thisFieldIsRequired": "This field is required",
+        "invalidNumber": "Invalid number"
     },
     "verifyEmail": {
         "emailVerified": "Email verified",

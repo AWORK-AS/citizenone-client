@@ -83,7 +83,8 @@
                     </div>
                     <div class="space-y-1">
                         <div class="flex justify-between items-center py-0.5">
-                            <FormLabel for="departments" :label="$t('citizens.form.department')" />
+                            <FormLabel for="departments"
+                                :label="customPagesStore.getCustomPagesName?.department ?? $t('citizens.form.department')" />
                             <span class="text-xs cursor-pointer text-tertiary hover:text-tertiary-800"
                                 @click="state.modal.isAddDepartmentOpen = true">
                                 {{ $t('departments.addNewDepartment') }}

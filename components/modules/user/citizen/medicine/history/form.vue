@@ -2,6 +2,8 @@
     <form @submit.prevent="validateForm()" id="formMedicineHistory">
         <Alert type="danger" :text="props?.error?.message"
             v-if="props.error?.message && props.error.message.length > 0" />
+        <Alert type="danger" :text="$t('citizens.medicineJournals.history.form.noMedicineToday')"
+            v-if="state.formMedicineHistory.dosages?.length === 0" />
         <div class="space-y-3">
             <div class="space-y-1">
                 <FormLabel for="date" :label="$t('citizens.medicineJournals.history.form.date')" />

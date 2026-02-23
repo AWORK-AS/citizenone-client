@@ -54,8 +54,9 @@ const state = reactive({
     error: {} as Error,
     formJournalNoteTag: {
         name: '',
+        departments: [],
         color: ''
-    },
+    } as any,
     isPageLoading: false,
 })
 
@@ -71,8 +72,12 @@ async function fetchJournalNoteTag() {
         if (response) {
             state.formJournalNoteTag = {
                 name: response?.data?.name ?? '',
+                departments: [],
                 color: response?.data?.color ?? ''
             }
+            response?.data?.departments?.forEach((department: any) => {
+                state.formJournalNoteTag.departments.push(department?.uuid)
+            })
         }
     } catch (error: any) {
         state.error = error
@@ -86,6 +91,7 @@ async function updateJournalNoteTag(journalNoteTagDetails: any) {
     try {
         const params = {
             name: journalNoteTagDetails.name,
+            departments_uuid: journalNoteTagDetails.departments,
             color: journalNoteTagDetails.color
         }
         const response = await journalNoteTagService.updateJournalNoteTag(journalNoteTagUuid, params)

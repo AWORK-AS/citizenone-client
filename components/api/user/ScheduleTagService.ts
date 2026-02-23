@@ -21,8 +21,8 @@ class ScheduleTagService extends BaseAPIService {
         return await this.request(`/user/schedule-tags/${scheduleTagUuid}`, 'DELETE')
     }
 
-    async getAllScheduleTags(): Promise<any> {
-        return await this.request(`/user/schedule-tags/all/list`, 'GET')
+    async getAllScheduleTags(params: object): Promise<any> {
+        return await this.request(`/user/schedule-tags/all/list`, 'GET', params)
     }
 }
 

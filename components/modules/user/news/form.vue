@@ -143,7 +143,7 @@
                 <div class="space-y-1">
                     <div class="flex justify-between items-center py-0.5">
                         <p class="text-sm text-gray-600">
-                            {{ $t('news.form.department') }}
+                            {{ customPagesStore.getCustomPagesName?.department ?? $t('news.form.department') }}
                         </p>
                         <span class="text-xs cursor-pointer text-tertiary hover:text-tertiary-800"
                             @click="state.modal.isAddDepartmentOpen = true">
@@ -189,11 +189,11 @@ import { useVuelidate } from "@vuelidate/core"
 import { required, helpers } from '@vuelidate/validators'
 import { audienceService } from '@/components/api/user/AudienceService'
 import { departmentService } from '@/components/api/user/DepartmentService'
+import { useCustomPagesStore } from '@/store/custom-pages'
 import { useI18n } from "vue-i18n"
 import type { NewsForm, Error } from '@/types'
-import { useUserStore } from '@/store/user'
 
-const userStore = useUserStore() as any
+const customPagesStore = useCustomPagesStore() as any
 const props = defineProps({
     error: {
         type: Object,

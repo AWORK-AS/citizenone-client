@@ -40,6 +40,10 @@ class DraftScheduleService extends BaseAPIService {
     async pinSelfToTopOfSchedule(): Promise<any> {
         return await this.request(`/user/draft-schedules/employee/pin`, 'POST')
     }
+
+    async scheduleValidation(params: object): Promise<any> {
+        return await this.request(`/user/draft-schedules/schedule/validation`, 'POST', params)
+    }
 }
 
 export const draftScheduleService = new DraftScheduleService()

@@ -33,12 +33,20 @@
                             :isLoading="state.isTableLoading" :sortData="state.sortData" @sort="sort">
                             <template #body v-if="!(state.isTableLoading || (state.calendarTags?.data?.length === 0))">
                                 <tr v-for="(calendarTag, index) in state.calendarTags?.data" :key="index">
-                                    <td width="35%">
+                                    <td width="20%">
                                         <span>{{ calendarTag?.tag }}</span>
                                     </td>
-                                    <td width="35%">
+                                    <td width="20%">
                                         <span :style="{ backgroundColor: calendarTag?.color }"
                                             class="inline-block w-8 h-8 rounded" />
+                                    </td>
+                                    <td width="30%">
+                                        <div class="text-xxs flex flex-wrap gap-1">
+                                            <span v-for="(department, index) in calendarTag?.departments" :key=index
+                                                class="bg-primary px-2 py-1 text-white rounded-md">
+                                                {{ department?.name }}
+                                            </span>
+                                        </div>
                                     </td>
                                     <td width="30%">
                                         <div class="flex items-end justify-end gap-2">
@@ -73,11 +81,13 @@
 
 <script setup lang="ts">
 import { calendarTagService } from '@/components/api/user/CalendarTagService'
+import { useCustomPagesStore } from '@/store/custom-pages'
 import { useI18n } from "vue-i18n"
 import { useAlert } from '@/composables/alert'
 import type { Error } from '@/types'
 
 const runtimeConfig = useRuntimeConfig()
+const customPagesStore = useCustomPagesStore() as any
 const { successAlert } = useAlert()
 const { t } = useI18n()
 let currentTablePage = 1
@@ -93,6 +103,7 @@ const state = reactive({
     columnHeaders: [
         { name: 'calendarTags.table.name', isTranslateName: true, sorter: true, key: 'tag' },
         { name: 'calendarTags.table.color', isTranslateName: true, },
+        { name: customPagesStore.getCustomPagesName?.department, isTranslateName: false },
         { name: '' }
     ],
     dataFilter: {
@@ -119,6 +130,17 @@ const state = reactive({
 onMounted(() => {
     fetchCalendarTags()
 })
+
+watch(() => customPagesStore.getCustomPagesName, (newValue: any) => {
+    if (newValue) {
+        state.columnHeaders = [
+            { name: 'calendarTags.table.name', isTranslateName: true, sorter: true, key: 'tag' },
+            { name: 'calendarTags.table.color', isTranslateName: true, },
+            { name: customPagesStore.getCustomPagesName?.department, isTranslateName: false },
+            { name: '' }
+        ]
+    }
+}, { deep: true })
 
 async function fetchCalendarTags() {
     state.error = {}

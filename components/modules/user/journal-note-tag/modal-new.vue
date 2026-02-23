@@ -34,6 +34,7 @@ const state = reactive({
     error: {} as Error,
     formJournalNoteTag: {
         name: '',
+        departments: [],
         color: '#000000',
     },
     isPageLoading: false,
@@ -53,6 +54,7 @@ async function saveJournalNoteTag(journalNoteTagDetails: any) {
     try {
         const params = {
             name: journalNoteTagDetails.name,
+            departments_uuid: journalNoteTagDetails.departments,
             color: journalNoteTagDetails.color,
         }
         const response = await journalNoteTagService.saveJournalNoteTag(params)
