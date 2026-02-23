@@ -448,23 +448,27 @@ const state = reactive({
         title: '',
         document_title: '',
         is_follow_up_enabled: false,
-        follow_up_date: '',
+        follow_up_duration: '',
     },
     showFieldsAdder: true,
     followUpNumber: '1',
-    followUpUnit: 'days',
+    followUpUnit: 'Days',
 })
 
 const followUpUnits = [
-    { value: 'days', label: t('plansandgoals.createStatusTemplate.form.days') },
-    { value: 'weeks', label: t('plansandgoals.createStatusTemplate.form.weeks') },
-    { value: 'months', label: t('plansandgoals.createStatusTemplate.form.months') },
-    { value: 'years', label: t('plansandgoals.createStatusTemplate.form.years') },
+    { value: 'Days', label: t('plansandgoals.createStatusTemplate.form.days') },
+    { value: 'Weeks', label: t('plansandgoals.createStatusTemplate.form.weeks') },
+    { value: 'Months', label: t('plansandgoals.createStatusTemplate.form.months') },
+    { value: 'Years', label: t('plansandgoals.createStatusTemplate.form.years') },
 ]
 
-function formatFollowUpDate() {
+function formatFollowUpDuration() {
     return `${state.followUpNumber} ${state.followUpUnit}`
 }
+
+watch(() => [state.followUpNumber, state.followUpUnit], () => {
+    state.form.follow_up_duration = formatFollowUpDuration()
+}, { immediate: true })
 
 watch(() => props.selectedForm, (selectedForm: any) => {
     if (selectedForm) {
@@ -475,10 +479,14 @@ watch(() => props.selectedForm, (selectedForm: any) => {
             state.form.document_title = selectedForm.document_title
         }
         if (selectedForm.is_follow_up_enabled !== undefined) {
-            const followUpDate = formatFollowUpDate()
-
             state.form.is_follow_up_enabled = selectedForm.is_follow_up_enabled
-            state.form.follow_up_date = followUpDate
+            if (selectedForm.follow_up_duration) {
+                const parts = selectedForm.follow_up_duration.split(' ')
+                if (parts.length === 2) {
+                    state.followUpNumber = parts[0]
+                    state.followUpUnit = parts[1]
+                }
+            }
         }
     }
 }, { immediate: true })
