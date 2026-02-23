@@ -1899,7 +1899,6 @@ function openUserNormPeriodModal(employee: any) {
 }
 
 function openGraphModal(employee: any) {
-    if (!isAdmin(userStore.getUser?.role)) return
     state.normHours.selectedEmployee = employee
     state.modal.isGraphOpen = true
 }
