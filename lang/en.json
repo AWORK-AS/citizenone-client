@@ -5571,6 +5571,7 @@
                 "cvr": "CVR",
                 "enableEmailNotifications": "Enable email notifications",
                 "enableSystemNotifications": "Enable system notifications",
+                "interventionNotificationHours": "Intervention notification hours",
                 "isSortByStatus": "Allow displaying \"Substitutes\" at the bottom of the shift plan and \"Permanent staff\" at the top",
                 "groupChat": "Group chat",
                 "lockPastSchedules": "Lock past schedules",

@@ -23,20 +23,24 @@
                             <div class="flex gap-x-4 items-center">
                                 <FormLabel :label="$t('settings.company.form.companyLogo')" />
                                 <Tooltip v-if="logoPreviewUrl" :text="$t('settings.company.form.remove')">
-                                    <Icon name="ph:trash" class="p-2 size-4 cursor-pointer text-red-500 text-sm hover:text-red-700" @click="removeLogo" />
+                                    <Icon name="ph:trash"
+                                        class="p-2 size-4 cursor-pointer text-red-500 text-sm hover:text-red-700"
+                                        @click="removeLogo" />
                                 </Tooltip>
                             </div>
                             <input type="file" ref="logoInput" @change="onLogoChange"
                                 accept="image/png,image/jpeg,image/svg+xml" class="hidden" />
                             <div class="flex items-center gap-4">
                                 <div class="relative cursor-pointer" @click="triggerLogoInput">
-                                    <div v-if="!logoPreviewUrl" class="w-32 h-32 rounded-md border-2 border-dashed border-gray-300 bg-gray-50 flex items-center justify-center hover:border-primary hover:bg-gray-100 transition-colors">
+                                    <div v-if="!logoPreviewUrl"
+                                        class="w-32 h-32 rounded-md border-2 border-dashed border-gray-300 bg-gray-50 flex items-center justify-center hover:border-primary hover:bg-gray-100 transition-colors">
                                         <Icon name="ph:upload-simple" class="w-8 h-8 text-gray-400" />
                                     </div>
                                     <template v-else>
                                         <img :src="logoPreviewUrl" alt="Company logo"
                                             class="w-32 h-32 rounded-md object-contain border-2 border-gray-200 bg-white" />
-                                        <div class="rounded-md absolute inset-0 bg-black bg-opacity-50 text-white opacity-0 hover:opacity-100 transition-opacity flex items-center justify-center">
+                                        <div
+                                            class="rounded-md absolute inset-0 bg-black bg-opacity-50 text-white opacity-0 hover:opacity-100 transition-opacity flex items-center justify-center">
                                             <span class="text-xs">{{ $t('changeImage') }}</span>
                                         </div>
                                     </template>
@@ -131,6 +135,16 @@
                             <FormError
                                 :error="v$?.formCompany?.citizen_display_uuid?.$errors[0]?.$message.toString()" />
                             <FormError :error="state?.error?.errors?.citizen_display_uuid?.[0]" />
+                        </div>
+                        <div class="space-y-1">
+                            <FormLabel for="intervention_notification_hours"
+                                :label="$t('settings.company.form.interventionNotificationHours')" />
+                            <FormTextField id="intervention_notification_hours" name="intervention_notification_hours"
+                                :placeholder="$t('settings.company.form.interventionNotificationHours')"
+                                v-model="state.formCompany.intervention_notification_hours" />
+                            <FormError
+                                :error="v$?.formCompany?.intervention_notification_hours?.$errors[0]?.$message.toString()" />
+                            <FormError :error="state?.error?.errors?.intervention_notification_hours?.[0]" />
                         </div>
                         <div class="space-y-1 flex items-center gap-x-2">
                             <FormSwitch :value="state.formCompany.is_2fa_enabled"
@@ -271,6 +285,7 @@ const state = reactive({
         city: '',
         post_code: '',
         citizen_display_uuid: [] as any,
+        intervention_notification_hours: '',
         is_2fa_enabled: false,
         group_chat_enabled: false,
         checkin_enabled: false,
@@ -330,6 +345,7 @@ watch(() => userStore.getUser, (newValue: any) => {
             city: newValue?.company?.company_address?.city,
             post_code: newValue?.company?.company_address?.post_code,
             citizen_display_uuid: [],
+            intervention_notification_hours: newValue?.company?.intervention_notification_hours?.toString(),
             is_2fa_enabled: newValue?.company?.is_2fa_enabled ? true : false,
             group_chat_enabled: newValue?.company?.group_chat_enabled ? true : false,
             checkin_enabled: newValue?.company?.checkin_enabled ? true : false,
@@ -343,6 +359,7 @@ watch(() => userStore.getUser, (newValue: any) => {
             social_og_boligstyrelsen: newValue?.company?.social_og_boligstyrelsen ? true : false,
             quick_risk_assessment_enabled: newValue?.company?.quick_risk_assessment_enabled ? true : false,
             logo: null,
+            should_delete_logo: false,
         }
         // Load existing company logo if available
         if (newValue?.company?.logo_url) {
@@ -457,7 +474,7 @@ async function onLogoChange(event: Event) {
 function removeLogo() {
     state.formCompany.logo = null
     logoPreviewUrl.value = ''
-    state.formCompany.should_delete_logo = true 
+    state.formCompany.should_delete_logo = true
 }
 
 async function submitForm() {
@@ -466,25 +483,18 @@ async function submitForm() {
         state.error = {}
         state.isPageLoading = true
         try {
-            
             if (state.formCompany.should_delete_logo) {
-
-              
                 await userService.deleteCompanyLogo()
                 state.formCompany.should_delete_logo = false
             } else if (state.formCompany.logo) {
-
-               
                 const formData = new FormData()
                 formData.append('logo', state.formCompany.logo)
                 const logoResponse = await userService.uploadCompanyLogo(formData)
                 if (logoResponse.data?.logo_url) {
                     logoPreviewUrl.value = logoResponse.data.logo_url
                 }
-                state.formCompany.logo = null 
+                state.formCompany.logo = null
             }
-            
-            
             const params = {
                 name: state.formCompany.name,
                 cvr: state.formCompany.cvr,
@@ -497,6 +507,7 @@ async function submitForm() {
                 city: state.formCompany.city,
                 post_code: state.formCompany.post_code,
                 citizen_display_uuid: state.formCompany.citizen_display_uuid,
+                intervention_notification_hours: state.formCompany.intervention_notification_hours,
                 is_2fa_enabled: state.formCompany.is_2fa_enabled,
                 group_chat_enabled: state.formCompany.group_chat_enabled,
                 checkin_enabled: state.formCompany.checkin_enabled,
@@ -510,13 +521,10 @@ async function submitForm() {
                 social_og_boligstyrelsen: state.formCompany.social_og_boligstyrelsen,
                 quick_risk_assessment_enabled: state.formCompany.quick_risk_assessment_enabled,
             }
-            
+
             const response = await userService.updateCompany(params)
-            
             if (response.data) {
                 userStore.setUserCheckinStatus(state.formCompany.checkin_enabled)
-                
-                
                 const currentUser: any = { ...userStore.getUser }
                 if (currentUser?.company && response.data?.logo_url) {
                     currentUser.company.logo_url = response.data.logo_url
@@ -525,7 +533,6 @@ async function submitForm() {
                     currentUser.company.logo_url = null
                     userStore.setUser(currentUser)
                 }
-                
                 successAlert(`${t('alert.success')}!`, `${t('settings.company.form.alert.successfullyUpdated')}.`)
             }
         } catch (error: any) {

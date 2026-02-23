@@ -5571,6 +5571,7 @@
                 "cvr": "CVR",
                 "enableEmailNotifications": "Aktivér e-mail-notifikationer",
                 "enableSystemNotifications": "Aktivér systemnotifikationer",
+                "interventionNotificationHours": "Varslingstimer for indsats",
                 "isSortByStatus": "Tillad visning af \"Vikarer\" nederst i vagtplanen og \"Fast personale\" øverst",
                 "groupChat": "Gruppechat",
                 "lockPastSchedules": "Lås tidligere vagtplaner",
