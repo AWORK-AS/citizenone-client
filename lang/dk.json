@@ -2457,6 +2457,7 @@
             },
             "department": "Afdelinger",
             "download": "Download",
+            "downloadLeavesOnly": "Download kun ferier",
             "downloadType": "Downloadtype",
             "downloadHoursInCSV": "Download timer i CSV",
             "downloadHoursInExcel": "Download timer i Excel",
@@ -2465,8 +2466,7 @@
                 "currentView": "Nuværende visning",
                 "filterDate": "Filtrer dato",
                 "filteredView": "Filtreret visning"
-            },
-            "showLeavesOnly": "Vis kun ferier"
+            }
         },
         "draft": {
             "pageTitle": "Vagtplanskladde",
@@ -5653,7 +5653,7 @@
                 "newShiftSuccessfullySaved": "Ny vagt gemt med succes"
             },
             "color": "Farve",
-            "markAsLeave": "Markér som ferie",
+            "markAsLeaveType": "Marker som fraværstype",
             "nameDanish": "Navn (dansk)",
             "nameEnglish": "Navn (engelsk)",
             "paycode": "Lønningskode",

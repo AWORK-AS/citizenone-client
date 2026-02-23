@@ -2457,6 +2457,7 @@
             },
             "department": "Department",
             "download": "Download",
+            "downloadLeavesOnly": "Download leaves only",
             "downloadType": "Download type",
             "downloadHoursInCSV": "Download hours in CSV",
             "downloadHoursInExcel": "Download hours in excel",
@@ -2465,8 +2466,7 @@
                 "currentView": "Current view",
                 "filterDate": "Filter date",
                 "filteredView": "Filtered view"
-            },
-            "showLeavesOnly": "Show leaves only"
+            }
         },
         "draft": {
             "pageTitle": "Duty schedules draft",
@@ -5653,7 +5653,7 @@
                 "newShiftSuccessfullySaved": "New shift successfully saved"
             },
             "color": "Color",
-            "markAsLeave": "Mark as leave",
+            "markAsLeaveType": "Mark as leave type",
             "nameDanish": "Name (danish)",
             "nameEnglish": "Name (english)",
             "paycode": "Paycode",
