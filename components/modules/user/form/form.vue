@@ -30,6 +30,21 @@
                     Enable Follow up
                 </label>
             </div>
+            <div v-if="state.form.is_follow_up_enabled" class="space-y-3 ml-12">
+                <div class="flex items-center gap-x-3">
+                    <span class="text-sm text-gray-600">
+                        {{ $t('plansandgoals.createStatusTemplate.form.followUpIn') }}
+                    </span>
+                    <div class="w-24">
+                        <FormNumberField name="follow_up_number" placeholder="1" :min="1"
+                            v-model="state.followUpNumber" />
+                    </div>
+                    <div class="w-40">
+                        <FormSelect id="follow_up_unit" :options="followUpUnits" :canClear="false" :searchable="false"
+                            v-model="state.followUpUnit" />
+                    </div>
+                </div>
+            </div>
         </div>
 
         <div class="space-y-3 px-4 py-6 sm:p-8 bg-white shadow-sm ring-1 ring-gray-900/5 rounded-lg">
@@ -433,9 +448,27 @@ const state = reactive({
         title: '',
         document_title: '',
         is_follow_up_enabled: false,
+        follow_up_duration: '',
     },
     showFieldsAdder: true,
+    followUpNumber: '1',
+    followUpUnit: 'Days',
 })
+
+const followUpUnits = [
+    { value: 'Days', label: t('plansandgoals.createStatusTemplate.form.days') },
+    { value: 'Weeks', label: t('plansandgoals.createStatusTemplate.form.weeks') },
+    { value: 'Months', label: t('plansandgoals.createStatusTemplate.form.months') },
+    { value: 'Years', label: t('plansandgoals.createStatusTemplate.form.years') },
+]
+
+function formatFollowUpDuration() {
+    return `${state.followUpNumber} ${state.followUpUnit}`
+}
+
+watch(() => [state.followUpNumber, state.followUpUnit], () => {
+    state.form.follow_up_duration = formatFollowUpDuration()
+}, { immediate: true })
 
 watch(() => props.selectedForm, (selectedForm: any) => {
     if (selectedForm) {
@@ -447,6 +480,13 @@ watch(() => props.selectedForm, (selectedForm: any) => {
         }
         if (selectedForm.is_follow_up_enabled !== undefined) {
             state.form.is_follow_up_enabled = selectedForm.is_follow_up_enabled
+            if (selectedForm.follow_up_duration) {
+                const parts = selectedForm.follow_up_duration.split(' ')
+                if (parts.length === 2) {
+                    state.followUpNumber = parts[0]
+                    state.followUpUnit = parts[1]
+                }
+            }
         }
     }
 }, { immediate: true })

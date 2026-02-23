@@ -57,6 +57,7 @@ const state = reactive({
         title: '',
         document_title: '',
         is_follow_up_enabled: false,
+        follow_up_duration: '',
     },
     isPageLoading: false,
 })
@@ -75,7 +76,8 @@ async function fetchForm() {
                 title: response.data?.title ?? '',
                 description: response.data?.description ?? '',
                 document_title: response.data?.document_title ?? '',
-                is_follow_up_enabled: response.data?.is_follow_up_enabled ?? false,
+                is_follow_up_enabled: Boolean(response.data?.is_follow_up_enabled),
+                follow_up_duration: response.data?.follow_up_duration ?? '',
                 fields: [],
             }
             response?.data?.form_fields?.forEach((field: any) => {
@@ -102,6 +104,7 @@ async function updateForm(formDetails: any) {
             document_title: formDetails.document_title,
             fields: formDetails.fields,
             is_follow_up_enabled: formDetails.is_follow_up_enabled,
+            follow_up_duration: formDetails.follow_up_duration,
             is_active: true,
         }
         const response = await formService.updateForm(formUuid, params)
