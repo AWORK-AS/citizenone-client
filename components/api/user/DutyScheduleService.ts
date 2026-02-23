@@ -53,8 +53,16 @@ class DutyScheduleService extends BaseAPIService {
         return await this.request(`/user/duty-schedules/compensatory-time/${uuid}/report`, 'GET', params)
     }
 
-    async shareDutySchedule(params: object): Promise<any> {
+    async getSharedDutySchedules(params: object): Promise<any> {
+        return await this.request(`/user/duty-schedules/share/schedules`, 'GET', params)
+    }
+
+    async shareDutySchedules(params: object): Promise<any> {
         return await this.request(`/user/duty-schedules/share/schedules`, 'POST', params)
+    }
+
+    async deleteSharedDutySchedules(sharedSchedulesUuid: any): Promise<any> {
+        return await this.request(`/user/duty-schedules/share/schedules/${sharedSchedulesUuid}`, 'DELETE')
     }
 }
 

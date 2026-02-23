@@ -1,6 +1,6 @@
 <template>
     <div>
-        <Modal size="xs" :title="$t('dutySchedules.shareDutySchedule.shareDutySchedule')" :show="props.isModalOpen"
+        <Modal size="xs" :title="$t('dutySchedules.shareDutySchedule.sharedDutySchedule')" :show="props.isModalOpen"
             @close="closeModal">
             <template #modal-body>
                 <LoadingSpinner :isActive="state.isPageLoading">
@@ -25,6 +25,15 @@
                             v-if="state.error?.message && state.error.message.length > 0" />
                         <div class="space-y-3">
                             <div class="space-y-1">
+                                <p class="text-sm text-gray-600">
+                                    {{ $t('dutySchedules.shareDutySchedule.form.employee') }}
+                                </p>
+                                <FormSelectMultiple id="employee_uuids" :options="state.options.employees"
+                                    v-model="state.formShare.employee_uuids" />
+                                <FormError :error="v$?.formShare?.employee_uuids?.$errors[0]?.$message.toString()" />
+                                <FormError :error="state?.error?.errors?.employee_uuid?.[0]" />
+                            </div>
+                            <div class="space-y-1">
                                 <FormLabel for="password"
                                     :label="$t('dutySchedules.shareDutySchedule.form.password')" />
                                 <FormPasswordField id="password" name="password"
@@ -41,15 +50,6 @@
                                     v-model="state.formShare.confirm_password" />
                                 <FormError :error="v$?.formShare?.confirm_password?.$errors[0]?.$message.toString()" />
                                 <FormError :error="state?.error?.errors?.confirm_password?.[0]" />
-                            </div>
-                            <div class="space-y-1">
-                                <p class="text-sm text-gray-600">
-                                    {{ $t('dutySchedules.shareDutySchedule.form.employee') }}
-                                </p>
-                                <FormSelectMultiple id="employee_uuids" :options="state.options.employees"
-                                    v-model="state.formShare.employee_uuids" />
-                                <FormError :error="v$?.formShare?.employee_uuids?.$errors[0]?.$message.toString()" />
-                                <FormError :error="state?.error?.errors?.employee_uuid?.[0]" />
                             </div>
                         </div>
                         <div class="mt-6">
@@ -86,7 +86,7 @@ const props = defineProps({
         required: true,
     },
 })
-const emit = defineEmits(['close'])
+const emit = defineEmits(['close', 'refreshSharedDutySchedules'])
 const { t } = useI18n()
 const { successAlert } = useAlert()
 const departmentStore = useDepartmentStore()
@@ -137,6 +137,10 @@ function closeModal() {
     emit('close')
 }
 
+function refreshSharedDutySchedules() {
+    emit('refreshSharedDutySchedules')
+}
+
 async function submitForm() {
     state.error = {}
     v$.value.$validate()
@@ -147,10 +151,11 @@ async function submitForm() {
                 employee_uuids: state.formShare.employee_uuids,
                 password: state.formShare.password,
             }
-            const response = await dutyScheduleService.shareDutySchedule(params)
+            const response = await dutyScheduleService.shareDutySchedules(params)
             if (response) {
                 state.selectedDutySchedule = response
                 if (state.selectedDutySchedule?.message === 'Success.' || state.selectedDutySchedule?.message === 'Succes.') {
+                    refreshSharedDutySchedules()
                     successAlert(`${t('alert.success')}!`, `${t('dutySchedules.shareDutySchedule.form.alert.dutyScheduleSuccessfullyShared')}.`)
                 }
             }

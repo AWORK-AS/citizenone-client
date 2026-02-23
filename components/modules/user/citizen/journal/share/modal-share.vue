@@ -1,6 +1,6 @@
 <template>
     <div>
-        <Modal size="xs" :title="$t('citizens.citizenJournals.shareJournal.shareJournal')" :show="props.isModalOpen"
+        <Modal size="xs" :title="$t('citizens.citizenJournals.shareJournals.shareJournals')" :show="props.isModalOpen"
             @close="closeModal">
             <template #modal-body>
                 <LoadingSpinner :isActive="state.isPageLoading">
@@ -25,19 +25,26 @@
                             v-if="state.error?.message && state.error.message.length > 0" />
                         <div class="space-y-3">
                             <div class="space-y-1">
+                                <p class="text-sm text-gray-600">
+                                    {{ customPagesStore.getCustomPagesName?.citizens }}
+                                </p>
+                                <FormSelectMultiple id="citizen_uuids" :options="state.options.citizens"
+                                    v-model="state.formShare.citizen_uuids" />
+                            </div>
+                            <div class="space-y-1">
                                 <FormLabel for="password"
-                                    :label="$t('citizens.citizenJournals.shareJournal.form.password')" />
+                                    :label="$t('citizens.citizenJournals.shareJournals.form.password')" />
                                 <FormPasswordField id="password" name="password"
-                                    :placeholder="$t('citizens.citizenJournals.shareJournal.form.password')"
+                                    :placeholder="$t('citizens.citizenJournals.shareJournals.form.password')"
                                     v-model="state.formShare.password" />
                                 <FormError :error="v$?.formShare?.password?.$errors[0]?.$message.toString()" />
                                 <FormError :error="state?.error?.errors?.name?.[0]" />
                             </div>
                             <div class="space-y-1">
                                 <FormLabel for="confirm_password"
-                                    :label="$t('citizens.citizenJournals.shareJournal.form.confirmPassword')" />
+                                    :label="$t('citizens.citizenJournals.shareJournals.form.confirmPassword')" />
                                 <FormPasswordField id="confirm_password" name="confirm_password"
-                                    :placeholder="$t('citizens.citizenJournals.shareJournal.form.confirmPassword')"
+                                    :placeholder="$t('citizens.citizenJournals.shareJournals.form.confirmPassword')"
                                     v-model="state.formShare.confirm_password" />
                                 <FormError :error="v$?.formShare?.confirm_password?.$errors[0]?.$message.toString()" />
                                 <FormError :error="state?.error?.errors?.confirm_password?.[0]" />
@@ -62,11 +69,14 @@
 </template>
 
 <script setup lang="ts">
+import { citizenService } from '@/components/api/user/CitizenService'
 import { journalService } from '@/components/api/user/JournalService'
 import { useVuelidate } from "@vuelidate/core"
 import { required, helpers, minLength, sameAs } from '@vuelidate/validators'
 import { useI18n } from "vue-i18n"
 import { useAlert } from '@/composables/alert'
+import { useDepartmentStore } from '@/store/department'
+import { useCustomPagesStore } from '@/store/custom-pages'
 import type { Error } from '@/types'
 
 const props = defineProps({
@@ -74,12 +84,10 @@ const props = defineProps({
         type: Boolean,
         required: true,
     },
-    selectedJournal: {
-        type: Object,
-        required: true
-    }
 })
-const emit = defineEmits(['close'])
+const customPagesStore = useCustomPagesStore() as any
+const departmentStore = useDepartmentStore()
+const emit = defineEmits(['close', 'refreshSharedJournals'])
 const { t } = useI18n()
 const { successAlert } = useAlert()
 
@@ -87,8 +95,12 @@ const state = reactive({
     error: {} as Error,
     isPageLoading: false,
     formShare: {
+        citizen_uuids: [],
         password: '',
         confirm_password: '',
+    },
+    options: {
+        citizens: [] as any
     },
     selectedJournal: {} as any,
 })
@@ -96,13 +108,16 @@ const state = reactive({
 const rules = computed(() => {
     return {
         formShare: {
+            citizen_uuids: {
+                required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
+            },
             password: {
                 required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
-                minLength: helpers.withMessage(`${t('citizens.citizenJournals.shareJournal.form.alert.required8Characters')}.`, minLength(8))
+                minLength: helpers.withMessage(`${t('citizens.citizenJournals.shareJournals.form.alert.required8Characters')}.`, minLength(8))
             },
             confirm_password: {
                 required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
-                sameAsPassword: helpers.withMessage(`${t('citizens.citizenJournals.shareJournal.form.alert.enteredPasswordMismatched')}.`, sameAs(state.formShare.password)),
+                sameAsPassword: helpers.withMessage(`${t('citizens.citizenJournals.shareJournals.form.alert.enteredPasswordMismatched')}.`, sameAs(state.formShare.password)),
             },
         },
     }
@@ -114,11 +129,16 @@ watch(() => props.isModalOpen, (isModalOpen: boolean) => {
     if (isModalOpen) {
         state.error = {}
         state.selectedJournal = {}
+        fetchAllCitizens()
     }
 })
 
 function closeModal() {
     emit('close')
+}
+
+function refreshSharedJournals() {
+    emit('refreshSharedJournals')
 }
 
 async function submitForm() {
@@ -127,16 +147,16 @@ async function submitForm() {
     if (!v$.value.$error) {
         state.isPageLoading = true
         try {
-            const journalUuid = props?.selectedJournal?.uuid
             const params = {
-                journal_uuids: [journalUuid],
+                citizen_uuids: state.formShare.citizen_uuids,
                 password: state.formShare.password,
             }
-            const response = await journalService.shareJournal(params)
+            const response = await journalService.shareJournals(params)
             if (response) {
                 state.selectedJournal = response
                 if (state.selectedJournal?.message === 'Success.' || state.selectedJournal?.message === 'Succes.') {
-                    successAlert(`${t('alert.success')}!`, `${t('citizens.citizenJournals.shareJournal.form.alert.journalSuccessfullyShared')}.`)
+                    refreshSharedJournals()
+                    successAlert(`${t('alert.success')}!`, `${t('citizens.citizenJournals.shareJournals.form.alert.journalSuccessfullyShared')}.`)
                 }
             }
         } catch (error: any) {
@@ -144,6 +164,30 @@ async function submitForm() {
         }
         state.isPageLoading = false
     }
+}
+
+async function fetchAllCitizens() {
+    state.error = {}
+    state.isPageLoading = true
+    try {
+        const params = {
+            department: departmentStore.getSelectedDepartmentName
+        }
+        const response = await citizenService.getAllCitizens(params)
+        if (response.data) {
+            let options: any = []
+            response.data.forEach(
+                (citizen: any) => options.push({
+                    value: citizen?.uuid,
+                    label: citizen?.firstname + " " + (citizen?.lastname ?? ''),
+                })
+            )
+            state.options.citizens = options
+        }
+    } catch (error: any) {
+        state.error = error
+    }
+    state.isPageLoading = false
 }
 
 async function navigateToExternalLink(link: any) {

@@ -2,7 +2,7 @@
 
     <Head>
         <Title>
-            {{ $t('citizens.citizenJournals.shareJournal.citizenJournal') }} - {{ runtimeConfig?.public?.appName }}
+            {{ $t('citizens.citizenJournals.shareJournals.citizenJournal') }} - {{ runtimeConfig?.public?.appName }}
         </Title>
     </Head>
 
@@ -29,13 +29,13 @@
                     <form class="mt-5 px-6 py-3 sm:px-12 md:py-8" method="POST" @submit.prevent="fetchJournals">
                         <div class="space-y-3">
                             <h3 class="font-medium text-lg md:text-xl">
-                                {{ $t('citizens.citizenJournals.shareJournal.form.unlockJournal') }}
+                                {{ $t('citizens.citizenJournals.shareJournals.form.unlockJournal') }}
                             </h3>
                             <div class="space-y-1">
                                 <FormLabel for="password"
-                                    :label="$t('citizens.citizenJournals.shareJournal.form.password')" />
+                                    :label="$t('citizens.citizenJournals.shareJournals.form.password')" />
                                 <FormTextField id="password" name="password"
-                                    :placeholder="$t('citizens.citizenJournals.shareJournal.form.password')"
+                                    :placeholder="$t('citizens.citizenJournals.shareJournals.form.password')"
                                     v-model="state.formSecuredJournals.password" />
                                 <FormError
                                     :error="v$?.formSecuredJournals?.password?.$errors[0]?.$message.toString()" />
@@ -44,7 +44,7 @@
                         </div>
                         <div class="mt-6">
                             <FormButton type="submit" buttonStyle="primary" class="w-full">
-                                {{ $t('citizens.citizenJournals.shareJournal.form.unlock') }}
+                                {{ $t('citizens.citizenJournals.shareJournals.form.unlock') }}
                             </FormButton>
                         </div>
                     </form>

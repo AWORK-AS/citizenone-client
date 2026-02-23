@@ -810,14 +810,14 @@ const v$ = useVuelidate(rules, state)
 
 const weeklyNormHoursCalculation = computed(() => {
     if (state.formEmployee.employment.annual_norm_hours) {
-        return `${state.formEmployee.employment.annual_norm_hours} ${t('employees.form.employment.hoursPerYear')} / 52 weeks = ${Math.round((Number(state.formEmployee.employment.annual_norm_hours) / 52 + Number.EPSILON) * 100) / 100} ${t('employees.form.employment.weeklyNormHours')}`
+        return `${state.formEmployee.employment.annual_norm_hours} ${t('employees.form.employment.hoursPerYear')} / 52 ${t('employees.form.employment.weeks')} = ${Math.round((Number(state.formEmployee.employment.annual_norm_hours) / 52 + Number.EPSILON) * 100) / 100} ${t('employees.form.employment.weeklyNormHours')}`
     }
     return ''
 })
 
 const annualNormHoursCalculation = computed(() => {
     if (state.formEmployee.employment.weekly_norm_hours) {
-        return `${state.formEmployee.employment.weekly_norm_hours} ${t('employees.form.employment.hoursPerWeek')} * 52 weeks = ${Math.round((Number(state.formEmployee.employment.weekly_norm_hours) * 52 + Number.EPSILON) * 100) / 100} ${t('employees.form.employment.annualNormHours')}`
+        return `${state.formEmployee.employment.weekly_norm_hours} ${t('employees.form.employment.hoursPerWeek')} * 52 ${t('employees.form.employment.weeks')} = ${Math.round((Number(state.formEmployee.employment.weekly_norm_hours) * 52 + Number.EPSILON) * 100) / 100} ${t('employees.form.employment.annualNormHours')}`
     }
     return ''
 })

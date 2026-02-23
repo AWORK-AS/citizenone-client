@@ -48,7 +48,7 @@
                 <div class="w-fit flex items-center cursor-pointer"
                     @click="state.formShift.is_leave_shift_type = !state.formShift.is_leave_shift_type">
                     <FormCheckbox :value="state.formShift.is_leave_shift_type" />
-                    {{ $t('shifts.form.markAsLeave') }}
+                    {{ $t('shifts.form.markAsLeaveType') }}
                 </div>
             </div>
         </div>

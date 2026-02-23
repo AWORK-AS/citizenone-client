@@ -930,7 +930,7 @@
             },
             "newNote": "Nyt notat",
             "on": "Den",
-            "shareJournal": {
+            "shareJournals": {
                 "citizenJournal": "Borgerjournal",
                 "form": {
                     "alert": {
@@ -938,12 +938,27 @@
                         "journalSuccessfullyShared": "Journal blev delt med succes",
                         "required8Characters": "Dette felt skal være mindst 8 tegn langt"
                     },
+                    "citizen": "Borger",
                     "confirmPassword": "Bekræft adgangskode",
                     "password": "Adgangskode",
                     "unlock": "Lås op",
                     "unlockJournal": "Lås op for journal"
                 },
-                "shareJournal": "Del journal"
+                "shareJournals": "Del journaler",
+                "sharedJournals": "Delte journaler",
+                "table": {
+                    "actions": {
+                        "delete": "Slet"
+                    },
+                    "alert": {
+                        "linkSuccessfullyDeleted": "Link blev slettet med succes"
+                    },
+                    "confirmation": {
+                        "deleteLinkConfirmation": "Er du sikker på, at du vil slette dette link?"
+                    },
+                    "citizen": "Borger",
+                    "link": "Link"
+                }
             }
         },
         "confirmation": {
@@ -2457,6 +2472,7 @@
             },
             "department": "Afdelinger",
             "download": "Download",
+            "downloadLeavesOnly": "Download kun ferier",
             "downloadType": "Downloadtype",
             "downloadHoursInCSV": "Download timer i CSV",
             "downloadHoursInExcel": "Download timer i Excel",
@@ -2465,8 +2481,7 @@
                 "currentView": "Nuværende visning",
                 "filterDate": "Filtrer dato",
                 "filteredView": "Filtreret visning"
-            },
-            "showLeavesOnly": "Vis kun ferier"
+            }
         },
         "draft": {
             "pageTitle": "Vagtplanskladde",
@@ -2696,7 +2711,7 @@
             "compensatoryHours": "Afspadseringstimer",
             "compensatoryHoursThisYear": "Afspadseringstimer i år",
             "compensatoryHourFromPreviousYear": "Afspadseringstimer fra tidligere år",
-            "compensatoryHoursGraph": "Afspadseringstimer graf",
+            "compensatoryHoursGraph": "Afspadseringsgraf",
             "date": "Dato",
             "totalCompensatoryHours": "Samlede afspadseringstimer",
             "totalVacationHours": "Samlede ferietimer",
@@ -2885,7 +2900,21 @@
                 "unlock": "Lås op",
                 "unlockDutySchedule": "Lås op for vagtplan"
             },
-            "shareDutySchedule": "Del vagtplan"
+            "shareDutySchedule": "Del vagtplan",
+            "sharedDutySchedule": "Delt vagtplan",
+            "table": {
+                "actions": {
+                    "delete": "Slet"
+                },
+                "alert": {
+                    "linkSuccessfullyDeleted": "Link blev slettet med succes"
+                },
+                "confirmation": {
+                    "deleteLinkConfirmation": "Er du sikker på, at du vil slette dette link?"
+                },
+                "employee": "Medarbejder",
+                "link": "Link"
+            }
         },
         "shiftSpan": {
             "start": "Vagt start",
@@ -4531,6 +4560,8 @@
             "normPeriod": "Normperiode",
             "status": "Status",
             "category": "Kategori",
+            "dateStart": "Startdato",
+            "dateEnd": "Slutdato",
             "startMonth": "Startmåned",
             "startDay": "Startdag",
             "endMonth": "Slutmåned",
@@ -5655,7 +5686,7 @@
                 "newShiftSuccessfullySaved": "Ny vagt gemt med succes"
             },
             "color": "Farve",
-            "markAsLeave": "Markér som ferie",
+            "markAsLeaveType": "Marker som fraværstype",
             "nameDanish": "Navn (dansk)",
             "nameEnglish": "Navn (engelsk)",
             "paycode": "Lønningskode",
