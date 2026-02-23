@@ -10,36 +10,18 @@
             <FormError :error="props?.error?.errors?.name?.[0]" />
         </div>
         <div class="space-y-1">
-            <FormLabel for="start_month" :label="$t('normPeriod.form.startMonth')" />
-            <FormSelect id="start_month"
-                :options="state.options.months"
-                v-model="state.formNormPeriod.start_month" />
-            <FormError :error="v$?.formNormPeriod?.start_month?.$errors[0]?.$message.toString()" />
-            <FormError :error="props?.error?.errors?.start_month?.[0]" />
+            <FormLabel for="date_start" :label="$t('normPeriod.form.dateStart')" />
+            <FormDateField id="date_start" name="date_start" :placeholder="$t('normPeriod.form.dateStart')"
+                v-model="state.formNormPeriod.date_start" />
+            <FormError :error="v$?.formNormPeriod?.date_start?.$errors[0]?.$message.toString()" />
+            <FormError :error="props?.error?.errors?.date_start?.[0]" />
         </div>
         <div class="space-y-1">
-            <FormLabel for="start_day" :label="$t('normPeriod.form.startDay')" />
-            <FormSelect id="start_day"
-                :options="state.options.days"
-                v-model="state.formNormPeriod.start_day" />
-            <FormError :error="v$?.formNormPeriod?.start_day?.$errors[0]?.$message.toString()" />
-            <FormError :error="props?.error?.errors?.start_day?.[0]" />
-        </div>
-        <div class="space-y-1">
-            <FormLabel for="end_month" :label="$t('normPeriod.form.endMonth')" />
-            <FormSelect id="end_month" name="end_month"
-                :options="state.options.months"
-                v-model="state.formNormPeriod.end_month" />
-            <FormError :error="v$?.formNormPeriod?.end_month?.$errors[0]?.$message.toString()" />
-            <FormError :error="props?.error?.errors?.end_month?.[0]" />
-        </div>
-        <div class="space-y-1">
-            <FormLabel for="end_day" :label="$t('normPeriod.form.endDay')" />
-            <FormSelect id="end_day" name="end_day"
-                :options="state.options.days"
-                v-model="state.formNormPeriod.end_day" />
-            <FormError :error="v$?.formNormPeriod?.end_day?.$errors[0]?.$message.toString()" />
-            <FormError :error="props?.error?.errors?.end_day?.[0]" />
+            <FormLabel for="date_end" :label="$t('normPeriod.form.dateEnd')" />
+            <FormDateField id="date_end" name="date_end" :placeholder="$t('normPeriod.form.dateEnd')"
+                v-model="state.formNormPeriod.date_end" />
+            <FormError :error="v$?.formNormPeriod?.date_end?.$errors[0]?.$message.toString()" />
+            <FormError :error="props?.error?.errors?.date_end?.[0]" />
         </div>
         <div class="space-y-1">
             <FormLabel for="department_uuid"
@@ -114,10 +96,8 @@ const state = reactive({
     error: {} as Error,
     formNormPeriod: {
         name: '',
-        start_month: '',
-        start_day: '',
-        end_month: '',
-        end_day: '',
+        date_start: '',
+        date_end: '',
         description: '',
         department_uuids: [] as Array<string>,
         is_active: true,
@@ -154,10 +134,8 @@ watch(() => props.selectedNormPeriod, (newValue: any) => {
     if (newValue != null) {
         state.formNormPeriod = {
             name: newValue.name,
-            start_month: newValue.start_month,
-            start_day: newValue.start_day,
-            end_month: newValue.end_month,
-            end_day: newValue.end_day,
+            date_start: newValue.date_start,
+            date_end: newValue.date_end,
             description: newValue.description,
             department_uuids: newValue.department_uuids,
             is_active: newValue.is_active,
@@ -172,16 +150,10 @@ const rules = computed(() => {
             name: {
                 required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
             },
-            start_month: {
+            date_start: {
                 required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
             },
-            start_day: {
-                required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
-            },
-            end_month: {
-                required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
-            },
-            end_day: {
+            date_end: {
                 required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
             },
         },

@@ -4527,6 +4527,8 @@
             "normPeriod": "Norm period",
             "status": "Status",
             "category": "Category",
+            "dateStart": "Start date",
+            "dateEnd": "End date",
             "startMonth": "Start Month",
             "startDay": "Start Day",
             "endMonth": "End Month",
