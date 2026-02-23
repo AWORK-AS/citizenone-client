@@ -62,9 +62,9 @@
                             {{ $t('citizens.newCitizen') }}
                         </FormButton>
                         <FormButton buttonStyle="action" class="rounded-lg"
-                            @click="state.modal.isShareJournalsOpen = true">
+                            @click="state.modal.isSharedJournalsOpen = true">
                             <Icon name="ph:share-fat" class="h-4 w-4" aria-hidden="true" />
-                            {{ $t('citizens.citizenJournals.shareJournals.shareJournals') }}
+                            {{ $t('citizens.citizenJournals.shareJournals.sharedJournals') }}
                         </FormButton>
                         <FormButton buttonStyle="action" class="rounded-lg"
                             @click="state.modal.isImportCitizensOpen = true"
@@ -232,8 +232,8 @@
                 @close="state.modal.isShowPurchaseEmail = false" />
             <ModulesUserCitizenModalLatestJournal :isModalOpen="state.modal.isShowNote"
                 :selectedCitizen="state.selectedCitizen" @close="state.modal.isShowNote = false" />
-            <ModulesUserCitizenJournalModalShare :isModalOpen="state.modal.isShareJournalsOpen"
-                @close="state.modal.isShareJournalsOpen = false" />
+            <ModulesUserCitizenJournalShareModalView :isModalOpen="state.modal.isSharedJournalsOpen"
+                @close="state.modal.isSharedJournalsOpen = false" />
 
             <ModulesUserGuidedTourModalCitizens v-if="state.modal.isGuidedTourCitizensOverviewOpen"
                 :isModalOpen="state.modal.isGuidedTourCitizensOverviewOpen" :isGuidedTour="false"
@@ -278,7 +278,7 @@ const state = reactive({
     modal: {
         isGuidedTourCitizensOverviewOpen: false,
         isImportCitizensOpen: false,
-        isShareJournalsOpen: false,
+        isSharedJournalsOpen: false,
         isShowNote: false,
         isShowPurchaseEmail: false,
     },

@@ -87,7 +87,7 @@ const props = defineProps({
 })
 const customPagesStore = useCustomPagesStore() as any
 const departmentStore = useDepartmentStore()
-const emit = defineEmits(['close'])
+const emit = defineEmits(['close', 'refreshSharedJournals'])
 const { t } = useI18n()
 const { successAlert } = useAlert()
 
@@ -137,6 +137,10 @@ function closeModal() {
     emit('close')
 }
 
+function refreshSharedJournals() {
+    emit('refreshSharedJournals')
+}
+
 async function submitForm() {
     state.error = {}
     v$.value.$validate()
@@ -151,6 +155,7 @@ async function submitForm() {
             if (response) {
                 state.selectedJournal = response
                 if (state.selectedJournal?.message === 'Success.' || state.selectedJournal?.message === 'Succes.') {
+                    refreshSharedJournals()
                     successAlert(`${t('alert.success')}!`, `${t('citizens.citizenJournals.shareJournals.form.alert.journalSuccessfullyShared')}.`)
                 }
             }

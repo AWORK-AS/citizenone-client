@@ -944,7 +944,21 @@
                     "unlock": "Lås op",
                     "unlockJournal": "Lås op for journal"
                 },
-                "shareJournals": "Del journaler"
+                "shareJournals": "Del journaler",
+                "sharedJournals": "Delte journaler",
+                "table": {
+                    "actions": {
+                        "delete": "Slet"
+                    },
+                    "alert": {
+                        "linkSuccessfullyDeleted": "Link blev slettet med succes"
+                    },
+                    "confirmation": {
+                        "deleteLinkConfirmation": "Er du sikker på, at du vil slette dette link?"
+                    },
+                    "citizen": "Borger",
+                    "link": "Link"
+                }
             }
         },
         "confirmation": {

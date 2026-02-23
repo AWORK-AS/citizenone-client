@@ -944,7 +944,21 @@
                     "unlock": "Unlock",
                     "unlockJournal": "Unlock journal"
                 },
-                "shareJournals": "Share journals"
+                "shareJournals": "Share journals",
+                "sharedJournals": "Shared journals",
+                "table": {
+                    "actions": {
+                        "delete": "Delete"
+                    },
+                    "alert": {
+                        "linkSuccessfullyDeleted": "Link successfully deleted"
+                    },
+                    "confirmation": {
+                        "deleteLinkConfirmation": "Are you sure you want to delete this link"
+                    },
+                    "citizen": "Citizen",
+                    "link": "Link"
+                }
             }
         },
         "confirmation": {
