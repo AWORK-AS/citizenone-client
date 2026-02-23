@@ -225,7 +225,7 @@
         </div>
 
         <div class="lg:pl-72 bg-gray-50 min-h-screen">
-            <div class="bg-primary text-white py-1 shadow-sm text-center text-sm">
+            <!-- <div class="bg-primary text-white py-1 shadow-sm text-center text-sm">
                 <div class="marquee">
                     <div class="marquee__inner">
                         <span v-if="language.locale.value === 'en'">
@@ -238,7 +238,7 @@
                         </span>
                     </div>
                 </div>
-            </div>
+            </div> -->
             <div
                 class="sticky top-0 z-40 flex h-16 shrink-0 items-center gap-x-3 border-b border-gray-200 bg-white px-4 shadow-sm sm:gap-x-6 sm:px-6 lg:px-8">
                 <button type="button" class="-m-2.5 p-2.5 text-gray-700 lg:hidden" @click="sidebarOpen = true">
