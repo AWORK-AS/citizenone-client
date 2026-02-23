@@ -8,7 +8,7 @@
 
     <div :class="[
         !state.showDutySchedule && 'justify-center',
-        'bg-[#f5fafe] relative overflow-clip flex min-h-screen flex-1 flex-col py-12 sm:px-6 lg:px-8'
+        'z-10 bg-[#f5fafe] relative overflow-clip flex min-h-screen flex-1 flex-col py-12 sm:px-6 lg:px-8'
     ]">
         <img src="/img/icons/asset-01.svg" alt="Image failed to load"
             class="w-52 md:w-1/5 absolute -top-28 -right-24 opacity-0 transition-opacity duration-500"
@@ -56,7 +56,7 @@
                 </div>
             </div>
         </LoadingSpinner>
-        <div v-else class="mt-10">
+        <div v-else class="z-20 mt-10">
             <header class="grid grid-cols-1 xl:grid-cols-3 gap-3 py-3">
                 <div class="space-y-2">
                     <div class="flex items-center">
