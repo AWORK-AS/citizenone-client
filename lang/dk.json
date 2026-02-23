@@ -4527,6 +4527,8 @@
             "normPeriod": "Normperiode",
             "status": "Status",
             "category": "Kategori",
+            "dateStart": "Startdato",
+            "dateEnd": "Slutdato",
             "startMonth": "Startmåned",
             "startDay": "Startdag",
             "endMonth": "Slutmåned",
