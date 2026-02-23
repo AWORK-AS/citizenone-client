@@ -280,12 +280,17 @@
                             </FormButton>
                         </div>
                         <button type="button"
-                            class="flex items-center gap-x-1 text-sm text-primary hover:text-primary-700"
-                            @click="navigateTo('/overview#news')">
+                            class="relative flex items-center gap-x-1 text-sm text-primary hover:text-primary-700"
+                            @click="navigateToNews()">
                             <Icon name="ph:megaphone" class="h-6 w-6" aria-hidden="true" />
                             <span class="text-xs font-semibold hidden lg:block">
                                 {{ $t('news.news') }}
                             </span>
+                            <Badge type="notification"
+                                class="w-5 h-5 flex items-center justify-center absolute -top-3 left-3"
+                                v-if="!hasSeenNews">
+                                {{ userStore?.getUnreadNewsCount }}
+                            </Badge>
                         </button>
                         <ModulesUserNavbarNewUpdates />
 
@@ -296,7 +301,7 @@
                             v-if="userStore.getUser?.unread_notification_count > 0">
                             <Icon name="ph:note" class="h-6 w-6 absolute -top-0.5 left-0" aria-hidden="true" />
                             <Badge type="notification"
-                                class="w-5 h-5 flex items-center justify-center absolute -top-4 left-4">
+                                class="w-5 h-5 flex items-center justify-center absolute -top-3.5 left-4">
                                 {{ userStore.getUser?.unread_notification_count ?? 0 }}
                             </Badge>
                         </button>
@@ -540,6 +545,7 @@ const customPagesStore = useCustomPagesStore() as any
 const language = useI18n()
 const router = useRouter()
 const routeName = router?.currentRoute?.value?.name
+const hasSeenNews = ref(localStorage.getItem('hasSeenNews-02-20-2026') === 'true')
 
 let navigation = [] as any
 
@@ -900,6 +906,12 @@ function identifyFlag() {
             return '/img/icons/flags/denmark.svg'
         }
     }
+}
+
+function navigateToNews() {
+    navigateTo('/overview#news')
+    localStorage.setItem('hasSeenNews-02-20-2026', 'true')
+    hasSeenNews.value = true
 }
 </script>
 

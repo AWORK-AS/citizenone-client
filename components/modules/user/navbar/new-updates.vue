@@ -7,7 +7,7 @@
                 {{ $t('updates.updates') }}
             </p>
             <Badge v-if="!hasSeenUpdates" type="notification"
-                class="w-5 h-5 flex items-center justify-center absolute -top-0.5 left-3">
+                class="w-5 h-5 flex items-center justify-center absolute top-0 left-3">
                 21
             </Badge>
         </button>
