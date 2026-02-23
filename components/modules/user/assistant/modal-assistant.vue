@@ -31,8 +31,9 @@
                                         <Icon name="ph:lightbulb" class="h-4 w-4 text-white" />
                                     </div>
                                     <div class="flex-1 min-w-0">
-                                        <div class="text-xs font-medium text-gray-400 mb-1">Ask AI</div>
-                                        <div class="text-sm text-gray-800 leading-relaxed"
+                                        <div class="text-xs font-medium text-gray-400 mb-1">{{ $t('assistants.askAI') }}
+                                        </div>
+                                        <div class="text-sm text-gray-800 leading-relaxed whitespace-pre-wrap"
                                             v-html="formatMessage(message?.text)" />
                                     </div>
                                 </div>
@@ -67,26 +68,23 @@
                                     </button>
                                 </div>
                             </div>
-                            <div class="flex items-center gap-2 bg-gray-50 border border-gray-200 rounded-md
-    focus-within:border-primary/40 focus-within:ring-2 focus-within:ring-primary/10 transition-all px-3 py-1.5">
-
+                            <div
+                                class="flex items-end gap-2 bg-gray-50 border border-gray-200 rounded-md
+                                focus-within:border-primary/40 focus-within:ring-2 focus-within:ring-primary/10 transition-all px-3 py-1.5">
                                 <input ref="fileInput" type="file" multiple
                                     accept=".pdf,.doc,.docx,.xls,.xlsx,.csv,.txt,.jpg,.jpeg,.png" class="hidden"
                                     @change="onFilesSelected" />
                                 <button type="button" @click="($refs.fileInput as HTMLInputElement).click()"
-                                    class="shrink-0 px-1.5 pt-2 text-gray-400 hover:text-primary hover:bg-primary/5 roundedmd transition-colors">
+                                    class="shrink-0 px-1.5 text-gray-400 hover:text-primary hover:bg-primary/5 rounded-lg transition-colors">
                                     <Icon name="ph:paperclip" class="h-5 w-5" />
                                 </button>
-                                <div class="flex-1 [&_textarea]:border-none [&_textarea]:shadow-none [&_textarea]:bg-transparent [&_textarea]:ring-0
-        [&_textarea]:focus:ring-0 [&_textarea]:focus:border-none [&_textarea]:px-0 [&_textarea]:resize-none
-        [&_textarea]:h-9 [&_textarea]:py-2">
-                                    <FormTextField id="prompt" name="prompt" type="text_area"
-                                        :placeholder="$t('assistants.askAnything')" v-model="state.newMessage"
-                                        @keydown.enter.exact.prevent="sendMessage" />
-                                </div>
+                                <textarea v-model="state.newMessage" :placeholder="$t('assistants.askAnything')"
+                                    rows="1"
+                                    class="flex-1 bg-transparent border-none shadow-none ring-0 focus:ring-0 focus:outline-none resize-none py-2 px-0 text-sm text-gray-900 placeholder-gray-400"
+                                    @keydown.enter.exact.prevent="sendMessage" />
                                 <button type="button" @click="sendMessage"
                                     :disabled="!state.newMessage.trim() && state.files.length === 0"
-                                    class="shrink-0 w-8 h-8 flex items-center justify-center rounded-lg transition-all disabled:cursor-not-allowed"
+                                    class="shrink-0 w-8 h-8 flex items-center justify-center rounded-lg transition-all disabled:cursor-not-allowed mb-0.5"
                                     :class="state.newMessage.trim() || state.files.length > 0
                                         ? 'bg-primary text-white hover:bg-primary/90 shadow-sm'
                                         : 'bg-gray-200 text-gray-400'">
@@ -167,7 +165,7 @@ async function sendMessage() {
 
         const response = await aIAssistantService.sendMessage(formData)
         if (response && response.output) {
-            const messageOutput = response.output.find((item: any) => item.type === 'message');
+            const messageOutput = response.output.find((item: any) => item.type === 'message')
 
             if (messageOutput?.content?.[0]?.text) {
                 state.messages.push({
