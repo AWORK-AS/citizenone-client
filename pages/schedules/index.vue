@@ -91,6 +91,37 @@
             @close="state.modal.isZenegySyncOpen = false">
             <template #modal-body>
                 <p class="text-sm text-gray-500 mb-4">{{ $t('dutySchedules.zenegy_sync_description') }}</p>
+
+                <!-- Step Progress Indicator -->
+                <div class="flex items-center mb-6 px-2">
+                    <template v-for="(step, idx) in zenegySteps" :key="idx">
+                        <div class="flex flex-col items-center">
+                            <div :class="[
+                                'w-9 h-9 rounded-full flex items-center justify-center transition-colors duration-300',
+                                step.status === 'completed' ? 'bg-teal-600' :
+                                step.status === 'current' ? 'border-2 border-teal-600' :
+                                'border-2 border-gray-300'
+                            ]">
+                                <Icon v-if="step.status === 'completed'" name="ph:check-bold" class="w-4 h-4 text-white" />
+                                <span v-else :class="[
+                                    'text-sm font-semibold',
+                                    step.status === 'current' ? 'text-teal-600' : 'text-gray-400'
+                                ]">{{ idx + 1 }}</span>
+                            </div>
+                            <span :class="[
+                                'text-xs mt-1.5 whitespace-nowrap',
+                                step.status === 'completed' ? 'text-teal-600 font-medium' :
+                                step.status === 'current' ? 'text-teal-600 font-medium' :
+                                'text-gray-400'
+                            ]">{{ step.label }}</span>
+                        </div>
+                        <div v-if="idx < zenegySteps.length - 1"
+                            class="flex-1 h-0.5 mx-3 mt-[-1rem] rounded-full transition-colors duration-300"
+                            :class="step.status === 'completed' ? 'bg-teal-600' : 'bg-gray-300'">
+                        </div>
+                    </template>
+                </div>
+
                 <LoadingSpinner :isActive="state.isLoadingModalData || state.isSyncing">
 
                     <!-- Step 1: Configure -->
@@ -194,8 +225,14 @@
                                         <div v-if="period >= 0" class="mb-1 text-xs font-semibold text-gray-500 uppercase tracking-wide">
                                             {{ getPayPeriodLabel(period) }}
                                         </div>
-                                        <div v-else class="mb-1 text-xs font-semibold text-gray-400 uppercase tracking-wide">
+                                        <div v-else class="mb-1 flex items-center gap-1 text-xs font-semibold text-gray-400 uppercase tracking-wide">
                                             {{ $t('dutySchedules.zenegy_no_match') }}
+                                            <span class="relative group cursor-pointer normal-case">
+                                                <Icon name="ph:info" class="h-3.5 w-3.5 text-gray-400 hover:text-gray-600" />
+                                                <span class="absolute left-0 bottom-full mb-1 z-10 hidden group-hover:block w-64 rounded bg-gray-800 px-3 py-2 text-xs font-normal text-white shadow-lg">
+                                                    {{ $t('dutySchedules.zenegy_no_match_info') }}
+                                                </span>
+                                            </span>
                                         </div>
                                         <div class="space-y-1">
                                             <div v-for="{ employee, originalIndex } in employees" :key="employee.uuid"
@@ -235,8 +272,14 @@
 
                     <!-- Step 2: Assign Rates -->
                     <div v-else-if="state.syncStep === 'assign-rates'" class="space-y-4">
-                        <p class="text-sm text-gray-600">
-                            {{ $t('dutySchedules.zenegy_assign_rates_description') }}
+                        <p class="flex items-center justify-between text-sm text-gray-600">
+                            <span>{{ $t('dutySchedules.zenegy_assign_rates_description') }}</span>
+                            <span class="relative group ml-2 cursor-pointer shrink-0">
+                                <Icon name="ph:info" class="h-4 w-4 text-gray-400 hover:text-gray-600" />
+                                <span class="absolute right-0 top-6 z-10 hidden group-hover:block w-64 rounded bg-gray-800 px-3 py-2 text-xs text-white shadow-lg">
+                                    {{ $t('dutySchedules.zenegy_assign_rates_info') }}
+                                </span>
+                            </span>
                         </p>
                         <div class="max-h-96 space-y-3 overflow-y-auto">
                             <div v-for="emp in state.employeeShiftTypes" :key="emp.employeeUuid"
@@ -437,13 +480,15 @@
                                     <span class="font-medium">{{ result.employeeName }}</span>
                                     <span class="text-xs text-gray-500">
                                         ({{ result.count }} {{ result.type === 'hours'
-                                            ? $t('dutySchedules.zenegy_hours')
-                                            : $t('dutySchedules.zenegy_supplements') }})
+                                            ? $t('dutySchedules.zenegy_registrations')
+                                            : $t('dutySchedules.zenegy_supplement_registrations') }})
                                     </span>
                                 </div>
-                                <span v-if="!result.success" class="ml-2 max-w-[200px] truncate text-xs text-red-600"
-                                    :title="result.error">
-                                    {{ result.error }}
+                                <span v-if="!result.success" class="relative group ml-2 max-w-[200px] text-xs text-red-600 cursor-pointer">
+                                    <span class="block truncate">{{ result.error }}</span>
+                                    <span class="absolute right-0 bottom-full mb-1 z-10 hidden group-hover:block w-72 rounded bg-gray-800 px-3 py-2 text-xs font-normal text-white shadow-lg whitespace-normal">
+                                        {{ result.error }}
+                                    </span>
                                 </span>
                             </div>
                         </div>
@@ -549,6 +594,27 @@ const state = reactive({
     newPresetName: '' as string,
     showSavePresetInput: false,
     selectedPayPeriodType: '' as '' | 'monthly' | 'weekly' | 'biweekly',
+})
+
+const zenegyStepNumber = computed(() => {
+    const map: Record<string, number> = { 'configure': 1, 'assign-rates': 2, 'review': 3, 'result': 4 }
+    return map[state.syncStep] || 1
+})
+
+const zenegySteps = computed(() => {
+    const steps = [
+        { label: t('dutySchedules.zenegy_step_configure') },
+        { label: t('dutySchedules.zenegy_step_assign_rates') },
+        { label: t('dutySchedules.zenegy_step_review') },
+        { label: t('dutySchedules.zenegy_step_result') },
+    ]
+    return steps.map((s, i) => ({
+        ...s,
+        status: zenegyStepNumber.value === 4 ? 'completed'
+            : zenegyStepNumber.value > i + 1 ? 'completed'
+            : zenegyStepNumber.value === i + 1 ? 'current'
+            : 'upcoming'
+    }))
 })
 
 const selectedEmployeeCount = computed(() =>
@@ -1115,7 +1181,8 @@ async function fetchAndBuildShiftTypes() {
 
         // Show all supplement rates — don't filter by type since Zenegy has many undocumented type codes
         const allSupplementRateOptions = state.zenegySupplementRatesRaw
-            .map((r: any) => ({ uid: r.uid, name: `${r.name}${r.number ? ` (${r.number})` : ''} - ${Number(r.rate).toLocaleString('da-DK')} kr` }))
+            .map((r: any) => ({ uid: r.uid, rateValue: Number(r.paymentPerRate || r.rate || 0), name: `${r.name}${r.number ? ` (${r.number})` : ''} - ${Number(r.paymentPerRate || r.rate || 0).toLocaleString('da-DK')} kr` }))
+            .sort((a, b) => a.rateValue - b.rateValue)
 
         state.employeeExtraHoursTypes = Array.from(empExtraMap.entries())
             .filter(([_, data]) => data.addCount > 0 || data.deductCount > 0)
