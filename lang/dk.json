@@ -2900,7 +2900,21 @@
                 "unlock": "Lås op",
                 "unlockDutySchedule": "Lås op for vagtplan"
             },
-            "shareDutySchedule": "Del vagtplan"
+            "shareDutySchedule": "Del vagtplan",
+            "sharedDutySchedule": "Delt vagtplan",
+            "table": {
+                "actions": {
+                    "delete": "Slet"
+                },
+                "alert": {
+                    "linkSuccessfullyDeleted": "Link blev slettet med succes"
+                },
+                "confirmation": {
+                    "deleteLinkConfirmation": "Er du sikker på, at du vil slette dette link?"
+                },
+                "employee": "Medarbejder",
+                "link": "Link"
+            }
         },
         "shiftSpan": {
             "start": "Vagt start",

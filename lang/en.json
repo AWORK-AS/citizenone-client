@@ -2900,7 +2900,21 @@
                 "unlock": "Unlock",
                 "unlockDutySchedule": "Unlock duty schedule"
             },
-            "shareDutySchedule": "Share duty schedule"
+            "shareDutySchedule": "Share duty schedule",
+            "sharedDutySchedule": "Shared duty schedule",
+            "table": {
+                "actions": {
+                    "delete": "Delete"
+                },
+                "alert": {
+                    "linkSuccessfullyDeleted": "Link successfully deleted"
+                },
+                "confirmation": {
+                    "deleteLinkConfirmation": "Are you sure you want to delete this link"
+                },
+                "employee": "Employee",
+                "link": "Link"
+            }
         },
         "shiftSpan": {
             "start": "Shift start",
