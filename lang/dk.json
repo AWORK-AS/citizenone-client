@@ -930,7 +930,7 @@
             },
             "newNote": "Nyt notat",
             "on": "Den",
-            "shareJournal": {
+            "shareJournals": {
                 "citizenJournal": "Borgerjournal",
                 "form": {
                     "alert": {
@@ -938,12 +938,13 @@
                         "journalSuccessfullyShared": "Journal blev delt med succes",
                         "required8Characters": "Dette felt skal være mindst 8 tegn langt"
                     },
+                    "citizen": "Borger",
                     "confirmPassword": "Bekræft adgangskode",
                     "password": "Adgangskode",
                     "unlock": "Lås op",
                     "unlockJournal": "Lås op for journal"
                 },
-                "shareJournal": "Del journal"
+                "shareJournals": "Del journaler"
             }
         },
         "confirmation": {

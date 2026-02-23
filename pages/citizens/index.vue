@@ -62,6 +62,11 @@
                             {{ $t('citizens.newCitizen') }}
                         </FormButton>
                         <FormButton buttonStyle="action" class="rounded-lg"
+                            @click="state.modal.isShareJournalsOpen = true">
+                            <Icon name="ph:plus" class="h-4 w-4" aria-hidden="true" />
+                            {{ $t('citizens.citizenJournals.shareJournals.shareJournals') }}
+                        </FormButton>
+                        <FormButton buttonStyle="action" class="rounded-lg"
                             @click="state.modal.isImportCitizensOpen = true"
                             v-if="userStore.getUser?.roles?.[0]?.name === 'Admin'">
                             <Icon name="ph:file-arrow-up" class="h-4 w-4" aria-hidden="true" />
@@ -227,6 +232,8 @@
                 @close="state.modal.isShowPurchaseEmail = false" />
             <ModulesUserCitizenModalLatestJournal :isModalOpen="state.modal.isShowNote"
                 :selectedCitizen="state.selectedCitizen" @close="state.modal.isShowNote = false" />
+            <ModulesUserCitizenJournalModalShare :isModalOpen="state.modal.isShareJournalsOpen"
+                @close="state.modal.isShareJournalsOpen = false" />
 
             <ModulesUserGuidedTourModalCitizens v-if="state.modal.isGuidedTourCitizensOverviewOpen"
                 :isModalOpen="state.modal.isGuidedTourCitizensOverviewOpen" :isGuidedTour="false"
@@ -271,6 +278,7 @@ const state = reactive({
     modal: {
         isGuidedTourCitizensOverviewOpen: false,
         isImportCitizensOpen: false,
+        isShareJournalsOpen: false,
         isShowNote: false,
         isShowPurchaseEmail: false,
     },
