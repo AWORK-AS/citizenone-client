@@ -37,8 +37,8 @@ class UserService extends BaseAPIService {
         return await this.request(`/user/employees/all/no-all-employees`, 'GET')
     }
 
-    async getAllUsersWithoutMyself(): Promise<any> {
-        return await this.request(`/user/my-calendars/employee/list`, 'GET')
+    async getAllUsersWithoutMyself(params: object): Promise<any> {
+        return await this.request(`/user/my-calendars/employee/list`, 'GET', params)
     }
 
     async switchCompany(params: object): Promise<any> {
@@ -52,7 +52,7 @@ class UserService extends BaseAPIService {
     async uploadCompanyLogo(params: FormData): Promise<any> {
         return await this.request(`user/company/settings/company/upload-logo`, 'POST', params)
     }
-    
+
     async deleteCompanyLogo(): Promise<any> {
         return await this.request(`user/company/settings/company/delete-logo`, 'DELETE')
     }
