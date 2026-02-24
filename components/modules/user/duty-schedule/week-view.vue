@@ -370,6 +370,16 @@
                                                                         aria-hidden="true" />
                                                                 </button>
                                                             </Tooltip>
+                                                            <Tooltip position="right"
+                                                                :text="$t('dutySchedules.leaveRequests.leaveRequests')"
+                                                                v-if="isAdmin(userStore.getUser?.role) || (!isAdmin(userStore.getUser?.role) && userStore.getUser?.show_working_hours && userStore.getUser?.uuid === employee?.uuid)">
+                                                                <button
+                                                                    class="bg-gray-200 w-6 h-6 text-sm text-gray-600 rounded-sm hover:bg-gray-400 hover:text-gray-200 flex items-center justify-center"
+                                                                    @click="viewLeaveRequests(employee)">
+                                                                    <Icon name="mdi:wallet-travel" class="h-3 w-3"
+                                                                        aria-hidden="true" />
+                                                                </button>
+                                                            </Tooltip>
                                                         </div>
                                                     </div>
                                                     <div :class="[
@@ -894,6 +904,9 @@
             <ModulesUserDutyScheduleExtraHoursModalView :isModalOpen="state.modal.isManageExtraHoursOpen"
                 :selectedEmployee="state.manageExtraHours.selectedEmployee"
                 @close="state.modal.isManageExtraHoursOpen = false" @refreshDutySchedules="fetchDutySchedule()" />
+            <ModulesUserDutyScheduleLeaveRequestsModalView :isModalOpen="state.modal.isManageLeaveRequestsOpen"
+                :selectedEmployee="state.manageLeaveRequests.selectedEmployee"
+                @close="state.modal.isManageLeaveRequestsOpen = false" @refreshDutySchedules="fetchDutySchedule()" />
             <ModulesUserDutyScheduleTimeRequestsModalRequests
                 :isModalOpen="state.modal.isManageTimeAdjustmentRequestsOpen"
                 :selectedDate="state.manageTimeRequest.selectedDate"
@@ -983,6 +996,9 @@ const state = reactive({
         selectedEmployee: {},
         selectedSchedule: {},
     },
+    manageLeaveRequests: {
+        selectedEmployee: {},
+    },
     manageTimeRequest: {
         selectedDate: '',
         selectedEmployee: {},
@@ -1001,6 +1017,7 @@ const state = reactive({
         isEditShiftOpen: false,
         isFilterDutyScheduleOpen: false,
         isManageExtraHoursOpen: false,
+        isManageLeaveRequestsOpen: false,
         isManageScheduleSlotOpen: false,
         isManageTimeAdjustmentRequestsOpen: false,
         isManageSwapScheduleRequestsOpen: false,
@@ -1610,6 +1627,11 @@ function copyEmployeeWeeklySchedule(weeklySchedule: any) {
 function viewExtraHours(employee: any) {
     state.manageExtraHours.selectedEmployee = employee
     state.modal.isManageExtraHoursOpen = true
+}
+
+function viewLeaveRequests(employee: any) {
+    state.manageLeaveRequests.selectedEmployee = employee
+    state.modal.isManageLeaveRequestsOpen = true
 }
 
 async function pasteEmployeeWeeklySchedule(weeklySchedule: any) {

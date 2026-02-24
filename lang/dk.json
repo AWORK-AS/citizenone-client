@@ -2704,6 +2704,49 @@
             "overrideVacationHours": "Overskriv standard ferietimer"
         },
         "holidays": "Helligdage",
+        "leaveRequests": {
+            "editLeaveRequest": "Rediger ferieanmodning",
+            "form": {
+                "alert": {
+                    "leaveRequestSuccessfullyAdded": "Ferieanmodning blev tilføjet",
+                    "leaveRequestSuccessfullyUpdated": "Ferieanmodning blev opdateret"
+                },
+                "dateTimeEnd": "Slutdato og -tid",
+                "dateTimeStart": "Startdato og -tid",
+                "leaveType": "Ferietype",
+                "note": "Bemærkning"
+            },
+            "leaveRequests": "Ferieanmodninger",
+            "newLeaveRequest": "Ny ferieanmodning",
+            "table": {
+                "actions": {
+                    "approve": "Godkend",
+                    "delete": "Slet",
+                    "disapprove": "Afvis",
+                    "edit": "Rediger"
+                },
+                "alert": {
+                    "leaveRequestsSuccessfullyApproved": "Ferieanmodning blev godkendt",
+                    "leaveRequestsSuccessfullyDeleted": "Ferieanmodning blev slettet",
+                    "leaveRequestsSuccessfullyRejected": "Ferieanmodning blev afvist"
+                },
+                "confirmation": {
+                    "approveLeaveRequestConfirmation": "Er du sikker på, at du vil godkende denne ferie?",
+                    "deleteLeaveRequestConfirmation": "Er du sikker på, at du vil slette denne ferie?",
+                    "rejectLeaveRequestConfirmation": "Er du sikker på, at du vil afvise denne ferie?"
+                },
+                "dateTimeEnd": "Slutdato og -tid",
+                "dateTimeStart": "Startdato og -tid",
+                "leaveType": "Ferietype",
+                "note": "Bemærkning",
+                "status": {
+                    "approved": "Godkendt",
+                    "pending": "Afventer",
+                    "rejected": "Afvist",
+                    "status": "Status"
+                }
+            }
+        },
         "month": "Måned",
         "newSchedule": "Ny vagt",
         "normHours": {
