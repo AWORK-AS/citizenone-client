@@ -1,6 +1,6 @@
 <template>
     <div>
-        <Modal size="xs" :title="$t('dutySchedules.leaveRequest.editLeaveRequest')" :show="props.isModalOpen"
+        <Modal size="xs" :title="$t('dutySchedules.leaveRequests.editLeaveRequest')" :show="props.isModalOpen"
             @close="closeModal">
             <template #modal-body>
                 <LoadingSpinner :isActive="state.isPageLoading">
@@ -48,20 +48,19 @@ function refreshLeaveRequests() {
     emit('refreshLeaveRequests')
 }
 
-async function updateLeaveRequest(extraHoursDetails: any) {
+async function updateLeaveRequest(leaveRequestDetails: any) {
     state.isPageLoading = true
     try {
         const leaveRequestUuid = props.selectedLeaveRequest?.uuid
         const params = {
-            date: extraHoursDetails.date,
-            extra_hours_type: extraHoursDetails.type,
-            extra_hours_tags_uuid: extraHoursDetails.extra_hours_tags,
-            extra_hours: extraHoursDetails.hours,
-            note: extraHoursDetails.note,
+            date_time_start: leaveRequestDetails.date_time_start,
+            date_time_end: leaveRequestDetails.date_time_end,
+            type: leaveRequestDetails.type,
+            note: leaveRequestDetails.note,
         }
         const response = await leaveRequestService.updateLeaveRequest(leaveRequestUuid, params)
         if (response) {
-            successAlert(`${t('alert.success')}!`, `${t('dutySchedules.leaveRequest.form.alert.leaveRequestSuccessfullyUpdated')}.`)
+            successAlert(`${t('alert.success')}!`, `${t('dutySchedules.leaveRequests.form.alert.leaveRequestSuccessfullyUpdated')}.`)
             refreshLeaveRequests()
             closeModal()
         }

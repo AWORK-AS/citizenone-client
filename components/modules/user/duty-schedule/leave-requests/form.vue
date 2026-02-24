@@ -5,31 +5,31 @@
                 v-if="props.error?.message && props.error.message.length > 0" />
             <div class="space-y-3">
                 <div class="space-y-1">
-                    <FormLabel for="date_time_start" :label="$t('dutySchedules.leaveRequest.form.dateTimeStart')" />
-                    <FormDateField id="date_time_start" name="date_time_start"
-                        :placeholder="$t('dutySchedules.leaveRequest.form.dateTimeStart')"
+                    <FormLabel for="date_time_start" :label="$t('dutySchedules.leaveRequests.form.dateTimeStart')" />
+                    <DateTimeField id="date_time_start" name="date_time_start"
+                        :placeholder="$t('dutySchedules.leaveRequests.form.dateTimeStart')"
                         v-model="state.formLeaveRequest.date_time_start" />
                     <FormError :error="v$?.formLeaveRequest?.date_time_start?.$errors[0]?.$message.toString()" />
                     <FormError :error="props?.error?.errors?.date_time_start?.[0]" />
                 </div>
                 <div class="space-y-1">
-                    <FormLabel for="date_time_end" :label="$t('dutySchedules.leaveRequest.form.dateTimeEnd')" />
-                    <FormDateField id="date_time_end" name="date_time_end"
-                        :placeholder="$t('dutySchedules.leaveRequest.form.dateTimeEnd')"
+                    <FormLabel for="date_time_end" :label="$t('dutySchedules.leaveRequests.form.dateTimeEnd')" />
+                    <DateTimeField id="date_time_end" name="date_time_end"
+                        :placeholder="$t('dutySchedules.leaveRequests.form.dateTimeEnd')"
                         v-model="state.formLeaveRequest.date_time_end" />
                     <FormError :error="v$?.formLeaveRequest?.date_time_end?.$errors[0]?.$message.toString()" />
                     <FormError :error="props?.error?.errors?.date_time_end?.[0]" />
                 </div>
                 <div class="space-y-1">
-                    <FormLabel for="type" :label="$t('dutySchedules.leaveRequest.form.type.type')" />
+                    <FormLabel for="type" :label="$t('dutySchedules.leaveRequests.form.type.type')" />
                     <FormSelect id="type" name="type" :options="state.options.leaveTypes"
                         v-model="state.formLeaveRequest.type" />
                     <FormError :error="v$?.formLeaveRequest?.type?.$errors[0]?.$message.toString()" />
                     <FormError :error="props?.error?.errors?.system_name?.[0]" />
                 </div>
                 <div class="space-y-1">
-                    <FormLabel for="note" :label="$t('dutySchedules.leaveRequest.form.note')" />
-                    <FormTextArea id="note" name="note" :placeholder="$t('dutySchedules.leaveRequest.form.note')"
+                    <FormLabel for="note" :label="$t('dutySchedules.leaveRequests.form.note')" />
+                    <FormTextArea id="note" name="note" :placeholder="$t('dutySchedules.leaveRequests.form.note')"
                         v-model="state.formLeaveRequest.note" />
                     <FormError :error="v$?.formLeaveRequest?.note?.$errors[0]?.$message.toString()" />
                     <FormError :error="props?.error?.errors?.note?.[0]" />
@@ -55,6 +55,7 @@ import { useVuelidate } from "@vuelidate/core"
 import { required, helpers } from '@vuelidate/validators'
 import { useI18n } from "vue-i18n"
 import type { Error } from '@/types'
+import DateTimeField from "~/components/form/DateTimeField.vue"
 
 const props = defineProps({
     error: {
@@ -79,28 +80,22 @@ const state = reactive({
     formLeaveRequest: {
         date_time_start: props.selectedLeaveRequest?.date_time_start || '',
         date_time_end: props.selectedLeaveRequest?.date_time_end || '',
-        leave_type: props.selectedLeaveRequest?.leave_type || '',
+        type: props.selectedLeaveRequest?.type || '',
         note: props.selectedLeaveRequest?.note || '',
     } as any,
     isPageLoading: false,
     options: {
         leaveTypes: [
-            { value: 'sick_leave', label: `${t('dutySchedules.leaveRequest.form.type.add')}`, },
-            { value: 'vacation_leave', label: `${t('dutySchedules.leaveRequest.form.type.deduct')}`, },
+            { value: 'sick_leave', label: `${t('dutySchedules.leaveRequests.form.type.sickLeave')}`, },
+            { value: 'vacation_leave', label: `${t('dutySchedules.leaveRequests.form.type.vacationLeave')}`, },
         ],
     }
 })
 
-onMounted(() => {
-    props.selectedLeaveRequest?.tags?.forEach((tag: any) => {
-        state.formLeaveRequest.extra_hours_tags.push(tag?.uuid)
-    })
-})
-
 watch(() => language.locale.value, () => {
     state.options.leaveTypes = [
-        { value: 'add', label: `${t('dutySchedules.leaveRequest.form.type.add')}`, },
-        { value: 'deduct', label: `${t('dutySchedules.leaveRequest.form.type.deduct')}`, },
+        { value: 'sick_leave', label: `${t('dutySchedules.leaveRequests.form.type.sickLeave')}`, },
+        { value: 'vacation_leave', label: `${t('dutySchedules.leaveRequests.form.type.vacationLeave')}`, },
     ]
 })
 
@@ -111,13 +106,13 @@ function closeModal() {
 const rules = computed(() => {
     return {
         formLeaveRequest: {
-            date: {
+            date_time_start: {
+                required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
+            },
+            date_time_end: {
                 required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
             },
             type: {
-                required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
-            },
-            hours: {
                 required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
             },
             note: {

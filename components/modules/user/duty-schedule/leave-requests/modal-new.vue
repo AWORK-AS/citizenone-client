@@ -1,6 +1,6 @@
 <template>
     <div>
-        <Modal size="xs" :title="$t('dutySchedules.leaveRequest.newLeaveRequest')" :show="props.isModalOpen"
+        <Modal size="xs" :title="$t('dutySchedules.leaveRequests.newLeaveRequest')" :show="props.isModalOpen"
             @close="closeModal">
             <template #modal-body>
                 <LoadingSpinner :isActive="state.isPageLoading">
@@ -15,6 +15,7 @@
 </template>
 
 <script setup lang="ts">
+import moment from 'moment'
 import { leaveRequestService } from '@/components/api/user/LeaveRequestService'
 import { useAlert } from '@/composables/alert'
 import { useI18n } from "vue-i18n"
@@ -38,9 +39,9 @@ const emit = defineEmits(['close', 'refreshLeaveRequests', 'refreshDutySchedules
 const state = reactive({
     error: {} as Error,
     formLeaveRequest: {
-        date_time_start: '',
-        date_time_end: '',
-        leave_type: '',
+        date_time_start: moment().format('YYYY-MM-DD HH:mm'),
+        date_time_end: moment().format('YYYY-MM-DD HH:mm'),
+        type: '',
         note: '',
     },
     isPageLoading: false,
@@ -61,12 +62,12 @@ async function saveLeaveRequest(leaveRequestDetails: any) {
             user_uuid: props.selectedEmployee?.uuid,
             date_time_start: leaveRequestDetails.date_time_start,
             date_time_end: leaveRequestDetails.date_time_end,
-            leave_type: leaveRequestDetails.leave_type,
+            type: leaveRequestDetails.type,
             note: leaveRequestDetails.note,
         }
         const response = await leaveRequestService.saveLeaveRequest(params)
         if (response) {
-            successAlert(`${t('alert.success')}!`, `${t('dutySchedules.leaveRequest.form.alert.leaveRequestSuccessfullyAdded')}.`)
+            successAlert(`${t('alert.success')}!`, `${t('dutySchedules.leaveRequests.form.alert.leaveRequestSuccessfullyAdded')}.`)
             refreshLeaveRequests()
             emit('refreshDutySchedules')
             closeModal()

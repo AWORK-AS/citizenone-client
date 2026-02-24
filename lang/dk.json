@@ -2713,8 +2713,12 @@
                 },
                 "dateTimeEnd": "Slutdato og -tid",
                 "dateTimeStart": "Startdato og -tid",
-                "leaveType": "Ferietype",
-                "note": "Bemærkning"
+                "note": "Bemærkning",
+                "type": {
+                    "sickLeave": "Sygefravær",
+                    "type": "Type",
+                    "vacationLeave": "Feriefravær"
+                }
             },
             "leaveRequests": "Ferieanmodninger",
             "newLeaveRequest": "Ny ferieanmodning",
