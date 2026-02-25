@@ -58,6 +58,7 @@ import type { Error } from '@/types'
 const runtimeConfig = useRuntimeConfig()
 const router = useRouter()
 const paymentId = router?.currentRoute?.value?.query?.paymentId
+const paymentMethod = router?.currentRoute?.value?.query?.paymentMethod
 const breadcrumbLinks = [
     {
         name: 'subscription.subscription',
@@ -76,6 +77,9 @@ onMounted(() => {
 })
 
 async function validateSubscription() {
+    if (paymentMethod === 'stripe') {
+        return
+    }
     state.error = {}
     state.isPageLoading = true
     try {
