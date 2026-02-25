@@ -804,6 +804,37 @@
             },
             "newCaseWorker": "New case worker"
         },
+        "timeRegistration": {
+            "timeRegistration": "Time registration",
+            "checkIn": "Check in",
+            "checkOut": "Check out",
+            "history": "History",
+            "selectType": "Do you want to register transport or work time?",
+            "selectTypeMessage": "Track your time easily, choose work or transport to get started.",
+            "transport": "Transport",
+            "work": "Work",
+            "form": {
+                
+            },
+            "registerTransport": {
+                "registerTransport": "Register transport",
+                "form": {
+                    "startAddress": "Start address",
+                    "endAddress": "End address",
+                    "note": "Note (Optional)",
+                    "useCurrentLocation": "Use current location",
+                    "locating": "Locating..."
+                },
+                "errors": {
+                    "geolocationNotSupported": "Geolocation is not supported by this browser.",
+                    "somethingWentWrong": "Something went wrong fetching your current location. Please try again.",
+                    "permissionDenied": "Permission to access location was denied.",
+                    "positionUnavailable": "Location information is unavailable.",
+                    "timeout": "The request to get your location timed out.",
+                    "unableToLocate": "Unable to determine your location."
+                }
+            }
+        },
         "citizens": "Citizens",
         "citizenJournals": {
             "actions": {

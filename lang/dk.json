@@ -804,6 +804,37 @@
             },
             "newCaseWorker": "Ny sagsbehandler"
         },
+        "timeRegistration": {
+            "timeRegistration": "Tidsregistrering",
+            "checkIn": "Tjek ind",
+            "checkOut": "Tjek ud",
+            "history": "Historik",
+            "selectType": "Vil du registrere transporttid eller arbejdstid?",
+            "selectTypeMessage": "Registrer din tid nemt — vælg arbejde eller transport for at komme i gang.",
+            "transport": "Transport",
+            "work": "Arbejde",
+            "form": {
+                
+            },
+            "registerTransport": {
+                "registerTransport": "Registrer transport",
+                "form": {
+                    "startAddress": "Startadresse",
+                    "endAddress": "Slutadresse",
+                    "note": "Bemærkning (valgfri)",
+                    "useCurrentLocation": "Brug nuværende placering",
+                    "locating": "Finder placering..."
+                },
+                "errors": {
+                    "geolocationNotSupported": "Geolokation understøttes ikke af denne browser.",
+                    "somethingWentWrong": "Der opstod en fejl ved hentning af din nuværende placering. Prøv igen.",
+                    "permissionDenied": "Tilladelse til at få adgang til placering blev afvist.",
+                    "positionUnavailable": "Placering kunne ikke fastslås.",
+                    "timeout": "Anmodningen om at hente din placering udløb.",
+                    "unableToLocate": "Kunne ikke bestemme din placering."
+                }
+            }
+        },
         "citizens": "Borgere",
         "citizenJournals": {
             "actions": {

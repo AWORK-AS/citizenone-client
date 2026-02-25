@@ -339,6 +339,10 @@
                 @close="state.modal.isViewPatienCareHoursOpen = false" @refreshCitizenDetails="fetchCitizen()" />
             <ModulesUserCitizenUseOfForceModalRelevantHelpLinks :isModalOpen="state.modal.isViewRelevantHelpLinksOpen"
                 @close="state.modal.isViewRelevantHelpLinksOpen = false" />
+            <ModulesUserCitizenTimeRegistrationModalType :isModalOpen="state.modal.isTimeInTypeModalOpen"
+                @close="state.modal.isTimeInTypeModalOpen = false" @openTransport="openTransport" @open-work="workLogin" />
+            <ModulesUserCitizenTimeRegistrationModalTransport :isModalOpen="state.modal.isTransportLoginOpen" @transportLogin="transportLogin"
+                @close="state.modal.isTransportLoginOpen = false" @submitTransport="transportLogin" />
         </LoadingSpinner>
     </div>
 </template>
@@ -373,6 +377,8 @@ const state = reactive({
         isInquiryStayDataOpen: false,
         isViewPatienCareHoursOpen: false,
         isViewRelevantHelpLinksOpen: false,
+        isTimeInTypeModalOpen: false,
+        isTransportLoginOpen: false
     },
     selectedCitizen: {} as any,
     showExpandedNote: false,
@@ -408,20 +414,90 @@ async function fetchFollowUpReminderCount() {
     }
 }
 
-async function toggleLogin() {
+function selectTimeInType() {
+    state.modal.isTimeInTypeModalOpen = true
+}
+
+async function workLogin() {
     state.error = {}
     state.isPageLoading = true
     try {
         if (!state.selectedCitizen?.data?.is_checked_in) {
-            const response = await interventionHoursService.checkin(citizenUuid)
+            const params = {}
+            const response = await interventionHoursService.checkin(citizenUuid, params)
             if (response?.data) {
                 fetchCitizen()
             }
         } else {
-            const response = await interventionHoursService.checkout(citizenUuid)
+            const params = {}
+            const response = await interventionHoursService.checkout(citizenUuid, params)
             if (response?.data) {
                 fetchCitizen()
             }
+        }
+    } catch (error: any) {
+        state.error = error
+    }
+    state.isPageLoading = false
+}
+
+function openTransport() {
+    state.modal.isTimeInTypeModalOpen = false
+    state.modal.isTransportLoginOpen = true
+}
+
+async function transportLogin(transportLoginDetails: any) {
+    state.error = {}
+    state.isPageLoading = true
+    try {
+        if (!state.selectedCitizen?.data?.is_checked_in) {
+            const params = {
+                is_transportation: true,
+                geo_start_lat: transportLoginDetails.geo_start_lat,
+                geo_start_lng: transportLoginDetails.geo_start_lng,
+                start_address: transportLoginDetails.start_address,
+                note: transportLoginDetails.note
+            }
+            const response = await interventionHoursService.checkin(citizenUuid, params)
+            if (response?.data) {
+                fetchCitizen()
+                state.modal.isTransportLoginOpen = false
+                
+            }
+        } else {
+            const params = {}
+            const response = await interventionHoursService.checkout(citizenUuid, params)
+            if (response?.data) {
+                fetchCitizen()
+            }
+        }
+    } catch (error: any) {
+        state.error = error
+    }
+    state.isPageLoading = false
+}
+
+function toggleLogin() {
+    if (!state.selectedCitizen?.data?.is_checked_in) {
+        selectTimeInType()
+    } else {
+        if (state.selectedCitizen?.data?.current_care_hour?.is_transportation) {
+            // transportLogout
+            workCheckout()
+        } else {
+            workCheckout()
+        }
+    }
+}
+
+async function workCheckout() {
+    state.error = {}
+    state.isPageLoading = true
+    try {
+        const params = {}
+        const response = await interventionHoursService.checkout(citizenUuid, params)
+        if (response?.data) {
+            fetchCitizen()
         }
     } catch (error: any) {
         state.error = error
