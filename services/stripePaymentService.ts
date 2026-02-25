@@ -10,9 +10,14 @@ export function getStripe(){
     return stripePromise;
 }
 
-export async function payWithStripe(amount: number, citizenId: string, cardElement: any) {
+export async function payWithStripe(
+    amount: number,
+    citizenId: string,
+    cardElement: any,
+    metadata?: Record<string, string | number | boolean | null>
+) {
     try {
-        const { client_secret } = await stripeApi.createPaymentIntent(amount, citizenId);
+        const { client_secret } = await stripeApi.createPaymentIntent(amount, citizenId, metadata);
 
         const stripe = await getStripe();
         if (!stripe) {
