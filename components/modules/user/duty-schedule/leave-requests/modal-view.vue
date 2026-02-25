@@ -43,8 +43,11 @@
                                             </p>
                                         </td>
                                         <td width="15%">
-                                            <p>
-                                                {{ leaveRequests?.system_name }}
+                                            <p v-if="leaveRequests?.type === 'sick_leave'">
+                                                {{ $t('dutySchedules.leaveRequests.table.type.sickLeave') }}
+                                            </p>
+                                            <p v-if="leaveRequests?.type === 'vacation_leave'">
+                                                {{ $t('dutySchedules.leaveRequests.table.type.vacationLeave') }}
                                             </p>
                                         </td>
                                         <td width="15%">
@@ -109,10 +112,10 @@
                     @filterDate="filterLeaveRequestByDateRange" />
                 <ModulesUserDutyScheduleLeaveRequestsModalNew :isModalOpen="state.modal.isAddNewLeaveRequestOpen"
                     :selectedEmployee="props.selectedEmployee" @close="state.modal.isAddNewLeaveRequestOpen = false"
-                    @refreshLeaveRequest="fetchLeaveRequests" @refreshDutySchedules="emit('refreshDutySchedules')" />
+                    @refreshLeaveRequests="fetchLeaveRequests" @refreshDutySchedules="emit('refreshDutySchedules')" />
                 <ModulesUserDutyScheduleLeaveRequestsModalEdit :isModalOpen="state.modal.isEditLeaveRequestOpen"
                     :selectedEmployee="props.selectedEmployee" :selectedLeaveRequest="state.selectedLeaveRequest"
-                    @close="state.modal.isEditLeaveRequestOpen = false" @refreshLeaveRequest="fetchLeaveRequests"
+                    @close="state.modal.isEditLeaveRequestOpen = false" @refreshLeaveRequests="fetchLeaveRequests"
                     @refreshDutySchedules="emit('refreshDutySchedules')" />
                 <DialogConfirmation :isModalOpen="state.modal.isApproveRequest"
                     :message="$t('dutySchedules.leaveRequests.table.confirmation.approveLeaveRequestConfirmation') + '?'"
