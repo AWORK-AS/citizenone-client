@@ -15,7 +15,7 @@
 
       <!-- Invoice Summary -->
       <div class="invoice-summary">
-        <div class="summary-row">
+        <div v-if="invoiceId" class="summary-row">
           <span>Invoice ID:</span>
           <strong>{{ invoiceId }}</strong>
         </div>
@@ -27,8 +27,9 @@
 
       <!-- Payment Form -->
       <StripeCardElement
-        :amount= "Math.round(amount * 100)"
-        :citizen-id="citizenId"
+        :amount="Math.round(amount * 100)"
+        :citizenId="props.citizenId"
+        :metadata="props.metadata"
         @payment-success="handlePaymentSuccess"
         @payment-error="handlePaymentError"
       />
@@ -48,8 +49,9 @@ import StripeCardElement from './StripeCardElement.vue';
 interface Props {
   isOpen: boolean;
   amount: number;
-  invoiceId: string;
+  invoiceId?: string;
   citizenId: string;
+  metadata?: Record<string, string | number | boolean | null>;
 }
 
 interface Emits {
@@ -82,7 +84,7 @@ function formatAmount(amount: number): string {
   return new Intl.NumberFormat('da-DK', {
     minimumFractionDigits: 2,
     maximumFractionDigits: 2,
-  }).format(amount / 100);
+  }).format(amount);
 }
 
 // Prevent body scroll when modal is open
