@@ -23,6 +23,22 @@
                     </div>
                     <div id="upgrade-checkout"></div>
                     <div class="max-w-3xl" v-if="!state.isDealsHidden">
+                        <div class="flex justify-center">
+                            <fieldset aria-label="Payment method">
+                                <RadioGroup v-model="paymentMethod"
+                                    class="grid grid-cols-2 gap-x-1 rounded-full p-2 text-center text-xs font-semibold leading-5 ring-1 ring-inset ring-gray-200">
+                                    <RadioGroupOption as="template" v-for="option in paymentMethods" :key="option.value"
+                                        :value="option.value" v-slot="{ checked }">
+                                        <div
+                                            :class="[checked ? 'bg-tertiary text-white' : 'text-gray-500', 'cursor-pointer rounded-full px-2.5 py-1']">
+                                            {{ option.label }}
+                                        </div>
+                                    </RadioGroupOption>
+                                </RadioGroup>
+                            </fieldset>
+                        </div>
+                    </div>
+                    <div class="max-w-3xl" v-if="!state.isDealsHidden">
                         <div class="space-y-5">
                             <div class="space-y-2">
                                 <p class="text-sm font-medium">
@@ -138,6 +154,17 @@
             </LoadingSpinner>
             <ModulesUserStorageModalContactUs :isModalOpen="state.modal.isContactUsOpen"
                 @close="state.modal.isContactUsOpen = false" />
+            <StripePaymentModal
+                :isOpen="state.modal.isStripePaymentOpen"
+                :clientSecret="state.stripe.clientSecret"
+                :amount="state.stripe.amount"
+                :invoiceId="state.stripe.reference"
+                :citizenId="state.stripe.citizenId"
+                :metadata="state.stripe.metadata"
+                @close="state.modal.isStripePaymentOpen = false"
+                @paymentSuccess="handleStripeSuccess"
+                @paymentError="handleStripeError"
+            />
         </NuxtLayout>
     </div>
 </template>
@@ -149,10 +176,14 @@ import { storageService } from '@/components/api/user/StorageService'
 import { useAmountFormatter } from '@/composables/amountFormatter'
 import { useI18n } from "vue-i18n"
 import type { Error } from '@/types'
+import { RadioGroup, RadioGroupOption } from '@headlessui/vue'
+import { useUserStore } from '@/store/user'
+import StripePaymentModal from '@/components/stripe/StripePaymentModal.vue'
 
 const runtimeConfig = useRuntimeConfig()
 const { formatAmount } = useAmountFormatter()
 const language = useI18n()
+const userStore = useUserStore() as any
 let checkout = null as any
 const router = useRouter()
 let error: string | undefined = router?.currentRoute?.value?.query?.error as string | undefined
@@ -169,11 +200,26 @@ const state = reactive({
     isDealsHidden: false,
     isPageLoading: false,
     modal: {
-        isContactUsOpen: false
+        isContactUsOpen: false,
+        isStripePaymentOpen: false,
     },
     storageDeals: [] as any,
     usage: [] as any,
+
+    stripe: {
+        amount: 0,
+        citizenId: '',
+        reference: '',
+        metadata: {} as Record<string, string | number | boolean | null>,
+        clientSecret: '',
+    },
 })
+
+const paymentMethods = [
+    { value: 'dibs', label: 'DIBS' },
+    { value: 'stripe', label: 'Stripe' },
+] as const
+const paymentMethod = ref<'dibs' | 'stripe'>('dibs')
 
 onMounted(() => {
     fetchStorageDeals()
@@ -224,6 +270,10 @@ async function fetchCitizenFileFolderCurrentUsage() {
 }
 
 async function upgrade(deal: any) {
+    if (paymentMethod.value === 'stripe') {
+        await openStripePayment(deal)
+        return
+    }
     state.error = {}
     state.isPageLoading = true
     error = ''
@@ -255,5 +305,51 @@ async function upgrade(deal: any) {
         state.error = error
     }
     state.isPageLoading = false
+}
+
+async function openStripePayment(deal: any) {
+    try{
+        state.isPageLoading = true
+        state.error = {}
+    
+        const response = await userSubscriptionService.createStripePayment({
+            deal_uuid: deal.uuid, // backend forventer deal_uuid
+            payment_type: 'monthly', // backend forventer payment_type
+            citizen_id: userStore.getUser?.citizen_id ?? null,
+        })
+        
+
+    if (!response?.client_secret) {
+        throw new Error('Failed to initialize Stripe payment. No client secret returned.')
+    }
+
+    state.stripe = {
+        amount: response.amount,
+        citizenId: userStore.getUser?.citizen_id ?? '',
+        reference: deal?.name ?? 'Storage upgrade',
+        metadata: {
+            type: 'storage',
+            deal_uuid: deal?.uuid ? String(deal?.uuid) : '',
+        },
+        clientSecret: response.client_secret,
+    }
+
+    state.modal.isStripePaymentOpen = true
+
+    } catch (error: any) {
+        state.error = error
+    } finally {
+            state.isPageLoading = false
+        }
+}
+
+
+function handleStripeSuccess() {
+    state.modal.isStripePaymentOpen = false
+    navigateTo('/subscription/subscribed-successfully?paymentMethod=stripe')
+}
+
+function handleStripeError(message: string) {
+    state.error = { message } as Error
 }
 </script>
