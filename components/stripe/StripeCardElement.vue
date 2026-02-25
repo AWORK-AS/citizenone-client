@@ -65,6 +65,7 @@ import type { Stripe, StripeElements, StripeCardElement } from '@stripe/stripe-j
 interface Props {
   amount: number;
   citizenId: string;
+  metadata?: Record<string, string | number | boolean | null>;
 }
 
 interface Emits {
@@ -145,7 +146,7 @@ async function handleSubmit() {
   errorMessage.value = '';
 
   try {
-    const result = await payWithStripe(props.amount, props.citizenId, cardElement);
+    const result = await payWithStripe(props.amount, props.citizenId, cardElement, props.metadata);
 
     if (result.success) {
       successMessage.value = `Payment of ${formatAmount(props.amount)} DKK completed successfully!`;
