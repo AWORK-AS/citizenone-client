@@ -282,6 +282,16 @@
                 <ModulesUserAppModalTACConfirmation :isModalOpen="state.modal.isAcceptTACOpen"
                     :selectedApp="state.selectedApp" @close="state.modal.isAcceptTACOpen = false"
                     @confirmAppActivation="activateApp" />
+                <StripePaymentModal
+                    :isOpen="state.modal.isStripePaymentOpen"
+                    :amount="state.stripe.amount"
+                    :invoiceId="state.stripe.reference"
+                    :citizenId="state.stripe.citizenId"
+                    :metadata="state.stripe.metadata"
+                    @close="state.modal.isStripePaymentOpen = false"
+                    @paymentSuccess="handleStripeSuccess"
+                    @paymentError="handleStripeError"
+                />
             </LoadingSpinner>
         </NuxtLayout>
     </div>
@@ -294,6 +304,7 @@ import { useAlert } from '@/composables/alert'
 import { useAmountFormatter } from '@/composables/amountFormatter'
 import { useUserStore } from '@/store/user'
 import type { Error } from '@/types'
+import StripePaymentModal from '@/components/stripe/StripePaymentModal.vue'
 
 const runtimeConfig = useRuntimeConfig()
 const language = useI18n()
@@ -328,8 +339,15 @@ const state = reactive({
     modal: {
         isAcceptTACOpen: false,
         showAppDetails: false,
+        isStripePaymentOpen: false,
     },
     selectedApp: [] as any,
+    stripe: {
+        amount: 0,
+        citizenId: '',
+        reference: '',
+        metadata: {} as Record<string, string | number | boolean | null>,
+    },
 })
 
 onMounted(() => {
@@ -408,12 +426,24 @@ async function activateApp(formApp: any) {
     state.error = {}
     state.isPageLoading = true
     try {
+        const paymentMethod = formApp?.payment_method ?? 'dibs'
         if (state.selectedApp?.generic_name === 'leads') {
             const response = await appService.activateLeadsApp()
             if (response) {
                 successAlert(`${t('alert.success')}!`, `${t('apps.alert.appSuccessfullyActivated')}.`)
                 fetchApps()
             }
+        } else if (paymentMethod === 'stripe') {
+            state.stripe.citizenId = userStore.getUser?.citizen_id ?? ''
+            state.stripe.reference = state.selectedApp?.name ?? 'App purchase'
+            state.stripe.metadata = {
+                type: 'app',
+                app_uuid: state.selectedApp?.uuid ?? null,
+                quantity: formApp?.quantity ?? null,
+                frequency: formApp?.frequency?.value ?? null,
+            }
+            state.modal.isStripePaymentOpen = true
+
         } else {
             const params = {} as any
             if (!state.selectedApp?.is_one_time_fee) {
@@ -445,6 +475,16 @@ async function activateApp(formApp: any) {
         state.error = error
     }
     state.isPageLoading = false
+}
+
+
+function handleStripeSuccess() {
+    state.modal.isStripePaymentOpen = false
+    navigateTo('/apps/purchased-successfully?paymentMethod=stripe')
+}
+
+function handleStripeError(message: string) {
+    state.error = { message } as Error
 }
 
 async function navigateToExternalLink(link: any) {
