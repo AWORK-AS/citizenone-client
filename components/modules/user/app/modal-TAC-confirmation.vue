@@ -4,7 +4,23 @@
             @close="closeModal">
             <template #modal-body>
                 <div>
-                    <div class="mx-auto max-w-sm md:max-w-md mt-16 relative"
+                    <div class="mx-auto max-w-sm md:max-w-md mt-4 relative">
+                        <div class="flex justify-center">
+                            <fieldset aria-label="Payment method">
+                                <RadioGroup v-model="state.formApp.payment_method"
+                                    class="grid grid-cols-2 gap-x-1 rounded-full p-2 text-center text-xs font-semibold leading-5 ring-1 ring-inset ring-gray-200">
+                                    <RadioGroupOption as="template" v-for="option in paymentMethods" :key="option.value"
+                                        :value="option.value" v-slot="{ checked }">
+                                        <div
+                                            :class="[checked ? 'bg-tertiary text-white' : 'text-gray-500', 'cursor-pointer rounded-full px-2.5 py-1']">
+                                            {{ option.label }}
+                                        </div>
+                                    </RadioGroupOption>
+                                </RadioGroup>
+                            </fieldset>
+                        </div>
+                    </div>
+                    <div class="mx-auto max-w-sm md:max-w-md mt-8 relative"
                         v-if="!props.selectedApp?.is_one_time_fee && props.selectedApp?.generic_name === null">
                         <div class="flex justify-center">
                             <fieldset aria-label="Payment frequency">
@@ -128,6 +144,10 @@ const frequencies = [
     { value: 'monthly', label: 'Monthly', priceSuffix: '/month' },
     { value: 'annually', label: 'Annually', priceSuffix: '/year' },
 ]
+const paymentMethods = [
+    { value: 'dibs', label: 'DIBS' },
+    { value: 'stripe', label: 'Stripe' },
+]
 
 const state = reactive({
     agreeToTermsValidation: false,
@@ -136,7 +156,8 @@ const state = reactive({
     },
     formApp: {
         quantity: '1',
-        frequency: frequencies[0]
+        frequency: frequencies[0],
+        payment_method: paymentMethods[0].value,
     }
 })
 
