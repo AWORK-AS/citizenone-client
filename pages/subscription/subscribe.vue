@@ -19,6 +19,22 @@
                         v-if="state.error?.message && state.error.message.length > 0" />
                 </div>
                 <div id="subscribe-checkout"></div>
+                <div class="mx-auto max-w-sm md:max-w-md mt-8" v-if="!state.isDealsHidden">
+                    <div class="flex justify-center">
+                        <fieldset aria-label="Payment method">
+                            <RadioGroup v-model="paymentMethod"
+                                class="grid grid-cols-2 gap-x-1 rounded-full p-2 text-center text-xs font-semibold leading-5 ring-1 ring-inset ring-gray-200">
+                                <RadioGroupOption as="template" v-for="option in paymentMethods" :key="option.value"
+                                    :value="option.value" v-slot="{ checked }">
+                                    <div
+                                        :class="[checked ? 'bg-tertiary text-white' : 'text-gray-500', 'cursor-pointer rounded-full px-2.5 py-1']">
+                                        {{ option.label }}
+                                    </div>
+                                </RadioGroupOption>
+                            </RadioGroup>
+                        </fieldset>
+                    </div>
+                </div>
                 <div class="mx-auto max-w-sm md:max-w-md mt-16 relative"
                     v-if="!state.isDealsHidden && userStore.getUser?.user_subscription?.type !== 'yearly'">
                     <div class="flex justify-center">
@@ -415,6 +431,17 @@
             </LoadingSpinner>
             <ModulesUserSubscriptionModalDealCoupon :isModalOpen="state.modal.isEnterCouponShow"
                 @close="state.modal.isEnterCouponShow = false" />
+            <StripePaymentModal
+                :isOpen="state.modal.isStripePaymentOpen"
+                :amount="state.stripe.amount"
+                :invoiceId="state.stripe.reference"
+                :citizenId="state.stripe.citizenId"
+                :metadata="state.stripe.metadata"
+                :clientSecret="state.stripe.clientSecret"
+                @close="state.modal.isStripePaymentOpen = false"
+                @paymentSuccess="handleStripeSuccess"
+                @paymentError="handleStripeError"
+            />
         </NuxtLayout>
     </div>
 </template>
@@ -428,6 +455,7 @@ import { useI18n } from "vue-i18n"
 import { useCouponStore } from '@/store/coupon'
 import { useUserStore } from '@/store/user'
 import type { Error } from '@/types'
+import StripePaymentModal from '@/components/stripe/StripePaymentModal.vue'
 
 const runtimeConfig = useRuntimeConfig()
 const { formatAmount } = useAmountFormatter()
@@ -452,8 +480,22 @@ const state = reactive({
     isPageLoading: false,
     modal: {
         isEnterCouponShow: false,
+        isStripePaymentOpen: false,
+    },
+        stripe: {
+        amount: 0,
+        citizenId: '',
+        reference: '',
+        metadata: {} as Record<string, string | number | boolean | null>,
+        clientSecret: '',
     }
 })
+
+const paymentMethods = [
+    { value: 'dibs', label: 'DIBS' },
+    { value: 'stripe', label: 'Stripe' },
+]
+const paymentMethod = ref(paymentMethods[0].value)
 
 const frequencies = [
     { value: 'monthly', label: 'Monthly', priceSuffix: '/month' },
@@ -496,6 +538,10 @@ async function fetchDeals() {
 }
 
 async function subscribe(deal: any) {
+    if (paymentMethod.value === 'stripe') {
+        openStripePayment(deal)
+        return
+    }
     state.isPageLoading = true
     state.error = {}
     error = ''
@@ -532,6 +578,59 @@ async function subscribe(deal: any) {
         state.error = error
     }
     state.isPageLoading = false
+}
+
+async function openStripePayment(deal: any) {
+    state.isPageLoading = true
+    state.error = {}
+
+    try {
+        const response = await userSubscriptionService.createStripePayment({
+            deal_uuid: deal.uuid, // backend forventer deal_uuid
+            payment_type: frequency.value.value === 'monthly' ? 'monthly' : 'yearly',
+            citizen_id: userStore.getUser?.citizen_id ?? null,
+        })
+
+        if (!response?.client_secret) {
+            throw new Error('Failed to initialize Stripe payment.')
+        }
+
+        state.stripe = {
+            amount: response.amount,
+            citizenId: userStore.getUser?.citizen_id ?? '',
+            reference: deal?.name ?? 'Subscription',
+            metadata: {
+                type: 'subscription',
+                deal_uuid: deal.uuid,
+                frequency: frequency.value.value,
+                coupon_code: couponStore.getDealCouponCode ?? null,
+            },
+            clientSecret: response.client_secret,
+        }
+
+        state.modal.isStripePaymentOpen = true
+
+    } catch (error: any) {
+        state.error = error
+    } finally {
+        state.isPageLoading = false
+    }
+}
+
+
+function getDealAmountKroner(deal: any): number {
+    const isMonthly = frequency.value.value === 'monthly'
+    const price = isMonthly ? Number(deal?.monthly_price ?? 0) : Number(deal?.yearly_price ?? 0)
+    return Math.round(price * 100)
+}
+
+function handleStripeSuccess() {
+    state.modal.isStripePaymentOpen = false
+    navigateTo('/subscription/subscribed-successfully?paymentMethod=stripe')
+}
+
+function handleStripeError(message: string) {
+    state.error = { message } as Error
 }
 
 function formatKrAmount(amount: any) {
