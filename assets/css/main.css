@@ -129,6 +129,30 @@ table td {
     min-height: 200px;
 }
 
+.ck-editor__editable h1 {
+    @apply text-3xl font-semibold;
+}
+
+.ck-editor__editable h2 {
+    @apply text-2xl font-semibold;
+}
+
+.ck-editor__editable h3 {
+    @apply text-xl font-semibold;
+}
+
+.ck-editor__editable h4 {
+    @apply text-lg font-semibold;
+}
+
+.ck-editor__editable h5 {
+    @apply text-base font-semibold;
+}
+
+.ck-editor__editable h6 {
+    @apply text-sm font-semibold;
+}
+
 .ck-editor__editable li {
     margin-left: 15px;
 }
@@ -158,31 +182,31 @@ table td {
 }
 
 .content h1 {
-    @apply text-3xl font-bold;
+    @apply text-3xl font-semibold leading-3;
 }
 
 .content h2 {
-    @apply text-2xl font-bold;
+    @apply text-2xl font-semibold leading-3;
 }
 
 .content h3 {
-    @apply text-xl font-bold;
+    @apply text-xl font-semibold leading-3;
 }
 
 .content h4 {
-    @apply text-lg font-bold;
+    @apply text-lg font-semibold leading-3;
 }
 
 .content h5 {
-    @apply text-base font-bold;
+    @apply text-base font-semibold leading-3;
 }
 
 .content h6 {
-    @apply text-sm font-bold;
+    @apply text-sm font-semibold leading-3;
 }
 
 .content p {
-    @apply my-1.5 !important;
+    @apply my-1.5 leading-3 !important;
 }
 
 .content strong {

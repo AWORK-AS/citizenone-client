@@ -17,12 +17,33 @@
                 <FormError :error="v$?.form?.description?.$errors[0]?.$message.toString()" />
                 <FormError :error="state?.error?.errors?.description?.[0]" />
             </div>
-            <!-- Document Title for downloadable PDF(no CRUD) -->
             <div class="space-y-1">
-                <FormLabel for="document_title" label="Document Title" />
-                <FormTextField id="document_title" name="document_title"
-                    placeholder="Document Title"
+                <FormLabel for="document_title" :label="$t('forms.documentTitle')" />
+                <FormTextField id="document_title" name="document_title" :placeholder="$t('forms.documentTitle')"
                     v-model="state.form.document_title" />
+            </div>
+            <div v-if="isAdmin" class="flex items-center gap-x-3 pt-2">
+                <FormSwitch :value="state.form.is_follow_up_enabled"
+                    @toggleSwitch="state.form.is_follow_up_enabled = !state.form.is_follow_up_enabled" />
+                <label class="text-sm font-medium text-gray-700 cursor-pointer"
+                    @click="state.form.is_follow_up_enabled = !state.form.is_follow_up_enabled">
+                    {{ $t('forms.enableFollowUp') }}
+                </label>
+            </div>
+            <div v-if="state.form.is_follow_up_enabled" class="space-y-3 ml-12">
+                <div class="flex items-center gap-x-3">
+                    <span class="text-sm text-gray-600">
+                        {{ $t('plansandgoals.createStatusTemplate.form.followUpIn') }}
+                    </span>
+                    <div class="w-24">
+                        <FormNumberField name="follow_up_number" placeholder="1" :min="1"
+                            v-model="state.followUpNumber" />
+                    </div>
+                    <div class="w-40">
+                        <FormSelect id="follow_up_unit" :options="followUpUnits" :canClear="false" :searchable="false"
+                            v-model="state.followUpUnit" />
+                    </div>
+                </div>
             </div>
         </div>
 
@@ -43,10 +64,10 @@
                                             <div class="mt-2">{{ fieldIndex + 1 }}.</div>
                                             <div class="grow space-y-3">
                                                 <FormTextField :name="'text_field_' + fieldIndex"
-                                                    placeholder="Input your question title here"
+                                                    :placeholder="$t('forms.fields.inputYourQuestionTitleHere')"
                                                     v-model="state.form.fields[fieldIndex].value" />
                                                 <FormTextField :name="'text_field_' + fieldIndex"
-                                                    placeholder="Enter your answer" :disabled="true" />
+                                                    :placeholder="$t('forms.fields.enterYourAnswer')" :disabled="true" />
                                             </div>
                                         </div>
                                     </div>
@@ -72,10 +93,10 @@
                                             <div class="mt-2">{{ fieldIndex + 1 }}.</div>
                                             <div class="grow space-y-3">
                                                 <FormTextField :name="'textarea_' + fieldIndex"
-                                                    placeholder="Input your question title here"
+                                                    :placeholder="$t('forms.fields.inputYourQuestionTitleHere')"
                                                     v-model="state.form.fields[fieldIndex].value" />
                                                 <FormTextArea :name="'textarea_' + fieldIndex"
-                                                    placeholder="Enter your answer" :disabled="true" />
+                                                    :placeholder="$t('forms.fields.enterYourAnswer')" :disabled="true" />
                                             </div>
                                         </div>
                                     </div>
@@ -101,7 +122,7 @@
                                             <div class="mt-2">{{ fieldIndex + 1 }}.</div>
                                             <div class="grow space-y-3">
                                                 <FormTextField :name="'text_field_' + fieldIndex"
-                                                    placeholder="Input your question title here"
+                                                    :placeholder="$t('forms.fields.inputYourQuestionTitleHere')"
                                                     v-model="state.form.fields[fieldIndex].value" />
                                                 <div class="space-y-3">
                                                     <div v-for="(radio, radioIndex) in state.form.fields[fieldIndex].options"
@@ -147,7 +168,7 @@
                                             <div class="mt-2">{{ fieldIndex + 1 }}.</div>
                                             <div class="grow space-y-3">
                                                 <FormTextField :name="'text_field_' + fieldIndex"
-                                                    placeholder="Input your question title here"
+                                                    :placeholder="$t('forms.fields.inputYourQuestionTitleHere')"
                                                     v-model="state.form.fields[fieldIndex].value" />
                                                 <div class="space-y-3">
                                                     <div v-for="(checkbox, checkboxIndex) in state.form.fields[fieldIndex].options"
@@ -194,7 +215,7 @@
                                             <div class="mt-2">{{ fieldIndex + 1 }}.</div>
                                             <div class="grow space-y-3">
                                                 <FormTextField :name="'textarea_' + fieldIndex"
-                                                    placeholder="Input your question title here"
+                                                    :placeholder="$t('forms.fields.inputYourQuestionTitleHere')"
                                                     v-model="state.form.fields[fieldIndex].value" />
                                                 <div class="flex items-center justify-between gap-x-2">
                                                     <div v-for="(rating, ratingIndex) in state.form.fields[fieldIndex].levels"
@@ -204,7 +225,7 @@
                                                     </div>
                                                 </div>
                                                 <div>
-                                                    Levels:
+                                                    {{ $t('forms.fields.levels') }}:
                                                     <select v-model="state.form.fields[fieldIndex].levels"
                                                         class="w-16 h-8 rounded-md pl-2 outline-none">
                                                         <option :value="2">2</option>
@@ -243,11 +264,11 @@
                                             <div class="mt-2">{{ fieldIndex + 1 }}.</div>
                                             <div class="grow space-y-3">
                                                 <FormTextField :name="'date_field_' + fieldIndex"
-                                                    placeholder="Input your question title here"
+                                                    :placeholder="$t('forms.fields.inputYourQuestionTitleHere')"
                                                     v-model="state.form.fields[fieldIndex].value" />
                                                 <div class="relative">
                                                     <FormDateField :name="'date_field_' + fieldIndex"
-                                                        placeholder="Enter your answer" :disabled="true" />
+                                                        :placeholder="$t('forms.fields.enterYourAnswer')" :disabled="true" />
                                                     <Icon name="ph:calendar"
                                                         class="h-5 w-5 absolute right-4 top-2.5 text-gray-500"
                                                         aria-hidden="true" />
@@ -278,7 +299,7 @@
                                                 <div class="mt-2">{{ fieldIndex + 1 }}.</div>
                                                 <div class="grow space-y-4">
                                                     <FormTextField :name="'upload_file_' + fieldIndex"
-                                                        placeholder="Input your question title here"
+                                                        :placeholder="$t('forms.fields.inputYourQuestionTitleHere')"
                                                         v-model="state.form.fields[fieldIndex].value" />
                                                     <div class="flex items-center gap-x-2 text-sm">
                                                         <Icon name="material-symbols:upload-rounded"
@@ -393,6 +414,7 @@
 import { useVuelidate } from "@vuelidate/core"
 import { required, helpers } from '@vuelidate/validators'
 import { useI18n } from "vue-i18n"
+import { useUserStore } from '@/store/user'
 import type { Error } from '@/types'
 
 const props = defineProps({
@@ -412,6 +434,11 @@ const props = defineProps({
 const emit = defineEmits(['isPageLoading', 'submitForm'])
 
 const { t } = useI18n()
+const userStore = useUserStore() as any
+
+const isAdmin = computed(() => {
+    return userStore.getUser?.roles?.some((role: any) => role.name === 'Admin') ?? false
+})
 
 const state = reactive({
     error: {} as Error,
@@ -420,9 +447,28 @@ const state = reactive({
         fields: [] as any,
         title: '',
         document_title: '',
+        is_follow_up_enabled: false,
+        follow_up_duration: '',
     },
     showFieldsAdder: true,
+    followUpNumber: '1',
+    followUpUnit: 'Days',
 })
+
+const followUpUnits = [
+    { value: 'Days', label: t('plansandgoals.createStatusTemplate.form.days') },
+    { value: 'Weeks', label: t('plansandgoals.createStatusTemplate.form.weeks') },
+    { value: 'Months', label: t('plansandgoals.createStatusTemplate.form.months') },
+    { value: 'Years', label: t('plansandgoals.createStatusTemplate.form.years') },
+]
+
+function formatFollowUpDuration() {
+    return `${state.followUpNumber} ${state.followUpUnit}`
+}
+
+watch(() => [state.followUpNumber, state.followUpUnit], () => {
+    state.form.follow_up_duration = formatFollowUpDuration()
+}, { immediate: true })
 
 watch(() => props.selectedForm, (selectedForm: any) => {
     if (selectedForm) {
@@ -431,6 +477,16 @@ watch(() => props.selectedForm, (selectedForm: any) => {
         state.form.fields = selectedForm.fields
         if (selectedForm.document_title) {
             state.form.document_title = selectedForm.document_title
+        }
+        if (selectedForm.is_follow_up_enabled !== undefined) {
+            state.form.is_follow_up_enabled = selectedForm.is_follow_up_enabled
+            if (selectedForm.follow_up_duration) {
+                const parts = selectedForm.follow_up_duration.split(' ')
+                if (parts.length === 2) {
+                    state.followUpNumber = parts[0]
+                    state.followUpUnit = parts[1]
+                }
+            }
         }
     }
 }, { immediate: true })

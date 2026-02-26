@@ -46,6 +46,10 @@
                         <Icon name="ph:arrows-clockwise" class="h-4 w-4" aria-hidden="true" />
                         {{ $t('dutySchedules.zenegy_sync') }}
                     </FormButton>
+                    <Tooltip :text="$t('dutySchedules.shareDutySchedule.shareDutySchedule')"
+                        @click="state.modal.isViewSharedDutyScheduleOpen = true">
+                        <Icon name="ph:share-fat" class="size-6 cursor-pointer text-gray-700" aria-hidden="true" />
+                    </Tooltip>
                     <Tooltip :text="$t('dutySchedules.activityLogs')" @click="openDutySchedulesActivityLogs()">
                         <Icon name="ph:clock-counter-clockwise" class="size-6 cursor-pointer text-gray-700"
                             aria-hidden="true" />
@@ -73,21 +77,23 @@
 
             <div class="-mt-4 space-y-5">
                 <ModulesUserDutyScheduleWeekView ref="weekViewRef" v-if="state.calendarView === 'week'"
-                    @setDutyScheduleCurrentDate="setDutyScheduleCurrentDate" />
+                    @setDutyScheduleCurrentDate="setDutyScheduleCurrentDate"
+                    @setDutyScheduleCurrentFilter="setDutyScheduleCurrentFilter" />
             </div>
 
             <ModulesUserDutyScheduleModalShiftTypes :isModalOpen="state.modal.isShowAllShiftTypes"
                 @close="state.modal.isShowAllShiftTypes = false" />
+            <ModulesUserDutyScheduleModalDownload :isModalOpen="state.modal.isDownloadOpen"
+                :selectedDate="state.selectedDate" :filter="state.filter" @close="state.modal.isDownloadOpen = false" />
             <ModulesUserDutyScheduleActivityLogsModalHistory :isModalOpen="state.modal.isActivityLogsOpen"
                 @close="state.modal.isActivityLogsOpen = false" />
+            <ModulesUserDutyScheduleShareModalView :isModalOpen="state.modal.isViewSharedDutyScheduleOpen"
+                @close="state.modal.isViewSharedDutyScheduleOpen = false" />
             <ModulesUserGuidedTourModalDutySchedule v-if="state.modal.isGuidedTourDutyScheduleOpen"
                 :isModalOpen="state.modal.isGuidedTourDutyScheduleOpen" :isGuidedTour="false"
                 @close="state.modal.isGuidedTourDutyScheduleOpen = false" />
-        </NuxtLayout>
-        <ModulesUserDutyScheduleModalDownload :isModalOpen="state.modal.isDownloadOpen"
-            :selectedDate="state.selectedDate" @close="state.modal.isDownloadOpen = false" />
 
-        <Modal size="lg" :title="$t('dutySchedules.zenegy_sync')" :show="state.modal.isZenegySyncOpen"
+            <Modal size="lg" :title="$t('dutySchedules.zenegy_sync')" :show="state.modal.isZenegySyncOpen"
             @close="state.modal.isZenegySyncOpen = false">
             <template #modal-body>
                 <p class="text-sm text-gray-500 mb-4">{{ $t('dutySchedules.zenegy_sync_description') }}</p>
@@ -501,7 +507,8 @@
 
                 </LoadingSpinner>
             </template>
-        </Modal>
+            </Modal>
+        </NuxtLayout>
     </div>
 </template>
 
@@ -529,10 +536,16 @@ const state = reactive({
     isSyncing: false,
     isZenegyConnected: false,
     isLoadingModalData: false,
+    filter: {
+        department_uuids: [],
+        employment_status: [],
+        employee_uuids: [],
+    },
     modal: {
         isActivityLogsOpen: false,
         isDownloadOpen: false,
         isGuidedTourDutyScheduleOpen: false,
+        isViewSharedDutyScheduleOpen: false,
         isShowAllShiftTypes: false,
         isZenegySyncOpen: false,
     },
@@ -745,6 +758,12 @@ function isAdmin(role: any) {
 
 function setDutyScheduleCurrentDate(selectedDate: any) {
     state.selectedDate = selectedDate
+}
+
+function setDutyScheduleCurrentFilter(filter: any) {
+    state.filter.department_uuids = filter.department_uuids
+    state.filter.employment_status = filter.employment_status
+    state.filter.employee_uuids = filter.employee_uuids
 }
 
 // --- Zenegy Sync Logic ---

@@ -210,7 +210,6 @@
 
 <script setup lang="ts">
 import { unitService } from '@/components/api/user/UnitService'
-import { userService } from '@/components/api/user/UserService'
 import { useVuelidate } from "@vuelidate/core"
 import { required, helpers } from '@vuelidate/validators'
 import { useI18n } from "vue-i18n"

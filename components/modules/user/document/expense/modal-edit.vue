@@ -52,7 +52,6 @@ function refreshExpenses() {
 async function updateExpense(expenseDetails: any) {
     state.error = {}
     state.isPageLoading = true
-    console.log('expenseDetails', expenseDetails)
     try {
         let params = new FormData()
         params.append('name', expenseDetails.name)
@@ -68,7 +67,7 @@ async function updateExpense(expenseDetails: any) {
         if (response?.data) {
             refreshExpenses()
             closeModal()
-            successAlert(`${t('alert.success')}!`, `${t('drive.alert.folderSuccessfullyAdded')}.`)
+            successAlert(`${t('alert.success')}!`, `${t('expenses.table.alert.expenseSuccessfullyUpdated')}.`)
         }
     } catch (error: any) {
         state.error = error

@@ -56,8 +56,9 @@ function closeModal() {
 }
 
 const state = reactive({
-    currentVersion: '2026-01-30',
+    currentVersion: '2026-02-20',
     availableVersions: [
+        '2026-02-20',
         '2026-01-30',
         '2026-01-23',
         '2026-01-16',
@@ -84,6 +85,161 @@ const state = reactive({
 
 const allUpdates: Record<string, Record<string, { title: string, description: string[] }[]>> = {
     en: {
+        '2026-02-20': [
+            {
+                title: 'Online document creation and editing',
+                description: [
+                    'Users can now create and edit documents directly online within the system.',
+                    'System-generated documents can be downloaded as PDF files.',
+                    'Uploaded documents (Word and Pages formats) can also be edited online.',
+                    'It is possible to view documents in read-only mode without enabling editing.'
+                ],
+            },
+            {
+                title: 'Comp time and vacation hours overview',
+                description: [
+                    'Employees can now view an overview of compensatory time and vacation hours for a selected period.',
+                    'This provides better transparency and planning of available time off.'
+                ],
+            },
+            {
+                title: 'Automatic follow-up highlighting on citizen reports',
+                description: [
+                    'Forms can now be configured to automatically highlight submitted citizen reports after a specified time period set by the staff member.',
+                    'Highlighted reports will appear in the general citizen overview, in the Daily Overview (in a dedicated box), and on the citizen’s profile page.',
+                    'This functionality must be enabled by an admin on the specific form before it can be used.'
+                ],
+            },
+            {
+                title: 'Configurable intervention tracking hours',
+                description: [
+                    'Admins can now configure the number of hours for intervention tracking in the system settings.',
+                    'The default value of 24 hours can be adjusted to any desired number of hours.'
+                ],
+            },
+            {
+                title: 'Time Registration tab for employees',
+                description: [
+                    'A dedicated Time Registration tab has been added for employees.',
+                    'This centralizes and simplifies time tracking and registrations.'
+                ],
+            },
+            {
+                title: 'AI prompting with file attachment and internal data access',
+                description: [
+                    'AI prompting now supports file attachments as part of the request.',
+                    'The AI can access relevant internal system data (based on permissions) to provide more accurate and contextual responses.'
+                ],
+            },
+            {
+                title: 'Tags on extra hours',
+                description: [
+                    'It is now possible to add tags to extra hours entries.',
+                    'This improves categorization, filtering, and reporting of additional worked hours.'
+                ],
+            },
+            {
+                title: 'User-specific email signatures',
+                description: [
+                    'Users can now create and manage their own email signatures.',
+                    'Email signatures can be configured individually per user.'
+                ],
+            },
+            {
+                title: 'Graph visualization of compensatory time',
+                description: [
+                    'Compensatory time is now visualized in a graph based on norm hours.',
+                    'The graph is displayed when clicking on compensatory hours, below the hourly view in the existing pop-up modal.'
+                ],
+            },
+            {
+                title: 'Linked yearly and weekly norm hours',
+                description: [
+                    'A new Weekly Norm Hours field has been added and linked to the Yearly Norm Hours field on the employee create/edit form.',
+                    'Both fields automatically calculate and update each other based on a 52-week year.',
+                    'The weekly norm hours value is also displayed beneath the yearly norm hours in the duty schedule view.'
+                ],
+            },
+            {
+                title: 'Export based on filtered duty schedule view',
+                description: [
+                    'It is now possible to export data based on the currently applied filters in the duty schedule view.',
+                    'Users can download the filtered view as shown on screen.',
+                    'The duty schedule can be exported in CSV format with either semicolon-separated or comma-separated values.'
+                ],
+            },
+            {
+                title: 'Leave shift type classification and export options',
+                description: [
+                    'Shift types can now be marked as “leave shift types.”',
+                    'Exports can be configured to include only leave shift types, only regular duty shifts, or both combined in a single export file.'
+                ],
+            },
+            {
+                title: 'Password-protected read-only sharing',
+                description: [
+                    'Duty schedules and journals can now be shared via password-protected links.',
+                    'Recipients can access the shared content in read-only mode without logging into the system.'
+                ],
+            },
+            {
+                title: 'Restrict visibility of historical shifts',
+                description: [
+                    'Admins can configure in the settings whether employees are allowed to view other employees’ historical duty shifts.',
+                    'Regardless of this setting, employees can never view other employees’ hourly data.'
+                ],
+            },
+            {
+                title: 'Enhanced date selector options',
+                description: [
+                    'The overview date selector now allows users to quickly choose between today’s date, the next 7 days, or a custom date range.',
+                    'This provides more flexibility when navigating and reviewing data.'
+                ],
+            },
+            {
+                title: 'Vacation registration with compensatory time option',
+                description: [
+                    'When registering vacation, users can mark it as compensatory time off (afspadsering), both during creation and editing.',
+                    'If marked, the checkbox remains selected.',
+                    'If compensatory time is marked during editing after creation, the system adjusts the compensatory balance based on the vacation shift hours.'
+                ],
+            },
+            {
+                title: 'Transportation usage indication for reimbursement',
+                description: [
+                    'Employees can indicate when transportation has been used and should be reimbursed.',
+                    'This ensures accurate tracking and reimbursement of transportation expenses.'
+                ],
+            },
+            {
+                title: 'Pay code / payroll item per shift type',
+                description: [
+                    'Each shift type can now include a pay code or payroll item field.',
+                    'This field is included in shift exports and payroll reports to ensure accurate pay processing.'
+                ],
+            },
+            {
+                title: 'Shift rotation notifications',
+                description: [
+                    'Employees receive a notification when a new shift rotation is rolled out.',
+                    'Notifications are also sent when changes are made to an existing shift rotation.'
+                ],
+            },
+            {
+                title: 'Termination date with automatic access disable',
+                description: [
+                    'A termination date field is available on the employee create, edit, and view forms.',
+                    'When the termination date is reached, the employee’s access is automatically disabled.'
+                ],
+            },
+            {
+                title: 'Treatments unaffected by overview date selector',
+                description: [
+                    'The Treatments section is no longer affected by the overview date selector.',
+                    'All ongoing (active) treatments are displayed regardless of the selected date range.'
+                ],
+            },
+        ],
         '2026-01-30': [
             {
                 title: 'Change label option in glossary list',
@@ -859,6 +1015,161 @@ const allUpdates: Record<string, Record<string, { title: string, description: st
         ],
     },
     dk: {
+        '2026-02-20': [
+            {
+                title: 'Oprettelse og redigering af dokumenter online',
+                description: [
+                    'Brugere kan nu oprette og redigere dokumenter direkte online i systemet.',
+                    'Systemgenererede dokumenter kan downloades som PDF-filer.',
+                    'Uploadede dokumenter (Word- og Pages-formater) kan også redigeres online.',
+                    'Det er muligt at se dokumenter i skrivebeskyttet tilstand uden at aktivere redigering.'
+                ],
+            },
+            {
+                title: 'Overblik over afspadsering og ferietimer',
+                description: [
+                    'Medarbejdere kan nu se et overblik over afspadsering og ferietimer for en valgt periode.',
+                    'Dette giver bedre gennemsigtighed og planlægning af tilgængelig frihed.'
+                ],
+            },
+            {
+                title: 'Automatisk fremhævning af opfølgning på borgerindberetninger',
+                description: [
+                    'Blanketter kan nu konfigureres til automatisk at fremhæve indsendte borgerindberetninger efter et angivet tidsrum, som medarbejderen selv angiver.',
+                    'Fremhævede indberetninger vises i det generelle borgeroverblik, i Dagsoverblikket (i en dedikeret boks) samt på borgerens egen profilside.',
+                    'Funktionen skal aktiveres af en administrator på den specifikke blanket, før den kan anvendes.'
+                ],
+            },
+            {
+                title: 'Konfigurerbart timetal for indsatsopfølgning',
+                description: [
+                    'Administratorer kan nu konfigurere antallet af timer for indsatsopfølgning i systemindstillingerne.',
+                    'Standardværdien på 24 timer kan ændres til et valgfrit antal timer.'
+                ],
+            },
+            {
+                title: 'Tidsregistreringsfane for medarbejdere',
+                description: [
+                    'Der er tilføjet en dedikeret fane til tidsregistrering for medarbejdere.',
+                    'Dette samler og forenkler registrering af arbejdstid.'
+                ],
+            },
+            {
+                title: 'AI-prompting med filvedhæftning og adgang til interne data',
+                description: [
+                    'AI-prompting understøtter nu vedhæftning af filer som en del af forespørgslen.',
+                    'AI’en kan tilgå relevante interne systemdata (baseret på rettigheder) for at give mere præcise og kontekstuelle svar.'
+                ],
+            },
+            {
+                title: 'Tags på ekstra timer',
+                description: [
+                    'Det er nu muligt at tilføje tags til registreringer af ekstra timer.',
+                    'Dette forbedrer kategorisering, filtrering og rapportering af merarbejde.'
+                ],
+            },
+            {
+                title: 'Brugerspecifikke e-mailsignaturer',
+                description: [
+                    'Brugere kan nu oprette og administrere deres egne e-mailsignaturer.',
+                    'E-mailsignaturer kan konfigureres individuelt pr. bruger.'
+                ],
+            },
+            {
+                title: 'Grafisk visualisering af afspadsering',
+                description: [
+                    'Afspadsering visualiseres nu i en graf baseret på normtimer.',
+                    'Grafen vises ved klik på afspadseringstimer under timeoversigten i den eksisterende pop-up.'
+                ],
+            },
+            {
+                title: 'Sammenkoblede årlige og ugentlige normtimer',
+                description: [
+                    'Der er tilføjet et nyt felt for ugentlige normtimer, som er koblet til feltet for årlige normtimer på medarbejderens opret/rediger-side.',
+                    'Begge felter beregner og opdaterer automatisk hinanden baseret på et 52-ugers år.',
+                    'Værdien for ugentlige normtimer vises også under de årlige normtimer i vagtplansvisningen.'
+                ],
+            },
+            {
+                title: 'Eksport baseret på filtreret vagtplansvisning',
+                description: [
+                    'Det er nu muligt at eksportere data baseret på de aktuelle filtre i vagtplansvisningen.',
+                    'Brugere kan downloade den filtrerede visning, som den fremstår på skærmen.',
+                    'Vagtplanen kan eksporteres i CSV-format med enten semikolon- eller komma-separerede værdier.'
+                ],
+            },
+            {
+                title: 'Markering af fraværsvagttyper og eksportmuligheder',
+                description: [
+                    'Vagttyper kan nu markeres som “fraværsvagttyper”.',
+                    'Eksport kan konfigureres til kun at indeholde fraværsvagter, kun almindelige vagter eller begge typer samlet i én fil.'
+                ],
+            },
+            {
+                title: 'Adgang via adgangskodebeskyttet læselink',
+                description: [
+                    'Vagtplan og journal kan nu deles via et adgangskodebeskyttet link.',
+                    'Modtageren kan se indholdet i skrivebeskyttet tilstand uden at logge ind i systemet.'
+                ],
+            },
+            {
+                title: 'Begrænsning af visning af historiske vagter',
+                description: [
+                    'Administratorer kan i indstillingerne konfigurere, om medarbejdere må se andre medarbejderes historiske vagter.',
+                    'Uanset denne indstilling kan medarbejdere aldrig se andre medarbejderes timeregistreringer.'
+                ],
+            },
+            {
+                title: 'Forbedret datovælger i overblik',
+                description: [
+                    'Datovælgeren i overblikket giver nu mulighed for hurtigt at vælge mellem dags dato, de næste 7 dage eller et brugerdefineret datointerval.',
+                    'Dette giver større fleksibilitet ved gennemgang af data.'
+                ],
+            },
+            {
+                title: 'Ferietilmelding med mulighed for afspadsering',
+                description: [
+                    'Ved registrering af ferie kan det markeres som afspadsering, både ved oprettelse og redigering.',
+                    'Hvis feltet markeres, forbliver det markeret.',
+                    'Hvis afspadsering markeres ved redigering efter oprettelse, justeres afspadseringssaldoen automatisk baseret på antallet af timer i ferievagten.'
+                ],
+            },
+            {
+                title: 'Angivelse af transport med henblik på refusion',
+                description: [
+                    'Medarbejdere kan angive, at de har benyttet transport og dermed har en udgift, der skal refunderes.',
+                    'Dette sikrer korrekt registrering og håndtering af transportudgifter.'
+                ],
+            },
+            {
+                title: 'Lønkode / lønart pr. vagttype',
+                description: [
+                    'Hver vagttype kan nu indeholde en lønkode eller lønart.',
+                    'Dette felt inkluderes i vagteksporter og lønrapporter for at sikre korrekt lønbehandling.'
+                ],
+            },
+            {
+                title: 'Notifikationer ved vagtrotation',
+                description: [
+                    'Medarbejdere modtager en notifikation, når en ny vagtrotation offentliggøres.',
+                    'Der sendes også notifikationer, når der foretages ændringer i en eksisterende vagtrotation.'
+                ],
+            },
+            {
+                title: 'Fratrædelsesdato med automatisk deaktivering af adgang',
+                description: [
+                    'Et felt til fratrædelsesdato er tilgængeligt på medarbejderens opret-, rediger- og visningsside.',
+                    'Når fratrædelsesdatoen nås, deaktiveres medarbejderens adgang automatisk.'
+                ],
+            },
+            {
+                title: 'Behandlinger påvirkes ikke af datovælger i overblik',
+                description: [
+                    'Sektionen “Behandlinger” påvirkes ikke længere af datovælgeren i overblikket.',
+                    'Alle igangværende (aktive) behandlinger vises uanset valgt datointerval.'
+                ],
+            },
+        ],
         '2026-01-30': [
             {
                 title: 'Mulighed for at ændre label “Afdeling” i ordliste',

@@ -280,8 +280,7 @@
                                 @click="state.modal.isAnnualNormHoursInfoOpen = true" />
                         </div>
                         <FormTextField id="annual_norm_hours" name="annual_norm_hours"
-                            :placeholder="$t('employees.form.employment.annualNormHours')"
-                            @input="onYearlyInput"
+                            :placeholder="$t('employees.form.employment.annualNormHours')" @input="onYearlyInput"
                             v-model="state.formEmployee.employment.annual_norm_hours" />
                         <p class="text-sm text-primary" v-if="state.info.showAnnualNormHoursCalculation">
                             {{ annualNormHoursCalculation }}
@@ -299,8 +298,7 @@
                                 @click="state.modal.isAnnualNormHoursInfoOpen = true" />
                         </div>
                         <FormTextField id="weekly_norm_hours" name="weekly_norm_hours"
-                            :placeholder="$t('employees.form.employment.weeklyNormHours')"
-                            @input="onWeeklyInput"
+                            :placeholder="$t('employees.form.employment.weeklyNormHours')" @input="onWeeklyInput"
                             v-model="state.formEmployee.employment.weekly_norm_hours" />
                         <p class="text-sm text-primary" v-if="state.info.showWeeklyNormHoursCalculation">
                             {{ weeklyNormHoursCalculation }}
@@ -309,6 +307,19 @@
                             :error="v$?.formEmployee?.employment?.weekly_norm_hours?.$errors[0]?.$message.toString()" />
                         <FormError :error="props?.error?.errors?.weekly_norm_hours?.[0]" />
                         <FormError :error="state?.error?.errors?.weekly_norm_hours?.[0]" />
+                    </div>
+                    <div id="norm_period_uuid" class="space-y-1">
+                        <div class="flex justify-between items-center py-0.5">
+                            <FormLabel for="norm_period_uuid" :label="$t('normPeriod.form.normPeriod')" />
+                            <span class="text-xs cursor-pointer text-tertiary hover:text-tertiary-800"
+                                @click="state.modal.isAddNewNormPeriod = true">
+                                {{ $t('normPeriod.addCustomNormPeriod') }}
+                            </span>
+                        </div>
+                        <FormSelect id="norm_period_uuid" name="norm_period_uuid" :placeholder="$t('normPeriod.form.normPeriod')" :options="state.options.normPeriods"
+                            v-model="state.formEmployee.employment.norm_period_uuid" />
+                        <FormError :error="v$?.formEmployee?.employment?.norm_period_uuid?.$errors[0]?.$message.toString()" />
+                        <FormError :error="props?.error?.errors?.norm_period_uuid?.[0]" />
                     </div>
                     <div class="space-y-1" ref="vacationDaysField" v-if="isAdmin(userStore.getUser?.roles)">
                         <FormLabel for="vacation_days" :label="$t('employees.form.employment.vacationDays')" />
@@ -536,6 +547,8 @@
             @refreshJobSpecialty="fetchJobSpecialties(state.formEmployee.employment.job_title_uuid)" />
         <ModulesUserDutyScheduleNormHoursModalInfo :isModalOpen="state.modal.isAnnualNormHoursInfoOpen"
             @close="state.modal.isAnnualNormHoursInfoOpen = false" />
+        <ModulesUserEmployeeModalNormPeriod :isModalOpen="state.modal.isAddNewNormPeriod" @close="state.modal.isAddNewNormPeriod = false"
+            @refreshNormPeriods="fetchNormPeriods" />
     </form>
 </template>
 
@@ -549,6 +562,7 @@ import { regionService } from '@/components/api/user/RegionService'
 import { municipalityService } from '@/components/api/user/MunicipalityService'
 import { cityService } from '@/components/api/user/CityService'
 import { mediaRiskService } from '@/components/api/user/MediaRiskService'
+import { normPeriodService } from '@/components/api/user/NormPeriodService'
 import { useCustomPagesStore } from '@/store/custom-pages'
 import { useVuelidate } from "@vuelidate/core"
 import { required, helpers } from '@vuelidate/validators'
@@ -634,6 +648,7 @@ const state = reactive({
             annual_norm_hours: '',
             weekly_norm_hours: '',
             vacation_days: '',
+            norm_period_uuid: '',
         },
         emergencyInfo: {
             emergency_contacts: [],
@@ -650,6 +665,7 @@ const state = reactive({
         isAddRoleOpen: false,
         isShowMediaRiskExplainationOpen: false,
         isAnnualNormHoursInfoOpen: false,
+        isAddNewNormPeriod: false,
     },
     info: {
         showAnnualNormHoursCalculation: false,
@@ -680,6 +696,7 @@ const state = reactive({
             { value: 'full_time', label: `${t('employees.workingHours.fulltime')}` },
             { value: 'part_time', label: `${t('employees.workingHours.parttime')}` },
         ],
+        normPeriods: [] as any[],
     }
 })
 
@@ -741,6 +758,7 @@ watch(() => props.selectedEmployee, (newValue: any) => {
                     ? Math.round(Number(newValue.employment.annual_norm_hours) / 52)
                     : '',
                 vacation_days: newValue.employment.vacation_days,
+                norm_period_uuid: newValue.employment?.norm_period_uuid || 'default',
             },
             show_working_hours: newValue.show_working_hours,
             do_not_count_sick_leave: newValue.do_not_count_sick_leave,
@@ -792,14 +810,14 @@ const v$ = useVuelidate(rules, state)
 
 const weeklyNormHoursCalculation = computed(() => {
     if (state.formEmployee.employment.annual_norm_hours) {
-        return `${state.formEmployee.employment.annual_norm_hours} ${t('employees.form.employment.hoursPerYear')} / 52 weeks = ${Math.round((Number(state.formEmployee.employment.annual_norm_hours) / 52 + Number.EPSILON) * 100) / 100} ${t('employees.form.employment.weeklyNormHours')}`
+        return `${state.formEmployee.employment.annual_norm_hours} ${t('employees.form.employment.hoursPerYear')} / 52 ${t('employees.form.employment.weeks')} = ${Math.round((Number(state.formEmployee.employment.annual_norm_hours) / 52 + Number.EPSILON) * 100) / 100} ${t('employees.form.employment.weeklyNormHours')}`
     }
     return ''
 })
 
 const annualNormHoursCalculation = computed(() => {
     if (state.formEmployee.employment.weekly_norm_hours) {
-        return `${state.formEmployee.employment.weekly_norm_hours} ${t('employees.form.employment.hoursPerWeek')} * 52 weeks = ${Math.round((Number(state.formEmployee.employment.weekly_norm_hours) * 52 + Number.EPSILON) * 100) / 100} ${t('employees.form.employment.annualNormHours')}`
+        return `${state.formEmployee.employment.weekly_norm_hours} ${t('employees.form.employment.hoursPerWeek')} * 52 ${t('employees.form.employment.weeks')} = ${Math.round((Number(state.formEmployee.employment.weekly_norm_hours) * 52 + Number.EPSILON) * 100) / 100} ${t('employees.form.employment.annualNormHours')}`
     }
     return ''
 })
@@ -811,6 +829,7 @@ onMounted(() => {
     fetchJobTitles()
     fetchPages()
     fetchRegions()
+    fetchNormPeriods()
 })
 
 function isAdmin(roles: any) {
@@ -1173,8 +1192,6 @@ function onWeeklyInput(event: any) {
     const value = event.target.value
     const weeklyHours = parseFloat(value)
 
-    console.log('weeklyHours:', weeklyHours)
-
     if (value === '') {
         state.formEmployee.employment.weekly_norm_hours = ''
         state.info.showAnnualNormHoursCalculation = false
@@ -1198,14 +1215,14 @@ function onWeeklyInput(event: any) {
     state.formEmployee.employment.weekly_norm_hours = value
     state.info.showAnnualNormHoursCalculation = true
     state.info.showWeeklyNormHoursCalculation = false
-    
+
     if (!isNaN(weeklyHours) && weeklyHours >= 0) {
         const calculatedAnnualHours = Math.round(weeklyHours * 52)
-        
-        const currentAnnual = state.formEmployee.employment.annual_norm_hours 
-            ? parseFloat(state.formEmployee.employment.annual_norm_hours) 
+
+        const currentAnnual = state.formEmployee.employment.annual_norm_hours
+            ? parseFloat(state.formEmployee.employment.annual_norm_hours)
             : NaN
-        
+
         if (!Number.isFinite(currentAnnual) || calculatedAnnualHours !== currentAnnual) {
             state.formEmployee.employment.annual_norm_hours = String(calculatedAnnualHours)
         }
@@ -1239,17 +1256,34 @@ function onYearlyInput(event: any) {
     state.formEmployee.employment.annual_norm_hours = value
     state.info.showWeeklyNormHoursCalculation = true
     state.info.showAnnualNormHoursCalculation = false
-    
+
     if (!isNaN(annualHours) && annualHours >= 0) {
         const calculatedWeeklyHours = Math.round(annualHours / 52)
-        
-        const currentWeekly = state.formEmployee.employment.weekly_norm_hours 
-            ? parseFloat(state.formEmployee.employment.weekly_norm_hours) 
+
+        const currentWeekly = state.formEmployee.employment.weekly_norm_hours
+            ? parseFloat(state.formEmployee.employment.weekly_norm_hours)
             : NaN
-        
+
         if (!Number.isFinite(currentWeekly) || calculatedWeeklyHours !== currentWeekly) {
             state.formEmployee.employment.weekly_norm_hours = String(calculatedWeeklyHours)
         }
+    }
+}
+
+async function fetchNormPeriods() {
+    try {
+        const response = await normPeriodService.getAllNormPeriods()
+        if (response?.data) {
+            state.options.normPeriods = [
+                { value: 'default', label: `${t('employees.normPeriods.default')} (01.01 - 31.12)` },
+                ...response.data.map((normPeriod: any) => ({
+                    value: normPeriod.uuid,
+                    label: normPeriod.display_label,
+                }))
+            ]
+        }
+    } catch (error: any) {
+        state.error = error
     }
 }
 </script>

@@ -225,6 +225,20 @@
         </div>
 
         <div class="lg:pl-72 bg-gray-50 min-h-screen">
+            <!-- <div class="bg-primary text-white py-1 shadow-sm text-center text-sm">
+                <div class="marquee">
+                    <div class="marquee__inner">
+                        <span v-if="language.locale.value === 'en'">
+                            Please be informed that we will be performing a server upgrade on February 28, 2026 to
+                            improve system performance, stability, and overall user experience.
+                        </span>
+                        <span v-else-if="language.locale.value === 'dk'">
+                            Venligst bemærk, at vi vil foretage en serveropgradering den 28. februar 2026 for at
+                            forbedre systemets ydeevne, stabilitet og den samlede brugeroplevelse.
+                        </span>
+                    </div>
+                </div>
+            </div> -->
             <div
                 class="sticky top-0 z-40 flex h-16 shrink-0 items-center gap-x-3 border-b border-gray-200 bg-white px-4 shadow-sm sm:gap-x-6 sm:px-6 lg:px-8">
                 <button type="button" class="-m-2.5 p-2.5 text-gray-700 lg:hidden" @click="sidebarOpen = true">
@@ -266,12 +280,17 @@
                             </FormButton>
                         </div>
                         <button type="button"
-                            class="flex items-center gap-x-1 text-sm text-primary hover:text-primary-700"
-                            @click="navigateTo('/overview#news')">
+                            class="relative flex items-center gap-x-1 text-sm text-primary hover:text-primary-700"
+                            @click="navigateToNews()">
                             <Icon name="ph:megaphone" class="h-6 w-6" aria-hidden="true" />
                             <span class="text-xs font-semibold hidden lg:block">
                                 {{ $t('news.news') }}
                             </span>
+                            <Badge type="notification"
+                                class="w-5 h-5 flex items-center justify-center absolute -top-3 left-3"
+                                v-if="!hasSeenNews">
+                                {{ userStore?.getUnreadNewsCount }}
+                            </Badge>
                         </button>
                         <ModulesUserNavbarNewUpdates />
 
@@ -282,7 +301,7 @@
                             v-if="userStore.getUser?.unread_notification_count > 0">
                             <Icon name="ph:note" class="h-6 w-6 absolute -top-0.5 left-0" aria-hidden="true" />
                             <Badge type="notification"
-                                class="w-5 h-5 flex items-center justify-center absolute -top-4 left-4">
+                                class="w-5 h-5 flex items-center justify-center absolute -top-3.5 left-4">
                                 {{ userStore.getUser?.unread_notification_count ?? 0 }}
                             </Badge>
                         </button>
@@ -310,9 +329,16 @@
                         <Menu as="div" class="relative">
                             <MenuButton class="-m-1.5 flex items-center p-1.5">
                                 <span class="sr-only">Open user menu</span>
-                                <img class="h-6 w-6 md:h-8 md:w-8 rounded-full bg-gray-50 object-cover"
-                                    :src="userStore.getUser?.profile_image ? userStore.getUser?.profile_image : '/img/avatars/user.svg'"
-                                    alt="User" />
+                                <div class="relative">
+                                    <img class="h-6 w-6 md:h-8 md:w-8 rounded-full bg-gray-50 object-cover"
+                                        :src="userStore.getUser?.profile_image ? userStore.getUser?.profile_image : '/img/avatars/user.svg'"
+                                        alt="User" />
+                                    <div :class="[
+                                        userStore.getUser?.is_online ? 'bg-green-500' : 'bg-red-700',
+                                        'w-3 h-3 rounded-full absolute -left-1.5 -top-0.5 border-1 border-white'
+                                    ]">
+                                    </div>
+                                </div>
                                 <span class="hidden xl:flex xl:items-center">
                                     <span class="ml-4 text-sm font-semibold leading-6 text-gray-700" aria-hidden="true">
                                         {{ userStore.getUser?.firstname }} {{ userStore.getUser?.lastname }}
@@ -432,6 +458,7 @@
                                 <slot name="header"></slot>
                             </h1>
                             <slot name="new-feature"></slot>
+                            <slot name="settings"></slot>
                         </div>
                         <div class="mt-4">
                             <h3 class="text-lg text-gray-900">
@@ -518,6 +545,7 @@ const customPagesStore = useCustomPagesStore() as any
 const language = useI18n()
 const router = useRouter()
 const routeName = router?.currentRoute?.value?.name
+const hasSeenNews = ref(localStorage.getItem('hasSeenNews-02-20-2026') === 'true')
 
 let navigation = [] as any
 
@@ -879,4 +907,33 @@ function identifyFlag() {
         }
     }
 }
+
+function navigateToNews() {
+    navigateTo('/overview#news')
+    localStorage.setItem('hasSeenNews-02-20-2026', 'true')
+    hasSeenNews.value = true
+}
 </script>
+
+<style scoped>
+.marquee {
+    overflow: hidden;
+    white-space: nowrap;
+}
+
+.marquee__inner {
+    display: inline-block;
+    padding-left: 100%;
+    animation: marquee-scroll 25s linear infinite;
+}
+
+@keyframes marquee-scroll {
+    0% {
+        transform: translateX(0);
+    }
+
+    100% {
+        transform: translateX(-100%);
+    }
+}
+</style>

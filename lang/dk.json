@@ -382,7 +382,8 @@
         "askAnything": "Spørg om hvad som helst",
         "generatingResponse": "Genererer svar. Vent venligst",
         "helloHowCanIAssistYouToday": "Hej, hvordan kan jeg hjælpe dig i dag",
-        "send": "Send"
+        "send": "Send",
+        "fileSizeExceeds": "Den samlede filstørrelse må ikke overstige 10MB"
     },
     "back": "Tilbage",
     "bookings": {
@@ -820,6 +821,7 @@
                 "lock": "Lås journal",
                 "move": "Flyt",
                 "removeFromFavorite": "Fjern fra favoritter",
+                "share": "Del",
                 "unlock": "Lås journal op"
             },
             "alert": {
@@ -933,7 +935,37 @@
                 "moveJournal": "Flyt journal"
             },
             "newNote": "Nyt notat",
-            "on": "Den"
+            "on": "Den",
+            "shareJournals": {
+                "citizenJournal": "Borgerjournal",
+                "form": {
+                    "alert": {
+                        "enteredPasswordMismatched": "Indtastet adgangskode stemmer ikke overens",
+                        "journalSuccessfullyShared": "Journal blev delt med succes",
+                        "required8Characters": "Dette felt skal være mindst 8 tegn langt"
+                    },
+                    "citizen": "Borger",
+                    "confirmPassword": "Bekræft adgangskode",
+                    "password": "Adgangskode",
+                    "unlock": "Lås op",
+                    "unlockJournal": "Lås op for journal"
+                },
+                "shareJournals": "Del journaler",
+                "sharedJournals": "Delte journaler",
+                "table": {
+                    "actions": {
+                        "delete": "Slet"
+                    },
+                    "alert": {
+                        "linkSuccessfullyDeleted": "Link blev slettet med succes"
+                    },
+                    "confirmation": {
+                        "deleteLinkConfirmation": "Er du sikker på, at du vil slette dette link?"
+                    },
+                    "citizen": "Borger",
+                    "link": "Link"
+                }
+            }
         },
         "confirmation": {
             "archiveConfirmation": "Er du sikker på, at du vil arkivere denne borger"
@@ -2081,6 +2113,7 @@
                     "savedSuccessfully": "Pung gemt med succes",
                     "updatedSuccessfully": "Pung opdateret med succes"
                 },
+                "deactivateByTheEndOfTheMonth": "Deaktiver inden udgangen af måneden",
                 "name": "Navn",
                 "note": "Note"
             },
@@ -2502,8 +2535,15 @@
         "departmentSickLeaves": "Afdelingens sygefravær",
         "download": {
             "date": "Dato",
+            "delimiter": {
+                "comma": "Komma",
+                "delimiter": "Afgrænser",
+                "semicolon": "Semikolon",
+                "tab": "Tabulator"
+            },
             "department": "Afdelinger",
             "download": "Download",
+            "downloadLeavesOnly": "Download kun ferier",
             "downloadType": "Downloadtype",
             "downloadHoursInCSV": "Download timer i CSV",
             "downloadHoursInExcel": "Download timer i Excel",
@@ -2512,8 +2552,7 @@
                 "currentView": "Nuværende visning",
                 "filterDate": "Filtrer dato",
                 "filteredView": "Filtreret visning"
-            },
-            "showLeavesOnly": "Vis kun ferier"
+            }
         },
         "draft": {
             "pageTitle": "Vagtplanskladde",
@@ -2538,6 +2577,47 @@
                     "doNotShowAgain": "Vis ikke dette igen",
                     "donNotShowAgainInfo": "Skjul bekræftelsesdialogen indtil næste session.",
                     "confirm": "Bekræft"
+                }
+            },
+            "preset": {
+                "draftSchedulesPresets": "Forudindstillinger for vagtplanskladder",
+                "saveAsPreset": "Gem som forudindstilling",
+                "applyPreset": "Anvend forudindstilling",
+                "viewPresets": "Se forudindstillinger",
+                "saveCurrentDraftAsPreset": "Gem nuværende kladde som forudindstilling",
+                "editDraftSchedulePreset": "Rediger vagtplanskladde-forudindstilling",
+                "saveSuccess": "Forudindstilling for vagtplanskladde gemt med succes!",
+                "updateSuccess": "Forudindstilling for vagtplanskladde opdateret med succes!",
+                "deleteSuccess": "Forudindstilling for vagtplanskladde slettet med succes!",
+                "applySuccess": "Forudindstilling blev anvendt på vagtplanskladder med succes!",
+                "form": {
+                    "name": "Navn på forudindstilling",
+                    "description": "Beskrivelse",
+                    "dateStart": "Kladde startdato",
+                    "dateEnd": "Kladde slutdato",
+                    "presetDateRange": "Forudindstillingens datointerval",
+                    "affectedDepartments": "Berørte afdelinger",
+                    "affectedUsers": "Berørte brugere",
+                    "preset": "Forudindstilling",
+                    "preview": "Forhåndsvis",
+                    "apply": "Anvend",
+                    "selectDateRange": "Vælg datointerval",
+                    "targetDateRange": "Måldatointerval"
+                },
+                "table": {
+                    "name": "Navn på forudindstilling",
+                    "description": "Beskrivelse",
+                    "date": "Dato",
+                    "createdBy": "Oprettet af",
+                    "actions": {
+                        "preview": "Forhåndsvis",
+                        "apply": "Anvend",
+                        "edit": "Rediger",
+                        "delete": "Slet"
+                    }
+                },
+                "confirmation": {
+                    "deletePresetConfirmation": "Er du sikker på, at du vil slette denne forudindstilling"
                 }
             }
         },
@@ -2683,16 +2763,16 @@
             "departments": "Afdelinger",
             "description": "Beskrivelse",
             "doNotCountSickLeaveAsWorkingHours": "Tæl ikke sygefravær som arbejdstimer",
-            "DoNotCountWeekends": "Tæl ikke weekender med",
+            "doNotCountWeekends": "Tæl ikke weekender med",
             "forSleepingNightShift": "For sovende nattevagt",
             "inMeeting": "I møde",
-            "markAsLeave": "Markér som ferie",
             "note": "Bemærkning",
             "private": "Privat",
             "tags": "Etiketter",
             "title": "Titel",
             "useCompensatoryTime": "Brug afspadseringstid",
-            "users": "Brugere"
+            "users": "Brugere",
+            "overrideVacationHours": "Overskriv standard ferietimer"
         },
         "holidays": "Helligdage",
         "month": "Måned",
@@ -2702,6 +2782,7 @@
             "compensatoryHours": "Afspadseringstimer",
             "compensatoryHoursThisYear": "Afspadseringstimer i år",
             "compensatoryHourFromPreviousYear": "Afspadseringstimer fra tidligere år",
+            "compensatoryHoursGraph": "Afspadseringsgraf",
             "date": "Dato",
             "totalCompensatoryHours": "Samlede afspadseringstimer",
             "totalVacationHours": "Samlede ferietimer",
@@ -2710,7 +2791,18 @@
             "annualNormHours": "Årlig norm i timer",
             "info1": "Medarbejderens individuelle årlige norm anvendes altid.",
             "info2": "Hvis medarbejderen er startet i løbet af året, beregnes den årlige norm forholdsmæssigt ud fra ansættelsesdatoen.",
-            "info3": "Afspadserings- og ferietimer beregnes ud fra denne årlige norm."
+            "info3": "Afspadserings- og ferietimer beregnes ud fra denne årlige norm.",
+            "graph": {
+                "totalNormHours": "Samlede normtimer",
+                "totalWorkedHours": "Samlede arbejdstimer",
+                "compensatoryTimeBalance": "Afspadseringstid balance",
+                "credit": "Kredit",
+                "deficit": "Underskud",
+                "compensatoryTimeOverview": "Oversigt over afspadseringstid",
+                "normHours": "Normtimer",
+                "workedHours": "Arbejdstimer",
+                "hours": "Timer"
+            }
         },
         "noScheduleFound": "Ingen tidsplan fundet",
         "pinSelfToTopOfSchedule": "Fastgør mig selv øverst i vagtplanen",
@@ -2850,6 +2942,7 @@
                     "edit": "Rediger",
                     "viewRequesters": "Se anmodere"
                 },
+                "availableShifts": "Tilgængelige vagter",
                 "date": "Dato",
                 "dateTimeEnd": "Slutdato og -tid",
                 "dateTimeStart": "Startdato og -tid",
@@ -2862,6 +2955,36 @@
                 "shiftType": "Vagttype",
                 "status": "Tid",
                 "workingHours": "Arbejdstimer"
+            }
+        },
+        "shareDutySchedule": {
+            "dutySchedule": "Vagtplan",
+            "form": {
+                "alert": {
+                    "enteredPasswordMismatched": "Indtastet adgangskode stemmer ikke overens",
+                    "dutyScheduleSuccessfullyShared": "Vagtplan blev delt med succes",
+                    "required8Characters": "Dette felt skal være mindst 8 tegn langt"
+                },
+                "confirmPassword": "Bekræft adgangskode",
+                "employee": "Medarbejder",
+                "password": "Adgangskode",
+                "unlock": "Lås op",
+                "unlockDutySchedule": "Lås op for vagtplan"
+            },
+            "shareDutySchedule": "Del vagtplan",
+            "sharedDutySchedule": "Delt vagtplan",
+            "table": {
+                "actions": {
+                    "delete": "Slet"
+                },
+                "alert": {
+                    "linkSuccessfullyDeleted": "Link blev slettet med succes"
+                },
+                "confirmation": {
+                    "deleteLinkConfirmation": "Er du sikker på, at du vil slette dette link?"
+                },
+                "employee": "Medarbejder",
+                "link": "Link"
             }
         },
         "shiftSpan": {
@@ -2982,7 +3105,8 @@
             "archiveConfirmation": "Er du sikker på, at du vil arkivere dette dokument",
             "deleteFileConfirmation": "Er du sikker på, at du vil slette denne fil",
             "deleteFolderConfirmation": "Er du sikker på, at du vil slette denne mappe",
-            "upgradeStorageConfirmation": "Vil du opgradere din lagerplads"
+            "upgradeStorageConfirmation": "Vil du opgradere din lagerplads",
+            "downloadWithCompanyLogoConfirmation": "Vil du downloade dette dokument med virksomhedens logo"
         },
         "editDocument": "Rediger dokument",
         "expenses": "Udgifter",
@@ -3234,7 +3358,10 @@
             "fulltime": "Fuldtid",
             "parttime": "Deltid"
         },
-        "viewEmployee": "Se medarbejder"
+        "viewEmployee": "Se medarbejder",
+        "normPeriods": {
+            "default": "Standardperiode"
+        }
     },
     "employeeGroups": {
         "employeeGroups": "Medarbejdergrupper",
@@ -3326,15 +3453,15 @@
         "table": {
             "alert": {
                 "expenseCategorySuccessfullyDeleted": "Udgiftskategori blev slettet",
-                "expenseSuccessfullyReimbursed": "Udgift blev refunderet",
-                "expenseSuccessfullyUnreimbursed": "Udgift blev ikke refunderet"
+                "expenseSuccessfullyReimbursed": "Udgift udbetalt med succes",
+                "expenseSuccessfullyUnreimbursed": "Udgift annulleret med succes"
             },
             "actions": {
                 "delete": "Slet",
                 "edit": "Rediger",
                 "view": "Vis",
-                "reimburse": "Refunder",
-                "unreimburse": "Ikke refundér"
+                "reimburse": "Udbetal udlæg",
+                "unreimburse": "Annuller udbetaling"
             },
             "confirmation": {
                 "deleteExpenseCategoryConfirmation": "Er du sikker på, at du vil slette denne udgiftskategori?"
@@ -3372,18 +3499,22 @@
         "table": {
             "alert": {
                 "expenseSuccessfullyDeleted": "Udgift slettet med succes",
-                "expenseSuccessfullyReimbursed": "Udgift refunderet med succes",
-                "expenseSuccessfullyUnreimbursed": "Udgift fjernet fra refusion med succes"
+                "expenseSuccessfullyRejected": "Udgift afvist med succes",
+                "expenseSuccessfullyUpdated": "Udgift opdateret med succes",
+                "expenseSuccessfullyReimbursed": "Udgift udbetalt med succes",
+                "expenseSuccessfullyUnreimbursed": "Udgift annulleret med succes"
             },
             "actions": {
                 "delete": "Slet",
                 "edit": "Rediger",
                 "view": "Se",
-                "reimburse": "Refunder",
-                "unreimburse": "Fjern refusion"
+                "reimburse": "Udbetal udlæg",
+                "unreimburse": "Annuller udlæg",
+                "reject": "Afvis"
             },
             "confirmation": {
-                "deleteExpenseConfirmation": "Er du sikker på, at du vil slette denne udgift?"
+                "deleteExpenseConfirmation": "Er du sikker på, at du vil slette denne udgift?",
+                "rejectExpenseConfirmation": "Er du sikker på, at du vil afvise denne udgift?"
             },
             "name": "Navn",
             "expense": "Udgift",
@@ -3393,8 +3524,9 @@
             "amount": "Beløb",
             "receipt": "Kvittering",
             "status": "Status",
-            "reimbursed": "Refunderet",
-            "pending": "Afventer"
+            "reimbursed": "Udlæg udbetalt",
+            "pending": "Afventer",
+            "rejected": "Afvist"
         },
         "viewExpense": {
             "viewExpense": "Se udgift",
@@ -3674,6 +3806,8 @@
             "enterYourAnswer": "Indtast dit svar",
             "question": "Spørgsmål",
             "required": "Påkrævet",
+            "inputYourQuestionTitleHere": "Indtast din spørgsmålstitel her",
+            "levels": "Niveauer",
             "rating": "Bedømmelse",
             "text": "Tekst",
             "textarea": "Tekstområde",
@@ -3682,6 +3816,8 @@
         "forms": "Formularer",
         "formsSublabel": "Med formularer kan du oprette skabeloner til rapporter på borgernes planer, mål og delmål samt til anden form for afrapportering i organisationen. Mulighederne er mange",
         "formDescription": "Formularbeskrivelse",
+        "documentTitle": "Dokumenttitel",
+        "enableFollowUp": "Aktiver opfølgning",
         "formTitle": "Formulartitel",
         "newForm": "Ny formular",
         "option": "Mulighed",
@@ -4178,6 +4314,7 @@
         },
         "forward": "Videre",
         "inbox": "Indbakke",
+        "insertSignature": "Indsæt underskrift",
         "loading": {
             "loadingEmailConfigurations": "Indlæser e-mailkonfigurationer",
             "loadingUserSettings": "Indlæser brugerindstillinger",
@@ -4224,6 +4361,41 @@
             "imapUsername": "IMAP brugernavn",
             "imapPassword": "IMAP adgangskode",
             "portEncryption": "IMAP kryptering",
+            "signatures": {
+                "editSignature": "Rediger underskrift",
+                "form": {
+                    "alert": {
+                        "newEmailSignatureSuccessfullyAdded": "Ny e-mail underskrift blev tilføjet",
+                        "emailSignatureSuccessfullyUpdated": "E-mail underskrift blev opdateret"
+                    },
+                    "default": "Standard",
+                    "name": "Navn",
+                    "signature": "Underskrift"
+                },
+                "newSignature": "Ny underskrift",
+                "signatures": "Underskrifter",
+                "table": {
+                    "actions": {
+                        "delete": "Slet",
+                        "edit": "Rediger",
+                        "setToDefault": "Sæt som standard",
+                        "signature": "Underskrift",
+                        "view": "Se"
+                    },
+                    "alert": {
+                        "emailSignatureSuccessfullyDeleted": "E-mail underskrift blev slettet",
+                        "emailSignatureSuccessfullySetToDefault": "E-mail underskrift blev sat som standard"
+                    },
+                    "confirmation": {
+                        "deleteSignatureConfirmation": "Er du sikker på, at du vil slette denne underskrift",
+                        "setSignatureToDefaultConfirmation": "Er du sikker på, at du vil sætte denne underskrift som standard"
+                    },
+                    "default": "Standard",
+                    "name": "Navn",
+                    "status": "Status"
+                }
+            },
+            "settings": "Indstillinger",
             "smtp": "SMTP",
             "smtpHost": "SMTP vært",
             "smtpPort": "SMTP port",
@@ -4459,13 +4631,17 @@
             "normPeriod": "Normperiode",
             "status": "Status",
             "category": "Kategori",
+            "dateStart": "Startdato",
+            "dateEnd": "Slutdato",
             "startMonth": "Startmåned",
             "startDay": "Startdag",
             "endMonth": "Slutmåned",
             "endDay": "Slutdag",
             "description": "Beskrivelse",
             "department": "Afdeling",
-            "updateAllUsers": "Opdater alle brugere, der har denne normperiode"
+            "overrideNormPeriods": "Tilsidesæt eksisterende medarbejdernormperioder",
+            "overrideInfo1": "Hvis markeret, vil alle medarbejdere i den/de valgte afdeling(er) blive tildelt denne normperiode, og eventuelle eksisterende normperioder, der er tildelt disse medarbejdere, vil blive tilsidesat.",
+            "overrideInfo2": "Hvis det ikke er markeret, vil medarbejdere i den/de valgte afdeling(er), der allerede har fået tildelt en normperiode, beholde deres eksisterende normperiode."
         },
         "newNormPeriod": "Ny normperiode",
         "table": {
@@ -4526,6 +4702,7 @@
                 "citizensAdmissionAndDischarged": "Borgernes indskrivning og udskrivning",
                 "citizensEvents": "Borgeres begivenheder",
                 "citizensDiagnoses": "Borgernes diagnoser",
+                "citizensFollowUpReminders": "Opfølgningspåmindelser",
                 "citizensOrigin": "Borgernes oprindelse",
                 "medicationOverview": "Medicinoversigt",
                 "gender": "Køn",
@@ -4545,6 +4722,15 @@
             },
             "show": "Vis",
             "startDate": "Startdato"
+        },
+        "followUpReminders": {
+            "followUpReminders": "Opfølgningspåmindelser",
+            "noFollowUps": "Ingen afventende opfølgninger",
+            "reportFollowUp": "Rapportopfølgning",
+            "overdue": "Forsinket",
+            "dueToday": "Forfalder i dag",
+            "dueOn": "Forfalder den",
+            "reminders": "påmindelser"
         },
         "from": "Fra",
         "gender": {
@@ -4719,14 +4905,21 @@
             "form": {
                 "answerForm": "Svar formular",
                 "chooseLabel": "Vælg, om du vil downloade formularen for offline udfyldelse eller oprette et svar direkte",
+                "days": "Dage",
                 "downloadForm": "Download formular",
+                "editReport": "Rediger rapport",
+                "followUpIn": "Følg op om",
                 "form": "Formular",
                 "goal": "Mål",
+                "months": "Måneder",
                 "plan": "Plan",
                 "saveAndDownload": "Gem og download PDF",
                 "saveAsDraft": "udkast",
+                "setFollowUpDate": "Angiv opfølgningsdato",
                 "subgoal": "Delmål",
-                "editReport": "Rediger rapport"
+                "useFollowUpReminder": "Brug opfølgningspåmindelse",
+                "weeks": "Uger",
+                "years": "År"
             }
         },
         "editStatusTemplate": {
@@ -4734,21 +4927,20 @@
                 "statusTemplateSuccessfullyUpdated": "Rapporten er blevet opdateret"
             },
             "editReport": "Rediger rapport",
-            "formChangeWarning": "Hvis du skifter formularen, slettes alle dine nuværende svar. Vil du fortsætte?",
             "form": {
                 "answerForm": "Besvarelsesformular",
                 "chooseLabel": "Vælg, om du vil downloade formularen til offline udfyldelse eller oprette et svar direkte",
                 "downloadForm": "Download formular",
+                "editReport": "Rediger rapport",
                 "form": "Formular",
                 "goal": "Mål",
                 "plan": "Plan",
                 "saveAndDownload": "Gem og download PDF",
                 "saveAsDraft": "Kladde",
-                "subgoal": "Delmål",
-                "editReport": "Rediger rapport"
-            }
+                "subgoal": "Delmål"
+            },
+            "formChangeWarning": "Hvis du skifter formularen, slettes alle dine nuværende svar. Vil du fortsætte?"
         },
-        "isDraft": "udkast",
         "currentPlansAndGoals": "Nuværende planer og mål",
         "dateCompleted": "Dato for fuldførelse",
         "dateCreated": "Oprettelsesdato",
@@ -4808,10 +5000,13 @@
             "title": "Titel",
             "useTemplate": "Brug skabelon"
         },
+        "followUpNotifications": "Opfølgningsnotifikationer",
+        "followUps": "Opfølgninger",
         "graph": "Graf",
         "goal": "Mål",
         "goals": "Mål",
         "inProgress": "I gang",
+        "isDraft": "udkast",
         "new": "Ny",
         "newGoal": "Nyt mål",
         "newNote": "Ny note",
@@ -4851,6 +5046,7 @@
                 "users": "Brugere"
             }
         },
+        "noFollowUpNotifications": "Ingen opfølgningsnotifikationer",
         "plan": "Plan",
         "plans": "Planer",
         "reports": "Rapporter",
@@ -4870,7 +5066,8 @@
                 "seeGoals": "Se mål",
                 "seeSubgoals": "Se delmål",
                 "statuses": "Statusser",
-                "unarchive": "Gendan"
+                "unarchive": "Gendan",
+                "view": "Se"
             },
             "createdBy": "Oprettet af",
             "copiedFrom": "Kopieret fra",
@@ -5445,6 +5642,7 @@
                 "cvr": "CVR",
                 "enableEmailNotifications": "Aktivér e-mail-notifikationer",
                 "enableSystemNotifications": "Aktivér systemnotifikationer",
+                "interventionNotificationHours": "Varslingstimer for indsats",
                 "isSortByStatus": "Tillad visning af \"Vikarer\" nederst i vagtplanen og \"Fast personale\" øverst",
                 "groupChat": "Gruppechat",
                 "lockPastSchedules": "Lås tidligere vagtplaner",
@@ -5560,6 +5758,7 @@
                 "newShiftSuccessfullySaved": "Ny vagt gemt med succes"
             },
             "color": "Farve",
+            "markAsLeaveType": "Marker som fraværstype",
             "nameDanish": "Navn (dansk)",
             "nameEnglish": "Navn (engelsk)",
             "paycode": "Lønningskode",
@@ -5577,6 +5776,7 @@
                 "deleteShiftConfirmation": "Er du sikker på, at du vil slette denne vagt"
             },
             "color": "Farve",
+            "markedAsLeave": "Markeret som ferie",
             "nameDanish": "Navn (dansk)",
             "nameEnglish": "Navn (engelsk)",
             "paycode": "Lønningskode",
@@ -6224,13 +6424,67 @@
     },
     "theListIsEmpty": "Listen er tom",
     "timeLogs": {
+        "download": {
+            "date": "Dato",
+            "download": "Download",
+            "downloadType": {
+                "downloadExcel": "Download Excel",
+                "downloadPDF": "Download PDF",
+                "downloadType": "Download type"
+            },
+            "filter": {
+                "filterDate": "Filtrer dato"
+            },
+            "status": "Status"
+        },
+        "editTimeLog": "Rediger tidslog",
+        "filter": {
+            "allCancellations": "Alle aflysninger",
+            "heldSessionsOnly": "Kun afholdte sessioner",
+            "onlyCancellationsByCitizen": "Kun aflysninger af borger",
+            "onlyCancellationByEmployee": "Kun aflysninger af medarbejder",
+            "status": "Status"
+        },
+        "form": {
+            "alert": {
+                "timeLogSuccessfullyUpdated": "Tidslog blev opdateret",
+                "newTimeLogSuccessfullySaved": "Ny tidslog blev gemt"
+            },
+            "dateTimeEnd": "Slutdato og -tid",
+            "dateTimeStart": "Startdato og -tid",
+            "status": {
+                "cancelledByCitizen": "Aflyst af borger",
+                "cancelledByEmployee": "Aflyst af medarbejder",
+                "completed": "Afholdt (afsluttet)",
+                "status": "Status"
+            },
+            "remarks": "Bemærkninger"
+        },
+        "newTimeLog": "Ny tidslog",
         "table": {
+            "actions": {
+                "delete": "Slet",
+                "edit": "Rediger"
+            },
+            "alert": {
+                "timeLogSuccessfullyDeleted": "Tidslog blev slettet"
+            },
             "createdAt": "Oprettet den",
-            "timein": "Tid ind",
-            "timeout": "Tid ud",
+            "confirmation": {
+                "deleteTimeLogConfirmation": "Er du sikker på, at du vil slette denne tidslog?"
+            },
+            "dateTimeEnd": "Slutdato og -tid",
+            "dateTimeStart": "Startdato og -tid",
+            "remarks": "Bemærkninger",
+            "status": {
+                "cancelledByCitizen": "Aflyst af borger",
+                "cancelledByEmployee": "Aflyst af medarbejder",
+                "completed": "Afholdt (afsluttet)",
+                "status": "Status"
+            },
             "summary": "Tidsoversigt"
         },
-        "timeLogs": "Tidslogfiler"
+        "timeLogs": "Tidslogge"
     },
     "timeRegistration": {
         "checkIn": "Tjek ind",

@@ -23,9 +23,18 @@
                                 <FormError :error="state?.error?.errors?.subject?.[0]" />
                             </div>
                             <div class="space-y-1">
-                                <FormLabel for="content" :label="$t('mail.form.message')" />
-                                <FormTextArea id="content" name="content" :placeholder="$t('mail.form.message')"
-                                    v-model="state.formEmail.content" />
+                                <div class="flex justify-between items-center py-0.5">
+                                    <p class="text-sm text-gray-600">
+                                        {{ $t('mail.form.message') }}
+                                    </p>
+                                    <span class="text-xs cursor-pointer text-tertiary hover:text-tertiary-800"
+                                        @click="state.modal.isInsertSignatureOpen = true">
+                                        {{ $t('mail.insertSignature') }}
+                                    </span>
+                                </div>
+                                <ckeditor :editor="editor" v-model="state.formEmail.content"
+                                    :config="editorContentConfig">
+                                </ckeditor>
                                 <FormError :error="v$?.formEmail?.content?.$errors[0]?.$message.toString()" />
                                 <FormError :error="state?.error?.errors?.content?.[0]" />
                             </div>
@@ -107,14 +116,19 @@
                             <div class="space-y-1" v-if="state.formEmail.fileOption === 'Attach file from computer'">
                                 <div class="flex flex-col items-center">
                                     <input type="file" ref="file" @change="onFileChange" class="hidden" multiple />
-                                    <div class="relative cursor-pointer" @click="triggerFileInput">
-                                        <Icon name="ic:outline-drive-folder-upload" class="h-36 w-36"
-                                            aria-hidden="true" />
-                                        <div
-                                            class="rounded-full absolute inset-0 bg-black bg-opacity-50 text-white opacity-0 hover:opacity-100 transition-opacity">
-                                            <div class="flex items-center w-full h-full justify-center text-xs">
-                                                {{ $t('selectFiles') }}
-                                            </div>
+                                    <div class="w-full cursor-pointer" @click="triggerFileInput">
+                                        <div v-if="!state.formEmail.files.length"
+                                            class="w-full h-32 rounded-md border-2 border-dashed border-gray-300 bg-gray-50 flex items-center justify-center hover:border-primary hover:bg-gray-100 transition-colors">
+                                            <Icon name="ph:upload-simple" class="w-8 h-8 text-gray-400" />
+                                        </div>
+                                        <div v-else
+                                            class="w-full h-32 rounded-md border-2 border-dashed border-gray-300 bg-gray-50 flex flex-col items-center justify-center hover:border-primary hover:bg-gray-100 transition-colors gap-1 p-2">
+                                            <Icon name="ph:files" class="w-8 h-8 text-primary" />
+                                            <span class="text-xs text-gray-600 text-center">
+                                                {{ state.formEmail.files.length }} {{ state.formEmail.files.length === 1
+                                                    ? $t('mail.form.attachFiles.attachFiles') :
+                                                    $t('mail.form.attachFiles.attachFiles') }}
+                                            </span>
                                         </div>
                                     </div>
                                 </div>
@@ -167,12 +181,15 @@
                         </div>
                     </form>
                 </LoadingSpinner>
+                <ModulesUserMailSignatureModalInsertSignature :isModalOpen="state.modal.isInsertSignatureOpen"
+                    @close="state.modal.isInsertSignatureOpen = false" @setSignature="setSignature" />
             </template>
         </Modal>
     </div>
 </template>
 
 <script setup lang="ts">
+import ClassicEditor from '@ckeditor/ckeditor5-build-classic'
 import { citizenService } from '@/components/api/user/CitizenService'
 import { citizenDocumentService } from '@/components/api/user/CitizenDocumentService'
 import { documentService } from '@/components/api/user/DocumentService'
@@ -200,6 +217,24 @@ const { successAlert } = useAlert()
 const { t } = useI18n()
 const userStore = useUserStore() as any
 const file = ref<HTMLInputElement | null>(null)
+const editor = ref(ClassicEditor)
+const editorContentConfig = ref({
+    // Add your custom configuration here
+    toolbar: ['undo', 'redo', 'heading', '|', 'bold', 'italic', 'link', 'bulletedList', 'numberedList', 'blockQuote'],
+    heading: {
+        options: [
+            { model: 'paragraph', title: 'Paragraph', class: 'ck-heading_paragraph' },
+            { model: 'heading1', view: 'h1', title: 'Heading 1', class: 'ck-heading_heading1' },
+            { model: 'heading2', view: 'h2', title: 'Heading 2', class: 'ck-heading_heading2' },
+            { model: 'heading3', view: 'h3', title: 'Heading 3', class: 'ck-heading_heading3' },
+            { model: 'heading4', view: 'h4', title: 'Heading 4', class: 'ck-heading_heading4' },
+            { model: 'heading5', view: 'h5', title: 'Heading 5', class: 'ck-heading_heading5' },
+            { model: 'heading6', view: 'h6', title: 'Heading 6', class: 'ck-heading_heading6' },
+        ]
+    },
+    // extraPlugins: [ContentUploadAdapterPlugin],
+    height: 500  // Set the editor height here
+}) as any
 
 const state = reactive({
     error: {} as Error,
@@ -217,6 +252,9 @@ const state = reactive({
         citizens_uuid: [],
         citizen_files: [],
         company_files: [],
+    },
+    modal: {
+        isInsertSignatureOpen: false,
     },
     options: {
         attachFilesOptions: [
@@ -274,6 +312,20 @@ const rules = computed(() => {
 
 const v$ = useVuelidate(rules, state)
 
+watch(() => props.isModalOpen, async (isModalOpen: boolean) => {
+    if (isModalOpen) {
+        const userSignature = userStore.getUser?.default_signature?.signature
+        if (userSignature) {
+            const signatureDelimiter = '\n------------------------------\n'
+            state.formEmail.content = state.formEmail.content.replace(/\n?------------------------------.*$/, '')
+            await nextTick()
+            if (!state.formEmail.content.includes(signatureDelimiter + userSignature)) {
+                state.formEmail.content += signatureDelimiter + userSignature
+            }
+        }
+    }
+})
+
 watch(() => props.selectedContact, (selectedContact: any) => {
     if (selectedContact?.email) {
         state.formEmail.recipient = [selectedContact.email]
@@ -295,6 +347,18 @@ watch(() => state.formEmail.citizens_uuid, () => {
 
 function closeModal() {
     emit('close')
+}
+
+function setSignature(signature: any) {
+    if (signature) {
+        const signatureDelimiter = '\n------------------------------\n'
+        state.formEmail.content = state.formEmail.content.replace(/\n?------------------------------.*$/, '')
+        nextTick(() => {
+            if (!state.formEmail.content.includes(signatureDelimiter + signature?.signature)) {
+                state.formEmail.content += signatureDelimiter + signature?.signature
+            }
+        })
+    }
 }
 
 function triggerFileInput() {

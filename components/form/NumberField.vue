@@ -1,7 +1,7 @@
 <template>
     <input type="number" step="any" :name="props.name" :maxlength="props.maxLength" :autocomplete="props.name"
         class="appearance-none block w-full px-3 h-11 border border-primary placeholder-gray-500 text-gray-900 rounded-md focus:outline-none focus:ring-primary focus:border-primary focus:z-10 sm:text-sm"
-        :placeholder="props.placeholder" :value="props.modelValue" @input="updateValue($event)" />
+        :placeholder="props.placeholder" :value="props.modelValue" :min="props.min" @input="updateValue($event)" />
 </template>
 
 <script setup lang="ts">
@@ -22,11 +22,20 @@ const props = defineProps({
         type: String,
         required: true,
     },
+    min: {
+        type: Number,
+        required: false,
+    },
 })
 
 const emit = defineEmits(['update:modelValue'])
 
 function updateValue(event: any) {
-    emit('update:modelValue', event.target.value)
+    let value = event.target.value
+    if (props.min !== undefined && Number(value) < props.min) {
+        value = String(props.min)
+        event.target.value = value
+    }
+    emit('update:modelValue', value)
 }
 </script>

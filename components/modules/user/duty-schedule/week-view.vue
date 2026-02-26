@@ -18,7 +18,7 @@
                                     <Icon name="heroicons:chevron-left" class="h-5 w-5" aria-hidden="true" />
                                 </button>
                                 <FormDateField id="date" name="date" :placeholder="$t('dutySchedules.form.date')"
-                                    :disablePreviousWeeks="!isAdmin(userStore.getUser?.role)" dateType="duty-schedule"
+                                    :disablePreviousWeeks="isPreviousWeekDisabled()" dateType="duty-schedule"
                                     v-model="state.selectedDate" />
                                 <span class="relative -mx-px h-5 w-px bg-gray-300 md:hidden" />
                                 <button @click="nextWeek()" type="button"
@@ -411,16 +411,6 @@
                                                                 aria-hidden="true" />
                                                         </div>
 
-                                                        <div v-if="employee?.norm_period"
-                                                            class="flex items-center gap-1 cursor-pointer">
-                                                            <p class="text-xxs">
-                                                                {{ $t('dutySchedules.normPeriod') }}:
-                                                                {{ employee?.norm_period?.display_label ?? '' }}
-                                                            </p>
-                                                            <Icon name="ph:question" class="h-3.5 w-3.5"
-                                                                aria-hidden="true" />
-                                                        </div>
-
                                                         <p class="text-xxs">
                                                             {{ $t('dutySchedules.totalHours') }}:
                                                             {{ employee?.total_hours ?? 0 }}
@@ -526,6 +516,18 @@
                                                         <div
                                                             class="px-3 col-span-7 space-y-2 mt-4 border-t-0.5 border-gray-200 pt-3">
                                                             <div :class="[
+                                                                'text-primary',
+                                                                'flex items-center gap-1 w-fit cursor-pointer'
+                                                            ]" @click="openGraphModal(employee)">
+                                                                <Icon name="ph:chart-bar-bold" class="h-3 w-3"
+                                                                    aria-hidden="true" />
+                                                                {{
+                                                                    $t('dutySchedules.normHours.compensatoryHoursGraph')
+                                                                }}
+                                                            </div>
+                                                        </div>
+                                                        <div class="px-3 col-span-7 space-y-2 mt-1">
+                                                            <div :class="[
                                                                 employee?.total_norm_hours?.compensatory_hours > 0 ? 'text-green-700' : 'text-red-700',
                                                                 'flex items-center gap-1 w-fit cursor-pointer'
                                                             ]" @click="viewCompensatoryHours(employee)">
@@ -559,6 +561,7 @@
                                                                 }}
                                                             </div>
                                                         </div>
+
                                                     </div>
                                                 </div>
                                                 <div class="px-3 pb-3">
@@ -916,9 +919,8 @@
             <ModulesUserDutyScheduleModalCopyMultipleWeeks :isModalOpen="state.modal.isCopyMultipleWeeklyScheduleOpen"
                 @close="state.modal.isCopyMultipleWeeklyScheduleOpen = false"
                 @refreshDutySchedules="fetchDutySchedule()" />
-            <ModulesUserDutyScheduleNormHoursModalUserNormPeriod :isModalOpen="state.modal.isUserNormPeriodOpen"
-                :selectedEmployee="state.normHours.selectedEmployee" @close="state.modal.isUserNormPeriodOpen = false"
-                @refreshDutySchedules="fetchDutySchedule()" />
+            <ModulesUserDutyScheduleNormHoursModalGraph :isModalOpen="state.modal.isGraphOpen"
+                :selectedEmployee="state.normHours.selectedEmployee" @close="state.modal.isGraphOpen = false" />
         </LoadingSpinner>
     </div>
 </template>
@@ -936,7 +938,7 @@ import { useI18n } from "vue-i18n"
 import { useAlert } from '@/composables/alert'
 import type { Error } from '@/types'
 
-const emit = defineEmits(['setDutyScheduleCurrentDate'])
+const emit = defineEmits(['setDutyScheduleCurrentDate', 'setDutyScheduleCurrentFilter'])
 const language = useI18n()
 const dutyScheduleStore = useDutyScheduleStore() as any
 const userStore = useUserStore() as any
@@ -1051,7 +1053,7 @@ const state = reactive({
         isVacationHoursOpen: false,
         isViewShiftOpen: false,
         isAnnualNormHoursInfoOpen: false,
-        isUserNormPeriodOpen: false,
+        isGraphOpen: false,
     } as any,
     newShift: {
         selectedDate: '',
@@ -1120,6 +1122,7 @@ watch(() => state.progress.percentage, (newPercentage: any) => {
 
 watch(() => departmentStore.getSelectedDepartmentName, (newValue: any) => {
     if (newValue != null) {
+        dutyScheduleStore.setCurrentPageNumber(1)
         fetchDutySchedule()
     }
 })
@@ -1283,7 +1286,7 @@ function isPreviousWeekDisabled() {
     // For regular users, disable the previous week button only if we're in today's week
     if (!isAdmin(userStore.getUser?.role)) {
         // Disable the previous week button if we are in today's week (not in the future or past)
-        if (selectedDate.isSame(today, 'week')) {
+        if (selectedDate.isSame(today, 'week') && userStore.getUser?.company?.is_lock_past_schedules) {
             return true // Disable button if we are in today's week
         }
     }
@@ -1302,6 +1305,7 @@ function setFilter(filter: any) {
     state.filter.department_uuids = filter.department_uuids
     state.filter.employment_status = filter.employment_status
     state.filter.employee_uuids = filter.employee_uuids
+    emit('setDutyScheduleCurrentFilter', state.filter)
     fetchDutySchedule()
 }
 
@@ -1501,7 +1505,6 @@ async function saveShift(shiftDetails: any) {
         shift_type_uuid: shiftType,
         is_sleeping_sick_leave: shiftDetails.is_sleeping_sick_leave,
         do_not_count_weekends: shiftDetails.do_not_count_weekends,
-        is_mark_as_leave: shiftDetails.is_mark_as_leave,
         date_time_start: shiftDetails.date_time_start,
         date_time_end: shiftDetails.date_time_end,
         user_uuid: employeeUuid,
@@ -1845,7 +1848,6 @@ function updateSelectedSchedule(shiftDetails: any) {
         shift_type_uuid: shiftDetails.shift_type,
         is_sleeping_sick_leave: shiftDetails.is_sleeping_sick_leave,
         do_not_count_weekends: shiftDetails.do_not_count_weekends,
-        is_mark_as_leave: shiftDetails.is_mark_as_leave,
         date_time_start: shiftDetails?.date_time_start,
         date_time_end: shiftDetails?.date_time_end,
         is_apply_to_all: shiftDetails?.recurring?.is_apply_to_all,
@@ -1951,4 +1953,8 @@ defineExpose({
     refreshSchedule: fetchDutySchedule,
     getScheduleEmployees: () => state.weeklySchedules?.data || [],
 })
+function openGraphModal(employee: any) {
+    state.normHours.selectedEmployee = employee
+    state.modal.isGraphOpen = true
+}
 </script>

@@ -49,8 +49,8 @@ class DocumentService extends BaseAPIService {
         return await this.request(`/user/company-file-folders/${documentUuid}/download`, 'GET')
     }
 
-    async downloadPdf(documentUuid: any): Promise<any> {
-        return await this.request(`/user/company-file-folders/${documentUuid}/download-pdf`, 'GET')
+    async downloadPdf(documentUuid: any, params?: object): Promise<any> {
+        return await this.request(`/user/company-file-folders/${documentUuid}/download-pdf`, 'GET', params)
     }
 
     async getAllFolders(): Promise<any> {
