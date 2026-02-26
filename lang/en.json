@@ -2775,6 +2775,58 @@
             "overrideVacationHours": "Override default vacation hours"
         },
         "holidays": "Holidays",
+        "leaveRequests": {
+            "editLeaveRequest": "Edit leave request",
+            "form": {
+                "alert": {
+                    "leaveRequestSuccessfullyAdded": "Leave request successfully added",
+                    "leaveRequestSuccessfullyUpdated": "Leave request successfully updated"
+                },
+                "dateTimeEnd": "Date and time end",
+                "dateTimeStart": "Date and time start",
+                "note": "Note",
+                "type": {
+                    "sickLeave": "Sick leave",
+                    "type": "Type",
+                    "vacationLeave": "Vacation leave"
+                }
+            },
+            "leaveRequests": "Leave requests",
+            "newLeaveRequest": "New leave request",
+            "table": {
+                "actions": {
+                    "approve": "Approve",
+                    "delete": "Delete",
+                    "edit": "Edit",
+                    "reject": "Reject"
+                },
+                "alert": {
+                    "leaveRequestsSuccessfullyApproved": "Leave request successfully approved",
+                    "leaveRequestsSuccessfullyDeleted": "Leave request successfully deleted",
+                    "leaveRequestsSuccessfullyRejected": "Leave request successfully rejected"
+                },
+                "confirmation": {
+                    "approveLeaveRequestConfirmation": "Are you sure you want to approve this leave",
+                    "deleteLeaveRequestConfirmation": "Are you sure you want to delete this leave",
+                    "rejectLeaveRequestConfirmation": "Are you sure you want to disapprove this leave"
+                },
+                "dateTimeEnd": "Date and time end",
+                "dateTimeStart": "Date and time start",
+                "leaveType": "Leave type",
+                "note": "Note",
+                "status": {
+                    "approved": "Approved",
+                    "pending": "Pending",
+                    "rejected": "Rejected",
+                    "status": "Status"
+                },
+                "type": {
+                    "sickLeave": "Sick leave",
+                    "type": "Type",
+                    "vacationLeave": "Vacation leave"
+                }
+            }
+        },
         "month": "Month",
         "newSchedule": "New schedule",
         "normHours": {
