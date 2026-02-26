@@ -15,6 +15,8 @@ export interface CitizenForm {
     municipality_uuid: string,
     city: string,
     post_code: string,
+    latitude?: string,
+    longitude?: string,
     origin: string,
     diagnoses: string[],
     medication_allergies: string[],
