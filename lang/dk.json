@@ -1266,7 +1266,14 @@
                 "trafficLights": "Trafiklys",
                 "yellow": "Gul"
             },
-            "transportation": "Transport"
+            "transportation": "Transport",
+            "locateCitizen": "Find borger",
+            "selectedLocation": "Valgt placering",
+            "selectedAddress": "Valgt adresse",
+            "fetchingAddress": "Henter adresse...",
+            "locateCitizenInstructions": "Klik et sted på kortet for at fastgøre en placering. Du kan også trække markøren for at justere positionen. Adressen hentes automatisk.",
+            "useThisLocation": "Brug denne placering",
+            "country": "Land"
         },
         "importCitizens": {
             "alert": {

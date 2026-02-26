@@ -1266,7 +1266,14 @@
                 "trafficLights": "Traffic lights",
                 "yellow": "Yellow"
             },
-            "transportation": "Transportation"
+            "transportation": "Transportation",
+            "locateCitizen": "Locate Citizen",
+            "selectedLocation": "Selected Location",
+            "selectedAddress": "Selected Address",
+            "fetchingAddress": "Fetching address...",
+            "locateCitizenInstructions": "Click anywhere on the map to pin a location. You can also drag the marker to adjust the position. The address will be automatically fetched.",
+            "useThisLocation": "Use This Location",
+            "country": "Country"
         },
         "importCitizens": {
             "alert": {
