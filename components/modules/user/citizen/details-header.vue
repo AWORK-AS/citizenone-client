@@ -457,7 +457,6 @@ function openTransportLogout() {
 async function transportLogin(transportLoginDetails: any) {
     state.error = {}
     state.isPageLoading = true
-    console.log('Submit!',transportLoginDetails)
     try {
         if (!state.selectedCitizen?.data?.is_checked_in) {
             const params = {
@@ -522,7 +521,7 @@ async function transportLogout(transportLogoutDetails: any) {
             const response = await interventionHoursService.checkout(citizenUuid, params)
             if (response?.data) {
                 fetchCitizen()
-                state.modal.isTransportLoginOpen = false
+                state.modal.isTransportLogoutOpen = false
                 
             }
         }

@@ -164,7 +164,12 @@
                                         <span>{{ citizen?.phone }}</span>
                                     </td>
                                     <td width="20%">
-                                        <div class="flex items-end justify-end gap-2">
+                                        <div class="flex items-center justify-end gap-2">
+                                            <Tooltip :text="citizen?.is_checked_in ? $t('citizens.table.actions.checkOut') : $t('citizens.table.actions.checkIn')">
+                                                <FormSwitch
+                                                    :value="citizen?.is_checked_in"
+                                                    @toggleSwitch="toggleLogin(citizen)" />
+                                            </Tooltip>
                                             <Tooltip :text="$t('citizens.table.actions.view')">
                                                 <FormButton type="button" buttonStyle="action" class="rounded-md"
                                                     @click="navigateTo(`/citizens/${citizen.uuid}/journals`)">
@@ -238,6 +243,13 @@
             <ModulesUserGuidedTourModalCitizens v-if="state.modal.isGuidedTourCitizensOverviewOpen"
                 :isModalOpen="state.modal.isGuidedTourCitizensOverviewOpen" :isGuidedTour="false"
                 @close="state.modal.isGuidedTourCitizensOverviewOpen = false" />
+
+            <ModulesUserCitizenTimeRegistrationModalType :isModalOpen="state.modal.isTimeInTypeModalOpen"
+                @close="state.modal.isTimeInTypeModalOpen = false" @openTransport="openTransportLogin" @open-work="workLogin" />
+            <ModulesUserCitizenTimeRegistrationModalTransport type="login" :isModalOpen="state.modal.isTransportLoginOpen" @transportLogin="transportLogin"
+                @close="state.modal.isTransportLoginOpen = false" @submitTransportLogin="transportLogin" />
+            <ModulesUserCitizenTimeRegistrationModalTransport type="logout" :isModalOpen="state.modal.isTransportLogoutOpen" @transportLogout="transportLogout"
+                @close="state.modal.isTransportLogoutOpen = false" @submitTransportLogout="transportLogout" />
         </NuxtLayout>
     </div>
 </template>
@@ -245,6 +257,7 @@
 <script setup lang="ts">
 import { Menu, MenuButton, MenuItems, MenuItem } from '@headlessui/vue'
 import { citizenService } from '@/components/api/user/CitizenService'
+import { interventionHoursService } from '@/components/api/user/InterventionHoursService'
 import { useDepartmentStore } from '@/store/department'
 import { useCustomPagesStore } from '@/store/custom-pages'
 import { useCitizenStore } from '@/store/citizen'
@@ -281,8 +294,11 @@ const state = reactive({
         isSharedJournalsOpen: false,
         isShowNote: false,
         isShowPurchaseEmail: false,
+        isTimeInTypeModalOpen: false,
+        isTransportLoginOpen: false,
+        isTransportLogoutOpen: false
     },
-    selectedCitizen: [],
+    selectedCitizen: [] as any,
 })
 
 onMounted(() => {
@@ -387,6 +403,121 @@ async function exportInquiries(params: { inquiry_type: string }) {
             let fileName = params.inquiry_type === 'shelter' ? t('inquiries.shelterInquiry') : t('inquiries.crisisCenterInquiry')
 
             saveAs(response, `${customPagesStore.getCustomPagesName?.citizens}-${fileName}`)
+        }
+    } catch (error: any) {
+        state.error = error
+    }
+    state.isTableLoading = false
+}
+
+function toggleLogin(citizen: any) {
+    state.selectedCitizen = citizen
+    if (!citizen?.is_checked_in) {
+        selectTimeInType()
+    } else {
+        if (citizen?.current_care_hour?.is_transportation) {
+            openTransportLogout()
+        } else {
+            workLogout()
+        }
+    }
+}
+
+function selectTimeInType() {
+    state.modal.isTimeInTypeModalOpen = true
+}
+
+async function workLogin() {
+    state.error = {}
+    state.isTableLoading = true
+    try {
+        if (!state.selectedCitizen?.is_checked_in) {
+            const params = {}
+            const response = await interventionHoursService.checkin(state.selectedCitizen.uuid, params)
+            if (response?.data) {
+                fetchCitizens()
+            }
+        } else {
+            const params = {}
+            const response = await interventionHoursService.checkout(state.selectedCitizen.uuid, params)
+            if (response?.data) {
+                fetchCitizens()
+            }
+        }
+    } catch (error: any) {
+        state.error = error
+    }
+    state.isTableLoading = false
+}
+
+function openTransportLogin() {
+    state.modal.isTimeInTypeModalOpen = false
+    state.modal.isTransportLoginOpen = true
+}
+
+function openTransportLogout() {
+    state.modal.isTimeInTypeModalOpen = false
+    state.modal.isTransportLogoutOpen = true
+}
+
+async function transportLogin(transportLoginDetails: any) {
+    state.error = {}
+    state.isTableLoading = true
+    try {
+        if (!state.selectedCitizen?.is_checked_in) {
+            const params = {
+                is_transportation: true,
+                geo_start_lat: transportLoginDetails.geo_start_lat,
+                geo_start_lng: transportLoginDetails.geo_start_lng,
+                start_address: transportLoginDetails.start_address,
+                note: transportLoginDetails.note
+            }
+            const response = await interventionHoursService.checkin(state.selectedCitizen.uuid, params)
+            if (response?.data) {
+                fetchCitizens()
+                state.modal.isTransportLoginOpen = false
+                
+            }
+        }
+    } catch (error: any) {
+        state.error = error
+    }
+    state.isTableLoading = false
+}
+
+async function workLogout() {
+    state.error = {}
+    state.isTableLoading = true
+    try {
+        const params = {}
+        const response = await interventionHoursService.checkout(state.selectedCitizen.uuid, params)
+        if (response?.data) {
+            fetchCitizens()
+        }
+    } catch (error: any) {
+        state.error = error
+    }
+    state.isTableLoading = false
+}
+
+async function transportLogout(transportLogoutDetails: any) {
+    state.error = {}
+    state.isTableLoading = true
+    try {
+        if (state.selectedCitizen?.is_checked_in) {
+            const params = {
+                is_transportation: true,
+                geo_start_lat: transportLogoutDetails.geo_end_lat,
+                geo_start_lng: transportLogoutDetails.geo_end_lng,
+                end_address: transportLogoutDetails.end_address,
+                note: transportLogoutDetails.note
+            }
+            const response = await interventionHoursService.checkout(state.selectedCitizen.uuid, params)
+            if (response?.data) {
+                fetchCitizens()
+                state.modal.isTransportLogoutOpen = false
+                
+            }
         }
     } catch (error: any) {
         state.error = error

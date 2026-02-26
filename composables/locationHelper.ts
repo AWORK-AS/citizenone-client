@@ -158,7 +158,7 @@ export function useLocationHelper(t?: (key: string) => string) {
             const url = `https://nominatim.openstreetmap.org/search?format=json&q=${encodeURIComponent(address)}&limit=1`
             const response = await fetch(url, {
                 headers: {
-                    'User-Agent': 'CitizenOne-Transport-App', // Nominatim requires a User-Agent
+                    'User-Agent': 'CitizenOne',
                 },
             })
 

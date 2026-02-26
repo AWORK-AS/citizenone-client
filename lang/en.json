@@ -1867,7 +1867,9 @@
                     "noPlansAndGoals": "No plans and goals",
                     "plansAndGoals": "Plans and goals"
                 },
-                "view": "View"
+                "view": "View",
+                "checkIn": "Check in",
+                "checkOut": "Check out"
             },
             "department": "Department",
             "email": "Email",
