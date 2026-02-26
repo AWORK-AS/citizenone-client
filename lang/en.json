@@ -2398,6 +2398,75 @@
             "name": "Name"
         }
     },
+    "dutyShiftRules": {
+        "dutyShiftRules": "Duty shift rules",
+        "newDutyShiftRule": "New duty shift rule",
+        "editDutyShiftRule": "Edit duty shift rule",
+        "form": {
+            "dutyShiftRuleName": "Name",
+            "periodDays": "Retrospective time window (days back)",
+            "periodDaysBackInfo1":"The number of days back to consider when applying the duty shift rule",
+            "periodDaysBackInfo2":"(e.g., if set to 30, the rule will consider shifts from the past 30 days).",
+            "anchorDate": "Anchor date",
+            "anchorDateOptional": "Current date as default",
+            "inactive": "Inactive",
+            "status": "Status",
+            "periodFilter": "Period filter",
+            "evaluatingShiftsFrom": "Evaluating shifts from",
+            "to": "to",
+            "periodInfoAnchorDesc": "The end point of the evaluation window. Leave empty to use today's date. If set, the period is counted backwards from this date instead.",
+            "periodInfoHowTitle": "How they work together",
+            "periodInfoHowDesc": "The rule evaluates shifts within a window that starts at (anchor date − period days) and ends at the anchor date.",
+            "periodInfoFormula": "window start = anchor date − period (days)",
+            "conditionType": "Condition type",
+            "conditionTypes": {
+                "count": "Number of occurrences",
+                "consecutive": "Consecutive occurrences"
+            },
+            "threshold": "Minimum count",
+            "consecutiveDays": "Consecutive days",
+            "shiftTypes": "Shift types",
+            "recipientType": "Recipient type",
+            "recipientTypes": {
+                "role": "Role",
+                "user": "User"
+            },
+            "roles": "Roles",
+            "users": "Users",
+            "scopeConditions": "Scope conditions",
+            "noScopeConditions": "No scope conditions added. The rule will apply to all employees.",
+            "addScopeCondition": "Add scope condition",
+            "scopeConditionTypes": {
+                "department": "Department",
+                "job_title": "Job title",
+                "employee": "Employee"
+            },
+            "scopeOperators": {
+                "and": "AND",
+                "or": "OR"
+            },
+            "alert": {
+                "newDutyShiftRuleSuccessfullySaved": "New duty shift rule successfully saved",
+                "dutyShiftRuleSuccessfullyUpdated": "Duty shift rule successfully updated"
+            }
+        },
+        "table": {
+            "dutyShiftRuleName": "Name",
+            "periodDays": "Period (days)",
+            "conditionType": "Condition type",
+            "isActive": "Active",
+            "actions": {
+                "edit": "Edit",
+                "delete": "Delete"
+            },
+            "alert": {
+                "dutyShiftRuleSuccessfullyDeleted": "Duty shift rule successfully deleted"
+            },
+            "confirmation": {
+                "deleteDutyShiftRuleConfirmation": "Are you sure you want to delete this duty shift rule"
+            }
+        }
+    },
     "dosageForms": {
         "addNewDosageForm": "Add new dosage form",
         "alert": {
@@ -5684,6 +5753,7 @@
             "customPages": "Glossary",
             "departments": "Departments",
             "diagnoses": "Diagnoses",
+            "dutyShiftRules": "Duty shift rules",
             "dosageForms": "Dosage forms",
             "employeeGroups": "Employee groups",
             "expenseCategories": "Expense categories",

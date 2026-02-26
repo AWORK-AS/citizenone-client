@@ -2398,6 +2398,78 @@
             "name": "Navn"
         }
     },
+    "dutyShiftRules": {
+        "dutyShiftRules": "Vagtregler",
+        "newDutyShiftRule": "Ny vagtregel",
+        "editDutyShiftRule": "Rediger vagtregel",
+        "form": {
+            "dutyShiftRuleName": "Navn",
+            "periodDays": "Retrospektivt tidsvindue (dage tilbage)",
+            "periodDaysBackInfo1":"Dette angiver, hvor mange dage tilbage i tiden reglen skal se for at evaluere betingelserne.",
+            "periodDaysBackInfo2":"For eksempel, hvis du indstiller det til 30, vil reglen evaluere medarbejderens vagter i de sidste 30 dage for at afgøre, om betingelserne er opfyldt.",
+            "anchorDate": "Ankerdato",
+            "anchorDateOptional": "nuværende dato som standard",
+            "inactive": "Inaktiv",
+            "status": "Status",
+            "periodFilter": "Periodefilter",
+            "evaluatingShiftsFrom": "Evaluerer vagter fra",
+            "to": "til",
+            "periodInfoAnchorDesc": "Slutpunktet for evalueringsvinduet. Lad feltet stå tomt for at bruge dags dato. Hvis det er sat, beregnes perioden tilbage fra denne dato i stedet.",
+            "periodInfoHowTitle": "Sådan fungerer de sammen",
+            "periodInfoHowDesc": "Reglen evaluerer vagter inden for et vindue, der starter ved (ankerdato − periode i dage) og slutter ved ankerdatoen.",
+            "periodInfoFormula": "vinduesstart = ankerdato − periode (dage)",
+            "conditionType": "Betingelsestype",
+            "conditionTypes": {
+                "count": "Antal forekomster",
+                "consecutive": "Sammenhængende forekomster"
+            },
+            "threshold": "Minimumsantal",
+            "consecutiveDays": "Sammenhængende dage",
+            "shiftTypes": "Vagttyper",
+            "recipientType": "Modtagertype",
+            "recipientTypes": {
+                "role": "Rolle",
+                "user": "Bruger"
+            },
+            "roles": "Roller",
+            "users": "Brugere",
+            "scopeDepartments": "Afdeling (omfang)",
+            "scopeJobTitles": "Jobtitel (omfang)",
+            "scopeEmployees": "Medarbejder (omfang)",
+            "scopeConditions": "Omfangsbetingelser",
+            "noScopeConditions": "Ingen omfangsbetingelser tilføjet. Reglen gælder for alle medarbejdere.",
+            "addScopeCondition": "Tilføj omfangsbetingelse",
+            "scopeConditionTypes": {
+                "department": "Afdeling",
+                "job_title": "Jobtitel",
+                "employee": "Medarbejder"
+            },
+            "scopeOperators": {
+                "and": "OG",
+                "or": "ELLER"
+            },
+            "alert": {
+                "newDutyShiftRuleSuccessfullySaved": "Ny vagtregel gemt med succes",
+                "dutyShiftRuleSuccessfullyUpdated": "Vagtregel opdateret med succes"
+            }
+        },
+        "table": {
+            "dutyShiftRuleName": "Navn",
+            "periodDays": "Periode (dage)",
+            "conditionType": "Betingelsestype",
+            "isActive": "Aktiv",
+            "actions": {
+                "edit": "Rediger",
+                "delete": "Slet"
+            },
+            "alert": {
+                "dutyShiftRuleSuccessfullyDeleted": "Vagtregel slettet med succes"
+            },
+            "confirmation": {
+                "deleteDutyShiftRuleConfirmation": "Er du sikker på, at du vil slette denne vagtregel"
+            }
+        }
+    },
     "dosageForms": {
         "addNewDosageForm": "Tilføj ny doseringsform",
         "alert": {
@@ -5684,6 +5756,7 @@
             "customPages": "Ordliste",
             "departments": "Afdelinger",
             "diagnoses": "Diagnoser",
+            "dutyShiftRules": "Vagtregler",
             "dosageForms": "Doseringsformer",
             "employeeGroups": "Medarbejdergrupper",
             "expenseCategories": "Udgiftskategorier",
