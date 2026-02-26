@@ -69,6 +69,27 @@
                                                     {{ $t('excludeVat') }}
                                                 </p>
                                             </div>
+                                            <Menu as="div" class="relative inline-block text-left" v-if="app.generic_name === 'zenegy' && app.user_activated">
+                                                <MenuButton>
+                                                    <Icon name="ph:gear" class="h-4 w-4 text-gray-500 hover:text-gray-700 cursor-pointer" />
+                                                </MenuButton>
+                                                <transition enter-active-class="transition duration-100 ease-out"
+                                                    enter-from-class="transform scale-95 opacity-0"
+                                                    enter-to-class="transform scale-100 opacity-100"
+                                                    leave-active-class="transition duration-75 ease-in"
+                                                    leave-from-class="transform scale-100 opacity-100"
+                                                    leave-to-class="transform scale-95 opacity-0">
+                                                    <MenuItems class="absolute left-0 mt-2 w-48 origin-top-left rounded-md bg-white shadow-lg ring-1 ring-black/5 focus:outline-none z-20">
+                                                        <div class="px-1 py-1">
+                                                            <MenuItem v-slot="{ active }" @click="openDisconnectModal(app)">
+                                                                <button :class="[active && 'bg-gray-100', 'group flex w-full items-center rounded-md px-2 py-2.5 text-sm text-red-600']">
+                                                                    {{ $t('apps.zenegy.disconnect') }}
+                                                                </button>
+                                                            </MenuItem>
+                                                        </div>
+                                                    </MenuItems>
+                                                </transition>
+                                            </Menu>
                                         </div>
                                         <Badge type="primary" class="text-xxs truncate w-fit h-fit"
                                             v-if="app?.is_thirdparty">
@@ -149,6 +170,27 @@
                                                     {{ $t('excludeVat') }}
                                                 </p>
                                             </div>
+                                            <Menu as="div" class="relative inline-block text-left" v-if="app.generic_name === 'zenegy' && app.user_activated">
+                                                <MenuButton>
+                                                    <Icon name="ph:gear" class="h-4 w-4 text-gray-500 hover:text-gray-700 cursor-pointer" />
+                                                </MenuButton>
+                                                <transition enter-active-class="transition duration-100 ease-out"
+                                                    enter-from-class="transform scale-95 opacity-0"
+                                                    enter-to-class="transform scale-100 opacity-100"
+                                                    leave-active-class="transition duration-75 ease-in"
+                                                    leave-from-class="transform scale-100 opacity-100"
+                                                    leave-to-class="transform scale-95 opacity-0">
+                                                    <MenuItems class="absolute left-0 mt-2 w-48 origin-top-left rounded-md bg-white shadow-lg ring-1 ring-black/5 focus:outline-none z-20">
+                                                        <div class="px-1 py-1">
+                                                            <MenuItem v-slot="{ active }" @click="openDisconnectModal(app)">
+                                                                <button :class="[active && 'bg-gray-100', 'group flex w-full items-center rounded-md px-2 py-2.5 text-sm text-red-600']">
+                                                                    {{ $t('apps.zenegy.disconnect') }}
+                                                                </button>
+                                                            </MenuItem>
+                                                        </div>
+                                                    </MenuItems>
+                                                </transition>
+                                            </Menu>
                                         </div>
                                         <Badge type="primary" class="text-xxs truncate w-fit h-fit"
                                             v-if="app?.is_thirdparty">
@@ -229,6 +271,27 @@
                                                     {{ $t('excludeVat') }}
                                                 </p>
                                             </div>
+                                            <Menu as="div" class="relative inline-block text-left" v-if="app.generic_name === 'zenegy' && app.user_activated">
+                                                <MenuButton>
+                                                    <Icon name="ph:gear" class="h-4 w-4 text-gray-500 hover:text-gray-700 cursor-pointer" />
+                                                </MenuButton>
+                                                <transition enter-active-class="transition duration-100 ease-out"
+                                                    enter-from-class="transform scale-95 opacity-0"
+                                                    enter-to-class="transform scale-100 opacity-100"
+                                                    leave-active-class="transition duration-75 ease-in"
+                                                    leave-from-class="transform scale-100 opacity-100"
+                                                    leave-to-class="transform scale-95 opacity-0">
+                                                    <MenuItems class="absolute left-0 mt-2 w-48 origin-top-left rounded-md bg-white shadow-lg ring-1 ring-black/5 focus:outline-none z-20">
+                                                        <div class="px-1 py-1">
+                                                            <MenuItem v-slot="{ active }" @click="openDisconnectModal(app)">
+                                                                <button :class="[active && 'bg-gray-100', 'group flex w-full items-center rounded-md px-2 py-2.5 text-sm text-red-600']">
+                                                                    {{ $t('apps.zenegy.disconnect') }}
+                                                                </button>
+                                                            </MenuItem>
+                                                        </div>
+                                                    </MenuItems>
+                                                </transition>
+                                            </Menu>
                                         </div>
                                         <Badge type="primary" class="text-xxs truncate w-fit h-fit"
                                             v-if="app?.is_thirdparty">
@@ -282,12 +345,18 @@
                 <ModulesUserAppModalTACConfirmation :isModalOpen="state.modal.isAcceptTACOpen"
                     :selectedApp="state.selectedApp" @close="state.modal.isAcceptTACOpen = false"
                     @confirmAppActivation="activateApp" />
+                <DialogConfirmation :isModalOpen="state.modal.isDisconnectOpen"
+                    :message="$t('apps.zenegy.disconnectConfirmation')"
+                    :title="$t('apps.zenegy.disconnectTitle')"
+                    @close="state.modal.isDisconnectOpen = false"
+                    @confirm="disconnectZenegy" />
             </LoadingSpinner>
         </NuxtLayout>
     </div>
 </template>
 
 <script setup lang="ts">
+import { Menu, MenuButton, MenuItems, MenuItem } from '@headlessui/vue'
 import { appService } from '@/components/api/user/AppService'
 import { zenegyService } from '@/components/api/user/ZenegyService'
 import { useI18n } from "vue-i18n"
@@ -328,6 +397,7 @@ const state = reactive({
     isPageLoading: false,
     modal: {
         isAcceptTACOpen: false,
+        isDisconnectOpen: false,
         showAppDetails: false,
     },
     selectedApp: [] as any,
@@ -507,6 +577,24 @@ async function activateApp(formApp: any) {
                 state.isAppsHidden = true
             }
         }
+    } catch (error: any) {
+        state.error = error
+    }
+    state.isPageLoading = false
+}
+
+function openDisconnectModal(app: any) {
+    state.selectedApp = app
+    state.modal.isDisconnectOpen = true
+}
+
+async function disconnectZenegy() {
+    state.error = {}
+    state.isPageLoading = true
+    try {
+        await zenegyService.disconnectZenegy()
+        successAlert(`${t('alert.success')}!`, t('apps.zenegy.disconnected'))
+        fetchApps()
     } catch (error: any) {
         state.error = error
     }

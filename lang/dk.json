@@ -333,7 +333,13 @@
         "subscriptionRequired": "Du skal abonnere først for at kunne købe en app",
         "termsAndConditions": "Vilkår og betingelser",
         "thirdPartyApp": "Tredjepartsapp",
-        "year": "År"
+        "year": "År",
+        "zenegy": {
+            "disconnect": "Afbryd forbindelse",
+            "disconnectTitle": "Afbryd Zenegy",
+            "disconnectConfirmation": "Er du sikker på, at du vil afbryde forbindelsen til din Zenegy-konto? Dette vil fjerne forbindelsen mellem dine CitizenOne- og Zenegy-konti.",
+            "disconnected": "Zenegy-konto er succesfuldt afbrudt"
+        }
     },
     "archived": {
         "alert": {

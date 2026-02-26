@@ -80,6 +80,17 @@ class ZenegyService extends BaseAPIService {
             body: { registrations },
         })
     }
+
+    async disconnectZenegy(): Promise<any> {
+        const token = localStorage.getItem('_token')
+        return await $fetch('/api/zenegy/disconnect', {
+            method: 'POST',
+            headers: {
+                'Authorization': `Bearer ${token}`,
+                'Accept': 'application/json',
+            },
+        })
+    }
 }
 
 export const zenegyService = new ZenegyService()
