@@ -499,7 +499,7 @@ const paymentMethods = [
     { value: 'dibs', label: 'DIBS' },
     { value: 'stripe', label: 'Stripe' },
 ]
-const paymentMethod = ref(paymentMethods[0].value)
+const paymentMethod = ref(paymentMethods[0].value || 'stripe')
 
 const frequencies = [
     { value: 'monthly', label: 'Monthly', priceSuffix: '/month' },
