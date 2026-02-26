@@ -49,8 +49,17 @@ export default defineNuxtConfig({
   ],
 
   echarts: {
-    charts: ['BarChart'],
-    components: ['DatasetComponent', 'GridComponent', 'TooltipComponent'],
+    renderer: ['canvas'],
+    charts: ['LineChart'],
+    components: [
+      'DatasetComponent',
+      'GridComponent',
+      'TooltipComponent',
+      'TitleComponent',
+      'LegendComponent',
+      'DataZoomComponent',
+      'MarkLineComponent',
+    ],
   },
 
   plugins: [

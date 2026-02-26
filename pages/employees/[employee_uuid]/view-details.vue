@@ -86,7 +86,8 @@
                                 </div>
                                 <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
                                     <div class="space-y-1">
-                                        <Label :label="$t('employees.form.department')" />
+                                        <Label
+                                            :label="customPagesStore.getCustomPagesName?.department ?? $t('employees.form.department')" />
                                         <p class="font-medium" v-if="state.selectedEmployee?.departments?.length > 0">
                                             {{ state.selectedEmployee?.departments }}
                                         </p>
@@ -192,13 +193,25 @@
                             </div>
                             <div
                                 class="md:col-span-2 space-y-3 bg-white shadow-sm ring-1 ring-gray-900/5 rounded-lg px-4 py-6 sm:px-8 sm:py-6">
-                                <div class="space-y-1" v-if="userStore.getUser?.roles?.[0]?.name === 'Admin'">
-                                    <Label :label="$t('employees.form.employment.employmentDate')" />
-                                    <p class="font-medium" v-if="state.selectedEmployee.employment.employment_date">
-                                        {{
-                                            formatDateToReadable(state.selectedEmployee.employment.employment_date)
-                                        }}
-                                    </p>
+                                <div class="grid grid-cols-1 md:grid-cols-2 gap-3"
+                                    v-if="userStore.getUser?.roles?.[0]?.name === 'Admin'">
+                                    <div class="space-y-1">
+                                        <Label :label="$t('employees.form.employment.employmentDate')" />
+                                        <p class="font-medium" v-if="state.selectedEmployee.employment.employment_date">
+                                            {{
+                                                formatDateToReadable(state.selectedEmployee.employment.employment_date)
+                                            }}
+                                        </p>
+                                    </div>
+                                    <div class="space-y-1" v-if="userStore.getUser?.roles?.[0]?.name === 'Admin'">
+                                        <Label :label="$t('employees.form.employment.terminationDate')" />
+                                        <p class="font-medium"
+                                            v-if="state.selectedEmployee.employment.termination_date">
+                                            {{
+                                                formatDateToReadable(state.selectedEmployee.employment.termination_date)
+                                            }}
+                                        </p>
+                                    </div>
                                 </div>
                                 <div class="grid grid-cols-1 md:grid-cols-2 gap-3"
                                     v-if="isAdmin(userStore.getUser?.roles)">
@@ -206,6 +219,12 @@
                                         <Label :label="$t('employees.form.employment.annualNormHours')" />
                                         <p class="font-medium">
                                             {{ state.selectedEmployee.employment.annual_norm_hours ?? 0 }}
+                                        </p>
+                                    </div>
+                                    <div class="space-y-1">
+                                        <Label :label="$t('employees.form.employment.weeklyNormHours')" />
+                                        <p class="font-medium">
+                                            {{ state.selectedEmployee.employment.weekly_norm_hours ?? 0 }}
                                         </p>
                                     </div>
                                     <div class="space-y-1" v-if="isAdmin(userStore.getUser?.roles)">
@@ -444,11 +463,13 @@
 <script setup lang="ts">
 import { useDatetimeFormatter } from '@/composables/datetimeFormatter'
 import { employeeService } from '@/components/api/user/EmployeeService'
+import { useCustomPagesStore } from '@/store/custom-pages'
 import { useUserStore } from '@/store/user'
 import type { Error } from '@/types'
 
 const runtimeConfig = useRuntimeConfig()
 const router = useRouter()
+const customPagesStore = useCustomPagesStore() as any
 const userStore = useUserStore() as any
 const { formatDateToReadable } = useDatetimeFormatter()
 const employeeUuid = router?.currentRoute?.value?.params?.employee_uuid
@@ -494,6 +515,7 @@ const state = reactive({
         employment: {
             salary_id: '',
             employment_date: '',
+            termination_date: '',
             job_title: '',
             employee_specialties: '',
             working_hours: '',
@@ -554,11 +576,15 @@ async function fetchEmployee() {
                 employment: {
                     salary_id: response?.data?.employee_detail?.salary_id,
                     employment_date: response?.data?.employee_detail?.date_of_employment,
+                    termination_date: response?.data?.employee_detail?.termination_date,
                     job_title: response?.data?.employee_detail?.job?.title,
                     employee_specialties: concatenatedJobSpecialties,
                     working_hours: response?.data?.employee_detail?.working_hours,
                     employment_status: response?.data?.employee_detail?.status,
                     annual_norm_hours: response?.data?.employee_detail?.annual_norm_hours,
+                    weekly_norm_hours: response?.data?.employee_detail?.annual_norm_hours
+                    ? Math.round(Number(response?.data?.employee_detail?.annual_norm_hours) / 52)
+                    : '',
                     vacation_days: response?.data?.employee_detail?.vacation_days,
                 },
                 emergencyInfo: {

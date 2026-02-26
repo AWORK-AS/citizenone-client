@@ -41,6 +41,10 @@
                         <Icon name="ph:download" class="h-4 w-4" aria-hidden="true" />
                         {{ $t('dutySchedules.download.download') }}
                     </FormButton>
+                    <Tooltip :text="$t('dutySchedules.shareDutySchedule.shareDutySchedule')"
+                        @click="state.modal.isViewSharedDutyScheduleOpen = true">
+                        <Icon name="ph:share-fat" class="size-6 cursor-pointer text-gray-700" aria-hidden="true" />
+                    </Tooltip>
                     <Tooltip :text="$t('dutySchedules.activityLogs')" @click="openDutySchedulesActivityLogs()">
                         <Icon name="ph:clock-counter-clockwise" class="size-6 cursor-pointer text-gray-700"
                             aria-hidden="true" />
@@ -67,38 +71,50 @@
             </div> -->
 
             <div class="-mt-4 space-y-5">
-                <ModulesUserDutyScheduleWeekView v-if="state.calendarView === 'week'" />
+                <ModulesUserDutyScheduleWeekView v-if="state.calendarView === 'week'"
+                    @setDutyScheduleCurrentDate="setDutyScheduleCurrentDate"
+                    @setDutyScheduleCurrentFilter="setDutyScheduleCurrentFilter" />
             </div>
 
             <ModulesUserDutyScheduleModalShiftTypes :isModalOpen="state.modal.isShowAllShiftTypes"
                 @close="state.modal.isShowAllShiftTypes = false" />
+            <ModulesUserDutyScheduleModalDownload :isModalOpen="state.modal.isDownloadOpen"
+                :selectedDate="state.selectedDate" :filter="state.filter" @close="state.modal.isDownloadOpen = false" />
             <ModulesUserDutyScheduleActivityLogsModalHistory :isModalOpen="state.modal.isActivityLogsOpen"
                 @close="state.modal.isActivityLogsOpen = false" />
+            <ModulesUserDutyScheduleShareModalView :isModalOpen="state.modal.isViewSharedDutyScheduleOpen"
+                @close="state.modal.isViewSharedDutyScheduleOpen = false" />
             <ModulesUserGuidedTourModalDutySchedule v-if="state.modal.isGuidedTourDutyScheduleOpen"
                 :isModalOpen="state.modal.isGuidedTourDutyScheduleOpen" :isGuidedTour="false"
                 @close="state.modal.isGuidedTourDutyScheduleOpen = false" />
         </NuxtLayout>
-        <ModulesUserDutyScheduleModalDownload :isModalOpen="state.modal.isDownloadOpen"
-            @close="state.modal.isDownloadOpen = false" />
     </div>
 </template>
 
 <script setup lang="ts">
-const runtimeConfig = useRuntimeConfig()
+import moment from 'moment'
 import { useUserStore } from '@/store/user'
 import { useCustomPagesStore } from '@/store/custom-pages'
 
+const runtimeConfig = useRuntimeConfig()
 const customPagesStore = useCustomPagesStore() as any
 const userStore = useUserStore() as any
 
 const state = reactive({
     calendarView: 'week',
+    filter: {
+        department_uuids: [],
+        employment_status: [],
+        employee_uuids: [],
+    },
     modal: {
         isActivityLogsOpen: false,
         isDownloadOpen: false,
         isGuidedTourDutyScheduleOpen: false,
+        isViewSharedDutyScheduleOpen: false,
         isShowAllShiftTypes: false,
     },
+    selectedDate: moment().format('YYYY-MM-DD'),
 })
 
 function openDutySchedulesActivityLogs() {
@@ -111,5 +127,15 @@ function openGuidedTour() {
 
 function isAdmin(role: any) {
     return role && role === 'Admin'
+}
+
+function setDutyScheduleCurrentDate(selectedDate: any) {
+    state.selectedDate = selectedDate
+}
+
+function setDutyScheduleCurrentFilter(filter: any) {
+    state.filter.department_uuids = filter.department_uuids
+    state.filter.employment_status = filter.employment_status
+    state.filter.employee_uuids = filter.employee_uuids
 }
 </script>

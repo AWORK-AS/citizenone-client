@@ -21,8 +21,8 @@ class CalendarTagService extends BaseAPIService {
         return await this.request(`/user/calendar-tags/${calendarTagUuid}`, 'DELETE')
     }
 
-    async getAllCalendarTags(): Promise<any> {
-        return await this.request(`/user/calendar-tags/all/list`, 'GET')
+    async getAllCalendarTags(params: object): Promise<any> {
+        return await this.request(`/user/calendar-tags/all/list`, 'GET', params)
     }
 }
 

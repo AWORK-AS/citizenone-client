@@ -11,186 +11,249 @@
             </template>
 
             <template #header>{{ $t('drive.companyDocuments') }}</template>
+            <LoadingSpinner :isActive="state.isPageLoading">
+                <div class="space-y-5">
+                    <div class="mt-8 flex flex-col md:flex-row justify-between gap-3">
+                        <div class="flex items-center justify-end md:justify-start gap-x-3">
+                            <FormButton buttonStyle="action" class="rounded-md"
+                                @click="navigateToExternalLink('https://drive.google.com/drive/u/0/home')">
+                                <Icon name="mdi:google-drive" class="h-4 w-4" aria-hidden="true" />
+                                Google Drive
+                            </FormButton>
+                            <FormButton buttonStyle="action" class="rounded-md"
+                                @click="navigateToExternalLink('https://onedrive.live.com/')">
+                                <Icon name="mdi:microsoft-onedrive" class="h-4 w-4" aria-hidden="true" />
+                                OneDrive
+                            </FormButton>
+                        </div>
+                        <div class="flex flex-wrap items-center justify-end gap-3">
+                            <Menu as="div" class="w-full md:w-fit relative inline-block text-left z-20">
+                                <div>
+                                    <MenuButton class="w-full md:w-fit">
+                                        <FormButton buttonStyle="action" class="w-full md:w-fit rounded-lg">
+                                            <Icon name="ph:plus" class="h-4 w-4" aria-hidden="true" />
+                                            {{ $t('drive.new') }}
+                                        </FormButton>
+                                    </MenuButton>
+                                </div>
 
-            <div class="space-y-5">
-                <div class="mt-8 flex flex-col md:flex-row justify-between gap-3">
-                    <div class="flex items-center justify-end md:justify-start gap-x-3">
-                        <FormButton buttonStyle="action" class="rounded-md"
-                            @click="navigateToExternalLink('https://drive.google.com/drive/u/0/home')">
-                            <Icon name="mdi:google-drive" class="h-4 w-4" aria-hidden="true" />
-                            Google Drive
-                        </FormButton>
-                        <FormButton buttonStyle="action" class="rounded-md"
-                            @click="navigateToExternalLink('https://onedrive.live.com/')">
-                            <Icon name="mdi:microsoft-onedrive" class="h-4 w-4" aria-hidden="true" />
-                            OneDrive
-                        </FormButton>
-                    </div>
-                    <div class="flex flex-wrap items-center justify-end gap-3">
-                        <FormButton buttonStyle="action" class="rounded-md"
-                            @click="state.modal.isAddDirectoryOpen = true">
-                            <Icon name="ph:plus" class="h-4 w-4" aria-hidden="true" />
-                            {{ $t('drive.createNewFolder') }}
-                        </FormButton>
-                        <LoadingSpinner :isActive="state.isPageLoading">
+                                <transition enter-active-class="transition duration-100 ease-out"
+                                    enter-from-class="transform scale-95 opacity-0"
+                                    enter-to-class="transform scale-100 opacity-100"
+                                    leave-active-class="transition duration-75 ease-in"
+                                    leave-from-class="transform scale-100 opacity-100"
+                                    leave-to-class="transform scale-95 opacity-0">
+                                    <MenuItems
+                                        class="absolute right-0 mt-2 w-56 origin-top-right divide-y divide-gray-100 rounded-md bg-white shadow-lg ring-1 ring-black/5 focus:outline-none">
+                                        <div class="px-1 py-1">
+                                            <MenuItem v-slot="{ active }"
+                                                @click="state.modal.isAddDirectoryOpen = true">
+                                            <button :class="[
+                                                active && 'bg-gray-100',
+                                                'group flex w-full items-center rounded-md px-2 py-2.5 text-sm',
+                                            ]">
+                                                <Icon name="ph:folder" class="mr-2 h-4 w-4" aria-hidden="true" />
+                                                {{ $t('drive.createNewFolder') }}
+                                            </button>
+                                            </MenuItem>
+                                            <MenuItem v-slot="{ active }"
+                                                @click="state.modal.isCreateDocumentFileOpen = true">
+                                            <button :class="[
+                                                active && 'bg-gray-100',
+                                                'group flex w-full items-center rounded-md px-2 py-2.5 text-sm',
+                                            ]">
+                                                <Icon name="ph:file-plus" class="mr-2 h-4 w-4" aria-hidden="true" />
+                                                {{ $t('drive.newDocument') }}
+                                            </button>
+                                            </MenuItem>
+                                        </div>
+                                    </MenuItems>
+                                </transition>
+                            </Menu>
                             <FormButton buttonStyle="action" class="rounded-md" @click="triggerFileInput">
                                 <Icon name="ph:upload" class="h-4 w-4" aria-hidden="true" />
                                 {{ $t('drive.uploadFile') }}
                             </FormButton>
                             <input type="file" ref="documentFile" @change="uploadFile" class="hidden" multiple />
-                        </LoadingSpinner>
-                        <FormButton buttonStyle="action" class="rounded-md"
-                            @click="state.modal.isViewFolderStructureOpen = true">
-                            <Icon name="ph:folder-notch-open" class="h-4 w-4" aria-hidden="true" />
-                            {{ $t('folderStructure.folderStructure') }}
-                        </FormButton>
-                        <FormButton buttonStyle="action" class="rounded-md"
-                            @click="state.modal.isCreateTemplateOpen = true">
-                            <Icon name="ph:file" class="h-4 w-4" aria-hidden="true" />
-                            {{ $t('drive.createTemplate.createTemplate') }}
-                        </FormButton>
+                            <FormButton buttonStyle="action" class="rounded-md"
+                                @click="state.modal.isViewFolderStructureOpen = true">
+                                <Icon name="ph:folder-notch-open" class="h-4 w-4" aria-hidden="true" />
+                                {{ $t('folderStructure.folderStructure') }}
+                            </FormButton>
+                            <FormButton buttonStyle="action" class="rounded-md"
+                                @click="state.modal.isCreateTemplateOpen = true">
+                                <Icon name="ph:file" class="h-4 w-4" aria-hidden="true" />
+                                {{ $t('drive.createTemplate.createTemplate') }}
+                            </FormButton>
+                            <FormButton buttonStyle="action" class="rounded-md" @click="navigateTo('/drive/expenses')">
+                                <Icon name="ph:money" class="h-4 w-4" aria-hidden="true" />
+                                {{ $t('drive.expenses') }}
+                            </FormButton>
+                        </div>
                     </div>
-                </div>
 
-                <div class="space-y-5">
-                    <Alert type="danger" :text="state?.error?.message"
-                        v-if="state.error?.message && state.error.message.length > 0" />
-                    <TableSearch @search="handleSearch" />
-                    <div class="table-responsive">
-                        <!-- <div class="flex items-center gap-x-2 mb-3 max-w-fit hover:cursor-pointer"
-                            @click="$router.back()" v-if="router?.currentRoute?.value?.query?.folder_uuid">
-                            <Icon name="ph:arrow-left" size="16" class="text-black" />
-                            <span class="text-sm">{{ $t('back') }}</span>
-                        </div> -->
-                        <Table :columnHeaders="state.columnHeaders" :data="state.documents"
-                            :isLoading="state.isTableLoading" :sortData="state.sortData" @sort="sort">
-                            <template #body v-if="!(state.isTableLoading || (state.documents?.data?.length === 0))">
-                                <tr v-for="(document, index) in state.documents?.data" :key="index">
-                                    <td width="25%">
-                                        <div class="text-tertiary hover:text-tertiary-700 cursor-pointer flex items-center gap-x-1"
-                                            v-if="document?.file_url" @click="downloadFile(document)">
-                                            <Icon name="ph:file" class="size-6" />
-                                            <Tooltip :text="$t('drive.form.forAdministratorsOnly')"
-                                                class="flex items-center" v-if="document?.is_admin_access">
-                                                <Icon name="ph:lock-key-fill" class="w-5 h-5 text-red-700" />
-                                            </Tooltip>
-                                            <span class="truncate">{{ document?.name }}</span>
-                                        </div>
-                                        <span v-else class="flex items-center gap-x-1">
-                                            <Icon name="ph:folder-notch-open-light" class="size-6" />
-                                            <Tooltip :text="$t('drive.form.forAdministratorsOnly')"
-                                                class="flex items-center" v-if="document?.is_admin_access">
-                                                <Icon name="ph:lock-key-fill" class="w-5 h-5 text-red-700" />
-                                            </Tooltip>
-                                            <span class="truncate">{{ document?.name }}</span>
-                                        </span>
-                                    </td>
-                                    <td width="20%">
-                                        <p class="truncate">
-                                            {{ document?.user?.firstname + ' ' + document?.user?.lastname }}
-                                        </p>
-                                    </td>
-                                    <td width="20%">
-                                        <span class="truncate">
-                                            {{ formatDateTimeToReadable(document?.created_at) }}
-                                        </span>
-                                    </td>
-                                    <td width="20%">
-                                        <span class="truncate">
-                                            {{ document?.updated_at && formatDateTimeToReadable(document?.updated_at) }}
-                                        </span>
-                                    </td>
-                                    <td width="15%">
-                                        <div class="flex items-end justify-end gap-2">
-                                            <Tooltip :text="$t('drive.table.actions.view')"
-                                                v-if="document?.type === 'folder'">
-                                                <FormButton type="button" buttonStyle="action" class="rounded-md"
-                                                    @click="viewDirectory(document)">
-                                                    <Icon name="ph:eye" class="size-4" />
-                                                </FormButton>
-                                            </Tooltip>
-                                            <Tooltip :text="$t('drive.table.actions.move')"
-                                                v-if="document?.type === 'file'">
-                                                <FormButton type="button" buttonStyle="action" class="rounded-md"
-                                                    @click="moveFileConfirmation(document)">
-                                                    <Icon name="ph:arrows-out" class="size-4" />
-                                                </FormButton>
-                                            </Tooltip>
-                                            <Tooltip :text="$t('drive.table.actions.edit')">
-                                                <FormButton type="button" buttonStyle="action" class="rounded-md"
-                                                    @click="editDocument(document)">
-                                                    <Icon name="ph:pencil-simple" class="size-4" />
-                                                </FormButton>
-                                            </Tooltip>
-                                            <Tooltip :text="$t('drive.table.actions.access')"
-                                                v-if="isAdmin(userStore.getUser?.roles)">
-                                                <FormButton type="button" buttonStyle="action" class="rounded-md"
-                                                    @click="viewDocumentAccess(document)">
-                                                    <Icon name="ph:lock" class="size-4" />
-                                                </FormButton>
-                                            </Tooltip>
-                                            <Tooltip :text="$t('drive.table.actions.archive')">
-                                                <FormButton type="button" buttonStyle="action" class="rounded-md"
-                                                    @click="confirmDocumentArchiving(document)">
-                                                    <Icon name="ph:archive-light" class="size-4" />
-                                                </FormButton>
-                                            </Tooltip>
-                                            <Tooltip :text="$t('drive.table.actions.delete')"
-                                                v-if="document?.type === 'folder'">
-                                                <FormButton type="button" buttonStyle="danger" class="rounded-md"
-                                                    @click="deleteDirectoryConfirmation(document)">
-                                                    <Icon name="ph:trash" class="size-4" />
-                                                </FormButton>
-                                            </Tooltip>
-                                            <Tooltip :text="$t('drive.table.actions.delete')" v-else>
-                                                <FormButton type="button" buttonStyle="danger" class="rounded-md"
-                                                    @click="deleteFileConfirmation(document)">
-                                                    <Icon name="ph:trash" class="size-4" />
-                                                </FormButton>
-                                            </Tooltip>
-                                        </div>
-                                    </td>
-                                </tr>
-                            </template>
-                        </Table>
+                    <div class="space-y-5">
+                        <Alert type="danger" :text="state?.error?.message"
+                            v-if="state.error?.message && state.error.message.length > 0" />
+                        <TableSearch @search="handleSearch" />
+                        <div class="table-responsive">
+                            <!-- <div class="flex items-center gap-x-2 mb-3 max-w-fit hover:cursor-pointer"
+                                @click="$router.back()" v-if="router?.currentRoute?.value?.query?.folder_uuid">
+                                <Icon name="ph:arrow-left" size="16" class="text-black" />
+                                <span class="text-sm">{{ $t('back') }}</span>
+                            </div> -->
+                            <Table :columnHeaders="state.columnHeaders" :data="state.documents"
+                                :isLoading="state.isTableLoading" :sortData="state.sortData" @sort="sort">
+                                <template #body v-if="!(state.isTableLoading || (state.documents?.data?.length === 0))">
+                                    <tr v-for="(document, index) in state.documents?.data" :key="index">
+                                        <td width="25%">
+                                            <div class="text-tertiary hover:text-tertiary-700 cursor-pointer flex items-center gap-x-1"
+                                                v-if="document?.file_url" @click="viewDownloadDocument(document)">
+                                                <Icon name="ph:file" class="size-6" />
+                                                <Tooltip :text="$t('drive.form.forAdministratorsOnly')"
+                                                    class="flex items-center" v-if="document?.is_admin_access">
+                                                    <Icon name="ph:lock-key-fill" class="w-5 h-5 text-red-700" />
+                                                </Tooltip>
+                                                <span class="truncate">{{ document?.name }}</span>
+                                            </div>
+                                            <span v-else class="flex items-center gap-x-1">
+                                                <Icon name="ph:folder-notch-open-light" class="size-6" />
+                                                <Tooltip :text="$t('drive.form.forAdministratorsOnly')"
+                                                    class="flex items-center" v-if="document?.is_admin_access">
+                                                    <Icon name="ph:lock-key-fill" class="w-5 h-5 text-red-700" />
+                                                </Tooltip>
+                                                <span class="truncate">{{ document?.name }}</span>
+                                            </span>
+                                        </td>
+                                        <td width="20%">
+                                            <p class="truncate">
+                                                {{ document?.user?.firstname + ' ' + document?.user?.lastname }}
+                                            </p>
+                                        </td>
+                                        <td width="20%">
+                                            <span class="truncate">
+                                                {{ formatDateTimeToReadable(document?.created_at) }}
+                                            </span>
+                                        </td>
+                                        <td width="20%">
+                                            <span class="truncate">
+                                                {{ document?.updated_at &&
+                                                    formatDateTimeToReadable(document?.updated_at) }}
+                                            </span>
+                                        </td>
+                                        <td width="15%">
+                                            <div class="flex items-end justify-end gap-2">
+                                                <Tooltip :text="$t('drive.table.actions.view')"
+                                                    v-if="document?.type === 'folder'">
+                                                    <FormButton type="button" buttonStyle="action" class="rounded-md"
+                                                        @click="viewDirectory(document)">
+                                                        <Icon name="ph:eye" class="size-4" />
+                                                    </FormButton>
+                                                </Tooltip>
+                                                <Tooltip :text="$t('drive.table.actions.move')"
+                                                    v-if="document?.type === 'file'">
+                                                    <FormButton type="button" buttonStyle="action" class="rounded-md"
+                                                        @click="moveFileConfirmation(document)">
+                                                        <Icon name="ph:arrows-out" class="size-4" />
+                                                    </FormButton>
+                                                </Tooltip>
+                                                <Tooltip :text="$t('drive.table.actions.edit')">
+                                                    <FormButton type="button" buttonStyle="action" class="rounded-md"
+                                                        @click="editDocument(document)">
+                                                        <Icon name="ph:pencil-simple" class="size-4" />
+                                                    </FormButton>
+                                                </Tooltip>
+                                                <Tooltip :text="$t('drive.table.actions.downloadPDF')"
+                                                    v-if="['html', 'htm', 'docx'].includes(document?.file_url?.split('.').pop().toLowerCase())">
+                                                    <FormButton type="button" buttonStyle="action" class="rounded-md"
+                                                        @click="openDownloadDocumentPdfDialog(document)">
+                                                        <Icon name="ph:file-pdf" class="size-4" />
+                                                    </FormButton>
+                                                </Tooltip>
+                                                <Tooltip :text="$t('drive.table.actions.access')"
+                                                    v-if="isAdmin(userStore.getUser?.roles)">
+                                                    <FormButton type="button" buttonStyle="action" class="rounded-md"
+                                                        @click="viewDocumentAccess(document)">
+                                                        <Icon name="ph:lock" class="size-4" />
+                                                    </FormButton>
+                                                </Tooltip>
+                                                <Tooltip :text="$t('drive.table.actions.archive')">
+                                                    <FormButton type="button" buttonStyle="action" class="rounded-md"
+                                                        @click="confirmDocumentArchiving(document)">
+                                                        <Icon name="ph:archive-light" class="size-4" />
+                                                    </FormButton>
+                                                </Tooltip>
+                                                <Tooltip :text="$t('drive.table.actions.delete')"
+                                                    v-if="document?.type === 'folder'">
+                                                    <FormButton type="button" buttonStyle="danger" class="rounded-md"
+                                                        @click="deleteDirectoryConfirmation(document)">
+                                                        <Icon name="ph:trash" class="size-4" />
+                                                    </FormButton>
+                                                </Tooltip>
+                                                <Tooltip :text="$t('drive.table.actions.delete')" v-else>
+                                                    <FormButton type="button" buttonStyle="danger" class="rounded-md"
+                                                        @click="deleteFileConfirmation(document)">
+                                                        <Icon name="ph:trash" class="size-4" />
+                                                    </FormButton>
+                                                </Tooltip>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                </template>
+                            </Table>
+                        </div>
+                        <Pagination :data="state.documents" @previous="previous" @next="next" />
                     </div>
-                    <Pagination :data="state.documents" @previous="previous" @next="next" />
+                    <ModulesUserDocumentModalNewDirectory :isModalOpen="state.modal.isAddDirectoryOpen"
+                        @close="state.modal.isAddDirectoryOpen = false" @refreshDocuments="fetchDocuments" />
+                    <ModulesUserDocumentModalEditDocument :isModalOpen="state.modal.isEditDocumentOpen"
+                        :selectedDocument="state.selectedDocument" @close="state.modal.isEditDocumentOpen = false"
+                        @refreshDocuments="fetchDocuments" />
+                    <ModulesUserDocumentAccessModalView :isModalOpen="state.modal.isViewAccessOpen"
+                        :selectedDocument="state.selectedDocument" @close="state.modal.isViewAccessOpen = false" />
+                    <ModulesUserDocumentModalMoveFile :isModalOpen="state.modal.isMoveFileOpen"
+                        :selectedDocument="state.selectedDocument" @close="state.modal.isMoveFileOpen = false"
+                        @refreshDocuments="fetchDocuments" />
+                    <ModulesUserDocumentFolderStructureModalFolderStructures
+                        :isModalOpen="state.modal.isViewFolderStructureOpen"
+                        @close="state.modal.isViewFolderStructureOpen = false" />
+
+                    <ModulesUserDocumentStatusTemplateModalNew :isModalOpen="state.modal.isCreateTemplateOpen"
+                        @close="state.modal.isCreateTemplateOpen = false" />
+
+                    <DialogConfirmation :isModalOpen="state.modal.isArchiveDocumentOpen"
+                        :message="$t('drive.confirmation.archiveConfirmation') + '?'"
+                        @close="state.modal.isArchiveDocumentOpen = false" @confirm="archiveDocument" />
+                    <DialogConfirmation :isModalOpen="state.modal.isDeleteDirectoryOpen"
+                        :message="$t('drive.confirmation.deleteFolderConfirmation') + '?'"
+                        @close="state.modal.isDeleteDirectoryOpen = false" @confirm="deleteDocument" />
+                    <DialogConfirmation :isModalOpen="state.modal.isDeleteFileOpen"
+                        :message="$t('drive.confirmation.deleteFileConfirmation') + '?'"
+                        @close="state.modal.isDeleteFileOpen = false" @confirm="deleteDocument" />
+                    <DialogConfirmation :isModalOpen="state.modal.isUpgradeStorageOpen"
+                        :title="$t('drive.upgradeStorage')"
+                        :message="state.error?.message + ' ' + $t('drive.confirmation.upgradeStorageConfirmation') + '?'"
+                        @close="closeUpgradeStorageModal" @confirm="navigateTo(`/storage/upgrade`)" />
+                    <ModulesUserDocumentDocsFileModalNew :isModalOpen="state.modal.isCreateDocumentFileOpen"
+                        @close="state.modal.isCreateDocumentFileOpen = false" @refreshDocuments="fetchDocuments" />
+                    <ModulesUserDocumentDocsFileModalEditLayoutWarning
+                        :isModalOpen="state.modal.isEditDocumentFileWarningOpen"
+                        :selectedDocument="state.selectedDocument"
+                        @close="state.modal.isEditDocumentFileWarningOpen = false" @refreshDocuments="fetchDocuments" />
+                    <ModulesUserDocumentDocsFileModalPreview :isModalOpen="state.modal.isViewDocumentOpen"
+                        :selectedDocument="state.selectedDocument" @close="state.modal.isViewDocumentOpen = false" />
+                    <DialogConfirmation :isModalOpen="state.modal.isDownloadDialogConfirmationOpen"
+                        :message="$t('drive.confirmation.downloadWithCompanyLogoConfirmation') + '?'"
+                        @close="cancelCompanyLogoDownload"
+                        @confirm="confirmCompanyLogoDownload" />
                 </div>
-                <ModulesUserDocumentModalNewDirectory :isModalOpen="state.modal.isAddDirectoryOpen"
-                    @close="state.modal.isAddDirectoryOpen = false" @refreshDocuments="fetchDocuments" />
-                <ModulesUserDocumentModalEditDocument :isModalOpen="state.modal.isEditDocumentOpen"
-                    :selectedDocument="state.selectedDocument" @close="state.modal.isEditDocumentOpen = false"
-                    @refreshDocuments="fetchDocuments" />
-                <ModulesUserDocumentAccessModalView :isModalOpen="state.modal.isViewAccessOpen"
-                    :selectedDocument="state.selectedDocument" @close="state.modal.isViewAccessOpen = false" />
-                <ModulesUserDocumentModalMoveFile :isModalOpen="state.modal.isMoveFileOpen"
-                    :selectedDocument="state.selectedDocument" @close="state.modal.isMoveFileOpen = false"
-                    @refreshDocuments="fetchDocuments" />
-                <ModulesUserDocumentFolderStructureModalFolderStructures
-                    :isModalOpen="state.modal.isViewFolderStructureOpen"
-                    @close="state.modal.isViewFolderStructureOpen = false" />
-
-                <ModulesUserDocumentStatusTemplateModalNew :isModalOpen="state.modal.isCreateTemplateOpen"
-                    @close="state.modal.isCreateTemplateOpen = false" />
-
-                <DialogConfirmation :isModalOpen="state.modal.isArchiveDocumentOpen"
-                    :message="$t('drive.confirmation.archiveConfirmation') + '?'"
-                    @close="state.modal.isArchiveDocumentOpen = false" @confirm="archiveDocument" />
-                <DialogConfirmation :isModalOpen="state.modal.isDeleteDirectoryOpen"
-                    :message="$t('drive.confirmation.deleteFolderConfirmation') + '?'"
-                    @close="state.modal.isDeleteDirectoryOpen = false" @confirm="deleteDocument" />
-                <DialogConfirmation :isModalOpen="state.modal.isDeleteFileOpen"
-                    :message="$t('drive.confirmation.deleteFileConfirmation') + '?'"
-                    @close="state.modal.isDeleteFileOpen = false" @confirm="deleteDocument" />
-                <DialogConfirmation :isModalOpen="state.modal.isUpgradeStorageOpen" :title="$t('drive.upgradeStorage')"
-                    :message="state.error?.message + ' ' + $t('drive.confirmation.upgradeStorageConfirmation') + '?'"
-                    @close="closeUpgradeStorageModal" @confirm="navigateTo(`/storage/upgrade`)" />
-            </div>
+            </LoadingSpinner>
         </NuxtLayout>
     </div>
 </template>
 
 <script setup lang="ts">
+import { Menu, MenuButton, MenuItems, MenuItem } from '@headlessui/vue'
 import { useDatetimeFormatter } from '@/composables/datetimeFormatter'
 import { documentService } from '@/components/api/user/DocumentService'
 import { useI18n } from "vue-i18n"
@@ -234,20 +297,33 @@ const state = reactive({
         isAddDirectoryOpen: false,
         isArchiveDocumentOpen: false,
         isCreateTemplateOpen: false,
+        isCreateDocumentFileOpen: false,
         isDeleteDirectoryOpen: false,
         isDeleteFileOpen: false,
         isEditDocumentOpen: false,
+        isEditDocumentFileOpen: false,
+        isEditDocumentFileWarningOpen: false,
         isMoveFileOpen: false,
         isUpgradeStorageOpen: false,
         isUploadFileOpen: false,
         isViewAccessOpen: false,
         isViewFolderStructureOpen: false,
+        isViewDocumentOpen: false,
+        isDownloadDialogConfirmationOpen: false,
     },
     selectedDocument: {} as any,
+    previewDocumentData: null as ArrayBuffer | null,
+    docsFields: {
+        name: '',
+        content: ''
+    },
+    isEditMode: false,
     sortData: {
         sortField: 'id',
         sortOrder: 'descend',
     },
+    isCompanyLogoIncluded: false,
+    isAlreadyDownlaoding: false,
 })
 
 onMounted(() => {
@@ -327,6 +403,37 @@ function handleSearch(value: any) {
     fetchDocuments()
 }
 
+function viewDownloadDocument(document: any) {
+    const extension = document.file_url.split('.').pop().toLowerCase()
+    if (['docx', 'pages'].includes(extension)) {
+        state.selectedDocument = document
+        state.modal.isViewDocumentOpen = true
+    } else {
+        downloadFile(document)
+    }
+}
+
+function openDownloadDocumentPdfDialog(document: any) {
+    state.selectedDocument = document
+    state.modal.isDownloadDialogConfirmationOpen = true
+}
+
+function cancelCompanyLogoDownload() {
+    state.modal.isDownloadDialogConfirmationOpen = false
+    state.isCompanyLogoIncluded = false
+
+    if(!state.isAlreadyDownlaoding) {
+        downloadDocumentPdf(state.selectedDocument)
+    }
+}
+
+function confirmCompanyLogoDownload() {
+    state.modal.isDownloadDialogConfirmationOpen = false
+    state.isCompanyLogoIncluded = true
+
+    downloadDocumentPdf(state.selectedDocument)
+}
+
 async function downloadFile(document: any) {
     state.error = {}
     state.isTableLoading = true
@@ -340,6 +447,26 @@ async function downloadFile(document: any) {
         state.error = error
     }
     state.isTableLoading = false
+}
+
+async function downloadDocumentPdf(document: any) {
+    state.error = {}
+    state.isTableLoading = true
+    state.isAlreadyDownlaoding = true
+    try {
+        const params = {
+            is_company_logo_included: state.isCompanyLogoIncluded,
+        }
+        const response = await documentService.downloadPdf(document?.uuid, params)
+        if (response) {
+            saveAs(response, state.selectedDocument.name.split('.')[0] + '.pdf')
+        }
+    } catch (error: any) {
+        state.error = error
+    }
+    state.isTableLoading = false
+    state.isCompanyLogoIncluded = false
+    state.isAlreadyDownlaoding = false
 }
 
 function triggerFileInput() {
@@ -359,7 +486,6 @@ async function uploadFile(event: any) {
         params.append('type', 'file')
         params.append('is_admin_access', 'false')
 
-        // Append all files with the same key, e.g., files[]
         for (const file of files) {
             params.append('files[]', file)
         }
@@ -396,9 +522,21 @@ async function viewDirectory(document: any) {
     await navigateTo(`/drive?folder_uuid=${document.uuid}`)
 }
 
-function editDocument(document: any) {
-    state.selectedDocument = document
-    state.modal.isEditDocumentOpen = true
+async function editDocument(document: any) {
+    const ext = document.file_url.split('.').pop().toLowerCase()
+    if (['html', 'htm', 'docx'].includes(ext)) {
+        state.selectedDocument = document
+        state.modal.isEditDocumentFileWarningOpen = true
+    } else {
+        state.selectedDocument = document
+        state.modal.isEditDocumentOpen = true
+    }
+}
+
+async function confirmOpenEditDocFile() {
+    state.modal.isEditDocumentFileWarningOpen = false
+    await nextTick()
+    state.modal.isEditDocumentFileOpen = true
 }
 
 function viewDocumentAccess(document: any) {

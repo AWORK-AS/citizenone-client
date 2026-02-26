@@ -14,7 +14,7 @@
                     <MenuButton
                         class="inline-flex w-full items-center justify-center gap-x-2 rounded-md px-5 py-2 text-xs font-semibold text-white shadow-sm"
                         :style="{ backgroundColor: departmentStore.getSelectedDepartmentColor ?? '#205E77' }">
-                        {{ $t('department.department') }}:
+                        {{ customPagesStore.getCustomPagesName?.department ?? $t('department.department') }}:
                         {{ departmentStore.getSelectedDepartmentName === '' ? state.departments?.data?.[0]?.name :
                             departmentStore.getSelectedDepartmentName }}
                         <Icon name="heroicons:chevron-down" class="-mr-1 h-5 w-5 text-white" aria-hidden="true" />
@@ -51,6 +51,7 @@ import type { Error } from '@/types'
 import { useAlert } from '@/composables/alert'
 import { useI18n } from "vue-i18n"
 import { useCitizenStore } from '@/store/citizen'
+import { useCustomPagesStore } from '@/store/custom-pages'
 import { useEmployeeStore } from '@/store/employee'
 
 const { t } = useI18n()
@@ -58,6 +59,7 @@ const { successAlert } = useAlert()
 const language = useI18n()
 const departmentStore = useDepartmentStore()
 const citizenStore = useCitizenStore() as any
+const customPagesStore = useCustomPagesStore() as any
 const employeeStore = useEmployeeStore() as any
 
 const state = reactive({

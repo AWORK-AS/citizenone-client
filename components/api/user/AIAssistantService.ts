@@ -8,6 +8,10 @@ class AIAssistantService extends BaseAPIService {
     async generateNote(params: object): Promise<any> {
         return await this.request(`/user/chat-gpt/journal-prompt`, 'POST', params)
     }
+
+    async deleteThread(conversationId: string, params: object): Promise<any> {
+        return await this.request(`/user/chat-gpt/thread/${conversationId}`, 'DELETE', params)
+    }
 }
 
 export const aIAssistantService = new AIAssistantService()

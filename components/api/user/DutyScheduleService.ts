@@ -40,6 +40,30 @@ class DutyScheduleService extends BaseAPIService {
     async pinSelfToTopOfSchedule(): Promise<any> {
         return await this.request(`/user/duty-schedules/employee/pin`, 'POST')
     }
+
+    async scheduleValidation(params: object): Promise<any> {
+        return await this.request(`/user/duty-schedules/schedule/validation`, 'POST', params)
+    }
+
+    async getCompensatoryVacationHours(params: object): Promise<any> {
+        return await this.request(`/user/duty-schedules/overview/compensatory-vacation-hours`, 'GET', params)
+    }
+
+    async getCompensatoryReport(uuid: string, params: object): Promise<any> {
+        return await this.request(`/user/duty-schedules/compensatory-time/${uuid}/report`, 'GET', params)
+    }
+
+    async getSharedDutySchedules(params: object): Promise<any> {
+        return await this.request(`/user/duty-schedules/share/schedules`, 'GET', params)
+    }
+
+    async shareDutySchedules(params: object): Promise<any> {
+        return await this.request(`/user/duty-schedules/share/schedules`, 'POST', params)
+    }
+
+    async deleteSharedDutySchedules(sharedSchedulesUuid: any): Promise<any> {
+        return await this.request(`/user/duty-schedules/share/schedules/${sharedSchedulesUuid}`, 'DELETE')
+    }
 }
 
 export const dutyScheduleService = new DutyScheduleService()

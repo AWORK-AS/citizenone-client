@@ -67,9 +67,8 @@
 import { calendarTagService } from '@/components/api/user/CalendarTagService'
 import { RadioGroup, RadioGroupOption } from '@headlessui/vue'
 import { useCalendarStore } from '@/store/calendar'
+import { useDepartmentStore } from '@/store/department'
 import type { Error } from '@/types'
-
-const calendarStore = useCalendarStore()
 
 const props = defineProps({
     isModalOpen: {
@@ -77,7 +76,10 @@ const props = defineProps({
         required: true,
     },
 })
+
 const emit = defineEmits(['close', 'setFilter'])
+const calendarStore = useCalendarStore()
+const departmentStore = useDepartmentStore() as any
 
 const state = reactive({
     error: {} as Error,
@@ -115,7 +117,10 @@ async function fetchAllCalendarTags() {
     state.error = {}
     state.isPageLoading = true
     try {
-        const response = await calendarTagService.getAllCalendarTags()
+        const params = {
+            department: departmentStore.getSelectedDepartmentName,
+        }
+        const response = await calendarTagService.getAllCalendarTags(params)
         if (response.data) {
             let options: any = []
             response.data.forEach(

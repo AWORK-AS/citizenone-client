@@ -99,7 +99,8 @@
                 ]">
                     <div class="space-y-1">
                         <div class="flex justify-between items-center py-0.5">
-                            <FormLabel for="departments" :label="$t('employees.form.department')" />
+                            <FormLabel for="departments"
+                                :label="customPagesStore.getCustomPagesName?.department ?? $t('employees.form.department')" />
                             <span class="text-xs cursor-pointer text-tertiary hover:text-tertiary-800"
                                 @click="state.modal.isAddDepartmentOpen = true">
                                 {{ $t('departments.addNewDepartment') }}
@@ -242,7 +243,7 @@
             </div>
             <div class="md:col-span-2 space-y-3 bg-white shadow-sm ring-1 ring-gray-900/5 rounded-lg px-4 py-6 sm:p-8">
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-3" v-if="isAdmin(userStore.getUser?.roles)">
-                    <div class="space-y-1" ref="salaryIDField">
+                    <div class="space-y-1 col-span-1 md:col-span-2" ref="salaryIDField">
                         <FormLabel for="salary_id" :label="$t('employees.form.employment.salaryID')" />
                         <FormTextField id="salary_id" name="salary_id"
                             :placeholder="$t('employees.form.employment.salaryID')"
@@ -260,6 +261,15 @@
                             :error="v$?.formEmployee?.employment?.employment_date?.$errors[0]?.$message.toString()" />
                         <FormError :error="props?.error?.errors?.employment_date?.[0]" />
                     </div>
+                    <div class="space-y-1" ref="terminationDateField">
+                        <FormLabel for="termination_date" :label="$t('employees.form.employment.terminationDate')" />
+                        <FormDateField id="termination_date" name="termination_date"
+                            :placeholder="$t('employees.form.employment.terminationDate')"
+                            v-model="state.formEmployee.employment.termination_date" />
+                        <FormError
+                            :error="v$?.formEmployee?.employment?.termination_date?.$errors[0]?.$message.toString()" />
+                        <FormError :error="props?.error?.errors?.termination_date?.[0]" />
+                    </div>
                 </div>
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
                     <div class="space-y-1" ref="annualNormHoursField" v-if="isAdmin(userStore.getUser?.roles)">
@@ -270,11 +280,46 @@
                                 @click="state.modal.isAnnualNormHoursInfoOpen = true" />
                         </div>
                         <FormTextField id="annual_norm_hours" name="annual_norm_hours"
-                            :placeholder="$t('employees.form.employment.annualNormHours')"
+                            :placeholder="$t('employees.form.employment.annualNormHours')" @input="onYearlyInput"
                             v-model="state.formEmployee.employment.annual_norm_hours" />
+                        <p class="text-sm text-primary" v-if="state.info.showAnnualNormHoursCalculation">
+                            {{ annualNormHoursCalculation }}
+                        </p>
                         <FormError
                             :error="v$?.formEmployee?.employment?.annual_norm_hours?.$errors[0]?.$message.toString()" />
                         <FormError :error="props?.error?.errors?.annual_norm_hours?.[0]" />
+                        <FormError :error="state?.error?.errors?.annual_norm_hours?.[0]" />
+                    </div>
+                    <div class="space-y-1" ref="weeklyNormHoursField" v-if="isAdmin(userStore.getUser?.roles)">
+                        <div class="flex items-center gap-x-1">
+                            <FormLabel for="weekly_norm_hours"
+                                :label="$t('employees.form.employment.weeklyNormHours')" />
+                            <Icon name="ph:question" class="size-4 cursor-pointer text-gray-700" aria-hidden="true"
+                                @click="state.modal.isAnnualNormHoursInfoOpen = true" />
+                        </div>
+                        <FormTextField id="weekly_norm_hours" name="weekly_norm_hours"
+                            :placeholder="$t('employees.form.employment.weeklyNormHours')" @input="onWeeklyInput"
+                            v-model="state.formEmployee.employment.weekly_norm_hours" />
+                        <p class="text-sm text-primary" v-if="state.info.showWeeklyNormHoursCalculation">
+                            {{ weeklyNormHoursCalculation }}
+                        </p>
+                        <FormError
+                            :error="v$?.formEmployee?.employment?.weekly_norm_hours?.$errors[0]?.$message.toString()" />
+                        <FormError :error="props?.error?.errors?.weekly_norm_hours?.[0]" />
+                        <FormError :error="state?.error?.errors?.weekly_norm_hours?.[0]" />
+                    </div>
+                    <div id="norm_period_uuid" class="space-y-1">
+                        <div class="flex justify-between items-center py-0.5">
+                            <FormLabel for="norm_period_uuid" :label="$t('normPeriod.form.normPeriod')" />
+                            <span class="text-xs cursor-pointer text-tertiary hover:text-tertiary-800"
+                                @click="state.modal.isAddNewNormPeriod = true">
+                                {{ $t('normPeriod.addCustomNormPeriod') }}
+                            </span>
+                        </div>
+                        <FormSelect id="norm_period_uuid" name="norm_period_uuid" :placeholder="$t('normPeriod.form.normPeriod')" :options="state.options.normPeriods"
+                            v-model="state.formEmployee.employment.norm_period_uuid" />
+                        <FormError :error="v$?.formEmployee?.employment?.norm_period_uuid?.$errors[0]?.$message.toString()" />
+                        <FormError :error="props?.error?.errors?.norm_period_uuid?.[0]" />
                     </div>
                     <div class="space-y-1" ref="vacationDaysField" v-if="isAdmin(userStore.getUser?.roles)">
                         <FormLabel for="vacation_days" :label="$t('employees.form.employment.vacationDays')" />
@@ -480,7 +525,7 @@
         <div class="mt-6">
             <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
                 <FormButton type="button" buttonStyle="cancel" class="rounded-md"
-                    @click="navigateTo(router?.currentRoute?.value?.name !== 'employees-employee_uuid-edit' ? `/employees` : `/employees/${employeeUuid}/view-details`)">
+                    @click="navigateTo(router?.currentRoute?.value?.name === 'employees-employee_uuid-edit' ? `/employees` : `/employees/${employeeUuid}/view-details`)">
                     {{ $t('cancel') }}
                 </FormButton>
                 <FormButton type="submit" buttonStyle="primary" class="rounded-md">
@@ -502,6 +547,8 @@
             @refreshJobSpecialty="fetchJobSpecialties(state.formEmployee.employment.job_title_uuid)" />
         <ModulesUserDutyScheduleNormHoursModalInfo :isModalOpen="state.modal.isAnnualNormHoursInfoOpen"
             @close="state.modal.isAnnualNormHoursInfoOpen = false" />
+        <ModulesUserEmployeeModalNormPeriod :isModalOpen="state.modal.isAddNewNormPeriod" @close="state.modal.isAddNewNormPeriod = false"
+            @refreshNormPeriods="fetchNormPeriods" />
     </form>
 </template>
 
@@ -515,6 +562,8 @@ import { regionService } from '@/components/api/user/RegionService'
 import { municipalityService } from '@/components/api/user/MunicipalityService'
 import { cityService } from '@/components/api/user/CityService'
 import { mediaRiskService } from '@/components/api/user/MediaRiskService'
+import { normPeriodService } from '@/components/api/user/NormPeriodService'
+import { useCustomPagesStore } from '@/store/custom-pages'
 import { useVuelidate } from "@vuelidate/core"
 import { required, helpers } from '@vuelidate/validators'
 import { useI18n } from "vue-i18n"
@@ -537,6 +586,7 @@ const props = defineProps({
     },
 })
 const emit = defineEmits(['isPageLoading', 'submitForm'])
+const customPagesStore = useCustomPagesStore() as any
 const router = useRouter()
 const employeeUuid = router?.currentRoute?.value?.params?.employee_uuid
 const userStore = useUserStore() as any
@@ -559,6 +609,7 @@ const cityField = ref<HTMLElement | null>(null)
 const postCodeField = ref<HTMLElement | null>(null)
 const salaryIDField = ref<HTMLElement | null>(null)
 const employmentDateField = ref<HTMLElement | null>(null)
+const terminationDateField = ref<HTMLElement | null>(null)
 const annualNormHoursField = ref<HTMLElement | null>(null)
 const vacationDaysField = ref<HTMLElement | null>(null)
 const jobTitleField = ref<HTMLElement | null>(null)
@@ -589,12 +640,15 @@ const state = reactive({
         employment: {
             salary_id: '',
             employment_date: '',
+            termination_date: '',
             job_title_uuid: '',
             job_specialties: [],
             working_hours: '',
             employment_status: '',
             annual_norm_hours: '',
+            weekly_norm_hours: '',
             vacation_days: '',
+            norm_period_uuid: '',
         },
         emergencyInfo: {
             emergency_contacts: [],
@@ -611,6 +665,11 @@ const state = reactive({
         isAddRoleOpen: false,
         isShowMediaRiskExplainationOpen: false,
         isAnnualNormHoursInfoOpen: false,
+        isAddNewNormPeriod: false,
+    },
+    info: {
+        showAnnualNormHoursCalculation: false,
+        showWeeklyNormHoursCalculation: false,
     },
     permissions: {
         read: false,
@@ -637,6 +696,7 @@ const state = reactive({
             { value: 'full_time', label: `${t('employees.workingHours.fulltime')}` },
             { value: 'part_time', label: `${t('employees.workingHours.parttime')}` },
         ],
+        normPeriods: [] as any[],
     }
 })
 
@@ -688,12 +748,17 @@ watch(() => props.selectedEmployee, (newValue: any) => {
             employment: {
                 salary_id: newValue.employment.salary_id,
                 employment_date: newValue.employment.employment_date,
+                termination_date: newValue.employment.termination_date,
                 job_title_uuid: newValue.employment.job_title_uuid,
                 job_specialties: newValue.employment.job_specialties,
                 working_hours: newValue.employment.working_hours,
                 employment_status: newValue.employment.employment_status,
                 annual_norm_hours: newValue.employment.annual_norm_hours,
+                weekly_norm_hours: newValue.employment.annual_norm_hours
+                    ? Math.round(Number(newValue.employment.annual_norm_hours) / 52)
+                    : '',
                 vacation_days: newValue.employment.vacation_days,
+                norm_period_uuid: newValue.employment?.norm_period_uuid || 'default',
             },
             show_working_hours: newValue.show_working_hours,
             do_not_count_sick_leave: newValue.do_not_count_sick_leave,
@@ -743,6 +808,20 @@ const rules = computed(() => {
 
 const v$ = useVuelidate(rules, state)
 
+const weeklyNormHoursCalculation = computed(() => {
+    if (state.formEmployee.employment.annual_norm_hours) {
+        return `${state.formEmployee.employment.annual_norm_hours} ${t('employees.form.employment.hoursPerYear')} / 52 ${t('employees.form.employment.weeks')} = ${Math.round((Number(state.formEmployee.employment.annual_norm_hours) / 52 + Number.EPSILON) * 100) / 100} ${t('employees.form.employment.weeklyNormHours')}`
+    }
+    return ''
+})
+
+const annualNormHoursCalculation = computed(() => {
+    if (state.formEmployee.employment.weekly_norm_hours) {
+        return `${state.formEmployee.employment.weekly_norm_hours} ${t('employees.form.employment.hoursPerWeek')} * 52 ${t('employees.form.employment.weeks')} = ${Math.round((Number(state.formEmployee.employment.weekly_norm_hours) * 52 + Number.EPSILON) * 100) / 100} ${t('employees.form.employment.annualNormHours')}`
+    }
+    return ''
+})
+
 onMounted(() => {
     fetchMediaRisks()
     fetchDepartments()
@@ -750,6 +829,7 @@ onMounted(() => {
     fetchJobTitles()
     fetchPages()
     fetchRegions()
+    fetchNormPeriods()
 })
 
 function isAdmin(roles: any) {
@@ -1049,6 +1129,8 @@ function submitForm() {
             salaryIDField.value.scrollIntoView({ behavior: 'smooth', block: 'center' })
         } else if (v$.value.formEmployee.employment.employment_date?.$error && employmentDateField.value) {
             employmentDateField.value.scrollIntoView({ behavior: 'smooth', block: 'center' })
+        } else if (v$.value.formEmployee.employment.termination_date?.$error && terminationDateField.value) {
+            terminationDateField.value.scrollIntoView({ behavior: 'smooth', block: 'center' })
         } else if (v$.value.formEmployee.employment.job_title_uuid?.$error && jobTitleField.value) {
             jobTitleField.value.scrollIntoView({ behavior: 'smooth', block: 'center' })
         } else if (v$.value.formEmployee.employment.working_hours?.$error && workingHoursField.value) {
@@ -1104,5 +1186,104 @@ function removePermission(permissionToRemove: string) {
 
 function removeMedia(mediaToRemove: string) {
     state.formEmployee.media_risks = state.formEmployee.media_risks.filter((media: string) => media !== mediaToRemove);
+}
+
+function onWeeklyInput(event: any) {
+    const value = event.target.value
+    const weeklyHours = parseFloat(value)
+
+    if (value === '') {
+        state.formEmployee.employment.weekly_norm_hours = ''
+        state.info.showAnnualNormHoursCalculation = false
+        state.info.showWeeklyNormHoursCalculation = false
+        delete state?.error?.errors?.weekly_norm_hours
+        return
+    }
+    if (isNaN(weeklyHours) || weeklyHours < 0 || /^\d*\.?\d*$/.test(value) === false) {
+        state.info.showWeeklyNormHoursCalculation = false
+        state.info.showAnnualNormHoursCalculation = false
+
+        state.error.errors = {
+            ...state.error.errors,
+            weekly_norm_hours: [t('validation.invalidNumber')]
+        }
+        return
+    }
+
+    delete state?.error?.errors?.weekly_norm_hours
+    delete state?.error?.errors?.annual_norm_hours
+    state.formEmployee.employment.weekly_norm_hours = value
+    state.info.showAnnualNormHoursCalculation = true
+    state.info.showWeeklyNormHoursCalculation = false
+
+    if (!isNaN(weeklyHours) && weeklyHours >= 0) {
+        const calculatedAnnualHours = Math.round(weeklyHours * 52)
+
+        const currentAnnual = state.formEmployee.employment.annual_norm_hours
+            ? parseFloat(state.formEmployee.employment.annual_norm_hours)
+            : NaN
+
+        if (!Number.isFinite(currentAnnual) || calculatedAnnualHours !== currentAnnual) {
+            state.formEmployee.employment.annual_norm_hours = String(calculatedAnnualHours)
+        }
+    }
+}
+
+function onYearlyInput(event: any) {
+    const value = event.target.value
+    const annualHours = parseFloat(value)
+
+    if (value === '') {
+        state.formEmployee.employment.annual_norm_hours = ''
+        state.info.showAnnualNormHoursCalculation = false
+        state.info.showWeeklyNormHoursCalculation = false
+        delete state?.error?.errors?.annual_norm_hours
+        return
+    }
+    if (isNaN(annualHours) || annualHours < 0 || /^\d*\.?\d*$/.test(value) === false) {
+        state.info.showWeeklyNormHoursCalculation = false
+        state.info.showAnnualNormHoursCalculation = false
+
+        state.error.errors = {
+            ...state.error.errors,
+            annual_norm_hours: [t('validation.invalidNumber')]
+        }
+        return
+    }
+
+    delete state?.error?.errors?.annual_norm_hours
+    delete state?.error?.errors?.weekly_norm_hours
+    state.formEmployee.employment.annual_norm_hours = value
+    state.info.showWeeklyNormHoursCalculation = true
+    state.info.showAnnualNormHoursCalculation = false
+
+    if (!isNaN(annualHours) && annualHours >= 0) {
+        const calculatedWeeklyHours = Math.round(annualHours / 52)
+
+        const currentWeekly = state.formEmployee.employment.weekly_norm_hours
+            ? parseFloat(state.formEmployee.employment.weekly_norm_hours)
+            : NaN
+
+        if (!Number.isFinite(currentWeekly) || calculatedWeeklyHours !== currentWeekly) {
+            state.formEmployee.employment.weekly_norm_hours = String(calculatedWeeklyHours)
+        }
+    }
+}
+
+async function fetchNormPeriods() {
+    try {
+        const response = await normPeriodService.getAllNormPeriods()
+        if (response?.data) {
+            state.options.normPeriods = [
+                { value: 'default', label: `${t('employees.normPeriods.default')} (01.01 - 31.12)` },
+                ...response.data.map((normPeriod: any) => ({
+                    value: normPeriod.uuid,
+                    label: normPeriod.display_label,
+                }))
+            ]
+        }
+    } catch (error: any) {
+        state.error = error
+    }
 }
 </script>

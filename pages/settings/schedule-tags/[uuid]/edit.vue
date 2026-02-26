@@ -53,8 +53,9 @@ const state = reactive({
     error: {} as Error,
     formScheduleTag: {
         name: '',
+        departments: [],
         color: '#000000',
-    },
+    } as any,
     isPageLoading: false,
 })
 
@@ -70,8 +71,12 @@ async function fetchScheduleTag() {
         if (response) {
             state.formScheduleTag = {
                 name: response?.data?.tag ?? '',
+                departments: [],
                 color: response?.data?.color ?? '',
             }
+            response?.data?.departments?.forEach((department: any) => {
+                state.formScheduleTag.departments.push(department?.uuid)
+            })
         }
     } catch (error: any) {
         state.error = error
@@ -85,6 +90,7 @@ async function updateScheduleTag(tagDetails: any) {
     try {
         const params = {
             tag: tagDetails.name,
+            departments_uuid: tagDetails.departments,
             color: tagDetails.color,
         }
         const response = await scheduleTagService.updateScheduleTag(scheduleTagUuid, params)

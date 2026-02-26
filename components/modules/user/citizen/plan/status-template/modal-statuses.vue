@@ -32,12 +32,27 @@
                                             </button>
                                         </td>
                                         <td width="20%">
-                                            <span>
-                                                {{ status?.user?.firstname + ' ' + status?.user?.lastname }}
-                                            </span>
+                                            <div class="flex items-center gap-x-20">
+                                                <span>
+                                                    {{ status?.user?.firstname + ' ' + status?.user?.lastname }}
+                                                </span>
+                                                <Badge type="primary" class="w-fit" v-if="status?.is_draft">
+                                                    <p class="text-xs">{{ $t('plansandgoals.isDraft') }}</p>
+                                                </Badge>
+                                                <Badge type="primary" class="w-fit" v-else>
+                                                    <p class="text-xs">{{ $t('activityLogs.table.actionTypes.published')
+                                                        }}</p>
+                                                </Badge>
+                                            </div>
                                         </td>
+
                                         <td width="15%">
                                             <div class="flex items-end gap-2">
+                                                <FormButton v-if="status.is_draft" class="rounded-md" buttonSize="sm"
+                                                    @click="editDraft(status)">
+                                                    <Icon name="ph:pencil-simple" class="size-4" />
+                                                    {{ $t('plansandgoals.table.actions.edit') }}
+                                                </FormButton>
                                                 <FormButton class="rounded-md" buttonSize="sm"
                                                     @click="downloadStatus(status)">
                                                     <Icon name="ph:download" class="size-4" />
@@ -60,6 +75,9 @@
                 <DialogConfirmation :isModalOpen="state.modal.isDeleteStatusOpen"
                     :message="`${$t('plansandgoals.confirmation.deleteStatusConfirmation')}?`"
                     @close="state.modal.isDeleteStatusOpen = false" @confirm="deleteStatus" />
+                <ModulesUserCitizenPlanStatusTemplateModalEdit :isModalOpen="state.modal.isEditStatusOpen"
+                    :selectedStatus="state.selectedStatus" :selectedData="props.selectedData"
+                    @close="state.modal.isEditStatusOpen = false" @refreshData="fetchStatuses" />
             </template>
         </Modal>
     </div>
@@ -89,6 +107,10 @@ const props = defineProps({
         type: Object,
         required: true,
     },
+    selectedStatus: {
+        type: Object,
+        default: null,
+    },
 })
 
 const emit = defineEmits(['close', 'refreshData'])
@@ -108,20 +130,22 @@ const state = reactive({
     isTableLoading: false,
     modal: {
         isDeleteStatusOpen: false,
+        isEditStatusOpen: false,
     },
     selectedStatus: {} as any,
     sortData: {
         sortField: 'id',
         sortOrder: 'descend',
     },
-    statuses: [] as any
+    statuses: [] as any,
+
 })
 
 function closeModal() {
     emit('close')
 }
 
-watch(() => props.isModalOpen, (newValue: any) => {
+watch(() => props.isModalOpen, async (newValue: any) => {
     if (newValue) {
         fetchStatuses()
     }
@@ -217,5 +241,10 @@ async function deleteStatus() {
         state.error.message = error?.message || 'An error occurred during the deletion.'
     }
     state.isTableLoading = false
+}
+
+function editDraft(status: any) {
+    state.selectedStatus = status
+    state.modal.isEditStatusOpen = true
 }
 </script>

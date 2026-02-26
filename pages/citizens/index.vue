@@ -62,6 +62,11 @@
                             {{ $t('citizens.newCitizen') }}
                         </FormButton>
                         <FormButton buttonStyle="action" class="rounded-lg"
+                            @click="state.modal.isSharedJournalsOpen = true">
+                            <Icon name="ph:share-fat" class="h-4 w-4" aria-hidden="true" />
+                            {{ $t('citizens.citizenJournals.shareJournals.sharedJournals') }}
+                        </FormButton>
+                        <FormButton buttonStyle="action" class="rounded-lg"
                             @click="state.modal.isImportCitizensOpen = true"
                             v-if="userStore.getUser?.roles?.[0]?.name === 'Admin'">
                             <Icon name="ph:file-arrow-up" class="h-4 w-4" aria-hidden="true" />
@@ -227,6 +232,8 @@
                 @close="state.modal.isShowPurchaseEmail = false" />
             <ModulesUserCitizenModalLatestJournal :isModalOpen="state.modal.isShowNote"
                 :selectedCitizen="state.selectedCitizen" @close="state.modal.isShowNote = false" />
+            <ModulesUserCitizenJournalShareModalView :isModalOpen="state.modal.isSharedJournalsOpen"
+                @close="state.modal.isSharedJournalsOpen = false" />
 
             <ModulesUserGuidedTourModalCitizens v-if="state.modal.isGuidedTourCitizensOverviewOpen"
                 :isModalOpen="state.modal.isGuidedTourCitizensOverviewOpen" :isGuidedTour="false"
@@ -258,7 +265,7 @@ const state = reactive({
     columnHeaders: [
         { name: 'citizens.table.name', isTranslateName: true, sorter: true, key: 'firstname' },
         { name: 'citizens.table.email', isTranslateName: true, sorter: true, key: 'email' },
-        { name: 'citizens.table.ssn', isTranslateName: true, sorter: true, key: 'ssn' },
+        { name: 'citizens.table.ssn', isTranslateName: true, sorter: true, key: 'social_security_number' },
         { name: 'citizens.table.phone', isTranslateName: true, sorter: true, key: 'phone' },
         { name: '' },
     ],
@@ -271,6 +278,7 @@ const state = reactive({
     modal: {
         isGuidedTourCitizensOverviewOpen: false,
         isImportCitizensOpen: false,
+        isSharedJournalsOpen: false,
         isShowNote: false,
         isShowPurchaseEmail: false,
     },

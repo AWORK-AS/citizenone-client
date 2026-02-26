@@ -5,7 +5,17 @@
             :show="props.isModalOpen" @close="closeModal">
             <template #modal-body>
                 <div>
-                    <div class="flex justify-end items-center mb-5">
+                    <div class="flex justify-between items-center mb-5">
+                        <div>
+                            <button
+                                class="flex items-center gap-x-1 w-fit text-sm text-primary hover:text-primary-700 hover:underline"
+                                @click="state.modal.isScheduleSlotsDateRangeOpen = true">
+                                <Icon name="ic:outline-filter-list"
+                                    class="text-primary w-6 h-6 group-hover:text-primary-700" />
+                                ({{ formatDateToReadable(state.scheduleSlotsDateRange.formDateRange.start_date) }} -
+                                {{ formatDateToReadable(state.scheduleSlotsDateRange.formDateRange.end_date) }})
+                            </button>
+                        </div>
                         <FormButton buttonStyle="action" class="rounded-lg"
                             @click="state.modal.isAddNewScheduleSlotOpen = true">
                             <Icon name="ph:plus" class="h-4 w-4" aria-hidden="true" />
@@ -97,6 +107,10 @@
                         <Pagination :data="state.scheduleSlots" @previous="previous" @next="next" />
                     </div>
                 </div>
+                <ModulesUserDutyScheduleScheduleSlotsModalDateRange
+                    :isModalOpen="state.modal.isScheduleSlotsDateRangeOpen" :dateRange="state.scheduleSlotsDateRange"
+                    @close="state.modal.isScheduleSlotsDateRangeOpen = false"
+                    @filterDate="filterScheduleSlotsByDateRange" />
                 <ModulesUserDutyScheduleScheduleSlotsModalRequesters
                     :isModalOpen="state.modal.isViewScheduleSlotRequestersOpen"
                     :selectedScheduleSlot="state.selectedScheduleSlot"
@@ -166,10 +180,17 @@ const state = reactive({
         isAddNewScheduleSlotOpen: false,
         isEditScheduleSlotOpen: false,
         isDeleteScheduleSlotOpen: false,
+        isScheduleSlotsDateRangeOpen: false,
         isViewScheduleSlotRequestersOpen: false,
     },
     scheduleSlots: [] as any,
     selectedScheduleSlot: [] as any,
+    scheduleSlotsDateRange: {
+        formDateRange: {
+            start_date: moment(props.selectedDay?.fullDate).format('YYYY-MM-DD'),
+            end_date: moment(props.selectedDay?.fullDate).format('YYYY-MM-DD'),
+        },
+    } as any,
     sortData: {
         sortField: 'id',
         sortOrder: 'descend',
@@ -179,6 +200,12 @@ const state = reactive({
 watch(() => props.isModalOpen, (isModalOpen: Boolean) => {
     if (isModalOpen) {
         state.error = {}
+        state.scheduleSlotsDateRange = {
+            formDateRange: {
+                start_date: moment(props.selectedDay?.fullDate).format('YYYY-MM-DD'),
+                end_date: moment(props.selectedDay?.fullDate).format('YYYY-MM-DD'),
+            },
+        }
         fetchScheduleSlots()
     }
 })
@@ -192,14 +219,20 @@ function fetchScheduleSlotsAndDutySchedules() {
     emit('refreshDutySchedules')
 }
 
+function filterScheduleSlotsByDateRange(formDateRange: any) {
+    state.scheduleSlotsDateRange.formDateRange.start_date = formDateRange?.[0]
+    state.scheduleSlotsDateRange.formDateRange.end_date = formDateRange?.[1]
+    fetchScheduleSlots()
+}
+
 async function fetchScheduleSlots() {
     state.error = {}
     state.isTableLoading = true
     try {
         const params = {
             department: departmentStore.getSelectedDepartmentName,
-            date_start: moment(props.selectedDay?.fullDate).format('YYYY-MM-DD'),
-            date_end: moment(props.selectedDay?.fullDate).format('YYYY-MM-DD'),
+            date_start: moment(state.scheduleSlotsDateRange.formDateRange.start_date).format('YYYY-MM-DD'),
+            date_end: moment(state.scheduleSlotsDateRange.formDateRange.end_date).format('YYYY-MM-DD'),
             page: currentTablePage,
             sortField: state.sortData.sortField,
             sortOrder: state.sortData.sortOrder,

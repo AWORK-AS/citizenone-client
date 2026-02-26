@@ -33,8 +33,16 @@
                             :isLoading="state.isTableLoading" :sortData="state.sortData" @sort="sort">
                             <template #body v-if="!(state.isTableLoading || (state.bookingTags?.data?.length === 0))">
                                 <tr v-for="(bookingTag, index) in state.bookingTags?.data" :key="index">
-                                    <td width="70%">
+                                    <td width="35%">
                                         <span>{{ bookingTag?.tag }}</span>
+                                    </td>
+                                    <td width="35%">
+                                        <div class="text-xxs flex flex-wrap gap-1">
+                                            <span v-for="(department, index) in bookingTag?.departments" :key=index
+                                                class="bg-primary px-2 py-1 text-white rounded-md">
+                                                {{ department?.name }}
+                                            </span>
+                                        </div>
                                     </td>
                                     <td width="30%">
                                         <div class="flex items-end justify-end gap-2">
@@ -69,6 +77,7 @@
 
 <script setup lang="ts">
 import { bookingTagService } from '@/components/api/user/BookingTagService'
+import { useCustomPagesStore } from '@/store/custom-pages'
 import { useI18n } from "vue-i18n"
 import { useAlert } from '@/composables/alert'
 import type { Error } from '@/types'
@@ -76,6 +85,8 @@ import type { Error } from '@/types'
 const runtimeConfig = useRuntimeConfig()
 const { successAlert } = useAlert()
 const { t } = useI18n()
+const language = useI18n()
+const customPagesStore = useCustomPagesStore() as any
 let currentTablePage = 1
 const breadcrumbLinks = [
     {
@@ -88,6 +99,7 @@ const breadcrumbLinks = [
 const state = reactive({
     columnHeaders: [
         { name: 'bookingTags.table.name', isTranslateName: true, sorter: true, key: 'tag' },
+        { name: customPagesStore.getCustomPagesName?.department, isTranslateName: false },
         { name: '' }
     ],
     dataFilter: {
@@ -114,6 +126,16 @@ const state = reactive({
 onMounted(() => {
     fetchBookingTags()
 })
+
+watch(() => customPagesStore.getCustomPagesName, (newValue: any) => {
+    if (newValue) {
+        state.columnHeaders = [
+            { name: 'bookingTags.table.name', isTranslateName: true, sorter: true, key: 'tag' },
+            { name: customPagesStore.getCustomPagesName?.department, isTranslateName: false },
+            { name: '' }
+        ]
+    }
+}, { deep: true })
 
 async function fetchBookingTags() {
     state.error = {}

@@ -514,7 +514,10 @@ async function fetchAllCalendarTags() {
     state.error = {}
     state.isPageLoading = true
     try {
-        const response = await calendarTagService.getAllCalendarTags()
+        const params = {
+            department: departmentStore.getSelectedDepartmentName,
+        }
+        const response = await calendarTagService.getAllCalendarTags(params)
         if (response.data) {
             let options: any = []
             response.data.forEach(
@@ -568,7 +571,7 @@ async function fetchAllUsers() {
             response.data.forEach(
                 (user: any) => options.push({
                     value: user?.uuid,
-                    label: user?.firstname + " " + user?.lastname,
+                    label: user?.firstname + " " + (user?.lastname ?? ''),
                 })
             )
             state.options.users = options

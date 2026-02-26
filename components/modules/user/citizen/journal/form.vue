@@ -98,11 +98,18 @@
                 </div>
             </div>
             <div class="space-y-1">
+                <!-- task 523-->
                 <div class="flex items-center">
                     <p class="text-sm text-gray-600">
                         {{ $t('citizens.citizenJournals.form.content') }}
                     </p>
                     <div class="flex-1 flex items-center gap-x-4 justify-end">
+                        <button type="button" class="text-sm text-primary hover:text-primary-700"
+                            @click="state.modal.isSelectJournalContent = true">
+                            <span>
+                                {{ $t('citizens.citizenJournals.form.usePredefinedcontent') }}
+                            </span>
+                        </button>
                         <div>
                             <input ref="contentFileInput" type="file" @change="handleContentFileChange"
                                 class="hidden" />
@@ -317,8 +324,7 @@
                     {{ $t('cancel') }}
                 </FormButton>
                 <FormButton type="submit" buttonStyle="primary" class="rounded-md w-full">
-                    {{ props.formType === 'create' ? $t('save') :
-                        $t('update') }}
+                    {{ props.formType === 'create' ? $t('save') : $t('update') }}
                 </FormButton>
             </div>
         </div>
@@ -326,6 +332,10 @@
             @close="state.modal.isAddJournalTitleOpen = false" @refreshJournalTitles="fetchAllJournalTitles" />
         <ModulesUserJournalNoteTagModalNew :isModalOpen="state.modal.isAddJournalNoteTagsOpen"
             @close="state.modal.isAddJournalNoteTagsOpen = false" @refreshJournalNoteTags="fetchAllJournalNoteTags" />
+
+        <ModulesUserJournalContentModalSelect :isModalOpen="state.modal.isSelectJournalContent"
+            @close="state.modal.isSelectJournalContent = false" @select="onSelectJournalContent" />
+
         <DialogConfirmation :isModalOpen="state.modal.isUpgradeStorageOpen"
             :title="$t('citizens.documents.upgradeStorage')"
             :message="state.error?.message + ' ' + $t('citizens.documents.confirmation.upgradeStorageConfirmation') + '?'"
@@ -349,8 +359,9 @@ import { required, helpers } from '@vuelidate/validators'
 import { useCitizenStore } from '@/store/citizen'
 import { useUserStore } from '@/store/user'
 import { useI18n } from "vue-i18n"
-import type { Error } from '@/types'
 import { useCustomPagesStore } from '@/store/custom-pages'
+import { useDepartmentStore } from '@/store/department'
+import type { Error } from '@/types'
 
 const props = defineProps({
     error: {
@@ -368,6 +379,7 @@ const props = defineProps({
 })
 const emit = defineEmits(['closeModal', 'isPageLoading', 'submitForm'])
 const citizenStore = useCitizenStore() as any
+const departmentStore = useDepartmentStore() as any
 const userStore = useUserStore() as any
 const language = useI18n()
 
@@ -390,7 +402,10 @@ const editorContentConfig = ref({
             { model: 'paragraph', title: 'Paragraph', class: 'ck-heading_paragraph' },
             { model: 'heading1', view: 'h1', title: 'Heading 1', class: 'ck-heading_heading1' },
             { model: 'heading2', view: 'h2', title: 'Heading 2', class: 'ck-heading_heading2' },
-            { model: 'heading3', view: 'h3', title: 'Heading 3', class: 'ck-heading_heading3' }
+            { model: 'heading3', view: 'h3', title: 'Heading 3', class: 'ck-heading_heading3' },
+            { model: 'heading4', view: 'h4', title: 'Heading 4', class: 'ck-heading_heading4' },
+            { model: 'heading5', view: 'h5', title: 'Heading 5', class: 'ck-heading_heading5' },
+            { model: 'heading6', view: 'h6', title: 'Heading 6', class: 'ck-heading_heading6' },
         ]
     },
     extraPlugins: [ContentUploadAdapterPlugin],
@@ -404,7 +419,10 @@ const editorNoteConfig = ref({
             { model: 'paragraph', title: 'Paragraph', class: 'ck-heading_paragraph' },
             { model: 'heading1', view: 'h1', title: 'Heading 1', class: 'ck-heading_heading1' },
             { model: 'heading2', view: 'h2', title: 'Heading 2', class: 'ck-heading_heading2' },
-            { model: 'heading3', view: 'h3', title: 'Heading 3', class: 'ck-heading_heading3' }
+            { model: 'heading3', view: 'h3', title: 'Heading 3', class: 'ck-heading_heading3' },
+            { model: 'heading4', view: 'h4', title: 'Heading 4', class: 'ck-heading_heading4' },
+            { model: 'heading5', view: 'h5', title: 'Heading 5', class: 'ck-heading_heading5' },
+            { model: 'heading6', view: 'h6', title: 'Heading 6', class: 'ck-heading_heading6' },
         ]
     },
     extraPlugins: [NoteUploadAdapterPlugin],
@@ -442,6 +460,7 @@ const state = reactive({
         isAddJournalNoteTagsOpen: false,
         isAddJournalTitleOpen: false,
         isUpgradeStorageOpen: false,
+        isSelectJournalContent: false,
     },
     options: {
         assessments: [
@@ -476,6 +495,7 @@ const state = reactive({
         teeth: [],
     },
     usePredefinedJournalTitle: false,
+    userPredefinedContents: false,
 })
 
 onMounted(() => {
@@ -684,6 +704,12 @@ function closeUpgradeStorageModal() {
     state.error = {}
 }
 
+function onSelectJournalContent(selected: any) {
+    state.formJournal.content = selected.content
+    state.modal.isSelectJournalContent = false
+    state.userPredefinedContents = true
+}
+
 const triggerContentFileInput = () => {
     contentFileInput.value?.click()
 }
@@ -869,7 +895,10 @@ async function fetchAllJournalNoteTags() {
     state.error = {}
     emit('isPageLoading', true)
     try {
-        const response = await journalNoteTagService.getAllJournalNoteTags()
+        const params = {
+            department: departmentStore.getSelectedDepartmentName,
+        }
+        const response = await journalNoteTagService.getAllJournalNoteTags(params)
         if (response.data) {
             let options: any = []
             response.data.forEach(
@@ -919,9 +948,10 @@ async function generateNoteForJournalContent() {
             prompt: state.formJournal.content,
         }
         const response = await aIAssistantService.generateNote(params)
-        if (response) {
-            if (JSON.parse(response)?.output?.[0]?.content?.[0]?.text) {
-                state.formJournal.content = JSON.parse(response)?.output?.[0]?.content?.[0]?.text
+        if (response && response.output) {
+            const messageOutput = response.output.find((item: any) => item.type === 'message');
+            if (messageOutput?.content?.[0]?.text) {
+                state.formJournal.content = messageOutput.content[0].text
             }
         }
     } catch (error: any) {
@@ -939,9 +969,10 @@ async function generateNoteForRiskAssessmentNote() {
             prompt: state.formJournal.note,
         }
         const response = await aIAssistantService.generateNote(params)
-        if (response) {
-            if (JSON.parse(response)?.output?.[0]?.content?.[0]?.text) {
-                state.formJournal.note = JSON.parse(response)?.output?.[0]?.content?.[0]?.text
+        if (response && response.output) {
+            const messageOutput = response.output.find((item: any) => item.type === 'message');
+            if (messageOutput?.content?.[0]?.text) {
+                state.formJournal.content = messageOutput.content[0].text
             }
         }
     } catch (error: any) {

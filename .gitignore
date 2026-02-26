@@ -25,3 +25,16 @@ logs
 !.env.example
 !.env.production
 !.env.staging
+
+# AI Agent skills (all locations)
+**/skills/
+.agent/
+.claude/
+.codex/
+.gemini/
+.opencode/
+
+# Gitignore itself
+.gitignore
+
+.pnpm-store/

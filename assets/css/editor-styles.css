@@ -1,0 +1,462 @@
+/* ===== CONTAINER & LAYOUT ===== */
+.document-editor {
+    max-height: 700px;
+    background-color: #e8eaed;
+    border-radius: 8px;
+    overflow-y: auto;
+    overflow-x: hidden;
+    display: flex;
+    flex-direction: column;
+}
+
+/* Custom scrollbar for document editor container */
+.document-editor::-webkit-scrollbar {
+    width: 12px;
+}
+
+.document-editor::-webkit-scrollbar-track {
+    background: #e8eaed;
+}
+
+.document-editor::-webkit-scrollbar-thumb {
+    background: #bdc1c6;
+    border-radius: 6px;
+    border: 3px solid #e8eaed;
+}
+
+.document-editor::-webkit-scrollbar-thumb:hover {
+    background: #9aa0a6;
+}
+
+/* Toolbar Container */
+#toolbar-container {
+    background: linear-gradient(to bottom, #ffffff, #f8f9fa);
+    border-bottom: 1px solid #dadce0;
+    border-radius: 8px 8px 0 0;
+    flex-shrink: 0;
+}
+
+/* ===== TOOLBAR STYLING ===== */
+:deep(.ck-toolbar) {
+    background: linear-gradient(to bottom, #ffffff, #f8f9fa) !important;
+    border: 1px solid #dadce0 !important;
+    border-radius: 8px 8px 0 0 !important;
+    padding: 8px 12px !important;
+    box-shadow: 0 1px 2px 0 rgba(60, 64, 67, 0.1) !important;
+}
+
+:deep(.ck-toolbar__separator) {
+    background: #dadce0 !important;
+    width: 1px !important;
+    margin: 0 8px !important;
+}
+
+/* ===== TOOLBAR BUTTONS ===== */
+:deep(.ck-toolbar .ck-button) {
+    border-radius: 4px !important;
+    transition: all 0.2s ease !important;
+    margin: 0 2px !important;
+}
+
+:deep(.ck-toolbar .ck-button:hover) {
+    background-color: #f1f3f4 !important;
+}
+
+:deep(.ck-toolbar .ck-button.ck-on) {
+    background-color: #e8f0fe !important;
+    color: #1967d2 !important;
+}
+
+:deep(.ck-toolbar .ck-button.ck-on:hover) {
+    background-color: #d2e3fc !important;
+}
+
+/* ===== FONT FAMILY & FONT SIZE DROPDOWNS ===== */
+:deep(.ck-toolbar .ck-dropdown.ck-font-family-dropdown),
+:deep(.ck-toolbar .ck-dropdown.ck-font-size-dropdown) {
+    margin: 0 !important;
+    border: 1px solid #dadce0 !important;
+    border-radius: 4px;
+    background: white;
+    transition: all 0.2s ease !important;
+}
+
+:deep(.ck-toolbar .ck-dropdown.ck-font-family-dropdown:hover),
+:deep(.ck-toolbar .ck-dropdown.ck-font-size-dropdown:hover) {
+    border-color: #5f6368 !important;
+    box-shadow: 0 1px 3px 0 rgba(60, 64, 67, 0.15) !important;
+}
+
+/* Join Font Family and Font Size together */
+:deep(.ck-toolbar .ck-dropdown.ck-font-family-dropdown) {
+    border-top-right-radius: 0 !important;
+    border-bottom-right-radius: 0 !important;
+    border-right: none !important;
+    min-width: 150px;
+}
+
+:deep(.ck-toolbar .ck-dropdown.ck-font-size-dropdown) {
+    border-top-left-radius: 0 !important;
+    border-bottom-left-radius: 0 !important;
+    width: 70px;
+}
+
+/* Style dropdown buttons */
+:deep(.ck-toolbar .ck-dropdown > .ck-button) {
+    border: none !important;
+    background: transparent !important;
+    box-shadow: none !important;
+    height: 32px !important;
+    padding: 0 8px !important;
+    font-size: 14px !important;
+}
+
+:deep(.ck-toolbar .ck-dropdown.ck-font-size-dropdown .ck-button__label) {
+    width: 100%;
+    text-align: left;
+    padding-left: 4px;
+    font-weight: 400;
+}
+
+:deep(.ck-toolbar .ck-dropdown.ck-font-family-dropdown .ck-button__label) {
+    font-weight: 400;
+}
+
+/* ===== DROPDOWN PANELS ===== */
+:deep(.ck-dropdown__panel) {
+    border: 1px solid #dadce0 !important;
+    border-radius: 8px !important;
+    box-shadow: 0 2px 6px 2px rgba(60, 64, 67, 0.15) !important;
+    background: white !important;
+    margin-top: 4px !important;
+}
+
+/* Font Size Dropdown - Scrollable */
+:deep(.ck-dropdown.ck-font-size-dropdown .ck-dropdown__panel) {
+    max-height: 280px;
+    overflow-y: auto;
+}
+
+:deep(.ck-dropdown.ck-font-size-dropdown .ck-dropdown__panel::-webkit-scrollbar) {
+    width: 8px;
+}
+
+:deep(.ck-dropdown.ck-font-size-dropdown .ck-dropdown__panel::-webkit-scrollbar-track) {
+    background: #f1f3f4;
+    border-radius: 4px;
+}
+
+:deep(.ck-dropdown.ck-font-size-dropdown .ck-dropdown__panel::-webkit-scrollbar-thumb) {
+    background: #dadce0;
+    border-radius: 4px;
+}
+
+:deep(.ck-dropdown.ck-font-size-dropdown .ck-dropdown__panel::-webkit-scrollbar-thumb:hover) {
+    background: #bdc1c6;
+}
+
+/* Font Size List Items */
+:deep(.ck-dropdown.ck-font-size-dropdown .ck-list__item .ck-button) {
+    display: flex;
+    flex-direction: row-reverse;
+    justify-content: space-between;
+    width: 100%;
+    padding: 8px 12px !important;
+    transition: background-color 0.15s ease !important;
+}
+
+:deep(.ck-dropdown.ck-font-size-dropdown .ck-list__item .ck-button:hover) {
+    background-color: #f1f3f4 !important;
+}
+
+:deep(.ck-dropdown.ck-font-size-dropdown .ck-list__item .ck-button.ck-on) {
+    background-color: #e8f0fe !important;
+}
+
+:deep(.ck-dropdown.ck-font-size-dropdown .ck-list__item .ck-button__label) {
+    font-size: 14px !important;
+    font-weight: 400 !important;
+}
+
+:deep(.ck-dropdown.ck-font-size-dropdown .ck-list__item .ck-button .ck-button__icon) {
+    margin-right: 0;
+    margin-left: 8px;
+}
+
+/* Font Family Dropdown */
+:deep(.ck-dropdown.ck-font-family-dropdown .ck-list__item .ck-button) {
+    padding: 8px 12px !important;
+    transition: background-color 0.15s ease !important;
+}
+
+:deep(.ck-dropdown.ck-font-family-dropdown .ck-list__item .ck-button:hover) {
+    background-color: #f1f3f4 !important;
+}
+
+:deep(.ck-dropdown.ck-font-family-dropdown .ck-list__item .ck-button.ck-on) {
+    background-color: #e8f0fe !important;
+}
+
+/* Heading Dropdown */
+:deep(.ck-dropdown.ck-heading-dropdown .ck-list__item .ck-button) {
+    padding: 8px 12px !important;
+    transition: background-color 0.15s ease !important;
+}
+
+:deep(.ck-dropdown.ck-heading-dropdown .ck-list__item .ck-button:hover) {
+    background-color: #f1f3f4 !important;
+}
+
+:deep(.ck-dropdown.ck-heading-dropdown .ck-list__item .ck-button.ck-on) {
+    background-color: #e8f0fe !important;
+}
+
+/* ===== COLOR PICKER STYLING ===== */
+:deep(.ck-color-grid__tile) {
+    border-radius: 2px !important;
+    transition: transform 0.1s ease !important;
+}
+
+:deep(.ck-color-grid__tile:hover) {
+    transform: scale(1.1) !important;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2) !important;
+}
+
+/* ===== EDITOR CONTENT AREA ===== */
+/* Ensure the CKEditor wrapper takes natural height */
+:deep(.ck.ck-editor) {
+    display: flex !important;
+    flex-direction: column !important;
+}
+
+/* Main editor wrapper - no scrolling here, just padding */
+:deep(.ck.ck-editor__main) {
+    background-color: #e8eaed !important;
+    padding: 40px 60px 120px 60px !important;
+    overflow: visible !important;
+}
+
+/* Alternative selector for editor main */
+:deep(.ck-editor__main) {
+    background-color: #e8eaed !important;
+    padding: 40px 60px 120px 60px !important;
+    overflow: visible !important;
+}
+
+/* The editable content area (the white page) */
+:deep(.ck-editor__editable) {
+    min-height: auto !important;
+    padding: 96px 72px !important; /* 1 inch top/bottom, 0.75 inch left/right */
+    background-color: white !important;
+    border: none !important;
+    box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.1), 
+                0 2px 4px rgba(0, 0, 0, 0.08),
+                0 4px 8px rgba(0, 0, 0, 0.05) !important;
+    max-width: 816px !important; /* Google Docs page width (8.5 inches at 96 DPI) */
+    width: 816px !important;
+    margin: 0 auto !important;
+    font-family: Arial, sans-serif !important;
+    font-size: 11pt !important;
+    line-height: 1.5 !important;
+    color: #202124 !important;
+}
+
+:deep(.ck-editor__editable:focus) {
+    outline: none !important;
+    box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.1), 
+                0 2px 4px rgba(0, 0, 0, 0.08),
+                0 4px 8px rgba(0, 0, 0, 0.05) !important;
+}
+
+/* ===== CONTENT TYPOGRAPHY ===== */
+:deep(.ck-editor__editable h1) {
+    font-size: 26pt;
+    font-weight: 400;
+    margin-top: 20px;
+    margin-bottom: 6px;
+    line-height: 1.15;
+}
+
+:deep(.ck-editor__editable h2) {
+    font-size: 20pt;
+    font-weight: 400;
+    margin-top: 18px;
+    margin-bottom: 6px;
+    line-height: 1.15;
+}
+
+:deep(.ck-editor__editable h3) {
+    font-size: 16pt;
+    font-weight: 400;
+    margin-top: 16px;
+    margin-bottom: 4px;
+    line-height: 1.15;
+}
+
+:deep(.ck-editor__editable h4) {
+    font-size: 14pt;
+    font-weight: 400;
+    margin-top: 14px;
+    margin-bottom: 4px;
+    line-height: 1.15;
+}
+
+:deep(.ck-editor__editable h5) {
+    font-size: 12pt;
+    font-weight: 400;
+    margin-top: 12px;
+    margin-bottom: 4px;
+    line-height: 1.15;
+}
+
+:deep(.ck-editor__editable h6) {
+    font-size: 11pt;
+    font-weight: 700;
+    margin-top: 10px;
+    margin-bottom: 4px;
+    line-height: 1.15;
+}
+
+:deep(.ck-editor__editable p) {
+    margin-bottom: 11pt;
+}
+
+/* ===== TABLES ===== */
+:deep(.ck-editor__editable table) {
+    border-collapse: collapse;
+    margin: 1em 0;
+}
+
+:deep(.ck-editor__editable table td,
+       .ck-editor__editable table th) {
+    border: 1px solid #dadce0;
+    padding: 8px 12px;
+}
+
+/* ===== IMAGES ===== */
+:deep(.ck-editor__editable img) {
+    max-width: 100%;
+    height: auto;
+}
+
+:deep(.ck-editor__editable .image) {
+    display: table;
+    clear: both;
+    text-align: center;
+    margin: 1em auto;
+}
+
+:deep(.ck-editor__editable .image img) {
+    display: block;
+    margin: 0 auto;
+}
+
+/* ===== LINKS ===== */
+:deep(.ck-editor__editable a) {
+    color: #1967d2;
+    text-decoration: underline;
+}
+
+:deep(.ck-editor__editable a:hover) {
+    color: #1557b0;
+}
+
+/* ===== BLOCKQUOTES ===== */
+:deep(.ck-editor__editable blockquote) {
+    border-left: 4px solid #dadce0;
+    padding-left: 16px;
+    margin-left: 0;
+    font-style: italic;
+    color: #5f6368;
+}
+
+/* ===== CODE BLOCKS ===== */
+:deep(.ck-editor__editable code) {
+    background-color: #f1f3f4;
+    padding: 2px 6px;
+    border-radius: 3px;
+    font-family: 'Courier New', Courier, monospace;
+    font-size: 0.9em;
+}
+
+:deep(.ck-editor__editable pre) {
+    background-color: #f1f3f4;
+    padding: 16px;
+    border-radius: 8px;
+    overflow-x: auto;
+    border: 1px solid #dadce0;
+}
+
+/* ===== LISTS ===== */
+:deep(.ck-editor__editable ul,
+       .ck-editor__editable ol) {
+    padding-left: 40px;
+}
+
+/* ===== HORIZONTAL LINE ===== */
+:deep(.ck-editor__editable hr) {
+    border: none;
+    border-top: 1px solid #dadce0;
+    margin: 16px 0;
+}
+
+/* ===== SELECTION ===== */
+:deep(.ck-editor__editable ::selection) {
+    background-color: #d2e3fc;
+}
+
+/* ===== PLACEHOLDER ===== */
+:deep(.ck-editor__editable.ck-placeholder::before) {
+    color: #80868b !important;
+}
+
+/* ===== FOCUS STYLES ===== */
+:deep(.ck-focused) {
+    outline: none !important;
+}
+
+/* ===== TABLE GRID SELECTOR ===== */
+:deep(.ck-insert-table-dropdown .ck-dropdown__panel) {
+    min-width: 260px !important;
+    max-width: 260px !important;
+    width: 260px !important;
+}
+
+:deep(.ck-insert-table-dropdown__grid) {
+    display: grid !important;
+    grid-template-columns: repeat(10, 16px) !important;
+    grid-template-rows: repeat(10, 16px) !important;
+    gap: 2px !important;
+    padding: 10px !important;
+    width: 100% !important;
+}
+
+:deep(.ck-insert-table-dropdown-grid-box) {
+    width: 16px !important;
+    height: 16px !important;
+    border: 1px solid #dadce0 !important;
+    border-radius: 2px !important;
+    background-color: white !important;
+    transition: all 0.15s ease !important;
+}
+
+:deep(.ck-insert-table-dropdown-grid-box:hover),
+:deep(.ck-insert-table-dropdown-grid-box.ck-on) {
+    background-color: #d2e3fc !important;
+    border-color: #1967d2 !important;
+}
+
+:deep(.ck-insert-table-dropdown__label) {
+    text-align: center !important;
+    padding: 8px !important;
+    font-size: 13px !important;
+    color: #5f6368 !important;
+    font-weight: 500 !important;
+}
+
+/* ===== RESPONSIVE ADJUSTMENTS ===== */
+@media (max-width: 900px) {
+    :deep(.ck-editor__editable) {
+        padding: 2rem 1.5rem !important;
+    }
+}

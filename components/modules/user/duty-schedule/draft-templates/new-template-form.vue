@@ -11,22 +11,26 @@
                 </div>
 
                 <div class="space-y-1">
-                    <FormLabel for="department_uuid" :label="$t('dutySchedules.draft.selectDepartment.form.department')" />
-                    <FormSelectMultiple id="department_uuid" name="department_uuid" :placeholder="$t('dutySchedules.draft.selectDepartment.form.department')" :options="state.options.departments"
-                        v-model="state.formTemplate.department_uuid" />
+                    <FormLabel for="department_uuid"
+                        :label="customPagesStore.getCustomPagesName?.department ?? $t('dutySchedules.draft.selectDepartment.form.department')" />
+                    <FormSelectMultiple id="department_uuid" name="department_uuid"
+                        :placeholder="customPagesStore.getCustomPagesName?.department ?? $t('dutySchedules.draft.selectDepartment.form.department')"
+                        :options="state.options.departments" v-model="state.formTemplate.department_uuid" />
                     <FormError :error="v$?.formTemplate?.department_uuid?.$errors[0]?.$message.toString()" />
                     <FormError :error="props?.error?.errors?.department_uuid?.[0]" />
                 </div>
 
                 <div class="space-y-1">
-                    <div class="w-fit flex items-center cursor-pointer" @click="state.formTemplate.is_admin_only = !state.formTemplate.is_admin_only">
+                    <div class="w-fit flex items-center cursor-pointer"
+                        @click="state.formTemplate.is_admin_only = !state.formTemplate.is_admin_only">
                         <FormCheckbox :value="state.formTemplate.is_admin_only" />
                         {{ $t('dutySchedules.draftTemplates.form.adminsOnly') }}
                     </div>
                 </div>
 
                 <div class="space-y-1">
-                    <div class="w-fit flex items-center cursor-pointer" @click="state.formTemplate.recurring.is_recurring = !state.formTemplate.recurring.is_recurring">
+                    <div class="w-fit flex items-center cursor-pointer"
+                        @click="state.formTemplate.recurring.is_recurring = !state.formTemplate.recurring.is_recurring">
                         <FormCheckbox :value="state.formTemplate.recurring.is_recurring" />
                         {{ $t('dutySchedules.draftTemplates.form.isRecurring') }}
                     </div>
@@ -34,16 +38,23 @@
 
                 <div class="space-y-3" v-if="state.formTemplate.recurring.is_recurring">
                     <div class="space-y-1">
-                        <FormLabel for="week_rotations" :label="$t('dutySchedules.draftTemplates.form.weekRotations')" />
-                        <FormNumberField id="week_rotations" name="week_rotations" v-model="state.formTemplate.recurring.week_rotations" placeholder="0" @input="validateWeekRotationQuantity" />
-                        <FormError :error="v$?.formTemplate?.recurring.week_rotations?.$errors[0]?.$message.toString()" />
+                        <FormLabel for="week_rotations"
+                            :label="$t('dutySchedules.draftTemplates.form.weekRotations')" />
+                        <FormNumberField id="week_rotations" name="week_rotations"
+                            v-model="state.formTemplate.recurring.week_rotations" placeholder="0"
+                            @input="validateWeekRotationQuantity" />
+                        <FormError
+                            :error="v$?.formTemplate?.recurring.week_rotations?.$errors[0]?.$message.toString()" />
                         <FormError :error="state?.error?.errors?.recurring_uuid?.[0]" />
                     </div>
                     <div class="space-y-1">
-                        <FormLabel for="recurring_until" :label="$t('dutySchedules.draftTemplates.form.recurringUntil')" />
+                        <FormLabel for="recurring_until"
+                            :label="$t('dutySchedules.draftTemplates.form.recurringUntil')" />
                         <FormDateField id="recurring_until" name="recurring_until"
-                            :placeholder="`${$t('recurring.until')}`" v-model="state.formTemplate.recurring.recurring_until" />
-                        <FormError :error="v$?.formTemplate.recurring.recurring_until?.$errors[0]?.$message.toString()" />
+                            :placeholder="`${$t('recurring.until')}`"
+                            v-model="state.formTemplate.recurring.recurring_until" />
+                        <FormError
+                            :error="v$?.formTemplate.recurring.recurring_until?.$errors[0]?.$message.toString()" />
                         <FormError :error="state?.error?.errors?.recurring_until?.[0]" />
                     </div>
                 </div>
@@ -69,6 +80,7 @@ import { useVuelidate } from "@vuelidate/core"
 import { required, helpers } from '@vuelidate/validators'
 import { useI18n } from "vue-i18n"
 import type { Error } from '@/types'
+import { useCustomPagesStore } from '@/store/custom-pages'
 import { useDepartmentStore } from '@/store/department'
 import { useUserStore } from '@/store/user'
 import { departmentService } from '@/components/api/user/DepartmentService'
@@ -89,6 +101,7 @@ const props = defineProps({
 })
 const emit = defineEmits(['closeModal', 'submitForm', 'isLoading'])
 const { t } = useI18n()
+const customPagesStore = useCustomPagesStore() as any
 const departmentStore = useDepartmentStore() as any
 const userStore = useUserStore() as any
 
@@ -108,7 +121,7 @@ const state = reactive({
             is_recurring: false,
             week_rotations: '',
             recurring_until: ''
-            
+
         },
     },
     options: {
@@ -125,7 +138,7 @@ onMounted(() => {
         state.formTemplate.is_admin_only = props.selectedDraftTemplate.is_admin_only
         state.formTemplate.recurring.is_recurring = props.selectedDraftTemplate.recurring.is_recurring
         state.formTemplate.recurring.week_rotations = props.selectedDraftTemplate.recurring.week_rotations,
-        state.formTemplate.recurring.recurring_until = props.selectedDraftTemplate.recurring.recurring_until
+            state.formTemplate.recurring.recurring_until = props.selectedDraftTemplate.recurring.recurring_until
     }
 })
 
@@ -159,14 +172,13 @@ const rules = computed(() => {
             },
         }
     }
-    
+
 })
 
 const v$ = useVuelidate(rules, state)
 
 function submitForm() {
     v$.value.$validate()
-    console.log(v$.value.$error)
     if (!v$.value.$error) {
         emit('submitForm', state.formTemplate)
     }

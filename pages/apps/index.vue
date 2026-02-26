@@ -429,6 +429,11 @@ async function activateApp(formApp: any) {
         const paymentMethod = formApp?.payment_method ?? 'dibs'
         if (state.selectedApp?.generic_name === 'leads') {
             const response = await appService.activateLeadsApp()
+        if (state.selectedApp?.is_free) {
+            const params = {
+                app_uuid: state.selectedApp?.uuid,
+            }
+            const response = await appService.activateFreeApp(params)
             if (response) {
                 successAlert(`${t('alert.success')}!`, `${t('apps.alert.appSuccessfullyActivated')}.`)
                 fetchApps()

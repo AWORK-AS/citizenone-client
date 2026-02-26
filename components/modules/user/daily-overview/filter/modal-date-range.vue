@@ -25,7 +25,7 @@
                                     </div>
                                 </div>
                                 <FormDateRangeField name="date_range" :placeholder="$t('filterDate.filterDate')"
-                                    v-model="state.filter.date_range" />
+                                    v-model="state.filter.date_range" ref="dateRangeField" />
                                 <FormError :error="v$?.filter.date_range?.$errors[0]?.$message.toString()" />
                             </div>
                         </div>
@@ -53,6 +53,7 @@ import { useVuelidate } from "@vuelidate/core"
 import { required, helpers } from '@vuelidate/validators'
 import type { Error } from '@/types'
 import { useI18n } from "vue-i18n"
+import { ref, nextTick } from 'vue'  // Import ref and nextTick
 
 const props = defineProps({
     isModalOpen: {
@@ -80,6 +81,9 @@ const state = reactive({
         end_date: props.dateRange?.formDateRange?.end_date,
     },
 })
+
+// Create a reference for the FormDateRangeField component
+const dateRangeField = ref(null)
 
 watch(() => props.isModalOpen, (isModalOpen) => {
     if (isModalOpen) {
@@ -128,13 +132,21 @@ function setToday() {
 
 function setNext7Days() {
     state.filter.type = 'next_7_days'
-    const firstDayOfTheWeek = moment().add(1, 'week').startOf('isoWeek').format('YYYY-MM-DD')
-    const lastDayOfTheWeek = moment().add(1, 'week').endOf('isoWeek').format('YYYY-MM-DD')
+    const firstDayOfTheWeek = moment().format('YYYY-MM-DD')
+    const lastDayOfTheWeek = moment().add(1, 'week').format('YYYY-MM-DD')
     state.filter.date_range = [firstDayOfTheWeek, lastDayOfTheWeek]
 }
 
 function setCustom() {
     state.filter.type = 'custom'
+    // Trigger a click event on the FormDateRangeField component
+    nextTick(() => {
+        const dateRangeFieldComponent = dateRangeField.value
+        if (dateRangeFieldComponent) {
+            // Simulate click by triggering the click event
+            dateRangeFieldComponent.$el.click()
+        }
+    })
 }
 
 async function filterDailyOverview() {

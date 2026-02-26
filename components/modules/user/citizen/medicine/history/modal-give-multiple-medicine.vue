@@ -14,8 +14,9 @@
                                     :placeholder="$t('citizens.medicineJournals.history.form.date')"
                                     v-model="state.formGiveMedicine.date" />
                             </div>
-
-                            <div class="table-responsive">
+                            <Alert type="danger" :text="$t('citizens.medicineJournals.history.form.noMedicineToday')"
+                                v-if="state.formGiveMedicine.medicines?.length === 0" />
+                            <div class="table-responsive" v-if="state.formGiveMedicine.medicines?.length > 0">
                                 <div class="table-responsive">
                                     <Table :columnHeaders="state.columnHeaders" :data="state.formGiveMedicine.medicines"
                                         :isLoading="false" :sortData="state.sortData">
@@ -49,14 +50,6 @@
                                                                     }}
                                                                 </p>
                                                             </Badge>
-                                                            <!-- <div class="space-y-1">
-                                                                <FormLabel :for="`dose_${medicineIndex}_${time}`"
-                                                                    :label="$t('citizens.medicineJournals.history.form.dose')" />
-                                                                <FormTextField :id="`dose_${medicineIndex}_${time}`"
-                                                                    :name="`dose_${medicineIndex}_${time}`"
-                                                                    :placeholder="$t('citizens.medicineJournals.history.form.dose')"
-                                                                    v-model="state.formGiveMedicine.medicines[medicineIndex].dosages[getDosageIndexByTime(Number(medicineIndex), time)].dosage" />
-                                                            </div> -->
                                                             <div class="space-y-1">
                                                                 <p class="text-sm text-gray-600">
                                                                     {{
@@ -315,7 +308,8 @@
                                     @click="emit('close')">
                                     {{ $t('cancel') }}
                                 </FormButton>
-                                <FormButton type="submit" buttonStyle="primary" class="rounded-md w-full">
+                                <FormButton type="submit" buttonStyle="primary" class="rounded-md w-full"
+                                    v-if="state.formGiveMedicine.medicines?.length > 0">
                                     {{ $t('save') }}
                                 </FormButton>
                             </div>

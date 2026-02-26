@@ -14,15 +14,17 @@
                             :error="state.error" @isPageLoading="(value: boolean) => state.isPageLoading = value"
                             @closeModal="closeModal" @submitForm="updateSchedule" />
                     </div>
-                    <DialogConfirmation :isModalOpen="state.modal.isDeleteScheduleOpen"
-                        :message="$t('events.confirmation.deleteConfirmation') + '?'"
-                        @close="state.modal.isDeleteScheduleOpen = false" @confirm="deleteMyCalendarEvent" />
+                    <ModulesUserMyCalendarModalDelete
+                        :isModalOpen="state.modal.isDeleteScheduleOpen"
+                        :selectedSchedule="props.selectedSchedule"
+                        @deleteMyCalendarEvent="deleteMyCalendarEvent"
+                        @close="state.modal.isDeleteScheduleOpen = false"
+                        @confirm="deleteMyCalendarEvent" />
                 </LoadingSpinner>
             </template>
         </Modal>
     </div>
 </template>
-
 
 <script setup lang="ts">
 import { myCalendarService } from '@/components/api/user/MyCalendarService'
@@ -57,8 +59,8 @@ function closeModal() {
     emit('close')
 }
 
-function deleteMyCalendarEvent() {
-    emit('deleteMyCalendarEvent', props.selectedSchedule)
+function deleteMyCalendarEvent(isDeleteFuture: boolean) {
+    emit('deleteMyCalendarEvent', props.selectedSchedule, isDeleteFuture)
 }
 
 function refreshSchedules() {
@@ -80,7 +82,7 @@ async function updateSchedule(scheduleDetails: any) {
             is_private: scheduleDetails.is_private,
             apply_changes_to_future_events: scheduleDetails.apply_changes_to_future_events,
         } as any
-        
+
         if (scheduleDetails.recurring.recurring) {
             params.recurring = scheduleDetails.recurring.recurring
             params.recurring_until = scheduleDetails.recurring.recurring_until
@@ -107,7 +109,6 @@ async function updateSchedule(scheduleDetails: any) {
                 }
             }
         }
-        console.log('Params', params)
         const response = await myCalendarService.updateSchedule(scheduleUuid, params)
         if (response?.data) {
             refreshSchedules()

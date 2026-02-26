@@ -5,7 +5,7 @@
             <template #modal-body>
                 <LoadingSpinner :isActive="state.isPageLoading">
                     <ModulesUserCitizenMedicineHistoryForm formType="create" :selectedMedicine="props.selectedMedicine"
-                        :selectedMedicineHistory="state.formMedicineHistory" :error="state.error"
+                        :selectedMedicineHistory="state.formMedicineHistory" :error="state.error" @error="setError"
                         @isPageLoading="(value: boolean) => state.isPageLoading = value" @closeModal="closeModal"
                         @submitForm="saveMedicineHistory" />
                 </LoadingSpinner>
@@ -49,6 +49,10 @@ const state = reactive({
 
 function closeModal() {
     emit('close')
+}
+
+function setError(error: any) {
+    state.error = error
 }
 
 function refreshMedicines() {

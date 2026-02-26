@@ -20,7 +20,7 @@
                 <Alert type="danger" :text="state?.error?.message"
                     v-if="state.error?.message && state.error.message.length > 0" />
                 <LoadingSpinner :isActive="state.isPageLoading">
-                    <div v-if="state.notifications.length > 0">
+                    <div v-if="state.notifications?.data?.length > 0">
                         <div class="flex justify-end">
                             <FormButton buttonStyle="primary" buttonSize="xs" @click="markAllAsRead"
                                 class="w-fit rounded-md">
@@ -32,7 +32,7 @@
                         <ul class="mt-5 space-y-5">
                             <!-- Notification Item -->
                             <li class="bg-white ring-1 ring-gray-200 rounded-md p-5 border-l-4 border-secondary mt cursor-pointer"
-                                v-for="(notification, index) in state.notifications" :key="index"
+                                v-for="(notification, index) in state.notifications?.data" :key="index"
                                 @click="viewNotification(notification)">
                                 <Badge type="primary" class="w-fit">
                                     <p class="text-xs px-2">
@@ -56,6 +56,7 @@
                                     </p>
                                 </div>
                             </li>
+                            <Pagination :data="state.notifications" @previous="previous" @next="next" />
                         </ul>
                     </div>
                     <div v-else class="min-h-44 flex items-center">
@@ -90,6 +91,7 @@ const breadcrumbLinks = [
         href: '/journal-notifications',
     },
 ]
+let currentTablePage = 1
 
 const state = reactive({
     error: {} as Error,
@@ -101,6 +103,10 @@ const state = reactive({
     notifications: [] as any,
     selectedJournal: {} as any,
     selectedNotification: {} as any,
+    sortData: {
+        sortField: 'id',
+        sortOrder: 'descend',
+    },
 })
 
 onMounted(() => {
@@ -111,7 +117,12 @@ async function fetchNotifications() {
     state.error = {}
     state.isPageLoading = true
     try {
-        const response = await notificationService.getNotifications()
+        const params = {
+            page: currentTablePage,
+            sortField: state.sortData.sortField,
+            sortOrder: state.sortData.sortOrder,
+        }
+        const response = await notificationService.getNotifications(params)
         if (response) {
             state.notifications = response
         }
@@ -119,6 +130,16 @@ async function fetchNotifications() {
         state.error = error
     }
     state.isPageLoading = false
+}
+
+function previous() {
+    currentTablePage = currentTablePage - 1
+    fetchNotifications()
+}
+
+function next() {
+    currentTablePage = currentTablePage + 1
+    fetchNotifications()
 }
 
 function viewNotification(notification: any) {

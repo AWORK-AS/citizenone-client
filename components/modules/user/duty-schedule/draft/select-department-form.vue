@@ -1,12 +1,15 @@
 <template>
     <form @submit.prevent="selectDepartment" id="formDutySchedule">
         <div class="space-y-3">
-            <Alert type="danger" :text="props?.error?.message" v-if="props.error?.message && props.error.message.length > 0" />
-            
+            <Alert type="danger" :text="props?.error?.message"
+                v-if="props.error?.message && props.error.message.length > 0" />
+
             <div class="space-y-1">
-                <FormLabel for="department_uuid" :label="$t('dutySchedules.draft.selectDepartment.form.department')" />
-                <FormSelect id="department_uuid" name="department_uuid" :placeholder="$t('dutySchedules.draft.selectDepartment.form.department')" :options="state.options.departments"
-                    v-model="state.formDepartment.department_uuid" />
+                <FormLabel for="department_uuid"
+                    :label="customPagesStore.getCustomPagesName?.department ?? $t('dutySchedules.draft.selectDepartment.form.department')" />
+                <FormSelect id="department_uuid" name="department_uuid"
+                    :placeholder="customPagesStore.getCustomPagesName?.department ?? $t('dutySchedules.draft.selectDepartment.form.department')"
+                    :options="state.options.departments" v-model="state.formDepartment.department_uuid" />
                 <FormError :error="v$?.formDepartment?.department_uuid?.$errors[0]?.$message.toString()" />
                 <FormError :error="props?.error?.errors?.department_uuid?.[0]" />
             </div>
@@ -16,7 +19,8 @@
                     <FormCheckbox :value="state.formDepartment.do_not_show_again" />
                     <div class="flex items-center gap-x-1">
                         <span>{{ $t('dutySchedules.draft.selectDepartment.form.doNotShowAgain') }}</span>
-                        <Tooltip position="right" :text="$t('dutySchedules.draft.selectDepartment.form.donNotShowAgainInfo')">
+                        <Tooltip position="right"
+                            :text="$t('dutySchedules.draft.selectDepartment.form.donNotShowAgainInfo')">
                             <Icon name="ph:question" class="h-5 w-5 text-gray-700" aria-hidden="true" />
                         </Tooltip>
                     </div>
@@ -42,6 +46,7 @@ import moment from "moment"
 import { useI18n } from "vue-i18n"
 import type { Error } from '@/types'
 import { departmentService } from '@/components/api/user/DepartmentService'
+import { useCustomPagesStore } from '@/store/custom-pages'
 import { useDepartmentStore } from '@/store/department'
 import { useVuelidate } from "@vuelidate/core"
 import { required, helpers } from '@vuelidate/validators'
@@ -56,6 +61,7 @@ const props = defineProps({
 
 const { t } = useI18n()
 const emit = defineEmits(['close', 'isPageLoading', 'selectDepartment'])
+const customPagesStore = useCustomPagesStore() as any
 const departmentStore = useDepartmentStore() as any
 
 const state = reactive({

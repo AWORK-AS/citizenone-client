@@ -17,7 +17,7 @@
                     {{ props?.unreadMessage ?? 0 }}
                 </Badge>
             </div>
-            <div class="relative">
+            <div class="relative" v-if="userStore.getUser?.is_secure_mail_active">
                 <button class="w-20 h-20 flex flex-col items-center justify-center px-6 py-4 rounded-lg text-gray-900"
                     :class="$route.name === 'mail-secured-mail' ? 'text-primary bg-white shadow-md hover:bg-gray-100' : 'shadow-sm bg-gray-100 hover:bg-gray-200'"
                     @click="navigateTo('/mail/secured-mail')">
@@ -94,6 +94,8 @@
 </template>
 
 <script setup lang="ts">
+import { useUserStore } from '@/store/user'
+
 const props = defineProps({
     unreadMessage: {
         type: Number,
@@ -104,6 +106,8 @@ const props = defineProps({
         required: true,
     },
 })
+
+const userStore = useUserStore() as any
 
 const state = reactive({
     modal: {

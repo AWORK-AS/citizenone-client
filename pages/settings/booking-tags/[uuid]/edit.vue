@@ -52,7 +52,8 @@ const state = reactive({
     error: {} as Error,
     formBookingTag: {
         name: '',
-    },
+        departments: [],
+    } as any,
     isPageLoading: false,
 })
 
@@ -68,7 +69,11 @@ async function fetchBookingTag() {
         if (response) {
             state.formBookingTag = {
                 name: response?.data?.tag ?? '',
+                departments: [],
             }
+            response?.data?.departments?.forEach((department: any) => {
+                state.formBookingTag.departments.push(department?.uuid)
+            })
         }
     } catch (error: any) {
         state.error = error
@@ -82,6 +87,7 @@ async function updateBookingTag(tagDetails: any) {
     try {
         const params = {
             tag: tagDetails.name,
+            departments_uuid: tagDetails.departments,
         }
         const response = await bookingTagService.updateBookingTag(bookingTagUuid, params)
         if (response.data) {

@@ -25,8 +25,8 @@
                         </p>
                         <p v-if="language.locale.value === 'dk'">
                             <span class="text-red-700">
-                                Underage borger fundet, og medarbejderen har ikke
-                                børnebeskyttelsescertifikat.
+                                OBS: Der er registreret en borger under 18 år, men den tilknyttede medarbejder har ikke
+                                en gyldig børneattest uploadet på sin brugerkonto.
                             </span>
                             <span class="cursor-pointer text-primary hover:text-primary-700"
                                 @click="state.showChildProtectionCertificateWarning = false">
@@ -59,7 +59,15 @@
                     <div class="w-fit flex items-center cursor-pointer"
                         @click="state.formShift.do_not_count_weekends = !state.formShift.do_not_count_weekends">
                         <FormCheckbox :value="state.formShift.do_not_count_weekends" />
-                        {{ $t('dutySchedules.form.DoNotCountWeekends') }}
+                        {{ $t('dutySchedules.form.doNotCountWeekends') }}
+                    </div>
+                </div>
+                <div
+                    v-if="['vacation-leave'].includes(state.options.shifts.find((shift: any) => shift.value === state.formShift.shift_type)?.system_name)">
+                    <div class="w-fit flex items-center cursor-pointer"
+                        @click="state.formShift.use_compensatory_time = !state.formShift.use_compensatory_time">
+                        <FormCheckbox :value="state.formShift.use_compensatory_time" />
+                        {{ $t('dutySchedules.form.useCompensatoryTime') }}
                     </div>
                 </div>
                 <div class="space-y-1">
@@ -75,7 +83,15 @@
                     <FormError :error="v$?.formShift?.department_uuid?.$errors[0]?.$message.toString()" />
                     <FormError :error="state?.error?.errors?.department_uuid?.[0]" />
                 </div>
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
+
+                <div class="space-y-1" v-if="isVacationLeave">
+                    <div class="w-fit flex items-center cursor-pointer" @click="state.formShift.is_override_vacation_hours = !state.formShift.is_override_vacation_hours">
+                        <FormCheckbox id="override_vacation_hours" :value="state.formShift.is_override_vacation_hours" />
+                        {{ $t('dutySchedules.form.overrideVacationHours') }}
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-3" v-if="!isVacationLeave || (isVacationLeave && state.formShift.is_override_vacation_hours)">
                     <div class="space-y-1">
                         <FormLabel for="date_time_start" :label="$t('dutySchedules.form.datetimeStart')" />
                         <FormDateTimeField id="date_time_start" name="date_time_start"
@@ -249,14 +265,6 @@
                     <FormError :error="v$?.formShift?.citizens?.$errors[0]?.$message.toString()" />
                     <FormError :error="state?.error?.errors?.citizen_uuid?.[0]" />
                 </div>
-                <div
-                    v-if="['vacation-leave'].includes(state.options.shifts.find((shift: any) => shift.value === state.formShift.shift_type)?.system_name)">
-                    <div class="w-fit flex items-center cursor-pointer"
-                        @click="state.formShift.use_compensatory_time = !state.formShift.use_compensatory_time">
-                        <FormCheckbox :value="state.formShift.use_compensatory_time" />
-                        {{ $t('dutySchedules.form.useCompensatoryTime') }}
-                    </div>
-                </div>
                 <div class="space-y-1">
                     <div class="flex justify-between items-center py-0.5">
                         <FormLabel for="schedule_tag_uuid" :label="$t('dutySchedules.form.tags')" />
@@ -299,7 +307,7 @@
             </div>
         </div>
         <ModulesUserScheduleTagModalNew :isModalOpen="state.modal.isAddNewScheduleTagOpen"
-            @close="state.modal.isAddNewScheduleTagOpen = false" @refreshScheduleTags="fetchAllCalendarTags" />
+            @close="state.modal.isAddNewScheduleTagOpen = false" @refreshScheduleTags="fetchAllScheduleTags" />
         <ModulesUserDepartmentModalNew :isModalOpen="state.modal.isAddDepartmentOpen"
             @close="state.modal.isAddDepartmentOpen = false" @refreshDepartments="fetchAllDepartments" />
     </form>
@@ -336,7 +344,7 @@ const props = defineProps({
     },
 })
 const { t } = useI18n()
-const emit = defineEmits(['close', 'isPageLoading', 'saveShift'])
+const emit = defineEmits(['close', 'isPageLoading', 'saveShift', 'dateTimeChange'])
 const language = useI18n()
 const departmentStore = useDepartmentStore() as any
 
@@ -371,6 +379,7 @@ const state = reactive({
         use_compensatory_time: false,
         note: '',
         do_not_count_sick_leave: false,
+        is_override_vacation_hours: false,
     } as any,
     modal: {
         isAddDepartmentOpen: false,
@@ -475,7 +484,6 @@ onMounted(() => {
     state.showChildProtectionCertificateWarning = false
     v$.value.$reset()
     fetchAllShifts()
-    fetchAllCalendarTags()
     fetchAllDepartments()
     fetchAllScheduleTags()
     fetchAllCitizensPerUserDepartment()
@@ -489,6 +497,7 @@ onMounted(() => {
     state.formShift.department_uuid = props.selectedShift.department_uuid
     state.formShift.note = props.selectedShift.note
     state.formShift.do_not_count_sick_leave = props.selectedShift.do_not_count_sick_leave
+    state.formShift.use_compensatory_time = props.selectedShift.use_compensatory_time
 })
 
 watch(() => state.formShift.shift_type, (selectedShift) => {
@@ -514,9 +523,44 @@ watch(() => state.formShift.shift_type, (selectedShift) => {
         ).format('YYYY-MM-DD H:mm')
     }
 
+    emit('dateTimeChange', props.selectedEmployee.uuid, state.formShift.date_time_start, state.formShift.date_time_end)
+})
+
+watch(() => state.formShift.date_time_start, () => {
+    if (!state.formShift.shift_type) return
+    emit('dateTimeChange', props.selectedEmployee.uuid, state.formShift.date_time_start, state.formShift.date_time_end)
+})
+
+watch(() => state.formShift.date_time_end, () => {
+    if (!state.formShift.shift_type) return
+    emit('dateTimeChange', props.selectedEmployee.uuid, state.formShift.date_time_start, state.formShift.date_time_end)
+})
+
+watch(() => state.formShift.shift_type, () => {
+    if (isVacationLeave.value) {
+        state.formShift.date_time_start = moment(props.selectedShift.date_time_start).startOf('day').add(8, 'hours').format('YYYY-MM-DD H:mm')
+        state.formShift.date_time_end = moment(props.selectedShift.date_time_start).startOf('day').add(15.4, 'hours').format('YYYY-MM-DD H:mm')
+    }
+})
+
+const isVacationLeave = computed(() => {
+    return ['vacation-leave'].includes(state.options.shifts.find((shift: any) => shift.value === state.formShift.shift_type)?.system_name)
 })
 
 const rules = computed(() => {
+    if (isVacationLeave.value) {
+        return {
+            formShift: {
+                shift_type: {
+                    required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
+                },
+                department_uuid: {
+                    required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
+                },
+            },
+        }
+    }
+
     if (state.formShift.recurring.is_recurring) {
         return {
             formShift: {
@@ -632,27 +676,6 @@ async function fetchAllShifts() {
     emit('isPageLoading', false)
 }
 
-async function fetchAllCalendarTags() {
-    state.error = {}
-    emit('isPageLoading', true)
-    try {
-        const response = await scheduleTagService.getAllScheduleTags()
-        if (response?.data) {
-            let options: any = []
-            response.data.forEach(
-                (tag: any) => options.push({
-                    value: tag?.uuid,
-                    label: tag?.tag,
-                })
-            )
-            state.options.scheduleTags = options
-        }
-    } catch (error: any) {
-        state.error = error
-    }
-    emit('isPageLoading', false)
-}
-
 async function fetchAllDepartments() {
     state.error = {}
     emit('isPageLoading', true)
@@ -687,7 +710,10 @@ async function fetchAllScheduleTags() {
     state.error = {}
     emit('isPageLoading', true)
     try {
-        const response = await scheduleTagService.getAllScheduleTags()
+        const params = {
+            department: departmentStore.getSelectedDepartmentName,
+        }
+        const response = await scheduleTagService.getAllScheduleTags(params)
         if (response.data) {
             let options: any = []
             response.data.forEach(
@@ -731,6 +757,7 @@ async function fetchAllCitizensPerUserDepartment() {
 async function saveShift() {
     v$.value.$validate()
     if (!v$.value.$error) {
+        console.log('Form is valid. Submitting data...', state.formShift)
         emit('saveShift', state.formShift)
     }
 }

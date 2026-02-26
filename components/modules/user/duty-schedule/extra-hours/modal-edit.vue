@@ -52,11 +52,13 @@ function refreshExtraHours() {
 }
 
 async function updateScheduleSlot(extraHoursDetails: any) {
+    state.isPageLoading = true
     try {
         const extraHoursUuid = props.selectedExtraHoursRequest?.uuid
         const params = {
             date: extraHoursDetails.date,
             extra_hours_type: extraHoursDetails.type,
+            extra_hours_tags_uuid: extraHoursDetails.extra_hours_tags,
             extra_hours: extraHoursDetails.hours,
             note: extraHoursDetails.note,
         }
@@ -73,6 +75,7 @@ async function updateScheduleSlot(extraHoursDetails: any) {
     } catch (error: any) {
         state.error = error
     }
+    state.isPageLoading = false
 }
 
 function isAdmin(role: any) {
