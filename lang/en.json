@@ -818,6 +818,7 @@
             },
             "registerTransport": {
                 "registerTransport": "Register transport",
+                "endTransport": "End transport",
                 "form": {
                     "startAddress": "Start address",
                     "endAddress": "End address",

@@ -809,27 +809,31 @@
             "checkIn": "Tjek ind",
             "checkOut": "Tjek ud",
             "history": "Historik",
-            "selectType": "Vil du registrere transporttid eller arbejdstid?",
+            "selectType": "Vil du registrere transport eller arbejdstid?",
             "selectTypeMessage": "Registrer din tid nemt — vælg arbejde eller transport for at komme i gang.",
             "transport": "Transport",
-            "work": "Arbejde",
+            "work": "Arbejdstid",
             "form": {
                 
             },
             "registerTransport": {
-                "registerTransport": "Registrer transport",
+                "registerTransport": "Registrér transport",
+                "endTransport": "Afslut transport",
                 "form": {
                     "startAddress": "Startadresse",
                     "endAddress": "Slutadresse",
-                    "note": "Bemærkning (valgfri)",
+                    "note": "Notat (valgfrit)",
+                    "currentLocation": "Nuværende placering",
                     "useCurrentLocation": "Brug nuværende placering",
-                    "locating": "Finder placering..."
+                    "locating": "Finder din placering...",
+                    "searchAddress": "Søg adresse",
+                    "centerMap": "Centrer kort"
                 },
                 "errors": {
-                    "geolocationNotSupported": "Geolokation understøttes ikke af denne browser.",
-                    "somethingWentWrong": "Der opstod en fejl ved hentning af din nuværende placering. Prøv igen.",
-                    "permissionDenied": "Tilladelse til at få adgang til placering blev afvist.",
-                    "positionUnavailable": "Placering kunne ikke fastslås.",
+                    "geolocationNotSupported": "Geolocation understøttes ikke i denne browser.",
+                    "somethingWentWrong": "Der opstod en fejl ved hentning af din aktuelle placering. Prøv igen.",
+                    "permissionDenied": "Aktivér lokationstilladelse i browseren.",
+                    "positionUnavailable": "Positionsoplysninger er ikke tilgængelige.",
                     "timeout": "Anmodningen om at hente din placering udløb.",
                     "unableToLocate": "Kunne ikke bestemme din placering."
                 }

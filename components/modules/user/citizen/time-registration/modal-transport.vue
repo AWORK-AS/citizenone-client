@@ -1,6 +1,6 @@
 <template>
     <div>
-        <Modal size="sm" :title="$t('citizens.timeRegistration.registerTransport.registerTransport')" :show="props.isModalOpen" @close="closeModal">
+        <Modal size="sm" :title="type === 'login' ? $t('citizens.timeRegistration.registerTransport.registerTransport') : $t('citizens.timeRegistration.registerTransport.endTransport')" :show="props.isModalOpen" @close="closeModal">
             <template #modal-body>
                 <LoadingSpinner :isActive="state.isPageLoading">
                     <div class="space-y-1 mt-3">
@@ -31,8 +31,10 @@
 
                     </div>
 
-                    <ModulesUserCitizenTimeRegistrationFormLogin :startAddress="state.startAddress"
-                        @close="closeModal" @useCurrentLocation="useCurrentLocation" @searchAddress="searchAddress" @centerMapToCoords="centerMapToCoords" @submitTransport="submitForm" />
+                    <ModulesUserCitizenTimeRegistrationFormLogin v-if="type === 'login'" :startAddress="state.startAddress" :isLocating="state.isLocating"
+                        @close="closeModal" @useCurrentLocation="useCurrentLocation" @searchAddress="searchAddress" @centerMapToCoords="centerMapToCoords" @submitTransport="submitFormLogin" />
+                    <ModulesUserCitizenTimeRegistrationFormLogout v-else :endAddress="state.startAddress" :isLocating="state.isLocating"
+                        @close="closeModal" @useCurrentLocation="useCurrentLocation" @searchAddress="searchAddress" @centerMapToCoords="centerMapToCoords" @submitTransport="submitFormLogout" />
                     
                 </LoadingSpinner>
             </template>
@@ -54,8 +56,12 @@ const props = defineProps({
         type: Boolean,
         required: true,
     },
+    type: {
+        type: String,
+        required: true,
+    },
 })
-const emit = defineEmits(['close', 'submitTransport'])
+const emit = defineEmits(['close', 'submitTransportLogin', 'submitTransportLogout'])
 
 const state = reactive({
     error: {} as Error,
@@ -65,7 +71,7 @@ const state = reactive({
 })
 
 const mapKey = ref(0)
-const lmap = ref<any>(null) // reference to LMap component instance (optional)
+const lmap = ref<any>(null)
 const markerRef = ref<any>(null)
 const markerLat = ref<number | null>(null)
 const markerLng = ref<number | null>(null)
@@ -90,19 +96,14 @@ watch(
             markerLat.value = null
             markerLng.value = null
             
-            // Force LMap to remount by changing key
             mapKey.value++
             
             await nextTick()
-            // try to pre-populate the user's current location
-            useCurrentLocation().catch(() => {
-                /* swallow errors here — useCurrentLocation sets state.error on failure */
-            })
+            useCurrentLocation().catch(() => {})
         }
     }
 )
 
-/* keep state.isLocating and state.error in sync with composable */
 watch(isLocating, (val) => {
     state.isLocating = val
 })
@@ -118,8 +119,7 @@ const hasCoords = computed(() => {
   return markerLat.value !== null && markerLng.value !== null
 })
 
-function submitForm(formDetails: any) {
-    console.log('Submitting transport with details:', formDetails)
+function submitFormLogin(formDetails: any) {
     state.error = {}
     const params = {
         start_address: formDetails.start_address,
@@ -127,10 +127,30 @@ function submitForm(formDetails: any) {
         geo_start_lng: markerLng.value ? String(markerLng.value) : '',
         note: formDetails.note,
     }
-    emit('submitTransport', params)
-    state.startAddress = ''
-    markerLat.value = null
-    markerLng.value = null
+    emit('submitTransportLogin', params)
+    closeModal()
+    setTimeout(() => {
+        state.startAddress = ''
+        markerLat.value = null
+        markerLng.value = null
+    }, 500)
+}
+
+function submitFormLogout(formDetails: any) {
+    state.error = {}
+    const params = {
+        end_address: formDetails.end_address,
+        geo_end_lat: markerLat.value ? String(markerLat.value) : '',
+        geo_end_lng: markerLng.value ? String(markerLng.value) : '',
+        note: formDetails.note,
+    }
+    emit('submitTransportLogout', params)
+    closeModal()
+    setTimeout(() => {
+        state.startAddress = ''
+        markerLat.value = null
+        markerLng.value = null
+    }, 500)
 }
 
 
@@ -138,22 +158,10 @@ function sleep(ms: number) {
     return new Promise(resolve => setTimeout(resolve, ms))
 }
 
-/**
- * Try reverse geocoding with retries (exponential backoff).
- * Will stop retrying early if composable's locationError indicates rate-limiting.
- *
- * @param lat
- * @param lng
- * @param maxAttempts total attempts (including the first)
- * @param initialDelay initial delay in ms between retries
- */
 async function attemptReverseGeocode(lat: number, lng: number, maxAttempts = 3, initialDelay = 500): Promise<string | null> {
     let attempt = 0
     let delay = initialDelay
 
-    // clear previous composable error before starting
-    // (composable's error ref is also updated inside reverseGeocode)
-    // @ts-ignore
     locationError.value = null
 
     while (attempt < maxAttempts) {
@@ -164,7 +172,6 @@ async function attemptReverseGeocode(lat: number, lng: number, maxAttempts = 3, 
                 return addr
             }
 
-            // If reverseGeocode returned null, check composable error for rate-limit
             const err = locationError.value
             if (err && /rate/i.test(err)) {
                 // stop retrying if rate-limited
@@ -204,8 +211,6 @@ async function useCurrentLocation() {
 
     const lat = result.latitude
     const lng = result.longitude
-
-    console.log('📍 Current location found:', lat, lng)
 
     markerLat.value = lat
     markerLng.value = lng
@@ -251,19 +256,15 @@ async function useCurrentLocation() {
         await sleep(100)
     }
 
-    console.log('🗺️ Map object available:', !!mapObj)
-    console.log('🗺️ lmap.value structure:', lmap.value)
-
     if (mapObj && typeof mapObj.setView === 'function') {
         const targetZoom = 15
-        console.log('🎯 Forcing map to setView:', lat, lng, targetZoom)
         
         try {
             mapObj.setView([lat, lng], targetZoom, { animate: true })
             mapCenter.value = [lat, lng]
             mapZoom.value = targetZoom
         } catch (err) {
-            console.error('❌ setView failed:', err)
+            
         }
 
         await sleep(300)
@@ -271,7 +272,6 @@ async function useCurrentLocation() {
         try {
             const mk = markerRef.value?.mapObject || markerRef.value?.leafletObject || markerRef.value
             if (mk && typeof mk.openPopup === 'function') {
-                console.log('🔓 Opening marker popup')
                 mk.openPopup()
 
                 if (!state.startAddress) {
@@ -279,11 +279,9 @@ async function useCurrentLocation() {
                 }
             }
         } catch (e) {
-            console.error('❌ Popup open failed:', e)
+            
         }
     } else {
-        console.warn('⚠️ Map object not available after waiting. Falling back to reactive props.')
-        console.log('lmap.value:', lmap.value)
         mapCenter.value = [lat, lng]
         mapZoom.value = 15
     }
@@ -298,7 +296,6 @@ async function searchAddress() {
     }
 
     state.error = {}
-    console.log('🔍 Searching for address:', address)
 
     const result = await geocode(address)
 
@@ -309,8 +306,6 @@ async function searchAddress() {
         }
         return
     }
-
-    console.log('📍 Address found at:', result.lat, result.lng)
 
     // Set marker and coordinates
     markerLat.value = result.lat
@@ -336,7 +331,6 @@ async function searchAddress() {
 
     if (mapObj && typeof mapObj.setView === 'function') {
         const targetZoom = 15
-        console.log('🎯 Centering map to searched address')
         mapObj.setView([result.lat, result.lng], targetZoom, { animate: true })
         mapCenter.value = [result.lat, result.lng]
         mapZoom.value = targetZoom
@@ -359,25 +353,18 @@ async function searchAddress() {
 }
 
 async function onMapClick(e: any) {
-    console.log('🖱️ Map clicked', e)
-    
     if (!e?.latlng) {
-        console.warn('⚠️ No latlng in click event')
         return
     }
     
     const lat = e.latlng.lat
     const lng = e.latlng.lng
     
-    console.log('📍 Click coordinates:', lat, lng)
-    
     markerLat.value = lat
     markerLng.value = lng
 
-    // Show temporary "loading" message in address field
     state.startAddress = t('citizens.timeRegistration.registerTransport.form.locating')
 
-    // try reverse geocode with retries
     const addr = await attemptReverseGeocode(lat, lng, 3, 500)
     if (addr) {
         console.log('✅ Reverse geocode successful:', addr)
@@ -385,23 +372,16 @@ async function onMapClick(e: any) {
         return
     }
 
-    // if rate-limited, surface error and don't fallback to coords
     if (locationError.value && /rate/i.test(locationError.value)) {
         state.error = { message: locationError.value } as Error
-        state.startAddress = '' // clear the "locating" message
+        state.startAddress = ''
         return
     }
 
-    // fallback to coordinates if no address resolved
     console.log('⚠️ No address found, using coordinates')
-    // state.startAddress = `${lat.toFixed(7)}, ${lng.toFixed(7)}`
 }
 
-/**
- * Marker drag handler - robust to different payload shapes and retries reverse-geocoding
- */
 async function onMarkerDrag(payload: any) {
-    // payload can be: [lat,lng] | { lat, lng } | Leaflet event with .latlng | drag event with target.getLatLng()
     let lat: number | undefined
     let lng: number | undefined
 
@@ -428,9 +408,6 @@ async function onMarkerDrag(payload: any) {
 
     markerLat.value = lat
     markerLng.value = lng
-    // state.startAddress = `${lat.toFixed(7)}, ${lng.toFixed(7)}`
-
-    // attempt reverse geocoding with retries (non-blocking)
     try {
         const addr = await attemptReverseGeocode(lat, lng, 3, 500)
         if (addr) {
@@ -438,16 +415,13 @@ async function onMarkerDrag(payload: any) {
             return
         }
 
-        // if rate-limited, set UI error and do not set coords as address
         if (locationError.value && /rate/i.test(locationError.value)) {
             state.error = { message: locationError.value } as Error
             return
         }
 
-        // fallback to coords if no address
-        // state.startAddress = `${lat.toFixed(7)}, ${lng.toFixed(7)}`
     } catch {
-        // ignore
+
     }
 }
 
@@ -461,15 +435,11 @@ async function centerMapToCoords() {
     const lng = markerLng.value
     const targetZoom = 15
 
-    console.log('🎯 Centering map to:', lat, lng)
-
-    // Update reactive refs first
     mapCenter.value = [lat, lng]
     mapZoom.value = Math.max(mapZoom.value, targetZoom)
 
     await nextTick()
 
-    // Wait for map object to be available
     const start = Date.now()
     const maxWait = 2000
     let mapObj = null
@@ -486,15 +456,11 @@ async function centerMapToCoords() {
     }
 
     if (mapObj && typeof mapObj.setView === 'function') {
-        console.log('✅ Calling setView on map')
         try {
             mapObj.setView([lat, lng], targetZoom, { animate: true })
         } catch (err) {
-            console.error('❌ setView failed:', err)
         }
     } else {
-        console.warn('⚠️ Map object not available for centering')
-        console.log('lmap.value:', lmap.value)
     }
 }
 </script>

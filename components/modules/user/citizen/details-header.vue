@@ -341,8 +341,10 @@
                 @close="state.modal.isViewRelevantHelpLinksOpen = false" />
             <ModulesUserCitizenTimeRegistrationModalType :isModalOpen="state.modal.isTimeInTypeModalOpen"
                 @close="state.modal.isTimeInTypeModalOpen = false" @openTransport="openTransportLogin" @open-work="workLogin" />
-            <ModulesUserCitizenTimeRegistrationModalTransport :isModalOpen="state.modal.isTransportLoginOpen" @transportLogin="transportLogin"
-                @close="state.modal.isTransportLoginOpen = false" @submitTransport="transportLogin" />
+            <ModulesUserCitizenTimeRegistrationModalTransport type="login" :isModalOpen="state.modal.isTransportLoginOpen" @transportLogin="transportLogin"
+                @close="state.modal.isTransportLoginOpen = false" @submitTransportLogin="transportLogin" />
+            <ModulesUserCitizenTimeRegistrationModalTransport type="logout" :isModalOpen="state.modal.isTransportLogoutOpen" @transportLogout="transportLogout"
+                @close="state.modal.isTransportLogoutOpen = false" @submitTransportLogout="transportLogout" />
         </LoadingSpinner>
     </div>
 </template>
@@ -455,6 +457,7 @@ function openTransportLogout() {
 async function transportLogin(transportLoginDetails: any) {
     state.error = {}
     state.isPageLoading = true
+    console.log('Submit!',transportLoginDetails)
     try {
         if (!state.selectedCitizen?.data?.is_checked_in) {
             const params = {
@@ -470,12 +473,6 @@ async function transportLogin(transportLoginDetails: any) {
                 state.modal.isTransportLoginOpen = false
                 
             }
-        } else {
-            const params = {}
-            const response = await interventionHoursService.checkout(citizenUuid, params)
-            if (response?.data) {
-                fetchCitizen()
-            }
         }
     } catch (error: any) {
         state.error = error
@@ -488,8 +485,7 @@ function toggleLogin() {
         selectTimeInType()
     } else {
         if (state.selectedCitizen?.data?.current_care_hour?.is_transportation) {
-            // openTransportLogout()
-            workLogout()
+            openTransportLogout()
         } else {
             workLogout()
         }
@@ -511,14 +507,24 @@ async function workLogout() {
     state.isPageLoading = false
 }
 
-async function transportLogout() {
+async function transportLogout(transportLogoutDetails: any) {
     state.error = {}
     state.isPageLoading = true
     try {
-        const params = {}
-        const response = await interventionHoursService.checkout(citizenUuid, params)
-        if (response?.data) {
-            fetchCitizen()
+        if (state.selectedCitizen?.data?.is_checked_in) {
+            const params = {
+                is_transportation: true,
+                geo_start_lat: transportLogoutDetails.geo_end_lat,
+                geo_start_lng: transportLogoutDetails.geo_end_lng,
+                end_address: transportLogoutDetails.end_address,
+                note: transportLogoutDetails.note
+            }
+            const response = await interventionHoursService.checkout(citizenUuid, params)
+            if (response?.data) {
+                fetchCitizen()
+                state.modal.isTransportLoginOpen = false
+                
+            }
         }
     } catch (error: any) {
         state.error = error

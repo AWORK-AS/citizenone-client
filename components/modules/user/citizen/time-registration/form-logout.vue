@@ -1,14 +1,14 @@
 <template>
-    <form @submit.prevent="submitForm()" id="formLogin">
+    <form @submit.prevent="submitForm()" id="formLogout">
         <Alert type="danger" :text="state?.error?.message"
             v-if="state.error?.message && state.error.message.length > 0" />
         <div class="space-y-1">
             <div class="flex justify-between items-center py-0.5">
-                <FormLabel for="start_address" :label="$t('citizens.timeRegistration.registerTransport.form.startAddress')" />
+                <FormLabel for="end_address" :label="$t('citizens.timeRegistration.registerTransport.form.endAddress')" />
             </div>
-            <FormTextArea id="start_address" name="start_address"
-                :placeholder="$t('citizens.timeRegistration.registerTransport.form.startAddress')"
-                v-model="state.formTransport.start_address" />
+            <FormTextArea id="end_address" name="end_address"
+                :placeholder="$t('citizens.timeRegistration.registerTransport.form.endAddress')"
+                v-model="state.formTransport.end_address" />
 
             <div v-if="props.isLocating" class="text-xs cursor-pointer text-tertiary hover:text-tertiary-800"
                 @click="useCurrentLocation">
@@ -52,7 +52,7 @@
                     {{ $t('cancel') }}
                 </FormButton>
                 <FormButton type="submit" buttonStyle="primary" class="rounded-md">
-                    {{ $t('citizens.timeRegistration.checkIn') }}
+                    {{ $t('citizens.timeRegistration.checkOut') }}
                 </FormButton>
             </div>
         </div>
@@ -66,7 +66,7 @@ import { useI18n } from "vue-i18n"
 import type { Error } from '@/types'
 
 const props = defineProps({
-    startAddress: {
+    endAddress: {
         type: String,
         required: false,
     },
@@ -81,7 +81,7 @@ const state = reactive({
     isPageLoading: false,
     isLocating: false,
     formTransport: {
-        start_address: '',
+        end_address: '',
         note: '',
     }
 })
@@ -93,7 +93,7 @@ const emit = defineEmits(['close', 'submitTransport', 'useCurrentLocation', 'sea
 const rules = computed(() => {
     return {
         formTransport: {
-            start_address: {
+            end_address: {
                 required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
             },
         },
@@ -118,9 +118,9 @@ function centerMapToCoords() {
     emit('centerMapToCoords')
 }
 
-watch(() => props.startAddress, (newValue: any) => {
+watch(() => props.endAddress, (newValue: any) => {
     if (newValue != null) {
-        state.formTransport.start_address = newValue || ''
+        state.formTransport.end_address = newValue || ''
     }
 })
 
