@@ -1342,6 +1342,9 @@ async function parseAndUpdateAddress(addressData: any, location: { lat: number; 
     if (!addressData || !addressData.address) {
         console.warn('No address data available')
         state.selectedCitizenLocation = location
+        // Still store the coordinates even without address data
+        state.formCitizen.latitude = location.lat.toString()
+        state.formCitizen.longitude = location.lng.toString()
         return
     }
     
@@ -1356,37 +1359,92 @@ async function parseAndUpdateAddress(addressData: any, location: { lat: number; 
     state.formCitizen.street = street
     state.formCitizen.post_code = postCode
     
+    // Store coordinates - THIS IS THE KEY PART
+    state.formCitizen.latitude = location.lat.toString()
+    state.formCitizen.longitude = location.lng.toString()
+    
     // Find and set region first (top-down approach works better)
     const regionName = address.state || address.region || ''
     if (regionName) {
+        // Remove "Region " prefix if present and normalize
         const normalizedRegionName = regionName.replace(/^Region\s+/i, '').trim()
+        
         const matchedRegion = state.options.regions.find(
-            (r: any) => r.label.toLowerCase().includes(normalizedRegionName.toLowerCase()) ||
-                       normalizedRegionName.toLowerCase().includes(r.label.toLowerCase())
+            (r: any) => {
+                if (!r?.label) return false
+                const normalizedLabel = r.label.trim()
+                
+                // Try exact match first
+                if (normalizedLabel.toLowerCase() === normalizedRegionName.toLowerCase()) {
+                    return true
+                }
+                
+                // Try partial match
+                if (normalizedLabel.toLowerCase().includes(normalizedRegionName.toLowerCase()) ||
+                    normalizedRegionName.toLowerCase().includes(normalizedLabel.toLowerCase())) {
+                    return true
+                }
+                
+                return false
+            }
         )
+        
         if (matchedRegion && matchedRegion.value) {
             state.formCitizen.region = matchedRegion.value
             // Fetch municipalities for this region
             await fetchMunicipalitiesPerRegion(matchedRegion.value)
+        } else {
+            console.warn('Region not matched:', regionName, 'Normalized:', normalizedRegionName)
         }
     }
     
     // Find and set municipality
     const municipalityName = address.municipality || address.county || ''
     if (municipalityName) {
+        // Remove "Kommune" suffix if present and normalize
         const normalizedMunicipalityName = municipalityName.replace(/\s+Kommune$/i, '').trim()
-
+        
         // First try to match in region-specific municipalities
         let matchedMunicipality = state.options.municipalitiesPerRegion.find(
-            (m: any) => m.label.toLowerCase().includes(normalizedMunicipalityName.toLowerCase()) ||
-                       normalizedMunicipalityName.toLowerCase().includes(m.label.toLowerCase())
+            (m: any) => {
+                if (!m?.label) return false
+                const normalizedLabel = m.label.trim()
+                
+                // Try exact match first
+                if (normalizedLabel.toLowerCase() === normalizedMunicipalityName.toLowerCase()) {
+                    return true
+                }
+                
+                // Try partial match
+                if (normalizedLabel.toLowerCase().includes(normalizedMunicipalityName.toLowerCase()) ||
+                    normalizedMunicipalityName.toLowerCase().includes(normalizedLabel.toLowerCase())) {
+                    return true
+                }
+                
+                return false
+            }
         )
         
         // If not found and municipalitiesPerRegion is empty, try all municipalities
         if (!matchedMunicipality && state.options.municipalitiesPerRegion.length === 0) {
             matchedMunicipality = state.options.municipalities.find(
-                (m: any) => m.label.toLowerCase().includes(normalizedMunicipalityName.toLowerCase()) ||
-                           normalizedMunicipalityName.toLowerCase().includes(m.label.toLowerCase())
+                (m: any) => {
+                    if (!m?.label) return false
+                    const normalizedLabel = m.label.trim()
+                    
+                    // Try exact match first
+                    if (normalizedLabel.toLowerCase() === normalizedMunicipalityName.toLowerCase()) {
+                        return true
+                    }
+                    
+                    // Try partial match
+                    if (normalizedLabel.toLowerCase().includes(normalizedMunicipalityName.toLowerCase()) ||
+                        normalizedMunicipalityName.toLowerCase().includes(normalizedLabel.toLowerCase())) {
+                        return true
+                    }
+                    
+                    return false
+                }
             )
         }
         
@@ -1394,24 +1452,39 @@ async function parseAndUpdateAddress(addressData: any, location: { lat: number; 
             state.formCitizen.municipality = matchedMunicipality.value
             // Fetch cities for this municipality
             await fetchCities(matchedMunicipality.value)
+        } else {
+            console.warn('Municipality not matched:', municipalityName, 'Normalized:', normalizedMunicipalityName)
         }
     }
     
     // Find and set city
     if (city) {
         const matchedCity = state.options.cities.find(
-            (c: any) => c.label.toLowerCase() === city.toLowerCase()
+            (c: any) => c?.label && c.label.toLowerCase() === city.toLowerCase()
         )
         if (matchedCity && matchedCity.value) {
             state.formCitizen.city = matchedCity.value
         } else {
             // If no match found, just set the city name as text
             state.formCitizen.city = city
+            console.warn('City not matched:', city)
         }
     }
     
-    // Store location coordinates
+    // Store location coordinates reference
     state.selectedCitizenLocation = location
+    
+    // Log the final result for debugging
+    console.log('Address parsing complete:', {
+        street: state.formCitizen.street,
+        postCode: state.formCitizen.post_code,
+        city: state.formCitizen.city,
+        municipality: state.formCitizen.municipality,
+        region: state.formCitizen.region,
+        latitude: state.formCitizen.latitude,
+        longitude: state.formCitizen.longitude,
+        coordinates: { lat: location.lat, lng: location.lng }
+    })
 }
 
 // Updated handler for location selection with null check
@@ -1420,6 +1493,8 @@ async function onCitizenLocationSelected(location: { lat: number; lng: number },
     if (!addressData) {
         console.warn('No address data received')
         state.formCitizen.street = address // At least set the display address
+        state.formCitizen.latitude = location.lat.toString()
+        state.formCitizen.longitude = location.lng.toString()
         state.selectedCitizenLocation = location
         return
     }

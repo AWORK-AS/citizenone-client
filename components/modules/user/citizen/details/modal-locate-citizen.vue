@@ -3,7 +3,6 @@
         <Modal size="lg" :title="$t('citizens.form.locateCitizen')" :show="props.isModalOpen" @close="closeModal">
             <template #modal-body>
                 <div class="space-y-4">
-                    <!-- Map Container -->
                     <div class="h-96 w-full rounded-md overflow-hidden border">
                         <MapLocation 
                             ref="mapRef" 
@@ -17,20 +16,17 @@
                         />
                     </div>
 
-                    <!-- Geocoding Loading State -->
                     <div v-if="isGeocodingAddress" class="flex items-center justify-center py-4 bg-blue-50 rounded">
                         <div class="animate-spin rounded-full h-5 w-5 border-b-2 border-primary"></div>
                         <p class="ml-2 text-sm text-gray-700">{{ $t('citizens.form.locatingAddress') }}...</p>
                     </div>
 
-                    <!-- Address Display -->
                     <div v-if="selectedAddress" class="space-y-2">
                         <FormLabel :label="$t('citizens.form.selectedAddress')" />
                         <div class="p-3 bg-gray-50 rounded-md border border-gray-200">
                             <p class="text-sm font-semibold text-gray-700">{{ selectedAddress }}</p>
                         </div>
                         
-                        <!-- Show parsed address components -->
                         <div v-if="addressData" class="grid grid-cols-2 gap-2 text-xs text-gray-600 p-2 bg-blue-50 rounded">
                             <div v-if="addressData.address?.road">
                                 <span class="font-medium">{{ $t('citizens.form.street') }}:</span> 
@@ -59,23 +55,19 @@
                         </div>
                     </div>
 
-                    <!-- Loading State -->
                     <div v-if="isLoadingAddress" class="flex items-center justify-center py-4">
                         <div class="animate-spin rounded-full h-6 w-6 border-b-2 border-primary"></div>
                         <p class="ml-2 text-sm text-gray-600">{{ $t('citizens.form.fetchingAddress') }}</p>
                     </div>
 
-                    <!-- Error Message -->
                     <Alert v-if="errorMessage" type="danger" :text="errorMessage" />
 
-                    <!-- Instructions -->
                     <div class="bg-blue-50 border border-blue-200 rounded-md p-3">
                         <p class="text-xs text-tertiary">
                             {{ $t('citizens.form.locateCitizenInstructions') }}
                         </p>
                     </div>
 
-                    <!-- Action Buttons -->
                     <div class="flex justify-end gap-3 mt-5">
                         <FormButton buttonStyle="cancel" @click="closeModal" class="rounded-md">
                             {{ $t('cancel') }}
@@ -84,7 +76,7 @@
                             buttonStyle="primary" 
                             @click="confirmLocation" 
                             class="rounded-md"
-                            :disabled="!selectedAddress"
+                            :disabled="!canConfirm"
                         >
                             {{ $t('citizens.form.useThisLocation') }}
                         </FormButton>
@@ -134,7 +126,7 @@ const emit = defineEmits<{
 
 const mapRef = ref<any>(null)
 const mapZoom = ref<number>(13)
-const mapCenter = ref<[number, number]>([55.6761, 12.5683]) // default to Copenhagen
+const mapCenter = ref<[number, number]>([55.6761, 12.5683])
 const mapInstance = ref<any>(null)
 const selectedLocation = ref<Location | null>(props.initialLocation)
 const selectedAddress = ref<string>('')
@@ -143,7 +135,13 @@ const isLoadingAddress = ref<boolean>(false)
 const isGeocodingAddress = ref<boolean>(false)
 const errorMessage = ref<string>('')
 
-// Compute whether we have a valid address to geocode
+const canConfirm = computed(() => {
+    return selectedLocation.value !== null && 
+           selectedAddress.value !== '' && 
+           !isLoadingAddress.value && 
+           !isGeocodingAddress.value
+})
+
 const hasCurrentAddress = computed(() => {
     return props.currentAddress && (
         props.currentAddress.street ||
@@ -159,7 +157,6 @@ function closeModal() {
 function onMapReady(mapObj: any) {
     mapInstance.value = mapObj
     
-    // Priority: initialLocation > currentAddress > default
     if (props.initialLocation) {
         mapCenter.value = [props.initialLocation.lat, props.initialLocation.lng]
         mapZoom.value = 15
@@ -174,7 +171,6 @@ async function geocodeCurrentAddress() {
     
     const { street, city, postCode, municipality, region } = props.currentAddress
     
-    // Build address string - prioritize more specific to less specific
     const addressParts = [
         street,
         postCode,
@@ -194,7 +190,6 @@ async function geocodeCurrentAddress() {
     isGeocodingAddress.value = true
     
     try {
-        // Using Nominatim for forward geocoding
         const response = await fetch(
             `https://nominatim.openstreetmap.org/search?format=json&q=${encodeURIComponent(addressString)}&limit=1&addressdetails=1&countrycodes=dk`,
             {
@@ -219,20 +214,17 @@ async function geocodeCurrentAddress() {
             mapCenter.value = [lat, lng]
             mapZoom.value = 15
             
-            // Update map view
             if (mapInstance.value) {
                 mapInstance.value.setView([lat, lng], 15)
             }
             
-            // Fetch full address details
             await fetchAddressFromCoordinates(lat, lng)
-            
-            console.log('Successfully geocoded to:', result.display_name, { lat, lng })
+
         } else {
-            console.warn('No geocoding results found for:', addressString)
+
         }
     } catch (error) {
-        console.error('Error geocoding address:', error)
+
     } finally {
         isGeocodingAddress.value = false
     }
@@ -268,13 +260,11 @@ async function fetchAddressFromCoordinates(lat: number, lng: number) {
         if (data && data.display_name) {
             selectedAddress.value = data.display_name
             addressData.value = data
-            console.log('Address data received:', data)
         } else {
             selectedAddress.value = `${lat.toFixed(6)}, ${lng.toFixed(6)}`
             addressData.value = null
         }
     } catch (error) {
-        console.error('Error fetching address:', error)
         errorMessage.value = 'Failed to fetch address. Please try again.'
         selectedAddress.value = `${lat.toFixed(6)}, ${lng.toFixed(6)}`
         addressData.value = null
@@ -285,20 +275,15 @@ async function fetchAddressFromCoordinates(lat: number, lng: number) {
 
 function confirmLocation() {
     if (selectedLocation.value && selectedAddress.value) {
-        if (!addressData.value) {
-            console.warn('Address data is null, only sending location and display address')
-        }
         emit('locationSelected', selectedLocation.value, selectedAddress.value, addressData.value)
         closeModal()
     }
 }
 
-// Watch for modal opening
 watch(
     () => props.isModalOpen,
     async (isOpen) => {
         if (isOpen) {
-            // Reset state if no initial location
             if (!props.initialLocation) {
                 selectedLocation.value = null
                 selectedAddress.value = ''
@@ -306,13 +291,11 @@ watch(
             }
             errorMessage.value = ''
             
-            // Refresh map
             await nextTick()
             if (mapInstance.value) {
                 setTimeout(() => {
                     mapInstance.value.invalidateSize()
                     
-                    // Geocode if we have current address but no initial location
                     if (!props.initialLocation && hasCurrentAddress.value) {
                         geocodeCurrentAddress()
                     }
@@ -322,7 +305,6 @@ watch(
     }
 )
 
-// Watch for initial location changes
 watch(
     () => props.initialLocation,
     (location) => {
@@ -339,7 +321,3 @@ watch(
     { immediate: true }
 )
 </script>
-
-<style scoped>
-/* Add any custom styles here */
-</style>

@@ -51,6 +51,10 @@
                         </select>
                     </div>
                     <div class="flex flex-wrap items-center gap-3">
+                        <FormButton buttonStyle="action" class="rounded-lg" @click="state.modal.isViewLocationsOpen = true">
+                            <Icon name="ph:map-pin" class="h-4 w-4" aria-hidden="true" />
+                            {{ $t('citizens.viewLocations.viewLocations') }}
+                        </FormButton>
                         <FormButton buttonStyle="action" class="rounded-lg" @click="navigateTo('/inquiries')"
                             v-if="userStore.getUser?.company?.industry?.system_name === 'social_welfare' && ['Crisis center', 'Shelter'].includes(userStore.getUser?.company?.facility_type?.en_name)">
                             <Icon name="ph:list-bullets" class="h-4 w-4" aria-hidden="true" />
@@ -250,6 +254,11 @@
                 @close="state.modal.isTransportLoginOpen = false" @submitTransportLogin="transportLogin" />
             <ModulesUserCitizenTimeRegistrationModalTransport type="logout" :isModalOpen="state.modal.isTransportLogoutOpen" @transportLogout="transportLogout"
                 @close="state.modal.isTransportLogoutOpen = false" @submitTransportLogout="transportLogout" />
+            <ModulesUserCitizenModalViewLocations
+                :isModalOpen="state.modal.isViewLocationsOpen"
+                :citizens="state.citizens?.data || []"
+                @close="state.modal.isViewLocationsOpen = false"
+            />
         </NuxtLayout>
     </div>
 </template>
@@ -296,7 +305,8 @@ const state = reactive({
         isShowPurchaseEmail: false,
         isTimeInTypeModalOpen: false,
         isTransportLoginOpen: false,
-        isTransportLogoutOpen: false
+        isTransportLogoutOpen: false,
+        isViewLocationsOpen: false,
     },
     selectedCitizen: [] as any,
 })

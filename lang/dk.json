@@ -1468,7 +1468,8 @@
             "table": {
                 "actions": {
                     "delete": "Slet",
-                    "edit": "Rediger"
+                    "edit": "Rediger",
+                    "view": "Se"
                 },
                 "alert": {
                     "interventionHoursSuccessfullyDeleted": "Indsatstimer slettet med succes"
@@ -1891,7 +1892,9 @@
                     "noPlansAndGoals": "Ingen planer og mål",
                     "plansAndGoals": "Planer og mål"
                 },
-                "view": "Se"
+                "view": "Se",
+                "checkIn": "Tjek ind",
+                "checkOut": "Tjek ud"
             },
             "department": "Afdeling",
             "email": "E-mail",
@@ -2219,6 +2222,17 @@
                 "type": "Type"
             },
             "walletTransactions": "Transaktionshistorik"
+        },
+        "viewLocations": {
+            "title": "View Locations",
+            "viewLocations": "View Locations",
+            "yourLocation": "Your Location",
+            "loading": "Loading locations",
+            "citizensWithLocations": "citizens with locations",
+            "noCitizensWithLocations": "No citizens have location data available",
+            "distance": "Distance",
+            "instructions": "Blue lines connect your current location to each citizen's address. Click on markers to see details.",
+            "locatingAddress": "Getting your location"
         }
     },
     "children": {
