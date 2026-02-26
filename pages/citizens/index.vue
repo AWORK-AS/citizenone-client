@@ -287,7 +287,7 @@ const state = reactive({
     columnHeaders: [
         { name: 'citizens.table.name', isTranslateName: true, sorter: true, key: 'firstname' },
         { name: 'citizens.table.email', isTranslateName: true, sorter: true, key: 'email' },
-        { name: 'citizens.table.ssn', isTranslateName: true, sorter: true, key: 'ssn' },
+        { name: 'citizens.table.ssn', isTranslateName: true, sorter: true, key: 'social_security_number' },
         { name: 'citizens.table.phone', isTranslateName: true, sorter: true, key: 'phone' },
         { name: '' },
     ],

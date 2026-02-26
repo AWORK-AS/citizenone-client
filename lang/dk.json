@@ -2799,8 +2799,8 @@
                 "actions": {
                     "approve": "Godkend",
                     "delete": "Slet",
-                    "disapprove": "Afvis",
-                    "edit": "Rediger"
+                    "edit": "Rediger",
+                    "reject": "Afvis"
                 },
                 "alert": {
                     "leaveRequestsSuccessfullyApproved": "Ferieanmodning blev godkendt",
@@ -2821,6 +2821,11 @@
                     "pending": "Afventer",
                     "rejected": "Afvist",
                     "status": "Status"
+                },
+                "type": {
+                    "sickLeave": "Sygefravær",
+                    "type": "Type",
+                    "vacationLeave": "Feriefravær"
                 }
             }
         },
