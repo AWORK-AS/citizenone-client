@@ -1,4 +1,3 @@
-// Full file with the small change in reverseGeocode: detect 425/429 and set error.value
 import { ref } from 'vue'
 
 export type LocationResult = {
@@ -158,27 +157,27 @@ export function useLocationHelper(t?: (key: string) => string) {
         try {
             const url = `https://nominatim.openstreetmap.org/search?format=json&q=${encodeURIComponent(address)}&limit=1`
             const response = await fetch(url, {
-            headers: {
-                'User-Agent': 'CitizenOne-Transport-App', // Nominatim requires a User-Agent
-            },
+                headers: {
+                    'User-Agent': 'CitizenOne-Transport-App', // Nominatim requires a User-Agent
+                },
             })
 
             if (!response.ok) {
-            if (response.status === 429 || response.status === 425) {
-                error.value = 'rate-limited'
-                return null
-            }
-            throw new Error(`Geocoding failed: ${response.status}`)
+                if (response.status === 429 || response.status === 425) {
+                    error.value = 'rate-limited'
+                    return null
+                }
+                throw new Error(`Geocoding failed: ${response.status}`)
             }
 
             const data = await response.json()
 
             if (data && data.length > 0) {
-            const result = data[0]
-            return {
-                lat: parseFloat(result.lat),
-                lng: parseFloat(result.lon),
-            }
+                const result = data[0]
+                return {
+                    lat: parseFloat(result.lat),
+                    lng: parseFloat(result.lon),
+                }
             }
 
             error.value = 'not-found'
