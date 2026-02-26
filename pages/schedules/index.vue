@@ -93,7 +93,6 @@
                 :isModalOpen="state.modal.isGuidedTourDutyScheduleOpen" :isGuidedTour="false"
                 @close="state.modal.isGuidedTourDutyScheduleOpen = false" />
 
-            <!-- Fixed tooltip for no-match info (teleported to body to escape overflow) -->
             <Teleport to="body">
                 <div v-if="state.noMatchTooltip.visible"
                     class="fixed z-[9999] w-64 rounded bg-gray-800 px-3 py-2 text-xs font-normal text-white shadow-lg"
@@ -101,7 +100,7 @@
                     {{ $t('dutySchedules.zenegy_no_match_info') }}
                 </div>
             </Teleport>
-
+            <!-- Zenegy Modal -->
             <Modal size="lg" :title="$t('dutySchedules.zenegy_sync')" :show="state.modal.isZenegySyncOpen"
             @close="state.modal.isZenegySyncOpen = false">
             <template #modal-body>
@@ -569,7 +568,6 @@ const state = reactive({
         isZenegySyncOpen: false,
     },
     selectedDate: moment().format('YYYY-MM-DD'),
-    // Zenegy sync state
     syncStep: 'configure' as 'configure' | 'assign-rates' | 'review' | 'result',
     syncDateRange: [] as any,
     scheduleEmployees: [] as Array<{
@@ -595,7 +593,6 @@ const state = reactive({
         from: string; to: string; hours: number;
         userUid: string; hourPaymentRateUid: string;
     }>,
-    // Supplement/deduction state
     zenegySupplementRatesRaw: [] as any[],
     fetchedExtraHoursData: [] as any[],
     employeeExtraHoursTypes: [] as Array<{
@@ -617,16 +614,13 @@ const state = reactive({
     }>,
     syncResult: null as any,
     expandedEmployees: new Set<string>(),
-    // Validation
     configureAttempted: false,
     assignRatesAttempted: false,
-    // Presets
     savedPresets: [] as Array<{ name: string; employeeUuids: string[]; payPeriodType: 'monthly' | 'weekly' | 'biweekly' }>,
     selectedPresetIndex: null as number | null,
     newPresetName: '' as string,
     showSavePresetInput: false,
     selectedPayPeriodType: '' as '' | 'monthly' | 'weekly' | 'biweekly',
-    // Department filter (modal-local, does not change global departmentStore)
     zenegyDepartments: [] as any[],
     selectedZenegyDepartment: '' as string,
     allZenegyEmployees: [] as any[],
@@ -679,7 +673,6 @@ const employeesGroupedByPeriod = computed(() => {
         if (!groups.has(period)) groups.set(period, [])
         groups.get(period)!.push({ employee: emp, originalIndex: index })
     })
-    // Sort: matched periods first (by period number), unmatched (-1) last
     return Array.from(groups.entries()).sort((a, b) => {
         if (a[0] === -1) return 1
         if (b[0] === -1) return -1
@@ -804,24 +797,20 @@ function matchEmployeeToZenegy(localEmployee: any, zenegyEmployees: any[]): { ze
 
         const result = { zenegyUserUid, zenegyEmployeeUid, salaryPayoutPeriod }
 
-        // 1. Match by zenegy_uid (UUID match)
+        
         if (localEmployee.zenegy_uid && String(localEmployee.zenegy_uid) === zenegyUid) {
             return result
         }
-        // 2. Match by zenegy_id (numeric ID match)
         if (localEmployee.zenegy_id && String(localEmployee.zenegy_id) === zenegyId) {
             return result
         }
-        // 3. Match by employee_id
         if (localEmployee.employee_id && String(localEmployee.employee_id) === zenegyId) {
             return result
         }
-        // 4. Email match
         const localEmail = (localEmployee.email || '').toLowerCase().trim()
         if (zenegyEmail && localEmail && zenegyEmail === localEmail) {
             return result
         }
-        // 5. Name match
         const localName = `${localEmployee.firstname || ''} ${localEmployee.lastname || ''}`.toLowerCase().trim()
         if (zenegyName && localName && zenegyName.length > 2 && localName.length > 2 && zenegyName === localName) {
             return result
@@ -862,33 +851,26 @@ async function openZenegySyncModal() {
             departmentService.getAllDepartments({}),
         ])
 
-        // Store departments and set default to currently active department
         state.zenegyDepartments = departmentsRes?.data || []
         state.selectedZenegyDepartment = departmentStore.getSelectedDepartmentName || ''
 
-        // Store all Zenegy employees, then filter by selected department
         state.allZenegyEmployees = zenegyEmployeesRes?.employees?.data || zenegyEmployeesRes?.data || []
         state.zenegyEmployeesRaw = state.selectedZenegyDepartment
             ? state.allZenegyEmployees.filter((emp: any) => emp.department?.name === state.selectedZenegyDepartment)
             : state.allZenegyEmployees
 
-        // Store Zenegy rates (response shape: { rates: { value: { data: [...] } } })
         const ratesData = zenegyRatesRes?.rates?.value?.data || zenegyRatesRes?.rates?.data || zenegyRatesRes?.data || []
         state.zenegyRatesRaw = Array.isArray(ratesData) ? ratesData : []
 
-        // Shared rates: available to all employees, non-zero payment
         state.sharedRates = state.zenegyRatesRaw
             .filter((r: any) => !r.limitUserAccess && r.paymentPerRate > 0)
             .map((r: any) => ({
                 uid: r.uid || r.id || '',
                 name: `${r.name}${r.number ? ` (${r.number})` : ''} - ${r.paymentPerRate} kr/t`,
             }))
-
-        // Store Zenegy supplement rates
         const supplementRatesData = zenegySupplementRatesRes?.rates || zenegySupplementRatesRes?.data || []
         state.zenegySupplementRatesRaw = Array.isArray(supplementRatesData) ? supplementRatesData : []
 
-        // Build employee list from schedule and match to Zenegy
         const scheduleEmployees = weekViewRef.value?.getScheduleEmployees() || []
         state.scheduleEmployees = scheduleEmployees.map((emp: any) => {
             const matched = matchEmployeeToZenegy(emp, state.zenegyEmployeesRaw)
@@ -923,12 +905,10 @@ function showNoMatchTooltip(event: MouseEvent) {
 }
 
 function onZenegyDepartmentChange() {
-    // Re-filter Zenegy employees by selected department (modal-local only)
     state.zenegyEmployeesRaw = state.selectedZenegyDepartment
         ? state.allZenegyEmployees.filter((emp: any) => emp.department?.name === state.selectedZenegyDepartment)
         : state.allZenegyEmployees
 
-    // Re-run employee matching
     const scheduleEmployees = weekViewRef.value?.getScheduleEmployees() || []
     state.scheduleEmployees = scheduleEmployees.map((emp: any) => {
         const matched = matchEmployeeToZenegy(emp, state.zenegyEmployeesRaw)
@@ -992,7 +972,6 @@ function applyPreset(index: number) {
     if (!preset) return
     state.selectedPresetIndex = index
 
-    // Apply employee selections
     state.scheduleEmployees.forEach(emp => {
         if (emp.matchedZenegyUserUid) {
             emp.selected = preset.employeeUuids.includes(emp.uuid)
@@ -1002,11 +981,9 @@ function applyPreset(index: number) {
         .filter(e => e.matchedZenegyUserUid)
         .every(e => e.selected)
 
-    // Auto-detect pay period from selected employees and fill date range
     autoDetectAndApplyPayPeriod()
 }
 
-// Map Zenegy salaryPayoutPeriod codes to our dropdown values
 const zenegyPeriodToType: Record<number, string> = { 1: 'weekly', 2: 'biweekly', 4: 'monthly' }
 
 function autoDetectAndApplyPayPeriod() {
@@ -1092,7 +1069,6 @@ async function fetchAndBuildShiftTypes() {
         return
     }
 
-    // Check for mixed pay periods
     if (selectedEmployeesHaveMixedPeriods.value) {
         errorAlert(t('alert.warning'), t('dutySchedules.zenegy_error_mixed_periods'))
         return
@@ -1104,7 +1080,6 @@ async function fetchAndBuildShiftTypes() {
         const startDate = dateRange[0]
         const endDate = dateRange[1]
 
-        // Build week start dates covering the range
         const weekStarts: string[] = []
         const cursor = moment(startDate).startOf('isoWeek')
         const rangeEnd = moment(endDate)
@@ -1118,7 +1093,6 @@ async function fetchAndBuildShiftTypes() {
         const startMoment = moment(startDate)
         const endMoment = moment(endDate)
 
-        // Fetch and store schedule data for reuse
         const allScheduleData: any[] = []
         for (const weekStart of weekStarts) {
             const weekEnd = moment(weekStart).endOf('isoWeek').format('YYYY-MM-DD')
@@ -1135,7 +1109,6 @@ async function fetchAndBuildShiftTypes() {
         }
         state.fetchedScheduleData = allScheduleData
 
-        // Discover shift types per employee
         const empShiftMap = new Map<string, { name: string; userUid: string; shiftTypes: Map<string, number> }>()
 
         for (const empSchedule of allScheduleData) {
@@ -1171,11 +1144,9 @@ async function fetchAndBuildShiftTypes() {
             }
         }
 
-        // Build employeeShiftTypes with available rates per employee
         state.employeeShiftTypes = Array.from(empShiftMap.entries())
             .filter(([_, data]) => data.shiftTypes.size > 0)
             .map(([uuid, data]) => {
-                // Personal rates for this employee
                 const personalRates = state.zenegyRatesRaw
                     .filter((r: any) => r.limitUserAccess && r.paymentPerRate > 0
                         && r.allowedUsers?.some((u: any) => u.uid === data.userUid))
@@ -1186,7 +1157,6 @@ async function fetchAndBuildShiftTypes() {
 
                 const availableRates = [...personalRates, ...state.sharedRates]
 
-                // Auto-select if employee has exactly one personal rate
                 const autoRateUid = personalRates.length === 1 ? personalRates[0].uid : ''
 
                 return {
@@ -1202,7 +1172,6 @@ async function fetchAndBuildShiftTypes() {
                 }
             })
 
-        // Fetch approved extra hours for selected employees in date range
         const extraHoursPromises = selectedEmployees.map(emp =>
             extraHoursService.getExtraHours({
                 user_uuid: emp.uuid,
@@ -1228,7 +1197,6 @@ async function fetchAndBuildShiftTypes() {
         })
         state.fetchedExtraHoursData = allExtraHours
 
-        // Build supplement/deduction rate assignment data
         const empExtraMap = new Map<string, {
             name: string; zenegyUserUid: string; zenegyEmployeeUid: string;
             addCount: number; addUnits: number; deductCount: number; deductUnits: number;
@@ -1263,7 +1231,6 @@ async function fetchAndBuildShiftTypes() {
             }
         }
 
-        // Show all supplement rates — don't filter by type since Zenegy has many undocumented type codes
         const allSupplementRateOptions = state.zenegySupplementRatesRaw
             .map((r: any) => ({ uid: r.uid, rateValue: Number(r.paymentPerRate || r.rate || 0), name: `${r.name}${r.number ? ` (${r.number})` : ''} - ${Number(r.paymentPerRate || r.rate || 0).toLocaleString('da-DK')} kr` }))
             .sort((a, b) => a.rateValue - b.rateValue)
@@ -1321,7 +1288,6 @@ function buildRegistrationsPreview() {
     const selectedEmployeeUuids = new Set(selectedEmployees.map(e => e.uuid))
     const employeeUidMap = new Map(selectedEmployees.map(e => [e.uuid, e.matchedZenegyUserUid]))
 
-    // Build rate lookup: "userUid::shiftTypeName" → rateUid
     const rateLookup = new Map<string, string>()
     for (const emp of state.employeeShiftTypes) {
         for (const st of emp.shiftTypes) {
@@ -1372,7 +1338,6 @@ function buildRegistrationsPreview() {
 
     state.registrationsPreview = registrations
 
-    // Build supplement registrations preview from extra hours
     const supplementRateLookup = new Map<string, { rateUid: string; rateName: string; rate: number }>()
     for (const emp of state.employeeExtraHoursTypes) {
         for (const entry of emp.extraHoursEntries) {
@@ -1446,12 +1411,10 @@ async function executeSyncToZenegy() {
 
     state.isSyncing = true
 
-    // Calculate period boundaries from selected date range
     const dateRange = state.syncDateRange
     const periodFrom = moment(dateRange[0]).startOf('day').format('YYYY-MM-DDTHH:mm:ss')
     const periodTo = moment(dateRange[1]).endOf('day').format('YYYY-MM-DDTHH:mm:ss')
 
-    // Group registrations by employee (userUid)
     const hoursByEmployee = new Map<string, { name: string; regs: any[] }>()
     for (const reg of state.registrationsPreview) {
         if (reg.hours <= 0) continue
@@ -1470,7 +1433,6 @@ async function executeSyncToZenegy() {
         })
     }
 
-    // Group supplement registrations by employee
     const supplementsByEmployee = new Map<string, { name: string; regs: any[] }>()
     for (const reg of state.supplementRegistrationsPreview) {
         const rateObj = state.zenegySupplementRatesRaw.find((r: any) => r.uid === reg.rateUid)
@@ -1491,10 +1453,8 @@ async function executeSyncToZenegy() {
         supplementsByEmployee.get(key)!.regs.push({ employeeUid: reg.zenegyEmployeeUid, registration })
     }
 
-    // Send per-employee, collect results
     const results: Array<{ employeeName: string; type: 'hours' | 'supplements'; success: boolean; error?: string; count: number }> = []
 
-    // Send hour registrations per employee
     for (const [userUid, { name, regs }] of hoursByEmployee) {
         try {
             await zenegyService.syncRegistrations(regs)
@@ -1504,7 +1464,6 @@ async function executeSyncToZenegy() {
         }
     }
 
-    // Send supplement registrations per employee
     for (const [empUid, { name, regs }] of supplementsByEmployee) {
         try {
             await zenegyService.syncSupplementRegistrations(regs)
