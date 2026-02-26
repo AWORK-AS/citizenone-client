@@ -28,11 +28,21 @@
 import { dutyShiftRuleService } from '@/components/api/user/DutyShiftRuleService'
 import { useI18n } from "vue-i18n"
 import { useAlert } from '@/composables/alert'
+import { useUserStore } from '@/store/user'
 import type { Error } from '@/types'
 
 const runtimeConfig = useRuntimeConfig()
 const { successAlert } = useAlert()
 const { t } = useI18n()
+const userStore = useUserStore() as any
+
+watch(() => userStore.getUser, (newValue: any) => {
+    if (newValue != null) {
+        const isAdmin = userStore.getUser.roles.some((role: any) => role.name === 'Admin')
+        if (!isAdmin) navigateTo('/settings/duty-shift-rules')
+    }
+})
+
 const breadcrumbLinks = [
     { name: 'dutyShiftRules.dutyShiftRules', translate: true, href: '/settings/duty-shift-rules' },
     { name: 'dutyShiftRules.newDutyShiftRule', translate: true, href: '/settings/duty-shift-rules/new' },

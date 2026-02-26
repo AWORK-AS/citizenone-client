@@ -203,7 +203,7 @@ const state = reactive({
         condition_threshold: '' as string,
         shift_type_uuids: [] as string[],
         recipients: [] as Recipient[],
-        scope_conditions: [] as ScopeCondition[],
+        scope_conditions: [{ type: '', operator: 'and', value_id: '' }] as ScopeCondition[],
         is_active: true,
     },
     modal: {
@@ -257,7 +257,7 @@ watch(() => props.selectedRule, (newValue: any) => {
             condition_threshold: newValue.condition_threshold?.toString() ?? '',
             shift_type_uuids: newValue.shift_types?.map((st: any) => st.uuid) ?? [],
             recipients: recipients.map((r: any) => ({ type: r.recipient_type, value: r.recipient_value })),
-            scope_conditions: newValue.scope_conditions ?? [],
+            scope_conditions: newValue.scope_conditions?.length ? newValue.scope_conditions.map((sc: any) => ({ type: sc.type, operator: sc.operator, value_id: sc.value_id })) : [{ type: '', operator: 'and', value_id: '' }],
             is_active: newValue.is_active ?? true,
         }
     }
@@ -268,6 +268,9 @@ const rules = computed(() => ({
         name: { required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required) },
         period_days: { required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required) },
         condition_type: { required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required) },
+        condition_threshold: (state.formDutyShiftRule.condition_type === 'count' || state.formDutyShiftRule.condition_type === 'consecutive')
+            ? { required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required) }
+            : {},
         shift_type_uuids: { required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required) },
     },
     recipientType: { required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required) },

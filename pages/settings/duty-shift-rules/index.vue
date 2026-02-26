@@ -14,7 +14,7 @@
             <ModulesUserSettingsCatalogSubTab id="sub-tab-catalog" class="mt-5" />
 
             <div class="mt-8">
-                <div class="flex justify-end items-center mb-5">
+                <div class="flex justify-end items-center mb-5" v-if="state.isAdmin">
                     <FormButton buttonStyle="action" class="rounded-lg"
                         @click="navigateTo('/settings/duty-shift-rules/new')">
                         <Icon name="ph:plus" class="h-4 w-4" aria-hidden="true" />
@@ -71,9 +71,11 @@
 import { dutyShiftRuleService } from '@/components/api/user/DutyShiftRuleService'
 import { useI18n } from "vue-i18n"
 import { useAlert } from '@/composables/alert'
+import { useUserStore } from '@/store/user'
 import type { Error } from '@/types'
 
 const runtimeConfig = useRuntimeConfig()
+const userStore = useUserStore() as any
 const { successAlert } = useAlert()
 const { t } = useI18n()
 let currentTablePage = 1
@@ -94,9 +96,16 @@ const state = reactive({
     dataFilter: { search: '' },
     error: {} as Error,
     isTableLoading: false,
+    isAdmin: false,
     modal: { isDeleteOpen: false },
     selectedRule: {} as any,
     sortData: { sortField: 'id', sortOrder: 'descend' },
+})
+
+watch(() => userStore.getUser, (newValue: any) => {
+    if (newValue != null) {
+        state.isAdmin = userStore.getUser.roles.some((role: any) => role.name === 'Admin')
+    }
 })
 
 onMounted(() => fetchRules())
