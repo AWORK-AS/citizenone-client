@@ -93,6 +93,15 @@
                 :isModalOpen="state.modal.isGuidedTourDutyScheduleOpen" :isGuidedTour="false"
                 @close="state.modal.isGuidedTourDutyScheduleOpen = false" />
 
+            <!-- Fixed tooltip for no-match info (teleported to body to escape overflow) -->
+            <Teleport to="body">
+                <div v-if="state.noMatchTooltip.visible"
+                    class="fixed z-[9999] w-64 rounded bg-gray-800 px-3 py-2 text-xs font-normal text-white shadow-lg"
+                    :style="{ top: state.noMatchTooltip.y + 'px', left: state.noMatchTooltip.x + 'px' }">
+                    {{ $t('dutySchedules.zenegy_no_match_info') }}
+                </div>
+            </Teleport>
+
             <Modal size="lg" :title="$t('dutySchedules.zenegy_sync')" :show="state.modal.isZenegySyncOpen"
             @close="state.modal.isZenegySyncOpen = false">
             <template #modal-body>
@@ -132,6 +141,18 @@
 
                     <!-- Step 1: Configure -->
                     <div v-if="state.syncStep === 'configure'" class="space-y-5">
+
+                        <!-- Department filter -->
+                        <div class="space-y-2">
+                            <FormLabel :label="$t('dutySchedules.zenegy_department')" />
+                            <select v-model="state.selectedZenegyDepartment"
+                                @change="onZenegyDepartmentChange"
+                                class="w-full rounded border border-gray-300 px-3 py-2 text-sm">
+                                <option v-for="dept in state.zenegyDepartments" :key="dept.uuid || dept.name" :value="dept.name">
+                                    {{ dept.name }}
+                                </option>
+                            </select>
+                        </div>
 
                         <!-- Presets -->
                         <div class="space-y-2">
@@ -231,14 +252,11 @@
                                         <div v-if="period >= 0" class="mb-1 text-xs font-semibold text-gray-500 uppercase tracking-wide">
                                             {{ getPayPeriodLabel(period) }}
                                         </div>
-                                        <div v-else class="mb-1 flex items-center gap-1 text-xs font-semibold text-gray-400 uppercase tracking-wide">
-                                            {{ $t('dutySchedules.zenegy_no_match') }}
-                                            <span class="relative group cursor-pointer normal-case">
-                                                <Icon name="ph:info" class="h-3.5 w-3.5 text-gray-400 hover:text-gray-600" />
-                                                <span class="absolute left-0 bottom-full mb-1 z-10 hidden group-hover:block w-64 rounded bg-gray-800 px-3 py-2 text-xs font-normal text-white shadow-lg">
-                                                    {{ $t('dutySchedules.zenegy_no_match_info') }}
-                                                </span>
-                                            </span>
+                                        <div v-else class="mb-1 flex items-center gap-1 text-xs text-gray-400">
+                                            <Icon name="ph:info" class="h-3.5 w-3.5 shrink-0 cursor-pointer hover:text-gray-600"
+                                                @mouseenter="showNoMatchTooltip"
+                                                @mouseleave="state.noMatchTooltip.visible = false" />
+                                            <span>{{ $t('dutySchedules.zenegy_no_match') }}</span>
                                         </div>
                                         <div class="space-y-1">
                                             <div v-for="{ employee, originalIndex } in employees" :key="employee.uuid"
@@ -250,7 +268,7 @@
                                                 </div>
                                                 <span>{{ employee.firstname }} {{ employee.lastname }}</span>
                                                 <span v-if="!employee.matchedZenegyUserUid" class="text-xs text-red-500">
-                                                    {{ $t('dutySchedules.zenegy_no_match') }}
+                                                    {{ $t('dutySchedules.zenegy_no_match_badge') }}
                                                 </span>
                                             </div>
                                         </div>
@@ -520,6 +538,7 @@ import { useDepartmentStore } from '@/store/department'
 import { zenegyService } from '@/components/api/user/ZenegyService'
 import { dutyScheduleService } from '@/components/api/user/DutyScheduleService'
 import { extraHoursService } from '@/components/api/user/ExtraHoursService'
+import { departmentService } from '@/components/api/user/DepartmentService'
 import { useAlert } from '@/composables/alert'
 import { useI18n } from 'vue-i18n'
 
@@ -607,6 +626,11 @@ const state = reactive({
     newPresetName: '' as string,
     showSavePresetInput: false,
     selectedPayPeriodType: '' as '' | 'monthly' | 'weekly' | 'biweekly',
+    // Department filter (modal-local, does not change global departmentStore)
+    zenegyDepartments: [] as any[],
+    selectedZenegyDepartment: '' as string,
+    allZenegyEmployees: [] as any[],
+    noMatchTooltip: { visible: false, x: 0, y: 0 },
 })
 
 const zenegyStepNumber = computed(() => {
@@ -831,14 +855,22 @@ async function openZenegySyncModal() {
     loadPresets()
 
     try {
-        const [zenegyEmployeesRes, zenegyRatesRes, zenegySupplementRatesRes] = await Promise.all([
+        const [zenegyEmployeesRes, zenegyRatesRes, zenegySupplementRatesRes, departmentsRes] = await Promise.all([
             zenegyService.getEmployees(),
             zenegyService.getRates(),
             zenegyService.getSupplementRates(),
+            departmentService.getAllDepartments({}),
         ])
 
-        // Store Zenegy employees
-        state.zenegyEmployeesRaw = zenegyEmployeesRes?.employees?.data || zenegyEmployeesRes?.data || []
+        // Store departments and set default to currently active department
+        state.zenegyDepartments = departmentsRes?.data || []
+        state.selectedZenegyDepartment = departmentStore.getSelectedDepartmentName || ''
+
+        // Store all Zenegy employees, then filter by selected department
+        state.allZenegyEmployees = zenegyEmployeesRes?.employees?.data || zenegyEmployeesRes?.data || []
+        state.zenegyEmployeesRaw = state.selectedZenegyDepartment
+            ? state.allZenegyEmployees.filter((emp: any) => emp.department?.name === state.selectedZenegyDepartment)
+            : state.allZenegyEmployees
 
         // Store Zenegy rates (response shape: { rates: { value: { data: [...] } } })
         const ratesData = zenegyRatesRes?.rates?.value?.data || zenegyRatesRes?.rates?.data || zenegyRatesRes?.data || []
@@ -879,6 +911,39 @@ async function openZenegySyncModal() {
     } finally {
         state.isLoadingModalData = false
     }
+}
+
+function showNoMatchTooltip(event: MouseEvent) {
+    const rect = (event.target as HTMLElement).getBoundingClientRect()
+    state.noMatchTooltip = {
+        visible: true,
+        x: rect.left,
+        y: rect.bottom + 6,
+    }
+}
+
+function onZenegyDepartmentChange() {
+    // Re-filter Zenegy employees by selected department (modal-local only)
+    state.zenegyEmployeesRaw = state.selectedZenegyDepartment
+        ? state.allZenegyEmployees.filter((emp: any) => emp.department?.name === state.selectedZenegyDepartment)
+        : state.allZenegyEmployees
+
+    // Re-run employee matching
+    const scheduleEmployees = weekViewRef.value?.getScheduleEmployees() || []
+    state.scheduleEmployees = scheduleEmployees.map((emp: any) => {
+        const matched = matchEmployeeToZenegy(emp, state.zenegyEmployeesRaw)
+        return {
+            uuid: emp.uuid,
+            firstname: emp.firstname || emp.firstName || '',
+            lastname: emp.lastname || emp.lastName || '',
+            selected: matched !== null,
+            matchedZenegyUserUid: matched?.zenegyUserUid || null,
+            matchedZenegyEmployeeUid: matched?.zenegyEmployeeUid || null,
+            salaryPayoutPeriod: matched?.salaryPayoutPeriod || 0,
+        }
+    })
+    state.selectAllEmployees = state.scheduleEmployees
+        .filter(e => e.matchedZenegyUserUid).every(e => e.selected)
 }
 
 function toggleSelectAllEmployees() {
