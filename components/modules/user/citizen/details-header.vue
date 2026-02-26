@@ -340,7 +340,7 @@
             <ModulesUserCitizenUseOfForceModalRelevantHelpLinks :isModalOpen="state.modal.isViewRelevantHelpLinksOpen"
                 @close="state.modal.isViewRelevantHelpLinksOpen = false" />
             <ModulesUserCitizenTimeRegistrationModalType :isModalOpen="state.modal.isTimeInTypeModalOpen"
-                @close="state.modal.isTimeInTypeModalOpen = false" @openTransport="openTransport" @open-work="workLogin" />
+                @close="state.modal.isTimeInTypeModalOpen = false" @openTransport="openTransportLogin" @open-work="workLogin" />
             <ModulesUserCitizenTimeRegistrationModalTransport :isModalOpen="state.modal.isTransportLoginOpen" @transportLogin="transportLogin"
                 @close="state.modal.isTransportLoginOpen = false" @submitTransport="transportLogin" />
         </LoadingSpinner>
@@ -378,7 +378,8 @@ const state = reactive({
         isViewPatienCareHoursOpen: false,
         isViewRelevantHelpLinksOpen: false,
         isTimeInTypeModalOpen: false,
-        isTransportLoginOpen: false
+        isTransportLoginOpen: false,
+        isTransportLogoutOpen: false
     },
     selectedCitizen: {} as any,
     showExpandedNote: false,
@@ -441,9 +442,14 @@ async function workLogin() {
     state.isPageLoading = false
 }
 
-function openTransport() {
+function openTransportLogin() {
     state.modal.isTimeInTypeModalOpen = false
     state.modal.isTransportLoginOpen = true
+}
+
+function openTransportLogout() {
+    state.modal.isTimeInTypeModalOpen = false
+    state.modal.isTransportLogoutOpen = true
 }
 
 async function transportLogin(transportLoginDetails: any) {
@@ -482,15 +488,30 @@ function toggleLogin() {
         selectTimeInType()
     } else {
         if (state.selectedCitizen?.data?.current_care_hour?.is_transportation) {
-            // transportLogout
-            workCheckout()
+            // openTransportLogout()
+            workLogout()
         } else {
-            workCheckout()
+            workLogout()
         }
     }
 }
 
-async function workCheckout() {
+async function workLogout() {
+    state.error = {}
+    state.isPageLoading = true
+    try {
+        const params = {}
+        const response = await interventionHoursService.checkout(citizenUuid, params)
+        if (response?.data) {
+            fetchCitizen()
+        }
+    } catch (error: any) {
+        state.error = error
+    }
+    state.isPageLoading = false
+}
+
+async function transportLogout() {
     state.error = {}
     state.isPageLoading = true
     try {

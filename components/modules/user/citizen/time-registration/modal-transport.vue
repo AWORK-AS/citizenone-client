@@ -3,96 +3,37 @@
         <Modal size="sm" :title="$t('citizens.timeRegistration.registerTransport.registerTransport')" :show="props.isModalOpen" @close="closeModal">
             <template #modal-body>
                 <LoadingSpinner :isActive="state.isPageLoading">
-                    <form @submit.prevent="submitForm()" id="formAbsence">
-                        <Alert type="danger" :text="state?.error?.message"
-                            v-if="state.error?.message && state.error.message.length > 0" />
+                    <div class="space-y-1 mt-3">
+                        <ClientOnly>
+                            <LMap
+                            :key="mapKey"
+                            style="height: 16rem; width: 100%; border-radius: 0.375rem; overflow: hidden;"
+                            :zoom="mapZoom"
+                            :center="mapCenter"
+                            @click="onMapClick"
+                            ref="lmap"
+                            >
+                            <LTileLayer :url="tileUrl" :attribution="tileAttribution" />
+                            <LMarker
+                                v-if="markerLat !== null && markerLng !== null"
+                                :lat-lng="[markerLat, markerLng]"
+                                :draggable="true"
+                                ref="markerRef"
+                                @update:lat-lng="onMarkerDrag"
+                                @dragend="onMarkerDrag"
+                            >
+                                <LPopup>
+                                {{ state.startAddress || t('citizens.timeRegistration.registerTransport.form.currentLocation') }}
+                                </LPopup>
+                            </LMarker>
+                            </LMap>
+                        </ClientOnly>
 
-                        <div class="space-y-1 mt-3">
-                            <ClientOnly>
-                                <LMap
-                                :key="mapKey"
-                                style="height: 16rem; width: 100%; border-radius: 0.375rem; overflow: hidden;"
-                                :zoom="mapZoom"
-                                :center="mapCenter"
-                                @click="onMapClick"
-                                ref="lmap"
-                                >
-                                <LTileLayer :url="tileUrl" :attribution="tileAttribution" />
-                                <LMarker
-                                    v-if="markerLat !== null && markerLng !== null"
-                                    :lat-lng="[markerLat, markerLng]"
-                                    :draggable="true"
-                                    ref="markerRef"
-                                    @update:lat-lng="onMarkerDrag"
-                                    @dragend="onMarkerDrag"
-                                >
-                                    <LPopup>
-                                    {{ state.formTransport.start_address || t('citizens.timeRegistration.registerTransport.form.currentLocation') }}
-                                    </LPopup>
-                                </LMarker>
-                                </LMap>
-                            </ClientOnly>
+                    </div>
 
-                        </div>
-
-                        <div class="space-y-1">
-                            <div class="flex justify-between items-center py-0.5">
-                                <FormLabel for="start_address" :label="$t('citizens.timeRegistration.registerTransport.form.startAddress')" />
-                            </div>
-                            <FormTextArea id="start_address" name="start_address"
-                                :placeholder="$t('citizens.timeRegistration.registerTransport.form.startAddress')"
-                                v-model="state.formTransport.start_address" />
-
-                            <div v-if="state.isLocating" class="text-xs cursor-pointer text-tertiary hover:text-tertiary-800"
-                                @click="useCurrentLocation">
-                                {{ $t('citizens.timeRegistration.registerTransport.form.locating') }}
-                            </div>
-                            <div v-else class="flex items-center gap-x-2 w-full">
-                                <div class="flex gap-x-1 text-tertiary hover:text-primary text-xs cursor-pointer"
-                                    @click="useCurrentLocation">
-                                    <Icon name="ph:map-pin" class="h-4 w-4" aria-hidden="true" /> 
-                                    <span class="">{{ $t('citizens.timeRegistration.registerTransport.form.useCurrentLocation') }}</span>
-                                </div>
-                                <div class="flex gap-x-1 text-tertiary hover:text-primary text-xs cursor-pointer"
-                                    @click="searchAddress">
-                                    <Icon name="ph:magnifying-glass" class="h-4 w-4" aria-hidden="true" /> 
-                                    <span class="">{{ $t('citizens.timeRegistration.registerTransport.form.searchAddress') }}</span>
-                                </div>
-                                <div class="flex gap-x-1 text-tertiary hover:text-primary text-xs cursor-pointer"
-                                    @click="centerMapToCoords">
-                                    <Icon name="ph:crosshair" class="h-4 w-4" aria-hidden="true" /> 
-                                    <span class="">{{ $t('citizens.timeRegistration.registerTransport.form.centerMap') }}</span>
-                                </div>
-                            </div>
-                            
-                            <FormError :error="v$?.formTransport?.start_address?.$errors[0]?.$message.toString()" />
-                            <FormError :error="state?.error?.errors?.start_address?.[0]" />
-                        </div>
-                        <div class="space-y-1">
-                            <div class="flex justify-between items-center py-0.5">
-                                <FormLabel for="note" :label="$t('citizens.timeRegistration.registerTransport.form.note')" />
-                            </div>
-                            <FormTextArea id="note" name="note"
-                                :placeholder="$t('citizens.timeRegistration.registerTransport.form.note')"
-                                v-model="state.formTransport.note" />
-                            <FormError :error="v$?.formTransport?.note?.$errors[0]?.$message.toString()" />
-                            <FormError :error="state?.error?.errors?.note?.[0]" />
-                        </div>
-
-                        <input type="hidden" name="geo_start_lat" :value="state.formTransport.geo_start_lat" />
-                        <input type="hidden" name="geo_start_lng" :value="state.formTransport.geo_start_lng" />
-                        
-                        <div class="mt-6">
-                            <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
-                                <FormButton type="button" buttonStyle="cancel" class="rounded-md" @click="closeModal">
-                                    {{ $t('cancel') }}
-                                </FormButton>
-                                <FormButton type="submit" buttonStyle="primary" class="rounded-md">
-                                    {{ $t('citizens.timeRegistration.checkIn') }}
-                                </FormButton>
-                            </div>
-                        </div>
-                    </form>
+                    <ModulesUserCitizenTimeRegistrationFormLogin :startAddress="state.startAddress"
+                        @close="closeModal" @useCurrentLocation="useCurrentLocation" @searchAddress="searchAddress" @centerMapToCoords="centerMapToCoords" @submitTransport="submitForm" />
+                    
                 </LoadingSpinner>
             </template>
         </Modal>
@@ -104,6 +45,7 @@ import { useVuelidate } from "@vuelidate/core"
 import { useI18n } from "vue-i18n"
 import { reactive, watch, computed, ref, nextTick } from 'vue'
 import type { Error } from '@/types'
+import { not } from "@vuelidate/validators"
 
 const { t } = useI18n()
 
@@ -117,12 +59,7 @@ const emit = defineEmits(['close', 'submitTransport'])
 
 const state = reactive({
     error: {} as Error,
-    formTransport: {
-        geo_start_lat: '',
-        geo_start_lng: '',
-        start_address: '',
-        note: '',
-    },
+    startAddress: '',
     isPageLoading: false,
     isLocating: false,
 })
@@ -141,14 +78,6 @@ function closeModal() {
     emit('close')
 }
 
-const rules = computed(() => {
-    return {
-        formTransport: {},
-    }
-})
-
-const v$ = useVuelidate(rules, state)
-
 const { isLocating, error: locationError, getLocationAndAddress, reverseGeocode, geocode } = useLocationHelper(t)
 
 watch(
@@ -156,12 +85,8 @@ watch(
     async (open) => {
         if (open) {
             state.error = {} as Error
-            state.formTransport = {
-                geo_start_lat: '',
-                geo_start_lng: '',
-                start_address: '',
-                note: '',
-            }
+            state.startAddress = ''
+
             markerLat.value = null
             markerLng.value = null
             
@@ -193,19 +118,19 @@ const hasCoords = computed(() => {
   return markerLat.value !== null && markerLng.value !== null
 })
 
-function submitForm() {
+function submitForm(formDetails: any) {
+    console.log('Submitting transport with details:', formDetails)
     state.error = {}
-    v$.value.$validate()
-    if (!v$.value.$error) {
-        emit('submitTransport', state.formTransport)
-        state.formTransport.geo_start_lat = ''
-        state.formTransport.geo_start_lng = ''
-        state.formTransport.start_address = ''
-        state.formTransport.note = ''
-        markerLat.value = null
-        markerLng.value = null
-        v$.value.$reset()
+    const params = {
+        start_address: formDetails.start_address,
+        geo_start_lat: markerLat.value ? String(markerLat.value) : '',
+        geo_start_lng: markerLng.value ? String(markerLng.value) : '',
+        note: formDetails.note,
     }
+    emit('submitTransport', params)
+    state.startAddress = ''
+    markerLat.value = null
+    markerLng.value = null
 }
 
 
@@ -284,8 +209,6 @@ async function useCurrentLocation() {
 
     markerLat.value = lat
     markerLng.value = lng
-    state.formTransport.geo_start_lat = String(lat)
-    state.formTransport.geo_start_lng = String(lng)
 
     // Resolve address
     let finalAddress = ''
@@ -298,12 +221,12 @@ async function useCurrentLocation() {
         } else if (locationError.value && /rate/i.test(locationError.value)) {
             state.error = { message: locationError.value } as Error
         } else {
-            finalAddress = `${lat.toFixed(7)}, ${lng.toFixed(7)}`
+            // finalAddress = `${lat.toFixed(7)}, ${lng.toFixed(7)}`
         }
     }
 
     if (finalAddress) {
-        state.formTransport.start_address = finalAddress
+        state.startAddress = finalAddress
     }
 
     // Wait for map with more checks
@@ -351,8 +274,8 @@ async function useCurrentLocation() {
                 console.log('🔓 Opening marker popup')
                 mk.openPopup()
 
-                if (!state.formTransport.start_address) {
-                    state.formTransport.start_address = finalAddress
+                if (!state.startAddress) {
+                    state.startAddress = finalAddress
                 }
             }
         } catch (e) {
@@ -367,7 +290,7 @@ async function useCurrentLocation() {
 }
 
 async function searchAddress() {
-    const address = state.formTransport.start_address?.trim()
+    const address = state.startAddress?.trim()
     
     if (!address || address.length < 3) {
         state.error = { message: t('citizens.timeRegistration.registerTransport.errors.addressTooShort') } as Error
@@ -392,8 +315,6 @@ async function searchAddress() {
     // Set marker and coordinates
     markerLat.value = result.lat
     markerLng.value = result.lng
-    state.formTransport.geo_start_lat = String(result.lat)
-    state.formTransport.geo_start_lng = String(result.lng)
 
     // Center map
     await nextTick()
@@ -452,30 +373,28 @@ async function onMapClick(e: any) {
     
     markerLat.value = lat
     markerLng.value = lng
-    state.formTransport.geo_start_lat = String(lat)
-    state.formTransport.geo_start_lng = String(lng)
 
     // Show temporary "loading" message in address field
-    state.formTransport.start_address = t('citizens.timeRegistration.registerTransport.form.locating')
+    state.startAddress = t('citizens.timeRegistration.registerTransport.form.locating')
 
     // try reverse geocode with retries
     const addr = await attemptReverseGeocode(lat, lng, 3, 500)
     if (addr) {
         console.log('✅ Reverse geocode successful:', addr)
-        state.formTransport.start_address = addr
+        state.startAddress = addr
         return
     }
 
     // if rate-limited, surface error and don't fallback to coords
     if (locationError.value && /rate/i.test(locationError.value)) {
         state.error = { message: locationError.value } as Error
-        state.formTransport.start_address = '' // clear the "locating" message
+        state.startAddress = '' // clear the "locating" message
         return
     }
 
     // fallback to coordinates if no address resolved
     console.log('⚠️ No address found, using coordinates')
-    state.formTransport.start_address = `${lat.toFixed(7)}, ${lng.toFixed(7)}`
+    // state.startAddress = `${lat.toFixed(7)}, ${lng.toFixed(7)}`
 }
 
 /**
@@ -509,14 +428,13 @@ async function onMarkerDrag(payload: any) {
 
     markerLat.value = lat
     markerLng.value = lng
-    state.formTransport.geo_start_lat = String(lat)
-    state.formTransport.geo_start_lng = String(lng)
+    // state.startAddress = `${lat.toFixed(7)}, ${lng.toFixed(7)}`
 
     // attempt reverse geocoding with retries (non-blocking)
     try {
         const addr = await attemptReverseGeocode(lat, lng, 3, 500)
         if (addr) {
-            state.formTransport.start_address = addr
+            state.startAddress = addr
             return
         }
 
@@ -527,7 +445,7 @@ async function onMarkerDrag(payload: any) {
         }
 
         // fallback to coords if no address
-        state.formTransport.start_address = `${lat.toFixed(7)}, ${lng.toFixed(7)}`
+        // state.startAddress = `${lat.toFixed(7)}, ${lng.toFixed(7)}`
     } catch {
         // ignore
     }
