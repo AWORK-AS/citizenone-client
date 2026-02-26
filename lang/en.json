@@ -822,13 +822,16 @@
                     "startAddress": "Start address",
                     "endAddress": "End address",
                     "note": "Note (Optional)",
+                    "currentLocation": "Current location",
                     "useCurrentLocation": "Use current location",
-                    "locating": "Locating..."
+                    "locating": "Locating...",
+                    "searchAddress": "Search address",
+                    "centerMap": "Center map"
                 },
                 "errors": {
                     "geolocationNotSupported": "Geolocation is not supported by this browser.",
                     "somethingWentWrong": "Something went wrong fetching your current location. Please try again.",
-                    "permissionDenied": "Permission to access location was denied.",
+                    "permissionDenied": "Enable location permission in the browser.",
                     "positionUnavailable": "Location information is unavailable.",
                     "timeout": "The request to get your location timed out.",
                     "unableToLocate": "Unable to determine your location."

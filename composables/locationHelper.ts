@@ -142,11 +142,61 @@ export function useLocationHelper(t?: (key: string) => string) {
         }
     }
 
+    /**
+     * Geocode: convert address string to coordinates
+     * @param address - the address to geocode
+     * @returns { lat, lng } or null
+     */
+    async function geocode(address: string): Promise<{ lat: number; lng: number } | null> {
+        if (!address || address.trim().length === 0) {
+            return null
+        }
+
+        isLocating.value = true
+        error.value = null
+
+        try {
+            const url = `https://nominatim.openstreetmap.org/search?format=json&q=${encodeURIComponent(address)}&limit=1`
+            const response = await fetch(url, {
+            headers: {
+                'User-Agent': 'CitizenOne-Transport-App', // Nominatim requires a User-Agent
+            },
+            })
+
+            if (!response.ok) {
+            if (response.status === 429 || response.status === 425) {
+                error.value = 'rate-limited'
+                return null
+            }
+            throw new Error(`Geocoding failed: ${response.status}`)
+            }
+
+            const data = await response.json()
+
+            if (data && data.length > 0) {
+            const result = data[0]
+            return {
+                lat: parseFloat(result.lat),
+                lng: parseFloat(result.lon),
+            }
+            }
+
+            error.value = 'not-found'
+            return null
+        } catch (err) {
+            error.value = 'error'
+            return null
+        } finally {
+            isLocating.value = false
+        }
+    }
+
     return {
         isLocating,
         error,
         getPosition,
         reverseGeocode,
+        geocode,
         getLocationAndAddress,
     }
 }

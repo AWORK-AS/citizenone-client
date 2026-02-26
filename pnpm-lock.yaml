@@ -8,12 +8,18 @@ importers:
 
   .:
     dependencies:
+      '@vue-leaflet/vue-leaflet':
+        specifier: ^0.10.1
+        version: 0.10.1(leaflet@1.9.4)
       docx-preview:
         specifier: ^0.3.7
         version: 0.3.7
       flatpickr:
         specifier: ^4.6.13
         version: 4.6.13
+      leaflet:
+        specifier: ^1.9.4
+        version: 1.9.4
       mammoth:
         specifier: ^1.11.0
         version: 1.11.0
@@ -1442,6 +1448,15 @@ packages:
       vite: ^5.0.0
       vue: ^3.2.25
 
+  '@vue-leaflet/vue-leaflet@0.10.1':
+    resolution: {integrity: sha512-RNEDk8TbnwrJl8ujdbKgZRFygLCxd0aBcWLQ05q/pGv4+d0jamE3KXQgQBqGAteE1mbQsk3xoNcqqUgaIGfWVg==}
+    peerDependencies:
+      '@types/leaflet': ^1.5.7
+      leaflet: ^1.6.0
+    peerDependenciesMeta:
+      '@types/leaflet':
+        optional: true
+
   '@vue-macros/common@1.10.4':
     resolution: {integrity: sha512-akO6Bd6U4jP0+ZKbHq6mbYkw1coOrJpLeVmkuMlUsT5wZRi11BjauGcZHusBSzUjgCBsa1kZTyipxrxrWB54Hw==}
     engines: {node: '>=16.14.0'}
@@ -2739,6 +2754,9 @@ packages:
   lazystream@1.0.1:
     resolution: {integrity: sha512-b94GiNHQNy6JNTrt5w6zNyffMrNkXZb3KTkCZJb2V1xaEGCk093vkZ2jk3tpaeP33/OiXC+WvK9AxUebnf5nbw==}
     engines: {node: '>= 0.6.3'}
+
+  leaflet@1.9.4:
+    resolution: {integrity: sha512-nxS1ynzJOmOlHp+iL3FyWqK89GtNL8U8rvlMOsQdTTssxZwCXh8N2NB3GDQOL+YR3XnWyZAxwQixURb+FA74PA==}
 
   lie@3.3.0:
     resolution: {integrity: sha512-UaiMJzeWRlEujzAuw5LokY1L5ecNQYZKfmyZ9L7wDHb/p5etKaxXhohBcrw0EYby+G/NA52vRSN4N39dxHAIwQ==}
@@ -6040,6 +6058,13 @@ snapshots:
       vite: 5.3.5(@types/node@20.14.2)(terser@5.31.1)
       vue: 3.4.34
 
+  '@vue-leaflet/vue-leaflet@0.10.1(leaflet@1.9.4)':
+    dependencies:
+      leaflet: 1.9.4
+      vue: 3.4.34
+    transitivePeerDependencies:
+      - typescript
+
   '@vue-macros/common@1.10.4(rollup@4.18.0)(vue@3.4.34)':
     dependencies:
       '@babel/types': 7.24.7
@@ -7500,6 +7525,8 @@ snapshots:
   lazystream@1.0.1:
     dependencies:
       readable-stream: 2.3.8
+
+  leaflet@1.9.4: {}
 
   lie@3.3.0:
     dependencies:
