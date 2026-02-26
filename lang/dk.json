@@ -1474,7 +1474,10 @@
                 "datetimeStart": "Dato og tid start",
                 "fromDutySchedule": "Fra vagtplan",
                 "note": "Bemærkning",
-                "totalHours": "Samlet timer"
+                "totalHours": "Samlet timer",
+                "type": "Type",
+                "transport": "Transportere",
+                "work": "Arbejdstid"
             },
             "timeAccount": {
                 "dailyAllocation": "Daglig tildeling",
@@ -1483,6 +1486,20 @@
                 "monthlyAllocation": "Månedlig tildeling",
                 "timeAccount": "Tidskonto",
                 "weeklyAllocation": "Ugentlig tildeling"
+            },
+            "view": {
+                "viewInterventionHourLog": "Vis log over indsatstimer",
+                "citizen": "Borger",
+                "dateTimeStart": "Dato og tid start",
+                "dateTimeEnd": "Dato og tid slut",
+                "type": "Type",
+                "transport": "Transportere",
+                "work": "Arbejdstid",
+                "startAddress": "Startadresse",
+                "endAddress": "Slutadresse",
+                "kilometers": "Kilometer",
+                "createdBy": "Oprettet af",
+                "note": "Bemærkning"
             }
         },
         "medicationAllergies": "Medicinallergier (CAVE)",

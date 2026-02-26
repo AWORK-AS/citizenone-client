@@ -511,14 +511,7 @@ async function transportLogout(transportLogoutDetails: any) {
     state.isPageLoading = true
     try {
         if (state.selectedCitizen?.data?.is_checked_in) {
-            const params = {
-                is_transportation: true,
-                geo_start_lat: transportLogoutDetails.geo_end_lat,
-                geo_start_lng: transportLogoutDetails.geo_end_lng,
-                end_address: transportLogoutDetails.end_address,
-                note: transportLogoutDetails.note
-            }
-            const response = await interventionHoursService.checkout(citizenUuid, params)
+            const response = await interventionHoursService.checkout(citizenUuid, transportLogoutDetails)
             if (response?.data) {
                 fetchCitizen()
                 state.modal.isTransportLogoutOpen = false

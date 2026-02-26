@@ -1461,7 +1461,8 @@
             "table": {
                 "actions": {
                     "delete": "Delete",
-                    "edit": "Edit"
+                    "edit": "Edit",
+                    "view": "View"
                 },
                 "alert": {
                     "interventionHoursSuccessfullyDeleted": "Intervention hours successfully deleted"
@@ -1474,7 +1475,10 @@
                 "datetimeStart": "Date time start",
                 "fromDutySchedule": "From duty schedule",
                 "note": "Note",
-                "totalHours": "Total hours"
+                "totalHours": "Total hours",
+                "type": "Type",
+                "transport": "Transport",
+                "work": "Work"
             },
             "timeAccount": {
                 "dailyAllocation": "Daily allocation",
@@ -1483,6 +1487,20 @@
                 "monthlyAllocation": "Monthly allocation",
                 "timeAccount": "Time account",
                 "weeklyAllocation": "Weekly allocation"
+            },
+            "view": {
+                "viewInterventionHourLog": "View intervention hour log",
+                "citizen":  "Citizen",
+                "dateTimeStart": "Date time start",
+                "dateTimeEnd": "Date time end",
+                "type": "Type",
+                "transport": "Transport",
+                "work": "Work",
+                "startAddress": "Start address",
+                "endAddress": "End address",
+                "kilometers": "Kilometers",
+                "createdBy": "Created by",
+                "note": "Note"
             }
         },
         "medicationAllergies": "Medication allergies (CAVE)",
