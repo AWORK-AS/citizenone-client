@@ -12,7 +12,7 @@
             </div>
             <div class="space-y-1">
                 <FormLabel for="condition_type" :label="$t('dutyShiftRules.form.conditionType')" />
-                <FormSelect id="condition_type" :options="state.conditionTypeOptions"
+                <FormSelect id="condition_type" :options="conditionTypeOptions"
                     v-model="state.formDutyShiftRule.condition_type" />
                 <FormError :error="v$?.formDutyShiftRule?.condition_type?.$errors[0]?.$message.toString()" />
                 <FormError :error="props?.error?.errors?.condition_type?.[0]" />
@@ -174,11 +174,12 @@ const props = defineProps({
 const emit = defineEmits(['isPageLoading', 'submitForm'])
 const { t } = useI18n()
 
+const conditionTypeOptions = computed(() => [
+    { value: 'count', label: t('dutyShiftRules.form.conditionTypes.count') },
+    { value: 'consecutive', label: t('dutyShiftRules.form.conditionTypes.consecutive') },
+])
+
 const state = reactive({
-    conditionTypeOptions: [
-        { value: 'count', label: t('dutyShiftRules.form.conditionTypes.count') },
-        { value: 'consecutive', label: t('dutyShiftRules.form.conditionTypes.consecutive') },
-    ],
     recipientTypeOptions: [
         { value: 'role', label: t('dutyShiftRules.form.recipientTypes.role') },
         { value: 'user', label: t('dutyShiftRules.form.recipientTypes.user') },

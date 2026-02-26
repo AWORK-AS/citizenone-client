@@ -2487,10 +2487,10 @@
             "periodFilter": "Period filter",
             "evaluatingShiftsFrom": "Evaluating shifts from",
             "to": "to",
-            "periodInfoAnchorDesc": "The end point of the evaluation window. Leave empty to use today's date. If set, the period is counted backwards from this date instead.",
+            "periodInfoAnchorDesc": "The end point of the period filter. Leave empty to use today's date — this is dynamic and updates automatically every day, so the period filter shifts forward each day. If set, the period is counted backwards from that fixed date instead.",
             "periodInfoHowTitle": "How they work together",
-            "periodInfoHowDesc": "The rule evaluates shifts within a window that starts at (anchor date − period days) and ends at the anchor date.",
-            "periodInfoFormula": "window start = anchor date − period (days)",
+            "periodInfoHowDesc": "The rule evaluates shifts within a period filter that starts at (anchor date − period days) and ends at the anchor date.",
+            "periodInfoFormula": "period filter start = anchor date − period (days)",
             "conditionType": "Condition type",
             "conditionTypes": {
                 "count": "Number of occurrences",
@@ -4686,7 +4686,36 @@
         "reminders": "Reminders",
         "subscription": "Subscription",
         "settings": "Settings",
-        "switchLanguage": "Switch language"
+        "switchLanguage": "Switch language",
+        "notifications": "Notifications"
+    },
+    "bellNotification": {
+        "title": "Notifications",
+        "markAllAsRead": "Mark all as read",
+        "loadMore": "Load more",
+        "loadingMore": "Loading...",
+        "empty": {
+            "title": "No notifications",
+            "subtitle": "You're all caught up!"
+        },
+        "categories": {
+            "all": "All",
+            "plansGoals": "Plans & Goals",
+            "dutyShift": "Duty Shift Rule",
+            "notes": "Notes",
+            "schedule": "Schedule",
+            "incidents": "Incidents",
+            "reminders": "Reminders",
+            "messages": "Messages",
+            "other": "Other"
+        },
+        "time": {
+            "justNow": "Just now",
+            "minutesAgo": "{count} min. ago",
+            "hoursAgo": "{count} hr. ago",
+            "yesterday": "Yesterday",
+            "daysAgo": "{count} days ago"
+        }
     },
     "news": {
         "editNews": "Edit news",

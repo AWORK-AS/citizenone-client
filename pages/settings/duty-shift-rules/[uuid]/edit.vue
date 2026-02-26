@@ -1,10 +1,13 @@
 <template>
     <div>
         <NuxtLayout name="user">
+
             <Head>
                 <Title>{{ $t('dutyShiftRules.editDutyShiftRule') }} - {{ runtimeConfig?.public?.appName }}</Title>
             </Head>
-            <template #breadcrumb><Breadcrumb :links="breadcrumbLinks" /></template>
+            <template #breadcrumb>
+                <Breadcrumb :links="breadcrumbLinks" />
+            </template>
             <template #header>{{ $t('dutyShiftRules.editDutyShiftRule') }}</template>
 
             <div>
@@ -14,10 +17,8 @@
                     <span>{{ $t('back') }}</span>
                 </NuxtLink>
                 <LoadingSpinner :isActive="state.isPageLoading">
-                    <ModulesUserDutyShiftRuleForm formType="update" :selectedRule="state.form"
-                        :error="state.error"
-                        @isPageLoading="(value: boolean) => state.isPageLoading = value"
-                        @submitForm="updateRule" />
+                    <ModulesUserDutyShiftRuleForm formType="update" :selectedRule="state.form" :error="state.error"
+                        @isPageLoading="(value: boolean) => state.isPageLoading = value" @submitForm="updateRule" />
                 </LoadingSpinner>
             </div>
         </NuxtLayout>
