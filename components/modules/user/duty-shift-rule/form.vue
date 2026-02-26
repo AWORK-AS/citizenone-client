@@ -242,8 +242,8 @@ onMounted(() => {
 watch(() => props.selectedRule, (newValue: any) => {
     if (newValue != null) {
         const recipients = newValue.recipients ?? []
-        const roleNames = recipients.filter((r: any) => r.type === 'role').map((r: any) => r.value)
-        const userUuids = recipients.filter((r: any) => r.type === 'user').map((r: any) => r.value)
+        const roleNames = recipients.filter((r: any) => r.recipient_type === 'role').map((r: any) => r.recipient_value)
+        const userUuids = recipients.filter((r: any) => r.recipient_type === 'user').map((r: any) => r.recipient_value)
 
         state.recipientType = roleNames.length > 0 ? 'role' : (userUuids.length > 0 ? 'user' : null)
         state.roleNames = roleNames
@@ -255,8 +255,8 @@ watch(() => props.selectedRule, (newValue: any) => {
             anchor_date: newValue.anchor_date ?? '',
             condition_type: newValue.condition_type ?? null,
             condition_threshold: newValue.condition_threshold?.toString() ?? '',
-            shift_type_uuids: newValue.shift_type_uuids ?? [],
-            recipients: newValue.recipients ?? [],
+            shift_type_uuids: newValue.shift_types?.map((st: any) => st.uuid) ?? [],
+            recipients: recipients.map((r: any) => ({ type: r.recipient_type, value: r.recipient_value })),
             scope_conditions: newValue.scope_conditions ?? [],
             is_active: newValue.is_active ?? true,
         }
