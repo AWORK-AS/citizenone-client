@@ -804,6 +804,41 @@
             },
             "newCaseWorker": "Ny sagsbehandler"
         },
+        "timeRegistration": {
+            "timeRegistration": "Tidsregistrering",
+            "checkIn": "Tjek ind",
+            "checkOut": "Tjek ud",
+            "history": "Historik",
+            "selectType": "Vil du registrere transport eller arbejdstid?",
+            "selectTypeMessage": "Registrer din tid nemt — vælg arbejde eller transport for at komme i gang.",
+            "transport": "Transport",
+            "work": "Arbejdstid",
+            "form": {
+                
+            },
+            "registerTransport": {
+                "registerTransport": "Registrér transport",
+                "endTransport": "Afslut transport",
+                "form": {
+                    "startAddress": "Startadresse",
+                    "endAddress": "Slutadresse",
+                    "note": "Notat (valgfrit)",
+                    "currentLocation": "Nuværende placering",
+                    "useCurrentLocation": "Brug nuværende placering",
+                    "locating": "Finder din placering...",
+                    "searchAddress": "Søg adresse",
+                    "centerMap": "Centrer kort"
+                },
+                "errors": {
+                    "geolocationNotSupported": "Geolocation understøttes ikke i denne browser.",
+                    "somethingWentWrong": "Der opstod en fejl ved hentning af din aktuelle placering. Prøv igen.",
+                    "permissionDenied": "Aktivér lokationstilladelse i browseren.",
+                    "positionUnavailable": "Positionsoplysninger er ikke tilgængelige.",
+                    "timeout": "Anmodningen om at hente din placering udløb.",
+                    "unableToLocate": "Kunne ikke bestemme din placering."
+                }
+            }
+        },
         "citizens": "Borgere",
         "citizenJournals": {
             "actions": {
@@ -1231,7 +1266,14 @@
                 "trafficLights": "Trafiklys",
                 "yellow": "Gul"
             },
-            "transportation": "Transport"
+            "transportation": "Transport",
+            "locateCitizen": "Find borger",
+            "selectedLocation": "Valgt placering",
+            "selectedAddress": "Valgt adresse",
+            "fetchingAddress": "Henter adresse...",
+            "locateCitizenInstructions": "Klik et sted på kortet for at fastgøre en placering. Du kan også trække markøren for at justere positionen. Adressen hentes automatisk.",
+            "useThisLocation": "Brug denne placering",
+            "country": "Land"
         },
         "importCitizens": {
             "alert": {
@@ -1426,7 +1468,8 @@
             "table": {
                 "actions": {
                     "delete": "Slet",
-                    "edit": "Rediger"
+                    "edit": "Rediger",
+                    "view": "Se"
                 },
                 "alert": {
                     "interventionHoursSuccessfullyDeleted": "Indsatstimer slettet med succes"
@@ -1439,7 +1482,10 @@
                 "datetimeStart": "Dato og tid start",
                 "fromDutySchedule": "Fra vagtplan",
                 "note": "Bemærkning",
-                "totalHours": "Samlet timer"
+                "totalHours": "Samlet timer",
+                "type": "Type",
+                "transport": "Transportere",
+                "work": "Arbejdstid"
             },
             "timeAccount": {
                 "dailyAllocation": "Daglig tildeling",
@@ -1448,6 +1494,20 @@
                 "monthlyAllocation": "Månedlig tildeling",
                 "timeAccount": "Tidskonto",
                 "weeklyAllocation": "Ugentlig tildeling"
+            },
+            "view": {
+                "viewInterventionHourLog": "Vis log over indsatstimer",
+                "citizen": "Borger",
+                "dateTimeStart": "Dato og tid start",
+                "dateTimeEnd": "Dato og tid slut",
+                "type": "Type",
+                "transport": "Transportere",
+                "work": "Arbejdstid",
+                "startAddress": "Startadresse",
+                "endAddress": "Slutadresse",
+                "kilometers": "Kilometer",
+                "createdBy": "Oprettet af",
+                "note": "Bemærkning"
             }
         },
         "medicationAllergies": "Medicinallergier (CAVE)",
@@ -1832,7 +1892,9 @@
                     "noPlansAndGoals": "Ingen planer og mål",
                     "plansAndGoals": "Planer og mål"
                 },
-                "view": "Se"
+                "view": "Se",
+                "checkIn": "Tjek ind",
+                "checkOut": "Tjek ud"
             },
             "department": "Afdeling",
             "email": "E-mail",
@@ -2160,6 +2222,17 @@
                 "type": "Type"
             },
             "walletTransactions": "Transaktionshistorik"
+        },
+        "viewLocations": {
+            "title": "View Locations",
+            "viewLocations": "View Locations",
+            "yourLocation": "Your Location",
+            "loading": "Loading locations",
+            "citizensWithLocations": "citizens with locations",
+            "noCitizensWithLocations": "No citizens have location data available",
+            "distance": "Distance",
+            "instructions": "Blue lines connect your current location to each citizen's address. Click on markers to see details.",
+            "locatingAddress": "Getting your location"
         }
     },
     "children": {

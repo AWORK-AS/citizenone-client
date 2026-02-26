@@ -804,6 +804,41 @@
             },
             "newCaseWorker": "New case worker"
         },
+        "timeRegistration": {
+            "timeRegistration": "Time registration",
+            "checkIn": "Check in",
+            "checkOut": "Check out",
+            "history": "History",
+            "selectType": "Do you want to register transport or work time?",
+            "selectTypeMessage": "Track your time easily, choose work or transport to get started.",
+            "transport": "Transport",
+            "work": "Work",
+            "form": {
+                
+            },
+            "registerTransport": {
+                "registerTransport": "Register transport",
+                "endTransport": "End transport",
+                "form": {
+                    "startAddress": "Start address",
+                    "endAddress": "End address",
+                    "note": "Note (Optional)",
+                    "currentLocation": "Current location",
+                    "useCurrentLocation": "Use current location",
+                    "locating": "Locating...",
+                    "searchAddress": "Search address",
+                    "centerMap": "Center map"
+                },
+                "errors": {
+                    "geolocationNotSupported": "Geolocation is not supported by this browser.",
+                    "somethingWentWrong": "Something went wrong fetching your current location. Please try again.",
+                    "permissionDenied": "Enable location permission in the browser.",
+                    "positionUnavailable": "Location information is unavailable.",
+                    "timeout": "The request to get your location timed out.",
+                    "unableToLocate": "Unable to determine your location."
+                }
+            }
+        },
         "citizens": "Citizens",
         "citizenJournals": {
             "actions": {
@@ -1231,7 +1266,14 @@
                 "trafficLights": "Traffic lights",
                 "yellow": "Yellow"
             },
-            "transportation": "Transportation"
+            "transportation": "Transportation",
+            "locateCitizen": "Locate Citizen",
+            "selectedLocation": "Selected Location",
+            "selectedAddress": "Selected Address",
+            "fetchingAddress": "Fetching address...",
+            "locateCitizenInstructions": "Click anywhere on the map to pin a location. You can also drag the marker to adjust the position. The address will be automatically fetched.",
+            "useThisLocation": "Use This Location",
+            "country": "Country"
         },
         "importCitizens": {
             "alert": {
@@ -1426,7 +1468,8 @@
             "table": {
                 "actions": {
                     "delete": "Delete",
-                    "edit": "Edit"
+                    "edit": "Edit",
+                    "view": "View"
                 },
                 "alert": {
                     "interventionHoursSuccessfullyDeleted": "Intervention hours successfully deleted"
@@ -1439,7 +1482,10 @@
                 "datetimeStart": "Date time start",
                 "fromDutySchedule": "From duty schedule",
                 "note": "Note",
-                "totalHours": "Total hours"
+                "totalHours": "Total hours",
+                "type": "Type",
+                "transport": "Transport",
+                "work": "Work"
             },
             "timeAccount": {
                 "dailyAllocation": "Daily allocation",
@@ -1448,6 +1494,20 @@
                 "monthlyAllocation": "Monthly allocation",
                 "timeAccount": "Time account",
                 "weeklyAllocation": "Weekly allocation"
+            },
+            "view": {
+                "viewInterventionHourLog": "View intervention hour log",
+                "citizen":  "Citizen",
+                "dateTimeStart": "Date time start",
+                "dateTimeEnd": "Date time end",
+                "type": "Type",
+                "transport": "Transport",
+                "work": "Work",
+                "startAddress": "Start address",
+                "endAddress": "End address",
+                "kilometers": "Kilometers",
+                "createdBy": "Created by",
+                "note": "Note"
             }
         },
         "medicationAllergies": "Medication allergies (CAVE)",
@@ -1832,7 +1892,9 @@
                     "noPlansAndGoals": "No plans and goals",
                     "plansAndGoals": "Plans and goals"
                 },
-                "view": "View"
+                "view": "View",
+                "checkIn": "Check in",
+                "checkOut": "Check out"
             },
             "department": "Department",
             "email": "Email",
@@ -2160,6 +2222,17 @@
                 "type": "Type"
             },
             "walletTransactions": "Wallet transactions"
+        },
+        "viewLocations": {
+            "title": "View Locations",
+            "viewLocations": "View Locations",
+            "yourLocation": "Your Location",
+            "loading": "Loading locations",
+            "citizensWithLocations": "citizens with locations",
+            "noCitizensWithLocations": "No citizens have location data available",
+            "distance": "Distance",
+            "instructions": "Blue lines connect your current location to each citizen's address. Click on markers to see details.",
+            "locatingAddress": "Getting your location"
         }
     },
     "children": {
