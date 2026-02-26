@@ -429,6 +429,7 @@ async function activateApp(formApp: any) {
         const paymentMethod = formApp?.payment_method ?? 'dibs'
         if (state.selectedApp?.generic_name === 'leads') {
             const response = await appService.activateLeadsApp()
+        }
         if (state.selectedApp?.is_free) {
             const params = {
                 app_uuid: state.selectedApp?.uuid,
@@ -439,6 +440,13 @@ async function activateApp(formApp: any) {
                 fetchApps()
             }
         } else if (paymentMethod === 'stripe') {
+            const amount = calculateAppAmount(state.selectedApp, formApp)
+            if (!amount) {
+                state.error = { message: 'Invalid amount for Stripe payment.' } as Error
+                state.isPageLoading = false
+                return
+            }
+            state.stripe.amount = amount
             state.stripe.citizenId = userStore.getUser?.citizen_id ?? ''
             state.stripe.reference = state.selectedApp?.name ?? 'App purchase'
             state.stripe.metadata = {
@@ -482,6 +490,17 @@ async function activateApp(formApp: any) {
     state.isPageLoading = false
 }
 
+
+function calculateAppAmount(app: any, formApp: any): number {
+    if (!app) return 0
+    const quantity = Number(formApp?.quantity ?? 1)
+    if (app?.is_one_time_fee) {
+        return Number(app?.price ?? 0) * quantity
+    }
+    const isMonthly = formApp?.frequency?.value === 'monthly'
+    const basePrice = isMonthly ? Number(app?.monthly_price ?? 0) : Number(app?.yearly_price ?? 0)
+    return basePrice * quantity
+}
 
 function handleStripeSuccess() {
     state.modal.isStripePaymentOpen = false
