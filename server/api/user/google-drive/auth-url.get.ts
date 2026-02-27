@@ -1,7 +1,7 @@
 export default defineEventHandler(async (event) => {
     const runtimeConfig = useRuntimeConfig()
     const authorization = getHeader(event, 'authorization')
-    
+
     const headers: Record<string, string> = {
         Accept: 'application/json',
     }
@@ -11,7 +11,7 @@ export default defineEventHandler(async (event) => {
     }
 
     try {
-        return await $fetch('/google-drive/status', {
+        return await $fetch('/user/google-drive/auth-url', {
             baseURL: runtimeConfig.public.apiBaseURL,
             method: 'GET',
             headers,
@@ -19,7 +19,7 @@ export default defineEventHandler(async (event) => {
     } catch (error) {
         throw createError({
             statusCode: 500,
-            statusMessage: 'Failed to check Google Drive status',
+            statusMessage: 'Failed to fetch Google Drive auth URL',
         })
     }
 })
