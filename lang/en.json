@@ -813,9 +813,6 @@
             "selectTypeMessage": "Track your time easily, choose work or transport to get started.",
             "transport": "Transport",
             "work": "Work",
-            "form": {
-                
-            },
             "registerTransport": {
                 "registerTransport": "Register transport",
                 "endTransport": "End transport",
@@ -837,7 +834,17 @@
                     "timeout": "The request to get your location timed out.",
                     "unableToLocate": "Unable to determine your location."
                 }
-            }
+            },
+            "confirmArrival": {
+                "title": "Arrival Confirmation",
+                "question": "Have you arrived?",
+                "distance": "Distance",
+                "arrivedAt": "Arrived at",
+                "totalDistance": "Total distance traveled"
+            },
+            "yes": "Yes",
+            "no": "No",
+            "away": "Away"
         },
         "citizens": "Citizens",
         "citizenJournals": {

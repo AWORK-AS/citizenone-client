@@ -345,6 +345,17 @@
                 @close="state.modal.isTransportLoginOpen = false" @submitTransportLogin="transportLogin" />
             <ModulesUserCitizenTimeRegistrationModalTransport type="logout" :isModalOpen="state.modal.isTransportLogoutOpen" @transportLogout="transportLogout"
                 @close="state.modal.isTransportLogoutOpen = false" @submitTransportLogout="transportLogout" />
+            
+            <!-- Arrival Confirmation Modal -->
+            <ModulesUserCitizenTimeRegistrationModalConfirmArrival
+                :isModalOpen="state.modal.isConfirmArrivalOpen"
+                :citizenName="`${state.selectedCitizen?.data?.firstname || ''} ${state.selectedCitizen?.data?.lastname || ''}`"
+                :citizenAddress="state.selectedCitizen?.data?.address?.street || ''"
+                :distanceInMeters="state.arrivalDistance"
+                @close="state.modal.isConfirmArrivalOpen = false"
+                @confirmed="onArrivalConfirmed"
+                @dismissed="onArrivalDismissed"
+            />
         </LoadingSpinner>
     </div>
 </template>
@@ -365,10 +376,13 @@ const router = useRouter()
 const { formatDateToReadable } = useDatetimeFormatter()
 const { formatNumber } = useNumberFormatter()
 const language = useI18n()
+const { t } = useI18n()
 const customPagesStore = useCustomPagesStore() as any
 const citizenStore = useCitizenStore() as any
 const userStore = useUserStore() as any
 const citizenUuid = router?.currentRoute?.value?.params?.uuid as string
+
+const locationTracking = useLocationTracking()
 
 const state = reactive({
     error: {} as Error,
@@ -381,16 +395,149 @@ const state = reactive({
         isViewRelevantHelpLinksOpen: false,
         isTimeInTypeModalOpen: false,
         isTransportLoginOpen: false,
-        isTransportLogoutOpen: false
+        isTransportLogoutOpen: false,
+        isConfirmArrivalOpen: false,
     },
     selectedCitizen: {} as any,
     showExpandedNote: false,
+    arrivalDistance: 0,
+})
+
+const arrivalCheckState = reactive({
+    hasShownPrompt: false,
+    isCheckingArrival: false,
 })
 
 onMounted(() => {
     fetchCitizen()
     fetchFollowUpReminderCount()
+    
+    const savedState = locationTracking.getSavedTrackingState()
+    if (savedState && savedState.isTracking && savedState.careHourUuid && savedState.citizenUuid === citizenUuid) {
+        
+        nextTick(() => {
+            if (state.selectedCitizen?.data?.is_checked_in && savedState.careHourUuid) {
+                // Restart tracking
+                startLocationTracking(savedState.careHourUuid)
+            }
+        })
+    }
 })
+
+watch(
+    () => locationTracking.currentLocation.value,
+    (newLocation) => {
+        if (!newLocation || !state.selectedCitizen?.data?.is_checked_in) return
+        if (!state.selectedCitizen?.data?.current_care_hour?.is_transportation) return
+        if (arrivalCheckState.hasShownPrompt) return
+
+        checkIfNearCitizen(newLocation)
+    }
+)
+
+function checkIfNearCitizen(userLocation: { lat: number; lng: number }) {
+    const citizen = state.selectedCitizen?.data
+    if (!citizen?.address?.latitude || !citizen?.address?.longitude) return
+
+    const destination = {
+        lat: Number(citizen.address.latitude),
+        lng: Number(citizen.address.longitude),
+    }
+
+    const { isNear, distance } = locationTracking.isNearDestination(destination, 150)
+
+    if (isNear && !arrivalCheckState.hasShownPrompt) {
+        arrivalCheckState.hasShownPrompt = true
+        arrivalCheckState.isCheckingArrival = true
+        state.modal.isConfirmArrivalOpen = true
+        state.arrivalDistance = distance
+        
+        console.log(`Near citizen! Distance: ${distance}m`)
+    }
+}
+
+async function onArrivalConfirmed() {
+    await locationTracking.logCurrentLocation()
+
+    const currentLat = locationTracking.currentLocation.value?.lat
+    const currentLng = locationTracking.currentLocation.value?.lng
+    const totalDistanceKm = locationTracking.getTotalDistanceKm()
+    
+    let arrivalAddress = ''
+    if (currentLat && currentLng) {
+        try {
+            const response = await fetch(
+                `https://nominatim.openstreetmap.org/reverse?format=json&lat=${currentLat}&lon=${currentLng}&zoom=18&addressdetails=1`,
+                {
+                    headers: {
+                        'Accept-Language': 'da,en',
+                    }
+                }
+            )
+            const data = await response.json()
+            if (data && data.display_name) {
+                arrivalAddress = data.display_name
+            }
+        } catch (error) {
+            console.error('Failed to get arrival address:', error)
+            arrivalAddress = `${currentLat}, ${currentLng}`
+        }
+    }
+    
+    state.error = {}
+    state.isPageLoading = true
+    try {
+        if (state.selectedCitizen?.data?.is_checked_in) {
+            await stopLocationTracking()
+            
+            const params = {
+                is_transportation: true,
+                geo_end_lat: currentLat,
+                geo_end_lng: currentLng,
+                end_address: arrivalAddress,
+                note: `${t('citizens.timeRegistration.confirmArrival.arrivedAt')} ${arrivalAddress}. ${t('citizens.timeRegistration.confirmArrival.totalDistance')}: ${totalDistanceKm.toFixed(2)}km`
+            }
+            
+            const response = await interventionHoursService.checkout(citizenUuid, params)
+            if (response?.data) {
+                await fetchCitizen()
+                state.modal.isConfirmArrivalOpen = false
+            }
+        }
+    } catch (error: any) {
+        state.error = error
+    }
+    state.isPageLoading = false
+}
+
+function onArrivalDismissed() {
+    arrivalCheckState.hasShownPrompt = false
+    state.modal.isConfirmArrivalOpen = false
+}
+
+function startLocationTracking(careHourUuid: string) {
+    arrivalCheckState.hasShownPrompt = false
+    
+    locationTracking.startTracking(
+        careHourUuid,
+        (location) => {
+            console.log('Current location:', location)
+        },
+        (error) => {
+            console.error('Tracking error:', error)
+        },
+        30000,
+        state.selectedCitizen?.data?.uuid,
+        `${state.selectedCitizen?.data?.firstname} ${state.selectedCitizen?.data?.lastname}`,
+        state.selectedCitizen?.data?.address?.street
+    )
+}
+
+async function stopLocationTracking() {
+    await locationTracking.stopTracking()
+    arrivalCheckState.hasShownPrompt = false
+    arrivalCheckState.isCheckingArrival = false
+}
 
 async function fetchCitizen() {
     state.error = {}
@@ -468,9 +615,14 @@ async function transportLogin(transportLoginDetails: any) {
             }
             const response = await interventionHoursService.checkin(citizenUuid, params)
             if (response?.data) {
-                fetchCitizen()
+                const careHourUuid = response.data.uuid || response.data.citizen_care_hour_uuid
+                
+                await fetchCitizen()
                 state.modal.isTransportLoginOpen = false
                 
+                if (careHourUuid) {
+                    startLocationTracking(careHourUuid)
+                }
             }
         }
     } catch (error: any) {
@@ -511,11 +663,19 @@ async function transportLogout(transportLogoutDetails: any) {
     state.isPageLoading = true
     try {
         if (state.selectedCitizen?.data?.is_checked_in) {
-            const response = await interventionHoursService.checkout(citizenUuid, transportLogoutDetails)
+            await stopLocationTracking()
+            
+            const params = {
+                is_transportation: true,
+                geo_end_lat: transportLogoutDetails.geo_end_lat,
+                geo_end_lng: transportLogoutDetails.geo_end_lng,
+                end_address: transportLogoutDetails.end_address,
+                note: transportLogoutDetails.note
+            }
+            const response = await interventionHoursService.checkout(citizenUuid, params)
             if (response?.data) {
                 fetchCitizen()
                 state.modal.isTransportLogoutOpen = false
-                
             }
         }
     } catch (error: any) {

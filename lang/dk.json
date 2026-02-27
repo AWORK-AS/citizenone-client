@@ -813,9 +813,6 @@
             "selectTypeMessage": "Registrer din tid nemt — vælg arbejde eller transport for at komme i gang.",
             "transport": "Transport",
             "work": "Arbejdstid",
-            "form": {
-                
-            },
             "registerTransport": {
                 "registerTransport": "Registrér transport",
                 "endTransport": "Afslut transport",
@@ -836,7 +833,17 @@
                     "positionUnavailable": "Positionsoplysninger er ikke tilgængelige.",
                     "timeout": "Anmodningen om at hente din placering udløb.",
                     "unableToLocate": "Kunne ikke bestemme din placering."
-                }
+                },
+                "confirmArrival": {
+                    "title": "Ankomstbekræftelse",
+                    "question": "Er du ankommet?",
+                    "distance": "Afstand",
+                    "arrivedAt": "Ankom til",
+                    "totalDistance": "Samlet tilbagelagt afstand"
+                },
+                "yes": "Ja",
+                "no": "Nej",
+                "away": "væk"
             }
         },
         "citizens": "Borgere",
