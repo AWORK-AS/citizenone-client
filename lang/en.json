@@ -813,9 +813,7 @@
             "selectTypeMessage": "Track your time easily, choose work or transport to get started.",
             "transport": "Transport",
             "work": "Work",
-            "form": {
-                
-            },
+            "form": {},
             "registerTransport": {
                 "registerTransport": "Register transport",
                 "endTransport": "End transport",
@@ -1497,7 +1495,7 @@
             },
             "view": {
                 "viewInterventionHourLog": "View intervention hour log",
-                "citizen":  "Citizen",
+                "citizen": "Citizen",
                 "dateTimeStart": "Date time start",
                 "dateTimeEnd": "Date time end",
                 "type": "Type",
@@ -2478,8 +2476,8 @@
         "form": {
             "dutyShiftRuleName": "Name",
             "periodDays": "Retrospective time window (days back)",
-            "periodDaysBackInfo1":"The number of days back to consider when applying the duty shift rule",
-            "periodDaysBackInfo2":"(e.g., if set to 30, the rule will consider shifts from the past 30 days).",
+            "periodDaysBackInfo1": "The number of days back to consider when applying the duty shift rule",
+            "periodDaysBackInfo2": "(e.g., if set to 30, the rule will consider shifts from the past 30 days).",
             "anchorDate": "Anchor date",
             "anchorDateOptional": "Current date as default",
             "active": "Active",
@@ -2522,7 +2520,10 @@
             "alert": {
                 "newDutyShiftRuleSuccessfullySaved": "New duty shift rule successfully saved",
                 "dutyShiftRuleSuccessfullyUpdated": "Duty shift rule successfully updated"
-            }
+            },
+            "scopeDepartments": "Department (scope)",
+            "scopeJobTitles": "Job Title (scope)",
+            "scopeEmployees": "Employee (scope)"
         },
         "table": {
             "dutyShiftRuleName": "Name",

@@ -813,9 +813,7 @@
             "selectTypeMessage": "Registrer din tid nemt — vælg arbejde eller transport for at komme i gang.",
             "transport": "Transport",
             "work": "Arbejdstid",
-            "form": {
-                
-            },
+            "form": {},
             "registerTransport": {
                 "registerTransport": "Registrér transport",
                 "endTransport": "Afslut transport",
