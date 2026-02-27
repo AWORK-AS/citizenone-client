@@ -2496,6 +2496,92 @@
             "name": "Navn"
         }
     },
+    "dutyShiftRules": {
+        "dutyShiftRules": "Vagtregler",
+        "newDutyShiftRule": "Ny vagtregel",
+        "editDutyShiftRule": "Rediger vagtregel",
+        "form": {
+            "dutyShiftRuleName": "Navn",
+            "periodDays": "Retrospektivt tidsvindue (dage tilbage)",
+            "periodDaysBackInfo1":"Dette angiver, hvor mange dage tilbage i tiden reglen skal se for at evaluere betingelserne.",
+            "periodDaysBackInfo2":"For eksempel, hvis du indstiller det til 30, vil reglen evaluere medarbejderens vagter i de sidste 30 dage for at afgøre, om betingelserne er opfyldt.",
+            "anchorDate": "Ankerdato",
+            "anchorDateOptional": "nuværende dato som standard",
+            "addAnchorDate": "Tilføj ankerdato",
+            "anchorDateCheckboxHint": "Aktivér via \"Tilføj ankerdato\"-afkrydsningsfeltet i formularen.",
+            "active": "Aktiv",
+            "inactive": "Inaktiv",
+            "status": "Status",
+            "periodFilter": "Periodefilter",
+            "evaluatingShiftsFrom": "Evaluerer vagter fra",
+            "to": "til",
+            "periodInfoAnchorDesc": "Slutpunktet for periodefilteret. Lad feltet stå tomt for at bruge dags dato — denne er dynamisk og opdateres automatisk hver dag, så periodefilteret rykker sig fremad dag for dag. Hvis det er sat, beregnes perioden tilbage fra den faste dato i stedet.",
+            "periodInfoHowTitle": "Sådan fungerer de sammen",
+            "periodInfoHowDesc": "Reglen evaluerer vagter inden for et periodefilter, der starter ved (ankerdato − periode i dage) og slutter ved ankerdatoen.",
+            "periodInfoFormula": "periodefilter start = ankerdato − periode (dage)",
+            "conditionType": "Betingelsestype",
+            "conditionTypeInfoCountDesc": "Udløses når en medarbejder har arbejdet den valgte vagttype mindst X gange inden for periodefilteret.",
+            "conditionTypeInfoConsecutiveDesc": "Udløses når en medarbejder har arbejdet den valgte vagttype på sammenhængende dage inden for periodefilteret.",
+            "conditionTypeInfoThresholdTitle": "Tærskel",
+            "conditionTypeInfoThresholdDesc": "Det mindste antal forekomster eller sammenhængende dage, der kræves for at udløse reglen.",
+            "conditionTypes": {
+                "count": "Antal forekomster",
+                "consecutive": "Sammenhængende forekomster"
+            },
+            "threshold": "Minimumsantal",
+            "consecutiveDays": "Sammenhængende dage",
+            "shiftTypes": "Vagttyper",
+            "recipientType": "Modtagertype",
+            "recipientTypes": {
+                "role": "Rolle",
+                "user": "Bruger"
+            },
+            "roles": "Roller",
+            "users": "Brugere",
+            "scopeDepartments": "Afdeling (omfang)",
+            "scopeJobTitles": "Jobtitel (omfang)",
+            "scopeEmployees": "Medarbejder (omfang)",
+            "scopeConditions": "Omfangsbetingelser",
+            "scopeConditionsInfoWhatTitle": "Hvad er omfangsbetingelser?",
+            "scopeConditionsInfoWhatDesc": "Begræns hvilke medarbejdere denne regel gælder for ved at filtrere på afdeling, jobtitel eller specifikke medarbejdere. Hvis ingen betingelser er tilføjet, gælder reglen for alle medarbejdere.",
+            "scopeConditionsInfoAndTitle": "OG-operator",
+            "scopeConditionsInfoAndDesc": "Medarbejderen skal opfylde alle betingelser.",
+            "scopeConditionsInfoOrTitle": "ELLER-operator",
+            "scopeConditionsInfoOrDesc": "Medarbejderen skal opfylde mindst én betingelse.",
+            "noScopeConditions": "Ingen omfangsbetingelser tilføjet. Reglen gælder for alle medarbejdere.",
+            "addScopeCondition": "Tilføj omfangsbetingelse",
+            "scopeConditionTypes": {
+                "department": "Afdeling",
+                "job_title": "Jobtitel",
+                "employee": "Medarbejder"
+            },
+            "scopeOperators": {
+                "and": "OG",
+                "or": "ELLER"
+            },
+            "alert": {
+                "newDutyShiftRuleSuccessfullySaved": "Ny vagtregel gemt med succes",
+                "dutyShiftRuleSuccessfullyUpdated": "Vagtregel opdateret med succes"
+            }
+        },
+        "table": {
+            "dutyShiftRuleName": "Navn",
+            "periodDays": "Periode (dage)",
+            "conditionType": "Betingelsestype",
+            "timeWindow": "Tidsvindue",
+            "isActive": "Aktiv",
+            "actions": {
+                "edit": "Rediger",
+                "delete": "Slet"
+            },
+            "alert": {
+                "dutyShiftRuleSuccessfullyDeleted": "Vagtregel slettet med succes"
+            },
+            "confirmation": {
+                "deleteDutyShiftRuleConfirmation": "Er du sikker på, at du vil slette denne vagtregel"
+            }
+        }
+    },
     "dosageForms": {
         "addNewDosageForm": "Tilføj ny doseringsform",
         "alert": {
@@ -4284,6 +4370,14 @@
             "title": "Titel"
         }
     },
+    "dutyShiftRuleNotifications": {
+        "title": "Vagtregel Notifikationer",
+        "markAllAsRead": "Markér alle som læst",
+        "triggeredEmployee": "Udløst af",
+        "shiftType": "Vagttype",
+        "timeWindow": "Tidsvindue",
+        "empty": "Du har ingen vagtregel notifikationer"
+    },
     "journalNotifications": {
         "createdBy": "Oprettet af",
         "markAllAsRead": "Markér alle som læst",
@@ -4723,7 +4817,36 @@
         "reminders": "Påmindelser",
         "subscription": "Abonnement",
         "settings": "Indstillinger",
-        "switchLanguage": "Skift sprog"
+        "switchLanguage": "Skift sprog",
+        "notifications": "Notifikationer"
+    },
+    "bellNotification": {
+        "title": "Notifikationer",
+        "markAllAsRead": "Markér alle som læst",
+        "loadMore": "Indlæs flere",
+        "loadingMore": "Indlæser...",
+        "empty": {
+            "title": "Ingen notifikationer",
+            "subtitle": "Du er helt opdateret!"
+        },
+        "categories": {
+            "all": "Alle",
+            "plansGoals": "Planer & Mål",
+            "dutyShift": "Vagtregel",
+            "notes": "Notater",
+            "schedule": "Skema",
+            "incidents": "Hændelser",
+            "reminders": "Påmindelser",
+            "messages": "Beskeder",
+            "other": "Andet"
+        },
+        "time": {
+            "justNow": "Lige nu",
+            "minutesAgo": "{count} min. siden",
+            "hoursAgo": "{count} t. siden",
+            "yesterday": "I går",
+            "daysAgo": "{count} dage siden"
+        }
     },
     "news": {
         "editNews": "Rediger nyheder",
@@ -5863,6 +5986,7 @@
             "customPages": "Ordliste",
             "departments": "Afdelinger",
             "diagnoses": "Diagnoser",
+            "dutyShiftRules": "Vagtregler",
             "dosageForms": "Doseringsformer",
             "employeeGroups": "Medarbejdergrupper",
             "expenseCategories": "Udgiftskategorier",
