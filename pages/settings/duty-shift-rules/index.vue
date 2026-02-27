@@ -34,8 +34,15 @@
                                     <td>{{ rule?.period_days }}</td>
                                     <td>{{ $t(`dutyShiftRules.form.conditionTypes.${rule?.condition_type}`) }}</td>
                                     <td>
+                                        <span v-if="rule?.period_days" class="text-sm text-gray-600">
+                                            {{ getTimeWindow(rule) }}
+                                        </span>
+                                        <span v-else class="text-gray-400">—</span>
+                                    </td>
+                                    <td>
                                         <Badge :type="rule?.is_active ? 'primary' : 'secondary'" class="w-fit">
-                                            {{ rule?.is_active ? $t('active') : $t('inactive') }}
+                                            {{ rule?.is_active ? $t('dutyShiftRules.form.active') :
+                                                $t('dutyShiftRules.form.inactive') }}
                                         </Badge>
                                     </td>
                                     <td>
@@ -70,6 +77,7 @@
 <script setup lang="ts">
 import { dutyShiftRuleService } from '@/components/api/user/DutyShiftRuleService'
 import { useI18n } from "vue-i18n"
+import moment from 'moment'
 import { useAlert } from '@/composables/alert'
 import { useUserStore } from '@/store/user'
 import type { Error } from '@/types'
@@ -90,6 +98,7 @@ const state = reactive({
         { name: 'dutyShiftRules.table.dutyShiftRuleName', isTranslateName: true, sorter: true, key: 'name' },
         { name: 'dutyShiftRules.table.periodDays', isTranslateName: true, sorter: true, key: 'period_days' },
         { name: 'dutyShiftRules.table.conditionType', isTranslateName: true },
+        { name: 'dutyShiftRules.table.timeWindow', isTranslateName: true },
         { name: '', sorter: true, key: 'is_active' },
         { name: '' },
     ],
@@ -137,6 +146,12 @@ function handleSearch(value: any) {
     currentTablePage = 1
     state.dataFilter.search = value?.[0] == '' ? [] : value
     fetchRules()
+}
+function getTimeWindow(rule: any) {
+    const anchor = moment(rule?.anchor_date || undefined)
+    const start = anchor.clone().subtract(rule.period_days, 'days').format('DD MMM YYYY')
+    const end = anchor.format('DD MMM YYYY')
+    return `${start} – ${end}`
 }
 function deleteRuleConfirmation(rule: any) {
     state.selectedRule = rule

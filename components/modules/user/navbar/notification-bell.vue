@@ -9,18 +9,18 @@
             </Badge>
         </button>
 
-        <div v-if="isOpen"
+        <div v-if="state.isOpen"
             class="absolute right-0 top-full mt-1 w-[380px] bg-white rounded-sm shadow-lg ring-1 ring-gray-900/5 z-50 origin-top-right">
             <div class="flex items-center justify-between px-4 py-3 border-b border-gray-100">
                 <h3 class="text-sm font-semibold text-gray-900">{{ $t('bellNotification.title') }}</h3>
-                <button v-if="notifications.length > 0" @click="markAllAsRead" :disabled="state.isMarkingAll"
+                <button v-if="state.notifications.length > 0" @click="markAllAsRead" :disabled="state.isMarkingAll"
                     class="text-xs text-primary hover:text-primary-700 font-medium disabled:opacity-50" type="button">
                     {{ $t('bellNotification.markAllAsRead') }}
                 </button>
             </div>
 
             <div class="px-3 py-2.5 border-b border-gray-100">
-                <select v-model="activeCategory"
+                <select v-model="state.activeCategory"
                     class="w-full text-xs font-medium text-gray-700 bg-gray-50 border border-gray-200 rounded-md px-2.5 py-1.5 focus:outline-none focus:ring-1 focus:ring-primary focus:border-primary">
                     <option v-for="cat in categories" :key="cat.key" :value="cat.key">
                         {{ cat.label }}
@@ -92,11 +92,10 @@ import { useUserStore } from '@/store/user'
 const { t } = useI18n()
 const userStore = useUserStore() as any
 const bellRef = ref<HTMLElement | null>(null)
-const isOpen = ref(false)
-const activeCategory = ref('all')
-const notifications = ref<any[]>([])
-
 const state = reactive({
+    isOpen: false,
+    activeCategory: 'all',
+    notifications: [] as any[],
     error: {} as any,
     isLoading: false,
     isMarkingAll: false,
@@ -105,8 +104,9 @@ const state = reactive({
     currentPage: 1,
 })
 
-const PAGE_LENGTH = 30
+const PAGE_LENGTH = 10
 
+// add more categories here as needed
 const categories = computed(() => [
     { key: 'all', label: t('bellNotification.categories.all'), icon: 'ph:list' },
     { key: 'duty_shift', label: t('bellNotification.categories.dutyShift'), icon: 'ph:shield-check' },
@@ -127,9 +127,9 @@ function getCategoryStyle(type: string) {
     return categoryStyles[getCategory(type)] ?? categoryStyles.other
 }
 
-const unreadCount = computed(() => userStore.getUser?.unread_notification_count ?? 0)
+const unreadCount = computed(() => userStore.getUser?.unread_system_notification_count ?? 0)
 
-const filteredNotifications = computed(() => notifications.value)
+const filteredNotifications = computed(() => state.notifications)
 
 function splitPascalCase(str: string): string {
     let result = ''
@@ -146,9 +146,7 @@ function splitPascalCase(str: string): string {
 
 function getNotifTitle(notif: any): string {
     const data = notif.data ?? {}
-    if (data.name) return data.name
-    if (data.rule_name) return data.rule_name
-    if (data.title) return data.title
+    if (data.notification_label) return data.notification_label
     if (data.subject) return data.subject
     const className = notif.type?.split('\\')?.pop() ?? ''
     const withoutSuffix = className.endsWith('Notification')
@@ -189,7 +187,7 @@ async function fetchAllNotifications() {
     try {
         const response = await notificationService.getNotifications({ page_length: PAGE_LENGTH, page: 1 })
         if (response) {
-            notifications.value = response?.data ?? []
+            state.notifications = response?.data ?? []
             state.hasMore = (response?.last_page ?? 1) > 1
             state.currentPage = 1
         }
@@ -204,7 +202,7 @@ async function fetchAllDutyShiftRuleNotifications() {
     try {
         const response = await notificationService.getNotifications({ page_length: PAGE_LENGTH, page: 1, type: 'DutyShiftRule' })
         if (response) {
-            notifications.value = response?.data ?? []
+            state.notifications = response?.data ?? []
             state.hasMore = (response?.last_page ?? 1) > 1
             state.currentPage = 1
         }
@@ -215,12 +213,12 @@ async function fetchAllDutyShiftRuleNotifications() {
 }
 
 function fetchNotificationsByCategory() {
-    notifications.value = []
-    if (activeCategory.value === 'duty_shift') return fetchAllDutyShiftRuleNotifications()
+    state.notifications = []
+    if (state.activeCategory === 'duty_shift') return fetchAllDutyShiftRuleNotifications()
     return fetchAllNotifications()
 }
 
-watch(activeCategory, () => {
+watch(() => state.activeCategory, () => {
     fetchNotificationsByCategory()
 })
 
@@ -229,10 +227,10 @@ async function loadMore() {
     try {
         const nextPage = state.currentPage + 1
         const params: any = { page_length: PAGE_LENGTH, page: nextPage }
-        if (activeCategory.value !== 'all') params.type = activeCategory.value
+        if (state.activeCategory !== 'all') params.type = state.activeCategory
         const response = await notificationService.getNotifications(params)
         if (response) {
-            notifications.value.push(...(response?.data ?? []))
+            state.notifications.push(...(response?.data ?? []))
             state.hasMore = nextPage < (response?.last_page ?? 1)
             state.currentPage = nextPage
         }
@@ -242,9 +240,16 @@ async function loadMore() {
     state.isLoadingMore = false
 }
 
+async function refreshUnreadCount() {
+    try {
+        const response = await notificationService.getNotifications({ page_length: 1 })
+        userStore.setUserSystemNotificationCount(response?.total ?? 0)
+    } catch { }
+}
+
 async function handleNotifClick(notif: any) {
     if (getCategory(notif.type) === 'duty_shift') {
-        isOpen.value = false
+        state.isOpen = false
         navigateTo('/duty-shift-rule-notifications')
         return
     }
@@ -252,9 +257,9 @@ async function handleNotifClick(notif: any) {
         try {
             const response = await notificationService.markAsRead(notif.id)
             if (response) {
-                const index = notifications.value.findIndex((n: any) => n.id === notif.id)
-                if (index !== -1) notifications.value[index].read_at = new Date().toISOString()
-                userStore.minusUserNotificationCount()
+                const index = state.notifications.findIndex((n: any) => n.id === notif.id)
+                if (index !== -1) state.notifications[index].read_at = new Date().toISOString()
+                await refreshUnreadCount()
             }
         } catch (error: any) {
             state.error = error
@@ -267,8 +272,8 @@ async function markAllAsRead() {
     try {
         const response = await notificationService.markAllAsRead()
         if (response) {
-            notifications.value.forEach(n => { n.read_at = n.read_at ?? new Date().toISOString() })
-            userStore.resetUserNotificationCount()
+            state.notifications.forEach((n: any) => { n.read_at = n.read_at ?? new Date().toISOString() })
+            await refreshUnreadCount()
         }
     } catch (error: any) {
         state.error = error
@@ -277,15 +282,15 @@ async function markAllAsRead() {
 }
 
 function togglePanel() {
-    isOpen.value = !isOpen.value
-    if (isOpen.value && notifications.value.length === 0) {
+    state.isOpen = !state.isOpen
+    if (state.isOpen && state.notifications.length === 0) {
         fetchNotificationsByCategory()
     }
 }
 
 function handleClickOutside(e: MouseEvent) {
     if (bellRef.value && !bellRef.value.contains(e.target as Node)) {
-        isOpen.value = false
+        state.isOpen = false
     }
 }
 

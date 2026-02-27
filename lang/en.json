@@ -2482,6 +2482,7 @@
             "periodDaysBackInfo2":"(e.g., if set to 30, the rule will consider shifts from the past 30 days).",
             "anchorDate": "Anchor date",
             "anchorDateOptional": "Current date as default",
+            "active": "Active",
             "inactive": "Inactive",
             "status": "Status",
             "periodFilter": "Period filter",
@@ -2527,6 +2528,7 @@
             "dutyShiftRuleName": "Name",
             "periodDays": "Period (days)",
             "conditionType": "Condition type",
+            "timeWindow": "Time window",
             "isActive": "Active",
             "actions": {
                 "edit": "Edit",
@@ -4252,6 +4254,7 @@
         "markAllAsRead": "Mark all as read",
         "triggeredEmployee": "Triggered by",
         "shiftType": "Shift type",
+        "timeWindow": "Time window",
         "empty": "You don't have any duty shift rule notifications"
     },
     "journalNotifications": {

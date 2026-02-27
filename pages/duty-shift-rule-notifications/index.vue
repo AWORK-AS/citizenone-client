@@ -26,20 +26,19 @@
                         </div>
 
                         <ul class="mt-5 space-y-5">
-                            <li v-for="(notification, index) in state.notifications?.data" :key="index"
-                                :class="[
-                                    'bg-white ring-1 ring-gray-200 rounded-md p-5 border-l-4 cursor-pointer hover:bg-gray-50 transition-colors',
-                                    !notification.read_at ? 'border-secondary' : 'border-transparent'
-                                ]"
-                                @click="viewNotification(notification)">
+                            <li v-for="(notification, index) in state.notifications?.data" :key="index" :class="[
+                                'bg-white ring-1 ring-gray-200 rounded-md p-5 border-l-4 cursor-pointer hover:bg-gray-50 transition-colors',
+                                !notification.read_at ? 'border-secondary' : 'border-transparent'
+                            ]" @click="viewNotification(notification)">
 
                                 <div class="flex items-start justify-between gap-3">
                                     <div class="space-y-1.5 flex-1">
                                         <Badge type="primary" class="w-fit">
-                                            <p class="text-xs px-2">{{ notification?.data?.name }}</p>
+                                            <p class="text-xs px-2">{{ notification?.data?.content?.rule?.name }}</p>
                                         </Badge>
 
-                                        <p class="text-xs text-gray-600" v-if="notification?.data?.content?.triggered_employee">
+                                        <p class="text-xs text-gray-600"
+                                            v-if="notification?.data?.content?.triggered_employee">
                                             {{ $t('dutyShiftRuleNotifications.triggeredEmployee') }}:
                                             {{ notification.data.content.triggered_employee.firstname }}
                                             {{ notification.data.content.triggered_employee.lastname }}
@@ -48,6 +47,14 @@
                                         <p class="text-xs text-gray-500" v-if="notification?.data?.content?.shift_type">
                                             {{ $t('dutyShiftRuleNotifications.shiftType') }}:
                                             {{ notification.data.content.shift_type.en_name }}
+                                        </p>
+
+                                        <p class="text-xs text-gray-500"
+                                            v-if="notification?.data?.content?.time_window">
+                                            {{ $t('dutyShiftRuleNotifications.timeWindow') }}:
+                                            {{ formatDateToReadable(notification.data.content.time_window.start) }}
+                                            –
+                                            {{ formatDateToReadable(notification.data.content.time_window.end) }}
                                         </p>
 
                                         <p class="text-xs text-gray-400 mt-1">
@@ -109,6 +116,7 @@ async function fetchNotifications() {
             page_length: PAGE_LENGTH,
         }
         const response = await notificationService.getNotifications(params)
+        console.log('Fetched notifications:', response)
         if (response) state.notifications = response
     } catch (error: any) {
         state.error = error
@@ -119,13 +127,20 @@ async function fetchNotifications() {
 function previous() { currentTablePage--; fetchNotifications() }
 function next() { currentTablePage++; fetchNotifications() }
 
+async function refreshUnreadCount() {
+    try {
+        const response = await notificationService.getNotifications({ page_length: 1 })
+        userStore.setUserSystemNotificationCount(response?.total ?? 0)
+    } catch { }
+}
+
 async function viewNotification(notification: any) {
     if (!notification.read_at) {
         state.error = {}
         try {
             const response = await notificationService.markAsRead(notification.id)
             if (response) {
-                userStore.minusUserNotificationCount()
+                await refreshUnreadCount()
                 fetchNotifications()
             }
         } catch (error: any) {
@@ -140,7 +155,7 @@ async function markAllAsRead() {
     try {
         const response = await notificationService.markAllAsRead()
         if (response) {
-            userStore.resetUserNotificationCount()
+            await refreshUnreadCount()
             fetchNotifications()
         }
     } catch (error: any) {

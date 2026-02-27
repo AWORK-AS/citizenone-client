@@ -2482,6 +2482,7 @@
             "periodDaysBackInfo2":"For eksempel, hvis du indstiller det til 30, vil reglen evaluere medarbejderens vagter i de sidste 30 dage for at afgøre, om betingelserne er opfyldt.",
             "anchorDate": "Ankerdato",
             "anchorDateOptional": "nuværende dato som standard",
+            "active": "Aktiv",
             "inactive": "Inaktiv",
             "status": "Status",
             "periodFilter": "Periodefilter",
@@ -2530,6 +2531,7 @@
             "dutyShiftRuleName": "Navn",
             "periodDays": "Periode (dage)",
             "conditionType": "Betingelsestype",
+            "timeWindow": "Tidsvindue",
             "isActive": "Aktiv",
             "actions": {
                 "edit": "Rediger",
@@ -4255,6 +4257,7 @@
         "markAllAsRead": "Markér alle som læst",
         "triggeredEmployee": "Udløst af",
         "shiftType": "Vagttype",
+        "timeWindow": "Tidsvindue",
         "empty": "Du har ingen vagtregel notifikationer"
     },
     "journalNotifications": {

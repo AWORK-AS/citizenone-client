@@ -16,6 +16,7 @@ class NotificationService extends BaseAPIService {
     async markAllAsRead(): Promise<any> {
         return await this.request(`/user/system-notifications/mark/all/read`, 'PUT')
     }
+
 }
 
 export const notificationService = new NotificationService()
