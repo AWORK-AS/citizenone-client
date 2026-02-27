@@ -250,7 +250,7 @@ async function refreshUnreadCount() {
 async function handleNotifClick(notif: any) {
     if (getCategory(notif.type) === 'duty_shift') {
         state.isOpen = false
-        navigateTo('/duty-shift-rule-notifications')
+        navigateTo('/notifications/duty-shift-rule-notifications')
         return
     }
     if (!notif.read_at) {
