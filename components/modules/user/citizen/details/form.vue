@@ -848,12 +848,16 @@ watch(() => props.selectedCitizen, (selectedCitizen: any) => {
             avatarUrl.value = selectedCitizen.image
         }
         
-        // Set the location if coordinates exist
-        if (selectedCitizen.latitude && selectedCitizen.longitude) {
+        const lat = selectedCitizen.address?.latitude || selectedCitizen.latitude
+        const lng = selectedCitizen.address?.longitude || selectedCitizen.longitude
+        
+        if (lat && lng) {
             state.selectedCitizenLocation = {
-                lat: Number(selectedCitizen.latitude),
-                lng: Number(selectedCitizen.longitude)
+                lat: Number(lat),
+                lng: Number(lng)
             }
+        } else {
+            state.selectedCitizenLocation = null
         }
         
         state.formCitizen = {
@@ -869,13 +873,13 @@ watch(() => props.selectedCitizen, (selectedCitizen: any) => {
             rooms: selectedCitizen.rooms,
             is_foreign_city: selectedCitizen.foreign_city_uuid ? true : false,
             foreign_city: selectedCitizen.foreign_city_uuid,
-            street: selectedCitizen.street,
+            street: selectedCitizen.street || selectedCitizen.address?.street || '',
             region: selectedCitizen.region_uuid,
             municipality: selectedCitizen.municipality_uuid,
-            city: selectedCitizen.city,
-            post_code: selectedCitizen.post_code,
-            latitude: selectedCitizen.latitude || '',
-            longitude: selectedCitizen.longitude || '',
+            city: selectedCitizen.city || selectedCitizen.address?.city || '',
+            post_code: selectedCitizen.post_code || selectedCitizen.address?.post_code || '',
+            latitude: lat ? lat.toString() : '',
+            longitude: lng ? lng.toString() : '',
             origin: selectedCitizen.origin,
             diagnoses: selectedCitizen.diagnoses,
             medication_allergies: selectedCitizen.medication_allergies,
@@ -905,20 +909,20 @@ watch(() => props.selectedCitizen, (selectedCitizen: any) => {
             has_duty_schedule_access: selectedCitizen.has_duty_schedule_access,
             has_bullet_board_access: selectedCitizen.has_bullet_board_access,
             inquiryData: {
-                conversation_summary: selectedCitizen.inquiryData.conversation_summary,
-                inquiry_date: selectedCitizen.inquiryData.inquiry_date,
-                inquirer_name: selectedCitizen.inquiryData.inquirer_name,
-                outcome: selectedCitizen.inquiryData.outcome,
-                purpose: selectedCitizen.inquiryData.purpose,
+                conversation_summary: selectedCitizen.inquiryData?.conversation_summary || '',
+                inquiry_date: selectedCitizen.inquiryData?.inquiry_date || '',
+                inquirer_name: selectedCitizen.inquiryData?.inquirer_name || '',
+                outcome: selectedCitizen.inquiryData?.outcome || '',
+                purpose: selectedCitizen.inquiryData?.purpose || '',
             },
             stayData: {
-                accommodation_end_date: selectedCitizen.stayData.accommodation_end_date,
-                accommodation_start_date: selectedCitizen.stayData.accommodation_start_date,
-                journal_number: selectedCitizen.stayData.journal_number,
-                accompanying_children: selectedCitizen.stayData.accompanying_children ?? [],
-                residence_before_uuid: selectedCitizen.stayData.residence_before_uuid,
-                residence_after_uuid: selectedCitizen.stayData.residence_after_uuid,
-                discharge_reason: selectedCitizen.stayData.discharge_reason,
+                accommodation_end_date: selectedCitizen.stayData?.accommodation_end_date || '',
+                accommodation_start_date: selectedCitizen.stayData?.accommodation_start_date || '',
+                journal_number: selectedCitizen.stayData?.journal_number || '',
+                accompanying_children: selectedCitizen.stayData?.accompanying_children ?? [],
+                residence_before_uuid: selectedCitizen.stayData?.residence_before_uuid || '',
+                residence_after_uuid: selectedCitizen.stayData?.residence_after_uuid || '',
+                discharge_reason: selectedCitizen.stayData?.discharge_reason || '',
             }
         }
     }
