@@ -2480,6 +2480,8 @@
             "periodDaysBackInfo2": "(e.g., if set to 30, the rule will consider shifts from the past 30 days).",
             "anchorDate": "Anchor date",
             "anchorDateOptional": "Current date as default",
+            "addAnchorDate": "Add anchor date",
+            "anchorDateCheckboxHint": "Enable via the \"Add anchor date\" checkbox in the form.",
             "active": "Active",
             "inactive": "Inactive",
             "status": "Status",
@@ -2491,6 +2493,10 @@
             "periodInfoHowDesc": "The rule evaluates shifts within a period filter that starts at (anchor date − period days) and ends at the anchor date.",
             "periodInfoFormula": "period filter start = anchor date − period (days)",
             "conditionType": "Condition type",
+            "conditionTypeInfoCountDesc": "Triggers when an employee has worked the selected shift type at least X times within the period filter.",
+            "conditionTypeInfoConsecutiveDesc": "Triggers when an employee has worked the selected shift type on consecutive days within the period filter.",
+            "conditionTypeInfoThresholdTitle": "Threshold",
+            "conditionTypeInfoThresholdDesc": "The minimum number of occurrences or consecutive days required to trigger the rule.",
             "conditionTypes": {
                 "count": "Number of occurrences",
                 "consecutive": "Consecutive occurrences"
@@ -2506,6 +2512,12 @@
             "roles": "Roles",
             "users": "Users",
             "scopeConditions": "Scope conditions",
+            "scopeConditionsInfoWhatTitle": "What are scope conditions?",
+            "scopeConditionsInfoWhatDesc": "Limit which employees this rule applies to by filtering on department, job title, or specific employees. If no conditions are added, the rule applies to all employees.",
+            "scopeConditionsInfoAndTitle": "AND operator",
+            "scopeConditionsInfoAndDesc": "The employee must match all conditions.",
+            "scopeConditionsInfoOrTitle": "OR operator",
+            "scopeConditionsInfoOrDesc": "The employee must match at least one condition.",
             "noScopeConditions": "No scope conditions added. The rule will apply to all employees.",
             "addScopeCondition": "Add scope condition",
             "scopeConditionTypes": {

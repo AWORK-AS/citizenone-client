@@ -11,7 +11,11 @@
                 <FormError :error="props?.error?.errors?.name?.[0]" />
             </div>
             <div class="space-y-1">
-                <FormLabel for="condition_type" :label="$t('dutyShiftRules.form.conditionType')" />
+                <div class="flex items-center gap-1.5">
+                    <FormLabel for="condition_type" :label="$t('dutyShiftRules.form.conditionType')" />
+                    <Icon name="ph:question" class="h-4 w-4 text-gray-400 cursor-pointer"
+                        @click.stop="state.modal.isModalConditionTypeInfoOpen = true" />
+                </div>
                 <FormSelect id="condition_type" :options="conditionTypeOptions"
                     v-model="state.formDutyShiftRule.condition_type" />
                 <FormError :error="v$?.formDutyShiftRule?.condition_type?.$errors[0]?.$message.toString()" />
@@ -54,37 +58,27 @@
                 <FormSelectMultiple id="user_uuids" :options="state.userOptions" v-model="state.userUuids" />
                 <FormError :error="props?.error?.errors?.user_uuids?.[0]" />
             </div>
-            <div class="flex items-center gap-x-3">
-                <FormSwitch :value="state.formDutyShiftRule.is_active"
-                    @toggleSwitch="state.formDutyShiftRule.is_active = !state.formDutyShiftRule.is_active" />
-                <label class="text-sm font-medium text-gray-700 cursor-pointer select-none"
-                    @click="state.formDutyShiftRule.is_active = !state.formDutyShiftRule.is_active">
-                    {{ state.formDutyShiftRule.is_active ? $t('dutyShiftRules.table.isActive') :
-                        $t('dutyShiftRules.form.inactive') }}
-                </label>
-            </div>
-            <!-- Period filter -->
-            <div class="rounded-lg border border-gray-200 bg-gray-50 p-4 space-y-3">
+            <div class="space-y-1">
                 <div class="flex items-center gap-1.5">
-                    <p class="text-sm font-medium text-gray-700">{{ $t('dutyShiftRules.form.periodFilter') }}</p>
+                    <FormLabel for="period_days" :label="$t('dutyShiftRules.form.periodDays')" />
                     <Icon name="ph:question" class="h-4 w-4 text-gray-400 cursor-pointer"
                         @click.stop="state.modal.isModalPeriodInfoOpen = true" />
                 </div>
-                <div class="grid grid-cols-2 gap-3">
-                    <div class="space-y-1">
-                        <FormLabel for="period_days" :label="$t('dutyShiftRules.form.periodDays')" />
-                        <FormTextField id="period_days" name="period_days" type="number" min="1" placeholder="e.g. 30"
-                            v-model="state.formDutyShiftRule.period_days" />
-                        <FormError :error="v$?.formDutyShiftRule?.period_days?.$errors[0]?.$message.toString()" />
-                        <FormError :error="props?.error?.errors?.period_days?.[0]" />
-                    </div>
-                    <div class="space-y-1">
-                        <FormLabel for="anchor_date" :label="$t('dutyShiftRules.form.anchorDate')" />
-                        <FormDateField id="anchor_date" name="anchor_date" placeholder=""
-                            v-model="state.formDutyShiftRule.anchor_date" />
-                        <p class="text-xs text-gray-400">{{ $t('dutyShiftRules.form.anchorDateOptional') }}</p>
-                        <FormError :error="props?.error?.errors?.anchor_date?.[0]" />
-                    </div>
+                <FormTextField id="period_days" name="period_days" type="number" min="1" placeholder="e.g. 30"
+                    v-model="state.formDutyShiftRule.period_days" />
+                <FormError :error="v$?.formDutyShiftRule?.period_days?.$errors[0]?.$message.toString()" />
+                <FormError :error="props?.error?.errors?.period_days?.[0]" />
+            </div>
+            <div class="space-y-2">
+                <div class="w-fit flex items-center gap-2 cursor-pointer" @click="toggleAnchorDate">
+                    <FormCheckbox :value="state.showAnchorDate" />
+                    <span class="text-sm font-medium text-gray-700 select-none">{{ $t('dutyShiftRules.form.addAnchorDate') }}</span>
+                </div>
+                <div v-if="state.showAnchorDate" class="space-y-1">
+                    <FormLabel for="anchor_date" :label="$t('dutyShiftRules.form.anchorDate')" />
+                    <FormDateField id="anchor_date" name="anchor_date" placeholder=""
+                        v-model="state.formDutyShiftRule.anchor_date" />
+                    <FormError :error="props?.error?.errors?.anchor_date?.[0]" />
                 </div>
                 <div v-if="windowPreview"
                     class="flex items-center gap-2 rounded-md bg-primary/5 border border-primary/20 px-3 py-2">
@@ -97,8 +91,17 @@
                     </p>
                 </div>
             </div>
+            <div class="w-fit flex items-center gap-2 cursor-pointer"
+                @click="state.formDutyShiftRule.is_active = !state.formDutyShiftRule.is_active">
+                <FormCheckbox :value="state.formDutyShiftRule.is_active" />
+                <span class="text-sm font-medium text-gray-700 select-none">{{ $t('dutyShiftRules.form.active') }}</span>
+            </div>
             <div class="space-y-5">
-                <FormLabel :label="$t('dutyShiftRules.form.scopeConditions')" />
+                <div class="flex items-center gap-1.5">
+                    <FormLabel :label="$t('dutyShiftRules.form.scopeConditions')" />
+                    <Icon name="ph:question" class="h-4 w-4 text-gray-400 cursor-pointer"
+                        @click.stop="state.modal.isModalScopeConditionsInfoOpen = true" />
+                </div>
 
                 <div v-if="state.formDutyShiftRule.scope_conditions.length === 0" class="text-sm text-gray-400 italic">
                     {{ $t('dutyShiftRules.form.noScopeConditions') }}
@@ -140,6 +143,10 @@
         </div>
         <ModulesUserDutyShiftRuleModalPeriodInfo :isModalOpen="state.modal.isModalPeriodInfoOpen"
             @close="state.modal.isModalPeriodInfoOpen = false" />
+        <ModulesUserDutyShiftRuleModalConditionTypeInfo :isModalOpen="state.modal.isModalConditionTypeInfoOpen"
+            @close="state.modal.isModalConditionTypeInfoOpen = false" />
+        <ModulesUserDutyShiftRuleModalScopeConditionsInfo :isModalOpen="state.modal.isModalScopeConditionsInfoOpen"
+            @close="state.modal.isModalScopeConditionsInfoOpen = false" />
     </form>
 </template>
 
@@ -194,6 +201,7 @@ const state = reactive({
         { value: 'or', label: t('dutyShiftRules.form.scopeOperators.or') },
     ],
     recipientType: null as string | null,
+    showAnchorDate: false,
     roleNames: [] as string[],
     userUuids: [] as string[],
     formDutyShiftRule: {
@@ -209,6 +217,8 @@ const state = reactive({
     },
     modal: {
         isModalPeriodInfoOpen: false,
+        isModalConditionTypeInfoOpen: false,
+        isModalScopeConditionsInfoOpen: false,
     },
     shiftOptions: [] as any[],
     roleOptions: [] as any[],
@@ -249,6 +259,7 @@ watch(() => props.selectedRule, (newValue: any) => {
         state.recipientType = roleNames.length > 0 ? 'role' : (userUuids.length > 0 ? 'user' : null)
         state.roleNames = roleNames
         state.userUuids = userUuids
+        state.showAnchorDate = !!(newValue.anchor_date)
 
         state.formDutyShiftRule = {
             name: newValue.name ?? '',
@@ -296,6 +307,13 @@ function getScopeValueOptions(type: string) {
     if (type === 'job_title') return state.jobTitleOptions
     if (type === 'employee') return state.employeeOptions
     return []
+}
+
+function toggleAnchorDate() {
+    state.showAnchorDate = !state.showAnchorDate
+    if (!state.showAnchorDate) {
+        state.formDutyShiftRule.anchor_date = ''
+    }
 }
 
 function addScopeCondition() {
@@ -355,8 +373,7 @@ async function fetchAllUsers() {
     state.error = {}
     emit('isPageLoading', true)
     try {
-        const params = {}
-        const response = await userService.getAllUsers(params)
+        const response = await userService.getAllUsersWithoutAllUsersOption()
         if (response) {
             let userOptions: any = []
             let employeeOptions: any = []

@@ -2480,6 +2480,8 @@
             "periodDaysBackInfo2":"For eksempel, hvis du indstiller det til 30, vil reglen evaluere medarbejderens vagter i de sidste 30 dage for at afgøre, om betingelserne er opfyldt.",
             "anchorDate": "Ankerdato",
             "anchorDateOptional": "nuværende dato som standard",
+            "addAnchorDate": "Tilføj ankerdato",
+            "anchorDateCheckboxHint": "Aktivér via \"Tilføj ankerdato\"-afkrydsningsfeltet i formularen.",
             "active": "Aktiv",
             "inactive": "Inaktiv",
             "status": "Status",
@@ -2491,6 +2493,10 @@
             "periodInfoHowDesc": "Reglen evaluerer vagter inden for et periodefilter, der starter ved (ankerdato − periode i dage) og slutter ved ankerdatoen.",
             "periodInfoFormula": "periodefilter start = ankerdato − periode (dage)",
             "conditionType": "Betingelsestype",
+            "conditionTypeInfoCountDesc": "Udløses når en medarbejder har arbejdet den valgte vagttype mindst X gange inden for periodefilteret.",
+            "conditionTypeInfoConsecutiveDesc": "Udløses når en medarbejder har arbejdet den valgte vagttype på sammenhængende dage inden for periodefilteret.",
+            "conditionTypeInfoThresholdTitle": "Tærskel",
+            "conditionTypeInfoThresholdDesc": "Det mindste antal forekomster eller sammenhængende dage, der kræves for at udløse reglen.",
             "conditionTypes": {
                 "count": "Antal forekomster",
                 "consecutive": "Sammenhængende forekomster"
@@ -2509,6 +2515,12 @@
             "scopeJobTitles": "Jobtitel (omfang)",
             "scopeEmployees": "Medarbejder (omfang)",
             "scopeConditions": "Omfangsbetingelser",
+            "scopeConditionsInfoWhatTitle": "Hvad er omfangsbetingelser?",
+            "scopeConditionsInfoWhatDesc": "Begræns hvilke medarbejdere denne regel gælder for ved at filtrere på afdeling, jobtitel eller specifikke medarbejdere. Hvis ingen betingelser er tilføjet, gælder reglen for alle medarbejdere.",
+            "scopeConditionsInfoAndTitle": "OG-operator",
+            "scopeConditionsInfoAndDesc": "Medarbejderen skal opfylde alle betingelser.",
+            "scopeConditionsInfoOrTitle": "ELLER-operator",
+            "scopeConditionsInfoOrDesc": "Medarbejderen skal opfylde mindst én betingelse.",
             "noScopeConditions": "Ingen omfangsbetingelser tilføjet. Reglen gælder for alle medarbejdere.",
             "addScopeCondition": "Tilføj omfangsbetingelse",
             "scopeConditionTypes": {
