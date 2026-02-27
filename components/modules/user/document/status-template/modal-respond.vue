@@ -243,6 +243,7 @@ import { useI18n } from "vue-i18n"
 import { useAlert } from '@/composables/alert'
 import type { Error } from '@/types'
 import { saveAs } from 'file-saver'
+import { googledriveService } from '~/components/api/user/GoogleDriveService'
 
 const props = defineProps({
     isModalOpen: {
@@ -253,6 +254,14 @@ const props = defineProps({
         type: Object,
         required: true,
     },
+    variant: {
+        type: String,
+        default: 'local',
+    },
+    parentFolderId: {
+        type: String,
+        default: undefined,
+    }
 })
 const emit = defineEmits(['close', 'closeModalNew'])
 const { t } = useI18n()
@@ -327,31 +336,62 @@ async function submitResponse() {
     state.error = {}
     state.isPageLoading = true
     try {
-        let params = new FormData()
-        params.append('folder_uuid', props.selectedFormStatusTemplate?.folder_uuid?.toString())
-        params.append('form_uuid', props.selectedFormStatusTemplate?.form_uuid?.toString())
+        if (props.variant === 'google-drive') {
+            // Build responses object for Google Drive endpoint
+            const responses: Record<string, any> = {}
+            state.form.data.form_fields.forEach((formField: any) => {
+                const fieldType = JSON.parse(formField.field)?.type
+                const fieldUuid = formField.uuid
 
-        state.form.data.form_fields.forEach((formField: any) => {
-            const fieldType = JSON.parse(formField.field)?.type
-            const fieldUuid = formField.uuid
+                if (fieldType === 'uploadfile' && formField.responses instanceof File) {
+                    // File uploads not supported in Google Drive PDF generation
+                    responses[fieldUuid] = '[File attached]'
+                } else if (Array.isArray(formField.responses)) {
+                    // Handle checkboxes, which are arrays
+                    responses[fieldUuid] = JSON.stringify(formField.responses)
+                } else {
+                    // Handle other field types (text, date, rating, etc.)
+                    responses[fieldUuid] = formField.responses
+                }
+            })
 
-            if (fieldType === 'uploadfile' && formField.responses instanceof File) {
-                // Handle file uploads separately
-                params.append(`responses[${fieldUuid}]`, formField.responses, formField.responses.name)
-            } else if (Array.isArray(formField.responses)) {
-                // Handle checkboxes, which are arrays
-                params.append(`responses[${fieldUuid}]`, JSON.stringify(formField.responses))
-            } else {
-                // Handle other field types (text, date, rating, etc.)
-                params.append(`responses[${fieldUuid}]`, formField.responses)
-            }
-        })
-        const response = await documentTemplateService.saveDocumentResponses(params)
-        if (response.data) {
+            // Use new Google Drive endpoint to generate PDF and upload
+            await googledriveService.generateFormPdf(
+                props.selectedFormStatusTemplate?.form_uuid,
+                responses,
+                props.parentFolderId || undefined,
+                true
+            )
             successAlert(`${t('alert.success')}!`, `${t('drive.createTemplate.alert.templateSuccessfullyAdded')}.`)
-            closeModal()
-            closeModalNew()
+        } else {
+            // Local: use FormData and include folder_uuid
+            let params = new FormData()
+            params.append('form_uuid', props.selectedFormStatusTemplate?.form_uuid?.toString())
+            params.append('folder_uuid', props.selectedFormStatusTemplate?.folder_uuid?.toString())
+
+            state.form.data.form_fields.forEach((formField: any) => {
+                const fieldType = JSON.parse(formField.field)?.type
+                const fieldUuid = formField.uuid
+
+                if (fieldType === 'uploadfile' && formField.responses instanceof File) {
+                    // Handle file uploads separately
+                    params.append(`responses[${fieldUuid}]`, formField.responses, formField.responses.name)
+                } else if (Array.isArray(formField.responses)) {
+                    // Handle checkboxes, which are arrays
+                    params.append(`responses[${fieldUuid}]`, JSON.stringify(formField.responses))
+                } else {
+                    // Handle other field types (text, date, rating, etc.)
+                    params.append(`responses[${fieldUuid}]`, formField.responses)
+                }
+            })
+
+            const response = await documentTemplateService.saveDocumentResponses(params)
+            if (response.data) {
+                successAlert(`${t('alert.success')}!`, `${t('drive.createTemplate.alert.templateSuccessfullyAdded')}.`)
+            }
         }
+        closeModal()
+        closeModalNew()
     } catch (error: any) {
         state.error = error
     }
@@ -362,32 +402,69 @@ async function submitResponseAndDownloadPDF() {
     state.error = {}
     state.isPageLoading = true
     try {
-        let params = new FormData()
-        params.append('folder_uuid', props.selectedFormStatusTemplate?.folder_uuid?.toString())
-        params.append('form_uuid', props.selectedFormStatusTemplate?.form_uuid?.toString())
+        const fileName = `${state.form?.data?.title || 'report'}.pdf`
 
-        state.form.data.form_fields.forEach((formField: any) => {
-            const fieldType = JSON.parse(formField.field)?.type
-            const fieldUuid = formField.uuid
+        if (props.variant === 'google-drive') {
+            // Build responses object for Google Drive endpoint
+            const responses: Record<string, any> = {}
+            state.form.data.form_fields.forEach((formField: any) => {
+                const fieldType = JSON.parse(formField.field)?.type
+                const fieldUuid = formField.uuid
 
-            if (fieldType === 'uploadfile' && formField.responses instanceof File) {
-                // Handle file uploads separately
-                params.append(`responses[${fieldUuid}]`, formField.responses, formField.responses.name)
-            } else if (Array.isArray(formField.responses)) {
-                // Handle checkboxes, which are arrays
-                params.append(`responses[${fieldUuid}]`, JSON.stringify(formField.responses))
-            } else {
-                // Handle other field types (text, date, rating, etc.)
-                params.append(`responses[${fieldUuid}]`, formField.responses)
+                if (fieldType === 'uploadfile' && formField.responses instanceof File) {
+                    // File uploads not supported in Google Drive PDF generation
+                    responses[fieldUuid] = '[File attached]'
+                } else if (Array.isArray(formField.responses)) {
+                    // Handle checkboxes, which are arrays
+                    responses[fieldUuid] = JSON.stringify(formField.responses)
+                } else {
+                    // Handle other field types (text, date, rating, etc.)
+                    responses[fieldUuid] = formField.responses
+                }
+            })
+
+            // Use new Google Drive endpoint to generate PDF, upload, and download
+            const pdfBlob = await googledriveService.generateFormPdfAndDownload(
+                props.selectedFormStatusTemplate?.form_uuid,
+                responses,
+                props.parentFolderId || undefined,
+                true
+            )
+
+            if (pdfBlob) {
+                successAlert(`${t('alert.success')}!`, `${t('drive.createTemplate.alert.templateSuccessfullyAdded')}.`)
+                saveAs(pdfBlob, fileName)
             }
-        })
-        const response = await documentTemplateService.saveDocumentResponsesAndDownloadPDF(params)
-        if (response) {
-            successAlert(`${t('alert.success')}!`, `${t('drive.createTemplate.alert.templateSuccessfullyAdded')}.`)
-            closeModal()
-            closeModalNew()
-            saveAs(response)
+        } else {
+            // Local: use FormData and include folder_uuid
+            let params = new FormData()
+            params.append('form_uuid', props.selectedFormStatusTemplate?.form_uuid?.toString())
+            params.append('folder_uuid', props.selectedFormStatusTemplate?.folder_uuid?.toString())
+
+            state.form.data.form_fields.forEach((formField: any) => {
+                const fieldType = JSON.parse(formField.field)?.type
+                const fieldUuid = formField.uuid
+
+                if (fieldType === 'uploadfile' && formField.responses instanceof File) {
+                    // Handle file uploads separately
+                    params.append(`responses[${fieldUuid}]`, formField.responses, formField.responses.name)
+                } else if (Array.isArray(formField.responses)) {
+                    // Handle checkboxes, which are arrays
+                    params.append(`responses[${fieldUuid}]`, JSON.stringify(formField.responses))
+                } else {
+                    // Handle other field types (text, date, rating, etc.)
+                    params.append(`responses[${fieldUuid}]`, formField.responses)
+                }
+            })
+
+            const pdfBlob = await documentTemplateService.saveDocumentResponsesAndDownloadPDF(params)
+            if (pdfBlob) {
+                successAlert(`${t('alert.success')}!`, `${t('drive.createTemplate.alert.templateSuccessfullyAdded')}.`)
+                saveAs(pdfBlob, fileName)
+            }
         }
+        closeModal()
+        closeModalNew()
     } catch (error: any) {
         state.error = error
     }

@@ -289,6 +289,7 @@
 
 <script setup lang="ts">
 import { appService } from '@/components/api/user/AppService'
+import { googledriveService } from '@/components/api/user/GoogleDriveService'
 import { useI18n } from "vue-i18n"
 import { useAlert } from '@/composables/alert'
 import { useAmountFormatter } from '@/composables/amountFormatter'
@@ -332,7 +333,20 @@ const state = reactive({
     selectedApp: [] as any,
 })
 
-onMounted(() => {
+onMounted(async() => { 
+    // Set up message listener for Google Drive popup callback
+    const handlePopupMessage = (event: MessageEvent) => {
+        console.log('Message received from popup:', event.data, 'origin:', event.origin)
+        
+        if (event.data?.type === 'google-drive-auth-complete') {
+            console.log('Google Drive auth complete, refreshing apps...')
+            fetchApps()
+            successAlert(`${t('alert.success')}!`, 'Google Drive connection updated.')
+        }
+    }
+    
+    window.addEventListener('message', handlePopupMessage)
+    
     fetchApps()
 })
 
@@ -350,11 +364,35 @@ async function fetchApps() {
             state.apps.marketing = filterAppsByType(apps, 'marketing')
             state.apps.visual = filterAppsByType(apps, 'visual')
             state.apps.other = filterAppsByType(apps, 'other')
+            
+            // Check real Google Drive connection status
+            await updateGoogleDriveStatus()
         }
     } catch (error: any) {
         state.error = error
     }
     state.isPageLoading = false
+}
+
+async function updateGoogleDriveStatus() {
+    try {
+        const status = await googledriveService.getGoogleDriveStatus()
+        const isConnected = status?.connected || false
+        
+
+        const categories = ['marketing', 'visual', 'other']
+        categories.forEach(category => {
+            const googleDriveApp = state.apps[category]?.find(
+                (app: any) => app.generic_name === 'google-drive'
+            )
+            if (googleDriveApp) {
+                googleDriveApp.user_activated = isConnected
+            }
+        })
+    } catch (error) {
+        // Silently fail - if status check fails, rely on database value
+        console.error('Failed to check Google Drive status:', error)
+    }
 }
 
 function filterAppsByType(apps: any, type: string) {
@@ -408,11 +446,30 @@ async function activateApp(formApp: any) {
     state.error = {}
     state.isPageLoading = true
     try {
-        if (state.selectedApp?.is_free) {
+        if (state.selectedApp?.generic_name === 'google-drive') {
+            const response = await googledriveService.getGoogleDriveAuthUrl()
+            console.log('Google Drive response:', response)
+            if (response?.authUrl || response?.auth_url) {
+                const authUrl = response?.authUrl || response?.auth_url
+
+                // Open Google OAuth in a popup
+                const popup = window.open(
+                    authUrl,
+                    'GoogleDriveAuth',
+                    'width=600,height=700,left=200,top=100'
+                )
+
+                console.log('Google Drive popup opened')
+            } else {
+                console.error('No authUrl in response:', response)
+            }
+        } else if (state.selectedApp?.is_free) {
             const params = {
                 app_uuid: state.selectedApp?.uuid,
             }
             const response = await appService.activateFreeApp(params)
+        } else if (state.selectedApp?.generic_name === 'leads') {
+            const response = await appService.activateLeadsApp()
             if (response) {
                 successAlert(`${t('alert.success')}!`, `${t('apps.alert.appSuccessfullyActivated')}.`)
                 fetchApps()
