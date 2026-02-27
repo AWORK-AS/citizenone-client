@@ -841,9 +841,15 @@
                     "arrivedAt": "Ankom til",
                     "totalDistance": "Samlet tilbagelagt afstand"
                 },
+                "confirmWorking": {
+                    "title": "Arbejdsbekræftelse",
+                    "question": "Arbejder du stadig?",
+                    "workingFor": "Arbejdet i"
+                },
                 "yes": "Ja",
                 "no": "Nej",
-                "away": "væk"
+                "away": "væk",
+                "minute": "minutter"
             }
         },
         "citizens": "Borgere",

@@ -254,23 +254,28 @@
                 @close="state.modal.isTransportLoginOpen = false" @submitTransportLogin="transportLogin" />
             <ModulesUserCitizenTimeRegistrationModalTransport type="logout" :isModalOpen="state.modal.isTransportLogoutOpen" @transportLogout="transportLogout"
                 @close="state.modal.isTransportLogoutOpen = false" @submitTransportLogout="transportLogout" />
-            
-            <!-- View Locations Modal -->
             <ModulesUserCitizenModalViewLocations
                 :isModalOpen="state.modal.isViewLocationsOpen"
                 :citizens="state.citizens?.data || []"
                 @close="state.modal.isViewLocationsOpen = false"
             />
-
-            <!-- Arrival Confirmation Modal -->
             <ModulesUserCitizenTimeRegistrationModalConfirmArrival
                 :isModalOpen="state.modal.isConfirmArrivalOpen"
                 :citizenName="`${state.selectedCitizen?.firstname || ''} ${state.selectedCitizen?.lastname || ''}`"
                 :citizenAddress="state.selectedCitizen?.address?.street || ''"
                 :distanceInMeters="state.arrivalDistance"
+                :totalDistanceKm="locationTracking.getTotalDistanceKm()"
                 @close="state.modal.isConfirmArrivalOpen = false"
                 @confirmed="onArrivalConfirmed"
                 @dismissed="onArrivalDismissed"
+            />
+            <ModulesUserCitizenTimeRegistrationModalConfirmWorking
+                :isModalOpen="state.modal.isConfirmWorkingOpen"
+                :citizenName="`${state.selectedCitizen?.firstname || ''} ${state.selectedCitizen?.lastname || ''}`"
+                :workingMinutes="state.workingMinutes"
+                @close="state.modal.isConfirmWorkingOpen = false"
+                @confirmed="onWorkConfirmed"
+                @dismissed="onWorkDismissed"
             />
         </NuxtLayout>
     </div>
@@ -297,6 +302,7 @@ const userStore = useUserStore() as any
 const { t } = useI18n()
 
 const locationTracking = useLocationTracking()
+const workTimeTracking = useWorkTimeTracking()
 
 const state = reactive({
     columnHeaders: [
@@ -323,9 +329,11 @@ const state = reactive({
         isTransportLogoutOpen: false,
         isViewLocationsOpen: false,
         isConfirmArrivalOpen: false,
+        isConfirmWorkingOpen: false,
     },
     selectedCitizen: null as any,
     arrivalDistance: 0,
+    workingMinutes: 0,
 })
 
 const arrivalCheckState = reactive({
@@ -333,24 +341,47 @@ const arrivalCheckState = reactive({
     isCheckingArrival: false,
 })
 
+const workCheckState = reactive({
+    hasShownPrompt: false,
+})
+
 onMounted(() => {
     fetchCitizens()
 
-    const savedState = locationTracking.getSavedTrackingState()
-    if (savedState && savedState.isTracking && savedState.careHourUuid) {
-        
-        // Find the citizen being tracked
+    // Restore location tracking
+    const savedLocationState = locationTracking.getSavedTrackingState()
+    if (savedLocationState && savedLocationState.isTracking && savedLocationState.careHourUuid) {
         nextTick(() => {
             const trackingCitizen = state.citizens?.data?.find(
-                (c: any) => c.uuid === savedState.citizenUuid && c.is_checked_in
+                (c: any) => c.uuid === savedLocationState.citizenUuid && c.is_checked_in
             )
             
-            if (trackingCitizen && savedState.careHourUuid) {
+            if (trackingCitizen && savedLocationState.careHourUuid) {
                 state.selectedCitizen = trackingCitizen
-                
-                startLocationTracking(savedState.careHourUuid)
+                arrivalCheckState.hasShownPrompt = locationTracking.getArrivalPromptShown()
+                startLocationTracking(savedLocationState.careHourUuid)
             } else {
                 locationTracking.stopTracking()
+            }
+        })
+    }
+    
+    // Restore work time tracking
+    const savedWorkState = workTimeTracking.getSavedWorkTimeState()
+    if (savedWorkState && savedWorkState.isWorking && savedWorkState.careHourUuid) {
+        console.log('Restoring work time tracking from localStorage')
+        
+        nextTick(() => {
+            const workingCitizen = state.citizens?.data?.find(
+                (c: any) => c.uuid === savedWorkState.citizenUuid && c.is_checked_in
+            )
+            
+            if (workingCitizen) {
+                state.selectedCitizen = workingCitizen
+                workTimeTracking.restoreFromState(savedWorkState, showWorkPrompt)
+                console.log('Work time tracking restored')
+            } else {
+                workTimeTracking.stopTracking()
             }
         })
     }
@@ -382,27 +413,34 @@ function checkIfNearCitizen(userLocation: { lat: number; lng: number }) {
         lng: Number(citizen.address.longitude),
     }
 
-    const { isNear, distance } = locationTracking.isNearDestination(destination, 150) // 150 meters radius
+    const { isNear, distance } = locationTracking.isNearDestination(destination, 150)
 
     if (isNear && !arrivalCheckState.hasShownPrompt && (!state.modal.isTransportLoginOpen || !state.modal.isTransportLogoutOpen)) {
         arrivalCheckState.hasShownPrompt = true
         arrivalCheckState.isCheckingArrival = true
-
         state.modal.isConfirmArrivalOpen = true
-        
         state.arrivalDistance = distance
+        locationTracking.setArrivalPromptShown(true)
     }
+}
+
+function showWorkPrompt() {
+    if (workCheckState.hasShownPrompt) return
+    
+    workCheckState.hasShownPrompt = true
+    state.workingMinutes = workTimeTracking.getWorkingMinutes()
+    state.modal.isConfirmWorkingOpen = true
+    
+    console.log(`Work prompt shown after ${state.workingMinutes} minutes`)
 }
 
 async function onArrivalConfirmed() {
     await locationTracking.logCurrentLocation()
     
-    // Get current location and total distance
     const currentLat = locationTracking.currentLocation.value?.lat
     const currentLng = locationTracking.currentLocation.value?.lng
     const totalDistanceKm = locationTracking.getTotalDistanceKm()
     
-    // Get address from coordinates
     let arrivalAddress = ''
     if (currentLat && currentLng) {
         try {
@@ -452,23 +490,33 @@ async function onArrivalConfirmed() {
 function onArrivalDismissed() {
     arrivalCheckState.hasShownPrompt = false
     state.modal.isConfirmArrivalOpen = false
+    locationTracking.setArrivalPromptShown(false)
+}
+
+function onWorkConfirmed() {
+    console.log('User confirmed still working')
+    workCheckState.hasShownPrompt = false
+    state.modal.isConfirmWorkingOpen = false
+}
+
+function onWorkDismissed() {
+    console.log('User said they are not working')
+    workLogout()
 }
 
 function startLocationTracking(careHourUuid: string) {
-    arrivalCheckState.hasShownPrompt = false
+    arrivalCheckState.hasShownPrompt = locationTracking.getArrivalPromptShown()
     
     locationTracking.startTracking(
         careHourUuid,
-        (location) => {
-
-        },
-        (error) => {
-
-        },
+        (location) => {},
+        (error) => {},
         30000,
         state.selectedCitizen?.uuid,
         `${state.selectedCitizen?.firstname} ${state.selectedCitizen?.lastname}`,
-        state.selectedCitizen?.address?.street
+        state.selectedCitizen?.address?.street,
+        Number(state.selectedCitizen?.address?.latitude),
+        Number(state.selectedCitizen?.address?.longitude)
     )
 }
 
@@ -602,13 +650,18 @@ async function workLogin() {
             const params = {}
             const response = await interventionHoursService.checkin(state.selectedCitizen.uuid, params)
             if (response?.data) {
-                fetchCitizens()
-            }
-        } else {
-            const params = {}
-            const response = await interventionHoursService.checkout(state.selectedCitizen.uuid, params)
-            if (response?.data) {
-                fetchCitizens()
+                const careHourUuid = response.data.uuid || response.data.citizen_care_hour_uuid
+                
+                await fetchCitizens()
+                
+                if (careHourUuid) {
+                    workTimeTracking.startTracking(
+                        careHourUuid,
+                        showWorkPrompt,
+                        state.selectedCitizen?.uuid,
+                        `${state.selectedCitizen?.firstname} ${state.selectedCitizen?.lastname}`
+                    )
+                }
             }
         }
     } catch (error: any) {
@@ -661,6 +714,8 @@ async function workLogout() {
     state.error = {}
     state.isTableLoading = true
     try {
+        workTimeTracking.stopTracking()
+        
         const params = {}
         const response = await interventionHoursService.checkout(state.selectedCitizen.uuid, params)
         if (response?.data) {

@@ -1,7 +1,7 @@
-import { ref, onUnmounted, onMounted } from 'vue'
 import { citizenCareHourLocationLogService } from '@/components/api/user/CitizenCareHourLocationLogService'
 
 const TRACKING_STATE_KEY = 'location_tracking_state'
+const ARRIVAL_PROMPT_KEY = 'arrival_prompt_shown'
 
 interface TrackingState {
     isTracking: boolean
@@ -9,6 +9,8 @@ interface TrackingState {
     citizenUuid: string | null
     citizenName: string | null
     citizenAddress: string | null
+    citizenLatitude: number | null
+    citizenLongitude: number | null
     startTime: number
 }
 
@@ -47,7 +49,25 @@ export const useLocationTracking = () => {
     const clearTrackingState = () => {
         if (typeof window !== 'undefined') {
             localStorage.removeItem(TRACKING_STATE_KEY)
+            localStorage.removeItem(ARRIVAL_PROMPT_KEY)
         }
+    }
+
+    const setArrivalPromptShown = (shown: boolean) => {
+        if (typeof window !== 'undefined') {
+            if (shown) {
+                localStorage.setItem(ARRIVAL_PROMPT_KEY, 'true')
+            } else {
+                localStorage.removeItem(ARRIVAL_PROMPT_KEY)
+            }
+        }
+    }
+
+    const getArrivalPromptShown = (): boolean => {
+        if (typeof window !== 'undefined') {
+            return localStorage.getItem(ARRIVAL_PROMPT_KEY) === 'true'
+        }
+        return false
     }
 
     // Calculate distance between two points using Haversine formula
@@ -55,7 +75,7 @@ export const useLocationTracking = () => {
         point1: { lat: number; lng: number },
         point2: { lat: number; lng: number }
     ): number => {
-        const R = 6371000
+        const R = 6371000 // Earth's radius in meters
         const dLat = (point2.lat - point1.lat) * Math.PI / 180
         const dLon = (point2.lng - point1.lng) * Math.PI / 180
         const a =
@@ -82,6 +102,7 @@ export const useLocationTracking = () => {
             return
         }
 
+        // Only log if moved more than 10 meters from last logged location
         if (lastLoggedLocation.value) {
             const distance = calculateDistance(lastLoggedLocation.value, location)
             if (distance < 10) {
@@ -99,8 +120,9 @@ export const useLocationTracking = () => {
             allLocations.value.push(location)
             totalDistanceTraveled.value = calculateTotalDistance()
             
+            console.log(`Location logged: ${location.lat}, ${location.lng}. Total distance: ${(totalDistanceTraveled.value / 1000).toFixed(2)}km`)
         } catch (error) {
-
+            console.error('Failed to log location:', error)
         }
     }
 
@@ -111,7 +133,9 @@ export const useLocationTracking = () => {
         logIntervalMs: number = 30000,
         citizenUuid?: string,
         citizenName?: string,
-        citizenAddress?: string
+        citizenAddress?: string,
+        citizenLatitude?: number,
+        citizenLongitude?: number
     ) => {
         if (!navigator.geolocation) {
             const error = 'Geolocation is not supported by your browser'
@@ -121,9 +145,12 @@ export const useLocationTracking = () => {
         }
 
         if (isTracking.value) {
+            console.log('Already tracking, skipping...')
             return
         }
 
+        console.log('Starting location tracking for care hour:', careHourId)
+        
         isTracking.value = true
         trackingError.value = ''
         careHourUuid.value = careHourId
@@ -139,9 +166,12 @@ export const useLocationTracking = () => {
             citizenUuid: citizenUuid || null,
             citizenName: citizenName || null,
             citizenAddress: citizenAddress || null,
+            citizenLatitude: citizenLatitude || null,
+            citizenLongitude: citizenLongitude || null,
             startTime: Date.now(),
         })
 
+        // Start watching position
         watchId = navigator.geolocation.watchPosition(
             (position) => {
                 const location = {
@@ -154,6 +184,7 @@ export const useLocationTracking = () => {
             (error) => {
                 const errorMsg = `Location error: ${error.message}`
                 trackingError.value = errorMsg
+                console.error(errorMsg)
                 if (onError) onError(errorMsg)
             },
             {
@@ -163,18 +194,24 @@ export const useLocationTracking = () => {
             }
         )
 
+        // Set up interval to log location periodically
         logIntervalId = setInterval(() => {
             if (currentLocation.value) {
                 logLocationToBackend(currentLocation.value)
             }
         }, locationLogInterval.value)
 
+        // Log initial location if available
         if (currentLocation.value) {
             logLocationToBackend(currentLocation.value)
         }
+
+        console.log('Location tracking started successfully')
     }
 
     const stopTracking = async () => {
+        console.log('Stopping location tracking...')
+        
         if (watchId !== null) {
             navigator.geolocation.clearWatch(watchId)
             watchId = null
@@ -185,6 +222,7 @@ export const useLocationTracking = () => {
             logIntervalId = null
         }
 
+        // Log final location before stopping
         if (currentLocation.value && careHourUuid.value) {
             await logLocationToBackend(currentLocation.value)
         }
@@ -195,6 +233,8 @@ export const useLocationTracking = () => {
         
         // Clear localStorage
         clearTrackingState()
+        
+        console.log('Location tracking stopped')
     }
 
     const isNearDestination = (
@@ -248,5 +288,7 @@ export const useLocationTracking = () => {
         logCurrentLocation,
         getTotalDistanceKm,
         getSavedTrackingState,
+        setArrivalPromptShown,
+        getArrivalPromptShown,
     }
 }

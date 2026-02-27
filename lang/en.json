@@ -842,9 +842,15 @@
                 "arrivedAt": "Arrived at",
                 "totalDistance": "Total distance traveled"
             },
+            "confirmWorking": {
+                "title": "Work Confirmation",
+                "question": "Are you still working?",
+                "workingFor": "Working for"
+            },
             "yes": "Yes",
             "no": "No",
-            "away": "Away"
+            "away": "Away",
+            "minute": "Minute"
         },
         "citizens": "Citizens",
         "citizenJournals": {
