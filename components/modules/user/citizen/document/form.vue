@@ -29,7 +29,7 @@
                 <FormError :error="v$?.formDirectory?.name?.$errors[0]?.$message.toString()" />
                 <FormError :error="props?.error?.errors?.name?.[0]" />
             </div>
-            <div>
+            <div v-if="props.showAdminCheckbox">
                 <div class="w-fit flex items-center cursor-pointer"
                     @click="state.formDirectory.is_admin_access = !state.formDirectory.is_admin_access">
                     <FormCheckbox :value="state.formDirectory.is_admin_access" />
@@ -71,6 +71,11 @@ const props = defineProps({
         type: Object,
         required: true,
     },
+    showAdminCheckbox: {
+        type: Boolean,
+        required: false,
+        default: true,
+    },
 })
 const emit = defineEmits(['closeModal', 'submitForm', 'isPageLoading'])
 
@@ -100,6 +105,7 @@ onMounted(() => {
         is_use_template: false,
         template: '',
     }
+    console.log('ModulesUserCitizenDocumentForm mounted; showAdminCheckbox=', props.showAdminCheckbox, 'initial formDirectory=', state.formDirectory)
     fetchTemplates()
 })
 
@@ -113,6 +119,7 @@ watch(() => props.selectedDocument, (newValue: any) => {
             is_use_template: false,
             template: '',
         }
+        console.log('ModulesUserCitizenDocumentForm props.selectedDocument changed; showAdminCheckbox=', props.showAdminCheckbox, 'formDirectory=', state.formDirectory)
     }
 })
 

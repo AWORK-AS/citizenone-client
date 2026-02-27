@@ -3010,6 +3010,18 @@
         }
     },
     "drive": {
+        "googleDrive": "Google Drive",
+        "googleDriveNotActivatedMessage": "Google Drive er ikke aktiveret. Vil du aktivere det? Klik på 'Bekræft' for at fortsætte.",
+        "drive-google":{
+            "info-drive-1": "Du ser lige nu Google Drive-filer, fordi du har linket din Google-konto.",
+            "info-drive-2": "Hvis du også vil bruge det lokale system så tryk 'CitizenOne Documents'-knappen i toppen.",
+            "info-drive-3": "Skift mellem systemerne uden at miste filer — upload til det ønskede system via upload-knappen.."
+        },
+        "drive-local":{
+            "info-drive-1": "Du ser lige nu CitizenOne Documents-filer",
+            "info-drive-2": "Hvis du også vil bruge Google drive så tryk 'Google Drive'-knappen i toppen. hvis du har linket din Google Drive konto",
+            "info-drive-3": "Skift mellem systemerne uden at miste filer - upload til det ønskede system via upload-knappen.."
+        },
         "alert": {
             "deletedFileSuccessfully": "Fil slettet med succes",
             "deletedFolderSuccessfully": "Mappe slettet med succes",
@@ -3100,7 +3112,8 @@
             "name": "Navn",
             "newFolder": "Ny mappe",
             "template": "Skabelon",
-            "useTemplate": "Brug skabelon"
+            "useTemplate": "Brug skabelon",
+            "rootFolder": "-- Hovedmappe --"
         },
         "new": "Ny",
         "table": {
