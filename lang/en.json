@@ -2806,8 +2806,8 @@
                 "actions": {
                     "approve": "Approve",
                     "delete": "Delete",
-                    "disapprove": "Disapprove",
-                    "edit": "Edit"
+                    "edit": "Edit",
+                    "reject": "Reject"
                 },
                 "alert": {
                     "leaveRequestsSuccessfullyApproved": "Leave request successfully approved",
@@ -2828,6 +2828,11 @@
                     "pending": "Pending",
                     "rejected": "Rejected",
                     "status": "Status"
+                },
+                "type": {
+                    "sickLeave": "Sick leave",
+                    "type": "Type",
+                    "vacationLeave": "Vacation leave"
                 }
             }
         },
