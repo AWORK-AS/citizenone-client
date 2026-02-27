@@ -51,6 +51,10 @@
                         </select>
                     </div>
                     <div class="flex flex-wrap items-center gap-3">
+                        <FormButton buttonStyle="action" class="rounded-lg" @click="state.modal.isViewLocationsOpen = true">
+                            <Icon name="ph:map-pin" class="h-4 w-4" aria-hidden="true" />
+                            {{ $t('citizens.viewLocations.viewLocations') }}
+                        </FormButton>
                         <FormButton buttonStyle="action" class="rounded-lg" @click="navigateTo('/inquiries')"
                             v-if="userStore.getUser?.company?.industry?.system_name === 'social_welfare' && ['Crisis center', 'Shelter'].includes(userStore.getUser?.company?.facility_type?.en_name)">
                             <Icon name="ph:list-bullets" class="h-4 w-4" aria-hidden="true" />
@@ -164,7 +168,12 @@
                                         <span>{{ citizen?.phone }}</span>
                                     </td>
                                     <td width="20%">
-                                        <div class="flex items-end justify-end gap-2">
+                                        <div class="flex items-center justify-end gap-2">
+                                            <Tooltip :text="citizen?.is_checked_in ? $t('citizens.table.actions.checkOut') : $t('citizens.table.actions.checkIn')">
+                                                <FormSwitch
+                                                    :value="citizen?.is_checked_in"
+                                                    @toggleSwitch="toggleLogin(citizen)" />
+                                            </Tooltip>
                                             <Tooltip :text="$t('citizens.table.actions.view')">
                                                 <FormButton type="button" buttonStyle="action" class="rounded-md"
                                                     @click="navigateTo(`/citizens/${citizen.uuid}/journals`)">
@@ -238,6 +247,36 @@
             <ModulesUserGuidedTourModalCitizens v-if="state.modal.isGuidedTourCitizensOverviewOpen"
                 :isModalOpen="state.modal.isGuidedTourCitizensOverviewOpen" :isGuidedTour="false"
                 @close="state.modal.isGuidedTourCitizensOverviewOpen = false" />
+
+            <ModulesUserCitizenTimeRegistrationModalType :isModalOpen="state.modal.isTimeInTypeModalOpen"
+                @close="state.modal.isTimeInTypeModalOpen = false" @openTransport="openTransportLogin" @open-work="workLogin" />
+            <ModulesUserCitizenTimeRegistrationModalTransport type="login" :isModalOpen="state.modal.isTransportLoginOpen" @transportLogin="transportLogin"
+                @close="state.modal.isTransportLoginOpen = false" @submitTransportLogin="transportLogin" />
+            <ModulesUserCitizenTimeRegistrationModalTransport type="logout" :isModalOpen="state.modal.isTransportLogoutOpen" @transportLogout="transportLogout"
+                @close="state.modal.isTransportLogoutOpen = false" @submitTransportLogout="transportLogout" />
+            <ModulesUserCitizenModalViewLocations
+                :isModalOpen="state.modal.isViewLocationsOpen"
+                :citizens="state.citizens?.data || []"
+                @close="state.modal.isViewLocationsOpen = false"
+            />
+            <ModulesUserCitizenTimeRegistrationModalConfirmArrival
+                :isModalOpen="state.modal.isConfirmArrivalOpen"
+                :citizenName="`${state.selectedCitizen?.firstname || ''} ${state.selectedCitizen?.lastname || ''}`"
+                :citizenAddress="state.selectedCitizen?.address?.street || ''"
+                :distanceInMeters="state.arrivalDistance"
+                :totalDistanceKm="locationTracking.getTotalDistanceKm()"
+                @close="state.modal.isConfirmArrivalOpen = false"
+                @confirmed="onArrivalConfirmed"
+                @dismissed="onArrivalDismissed"
+            />
+            <ModulesUserCitizenTimeRegistrationModalConfirmWorking
+                :isModalOpen="state.modal.isConfirmWorkingOpen"
+                :citizenName="`${state.selectedCitizen?.firstname || ''} ${state.selectedCitizen?.lastname || ''}`"
+                :workingMinutes="state.workingMinutes"
+                @close="state.modal.isConfirmWorkingOpen = false"
+                @confirmed="onWorkConfirmed"
+                @dismissed="onWorkDismissed"
+            />
         </NuxtLayout>
     </div>
 </template>
@@ -245,6 +284,7 @@
 <script setup lang="ts">
 import { Menu, MenuButton, MenuItems, MenuItem } from '@headlessui/vue'
 import { citizenService } from '@/components/api/user/CitizenService'
+import { interventionHoursService } from '@/components/api/user/InterventionHoursService'
 import { useDepartmentStore } from '@/store/department'
 import { useCustomPagesStore } from '@/store/custom-pages'
 import { useCitizenStore } from '@/store/citizen'
@@ -260,6 +300,9 @@ const customPagesStore = useCustomPagesStore() as any
 const citizenStore = useCitizenStore() as any
 const userStore = useUserStore() as any
 const { t } = useI18n()
+
+const locationTracking = useLocationTracking()
+const workTimeTracking = useWorkTimeTracking()
 
 const state = reactive({
     columnHeaders: [
@@ -281,12 +324,67 @@ const state = reactive({
         isSharedJournalsOpen: false,
         isShowNote: false,
         isShowPurchaseEmail: false,
+        isTimeInTypeModalOpen: false,
+        isTransportLoginOpen: false,
+        isTransportLogoutOpen: false,
+        isViewLocationsOpen: false,
+        isConfirmArrivalOpen: false,
+        isConfirmWorkingOpen: false,
     },
-    selectedCitizen: [],
+    selectedCitizen: null as any,
+    arrivalDistance: 0,
+    workingMinutes: 0,
+})
+
+const arrivalCheckState = reactive({
+    hasShownPrompt: false,
+    isCheckingArrival: false,
+})
+
+const workCheckState = reactive({
+    hasShownPrompt: false,
 })
 
 onMounted(() => {
     fetchCitizens()
+
+    // Restore location tracking
+    const savedLocationState = locationTracking.getSavedTrackingState()
+    if (savedLocationState && savedLocationState.isTracking && savedLocationState.careHourUuid) {
+        nextTick(() => {
+            const trackingCitizen = state.citizens?.data?.find(
+                (c: any) => c.uuid === savedLocationState.citizenUuid && c.is_checked_in
+            )
+            
+            if (trackingCitizen && savedLocationState.careHourUuid) {
+                state.selectedCitizen = trackingCitizen
+                arrivalCheckState.hasShownPrompt = locationTracking.getArrivalPromptShown()
+                startLocationTracking(savedLocationState.careHourUuid)
+            } else {
+                locationTracking.stopTracking()
+            }
+        })
+    }
+    
+    // Restore work time tracking
+    const savedWorkState = workTimeTracking.getSavedWorkTimeState()
+    if (savedWorkState && savedWorkState.isWorking && savedWorkState.careHourUuid) {
+        console.log('Restoring work time tracking from localStorage')
+        
+        nextTick(() => {
+            const workingCitizen = state.citizens?.data?.find(
+                (c: any) => c.uuid === savedWorkState.citizenUuid && c.is_checked_in
+            )
+            
+            if (workingCitizen) {
+                state.selectedCitizen = workingCitizen
+                workTimeTracking.restoreFromState(savedWorkState, showWorkPrompt)
+                console.log('Work time tracking restored')
+            } else {
+                workTimeTracking.stopTracking()
+            }
+        })
+    }
 })
 
 watch(() => departmentStore.getSelectedDepartmentName, (newValue: any) => {
@@ -294,6 +392,139 @@ watch(() => departmentStore.getSelectedDepartmentName, (newValue: any) => {
         fetchCitizens()
     }
 })
+
+watch(
+    () => locationTracking.currentLocation.value,
+    (newLocation) => {
+        if (!newLocation || !state.selectedCitizen?.is_checked_in) return
+        if (!state.selectedCitizen?.current_care_hour?.is_transportation) return
+        if (arrivalCheckState.hasShownPrompt) return
+
+        checkIfNearCitizen(newLocation)
+    }
+)
+
+function checkIfNearCitizen(userLocation: { lat: number; lng: number }) {
+    const citizen = state.selectedCitizen
+    if (!citizen?.address?.latitude || !citizen?.address?.longitude) return
+
+    const destination = {
+        lat: Number(citizen.address.latitude),
+        lng: Number(citizen.address.longitude),
+    }
+
+    const { isNear, distance } = locationTracking.isNearDestination(destination, 150)
+
+    if (isNear && !arrivalCheckState.hasShownPrompt && (!state.modal.isTransportLoginOpen || !state.modal.isTransportLogoutOpen)) {
+        arrivalCheckState.hasShownPrompt = true
+        arrivalCheckState.isCheckingArrival = true
+        state.modal.isConfirmArrivalOpen = true
+        state.arrivalDistance = distance
+        locationTracking.setArrivalPromptShown(true)
+    }
+}
+
+function showWorkPrompt() {
+    if (workCheckState.hasShownPrompt) return
+    
+    workCheckState.hasShownPrompt = true
+    state.workingMinutes = workTimeTracking.getWorkingMinutes()
+    state.modal.isConfirmWorkingOpen = true
+    
+    console.log(`Work prompt shown after ${state.workingMinutes} minutes`)
+}
+
+async function onArrivalConfirmed() {
+    await locationTracking.logCurrentLocation()
+    
+    const currentLat = locationTracking.currentLocation.value?.lat
+    const currentLng = locationTracking.currentLocation.value?.lng
+    const totalDistanceKm = locationTracking.getTotalDistanceKm()
+    
+    let arrivalAddress = ''
+    if (currentLat && currentLng) {
+        try {
+            const response = await fetch(
+                `https://nominatim.openstreetmap.org/reverse?format=json&lat=${currentLat}&lon=${currentLng}&zoom=18&addressdetails=1`,
+                {
+                    headers: {
+                        'Accept-Language': 'da,en',
+                    }
+                }
+            )
+            const data = await response.json()
+            if (data && data.display_name) {
+                arrivalAddress = data.display_name
+            }
+        } catch (error) {
+            arrivalAddress = `${currentLat}, ${currentLng}`
+        }
+    }
+    
+    state.error = {}
+    state.isTableLoading = true
+    try {
+        if (state.selectedCitizen?.is_checked_in) {
+            await stopLocationTracking()
+            
+            const params = {
+                is_transportation: true,
+                geo_end_lat: currentLat,
+                geo_end_lng: currentLng,
+                end_address: arrivalAddress,
+                note: `${t('citizens.timeRegistration.confirmArrival.arrivedAt')} ${arrivalAddress}. ${t('citizens.timeRegistration.confirmArrival.totalDistance')}: ${totalDistanceKm.toFixed(2)}km`
+            }
+            
+            const response = await interventionHoursService.checkout(state.selectedCitizen.uuid, params)
+            if (response?.data) {
+                await fetchCitizens()
+                state.modal.isConfirmArrivalOpen = false
+            }
+        }
+    } catch (error: any) {
+        state.error = error
+    }
+    state.isTableLoading = false
+}
+
+function onArrivalDismissed() {
+    arrivalCheckState.hasShownPrompt = false
+    state.modal.isConfirmArrivalOpen = false
+    locationTracking.setArrivalPromptShown(false)
+}
+
+function onWorkConfirmed() {
+    console.log('User confirmed still working')
+    workCheckState.hasShownPrompt = false
+    state.modal.isConfirmWorkingOpen = false
+}
+
+function onWorkDismissed() {
+    console.log('User said they are not working')
+    workLogout()
+}
+
+function startLocationTracking(careHourUuid: string) {
+    arrivalCheckState.hasShownPrompt = locationTracking.getArrivalPromptShown()
+    
+    locationTracking.startTracking(
+        careHourUuid,
+        (location) => {},
+        (error) => {},
+        30000,
+        state.selectedCitizen?.uuid,
+        `${state.selectedCitizen?.firstname} ${state.selectedCitizen?.lastname}`,
+        state.selectedCitizen?.address?.street,
+        Number(state.selectedCitizen?.address?.latitude),
+        Number(state.selectedCitizen?.address?.longitude)
+    )
+}
+
+async function stopLocationTracking() {
+    await locationTracking.stopTracking()
+    arrivalCheckState.hasShownPrompt = false
+    arrivalCheckState.isCheckingArrival = false
+}
 
 function openGuidedTour() {
     state.modal.isGuidedTourCitizensOverviewOpen = true
@@ -387,6 +618,136 @@ async function exportInquiries(params: { inquiry_type: string }) {
             let fileName = params.inquiry_type === 'shelter' ? t('inquiries.shelterInquiry') : t('inquiries.crisisCenterInquiry')
 
             saveAs(response, `${customPagesStore.getCustomPagesName?.citizens}-${fileName}`)
+        }
+    } catch (error: any) {
+        state.error = error
+    }
+    state.isTableLoading = false
+}
+
+function toggleLogin(citizen: any) {
+    state.selectedCitizen = citizen
+    if (!citizen?.is_checked_in) {
+        selectTimeInType()
+    } else {
+        if (citizen?.current_care_hour?.is_transportation) {
+            openTransportLogout()
+        } else {
+            workLogout()
+        }
+    }
+}
+
+function selectTimeInType() {
+    state.modal.isTimeInTypeModalOpen = true
+}
+
+async function workLogin() {
+    state.error = {}
+    state.isTableLoading = true
+    try {
+        if (!state.selectedCitizen?.is_checked_in) {
+            const params = {}
+            const response = await interventionHoursService.checkin(state.selectedCitizen.uuid, params)
+            if (response?.data) {
+                const careHourUuid = response.data.uuid || response.data.citizen_care_hour_uuid
+                
+                await fetchCitizens()
+                
+                if (careHourUuid) {
+                    workTimeTracking.startTracking(
+                        careHourUuid,
+                        showWorkPrompt,
+                        state.selectedCitizen?.uuid,
+                        `${state.selectedCitizen?.firstname} ${state.selectedCitizen?.lastname}`
+                    )
+                }
+            }
+        }
+    } catch (error: any) {
+        state.error = error
+    }
+    state.isTableLoading = false
+}
+
+function openTransportLogin() {
+    state.modal.isTimeInTypeModalOpen = false
+    state.modal.isTransportLoginOpen = true
+}
+
+function openTransportLogout() {
+    state.modal.isTimeInTypeModalOpen = false
+    state.modal.isTransportLogoutOpen = true
+}
+
+async function transportLogin(transportLoginDetails: any) {
+    state.error = {}
+    state.isTableLoading = true
+    try {
+        if (!state.selectedCitizen?.is_checked_in) {
+            const params = {
+                is_transportation: true,
+                geo_start_lat: transportLoginDetails.geo_start_lat,
+                geo_start_lng: transportLoginDetails.geo_start_lng,
+                start_address: transportLoginDetails.start_address,
+                note: transportLoginDetails.note
+            }
+            const response = await interventionHoursService.checkin(state.selectedCitizen.uuid, params)
+            if (response?.data) {
+                const careHourUuid = response.data.uuid || response.data.citizen_care_hour_uuid
+                
+                await fetchCitizens()
+                state.modal.isTransportLoginOpen = false
+                
+                if (careHourUuid) {
+                    startLocationTracking(careHourUuid)
+                }
+            }
+        }
+    } catch (error: any) {
+        state.error = error
+    }
+    state.isTableLoading = false
+}
+
+async function workLogout() {
+    state.error = {}
+    state.isTableLoading = true
+    try {
+        workTimeTracking.stopTracking()
+        
+        const params = {}
+        const response = await interventionHoursService.checkout(state.selectedCitizen.uuid, params)
+        if (response?.data) {
+            setTimeout(() => {
+                fetchCitizens()
+            }, 500)
+        }
+    } catch (error: any) {
+        state.error = error
+    }
+    state.isTableLoading = false
+}
+
+async function transportLogout(transportLogoutDetails: any) {
+    state.error = {}
+    state.isTableLoading = true
+    try {
+        if (state.selectedCitizen?.is_checked_in) {
+            await stopLocationTracking()
+            
+            const params = {
+                is_transportation: true,
+                geo_end_lat: transportLogoutDetails.geo_end_lat,
+                geo_end_lng: transportLogoutDetails.geo_end_lng,
+                end_address: transportLogoutDetails.end_address,
+                note: transportLogoutDetails.note
+            }
+            const response = await interventionHoursService.checkout(state.selectedCitizen.uuid, params)
+            if (response?.data) {
+                fetchCitizens()
+                state.modal.isTransportLogoutOpen = false
+            }
         }
     } catch (error: any) {
         state.error = error
