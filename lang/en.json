@@ -3542,7 +3542,8 @@
             "role": "Role",
             "showWorkingHours": "Show working hours",
             "seniorityDate": "Seniority date",
-            "street": "Street"
+            "street": "Street",
+            "registerTransportEnabled": "Register transport"
         },
         "importEmployees": {
             "alert": {
