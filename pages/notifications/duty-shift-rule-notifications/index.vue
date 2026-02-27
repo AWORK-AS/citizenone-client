@@ -115,8 +115,7 @@ async function fetchNotifications() {
             page: currentTablePage,
             page_length: PAGE_LENGTH,
         }
-        const response = await notificationService.getNotifications(params)
-        console.log('Fetched notifications:', response)
+        const response = await notificationService.getSystemNotifications(params)
         if (response) state.notifications = response
     } catch (error: any) {
         state.error = error
@@ -129,7 +128,7 @@ function next() { currentTablePage++; fetchNotifications() }
 
 async function refreshUnreadCount() {
     try {
-        const response = await notificationService.getNotifications({ page_length: 1 })
+        const response = await notificationService.getSystemNotifications({ page_length: 1 })
         userStore.setUserSystemNotificationCount(response?.total ?? 0)
     } catch { }
 }
@@ -138,7 +137,7 @@ async function viewNotification(notification: any) {
     if (!notification.read_at) {
         state.error = {}
         try {
-            const response = await notificationService.markAsRead(notification.id)
+            const response = await notificationService.markSystemNotificationAsRead(notification.id)
             if (response) {
                 await refreshUnreadCount()
                 fetchNotifications()
@@ -153,7 +152,7 @@ async function markAllAsRead() {
     state.error = {}
     state.isPageLoading = true
     try {
-        const response = await notificationService.markAllAsRead()
+        const response = await notificationService.markAllSystemNotificationsAsRead()
         if (response) {
             await refreshUnreadCount()
             fetchNotifications()

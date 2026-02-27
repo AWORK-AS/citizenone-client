@@ -185,7 +185,7 @@ function formatTime(dateStr: string): string {
 async function fetchAllNotifications() {
     state.isLoading = true
     try {
-        const response = await notificationService.getNotifications({ page_length: PAGE_LENGTH, page: 1 })
+        const response = await notificationService.getSystemNotifications({ page_length: PAGE_LENGTH, page: 1 })
         if (response) {
             state.notifications = response?.data ?? []
             state.hasMore = (response?.last_page ?? 1) > 1
@@ -200,7 +200,7 @@ async function fetchAllNotifications() {
 async function fetchAllDutyShiftRuleNotifications() {
     state.isLoading = true
     try {
-        const response = await notificationService.getNotifications({ page_length: PAGE_LENGTH, page: 1, type: 'DutyShiftRule' })
+        const response = await notificationService.getSystemNotifications({ page_length: PAGE_LENGTH, page: 1, type: 'DutyShiftRule' })
         if (response) {
             state.notifications = response?.data ?? []
             state.hasMore = (response?.last_page ?? 1) > 1
@@ -228,7 +228,7 @@ async function loadMore() {
         const nextPage = state.currentPage + 1
         const params: any = { page_length: PAGE_LENGTH, page: nextPage }
         if (state.activeCategory !== 'all') params.type = state.activeCategory
-        const response = await notificationService.getNotifications(params)
+        const response = await notificationService.getSystemNotifications(params)
         if (response) {
             state.notifications.push(...(response?.data ?? []))
             state.hasMore = nextPage < (response?.last_page ?? 1)
@@ -242,7 +242,7 @@ async function loadMore() {
 
 async function refreshUnreadCount() {
     try {
-        const response = await notificationService.getNotifications({ page_length: 1 })
+        const response = await notificationService.getSystemNotifications({ page_length: 1 })
         userStore.setUserSystemNotificationCount(response?.total ?? 0)
     } catch { }
 }
@@ -255,7 +255,7 @@ async function handleNotifClick(notif: any) {
     }
     if (!notif.read_at) {
         try {
-            const response = await notificationService.markAsRead(notif.id)
+            const response = await notificationService.markSystemNotificationAsRead(notif.id)
             if (response) {
                 const index = state.notifications.findIndex((n: any) => n.id === notif.id)
                 if (index !== -1) state.notifications[index].read_at = new Date().toISOString()
@@ -270,7 +270,7 @@ async function handleNotifClick(notif: any) {
 async function markAllAsRead() {
     state.isMarkingAll = true
     try {
-        const response = await notificationService.markAllAsRead()
+        const response = await notificationService.markAllSystemNotificationsAsRead()
         if (response) {
             state.notifications.forEach((n: any) => { n.read_at = n.read_at ?? new Date().toISOString() })
             await refreshUnreadCount()
