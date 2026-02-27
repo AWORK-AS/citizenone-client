@@ -1,6 +1,6 @@
 <template>
     <div>
-        <Modal size="3xl" :title="$t('citizens.interventionHours.interventionHours')" :show="props.isModalOpen"
+        <Modal size="4xl" :title="$t('citizens.interventionHours.interventionHours')" :show="props.isModalOpen"
             @close="closeModal">
             <template #modal-body>
                 <div class="space-y-3">
@@ -157,11 +157,20 @@
                                             </Badge>
                                         </div>
                                     </td>
+                                    <td width="10%">
+                                        <div v-if="inteventionHours?.is_transportation" class="rounded-xl bg-green-100 text-green-800 px-2 py-1 text-xs font-semibold text-center w-fit">{{ $t('citizens.interventionHours.table.transport') }}</div>
+                                        <div v-else class="rounded-xl bg-teal-100 text-tertiary-800 px-2 py-1 text-xs font-semibold text-center w-fit">{{ $t('citizens.interventionHours.table.work') }}</div>
+                                    </td>
                                     <td width="20%">
                                         {{ inteventionHours?.user?.firstname + ' ' + inteventionHours?.user?.lastname }}
                                     </td>
                                     <td width="15%">
                                         <div class="flex items-end gap-2">
+                                            <FormButton type="button" buttonStyle="action" class="rounded-md"
+                                                @click="viewInterventionHourLog(inteventionHours)">
+                                                <Icon name="ph:eye" class="size-4" />
+                                                {{ $t('citizens.interventionHours.table.actions.view') }}
+                                            </FormButton>
                                             <FormButton type="button" buttonStyle="action" class="rounded-md"
                                                 @click="editInterventionHours(inteventionHours)"
                                                 v-if="inteventionHours?.is_editable">
@@ -198,6 +207,9 @@
                 <DialogConfirmation :isModalOpen="state.modal.isDeleteInterventionHoursOpen"
                     :message="$t('citizens.interventionHours.table.confirmation.deleteInterventionHoursConfirmation') + '?'"
                     @close="state.modal.isDeleteInterventionHoursOpen = false" @confirm="deleteInterventionHours" />
+                 <ModulesUserCitizenInterventionHoursModalViewLog
+                     :selectedCareHour="state.selectedInterventionHours"
+                    :isModalOpen="state.modal.isViewInterventionHourLogOpen" @close="state.modal.isViewInterventionHourLogOpen = false" />
             </template>
         </Modal>
     </div>
@@ -236,6 +248,7 @@ const state = reactive({
         { name: 'citizens.interventionHours.table.datetimeEnd', isTranslateName: true, sorter: true, key: 'date_time_end' },
         { name: 'citizens.interventionHours.table.note', isTranslateName: true, },
         { name: 'citizens.interventionHours.table.totalHours', isTranslateName: true, },
+        { name: 'citizens.interventionHours.table.type', isTranslateName: true, key: 'is_transportation' },
         { name: 'citizens.interventionHours.table.createdBy', isTranslateName: true, },
         { name: '' },
     ],
@@ -253,6 +266,7 @@ const state = reactive({
         isDownloadInterventionHoursOpen: false,
         isEditInterventionHoursOpen: false,
         isTimeAccountDateRangeOpen: false,
+        isViewInterventionHourLogOpen: false,
     },
     interventionHours: [] as any,
     selectedInterventionHours: {} as any,
@@ -372,6 +386,11 @@ function handleSearch(value: any) {
     currentTablePage = 1
     state.dataFilter.search = value?.[0] == '' ? [] : value
     fetchInterventionHours()
+}
+
+function viewInterventionHourLog(inteventionHours: any) {
+    state.selectedInterventionHours = inteventionHours
+    state.modal.isViewInterventionHourLogOpen = true
 }
 
 function editInterventionHours(inteventionHours: any) {

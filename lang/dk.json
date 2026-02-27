@@ -804,6 +804,39 @@
             },
             "newCaseWorker": "Ny sagsbehandler"
         },
+        "timeRegistration": {
+            "timeRegistration": "Tidsregistrering",
+            "checkIn": "Tjek ind",
+            "checkOut": "Tjek ud",
+            "history": "Historik",
+            "selectType": "Vil du registrere transport eller arbejdstid?",
+            "selectTypeMessage": "Registrer din tid nemt — vælg arbejde eller transport for at komme i gang.",
+            "transport": "Transport",
+            "work": "Arbejdstid",
+            "form": {},
+            "registerTransport": {
+                "registerTransport": "Registrér transport",
+                "endTransport": "Afslut transport",
+                "form": {
+                    "startAddress": "Startadresse",
+                    "endAddress": "Slutadresse",
+                    "note": "Notat (valgfrit)",
+                    "currentLocation": "Nuværende placering",
+                    "useCurrentLocation": "Brug nuværende placering",
+                    "locating": "Finder din placering...",
+                    "searchAddress": "Søg adresse",
+                    "centerMap": "Centrer kort"
+                },
+                "errors": {
+                    "geolocationNotSupported": "Geolocation understøttes ikke i denne browser.",
+                    "somethingWentWrong": "Der opstod en fejl ved hentning af din aktuelle placering. Prøv igen.",
+                    "permissionDenied": "Aktivér lokationstilladelse i browseren.",
+                    "positionUnavailable": "Positionsoplysninger er ikke tilgængelige.",
+                    "timeout": "Anmodningen om at hente din placering udløb.",
+                    "unableToLocate": "Kunne ikke bestemme din placering."
+                }
+            }
+        },
         "citizens": "Borgere",
         "citizenJournals": {
             "actions": {
@@ -1231,7 +1264,14 @@
                 "trafficLights": "Trafiklys",
                 "yellow": "Gul"
             },
-            "transportation": "Transport"
+            "transportation": "Transport",
+            "locateCitizen": "Find borger",
+            "selectedLocation": "Valgt placering",
+            "selectedAddress": "Valgt adresse",
+            "fetchingAddress": "Henter adresse...",
+            "locateCitizenInstructions": "Klik et sted på kortet for at fastgøre en placering. Du kan også trække markøren for at justere positionen. Adressen hentes automatisk.",
+            "useThisLocation": "Brug denne placering",
+            "country": "Land"
         },
         "importCitizens": {
             "alert": {
@@ -1426,7 +1466,8 @@
             "table": {
                 "actions": {
                     "delete": "Slet",
-                    "edit": "Rediger"
+                    "edit": "Rediger",
+                    "view": "Se"
                 },
                 "alert": {
                     "interventionHoursSuccessfullyDeleted": "Indsatstimer slettet med succes"
@@ -1439,7 +1480,10 @@
                 "datetimeStart": "Dato og tid start",
                 "fromDutySchedule": "Fra vagtplan",
                 "note": "Bemærkning",
-                "totalHours": "Samlet timer"
+                "totalHours": "Samlet timer",
+                "type": "Type",
+                "transport": "Transportere",
+                "work": "Arbejdstid"
             },
             "timeAccount": {
                 "dailyAllocation": "Daglig tildeling",
@@ -1448,6 +1492,20 @@
                 "monthlyAllocation": "Månedlig tildeling",
                 "timeAccount": "Tidskonto",
                 "weeklyAllocation": "Ugentlig tildeling"
+            },
+            "view": {
+                "viewInterventionHourLog": "Vis log over indsatstimer",
+                "citizen": "Borger",
+                "dateTimeStart": "Dato og tid start",
+                "dateTimeEnd": "Dato og tid slut",
+                "type": "Type",
+                "transport": "Transportere",
+                "work": "Arbejdstid",
+                "startAddress": "Startadresse",
+                "endAddress": "Slutadresse",
+                "kilometers": "Kilometer",
+                "createdBy": "Oprettet af",
+                "note": "Bemærkning"
             }
         },
         "medicationAllergies": "Medicinallergier (CAVE)",
@@ -1832,7 +1890,9 @@
                     "noPlansAndGoals": "Ingen planer og mål",
                     "plansAndGoals": "Planer og mål"
                 },
-                "view": "Se"
+                "view": "Se",
+                "checkIn": "Tjek ind",
+                "checkOut": "Tjek ud"
             },
             "department": "Afdeling",
             "email": "E-mail",
@@ -2160,6 +2220,17 @@
                 "type": "Type"
             },
             "walletTransactions": "Transaktionshistorik"
+        },
+        "viewLocations": {
+            "title": "View Locations",
+            "viewLocations": "View Locations",
+            "yourLocation": "Your Location",
+            "loading": "Loading locations",
+            "citizensWithLocations": "citizens with locations",
+            "noCitizensWithLocations": "No citizens have location data available",
+            "distance": "Distance",
+            "instructions": "Blue lines connect your current location to each citizen's address. Click on markers to see details.",
+            "locatingAddress": "Getting your location"
         }
     },
     "children": {
@@ -2396,6 +2467,92 @@
                 "deleteDiagnosisConfirmation": "Er du sikker på, at du vil slette denne diagnose"
             },
             "name": "Navn"
+        }
+    },
+    "dutyShiftRules": {
+        "dutyShiftRules": "Vagtregler",
+        "newDutyShiftRule": "Ny vagtregel",
+        "editDutyShiftRule": "Rediger vagtregel",
+        "form": {
+            "dutyShiftRuleName": "Navn",
+            "periodDays": "Retrospektivt tidsvindue (dage tilbage)",
+            "periodDaysBackInfo1":"Dette angiver, hvor mange dage tilbage i tiden reglen skal se for at evaluere betingelserne.",
+            "periodDaysBackInfo2":"For eksempel, hvis du indstiller det til 30, vil reglen evaluere medarbejderens vagter i de sidste 30 dage for at afgøre, om betingelserne er opfyldt.",
+            "anchorDate": "Ankerdato",
+            "anchorDateOptional": "nuværende dato som standard",
+            "addAnchorDate": "Tilføj ankerdato",
+            "anchorDateCheckboxHint": "Aktivér via \"Tilføj ankerdato\"-afkrydsningsfeltet i formularen.",
+            "active": "Aktiv",
+            "inactive": "Inaktiv",
+            "status": "Status",
+            "periodFilter": "Periodefilter",
+            "evaluatingShiftsFrom": "Evaluerer vagter fra",
+            "to": "til",
+            "periodInfoAnchorDesc": "Slutpunktet for periodefilteret. Lad feltet stå tomt for at bruge dags dato — denne er dynamisk og opdateres automatisk hver dag, så periodefilteret rykker sig fremad dag for dag. Hvis det er sat, beregnes perioden tilbage fra den faste dato i stedet.",
+            "periodInfoHowTitle": "Sådan fungerer de sammen",
+            "periodInfoHowDesc": "Reglen evaluerer vagter inden for et periodefilter, der starter ved (ankerdato − periode i dage) og slutter ved ankerdatoen.",
+            "periodInfoFormula": "periodefilter start = ankerdato − periode (dage)",
+            "conditionType": "Betingelsestype",
+            "conditionTypeInfoCountDesc": "Udløses når en medarbejder har arbejdet den valgte vagttype mindst X gange inden for periodefilteret.",
+            "conditionTypeInfoConsecutiveDesc": "Udløses når en medarbejder har arbejdet den valgte vagttype på sammenhængende dage inden for periodefilteret.",
+            "conditionTypeInfoThresholdTitle": "Tærskel",
+            "conditionTypeInfoThresholdDesc": "Det mindste antal forekomster eller sammenhængende dage, der kræves for at udløse reglen.",
+            "conditionTypes": {
+                "count": "Antal forekomster",
+                "consecutive": "Sammenhængende forekomster"
+            },
+            "threshold": "Minimumsantal",
+            "consecutiveDays": "Sammenhængende dage",
+            "shiftTypes": "Vagttyper",
+            "recipientType": "Modtagertype",
+            "recipientTypes": {
+                "role": "Rolle",
+                "user": "Bruger"
+            },
+            "roles": "Roller",
+            "users": "Brugere",
+            "scopeDepartments": "Afdeling (omfang)",
+            "scopeJobTitles": "Jobtitel (omfang)",
+            "scopeEmployees": "Medarbejder (omfang)",
+            "scopeConditions": "Omfangsbetingelser",
+            "scopeConditionsInfoWhatTitle": "Hvad er omfangsbetingelser?",
+            "scopeConditionsInfoWhatDesc": "Begræns hvilke medarbejdere denne regel gælder for ved at filtrere på afdeling, jobtitel eller specifikke medarbejdere. Hvis ingen betingelser er tilføjet, gælder reglen for alle medarbejdere.",
+            "scopeConditionsInfoAndTitle": "OG-operator",
+            "scopeConditionsInfoAndDesc": "Medarbejderen skal opfylde alle betingelser.",
+            "scopeConditionsInfoOrTitle": "ELLER-operator",
+            "scopeConditionsInfoOrDesc": "Medarbejderen skal opfylde mindst én betingelse.",
+            "noScopeConditions": "Ingen omfangsbetingelser tilføjet. Reglen gælder for alle medarbejdere.",
+            "addScopeCondition": "Tilføj omfangsbetingelse",
+            "scopeConditionTypes": {
+                "department": "Afdeling",
+                "job_title": "Jobtitel",
+                "employee": "Medarbejder"
+            },
+            "scopeOperators": {
+                "and": "OG",
+                "or": "ELLER"
+            },
+            "alert": {
+                "newDutyShiftRuleSuccessfullySaved": "Ny vagtregel gemt med succes",
+                "dutyShiftRuleSuccessfullyUpdated": "Vagtregel opdateret med succes"
+            }
+        },
+        "table": {
+            "dutyShiftRuleName": "Navn",
+            "periodDays": "Periode (dage)",
+            "conditionType": "Betingelsestype",
+            "timeWindow": "Tidsvindue",
+            "isActive": "Aktiv",
+            "actions": {
+                "edit": "Rediger",
+                "delete": "Slet"
+            },
+            "alert": {
+                "dutyShiftRuleSuccessfullyDeleted": "Vagtregel slettet med succes"
+            },
+            "confirmation": {
+                "deleteDutyShiftRuleConfirmation": "Er du sikker på, at du vil slette denne vagtregel"
+            }
         }
     },
     "dosageForms": {
@@ -4118,6 +4275,14 @@
             "title": "Titel"
         }
     },
+    "dutyShiftRuleNotifications": {
+        "title": "Vagtregel Notifikationer",
+        "markAllAsRead": "Markér alle som læst",
+        "triggeredEmployee": "Udløst af",
+        "shiftType": "Vagttype",
+        "timeWindow": "Tidsvindue",
+        "empty": "Du har ingen vagtregel notifikationer"
+    },
     "journalNotifications": {
         "createdBy": "Oprettet af",
         "markAllAsRead": "Markér alle som læst",
@@ -4557,7 +4722,36 @@
         "reminders": "Påmindelser",
         "subscription": "Abonnement",
         "settings": "Indstillinger",
-        "switchLanguage": "Skift sprog"
+        "switchLanguage": "Skift sprog",
+        "notifications": "Notifikationer"
+    },
+    "bellNotification": {
+        "title": "Notifikationer",
+        "markAllAsRead": "Markér alle som læst",
+        "loadMore": "Indlæs flere",
+        "loadingMore": "Indlæser...",
+        "empty": {
+            "title": "Ingen notifikationer",
+            "subtitle": "Du er helt opdateret!"
+        },
+        "categories": {
+            "all": "Alle",
+            "plansGoals": "Planer & Mål",
+            "dutyShift": "Vagtregel",
+            "notes": "Notater",
+            "schedule": "Skema",
+            "incidents": "Hændelser",
+            "reminders": "Påmindelser",
+            "messages": "Beskeder",
+            "other": "Andet"
+        },
+        "time": {
+            "justNow": "Lige nu",
+            "minutesAgo": "{count} min. siden",
+            "hoursAgo": "{count} t. siden",
+            "yesterday": "I går",
+            "daysAgo": "{count} dage siden"
+        }
     },
     "news": {
         "editNews": "Rediger nyheder",
@@ -5697,6 +5891,7 @@
             "customPages": "Ordliste",
             "departments": "Afdelinger",
             "diagnoses": "Diagnoser",
+            "dutyShiftRules": "Vagtregler",
             "dosageForms": "Doseringsformer",
             "employeeGroups": "Medarbejdergrupper",
             "expenseCategories": "Udgiftskategorier",

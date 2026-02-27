@@ -84,6 +84,14 @@ watch(() => userStore.getUser, (newValue: any) => {
                 ]
             },
             {
+                name: 'settings.tabs.dutyShiftRules',
+                isTranslateName: true,
+                href: `/settings/duty-shift-rules`,
+                routeNames: [
+                    'settings-duty-shift-rules'
+                ]
+            },
+            {
                 name: 'settings.tabs.dosageForms',
                 isTranslateName: true,
                 href: `/settings/dosage-forms`,
@@ -271,6 +279,9 @@ function changeTab(value: any) {
     }
     else if (value === '/settings/diagnoses') {
         navigateTo(`/settings/diagnoses`)
+    }
+    else if (value === '/settings/duty-shift-rules') {
+        navigateTo(`/settings/duty-shift-rules`)
     }
     else if (value === '/settings/employee-groups') {
         navigateTo(`/settings/employee-groups`)
