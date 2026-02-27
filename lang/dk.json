@@ -4250,6 +4250,13 @@
             "title": "Titel"
         }
     },
+    "dutyShiftRuleNotifications": {
+        "title": "Vagtregel Notifikationer",
+        "markAllAsRead": "Markér alle som læst",
+        "triggeredEmployee": "Udløst af",
+        "shiftType": "Vagttype",
+        "empty": "Du har ingen vagtregel notifikationer"
+    },
     "journalNotifications": {
         "createdBy": "Oprettet af",
         "markAllAsRead": "Markér alle som læst",

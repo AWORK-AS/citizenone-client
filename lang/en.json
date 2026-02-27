@@ -4247,6 +4247,13 @@
             "title": "Title"
         }
     },
+    "dutyShiftRuleNotifications": {
+        "title": "Duty Shift Rule Notifications",
+        "markAllAsRead": "Mark all as read",
+        "triggeredEmployee": "Triggered by",
+        "shiftType": "Shift type",
+        "empty": "You don't have any duty shift rule notifications"
+    },
     "journalNotifications": {
         "createdBy": "Created by",
         "markAllAsRead": "Mark all as read",

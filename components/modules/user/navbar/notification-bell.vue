@@ -146,6 +146,7 @@ function splitPascalCase(str: string): string {
 
 function getNotifTitle(notif: any): string {
     const data = notif.data ?? {}
+    if (data.name) return data.name
     if (data.rule_name) return data.rule_name
     if (data.title) return data.title
     if (data.subject) return data.subject
@@ -158,6 +159,10 @@ function getNotifTitle(notif: any): string {
 
 function getNotifDescription(notif: any): string {
     const data = notif.data ?? {}
+    if (data.content?.triggered_employee) {
+        const emp = data.content.triggered_employee
+        return `${emp.firstname} ${emp.lastname}`.trim()
+    }
     if (data.triggered_employee) return data.triggered_employee
     if (data.note) return data.note
     if (data.message) return data.message
@@ -197,7 +202,7 @@ async function fetchAllNotifications() {
 async function fetchAllDutyShiftRuleNotifications() {
     state.isLoading = true
     try {
-        const response = await notificationService.getNotifications({ page_length: PAGE_LENGTH, page: 1, type: 'duty_shift' })
+        const response = await notificationService.getNotifications({ page_length: PAGE_LENGTH, page: 1, type: 'DutyShiftRule' })
         if (response) {
             notifications.value = response?.data ?? []
             state.hasMore = (response?.last_page ?? 1) > 1
@@ -238,6 +243,11 @@ async function loadMore() {
 }
 
 async function handleNotifClick(notif: any) {
+    if (getCategory(notif.type) === 'duty_shift') {
+        isOpen.value = false
+        navigateTo('/duty-shift-rule-notifications')
+        return
+    }
     if (!notif.read_at) {
         try {
             const response = await notificationService.markAsRead(notif.id)
