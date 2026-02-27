@@ -112,10 +112,13 @@
                 <div class="space-y-1">
                     <div class="flex justify-between items-center py-0.5">
                         <FormLabel for="street" :label="$t('citizens.form.street')" />
-                        <span class="text-xs cursor-pointer text-tertiary hover:text-tertiary-800"
-                            @click="state.modal.isLocateCitizenOpen = true">
-                            {{ $t('citizens.form.locateCitizen') }}
-                        </span>
+                        <div class="flex gap-x-1 items-center"  @click="state.modal.isLocateCitizenOpen = true">
+                            <Icon name="ph:map-pin" class="text-tertiary w-4 h-4" />
+                            <span class="text-xs cursor-pointer text-tertiary hover:text-tertiary-800"
+                               >
+                                {{ $t('citizens.form.locateCitizen') }}
+                            </span>
+                        </div>
                     </div>
                     <FormTextField id="street" name="street" :placeholder="$t('citizens.form.street')"
                         v-model="state.formCitizen.street" />
