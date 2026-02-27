@@ -836,7 +836,9 @@
                     "useCurrentLocation": "Brug nuværende placering",
                     "locating": "Finder din placering...",
                     "searchAddress": "Søg adresse",
-                    "centerMap": "Centrer kort"
+                    "centerMap": "Centrer kort",
+                    "selectLocation": "Vælg placering",
+                    "kilometers": "Kilometer"
                 },
                 "errors": {
                     "geolocationNotSupported": "Geolocation understøttes ikke i denne browser.",
@@ -3540,7 +3542,8 @@
             "role": "Rolle",
             "showWorkingHours": "Vis arbejdstimer",
             "seniorityDate": "Anciennitetsdato",
-            "street": "Gade"
+            "street": "Gade",
+            "registerTransportEnabled": "Registrer transport"
         },
         "importEmployees": {
             "alert": {

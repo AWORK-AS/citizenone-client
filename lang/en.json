@@ -836,7 +836,9 @@
                     "useCurrentLocation": "Use current location",
                     "locating": "Locating...",
                     "searchAddress": "Search address",
-                    "centerMap": "Center map"
+                    "centerMap": "Center map",
+                    "selectLocation": "Select location",
+                    "kilometers": "Kilometers"
                 },
                 "errors": {
                     "geolocationNotSupported": "Geolocation is not supported by this browser.",
@@ -3540,7 +3542,8 @@
             "role": "Role",
             "showWorkingHours": "Show working hours",
             "seniorityDate": "Seniority date",
-            "street": "Street"
+            "street": "Street",
+            "registerTransportEnabled": "Register transport"
         },
         "importEmployees": {
             "alert": {

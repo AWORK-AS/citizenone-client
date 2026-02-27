@@ -345,28 +345,32 @@ const workCheckState = reactive({
     hasShownPrompt: false,
 })
 
+const isTransportRegistrationEnabled = computed(() => {
+    return userStore.getUser?.register_transport_enabled === true
+})
+
 onMounted(() => {
     fetchCitizens()
 
-    // Restore location tracking
-    const savedLocationState = locationTracking.getSavedTrackingState()
-    if (savedLocationState && savedLocationState.isTracking && savedLocationState.careHourUuid) {
-        nextTick(() => {
-            const trackingCitizen = state.citizens?.data?.find(
-                (c: any) => c.uuid === savedLocationState.citizenUuid && c.is_checked_in
-            )
-            
-            if (trackingCitizen && savedLocationState.careHourUuid) {
-                state.selectedCitizen = trackingCitizen
-                arrivalCheckState.hasShownPrompt = locationTracking.getArrivalPromptShown()
-                startLocationTracking(savedLocationState.careHourUuid)
-            } else {
-                locationTracking.stopTracking()
-            }
-        })
+    if (isTransportRegistrationEnabled.value) {
+        const savedLocationState = locationTracking.getSavedTrackingState()
+        if (savedLocationState && savedLocationState.isTracking && savedLocationState.careHourUuid) {
+            nextTick(() => {
+                const trackingCitizen = state.citizens?.data?.find(
+                    (c: any) => c.uuid === savedLocationState.citizenUuid && c.is_checked_in
+                )
+                
+                if (trackingCitizen && savedLocationState.careHourUuid) {
+                    state.selectedCitizen = trackingCitizen
+                    arrivalCheckState.hasShownPrompt = locationTracking.getArrivalPromptShown()
+                    startLocationTracking(savedLocationState.careHourUuid)
+                } else {
+                    locationTracking.stopTracking()
+                }
+            })
+        }
     }
     
-    // Restore work time tracking
     const savedWorkState = workTimeTracking.getSavedWorkTimeState()
     if (savedWorkState && savedWorkState.isWorking && savedWorkState.careHourUuid) {
         console.log('Restoring work time tracking from localStorage')
@@ -396,6 +400,7 @@ watch(() => departmentStore.getSelectedDepartmentName, (newValue: any) => {
 watch(
     () => locationTracking.currentLocation.value,
     (newLocation) => {
+        if (!isTransportRegistrationEnabled.value) return
         if (!newLocation || !state.selectedCitizen?.is_checked_in) return
         if (!state.selectedCitizen?.current_care_hour?.is_transportation) return
         if (arrivalCheckState.hasShownPrompt) return
@@ -505,6 +510,8 @@ function onWorkDismissed() {
 }
 
 function startLocationTracking(careHourUuid: string) {
+    if (!isTransportRegistrationEnabled.value) return
+    
     arrivalCheckState.hasShownPrompt = locationTracking.getArrivalPromptShown()
     
     locationTracking.startTracking(
@@ -630,7 +637,7 @@ function toggleLogin(citizen: any) {
     if (!citizen?.is_checked_in) {
         selectTimeInType()
     } else {
-        if (citizen?.current_care_hour?.is_transportation) {
+        if (citizen?.current_care_hour?.is_transportation && isTransportRegistrationEnabled.value) {
             openTransportLogout()
         } else {
             workLogout()
@@ -639,6 +646,11 @@ function toggleLogin(citizen: any) {
 }
 
 function selectTimeInType() {
+    if (!isTransportRegistrationEnabled.value) {
+        workLogin()
+        return
+    }
+    
     state.modal.isTimeInTypeModalOpen = true
 }
 
@@ -671,16 +683,31 @@ async function workLogin() {
 }
 
 function openTransportLogin() {
+    if (!isTransportRegistrationEnabled.value) {
+        console.warn('Transport registration is disabled')
+        return
+    }
+    
     state.modal.isTimeInTypeModalOpen = false
     state.modal.isTransportLoginOpen = true
 }
 
 function openTransportLogout() {
+    if (!isTransportRegistrationEnabled.value) {
+        console.warn('Transport registration is disabled')
+        return
+    }
+    
     state.modal.isTimeInTypeModalOpen = false
     state.modal.isTransportLogoutOpen = true
 }
 
 async function transportLogin(transportLoginDetails: any) {
+    if (!isTransportRegistrationEnabled.value) {
+        console.error('Transport registration is disabled')
+        return
+    }
+    
     state.error = {}
     state.isTableLoading = true
     try {
@@ -730,6 +757,11 @@ async function workLogout() {
 }
 
 async function transportLogout(transportLogoutDetails: any) {
+    if (!isTransportRegistrationEnabled.value) {
+        console.error('Transport registration is disabled')
+        return
+    }
+    
     state.error = {}
     state.isTableLoading = true
     try {
