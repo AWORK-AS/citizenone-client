@@ -6771,7 +6771,8 @@
             },
             "summary": "Time summary"
         },
-        "timeLogs": "Time Logs"
+        "timeLogs": "Time Logs",
+        "interventionHours": "Intervention Hours"
     },
     "timeRegistration": {
         "checkIn": "Check in",
