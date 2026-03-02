@@ -5,6 +5,14 @@ class InterventionHoursService extends BaseAPIService {
         return await this.request(`/user/citizen-care-hours`, 'GET', params)
     }
 
+    async getAllInterventionHours(params: any): Promise<any> {
+        return await this.request(`/user/citizen-care-hours/all/list`, 'GET', params)
+    }
+
+    async getByEmployeeInterventionHours(employeeUuid: any, params: any): Promise<any> {
+        return await this.request(`/user/citizen-care-hours/employee/${employeeUuid}`, 'GET', params)
+    }
+
     async saveInterventionHours(params: object): Promise<any> {
         return await this.request(`/user/citizen-care-hours`, 'POST', params)
     }
