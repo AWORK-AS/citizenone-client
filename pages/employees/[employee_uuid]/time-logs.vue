@@ -33,11 +33,15 @@
                             </button>
                         </div>
                         <div class="flex flex-wrap items-center justify-end gap-3">
+                            <FormButton buttonStyle="action" class="rounded-lg" @click="viewInterventionHours">
+                                <Icon name="ph:clock" class="h-4 w-4" aria-hidden="true" />
+                                {{ $t('timeLogs.interventionHours') }}
+                            </FormButton>
                             <FormButton buttonStyle="action" class="rounded-lg"
                                 @click="state.modal.isAddNewTimeLogOpen = true">
                                 <Icon name="ph:plus" class="h-4 w-4" aria-hidden="true" />
                                 {{ $t('timeLogs.newTimeLog') }}
-                            </FormButton>
+                            </FormButton>    
                             <FormButton buttonStyle="action" class="rounded-lg"
                                 @click="state.modal.isDownloadTimeLogsOpen = true">
                                 <Icon name="ph:download" class="h-4 w-4" aria-hidden="true" />
@@ -122,6 +126,7 @@
             <ModulesUserTimeRegistrationModalEdit :isModalOpen="state.modal.isEditTimeLogOpen"
                 :selectedTimeLog="state.selectedTimeLog" @close="state.modal.isEditTimeLogOpen = false"
                 @refreshTimeLogs="fetchTimeLogs" />
+            <ModulesUserSettingsTimeLogsInterventionHoursEmployeeModal v-if="employeeUuid" :employeeUuid="employeeUuid.toString()" :isModalOpen="state.modal.isInterventionHoursOpen" @close="state.modal.isInterventionHoursOpen = false" />
             <DialogConfirmation :isModalOpen="state.modal.isDeleteTimeLogConfirmationOpen"
                 :message="`${$t('timeLogs.table.confirmation.deleteTimeLogConfirmation')}?`"
                 @close="state.modal.isDeleteTimeLogConfirmationOpen = false" @confirm="deleteTimeLog" />
@@ -178,6 +183,7 @@ const state = reactive({
         isDownloadTimeLogsOpen: false,
         isEditTimeLogOpen: false,
         isFilterTimeLogsOpen: false,
+        isInterventionHoursOpen: false
     },
     selectedTimeLog: {} as any,
     sortData: {
@@ -259,5 +265,9 @@ async function deleteTimeLog() {
 function setFilter(filter: any) {
     state.filter.statuses = filter.statuses
     fetchTimeLogs()
+}
+
+function viewInterventionHours() {
+    state.modal.isInterventionHoursOpen = true
 }
 </script>
