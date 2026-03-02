@@ -4,23 +4,19 @@ export default defineEventHandler(async (event) => {
 
   const authHeader = getHeader(event, 'authorization') || getCookie(event, '_token')
   const token = authHeader?.replace('Bearer ', '') || ''
-  const body = await readBody(event)
 
   try {
-    return await $fetch(`${baseURL}/zenegy/supplement-registrations/bulk`, {
-      method: 'POST',
+    return await $fetch(`${baseURL}/user/zenegy/employees`, {
+      method: 'GET',
       headers: {
         'Authorization': `Bearer ${token}`,
         'Accept': 'application/json',
       },
-      body,
     })
   } catch (error: any) {
-    const responseData = error?.data || error?.response?._data || null
-    console.error('[Zenegy supplement registrations] Backend error:', JSON.stringify(responseData))
     throw createError({
       statusCode: error.statusCode || 500,
-      message: JSON.stringify(responseData) || error.message || 'Failed to sync supplement registrations to Zenegy',
+      message: error.message || 'Failed to fetch Zenegy employees',
     })
   }
 })

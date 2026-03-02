@@ -7,7 +7,7 @@ export default defineEventHandler(async (event) => {
   const body = await readBody(event)
 
   try {
-    return await $fetch(`${baseURL}/zenegy/registrations/bulk`, {
+    return await $fetch(`${baseURL}/user/zenegy/registrations/bulk`, {
       method: 'POST',
       headers: {
         'Authorization': `Bearer ${token}`,

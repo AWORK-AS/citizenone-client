@@ -6,7 +6,7 @@ export default defineEventHandler(async (event) => {
   const token = authHeader?.replace('Bearer ', '') || ''
 
   try {
-    return await $fetch(`${baseURL}/zenegy/rates`, {
+    return await $fetch(`${baseURL}/user/zenegy/rates`, {
       method: 'GET',
       headers: {
         'Authorization': `Bearer ${token}`,

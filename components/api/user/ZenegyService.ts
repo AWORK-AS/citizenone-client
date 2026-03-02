@@ -4,7 +4,7 @@ class ZenegyService extends BaseAPIService {
     async getAuthorizationUrl(): Promise<any> {
         // Call the Nuxt server API route which will proxy to the backend
         const token = localStorage.getItem('_token')
-        return await $fetch('/api/zenegy/authorize', {
+        return await $fetch('/api/user/zenegy/authorize', {
             method: 'GET',
             headers: {
                 'Authorization': `Bearer ${token}`,
@@ -15,7 +15,7 @@ class ZenegyService extends BaseAPIService {
 
     async getZenegyStatus(): Promise<any> {
         const token = localStorage.getItem('_token')
-        return await $fetch('/api/zenegy/status', {
+        return await $fetch('/api/user/zenegy/status', {
             method: 'GET',
             headers: {
                 'Authorization': `Bearer ${token}`,
@@ -26,7 +26,7 @@ class ZenegyService extends BaseAPIService {
 
     async getEmployees(): Promise<any> {
         const token = localStorage.getItem('_token')
-        return await $fetch('/api/zenegy/employees', {
+        return await $fetch('/api/user/zenegy/employees', {
             method: 'GET',
             headers: {
                 'Authorization': `Bearer ${token}`,
@@ -37,7 +37,7 @@ class ZenegyService extends BaseAPIService {
 
     async getRates(): Promise<any> {
         const token = localStorage.getItem('_token')
-        return await $fetch('/api/zenegy/rates', {
+        return await $fetch('/api/user/zenegy/rates', {
             method: 'GET',
             headers: {
                 'Authorization': `Bearer ${token}`,
@@ -48,7 +48,7 @@ class ZenegyService extends BaseAPIService {
 
     async syncRegistrations(registrations: any[]): Promise<any> {
         const token = localStorage.getItem('_token')
-        return await $fetch('/api/zenegy/registrations', {
+        return await $fetch('/api/user/zenegy/registrations', {
             method: 'POST',
             headers: {
                 'Authorization': `Bearer ${token}`,
@@ -60,7 +60,7 @@ class ZenegyService extends BaseAPIService {
 
     async getSupplementRates(): Promise<any> {
         const token = localStorage.getItem('_token')
-        return await $fetch('/api/zenegy/supplement-rates', {
+        return await $fetch('/api/user/zenegy/supplement-rates', {
             method: 'GET',
             headers: {
                 'Authorization': `Bearer ${token}`,
@@ -71,7 +71,7 @@ class ZenegyService extends BaseAPIService {
 
     async syncSupplementRegistrations(registrations: any[]): Promise<any> {
         const token = localStorage.getItem('_token')
-        return await $fetch('/api/zenegy/supplement-registrations', {
+        return await $fetch('/api/user/zenegy/supplement-registrations', {
             method: 'POST',
             headers: {
                 'Authorization': `Bearer ${token}`,
@@ -83,7 +83,7 @@ class ZenegyService extends BaseAPIService {
 
     async disconnectZenegy(): Promise<any> {
         const token = localStorage.getItem('_token')
-        return await $fetch('/api/zenegy/disconnect', {
+        return await $fetch('/api/user/zenegy/disconnect', {
             method: 'POST',
             headers: {
                 'Authorization': `Bearer ${token}`,

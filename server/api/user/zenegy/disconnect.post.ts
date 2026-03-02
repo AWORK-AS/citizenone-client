@@ -6,8 +6,8 @@ export default defineEventHandler(async (event) => {
   const token = authHeader?.replace('Bearer ', '') || ''
 
   try {
-    return await $fetch(`${baseURL}/zenegy/employees`, {
-      method: 'GET',
+    return await $fetch(`${baseURL}/user/zenegy/disconnect`, {
+      method: 'POST',
       headers: {
         'Authorization': `Bearer ${token}`,
         'Accept': 'application/json',
@@ -16,7 +16,7 @@ export default defineEventHandler(async (event) => {
   } catch (error: any) {
     throw createError({
       statusCode: error.statusCode || 500,
-      message: error.message || 'Failed to fetch Zenegy employees',
+      message: error.message || 'Failed to disconnect Zenegy',
     })
   }
 })
