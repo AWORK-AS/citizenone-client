@@ -514,8 +514,8 @@
                                         <!-- v-if="!isDailyScheduleCopied(employeeIndex, weekIndex, weekNumber)"> -->
                                         <div v-for="day in monthDays"
                                             :key="employee.uuid + '_' + day.format('YYYY-MM-DD')" :class="[
-                                                !isDailyScheduleCopiedEmpty() && state.copy.selectedEmployeeDailySchedule?.day === day.format('YYYY-MM-DD') && state.copy.selectedEmployeeDailySchedule?.employeeIndex === employeeIndex && 'border-1.5 border-dashed border-gray-700',
-                                                !isDailyScheduleCopiedEmpty() && (employeeIndex !== state.copy.selectedEmployeeDailySchedule.employeeIndex || day.format('YYYY-MM-DD') !== state.copy.selectedEmployeeDailySchedule.date) && 'cursor-copy relative group',
+                                                isCellCopied(employee, day) && 'border-1.5 border-dashed border-gray-700',
+                                                !isDailyScheduleCopiedEmpty() && !isCellCopied(employee, day) && 'cursor-copy relative group',
                                                 hasConflict(state.monthlySchedules?.data?.[employeeIndex]?.days?.[moment(day).format('YYYY-MM-DD')]?.shifts) && 'border-1.5 border-red-500 rounded-md',
                                                 'p-3 border-r-1.5 border-gray-100 min-h-[92px]'
                                             ]"
@@ -596,8 +596,6 @@
                                                             'rounded-md p-1 relative mb-2.5'
                                                         ]" :style="{
                                                             backgroundColor: `${shift?.type?.color}`,
-                                                            // width: `${calculateShiftWidth(shift, weekIndex.toString())}`,
-                                                            // marginTop: `${calculateMarginTop(employee?.weeks, weekIndex.toString(), shiftIndex)}rem`
                                                         }">
                                                         <div class="absolute -left-1 -top-1 z-10 w-4 h-4 rounded-full bg-white border-0.5 border-gray-300 flex items-center justify-center text-xxs"
                                                             v-if="shift?.type?.system_name === 'sick-leave'">
@@ -737,11 +735,7 @@
                                                 </div>
                                             </div>
                                             <div class="flex flex-col items-center space-y-2 mt-3 cursor-pointer"
-                                                @click="stopCopying()"
-                                                v-if="!isDailyScheduleCopiedEmpty() &&
-                                                    employee?.uuid === state.copy.selectedEmployeeDailySchedule.employee?.uuid &&
-                                                    day.format('YYYY-MM-DD') === state.copy.selectedEmployeeDailySchedule.date &&
-                                                    dutyScheduleStore.getCurrentPageNumber === state.copy.selectedEmployeeDailySchedule.currentTablePage">
+                                                @click="stopCopying()" v-if="isCellCopied(employee, day)">
                                                 <p class="text-center text-sm">
                                                     {{ $t('dutySchedules.copyPaste.stopCopying') }}
                                                 </p>
@@ -873,6 +867,9 @@ const monthDays = computed(() => {
     const start = moment(currentDate.value).startOf('month')
     return Array.from({ length: daysInMonth.value }, (_, i) => start.clone().add(i, 'day'))
 })
+
+let lastScrollTop = 0
+const headerHeight = 395  // The height of the header
 
 const state = reactive({
     addShift: {
@@ -1026,10 +1023,103 @@ watch(() => dutyScheduleStore.getShowEmployeesWorkingToday, (status: boolean) =>
     fetchDutySchedule()
 })
 
+watch(() => state.monthlySchedules, (newSchedules) => {
+    // reset map
+    for (const k of Object.keys(employeeShiftsByDate)) delete employeeShiftsByDate[k]
+    if (!newSchedules?.data) return
+
+    for (const employee of newSchedules.data) {
+        employeeShiftsByDate[employee.uuid] = {}
+
+        const dayItems = coerceToDayArray(employee)
+
+        for (const d of dayItems) {
+            // Try to locate the date string
+            const dateKey =
+                d?.date ??
+                d?.full_date ??
+                d?.day ??
+                d?.date_key
+
+            if (!dateKey) continue
+
+            // shifts could be on d.shifts, or nested
+            const shifts =
+                (Array.isArray(d?.shifts) ? d.shifts : null) ??
+                (Array.isArray(d?.data?.shifts) ? d.data.shifts : null) ??
+                []
+
+            employeeShiftsByDate[employee.uuid][dateKey] = shifts
+        }
+    }
+}, { deep: true })
+
+watch(() => departmentStore.getSelectedDepartmentName, (newValue: any) => {
+    if (newValue != null) {
+        dutyScheduleStore.setCurrentPageNumber(1)
+        fetchDutySchedule()
+    }
+})
+
+watch(() => state.selectedDate, (newSelectedDate: any) => {
+    if (newSelectedDate) {
+        currentDate.value = moment(newSelectedDate)
+        fetchDutySchedule()
+        emit('setDutyScheduleCurrentDate', state.selectedDate)
+    }
+})
+
+watch(() => dutyScheduleStore.getShowEmployeesWorkingToday, (status: boolean) => {
+    dutyScheduleStore.setShowEmployeesWorkingToday(status)
+    fetchDutySchedule()
+})
+
+watch(() => state.monthlySchedules, (newSchedules) => {
+    // Update the expanded records only if the number of records changes.
+    if (newSchedules && newSchedules.data.length !== expandedRecords.length) {
+        expandedRecords.splice(0, expandedRecords.length, ...newSchedules.data.map(() => true))
+    }
+})
+
+onMounted(() => {
+    fetchDutySchedule()
+    window.addEventListener('keydown', handleKeyDown)
+})
+
+onBeforeUnmount(() => {
+    window.removeEventListener('keydown', handleKeyDown)
+})
+
+onMounted(() => {
+    window.addEventListener('scroll', handleScroll)
+})
+
+onBeforeUnmount(() => {
+    window.removeEventListener('scroll', handleScroll)
+})
+
 function handleKeyDown(event: KeyboardEvent) {
     if (event.key === 'Escape') {
         stopCopying()
     }
+}
+
+function handleScroll() {
+    const header = document.getElementById('fixed-header-month-view')
+    if (!header) return
+
+    const currentScroll = window.pageYOffset || document.documentElement.scrollTop
+
+    // If scrolling down and we reach the bottom of the header
+    if (currentScroll > headerHeight) {
+        header.classList.add('fixed-header-month-view-top')
+    } else {
+        // If scrolling up, remove the fixed position
+        header.classList.remove('fixed-header-month-view-top')
+    }
+
+    // Update the last scroll position for the next scroll event
+    lastScrollTop = currentScroll <= 0 ? 0 : currentScroll // Prevent negative scroll
 }
 
 function isAdmin(role: any) {
@@ -1049,65 +1139,6 @@ function sortMultiDayShiftsFirst(shifts: any) {
         return 0
     })
     return sortedShifts
-}
-
-function calculateShiftWidth(shift: any, weekIndex: string) {
-    const shiftStart = moment(shift.date_time_start).startOf('day')
-    const shiftEnd = moment(shift.date_time_end).startOf('day')
-
-    const weekStart = moment(currentDate.value).startOf('isoWeek')
-    const weekEnd = moment(currentDate.value).endOf('isoWeek')
-
-    // Clamp the shift range to the current week range
-    const visibleStart = shiftStart.isBefore(weekStart) ? weekStart : shiftStart
-    const visibleEnd = shiftEnd.isAfter(weekEnd) ? weekEnd : shiftEnd
-
-    let dayDifference = visibleEnd.diff(visibleStart, 'days')
-
-    // Special case: if shift ends at exactly 00:00, don't count the last day
-    const endsAtMidnight = moment(shift.date_time_end).format('HH:mm:ss') === '00:00:00'
-    if (endsAtMidnight) {
-        dayDifference--
-    }
-
-    if (weekIndex === 'sunday') return 'auto'
-
-    if (dayDifference <= 0) return 'auto'
-    if (dayDifference === 1) return '17.5rem'
-    if (dayDifference === 2) return '27rem'
-    if (dayDifference === 3) return '36.5rem'
-    if (dayDifference === 4) return '46rem'
-    if (dayDifference === 5) return '55.5rem'
-    return '65rem'
-}
-
-function calculateMarginTop(schedules: any, weekIndex: string, shiftIndex: number) {
-    const weekDaysOrder = ['monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday', 'sunday']
-    const dayIndex = weekDaysOrder.indexOf(weekIndex)
-
-    if (weekIndex === 'monday' || shiftIndex > 0) return 0 // If the current index is in the future, return 0
-
-    let overlapCount = 0
-
-    for (let i = 0; i <= dayIndex - 1; i++) {
-        const multiDayShift = getMultiDayShift(schedules[weekDaysOrder[i]]?.shifts)
-        if (multiDayShift) {
-            overlapCount += 1
-        }
-    }
-
-    return overlapCount > 0 ? 3.625 + (overlapCount - 1) * 3.125 : 0
-}
-
-function getMultiDayShift(shifts: any) {
-    return shifts?.find((shift: any) => {
-        const startDay = moment(shift.date_time_start).startOf('day')
-        const endDay = moment(shift.date_time_end).startOf('day')
-        const isMultiDay = endDay.diff(startDay, 'days') >= 1
-        const isExcluded = endDay.diff(startDay, 'days') === 1 && moment(shift.date_time_end).format('HH:mm:ss') === '00:00:00'
-
-        return isMultiDay && !isExcluded
-    })
 }
 
 const employeeShiftsByDate = reactive<Record<string, Record<string, any[]>>>({})
@@ -1175,37 +1206,6 @@ async function fetchDutySchedule() {
 
     state.isPageLoading = false
 }
-
-watch(() => state.monthlySchedules, (newSchedules) => {
-    // reset map
-    for (const k of Object.keys(employeeShiftsByDate)) delete employeeShiftsByDate[k]
-    if (!newSchedules?.data) return
-
-    for (const employee of newSchedules.data) {
-        employeeShiftsByDate[employee.uuid] = {}
-
-        const dayItems = coerceToDayArray(employee)
-
-        for (const d of dayItems) {
-            // Try to locate the date string
-            const dateKey =
-                d?.date ??
-                d?.full_date ??
-                d?.day ??
-                d?.date_key
-
-            if (!dateKey) continue
-
-            // shifts could be on d.shifts, or nested
-            const shifts =
-                (Array.isArray(d?.shifts) ? d.shifts : null) ??
-                (Array.isArray(d?.data?.shifts) ? d.data.shifts : null) ??
-                []
-
-            employeeShiftsByDate[employee.uuid][dateKey] = shifts
-        }
-    }
-}, { deep: true })
 
 function getEmployeeShiftsForDate(employee: any, dateKey: string) {
     return employeeShiftsByDate?.[employee.uuid]?.[dateKey] ?? []
@@ -1471,6 +1471,13 @@ function stopCopying() {
     state.copy.selectedEmployeeWeeklySchedule = {}
 }
 
+function isCellCopied(employee: any, day: any) {
+    return !isDailyScheduleCopiedEmpty() &&
+        employee?.uuid === state.copy.selectedEmployeeDailySchedule.employee?.uuid &&
+        moment(day).format('YYYY-MM-DD') === state.copy.selectedEmployeeDailySchedule.date &&
+        dutyScheduleStore.getCurrentPageNumber === state.copy.selectedEmployeeDailySchedule.currentTablePage
+}
+
 async function pasteEmployeeDailySchedule(employeeIndex: number, day: any) {
     const userSourceUuid = state.copy.selectedEmployeeDailySchedule.employee?.uuid
     const dateSource = state.copy.selectedEmployeeDailySchedule?.date
@@ -1660,64 +1667,6 @@ async function updateDutySchedule(scheduleUuid: any, params: object) {
     }
 }
 
-watch(() => departmentStore.getSelectedDepartmentName, (newValue: any) => {
-    if (newValue != null) {
-        dutyScheduleStore.setCurrentPageNumber(1)
-        fetchDutySchedule()
-    }
-})
-
-watch(() => state.selectedDate, (newSelectedDate: any) => {
-    if (newSelectedDate) {
-        currentDate.value = moment(newSelectedDate)
-        fetchDutySchedule()
-        emit('setDutyScheduleCurrentDate', state.selectedDate)
-    }
-})
-
-watch(() => dutyScheduleStore.getShowEmployeesWorkingToday, (status: boolean) => {
-    dutyScheduleStore.setShowEmployeesWorkingToday(status)
-    fetchDutySchedule()
-})
-
-onMounted(() => {
-    fetchDutySchedule()
-    window.addEventListener('keydown', handleKeyDown)
-})
-
-onBeforeUnmount(() => {
-    window.removeEventListener('keydown', handleKeyDown)
-})
-
-onMounted(() => {
-    window.addEventListener('scroll', handleScroll)
-})
-
-onBeforeUnmount(() => {
-    window.removeEventListener('scroll', handleScroll)
-})
-
-let lastScrollTop = 0
-const headerHeight = 395  // The height of the header
-
-function handleScroll() {
-    const header = document.getElementById('fixed-header-month-view')
-    if (!header) return
-
-    const currentScroll = window.pageYOffset || document.documentElement.scrollTop
-
-    // If scrolling down and we reach the bottom of the header
-    if (currentScroll > headerHeight) {
-        header.classList.add('fixed-header-month-view-top')
-    } else {
-        // If scrolling up, remove the fixed position
-        header.classList.remove('fixed-header-month-view-top')
-    }
-
-    // Update the last scroll position for the next scroll event
-    lastScrollTop = currentScroll <= 0 ? 0 : currentScroll // Prevent negative scroll
-}
-
 function isPreviousMonthDisabled() {
     if (!isAdmin(userStore.getUser?.role) && userStore.getUser?.company?.is_lock_past_schedules) {
         const thisMonthStart = moment().startOf('month')
@@ -1726,13 +1675,6 @@ function isPreviousMonthDisabled() {
     }
     return false
 }
-
-watch(() => state.monthlySchedules, (newSchedules) => {
-    // Update the expanded records only if the number of records changes.
-    if (newSchedules && newSchedules.data.length !== expandedRecords.length) {
-        expandedRecords.splice(0, expandedRecords.length, ...newSchedules.data.map(() => true))
-    }
-})
 
 async function dateTimeChange(employeeUuid: string, newDateTimeStart: string, newDateTimeEnd: string) {
     try {
