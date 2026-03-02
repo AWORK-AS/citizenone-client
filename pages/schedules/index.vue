@@ -55,11 +55,11 @@
                 </div>
             </template>
 
-            <!-- <div class="flex items-center gap-x-3">
-                <FormButton :buttonStyle="state.calendarView === 'default' ? 'primary' : ''"
+            <div class="flex items-center gap-x-3">
+                <!-- <FormButton :buttonStyle="state.calendarView === 'default' ? 'primary' : ''"
                     @click="setCalendarView('default')" class="rounded-md">
                     {{ $t('calendar.view.defaultView') }}
-                </FormButton>
+                </FormButton> -->
                 <FormButton :buttonStyle="state.calendarView === 'week' ? 'primary' : ''"
                     @click="setCalendarView('week')" class="rounded-md">
                     {{ $t('calendar.view.weekView') }}
@@ -68,10 +68,13 @@
                     @click="setCalendarView('month')" class="rounded-md">
                     {{ $t('calendar.view.monthView') }}
                 </FormButton>
-            </div> -->
+            </div>
 
-            <div class="-mt-4 space-y-5">
+            <div class="mt-4 space-y-5">
                 <ModulesUserDutyScheduleWeekView v-if="state.calendarView === 'week'"
+                    @setDutyScheduleCurrentDate="setDutyScheduleCurrentDate"
+                    @setDutyScheduleCurrentFilter="setDutyScheduleCurrentFilter" />
+                <ModulesUserDutyScheduleMonthView v-if="state.calendarView === 'month'"
                     @setDutyScheduleCurrentDate="setDutyScheduleCurrentDate"
                     @setDutyScheduleCurrentFilter="setDutyScheduleCurrentFilter" />
             </div>
@@ -101,7 +104,7 @@ const customPagesStore = useCustomPagesStore() as any
 const userStore = useUserStore() as any
 
 const state = reactive({
-    calendarView: 'week',
+    calendarView: 'month',
     filter: {
         department_uuids: [],
         employment_status: [],
@@ -116,6 +119,10 @@ const state = reactive({
     },
     selectedDate: moment().format('YYYY-MM-DD'),
 })
+
+function setCalendarView(view: any) {
+    state.calendarView = view
+}
 
 function openDutySchedulesActivityLogs() {
     state.modal.isActivityLogsOpen = true

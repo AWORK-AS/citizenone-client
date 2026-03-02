@@ -5,6 +5,10 @@ class DutyScheduleService extends BaseAPIService {
         return await this.request(`/user/duty-schedules`, 'GET', params)
     }
 
+    async getDutySchedulesMonthView(params: object): Promise<any> {
+        return await this.request(`/user/duty-schedules/monthly/view`, 'GET', params)
+    }
+
     async saveDutySchedule(params: object): Promise<any> {
         return await this.request(`/user/duty-schedules`, 'POST', params)
     }

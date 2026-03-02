@@ -305,7 +305,6 @@
                                     </div>
                                 </div>
 
-                                <!-- <div class="relative mt-0.5 overflow-y-auto" style="max-height: 82vh;" -->
                                 <div class="relative mt-0.5"
                                     @click="!isWeeklyScheduleCopied(weekNumber) && !isAllWeeklyScheduleCopiedEmpty() && !isPastWeek() && pasteWeeklySchedule(weekNumber)"
                                     :class="[
@@ -956,6 +955,7 @@ const dutyScheduleStore = useDutyScheduleStore() as any
 const userStore = useUserStore() as any
 const departmentStore = useDepartmentStore()
 const { formatNumber } = useNumberFormatter()
+
 const currentDate = ref(moment())
 const month = computed(() => currentDate.value.format('MMMM'))
 const year = computed(() => currentDate.value.format('YYYY'))
@@ -1764,7 +1764,7 @@ async function removeEntireShiftSpan() {
 
 function viewSchedule(employeeIndex: number, weekIndex: any, shift: any, shiftIndex: number) {
     const date = state.weeklySchedules?.data?.[employeeIndex].weeks[weekIndex].date
-    const userUuid = state.weeklySchedules?.data?.[employeeIndex].employee.uuid
+    const userUuid = state.weeklySchedules?.data?.[employeeIndex].uuid
     state.viewShift.selectedEmployeeSchedule = {
         citizen_schedules: shift?.citizen_schedules,
         scheduleUuid: shift?.schedule_uuid,
@@ -1912,12 +1912,6 @@ async function dateTimeChange(employeeUuid: string, newDateTimeStart: string, ne
 function closeWarningDialog() {
     state.showWarningDialog = false
     state.shiftWarnings = []
-}
-
-function openUserNormPeriodModal(employee: any) {
-    if (!isAdmin(userStore.getUser?.role)) return
-    state.normHours.selectedEmployee = employee
-    state.modal.isUserNormPeriodOpen = true
 }
 
 function openGraphModal(employee: any) {

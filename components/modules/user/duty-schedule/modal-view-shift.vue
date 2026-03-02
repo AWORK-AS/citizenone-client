@@ -29,7 +29,7 @@
                                 {{ $t('dutySchedules.viewSchedule.dateTimeEnd') }}:
                             </p>
                             <p class="text-sm">
-                                {{ formatDateTimeToReadable(props?.selectedEmployeeSchedule?.date_time_start) }}
+                                {{ formatDateTimeToReadable(props?.selectedEmployeeSchedule?.date_time_end) }}
                             </p>
                         </div>
                         <div class="space-y-1">
