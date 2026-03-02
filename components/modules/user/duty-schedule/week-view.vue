@@ -1922,7 +1922,7 @@ onBeforeUnmount(() => {
 })
 
 let lastScrollTop = 0
-const headerHeight = 270  // The height of the header
+const headerHeight = 395  // The height of the header
 
 function handleScroll() {
     const header = document.getElementById('fixed-header-week-view')

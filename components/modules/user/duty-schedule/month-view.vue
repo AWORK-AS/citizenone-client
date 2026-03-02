@@ -171,7 +171,7 @@
                                 <div class="min-w-max">
                                     <div class="grid border-b border-gray-200"
                                         :style="{ gridTemplateColumns: `305px repeat(${monthDays.length}, 153px)` }"
-                                        id="fixed-header-month-table">
+                                        id="fixed-header-month-view">
                                         <div class="sticky left-0 z-20 bg-white border-r border-gray-200">
                                             <div class="gap-x-2 px-3 pt-3" v-if="isAdmin(userStore.getUser?.role)">
                                                 <Tooltip :text="$t('dutySchedules.copy.copyMultipleWeeksSchedule')"
@@ -1660,27 +1660,6 @@ async function updateDutySchedule(scheduleUuid: any, params: object) {
     }
 }
 
-let lastScrollTop = 0
-const headerHeight = 270  // The height of the header
-
-function handleScroll() {
-    const header = document.getElementById('fixed-header-week-view')
-    if (!header) return
-
-    const currentScroll = window.pageYOffset || document.documentElement.scrollTop
-
-    // If scrolling down and we reach the bottom of the header
-    if (currentScroll > headerHeight) {
-        header.classList.add('fixed-header-week-view-top')
-    } else {
-        // If scrolling up, remove the fixed position
-        header.classList.remove('fixed-header-week-view-top')
-    }
-
-    // Update the last scroll position for the next scroll event
-    lastScrollTop = currentScroll <= 0 ? 0 : currentScroll // Prevent negative scroll
-}
-
 watch(() => departmentStore.getSelectedDepartmentName, (newValue: any) => {
     if (newValue != null) {
         dutyScheduleStore.setCurrentPageNumber(1)
@@ -1708,8 +1687,36 @@ onMounted(() => {
 
 onBeforeUnmount(() => {
     window.removeEventListener('keydown', handleKeyDown)
+})
+
+onMounted(() => {
+    window.addEventListener('scroll', handleScroll)
+})
+
+onBeforeUnmount(() => {
     window.removeEventListener('scroll', handleScroll)
 })
+
+let lastScrollTop = 0
+const headerHeight = 395  // The height of the header
+
+function handleScroll() {
+    const header = document.getElementById('fixed-header-month-view')
+    if (!header) return
+
+    const currentScroll = window.pageYOffset || document.documentElement.scrollTop
+
+    // If scrolling down and we reach the bottom of the header
+    if (currentScroll > headerHeight) {
+        header.classList.add('fixed-header-month-view-top')
+    } else {
+        // If scrolling up, remove the fixed position
+        header.classList.remove('fixed-header-month-view-top')
+    }
+
+    // Update the last scroll position for the next scroll event
+    lastScrollTop = currentScroll <= 0 ? 0 : currentScroll // Prevent negative scroll
+}
 
 function isPreviousMonthDisabled() {
     if (!isAdmin(userStore.getUser?.role) && userStore.getUser?.company?.is_lock_past_schedules) {
