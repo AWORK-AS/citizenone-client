@@ -511,11 +511,10 @@
                                             </div>
                                         </div>
 
-                                        <!-- v-if="!isDailyScheduleCopied(employeeIndex, weekIndex, weekNumber)"> -->
                                         <div v-for="day in monthDays"
                                             :key="employee.uuid + '_' + day.format('YYYY-MM-DD')" :class="[
-                                                isCellCopied(employee, day) && 'border-1.5 border-dashed border-gray-700',
-                                                !isDailyScheduleCopiedEmpty() && !isCellCopied(employee, day) && 'cursor-copy relative group',
+                                                isDailyScheduleCopied(employee, day) && 'border-1.5 border-dashed border-gray-700',
+                                                !isDailyScheduleCopiedEmpty() && !isDailyScheduleCopied(employee, day) && 'cursor-copy relative group',
                                                 hasConflict(state.monthlySchedules?.data?.[employeeIndex]?.days?.[moment(day).format('YYYY-MM-DD')]?.shifts) && 'border-1.5 border-red-500 rounded-md',
                                                 'p-3 border-r-1.5 border-gray-100 min-h-[92px]'
                                             ]"
@@ -735,7 +734,7 @@
                                                 </div>
                                             </div>
                                             <div class="flex flex-col items-center space-y-2 mt-3 cursor-pointer"
-                                                @click="stopCopying()" v-if="isCellCopied(employee, day)">
+                                                @click="stopCopying()" v-if="isDailyScheduleCopied(employee, day)">
                                                 <p class="text-center text-sm">
                                                     {{ $t('dutySchedules.copyPaste.stopCopying') }}
                                                 </p>
@@ -1024,6 +1023,13 @@ watch(() => dutyScheduleStore.getShowEmployeesWorkingToday, (status: boolean) =>
 })
 
 watch(() => state.monthlySchedules, (newSchedules) => {
+    // Update the expanded records only if the number of records changes.
+    if (newSchedules && newSchedules.data.length !== expandedRecords.length) {
+        expandedRecords.splice(0, expandedRecords.length, ...newSchedules.data.map(() => true))
+    }
+})
+
+watch(() => state.monthlySchedules, (newSchedules) => {
     // reset map
     for (const k of Object.keys(employeeShiftsByDate)) delete employeeShiftsByDate[k]
     if (!newSchedules?.data) return
@@ -1053,33 +1059,6 @@ watch(() => state.monthlySchedules, (newSchedules) => {
         }
     }
 }, { deep: true })
-
-watch(() => departmentStore.getSelectedDepartmentName, (newValue: any) => {
-    if (newValue != null) {
-        dutyScheduleStore.setCurrentPageNumber(1)
-        fetchDutySchedule()
-    }
-})
-
-watch(() => state.selectedDate, (newSelectedDate: any) => {
-    if (newSelectedDate) {
-        currentDate.value = moment(newSelectedDate)
-        fetchDutySchedule()
-        emit('setDutyScheduleCurrentDate', state.selectedDate)
-    }
-})
-
-watch(() => dutyScheduleStore.getShowEmployeesWorkingToday, (status: boolean) => {
-    dutyScheduleStore.setShowEmployeesWorkingToday(status)
-    fetchDutySchedule()
-})
-
-watch(() => state.monthlySchedules, (newSchedules) => {
-    // Update the expanded records only if the number of records changes.
-    if (newSchedules && newSchedules.data.length !== expandedRecords.length) {
-        expandedRecords.splice(0, expandedRecords.length, ...newSchedules.data.map(() => true))
-    }
-})
 
 onMounted(() => {
     fetchDutySchedule()
@@ -1454,7 +1433,9 @@ function isDailyScheduleCopiedEmpty() {
 }
 
 function isDailyScheduleCopied(employee: any, day: any) {
-    return state.copy.selectedEmployeeDailySchedule.employee?.uuid === employee?.uuid && state.copy.selectedEmployeeDailySchedule.date === moment(day).format('YYYY-MM-DD')
+    return employee?.uuid === state.copy.selectedEmployeeDailySchedule.employee?.uuid &&
+        moment(day).format('YYYY-MM-DD') === state.copy.selectedEmployeeDailySchedule.date &&
+        dutyScheduleStore.getCurrentPageNumber === state.copy.selectedEmployeeDailySchedule.currentTablePage
 }
 
 function copyEmployeeDailySchedule(employee: any, day: any) {
@@ -1469,13 +1450,6 @@ function stopCopying() {
     state.copy.allEmployeeSchedules = {}
     state.copy.selectedEmployeeDailySchedule = {}
     state.copy.selectedEmployeeWeeklySchedule = {}
-}
-
-function isCellCopied(employee: any, day: any) {
-    return !isDailyScheduleCopiedEmpty() &&
-        employee?.uuid === state.copy.selectedEmployeeDailySchedule.employee?.uuid &&
-        moment(day).format('YYYY-MM-DD') === state.copy.selectedEmployeeDailySchedule.date &&
-        dutyScheduleStore.getCurrentPageNumber === state.copy.selectedEmployeeDailySchedule.currentTablePage
 }
 
 async function pasteEmployeeDailySchedule(employeeIndex: number, day: any) {

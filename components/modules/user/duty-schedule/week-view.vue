@@ -1151,6 +1151,18 @@ watch(() => state.selectedDate, (newSelectedDate: any) => {
     }
 })
 
+watch(() => dutyScheduleStore.getShowEmployeesWorkingToday, (status: boolean) => {
+    dutyScheduleStore.setShowEmployeesWorkingToday(status)
+    fetchDutySchedule()
+})
+
+watch(() => state.weeklySchedules, (newSchedules) => {
+    // Update the expanded records only if the number of records changes.
+    if (newSchedules && newSchedules.data.length !== expandedRecords.length) {
+        expandedRecords.splice(0, expandedRecords.length, ...newSchedules.data.map(() => true))
+    }
+})
+
 onMounted(() => {
     fetchDutySchedule()
     window.addEventListener('keydown', handleKeyDown)
@@ -1158,11 +1170,6 @@ onMounted(() => {
 
 onBeforeUnmount(() => {
     window.removeEventListener('keydown', handleKeyDown)
-})
-
-watch(() => dutyScheduleStore.getShowEmployeesWorkingToday, (status: boolean) => {
-    dutyScheduleStore.setShowEmployeesWorkingToday(status)
-    fetchDutySchedule()
 })
 
 function handleKeyDown(event: KeyboardEvent) {
@@ -1309,13 +1316,6 @@ function isPreviousWeekDisabled() {
 
     return false // Admins can always go to the previous week
 }
-
-watch(() => state.weeklySchedules, (newSchedules) => {
-    // Update the expanded records only if the number of records changes.
-    if (newSchedules && newSchedules.data.length !== expandedRecords.length) {
-        expandedRecords.splice(0, expandedRecords.length, ...newSchedules.data.map(() => true))
-    }
-})
 
 function setFilter(filter: any) {
     state.filter.department_uuids = filter.department_uuids
@@ -1600,7 +1600,10 @@ function isDailyScheduleCopiedEmpty() {
 }
 
 function isDailyScheduleCopied(employeeIndex: number, weekIndex: number, weekNumber: number) {
-    return state.copy.selectedEmployeeDailySchedule.employeeIndex === employeeIndex && state.copy.selectedEmployeeDailySchedule.weekIndex === weekIndex && state.copy.selectedEmployeeDailySchedule.weekNumber === weekNumber
+    return state.copy.selectedEmployeeDailySchedule.employeeIndex === employeeIndex &&
+        state.copy.selectedEmployeeDailySchedule.weekIndex === weekIndex &&
+        state.copy.selectedEmployeeDailySchedule.weekNumber === weekNumber &&
+        dutyScheduleStore.getCurrentPageNumber === state.copy.selectedEmployeeDailySchedule.currentTablePage
 }
 
 function copyEmployeeDailySchedule(employeeIndex: number, weekIndex: any, employee: any, weekNumber: number) {
@@ -1609,6 +1612,7 @@ function copyEmployeeDailySchedule(employeeIndex: number, weekIndex: any, employ
         weekNumber: weekNumber,
         weekIndex: weekIndex,
         employee: employee,
+        currentTablePage: dutyScheduleStore.getCurrentPageNumber,
     }
 }
 
