@@ -61,11 +61,11 @@
                 </div>
             </template>
 
-            <div class="flex items-center gap-x-3">
-                <!-- <FormButton :buttonStyle="state.calendarView === 'default' ? 'primary' : ''"
+            <!-- <div class="flex items-center gap-x-3">
+                <FormButton :buttonStyle="state.calendarView === 'default' ? 'primary' : ''"
                     @click="setCalendarView('default')" class="rounded-md">
                     {{ $t('calendar.view.defaultView') }}
-                </FormButton> -->
+                </FormButton>
                 <FormButton :buttonStyle="state.calendarView === 'week' ? 'primary' : ''"
                     @click="setCalendarView('week')" class="rounded-md">
                     {{ $t('calendar.view.weekView') }}
@@ -74,7 +74,7 @@
                     @click="setCalendarView('month')" class="rounded-md">
                     {{ $t('calendar.view.monthView') }}
                 </FormButton>
-            </div>
+            </div> -->
 
             <div class="-mt-4 space-y-5">
                 <ModulesUserDutyScheduleWeekView ref="weekViewRef" v-if="state.calendarView === 'week'"
