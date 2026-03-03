@@ -2505,8 +2505,8 @@
         "form": {
             "dutyShiftRuleName": "Navn",
             "periodDays": "Retrospektivt tidsvindue (dage tilbage)",
-            "periodDaysBackInfo1":"Dette angiver, hvor mange dage tilbage i tiden reglen skal se for at evaluere betingelserne.",
-            "periodDaysBackInfo2":"For eksempel, hvis du indstiller det til 30, vil reglen evaluere medarbejderens vagter i de sidste 30 dage for at afgøre, om betingelserne er opfyldt.",
+            "periodDaysBackInfo1": "Dette angiver, hvor mange dage tilbage i tiden reglen skal se for at evaluere betingelserne.",
+            "periodDaysBackInfo2": "For eksempel, hvis du indstiller det til 30, vil reglen evaluere medarbejderens vagter i de sidste 30 dage for at afgøre, om betingelserne er opfyldt.",
             "anchorDate": "Ankerdato",
             "anchorDateOptional": "nuværende dato som standard",
             "addAnchorDate": "Tilføj ankerdato",
@@ -2726,7 +2726,7 @@
             },
             "department": "Afdelinger",
             "download": "Download",
-            "downloadLeavesOnly": "Download kun ferier",
+            "downloadOnlyLeaveTypes": "Download kun fraværstyper",
             "downloadType": "Downloadtype",
             "downloadHoursInCSV": "Download timer i CSV",
             "downloadHoursInExcel": "Download timer i Excel",
@@ -3266,12 +3266,12 @@
     "drive": {
         "googleDrive": "Google Drive",
         "googleDriveNotActivatedMessage": "Google Drive er ikke aktiveret. Vil du aktivere det? Klik på 'Bekræft' for at fortsætte.",
-        "drive-google":{
+        "drive-google": {
             "info-drive-1": "Du ser lige nu Google Drive-filer, fordi du har linket din Google-konto.",
             "info-drive-2": "Hvis du også vil bruge det lokale system så tryk 'CitizenOne Documents'-knappen i toppen.",
             "info-drive-3": "Skift mellem systemerne uden at miste filer — upload til det ønskede system via upload-knappen.."
         },
-        "drive-local":{
+        "drive-local": {
             "info-drive-1": "Du ser lige nu CitizenOne Documents-filer",
             "info-drive-2": "Hvis du også vil bruge Google drive så tryk 'Google Drive'-knappen i toppen. hvis du har linket din Google Drive konto",
             "info-drive-3": "Skift mellem systemerne uden at miste filer - upload til det ønskede system via upload-knappen.."

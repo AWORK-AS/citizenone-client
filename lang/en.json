@@ -2726,7 +2726,7 @@
             },
             "department": "Department",
             "download": "Download",
-            "downloadLeavesOnly": "Download leaves only",
+            "downloadOnlyLeaveTypes": "Download only leave types",
             "downloadType": "Download type",
             "downloadHoursInCSV": "Download hours in CSV",
             "downloadHoursInExcel": "Download hours in excel",
