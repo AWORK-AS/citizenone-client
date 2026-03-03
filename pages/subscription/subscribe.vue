@@ -19,7 +19,7 @@
                         v-if="state.error?.message && state.error.message.length > 0" />
                 </div>
                 <div id="subscribe-checkout"></div>
-                <div class="mx-auto max-w-sm md:max-w-md mt-8" v-if="!state.isDealsHidden">
+                <div class="mx-auto max-w-sm md:max-w-md mt-8" v-if="!state.isDealsHidden && paymentMethods.length > 1">
                     <div class="flex justify-center">
                         <fieldset aria-label="Payment method">
                             <RadioGroup v-model="paymentMethod"
@@ -449,6 +449,7 @@
 </template>
 
 <script setup lang="ts">
+import { computed } from 'vue';
 import { dealService } from '@/components/api/user/DealService'
 import { userSubscriptionService } from '@/components/api/user/UserSubscriptionService'
 import { RadioGroup, RadioGroupOption } from '@headlessui/vue'
@@ -495,11 +496,18 @@ const state = reactive({
     }
 })
 
-const paymentMethods = [
-    { value: 'dibs', label: 'DIBS' },
-    { value: 'stripe', label: 'Stripe' },
-]
-const paymentMethod = ref(paymentMethods[0].value || 'stripe')
+// Only show Stripe if it's activated (publishable key configured)
+const isStripeEnabled = computed(() => !!import.meta.env.VITE_STRIPE_PUBLISHABLE_KEY)
+
+const paymentMethods = computed(() => {
+    const methods = [{ value: 'dibs', label: 'DIBS' }]
+    if (isStripeEnabled.value) {
+        methods.push({ value: 'stripe', label: 'Stripe' })
+    }
+    return methods
+})
+
+const paymentMethod = ref('dibs')
 
 const frequencies = [
     { value: 'monthly', label: 'Monthly', priceSuffix: '/month' },
