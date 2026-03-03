@@ -2269,6 +2269,31 @@
             "tax": "Tax"
         }
     },
+    "stripeInvoices": {
+        "createInvoice": "Create invoice",
+        "creating": "Creating...",
+        "download": "Download",
+        "downloading": "Downloading...",
+        "invoiceCreatedSuccess": "Invoice created successfully",
+        "invoiceDownloaded": "Invoice downloaded successfully",
+        "invoiceItems": "Invoice items",
+        "invoices": "Invoices",
+        "invoiceSentSuccess": "Invoice sent successfully",
+        "sendEmail": "Send email",
+        "sending": "Sending...",
+        "form": {
+            "customerEmail": "Customer email",
+            "customerName": "Customer name",
+            "description": "Description",
+            "emailRequired": "Email recipient is required to send invoice",
+            "quantity": "Quantity",
+            "selectCustomer": "Select customer",
+            "sendToEmail": "Send to email (optional)",
+            "sendToEmailHint": "Fill in if you want to email the invoice after creation",
+            "sendToEmailPlaceholder": "email address",
+            "unitPrice": "Unit price"
+        }
+    },
     "company": {
         "company": "Company",
         "switchCompany": {
