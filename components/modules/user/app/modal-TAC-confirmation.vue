@@ -4,7 +4,7 @@
             @close="closeModal">
             <template #modal-body>
                 <div>
-                    <div class="mx-auto max-w-sm md:max-w-md mt-4 relative">
+                    <div class="mx-auto max-w-sm md:max-w-md mt-4 relative" v-if="paymentMethods.length > 1">
                         <div class="flex justify-center">
                             <fieldset aria-label="Payment method">
                                 <RadioGroup v-model="state.formApp.payment_method"
@@ -114,6 +114,7 @@
 
 
 <script setup lang="ts">
+import { computed } from 'vue';
 import { RadioGroup, RadioGroupOption } from '@headlessui/vue'
 import { useAmountFormatter } from '@/composables/amountFormatter'
 import { useI18n } from "vue-i18n"
@@ -144,10 +145,16 @@ const frequencies = [
     { value: 'monthly', label: 'Monthly', priceSuffix: '/month' },
     { value: 'annually', label: 'Annually', priceSuffix: '/year' },
 ]
-const paymentMethods = [
-    { value: 'dibs', label: 'DIBS' },
-    { value: 'stripe', label: 'Stripe' },
-]
+// Only show Stripe if it's activated (publishable key configured)
+const isStripeEnabled = computed(() => !!import.meta.env.VITE_STRIPE_PUBLISHABLE_KEY)
+
+const paymentMethods = computed(() => {
+    const methods = [{ value: 'dibs', label: 'DIBS' }]
+    if (isStripeEnabled.value) {
+        methods.push({ value: 'stripe', label: 'Stripe' })
+    }
+    return methods
+})
 
 const state = reactive({
     agreeToTermsValidation: false,
@@ -157,7 +164,7 @@ const state = reactive({
     formApp: {
         quantity: '1',
         frequency: frequencies[0],
-        payment_method: paymentMethods[0].value,
+        payment_method: 'dibs',
     }
 })
 
