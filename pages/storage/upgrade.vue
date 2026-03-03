@@ -22,7 +22,7 @@
                         </div>
                     </div>
                     <div id="upgrade-checkout"></div>
-                    <div class="max-w-3xl" v-if="!state.isDealsHidden">
+                    <div class="max-w-3xl" v-if="!state.isDealsHidden && paymentMethods.length > 1">
                         <div class="flex justify-center">
                             <fieldset aria-label="Payment method">
                                 <RadioGroup v-model="paymentMethod"
@@ -158,7 +158,9 @@
                 :isOpen="state.modal.isStripePaymentOpen"
                 :clientSecret="state.stripe.clientSecret"
                 :amount="state.stripe.amount"
-                :invoiceId="state.stripe.reference"
+                :invoiceId="state.stripe.invoiceId"
+                :invoiceStripeId="state.stripe.invoiceId"
+                :itemDescription="state.stripe.itemDescription"
                 :citizenId="state.stripe.citizenId"
                 :metadata="state.stripe.metadata"
                 @close="state.modal.isStripePaymentOpen = false"
@@ -170,6 +172,7 @@
 </template>
 
 <script setup lang="ts">
+import { computed } from 'vue';
 import { addOnDealsService } from '@/components/api/user/AddOnDealsService'
 import { userSubscriptionService } from '@/components/api/user/UserSubscriptionService'
 import { storageService } from '@/components/api/user/StorageService'
@@ -210,15 +213,24 @@ const state = reactive({
         amount: 0,
         citizenId: '',
         reference: '',
+        invoiceId: '',
+        itemDescription: '',
         metadata: {} as Record<string, string | number | boolean | null>,
         clientSecret: '',
     },
 })
 
-const paymentMethods = [
-    { value: 'dibs', label: 'DIBS' },
-    { value: 'stripe', label: 'Stripe' },
-] as const
+// Only show Stripe if it's activated (publishable key configured)
+const isStripeEnabled = computed(() => !!import.meta.env.VITE_STRIPE_PUBLISHABLE_KEY)
+
+const paymentMethods = computed(() => {
+    const methods = [{ value: 'dibs', label: 'DIBS' }]
+    if (isStripeEnabled.value) {
+        methods.push({ value: 'stripe', label: 'Stripe' })
+    }
+    return methods
+})
+
 const paymentMethod = ref<'dibs' | 'stripe'>('dibs')
 
 onMounted(() => {
@@ -326,7 +338,9 @@ async function openStripePayment(deal: any) {
     state.stripe = {
         amount: response.amount,
         citizenId: userStore.getUser?.citizen_id ?? '',
-        reference: deal?.name ?? 'Storage upgrade',
+        reference: response?.invoice_id ?? deal?.name ?? 'Storage upgrade',
+        invoiceId: response?.invoice_id ?? '',
+        itemDescription: deal?.name ?? 'Storage upgrade',
         metadata: {
             type: 'storage',
             deal_uuid: deal?.uuid ? String(deal?.uuid) : '',
@@ -345,8 +359,8 @@ async function openStripePayment(deal: any) {
 
 
 function handleStripeSuccess() {
-    state.modal.isStripePaymentOpen = false
-    navigateTo('/subscription/subscribed-successfully?paymentMethod=stripe')
+    fetchStorageDeals()
+    fetchCitizenFileFolderCurrentUsage()
 }
 
 function handleStripeError(message: string) {
