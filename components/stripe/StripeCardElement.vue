@@ -7,7 +7,7 @@
     </div>
 
     <!-- Payment Form -->
-    <form v-if="!loading && !successMessage" @submit.prevent="handleSubmit" class="payment-form">
+    <form v-show="!loading && !successMessage" @submit.prevent="handleSubmit" class="payment-form">
       <!-- Amount Display -->
       <div class="amount-display">
         <label>Amount to pay:</label>
@@ -59,17 +59,19 @@
 
 <script setup lang="ts">
 import { ref, onMounted, onUnmounted } from 'vue';
-import { getStripe, payWithStripe } from '@/services/stripePaymentService';
+import { getStripe } from '@/services/stripePaymentService';
 import type { Stripe, StripeElements, StripeCardElement } from '@stripe/stripe-js';
 
 interface Props {
   amount: number;
   citizenId: string;
+  clientSecret: string;
+  invoiceId?: string;
   metadata?: Record<string, string | number | boolean | null>;
 }
 
 interface Emits {
-  paymentSuccess: [];
+  paymentSuccess: [{ paymentIntentId: string; invoiceId?: string }];
   paymentError: [error: string];
 }
 
@@ -146,15 +148,22 @@ async function handleSubmit() {
   errorMessage.value = '';
 
   try {
-    const result = await payWithStripe(props.amount, props.citizenId, cardElement, props.metadata);
+    const { error, paymentIntent } = await stripe.confirmCardPayment(props.clientSecret, {
+      payment_method: {
+        card: cardElement,
+      },
+    });
 
-    if (result.success) {
+    if (!error && paymentIntent) {
       successMessage.value = `Payment of ${formatAmount(props.amount)} DKK completed successfully!`;
       cardElement.clear();
-      emit('paymentSuccess');
+      emit('paymentSuccess', {
+        paymentIntentId: paymentIntent.id,
+        invoiceId: props.invoiceId,
+      });
     } else {
-      errorMessage.value = result.error || 'Payment failed. Please try again.';
-      emit('paymentError', result.error || 'Unknown error');
+      errorMessage.value = error?.message || 'Payment failed. Please try again.';
+      emit('paymentError', error?.message || 'Unknown error');
     }
   } catch (error) {
     const message = error instanceof Error ? error.message : 'An unexpected error occurred';
@@ -176,8 +185,6 @@ function resetForm() {
   if (cardElement) {
     cardElement.clear();
   }
-
-  emit('paymentSuccess');
 }
 
 // Format amount as currency
