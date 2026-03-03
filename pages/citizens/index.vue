@@ -77,6 +77,11 @@
                             <Icon name="ph:file-arrow-down" class="h-4 w-4" aria-hidden="true" />
                             {{ $t('citizens.exportCitizens') }}
                         </FormButton>
+                        <FormButton buttonStyle="action" class="rounded-lg"
+                            @click="state.modal.isStripeInvoiceOpen = true">
+                            <Icon name="ph:receipt" class="h-4 w-4" aria-hidden="true" />
+                            {{ $t('stripeInvoices.invoices') }}
+                        </FormButton>
                         <Menu
                             v-if="userStore.getUser?.company?.industry?.system_name === 'social_welfare' && ['Crisis center', 'Shelter'].includes(userStore.getUser?.company?.facility_type?.en_name)"
                             as="div" class="relative inline-block text-left z-20">
@@ -234,6 +239,10 @@
                 :selectedCitizen="state.selectedCitizen" @close="state.modal.isShowNote = false" />
             <ModulesUserCitizenJournalShareModalView :isModalOpen="state.modal.isSharedJournalsOpen"
                 @close="state.modal.isSharedJournalsOpen = false" />
+            <ModulesUserCitizenModalStripeInvoice :isModalOpen="state.modal.isStripeInvoiceOpen"
+                :citizens="state.citizens?.data || []"
+                @close="state.modal.isStripeInvoiceOpen = false"
+                @success="fetchCitizens" />
 
             <ModulesUserGuidedTourModalCitizens v-if="state.modal.isGuidedTourCitizensOverviewOpen"
                 :isModalOpen="state.modal.isGuidedTourCitizensOverviewOpen" :isGuidedTour="false"
@@ -281,6 +290,7 @@ const state = reactive({
         isSharedJournalsOpen: false,
         isShowNote: false,
         isShowPurchaseEmail: false,
+        isStripeInvoiceOpen: false,
     },
     selectedCitizen: [],
 })
