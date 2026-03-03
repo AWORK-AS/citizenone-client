@@ -2269,6 +2269,31 @@
             "tax": "Moms"
         }
     },
+    "stripeInvoices": {
+        "createInvoice": "Opret faktura",
+        "creating": "Opretter...",
+        "download": "Download",
+        "downloading": "Downloader...",
+        "invoiceCreatedSuccess": "Faktura oprettet med succes",
+        "invoiceDownloaded": "Faktura downloadet med succes",
+        "invoiceItems": "Faktura varer",
+        "invoices": "Fakturaer",
+        "invoiceSentSuccess": "Faktura sendt med succes",
+        "sendEmail": "Send e-mail",
+        "sending": "Sender...",
+        "form": {
+            "customerEmail": "Kunde e-mail",
+            "customerName": "Kunde navn",
+            "description": "Beskrivelse",
+            "emailRequired": "E-mail modtager er påkrævet for at sende faktura",
+            "quantity": "Antal",
+            "selectCustomer": "Vælg kunde",
+            "sendToEmail": "Send til e-mail (valgfri)",
+            "sendToEmailHint": "Udfyld hvis du vil sende fakturaen via e-mail efter oprettelse",
+            "sendToEmailPlaceholder": "email adresse",
+            "unitPrice": "Enhedspris"
+        }
+    },
     "company": {
         "company": "Virksomhed",
         "switchCompany": {
