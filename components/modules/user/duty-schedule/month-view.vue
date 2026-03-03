@@ -172,7 +172,7 @@
                                     <div class="grid border-b border-gray-200"
                                         :style="{ gridTemplateColumns: `305px repeat(${monthDays.length}, 153px)` }"
                                         id="fixed-header-month-view">
-                                        <div class="sticky left-0 z-20 bg-white border-r border-gray-200">
+                                        <div class="sticky left-0 z-20 bg-white border-0.5 border-gray-200">
                                             <div class="gap-x-2 px-3 pt-3" v-if="isAdmin(userStore.getUser?.role)">
                                                 <Tooltip :text="$t('dutySchedules.copy.copyMultipleWeeksSchedule')"
                                                     position="right">
@@ -263,6 +263,22 @@
                                                     {{ day.date() }}
                                                 </span>
                                             </span>
+                                        </div>
+                                    </div>
+
+                                    <div class="grid border-b border-gray-100"
+                                        :style="{ gridTemplateColumns: `305px repeat(${monthDays.length}, 153px)` }">
+                                        <p
+                                            class="sticky left-0 z-20 bg-white flex items-center justify-end px-4 py-2 text-xs border-0.5">
+                                            {{ $t('dutySchedules.holidays') }}:
+                                        </p>
+                                        <div v-for="day in monthDays" class="p-3 border-0.5">
+                                            <p class="bg-secondary text-white text-center text-xxs px-3 py-0.5 rounded-lg"
+                                                v-if="state.monthlySchedules?.month_data?.[moment(day).format('YYYY-MM-DD')]?.holiday">
+                                                {{
+                                                    state.monthlySchedules?.month_data?.[moment(day).format('YYYY-MM-DD')]?.holiday?.name
+                                                }}
+                                            </p>
                                         </div>
                                     </div>
 
@@ -516,7 +532,7 @@
                                                 isDailyScheduleCopied(employee, day) && 'border-1.5 border-dashed border-gray-700',
                                                 !isDailyScheduleCopiedEmpty() && !isDailyScheduleCopied(employee, day) && 'cursor-copy relative group',
                                                 hasConflict(state.monthlySchedules?.data?.[employeeIndex]?.days?.[moment(day).format('YYYY-MM-DD')]?.shifts) && 'border-1.5 border-red-500 rounded-md',
-                                                'p-3 border-r-1.5 border-gray-100 min-h-[92px]'
+                                                'p-3 border-0.5 border-gray-100 min-h-[92px]'
                                             ]"
                                             @click="!isDailyScheduleCopiedEmpty() && (employee?.uuid !== state.copy.selectedEmployeeDailySchedule.employee?.uuid || day.format('YYYY-MM-DD') !== state.copy.selectedEmployeeDailySchedule.date) && pasteEmployeeDailySchedule(employeeIndex, day)">
                                             <div class="space-y-2" v-if="!isDailyScheduleCopied(employee, day)">
