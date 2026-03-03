@@ -70,10 +70,38 @@
                                                 </p>
                                             </div>
                                         </div>
-                                        <Badge type="primary" class="text-xxs truncate w-fit h-fit"
-                                            v-if="app?.is_thirdparty">
-                                            {{ $t('apps.thirdPartyApp') }}
-                                        </Badge>
+                                        <div class="flex items-center gap-2">
+                                            <Badge type="primary" class="text-xxs truncate w-fit h-fit"
+                                                v-if="app?.is_thirdparty">
+                                                {{ $t('apps.thirdPartyApp') }}
+                                            </Badge>
+                                            <Menu as="div" class="relative inline-block text-left"
+                                                v-if="app.generic_name === 'salary.dk' && app.user_activated">
+                                                <MenuButton>
+                                                    <Icon name="ph:gear"
+                                                        class="h-4 w-4 text-gray-500 hover:text-gray-700 cursor-pointer" />
+                                                </MenuButton>
+                                                <transition enter-active-class="transition ease-out duration-100"
+                                                    enter-from-class="transform opacity-0 scale-95"
+                                                    enter-to-class="transform opacity-100 scale-100"
+                                                    leave-active-class="transition ease-in duration-75"
+                                                    leave-from-class="transform opacity-100 scale-100"
+                                                    leave-to-class="transform opacity-0 scale-95">
+                                                    <MenuItems
+                                                        class="absolute right-0 mt-2 w-48 origin-top-right rounded-md bg-white shadow-lg ring-1 ring-black/5 focus:outline-none z-20">
+                                                        <div class="px-1 py-1">
+                                                            <MenuItem v-slot="{ active }">
+                                                                <button
+                                                                    :class="[active && 'bg-gray-100', 'group flex w-full items-center rounded-md px-2 py-2.5 text-sm text-red-600']"
+                                                                    @click="openSalaryDkDisconnectModal(app)">
+                                                                    {{ $t('apps.salaryDk.disconnect') }}
+                                                                </button>
+                                                            </MenuItem>
+                                                        </div>
+                                                    </MenuItems>
+                                                </transition>
+                                            </Menu>
+                                        </div>
                                     </div>
                                     <div class="my-4 space-y-3">
                                         <p class="text-muted-800 dark:text-muted-100 font-sans text-sm line-clamp-2">
@@ -150,10 +178,38 @@
                                                 </p>
                                             </div>
                                         </div>
-                                        <Badge type="primary" class="text-xxs truncate w-fit h-fit"
-                                            v-if="app?.is_thirdparty">
-                                            {{ $t('apps.thirdPartyApp') }}
-                                        </Badge>
+                                        <div class="flex items-center gap-2">
+                                            <Badge type="primary" class="text-xxs truncate w-fit h-fit"
+                                                v-if="app?.is_thirdparty">
+                                                {{ $t('apps.thirdPartyApp') }}
+                                            </Badge>
+                                            <Menu as="div" class="relative inline-block text-left"
+                                                v-if="app.generic_name === 'salary.dk' && app.user_activated">
+                                                <MenuButton>
+                                                    <Icon name="ph:gear"
+                                                        class="h-4 w-4 text-gray-500 hover:text-gray-700 cursor-pointer" />
+                                                </MenuButton>
+                                                <transition enter-active-class="transition ease-out duration-100"
+                                                    enter-from-class="transform opacity-0 scale-95"
+                                                    enter-to-class="transform opacity-100 scale-100"
+                                                    leave-active-class="transition ease-in duration-75"
+                                                    leave-from-class="transform opacity-100 scale-100"
+                                                    leave-to-class="transform opacity-0 scale-95">
+                                                    <MenuItems
+                                                        class="absolute right-0 mt-2 w-48 origin-top-right rounded-md bg-white shadow-lg ring-1 ring-black/5 focus:outline-none z-20">
+                                                        <div class="px-1 py-1">
+                                                            <MenuItem v-slot="{ active }">
+                                                                <button
+                                                                    :class="[active && 'bg-gray-100', 'group flex w-full items-center rounded-md px-2 py-2.5 text-sm text-red-600']"
+                                                                    @click="openSalaryDkDisconnectModal(app)">
+                                                                    {{ $t('apps.salaryDk.disconnect') }}
+                                                                </button>
+                                                            </MenuItem>
+                                                        </div>
+                                                    </MenuItems>
+                                                </transition>
+                                            </Menu>
+                                        </div>
                                     </div>
                                     <div class="my-4 space-y-3">
                                         <p class="text-muted-800 dark:text-muted-100 font-sans text-sm line-clamp-2">
@@ -230,10 +286,38 @@
                                                 </p>
                                             </div>
                                         </div>
-                                        <Badge type="primary" class="text-xxs truncate w-fit h-fit"
-                                            v-if="app?.is_thirdparty">
-                                            {{ $t('apps.thirdPartyApp') }}
-                                        </Badge>
+                                        <div class="flex items-center gap-2">
+                                            <Badge type="primary" class="text-xxs truncate w-fit h-fit"
+                                                v-if="app?.is_thirdparty">
+                                                {{ $t('apps.thirdPartyApp') }}
+                                            </Badge>
+                                            <Menu as="div" class="relative inline-block text-left"
+                                                v-if="app.generic_name === 'salary.dk' && app.user_activated">
+                                                <MenuButton>
+                                                    <Icon name="ph:gear"
+                                                        class="h-4 w-4 text-gray-500 hover:text-gray-700 cursor-pointer" />
+                                                </MenuButton>
+                                                <transition enter-active-class="transition ease-out duration-100"
+                                                    enter-from-class="transform opacity-0 scale-95"
+                                                    enter-to-class="transform opacity-100 scale-100"
+                                                    leave-active-class="transition ease-in duration-75"
+                                                    leave-from-class="transform opacity-100 scale-100"
+                                                    leave-to-class="transform opacity-0 scale-95">
+                                                    <MenuItems
+                                                        class="absolute right-0 mt-2 w-48 origin-top-right rounded-md bg-white shadow-lg ring-1 ring-black/5 focus:outline-none z-20">
+                                                        <div class="px-1 py-1">
+                                                            <MenuItem v-slot="{ active }">
+                                                                <button
+                                                                    :class="[active && 'bg-gray-100', 'group flex w-full items-center rounded-md px-2 py-2.5 text-sm text-red-600']"
+                                                                    @click="openSalaryDkDisconnectModal(app)">
+                                                                    {{ $t('apps.salaryDk.disconnect') }}
+                                                                </button>
+                                                            </MenuItem>
+                                                        </div>
+                                                    </MenuItems>
+                                                </transition>
+                                            </Menu>
+                                        </div>
                                     </div>
                                     <div class="my-4 space-y-3">
                                         <p class="text-muted-800 dark:text-muted-100 font-sans text-sm line-clamp-2">
@@ -282,6 +366,39 @@
                 <ModulesUserAppModalTACConfirmation :isModalOpen="state.modal.isAcceptTACOpen"
                     :selectedApp="state.selectedApp" @close="state.modal.isAcceptTACOpen = false"
                     @confirmAppActivation="activateApp" />
+
+                <!-- Salary.dk Connect Modal (API key input) -->
+                <Modal size="sm" :title="$t('apps.salaryDk.connectTitle')" :show="state.modal.isSalaryDkConnectOpen"
+                    @close="state.modal.isSalaryDkConnectOpen = false">
+                    <template #modal-body>
+                        <div class="space-y-4">
+                            <p class="text-sm text-gray-500">{{ $t('apps.salaryDk.connectDescription') }}</p>
+                            <div class="space-y-1">
+                                <FormLabel :label="$t('apps.salaryDk.apiKey')" />
+                                <FormTextField name="salary_dk_api_key" :placeholder="$t('apps.salaryDk.apiKeyPlaceholder')"
+                                    v-model="state.salaryDkApiKey" />
+                            </div>
+                            <Alert type="danger" :text="state.salaryDkConnectError"
+                                v-if="state.salaryDkConnectError" />
+                            <div class="grid grid-cols-2 gap-3">
+                                <FormButton buttonStyle="cancel"
+                                    @click="state.modal.isSalaryDkConnectOpen = false">
+                                    {{ $t('cancel') }}
+                                </FormButton>
+                                <FormButton buttonStyle="primary" :disabled="!state.salaryDkApiKey.trim()"
+                                    @click="connectSalaryDk">
+                                    {{ $t('apps.salaryDk.connect') }}
+                                </FormButton>
+                            </div>
+                        </div>
+                    </template>
+                </Modal>
+
+                <!-- Salary.dk Disconnect Dialog -->
+                <DialogConfirmation :isModalOpen="state.modal.isSalaryDkDisconnectOpen"
+                    :message="$t('apps.salaryDk.disconnectConfirmation')"
+                    :title="$t('apps.salaryDk.disconnectTitle')"
+                    @close="state.modal.isSalaryDkDisconnectOpen = false" @confirm="disconnectSalaryDk" />
             </LoadingSpinner>
         </NuxtLayout>
     </div>
@@ -290,6 +407,8 @@
 <script setup lang="ts">
 import { appService } from '@/components/api/user/AppService'
 import { googledriveService } from '@/components/api/user/GoogleDriveService'
+import { salaryDkService } from '@/components/api/user/SalaryDkService'
+import { Menu, MenuButton, MenuItems, MenuItem } from '@headlessui/vue'
 import { useI18n } from "vue-i18n"
 import { useAlert } from '@/composables/alert'
 import { useAmountFormatter } from '@/composables/amountFormatter'
@@ -329,8 +448,12 @@ const state = reactive({
     modal: {
         isAcceptTACOpen: false,
         showAppDetails: false,
+        isSalaryDkConnectOpen: false,
+        isSalaryDkDisconnectOpen: false,
     },
     selectedApp: [] as any,
+    salaryDkApiKey: '' as string,
+    salaryDkConnectError: '' as string,
 })
 
 onMounted(async () => {
@@ -367,6 +490,7 @@ async function fetchApps() {
 
             // Check real Google Drive connection status
             // await updateGoogleDriveStatus()
+            await updateSalaryDkStatus()
         }
     } catch (error: any) {
         state.error = error
@@ -446,7 +570,14 @@ async function activateApp(formApp: any) {
     state.error = {}
     state.isPageLoading = true
     try {
-        if (state.selectedApp?.generic_name === 'google-drive') {
+        if (state.selectedApp?.generic_name === 'salary.dk') {
+            state.modal.isAcceptTACOpen = false
+            state.salaryDkApiKey = ''
+            state.salaryDkConnectError = ''
+            state.modal.isSalaryDkConnectOpen = true
+            state.isPageLoading = false
+            return
+        } else if (state.selectedApp?.generic_name === 'google-drive') {
             const response = await googledriveService.getGoogleDriveAuthUrl()
             console.log('Google Drive response:', response)
             if (response?.authUrl || response?.auth_url) {
@@ -503,6 +634,57 @@ async function activateApp(formApp: any) {
         }
     } catch (error: any) {
         state.error = error
+    }
+    state.isPageLoading = false
+}
+
+// --- Salary.dk Functions ---
+async function updateSalaryDkStatus() {
+    try {
+        const status = await salaryDkService.getSalaryDkStatus()
+        const isConnected = status?.connected || false
+        const categories = ['marketing', 'visual', 'other']
+        categories.forEach(category => {
+            const app = (state.apps as any)[category]?.find(
+                (a: any) => a.generic_name === 'salary.dk'
+            )
+            if (app) app.user_activated = isConnected
+        })
+    } catch {
+        // Silently fail - if status check fails, rely on database value
+    }
+}
+
+function openSalaryDkDisconnectModal(app: any) {
+    state.selectedApp = app
+    state.modal.isSalaryDkDisconnectOpen = true
+}
+
+async function disconnectSalaryDk() {
+    state.error = {}
+    state.isPageLoading = true
+    try {
+        await salaryDkService.disconnectSalaryDk()
+        successAlert(`${t('alert.success')}!`, t('apps.salaryDk.disconnected'))
+        state.modal.isSalaryDkDisconnectOpen = false
+        fetchApps()
+    } catch (error: any) {
+        state.error = error
+    }
+    state.isPageLoading = false
+}
+
+async function connectSalaryDk() {
+    state.salaryDkConnectError = ''
+    state.isPageLoading = true
+    try {
+        await salaryDkService.connect(state.salaryDkApiKey.trim())
+        state.modal.isSalaryDkConnectOpen = false
+        state.salaryDkApiKey = ''
+        successAlert(`${t('alert.success')}!`, t('apps.salaryDk.connected'))
+        fetchApps()
+    } catch (error: any) {
+        state.salaryDkConnectError = error?.data?.message || error?.message || t('apps.salaryDk.connectError')
     }
     state.isPageLoading = false
 }
