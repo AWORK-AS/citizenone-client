@@ -16,6 +16,7 @@ class UserSubscriptionService extends BaseAPIService {
     }): Promise<{
         client_secret: string
         amount: number
+        invoice_id?: string
     }> {
         return await this.request(`/stripe/payment-intent`, 'POST', params)
     }
