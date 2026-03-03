@@ -744,9 +744,10 @@
                                                             </Menu>
                                                         </button>
                                                     </div>
-                                                    <!-- <ModulesUserDutyScheduleScheduleSlotsRequestAvailableSlots
-                                                            :week="week" :employee="employee"
-                                                            @error="(error: any) => state.error = error" /> -->
+                                                    <ModulesUserDutyScheduleScheduleSlotsRequestAvailableSlots
+                                                        :daysData="state.monthlySchedules?.data?.[employeeIndex]?.days?.[moment(day).format('YYYY-MM-DD')]"
+                                                        :employee="employee"
+                                                        @error="(error: any) => state.error = error" />
                                                 </div>
                                             </div>
                                             <div class="flex flex-col items-center space-y-2 mt-3 cursor-pointer"

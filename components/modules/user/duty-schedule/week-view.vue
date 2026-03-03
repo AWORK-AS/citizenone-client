@@ -810,7 +810,7 @@
                                                             </button>
                                                         </div>
                                                         <ModulesUserDutyScheduleScheduleSlotsRequestAvailableSlots
-                                                            :week="week" :employee="employee"
+                                                            :daysData="week" :employee="employee"
                                                             @error="(error: any) => state.error = error" />
                                                     </div>
                                                 </div>
