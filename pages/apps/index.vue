@@ -117,7 +117,7 @@
                                     <h3 class="text-white text-xl font-semibold">
                                         {{ getRecommendedApp()?.name }}
                                     </h3>
-                                    <p class="text-gray-100 text-sm line-clamp-3">
+                                    <p class="text-gray-100 text-sm line-clamp-4">
                                         {{ getRecommendedApp()?.description }}
                                     </p>
                                     <FormButton type="button" buttonStyle="app-white"
