@@ -310,6 +310,7 @@
             "confirmationOfTerms": "Jeg bekræfter, at jeg har læst og accepterer vilkårene og betingelserne, før jeg aktiverer denne app"
         },
         "contactUs": "Kontakt os",
+        "featuredApps": "Fremhævede apps",
         "form": {
             "annually": "Årligt",
             "howManyLicensesDoYouWant": "Hvor mange licenser ønsker du",
@@ -322,6 +323,7 @@
         "goToPartner": "Gå til partner",
         "iHaveReadAndAcceptThe": "Jeg har læst og accepterer",
         "month": "Måned",
+        "mostPopular": "Mest populær",
         "orderNow": "Bestil nu",
         "purchased": {
             "paymentSuccessful": "Betaling gennemført",
@@ -330,6 +332,7 @@
             "yourPaymentHasBeenSuccessfullyProcessed": "Din betaling er blevet behandlet med succes"
         },
         "readMore": "Læs mere",
+        "recommended": "Anbefalet",
         "subscriptionRequired": "Du skal abonnere først for at kunne købe en app",
         "termsAndConditions": "Vilkår og betingelser",
         "thirdPartyApp": "Tredjepartsapp",

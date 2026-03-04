@@ -310,6 +310,7 @@
             "confirmationOfTerms": "I confirm that I have read and accept the terms and conditions before activating this app"
         },
         "contactUs": "Contact us",
+        "featuredApps": "Featured apps",
         "form": {
             "annually": "Annually",
             "howManyLicensesDoYouWant": "How many licenses do you want",
@@ -322,6 +323,7 @@
         "goToPartner": "Go to partner",
         "iHaveReadAndAcceptThe": "I have read and accept the",
         "month": "Month",
+        "mostPopular": "Most popular",
         "orderNow": "Order now",
         "purchased": {
             "paymentSuccessful": "Payment successful",
@@ -330,6 +332,7 @@
             "yourPaymentHasBeenSuccessfullyProcessed": "Your payment has been successfully processed"
         },
         "readMore": "Read more",
+        "recommended": "Recommended",
         "subscriptionRequired": "You need to subscribe first in order to purchase an app",
         "termsAndConditions": "Terms and Conditions",
         "thirdPartyApp": "Third party app",
