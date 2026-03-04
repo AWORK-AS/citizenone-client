@@ -148,6 +148,13 @@
                     {{ $t('superadmin.apps.form.recommended') }}
                 </div>
             </div>
+            <div class="space-y-1">
+                <div class="w-fit flex items-center cursor-pointer"
+                    @click="state.formApp.is_news = !state.formApp.is_news">
+                    <FormCheckbox :value="state.formApp.is_news" />
+                    {{ $t('superadmin.apps.form.news') }}
+                </div>
+            </div>
         </div>
         <div class="mt-6">
             <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
@@ -212,6 +219,7 @@ const state = reactive({
         is_thirdparty: false,
         is_popular: false,
         is_recommended: false,
+        is_news: false,
         url_field: '',
     } as AppForm,
     options: {
@@ -242,6 +250,7 @@ watch(() => props.selectedApp, (newValue: any) => {
             is_thirdparty: newValue.is_thirdparty,
             is_popular: newValue.is_popular,
             is_recommended: newValue.is_recommended,
+            is_news: newValue.is_news,
             url_field: newValue.url_field,
         }
         if (newValue.background_image) {

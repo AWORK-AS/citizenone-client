@@ -51,6 +51,7 @@ const state = reactive({
         is_thirdparty: false,
         is_popular: false,
         is_recommended: false,
+        is_news: false,
         url_field: '',
     },
     isPageLoading: false,
@@ -81,6 +82,7 @@ async function fetchApp() {
                 is_thirdparty: response?.data?.is_thirdparty ? true : false,
                 is_popular: response?.data?.is_popular ? true : false,
                 is_recommended: response?.data?.is_recommended ? true : false,
+                is_news: response?.data?.is_news ? true : false,
                 url_field: response?.data?.url_field ?? '',
             }
         }
@@ -106,6 +108,7 @@ async function updateApp(appDetails: any) {
         params.append('is_thirdparty', appDetails.is_thirdparty)
         params.append('is_popular', appDetails.is_popular)
         params.append('is_recommended', appDetails.is_recommended)
+        params.append('is_news', appDetails.is_news)
         params.append('url_field', appDetails.url_field)
         if (appDetails.background_image) {
             params.append('background_image', appDetails.background_image)

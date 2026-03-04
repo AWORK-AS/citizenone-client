@@ -46,6 +46,7 @@ const state = reactive({
         is_thirdparty: false,
         is_popular: false,
         is_recommended: false,
+        is_news: false,
         url_field: '',
     },
     isPageLoading: false,
@@ -67,6 +68,7 @@ async function saveApp(appDetails: any) {
         params.append('is_thirdparty', appDetails.is_thirdparty)
         params.append('is_popular', appDetails.is_popular)
         params.append('is_recommended', appDetails.is_recommended)
+        params.append('is_news', appDetails.is_news)
         params.append('url_field', appDetails.url_field)
         if (appDetails.background_image) {
             params.append('background_image', appDetails.background_image)
