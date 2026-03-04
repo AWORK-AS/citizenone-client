@@ -172,6 +172,65 @@
                         </div>
                     </div>
 
+                    <div class="mt-8 grid grid-cols-3 gap-6">
+                        <div v-for="(app, index) in state.apps?.data" :key="index"
+                            class="bg-white p-6 border rounded-xl">
+                            <div class="mb-3 flex justify-between">
+                                <div class="flex items-center gap-3">
+                                    <img :src="app.logo" alt="App logo" class="w-10" />
+                                    <div class="leading-none">
+                                        <h4 class="text-muted-800 text-base font-semibold">
+                                            {{ app.name }}
+                                        </h4>
+                                        <p class="text-muted-800 text-xs">
+                                            <span v-if="app?.is_one_time_fee">
+                                                {{ formatAmount(app?.price) }}
+                                            </span>
+                                            <span v-else>
+                                                {{ formatAmount(app?.monthly_price) }}
+                                                <span class="lowercase">/{{ $t('apps.month') }}</span>
+                                            </span>
+                                            {{ $t('excludeVat') }}
+                                        </p>
+                                    </div>
+                                </div>
+                                <Badge type="primary" class="text-xxs truncate w-fit h-fit" v-if="app?.is_thirdparty">
+                                    {{ $t('apps.thirdPartyApp') }}
+                                </Badge>
+                            </div>
+                            <div class="my-4 space-y-3">
+                                <p class="text-muted-800 dark:text-muted-100 font-sans text-sm line-clamp-2">
+                                    {{ app?.description }}
+                                </p>
+                            </div>
+                            <div class="flex items-center gap-2">
+                                <FormButton type="button" buttonStyle="action" class="w-full" @click="readMore(app)">
+                                    {{ $t('apps.readMore') }}
+                                </FormButton>
+                                <FormButton type="button" buttonStyle="action" class="w-full"
+                                    @click="navigateToExternalLink(app?.url_field)" v-if="app?.url_field">
+                                    {{ $t('apps.goToPartner') }}
+                                </FormButton>
+                                <FormButton type="button"
+                                    :buttonStyle="app?.user_activated ? 'app-activated' : 'app-order-now'" :class="[
+                                        app?.user_activated && 'cursor-not-allowed',
+                                        'w-full'
+                                    ]" color="primary" @click="!app?.user_activated && confirmTACAcceptance(app)"
+                                    v-else>
+                                    <span v-if="app?.user_activated">
+                                        {{ $t('apps.activated') }}
+                                    </span>
+                                    <span v-if="!app?.user_activated && app?.is_one_time_fee">
+                                        {{ $t('apps.orderNow') }}
+                                    </span>
+                                    <span v-if="!app?.user_activated && !app?.is_one_time_fee">
+                                        {{ $t('apps.activate') }}
+                                    </span>
+                                </FormButton>
+                            </div>
+                        </div>
+                    </div>
+
                     <!-- <div id="marketing"
                         class="mt-5 grid grid-cols-1 gap-x-8 gap-y-4 pb-10 mb-10 xl:grid-cols-11 border-b border-gray-900/10">
                         <div class="md:col-span-2">
