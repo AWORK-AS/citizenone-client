@@ -20,6 +20,7 @@
             props.buttonStyle === 'plans-expiring' && 'border bg-yellow-500 text-white hover:bg-yellow-400',
             props.buttonStyle === 'plans-expired' && 'border bg-red-600 text-white hover:bg-red-500',
             props.buttonStyle === 'AI' && 'text-white bg-[linear-gradient(135deg,_#52a3cb,_#1048bb)] shadow-[0_0_28px_rgb(92_171_246_/_60%)] hover:bg-[linear-gradient(135deg,_#6bb6dc,_#0d3fa6)] hover:shadow-[0_0_40px_rgb(92_171_246_/_80%)] transition',
+            props.buttonStyle === 'app-white' && 'bg-white text-primary',
             !props.buttonStyle && 'text-tertiary border border-tertiary hover:bg-tertiary hover:text-white',
             props.buttonSize === 'sm' && 'p-3',
             props.buttonSize === 'xs' && 'p-2',

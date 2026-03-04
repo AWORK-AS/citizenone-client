@@ -20,19 +20,159 @@
                 </div>
                 <div id="apps-checkout"></div>
                 <div v-if="!state.isAppsHidden">
-                    <div class="flex item-center gap-x-2">
-                        <FormButton buttonSize="sm" @click="scrollToSection('marketing')">
-                            Marketing
-                        </FormButton>
-                        <FormButton buttonSize="sm" @click="scrollToSection('visual')">
-                            Visual
-                        </FormButton>
-                        <FormButton buttonSize="sm" @click="scrollToSection('other')">
-                            Other
-                        </FormButton>
+                    <div class="border-b-1.5 border-gray-200">
+                        <ul class="flex item-center gap-x-5 overflow-x-auto touch-auto">
+                            <li :class="[
+                                state.filter.type === 'citizenone' && 'text-secondary border-b-2 border-secondary',
+                                'text-gray-700 text-base cursor-pointer px-2 pb-3 hover:text-primary'
+                            ]" @click="changeCategory('citizenone')">
+                                {{ $t('apps.categories.citizenone') }}
+                            </li>
+                            <li :class="[
+                                state.filter.type === 'fst' && 'text-secondary border-b-2 border-secondary',
+                                'text-gray-700 text-base px-2 pb-3 cursor-pointer hover:text-primary'
+                            ]" @click="changeCategory('fst')">
+                                {{ $t('apps.categories.fst') }}
+                            </li>
+                            <li :class="[
+                                state.filter.type === 'marketing' && 'text-secondary border-b-2 border-secondary',
+                                'text-gray-700 text-base cursor-pointer px-2 pb-3 hover:text-primary'
+                            ]" @click="changeCategory('marketing')">
+                                {{ $t('apps.categories.marketing') }}
+                            </li>
+                            <li :class="[
+                                state.filter.type === 'visual' && 'text-secondary border-b-2 border-secondary',
+                                'text-gray-700 text-base px-2 pb-3 cursor-pointer hover:text-primary'
+                            ]" @click="changeCategory('visual')">
+                                {{ $t('apps.categories.visual') }}
+                            </li>
+                            <li :class="[
+                                state.filter.type === 'other' && 'text-secondary border-b-2 border-secondary',
+                                'text-gray-700 text-base px-2 pb-3 cursor-pointer hover:text-primary'
+                            ]" @click="changeCategory('other')">
+                                {{ $t('apps.categories.other') }}
+                            </li>
+                        </ul>
                     </div>
 
-                    <div id="marketing"
+                    <div class="mt-8 space-y-5">
+                        <div class="flex items-center gap-x-2">
+                            <img src="/img/icons/featured-stars.svg" :alt="$t('imageFailedToLoad')">
+                            <h3 class="text-lg font-semibold">
+                                {{ $t('apps.featuredApps') }}
+                            </h3>
+                        </div>
+                        <div class="grid grid-cols-1 md:grid-cols-3 gap-5">
+                            <div class="md:col-span-2 relative" v-if="getPopularApp()">
+                                <div class="min-h-72 space-y-3 bg-gradient-to-r p-7 md:col-span-2 z-10 rounded-xl"
+                                    style="background: linear-gradient(48deg,rgba(59, 164, 190, 1) 0%, rgba(41, 130, 155, 1) 50%, rgba(26, 99, 122, 1) 100%);">
+                                    <div
+                                        class="flex items-center gap-x-2 bg-white/30 text-white w-fit px-4 py-1 rounded-full">
+                                        <Icon name="ic:sharp-trending-up" class="w-5 h-5" />
+                                        <span class="text-xs">
+                                            {{ $t('apps.mostPopular') }}
+                                        </span>
+                                    </div>
+                                    <p class="text-white text-sm">
+                                        <span v-if="state.filter.type === 'citizenone'">
+                                            {{ $t('apps.categories.citizenone') }}
+                                        </span>
+                                        <span v-if="state.filter.type === 'fst'">
+                                            {{ $t('apps.categories.fst') }}
+                                        </span>
+                                        <span v-if="state.filter.type === 'marketing'">
+                                            {{ $t('apps.categories.marketing') }}
+                                        </span>
+                                        <span v-if="state.filter.type === 'visual'">
+                                            {{ $t('apps.categories.visual') }}
+                                        </span>
+                                        <span v-if="state.filter.type === 'other'">
+                                            {{ $t('apps.categories.other') }}
+                                        </span>
+                                    </p>
+                                    <h3 class="text-white text-xl font-semibold">
+                                        {{ getPopularApp()?.name }}
+                                    </h3>
+                                    <p class="text-gray-100 text-sm line-clamp-3">
+                                        {{ getPopularApp()?.description }}
+                                    </p>
+                                    <FormButton type="button" buttonStyle="app-white"
+                                        @click="readMore(getPopularApp())">
+                                        {{ $t('apps.readMore') }}
+                                    </FormButton>
+                                </div>
+                                <!-- <img src="/img/icons/asset-01.svg" :alt="$t('imageFailedToLoad')"
+                                    class="w-20 absolute right-0 top-5 z-20"> -->
+                            </div>
+                            <div v-if="getRecommendedApp()">
+                                <div class="min-h-72 space-y-3 bg-gradient-to-r p-7 md:col-span-2 z-10 rounded-xl"
+                                    style="background: linear-gradient(38deg,rgba(92, 148, 139, 1) 0%, rgba(76, 159, 168, 1) 50%, rgba(67, 166, 190, 1) 100%);">
+                                    <div
+                                        class="flex items-center gap-x-2 bg-white/30 text-white w-fit px-4 py-1 rounded-full">
+                                        <Icon name="ic:sharp-trending-up" class="w-5 h-5" />
+                                        <span class="text-xs">
+                                            {{ $t('apps.recommended') }}
+                                        </span>
+                                    </div>
+                                    <h3 class="text-white text-xl font-semibold">
+                                        {{ getRecommendedApp()?.name }}
+                                    </h3>
+                                    <p class="text-gray-100 text-sm line-clamp-3">
+                                        {{ getRecommendedApp()?.description }}
+                                    </p>
+                                    <FormButton type="button" buttonStyle="app-white"
+                                        @click="readMore(getRecommendedApp())">
+                                        {{ $t('apps.readMore') }}
+                                    </FormButton>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="mt-8 max-w-3xl">
+                        <div class="space-y-3" v-if="state.filter.type === 'citizenone'">
+                            <h3 class="text-lg font-semibold">
+                                {{ $t('apps.categories.citizenone') }}
+                            </h3>
+                            <p class="text-gray-600">
+                                {{ $t('apps.description.citizenone') }}.
+                            </p>
+                        </div>
+                        <div class="space-y-3" v-if="state.filter.type === 'fst'">
+                            <h3 class="text-lg font-semibold">
+                                {{ $t('apps.categories.fst') }}
+                            </h3>
+                            <p class="text-gray-600">
+                                {{ $t('apps.description.fst') }}.
+                            </p>
+                        </div>
+                        <div class="space-y-3" v-if="state.filter.type === 'marketing'">
+                            <h3 class="text-lg font-semibold">
+                                {{ $t('apps.categories.marketing') }}
+                            </h3>
+                            <p class="text-gray-600">
+                                {{ $t('apps.description.marketing') }}.
+                            </p>
+                        </div>
+                        <div class="space-y-3" v-if="state.filter.type === 'visual'">
+                            <h3 class="text-lg font-semibold">
+                                {{ $t('apps.categories.visual') }}
+                            </h3>
+                            <p class="text-gray-600">
+                                {{ $t('apps.description.visual') }}.
+                            </p>
+                        </div>
+                        <div class="space-y-3" v-if="state.filter.type === 'other'">
+                            <h3 class="text-lg font-semibold">
+                                {{ $t('apps.categories.other') }}
+                            </h3>
+                            <p class="text-gray-600">
+                                {{ $t('apps.description.other') }}.
+                            </p>
+                        </div>
+                    </div>
+
+                    <!-- <div id="marketing"
                         class="mt-5 grid grid-cols-1 gap-x-8 gap-y-4 pb-10 mb-10 xl:grid-cols-11 border-b border-gray-900/10">
                         <div class="md:col-span-2">
                             <h2 class="text-base font-semibold leading-7 text-gray-900">
@@ -270,7 +410,7 @@
                                 </div>
                             </div>
                         </div>
-                    </div>
+                    </div> -->
 
                     <div class="mt-6">
                         <Pagination :data="state.apps" @previous="previous" @next="next" />
@@ -316,13 +456,15 @@ const breadcrumbLinks = [
 
 const state = reactive({
     apps: {
+        citizenone: [] as any,
+        fst: [] as any,
         marketing: [] as any,
         other: [] as any,
         visual: [] as any,
     },
     error: {} as Error,
     filter: {
-        type: '',
+        type: 'citizenone',
     },
     isAppsHidden: false,
     isPageLoading: false,
@@ -360,10 +502,11 @@ async function fetchApps() {
         }
         const response = await appService.getApps(params)
         if (response) {
-            const apps = response?.data
-            state.apps.marketing = filterAppsByType(apps, 'marketing')
-            state.apps.visual = filterAppsByType(apps, 'visual')
-            state.apps.other = filterAppsByType(apps, 'other')
+            // const apps = response?.data
+            // state.apps.marketing = filterAppsByType(apps, 'marketing')
+            // state.apps.visual = filterAppsByType(apps, 'visual')
+            // state.apps.other = filterAppsByType(apps, 'other')
+            state.apps = response
 
             // Check real Google Drive connection status
             // await updateGoogleDriveStatus()
@@ -372,6 +515,19 @@ async function fetchApps() {
         state.error = error
     }
     state.isPageLoading = false
+}
+
+function changeCategory(category: any) {
+    state.filter.type = category
+    fetchApps()
+}
+
+function getPopularApp() {
+    return state.apps?.data?.find(app => app.is_popular === true)
+}
+
+function getRecommendedApp() {
+    return state.apps?.data?.find(app => app.is_recommended === true)
 }
 
 // async function updateGoogleDriveStatus() {

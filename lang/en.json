@@ -299,9 +299,9 @@
         "connecting": "Connecting",
         "connectingApp": "Connecting App",
         "connectionFailed": "Connection failed",
-        "missingAuthorizationCode": "Missing authorization code",
-        "processingConnection": "Processing connection...",
         "categories": {
+            "citizenone": "CitizenOne",
+            "fst": "FindSocialeTilbud.dk",
             "marketing": "Marketing",
             "other": "Other",
             "visual": "Visual"
@@ -310,6 +310,13 @@
             "confirmationOfTerms": "I confirm that I have read and accept the terms and conditions before activating this app"
         },
         "contactUs": "Contact us",
+        "description": {
+            "citizenone": "Powerful tools and features built into the CitizenOne platform to optimize your daily workflow",
+            "fst": "Specialized solutions to promote and increase the visibility of your social service offering on the FindSocialeTilbud.dk platform",
+            "marketing": "Tools and solutions designed to increase brand visibility, optimize campaigns, and engage customers",
+            "other": "A collection of versatile apps that cover a wide range of needs, from productivity and organization to niche solutions",
+            "visual": "Applications focused on design, creativity, and media that enable impressive graphics, videos, and interactive experiences"
+        },
         "featuredApps": "Featured apps",
         "form": {
             "annually": "Annually",
@@ -322,9 +329,11 @@
         },
         "goToPartner": "Go to partner",
         "iHaveReadAndAcceptThe": "I have read and accept the",
+        "missingAuthorizationCode": "Missing authorization code",
         "month": "Month",
         "mostPopular": "Most popular",
         "orderNow": "Order now",
+        "processingConnection": "Processing connection...",
         "purchased": {
             "paymentSuccessful": "Payment successful",
             "purchaseSuccessful": "Purchase successful",
@@ -6272,6 +6281,8 @@
             },
             "apps": "Apps",
             "categories": {
+                "citizenone": "CitizenOne",
+                "fst": "FindSocialeTilbud.dk",
                 "marketing": "Marketing",
                 "other": "Other",
                 "visual": "Visual"
@@ -6293,6 +6304,7 @@
                 "logo": "Logo",
                 "monthlyPrice": "Monthly price",
                 "name": "Name",
+                "news": "News",
                 "popular": "Popular",
                 "price": "Price",
                 "quantifiable": "Quantifiable",
@@ -6318,6 +6330,7 @@
                 "logo": "Logo",
                 "monthlyPrice": "Monthly price",
                 "name": "Name",
+                "news": "News",
                 "oneTimeFee": "One time fee",
                 "popular": "Popular",
                 "price": "Price",

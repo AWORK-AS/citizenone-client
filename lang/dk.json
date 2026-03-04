@@ -299,9 +299,9 @@
         "connecting": "Forbinder",
         "connectingApp": "Forbinder App",
         "connectionFailed": "Forbindelse mislykkedes",
-        "missingAuthorizationCode": "Manglende autorisationskode",
-        "processingConnection": "Behandler forbindelse...",
         "categories": {
+            "citizenone": "CitizenOne",
+            "fst": "FindSocialeTilbud.dk",
             "marketing": "Marketing",
             "other": "Andet",
             "visual": "Visuel"
@@ -310,6 +310,13 @@
             "confirmationOfTerms": "Jeg bekræfter, at jeg har læst og accepterer vilkårene og betingelserne, før jeg aktiverer denne app"
         },
         "contactUs": "Kontakt os",
+        "description": {
+            "citizenone": "Kraftfulde værktøjer og funktioner indbygget i CitizenOne platformen til at optimere din daglige arbejdsgang",
+            "fst": "Specialiserede løsninger til at promovere og synliggøre dit sociale tilbud på FindSocialeTilbud.dk platformen",
+            "marketing": "Værktøjer og løsninger designet til at øge brandets synlighed, optimere kampagner og engagere kunder",
+            "other": "En samling alsidige apps, der dækker forskellige behov, fra produktivitet og organisering til nicheløsninger",
+            "visual": "Applikationer med fokus på design, kreativitet og medier, der muliggør imponerende grafik, videoer og interaktive oplevelser"
+        },
         "featuredApps": "Fremhævede apps",
         "form": {
             "annually": "Årligt",
@@ -322,9 +329,11 @@
         },
         "goToPartner": "Gå til partner",
         "iHaveReadAndAcceptThe": "Jeg har læst og accepterer",
+        "missingAuthorizationCode": "Manglende autorisationskode",
         "month": "Måned",
         "mostPopular": "Mest populær",
         "orderNow": "Bestil nu",
+        "processingConnection": "Behandler forbindelse...",
         "purchased": {
             "paymentSuccessful": "Betaling gennemført",
             "purchaseSuccessful": "Køb gennemført",
@@ -6272,6 +6281,8 @@
             },
             "apps": "Apps",
             "categories": {
+                "citizenone": "CitizenOne",
+                "fst": "FindSocialeTilbud.dk",
                 "marketing": "Marketing",
                 "other": "Andet",
                 "visual": "Visuel"
@@ -6293,6 +6304,7 @@
                 "logo": "Logo",
                 "monthlyPrice": "Månedlig pris",
                 "name": "Navn",
+                "news": "Nyhed",
                 "popular": "Populær",
                 "price": "Pris",
                 "quantifiable": "Kan kvantificeres",
@@ -6318,6 +6330,7 @@
                 "logo": "Logo",
                 "monthlyPrice": "Månedlig pris",
                 "name": "Navn",
+                "news": "Nyhed",
                 "oneTimeFee": "Én gang gebyr",
                 "popular": "Populær",
                 "price": "Pris",
