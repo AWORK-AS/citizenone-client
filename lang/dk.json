@@ -6265,7 +6265,7 @@
         },
         "apps": {
             "alert": {
-                "appSuccessfullyDeleted": "App slettet med succes"
+                "appSuccessfullyDeleted": "App blev slettet"
             },
             "apps": "Apps",
             "categories": {
@@ -6274,23 +6274,27 @@
                 "visual": "Visuel"
             },
             "confirmation": {
-                "deleteAppConfirmation": "Er du sikker på, at du vil slette denne app"
+                "deleteAppConfirmation": "Er du sikker på, at du vil slette denne app?"
             },
             "editApp": "Rediger app",
             "form": {
                 "alert": {
-                    "appSuccessfullyUpdated": "Appen er opdateret med succes",
-                    "newAppSuccessfullySaved": "Ny app gemt med succes"
+                    "appSuccessfullyUpdated": "App blev opdateret",
+                    "newAppSuccessfullySaved": "Ny app blev gemt"
                 },
+                "backgroundImage": "Baggrundsbillede",
                 "description": "Beskrivelse",
                 "image": "Billede",
-                "isOneTimeFee": "Er engangsgebyr",
+                "isOneTimeFee": "Én gang gebyr",
                 "link": "Link",
+                "logo": "Logo",
                 "monthlyPrice": "Månedlig pris",
                 "name": "Navn",
+                "popular": "Populær",
                 "price": "Pris",
-                "quantifiable": "Kvantificerbar",
-                "thirdPartyApp": "Tredjepartsapp",
+                "quantifiable": "Kan kvantificeres",
+                "recommended": "Anbefalet",
+                "thirdPartyApp": "Tredjeparts app",
                 "type": "Type",
                 "types": {
                     "marketing": "Marketing",
@@ -6306,11 +6310,14 @@
                     "edit": "Rediger"
                 },
                 "link": "Link",
+                "logo": "Logo",
                 "monthlyPrice": "Månedlig pris",
                 "name": "Navn",
-                "oneTimeFee": "Engangsgebyr",
+                "oneTimeFee": "Én gang gebyr",
+                "popular": "Populær",
                 "price": "Pris",
-                "thirdPartyApp": "Tredjepartsapp",
+                "recommended": "Anbefalet",
+                "thirdPartyApp": "Tredjeparts app",
                 "type": "Type",
                 "yearlyPrice": "Årlig pris"
             }

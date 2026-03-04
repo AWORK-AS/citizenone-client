@@ -6,7 +6,9 @@
             v-if="state.error?.message && state.error.message.length > 0" />
         <div class="grid grid-cols-1 gap-y-3">
             <div class="space-y-1">
-                <p class="text-sm text-gray-600">Logo</p>
+                <p class="text-sm text-gray-600">
+                    {{ $t('superadmin.apps.form.logo') }}
+                </p>
                 <div class="flex flex-col items-start">
                     <input type="file" ref="logo" @change="onLogoFileChange" class="hidden" />
                     <div class="relative cursor-pointer" @click="triggerLogoFileInput">
@@ -24,7 +26,9 @@
                 <FormError :error="props?.error?.errors?.logo?.[0]" />
             </div>
             <div class="space-y-1">
-                <p class="text-sm text-gray-600">Image</p>
+                <p class="text-sm text-gray-600">
+                    {{ $t('superadmin.apps.form.image') }}
+                </p>
                 <div class="flex flex-col items-start">
                     <input type="file" ref="image" @change="onImageFileChange" class="hidden" />
                     <div class="relative cursor-pointer" @click="triggerImageFileInput">
@@ -40,6 +44,26 @@
                 </div>
                 <FormError :error="v$?.formApp?.image?.$errors[0]?.$message.toString()" />
                 <FormError :error="props?.error?.errors?.image?.[0]" />
+            </div>
+            <div class="space-y-1">
+                <p class="text-sm text-gray-600">
+                    {{ $t('superadmin.apps.form.backgroundImage') }}
+                </p>
+                <div class="flex flex-col">
+                    <input type="file" ref="backgroundImage" @change="onBackgroundImageFileChange" class="hidden" />
+                    <div class="relative cursor-pointer" @click="triggerBackgroundImageFileInput">
+                        <img :src="backgroundImageUrl" alt="Avatar"
+                            class="w-full h-64 rounded-md object-cover border-2 border-tertiary-25" />
+                        <div
+                            class="rounded-md absolute inset-0 bg-black bg-opacity-50 text-white opacity-0 hover:opacity-100 transition-opacity">
+                            <div class="flex items-center w-full h-full justify-center text-xs">
+                                {{ $t('changeImage') }}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <FormError :error="v$?.formApp?.background_image?.$errors[0]?.$message.toString()" />
+                <FormError :error="props?.error?.errors?.background_image?.[0]" />
             </div>
             <div class="space-y-1">
                 <FormLabel for="name" :label="$t('superadmin.apps.form.name')" />
@@ -90,6 +114,13 @@
                 <FormError :error="props?.error?.errors?.type?.[0]" />
             </div>
             <div class="space-y-1">
+                <FormLabel for="link" :label="$t('superadmin.apps.form.link')" />
+                <FormTextField id="link" name="link" :placeholder="$t('superadmin.apps.form.link')"
+                    v-model="state.formApp.url_field" />
+                <FormError :error="v$?.formApp?.url_field?.$errors[0]?.$message.toString()" />
+                <FormError :error="props?.error?.errors?.url_field?.[0]" />
+            </div>
+            <div class="space-y-1">
                 <div class="w-fit flex items-center cursor-pointer"
                     @click="state.formApp.is_quantifiable = !state.formApp.is_quantifiable">
                     <FormCheckbox :value="state.formApp.is_quantifiable" />
@@ -104,11 +135,18 @@
                 </div>
             </div>
             <div class="space-y-1">
-                <FormLabel for="link" :label="$t('superadmin.apps.form.link')" />
-                <FormTextField id="link" name="link" :placeholder="$t('superadmin.apps.form.link')"
-                    v-model="state.formApp.url_field" />
-                <FormError :error="v$?.formApp?.url_field?.$errors[0]?.$message.toString()" />
-                <FormError :error="props?.error?.errors?.url_field?.[0]" />
+                <div class="w-fit flex items-center cursor-pointer"
+                    @click="state.formApp.is_popular = !state.formApp.is_popular">
+                    <FormCheckbox :value="state.formApp.is_popular" />
+                    {{ $t('superadmin.apps.form.popular') }}
+                </div>
+            </div>
+            <div class="space-y-1">
+                <div class="w-fit flex items-center cursor-pointer"
+                    @click="state.formApp.is_recommended = !state.formApp.is_recommended">
+                    <FormCheckbox :value="state.formApp.is_recommended" />
+                    {{ $t('superadmin.apps.form.recommended') }}
+                </div>
             </div>
         </div>
         <div class="mt-6">
@@ -149,7 +187,9 @@ const props = defineProps({
 const emit = defineEmits(['isPageLoading', 'submitForm'])
 
 const { t } = useI18n()
+const backgroundImage = ref<HTMLInputElement | null>(null)
 const logo = ref<HTMLInputElement | null>(null)
+const backgroundImageUrl = ref(`/img/icons/asset-02.svg`)
 const logoUrl = ref(`/img/icons/asset-02.svg`)
 const image = ref<HTMLInputElement | null>(null)
 const imageUrl = ref(`/img/icons/asset-02.svg`)
@@ -158,6 +198,7 @@ const language = useI18n()
 const state = reactive({
     error: {} as Error,
     formApp: {
+        background_image: '',
         name: '',
         description: '',
         is_one_time_fee: false,
@@ -169,6 +210,8 @@ const state = reactive({
         image: '',
         is_quantifiable: false,
         is_thirdparty: false,
+        is_popular: false,
+        is_recommended: false,
         url_field: '',
     } as AppForm,
     options: {
@@ -183,6 +226,7 @@ const state = reactive({
 watch(() => props.selectedApp, (newValue: any) => {
     if (newValue != null) {
         state.formApp = {
+            background_image: newValue.background_image,
             name: newValue.name,
             description: newValue.description,
             is_one_time_fee: newValue.is_one_time_fee,
@@ -194,7 +238,12 @@ watch(() => props.selectedApp, (newValue: any) => {
             image: '',
             is_quantifiable: newValue.is_quantifiable,
             is_thirdparty: newValue.is_thirdparty,
+            is_popular: newValue.is_popular,
+            is_recommended: newValue.is_recommended,
             url_field: newValue.url_field,
+        }
+        if (newValue.background_image) {
+            backgroundImageUrl.value = newValue.background_image
         }
         if (newValue.logo) {
             logoUrl.value = newValue.logo
@@ -258,6 +307,23 @@ const rules = computed(() => {
 
 const v$ = useVuelidate(rules, state)
 
+function triggerBackgroundImageFileInput() {
+    if (backgroundImage.value) {
+        backgroundImage.value.click()
+    }
+}
+
+function onBackgroundImageFileChange(event: any) {
+    const file = event.target.files[0]
+    if (file) {
+        state.formApp.background_image = event.target.files[0]
+        const reader = new FileReader()
+        reader.onload = (e: any) => {
+            backgroundImageUrl.value = e.target.result
+        }
+        reader.readAsDataURL(file)
+    }
+}
 
 function triggerLogoFileInput() {
     if (logo.value) {

@@ -6282,14 +6282,18 @@
                     "appSuccessfullyUpdated": "App successfully updated",
                     "newAppSuccessfullySaved": "New app successfully saved"
                 },
+                "backgroundImage": "Background image",
                 "description": "Description",
                 "image": "Image",
                 "isOneTimeFee": "Is one time fee",
                 "link": "Link",
+                "logo": "Logo",
                 "monthlyPrice": "Monthly price",
                 "name": "Name",
+                "popular": "Popular",
                 "price": "Price",
                 "quantifiable": "Quantifiable",
+                "recommended": "Recommended",
                 "thirdPartyApp": "Third party app",
                 "type": "Type",
                 "types": {
@@ -6306,10 +6310,13 @@
                     "edit": "Edit"
                 },
                 "link": "Link",
+                "logo": "Logo",
                 "monthlyPrice": "Monthly price",
                 "name": "Name",
                 "oneTimeFee": "One time fee",
+                "popular": "Popular",
                 "price": "Price",
+                "recommended": "Recommended",
                 "thirdPartyApp": "Third party app",
                 "type": "Type",
                 "yearlyPrice": "Yearly price"

@@ -37,6 +37,7 @@ const appUuid = router?.currentRoute?.value?.params?.appUuid
 const state = reactive({
     error: {} as Error,
     formApp: {
+        background_image: '',
         name: '',
         description: '',
         is_one_time_fee: false,
@@ -48,6 +49,8 @@ const state = reactive({
         image: '',
         is_quantifiable: false,
         is_thirdparty: false,
+        is_popular: false,
+        is_recommended: false,
         url_field: '',
     },
     isPageLoading: false,
@@ -64,6 +67,7 @@ async function fetchApp() {
         const response = await appService.getApp(appUuid)
         if (response) {
             state.formApp = {
+                background_image: response?.data?.background_image ?? '',
                 name: response?.data?.name ?? '',
                 description: response?.data?.description ?? '',
                 is_one_time_fee: response?.data?.is_one_time_fee ? true : false,
@@ -75,6 +79,8 @@ async function fetchApp() {
                 image: response?.data?.image ?? '',
                 is_quantifiable: response?.data?.is_quantifiable ? true : false,
                 is_thirdparty: response?.data?.is_thirdparty ? true : false,
+                is_popular: response?.data?.is_popular ? true : false,
+                is_recommended: response?.data?.is_recommended ? true : false,
                 url_field: response?.data?.url_field ?? '',
             }
         }
@@ -98,7 +104,12 @@ async function updateApp(appDetails: any) {
         params.append('type', appDetails.type)
         params.append('is_quantifiable', appDetails.is_quantifiable)
         params.append('is_thirdparty', appDetails.is_thirdparty)
+        params.append('is_popular', appDetails.is_popular)
+        params.append('is_recommended', appDetails.is_recommended)
         params.append('url_field', appDetails.url_field)
+        if (appDetails.background_image) {
+            params.append('background_image', appDetails.background_image)
+        }
         if (appDetails.logo) {
             params.append('logo', appDetails.logo)
         }
