@@ -38,7 +38,7 @@ const props = defineProps({
     },
     selectedCitizen: {
         type: Object,
-        required: true,
+        required: false,
     },
 })
 
