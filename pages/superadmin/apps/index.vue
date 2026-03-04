@@ -33,6 +33,18 @@
                                                     $t('superadmin.apps.table.thirdPartyApp')
                                                 }}
                                             </Badge>
+                                            <Badge type="harmless" class="text-xxs truncate w-fit"
+                                                v-if="app?.is_recommended">
+                                                {{
+                                                    $t('superadmin.apps.table.recommended')
+                                                }}
+                                            </Badge>
+                                            <Badge type="harmless" class="text-xxs truncate w-fit"
+                                                v-if="app?.is_popular">
+                                                {{
+                                                    $t('superadmin.apps.table.popular')
+                                                }}
+                                            </Badge>
                                             <div class="flex items-center gap-x-2">
                                                 <img :src="app.logo" alt="App logo" class="w-10" />
                                                 <p>{{ app?.name }}</p>
