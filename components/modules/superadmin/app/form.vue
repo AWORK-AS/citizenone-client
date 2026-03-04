@@ -216,6 +216,8 @@ const state = reactive({
     } as AppForm,
     options: {
         type: [
+            { value: 'citizenone', label: `${t('superadmin.apps.form.types.citizenone')}` },
+            { value: 'fst', label: `${t('superadmin.apps.form.types.fst')}` },
             { value: 'marketing', label: `${t('superadmin.apps.form.types.marketing')}` },
             { value: 'visual', label: `${t('superadmin.apps.form.types.visual')}` },
             { value: 'other', label: `${t('superadmin.apps.form.types.other')}` },
@@ -257,6 +259,8 @@ watch(() => props.selectedApp, (newValue: any) => {
 watch(() => language.locale.value, (newValue: any) => {
     if (newValue != null) {
         state.options.type = [
+            { value: 'citizenone', label: `${t('superadmin.apps.form.types.citizenone')}` },
+            { value: 'fst', label: `${t('superadmin.apps.form.types.fst')}` },
             { value: 'marketing', label: `${t('superadmin.apps.form.types.marketing')}` },
             { value: 'visual', label: `${t('superadmin.apps.form.types.visual')}` },
             { value: 'other', label: `${t('superadmin.apps.form.types.other')}` },

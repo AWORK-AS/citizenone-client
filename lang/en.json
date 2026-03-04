@@ -6300,6 +6300,8 @@
                 "thirdPartyApp": "Third party app",
                 "type": "Type",
                 "types": {
+                    "citizenone": "CitizenOne",
+                    "fst": "FindSocialeTilbud.dk",
                     "marketing": "Marketing",
                     "other": "Other",
                     "visual": "Visual"
