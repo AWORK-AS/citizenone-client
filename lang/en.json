@@ -2241,12 +2241,18 @@
             },
             "billTo": "Bill to",
             "description": "Description",
+            "invoiceSummary": "Invoice Summary",
             "name": "Name",
             "note": "Note",
             "number": "Number",
             "price": "Price",
             "quantity": "Quantity",
-            "recipient": "Recipient"
+            "recipient": "Recipient",
+            "subtotal": "Subtotal",
+            "tax": "Tax",
+            "taxNote": "Note: Prices entered are before VAT. Tax (25%) will be added automatically.",
+            "total": "Total",
+            "vat": "VAT (25%)"
         },
         "newInvoice": "New invoice",
         "table": {
@@ -2293,6 +2299,14 @@
             "sendToEmailPlaceholder": "email address",
             "unitPrice": "Unit price"
         }
+    },
+    "payment": {
+        "paymentSuccessful": "Payment Successful",
+        "paymentCompleted": "Payment Completed",
+        "thankYouForYourPayment": "Thank you for your payment",
+        "yourPaymentHasBeenSuccessfullyProcessed": "Your payment has been successfully processed",
+        "sessionId": "Session ID",
+        "viewInvoices": "View Invoices"
     },
     "company": {
         "company": "Company",
