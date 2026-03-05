@@ -60,14 +60,16 @@
 <script setup lang="ts">
 import { ref, onMounted, onUnmounted } from 'vue';
 import { getStripe } from '@/services/stripePaymentService';
+import stripeApi from '@/components/api/stripeApi';
 import type { Stripe, StripeElements, StripeCardElement } from '@stripe/stripe-js';
 
 interface Props {
   amount: number;
   citizenId: string;
-  clientSecret: string;
   invoiceId?: string;
   metadata?: Record<string, string | number | boolean | null>;
+  dealUuid?: string;
+  paymentType?: string;
 }
 
 interface Emits {
@@ -88,10 +90,22 @@ const cardReady = ref(false);
 const cardError = ref('');
 const errorMessage = ref('');
 const successMessage = ref('');
+const clientSecret = ref<string | null>(null);
 
 // Initialize Stripe and Elements
 onMounted(async () => {
   try {
+    // First, fetch clientSecret from backend
+    console.log('Fetching clientSecret with amount:', props.amount, 'citizenId:', props.citizenId, 'dealUuid:', props.dealUuid, 'paymentType:', props.paymentType);
+    const response = await stripeApi.createPaymentIntent(props.amount, props.citizenId, props.dealUuid, props.paymentType, props.metadata);
+    
+    if (!response.client_secret) {
+      throw new Error('Failed to retrieve client secret from server');
+    }
+    
+    clientSecret.value = response.client_secret;
+    console.log('ClientSecret retrieved:', clientSecret.value);
+
     stripe = await getStripe();
     
     if (!stripe) {
@@ -100,6 +114,7 @@ onMounted(async () => {
 
     elements = stripe.elements();
     cardElement = elements.create('card', {
+      hidePostalCode: true,
       style: {
         base: {
           fontSize: '16px',
@@ -144,11 +159,18 @@ async function handleSubmit() {
     return;
   }
 
+  if (!clientSecret.value) {
+    errorMessage.value = 'Payment initialization failed. Please reload and try again.';
+    console.error('ClientSecret is missing:', clientSecret.value);
+    return;
+  }
+
   processing.value = true;
   errorMessage.value = '';
 
   try {
-    const { error, paymentIntent } = await stripe.confirmCardPayment(props.clientSecret, {
+    console.log('Confirming payment with clientSecret:', clientSecret.value);
+    const { error, paymentIntent } = await stripe.confirmCardPayment(clientSecret.value, {
       payment_method: {
         card: cardElement,
       },
