@@ -34,6 +34,7 @@
 
 <script setup lang="ts">
 import { clientInvoiceService } from '@/components/api/user/ClientInvoiceService'
+import stripeApi from '@/components/api/stripeApi'
 import { useVuelidate } from "@vuelidate/core"
 import { required, helpers } from '@vuelidate/validators'
 import { useAlert } from '@/composables/alert'
@@ -86,11 +87,22 @@ async function sendInvoice() {
         state.isPageLoading = true
         try {
             const invoiceUuid = props.selectedClientInvoice.uuid
-            const params = {
-                recipient: state.formSendInvoice.recipient,
+            let response = null
+
+            if (props.selectedClientInvoice?.is_stripe_invoice) {
+                response = await stripeApi.sendStripeInvoice(invoiceUuid, {
+                    recipient_email: state.formSendInvoice.recipient,
+                })
+            } else {
+                const params = {
+                    recipient: state.formSendInvoice.recipient,
+                }
+                response = await clientInvoiceService.sendClientInvoiceDetails(invoiceUuid, params)
             }
-            const response = await clientInvoiceService.sendClientInvoiceDetails(invoiceUuid, params)
-            if (response?.message === 'Success.' || response?.message === 'Succes.') {
+
+            const isSuccessResponse = response?.message === 'Success.' || response?.message === 'Succes.' || response?.success === true || !!response
+
+            if (isSuccessResponse) {
                 successAlert(`${t('alert.success')}!`, `${t('clientInvoices.table.alert.invoiceSuccessfullySent')}.`)
                 closeModal()
             }
