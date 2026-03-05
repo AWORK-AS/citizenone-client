@@ -389,12 +389,6 @@ async function activateApp(formApp: any) {
                 app_uuid: state.selectedApp?.uuid,
             }
             const response = await appService.activateFreeApp(params)
-        } else if (state.selectedApp?.generic_name === 'leads') {
-            const response = await appService.activateLeadsApp()
-            if (response) {
-                successAlert(`${t('alert.success')}!`, `${t('apps.alert.appSuccessfullyActivated')}.`)
-                fetchApps()
-            }
         } else {
             const params = {} as any
             if (!state.selectedApp?.is_one_time_fee) {
