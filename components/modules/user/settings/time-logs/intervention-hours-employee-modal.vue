@@ -21,6 +21,9 @@
                                 v-if="!(state.isTableLoading || (state.interventionHours?.data?.length === 0))">
                                 <tr v-for="(inteventionHours, index) in state.interventionHours?.data" :key="index">
                                     <td width="15%">
+                                        {{ inteventionHours?.citizen?.firstname + ' ' + inteventionHours?.citizen?.lastname }}
+                                    </td>
+                                    <td width="15%">
                                         {{ inteventionHours?.date_time_start ?
                                             formatDateTimeToReadable(inteventionHours?.date_time_start) : '' }}
                                     </td>
@@ -81,7 +84,7 @@
                     :selectedInterventionHours="state.selectedInterventionHours"
                     @close="state.modal.isEditInterventionHoursOpen = false"
                     @refreshInterventionHours="refreshInterventionHours()" />
-                <ModulesUserCitizenInterventionHoursModalDownload
+                <ModulesUserSettingsTimeLogsInterventionHoursEmployeeDownloadModal
                     :isModalOpen="state.modal.isDownloadInterventionHoursOpen"
                     @close="state.modal.isDownloadInterventionHoursOpen = false" />
                 <ModulesUserCitizenInterventionHoursModalDateRange :isModalOpen="state.modal.isTimeAccountDateRangeOpen"
@@ -128,6 +131,7 @@ let currentTablePage = 1
 
 const state = reactive({
     columnHeaders: [
+        { name: 'citizens.interventionHours.table.citizen', isTranslateName: true, sorter: true},
         { name: 'citizens.interventionHours.table.datetimeStart', isTranslateName: true, sorter: true, key: 'date_time_start' },
         { name: 'citizens.interventionHours.table.datetimeEnd', isTranslateName: true, sorter: true, key: 'date_time_end' },
         { name: 'citizens.interventionHours.table.note', isTranslateName: true, },

@@ -1504,6 +1504,7 @@
                 "confirmation": {
                     "deleteInterventionHoursConfirmation": "Are you sure you want to delete this intervention hours"
                 },
+                "citizen": "Citizen",
                 "createdBy": "Created by",
                 "datetimeEnd": "Date time end",
                 "datetimeStart": "Date time start",

@@ -1504,6 +1504,7 @@
                 "confirmation": {
                     "deleteInterventionHoursConfirmation": "Er du sikker på, at du vil slette disse indsatstimer"
                 },
+                "citizen": "Borger",
                 "createdBy": "Oprettet af",
                 "datetimeEnd": "Dato og tid slut",
                 "datetimeStart": "Dato og tid start",
