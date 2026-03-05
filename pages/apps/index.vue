@@ -176,7 +176,7 @@
 
                     <div class="mt-8 grid grid-cols-3 gap-6">
                         <div v-for="(app, index) in state.apps?.data" :key="index"
-                            class="bg-white px-6 py-8 border rounded-xl">
+                            class="bg-white px-7 py-6 border rounded-xl">
                             <div class="mb-3 flex justify-between">
                                 <div class="flex items-center gap-3">
                                     <img :src="app.logo" alt="App logo" class="w-14" />
