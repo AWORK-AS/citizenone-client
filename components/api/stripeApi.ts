@@ -9,12 +9,16 @@ class stripeApi extends BaseAPIService {
     async createPaymentIntent(
         amount: number,
         citizenId: string,
+        dealUuid?: string,
+        paymentType?: string,
         metadata?: Record<string, string | number | boolean | null>
     ): Promise<CreatePaymentIntentResponse> {
         return await this.request("/stripe/payment-intent", 'POST', {
             amount: amount,
             currency: "dkk",
             citizen_id: citizenId,
+            deal_uuid: dealUuid ?? null,
+            payment_type: paymentType ?? 'one_time',
             metadata: metadata ?? null
         });
     }
@@ -42,6 +46,14 @@ class stripeApi extends BaseAPIService {
 
     async sendStripeInvoice(invoiceId: string, params: { recipient_email: string }): Promise<any> {
         return await this.request(`/stripe/invoices/${invoiceId}/send`, 'POST', params);
+    }
+
+    async createCheckoutSession(invoiceId: string): Promise<any> {
+        return await this.request(`/stripe/invoices/${invoiceId}/checkout-session`, 'POST', {});
+    }
+
+    async getStripeInvoices(params?: object): Promise<any> {
+        return await this.request('/stripe/invoices', 'GET', params);
     }
 }
 
