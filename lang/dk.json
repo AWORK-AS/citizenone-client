@@ -5917,6 +5917,7 @@
                     "successfullyUpdated": "Firma opdateret med succes"
                 },
                 "checkinOut": "Check ind/ud",
+                "interventionCheckinOut": "Check ind/ud for indsats",
                 "allowChangePassword": "Tillad medarbejdere at ændre adgangskode",
                 "allowPlans": "Tillad medarbejdere at oprette planer",
                 "allowGoals": "Tillad medarbejdere at oprette mål",

@@ -5917,6 +5917,7 @@
                     "successfullyUpdated": "Company successfully updated"
                 },
                 "checkinOut": "Check in/out",
+                "interventionCheckinOut": "Intervention check in/out",
                 "allowChangePassword": "Allow employees to change password",
                 "allowPlans": "Allow employees to create plans",
                 "allowGoals": "Allow employees to create goals",
