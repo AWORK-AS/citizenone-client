@@ -6029,6 +6029,7 @@
             "transactions": "Transaktioner",
             "scheduleTags": "Vagtplan tags",
             "shifts": "Vagter",
+            "timeAccounts": "Tidskonti",
             "other": "Andet",
             "units": "Enheder"
         },
@@ -6735,6 +6736,147 @@
         "tasks": "Opgaver"
     },
     "theListIsEmpty": "Listen er tom",
+    "timeAccounts": {
+        "timeAccount": "Timekonto",
+        "timeAccounts": "Timekonti",
+        "newTimeAccount": "Ny timekonto",
+        "newTimeAccounts": "Ny timekonto",
+        "editTimeAccount": "Rediger timekonto",
+        "alert": {
+            "timeAccountSuccessfullyDeleted": "Timekonto slettet med succes"
+        },
+        "confirmation": {
+            "deleteTimeAccountConfirmation": "Er du sikker på, at du vil slette denne timekonto?"
+        },
+        "form": {
+            "accountUntil": "Udløbsdato",
+            "addRule": "Tilføj regel",
+            "advancedConfiguration": "Avanceret konfiguration",
+            "alert": {
+                "newTimeAccountSuccessfullySaved": "Ny timekonto gemt med succes",
+                "timeAccountSuccessfullyUpdated": "Timekonto opdateret med succes"
+            },
+            "carryOver": "Overfør til næste kalenderår",
+            "departments": "Afdelinger",
+            "employees": "Medarbejdere",
+            "frequencies": {
+                "monthly": "Månedligt",
+                "weekly": "Ugentligt",
+                "yearly": "Årligt"
+            },
+            "grantAmount": "Timer at tildele",
+            "grantFrequency": "Frekvens",
+            "hiredAfter": "Ansat efter",
+            "hiredBefore": "Ansat før",
+            "expiryDate": "Udløbsdato",
+            "initialAmount": "Starttimer",
+            "isActive": "Aktiv",
+            "isLocked": "Lås timer til seneste tildelte værdi",
+            "isRecurring": "Tilbagevendende",
+            "maxAge": "Maksimumsalder",
+            "minAge": "Minimumsalder",
+            "duration": "Varighed",
+            "name": "Navn",
+            "noRules": "Ingen regler tilføjet endnu",
+            "rule": "Regel",
+            "ruleType": "Regeltype",
+            "ruleTypes": {
+                "age": "Aldersbaseret",
+                "employmentDate": "Ansættelsesdato",
+                "employmentDuration": "Ansættelsesvarighed"
+            },
+            "rules": "Regler"
+        },
+        "info": {
+            "title": "Om timekonti",
+            "nameTitle": "Navn",
+            "nameDesc": "Et beskrivende navn til timekontoen (f.eks. \"Feriepenge\" eller \"Anciennitetsdage\").",
+            "initialHoursTitle": "Initialtimer",
+            "initialHoursDesc": "Startsaldoen af timer, der tildeles kontoen, når den oprettes eller aktiveres.",
+            "startDateTitle": "Startdato",
+            "startDateDesc": "Den dato, fra hvilken timekontoen aktiveres og timer kan optjenes eller tildeles.",
+            "expiryDateTitle": "Udløbsdato",
+            "expiryDateDesc": "Den dato, hvor kontoen udløber. Efterfølgende tildeles ingen yderligere timer. Lad være tom for konti uden slutdato.",
+            "ruleTypeTitle": "Regeltype",
+            "ruleTypeDesc": "Bestemmer betingelsen, under hvilken timer automatisk tildeles:",
+            "ruleTypeAge": "Aldersbaseret:",
+            "ruleTypeAgeDesc": "Tildel timer til medarbejdere inden for et specifikt aldersinterval (f.eks. fra 58 til 60 år).",
+            "ruleTypeEmploymentDate": "Ansættelsesdato:",
+            "ruleTypeEmploymentDateDesc": "Tildel timer til medarbejdere, der er ansat inden for et specifikt datointerval.",
+            "ruleTypeEmploymentDuration": "Ansættelsesvarighed:",
+            "ruleTypeEmploymentDurationDesc": "Tildel timer til medarbejdere, der har været ansat i mindst et givet antal måneder.",
+            "grantAmountTitle": "Tildelt antal timer",
+            "grantAmountDesc": "Antallet af timer, der tildeles, hver gang regelbetingelserne er opfyldt.",
+            "grantFrequencyTitle": "Tildelingsfrekvens",
+            "grantFrequencyDesc": "Hvor ofte timer tildeles, når betingelserne er opfyldt — ugentligt, månedligt eller årligt.",
+            "badgeRequired": "påkrævet",
+            "badgeOptional": "valgfri"
+        },
+        "table": {
+            "actions": {
+                "assign":"Tildel",
+                "delete": "Slet",
+                "edit": "Rediger"
+            },
+            "alert": {
+                "timeAccountSuccessfullyDeleted": "Timekonto slettet med succes"
+            },
+            "confirmation": {
+                "deleteTimeAccountConfirmation": "Er du sikker på, at du vil slette denne timekonto?"
+            },
+            "name": "Navn",
+            "initialAmount": "Starttimer",
+            "startDate": "Startdato",
+            "expiryDate": "Udløbsdato"
+        },
+        "modal": {
+            "assignUnassignTitle": "Tildel / Fratildel tidskonto",
+            "users": "Brugere",
+            "departments": "Afdelinger",
+            "assign": "Tildel",
+            "unassign": "Fratildel",
+            "currentlyAssigned": "Aktuelt tildelt",
+            "noneAssigned": "Ingen tildelt",
+            "selectAtLeastOne": "Vælg mindst én bruger eller afdeling",
+            "alert": {
+                "assignSuccess": "Tidskonto er blevet tildelt",
+                "unassignSuccess": "Tidskonto er blevet fratildelt"
+        }
+},
+        "templateAgreement": "Skabelonaftale",
+        "templateAgreements": "Skabelonaftaler",
+        "newTemplateAgreement": "Ny skabelonaftale",
+        "editTemplateAgreement": "Rediger skabelonaftale",
+        "templateAgreementsForm": {
+            "name": "Navn",
+            "timeAccounts": "Timekonti",
+            "alert": {
+                "newTemplateAgreementSuccessfullySaved": "Ny skabelonaftale gemt med succes",
+                "templateAgreementSuccessfullyUpdated": "Skabelonaftale opdateret med succes"
+            }
+        },
+        "templateAgreementsTable": {
+            "name": "Navn",
+            "actions": {
+                "assign": "Tildel",
+                "edit": "Rediger",
+                "delete": "Slet"
+            },
+            "confirmation": {
+                "deleteConfirmation": "Er du sikker på, at du vil slette denne skabelonaftale?"
+            },
+            "alert": {
+                "successfullyDeleted": "Skabelonaftale slettet med succes"
+            }
+        },
+        "templateAgreementsModal": {
+            "assignUnassignTitle": "Tildel / Fratildel Skabelonaftale",
+            "alert": {
+                "assignSuccess": "Skabelonaftale tildelt med succes",
+                "unassignSuccess": "Skabelonaftale fratildelt med succes"
+            }
+        }
+    },
     "timeLogs": {
         "download": {
             "date": "Dato",
