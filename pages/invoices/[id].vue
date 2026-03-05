@@ -26,10 +26,9 @@ import { ref, onMounted, computed } from 'vue';
 import { useRoute } from 'vue-router';
 import InvoiceStripe from '@/components/stripe/InvoiceStripe.vue';
 import stripeApi from '@/components/api/stripeApi';
-import { invoiceService } from '@/components/api/superadmin/InvoiceService';
 
 definePageMeta({
-  layout: 'superadmin',
+  layout: 'user',
 });
 
 
@@ -40,8 +39,8 @@ const invoiceData = ref(null);
 
 const invoiceId = computed(() => route.params.id as string);
 
-// Check if it's a Stripe invoice ID (starts with 'in_')
-const isStripeInvoice = computed(() => invoiceId.value?.startsWith('in_'));
+// Check if it's a Stripe-related ID
+const isStripeInvoice = computed(() => /^(in_|pi_|cs_)/.test(invoiceId.value || ''));
 
 onMounted(() => {
   loadInvoice();
@@ -57,22 +56,13 @@ async function loadInvoice() {
   try {
     loading.value = true;
     error.value = '';
-    console.log('Loading invoice with ID:', invoiceId.value, 'Is Stripe Invoice:', isStripeInvoice.value);
 
     if (isStripeInvoice.value) {
-      // Fetch Stripe invoice directly
-      //invoiceData.value = await stripeApi.getStripeInvoice(invoiceId.value);
-      const res = await fetch(`http://127.0.0.1:8000/api/stripe/invoices/${invoiceId.value}`);
-      if (!res.ok) {
-        throw new Error(`Failed to fetch Stripe invoice: ${res.statusText}`);
-      }
-      const data = await res.json();
-      invoiceData.value = data; // Assuming the API returns { invoice: { ... }
-      console.log('Fetched Stripe invoice data:', invoiceData.value);
+      // Fetch Stripe invoice using authenticated API call
+      invoiceData.value = await stripeApi.getStripeInvoice(invoiceId.value);
     } else {
-      // Fetch regular invoice from backend
-      invoiceData.value = await invoiceService.getInvoiceDetails(invoiceId.value);
-      console.log('Fetched regular invoice data:', invoiceData.value);
+      navigateTo(`/invoices/${invoiceId.value}/invoice-details`)
+      return
     }
   } catch (err) {
     error.value = err instanceof Error ? err.message : 'Failed to load invoice';
