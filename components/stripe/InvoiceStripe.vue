@@ -42,7 +42,12 @@
 
       <!-- Action buttons-->
       <div class="invoice-actions">
-        <button @click="payWithStripe" class="stripe-btn" :disabled="loadingStripe">
+        <button 
+          v-if="invoiceDetails.status !== 'paid'" 
+          @click="payWithStripe" 
+          class="stripe-btn" 
+          :disabled="loadingStripe"
+        >
           <span v-if="!loadingStripe">Pay with Stripe</span>
           <span v-else>Redirecting...</span>
         </button>
@@ -57,8 +62,10 @@
 </template>
 
 <script setup lang="ts">
-import { ref, onMounted, computed } from 'vue';
+import { ref, onMounted, computed, watch } from 'vue';
 import { useRoute } from 'vue-router';
+import stripeApi from '@/components/api/stripeApi';
+import { clientInvoiceService } from '@/components/api/user/ClientInvoiceService'
 
 interface InvoiceItem {
   id: string;
@@ -79,6 +86,14 @@ interface Invoice {
   hostedInvoiceUrl?: string;
 }
 
+// Props
+const props = defineProps({
+  invoiceData: {
+    type: Object,
+    default: null,
+  },
+});
+
 // State
 const route = useRoute();
 const invoiceId = computed(() => route.params.id as string);
@@ -89,10 +104,186 @@ const error = ref('');
 const loadingStripe = ref(false);
 const loadingPdf = ref(false);
 
-// Load invoice on mount
+// Load invoice on mount or when prop changes
 onMounted(() => {
-  loadInvoice();
+  if (props.invoiceData) {
+    processInvoiceData(props.invoiceData);
+  } else {
+    loadInvoice();
+  }
 });
+
+watch(() => props.invoiceData, (newData) => {
+  if (newData) {
+    processInvoiceData(newData);
+  }
+});
+
+async function processInvoiceData(data: any) {
+  try {
+    loading.value = true;
+    error.value = '';
+
+    console.log('Processing invoice data:', data);
+
+    if (!data) {
+      throw new Error('Invoice data is missing');
+    }
+
+    const mappedItems = (data.lines?.data || data.lines || []).map((line: any) => {
+      const quantity = line.quantity ?? 1
+      const unitPrice = line.price?.unit_amount ?? line.unit_amount ?? line.amount ?? 0
+      const amount = line.amount ?? (quantity * unitPrice)
+
+      return {
+        id: line.id,
+        description: line.description || 'No description',
+        quantity,
+        unitPrice,
+        amount,
+      }
+    })
+
+    const rawTotal = data.total ?? data.amount_due ?? data.amount ?? 0
+    const itemsTotalMinor = mappedItems.reduce((sum: number, item: any) => sum + (item.amount ?? 0), 0)
+    const fallbackCustomer = await findMatchingClientInvoiceCustomer(data, rawTotal)
+
+    // Resolve the correct total amount in major unit (DKK)
+    // If we have total_minor, use that; otherwise try to infer from rawTotal
+    const totalInMajor = data.total_minor 
+      ? data.total_minor / 100 
+      : resolveInvoiceTotalInMajor(rawTotal, itemsTotalMinor)
+
+    // Map Stripe response to Invoice format
+    invoiceDetails.value = {
+      id: data.invoice_id || data.id || invoiceId.value,
+      amount: totalInMajor,
+      currency: (data.currency ?? 'dkk').toUpperCase(),
+      status: data.status ?? 'unknown',
+      customerName: data.customer_name || data.customer?.name || data.customer_details?.name || data.metadata?.customer_name || data.metadata?.customerName || fallbackCustomer.name || '',
+      customerEmail: data.customer_email || data.customer?.email || data.customer_details?.email || data.metadata?.customer_email || data.metadata?.customerEmail || fallbackCustomer.email || '',
+      items: mappedItems,
+      hostedInvoiceUrl: data.hosted_invoice_url ?? '', 
+    };
+
+    console.log('Processed invoice details:', invoiceDetails.value);
+  } catch (err) {
+    error.value = err instanceof Error ? err.message : 'Failed to process invoice';
+    console.error('Error processing invoice:', err);
+  } finally {
+    loading.value = false;
+  }
+}
+
+async function findMatchingClientInvoiceCustomer(stripeData: any, stripeTotalRaw: number): Promise<{ name: string, email: string }> {
+  try {
+    let page = 1
+    let hasNextPage = true
+    const stripeCreatedAt = stripeData?.created_at
+      ? new Date(stripeData.created_at).toDateString()
+      : (stripeData?.created ? new Date(stripeData.created * 1000).toDateString() : null)
+
+    while (hasNextPage) {
+      const response = await clientInvoiceService.getClientInvoices({ page })
+      const invoices = response?.data?.data || response?.data || []
+
+      const match = invoices.find((invoice: any) => {
+        const sameDate = stripeCreatedAt && invoice?.created_at
+          ? new Date(invoice.created_at).toDateString() === stripeCreatedAt
+          : false
+
+        return sameDate && isEquivalentAmount(invoice?.total_amount, stripeTotalRaw)
+      })
+
+      if (match) {
+        return {
+          name: match?.bill_to_name || '',
+          email: match?.bill_to_email || match?.recipient || '',
+        }
+      }
+
+      const nextLink = response?.links?.next ?? response?.data?.links?.next ?? null
+      const currentPage = response?.meta?.current_page ?? response?.data?.meta?.current_page
+      const lastPage = response?.meta?.last_page ?? response?.data?.meta?.last_page
+
+      hasNextPage = !!nextLink || (!!currentPage && !!lastPage && currentPage < lastPage)
+      page++
+
+      if (page > 100) {
+        hasNextPage = false
+      }
+    }
+  } catch (error) {
+    return { name: '', email: '' }
+  }
+
+  return { name: '', email: '' }
+}
+
+function isEquivalentAmount(amountA: any, amountB: any): boolean {
+  const a = parseAmountValue(amountA)
+  const b = parseAmountValue(amountB)
+
+  if (!Number.isFinite(a) || !Number.isFinite(b)) {
+    return false
+  }
+
+  const diff = Math.abs(a - b)
+  if (diff < 1) {
+    return true
+  }
+
+  const diffMinorToMajor = Math.abs((a / 100) - b)
+  const diffMajorToMinor = Math.abs(a - (b / 100))
+
+  return diffMinorToMajor < 1 || diffMajorToMinor < 1
+}
+
+function parseAmountValue(value: any): number {
+  if (typeof value === 'number') {
+    return value
+  }
+
+  if (typeof value === 'string') {
+    const trimmed = value.trim()
+    if (!trimmed) {
+      return 0
+    }
+
+    const normalized = trimmed
+      .replace(/\./g, '')
+      .replace(',', '.')
+      .replace(/[^0-9.-]/g, '')
+
+    const parsed = Number(normalized)
+    return Number.isFinite(parsed) ? parsed : 0
+  }
+
+  const parsed = Number(value || 0)
+  return Number.isFinite(parsed) ? parsed : 0
+}
+
+function resolveInvoiceTotalInMajor(rawTotal: number, itemsTotalMinor: number): number {
+  if (!rawTotal || rawTotal <= 0) {
+    return itemsTotalMinor > 0 ? itemsTotalMinor / 100 : 0
+  }
+
+  if (itemsTotalMinor > 0) {
+    const diffIfMinor = Math.abs(rawTotal - itemsTotalMinor)
+    const diffIfMajor = Math.abs(rawTotal - (itemsTotalMinor / 100))
+
+    if (diffIfMinor <= diffIfMajor) {
+      return rawTotal / 100
+    }
+
+    return rawTotal
+  }
+
+  // If rawTotal is small (< 10000), it's likely in major unit already
+  // If it's large (>= 10000), it's likely in minor unit (øre/cents)
+  // Use a threshold of 10000 to distinguish between major and minor amounts
+  return rawTotal >= 10000 ? rawTotal / 100 : rawTotal
+}
 
 async function loadInvoice() {
   if (!invoiceId.value) {
@@ -105,41 +296,22 @@ async function loadInvoice() {
     loading.value = true;
     error.value = '';
 
-    const res = await fetch(`http://127.0.0.1:8000/api/stripe/invoices/${invoiceId.value}`);
-    if (!res.ok) throw new Error(`Failed to fetch invoice: ${res.statusText}`);
-    const data = await res.json();
-
-    if (!data || !data.invoice_id) {
-      throw new Error('Invoice data is missing in the response');
-    }
-
-    // Map Stripe response to Invoice format
-    invoiceDetails.value = {
-      id: data.invoice_id,
-      amount: data.total ?? data.amount_due ?? 0,
-      currency: data.currency ?? 'dkk',
-      status: data.status ?? 'unknown',
-      customerName: data.customer_name ?? '',
-      customerEmail: data.customer_email ?? '',
-      items: data.lines?.map((line: any) => ({
-        id: line.id,
-        description: line.description,
-        quantity: line.quantity ?? 1,
-        unitPrice: line.amount ?? 0,
-        amount: line.amount ?? 0,
-      })) ?? [],
-      hostedInvoiceUrl: data.hosted_invoice_url ?? '', 
-    };
+    const data = await stripeApi.getStripeInvoice(invoiceId.value);
+    console.log('Loaded invoice data from API:', data);
+    processInvoiceData(data);
   } catch (err) {
     error.value = err instanceof Error ? err.message : 'Failed to load invoice';
-    console.error(err);
-  } finally {
+    console.error('Error loading invoice:', err);
     loading.value = false;
   }
 }
 
 function retryLoadInvoice() {
-  loadInvoice();
+  if (props.invoiceData) {
+    processInvoiceData(props.invoiceData);
+  } else {
+    loadInvoice();
+  }
 }
 
 // Formatting helpers
@@ -162,13 +334,7 @@ async function payWithStripe() {
   loadingStripe.value = true;
 
   try {
-    const res = await fetch(
-      `http://127.0.0.1:8000/api/stripe/invoices/${invoiceId.value}/checkout-session`,
-      { method: 'POST' }
-    );
-
-    if (!res.ok) throw new Error(`Failed to create Stripe checkout session: ${res.statusText}`);
-    const data = await res.json();
+    const data = await stripeApi.createCheckoutSession(invoiceId.value);
 
     if (!data.url) throw new Error('Checkout URL is missing in the response');
 
@@ -191,14 +357,24 @@ async function payWithStripe() {
   loadingPdf.value = true;
 
   try {
+    const runtimeConfig = useRuntimeConfig();
+    const token = localStorage.getItem('_token') || '';
+    
     const response = await fetch(
-      `http://127.0.0.1:8000/api/stripe/invoices/${invoiceDetails.value.id}/pdf`
+      `${runtimeConfig.public.apiBaseURL}/stripe/invoices/${invoiceId.value}/pdf`,
+      {
+        method: 'GET',
+        headers: {
+          Authorization: `Bearer ${token}`,
+          Accept: 'application/pdf',
+        },
+      }
     );
-
+    
     if (!response.ok) {
       throw new Error('Failed to fetch PDF');
     }
-
+    
     const blob = await response.blob();
     const url = window.URL.createObjectURL(blob);
 
