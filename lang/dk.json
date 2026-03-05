@@ -2241,12 +2241,18 @@
             },
             "billTo": "Fakturere til",
             "description": "Beskrivelse",
+            "invoiceSummary": "Faktura Oversigt",
             "name": "Navn",
             "note": "Bemærkning",
             "number": "Nummer",
             "price": "Pris",
             "quantity": "Mængde",
-            "recipient": "Modtager"
+            "recipient": "Modtager",
+            "subtotal": "Subtotal",
+            "tax": "Skat",
+            "taxNote": "Bemærk: Priserne indgives før moms. Moms (25%) tilføjes automatisk.",
+            "total": "I alt",
+            "vat": "Moms (25%)"
         },
         "newInvoice": "Ny faktura",
         "table": {
@@ -2293,6 +2299,14 @@
             "sendToEmailPlaceholder": "email adresse",
             "unitPrice": "Enhedspris"
         }
+    },
+    "payment": {
+        "paymentSuccessful": "Betaling gennemført",
+        "paymentCompleted": "Betaling fuldført",
+        "thankYouForYourPayment": "Tak for din betaling",
+        "yourPaymentHasBeenSuccessfullyProcessed": "Din betaling er blevet behandlet succesfuldt",
+        "sessionId": "Sessions-ID",
+        "viewInvoices": "Se fakturaer"
     },
     "company": {
         "company": "Virksomhed",
