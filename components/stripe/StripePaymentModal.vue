@@ -27,7 +27,8 @@
         <StripeCardElement
           :amount="Math.round(amount * 100)"
           :citizenId="props.citizenId"
-          :clientSecret="props.clientSecret"
+          :dealUuid="props.dealUuid"
+          :paymentType="props.paymentType"
           :invoiceId="props.invoiceStripeId"
           :metadata="props.metadata"
           @payment-success="handlePaymentSuccess"
@@ -110,7 +111,9 @@ interface Props {
   invoiceStripeId?: string;
   itemDescription?: string;
   citizenId: string;
-  clientSecret: string;
+  clientSecret?: string; // Optional - StripeCardElement will fetch if not provided
+  dealUuid?: string; // Deal/App UUID for payment intent
+  paymentType?: string; // Payment type (one_time, monthly, yearly, etc.)
   metadata?: Record<string, string | number | boolean | null>;
 }
 
