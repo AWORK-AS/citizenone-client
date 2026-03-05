@@ -162,6 +162,8 @@
                 :invoiceStripeId="state.stripe.invoiceId"
                 :itemDescription="state.stripe.itemDescription"
                 :citizenId="state.stripe.citizenId"
+                :dealUuid="state.stripe.dealUuid"
+                :paymentType="state.stripe.paymentType"
                 :metadata="state.stripe.metadata"
                 @close="state.modal.isStripePaymentOpen = false"
                 @paymentSuccess="handleStripeSuccess"
@@ -213,6 +215,8 @@ const state = reactive({
         amount: 0,
         citizenId: '',
         reference: '',
+        dealUuid: '',
+        paymentType: '',
         invoiceId: '',
         itemDescription: '',
         metadata: {} as Record<string, string | number | boolean | null>,
@@ -339,6 +343,8 @@ async function openStripePayment(deal: any) {
         amount: response.amount,
         citizenId: userStore.getUser?.citizen_id ?? '',
         reference: response?.invoice_id ?? deal?.name ?? 'Storage upgrade',
+        dealUuid: deal?.uuid ? String(deal?.uuid) : '',
+        paymentType: 'one_time',
         invoiceId: response?.invoice_id ?? '',
         itemDescription: deal?.name ?? 'Storage upgrade',
         metadata: {
