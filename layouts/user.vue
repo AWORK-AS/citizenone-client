@@ -312,7 +312,7 @@
                             @click="navigateTo('/messages')" v-if="userStore.getUser?.unread_messages_count > 0">
                             <Icon name="ph:chat-circle" class="h-6 w-6 absolute -top-0.5 left-0" aria-hidden="true" />
                             <Badge type="notification"
-                                class="w-5 h-5 flex items-center justify-center absolute -top-4 left-3">
+                                class="w-5 h-5 flex items-center justify-center absolute -top-3.5 left-3">
                                 {{ userStore.getUser?.unread_messages_count ?? 0 }}
                             </Badge>
                         </button>
