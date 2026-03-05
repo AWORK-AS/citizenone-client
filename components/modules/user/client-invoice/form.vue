@@ -84,6 +84,28 @@
                     </div>
                 </div>
             </div>
+            
+            <!-- Invoice Summary -->
+            <div v-if="state.formInvoice.invoice_details.length > 0" class="mt-6 p-4 bg-gray-50 rounded-lg">
+                <h3 class="font-semibold text-sm mb-3">{{ $t('clientInvoices.form.invoiceSummary') || 'Invoice Summary' }}</h3>
+                <div class="space-y-2">
+                    <div class="flex justify-between text-sm">
+                        <span>{{ $t('clientInvoices.form.subtotal') || 'Subtotal' }}:</span>
+                        <span>{{ subtotal }} DKK</span>
+                    </div>
+                    <div class="flex justify-between text-sm">
+                        <span>{{ $t('clientInvoices.form.vat') || 'VAT (25%)' }}:</span>
+                        <span>{{ vatAmount }} DKK</span>
+                    </div>
+                    <div class="border-t pt-2 flex justify-between font-semibold">
+                        <span>{{ $t('clientInvoices.form.total') || 'Total' }}:</span>
+                        <span>{{ totalAmount }} DKK</span>
+                    </div>
+                </div>
+                <p class="text-xs text-gray-600 mt-3">
+                    ⚠️ {{ $t('clientInvoices.form.taxNote') || 'Note: Prices entered are before VAT. Tax (25%) will be added automatically.' }}
+                </p>
+            </div>
         </div>
         <div class="mt-6">
             <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
@@ -165,6 +187,22 @@ const rules = computed(() => {
             },
         },
     }
+})
+
+const subtotal = computed(() => {
+    return state.formInvoice.invoice_details.reduce((sum: number, detail: any) => {
+        const price = parseFloat(detail.price) || 0
+        const quantity = parseFloat(detail.quantity) || 0
+        return sum + (price * quantity)
+    }, 0).toFixed(2)
+})
+
+const vatAmount = computed(() => {
+    return (parseFloat(subtotal.value) * 0.25).toFixed(2)
+})
+
+const totalAmount = computed(() => {
+    return (parseFloat(subtotal.value) + parseFloat(vatAmount.value)).toFixed(2)
 })
 
 function addInvoiceDetails() {
