@@ -287,6 +287,8 @@
                     :amount="state.stripe.amount"
                     :invoiceId="state.stripe.reference"
                     :citizenId="state.stripe.citizenId"
+                    :dealUuid="state.stripe.dealUuid"
+                    :paymentType="state.stripe.paymentType"
                     :metadata="state.stripe.metadata"
                     @close="state.modal.isStripePaymentOpen = false"
                     @paymentSuccess="handleStripeSuccess"
@@ -346,6 +348,8 @@ const state = reactive({
         amount: 0,
         citizenId: '',
         reference: '',
+        dealUuid: '',
+        paymentType: '',
         metadata: {} as Record<string, string | number | boolean | null>,
     },
 })
@@ -449,6 +453,8 @@ async function activateApp(formApp: any) {
             state.stripe.amount = amount
             state.stripe.citizenId = userStore.getUser?.citizen_id ?? ''
             state.stripe.reference = state.selectedApp?.name ?? 'App purchase'
+            state.stripe.dealUuid = state.selectedApp?.uuid ?? ''
+            state.stripe.paymentType = state.selectedApp?.is_one_time_fee ? 'one_time' : formApp?.frequency?.value ?? 'monthly'
             state.stripe.metadata = {
                 type: 'app',
                 app_uuid: state.selectedApp?.uuid ?? null,
