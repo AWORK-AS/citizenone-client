@@ -18,6 +18,12 @@
                 <FormError :error="v$?.formTimeAccount?.initial_amount?.$errors[0]?.$message.toString()" />
                 <FormError :error="props?.error?.errors?.initial_amount?.[0]" />
             </div>
+            <div v-if="Number(state.formTimeAccount.initial_amount) > 0" class="w-fit flex items-center gap-2 cursor-pointer"
+                @click="state.formTimeAccount.is_recurring = !state.formTimeAccount.is_recurring">
+                <FormCheckbox :value="state.formTimeAccount.is_recurring" />
+                <span class="text-sm font-medium text-gray-700 select-none">{{
+                    $t('timeAccounts.form.isRecurring') }}</span>
+            </div>
 
             <div class="space-y-1">
                 <FormLabel for="start_date" :label="$t('normPeriod.form.dateStart')" />
@@ -92,12 +98,6 @@
 
             <div class="space-y-2">
                 <div class="w-fit flex items-center gap-2 cursor-pointer"
-                    @click="state.formTimeAccount.is_recurring = !state.formTimeAccount.is_recurring">
-                    <FormCheckbox :value="state.formTimeAccount.is_recurring" />
-                    <span class="text-sm font-medium text-gray-700 select-none">{{
-                        $t('timeAccounts.form.isRecurring') }}</span>
-                </div>
-                <div class="w-fit flex items-center gap-2 cursor-pointer"
                     @click="state.formTimeAccount.carry_over = !state.formTimeAccount.carry_over">
                     <FormCheckbox :value="state.formTimeAccount.carry_over" />
                     <span class="text-sm font-medium text-gray-700 select-none">{{
@@ -131,8 +131,6 @@ import { useVuelidate } from "@vuelidate/core"
 import { required, helpers } from '@vuelidate/validators'
 import { useI18n } from "vue-i18n"
 import type { Error } from '@/types'
-import { departmentService } from '@/components/api/user/DepartmentService'
-import { userService } from '@/components/api/user/UserService'
 
 const props = defineProps({
     error: { type: Object, required: false },
