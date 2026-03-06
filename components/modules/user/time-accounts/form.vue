@@ -51,18 +51,21 @@
                     <FormLabel :label="$t('timeAccounts.form.ruleType')" />
                     <FormSelect id="rule_type" :options="ruleTypeOptions" :modelValue="state.formTimeAccount.rule.type"
                         @update:modelValue="(val: string) => { state.formTimeAccount.rule.type = val; state.formTimeAccount.rule.conditions = { min_age: '', max_age: '', hired_after: '', hired_before: '', month_duration: '' } }" />
+                    <FormError :error="v$?.formTimeAccount?.rule?.type.$errors[0]?.$message.toString()" />
                 </div>
 
                 <div class="space-y-1">
                     <FormLabel :label="$t('timeAccounts.form.grantAmount')" />
                     <FormNumberField id="rule_grant_amount" name="rule_grant_amount" placeholder="" :min="0"
                         v-model="state.formTimeAccount.rule.grant_amount" />
+                    <FormError :error="v$?.formTimeAccount?.rule?.grant_amount.$errors[0]?.$message.toString()" />
                 </div>
 
                 <div class="space-y-1">
                     <FormLabel :label="$t('timeAccounts.form.grantFrequency')" />
                     <FormSelect id="rule_grant_frequency" :options="frequencyOptions"
                         v-model="state.formTimeAccount.rule.grant_frequency" />
+                    <FormError :error="v$?.formTimeAccount?.rule?.grant_frequency.$errors[0]?.$message.toString()" />
                 </div>
 
                 <template v-if="state.formTimeAccount.rule.type === 'age'">
@@ -70,11 +73,13 @@
                         <FormLabel :label="$t('timeAccounts.form.minAge')" />
                         <FormNumberField id="rule_min_age" name="rule_min_age" placeholder="" :min="0"
                             v-model="state.formTimeAccount.rule.conditions.min_age" />
+                        <FormError :error="v$?.formTimeAccount?.rule?.conditions.min_age.$errors[0]?.$message.toString()" />
                     </div>
                     <div class="space-y-1">
                         <FormLabel :label="$t('timeAccounts.form.maxAge')" />
                         <FormNumberField id="rule_max_age" name="rule_max_age" placeholder="" :min="0"
                             v-model="state.formTimeAccount.rule.conditions.max_age" />
+                        <FormError :error="v$?.formTimeAccount?.rule?.conditions.max_age.$errors[0]?.$message.toString()" />
                     </div>
                 </template>
 
@@ -83,11 +88,13 @@
                         <FormLabel :label="$t('timeAccounts.form.hiredAfter')" />
                         <FormDateField id="rule_hired_after" name="rule_hired_after" placeholder=""
                             v-model="state.formTimeAccount.rule.conditions.hired_after" />
+                        <FormError :error="v$?.formTimeAccount?.rule?.conditions.hired_after.$errors[0]?.$message.toString()" />
                     </div>
                     <div class="space-y-1">
                         <FormLabel :label="$t('timeAccounts.form.hiredBefore')" />
                         <FormDateField id="rule_hired_before" name="rule_hired_before" placeholder=""
                             v-model="state.formTimeAccount.rule.conditions.hired_before" />
+                        <FormError :error="v$?.formTimeAccount?.rule?.conditions.hired_before.$errors[0]?.$message.toString()" />
                     </div>
                 </template>
 
@@ -96,6 +103,7 @@
                         <FormLabel :label="$t('timeAccounts.form.duration')" />
                         <FormNumberField id="rule_month_duration" name="rule_month_duration" placeholder="" :min="0"
                             v-model="state.formTimeAccount.rule.conditions.month_duration" />
+                        <FormError :error="v$?.formTimeAccount?.rule?.conditions.month_duration.$errors[0]?.$message.toString()" />
                     </div>
                 </template>
             </div>
@@ -138,6 +146,7 @@ import { useVuelidate } from "@vuelidate/core"
 import { required, helpers } from '@vuelidate/validators'
 import { useI18n } from "vue-i18n"
 import type { Error } from '@/types'
+// import { stat } from "node:fs"
 
 const props = defineProps({
     error: { type: Object, required: false },
@@ -233,6 +242,34 @@ const rules = computed(() => {
             start_date: {
                 required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
             },
+            rule: {
+                type: {
+                    required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
+                },
+                grant_amount: {
+                    required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
+                },
+                grant_frequency: {
+                    required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
+                },
+                conditions: {
+                    min_age: state.formTimeAccount.rule.type === 'age' && state.formTimeAccount.rule.conditions.max_age === '' ? {
+                        required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
+                    } : {},
+                    max_age: state.formTimeAccount.rule.type === 'age' && state.formTimeAccount.rule.conditions.min_age === '' ? {
+                        required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
+                    } : {},
+                    hired_after: state.formTimeAccount.rule.type === 'employment_date' && state.formTimeAccount.rule.conditions.hired_before === '' ? {
+                        required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
+                    } : {},
+                    hired_before: state.formTimeAccount.rule.type === 'employment_date' && state.formTimeAccount.rule.conditions.hired_after === '' ? {
+                        required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
+                    } : {},
+                    month_duration: state.formTimeAccount.rule.type === 'employment_duration' ? {
+                        required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
+                    } : {},
+                },
+            }
         },
     }
 })
