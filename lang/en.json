@@ -1536,6 +1536,16 @@
                 "kilometers": "Kilometers",
                 "createdBy": "Created by",
                 "note": "Note"
+            },
+            "filter": {
+                "departments": "Departments",
+                "employees": "Employees",
+                "citizens": "Citizens",
+                "type": "Type",
+                "filterDate": "Filter date",
+                "allTypes": "All types",
+                "work": "Work",
+                "transport": "Transport"
             }
         },
         "medicationAllergies": "Medication allergies (CAVE)",

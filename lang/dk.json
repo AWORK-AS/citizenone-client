@@ -1536,6 +1536,16 @@
                 "kilometers": "Kilometer",
                 "createdBy": "Oprettet af",
                 "note": "Bemærkning"
+            },
+            "filter": {
+                "departments": "Afdelinger",
+                "employees": "Medarbejdere",
+                "citizens": "Borgere",
+                "type": "Type",
+                "filterDate": "Filtrer dato",
+                "allTypes": "Alle typer",
+                "work": "Arbejdstid",
+                "transport": "Transport"
             }
         },
         "medicationAllergies": "Medicinallergier (CAVE)",

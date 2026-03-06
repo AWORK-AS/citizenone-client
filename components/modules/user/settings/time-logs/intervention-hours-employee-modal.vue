@@ -4,6 +4,14 @@
             @close="closeModal">
             <template #modal-body>
                 <div class="mt-6 flex items-center gap-x-2 justify-end">
+                    <button class="flex items-center gap-x-1 text-sm text-primary group"
+                        @click="state.modal.isFilterDutyScheduleOpen = true">
+                        <Icon name="ic:outline-filter-list"
+                            class="text-primary w-6 h-6 group-hover:text-primary-700" />
+                        <span class="group-hover:text-primary-700">
+                            {{ $t('filter') }}
+                        </span>
+                    </button>
                     <FormButton buttonStyle="action" class="rounded-lg"
                         @click="state.modal.isDownloadInterventionHoursOpen = true">
                         <Icon name="ph:download" class="h-4 w-4" aria-hidden="true" />
@@ -96,6 +104,8 @@
                  <ModulesUserCitizenInterventionHoursModalViewLog
                      :selectedCareHour="state.selectedInterventionHours"
                     :isModalOpen="state.modal.isViewInterventionHourLogOpen" @close="state.modal.isViewInterventionHourLogOpen = false" />
+                <ModulesUserSettingsTimeLogsInterventionHoursModalFilter @setFilter="setFilter" :type="'employee'"
+                    :isModalOpen="state.modal.isFilterDutyScheduleOpen" @close="state.modal.isFilterDutyScheduleOpen = false" />
             </template>
         </Modal>
     </div>
@@ -148,6 +158,14 @@ const state = reactive({
     isContributionMarginLoading: false,
     isTimeAccountLoading: false,
     isTableLoading: false,
+        filter: {
+        department_uuids: [],
+        citizen_uuids: [],
+        user_uuids: [],
+        is_transportation: '' as any,
+        start_date: '',
+        end_date: '',
+    },
     modal: {
         isAddInterventionHoursOpen: false,
         isDeleteInterventionHoursOpen: false,
@@ -155,6 +173,7 @@ const state = reactive({
         isEditInterventionHoursOpen: false,
         isTimeAccountDateRangeOpen: false,
         isViewInterventionHourLogOpen: false,
+        isFilterDutyScheduleOpen: false,
     },
     interventionHours: [] as any,
     selectedInterventionHours: {} as any,
@@ -202,7 +221,25 @@ async function fetchInterventionHours() {
             sortField: state.sortData.sortField,
             sortOrder: state.sortData.sortOrder,
             ...state.dataFilter,
+        } as any
+
+        if (state.filter.department_uuids?.length > 0) {
+            params.department_uuids = Array(state.filter.department_uuids)
         }
+        if (state.filter.citizen_uuids?.length > 0) {
+            params.citizen_uuids = Array(state.filter.citizen_uuids)
+        }
+        if (state.filter.user_uuids?.length > 0) {
+            params.user_uuids = Array(state.filter.user_uuids)
+        }
+        if (state.filter.is_transportation !== '') {
+            params.is_transportation = state.filter.is_transportation
+        }
+        if (state.filter.start_date && state.filter.end_date) {
+            params.start_date = state.filter.start_date
+            params.end_date = state.filter.end_date
+        }
+
         const response = await interventionHoursService.getByEmployeeInterventionHours(props.employeeUuid, params)
         if (response) {
             state.interventionHours = response
@@ -267,5 +304,16 @@ async function deleteInterventionHours() {
         state.error = error
     }
     state.isTableLoading = false
+}
+
+function setFilter(filter: any) {
+    state.filter.department_uuids = filter.department_uuids
+    state.filter.citizen_uuids = filter.citizen_uuids
+    state.filter.user_uuids = filter.employee_uuids
+    state.filter.is_transportation = filter.employment_status.includes('transport') ? true : filter.employment_status.includes('work') ? false : ''
+    state.filter.start_date = filter.date_range?.[0]
+    state.filter.end_date = filter.date_range?.[1]
+
+    fetchInterventionHours()
 }
 </script>
