@@ -18,11 +18,15 @@
                 <FormError :error="v$?.formTimeAccount?.initial_amount?.$errors[0]?.$message.toString()" />
                 <FormError :error="props?.error?.errors?.initial_amount?.[0]" />
             </div>
-            <div v-if="Number(state.formTimeAccount.initial_amount) > 0" class="w-fit flex items-center gap-2 cursor-pointer"
-                @click="state.formTimeAccount.is_recurring = !state.formTimeAccount.is_recurring">
-                <FormCheckbox :value="state.formTimeAccount.is_recurring" />
-                <span class="text-sm font-medium text-gray-700 select-none">{{
-                    $t('timeAccounts.form.isRecurring') }}</span>
+            <div v-if="Number(state.formTimeAccount.initial_amount) > 0" class="flex items-center gap-2">
+                <div class="w-fit flex items-center gap-2 cursor-pointer"
+                    @click="state.formTimeAccount.is_recurring = !state.formTimeAccount.is_recurring">
+                    <FormCheckbox :value="state.formTimeAccount.is_recurring" />
+                    <span class="text-sm font-medium text-gray-700 select-none">{{
+                        $t('timeAccounts.form.isRecurring') }}</span>
+                </div>
+                <Icon name="ph:question" class="h-4 w-4 text-gray-500 cursor-pointer" aria-hidden="true"
+                    @click="state.modal.isRecurringInfoOpen = true" />
             </div>
 
             <div class="space-y-1">
@@ -112,6 +116,9 @@
             </div>
         </div>
 
+        <ModulesUserTimeAccountsModalRecurringInfo :isModalOpen="state.modal.isRecurringInfoOpen"
+            @close="state.modal.isRecurringInfoOpen = false" />
+
         <div class="mt-6 mb-20">
             <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
                 <FormButton type="button" buttonStyle="cancel" class="rounded-md"
@@ -156,6 +163,9 @@ const frequencyOptions = computed(() => [
 
 const state = reactive({
     error: {} as Error,
+    modal: {
+        isRecurringInfoOpen: false,
+    },
     formTimeAccount: {
         name: '',
         initial_amount: '0' as any,
@@ -177,6 +187,12 @@ const state = reactive({
             },
         },
     },
+})
+
+watch(() => state.formTimeAccount.initial_amount, (newValue: any) => {
+    if (Number(newValue) === 0) {
+        state.formTimeAccount.is_recurring = false
+    }
 })
 
 watch(() => props.selectedTimeAccount, (newValue: any) => {

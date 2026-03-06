@@ -6786,6 +6786,7 @@
             "isActive": "Aktiv",
             "isLocked": "Lås timer til seneste tildelte værdi",
             "isRecurring": "Tilbagevendende",
+            "recurringInfo": "Når denne er markeret, tildeles starttimerne automatisk igen ved begyndelsen af hvert nyt år.",
             "maxAge": "Maksimumsalder",
             "minAge": "Minimumsalder",
             "duration": "Varighed",

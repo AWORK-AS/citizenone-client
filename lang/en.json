@@ -6786,6 +6786,7 @@
             "isActive": "Active",
             "isLocked": "Lock hours at last assigned value",
             "isRecurring": "Recurring",
+            "recurringInfo": "When checked, the account will automatically grant the initial hours again at the start of each new year.",
             "maxAge": "Maximum age",
             "minAge": "Minimum age",
             "duration": "Duration",
