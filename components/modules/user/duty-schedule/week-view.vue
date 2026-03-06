@@ -430,13 +430,14 @@
                                                                     'text-red-700',
                                                             'text-xxs'
                                                         ]">
-                                                            {{ $t('dutySchedules.averageWeeklyHours.averageWeeklyHours')
+                                                            {{
+                                                                $t('dutySchedules.averageWeeklyHours.averageWeeklyHours')
                                                             }}:
                                                             {{ employee?.average_weekly_work_time?.average_weekly_hours
                                                             }}
                                                         </p>
                                                         <p :class="[
-                                                            parseFloat(employee?.log_data.total_time_account_earned_hours.replace(',', '.')) > 0 ? 'text-green-700' : 'text-red-700',
+                                                            parseFloat(employee?.log_data.total_time_account_earned_hours?.replace(',', '.')) > 0 ? 'text-green-700' : 'text-red-700',
                                                             'text-xxs'
                                                         ]">
                                                             {{ $t('dutySchedules.earnedWorkHours') }}:
