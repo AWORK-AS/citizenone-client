@@ -110,7 +110,16 @@
                     <FormError :error="props?.error?.errors?.room_uuid?.[0]" />
                 </div>
                 <div class="space-y-1">
-                    <FormLabel for="street" :label="$t('citizens.form.street')" />
+                    <div class="flex justify-between items-center py-0.5">
+                        <FormLabel for="street" :label="$t('citizens.form.street')" />
+                        <div class="flex gap-x-1 items-center"  @click="state.modal.isLocateCitizenOpen = true">
+                            <Icon name="ph:map-pin" class="text-tertiary w-4 h-4" />
+                            <span class="text-xs cursor-pointer text-tertiary hover:text-tertiary-800"
+                               >
+                                {{ $t('citizens.form.locateCitizen') }}
+                            </span>
+                        </div>
+                    </div>
                     <FormTextField id="street" name="street" :placeholder="$t('citizens.form.street')"
                         v-model="state.formCitizen.street" />
                     <FormError :error="v$?.formCitizen?.street?.$errors[0]?.$message.toString()" />
@@ -654,6 +663,19 @@
         <ModulesUserCitizenContactModalNewCaseworker :isModalOpen="state.modal.isAddCaseworkerOpen"
             @close="state.modal.isAddCaseworkerOpen = false" @refreshCaseworkers="fetchCitizenCaseWorkers"
             v-if="state.modal.isAddCaseworkerOpen" />
+        <ModulesUserCitizenDetailsModalLocateCitizen
+            :isModalOpen="state.modal.isLocateCitizenOpen"
+            :initialLocation="state.selectedCitizenLocation"
+            :currentAddress="{
+                street: state.formCitizen.street,
+                city: state.formCitizen.city,
+                postCode: state.formCitizen.post_code,
+                municipality: state.options.municipalities.find(m => m.value === state.formCitizen.municipality)?.label,
+                region: state.options.regions.find(r => r.value === state.formCitizen.region)?.label
+            }"
+            @close="state.modal.isLocateCitizenOpen = false" 
+            @locationSelected="onCitizenLocationSelected"
+        />
     </form>
 </template>
 
@@ -724,6 +746,8 @@ const state = reactive({
         municipality: '',
         city: '',
         post_code: '',
+        latitude: '',
+        longitude: '',
         origin: '',
         diagnoses: [],
         medication_allergies: [],
@@ -785,6 +809,7 @@ const state = reactive({
         isAddSectionOpen: false,
         isAddMedicationAllergyOpen: false,
         isAddRoomOpen: false,
+        isLocateCitizenOpen: false,
     },
     options: {
         addictions: [],
@@ -805,7 +830,8 @@ const state = reactive({
         regions: [],
         rooms: [],
         sections: [],
-    }
+    },
+    selectedCitizenLocation: null as { lat: number; lng: number } | null,
 })
 
 watch(() => language.locale.value, () => {
@@ -824,6 +850,19 @@ watch(() => props.selectedCitizen, (selectedCitizen: any) => {
         if (selectedCitizen.image) {
             avatarUrl.value = selectedCitizen.image
         }
+        
+        const lat = selectedCitizen.address?.latitude || selectedCitizen.latitude
+        const lng = selectedCitizen.address?.longitude || selectedCitizen.longitude
+        
+        if (lat && lng) {
+            state.selectedCitizenLocation = {
+                lat: Number(lat),
+                lng: Number(lng)
+            }
+        } else {
+            state.selectedCitizenLocation = null
+        }
+        
         state.formCitizen = {
             image: selectedCitizen.image,
             firstname: selectedCitizen.firstname,
@@ -837,11 +876,13 @@ watch(() => props.selectedCitizen, (selectedCitizen: any) => {
             rooms: selectedCitizen.rooms,
             is_foreign_city: selectedCitizen.foreign_city_uuid ? true : false,
             foreign_city: selectedCitizen.foreign_city_uuid,
-            street: selectedCitizen.street,
+            street: selectedCitizen.street || selectedCitizen.address?.street || '',
             region: selectedCitizen.region_uuid,
             municipality: selectedCitizen.municipality_uuid,
-            city: selectedCitizen.city,
-            post_code: selectedCitizen.post_code,
+            city: selectedCitizen.city || selectedCitizen.address?.city || '',
+            post_code: selectedCitizen.post_code || selectedCitizen.address?.post_code || '',
+            latitude: lat ? lat.toString() : '',
+            longitude: lng ? lng.toString() : '',
             origin: selectedCitizen.origin,
             diagnoses: selectedCitizen.diagnoses,
             medication_allergies: selectedCitizen.medication_allergies,
@@ -871,20 +912,20 @@ watch(() => props.selectedCitizen, (selectedCitizen: any) => {
             has_duty_schedule_access: selectedCitizen.has_duty_schedule_access,
             has_bullet_board_access: selectedCitizen.has_bullet_board_access,
             inquiryData: {
-                conversation_summary: selectedCitizen.inquiryData.conversation_summary,
-                inquiry_date: selectedCitizen.inquiryData.inquiry_date,
-                inquirer_name: selectedCitizen.inquiryData.inquirer_name,
-                outcome: selectedCitizen.inquiryData.outcome,
-                purpose: selectedCitizen.inquiryData.purpose,
+                conversation_summary: selectedCitizen.inquiryData?.conversation_summary || '',
+                inquiry_date: selectedCitizen.inquiryData?.inquiry_date || '',
+                inquirer_name: selectedCitizen.inquiryData?.inquirer_name || '',
+                outcome: selectedCitizen.inquiryData?.outcome || '',
+                purpose: selectedCitizen.inquiryData?.purpose || '',
             },
             stayData: {
-                accommodation_end_date: selectedCitizen.stayData.accommodation_end_date,
-                accommodation_start_date: selectedCitizen.stayData.accommodation_start_date,
-                journal_number: selectedCitizen.stayData.journal_number,
-                accompanying_children: selectedCitizen.stayData.accompanying_children ?? [],
-                residence_before_uuid: selectedCitizen.stayData.residence_before_uuid,
-                residence_after_uuid: selectedCitizen.stayData.residence_after_uuid,
-                discharge_reason: selectedCitizen.stayData.discharge_reason,
+                accommodation_end_date: selectedCitizen.stayData?.accommodation_end_date || '',
+                accommodation_start_date: selectedCitizen.stayData?.accommodation_start_date || '',
+                journal_number: selectedCitizen.stayData?.journal_number || '',
+                accompanying_children: selectedCitizen.stayData?.accompanying_children ?? [],
+                residence_before_uuid: selectedCitizen.stayData?.residence_before_uuid || '',
+                residence_after_uuid: selectedCitizen.stayData?.residence_after_uuid || '',
+                discharge_reason: selectedCitizen.stayData?.discharge_reason || '',
             }
         }
     }
@@ -1300,5 +1341,172 @@ function addAccompanyingChild() {
 
 function removeAccompanyingChild(index: number) {
     state.formCitizen.stayData.accompanying_children.splice(index, 1)
+}
+
+// Add the parseAndUpdateAddress function here
+async function parseAndUpdateAddress(addressData: any, location: { lat: number; lng: number }) {
+    // Add null check for addressData
+    if (!addressData || !addressData.address) {
+        console.warn('No address data available')
+        state.selectedCitizenLocation = location
+        // Still store the coordinates even without address data
+        state.formCitizen.latitude = location.lat.toString()
+        state.formCitizen.longitude = location.lng.toString()
+        return
+    }
+    
+    const address = addressData.address || {}
+    
+    // Extract address components
+    const street = `${address.road || ''} ${address.house_number || ''}`.trim() || address.pedestrian || ''
+    const postCode = address.postcode || ''
+    const city = address.city || address.town || address.village || address.municipality || ''
+    
+    // Update street and post code directly
+    state.formCitizen.street = street
+    state.formCitizen.post_code = postCode
+    
+    // Store coordinates - THIS IS THE KEY PART
+    state.formCitizen.latitude = location.lat.toString()
+    state.formCitizen.longitude = location.lng.toString()
+    
+    // Find and set region first (top-down approach works better)
+    const regionName = address.state || address.region || ''
+    if (regionName) {
+        // Remove "Region " prefix if present and normalize
+        const normalizedRegionName = regionName.replace(/^Region\s+/i, '').trim()
+        
+        const matchedRegion = state.options.regions.find(
+            (r: any) => {
+                if (!r?.label) return false
+                const normalizedLabel = r.label.trim()
+                
+                // Try exact match first
+                if (normalizedLabel.toLowerCase() === normalizedRegionName.toLowerCase()) {
+                    return true
+                }
+                
+                // Try partial match
+                if (normalizedLabel.toLowerCase().includes(normalizedRegionName.toLowerCase()) ||
+                    normalizedRegionName.toLowerCase().includes(normalizedLabel.toLowerCase())) {
+                    return true
+                }
+                
+                return false
+            }
+        )
+        
+        if (matchedRegion && matchedRegion.value) {
+            state.formCitizen.region = matchedRegion.value
+            // Fetch municipalities for this region
+            await fetchMunicipalitiesPerRegion(matchedRegion.value)
+        } else {
+            console.warn('Region not matched:', regionName, 'Normalized:', normalizedRegionName)
+        }
+    }
+    
+    // Find and set municipality
+    const municipalityName = address.municipality || address.county || ''
+    if (municipalityName) {
+        // Remove "Kommune" suffix if present and normalize
+        const normalizedMunicipalityName = municipalityName.replace(/\s+Kommune$/i, '').trim()
+        
+        // First try to match in region-specific municipalities
+        let matchedMunicipality = state.options.municipalitiesPerRegion.find(
+            (m: any) => {
+                if (!m?.label) return false
+                const normalizedLabel = m.label.trim()
+                
+                // Try exact match first
+                if (normalizedLabel.toLowerCase() === normalizedMunicipalityName.toLowerCase()) {
+                    return true
+                }
+                
+                // Try partial match
+                if (normalizedLabel.toLowerCase().includes(normalizedMunicipalityName.toLowerCase()) ||
+                    normalizedMunicipalityName.toLowerCase().includes(normalizedLabel.toLowerCase())) {
+                    return true
+                }
+                
+                return false
+            }
+        )
+        
+        // If not found and municipalitiesPerRegion is empty, try all municipalities
+        if (!matchedMunicipality && state.options.municipalitiesPerRegion.length === 0) {
+            matchedMunicipality = state.options.municipalities.find(
+                (m: any) => {
+                    if (!m?.label) return false
+                    const normalizedLabel = m.label.trim()
+                    
+                    // Try exact match first
+                    if (normalizedLabel.toLowerCase() === normalizedMunicipalityName.toLowerCase()) {
+                        return true
+                    }
+                    
+                    // Try partial match
+                    if (normalizedLabel.toLowerCase().includes(normalizedMunicipalityName.toLowerCase()) ||
+                        normalizedMunicipalityName.toLowerCase().includes(normalizedLabel.toLowerCase())) {
+                        return true
+                    }
+                    
+                    return false
+                }
+            )
+        }
+        
+        if (matchedMunicipality && matchedMunicipality.value) {
+            state.formCitizen.municipality = matchedMunicipality.value
+            // Fetch cities for this municipality
+            await fetchCities(matchedMunicipality.value)
+        } else {
+            console.warn('Municipality not matched:', municipalityName, 'Normalized:', normalizedMunicipalityName)
+        }
+    }
+    
+    // Find and set city
+    if (city) {
+        const matchedCity = state.options.cities.find(
+            (c: any) => c?.label && c.label.toLowerCase() === city.toLowerCase()
+        )
+        if (matchedCity && matchedCity.value) {
+            state.formCitizen.city = matchedCity.value
+        } else {
+            // If no match found, just set the city name as text
+            state.formCitizen.city = city
+            console.warn('City not matched:', city)
+        }
+    }
+    
+    // Store location coordinates reference
+    state.selectedCitizenLocation = location
+    
+    // Log the final result for debugging
+    console.log('Address parsing complete:', {
+        street: state.formCitizen.street,
+        postCode: state.formCitizen.post_code,
+        city: state.formCitizen.city,
+        municipality: state.formCitizen.municipality,
+        region: state.formCitizen.region,
+        latitude: state.formCitizen.latitude,
+        longitude: state.formCitizen.longitude,
+        coordinates: { lat: location.lat, lng: location.lng }
+    })
+}
+
+// Updated handler for location selection with null check
+async function onCitizenLocationSelected(location: { lat: number; lng: number }, address: string, addressData: any) {
+    // Check if addressData exists
+    if (!addressData) {
+        console.warn('No address data received')
+        state.formCitizen.street = address // At least set the display address
+        state.formCitizen.latitude = location.lat.toString()
+        state.formCitizen.longitude = location.lng.toString()
+        state.selectedCitizenLocation = location
+        return
+    }
+    
+    // Parse and update all address fields
+    await parseAndUpdateAddress(addressData, location)
 }
 </script>

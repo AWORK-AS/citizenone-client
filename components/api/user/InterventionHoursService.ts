@@ -5,6 +5,14 @@ class InterventionHoursService extends BaseAPIService {
         return await this.request(`/user/citizen-care-hours`, 'GET', params)
     }
 
+    async getAllInterventionHours(params: any): Promise<any> {
+        return await this.request(`/user/citizen-care-hours/all/list`, 'GET', params)
+    }
+
+    async getByEmployeeInterventionHours(employeeUuid: any, params: any): Promise<any> {
+        return await this.request(`/user/citizen-care-hours/employee/${employeeUuid}`, 'GET', params)
+    }
+
     async saveInterventionHours(params: object): Promise<any> {
         return await this.request(`/user/citizen-care-hours`, 'POST', params)
     }
@@ -21,6 +29,14 @@ class InterventionHoursService extends BaseAPIService {
         return await this.request(`/user/citizen-care-hours/download/reports`, 'GET', params)
     }
 
+    async downloadInterventionHoursReport(params: object): Promise<any> {
+        return await this.request(`/user/citizen-care-hours/download/all/reports`, 'GET', params)
+    }
+
+    async downloadInterventionHoursEmployeeReport(employeeUuid: any, params: object): Promise<any> {
+        return await this.request(`/user/citizen-care-hours/download/employee/${employeeUuid}/reports`, 'GET', params)
+    }
+
     async getContributionMargin(citizenUuid: any, params: object): Promise<any> {
         return await this.request(`/user/citizen-care-hours/${citizenUuid}/contribution-margin`, 'GET', params)
     }
@@ -29,12 +45,12 @@ class InterventionHoursService extends BaseAPIService {
         return await this.request(`/user/citizen-care-hours/${citizenUuid}/summary-hours`, 'GET', params)
     }
 
-    async checkin(citizenUuid: any): Promise<any> {
-        return await this.request(`/user/citizen-care-hours/${citizenUuid}/time-in`, 'POST')
+    async checkin(citizenUuid: any, params: object): Promise<any> {
+        return await this.request(`/user/citizen-care-hours/${citizenUuid}/time-in`, 'POST', params)
     }
 
-    async checkout(citizenUuid: any): Promise<any> {
-        return await this.request(`/user/citizen-care-hours/${citizenUuid}/time-out`, 'POST')
+    async checkout(citizenUuid: any, params: object): Promise<any> {
+        return await this.request(`/user/citizen-care-hours/${citizenUuid}/time-out`, 'POST', params)
     }
 }
 

@@ -305,7 +305,6 @@
                                     </div>
                                 </div>
 
-                                <!-- <div class="relative mt-0.5 overflow-y-auto" style="max-height: 82vh;" -->
                                 <div class="relative mt-0.5"
                                     @click="!isWeeklyScheduleCopied(weekNumber) && !isAllWeeklyScheduleCopiedEmpty() && !isPastWeek() && pasteWeeklySchedule(weekNumber)"
                                     :class="[
@@ -337,7 +336,7 @@
                                                 <div class="px-3 pt-3 pb-1 relative">
                                                     <div class="flex justify-between">
                                                         <div class="flex items-center gap-x-2">
-                                                            <img :src="employee?.profile_image ?? `https://ui-avatars.com/api/?background=42AED9&color=fff&name=${employee?.firstname + ' ' + employee?.lastname}`"
+                                                            <img :src="employee?.profile_image ?? `https://ui-avatars.com/api/?background=42AED9&color=fff&name=${getDisplayName(employee).firstName + ' ' + getDisplayName(employee).lastName}`"
                                                                 :class="[
                                                                     employee?.shift_threshold === 'high' && 'border-green-700',
                                                                     employee?.shift_threshold === 'moderate' && 'border-yellow-500',
@@ -345,8 +344,8 @@
                                                                     'h-10 w-10 rounded-full bg-gray-50 object-cover border-2'
                                                                 ]" />
                                                             <p class="text-sm font-medium">
-                                                                {{ employee?.firstname }}
-                                                                {{ employee?.lastname }}
+                                                                {{ getDisplayName(employee).firstName }}
+                                                                {{ getDisplayName(employee).lastName }}
                                                             </p>
                                                         </div>
                                                         <div class="flex items-center gap-x-1">
@@ -367,6 +366,16 @@
                                                                     class="bg-gray-200 w-6 h-6 text-sm text-gray-600 rounded-sm hover:bg-gray-400 hover:text-gray-200 flex items-center justify-center"
                                                                     @click="viewExtraHours(employee)">
                                                                     <Icon name="mdi:clock-outline" class="h-3 w-3"
+                                                                        aria-hidden="true" />
+                                                                </button>
+                                                            </Tooltip>
+                                                            <Tooltip position="right"
+                                                                :text="$t('dutySchedules.leaveRequests.leaveRequests')"
+                                                                v-if="isAdmin(userStore.getUser?.role) || (!isAdmin(userStore.getUser?.role) && userStore.getUser?.show_working_hours && userStore.getUser?.uuid === employee?.uuid)">
+                                                                <button
+                                                                    class="bg-gray-200 w-6 h-6 text-sm text-gray-600 rounded-sm hover:bg-gray-400 hover:text-gray-200 flex items-center justify-center"
+                                                                    @click="viewLeaveRequests(employee)">
+                                                                    <Icon name="mdi:wallet-travel" class="h-3 w-3"
                                                                         aria-hidden="true" />
                                                                 </button>
                                                             </Tooltip>
@@ -894,6 +903,9 @@
             <ModulesUserDutyScheduleExtraHoursModalView :isModalOpen="state.modal.isManageExtraHoursOpen"
                 :selectedEmployee="state.manageExtraHours.selectedEmployee"
                 @close="state.modal.isManageExtraHoursOpen = false" @refreshDutySchedules="fetchDutySchedule()" />
+            <ModulesUserDutyScheduleLeaveRequestsModalView :isModalOpen="state.modal.isManageLeaveRequestsOpen"
+                :selectedEmployee="state.manageLeaveRequests.selectedEmployee"
+                @close="state.modal.isManageLeaveRequestsOpen = false" @refreshDutySchedules="fetchDutySchedule()" />
             <ModulesUserDutyScheduleTimeRequestsModalRequests
                 :isModalOpen="state.modal.isManageTimeAdjustmentRequestsOpen"
                 :selectedDate="state.manageTimeRequest.selectedDate"
@@ -935,6 +947,7 @@ import { useNumberFormatter } from '@/composables/numberFormatter'
 import { useDutyScheduleStore } from '@/store/duty-schedule'
 import { useUserStore } from '@/store/user'
 import { useI18n } from "vue-i18n"
+import { useAlert } from '@/composables/alert'
 import type { Error } from '@/types'
 
 const emit = defineEmits(['setDutyScheduleCurrentDate', 'setDutyScheduleCurrentFilter'])
@@ -943,10 +956,51 @@ const dutyScheduleStore = useDutyScheduleStore() as any
 const userStore = useUserStore() as any
 const departmentStore = useDepartmentStore()
 const { formatNumber } = useNumberFormatter()
+const { errorAlert } = useAlert()
 const currentDate = ref(moment())
 const month = computed(() => currentDate.value.format('MMMM'))
 const year = computed(() => currentDate.value.format('YYYY'))
 const expandedRecords = reactive([] as boolean[])
+
+function buildEmptyWeeks() {
+    const weekDaysOrder = ['monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday', 'sunday']
+    const startOfWeek = moment(currentDate.value).startOf('isoWeek')
+    const weekData = state.weeklySchedules?.week_data || {}
+
+    return weekDaysOrder.reduce((weeks: any, dayKey: string, index: number) => {
+        const fallbackDate = moment(startOfWeek).add(index, 'day').format('YYYY-MM-DD')
+        weeks[dayKey] = {
+            date: weekData?.[dayKey]?.date || fallbackDate,
+            shifts: [],
+            slots: [],
+            additional_hour_requests: 0,
+            swap_requests: 0,
+            total_slots: 0,
+        }
+        return weeks
+    }, {})
+}
+
+function buildEmptyWeekData() {
+    const weekDaysOrder = ['monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday', 'sunday']
+    const startOfWeek = moment(currentDate.value).startOf('isoWeek')
+
+    return weekDaysOrder.reduce((weekData: any, dayKey: string, index: number) => {
+        weekData[dayKey] = {
+            date: moment(startOfWeek).add(index, 'day').format('YYYY-MM-DD'),
+            total_slots: 0,
+            holiday: null,
+        }
+        return weekData
+    }, {})
+}
+
+function getDisplayName(employee: any) {
+    return {
+        firstName: employee?.firstname || employee?.firstName || '',
+        lastName: employee?.lastname || employee?.lastName || '',
+    }
+}
 
 const state = reactive({
     addShift: {
@@ -983,6 +1037,9 @@ const state = reactive({
         selectedEmployee: {},
         selectedSchedule: {},
     },
+    manageLeaveRequests: {
+        selectedEmployee: {},
+    },
     manageTimeRequest: {
         selectedDate: '',
         selectedEmployee: {},
@@ -1001,6 +1058,7 @@ const state = reactive({
         isEditShiftOpen: false,
         isFilterDutyScheduleOpen: false,
         isManageExtraHoursOpen: false,
+        isManageLeaveRequestsOpen: false,
         isManageScheduleSlotOpen: false,
         isManageTimeAdjustmentRequestsOpen: false,
         isManageSwapScheduleRequestsOpen: false,
@@ -1383,6 +1441,10 @@ function viewAvailableVacationHours(employee: any) {
 }
 
 function openAddNewShiftModal(employee: any, employeeIndex: number, weekIndex: any, week: any) {
+    if (!employee?.uuid) {
+        errorAlert('Error', 'This employee is not linked to a local user yet.')
+        return
+    }
     state.modal.isAddShiftOpen = true
     state.addShift.selectedEmployeeSchedule = {
         employeeIndex: employeeIndex,
@@ -1449,6 +1511,11 @@ async function pinSelfToTopOfSchedule() {
 
 async function saveShift(shiftDetails: any) {
     const employeeIndex = state.addShift.selectedEmployeeSchedule.employeeIndex
+    const employeeUuid = state.weeklySchedules?.data?.[employeeIndex]?.uuid
+    if (!employeeUuid) {
+        errorAlert('Error', 'This employee is not linked to a local user yet.')
+        return
+    }
     const shiftType = shiftDetails.shift_type
     const params = {
         shift_type_uuid: shiftType,
@@ -1456,7 +1523,7 @@ async function saveShift(shiftDetails: any) {
         do_not_count_weekends: shiftDetails.do_not_count_weekends,
         date_time_start: shiftDetails.date_time_start,
         date_time_end: shiftDetails.date_time_end,
-        user_uuid: state.weeklySchedules?.data?.[employeeIndex].uuid,
+        user_uuid: employeeUuid,
         citizen_uuid: shiftDetails?.citizens,
         schedule_tag_uuid: shiftDetails.schedule_tag_uuid,
         department_uuid: shiftDetails.department_uuid,
@@ -1612,6 +1679,11 @@ function viewExtraHours(employee: any) {
     state.modal.isManageExtraHoursOpen = true
 }
 
+function viewLeaveRequests(employee: any) {
+    state.manageLeaveRequests.selectedEmployee = employee
+    state.modal.isManageLeaveRequestsOpen = true
+}
+
 async function pasteEmployeeWeeklySchedule(weeklySchedule: any) {
     state.copyShiftError = {}
     try {
@@ -1742,7 +1814,7 @@ async function removeEntireShiftSpan() {
 
 function viewSchedule(employeeIndex: number, weekIndex: any, shift: any, shiftIndex: number) {
     const date = state.weeklySchedules?.data?.[employeeIndex].weeks[weekIndex].date
-    const userUuid = state.weeklySchedules?.data?.[employeeIndex].employee.uuid
+    const userUuid = state.weeklySchedules?.data?.[employeeIndex].uuid
     state.viewShift.selectedEmployeeSchedule = {
         citizen_schedules: shift?.citizen_schedules,
         scheduleUuid: shift?.schedule_uuid,
@@ -1897,6 +1969,11 @@ function openUserNormPeriodModal(employee: any) {
     state.normHours.selectedEmployee = employee
     state.modal.isUserNormPeriodOpen = true
 }
+
+defineExpose({
+    refreshSchedule: fetchDutySchedule,
+    getScheduleEmployees: () => state.weeklySchedules?.data || [],
+})
 
 function openGraphModal(employee: any) {
     state.normHours.selectedEmployee = employee

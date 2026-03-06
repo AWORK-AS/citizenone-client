@@ -85,13 +85,16 @@
                 </div>
 
                 <div class="space-y-1" v-if="isVacationLeave">
-                    <div class="w-fit flex items-center cursor-pointer" @click="state.formShift.is_override_vacation_hours = !state.formShift.is_override_vacation_hours">
-                        <FormCheckbox id="override_vacation_hours" :value="state.formShift.is_override_vacation_hours" />
+                    <div class="w-fit flex items-center cursor-pointer"
+                        @click="state.formShift.is_override_vacation_hours = !state.formShift.is_override_vacation_hours">
+                        <FormCheckbox id="override_vacation_hours"
+                            :value="state.formShift.is_override_vacation_hours" />
                         {{ $t('dutySchedules.form.overrideVacationHours') }}
                     </div>
                 </div>
 
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-3" v-if="!isVacationLeave || (isVacationLeave && state.formShift.is_override_vacation_hours)">
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-3"
+                    v-if="!isVacationLeave || (isVacationLeave && state.formShift.is_override_vacation_hours)">
                     <div class="space-y-1">
                         <FormLabel for="date_time_start" :label="$t('dutySchedules.form.datetimeStart')" />
                         <FormDateTimeField id="date_time_start" name="date_time_start"
@@ -757,7 +760,6 @@ async function fetchAllCitizensPerUserDepartment() {
 async function saveShift() {
     v$.value.$validate()
     if (!v$.value.$error) {
-        console.log('Form is valid. Submitting data...', state.formShift)
         emit('saveShift', state.formShift)
     }
 }
