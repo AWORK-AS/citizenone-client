@@ -11,7 +11,7 @@
                         <!-- Current assignments -->
                         <div class="rounded-md bg-gray-50 border border-gray-200 p-3 space-y-2">
                             <p class="text-sm font-medium text-gray-700">{{ $t('timeAccounts.modal.currentlyAssigned')
-                                }}</p>
+                            }}</p>
                             <div v-if="state.currentAssignments.users.length > 0" class="space-y-1">
                                 <p class="text-xs text-gray-500">{{ $t('timeAccounts.modal.users') }}</p>
                                 <div class="flex flex-wrap gap-1">
@@ -55,13 +55,13 @@
 
                         <!-- Action buttons -->
                         <div class="flex gap-2 mt-6">
-                            <FormButton type="button" class="w-full rounded-md" buttonStyle="action"
-                                @click="handleAssign">
-                                {{ $t('timeAccounts.modal.assign') }}
-                            </FormButton>
                             <FormButton type="button" class="w-full rounded-md" buttonStyle="danger"
                                 @click="handleUnassign">
                                 {{ $t('timeAccounts.modal.unassign') }}
+                            </FormButton>
+                            <FormButton type="button" class="w-full rounded-md" buttonStyle="action"
+                                @click="handleAssign">
+                                {{ $t('timeAccounts.modal.assign') }}
                             </FormButton>
                         </div>
                     </div>

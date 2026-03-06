@@ -72,7 +72,7 @@
                                         <span>{{ timeAccount?.account_until }}</span>
                                     </td>
                                     <td>
-                                        <Badge :type="timeAccount?.is_active ? 'primary' : 'secondary'" class="w-fit">
+                                        <Badge type="primary" class="w-fit">
                                             {{ timeAccount?.is_active ? $t('dutyShiftRules.form.active') :
                                                 $t('dutyShiftRules.form.inactive') }}
                                         </Badge>
