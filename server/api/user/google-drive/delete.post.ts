@@ -1,7 +1,7 @@
 export default defineEventHandler(async (event) => {
     const runtimeConfig = useRuntimeConfig()
     const authorization = getHeader(event, 'authorization')
-    
+
     const headers: Record<string, string> = {
         Accept: 'application/json',
     }
@@ -11,15 +11,19 @@ export default defineEventHandler(async (event) => {
     }
 
     try {
-        return await $fetch('/google-drive/auth-url', {
+        const body = await readBody(event)
+
+        return await $fetch('/user/google-drive/delete', {
             baseURL: runtimeConfig.public.apiBaseURL,
-            method: 'GET',
+            method: 'POST',
             headers,
+            body,
         })
-    } catch (error) {
+    } catch (error: any) {
+        console.error('Error deleting from Google Drive:', error)
         throw createError({
-            statusCode: 500,
-            statusMessage: 'Failed to fetch Google Drive auth URL',
+            statusCode: error.statusCode || 500,
+            statusMessage: error.message || 'Failed to delete file from Google Drive',
         })
     }
 })

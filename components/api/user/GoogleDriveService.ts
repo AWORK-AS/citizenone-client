@@ -14,7 +14,7 @@ class GoogleDriveService extends BaseAPIService {
             headers.Authorization = `Bearer ${token}`
         }
 
-        return await $fetch('/api/google-drive/auth-url', {
+        return await $fetch('/api/user/google-drive/auth-url', {
             method: 'GET',
             headers,
         })
@@ -49,7 +49,7 @@ class GoogleDriveService extends BaseAPIService {
             headers.Authorization = `Bearer ${token}`
         }
 
-        return await $fetch('/api/google-drive/status', {
+        return await $fetch('/api/user/google-drive/status', {
             method: 'GET',
             headers,
         })
@@ -76,7 +76,7 @@ class GoogleDriveService extends BaseAPIService {
             queryParams.search = search
         }
 
-        return await $fetch('/api/google-drive/files', {
+        return await $fetch('/api/user/google-drive/files', {
             method: 'GET',
             headers,
             query: Object.keys(queryParams).length > 0 ? queryParams : undefined,
@@ -104,7 +104,7 @@ class GoogleDriveService extends BaseAPIService {
             headers.Authorization = `Bearer ${token}`
         }
 
-        return await $fetch('/api/google-drive/upload', {
+        return await $fetch('/api/user/google-drive/upload', {
             method: 'POST',
             headers,
             body: formData,
@@ -121,7 +121,7 @@ class GoogleDriveService extends BaseAPIService {
             headers.Authorization = `Bearer ${token}`
         }
 
-        return await $fetch('/api/google-drive/create-folder', {
+        return await $fetch('/api/user/google-drive/create-folder', {
             method: 'POST',
             headers,
             body: {
@@ -141,7 +141,7 @@ class GoogleDriveService extends BaseAPIService {
             headers.Authorization = `Bearer ${token}`
         }
 
-        return await $fetch('/api/google-drive/delete', {
+        return await $fetch('/api/user/google-drive/delete', {
             method: 'POST',
             headers,
             body: { file_id: fileId },
@@ -158,7 +158,7 @@ class GoogleDriveService extends BaseAPIService {
             headers.Authorization = `Bearer ${token}`
         }
 
-        return await $fetch('/api/google-drive/move', {
+        return await $fetch('/api/user/google-drive/move', {
             method: 'POST',
             headers,
             body: { file_id: fileId, parent_id: parentId, folder_id: parentId, new_parent_id: parentId },
@@ -166,7 +166,7 @@ class GoogleDriveService extends BaseAPIService {
     }
 
     async updateGoogleDriveFile(fileId: string, params: any): Promise<any> {
-        return await this.request(`/google-drive/files/${fileId}`, 'PATCH', params)
+        return await this.request(`/user/google-drive/files/${fileId}`, 'PATCH', params)
     }
 
     async generateFormPdf(formUuid: string, responses: Record<string, any>, parentId?: string, uploadToDrive: boolean = true): Promise<any> {
@@ -177,7 +177,7 @@ class GoogleDriveService extends BaseAPIService {
             headers.Authorization = `Bearer ${token}`
         }
 
-        return await $fetch('/api/google-drive/generate-form-pdf', {
+        return await $fetch('/api/user/google-drive/generate-form-pdf', {
             method: 'POST',
             headers,
             body: {
@@ -197,7 +197,7 @@ class GoogleDriveService extends BaseAPIService {
             headers.Authorization = `Bearer ${token}`
         }
 
-        return await $fetch('/api/google-drive/generate-form-pdf', {
+        return await $fetch('/api/user/google-drive/generate-form-pdf', {
             method: 'POST',
             headers,
             body: {
