@@ -168,6 +168,13 @@
                             </p>
                         </div>
                         <div class="space-y-1 flex items-center gap-x-2">
+                            <FormSwitch :value="state.formCompany.intervention_checkin_enabled"
+                                @toggleSwitch="state.formCompany.intervention_checkin_enabled = !state.formCompany.intervention_checkin_enabled" />
+                            <p>
+                                {{ $t('settings.company.form.interventionCheckinOut') }}
+                            </p>
+                        </div>
+                        <div class="space-y-1 flex items-center gap-x-2">
                             <FormSwitch :value="state.formCompany.change_password_enabled"
                                 @toggleSwitch="state.formCompany.change_password_enabled = !state.formCompany.change_password_enabled" />
                             <p>
@@ -289,6 +296,7 @@ const state = reactive({
         is_2fa_enabled: false,
         group_chat_enabled: false,
         checkin_enabled: false,
+        intervention_checkin_enabled: false,
         change_password_enabled: false,
         plans_enabled: false,
         goals_enabled: false,
@@ -349,6 +357,7 @@ watch(() => userStore.getUser, (newValue: any) => {
             is_2fa_enabled: newValue?.company?.is_2fa_enabled ? true : false,
             group_chat_enabled: newValue?.company?.group_chat_enabled ? true : false,
             checkin_enabled: newValue?.company?.checkin_enabled ? true : false,
+            intervention_checkin_enabled: newValue?.company?.intervention_checkin_enabled ? true : false,
             change_password_enabled: newValue?.company?.change_password_enabled ? true : false,
             plans_enabled: newValue?.company?.employee_create_plans_enabled ? true : false,
             goals_enabled: newValue?.company?.employee_create_goals_enabled ? true : false,
@@ -511,6 +520,7 @@ async function submitForm() {
                 is_2fa_enabled: state.formCompany.is_2fa_enabled,
                 group_chat_enabled: state.formCompany.group_chat_enabled,
                 checkin_enabled: state.formCompany.checkin_enabled,
+                intervention_checkin_enabled: state.formCompany.intervention_checkin_enabled,
                 change_password_enabled: state.formCompany.change_password_enabled,
                 employee_create_plans_enabled: state.formCompany.plans_enabled,
                 employee_create_goals_enabled: state.formCompany.goals_enabled,

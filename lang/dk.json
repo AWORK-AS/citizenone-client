@@ -1516,6 +1516,7 @@
                 "confirmation": {
                     "deleteInterventionHoursConfirmation": "Er du sikker på, at du vil slette disse indsatstimer"
                 },
+                "citizen": "Borger",
                 "createdBy": "Oprettet af",
                 "datetimeEnd": "Dato og tid slut",
                 "datetimeStart": "Dato og tid start",
@@ -1547,6 +1548,16 @@
                 "kilometers": "Kilometer",
                 "createdBy": "Oprettet af",
                 "note": "Bemærkning"
+            },
+            "filter": {
+                "departments": "Afdelinger",
+                "employees": "Medarbejdere",
+                "citizens": "Borgere",
+                "type": "Type",
+                "filterDate": "Filtrer dato",
+                "allTypes": "Alle typer",
+                "work": "Arbejdstid",
+                "transport": "Transport"
             }
         },
         "medicationAllergies": "Medicinallergier (CAVE)",
@@ -5929,6 +5940,7 @@
                     "successfullyUpdated": "Firma opdateret med succes"
                 },
                 "checkinOut": "Check ind/ud",
+                "interventionCheckinOut": "Check ind/ud for indsats",
                 "allowChangePassword": "Tillad medarbejdere at ændre adgangskode",
                 "allowPlans": "Tillad medarbejdere at oprette planer",
                 "allowGoals": "Tillad medarbejdere at oprette mål",
