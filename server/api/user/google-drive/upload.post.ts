@@ -1,7 +1,7 @@
 export default defineEventHandler(async (event) => {
     const runtimeConfig = useRuntimeConfig()
     const authorization = getHeader(event, 'authorization')
-    
+
     const headers: Record<string, string> = {}
     if (authorization) {
         headers.Authorization = authorization
@@ -10,7 +10,7 @@ export default defineEventHandler(async (event) => {
     try {
         const formData = await readFormData(event)
 
-        console.log('Proxy /api/google-drive/upload - incoming authorization:', authorization)
+        console.log('Proxy /api/user/google-drive/upload - incoming authorization:', authorization)
         try {
             for (const entry of formData.entries()) {
                 const [k, v] = entry as any
@@ -24,9 +24,9 @@ export default defineEventHandler(async (event) => {
             console.log('Could not iterate formData entries', e)
         }
 
-        console.log('Proxy /api/google-drive/upload - forwarding headers:', headers)
+        console.log('Proxy /api/user/google-drive/upload - forwarding headers:', headers)
 
-        const response = await $fetch('/google-drive/upload', {
+        const response = await $fetch('/user/google-drive/upload', {
             baseURL: runtimeConfig.public.apiBaseURL,
             method: 'POST',
             headers,
@@ -35,12 +35,12 @@ export default defineEventHandler(async (event) => {
 
         try {
             const respString = typeof response === 'string' ? response : JSON.stringify(response)
-            console.log('Proxy /api/google-drive/upload - backend response (truncated):', respString.substring(0, 2000))
+            console.log('Proxy /api/user/google-drive/upload - backend response (truncated):', respString.substring(0, 2000))
         } catch (e) {
-            console.log('Proxy /api/google-drive/upload - could not stringify backend response', e)
+            console.log('Proxy /api/user/google-drive/upload - could not stringify backend response', e)
         }
 
-        console.log('Proxy /api/google-drive/upload - backend response received')
+        console.log('Proxy /api/user/google-drive/upload - backend response received')
         return response
     } catch (error: any) {
         console.error('Error uploading to Google Drive:', error)

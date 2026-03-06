@@ -94,7 +94,7 @@
                                         <div class="w-fit flex items-center cursor-pointer"
                                             @click="state.formDownload.show_leaves_only = !state.formDownload.show_leaves_only">
                                             <FormCheckbox :value="state.formDownload.show_leaves_only" />
-                                            {{ $t('dutySchedules.download.downloadLeavesOnly') }}
+                                            {{ $t('dutySchedules.download.downloadOnlyLeaveTypes') }}
                                         </div>
                                     </div>
                                 </div>

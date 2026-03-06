@@ -13,17 +13,17 @@ export default defineEventHandler(async (event) => {
     try {
         const body = await readBody(event)
 
-        return await $fetch('/google-drive/move', {
+        return await $fetch('/user/google-drive/create-folder', {
             baseURL: runtimeConfig.public.apiBaseURL,
             method: 'POST',
             headers,
             body,
         })
     } catch (error: any) {
-        console.error('Error moving Google Drive file:', error)
+        console.error('Error creating Google Drive folder:', error)
         throw createError({
             statusCode: error.statusCode || 500,
-            statusMessage: error.message || 'Failed to move file in Google Drive',
+            statusMessage: error.message || 'Failed to create folder in Google Drive',
         })
     }
 })

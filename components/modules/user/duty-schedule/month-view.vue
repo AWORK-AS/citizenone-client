@@ -171,8 +171,8 @@
                                 <div class="min-w-max">
                                     <div class="grid border-b border-gray-200"
                                         :style="{ gridTemplateColumns: `305px repeat(${monthDays.length}, 153px)` }"
-                                        id="fixed-header-month-table">
-                                        <div class="sticky left-0 z-20 bg-white border-r border-gray-200">
+                                        id="fixed-header-month-view">
+                                        <div class="sticky left-0 z-20 bg-white border-0.5 border-gray-200">
                                             <div class="gap-x-2 px-3 pt-3" v-if="isAdmin(userStore.getUser?.role)">
                                                 <Tooltip :text="$t('dutySchedules.copy.copyMultipleWeeksSchedule')"
                                                     position="right">
@@ -266,6 +266,22 @@
                                         </div>
                                     </div>
 
+                                    <div class="grid border-b border-gray-100"
+                                        :style="{ gridTemplateColumns: `305px repeat(${monthDays.length}, 153px)` }">
+                                        <p
+                                            class="sticky left-0 z-20 bg-white flex items-center justify-end px-4 py-2 text-xs border-0.5">
+                                            {{ $t('dutySchedules.holidays') }}:
+                                        </p>
+                                        <div v-for="day in monthDays" class="p-3 border-0.5">
+                                            <p class="bg-secondary text-white text-center text-xxs px-3 py-0.5 rounded-lg"
+                                                v-if="state.monthlySchedules?.month_data?.[moment(day).format('YYYY-MM-DD')]?.holiday">
+                                                {{
+                                                    state.monthlySchedules?.month_data?.[moment(day).format('YYYY-MM-DD')]?.holiday?.name
+                                                }}
+                                            </p>
+                                        </div>
+                                    </div>
+
                                     <div v-for="(employee, employeeIndex) in state.monthlySchedules?.data"
                                         :key="employeeIndex" class="grid border-b border-gray-100"
                                         :style="{ gridTemplateColumns: `305px repeat(${monthDays.length}, 153px)` }">
@@ -298,7 +314,7 @@
                                                         </Tooltip>
                                                         <Tooltip position="right"
                                                             :text="$t('dutySchedules.leaveRequests.leaveRequests')"
-                                                            v-if="isAdmin(userStore.getUser?.role) || (!isAdmin(userStore.getUser?.role) && userStore.getUser?.show_working_hours && userStore.getUser?.uuid === employee?.uuid)">
+                                                            v-if="isAdmin(userStore.getUser?.role) || (!isAdmin(userStore.getUser?.role) && userStore.getUser?.uuid === employee?.uuid)">
                                                             <button
                                                                 class="bg-gray-200 w-6 h-6 text-sm text-gray-600 rounded-sm hover:bg-gray-400 hover:text-gray-200 flex items-center justify-center"
                                                                 @click="viewLeaveRequests(employee)">
@@ -363,12 +379,20 @@
                                                         }}
                                                     </p>
                                                     <p :class="[
-                                                        employee?.extra_hours > 0 ? 'text-green-700' : 'text-red-700',
+                                                        parseFloat(employee?.log_data.total_time_account_earned_hours.replace(',', '.')) > 0 ? 'text-green-700' : 'text-red-700',
+                                                        'text-xxs'
+                                                    ]">
+                                                        {{ $t('dutySchedules.earnedWorkHours') }}:
+                                                        {{ employee?.log_data.total_time_account_earned_hours }}
+                                                    </p>
+                                                    <p :class="[
+                                                        parseFloat(employee?.extra_hours.replace(',', '.')) > 0 ? 'text-green-700' : 'text-red-700',
                                                         'text-xxs'
                                                     ]">
                                                         {{ $t('dutySchedules.extraHours.extraHours') }}:
                                                         {{ employee?.extra_hours }}
                                                     </p>
+
                                                     <div class="p-0 m-0 text-xxs text-primary cursor-pointer hover:text-primary-700"
                                                         @click="navigateTo(`/calendar?employee_uuid=${employee?.uuid}`)">
                                                         {{ $t('dutySchedules.viewCalendar') }}
@@ -511,69 +535,69 @@
                                             </div>
                                         </div>
 
-                                        <!-- v-if="!isDailyScheduleCopied(employeeIndex, weekIndex, weekNumber)"> -->
                                         <div v-for="day in monthDays"
                                             :key="employee.uuid + '_' + day.format('YYYY-MM-DD')" :class="[
-                                                !isDailyScheduleCopiedEmpty() && state.copy.selectedEmployeeDailySchedule?.day === day.format('YYYY-MM-DD') && state.copy.selectedEmployeeDailySchedule?.employeeIndex === employeeIndex && 'border-1.5 border-dashed border-gray-700',
-                                                !isDailyScheduleCopiedEmpty() && (employeeIndex !== state.copy.selectedEmployeeDailySchedule.employeeIndex || day.format('YYYY-MM-DD') !== state.copy.selectedEmployeeDailySchedule.date) && 'cursor-copy relative group',
+                                                isDailyScheduleCopied(employee, day) && 'border-1.5 border-dashed border-gray-700',
+                                                !isDailyScheduleCopiedEmpty() && !isDailyScheduleCopied(employee, day) && 'cursor-copy relative group',
                                                 hasConflict(state.monthlySchedules?.data?.[employeeIndex]?.days?.[moment(day).format('YYYY-MM-DD')]?.shifts) && 'border-1.5 border-red-500 rounded-md',
-                                                'p-3 border-r-1.5 border-gray-100 min-h-[92px]'
+                                                'p-3 border-0.5 border-gray-100 min-h-[92px]'
                                             ]"
                                             @click="!isDailyScheduleCopiedEmpty() && (employee?.uuid !== state.copy.selectedEmployeeDailySchedule.employee?.uuid || day.format('YYYY-MM-DD') !== state.copy.selectedEmployeeDailySchedule.date) && pasteEmployeeDailySchedule(employeeIndex, day)">
                                             <div class="space-y-2" v-if="!isDailyScheduleCopied(employee, day)">
                                                 <div class="flex justify-end gap-2"
                                                     v-if="hasCreatePermission || isAdmin(userStore.getUser?.role)">
-                                                    <!-- <Menu as="div"
-                                                    class="absolute right-0 top-6 xl:relative xl:right-auto xl:top-auto xl:self-center">
-                                                    <div>
-                                                        <MenuButton
-                                                            class="-m-2 flex items-center rounded-full p-2 text-gray-500 hover:text-gray-600">
-                                                            <Tooltip position="left" :text="`
-                                                                        ${week?.additional_hour_requests} ${week?.additional_hour_requests <= 1 ? $t('dutySchedules.scheduleRequests.changeTime.changeTimeRequest') : $t('dutySchedules.scheduleRequests.changeTime.changeTimeRequests')} | 
-                                                                        ${week?.swap_requests} ${week?.swap_requests === 1 ? $t('dutySchedules.scheduleRequests.swapSchedule.swapScheduleRequest') : $t('dutySchedules.scheduleRequests.swapSchedule.swapScheduleRequests')}
+                                                    <Menu as="div"
+                                                        class="absolute right-0 top-6 xl:relative xl:right-auto xl:top-auto xl:self-center">
+                                                        <div>
+                                                            <MenuButton
+                                                                class="-m-2 flex items-center rounded-full p-2 text-gray-500 hover:text-gray-600">
+                                                                <Tooltip position="left" :text="`
+                                                                        ${state.monthlySchedules?.data?.[employeeIndex]?.days?.[moment(day).format('YYYY-MM-DD')]?.additional_hour_requests} ${state.monthlySchedules?.data?.[employeeIndex]?.days?.[moment(day).format('YYYY-MM-DD')]?.additional_hour_requests <= 1 ? $t('dutySchedules.scheduleRequests.changeTime.changeTimeRequest') : $t('dutySchedules.scheduleRequests.changeTime.changeTimeRequests')} | 
+                                                                        ${state.monthlySchedules?.data?.[employeeIndex]?.days?.[moment(day).format('YYYY-MM-DD')]?.swap_requests} ${state.monthlySchedules?.data?.[employeeIndex]?.days?.[moment(day).format('YYYY-MM-DD')]?.swap_requests === 1 ? $t('dutySchedules.scheduleRequests.swapSchedule.swapScheduleRequest') : $t('dutySchedules.scheduleRequests.swapSchedule.swapScheduleRequests')}
                                                                         `"
-                                                                v-if="week?.additional_hour_requests > 0 || week?.swap_requests > 0"
-                                                                class="relative">
-                                                                <button
-                                                                    class="bg-gray-200 w-6 h-6 text-sm text-gray-600 rounded-sm hover:bg-gray-400 hover:text-gray-200 flex items-center justify-center">
-                                                                    <Icon name="mdi:calendar-question-outline"
-                                                                        class="h-3 w-3" aria-hidden="true" />
-                                                                </button>
-                                                                <div
-                                                                    class="w-2 h-2 bg-red-400 rounded-full absolute -top-1 -right-1">
+                                                                    v-if="state.monthlySchedules?.data?.[employeeIndex]?.days?.[moment(day).format('YYYY-MM-DD')]?.additional_hour_requests > 0 || state.monthlySchedules?.data?.[employeeIndex]?.days?.[moment(day).format('YYYY-MM-DD')]?.swap_requests > 0"
+                                                                    class="relative">
+                                                                    <button
+                                                                        class="bg-gray-200 w-6 h-6 text-sm text-gray-600 rounded-sm hover:bg-gray-400 hover:text-gray-200 flex items-center justify-center">
+                                                                        <Icon name="mdi:calendar-question-outline"
+                                                                            class="h-3 w-3" aria-hidden="true" />
+                                                                    </button>
+                                                                    <div
+                                                                        class="w-2 h-2 bg-red-400 rounded-full absolute -top-1 -right-1">
+                                                                    </div>
+                                                                </Tooltip>
+                                                            </MenuButton>
+                                                        </div>
+                                                        <transition
+                                                            enter-active-class="transition ease-out duration-100"
+                                                            enter-from-class="transform opacity-0 scale-95"
+                                                            enter-to-class="transform opacity-100 scale-100"
+                                                            leave-active-class="transition ease-in duration-75"
+                                                            leave-from-class="transform opacity-100 scale-100"
+                                                            leave-to-class="transform opacity-0 scale-95">
+                                                            <MenuItems
+                                                                class="absolute right-0 z-10 w-48 origin-top-right rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
+                                                                <div class="py-1">
+                                                                    <MenuItem v-slot="{ active }">
+                                                                    <a :class="[active ? 'bg-gray-100 text-gray-900' : 'text-gray-700', 'block px-4 py-2 text-xs cursor-pointer']"
+                                                                        @click="viewChangeTimeRequests(employeeIndex, day)">
+                                                                        {{
+                                                                            $t('dutySchedules.scheduleRequests.changeTime.changeTimeRequests')
+                                                                        }}
+                                                                    </a>
+                                                                    </MenuItem>
+                                                                    <MenuItem v-slot="{ active }">
+                                                                    <a :class="[active ? 'bg-gray-100 text-gray-900' : 'text-gray-700', 'block px-4 py-2 text-xs cursor-pointer']"
+                                                                        @click="viewSwapScheduleRequests(employeeIndex, day)">
+                                                                        {{
+                                                                            $t('dutySchedules.scheduleRequests.swapSchedule.swapScheduleRequests')
+                                                                        }}
+                                                                    </a>
+                                                                    </MenuItem>
                                                                 </div>
-                                                            </Tooltip>
-                                                        </MenuButton>
-                                                    </div>
-                                                    <transition enter-active-class="transition ease-out duration-100"
-                                                        enter-from-class="transform opacity-0 scale-95"
-                                                        enter-to-class="transform opacity-100 scale-100"
-                                                        leave-active-class="transition ease-in duration-75"
-                                                        leave-from-class="transform opacity-100 scale-100"
-                                                        leave-to-class="transform opacity-0 scale-95">
-                                                        <MenuItems
-                                                            class="absolute right-0 z-10 w-48 origin-top-right rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
-                                                            <div class="py-1">
-                                                                <MenuItem v-slot="{ active }">
-                                                                <a :class="[active ? 'bg-gray-100 text-gray-900' : 'text-gray-700', 'block px-4 py-2 text-xs cursor-pointer']"
-                                                                    @click="viewChangeTimeRequests(employeeIndex, weekIndex, employee, weekNumber)">
-                                                                    {{
-                                                                        $t('dutySchedules.scheduleRequests.changeTime.changeTimeRequests')
-                                                                    }}
-                                                                </a>
-                                                                </MenuItem>
-                                                                <MenuItem v-slot="{ active }">
-                                                                <a :class="[active ? 'bg-gray-100 text-gray-900' : 'text-gray-700', 'block px-4 py-2 text-xs cursor-pointer']"
-                                                                    @click="viewSwapScheduleRequests(employeeIndex, weekIndex, employee, weekNumber)">
-                                                                    {{
-                                                                        $t('dutySchedules.scheduleRequests.swapSchedule.swapScheduleRequests')
-                                                                    }}
-                                                                </a>
-                                                                </MenuItem>
-                                                            </div>
-                                                        </MenuItems>
-                                                    </transition>
-                                                </Menu> -->
+                                                            </MenuItems>
+                                                        </transition>
+                                                    </Menu>
                                                     <Tooltip position="left" :text="$t('dutySchedules.copy.copy')">
                                                         <button
                                                             class="bg-gray-200 w-6 h-6 text-sm text-gray-600 rounded-sm hover:bg-gray-400 hover:text-gray-200 flex items-center justify-center"
@@ -596,8 +620,6 @@
                                                             'rounded-md p-1 relative mb-2.5'
                                                         ]" :style="{
                                                             backgroundColor: `${shift?.type?.color}`,
-                                                            // width: `${calculateShiftWidth(shift, weekIndex.toString())}`,
-                                                            // marginTop: `${calculateMarginTop(employee?.weeks, weekIndex.toString(), shiftIndex)}rem`
                                                         }">
                                                         <div class="absolute -left-1 -top-1 z-10 w-4 h-4 rounded-full bg-white border-0.5 border-gray-300 flex items-center justify-center text-xxs"
                                                             v-if="shift?.type?.system_name === 'sick-leave'">
@@ -731,17 +753,14 @@
                                                             </Menu>
                                                         </button>
                                                     </div>
-                                                    <!-- <ModulesUserDutyScheduleScheduleSlotsRequestAvailableSlots
-                                                            :week="week" :employee="employee"
-                                                            @error="(error: any) => state.error = error" /> -->
+                                                    <ModulesUserDutyScheduleScheduleSlotsRequestAvailableSlots
+                                                        :daysData="state.monthlySchedules?.data?.[employeeIndex]?.days?.[moment(day).format('YYYY-MM-DD')]"
+                                                        :employee="employee"
+                                                        @error="(error: any) => state.error = error" />
                                                 </div>
                                             </div>
                                             <div class="flex flex-col items-center space-y-2 mt-3 cursor-pointer"
-                                                @click="stopCopying()"
-                                                v-if="!isDailyScheduleCopiedEmpty() &&
-                                                    employee?.uuid === state.copy.selectedEmployeeDailySchedule.employee?.uuid &&
-                                                    day.format('YYYY-MM-DD') === state.copy.selectedEmployeeDailySchedule.date &&
-                                                    dutyScheduleStore.getCurrentPageNumber === state.copy.selectedEmployeeDailySchedule.currentTablePage">
+                                                @click="stopCopying()" v-if="isDailyScheduleCopied(employee, day)">
                                                 <p class="text-center text-sm">
                                                     {{ $t('dutySchedules.copyPaste.stopCopying') }}
                                                 </p>
@@ -873,6 +892,9 @@ const monthDays = computed(() => {
     const start = moment(currentDate.value).startOf('month')
     return Array.from({ length: daysInMonth.value }, (_, i) => start.clone().add(i, 'day'))
 })
+
+let lastScrollTop = 0
+const headerHeight = 395  // The height of the header
 
 const state = reactive({
     addShift: {
@@ -1026,10 +1048,83 @@ watch(() => dutyScheduleStore.getShowEmployeesWorkingToday, (status: boolean) =>
     fetchDutySchedule()
 })
 
+watch(() => state.monthlySchedules, (newSchedules) => {
+    // Update the expanded records only if the number of records changes.
+    if (newSchedules && newSchedules.data.length !== expandedRecords.length) {
+        expandedRecords.splice(0, expandedRecords.length, ...newSchedules.data.map(() => true))
+    }
+})
+
+watch(() => state.monthlySchedules, (newSchedules) => {
+    // reset map
+    for (const k of Object.keys(employeeShiftsByDate)) delete employeeShiftsByDate[k]
+    if (!newSchedules?.data) return
+
+    for (const employee of newSchedules.data) {
+        employeeShiftsByDate[employee.uuid] = {}
+
+        const dayItems = coerceToDayArray(employee)
+
+        for (const d of dayItems) {
+            // Try to locate the date string
+            const dateKey =
+                d?.date ??
+                d?.full_date ??
+                d?.day ??
+                d?.date_key
+
+            if (!dateKey) continue
+
+            // shifts could be on d.shifts, or nested
+            const shifts =
+                (Array.isArray(d?.shifts) ? d.shifts : null) ??
+                (Array.isArray(d?.data?.shifts) ? d.data.shifts : null) ??
+                []
+
+            employeeShiftsByDate[employee.uuid][dateKey] = shifts
+        }
+    }
+}, { deep: true })
+
+onMounted(() => {
+    fetchDutySchedule()
+    window.addEventListener('keydown', handleKeyDown)
+})
+
+onBeforeUnmount(() => {
+    window.removeEventListener('keydown', handleKeyDown)
+})
+
+onMounted(() => {
+    window.addEventListener('scroll', handleScroll)
+})
+
+onBeforeUnmount(() => {
+    window.removeEventListener('scroll', handleScroll)
+})
+
 function handleKeyDown(event: KeyboardEvent) {
     if (event.key === 'Escape') {
         stopCopying()
     }
+}
+
+function handleScroll() {
+    const header = document.getElementById('fixed-header-month-view')
+    if (!header) return
+
+    const currentScroll = window.pageYOffset || document.documentElement.scrollTop
+
+    // If scrolling down and we reach the bottom of the header
+    if (currentScroll > headerHeight) {
+        header.classList.add('fixed-header-month-view-top')
+    } else {
+        // If scrolling up, remove the fixed position
+        header.classList.remove('fixed-header-month-view-top')
+    }
+
+    // Update the last scroll position for the next scroll event
+    lastScrollTop = currentScroll <= 0 ? 0 : currentScroll // Prevent negative scroll
 }
 
 function isAdmin(role: any) {
@@ -1049,65 +1144,6 @@ function sortMultiDayShiftsFirst(shifts: any) {
         return 0
     })
     return sortedShifts
-}
-
-function calculateShiftWidth(shift: any, weekIndex: string) {
-    const shiftStart = moment(shift.date_time_start).startOf('day')
-    const shiftEnd = moment(shift.date_time_end).startOf('day')
-
-    const weekStart = moment(currentDate.value).startOf('isoWeek')
-    const weekEnd = moment(currentDate.value).endOf('isoWeek')
-
-    // Clamp the shift range to the current week range
-    const visibleStart = shiftStart.isBefore(weekStart) ? weekStart : shiftStart
-    const visibleEnd = shiftEnd.isAfter(weekEnd) ? weekEnd : shiftEnd
-
-    let dayDifference = visibleEnd.diff(visibleStart, 'days')
-
-    // Special case: if shift ends at exactly 00:00, don't count the last day
-    const endsAtMidnight = moment(shift.date_time_end).format('HH:mm:ss') === '00:00:00'
-    if (endsAtMidnight) {
-        dayDifference--
-    }
-
-    if (weekIndex === 'sunday') return 'auto'
-
-    if (dayDifference <= 0) return 'auto'
-    if (dayDifference === 1) return '17.5rem'
-    if (dayDifference === 2) return '27rem'
-    if (dayDifference === 3) return '36.5rem'
-    if (dayDifference === 4) return '46rem'
-    if (dayDifference === 5) return '55.5rem'
-    return '65rem'
-}
-
-function calculateMarginTop(schedules: any, weekIndex: string, shiftIndex: number) {
-    const weekDaysOrder = ['monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday', 'sunday']
-    const dayIndex = weekDaysOrder.indexOf(weekIndex)
-
-    if (weekIndex === 'monday' || shiftIndex > 0) return 0 // If the current index is in the future, return 0
-
-    let overlapCount = 0
-
-    for (let i = 0; i <= dayIndex - 1; i++) {
-        const multiDayShift = getMultiDayShift(schedules[weekDaysOrder[i]]?.shifts)
-        if (multiDayShift) {
-            overlapCount += 1
-        }
-    }
-
-    return overlapCount > 0 ? 3.625 + (overlapCount - 1) * 3.125 : 0
-}
-
-function getMultiDayShift(shifts: any) {
-    return shifts?.find((shift: any) => {
-        const startDay = moment(shift.date_time_start).startOf('day')
-        const endDay = moment(shift.date_time_end).startOf('day')
-        const isMultiDay = endDay.diff(startDay, 'days') >= 1
-        const isExcluded = endDay.diff(startDay, 'days') === 1 && moment(shift.date_time_end).format('HH:mm:ss') === '00:00:00'
-
-        return isMultiDay && !isExcluded
-    })
 }
 
 const employeeShiftsByDate = reactive<Record<string, Record<string, any[]>>>({})
@@ -1175,37 +1211,6 @@ async function fetchDutySchedule() {
 
     state.isPageLoading = false
 }
-
-watch(() => state.monthlySchedules, (newSchedules) => {
-    // reset map
-    for (const k of Object.keys(employeeShiftsByDate)) delete employeeShiftsByDate[k]
-    if (!newSchedules?.data) return
-
-    for (const employee of newSchedules.data) {
-        employeeShiftsByDate[employee.uuid] = {}
-
-        const dayItems = coerceToDayArray(employee)
-
-        for (const d of dayItems) {
-            // Try to locate the date string
-            const dateKey =
-                d?.date ??
-                d?.full_date ??
-                d?.day ??
-                d?.date_key
-
-            if (!dateKey) continue
-
-            // shifts could be on d.shifts, or nested
-            const shifts =
-                (Array.isArray(d?.shifts) ? d.shifts : null) ??
-                (Array.isArray(d?.data?.shifts) ? d.data.shifts : null) ??
-                []
-
-            employeeShiftsByDate[employee.uuid][dateKey] = shifts
-        }
-    }
-}, { deep: true })
 
 function getEmployeeShiftsForDate(employee: any, dateKey: string) {
     return employeeShiftsByDate?.[employee.uuid]?.[dateKey] ?? []
@@ -1319,9 +1324,9 @@ function openManageScheduleSlotModal(day: any) {
     state.modal.isManageScheduleSlotOpen = true
 }
 
-function viewChangeTimeRequests(employeeIndex: number, weekIndex: any, weeklySchedule: any, weekNumber: number) {
+function viewChangeTimeRequests(employeeIndex: number, day: any) {
     const selectedEmployee = state.monthlySchedules?.data?.[employeeIndex]
-    const selectedDate = state.monthlySchedules?.data?.[employeeIndex].weeks[weekIndex]?.date
+    const selectedDate = moment(day).format('YYYY-MM-DD')
     state.manageTimeRequest.selectedEmployee = selectedEmployee
     state.manageTimeRequest.selectedDate = selectedDate
     state.modal.isManageTimeAdjustmentRequestsOpen = true
@@ -1334,9 +1339,9 @@ function requestTimeAdjustment(employeeIndex: number, shift: any) {
     state.modal.isRequestTimeAdjustmentOpen = true
 }
 
-function viewSwapScheduleRequests(employeeIndex: number, weekIndex: any, weeklySchedule: any, weekNumber: number) {
+function viewSwapScheduleRequests(employeeIndex: number, day: any) {
     const selectedEmployee = state.monthlySchedules?.data?.[employeeIndex]
-    const selectedDate = state.monthlySchedules?.data?.[employeeIndex].weeks[weekIndex]?.date
+    const selectedDate = moment(day).format('YYYY-MM-DD')
     state.manageSwapScheduleRequest.selectedEmployee = selectedEmployee
     state.manageSwapScheduleRequest.selectedDate = selectedDate
     state.modal.isManageSwapScheduleRequestsOpen = true
@@ -1454,7 +1459,9 @@ function isDailyScheduleCopiedEmpty() {
 }
 
 function isDailyScheduleCopied(employee: any, day: any) {
-    return state.copy.selectedEmployeeDailySchedule.employee?.uuid === employee?.uuid && state.copy.selectedEmployeeDailySchedule.date === moment(day).format('YYYY-MM-DD')
+    return employee?.uuid === state.copy.selectedEmployeeDailySchedule.employee?.uuid &&
+        moment(day).format('YYYY-MM-DD') === state.copy.selectedEmployeeDailySchedule.date &&
+        dutyScheduleStore.getCurrentPageNumber === state.copy.selectedEmployeeDailySchedule.currentTablePage
 }
 
 function copyEmployeeDailySchedule(employee: any, day: any) {
@@ -1660,57 +1667,6 @@ async function updateDutySchedule(scheduleUuid: any, params: object) {
     }
 }
 
-let lastScrollTop = 0
-const headerHeight = 270  // The height of the header
-
-function handleScroll() {
-    const header = document.getElementById('fixed-header-week-view')
-    if (!header) return
-
-    const currentScroll = window.pageYOffset || document.documentElement.scrollTop
-
-    // If scrolling down and we reach the bottom of the header
-    if (currentScroll > headerHeight) {
-        header.classList.add('fixed-header-week-view-top')
-    } else {
-        // If scrolling up, remove the fixed position
-        header.classList.remove('fixed-header-week-view-top')
-    }
-
-    // Update the last scroll position for the next scroll event
-    lastScrollTop = currentScroll <= 0 ? 0 : currentScroll // Prevent negative scroll
-}
-
-watch(() => departmentStore.getSelectedDepartmentName, (newValue: any) => {
-    if (newValue != null) {
-        dutyScheduleStore.setCurrentPageNumber(1)
-        fetchDutySchedule()
-    }
-})
-
-watch(() => state.selectedDate, (newSelectedDate: any) => {
-    if (newSelectedDate) {
-        currentDate.value = moment(newSelectedDate)
-        fetchDutySchedule()
-        emit('setDutyScheduleCurrentDate', state.selectedDate)
-    }
-})
-
-watch(() => dutyScheduleStore.getShowEmployeesWorkingToday, (status: boolean) => {
-    dutyScheduleStore.setShowEmployeesWorkingToday(status)
-    fetchDutySchedule()
-})
-
-onMounted(() => {
-    fetchDutySchedule()
-    window.addEventListener('keydown', handleKeyDown)
-})
-
-onBeforeUnmount(() => {
-    window.removeEventListener('keydown', handleKeyDown)
-    window.removeEventListener('scroll', handleScroll)
-})
-
 function isPreviousMonthDisabled() {
     if (!isAdmin(userStore.getUser?.role) && userStore.getUser?.company?.is_lock_past_schedules) {
         const thisMonthStart = moment().startOf('month')
@@ -1719,13 +1675,6 @@ function isPreviousMonthDisabled() {
     }
     return false
 }
-
-watch(() => state.monthlySchedules, (newSchedules) => {
-    // Update the expanded records only if the number of records changes.
-    if (newSchedules && newSchedules.data.length !== expandedRecords.length) {
-        expandedRecords.splice(0, expandedRecords.length, ...newSchedules.data.map(() => true))
-    }
-})
 
 async function dateTimeChange(employeeUuid: string, newDateTimeStart: string, newDateTimeEnd: string) {
     try {

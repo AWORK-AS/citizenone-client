@@ -40,7 +40,7 @@
                                         <span v-else class="text-gray-400">—</span>
                                     </td>
                                     <td>
-                                        <Badge :type="rule?.is_active ? 'primary' : 'secondary'" class="w-fit">
+                                        <Badge type="primary" class="w-fit">
                                             {{ rule?.is_active ? $t('dutyShiftRules.form.active') :
                                                 $t('dutyShiftRules.form.inactive') }}
                                         </Badge>
