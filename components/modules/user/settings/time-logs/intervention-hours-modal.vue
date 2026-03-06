@@ -93,6 +93,7 @@
                     @close="state.modal.isEditInterventionHoursOpen = false"
                     @refreshInterventionHours="refreshInterventionHours()" />
                 <ModulesUserSettingsTimeLogsInterventionHoursDownloadModal
+                    :filters="state.filter"
                     :isModalOpen="state.modal.isDownloadInterventionHoursOpen"
                     @close="state.modal.isDownloadInterventionHoursOpen = false" />
                 <ModulesUserCitizenInterventionHoursModalDateRange :isModalOpen="state.modal.isTimeAccountDateRangeOpen"

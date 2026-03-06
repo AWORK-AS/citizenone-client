@@ -823,7 +823,7 @@
             "history": "Historik",
             "selectType": "Vil du registrere transport eller arbejdstid?",
             "selectTypeMessage": "Registrer din tid nemt — vælg arbejde eller transport for at komme i gang.",
-            "transport": "Transport",
+            "transport": "Transportere",
             "work": "Arbejdstid",
             "registerTransport": {
                 "registerTransport": "Registrér transport",
@@ -1293,7 +1293,7 @@
                 "trafficLights": "Trafiklys",
                 "yellow": "Gul"
             },
-            "transportation": "Transport",
+            "transportation": "Transportere",
             "locateCitizen": "Find borger",
             "selectedLocation": "Valgt placering",
             "selectedAddress": "Valgt adresse",
@@ -1545,7 +1545,7 @@
                 "filterDate": "Filtrer dato",
                 "allTypes": "Alle typer",
                 "work": "Arbejdstid",
-                "transport": "Transport"
+                "transport": "Transportere"
             }
         },
         "medicationAllergies": "Medicinallergier (CAVE)",
