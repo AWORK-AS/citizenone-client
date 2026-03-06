@@ -47,6 +47,10 @@ const props = defineProps({
         type: Boolean,
         required: true,
     },
+    filters: {
+        type: Object,
+        required: false,
+    },
 })
 const emit = defineEmits(['close'])
 
@@ -97,9 +101,21 @@ async function downloadInterventionHours() {
     v$.value.$validate()
     if (!v$.value.$error) {
         try {
-            const params = {
+            let params = {
                 start_date: state.downloadForm.start_date,
                 end_date: state.downloadForm.end_date,
+            } as any
+            if (props?.filters?.department_uuids?.length > 0) {
+                params.department_uuids = Array(props?.filters?.department_uuids)
+            }
+            if (props?.filters?.citizen_uuids?.length > 0) {
+                params.citizen_uuids = Array(props?.filters?.citizen_uuids)
+            }
+            if (props?.filters?.user_uuids?.length > 0) {
+                params.user_uuids = Array(props?.filters?.user_uuids)
+            }
+            if (props?.filters?.is_transportation !== '') {
+                params.is_transportation = props?.filters?.is_transportation
             }
             const response = await interventionHoursService.downloadInterventionHoursEmployeeReport(employeeUuid, params)
             if (response) {
