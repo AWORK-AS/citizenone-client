@@ -436,14 +436,14 @@
                                                             }}
                                                         </p>
                                                         <p :class="[
-                                                            employee?.log_data.total_time_account_earned_hours > 0 ? 'text-green-700' : 'text-red-700',
+                                                            parseFloat(employee?.log_data.total_time_account_earned_hours.replace(',', '.')) > 0 ? 'text-green-700' : 'text-red-700',
                                                             'text-xxs'
                                                         ]">
                                                             {{ $t('dutySchedules.earnedWorkHours') }}:
                                                             {{ employee?.log_data.total_time_account_earned_hours }}
                                                         </p>
                                                         <p :class="[
-                                                            employee?.extra_hours > 0 ? 'text-green-700' : 'text-red-700',
+                                                            parseFloat(employee?.extra_hours.replace(',', '.')) > 0 ? 'text-green-700' : 'text-red-700',
                                                             'text-xxs'
                                                         ]">
                                                             {{ $t('dutySchedules.extraHours.extraHours') }}:
