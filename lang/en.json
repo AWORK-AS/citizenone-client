@@ -2894,6 +2894,7 @@
         },
         "dutySchedules": "Duty schedules",
         "editSchedule": "Edit schedule",
+        "earnedWorkHours": "Worked/Earned hours",
         "extraHours": {
             "editExtraHours": "Edit extra hours",
             "editExtraHoursRequest": "Edit extra hours request",
@@ -6804,7 +6805,7 @@
             "nameTitle": "Name",
             "nameDesc": "A descriptive name for the time account (e.g. \"Holiday Hours\" or \"Seniority Days\").",
             "initialHoursTitle": "Initial Hours",
-            "initialHoursDesc": "The starting balance of hours assigned to this account when it is first created or activated.",
+            "initialHoursDesc": "The initial balance of hours assigned to the account when it is first created or activated. These hours will be automatically granted to the assigned employees upon activation.",
             "startDateTitle": "Start Date",
             "startDateDesc": "The date from which the time account becomes active and hours can be accrued or granted.",
             "expiryDateTitle": "Expiry Date",
@@ -6820,7 +6821,7 @@
             "grantAmountTitle": "Grant Amount",
             "grantAmountDesc": "The number of hours to grant each time the rule conditions are met.",
             "grantFrequencyTitle": "Grant Frequency",
-            "grantFrequencyDesc": "How often hours are granted when conditions are met — weekly, monthly, or yearly.",
+            "grantFrequencyDesc": "Specifies how frequently hours are granted when conditions are met—weekly, monthly, or yearly relative to the account's start date.",
             "badgeRequired": "required",
             "badgeOptional": "optional"
         },

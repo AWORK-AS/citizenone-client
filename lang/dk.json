@@ -2894,6 +2894,7 @@
         },
         "dutySchedules": "Vagtplaner",
         "editSchedule": "Rediger tidsplan",
+        "earnedWorkHours": "Arbejdet/Tjent timer",
         "extraHours": {
             "editExtraHours": "Rediger x-timer",
             "editExtraHoursRequest": "Rediger anmodning om x-timer",
@@ -6804,7 +6805,7 @@
             "nameTitle": "Navn",
             "nameDesc": "Et beskrivende navn til timekontoen (f.eks. \"Feriepenge\" eller \"Anciennitetsdage\").",
             "initialHoursTitle": "Initialtimer",
-            "initialHoursDesc": "Startsaldoen af timer, der tildeles kontoen, når den oprettes eller aktiveres.",
+            "initialHoursDesc": "Den oprindelige saldo af timer tildelt kontoen, når den først oprettes eller aktiveres. Disse timer vil automatisk blive tildelt de tildelte medarbejdere ved aktivering.",
             "startDateTitle": "Startdato",
             "startDateDesc": "Den dato, fra hvilken timekontoen aktiveres og timer kan optjenes eller tildeles.",
             "expiryDateTitle": "Udløbsdato",
@@ -6820,7 +6821,7 @@
             "grantAmountTitle": "Tildelt antal timer",
             "grantAmountDesc": "Antallet af timer, der tildeles, hver gang regelbetingelserne er opfyldt.",
             "grantFrequencyTitle": "Tildelingsfrekvens",
-            "grantFrequencyDesc": "Hvor ofte timer tildeles, når betingelserne er opfyldt — ugentligt, månedligt eller årligt.",
+            "grantFrequencyDesc": "Angiver, hvor ofte timer tildeles, når betingelserne er opfyldt — ugentligt, månedligt eller årligt — i forhold til kontoens startdato.",
             "badgeRequired": "påkrævet",
             "badgeOptional": "valgfri"
         },
