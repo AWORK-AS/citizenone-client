@@ -379,19 +379,20 @@
                                                         }}
                                                     </p>
                                                     <p :class="[
-                                                        employee?.extra_hours > 0 ? 'text-green-700' : 'text-red-700',
-                                                        'text-xxs'
-                                                    ]">
-                                                        {{ $t('dutySchedules.extraHours.extraHours') }}:
-                                                        {{ employee?.extra_hours }}
-                                                    </p>
-                                                    <p :class="[
                                                         employee?.log_data.total_time_account_earned_hours > 0 ? 'text-green-700' : 'text-red-700',
                                                         'text-xxs'
                                                     ]">
                                                         {{ $t('dutySchedules.earnedWorkHours') }}:
                                                         {{ employee?.log_data.total_time_account_earned_hours }}
                                                     </p>
+                                                    <p :class="[
+                                                        employee?.extra_hours > 0 ? 'text-green-700' : 'text-red-700',
+                                                        'text-xxs'
+                                                    ]">
+                                                        {{ $t('dutySchedules.extraHours.extraHours') }}:
+                                                        {{ employee?.extra_hours }}
+                                                    </p>
+
                                                     <div class="p-0 m-0 text-xxs text-primary cursor-pointer hover:text-primary-700"
                                                         @click="navigateTo(`/calendar?employee_uuid=${employee?.uuid}`)">
                                                         {{ $t('dutySchedules.viewCalendar') }}
