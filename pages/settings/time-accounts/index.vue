@@ -72,6 +72,12 @@
                                         <span>{{ timeAccount?.account_until }}</span>
                                     </td>
                                     <td>
+                                        <Badge :type="timeAccount?.is_active ? 'primary' : 'secondary'" class="w-fit">
+                                            {{ timeAccount?.is_active ? $t('dutyShiftRules.form.active') :
+                                                $t('dutyShiftRules.form.inactive') }}
+                                        </Badge>
+                                    </td>
+                                    <td>
                                         <div class="flex items-end justify-end gap-2">
                                             <FormButton type="button" buttonStyle="action" class="rounded-md"
                                                 @click="openAssignModal(timeAccount)">
@@ -188,6 +194,7 @@ const state = reactive({
         { name: 'timeAccounts.table.initialAmount', isTranslateName: true, sorter: true, key: 'initial_amount' },
         { name: 'timeAccounts.table.startDate', isTranslateName: true, sorter: true, key: 'start_date' },
         { name: 'timeAccounts.table.expiryDate', isTranslateName: true, sorter: true, key: 'account_until' },
+        { name: '' },
         { name: '' },
     ],
     templateAgreementColumnHeaders: [
