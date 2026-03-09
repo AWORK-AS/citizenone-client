@@ -65,9 +65,9 @@
                         <div class="grid grid-cols-1 md:grid-cols-3 gap-5">
                             <div class="md:col-span-2 relative" v-if="getPopularApp()">
                                 <div class="relative min-h-72 space-y-3 bg-gradient-to-r p-7 md:col-span-2 rounded-xl overflow-hidden"
-                                    style="background: linear-gradient(48deg,rgba(59, 164, 190, 1) 0%, rgba(41, 130, 155, 1) 50%, rgba(26, 99, 122, 1) 100%);">
-                                    <!-- <img src="/img/icons/asset-01.svg" :alt="$t('imageFailedToLoad')"
-                                        class="w-40 absolute -right-4 -top-10 z-20"> -->
+                                    :style="getPopularApp()?.background_image
+                                        ? `background: linear-gradient(rgba(0,0,0,0.45), rgba(0,0,0,0.45)), url(${getPopularApp().background_image}) no-repeat center center; background-size: cover;`
+                                        : `background: linear-gradient(48deg,rgba(59, 164, 190, 1) 0%, rgba(41, 130, 155, 1) 50%, rgba(26, 99, 122, 1) 100%);`">
                                     <div class="w-40 h-40 bg-white/10 absolute -right-4 -top-10 z-20 rounded-full" />
                                     <div
                                         class="flex items-center gap-x-2 bg-white/30 text-white w-fit px-4 py-1 rounded-full">
@@ -107,7 +107,9 @@
                             </div>
                             <div v-if="getRecommendedApp()">
                                 <div class="relative min-h-72 space-y-3 bg-gradient-to-r p-7 md:col-span-2 z-10 rounded-xl overflow-hidden"
-                                    style="background: linear-gradient(38deg,rgba(92, 148, 139, 1) 0%, rgba(76, 159, 168, 1) 50%, rgba(67, 166, 190, 1) 100%);">
+                                    :style="getRecommendedApp()?.background_image
+                                        ? `background: linear-gradient(rgba(0,0,0,0.45), rgba(0,0,0,0.45)), url(${getRecommendedApp().background_image}) no-repeat center center; background-size: cover;`
+                                        : `background: linear-gradient(38deg,rgba(92, 148, 139, 1) 0%, rgba(76, 159, 168, 1) 50%, rgba(67, 166, 190, 1) 100%);`">
                                     <div class="w-32 h-32 bg-white/10 absolute -right-6 -top-7 z-20 rounded-full" />
                                     <div
                                         class="flex items-center gap-x-2 bg-white/30 text-white w-fit px-4 py-1 rounded-full">
