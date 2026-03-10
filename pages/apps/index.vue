@@ -176,7 +176,7 @@
                         </div>
                     </div>
 
-                    <div class="mt-8 grid grid-cols-3 gap-6">
+                    <div class="mt-8 grid grid-cols-1 md:grid-cols-3 gap-6">
                         <div v-for="(app, index) in state.apps?.data" :key="index"
                             class="bg-white px-7 py-6 border rounded-xl">
                             <div class="mb-3 flex justify-between">
