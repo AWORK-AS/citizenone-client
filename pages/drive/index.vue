@@ -462,6 +462,7 @@ const state = reactive({
 })
 
 onMounted(() => {
+    fetchDocuments()
     // initDriveView()
 })
 
