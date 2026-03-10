@@ -114,7 +114,8 @@
                                                 {{ state?.subscriptions?.data?.deal?.storage_size }}
                                                 {{ $t('superadmin.companies.subscriptions.deal.storageSpace') }}
                                             </li>
-                                            <li class="flex gap-x-2">
+                                            <li class="flex gap-x-2"
+                                                v-if="state?.subscriptions?.data?.deal?.name === 'Pro'">
                                                 <Icon name="ph:check" class="h-6 w-5 flex-none text-primary"
                                                     aria-hidden="true" />
                                                 {{
