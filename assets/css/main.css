@@ -368,12 +368,13 @@ table td {
 }
 
 .fixed-header-month-view-top {
-    /* position: fixed !important;
+    position: fixed !important;
     top: 4rem;
     left: 20rem;
     right: 2rem;
     z-index: 20;
-    background: white; */
+    background: white;
+    overflow: hidden;
 }
 
 /* ----------------------------------------------------------------------------------------------------
