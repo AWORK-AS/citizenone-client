@@ -114,13 +114,15 @@
                                                 {{ state?.subscriptions?.data?.deal?.storage_size }}
                                                 {{ $t('superadmin.companies.subscriptions.deal.storageSpace') }}
                                             </li>
-                                            <li class="flex gap-x-2"
-                                                v-if="state?.subscriptions?.data?.deal?.name === 'Pro'">
+                                            <li class="flex gap-x-2">
                                                 <Icon name="ph:check" class="h-6 w-5 flex-none text-primary"
                                                     aria-hidden="true" />
-                                                {{
-                                                    $t('superadmin.companies.subscriptions.deal.telephoneSupport')
-                                                }}
+                                                <span v-if="state?.subscriptions?.data?.deal?.name === 'Pro'">
+                                                    {{ $t('superadmin.companies.subscriptions.deal.telephoneSupport') }}
+                                                </span>
+                                                <span v-else>
+                                                    {{ $t('superadmin.companies.subscriptions.deal.chatSupport') }}
+                                                </span>
                                             </li>
                                             <li class="flex gap-x-2"
                                                 v-if="state?.subscriptions?.data?.deal?.name === 'Pro'">

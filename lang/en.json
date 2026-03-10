@@ -6162,6 +6162,7 @@
             "admins": "Admins",
             "annually": "Annually",
             "automaticSynchronizationWithFMK": "Possibility of synchronization with FMK",
+            "chatSupport": "Support via chat, and email",
             "department": "Department",
             "departments": "departments",
             "forExtraDepartment": "For extra department",
@@ -6425,6 +6426,7 @@
                     "admin": "Admin",
                     "admins": "Admins",
                     "automaticSynchronizationWithFMK": "Automatic synchronization with FMK",
+                    "chatSupport": "Support via chat, and email",
                     "department": "Department",
                     "departments": "departments",
                     "goodForASmallTeam": "Good for a small team",
@@ -6828,7 +6830,7 @@
         },
         "table": {
             "actions": {
-                "assign":"Assign",
+                "assign": "Assign",
                 "delete": "Delete",
                 "edit": "Edit"
             },
@@ -6855,8 +6857,8 @@
             "alert": {
                 "assignSuccess": "Time account successfully assigned",
                 "unassignSuccess": "Time account successfully unassigned"
-        }
-},
+            }
+        },
         "templateAgreement": "Template agreement",
         "templateAgreements": "Template agreements",
         "newTemplateAgreement": "New template agreement",
