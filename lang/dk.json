@@ -6162,6 +6162,7 @@
             "admins": "Administratorer",
             "annually": "Årligt",
             "automaticSynchronizationWithFMK": "Mulighed for synkronisering med FMK",
+            "chatSupport": "Support via chat og e-mail",
             "department": "Afdeling",
             "departments": "Afdelinger",
             "forExtraDepartment": "For ekstra afdeling",
@@ -6425,6 +6426,7 @@
                     "admin": "Admin",
                     "admins": "Administratorer",
                     "automaticSynchronizationWithFMK": "Automatisk synkronisering med FMK",
+                    "chatSupport": "Support via chat og e-mail",
                     "department": "Afdeling",
                     "departments": "Afdelinger",
                     "goodForASmallTeam": "God til et mindre team",
@@ -6828,7 +6830,7 @@
         },
         "table": {
             "actions": {
-                "assign":"Tildel",
+                "assign": "Tildel",
                 "delete": "Slet",
                 "edit": "Rediger"
             },
@@ -6855,8 +6857,8 @@
             "alert": {
                 "assignSuccess": "Tidskonto er blevet tildelt",
                 "unassignSuccess": "Tidskonto er blevet fratildelt"
-        }
-},
+            }
+        },
         "templateAgreement": "Skabelonaftale",
         "templateAgreements": "Skabelonaftaler",
         "newTemplateAgreement": "Ny skabelonaftale",
