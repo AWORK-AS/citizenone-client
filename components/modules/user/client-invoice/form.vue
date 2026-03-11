@@ -7,9 +7,20 @@
                 <div class="space-y-1">
                     <FormLabel for="bill_to_name"
                         :label="`${$t('clientInvoices.form.billTo')} (${$t('clientInvoices.form.name')})`" />
-                    <FormTextField id="bill_to_name" name="bill_to_name"
+                    <Multiselect 
+                        id="bill_to_name"
+                        v-model="state.selectedCitizen"
+                        :options="state.citizenOptions"
+                        :searchable="true"
+                        :filterable="true"
                         :placeholder="`${$t('clientInvoices.form.billTo')} (${$t('clientInvoices.form.name')})`"
-                        v-model="state.formInvoice.bill_to_name" />
+                        track-by="uuid"
+                        label="fullName"
+                        @select="handleCitizenSelect"
+                        no-options-text="No citizens found"
+                        no-results-text="No match found"
+                        class="w-full"
+                    />
                     <FormError :error="v$?.formInvoice?.bill_to_name?.$errors[0]?.$message.toString()" />
                     <FormError :error="props?.error?.errors?.bill_to_name?.[0]" />
                 </div>
@@ -35,6 +46,26 @@
                         v-model="state.formInvoice.note" />
                     <FormError :error="v$?.formInvoice?.note?.$errors[0]?.$message.toString()" />
                     <FormError :error="props?.error?.errors?.note?.[0]" />
+                </div>
+            </div>
+            
+            <!-- Stripe Integration Checkbox -->
+            <div class="flex items-center gap-3 p-4 bg-blue-50 rounded-lg border border-blue-200">
+                <FormSwitch 
+                    id="create_stripe_invoice"
+                    v-model="state.createStripeInvoice"
+                    :disabled="!state.selectedCitizen || !state.selectedCitizen.email"
+                />
+                <div>
+                    <FormLabel for="create_stripe_invoice" class="mb-0">
+                        {{ $t('clientInvoices.form.createStripeInvoice') || 'Create Stripe Invoice' }}
+                    </FormLabel>
+                    <p class="text-xs text-gray-600 mt-1">
+                        {{ state.selectedCitizen && !state.selectedCitizen.email 
+                            ? ($t('clientInvoices.form.citizenEmailRequired') || 'Selected citizen must have an email address') 
+                            : ($t('clientInvoices.form.stripeInvoiceNote') || 'Invoice will be sent via Stripe and can be paid online') 
+                        }}
+                    </p>
                 </div>
             </div>
             <div class="space-y-3">
@@ -125,6 +156,10 @@
 import { useVuelidate } from "@vuelidate/core"
 import { required, helpers } from '@vuelidate/validators'
 import { useI18n } from "vue-i18n"
+import Multiselect from '@vueform/multiselect'
+import '@vueform/multiselect/themes/default.css'
+import { citizenService } from '@/components/api/user/CitizenService'
+import stripeApi from '@/components/api/stripeApi'
 import type { Error } from '@/types'
 
 const props = defineProps({
@@ -147,6 +182,10 @@ const { t } = useI18n()
 
 const state = reactive({
     error: {} as Error,
+    selectedCitizen: null as any,
+    citizenOptions: [] as any[],
+    allCitizens: [] as any[],
+    createStripeInvoice: false,
     formInvoice: {
         bill_to_name: '',
         bill_to_address: '',
@@ -159,6 +198,53 @@ const state = reactive({
         }],
     },
 })
+
+// Fetch citizens on component mount
+onMounted(async () => {
+    await fetchCitizens()
+})
+
+async function fetchCitizens() {
+    try {
+        const response = await citizenService.getCitizens({ per_page: 1000 })
+        if (response?.data?.data) {
+            state.allCitizens = response.data.data
+            state.citizenOptions = response.data.data.map((citizen: any) => ({
+                uuid: citizen.uuid,
+                fullName: `${citizen.firstname} ${citizen.lastname}`,
+                firstname: citizen.firstname,
+                lastname: citizen.lastname,
+                email: citizen.email,
+                phone: citizen.phone,
+                address: citizen.address,
+            }))
+        }
+    } catch (error) {
+        console.error('Failed to fetch citizens:', error)
+    }
+}
+
+function handleCitizenSelect(citizen: any) {
+    if (!citizen) return
+
+    // Set the name
+    state.formInvoice.bill_to_name = citizen.fullName
+
+    // Auto-fill address if available
+    if (citizen.address?.street) {
+        const addressParts = [
+            citizen.address.street,
+            citizen.address.post_code,
+            citizen.address.city,
+        ].filter(Boolean)
+        state.formInvoice.bill_to_address = addressParts.join(', ')
+    }
+
+    // Auto-fill phone number if available
+    if (citizen.phone) {
+        state.formInvoice.bill_to_number = citizen.phone
+    }
+}
 
 watch(() => props.selectedInvoice, (newValue: any) => {
     if (newValue != null) {
@@ -219,11 +305,61 @@ function removeInvoiceDetails(index: number) {
 
 const v$ = useVuelidate(rules, state)
 
-function submitForm() {
+async function submitForm() {
     state.error = {}
     v$.value.$validate()
     if (!v$.value.$error) {
-        emit('submitForm', state.formInvoice)
+        // If Stripe invoice is enabled, validate email
+        if (state.createStripeInvoice) {
+            if (!state.selectedCitizen || !state.selectedCitizen.email) {
+                state.error = { message: 'Please select a citizen with an email address to create a Stripe invoice' } as any
+                return
+            }
+        }
+
+        // If creating a Stripe invoice, create it first
+        if (state.createStripeInvoice && state.selectedCitizen?.email) {
+            try {
+                emit('isPageLoading', true)
+
+                // Convert invoice details to Stripe format
+                const stripeItems = state.formInvoice.invoice_details.map((item: any) => ({
+                    description: item.description || 'No description',
+                    quantity: parseInt(item.quantity) || 1,
+                    unit_amount: Math.round((parseFloat(item.price) || 0) * 100), // Convert to cents/øre
+                }))
+
+                // Create Stripe invoice
+                const stripeResponse = await stripeApi.createStripeInvoice({
+                    customer_email: state.selectedCitizen.email,
+                    customer_name: state.formInvoice.bill_to_name,
+                    items: stripeItems,
+                    metadata: {
+                        source: 'client_invoice_form',
+                        invoice_note: state.formInvoice.note || '',
+                    }
+                })
+
+                if (stripeResponse?.data?.invoice_id) {
+                    // Add Stripe invoice ID to form data
+                    const invoiceData = {
+                        ...state.formInvoice,
+                        stripe_invoice_id: stripeResponse.data.invoice_id
+                    }
+
+                    // Now submit the local invoice with Stripe invoice ID
+                    emit('submitForm', invoiceData)
+                } else {
+                    throw new Error('Failed to create Stripe invoice')
+                }
+            } catch (error: any) {
+                state.error = { message: error?.message || 'Failed to create Stripe invoice' } as any
+                emit('isPageLoading', false)
+            }
+        } else {
+            // Normal local invoice creation without Stripe
+            emit('submitForm', state.formInvoice)
+        }
     }
 }
 </script>
