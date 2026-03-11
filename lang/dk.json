@@ -324,6 +324,7 @@
             "yourPaymentHasBeenSuccessfullyProcessed": "Din betaling er blevet behandlet med succes"
         },
         "readMore": "Læs mere",
+        "refresh": "Opdater",
         "subscriptionRequired": "Du skal abonnere først for at kunne købe en app",
         "termsAndConditions": "Vilkår og betingelser",
         "thirdPartyApp": "Tredjepartsapp",
@@ -2233,6 +2234,7 @@
         "clientInvoices": "Kundefakturaer",
         "editInvoice": "Rediger faktura",
         "invoiceDetails": "Faktura detaljer",
+        "receiptDetails": "Kvittering detaljer",
         "form": {
             "address": "Adresse",
             "alert": {
@@ -2270,6 +2272,7 @@
             "date": "Dato",
             "description": "Beskrivelse",
             "invoiceNumber": "Fakturanummer",
+            "status": "Status",
             "price": "Pris",
             "quantity": "Mængde",
             "tax": "Moms"
@@ -2279,9 +2282,11 @@
         "createInvoice": "Opret faktura",
         "creating": "Opretter...",
         "download": "Download",
+        "downloadReceipt": "Download kvittering",
         "downloading": "Downloader...",
         "invoiceCreatedSuccess": "Faktura oprettet med succes",
         "invoiceDownloaded": "Faktura downloadet med succes",
+        "receiptDownloaded": "Kvittering downloadet med succes",
         "invoiceItems": "Faktura varer",
         "invoices": "Fakturaer",
         "invoiceSentSuccess": "Faktura sendt med succes",
@@ -4055,6 +4060,7 @@
             }
         },
         "invoices": "Fakturaer",
+        "refresh": "Genindlæs",
         "sendAllInvoices": "Send alle fakturaer",
         "table": {
             "actions": {
@@ -5390,6 +5396,7 @@
         "step": "Trin",
         "youCanExplore": "Du kan gratis udforske CitizenOnes funktioner efter oprettelse"
     },
+    "refresh": "Opdater",
     "relationships": {
         "addNewRelationship": "Tilføj nyt forhold",
         "alert": {
@@ -6547,7 +6554,8 @@
     },
     "validation": {
         "thisFieldIsRequired": "Dette felt er påkrævet",
-        "invalidNumber": "Ugyldigt nummer"
+        "invalidNumber": "Ugyldigt nummer",
+        "invalidEmail": "Ugyldig e-mailadresse"
     },
     "verifyEmail": {
         "emailVerified": "Email verificeret",
