@@ -14,6 +14,8 @@
 
             <LoadingSpinner :isActive="state.isPageLoading">
                 <div class="space-y-2">
+                    <Alert type="success" :text="state.successMessage"
+                        v-if="state.successMessage && state.successMessage.length > 0" />
                     <Alert type="danger" :text="error" v-if="error && error.length > 0" />
                     <Alert type="danger" :text="state?.error?.message"
                         v-if="state.error?.message && state.error.message.length > 0" />
@@ -286,7 +288,10 @@
                     :isOpen="state.modal.isStripePaymentOpen"
                     :amount="state.stripe.amount"
                     :invoiceId="state.stripe.reference"
+                    :itemDescription="state.stripe.itemDescription"
                     :citizenId="state.stripe.citizenId"
+                    :userName="state.stripe.userName"
+                    :userEmail="state.stripe.userEmail"
                     :dealUuid="state.stripe.dealUuid"
                     :paymentType="state.stripe.paymentType"
                     :metadata="state.stripe.metadata"
@@ -318,6 +323,8 @@ let currentTablePage = 1
 let checkout = null as any
 const router = useRouter()
 let error: string | undefined = router?.currentRoute?.value?.query?.error as string | undefined
+const paymentMethod: string | undefined = router?.currentRoute?.value?.query?.paymentMethod as string | undefined
+const purchaseSuccess: string | undefined = router?.currentRoute?.value?.query?.purchaseSuccess as string | undefined
 const breadcrumbLinks = [
     {
         name: 'apps.apps',
@@ -333,6 +340,7 @@ const state = reactive({
         visual: [] as any,
     },
     error: {} as Error,
+    successMessage: '',
     filter: {
         type: '',
     },
@@ -350,13 +358,39 @@ const state = reactive({
         reference: '',
         dealUuid: '',
         paymentType: '',
+        userName: '',
+        userEmail: '',
+        itemDescription: '',
         metadata: {} as Record<string, string | number | boolean | null>,
     },
 })
 
 onMounted(() => {
+    applyStripeSuccessFeedbackFromQuery()
     fetchApps()
 })
+
+watch(
+    () => router.currentRoute.value.query,
+    () => {
+        applyStripeSuccessFeedbackFromQuery()
+    }
+)
+
+function applyStripeSuccessFeedbackFromQuery() {
+    const currentPaymentMethod = router.currentRoute.value.query?.paymentMethod as string | undefined
+    const currentPurchaseSuccess = router.currentRoute.value.query?.purchaseSuccess as string | undefined
+
+    if (currentPaymentMethod === 'stripe' && currentPurchaseSuccess === '1') {
+        state.successMessage = t('apps.purchased.yourPaymentHasBeenSuccessfullyProcessed')
+
+        // Clean Stripe success params from URL so refresh does not re-show banner.
+        const cleanedQuery = { ...router.currentRoute.value.query }
+        delete cleanedQuery.paymentMethod
+        delete cleanedQuery.purchaseSuccess
+        router.replace({ path: '/apps', query: cleanedQuery })
+    }
+}
 
 async function fetchApps() {
     state.error = {}
@@ -455,11 +489,18 @@ async function activateApp(formApp: any) {
             state.stripe.reference = state.selectedApp?.name ?? 'App purchase'
             state.stripe.dealUuid = state.selectedApp?.uuid ?? ''
             state.stripe.paymentType = state.selectedApp?.is_one_time_fee ? 'one_time' : formApp?.frequency?.value ?? 'monthly'
+            state.stripe.userName = `${userStore.getUser?.firstname || ''} ${userStore.getUser?.lastname || ''}`.trim()
+            state.stripe.userEmail = userStore.getUser?.email ?? ''
+            state.stripe.itemDescription = `${state.selectedApp?.name}${formApp?.quantity ? ` (Qty: ${formApp?.quantity})` : ''}`
             state.stripe.metadata = {
                 type: 'app',
                 app_uuid: state.selectedApp?.uuid ?? null,
+                app_name: state.selectedApp?.name ?? null,
+                item_description: state.selectedApp?.name ?? null,
                 quantity: formApp?.quantity ?? null,
                 frequency: formApp?.frequency?.value ?? null,
+                customer_name: state.stripe.userName || null,
+                customer_email: state.stripe.userEmail || null,
             }
             state.modal.isStripePaymentOpen = true
 
@@ -510,7 +551,8 @@ function calculateAppAmount(app: any, formApp: any): number {
 
 function handleStripeSuccess() {
     state.modal.isStripePaymentOpen = false
-    navigateTo('/apps/purchased-successfully?paymentMethod=stripe')
+    successAlert(`${t('alert.success')}!`, `${t('apps.purchased.yourPaymentHasBeenSuccessfullyProcessed')}.`)
+    navigateTo('/apps?paymentMethod=stripe&purchaseSuccess=1')
 }
 
 function handleStripeError(message: string) {
