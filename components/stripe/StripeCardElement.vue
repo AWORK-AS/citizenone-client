@@ -14,6 +14,32 @@
         <p class="amount">{{ formatAmount(amount) }} DKK</p>
       </div>
 
+      <!-- Full Name Input -->
+      <div class="form-group">
+        <label for="full-name">Full Name</label>
+        <input
+          id="full-name"
+          v-model="form.fullName"
+          type="text"
+          placeholder="Your full name"
+          required
+          class="form-input"
+        />
+      </div>
+
+      <!-- Email Input -->
+      <div class="form-group">
+        <label for="email">Email</label>
+        <input
+          id="email"
+          v-model="form.email"
+          type="email"
+          placeholder="Your email address"
+          required
+          class="form-input"
+        />
+      </div>
+
       <!-- Card Element Container -->
       <div class="form-group">
         <label for="card-element">Card Details</label>
@@ -31,7 +57,7 @@
       <!-- Submit Button -->
       <button
         type="submit"
-        :disabled="!cardReady || processing"
+        :disabled="!cardReady || processing || !form.fullName || !form.email"
         class="submit-button"
         :class="{ 'is-loading': processing }"
       >
@@ -67,13 +93,20 @@ interface Props {
   amount: number;
   citizenId: string;
   invoiceId?: string;
+  userName?: string; // User's full name for auto-fill
+  userEmail?: string; // User's email for auto-fill
+  itemDescription?: string; // Item description for invoice
   metadata?: Record<string, string | number | boolean | null>;
   dealUuid?: string;
   paymentType?: string;
 }
 
 interface Emits {
-  paymentSuccess: [{ paymentIntentId: string; invoiceId?: string }];
+  paymentSuccess: [{ 
+    paymentIntentId: string; 
+    invoiceId?: string; 
+    billingDetails?: { name: string; email: string };
+  }];
   paymentError: [error: string];
 }
 
@@ -91,6 +124,10 @@ const cardError = ref('');
 const errorMessage = ref('');
 const successMessage = ref('');
 const clientSecret = ref<string | null>(null);
+const form = ref({
+  fullName: props.userName || '',
+  email: props.userEmail || '',
+});
 
 // Initialize Stripe and Elements
 onMounted(async () => {
@@ -159,6 +196,11 @@ async function handleSubmit() {
     return;
   }
 
+  if (!form.value.fullName || !form.value.email) {
+    errorMessage.value = 'Please fill in all required fields.';
+    return;
+  }
+
   if (!clientSecret.value) {
     errorMessage.value = 'Payment initialization failed. Please reload and try again.';
     console.error('ClientSecret is missing:', clientSecret.value);
@@ -173,15 +215,37 @@ async function handleSubmit() {
     const { error, paymentIntent } = await stripe.confirmCardPayment(clientSecret.value, {
       payment_method: {
         card: cardElement,
+        billing_details: {
+          name: form.value.fullName,
+          email: form.value.email,
+        },
       },
     });
 
     if (!error && paymentIntent) {
       successMessage.value = `Payment of ${formatAmount(props.amount)} DKK completed successfully!`;
       cardElement.clear();
+      
+      // Store payment metadata in sessionStorage for later retrieval
+      if (props.metadata && paymentIntent.id) {
+        try {
+          sessionStorage.setItem(`stripe_payment_${paymentIntent.id}`, JSON.stringify({
+            metadata: props.metadata,
+            timestamp: Date.now(),
+          }));
+          console.log('📝 Stored payment metadata for', paymentIntent.id, props.metadata);
+        } catch (e) {
+          console.warn('Failed to store payment metadata:', e);
+        }
+      }
+      
       emit('paymentSuccess', {
         paymentIntentId: paymentIntent.id,
         invoiceId: props.invoiceId,
+        billingDetails: {
+          name: form.value.fullName,
+          email: form.value.email,
+        },
       });
     } else {
       errorMessage.value = error?.message || 'Payment failed. Please try again.';
@@ -412,4 +476,25 @@ function formatAmount(amount: number): string {
 .reset-button:hover {
   background-color: #e5e7eb;
 }
+
+/* Form Input */
+.form-input {
+  padding: 10px 12px;
+  border: 1px solid #d1d5db;
+  border-radius: 6px;
+  font-size: 14px;
+  font-family: inherit;
+  transition: border-color 0.2s;
+}
+
+.form-input:focus {
+  border-color: #3b82f6;
+  outline: none;
+  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+}
+
+.form-input::placeholder {
+  color: #9ca3af;
+}
+
 </style>
