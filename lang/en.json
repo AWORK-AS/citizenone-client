@@ -324,6 +324,7 @@
             "yourPaymentHasBeenSuccessfullyProcessed": "Your payment has been successfully processed"
         },
         "readMore": "Read more",
+        "refresh": "Refresh",
         "subscriptionRequired": "You need to subscribe first in order to purchase an app",
         "termsAndConditions": "Terms and Conditions",
         "thirdPartyApp": "Third party app",
@@ -2233,6 +2234,7 @@
         "clientInvoices": "Client invoices",
         "editInvoice": "Edit invoice",
         "invoiceDetails": "Invoice details",
+        "receiptDetails": "Receipt details",
         "form": {
             "address": "Address",
             "alert": {
@@ -2270,6 +2272,7 @@
             "date": "Date",
             "description": "Description",
             "invoiceNumber": "Invoice number",
+            "status": "Status",
             "price": "Price",
             "quantity": "Quantity",
             "tax": "Tax"
@@ -2279,9 +2282,11 @@
         "createInvoice": "Create invoice",
         "creating": "Creating...",
         "download": "Download",
+        "downloadReceipt": "Download Receipt",
         "downloading": "Downloading...",
         "invoiceCreatedSuccess": "Invoice created successfully",
         "invoiceDownloaded": "Invoice downloaded successfully",
+        "receiptDownloaded": "Receipt downloaded successfully",
         "invoiceItems": "Invoice items",
         "invoices": "Invoices",
         "invoiceSentSuccess": "Invoice sent successfully",
@@ -4055,6 +4060,7 @@
             }
         },
         "invoices": "Invoices",
+        "refresh": "Refresh",
         "sendAllInvoices": "Send all invoices",
         "table": {
             "actions": {
@@ -5390,6 +5396,7 @@
         "step": "Step",
         "youCanExplore": "You can explore CitizenOne's features for free after signing up"
     },
+    "refresh": "Refresh",
     "relationships": {
         "addNewRelationship": "Add new relationship",
         "alert": {
@@ -6547,7 +6554,8 @@
     },
     "validation": {
         "thisFieldIsRequired": "This field is required",
-        "invalidNumber": "Invalid number"
+        "invalidNumber": "Invalid number",
+        "invalidEmail": "Invalid email address"
     },
     "verifyEmail": {
         "emailVerified": "Email verified",
