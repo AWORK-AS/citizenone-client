@@ -255,6 +255,8 @@
                                     </div>
                                 </div>
 
+                                <div id="fixed-header-spacer" class="hidden" />
+
                                 <div class="shadow grid grid-cols-9">
                                     <div class="col-span-2 border-0.5">
                                         <p class="flex items-center justify-end px-4 py-2 text-xs">
@@ -1936,20 +1938,23 @@ const headerHeight = 395  // The height of the header
 
 function handleScroll() {
     const header = document.getElementById('fixed-header-week-view')
-    if (!header) return
+    const spacer = document.getElementById('fixed-header-spacer')
+    if (!header || !spacer) return
 
     const currentScroll = window.pageYOffset || document.documentElement.scrollTop
+    const isFixed = header.classList.contains('fixed-header-week-view-top')
 
-    // If scrolling down and we reach the bottom of the header
-    if (currentScroll > headerHeight) {
+    if (currentScroll > headerHeight && !isFixed) {
+        // Capture height BEFORE fixing, so the spacer is accurate
+        spacer.style.height = `${header.offsetHeight}px`
+        spacer.style.display = 'block'
         header.classList.add('fixed-header-week-view-top')
-    } else {
-        // If scrolling up, remove the fixed position
+    } else if (currentScroll <= headerHeight && isFixed) {
         header.classList.remove('fixed-header-week-view-top')
+        spacer.style.display = 'none'
     }
 
-    // Update the last scroll position for the next scroll event
-    lastScrollTop = currentScroll <= 0 ? 0 : currentScroll // Prevent negative scroll
+    lastScrollTop = currentScroll <= 0 ? 0 : currentScroll
 }
 
 async function dateTimeChange(employeeUuid: string, newDateTimeStart: string, newDateTimeEnd: string) {
