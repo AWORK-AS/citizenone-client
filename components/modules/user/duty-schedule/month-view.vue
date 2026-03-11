@@ -1298,21 +1298,18 @@ function previousMonth() {
     state.customWeekLabel = 'month'
     currentDate.value = moment(currentDate.value).subtract(1, 'month')
     state.selectedDate = moment(currentDate.value).format('YYYY-MM-DD')
-    fetchDutySchedule()
 }
 
 function setToday() {
     state.customWeekLabel = 'month'
     currentDate.value = moment()
     state.selectedDate = moment(currentDate.value).format('YYYY-MM-DD')
-    fetchDutySchedule()
 }
 
 function nextMonth() {
     state.customWeekLabel = 'month'
     currentDate.value = moment(currentDate.value).add(1, 'month')
     state.selectedDate = moment(currentDate.value).format('YYYY-MM-DD')
-    fetchDutySchedule()
 }
 
 function hasConflict(shifts: any) {

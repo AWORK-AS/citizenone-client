@@ -1396,7 +1396,6 @@ function previousWeek() {
     state.customWeekLabel = 'week'
     currentDate.value = moment(currentDate.value).subtract(1, 'week')
     state.selectedDate = moment(currentDate.value).format('YYYY-MM-DD')
-    fetchDutySchedule()
 }
 
 function setToday() {
