@@ -2,7 +2,7 @@
   <div v-if="isOpen" class="modal-overlay" @click.self="closeModal">
     <div class="modal-content">
       <div class="modal-header">
-        <h2>{{ isInvoiceView ? 'Invoice' : 'Complete Payment' }}</h2>
+        <h2>{{ isInvoiceView ? (invoiceDetails?.status === 'paid' ? 'Receipt' : 'Invoice') : 'Complete Payment' }}</h2>
         <button
           @click="closeModal"
           class="close-btn"
@@ -30,6 +30,9 @@
           :dealUuid="props.dealUuid"
           :paymentType="props.paymentType"
           :invoiceId="props.invoiceStripeId"
+          :userName="props.userName"
+          :userEmail="props.userEmail"
+          :itemDescription="props.itemDescription"
           :metadata="props.metadata"
           @payment-success="handlePaymentSuccess"
           @payment-error="handlePaymentError"
@@ -48,16 +51,25 @@
 
           <div v-else class="invoice-details">
             <div class="summary-row" v-if="resolvedInvoiceId">
-              <span>Invoice ID:</span>
+              <span>{{ invoiceDetails?.status === 'paid' ? 'Receipt ID:' : 'Invoice ID:' }}</span>
               <strong>{{ resolvedInvoiceId }}</strong>
             </div>
             <div class="summary-row" v-if="invoiceDetails?.status">
               <span>Status:</span>
               <strong>{{ invoiceDetails.status }}</strong>
             </div>
-            <div class="summary-row total">
-              <span>Total Paid:</span>
-              <strong>{{ formatAmount((invoiceDetails?.amount ?? amount) / 100) }} DKK</strong>
+            
+            <!-- Billing Details Section -->
+            <div class="billing-details-section" v-if="billingDetails.name || billingDetails.email">
+              <div class="section-title">Billed To</div>
+              <div class="summary-row" v-if="billingDetails.name">
+                <span>Name:</span>
+                <strong>{{ billingDetails.name }}</strong>
+              </div>
+              <div class="summary-row" v-if="billingDetails.email">
+                <span>Email:</span>
+                <strong>{{ billingDetails.email }}</strong>
+              </div>
             </div>
 
             <table class="invoice-table">
@@ -65,22 +77,30 @@
                 <tr>
                   <th>Description</th>
                   <th>Qty</th>
-                  <th>Amount</th>
+                  <th>Unit Price</th>
+                  <th>Total</th>
                 </tr>
               </thead>
               <tbody>
                 <tr v-if="!invoiceDetails?.items?.length">
-                  <td>{{ props.itemDescription || 'Storage upgrade' }}</td>
+                  <td>{{ props.itemDescription || 'App Purchase' }}</td>
                   <td>1</td>
+                  <td>{{ formatAmount(amount) }} DKK</td>
                   <td>{{ formatAmount(amount) }} DKK</td>
                 </tr>
                 <tr v-for="item in invoiceDetails?.items || []" :key="item.id">
-                  <td>{{ item.description }}</td>
+                  <td>{{ cleanInvoiceDescription(item.description) }}</td>
                   <td>{{ item.quantity }}</td>
+                  <td>{{ formatAmount((item.amount / item.quantity) / 100) }} DKK</td>
                   <td>{{ formatAmount(item.amount / 100) }} DKK</td>
                 </tr>
               </tbody>
             </table>
+
+            <div class="summary-row total">
+              <span>Total Paid:</span>
+              <strong>{{ formatAmount((invoiceDetails?.amount ?? amount) / 100) }} DKK</strong>
+            </div>
 
             <div class="invoice-actions">
               <button
@@ -88,7 +108,7 @@
                 @click="downloadPdf"
                 :disabled="loadingPdf || !resolvedInvoiceId"
               >
-                <span v-if="!loadingPdf">Download invoice PDF</span>
+                <span v-if="!loadingPdf">Download PDF</span>
                 <span v-else>Downloading...</span>
               </button>
             </div>
@@ -111,6 +131,8 @@ interface Props {
   invoiceStripeId?: string;
   itemDescription?: string;
   citizenId: string;
+  userName?: string; // User's full name for auto-fill
+  userEmail?: string; // User's email for auto-fill
   clientSecret?: string; // Optional - StripeCardElement will fetch if not provided
   dealUuid?: string; // Deal/App UUID for payment intent
   paymentType?: string; // Payment type (one_time, monthly, yearly, etc.)
@@ -133,6 +155,7 @@ const loadingInvoice = ref(false);
 const loadingPdf = ref(false);
 const invoiceError = ref('');
 const resolvedInvoiceId = ref('');
+const billingDetails = ref<{ name: string; email: string }>({ name: '', email: '' });
 const invoiceDetails = ref<null | {
   id: string;
   amount: number;
@@ -142,7 +165,10 @@ const invoiceDetails = ref<null | {
 
 const authHeader = computed(() => `Bearer ${localStorage.getItem('_token') || ''}`);
 
-const handlePaymentSuccess = async (payload: { paymentIntentId: string; invoiceId?: string }) => {
+const handlePaymentSuccess = async (payload: { paymentIntentId: string; invoiceId?: string; billingDetails?: { name: string; email: string } }) => {
+  if (payload.billingDetails) {
+    billingDetails.value = payload.billingDetails;
+  }
   emit('paymentSuccess', payload);
   isInvoiceView.value = true;
   resolvedInvoiceId.value = payload.invoiceId || props.invoiceStripeId || '';
@@ -205,6 +231,19 @@ async function downloadPdf() {
     });
 
     if (!response.ok) {
+      if (response.status === 409) {
+        const data = await response.json().catch(() => null)
+        const receiptUrl = data?.receipt_url
+
+        if (receiptUrl) {
+          const openedWindow = window.open(receiptUrl, '_blank', 'noopener,noreferrer')
+          if (!openedWindow) {
+            window.location.href = receiptUrl
+          }
+          return
+        }
+      }
+
       throw new Error('Unable to download PDF.');
     }
 
@@ -232,6 +271,11 @@ function formatAmount(amount: number): string {
   }).format(amount);
 }
 
+function cleanInvoiceDescription(description: string): string {
+  if (!description) return ''
+  return description.replace(/\s*-\s*One[\s-]time\s*purchase\s*$/i, '').trim()
+}
+
 // Prevent body scroll when modal is open
 watch(
   () => props.isOpen,
@@ -243,6 +287,7 @@ watch(
       loadingPdf.value = false;
       invoiceError.value = '';
       resolvedInvoiceId.value = '';
+      billingDetails.value = { name: '', email: '' };
       invoiceDetails.value = null;
     } else {
       document.body.style.overflow = '';
@@ -443,5 +488,28 @@ watch(
     border-radius: 12px 12px 0 0;
     max-height: 100vh;
   }
+}
+
+/* Billing Details Section */
+.billing-details-section {
+  background-color: #eff6ff;
+  border: 1px solid #bfdbfe;
+  border-radius: 6px;
+  padding: 12px;
+  margin-bottom: 16px;
+}
+
+.section-title {
+  font-weight: 600;
+  color: #1f2937;
+  font-size: 13px;
+  margin-bottom: 8px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.billing-details-section .summary-row {
+  padding: 4px 0;
+  font-size: 13px;
 }
 </style>
