@@ -45,6 +45,11 @@
                                                     $t('superadmin.apps.table.popular')
                                                 }}
                                             </Badge>
+                                            <Badge type="harmless" class="text-xxs truncate w-fit" v-if="app?.is_news">
+                                                {{
+                                                    $t('superadmin.apps.table.news')
+                                                }}
+                                            </Badge>
                                             <div class="flex items-center gap-x-2">
                                                 <img :src="app.logo" alt="App logo" class="w-10" />
                                                 <p>{{ app?.name }}</p>
