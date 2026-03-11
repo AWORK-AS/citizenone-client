@@ -34,7 +34,10 @@
                     </form>
                 </LoadingSpinner>
                 <ModulesUserDocumentStatusTemplateModalRespond :isModalOpen="state.modal.isRespondOpen"
-                    :selectedFormStatusTemplate="state.formTemplate" @close="state.modal.isRespondOpen = false"
+                    :selectedFormStatusTemplate="state.formTemplate" 
+                    :variant="props.variant"
+                    :parentFolderId="state.formTemplate.folder_uuid"
+                    @close="state.modal.isRespondOpen = false"
                     @closeModalNew="closeModal()" />
             </template>
         </Modal>
@@ -45,6 +48,7 @@
 <script setup lang="ts">
 import { documentService } from '@/components/api/user/DocumentService'
 import { formService } from '@/components/api/user/FormService'
+import { googledriveService } from '~/components/api/user/GoogleDriveService'
 import { useI18n } from "vue-i18n"
 import { useVuelidate } from "@vuelidate/core"
 import { required, helpers } from '@vuelidate/validators'
@@ -57,6 +61,14 @@ const props = defineProps({
         type: Boolean,
         required: true,
     },
+    variant: {
+        type: String, 
+        default: undefined
+    },
+    parentFolderId: {
+        type: String,
+        default: undefined
+    }
 })
 const router = useRouter()
 const citizenUuid = router?.currentRoute?.value?.params?.uuid
@@ -117,17 +129,37 @@ async function fetchAllFolders() {
     state.error = {}
     state.isPageLoading = true
     try {
-        const response = await documentService.getAllFolders()
-        if (response) {
-            let options: any = []
-            response.data.forEach(
-                (item: any) => options.push({
-                    value: item.uuid,
-                    label: item.name,
-                })
-            )
-            state.options.folders = options
+        let options: any = []
+
+        if(props.variant === 'google-drive') {
+            // include root explicitly so user can select it
+            options.push({
+                value: 'root',
+                label: t('drive.form.rootFolder') || 'My Drive',
+            })
+
+            const folders = await googledriveService.getGoogleDriveFolders(props.parentFolderId || undefined)
+            folders.forEach((folder: any) => options.push ({
+                value: folder.id,
+                label: folder.name,
+            }))
+        } else {
+            // include app-level root if backend doesn't return it
+            options.push({
+                value: '',
+                label: t('drive.form.rootFolder') || 'Root',
+            })
+
+            const response = await documentService.getAllFolders()
+            if (response) {
+                response.data.forEach(
+                    (item: any) => options.push({
+                        value: item.uuid,
+                        label: item.name,
+                    }))
+            }
         }
+        state.options.folders = options
     } catch (error: any) {
         state.error = error
     }

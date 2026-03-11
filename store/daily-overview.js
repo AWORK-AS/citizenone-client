@@ -10,6 +10,7 @@ export const useDailyOverviewStore = defineStore('dailyOverviewStore',
                 showCitizensAdmissionAndDischarged: false,
                 showCitizensDailyEvents: false,
                 showCitizensDiagnoses: false,
+                showCitizensFollowUpReminders: false,
                 showCitizensOrigin: false,
                 showDailyMedicineOverview: false,
                 showIncidentStatistics: false,
@@ -48,6 +49,9 @@ export const useDailyOverviewStore = defineStore('dailyOverviewStore',
             },
             setDailyOverviewFilterShowCitizensDiagnoses(flag) {
                 this.dailyOverviewFilter.showCitizensDiagnoses = flag
+            },
+            setDailyOverviewFilterShowCitizensFollowUpReminders(flag) {
+                this.dailyOverviewFilter.showCitizensFollowUpReminders = flag
             },
             setDailyOverviewFilterShowCitizensOrigin(flag) {
                 this.dailyOverviewFilter.showCitizensOrigin = flag

@@ -51,7 +51,7 @@
                                                     <div>
                                                         <FormButton buttonStyle="primary" @click="navigateToSupport"
                                                             class="w-full rounded-md">
-                                                            {{ $t('support.goToSupportcenter') }}
+                                                            {{ $t('support.findGuidesHere') }}
                                                         </FormButton>
                                                     </div>
                                                 </div>

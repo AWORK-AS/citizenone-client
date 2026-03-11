@@ -295,7 +295,13 @@
             "messageSuccessfullySent": "Message successfully sent"
         },
         "apps": "Apps",
+        "authorizationDenied": "Authorization was denied",
+        "connecting": "Connecting",
+        "connectingApp": "Connecting App",
+        "connectionFailed": "Connection failed",
         "categories": {
+            "citizenone": "CitizenOne",
+            "fst": "FindSocialeTilbud.dk",
             "marketing": "Marketing",
             "other": "Other",
             "visual": "Visual"
@@ -304,6 +310,14 @@
             "confirmationOfTerms": "I confirm that I have read and accept the terms and conditions before activating this app"
         },
         "contactUs": "Contact us",
+        "description": {
+            "citizenone": "Powerful tools and features built into the CitizenOne platform to optimize your daily workflow",
+            "fst": "Specialized solutions to promote and increase the visibility of your social service offering on the FindSocialeTilbud.dk platform",
+            "marketing": "Tools and solutions designed to increase brand visibility, optimize campaigns, and engage customers",
+            "other": "A collection of versatile apps that cover a wide range of needs, from productivity and organization to niche solutions",
+            "visual": "Applications focused on design, creativity, and media that enable impressive graphics, videos, and interactive experiences"
+        },
+        "featuredApps": "Featured apps",
         "form": {
             "annually": "Annually",
             "howManyLicensesDoYouWant": "How many licenses do you want",
@@ -315,8 +329,12 @@
         },
         "goToPartner": "Go to partner",
         "iHaveReadAndAcceptThe": "I have read and accept the",
+        "missingAuthorizationCode": "Missing authorization code",
         "month": "Month",
+        "mostPopular": "Most popular",
+        "news": "News",
         "orderNow": "Order now",
+        "processingConnection": "Processing connection...",
         "purchased": {
             "paymentSuccessful": "Payment successful",
             "purchaseSuccessful": "Purchase successful",
@@ -324,10 +342,17 @@
             "yourPaymentHasBeenSuccessfullyProcessed": "Your payment has been successfully processed"
         },
         "readMore": "Read more",
+        "recommended": "Recommended",
         "subscriptionRequired": "You need to subscribe first in order to purchase an app",
         "termsAndConditions": "Terms and Conditions",
         "thirdPartyApp": "Third party app",
-        "year": "Year"
+        "year": "Year",
+        "zenegy": {
+            "disconnect": "Disconnect",
+            "disconnectTitle": "Disconnect Zenegy",
+            "disconnectConfirmation": "Are you sure you want to disconnect your Zenegy account? This will remove the connection between your CitizenOne and Zenegy accounts.",
+            "disconnected": "Zenegy account successfully disconnected"
+        }
     },
     "archived": {
         "alert": {
@@ -376,7 +401,8 @@
         "askAnything": "Ask anything",
         "generatingResponse": "Generating response. Please wait",
         "helloHowCanIAssistYouToday": "Hello, how can I assist you today",
-        "send": "Send"
+        "send": "Send",
+        "fileSizeExceeds": "Total file size must not exceed 10MB"
     },
     "back": "Back",
     "bookings": {
@@ -803,6 +829,56 @@
             },
             "newCaseWorker": "New case worker"
         },
+        "timeRegistration": {
+            "timeRegistration": "Time registration",
+            "checkIn": "Check in",
+            "checkOut": "Check out",
+            "history": "History",
+            "selectType": "Do you want to register transport or work time?",
+            "selectTypeMessage": "Track your time easily, choose work or transport to get started.",
+            "transport": "Transport",
+            "work": "Work",
+            "registerTransport": {
+                "registerTransport": "Register transport",
+                "endTransport": "End transport",
+                "form": {
+                    "startAddress": "Start address",
+                    "endAddress": "End address",
+                    "note": "Note (Optional)",
+                    "currentLocation": "Current location",
+                    "useCurrentLocation": "Use current location",
+                    "locating": "Locating...",
+                    "searchAddress": "Search address",
+                    "centerMap": "Center map",
+                    "selectLocation": "Select location",
+                    "kilometers": "Kilometers"
+                },
+                "errors": {
+                    "geolocationNotSupported": "Geolocation is not supported by this browser.",
+                    "somethingWentWrong": "Something went wrong fetching your current location. Please try again.",
+                    "permissionDenied": "Enable location permission in the browser.",
+                    "positionUnavailable": "Location information is unavailable.",
+                    "timeout": "The request to get your location timed out.",
+                    "unableToLocate": "Unable to determine your location."
+                }
+            },
+            "confirmArrival": {
+                "title": "Arrival Confirmation",
+                "question": "Have you arrived?",
+                "distance": "Distance",
+                "arrivedAt": "Arrived at",
+                "totalDistance": "Total distance traveled"
+            },
+            "confirmWorking": {
+                "title": "Work Confirmation",
+                "question": "Are you still working?",
+                "workingFor": "Working for"
+            },
+            "yes": "Yes",
+            "no": "No",
+            "away": "Away",
+            "minute": "Minute"
+        },
         "citizens": "Citizens",
         "citizenJournals": {
             "actions": {
@@ -814,6 +890,7 @@
                 "lock": "Lock journal",
                 "move": "Move",
                 "removeFromFavorite": "Remove from favorite",
+                "share": "Share",
                 "unlock": "Unlock journal"
             },
             "alert": {
@@ -927,7 +1004,37 @@
                 "moveJournal": "Move journal"
             },
             "newNote": "New note",
-            "on": "On"
+            "on": "On",
+            "shareJournals": {
+                "citizenJournal": "Citizen journal",
+                "form": {
+                    "alert": {
+                        "enteredPasswordMismatched": "Entered password mismatched",
+                        "journalSuccessfullyShared": "Journal successfully shared",
+                        "required8Characters": "This field should be at least 8 characters long"
+                    },
+                    "citizen": "Citizen",
+                    "confirmPassword": "Confirm password",
+                    "password": "Password",
+                    "unlock": "Unlock",
+                    "unlockJournal": "Unlock journal"
+                },
+                "shareJournals": "Share journals",
+                "sharedJournals": "Shared journals",
+                "table": {
+                    "actions": {
+                        "delete": "Delete"
+                    },
+                    "alert": {
+                        "linkSuccessfullyDeleted": "Link successfully deleted"
+                    },
+                    "confirmation": {
+                        "deleteLinkConfirmation": "Are you sure you want to delete this link"
+                    },
+                    "citizen": "Citizen",
+                    "link": "Link"
+                }
+            }
         },
         "confirmation": {
             "archiveConfirmation": "Are you sure you want to archive this citizen"
@@ -1199,7 +1306,14 @@
                 "trafficLights": "Traffic lights",
                 "yellow": "Yellow"
             },
-            "transportation": "Transportation"
+            "transportation": "Transportation",
+            "locateCitizen": "Locate Citizen",
+            "selectedLocation": "Selected Location",
+            "selectedAddress": "Selected Address",
+            "fetchingAddress": "Fetching address...",
+            "locateCitizenInstructions": "Click anywhere on the map to pin a location. You can also drag the marker to adjust the position. The address will be automatically fetched.",
+            "useThisLocation": "Use This Location",
+            "country": "Country"
         },
         "importCitizens": {
             "alert": {
@@ -1394,7 +1508,8 @@
             "table": {
                 "actions": {
                     "delete": "Delete",
-                    "edit": "Edit"
+                    "edit": "Edit",
+                    "view": "View"
                 },
                 "alert": {
                     "interventionHoursSuccessfullyDeleted": "Intervention hours successfully deleted"
@@ -1402,12 +1517,16 @@
                 "confirmation": {
                     "deleteInterventionHoursConfirmation": "Are you sure you want to delete this intervention hours"
                 },
+                "citizen": "Citizen",
                 "createdBy": "Created by",
                 "datetimeEnd": "Date time end",
                 "datetimeStart": "Date time start",
                 "fromDutySchedule": "From duty schedule",
                 "note": "Note",
-                "totalHours": "Total hours"
+                "totalHours": "Total hours",
+                "type": "Type",
+                "transport": "Transport",
+                "work": "Work"
             },
             "timeAccount": {
                 "dailyAllocation": "Daily allocation",
@@ -1416,6 +1535,30 @@
                 "monthlyAllocation": "Monthly allocation",
                 "timeAccount": "Time account",
                 "weeklyAllocation": "Weekly allocation"
+            },
+            "view": {
+                "viewInterventionHourLog": "View intervention hour log",
+                "citizen": "Citizen",
+                "dateTimeStart": "Date time start",
+                "dateTimeEnd": "Date time end",
+                "type": "Type",
+                "transport": "Transport",
+                "work": "Work",
+                "startAddress": "Start address",
+                "endAddress": "End address",
+                "kilometers": "Kilometers",
+                "createdBy": "Created by",
+                "note": "Note"
+            },
+            "filter": {
+                "departments": "Departments",
+                "employees": "Employees",
+                "citizens": "Citizens",
+                "type": "Type",
+                "filterDate": "Filter date",
+                "allTypes": "All types",
+                "work": "Work",
+                "transport": "Transport"
             }
         },
         "medicationAllergies": "Medication allergies (CAVE)",
@@ -1800,7 +1943,9 @@
                     "noPlansAndGoals": "No plans and goals",
                     "plansAndGoals": "Plans and goals"
                 },
-                "view": "View"
+                "view": "View",
+                "checkIn": "Check in",
+                "checkOut": "Check out"
             },
             "department": "Department",
             "email": "Email",
@@ -2075,6 +2220,7 @@
                     "savedSuccessfully": "Wallet successfully saved",
                     "updatedSuccessfully": "Wallet successfully updated"
                 },
+                "deactivateByTheEndOfTheMonth": "Deactivate by the end of the month",
                 "name": "Name",
                 "note": "Note"
             },
@@ -2127,6 +2273,17 @@
                 "type": "Type"
             },
             "walletTransactions": "Wallet transactions"
+        },
+        "viewLocations": {
+            "title": "View Locations",
+            "viewLocations": "View Locations",
+            "yourLocation": "Your Location",
+            "loading": "Loading locations",
+            "citizensWithLocations": "citizens with locations",
+            "noCitizensWithLocations": "No citizens have location data available",
+            "distance": "Distance",
+            "instructions": "Blue lines connect your current location to each citizen's address. Click on markers to see details.",
+            "locatingAddress": "Getting your location"
         }
     },
     "children": {
@@ -2365,6 +2522,92 @@
             "name": "Name"
         }
     },
+    "dutyShiftRules": {
+        "dutyShiftRules": "Duty shift rules",
+        "newDutyShiftRule": "New duty shift rule",
+        "editDutyShiftRule": "Edit duty shift rule",
+        "form": {
+            "dutyShiftRuleName": "Name",
+            "periodDays": "Retrospective time window (days back)",
+            "periodDaysBackInfo1": "The number of days back to consider when applying the duty shift rule",
+            "periodDaysBackInfo2": "(e.g., if set to 30, the rule will consider shifts from the past 30 days).",
+            "anchorDate": "Anchor date",
+            "anchorDateOptional": "Current date as default",
+            "addAnchorDate": "Add anchor date",
+            "anchorDateCheckboxHint": "Enable via the \"Add anchor date\" checkbox in the form.",
+            "active": "Active",
+            "inactive": "Inactive",
+            "status": "Status",
+            "periodFilter": "Period filter",
+            "evaluatingShiftsFrom": "Evaluating shifts from",
+            "to": "to",
+            "periodInfoAnchorDesc": "The end point of the period filter. Leave empty to use today's date — this is dynamic and updates automatically every day, so the period filter shifts forward each day. If set, the period is counted backwards from that fixed date instead.",
+            "periodInfoHowTitle": "How they work together",
+            "periodInfoHowDesc": "The rule evaluates shifts within a period filter that starts at (anchor date − period days) and ends at the anchor date.",
+            "periodInfoFormula": "period filter start = anchor date − period (days)",
+            "conditionType": "Condition type",
+            "conditionTypeInfoCountDesc": "Triggers when an employee has worked the selected shift type at least X times within the period filter.",
+            "conditionTypeInfoConsecutiveDesc": "Triggers when an employee has worked the selected shift type on consecutive days within the period filter.",
+            "conditionTypeInfoThresholdTitle": "Threshold",
+            "conditionTypeInfoThresholdDesc": "The minimum number of occurrences or consecutive days required to trigger the rule.",
+            "conditionTypes": {
+                "count": "Number of occurrences",
+                "consecutive": "Consecutive occurrences"
+            },
+            "threshold": "Minimum count",
+            "consecutiveDays": "Consecutive days",
+            "shiftTypes": "Shift types",
+            "recipientType": "Recipient type",
+            "recipientTypes": {
+                "role": "Role",
+                "user": "User"
+            },
+            "roles": "Roles",
+            "users": "Users",
+            "scopeConditions": "Scope conditions",
+            "scopeConditionsInfoWhatTitle": "What are scope conditions?",
+            "scopeConditionsInfoWhatDesc": "Limit which employees this rule applies to by filtering on department, job title, or specific employees. If no conditions are added, the rule applies to all employees.",
+            "scopeConditionsInfoAndTitle": "AND operator",
+            "scopeConditionsInfoAndDesc": "The employee must match all conditions.",
+            "scopeConditionsInfoOrTitle": "OR operator",
+            "scopeConditionsInfoOrDesc": "The employee must match at least one condition.",
+            "noScopeConditions": "No scope conditions added. The rule will apply to all employees.",
+            "addScopeCondition": "Add scope condition",
+            "scopeConditionTypes": {
+                "department": "Department",
+                "job_title": "Job title",
+                "employee": "Employee"
+            },
+            "scopeOperators": {
+                "and": "AND",
+                "or": "OR"
+            },
+            "alert": {
+                "newDutyShiftRuleSuccessfullySaved": "New duty shift rule successfully saved",
+                "dutyShiftRuleSuccessfullyUpdated": "Duty shift rule successfully updated"
+            },
+            "scopeDepartments": "Department (scope)",
+            "scopeJobTitles": "Job Title (scope)",
+            "scopeEmployees": "Employee (scope)"
+        },
+        "table": {
+            "dutyShiftRuleName": "Name",
+            "periodDays": "Period (days)",
+            "conditionType": "Condition type",
+            "timeWindow": "Time window",
+            "isActive": "Active",
+            "actions": {
+                "edit": "Edit",
+                "delete": "Delete"
+            },
+            "alert": {
+                "dutyShiftRuleSuccessfullyDeleted": "Duty shift rule successfully deleted"
+            },
+            "confirmation": {
+                "deleteDutyShiftRuleConfirmation": "Are you sure you want to delete this duty shift rule"
+            }
+        }
+    },
     "dosageForms": {
         "addNewDosageForm": "Add new dosage form",
         "alert": {
@@ -2394,6 +2637,74 @@
         }
     },
     "dutySchedules": {
+        "zenegy_hours_let": "h",
+        "zenegy_shifts": "shifts",
+        "zenegy_assign_rates_description": "Assign a rate to each shift type per employee.",
+        "zenegy_assign_rates_info": "Employees who are not assigned a default rate in Zenegy must be assigned one here under 'Select pay rate'.",
+        "zenegy_unknown_shift": "Unknown shift",
+        "zenegy_supplement_rates_title": "Supplement & Deduction Rates",
+        "zenegy_supplement_rates_description": "Assign a rate for each extra hours type per employee.",
+        "zenegy_supplement": "Supplement",
+        "zenegy_deduction": "Deduction",
+        "zenegy_supplements": "supplements/deductions",
+        "zenegy_entry": "entry",
+        "zenegy_entries": "entries",
+        "date": "Shift Date",
+        "zenegy_employee": "Employee",
+        "zenegy_sync": "Sync to Zenegy",
+        "zenegy_sync_description": "Transfer scheduled hours, supplements and deductions from your duty schedules directly to Zenegy payroll. Select employees, choose a pay period, and map shift types to Zenegy rate types before syncing.",
+        "zenegy_step_configure": "Configure",
+        "zenegy_step_assign_rates": "Assign Rates",
+        "zenegy_step_review": "Review",
+        "zenegy_step_result": "Result",
+        "zenegy_date_range": "Date range",
+        "zenegy_select_date_range": "Select date range",
+        "zenegy_select_employees": "Select employees",
+        "zenegy_select_all": "Select all",
+        "zenegy_no_employees": "No employees found in schedule.",
+        "zenegy_no_match": "These employees did not match on your Zenegy profile",
+        "zenegy_no_match_badge": "No match",
+        "zenegy_no_match_info": "These employees could not be matched with an employee in your Zenegy profile. Please check that the name and email are the same in both CitizenOne and Zenegy, and that the employee is part of the correct department in Zenegy.",
+        "zenegy_no_matched_employees": "No matched employees selected.",
+        "zenegy_department": "Department",
+        "zenegy_all_departments": "All departments",
+        "zenegy_select_shift_types": "Shift types & payment rates",
+        "zenegy_select_rate": "Select payment rate",
+        "zenegy_no_shift_types": "No shift types selected.",
+        "zenegy_review": "Review",
+        "zenegy_review_description": "{count} registration(s) will be sent to Zenegy.",
+        "zenegy_hours": "Hours",
+        "zenegy_registrations": "shift registrations",
+        "zenegy_supplement_registrations": "supplement/deduction registrations",
+        "zenegy_rate": "Rate",
+        "zenegy_no_registrations": "No registrations found for the selected criteria.",
+        "zenegy_sync_success": "Successfully synced to Zenegy",
+        "zenegy_sync_result_count": "{count} registration(s) synced.",
+        "zenegy_sync_failed": "Failed to sync to Zenegy. Please try again.",
+        "zenegy_sync_partial": "Some registrations were synced successfully, but others failed. See details below.",
+        "zenegy_error_rate_forbidden": "The selected rate is not available for one or more employees. Please choose a different rate or contact your administrator.",
+        "zenegy_error_invalid_period": "One or more dates fall outside the open payroll period in Zenegy. Please select dates within the current salary period.",
+        "zenegy_error_already_exists": "One or more registrations already exist in Zenegy for the selected dates.",
+        "zenegy_error_user_not_found": "One or more employees could not be found in Zenegy. Please check the employee matching.",
+        "zenegy_error_conflict_period": "Registrations already exist in Zenegy for the selected period. Please delete the existing registrations in Zenegy first or choose a different date range.",
+        "zenegy_error_rate_requirements": "One or more employees do not meet the requirements for the selected rate in Zenegy. Please choose a different rate or check the employee's settings in Zenegy.",
+        "zenegy_error_rate_override": "The selected rate does not allow overriding the amount. Please choose a rate that supports custom amounts or use the rate's default amount.",
+        "zenegy_presets": "Presets",
+        "zenegy_no_preset": "No preset selected",
+        "zenegy_save_preset": "+ Save as preset",
+        "zenegy_update_preset": "Update preset",
+        "zenegy_preset_name_placeholder": "Preset name...",
+        "zenegy_pay_period": "Pay period",
+        "zenegy_custom_period": "Custom date range",
+        "zenegy_period_monthly": "Monthly (current month)",
+        "zenegy_period_weekly": "Weekly (current week)",
+        "zenegy_period_biweekly": "Bi-weekly (current 2-week period)",
+        "zenegy_period_not_set": "Not configured",
+        "zenegy_period_unknown": "Unknown period ({code})",
+        "zenegy_error_mixed_periods": "The selected employees have different pay periods in Zenegy. Please only select employees with the same pay period.",
+        "zenegy_validation_date_range": "Please select a date range.",
+        "zenegy_validation_select_employee": "Please select at least one employee.",
+        "zenegy_validation_assign_rates": "Please assign a rate for all shift types and supplements.",
         "activityLogs": "Activity logs",
         "alert": {
             "newScheduleSuccessfullyAdded": "New schedule successfully added",
@@ -2431,8 +2742,15 @@
         "departmentSickLeaves": "Department sick leaves",
         "download": {
             "date": "Date",
+            "delimiter": {
+                "comma": "Comma",
+                "delimiter": "Delimiter",
+                "semicolon": "Semicolon",
+                "tab": "Tab"
+            },
             "department": "Department",
             "download": "Download",
+            "downloadOnlyLeaveTypes": "Download only leave types",
             "downloadType": "Download type",
             "downloadHoursInCSV": "Download hours in CSV",
             "downloadHoursInExcel": "Download hours in excel",
@@ -2441,8 +2759,7 @@
                 "currentView": "Current view",
                 "filterDate": "Filter date",
                 "filteredView": "Filtered view"
-            },
-            "showLeavesOnly": "Show leaves only"
+            }
         },
         "draft": {
             "pageTitle": "Duty schedules draft",
@@ -2467,6 +2784,47 @@
                     "doNotShowAgain": "Don't show this again",
                     "donNotShowAgainInfo": "Hide the confirmation dialog until the next session.",
                     "confirm": "Confirm"
+                }
+            },
+            "preset": {
+                "draftSchedulesPresets": "Draft schedules presets",
+                "saveAsPreset": "Save as preset",
+                "applyPreset": "Apply preset",
+                "viewPresets": "View presets",
+                "saveCurrentDraftAsPreset": "Save current draft as preset",
+                "editDraftSchedulePreset": "Edit draft schedules preset",
+                "saveSuccess": "Draft schedules preset successfully saved!",
+                "updateSuccess": "Draft schedules preset successfully updated!",
+                "deleteSuccess": "Draft schedules preset successfully deleted!",
+                "applySuccess": "Preset successfully applied to draft schedules!",
+                "form": {
+                    "name": "Preset name",
+                    "description": "Description",
+                    "dateStart": "Draft start date",
+                    "dateEnd": "Draft end date",
+                    "presetDateRange": "Preset date range",
+                    "affectedDepartments": "Affected departments",
+                    "affectedUsers": "Affected users",
+                    "preset": "Preset",
+                    "preview": "Preview",
+                    "apply": "Apply",
+                    "selectDateRange": "Select date range",
+                    "targetDateRange": "Target date range"
+                },
+                "table": {
+                    "name": "Preset name",
+                    "description": "Description",
+                    "date": "Date",
+                    "createdBy": "Created by",
+                    "actions": {
+                        "preview": "Preview",
+                        "apply": "Apply",
+                        "edit": "Edit",
+                        "delete": "Delete"
+                    }
+                },
+                "confirmation": {
+                    "deletePresetConfirmation": "Are you sure you want to delete this preset"
                 }
             }
         },
@@ -2537,6 +2895,7 @@
         },
         "dutySchedules": "Duty schedules",
         "editSchedule": "Edit schedule",
+        "earnedWorkHours": "Worked/Earned hours",
         "extraHours": {
             "editExtraHours": "Edit extra hours",
             "editExtraHoursRequest": "Edit extra hours request",
@@ -2612,18 +2971,70 @@
             "departments": "Departments",
             "description": "Description",
             "doNotCountSickLeaveAsWorkingHours": "Do not count sick leave as working hours",
-            "DoNotCountWeekends": "Do not count weekends",
+            "doNotCountWeekends": "Do not count weekends",
             "forSleepingNightShift": "For sleeping night shift",
             "inMeeting": "In Meeting",
-            "markAsLeave": "Mark as leave",
             "note": "Note",
             "private": "Private",
             "tags": "Tags",
             "title": "Title",
             "useCompensatoryTime": "Use compensatory time",
-            "users": "Users"
+            "users": "Users",
+            "overrideVacationHours": "Override default vacation hours"
         },
         "holidays": "Holidays",
+        "leaveRequests": {
+            "editLeaveRequest": "Edit leave request",
+            "form": {
+                "alert": {
+                    "leaveRequestSuccessfullyAdded": "Leave request successfully added",
+                    "leaveRequestSuccessfullyUpdated": "Leave request successfully updated"
+                },
+                "dateTimeEnd": "Date and time end",
+                "dateTimeStart": "Date and time start",
+                "note": "Note",
+                "type": {
+                    "sickLeave": "Sick leave",
+                    "type": "Type",
+                    "vacationLeave": "Vacation leave"
+                }
+            },
+            "leaveRequests": "Leave requests",
+            "newLeaveRequest": "New leave request",
+            "table": {
+                "actions": {
+                    "approve": "Approve",
+                    "delete": "Delete",
+                    "edit": "Edit",
+                    "reject": "Reject"
+                },
+                "alert": {
+                    "leaveRequestsSuccessfullyApproved": "Leave request successfully approved",
+                    "leaveRequestsSuccessfullyDeleted": "Leave request successfully deleted",
+                    "leaveRequestsSuccessfullyRejected": "Leave request successfully rejected"
+                },
+                "confirmation": {
+                    "approveLeaveRequestConfirmation": "Are you sure you want to approve this leave",
+                    "deleteLeaveRequestConfirmation": "Are you sure you want to delete this leave",
+                    "rejectLeaveRequestConfirmation": "Are you sure you want to disapprove this leave"
+                },
+                "dateTimeEnd": "Date and time end",
+                "dateTimeStart": "Date and time start",
+                "leaveType": "Leave type",
+                "note": "Note",
+                "status": {
+                    "approved": "Approved",
+                    "pending": "Pending",
+                    "rejected": "Rejected",
+                    "status": "Status"
+                },
+                "type": {
+                    "sickLeave": "Sick leave",
+                    "type": "Type",
+                    "vacationLeave": "Vacation leave"
+                }
+            }
+        },
         "month": "Month",
         "newSchedule": "New schedule",
         "normHours": {
@@ -2791,6 +3202,7 @@
                     "edit": "Edit",
                     "viewRequesters": "View requesters"
                 },
+                "availableShifts": "Available shifts",
                 "date": "Date",
                 "dateTimeEnd": "Date and time end",
                 "dateTimeStart": "Date and time start",
@@ -2803,6 +3215,36 @@
                 "shiftType": "Shift type",
                 "status": "Status",
                 "workingHours": "Working hours"
+            }
+        },
+        "shareDutySchedule": {
+            "dutySchedule": "Duty schedule",
+            "form": {
+                "alert": {
+                    "enteredPasswordMismatched": "Entered password mismatched",
+                    "dutyScheduleSuccessfullyShared": "Duty schedule successfully shared",
+                    "required8Characters": "This field should be at least 8 characters long"
+                },
+                "confirmPassword": "Confirm password",
+                "employee": "Employee",
+                "password": "Password",
+                "unlock": "Unlock",
+                "unlockDutySchedule": "Unlock duty schedule"
+            },
+            "shareDutySchedule": "Share duty schedule",
+            "sharedDutySchedule": "Shared duty schedule",
+            "table": {
+                "actions": {
+                    "delete": "Delete"
+                },
+                "alert": {
+                    "linkSuccessfullyDeleted": "Link successfully deleted"
+                },
+                "confirmation": {
+                    "deleteLinkConfirmation": "Are you sure you want to delete this link"
+                },
+                "employee": "Employee",
+                "link": "Link"
             }
         },
         "shiftSpan": {
@@ -2847,6 +3289,18 @@
         }
     },
     "drive": {
+        "googleDrive": "Google Drive",
+        "googleDriveNotActivatedMessage": "Google Drive is not activated. Would you like to activate it? Click 'Confirm' to proceed.",
+        "drive-google": {
+            "info-drive-1": "You are currently viewing Google Drive files because you have linked your Google account.",
+            "info-drive-2": "If you also want to use the local system, press the 'CitizenOne Documents' button at the top.",
+            "info-drive-3": "Switch between systems without losing files - upload to the desired system via the upload button."
+        },
+        "drive-local": {
+            "info-drive-1": "You are currently viewing CitizenOne Documents files.",
+            "info-drive-2": "If you also want to use Google Drive, press the 'Google Drive' button at the top, if you have linked your Google Drive account.",
+            "info-drive-3": "Switch between systems without losing files - upload to the desired system via the upload button."
+        },
         "alert": {
             "deletedFileSuccessfully": "File successfully delete",
             "deletedFolderSuccessfully": "Folder successfully delete",
@@ -2923,7 +3377,8 @@
             "archiveConfirmation": "Are you sure you want to archive this document",
             "deleteFileConfirmation": "Are you sure you want to delete this file",
             "deleteFolderConfirmation": "Are you sure you want to delete this folder",
-            "upgradeStorageConfirmation": "Do you want to upgrade your storage"
+            "upgradeStorageConfirmation": "Do you want to upgrade your storage",
+            "downloadWithCompanyLogoConfirmation": "Do you want to download this document with company logo"
         },
         "editDocument": "Edit document",
         "expenses": "Expenses",
@@ -2936,7 +3391,8 @@
             "name": "Name",
             "newFolder": "New folder",
             "template": "Template",
-            "useTemplate": "Use template"
+            "useTemplate": "Use template",
+            "rootFolder": "-- Root Folder --"
         },
         "new": "New",
         "table": {
@@ -3111,7 +3567,8 @@
             "role": "Role",
             "showWorkingHours": "Show working hours",
             "seniorityDate": "Seniority date",
-            "street": "Street"
+            "street": "Street",
+            "registerTransportEnabled": "Register transport"
         },
         "importEmployees": {
             "alert": {
@@ -3175,7 +3632,10 @@
             "fulltime": "Full time",
             "parttime": "Part time"
         },
-        "viewEmployee": "View employee"
+        "viewEmployee": "View employee",
+        "normPeriods": {
+            "default": "Default period"
+        }
     },
     "employeeGroups": {
         "employeeGroups": "Employee groups",
@@ -3267,15 +3727,15 @@
         "table": {
             "alert": {
                 "expenseCategorySuccessfullyDeleted": "Expense category successfully deleted",
-                "expenseSuccessfullyReimbursed": "Expense successfully reimbursed",
-                "expenseSuccessfullyUnreimbursed": "Expense successfully unreimbursed"
+                "expenseSuccessfullyReimbursed": "Expense successfully paid out",
+                "expenseSuccessfullyUnreimbursed": "Expense successfully unpaid"
             },
             "actions": {
                 "delete": "Delete",
                 "edit": "Edit",
                 "view": "View",
-                "reimburse": "Reimburse",
-                "unreimburse": "Unreimburse"
+                "reimburse": "Pay outlay",
+                "unreimburse": "Cancel outlay"
             },
             "confirmation": {
                 "deleteExpenseCategoryConfirmation": "Are you sure you want to delete this expense category?"
@@ -3313,18 +3773,22 @@
         "table": {
             "alert": {
                 "expenseSuccessfullyDeleted": "Expense successfully deleted",
-                "expenseSuccessfullyReimbursed": "Expense successfully reimbursed",
-                "expenseSuccessfullyUnreimbursed": "Expense successfully unreimbursed"
+                "expenseSuccessfullyRejected": "Expense successfully rejected",
+                "expenseSuccessfullyUpdated": "Expense successfully updated",
+                "expenseSuccessfullyReimbursed": "Payment successfully disbursed",
+                "expenseSuccessfullyUnreimbursed": "Payment disbursement successfully cancelled"
             },
             "actions": {
                 "delete": "Delete",
                 "edit": "Edit",
                 "view": "View",
-                "reimburse": "Reimburse",
-                "unreimburse": "Unreimburse"
+                "reimburse": "Disburse payment",
+                "unreimburse": "Cancel payment disbursement",
+                "reject": "Reject"
             },
             "confirmation": {
-                "deleteExpenseConfirmation": "Are you sure you want to delete this expense?"
+                "deleteExpenseConfirmation": "Are you sure you want to delete this expense?",
+                "rejectExpenseConfirmation": "Are you sure you want to reject this expense?"
             },
             "name": "Name",
             "expense": "Expense",
@@ -3334,8 +3798,9 @@
             "amount": "Amount",
             "receipt": "Receipt",
             "status": "Status",
-            "reimbursed": "Reimbursed",
-            "pending": "Pending"
+            "reimbursed": "Outlay paid",
+            "pending": "Pending",
+            "rejected": "Rejected"
         },
         "viewExpense": {
             "viewExpense": "View expense",
@@ -3615,6 +4080,8 @@
             "enterYourAnswer": "Enter your answer",
             "question": "Question",
             "required": "Required",
+            "inputYourQuestionTitleHere": "Input your question title here",
+            "levels": "Levels",
             "rating": "Rating",
             "text": "Text",
             "textarea": "Textarea",
@@ -3623,6 +4090,8 @@
         "forms": "Forms",
         "formsSublabel": "With forms, you can create templates for reports on citizens' plans, goals, and sub-goals, as well as for other types of reporting within the organization. The possibilities are many",
         "formDescription": "Form description",
+        "documentTitle": "Document Title",
+        "enableFollowUp": "Enable Follow up",
         "formTitle": "Form title",
         "newForm": "New form",
         "option": "Option",
@@ -3929,6 +4398,14 @@
             "title": "Title"
         }
     },
+    "dutyShiftRuleNotifications": {
+        "title": "Duty Shift Rule Notifications",
+        "markAllAsRead": "Mark all as read",
+        "triggeredEmployee": "Triggered by",
+        "shiftType": "Shift type",
+        "timeWindow": "Time window",
+        "empty": "You don't have any duty shift rule notifications"
+    },
     "journalNotifications": {
         "createdBy": "Created by",
         "markAllAsRead": "Mark all as read",
@@ -4119,6 +4596,7 @@
         },
         "forward": "Forward",
         "inbox": "Inbox",
+        "insertSignature": "Insert signature",
         "loading": {
             "loadingEmailConfigurations": "Loading email configurations",
             "loadingUserSettings": "Loading user settings",
@@ -4367,7 +4845,36 @@
         "reminders": "Reminders",
         "subscription": "Subscription",
         "settings": "Settings",
-        "switchLanguage": "Switch language"
+        "switchLanguage": "Switch language",
+        "notifications": "Notifications"
+    },
+    "bellNotification": {
+        "title": "Notifications",
+        "markAllAsRead": "Mark all as read",
+        "loadMore": "Load more",
+        "loadingMore": "Loading...",
+        "empty": {
+            "title": "No notifications",
+            "subtitle": "You're all caught up!"
+        },
+        "categories": {
+            "all": "All",
+            "plansGoals": "Plans & Goals",
+            "dutyShift": "Duty Shift Rule",
+            "notes": "Notes",
+            "schedule": "Schedule",
+            "incidents": "Incidents",
+            "reminders": "Reminders",
+            "messages": "Messages",
+            "other": "Other"
+        },
+        "time": {
+            "justNow": "Just now",
+            "minutesAgo": "{count} min. ago",
+            "hoursAgo": "{count} hr. ago",
+            "yesterday": "Yesterday",
+            "daysAgo": "{count} days ago"
+        }
     },
     "news": {
         "editNews": "Edit news",
@@ -4435,13 +4942,17 @@
             "normPeriod": "Norm period",
             "status": "Status",
             "category": "Category",
+            "dateStart": "Start date",
+            "dateEnd": "End date",
             "startMonth": "Start Month",
             "startDay": "Start Day",
             "endMonth": "End Month",
             "endDay": "End Day",
             "description": "Description",
             "department": "Department",
-            "updateAllUsers": "Update all employees within this department"
+            "overrideNormPeriods": "Override existing employee norm periods",
+            "overrideInfo1": "If checked, all employees within the selected department(s) will be assigned to this norm period, and any existing norm periods assigned to those employees will be overridden.",
+            "overrideInfo2": "If unchecked, employees within the selected department(s) who already have a norm period assigned will keep their existing norm period."
         },
         "newNormPeriod": "New norm period",
         "table": {
@@ -4502,6 +5013,7 @@
                 "citizensAdmissionAndDischarged": "Citizens admission and discharged",
                 "citizensEvents": "Citizens' events",
                 "citizensDiagnoses": "Citizens diagnoses",
+                "citizensFollowUpReminders": "Follow-up reminders",
                 "citizensOrigin": "Citizens origin",
                 "medicationOverview": "Medication overview",
                 "gender": "Gender",
@@ -4521,6 +5033,15 @@
             },
             "show": "Show",
             "startDate": "Start date"
+        },
+        "followUpReminders": {
+            "followUpReminders": "Follow-up reminders",
+            "noFollowUps": "No pending follow-ups",
+            "reportFollowUp": "Report Follow-up",
+            "overdue": "Overdue",
+            "dueToday": "Due today",
+            "dueOn": "Due on",
+            "reminders": "reminders"
         },
         "from": "From",
         "gender": {
@@ -4695,14 +5216,21 @@
             "form": {
                 "answerForm": "Answer form",
                 "chooseLabel": "Choose whether you want to download the form for offline completion or create a response directly",
+                "days": "Days",
                 "downloadForm": "Download form",
+                "editReport": "Edit Report",
+                "followUpIn": "Follow up in",
                 "form": "Form",
                 "goal": "Goal",
+                "months": "Months",
                 "plan": "Plan",
                 "saveAndDownload": "Save and download PDF",
                 "saveAsDraft": "Draft",
+                "setFollowUpDate": "Set follow-up date",
                 "subgoal": "Subgoal",
-                "editReport": "Edit Report"
+                "useFollowUpReminder": "Use follow-up reminder",
+                "weeks": "Weeks",
+                "years": "Years"
             }
         },
         "editStatusTemplate": {
@@ -4710,21 +5238,20 @@
                 "statusTemplateSuccessfullyUpdated": "Report successfully updated"
             },
             "editReport": "Edit report",
-            "formChangeWarning": "Changing the form will delete all your current responses. Do you want to continue?",
             "form": {
                 "answerForm": "Answer form",
                 "chooseLabel": "Choose whether you want to download the form for offline completion or create a response directly",
                 "downloadForm": "Download form",
+                "editReport": "Edit Report",
                 "form": "Form",
                 "goal": "Goal",
                 "plan": "Plan",
                 "saveAndDownload": "Save and download PDF",
                 "saveAsDraft": "Draft",
-                "subgoal": "Subgoal",
-                "editReport": "Edit Report"
-            }
+                "subgoal": "Subgoal"
+            },
+            "formChangeWarning": "Changing the form will delete all your current responses. Do you want to continue?"
         },
-        "isDraft": "Draft",
         "currentPlansAndGoals": "Current plans and goals",
         "dateCompleted": "Date completed",
         "dateCreated": "Date created",
@@ -4784,10 +5311,13 @@
             "title": "Title",
             "useTemplate": "Use template"
         },
+        "followUpNotifications": "Follow-up Notifications",
+        "followUps": "Follow Ups",
         "graph": "Graph",
         "goal": "Goal",
         "goals": "Goals",
         "inProgress": "In progress",
+        "isDraft": "Draft",
         "new": "New",
         "newGoal": "New goal",
         "newNote": "New note",
@@ -4827,6 +5357,7 @@
                 "users": "Users"
             }
         },
+        "noFollowUpNotifications": "No follow-up notifications",
         "plan": "Plan",
         "plans": "Plans",
         "reports": "Reports",
@@ -4846,7 +5377,8 @@
                 "seeGoals": "See goals",
                 "seeSubgoals": "See subgoals",
                 "statuses": "Statuses",
-                "unarchive": "Unarchive"
+                "unarchive": "Unarchive",
+                "view": "View"
             },
             "createdBy": "Created by",
             "copiedFrom": "Copied from",
@@ -5410,6 +5942,7 @@
                     "successfullyUpdated": "Company successfully updated"
                 },
                 "checkinOut": "Check in/out",
+                "interventionCheckinOut": "Intervention check in/out",
                 "allowChangePassword": "Allow employees to change password",
                 "allowPlans": "Allow employees to create plans",
                 "allowGoals": "Allow employees to create goals",
@@ -5421,6 +5954,7 @@
                 "cvr": "CVR",
                 "enableEmailNotifications": "Enable email notifications",
                 "enableSystemNotifications": "Enable system notifications",
+                "interventionNotificationHours": "Intervention notification hours",
                 "isSortByStatus": "Allow displaying \"Substitutes\" at the bottom of the shift plan and \"Permanent staff\" at the top",
                 "groupChat": "Group chat",
                 "lockPastSchedules": "Lock past schedules",
@@ -5481,6 +6015,7 @@
             "customPages": "Glossary",
             "departments": "Departments",
             "diagnoses": "Diagnoses",
+            "dutyShiftRules": "Duty shift rules",
             "dosageForms": "Dosage forms",
             "employeeGroups": "Employee groups",
             "expenseCategories": "Expense categories",
@@ -5508,6 +6043,7 @@
             "transactions": "Transactions",
             "scheduleTags": "Schedule tags",
             "shifts": "Shifts",
+            "timeAccounts": "Time accounts",
             "other": "Other",
             "units": "Units"
         },
@@ -5536,6 +6072,7 @@
                 "newShiftSuccessfullySaved": "New shift successfully saved"
             },
             "color": "Color",
+            "markAsLeaveType": "Mark as leave type",
             "nameDanish": "Name (danish)",
             "nameEnglish": "Name (english)",
             "paycode": "Paycode",
@@ -5553,6 +6090,7 @@
                 "deleteShiftConfirmation": "Are you sure you want to delete this shift"
             },
             "color": "Color",
+            "markedAsLeave": "Marked as leave",
             "nameDanish": "Name (danish)",
             "nameEnglish": "Name (english)",
             "paycode": "Paycode",
@@ -5625,6 +6163,7 @@
             "admins": "Admins",
             "annually": "Annually",
             "automaticSynchronizationWithFMK": "Possibility of synchronization with FMK",
+            "chatSupport": "Support via chat, and email",
             "department": "Department",
             "departments": "departments",
             "forExtraDepartment": "For extra department",
@@ -5671,8 +6210,8 @@
     "support": {
         "chatWithSupport": "Chat with support",
         "courseDetails": "If you and your colleagues need a course in CitizenOne, click the button below to see what we can offer to get you well prepared",
-        "getAGuidedTour": "Get a guided tour",
-        "goToSupportcenter": "Go to supportcenter",
+        "findGuidesHere": "Find guides here",
+        "getAGuidedTour": "Get a guided video-tour",
         "latestNewFeatures": "Latest New Features",
         "latestNewFeaturesDetails": "Stay updated with the latest improvements and features in CitizenOne. We continuously update to keep you informed",
         "needACourse": "Need a course",
@@ -5758,6 +6297,8 @@
             },
             "apps": "Apps",
             "categories": {
+                "citizenone": "CitizenOne",
+                "fst": "FindSocialeTilbud.dk",
                 "marketing": "Marketing",
                 "other": "Other",
                 "visual": "Visual"
@@ -5771,17 +6312,24 @@
                     "appSuccessfullyUpdated": "App successfully updated",
                     "newAppSuccessfullySaved": "New app successfully saved"
                 },
+                "backgroundImage": "Background image",
                 "description": "Description",
                 "image": "Image",
                 "isOneTimeFee": "Is one time fee",
                 "link": "Link",
+                "logo": "Logo",
                 "monthlyPrice": "Monthly price",
                 "name": "Name",
+                "news": "News",
+                "popular": "Popular",
                 "price": "Price",
                 "quantifiable": "Quantifiable",
+                "recommended": "Recommended",
                 "thirdPartyApp": "Third party app",
                 "type": "Type",
                 "types": {
+                    "citizenone": "CitizenOne",
+                    "fst": "FindSocialeTilbud.dk",
                     "marketing": "Marketing",
                     "other": "Other",
                     "visual": "Visual"
@@ -5795,10 +6343,14 @@
                     "edit": "Edit"
                 },
                 "link": "Link",
+                "logo": "Logo",
                 "monthlyPrice": "Monthly price",
                 "name": "Name",
+                "news": "News",
                 "oneTimeFee": "One time fee",
+                "popular": "Popular",
                 "price": "Price",
+                "recommended": "Recommended",
                 "thirdPartyApp": "Third party app",
                 "type": "Type",
                 "yearlyPrice": "Yearly price"
@@ -5875,6 +6427,7 @@
                     "admin": "Admin",
                     "admins": "Admins",
                     "automaticSynchronizationWithFMK": "Automatic synchronization with FMK",
+                    "chatSupport": "Support via chat, and email",
                     "department": "Department",
                     "departments": "departments",
                     "goodForASmallTeam": "Good for a small team",
@@ -6003,20 +6556,14 @@
             "sharedCitizenOne": "Shared CitizenOne",
             "viewAll": "View all"
         },
-        "orders": {
-            "orders": "Orders",
-            "table": {
-                "companyName": "Company name",
-                "data": "Data",
-                "date": "Date",
-                "new": "New",
-                "referenceNumber": "Reference number",
-                "status": "Status",
-                "type": "Type",
-                "user": "User"
-            }
-        },
         "invoices": {
+            "download": {
+                "date": "Date",
+                "download": "Download",
+                "filter": {
+                    "filterDate": "Filter date"
+                }
+            },
             "invoices": "Invoices",
             "table": {
                 "actions": {
@@ -6045,6 +6592,19 @@
                 "tax": "Tax"
             },
             "thisInvoiceHasAlreadyBeenPaid": "This invoice has already been paid via your selected payment method in the CitizenOne™ system"
+        },
+        "orders": {
+            "orders": "Orders",
+            "table": {
+                "companyName": "Company name",
+                "data": "Data",
+                "date": "Date",
+                "new": "New",
+                "referenceNumber": "Reference number",
+                "status": "Status",
+                "type": "Type",
+                "user": "User"
+            }
         },
         "polls": {
             "confirmation": {
@@ -6199,14 +6759,211 @@
         "tasks": "Tasks"
     },
     "theListIsEmpty": "The list is empty",
-    "timeLogs": {
+    "timeAccounts": {
+        "timeAccount": "Time account",
+        "timeAccounts": "Time accounts",
+        "newTimeAccount": "New time account",
+        "newTimeAccounts": "New time account",
+        "editTimeAccount": "Edit time account",
+        "alert": {
+            "timeAccountSuccessfullyDeleted": "Time account successfully deleted"
+        },
+        "confirmation": {
+            "deleteTimeAccountConfirmation": "Are you sure you want to delete this time account?"
+        },
+        "form": {
+            "accountUntil": "Expiry Date",
+            "addRule": "Add rule",
+            "advancedConfiguration": "Advanced Configuration",
+            "alert": {
+                "newTimeAccountSuccessfullySaved": "New time account successfully saved",
+                "timeAccountSuccessfullyUpdated": "Time account successfully updated"
+            },
+            "carryOver": "Carry over next calendar year",
+            "departments": "Departments",
+            "employees": "Employees",
+            "frequencies": {
+                "monthly": "Monthly",
+                "weekly": "Weekly",
+                "yearly": "Yearly"
+            },
+            "grantAmount": "Hours to grant",
+            "grantFrequency": "Frequency",
+            "hiredAfter": "Hired after",
+            "hiredBefore": "Hired before",
+            "initialAmount": "Initial hours",
+            "expiryDate": "Expiry date",
+            "isActive": "Active",
+            "isLocked": "Lock hours at last assigned value",
+            "isRecurring": "Recurring",
+            "recurringInfo": "When checked, the account will automatically grant the initial hours again at the start of each new year.",
+            "maxAge": "Maximum age",
+            "minAge": "Minimum age",
+            "duration": "Duration",
+            "name": "Name",
+            "noRules": "No rules added yet",
+            "rule": "Rule",
+            "ruleType": "Rule type",
+            "ruleTypes": {
+                "age": "Age-based",
+                "employmentDate": "Employment date",
+                "employmentDuration": "Employment duration"
+            },
+            "rules": "Rules"
+        },
+        "info": {
+            "title": "About Time Accounts",
+            "nameTitle": "Name",
+            "nameDesc": "A descriptive name for the time account (e.g. \"Holiday Hours\" or \"Seniority Days\").",
+            "initialHoursTitle": "Initial Hours",
+            "initialHoursDesc": "The initial balance of hours assigned to the account when it is first created or activated. These hours will be automatically granted to the assigned employees upon activation.",
+            "startDateTitle": "Start Date",
+            "startDateDesc": "The date from which the time account becomes active and hours can be accrued or granted.",
+            "expiryDateTitle": "Expiry Date",
+            "expiryDateDesc": "The date on which the account expires. After this date, no further hours are granted. Leave blank for accounts with no end date.",
+            "ruleTypeTitle": "Rule Type",
+            "ruleTypeDesc": "Determines the condition under which hours are automatically granted:",
+            "ruleTypeAge": "Age-based:",
+            "ruleTypeAgeDesc": "Grant hours to employees within a specific age range (e.g. from age 58 to 60).",
+            "ruleTypeEmploymentDate": "Employment Date:",
+            "ruleTypeEmploymentDateDesc": "Grant hours to employees hired within a specific date range.",
+            "ruleTypeEmploymentDuration": "Employment Duration:",
+            "ruleTypeEmploymentDurationDesc": "Grant hours to employees who have been employed for at least a given number of months.",
+            "grantAmountTitle": "Grant Amount",
+            "grantAmountDesc": "The number of hours to grant each time the rule conditions are met.",
+            "grantFrequencyTitle": "Grant Frequency",
+            "grantFrequencyDesc": "Specifies how frequently hours are granted when conditions are met—weekly, monthly, or yearly relative to the account's start date.",
+            "badgeRequired": "required",
+            "badgeOptional": "optional"
+        },
         "table": {
+            "actions": {
+                "assign": "Assign",
+                "delete": "Delete",
+                "edit": "Edit"
+            },
+            "alert": {
+                "timeAccountSuccessfullyDeleted": "Time account successfully deleted"
+            },
+            "confirmation": {
+                "deleteTimeAccountConfirmation": "Are you sure you want to delete this time account?"
+            },
+            "name": "Name",
+            "initialAmount": "Initial hours",
+            "startDate": "Start date",
+            "expiryDate": "Expiry date"
+        },
+        "modal": {
+            "assignUnassignTitle": "Assign / Unassign Time Account",
+            "users": "Users",
+            "departments": "Departments",
+            "assign": "Assign",
+            "unassign": "Unassign",
+            "currentlyAssigned": "Currently assigned",
+            "noneAssigned": "None assigned",
+            "selectAtLeastOne": "Please select at least one user or department",
+            "alert": {
+                "assignSuccess": "Time account successfully assigned",
+                "unassignSuccess": "Time account successfully unassigned"
+            }
+        },
+        "templateAgreement": "Template agreement",
+        "templateAgreements": "Template agreements",
+        "newTemplateAgreement": "New template agreement",
+        "editTemplateAgreement": "Edit template agreement",
+        "templateAgreementsForm": {
+            "name": "Name",
+            "timeAccounts": "Time accounts",
+            "alert": {
+                "newTemplateAgreementSuccessfullySaved": "New template agreement successfully saved",
+                "templateAgreementSuccessfullyUpdated": "Template agreement successfully updated"
+            }
+        },
+        "templateAgreementsTable": {
+            "name": "Name",
+            "actions": {
+                "assign": "Assign",
+                "edit": "Edit",
+                "delete": "Delete"
+            },
+            "confirmation": {
+                "deleteConfirmation": "Are you sure you want to delete this template agreement?"
+            },
+            "alert": {
+                "successfullyDeleted": "Template agreement successfully deleted"
+            }
+        },
+        "templateAgreementsModal": {
+            "assignUnassignTitle": "Assign / Unassign Template Agreement",
+            "alert": {
+                "assignSuccess": "Template agreement successfully assigned",
+                "unassignSuccess": "Template agreement successfully unassigned"
+            }
+        }
+    },
+    "timeLogs": {
+        "download": {
+            "date": "Date",
+            "download": "Download",
+            "downloadType": {
+                "downloadExcel": "Download excel",
+                "downloadPDF": "Download PDF",
+                "downloadType": "Download type"
+            },
+            "filter": {
+                "filterDate": "Filter date"
+            },
+            "status": "Status"
+        },
+        "editTimeLog": "Edit time log",
+        "filter": {
+            "allCancellations": "All cancellations",
+            "heldSessionsOnly": "Held sessions only",
+            "onlyCancellationsByCitizen": "Only cancellations by citizen",
+            "onlyCancellationByEmployee": "Only cancellations by employee",
+            "status": "Status"
+        },
+        "form": {
+            "alert": {
+                "timeLogSuccessfullyUpdated": "Time log successfully updated",
+                "newTimeLogSuccessfullySaved": "New time log successfully saved"
+            },
+            "dateTimeEnd": "Date time end",
+            "dateTimeStart": "Date time start",
+            "status": {
+                "cancelledByCitizen": "Cancelled by citizen",
+                "cancelledByEmployee": "Cancelled by employee",
+                "completed": "Held (completed)",
+                "status": "Status"
+            },
+            "remarks": "Remarks"
+        },
+        "newTimeLog": "New time log",
+        "table": {
+            "actions": {
+                "delete": "Delete",
+                "edit": "Edit"
+            },
+            "alert": {
+                "timeLogSuccessfullyDeleted": "Time log successfully deleted"
+            },
             "createdAt": "Created at",
-            "timein": "Time in",
-            "timeout": "Time out",
+            "confirmation": {
+                "deleteTimeLogConfirmation": "Are you sure you want to delete this time log"
+            },
+            "dateTimeEnd": "Date time end",
+            "dateTimeStart": "Date time start",
+            "remarks": "Remarks",
+            "status": {
+                "cancelledByCitizen": "Cancelled by citizen",
+                "cancelledByEmployee": "Cancelled by employee",
+                "completed": "Held (completed)",
+                "status": "Status"
+            },
             "summary": "Time summary"
         },
-        "timeLogs": "Time Logs"
+        "timeLogs": "Time Logs",
+        "interventionHours": "Intervention Hours"
     },
     "timeRegistration": {
         "checkIn": "Check in",

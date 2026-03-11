@@ -29,6 +29,8 @@
                                     </div>
                                 </div>
                                 <div class="mt-4">
+                                    <Alert type="danger" :text="state?.error?.message"
+                                        v-if="state.error?.message && state.error.message.length > 0" />
                                     <div class="space-y-2 md:space-y-5">
                                         <div>
                                             <iframe class="w-full h-44 lg:h-[405px]"
@@ -118,8 +120,10 @@
 
 <script setup lang="ts">
 import { Dialog, DialogPanel, DialogTitle, TransitionChild, TransitionRoot } from '@headlessui/vue'
+import { userService } from '@/components/api/user/UserService'
 import { useI18n } from "vue-i18n"
 import { useUserStore } from '@/store/user'
+import type { Error } from '@/types'
 
 const props = defineProps({
     size: {
@@ -146,11 +150,13 @@ const language = useI18n()
 const userStore = useUserStore() as any
 
 const state = reactive({
+    error: {} as Error,
     isSubscribed: false,
 })
 
 onMounted(() => {
     state.isSubscribed = true
+    updateFirstLoginToFalse()
 })
 
 watch(() => userStore.getUser, (user: any) => {
@@ -169,7 +175,16 @@ function navigateToSubscription() {
 }
 
 function handleNext() {
-    emit('next', 'daily-overview')
+    emit('next', 'overview')
+}
+
+async function updateFirstLoginToFalse() {
+    state.error = {}
+    try {
+        await userService.updateFirstLoginToFalse()
+    } catch (error: any) {
+        state.error = error
+    }
 }
 
 async function navigateToExternalLink(link: any) {

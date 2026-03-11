@@ -51,7 +51,7 @@
                             {{ $t('apps.goToPartner') }}
                         </FormButton>
                         <FormButton type="button"
-                            :buttonStyle="props.selectedApp?.user_activated ? 'warning' : 'action'" :class="[
+                            :buttonStyle="props.selectedApp?.user_activated ? 'app-activated' : 'action'" :class="[
                                 props.selectedApp?.user_activated && 'cursor-not-allowed',
                                 'w-full'
                             ]" color="primary" @click="!props.selectedApp?.user_activated && confirmTACAcceptance()"

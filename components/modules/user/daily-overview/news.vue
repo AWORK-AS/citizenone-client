@@ -55,7 +55,10 @@
 <script setup lang="ts">
 import { Carousel, Slide, Pagination } from 'vue3-carousel'
 import { dailyOverviewService } from '@/components/api/user/DailyOverviewService'
+import { useUserStore } from '@/store/user'
 import type { Error } from '@/types'
+
+const userStore = useUserStore() as any
 
 const state = reactive({
     carouselSettings: {
@@ -109,6 +112,7 @@ async function fetchSalesCampaign() {
             if (state.salesCampaigns?.data?.length > 2) {
                 state.carouselSettings.autoplay = 2000
             }
+            userStore.setUnreadNewsCount(state.salesCampaigns?.data?.length ?? 0)
         }
     } catch (error: any) {
         state.error = error

@@ -190,20 +190,20 @@
                                                     </div>
                                                 </Tooltip>
                                                 <!-- seen indicator -->
-                                                <ModulesUserMessagesTooltipSeenBy
-                                                    v-if="message?.receipts?.length > 0"
+                                                <ModulesUserMessagesTooltipSeenBy v-if="message?.receipts?.length > 0"
                                                     :receipts="message.receipts">
                                                     <div class="flex items-center mt-1 justify-end">
-                                                        <span class="text-xs text-gray-500 mr-1">{{ $t('messages.seen') }}</span>
+                                                        <span class="text-xs text-gray-500 mr-1">
+                                                            {{ $t('messages.seen') }}
+                                                        </span>
                                                         <div class="flex -space-x-2">
-                                                            <img
-                                                                v-for="(receipt, rIndex) in message.receipts.slice(0, 5)"
+                                                            <img v-for="(receipt, rIndex) in message.receipts.slice(0, 5)"
                                                                 :key="rIndex"
                                                                 :src="receipt?.user?.profile_image ?? '/img/avatars/user.svg'"
-                                                                class="w-4 h-4 rounded-full border border-white object-cover"
-                                                            />
+                                                                class="w-4 h-4 rounded-full border border-white object-cover" />
                                                         </div>
-                                                        <span v-if="message.receipts.length > 5" class="text-xs text-gray-500 ml-1">
+                                                        <span v-if="message.receipts.length > 5"
+                                                            class="text-xs text-gray-500 ml-1">
                                                             +{{ message.receipts.length - 5 }}
                                                         </span>
                                                     </div>

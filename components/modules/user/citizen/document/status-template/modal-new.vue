@@ -23,8 +23,11 @@
                             </div>
                             <div class="grid md:grid-cols-3 gap-x-3">
                                 <div class="space-y-1">
-                                    <FormLabel for="journal_note_plan"
-                                        :label="$t('citizens.documents.createTemplate.form.plan')" />
+                                    <div class="flex items-center gap-x-1">
+                                        <FormLabel for="journal_note_plan"
+                                            :label="$t('citizens.documents.createTemplate.form.plan')" />
+                                        <span v-if="state.selectedFormHasFollowUp" class="text-red-600">*</span>
+                                    </div>
                                     <FormSelect id="journal_note_plan" :options="state.options.plans"
                                         v-model="state.formTemplate.plan_uuid"
                                         @change="(planUuid: any) => fetchAllGoalsPerPlan(planUuid)" />
@@ -65,7 +68,7 @@
                 </LoadingSpinner>
                 <ModulesUserCitizenDocumentStatusTemplateModalRespond :isModalOpen="state.modal.isRespondOpen"
                     :selectedFormStatusTemplate="state.formTemplate" @close="state.modal.isRespondOpen = false"
-                    @closeModalNew="closeModal()" @refreshDocuments="refreshDocuments()"/>
+                    @closeModalNew="closeModal()" @refreshDocuments="refreshDocuments()" />
             </template>
         </Modal>
     </div>
@@ -114,7 +117,8 @@ const state = reactive({
         plans: [],
         goals: [],
         subgoals: [],
-    }
+    },
+    selectedFormHasFollowUp: false,
 })
 
 function closeModal() {
@@ -122,7 +126,7 @@ function closeModal() {
     resetForm()
 }
 
-function refreshDocuments(){
+function refreshDocuments() {
     emit('refreshDocuments')
     resetForm()
 }
@@ -135,8 +139,22 @@ function resetForm() {
         plan_uuid: '',
         subgoal_uuid: '',
     }
+    state.selectedFormHasFollowUp = false
     v$.value.$reset()
 }
+
+watch(() => state.formTemplate.form_uuid, async (formUuid: any) => {
+    if (formUuid) {
+        try {
+            const response = await formService.getForm(formUuid)
+            state.selectedFormHasFollowUp = !!response?.data?.is_follow_up_enabled
+        } catch {
+            state.selectedFormHasFollowUp = false
+        }
+    } else {
+        state.selectedFormHasFollowUp = false
+    }
+})
 
 watch(() => props.isModalOpen, (isModalOpen: any) => {
     if (isModalOpen) {
@@ -156,6 +174,9 @@ const rules = computed(() => {
             form_uuid: {
                 required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
             },
+            plan_uuid: state.selectedFormHasFollowUp && !(state.formTemplate.goal_uuid || state.formTemplate.subgoal_uuid) ? {
+                required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
+            } : {},
         },
     }
 })

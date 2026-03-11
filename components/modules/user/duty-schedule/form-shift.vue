@@ -62,13 +62,6 @@
                         {{ $t('dutySchedules.form.doNotCountWeekends') }}
                     </div>
                 </div>
-                <div class="space-y-1">
-                    <div class="w-fit flex items-center cursor-pointer"
-                        @click="state.formShift.is_mark_as_leave = !state.formShift.is_mark_as_leave">
-                        <FormCheckbox :value="state.formShift.is_mark_as_leave" />
-                        {{ $t('dutySchedules.form.markAsLeave') }}
-                    </div>
-                </div>
                 <div
                     v-if="['vacation-leave'].includes(state.options.shifts.find((shift: any) => shift.value === state.formShift.shift_type)?.system_name)">
                     <div class="w-fit flex items-center cursor-pointer"
@@ -90,7 +83,18 @@
                     <FormError :error="v$?.formShift?.department_uuid?.$errors[0]?.$message.toString()" />
                     <FormError :error="state?.error?.errors?.department_uuid?.[0]" />
                 </div>
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
+
+                <div class="space-y-1" v-if="isVacationLeave">
+                    <div class="w-fit flex items-center cursor-pointer"
+                        @click="state.formShift.is_override_vacation_hours = !state.formShift.is_override_vacation_hours">
+                        <FormCheckbox id="override_vacation_hours"
+                            :value="state.formShift.is_override_vacation_hours" />
+                        {{ $t('dutySchedules.form.overrideVacationHours') }}
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-3"
+                    v-if="!isVacationLeave || (isVacationLeave && state.formShift.is_override_vacation_hours)">
                     <div class="space-y-1">
                         <FormLabel for="date_time_start" :label="$t('dutySchedules.form.datetimeStart')" />
                         <FormDateTimeField id="date_time_start" name="date_time_start"
@@ -353,7 +357,6 @@ const state = reactive({
         shift_type: '',
         is_sleeping_sick_leave: false,
         do_not_count_weekends: false,
-        is_mark_as_leave: false,
         date_time_start: moment().startOf('day').add(8, 'hours').format('YYYY-MM-DD H:mm'),
         date_time_end: moment().startOf('day').add(17, 'hours').format('YYYY-MM-DD H:mm'),
         recurring: {
@@ -379,6 +382,7 @@ const state = reactive({
         use_compensatory_time: false,
         note: '',
         do_not_count_sick_leave: false,
+        is_override_vacation_hours: false,
     } as any,
     modal: {
         isAddDepartmentOpen: false,
@@ -489,7 +493,6 @@ onMounted(() => {
     state.formShift.shift_type = props.selectedShift.shift_type
     state.formShift.is_sleeping_sick_leave = props.selectedShift.is_sleeping_sick_leave
     state.formShift.do_not_count_weekends = props.selectedShift.do_not_count_weekends
-    state.formShift.is_mark_as_leave = props.selectedShift.is_mark_as_leave
     state.formShift.date_time_start = props.selectedShift.date_time_start
     state.formShift.date_time_end = props.selectedShift.date_time_end
     state.formShift.citizens = props.selectedShift.citizens
@@ -536,7 +539,31 @@ watch(() => state.formShift.date_time_end, () => {
     emit('dateTimeChange', props.selectedEmployee.uuid, state.formShift.date_time_start, state.formShift.date_time_end)
 })
 
+watch(() => state.formShift.shift_type, () => {
+    if (isVacationLeave.value) {
+        state.formShift.date_time_start = moment(props.selectedShift.date_time_start).startOf('day').add(8, 'hours').format('YYYY-MM-DD H:mm')
+        state.formShift.date_time_end = moment(props.selectedShift.date_time_start).startOf('day').add(15.4, 'hours').format('YYYY-MM-DD H:mm')
+    }
+})
+
+const isVacationLeave = computed(() => {
+    return ['vacation-leave'].includes(state.options.shifts.find((shift: any) => shift.value === state.formShift.shift_type)?.system_name)
+})
+
 const rules = computed(() => {
+    if (isVacationLeave.value) {
+        return {
+            formShift: {
+                shift_type: {
+                    required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
+                },
+                department_uuid: {
+                    required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
+                },
+            },
+        }
+    }
+
     if (state.formShift.recurring.is_recurring) {
         return {
             formShift: {

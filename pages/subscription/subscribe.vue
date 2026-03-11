@@ -162,7 +162,12 @@
                                     <Icon name="ph:check"
                                         :class="[index === 1 ? 'text-white' : 'text-primary', 'h-6 w-5 flex-none']"
                                         aria-hidden="true" />
-                                    {{ $t('subscription.deal.telephoneSupport') }}
+                                    <span v-if="deal.name === 'Pro'">
+                                        {{ $t('subscription.deal.telephoneSupport') }}
+                                    </span>
+                                    <span v-else>
+                                        {{ $t('subscription.deal.chatSupport') }}
+                                    </span>
                                 </li>
                                 <li :class="[index === 1 ? 'text-white' : 'text-primary', 'flex gap-x-2']"
                                     v-if="deal.name === 'Pro'">
@@ -293,7 +298,12 @@
                                     <Icon name="ph:check"
                                         :class="[index === 1 ? 'text-white' : 'text-primary', 'h-6 w-5 flex-none']"
                                         aria-hidden="true" />
-                                    {{ $t('subscription.deal.telephoneSupport') }}
+                                    <span v-if="deal.name === 'Pro'">
+                                        {{ $t('subscription.deal.telephoneSupport') }}
+                                    </span>
+                                    <span v-else>
+                                        {{ $t('subscription.deal.chatSupport') }}
+                                    </span>
                                 </li>
                                 <li :class="[index === 1 ? 'text-white' : 'text-primary', 'flex gap-x-2']"
                                     v-if="deal.name === 'Pro'">
@@ -386,7 +396,12 @@
                                 </li>
                                 <li class="text-primary flex gap-x-2 lowercase">
                                     <Icon name="ph:check" class="text-primary h-6 w-5 flex-none" aria-hidden="true" />
-                                    {{ $t('subscription.deal.telephoneSupport') }}
+                                    <span v-if="deal.name === 'Pro'">
+                                        {{ $t('subscription.deal.telephoneSupport') }}
+                                    </span>
+                                    <span v-else>
+                                        {{ $t('subscription.deal.chatSupport') }}
+                                    </span>
                                 </li>
                                 <li class="text-primary flex gap-x-2 lowercase" v-if="deal.name === 'Pro'">
                                     <Icon name="ph:check" class="text-primary h-6 w-5 flex-none" aria-hidden="true" />

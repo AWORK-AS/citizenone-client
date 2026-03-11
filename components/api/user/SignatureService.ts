@@ -24,8 +24,8 @@ class SignatureService extends BaseAPIService {
     async setSignatureToDefault(signatureUuid: any): Promise<any> {
         return await this.request(`/user/mail-signatures/${signatureUuid}/set-default`, 'PUT')
     }
-    async getAllSignatures(params: object): Promise<any> {
-        return await this.request(`/user/mail-signatures/all/list`, 'GET', params)
+    async getAllSignatures(): Promise<any> {
+        return await this.request(`/user/mail-signatures/all/list`, 'GET')
     }
 }
 

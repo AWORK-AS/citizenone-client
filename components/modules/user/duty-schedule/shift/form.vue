@@ -44,6 +44,13 @@
                 <FormError :error="v$?.formShift?.color?.$errors[0]?.$message.toString()" />
                 <FormError :error="props?.error?.errors?.color?.[0]" />
             </div>
+            <div class="space-y-1">
+                <div class="w-fit flex items-center cursor-pointer"
+                    @click="state.formShift.is_leave_shift_type = !state.formShift.is_leave_shift_type">
+                    <FormCheckbox :value="state.formShift.is_leave_shift_type" />
+                    {{ $t('shifts.form.markAsLeaveType') }}
+                </div>
+            </div>
         </div>
         <div class="mt-6">
             <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
@@ -94,6 +101,7 @@ const state = reactive({
         time_in: '',
         time_out: '',
         color: '#000000',
+        is_leave_shift_type: false,
     },
 })
 
@@ -106,6 +114,7 @@ watch(() => props.selectedShift, (newValue: any) => {
             time_in: newValue.time_in,
             time_out: newValue.time_out,
             color: newValue.color,
+            is_leave_shift_type: newValue.is_leave_shift_type,
         }
     }
 })

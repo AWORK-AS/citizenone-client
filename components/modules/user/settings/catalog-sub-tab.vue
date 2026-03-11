@@ -84,6 +84,14 @@ watch(() => userStore.getUser, (newValue: any) => {
                 ]
             },
             {
+                name: 'settings.tabs.dutyShiftRules',
+                isTranslateName: true,
+                href: `/settings/duty-shift-rules`,
+                routeNames: [
+                    'settings-duty-shift-rules'
+                ]
+            },
+            {
                 name: 'settings.tabs.dosageForms',
                 isTranslateName: true,
                 href: `/settings/dosage-forms`,
@@ -237,6 +245,14 @@ watch(() => userStore.getUser, (newValue: any) => {
                 ]
             },
             {
+                name: 'settings.tabs.timeAccounts',
+                isTranslateName: true,
+                href: `/settings/time-accounts`,
+                routeNames: [
+                    'settings-time-accounts'
+                ]
+            },
+            {
                 name: 'settings.tabs.units',
                 isTranslateName: true,
                 href: `/settings/units`,
@@ -271,6 +287,9 @@ function changeTab(value: any) {
     }
     else if (value === '/settings/diagnoses') {
         navigateTo(`/settings/diagnoses`)
+    }
+    else if (value === '/settings/duty-shift-rules') {
+        navigateTo(`/settings/duty-shift-rules`)
     }
     else if (value === '/settings/employee-groups') {
         navigateTo(`/settings/employee-groups`)
@@ -325,6 +344,9 @@ function changeTab(value: any) {
     }
     else if (value === '/settings/shifts') {
         navigateTo(`/settings/shifts`)
+    }
+    else if (value === '/settings/time-accounts') {
+        navigateTo(`/settings/time-accounts`)
     }
     else if (value === '/settings/units') {
         navigateTo(`/settings/units`)

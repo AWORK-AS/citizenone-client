@@ -18,7 +18,7 @@
                                     <Icon name="heroicons:chevron-left" class="h-5 w-5" aria-hidden="true" />
                                 </button>
                                 <FormDateField id="date" name="date" :placeholder="$t('dutySchedules.form.date')"
-                                    :disablePreviousWeeks="!isAdmin(userStore.getUser?.role)" dateType="duty-schedule"
+                                    :disablePreviousWeeks="isPreviousWeekDisabled()" dateType="duty-schedule"
                                     v-model="state.selectedDate" />
                                 <span class="relative -mx-px h-5 w-px bg-gray-300 md:hidden" />
                                 <button @click="nextWeek()" type="button"
@@ -305,7 +305,6 @@
                                     </div>
                                 </div>
 
-                                <!-- <div class="relative mt-0.5 overflow-y-auto" style="max-height: 82vh;" -->
                                 <div class="relative mt-0.5"
                                     @click="!isWeeklyScheduleCopied(weekNumber) && !isAllWeeklyScheduleCopiedEmpty() && !isPastWeek() && pasteWeeklySchedule(weekNumber)"
                                     :class="[
@@ -337,7 +336,7 @@
                                                 <div class="px-3 pt-3 pb-1 relative">
                                                     <div class="flex justify-between">
                                                         <div class="flex items-center gap-x-2">
-                                                            <img :src="employee?.profile_image ?? `https://ui-avatars.com/api/?background=42AED9&color=fff&name=${employee?.firstname + ' ' + employee?.lastname}`"
+                                                            <img :src="employee?.profile_image ?? `https://ui-avatars.com/api/?background=42AED9&color=fff&name=${getDisplayName(employee).firstName + ' ' + getDisplayName(employee).lastName}`"
                                                                 :class="[
                                                                     employee?.shift_threshold === 'high' && 'border-green-700',
                                                                     employee?.shift_threshold === 'moderate' && 'border-yellow-500',
@@ -345,8 +344,8 @@
                                                                     'h-10 w-10 rounded-full bg-gray-50 object-cover border-2'
                                                                 ]" />
                                                             <p class="text-sm font-medium">
-                                                                {{ employee?.firstname }}
-                                                                {{ employee?.lastname }}
+                                                                {{ getDisplayName(employee).firstName }}
+                                                                {{ getDisplayName(employee).lastName }}
                                                             </p>
                                                         </div>
                                                         <div class="flex items-center gap-x-1">
@@ -367,6 +366,16 @@
                                                                     class="bg-gray-200 w-6 h-6 text-sm text-gray-600 rounded-sm hover:bg-gray-400 hover:text-gray-200 flex items-center justify-center"
                                                                     @click="viewExtraHours(employee)">
                                                                     <Icon name="mdi:clock-outline" class="h-3 w-3"
+                                                                        aria-hidden="true" />
+                                                                </button>
+                                                            </Tooltip>
+                                                            <Tooltip position="right"
+                                                                :text="$t('dutySchedules.leaveRequests.leaveRequests')"
+                                                                v-if="isAdmin(userStore.getUser?.role) || (!isAdmin(userStore.getUser?.role) && userStore.getUser?.uuid === employee?.uuid)">
+                                                                <button
+                                                                    class="bg-gray-200 w-6 h-6 text-sm text-gray-600 rounded-sm hover:bg-gray-400 hover:text-gray-200 flex items-center justify-center"
+                                                                    @click="viewLeaveRequests(employee)">
+                                                                    <Icon name="mdi:wallet-travel" class="h-3 w-3"
                                                                         aria-hidden="true" />
                                                                 </button>
                                                             </Tooltip>
@@ -411,17 +420,6 @@
                                                                 aria-hidden="true" />
                                                         </div>
 
-                                                        <div v-if="employee?.norm_period"
-                                                            class="flex items-center gap-1 cursor-pointer"
-                                                            @click="openUserNormPeriodModal(employee)">
-                                                            <p class="text-xxs">
-                                                                {{ $t('dutySchedules.normPeriod') }}:
-                                                                {{ employee?.norm_period?.display_label ?? '' }}
-                                                            </p>
-                                                            <Icon name="ph:question" class="h-3.5 w-3.5"
-                                                                aria-hidden="true" />
-                                                        </div>
-
                                                         <p class="text-xxs">
                                                             {{ $t('dutySchedules.totalHours') }}:
                                                             {{ employee?.total_hours ?? 0 }}
@@ -432,18 +430,27 @@
                                                                     'text-red-700',
                                                             'text-xxs'
                                                         ]">
-                                                            {{ $t('dutySchedules.averageWeeklyHours.averageWeeklyHours')
+                                                            {{
+                                                                $t('dutySchedules.averageWeeklyHours.averageWeeklyHours')
                                                             }}:
                                                             {{ employee?.average_weekly_work_time?.average_weekly_hours
                                                             }}
                                                         </p>
                                                         <p :class="[
-                                                            employee?.extra_hours > 0 ? 'text-green-700' : 'text-red-700',
+                                                            parseFloat(employee?.log_data.total_time_account_earned_hours?.replace(',', '.')) > 0 ? 'text-green-700' : 'text-red-700',
+                                                            'text-xxs'
+                                                        ]">
+                                                            {{ $t('dutySchedules.earnedWorkHours') }}:
+                                                            {{ employee?.log_data.total_time_account_earned_hours }}
+                                                        </p>
+                                                        <p :class="[
+                                                            parseFloat(employee?.extra_hours?.replace(',', '.')) > 0 ? 'text-green-700' : 'text-red-700',
                                                             'text-xxs'
                                                         ]">
                                                             {{ $t('dutySchedules.extraHours.extraHours') }}:
                                                             {{ employee?.extra_hours }}
                                                         </p>
+
                                                         <div class="p-0 m-0 text-xxs text-primary cursor-pointer hover:text-primary-700"
                                                             @click="navigateTo(`/calendar?employee_uuid=${employee?.uuid}`)">
                                                             {{ $t('dutySchedules.viewCalendar') }}
@@ -812,7 +819,7 @@
                                                             </button>
                                                         </div>
                                                         <ModulesUserDutyScheduleScheduleSlotsRequestAvailableSlots
-                                                            :week="week" :employee="employee"
+                                                            :daysData="week" :employee="employee"
                                                             @error="(error: any) => state.error = error" />
                                                     </div>
                                                 </div>
@@ -905,6 +912,9 @@
             <ModulesUserDutyScheduleExtraHoursModalView :isModalOpen="state.modal.isManageExtraHoursOpen"
                 :selectedEmployee="state.manageExtraHours.selectedEmployee"
                 @close="state.modal.isManageExtraHoursOpen = false" @refreshDutySchedules="fetchDutySchedule()" />
+            <ModulesUserDutyScheduleLeaveRequestsModalView :isModalOpen="state.modal.isManageLeaveRequestsOpen"
+                :selectedEmployee="state.manageLeaveRequests.selectedEmployee"
+                @close="state.modal.isManageLeaveRequestsOpen = false" @refreshDutySchedules="fetchDutySchedule()" />
             <ModulesUserDutyScheduleTimeRequestsModalRequests
                 :isModalOpen="state.modal.isManageTimeAdjustmentRequestsOpen"
                 :selectedDate="state.manageTimeRequest.selectedDate"
@@ -930,9 +940,6 @@
             <ModulesUserDutyScheduleModalCopyMultipleWeeks :isModalOpen="state.modal.isCopyMultipleWeeklyScheduleOpen"
                 @close="state.modal.isCopyMultipleWeeklyScheduleOpen = false"
                 @refreshDutySchedules="fetchDutySchedule()" />
-            <ModulesUserDutyScheduleNormHoursModalUserNormPeriod :isModalOpen="state.modal.isUserNormPeriodOpen"
-                :selectedEmployee="state.normHours.selectedEmployee" @close="state.modal.isUserNormPeriodOpen = false"
-                @refreshDutySchedules="fetchDutySchedule()" />
             <ModulesUserDutyScheduleNormHoursModalGraph :isModalOpen="state.modal.isGraphOpen"
                 :selectedEmployee="state.normHours.selectedEmployee" @close="state.modal.isGraphOpen = false" />
         </LoadingSpinner>
@@ -949,6 +956,7 @@ import { useNumberFormatter } from '@/composables/numberFormatter'
 import { useDutyScheduleStore } from '@/store/duty-schedule'
 import { useUserStore } from '@/store/user'
 import { useI18n } from "vue-i18n"
+import { useAlert } from '@/composables/alert'
 import type { Error } from '@/types'
 
 const emit = defineEmits(['setDutyScheduleCurrentDate', 'setDutyScheduleCurrentFilter'])
@@ -957,10 +965,51 @@ const dutyScheduleStore = useDutyScheduleStore() as any
 const userStore = useUserStore() as any
 const departmentStore = useDepartmentStore()
 const { formatNumber } = useNumberFormatter()
+const { errorAlert } = useAlert()
 const currentDate = ref(moment())
 const month = computed(() => currentDate.value.format('MMMM'))
 const year = computed(() => currentDate.value.format('YYYY'))
 const expandedRecords = reactive([] as boolean[])
+
+function buildEmptyWeeks() {
+    const weekDaysOrder = ['monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday', 'sunday']
+    const startOfWeek = moment(currentDate.value).startOf('isoWeek')
+    const weekData = state.weeklySchedules?.week_data || {}
+
+    return weekDaysOrder.reduce((weeks: any, dayKey: string, index: number) => {
+        const fallbackDate = moment(startOfWeek).add(index, 'day').format('YYYY-MM-DD')
+        weeks[dayKey] = {
+            date: weekData?.[dayKey]?.date || fallbackDate,
+            shifts: [],
+            slots: [],
+            additional_hour_requests: 0,
+            swap_requests: 0,
+            total_slots: 0,
+        }
+        return weeks
+    }, {})
+}
+
+function buildEmptyWeekData() {
+    const weekDaysOrder = ['monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday', 'sunday']
+    const startOfWeek = moment(currentDate.value).startOf('isoWeek')
+
+    return weekDaysOrder.reduce((weekData: any, dayKey: string, index: number) => {
+        weekData[dayKey] = {
+            date: moment(startOfWeek).add(index, 'day').format('YYYY-MM-DD'),
+            total_slots: 0,
+            holiday: null,
+        }
+        return weekData
+    }, {})
+}
+
+function getDisplayName(employee: any) {
+    return {
+        firstName: employee?.firstname || employee?.firstName || '',
+        lastName: employee?.lastname || employee?.lastName || '',
+    }
+}
 
 const state = reactive({
     addShift: {
@@ -997,6 +1046,9 @@ const state = reactive({
         selectedEmployee: {},
         selectedSchedule: {},
     },
+    manageLeaveRequests: {
+        selectedEmployee: {},
+    },
     manageTimeRequest: {
         selectedDate: '',
         selectedEmployee: {},
@@ -1015,6 +1067,7 @@ const state = reactive({
         isEditShiftOpen: false,
         isFilterDutyScheduleOpen: false,
         isManageExtraHoursOpen: false,
+        isManageLeaveRequestsOpen: false,
         isManageScheduleSlotOpen: false,
         isManageTimeAdjustmentRequestsOpen: false,
         isManageSwapScheduleRequestsOpen: false,
@@ -1025,7 +1078,6 @@ const state = reactive({
         isVacationHoursOpen: false,
         isViewShiftOpen: false,
         isAnnualNormHoursInfoOpen: false,
-        isUserNormPeriodOpen: false,
         isGraphOpen: false,
     } as any,
     newShift: {
@@ -1095,6 +1147,7 @@ watch(() => state.progress.percentage, (newPercentage: any) => {
 
 watch(() => departmentStore.getSelectedDepartmentName, (newValue: any) => {
     if (newValue != null) {
+        dutyScheduleStore.setCurrentPageNumber(1)
         fetchDutySchedule()
     }
 })
@@ -1107,6 +1160,18 @@ watch(() => state.selectedDate, (newSelectedDate: any) => {
     }
 })
 
+watch(() => dutyScheduleStore.getShowEmployeesWorkingToday, (status: boolean) => {
+    dutyScheduleStore.setShowEmployeesWorkingToday(status)
+    fetchDutySchedule()
+})
+
+watch(() => state.weeklySchedules, (newSchedules) => {
+    // Update the expanded records only if the number of records changes.
+    if (newSchedules && newSchedules.data.length !== expandedRecords.length) {
+        expandedRecords.splice(0, expandedRecords.length, ...newSchedules.data.map(() => true))
+    }
+})
+
 onMounted(() => {
     fetchDutySchedule()
     window.addEventListener('keydown', handleKeyDown)
@@ -1114,11 +1179,6 @@ onMounted(() => {
 
 onBeforeUnmount(() => {
     window.removeEventListener('keydown', handleKeyDown)
-})
-
-watch(() => dutyScheduleStore.getShowEmployeesWorkingToday, (status: boolean) => {
-    dutyScheduleStore.setShowEmployeesWorkingToday(status)
-    fetchDutySchedule()
 })
 
 function handleKeyDown(event: KeyboardEvent) {
@@ -1258,20 +1318,13 @@ function isPreviousWeekDisabled() {
     // For regular users, disable the previous week button only if we're in today's week
     if (!isAdmin(userStore.getUser?.role)) {
         // Disable the previous week button if we are in today's week (not in the future or past)
-        if (selectedDate.isSame(today, 'week')) {
+        if (selectedDate.isSame(today, 'week') && userStore.getUser?.company?.is_lock_past_schedules) {
             return true // Disable button if we are in today's week
         }
     }
 
     return false // Admins can always go to the previous week
 }
-
-watch(() => state.weeklySchedules, (newSchedules) => {
-    // Update the expanded records only if the number of records changes.
-    if (newSchedules && newSchedules.data.length !== expandedRecords.length) {
-        expandedRecords.splice(0, expandedRecords.length, ...newSchedules.data.map(() => true))
-    }
-})
 
 function setFilter(filter: any) {
     state.filter.department_uuids = filter.department_uuids
@@ -1343,21 +1396,18 @@ function previousWeek() {
     state.customWeekLabel = 'week'
     currentDate.value = moment(currentDate.value).subtract(1, 'week')
     state.selectedDate = moment(currentDate.value).format('YYYY-MM-DD')
-    fetchDutySchedule()
 }
 
 function setToday() {
     state.customWeekLabel = 'week'
     currentDate.value = moment()
     state.selectedDate = moment(currentDate.value).format('YYYY-MM-DD')
-    fetchDutySchedule()
 }
 
 function nextWeek() {
     state.customWeekLabel = 'week'
     currentDate.value = moment(currentDate.value).add(1, 'week')
     state.selectedDate = moment(currentDate.value).format('YYYY-MM-DD')
-    fetchDutySchedule()
 }
 
 const weekNumber = computed(() => {
@@ -1397,6 +1447,10 @@ function viewAvailableVacationHours(employee: any) {
 }
 
 function openAddNewShiftModal(employee: any, employeeIndex: number, weekIndex: any, week: any) {
+    if (!employee?.uuid) {
+        errorAlert('Error', 'This employee is not linked to a local user yet.')
+        return
+    }
     state.modal.isAddShiftOpen = true
     state.addShift.selectedEmployeeSchedule = {
         employeeIndex: employeeIndex,
@@ -1463,15 +1517,19 @@ async function pinSelfToTopOfSchedule() {
 
 async function saveShift(shiftDetails: any) {
     const employeeIndex = state.addShift.selectedEmployeeSchedule.employeeIndex
+    const employeeUuid = state.weeklySchedules?.data?.[employeeIndex]?.uuid
+    if (!employeeUuid) {
+        errorAlert('Error', 'This employee is not linked to a local user yet.')
+        return
+    }
     const shiftType = shiftDetails.shift_type
     const params = {
         shift_type_uuid: shiftType,
         is_sleeping_sick_leave: shiftDetails.is_sleeping_sick_leave,
         do_not_count_weekends: shiftDetails.do_not_count_weekends,
-        is_mark_as_leave: shiftDetails.is_mark_as_leave,
         date_time_start: shiftDetails.date_time_start,
         date_time_end: shiftDetails.date_time_end,
-        user_uuid: state.weeklySchedules?.data?.[employeeIndex].uuid,
+        user_uuid: employeeUuid,
         citizen_uuid: shiftDetails?.citizens,
         schedule_tag_uuid: shiftDetails.schedule_tag_uuid,
         department_uuid: shiftDetails.department_uuid,
@@ -1548,7 +1606,10 @@ function isDailyScheduleCopiedEmpty() {
 }
 
 function isDailyScheduleCopied(employeeIndex: number, weekIndex: number, weekNumber: number) {
-    return state.copy.selectedEmployeeDailySchedule.employeeIndex === employeeIndex && state.copy.selectedEmployeeDailySchedule.weekIndex === weekIndex && state.copy.selectedEmployeeDailySchedule.weekNumber === weekNumber
+    return state.copy.selectedEmployeeDailySchedule.employeeIndex === employeeIndex &&
+        state.copy.selectedEmployeeDailySchedule.weekIndex === weekIndex &&
+        state.copy.selectedEmployeeDailySchedule.weekNumber === weekNumber &&
+        dutyScheduleStore.getCurrentPageNumber === state.copy.selectedEmployeeDailySchedule.currentTablePage
 }
 
 function copyEmployeeDailySchedule(employeeIndex: number, weekIndex: any, employee: any, weekNumber: number) {
@@ -1557,6 +1618,7 @@ function copyEmployeeDailySchedule(employeeIndex: number, weekIndex: any, employ
         weekNumber: weekNumber,
         weekIndex: weekIndex,
         employee: employee,
+        currentTablePage: dutyScheduleStore.getCurrentPageNumber,
     }
 }
 
@@ -1625,6 +1687,11 @@ function copyEmployeeWeeklySchedule(weeklySchedule: any) {
 function viewExtraHours(employee: any) {
     state.manageExtraHours.selectedEmployee = employee
     state.modal.isManageExtraHoursOpen = true
+}
+
+function viewLeaveRequests(employee: any) {
+    state.manageLeaveRequests.selectedEmployee = employee
+    state.modal.isManageLeaveRequestsOpen = true
 }
 
 async function pasteEmployeeWeeklySchedule(weeklySchedule: any) {
@@ -1757,7 +1824,7 @@ async function removeEntireShiftSpan() {
 
 function viewSchedule(employeeIndex: number, weekIndex: any, shift: any, shiftIndex: number) {
     const date = state.weeklySchedules?.data?.[employeeIndex].weeks[weekIndex].date
-    const userUuid = state.weeklySchedules?.data?.[employeeIndex].employee.uuid
+    const userUuid = state.weeklySchedules?.data?.[employeeIndex].uuid
     state.viewShift.selectedEmployeeSchedule = {
         citizen_schedules: shift?.citizen_schedules,
         scheduleUuid: shift?.schedule_uuid,
@@ -1812,7 +1879,6 @@ function updateSelectedSchedule(shiftDetails: any) {
         shift_type_uuid: shiftDetails.shift_type,
         is_sleeping_sick_leave: shiftDetails.is_sleeping_sick_leave,
         do_not_count_weekends: shiftDetails.do_not_count_weekends,
-        is_mark_as_leave: shiftDetails.is_mark_as_leave,
         date_time_start: shiftDetails?.date_time_start,
         date_time_end: shiftDetails?.date_time_end,
         is_apply_to_all: shiftDetails?.recurring?.is_apply_to_all,
@@ -1866,7 +1932,7 @@ onBeforeUnmount(() => {
 })
 
 let lastScrollTop = 0
-const headerHeight = 270  // The height of the header
+const headerHeight = 395  // The height of the header
 
 function handleScroll() {
     const header = document.getElementById('fixed-header-week-view')
@@ -1914,8 +1980,12 @@ function openUserNormPeriodModal(employee: any) {
     state.modal.isUserNormPeriodOpen = true
 }
 
+defineExpose({
+    refreshSchedule: fetchDutySchedule,
+    getScheduleEmployees: () => state.weeklySchedules?.data || [],
+})
+
 function openGraphModal(employee: any) {
-    if (!isAdmin(userStore.getUser?.role)) return
     state.normHours.selectedEmployee = employee
     state.modal.isGraphOpen = true
 }

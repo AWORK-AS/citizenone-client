@@ -211,10 +211,23 @@
                                 </div>
                             </div>
                         </div>
-                       
-                        <div class="space-y-1">
+                        <div v-if="state.form?.data?.is_follow_up_enabled &&
+                            (props.selectFormStatusTemplate.subgoal_uuid || props.selectFormStatusTemplate.goal_uuid || props.selectFormStatusTemplate.plan_uuid)"
+                            class="space-y-3">
                             <div class="w-fit flex items-center cursor-pointer"
-                                @click="state.isDraft = !state.isDraft">
+                                @click="state.useFollowUpReminder = !state.useFollowUpReminder">
+                                <FormCheckbox id="use_follow_up_reminder" :value="state.useFollowUpReminder" />
+                                {{ $t('plansandgoals.createStatusTemplate.form.useFollowUpReminder') }}
+                            </div>
+                            <p v-if="state.useFollowUpReminder && followUpDate" class="ml-6 text-sm text-gray-500">
+                                {{ $t('plansandgoals.createStatusTemplate.form.setFollowUpDate') }}:
+                                <span class="font-medium text-gray-700">{{ followUpDate }}</span>
+                                <span class="ml-1">({{ state.form?.data?.follow_up_duration }})</span>
+                            </p>
+                        </div>
+
+                        <div class="space-y-1">
+                            <div class="w-fit flex items-center cursor-pointer" @click="state.isDraft = !state.isDraft">
                                 <FormCheckbox id="is_draft" :value="state.isDraft" />
                                 {{ $t('plansandgoals.createStatusTemplate.form.saveAsDraft') }}
                             </div>
@@ -249,6 +262,7 @@ import { formService } from '@/components/api/user/FormService'
 import { formFieldService } from '@/components/api/user/FormFieldService'
 import { useI18n } from "vue-i18n"
 import { useAlert } from '@/composables/alert'
+import { useDatetimeFormatter } from '@/composables/datetimeFormatter'
 import type { Error } from '@/types'
 import { saveAs } from 'file-saver'
 
@@ -265,12 +279,33 @@ const props = defineProps({
 const emit = defineEmits(['close', 'closeModalNew'])
 const { t } = useI18n()
 const { successAlert } = useAlert()
+const { formatDateToReadable } = useDatetimeFormatter()
 
 const state = reactive({
     error: {} as Error,
     form: [] as any,
     isPageLoading: false,
     isDraft: false,
+    useFollowUpReminder: false,
+})
+
+const followUpDate = computed(() => {
+    const duration = state.form?.data?.follow_up_duration
+    if (!duration) return null
+    const parts = duration.split(' ')
+    if (parts.length !== 2) return null
+    const n = Number(parts[0])
+    const unit = parts[1]?.toLowerCase()
+    if (!n || !unit) return null
+    const date = new Date()
+    if (unit === 'days') date.setDate(date.getDate() + n)
+    else if (unit === 'weeks') date.setDate(date.getDate() + n * 7)
+    else if (unit === 'months') date.setMonth(date.getMonth() + n)
+    else if (unit === 'years') date.setFullYear(date.getFullYear() + n)
+    const yyyy = date.getFullYear()
+    const mm = String(date.getMonth() + 1).padStart(2, '0')
+    const dd = String(date.getDate()).padStart(2, '0')
+    return formatDateToReadable(`${yyyy}-${mm}-${dd}`)
 })
 
 function closeModal() {
@@ -347,6 +382,10 @@ async function submitResponse() {
         }
         params.append('is_draft', state.isDraft ? '1' : '0')
 
+        if (state.useFollowUpReminder) {
+            params.append('use_follow_up_date', state.useFollowUpReminder ? '1' : '0')
+        }
+
         state.form.data.form_fields.forEach((formField: any) => {
             const fieldType = JSON.parse(formField.field)?.type
             const fieldUuid = formField.uuid
@@ -388,6 +427,17 @@ async function submitResponseAndDownloadPDF() {
             params.append('plan_goal_subgoal_uuid', props.selectFormStatusTemplate.plan_uuid.toString())
         }
         params.append('is_draft', state.isDraft ? '1' : '0')
+
+        if (state.useFollowUpReminder) {
+            params.append('use_follow_up_date', state.useFollowUpReminder ? '1' : '0')
+        }
+
+        // if (state.useFollowUpReminder) {
+        //     const followUpDate = calculateFollowUpDate()
+        //     if (followUpDate) {
+        //         params.append('follow_up_date', followUpDate)
+        //     }
+        // }
 
         state.form.data.form_fields.forEach((formField: any) => {
             const fieldType = JSON.parse(formField.field)?.type

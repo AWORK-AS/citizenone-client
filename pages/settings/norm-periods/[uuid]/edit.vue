@@ -55,10 +55,8 @@ const state = reactive({
     error: {} as Error,
     formNormPeriod: {
         name: '',
-        start_month: '',
-        start_day: '',
-        end_month: '',
-        end_day: '',
+        date_start: '',
+        date_end: '',
         description: '',
         department_uuids: [] as Array<string>,
         is_active: true,
@@ -79,10 +77,8 @@ async function fetchNormPeriod() {
         if (response) {
             state.formNormPeriod = {
                 name: response?.data?.name ?? '',
-                start_month: response?.data?.start_month ?? 1,
-                start_day: response?.data?.start_day ?? 1,
-                end_month: response?.data?.end_month ?? 12,
-                end_day: response?.data?.end_day ?? 31,
+                date_start: response?.data?.current_cycle?.start_date ?? '',
+                date_end: response?.data?.current_cycle?.end_date ?? '',
                 description: response?.data?.description ?? '',
                 department_uuids: response?.data?.departments?.map((dept: any) => dept.uuid) ?? [],
                 is_active: response?.data?.is_active ?? true,
@@ -99,12 +95,17 @@ async function updateNormPeriod(normPeriodDetails: any) {
     state.error = {}
     state.isPageLoading = true
     try {
+        let dateStart = normPeriodDetails.date_start.split('-')
+        let dateEnd = normPeriodDetails.date_end.split('-')
+
         const params = {
             name: normPeriodDetails.name,
-            start_month: normPeriodDetails.start_month,
-            start_day: normPeriodDetails.start_day,
-            end_month: normPeriodDetails.end_month,
-            end_day: normPeriodDetails.end_day,
+            start_year: parseInt(dateStart[0]),
+            start_month: parseInt(dateStart[1]),
+            start_day: parseInt(dateStart[2]),
+            end_year: parseInt(dateEnd[0]),
+            end_month: parseInt(dateEnd[1]),
+            end_day: parseInt(dateEnd[2]),
             description: normPeriodDetails.description,
             department_uuids: normPeriodDetails.department_uuids,
             is_active: normPeriodDetails.is_active,

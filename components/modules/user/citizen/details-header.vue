@@ -37,6 +37,17 @@
                                                     @click="navigateTo(`/citizens/${state.selectedCitizen?.data?.uuid}/view-edit`)"
                                                     v-if="userStore.getUser?.roles?.[0]?.name === 'Admin'" />
                                             </Tooltip>
+                                            <Tooltip :text="$t('plansandgoals.followUps')">
+                                                <div class="relative inline-flex mx-1 cursor-pointer"
+                                                    @click="state.modal.isFollowUpNotificationsOpen = true">
+                                                    <Icon name="ph:bell-ringing-light" class="w-6 h-6 text-primary" />
+                                                    <span v-if="state.followUpReminderCount > 0"
+                                                        class="absolute -top-2 -right-2 inline-flex items-center justify-center w-5 h-5 text-[10px] font-bold text-white bg-red-500 rounded-full">
+                                                        {{ state.followUpReminderCount }}
+                                                    </span>
+                                                </div>
+                                            </Tooltip>
+
                                         </div>
                                         <p class="text-sm font-medium text-gray-700"
                                             v-if="hasSocialSecurityNumberAccess()">
@@ -46,6 +57,7 @@
                                     <div>
                                         <LoadingSpinner :isActive="state.isPageLoading">
                                             <div
+                                                v-if="isInterventionCheckinEnabled"
                                                 class="bg-white rounded-md flex items-center justify-between gap-x-2 px-4">
                                                 <p class="text-sm text-primary font-bold">
                                                     {{ state.selectedCitizen?.data?.is_checked_in ?
@@ -319,12 +331,43 @@
                 </div>
             </div>
 
+            <ModulesUserCitizenPlanStatusTemplateModalFollowUpNotifications
+                :isModalOpen="state.modal.isFollowUpNotificationsOpen" :citizenUuid="citizenUuid"
+                @close="state.modal.isFollowUpNotificationsOpen = false" @refreshCount="fetchFollowUpReminderCount" />
             <ModulesUserCitizenInquiryStayDataModalView :isModalOpen="state.modal.isInquiryStayDataOpen"
                 @close="state.modal.isInquiryStayDataOpen = false" :selectedCitizen="state.selectedCitizen" />
             <ModulesUserCitizenInterventionHoursModalView :isModalOpen="state.modal.isViewPatienCareHoursOpen"
                 @close="state.modal.isViewPatienCareHoursOpen = false" @refreshCitizenDetails="fetchCitizen()" />
             <ModulesUserCitizenUseOfForceModalRelevantHelpLinks :isModalOpen="state.modal.isViewRelevantHelpLinksOpen"
                 @close="state.modal.isViewRelevantHelpLinksOpen = false" />
+            <ModulesUserCitizenTimeRegistrationModalType :isModalOpen="state.modal.isTimeInTypeModalOpen"
+                @close="state.modal.isTimeInTypeModalOpen = false" @openTransport="openTransportLogin" @open-work="workLogin" />
+            <ModulesUserCitizenTimeRegistrationModalTransport type="login" :isModalOpen="state.modal.isTransportLoginOpen" @transportLogin="transportLogin"
+                @close="state.modal.isTransportLoginOpen = false" @submitTransportLogin="transportLogin" />
+            <ModulesUserCitizenTimeRegistrationModalTransport type="logout" :isModalOpen="state.modal.isTransportLogoutOpen" @transportLogout="transportLogout"
+                @close="state.modal.isTransportLogoutOpen = false" @submitTransportLogout="transportLogout" />
+            
+            <!-- Arrival Confirmation Modal -->
+            <ModulesUserCitizenTimeRegistrationModalConfirmArrival
+                :isModalOpen="state.modal.isConfirmArrivalOpen"
+                :citizenName="`${state.selectedCitizen?.data?.firstname || ''} ${state.selectedCitizen?.data?.lastname || ''}`"
+                :citizenAddress="state.selectedCitizen?.data?.address?.street || ''"
+                :distanceInMeters="state.arrivalDistance"
+                :totalDistanceKm="locationTracking.getTotalDistanceKm()"
+                @close="state.modal.isConfirmArrivalOpen = false"
+                @confirmed="onArrivalConfirmed"
+                @dismissed="onArrivalDismissed"
+            />
+            
+            <!-- Work Confirmation Modal -->
+            <ModulesUserCitizenTimeRegistrationModalConfirmWorking
+                :isModalOpen="state.modal.isConfirmWorkingOpen"
+                :citizenName="`${state.selectedCitizen?.data?.firstname || ''} ${state.selectedCitizen?.data?.lastname || ''}`"
+                :workingMinutes="state.workingMinutes"
+                @close="state.modal.isConfirmWorkingOpen = false"
+                @confirmed="onWorkConfirmed"
+                @dismissed="onWorkDismissed"
+            />
         </LoadingSpinner>
     </div>
 </template>
@@ -332,6 +375,7 @@
 <script setup lang="ts">
 import { citizenService } from '@/components/api/user/CitizenService'
 import { interventionHoursService } from '@/components/api/user/InterventionHoursService'
+import { reportService } from '@/components/api/user/ReportService'
 import { useDatetimeFormatter } from '@/composables/datetimeFormatter'
 import { useCustomPagesStore } from '@/store/custom-pages'
 import { useCitizenStore } from '@/store/citizen'
@@ -344,26 +388,224 @@ const router = useRouter()
 const { formatDateToReadable } = useDatetimeFormatter()
 const { formatNumber } = useNumberFormatter()
 const language = useI18n()
+const { t } = useI18n()
 const customPagesStore = useCustomPagesStore() as any
 const citizenStore = useCitizenStore() as any
 const userStore = useUserStore() as any
-const citizenUuid = router?.currentRoute?.value?.params?.uuid
+const citizenUuid = router?.currentRoute?.value?.params?.uuid as string
+
+const locationTracking = useLocationTracking()
+const workTimeTracking = useWorkTimeTracking()
 
 const state = reactive({
     error: {} as Error,
     isPageLoading: false,
+    followUpReminderCount: 0,
     modal: {
+        isFollowUpNotificationsOpen: false,
         isInquiryStayDataOpen: false,
         isViewPatienCareHoursOpen: false,
         isViewRelevantHelpLinksOpen: false,
+        isTimeInTypeModalOpen: false,
+        isTransportLoginOpen: false,
+        isTransportLogoutOpen: false,
+        isConfirmArrivalOpen: false,
+        isConfirmWorkingOpen: false,
     },
     selectedCitizen: {} as any,
     showExpandedNote: false,
+    arrivalDistance: 0,
+    workingMinutes: 0,
+})
+
+const arrivalCheckState = reactive({
+    hasShownPrompt: false,
+    isCheckingArrival: false,
+})
+
+const workCheckState = reactive({
+    hasShownPrompt: false,
+})
+
+const isTransportRegistrationEnabled = computed(() => {
+    return userStore.getUser?.register_transport_enabled === true
+})
+
+const isInterventionCheckinEnabled = computed(() => {
+    return userStore.getUser?.company?.intervention_checkin_enabled === true
 })
 
 onMounted(() => {
     fetchCitizen()
+    fetchFollowUpReminderCount()
+    
+    if (isTransportRegistrationEnabled.value) {
+        const savedLocationState = locationTracking.getSavedTrackingState()
+        if (savedLocationState && savedLocationState.isTracking && savedLocationState.careHourUuid && savedLocationState.citizenUuid === citizenUuid) {
+            nextTick(() => {
+                if (state.selectedCitizen?.data?.is_checked_in && savedLocationState.careHourUuid) {
+                    arrivalCheckState.hasShownPrompt = locationTracking.getArrivalPromptShown()
+                    startLocationTracking(savedLocationState.careHourUuid)
+                }
+            })
+        }
+    }
+    
+    const savedWorkState = workTimeTracking.getSavedWorkTimeState()
+    if (savedWorkState && savedWorkState.isWorking && savedWorkState.careHourUuid && savedWorkState.citizenUuid === citizenUuid) {
+        console.log('Restoring work time tracking')
+        
+        nextTick(() => {
+            if (state.selectedCitizen?.data?.is_checked_in && !state.selectedCitizen?.data?.current_care_hour?.is_transportation) {
+                workTimeTracking.restoreFromState(savedWorkState, showWorkPrompt)
+                console.log('Work time tracking restored')
+            }
+        })
+    }
 })
+
+watch(
+    () => locationTracking.currentLocation.value,
+    (newLocation) => {
+        if (!isTransportRegistrationEnabled.value) return
+        if (!newLocation || !state.selectedCitizen?.data?.is_checked_in) return
+        if (!state.selectedCitizen?.data?.current_care_hour?.is_transportation) return
+        if (arrivalCheckState.hasShownPrompt) return
+
+        checkIfNearCitizen(newLocation)
+    }
+)
+
+function checkIfNearCitizen(userLocation: { lat: number; lng: number }) {
+    const citizen = state.selectedCitizen?.data
+    if (!citizen?.address?.latitude || !citizen?.address?.longitude) return
+
+    const destination = {
+        lat: Number(citizen.address.latitude),
+        lng: Number(citizen.address.longitude),
+    }
+
+    const { isNear, distance } = locationTracking.isNearDestination(destination, 150)
+
+    if (isNear && !arrivalCheckState.hasShownPrompt) {
+        arrivalCheckState.hasShownPrompt = true
+        arrivalCheckState.isCheckingArrival = true
+        state.modal.isConfirmArrivalOpen = true
+        state.arrivalDistance = distance
+        locationTracking.setArrivalPromptShown(true)
+        
+        console.log(`Near citizen! Distance: ${distance}m`)
+    }
+}
+
+function showWorkPrompt() {
+    if (workCheckState.hasShownPrompt) return
+    
+    workCheckState.hasShownPrompt = true
+    state.workingMinutes = workTimeTracking.getWorkingMinutes()
+    state.modal.isConfirmWorkingOpen = true
+    
+    console.log(`Work prompt shown after ${state.workingMinutes} minutes`)
+}
+
+async function onArrivalConfirmed() {
+    await locationTracking.logCurrentLocation()
+
+    const currentLat = locationTracking.currentLocation.value?.lat
+    const currentLng = locationTracking.currentLocation.value?.lng
+    const totalDistanceKm = locationTracking.getTotalDistanceKm()
+    
+    let arrivalAddress = ''
+    if (currentLat && currentLng) {
+        try {
+            const response = await fetch(
+                `https://nominatim.openstreetmap.org/reverse?format=json&lat=${currentLat}&lon=${currentLng}&zoom=18&addressdetails=1`,
+                {
+                    headers: {
+                        'Accept-Language': 'da,en',
+                    }
+                }
+            )
+            const data = await response.json()
+            if (data && data.display_name) {
+                arrivalAddress = data.display_name
+            }
+        } catch (error) {
+            console.error('Failed to get arrival address:', error)
+            arrivalAddress = `${currentLat}, ${currentLng}`
+        }
+    }
+    
+    state.error = {}
+    state.isPageLoading = true
+    try {
+        if (state.selectedCitizen?.data?.is_checked_in) {
+            await stopLocationTracking()
+            
+            const params = {
+                is_transportation: true,
+                geo_end_lat: currentLat,
+                geo_end_lng: currentLng,
+                end_address: arrivalAddress,
+                note: `${t('citizens.timeRegistration.confirmArrival.arrivedAt')} ${arrivalAddress}. ${t('citizens.timeRegistration.confirmArrival.totalDistance')}: ${totalDistanceKm.toFixed(2)}km`
+            }
+            
+            const response = await interventionHoursService.checkout(citizenUuid, params)
+            if (response?.data) {
+                await fetchCitizen()
+                state.modal.isConfirmArrivalOpen = false
+            }
+        }
+    } catch (error: any) {
+        state.error = error
+    }
+    state.isPageLoading = false
+}
+
+function onArrivalDismissed() {
+    arrivalCheckState.hasShownPrompt = false
+    state.modal.isConfirmArrivalOpen = false
+    locationTracking.setArrivalPromptShown(false)
+}
+
+function onWorkConfirmed() {
+    console.log('User confirmed still working')
+    workCheckState.hasShownPrompt = false
+    state.modal.isConfirmWorkingOpen = false
+}
+
+function onWorkDismissed() {
+    console.log('User said they are not working')
+    workLogout()
+}
+
+function startLocationTracking(careHourUuid: string) {
+    if (!isTransportRegistrationEnabled.value) return
+    
+    arrivalCheckState.hasShownPrompt = locationTracking.getArrivalPromptShown()
+    
+    locationTracking.startTracking(
+        careHourUuid,
+        (location) => {
+            console.log('Current location:', location)
+        },
+        (error) => {
+            console.error('Tracking error:', error)
+        },
+        30000,
+        state.selectedCitizen?.data?.uuid,
+        `${state.selectedCitizen?.data?.firstname} ${state.selectedCitizen?.data?.lastname}`,
+        state.selectedCitizen?.data?.address?.street,
+        Number(state.selectedCitizen?.data?.address?.latitude),
+        Number(state.selectedCitizen?.data?.address?.longitude)
+    )
+}
+
+async function stopLocationTracking() {
+    await locationTracking.stopTracking()
+    arrivalCheckState.hasShownPrompt = false
+    arrivalCheckState.isCheckingArrival = false
+}
 
 async function fetchCitizen() {
     state.error = {}
@@ -380,19 +622,45 @@ async function fetchCitizen() {
     state.isPageLoading = false
 }
 
-async function toggleLogin() {
+async function fetchFollowUpReminderCount() {
+    try {
+        const response = await reportService.getUserReportFollowUpByCitizen(citizenUuid)
+        if (response?.data) {
+            state.followUpReminderCount = response.data.length
+        }
+    } catch {
+    }
+}
+
+function selectTimeInType() {
+    if (!isTransportRegistrationEnabled.value) {
+        workLogin()
+        return
+    }
+    
+    state.modal.isTimeInTypeModalOpen = true
+}
+
+async function workLogin() {
     state.error = {}
     state.isPageLoading = true
     try {
         if (!state.selectedCitizen?.data?.is_checked_in) {
-            const response = await interventionHoursService.checkin(citizenUuid)
+            const params = {}
+            const response = await interventionHoursService.checkin(citizenUuid, params)
             if (response?.data) {
-                fetchCitizen()
-            }
-        } else {
-            const response = await interventionHoursService.checkout(citizenUuid)
-            if (response?.data) {
-                fetchCitizen()
+                const careHourUuid = response.data.uuid || response.data.citizen_care_hour_uuid
+                
+                await fetchCitizen()
+                
+                if (careHourUuid) {
+                    workTimeTracking.startTracking(
+                        careHourUuid,
+                        showWorkPrompt,
+                        state.selectedCitizen?.data?.uuid,
+                        `${state.selectedCitizen?.data?.firstname} ${state.selectedCitizen?.data?.lastname}`
+                    )
+                }
             }
         }
     } catch (error: any) {
@@ -401,6 +669,122 @@ async function toggleLogin() {
     state.isPageLoading = false
 }
 
+function openTransportLogin() {
+    if (!isTransportRegistrationEnabled.value) {
+        console.warn('Transport registration is disabled')
+        return
+    }
+    
+    state.modal.isTimeInTypeModalOpen = false
+    state.modal.isTransportLoginOpen = true
+}
+
+function openTransportLogout() {
+    if (!isTransportRegistrationEnabled.value) {
+        console.warn('Transport registration is disabled')
+        return
+    }
+    
+    state.modal.isTimeInTypeModalOpen = false
+    state.modal.isTransportLogoutOpen = true
+}
+
+async function transportLogin(transportLoginDetails: any) {
+    if (!isTransportRegistrationEnabled.value) {
+        console.error('Transport registration is disabled')
+        return
+    }
+    
+    state.error = {}
+    state.isPageLoading = true
+    try {
+        if (!state.selectedCitizen?.data?.is_checked_in) {
+            const params = {
+                is_transportation: true,
+                geo_start_lat: transportLoginDetails.geo_start_lat,
+                geo_start_lng: transportLoginDetails.geo_start_lng,
+                start_address: transportLoginDetails.start_address,
+                note: transportLoginDetails.note
+            }
+            const response = await interventionHoursService.checkin(citizenUuid, params)
+            if (response?.data) {
+                const careHourUuid = response.data.uuid || response.data.citizen_care_hour_uuid
+                
+                await fetchCitizen()
+                state.modal.isTransportLoginOpen = false
+                
+                if (careHourUuid) {
+                    startLocationTracking(careHourUuid)
+                }
+            }
+        }
+    } catch (error: any) {
+        state.error = error
+    }
+    state.isPageLoading = false
+}
+
+function toggleLogin() {
+    if (!state.selectedCitizen?.data?.is_checked_in) {
+        selectTimeInType()
+    } else {
+        if (state.selectedCitizen?.data?.current_care_hour?.is_transportation && isTransportRegistrationEnabled.value) {
+            openTransportLogout()
+        } else {
+            workLogout()
+        }
+    }
+}
+
+async function workLogout() {
+    state.error = {}
+    state.isPageLoading = true
+    try {
+        workTimeTracking.stopTracking()
+        
+        const params = {}
+        const response = await interventionHoursService.checkout(citizenUuid, params)
+        if (response?.data) {
+            fetchCitizen()
+        }
+    } catch (error: any) {
+        state.error = error
+    }
+    state.isPageLoading = false
+}
+
+async function transportLogout(transportLogoutDetails: any) {
+    if (!isTransportRegistrationEnabled.value) {
+        console.error('Transport registration is disabled')
+        return
+    }
+    
+    state.error = {}
+    state.isPageLoading = true
+    try {
+        if (state.selectedCitizen?.data?.is_checked_in) {
+            await stopLocationTracking()
+            
+            const params = {
+                is_transportation: true,
+                geo_end_lat: transportLogoutDetails.geo_end_lat,
+                geo_end_lng: transportLogoutDetails.geo_end_lng,
+                end_address: transportLogoutDetails.end_address,
+                note: transportLogoutDetails.note
+            }
+            const response = await interventionHoursService.checkout(citizenUuid, params)
+            if (response?.data) {
+                fetchCitizen()
+                state.modal.isTransportLogoutOpen = false
+            }
+        }
+    } catch (error: any) {
+        state.error = error
+    }
+    state.isPageLoading = false
+}
+
+// ... rest of your access control functions remain the same ...
 function isAdmin(roles: any) {
     return roles && roles.some((role: any) => role.name === 'Admin')
 }

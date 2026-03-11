@@ -54,8 +54,9 @@
                                         <span>{{ expense?.amount }}</span>
                                     </td>
                                     <td width="10%">
-                                        <div v-if="expense?.is_reimbursed" class="rounded-xl bg-green-100 text-green-800 px-2 py-1 text-xs font-semibold text-center w-fit">{{ $t('expenses.table.reimbursed') }}</div>
-                                        <div v-else class="rounded-xl bg-red-100 text-red-800 px-2 py-1 text-xs font-semibold text-center w-fit">{{ $t('expenses.table.pending') }}</div>
+                                        <div v-if="expense?.status === 'reimbursed'" class="rounded-xl bg-green-100 text-green-800 px-2 py-1 text-xs font-semibold text-center w-fit">{{ $t('expenses.table.reimbursed') }}</div>
+                                        <div v-else-if="expense?.status === 'pending'" class="rounded-xl bg-amber-100 text-red-800 px-2 py-1 text-xs font-semibold text-center w-fit">{{ $t('expenses.table.pending') }}</div>
+                                        <div v-else-if="expense?.status === 'rejected'" class="rounded-xl bg-red-100 text-red-800 px-2 py-1 text-xs font-semibold text-center w-fit">{{ $t('expenses.table.rejected') }}</div>
                                     </td>
                                     <td width="15%">
                                         <div class="text-tertiary hover:text-tertiary-700 cursor-pointer flex items-center gap-x-1"
@@ -77,28 +78,28 @@
                                                     <Icon name="ph:eye" class="size-4" />
                                                 </FormButton>
                                             </Tooltip>
-                                            <Tooltip :text="$t('expenses.table.actions.edit')">
+                                            <Tooltip :text="$t('expenses.table.actions.edit')" v-if="isAdmin(userStore?.user?.roles) && expense?.status === 'pending'">
                                                 <FormButton type="button" buttonStyle="action" class="rounded-md"
                                                     @click="editExpense(expense)">
                                                     <Icon name="ph:pencil-simple" class="size-4" />
                                                 </FormButton>
                                             </Tooltip>
-                                            <Tooltip :text="$t('expenses.table.actions.delete')">
+                                            <Tooltip :text="$t('expenses.table.actions.reject')" v-if="expense?.status !== 'reimbursed' && isAdmin(userStore?.user?.roles) && expense?.status !== 'rejected'">
                                                 <FormButton type="button" buttonStyle="danger" class="rounded-md"
-                                                    @click="deleteExpenseConfirmation(expense)">
-                                                    <Icon name="ph:trash" class="size-4" />
+                                                    @click="rejectExpenseConfirmation(expense)">
+                                                    <Icon name="ph:file-x-duotone" class="size-4" />
                                                 </FormButton>
                                             </Tooltip>
-                                            <Tooltip :text="$t('expenses.table.actions.unreimburse')" v-if="expense?.is_reimbursed && isAdmin(userStore?.user?.roles)">
-                                                <FormButton type="button" buttonStyle="danger" class="rounded-md"
-                                                    @click="unReimburse(expense)">
-                                                    <Icon name="ph:x" class="size-4" />
-                                                </FormButton>
-                                            </Tooltip>
-                                            <Tooltip :text="$t('expenses.table.actions.reimburse')" v-if="!expense?.is_reimbursed && isAdmin(userStore?.user?.roles)">
+                                            <Tooltip :text="$t('expenses.table.actions.reimburse')" v-if="expense?.status !== 'reimbursed' && expense?.status !== 'rejected' && isAdmin(userStore?.user?.roles)">
                                                 <FormButton type="button" buttonStyle="success" class="rounded-md"
                                                     @click="reimburse(expense)">
                                                     <Icon name="ph:check" class="size-4" />
+                                                </FormButton>
+                                            </Tooltip>
+                                            <Tooltip :text="$t('expenses.table.actions.delete')" v-if="isAdmin(userStore?.user?.roles) && expense?.status !== 'pending'">
+                                                <FormButton type="button" buttonStyle="danger" class="rounded-md"
+                                                    @click="deleteExpenseConfirmation(expense)">
+                                                    <Icon name="ph:trash" class="size-4" />
                                                 </FormButton>
                                             </Tooltip>
                                         </div>
@@ -118,10 +119,13 @@
                 <ModulesUserDocumentExpenseModalEdit :isModalOpen="state.modal.isEditExpenseOpen"
                     :selectedExpense="state.selectedExpense"
                     @close="state.modal.isEditExpenseOpen = false" @refreshExpenses="fetchExpenses" />
-                    
+
                 <DialogConfirmation :isModalOpen="state.modal.isDeleteExpenseOpen"
                     :message="$t('expenses.confirmation.deleteExpenseConfirmation')"
                     @close="state.modal.isDeleteExpenseOpen = false" @confirm="deleteExpense" />
+                <DialogConfirmation :isModalOpen="state.modal.isRejectExpenseOpen"
+                    :message="$t('expenses.table.confirmation.rejectExpenseConfirmation')"
+                    @close="state.modal.isRejectExpenseOpen = false" @confirm="rejectExpense" />
             </div>
         </NuxtLayout>
     </div>
@@ -176,9 +180,10 @@ const state = reactive({
     isTableLoading: false,
     expenses: [] as any,
     modal: {
-       isDeleteExpenseOpen: false,
+       isRejectExpenseOpen: false,
        isAddExpenseOpen: false,
        isEditExpenseOpen: false,
+       isDeleteExpenseOpen: false,
        isViewExpenseOpen: false,
     },
     selectedExpense: {} as any,
@@ -280,6 +285,26 @@ function editExpense(expense: any) {
     state.modal.isEditExpenseOpen = true
 }
 
+function rejectExpenseConfirmation(expense: any) {
+    state.selectedExpense = expense
+    state.modal.isRejectExpenseOpen = true
+}
+
+async function rejectExpense() {
+    state.error = {}
+    state.isTableLoading = true
+    try {
+        const response = await expenseService.rejectExpense(state.selectedExpense.uuid)
+        if (response?.data) {
+            fetchExpenses()
+            successAlert(`${t('alert.success')}!`, `${t('expenses.table.alert.expenseSuccessfullyRejected')}.`)
+        }
+    } catch (error: any) {
+        state.error = error
+    }
+    state.isTableLoading = false
+}
+
 function deleteExpenseConfirmation(expense: any) {
     state.selectedExpense = expense
     state.modal.isDeleteExpenseOpen = true
@@ -290,7 +315,7 @@ async function deleteExpense() {
     state.isTableLoading = true
     try {
         const response = await expenseService.deleteExpense(state.selectedExpense.uuid)
-        if (response?.message === 'Success.' || response?.message === 'Succes.') {
+        if (response?.message) {
             fetchExpenses()
             successAlert(`${t('alert.success')}!`, `${t('expenses.table.alert.expenseSuccessfullyDeleted')}.`)
         }
@@ -311,21 +336,6 @@ async function reimburse(expense: any) {
         if (response?.data) {
             fetchExpenses()
             successAlert(`${t('alert.success')}!`, `${t('expenses.table.alert.expenseSuccessfullyReimbursed')}.`)
-        }
-    } catch (error: any) {
-        state.error = error
-    }
-    state.isTableLoading = false
-}
-
-async function unReimburse(expense: any) {
-    state.error = {}
-    state.isTableLoading = true
-    try {
-        const response = await expenseService.unReimburseExpense(expense.uuid)
-        if (response?.data) {
-            fetchExpenses()
-            successAlert(`${t('alert.success')}!`, `${t('expenses.table.alert.expenseSuccessfullyUnreimbursed')}.`)
         }
     } catch (error: any) {
         state.error = error

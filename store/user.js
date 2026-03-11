@@ -13,9 +13,13 @@ export const useUserStore = defineStore('userStore', {
             minutes: 0,
             seconds: 0,
         },
+        unreadNewsCount: 0,
         user: {},
     }),
     actions: {
+        setUserSystemNotificationCount(count) {
+            this.user.unread_system_notification_count = count
+        },
         minusUserNotificationCount() {
             this.user.unread_notification_count = this.user.unread_notification_count - 1
         },
@@ -42,6 +46,9 @@ export const useUserStore = defineStore('userStore', {
         },
         setSeconds(seconds) {
             this.timer.seconds = seconds
+        },
+        setUnreadNewsCount(count) {
+            this.unreadNewsCount = count
         },
         setUser(user) {
             this.user = user
@@ -91,6 +98,7 @@ export const useUserStore = defineStore('userStore', {
         getInTutorial: (state) => state.inTutorial,
         getIsFirstTime: (state) => state.isFirstTime,
         getTimer: (state) => state.timer,
+        getUnreadNewsCount: (state) => state.unreadNewsCount,
         getUser: (state) => state.user,
     },
 })

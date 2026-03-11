@@ -18,6 +18,13 @@
                     <FormError :error="v$?.formWallet?.note?.$errors[0]?.$message.toString()" />
                     <FormError :error="props?.error?.errors?.note?.[0]" />
                 </div>
+                <div class="space-y-1">
+                    <div class="w-fit flex items-center cursor-pointer"
+                        @click="state.formWallet.deactivate_end_of_month = !state.formWallet.deactivate_end_of_month">
+                        <FormCheckbox id="change_password" :value="state.formWallet.deactivate_end_of_month" />
+                        {{ $t('citizens.wallets.form.deactivateByTheEndOfTheMonth') }}
+                    </div>
+                </div>
             </div>
             <div class="mt-6">
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
@@ -65,6 +72,7 @@ const state = reactive({
         uuid: '',
         name: '',
         note: '',
+        deactivate_end_of_month: false,
     },
     isPageLoading: false,
 })
@@ -75,6 +83,7 @@ onMounted(() => {
         uuid: props.selectedWallet?.uuid,
         name: props.selectedWallet?.name,
         note: props.selectedWallet?.note,
+        deactivate_end_of_month: props.selectedWallet?.deactivate_end_of_month,
     }
 })
 
@@ -85,6 +94,7 @@ watch(() => props.selectedWallet, (newValue: any) => {
             uuid: props.selectedWallet?.uuid,
             name: props.selectedWallet?.name,
             note: props.selectedWallet?.note,
+            deactivate_end_of_month: props.selectedWallet?.deactivate_end_of_month,
         }
     }
 })
