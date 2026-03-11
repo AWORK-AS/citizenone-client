@@ -332,6 +332,7 @@
         "missingAuthorizationCode": "Missing authorization code",
         "month": "Month",
         "mostPopular": "Most popular",
+        "news": "News",
         "orderNow": "Order now",
         "processingConnection": "Processing connection...",
         "purchased": {
@@ -6209,8 +6210,8 @@
     "support": {
         "chatWithSupport": "Chat with support",
         "courseDetails": "If you and your colleagues need a course in CitizenOne, click the button below to see what we can offer to get you well prepared",
-        "getAGuidedTour": "Get a guided tour",
-        "goToSupportcenter": "Go to supportcenter",
+        "findGuidesHere": "Find guides here",
+        "getAGuidedTour": "Get a guided video-tour",
         "latestNewFeatures": "Latest New Features",
         "latestNewFeaturesDetails": "Stay updated with the latest improvements and features in CitizenOne. We continuously update to keep you informed",
         "needACourse": "Need a course",

@@ -49,12 +49,16 @@ class UserService extends BaseAPIService {
         return await this.request(`/user/change-selected-department`, 'PUT', params)
     }
 
+    async updateFirstLoginToFalse(): Promise<any> {
+        return await this.request(`user/update/first-login`, 'PUT')
+    }
+
     async uploadCompanyLogo(params: FormData): Promise<any> {
-        return await this.request(`user/company/settings/company/upload-logo`, 'POST', params)
+        return await this.request(`/user/company/settings/company/upload-logo`, 'POST', params)
     }
 
     async deleteCompanyLogo(): Promise<any> {
-        return await this.request(`user/company/settings/company/delete-logo`, 'DELETE')
+        return await this.request(`/user/company/settings/company/delete-logo`, 'DELETE')
     }
 }
 

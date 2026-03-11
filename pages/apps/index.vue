@@ -178,15 +178,29 @@
 
                     <div class="mt-8 grid grid-cols-1 md:grid-cols-3 gap-6">
                         <div v-for="(app, index) in state.apps?.data" :key="index"
-                            class="bg-white px-7 py-6 border rounded-xl">
+                            class="relative bg-white px-7 py-6 border rounded-xl">
+                            <div>
+                                <Icon name="stash:save-ribbon-solid"
+                                    class="size-24 text-orange-400 absolute -right-[1.35rem] -top-[0.60rem] shadow-lg"
+                                    v-if="app?.is_news" />
+                                <p class="text-white font-semibold text-xs absolute right-2.5 top-5">
+                                    {{ $t('apps.news') }}
+                                </p>
+                            </div>
                             <div class="mb-3 flex justify-between">
                                 <div class="flex items-center gap-3">
                                     <img :src="app.logo" alt="App logo" class="w-14" />
                                     <div class="leading-none">
-                                        <h4 class="text-muted-800 text-base font-semibold">
-                                            {{ app.name }}
-                                        </h4>
-                                        <p class="mt-1 text-muted-800 text-xs">
+                                        <div class="flex flex-wrap items-center gap-x-1">
+                                            <h4 class="text-muted-800 text-lg font-semibold pr-10">
+                                                {{ app.name }}
+                                            </h4>
+                                            <Badge type="primary" class="text-xxs truncate w-fit h-fit"
+                                                v-if="app?.is_thirdparty">
+                                                {{ $t('apps.thirdPartyApp') }}
+                                            </Badge>
+                                        </div>
+                                        <p class="mt-1 text-muted-800 text-sm">
                                             <span v-if="app?.is_one_time_fee">
                                                 {{ formatAmount(app?.price) }}
                                             </span>
@@ -198,12 +212,9 @@
                                         </p>
                                     </div>
                                 </div>
-                                <Badge type="primary" class="text-xxs truncate w-fit h-fit" v-if="app?.is_thirdparty">
-                                    {{ $t('apps.thirdPartyApp') }}
-                                </Badge>
                             </div>
-                            <div class="my-4 space-y-3">
-                                <p class="text-gray-700 font-sans text-sm line-clamp-2">
+                            <div class="my-6 space-y-3">
+                                <p class="text-gray-600 font-sans text-base line-clamp-2">
                                     {{ app?.description }}
                                 </p>
                             </div>

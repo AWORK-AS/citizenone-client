@@ -167,109 +167,114 @@
                 <div class="isolate flex flex-auto flex-col bg-white">
                     <div class="flex max-w-full flex-none flex-col sm:max-w-none md:max-w-full">
                         <div class="bg-white border border-gray-200 overflow-hidden">
-                            <div class="overflow-x-auto">
+                            <div class="overflow-x-auto" id="month-view-scroll-container">
                                 <div class="min-w-max">
-                                    <div class="grid border-b border-gray-200"
-                                        :style="{ gridTemplateColumns: `305px repeat(${monthDays.length}, 153px)` }"
-                                        id="fixed-header-month-view">
-                                        <div class="sticky left-0 z-20 bg-white border-0.5 border-gray-200">
-                                            <div class="gap-x-2 px-3 pt-3" v-if="isAdmin(userStore.getUser?.role)">
-                                                <Tooltip :text="$t('dutySchedules.copy.copyMultipleWeeksSchedule')"
-                                                    position="right">
-                                                    <button
-                                                        class="bg-gray-200 w-6 h-6 text-sm text-gray-600 rounded-sm hover:bg-gray-400 hover:text-gray-200 flex items-center justify-center"
-                                                        @click="state.modal.isCopyMultipleWeeklyScheduleOpen = true">
-                                                        <Icon name="mdi:content-copy" class="h-3 w-3"
-                                                            aria-hidden="true" />
+                                    <div id="fixed-header-month-view-wrapper">
+                                        <div class="grid"
+                                            :style="{ gridTemplateColumns: `305px repeat(${monthDays.length}, 153px)` }"
+                                            id="fixed-header-month-view">
+                                            <div id="fixed-header-sticky-cell"
+                                                class="sticky left-0 z-40 bg-white border-0.5 border-gray-200">
+                                                <div class="gap-x-2 px-3 pt-3" v-if="isAdmin(userStore.getUser?.role)">
+                                                    <Tooltip :text="$t('dutySchedules.copy.copyMultipleWeeksSchedule')"
+                                                        position="right">
+                                                        <button
+                                                            class="bg-gray-200 w-6 h-6 text-sm text-gray-600 rounded-sm hover:bg-gray-400 hover:text-gray-200 flex items-center justify-center"
+                                                            @click="state.modal.isCopyMultipleWeeklyScheduleOpen = true">
+                                                            <Icon name="mdi:content-copy" class="h-3 w-3"
+                                                                aria-hidden="true" />
+                                                        </button>
+                                                    </Tooltip>
+                                                </div>
+                                                <div class="px-3 pb-2" v-if="isAdmin(userStore.getUser?.role)">
+                                                    <button @click="toggleShowHideAllShifts()"
+                                                        class="text-primary text-xs hover:text-primary-700">
+                                                        {{ state.showAllShifts ?
+                                                            $t('hideAll') :
+                                                            $t('showAll') }}
                                                     </button>
-                                                </Tooltip>
+                                                </div>
                                             </div>
-                                            <div class="px-3 pb-2" v-if="isAdmin(userStore.getUser?.role)">
-                                                <button @click="toggleShowHideAllShifts()"
-                                                    class="text-primary text-xs hover:text-primary-700">
-                                                    {{ state.showAllShifts ?
-                                                        $t('hideAll') :
-                                                        $t('showAll') }}
-                                                </button>
-                                            </div>
-                                        </div>
 
-                                        <Tooltip :text="$t('dutySchedules.scheduleSlots.scheduleSlots')"
-                                            v-for="day in monthDays" :key="day.format('YYYY-MM-DD')"
-                                            class="relative cursor-pointer hover:bg-gray-200 flex items-center justify-center py-6 border-0.5"
-                                            @click="openManageScheduleSlotModal(day)"
-                                            v-if="isAdmin(userStore.getUser?.role)">
-                                            <span class="flex gap-x-1 text-sm">
-                                                <span v-if="day.format('ddd') === 'Mon'">
-                                                    {{ $t('calendar.week.short.Monday') }}
+                                            <Tooltip :text="$t('dutySchedules.scheduleSlots.scheduleSlots')"
+                                                v-for="day in monthDays" :key="day.format('YYYY-MM-DD')"
+                                                class="relative cursor-pointer hover:bg-gray-200 flex items-center justify-center py-6 border-0.5"
+                                                @click="openManageScheduleSlotModal(day)"
+                                                v-if="isAdmin(userStore.getUser?.role)">
+                                                <span class="flex gap-x-1 text-sm">
+                                                    <span v-if="day.format('ddd') === 'Mon'">
+                                                        {{ $t('calendar.week.short.Monday') }}
+                                                    </span>
+                                                    <span v-if="day.format('ddd') === 'Tue'">
+                                                        {{ $t('calendar.week.short.Tuesday') }}
+                                                    </span>
+                                                    <span v-if="day.format('ddd') === 'Wed'">
+                                                        {{ $t('calendar.week.short.Wednesday') }}
+                                                    </span>
+                                                    <span v-if="day.format('ddd') === 'Thu'">
+                                                        {{ $t('calendar.week.short.Thursday') }}
+                                                    </span>
+                                                    <span v-if="day.format('ddd') === 'Fri'">
+                                                        {{ $t('calendar.week.short.Friday') }}
+                                                    </span>
+                                                    <span v-if="day.format('ddd') === 'Sat'">
+                                                        {{ $t('calendar.week.short.Saturday') }}
+                                                    </span>
+                                                    <span v-if="day.format('ddd') === 'Sun'">
+                                                        {{ $t('calendar.week.short.Sunday') }}
+                                                    </span>
+                                                    <span
+                                                        class="items-center justify-center font-semibold text-gray-900">
+                                                        {{ day.date() }}
+                                                    </span>
                                                 </span>
-                                                <span v-if="day.format('ddd') === 'Tue'">
-                                                    {{ $t('calendar.week.short.Tuesday') }}
+                                                <div v-if="getSlotCount(day.format('YYYY-MM-DD')) > 0"
+                                                    class="absolute top-2 left-24 text-xxs flex items-center justify-center w-5 h-5 bg-red-400 text-white rounded-full">
+                                                    {{
+                                                        getSlotCount(day.format('YYYY-MM-DD')) > 99 ? '99+' :
+                                                            getSlotCount(day.format('YYYY-MM-DD'))
+                                                    }}
+                                                </div>
+                                            </Tooltip>
+                                            <div :text="$t('dutySchedules.scheduleSlots.scheduleSlots')"
+                                                v-for="day in monthDays" :key="day.format('YYYY-MM-DD')"
+                                                class="flex items-center justify-center py-6 border-0.5"
+                                                v-if="!isAdmin(userStore.getUser?.role)">
+                                                <span class="flex gap-x-1 text-sm">
+                                                    <span v-if="day.format('ddd') === 'Mon'">
+                                                        {{ $t('calendar.week.short.Monday') }}
+                                                    </span>
+                                                    <span v-if="day.format('ddd') === 'Tue'">
+                                                        {{ $t('calendar.week.short.Tuesday') }}
+                                                    </span>
+                                                    <span v-if="day.format('ddd') === 'Wed'">
+                                                        {{ $t('calendar.week.short.Wednesday') }}
+                                                    </span>
+                                                    <span v-if="day.format('ddd') === 'Thu'">
+                                                        {{ $t('calendar.week.short.Thursday') }}
+                                                    </span>
+                                                    <span v-if="day.format('ddd') === 'Fri'">
+                                                        {{ $t('calendar.week.short.Friday') }}
+                                                    </span>
+                                                    <span v-if="day.format('ddd') === 'Sat'">
+                                                        {{ $t('calendar.week.short.Saturday') }}
+                                                    </span>
+                                                    <span v-if="day.format('ddd') === 'Sun'">
+                                                        {{ $t('calendar.week.short.Sunday') }}
+                                                    </span>
+                                                    <span
+                                                        class="items-center justify-center font-semibold text-gray-900">
+                                                        {{ day.date() }}
+                                                    </span>
                                                 </span>
-                                                <span v-if="day.format('ddd') === 'Wed'">
-                                                    {{ $t('calendar.week.short.Wednesday') }}
-                                                </span>
-                                                <span v-if="day.format('ddd') === 'Thu'">
-                                                    {{ $t('calendar.week.short.Thursday') }}
-                                                </span>
-                                                <span v-if="day.format('ddd') === 'Fri'">
-                                                    {{ $t('calendar.week.short.Friday') }}
-                                                </span>
-                                                <span v-if="day.format('ddd') === 'Sat'">
-                                                    {{ $t('calendar.week.short.Saturday') }}
-                                                </span>
-                                                <span v-if="day.format('ddd') === 'Sun'">
-                                                    {{ $t('calendar.week.short.Sunday') }}
-                                                </span>
-                                                <span class="items-center justify-center font-semibold text-gray-900">
-                                                    {{ day.date() }}
-                                                </span>
-                                            </span>
-                                            <div v-if="getSlotCount(day.format('YYYY-MM-DD')) > 0"
-                                                class="absolute top-2 left-24 text-xxs flex items-center justify-center w-5 h-5 bg-red-400 text-white rounded-full">
-                                                {{
-                                                    getSlotCount(day.format('YYYY-MM-DD')) > 99 ? '99+' :
-                                                        getSlotCount(day.format('YYYY-MM-DD'))
-                                                }}
                                             </div>
-                                        </Tooltip>
-                                        <div :text="$t('dutySchedules.scheduleSlots.scheduleSlots')"
-                                            v-for="day in monthDays" :key="day.format('YYYY-MM-DD')"
-                                            class="flex items-center justify-center py-6 border-0.5"
-                                            v-if="!isAdmin(userStore.getUser?.role)">
-                                            <span class="flex gap-x-1 text-sm">
-                                                <span v-if="day.format('ddd') === 'Mon'">
-                                                    {{ $t('calendar.week.short.Monday') }}
-                                                </span>
-                                                <span v-if="day.format('ddd') === 'Tue'">
-                                                    {{ $t('calendar.week.short.Tuesday') }}
-                                                </span>
-                                                <span v-if="day.format('ddd') === 'Wed'">
-                                                    {{ $t('calendar.week.short.Wednesday') }}
-                                                </span>
-                                                <span v-if="day.format('ddd') === 'Thu'">
-                                                    {{ $t('calendar.week.short.Thursday') }}
-                                                </span>
-                                                <span v-if="day.format('ddd') === 'Fri'">
-                                                    {{ $t('calendar.week.short.Friday') }}
-                                                </span>
-                                                <span v-if="day.format('ddd') === 'Sat'">
-                                                    {{ $t('calendar.week.short.Saturday') }}
-                                                </span>
-                                                <span v-if="day.format('ddd') === 'Sun'">
-                                                    {{ $t('calendar.week.short.Sunday') }}
-                                                </span>
-                                                <span class="items-center justify-center font-semibold text-gray-900">
-                                                    {{ day.date() }}
-                                                </span>
-                                            </span>
                                         </div>
                                     </div>
 
                                     <div class="grid border-b border-gray-100"
                                         :style="{ gridTemplateColumns: `305px repeat(${monthDays.length}, 153px)` }">
                                         <p
-                                            class="sticky left-0 z-20 bg-white flex items-center justify-end px-4 py-2 text-xs border-0.5">
+                                            class="sticky left-0 bg-white flex items-center justify-end px-4 py-2 text-xs border-0.5">
                                             {{ $t('dutySchedules.holidays') }}:
                                         </p>
                                         <div v-for="day in monthDays" class="p-3 border-0.5">
@@ -1089,18 +1094,16 @@ watch(() => state.monthlySchedules, (newSchedules) => {
 onMounted(() => {
     fetchDutySchedule()
     window.addEventListener('keydown', handleKeyDown)
+    window.addEventListener('scroll', handleScroll)
+    const scrollContainer = document.getElementById('month-view-scroll-container')
+    scrollContainer?.addEventListener('scroll', handleHorizontalScroll)
 })
 
 onBeforeUnmount(() => {
     window.removeEventListener('keydown', handleKeyDown)
-})
-
-onMounted(() => {
-    window.addEventListener('scroll', handleScroll)
-})
-
-onBeforeUnmount(() => {
     window.removeEventListener('scroll', handleScroll)
+    const scrollContainer = document.getElementById('month-view-scroll-container')
+    scrollContainer?.removeEventListener('scroll', handleHorizontalScroll)
 })
 
 function handleKeyDown(event: KeyboardEvent) {
@@ -1110,21 +1113,40 @@ function handleKeyDown(event: KeyboardEvent) {
 }
 
 function handleScroll() {
+    const wrapper = document.getElementById('fixed-header-month-view-wrapper')
     const header = document.getElementById('fixed-header-month-view')
-    if (!header) return
+    const scrollContainer = document.getElementById('month-view-scroll-container')
+    const stickyCell = document.getElementById('fixed-header-sticky-cell')
+    if (!wrapper || !header || !scrollContainer) return
 
     const currentScroll = window.pageYOffset || document.documentElement.scrollTop
 
-    // If scrolling down and we reach the bottom of the header
     if (currentScroll > headerHeight) {
-        header.classList.add('fixed-header-month-view-top')
+        wrapper.classList.add('fixed-header-month-view-top')
+        const scrollLeft = scrollContainer.scrollLeft
+        header.style.transform = `translateX(-${scrollLeft}px)`
+        if (stickyCell) stickyCell.style.transform = `translateX(${scrollLeft}px)` // counter the grid's shift
     } else {
-        // If scrolling up, remove the fixed position
-        header.classList.remove('fixed-header-month-view-top')
+        wrapper.classList.remove('fixed-header-month-view-top')
+        header.style.transform = ''
+        if (stickyCell) stickyCell.style.transform = ''
     }
 
-    // Update the last scroll position for the next scroll event
-    lastScrollTop = currentScroll <= 0 ? 0 : currentScroll // Prevent negative scroll
+    lastScrollTop = currentScroll <= 0 ? 0 : currentScroll
+}
+
+function handleHorizontalScroll() {
+    const wrapper = document.getElementById('fixed-header-month-view-wrapper')
+    const header = document.getElementById('fixed-header-month-view')
+    const scrollContainer = document.getElementById('month-view-scroll-container')
+    const stickyCell = document.getElementById('fixed-header-sticky-cell')
+    if (!wrapper || !header || !scrollContainer) return
+
+    if (wrapper.classList.contains('fixed-header-month-view-top')) {
+        const scrollLeft = scrollContainer.scrollLeft
+        header.style.transform = `translateX(-${scrollLeft}px)`
+        if (stickyCell) stickyCell.style.transform = `translateX(${scrollLeft}px)` // counter the grid's shift
+    }
 }
 
 function isAdmin(role: any) {
@@ -1276,21 +1298,18 @@ function previousMonth() {
     state.customWeekLabel = 'month'
     currentDate.value = moment(currentDate.value).subtract(1, 'month')
     state.selectedDate = moment(currentDate.value).format('YYYY-MM-DD')
-    fetchDutySchedule()
 }
 
 function setToday() {
     state.customWeekLabel = 'month'
     currentDate.value = moment()
     state.selectedDate = moment(currentDate.value).format('YYYY-MM-DD')
-    fetchDutySchedule()
 }
 
 function nextMonth() {
     state.customWeekLabel = 'month'
     currentDate.value = moment(currentDate.value).add(1, 'month')
     state.selectedDate = moment(currentDate.value).format('YYYY-MM-DD')
-    fetchDutySchedule()
 }
 
 function hasConflict(shifts: any) {
