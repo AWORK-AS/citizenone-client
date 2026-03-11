@@ -18,15 +18,38 @@
                         <Icon name="ph:arrow-clockwise" class="h-4 w-4" aria-hidden="true" />
                         {{ $t('refresh') || 'Refresh' }}
                     </FormButton>
-                    <FormButton buttonStyle="action" class="rounded-lg" @click="navigateTo('/invoices/new')">
-                        <Icon name="ph:plus" class="h-4 w-4" aria-hidden="true" />
-                        {{ $t('clientInvoices.newInvoice') }}
+                    <FormButton buttonStyle="action" class="rounded-lg"
+                        @click="state.modal.isStripeInvoiceOpen = true">
+                        <Icon name="ph:receipt" class="h-4 w-4" aria-hidden="true" />
+                        Opret faktura
                     </FormButton>
                 </div>
                 <div class="space-y-5">
                     <Alert type="danger" :text="state?.error?.message"
                         v-if="state.error?.message && state.error.message.length > 0" />
-                    <TableSearch @search="handleSearch" />
+                    <form class="flex" @submit.prevent="submitSearch">
+                        <div class="grow relative">
+                            <span class="flex items-center gap-x-1 text-gray-800 absolute left-3 top-3">
+                                <Icon name="ic:search" class="text-primary w-6 h-6" />
+                            </span>
+                            <input
+                                type="text"
+                                name="stripe_invoice_search"
+                                autocomplete="off"
+                                list="stripe-invoice-suggestions"
+                                class="appearance-none block w-full pl-10 h-12 border border-primary placeholder-gray-500 text-gray-900 rounded-tl-md rounded-bl-md focus:outline-none focus:ring-primary-700 focus:border-primary-700 focus:z-10 sm:text-sm"
+                                :placeholder="$t('search')"
+                                v-model="state.searchInput"
+                            />
+                            <datalist id="stripe-invoice-suggestions">
+                                <option v-for="(suggestion, idx) in searchSuggestions" :key="idx" :value="suggestion" />
+                            </datalist>
+                        </div>
+                        <button type="submit"
+                            class="bg-primary px-6 py-1.5 border border-primary text-white hover:bg-primary-800 hover:border-primary-800 right-0.5 top-0.5 rounded-tr-md rounded-br-md text-xs">
+                            {{ $t('search') }}
+                        </button>
+                    </form>
                     <div class="table-responsive">
                         <Table :columnHeaders="state.columnHeaders" :data="state.invoices"
                             :isLoading="state.isTableLoading" :sortData="state.sortData" @sort="sort">
@@ -60,17 +83,22 @@
                                             </p>
                                         </div>
                                     </td>
+                                    <td width="10%">
+                                        <span :class="{
+                                            'px-2 py-1 rounded-full text-xs font-semibold': true,
+                                            'bg-green-100 text-green-800': invoice?.status === 'paid',
+                                            'bg-yellow-100 text-yellow-800': invoice?.status === 'open' || invoice?.status === 'draft',
+                                            'bg-gray-100 text-gray-800': !invoice?.status || (invoice?.status !== 'paid' && invoice?.status !== 'open' && invoice?.status !== 'draft')
+                                        }">
+                                            {{ formatStatus(invoice?.status) }}
+                                        </span>
+                                    </td>
                                     <td width="15%">
                                         <div class="flex items-end gap-2">
                                             <FormButton type="button" buttonStyle="action" class="rounded-md"
                                                 @click="openInvoiceDetails(invoice)">
                                                 <Icon name="ph:eye" class="size-4" />
                                                 {{ $t('clientInvoices.table.actions.view') }}
-                                            </FormButton>
-                                            <FormButton type="button" buttonStyle="action" class="rounded-md"
-                                                @click="openInvoiceEdit(invoice)">
-                                                <Icon name="ph:pencil-simple" class="size-4" />
-                                                {{ $t('clientInvoices.table.actions.edit') }}
                                             </FormButton>
                                             <FormButton type="button" buttonStyle="action" class="rounded-md"
                                                 @click="downloadInvoiceDetails(invoice)">
@@ -119,6 +147,10 @@
                 <ModulesUserClientInvoiceModalSendInvoice :isModalOpen="state.modal.isSendInvoiceOpen"
                     :selectedClientInvoice="state.selectedClientInvoice"
                     @close="state.modal.isSendInvoiceOpen = false" />
+                <ModulesUserCitizenModalStripeInvoice :isModalOpen="state.modal.isStripeInvoiceOpen"
+                    :citizens="state.citizens"
+                    @close="state.modal.isStripeInvoiceOpen = false"
+                    @success="fetchInvoices" />
             </div>
         </NuxtLayout>
     </div>
@@ -126,11 +158,13 @@
 
 <script setup lang="ts">
 import { clientInvoiceService } from '@/components/api/user/ClientInvoiceService'
+import { citizenService } from '@/components/api/user/CitizenService'
 import stripeApi from '@/components/api/stripeApi'
 import { useAmountFormatter } from '@/composables/amountFormatter'
 import { useDatetimeFormatter } from '@/composables/datetimeFormatter'
 import { useI18n } from "vue-i18n"
 import { useAlert } from '@/composables/alert'
+import { useUserStore } from '@/store/user'
 import type { Error } from '@/types'
 import { saveAs } from 'file-saver'
 
@@ -139,6 +173,7 @@ const { formatAmount } = useAmountFormatter()
 const { formatDateTimeToReadable } = useDatetimeFormatter()
 const { successAlert } = useAlert()
 const { t } = useI18n()
+const userStore = useUserStore() as any
 let currentTablePage = 1
 const INVOICES_PER_PAGE = 15
 const breadcrumbLinks = [
@@ -155,6 +190,7 @@ const state = reactive({
         { name: 'clientInvoices.table.invoiceNumber', isTranslateName: true, sorter: true, key: 'invoice_number' },
         { name: 'clientInvoices.table.amount', isTranslateName: true, sorter: true, key: 'total_amount' },
         { name: 'clientInvoices.table.billedTo', isTranslateName: true, },
+        { name: 'clientInvoices.table.status', isTranslateName: true, },
         { name: '' },
     ],
     dataFilter: {
@@ -163,9 +199,13 @@ const state = reactive({
     error: {} as Error,
     invoices: [] as any,
     allInvoices: [] as any[],
+    citizens: [] as any[],
     isTableLoading: false,
+    searchInput: '',
+    activeSearchQuery: '',
     modal: {
-        isSendInvoiceOpen: false
+        isSendInvoiceOpen: false,
+        isStripeInvoiceOpen: false
     },
     selectedClientInvoice: {} as any,
     sortData: {
@@ -176,11 +216,24 @@ const state = reactive({
 
 onMounted(() => {
     fetchInvoices()
+    fetchCitizens()
 })
+
+async function fetchCitizens() {
+    try {
+        const response = await citizenService.getCitizens({ per_page: 1000 })
+        if (response?.data?.data) {
+            state.citizens = response.data.data
+        }
+    } catch (error) {
+        console.error('Failed to fetch citizens:', error)
+    }
+}
 
 async function fetchInvoices() {
     state.error = {}
     state.isTableLoading = true
+    
     try {
         // Fetch both regular and Stripe invoices
         const [regularResponse, stripeResponse] = await Promise.all([
@@ -193,10 +246,16 @@ async function fetchInvoices() {
         
         // Add Stripe invoices to the list, formatted to match the regular invoice structure
         const stripeInvoices = extractInvoices(stripeResponse)
+        console.log('Extracted Stripe invoices count:', stripeInvoices?.length || 0)
+        
         let formattedStripeInvoices: any[] = []
         if (stripeInvoices.length > 0) {
+            console.log('Starting enrichment of', stripeInvoices.length, 'invoices')
             const enrichedStripeInvoices = await enrichStripeInvoicesWithDetails(stripeInvoices)
+            console.log('Enrichment complete')
             formattedStripeInvoices = enrichedStripeInvoices.map((si: any) => {
+                                const fallbackName = `${userStore.getUser?.firstname || ''} ${userStore.getUser?.lastname || ''}`.trim()
+                                const fallbackEmail = userStore.getUser?.email || ''
                 // Resolve the correct total amount in major unit (DKK)
                 // Prefer total_minor if available, otherwise use total/amount_due
                 const rawTotal = si.total || si.amount_due || si.amount || 0
@@ -209,12 +268,12 @@ async function fetchInvoices() {
                     invoice_number: si.number || resolveStripeIdentifier(si),
                     created_at: si.created_at || (si.created ? new Date(si.created * 1000).toISOString() : new Date().toISOString()),
                     total_amount: totalInMajor,
-                    bill_to_name: resolveStripeCustomerName(si, si.customer_email || si.customer?.email || ''),
+                    bill_to_name: resolveStripeCustomerName(si, fallbackName || si.customer_email || si.customer?.email || ''),
                     bill_to_number: si.customer?.phone || si.customer_details?.phone || '',
                     bill_to_address: si.customer?.address?.line1 || si.customer_details?.address?.line1 || '',
-                    bill_to_email: si.customer_email || si.customer?.email || si.customer_details?.email || '',
+                    bill_to_email: resolveStripeCustomerEmail(si, fallbackEmail),
                     is_stripe_invoice: true,
-                    status: si.status,
+                    status: normalizeInvoiceStatus(si.status),
                     stripe_id: resolveStripeIdentifier(si)
                 }
             })
@@ -231,6 +290,8 @@ async function fetchInvoices() {
                         bill_to_email: stripeInv.bill_to_email || matchingRegular.bill_to_email || '',
                         bill_to_number: stripeInv.bill_to_number || matchingRegular.bill_to_number || '',
                         bill_to_address: stripeInv.bill_to_address || matchingRegular.bill_to_address || '',
+                        matched_regular_invoice_uuid: matchingRegular.uuid || '',
+                        matched_regular_invoice_number: matchingRegular.invoice_number || '',
                     }
                 }
 
@@ -238,25 +299,26 @@ async function fetchInvoices() {
             })
         }
 
-        // Deduplicate: remove Stripe invoices if a regular invoice matches by amount, date, and customer info
-        const dedupedStripeInvoices = formattedStripeInvoices.filter(stripeInv => {
-            return !allInvoices.some(regInv => {
-                const sameAmount = isEquivalentAmount(regInv.total_amount, stripeInv.total_amount)
-                const sameDate = isSameDay(regInv.created_at, stripeInv.created_at)
-                const nearInTime = isNearInTime(regInv.created_at, stripeInv.created_at, 10)
-                const sameName = regInv.bill_to_name && stripeInv.bill_to_name && regInv.bill_to_name.trim().toLowerCase() === stripeInv.bill_to_name.trim().toLowerCase()
-                const sameEmail = regInv.bill_to_email && stripeInv.bill_to_email && regInv.bill_to_email.trim().toLowerCase() === stripeInv.bill_to_email.trim().toLowerCase()
-                
-                // Only deduplicate if we have matching identifiers (name or email)
-                // and matching amount and date
-                const hasMatchingIdentifier = sameName || sameEmail
-                const hasTimingMatch = nearInTime || sameDate
-                
-                return sameAmount && hasTimingMatch && hasMatchingIdentifier
-            })
+        // Deduplicate: keep Stripe invoices and hide matching regular invoices.
+        // This avoids showing both e.g. "RPRQMMVS-0001" and "pi_..." for the same payment.
+        const matchedRegularInvoiceUuids = new Set(
+            formattedStripeInvoices
+                .map((stripeInv: any) => stripeInv?.matched_regular_invoice_uuid)
+                .filter((uuid: any) => !!uuid)
+        )
+
+        const filteredRegularInvoices = allInvoices.filter((regInv: any) => {
+            if (!regInv?.uuid) {
+                return true
+            }
+
+            return !matchedRegularInvoiceUuids.has(regInv.uuid)
         })
 
-        allInvoices = [...allInvoices, ...dedupedStripeInvoices]
+        allInvoices = [...filteredRegularInvoices, ...formattedStripeInvoices]
+        allInvoices = dedupeEquivalentStripeRows(allInvoices)
+        allInvoices = allInvoices.filter((invoice: any) => shouldDisplayInvoice(invoice))
+        allInvoices = dedupeInvoices(allInvoices)
         
         // Sort by created_at descending
         allInvoices.sort((a: any, b: any) => {
@@ -268,12 +330,22 @@ async function fetchInvoices() {
     } catch (error: any) {
         console.error('Error in fetchInvoices:', error)
         state.error = error
+    } finally {
+        state.isTableLoading = false
     }
-    state.isTableLoading = false
 }
 
 function setPaginatedInvoices() {
-    const total = state.allInvoices.length
+    const q = state.activeSearchQuery.trim().toLowerCase()
+    const filtered = q
+                ? state.allInvoices.filter((inv: any) =>
+                        !isStripeInvoice(inv) ||
+                        ((inv.bill_to_name && inv.bill_to_name.toLowerCase().includes(q)) ||
+                        (inv.invoice_number && String(inv.invoice_number).toLowerCase().includes(q)))
+          )
+        : state.allInvoices
+
+    const total = filtered.length
     const lastPage = Math.max(1, Math.ceil(total / INVOICES_PER_PAGE))
 
     if (currentTablePage > lastPage) {
@@ -281,7 +353,7 @@ function setPaginatedInvoices() {
     }
 
     const startIndex = (currentTablePage - 1) * INVOICES_PER_PAGE
-    const pageData = state.allInvoices.slice(startIndex, startIndex + INVOICES_PER_PAGE)
+    const pageData = filtered.slice(startIndex, startIndex + INVOICES_PER_PAGE)
 
     state.invoices = {
         data: pageData,
@@ -325,6 +397,8 @@ function resolveStripeIdentifier(invoice: any): string {
 }
 
 function resolveStripeCustomerName(invoice: any, fallback: string = ''): string {
+    const chargeBillingDetails = invoice?.charges?.data?.[0]?.billing_details || invoice?.latest_charge?.billing_details
+
     return invoice?.customer_name
         || invoice?.customer?.name
         || invoice?.customer_details?.name
@@ -332,11 +406,44 @@ function resolveStripeCustomerName(invoice: any, fallback: string = ''): string 
         || invoice?.metadata?.customer_name
         || invoice?.metadata?.customerName
         || invoice?.billing_details?.name
+        || chargeBillingDetails?.name
         || invoice?.customer_email
         || invoice?.customer?.email
         || invoice?.account_name
         || invoice?.recipient_name
         || fallback
+}
+
+function resolveStripeCustomerEmail(invoice: any, fallback: string = ''): string {
+    const chargeBillingDetails = invoice?.charges?.data?.[0]?.billing_details || invoice?.latest_charge?.billing_details
+
+    return invoice?.customer_email
+        || invoice?.customer?.email
+        || invoice?.customer_details?.email
+        || invoice?.metadata?.customer_email
+        || invoice?.metadata?.customerEmail
+        || invoice?.billing_details?.email
+        || chargeBillingDetails?.email
+        || fallback
+}
+
+function normalizeInvoiceStatus(status: any): string {
+    const normalized = (status || '').toString().trim().toLowerCase()
+
+    if (!normalized) {
+        return 'draft'
+    }
+
+    // Stripe payment intents can return succeeded/complete for already paid receipts.
+    if (['paid', 'succeeded', 'complete', 'completed'].includes(normalized)) {
+        return 'paid'
+    }
+
+    return normalized
+}
+
+function isPaidInvoice(status: any): boolean {
+    return normalizeInvoiceStatus(status) === 'paid'
 }
 
 function isEquivalentAmount(amountA: any, amountB: any): boolean {
@@ -423,40 +530,123 @@ function findMatchingRegularInvoice(stripeInvoice: any, regularInvoices: any[]):
     })
 }
 
+// Helper function to limit concurrent promises
+function promiseConcurrencyLimiter(promises: (() => Promise<any>)[], concurrency: number = 5): Promise<any[]> {
+    return new Promise((resolve, reject) => {
+        let completed = 0
+        let currentIndex = 0
+        const results: any[] = new Array(promises.length)
+        
+        if (promises.length === 0) {
+            resolve([])
+            return
+        }
+
+        const executeNext = () => {
+            if (currentIndex >= promises.length) {
+                if (completed === promises.length) {
+                    resolve(results)
+                }
+                return
+            }
+
+            const index = currentIndex
+            currentIndex++
+
+            promises[index]()
+                .then(result => {
+                    results[index] = result
+                    completed++
+                    executeNext()
+                })
+                .catch(error => {
+                    results[index] = error
+                    completed++
+                    executeNext()
+                })
+        }
+
+        // Start initial batch
+        for (let i = 0; i < Math.min(concurrency, promises.length); i++) {
+            executeNext()
+        }
+    })
+}
+
 async function enrichStripeInvoicesWithDetails(stripeInvoices: any[]): Promise<any[]> {
     const detailCache = new Map<string, any>()
 
-    return await Promise.all(stripeInvoices.map(async (invoice: any) => {
+    // Separate invoices into those that need enrichment and those that don't
+    const invoicesToEnrich: Array<{ index: number; invoice: any; id: string }> = []
+    const results: any[] = new Array(stripeInvoices.length)
+
+    // First pass: identify which invoices need enrichment
+    for (let i = 0; i < stripeInvoices.length; i++) {
+        const invoice = stripeInvoices[i]
         const stripeInvoiceId = resolveStripeIdentifier(invoice)
+        
         if (!stripeInvoiceId) {
-            return invoice
+            results[i] = invoice
+            continue
         }
 
-        let enrichedInvoice = invoice
+        // Check if enrichment is needed
+        const needsEnrichment = !invoice?.customer_name 
+            && !invoice?.customer?.name 
+            && !invoice?.customer_details?.name
+            && !invoice?.customer_email
+            && !invoice?.customer?.email
 
-        // Try to fetch full details from API if we don't have a customer name
-        if (!invoice?.customer_name && !invoice?.customer?.name) {
-            if (detailCache.has(stripeInvoiceId)) {
-                enrichedInvoice = {
-                    ...invoice,
-                    ...detailCache.get(stripeInvoiceId),
-                }
-            } else {
-                try {
-                    const details = await stripeApi.getStripeInvoice(stripeInvoiceId)
-                    detailCache.set(stripeInvoiceId, details)
-                    enrichedInvoice = {
-                        ...invoice,
-                        ...details,
-                    }
-                } catch (error) {
-                    // Continue without enrichment if API call fails
-                }
+        if (!needsEnrichment) {
+            results[i] = invoice
+        } else {
+            invoicesToEnrich.push({ index: i, invoice, id: stripeInvoiceId })
+        }
+    }
+
+    // If no enrichment needed, return early
+    if (invoicesToEnrich.length === 0) {
+        return results
+    }
+
+    // Create a batch of API call promises with concurrency limit
+    const enrichmentPromises = invoicesToEnrich.map(({ id, invoice }) => async () => {
+        if (detailCache.has(id)) {
+            return { 
+                invoice,
+                details: detailCache.get(id)
             }
         }
 
-        return enrichedInvoice
-    }))
+        try {
+            const details = await stripeApi.getStripeInvoice(id)
+            detailCache.set(id, details)
+            return { invoice, details }
+        } catch (error) {
+            console.warn(`Failed to enrich invoice ${id}:`, error)
+            return { invoice, details: null }
+        }
+    })
+
+    // Execute all enrichment calls with concurrency limit (5 at a time)
+    const enrichmentResults = await promiseConcurrencyLimiter(enrichmentPromises, 5)
+
+    // Merge enrichment results back into results array
+    for (let i = 0; i < invoicesToEnrich.length; i++) {
+        const { index } = invoicesToEnrich[i]
+        const enrichmentResult = enrichmentResults[i]
+        
+        if (enrichmentResult?.details) {
+            results[index] = {
+                ...enrichmentResult.invoice,
+                ...enrichmentResult.details,
+            }
+        } else {
+            results[index] = enrichmentResult?.invoice
+        }
+    }
+
+    return results
 }
 
 function isStripeInvoice(invoice: any): boolean {
@@ -470,6 +660,96 @@ function isStripeInvoice(invoice: any): boolean {
 
 function resolveInvoiceIdentifier(invoice: any): string {
     return invoice?.uuid || invoice?.stripe_id || invoice?.invoice_number || ''
+}
+
+function shouldDisplayInvoice(invoice: any): boolean {
+    const invoiceNumber = String(invoice?.invoice_number || '').trim()
+    const fallbackIdentifier = String(resolveInvoiceIdentifier(invoice) || '').trim()
+    const identifier = invoiceNumber || fallbackIdentifier
+
+    return !!identifier
+}
+
+function dedupeInvoices(invoices: any[]): any[] {
+    const seen = new Set<string>()
+    const result: any[] = []
+
+    for (const invoice of invoices) {
+        const id = String(resolveInvoiceIdentifier(invoice) || '').trim()
+        if (!id) {
+            continue
+        }
+
+        if (seen.has(id)) {
+            continue
+        }
+
+        seen.add(id)
+        result.push(invoice)
+    }
+
+    return result
+}
+
+function isPaymentIntentLike(invoice: any): boolean {
+    const id = String(resolveInvoiceIdentifier(invoice) || '').toLowerCase()
+    const invoiceNumber = String(invoice?.invoice_number || '').toLowerCase()
+    return id.startsWith('pi_') || invoiceNumber.startsWith('pi_')
+}
+
+function isSameCustomerStripePair(a: any, b: any): boolean {
+    const emailA = String(a?.bill_to_email || '').trim().toLowerCase()
+    const emailB = String(b?.bill_to_email || '').trim().toLowerCase()
+    if (emailA && emailB) {
+        return emailA === emailB
+    }
+
+    const nameA = String(a?.bill_to_name || '').trim().toLowerCase()
+    const nameB = String(b?.bill_to_name || '').trim().toLowerCase()
+    if (nameA && nameB) {
+        return nameA === nameB
+    }
+
+    return false
+}
+
+function dedupeEquivalentStripeRows(invoices: any[]): any[] {
+    const result: any[] = []
+
+    for (const invoice of invoices) {
+        if (!isStripeInvoice(invoice)) {
+            result.push(invoice)
+            continue
+        }
+
+        const existingIndex = result.findIndex((existing) => {
+            if (!isStripeInvoice(existing)) {
+                return false
+            }
+
+            const sameAmount = isEquivalentAmount(existing?.total_amount, invoice?.total_amount)
+            const nearInTime = isNearInTime(existing?.created_at, invoice?.created_at, 2)
+            const sameCustomer = isSameCustomerStripePair(existing, invoice)
+
+            return sameAmount && nearInTime && sameCustomer
+        })
+
+        if (existingIndex === -1) {
+            result.push(invoice)
+            continue
+        }
+
+        const existing = result[existingIndex]
+        const existingIsPi = isPaymentIntentLike(existing)
+        const currentIsPi = isPaymentIntentLike(invoice)
+
+        // Prefer invoice-number rows (e.g. RPRQMMVS-0010) over payment-intent ids (pi_...)
+        if (existingIsPi && !currentIsPi) {
+            result[existingIndex] = invoice
+        }
+    }
+
+    return result
 }
 
 async function fetchClientInvoices() {
@@ -490,13 +770,18 @@ async function fetchClientInvoices() {
             const pageInvoices = extractInvoices(response)
 
             if (pageInvoices.length > 0) {
-                allInvoices.push(...pageInvoices)
+                // Ensure all invoices have a status field (default to 'paid' for regular invoices)
+                const normalizedInvoices = pageInvoices.map((inv: any) => ({
+                    ...inv,
+                    status: inv.status || 'paid'
+                }))
+                allInvoices.push(...normalizedInvoices)
             }
 
             hasNextPage = hasNextPagination(response)
             page++
 
-            if (page > 100) {
+            if (page > 200) {
                 hasNextPage = false
             }
         }
@@ -517,8 +802,17 @@ function hasNextPagination(response: any): boolean {
         return true
     }
 
-    const currentPage = response?.meta?.current_page ?? response?.data?.meta?.current_page
-    const lastPage = response?.meta?.last_page ?? response?.data?.meta?.last_page
+    // Check meta-based pagination
+    let currentPage = response?.meta?.current_page ?? response?.data?.meta?.current_page
+    let lastPage = response?.meta?.last_page ?? response?.data?.meta?.last_page
+
+    if (currentPage && lastPage) {
+        return currentPage < lastPage
+    }
+
+    // Check pagination object (Stripe API format)
+    currentPage = response?.pagination?.current_page
+    lastPage = response?.pagination?.last_page
 
     if (currentPage && lastPage) {
         return currentPage < lastPage
@@ -529,9 +823,10 @@ function hasNextPagination(response: any): boolean {
 
 async function fetchStripeInvoices() {
     try {
-        const result = await stripeApi.getStripeInvoices()
-        console.log('fetchStripeInvoices result:', result)
-        return result || { data: [] }
+        // Request all invoices in one shot to avoid multiple round-trips to Stripe
+        const result = await stripeApi.getStripeInvoices({ page: 1, per_page: 100, include_payment_intents: false })
+        const pageInvoices = extractInvoices(result)
+        return { data: pageInvoices }
     } catch (error: any) {
         console.error('Error fetching Stripe invoices:', error)
         console.error('Error details:', {
@@ -571,32 +866,28 @@ function sort(sortingData: any) {
     fetchInvoices()
 }
 
-function handleSearch(value: any) {
+function submitSearch() {
     currentTablePage = 1
-    state.dataFilter.search = value?.[0] == '' ? [] : value
-    fetchInvoices()
+    state.activeSearchQuery = String(state.searchInput || '').trim()
+    setPaginatedInvoices()
 }
 
 function openInvoiceDetails(invoice: any) {
-    const invoiceId = resolveInvoiceIdentifier(invoice)
-
-    if (isStripeInvoice(invoice)) {
-        navigateTo(`/invoices/${invoiceId}`)
+    if (isPaidInvoice(invoice?.status) && invoice?.matched_regular_invoice_uuid) {
+        navigateTo(`/invoices/${invoice.matched_regular_invoice_uuid}/invoice-details`)
         return
     }
+
+    if (isStripeInvoice(invoice)) {
+        const stripeId = invoice.stripe_id || resolveInvoiceIdentifier(invoice)
+        const displayId = invoice.invoice_number || stripeId
+        navigateTo(`/invoices/${encodeURIComponent(displayId)}`)
+        return
+    }
+
+    const invoiceId = resolveInvoiceIdentifier(invoice)
 
     navigateTo(`/invoices/${invoiceId}/invoice-details`)
-}
-
-function openInvoiceEdit(invoice: any) {
-    const invoiceId = resolveInvoiceIdentifier(invoice)
-
-    if (isStripeInvoice(invoice)) {
-        navigateTo(`/invoices/${invoiceId}`)
-        return
-    }
-
-    navigateTo(`/invoices/${invoiceId}/edit`)
 }
 
 async function downloadInvoiceDetails(invoice: any) {
@@ -604,9 +895,14 @@ async function downloadInvoiceDetails(invoice: any) {
     state.isTableLoading = true
     try {
         const invoiceUuid = resolveInvoiceIdentifier(invoice)
+        const isPaid = isPaidInvoice(invoice?.status)
+        const filePrefix = isPaid ? 'receipt' : 'invoice'
+        const fileName = `${filePrefix}_${invoice?.invoice_number || invoiceUuid}.pdf`
+        
         let response
         
         // Handle Stripe vs regular invoices differently
+        // For Stripe invoices (paid or unpaid), always use Stripe download endpoint.
         if (isStripeInvoice(invoice)) {
             response = await stripeApi.downloadStripeInvoicePdf(invoice?.stripe_id || invoiceUuid)
         } else {
@@ -614,13 +910,44 @@ async function downloadInvoiceDetails(invoice: any) {
         }
         
         if (response) {
-            saveAs(response, invoice?.invoice_number ?? invoiceUuid.toString())
+            saveAs(response, fileName)
+            
+            // Show success message
+            const title = isPaid ? t('stripeInvoices.downloadReceipt') : t('clientInvoices.table.actions.download')
+            const message = isPaid ? t('stripeInvoices.receiptDownloaded') : t('stripeInvoices.invoiceDownloaded')
+            successAlert(title, message)
         }
     } catch (error: any) {
         state.error = error
     }
     state.isTableLoading = false
 }
+
+function formatStatus(status: string): string {
+    if (!status) return 'N/A'
+    
+    // Common status values from Stripe and internal invoices
+    const statusMap: Record<string, string> = {
+        'paid': 'Paid',
+        'open': 'Open',
+        'draft': 'Draft',
+        'void': 'Void',
+        'uncollectible': 'Uncollectible'
+    }
+    
+    return statusMap[status.toLowerCase()] || status.charAt(0).toUpperCase() + status.slice(1).toLowerCase()
+}
+
+const searchSuggestions = computed(() => {
+    const items = new Set<string>()
+    state.allInvoices
+        .filter((inv: any) => isStripeInvoice(inv))
+        .forEach((inv: any) => {
+        if (inv.bill_to_name?.trim()) items.add(inv.bill_to_name.trim())
+        if (inv.invoice_number) items.add(String(inv.invoice_number).trim())
+    })
+    return Array.from(items).filter(Boolean)
+})
 
 function openSendInvoiceModal(invoice: any) {
     state.selectedClientInvoice = {
