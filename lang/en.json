@@ -6556,20 +6556,14 @@
             "sharedCitizenOne": "Shared CitizenOne",
             "viewAll": "View all"
         },
-        "orders": {
-            "orders": "Orders",
-            "table": {
-                "companyName": "Company name",
-                "data": "Data",
-                "date": "Date",
-                "new": "New",
-                "referenceNumber": "Reference number",
-                "status": "Status",
-                "type": "Type",
-                "user": "User"
-            }
-        },
         "invoices": {
+            "download": {
+                "date": "Date",
+                "download": "Download",
+                "filter": {
+                    "filterDate": "Filter date"
+                }
+            },
             "invoices": "Invoices",
             "table": {
                 "actions": {
@@ -6598,6 +6592,19 @@
                 "tax": "Tax"
             },
             "thisInvoiceHasAlreadyBeenPaid": "This invoice has already been paid via your selected payment method in the CitizenOne™ system"
+        },
+        "orders": {
+            "orders": "Orders",
+            "table": {
+                "companyName": "Company name",
+                "data": "Data",
+                "date": "Date",
+                "new": "New",
+                "referenceNumber": "Reference number",
+                "status": "Status",
+                "type": "Type",
+                "user": "User"
+            }
         },
         "polls": {
             "confirmation": {

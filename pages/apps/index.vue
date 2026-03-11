@@ -179,11 +179,12 @@
                     <div class="mt-8 grid grid-cols-1 md:grid-cols-3 gap-6">
                         <div v-for="(app, index) in state.apps?.data" :key="index"
                             class="relative bg-white px-7 py-6 border rounded-xl">
-                            <div>
-                                <Icon name="stash:save-ribbon-solid"
-                                    class="size-24 text-orange-400 absolute -right-[1.35rem] -top-[0.60rem] shadow-lg"
-                                    v-if="app?.is_news" />
-                                <p class="text-white font-semibold text-xs absolute right-2.5 top-5">
+                            <div v-if="app?.is_news">
+                                <img src="/img/icons/ribbon.svg" class="absolute -right-1.5 -top-0" />
+                                <p :class="[
+                                    language.locale.value === 'en' ? 'right-1.5 top-5' : 'right-1 top-5',
+                                    'text-white font-semibold text-xs absolute'
+                                ]">
                                     {{ $t('apps.news') }}
                                 </p>
                             </div>
@@ -273,6 +274,7 @@ const runtimeConfig = useRuntimeConfig()
 const { formatAmount } = useAmountFormatter()
 const { successAlert } = useAlert()
 const { t } = useI18n()
+const language = useI18n()
 const userStore = useUserStore() as any
 let currentTablePage = 1
 let checkout = null as any

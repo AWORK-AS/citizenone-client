@@ -6556,20 +6556,14 @@
             "sharedCitizenOne": "Delt CitizenOne",
             "viewAll": "Se alle"
         },
-        "orders": {
-            "orders": "Ordrer",
-            "table": {
-                "companyName": "Virksomhedsnavn",
-                "data": "Data",
-                "date": "Dato",
-                "new": "Ny",
-                "referenceNumber": "Referencenummer",
-                "status": "Status",
-                "type": "Type",
-                "user": "Bruger"
-            }
-        },
         "invoices": {
+            "download": {
+                "date": "Dato",
+                "download": "Download",
+                "filter": {
+                    "filterDate": "Filtrer dato"
+                }
+            },
             "invoices": "Fakturaer",
             "table": {
                 "actions": {
@@ -6598,6 +6592,19 @@
                 "tax": "Moms"
             },
             "thisInvoiceHasAlreadyBeenPaid": "Denne faktura er allerede betalt via din valgte betalingsmetode i CitizenOne™ systemet"
+        },
+        "orders": {
+            "orders": "Ordrer",
+            "table": {
+                "companyName": "Virksomhedsnavn",
+                "data": "Data",
+                "date": "Dato",
+                "new": "Ny",
+                "referenceNumber": "Referencenummer",
+                "status": "Status",
+                "type": "Type",
+                "user": "Bruger"
+            }
         },
         "polls": {
             "confirmation": {
