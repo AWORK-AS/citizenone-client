@@ -1403,14 +1403,12 @@ function setToday() {
     state.customWeekLabel = 'week'
     currentDate.value = moment()
     state.selectedDate = moment(currentDate.value).format('YYYY-MM-DD')
-    fetchDutySchedule()
 }
 
 function nextWeek() {
     state.customWeekLabel = 'week'
     currentDate.value = moment(currentDate.value).add(1, 'week')
     state.selectedDate = moment(currentDate.value).format('YYYY-MM-DD')
-    fetchDutySchedule()
 }
 
 const weekNumber = computed(() => {
