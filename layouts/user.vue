@@ -794,10 +794,9 @@ function plansGoalsSubgoalsCompletionReminderModalVisibility(response: any) {
 }
 
 function guidedUserTourModalVisibility() {
-    const guidedUserTourFirstTime = localStorage.getItem('guidedUserTourFirstTime')
-    if (guidedUserTourFirstTime === null) {
+    const guidedUserTourFirstTime = userStore.getUser?.is_first_login
+    if (guidedUserTourFirstTime) {
         state.modal.isGuidedTourWelcomeOpen = true
-        localStorage.setItem('guidedUserTourFirstTime', 'true')
     }
 }
 
