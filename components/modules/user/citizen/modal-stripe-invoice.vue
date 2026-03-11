@@ -13,16 +13,23 @@
                             <!-- Citizen Selector -->
                             <div class="space-y-1">
                                 <FormLabel for="citizen_select" :label="$t('stripeInvoices.form.selectCustomer')" />
-                                <select id="citizen_select" name="citizen_select" 
+                                <Multiselect
+                                    id="citizen_select"
                                     v-model="state.selectedCitizenUuid"
-                                    @change="handleCitizenChange"
-                                    class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-primary sm:text-sm sm:leading-6">
-                                    <option value="">{{ $t('stripeInvoices.form.selectCustomer') }}</option>
-                                    <option v-for="citizen in props.citizens" :key="citizen.uuid" :value="citizen.uuid">
-                                        {{ citizen.firstname }} {{ citizen.lastname }}
-                                    </option>
-                                </select>
-                                <FormError :error="v$?.selectedCitizenUuid?.$errors[0]?.$message.toString()" />
+                                    :options="citizenOptions"
+                                    :searchable="true"
+                                    :can-clear="true"
+                                    :close-on-select="true"
+                                    :placeholder="$t('stripeInvoices.form.selectCustomer')"
+                                    value-prop="value"
+                                    label="label"
+                                    track-by="value"
+                                    :no-options-text="$t('theListIsEmpty')"
+                                    :no-results-text="$t('noResultFound')"
+                                />
+                                <p class="text-xs text-gray-500" v-if="!props.citizens?.length">
+                                    Customers are currently unavailable. You can enter name and email manually.
+                                </p>
                             </div>
 
                             <!-- Customer Details -->
@@ -43,6 +50,14 @@
                                     <FormError :error="v$?.formInvoice?.customer_email?.$errors[0]?.$message.toString()" />
                                     <FormError :error="state?.error?.errors?.customer_email?.[0]" />
                                 </div>
+                            </div>
+
+                            <!-- Invoice Description -->
+                            <div class="space-y-1">
+                                <FormLabel for="invoice_description" label="Beskrivelse af køb" />
+                                <FormTextField id="invoice_description" name="invoice_description"
+                                    placeholder="Beskrivelse af køb"
+                                    v-model="state.formInvoice.invoice_description" />
                             </div>
 
                             <!-- Invoice Items -->
@@ -115,8 +130,8 @@
                                 </FormButton>
                             </div>
                             <div class="grid grid-cols-1 md:grid-cols-3 gap-3">
-                                <FormButton type="button" buttonStyle="cancel" class="rounded-md" @click="closeModal()">
-                                    {{ $t('cancel') }}
+                                <FormButton type="button" buttonStyle="action" class="rounded-md" @click="goToAllInvoices()">
+                                    Gå til alle fakturaer
                                 </FormButton>
                                 <FormButton type="button" buttonStyle="action" class="rounded-md"
                                     @click="downloadInvoice()" :disabled="state.isDownloading || !state.createdInvoiceId">
@@ -139,6 +154,8 @@
 
 <script setup lang="ts">
 import stripeApi from '@/components/api/stripeApi'
+import Multiselect from '@vueform/multiselect'
+import '@vueform/multiselect/themes/default.css'
 import { useVuelidate } from "@vuelidate/core"
 import { required, email, helpers } from '@vuelidate/validators'
 import { useAlert } from '@/composables/alert'
@@ -149,6 +166,7 @@ import { saveAs } from 'file-saver'
 const { successAlert } = useAlert()
 const { t } = useI18n()
 const runtimeConfig = useRuntimeConfig()
+const router = useRouter()
 
 const props = defineProps({
     isModalOpen: {
@@ -170,6 +188,7 @@ const state = reactive({
     formInvoice: {
         customer_name: '',
         customer_email: '',
+        invoice_description: '',
         items: [{
             description: '',
             quantity: '1',
@@ -186,9 +205,6 @@ const state = reactive({
 
 const rules = computed(() => {
     return {
-        selectedCitizenUuid: {
-            required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
-        },
         formInvoice: {
             customer_name: {
                 required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
@@ -203,10 +219,21 @@ const rules = computed(() => {
 
 const v$ = useVuelidate(rules, state)
 
+const citizenOptions = computed(() => {
+    return (props.citizens || []).map((citizen: any) => ({
+        value: citizen.uuid,
+        label: `${citizen.firstname} ${citizen.lastname}`,
+    }))
+})
+
 watch(() => props.isModalOpen, (isOpen) => {
     if (isOpen) {
         resetForm()
     }
+})
+
+watch(() => state.selectedCitizenUuid, () => {
+    handleCitizenChange()
 })
 
 function handleCitizenChange() {
@@ -237,6 +264,7 @@ function resetForm() {
     state.formInvoice = {
         customer_name: '',
         customer_email: '',
+        invoice_description: '',
         items: [{
             description: '',
             quantity: '1',
@@ -250,6 +278,11 @@ function resetForm() {
 
 function closeModal() {
     emit('close')
+}
+
+function goToAllInvoices() {
+    emit('close')
+    router.push('/invoices')
 }
 
 async function createInvoice() {
@@ -267,6 +300,7 @@ async function createInvoice() {
         const params = {
             customer_name: state.formInvoice.customer_name,
             customer_email: state.formInvoice.customer_email,
+            description: state.formInvoice.invoice_description,
             items: state.formInvoice.items.map(item => ({
                 description: item.description,
                 quantity: Number(item.quantity),
@@ -274,7 +308,7 @@ async function createInvoice() {
             })),
             metadata: {
                 created_from: 'citizens_page',
-                citizen_uuid: state.selectedCitizenUuid,
+                citizen_uuid: state.selectedCitizenUuid || null,
             }
         }
         
