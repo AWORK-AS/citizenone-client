@@ -99,6 +99,13 @@ export default defineNuxtConfig({
         include: [resolve(dirname(fileURLToPath(import.meta.url)), './lang/*.json')],
       }),
     ],
+    server: {
+      hmr: {
+        host: 'localhost',
+        port: 5173,
+        protocol: 'ws',
+      },
+    },
   },
 
   compatibilityDate: '2024-07-10',
