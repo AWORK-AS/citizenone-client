@@ -1631,6 +1631,7 @@
                         "successfullyUpdated": "Medicine history successfully update"
                     },
                     "comment": "Comment",
+                    "completed": "completed",
                     "date": "Date",
                     "dose": "Dose",
                     "evaluator": "Evaluator",
