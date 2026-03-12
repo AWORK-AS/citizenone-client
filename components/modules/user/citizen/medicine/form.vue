@@ -239,7 +239,7 @@
                         {{ $t('citizens.medicineJournals.form.maxDosagePerTime') }}
                     </p>
                     <div class="space-y-4">
-                        <div v-for="(data, index) in state.formMedicine.max_dosage_per_time" :key="index"
+                        <div v-for="(data, index) in state.formMedicine.max_dosage_per_time" :key="data._uid"
                             class="relative ">
                             <div
                                 class="grid grid-cols-2 gap-3 bg-white shadow-sm ring-1 ring-gray-900/5 rounded-lg px-4 py-6 sm:p-8">
@@ -247,7 +247,7 @@
                                     <p class="text-sm text-gray-600">
                                         {{ $t('citizens.medicineJournals.form.time') }}
                                     </p>
-                                    <FormSelect :options="getAvailableTimeOptions(index)" :value="data?.time"
+                                    <FormSelect :options="getAvailableTimeOptions(data._uid)" :value="data?.time"
                                         @change="(event: any) => state.formMedicine.max_dosage_per_time[index].time = event" />
                                 </div>
                                 <div class="space-y-1">
@@ -255,8 +255,8 @@
                                         {{ $t('citizens.medicineJournals.form.dosage') }}
                                     </p>
                                     <FormNumberField :name="`max_daily_dose_${index}`"
-                                        :placeholder="$t('citizens.medicineJournals.form.dosage')" :modelValue="data?.dosage"
-                                        :min="1"
+                                        :placeholder="$t('citizens.medicineJournals.form.dosage')"
+                                        :modelValue="data?.dosage" :min="1"
                                         @update:modelValue="(value: string) => handleDoseInput(value, index)" />
                                 </div>
                                 <button type="button"
@@ -567,7 +567,9 @@ onMounted(() => {
         strength: props.selectedMedicine.strength,
         unit: props.selectedMedicine.unit,
         dosage: props.selectedMedicine.dosage,
-        max_dosage_per_time: props?.selectedMedicine?.max_dosage_per_time ?? [],
+        max_dosage_per_time: (props?.selectedMedicine?.max_dosage_per_time ?? []).map(
+            (entry: any) => ({ _uid: crypto.randomUUID(), ...entry })
+        ),
         max_daily_dose: language.locale.value === 'dk' ? props.selectedMedicine.max_daily_dose?.toString() : props.selectedMedicine.max_daily_dose?.toString(),
         package_leaflet_link: props.selectedMedicine.package_leaflet_link,
         start_date: props.selectedMedicine.start_date,
@@ -725,7 +727,13 @@ const v$ = useVuelidate(rules, state)
 function submitForm() {
     v$.value.$validate()
     if (!v$.value.$error) {
-        emit('submitForm', state.formMedicine)
+        const payload = {
+            ...state.formMedicine,
+            max_dosage_per_time: state.formMedicine.max_dosage_per_time.map(
+                ({ _uid, ...rest }: any) => rest
+            ),
+        }
+        emit('submitForm', payload)
     }
 }
 
@@ -848,18 +856,20 @@ function handleDoseInput(value: string, index: number) {
     if (language.locale.value === 'dk') {
         value = validateEuropeanDecimal(value)
     }
-        state.formMedicine.max_dosage_per_time[index].dosage = value
+    state.formMedicine.max_dosage_per_time[index].dosage = value
 }
 
-function getAvailableTimeOptions(index: number) {
+function getAvailableTimeOptions(uid: string) {
     const selectedTimes = state.formMedicine.max_dosage_per_time
-        .map((row: any, i: number) => i !== index ? row.time : null)
-        .filter((time: any) => time)
+        .filter((row: any) => row._uid !== uid && row.time)
+        .map((row: any) => row.time)
+
     return state.options.time.filter((option: any) => !selectedTimes.includes(option.value))
 }
 
 function addMaxDosagePerTime() {
     state.formMedicine.max_dosage_per_time.push({
+        _uid: crypto.randomUUID(),
         time: '',
         dosage: '',
     })
