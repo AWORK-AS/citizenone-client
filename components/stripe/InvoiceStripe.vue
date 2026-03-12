@@ -597,7 +597,12 @@ async function payWithStripe() {
 
       // If we get a JSON response with a Stripe receipt URL, open it in a new window
       if (response && typeof response === 'object' && response.is_stripe_receipt_url) {
-        window.open(response.receipt_url, '_blank')
+        const redirectUrl = response.redirect_url || response.receipt_url
+        if (!redirectUrl) {
+          throw new Error('No redirect URL received from backend')
+        }
+
+        window.open(redirectUrl, '_blank')
         const title = isReceipt(currentInvoice.status) ? t('stripeInvoices.downloadReceipt') : t('clientInvoices.table.actions.download')
         successAlert(title, 'Denne stykker åbnes i browser med mulighed for at gemme som PDF')
         return
