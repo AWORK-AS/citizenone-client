@@ -2,7 +2,7 @@
     <div>
         <Modal size="xs" :title="$t('dutySchedules.draft.publish')" :show="props.isModalOpen" @close="closeModal">
             <template #modal-body>
-                <LoadingSpinner :isActive="state.isPageLoading">
+                <LoadingSpinner :isActive="state.isPageLoading" v-if="!state.isPublishing">
                     <div class="space-y-3">
                         <Alert type="danger" :text="state?.error?.message"
                             v-if="state.error?.message && state.error.message.length > 0" />
@@ -46,6 +46,16 @@
                         </form>
                     </div>
                 </LoadingSpinner>
+                <div class="flex flex-col items-center space-y-4 py-6" v-else>
+                    <svg class="animate-spin h-8 w-8 text-primary" xmlns="http://www.w3.org/2000/svg" fill="none"
+                        viewBox="0 0 24 24">
+                        <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                        <path class="opacity-75" fill="currentColor"
+                            d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z">
+                        </path>
+                    </svg>
+                    <p class="text-sm text-gray-600">{{ $t('dutySchedules.draft.publishing') }}...</p>
+                </div>
                 <ModulesUserDepartmentModalNew :isModalOpen="state.modal.isAddDepartmentOpen"
                     @close="state.modal.isAddDepartmentOpen = false" @refreshDepartments="fetchDepartments" />
             </template>
@@ -80,6 +90,7 @@ const state = reactive({
         date_range: [] as any,
     },
     isPageLoading: false,
+    isPublishing: false,
     formPublish: {
         departments: [],
         download_type: '',
@@ -155,6 +166,7 @@ async function handleDownload() {
 
 async function publishSchedule() {
     try {
+        state.isPublishing = true
         const params = {
             department_uuid: state.formPublish.departments,
             date_start: state.formPublish.date_start,
@@ -167,6 +179,8 @@ async function publishSchedule() {
         }
     } catch (error: any) {
         state.error = error
+    } finally {
+        state.isPublishing = false
     }
 }
 </script>

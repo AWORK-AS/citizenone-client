@@ -2772,6 +2772,7 @@
             },
             "draft": "Kladde",
             "publish": "Offentliggør",
+            "publishing": "Udgivelse af vagtplaner, luk eller opdater ikke siden.",
             "selectDepartment": {
                 "title": "Bekræft Arbejdskontekst",
                 "message": {
