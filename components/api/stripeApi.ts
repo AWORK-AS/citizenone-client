@@ -4,6 +4,15 @@ interface CreatePaymentIntentResponse {
     client_secret: string;
 }
 
+interface StripeReceiptRedirectResponse {
+    success?: boolean;
+    is_stripe_receipt_url: boolean;
+    redirect_url?: string;
+    receipt_url?: string;
+    payment_intent_id?: string;
+    message?: string;
+}
+
 class stripeApi extends BaseAPIService {
 
     async createPaymentIntent(
@@ -40,7 +49,7 @@ class stripeApi extends BaseAPIService {
         return await this.request('/stripe/create-invoice', 'POST', params);
     }
 
-    async downloadStripeInvoicePdf(invoiceId: string): Promise<Blob> {
+    async downloadStripeInvoicePdf(invoiceId: string): Promise<Blob | StripeReceiptRedirectResponse> {
         try {
             const runtimeConfig = useRuntimeConfig()
             const apiBaseURL = runtimeConfig.public.apiBaseURL
