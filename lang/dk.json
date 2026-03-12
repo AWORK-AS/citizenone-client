@@ -1631,6 +1631,7 @@
                         "successfullyUpdated": "Medicinhistorik opdateret med succes"
                     },
                     "comment": "Kommentar",
+                    "completed": "fuldført",
                     "dose": "Dosis",
                     "date": "Dato",
                     "evaluator": "Evaluator",

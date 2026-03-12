@@ -247,16 +247,16 @@
                                     <p class="text-sm text-gray-600">
                                         {{ $t('citizens.medicineJournals.form.time') }}
                                     </p>
-                                    <FormSelect :options="state.options.time" :value="data?.time"
+                                    <FormSelect :options="getAvailableTimeOptions(index)" :value="data?.time"
                                         @change="(event: any) => state.formMedicine.max_dosage_per_time[index].time = event" />
                                 </div>
                                 <div class="space-y-1">
                                     <p class="text-sm text-gray-600">
                                         {{ $t('citizens.medicineJournals.form.dosage') }}
                                     </p>
-                                    <FormTextField :id="`max_daily_dose_${index}`" :name="`max_daily_dose_${index}`"
-                                        :placeholder="$t('citizens.medicineJournals.form.dosage')" :value="data?.dosage"
-                                        @input="(event: any) => handleDoseInput(event, index)" />
+                                    <FormNumberField :name="`max_daily_dose_${index}`"
+                                        :placeholder="$t('citizens.medicineJournals.form.dosage')" :modelValue="data?.dosage"
+                                        @update:modelValue="(value: string) => handleDoseInput(value, index)" />
                                 </div>
                                 <button type="button"
                                     class="absolute -top-3 -right-3 bg-red-700 hover:bg-red-600 rounded-full w-8 h-8 flex items-center justify-center"
@@ -843,12 +843,18 @@ function handleMaxDailyDoseInput(event: Event) {
     state.formMedicine.max_daily_dose = target.value
 }
 
-function handleDoseInput(event: Event, index: number) {
-    const target = event.target as HTMLInputElement
+function handleDoseInput(value: string, index: number) {
     if (language.locale.value === 'dk') {
-        target.value = validateEuropeanDecimal(target.value)
+        value = validateEuropeanDecimal(value)
     }
-    state.formMedicine.max_dosage_per_time[index].dosage = target.value
+    state.formMedicine.max_dosage_per_time[index].dosage = value
+}
+
+function getAvailableTimeOptions(index: number) {
+    const selectedTimes = state.formMedicine.max_dosage_per_time
+        .map((row: any, i: number) => i !== index ? row.time : null)
+        .filter((time: any) => time)
+    return state.options.time.filter((option: any) => !selectedTimes.includes(option.value))
 }
 
 function addMaxDosagePerTime() {
