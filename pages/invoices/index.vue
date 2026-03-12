@@ -175,6 +175,8 @@ const { successAlert } = useAlert()
 const { t } = useI18n()
 const userStore = useUserStore() as any
 let currentTablePage = 1
+let paginationToken = 0
+const stripeDetailCache = new Map<string, any>()
 const INVOICES_PER_PAGE = 15
 const breadcrumbLinks = [
     {
@@ -250,20 +252,19 @@ async function fetchInvoices() {
         
         let formattedStripeInvoices: any[] = []
         if (stripeInvoices.length > 0) {
-            console.log('Starting enrichment of', stripeInvoices.length, 'invoices')
-            const enrichedStripeInvoices = await enrichStripeInvoicesWithDetails(stripeInvoices)
-            console.log('Enrichment complete')
-            formattedStripeInvoices = enrichedStripeInvoices.map((si: any) => {
-                                const fallbackName = `${userStore.getUser?.firstname || ''} ${userStore.getUser?.lastname || ''}`.trim()
-                                const fallbackEmail = userStore.getUser?.email || ''
+            formattedStripeInvoices = stripeInvoices.map((si: any) => {
+                const fallbackName = `${userStore.getUser?.firstname || ''} ${userStore.getUser?.lastname || ''}`.trim()
+                const fallbackEmail = userStore.getUser?.email || ''
+
                 // Resolve the correct total amount in major unit (DKK)
                 // Prefer total_minor if available, otherwise use total/amount_due
                 const rawTotal = si.total || si.amount_due || si.amount || 0
-                const totalInMajor = si.total_minor 
-                  ? si.total_minor / 100 
-                  : (rawTotal >= 10000 ? rawTotal / 100 : rawTotal)
+                const totalInMajor = si.total_minor
+                    ? si.total_minor / 100
+                    : (rawTotal >= 10000 ? rawTotal / 100 : rawTotal)
 
                 return {
+                    ...si,
                     uuid: resolveStripeIdentifier(si),
                     invoice_number: si.number || resolveStripeIdentifier(si),
                     created_at: si.created_at || (si.created ? new Date(si.created * 1000).toISOString() : new Date().toISOString()),
@@ -274,7 +275,7 @@ async function fetchInvoices() {
                     bill_to_email: resolveStripeCustomerEmail(si, fallbackEmail),
                     is_stripe_invoice: true,
                     status: normalizeInvoiceStatus(si.status),
-                    stripe_id: resolveStripeIdentifier(si)
+                    stripe_id: resolveStripeIdentifier(si),
                 }
             })
 
@@ -326,7 +327,7 @@ async function fetchInvoices() {
         })
 
         state.allInvoices = allInvoices
-        setPaginatedInvoices()
+        await setPaginatedInvoices()
     } catch (error: any) {
         console.error('Error in fetchInvoices:', error)
         state.error = error
@@ -335,14 +336,15 @@ async function fetchInvoices() {
     }
 }
 
-function setPaginatedInvoices() {
+async function setPaginatedInvoices() {
+    const token = ++paginationToken
     const q = state.activeSearchQuery.trim().toLowerCase()
     const filtered = q
-                ? state.allInvoices.filter((inv: any) =>
-                        !isStripeInvoice(inv) ||
-                        ((inv.bill_to_name && inv.bill_to_name.toLowerCase().includes(q)) ||
-                        (inv.invoice_number && String(inv.invoice_number).toLowerCase().includes(q)))
-          )
+        ? state.allInvoices.filter((inv: any) =>
+            !isStripeInvoice(inv) ||
+            ((inv.bill_to_name && inv.bill_to_name.toLowerCase().includes(q)) ||
+                (inv.invoice_number && String(inv.invoice_number).toLowerCase().includes(q)))
+        )
         : state.allInvoices
 
     const total = filtered.length
@@ -369,6 +371,38 @@ function setPaginatedInvoices() {
             last_page: lastPage,
             per_page: INVOICES_PER_PAGE,
         },
+    }
+
+    // Enrich only currently visible Stripe rows to avoid N+1 calls across all pages.
+    const visibleStripeRows = pageData.filter((invoice: any) => isStripeInvoice(invoice))
+    if (visibleStripeRows.length === 0) {
+        return
+    }
+
+    const enrichedVisibleRows = await enrichStripeInvoicesWithDetails(visibleStripeRows)
+    if (token !== paginationToken) {
+        return
+    }
+
+    const enrichedById = new Map<string, any>()
+    for (const row of enrichedVisibleRows) {
+        const id = resolveStripeIdentifier(row)
+        if (id) {
+            enrichedById.set(id, row)
+        }
+    }
+
+    state.invoices = {
+        ...state.invoices,
+        data: pageData.map((row: any) => {
+            if (!isStripeInvoice(row)) {
+                return row
+            }
+
+            const id = resolveStripeIdentifier(row)
+            const enriched = id ? enrichedById.get(id) : null
+            return enriched ? { ...row, ...enriched } : row
+        }),
     }
 }
 
@@ -574,8 +608,6 @@ function promiseConcurrencyLimiter(promises: (() => Promise<any>)[], concurrency
 }
 
 async function enrichStripeInvoicesWithDetails(stripeInvoices: any[]): Promise<any[]> {
-    const detailCache = new Map<string, any>()
-
     // Separate invoices into those that need enrichment and those that don't
     const invoicesToEnrich: Array<{ index: number; invoice: any; id: string }> = []
     const results: any[] = new Array(stripeInvoices.length)
@@ -611,16 +643,16 @@ async function enrichStripeInvoicesWithDetails(stripeInvoices: any[]): Promise<a
 
     // Create a batch of API call promises with concurrency limit
     const enrichmentPromises = invoicesToEnrich.map(({ id, invoice }) => async () => {
-        if (detailCache.has(id)) {
-            return { 
+        if (stripeDetailCache.has(id)) {
+            return {
                 invoice,
-                details: detailCache.get(id)
+                details: stripeDetailCache.get(id)
             }
         }
 
         try {
             const details = await stripeApi.getStripeInvoice(id)
-            detailCache.set(id, details)
+            stripeDetailCache.set(id, details)
             return { invoice, details }
         } catch (error) {
             console.warn(`Failed to enrich invoice ${id}:`, error)
@@ -910,6 +942,24 @@ async function downloadInvoiceDetails(invoice: any) {
         }
         
         if (response) {
+            if (
+                isStripeInvoice(invoice)
+                && typeof response === 'object'
+                && !(response instanceof Blob)
+                && response.is_stripe_receipt_url
+            ) {
+                const redirectUrl = response.redirect_url || response.receipt_url
+                if (!redirectUrl) {
+                    throw new Error('No redirect URL received from backend')
+                }
+
+                window.open(redirectUrl, '_blank')
+
+                const title = isPaid ? t('stripeInvoices.downloadReceipt') : t('clientInvoices.table.actions.download')
+                successAlert(title, 'Denne stykker åbnes i browser med mulighed for at gemme som PDF')
+                return
+            }
+
             saveAs(response, fileName)
             
             // Show success message
