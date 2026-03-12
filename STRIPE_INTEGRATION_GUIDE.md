@@ -2,13 +2,15 @@
 
 ## Table of Contents
 1. [Overview](#overview)
-2. [Architecture](#architecture)
-3. [Configuration](#configuration)
-4. [Components](#components)
-5. [API Services](#api-services)
-6. [Payment Flows](#payment-flows)
-7. [Testing Guide](#testing-guide)
-8. [Troubleshooting](#troubleshooting)
+2. [What This Integration Does (At a Glance)](#what-this-integration-does-at-a-glance)
+3. [When Each Stripe Action Happens](#when-each-stripe-action-happens)
+4. [Architecture](#architecture)
+5. [Configuration](#configuration)
+6. [Components](#components)
+7. [API Services](#api-services)
+8. [Payment Flows](#payment-flows)
+9. [Testing Guide](#testing-guide)
+10. [Troubleshooting](#troubleshooting)
 
 ---
 
@@ -33,6 +35,55 @@ The CitizenOne application integrates Stripe for payment processing in two prima
 ✅ Email invoice delivery  
 ✅ Payment success/failure handling  
 ✅ Automatic invoice deduplication
+
+---
+
+## What This Integration Does (At a Glance)
+
+Use this section if you only need the high-level picture.
+
+| Area | What Stripe does | Where it happens in app |
+|------|-------------------|--------------------------|
+| Direct card payment | Creates and confirms Payment Intents using Stripe Elements | Stripe card form components and payment modal |
+| Hosted payment page | Creates Checkout Session and redirects user to Stripe-hosted page | Invoice payment button and invoice pages |
+| Invoice handling | Creates Stripe invoices, lists invoices, downloads PDFs, sends invoice emails | Invoice pages and invoice actions |
+| Payment confirmation | Returns payment status and session outcomes | Payment success page and backend webhooks |
+| Security and compliance | Handles sensitive card processing on Stripe side | Stripe SDK + Checkout + backend webhook verification |
+
+---
+
+## When Each Stripe Action Happens
+
+This section explains timing and triggers so colleagues can quickly understand the behavior.
+
+| Trigger in UI | Stripe action | Backend endpoint | Result in app |
+|---------------|--------------|------------------|---------------|
+| User opens payment form with card input | Prepare Stripe client and mount card element | N/A (client SDK load) | Card form becomes usable |
+| User clicks Pay in direct card form | Create Payment Intent | POST /stripe/payment-intent | Receives client_secret for confirmation |
+| User submits valid card details | Confirm Payment Intent | Stripe API via stripe.confirmCardPayment | Success/error event shown to user |
+| User clicks Pay with Stripe on invoice | Create Checkout Session | POST /stripe/invoices/{invoiceId}/checkout-session | Redirect to Stripe hosted checkout |
+| Stripe checkout completes | Redirect back with session id | N/A (redirect from Stripe) | payment-success page shown, then redirect |
+| User opens invoice details | Fetch Stripe invoice data | GET /stripe/invoices/{invoiceId} | Invoice info displayed |
+| User clicks Download PDF | Fetch invoice PDF | GET /stripe/invoices/{invoiceId}/pdf | Invoice PDF downloaded |
+| User clicks Send Invoice | Send invoice email | POST /stripe/invoices/{invoiceId}/send | Confirmation message shown |
+| Invoice list page loads | Fetch all Stripe invoices | GET /stripe/invoices | Invoice list combined and deduplicated |
+
+### Typical User Journeys
+
+1. Subscription or storage purchase (direct card payment)
+   - Starts when user chooses a paid plan.
+   - Runs Payment Intent flow with Stripe Elements.
+   - Ends with paymentSuccess or paymentError event.
+
+2. Invoice payment (hosted checkout)
+   - Starts when user clicks Pay with Stripe on an unpaid invoice.
+   - Runs Checkout Session flow and redirects to Stripe.
+   - Ends on payment-success page after Stripe redirect.
+
+3. Invoice operations (non-card actions)
+   - Starts when user opens invoice list/details.
+   - Fetches invoice data from backend Stripe endpoints.
+   - Optional actions: download PDF, send invoice email.
 
 ---
 
@@ -439,6 +490,8 @@ const invoices = await stripeApi.getStripeInvoices({
 ---
 
 ## Payment Flows
+
+Use this section for implementation details. For quick timing and trigger overview, see "When Each Stripe Action Happens" above.
 
 ### Flow 1: Direct Card Payment (Payment Intent)
 
@@ -1083,10 +1136,11 @@ onMounted(async () => {
 
 | Date | Version | Changes |
 |------|---------|---------|
+| 2026-03-12 | 1.1 | Added clear colleague-focused sections: what the Stripe integration does and when each Stripe action is triggered |
 | 2026-03-05 | 1.0 | Initial documentation created |
 
 ---
 
 **Document Owner**: Development Team  
-**Last Updated**: March 5, 2026  
+**Last Updated**: March 12, 2026  
 **Next Review**: Quarterly or when major changes occur
