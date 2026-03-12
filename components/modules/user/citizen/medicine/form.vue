@@ -247,7 +247,7 @@
                                     <p class="text-sm text-gray-600">
                                         {{ $t('citizens.medicineJournals.form.time') }}
                                     </p>
-                                    <FormSelect :options="state.options.time" :value="data?.time"
+                                    <FormSelect :options="getAvailableTimeOptions(index)" :value="data?.time"
                                         @change="(event: any) => state.formMedicine.max_dosage_per_time[index].time = event" />
                                 </div>
                                 <div class="space-y-1">
@@ -848,6 +848,13 @@ function handleDoseInput(value: string, index: number) {
         value = validateEuropeanDecimal(value)
     }
     state.formMedicine.max_dosage_per_time[index].dosage = value
+}
+
+function getAvailableTimeOptions(index: number) {
+    const selectedTimes = state.formMedicine.max_dosage_per_time
+        .map((row: any, i: number) => i !== index ? row.time : null)
+        .filter((time: any) => time)
+    return state.options.time.filter((option: any) => !selectedTimes.includes(option.value))
 }
 
 function addMaxDosagePerTime() {
