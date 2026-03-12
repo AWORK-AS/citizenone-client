@@ -2772,6 +2772,7 @@
             },
             "draft": "Draft",
             "publish": "Publish",
+            "publishing": "Publishing schedules, please don't close or refresh the page",
             "selectDepartment": {
                 "title": "Confirm Working Context",
                 "message": {
