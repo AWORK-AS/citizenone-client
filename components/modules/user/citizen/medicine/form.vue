@@ -256,8 +256,8 @@
                                     </p>
                                     <FormNumberField :name="`max_daily_dose_${index}`"
                                         :placeholder="$t('citizens.medicineJournals.form.dosage')"
-                                        :modelValue="data?.dosage" :min="0.01"
-                                        @update:modelValue="(value: string) => handleDoseInput(value, index)" />
+                                        :modelValue="data?.dosage ?? null"
+                                        @update:modelValue="(value: string | null) => handleDoseInput(value, index)" />
                                 </div>
                                 <button type="button"
                                     class="absolute -top-3 -right-3 bg-red-700 hover:bg-red-600 rounded-full w-8 h-8 flex items-center justify-center"
@@ -852,9 +852,26 @@ function handleMaxDailyDoseInput(event: Event) {
     state.formMedicine.max_daily_dose = target.value
 }
 
-function handleDoseInput(value: string, index: number) {
+function handleDoseInput(value: string | null, index: number) {
+    if (!value || value.trim() === '') {
+        state.formMedicine.max_dosage_per_time[index].dosage = null
+        return
+    }
     if (language.locale.value === 'dk') {
         value = validateEuropeanDecimal(value)
+    }
+    const numeric = parseFloat(value.replace(',', '.'))
+    if (isNaN(numeric)) {
+        state.formMedicine.max_dosage_per_time[index].dosage = ''
+        return
+    }
+    if (numeric < 0) {
+        state.formMedicine.max_dosage_per_time[index].dosage = ''
+        return
+    }
+    if (numeric === 0) {
+        state.formMedicine.max_dosage_per_time[index].dosage = ''
+        return
     }
     state.formMedicine.max_dosage_per_time[index].dosage = value
 }
