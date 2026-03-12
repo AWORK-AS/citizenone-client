@@ -24,14 +24,14 @@ The CitizenOne application integrates Stripe for payment processing in two prima
 - Payment processing for subscriptions
 - Storage upgrade payments
 - Invoice creation and management
-- Invoice PDF generation
+- Invoice download/receipt flow (PDF when applicable)
 - Payment confirmation and webhooks
 
 ### Key Features
 ✅ Direct card payments with custom UI  
 ✅ Hosted checkout sessions  
 ✅ Invoice generation and management  
-✅ Invoice PDF downloads  
+✅ Invoice PDF/receipt downloads  
 ✅ Email invoice delivery  
 ✅ Payment success/failure handling  
 ✅ Automatic invoice deduplication
@@ -59,14 +59,16 @@ This section explains timing and triggers so colleagues can quickly understand t
 | Trigger in UI | Stripe action | Backend endpoint | Result in app |
 |---------------|--------------|------------------|---------------|
 | User opens payment form with card input | Prepare Stripe client and mount card element | N/A (client SDK load) | Card form becomes usable |
-| User clicks Pay in direct card form | Create Payment Intent | POST /stripe/payment-intent | Receives client_secret for confirmation |
+| User clicks Pay in direct card form | Create Payment Intent | POST /api/stripe/payment-intent (or /api/user/stripe/payment-intent) | Receives client_secret for confirmation |
 | User submits valid card details | Confirm Payment Intent | Stripe API via stripe.confirmCardPayment | Success/error event shown to user |
-| User clicks Pay with Stripe on invoice | Create Checkout Session | POST /stripe/invoices/{invoiceId}/checkout-session | Redirect to Stripe hosted checkout |
+| User clicks Pay with Stripe on invoice | Create Checkout Session | POST /api/stripe/invoices/{invoiceId}/checkout-session (or /api/user/stripe/invoices/{invoiceId}/checkout-session) | Redirect to Stripe hosted checkout |
 | Stripe checkout completes | Redirect back with session id | N/A (redirect from Stripe) | payment-success page shown, then redirect |
-| User opens invoice details | Fetch Stripe invoice data | GET /stripe/invoices/{invoiceId} | Invoice info displayed |
-| User clicks Download PDF | Fetch invoice PDF | GET /stripe/invoices/{invoiceId}/pdf | Invoice PDF downloaded |
-| User clicks Send Invoice | Send invoice email | POST /stripe/invoices/{invoiceId}/send | Confirmation message shown |
-| Invoice list page loads | Fetch all Stripe invoices | GET /stripe/invoices | Invoice list combined and deduplicated |
+| User opens invoice details | Fetch Stripe invoice data | GET /api/stripe/invoices/{invoiceId} (or /api/user/stripe/invoices/{invoiceId}) | Invoice info displayed |
+| User clicks Download PDF | Fetch invoice download/receipt flow | GET /api/stripe/invoices/{invoiceId}/pdf (or /api/user/stripe/invoices/{invoiceId}/pdf) | Unpaid invoices download as PDF; paid invoices may return receipt-first flow/fallback |
+| User clicks Send Invoice | Send invoice email | POST /api/stripe/invoices/{invoiceId}/send (or /api/user/stripe/invoices/{invoiceId}/send) | Confirmation message shown |
+| Invoice list page loads | Fetch Stripe invoice/payment list | GET /api/stripe/invoices (or /api/user/stripe/invoices) | Merged Stripe invoices + succeeded PaymentIntents; supports pagination and optional dedupe |
+
+Note: If your frontend HTTP client already uses `/api` as base URL, calling `/stripe/...` still resolves correctly.
 
 ### Typical User Journeys
 
@@ -339,26 +341,22 @@ if (!stripe) {
 ##### 1. Create Payment Intent
 ```typescript
 createPaymentIntent(
-  amount: number,
-  citizenId: string,
-  dealUuid?: string,
-  paymentType?: string,
-  metadata?: Record
+   dealUuid: string,
+   paymentType: 'monthly' | 'yearly' | 'one_time',
+   citizenId?: string
 ): Promise<{ client_secret: string }>
 ```
 
-**Endpoint**: `POST /stripe/payment-intent`  
-**Purpose**: Create a payment intent for direct card payments  
+**Endpoint**: `POST /api/stripe/payment-intent` (or `/api/user/stripe/payment-intent`)  
+**Purpose**: Create a payment intent for deal/app payments. Backend computes amount/currency from `deal_uuid` + `payment_type`.  
 **Returns**: Client secret for confirming payment
 
 **Example**:
 ```typescript
 const { client_secret } = await stripeApi.createPaymentIntent(
-  50000,              // 500.00 DKK (in øre)
-  'citizen_123',
   'deal_uuid_456',
   'one_time',
-  { orderNumber: '12345' }
+   'citizen_123'
 );
 ```
 
@@ -369,7 +367,7 @@ const { client_secret } = await stripeApi.createPaymentIntent(
 getStripeInvoice(invoiceId: string): Promise<any>
 ```
 
-**Endpoint**: `GET /stripe/invoices/{invoiceId}`  
+**Endpoint**: `GET /api/stripe/invoices/{invoiceId}` (or `/api/user/stripe/invoices/{invoiceId}`)  
 **Purpose**: Retrieve invoice details from Stripe  
 **Returns**: Full invoice object with items, customer, amounts
 
@@ -395,7 +393,7 @@ createStripeInvoice(params: {
 }): Promise<any>
 ```
 
-**Endpoint**: `POST /stripe/create-invoice`  
+**Endpoint**: `POST /api/stripe/create-invoice` (or `/api/user/stripe/create-invoice`)  
 **Purpose**: Create a new Stripe invoice
 
 **Example**:
@@ -421,14 +419,14 @@ const invoice = await stripeApi.createStripeInvoice({
 downloadStripeInvoicePdf(invoiceId: string): Promise<any>
 ```
 
-**Endpoint**: `GET /stripe/invoices/{invoiceId}/pdf`  
-**Purpose**: Download invoice as PDF  
-**Returns**: PDF blob
+**Endpoint**: `GET /api/stripe/invoices/{invoiceId}/pdf` (or `/api/user/stripe/invoices/{invoiceId}/pdf`)  
+**Purpose**: Invoice download/receipt flow  
+**Returns**: Unpaid invoice PDF stream, or paid-invoice receipt-first response/fallback behavior (not always a direct PDF blob)
 
 **Example**:
 ```typescript
-const pdfBlob = await stripeApi.downloadStripeInvoicePdf('in_xxxxxx');
-saveAs(pdfBlob, `invoice-${invoiceId}.pdf`);
+const result = await stripeApi.downloadStripeInvoicePdf('in_xxxxxx');
+// Handle either binary PDF download or receipt-style response depending on invoice state.
 ```
 
 ---
@@ -441,7 +439,7 @@ sendStripeInvoice(
 ): Promise<any>
 ```
 
-**Endpoint**: `POST /stripe/invoices/{invoiceId}/send`  
+**Endpoint**: `POST /api/stripe/invoices/{invoiceId}/send` (or `/api/user/stripe/invoices/{invoiceId}/send`)  
 **Purpose**: Email invoice to customer
 
 **Example**:
@@ -458,7 +456,7 @@ await stripeApi.sendStripeInvoice('in_xxxxxx', {
 createCheckoutSession(invoiceId: string): Promise<{ url: string }>
 ```
 
-**Endpoint**: `POST /stripe/invoices/{invoiceId}/checkout-session`  
+**Endpoint**: `POST /api/stripe/invoices/{invoiceId}/checkout-session` (or `/api/user/stripe/invoices/{invoiceId}/checkout-session`)  
 **Purpose**: Create hosted checkout session for invoice payment  
 **Returns**: Checkout URL to redirect user
 
@@ -470,20 +468,38 @@ window.location.href = url; // Redirect to Stripe checkout
 
 ---
 
-##### 7. Get All Stripe Invoices
+##### 7. Get Receipt URL (PaymentIntent)
+```typescript
+getReceiptUrl(paymentIntentId: string): Promise<{ receipt_url: string | null }>
+```
+
+**Endpoint**: `GET /api/stripe/receipt/{paymentIntentId}` (or `/api/user/stripe/receipt/{paymentIntentId}`)  
+**Purpose**: Retrieve Stripe hosted receipt URL for `pi_` IDs  
+**Returns**: JSON with `receipt_url` (not a PDF file stream)
+
+**Example**:
+```typescript
+const { receipt_url } = await stripeApi.getReceiptUrl('pi_xxxxxx');
+if (receipt_url) window.open(receipt_url, '_blank');
+```
+
+---
+
+##### 8. Get All Stripe Invoices
 ```typescript
 getStripeInvoices(params?: object): Promise<any>
 ```
 
-**Endpoint**: `GET /stripe/invoices`  
-**Purpose**: List all Stripe invoices with optional filters  
+**Endpoint**: `GET /api/stripe/invoices` (or `/api/user/stripe/invoices`)  
+**Purpose**: Return merged list of Stripe invoices + succeeded PaymentIntents  
 **Returns**: Paginated invoice list
 
 **Example**:
 ```typescript
 const invoices = await stripeApi.getStripeInvoices({
-  limit: 25,
-  status: 'paid'
+   per_page: 25,
+   page: 1,
+   dedupe: true
 });
 ```
 
@@ -498,10 +514,10 @@ Use this section for implementation details. For quick timing and trigger overvi
 **Used in**: StripeCardElement.vue
 
 ```
-1. User enters amount and customer info
+1. User enters/selects deal and payment type
 2. Component calls stripeApi.createPaymentIntent()
    ↓
-3. Backend creates PaymentIntent, returns client_secret
+3. Backend validates deal UUID/payment_type, computes amount, creates PaymentIntent, returns client_secret
    ↓
 4. Frontend initializes Stripe Elements with client_secret
    ↓
@@ -516,12 +532,7 @@ Use this section for implementation details. For quick timing and trigger overvi
    Failure: emit paymentError event
 ```
 
-**Currency**: Always DKK (Danish Krone)  
-**Amount Format**: Smallest unit (øre) - multiply by 100
-
-**Example**:
-- Display: 500.00 DKK
-- API Amount: 50000 (500 * 100)
+**Currency/Amount Note**: Stripe boundaries use minor units, but for this endpoint backend computes amount/currency from deal context. Frontend should not send raw `amount`/`currency` for PaymentIntent creation.
 
 ---
 
@@ -723,15 +734,16 @@ CVC: Any 3 digits
 
 **Steps**:
 1. Navigate to `/invoices`
-2. Select a paid Stripe invoice
+2. Test one unpaid invoice and one paid invoice
 3. Click "Download PDF"
-4. **Expected**: PDF downloads automatically
+4. **Expected**:
+   - Unpaid invoice: PDF downloads automatically
+   - Paid invoice: backend may return receipt-first flow (Stripe receipt URL/PDF fallback) instead of a direct invoice PDF blob
 
 **Verify**:
-- ✅ PDF downloads successfully
-- ✅ Filename format: `invoice-{id}.pdf`
-- ✅ PDF contains correct invoice details
-- ✅ PDF is readable and formatted properly
+- ✅ Unpaid invoice download works and is readable
+- ✅ Paid invoice resolves to receipt/download fallback flow without frontend crash
+- ✅ If file is returned, filename is reasonable (e.g., `invoice-{id}.pdf`)
 
 ---
 
@@ -893,7 +905,7 @@ Failed to retrieve client secret from server
    ```bash
    curl -X POST http://localhost:3000/api/stripe/payment-intent \
      -H "Content-Type: application/json" \
-     -d '{"amount":50000,"currency":"dkk","citizen_id":"test_123"}'
+       -d '{"deal_uuid":"deal_uuid_456","payment_type":"one_time","citizen_id":"test_123"}'
    ```
 4. Check browser Network tab for API call details
 
@@ -928,12 +940,13 @@ Failed to retrieve client secret from server
 **Root Cause**: DKK uses øre (1 DKK = 100 øre)
 
 **Solutions**:
-1. Always multiply display amount by 100 for API:
+1. Convert major/minor units for endpoints that expect explicit amounts (e.g., invoice item `unit_amount`):
    ```typescript
    const displayAmount = 500.00  // DKK
    const apiAmount = displayAmount * 100  // 50000 øre
    ```
-2. Use helper function:
+2. For `POST /api/stripe/payment-intent`, send `deal_uuid` + `payment_type` (and optional `citizen_id`) and let backend compute amount/currency.
+3. Use helper function:
    ```typescript
    function formatAmount(amount: number): string {
      return new Intl.NumberFormat('da-DK', {
@@ -1022,7 +1035,7 @@ Failed to retrieve client secret from server
 2. Verify webhook endpoint URL is correct
 3. For local testing, use Stripe CLI:
    ```bash
-   stripe listen --forward-to localhost:3000/api/webhooks/stripe
+   stripe listen --forward-to localhost:3000/api/stripe/webhook
    ```
 4. Check webhook signature verification in backend
 5. Ensure webhook handles these events:
@@ -1030,7 +1043,7 @@ Failed to retrieve client secret from server
    - `payment_intent.payment_failed`
    - `checkout.session.completed`
    - `invoice.paid`
-   - `invoice.payment_failed`
+   - `payment_method.attached`
 
 ---
 
