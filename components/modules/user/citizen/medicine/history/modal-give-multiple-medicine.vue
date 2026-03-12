@@ -18,7 +18,6 @@
                             <Alert type="danger" :text="$t('citizens.medicineJournals.history.form.noMedicineToday')"
                                 v-if="state.formGiveMedicine.medicines?.length === 0" />
 
-                            <!-- Redesigned sticky table -->
                             <div class="max-h-[55vh] overflow-y-auto overflow-x-auto border border-gray-100 rounded-md"
                                  v-if="state.formGiveMedicine.medicines?.some((m: any) => !m.is_pn_medicine)">
                                 <table class="w-full border-collapse">
@@ -40,7 +39,6 @@
                                             :key="medicineIndex">
                                             <tr v-if="!medicine.is_pn_medicine"
                                                 class="border-b border-gray-100 align-top">
-                                                <!-- Sticky medicine name column -->
                                                 <td class="sticky left-0 z-10 bg-white px-4 py-3 text-sm
                                                             min-w-[200px] border-r border-gray-100">
                                                     <div class="space-y-1">
@@ -68,10 +66,8 @@
                                                             ? '!bg-red-50'
                                                             : 'bg-white'
                                                     ]">
-                                                    <!-- Has dosage for this time -->
                                                     <div v-if="getDosageIndexByTime(Number(medicineIndex), time) !== -1"
                                                          class="space-y-2">
-                                                        <!-- Required dosage badge -->
                                                         <div class="flex justify-center">
                                                             <Badge type="primary" class="w-fit">
                                                                 <p class="text-xxs">
@@ -82,7 +78,6 @@
                                                             </Badge>
                                                         </div>
 
-                                                        <!-- Inline 3-button status toggle -->
                                                         <div class="flex gap-1 justify-center flex-wrap">
                                                             <button v-for="typeOption in state.options.types"
                                                                 :key="typeOption.value"
@@ -118,7 +113,6 @@
                                                             </button>
                                                         </div>
 
-                                                        <!-- Collapsible comment -->
                                                         <div class="text-left">
                                                             <button type="button"
                                                                 class="text-xxs text-primary hover:underline flex items-center gap-0.5"
@@ -141,7 +135,6 @@
                                                         </div>
                                                     </div>
 
-                                                    <!-- No dosage for this time -->
                                                     <div v-else class="flex justify-center">
                                                         <span class="text-sm text-gray-300">—</span>
                                                     </div>
