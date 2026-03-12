@@ -256,6 +256,7 @@
                                     </p>
                                     <FormNumberField :name="`max_daily_dose_${index}`"
                                         :placeholder="$t('citizens.medicineJournals.form.dosage')" :modelValue="data?.dosage"
+                                        :min="1"
                                         @update:modelValue="(value: string) => handleDoseInput(value, index)" />
                                 </div>
                                 <button type="button"
@@ -847,7 +848,7 @@ function handleDoseInput(value: string, index: number) {
     if (language.locale.value === 'dk') {
         value = validateEuropeanDecimal(value)
     }
-    state.formMedicine.max_dosage_per_time[index].dosage = value
+        state.formMedicine.max_dosage_per_time[index].dosage = value
 }
 
 function getAvailableTimeOptions(index: number) {
