@@ -32,7 +32,6 @@
 
 <script setup lang="ts">
 import { documentService } from '@/components/api/user/DocumentService'
-import { renderAsync } from 'docx-preview'
 import type { Error } from '@/types'
 import { saveAs } from 'file-saver'
 
@@ -92,6 +91,7 @@ async function fetchDocument() {
 async function renderDocument(buffer: ArrayBuffer) {
     state.isPageLoading = true
     try {
+        const { renderAsync } = await import('docx-preview')
         await nextTick()
         if (previewContainer.value) {
             previewContainer.value.innerHTML = ''
