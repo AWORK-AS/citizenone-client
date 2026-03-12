@@ -256,7 +256,7 @@
                                     </p>
                                     <FormNumberField :name="`max_daily_dose_${index}`"
                                         :placeholder="$t('citizens.medicineJournals.form.dosage')"
-                                        :modelValue="data?.dosage" :min="1"
+                                        :modelValue="data?.dosage" :min="0.01"
                                         @update:modelValue="(value: string) => handleDoseInput(value, index)" />
                                 </div>
                                 <button type="button"
