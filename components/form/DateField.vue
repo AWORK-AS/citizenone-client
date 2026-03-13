@@ -51,7 +51,7 @@ const state = reactive({
             firstDayOfWeek: 1, // Set Monday as the first day of the week
         },
         weekNumbers: true,
-        minDate: props.disablePreviousWeeks ? moment().startOf('isoWeek').toDate() : new Date(0), // Disable previous weeks if enabled
+        minDate: props.disablePreviousWeeks ? moment().startOf('isoWeek').toDate() : null, // Disable previous weeks if enabled
     }
 })
 
