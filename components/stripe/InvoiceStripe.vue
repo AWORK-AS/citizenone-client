@@ -53,16 +53,6 @@
         </div>
         
         <div class="actions-right">
-          <button 
-            v-if="canPayInvoice(invoiceDetails.status)" 
-            @click="payWithStripe" 
-            class="stripe-btn" 
-            :disabled="loadingStripe"
-          >
-            <span v-if="!loadingStripe">Betal med Stripe</span>
-            <span v-else>Omdirigerer...</span>
-          </button>
-           
           <button @click="downloadPdf" class="pdf-btn" :disabled="loadingPdf">
             <span v-if="!loadingPdf">Download PDF</span>
             <span v-else>Downloader...</span>
