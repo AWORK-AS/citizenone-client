@@ -729,7 +729,7 @@ function sort(sortingData: any) {
 function handleSearch(value: any) {
     currentTablePage = 1
     const searchValue = Array.isArray(value) ? value[0] ?? '' : value ?? ''
-    state.dataFilter.search = searchValue?.[0] == '' ? [] : searchValue
+    state.dataFilter.search = searchValue?.[0] == '' ? [] : value
 
     if (state.viewMode === 'google-drive') {
         fetchGoogleDriveFiles(state.googleDriveFolderId, state.dataFilter.search || undefined)
