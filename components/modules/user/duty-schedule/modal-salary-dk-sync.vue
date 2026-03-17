@@ -283,7 +283,9 @@
                                                 {{ entry.totalUnits }}{{
                                                     $t('dutySchedules.salaryDk_hours_let') }})
                                             </span>
-                                            <select v-model="entry.selectedSupplementTypeId" :class="[
+                                            <!-- Supplement type dropdown for 'add' entries -->
+                                            <select v-if="entry.type === 'add'"
+                                                v-model="entry.selectedSupplementTypeId" :class="[
                                                 'ml-auto max-w-[220px] rounded border px-2 py-1 text-xs',
                                                 state.assignRatesAttempted && !entry.selectedSupplementTypeId
                                                     ? 'border-red-500 ring-1 ring-red-500'
@@ -294,6 +296,21 @@
                                                 <option v-for="sType in emp.availableSupplementTypes"
                                                     :key="sType.id" :value="sType.id">
                                                     {{ sType.title }}
+                                                </option>
+                                            </select>
+                                            <!-- Leave type dropdown for 'deduct' entries -->
+                                            <select v-else
+                                                v-model="entry.selectedLeaveTypeId" :class="[
+                                                'ml-auto max-w-[220px] rounded border px-2 py-1 text-xs',
+                                                state.assignRatesAttempted && !entry.selectedLeaveTypeId
+                                                    ? 'border-red-500 ring-1 ring-red-500'
+                                                    : 'border-gray-300']">
+                                                <option value="" disabled>
+                                                    {{ $t('dutySchedules.salaryDk_select_rate') }}
+                                                </option>
+                                                <option v-for="lType in emp.availableLeaveTypes"
+                                                    :key="lType.id" :value="lType.id">
+                                                    {{ lType.title }}
                                                 </option>
                                             </select>
                                         </div>
@@ -387,8 +404,7 @@
                                         <tr v-for="(reg, i) in group.supplementRegistrations"
                                             :key="'s-' + i"
                                             :class="reg.type === 'add' ? 'bg-green-50/30' : 'bg-red-50/30'">
-                                            <td class="py-1.5 pl-9 pr-3">{{ reg.periodFrom }} - {{
-                                                reg.periodTo }}</td>
+                                            <td class="py-1.5 pl-9 pr-3">{{ reg.date }}</td>
                                             <td class="px-3 py-1.5">
                                                 <span v-if="reg.type === 'add'" class="text-green-700">{{
                                                     $t('dutySchedules.salaryDk_supplement') }}</span>
@@ -396,7 +412,7 @@
                                                     $t('dutySchedules.salaryDk_deduction') }}</span>
                                             </td>
                                             <td class="px-3 py-1.5 text-xs text-gray-500">{{
-                                                reg.supplementTypeName }}</td>
+                                                reg.type === 'add' ? reg.supplementTypeName : reg.leaveTypeName }}</td>
                                             <td class="px-3 py-1.5 text-right">{{ reg.units }}{{
                                                 $t('dutySchedules.salaryDk_hours_let') }}</td>
                                         </tr>
@@ -453,7 +469,9 @@
                                     <span class="text-xs text-gray-500">
                                         ({{ result.count }} {{ result.type === 'hours'
                                             ? $t('dutySchedules.salaryDk_registrations')
-                                            : $t('dutySchedules.salaryDk_supplement_registrations') }})
+                                            : result.type === 'leave'
+                                                ? $t('dutySchedules.salaryDk_leave_registrations')
+                                                : $t('dutySchedules.salaryDk_supplement_registrations') }})
                                     </span>
                                 </div>
                                 <span v-if="!result.success"
@@ -521,6 +539,7 @@ const state = reactive({
     employeesRaw: [] as any[],
     salaryTypesRaw: [] as any[],
     supplementTypesRaw: [] as any[],
+    leaveTypesRaw: [] as any[],
     fetchedScheduleData: [] as any[],
     fetchedExtraHoursData: [] as any[],
     employeeShiftTypes: [] as Array<{
@@ -532,18 +551,21 @@ const state = reactive({
         employeeUuid: string; employeeName: string; salaryDkId: string;
         extraHoursEntries: Array<{
             type: 'add' | 'deduct'; entryCount: number;
-            totalUnits: number; selectedSupplementTypeId: string;
+            totalUnits: number; selectedSupplementTypeId: string; selectedLeaveTypeId: string;
         }>;
         availableSupplementTypes: Array<{ id: string; title: string }>;
+        availableLeaveTypes: Array<{ id: string; title: string }>;
     }>,
     registrationsPreview: [] as Array<{
         employeeName: string; date: string; shiftTypeName: string;
         hours: number; salaryDkId: string; salaryTypeId: string;
     }>,
     supplementRegistrationsPreview: [] as Array<{
-        employeeName: string; periodFrom: string; periodTo: string;
+        employeeName: string; date: string;
         type: 'add' | 'deduct'; units: number;
-        supplementTypeId: string; supplementTypeName: string; salaryDkId: string;
+        supplementTypeId: string; supplementTypeName: string;
+        leaveTypeId: string; leaveTypeName: string;
+        salaryDkId: string;
     }>,
     syncResult: null as any,
     expandedEmployees: new Set<string>(),
@@ -593,7 +615,9 @@ const allTypesAssigned = computed(() => {
         emp.shiftTypes.every(st => st.selectedSalaryTypeId)
     )
     const supplementTypesOk = state.employeeExtraHoursTypes.every(emp =>
-        emp.extraHoursEntries.every(entry => entry.selectedSupplementTypeId)
+        emp.extraHoursEntries.every(entry =>
+            entry.type === 'add' ? entry.selectedSupplementTypeId : entry.selectedLeaveTypeId
+        )
     )
     return hourTypesOk && supplementTypesOk
 })
@@ -967,12 +991,17 @@ async function fetchAndBuildShiftTypes() {
             title: st.title || st.description || `Type ${st.id}`,
         }))
 
+        const allLeaveTypeOptions = state.leaveTypesRaw.map((lt: any) => ({
+            id: String(lt.id),
+            title: lt.name || lt.title || lt.description || `Type ${lt.id}`,
+        }))
+
         state.employeeExtraHoursTypes = Array.from(empExtraMap.entries())
             .filter(([_, data]) => data.addCount > 0 || data.deductCount > 0)
             .map(([uuid, data]) => {
                 const entries: Array<{
                     type: 'add' | 'deduct'; entryCount: number;
-                    totalUnits: number; selectedSupplementTypeId: string;
+                    totalUnits: number; selectedSupplementTypeId: string; selectedLeaveTypeId: string;
                 }> = []
 
                 if (data.addCount > 0) {
@@ -981,6 +1010,7 @@ async function fetchAndBuildShiftTypes() {
                         entryCount: data.addCount,
                         totalUnits: Math.round(data.addUnits * 100) / 100,
                         selectedSupplementTypeId: allSupplementTypeOptions.length === 1 ? allSupplementTypeOptions[0].id : '',
+                        selectedLeaveTypeId: '',
                     })
                 }
                 if (data.deductCount > 0) {
@@ -988,7 +1018,8 @@ async function fetchAndBuildShiftTypes() {
                         type: 'deduct',
                         entryCount: data.deductCount,
                         totalUnits: Math.round(data.deductUnits * 100) / 100,
-                        selectedSupplementTypeId: allSupplementTypeOptions.length === 1 ? allSupplementTypeOptions[0].id : '',
+                        selectedSupplementTypeId: '',
+                        selectedLeaveTypeId: allLeaveTypeOptions.length === 1 ? allLeaveTypeOptions[0].id : '',
                     })
                 }
 
@@ -998,6 +1029,7 @@ async function fetchAndBuildShiftTypes() {
                     salaryDkId: data.salaryDkId,
                     extraHoursEntries: entries,
                     availableSupplementTypes: allSupplementTypeOptions,
+                    availableLeaveTypes: allLeaveTypeOptions,
                 }
             })
 
@@ -1014,8 +1046,6 @@ function buildRegistrationsPreview() {
     const dateRange = state.syncDateRange
     const startMoment = moment(dateRange[0])
     const endMoment = moment(dateRange[1])
-    const periodFrom = moment(dateRange[0]).format('YYYY-MM-DD')
-    const periodTo = moment(dateRange[1]).format('YYYY-MM-DD')
     const selectedEmployees = state.scheduleEmployees.filter(e => e.selected && e.matchedSalaryDkId)
     const selectedEmployeeUuids = new Set(selectedEmployees.map(e => e.uuid))
     const employeeSdkIdMap = new Map(selectedEmployees.map(e => [e.uuid, e.matchedSalaryDkId]))
@@ -1068,17 +1098,34 @@ function buildRegistrationsPreview() {
 
     state.registrationsPreview = registrations
 
-    // Build supplement registrations preview
-    const supplementTypeLookup = new Map<string, { typeId: string; typeName: string }>()
+    // Build supplement/leave registrations preview
+    const extraHoursTypeLookup = new Map<string, {
+        supplementTypeId: string; supplementTypeName: string;
+        leaveTypeId: string; leaveTypeName: string;
+    }>()
     for (const emp of state.employeeExtraHoursTypes) {
         for (const entry of emp.extraHoursEntries) {
-            const typeObj = state.supplementTypesRaw.find(
-                (r: any) => String(r.id) === entry.selectedSupplementTypeId
-            )
-            supplementTypeLookup.set(`${emp.employeeUuid}::${entry.type}`, {
-                typeId: entry.selectedSupplementTypeId,
-                typeName: typeObj?.title || '',
-            })
+            if (entry.type === 'add') {
+                const typeObj = state.supplementTypesRaw.find(
+                    (r: any) => String(r.id) === entry.selectedSupplementTypeId
+                )
+                extraHoursTypeLookup.set(`${emp.employeeUuid}::${entry.type}`, {
+                    supplementTypeId: entry.selectedSupplementTypeId,
+                    supplementTypeName: typeObj?.title || '',
+                    leaveTypeId: '',
+                    leaveTypeName: '',
+                })
+            } else {
+                const typeObj = state.leaveTypesRaw.find(
+                    (r: any) => String(r.id) === entry.selectedLeaveTypeId
+                )
+                extraHoursTypeLookup.set(`${emp.employeeUuid}::${entry.type}`, {
+                    supplementTypeId: '',
+                    supplementTypeName: '',
+                    leaveTypeId: entry.selectedLeaveTypeId,
+                    leaveTypeName: typeObj?.name || typeObj?.title || '',
+                })
+            }
         }
     }
 
@@ -1093,19 +1140,20 @@ function buildRegistrationsPreview() {
         const ehDate = moment(eh.date)
         if (ehDate.isBefore(startMoment) || ehDate.isAfter(endMoment)) continue
 
-        const typeInfo = supplementTypeLookup.get(`${empUuid}::${eh.extra_hours_type}`)
+        const typeInfo = extraHoursTypeLookup.get(`${empUuid}::${eh.extra_hours_type}`)
         if (!typeInfo) continue
 
         const empData = state.employeeExtraHoursTypes.find(e => e.employeeUuid === empUuid)
 
         supplementRegs.push({
             employeeName: empData?.employeeName || `${emp.firstname} ${emp.lastname}`.trim(),
-            periodFrom,
-            periodTo,
+            date: moment(eh.date).format('YYYY-MM-DD'),
             type: eh.extra_hours_type,
             units: Number(eh.extra_hours) || 0,
-            supplementTypeId: typeInfo.typeId,
-            supplementTypeName: typeInfo.typeName,
+            supplementTypeId: typeInfo.supplementTypeId,
+            supplementTypeName: typeInfo.supplementTypeName,
+            leaveTypeId: typeInfo.leaveTypeId,
+            leaveTypeName: typeInfo.leaveTypeName,
             salaryDkId: emp.matchedSalaryDkId!,
         })
     }
@@ -1117,13 +1165,31 @@ function buildRegistrationsPreview() {
 function parseError(e: any): string {
     const rawMsg = e?.data?.message || e?.response?._data?.message || e?.message || ''
     let errorMsg = rawMsg
+
+    // Try parsing the outer JSON wrapper
     try {
         const parsed = JSON.parse(rawMsg)
         errorMsg = parsed?.message || rawMsg
     } catch { /* not JSON, use as-is */ }
 
+    // Extract nested Salary.dk error JSON from messages like:
+    // "Failed to create supplement registration: {\"error\":{\"message\":\"Salary Type Not Found\",\"details\":[...]}}"
+    const jsonMatch = errorMsg.match(/:\s*(\{[\s\S]*\})\s*$/)
+    if (jsonMatch) {
+        try {
+            const inner = JSON.parse(jsonMatch[1])
+            const innerMsg = inner?.error?.message || inner?.message || ''
+            const details = inner?.error?.details || []
+            if (innerMsg) {
+                errorMsg = details.length > 0 ? `${innerMsg}: ${details[0]}` : innerMsg
+            }
+        } catch { /* not valid JSON, keep errorMsg as-is */ }
+    }
+
     if (errorMsg.includes('ALREADY_EXISTS')) return t('dutySchedules.salaryDk_error_already_exists')
     if (errorMsg.includes('INVALID_PERIOD')) return t('dutySchedules.salaryDk_error_invalid_period')
+    if (errorMsg.includes('Salary Type Not Found')) return t('dutySchedules.salaryDk_error_salary_type_not_found')
+    if (errorMsg.includes('Leave Type Not Found')) return t('dutySchedules.salaryDk_error_leave_type_not_found')
     if (errorMsg.includes('NOT_FOUND') || errorMsg.includes('not found')) return t('dutySchedules.salaryDk_error_employee_not_found')
     return errorMsg || t('dutySchedules.salaryDk_sync_failed')
 }
@@ -1145,8 +1211,8 @@ async function executeSync() {
             hoursByEmployee.set(reg.salaryDkId, { name: reg.employeeName, regs: [] })
         }
         hoursByEmployee.get(reg.salaryDkId)!.regs.push({
-            employeeID: Number(reg.salaryDkId),
-            salaryTypeID: Number(reg.salaryTypeId),
+            employeeID: reg.salaryDkId,
+            salaryTypeID: reg.salaryTypeId,
             date: reg.date,
             hours: reg.hours,
         })
@@ -1156,9 +1222,36 @@ async function executeSync() {
     const allHourRegs = Array.from(hoursByEmployee.values()).flatMap(({ regs }) => regs)
     if (allHourRegs.length > 0) {
         try {
-            await salaryDkService.syncTimeRegistrations(allHourRegs)
-            for (const [_, { name, regs }] of hoursByEmployee) {
-                results.push({ employeeName: name, type: 'hours', success: true, count: regs.length })
+            const response = await salaryDkService.syncTimeRegistrations(allHourRegs)
+            const errors: any[] = response?.errors || []
+
+            if (errors.length === 0) {
+                for (const [_, { name, regs }] of hoursByEmployee) {
+                    results.push({ employeeName: name, type: 'hours', success: true, count: regs.length })
+                }
+            } else {
+                // Group errors by employeeID to report per-employee
+                const errorsByEmployee = new Map<string, string[]>()
+                for (const err of errors) {
+                    const empId = err.registration?.employeeID || 'unknown'
+                    if (!errorsByEmployee.has(empId)) errorsByEmployee.set(empId, [])
+                    errorsByEmployee.get(empId)!.push(err.error || err.message || 'Unknown error')
+                }
+
+                for (const [empId, { name, regs }] of hoursByEmployee) {
+                    const empErrors = errorsByEmployee.get(empId)
+                    if (empErrors) {
+                        const failedCount = empErrors.length
+                        const succeededCount = regs.length - failedCount
+                        if (succeededCount > 0) {
+                            results.push({ employeeName: name, type: 'hours', success: false, error: `${succeededCount}/${regs.length} succeeded. ${empErrors[0]}`, count: regs.length })
+                        } else {
+                            results.push({ employeeName: name, type: 'hours', success: false, error: empErrors[0], count: regs.length })
+                        }
+                    } else {
+                        results.push({ employeeName: name, type: 'hours', success: true, count: regs.length })
+                    }
+                }
             }
         } catch (e: any) {
             for (const [_, { name, regs }] of hoursByEmployee) {
@@ -1167,19 +1260,33 @@ async function executeSync() {
         }
     }
 
-    // Send supplement registrations one at a time (coarse endpoint is not bulk)
+    // Send supplement registrations (add) one at a time
     const supplementsByEmployee = new Map<string, { name: string; regs: any[] }>()
+    // Send leave registrations (deduct) one at a time
+    const leavesByEmployee = new Map<string, { name: string; regs: any[] }>()
+
     for (const reg of state.supplementRegistrationsPreview) {
-        if (!supplementsByEmployee.has(reg.salaryDkId)) {
-            supplementsByEmployee.set(reg.salaryDkId, { name: reg.employeeName, regs: [] })
+        if (reg.type === 'add') {
+            if (!supplementsByEmployee.has(reg.salaryDkId)) {
+                supplementsByEmployee.set(reg.salaryDkId, { name: reg.employeeName, regs: [] })
+            }
+            supplementsByEmployee.get(reg.salaryDkId)!.regs.push({
+                employeeID: reg.salaryDkId,
+                date: reg.date,
+                quantity: reg.units,
+                salaryTypeID: reg.supplementTypeId,
+            })
+        } else {
+            if (!leavesByEmployee.has(reg.salaryDkId)) {
+                leavesByEmployee.set(reg.salaryDkId, { name: reg.employeeName, regs: [] })
+            }
+            leavesByEmployee.get(reg.salaryDkId)!.regs.push({
+                employeeID: reg.salaryDkId,
+                startDate: reg.date,
+                endDate: reg.date,
+                leaveTypeID: reg.leaveTypeId,
+            })
         }
-        supplementsByEmployee.get(reg.salaryDkId)!.regs.push({
-            employeeID: Number(reg.salaryDkId),
-            salaryTypeID: Number(reg.supplementTypeId),
-            periodFrom: reg.periodFrom,
-            periodTo: reg.periodTo,
-            hours: reg.units,
-        })
     }
 
     for (const [_, { name, regs }] of supplementsByEmployee) {
@@ -1187,7 +1294,7 @@ async function executeSync() {
         let lastError = ''
         for (const reg of regs) {
             try {
-                await salaryDkService.syncCoarseTimeRegistration(reg)
+                await salaryDkService.createSupplementRegistration(reg)
                 successCount++
             } catch (e: any) {
                 lastError = parseError(e)
@@ -1199,6 +1306,26 @@ async function executeSync() {
             results.push({ employeeName: name, type: 'supplements', success: false, error: `${successCount}/${regs.length} succeeded. ${lastError}`, count: regs.length })
         } else {
             results.push({ employeeName: name, type: 'supplements', success: false, error: lastError, count: regs.length })
+        }
+    }
+
+    for (const [_, { name, regs }] of leavesByEmployee) {
+        let successCount = 0
+        let lastError = ''
+        for (const reg of regs) {
+            try {
+                await salaryDkService.createLeaveRegistration(reg)
+                successCount++
+            } catch (e: any) {
+                lastError = parseError(e)
+            }
+        }
+        if (successCount === regs.length) {
+            results.push({ employeeName: name, type: 'leave', success: true, count: regs.length })
+        } else if (successCount > 0) {
+            results.push({ employeeName: name, type: 'leave', success: false, error: `${successCount}/${regs.length} succeeded. ${lastError}`, count: regs.length })
+        } else {
+            results.push({ employeeName: name, type: 'leave', success: false, error: lastError, count: regs.length })
         }
     }
 
@@ -1232,6 +1359,7 @@ watch(() => props.isModalOpen, async (isOpen: boolean) => {
     state.syncDateRange = []
     state.salaryTypesRaw = []
     state.supplementTypesRaw = []
+    state.leaveTypesRaw = []
     state.fetchedScheduleData = []
     state.fetchedExtraHoursData = []
     state.employeeShiftTypes = []
@@ -1245,15 +1373,17 @@ watch(() => props.isModalOpen, async (isOpen: boolean) => {
     loadPresets()
 
     try {
-        const [employeesRes, salaryTypesRes, supplementTypesRes] = await Promise.all([
+        const [employeesRes, salaryTypesRes, supplementTypesRes, leaveTypesRes] = await Promise.all([
             salaryDkService.getEmployees(),
             salaryDkService.getSalaryTypes(),
             salaryDkService.getSupplementTypes(),
+            salaryDkService.getLeaveTypes(),
         ])
 
         state.employeesRaw = employeesRes?.data || []
         state.salaryTypesRaw = salaryTypesRes?.data || []
         state.supplementTypesRaw = supplementTypesRes?.data || []
+        state.leaveTypesRaw = leaveTypesRes?.data || []
 
         state.scheduleEmployees = props.scheduleEmployees.map((emp: any) => {
             const matchedId = matchEmployee(emp, state.employeesRaw)

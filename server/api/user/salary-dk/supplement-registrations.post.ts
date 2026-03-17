@@ -7,7 +7,7 @@ export default defineEventHandler(async (event) => {
   const body = await readBody(event)
 
   try {
-    return await $fetch(`${baseURL}/user/salary-dk/coarse-time-registrations`, {
+    return await $fetch(`${baseURL}/user/salary-dk/supplement-registrations`, {
       method: 'POST',
       headers: {
         'Authorization': `Bearer ${token}`,
@@ -17,10 +17,10 @@ export default defineEventHandler(async (event) => {
     })
   } catch (error: any) {
     const responseData = error?.data || error?.response?._data || null
-    console.error('[Salary.dk coarse time registrations] Backend error:', JSON.stringify(responseData))
+    console.error('[Salary.dk supplement registrations] Backend error:', JSON.stringify(responseData))
     throw createError({
       statusCode: error.statusCode || 500,
-      message: JSON.stringify(responseData) || error.message || 'Failed to sync supplement registration to Salary.dk',
+      message: JSON.stringify(responseData) || error.message || 'Failed to create supplement registration in Salary.dk',
     })
   }
 })

@@ -2746,6 +2746,9 @@
         "salaryDk_error_already_exists": "One or more registrations already exist in Salary.dk for the selected dates.",
         "salaryDk_error_invalid_period": "One or more dates fall outside the open payroll period in Salary.dk.",
         "salaryDk_error_employee_not_found": "One or more employees could not be found in Salary.dk.",
+        "salaryDk_error_salary_type_not_found": "The selected salary/supplement type is not assigned to the employee's contract in Salary.dk.",
+        "salaryDk_error_leave_type_not_found": "The selected leave type is not assigned to the employee's contract in Salary.dk.",
+        "salaryDk_leave_registrations": "leave registrations",
         "activityLogs": "Activity logs",
         "alert": {
             "newScheduleSuccessfullyAdded": "New schedule successfully added",

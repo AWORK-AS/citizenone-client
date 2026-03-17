@@ -2746,6 +2746,9 @@
         "salaryDk_error_already_exists": "En eller flere registreringer findes allerede i Salary.dk for de valgte datoer.",
         "salaryDk_error_invalid_period": "En eller flere datoer ligger uden for den åbne lønperiode i Salary.dk.",
         "salaryDk_error_employee_not_found": "En eller flere medarbejdere kunne ikke findes i Salary.dk.",
+        "salaryDk_error_salary_type_not_found": "Den valgte løn-/tillægstype er ikke tildelt medarbejderens kontrakt i Salary.dk.",
+        "salaryDk_error_leave_type_not_found": "Den valgte fraværstype er ikke tildelt medarbejderens kontrakt i Salary.dk.",
+        "salaryDk_leave_registrations": "fraværsregistreringer",
         "activityLogs": "Aktivitetslogs",
         "alert": {
             "newScheduleSuccessfullyAdded": "Ny vagtplan tilføjet med succes",

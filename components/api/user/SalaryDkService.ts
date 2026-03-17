@@ -57,6 +57,17 @@ class SalaryDkService extends BaseAPIService {
         })
     }
 
+    async getLeaveTypes(): Promise<any> {
+        const token = localStorage.getItem('_token')
+        return await $fetch('/api/user/salary-dk/leave-types', {
+            method: 'GET',
+            headers: {
+                'Authorization': `Bearer ${token}`,
+                'Accept': 'application/json',
+            },
+        })
+    }
+
     async syncTimeRegistrations(registrations: any[]): Promise<any> {
         const token = localStorage.getItem('_token')
         return await $fetch('/api/user/salary-dk/time-registrations', {
@@ -69,9 +80,21 @@ class SalaryDkService extends BaseAPIService {
         })
     }
 
-    async syncCoarseTimeRegistration(payload: any): Promise<any> {
+    async createLeaveRegistration(payload: any): Promise<any> {
         const token = localStorage.getItem('_token')
-        return await $fetch('/api/user/salary-dk/coarse-time-registrations', {
+        return await $fetch('/api/user/salary-dk/leave-registrations', {
+            method: 'POST',
+            headers: {
+                'Authorization': `Bearer ${token}`,
+                'Accept': 'application/json',
+            },
+            body: payload,
+        })
+    }
+
+    async createSupplementRegistration(payload: any): Promise<any> {
+        const token = localStorage.getItem('_token')
+        return await $fetch('/api/user/salary-dk/supplement-registrations', {
             method: 'POST',
             headers: {
                 'Authorization': `Bearer ${token}`,
