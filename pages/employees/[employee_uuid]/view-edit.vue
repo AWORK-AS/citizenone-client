@@ -100,7 +100,6 @@ const state = reactive({
         post_code: '',
         permissions: [],
         show_working_hours: false,
-        register_transport_enabled: false,
         do_not_count_sick_leave: false,
         media_risks: [],
         pages: [],
@@ -156,7 +155,6 @@ async function fetchEmployee() {
                 permissions: response?.data?.permissions ?? [],
                 show_working_hours: response?.data?.show_working_hours ?? false,
                 do_not_count_sick_leave: response?.data?.do_not_count_sick_leave ?? false,
-                register_transport_enabled: response?.data?.register_transport_enabled ?? false,
                 media_risks: [],
                 pages: [],
                 employment: {
@@ -228,7 +226,6 @@ async function updateEmployee(employeeDetails: any) {
         params.append('role', employeeDetails.role)
         params.append('permission', JSON.stringify(employeeDetails.permissions))
         params.append('show_working_hours', employeeDetails.show_working_hours)
-        params.append('register_transport_enabled', employeeDetails.register_transport_enabled)
         params.append('do_not_count_sick_leave', employeeDetails.do_not_count_sick_leave)
         params.append('media_risk_uuid', JSON.stringify(employeeDetails.media_risks))
         if (employeeDetails.pages) {
