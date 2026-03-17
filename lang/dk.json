@@ -5970,7 +5970,8 @@
                 "transferNormHours": "Overfør normtimer til næste år, hvis de ikke er brugt",
                 "website": "Hjemmeside",
                 "companyLogo": "Firmalogo",
-                "remove": "Fjern firmalogo"
+                "remove": "Fjern firmalogo",
+                "registerTransport":"Registrer transport"
             }
         },
         "licenseOverview": {

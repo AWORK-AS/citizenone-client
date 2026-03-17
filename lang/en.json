@@ -5970,7 +5970,8 @@
                 "transferNormHours": "Transfer norm hours to next year if not used",
                 "website": "Website",
                 "companyLogo": "Company logo",
-                "remove": "Remove company logo"
+                "remove": "Remove company logo",
+                "registerTransport":"Register transport"
             }
         },
         "licenseOverview": {

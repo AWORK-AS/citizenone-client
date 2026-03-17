@@ -225,7 +225,7 @@
                             {{ $t('employees.form.showWorkingHours') }}
                         </div>
                     </div>
-                    <div class="space-y-1">
+                    <div class="space-y-1" v-if="userStore.getUser?.company?.register_transport_enabled">
                         <div class="w-fit flex items-center cursor-pointer"
                             @click="state.formEmployee.register_transport_enabled = !state.formEmployee.register_transport_enabled">
                             <FormCheckbox id="register_transport_enabled" :value="state.formEmployee.register_transport_enabled" />
