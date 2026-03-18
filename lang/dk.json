@@ -4414,6 +4414,13 @@
         "unreadJournalNotes": "Ulæste journalnotater",
         "youDontHaveUnreadJournalNotes": "Du har ingen ulæste journalnotater"
     },
+    "journal": {
+        "table": {
+            "actions": {
+                "delete": "Slet"
+            }
+        }
+    },
     "journalNoteTags": {
         "addNewTag": "Tilføj nyt tag",
         "alert": {

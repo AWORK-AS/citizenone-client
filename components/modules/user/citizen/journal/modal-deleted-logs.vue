@@ -55,7 +55,7 @@
                                                 </div>
                                                 <p class="mt-1 text-xs text-muted-400">
                                                     <span>{{ formatDateToReadable(log?.old_data?.date)
-                                                        }}</span>
+                                                    }}</span>
                                                 </p>
                                             </div>
                                             <div class="mt-1">
@@ -137,11 +137,20 @@
                                 <td width="25%">
                                     <span>{{ log.causer?.firstname + ' ' + log.causer?.lastname }}</span>
                                 </td>
+                                <td width="10%" v-if="isAdmin">
+                                    <FormButton class="rounded-md" buttonSize="sm" @click="confirmPermanentDelete(log)">
+                                        <Icon name="heroicons:trash" class="size-4" />
+                                        {{ $t('journal.table.actions.delete') }}
+                                    </FormButton>
+                                </td>
                             </tr>
                         </template>
                     </Table>
                 </div>
                 <Pagination :data="state.journalLogs" @previous="previous" @next="next" />
+                <DialogConfirmation :isModalOpen="state.isDeleteConfirmOpen"
+                    message="Are you sure you want to permanently delete this journal entry? This action cannot be undone."
+                    @close="state.isDeleteConfirmOpen = false" @confirm="permanentDeleteJournalLog" />
             </template>
         </Modal>
     </div>
@@ -151,8 +160,13 @@
 import { journalService } from '@/components/api/user/JournalService'
 import { useDatetimeFormatter } from '@/composables/datetimeFormatter'
 import { useCustomPagesStore } from '@/store/custom-pages'
+import { useUserStore } from '@/store/user'
 import { useI18n } from "vue-i18n"
 import type { Error } from '@/types'
+import { useAlert } from '@/composables/alert'
+
+const { successAlert } = useAlert()
+const userStore = useUserStore() as any
 
 const props = defineProps({
     isModalOpen: {
@@ -174,6 +188,7 @@ const state = reactive({
         { name: 'citizens.citizenJournals.journalLogs.date', isTranslateName: true, sorter: true, key: 'ß' },
         { name: 'citizens.citizenJournals.journalLogs.description', isTranslateName: true, },
         { name: 'citizens.citizenJournals.journalLogs.deletedBy', isTranslateName: true, },
+        { name: '' },
     ],
     error: {} as Error,
     isTableLoading: false,
@@ -183,6 +198,12 @@ const state = reactive({
         sortField: 'id',
         sortOrder: 'descend',
     },
+    isDeleteConfirmOpen: false,
+    selectedLog: null as any,
+})
+
+const isAdmin = computed(() => {
+    return userStore.getUser?.roles?.some((role: any) => role.name === 'Admin') ?? false
 })
 
 watch(() => props.isModalOpen, (isModalOpen: boolean) => {
@@ -233,6 +254,25 @@ function sort(sortingData: any) {
         sortOrder: sortingData.sort,
     }
     fetchJournalLogs()
+}
+
+function confirmPermanentDelete(log: any) {
+    state.selectedLog = log
+    state.isDeleteConfirmOpen = true
+}
+
+async function permanentDeleteJournalLog() {
+    state.isDeleteConfirmOpen = false
+    state.isTableLoading = true
+    try {
+        const changeLogUuid = state.selectedLog?.uuid
+        await journalService.permanentDeleteJournalLog(changeLogUuid)
+        successAlert('Success!', 'Journal entry permanently deleted.')
+        fetchJournalLogs()
+    } catch (error: any) {
+        state.error = error
+    }
+    state.isTableLoading = false
 }
 
 function toggleExpanded(index: number) {

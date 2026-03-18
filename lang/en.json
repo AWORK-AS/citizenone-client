@@ -4414,6 +4414,13 @@
         "unreadJournalNotes": "Unread journal notes",
         "youDontHaveUnreadJournalNotes": "You don't have unread journal notes"
     },
+    "journal": {
+        "table": {
+            "actions": {
+                "delete": "Delete"
+            }
+        }
+    },
     "journalNoteTags": {
         "addNewTag": "Add new tag",
         "alert": {
