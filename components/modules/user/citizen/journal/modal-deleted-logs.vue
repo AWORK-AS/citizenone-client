@@ -55,7 +55,7 @@
                                                 </div>
                                                 <p class="mt-1 text-xs text-muted-400">
                                                     <span>{{ formatDateToReadable(log?.old_data?.date)
-                                                    }}</span>
+                                                        }}</span>
                                                 </p>
                                             </div>
                                             <div class="mt-1">
@@ -149,7 +149,7 @@
                 </div>
                 <Pagination :data="state.journalLogs" @previous="previous" @next="next" />
                 <DialogConfirmation :isModalOpen="state.isDeleteConfirmOpen"
-                    :message="$t('citizens.citizenJournals.journalLogs.permanentDeleteConfirm')"
+                    :message="$t('citizens.citizenJournals.journalLogs.table.confirmation.permanentDeleteConfirmation')"
                     @close="state.isDeleteConfirmOpen = false" @confirm="permanentDeleteJournalLog" />
             </template>
         </Modal>
@@ -268,7 +268,7 @@ async function permanentDeleteJournalLog() {
     try {
         const changeLogUuid = state.selectedLog?.uuid
         await journalService.permanentDeleteJournalLog(changeLogUuid)
-        successAlert(`${t('alert.success')}!`, `${t('citizens.citizenJournals.alert.permanentlyDeleted')}.`)
+        successAlert(`${t('alert.success')}!`, `${t('citizens.citizenJournals.journalLogs.table.alert.journalSuccessfullyDeletedPermanently')}.`)
         fetchJournalLogs()
     } catch (error: any) {
         state.error = error

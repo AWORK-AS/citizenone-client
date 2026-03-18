@@ -902,7 +902,6 @@
                 "successfullyCopied": "Journalen blev kopieret succesfuldt",
                 "successfullyMoved": "Journalen blev flyttet succesfuldt",
                 "successfullyUpdated": "Journal opdateret med succes",
-                "permanentlyDeleted": "Journalindtastning slettet permanent",
                 "unlockJournal": "Journal låst op med succes"
             },
             "confirmation": {
@@ -998,7 +997,14 @@
                 "newData": "Nye data",
                 "previousData": "Tidligere data",
                 "updatedBy": "Opdateret af",
-                "permanentDeleteConfirm": "Er du sikker på, at du vil slette denne journalindtastning permanent? Denne handling kan ikke fortrydes."
+                "table": {
+                    "alert": {
+                        "journalSuccessfullyDeletedPermanently": "Journal slettet permanent med succes"
+                    },
+                    "confirmation": {
+                        "permanentDeleteConfirmation": "Er du sikker på, at du vil slette denne journalindtastning permanent? Denne handling kan ikke fortrydes."
+                    }
+                }
             },
             "move": {
                 "citizen": "Borger",
