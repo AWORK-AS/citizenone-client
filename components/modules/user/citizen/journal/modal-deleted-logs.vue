@@ -149,7 +149,7 @@
                 </div>
                 <Pagination :data="state.journalLogs" @previous="previous" @next="next" />
                 <DialogConfirmation :isModalOpen="state.isDeleteConfirmOpen"
-                    message="Are you sure you want to permanently delete this journal entry? This action cannot be undone."
+                    :message="$t('citizens.citizenJournals.journalLogs.permanentDeleteConfirm')"
                     @close="state.isDeleteConfirmOpen = false" @confirm="permanentDeleteJournalLog" />
             </template>
         </Modal>
@@ -178,6 +178,7 @@ const emit = defineEmits(['close'])
 const { formatDateToReadable, formatDateTimeToReadable } = useDatetimeFormatter()
 const customPagesStore = useCustomPagesStore() as any
 const language = useI18n()
+const { t } = language
 const router = useRouter()
 const citizenUuid = router?.currentRoute?.value?.params?.uuid
 const expandedDescription = reactive([] as boolean[])
@@ -267,7 +268,7 @@ async function permanentDeleteJournalLog() {
     try {
         const changeLogUuid = state.selectedLog?.uuid
         await journalService.permanentDeleteJournalLog(changeLogUuid)
-        successAlert('Success!', 'Journal entry permanently deleted.')
+        successAlert(`${t('alert.success')}!`, `${t('citizens.citizenJournals.alert.permanentlyDeleted')}.`)
         fetchJournalLogs()
     } catch (error: any) {
         state.error = error
