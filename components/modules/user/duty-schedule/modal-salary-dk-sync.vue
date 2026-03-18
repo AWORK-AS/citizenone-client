@@ -478,7 +478,7 @@
                                     class="relative group ml-2 max-w-[200px] text-xs text-red-600 cursor-pointer">
                                     <span class="block truncate">{{ result.error }}</span>
                                     <span
-                                        class="absolute right-0 bottom-full mb-1 z-10 hidden group-hover:block w-72 rounded bg-gray-800 px-3 py-2 text-xs font-normal text-white shadow-lg whitespace-normal">
+                                        class="absolute right-0 top-full mt-1 z-10 hidden group-hover:block w-72 rounded bg-gray-800 px-3 py-2 text-xs font-normal text-white shadow-lg whitespace-normal">
                                         {{ result.error }}
                                     </span>
                                 </span>
@@ -625,6 +625,12 @@ const allTypesAssigned = computed(() => {
 function getTypeName(typeId: string): string {
     const salaryType = state.salaryTypesRaw.find((r: any) => String(r.id) === String(typeId))
     return salaryType?.title || ''
+}
+
+function getLeaveTypeName(apiName: string): string {
+    const key = `dutySchedules.salaryDk_leaveType_${apiName}`
+    const translated = t(key)
+    return translated !== key ? translated : apiName.replace(/([A-Z])/g, ' $1').trim()
 }
 
 const groupedRegistrations = computed(() => {
@@ -993,7 +999,7 @@ async function fetchAndBuildShiftTypes() {
 
         const allLeaveTypeOptions = state.leaveTypesRaw.map((lt: any) => ({
             id: String(lt.id),
-            title: lt.name || lt.title || lt.description || `Type ${lt.id}`,
+            title: lt.name ? getLeaveTypeName(lt.name) : (lt.title || lt.description || `Type ${lt.id}`),
         }))
 
         state.employeeExtraHoursTypes = Array.from(empExtraMap.entries())
@@ -1123,7 +1129,7 @@ function buildRegistrationsPreview() {
                     supplementTypeId: '',
                     supplementTypeName: '',
                     leaveTypeId: entry.selectedLeaveTypeId,
-                    leaveTypeName: typeObj?.name || typeObj?.title || '',
+                    leaveTypeName: typeObj?.name ? getLeaveTypeName(typeObj.name) : (typeObj?.title || ''),
                 })
             }
         }
@@ -1162,7 +1168,7 @@ function buildRegistrationsPreview() {
     state.syncStep = 'review'
 }
 
-function parseError(e: any): string {
+function parseError(e: any, employeeName?: string): string {
     const rawMsg = e?.data?.message || e?.response?._data?.message || e?.message || ''
     let errorMsg = rawMsg
 
@@ -1185,6 +1191,14 @@ function parseError(e: any): string {
             }
         } catch { /* not valid JSON, keep errorMsg as-is */ }
     }
+
+    // Replace UUIDs with human-readable names (plain Map to avoid reactivity)
+    const uuidNameMap = new Map<string, string>()
+    for (const t of [...state.salaryTypesRaw]) if (t.id && t.title) uuidNameMap.set(String(t.id), t.title)
+    for (const t of [...state.supplementTypesRaw]) if (t.id && t.title) uuidNameMap.set(String(t.id), t.title)
+    for (const t of [...state.leaveTypesRaw]) if (t.id && (t.name || t.title)) uuidNameMap.set(String(t.id), t.name ? getLeaveTypeName(t.name) : t.title)
+    for (const e of [...state.employeesRaw]) if (e.id && (e.name || e.firstName)) uuidNameMap.set(String(e.id), e.name || `${e.firstName} ${e.lastName}`)
+    errorMsg = errorMsg.replace(/[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}/gi, (uuid: string) => uuidNameMap.get(uuid) || employeeName || uuid)
 
     if (errorMsg.includes('ALREADY_EXISTS')) return t('dutySchedules.salaryDk_error_already_exists')
     if (errorMsg.includes('INVALID_PERIOD')) return t('dutySchedules.salaryDk_error_invalid_period')
@@ -1255,7 +1269,7 @@ async function executeSync() {
             }
         } catch (e: any) {
             for (const [_, { name, regs }] of hoursByEmployee) {
-                results.push({ employeeName: name, type: 'hours', success: false, error: parseError(e), count: regs.length })
+                results.push({ employeeName: name, type: 'hours', success: false, error: parseError(e, name), count: regs.length })
             }
         }
     }
@@ -1297,7 +1311,7 @@ async function executeSync() {
                 await salaryDkService.createSupplementRegistration(reg)
                 successCount++
             } catch (e: any) {
-                lastError = parseError(e)
+                lastError = parseError(e, name)
             }
         }
         if (successCount === regs.length) {
@@ -1317,7 +1331,7 @@ async function executeSync() {
                 await salaryDkService.createLeaveRegistration(reg)
                 successCount++
             } catch (e: any) {
-                lastError = parseError(e)
+                lastError = parseError(e, name)
             }
         }
         if (successCount === regs.length) {
