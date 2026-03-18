@@ -428,7 +428,7 @@ const workCheckState = reactive({
 })
 
 const isTransportRegistrationEnabled = computed(() => {
-    return userStore.getUser?.register_transport_enabled === true
+    return userStore.getUser?.can_register_transport === true
 })
 
 const isInterventionCheckinEnabled = computed(() => {
