@@ -19,7 +19,6 @@ export interface EmployeeForm {
     permissions: Permission[]
     show_working_hours: boolean,
     do_not_count_sick_leave: boolean,
-    register_transport_enabled: boolean,
     media_risks: any
     pages: any
 }
