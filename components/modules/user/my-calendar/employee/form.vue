@@ -622,23 +622,42 @@ async function fetchAllCitizens() {
             ? selectedDepartment
             : selectedDepartment?.uuid
 
-        const ownerIds = [...state.formSchedule.employees]
-        const departmentUuids = selectedDepartmentUuid ? [selectedDepartmentUuid] : ['all-departments']
+        const isAllEmployees = state.formSchedule.employees.some((e: any) => e === null)
 
-        const params = {
-            'owner_id[]': ownerIds,
-            'department_uuid[]': departmentUuids,
-        }
-        const response = await citizenService.getAllAssignedCitizenByEmployee(params)
-        if (response.data) {
-            let options: any = []
-            response.data.forEach(
-                (citizen: any) => options.push({
-                    value: citizen?.id,
-                    label: citizen?.firstname + " " + (citizen?.lastname ?? ''),
-                })
-            )
-            state.options.citizens = options
+        if (isAllEmployees) {
+            const params = {
+                department: departmentStore.getSelectedDepartmentName,
+            }
+            const response = await citizenService.getAllCitizens(params)
+            if (response.data) {
+                let options: any = []
+                response.data.forEach(
+                    (citizen: any) => options.push({
+                        value: citizen?.uuid,
+                        label: citizen?.firstname + " " + (citizen?.lastname ?? ''),
+                    })
+                )
+                state.options.citizens = options
+            }
+        } else {
+            const ownerIds = [...state.formSchedule.employees]
+            const departmentUuids = selectedDepartmentUuid ? [selectedDepartmentUuid] : ['all-departments']
+
+            const params = {
+                'owner_id[]': ownerIds,
+                'department_uuid[]': departmentUuids,
+            }
+            const response = await citizenService.getAllAssignedCitizenByEmployee(params)
+            if (response.data) {
+                let options: any = []
+                response.data.forEach(
+                    (citizen: any) => options.push({
+                        value: citizen?.uuid,
+                        label: citizen?.firstname + " " + (citizen?.lastname ?? ''),
+                    })
+                )
+                state.options.citizens = options
+            }
         }
     } catch (error: any) {
         state.error = error
