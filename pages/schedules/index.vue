@@ -48,7 +48,7 @@
                         {{ $t('dutySchedules.zenegy_sync') }}
                     </FormButton>
                     <FormButton v-if="state.isSalaryDkConnected"
-                        class="rounded-lg !bg-blue-700 !border-blue-700 !text-white hover:!bg-blue-800"
+                        class="rounded-lg !bg-[#13ac4b] !border-[#13ac4b] !text-white hover:!bg-[#0e9340]"
                         @click="state.modal.isSalaryDkSyncOpen = true">
                         <Icon name="ph:arrows-clockwise" class="h-4 w-4" aria-hidden="true" />
                         {{ $t('dutySchedules.salaryDk_sync') }}

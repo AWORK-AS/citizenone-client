@@ -46,7 +46,7 @@
                     </template>
                 </div>
 
-                <LoadingSpinner :isActive="state.isLoadingModalData || state.isSyncing">
+                <LoadingSpinner :isActive="state.isLoadingModalData || (state.isSyncing && state.syncStep !== 'review')">
 
                     <!-- Step 1: Configure -->
                     <div v-if="state.syncStep === 'configure'" class="space-y-5">
@@ -336,7 +336,7 @@
                     </div>
 
                     <!-- Step 3: Review -->
-                    <div v-else-if="state.syncStep === 'review'" class="space-y-4">
+                    <div v-else-if="state.syncStep === 'review'" class="relative space-y-4">
                         <p class="text-sm text-gray-600">
                             {{ $t('dutySchedules.salaryDk_review_description', {
                                 count:
@@ -425,16 +425,28 @@
                         </div>
                         <div class="mt-4 grid grid-cols-2 gap-3">
                             <FormButton type="button" buttonStyle="cancel" class="rounded-md"
-                                @click="state.syncStep = 'assign-rates'">
+                                @click="state.syncStep = 'assign-rates'" :disabled="state.isSyncing">
                                 {{ $t('back') }}
                             </FormButton>
                             <FormButton type="button" buttonStyle="primary" class="rounded-md"
-                                :disabled="state.registrationsPreview.length === 0 && state.supplementRegistrationsPreview.length === 0"
+                                :disabled="state.isSyncing || (state.registrationsPreview.length === 0 && state.supplementRegistrationsPreview.length === 0)"
                                 @click="executeSync">
                                 {{ $t('dutySchedules.salaryDk_sync') }} ({{
                                     state.registrationsPreview.length +
                                     state.supplementRegistrationsPreview.length }})
                             </FormButton>
+                        </div>
+
+                        <!-- Sync progress overlay -->
+                        <div v-if="state.isSyncing"
+                            class="absolute inset-0 z-10 flex flex-col items-center justify-center space-y-4 rounded-lg bg-white/90">
+                            <p class="text-sm font-medium text-gray-700">{{ state.syncProgress.phase }}</p>
+                            <div class="w-64 rounded-full bg-gray-200 h-3">
+                                <div class="h-3 rounded-full bg-teal-600 transition-all duration-300"
+                                    :style="{ width: syncProgressPercent + '%' }">
+                                </div>
+                            </div>
+                            <p class="text-xs text-gray-500">{{ state.syncProgress.current }} / {{ state.syncProgress.total }}</p>
                         </div>
                     </div>
 
@@ -529,6 +541,7 @@ const { successAlert, errorAlert } = useAlert()
 const state = reactive({
     isLoadingModalData: false,
     isSyncing: false,
+    syncProgress: { current: 0, total: 0, phase: '' },
     syncStep: 'configure' as 'configure' | 'assign-rates' | 'review' | 'result',
     syncDateRange: [] as any,
     scheduleEmployees: [] as Array<{
@@ -584,6 +597,11 @@ const state = reactive({
 const stepNumber = computed(() => {
     const map: Record<string, number> = { 'configure': 1, 'assign-rates': 2, 'review': 3, 'result': 4 }
     return map[state.syncStep] || 1
+})
+
+const syncProgressPercent = computed(() => {
+    if (state.syncProgress.total === 0) return 0
+    return Math.round((state.syncProgress.current / state.syncProgress.total) * 100)
 })
 
 const steps = computed(() => {
@@ -1231,10 +1249,54 @@ async function executeSync() {
             hours: reg.hours,
         })
     }
+    const allHourRegs = Array.from(hoursByEmployee.values()).flatMap(({ regs }) => regs)
+
+    // Build supplement/leave maps upfront (needed for progress total)
+    const supplementsByEmployee = new Map<string, { name: string; regs: any[] }>()
+    const leavesByEmployee = new Map<string, { name: string; regs: any[] }>()
+
+    for (const reg of state.supplementRegistrationsPreview) {
+        if (reg.type === 'add') {
+            if (!supplementsByEmployee.has(reg.salaryDkId)) {
+                supplementsByEmployee.set(reg.salaryDkId, { name: reg.employeeName, regs: [] })
+            }
+            supplementsByEmployee.get(reg.salaryDkId)!.regs.push({
+                employeeID: reg.salaryDkId,
+                date: reg.date,
+                quantity: reg.units,
+                salaryTypeID: reg.supplementTypeId,
+            })
+        } else {
+            if (!leavesByEmployee.has(reg.salaryDkId)) {
+                leavesByEmployee.set(reg.salaryDkId, { name: reg.employeeName, regs: [] })
+            }
+            leavesByEmployee.get(reg.salaryDkId)!.regs.push({
+                employeeID: reg.salaryDkId,
+                startDate: reg.date,
+                endDate: reg.date,
+                leaveTypeID: reg.leaveTypeId,
+            })
+        }
+    }
+
+    // Calculate total operations for progress bar
+    const totalSupplementRegs = Array.from(supplementsByEmployee.values()).reduce((s, e) => s + e.regs.length, 0)
+    const totalLeaveRegs = Array.from(leavesByEmployee.values()).reduce((s, e) => s + e.regs.length, 0)
+    const totalOps = allHourRegs.length + totalSupplementRegs + totalLeaveRegs
+    state.syncProgress = { current: 0, total: totalOps, phase: t('dutySchedules.salaryDk_sync_sending_hours') }
 
     // Send all time registrations in a single bulk call
-    const allHourRegs = Array.from(hoursByEmployee.values()).flatMap(({ regs }) => regs)
     if (allHourRegs.length > 0) {
+        // Simulate progress during the bulk call so the bar doesn't sit at 0
+        let simulatedProgress = 0
+        const maxSimulated = Math.floor(allHourRegs.length * 0.9)
+        const progressInterval = setInterval(() => {
+            if (simulatedProgress < maxSimulated) {
+                simulatedProgress++
+                state.syncProgress.current = simulatedProgress
+            }
+        }, 200)
+
         try {
             const response = await salaryDkService.syncTimeRegistrations(allHourRegs)
             const errors: any[] = response?.errors || []
@@ -1271,57 +1333,27 @@ async function executeSync() {
             for (const [_, { name, regs }] of hoursByEmployee) {
                 results.push({ employeeName: name, type: 'hours', success: false, error: parseError(e, name), count: regs.length })
             }
+        } finally {
+            clearInterval(progressInterval)
+            state.syncProgress.current = allHourRegs.length
         }
     }
 
-    // Send supplement registrations (add) one at a time
-    const supplementsByEmployee = new Map<string, { name: string; regs: any[] }>()
-    // Send leave registrations (deduct) one at a time
-    const leavesByEmployee = new Map<string, { name: string; regs: any[] }>()
-
-    for (const reg of state.supplementRegistrationsPreview) {
-        if (reg.type === 'add') {
-            if (!supplementsByEmployee.has(reg.salaryDkId)) {
-                supplementsByEmployee.set(reg.salaryDkId, { name: reg.employeeName, regs: [] })
-            }
-            supplementsByEmployee.get(reg.salaryDkId)!.regs.push({
-                employeeID: reg.salaryDkId,
-                date: reg.date,
-                quantity: reg.units,
-                salaryTypeID: reg.supplementTypeId,
-            })
-        } else {
-            if (!leavesByEmployee.has(reg.salaryDkId)) {
-                leavesByEmployee.set(reg.salaryDkId, { name: reg.employeeName, regs: [] })
-            }
-            leavesByEmployee.get(reg.salaryDkId)!.regs.push({
-                employeeID: reg.salaryDkId,
-                startDate: reg.date,
-                endDate: reg.date,
-                leaveTypeID: reg.leaveTypeId,
-            })
-        }
-    }
+    // Send supplement registrations (add) in bulk per employee
+    state.syncProgress.phase = t('dutySchedules.salaryDk_sync_sending_supplements')
 
     for (const [_, { name, regs }] of supplementsByEmployee) {
-        let successCount = 0
-        let lastError = ''
-        for (const reg of regs) {
-            try {
-                await salaryDkService.createSupplementRegistration(reg)
-                successCount++
-            } catch (e: any) {
-                lastError = parseError(e, name)
-            }
-        }
-        if (successCount === regs.length) {
+        try {
+            await salaryDkService.createSupplementRegistration({ registrations: regs })
             results.push({ employeeName: name, type: 'supplements', success: true, count: regs.length })
-        } else if (successCount > 0) {
-            results.push({ employeeName: name, type: 'supplements', success: false, error: `${successCount}/${regs.length} succeeded. ${lastError}`, count: regs.length })
-        } else {
-            results.push({ employeeName: name, type: 'supplements', success: false, error: lastError, count: regs.length })
+        } catch (e: any) {
+            results.push({ employeeName: name, type: 'supplements', success: false, error: parseError(e, name), count: regs.length })
         }
+        state.syncProgress.current += regs.length
     }
+
+    // Send leave registrations (deduct) one at a time
+    state.syncProgress.phase = t('dutySchedules.salaryDk_sync_sending_leave')
 
     for (const [_, { name, regs }] of leavesByEmployee) {
         let successCount = 0
@@ -1333,6 +1365,7 @@ async function executeSync() {
             } catch (e: any) {
                 lastError = parseError(e, name)
             }
+            state.syncProgress.current++
         }
         if (successCount === regs.length) {
             results.push({ employeeName: name, type: 'leave', success: true, count: regs.length })
