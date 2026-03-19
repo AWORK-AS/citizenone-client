@@ -474,6 +474,10 @@ watch(() => state.formSchedule.date_time_start, (dateTimeStart: any) => {
     state.formSchedule.date_time_end = moment(dateTimeStart).add(1, 'hours').format('YYYY-MM-DD HH:mm')
 })
 
+watch(() => state.formSchedule.employees, () => {
+    fetchAllCitizens()
+})
+
 const rules = computed(() => {
     if (state.formSchedule.recurring.is_recurring) {
         return {
@@ -606,18 +610,25 @@ async function fetchAllCalendarTags() {
 }
 
 async function fetchAllCitizens() {
+    if (!state.formSchedule.employees.length) {
+        state.options.citizens = []
+        return
+    }
     state.error = {}
     state.isPageLoading = true
     try {
         const params = {
-            department: departmentStore.getSelectedDepartmentName
+            owner_id: Array(state.formSchedule.employees),
+            department_uuid: Array(departmentStore.getSelectedDepartment?.uuid)
         }
-        const response = await citizenService.getAllCitizens(params)
+        const response = await citizenService.getAllAssignedCitizenByEmployee(params)
+        console.log("this is the params", params)
+        console.log("this is the responce", response)
         if (response.data) {
             let options: any = []
             response.data.forEach(
                 (citizen: any) => options.push({
-                    value: citizen?.uuid,
+                    value: citizen?.id,
                     label: citizen?.firstname + " " + (citizen?.lastname ?? ''),
                 })
             )
@@ -641,7 +652,7 @@ async function fetchAllUsers() {
             let options: any = []
             response.data.forEach(
                 (user: any) => options.push({
-                    value: user?.uuid,
+                    value: user?.id,
                     label: user?.firstname + " " + (user?.lastname ?? ''),
                 })
             )
