@@ -622,7 +622,7 @@ async function fetchAllCitizens() {
             ? selectedDepartment
             : selectedDepartment?.uuid
 
-        const isAllEmployees = state.formSchedule.employees.some((e: any) => e === "all-employees")
+        const isAllEmployees = state.formSchedule.employees.some((e: any) => e === null)
 
         if (isAllEmployees) {
             const params = {
@@ -644,7 +644,7 @@ async function fetchAllCitizens() {
             const departmentUuids = selectedDepartmentUuid ? [selectedDepartmentUuid] : ['all-departments']
 
             const params = {
-                'owner_uuid[]': ownerIds,
+                'owner_id[]': ownerIds,
                 'department_uuid[]': departmentUuids,
             }
             const response = await citizenService.getAllAssignedCitizenByEmployee(params)
@@ -677,7 +677,7 @@ async function fetchAllUsers() {
             let options: any = []
             response.data.forEach(
                 (user: any) => options.push({
-                    value: user?.uuid,
+                    value: user?.id,
                     label: user?.firstname + " " + (user?.lastname ?? ''),
                 })
             )
