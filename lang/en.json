@@ -996,7 +996,15 @@
                 "journalLogs": "Journal logs",
                 "newData": "New data",
                 "previousData": "Previous data",
-                "updatedBy": "Updated by"
+                "updatedBy": "Updated by",
+                "table": {
+                    "alert": {
+                        "journalSuccessfullyDeletedPermanently": "Journal successfully deleted permanently"
+                    },
+                    "confirmation": {
+                        "permanentDeleteConfirmation": "Are you sure you want to permanently delete this journal entry? This action cannot be undone."
+                    }
+                }
             },
             "move": {
                 "citizen": "Citizen",
@@ -4414,6 +4422,13 @@
         "unreadJournalNotes": "Unread journal notes",
         "youDontHaveUnreadJournalNotes": "You don't have unread journal notes"
     },
+    "journal": {
+        "table": {
+            "actions": {
+                "delete": "Delete"
+            }
+        }
+    },
     "journalNoteTags": {
         "addNewTag": "Add new tag",
         "alert": {
@@ -5970,7 +5985,8 @@
                 "transferNormHours": "Transfer norm hours to next year if not used",
                 "website": "Website",
                 "companyLogo": "Company logo",
-                "remove": "Remove company logo"
+                "remove": "Remove company logo",
+                "registerTransport":"Register transport"
             }
         },
         "licenseOverview": {

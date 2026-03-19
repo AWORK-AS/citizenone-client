@@ -68,6 +68,10 @@ class JournalService extends BaseAPIService {
     async deleteSharedJournals(sharedJournalUuid: any): Promise<any> {
         return await this.request(`/user/citizen-journals/share/journal/${sharedJournalUuid}`, 'DELETE')
     }
+
+    async permanentDeleteJournalLog(changeLogUuid: any): Promise<any> {
+        return await this.request(`/user/citizen-journals/${changeLogUuid}/delete`, 'DELETE')
+    }
 }
 
 export const journalService = new JournalService()

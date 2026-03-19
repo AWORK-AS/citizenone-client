@@ -225,13 +225,6 @@
                             {{ $t('employees.form.showWorkingHours') }}
                         </div>
                     </div>
-                    <div class="space-y-1">
-                        <div class="w-fit flex items-center cursor-pointer"
-                            @click="state.formEmployee.register_transport_enabled = !state.formEmployee.register_transport_enabled">
-                            <FormCheckbox id="register_transport_enabled" :value="state.formEmployee.register_transport_enabled" />
-                            {{ $t('employees.form.registerTransportEnabled') }}
-                        </div>
-                    </div>
                 </div>
                 <div class="space-y-1" v-if="isAdmin(userStore.getUser?.roles)">
                     <FormLabel for="pages" :label="$t('employees.form.pageAccess')" />
@@ -665,7 +658,6 @@ const state = reactive({
         },
         show_working_hours: false,
         do_not_count_sick_leave: false,
-        register_transport_enabled: false,
     } as EmployeeForm,
     isChangePassword: false,
     modal: {
@@ -771,7 +763,6 @@ watch(() => props.selectedEmployee, (newValue: any) => {
                 norm_period_uuid: newValue.employment?.norm_period_uuid || 'default',
             },
             show_working_hours: newValue.show_working_hours,
-            register_transport_enabled: newValue.register_transport_enabled,
             do_not_count_sick_leave: newValue.do_not_count_sick_leave,
         }
         fetchMunicipalitiesPerRegion(newValue.region_uuid)
