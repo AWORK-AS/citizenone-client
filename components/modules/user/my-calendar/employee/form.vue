@@ -617,13 +617,19 @@ async function fetchAllCitizens() {
     state.error = {}
     state.isPageLoading = true
     try {
+        const selectedDepartment = departmentStore.getSelectedDepartment
+        const selectedDepartmentUuid = typeof selectedDepartment === 'string'
+            ? selectedDepartment
+            : selectedDepartment?.uuid
+
+        const ownerIds = [...state.formSchedule.employees]
+        const departmentUuids = selectedDepartmentUuid ? [selectedDepartmentUuid] : ['all-departments']
+
         const params = {
-            owner_id: Array(state.formSchedule.employees),
-            department_uuid: Array(departmentStore.getSelectedDepartment?.uuid)
+            'owner_id[]': ownerIds,
+            'department_uuid[]': departmentUuids,
         }
         const response = await citizenService.getAllAssignedCitizenByEmployee(params)
-        console.log("this is the params", params)
-        console.log("this is the responce", response)
         if (response.data) {
             let options: any = []
             response.data.forEach(
