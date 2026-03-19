@@ -299,9 +299,9 @@
         "connecting": "Connecting",
         "connectingApp": "Connecting App",
         "connectionFailed": "Connection failed",
-        "missingAuthorizationCode": "Missing authorization code",
-        "processingConnection": "Processing connection...",
         "categories": {
+            "citizenone": "CitizenOne",
+            "fst": "FindSocialeTilbud.dk",
             "marketing": "Marketing",
             "other": "Other",
             "visual": "Visual"
@@ -310,6 +310,14 @@
             "confirmationOfTerms": "I confirm that I have read and accept the terms and conditions before activating this app"
         },
         "contactUs": "Contact us",
+        "description": {
+            "citizenone": "Powerful tools and features built into the CitizenOne platform to optimize your daily workflow",
+            "fst": "Specialized solutions to promote and increase the visibility of your social service offering on the FindSocialeTilbud.dk platform",
+            "marketing": "Tools and solutions designed to increase brand visibility, optimize campaigns, and engage customers",
+            "other": "A collection of versatile apps that cover a wide range of needs, from productivity and organization to niche solutions",
+            "visual": "Applications focused on design, creativity, and media that enable impressive graphics, videos, and interactive experiences"
+        },
+        "featuredApps": "Featured apps",
         "form": {
             "annually": "Annually",
             "howManyLicensesDoYouWant": "How many licenses do you want",
@@ -321,8 +329,12 @@
         },
         "goToPartner": "Go to partner",
         "iHaveReadAndAcceptThe": "I have read and accept the",
+        "missingAuthorizationCode": "Missing authorization code",
         "month": "Month",
+        "mostPopular": "Most popular",
+        "news": "News",
         "orderNow": "Order now",
+        "processingConnection": "Processing connection...",
         "purchased": {
             "paymentSuccessful": "Payment successful",
             "purchaseSuccessful": "Purchase successful",
@@ -330,6 +342,7 @@
             "yourPaymentHasBeenSuccessfullyProcessed": "Your payment has been successfully processed"
         },
         "readMore": "Read more",
+        "recommended": "Recommended",
         "subscriptionRequired": "You need to subscribe first in order to purchase an app",
         "termsAndConditions": "Terms and Conditions",
         "thirdPartyApp": "Third party app",
@@ -983,7 +996,15 @@
                 "journalLogs": "Journal logs",
                 "newData": "New data",
                 "previousData": "Previous data",
-                "updatedBy": "Updated by"
+                "updatedBy": "Updated by",
+                "table": {
+                    "alert": {
+                        "journalSuccessfullyDeletedPermanently": "Journal successfully deleted permanently"
+                    },
+                    "confirmation": {
+                        "permanentDeleteConfirmation": "Are you sure you want to permanently delete this journal entry? This action cannot be undone."
+                    }
+                }
             },
             "move": {
                 "citizen": "Citizen",
@@ -1618,6 +1639,7 @@
                         "successfullyUpdated": "Medicine history successfully update"
                     },
                     "comment": "Comment",
+                    "completed": "completed",
                     "date": "Date",
                     "dose": "Dose",
                     "evaluator": "Evaluator",
@@ -2737,7 +2759,7 @@
             },
             "department": "Department",
             "download": "Download",
-            "downloadLeavesOnly": "Download leaves only",
+            "downloadOnlyLeaveTypes": "Download only leave types",
             "downloadType": "Download type",
             "downloadHoursInCSV": "Download hours in CSV",
             "downloadHoursInExcel": "Download hours in excel",
@@ -2759,6 +2781,7 @@
             },
             "draft": "Draft",
             "publish": "Publish",
+            "publishing": "Publishing schedules, please don't close or refresh the page",
             "selectDepartment": {
                 "title": "Confirm Working Context",
                 "message": {
@@ -2882,6 +2905,7 @@
         },
         "dutySchedules": "Duty schedules",
         "editSchedule": "Edit schedule",
+        "earnedWorkHours": "Worked/Earned hours",
         "extraHours": {
             "editExtraHours": "Edit extra hours",
             "editExtraHoursRequest": "Edit extra hours request",
@@ -4397,6 +4421,13 @@
         "markAllAsRead": "Mark all as read",
         "unreadJournalNotes": "Unread journal notes",
         "youDontHaveUnreadJournalNotes": "You don't have unread journal notes"
+    },
+    "journal": {
+        "table": {
+            "actions": {
+                "delete": "Delete"
+            }
+        }
     },
     "journalNoteTags": {
         "addNewTag": "Add new tag",
@@ -5954,7 +5985,8 @@
                 "transferNormHours": "Transfer norm hours to next year if not used",
                 "website": "Website",
                 "companyLogo": "Company logo",
-                "remove": "Remove company logo"
+                "remove": "Remove company logo",
+                "registerTransport":"Register transport"
             }
         },
         "licenseOverview": {
@@ -6029,6 +6061,7 @@
             "transactions": "Transactions",
             "scheduleTags": "Schedule tags",
             "shifts": "Shifts",
+            "timeAccounts": "Time accounts",
             "other": "Other",
             "units": "Units"
         },
@@ -6148,6 +6181,7 @@
             "admins": "Admins",
             "annually": "Annually",
             "automaticSynchronizationWithFMK": "Possibility of synchronization with FMK",
+            "chatSupport": "Support via chat, and email",
             "department": "Department",
             "departments": "departments",
             "forExtraDepartment": "For extra department",
@@ -6194,8 +6228,8 @@
     "support": {
         "chatWithSupport": "Chat with support",
         "courseDetails": "If you and your colleagues need a course in CitizenOne, click the button below to see what we can offer to get you well prepared",
-        "getAGuidedTour": "Get a guided tour",
-        "goToSupportcenter": "Go to supportcenter",
+        "findGuidesHere": "Find guides here",
+        "getAGuidedTour": "Get a guided video-tour",
         "latestNewFeatures": "Latest New Features",
         "latestNewFeaturesDetails": "Stay updated with the latest improvements and features in CitizenOne. We continuously update to keep you informed",
         "needACourse": "Need a course",
@@ -6281,6 +6315,8 @@
             },
             "apps": "Apps",
             "categories": {
+                "citizenone": "CitizenOne",
+                "fst": "FindSocialeTilbud.dk",
                 "marketing": "Marketing",
                 "other": "Other",
                 "visual": "Visual"
@@ -6294,17 +6330,24 @@
                     "appSuccessfullyUpdated": "App successfully updated",
                     "newAppSuccessfullySaved": "New app successfully saved"
                 },
+                "backgroundImage": "Background image",
                 "description": "Description",
                 "image": "Image",
                 "isOneTimeFee": "Is one time fee",
                 "link": "Link",
+                "logo": "Logo",
                 "monthlyPrice": "Monthly price",
                 "name": "Name",
+                "news": "News",
+                "popular": "Popular",
                 "price": "Price",
                 "quantifiable": "Quantifiable",
+                "recommended": "Recommended",
                 "thirdPartyApp": "Third party app",
                 "type": "Type",
                 "types": {
+                    "citizenone": "CitizenOne",
+                    "fst": "FindSocialeTilbud.dk",
                     "marketing": "Marketing",
                     "other": "Other",
                     "visual": "Visual"
@@ -6318,10 +6361,14 @@
                     "edit": "Edit"
                 },
                 "link": "Link",
+                "logo": "Logo",
                 "monthlyPrice": "Monthly price",
                 "name": "Name",
+                "news": "News",
                 "oneTimeFee": "One time fee",
+                "popular": "Popular",
                 "price": "Price",
+                "recommended": "Recommended",
                 "thirdPartyApp": "Third party app",
                 "type": "Type",
                 "yearlyPrice": "Yearly price"
@@ -6398,6 +6445,7 @@
                     "admin": "Admin",
                     "admins": "Admins",
                     "automaticSynchronizationWithFMK": "Automatic synchronization with FMK",
+                    "chatSupport": "Support via chat, and email",
                     "department": "Department",
                     "departments": "departments",
                     "goodForASmallTeam": "Good for a small team",
@@ -6526,20 +6574,14 @@
             "sharedCitizenOne": "Shared CitizenOne",
             "viewAll": "View all"
         },
-        "orders": {
-            "orders": "Orders",
-            "table": {
-                "companyName": "Company name",
-                "data": "Data",
-                "date": "Date",
-                "new": "New",
-                "referenceNumber": "Reference number",
-                "status": "Status",
-                "type": "Type",
-                "user": "User"
-            }
-        },
         "invoices": {
+            "download": {
+                "date": "Date",
+                "download": "Download",
+                "filter": {
+                    "filterDate": "Filter date"
+                }
+            },
             "invoices": "Invoices",
             "table": {
                 "actions": {
@@ -6568,6 +6610,19 @@
                 "tax": "Tax"
             },
             "thisInvoiceHasAlreadyBeenPaid": "This invoice has already been paid via your selected payment method in the CitizenOne™ system"
+        },
+        "orders": {
+            "orders": "Orders",
+            "table": {
+                "companyName": "Company name",
+                "data": "Data",
+                "date": "Date",
+                "new": "New",
+                "referenceNumber": "Reference number",
+                "status": "Status",
+                "type": "Type",
+                "user": "User"
+            }
         },
         "polls": {
             "confirmation": {
@@ -6722,6 +6777,148 @@
         "tasks": "Tasks"
     },
     "theListIsEmpty": "The list is empty",
+    "timeAccounts": {
+        "timeAccount": "Time account",
+        "timeAccounts": "Time accounts",
+        "newTimeAccount": "New time account",
+        "newTimeAccounts": "New time account",
+        "editTimeAccount": "Edit time account",
+        "alert": {
+            "timeAccountSuccessfullyDeleted": "Time account successfully deleted"
+        },
+        "confirmation": {
+            "deleteTimeAccountConfirmation": "Are you sure you want to delete this time account?"
+        },
+        "form": {
+            "accountUntil": "Expiry Date",
+            "addRule": "Add rule",
+            "advancedConfiguration": "Advanced Configuration",
+            "alert": {
+                "newTimeAccountSuccessfullySaved": "New time account successfully saved",
+                "timeAccountSuccessfullyUpdated": "Time account successfully updated"
+            },
+            "carryOver": "Carry over next calendar year",
+            "departments": "Departments",
+            "employees": "Employees",
+            "frequencies": {
+                "monthly": "Monthly",
+                "weekly": "Weekly",
+                "yearly": "Yearly"
+            },
+            "grantAmount": "Hours to grant",
+            "grantFrequency": "Frequency",
+            "hiredAfter": "Hired after",
+            "hiredBefore": "Hired before",
+            "initialAmount": "Initial hours",
+            "expiryDate": "Expiry date",
+            "isActive": "Active",
+            "isLocked": "Lock hours at last assigned value",
+            "isRecurring": "Recurring",
+            "recurringInfo": "When checked, the account will automatically grant the initial hours again at the start of each new year.",
+            "maxAge": "Maximum age",
+            "minAge": "Minimum age",
+            "duration": "Duration",
+            "name": "Name",
+            "noRules": "No rules added yet",
+            "rule": "Rule",
+            "ruleType": "Rule type",
+            "ruleTypes": {
+                "age": "Age-based",
+                "employmentDate": "Employment date",
+                "employmentDuration": "Employment duration"
+            },
+            "rules": "Rules"
+        },
+        "info": {
+            "title": "About Time Accounts",
+            "nameTitle": "Name",
+            "nameDesc": "A descriptive name for the time account (e.g. \"Holiday Hours\" or \"Seniority Days\").",
+            "initialHoursTitle": "Initial Hours",
+            "initialHoursDesc": "The initial balance of hours assigned to the account when it is first created or activated. These hours will be automatically granted to the assigned employees upon activation.",
+            "startDateTitle": "Start Date",
+            "startDateDesc": "The date from which the time account becomes active and hours can be accrued or granted.",
+            "expiryDateTitle": "Expiry Date",
+            "expiryDateDesc": "The date on which the account expires. After this date, no further hours are granted. Leave blank for accounts with no end date.",
+            "ruleTypeTitle": "Rule Type",
+            "ruleTypeDesc": "Determines the condition under which hours are automatically granted:",
+            "ruleTypeAge": "Age-based:",
+            "ruleTypeAgeDesc": "Grant hours to employees within a specific age range (e.g. from age 58 to 60).",
+            "ruleTypeEmploymentDate": "Employment Date:",
+            "ruleTypeEmploymentDateDesc": "Grant hours to employees hired within a specific date range.",
+            "ruleTypeEmploymentDuration": "Employment Duration:",
+            "ruleTypeEmploymentDurationDesc": "Grant hours to employees who have been employed for at least a given number of months.",
+            "grantAmountTitle": "Grant Amount",
+            "grantAmountDesc": "The number of hours to grant each time the rule conditions are met.",
+            "grantFrequencyTitle": "Grant Frequency",
+            "grantFrequencyDesc": "Specifies how frequently hours are granted when conditions are met—weekly, monthly, or yearly relative to the account's start date.",
+            "badgeRequired": "required",
+            "badgeOptional": "optional"
+        },
+        "table": {
+            "actions": {
+                "assign": "Assign",
+                "delete": "Delete",
+                "edit": "Edit"
+            },
+            "alert": {
+                "timeAccountSuccessfullyDeleted": "Time account successfully deleted"
+            },
+            "confirmation": {
+                "deleteTimeAccountConfirmation": "Are you sure you want to delete this time account?"
+            },
+            "name": "Name",
+            "initialAmount": "Initial hours",
+            "startDate": "Start date",
+            "expiryDate": "Expiry date"
+        },
+        "modal": {
+            "assignUnassignTitle": "Assign / Unassign Time Account",
+            "users": "Users",
+            "departments": "Departments",
+            "assign": "Assign",
+            "unassign": "Unassign",
+            "currentlyAssigned": "Currently assigned",
+            "noneAssigned": "None assigned",
+            "selectAtLeastOne": "Please select at least one user or department",
+            "alert": {
+                "assignSuccess": "Time account successfully assigned",
+                "unassignSuccess": "Time account successfully unassigned"
+            }
+        },
+        "templateAgreement": "Template agreement",
+        "templateAgreements": "Template agreements",
+        "newTemplateAgreement": "New template agreement",
+        "editTemplateAgreement": "Edit template agreement",
+        "templateAgreementsForm": {
+            "name": "Name",
+            "timeAccounts": "Time accounts",
+            "alert": {
+                "newTemplateAgreementSuccessfullySaved": "New template agreement successfully saved",
+                "templateAgreementSuccessfullyUpdated": "Template agreement successfully updated"
+            }
+        },
+        "templateAgreementsTable": {
+            "name": "Name",
+            "actions": {
+                "assign": "Assign",
+                "edit": "Edit",
+                "delete": "Delete"
+            },
+            "confirmation": {
+                "deleteConfirmation": "Are you sure you want to delete this template agreement?"
+            },
+            "alert": {
+                "successfullyDeleted": "Template agreement successfully deleted"
+            }
+        },
+        "templateAgreementsModal": {
+            "assignUnassignTitle": "Assign / Unassign Template Agreement",
+            "alert": {
+                "assignSuccess": "Template agreement successfully assigned",
+                "unassignSuccess": "Template agreement successfully unassigned"
+            }
+        }
+    },
     "timeLogs": {
         "download": {
             "date": "Date",

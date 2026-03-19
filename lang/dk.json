@@ -299,9 +299,9 @@
         "connecting": "Forbinder",
         "connectingApp": "Forbinder App",
         "connectionFailed": "Forbindelse mislykkedes",
-        "missingAuthorizationCode": "Manglende autorisationskode",
-        "processingConnection": "Behandler forbindelse...",
         "categories": {
+            "citizenone": "CitizenOne",
+            "fst": "FindSocialeTilbud.dk",
             "marketing": "Marketing",
             "other": "Andet",
             "visual": "Visuel"
@@ -310,6 +310,14 @@
             "confirmationOfTerms": "Jeg bekræfter, at jeg har læst og accepterer vilkårene og betingelserne, før jeg aktiverer denne app"
         },
         "contactUs": "Kontakt os",
+        "description": {
+            "citizenone": "Kraftfulde værktøjer og funktioner indbygget i CitizenOne platformen til at optimere din daglige arbejdsgang",
+            "fst": "Specialiserede løsninger til at promovere og synliggøre dit sociale tilbud på FindSocialeTilbud.dk platformen",
+            "marketing": "Værktøjer og løsninger designet til at øge brandets synlighed, optimere kampagner og engagere kunder",
+            "other": "En samling alsidige apps, der dækker forskellige behov, fra produktivitet og organisering til nicheløsninger",
+            "visual": "Applikationer med fokus på design, kreativitet og medier, der muliggør imponerende grafik, videoer og interaktive oplevelser"
+        },
+        "featuredApps": "Fremhævede apps",
         "form": {
             "annually": "Årligt",
             "howManyLicensesDoYouWant": "Hvor mange licenser ønsker du",
@@ -321,8 +329,12 @@
         },
         "goToPartner": "Gå til partner",
         "iHaveReadAndAcceptThe": "Jeg har læst og accepterer",
+        "missingAuthorizationCode": "Manglende autorisationskode",
         "month": "Måned",
+        "mostPopular": "Mest populær",
+        "news": "Nyhed",
         "orderNow": "Bestil nu",
+        "processingConnection": "Behandler forbindelse...",
         "purchased": {
             "paymentSuccessful": "Betaling gennemført",
             "purchaseSuccessful": "Køb gennemført",
@@ -330,6 +342,7 @@
             "yourPaymentHasBeenSuccessfullyProcessed": "Din betaling er blevet behandlet med succes"
         },
         "readMore": "Læs mere",
+        "recommended": "Anbefalet",
         "subscriptionRequired": "Du skal abonnere først for at kunne købe en app",
         "termsAndConditions": "Vilkår og betingelser",
         "thirdPartyApp": "Tredjepartsapp",
@@ -823,7 +836,7 @@
             "history": "Historik",
             "selectType": "Vil du registrere transport eller arbejdstid?",
             "selectTypeMessage": "Registrer din tid nemt — vælg arbejde eller transport for at komme i gang.",
-            "transport": "Transport",
+            "transport": "Transportere",
             "work": "Arbejdstid",
             "registerTransport": {
                 "registerTransport": "Registrér transport",
@@ -983,7 +996,15 @@
                 "journalLogs": "Journallogs",
                 "newData": "Nye data",
                 "previousData": "Tidligere data",
-                "updatedBy": "Opdateret af"
+                "updatedBy": "Opdateret af",
+                "table": {
+                    "alert": {
+                        "journalSuccessfullyDeletedPermanently": "Journal slettet permanent med succes"
+                    },
+                    "confirmation": {
+                        "permanentDeleteConfirmation": "Er du sikker på, at du vil slette denne journalindtastning permanent? Denne handling kan ikke fortrydes."
+                    }
+                }
             },
             "move": {
                 "citizen": "Borger",
@@ -1293,7 +1314,7 @@
                 "trafficLights": "Trafiklys",
                 "yellow": "Gul"
             },
-            "transportation": "Transport",
+            "transportation": "Transportere",
             "locateCitizen": "Find borger",
             "selectedLocation": "Valgt placering",
             "selectedAddress": "Valgt adresse",
@@ -1545,7 +1566,7 @@
                 "filterDate": "Filtrer dato",
                 "allTypes": "Alle typer",
                 "work": "Arbejdstid",
-                "transport": "Transport"
+                "transport": "Transportere"
             }
         },
         "medicationAllergies": "Medicinallergier (CAVE)",
@@ -1618,6 +1639,7 @@
                         "successfullyUpdated": "Medicinhistorik opdateret med succes"
                     },
                     "comment": "Kommentar",
+                    "completed": "fuldført",
                     "dose": "Dosis",
                     "date": "Dato",
                     "evaluator": "Evaluator",
@@ -2516,8 +2538,8 @@
         "form": {
             "dutyShiftRuleName": "Navn",
             "periodDays": "Retrospektivt tidsvindue (dage tilbage)",
-            "periodDaysBackInfo1":"Dette angiver, hvor mange dage tilbage i tiden reglen skal se for at evaluere betingelserne.",
-            "periodDaysBackInfo2":"For eksempel, hvis du indstiller det til 30, vil reglen evaluere medarbejderens vagter i de sidste 30 dage for at afgøre, om betingelserne er opfyldt.",
+            "periodDaysBackInfo1": "Dette angiver, hvor mange dage tilbage i tiden reglen skal se for at evaluere betingelserne.",
+            "periodDaysBackInfo2": "For eksempel, hvis du indstiller det til 30, vil reglen evaluere medarbejderens vagter i de sidste 30 dage for at afgøre, om betingelserne er opfyldt.",
             "anchorDate": "Ankerdato",
             "anchorDateOptional": "nuværende dato som standard",
             "addAnchorDate": "Tilføj ankerdato",
@@ -2737,7 +2759,7 @@
             },
             "department": "Afdelinger",
             "download": "Download",
-            "downloadLeavesOnly": "Download kun ferier",
+            "downloadOnlyLeaveTypes": "Download kun fraværstyper",
             "downloadType": "Downloadtype",
             "downloadHoursInCSV": "Download timer i CSV",
             "downloadHoursInExcel": "Download timer i Excel",
@@ -2759,6 +2781,7 @@
             },
             "draft": "Kladde",
             "publish": "Offentliggør",
+            "publishing": "Udgivelse af vagtplaner, luk eller opdater ikke siden.",
             "selectDepartment": {
                 "title": "Bekræft Arbejdskontekst",
                 "message": {
@@ -2882,6 +2905,7 @@
         },
         "dutySchedules": "Vagtplaner",
         "editSchedule": "Rediger tidsplan",
+        "earnedWorkHours": "Arbejdet/Tjent timer",
         "extraHours": {
             "editExtraHours": "Rediger x-timer",
             "editExtraHoursRequest": "Rediger anmodning om x-timer",
@@ -3277,12 +3301,12 @@
     "drive": {
         "googleDrive": "Google Drive",
         "googleDriveNotActivatedMessage": "Google Drive er ikke aktiveret. Vil du aktivere det? Klik på 'Bekræft' for at fortsætte.",
-        "drive-google":{
+        "drive-google": {
             "info-drive-1": "Du ser lige nu Google Drive-filer, fordi du har linket din Google-konto.",
             "info-drive-2": "Hvis du også vil bruge det lokale system så tryk 'CitizenOne Documents'-knappen i toppen.",
             "info-drive-3": "Skift mellem systemerne uden at miste filer — upload til det ønskede system via upload-knappen.."
         },
-        "drive-local":{
+        "drive-local": {
             "info-drive-1": "Du ser lige nu CitizenOne Documents-filer",
             "info-drive-2": "Hvis du også vil bruge Google drive så tryk 'Google Drive'-knappen i toppen. hvis du har linket din Google Drive konto",
             "info-drive-3": "Skift mellem systemerne uden at miste filer - upload til det ønskede system via upload-knappen.."
@@ -4397,6 +4421,13 @@
         "markAllAsRead": "Markér alle som læst",
         "unreadJournalNotes": "Ulæste journalnotater",
         "youDontHaveUnreadJournalNotes": "Du har ingen ulæste journalnotater"
+    },
+    "journal": {
+        "table": {
+            "actions": {
+                "delete": "Slet"
+            }
+        }
     },
     "journalNoteTags": {
         "addNewTag": "Tilføj nyt tag",
@@ -5954,7 +5985,8 @@
                 "transferNormHours": "Overfør normtimer til næste år, hvis de ikke er brugt",
                 "website": "Hjemmeside",
                 "companyLogo": "Firmalogo",
-                "remove": "Fjern firmalogo"
+                "remove": "Fjern firmalogo",
+                "registerTransport":"Registrer transport"
             }
         },
         "licenseOverview": {
@@ -6029,6 +6061,7 @@
             "transactions": "Transaktioner",
             "scheduleTags": "Vagtplan tags",
             "shifts": "Vagter",
+            "timeAccounts": "Tidskonti",
             "other": "Andet",
             "units": "Enheder"
         },
@@ -6148,6 +6181,7 @@
             "admins": "Administratorer",
             "annually": "Årligt",
             "automaticSynchronizationWithFMK": "Mulighed for synkronisering med FMK",
+            "chatSupport": "Support via chat og e-mail",
             "department": "Afdeling",
             "departments": "Afdelinger",
             "forExtraDepartment": "For ekstra afdeling",
@@ -6194,8 +6228,8 @@
     "support": {
         "chatWithSupport": "Chat med support",
         "courseDetails": "Hvis du og dine kollegaer har brug for et kursus i CitizenOne, så klik på knappen nedenfor for at se, hvad vi kan tilbyde, så I bliver godt klædt på",
-        "getAGuidedTour": "Få en guided tour",
-        "goToSupportcenter": "Gå til support",
+        "findGuidesHere": "Find vejledninger her",
+        "getAGuidedTour": "Få en guided video-tour",
         "latestNewFeatures": "Seneste nye funktioner",
         "latestNewFeaturesDetails": "Følg med i de nyeste forbedringer og funktioner i CitizenOne. Vi opdaterer løbende, så du altid er opdateret",
         "needACourse": "Brug for et kursus",
@@ -6277,34 +6311,43 @@
         },
         "apps": {
             "alert": {
-                "appSuccessfullyDeleted": "App slettet med succes"
+                "appSuccessfullyDeleted": "App blev slettet"
             },
             "apps": "Apps",
             "categories": {
+                "citizenone": "CitizenOne",
+                "fst": "FindSocialeTilbud.dk",
                 "marketing": "Marketing",
                 "other": "Andet",
                 "visual": "Visuel"
             },
             "confirmation": {
-                "deleteAppConfirmation": "Er du sikker på, at du vil slette denne app"
+                "deleteAppConfirmation": "Er du sikker på, at du vil slette denne app?"
             },
             "editApp": "Rediger app",
             "form": {
                 "alert": {
-                    "appSuccessfullyUpdated": "Appen er opdateret med succes",
-                    "newAppSuccessfullySaved": "Ny app gemt med succes"
+                    "appSuccessfullyUpdated": "App blev opdateret",
+                    "newAppSuccessfullySaved": "Ny app blev gemt"
                 },
+                "backgroundImage": "Baggrundsbillede",
                 "description": "Beskrivelse",
                 "image": "Billede",
-                "isOneTimeFee": "Er engangsgebyr",
+                "isOneTimeFee": "Én gang gebyr",
                 "link": "Link",
+                "logo": "Logo",
                 "monthlyPrice": "Månedlig pris",
                 "name": "Navn",
+                "news": "Nyhed",
+                "popular": "Populær",
                 "price": "Pris",
-                "quantifiable": "Kvantificerbar",
-                "thirdPartyApp": "Tredjepartsapp",
+                "quantifiable": "Kan kvantificeres",
+                "recommended": "Anbefalet",
+                "thirdPartyApp": "Tredjeparts app",
                 "type": "Type",
                 "types": {
+                    "citizenone": "CitizenOne",
+                    "fst": "FindSocialeTilbud.dk",
                     "marketing": "Marketing",
                     "other": "Andet",
                     "visual": "Visuel"
@@ -6318,11 +6361,15 @@
                     "edit": "Rediger"
                 },
                 "link": "Link",
+                "logo": "Logo",
                 "monthlyPrice": "Månedlig pris",
                 "name": "Navn",
-                "oneTimeFee": "Engangsgebyr",
+                "news": "Nyhed",
+                "oneTimeFee": "Én gang gebyr",
+                "popular": "Populær",
                 "price": "Pris",
-                "thirdPartyApp": "Tredjepartsapp",
+                "recommended": "Anbefalet",
+                "thirdPartyApp": "Tredjeparts app",
                 "type": "Type",
                 "yearlyPrice": "Årlig pris"
             }
@@ -6398,6 +6445,7 @@
                     "admin": "Admin",
                     "admins": "Administratorer",
                     "automaticSynchronizationWithFMK": "Automatisk synkronisering med FMK",
+                    "chatSupport": "Support via chat og e-mail",
                     "department": "Afdeling",
                     "departments": "Afdelinger",
                     "goodForASmallTeam": "God til et mindre team",
@@ -6526,20 +6574,14 @@
             "sharedCitizenOne": "Delt CitizenOne",
             "viewAll": "Se alle"
         },
-        "orders": {
-            "orders": "Ordrer",
-            "table": {
-                "companyName": "Virksomhedsnavn",
-                "data": "Data",
-                "date": "Dato",
-                "new": "Ny",
-                "referenceNumber": "Referencenummer",
-                "status": "Status",
-                "type": "Type",
-                "user": "Bruger"
-            }
-        },
         "invoices": {
+            "download": {
+                "date": "Dato",
+                "download": "Download",
+                "filter": {
+                    "filterDate": "Filtrer dato"
+                }
+            },
             "invoices": "Fakturaer",
             "table": {
                 "actions": {
@@ -6568,6 +6610,19 @@
                 "tax": "Moms"
             },
             "thisInvoiceHasAlreadyBeenPaid": "Denne faktura er allerede betalt via din valgte betalingsmetode i CitizenOne™ systemet"
+        },
+        "orders": {
+            "orders": "Ordrer",
+            "table": {
+                "companyName": "Virksomhedsnavn",
+                "data": "Data",
+                "date": "Dato",
+                "new": "Ny",
+                "referenceNumber": "Referencenummer",
+                "status": "Status",
+                "type": "Type",
+                "user": "Bruger"
+            }
         },
         "polls": {
             "confirmation": {
@@ -6722,6 +6777,148 @@
         "tasks": "Opgaver"
     },
     "theListIsEmpty": "Listen er tom",
+    "timeAccounts": {
+        "timeAccount": "Timekonto",
+        "timeAccounts": "Timekonti",
+        "newTimeAccount": "Ny timekonto",
+        "newTimeAccounts": "Ny timekonto",
+        "editTimeAccount": "Rediger timekonto",
+        "alert": {
+            "timeAccountSuccessfullyDeleted": "Timekonto slettet med succes"
+        },
+        "confirmation": {
+            "deleteTimeAccountConfirmation": "Er du sikker på, at du vil slette denne timekonto?"
+        },
+        "form": {
+            "accountUntil": "Udløbsdato",
+            "addRule": "Tilføj regel",
+            "advancedConfiguration": "Avanceret konfiguration",
+            "alert": {
+                "newTimeAccountSuccessfullySaved": "Ny timekonto gemt med succes",
+                "timeAccountSuccessfullyUpdated": "Timekonto opdateret med succes"
+            },
+            "carryOver": "Overfør til næste kalenderår",
+            "departments": "Afdelinger",
+            "employees": "Medarbejdere",
+            "frequencies": {
+                "monthly": "Månedligt",
+                "weekly": "Ugentligt",
+                "yearly": "Årligt"
+            },
+            "grantAmount": "Timer at tildele",
+            "grantFrequency": "Frekvens",
+            "hiredAfter": "Ansat efter",
+            "hiredBefore": "Ansat før",
+            "expiryDate": "Udløbsdato",
+            "initialAmount": "Starttimer",
+            "isActive": "Aktiv",
+            "isLocked": "Lås timer til seneste tildelte værdi",
+            "isRecurring": "Tilbagevendende",
+            "recurringInfo": "Når denne er markeret, tildeles starttimerne automatisk igen ved begyndelsen af hvert nyt år.",
+            "maxAge": "Maksimumsalder",
+            "minAge": "Minimumsalder",
+            "duration": "Varighed",
+            "name": "Navn",
+            "noRules": "Ingen regler tilføjet endnu",
+            "rule": "Regel",
+            "ruleType": "Regeltype",
+            "ruleTypes": {
+                "age": "Aldersbaseret",
+                "employmentDate": "Ansættelsesdato",
+                "employmentDuration": "Ansættelsesvarighed"
+            },
+            "rules": "Regler"
+        },
+        "info": {
+            "title": "Om timekonti",
+            "nameTitle": "Navn",
+            "nameDesc": "Et beskrivende navn til timekontoen (f.eks. \"Feriepenge\" eller \"Anciennitetsdage\").",
+            "initialHoursTitle": "Initialtimer",
+            "initialHoursDesc": "Den oprindelige saldo af timer tildelt kontoen, når den først oprettes eller aktiveres. Disse timer vil automatisk blive tildelt de tildelte medarbejdere ved aktivering.",
+            "startDateTitle": "Startdato",
+            "startDateDesc": "Den dato, fra hvilken timekontoen aktiveres og timer kan optjenes eller tildeles.",
+            "expiryDateTitle": "Udløbsdato",
+            "expiryDateDesc": "Den dato, hvor kontoen udløber. Efterfølgende tildeles ingen yderligere timer. Lad være tom for konti uden slutdato.",
+            "ruleTypeTitle": "Regeltype",
+            "ruleTypeDesc": "Bestemmer betingelsen, under hvilken timer automatisk tildeles:",
+            "ruleTypeAge": "Aldersbaseret:",
+            "ruleTypeAgeDesc": "Tildel timer til medarbejdere inden for et specifikt aldersinterval (f.eks. fra 58 til 60 år).",
+            "ruleTypeEmploymentDate": "Ansættelsesdato:",
+            "ruleTypeEmploymentDateDesc": "Tildel timer til medarbejdere, der er ansat inden for et specifikt datointerval.",
+            "ruleTypeEmploymentDuration": "Ansættelsesvarighed:",
+            "ruleTypeEmploymentDurationDesc": "Tildel timer til medarbejdere, der har været ansat i mindst et givet antal måneder.",
+            "grantAmountTitle": "Tildelt antal timer",
+            "grantAmountDesc": "Antallet af timer, der tildeles, hver gang regelbetingelserne er opfyldt.",
+            "grantFrequencyTitle": "Tildelingsfrekvens",
+            "grantFrequencyDesc": "Angiver, hvor ofte timer tildeles, når betingelserne er opfyldt — ugentligt, månedligt eller årligt — i forhold til kontoens startdato.",
+            "badgeRequired": "påkrævet",
+            "badgeOptional": "valgfri"
+        },
+        "table": {
+            "actions": {
+                "assign": "Tildel",
+                "delete": "Slet",
+                "edit": "Rediger"
+            },
+            "alert": {
+                "timeAccountSuccessfullyDeleted": "Timekonto slettet med succes"
+            },
+            "confirmation": {
+                "deleteTimeAccountConfirmation": "Er du sikker på, at du vil slette denne timekonto?"
+            },
+            "name": "Navn",
+            "initialAmount": "Starttimer",
+            "startDate": "Startdato",
+            "expiryDate": "Udløbsdato"
+        },
+        "modal": {
+            "assignUnassignTitle": "Tildel / Fratildel tidskonto",
+            "users": "Brugere",
+            "departments": "Afdelinger",
+            "assign": "Tildel",
+            "unassign": "Fratildel",
+            "currentlyAssigned": "Aktuelt tildelt",
+            "noneAssigned": "Ingen tildelt",
+            "selectAtLeastOne": "Vælg mindst én bruger eller afdeling",
+            "alert": {
+                "assignSuccess": "Tidskonto er blevet tildelt",
+                "unassignSuccess": "Tidskonto er blevet fratildelt"
+            }
+        },
+        "templateAgreement": "Skabelonaftale",
+        "templateAgreements": "Skabelonaftaler",
+        "newTemplateAgreement": "Ny skabelonaftale",
+        "editTemplateAgreement": "Rediger skabelonaftale",
+        "templateAgreementsForm": {
+            "name": "Navn",
+            "timeAccounts": "Timekonti",
+            "alert": {
+                "newTemplateAgreementSuccessfullySaved": "Ny skabelonaftale gemt med succes",
+                "templateAgreementSuccessfullyUpdated": "Skabelonaftale opdateret med succes"
+            }
+        },
+        "templateAgreementsTable": {
+            "name": "Navn",
+            "actions": {
+                "assign": "Tildel",
+                "edit": "Rediger",
+                "delete": "Slet"
+            },
+            "confirmation": {
+                "deleteConfirmation": "Er du sikker på, at du vil slette denne skabelonaftale?"
+            },
+            "alert": {
+                "successfullyDeleted": "Skabelonaftale slettet med succes"
+            }
+        },
+        "templateAgreementsModal": {
+            "assignUnassignTitle": "Tildel / Fratildel Skabelonaftale",
+            "alert": {
+                "assignSuccess": "Skabelonaftale tildelt med succes",
+                "unassignSuccess": "Skabelonaftale fratildelt med succes"
+            }
+        }
+    },
     "timeLogs": {
         "download": {
             "date": "Dato",
