@@ -42,7 +42,7 @@
                 <FormLabel for="employee" :label="$t('dutySchedules.form.employee')" />
                 <FormSelect id="employee" :options="state.options.employees_without_all_users_option"
                     v-model="state.formShift.user_uuid" />
-                <FormError :error="v$?.formContact?.employee?.$errors[0]?.$message.toString()" />
+                <FormError :error="v$?.formShift?.user_uuid?.$errors[0]?.$message.toString()" />
                 <FormError :error="props?.error?.errors?.user_uuid?.[0]" />
             </div>
             <div class="space-y-1">
@@ -552,8 +552,12 @@ watch(() => state.formShift.shift_type, () => {
     }
 })
 
-watch(() => state.formShift.user_uuid, () => {
-    fetchAllCitizensPerUserDepartment()
+watch(() => state.formShift.user_uuid, (userUuid: any) => {
+    if (userUuid) {
+        fetchAllCitizensPerUserDepartment()
+    } else {
+        state.options.citizens = []
+    }
 })
 
 const isVacationLeave = computed(() => {
@@ -681,7 +685,7 @@ async function fetchAllUsersWithoutAllUsersOption() {
             response.data.forEach(
                 (user: any) => options.push({
                     value: user?.uuid,
-                    label: user?.firstname + " " + user?.lastname,
+                    label: user?.firstname + " " + (user?.lastname ?? ''),
                 })
             )
             state.options.employees_without_all_users_option = options

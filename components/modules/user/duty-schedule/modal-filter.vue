@@ -21,6 +21,13 @@
                             <FormSelectMultiple id="employment_status" :options="state.options.employment_status"
                                 v-model="state.formFilter.employment_status" />
                         </div>
+                        <div class="space-y-1 flex items-center gap-x-2">
+                            <FormSwitch :value="dutyScheduleStore.getShowEmployeesWorkingToday"
+                                @toggleSwitch="dutyScheduleStore.setShowEmployeesWorkingToday(!dutyScheduleStore.getShowEmployeesWorkingToday)" />
+                            <p>
+                                {{ $t('dutySchedules.showEmployeesWorkingToday') }}
+                            </p>
+                        </div>
                     </div>
                     <div class="mt-6">
                         <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
@@ -42,6 +49,7 @@
 import { userService } from '@/components/api/user/UserService'
 import { departmentService } from '@/components/api/user/DepartmentService'
 import { useI18n } from "vue-i18n"
+import { useDutyScheduleStore } from '@/store/duty-schedule'
 import type { Error } from '@/types'
 
 const props = defineProps({
@@ -50,6 +58,7 @@ const props = defineProps({
         required: true,
     },
 })
+const dutyScheduleStore = useDutyScheduleStore() as any
 const { t } = useI18n()
 const emit = defineEmits(['close', 'setFilter'])
 

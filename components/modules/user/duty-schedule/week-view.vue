@@ -9,73 +9,34 @@
                 v-if="state.copyShiftError?.message && state.copyShiftError.message.length > 0" />
         </div>
         <LoadingSpinner :isActive="state.isPageLoading">
-            <div class="flex h-full flex-col">
-                <header class="grid grid-cols-1 xl:grid-cols-3 gap-3 py-3 px-4 sm:px-6 lg:px-8">
-                    <div class="space-y-2">
-                        <div class="flex items-center">
-                            <div class="relative flex items-center rounded-md bg-white shadow-sm md:items-stretch">
-                                <button @click="!isPreviousWeekDisabled() && previousWeek()" type="button" :class="[
-                                    isPreviousWeekDisabled() && 'cursor-not-allowed',
-                                    'flex h-11 w-12 items-center justify-center rounded-l-md border-y border-l border-gray-300 pr-1 text-gray-400 hover:text-gray-500 focus:relative md:w-9 md:pr-0 md:hover:bg-gray-50'
-                                ]" :disabled="isPreviousWeekDisabled()">
-                                    <span class="sr-only">Previous week</span>
-                                    <Icon name="heroicons:chevron-left" class="h-5 w-5" aria-hidden="true" />
-                                </button>
-                                <FormDateRangeField id="date" name="date" :placeholder="$t('dutySchedules.form.date')"
-                                    :disablePreviousWeeks="isPreviousWeekDisabled()" dateType="duty-schedule"
-                                    v-model="state.filter.date_range" />
-                                <span class="relative -mx-px h-5 w-px bg-gray-300 md:hidden" />
-                                <button @click="nextWeek()" type="button"
-                                    class="flex h-11 w-12 items-center justify-center rounded-r-md border-y border-r border-gray-300 pl-1 text-gray-400 hover:text-gray-500 focus:relative md:w-9 md:pl-0 md:hover:bg-gray-50">
-                                    <span class="sr-only">Next week</span>
-                                    <Icon name="heroicons:chevron-right" class="h-5 w-5" aria-hidden="true" />
-                                </button>
-                            </div>
-                        </div>
-                        <button @click="setToday()" class="text-primary text-sm hover:text-primary-700">
-                            {{ $t('goToToday') }}
-                        </button>
-                    </div>
-                    <div>
-                        <div class="space-y-1 flex items-center gap-x-2">
-                            <FormSwitch :value="dutyScheduleStore.getShowEmployeesWorkingToday"
-                                @toggleSwitch="dutyScheduleStore.setShowEmployeesWorkingToday(!dutyScheduleStore.getShowEmployeesWorkingToday)" />
-                            <p>
-                                {{ $t('dutySchedules.showEmployeesWorkingToday') }}
-                            </p>
-                        </div>
-                    </div>
-                    <div>
-                        <TableSearch @search="handleSearch" />
-                    </div>
-                </header>
-                <div class="space-y-2 mt-3 mb-3 px-4 sm:px-6 lg:px-8">
+            <div>
+                <header class="space-y-2 px-4 sm:px-6 lg:px-8">
                     <div class="grid grid-cols-1 xl:grid-cols-3 gap-3 py-3">
-                        <div class="w-fit bg-white border border-gray-200 rounded-md px-4 py-2">
-                            <h3 class="text-base font-semibold leading-6 text-gray-900 text-center">
-                                <span v-if="month === 'January'">{{ $t('calendar.month.January') }}</span>
-                                <span v-if="month === 'February'">{{ $t('calendar.month.February') }}</span>
-                                <span v-if="month === 'March'">{{ $t('calendar.month.March') }}</span>
-                                <span v-if="month === 'April'">{{ $t('calendar.month.April') }}</span>
-                                <span v-if="month === 'May'">{{ $t('calendar.month.May') }}</span>
-                                <span v-if="month === 'June'">{{ $t('calendar.month.June') }}</span>
-                                <span v-if="month === 'July'">{{ $t('calendar.month.July') }}</span>
-                                <span v-if="month === 'August'">{{ $t('calendar.month.August') }}</span>
-                                <span v-if="month === 'September'">{{ $t('calendar.month.September') }}</span>
-                                <span v-if="month === 'October'">{{ $t('calendar.month.October') }}</span>
-                                <span v-if="month === 'November'">{{ $t('calendar.month.November') }}</span>
-                                <span v-if="month === 'December'">{{ $t('calendar.month.December') }}</span>
-                                {{ year }}
-                            </h3>
-                        </div>
-                        <div>
-                            <div class="space-y-1 flex items-center gap-x-2">
-                                <FormSwitch :value="userStore.getUser?.is_schedule_pinned ? true : false"
-                                    @toggleSwitch="pinSelfToTopOfSchedule()" />
-                                <p>
-                                    {{ $t('dutySchedules.pinSelfToTopOfSchedule') }}
-                                </p>
+                        <div class="space-y-2">
+                            <div class="flex items-center">
+                                <div class="relative flex items-center rounded-md bg-white shadow-sm md:items-stretch">
+                                    <button @click="!isPreviousWeekDisabled() && previousWeek()" type="button" :class="[
+                                        isPreviousWeekDisabled() && 'cursor-not-allowed',
+                                        'flex h-11 w-12 items-center justify-center rounded-l-md border-y border-l border-gray-300 pr-1 text-gray-400 hover:text-gray-500 focus:relative md:w-9 md:pr-0 md:hover:bg-gray-50'
+                                    ]" :disabled="isPreviousWeekDisabled()">
+                                        <span class="sr-only">Previous week</span>
+                                        <Icon name="heroicons:chevron-left" class="h-5 w-5" aria-hidden="true" />
+                                    </button>
+                                    <FormDateRangeField id="date" name="date"
+                                        :placeholder="$t('dutySchedules.form.date')"
+                                        :disablePreviousWeeks="isPreviousWeekDisabled()" dateType="duty-schedule"
+                                        v-model="state.filter.date_range" />
+                                    <span class="relative -mx-px h-5 w-px bg-gray-300 md:hidden" />
+                                    <button @click="nextWeek()" type="button"
+                                        class="flex h-11 w-12 items-center justify-center rounded-r-md border-y border-r border-gray-300 pl-1 text-gray-400 hover:text-gray-500 focus:relative md:w-9 md:pl-0 md:hover:bg-gray-50">
+                                        <span class="sr-only">Next week</span>
+                                        <Icon name="heroicons:chevron-right" class="h-5 w-5" aria-hidden="true" />
+                                    </button>
+                                </div>
                             </div>
+                            <button @click="setToday()" class="text-primary text-sm hover:text-primary-700">
+                                {{ $t('goToToday') }}
+                            </button>
                         </div>
                         <div class="flex items-center justify-end gap-x-2">
                             <button class="flex items-center gap-x-1 text-sm text-primary group"
@@ -86,19 +47,7 @@
                                     {{ $t('filter') }}
                                 </span>
                             </button>
-                            <Tooltip
-                                :text="state.sortData.sortOrder === 'ascend' ? $t('dutySchedules.sort.sortNamesInDescendingOrder') : $t('dutySchedules.sort.sortNamesInAscendingOrder')"
-                                position="left">
-                                <button
-                                    class="flex items-center justify-center gap-x-2 outline-none rounded-md text-xs truncate font-semibold bg-tertiary border border-tertiary text-white hover:bg-tertiary-800 px-2 py-2"
-                                    @click="sortDutySchedule">
-                                    <Icon name="heroicons:arrow-down" class="h-5 w-5" aria-hidden="true"
-                                        v-show="state.sortData?.sortOrder === 'ascend'" />
-                                    <Icon name="heroicons:arrow-up" class="h-5 w-5" aria-hidden="true"
-                                        v-show="state.sortData?.sortOrder === 'descend'" />
-                                </button>
-                            </Tooltip>
-                            <div class="bg-white border border-gray-200 rounded-md px-3 py-2">
+                            <div class="bg-white border border-gray-200 rounded-md px-3 py-3">
                                 <div class="flex items-center gap-x-1">
                                     <span>{{ $t('entriesPerPage') }}:</span>
                                     <select class="focus:outline-none bg-transparent" @change="changePageLength"
@@ -146,8 +95,11 @@
                                 </div>
                             </div>
                         </div>
+                        <div class="flex items-center w-full">
+                            <TableSearch class="w-full" @search="handleSearch" />
+                        </div>
                     </div>
-                </div>
+                </header>
                 <div class="px-4 sm:px-6 lg:px-8">
                     <div class="bg-primary h-3 rounded-full transition-all ease-in-out duration-500 mb-1.5"
                         :style="{ width: `${state.progress.percentage}%` }" v-if="state.progress.showProgressBar" />
@@ -355,11 +307,11 @@
 
                         <div class="grid grid-cols-7 min-w-[1000px]">
                             <div v-for="(day, dayIndex) in getWeekDays(weekStart)" :key="day.date"
-                                :class="[dayIndex !== 6 && 'border-r border-gray-200 space-y-3 min-h-80']">
-                                <div class="flex justify-end">
+                                :class="[dayIndex !== 6 && 'border-r border-gray-200 space-y-1 min-h-80']">
+                                <div class="flex justify-end pr-1">
                                     <Tooltip position="left" :text="$t('dutySchedules.newSchedule')">
                                         <button
-                                            class="bg-gray-200 w-6 h-6 text-sm text-gray-600 rounded-sm hover:bg-gray-400 hover:text-gray-200"
+                                            class="bg-gray-100 w-5 h-5 text-sm text-gray-700 rounded-sm hover:bg-gray-200"
                                             @click="openAddNewShiftModal(day)">
                                             +
                                         </button>
@@ -634,10 +586,6 @@ const state = reactive({
     } as any,
     shiftWarnings: [] as any,
     showWarningDialog: false,
-    sortData: {
-        sortField: 'firstname',
-        sortOrder: 'ascend',
-    },
     viewShift: {
         selectedEmployeeSchedule: {},
     } as any,
@@ -846,8 +794,6 @@ async function fetchDutySchedules() {
             filter_date_end: moment(state.shiftDateRange.formDateRange.end_date).format('YYYY-MM-DD'),
             department: departmentStore.getSelectedDepartmentName,
             show_employees_working_today: dutyScheduleStore.getShowEmployeesWorkingToday,
-            sortField: state.sortData.sortField,
-            sortOrder: state.sortData.sortOrder,
             ...state.dataFilter,
         } as any
         if (state.filter.department_uuids?.length > 0) {
@@ -889,15 +835,6 @@ function setFilter(filter: any) {
     state.filter.employment_status = filter.employment_status
     state.filter.employee_uuids = filter.employee_uuids
     emit('setDutyScheduleCurrentFilter', state.filter)
-    fetchDutySchedules()
-}
-
-function sortDutySchedule() {
-    if (state.sortData.sortOrder === 'ascend') {
-        state.sortData.sortOrder = 'descend'
-    } else {
-        state.sortData.sortOrder = 'ascend'
-    }
     fetchDutySchedules()
 }
 
