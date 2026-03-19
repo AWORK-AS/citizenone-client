@@ -476,6 +476,7 @@ watch(() => state.formSchedule.date_time_start, (dateTimeStart: any) => {
 
 watch(() => state.formSchedule.employees, () => {
     fetchAllCitizens()
+    syncSelectedCitizensWithOptions()
 })
 
 const rules = computed(() => {
@@ -538,6 +539,14 @@ function toggleEmployees() {
     state.formSchedule.is_groups = !state.formSchedule.is_groups
     state.formSchedule.users_uuid = []
     state.formSchedule.user_group_uuid = []
+}
+
+function syncSelectedCitizensWithOptions() {
+    const availableCitizenUuids = new Set(state.options.citizens.map((option) => option.value))
+    state.formSchedule.citizens_uuid = state.formSchedule.citizens_uuid.filter((citizenUuid: any) => {
+        const selectedUuid = typeof citizenUuid === 'string' ? citizenUuid : citizenUuid?.value
+        return availableCitizenUuids.has(selectedUuid)
+    })
 }
 
 function formatDateTimeToYYYYmmddHHmm(inputDate: string): string {
@@ -657,6 +666,7 @@ async function fetchAllCitizens() {
                     })
                 )
                 state.options.citizens = options
+                syncSelectedCitizensWithOptions()
             }
         }
     } catch (error: any) {
