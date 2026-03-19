@@ -361,10 +361,11 @@ table td {
 .fixed-header-week-view-top {
     position: fixed !important;
     top: 4rem;
-    left: 20rem;
-    right: 2rem;
+    right: 0rem;
     z-index: 20;
     background: white;
+    @apply left-0 md:left-72;
+    @apply px-4 sm:px-6 lg:px-8;
 }
 
 .fixed-header-month-view-top {
@@ -375,6 +376,14 @@ table td {
     z-index: 20;
     background: white;
     overflow: hidden;
+}
+
+.scrollbar-none {
+    scrollbar-width: none;       /* Firefox */
+    -ms-overflow-style: none;    /* IE/Edge */
+}
+.scrollbar-none::-webkit-scrollbar {
+    display: none;               /* Chrome/Safari */
 }
 
 /* ----------------------------------------------------------------------------------------------------

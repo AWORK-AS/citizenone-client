@@ -12,7 +12,7 @@
             </Head>
 
             <template #breadcrumb>
-                <Breadcrumb>
+                <Breadcrumb class="px-4 sm:px-6 lg:px-8">
                     <template #custom-link>
                         <div class="flex items-center">
                             <Icon name="heroicons:chevron-right" class="size-3 shrink-0 text-gray-400"
@@ -27,7 +27,7 @@
             </template>
 
             <template #guided-tour>
-                <div class="flex flex-wrap items-center gap-3">
+                <div class="flex flex-wrap items-center gap-3 px-4 sm:px-6 lg:px-8">
                     <button @click="state.modal.isShowAllShiftTypes = !state.modal.isShowAllShiftTypes"
                         class="text-primary text-sm hover:text-primary-700">
                         {{ $t('dutySchedules.showTheDistributionOfShiftTypes') }}
@@ -61,11 +61,11 @@
                 </div>
             </template>
 
-            <div class="flex items-center gap-x-3">
-                <!-- <FormButton :buttonStyle="state.calendarView === 'default' ? 'primary' : ''"
+            <!-- <div class="flex items-center gap-x-3">
+                <FormButton :buttonStyle="state.calendarView === 'default' ? 'primary' : ''"
                     @click="setCalendarView('default')" class="rounded-md">
                     {{ $t('calendar.view.defaultView') }}
-                </FormButton> -->
+                </FormButton>
                 <FormButton :buttonStyle="state.calendarView === 'week' ? 'primary' : ''"
                     @click="setCalendarView('week')" class="rounded-md">
                     {{ $t('calendar.view.weekView') }}
@@ -74,7 +74,7 @@
                     @click="setCalendarView('month')" class="rounded-md">
                     {{ $t('calendar.view.monthView') }}
                 </FormButton>
-            </div>
+            </div> -->
 
             <div class="mt-4 space-y-5">
                 <ModulesUserDutyScheduleWeekView ref="weekViewRef" v-if="state.calendarView === 'week'"

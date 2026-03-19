@@ -2982,12 +2982,14 @@
             "description": "Description",
             "doNotCountSickLeaveAsWorkingHours": "Do not count sick leave as working hours",
             "doNotCountWeekends": "Do not count weekends",
+            "employee": "Employee",
             "forSleepingNightShift": "For sleeping night shift",
             "inMeeting": "In Meeting",
             "note": "Note",
             "private": "Private",
             "tags": "Tags",
             "title": "Title",
+            "typeOfShift": "Type of shift",
             "useCompensatoryTime": "Use compensatory time",
             "users": "Users",
             "overrideVacationHours": "Override default vacation hours"
@@ -5986,7 +5988,7 @@
                 "website": "Website",
                 "companyLogo": "Company logo",
                 "remove": "Remove company logo",
-                "registerTransport":"Register transport"
+                "registerTransport": "Register transport"
             }
         },
         "licenseOverview": {

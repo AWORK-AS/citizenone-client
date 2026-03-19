@@ -2,13 +2,12 @@
     <div>
         <Modal size="sm" :title="$t('dutySchedules.newSchedule')" :show="props.isModalOpen" @close="closeModal">
             <template #modal-body>
-                <Alert type="warning"
+                <!-- <Alert type="warning"
                     :text="locale === 'en' ? props.selectedEmployee?.average_weekly_work_time?.message_en : props.selectedEmployee?.average_weekly_work_time?.message_dk"
-                    v-if="props.selectedEmployee?.average_weekly_work_time?.severity && props.selectedEmployee?.average_weekly_work_time?.severity !== 'info'" />
+                    v-if="props.selectedEmployee?.average_weekly_work_time?.severity && props.selectedEmployee?.average_weekly_work_time?.severity !== 'info'" /> -->
                 <LoadingSpinner :isActive="props.isModalLoading || state.isPageLoading">
                     <ModulesUserDutyScheduleFormShift formType="create" :error="props.error"
-                        :selectedEmployee="props.selectedEmployee" :selectedShift="state.formShift"
-                        @dateTimeChange="dateTimeChange" @close="closeModal()"
+                        :selectedShift="state.formShift" @dateTimeChange="dateTimeChange" @close="closeModal()"
                         @isPageLoading="(value: boolean) => state.isPageLoading = value" @saveShift="saveShift" />
 
                     <ModulesUserDutyScheduleModalShiftWarning :isModalOpen="props.showWarningDialog"
@@ -39,10 +38,6 @@ const props = defineProps({
     },
     selectedDate: {
         type: String,
-        required: true,
-    },
-    selectedEmployee: {
-        type: Object,
         required: true,
     },
     showWarningDialog: {

@@ -2982,12 +2982,14 @@
             "description": "Beskrivelse",
             "doNotCountSickLeaveAsWorkingHours": "Tæl ikke sygefravær som arbejdstimer",
             "doNotCountWeekends": "Tæl ikke weekender med",
+            "employee": "Medarbejder",
             "forSleepingNightShift": "For sovende nattevagt",
             "inMeeting": "I møde",
             "note": "Bemærkning",
             "private": "Privat",
             "tags": "Etiketter",
             "title": "Titel",
+            "typeOfShift": "Type af vagt",
             "useCompensatoryTime": "Brug afspadseringstid",
             "users": "Brugere",
             "overrideVacationHours": "Overskriv standard ferietimer"
@@ -5986,7 +5988,7 @@
                 "website": "Hjemmeside",
                 "companyLogo": "Firmalogo",
                 "remove": "Fjern firmalogo",
-                "registerTransport":"Registrer transport"
+                "registerTransport": "Registrer transport"
             }
         },
         "licenseOverview": {

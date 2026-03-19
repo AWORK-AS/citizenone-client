@@ -2,7 +2,7 @@ import BaseAPIService from '@/components/api/BaseAPIService'
 
 class DutyScheduleService extends BaseAPIService {
     async getDutySchedules(params: object): Promise<any> {
-        return await this.request(`/user/duty-schedules`, 'GET', params)
+        return await this.request(`/user/duty-schedules/date-range/view`, 'GET', params)
     }
 
     async getDutySchedulesMonthView(params: object): Promise<any> {

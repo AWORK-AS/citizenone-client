@@ -90,7 +90,7 @@ watch(() => props.modelValue, (newValue: any) => {
 
 watch(() => props.disablePreviousWeeks, (newValue: any) => {
     if (newValue != null) {
-        state.datePickerConfig.minDate = newValue ? moment().startOf('isoWeek').toDate() : new Date(0)
+        state.datePickerConfig.minDate = newValue ? moment().startOf('isoWeek').toDate() : null
     }
 })
 

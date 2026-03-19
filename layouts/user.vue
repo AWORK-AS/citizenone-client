@@ -450,7 +450,9 @@
                     class="w-48 md:w-1/4 absolute -top-36 -right-24 opacity-0 transition-opacity duration-500"
                     id="animatedImage">
                 <main class="py-10 relative">
-                    <div class="px-4 sm:px-6 lg:px-8">
+                    <div :class="[
+                        routeName === 'schedules' ? 'px-0' : 'px-4 sm:px-6 lg:px-8',
+                    ]">
                         <div class="flex items-center justify-between flex-wrap gap-3">
                             <slot name="breadcrumb"></slot>
                             <slot name="guided-tour"></slot>
