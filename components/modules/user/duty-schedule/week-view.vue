@@ -109,13 +109,13 @@
                 <div v-for="(weekStart, wIndex) in weeksInRange" :key="weekStart.valueOf()" :id="`weekly-${wIndex}`"
                     class="bg-white mb-10">
 
-                    <!-- ① STICKY HEADER — lives OUTSIDE overflow-x-auto so it can stick vertically -->
+                    <!-- Sticky header -->
                     <div class="sticky top-16 z-10 bg-white px-4 sm:px-6 lg:px-8 overflow-x-auto scrollbar-none"
                         :id="`week-header-${wIndex}`" @scroll="syncScroll(wIndex, 'header')">
 
                         <div class="min-w-[1000px]">
 
-                            <!-- Week number + copy buttons -->
+                            <!-- Week number and copy buttons -->
                             <div class="flex items-center gap-x-3 px-1 py-3">
                                 <p class="text-secondary text-lg font-medium">
                                     {{ $t('dutySchedules.week') }} {{ getWeekNumber(weekStart) }}
@@ -307,7 +307,7 @@
 
                         <div class="grid grid-cols-7 min-w-[1000px]">
                             <div v-for="(day, dayIndex) in getWeekDays(weekStart)" :key="day.date"
-                                :class="[dayIndex !== 6 && 'border-r border-gray-200 space-y-1 min-h-80']">
+                                :class="[dayIndex !== 6 && 'border-r border-gray-200 space-y-1 min-h-96']">
                                 <div class="flex justify-end pr-1">
                                     <Tooltip position="left" :text="$t('dutySchedules.newSchedule')">
                                         <button
@@ -334,18 +334,51 @@
                                             </p>
                                         </div>
                                         <div v-if="schedule?.shift_span_position" class="py-0.5 text-xxs">
-                                            <p v-if="schedule?.shift_span_position === 'start'">{{
-                                                $t('dutySchedules.shiftSpan.start') }}</p>
-                                            <p v-if="schedule?.shift_span_position === 'middle'">{{
-                                                $t('dutySchedules.shiftSpan.middle') }}</p>
-                                            <p v-if="schedule?.shift_span_position === 'end'">{{
-                                                $t('dutySchedules.shiftSpan.end') }}</p>
+                                            <p v-if="schedule?.shift_span_position === 'start'">
+                                                {{ $t('dutySchedules.shiftSpan.start') }}
+                                            </p>
+                                            <p v-if="schedule?.shift_span_position === 'middle'">
+                                                {{ $t('dutySchedules.shiftSpan.middle') }}
+                                            </p>
+                                            <p v-if="schedule?.shift_span_position === 'end'">
+                                                {{ $t('dutySchedules.shiftSpan.end') }}
+                                            </p>
+                                        </div>
+                                        <div :class="[
+                                            schedule?.citizen_schedules?.length > 0 && 'mt-0.5'
+                                        ]" v-if="schedule?.citizen_schedules?.length > 0">
+                                            <p v-for="(citizenSchedule, citizenScheduleIndex) in schedule?.citizen_schedules"
+                                                :key="citizenScheduleIndex" class="text-xxs py-0.5">
+                                                {{ citizenSchedule?.citizen?.firstname }}
+                                                {{ citizenSchedule?.citizen?.lastname }}
+                                            </p>
+                                        </div>
+                                        <div class="text-xxs py-0.5" v-if="schedule?.departments?.length > 0">
+                                            {{ $t('departments.departments') }}:
+                                            <span v-for="(department, departmentIndex) in schedule?.departments"
+                                                :key="departmentIndex">
+                                                {{ department?.name }}<span
+                                                    v-if="(departmentIndex as number) < schedule?.departments.length - 1">,
+                                                </span><span v-else>.</span>
+                                            </span>
+                                        </div>
+                                        <div class="flex items-center flex-wrap gap-0.5 mt-1"
+                                            v-if="schedule?.tags?.length > 0">
+                                            <Tooltip :text="tag?.tag" v-for="(tag, tagIndex) in schedule?.tags"
+                                                :key="tagIndex">
+                                                <div class="text-white w-4 h-4 text-xxs rounded-full flex items-center justify-center"
+                                                    :style="{ backgroundColor: tag?.color }">
+                                                    <span v-if="tag?.tag">
+                                                        {{ tag?.tag?.charAt(0) }}
+                                                    </span>
+                                                    A
+                                                </div>
+                                            </Tooltip>
                                         </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
-
                     </div>
                 </div>
             </div>
