@@ -6,7 +6,7 @@
                     <div class="space-y-3">
                         <Alert type="danger" :text="state?.error?.message"
                             v-if="state.error?.message && state.error.message.length > 0" />
-                        <form @submit.prevent="handleDownload()" id="formShift">
+                        <form @submit.prevent="handleDownload()" id="formDownloadSchedule">
                             <div class="space-y-3">
                                 <fieldset>
                                     <RadioGroup v-model="state.formDownload.mode"
@@ -94,7 +94,7 @@
                                         <div class="w-fit flex items-center cursor-pointer"
                                             @click="state.formDownload.show_leaves_only = !state.formDownload.show_leaves_only">
                                             <FormCheckbox :value="state.formDownload.show_leaves_only" />
-                                            {{ $t('dutySchedules.download.downloadLeavesOnly') }}
+                                            {{ $t('dutySchedules.download.downloadOnlyLeaveTypes') }}
                                         </div>
                                     </div>
                                 </div>
@@ -119,6 +119,7 @@
         </Modal>
     </div>
 </template>
+
 
 <script setup lang="ts">
 import moment from 'moment'
@@ -149,7 +150,7 @@ const props = defineProps({
     }
 })
 const { t } = useI18n()
-const emit = defineEmits(['close', 'saveShift'])
+const emit = defineEmits(['close'])
 const customPagesStore = useCustomPagesStore() as any
 const departmentStore = useDepartmentStore() as any
 
@@ -348,7 +349,7 @@ async function downloadDutySchedule() {
 </script>
 
 <style>
-#formShift .multiselect-dropdown {
+#formDownloadSchedule .multiselect-dropdown {
     max-height: 5rem !important;
 }
 </style>
