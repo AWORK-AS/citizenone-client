@@ -57,6 +57,7 @@
                                     <div>
                                         <LoadingSpinner :isActive="state.isPageLoading">
                                             <div
+                                                v-if="isInterventionCheckinEnabled"
                                                 class="bg-white rounded-md flex items-center justify-between gap-x-2 px-4">
                                                 <p class="text-sm text-primary font-bold">
                                                     {{ state.selectedCitizen?.data?.is_checked_in ?
@@ -427,7 +428,11 @@ const workCheckState = reactive({
 })
 
 const isTransportRegistrationEnabled = computed(() => {
-    return userStore.getUser?.register_transport_enabled === true
+    return userStore.getUser?.can_register_transport === true
+})
+
+const isInterventionCheckinEnabled = computed(() => {
+    return userStore.getUser?.company?.intervention_checkin_enabled === true
 })
 
 onMounted(() => {

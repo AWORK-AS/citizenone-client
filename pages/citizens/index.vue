@@ -169,7 +169,7 @@
                                     </td>
                                     <td width="20%">
                                         <div class="flex items-center justify-end gap-2">
-                                            <Tooltip :text="citizen?.is_checked_in ? $t('citizens.table.actions.checkOut') : $t('citizens.table.actions.checkIn')">
+                                            <Tooltip v-if="isInterventionCheckinEnabled" :text="citizen?.is_checked_in ? $t('citizens.table.actions.checkOut') : $t('citizens.table.actions.checkIn')">
                                                 <FormSwitch
                                                     :value="citizen?.is_checked_in"
                                                     @toggleSwitch="toggleLogin(citizen)" />
@@ -346,7 +346,11 @@ const workCheckState = reactive({
 })
 
 const isTransportRegistrationEnabled = computed(() => {
-    return userStore.getUser?.register_transport_enabled === true
+    return userStore.getUser?.can_register_transport === true
+})
+
+const isInterventionCheckinEnabled = computed(() => {
+    return userStore.getUser?.company?.intervention_checkin_enabled === true
 })
 
 onMounted(() => {

@@ -35,6 +35,7 @@ const { t } = useI18n()
 const state = reactive({
     error: {} as Error,
     formApp: {
+        background_image: '',
         name: '',
         description: '',
         price: '',
@@ -43,6 +44,9 @@ const state = reactive({
         image: '',
         is_quantifiable: false,
         is_thirdparty: false,
+        is_popular: false,
+        is_recommended: false,
+        is_news: false,
         url_field: '',
     },
     isPageLoading: false,
@@ -60,11 +64,21 @@ async function saveApp(appDetails: any) {
         params.append('monthly_price', appDetails.monthly_price)
         params.append('yearly_price', appDetails.yearly_price)
         params.append('type', appDetails.type)
-        params.append('logo', appDetails.logo)
-        params.append('image', appDetails.image)
         params.append('is_quantifiable', appDetails.is_quantifiable)
         params.append('is_thirdparty', appDetails.is_thirdparty)
+        params.append('is_popular', appDetails.is_popular)
+        params.append('is_recommended', appDetails.is_recommended)
+        params.append('is_news', appDetails.is_news)
         params.append('url_field', appDetails.url_field)
+        if (appDetails.background_image) {
+            params.append('background_image', appDetails.background_image)
+        }
+        if (appDetails.logo) {
+            params.append('logo', appDetails.logo)
+        }
+        if (appDetails.image) {
+            params.append('image', appDetails.image)
+        }
         const response = await appService.saveApp(params)
         if (response.data) {
             successAlert(`${t('alert.success')}!`, `${t('superadmin.apps.form.alert.newAppSuccessfullySaved')}.`)

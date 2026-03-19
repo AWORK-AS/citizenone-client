@@ -255,6 +255,8 @@
                                     </div>
                                 </div>
 
+                                <div id="fixed-header-spacer" class="hidden" />
+
                                 <div class="shadow grid grid-cols-9">
                                     <div class="col-span-2 border-0.5">
                                         <p class="flex items-center justify-end px-4 py-2 text-xs">
@@ -371,7 +373,7 @@
                                                             </Tooltip>
                                                             <Tooltip position="right"
                                                                 :text="$t('dutySchedules.leaveRequests.leaveRequests')"
-                                                                v-if="isAdmin(userStore.getUser?.role) || (!isAdmin(userStore.getUser?.role) && userStore.getUser?.show_working_hours && userStore.getUser?.uuid === employee?.uuid)">
+                                                                v-if="isAdmin(userStore.getUser?.role) || (!isAdmin(userStore.getUser?.role) && userStore.getUser?.uuid === employee?.uuid)">
                                                                 <button
                                                                     class="bg-gray-200 w-6 h-6 text-sm text-gray-600 rounded-sm hover:bg-gray-400 hover:text-gray-200 flex items-center justify-center"
                                                                     @click="viewLeaveRequests(employee)">
@@ -430,18 +432,27 @@
                                                                     'text-red-700',
                                                             'text-xxs'
                                                         ]">
-                                                            {{ $t('dutySchedules.averageWeeklyHours.averageWeeklyHours')
+                                                            {{
+                                                                $t('dutySchedules.averageWeeklyHours.averageWeeklyHours')
                                                             }}:
                                                             {{ employee?.average_weekly_work_time?.average_weekly_hours
                                                             }}
                                                         </p>
                                                         <p :class="[
-                                                            employee?.extra_hours > 0 ? 'text-green-700' : 'text-red-700',
+                                                            parseFloat(employee?.log_data.total_time_account_earned_hours?.replace(',', '.')) > 0 ? 'text-green-700' : 'text-red-700',
+                                                            'text-xxs'
+                                                        ]">
+                                                            {{ $t('dutySchedules.earnedWorkHours') }}:
+                                                            {{ employee?.log_data.total_time_account_earned_hours }}
+                                                        </p>
+                                                        <p :class="[
+                                                            parseFloat(employee?.extra_hours?.replace(',', '.')) > 0 ? 'text-green-700' : 'text-red-700',
                                                             'text-xxs'
                                                         ]">
                                                             {{ $t('dutySchedules.extraHours.extraHours') }}:
                                                             {{ employee?.extra_hours }}
                                                         </p>
+
                                                         <div class="p-0 m-0 text-xxs text-primary cursor-pointer hover:text-primary-700"
                                                             @click="navigateTo(`/calendar?employee_uuid=${employee?.uuid}`)">
                                                             {{ $t('dutySchedules.viewCalendar') }}
@@ -810,7 +821,7 @@
                                                             </button>
                                                         </div>
                                                         <ModulesUserDutyScheduleScheduleSlotsRequestAvailableSlots
-                                                            :week="week" :employee="employee"
+                                                            :daysData="week" :employee="employee"
                                                             @error="(error: any) => state.error = error" />
                                                     </div>
                                                 </div>
@@ -1151,6 +1162,18 @@ watch(() => state.selectedDate, (newSelectedDate: any) => {
     }
 })
 
+watch(() => dutyScheduleStore.getShowEmployeesWorkingToday, (status: boolean) => {
+    dutyScheduleStore.setShowEmployeesWorkingToday(status)
+    fetchDutySchedule()
+})
+
+watch(() => state.weeklySchedules, (newSchedules) => {
+    // Update the expanded records only if the number of records changes.
+    if (newSchedules && newSchedules.data.length !== expandedRecords.length) {
+        expandedRecords.splice(0, expandedRecords.length, ...newSchedules.data.map(() => true))
+    }
+})
+
 onMounted(() => {
     fetchDutySchedule()
     window.addEventListener('keydown', handleKeyDown)
@@ -1158,11 +1181,6 @@ onMounted(() => {
 
 onBeforeUnmount(() => {
     window.removeEventListener('keydown', handleKeyDown)
-})
-
-watch(() => dutyScheduleStore.getShowEmployeesWorkingToday, (status: boolean) => {
-    dutyScheduleStore.setShowEmployeesWorkingToday(status)
-    fetchDutySchedule()
 })
 
 function handleKeyDown(event: KeyboardEvent) {
@@ -1310,13 +1328,6 @@ function isPreviousWeekDisabled() {
     return false // Admins can always go to the previous week
 }
 
-watch(() => state.weeklySchedules, (newSchedules) => {
-    // Update the expanded records only if the number of records changes.
-    if (newSchedules && newSchedules.data.length !== expandedRecords.length) {
-        expandedRecords.splice(0, expandedRecords.length, ...newSchedules.data.map(() => true))
-    }
-})
-
 function setFilter(filter: any) {
     state.filter.department_uuids = filter.department_uuids
     state.filter.employment_status = filter.employment_status
@@ -1387,21 +1398,18 @@ function previousWeek() {
     state.customWeekLabel = 'week'
     currentDate.value = moment(currentDate.value).subtract(1, 'week')
     state.selectedDate = moment(currentDate.value).format('YYYY-MM-DD')
-    fetchDutySchedule()
 }
 
 function setToday() {
     state.customWeekLabel = 'week'
     currentDate.value = moment()
     state.selectedDate = moment(currentDate.value).format('YYYY-MM-DD')
-    fetchDutySchedule()
 }
 
 function nextWeek() {
     state.customWeekLabel = 'week'
     currentDate.value = moment(currentDate.value).add(1, 'week')
     state.selectedDate = moment(currentDate.value).format('YYYY-MM-DD')
-    fetchDutySchedule()
 }
 
 const weekNumber = computed(() => {
@@ -1600,7 +1608,10 @@ function isDailyScheduleCopiedEmpty() {
 }
 
 function isDailyScheduleCopied(employeeIndex: number, weekIndex: number, weekNumber: number) {
-    return state.copy.selectedEmployeeDailySchedule.employeeIndex === employeeIndex && state.copy.selectedEmployeeDailySchedule.weekIndex === weekIndex && state.copy.selectedEmployeeDailySchedule.weekNumber === weekNumber
+    return state.copy.selectedEmployeeDailySchedule.employeeIndex === employeeIndex &&
+        state.copy.selectedEmployeeDailySchedule.weekIndex === weekIndex &&
+        state.copy.selectedEmployeeDailySchedule.weekNumber === weekNumber &&
+        dutyScheduleStore.getCurrentPageNumber === state.copy.selectedEmployeeDailySchedule.currentTablePage
 }
 
 function copyEmployeeDailySchedule(employeeIndex: number, weekIndex: any, employee: any, weekNumber: number) {
@@ -1609,6 +1620,7 @@ function copyEmployeeDailySchedule(employeeIndex: number, weekIndex: any, employ
         weekNumber: weekNumber,
         weekIndex: weekIndex,
         employee: employee,
+        currentTablePage: dutyScheduleStore.getCurrentPageNumber,
     }
 }
 
@@ -1922,24 +1934,27 @@ onBeforeUnmount(() => {
 })
 
 let lastScrollTop = 0
-const headerHeight = 270  // The height of the header
+const headerHeight = 395  // The height of the header
 
 function handleScroll() {
     const header = document.getElementById('fixed-header-week-view')
-    if (!header) return
+    const spacer = document.getElementById('fixed-header-spacer')
+    if (!header || !spacer) return
 
     const currentScroll = window.pageYOffset || document.documentElement.scrollTop
+    const isFixed = header.classList.contains('fixed-header-week-view-top')
 
-    // If scrolling down and we reach the bottom of the header
-    if (currentScroll > headerHeight) {
+    if (currentScroll > headerHeight && !isFixed) {
+        // Capture height BEFORE fixing, so the spacer is accurate
+        spacer.style.height = `${header.offsetHeight}px`
+        spacer.style.display = 'block'
         header.classList.add('fixed-header-week-view-top')
-    } else {
-        // If scrolling up, remove the fixed position
+    } else if (currentScroll <= headerHeight && isFixed) {
         header.classList.remove('fixed-header-week-view-top')
+        spacer.style.display = 'none'
     }
 
-    // Update the last scroll position for the next scroll event
-    lastScrollTop = currentScroll <= 0 ? 0 : currentScroll // Prevent negative scroll
+    lastScrollTop = currentScroll <= 0 ? 0 : currentScroll
 }
 
 async function dateTimeChange(employeeUuid: string, newDateTimeStart: string, newDateTimeEnd: string) {
