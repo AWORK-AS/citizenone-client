@@ -996,7 +996,15 @@
                 "journalLogs": "Journallogs",
                 "newData": "Nye data",
                 "previousData": "Tidligere data",
-                "updatedBy": "Opdateret af"
+                "updatedBy": "Opdateret af",
+                "table": {
+                    "alert": {
+                        "journalSuccessfullyDeletedPermanently": "Journal slettet permanent med succes"
+                    },
+                    "confirmation": {
+                        "permanentDeleteConfirmation": "Er du sikker på, at du vil slette denne journalindtastning permanent? Denne handling kan ikke fortrydes."
+                    }
+                }
             },
             "move": {
                 "citizen": "Borger",
@@ -4413,6 +4421,13 @@
         "markAllAsRead": "Markér alle som læst",
         "unreadJournalNotes": "Ulæste journalnotater",
         "youDontHaveUnreadJournalNotes": "Du har ingen ulæste journalnotater"
+    },
+    "journal": {
+        "table": {
+            "actions": {
+                "delete": "Slet"
+            }
+        }
     },
     "journalNoteTags": {
         "addNewTag": "Tilføj nyt tag",
