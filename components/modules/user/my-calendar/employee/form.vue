@@ -652,7 +652,7 @@ async function fetchAllCitizens() {
                 let options: any = []
                 response.data.forEach(
                     (citizen: any) => options.push({
-                        value: citizen?.id,
+                        value: citizen?.uuid,
                         label: citizen?.firstname + " " + (citizen?.lastname ?? ''),
                     })
                 )

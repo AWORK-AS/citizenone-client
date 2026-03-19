@@ -579,7 +579,7 @@ async function fetchAllCitizens() {
             ? selectedDepartment
             : selectedDepartment?.uuid
         const params = {
-            'owner_id[]': [(userStore.getUser as any).id],
+            'owner_uuid[]': [(userStore.getUser as any).uuid],
             'department_uuid[]': selectedDepartmentUuid ? [selectedDepartmentUuid] : ['all-departments'],
         }
         const response = await citizenService.getAllAssignedCitizenByEmployee(params)
