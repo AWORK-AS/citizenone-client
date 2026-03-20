@@ -121,6 +121,7 @@
 
 <script setup lang="ts">
 import { computed, ref, watch } from 'vue';
+import { useRoute } from 'vue-router';
 import StripeCardElement from './StripeCardElement.vue';
 import stripeApi from '@/components/api/stripeApi';
 
@@ -129,6 +130,7 @@ interface Props {
   amount: number;
   invoiceId?: string;
   invoiceStripeId?: string;
+  connectedAccountId?: string | null;
   itemDescription?: string;
   citizenId: string;
   userName?: string; // User's full name for auto-fill
@@ -147,8 +149,7 @@ interface Emits {
 
 const props = defineProps<Props>();
 const emit = defineEmits<Emits>();
-
-const runtimeConfig = useRuntimeConfig();
+const route = useRoute();
 
 const isInvoiceView = ref(false);
 const loadingInvoice = ref(false);
@@ -163,7 +164,15 @@ const invoiceDetails = ref<null | {
   items: Array<{ id: string; description: string; quantity: number; amount: number }>;
 }>(null);
 
-const authHeader = computed(() => `Bearer ${localStorage.getItem('_token') || ''}`);
+const resolvedConnectedAccountId = computed(() => {
+  if (typeof props.connectedAccountId === 'string' && /^acct_/.test(props.connectedAccountId)) {
+    return props.connectedAccountId;
+  }
+
+  const queryValue = route.query.accountId;
+  const firstValue = Array.isArray(queryValue) ? queryValue[0] : queryValue;
+  return typeof firstValue === 'string' && /^acct_/.test(firstValue) ? firstValue : null;
+});
 
 const handlePaymentSuccess = async (payload: { paymentIntentId: string; invoiceId?: string; billingDetails?: { name: string; email: string } }) => {
   if (payload.billingDetails) {
@@ -193,7 +202,7 @@ async function loadInvoiceDetails() {
   try {
     loadingInvoice.value = true;
     invoiceError.value = '';
-    const response = await stripeApi.getStripeInvoice(resolvedInvoiceId.value);
+    const response = await stripeApi.getStripeInvoice(resolvedInvoiceId.value, resolvedConnectedAccountId.value);
 
     invoiceDetails.value = {
       id: response?.invoice_id || resolvedInvoiceId.value,
@@ -222,40 +231,37 @@ async function downloadPdf() {
   try {
     loadingPdf.value = true;
 
-    const response = await fetch(`${runtimeConfig.public.apiBaseURL}/stripe/invoices/${resolvedInvoiceId.value}/pdf`, {
-      method: 'GET',
-      headers: {
-        Authorization: authHeader.value,
-        Accept: 'application/pdf',
-      },
-    });
+    const response = await stripeApi.downloadStripeInvoicePdf(
+      resolvedInvoiceId.value,
+      resolvedConnectedAccountId.value,
+    )
 
-    if (!response.ok) {
-      if (response.status === 409) {
-        const data = await response.json().catch(() => null)
-        const receiptUrl = data?.receipt_url
-
-        if (receiptUrl) {
-          const openedWindow = window.open(receiptUrl, '_blank', 'noopener,noreferrer')
-          if (!openedWindow) {
-            window.location.href = receiptUrl
-          }
-          return
-        }
+    if (
+      response
+      && typeof response === 'object'
+      && !(response instanceof Blob)
+      && response.is_stripe_receipt_url
+    ) {
+      const redirectUrl = response.redirect_url || response.receipt_url
+      if (!redirectUrl) {
+        throw new Error('No redirect URL received from backend')
       }
 
-      throw new Error('Unable to download PDF.');
+      const openedWindow = window.open(redirectUrl, '_blank', 'noopener,noreferrer')
+      if (!openedWindow) {
+        window.location.href = redirectUrl
+      }
+      return
     }
 
-    const blob = await response.blob();
-    const fileURL = window.URL.createObjectURL(blob);
-    const link = document.createElement('a');
-    link.href = fileURL;
-    link.download = `invoice_${resolvedInvoiceId.value}.pdf`;
-    document.body.appendChild(link);
-    link.click();
-    link.remove();
-    window.URL.revokeObjectURL(fileURL);
+    const fileURL = window.URL.createObjectURL(response as Blob)
+    const link = document.createElement('a')
+    link.href = fileURL
+    link.download = `invoice_${resolvedInvoiceId.value}.pdf`
+    document.body.appendChild(link)
+    link.click()
+    link.remove()
+    window.URL.revokeObjectURL(fileURL)
   } catch (error: any) {
     invoiceError.value = error?.message || 'Failed to download invoice PDF.';
   } finally {
