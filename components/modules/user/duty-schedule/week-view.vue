@@ -106,48 +106,161 @@
                     <div class="h-3 mb-1.5" v-else />
                 </div>
 
-                <div v-for="(weekStart, wIndex) in weeksInRange" :key="weekStart.valueOf()" :id="`weekly-${wIndex}`"
-                    class="bg-white mb-10">
-
-                    <!-- Sticky header -->
-                    <div class="sticky top-16 z-10 bg-white px-4 sm:px-6 lg:px-8 overflow-x-auto scrollbar-none"
-                        :id="`week-header-${wIndex}`" @scroll="syncScroll(wIndex, 'header')">
-
-                        <div class="min-w-[1000px]">
-
-                            <!-- Week number and copy buttons -->
-                            <div class="flex items-center gap-x-3 px-1 py-3">
-                                <p class="text-secondary text-lg font-medium">
-                                    {{ $t('dutySchedules.week') }} {{ getWeekNumber(weekStart) }}
-                                </p>
-                                <div class="flex-1 flex justify-end gap-x-2">
-                                    <Tooltip :text="$t('dutySchedules.copy.copyThisWeeksSchedule')" position="left">
-                                        <button
-                                            class="bg-gray-200 w-6 h-6 text-sm text-gray-600 rounded-sm hover:bg-gray-400 hover:text-gray-200 flex items-center justify-center"
-                                            @click="copyWeeklySchedule(getWeekNumber(weekStart))">
-                                            <Icon name="mdi:content-copy" class="h-3 w-3" aria-hidden="true" />
-                                        </button>
-                                    </Tooltip>
-                                    <Tooltip :text="$t('dutySchedules.copy.copyMultipleWeeksSchedule')" position="left"
-                                        v-if="isAdmin(userStore.getUser?.role)">
-                                        <button
-                                            class="bg-gray-200 w-6 h-6 text-sm text-gray-600 rounded-sm hover:bg-gray-400 hover:text-gray-200 flex items-center justify-center"
-                                            @click="state.modal.isCopyMultipleWeeklyScheduleOpen = true">
-                                            <Icon name="mdi:content-copy" class="h-3 w-3" aria-hidden="true" />
-                                        </button>
-                                    </Tooltip>
+                <div class="bg-white flex items-stretch">
+                    <div class="border-r border-gray-200 shrink-0">
+                        <div class="sticky top-0 overflow-y-auto p-4 space-y-5 w-32">
+                            <div v-for="(employee, employeeIndex) in state.userHours?.data" :key="employeeIndex"
+                                class="cursor-pointer">
+                                <div class="flex flex-col items-center gap-0">
+                                    <ModulesUserDutyScheduleUserHoursTooltip position="right"
+                                        :selectedEmployee="employee">
+                                        <div class="flex items-center gap-x-2">
+                                            <img :src="employee?.profile_image ?? `https://ui-avatars.com/api/?background=42AED9&color=fff&name=${getDisplayName(employee).firstName + ' ' + getDisplayName(employee).lastName}`"
+                                                :class="[
+                                                    employee?.shift_threshold === 'high' && 'border-green-700',
+                                                    employee?.shift_threshold === 'moderate' && 'border-yellow-500',
+                                                    employee?.shift_threshold === 'low' && 'border-red-600',
+                                                    'h-12 w-12 rounded-full bg-gray-50 object-cover border-2'
+                                                ]" />
+                                        </div>
+                                    </ModulesUserDutyScheduleUserHoursTooltip>
+                                    <div class="flex flex-col items-center leading-tight">
+                                        <span class="text-xs text-center font-bold text-gray-800">
+                                            {{ getDisplayName(employee).firstName }}
+                                            {{ getDisplayName(employee).lastName }}
+                                        </span>
+                                    </div>
                                 </div>
                             </div>
+                        </div>
+                    </div>
 
-                            <!-- Day name headers — admin -->
-                            <div class="grid grid-cols-7" v-if="isAdmin(userStore.getUser?.role)">
-                                <Tooltip v-for="day in getWeekDays(weekStart)" :key="day.date"
-                                    :text="$t('dutySchedules.scheduleSlots.scheduleSlots')" :class="[
-                                        day.date === moment().format('YYYY-MM-DD') ? 'bg-secondary hover:bg-secondary-600 text-white' : 'text-gray-700 hover:bg-gray-100',
-                                        'relative cursor-pointer p-1 rounded-md'
-                                    ]" @click="openManageScheduleSlotModal(day)">
-                                    <div>
-                                        <div>
+                    <div class="flex-1 min-w-0 bg-gray-50 space-y-10">
+                        <div v-for="(weekStart, wIndex) in weeksInRange" :key="weekStart.valueOf()"
+                            :id="`weekly-${wIndex}`" class="bg-white">
+
+                            <!-- Sticky header -->
+                            <div class="sticky top-16 z-10 bg-white px-4 sm:px-6 lg:px-8 overflow-x-auto scrollbar-none"
+                                :id="`week-header-${wIndex}`" @scroll="syncScroll(wIndex, 'header')">
+
+                                <div class="min-w-[1000px]">
+
+                                    <!-- Week number and copy buttons -->
+                                    <div class="flex items-center gap-x-3 px-1 py-3">
+                                        <p class="text-secondary text-lg font-medium">
+                                            {{ $t('dutySchedules.week') }} {{ getWeekNumber(weekStart) }}
+                                        </p>
+                                        <div class="flex-1 flex justify-end gap-x-2">
+                                            <Tooltip :text="$t('dutySchedules.copy.copyThisWeeksSchedule')"
+                                                position="left">
+                                                <button
+                                                    class="bg-gray-200 w-6 h-6 text-sm text-gray-600 rounded-sm hover:bg-gray-400 hover:text-gray-200 flex items-center justify-center"
+                                                    @click="copyWeeklySchedule(getWeekNumber(weekStart))">
+                                                    <Icon name="mdi:content-copy" class="h-3 w-3" aria-hidden="true" />
+                                                </button>
+                                            </Tooltip>
+                                            <Tooltip :text="$t('dutySchedules.copy.copyMultipleWeeksSchedule')"
+                                                position="left" v-if="isAdmin(userStore.getUser?.role)">
+                                                <button
+                                                    class="bg-gray-200 w-6 h-6 text-sm text-gray-600 rounded-sm hover:bg-gray-400 hover:text-gray-200 flex items-center justify-center"
+                                                    @click="state.modal.isCopyMultipleWeeklyScheduleOpen = true">
+                                                    <Icon name="mdi:content-copy" class="h-3 w-3" aria-hidden="true" />
+                                                </button>
+                                            </Tooltip>
+                                        </div>
+                                    </div>
+
+                                    <!-- Day name headers — admin -->
+                                    <div class="grid grid-cols-7" v-if="isAdmin(userStore.getUser?.role)">
+                                        <Tooltip v-for="day in getWeekDays(weekStart)" :key="day.date"
+                                            :text="$t('dutySchedules.scheduleSlots.scheduleSlots')" :class="[
+                                                day.date === moment().format('YYYY-MM-DD') ? 'bg-secondary hover:bg-secondary-600 text-white' : 'text-gray-700 hover:bg-gray-100',
+                                                'relative cursor-pointer p-1 rounded-md'
+                                            ]" @click="openManageScheduleSlotModal(day)">
+                                            <div>
+                                                <div>
+                                                    <span class="flex gap-x-1 text-xs font-semibold">
+                                                        <span v-if="day.weekName === 'Mon'">
+                                                            {{ $t('calendar.week.short.Monday') }}
+                                                        </span>
+                                                        <span v-if="day.weekName === 'Tue'">
+                                                            {{ $t('calendar.week.short.Tuesday') }}
+                                                        </span>
+                                                        <span v-if="day.weekName === 'Wed'">
+                                                            {{ $t('calendar.week.short.Wednesday') }}
+                                                        </span>
+                                                        <span v-if="day.weekName === 'Thu'">
+                                                            {{ $t('calendar.week.short.Thursday') }}
+                                                        </span>
+                                                        <span v-if="day.weekName === 'Fri'">
+                                                            {{ $t('calendar.week.short.Friday') }}
+                                                        </span>
+                                                        <span v-if="day.weekName === 'Sat'">
+                                                            {{ $t('calendar.week.short.Saturday') }}
+                                                        </span>
+                                                        <span v-if="day.weekName === 'Sun'">
+                                                            {{ $t('calendar.week.short.Sunday') }}
+                                                        </span>
+                                                        <span>{{ day.day }}</span>
+                                                    </span>
+                                                    <div v-if="state.dutySchedules?.data?.[day?.date]?.total_slots"
+                                                        class="absolute top-1 left-12 text-xxs flex items-center justify-center w-4 h-4 bg-red-400 text-white rounded-full">
+                                                        {{
+                                                            state.dutySchedules?.data?.[day?.date]?.total_slots
+                                                        }}
+                                                    </div>
+                                                </div>
+                                                <div :class="[
+                                                    day.date === moment().format('YYYY-MM-DD') ? 'text-gray-50' : 'text-gray-500',
+                                                    'text-xs'
+                                                ]">
+                                                    <span v-if="day.month === 'January'">
+                                                        {{ $t('calendar.month.January') }}
+                                                    </span>
+                                                    <span v-if="day.month === 'February'">
+                                                        {{ $t('calendar.month.February') }}
+                                                    </span>
+                                                    <span v-if="day.month === 'March'">
+                                                        {{ $t('calendar.month.March') }}
+                                                    </span>
+                                                    <span v-if="day.month === 'April'">
+                                                        {{ $t('calendar.month.April') }}
+                                                    </span>
+                                                    <span v-if="day.month === 'May'">
+                                                        {{ $t('calendar.month.May') }}
+                                                    </span>
+                                                    <span v-if="day.month === 'June'">
+                                                        {{ $t('calendar.month.June') }}
+                                                    </span>
+                                                    <span v-if="day.month === 'July'">
+                                                        {{ $t('calendar.month.July') }}
+                                                    </span>
+                                                    <span v-if="day.month === 'August'">
+                                                        {{ $t('calendar.month.August') }}
+                                                    </span>
+                                                    <span v-if="day.month === 'September'">
+                                                        {{ $t('calendar.month.September') }}
+                                                    </span>
+                                                    <span v-if="day.month === 'October'">
+                                                        {{ $t('calendar.month.October') }}
+                                                    </span>
+                                                    <span v-if="day.month === 'November'">
+                                                        {{ $t('calendar.month.November') }}
+                                                    </span>
+                                                    <span v-if="day.month === 'December'">
+                                                        {{ $t('calendar.month.December') }}
+                                                    </span>
+                                                </div>
+                                            </div>
+                                        </Tooltip>
+                                    </div>
+
+                                    <!-- Day name headers — non-admin -->
+                                    <div class="grid grid-cols-7" v-if="!isAdmin(userStore.getUser?.role)">
+                                        <div v-for="day in getWeekDays(weekStart)" :key="day.date" :class="[
+                                            day.date === moment().format('YYYY-MM-DD') ? 'bg-secondary hover:bg-secondary-600 text-white' : 'text-gray-700 hover:bg-gray-100',
+                                            'p-1 rounded-md'
+                                        ]">
                                             <span class="flex gap-x-1 text-xs font-semibold">
                                                 <span v-if="day.weekName === 'Mon'">
                                                     {{ $t('calendar.week.short.Monday') }}
@@ -172,240 +285,165 @@
                                                 </span>
                                                 <span>{{ day.day }}</span>
                                             </span>
-                                            <div v-if="state.dutySchedules?.data?.[day?.date]?.total_slots"
-                                                class="absolute top-1 left-12 text-xxs flex items-center justify-center w-4 h-4 bg-red-400 text-white rounded-full">
-                                                {{
-                                                    state.dutySchedules?.data?.[day?.date]?.total_slots
-                                                }}
+                                            <div :class="[
+                                                day.date === moment().format('YYYY-MM-DD') ? 'text-gray-50' : 'text-gray-500',
+                                                'text-xs'
+                                            ]">
+                                                <span v-if="day.month === 'January'">
+                                                    {{ $t('calendar.month.January') }}
+                                                </span>
+                                                <span v-if="day.month === 'February'">
+                                                    {{ $t('calendar.month.February') }}
+                                                </span>
+                                                <span v-if="day.month === 'March'">
+                                                    {{ $t('calendar.month.March') }}
+                                                </span>
+                                                <span v-if="day.month === 'April'">
+                                                    {{ $t('calendar.month.April') }}
+                                                </span>
+                                                <span v-if="day.month === 'May'">
+                                                    {{ $t('calendar.month.May') }}
+                                                </span>
+                                                <span v-if="day.month === 'June'">
+                                                    {{ $t('calendar.month.June') }}
+                                                </span>
+                                                <span v-if="day.month === 'July'">
+                                                    {{ $t('calendar.month.July') }}
+                                                </span>
+                                                <span v-if="day.month === 'August'">
+                                                    {{ $t('calendar.month.August') }}
+                                                </span>
+                                                <span v-if="day.month === 'September'">
+                                                    {{ $t('calendar.month.September') }}
+                                                </span>
+                                                <span v-if="day.month === 'October'">
+                                                    {{ $t('calendar.month.October') }}
+                                                </span>
+                                                <span v-if="day.month === 'November'">
+                                                    {{ $t('calendar.month.November') }}
+                                                </span>
+                                                <span v-if="day.month === 'December'">
+                                                    {{ $t('calendar.month.December') }}
+                                                </span>
                                             </div>
                                         </div>
-                                        <div :class="[
-                                            day.date === moment().format('YYYY-MM-DD') ? 'text-gray-50' : 'text-gray-500',
-                                            'text-xs'
-                                        ]">
-                                            <span v-if="day.month === 'January'">
-                                                {{ $t('calendar.month.January') }}
-                                            </span>
-                                            <span v-if="day.month === 'February'">
-                                                {{ $t('calendar.month.February') }}
-                                            </span>
-                                            <span v-if="day.month === 'March'">
-                                                {{ $t('calendar.month.March') }}
-                                            </span>
-                                            <span v-if="day.month === 'April'">
-                                                {{ $t('calendar.month.April') }}
-                                            </span>
-                                            <span v-if="day.month === 'May'">
-                                                {{ $t('calendar.month.May') }}
-                                            </span>
-                                            <span v-if="day.month === 'June'">
-                                                {{ $t('calendar.month.June') }}
-                                            </span>
-                                            <span v-if="day.month === 'July'">
-                                                {{ $t('calendar.month.July') }}
-                                            </span>
-                                            <span v-if="day.month === 'August'">
-                                                {{ $t('calendar.month.August') }}
-                                            </span>
-                                            <span v-if="day.month === 'September'">
-                                                {{ $t('calendar.month.September') }}
-                                            </span>
-                                            <span v-if="day.month === 'October'">
-                                                {{ $t('calendar.month.October') }}
-                                            </span>
-                                            <span v-if="day.month === 'November'">
-                                                {{ $t('calendar.month.November') }}
-                                            </span>
-                                            <span v-if="day.month === 'December'">
-                                                {{ $t('calendar.month.December') }}
-                                            </span>
+                                    </div>
+
+                                    <!-- Holiday badges -->
+                                    <div class="grid grid-cols-7">
+                                        <div v-for="day in getWeekDays(weekStart)" :key="day.date">
+                                            <Badge type="primary" class="w-fit text-xxs"
+                                                v-if="state.dutySchedules?.data?.[day?.date]?.holiday">
+                                                {{ state.dutySchedules?.data?.[day?.date]?.holiday?.name }}
+                                            </Badge>
                                         </div>
                                     </div>
-                                </Tooltip>
-                            </div>
 
-                            <!-- Day name headers — non-admin -->
-                            <div class="grid grid-cols-7" v-if="!isAdmin(userStore.getUser?.role)">
-                                <div v-for="day in getWeekDays(weekStart)" :key="day.date" :class="[
-                                    day.date === moment().format('YYYY-MM-DD') ? 'bg-secondary hover:bg-secondary-600 text-white' : 'text-gray-700 hover:bg-gray-100',
-                                    'p-1 rounded-md'
-                                ]">
-                                    <span class="flex gap-x-1 text-xs font-semibold">
-                                        <span v-if="day.weekName === 'Mon'">
-                                            {{ $t('calendar.week.short.Monday') }}
-                                        </span>
-                                        <span v-if="day.weekName === 'Tue'">
-                                            {{ $t('calendar.week.short.Tuesday') }}
-                                        </span>
-                                        <span v-if="day.weekName === 'Wed'">
-                                            {{ $t('calendar.week.short.Wednesday') }}
-                                        </span>
-                                        <span v-if="day.weekName === 'Thu'">
-                                            {{ $t('calendar.week.short.Thursday') }}
-                                        </span>
-                                        <span v-if="day.weekName === 'Fri'">
-                                            {{ $t('calendar.week.short.Friday') }}
-                                        </span>
-                                        <span v-if="day.weekName === 'Sat'">
-                                            {{ $t('calendar.week.short.Saturday') }}
-                                        </span>
-                                        <span v-if="day.weekName === 'Sun'">
-                                            {{ $t('calendar.week.short.Sunday') }}
-                                        </span>
-                                        <span>{{ day.day }}</span>
-                                    </span>
-                                    <div :class="[
-                                        day.date === moment().format('YYYY-MM-DD') ? 'text-gray-50' : 'text-gray-500',
-                                        'text-xs'
-                                    ]">
-                                        <span v-if="day.month === 'January'">
-                                            {{ $t('calendar.month.January') }}
-                                        </span>
-                                        <span v-if="day.month === 'February'">
-                                            {{ $t('calendar.month.February') }}
-                                        </span>
-                                        <span v-if="day.month === 'March'">
-                                            {{ $t('calendar.month.March') }}
-                                        </span>
-                                        <span v-if="day.month === 'April'">
-                                            {{ $t('calendar.month.April') }}
-                                        </span>
-                                        <span v-if="day.month === 'May'">
-                                            {{ $t('calendar.month.May') }}
-                                        </span>
-                                        <span v-if="day.month === 'June'">
-                                            {{ $t('calendar.month.June') }}
-                                        </span>
-                                        <span v-if="day.month === 'July'">
-                                            {{ $t('calendar.month.July') }}
-                                        </span>
-                                        <span v-if="day.month === 'August'">
-                                            {{ $t('calendar.month.August') }}
-                                        </span>
-                                        <span v-if="day.month === 'September'">
-                                            {{ $t('calendar.month.September') }}
-                                        </span>
-                                        <span v-if="day.month === 'October'">
-                                            {{ $t('calendar.month.October') }}
-                                        </span>
-                                        <span v-if="day.month === 'November'">
-                                            {{ $t('calendar.month.November') }}
-                                        </span>
-                                        <span v-if="day.month === 'December'">
-                                            {{ $t('calendar.month.December') }}
-                                        </span>
-                                    </div>
                                 </div>
                             </div>
 
-                            <!-- Holiday badges -->
-                            <div class="grid grid-cols-7">
-                                <div v-for="day in getWeekDays(weekStart)" :key="day.date">
-                                    <Badge type="primary" class="w-fit text-xxs"
-                                        v-if="state.dutySchedules?.data?.[day?.date]?.holiday">
-                                        {{ state.dutySchedules?.data?.[day?.date]?.holiday?.name }}
-                                    </Badge>
-                                </div>
-                            </div>
+                            <!-- Scrollable body — horizontal scroll synced with header above -->
+                            <div class="overflow-x-auto pt-2 px-4 sm:px-6 lg:px-8" :id="`week-body-${wIndex}`"
+                                @scroll="syncScroll(wIndex, 'body')">
 
-                        </div>
-                    </div>
-
-                    <!-- Scrollable body — horizontal scroll synced with header above -->
-                    <div class="overflow-x-auto pt-2 px-4 sm:px-6 lg:px-8" :id="`week-body-${wIndex}`"
-                        @scroll="syncScroll(wIndex, 'body')">
-
-                        <div class="grid grid-cols-7 min-w-[1000px]">
-                            <div v-for="(day, dayIndex) in getWeekDays(weekStart)" :key="day.date"
-                                :class="[dayIndex !== 6 && 'border-r border-gray-200 space-y-1 min-h-96']">
-                                <div class="flex justify-end pr-1">
-                                    <Tooltip position="left" :text="$t('dutySchedules.newSchedule')">
-                                        <button
-                                            class="bg-gray-100 w-5 h-5 text-sm text-gray-700 rounded-sm hover:bg-gray-200"
-                                            @click="openAddNewShiftModal(day)">
-                                            +
-                                        </button>
-                                    </Tooltip>
-                                </div>
-                                <div v-for="(schedule, scheduleIndex) in state.dutySchedules?.data?.[day?.date]?.schedules"
-                                    :key="scheduleIndex" class="rounded-md relative">
-                                    <div class="bg-gray-100 text-xs p-3 flex justify-between gap-x-2">
-                                        <div class="flex items-center gap-x-2">
-                                            <div>
-                                                <div class="rounded-full w-2 h-2"
-                                                    :style="{ backgroundColor: `${schedule?.shift?.color}` }" />
-                                            </div>
-                                            <p>
-                                                {{ language.locale.value === 'en' ? schedule?.shift?.en_name :
-                                                    schedule?.shift?.dk_name }}
-                                            </p>
-                                        </div>
-                                        <div>
-                                            <button
-                                                class="bg-red-400 hover:bg-red-500 text-white w-4 h-4 text-sm rounded-sm flex items-center justify-center"
-                                                @click="removeShiftConfirmation(schedule)"
-                                                v-if="hasDeletePermission || isAdmin(userStore.getUser?.role)">
-                                                <Tooltip position="left"
-                                                    :text="$t('dutySchedules.removeSchedule.removeSchedule')">
-                                                    <Icon name="ph:trash" class="h-2 w-2" aria-hidden="true" />
-                                                </Tooltip>
-                                            </button>
-                                        </div>
-                                    </div>
-                                    <div class="bg-gray-50 px-3 py-1">
-                                        <div class="text-xs">
-                                            <p>{{ schedule?.user?.firstname }} {{ schedule?.user?.lastname ?? '' }}</p>
-                                            <p>
-                                                {{ moment(schedule?.date_time_start).format('HH:mm') }} -
-                                                {{ moment(schedule?.date_time_end).format('HH:mm') }}
-                                            </p>
-                                        </div>
-                                        <div v-if="schedule?.shift_span_position" class="py-0.5 text-xxs">
-                                            <p v-if="schedule?.shift_span_position === 'start'">
-                                                {{ $t('dutySchedules.shiftSpan.start') }}
-                                            </p>
-                                            <p v-if="schedule?.shift_span_position === 'middle'">
-                                                {{ $t('dutySchedules.shiftSpan.middle') }}
-                                            </p>
-                                            <p v-if="schedule?.shift_span_position === 'end'">
-                                                {{ $t('dutySchedules.shiftSpan.end') }}
-                                            </p>
-                                        </div>
-                                        <div :class="[
-                                            schedule?.citizen_schedules?.length > 0 && 'mt-0.5'
-                                        ]" v-if="schedule?.citizen_schedules?.length > 0">
-                                            <p v-for="(citizenSchedule, citizenScheduleIndex) in schedule?.citizen_schedules"
-                                                :key="citizenScheduleIndex" class="text-xxs py-0.5">
-                                                {{ citizenSchedule?.citizen?.firstname }}
-                                                {{ citizenSchedule?.citizen?.lastname }}
-                                            </p>
-                                        </div>
-                                        <div class="text-xxs py-0.5" v-if="schedule?.departments?.length > 0">
-                                            {{ $t('departments.departments') }}:
-                                            <span v-for="(department, departmentIndex) in schedule?.departments"
-                                                :key="departmentIndex">
-                                                {{ department?.name }}<span
-                                                    v-if="(departmentIndex as number) < schedule?.departments.length - 1">,
-                                                </span><span v-else>.</span>
-                                            </span>
-                                        </div>
-                                        <div class="flex items-center flex-wrap gap-0.5 mt-1"
-                                            v-if="schedule?.tags?.length > 0">
-                                            <Tooltip :text="tag?.tag" v-for="(tag, tagIndex) in schedule?.tags"
-                                                :key="tagIndex">
-                                                <div class="text-white w-4 h-4 text-xxs rounded-full flex items-center justify-center"
-                                                    :style="{ backgroundColor: tag?.color }">
-                                                    <span v-if="tag?.tag">
-                                                        {{ tag?.tag?.charAt(0) }}
-                                                    </span>
-                                                </div>
+                                <div class="grid grid-cols-7 min-w-[1000px]">
+                                    <div v-for="(day, dayIndex) in getWeekDays(weekStart)" :key="day.date"
+                                        :class="[dayIndex !== 6 && 'border-r border-gray-200 space-y-1 min-h-96']">
+                                        <div class="flex justify-end pr-1">
+                                            <Tooltip position="left" :text="$t('dutySchedules.newSchedule')">
+                                                <button
+                                                    class="bg-gray-100 w-5 h-5 text-sm text-gray-700 rounded-sm hover:bg-gray-200"
+                                                    @click="openAddNewShiftModal(day)">
+                                                    +
+                                                </button>
                                             </Tooltip>
                                         </div>
+                                        <div v-for="(schedule, scheduleIndex) in state.dutySchedules?.data?.[day?.date]?.schedules"
+                                            :key="scheduleIndex" class="rounded-md relative">
+                                            <div class="bg-gray-100 text-xs p-3 flex justify-between gap-x-2">
+                                                <div class="flex items-center gap-x-2">
+                                                    <div>
+                                                        <div class="rounded-full w-2 h-2"
+                                                            :style="{ backgroundColor: `${schedule?.shift?.color}` }" />
+                                                    </div>
+                                                    <p>
+                                                        {{ language.locale.value === 'en' ? schedule?.shift?.en_name :
+                                                            schedule?.shift?.dk_name }}
+                                                    </p>
+                                                </div>
+                                                <div>
+                                                    <button
+                                                        class="bg-red-400 hover:bg-red-500 text-white w-4 h-4 text-sm rounded-sm flex items-center justify-center"
+                                                        @click="removeShiftConfirmation(schedule)"
+                                                        v-if="hasDeletePermission || isAdmin(userStore.getUser?.role)">
+                                                        <Tooltip position="left"
+                                                            :text="$t('dutySchedules.removeSchedule.removeSchedule')">
+                                                            <Icon name="ph:trash" class="h-2 w-2" aria-hidden="true" />
+                                                        </Tooltip>
+                                                    </button>
+                                                </div>
+                                            </div>
+                                            <div class="bg-gray-50 px-3 py-1">
+                                                <div class="text-xs">
+                                                    <p>{{ schedule?.user?.firstname }} {{ schedule?.user?.lastname ?? ''
+                                                        }}
+                                                    </p>
+                                                    <p>
+                                                        {{ moment(schedule?.date_time_start).format('HH:mm') }} -
+                                                        {{ moment(schedule?.date_time_end).format('HH:mm') }}
+                                                    </p>
+                                                </div>
+                                                <div v-if="schedule?.shift_span_position" class="py-0.5 text-xxs">
+                                                    <p v-if="schedule?.shift_span_position === 'start'">
+                                                        {{ $t('dutySchedules.shiftSpan.start') }}
+                                                    </p>
+                                                    <p v-if="schedule?.shift_span_position === 'middle'">
+                                                        {{ $t('dutySchedules.shiftSpan.middle') }}
+                                                    </p>
+                                                    <p v-if="schedule?.shift_span_position === 'end'">
+                                                        {{ $t('dutySchedules.shiftSpan.end') }}
+                                                    </p>
+                                                </div>
+                                                <div :class="[
+                                                    schedule?.citizen_schedules?.length > 0 && 'mt-0.5'
+                                                ]" v-if="schedule?.citizen_schedules?.length > 0">
+                                                    <p v-for="(citizenSchedule, citizenScheduleIndex) in schedule?.citizen_schedules"
+                                                        :key="citizenScheduleIndex" class="text-xxs py-0.5">
+                                                        {{ citizenSchedule?.citizen?.firstname }}
+                                                        {{ citizenSchedule?.citizen?.lastname }}
+                                                    </p>
+                                                </div>
+                                                <div class="text-xxs py-0.5" v-if="schedule?.departments?.length > 0">
+                                                    {{ $t('departments.departments') }}:
+                                                    <span v-for="(department, departmentIndex) in schedule?.departments"
+                                                        :key="departmentIndex">
+                                                        {{ department?.name }}<span
+                                                            v-if="(departmentIndex as number) < schedule?.departments.length - 1">,
+                                                        </span><span v-else>.</span>
+                                                    </span>
+                                                </div>
+                                                <div class="flex items-center flex-wrap gap-0.5 mt-1"
+                                                    v-if="schedule?.tags?.length > 0">
+                                                    <Tooltip :text="tag?.tag" v-for="(tag, tagIndex) in schedule?.tags"
+                                                        :key="tagIndex">
+                                                        <div class="text-white w-4 h-4 text-xxs rounded-full flex items-center justify-center"
+                                                            :style="{ backgroundColor: tag?.color }">
+                                                            <span v-if="tag?.tag">
+                                                                {{ tag?.tag?.charAt(0) }}
+                                                            </span>
+                                                        </div>
+                                                    </Tooltip>
+                                                </div>
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
                     </div>
+                </div>
+                <div class="px-4 sm:px-6 lg:px-8 mt-5">
+                    <Pagination :data="state.userHours" @previous="previous" @next="next" />
                 </div>
             </div>
             <ModulesUserDutyScheduleModalFilter :isModalOpen="state.modal.isFilterDutyScheduleOpen"
@@ -495,58 +533,10 @@ const language = useI18n()
 const dutyScheduleStore = useDutyScheduleStore() as any
 const userStore = useUserStore() as any
 const departmentStore = useDepartmentStore()
-const { formatNumber } = useNumberFormatter()
-const { errorAlert } = useAlert()
 const currentDate = ref(moment())
-const month = computed(() => currentDate.value.format('MMMM'))
-const year = computed(() => currentDate.value.format('YYYY'))
-const expandedRecords = reactive([] as boolean[])
 const scrollLock = ref<Record<number, boolean>>({})
 
-function buildEmptyWeeks() {
-    const weekDaysOrder = ['monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday', 'sunday']
-    const startOfWeek = moment(currentDate.value).startOf('isoWeek')
-    const weekData = state.dutySchedules?.week_data || {}
-
-    return weekDaysOrder.reduce((weeks: any, dayKey: string, index: number) => {
-        const fallbackDate = moment(startOfWeek).add(index, 'day').format('YYYY-MM-DD')
-        weeks[dayKey] = {
-            date: weekData?.[dayKey]?.date || fallbackDate,
-            shifts: [],
-            slots: [],
-            additional_hour_requests: 0,
-            swap_requests: 0,
-            total_slots: 0,
-        }
-        return weeks
-    }, {})
-}
-
-function buildEmptyWeekData() {
-    const weekDaysOrder = ['monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday', 'sunday']
-    const startOfWeek = moment(currentDate.value).startOf('isoWeek')
-
-    return weekDaysOrder.reduce((weekData: any, dayKey: string, index: number) => {
-        weekData[dayKey] = {
-            date: moment(startOfWeek).add(index, 'day').format('YYYY-MM-DD'),
-            total_slots: 0,
-            holiday: null,
-        }
-        return weekData
-    }, {})
-}
-
-function getDisplayName(employee: any) {
-    return {
-        firstName: employee?.firstname || employee?.firstName || '',
-        lastName: employee?.lastname || employee?.lastName || '',
-    }
-}
-
 const state = reactive({
-    addShift: {
-        selectedEmployeeSchedule: {}
-    } as any,
     copy: {
         allEmployeeSchedules: {},
         selectedEmployeeDailySchedule: {},
@@ -645,6 +635,7 @@ const state = reactive({
     } as any,
     shiftWarnings: [] as any,
     showWarningDialog: false,
+    userHours: [] as any,
     viewShift: {
         selectedEmployeeSchedule: {},
     } as any,
@@ -702,6 +693,7 @@ watch(() => state.dutySchedules, (newSchedules) => {
 
 onMounted(() => {
     fetchDutySchedules()
+    getDutySchedulesUserHours()
     window.addEventListener('keydown', handleKeyDown)
 })
 
@@ -717,6 +709,13 @@ function handleKeyDown(event: KeyboardEvent) {
 
 function isAdmin(role: any) {
     return role && role === 'Admin'
+}
+
+function getDisplayName(employee: any) {
+    return {
+        firstName: employee?.firstname || employee?.firstName || '',
+        lastName: employee?.lastname || employee?.lastName || '',
+    }
 }
 
 const weeksInRange = computed(() => {
@@ -767,77 +766,6 @@ function syncScroll(wIndex: number, source: 'header' | 'body') {
     requestAnimationFrame(() => { scrollLock.value[wIndex] = false })
 }
 
-function sortMultiDayShiftsFirst(shifts: any) {
-    const sortedShifts = shifts.sort((a: any, b: any) => {
-        const aMultiDay = moment(a.date_time_end).startOf('day').diff(moment(a.date_time_start).startOf('day'), 'days') >= 1
-        const bMultiDay = moment(b.date_time_end).startOf('day').diff(moment(b.date_time_start).startOf('day'), 'days') >= 1
-
-        if (aMultiDay && !bMultiDay) return -1 // a comes first
-        if (!aMultiDay && bMultiDay) return 1  // b comes first
-        return 0 // Keep order for same type
-    })
-    return sortedShifts
-}
-
-function calculateShiftWidth(shift: any, weekIndex: string) {
-    const shiftStart = moment(shift.date_time_start).startOf('day')
-    const shiftEnd = moment(shift.date_time_end).startOf('day')
-
-    const weekStart = moment(currentDate.value).startOf('isoWeek')
-    const weekEnd = moment(currentDate.value).endOf('isoWeek')
-
-    // Clamp the shift range to the current week range
-    const visibleStart = shiftStart.isBefore(weekStart) ? weekStart : shiftStart
-    const visibleEnd = shiftEnd.isAfter(weekEnd) ? weekEnd : shiftEnd
-
-    let dayDifference = visibleEnd.diff(visibleStart, 'days')
-
-    // Special case: if shift ends at exactly 00:00, don't count the last day
-    const endsAtMidnight = moment(shift.date_time_end).format('HH:mm:ss') === '00:00:00'
-    if (endsAtMidnight) {
-        dayDifference--
-    }
-
-    if (weekIndex === 'sunday') return 'auto'
-
-    if (dayDifference <= 0) return 'auto'
-    if (dayDifference === 1) return '17.5rem'
-    if (dayDifference === 2) return '27rem'
-    if (dayDifference === 3) return '36.5rem'
-    if (dayDifference === 4) return '46rem'
-    if (dayDifference === 5) return '55.5rem'
-    return '65rem'
-}
-
-function calculateMarginTop(schedules: any, weekIndex: string, shiftIndex: number) {
-    const weekDaysOrder = ['monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday', 'sunday']
-    const dayIndex = weekDaysOrder.indexOf(weekIndex)
-
-    if (weekIndex === 'monday' || shiftIndex > 0) return 0 // If the current index is in the future, return 0
-
-    let overlapCount = 0
-
-    for (let i = 0; i <= dayIndex - 1; i++) {
-        const multiDayShift = getMultiDayShift(schedules[weekDaysOrder[i]]?.shifts)
-        if (multiDayShift) {
-            overlapCount += 1
-        }
-    }
-
-    return overlapCount > 0 ? 3.625 + (overlapCount - 1) * 3.125 : 0
-}
-
-function getMultiDayShift(shifts: any) {
-    return shifts?.find((shift: any) => {
-        const startDay = moment(shift.date_time_start).startOf('day')
-        const endDay = moment(shift.date_time_end).startOf('day')
-        const isMultiDay = endDay.diff(startDay, 'days') >= 1
-        const isExcluded = endDay.diff(startDay, 'days') === 1 && moment(shift.date_time_end).format('HH:mm:ss') === '00:00:00'
-
-        return isMultiDay && !isExcluded
-    })
-}
-
 async function fetchDutySchedules() {
     state.error = {}
     state.progress.totalRequests = state.progress.totalRequests + 1
@@ -880,6 +808,47 @@ async function fetchDutySchedules() {
     state.isPageLoading = false
 }
 
+async function getDutySchedulesUserHours() {
+    state.error = {}
+    state.progress.totalRequests = state.progress.totalRequests + 1
+    state.progress.pendingRequests = state.progress.pendingRequests + 1
+    identifyTheProgressPercentage()
+    try {
+        const params = {
+            page: dutyScheduleStore.getCurrentPageNumber,
+            page_length: dutyScheduleStore.getCurrentPageLength,
+            date_start: moment(state.filter.date_range[0]).format('YYYY-MM-DD'),
+            date_end: moment(state.filter.date_range[1]).format('YYYY-MM-DD'),
+            // filter_date_start: moment(state.shiftDateRange.formDateRange.start_date).format('YYYY-MM-DD'),
+            // filter_date_end: moment(state.shiftDateRange.formDateRange.end_date).format('YYYY-MM-DD'),
+            department: departmentStore.getSelectedDepartmentName,
+            // show_employees_working_today: dutyScheduleStore.getShowEmployeesWorkingToday,
+            ...state.dataFilter,
+        } as any
+        if (state.filter.department_uuids?.length > 0) {
+            params.department_uuids = Array(state.filter.department_uuids)
+        }
+        if (state.filter.employment_status) {
+            params.employment_status = Array(state.filter.employment_status)
+        }
+        if (state.filter.employee_uuids?.length > 0) {
+            params.employee_uuids = Array(state.filter.employee_uuids)
+        }
+        const response = await dutyScheduleService.getDutySchedulesUserHours(params)
+        if (response) {
+            state.userHours = response
+            state.progress.totalRequests = state.progress.totalRequests - 1
+            state.progress.pendingRequests = state.progress.pendingRequests - 1
+            identifyTheProgressPercentage()
+        }
+    } catch (error: any) {
+        state.error = error
+        state.progress.totalRequests = state.progress.totalRequests - 1
+        state.progress.pendingRequests = state.progress.pendingRequests - 1
+        identifyTheProgressPercentage()
+    }
+    state.isPageLoading = false
+}
 
 function isPreviousWeekDisabled() {
     if (isAdmin(userStore.getUser?.role)) return false
@@ -901,50 +870,25 @@ function handleSearch(value: any) {
     dutyScheduleStore.setCurrentPageNumber(1)
     state.dataFilter.search = value?.[0] == '' ? [] : value
     fetchDutySchedules()
+    getDutySchedulesUserHours()
 }
 
 function previous() {
     const currentTablePage = dutyScheduleStore.getCurrentPageNumber - 1
     dutyScheduleStore.setCurrentPageNumber(currentTablePage)
-    fetchDutySchedules()
+    getDutySchedulesUserHours()
 }
 
 function next() {
     const currentTablePage = dutyScheduleStore.getCurrentPageNumber + 1
     dutyScheduleStore.setCurrentPageNumber(currentTablePage)
-    fetchDutySchedules()
+    getDutySchedulesUserHours()
 }
 
 function changePageLength(event: any) {
     dutyScheduleStore.setCurrentPageNumber(1)
     dutyScheduleStore.setCurrentPageLength(event.target.value)
-    fetchDutySchedules()
-}
-
-function getSlotCount(dayName: string) {
-    return 0
-    const dayMap = {
-        Mon: 'monday',
-        Tue: 'tuesday',
-        Wed: 'wednesday',
-        Thu: 'thursday',
-        Fri: 'friday',
-        Sat: 'saturday',
-        Sun: 'sunday'
-    } as any
-    const key = dayMap[dayName]
-    return state.dutySchedules?.week_data?.[key]?.total_slots || 0
-}
-
-function toggleShowHideAllShifts() {
-    state.showAllShifts = !state.showAllShifts
-    expandedRecords.forEach((_, index) => {
-        expandedRecords[index] = !state.showAllShifts
-    })
-}
-
-function toggleExpanded(index: number) {
-    expandedRecords[index] = !expandedRecords[index]
+    getDutySchedulesUserHours()
 }
 
 function previousWeek() {
@@ -971,54 +915,14 @@ const weekNumber = computed(() => {
     return moment(currentDate.value).week()
 })
 
-const weekDays = computed(() => {
-    const startOfWeek = moment(currentDate.value).startOf('isoWeek')
-    return Array.from({ length: 7 }).map((_, i) => {
-        const day = moment(startOfWeek).add(i, 'day')
-        return {
-            shortName: day.format('dd')[0],
-            weekName: day.format('ddd'),
-            day: day.date(),
-            date: day.format('YYYY-MM-DD'),
-            fullDate: day,
-            month: day.format('MMMM'),
-        }
-    })
-})
-
-function isPastWeek() {
-    return moment(currentDate.value).format('YYYY-MM-DD') < moment().format('YYYY-MM-DD')
-}
-
 function hasConflict(week: any) {
     const hasConflict = week?.shifts?.some((shift: any) => shift.is_conflict === true)
     return hasConflict
 }
 
-function viewCompensatoryHours(employee: any) {
-    state.normHours.selectedEmployeeSchedule = employee
-    state.modal.isCompensatoryHoursOpen = true
-}
-
-function viewAvailableVacationHours(employee: any) {
-    state.normHours.selectedEmployeeSchedule = employee
-    state.modal.isVacationHoursOpen = true
-}
-
 function openAddNewShiftModal(day: any) {
-    console.log('day', day?.date)
-    // if (!employee?.uuid) {
-    //     errorAlert('Error', 'This employee is not linked to a local user yet.')
-    //     return
-    // }
     state.modal.isAddShiftOpen = true
-    // state.addShift.selectedEmployeeSchedule = {
-    //     employeeIndex: employeeIndex,
-    //     weekIndex: weekIndex,
-    //     ...week
-    // }
     state.newShift.selectedDate = day?.date
-    // state.newShift.selectedEmployee = employee
 }
 
 function openManageScheduleSlotModal(day: any) {
