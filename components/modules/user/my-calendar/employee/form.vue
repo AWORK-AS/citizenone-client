@@ -631,43 +631,24 @@ async function fetchAllCitizens() {
             ? selectedDepartment
             : selectedDepartment?.uuid
 
-        const isAllEmployees = state.formSchedule.employees.some((e: any) => e === "all-employees")
+        const ownerIds = [...state.formSchedule.employees]
+        const departmentUuids = selectedDepartmentUuid ? [selectedDepartmentUuid] : ['all-departments']
 
-        if (isAllEmployees) {
-            const params = {
-                department: departmentStore.getSelectedDepartmentName,
-            }
-            const response = await citizenService.getAllCitizens(params)
-            if (response.data) {
-                let options: any = []
-                response.data.forEach(
-                    (citizen: any) => options.push({
-                        value: citizen?.uuid,
-                        label: citizen?.firstname + " " + (citizen?.lastname ?? ''),
-                    })
-                )
-                state.options.citizens = options
-            }
-        } else {
-            const ownerIds = [...state.formSchedule.employees]
-            const departmentUuids = selectedDepartmentUuid ? [selectedDepartmentUuid] : ['all-departments']
-
-            const params = {
-                'owner_uuid[]': ownerIds,
-                'department_uuid[]': departmentUuids,
-            }
-            const response = await citizenService.getAllAssignedCitizenByEmployee(params)
-            if (response.data) {
-                let options: any = []
-                response.data.forEach(
-                    (citizen: any) => options.push({
-                        value: citizen?.uuid,
-                        label: citizen?.firstname + " " + (citizen?.lastname ?? ''),
-                    })
-                )
-                state.options.citizens = options
-                syncSelectedCitizensWithOptions()
-            }
+        const params = {
+            'owner_uuid[]': ownerIds,
+            'department_uuid[]': departmentUuids,
+        }
+        const response = await citizenService.getAllAssignedCitizenByEmployee(params)
+        if (response.data) {
+            let options: any = []
+            response.data.forEach(
+                (citizen: any) => options.push({
+                    value: citizen?.uuid,
+                    label: citizen?.firstname + " " + (citizen?.lastname ?? ''),
+                })
+            )
+            state.options.citizens = options
+            syncSelectedCitizensWithOptions()
         }
     } catch (error: any) {
         state.error = error
