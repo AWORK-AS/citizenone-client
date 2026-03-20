@@ -565,7 +565,7 @@ import moment from 'moment'
 import { useUserStore } from '@/store/user'
 import { useCustomPagesStore } from '@/store/custom-pages'
 import { useDepartmentStore } from '@/store/department'
-// import { zenegyService } from '@/components/api/user/ZenegyService'
+import { zenegyService } from '@/components/api/user/ZenegyService'
 import { dutyScheduleService } from '@/components/api/user/DutyScheduleService'
 import { extraHoursService } from '@/components/api/user/ExtraHoursService'
 import { departmentService } from '@/components/api/user/DepartmentService'
@@ -784,12 +784,12 @@ function toggleExpandEmployee(userUid: string) {
 }
 
 onMounted(async () => {
-    // try {
-    //     const status = await zenegyService.getZenegyStatus()
-    //     state.isZenegyConnected = status?.connected || false
-    // } catch {
-    //     state.isZenegyConnected = false
-    // }
+    try {
+        const status = await zenegyService.getZenegyStatus()
+        state.isZenegyConnected = status?.connected || false
+    } catch {
+        state.isZenegyConnected = false
+    }
 })
 
 function setCalendarView(view: any) {
@@ -855,79 +855,79 @@ function matchEmployeeToZenegy(localEmployee: any, zenegyEmployees: any[]): { ze
 }
 
 async function openZenegySyncModal() {
-    // state.modal.isZenegySyncOpen = true
-    // state.syncStep = 'configure'
-    // state.isLoadingModalData = true
-    // state.syncResult = null
-    // state.registrationsPreview = []
-    // state.expandedEmployees.clear()
-    // state.syncDateRange = []
-    // state.zenegyRatesRaw = []
-    // state.sharedRates = []
-    // state.fetchedScheduleData = []
-    // state.employeeShiftTypes = []
-    // state.zenegySupplementRatesRaw = []
-    // state.fetchedExtraHoursData = []
-    // state.employeeExtraHoursTypes = []
-    // state.supplementRegistrationsPreview = []
-    // state.selectedPresetIndex = null
-    // state.selectedPayPeriodType = ''
-    // state.newPresetName = ''
-    // state.showSavePresetInput = false
-    // state.configureAttempted = false
-    // state.assignRatesAttempted = false
-    // loadPresets()
+    state.modal.isZenegySyncOpen = true
+    state.syncStep = 'configure'
+    state.isLoadingModalData = true
+    state.syncResult = null
+    state.registrationsPreview = []
+    state.expandedEmployees.clear()
+    state.syncDateRange = []
+    state.zenegyRatesRaw = []
+    state.sharedRates = []
+    state.fetchedScheduleData = []
+    state.employeeShiftTypes = []
+    state.zenegySupplementRatesRaw = []
+    state.fetchedExtraHoursData = []
+    state.employeeExtraHoursTypes = []
+    state.supplementRegistrationsPreview = []
+    state.selectedPresetIndex = null
+    state.selectedPayPeriodType = ''
+    state.newPresetName = ''
+    state.showSavePresetInput = false
+    state.configureAttempted = false
+    state.assignRatesAttempted = false
+    loadPresets()
 
-    // try {
-    //     const [zenegyEmployeesRes, zenegyRatesRes, zenegySupplementRatesRes, departmentsRes] = await Promise.all([
-    //         zenegyService.getEmployees(),
-    //         zenegyService.getRates(),
-    //         zenegyService.getSupplementRates(),
-    //         departmentService.getAllDepartments({}),
-    //     ])
+    try {
+        const [zenegyEmployeesRes, zenegyRatesRes, zenegySupplementRatesRes, departmentsRes] = await Promise.all([
+            zenegyService.getEmployees(),
+            zenegyService.getRates(),
+            zenegyService.getSupplementRates(),
+            departmentService.getAllDepartments({}),
+        ])
 
-    //     state.zenegyDepartments = departmentsRes?.data || []
-    //     state.selectedZenegyDepartment = departmentStore.getSelectedDepartmentName || ''
+        state.zenegyDepartments = departmentsRes?.data || []
+        state.selectedZenegyDepartment = departmentStore.getSelectedDepartmentName || ''
 
-    //     state.allZenegyEmployees = zenegyEmployeesRes?.employees?.data || zenegyEmployeesRes?.data || []
-    //     state.zenegyEmployeesRaw = state.selectedZenegyDepartment
-    //         ? state.allZenegyEmployees.filter((emp: any) => emp.department?.name === state.selectedZenegyDepartment)
-    //         : state.allZenegyEmployees
+        state.allZenegyEmployees = zenegyEmployeesRes?.employees?.data || zenegyEmployeesRes?.data || []
+        state.zenegyEmployeesRaw = state.selectedZenegyDepartment
+            ? state.allZenegyEmployees.filter((emp: any) => emp.department?.name === state.selectedZenegyDepartment)
+            : state.allZenegyEmployees
 
-    //     const ratesData = zenegyRatesRes?.rates?.value?.data || zenegyRatesRes?.rates?.data || zenegyRatesRes?.data || []
-    //     state.zenegyRatesRaw = Array.isArray(ratesData) ? ratesData : []
+        const ratesData = zenegyRatesRes?.rates?.value?.data || zenegyRatesRes?.rates?.data || zenegyRatesRes?.data || []
+        state.zenegyRatesRaw = Array.isArray(ratesData) ? ratesData : []
 
-    //     state.sharedRates = state.zenegyRatesRaw
-    //         .filter((r: any) => !r.limitUserAccess && r.paymentPerRate > 0)
-    //         .map((r: any) => ({
-    //             uid: r.uid || r.id || '',
-    //             name: `${r.name}${r.number ? ` (${r.number})` : ''} - ${r.paymentPerRate} kr/t`,
-    //         }))
-    //     const supplementRatesData = zenegySupplementRatesRes?.rates || zenegySupplementRatesRes?.data || []
-    //     state.zenegySupplementRatesRaw = Array.isArray(supplementRatesData) ? supplementRatesData : []
+        state.sharedRates = state.zenegyRatesRaw
+            .filter((r: any) => !r.limitUserAccess && r.paymentPerRate > 0)
+            .map((r: any) => ({
+                uid: r.uid || r.id || '',
+                name: `${r.name}${r.number ? ` (${r.number})` : ''} - ${r.paymentPerRate} kr/t`,
+            }))
+        const supplementRatesData = zenegySupplementRatesRes?.rates || zenegySupplementRatesRes?.data || []
+        state.zenegySupplementRatesRaw = Array.isArray(supplementRatesData) ? supplementRatesData : []
 
-    //     const scheduleEmployees = weekViewRef.value?.getScheduleEmployees() || []
-    //     state.scheduleEmployees = scheduleEmployees.map((emp: any) => {
-    //         const matched = matchEmployeeToZenegy(emp, state.zenegyEmployeesRaw)
-    //         return {
-    //             uuid: emp.uuid,
-    //             firstname: emp.firstname || emp.firstName || '',
-    //             lastname: emp.lastname || emp.lastName || '',
-    //             selected: matched !== null,
-    //             matchedZenegyUserUid: matched?.zenegyUserUid || null,
-    //             matchedZenegyEmployeeUid: matched?.zenegyEmployeeUid || null,
-    //             salaryPayoutPeriod: matched?.salaryPayoutPeriod || 0,
-    //         }
-    //     })
-    //     state.selectAllEmployees = state.scheduleEmployees
-    //         .filter(e => e.matchedZenegyUserUid)
-    //         .every(e => e.selected)
+        const scheduleEmployees = weekViewRef.value?.getScheduleEmployees() || []
+        state.scheduleEmployees = scheduleEmployees.map((emp: any) => {
+            const matched = matchEmployeeToZenegy(emp, state.zenegyEmployeesRaw)
+            return {
+                uuid: emp.uuid,
+                firstname: emp.firstname || emp.firstName || '',
+                lastname: emp.lastname || emp.lastName || '',
+                selected: matched !== null,
+                matchedZenegyUserUid: matched?.zenegyUserUid || null,
+                matchedZenegyEmployeeUid: matched?.zenegyEmployeeUid || null,
+                salaryPayoutPeriod: matched?.salaryPayoutPeriod || 0,
+            }
+        })
+        state.selectAllEmployees = state.scheduleEmployees
+            .filter(e => e.matchedZenegyUserUid)
+            .every(e => e.selected)
 
-    // } catch (e: any) {
-    //     errorAlert(t('alert.error'), e?.message || 'Failed to load Zenegy data')
-    // } finally {
-    //     state.isLoadingModalData = false
-    // }
+    } catch (e: any) {
+        errorAlert(t('alert.error'), e?.message || 'Failed to load Zenegy data')
+    } finally {
+        state.isLoadingModalData = false
+    }
 }
 
 function showNoMatchTooltip(event: MouseEvent) {
@@ -1440,87 +1440,87 @@ function parseZenegyError(e: any): string {
 }
 
 async function executeSyncToZenegy() {
-    // const hasHourRegs = state.registrationsPreview.length > 0
-    // const hasSupplementRegs = state.supplementRegistrationsPreview.length > 0
-    // if (!hasHourRegs && !hasSupplementRegs) return
+    const hasHourRegs = state.registrationsPreview.length > 0
+    const hasSupplementRegs = state.supplementRegistrationsPreview.length > 0
+    if (!hasHourRegs && !hasSupplementRegs) return
 
-    // state.isSyncing = true
+    state.isSyncing = true
 
-    // const dateRange = state.syncDateRange
-    // const periodFrom = moment(dateRange[0]).startOf('day').format('YYYY-MM-DDTHH:mm:ss')
-    // const periodTo = moment(dateRange[1]).endOf('day').format('YYYY-MM-DDTHH:mm:ss')
+    const dateRange = state.syncDateRange
+    const periodFrom = moment(dateRange[0]).startOf('day').format('YYYY-MM-DDTHH:mm:ss')
+    const periodTo = moment(dateRange[1]).endOf('day').format('YYYY-MM-DDTHH:mm:ss')
 
-    // const hoursByEmployee = new Map<string, { name: string; regs: any[] }>()
-    // for (const reg of state.registrationsPreview) {
-    //     if (reg.hours <= 0) continue
-    //     if (!hoursByEmployee.has(reg.userUid)) {
-    //         hoursByEmployee.set(reg.userUid, { name: reg.employeeName, regs: [] })
-    //     }
-    //     hoursByEmployee.get(reg.userUid)!.regs.push({
-    //         userUid: reg.userUid,
-    //         date: reg.date,
-    //         from: moment(reg.from).format('YYYY-MM-DDTHH:mm:ss'),
-    //         to: moment(reg.to).format('YYYY-MM-DDTHH:mm:ss'),
-    //         hours: reg.hours,
-    //         hourPaymentRateUid: reg.hourPaymentRateUid,
-    //         periodFrom,
-    //         periodTo,
-    //     })
-    // }
+    const hoursByEmployee = new Map<string, { name: string; regs: any[] }>()
+    for (const reg of state.registrationsPreview) {
+        if (reg.hours <= 0) continue
+        if (!hoursByEmployee.has(reg.userUid)) {
+            hoursByEmployee.set(reg.userUid, { name: reg.employeeName, regs: [] })
+        }
+        hoursByEmployee.get(reg.userUid)!.regs.push({
+            userUid: reg.userUid,
+            date: reg.date,
+            from: moment(reg.from).format('YYYY-MM-DDTHH:mm:ss'),
+            to: moment(reg.to).format('YYYY-MM-DDTHH:mm:ss'),
+            hours: reg.hours,
+            hourPaymentRateUid: reg.hourPaymentRateUid,
+            periodFrom,
+            periodTo,
+        })
+    }
 
-    // const supplementsByEmployee = new Map<string, { name: string; regs: any[] }>()
-    // for (const reg of state.supplementRegistrationsPreview) {
-    //     const rateObj = state.zenegySupplementRatesRaw.find((r: any) => r.uid === reg.rateUid)
-    //     const registration: any = {
-    //         rateUid: reg.rateUid,
-    //         date: moment(reg.date).format('YYYY-MM-DDTHH:mm:ss'),
-    //         units: reg.units,
-    //         status: 1,
-    //         description: reg.note || '',
-    //     }
-    //     if (rateObj?.overrideName) registration.name = reg.rateName
-    //     if (rateObj?.overrideRate) registration.rate = reg.rate
+    const supplementsByEmployee = new Map<string, { name: string; regs: any[] }>()
+    for (const reg of state.supplementRegistrationsPreview) {
+        const rateObj = state.zenegySupplementRatesRaw.find((r: any) => r.uid === reg.rateUid)
+        const registration: any = {
+            rateUid: reg.rateUid,
+            date: moment(reg.date).format('YYYY-MM-DDTHH:mm:ss'),
+            units: reg.units,
+            status: 1,
+            description: reg.note || '',
+        }
+        if (rateObj?.overrideName) registration.name = reg.rateName
+        if (rateObj?.overrideRate) registration.rate = reg.rate
 
-    //     const key = reg.zenegyEmployeeUid
-    //     if (!supplementsByEmployee.has(key)) {
-    //         supplementsByEmployee.set(key, { name: reg.employeeName, regs: [] })
-    //     }
-    //     supplementsByEmployee.get(key)!.regs.push({ employeeUid: reg.zenegyEmployeeUid, registration })
-    // }
+        const key = reg.zenegyEmployeeUid
+        if (!supplementsByEmployee.has(key)) {
+            supplementsByEmployee.set(key, { name: reg.employeeName, regs: [] })
+        }
+        supplementsByEmployee.get(key)!.regs.push({ employeeUid: reg.zenegyEmployeeUid, registration })
+    }
 
-    // const results: Array<{ employeeName: string; type: 'hours' | 'supplements'; success: boolean; error?: string; count: number }> = []
+    const results: Array<{ employeeName: string; type: 'hours' | 'supplements'; success: boolean; error?: string; count: number }> = []
 
-    // for (const [userUid, { name, regs }] of hoursByEmployee) {
-    //     try {
-    //         await zenegyService.syncRegistrations(regs)
-    //         results.push({ employeeName: name, type: 'hours', success: true, count: regs.length })
-    //     } catch (e: any) {
-    //         results.push({ employeeName: name, type: 'hours', success: false, error: parseZenegyError(e), count: regs.length })
-    //     }
-    // }
+    for (const [userUid, { name, regs }] of hoursByEmployee) {
+        try {
+            await zenegyService.syncRegistrations(regs)
+            results.push({ employeeName: name, type: 'hours', success: true, count: regs.length })
+        } catch (e: any) {
+            results.push({ employeeName: name, type: 'hours', success: false, error: parseZenegyError(e), count: regs.length })
+        }
+    }
 
-    // for (const [empUid, { name, regs }] of supplementsByEmployee) {
-    //     try {
-    //         await zenegyService.syncSupplementRegistrations(regs)
-    //         results.push({ employeeName: name, type: 'supplements', success: true, count: regs.length })
-    //     } catch (e: any) {
-    //         results.push({ employeeName: name, type: 'supplements', success: false, error: parseZenegyError(e), count: regs.length })
-    //     }
-    // }
+    for (const [empUid, { name, regs }] of supplementsByEmployee) {
+        try {
+            await zenegyService.syncSupplementRegistrations(regs)
+            results.push({ employeeName: name, type: 'supplements', success: true, count: regs.length })
+        } catch (e: any) {
+            results.push({ employeeName: name, type: 'supplements', success: false, error: parseZenegyError(e), count: regs.length })
+        }
+    }
 
-    // state.syncResult = results
-    // state.syncStep = 'result'
-    // state.isSyncing = false
+    state.syncResult = results
+    state.syncStep = 'result'
+    state.isSyncing = false
 
-    // const successCount = results.filter(r => r.success).reduce((sum, r) => sum + r.count, 0)
-    // const failCount = results.filter(r => !r.success).reduce((sum, r) => sum + r.count, 0)
+    const successCount = results.filter(r => r.success).reduce((sum, r) => sum + r.count, 0)
+    const failCount = results.filter(r => !r.success).reduce((sum, r) => sum + r.count, 0)
 
-    // if (failCount === 0) {
-    //     successAlert(`${t('alert.success')}!`, t('dutySchedules.zenegy_sync_success'))
-    // } else if (successCount > 0) {
-    //     errorAlert(t('alert.warning'), t('dutySchedules.zenegy_sync_partial'))
-    // } else {
-    //     errorAlert(t('alert.error'), t('dutySchedules.zenegy_sync_failed'))
-    // }
+    if (failCount === 0) {
+        successAlert(`${t('alert.success')}!`, t('dutySchedules.zenegy_sync_success'))
+    } else if (successCount > 0) {
+        errorAlert(t('alert.warning'), t('dutySchedules.zenegy_sync_partial'))
+    } else {
+        errorAlert(t('alert.error'), t('dutySchedules.zenegy_sync_failed'))
+    }
 }
 </script>
