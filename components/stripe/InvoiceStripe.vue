@@ -109,6 +109,11 @@ const userStore = useUserStore() as any
 const { successAlert } = useAlert()
 const { t } = useI18n()
 const invoiceId = computed(() => route.params.id as string);
+const routeConnectedAccountId = computed(() => {
+  const value = route.query.accountId
+  const firstValue = Array.isArray(value) ? value[0] : value
+  return typeof firstValue === 'string' && /^acct_/.test(firstValue) ? firstValue : null
+})
 
 const invoiceDetails = ref<Invoice | null>(null);
 const loading = ref(true);
@@ -116,6 +121,11 @@ const error = ref('');
 const loadingStripe = ref(false);
 const loadingPdf = ref(false);
 const rawStripeInvoice = ref<any>(null)
+
+function resolveConnectedAccountIdFromInvoiceData(data: any): string | null {
+  const value = data?.connected_account_id || data?.invoice?.connected_account_id
+  return typeof value === 'string' && /^acct_/.test(value) ? value : null
+}
 
 // Load invoice on mount or when prop changes
 onMounted(() => {
@@ -471,7 +481,8 @@ async function loadInvoice() {
     loading.value = true;
     error.value = '';
 
-    const data = await stripeApi.getStripeInvoice(invoiceId.value);
+    const connectedAccountId = resolveConnectedAccountIdFromInvoiceData(props.invoiceData) || routeConnectedAccountId.value
+    const data = await stripeApi.getStripeInvoice(invoiceId.value, connectedAccountId);
     console.log('Loaded invoice data from API:', data);
     processInvoiceData(data);
   } catch (err) {
@@ -583,7 +594,8 @@ async function payWithStripe() {
       // For Stripe payment intents and invoices, always download the Stripe receipt
       // Don't try to match to regular invoices - use the Stripe receipt HTML directly
       const correctInvoiceId = currentInvoice.id || invoiceId.value
-      const response = await stripeApi.downloadStripeInvoicePdf(correctInvoiceId)
+      const connectedAccountId = resolveConnectedAccountIdFromInvoiceData(rawStripeInvoice.value) || routeConnectedAccountId.value
+      const response = await stripeApi.downloadStripeInvoicePdf(correctInvoiceId, connectedAccountId)
 
       // If we get a JSON response with a Stripe receipt URL, open it in a new window
       if (response && typeof response === 'object' && response.is_stripe_receipt_url) {
