@@ -13,7 +13,37 @@ interface StripeReceiptRedirectResponse {
     message?: string;
 }
 
+interface StripeConnectStatusResponse {
+    connected: boolean;
+    onboarded: boolean;
+    details_submitted: boolean;
+    charges_enabled: boolean;
+    payouts_enabled: boolean;
+    account_id?: string | null;
+}
+
 class stripeApi extends BaseAPIService {
+
+    private requireStripeInvoiceResourceId(id: string): string {
+        const value = String(id || '').trim()
+        if (!/^(in_|pi_|cs_)/.test(value)) {
+            throw new Error('Invalid Stripe invoice identifier. Expected Stripe id (in_/pi_/cs_).')
+        }
+
+        return value
+    }
+
+    async getConnectStatus(): Promise<StripeConnectStatusResponse> {
+        return await this.request('/stripe/connect/status', 'GET');
+    }
+
+    async createConnectOnboardingLink(): Promise<{ url: string; expires_at: number; account_id: string }> {
+        return await this.request('/stripe/connect/onboarding-link', 'POST', {});
+    }
+
+    async createConnectDashboardLink(): Promise<{ url: string }> {
+        return await this.request('/stripe/connect/dashboard-link', 'POST', {});
+    }
 
     async createPaymentIntent(
         amount: number,
@@ -32,8 +62,15 @@ class stripeApi extends BaseAPIService {
         });
     }
 
-    async getStripeInvoice(invoiceId: string): Promise<any> {
-        return await this.request(`/stripe/invoices/${invoiceId}`, 'GET');
+    async getStripeInvoice(invoiceId: string, connectedAccountId?: string | null): Promise<any> {
+        const stripeInvoiceId = this.requireStripeInvoiceResourceId(invoiceId)
+        let url = `/stripe/invoices/${stripeInvoiceId}`
+
+        if (connectedAccountId && /^acct_/.test(connectedAccountId)) {
+            url += `?accountId=${encodeURIComponent(connectedAccountId)}`
+        }
+
+        return await this.request(url, 'GET');
     }
 
     async createStripeInvoice(params: {
@@ -49,11 +86,18 @@ class stripeApi extends BaseAPIService {
         return await this.request('/stripe/create-invoice', 'POST', params);
     }
 
-    async downloadStripeInvoicePdf(invoiceId: string): Promise<Blob | StripeReceiptRedirectResponse> {
+    async downloadStripeInvoicePdf(invoiceId: string, connectedAccountId?: string | null): Promise<Blob | StripeReceiptRedirectResponse> {
         try {
+            const stripeInvoiceId = this.requireStripeInvoiceResourceId(invoiceId)
             const runtimeConfig = useRuntimeConfig()
             const apiBaseURL = runtimeConfig.public.apiBaseURL
-            const fullUrl = `${apiBaseURL}/stripe/download-pdf?invoiceId=${invoiceId}`
+            const query = new URLSearchParams({ invoiceId: stripeInvoiceId })
+
+            if (connectedAccountId && /^acct_/.test(connectedAccountId)) {
+                query.set('accountId', connectedAccountId)
+            }
+
+            const fullUrl = `${apiBaseURL}/stripe/download-pdf?${query.toString()}`
 
             const response = await fetch(fullUrl, {
                 method: 'GET',
@@ -88,7 +132,7 @@ class stripeApi extends BaseAPIService {
                     status: response.status,
                     statusText: response.statusText,
                     message: errorMessage,
-                    invoiceId: invoiceId
+                    invoiceId: stripeInvoiceId
                 })
                 
                 throw new Error(errorMessage)
@@ -121,11 +165,13 @@ class stripeApi extends BaseAPIService {
     }
 
     async sendStripeInvoice(invoiceId: string, params: { recipient_email: string }): Promise<any> {
-        return await this.request(`/stripe/invoices/${invoiceId}/send`, 'POST', params);
+        const stripeInvoiceId = this.requireStripeInvoiceResourceId(invoiceId)
+        return await this.request(`/stripe/invoices/${stripeInvoiceId}/send`, 'POST', params);
     }
 
     async createCheckoutSession(invoiceId: string): Promise<any> {
-        return await this.request(`/stripe/invoices/${invoiceId}/checkout-session`, 'POST', {});
+        const stripeInvoiceId = this.requireStripeInvoiceResourceId(invoiceId)
+        return await this.request(`/stripe/invoices/${stripeInvoiceId}/checkout-session`, 'POST', {});
     }
 
     async getStripeInvoices(params?: object): Promise<any> {
