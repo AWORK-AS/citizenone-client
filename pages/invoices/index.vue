@@ -19,7 +19,7 @@
                         {{ $t('refresh') || 'Refresh' }}
                     </FormButton>
                     <FormButton buttonStyle="action" class="rounded-lg"
-                        @click="state.modal.isStripeInvoiceOpen = true">
+                        @click="openStripeInvoiceModal">
                         <Icon name="ph:receipt" class="h-4 w-4" aria-hidden="true" />
                         Opret faktura
                     </FormButton>
@@ -149,7 +149,7 @@
                     @close="state.modal.isSendInvoiceOpen = false" />
                 <ModulesUserCitizenModalStripeInvoice :isModalOpen="state.modal.isStripeInvoiceOpen"
                     :citizens="state.citizens"
-                    @close="state.modal.isStripeInvoiceOpen = false"
+                    @close="closeStripeInvoiceModal"
                     @success="fetchInvoices" />
             </div>
         </NuxtLayout>
@@ -430,6 +430,37 @@ function resolveStripeIdentifier(invoice: any): string {
     return invoice?.stripe_id || invoice?.invoice_id || invoice?.id || invoice?.payment_intent || invoice?.payment_intent_id || invoice?.checkout_session_id || ''
 }
 
+function resolveStripeConnectedAccountId(invoice: any): string | null {
+    const candidate =
+        invoice?.connected_account_id
+        || invoice?.invoice?.connected_account_id
+        || invoice?.stripe_account
+        || invoice?.invoice?.stripe_account
+        || invoice?.on_behalf_of
+        || invoice?.invoice?.on_behalf_of
+        || invoice?.raw?.connected_account_id
+        || invoice?.raw?.stripe_account
+        || invoice?.raw?.on_behalf_of
+
+    if (typeof candidate === 'string' && /^acct_/.test(candidate)) {
+        return candidate
+    }
+
+    const hostedInvoiceUrl =
+        invoice?.hosted_invoice_url
+        || invoice?.invoice?.hosted_invoice_url
+        || invoice?.raw?.hosted_invoice_url
+
+    if (typeof hostedInvoiceUrl === 'string') {
+        const match = hostedInvoiceUrl.match(/\/i\/(acct_[^/]+)\//)
+        if (match?.[1] && /^acct_/.test(match[1])) {
+            return match[1]
+        }
+    }
+
+    return null
+}
+
 function resolveStripeCustomerName(invoice: any, fallback: string = ''): string {
     const chargeBillingDetails = invoice?.charges?.data?.[0]?.billing_details || invoice?.latest_charge?.billing_details
 
@@ -566,7 +597,7 @@ function findMatchingRegularInvoice(stripeInvoice: any, regularInvoices: any[]):
 
 // Helper function to limit concurrent promises
 function promiseConcurrencyLimiter(promises: (() => Promise<any>)[], concurrency: number = 5): Promise<any[]> {
-    return new Promise((resolve, reject) => {
+    return new Promise((resolve) => {
         let completed = 0
         let currentIndex = 0
         const results: any[] = new Array(promises.length)
@@ -587,7 +618,14 @@ function promiseConcurrencyLimiter(promises: (() => Promise<any>)[], concurrency
             const index = currentIndex
             currentIndex++
 
-            promises[index]()
+            const task = promises[index]
+            if (!task) {
+                completed++
+                executeNext()
+                return
+            }
+
+            task()
                 .then(result => {
                     results[index] = result
                     completed++
@@ -651,7 +689,8 @@ async function enrichStripeInvoicesWithDetails(stripeInvoices: any[]): Promise<a
         }
 
         try {
-            const details = await stripeApi.getStripeInvoice(id)
+            const connectedAccountId = resolveStripeConnectedAccountId(invoice)
+            const details = await stripeApi.getStripeInvoice(id, connectedAccountId)
             stripeDetailCache.set(id, details)
             return { invoice, details }
         } catch (error) {
@@ -665,7 +704,12 @@ async function enrichStripeInvoicesWithDetails(stripeInvoices: any[]): Promise<a
 
     // Merge enrichment results back into results array
     for (let i = 0; i < invoicesToEnrich.length; i++) {
-        const { index } = invoicesToEnrich[i]
+        const invoiceToEnrich = invoicesToEnrich[i]
+        if (!invoiceToEnrich) {
+            continue
+        }
+
+        const { index } = invoiceToEnrich
         const enrichmentResult = enrichmentResults[i]
         
         if (enrichmentResult?.details) {
@@ -691,7 +735,11 @@ function isStripeInvoice(invoice: any): boolean {
 }
 
 function resolveInvoiceIdentifier(invoice: any): string {
-    return invoice?.uuid || invoice?.stripe_id || invoice?.invoice_number || ''
+    if (isStripeInvoice(invoice)) {
+        return resolveStripeIdentifier(invoice)
+    }
+
+    return invoice?.uuid || invoice?.id || ''
 }
 
 function shouldDisplayInvoice(invoice: any): boolean {
@@ -722,6 +770,21 @@ function dedupeInvoices(invoices: any[]): any[] {
 
     return result
 }
+
+// "Se" Stripe Connect
+function viewConnectInvoice(invoiceId: string, accountId: string) {
+    navigateTo({
+        path: `/invoices/${encodeURIComponent(invoiceId)}`,
+        query: { accountId: accountId },
+    })
+}
+
+// "Download" Stripe Connect
+async function downloadConnectInvoice(invoiceId: string, accountId: string) {
+    return await stripeApi.downloadStripeInvoicePdf(invoiceId, accountId)
+}
+
+
 
 function isPaymentIntentLike(invoice: any): boolean {
     const id = String(resolveInvoiceIdentifier(invoice) || '').toLowerCase()
@@ -904,6 +967,30 @@ function submitSearch() {
     setPaginatedInvoices()
 }
 
+function openStripeInvoiceModal() {
+    state.modal.isStripeInvoiceOpen = true
+
+    if (!process.client) {
+        return
+    }
+
+    if (window.location.pathname === '/invoices') {
+        window.history.pushState({ stripeInvoiceModal: true }, '', '/invoices/new')
+    }
+}
+
+function closeStripeInvoiceModal() {
+    state.modal.isStripeInvoiceOpen = false
+
+    if (!process.client) {
+        return
+    }
+
+    if (window.location.pathname === '/invoices/new') {
+        window.history.replaceState({ stripeInvoiceModal: false }, '', '/invoices')
+    }
+}
+
 function openInvoiceDetails(invoice: any) {
     if (isPaidInvoice(invoice?.status) && invoice?.matched_regular_invoice_uuid) {
         navigateTo(`/invoices/${invoice.matched_regular_invoice_uuid}/invoice-details`)
@@ -911,9 +998,23 @@ function openInvoiceDetails(invoice: any) {
     }
 
     if (isStripeInvoice(invoice)) {
-        const stripeId = invoice.stripe_id || resolveInvoiceIdentifier(invoice)
-        const displayId = invoice.invoice_number || stripeId
-        navigateTo(`/invoices/${encodeURIComponent(displayId)}`)
+        const stripeId = resolveStripeIdentifier(invoice)
+        const connectedAccountId = resolveStripeConnectedAccountId(invoice)
+        if (!stripeId) {
+            state.error = { message: 'Stripe invoice is missing Stripe id (in_/pi_/cs_)' } as Error
+            return
+        }
+
+        // Stripe Connect invoices should use dedicated backend endpoints.
+        if (connectedAccountId) {
+            viewConnectInvoice(stripeId, connectedAccountId)
+            return
+        }
+
+        navigateTo({
+            path: `/invoices/${encodeURIComponent(stripeId)}`,
+            query: connectedAccountId ? { accountId: connectedAccountId } : undefined,
+        })
         return
     }
 
@@ -936,7 +1037,18 @@ async function downloadInvoiceDetails(invoice: any) {
         // Handle Stripe vs regular invoices differently
         // For Stripe invoices (paid or unpaid), always use Stripe download endpoint.
         if (isStripeInvoice(invoice)) {
-            response = await stripeApi.downloadStripeInvoicePdf(invoice?.stripe_id || invoiceUuid)
+            const stripeId = resolveStripeIdentifier(invoice)
+            const connectedAccountId = resolveStripeConnectedAccountId(invoice)
+            if (!stripeId) {
+                throw new Error('Stripe invoice is missing Stripe id (in_/pi_/cs_)')
+            }
+
+            // Keep normal Stripe flow unchanged; only use Connect endpoint for connected accounts.
+            if (connectedAccountId) {
+                response = await downloadConnectInvoice(stripeId, connectedAccountId)
+            } else {
+                response = await stripeApi.downloadStripeInvoicePdf(stripeId, connectedAccountId)
+            }
         } else {
             response = await clientInvoiceService.downloadClientInvoiceDetails(invoiceUuid)
         }
@@ -969,8 +1081,9 @@ async function downloadInvoiceDetails(invoice: any) {
         }
     } catch (error: any) {
         state.error = error
+    } finally {
+        state.isTableLoading = false
     }
-    state.isTableLoading = false
 }
 
 function formatStatus(status: string): string {
