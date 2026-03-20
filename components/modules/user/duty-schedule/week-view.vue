@@ -142,12 +142,13 @@
                             <!-- Day name headers — admin -->
                             <div class="grid grid-cols-7" v-if="isAdmin(userStore.getUser?.role)">
                                 <Tooltip v-for="day in getWeekDays(weekStart)" :key="day.date"
-                                    :text="$t('dutySchedules.scheduleSlots.scheduleSlots')"
-                                    class="relative cursor-pointer hover:bg-gray-100 p-1 rounded-md"
-                                    @click="openManageScheduleSlotModal(day)">
+                                    :text="$t('dutySchedules.scheduleSlots.scheduleSlots')" :class="[
+                                        day.date === moment().format('YYYY-MM-DD') ? 'bg-secondary hover:bg-secondary-600 text-white' : 'text-gray-700 hover:bg-gray-100',
+                                        'relative cursor-pointer p-1 rounded-md'
+                                    ]" @click="openManageScheduleSlotModal(day)">
                                     <div>
                                         <div>
-                                            <span class="flex gap-x-1 text-xs font-semibold text-gray-900">
+                                            <span class="flex gap-x-1 text-xs font-semibold">
                                                 <span v-if="day.weekName === 'Mon'">
                                                     {{ $t('calendar.week.short.Monday') }}
                                                 </span>
@@ -178,7 +179,10 @@
                                                 }}
                                             </div>
                                         </div>
-                                        <div class="text-xs text-gray-500">
+                                        <div :class="[
+                                            day.date === moment().format('YYYY-MM-DD') ? 'text-gray-50' : 'text-gray-500',
+                                            'text-xs'
+                                        ]">
                                             <span v-if="day.month === 'January'">
                                                 {{ $t('calendar.month.January') }}
                                             </span>
@@ -222,8 +226,11 @@
 
                             <!-- Day name headers — non-admin -->
                             <div class="grid grid-cols-7" v-if="!isAdmin(userStore.getUser?.role)">
-                                <div v-for="day in getWeekDays(weekStart)" :key="day.date" class="p-1">
-                                    <span class="flex gap-x-1 text-xs font-semibold text-gray-900">
+                                <div v-for="day in getWeekDays(weekStart)" :key="day.date" :class="[
+                                    day.date === moment().format('YYYY-MM-DD') ? 'bg-secondary hover:bg-secondary-600 text-white' : 'text-gray-700 hover:bg-gray-100',
+                                    'p-1 rounded-md'
+                                ]">
+                                    <span class="flex gap-x-1 text-xs font-semibold">
                                         <span v-if="day.weekName === 'Mon'">
                                             {{ $t('calendar.week.short.Monday') }}
                                         </span>
@@ -247,7 +254,10 @@
                                         </span>
                                         <span>{{ day.day }}</span>
                                     </span>
-                                    <div class="text-xs text-gray-500">
+                                    <div :class="[
+                                        day.date === moment().format('YYYY-MM-DD') ? 'text-gray-50' : 'text-gray-500',
+                                        'text-xs'
+                                    ]">
                                         <span v-if="day.month === 'January'">
                                             {{ $t('calendar.month.January') }}
                                         </span>
@@ -371,7 +381,6 @@
                                                     <span v-if="tag?.tag">
                                                         {{ tag?.tag?.charAt(0) }}
                                                     </span>
-                                                    A
                                                 </div>
                                             </Tooltip>
                                         </div>
