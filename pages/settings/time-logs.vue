@@ -15,6 +15,12 @@
             <ModulesUserSettingsTab />
 
             <div class="mt-10 space-y-5">
+                <div class="flex justify-end items-center mb-5">
+                    <FormButton buttonStyle="action" class="rounded-lg" @click="viewInterventionHours">
+                        <Icon name="ph:clock" class="h-4 w-4" aria-hidden="true" />
+                        {{ $t('timeLogs.interventionHours') }}
+                    </FormButton>
+                </div>
                 <Alert type="danger" :text="state?.error?.message"
                     v-if="state.error?.message && state.error.message.length > 0" />
                 <div class="table-responsive">
@@ -65,6 +71,9 @@
                     </Table>
                 </div>
                 <Pagination :data="state.logs" @previous="previous" @next="next" />
+
+                <ModulesUserSettingsTimeLogsInterventionHoursModal :isModalOpen="state.modal.isInterventionHoursOpen"
+                    @close="state.modal.isInterventionHoursOpen = false" />
             </div>
         </NuxtLayout>
     </div>
@@ -101,6 +110,9 @@ const state = reactive({
     sortData: {
         sortField: 'id',
         sortOrder: 'descend',
+    },
+    modal: {
+        isInterventionHoursOpen: false,
     },
 })
 
@@ -144,5 +156,9 @@ function sort(sortingData: any) {
         sortOrder: sortingData.sort,
     }
     fetchTimeLogs()
+}
+
+function viewInterventionHours() {
+    state.modal.isInterventionHoursOpen = true
 }
 </script>

@@ -46,7 +46,7 @@ export default defineNuxtConfig({
     '@pinia-plugin-persistedstate/nuxt',
     '@nuxt/icon',
     'vue3-carousel-nuxt',
-    "nuxt-echarts"
+    'nuxt-echarts',
   ],
 
   echarts: {

@@ -20,321 +20,232 @@
                 </div>
                 <div id="apps-checkout"></div>
                 <div v-if="!state.isAppsHidden">
-                    <div class="flex item-center gap-x-2">
-                        <FormButton buttonSize="sm" @click="scrollToSection('marketing')">
-                            Marketing
-                        </FormButton>
-                        <FormButton buttonSize="sm" @click="scrollToSection('visual')">
-                            Visual
-                        </FormButton>
-                        <FormButton buttonSize="sm" @click="scrollToSection('other')">
-                            Other
-                        </FormButton>
-                    </div>
-
-                    <div id="marketing"
-                        class="mt-5 grid grid-cols-1 gap-x-8 gap-y-4 pb-10 mb-10 xl:grid-cols-11 border-b border-gray-900/10">
-                        <div class="md:col-span-2">
-                            <h2 class="text-base font-semibold leading-7 text-gray-900">
+                    <div class="border-b-1.5 border-gray-200">
+                        <ul class="flex item-center gap-x-5 overflow-x-auto touch-auto">
+                            <li :class="[
+                                state.filter.type === 'citizenone' && 'text-secondary border-b-2 border-secondary',
+                                'text-gray-700 text-base cursor-pointer px-2 pb-3 hover:text-primary'
+                            ]" @click="changeCategory('citizenone')">
+                                {{ $t('apps.categories.citizenone') }}
+                            </li>
+                            <li :class="[
+                                state.filter.type === 'fst' && 'text-secondary border-b-2 border-secondary',
+                                'text-gray-700 text-base px-2 pb-3 cursor-pointer hover:text-primary'
+                            ]" @click="changeCategory('fst')">
+                                {{ $t('apps.categories.fst') }}
+                            </li>
+                            <li :class="[
+                                state.filter.type === 'marketing' && 'text-secondary border-b-2 border-secondary',
+                                'text-gray-700 text-base cursor-pointer px-2 pb-3 hover:text-primary'
+                            ]" @click="changeCategory('marketing')">
                                 {{ $t('apps.categories.marketing') }}
-                            </h2>
-                            <p class="mt-1 text-sm leading-6 text-gray-600" v-if="language.locale.value === 'en'">
-                                Tools and solutions designed to enhance brand visibility, optimize campaigns, and drive
-                                customer engagement.
-                            </p>
-                            <p class="mt-1 text-sm leading-6 text-gray-600" v-if="language.locale.value === 'dk'">
-                                Værktøjer og løsninger designet til at øge brandets synlighed, optimere kampagner og
-                                engagere kunder.
-                            </p>
-                        </div>
-                        <div class="md:col-span-9 space-y-3 px-4 py-6 sm:px-8 sm:py-6">
-                            <div class="ltablet:grid-cols-3 grid w-full gap-5 sm:grid-cols-2 lg:grid-cols-3">
-                                <div v-for="(app, index) in state.apps?.marketing" :key="index"
-                                    class="bg-white p-6 border rounded-md">
-                                    <div class="mb-3 flex justify-between">
-                                        <div class="flex items-center gap-3">
-                                            <img :src="app.logo" alt="App logo" class="w-10" />
-                                            <div class="leading-none">
-                                                <h4 class="text-muted-800 text-sm font-medium">
-                                                    {{ app.name }}
-                                                </h4>
-                                                <p class="text-muted-800 text-xs">
-                                                    <span v-if="app?.is_one_time_fee">
-                                                        {{ formatAmount(app?.price) }}
-                                                    </span>
-                                                    <span v-else>
-                                                        {{ formatAmount(app?.monthly_price) }}
-                                                        <span class="lowercase">/{{ $t('apps.month') }}</span>
-                                                    </span>
-                                                    {{ $t('excludeVat') }}
-                                                </p>
-                                            </div>
-                                            <Menu as="div" class="relative inline-block text-left" v-if="app.generic_name === 'zenegy' && app.user_activated">
-                                                <MenuButton>
-                                                    <Icon name="ph:gear" class="h-4 w-4 text-gray-500 hover:text-gray-700 cursor-pointer" />
-                                                </MenuButton>
-                                                <transition enter-active-class="transition duration-100 ease-out"
-                                                    enter-from-class="transform scale-95 opacity-0"
-                                                    enter-to-class="transform scale-100 opacity-100"
-                                                    leave-active-class="transition duration-75 ease-in"
-                                                    leave-from-class="transform scale-100 opacity-100"
-                                                    leave-to-class="transform scale-95 opacity-0">
-                                                    <MenuItems class="absolute left-0 mt-2 w-48 origin-top-left rounded-md bg-white shadow-lg ring-1 ring-black/5 focus:outline-none z-20">
-                                                        <div class="px-1 py-1">
-                                                            <MenuItem v-slot="{ active }" @click="openDisconnectModal(app)">
-                                                                <button :class="[active && 'bg-gray-100', 'group flex w-full items-center rounded-md px-2 py-2.5 text-sm text-red-600']">
-                                                                    {{ $t('apps.zenegy.disconnect') }}
-                                                                </button>
-                                                            </MenuItem>
-                                                        </div>
-                                                    </MenuItems>
-                                                </transition>
-                                            </Menu>
-                                        </div>
-                                        <Badge type="primary" class="text-xxs truncate w-fit h-fit"
-                                            v-if="app?.is_thirdparty">
-                                            {{ $t('apps.thirdPartyApp') }}
-                                        </Badge>
-                                    </div>
-                                    <div class="my-4 space-y-3">
-                                        <p class="text-muted-800 dark:text-muted-100 font-sans text-sm line-clamp-2">
-                                            {{ app?.description }}
-                                        </p>
-                                    </div>
-                                    <div class="flex items-center gap-2">
-                                        <FormButton type="button" buttonStyle="action" class="w-full"
-                                            @click="readMore(app)">
-                                            {{ $t('apps.readMore') }}
-                                        </FormButton>
-                                        <FormButton type="button" buttonStyle="action" class="w-full"
-                                            @click="navigateToExternalLink(app?.url_field)" v-if="app?.url_field">
-                                            {{ $t('apps.goToPartner') }}
-                                        </FormButton>
-                                        <FormButton type="button"
-                                            :buttonStyle="app?.user_activated ? 'warning' : 'action'" :class="[
-                                                app?.user_activated && 'cursor-not-allowed',
-                                                'w-full'
-                                            ]" color="primary"
-                                            @click="!app?.user_activated && confirmTACAcceptance(app)" v-else>
-                                            <span v-if="app?.user_activated">
-                                                {{ $t('apps.activated') }}
-                                            </span>
-                                            <span v-if="!app?.user_activated && app?.is_one_time_fee">
-                                                {{ $t('apps.orderNow') }}
-                                            </span>
-                                            <span v-if="!app?.user_activated && !app?.is_one_time_fee">
-                                                {{ $t('apps.activate') }}
-                                            </span>
-                                        </FormButton>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div id="visual"
-                        class="mt-5 grid grid-cols-1 gap-x-8 gap-y-4 pb-10 mb-10 xl:grid-cols-11 border-b border-gray-900/10">
-                        <div class="md:col-span-2">
-                            <h2 class="text-base font-semibold leading-7 text-gray-900">
+                            </li>
+                            <li :class="[
+                                state.filter.type === 'visual' && 'text-secondary border-b-2 border-secondary',
+                                'text-gray-700 text-base px-2 pb-3 cursor-pointer hover:text-primary'
+                            ]" @click="changeCategory('visual')">
                                 {{ $t('apps.categories.visual') }}
-                            </h2>
-                            <p class="mt-1 text-sm leading-6 text-gray-600" v-if="language.locale.value === 'en'">
-                                Applications focused on design, creativity, and media, enabling stunning graphics,
-                                videos, and interactive experiences.
-                            </p>
-                            <p class="mt-1 text-sm leading-6 text-gray-600" v-if="language.locale.value === 'dk'">
-                                Applikationer med fokus på design, kreativitet og medier, der muliggør imponerende
-                                grafik, videoer og interaktive oplevelser.
-                            </p>
-                        </div>
-                        <div class="md:col-span-9 space-y-3 px-4 py-6 sm:px-8 sm:py-6">
-                            <div class="ltablet:grid-cols-3 grid w-full gap-5 sm:grid-cols-2 lg:grid-cols-3">
-                                <div v-for="(app, index) in state.apps?.visual" :key="index"
-                                    class="bg-white p-6 border rounded-md">
-                                    <div class="mb-3 flex justify-between">
-                                        <div class="flex items-center gap-3">
-                                            <img :src="app.logo" alt="App logo" class="w-10" />
-                                            <div class="leading-none">
-                                                <h4
-                                                    class="text-muted-800 dark:text-muted-100 font-sans text-sm font-medium">
-                                                    {{ app.name }}
-                                                </h4>
-                                                <p class="text-muted-800 text-xs">
-                                                    <span v-if="app?.is_one_time_fee">
-                                                        {{ formatAmount(app?.price) }}
-                                                    </span>
-                                                    <span v-else>
-                                                        {{ formatAmount(app?.monthly_price) }}
-                                                        <span class="lowercase">/{{ $t('apps.month') }}</span>
-                                                    </span>
-                                                    {{ $t('excludeVat') }}
-                                                </p>
-                                            </div>
-                                            <Menu as="div" class="relative inline-block text-left" v-if="app.generic_name === 'zenegy' && app.user_activated">
-                                                <MenuButton>
-                                                    <Icon name="ph:gear" class="h-4 w-4 text-gray-500 hover:text-gray-700 cursor-pointer" />
-                                                </MenuButton>
-                                                <transition enter-active-class="transition duration-100 ease-out"
-                                                    enter-from-class="transform scale-95 opacity-0"
-                                                    enter-to-class="transform scale-100 opacity-100"
-                                                    leave-active-class="transition duration-75 ease-in"
-                                                    leave-from-class="transform scale-100 opacity-100"
-                                                    leave-to-class="transform scale-95 opacity-0">
-                                                    <MenuItems class="absolute left-0 mt-2 w-48 origin-top-left rounded-md bg-white shadow-lg ring-1 ring-black/5 focus:outline-none z-20">
-                                                        <div class="px-1 py-1">
-                                                            <MenuItem v-slot="{ active }" @click="openDisconnectModal(app)">
-                                                                <button :class="[active && 'bg-gray-100', 'group flex w-full items-center rounded-md px-2 py-2.5 text-sm text-red-600']">
-                                                                    {{ $t('apps.zenegy.disconnect') }}
-                                                                </button>
-                                                            </MenuItem>
-                                                        </div>
-                                                    </MenuItems>
-                                                </transition>
-                                            </Menu>
-                                        </div>
-                                        <Badge type="primary" class="text-xxs truncate w-fit h-fit"
-                                            v-if="app?.is_thirdparty">
-                                            {{ $t('apps.thirdPartyApp') }}
-                                        </Badge>
-                                    </div>
-                                    <div class="my-4 space-y-3">
-                                        <p class="text-muted-800 dark:text-muted-100 font-sans text-sm line-clamp-2">
-                                            {{ app?.description }}
-                                        </p>
-                                    </div>
-                                    <div class="flex items-center gap-2">
-                                        <FormButton type="button" buttonStyle="action" class="w-full"
-                                            @click="readMore(app)">
-                                            {{ $t('apps.readMore') }}
-                                        </FormButton>
-                                        <FormButton type="button" buttonStyle="action" class="w-full"
-                                            @click="navigateToExternalLink(app?.url_field)" v-if="app?.url_field">
-                                            {{ $t('apps.goToPartner') }}
-                                        </FormButton>
-                                        <FormButton type="button"
-                                            :buttonStyle="app?.user_activated ? 'warning' : 'action'" :class="[
-                                                app?.user_activated && 'cursor-not-allowed',
-                                                'w-full'
-                                            ]" color="primary"
-                                            @click="!app?.user_activated && confirmTACAcceptance(app)" v-else>
-                                            <span v-if="app?.user_activated">
-                                                {{ $t('apps.activated') }}
-                                            </span>
-                                            <span v-if="!app?.user_activated && app?.is_one_time_fee">
-                                                {{ $t('apps.orderNow') }}
-                                            </span>
-                                            <span v-if="!app?.user_activated && !app?.is_one_time_fee">
-                                                {{ $t('apps.activate') }}
-                                            </span>
-                                        </FormButton>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div id="other"
-                        class="mt-5 grid grid-cols-1 gap-x-8 gap-y-4 pb-10 mb-10 xl:grid-cols-11 border-b border-gray-900/10">
-                        <div class="md:col-span-2">
-                            <h2 class="text-base font-semibold leading-7 text-gray-900">
+                            </li>
+                            <li :class="[
+                                state.filter.type === 'other' && 'text-secondary border-b-2 border-secondary',
+                                'text-gray-700 text-base px-2 pb-3 cursor-pointer hover:text-primary'
+                            ]" @click="changeCategory('other')">
                                 {{ $t('apps.categories.other') }}
-                            </h2>
-                            <p class="mt-1 text-sm leading-6 text-gray-600" v-if="language.locale.value === 'en'">
-                                A collection of versatile apps catering to various needs, from productivity and
-                                organization to niche solutions.
-                            </p>
-                            <p class="mt-1 text-sm leading-6 text-gray-600" v-if="language.locale.value === 'dk'">
-                                En samling alsidige apps, der dækker forskellige behov, fra produktivitet og
-                                organisering til nicheløsninger.
-                            </p>
+                            </li>
+                        </ul>
+                    </div>
+
+                    <div class="mt-8 space-y-5">
+                        <div class="flex items-center gap-x-2">
+                            <img src="/img/icons/featured-stars.svg" :alt="$t('imageFailedToLoad')">
+                            <h3 class="text-lg font-semibold">
+                                {{ $t('apps.featuredApps') }}
+                            </h3>
                         </div>
-                        <div class="md:col-span-9 space-y-3 px-4 py-6 sm:px-8 sm:py-6">
-                            <div class="ltablet:grid-cols-3 grid w-full gap-5 sm:grid-cols-2 lg:grid-cols-3">
-                                <div v-for="(app, index) in state.apps?.other" :key="index"
-                                    class="bg-white p-6 border rounded-md">
-                                    <div class="mb-3 flex justify-between">
-                                        <div class="flex items-center gap-3">
-                                            <img :src="app.logo" alt="App logo" class="w-10" />
-                                            <div class="leading-none">
-                                                <h4
-                                                    class="text-muted-800 dark:text-muted-100 font-sans text-sm font-medium">
-                                                    {{ app.name }}
-                                                </h4>
-                                                <p class="text-muted-800 text-xs">
-                                                    <span v-if="app?.is_one_time_fee">
-                                                        {{ formatAmount(app?.price) }}
-                                                    </span>
-                                                    <span v-else>
-                                                        {{ formatAmount(app?.monthly_price) }}
-                                                        <span class="lowercase">/{{ $t('apps.month') }}</span>
-                                                    </span>
-                                                    {{ $t('excludeVat') }}
-                                                </p>
-                                            </div>
-                                            <Menu as="div" class="relative inline-block text-left" v-if="app.generic_name === 'zenegy' && app.user_activated">
-                                                <MenuButton>
-                                                    <Icon name="ph:gear" class="h-4 w-4 text-gray-500 hover:text-gray-700 cursor-pointer" />
-                                                </MenuButton>
-                                                <transition enter-active-class="transition duration-100 ease-out"
-                                                    enter-from-class="transform scale-95 opacity-0"
-                                                    enter-to-class="transform scale-100 opacity-100"
-                                                    leave-active-class="transition duration-75 ease-in"
-                                                    leave-from-class="transform scale-100 opacity-100"
-                                                    leave-to-class="transform scale-95 opacity-0">
-                                                    <MenuItems class="absolute left-0 mt-2 w-48 origin-top-left rounded-md bg-white shadow-lg ring-1 ring-black/5 focus:outline-none z-20">
-                                                        <div class="px-1 py-1">
-                                                            <MenuItem v-slot="{ active }" @click="openDisconnectModal(app)">
-                                                                <button :class="[active && 'bg-gray-100', 'group flex w-full items-center rounded-md px-2 py-2.5 text-sm text-red-600']">
-                                                                    {{ $t('apps.zenegy.disconnect') }}
-                                                                </button>
-                                                            </MenuItem>
-                                                        </div>
-                                                    </MenuItems>
-                                                </transition>
-                                            </Menu>
-                                        </div>
-                                        <Badge type="primary" class="text-xxs truncate w-fit h-fit"
-                                            v-if="app?.is_thirdparty">
-                                            {{ $t('apps.thirdPartyApp') }}
-                                        </Badge>
+                        <div class="grid grid-cols-1 md:grid-cols-3 gap-5">
+                            <div class="md:col-span-2 relative" v-if="getPopularApp()">
+                                <div class="relative min-h-72 space-y-3 bg-gradient-to-r p-7 md:col-span-2 rounded-xl overflow-hidden"
+                                    :style="getPopularApp()?.background_image
+                                        ? `background: linear-gradient(rgba(0,0,0,0.45), rgba(0,0,0,0.45)), url(${getPopularApp().background_image}) no-repeat center center; background-size: cover;`
+                                        : `background: linear-gradient(48deg,rgba(59, 164, 190, 1) 0%, rgba(41, 130, 155, 1) 50%, rgba(26, 99, 122, 1) 100%);`">
+                                    <div class="w-40 h-40 bg-white/10 absolute -right-4 -top-10 z-20 rounded-full" />
+                                    <div
+                                        class="flex items-center gap-x-2 bg-white/30 text-white w-fit px-4 py-1 rounded-full">
+                                        <Icon name="ic:sharp-trending-up" class="w-5 h-5" />
+                                        <span class="text-xs">
+                                            {{ $t('apps.mostPopular') }}
+                                        </span>
                                     </div>
-                                    <div class="my-4 space-y-3">
-                                        <p class="text-muted-800 dark:text-muted-100 font-sans text-sm line-clamp-2">
-                                            {{ app?.description }}
-                                        </p>
+                                    <p class="text-white text-sm">
+                                        <span v-if="state.filter.type === 'citizenone'">
+                                            {{ $t('apps.categories.citizenone') }}
+                                        </span>
+                                        <span v-if="state.filter.type === 'fst'">
+                                            {{ $t('apps.categories.fst') }}
+                                        </span>
+                                        <span v-if="state.filter.type === 'marketing'">
+                                            {{ $t('apps.categories.marketing') }}
+                                        </span>
+                                        <span v-if="state.filter.type === 'visual'">
+                                            {{ $t('apps.categories.visual') }}
+                                        </span>
+                                        <span v-if="state.filter.type === 'other'">
+                                            {{ $t('apps.categories.other') }}
+                                        </span>
+                                    </p>
+                                    <h3 class="text-white text-xl font-semibold">
+                                        {{ getPopularApp()?.name }}
+                                    </h3>
+                                    <p class="text-gray-100 text-sm line-clamp-3">
+                                        {{ getPopularApp()?.description }}
+                                    </p>
+                                    <FormButton type="button" buttonStyle="app-white"
+                                        @click="readMore(getPopularApp())">
+                                        {{ $t('apps.readMore') }}
+                                    </FormButton>
+                                </div>
+                            </div>
+                            <div v-if="getRecommendedApp()">
+                                <div class="relative min-h-72 space-y-3 bg-gradient-to-r p-7 md:col-span-2 z-10 rounded-xl overflow-hidden"
+                                    :style="getRecommendedApp()?.background_image
+                                        ? `background: linear-gradient(rgba(0,0,0,0.45), rgba(0,0,0,0.45)), url(${getRecommendedApp().background_image}) no-repeat center center; background-size: cover;`
+                                        : `background: linear-gradient(38deg,rgba(92, 148, 139, 1) 0%, rgba(76, 159, 168, 1) 50%, rgba(67, 166, 190, 1) 100%);`">
+                                    <div class="w-32 h-32 bg-white/10 absolute -right-6 -top-7 z-20 rounded-full" />
+                                    <div
+                                        class="flex items-center gap-x-2 bg-white/30 text-white w-fit px-4 py-1 rounded-full">
+                                        <Icon name="ic:sharp-trending-up" class="w-5 h-5" />
+                                        <span class="text-xs">
+                                            {{ $t('apps.recommended') }}
+                                        </span>
                                     </div>
-                                    <div class="flex items-center gap-2">
-                                        <FormButton type="button" buttonStyle="action" class="w-full"
-                                            @click="readMore(app)">
-                                            {{ $t('apps.readMore') }}
-                                        </FormButton>
-                                        <FormButton type="button" buttonStyle="action" class="w-full"
-                                            @click="navigateToExternalLink(app?.url_field)" v-if="app?.url_field">
-                                            {{ $t('apps.goToPartner') }}
-                                        </FormButton>
-                                        <FormButton type="button"
-                                            :buttonStyle="app?.user_activated ? 'warning' : 'action'" :class="[
-                                                !(!app?.user_activated || app?.is_quantifiable) && 'cursor-not-allowed',
-                                                'w-full'
-                                            ]" color="primary"
-                                            @click="(!app?.user_activated || app?.is_quantifiable) && confirmTACAcceptance(app)"
-                                            v-else>
-                                            <span v-if="app?.user_activated">
-                                                {{ $t('apps.activated') }}
-                                            </span>
-                                            <span v-if="!app?.user_activated && app?.is_one_time_fee">
-                                                {{ $t('apps.orderNow') }}
-                                            </span>
-                                            <span v-if="!app?.user_activated && !app?.is_one_time_fee">
-                                                {{ $t('apps.activate') }}
-                                            </span>
-                                        </FormButton>
-                                    </div>
+                                    <h3 class="text-white text-xl font-semibold">
+                                        {{ getRecommendedApp()?.name }}
+                                    </h3>
+                                    <p class="text-gray-100 text-sm line-clamp-4">
+                                        {{ getRecommendedApp()?.description }}
+                                    </p>
+                                    <FormButton type="button" buttonStyle="app-white"
+                                        @click="readMore(getRecommendedApp())">
+                                        {{ $t('apps.readMore') }}
+                                    </FormButton>
                                 </div>
                             </div>
                         </div>
                     </div>
 
+                    <div class="mt-8 max-w-3xl">
+                        <div class="space-y-3" v-if="state.filter.type === 'citizenone'">
+                            <h3 class="text-lg font-semibold">
+                                {{ $t('apps.categories.citizenone') }}
+                            </h3>
+                            <p class="text-gray-600">
+                                {{ $t('apps.description.citizenone') }}.
+                            </p>
+                        </div>
+                        <div class="space-y-3" v-if="state.filter.type === 'fst'">
+                            <h3 class="text-lg font-semibold">
+                                {{ $t('apps.categories.fst') }}
+                            </h3>
+                            <p class="text-gray-600">
+                                {{ $t('apps.description.fst') }}.
+                            </p>
+                        </div>
+                        <div class="space-y-3" v-if="state.filter.type === 'marketing'">
+                            <h3 class="text-lg font-semibold">
+                                {{ $t('apps.categories.marketing') }}
+                            </h3>
+                            <p class="text-gray-600">
+                                {{ $t('apps.description.marketing') }}.
+                            </p>
+                        </div>
+                        <div class="space-y-3" v-if="state.filter.type === 'visual'">
+                            <h3 class="text-lg font-semibold">
+                                {{ $t('apps.categories.visual') }}
+                            </h3>
+                            <p class="text-gray-600">
+                                {{ $t('apps.description.visual') }}.
+                            </p>
+                        </div>
+                        <div class="space-y-3" v-if="state.filter.type === 'other'">
+                            <h3 class="text-lg font-semibold">
+                                {{ $t('apps.categories.other') }}
+                            </h3>
+                            <p class="text-gray-600">
+                                {{ $t('apps.description.other') }}.
+                            </p>
+                        </div>
+                    </div>
+
+                    <div class="mt-8 grid grid-cols-1 md:grid-cols-3 gap-6">
+                        <div v-for="(app, index) in state.apps?.data" :key="index"
+                            class="relative bg-white px-7 py-6 border rounded-xl">
+                            <div v-if="app?.is_news">
+                                <img src="/img/icons/ribbon.svg" class="absolute -right-1.5 -top-0" />
+                                <p :class="[
+                                    language.locale.value === 'en' ? 'right-1.5 top-5' : 'right-1 top-5',
+                                    'text-white font-semibold text-xs absolute'
+                                ]">
+                                    {{ $t('apps.news') }}
+                                </p>
+                            </div>
+                            <div class="mb-3 flex justify-between">
+                                <div class="flex items-center gap-3">
+                                    <img :src="app.logo" alt="App logo" class="w-14" />
+                                    <div class="leading-none">
+                                        <div class="flex flex-wrap items-center gap-x-1">
+                                            <h4 class="text-muted-800 text-lg font-semibold pr-10">
+                                                {{ app.name }}
+                                            </h4>
+                                            <Badge type="primary" class="text-xxs truncate w-fit h-fit"
+                                                v-if="app?.is_thirdparty">
+                                                {{ $t('apps.thirdPartyApp') }}
+                                            </Badge>
+                                        </div>
+                                        <p class="mt-1 text-muted-800 text-sm">
+                                            <span v-if="app?.is_one_time_fee">
+                                                {{ formatAmount(app?.price) }}
+                                            </span>
+                                            <span v-else>
+                                                {{ formatAmount(app?.monthly_price) }}
+                                                <span class="lowercase">/{{ $t('apps.month') }}</span>
+                                            </span>
+                                            {{ $t('excludeVat') }}
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="my-6 space-y-3">
+                                <p class="text-gray-600 font-sans text-base line-clamp-2">
+                                    {{ app?.description }}
+                                </p>
+                            </div>
+                            <div class="flex items-center gap-2">
+                                <FormButton type="button" buttonStyle="action" class="w-full" @click="readMore(app)">
+                                    {{ $t('apps.readMore') }}
+                                </FormButton>
+                                <FormButton type="button" buttonStyle="action" class="w-full"
+                                    @click="navigateToExternalLink(app?.url_field)" v-if="app?.url_field">
+                                    {{ $t('apps.goToPartner') }}
+                                </FormButton>
+                                <FormButton type="button"
+                                    :buttonStyle="app?.user_activated ? 'app-activated' : 'app-order-now'" :class="[
+                                        app?.user_activated && 'cursor-not-allowed',
+                                        'w-full'
+                                    ]" color="primary" @click="!app?.user_activated && confirmTACAcceptance(app)"
+                                    v-else>
+                                    <span v-if="app?.user_activated">
+                                        {{ $t('apps.activated') }}
+                                    </span>
+                                    <span v-if="!app?.user_activated && app?.is_one_time_fee">
+                                        {{ $t('apps.orderNow') }}
+                                    </span>
+                                    <span v-if="!app?.user_activated && !app?.is_one_time_fee">
+                                        {{ $t('apps.activate') }}
+                                    </span>
+                                </FormButton>
+                            </div>
+                        </div>
+                    </div>
                     <div class="mt-6">
                         <Pagination :data="state.apps" @previous="previous" @next="next" />
                     </div>
@@ -345,20 +256,14 @@
                 <ModulesUserAppModalTACConfirmation :isModalOpen="state.modal.isAcceptTACOpen"
                     :selectedApp="state.selectedApp" @close="state.modal.isAcceptTACOpen = false"
                     @confirmAppActivation="activateApp" />
-                <DialogConfirmation :isModalOpen="state.modal.isDisconnectOpen"
-                    :message="$t('apps.zenegy.disconnectConfirmation')"
-                    :title="$t('apps.zenegy.disconnectTitle')"
-                    @close="state.modal.isDisconnectOpen = false"
-                    @confirm="disconnectZenegy" />
             </LoadingSpinner>
         </NuxtLayout>
     </div>
 </template>
 
 <script setup lang="ts">
-import { Menu, MenuButton, MenuItems, MenuItem } from '@headlessui/vue'
 import { appService } from '@/components/api/user/AppService'
-import { zenegyService } from '@/components/api/user/ZenegyService'
+import { googledriveService } from '@/components/api/user/GoogleDriveService'
 import { useI18n } from "vue-i18n"
 import { useAlert } from '@/composables/alert'
 import { useAmountFormatter } from '@/composables/amountFormatter'
@@ -366,10 +271,10 @@ import { useUserStore } from '@/store/user'
 import type { Error } from '@/types'
 
 const runtimeConfig = useRuntimeConfig()
-const language = useI18n()
 const { formatAmount } = useAmountFormatter()
 const { successAlert } = useAlert()
 const { t } = useI18n()
+const language = useI18n()
 const userStore = useUserStore() as any
 let currentTablePage = 1
 let checkout = null as any
@@ -384,46 +289,31 @@ const breadcrumbLinks = [
 ]
 
 const state = reactive({
-    apps: {
-        marketing: [] as any,
-        other: [] as any,
-        visual: [] as any,
-    },
+    apps: [] as any,
     error: {} as Error,
     filter: {
-        type: '',
+        type: 'citizenone',
     },
     isAppsHidden: false,
     isPageLoading: false,
     modal: {
         isAcceptTACOpen: false,
-        isDisconnectOpen: false,
         showAppDetails: false,
     },
     selectedApp: [] as any,
 })
 
-onMounted(() => {
-    // Set up message listener for OAuth popup callback
+onMounted(async () => {
+    // Set up message listener for Google Drive popup callback
     const handlePopupMessage = (event: MessageEvent) => {
-        console.log('Message received from popup:', event.data, 'origin:', event.origin)
-        
-        if (event.data?.type === 'oauth-auth-complete') {
-            if (event.data?.success) {
-                console.log('OAuth auth complete, refreshing apps...')
-                state.isPageLoading = false
-                fetchApps()
-                successAlert(`${t('alert.success')}!`, `${t('apps.alert.appSuccessfullyActivated')}.`)
-            } else if (event.data?.error) {
-                console.error('OAuth auth failed:', event.data.error)
-                state.isPageLoading = false
-                state.error = { message: event.data.error }
-            }
+        if (event.data?.type === 'google-drive-auth-complete') {
+            fetchApps()
+            successAlert(`${t('alert.success')}!`, 'Google Drive connection updated.')
         }
     }
-    
+
     window.addEventListener('message', handlePopupMessage)
-    
+
     fetchApps()
 })
 
@@ -437,63 +327,16 @@ async function fetchApps() {
         }
         const response = await appService.getApps(params)
         if (response) {
-            const apps = response?.data
-            state.apps.marketing = filterAppsByType(apps, 'marketing')
-            state.apps.visual = filterAppsByType(apps, 'visual')
-            state.apps.other = filterAppsByType(apps, 'other')
-            
-            // Check real Zenegy connection status
-            await updateZenegyStatus()
+            state.apps = response
+
+            // Check real Google Drive connection status
+            await updateGoogleDriveStatus()
         }
     } catch (error: any) {
         state.error = error
     }
     state.isPageLoading = false
 }
-
-async function updateZenegyStatus() {
-    try {
-        // Check if Zenegy is actually connected
-        const status = await zenegyService.getZenegyStatus()
-        const isConnected = status?.connected || false
-        
-        const categories = ['marketing', 'visual', 'other']
-        categories.forEach(category => {
-            const zenegyApp = state.apps[category]?.find(
-                (app: any) => app.generic_name === 'zenegy'
-            )
-            if (zenegyApp) {
-                zenegyApp.user_activated = isConnected
-            }
-        })
-    } catch (error) {
-        // Silently fail - if status check fails, rely on database value
-        console.error('Failed to check Zenegy status:', error)
-    }
-}
-
-function filterAppsByType(apps: any, type: string) {
-    return apps.filter((app: any) => app.type === type)
-}
-
-function scrollToSection(sectionId: string) {
-    const section = document.getElementById(sectionId)
-    if (section) {
-        if (sectionId === 'marketing') {
-            window.scrollTo({
-                top: section.offsetTop + 70, // Adjust offset if needed
-                behavior: "smooth"
-            })
-
-        } else {
-            window.scrollTo({
-                top: section.offsetTop + 50, // Adjust offset if needed
-                behavior: "smooth"
-            })
-        }
-    }
-}
-
 
 function previous() {
     currentTablePage--
@@ -505,6 +348,19 @@ function next() {
     fetchApps()
 }
 
+function changeCategory(category: any) {
+    state.filter.type = category
+    fetchApps()
+}
+
+function getPopularApp() {
+    return state.apps?.data?.find((app: any) => app.is_popular === true)
+}
+
+function getRecommendedApp() {
+    return state.apps?.data?.find((app: any) => app.is_recommended === true)
+}
+
 function readMore(app: any) {
     state.selectedApp = app
     state.modal.showAppDetails = true
@@ -514,7 +370,6 @@ function confirmTACAcceptance(app: any) {
     if (!userStore.getUser?.user_subscription) {
         navigateTo(`/subscription/subscribe?error=${t('apps.subscriptionRequired')}.`)
     } else {
-        // Set selected app and open modal for all apps (including OAuth)
         state.selectedApp = app
         state.modal.isAcceptTACOpen = true
     }
@@ -524,20 +379,20 @@ async function activateApp(formApp: any) {
     state.error = {}
     state.isPageLoading = true
     try {
-        if (state.selectedApp?.generic_name === 'zenegy' || state.selectedApp?.is_oauth) {
-            const response = await zenegyService.getAuthorizationUrl()
-            console.log('Zenegy response:', response)
-            if (response?.authorization_url || response?.authUrl || response?.auth_url) { 
-                const authUrl = response?.authorization_url || response?.authUrl || response?.auth_url
-                
-                // Open Zenegy OAuth in a popup
+        if (state.selectedApp?.generic_name === 'google-drive') {
+            const response = await googledriveService.getGoogleDriveAuthUrl()
+            console.log('Google Drive response:', response)
+            if (response?.authUrl || response?.auth_url) {
+                const authUrl = response?.authUrl || response?.auth_url
+
+                // Open Google OAuth in a popup
                 const popup = window.open(
                     authUrl,
-                    'ZenegyAuth',
+                    'GoogleDriveAuth',
                     'width=600,height=700,left=200,top=100'
                 )
-                
-                console.log('Zenegy popup opened')
+
+                console.log('Google Drive popup opened')
             } else {
                 console.error('No authUrl in response:', response)
             }
@@ -546,10 +401,6 @@ async function activateApp(formApp: any) {
                 app_uuid: state.selectedApp?.uuid,
             }
             const response = await appService.activateFreeApp(params)
-            if (response) {
-                successAlert(`${t('alert.success')}!`, `${t('apps.alert.appSuccessfullyActivated')}.`)
-                fetchApps()
-            }
         } else {
             const params = {} as any
             if (!state.selectedApp?.is_one_time_fee) {
@@ -583,24 +434,6 @@ async function activateApp(formApp: any) {
     state.isPageLoading = false
 }
 
-function openDisconnectModal(app: any) {
-    state.selectedApp = app
-    state.modal.isDisconnectOpen = true
-}
-
-async function disconnectZenegy() {
-    state.error = {}
-    state.isPageLoading = true
-    try {
-        await zenegyService.disconnectZenegy()
-        successAlert(`${t('alert.success')}!`, t('apps.zenegy.disconnected'))
-        fetchApps()
-    } catch (error: any) {
-        state.error = error
-    }
-    state.isPageLoading = false
-}
-
 async function navigateToExternalLink(link: any) {
     if (link) {
         await navigateTo(link, {
@@ -609,6 +442,23 @@ async function navigateToExternalLink(link: any) {
                 target: '_blank',
             }
         })
+    }
+}
+
+async function updateGoogleDriveStatus() {
+    try {
+        const status = await googledriveService.getGoogleDriveStatus()
+        const isConnected = status?.connected || false
+
+        const googleDriveApp = state.apps?.data?.find(
+            (app: any) => app.generic_name === 'google-drive'
+        )
+        if (googleDriveApp) {
+            googleDriveApp.user_activated = isConnected
+        }
+    } catch (error) {
+        // Silently fail - if status check fails, rely on database value
+        console.error('Failed to check Google Drive status:', error)
     }
 }
 </script>

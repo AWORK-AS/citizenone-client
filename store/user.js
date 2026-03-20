@@ -17,6 +17,9 @@ export const useUserStore = defineStore('userStore', {
         user: {},
     }),
     actions: {
+        setUserSystemNotificationCount(count) {
+            this.user.unread_system_notification_count = count
+        },
         minusUserNotificationCount() {
             this.user.unread_notification_count = this.user.unread_notification_count - 1
         },

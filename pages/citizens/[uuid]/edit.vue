@@ -88,6 +88,8 @@ const state = reactive({
         municipality_uuid: '',
         city: '',
         post_code: '',
+        latitude: '',
+        longitude: '',
         origin: '',
         diagnoses: [],
         medication_allergies: [],
@@ -171,6 +173,8 @@ async function fetchCitizen() {
                 municipality_uuid: response?.data?.address?.municipality?.uuid?.toString() ?? '',
                 city: response?.data?.address?.city ?? '',
                 post_code: response?.data?.address?.post_code ?? '',
+                latitude: response?.data?.address?.latitude ?? '',
+                longitude: response?.data?.address?.longitude ?? '',
                 origin: response?.data?.origin?.uuid?.toString() ?? '',
                 diagnoses: [],
                 medication_allergies: [],
@@ -275,6 +279,10 @@ async function updateCitizen(citizenDetails: any) {
         }
         params.append('city', citizenDetails.city)
         params.append('post_code', citizenDetails.post_code)
+        if (citizenDetails.latitude && citizenDetails.longitude) {
+            params.append('latitude', citizenDetails.latitude)
+            params.append('longitude', citizenDetails.longitude)
+        }
         if (citizenDetails.is_foreign_city) {
             params.append('foreign_city_uuid', citizenDetails.foreign_city)
         } else {
