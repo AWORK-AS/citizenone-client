@@ -108,12 +108,11 @@
 
                 <div class="bg-white flex items-stretch">
                     <div class="border-r border-gray-200 shrink-0">
-                        <div class="sticky top-0 overflow-y-auto p-4 space-y-5 w-32">
-                            <div v-for="(employee, employeeIndex) in state.userHours?.data" :key="employeeIndex"
-                                class="cursor-pointer">
-                                <div class="flex flex-col items-center gap-0">
+                        <div class="sticky top-0 h-[62vh] overflow-y-auto p-4 space-y-5 w-32">
+                            <div v-for="(employee, employeeIndex) in state.userHours?.data" :key="employeeIndex">
+                                <div class="flex flex-col items-center gap-1">
                                     <ModulesUserDutyScheduleUserHoursTooltip position="right"
-                                        :selectedEmployee="employee">
+                                        :selectedEmployee="employee" class="cursor-pointer">
                                         <div class="flex items-center gap-x-2">
                                             <img :src="employee?.profile_image ?? `https://ui-avatars.com/api/?background=42AED9&color=fff&name=${getDisplayName(employee).firstName + ' ' + getDisplayName(employee).lastName}`"
                                                 :class="[
