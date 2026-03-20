@@ -342,7 +342,7 @@
                                         </div>
                                         <div>
                                             <button
-                                                class="bg-red-700 text-white w-4 h-4 text-sm rounded-sm flex items-center justify-center"
+                                                class="bg-red-400 hover:bg-red-500 text-white w-4 h-4 text-sm rounded-sm flex items-center justify-center"
                                                 @click="removeShiftConfirmation(schedule)"
                                                 v-if="hasDeletePermission || isAdmin(userStore.getUser?.role)">
                                                 <Tooltip position="left"
@@ -956,7 +956,7 @@ function previousWeek() {
 }
 
 function setToday() {
-    state.filter.date_range = [moment(), moment()]
+    state.filter.date_range = [moment().startOf('isoWeek'), moment().endOf('isoWeek')]
 }
 
 function nextWeek() {
