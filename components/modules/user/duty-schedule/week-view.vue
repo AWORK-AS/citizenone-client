@@ -329,11 +329,28 @@
                                 </div>
                                 <div v-for="(schedule, scheduleIndex) in state.dutySchedules?.data?.[day?.date]?.schedules"
                                     :key="scheduleIndex" class="rounded-md relative">
-                                    <div class="bg-gray-100 text-xs p-3 flex items-center gap-x-2">
-                                        <div class="rounded-full w-2 h-2"
-                                            :style="{ backgroundColor: `${schedule?.shift?.color}` }" />
-                                        {{ language.locale.value === 'en' ? schedule?.shift?.en_name :
-                                            schedule?.shift?.dk_name }}
+                                    <div class="bg-gray-100 text-xs p-3 flex justify-between gap-x-2">
+                                        <div class="flex items-center gap-x-2">
+                                            <div>
+                                                <div class="rounded-full w-2 h-2"
+                                                    :style="{ backgroundColor: `${schedule?.shift?.color}` }" />
+                                            </div>
+                                            <p>
+                                                {{ language.locale.value === 'en' ? schedule?.shift?.en_name :
+                                                    schedule?.shift?.dk_name }}
+                                            </p>
+                                        </div>
+                                        <div>
+                                            <button
+                                                class="bg-red-700 text-white w-4 h-4 text-sm rounded-sm flex items-center justify-center"
+                                                @click="removeShiftConfirmation(schedule)"
+                                                v-if="hasDeletePermission || isAdmin(userStore.getUser?.role)">
+                                                <Tooltip position="left"
+                                                    :text="$t('dutySchedules.removeSchedule.removeSchedule')">
+                                                    <Icon name="ph:trash" class="h-2 w-2" aria-hidden="true" />
+                                                </Tooltip>
+                                            </button>
+                                        </div>
                                     </div>
                                     <div class="bg-gray-50 px-3 py-1">
                                         <div class="text-xs">
@@ -1314,7 +1331,7 @@ function removeShiftConfirmation(shift: any) {
 }
 
 async function removeShift() {
-    const scheduleUuid = state.removeShift.selectedShift.schedule_uuid
+    const scheduleUuid = state.removeShift.selectedShift.uuid
     try {
         state.progress.totalRequests = state.progress.totalRequests + 1
         state.progress.pendingRequests = state.progress.pendingRequests + 1
@@ -1335,7 +1352,7 @@ async function removeShift() {
 }
 
 async function removeEntireShiftSpan() {
-    const scheduleUuid = state.removeShift.selectedShift.schedule_uuid
+    const scheduleUuid = state.removeShift.selectedShift.uuid
     try {
         state.progress.totalRequests = state.progress.totalRequests + 1
         state.progress.pendingRequests = state.progress.pendingRequests + 1
