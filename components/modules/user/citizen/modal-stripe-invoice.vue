@@ -8,6 +8,45 @@
                             v-if="state.error?.message && state.error.message.length > 0" />
                         <Alert type="success" :text="state?.successMessage"
                             v-if="state.successMessage && state.successMessage.length > 0" />
+
+                        <div class="rounded-lg border border-gray-200 bg-gray-50 p-4 mb-4">
+                            <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-3">
+                                <div>
+                                    <p class="text-sm font-semibold text-gray-900">Stripe Connect</p>
+                                    <p class="text-xs text-gray-600 mt-1" v-if="state.connect.isLoading">
+                                        Checking your Stripe Connect status...
+                                    </p>
+                                    <p class="text-xs text-green-700 mt-1" v-else-if="state.connect.onboarded">
+                                        Connected and ready. Invoice payments are collected on your connected Stripe account.
+                                    </p>
+                                    <p class="text-xs text-amber-700 mt-1" v-else>
+                                        Connect your Stripe account so your customers pay you directly.
+                                    </p>
+                                </div>
+
+                                <div class="flex flex-wrap gap-2">
+                                    <FormButton
+                                        type="button"
+                                        buttonStyle="action"
+                                        class="rounded-md"
+                                        @click="refreshConnectStatus"
+                                        :disabled="state.connect.isLoading"
+                                    >
+                                        Refresh Status
+                                    </FormButton>
+
+                                    <FormButton
+                                        type="button"
+                                        buttonStyle="primary"
+                                        class="rounded-md"
+                                        @click="state.connect.onboarded ? openConnectDashboard() : startConnectOnboarding()"
+                                        :disabled="state.connect.isStartingOnboarding || state.connect.isOpeningDashboard"
+                                    >
+                                        {{ state.connect.onboarded ? 'Open Stripe Dashboard' : 'Connect Stripe Account' }}
+                                    </FormButton>
+                                </div>
+                            </div>
+                        </div>
                         
                         <div class="space-y-3">
                             <!-- Citizen Selector -->
@@ -167,6 +206,7 @@ const { successAlert } = useAlert()
 const { t } = useI18n()
 const runtimeConfig = useRuntimeConfig()
 const router = useRouter()
+const route = useRoute()
 
 const props = defineProps({
     isModalOpen: {
@@ -201,6 +241,17 @@ const state = reactive({
     isDownloading: false,
     isSending: false,
     createdInvoiceId: null as string | null,
+    connect: {
+        isLoading: false,
+        connected: false,
+        onboarded: false,
+        detailsSubmitted: false,
+        chargesEnabled: false,
+        payoutsEnabled: false,
+        accountId: null as string | null,
+        isStartingOnboarding: false,
+        isOpeningDashboard: false,
+    },
 })
 
 const rules = computed(() => {
@@ -226,9 +277,11 @@ const citizenOptions = computed(() => {
     }))
 })
 
-watch(() => props.isModalOpen, (isOpen) => {
+watch(() => props.isModalOpen, async (isOpen) => {
     if (isOpen) {
         resetForm()
+        await fetchConnectStatus()
+        applyConnectQueryFeedback()
     }
 })
 
@@ -274,6 +327,82 @@ function resetForm() {
     state.recipientEmail = ''
     state.createdInvoiceId = null
     v$.value.$reset()
+}
+
+function applyConnectQueryFeedback() {
+    const connectState = String(route.query?.stripe_connect || '').toLowerCase()
+
+    if (connectState === 'return') {
+        state.successMessage = 'Stripe Connect onboarding completed. You can now create invoices.'
+    }
+
+    if (connectState === 'refresh') {
+        state.error = { message: 'Stripe Connect onboarding was not completed yet. Continue onboarding to receive payments.' } as Error
+    }
+}
+
+async function fetchConnectStatus() {
+    state.connect.isLoading = true
+
+    try {
+        const status = await stripeApi.getConnectStatus()
+
+        state.connect.connected = Boolean(status?.connected)
+        state.connect.onboarded = Boolean(status?.onboarded)
+        state.connect.detailsSubmitted = Boolean(status?.details_submitted)
+        state.connect.chargesEnabled = Boolean(status?.charges_enabled)
+        state.connect.payoutsEnabled = Boolean(status?.payouts_enabled)
+        state.connect.accountId = status?.account_id ?? null
+    } catch (error: any) {
+        state.connect.connected = false
+        state.connect.onboarded = false
+    } finally {
+        state.connect.isLoading = false
+    }
+}
+
+async function refreshConnectStatus() {
+    await fetchConnectStatus()
+}
+
+async function startConnectOnboarding() {
+    state.connect.isStartingOnboarding = true
+    state.error = {}
+
+    try {
+        const response = await stripeApi.createConnectOnboardingLink()
+        const url = response?.url
+
+        if (!url) {
+            throw new Error('Failed to start Stripe Connect onboarding.')
+        }
+
+        window.location.href = url
+    } catch (error: any) {
+        state.error = { message: error?.message || 'Could not start Stripe Connect onboarding.' } as Error
+    } finally {
+        state.connect.isStartingOnboarding = false
+    }
+}
+
+async function openConnectDashboard() {
+    state.connect.isOpeningDashboard = true
+    state.error = {}
+
+    try {
+        const response = await stripeApi.createConnectDashboardLink()
+        const url = response?.url
+
+        if (!url) {
+            throw new Error('Failed to open Stripe dashboard.')
+        }
+
+        window.open(url, '_blank', 'noopener,noreferrer')
+    } catch (error: any) {
+        state.error = { message: error?.message || 'Could not open Stripe dashboard.' } as Error
+    } finally {
+        state.connect.isOpeningDashboard = false
+    }
 }
 
 function closeModal() {
