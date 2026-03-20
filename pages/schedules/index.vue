@@ -231,7 +231,7 @@
                             </div>
 
                             <!-- Employee Selection (grouped by pay period) -->
-                            <div class="space-y-2">
+                            <div v-if="canShowEmployees" class="space-y-2">
                                 <FormLabel :label="$t('dutySchedules.zenegy_select_employees')" />
                                 <div v-if="state.scheduleEmployees.length > 0">
                                     <div class="flex w-fit cursor-pointer items-center gap-x-2 border-b border-gray-200 pb-2 text-sm font-medium"
@@ -648,6 +648,7 @@ const state = reactive({
     configureAttempted: false,
     assignRatesAttempted: false,
     savedPresets: [] as Array<{ name: string; employeeUuids: string[]; payPeriodType: 'monthly' | 'weekly' | 'biweekly' }>,
+    pendingPresetEmployeeUuids: null as string[] | null,
     selectedPresetIndex: null as number | null,
     newPresetName: '' as string,
     showSavePresetInput: false,
@@ -854,6 +855,53 @@ function matchEmployeeToZenegy(localEmployee: any, zenegyEmployees: any[]): { ze
     return null
 }
 
+const canShowEmployees = computed(() =>
+    state.selectedZenegyDepartment !== '' && state.syncDateRange?.length >= 2
+)
+
+function loadAndMatchEmployees() {
+    state.zenegyEmployeesRaw = state.selectedZenegyDepartment
+        ? state.allZenegyEmployees.filter((emp: any) => emp.department?.name === state.selectedZenegyDepartment)
+        : state.allZenegyEmployees
+
+    const scheduleEmployees = weekViewRef.value?.getScheduleEmployees() || []
+    state.scheduleEmployees = scheduleEmployees.map((emp: any) => {
+        const matched = matchEmployeeToZenegy(emp, state.zenegyEmployeesRaw)
+        return {
+            uuid: emp.uuid,
+            firstname: emp.firstname || emp.firstName || '',
+            lastname: emp.lastname || emp.lastName || '',
+            selected: matched !== null,
+            matchedZenegyUserUid: matched?.zenegyUserUid || null,
+            matchedZenegyEmployeeUid: matched?.zenegyEmployeeUid || null,
+            salaryPayoutPeriod: matched?.salaryPayoutPeriod || 0,
+        }
+    })
+
+    // Apply pending preset employee selections if a preset was applied before employees loaded
+    if (state.pendingPresetEmployeeUuids) {
+        const presetUuids = state.pendingPresetEmployeeUuids
+        state.pendingPresetEmployeeUuids = null
+        state.scheduleEmployees.forEach(emp => {
+            if (emp.matchedZenegyUserUid) {
+                emp.selected = presetUuids.includes(emp.uuid)
+            }
+        })
+    }
+
+    state.selectAllEmployees = state.scheduleEmployees
+        .filter(e => e.matchedZenegyUserUid)
+        .every(e => e.selected)
+}
+
+watch(canShowEmployees, (canShow) => {
+    if (canShow) {
+        loadAndMatchEmployees()
+    } else {
+        state.scheduleEmployees = []
+    }
+})
+
 async function openZenegySyncModal() {
     state.modal.isZenegySyncOpen = true
     state.syncStep = 'configure'
@@ -870,6 +918,7 @@ async function openZenegySyncModal() {
     state.fetchedExtraHoursData = []
     state.employeeExtraHoursTypes = []
     state.supplementRegistrationsPreview = []
+    state.pendingPresetEmployeeUuids = null
     state.selectedPresetIndex = null
     state.selectedPayPeriodType = ''
     state.newPresetName = ''
@@ -890,9 +939,6 @@ async function openZenegySyncModal() {
         state.selectedZenegyDepartment = departmentStore.getSelectedDepartmentName || ''
 
         state.allZenegyEmployees = zenegyEmployeesRes?.employees?.data || zenegyEmployeesRes?.data || []
-        state.zenegyEmployeesRaw = state.selectedZenegyDepartment
-            ? state.allZenegyEmployees.filter((emp: any) => emp.department?.name === state.selectedZenegyDepartment)
-            : state.allZenegyEmployees
 
         const ratesData = zenegyRatesRes?.rates?.value?.data || zenegyRatesRes?.rates?.data || zenegyRatesRes?.data || []
         state.zenegyRatesRaw = Array.isArray(ratesData) ? ratesData : []
@@ -906,22 +952,7 @@ async function openZenegySyncModal() {
         const supplementRatesData = zenegySupplementRatesRes?.rates || zenegySupplementRatesRes?.data || []
         state.zenegySupplementRatesRaw = Array.isArray(supplementRatesData) ? supplementRatesData : []
 
-        const scheduleEmployees = weekViewRef.value?.getScheduleEmployees() || []
-        state.scheduleEmployees = scheduleEmployees.map((emp: any) => {
-            const matched = matchEmployeeToZenegy(emp, state.zenegyEmployeesRaw)
-            return {
-                uuid: emp.uuid,
-                firstname: emp.firstname || emp.firstName || '',
-                lastname: emp.lastname || emp.lastName || '',
-                selected: matched !== null,
-                matchedZenegyUserUid: matched?.zenegyUserUid || null,
-                matchedZenegyEmployeeUid: matched?.zenegyEmployeeUid || null,
-                salaryPayoutPeriod: matched?.salaryPayoutPeriod || 0,
-            }
-        })
-        state.selectAllEmployees = state.scheduleEmployees
-            .filter(e => e.matchedZenegyUserUid)
-            .every(e => e.selected)
+        // Employee matching is deferred until department + date range are both selected
 
     } catch (e: any) {
         errorAlert(t('alert.error'), e?.message || 'Failed to load Zenegy data')
@@ -940,25 +971,11 @@ function showNoMatchTooltip(event: MouseEvent) {
 }
 
 function onZenegyDepartmentChange() {
-    state.zenegyEmployeesRaw = state.selectedZenegyDepartment
-        ? state.allZenegyEmployees.filter((emp: any) => emp.department?.name === state.selectedZenegyDepartment)
-        : state.allZenegyEmployees
-
-    const scheduleEmployees = weekViewRef.value?.getScheduleEmployees() || []
-    state.scheduleEmployees = scheduleEmployees.map((emp: any) => {
-        const matched = matchEmployeeToZenegy(emp, state.zenegyEmployeesRaw)
-        return {
-            uuid: emp.uuid,
-            firstname: emp.firstname || emp.firstName || '',
-            lastname: emp.lastname || emp.lastName || '',
-            selected: matched !== null,
-            matchedZenegyUserUid: matched?.zenegyUserUid || null,
-            matchedZenegyEmployeeUid: matched?.zenegyEmployeeUid || null,
-            salaryPayoutPeriod: matched?.salaryPayoutPeriod || 0,
-        }
-    })
-    state.selectAllEmployees = state.scheduleEmployees
-        .filter(e => e.matchedZenegyUserUid).every(e => e.selected)
+    if (canShowEmployees.value) {
+        loadAndMatchEmployees()
+    } else {
+        state.scheduleEmployees = []
+    }
 }
 
 function toggleSelectAllEmployees() {
@@ -1007,16 +1024,26 @@ function applyPreset(index: number) {
     if (!preset) return
     state.selectedPresetIndex = index
 
-    state.scheduleEmployees.forEach(emp => {
-        if (emp.matchedZenegyUserUid) {
-            emp.selected = preset.employeeUuids.includes(emp.uuid)
-        }
-    })
-    state.selectAllEmployees = state.scheduleEmployees
-        .filter(e => e.matchedZenegyUserUid)
-        .every(e => e.selected)
+    // Set pay period and date range first (this may trigger canShowEmployees → loadAndMatchEmployees)
+    if (preset.payPeriodType) {
+        state.selectedPayPeriodType = preset.payPeriodType as any
+        applyPayPeriodDateRange(preset.payPeriodType)
+    }
 
-    autoDetectAndApplyPayPeriod()
+    if (state.scheduleEmployees.length > 0) {
+        // Employees already loaded — apply selections directly
+        state.scheduleEmployees.forEach(emp => {
+            if (emp.matchedZenegyUserUid) {
+                emp.selected = preset.employeeUuids.includes(emp.uuid)
+            }
+        })
+        state.selectAllEmployees = state.scheduleEmployees
+            .filter(e => e.matchedZenegyUserUid)
+            .every(e => e.selected)
+    } else {
+        // Employees not loaded yet — defer selections until loadAndMatchEmployees runs
+        state.pendingPresetEmployeeUuids = preset.employeeUuids
+    }
 }
 
 const zenegyPeriodToType: Record<number, string> = { 1: 'weekly', 2: 'biweekly', 4: 'monthly' }
