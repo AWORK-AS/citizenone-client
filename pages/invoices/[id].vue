@@ -38,13 +38,21 @@ const error = ref('');
 const invoiceData = ref(null);
 
 const invoiceId = computed(() => route.params.id as string);
+const connectedAccountId = computed(() => {
+  const value = route.query.accountId;
+  const firstValue = Array.isArray(value) ? value[0] : value;
+  return typeof firstValue === 'string' && /^acct_/.test(firstValue) ? firstValue : null;
+});
 
-// Consider any id that is not a UUID as a potential Stripe resource id or formatted number.
-// The backend resolves formatted numbers (e.g. RPRQMMVS-0015) via Stripe search.
+// Stripe API calls must use Stripe resource IDs only.
 const isStripeInvoice = computed(() => {
   const id = invoiceId.value || '';
-  // UUIDs are only 36-char hex with dashes; anything else goes to Stripe
-  return !/^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i.test(id);
+  return /^(in_|pi_|cs_)/.test(id);
+});
+
+const isRegularInvoiceUuid = computed(() => {
+  const id = invoiceId.value || '';
+  return /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i.test(id);
 });
 
 onMounted(() => {
@@ -63,13 +71,13 @@ async function loadInvoice() {
     error.value = '';
 
     if (isStripeInvoice.value) {
-      // Fetch Stripe invoice using authenticated API call.
-      // The backend resolves both raw Stripe IDs (in_/pi_/cs_) and
-      // formatted invoice numbers (e.g. RPRQMMVS-0015).
-      invoiceData.value = await stripeApi.getStripeInvoice(invoiceId.value);
-    } else {
+      // Fetch Stripe invoice only by Stripe resource ID.
+      invoiceData.value = await stripeApi.getStripeInvoice(invoiceId.value, connectedAccountId.value);
+    } else if (isRegularInvoiceUuid.value) {
       navigateTo(`/invoices/${invoiceId.value}/invoice-details`)
       return
+    } else {
+      throw new Error('Invalid invoice link. Stripe invoices must use in_/pi_/cs_ IDs.');
     }
   } catch (err) {
     error.value = err instanceof Error ? err.message : 'Failed to load invoice';
