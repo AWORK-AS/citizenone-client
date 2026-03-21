@@ -362,112 +362,143 @@
                                 <div class="grid grid-cols-7 gap-x-2 min-w-[1000px]">
                                     <div v-for="(day, dayIndex) in getWeekDays(weekStart)" :key="dayIndex" :class="[
                                         hasConflict(state.dutySchedules?.data?.[day?.date]?.schedules) ? 'border-red-500' : 'border-gray-200',
-                                        'bg-white p-2 rounded-br-md rounded-bl-md border-r border-b border-l space-y-2 min-h-96'
+                                        state.copy.dailySchedule?.date === day.date ? 'border-1.5 border-dashed border-gray-700' : 'border-r border-b border-l',
+                                        'relative group bg-white p-2 rounded-br-md rounded-bl-md min-h-96'
                                     ]">
-                                        <div class="flex justify-end gap-1 pr-1"
-                                            v-if="hasCreatePermission || isAdmin(userStore.getUser?.role)">
-                                            <Tooltip position="left" :text="$t('dutySchedules.copy.copy')">
-                                                <button
-                                                    class="bg-gray-100 w-5 h-5 text-sm text-gray-700 rounded-sm hover:bg-gray-200 flex items-center justify-center"
-                                                    @click="copyDailySchedule(day)">
-                                                    <Icon name="mdi:content-copy" class="h-3 w-3" aria-hidden="true" />
-                                                </button>
-                                            </Tooltip>
-                                            <Tooltip position="left" :text="$t('dutySchedules.newSchedule')">
-                                                <button
-                                                    class="bg-gray-100 w-5 h-5 text-sm text-gray-700 rounded-sm hover:bg-gray-200"
-                                                    @click="openAddNewShiftModal(day)">
-                                                    +
-                                                </button>
-                                            </Tooltip>
-                                        </div>
-                                        <div v-for="(schedule, scheduleIndex) in state.dutySchedules?.data?.[day?.date]?.schedules"
-                                            :key="scheduleIndex" class="rounded-md relative cursor-pointer"
-                                            @click="(hasUpdatePermission || isAdmin(userStore.getUser?.role)) ? editSchedule(schedule) : viewSchedule(schedule)">
-                                            <div class="border-l-3 text-xs p-2 rounded-sm" :style="{
-                                                borderColor: schedule?.shift?.color,
-                                                backgroundColor: hexToRgba(schedule?.shift?.color, 0.1)
-                                            }">
-                                                <div class="flex justify-between gap-x-2">
-                                                    <div class="flex items-center gap-x-2">
-                                                        <div>
-                                                            <div class="rounded-full w-2 h-2"
-                                                                :style="{ backgroundColor: `${schedule?.shift?.color}` }" />
-                                                        </div>
-                                                        <p>
-                                                            {{ language.locale.value === 'en' ? schedule?.shift?.en_name
-                                                                :
-                                                                schedule?.shift?.dk_name }}
-                                                        </p>
-                                                    </div>
-                                                    <div>
-                                                        <button
-                                                            class="bg-red-300 hover:bg-red-400 text-white w-4 h-4 text-sm rounded-sm flex items-center justify-center"
-                                                            @click.stop="removeShiftConfirmation(schedule)"
-                                                            v-if="hasDeletePermission || isAdmin(userStore.getUser?.role)">
-                                                            <Tooltip position="left"
-                                                                :text="$t('dutySchedules.removeSchedule.removeSchedule')">
-                                                                <Icon name="ph:x" class="h-2 w-2" aria-hidden="true" />
-                                                            </Tooltip>
-                                                        </button>
-                                                    </div>
-                                                </div>
-                                                <div class="mt-2">
-                                                    <div class="text-xs">
-                                                        <p>
-                                                            {{ moment(schedule?.date_time_start).format('HH:mm') }} -
-                                                            {{ moment(schedule?.date_time_end).format('HH:mm') }}
-                                                        </p>
-                                                        <p>
-                                                            {{ schedule?.user?.firstname }}
-                                                            {{ schedule?.user?.lastname ?? '' }}
-                                                        </p>
-                                                    </div>
-                                                    <div v-if="schedule?.shift_span_position" class="py-0.5 text-xxs">
-                                                        <p v-if="schedule?.shift_span_position === 'start'">
-                                                            {{ $t('dutySchedules.shiftSpan.start') }}
-                                                        </p>
-                                                        <p v-if="schedule?.shift_span_position === 'middle'">
-                                                            {{ $t('dutySchedules.shiftSpan.middle') }}
-                                                        </p>
-                                                        <p v-if="schedule?.shift_span_position === 'end'">
-                                                            {{ $t('dutySchedules.shiftSpan.end') }}
-                                                        </p>
-                                                    </div>
-                                                    <div :class="[
-                                                        schedule?.citizen_schedules?.length > 0 && 'mt-0.5'
-                                                    ]" v-if="schedule?.citizen_schedules?.length > 0">
-                                                        <p v-for="(citizenSchedule, citizenScheduleIndex) in schedule?.citizen_schedules"
-                                                            :key="citizenScheduleIndex" class="text-xxs py-0.5">
-                                                            {{ citizenSchedule?.citizen?.firstname }}
-                                                            {{ citizenSchedule?.citizen?.lastname }}
-                                                        </p>
-                                                    </div>
-                                                    <div class="text-xxs py-0.5"
-                                                        v-if="schedule?.departments?.length > 0">
-                                                        {{ $t('departments.departments') }}:
-                                                        <span
-                                                            v-for="(department, departmentIndex) in schedule?.departments"
-                                                            :key="departmentIndex">
-                                                            {{ department?.name }}<span
-                                                                v-if="(departmentIndex as number) < schedule?.departments.length - 1">,
-                                                            </span><span v-else>.</span>
-                                                        </span>
-                                                    </div>
-                                                    <div class="flex items-center flex-wrap gap-0.5 mt-1"
-                                                        v-if="schedule?.tags?.length > 0">
-                                                        <Tooltip :text="tag?.tag"
-                                                            v-for="(tag, tagIndex) in schedule?.tags" :key="tagIndex">
-                                                            <div class="text-white w-4 h-4 text-xxs rounded-sm flex items-center justify-center"
-                                                                :style="{ backgroundColor: hexToRgba(tag?.color, 0.1), color: tag?.color }">
-                                                                <span v-if="tag?.tag">
-                                                                    {{ tag?.tag?.charAt(0) }}
-                                                                </span>
+                                        <div class="space-y-2">
+                                            <div class="flex justify-end gap-1 pr-1"
+                                                v-if="(hasCreatePermission || isAdmin(userStore.getUser?.role) && state.copy.dailySchedule?.date !== day.date)">
+                                                <Tooltip position="left" :text="$t('dutySchedules.copy.copy')">
+                                                    <button
+                                                        class="bg-gray-100 w-5 h-5 text-sm text-gray-700 rounded-sm hover:bg-gray-200 flex items-center justify-center"
+                                                        @click="copyDailySchedule(day)">
+                                                        <Icon name="mdi:content-copy" class="h-3 w-3"
+                                                            aria-hidden="true" />
+                                                    </button>
+                                                </Tooltip>
+                                                <Tooltip position="left" :text="$t('dutySchedules.newSchedule')">
+                                                    <button
+                                                        class="bg-gray-100 w-5 h-5 text-sm text-gray-700 rounded-sm hover:bg-gray-200"
+                                                        @click="openAddNewShiftModal(day)">
+                                                        +
+                                                    </button>
+                                                </Tooltip>
+                                            </div>
+                                            <div v-for="(schedule, scheduleIndex) in state.dutySchedules?.data?.[day?.date]?.schedules"
+                                                :key="scheduleIndex" class="rounded-md relative cursor-pointer"
+                                                @click="(hasUpdatePermission || isAdmin(userStore.getUser?.role)) ? editSchedule(schedule) : viewSchedule(schedule)"
+                                                v-if="state.copy.dailySchedule?.date !== day.date">
+                                                <div class="border-l-3 text-xs p-2 rounded-sm" :style="{
+                                                    borderColor: schedule?.shift?.color,
+                                                    backgroundColor: hexToRgba(schedule?.shift?.color, 0.1)
+                                                }">
+                                                    <div class="flex justify-between gap-x-2">
+                                                        <div class="flex items-center gap-x-2">
+                                                            <div>
+                                                                <div class="rounded-full w-2 h-2"
+                                                                    :style="{ backgroundColor: `${schedule?.shift?.color}` }" />
                                                             </div>
-                                                        </Tooltip>
+                                                            <p>
+                                                                {{ language.locale.value === 'en' ?
+                                                                    schedule?.shift?.en_name
+                                                                    :
+                                                                    schedule?.shift?.dk_name }}
+                                                            </p>
+                                                        </div>
+                                                        <div>
+                                                            <button
+                                                                class="bg-red-300 hover:bg-red-400 text-white w-4 h-4 text-sm rounded-sm flex items-center justify-center"
+                                                                @click.stop="removeShiftConfirmation(schedule)"
+                                                                v-if="hasDeletePermission || isAdmin(userStore.getUser?.role)">
+                                                                <Tooltip position="left"
+                                                                    :text="$t('dutySchedules.removeSchedule.removeSchedule')">
+                                                                    <Icon name="ph:x" class="h-2 w-2"
+                                                                        aria-hidden="true" />
+                                                                </Tooltip>
+                                                            </button>
+                                                        </div>
+                                                    </div>
+                                                    <div class="mt-2">
+                                                        <div class="text-xs">
+                                                            <p>
+                                                                {{ moment(schedule?.date_time_start).format('HH:mm') }}
+                                                                -
+                                                                {{ moment(schedule?.date_time_end).format('HH:mm') }}
+                                                            </p>
+                                                            <p>
+                                                                {{ schedule?.user?.firstname }}
+                                                                {{ schedule?.user?.lastname ?? '' }}
+                                                            </p>
+                                                        </div>
+                                                        <div v-if="schedule?.shift_span_position"
+                                                            class="py-0.5 text-xxs">
+                                                            <p v-if="schedule?.shift_span_position === 'start'">
+                                                                {{ $t('dutySchedules.shiftSpan.start') }}
+                                                            </p>
+                                                            <p v-if="schedule?.shift_span_position === 'middle'">
+                                                                {{ $t('dutySchedules.shiftSpan.middle') }}
+                                                            </p>
+                                                            <p v-if="schedule?.shift_span_position === 'end'">
+                                                                {{ $t('dutySchedules.shiftSpan.end') }}
+                                                            </p>
+                                                        </div>
+                                                        <div :class="[
+                                                            schedule?.citizen_schedules?.length > 0 && 'mt-0.5'
+                                                        ]" v-if="schedule?.citizen_schedules?.length > 0">
+                                                            <p v-for="(citizenSchedule, citizenScheduleIndex) in schedule?.citizen_schedules"
+                                                                :key="citizenScheduleIndex" class="text-xxs py-0.5">
+                                                                {{ citizenSchedule?.citizen?.firstname }}
+                                                                {{ citizenSchedule?.citizen?.lastname }}
+                                                            </p>
+                                                        </div>
+                                                        <div class="text-xxs py-0.5"
+                                                            v-if="schedule?.departments?.length > 0">
+                                                            {{ $t('departments.departments') }}:
+                                                            <span
+                                                                v-for="(department, departmentIndex) in schedule?.departments"
+                                                                :key="departmentIndex">
+                                                                {{ department?.name }}<span
+                                                                    v-if="(departmentIndex as number) < schedule?.departments.length - 1">,
+                                                                </span><span v-else>.</span>
+                                                            </span>
+                                                        </div>
+                                                        <div class="flex items-center flex-wrap gap-0.5 mt-1"
+                                                            v-if="schedule?.tags?.length > 0">
+                                                            <Tooltip :text="tag?.tag"
+                                                                v-for="(tag, tagIndex) in schedule?.tags"
+                                                                :key="tagIndex">
+                                                                <div class="text-white w-4 h-4 text-xxs rounded-sm flex items-center justify-center"
+                                                                    :style="{ backgroundColor: hexToRgba(tag?.color, 0.1), color: tag?.color }">
+                                                                    <span v-if="tag?.tag">
+                                                                        {{ tag?.tag?.charAt(0) }}
+                                                                    </span>
+                                                                </div>
+                                                            </Tooltip>
+                                                        </div>
                                                     </div>
                                                 </div>
                                             </div>
+                                        </div>
+                                        <div class="py-8 cursor-pointer" @click="stopCopying()"
+                                            v-if="state.copy.dailySchedule?.date === day.date">
+                                            <p class="text-center text-sm">
+                                                {{ $t('dutySchedules.copyPaste.stopCopying') }}
+                                            </p>
+                                            <p class="text-center text-xxs">
+                                                {{
+                                                    $t('dutySchedules.copyPaste.clickHereToStopCopyingTheSchedule')
+                                                }}
+                                            </p>
+                                        </div>
+                                        <div :class="[
+                                            state.copy.dailySchedule?.date && state.copy.dailySchedule?.date !== day.date
+                                                ? 'opacity-0 group-hover:opacity-100 pointer-events-auto cursor-pointer'
+                                                : 'opacity-0 pointer-events-none',
+                                            'absolute inset-0 bg-primary bg-opacity-90 flex items-center justify-center transition-opacity duration-300'
+                                        ]" @click="pasteDailySchedule(day)">
+                                            <p class="text-white text-xs text-center">
+                                                {{ $t('dutySchedules.copyPaste.clickHereToPasteTheSchedule') }}
+                                            </p>
                                         </div>
                                     </div>
                                 </div>
@@ -969,6 +1000,32 @@ function copyDailySchedule(day: any) {
     state.copy.dailySchedule = day
 }
 
+async function pasteDailySchedule(day: any) {
+    try {
+        state.progress.totalRequests = state.progress.totalRequests + 1
+        state.progress.pendingRequests = state.progress.pendingRequests + 1
+        identifyTheProgressPercentage()
+        const sourceDate = state.copy.dailySchedule?.date
+        const destinationDate = day?.date
+        const params = {
+            source_date: sourceDate,
+            destination_date: destinationDate,
+        }
+        const response = await dutyScheduleService.copyDailyDutySchedule(params)
+        if (response) {
+            state.progress.totalRequests = state.progress.totalRequests - 1
+            state.progress.pendingRequests = state.progress.pendingRequests - 1
+            identifyTheProgressPercentage()
+            fetchDutySchedules()
+        }
+    } catch (error: any) {
+        state.newShiftError = error
+        state.progress.totalRequests = state.progress.totalRequests - 1
+        state.progress.pendingRequests = state.progress.pendingRequests - 1
+        identifyTheProgressPercentage()
+    }
+}
+
 function viewChangeTimeRequests(employeeIndex: number, weekIndex: any, weeklySchedule: any, weekNumber: number) {
     const selectedEmployee = state.dutySchedules?.data?.[employeeIndex]
     const selectedDate = state.dutySchedules?.data?.[employeeIndex].weeks[weekIndex]?.date
@@ -1098,9 +1155,10 @@ function copyEmployeeDailySchedule(employeeIndex: number, weekIndex: any, employ
 }
 
 function stopCopying() {
-    state.copy.allEmployeeSchedules = {}
-    state.copy.selectedEmployeeDailySchedule = {}
-    state.copy.selectedEmployeeWeeklySchedule = {}
+    // state.copy.allEmployeeSchedules = {}
+    // state.copy.selectedEmployeeDailySchedule = {}
+    // state.copy.selectedEmployeeWeeklySchedule = {}
+    state.copy.dailySchedule = {}
 }
 
 async function pasteEmployeeDailySchedule(employeeIndex: number, weekIndex: number) {
