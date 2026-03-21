@@ -372,7 +372,7 @@ function viewAvailableVacationHours() {
 }
 </script>
 
-<style>
+<style scoped>
 .tooltip::after {
     content: "";
     position: absolute;

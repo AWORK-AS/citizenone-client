@@ -449,7 +449,7 @@
                 <img src="/img/icons/asset-01.svg" alt="Image failed to load"
                     class="w-48 md:w-1/4 absolute -top-36 -right-24 opacity-0 transition-opacity duration-500"
                     id="animatedImage">
-                <main class="py-10 relative">
+                <main class="py-4 relative">
                     <div :class="[
                         routeName === 'schedules' ? 'px-0' : 'px-4 sm:px-6 lg:px-8',
                     ]">

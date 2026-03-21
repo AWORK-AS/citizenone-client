@@ -47,15 +47,16 @@
                         <Icon name="ph:arrows-clockwise" class="h-4 w-4" aria-hidden="true" />
                         {{ $t('dutySchedules.zenegy_sync') }}
                     </FormButton>
-                    <Tooltip :text="$t('dutySchedules.shareDutySchedule.shareDutySchedule')"
+                    <Tooltip :text="$t('dutySchedules.shareDutySchedule.shareDutySchedule')" position="left"
                         @click="state.modal.isViewSharedDutyScheduleOpen = true">
                         <Icon name="ph:share-fat" class="size-6 cursor-pointer text-gray-700" aria-hidden="true" />
                     </Tooltip>
-                    <Tooltip :text="$t('dutySchedules.activityLogs')" @click="openDutySchedulesActivityLogs()">
+                    <Tooltip :text="$t('dutySchedules.activityLogs')" position="left"
+                        @click="openDutySchedulesActivityLogs()">
                         <Icon name="ph:clock-counter-clockwise" class="size-6 cursor-pointer text-gray-700"
                             aria-hidden="true" />
                     </Tooltip>
-                    <Tooltip :text="$t('guidedTour')" @click="openGuidedTour()">
+                    <Tooltip :text="$t('guidedTour')" position="left" @click="openGuidedTour()">
                         <Icon name="ph:question" class="size-6 cursor-pointer text-gray-700" aria-hidden="true" />
                     </Tooltip>
                 </div>
