@@ -183,8 +183,9 @@
                                     <div class="grid grid-cols-7 gap-x-2" v-if="isAdmin(userStore.getUser?.role)">
                                         <Tooltip v-for="day in getWeekDays(weekStart)" :key="day.date"
                                             :text="$t('dutySchedules.scheduleSlots.scheduleSlots')" :class="[
+                                                hasConflict(state.dutySchedules?.data?.[day?.date]?.schedules) ? 'border-red-500 border-t border-r border-l border-b border-b-gray-200' : 'border-gray-200 border-t border-r border-b border-l',
                                                 day.date === moment().format('YYYY-MM-DD') ? 'bg-secondary hover:bg-secondary-600 text-white' : 'bg-white text-gray-700 hover:bg-gray-100',
-                                                'relative cursor-pointer p-2 rounded-tl-md rounded-tr-md border-t border-r border-b border-l'
+                                                'relative cursor-pointer p-2 rounded-tl-md rounded-tr-md'
                                             ]" @click="openManageScheduleSlotModal(day)">
                                             <div>
                                                 <div>
@@ -267,8 +268,10 @@
                                     <!-- Day name headers — non-admin -->
                                     <div class="grid grid-cols-7 gap-x-2" v-if="!isAdmin(userStore.getUser?.role)">
                                         <div v-for="day in getWeekDays(weekStart)" :key="day.date" :class="[
+
+                                            hasConflict(state.dutySchedules?.data?.[day?.date]?.schedules) ? 'border-red-500 border-t border-r border-l border-b border-b-gray-200' : 'border-gray-200 border-t border-r border-b border-l',
                                             day.date === moment().format('YYYY-MM-DD') ? 'bg-secondary hover:bg-secondary-600 text-white' : 'bg-white text-gray-700 hover:bg-gray-100',
-                                            'p-2 rounded-tl-md rounded-tr-md border-t border-r border-b border-l'
+                                            'p-2 rounded-tl-md rounded-tr-md'
                                         ]">
                                             <span class="flex gap-x-1 text-xs font-semibold">
                                                 <span v-if="day.weekName === 'Mon'">
@@ -357,8 +360,9 @@
                                 @scroll="syncScroll(wIndex, 'body')">
 
                                 <div class="grid grid-cols-7 gap-x-2 min-w-[1000px]">
-                                    <div v-for="(day, dayIndex) in getWeekDays(weekStart)" :key="day.date" :class="[
-                                        'bg-white p-2 rounded-br-md rounded-bl-md border-r border-b border-l border-gray-200 space-y-2 min-h-96'
+                                    <div v-for="(day, dayIndex) in getWeekDays(weekStart)" :key="dayIndex" :class="[
+                                        hasConflict(state.dutySchedules?.data?.[day?.date]?.schedules) ? 'border-red-500' : 'border-gray-200',
+                                        'bg-white p-2 rounded-br-md rounded-bl-md border-r border-b border-l space-y-2 min-h-96'
                                     ]">
                                         <div class="flex justify-end pr-1"
                                             v-if="hasCreatePermission || isAdmin(userStore.getUser?.role)">
@@ -936,8 +940,8 @@ const weekNumber = computed(() => {
     return moment(currentDate.value).week()
 })
 
-function hasConflict(week: any) {
-    const hasConflict = week?.shifts?.some((shift: any) => shift.is_conflict === true)
+function hasConflict(schedules: any) {
+    const hasConflict = schedules?.some((shift: any) => shift.is_conflict === true)
     return hasConflict
 }
 
