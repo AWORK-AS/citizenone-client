@@ -1116,7 +1116,7 @@ async function pasteDailySchedule(day: any) {
             fetchDutySchedules()
         }
     } catch (error: any) {
-        state.newShiftError = error
+        state.copyShiftError = error
         state.progress.totalRequests = state.progress.totalRequests - 1
         state.progress.pendingRequests = state.progress.pendingRequests - 1
         identifyTheProgressPercentage()
