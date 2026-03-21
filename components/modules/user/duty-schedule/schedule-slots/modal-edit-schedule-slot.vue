@@ -6,6 +6,7 @@
                 <LoadingSpinner :isActive="state.isPageLoading">
                     <ModulesUserDutyScheduleScheduleSlotsForm formType="update"
                         :selectedScheduleSlot="props.selectedScheduleSlot" :error="state.error"
+                        :isPageLoading="state.isPageLoading"
                         @isPageLoading="(value: boolean) => state.isPageLoading = value" @closeModal="closeModal"
                         @submitForm="updateScheduleSlot" />
                 </LoadingSpinner>

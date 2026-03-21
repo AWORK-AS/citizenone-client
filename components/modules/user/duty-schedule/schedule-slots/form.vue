@@ -1,5 +1,5 @@
 <template>
-    <LoadingSpinner :isActive="props.isModalLoading">
+    <LoadingSpinner :isActive="props.isPageLoading">
         <form @submit.prevent="submitForm()" class="mt-6">
             <Alert type="danger" :text="props?.error?.message"
                 v-if="props.error?.message && props.error.message.length > 0" />
@@ -56,7 +56,8 @@
                 </div>
                 <div class="space-y-1">
                     <div class="flex justify-between items-center py-0.5">
-                        <FormLabel for="job_specialty_uuid" :label="$t('dutySchedules.scheduleSlots.form.jobSpecialty')" />
+                        <FormLabel for="job_specialty_uuid"
+                            :label="$t('dutySchedules.scheduleSlots.form.jobSpecialty')" />
                         <span class="text-xs cursor-pointer text-tertiary hover:text-tertiary-800"
                             @click="addNewJobSpecialty">
                             {{ $t('jobSpecialties.addNewJobSpecialty') }}
@@ -127,9 +128,9 @@ const props = defineProps({
         type: Object,
         required: true,
     },
-    isModalLoading: {
+    isPageLoading: {
         type: Boolean,
-        required: true,
+        required: false,
     },
 })
 const emit = defineEmits(['isPageLoading', 'submitForm', 'closeModal'])
