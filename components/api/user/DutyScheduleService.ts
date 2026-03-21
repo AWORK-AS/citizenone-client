@@ -33,6 +33,10 @@ class DutyScheduleService extends BaseAPIService {
         return await this.request(`/user/duty-schedules/show/percentage`, 'GET', params)
     }
 
+    async copyDailyDutySchedule(params: object): Promise<any> {
+        return await this.request(`/user/duty-schedules/employee/daily/copy`, 'POST', params)
+    }
+
     async copyEmployeeWeeklyDutySchedule(params: object): Promise<any> {
         return await this.request(`/user/duty-schedules/employee/weekly/copy`, 'POST', params)
     }

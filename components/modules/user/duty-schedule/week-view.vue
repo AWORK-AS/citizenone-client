@@ -364,8 +364,15 @@
                                         hasConflict(state.dutySchedules?.data?.[day?.date]?.schedules) ? 'border-red-500' : 'border-gray-200',
                                         'bg-white p-2 rounded-br-md rounded-bl-md border-r border-b border-l space-y-2 min-h-96'
                                     ]">
-                                        <div class="flex justify-end pr-1"
+                                        <div class="flex justify-end gap-1 pr-1"
                                             v-if="hasCreatePermission || isAdmin(userStore.getUser?.role)">
+                                            <Tooltip position="left" :text="$t('dutySchedules.copy.copy')">
+                                                <button
+                                                    class="bg-gray-100 w-5 h-5 text-sm text-gray-700 rounded-sm hover:bg-gray-200 flex items-center justify-center"
+                                                    @click="copyDailySchedule(day)">
+                                                    <Icon name="mdi:content-copy" class="h-3 w-3" aria-hidden="true" />
+                                                </button>
+                                            </Tooltip>
                                             <Tooltip position="left" :text="$t('dutySchedules.newSchedule')">
                                                 <button
                                                     class="bg-gray-100 w-5 h-5 text-sm text-gray-700 rounded-sm hover:bg-gray-200"
@@ -565,6 +572,7 @@ const scrollLock = ref<Record<number, boolean>>({})
 const state = reactive({
     copy: {
         allEmployeeSchedules: {},
+        dailySchedule: {},
         selectedEmployeeDailySchedule: {},
         selectedEmployeeWeeklySchedule: {},
         selectedWeekNumber: null,
@@ -954,6 +962,11 @@ function openAddNewShiftModal(day: any) {
 function openManageScheduleSlotModal(day: any) {
     state.manageScheduleSlot.selectedDay = day
     state.modal.isManageScheduleSlotOpen = true
+}
+
+// -- Copy functions ----------------------------
+function copyDailySchedule(day: any) {
+    state.copy.dailySchedule = day
 }
 
 function viewChangeTimeRequests(employeeIndex: number, weekIndex: any, weeklySchedule: any, weekNumber: number) {
