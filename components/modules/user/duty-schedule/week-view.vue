@@ -595,7 +595,7 @@
                                             state.copy.dailySchedule?.date && state.copy.dailySchedule?.date !== day.date
                                                 ? 'opacity-0 group-hover:opacity-100 pointer-events-auto cursor-pointer'
                                                 : 'opacity-0 pointer-events-none',
-                                            'absolute inset-0 bg-primary bg-opacity-90 flex items-center justify-center transition-opacity duration-300'
+                                            'absolute inset-0 bg-secondary bg-opacity-95 flex items-center justify-center transition-opacity duration-300'
                                         ]" @click="pasteDailySchedule(day)">
                                             <p class="text-white text-xs text-center">
                                                 {{ $t('dutySchedules.copyPaste.clickHereToPasteTheSchedule') }}
