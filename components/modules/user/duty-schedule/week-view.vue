@@ -173,8 +173,8 @@
                                     <div class="grid grid-cols-7 gap-x-2" v-if="isAdmin(userStore.getUser?.role)">
                                         <Tooltip v-for="day in getWeekDays(weekStart)" :key="day.date"
                                             :text="$t('dutySchedules.scheduleSlots.scheduleSlots')" :class="[
-                                                // day.date === moment().format('YYYY-MM-DD') ? 'bg-secondary hover:bg-secondary-600 text-white' : 'text-gray-700 hover:bg-gray-100',
-                                                'bg-white relative cursor-pointer p-2 rounded-tl-md rounded-tr-md border-t border-r border-l'
+                                                day.date === moment().format('YYYY-MM-DD') ? 'bg-secondary hover:bg-secondary-600 text-white' : 'bg-white text-gray-700 hover:bg-gray-100',
+                                                'relative cursor-pointer p-2 rounded-tl-md rounded-tr-md border-t border-r border-b border-l'
                                             ]" @click="openManageScheduleSlotModal(day)">
                                             <div>
                                                 <div>
@@ -257,8 +257,8 @@
                                     <!-- Day name headers — non-admin -->
                                     <div class="grid grid-cols-7 gap-x-2" v-if="!isAdmin(userStore.getUser?.role)">
                                         <div v-for="day in getWeekDays(weekStart)" :key="day.date" :class="[
-                                            // day.date === moment().format('YYYY-MM-DD') ? 'bg-secondary hover:bg-secondary-600 text-white' : 'text-gray-700 hover:bg-gray-100',
-                                            'bg-white p-2 rounded-tl-md rounded-tr-md border-t border-r border-l'
+                                            day.date === moment().format('YYYY-MM-DD') ? 'bg-secondary hover:bg-secondary-600 text-white' : 'bg-white text-gray-700 hover:bg-gray-100',
+                                            'p-2 rounded-tl-md rounded-tr-md border-t border-r border-b border-l'
                                         ]">
                                             <span class="flex gap-x-1 text-xs font-semibold">
                                                 <span v-if="day.weekName === 'Mon'">
@@ -436,8 +436,8 @@
                                                         v-if="schedule?.tags?.length > 0">
                                                         <Tooltip :text="tag?.tag"
                                                             v-for="(tag, tagIndex) in schedule?.tags" :key="tagIndex">
-                                                            <div class="text-white w-4 h-4 text-xxs rounded-full flex items-center justify-center"
-                                                                :style="{ backgroundColor: tag?.color }">
+                                                            <div class="text-white w-4 h-4 text-xxs rounded-sm flex items-center justify-center"
+                                                                :style="{ backgroundColor: hexToRgba(tag?.color, 0.1), color: tag?.color }">
                                                                 <span v-if="tag?.tag">
                                                                     {{ tag?.tag?.charAt(0) }}
                                                                 </span>
