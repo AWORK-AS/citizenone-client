@@ -59,6 +59,7 @@ const state = reactive({
     error: {} as Error,
     isPageLoading: false,
     formShift: {
+        user_uuid: '',
         shift_type: '',
         is_sleeping_sick_leave: false,
         do_not_count_weekends: false,

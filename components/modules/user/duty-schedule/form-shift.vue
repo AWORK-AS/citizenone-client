@@ -38,7 +38,7 @@
             </div> -->
             <Alert type="warning" :text="$t('recurring.youAreEditingARecurringShift')"
                 v-if="props.selectedShift?.recurring?.is_recurring" />
-            <div class="space-y-1">
+            <div class="space-y-1" v-if="props.formType === 'create'">
                 <FormLabel for="employee" :label="$t('dutySchedules.form.employee')" />
                 <FormSelect id="employee" :options="state.options.employees_without_all_users_option"
                     v-model="state.formShift.user_uuid" />
@@ -496,6 +496,7 @@ onMounted(() => {
     fetchAllShifts()
     fetchAllDepartments()
     fetchAllScheduleTags()
+    state.formShift.user_uuid = props.selectedShift.user_uuid
     state.formShift.shift_type = props.selectedShift.shift_type
     state.formShift.is_sleeping_sick_leave = props.selectedShift.is_sleeping_sick_leave
     state.formShift.do_not_count_weekends = props.selectedShift.do_not_count_weekends

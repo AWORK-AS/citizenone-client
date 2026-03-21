@@ -396,7 +396,7 @@
                                                     <div>
                                                         <button
                                                             class="bg-red-300 hover:bg-red-400 text-white w-4 h-4 text-sm rounded-sm flex items-center justify-center"
-                                                            @click="removeShiftConfirmation(schedule)"
+                                                            @click.stop="removeShiftConfirmation(schedule)"
                                                             v-if="hasDeletePermission || isAdmin(userStore.getUser?.role)">
                                                             <Tooltip position="left"
                                                                 :text="$t('dutySchedules.removeSchedule.removeSchedule')">
@@ -1280,37 +1280,29 @@ function viewSchedule(schedule: any) {
 }
 
 function editSchedule(schedule: any) {
-    // const date = state.dutySchedules?.data?.[employeeIndex].weeks[weekIndex].date
-    // const userUuid = state.dutySchedules?.data?.[employeeIndex].uuid
-    // state.editShift.selectedEmployee = employee
-    // state.editShift.selectedEmployeeSchedule = {
-    //     citizen_schedules: shift?.citizen_schedules,
-    //     scheduleUuid: shift?.schedule_uuid,
-    //     date_time_start: shift?.date_time_start,
-    //     date_time_end: shift?.date_time_end,
-    //     recurring: {
-    //         is_recurring: shift?.is_recurring
-    //     },
-    //     user_uuid: userUuid,
-    //     date: date,
-    //     shift_type: shift?.type,
-    //     tags: shift?.tags,
-    //     departments: shift?.departments,
-    //     note: shift?.note,
-    //     do_not_count_sick_leave: shift?.do_not_count_sick_leave,
-    //     use_compensatory_time: shift?.use_compensatory_time,
-    //     employeeIndex: employeeIndex,
-    //     weekIndex: weekIndex,
-    //     shiftIndex: shiftIndex,
-    // }
-    // state.modal.isEditShiftOpen = true
+    const userUuid = schedule?.user?.uuid
+    state.editShift.selectedEmployee = schedule?.user
+    state.editShift.selectedEmployeeSchedule = {
+        citizen_schedules: schedule?.citizen_schedules,
+        scheduleUuid: schedule?.uuid,
+        date_time_start: schedule?.date_time_start,
+        date_time_end: schedule?.date_time_end,
+        recurring: {
+            is_recurring: schedule?.is_recurring
+        },
+        user_uuid: userUuid,
+        shift_type: schedule?.shift,
+        tags: schedule?.tags,
+        departments: schedule?.departments,
+        note: schedule?.note,
+        do_not_count_sick_leave: schedule?.do_not_count_sick_leave,
+        use_compensatory_time: schedule?.use_compensatory_time,
+    }
+    state.modal.isEditShiftOpen = true
 }
 
 function updateSelectedSchedule(shiftDetails: any) {
     const scheduleUuid = state.editShift.selectedEmployeeSchedule.scheduleUuid
-    const employeeIndex = state.editShift.selectedEmployeeSchedule.employeeIndex
-    const weekIndex = state.editShift.selectedEmployeeSchedule.weekIndex
-    const shiftIndex = state.editShift.selectedEmployeeSchedule.shiftIndex
     const params = {
         shift_type_uuid: shiftDetails.shift_type,
         is_sleeping_sick_leave: shiftDetails.is_sleeping_sick_leave,
@@ -1326,10 +1318,10 @@ function updateSelectedSchedule(shiftDetails: any) {
         do_not_count_sick_leave: shiftDetails.do_not_count_sick_leave,
         use_compensatory_time: shiftDetails.use_compensatory_time,
     }
-    updateDutySchedule(scheduleUuid, params, employeeIndex, weekIndex, shiftIndex)
+    updateDutySchedule(scheduleUuid, params)
 }
 
-async function updateDutySchedule(scheduleUuid: any, params: object, employeeIndex: number, weekIndex: any, shiftIndex: number) {
+async function updateDutySchedule(scheduleUuid: any, params: object) {
     state.isUpdateShift = true
     state.editShiftError = {}
     try {
