@@ -375,7 +375,8 @@
                                             </Tooltip>
                                         </div>
                                         <div v-for="(schedule, scheduleIndex) in state.dutySchedules?.data?.[day?.date]?.schedules"
-                                            :key="scheduleIndex" class="rounded-md relative">
+                                            :key="scheduleIndex" class="rounded-md relative cursor-pointer"
+                                            @click="(hasUpdatePermission || isAdmin(userStore.getUser?.role)) ? editSchedule(schedule) : viewSchedule(schedule)">
                                             <div class="border-l-3 text-xs p-2 rounded-sm" :style="{
                                                 borderColor: schedule?.shift?.color,
                                                 backgroundColor: hexToRgba(schedule?.shift?.color, 0.1)
@@ -1273,52 +1274,36 @@ async function removeEntireShiftSpan() {
     }
 }
 
-function viewSchedule(employeeIndex: number, weekIndex: any, shift: any, shiftIndex: number) {
-    const date = state.dutySchedules?.data?.[employeeIndex].weeks[weekIndex].date
-    const userUuid = state.dutySchedules?.data?.[employeeIndex].uuid
-    state.viewShift.selectedEmployeeSchedule = {
-        citizen_schedules: shift?.citizen_schedules,
-        scheduleUuid: shift?.schedule_uuid,
-        date_time_start: shift?.date_time_start,
-        date_time_end: shift?.date_time_end,
-        user_uuid: userUuid,
-        date: date,
-        shift_type: shift?.type,
-        tags: shift?.tags,
-        departments: shift?.departments,
-        note: shift?.note,
-        employeeIndex: employeeIndex,
-        weekIndex: weekIndex,
-        shiftIndex: shiftIndex,
-    }
+function viewSchedule(schedule: any) {
+    state.viewShift.selectedEmployeeSchedule = schedule
     state.modal.isViewShiftOpen = true
 }
 
-function editSchedule(employee: any, employeeIndex: number, weekIndex: any, shift: any, shiftIndex: number) {
-    const date = state.dutySchedules?.data?.[employeeIndex].weeks[weekIndex].date
-    const userUuid = state.dutySchedules?.data?.[employeeIndex].uuid
-    state.editShift.selectedEmployee = employee
-    state.editShift.selectedEmployeeSchedule = {
-        citizen_schedules: shift?.citizen_schedules,
-        scheduleUuid: shift?.schedule_uuid,
-        date_time_start: shift?.date_time_start,
-        date_time_end: shift?.date_time_end,
-        recurring: {
-            is_recurring: shift?.is_recurring
-        },
-        user_uuid: userUuid,
-        date: date,
-        shift_type: shift?.type,
-        tags: shift?.tags,
-        departments: shift?.departments,
-        note: shift?.note,
-        do_not_count_sick_leave: shift?.do_not_count_sick_leave,
-        use_compensatory_time: shift?.use_compensatory_time,
-        employeeIndex: employeeIndex,
-        weekIndex: weekIndex,
-        shiftIndex: shiftIndex,
-    }
-    state.modal.isEditShiftOpen = true
+function editSchedule(schedule: any) {
+    // const date = state.dutySchedules?.data?.[employeeIndex].weeks[weekIndex].date
+    // const userUuid = state.dutySchedules?.data?.[employeeIndex].uuid
+    // state.editShift.selectedEmployee = employee
+    // state.editShift.selectedEmployeeSchedule = {
+    //     citizen_schedules: shift?.citizen_schedules,
+    //     scheduleUuid: shift?.schedule_uuid,
+    //     date_time_start: shift?.date_time_start,
+    //     date_time_end: shift?.date_time_end,
+    //     recurring: {
+    //         is_recurring: shift?.is_recurring
+    //     },
+    //     user_uuid: userUuid,
+    //     date: date,
+    //     shift_type: shift?.type,
+    //     tags: shift?.tags,
+    //     departments: shift?.departments,
+    //     note: shift?.note,
+    //     do_not_count_sick_leave: shift?.do_not_count_sick_leave,
+    //     use_compensatory_time: shift?.use_compensatory_time,
+    //     employeeIndex: employeeIndex,
+    //     weekIndex: weekIndex,
+    //     shiftIndex: shiftIndex,
+    // }
+    // state.modal.isEditShiftOpen = true
 }
 
 function updateSelectedSchedule(shiftDetails: any) {

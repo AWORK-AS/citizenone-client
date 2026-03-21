@@ -10,10 +10,10 @@
                                 {{ $t('dutySchedules.viewSchedule.typeOfShift') }}:
                             </p>
                             <p class="text-sm" v-if="language.locale.value === 'en'">
-                                {{ props?.selectedEmployeeSchedule?.shift_type?.en_name }}
+                                {{ props?.selectedEmployeeSchedule?.shift?.en_name }}
                             </p>
                             <p class="text-sm" v-if="language.locale.value === 'dk'">
-                                {{ props?.selectedEmployeeSchedule?.shift_type?.dk_name }}
+                                {{ props?.selectedEmployeeSchedule?.shift?.dk_name }}
                             </p>
                         </div>
                         <div class="flex items-center gap-x-1">
@@ -64,12 +64,12 @@
                             </p>
                             <p v-html="props?.selectedEmployeeSchedule?.note?.replace(/\n/g, '<br>')" />
                         </div>
-                        <div class="flex items-center flex-wrap gap-y-0.5 mt-1"
+                        <div class="flex items-center flex-wrap gap-0.5 mt-1"
                             v-if="props?.selectedEmployeeSchedule?.tags?.length > 0">
                             <Tooltip :text="tag?.tag" v-for="(tag, tagIndex) in props?.selectedEmployeeSchedule?.tags"
                                 :key="tagIndex">
-                                <div class="text-white w-6 h-6 text-xxs rounded-full flex items-center justify-center"
-                                    :style="{ backgroundColor: tag?.color }">
+                                <div class="text-white w-6 h-6 text-xs rounded-sm flex items-center justify-center"
+                                    :style="{ backgroundColor: hexToRgba(tag?.color, 0.1), color: tag?.color }">
                                     <span v-if="tag?.tag">
                                         {{ tag?.tag?.charAt(0) }}
                                     </span>
@@ -108,5 +108,13 @@ const { formatDateTimeToReadable } = useDatetimeFormatter()
 
 function closeModal() {
     emit('close')
+}
+
+function hexToRgba(hex: any, alpha: any = 1) {
+    if (!hex) return 'transparent'
+    const r = parseInt(hex.slice(1, 3), 16)
+    const g = parseInt(hex.slice(3, 5), 16)
+    const b = parseInt(hex.slice(5, 7), 16)
+    return `rgba(${r}, ${g}, ${b}, ${alpha})`
 }
 </script>
