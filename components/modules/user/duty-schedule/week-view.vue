@@ -112,7 +112,8 @@
                             <div v-for="(employee, employeeIndex) in state.userHours?.data" :key="employeeIndex">
                                 <div class="flex flex-col items-center gap-1">
                                     <ModulesUserDutyScheduleUserHoursTooltip position="right"
-                                        :selectedEmployee="employee" class="cursor-pointer">
+                                        :selectedEmployee="employee" class="cursor-pointer"
+                                        v-if="isAdmin(userStore.getUser?.role) || (!isAdmin(userStore.getUser?.role) && userStore.getUser?.uuid === employee?.uuid)">
                                         <div class="flex items-center gap-x-2">
                                             <img :src="employee?.profile_image ?? `https://ui-avatars.com/api/?background=42AED9&color=fff&name=${getDisplayName(employee).firstName + ' ' + getDisplayName(employee).lastName}`"
                                                 :class="[
@@ -123,6 +124,15 @@
                                                 ]" />
                                         </div>
                                     </ModulesUserDutyScheduleUserHoursTooltip>
+                                    <div class="flex items-center gap-x-2" v-else>
+                                        <img :src="employee?.profile_image ?? `https://ui-avatars.com/api/?background=42AED9&color=fff&name=${getDisplayName(employee).firstName + ' ' + getDisplayName(employee).lastName}`"
+                                            :class="[
+                                                employee?.shift_threshold === 'high' && 'border-green-700',
+                                                employee?.shift_threshold === 'moderate' && 'border-yellow-500',
+                                                employee?.shift_threshold === 'low' && 'border-red-600',
+                                                'h-12 w-12 rounded-full bg-gray-50 object-cover border-2'
+                                            ]" />
+                                    </div>
                                     <div class="flex flex-col items-center leading-tight">
                                         <span class="text-xxs text-center font-semibold text-gray-800">
                                             {{ getDisplayName(employee).firstName }}
