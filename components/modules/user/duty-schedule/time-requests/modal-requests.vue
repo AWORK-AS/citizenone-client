@@ -1,7 +1,7 @@
 <template>
     <div>
         <Modal size="4xl"
-            :title="`${$t('dutySchedules.scheduleRequests.requests')} (${formatDateToReadable(props?.selectedDate)}) - ${props.selectedEmployee?.firstname} ${props.selectedEmployee?.lastname}`"
+            :title="`${$t('dutySchedules.scheduleRequests.requests')} (${formatDateToReadable(props?.selectedDate)})`"
             :show="props.isModalOpen" @close="closeModal">
             <template #modal-body>
                 <div>
@@ -21,9 +21,9 @@
                                         </td>
                                         <td width="20%">
                                             <span>{{ moment(request?.schedule?.time_in, "HH:mm").format('HH:mm')
-                                                }}</span> -
+                                            }}</span> -
                                             <span>{{ moment(request?.schedule?.time_out, "HH:mm").format('HH:mm')
-                                                }}</span>
+                                            }}</span>
                                         </td>
                                         <td width="20%">
                                             <span>{{ moment(request?.time_in, "HH:mm").format('HH:mm') }}</span> -
@@ -85,10 +85,6 @@ const props = defineProps({
         type: String,
         required: true,
     },
-    selectedEmployee: {
-        type: Object,
-        required: true,
-    },
 })
 const emit = defineEmits(['close', 'refreshDutySchedules'])
 
@@ -140,7 +136,6 @@ async function fetchScheduleRequests() {
     try {
         const params = {
             date: props.selectedDate,
-            user_uuid: props.selectedEmployee?.uuid,
             page: currentTablePage,
             sortField: state.sortData.sortField,
             sortOrder: state.sortData.sortOrder,

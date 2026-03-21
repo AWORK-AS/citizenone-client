@@ -29,10 +29,6 @@ const props = defineProps({
         type: Boolean,
         required: true,
     },
-    selectedEmployee: {
-        type: Object,
-        required: true,
-    },
     selectedSchedule: {
         type: Object,
         required: true,
@@ -64,7 +60,7 @@ function closeModal() {
 
 async function saveScheduleRequest(scheduleRequestDetails: any) {
     try {
-        const selectedScheduleUuid = props.selectedSchedule?.schedule_uuid
+        const selectedScheduleUuid = props.selectedSchedule?.uuid
         const params = {
             schedule_uuid: selectedScheduleUuid,
             time_in: scheduleRequestDetails.time_in,

@@ -368,6 +368,59 @@
                                         <div class="space-y-2">
                                             <div class="flex justify-end gap-1 pr-1"
                                                 v-if="(hasCreatePermission || isAdmin(userStore.getUser?.role) && state.copy.dailySchedule?.date !== day.date)">
+                                                <div @click.stop>
+                                                    <Menu as="div"
+                                                        class="absolute right-0 top-6 xl:relative xl:right-auto xl:top-auto xl:self-center">
+                                                        <div>
+                                                            <MenuButton @click.stop
+                                                                class="-m-2 flex items-center rounded-full p-2 text-gray-500 hover:text-gray-600">
+                                                                <Tooltip position="left" :text="`
+                                                                    ${state.dutySchedules?.data?.[day?.date]?.additional_hour_requests} ${state.dutySchedules?.data?.[day?.date]?.additional_hour_requests <= 1 ? $t('dutySchedules.scheduleRequests.changeTime.changeTimeRequest') : $t('dutySchedules.scheduleRequests.changeTime.changeTimeRequests')} | 
+                                                                    ${state.dutySchedules?.data?.[day?.date]?.swap_requests} ${state.dutySchedules?.data?.[day?.date]?.swap_requests === 1 ? $t('dutySchedules.scheduleRequests.swapSchedule.swapScheduleRequest') : $t('dutySchedules.scheduleRequests.swapSchedule.swapScheduleRequests')}
+                                                                `" v-if="state.dutySchedules?.data?.[day?.date]?.additional_hour_requests > 0 || state.dutySchedules?.data?.[day?.date]?.swap_requests > 0"
+                                                                    class="relative">
+                                                                    <button
+                                                                        class="bg-gray-200 w-6 h-6 text-sm text-gray-600 rounded-sm hover:bg-gray-400 hover:text-gray-200 flex items-center justify-center">
+                                                                        <Icon name="mdi:calendar-question-outline"
+                                                                            class="h-3 w-3" aria-hidden="true" />
+                                                                    </button>
+                                                                    <div
+                                                                        class="w-2 h-2 bg-red-400 rounded-full absolute -top-1 -right-1">
+                                                                    </div>
+                                                                </Tooltip>
+                                                            </MenuButton>
+                                                        </div>
+                                                        <transition
+                                                            enter-active-class="transition ease-out duration-100"
+                                                            enter-from-class="transform opacity-0 scale-95"
+                                                            enter-to-class="transform opacity-100 scale-100"
+                                                            leave-active-class="transition ease-in duration-75"
+                                                            leave-from-class="transform opacity-100 scale-100"
+                                                            leave-to-class="transform opacity-0 scale-95">
+                                                            <MenuItems
+                                                                class="absolute right-0 z-10 w-48 origin-top-right rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
+                                                                <div class="py-1">
+                                                                    <MenuItem v-slot="{ active }">
+                                                                    <a :class="[active ? 'bg-gray-100 text-gray-900' : 'text-gray-700', 'block px-4 py-2 text-xs cursor-pointer']"
+                                                                        @click="viewChangeTimeRequests(day)">
+                                                                        {{
+                                                                            $t('dutySchedules.scheduleRequests.changeTime.changeTimeRequests')
+                                                                        }}
+                                                                    </a>
+                                                                    </MenuItem>
+                                                                    <MenuItem v-slot="{ active }">
+                                                                    <a :class="[active ? 'bg-gray-100 text-gray-900' : 'text-gray-700', 'block px-4 py-2 text-xs cursor-pointer']"
+                                                                        @click="viewSwapScheduleRequests(day)">
+                                                                        {{
+                                                                            $t('dutySchedules.scheduleRequests.swapSchedule.swapScheduleRequests')
+                                                                        }}
+                                                                    </a>
+                                                                    </MenuItem>
+                                                                </div>
+                                                            </MenuItems>
+                                                        </transition>
+                                                    </Menu>
+                                                </div>
                                                 <Tooltip position="left" :text="$t('dutySchedules.copy.copy')">
                                                     <button
                                                         class="bg-gray-100 w-5 h-5 text-sm text-gray-700 rounded-sm hover:bg-gray-200 flex items-center justify-center"
@@ -386,7 +439,7 @@
                                             </div>
                                             <div v-for="(schedule, scheduleIndex) in state.dutySchedules?.data?.[day?.date]?.schedules"
                                                 :key="scheduleIndex" class="rounded-md relative cursor-pointer"
-                                                @click="(hasUpdatePermission || isAdmin(userStore.getUser?.role)) ? editSchedule(schedule) : viewSchedule(schedule)"
+                                                @click="handleScheduleClick($event, schedule)"
                                                 v-if="state.copy.dailySchedule?.date !== day.date">
                                                 <div class="border-l-3 text-xs p-2 rounded-sm" :style="{
                                                     borderColor: schedule?.shift?.color,
@@ -415,6 +468,54 @@
                                                                     <Icon name="ph:x" class="h-2 w-2"
                                                                         aria-hidden="true" />
                                                                 </Tooltip>
+                                                            </button>
+                                                            <button
+                                                                class="bg-red-300 hover:bg-red-400 w-4 h-4 text-sm text-gray-600 rounded-full flex items-center justify-center absolute -right-1 -top-1"
+                                                                v-else
+                                                                v-if="userStore.getUser?.uuid === schedule?.user?.uuid">
+                                                                <Menu as="div"
+                                                                    class="absolute right-0 top-6 xl:relative xl:right-auto xl:top-auto xl:self-center">
+                                                                    <div>
+                                                                        <MenuButton
+                                                                            class="-m-2 flex items-center rounded-full p-2 text-white">
+                                                                            <Tooltip position="left"
+                                                                                :text="$t('dutySchedules.scheduleRequests.newRequest')">
+                                                                                <Icon name="ic:baseline-question-mark"
+                                                                                    class="h-2 w-2"
+                                                                                    aria-hidden="true" />
+                                                                            </Tooltip>
+                                                                        </MenuButton>
+                                                                    </div>
+                                                                    <transition
+                                                                        enter-active-class="transition ease-out duration-100"
+                                                                        enter-from-class="transform opacity-0 scale-95"
+                                                                        enter-to-class="transform opacity-100 scale-100"
+                                                                        leave-active-class="transition ease-in duration-75"
+                                                                        leave-from-class="transform opacity-100 scale-100"
+                                                                        leave-to-class="transform opacity-0 scale-95">
+                                                                        <MenuItems
+                                                                            class="absolute right-0 z-10 w-44 origin-top-right rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
+                                                                            <div class="py-1">
+                                                                                <MenuItem v-slot="{ active }">
+                                                                                <a :class="[active ? 'bg-gray-100 text-gray-900' : 'text-gray-700', 'block px-4 py-2 text-xs']"
+                                                                                    @click="requestTimeAdjustment(schedule)">
+                                                                                    {{
+                                                                                        $t('dutySchedules.scheduleRequests.changeTime.requestAChange')
+                                                                                    }}
+                                                                                </a>
+                                                                                </MenuItem>
+                                                                                <MenuItem v-slot="{ active }">
+                                                                                <a :class="[active ? 'bg-gray-100 text-gray-900' : 'text-gray-700', 'block px-4 py-2 text-xs']"
+                                                                                    @click="requestSwapSchedule(schedule)">
+                                                                                    {{
+                                                                                        $t('dutySchedules.scheduleRequests.swapSchedule.swapThisShift')
+                                                                                    }}
+                                                                                </a>
+                                                                                </MenuItem>
+                                                                            </div>
+                                                                        </MenuItems>
+                                                                    </transition>
+                                                                </Menu>
                                                             </button>
                                                         </div>
                                                     </div>
@@ -553,17 +654,14 @@
             <ModulesUserDutyScheduleTimeRequestsModalRequests
                 :isModalOpen="state.modal.isManageTimeAdjustmentRequestsOpen"
                 :selectedDate="state.manageTimeRequest.selectedDate"
-                :selectedEmployee="state.manageTimeRequest.selectedEmployee"
                 @close="state.modal.isManageTimeAdjustmentRequestsOpen = false"
                 @refreshDutySchedules="fetchDutySchedules()" />
             <ModulesUserDutyScheduleSwapScheduleModalRequests
                 :isModalOpen="state.modal.isManageSwapScheduleRequestsOpen"
                 :selectedDate="state.manageSwapScheduleRequest.selectedDate"
-                :selectedEmployee="state.manageSwapScheduleRequest.selectedEmployee"
                 @close="state.modal.isManageSwapScheduleRequestsOpen = false"
                 @refreshDutySchedules="fetchDutySchedules()" />
             <ModulesUserDutyScheduleTimeRequestsModalNewRequest :isModalOpen="state.modal.isRequestTimeAdjustmentOpen"
-                :selectedEmployee="state.manageTimeRequest.selectedEmployee"
                 :selectedSchedule="state.manageTimeRequest.selectedSchedule"
                 @close="state.modal.isRequestTimeAdjustmentOpen = false" />
             <ModulesUserDutyScheduleSwapScheduleModalNewRequest :isModalOpen="state.modal.isRequestSwapScheduleOpen"
@@ -583,6 +681,7 @@
 
 <script setup lang="ts">
 import moment from 'moment'
+import { Menu, MenuButton, MenuItem, MenuItems } from '@headlessui/vue'
 import { dutyScheduleService } from '@/components/api/user/DutyScheduleService'
 import { useDepartmentStore } from '@/store/department'
 import { useNumberFormatter } from '@/composables/numberFormatter'
@@ -640,12 +739,10 @@ const state = reactive({
     },
     manageTimeRequest: {
         selectedDate: '',
-        selectedEmployee: {},
         selectedSchedule: {},
     },
     manageSwapScheduleRequest: {
         selectedDate: '',
-        selectedEmployee: {},
         selectedSchedule: {},
     },
     modal: {
@@ -1026,31 +1123,31 @@ async function pasteDailySchedule(day: any) {
     }
 }
 
-function viewChangeTimeRequests(employeeIndex: number, weekIndex: any, weeklySchedule: any, weekNumber: number) {
-    const selectedEmployee = state.dutySchedules?.data?.[employeeIndex]
-    const selectedDate = state.dutySchedules?.data?.[employeeIndex].weeks[weekIndex]?.date
-    state.manageTimeRequest.selectedEmployee = selectedEmployee
-    state.manageTimeRequest.selectedDate = selectedDate
+function viewChangeTimeRequests(day: any) {
+    // const selectedEmployee = state.dutySchedules?.data?.[employeeIndex]
+    // const selectedDate = state.dutySchedules?.data?.[employeeIndex].weeks[weekIndex]?.date
+    // state.manageTimeRequest.selectedEmployee = selectedEmployee
+    state.manageTimeRequest.selectedDate = day?.date
     state.modal.isManageTimeAdjustmentRequestsOpen = true
 }
 
-function requestTimeAdjustment(employeeIndex: number, shift: any) {
-    const selectedEmployee = state.dutySchedules?.data?.[employeeIndex]
-    state.manageTimeRequest.selectedEmployee = selectedEmployee
-    state.manageTimeRequest.selectedSchedule = shift
+function requestTimeAdjustment(schedule: any) {
+    // const selectedEmployee = state.dutySchedules?.data?.[employeeIndex]
+    // state.manageTimeRequest.selectedEmployee = selectedEmployee
+    state.manageTimeRequest.selectedSchedule = schedule
     state.modal.isRequestTimeAdjustmentOpen = true
 }
 
-function viewSwapScheduleRequests(employeeIndex: number, weekIndex: any, weeklySchedule: any, weekNumber: number) {
-    const selectedEmployee = state.dutySchedules?.data?.[employeeIndex]
-    const selectedDate = state.dutySchedules?.data?.[employeeIndex].weeks[weekIndex]?.date
-    state.manageSwapScheduleRequest.selectedEmployee = selectedEmployee
-    state.manageSwapScheduleRequest.selectedDate = selectedDate
+function viewSwapScheduleRequests(day: any) {
+    // const selectedEmployee = state.dutySchedules?.data?.[employeeIndex]
+    // const selectedDate = state.dutySchedules?.data?.[employeeIndex].weeks[weekIndex]?.date
+    // state.manageSwapScheduleRequest.selectedEmployee = selectedEmployee
+    state.manageSwapScheduleRequest.selectedDate = day?.date
     state.modal.isManageSwapScheduleRequestsOpen = true
 }
 
-function requestSwapSchedule(shift: any) {
-    state.manageSwapScheduleRequest.selectedSchedule = shift
+function requestSwapSchedule(schedule: any) {
+    state.manageSwapScheduleRequest.selectedSchedule = schedule
     state.modal.isRequestSwapScheduleOpen = true
 }
 
@@ -1342,6 +1439,16 @@ async function removeEntireShiftSpan() {
         state.progress.totalRequests = state.progress.totalRequests - 1
         state.progress.pendingRequests = state.progress.pendingRequests - 1
         identifyTheProgressPercentage()
+    }
+}
+
+function handleScheduleClick(event: MouseEvent, schedule: any) {
+    const target = event.target as HTMLElement
+    if (target.closest('button') || target.closest('[role="menu"]') || target.closest('[role="menuitem"]')) return
+    if (hasUpdatePermission.value || isAdmin(userStore.getUser?.role)) {
+        editSchedule(schedule)
+    } else {
+        viewSchedule(schedule)
     }
 }
 
