@@ -180,12 +180,13 @@
                                     </div>
 
                                     <!-- Day name headers — admin -->
-                                    <div class="grid grid-cols-7 gap-x-2" v-if="isAdmin(userStore.getUser?.role)">
-                                        <Tooltip v-for="day in getWeekDays(weekStart)" :key="day.date"
+                                    <div class="grid grid-cols-7" v-if="isAdmin(userStore.getUser?.role)">
+                                        <Tooltip v-for="(day, dayIndex) in getWeekDays(weekStart)" :key="dayIndex"
                                             :text="$t('dutySchedules.scheduleSlots.scheduleSlots')" :class="[
-                                                hasConflict(state.dutySchedules?.data?.[day?.date]?.schedules) ? 'border-red-500 border-t border-r border-l border-b border-b-gray-200' : 'border-gray-200 border-t border-r border-b border-l',
+                                                dayIndex === 0 && 'border-l',
+                                                hasConflict(state.dutySchedules?.data?.[day?.date]?.schedules) ? 'border-red-500 border-t border-r border-l border-b border-b-gray-100' : 'border-gray-100 border-t border-r border-b',
                                                 day.date === moment().format('YYYY-MM-DD') ? 'bg-secondary hover:bg-secondary-600 text-white' : 'bg-white text-gray-700 hover:bg-gray-100',
-                                                'relative cursor-pointer p-2 rounded-tl-md rounded-tr-md'
+                                                'relative cursor-pointer px-2 py-4'
                                             ]" @click="openManageScheduleSlotModal(day)">
                                             <div>
                                                 <div>
@@ -214,7 +215,7 @@
                                                         <span>{{ day.day }}</span>
                                                     </span>
                                                     <div v-if="state.dutySchedules?.data?.[day?.date]?.total_slots"
-                                                        class="absolute top-2 right-4 text-xxs flex items-center justify-center w-4 h-4 bg-red-400 text-white rounded-full">
+                                                        class="absolute top-5 right-4 text-xxs flex items-center justify-center w-4 h-4 bg-red-400 text-white rounded-full">
                                                         {{
                                                             state.dutySchedules?.data?.[day?.date]?.total_slots
                                                         }}
@@ -266,12 +267,12 @@
                                     </div>
 
                                     <!-- Day name headers — non-admin -->
-                                    <div class="grid grid-cols-7 gap-x-2" v-if="!isAdmin(userStore.getUser?.role)">
-                                        <div v-for="day in getWeekDays(weekStart)" :key="day.date" :class="[
-
-                                            hasConflict(state.dutySchedules?.data?.[day?.date]?.schedules) ? 'border-red-500 border-t border-r border-l border-b border-b-gray-200' : 'border-gray-200 border-t border-r border-b border-l',
+                                    <div class="grid grid-cols-7" v-if="!isAdmin(userStore.getUser?.role)">
+                                        <div v-for="(day, dayIndex) in getWeekDays(weekStart)" :key="dayIndex" :class="[
+                                            dayIndex === 0 && 'border-l',
+                                            hasConflict(state.dutySchedules?.data?.[day?.date]?.schedules) ? 'border-red-500 border-t border-r border-l border-b border-b-gray-100' : 'border-gray-100 border-t border-r border-b',
                                             day.date === moment().format('YYYY-MM-DD') ? 'bg-secondary hover:bg-secondary-600 text-white' : 'bg-white text-gray-700 hover:bg-gray-100',
-                                            'p-2 rounded-tl-md rounded-tr-md'
+                                            'px-2 py-4'
                                         ]">
                                             <span class="flex gap-x-1 text-xs font-semibold">
                                                 <span v-if="day.weekName === 'Mon'">
@@ -342,13 +343,18 @@
                                     </div>
 
                                     <!-- Holiday badges -->
-                                    <div class="grid grid-cols-7 gap-x-2">
-                                        <div v-for="day in getWeekDays(weekStart)" :key="day.date"
-                                            class="bg-white border-l border-r border-gray-200 px-2">
-                                            <Badge type="primary" class="w-fit text-xxs"
+                                    <div class="grid grid-cols-7">
+                                        <div v-for="(day, dayIndex) in getWeekDays(weekStart)" :key="dayIndex" :class="[
+                                            dayIndex === 0 && 'border-l',
+                                            'border-r border-gray-100'
+                                        ]">
+                                            <div class="pt-1 px-2"
                                                 v-if="state.dutySchedules?.data?.[day?.date]?.holiday">
-                                                {{ state.dutySchedules?.data?.[day?.date]?.holiday?.name }}
-                                            </Badge>
+                                                <Badge type="primary" class="w-fit text-xxs"
+                                                    v-if="state.dutySchedules?.data?.[day?.date]?.holiday">
+                                                    {{ state.dutySchedules?.data?.[day?.date]?.holiday?.name }}
+                                                </Badge>
+                                            </div>
                                         </div>
                                     </div>
 
@@ -359,11 +365,12 @@
                             <div class="overflow-x-auto" :id="`week-body-${wIndex}`"
                                 @scroll="syncScroll(wIndex, 'body')">
 
-                                <div class="grid grid-cols-7 gap-x-2 min-w-[1000px]">
+                                <div class="grid grid-cols-7 min-w-[1000px]">
                                     <div v-for="(day, dayIndex) in getWeekDays(weekStart)" :key="dayIndex" :class="[
-                                        hasConflict(state.dutySchedules?.data?.[day?.date]?.schedules) ? 'border-red-500' : 'border-gray-200',
-                                        state.copy.dailySchedule?.date === day.date ? 'border-1.5 border-dashed border-gray-700' : 'border-r border-b border-l',
-                                        'relative group bg-white p-2 rounded-br-md rounded-bl-md min-h-96'
+                                        hasConflict(state.dutySchedules?.data?.[day?.date]?.schedules) ? 'border-red-500' : 'border-gray-100',
+                                        dayIndex === 0 && 'border-l',
+                                        state.copy.dailySchedule?.date === day.date ? 'border-1.5 border-dashed border-gray-700' : 'border-r border-b',
+                                        'relative group bg-gray-50 p-2 min-h-96'
                                     ]">
                                         <div class="space-y-2">
                                             <div class="flex justify-end gap-1 pr-1"
