@@ -40,6 +40,12 @@ const state = reactive({
     isPageLoading: false,
 })
 
+watch(() => props.isModalOpen, (isModalOpen: Boolean) => {
+    if (isModalOpen) {
+        state.error = {}
+    }
+})
+
 function closeModal() {
     emit('close')
 }

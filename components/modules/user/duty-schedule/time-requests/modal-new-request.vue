@@ -46,6 +46,12 @@ const state = reactive({
     isPageLoading: false,
 })
 
+watch(() => props.isModalOpen, (isModalOpen: Boolean) => {
+    if (isModalOpen) {
+        state.error = {}
+    }
+})
+
 watch(() => props.selectedSchedule, (selectedSchedule: any) => {
     if (selectedSchedule) {
         state.formScheduleSlot.time_in = moment(selectedSchedule?.date_time_start).format('HH:mm')

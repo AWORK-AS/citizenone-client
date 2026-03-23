@@ -70,7 +70,7 @@ const props = defineProps({
 })
 const { t } = useI18n()
 const { successAlert } = useAlert()
-const emit = defineEmits(['close', 'saveShift'])
+const emit = defineEmits(['close', 'refreshDutySchedules'])
 const departmentStore = useDepartmentStore()
 
 const state = reactive({
@@ -257,6 +257,7 @@ async function copyWeeklyDutySchedule() {
         if (response) {
             successAlert(`${t('alert.success')}!`, `${t('dutySchedules.alert.scheduleSuccessfullyCopied')}.`)
             closeModal()
+            emit('refreshDutySchedules')
         }
     } catch (error: any) {
         state.error = error

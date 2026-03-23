@@ -389,19 +389,37 @@
                                                 <div class="space-y-2">
                                                     <div class="flex justify-end gap-1 pr-1"
                                                         v-if="(hasCreatePermission || isAdmin(userStore.getUser?.role) && state.copy.dailySchedule?.date !== day.date)">
+                                                        <Tooltip position="left" :text="$t('dutySchedules.copy.copy')">
+                                                            <button
+                                                                class="bg-gray-100 w-5 h-5 text-sm text-gray-700 rounded-sm hover:bg-gray-200 flex items-center justify-center"
+                                                                @click="copyDailySchedule(day)">
+                                                                <Icon name="mdi:content-copy" class="h-3 w-3"
+                                                                    aria-hidden="true" />
+                                                            </button>
+                                                        </Tooltip>
+                                                        <Tooltip position="left"
+                                                            :text="$t('dutySchedules.newSchedule')">
+                                                            <button
+                                                                class="bg-gray-100 w-5 h-5 text-sm text-gray-700 rounded-sm hover:bg-gray-200"
+                                                                @click="openAddNewShiftModal(day)">
+                                                                +
+                                                            </button>
+                                                        </Tooltip>
                                                         <div @click.stop>
                                                             <Menu as="div"
                                                                 class="absolute right-0 top-6 xl:relative xl:right-auto xl:top-auto xl:self-center">
                                                                 <div>
                                                                     <MenuButton @click.stop
                                                                         class="-m-2 flex items-center rounded-full p-2 text-gray-500 hover:text-gray-600">
-                                                                        <Tooltip position="left" :text="`
+                                                                        <Tooltip
+                                                                            :position="dayIndex === 0 ? 'right' : 'left'"
+                                                                            :text="`
                                                                             ${state.dutySchedules?.data?.[day?.date]?.additional_hour_requests} ${state.dutySchedules?.data?.[day?.date]?.additional_hour_requests <= 1 ? $t('dutySchedules.scheduleRequests.changeTime.changeTimeRequest') : $t('dutySchedules.scheduleRequests.changeTime.changeTimeRequests')} | 
                                                                             ${state.dutySchedules?.data?.[day?.date]?.swap_requests} ${state.dutySchedules?.data?.[day?.date]?.swap_requests === 1 ? $t('dutySchedules.scheduleRequests.swapSchedule.swapScheduleRequest') : $t('dutySchedules.scheduleRequests.swapSchedule.swapScheduleRequests')}
                                                                         `" v-if="state.dutySchedules?.data?.[day?.date]?.additional_hour_requests > 0 || state.dutySchedules?.data?.[day?.date]?.swap_requests > 0"
                                                                             class="relative">
                                                                             <button
-                                                                                class="bg-gray-200 w-6 h-6 text-sm text-gray-600 rounded-sm hover:bg-gray-400 hover:text-gray-200 flex items-center justify-center">
+                                                                                class="bg-gray-200 w-5 h-5 text-sm text-gray-700 rounded-sm hover:bg-gray-200 flex items-center justify-center">
                                                                                 <Icon
                                                                                     name="mdi:calendar-question-outline"
                                                                                     class="h-3 w-3"
@@ -444,22 +462,6 @@
                                                                 </transition>
                                                             </Menu>
                                                         </div>
-                                                        <Tooltip position="left" :text="$t('dutySchedules.copy.copy')">
-                                                            <button
-                                                                class="bg-gray-100 w-5 h-5 text-sm text-gray-700 rounded-sm hover:bg-gray-200 flex items-center justify-center"
-                                                                @click="copyDailySchedule(day)">
-                                                                <Icon name="mdi:content-copy" class="h-3 w-3"
-                                                                    aria-hidden="true" />
-                                                            </button>
-                                                        </Tooltip>
-                                                        <Tooltip position="left"
-                                                            :text="$t('dutySchedules.newSchedule')">
-                                                            <button
-                                                                class="bg-gray-100 w-5 h-5 text-sm text-gray-700 rounded-sm hover:bg-gray-200"
-                                                                @click="openAddNewShiftModal(day)">
-                                                                +
-                                                            </button>
-                                                        </Tooltip>
                                                     </div>
                                                     <div v-for="(schedule, scheduleIndex) in state.dutySchedules?.data?.[day?.date]?.schedules"
                                                         :key="scheduleIndex" class="rounded-md relative cursor-pointer"
