@@ -454,7 +454,10 @@
                 <img src="/img/icons/asset-01.svg" alt="Image failed to load"
                     class="w-48 md:w-1/4 absolute -top-36 -right-24 opacity-0 transition-opacity duration-500"
                     id="animatedImage">
-                <main class="pb-4 relative">
+                <main :class="[
+                    routeName === 'schedules' ? '' : 'pb-4',
+                    'relative'
+                ]">
                     <div :class="[
                         routeName === 'schedules' && 'bg-white',
                         'flex items-center justify-between flex-wrap gap-3 px-4 sm:px-6 lg:px-8 py-4'

@@ -1,7 +1,7 @@
 <template>
-    <div class="flex gap-x-5 h-[calc(100dvh-8.75rem)] overflow-hidden">
+    <div class="flex h-[calc(100dvh-8.75rem)] overflow-hidden">
         <div class="h-full">
-            <div class="bg-white border-r border-gray-200 shrink-0 h-full">
+            <div class="bg-white border-r border-t border-gray-200 shrink-0 h-full">
                 <div class="sticky top-0 h-[calc(100dvh-8.75rem)] overflow-y-auto p-4 space-y-5 w-32">
                     <div v-for="(employee, employeeIndex) in state.userHours?.data" :key="employeeIndex">
                         <div class="flex flex-col items-center gap-1">
@@ -39,18 +39,10 @@
             </div>
         </div>
         <div class="grow overflow-y-auto min-h-0">
-            <div class="space-y-5">
-                <div class="px-4 sm:px-6 lg:px-8">
-                    <Alert type="danger" :text="state?.error?.message"
-                        v-if="state.error?.message && state.error.message.length > 0" />
-                </div>
-                <div class="px-4 sm:px-6 lg:px-8">
-                    <Alert type="danger" :text="state?.copyShiftError?.message"
-                        v-if="state.copyShiftError?.message && state.copyShiftError.message.length > 0" />
-                </div>
+            <div>
                 <LoadingSpinner :isActive="state.isPageLoading">
                     <div>
-                        <header class="space-y-2 pr-4 sm:pr-6 lg:pr-8 ">
+                        <header class="bg-white border-t border-b border-gray-200 space-y-2 px-4 sm:px-6 lg:px-8">
                             <div class="grid grid-cols-1 xl:grid-cols-3 gap-3 py-3">
                                 <div class="flex items-center gap-x-3">
                                     <div class="flex items-center">
@@ -78,15 +70,17 @@
                                             </button>
                                         </div>
                                     </div>
-                                    <button @click="setToday()" class="text-primary text-sm hover:text-primary-700">
+                                    <button @click="setToday()"
+                                        class="text-primary text-sm underline hover:text-primary-700">
                                         {{ $t('goToToday') }}
                                     </button>
                                 </div>
                                 <div class="flex items-center justify-end gap-x-2">
-                                    <button class="flex items-center gap-x-1 text-sm text-primary group"
+                                    <button
+                                        class="border border-gray-200 rounded-md p-3 flex items-center gap-x-1 text-sm group"
                                         @click="state.modal.isFilterDutyScheduleOpen = true">
                                         <Icon name="ic:outline-filter-list"
-                                            class="text-primary w-6 h-6 group-hover:text-primary-700" />
+                                            class="w-6 h-6 group-hover:text-primary-700" />
                                         <span class="group-hover:text-primary-700">
                                             {{ $t('filter') }}
                                         </span>
@@ -149,15 +143,24 @@
                                 </div>
                             </div>
                         </header>
-                        <div class="pr-4 sm:pr-6 lg:pr-8 ">
+                        <div class="px-4 sm:px-6 lg:px-8">
                             <div class="bg-primary h-3 rounded-full transition-all ease-in-out duration-500 mb-1.5"
                                 :style="{ width: `${state.progress.percentage}%` }"
                                 v-if="state.progress.showProgressBar" />
                             <div class="h-3 mb-1.5" v-else />
                         </div>
 
+                        <div class="px-4 sm:px-6 lg:px-8">
+                            <Alert type="danger" :text="state?.error?.message"
+                                v-if="state.error?.message && state.error.message.length > 0" />
+                        </div>
+                        <div class="px-4 sm:px-6 lg:px-8">
+                            <Alert type="danger" :text="state?.copyShiftError?.message"
+                                v-if="state.copyShiftError?.message && state.copyShiftError.message.length > 0" />
+                        </div>
+
                         <div class="relative flex gap-x-2">
-                            <div class="flex-1 min-w-0 bg-gray-50 space-y-10 pl-1 pr-4 sm:pr-6 lg:pr-8 ">
+                            <div class="flex-1 min-w-0 bg-gray-50 space-y-10 pl-1 px-4 sm:px-6 lg:px-8">
                                 <div v-for="(weekStart, wIndex) in weeksInRange" :key="weekStart.valueOf()"
                                     :id="`weekly-${wIndex}`">
 
@@ -635,7 +638,7 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="mt-5">
+                        <div class="mt-5 px-4 sm:px-6 lg:px-8">
                             <Pagination :data="state.userHours" @previous="previous" @next="next" />
                         </div>
                     </div>
@@ -674,14 +677,6 @@
                     <ModulesUserDutyScheduleModalViewShift :isModalOpen="state.modal.isViewShiftOpen"
                         :selectedEmployeeSchedule="state.viewShift.selectedEmployeeSchedule"
                         @close="state.modal.isViewShiftOpen = false" />
-                    <ModulesUserDutyScheduleExtraHoursModalView :isModalOpen="state.modal.isManageExtraHoursOpen"
-                        :selectedEmployee="state.manageExtraHours.selectedEmployee"
-                        @close="state.modal.isManageExtraHoursOpen = false"
-                        @refreshDutySchedules="fetchDutySchedules()" />
-                    <ModulesUserDutyScheduleLeaveRequestsModalView :isModalOpen="state.modal.isManageLeaveRequestsOpen"
-                        :selectedEmployee="state.manageLeaveRequests.selectedEmployee"
-                        @close="state.modal.isManageLeaveRequestsOpen = false"
-                        @refreshDutySchedules="fetchDutySchedules()" />
                     <ModulesUserDutyScheduleTimeRequestsModalRequests
                         :isModalOpen="state.modal.isManageTimeAdjustmentRequestsOpen"
                         :selectedDate="state.manageTimeRequest.selectedDate"
@@ -767,13 +762,6 @@ const state = reactive({
     isUpdateShift: false,
     manageScheduleSlot: {
         selectedDay: [],
-    },
-    manageExtraHours: {
-        selectedEmployee: {},
-        selectedSchedule: {},
-    },
-    manageLeaveRequests: {
-        selectedEmployee: {},
     },
     manageTimeRequest: {
         selectedDate: '',
