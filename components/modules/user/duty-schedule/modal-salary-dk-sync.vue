@@ -128,8 +128,8 @@
                                 :error="$t('dutySchedules.salaryDk_validation_date_range')" />
                         </div>
 
-                        <!-- Employee Selection -->
-                        <div class="space-y-2">
+                        <!-- Employee Selection (hidden until date range is chosen) -->
+                        <div class="space-y-2" v-if="state.syncDateRange?.length">
                             <FormLabel :label="$t('dutySchedules.salaryDk_select_employees')" />
                             <div v-if="state.scheduleEmployees.length > 0">
                                 <div class="flex w-fit cursor-pointer items-center gap-x-2 border-b border-gray-200 pb-2 text-sm font-medium"
