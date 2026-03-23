@@ -1101,6 +1101,15 @@ async function pasteDailySchedule(day: any) {
         const params = {
             source_date: sourceDate,
             destination_date: destinationDate,
+        } as any
+        if (state.filter.department_uuids?.length > 0) {
+            params.department_uuids = Array(state.filter.department_uuids)
+        }
+        if (state.filter.employment_status) {
+            params.employment_status = Array(state.filter.employment_status)
+        }
+        if (state.filter.employee_uuids?.length > 0) {
+            params.employee_uuids = Array(state.filter.employee_uuids)
         }
         const response = await dutyScheduleService.copyDailyDutySchedule(params)
         if (response) {
