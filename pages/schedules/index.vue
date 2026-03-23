@@ -12,7 +12,7 @@
             </Head>
 
             <template #breadcrumb>
-                <Breadcrumb class="px-4 sm:px-6 lg:px-8">
+                <Breadcrumb>
                     <template #custom-link>
                         <div class="flex items-center">
                             <Icon name="heroicons:chevron-right" class="size-3 shrink-0 text-gray-400"
@@ -27,7 +27,7 @@
             </template>
 
             <template #guided-tour>
-                <div class="flex flex-wrap items-center gap-3 px-4 sm:px-6 lg:px-8">
+                <div class="flex flex-wrap items-center gap-3">
                     <button @click="state.modal.isShowAllShiftTypes = !state.modal.isShowAllShiftTypes"
                         class="text-primary text-sm hover:text-primary-700">
                         {{ $t('dutySchedules.showTheDistributionOfShiftTypes') }}

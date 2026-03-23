@@ -1,11 +1,11 @@
 <template>
     <LoadingSpinner :isActive="state.isPageLoading">
         <TransitionRoot as="template" :show="sidebarOpen">
-            <Dialog as="div" class="relative z-50" @close="sidebarOpen = false">
+            <Dialog as="div" class="relative z-50 lg:hidden" @close="sidebarOpen = false">
                 <TransitionChild as="template" enter="transition-opacity ease-linear duration-300"
                     enter-from="opacity-0" enter-to="opacity-100" leave="transition-opacity ease-linear duration-300"
                     leave-from="opacity-100" leave-to="opacity-0">
-                    <div class="fixed inset-0 bg-primary/70" />
+                    <div class="fixed inset-0 bg-primary/80" />
                 </TransitionChild>
 
                 <div class="fixed inset-0 flex">
@@ -36,10 +36,8 @@
                                         <li>
                                             <ul role="list" class="-mx-2 space-y-1">
                                                 <li v-for="item in navigation" :key="item.name">
-                                                    <div v-if="!item.children" @click="navigateTo(item.href)" :class="[
-                                                        item.activeRouteNames.includes($route.name) ? 'text-secondary-25' : 'text-secondary-100',
-                                                        'group cursor-pointer flex gap-x-3 rounded-md p-2 text-sm leading-6 font-semibold'
-                                                    ]">
+                                                    <div v-if="!item.children" @click="navigateTo(item.href)"
+                                                        :class="[item.activeRouteNames.includes($route.name) ? 'text-secondary-25' : 'text-secondary-100', 'group flex gap-x-3 rounded-md p-2 text-sm leading-6 font-semibold']">
                                                         <Icon :name="item.icon" class="h-5 w-5 shrink-0"
                                                             :class="[item.activeRouteNames.includes($route.name) ? 'text-secondary-25' : 'text-secondary-100']"
                                                             aria-hidden="true" />
@@ -127,7 +125,7 @@
         </TransitionRoot>
 
         <!-- Static sidebar for desktop -->
-        <!-- <div class="hidden lg:fixed lg:inset-y-0 lg:z-50 lg:flex lg:w-72 lg:flex-col">
+        <div class="hidden lg:fixed lg:inset-y-0 lg:z-50 lg:flex lg:w-72 lg:flex-col">
             <div class="overflow-clip relative flex grow flex-col gap-y-5 bg-primary px-6 pb-4 shadow-right">
 
                 <img src="/img/icons/asset-02.svg" alt="Image failed to load"
@@ -224,9 +222,9 @@
                     </ul>
                 </nav>
             </div>
-        </div> -->
+        </div>
 
-        <div class="bg-gray-50 min-h-screen">
+        <div class="lg:pl-72 bg-gray-50 min-h-screen">
             <!-- <div class="bg-primary text-white py-1 shadow-sm text-center text-sm">
                 <div class="marquee">
                     <div class="marquee__inner">
@@ -243,16 +241,13 @@
             </div> -->
             <div
                 class="sticky top-0 z-40 flex h-16 shrink-0 items-center gap-x-3 border-b border-gray-200 bg-white px-4 shadow-sm sm:gap-x-6 sm:px-6 lg:px-8">
-                <button type="button" class="-m-2.5 p-2.5 text-gray-700 flex items-center" @click="sidebarOpen = true">
+                <button type="button" class="-m-2.5 p-2.5 text-gray-700 lg:hidden" @click="sidebarOpen = true">
                     <span class="sr-only">Open sidebar</span>
                     <Icon name="heroicons:bars-3" class="h-6 w-6" aria-hidden="true" />
                 </button>
-                <div class="flex items-center justify-center">
-                    <Logo @click="navigateTo('/overview')" />
-                </div>
 
                 <!-- Separator -->
-                <div class="h-6 w-px bg-primary/10" aria-hidden="true" />
+                <div class="h-6 w-px bg-primary/10 lg:hidden" aria-hidden="true" />
 
                 <div class="flex flex-1 gap-x-4 self-stretch lg:gap-x-6">
                     <div
@@ -454,17 +449,14 @@
                 <img src="/img/icons/asset-01.svg" alt="Image failed to load"
                     class="w-48 md:w-1/4 absolute -top-36 -right-24 opacity-0 transition-opacity duration-500"
                     id="animatedImage">
-                <main class="pb-4 relative">
-                    <div :class="[
-                        routeName === 'schedules' && 'bg-white',
-                        'flex items-center justify-between flex-wrap gap-3 px-4 sm:px-6 lg:px-8 py-4'
-                    ]">
-                        <slot name="breadcrumb"></slot>
-                        <slot name="guided-tour"></slot>
-                    </div>
+                <main class="py-4 relative">
                     <div :class="[
                         routeName === 'schedules' ? 'px-0' : 'px-4 sm:px-6 lg:px-8',
                     ]">
+                        <div class="flex items-center justify-between flex-wrap gap-3">
+                            <slot name="breadcrumb"></slot>
+                            <slot name="guided-tour"></slot>
+                        </div>
                         <div class="mt-4 flex justify-between items-center">
                             <h1 class="text-2xl text-primary font-bold">
                                 <slot name="header"></slot>

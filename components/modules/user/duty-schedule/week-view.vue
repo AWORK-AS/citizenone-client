@@ -106,7 +106,7 @@
                     <div class="h-3 mb-1.5" v-else />
                 </div>
 
-                <div class="flex gap-x-2">
+                <div class="relative flex gap-x-2">
                     <div class="bg-white border-r border-gray-200 shrink-0">
                         <div class="sticky top-0 h-[62vh] overflow-y-auto p-4 space-y-5 w-32">
                             <div v-for="(employee, employeeIndex) in state.userHours?.data" :key="employeeIndex">
@@ -696,7 +696,6 @@ const language = useI18n()
 const dutyScheduleStore = useDutyScheduleStore() as any
 const userStore = useUserStore() as any
 const departmentStore = useDepartmentStore()
-const currentDate = ref(moment())
 const scrollLock = ref<Record<number, boolean>>({})
 
 const state = reactive({
@@ -826,6 +825,16 @@ watch(() => state.progress.percentage, (newPercentage: any) => {
     }
 })
 
+onMounted(() => {
+    fetchDutySchedules()
+    fetchDutySchedulesUserHours()
+    window.addEventListener('keydown', handleKeyDown)
+})
+
+onBeforeUnmount(() => {
+    window.removeEventListener('keydown', handleKeyDown)
+})
+
 watch(() => departmentStore.getSelectedDepartmentName, (newValue: any) => {
     if (newValue != null) {
         dutyScheduleStore.setCurrentPageNumber(1)
@@ -836,7 +845,6 @@ watch(() => departmentStore.getSelectedDepartmentName, (newValue: any) => {
 
 watch(() => state.filter.date_range, (newSelectedDate: any) => {
     if (newSelectedDate) {
-        // currentDate.value = moment(newSelectedDate)
         fetchDutySchedules()
         // emit('setDutyScheduleCurrentDate', state.selectedDate)
     }
@@ -845,23 +853,7 @@ watch(() => state.filter.date_range, (newSelectedDate: any) => {
 watch(() => dutyScheduleStore.getShowEmployeesWorkingToday, (status: boolean) => {
     dutyScheduleStore.setShowEmployeesWorkingToday(status)
     fetchDutySchedules()
-})
-
-watch(() => state.dutySchedules, (newSchedules) => {
-    // Update the expanded records only if the number of records changes.
-    // if (newSchedules && newSchedules.data.length !== expandedRecords.length) {
-    //     expandedRecords.splice(0, expandedRecords.length, ...newSchedules.data.map(() => true))
-    // }
-})
-
-onMounted(() => {
-    fetchDutySchedules()
     fetchDutySchedulesUserHours()
-    window.addEventListener('keydown', handleKeyDown)
-})
-
-onBeforeUnmount(() => {
-    window.removeEventListener('keydown', handleKeyDown)
 })
 
 function handleKeyDown(event: KeyboardEvent) {
@@ -883,7 +875,7 @@ function getDisplayName(employee: any) {
 
 const weeksInRange = computed(() => {
     const [start, end] = state.filter.date_range
-    if (!start || !end) return [moment(currentDate.value).startOf('isoWeek')]
+    if (!start || !end) return [moment().startOf('isoWeek')]
 
     const weeks: moment.Moment[] = []
     const cursor = moment(start).startOf('isoWeek')
@@ -1027,6 +1019,7 @@ function setFilter(filter: any) {
     state.filter.employee_uuids = filter.employee_uuids
     emit('setDutyScheduleCurrentFilter', state.filter)
     fetchDutySchedules()
+    fetchDutySchedulesUserHours()
 }
 
 function handleSearch(value: any) {
@@ -1075,7 +1068,7 @@ function nextWeek() {
 }
 
 const weekNumber = computed(() => {
-    return moment(currentDate.value).week()
+    return moment().week()
 })
 
 function hasConflict(schedules: any) {
@@ -1351,22 +1344,22 @@ function isWeeklyScheduleCopied(weekNumber: number) {
 }
 
 function copyWeeklySchedule(weekNumber: number) {
-    state.copy.allEmployeeSchedules = {
-        weekNumber: weekNumber,
-        yearSource: currentDate.value.year(),
-        dutySchedules: state.dutySchedules?.data
-    }
+    // state.copy.allEmployeeSchedules = {
+    //     weekNumber: weekNumber,
+    //     yearSource: currentDate.value.year(),
+    //     dutySchedules: state.dutySchedules?.data
+    // }
 }
 
 function pasteWeeklySchedule(weekNumber: number) {
-    const params = {
-        department: departmentStore.getSelectedDepartmentName,
-        week_source: state.copy.allEmployeeSchedules.weekNumber,
-        week_destination: weekNumber,
-        year_source: state.copy.allEmployeeSchedules.yearSource,
-        year_destination: currentDate.value.year(),
-    }
-    saveCopiedWeeklyDutySchedule(params)
+    // const params = {
+    //     department: departmentStore.getSelectedDepartmentName,
+    //     week_source: state.copy.allEmployeeSchedules.weekNumber,
+    //     week_destination: weekNumber,
+    //     year_source: state.copy.allEmployeeSchedules.yearSource,
+    //     year_destination: currentDate.value.year(),
+    // }
+    // saveCopiedWeeklyDutySchedule(params)
 }
 
 async function saveCopiedWeeklyDutySchedule(params: object) {

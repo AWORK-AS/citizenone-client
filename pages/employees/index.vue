@@ -12,7 +12,7 @@
 
             <template #header>{{ $t('employees.employees') }}</template>
             <template #guided-tour>
-                <Tooltip :text="$t('guidedTour')" @click="openGuidedTour()">
+                <Tooltip :text="$t('guidedTour')" position="left" @click="openGuidedTour()">
                     <Icon name="ph:question" class="size-6 cursor-pointer text-gray-700" aria-hidden="true" />
                 </Tooltip>
             </template>
