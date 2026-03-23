@@ -735,6 +735,7 @@ const dutyScheduleStore = useDutyScheduleStore() as any
 const userStore = useUserStore() as any
 const departmentStore = useDepartmentStore()
 const scrollLock = ref<Record<number, boolean>>({})
+const forceRefresh = ref(false)
 
 const state = reactive({
     copy: {
@@ -881,10 +882,15 @@ watch(() => departmentStore.getSelectedDepartmentName, (newValue: any) => {
     }
 })
 
-watch(() => state.filter.date_range, (newSelectedDate: any) => {
-    if (newSelectedDate) {
+watch(() => state.filter.date_range, (newRange: any, oldRange: any) => {
+    if (!newRange) return
+    const newStart = moment(newRange[0]).format('YYYY-MM-DD')
+    const newEnd = moment(newRange[1]).format('YYYY-MM-DD')
+    const oldStart = oldRange ? moment(oldRange[0]).format('YYYY-MM-DD') : null
+    const oldEnd = oldRange ? moment(oldRange[1]).format('YYYY-MM-DD') : null
+    if (newStart !== oldStart || newEnd !== oldEnd || forceRefresh.value) {
+        forceRefresh.value = false
         fetchDutySchedules()
-        // emit('setDutyScheduleCurrentDate', state.selectedDate)
     }
 })
 
@@ -979,7 +985,7 @@ async function fetchDutySchedules() {
         if (state.filter.department_uuids?.length > 0) {
             params.department_uuids = Array(state.filter.department_uuids)
         }
-        if (state.filter.employment_status) {
+        if (state.filter.employment_status?.length > 0) {
             params.employment_status = Array(state.filter.employment_status)
         }
         if (state.filter.employee_uuids?.length > 0) {
@@ -1021,7 +1027,7 @@ async function fetchDutySchedulesUserHours() {
         if (state.filter.department_uuids?.length > 0) {
             params.department_uuids = Array(state.filter.department_uuids)
         }
-        if (state.filter.employment_status) {
+        if (state.filter.employment_status?.length > 0) {
             params.employment_status = Array(state.filter.employment_status)
         }
         if (state.filter.employee_uuids?.length > 0) {
@@ -1094,6 +1100,7 @@ function previousWeek() {
 }
 
 function setToday() {
+    forceRefresh.value = true
     state.filter.date_range = [moment().startOf('isoWeek'), moment().endOf('isoWeek')]
 }
 
@@ -1141,13 +1148,13 @@ async function pasteDailySchedule(day: any) {
             destination_date: destinationDate,
         } as any
         if (state.filter.department_uuids?.length > 0) {
-            params.department_uuids = Array(state.filter.department_uuids)
+            params.department_uuids = state.filter.department_uuids
         }
-        if (state.filter.employment_status) {
-            params.employment_status = Array(state.filter.employment_status)
+        if (state.filter.employment_status?.length > 0) {
+            params.employment_status = state.filter.employment_status
         }
         if (state.filter.employee_uuids?.length > 0) {
-            params.employee_uuids = Array(state.filter.employee_uuids)
+            params.employee_uuids = state.filter.employee_uuids
         }
         const response = await dutyScheduleService.copyDailyDutySchedule(params)
         if (response) {
