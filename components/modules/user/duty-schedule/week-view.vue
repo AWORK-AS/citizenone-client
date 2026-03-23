@@ -161,7 +161,7 @@
 
                         <div class="relative flex gap-x-2">
                             <div class="flex-1 min-w-0 bg-gray-50 space-y-10 pl-1 px-4 sm:px-6 lg:px-8">
-                                <div v-for="(weekStart, wIndex) in weeksInRange" :key="weekStart.valueOf()"
+                                <div v-for="(week, wIndex) in weeksInRange" :key="week.valueOf()"
                                     :id="`weekly-${wIndex}`">
 
                                     <!-- Sticky header -->
@@ -173,14 +173,14 @@
                                             <!-- Week number and copy buttons -->
                                             <div class="flex items-center gap-x-3 px-1 py-3">
                                                 <p class="text-secondary text-lg font-medium">
-                                                    {{ $t('dutySchedules.week') }} {{ getWeekNumber(weekStart) }}
+                                                    {{ $t('dutySchedules.week') }} {{ getWeekNumber(week) }}
                                                 </p>
                                                 <div class="flex-1 flex justify-end gap-x-2">
                                                     <Tooltip :text="$t('dutySchedules.copy.copyThisWeeksSchedule')"
                                                         position="left">
                                                         <button
                                                             class="bg-gray-200 w-6 h-6 text-sm text-gray-600 rounded-sm hover:bg-gray-400 hover:text-gray-200 flex items-center justify-center"
-                                                            @click="copyWeeklySchedule(getWeekNumber(weekStart))">
+                                                            @click="copyWeeklySchedule(week)">
                                                             <Icon name="mdi:content-copy" class="h-3 w-3"
                                                                 aria-hidden="true" />
                                                         </button>
@@ -200,7 +200,7 @@
                                             <!-- Day name headers — admin -->
                                             <div class="grid grid-cols-7 gap-x-2"
                                                 v-if="isAdmin(userStore.getUser?.role)">
-                                                <Tooltip v-for="day in getWeekDays(weekStart)" :key="day.date"
+                                                <Tooltip v-for="day in getWeekDays(week)" :key="day.date"
                                                     :text="$t('dutySchedules.scheduleSlots.scheduleSlots')" :class="[
                                                         hasConflict(state.dutySchedules?.data?.[day?.date]?.schedules) ? 'border-red-500 border-t border-r border-l border-b border-b-gray-200' : 'border-gray-200 border-t border-r border-b border-l',
                                                         day.date === moment().format('YYYY-MM-DD') ? 'bg-secondary hover:bg-secondary-600 text-white' : 'bg-white text-gray-700 hover:bg-gray-100',
@@ -287,7 +287,7 @@
                                             <!-- Day name headers — non-admin -->
                                             <div class="grid grid-cols-7 gap-x-2"
                                                 v-if="!isAdmin(userStore.getUser?.role)">
-                                                <div v-for="day in getWeekDays(weekStart)" :key="day.date" :class="[
+                                                <div v-for="day in getWeekDays(week)" :key="day.date" :class="[
 
                                                     hasConflict(state.dutySchedules?.data?.[day?.date]?.schedules) ? 'border-red-500 border-t border-r border-l border-b border-b-gray-200' : 'border-gray-200 border-t border-r border-b border-l',
                                                     day.date === moment().format('YYYY-MM-DD') ? 'bg-secondary hover:bg-secondary-600 text-white' : 'bg-white text-gray-700 hover:bg-gray-100',
@@ -363,7 +363,7 @@
 
                                             <!-- Holiday badges -->
                                             <div class="grid grid-cols-7 gap-x-2">
-                                                <div v-for="day in getWeekDays(weekStart)" :key="day.date"
+                                                <div v-for="day in getWeekDays(week)" :key="day.date"
                                                     class="bg-white border-l border-r border-gray-200 px-2">
                                                     <Badge type="primary" class="w-fit text-xxs"
                                                         v-if="state.dutySchedules?.data?.[day?.date]?.holiday">
@@ -379,13 +379,13 @@
                                     <div class="overflow-x-auto" :id="`week-body-${wIndex}`"
                                         @scroll="syncScroll(wIndex, 'body')">
 
-                                        <div class="grid grid-cols-7 gap-x-2 min-w-[1000px]">
-                                            <div v-for="(day, dayIndex) in getWeekDays(weekStart)" :key="dayIndex"
-                                                :class="[
-                                                    hasConflict(state.dutySchedules?.data?.[day?.date]?.schedules) ? 'border-red-500' : 'border-gray-200',
-                                                    state.copy.dailySchedule?.date === day.date ? 'border-1.5 border-dashed border-gray-700' : 'border-r border-b border-l',
-                                                    'relative group bg-white p-2 rounded-br-md rounded-bl-md min-h-96'
-                                                ]">
+                                        <div class="grid grid-cols-7 gap-x-2 min-w-[1000px]"
+                                            v-if="!isWeeklyScheduleCopied(week)">
+                                            <div v-for="(day, dayIndex) in getWeekDays(week)" :key="dayIndex" :class="[
+                                                hasConflict(state.dutySchedules?.data?.[day?.date]?.schedules) ? 'border-red-500' : 'border-gray-200',
+                                                state.copy.dailySchedule?.date === day.date ? 'border-1.5 border-dashed border-gray-700' : 'border-r border-b border-l',
+                                                'relative group bg-white p-2 rounded-br-md rounded-bl-md min-h-96'
+                                            ]">
                                                 <div class="space-y-2">
                                                     <div class="flex justify-end gap-1 pr-1"
                                                         v-if="(hasCreatePermission || isAdmin(userStore.getUser?.role) && state.copy.dailySchedule?.date !== day.date)">
@@ -736,11 +736,12 @@ const forceRefresh = ref(false)
 
 const state = reactive({
     copy: {
-        allEmployeeSchedules: {},
+        // allEmployeeSchedules: {},
         dailySchedule: {},
-        selectedEmployeeDailySchedule: {},
-        selectedEmployeeWeeklySchedule: {},
-        selectedWeekNumber: null,
+        weeklySchedule: {},
+        // selectedEmployeeDailySchedule: {},
+        // selectedEmployeeWeeklySchedule: {},
+        // selectedWeekNumber: null,
     } as any,
     copyShiftError: {} as Error,
     dataFilter: {
@@ -923,13 +924,13 @@ const weeksInRange = computed(() => {
     return weeks
 })
 
-function getWeekNumber(weekStart: moment.Moment): number {
-    return weekStart.isoWeek()
+function getWeekNumber(week: moment.Moment): number {
+    return week.isoWeek()
 }
 
-function getWeekDays(weekStart: moment.Moment) {
+function getWeekDays(week: moment.Moment) {
     return Array.from({ length: 7 }).map((_, i) => {
-        const day = moment(weekStart).add(i, 'day')
+        const day = moment(week).add(i, 'day')
         return {
             shortName: day.format('dd')[0],
             weekName: day.format('ddd'),
@@ -1122,8 +1123,13 @@ function openManageScheduleSlotModal(day: any) {
 }
 
 // -- Copy functions ----------------------------
-function copyDailySchedule(day: any) {
-    state.copy.dailySchedule = day
+function stopCopying() {
+    state.copy.dailySchedule = {}
+    state.copy.weeklySchedule = {}
+}
+
+function copyDailySchedule(dayDetails: any) {
+    state.copy.dailySchedule = dayDetails
 }
 
 async function pasteDailySchedule(day: any) {
@@ -1152,6 +1158,7 @@ async function pasteDailySchedule(day: any) {
             state.progress.pendingRequests = state.progress.pendingRequests - 1
             identifyTheProgressPercentage()
             fetchDutySchedules()
+            fetchDutySchedulesUserHours()
         }
     } catch (error: any) {
         state.copyShiftError = error
@@ -1161,25 +1168,68 @@ async function pasteDailySchedule(day: any) {
     }
 }
 
+function copyWeeklySchedule(week: any) {
+    state.copy.weeklySchedule = {
+        date: moment(week).format('YYYY-MM-DD'),
+        weekNumber: getWeekNumber(moment(moment(week).format('YYYY-MM-DD'))),
+    }
+}
+
+function isWeeklyScheduleCopied(week: any) {
+    return state.copy.weeklySchedule?.weekNumber === getWeekNumber(week) &&
+        moment(state.copy.weeklySchedule?.date).format('YYYY') === moment(week).format('YYYY')
+}
+
+async function pasteWeeklySchedule(week: any) {
+    state.copyShiftError = {}
+    try {
+        state.progress.totalRequests = state.progress.totalRequests + 1
+        state.progress.pendingRequests = state.progress.pendingRequests + 1
+        identifyTheProgressPercentage()
+        const params = {
+            week_source: state.copy.weeklySchedule.weekNumber,
+            year_source: moment(state.copy.weeklySchedule.date).format('YYYY'),
+            week_destination: getWeekNumber(moment(moment(week).format('YYYY-MM-DD'))),
+            year_destination: moment(week).format('YYYY'),
+        } as any
+        if (state.filter.department_uuids?.length > 0) {
+            params.department_uuids = state.filter.department_uuids
+        }
+        if (state.filter.employment_status?.length > 0) {
+            params.employment_status = state.filter.employment_status
+        }
+        if (state.filter.employee_uuids?.length > 0) {
+            params.employee_uuids = state.filter.employee_uuids
+        }
+        const response = await dutyScheduleService.copyWeeklyDutySchedule(params)
+        if (response) {
+            state.progress.totalRequests = state.progress.totalRequests - 1
+            state.progress.pendingRequests = state.progress.pendingRequests - 1
+            identifyTheProgressPercentage()
+            fetchDutySchedules()
+            fetchDutySchedulesUserHours()
+        }
+    } catch (error: any) {
+        state.copyShiftError = error
+        state.progress.totalRequests = state.progress.totalRequests - 1
+        state.progress.pendingRequests = state.progress.pendingRequests - 1
+        identifyTheProgressPercentage()
+    }
+}
+
+// -- Requests functions ----------------------------
+
 function viewChangeTimeRequests(day: any) {
-    // const selectedEmployee = state.dutySchedules?.data?.[employeeIndex]
-    // const selectedDate = state.dutySchedules?.data?.[employeeIndex].weeks[weekIndex]?.date
-    // state.manageTimeRequest.selectedEmployee = selectedEmployee
     state.manageTimeRequest.selectedDate = day?.date
     state.modal.isManageTimeAdjustmentRequestsOpen = true
 }
 
 function requestTimeAdjustment(schedule: any) {
-    // const selectedEmployee = state.dutySchedules?.data?.[employeeIndex]
-    // state.manageTimeRequest.selectedEmployee = selectedEmployee
     state.manageTimeRequest.selectedSchedule = schedule
     state.modal.isRequestTimeAdjustmentOpen = true
 }
 
 function viewSwapScheduleRequests(day: any) {
-    // const selectedEmployee = state.dutySchedules?.data?.[employeeIndex]
-    // const selectedDate = state.dutySchedules?.data?.[employeeIndex].weeks[weekIndex]?.date
-    // state.manageSwapScheduleRequest.selectedEmployee = selectedEmployee
     state.manageSwapScheduleRequest.selectedDate = day?.date
     state.modal.isManageSwapScheduleRequestsOpen = true
 }
@@ -1188,6 +1238,8 @@ function requestSwapSchedule(schedule: any) {
     state.manageSwapScheduleRequest.selectedSchedule = schedule
     state.modal.isRequestSwapScheduleOpen = true
 }
+
+// -- Save schedule functions ----------------------------
 
 async function saveShift(shiftDetails: any) {
     const params = {
@@ -1268,142 +1320,8 @@ function identifyTheProgressPercentage() {
     }
 }
 
-function isDailyScheduleCopiedEmpty() {
-    return Object.keys(state.copy.selectedEmployeeDailySchedule).length === 0
-}
-
-function isDailyScheduleCopied(employeeIndex: number, weekIndex: number, weekNumber: number) {
-    return state.copy.selectedEmployeeDailySchedule.employeeIndex === employeeIndex &&
-        state.copy.selectedEmployeeDailySchedule.weekIndex === weekIndex &&
-        state.copy.selectedEmployeeDailySchedule.weekNumber === weekNumber &&
-        dutyScheduleStore.getCurrentPageNumber === state.copy.selectedEmployeeDailySchedule.currentTablePage
-}
-
-function copyEmployeeDailySchedule(employeeIndex: number, weekIndex: any, employee: any, weekNumber: number) {
-    state.copy.selectedEmployeeDailySchedule = {
-        employeeIndex: employeeIndex,
-        weekNumber: weekNumber,
-        weekIndex: weekIndex,
-        employee: employee,
-        currentTablePage: dutyScheduleStore.getCurrentPageNumber,
-    }
-}
-
-function stopCopying() {
-    // state.copy.allEmployeeSchedules = {}
-    // state.copy.selectedEmployeeDailySchedule = {}
-    // state.copy.selectedEmployeeWeeklySchedule = {}
-    state.copy.dailySchedule = {}
-}
-
-async function pasteEmployeeDailySchedule(employeeIndex: number, weekIndex: number) {
-    const copiedSelectedEmployeeSchedule = state.copy.selectedEmployeeDailySchedule
-    const copiedWeekIndex = copiedSelectedEmployeeSchedule.weekIndex
-
-    const userSource = copiedSelectedEmployeeSchedule.employee
-    const dateSource = copiedSelectedEmployeeSchedule.employee.weeks[copiedWeekIndex].date
-    const userDestination = state.dutySchedules?.data?.[employeeIndex]
-    const dateDestination = state.dutySchedules?.data?.[employeeIndex].weeks[weekIndex].date
-    const params = {
-        user_uuid_source: userSource.uuid,
-        user_uuid_destination: userDestination.uuid,
-        date_source: dateSource,
-        date_destination: dateDestination,
-    }
-    copyDutySchedule(params)
-}
-
-async function copyDutySchedule(params: object) {
-    state.copyShiftError = {}
-    try {
-        state.progress.totalRequests = state.progress.totalRequests + 1
-        state.progress.pendingRequests = state.progress.pendingRequests + 1
-        identifyTheProgressPercentage()
-        const response = await dutyScheduleService.saveDutySchedule(params)
-        if (response) {
-            state.progress.totalRequests = state.progress.totalRequests - 1
-            state.progress.pendingRequests = state.progress.pendingRequests - 1
-            identifyTheProgressPercentage()
-            fetchDutySchedules()
-            state.modal.isAddShiftOpen = false
-        }
-    } catch (error: any) {
-        state.copyShiftError = error
-        state.progress.totalRequests = state.progress.totalRequests - 1
-        state.progress.pendingRequests = state.progress.pendingRequests - 1
-        identifyTheProgressPercentage()
-    }
-}
-
-function isCopiedWeek() {
-    return state.copy.selectedWeekNumber === weekNumber?.value
-}
-
-function isEmployeeWeeklyScheduleCopied() {
-    return Object.keys(state.copy.selectedEmployeeWeeklySchedule).length > 0
-}
-
-function isEmployeeSelectedAsWeeklyScheduleSource(employee: any) {
-    return state.copy.selectedEmployeeWeeklySchedule?.uuid === employee?.uuid
-}
-
-function copyEmployeeWeeklySchedule(weeklySchedule: any) {
-    state.copy.selectedEmployeeWeeklySchedule = weeklySchedule
-    state.copy.selectedWeekNumber = weekNumber?.value
-}
-
-async function pasteEmployeeWeeklySchedule(weeklySchedule: any) {
-    state.copyShiftError = {}
-    try {
-        state.progress.totalRequests = state.progress.totalRequests + 1
-        state.progress.pendingRequests = state.progress.pendingRequests + 1
-        identifyTheProgressPercentage()
-        const params = {
-            user_uuid_source: state?.copy.selectedEmployeeWeeklySchedule?.uuid,
-            user_uuid_destination: weeklySchedule?.uuid,
-            week_source: state.copy.selectedWeekNumber,
-            week_destination: weekNumber?.value,
-        }
-        const response = await dutyScheduleService.copyEmployeeWeeklyDutySchedule(params)
-        if (response) {
-            state.progress.totalRequests = state.progress.totalRequests - 1
-            state.progress.pendingRequests = state.progress.pendingRequests - 1
-            identifyTheProgressPercentage()
-            fetchDutySchedules()
-        }
-    } catch (error: any) {
-        state.copyShiftError = error
-        state.progress.totalRequests = state.progress.totalRequests - 1
-        state.progress.pendingRequests = state.progress.pendingRequests - 1
-        identifyTheProgressPercentage()
-    }
-}
-
 function isAllWeeklyScheduleCopiedEmpty() {
     return Object.keys(state.copy.allEmployeeSchedules).length === 0
-}
-
-function isWeeklyScheduleCopied(weekNumber: number) {
-    return state.copy.allEmployeeSchedules.weekNumber === weekNumber
-}
-
-function copyWeeklySchedule(weekNumber: number) {
-    // state.copy.allEmployeeSchedules = {
-    //     weekNumber: weekNumber,
-    //     yearSource: currentDate.value.year(),
-    //     dutySchedules: state.dutySchedules?.data
-    // }
-}
-
-function pasteWeeklySchedule(weekNumber: number) {
-    // const params = {
-    //     department: departmentStore.getSelectedDepartmentName,
-    //     week_source: state.copy.allEmployeeSchedules.weekNumber,
-    //     week_destination: weekNumber,
-    //     year_source: state.copy.allEmployeeSchedules.yearSource,
-    //     year_destination: currentDate.value.year(),
-    // }
-    // saveCopiedWeeklyDutySchedule(params)
 }
 
 async function saveCopiedWeeklyDutySchedule(params: object) {
