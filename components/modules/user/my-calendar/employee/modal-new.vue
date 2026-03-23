@@ -18,10 +18,12 @@ import moment from 'moment'
 import { myCalendarService } from '@/components/api/user/MyCalendarService'
 import { useAlert } from '@/composables/alert'
 import { useI18n } from "vue-i18n"
+import { useDepartmentStore } from '@/store/department'
 import type { Error } from '@/types'
 
 const { successAlert } = useAlert()
 const { t } = useI18n()
+const departmentStore = useDepartmentStore()
 
 const props = defineProps({
     isModalOpen: {
@@ -50,6 +52,7 @@ const state = reactive({
         users_uuid: [],
         user_group_uuid: [],
         send_invitation: false,
+        department_uuid: [],
         recurring: {
             is_recurring: false,
             recurring: '',
@@ -97,6 +100,7 @@ async function saveSchedule(scheduleDetails: any) {
             users_uuid: scheduleDetails.users_uuid,
             user_group_uuid: scheduleDetails.user_group_uuid,
             send_invitation: scheduleDetails.send_invitation,
+            department_uuid: [departmentStore.getSelectedDepartment.uuid],
             is_recurring: scheduleDetails.recurring.is_recurring,
             recurring: scheduleDetails.recurring.recurring,
             recurring_until: scheduleDetails.recurring.recurring_until,
