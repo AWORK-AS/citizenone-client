@@ -3135,7 +3135,8 @@
                     "note": "Bemærkning",
                     "originalTime": "Oprindelig tid",
                     "requestedTime": "Anmodet tid",
-                    "shiftType": "Vagttype"
+                    "shiftType": "Vagttype",
+                    "requester": "Anmoder"
                 }
             },
             "newRequest": "Ny anmodning",
@@ -3172,7 +3173,8 @@
                     },
                     "note": "Bemærkning",
                     "schedule": "Vagtplan",
-                    "shiftType": "Vagttype"
+                    "shiftType": "Vagttype",
+                    "requester": "Anmoder"
                 }
             }
         },

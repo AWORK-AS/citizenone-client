@@ -3135,7 +3135,8 @@
                     "note": "Note",
                     "originalTime": "Original time",
                     "requestedTime": "Requested time",
-                    "shiftType": "Shift type"
+                    "shiftType": "Shift type",
+                    "requester": "Requester"
                 }
             },
             "newRequest": "New request",
@@ -3172,7 +3173,8 @@
                     },
                     "note": "Note",
                     "schedule": "Schedule",
-                    "shiftType": "Shift type"
+                    "shiftType": "Shift type",
+                    "requester": "Requester"
                 }
             }
         },

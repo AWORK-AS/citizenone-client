@@ -16,20 +16,25 @@
                                     v-if="!(state.isTableLoading || (state.scheduleRequests?.data?.length === 0))">
                                     <tr v-for="(request, index) in state.scheduleRequests?.data" :key="index">
                                         <td width="15%">
+                                            <p>
+                                                {{ request?.user?.firstname }} {{ request?.user?.lastname ?? '' }}
+                                            </p>
+                                        </td>
+                                        <td width="15%">
                                             {{ language.locale.value === 'en' ? request?.schedule?.shift?.en_name :
                                                 request?.schedule?.shift?.dk_name }}
                                         </td>
-                                        <td width="20%">
+                                        <td width="15%">
                                             <span>{{ moment(request?.schedule?.time_in, "HH:mm").format('HH:mm')
-                                            }}</span> -
+                                                }}</span> -
                                             <span>{{ moment(request?.schedule?.time_out, "HH:mm").format('HH:mm')
-                                            }}</span>
+                                                }}</span>
                                         </td>
-                                        <td width="20%">
+                                        <td width="15%">
                                             <span>{{ moment(request?.time_in, "HH:mm").format('HH:mm') }}</span> -
                                             <span>{{ moment(request?.time_out, "HH:mm").format('HH:mm') }}</span>
                                         </td>
-                                        <td width="25%">
+                                        <td width="20%">
                                             <span>{{ request?.note }}</span>
                                         </td>
                                         <td width="20%">
@@ -96,6 +101,7 @@ let currentTablePage = 1
 
 const state = reactive({
     columnHeaders: [
+        { name: 'dutySchedules.scheduleRequests.changeTime.table.requester', isTranslateName: true, },
         { name: 'dutySchedules.scheduleRequests.changeTime.table.shiftType', isTranslateName: true, },
         { name: 'dutySchedules.scheduleRequests.changeTime.table.originalTime', isTranslateName: true, },
         { name: 'dutySchedules.scheduleRequests.changeTime.table.requestedTime', isTranslateName: true, },
