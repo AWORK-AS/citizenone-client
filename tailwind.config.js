@@ -101,6 +101,9 @@ export default {
       fontSize: {
         xxs: ['10px', '12px'],
       },
+      height: {
+        dvh: '100dvh',
+      }
     },
   },
   plugins: [],

@@ -5,7 +5,8 @@
                 v-if="props.error?.message && props.error.message.length > 0" />
             <Alert type="danger" :text="state?.error?.message"
                 v-if="state.error?.message && state.error.message.length > 0" />
-            <!-- <div v-if="props?.selectedEmployee?.with_minor && state.showChildProtectionCertificateWarning">
+            <div v-if="state.options.employees_without_all_users_option.find((user: any) => user.value === state.formShift.user_uuid)?.with_minor
+                && state.showChildProtectionCertificateWarning">
                 <div class="bg-red-100 text-black flex items-center px-4 py-3 mb-4 rounded-lg" role="alert">
                     <svg class="flex-shrink-0 w-5 h-5 text-red-700 dark:text-red-800" fill="currentColor"
                         viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
@@ -35,7 +36,7 @@
                         </p>
                     </div>
                 </div>
-            </div> -->
+            </div>
             <Alert type="warning" :text="$t('recurring.youAreEditingARecurringShift')"
                 v-if="props.selectedShift?.recurring?.is_recurring" />
             <div class="space-y-1" v-if="props.formType === 'create'">
@@ -345,6 +346,10 @@ const props = defineProps({
         type: String,
         required: true,
     },
+    selectedEmployee: {
+        type: Object,
+        required: true,
+    },
     selectedShift: {
         type: Object,
         required: true,
@@ -397,7 +402,7 @@ const state = reactive({
     options: {
         citizens: [],
         departments: [],
-        employees_without_all_users_option: [],
+        employees_without_all_users_option: [] as any,
         recurring: {
             frequency: [
                 { value: 'daily', label: `${t('recurring.frequency.daily.daily')}` },
@@ -687,6 +692,7 @@ async function fetchAllUsersWithoutAllUsersOption() {
                 (user: any) => options.push({
                     value: user?.uuid,
                     label: user?.firstname + " " + (user?.lastname ?? ''),
+                    with_minor: user?.with_minor,
                 })
             )
             state.options.employees_without_all_users_option = options

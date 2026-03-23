@@ -77,7 +77,7 @@
                 </FormButton>
             </div> -->
 
-            <div class="space-y-5">
+            <div class="-mt-9 space-y-5">
                 <ModulesUserDutyScheduleWeekView ref="weekViewRef" v-if="state.calendarView === 'week'"
                     @setDutyScheduleCurrentDate="setDutyScheduleCurrentDate"
                     @setDutyScheduleCurrentFilter="setDutyScheduleCurrentFilter" />
