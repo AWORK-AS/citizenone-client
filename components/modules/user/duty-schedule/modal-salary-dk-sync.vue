@@ -651,6 +651,11 @@ function getLeaveTypeName(apiName: string): string {
     return translated !== key ? translated : apiName.replace(/([A-Z])/g, ' $1').trim()
 }
 
+function getTranslatedTitle(item: any): string {
+    const lang = locale.value === 'dk' ? 'da' : locale.value
+    return item.titleTranslations?.[lang] || item.title || item.description || `Type ${item.id}`
+}
+
 const groupedRegistrations = computed(() => {
     const groups = new Map<string, {
         salaryDkId: string; employeeName: string;
@@ -934,7 +939,7 @@ async function fetchAndBuildShiftTypes() {
 
         const allSalaryTypeOptions = state.salaryTypesRaw.map((st: any) => ({
             id: String(st.id),
-            title: st.title || st.description || `Type ${st.id}`,
+            title: getTranslatedTitle(st),
         }))
 
         state.employeeShiftTypes = Array.from(empShiftMap.entries())
@@ -1012,7 +1017,7 @@ async function fetchAndBuildShiftTypes() {
 
         const allSupplementTypeOptions = state.supplementTypesRaw.map((st: any) => ({
             id: String(st.id),
-            title: st.title || st.description || `Type ${st.id}`,
+            title: getTranslatedTitle(st),
         }))
 
         const allLeaveTypeOptions = state.leaveTypesRaw.map((lt: any) => ({
