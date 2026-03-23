@@ -8,6 +8,10 @@
 
             <template #header>{{ $t('reminders.reminders') }}</template>
 
+            <template #breadcrumb>
+                <Breadcrumb :links="breadcrumbLinks" />
+            </template>
+
             <div class="mt-8">
                 <div class="flex justify-end items-center mb-5">
                     <FormButton buttonStyle="action" class="rounded-lg"
@@ -95,6 +99,13 @@ import type { Error } from '@/types'
 const runtimeConfig = useRuntimeConfig()
 const { successAlert } = useAlert()
 const { t } = useI18n()
+const breadcrumbLinks = [
+    {
+        name: 'reminders.reminders',
+        translate: true,
+        href: '/reminders',
+    },
+]
 
 const state = reactive({
     error: {} as Error,
