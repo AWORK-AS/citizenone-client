@@ -642,7 +642,7 @@ const allTypesAssigned = computed(() => {
 
 function getTypeName(typeId: string): string {
     const salaryType = state.salaryTypesRaw.find((r: any) => String(r.id) === String(typeId))
-    return salaryType?.title || ''
+    return salaryType ? getTranslatedTitle(salaryType) : ''
 }
 
 function getLeaveTypeName(apiName: string): string {
@@ -1140,7 +1140,7 @@ function buildRegistrationsPreview() {
                 )
                 extraHoursTypeLookup.set(`${emp.employeeUuid}::${entry.type}`, {
                     supplementTypeId: entry.selectedSupplementTypeId,
-                    supplementTypeName: typeObj?.title || '',
+                    supplementTypeName: typeObj ? getTranslatedTitle(typeObj) : '',
                     leaveTypeId: '',
                     leaveTypeName: '',
                 })
@@ -1217,8 +1217,8 @@ function parseError(e: any, employeeName?: string): string {
 
     // Replace UUIDs with human-readable names (plain Map to avoid reactivity)
     const uuidNameMap = new Map<string, string>()
-    for (const t of [...state.salaryTypesRaw]) if (t.id && t.title) uuidNameMap.set(String(t.id), t.title)
-    for (const t of [...state.supplementTypesRaw]) if (t.id && t.title) uuidNameMap.set(String(t.id), t.title)
+    for (const t of [...state.salaryTypesRaw]) if (t.id) uuidNameMap.set(String(t.id), getTranslatedTitle(t))
+    for (const t of [...state.supplementTypesRaw]) if (t.id) uuidNameMap.set(String(t.id), getTranslatedTitle(t))
     for (const t of [...state.leaveTypesRaw]) if (t.id && (t.name || t.title)) uuidNameMap.set(String(t.id), t.name ? getLeaveTypeName(t.name) : t.title)
     for (const e of [...state.employeesRaw]) if (e.id && (e.name || e.firstName)) uuidNameMap.set(String(e.id), e.name || `${e.firstName} ${e.lastName}`)
     errorMsg = errorMsg.replace(/[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}/gi, (uuid: string) => uuidNameMap.get(uuid) || employeeName || uuid)
