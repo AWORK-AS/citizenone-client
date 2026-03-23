@@ -346,10 +346,6 @@ const props = defineProps({
         type: String,
         required: true,
     },
-    selectedEmployee: {
-        type: Object,
-        required: true,
-    },
     selectedShift: {
         type: Object,
         required: true,
@@ -538,17 +534,17 @@ watch(() => state.formShift.shift_type, (selectedShift) => {
         ).format('YYYY-MM-DD H:mm')
     }
 
-    // emit('dateTimeChange', props.selectedEmployee.uuid, state.formShift.date_time_start, state.formShift.date_time_end)
+    emit('dateTimeChange', state.formShift.user_uuid, state.formShift.date_time_start, state.formShift.date_time_end)
 })
 
 watch(() => state.formShift.date_time_start, () => {
     if (!state.formShift.shift_type) return
-    // emit('dateTimeChange', props.selectedEmployee.uuid, state.formShift.date_time_start, state.formShift.date_time_end)
+    emit('dateTimeChange', state.formShift.user_uuid, state.formShift.date_time_start, state.formShift.date_time_end)
 })
 
 watch(() => state.formShift.date_time_end, () => {
     if (!state.formShift.shift_type) return
-    // emit('dateTimeChange', props.selectedEmployee.uuid, state.formShift.date_time_start, state.formShift.date_time_end)
+    emit('dateTimeChange', state.formShift.user_uuid, state.formShift.date_time_start, state.formShift.date_time_end)
 })
 
 watch(() => state.formShift.shift_type, () => {
