@@ -375,7 +375,7 @@
                                     </div>
 
                                     <!-- Scrollable body — horizontal scroll synced with header above -->
-                                    <div class="overflow-x-auto" :id="`week-body-${wIndex}`"
+                                    <div class="overflow-x-auto relative group/week" :id="`week-body-${wIndex}`"
                                         @scroll="syncScroll(wIndex, 'body')">
 
                                         <div class="grid grid-cols-7 gap-x-2 min-w-[1000px]"
@@ -641,7 +641,27 @@
                                                 </div>
                                             </div>
                                         </div>
+                                        <div class="py-8 cursor-pointer border-1.5 border-dashed border-gray-700"
+                                            @click="stopCopying()" v-if="isWeeklyScheduleCopied(week)">
+                                            <p class="text-center text-sm">
+                                                {{ $t('dutySchedules.copyPaste.stopCopying') }}
+                                            </p>
+                                            <p class="text-center text-xxs">
+                                                {{ $t('dutySchedules.copyPaste.clickHereToStopCopyingTheSchedule') }}
+                                            </p>
+                                        </div>
+                                        <div :class="[
+                                            state.copy.weeklySchedule?.weekNumber && !isWeeklyScheduleCopied(week)
+                                                ? 'opacity-0 group-hover/week:opacity-100 pointer-events-auto cursor-pointer'
+                                                : 'opacity-0 pointer-events-none',
+                                            'absolute inset-0 bg-secondary bg-opacity-95 flex items-center justify-center transition-opacity duration-300'
+                                        ]" @click="pasteWeeklySchedule(week)">
+                                            <p class="text-white text-xs text-center">
+                                                {{ $t('dutySchedules.copyPaste.clickHereToPasteTheSchedule') }}
+                                            </p>
+                                        </div>
                                     </div>
+
                                 </div>
                             </div>
                         </div>
