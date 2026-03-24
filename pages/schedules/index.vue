@@ -27,17 +27,17 @@
             </template>
 
             <template #guided-tour>
-                <div class="flex flex-wrap items-center gap-3">
+                <div class="flex flex-wrap items-center gap-2">
                     <button @click="state.modal.isShowAllShiftTypes = !state.modal.isShowAllShiftTypes"
                         class="text-primary text-sm hover:text-primary-700">
                         {{ $t('dutySchedules.showTheDistributionOfShiftTypes') }}
                     </button>
-                    <FormButton buttonStyle="action" class="rounded-lg" @click="navigateTo('/schedules/draft')"
+                    <FormButton buttonStyle="action" buttonSize="sm" @click="navigateTo('/schedules/draft')"
                         v-if="isAdmin(userStore.getUser?.role)">
                         <Icon name="ph:note" class="h-4 w-4" aria-hidden="true" />
                         {{ $t('dutySchedules.draft.pageTitle') }}
                     </FormButton>
-                    <FormButton buttonStyle="action" class="rounded-lg" @click="state.modal.isDownloadOpen = true">
+                    <FormButton buttonStyle="action" buttonSize="sm" @click="state.modal.isDownloadOpen = true">
                         <Icon name="ph:download" class="h-4 w-4" aria-hidden="true" />
                         {{ $t('dutySchedules.download.download') }}
                     </FormButton>
@@ -49,15 +49,20 @@
                     </FormButton>
                     <Tooltip :text="$t('dutySchedules.shareDutySchedule.shareDutySchedule')" position="left"
                         @click="state.modal.isViewSharedDutyScheduleOpen = true">
-                        <Icon name="ph:share-fat" class="size-6 cursor-pointer text-gray-700" aria-hidden="true" />
+                        <FormButton buttonStyle="action-secondary" buttonSize="xs" class="p-2.5">
+                            <Icon name="ph:share-fat" class="w-5 h-5 cursor-pointer" aria-hidden="true" />
+                        </FormButton>
                     </Tooltip>
                     <Tooltip :text="$t('dutySchedules.activityLogs')" position="left"
                         @click="openDutySchedulesActivityLogs()">
-                        <Icon name="ph:clock-counter-clockwise" class="size-6 cursor-pointer text-gray-700"
-                            aria-hidden="true" />
+                        <FormButton buttonStyle="action-secondary" buttonSize="xs" class="p-2.5">
+                            <Icon name="ph:clock-counter-clockwise" class="w-5 h-5 cursor-pointer" aria-hidden="true" />
+                        </FormButton>
                     </Tooltip>
                     <Tooltip :text="$t('guidedTour')" position="left" @click="openGuidedTour()">
-                        <Icon name="ph:question" class="size-6 cursor-pointer text-gray-700" aria-hidden="true" />
+                        <FormButton buttonStyle="action-secondary" buttonSize="xs" class="p-2.5">
+                            <Icon name="ph:question" class="w-5 h-5 cursor-pointer" aria-hidden="true" />
+                        </FormButton>
                     </Tooltip>
                 </div>
             </template>
