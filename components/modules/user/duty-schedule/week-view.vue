@@ -85,54 +85,53 @@
                                             {{ $t('filter') }}
                                         </span>
                                     </button>
-                                    <div class="bg-white border border-gray-200 rounded-md px-3 py-3">
-                                        <div class="flex items-center gap-x-1">
-                                            <span>{{ $t('entriesPerPage') }}:</span>
-                                            <select class="focus:outline-none bg-transparent" @change="changePageLength"
-                                                id="citizensPageLength">
+                                    <div class="bg-white border border-gray-200 rounded-md pr-1">
+                                        <div class="cursor-pointer">
+                                            <select class="focus:outline-none bg-transparent pl-3 pr-2 py-3"
+                                                @change="changePageLength" id="citizensPageLength">
                                                 <option value="10"
                                                     :selected="dutyScheduleStore.getCurrentPageLength === '10'">
-                                                    10
+                                                    {{ $t('entriesPerPage') }}: 10
                                                 </option>
                                                 <option value="20"
                                                     :selected="dutyScheduleStore.getCurrentPageLength === '20'">
-                                                    20
+                                                    {{ $t('entriesPerPage') }}: 20
                                                 </option>
                                                 <option value="30"
                                                     :selected="dutyScheduleStore.getCurrentPageLength === '30'">
-                                                    30
+                                                    {{ $t('entriesPerPage') }}: 30
                                                 </option>
                                                 <option value="40"
                                                     :selected="dutyScheduleStore.getCurrentPageLength === '40'">
-                                                    40
+                                                    {{ $t('entriesPerPage') }}: 40
                                                 </option>
                                                 <option value="50"
                                                     :selected="dutyScheduleStore.getCurrentPageLength === '50'">
-                                                    50
+                                                    {{ $t('entriesPerPage') }}: 50
                                                 </option>
                                                 <option value="100"
                                                     :selected="dutyScheduleStore.getCurrentPageLength === '100'">
-                                                    100
+                                                    {{ $t('entriesPerPage') }}: 100
                                                 </option>
                                                 <option value="200"
                                                     :selected="dutyScheduleStore.getCurrentPageLength === '200'">
-                                                    200
+                                                    {{ $t('entriesPerPage') }}: 200
                                                 </option>
                                                 <option value="300"
                                                     :selected="dutyScheduleStore.getCurrentPageLength === '300'">
-                                                    300
+                                                    {{ $t('entriesPerPage') }}: 300
                                                 </option>
                                                 <option value="400"
                                                     :selected="dutyScheduleStore.getCurrentPageLength === '400'">
-                                                    400
+                                                    {{ $t('entriesPerPage') }}: 400
                                                 </option>
                                                 <option value="500"
                                                     :selected="dutyScheduleStore.getCurrentPageLength === '500'">
-                                                    500
+                                                    {{ $t('entriesPerPage') }}: 500
                                                 </option>
                                                 <option value="all"
                                                     :selected="dutyScheduleStore.getCurrentPageLength === 'all'">
-                                                    {{ $t('all') }}
+                                                    {{ $t('entriesPerPage') }}: {{ $t('all') }}
                                                 </option>
                                             </select>
                                         </div>
@@ -384,7 +383,7 @@
                                             <div v-for="(day, dayIndex) in getWeekDays(week)" :key="dayIndex" :class="[
                                                 hasConflict(state.dutySchedules?.data?.[day?.date]?.schedules) ? 'border-red-500' : 'border-gray-200',
                                                 state.copy.dailySchedule?.date === day.date ? 'border-1.5 border-dashed border-gray-700' : 'border-r border-b border-l',
-                                                'relative group bg-white p-2 rounded-br-md rounded-bl-md min-h-96'
+                                                'overflow-hidden relative group bg-white p-2 rounded-br-md rounded-bl-md min-h-96'
                                             ]">
                                                 <div class="space-y-2">
                                                     <div class="flex justify-end gap-1 pr-1"
@@ -632,6 +631,12 @@
                                                 ]" @click="pasteDailySchedule(day)">
                                                     <p class="text-white text-xs text-center">
                                                         {{ $t('dutySchedules.copyPaste.clickHereToPasteTheSchedule') }}
+                                                    </p>
+                                                </div>
+                                                <div class="h-full flex items-center justify-center text-sm"
+                                                    v-if="state.dutySchedules?.data?.[day?.date]?.schedules?.length === 0">
+                                                    <p class="-mt-10">
+                                                        {{ $t('dutySchedules.noScheduleFound') }}
                                                     </p>
                                                 </div>
                                             </div>
