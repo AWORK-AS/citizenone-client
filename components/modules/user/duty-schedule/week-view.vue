@@ -375,15 +375,15 @@
                                     </div>
 
                                     <!-- Scrollable body — horizontal scroll synced with header above -->
-                                    <div class="overflow-x-auto relative group/week" :id="`week-body-${wIndex}`"
-                                        @scroll="syncScroll(wIndex, 'body')">
+                                    <div class="overflow-x-auto overflow-y-hidden relative group/week"
+                                        :id="`week-body-${wIndex}`" @scroll="syncScroll(wIndex, 'body')">
 
                                         <div class="grid grid-cols-7 gap-x-2 min-w-[1000px]"
                                             v-if="!isWeeklyScheduleCopied(week)">
                                             <div v-for="(day, dayIndex) in getWeekDays(week)" :key="dayIndex" :class="[
                                                 hasConflict(state.dutySchedules?.data?.[day?.date]?.schedules) ? 'border-red-500' : 'border-gray-200',
                                                 state.copy.dailySchedule?.date === day.date ? 'border-1.5 border-dashed border-gray-700' : 'border-r border-b border-l',
-                                                'overflow-hidden relative group bg-white p-2 rounded-br-md rounded-bl-md min-h-96'
+                                                'relative group bg-white p-2 rounded-br-md rounded-bl-md min-h-96'
                                             ]">
                                                 <div class="space-y-2">
                                                     <div class="flex justify-end gap-1 pr-1"
@@ -405,8 +405,7 @@
                                                             </button>
                                                         </Tooltip>
                                                         <div @click.stop>
-                                                            <Menu as="div"
-                                                                class="absolute right-0 top-6 xl:relative xl:right-auto xl:top-auto xl:self-center">
+                                                            <Menu as="div">
                                                                 <div>
                                                                     <MenuButton @click.stop
                                                                         class="-m-2 flex items-center rounded-full p-2 text-gray-500 hover:text-gray-600">
@@ -633,7 +632,7 @@
                                                         {{ $t('dutySchedules.copyPaste.clickHereToPasteTheSchedule') }}
                                                     </p>
                                                 </div>
-                                                <div class="h-full flex items-center justify-center text-sm"
+                                                <div class="h-full flex items-center justify-center text-sm text-center"
                                                     v-if="state.dutySchedules?.data?.[day?.date]?.schedules?.length === 0">
                                                     <p class="-mt-10">
                                                         {{ $t('dutySchedules.noScheduleFound') }}
