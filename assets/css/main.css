@@ -364,7 +364,7 @@ table td {
     right: 0rem;
     z-index: 20;
     background: white;
-    @apply left-0 md:left-72;
+    @apply left-0;
     @apply px-4 sm:px-6 lg:px-8;
 }
 
