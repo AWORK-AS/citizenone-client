@@ -38,133 +38,122 @@
                 </div>
             </div>
         </div>
-        <div class="grow overflow-y-auto min-h-0">
+        <div class="bg-gray-50 grow overflow-y-auto min-h-0">
+            <div class="sticky top-0 z-20 bg-gray-50">
+                <header class="bg-white border-t border-b border-gray-200 space-y-2 px-4 sm:px-6 lg:px-8">
+                    <div class="grid grid-cols-1 xl:grid-cols-3 gap-3 py-3">
+                        <div class="flex flex-col justify-start lg:flex-row gap-x-3 gap-y-1">
+                            <div class="flex items-center">
+                                <div class="relative flex items-center rounded-md bg-white shadow-sm md:items-stretch">
+                                    <button @click="!isPreviousWeekDisabled() && previousWeek()" type="button" :class="[
+                                        isPreviousWeekDisabled() && 'cursor-not-allowed',
+                                        'flex h-11 w-12 items-center justify-center rounded-l-md border-y border-l border-gray-300 pr-1 text-gray-400 hover:text-gray-500 focus:relative md:w-9 md:pr-0 md:hover:bg-gray-50'
+                                    ]" :disabled="isPreviousWeekDisabled()">
+                                        <span class="sr-only">Previous week</span>
+                                        <Icon name="heroicons:chevron-left" class="h-5 w-5" aria-hidden="true" />
+                                    </button>
+                                    <FormDateRangeField id="date" name="date"
+                                        :placeholder="$t('dutySchedules.form.date')"
+                                        :disablePreviousWeeks="isPreviousWeekDisabled()" dateType="duty-schedule"
+                                        v-model="state.filter.date_range" />
+                                    <span class="relative -mx-px h-5 w-px bg-gray-300 md:hidden" />
+                                    <button @click="nextWeek()" type="button"
+                                        class="flex h-11 w-12 items-center justify-center rounded-r-md border-y border-r border-gray-300 pl-1 text-gray-400 hover:text-gray-500 focus:relative md:w-9 md:pl-0 md:hover:bg-gray-50">
+                                        <span class="sr-only">Next week</span>
+                                        <Icon name="heroicons:chevron-right" class="h-5 w-5" aria-hidden="true" />
+                                    </button>
+                                </div>
+                            </div>
+                            <button @click="setToday()" class="text-primary text-sm underline hover:text-primary-700">
+                                {{ $t('goToToday') }}
+                            </button>
+                        </div>
+                        <div class="flex items-center justify-end gap-x-2">
+                            <button
+                                class="border border-gray-200 rounded-md p-3 flex items-center gap-x-1 text-sm group"
+                                @click="state.modal.isFilterDutyScheduleOpen = true">
+                                <Icon name="ic:outline-filter-list" class="w-6 h-6 group-hover:text-primary-700" />
+                                <span class="group-hover:text-primary-700">
+                                    {{ $t('filter') }}
+                                </span>
+                            </button>
+                            <div class="bg-white border border-gray-200 rounded-md pr-1">
+                                <div class="cursor-pointer">
+                                    <select class="focus:outline-none bg-transparent pl-3 pr-2 py-3"
+                                        @change="changePageLength" id="citizensPageLength">
+                                        <option value="10" :selected="dutyScheduleStore.getCurrentPageLength === '10'">
+                                            {{ $t('entriesPerPage') }}: 10
+                                        </option>
+                                        <option value="20" :selected="dutyScheduleStore.getCurrentPageLength === '20'">
+                                            {{ $t('entriesPerPage') }}: 20
+                                        </option>
+                                        <option value="30" :selected="dutyScheduleStore.getCurrentPageLength === '30'">
+                                            {{ $t('entriesPerPage') }}: 30
+                                        </option>
+                                        <option value="40" :selected="dutyScheduleStore.getCurrentPageLength === '40'">
+                                            {{ $t('entriesPerPage') }}: 40
+                                        </option>
+                                        <option value="50" :selected="dutyScheduleStore.getCurrentPageLength === '50'">
+                                            {{ $t('entriesPerPage') }}: 50
+                                        </option>
+                                        <option value="100"
+                                            :selected="dutyScheduleStore.getCurrentPageLength === '100'">
+                                            {{ $t('entriesPerPage') }}: 100
+                                        </option>
+                                        <option value="200"
+                                            :selected="dutyScheduleStore.getCurrentPageLength === '200'">
+                                            {{ $t('entriesPerPage') }}: 200
+                                        </option>
+                                        <option value="300"
+                                            :selected="dutyScheduleStore.getCurrentPageLength === '300'">
+                                            {{ $t('entriesPerPage') }}: 300
+                                        </option>
+                                        <option value="400"
+                                            :selected="dutyScheduleStore.getCurrentPageLength === '400'">
+                                            {{ $t('entriesPerPage') }}: 400
+                                        </option>
+                                        <option value="500"
+                                            :selected="dutyScheduleStore.getCurrentPageLength === '500'">
+                                            {{ $t('entriesPerPage') }}: 500
+                                        </option>
+                                        <option value="all"
+                                            :selected="dutyScheduleStore.getCurrentPageLength === 'all'">
+                                            {{ $t('entriesPerPage') }}: {{ $t('all') }}
+                                        </option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="flex items-center w-full">
+                            <TableSearch class="w-full" @search="handleSearch" />
+                        </div>
+                    </div>
+                </header>
+                <div>
+                    <div class="bg-primary h-3 rounded-full transition-all ease-in-out duration-500 mb-1.5"
+                        :style="{ width: `${state.progress.percentage}%` }" v-if="state.progress.showProgressBar" />
+                    <div class="h-3 mb-1.5" v-else />
+                </div>
+
+                <div class="px-4 sm:px-6 lg:px-8">
+                    <Alert type="danger" :text="state?.error?.message"
+                        v-if="state.error?.message && state.error.message.length > 0" />
+                </div>
+                <div class="px-4 sm:px-6 lg:px-8">
+                    <Alert type="danger" :text="state?.copyShiftError?.message"
+                        v-if="state.copyShiftError?.message && state.copyShiftError.message.length > 0" />
+                </div>
+            </div>
             <div>
                 <LoadingSpinner :isActive="state.isPageLoading">
                     <div>
-                        <header class="bg-white border-t border-b border-gray-200 space-y-2 px-4 sm:px-6 lg:px-8">
-                            <div class="grid grid-cols-1 xl:grid-cols-3 gap-3 py-3">
-                                <div class="flex flex-col justify-start lg:flex-row gap-x-3 gap-y-1">
-                                    <div class="flex items-center">
-                                        <div
-                                            class="relative flex items-center rounded-md bg-white shadow-sm md:items-stretch">
-                                            <button @click="!isPreviousWeekDisabled() && previousWeek()" type="button"
-                                                :class="[
-                                                    isPreviousWeekDisabled() && 'cursor-not-allowed',
-                                                    'flex h-11 w-12 items-center justify-center rounded-l-md border-y border-l border-gray-300 pr-1 text-gray-400 hover:text-gray-500 focus:relative md:w-9 md:pr-0 md:hover:bg-gray-50'
-                                                ]" :disabled="isPreviousWeekDisabled()">
-                                                <span class="sr-only">Previous week</span>
-                                                <Icon name="heroicons:chevron-left" class="h-5 w-5"
-                                                    aria-hidden="true" />
-                                            </button>
-                                            <FormDateRangeField id="date" name="date"
-                                                :placeholder="$t('dutySchedules.form.date')"
-                                                :disablePreviousWeeks="isPreviousWeekDisabled()"
-                                                dateType="duty-schedule" v-model="state.filter.date_range" />
-                                            <span class="relative -mx-px h-5 w-px bg-gray-300 md:hidden" />
-                                            <button @click="nextWeek()" type="button"
-                                                class="flex h-11 w-12 items-center justify-center rounded-r-md border-y border-r border-gray-300 pl-1 text-gray-400 hover:text-gray-500 focus:relative md:w-9 md:pl-0 md:hover:bg-gray-50">
-                                                <span class="sr-only">Next week</span>
-                                                <Icon name="heroicons:chevron-right" class="h-5 w-5"
-                                                    aria-hidden="true" />
-                                            </button>
-                                        </div>
-                                    </div>
-                                    <button @click="setToday()"
-                                        class="text-primary text-sm underline hover:text-primary-700">
-                                        {{ $t('goToToday') }}
-                                    </button>
-                                </div>
-                                <div class="flex items-center justify-end gap-x-2">
-                                    <button
-                                        class="border border-gray-200 rounded-md p-3 flex items-center gap-x-1 text-sm group"
-                                        @click="state.modal.isFilterDutyScheduleOpen = true">
-                                        <Icon name="ic:outline-filter-list"
-                                            class="w-6 h-6 group-hover:text-primary-700" />
-                                        <span class="group-hover:text-primary-700">
-                                            {{ $t('filter') }}
-                                        </span>
-                                    </button>
-                                    <div class="bg-white border border-gray-200 rounded-md pr-1">
-                                        <div class="cursor-pointer">
-                                            <select class="focus:outline-none bg-transparent pl-3 pr-2 py-3"
-                                                @change="changePageLength" id="citizensPageLength">
-                                                <option value="10"
-                                                    :selected="dutyScheduleStore.getCurrentPageLength === '10'">
-                                                    {{ $t('entriesPerPage') }}: 10
-                                                </option>
-                                                <option value="20"
-                                                    :selected="dutyScheduleStore.getCurrentPageLength === '20'">
-                                                    {{ $t('entriesPerPage') }}: 20
-                                                </option>
-                                                <option value="30"
-                                                    :selected="dutyScheduleStore.getCurrentPageLength === '30'">
-                                                    {{ $t('entriesPerPage') }}: 30
-                                                </option>
-                                                <option value="40"
-                                                    :selected="dutyScheduleStore.getCurrentPageLength === '40'">
-                                                    {{ $t('entriesPerPage') }}: 40
-                                                </option>
-                                                <option value="50"
-                                                    :selected="dutyScheduleStore.getCurrentPageLength === '50'">
-                                                    {{ $t('entriesPerPage') }}: 50
-                                                </option>
-                                                <option value="100"
-                                                    :selected="dutyScheduleStore.getCurrentPageLength === '100'">
-                                                    {{ $t('entriesPerPage') }}: 100
-                                                </option>
-                                                <option value="200"
-                                                    :selected="dutyScheduleStore.getCurrentPageLength === '200'">
-                                                    {{ $t('entriesPerPage') }}: 200
-                                                </option>
-                                                <option value="300"
-                                                    :selected="dutyScheduleStore.getCurrentPageLength === '300'">
-                                                    {{ $t('entriesPerPage') }}: 300
-                                                </option>
-                                                <option value="400"
-                                                    :selected="dutyScheduleStore.getCurrentPageLength === '400'">
-                                                    {{ $t('entriesPerPage') }}: 400
-                                                </option>
-                                                <option value="500"
-                                                    :selected="dutyScheduleStore.getCurrentPageLength === '500'">
-                                                    {{ $t('entriesPerPage') }}: 500
-                                                </option>
-                                                <option value="all"
-                                                    :selected="dutyScheduleStore.getCurrentPageLength === 'all'">
-                                                    {{ $t('entriesPerPage') }}: {{ $t('all') }}
-                                                </option>
-                                            </select>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="flex items-center w-full">
-                                    <TableSearch class="w-full" @search="handleSearch" />
-                                </div>
-                            </div>
-                        </header>
-                        <div class="px-4 sm:px-6 lg:px-8">
-                            <div class="bg-primary h-3 rounded-full transition-all ease-in-out duration-500 mb-1.5"
-                                :style="{ width: `${state.progress.percentage}%` }"
-                                v-if="state.progress.showProgressBar" />
-                            <div class="h-3 mb-1.5" v-else />
-                        </div>
-
-                        <div class="px-4 sm:px-6 lg:px-8">
-                            <Alert type="danger" :text="state?.error?.message"
-                                v-if="state.error?.message && state.error.message.length > 0" />
-                        </div>
-                        <div class="px-4 sm:px-6 lg:px-8">
-                            <Alert type="danger" :text="state?.copyShiftError?.message"
-                                v-if="state.copyShiftError?.message && state.copyShiftError.message.length > 0" />
-                        </div>
-
                         <div class="relative flex gap-x-2">
                             <div class="flex-1 min-w-0 bg-gray-50 space-y-10 pl-1 px-4 sm:px-6 lg:px-8">
                                 <div v-for="(week, wIndex) in weeksInRange" :key="week.valueOf()"
                                     :id="`weekly-${wIndex}`">
 
                                     <!-- Sticky header -->
-                                    <div class="sticky top-0 z-10 bg-gray-50 overflow-x-auto scrollbar-none"
+                                    <div class="sticky top-20 z-10 bg-gray-50 overflow-x-auto scrollbar-none"
                                         :id="`week-header-${wIndex}`" @scroll="syncScroll(wIndex, 'header')">
 
                                         <div class="min-w-[1000px]">
