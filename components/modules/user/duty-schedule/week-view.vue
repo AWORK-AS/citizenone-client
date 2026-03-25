@@ -44,7 +44,7 @@
                     <div>
                         <header class="bg-white border-t border-b border-gray-200 space-y-2 px-4 sm:px-6 lg:px-8">
                             <div class="grid grid-cols-1 xl:grid-cols-3 gap-3 py-3">
-                                <div class="flex items-center gap-x-3">
+                                <div class="flex flex-col justify-start lg:flex-row gap-x-3 gap-y-1">
                                     <div class="flex items-center">
                                         <div
                                             class="relative flex items-center rounded-md bg-white shadow-sm md:items-stretch">
