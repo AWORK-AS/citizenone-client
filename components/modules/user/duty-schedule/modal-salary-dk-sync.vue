@@ -130,26 +130,46 @@
 
                         <!-- Employee Selection (hidden until date range is chosen) -->
                         <div class="space-y-2" v-if="state.syncDateRange?.length">
-                            <FormLabel :label="$t('dutySchedules.salaryDk_select_employees')" />
+                            <div class="flex items-center justify-between">
+                                <FormLabel :label="$t('dutySchedules.salaryDk_select_employees')" />
+                                <span class="rounded-full bg-teal-100 px-2 py-0.5 text-xs font-medium text-teal-700">
+                                    {{ selectedEmployeeCount }} / {{ matchedEmployeeCount }}
+                                </span>
+                            </div>
                             <div v-if="state.scheduleEmployees.length > 0">
+                                <!-- Search & filters -->
+                                <div class="flex items-center gap-2 mb-2">
+                                    <div class="relative flex-1">
+                                        <Icon name="ph:magnifying-glass" class="absolute left-2.5 top-1/2 -translate-y-1/2 h-4 w-4 text-gray-400" />
+                                        <input v-model="state.employeeSearch" type="text"
+                                            :placeholder="$t('dutySchedules.salaryDk_search_employees')"
+                                            class="w-full rounded border border-gray-300 py-1.5 pl-8 pr-3 text-sm focus:border-teal-500 focus:outline-none focus:ring-1 focus:ring-teal-500" />
+                                    </div>
+                                    <button type="button"
+                                        @click="state.showSelectedOnly = !state.showSelectedOnly"
+                                        :class="state.showSelectedOnly ? 'bg-teal-100 text-teal-700 border-teal-300' : 'bg-white text-gray-500 border-gray-300'"
+                                        class="shrink-0 rounded border px-2 py-1.5 text-xs font-medium transition-colors hover:bg-teal-50">
+                                        {{ $t('dutySchedules.salaryDk_selected_only') }}
+                                    </button>
+                                </div>
+
+                                <!-- Select all -->
                                 <div class="flex w-fit cursor-pointer items-center gap-x-2 border-b border-gray-200 pb-2 text-sm font-medium"
                                     @click="toggleSelectAllEmployees">
                                     <div class="relative shrink-0">
                                         <FormCheckbox :value="state.selectAllEmployees" />
                                     </div>
                                     <span>{{ $t('dutySchedules.salaryDk_select_all') }}</span>
-                                    <span class="text-gray-400">({{ selectedEmployeeCount }}/{{
-                                        matchedEmployeeCount }})</span>
                                 </div>
 
                                 <div class="mt-2 max-h-60 space-y-3 overflow-y-auto">
-                                    <!-- Matched employees -->
+                                    <!-- Matched employees (filtered) -->
                                     <div class="space-y-1">
-                                        <template v-for="(employee, idx) in state.scheduleEmployees"
+                                        <template v-for="employee in filteredEmployees"
                                             :key="employee.uuid">
                                             <div v-if="employee.matchedSalaryDkId"
                                                 class="flex items-center gap-x-2 text-sm cursor-pointer"
-                                                @click="toggleEmployeeSelection(idx)">
+                                                @click="toggleEmployeeSelection(state.scheduleEmployees.indexOf(employee))">
                                                 <div class="relative shrink-0 pointer-events-none">
                                                     <FormCheckbox :value="employee.selected" />
                                                 </div>
@@ -157,9 +177,8 @@
                                             </div>
                                         </template>
                                     </div>
-                                    <!-- Unmatched employees -->
-                                    <div
-                                        v-if="state.scheduleEmployees.some(e => !e.matchedSalaryDkId)">
+                                    <!-- Unmatched employees (filtered) -->
+                                    <div v-if="!state.showSelectedOnly && filteredEmployees.some(e => !e.matchedSalaryDkId)">
                                         <div class="mb-1 flex items-center gap-1 text-xs text-gray-400">
                                             <Icon name="ph:info"
                                                 class="h-3.5 w-3.5 shrink-0 cursor-pointer hover:text-gray-600"
@@ -168,16 +187,14 @@
                                             <span>{{ $t('dutySchedules.salaryDk_no_match') }}</span>
                                         </div>
                                         <div class="space-y-1">
-                                            <template
-                                                v-for="(employee, idx) in state.scheduleEmployees"
+                                            <template v-for="employee in filteredEmployees"
                                                 :key="'nm-' + employee.uuid">
                                                 <div v-if="!employee.matchedSalaryDkId"
                                                     class="flex items-center gap-x-2 text-sm opacity-50">
                                                     <div class="relative shrink-0 pointer-events-none">
                                                         <FormCheckbox :value="false" :disabled="true" />
                                                     </div>
-                                                    <span>{{ employee.firstname }} {{ employee.lastname
-                                                        }}</span>
+                                                    <span>{{ employee.firstname }} {{ employee.lastname }}</span>
                                                     <span class="text-xs text-red-500">
                                                         {{ $t('dutySchedules.salaryDk_no_match_badge') }}
                                                     </span>
@@ -185,6 +202,10 @@
                                             </template>
                                         </div>
                                     </div>
+                                    <!-- No results message -->
+                                    <p v-if="filteredEmployees.length === 0" class="text-sm text-gray-400 text-center py-2">
+                                        {{ $t('dutySchedules.salaryDk_no_employees_found') }}
+                                    </p>
                                 </div>
                             </div>
                             <p v-else class="text-sm text-gray-500">{{
@@ -590,6 +611,8 @@ const state = reactive({
     showSavePresetInput: false,
     selectedPayPeriodType: '' as '' | 'monthly' | 'weekly' | 'biweekly',
     noMatchTooltip: { visible: false, x: 0, y: 0 },
+    employeeSearch: '',
+    showSelectedOnly: false,
 })
 
 // --- Computed ---
@@ -627,6 +650,20 @@ const selectedEmployeeCount = computed(() =>
 const matchedEmployeeCount = computed(() =>
     state.scheduleEmployees.filter(e => e.matchedSalaryDkId).length
 )
+
+const filteredEmployees = computed(() => {
+    let list = state.scheduleEmployees
+    const query = state.employeeSearch.toLowerCase().trim()
+    if (query) {
+        list = list.filter(e =>
+            `${e.firstname} ${e.lastname}`.toLowerCase().includes(query)
+        )
+    }
+    if (state.showSelectedOnly) {
+        list = list.filter(e => e.selected)
+    }
+    return list
+})
 
 const allTypesAssigned = computed(() => {
     const hourTypesOk = state.employeeShiftTypes.every(emp =>
@@ -1422,14 +1459,27 @@ watch(() => props.isModalOpen, async (isOpen: boolean) => {
     state.showSavePresetInput = false
     state.configureAttempted = false
     state.assignRatesAttempted = false
+    state.employeeSearch = ''
+    state.showSelectedOnly = false
     loadPresets()
 
     try {
-        const [employeesRes, salaryTypesRes, supplementTypesRes, leaveTypesRes] = await Promise.all([
+        const now = moment()
+        const weekStart = now.clone().startOf('isoWeek').format('YYYY-MM-DD')
+        const weekEnd = now.clone().endOf('isoWeek').format('YYYY-MM-DD')
+
+        const [employeesRes, salaryTypesRes, supplementTypesRes, leaveTypesRes, allScheduleEmployeesRes] = await Promise.all([
             salaryDkService.getEmployees(),
             salaryDkService.getSalaryTypes(),
             salaryDkService.getSupplementTypes(),
             salaryDkService.getLeaveTypes(),
+            dutyScheduleService.getDutySchedules({
+                page: 1,
+                page_length: 9999,
+                date_start: weekStart,
+                date_end: weekEnd,
+                department: props.departmentName,
+            }),
         ])
 
         state.employeesRaw = employeesRes?.data || []
@@ -1437,7 +1487,12 @@ watch(() => props.isModalOpen, async (isOpen: boolean) => {
         state.supplementTypesRaw = supplementTypesRes?.data || []
         state.leaveTypesRaw = leaveTypesRes?.data || []
 
-        state.scheduleEmployees = props.scheduleEmployees.map((emp: any) => {
+        // Use all employees from the unpaginated fetch, fallback to prop if it fails
+        const localEmployees = allScheduleEmployeesRes?.data?.length
+            ? allScheduleEmployeesRes.data
+            : props.scheduleEmployees
+
+        state.scheduleEmployees = localEmployees.map((emp: any) => {
             const matchedId = matchEmployee(emp, state.employeesRaw)
             return {
                 uuid: emp.uuid,
