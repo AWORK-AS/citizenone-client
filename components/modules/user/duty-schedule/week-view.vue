@@ -623,9 +623,13 @@
                                                 </div>
                                                 <div class="h-full flex items-center justify-center text-sm text-center"
                                                     v-if="state.dutySchedules?.data?.[day?.date]?.schedules?.length === 0">
-                                                    <p class="-mt-10">
-                                                        {{ $t('dutySchedules.noScheduleFound') }}
-                                                    </p>
+                                                    <div class="-mt-10 ">
+                                                        <Icon name="solar:calendar-minimalistic-linear"
+                                                            class="w-6 h-6 text-gray-300" />
+                                                        <p class="text-gray-300 text-xs">
+                                                            {{ $t('dutySchedules.noShifts') }}
+                                                        </p>
+                                                    </div>
                                                 </div>
                                             </div>
                                         </div>

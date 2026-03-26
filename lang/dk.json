@@ -3077,6 +3077,7 @@
             }
         },
         "noScheduleFound": "Ingen tidsplan fundet",
+        "noShifts": "Ingen vagter",
         "pinSelfToTopOfSchedule": "Fastgør mig selv øverst i vagtplanen",
         "removeSchedule": {
             "confirmation": {
