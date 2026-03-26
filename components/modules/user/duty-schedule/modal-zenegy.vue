@@ -135,16 +135,42 @@
 
                         <!-- Employee Selection (grouped by pay period) -->
                         <div v-if="canShowEmployees" class="space-y-2">
-                            <FormLabel :label="$t('dutySchedules.zenegy_select_employees')" />
+                            <!-- Header with label and count badge -->
+                            <div class="flex items-center justify-between">
+                                <FormLabel :label="$t('dutySchedules.zenegy_select_employees')" />
+                                <span
+                                    class="inline-flex items-center rounded-full bg-teal-100 px-2.5 py-0.5 text-xs font-medium text-teal-700">
+                                    {{ selectedEmployeeCount }} / {{ matchedEmployeeCount }}
+                                </span>
+                            </div>
                             <div v-if="state.scheduleEmployees.length > 0">
+                                <!-- Search bar and selected-only toggle -->
+                                <div class="flex items-center gap-2 mb-2">
+                                    <div class="relative flex-1">
+                                        <Icon name="ph:magnifying-glass"
+                                            class="absolute left-2.5 top-1/2 -translate-y-1/2 h-4 w-4 text-gray-400 pointer-events-none" />
+                                        <input v-model="state.employeeSearch" type="text"
+                                            :placeholder="$t('dutySchedules.zenegy_search_employees')"
+                                            class="w-full rounded border border-gray-300 py-2 pl-8 pr-3 text-sm placeholder-gray-400 focus:border-teal-500 focus:outline-none focus:ring-1 focus:ring-teal-500" />
+                                    </div>
+                                    <button type="button" @click="state.showSelectedOnly = !state.showSelectedOnly"
+                                        :class="[
+                                            'whitespace-nowrap rounded px-3 py-2 text-xs font-medium transition-colors',
+                                            state.showSelectedOnly
+                                                ? 'bg-teal-600 text-white'
+                                                : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
+                                        ]">
+                                        {{ $t('dutySchedules.zenegy_selected_only') }}
+                                    </button>
+                                </div>
+
+                                <!-- Select all -->
                                 <div class="flex w-fit cursor-pointer items-center gap-x-2 border-b border-gray-200 pb-2 text-sm font-medium"
                                     @click="toggleSelectAllEmployees">
                                     <div class="relative shrink-0">
                                         <FormCheckbox :value="state.selectAllEmployees" />
                                     </div>
                                     <span>{{ $t('dutySchedules.zenegy_select_all') }}</span>
-                                    <span class="text-gray-400">({{ selectedEmployeeCount }}/{{
-                                        matchedEmployeeCount }})</span>
                                 </div>
 
                                 <!-- Mixed period warning -->
@@ -153,14 +179,17 @@
                                     {{ $t('dutySchedules.zenegy_error_mixed_periods') }}
                                 </div>
 
-                                <div class="mt-2 max-h-60 space-y-3 overflow-y-auto">
+                                <!-- Employee list -->
+                                <div v-if="filteredEmployees.length > 0"
+                                    class="mt-2 max-h-60 space-y-3 overflow-y-auto">
                                     <div v-for="[period, employees] in employeesGroupedByPeriod" :key="period">
                                         <!-- Period group header -->
                                         <div v-if="period >= 0"
                                             class="mb-1 text-xs font-semibold text-gray-500 uppercase tracking-wide">
                                             {{ getPayPeriodLabel(period) }}
                                         </div>
-                                        <div v-else class="mb-1 flex items-center gap-1 text-xs text-gray-400">
+                                        <div v-else-if="!state.showSelectedOnly"
+                                            class="mb-1 flex items-center gap-1 text-xs text-gray-400">
                                             <Icon name="ph:info"
                                                 class="h-3.5 w-3.5 shrink-0 cursor-pointer hover:text-gray-600"
                                                 @mouseenter="showNoMatchTooltip"
@@ -185,6 +214,10 @@
                                         </div>
                                     </div>
                                 </div>
+                                <!-- No results message -->
+                                <p v-else class="mt-2 text-sm text-gray-500">
+                                    {{ $t('dutySchedules.zenegy_no_employees_found') }}
+                                </p>
                             </div>
                             <p v-else class="text-sm text-gray-500">{{ $t('dutySchedules.zenegy_no_employees') }}
                             </p>
@@ -502,6 +535,8 @@ const state = reactive({
         salaryPayoutPeriod: number;
     }>,
     selectAllEmployees: true,
+    employeeSearch: '',
+    showSelectedOnly: false,
     zenegyEmployeesRaw: [] as any[],
     zenegyRatesRaw: [] as any[],
     sharedRates: [] as Array<{ uid: string; name: string }>,
@@ -584,12 +619,27 @@ const matchedEmployeeCount = computed(() =>
     state.scheduleEmployees.filter(e => e.matchedZenegyUserUid).length
 )
 
+const filteredEmployees = computed(() => {
+    let list = state.scheduleEmployees
+    if (state.employeeSearch.trim()) {
+        const q = state.employeeSearch.toLowerCase().trim()
+        list = list.filter(e =>
+            `${e.firstname} ${e.lastname}`.toLowerCase().includes(q)
+        )
+    }
+    if (state.showSelectedOnly) {
+        list = list.filter(e => e.selected)
+    }
+    return list
+})
+
 const employeesGroupedByPeriod = computed(() => {
     const groups = new Map<number, Array<{ employee: typeof state.scheduleEmployees[0]; originalIndex: number }>>()
-    state.scheduleEmployees.forEach((emp, index) => {
+    filteredEmployees.value.forEach((emp) => {
+        const originalIndex = state.scheduleEmployees.indexOf(emp)
         const period = emp.matchedZenegyUserUid ? emp.salaryPayoutPeriod : -1
         if (!groups.has(period)) groups.set(period, [])
-        groups.get(period)!.push({ employee: emp, originalIndex: index })
+        groups.get(period)!.push({ employee: emp, originalIndex })
     })
     return Array.from(groups.entries()).sort((a, b) => {
         if (a[0] === -1) return 1
@@ -723,12 +773,19 @@ function matchEmployeeToZenegy(localEmployee: any, zenegyEmployees: any[]): { ze
     return null
 }
 
-function loadAndMatchEmployees() {
+async function loadAndMatchEmployees() {
     state.zenegyEmployeesRaw = state.selectedZenegyDepartment
         ? state.allZenegyEmployees.filter((emp: any) => emp.department?.name === state.selectedZenegyDepartment)
         : state.allZenegyEmployees
 
-    const scheduleEmployees = props.scheduleEmployeesData
+    // Fetch ALL employees for the selected department, bypassing parent pagination
+    const res = await dutyScheduleService.getDutySchedules({
+        department: state.selectedZenegyDepartment,
+        page: 1,
+        page_length: 9999,
+    })
+    const scheduleEmployees = res?.data || []
+
     state.scheduleEmployees = scheduleEmployees.map((emp: any) => {
         const matched = matchEmployeeToZenegy(emp, state.zenegyEmployeesRaw)
         return {
@@ -1382,6 +1439,8 @@ watch(() => props.isModalOpen, async (isOpen) => {
     state.showSavePresetInput = false
     state.configureAttempted = false
     state.assignRatesAttempted = false
+    state.employeeSearch = ''
+    state.showSelectedOnly = false
     state.scheduleEmployees = []
     loadPresets()
 
