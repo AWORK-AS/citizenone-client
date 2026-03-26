@@ -12,7 +12,7 @@
             </Head>
 
             <template #breadcrumb>
-                <Breadcrumb>
+                <Breadcrumb class="px-4 sm:px-6 lg:px-8">
                     <template #custom-link>
                         <div class="flex items-center">
                             <Icon name="heroicons:chevron-right" class="size-3 shrink-0 text-gray-400"
@@ -27,7 +27,7 @@
             </template>
 
             <template #guided-tour>
-                <div class="flex flex-wrap items-center gap-2">
+                <div class="flex flex-wrap items-center gap-2 px-4 sm:px-6 lg:px-8">
                     <button @click="state.modal.isShowAllShiftTypes = !state.modal.isShowAllShiftTypes"
                         class="text-primary text-sm hover:text-primary-700">
                         {{ $t('dutySchedules.showTheDistributionOfShiftTypes') }}
@@ -82,7 +82,7 @@
                 </FormButton>
             </div> -->
 
-            <div class="-mt-9 space-y-5">
+            <div class="-mt-5 space-y-5">
                 <ModulesUserDutyScheduleWeekView ref="weekViewRef" v-if="state.calendarView === 'week'"
                     @setDutyScheduleCurrentDate="setDutyScheduleCurrentDate"
                     @setDutyScheduleCurrentFilter="setDutyScheduleCurrentFilter" />

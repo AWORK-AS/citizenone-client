@@ -6,6 +6,7 @@ export const useEmployeeStore = defineStore('employeeStore',
         state: () => ({
             currentPageLength: 10,
             currentPageNumber: 1,
+            isSidebarPinned: false,
             selectedEmployee: {},
             sortData: {
                 sortField: 'firstname',
@@ -19,6 +20,9 @@ export const useEmployeeStore = defineStore('employeeStore',
             setCurrentPageNumber(pageNumber) {
                 this.currentPageNumber = pageNumber
             },
+            setIsSidebarPinned(status) {
+                this.isSidebarPinned = status
+            },
             setSelectedEmployee(employee) {
                 this.selectedEmployee = employee
             },
@@ -30,6 +34,7 @@ export const useEmployeeStore = defineStore('employeeStore',
         getters: {
             getCurrentPageLength: (state) => state.currentPageLength,
             getCurrentPageNumber: (state) => state.currentPageNumber,
+            getIsSidebarPinned: (state) => state.isSidebarPinned,
             getSelectedEmployee: (state) => state.selectedEmployee,
             getSortData: (state) => state.sortData,
         },

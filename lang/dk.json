@@ -6152,7 +6152,9 @@
         "mail": "Mail",
         "messages": "Beskeder",
         "overview": "Oversigt",
-        "protocols": "Protokol"
+        "pinSidebar": "Fastgør sidebar",
+        "protocols": "Protokol",
+        "unpinSidebar": "Fjern fastgørelse af sidebar"
     },
     "showAll": "Vis alle",
     "showLess": "Vis mindre",

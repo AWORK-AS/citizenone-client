@@ -1,13 +1,12 @@
 <template>
     <LoadingSpinner :isActive="state.isPageLoading">
         <TransitionRoot as="template" :show="sidebarOpen">
-            <Dialog as="div" class="relative z-50" @close="sidebarOpen = false">
+            <Dialog as="div" class="relative z-50 lg:hidden" @close="sidebarOpen = false">
                 <TransitionChild as="template" enter="transition-opacity ease-linear duration-300"
                     enter-from="opacity-0" enter-to="opacity-100" leave="transition-opacity ease-linear duration-300"
                     leave-from="opacity-100" leave-to="opacity-0">
-                    <div class="fixed inset-0 bg-primary/70" />
+                    <div class="fixed inset-0 bg-primary/80" />
                 </TransitionChild>
-
                 <div class="fixed inset-0 flex">
                     <TransitionChild as="template" enter="transition ease-in-out duration-300 transform"
                         enter-from="-translate-x-full" enter-to="translate-x-0"
@@ -36,10 +35,8 @@
                                         <li>
                                             <ul role="list" class="-mx-2 space-y-1">
                                                 <li v-for="item in navigation" :key="item.name">
-                                                    <div v-if="!item.children" @click="navigateTo(item.href)" :class="[
-                                                        item.activeRouteNames.includes($route.name) ? 'text-secondary-25' : 'text-secondary-100',
-                                                        'group cursor-pointer flex gap-x-3 rounded-md p-2 text-sm leading-6 font-semibold'
-                                                    ]">
+                                                    <div v-if="!item.children" @click="navigateTo(item.href)"
+                                                        :class="[item.activeRouteNames.includes($route.name) ? 'text-secondary-25' : 'text-secondary-100', 'group flex gap-x-3 rounded-md p-2 text-sm leading-6 font-semibold']">
                                                         <Icon :name="item.icon" class="h-5 w-5 shrink-0"
                                                             :class="[item.activeRouteNames.includes($route.name) ? 'text-secondary-25' : 'text-secondary-100']"
                                                             aria-hidden="true" />
@@ -127,132 +124,148 @@
         </TransitionRoot>
 
         <!-- Static sidebar for desktop -->
-        <!-- <div class="hidden lg:fixed lg:inset-y-0 lg:z-50 lg:flex lg:w-72 lg:flex-col">
-            <div class="overflow-clip relative flex grow flex-col gap-y-5 bg-primary px-6 pb-4 shadow-right">
-
+        <div class="hidden lg:fixed lg:inset-y-0 lg:z-50 lg:flex lg:flex-col transition-[width] duration-300 ease-in-out"
+            :class="isSidebarExpanded ? 'w-72' : 'w-16'" @mouseenter="isSidebarHovered = true"
+            @mouseleave="isSidebarHovered = false">
+            <div class="overflow-hidden relative flex grow flex-col gap-y-5 bg-primary pb-4 shadow-right transition-[padding] duration-300 ease-in-out"
+                :class="isSidebarExpanded ? 'px-6' : 'px-3'">
                 <img src="/img/icons/asset-02.svg" alt="Image failed to load"
                     class="z-10 w-screen absolute -bottom-32 -left-32 opacity-25">
 
-                <div class="z-20 mt-5">
-                    <span @click="navigateTo('/overview')">
-                        <LogoWhite />
+                <!-- Logo row + pin button -->
+                <div class="z-20 mt-5 flex items-center justify-between overflow-hidden h-8">
+                    <span @click="navigateTo('/overview')" class="cursor-pointer flex items-center">
+                        <img src="/img/icons/asset-app.png" alt="Logo" class="h-8 w-8 text-white shrink-0"
+                            :class="isSidebarExpanded ? 'hidden' : 'block'" />
+                        <span :class="isSidebarExpanded ? 'block' : 'hidden'">
+                            <LogoWhite />
+                        </span>
                     </span>
+                    <!-- Pin / Unpin button — only visible when expanded -->
+                    <button v-show="isSidebarExpanded" @click="setIsSidebarPinned"
+                        class="ml-auto shrink-0 text-secondary-100 hover:text-secondary-25 transition-colors duration-150"
+                        :title="isSidebarPinned ? $t('sidebar.unpinSidebar') : $t('sidebar.pinSidebar')">
+                        <Icon :name="isSidebarPinned ? 'ph:push-pin-fill' : 'ph:push-pin'" class="h-5 w-5"
+                            aria-hidden="true" />
+                    </button>
                 </div>
-                <nav class="z-20 flex flex-1 flex-col mt-3">
+
+                <nav class="z-20 flex flex-1 flex-col mt-3 overflow-hidden">
                     <ul role="list" class="flex flex-1 flex-col gap-y-7">
                         <li>
                             <ul role="list" class="-mx-2 space-y-1">
                                 <li v-for="item in navigation" :key="item.name">
-                                    <div v-if="!item.children" @click="navigateTo(item.href)"
-                                        :class="[item.activeRouteNames.includes($route.name) ? 'text-secondary-25' : 'text-secondary-100 hover:text-secondary-25', 'group flex gap-x-3 rounded-md p-3 text-sm leading-6 font-semibold cursor-pointer']">
+                                    <div v-if="!item.children" @click="navigateTo(item.href)" :class="[
+                                        item.activeRouteNames.includes($route.name) ? 'text-secondary-25' : 'text-secondary-100 hover:text-secondary-25',
+                                        'flex items-center gap-x-3 rounded-md p-3 text-sm leading-6 font-semibold cursor-pointer overflow-hidden whitespace-nowrap'
+                                    ]">
                                         <Icon :name="item.icon" class="h-6 w-6 shrink-0" aria-hidden="true" />
-                                        <span v-if="item.name === 'Overview'">
-                                            {{ $t('sidebar.overview') }}
-                                        </span>
-                                        <span v-if="item.name === 'Citizens'">
-                                            {{ customPagesStore.getCustomPagesName?.citizens }}
-                                        </span>
-                                        <span v-if="item.name === 'Calendar'">
-                                            {{ $t('sidebar.calendar') }}
-                                        </span>
-                                        <span v-if="item.name === 'Duty schedules'">
-                                            {{ customPagesStore.getCustomPagesName?.dutySchedules }}
-                                        </span>
-                                        <span v-if="item.name === 'Messages'">
-                                            {{ $t('sidebar.messages') }}
-                                        </span>
-                                        <span v-if="item.name === 'Procedures'">
-                                            {{ $t('sidebar.procedures') }}
-                                        </span>
-                                        <span v-if="item.name === 'Protocols'">
-                                            {{ $t('sidebar.protocols') }}
-                                        </span>
-                                        <div v-if="item.name === 'Mail'">
-                                            {{ $t('sidebar.mail') }}
-                                        </div>
-                                        <span v-if="item.name === 'Documents'">
-                                            {{ $t('sidebar.documents') }}
-                                        </span>
-                                        <span v-if="item.name === 'Leads'">
-                                            {{ $t('sidebar.leads') }}
-                                        </span>
-                                        <span v-if="item.name === 'Bullet Board'">
-                                            {{ $t('sidebar.bulletBoard') }}
+                                        <span class="transition-opacity duration-200 overflow-hidden"
+                                            :class="isSidebarExpanded ? 'opacity-100' : 'opacity-0'">
+                                            <span v-if="item.name === 'Overview'">
+                                                {{ $t('sidebar.overview') }}
+                                            </span>
+                                            <span v-if="item.name === 'Citizens'">
+                                                {{ customPagesStore.getCustomPagesName?.citizens }}
+                                            </span>
+                                            <span v-if="item.name === 'Calendar'">
+                                                {{ $t('sidebar.calendar') }}
+                                            </span>
+                                            <span v-if="item.name === 'Duty schedules'">
+                                                {{ customPagesStore.getCustomPagesName?.dutySchedules }}
+                                            </span>
+                                            <span v-if="item.name === 'Messages'">
+                                                {{ $t('sidebar.messages') }}
+                                            </span>
+                                            <span v-if="item.name === 'Procedures'">
+                                                {{ $t('sidebar.procedures') }}
+                                            </span>
+                                            <span v-if="item.name === 'Protocols'">
+                                                {{ $t('sidebar.protocols') }}
+                                            </span>
+                                            <span v-if="item.name === 'Mail'">
+                                                {{ $t('sidebar.mail') }}
+                                            </span>
+                                            <span v-if="item.name === 'Documents'">
+                                                {{ $t('sidebar.documents') }}
+                                            </span>
+                                            <span v-if="item.name === 'Leads'">
+                                                {{ $t('sidebar.leads') }}
+                                            </span>
+                                            <span v-if="item.name === 'Bullet Board'">
+                                                {{ $t('sidebar.bulletBoard') }}
+                                            </span>
                                         </span>
                                     </div>
+
                                     <Disclosure as="div" v-else v-slot="{ open }">
-                                        <DisclosureButton
-                                            :class="[item.activeRouteNames.includes($route.name) ? 'text-secondary-25' : 'text-secondary-100 hover:text-secondary-25 hover:bg-sky-500/10', 'group flex items-center w-full text-left rounded-md p-2 gap-x-3 text-sm leading-6 font-semibold text-secondary-25']">
+                                        <DisclosureButton :class="[
+                                            item.activeRouteNames.includes($route.name) ? 'text-secondary-25' : 'text-secondary-100 hover:text-secondary-25 hover:bg-sky-500/10',
+                                            'flex items-center w-full text-left rounded-md p-2 gap-x-3 text-sm leading-6 font-semibold overflow-hidden whitespace-nowrap'
+                                        ]">
                                             <Icon :name="item.icon" class="h-5 w-5 shrink-0 text-secondary-25"
                                                 aria-hidden="true" />
-                                            {{ item.name }}
-                                            <Icon name="heroicons:chevron-right-20-solid"
-                                                :class="[open ? 'rotate-90 text-secondary-25' : 'text-secondary-25 hover:text-secondary-100', 'ml-auto h-5 w-5 shrink-0']"
-                                                aria-hidden="true" />
+                                            <span class="transition-opacity duration-200 overflow-hidden flex-1"
+                                                :class="isSidebarExpanded ? 'opacity-100' : 'opacity-0'">{{ item.name
+                                                }}</span>
+                                            <Icon name="heroicons:chevron-right-20-solid" :class="[
+                                                open ? 'rotate-90' : '',
+                                                isSidebarExpanded ? 'opacity-100' : 'opacity-0',
+                                                'transition-opacity duration-200 ml-auto h-5 w-5 shrink-0 text-secondary-25'
+                                            ]" aria-hidden="true" />
                                         </DisclosureButton>
                                         <DisclosurePanel as="ul" class="mt-1 px-2">
                                             <div v-for="subItem in item.children" :key="subItem.name">
                                                 <DisclosureButton as="div" @click="navigateTo(subItem.href)"
-                                                    :class="[subItem.current ? 'text-secondary-25' : 'text-secondary-25 hover:text-secondary-100 hover:bg-sky-500/10', 'py-2 pr-2 pl-9 flex gap-x-3 rounded-md p-2 text-sm leading-6 font-semibold']">
-                                                    {{ subItem.name }}
+                                                    :class="[subItem.current ? 'text-secondary-25' : 'text-secondary-25 hover:text-secondary-100 hover:bg-sky-500/10', 'py-2 pr-2 pl-9 flex gap-x-3 rounded-md p-2 text-sm leading-6 font-semibold whitespace-nowrap overflow-hidden']">
+                                                    <span :class="isSidebarExpanded ? 'opacity-100' : 'opacity-0'"
+                                                        class="transition-opacity duration-200">{{ subItem.name
+                                                        }}</span>
                                                 </DisclosureButton>
                                             </div>
                                         </DisclosurePanel>
                                     </Disclosure>
                                 </li>
+
                                 <li
                                     v-if="!state.isSidebarLoading && userStore.getUser?.industry === 'Social welfare services' && userStore.getUser?.role === 'Admin'">
                                     <div @click="navigateTo('/findsocialetilbud.dk')" :class="[
-                                        ['findsocialetilbud.dk'].includes($route.name as string)
-                                            ? 'text-secondary-25'
-                                            : 'text-secondary-100 hover:text-secondary-25',
-                                        userStore.getInTutorial && routeName === 'findsocialetilbud.dk'
-                                        && 'border-4 border-white bg-primary-700',
-                                        'group flex gap-x-2.5 rounded-md p-3 text-sm leading-6 font-semibold cursor-pointer'
+                                        ['findsocialetilbud.dk'].includes($route.name as string) ? 'text-secondary-25' : 'text-secondary-100 hover:text-secondary-25',
+                                        userStore.getInTutorial && routeName === 'findsocialetilbud.dk' && 'border-4 border-white bg-primary-700',
+                                        'flex items-center gap-x-2.5 rounded-md p-3 text-sm leading-6 font-semibold cursor-pointer overflow-hidden whitespace-nowrap'
                                     ]">
                                         <img src="/img/findsocialetilbud-icon.png" alt="FindSocialeTilbud.dk"
-                                            class="h-6 w-6 shrink-0" />
-                                        FindSocialeTilbud.dk
+                                            class="h-7 w-7 shrink-0" />
+                                        <span :class="isSidebarExpanded ? 'opacity-100' : 'opacity-0'"
+                                            class="transition-opacity duration-200 overflow-hidden">
+                                            FindSocialeTilbud.dk
+                                        </span>
                                     </div>
                                 </li>
                             </ul>
                         </li>
-                        <li class="mt-auto space-y-2">
+
+                        <li class="mt-auto space-y-2 overflow-hidden transition-opacity duration-200"
+                            :class="isSidebarExpanded ? 'opacity-100' : 'opacity-0'">
                             <ModulesUserTimeRegistrationCheckInOut v-if="userStore.getUser?.checkin_enabled" />
                             <ModulesUserSidebarCompanyId />
                         </li>
                     </ul>
                 </nav>
             </div>
-        </div> -->
+        </div>
 
-        <div class="bg-gray-50 min-h-screen">
-            <!-- <div class="bg-primary text-white py-1 shadow-sm text-center text-sm">
-                <div class="marquee">
-                    <div class="marquee__inner">
-                        <span v-if="language.locale.value === 'en'">
-                            Please be informed that we will be performing a server upgrade on February 28, 2026 to
-                            improve system performance, stability, and overall user experience.
-                        </span>
-                        <span v-else-if="language.locale.value === 'dk'">
-                            Venligst bemærk, at vi vil foretage en serveropgradering den 28. februar 2026 for at
-                            forbedre systemets ydeevne, stabilitet og den samlede brugeroplevelse.
-                        </span>
-                    </div>
-                </div>
-            </div> -->
+        <!-- Main content — shifts with sidebar -->
+        <div class="bg-gray-50 min-h-screen transition-[padding-left] duration-300 ease-in-out"
+            :class="isSidebarExpanded ? 'lg:pl-72' : 'lg:pl-16'">
             <div
                 class="sticky top-0 z-40 flex h-16 shrink-0 items-center gap-x-3 border-b border-gray-200 bg-white px-4 shadow-sm sm:gap-x-6 sm:px-6 lg:px-8">
-                <button type="button" class="-m-2.5 p-2.5 text-gray-700 flex items-center" @click="sidebarOpen = true">
+                <button type="button" class="-m-2.5 p-2.5 text-gray-700 lg:hidden" @click="sidebarOpen = true">
                     <span class="sr-only">Open sidebar</span>
                     <Icon name="heroicons:bars-3" class="h-6 w-6" aria-hidden="true" />
                 </button>
-                <div class="flex items-center justify-center">
-                    <Logo @click="navigateTo('/overview')" />
-                </div>
 
-                <!-- Separator -->
-                <div class="h-6 w-px bg-primary/10" aria-hidden="true" />
+                <div class="h-6 w-px bg-primary/10 lg:hidden" aria-hidden="true" />
 
                 <div class="flex flex-1 gap-x-4 self-stretch lg:gap-x-6">
                     <div
@@ -279,18 +292,14 @@
                             <FormButton buttonStyle="AI" buttonSize="xs" class="px-0 md:px-4"
                                 @click="userStore.getUser?.has_ai_access ? state.modal.isAIAssistantOpen = true : navigateTo('/apps')">
                                 <Icon name="ic:round-accessibility" class="h-6 w-6 md:w-5 md:h-5" aria-hidden="true" />
-                                <p class="text-sm font-semibold hidden lg:block">
-                                    {{ $t('assistants.askAI') }}
-                                </p>
+                                <p class="text-sm font-semibold hidden lg:block">{{ $t('assistants.askAI') }}</p>
                             </FormButton>
                         </div>
                         <button type="button"
                             class="relative flex items-center gap-x-1 text-sm text-primary hover:text-primary-700"
                             @click="navigateToNews()">
                             <Icon name="ph:megaphone" class="h-6 w-6" aria-hidden="true" />
-                            <span class="text-xs font-semibold hidden lg:block">
-                                {{ $t('news.news') }}
-                            </span>
+                            <span class="text-xs font-semibold hidden lg:block">{{ $t('news.news') }}</span>
                             <Badge type="notification"
                                 class="w-5 h-5 flex items-center justify-center absolute -top-3 left-3"
                                 v-if="!hasSeenNews">
@@ -326,13 +335,11 @@
                             class="flex items-center gap-x-1 text-sm text-primary hover:text-primary-700"
                             @click="openSupport">
                             <Icon name="material-symbols:support" class="h-6 w-6" aria-hidden="true" />
-                            <span class="text-xs font-semibold hidden lg:block">
-                                {{ $t('support.support') }}
-                            </span>
+                            <span class="text-xs font-semibold hidden lg:block">{{ $t('support.support') }}</span>
                         </button>
 
-                        <!-- Separator -->
                         <div class="hidden lg:block lg:h-6 lg:w-px lg:bg-gray-900/10" aria-hidden="true" />
+
                         <Menu as="div" class="relative">
                             <MenuButton class="-m-1.5 flex items-center p-1.5">
                                 <span class="sr-only">Open user menu</span>
@@ -340,10 +347,8 @@
                                     <img class="h-6 w-6 md:h-8 md:w-8 rounded-full bg-gray-50 object-cover"
                                         :src="userStore.getUser?.profile_image ? userStore.getUser?.profile_image : '/img/avatars/user.svg'"
                                         alt="User" />
-                                    <div :class="[
-                                        userStore.getUser?.is_online ? 'bg-green-500' : 'bg-red-700',
-                                        'w-3 h-3 rounded-full absolute -left-1.5 -top-0.5 border-1 border-white'
-                                    ]">
+                                    <div
+                                        :class="[userStore.getUser?.is_online ? 'bg-green-500' : 'bg-red-700', 'w-3 h-3 rounded-full absolute -left-1.5 -top-0.5 border-1 border-white']">
                                     </div>
                                 </div>
                                 <span class="hidden xl:flex xl:items-center">
@@ -454,20 +459,12 @@
                 <img src="/img/icons/asset-01.svg" alt="Image failed to load"
                     class="w-48 md:w-1/4 absolute -top-36 -right-24 opacity-0 transition-opacity duration-500"
                     id="animatedImage">
-                <main :class="[
-                    routeName === 'schedules' ? '' : 'pb-4',
-                    'relative'
-                ]">
-                    <div :class="[
-                        routeName === 'schedules' && 'bg-white',
-                        'flex items-center justify-between flex-wrap gap-3 px-4 sm:px-6 lg:px-8 py-4'
-                    ]">
-                        <slot name="breadcrumb"></slot>
-                        <slot name="guided-tour"></slot>
-                    </div>
-                    <div :class="[
-                        routeName === 'schedules' ? 'px-0' : 'px-4 sm:px-6 lg:px-8',
-                    ]">
+                <main class="py-4 relative">
+                    <div :class="[routeName === 'schedules' ? 'px-0' : 'px-4 sm:px-6 lg:px-8']">
+                        <div class="flex items-center justify-between flex-wrap gap-3">
+                            <slot name="breadcrumb"></slot>
+                            <slot name="guided-tour"></slot>
+                        </div>
                         <div class="mt-4 flex justify-between items-center">
                             <h1 class="text-2xl text-primary font-bold">
                                 <slot name="header"></slot>
@@ -487,6 +484,7 @@
                 </main>
             </div>
         </div>
+
         <ModulesUserReminderCheckIn :isModalOpen="state.modal.isCheckinReminderOpen"
             @close="state.modal.isCheckinReminderOpen = false" />
         <ModulesUserSettings2faGoogleModalRequire2fa :isModalOpen="state.modal.is2faRequiredOpen"
@@ -532,29 +530,21 @@
 
 <script setup lang="ts">
 import moment from 'moment'
-
 import {
-    Dialog,
-    DialogPanel,
-    Disclosure,
-    DisclosureButton,
-    DisclosurePanel,
-    Menu,
-    MenuButton,
-    MenuItem,
-    MenuItems,
-    TransitionChild,
-    TransitionRoot,
+    Dialog, DialogPanel, Disclosure, DisclosureButton, DisclosurePanel,
+    Menu, MenuButton, MenuItem, MenuItems, TransitionChild, TransitionRoot,
 } from '@headlessui/vue'
 import { authService } from '@/components/api/user/AuthService'
 import { userService } from '@/components/api/user/UserService'
 import { useCustomPagesStore } from '@/store/custom-pages'
 import { useDepartmentStore } from '@/store/department'
+import { useEmployeeStore } from '@/store/employee'
 import { useUserStore } from '@/store/user'
 import { useI18n } from "vue-i18n"
 import type { Error } from '@/types'
 
 const departmentStore = useDepartmentStore()
+const employeeStore = useEmployeeStore() as any
 const userStore = useUserStore() as any
 const customPagesStore = useCustomPagesStore() as any
 const language = useI18n()
@@ -562,8 +552,18 @@ const router = useRouter()
 const routeName = router?.currentRoute?.value?.name
 const hasSeenNews = ref(localStorage.getItem('hasSeenNews-02-20-2026') === 'true')
 
-let navigation = [] as any
+const isSidebarHovered = ref(false)
+const isSidebarPinned = ref(employeeStore.getIsSidebarPinned)
+console.log('isSidebarPinned', employeeStore.getIsSidebarPinned)
+const isSidebarExpanded = computed(() => isSidebarPinned.value || isSidebarHovered.value)
 
+function setIsSidebarPinned() {
+    const next = !isSidebarPinned.value
+    isSidebarPinned.value = next
+    employeeStore.setIsSidebarPinned(next)
+}
+
+let navigation = [] as any
 const sidebarOpen = ref(false)
 
 const state = reactive({
@@ -624,114 +624,22 @@ function generateSidebarLinks(user: any) {
     const userHasSecuredMailAccess = user?.has_mail_access
     const userHasLeadsActive = user?.company?.is_leads_active
     const userHasPageAttendanceAccess = user?.pages?.some((page: any) => page.name === "Attendance")
-    navigation.push({
-        name: 'Overview',
-        href: '/overview',
-        icon: 'material-symbols:dashboard',
-        activeRouteNames: [
-            'overview',
-        ]
-    })
-    navigation.push({
-        name: 'Citizens',
-        href: '/citizens',
-        icon: 'heroicons:user-group',
-        activeRouteNames: [
-            'citizens',
-            'citizens-new',
-            'citizens-uuid-edit',
-            'citizens-uuid-journals',
-            'citizens-uuid-medicine-journals',
-            'citizens-uuid-plans-and-goals',
-            'citizens-uuid-nursing-areas',
-            'citizens-uuid-documents',
-            'citizens-uuid-documents-document_uuid',
-            'citizens-uuid-attendance',
-            'citizens-uuid-attendance-citizen_protocol_uuid',
-            'citizens-uuid-calendar',
-            'citizens-uuid-wallets',
-            'citizens-uuid-wallets-wallet_uuid',
-            'citizens-uuid-contacts',
-        ]
-    })
-    navigation.push({
-        name: 'Calendar',
-        href: '/calendar',
-        icon: 'ph:calendar-blank',
-        activeRouteNames: [
-            'calendar',
-            'calendar-appointments',
-            'calendar-appointments-settings',
-        ]
-    })
-    navigation.push({
-        name: 'Duty schedules',
-        href: '/schedules',
-        icon: 'ph:calendar-dots',
-        activeRouteNames: [
-            'schedules',
-            'schedules-draft'
-        ]
-    })
-    navigation.push({
-        name: 'Messages',
-        href: '/messages',
-        icon: 'ph:chat-circle',
-        activeRouteNames: [
-            'messages',
-            'messages-chat_uuid'
-        ]
-    })
+    navigation.push({ name: 'Overview', href: '/overview', icon: 'material-symbols:dashboard', activeRouteNames: ['overview'] })
+    navigation.push({ name: 'Citizens', href: '/citizens', icon: 'heroicons:user-group', activeRouteNames: ['citizens', 'citizens-new', 'citizens-uuid-edit', 'citizens-uuid-journals', 'citizens-uuid-medicine-journals', 'citizens-uuid-plans-and-goals', 'citizens-uuid-nursing-areas', 'citizens-uuid-documents', 'citizens-uuid-documents-document_uuid', 'citizens-uuid-attendance', 'citizens-uuid-attendance-citizen_protocol_uuid', 'citizens-uuid-calendar', 'citizens-uuid-wallets', 'citizens-uuid-wallets-wallet_uuid', 'citizens-uuid-contacts'] })
+    navigation.push({ name: 'Calendar', href: '/calendar', icon: 'ph:calendar-blank', activeRouteNames: ['calendar', 'calendar-appointments', 'calendar-appointments-settings'] })
+    navigation.push({ name: 'Duty schedules', href: '/schedules', icon: 'ph:calendar-dots', activeRouteNames: ['schedules', 'schedules-draft'] })
+    navigation.push({ name: 'Messages', href: '/messages', icon: 'ph:chat-circle', activeRouteNames: ['messages', 'messages-chat_uuid'] })
     if (userHasPageAttendanceAccess) {
-        navigation.push({
-            name: 'Protocols',
-            href: '/protocols',
-            icon: 'ic:outline-shield',
-            activeRouteNames: [
-                'protocols',
-                'protocols-new',
-                'protocols-uuid'
-            ]
-        })
+        navigation.push({ name: 'Protocols', href: '/protocols', icon: 'ic:outline-shield', activeRouteNames: ['protocols', 'protocols-new', 'protocols-uuid'] })
     }
-    navigation.push({
-        name: 'Documents',
-        href: '/drive',
-        icon: 'ph:folder',
-        activeRouteNames: [
-            'drive'
-        ]
-    })
+    navigation.push({ name: 'Documents', href: '/drive', icon: 'ph:folder', activeRouteNames: ['drive'] })
     if (userHasSecuredMailAccess) {
-        navigation.push({
-            name: 'Mail',
-            href: '/mail/inbox',
-            icon: 'ph:envelope-open',
-            activeRouteNames: [
-                'mail'
-            ]
-        })
+        navigation.push({ name: 'Mail', href: '/mail/inbox', icon: 'ph:envelope-open', activeRouteNames: ['mail'] })
     }
     if (userHasLeadsActive) {
-        navigation.push({
-            name: 'Leads',
-            href: '/leads',
-            icon: 'ph:nuclear-plant-duotone',
-            activeRouteNames: [
-                'leads',
-            ]
-        })
+        navigation.push({ name: 'Leads', href: '/leads', icon: 'ph:nuclear-plant-duotone', activeRouteNames: ['leads'] })
     }
-    navigation.push({
-        name: 'Bullet Board',
-        href: '/news',
-        icon: 'ph:newspaper',
-        activeRouteNames: [
-            'news',
-            'news-new',
-            'news-edit-uuid',
-        ]
-    })
+    navigation.push({ name: 'Bullet Board', href: '/news', icon: 'ph:newspaper', activeRouteNames: ['news', 'news-new', 'news-edit-uuid'] })
     state.isSidebarLoading = false
 }
 
@@ -747,36 +655,25 @@ function setCustomPageNames() {
     const customPageDutySchedules = customPage('duty_schedules')
     const customPageRiskAssessment = customPage('risk_assessment')
     const customNameGiveMedicine = customPage('give_medicine')
-    const addictionsName = selectedLanguage === 'en' ? customPageAddictions?.en_name : customPageAddictions?.dk_name
-    const citizensName = selectedLanguage === 'en' ? customPageCitizens?.en_name : customPageCitizens?.dk_name
-    const departmentName = selectedLanguage === 'en' ? customPageDepartment?.en_name : customPageDepartment?.dk_name
-    const dutySchedulesName = selectedLanguage === 'en' ? customPageDutySchedules?.en_name : customPageDutySchedules?.dk_name
-    const riskAssessmentName = selectedLanguage === 'en' ? customPageRiskAssessment?.en_name : customPageRiskAssessment?.dk_name
-    const giveMedicineName = selectedLanguage === 'en' ? customNameGiveMedicine?.en_name : customNameGiveMedicine?.dk_name
-    customPagesStore.setAddictionsNaming(addictionsName)
-    customPagesStore.setCitizensNaming(citizensName)
-    customPagesStore.setDepartmentNaming(departmentName)
-    customPagesStore.setDutySchedulesNaming(dutySchedulesName)
-    customPagesStore.setRiskAssessmentNaming(riskAssessmentName)
-    customPagesStore.setGiveMedicineNaming(giveMedicineName)
+    customPagesStore.setAddictionsNaming(selectedLanguage === 'en' ? customPageAddictions?.en_name : customPageAddictions?.dk_name)
+    customPagesStore.setCitizensNaming(selectedLanguage === 'en' ? customPageCitizens?.en_name : customPageCitizens?.dk_name)
+    customPagesStore.setDepartmentNaming(selectedLanguage === 'en' ? customPageDepartment?.en_name : customPageDepartment?.dk_name)
+    customPagesStore.setDutySchedulesNaming(selectedLanguage === 'en' ? customPageDutySchedules?.en_name : customPageDutySchedules?.dk_name)
+    customPagesStore.setRiskAssessmentNaming(selectedLanguage === 'en' ? customPageRiskAssessment?.en_name : customPageRiskAssessment?.dk_name)
+    customPagesStore.setGiveMedicineNaming(selectedLanguage === 'en' ? customNameGiveMedicine?.en_name : customNameGiveMedicine?.dk_name)
 }
 
 function customPage(page: String) {
-    return userStore.getUser?.custom_pages?.find((item: any) => item.page_type ===
-        page)
+    return userStore.getUser?.custom_pages?.find((item: any) => item.page_type === page)
 }
 
 function animateAssets() {
     const observer = new IntersectionObserver((entries) => {
         entries.forEach(entry => {
-            if (entry.isIntersecting) {
-                entry.target.classList.add('animate-fade-in')
-            } else {
-                entry.target.classList.remove('animate-fade-in')
-            }
+            if (entry.isIntersecting) entry.target.classList.add('animate-fade-in')
+            else entry.target.classList.remove('animate-fade-in')
         })
     })
-
     const image = document.getElementById('animatedImage') as any
     observer.observe(image)
 }
@@ -807,84 +704,39 @@ function plansGoalsSubgoalsCompletionReminderModalVisibility(response: any) {
 }
 
 function guidedUserTourModalVisibility() {
-    const guidedUserTourFirstTime = userStore.getUser?.is_first_login
-    if (guidedUserTourFirstTime) {
-        state.modal.isGuidedTourWelcomeOpen = true
-    }
+    if (userStore.getUser?.is_first_login) state.modal.isGuidedTourWelcomeOpen = true
 }
 
 function checkInReminderModalVisibility(response: any) {
     const lastHidden = localStorage.getItem('checkInReminderHidden')
     const today = moment().format('YYYY-MM-DD')
-    const checkinEnabled = response?.data?.checkin_enabled ?? false
-
-    if (lastHidden !== today && checkinEnabled) {
+    if (lastHidden !== today && (response?.data?.checkin_enabled ?? false)) {
         userStore.resetIsCheckInNow()
         state.modal.isCheckinReminderOpen = true
     }
 }
 
 function closeCompletionReminder(doNotShowAgain: boolean) {
-    if (doNotShowAgain) {
-        const now = moment().format('YYYY-MM-DD')
-        localStorage.setItem('plansGoalsSubgoalsReminderHidden', now)
-    }
+    if (doNotShowAgain) localStorage.setItem('plansGoalsSubgoalsReminderHidden', moment().format('YYYY-MM-DD'))
     state.modal.isPlanGoalSubgoalCompletionReminderOpen = false
-
 }
 
 function handleBackGuidedTour(back: any) {
-    if (back === 'welcome') {
-        state.modal.isGuidedTourDailyOverviewOpen = false
-        state.modal.isGuidedTourWelcomeOpen = true
-    }
-    if (back === 'overview') {
-        state.modal.isGuidedTourCitizensOverviewOpen = false
-        state.modal.isGuidedTourDailyOverviewOpen = true
-    }
-    if (back === 'citizens-overview') {
-        state.modal.isGuidedTourCalendarOpen = false
-        state.modal.isGuidedTourCitizensOverviewOpen = true
-    }
-    if (back === 'calendar') {
-        state.modal.isGuidedTourDutyScheduleOpen = false
-        state.modal.isGuidedTourCalendarOpen = true
-    }
-    if (back === 'duty-schedule') {
-        state.modal.isGuidedTourEmployeesOpen = false
-        state.modal.isGuidedTourDutyScheduleOpen = true
-    }
-    if (back === 'employees') {
-        state.modal.isGuidedTourEndOpen = false
-        state.modal.isGuidedTourEmployeesOpen = true
-    }
+    if (back === 'welcome') { state.modal.isGuidedTourDailyOverviewOpen = false; state.modal.isGuidedTourWelcomeOpen = true }
+    if (back === 'overview') { state.modal.isGuidedTourCitizensOverviewOpen = false; state.modal.isGuidedTourDailyOverviewOpen = true }
+    if (back === 'citizens-overview') { state.modal.isGuidedTourCalendarOpen = false; state.modal.isGuidedTourCitizensOverviewOpen = true }
+    if (back === 'calendar') { state.modal.isGuidedTourDutyScheduleOpen = false; state.modal.isGuidedTourCalendarOpen = true }
+    if (back === 'duty-schedule') { state.modal.isGuidedTourEmployeesOpen = false; state.modal.isGuidedTourDutyScheduleOpen = true }
+    if (back === 'employees') { state.modal.isGuidedTourEndOpen = false; state.modal.isGuidedTourEmployeesOpen = true }
 }
 
 function handleNextGuidedTour(next: any) {
-    if (next === 'overview') {
-        state.modal.isGuidedTourWelcomeOpen = false
-        state.modal.isGuidedTourDailyOverviewOpen = true
-    }
-    if (next === 'citizens-overview') {
-        state.modal.isGuidedTourDailyOverviewOpen = false
-        state.modal.isGuidedTourCitizensOverviewOpen = true
-    }
-    if (next === 'calendar') {
-        state.modal.isGuidedTourCitizensOverviewOpen = false
-        state.modal.isGuidedTourCalendarOpen = true
-    }
-    if (next === 'duty-schedule') {
-        state.modal.isGuidedTourCalendarOpen = false
-        state.modal.isGuidedTourDutyScheduleOpen = true
-    }
-    if (next === 'employees') {
-        state.modal.isGuidedTourDutyScheduleOpen = false
-        state.modal.isGuidedTourEmployeesOpen = true
-    }
-    if (next === 'end') {
-        state.modal.isGuidedTourEmployeesOpen = false
-        state.modal.isGuidedTourEndOpen = true
-    }
+    if (next === 'overview') { state.modal.isGuidedTourWelcomeOpen = false; state.modal.isGuidedTourDailyOverviewOpen = true }
+    if (next === 'citizens-overview') { state.modal.isGuidedTourDailyOverviewOpen = false; state.modal.isGuidedTourCitizensOverviewOpen = true }
+    if (next === 'calendar') { state.modal.isGuidedTourCitizensOverviewOpen = false; state.modal.isGuidedTourCalendarOpen = true }
+    if (next === 'duty-schedule') { state.modal.isGuidedTourCalendarOpen = false; state.modal.isGuidedTourDutyScheduleOpen = true }
+    if (next === 'employees') { state.modal.isGuidedTourDutyScheduleOpen = false; state.modal.isGuidedTourEmployeesOpen = true }
+    if (next === 'end') { state.modal.isGuidedTourEmployeesOpen = false; state.modal.isGuidedTourEndOpen = true }
 }
 
 async function logout() {
@@ -903,23 +755,11 @@ async function logout() {
     state.isPageLoading = false
 }
 
-function openSupport() {
-    state.slideOver.isSupportOpen = true
-}
-
-function selectLanguage() {
-    state.slideOver.isLanguageSwitcherOpen = true
-}
+function openSupport() { state.slideOver.isSupportOpen = true }
+function selectLanguage() { state.slideOver.isLanguageSwitcherOpen = true }
 
 function identifyFlag() {
-    const selectedLanguage = userStore.getLanguage
-    if (selectedLanguage === 'en') {
-        return '/img/icons/flags/united-kingdom.svg'
-    } else {
-        if (selectedLanguage === 'dk') {
-            return '/img/icons/flags/denmark.svg'
-        }
-    }
+    return userStore.getLanguage === 'en' ? '/img/icons/flags/united-kingdom.svg' : '/img/icons/flags/denmark.svg'
 }
 
 function navigateToNews() {

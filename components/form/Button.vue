@@ -3,7 +3,7 @@
         class="flex items-center justify-center gap-x-2 outline-none rounded-md text-xs truncate font-semibold" :class="[
             props.buttonStyle === 'primary' && 'bg-tertiary border border-tertiary text-white hover:bg-tertiary-800',
             props.buttonStyle === 'action' && 'border bg-tertiary text-white hover:bg-tertiary-800',
-            props.buttonStyle === 'action-secondary' && 'border text-gray-600 hover:text-primary',
+            props.buttonStyle === 'action-secondary' && 'border border-gray-300 text-gray-600 hover:text-primary',
             props.buttonStyle === 'success' && 'bg-green-800 text-white hover:bg-green-900',
             props.buttonStyle === 'warning' && 'bg-orange-400 text-white hover:bg-orange-500',
             props.buttonStyle === 'danger' && 'bg-[#dc5151] text-white hover:bg-red-500',
