@@ -530,10 +530,7 @@
 import { Menu, MenuButton, MenuItems, MenuItem } from '@headlessui/vue'
 import { useDatetimeFormatter } from '@/composables/datetimeFormatter'
 import { documentService } from '@/components/api/user/DocumentService'
-<<<<<<< Updated upstream
 import { googledriveService } from '@/components/api/user/GoogleDriveService'
-=======
->>>>>>> Stashed changes
 import { useI18n } from "vue-i18n"
 import { useAlert } from '@/composables/alert'
 import { useUserStore } from '@/store/user'
@@ -1274,13 +1271,7 @@ function sort(sortingData: any) {
         fetchDocuments();
     }
 }
-<<<<<<< Updated upstream
 
-function handleSearch(value: any) {
-    currentTablePage = 1
-    const searchValue = Array.isArray(value) ? value[0] ?? '' : value ?? ''
-    state.dataFilter.search = searchValue?.[0] == '' ? [] : value
-=======
 async function handleSearch(value: any) {
     currentTablePage = 1;
     let searchValue = '';
@@ -1294,7 +1285,6 @@ async function handleSearch(value: any) {
         searchValue = '';
     }
     state.dataFilter.search = searchValue;
->>>>>>> Stashed changes
 
     if (state.viewMode === 'google-drive') {
         fetchGoogleDriveFiles(state.googleDriveFolderId, state.dataFilter.search || undefined);
