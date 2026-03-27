@@ -255,6 +255,8 @@
                                     </div>
                                 </div>
 
+                                <div id="fixed-header-spacer" class="hidden" />
+
                                 <div class="shadow grid grid-cols-9">
                                     <div class="col-span-2 border-0.5">
                                         <p class="flex items-center justify-end px-4 py-2 text-xs">
@@ -530,9 +532,28 @@
                                                             </div>
                                                         </div>
                                                     </div>
+
+                                                    <div class="text-xs grid grid-cols-7 border-t-2 border-gray-200">
+                                                        <div class="col-span-3 border-gray-200">
+                                                            <div class="pl-3 py-2 font-semibold">
+                                                                {{ $t('dutySchedules.total') }}:
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-span-2 border-gray-200">
+                                                            <div class="text-right py-2 pr-2 font-semibold">
+                                                                {{ employee?.total_weekly_hours }}
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-span-2 border-l-0.5 border-gray-200">
+                                                            <div class="text-right py-2 pr-2 font-semibold">
+                                                                {{ employee?.total_yearly_hours }}
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    
                                                     <div class="text-xs grid grid-cols-7">
                                                         <div
-                                                            class="px-3 col-span-7 space-y-2 mt-4 border-t-0.5 border-gray-200 pt-3">
+                                                            class="px-3 col-span-7 space-y-2 border-t-0.5 border-gray-200 pt-3">
                                                             <div :class="[
                                                                 'text-primary',
                                                                 'flex items-center gap-1 w-fit cursor-pointer'
@@ -1936,20 +1957,23 @@ const headerHeight = 395  // The height of the header
 
 function handleScroll() {
     const header = document.getElementById('fixed-header-week-view')
-    if (!header) return
+    const spacer = document.getElementById('fixed-header-spacer')
+    if (!header || !spacer) return
 
     const currentScroll = window.pageYOffset || document.documentElement.scrollTop
+    const isFixed = header.classList.contains('fixed-header-week-view-top')
 
-    // If scrolling down and we reach the bottom of the header
-    if (currentScroll > headerHeight) {
+    if (currentScroll > headerHeight && !isFixed) {
+        // Capture height BEFORE fixing, so the spacer is accurate
+        spacer.style.height = `${header.offsetHeight}px`
+        spacer.style.display = 'block'
         header.classList.add('fixed-header-week-view-top')
-    } else {
-        // If scrolling up, remove the fixed position
+    } else if (currentScroll <= headerHeight && isFixed) {
         header.classList.remove('fixed-header-week-view-top')
+        spacer.style.display = 'none'
     }
 
-    // Update the last scroll position for the next scroll event
-    lastScrollTop = currentScroll <= 0 ? 0 : currentScroll // Prevent negative scroll
+    lastScrollTop = currentScroll <= 0 ? 0 : currentScroll
 }
 
 async function dateTimeChange(employeeUuid: string, newDateTimeStart: string, newDateTimeEnd: string) {

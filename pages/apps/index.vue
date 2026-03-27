@@ -305,17 +305,14 @@ const state = reactive({
 
 onMounted(async () => {
     // Set up message listener for Google Drive popup callback
-    // const handlePopupMessage = (event: MessageEvent) => {
-    //     console.log('Message received from popup:', event.data, 'origin:', event.origin)
+    const handlePopupMessage = (event: MessageEvent) => {
+        if (event.data?.type === 'google-drive-auth-complete') {
+            fetchApps()
+            successAlert(`${t('alert.success')}!`, 'Google Drive connection updated.')
+        }
+    }
 
-    //     if (event.data?.type === 'google-drive-auth-complete') {
-    //         console.log('Google Drive auth complete, refreshing apps...')
-    //         fetchApps()
-    //         successAlert(`${t('alert.success')}!`, 'Google Drive connection updated.')
-    //     }
-    // }
-
-    // window.addEventListener('message', handlePopupMessage)
+    window.addEventListener('message', handlePopupMessage)
 
     fetchApps()
 })
@@ -333,7 +330,7 @@ async function fetchApps() {
             state.apps = response
 
             // Check real Google Drive connection status
-            // await updateGoogleDriveStatus()
+            await updateGoogleDriveStatus()
         }
     } catch (error: any) {
         state.error = error
@@ -448,24 +445,20 @@ async function navigateToExternalLink(link: any) {
     }
 }
 
-// async function updateGoogleDriveStatus() {
-//     try {
-//         const status = await googledriveService.getGoogleDriveStatus()
-//         const isConnected = status?.connected || false
+async function updateGoogleDriveStatus() {
+    try {
+        const status = await googledriveService.getGoogleDriveStatus()
+        const isConnected = status?.connected || false
 
-
-//         const categories = ['marketing', 'visual', 'other']
-//         categories.forEach(category => {
-//             const googleDriveApp = state.apps[category]?.find(
-//                 (app: any) => app.generic_name === 'google-drive'
-//             )
-//             if (googleDriveApp) {
-//                 googleDriveApp.user_activated = isConnected
-//             }
-//         })
-//     } catch (error) {
-//         // Silently fail - if status check fails, rely on database value
-//         console.error('Failed to check Google Drive status:', error)
-//     }
-// }
+        const googleDriveApp = state.apps?.data?.find(
+            (app: any) => app.generic_name === 'google-drive'
+        )
+        if (googleDriveApp) {
+            googleDriveApp.user_activated = isConnected
+        }
+    } catch (error) {
+        // Silently fail - if status check fails, rely on database value
+        console.error('Failed to check Google Drive status:', error)
+    }
+}
 </script>

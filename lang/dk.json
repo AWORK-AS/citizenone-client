@@ -996,7 +996,15 @@
                 "journalLogs": "Journallogs",
                 "newData": "Nye data",
                 "previousData": "Tidligere data",
-                "updatedBy": "Opdateret af"
+                "updatedBy": "Opdateret af",
+                "table": {
+                    "alert": {
+                        "journalSuccessfullyDeletedPermanently": "Journal slettet permanent med succes"
+                    },
+                    "confirmation": {
+                        "permanentDeleteConfirmation": "Er du sikker på, at du vil slette denne journalindtastning permanent? Denne handling kan ikke fortrydes."
+                    }
+                }
             },
             "move": {
                 "citizen": "Borger",
@@ -1631,6 +1639,7 @@
                         "successfullyUpdated": "Medicinhistorik opdateret med succes"
                     },
                     "comment": "Kommentar",
+                    "completed": "fuldført",
                     "dose": "Dosis",
                     "date": "Dato",
                     "evaluator": "Evaluator",
@@ -2772,6 +2781,7 @@
             },
             "draft": "Kladde",
             "publish": "Offentliggør",
+            "publishing": "Udgivelse af vagtplaner, luk eller opdater ikke siden.",
             "selectDepartment": {
                 "title": "Bekræft Arbejdskontekst",
                 "message": {
@@ -3269,6 +3279,7 @@
             "timer": "Timer"
         },
         "totalHours": "Samlet antal timer",
+        "total": "Total",
         "typeOfShift": "Vagttyper",
         "typeOfShifts": "Vagttyper",
         "viewCalendar": "Se kalender",
@@ -4411,6 +4422,13 @@
         "markAllAsRead": "Markér alle som læst",
         "unreadJournalNotes": "Ulæste journalnotater",
         "youDontHaveUnreadJournalNotes": "Du har ingen ulæste journalnotater"
+    },
+    "journal": {
+        "table": {
+            "actions": {
+                "delete": "Slet"
+            }
+        }
     },
     "journalNoteTags": {
         "addNewTag": "Tilføj nyt tag",
@@ -5968,7 +5986,8 @@
                 "transferNormHours": "Overfør normtimer til næste år, hvis de ikke er brugt",
                 "website": "Hjemmeside",
                 "companyLogo": "Firmalogo",
-                "remove": "Fjern firmalogo"
+                "remove": "Fjern firmalogo",
+                "registerTransport":"Registrer transport"
             }
         },
         "licenseOverview": {

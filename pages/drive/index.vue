@@ -378,7 +378,7 @@
 import { Menu, MenuButton, MenuItems, MenuItem } from '@headlessui/vue'
 import { useDatetimeFormatter } from '@/composables/datetimeFormatter'
 import { documentService } from '@/components/api/user/DocumentService'
-// import { googledriveService } from '@/components/api/user/GoogleDriveService'
+import { googledriveService } from '@/components/api/user/GoogleDriveService'
 import { useI18n } from "vue-i18n"
 import { useAlert } from '@/composables/alert'
 import { useUserStore } from '@/store/user'
@@ -463,31 +463,31 @@ const state = reactive({
 
 onMounted(() => {
     fetchDocuments()
-    // initDriveView()
+    initDriveView()
 })
 
 async function initDriveView() {
-    // state.isPageLoading = true
-    // try {
-    //     const status = await googledriveService.getGoogleDriveStatus()
-    //     // Expecting status to indicate connection; accept several shapes
-    //     const connected = !!(status?.connected || status?.is_connected || status === true || status?.data?.connected)
-    //     state.googleDriveConnected = connected
-    //     if (connected) {
-    //         state.viewMode = 'google-drive'
-    //         state.googleDriveFolderId = null
-    //         state.googleDriveFolderStack = []
-    //         await fetchGoogleDriveFiles()
-    //     } else {
-    //         state.viewMode = 'local'
-    //         await fetchDocuments()
-    //     }
-    // } catch (error: any) {
-    //     // fallback to local view on error
-    //     state.viewMode = 'local'
-    //     await fetchDocuments()
-    // }
-    // state.isPageLoading = false
+    state.isPageLoading = true
+    try {
+        const status = await googledriveService.getGoogleDriveStatus()
+        // Expecting status to indicate connection; accept several shapes
+        const connected = !!(status?.connected || status?.is_connected || status === true || status?.data?.connected)
+        state.googleDriveConnected = connected
+        if (connected) {
+            state.viewMode = 'google-drive'
+            state.googleDriveFolderId = null
+            state.googleDriveFolderStack = []
+            await fetchGoogleDriveFiles()
+        } else {
+            state.viewMode = 'local'
+            await fetchDocuments()
+        }
+    } catch (error: any) {
+        // fallback to local view on error
+        state.viewMode = 'local'
+        await fetchDocuments()
+    }
+    state.isPageLoading = false
 }
 
 watch(() => router?.currentRoute?.value?.query, (newParams, oldParams) => {
@@ -517,36 +517,36 @@ function closeUpgradeStorageModal() {
 }
 
 async function toggleGoogleDriveView() {
-    // if (state.viewMode === 'local') {
-    //     state.isPageLoading = true
-    //     try {
-    //         const status = await googledriveService.getGoogleDriveStatus()
-    //         const connected = !!(status?.connected || status?.is_connected || status === true || status?.data?.connected)
-    //         state.googleDriveConnected = connected
+    if (state.viewMode === 'local') {
+        state.isPageLoading = true
+        try {
+            const status = await googledriveService.getGoogleDriveStatus()
+            const connected = !!(status?.connected || status?.is_connected || status === true || status?.data?.connected)
+            state.googleDriveConnected = connected
 
-    //         if (connected) {
-    //             // only switch to google-drive when actually connected
-    //             state.viewMode = 'google-drive'
-    //             state.googleDriveFolderId = null
-    //             state.googleDriveFolderStack = []
-    //             await fetchGoogleDriveFiles()
-    //         } else {
-    //             // keep local view and prompt activation
-    //             state.modal.isActiveGoogleDriveOpen = true
-    //             state.googleDriveFiles = { data: [], current_page: 1, per_page: 0, total: 0 }
-    //         }
-    //     } catch (error: any) {
-    //         state.googleDriveConnected = false
-    //         // on error keep local view and prompt activation
-    //         state.modal.isActiveGoogleDriveOpen = true
-    //         state.googleDriveFiles = { data: [], current_page: 1, per_page: 0, total: 0 }
-    //     } finally {
-    //         state.isPageLoading = false
-    //     }
-    // } else {
-    //     state.viewMode = 'local'
-    //     fetchDocuments()
-    // }
+            if (connected) {
+                // only switch to google-drive when actually connected
+                state.viewMode = 'google-drive'
+                state.googleDriveFolderId = null
+                state.googleDriveFolderStack = []
+                await fetchGoogleDriveFiles()
+            } else {
+                // keep local view and prompt activation
+                state.modal.isActiveGoogleDriveOpen = true
+                state.googleDriveFiles = { data: [], current_page: 1, per_page: 0, total: 0 }
+            }
+        } catch (error: any) {
+            state.googleDriveConnected = false
+            // on error keep local view and prompt activation
+            state.modal.isActiveGoogleDriveOpen = true
+            state.googleDriveFiles = { data: [], current_page: 1, per_page: 0, total: 0 }
+        } finally {
+            state.isPageLoading = false
+        }
+    } else {
+        state.viewMode = 'local'
+        fetchDocuments()
+    }
 }
 
 async function navigateToApps() {
@@ -561,29 +561,27 @@ async function openGoogleDriveFile(file: any) {
 }
 
 async function uploadToGoogleDrive() {
-    // const fileInput = document.createElement('input')
-    // fileInput.type = 'file'
-    // fileInput.multiple = true
-    // fileInput.onchange = async (e: any) => {
-    //     const files = e.target.files
-    //     if (!files || files.length === 0) return
+    const fileInput = document.createElement('input')
+    fileInput.type = 'file'
+    fileInput.multiple = true
+    fileInput.onchange = async (e: any) => {
+        const files = e.target.files
+        if (!files || files.length === 0) return
 
-    //     state.isPageLoading = true
-    //     try {
-    //         console.log('upload parent id', state.googleDriveFolderId)
+        state.isPageLoading = true
+        try {
+            for (const file of files) {
+                await googledriveService.uploadFileToGoogleDrive(file, state.googleDriveFolderId || undefined)
+            }
 
-    //         for (const file of files) {
-    //             await googledriveService.uploadFileToGoogleDrive(file, state.googleDriveFolderId || undefined)
-    //         }
-
-    //         successAlert(`${t('alert.success')}!`, 'File uploaded to Google Drive')
-    //         await fetchGoogleDriveFiles(state.googleDriveFolderId)
-    //     } catch (error: any) {
-    //         state.error = error
-    //     }
-    //     state.isPageLoading = false
-    // }
-    // fileInput.click()
+            successAlert(`${t('alert.success')}!`, 'File uploaded to Google Drive')
+            await fetchGoogleDriveFiles(state.googleDriveFolderId)
+        } catch (error: any) {
+            state.error = error
+        }
+        state.isPageLoading = false
+    }
+    fileInput.click()
 }
 
 async function deleteFromGoogleDrive(file: any) {
@@ -592,76 +590,72 @@ async function deleteFromGoogleDrive(file: any) {
 }
 
 async function deleteGoogleDriveFile() {
-    // state.error = {}
-    // state.isPageLoading = true
-    // try {
-    //     await googledriveService.deleteGoogleDriveFile(state.selectedDocument.id)
-    //     successAlert(`${t('alert.success')}!`, 'File deleted from Google Drive')
-    //     state.modal.isDeleteGoogleDriveFileOpen = false
-    //     await fetchGoogleDriveFiles(state.googleDriveFolderId)
-    // } catch (error: any) {
-    //     state.error = error
-    // }
-    // state.isPageLoading = false
+    state.error = {}
+    state.isPageLoading = true
+    try {
+        await googledriveService.deleteGoogleDriveFile(state.selectedDocument.id)
+        successAlert(`${t('alert.success')}!`, 'File deleted from Google Drive')
+        state.modal.isDeleteGoogleDriveFileOpen = false
+        await fetchGoogleDriveFiles(state.googleDriveFolderId)
+    } catch (error: any) {
+        state.error = error
+    }
+    state.isPageLoading = false
 }
 
 async function fetchGoogleDriveFiles(parentFolderId: string | null = null, search: String | undefined = undefined) {
-    // console.log('fetchGoogleDriveFiles called with parentFolderId:', parentFolderId, 'search:', search)
-    // state.error = {}
-    // state.isTableLoading = true
-    // try {
-    //     state.googleDriveFolderId = parentFolderId
-    //     const response = await googledriveService.getGoogleDriveFiles(parentFolderId || undefined, search)
-    //     console.log('Google Drive response:', response)
-    //     let files = Array.isArray(response)
-    //         ? response
-    //         : Array.isArray(response?.files)
-    //             ? response.files
-    //             : Array.isArray(response?.data)
-    //                 ? response.data
-    //                 : Array.isArray(response?.data?.files)
-    //                     ? response.data.files
-    //                     : Array.isArray(response?.data?.data)
-    //                         ? response.data.data
-    //                         : []
+    state.error = {}
+    state.isTableLoading = true
+    try {
+        state.googleDriveFolderId = parentFolderId
+        const response = await googledriveService.getGoogleDriveFiles(parentFolderId || undefined, search)
+        let files = Array.isArray(response)
+            ? response
+            : Array.isArray(response?.files)
+                ? response.files
+                : Array.isArray(response?.data)
+                    ? response.data
+                    : Array.isArray(response?.data?.files)
+                        ? response.data.files
+                        : Array.isArray(response?.data?.data)
+                            ? response.data.data
+                            : []
 
-    //     if (files?.length) {
-    //         // Transform Google Drive response to match table structure
-    //         const transformedFiles = files.map((file: any) => ({
-    //             id: file.id,
-    //             name: file.name,
-    //             file_url: file.webViewLink || file.webContentLink,
-    //             created_at: file.createdTime,
-    //             updated_at: file.modifiedTime,
-    //             user: {
-    //                 firstname: 'Google',
-    //                 lastname: 'Drive'
-    //             },
-    //             type: file.mimeType?.includes('folder') ? 'folder' : 'file',
-    //             is_admin_access: false
-    //         }))
+        if (files?.length) {
+            // Transform Google Drive response to match table structure
+            const transformedFiles = files.map((file: any) => ({
+                id: file.id,
+                name: file.name,
+                file_url: file.webViewLink || file.webContentLink,
+                created_at: file.createdTime,
+                updated_at: file.modifiedTime,
+                user: {
+                    firstname: 'Google',
+                    lastname: 'Drive'
+                },
+                type: file.mimeType?.includes('folder') ? 'folder' : 'file',
+                is_admin_access: false
+            }))
 
-    //         state.googleDriveFiles = {
-    //             data: transformedFiles,
-    //             current_page: 1,
-    //             per_page: transformedFiles.length,
-    //             total: transformedFiles.length
-    //         }
-
-    //         console.log('Transformed Google Drive files:', state.googleDriveFiles)
-    //     } else {
-    //         state.googleDriveFiles = {
-    //             data: [],
-    //             current_page: 1,
-    //             per_page: 0,
-    //             total: 0
-    //         }
-    //     }
-    // } catch (error: any) {
-    //     console.error('Error fetching Google Drive files:', error)
-    //     state.error = error
-    // }
-    // state.isTableLoading = false
+            state.googleDriveFiles = {
+                data: transformedFiles,
+                current_page: 1,
+                per_page: transformedFiles.length,
+                total: transformedFiles.length
+            }
+        } else {
+            state.googleDriveFiles = {
+                data: [],
+                current_page: 1,
+                per_page: 0,
+                total: 0
+            }
+        }
+    } catch (error: any) {
+        console.error('Error fetching Google Drive files:', error)
+        state.error = error
+    }
+    state.isTableLoading = false
 }
 
 function viewGoogleDriveDirectory(document: any) {
@@ -729,7 +723,7 @@ function sort(sortingData: any) {
 function handleSearch(value: any) {
     currentTablePage = 1
     const searchValue = Array.isArray(value) ? value[0] ?? '' : value ?? ''
-    state.dataFilter.search = searchValue?.[0] == '' ? [] : searchValue
+    state.dataFilter.search = searchValue?.[0] == '' ? [] : value
 
     if (state.viewMode === 'google-drive') {
         fetchGoogleDriveFiles(state.googleDriveFolderId, state.dataFilter.search || undefined)
