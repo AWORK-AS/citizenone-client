@@ -3279,6 +3279,7 @@
             "timer": "Timer"
         },
         "totalHours": "Total hours",
+        "total": "Total",
         "typeOfShift": "Type of shift",
         "typeOfShifts": "Type of shifts",
         "viewCalendar": "View calendar",
