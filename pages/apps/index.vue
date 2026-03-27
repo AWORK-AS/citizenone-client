@@ -213,6 +213,24 @@
                                         </p>
                                     </div>
                                 </div>
+                                <Menu as="div" v-if="app.generic_name === 'danlon' && app.user_activated" class="relative">
+                                    <MenuButton class="flex items-center justify-center p-2 rounded-md hover:bg-gray-100">
+                                        <Icon name="ph:gear" class="h-4 w-4 text-gray-500 hover:text-gray-700 cursor-pointer" />
+                                    </MenuButton>
+                                    <transition enter-active-class="transition ease-out duration-100" enter-from-class="transform opacity-0 scale-95" enter-to-class="transform opacity-100 scale-100" leave-active-class="transition ease-in duration-75" leave-from-class="transform opacity-100 scale-100" leave-to-class="transform opacity-0 scale-95">
+                                        <MenuItems class="absolute right-0 mt-2 w-48 rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none z-10">
+                                            <div class="px-1 py-1">
+                                                <MenuItem v-slot="{ active }">
+                                                    <button
+                                                        :class="[active && 'bg-gray-100', 'group flex w-full items-center rounded-md px-2 py-2.5 text-sm text-red-600']"
+                                                        @click="openDanlonDisconnectModal(app)">
+                                                        {{ $t('apps.danlon.disconnect') }}
+                                                    </button>
+                                                </MenuItem>
+                                            </div>
+                                        </MenuItems>
+                                    </transition>
+                                </Menu>
                             </div>
                             <div class="my-6 space-y-3">
                                 <p class="text-gray-600 font-sans text-base line-clamp-2">
@@ -256,6 +274,13 @@
                 <ModulesUserAppModalTACConfirmation :isModalOpen="state.modal.isAcceptTACOpen"
                     :selectedApp="state.selectedApp" @close="state.modal.isAcceptTACOpen = false"
                     @confirmAppActivation="activateApp" />
+                <DialogConfirmation
+                    :isModalOpen="state.modal.isDanlonDisconnectOpen"
+                    :message="$t('apps.danlon.disconnectConfirmation')"
+                    :title="$t('apps.danlon.disconnectTitle')"
+                    @close="state.modal.isDanlonDisconnectOpen = false"
+                    @confirm="disconnectDanlon"
+                />
             </LoadingSpinner>
         </NuxtLayout>
     </div>
@@ -264,6 +289,8 @@
 <script setup lang="ts">
 import { appService } from '@/components/api/user/AppService'
 import { googledriveService } from '@/components/api/user/GoogleDriveService'
+import { danlonService } from '@/components/api/user/DanlonService'
+import { Menu, MenuButton, MenuItems, MenuItem } from '@headlessui/vue'
 import { useI18n } from "vue-i18n"
 import { useAlert } from '@/composables/alert'
 import { useAmountFormatter } from '@/composables/amountFormatter'
@@ -299,16 +326,21 @@ const state = reactive({
     modal: {
         isAcceptTACOpen: false,
         showAppDetails: false,
+        isDanlonDisconnectOpen: false,
     },
     selectedApp: [] as any,
 })
 
 onMounted(async () => {
-    // Set up message listener for Google Drive popup callback
+    // Set up message listener for Google Drive and Danløn popup callbacks
     const handlePopupMessage = (event: MessageEvent) => {
         if (event.data?.type === 'google-drive-auth-complete') {
             fetchApps()
             successAlert(`${t('alert.success')}!`, 'Google Drive connection updated.')
+        }
+        if (event.data?.type === 'danlon-auth-complete') {
+            fetchApps()
+            successAlert(`${t('alert.success')}!`, t('apps.danlon.connected'))
         }
     }
 
@@ -328,14 +360,15 @@ async function fetchApps() {
         const response = await appService.getApps(params)
         if (response) {
             state.apps = response
-
-            // Check real Google Drive connection status
-            await updateGoogleDriveStatus()
         }
     } catch (error: any) {
         state.error = error
     }
     state.isPageLoading = false
+
+    // Check connection statuses after loading indicator is cleared
+    updateGoogleDriveStatus()
+    updateDanlonStatus()
 }
 
 function previous() {
@@ -379,7 +412,20 @@ async function activateApp(formApp: any) {
     state.error = {}
     state.isPageLoading = true
     try {
-        if (state.selectedApp?.generic_name === 'google-drive') {
+        if (state.selectedApp?.generic_name === 'danlon') {
+            state.modal.isAcceptTACOpen = false
+
+            const response = await danlonService.authorize()
+            if (response?.url) {
+                const popup = window.open(
+                    response.url,
+                    'DanlonAuth',
+                    'width=600,height=700,left=200,top=100'
+                )
+            }
+            state.isPageLoading = false
+            return
+        } else if (state.selectedApp?.generic_name === 'google-drive') {
             const response = await googledriveService.getGoogleDriveAuthUrl()
             console.log('Google Drive response:', response)
             if (response?.authUrl || response?.auth_url) {
@@ -460,5 +506,37 @@ async function updateGoogleDriveStatus() {
         // Silently fail - if status check fails, rely on database value
         console.error('Failed to check Google Drive status:', error)
     }
+}
+
+async function updateDanlonStatus() {
+    try {
+        const status = await danlonService.getStatus()
+        const isConnected = status?.connected || false
+        const app = state.apps?.data?.find(
+            (a: any) => a.generic_name === 'danlon'
+        )
+        if (app) app.user_activated = isConnected
+    } catch {
+        // Silently fail
+    }
+}
+
+function openDanlonDisconnectModal(app: any) {
+    state.selectedApp = app
+    state.modal.isDanlonDisconnectOpen = true
+}
+
+async function disconnectDanlon() {
+    state.error = {}
+    state.isPageLoading = true
+    try {
+        await danlonService.disconnect()
+        successAlert(`${t('alert.success')}!`, t('apps.danlon.disconnected'))
+        state.modal.isDanlonDisconnectOpen = false
+        fetchApps()
+    } catch (error: any) {
+        state.error = error
+    }
+    state.isPageLoading = false
 }
 </script>
