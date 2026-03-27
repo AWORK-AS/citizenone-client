@@ -3312,6 +3312,11 @@
             "info-drive-2": "Hvis du også vil bruge Google drive så tryk 'Google Drive'-knappen i toppen. hvis du har linket din Google Drive konto",
             "info-drive-3": "Skift mellem systemerne uden at miste filer - upload til det ønskede system via upload-knappen.."
         },
+        "drive-onedrive": {
+            "info-drive-1": "Du ser lige nu dine OneDrive-filer, fordi du har linket din Microsoft-konto.",
+            "info-drive-2": "Hvis du vil tilbage til CitizenOne Documents, så tryk 'Virksomhedsdokumenter'-knappen i toppen.",
+            "info-drive-3": "Skift mellem systemerne uden at miste filer — upload til det ønskede system via upload-knappen."
+        },
         "alert": {
             "deletedFileSuccessfully": "Fil slettet med succes",
             "deletedFolderSuccessfully": "Mappe slettet med succes",
@@ -6260,7 +6265,13 @@
         "month": "Måned",
         "storage": "Lagerplads",
         "upgrade": "Opgradér",
-        "upgradeOptions": "Opgradéringsmuligheder"
+        "upgradeOptions": "Opgradéringsmuligheder",
+        "info-1": "Her kan du se, hvor meget lagerplads der er brugt i CitizenOne. Den gule bjælke viser forbruget af lokale dokumenter.",
+        "info-2": "Hvis du har forbundet OneDrive, vises forbruget heraf med en blå bjælke. De to typer lagerplads er separate og håndteres uafhængigt af hinanden.",
+        "info-3": "Har du brug for mere plads, kan du opgradere dit abonnement ved at klikke på 'Opgradér'.",
+        "upgrade-info-1": "På denne side kan du opgradere din CitizenOne lagerplads. Vælg den pakke der passer til dit behov.",
+        "upgrade-info-2": "Lagerplads i CitizenOne bruges til at gemme lokale dokumenter og filer. 1 GB svarer til cirka 5.000 filer.",
+        "upgrade-info-3": ""
     },
     "submit": "Indsend",
     "superadmin": {

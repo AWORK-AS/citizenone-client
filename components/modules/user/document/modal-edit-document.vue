@@ -17,10 +17,12 @@
 
 <script setup lang="ts">
 import { documentService } from '@/components/api/user/DocumentService'
+import OneDriveService from '@/components/api/oneDrive/OneDriveService'
 import { useAlert } from '@/composables/alert'
 import { useI18n } from "vue-i18n"
 import type { Error } from '@/types'
 
+const oneDriveService = new OneDriveService()
 const { successAlert } = useAlert()
 const { t } = useI18n()
 
@@ -53,16 +55,36 @@ async function updateDirectory(directoryDetails: any) {
     state.error = {}
     state.isPageLoading = true
     try {
-        const directoryUuid = directoryDetails.uuid
-        const params = {
-            name: directoryDetails.name,
-            is_admin_access: directoryDetails.is_admin_access,
-        }
-        const response = await documentService.updateFileFolder(directoryUuid, params)
-        if (response?.data) {
-            refreshDocuments()
+        const isFolder = props.selectedDocument?.type === 'folder';
+        const successMsg = isFolder
+          ? t('drive.alert.folderSuccessfullyUpdated')
+          : t('drive.alert.fileSuccessfullyUpdated');
+        if (props.selectedDocument.is_onedrive) {
+            
+            await oneDriveService.renameFile(directoryDetails.uuid, directoryDetails.name)
+            successAlert(`${t('alert.success')}!`, `${successMsg}.`)
+            emit('refreshDocuments', {
+                ...props.selectedDocument,
+                name: directoryDetails.name
+            })
             closeModal()
-            successAlert(`${t('alert.success')}!`, `${t('drive.alert.folderSuccessfullyUpdated')}.`)
+        } else {
+            
+            const directoryUuid = directoryDetails.uuid
+            const params = {
+                name: directoryDetails.name,
+                is_admin_access: directoryDetails.is_admin_access,
+            }
+            const response = await documentService.updateFileFolder(directoryUuid, params)
+            if (response?.data) {
+                successAlert(`${t('alert.success')}!`, `${successMsg}.`)
+                emit('refreshDocuments', {
+                    ...props.selectedDocument,
+                    name: directoryDetails.name,
+                    is_admin_access: directoryDetails.is_admin_access
+                })
+                closeModal()
+            }
         }
     } catch (error: any) {
         state.error = error
