@@ -87,6 +87,9 @@ export default defineNuxtConfig({
       azureTenantId: process.env.AZURE_TENANT_ID,
       checkoutKey: process.env.CHECKOUT_KEY,
       cmp: process.env.CMP_API_SRC,
+      // OneDrive miljøvariabler
+      VITE_ONEDRIVE_CLIENT_ID: process.env.VITE_ONEDRIVE_CLIENT_ID,
+      VITE_ONEDRIVE_REDIRECT_URI: process.env.VITE_ONEDRIVE_REDIRECT_URI,
     },
   },
 

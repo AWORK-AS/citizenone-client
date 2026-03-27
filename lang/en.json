@@ -3312,6 +3312,11 @@
             "info-drive-2": "If you also want to use Google Drive, press the 'Google Drive' button at the top, if you have linked your Google Drive account.",
             "info-drive-3": "Switch between systems without losing files - upload to the desired system via the upload button."
         },
+        "drive-onedrive": {
+            "info-drive-1": "You are currently viewing your OneDrive files because you have linked your Microsoft account.",
+            "info-drive-2": "If you want to go back to CitizenOne Documents, press the 'Company Documents' button at the top.",
+            "info-drive-3": "Switch between systems without losing files — upload to the desired system via the upload button."
+        },
         "alert": {
             "deletedFileSuccessfully": "File successfully delete",
             "deletedFolderSuccessfully": "Folder successfully delete",
@@ -6260,7 +6265,13 @@
         "month": "Month",
         "storage": "Storage",
         "upgrade": "Upgrade",
-        "upgradeOptions": "Upgrade options"
+        "upgradeOptions": "Upgrade options",
+        "info-1": "Here you can see how much storage is used in CitizenOne. The yellow bar shows the usage of local documents.",
+        "info-2": "If you have connected OneDrive, its usage is shown with a blue bar. The two types of storage are separate and managed independently.",
+        "info-3": "If you need more space, you can upgrade your subscription by clicking 'Upgrade'.",
+        "upgrade-info-1": "On this page you can upgrade your CitizenOne storage. Choose the plan that fits your needs.",
+        "upgrade-info-2": "Storage in CitizenOne is used to store local documents and files. 1 GB equals approximately 5,000 files.",
+        "upgrade-info-3": ""
     },
     "submit": "Submit",
     "superadmin": {
