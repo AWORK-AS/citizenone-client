@@ -3279,6 +3279,7 @@
             "timer": "Timer"
         },
         "totalHours": "Samlet antal timer",
+        "total": "Total",
         "typeOfShift": "Vagttyper",
         "typeOfShifts": "Vagttyper",
         "viewCalendar": "Se kalender",
