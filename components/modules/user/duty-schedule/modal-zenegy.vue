@@ -1328,8 +1328,8 @@ async function executeSyncToZenegy() {
     state.isSyncing = true
 
     const dateRange = state.syncDateRange
-    const periodFrom = moment(dateRange[0]).startOf('day').format('YYYY-MM-DDTHH:mm:ss')
-    const periodTo = moment(dateRange[1]).endOf('day').format('YYYY-MM-DDTHH:mm:ss')
+    const periodFrom = moment.utc(dateRange[0]).startOf('day').format('YYYY-MM-DDTHH:mm:ss[Z]')
+    const periodTo = moment.utc(dateRange[1]).endOf('day').format('YYYY-MM-DDTHH:mm:ss[Z]')
 
     const hoursByEmployee = new Map<string, { name: string; regs: any[] }>()
     for (const reg of state.registrationsPreview) {
@@ -1340,8 +1340,8 @@ async function executeSyncToZenegy() {
         hoursByEmployee.get(reg.userUid)!.regs.push({
             userUid: reg.userUid,
             date: reg.date,
-            from: moment(reg.from).format('YYYY-MM-DDTHH:mm:ss'),
-            to: moment(reg.to).format('YYYY-MM-DDTHH:mm:ss'),
+            from: moment.utc(reg.from).format('YYYY-MM-DDTHH:mm:ss[Z]'),
+            to: moment.utc(reg.to).format('YYYY-MM-DDTHH:mm:ss[Z]'),
             hours: reg.hours,
             hourPaymentRateUid: reg.hourPaymentRateUid,
             periodFrom,
@@ -1354,7 +1354,7 @@ async function executeSyncToZenegy() {
         const rateObj = state.zenegySupplementRatesRaw.find((r: any) => r.uid === reg.rateUid)
         const registration: any = {
             rateUid: reg.rateUid,
-            date: moment(reg.date).format('YYYY-MM-DDTHH:mm:ss'),
+            date: moment.utc(reg.date).format('YYYY-MM-DDTHH:mm:ss[Z]'),
             units: reg.units,
             status: 1,
             description: reg.note || '',
