@@ -554,7 +554,6 @@ const hasSeenNews = ref(localStorage.getItem('hasSeenNews-02-20-2026') === 'true
 
 const isSidebarHovered = ref(false)
 const isSidebarPinned = ref(employeeStore.getIsSidebarPinned)
-console.log('isSidebarPinned', employeeStore.getIsSidebarPinned)
 const isSidebarExpanded = computed(() => isSidebarPinned.value || isSidebarHovered.value)
 
 function setIsSidebarPinned() {
