@@ -781,7 +781,6 @@ async function loadAndMatchEmployees() {
     // Fetch ALL employees for the selected department, bypassing parent pagination
     const res = await dutyScheduleService.getDutySchedules({
         department: state.selectedZenegyDepartment,
-        page: 1,
         page_length: 9999,
     })
     const scheduleEmployees = res?.data || []
@@ -997,8 +996,8 @@ async function fetchAndBuildShiftTypes() {
         const endDate = dateRange[1]
 
         const weekStarts: string[] = []
-        const cursor = moment(startDate).startOf('isoWeek')
-        const rangeEnd = moment(endDate)
+        const cursor = moment(startDate, 'DD/MM/YYYY').startOf('isoWeek')
+        const rangeEnd = moment(endDate, 'DD/MM/YYYY')
         while (cursor.isSameOrBefore(rangeEnd)) {
             weekStarts.push(cursor.format('YYYY-MM-DD'))
             cursor.add(1, 'week')
@@ -1006,8 +1005,8 @@ async function fetchAndBuildShiftTypes() {
 
         const selectedEmployeeUuids = new Set(selectedEmployees.map(e => e.uuid))
         const employeeUidMap = new Map(selectedEmployees.map(e => [e.uuid, e.matchedZenegyUserUid]))
-        const startMoment = moment(startDate)
-        const endMoment = moment(endDate)
+        const startMoment = moment(startDate, 'DD/MM/YYYY')
+        const endMoment = moment(endDate, 'DD/MM/YYYY')
 
         const allScheduleData: any[] = []
         for (const weekStart of weekStarts) {
@@ -1198,8 +1197,8 @@ async function fetchAndBuildShiftTypes() {
 
 function buildRegistrationsPreview() {
     const dateRange = state.syncDateRange
-    const startMoment = moment(dateRange[0])
-    const endMoment = moment(dateRange[1])
+    const startMoment = moment(dateRange[0], 'DD/MM/YYYY')
+    const endMoment = moment(dateRange[1], 'DD/MM/YYYY')
     const selectedEmployees = state.scheduleEmployees.filter(e => e.selected && e.matchedZenegyUserUid)
     const selectedEmployeeUuids = new Set(selectedEmployees.map(e => e.uuid))
     const employeeUidMap = new Map(selectedEmployees.map(e => [e.uuid, e.matchedZenegyUserUid]))
@@ -1328,8 +1327,8 @@ async function executeSyncToZenegy() {
     state.isSyncing = true
 
     const dateRange = state.syncDateRange
-    const periodFrom = moment.utc(dateRange[0]).startOf('day').format('YYYY-MM-DDTHH:mm:ss[Z]')
-    const periodTo = moment.utc(dateRange[1]).endOf('day').format('YYYY-MM-DDTHH:mm:ss[Z]')
+    const periodFrom = moment.utc(dateRange[0], 'DD/MM/YYYY').startOf('day').format('YYYY-MM-DDTHH:mm:ss[Z]')
+    const periodTo = moment.utc(dateRange[1], 'DD/MM/YYYY').endOf('day').format('YYYY-MM-DDTHH:mm:ss[Z]')
 
     const hoursByEmployee = new Map<string, { name: string; regs: any[] }>()
     for (const reg of state.registrationsPreview) {
