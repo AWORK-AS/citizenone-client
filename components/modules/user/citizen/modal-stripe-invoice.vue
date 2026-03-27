@@ -9,48 +9,45 @@
                         <Alert type="success" :text="state?.successMessage"
                             v-if="state.successMessage && state.successMessage.length > 0" />
 
-                        <div class="rounded-lg border border-gray-200 bg-gray-50 p-4 mb-4">
+                        <!-- Stripe Connect Banner -->
+                        <div class="rounded-lg border border-amber-200 bg-amber-50 p-4 mb-5">
                             <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-3">
-                                <div>
-                                    <p class="text-sm font-semibold text-gray-900">Stripe Connect</p>
-                                    <p class="text-xs text-gray-600 mt-1" v-if="state.connect.isLoading">
-                                        Checking your Stripe Connect status...
-                                    </p>
-                                    <p class="text-xs text-green-700 mt-1" v-else-if="state.connect.onboarded">
-                                        Connected and ready. Invoice payments are collected on your connected Stripe account.
-                                    </p>
-                                    <p class="text-xs text-amber-700 mt-1" v-else>
-                                        Connect your Stripe account so your customers pay you directly.
-                                    </p>
+                                <div class="flex items-start gap-2">
+                                    <Icon name="ph:warning-circle" class="h-5 w-5 text-amber-500 mt-0.5 shrink-0" />
+                                    <div>
+                                        <p class="text-sm font-semibold text-gray-900">Stripe Connect</p>
+                                        <p class="text-xs text-gray-500 mt-0.5" v-if="state.connect.isLoading">
+                                            Tjekker din Stripe Connect status...
+                                        </p>
+                                        <p class="text-xs text-green-700 mt-0.5" v-else-if="state.connect.onboarded">
+                                            Forbundet og klar. Betalinger modtages på
+                                            <span class="font-medium">{{ state.connect.businessName || state.connect.email || state.connect.accountId }}</span>.
+                                        </p>
+                                        <p class="text-xs text-amber-700 mt-0.5" v-else>
+                                            Tilslut din Stripe-konto så dine kunder kan betale dig direkte.
+                                        </p>
+                                    </div>
                                 </div>
-
-                                <div class="flex flex-wrap gap-2">
-                                    <FormButton
-                                        type="button"
-                                        buttonStyle="action"
-                                        class="rounded-md"
-                                        @click="refreshConnectStatus"
-                                        :disabled="state.connect.isLoading"
-                                    >
-                                        Refresh Status
-                                    </FormButton>
-
-                                    <FormButton
-                                        type="button"
-                                        buttonStyle="primary"
-                                        class="rounded-md"
+                                <div class="flex flex-wrap gap-2 shrink-0">
+                                    <button type="button"
+                                        class="flex items-center px-3 py-1.5 text-sm font-medium bg-white border border-gray-300 text-gray-700 rounded-md hover:bg-gray-50"
+                                        @click="refreshConnectStatus" :disabled="state.connect.isLoading">
+                                        Opdater status
+                                    </button>
+                                    <FormButton type="button" buttonStyle="primary" class="rounded-md !py-1.5 !px-3"
                                         @click="state.connect.onboarded ? openConnectDashboard() : startConnectOnboarding()"
-                                        :disabled="state.connect.isStartingOnboarding || state.connect.isOpeningDashboard"
-                                    >
-                                        {{ state.connect.onboarded ? 'Open Stripe Dashboard' : 'Connect Stripe Account' }}
+                                        :disabled="state.connect.isStartingOnboarding || state.connect.isOpeningDashboard">
+                                        {{ state.connect.onboarded ? 'Åben Stripe Dashboard' : 'Tilslut Stripe-konto' }}
                                     </FormButton>
                                 </div>
                             </div>
                         </div>
-                        
-                        <div class="space-y-3">
-                            <!-- Citizen Selector -->
-                            <div class="space-y-1">
+
+                        <!-- Kundeoplysninger -->
+                        <div class="border border-gray-200 rounded-xl p-5 mb-4">
+                            <h3 class="text-base font-semibold text-primary mb-4">Kundeoplysninger</h3>
+
+                            <div class="space-y-1 mb-3">
                                 <FormLabel for="citizen_select" :label="$t('stripeInvoices.form.selectCustomer')" />
                                 <Multiselect
                                     id="citizen_select"
@@ -66,13 +63,9 @@
                                     :no-options-text="$t('theListIsEmpty')"
                                     :no-results-text="$t('noResultFound')"
                                 />
-                                <p class="text-xs text-gray-500" v-if="!props.citizens?.length">
-                                    Customers are currently unavailable. You can enter name and email manually.
-                                </p>
                             </div>
 
-                            <!-- Customer Details -->
-                            <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-3 mb-3">
                                 <div class="space-y-1">
                                     <FormLabel for="customer_name" :label="$t('stripeInvoices.form.customerName')" />
                                     <FormTextField id="customer_name" name="customer_name"
@@ -91,99 +84,119 @@
                                 </div>
                             </div>
 
-                            <!-- Invoice Description -->
                             <div class="space-y-1">
                                 <FormLabel for="invoice_description" label="Beskrivelse af køb" />
                                 <FormTextField id="invoice_description" name="invoice_description"
                                     placeholder="Beskrivelse af køb"
                                     v-model="state.formInvoice.invoice_description" />
                             </div>
+                        </div>
 
-                            <!-- Invoice Items -->
-                            <div class="space-y-3">
-                                <p class="font-medium">
-                                    {{ $t('stripeInvoices.invoiceItems') }}
-                                </p>
-                                <div class="space-y-6">
-                                    <div v-for="(item, itemIndex) in state.formInvoice.items"
-                                        :key="itemIndex" class="relative">
-                                        <div class="grid grid-cols-1 md:grid-cols-3 gap-3 bg-gray-50 rounded-lg px-4 py-6">
-                                            <div class="space-y-1">
-                                                <FormLabel :for="`description_${itemIndex}`"
-                                                    :label="$t('stripeInvoices.form.description')" />
-                                                <FormTextField :id="`description_${itemIndex}`"
-                                                    :name="`description_${itemIndex}`"
-                                                    :placeholder="$t('stripeInvoices.form.description')"
-                                                    v-model="item.description" />
-                                            </div>
-                                            <div class="space-y-1">
-                                                <FormLabel :for="`quantity_${itemIndex}`"
-                                                    :label="$t('stripeInvoices.form.quantity')" />
-                                                <FormTextField :id="`quantity_${itemIndex}`"
-                                                    :name="`quantity_${itemIndex}`"
-                                                    type="number"
-                                                    :placeholder="$t('stripeInvoices.form.quantity')"
-                                                    v-model="item.quantity" />
-                                            </div>
-                                            <div class="space-y-1">
-                                                <FormLabel :for="`price_${itemIndex}`"
-                                                    :label="$t('stripeInvoices.form.unitPrice')" />
-                                                <FormTextField :id="`price_${itemIndex}`"
-                                                    :name="`price_${itemIndex}`"
-                                                    type="number"
-                                                    step="0.01"
-                                                    :placeholder="$t('stripeInvoices.form.unitPrice')"
-                                                    v-model="item.unit_amount" />
-                                            </div>
-                                        </div>
-                                        <button type="button"
-                                            class="absolute -top-3 -right-3 bg-red-700 hover:bg-red-600 rounded-full w-8 h-8 flex items-center justify-center"
+                        <!-- Faktura varer -->
+                        <div class="border border-gray-200 rounded-xl p-5 mb-4">
+                            <div class="flex justify-between items-center mb-4">
+                                <h3 class="text-base font-semibold text-primary">Faktura varer</h3>
+                                <button type="button"
+                                    class="flex items-center gap-1.5 px-3 py-1.5 text-sm font-medium text-white bg-primary rounded-lg hover:bg-primary-800"
+                                    @click="addInvoiceItem()">
+                                    <Icon name="ph:plus" class="h-4 w-4" />
+                                    Tilføj vare
+                                </button>
+                            </div>
+
+                            <!-- Column headers -->
+                            <div class="grid grid-cols-12 gap-2 mb-1 px-1">
+                                <p class="col-span-5 text-xs text-gray-500">Beskrivelse</p>
+                                <p class="col-span-2 text-xs text-gray-500">Antal</p>
+                                <p class="col-span-3 text-xs text-gray-500">Enhedspris</p>
+                                <p class="col-span-2 text-xs text-gray-500 text-right">Beløb</p>
+                            </div>
+
+                            <!-- Items -->
+                            <div class="space-y-2">
+                                <div v-for="(item, itemIndex) in state.formInvoice.items" :key="itemIndex"
+                                    class="grid grid-cols-12 gap-2 items-center">
+                                    <div class="col-span-5">
+                                        <FormTextField :id="`description_${itemIndex}`" :name="`description_${itemIndex}`"
+                                            :placeholder="$t('stripeInvoices.form.description')"
+                                            v-model="item.description" />
+                                    </div>
+                                    <div class="col-span-2">
+                                        <FormTextField :id="`quantity_${itemIndex}`" :name="`quantity_${itemIndex}`"
+                                            type="number" placeholder="1"
+                                            v-model="item.quantity" />
+                                    </div>
+                                    <div class="col-span-3">
+                                        <FormTextField :id="`price_${itemIndex}`" :name="`price_${itemIndex}`"
+                                            type="number" step="0.01" placeholder="0" maxlength="7"
+                                            :max="9999999" v-model="item.unit_amount" />
+                                    </div>
+                                    <div class="col-span-1 text-sm text-right text-gray-700">
+                                        {{ (Number(item.quantity) * Number(item.unit_amount)).toFixed(2) }}
+                                    </div>
+                                    <div class="col-span-1 flex justify-end">
+                                        <button type="button" class="text-gray-400 hover:text-red-500"
                                             @click="removeInvoiceItem(itemIndex)"
                                             v-if="state.formInvoice.items?.length !== 1">
-                                            <Icon name="ph:trash" class="h-4 w-4 text-white" aria-hidden="true" />
-                                        </button>
-                                        <button type="button"
-                                            class="absolute -bottom-4 inset-x-1/2 shadow-md bg-secondary hover:bg-secondary-800 rounded-full w-8 h-8 flex items-center justify-center"
-                                            @click="addInvoiceItem()">
-                                            <Icon name="ph:plus" class="h-4 w-4 text-white" aria-hidden="true" />
+                                            <Icon name="ph:trash" class="h-4 w-4" />
                                         </button>
                                     </div>
                                 </div>
                             </div>
 
-                            <!-- Email Recipient for Sending -->
-                            <div class="space-y-1 pt-3 border-t" v-if="state.createdInvoiceId">
-                                <FormLabel for="recipient_email" :label="$t('stripeInvoices.form.sendToEmail')" />
-                                <FormTextField id="recipient_email" name="recipient_email" type="email"
-                                    :placeholder="$t('stripeInvoices.form.sendToEmailPlaceholder')"
-                                    v-model="state.recipientEmail" />
-                                <p class="text-xs text-gray-500">{{ $t('stripeInvoices.form.sendToEmailHint') }}</p>
+                            <!-- Total -->
+                            <div class="mt-4 pt-3 border-t border-gray-100 flex flex-col items-end gap-1">
+                                <div class="flex justify-end items-center gap-3">
+                                    <span class="text-sm text-gray-500">Subtotal (ekskl. moms):</span>
+                                    <span class="text-sm text-gray-700 w-28 text-right">{{ state.formInvoice.items.reduce((sum, item) => sum + Number(item.quantity) * Number(item.unit_amount), 0).toFixed(2) }} DKK</span>
+                                </div>
+                                <div class="flex justify-end items-center gap-3">
+                                    <span class="text-sm text-gray-500">Moms 25%:</span>
+                                    <span class="text-sm text-gray-700 w-28 text-right">{{ (state.formInvoice.items.reduce((sum, item) => sum + Number(item.quantity) * Number(item.unit_amount), 0) * 0.25).toFixed(2) }} DKK</span>
+                                </div>
+                                <div class="flex justify-end items-center gap-3 pt-2 border-t border-gray-200">
+                                    <span class="text-sm font-semibold text-gray-700">Total inkl. moms:</span>
+                                    <span class="text-xl font-bold text-primary w-28 text-right">{{ (state.formInvoice.items.reduce((sum, item) => sum + Number(item.quantity) * Number(item.unit_amount), 0) * 1.25).toFixed(2) }} DKK</span>
+                                </div>
                             </div>
                         </div>
 
-                        <div class="mt-6">
-                            <div class="mb-3" v-if="!state.createdInvoiceId">
-                                <FormButton type="button" buttonStyle="primary" class="rounded-md w-full"
-                                    @click="createInvoice()" :disabled="state.isCreating">
-                                    {{ state.isCreating ? $t('stripeInvoices.creating') : $t('stripeInvoices.createInvoice') }}
-                                </FormButton>
-                            </div>
-                            <div class="grid grid-cols-1 md:grid-cols-3 gap-3">
-                                <FormButton type="button" buttonStyle="action" class="rounded-md" @click="goToAllInvoices()">
-                                    Gå til alle fakturaer
-                                </FormButton>
-                                <FormButton type="button" buttonStyle="action" class="rounded-md"
+                        <!-- Email recipient (shown after invoice is created) -->
+                        <div class="border border-gray-200 rounded-xl p-5 mb-4" v-if="state.createdInvoiceId">
+                            <FormLabel for="recipient_email" :label="$t('stripeInvoices.form.sendToEmail')" />
+                            <FormTextField id="recipient_email" name="recipient_email" type="email"
+                                :placeholder="$t('stripeInvoices.form.sendToEmailPlaceholder')"
+                                v-model="state.recipientEmail" class="mt-1" />
+                            <p class="text-xs text-gray-500 mt-1">{{ $t('stripeInvoices.form.sendToEmailHint') }}</p>
+                        </div>
+
+                        <!-- Footer actions -->
+                        <div class="flex justify-between items-center pt-4 border-t border-gray-100 pr-4">
+                            <button type="button"
+                                class="flex items-center px-3 py-1.5 text-sm font-medium bg-white border border-gray-200 text-gray-700 rounded-lg hover:bg-gray-50"
+                                @click="goToAllInvoices()">
+                                Gå til alle fakturaer
+                            </button>
+                            <div class="flex gap-2">
+                                <button type="button"
+                                    class="flex items-center gap-1.5 px-3 py-1.5 text-sm font-medium bg-white border border-gray-200 text-gray-700 rounded-lg hover:bg-gray-50 disabled:opacity-50"
                                     @click="downloadInvoice()" :disabled="state.isDownloading || !state.createdInvoiceId">
                                     <Icon name="ph:file-arrow-down" class="h-4 w-4" aria-hidden="true" />
                                     {{ state.isDownloading ? $t('stripeInvoices.downloading') : $t('stripeInvoices.download') }}
-                                </FormButton>
-                                <FormButton type="submit" buttonStyle="primary" class="rounded-md"
+                                </button>
+                                <button type="submit"
+                                    class="flex items-center gap-1.5 px-3 py-1.5 text-sm font-medium bg-white border border-gray-200 text-gray-700 rounded-lg hover:bg-gray-50 disabled:opacity-50"
                                     :disabled="state.isSending || !state.createdInvoiceId || !state.recipientEmail">
                                     <Icon name="ph:paper-plane-tilt" class="h-4 w-4" aria-hidden="true" />
                                     {{ state.isSending ? $t('stripeInvoices.sending') : $t('stripeInvoices.sendEmail') }}
+                                </button>
+                                <FormButton type="button" buttonStyle="primary" class="rounded-lg !py-1.5 !px-3"
+                                    @click="createInvoice()" :disabled="state.isCreating || !!state.createdInvoiceId">
+                                    {{ state.isCreating ? $t('stripeInvoices.creating') : $t('stripeInvoices.createInvoice') }}
                                 </FormButton>
                             </div>
                         </div>
+
                     </form>
                 </LoadingSpinner>
             </template>
@@ -225,6 +238,7 @@ const state = reactive({
     error: {} as Error,
     successMessage: '',
     selectedCitizenUuid: '',
+    stripeCustomers: [] as Array<{id: string, name: string, email: string}>,
     formInvoice: {
         customer_name: '',
         customer_email: '',
@@ -249,6 +263,8 @@ const state = reactive({
         chargesEnabled: false,
         payoutsEnabled: false,
         accountId: null as string | null,
+        email: null as string | null,
+        businessName: null as string | null,
         isStartingOnboarding: false,
         isOpeningDashboard: false,
     },
@@ -271,10 +287,18 @@ const rules = computed(() => {
 const v$ = useVuelidate(rules, state)
 
 const citizenOptions = computed(() => {
-    return (props.citizens || []).map((citizen: any) => ({
-        value: citizen.uuid,
-        label: `${citizen.firstname} ${citizen.lastname}`,
+    const stripeOptions = state.stripeCustomers.map((customer: any) => ({
+        value: customer.id,
+        label: customer.name ? `${customer.name} – ${customer.email}` : customer.email,
     }))
+    const stripeIds = new Set(stripeOptions.map((o: any) => o.value))
+    const platformOptions = (props.citizens || [])
+        .filter((citizen: any) => !stripeIds.has(citizen.uuid))
+        .map((citizen: any) => ({
+            value: citizen.uuid,
+            label: `${citizen.firstname} ${citizen.lastname}`,
+        }))
+    return [...stripeOptions, ...platformOptions]
 })
 
 watch(() => props.isModalOpen, async (isOpen) => {
@@ -282,6 +306,7 @@ watch(() => props.isModalOpen, async (isOpen) => {
         resetForm()
         await fetchConnectStatus()
         applyConnectQueryFeedback()
+        fetchStripeCustomers()
     }
 })
 
@@ -290,11 +315,32 @@ watch(() => state.selectedCitizenUuid, () => {
 })
 
 function handleCitizenChange() {
-    const selectedCitizen = props.citizens.find((c: any) => c.uuid === state.selectedCitizenUuid)
-    if (selectedCitizen) {
-        state.formInvoice.customer_name = `${selectedCitizen.firstname} ${selectedCitizen.lastname}`
-        state.formInvoice.customer_email = selectedCitizen.email || ''
-        state.recipientEmail = selectedCitizen.email || ''
+    const val = state.selectedCitizenUuid
+    if (!val) return
+
+    if (val.startsWith('cus_')) {
+        const stripeCustomer = state.stripeCustomers.find((c: any) => c.id === val)
+        if (stripeCustomer) {
+            state.formInvoice.customer_name = stripeCustomer.name || ''
+            state.formInvoice.customer_email = stripeCustomer.email || ''
+            state.recipientEmail = stripeCustomer.email || ''
+        }
+    } else {
+        const selectedCitizen = props.citizens.find((c: any) => c.uuid === val)
+        if (selectedCitizen) {
+            state.formInvoice.customer_name = `${selectedCitizen.firstname} ${selectedCitizen.lastname}`
+            state.formInvoice.customer_email = selectedCitizen.email || ''
+            state.recipientEmail = selectedCitizen.email || ''
+        }
+    }
+}
+
+async function fetchStripeCustomers() {
+    try {
+        const response = await stripeApi.getStripeCustomers()
+        state.stripeCustomers = response?.data || []
+    } catch {
+        state.stripeCustomers = []
     }
 }
 
@@ -353,6 +399,8 @@ async function fetchConnectStatus() {
         state.connect.chargesEnabled = Boolean(status?.charges_enabled)
         state.connect.payoutsEnabled = Boolean(status?.payouts_enabled)
         state.connect.accountId = status?.account_id ?? null
+        state.connect.email = status?.email ?? null
+        state.connect.businessName = status?.business_name ?? null
     } catch (error: any) {
         state.connect.connected = false
         state.connect.onboarded = false

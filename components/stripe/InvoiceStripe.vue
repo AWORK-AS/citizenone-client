@@ -1,5 +1,5 @@
 <template>
-  <div class="invoice-stripe-container">
+  <div class="px-4 py-6">
     <!-- Loading State -->
     <div v-if="loading" class="loading-state">
       <div class="spinner"></div>
@@ -13,52 +13,134 @@
     </div>
 
     <!-- Invoice Content -->
-    <div v-if="!loading && !error && invoiceDetails" class="invoice-content">
-      <h1>{{ isReceipt(invoiceDetails.status) ? 'Kvittering' : 'Faktura' }} nummer: {{ invoiceDetails.invoiceNumber || invoiceDetails.id }}</h1>
-      <p>Kunde: {{ invoiceDetails.customerName }}</p>
-      <p>E-mail: {{ invoiceDetails.customerEmail }}</p>
-      
-      <!-- Invoice Description / Purchase Description -->
-      <p v-if="invoiceDetails.description"><strong>Beskrivelse:</strong> {{ invoiceDetails.description }}</p>
-      
-      <p>Status: {{ formatStatus(invoiceDetails.status) }}</p>
-      <p>Total: {{ formatCurrency(invoiceDetails.amount) }} {{ invoiceDetails.currency }}</p>
+    <div v-if="!loading && !error && invoiceDetails">
 
-      <h3>Varer</h3>
-      <table>
-        <thead>
-          <tr>
-            <th>Beskrivelse</th>
-            <th>Antal</th>
-            <th>Enhedspris</th>
-            <th>Beløb</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr v-for="item in invoiceDetails.items" :key="item.id">
-            <td>{{ cleanInvoiceDescription(item.description) }}</td>
-            <td>{{ item.quantity }}</td>
-            <td>{{ formatCurrency(item.unitPrice / 100) }}</td>
-            <td>{{ formatCurrency(item.amount / 100) }}</td>
-          </tr>
-        </tbody>
-      </table>
+      <!-- Back link -->
+      <button @click="goBack" class="flex items-center gap-1.5 text-sm text-gray-500 hover:text-gray-800 mb-4">
+        <Icon name="ph:arrow-left" class="h-4 w-4" />
+        Tilbage til Kundefakturaer
+      </button>
 
-      <!-- Action buttons-->
-      <div class="invoice-actions">
-        <div class="actions-left">
-          <button @click="goBack" class="back-btn">
-            Tilbage
-          </button>
+      <!-- Header -->
+      <div class="mb-6">
+        <h1 class="text-2xl font-bold text-gray-900">
+          {{ isReceipt(invoiceDetails.status) ? 'Kvittering' : 'Faktura' }} {{ invoiceDetails.invoiceNumber || invoiceDetails.id }}
+        </h1>
+        <p class="text-sm text-gray-500 mt-1" v-if="rawStripeInvoice?.created_at">
+          {{ new Date(rawStripeInvoice.created_at).toLocaleDateString('da-DK', { day: 'numeric', month: 'long', year: 'numeric', hour: '2-digit', minute: '2-digit' }) }}
+        </p>
+      </div>
+
+      <!-- Two-column cards -->
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+
+        <!-- Kundeoplysninger -->
+        <div class="bg-white border border-gray-200 rounded-xl p-6">
+          <h2 class="text-base font-semibold text-primary mb-4">Kundeoplysninger</h2>
+          <div class="space-y-3">
+            <div>
+              <p class="text-xs text-gray-400 mb-0.5">Kunde</p>
+              <p class="font-semibold text-gray-900">{{ invoiceDetails.customerName || '---' }}</p>
+            </div>
+            <div>
+              <p class="text-xs text-gray-400 mb-0.5">E-mail</p>
+              <p class="text-gray-700">{{ invoiceDetails.customerEmail || '---' }}</p>
+            </div>
+            <div v-if="invoiceDetails.description">
+              <p class="text-xs text-gray-400 mb-0.5">Beskrivelse</p>
+              <p class="text-gray-700">{{ invoiceDetails.description }}</p>
+            </div>
+          </div>
         </div>
-        
-        <div class="actions-right">
-          <button @click="downloadPdf" class="pdf-btn" :disabled="loadingPdf">
-            <span v-if="!loadingPdf">Download PDF</span>
-            <span v-else>Downloader...</span>
-          </button>
+
+        <!-- Fakturadetaljer -->
+        <div class="bg-white border border-gray-200 rounded-xl p-6">
+          <h2 class="text-base font-semibold text-primary mb-4">Fakturadetaljer</h2>
+          <div class="space-y-3">
+            <div>
+              <p class="text-xs text-gray-400 mb-0.5">Fakturanummer</p>
+              <p class="font-semibold text-gray-900">{{ invoiceDetails.invoiceNumber }}</p>
+            </div>
+            <div class="border-t border-gray-100 pt-3">
+              <p class="text-xs text-gray-400 mb-1">Status</p>
+              <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium" :class="statusBadgeClass(invoiceDetails.status)">
+                {{ formatStatus(invoiceDetails.status) }}
+              </span>
+            </div>
+            <div class="border-t border-gray-100 pt-3">
+              <p class="text-xs text-gray-400 mb-1">Total beløb inkl. moms</p>
+              <p class="text-2xl font-bold text-gray-900">{{ formatCurrency(invoiceTotalInclTax) }} {{ invoiceDetails.currency }}</p>
+            </div>
+          </div>
         </div>
       </div>
+
+      <!-- Fakturalinjer -->
+      <div class="bg-white border border-gray-200 rounded-xl mb-6">
+        <div class="px-6 py-4 border-b border-gray-100">
+          <h2 class="text-base font-semibold text-primary">Fakturalinjer</h2>
+        </div>
+        <div class="overflow-x-auto">
+          <table class="w-full">
+            <thead>
+              <tr class="bg-tertiary text-white">
+                <th class="px-6 py-3 text-left text-sm font-semibold">Beskrivelse</th>
+                <th class="px-6 py-3 text-center text-sm font-semibold">Antal</th>
+                <th class="px-6 py-3 text-right text-sm font-semibold">Enhedspris</th>
+                <th class="px-6 py-3 text-right text-sm font-semibold">Beløb</th>
+              </tr>
+            </thead>
+            <tbody class="divide-y divide-gray-100">
+              <tr v-for="item in invoiceDetails.items" :key="item.id" class="hover:bg-gray-50">
+                <td class="px-6 py-4 text-sm text-gray-900">{{ cleanInvoiceDescription(item.description) }}</td>
+                <td class="px-6 py-4 text-sm text-gray-600 text-center">{{ item.quantity }}</td>
+                <td class="px-6 py-4 text-sm text-gray-900 text-right">{{ formatCurrency(item.unitPrice / 100) }}</td>
+                <td class="px-6 py-4 text-sm text-gray-900 text-right">{{ formatCurrency(item.amount / 100) }}</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <!-- Totals summary -->
+        <div class="px-6 py-4 border-t border-gray-100 space-y-2">
+          <div class="flex justify-end gap-4">
+            <span class="text-sm text-gray-500 w-36 text-right">Subtotal (ekskl. moms):</span>
+            <span class="text-sm text-gray-900 w-32 text-right">{{ formatCurrency(itemsSubtotal) }} {{ invoiceDetails.currency }}</span>
+          </div>
+          <div class="flex justify-end gap-4">
+            <span class="text-sm text-gray-500 w-36 text-right">Moms 25%:</span>
+            <span class="text-sm text-gray-900 w-32 text-right">{{ formatCurrency(invoiceTax) }} {{ invoiceDetails.currency }}</span>
+          </div>
+          <div class="flex justify-end gap-4 border-t border-gray-200 pt-2">
+            <span class="text-sm font-bold text-gray-900 w-36 text-right">Total inkl. moms:</span>
+            <span class="text-sm font-bold text-gray-900 w-32 text-right">{{ formatCurrency(invoiceTotalInclTax) }} {{ invoiceDetails.currency }}</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Actions -->
+      <div class="flex justify-between items-center">
+        <button @click="goBack"
+          class="px-4 py-2 text-sm font-medium text-gray-700 bg-white border border-gray-200 rounded-lg hover:bg-gray-50">
+          Tilbage
+        </button>
+        <div class="flex gap-3">
+        <button @click="sendInvoice"
+          class="flex items-center gap-2 px-4 py-2 text-sm font-semibold text-white bg-tertiary rounded-lg hover:bg-tertiary-800 disabled:opacity-60"
+          :disabled="loadingSend">
+          <Icon name="ph:envelope" class="h-4 w-4" />
+          <span v-if="!loadingSend">Send faktura</span>
+          <span v-else>Sender...</span>
+        </button>
+        <button @click="downloadPdf"
+          class="flex items-center gap-2 px-4 py-2 text-sm font-semibold text-white bg-tertiary rounded-lg hover:bg-tertiary-800 disabled:opacity-60"
+          :disabled="loadingPdf">
+          <Icon name="ph:download" class="h-4 w-4" />
+          <span v-if="!loadingPdf">Download PDF</span>
+          <span v-else>Downloader...</span>
+        </button>
+        </div>
+      </div>
+
     </div>
   </div>
 </template>
@@ -120,6 +202,7 @@ const loading = ref(true);
 const error = ref('');
 const loadingStripe = ref(false);
 const loadingPdf = ref(false);
+const loadingSend = ref(false);
 const rawStripeInvoice = ref<any>(null)
 
 function resolveConnectedAccountIdFromInvoiceData(data: any): string | null {
@@ -329,21 +412,11 @@ function resolveInvoiceTotalInMajor(rawTotal: number, itemsTotalMinor: number): 
 
 function looksLikeTestInvoice(items: InvoiceItem[], totalInMajor: number): boolean {
   if (items.length === 0) return false
-  
-  // Check if all items look like test data (test 1, test 2, etc.)
-  const allTestData = items.every((item) => /^test\s*\d+$/i.test(item.description?.trim() || ''))
-  if (allTestData) return true
-  
-  // Also check if the items don't add up to the expected total
-  const itemsTotalMajor = items.reduce((sum: number, item: InvoiceItem) => {
-    const itemAmount = item.amount || 0
-    // Convert to major if it looks like minor (> 1000)
-    return sum + (itemAmount >= 1000 ? itemAmount / 100 : itemAmount)
-  }, 0)
-  
-  // If items total is very different from actual total, it's wrong
-  const diff = Math.abs(itemsTotalMajor - totalInMajor)
-  return diff > 1 // Allow 1 DKK rounding difference
+
+  // Only replace items when ALL descriptions match the test data pattern (e.g. "test 1", "test 2").
+  // Do not compare amounts — the items subtotal is pre-tax while totalInMajor includes VAT,
+  // so the difference will always exceed 1 DKK on any taxed invoice.
+  return items.every((item) => /^test\s*\d+$/i.test(item.description?.trim() || ''))
 }
 
 function extractMetadataFromInvoiceData(data: any): any {
@@ -500,6 +573,36 @@ function retryLoadInvoice() {
   }
 }
 
+// Layout helpers
+// Payment intents (App purchases) carry the tax-inclusive total as the item amount.
+// Stripe invoices carry pre-tax amounts. Divide out the 25% for payment intents so
+// the computed tax and total rows are always correct.
+const isPriceInclusiveTax = computed(() => rawStripeInvoice.value?.type === 'payment_intent')
+
+const itemsSubtotal = computed(() => {
+  if (!invoiceDetails.value?.items?.length) return invoiceDetails.value?.amount || 0
+  const raw = invoiceDetails.value.items.reduce((sum: number, item: any) => sum + (item.amount / 100), 0)
+  return isPriceInclusiveTax.value ? raw / 1.25 : raw
+})
+
+const invoiceTax = computed(() => {
+  return itemsSubtotal.value * 0.25
+})
+
+const invoiceTotalInclTax = computed(() => {
+  return itemsSubtotal.value * 1.25
+})
+
+function statusBadgeClass(status: string): string {
+  const s = (status || '').toLowerCase()
+  if (['paid', 'succeeded', 'complete', 'completed'].includes(s)) return 'bg-green-100 text-green-800'
+  if (['open'].includes(s)) return 'bg-yellow-100 text-yellow-800'
+  if (['dispute_lost', 'refunded'].includes(s)) return 'bg-red-100 text-red-800'
+  if (['disputed', 'refunded_partial', 'partially_refunded'].includes(s)) return 'bg-orange-100 text-orange-800'
+  if (['void', 'uncollectible'].includes(s)) return 'bg-gray-100 text-gray-600'
+  return 'bg-gray-100 text-gray-700'
+}
+
 // Formatting helpers
 function formatCurrency(amount: number): string {
   return new Intl.NumberFormat('da-DK', {
@@ -523,6 +626,11 @@ function formatStatus(status: string): string {
     'pending': 'Afventende',
     'processing': 'Behandles',
     'requires_payment_method': 'Kræver betalingsmetode',
+    'disputed': 'Tvist',
+    'dispute_lost': 'Tvist tabt',
+    'refunded': 'Refunderet',
+    'refunded_partial': 'Delvist refunderet',
+    'partially_refunded': 'Delvist refunderet',
   };
   
   const normalized = status.toLowerCase().trim();
@@ -673,6 +781,24 @@ async function findMatchingClientInvoiceUuid(stripeData: any): Promise<string> {
   return ''
 }
 
+async function sendInvoice() {
+  const email = invoiceDetails.value?.customerEmail
+  const id = invoiceDetails.value?.id
+  if (!email || !id) {
+    alert('Kunde-e-mail mangler – kan ikke sende faktura.')
+    return
+  }
+  loadingSend.value = true
+  try {
+    await stripeApi.sendStripeInvoice(id, { recipient_email: email })
+    successAlert('Faktura sendt', `Faktura sendt til ${email}`)
+  } catch (err) {
+    alert('Kunne ikke sende faktura. Prøv igen.')
+  } finally {
+    loadingSend.value = false
+  }
+}
+
 function goBack() {
   navigateTo('/invoices');
 }
@@ -680,11 +806,6 @@ function goBack() {
 </script>
 
 <style scoped>
-.invoice-stripe-container {
-  max-width: 900px;
-  margin: 0 auto;
-  padding: 24px;
-}
 .loading-state {
   text-align: center;
   padding: 60px 0;
@@ -709,6 +830,10 @@ function goBack() {
   border: 1px solid #fecaca;
   padding: 16px;
   border-radius: 6px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
 }
 .retry-btn {
   margin-left: 12px;
@@ -718,91 +843,5 @@ function goBack() {
   border: none;
   border-radius: 4px;
   cursor: pointer;
-}
-.invoice-content table {
-  width: 100%;
-  border-collapse: collapse;
-  margin-top: 16px;
-}
-.invoice-content th, .invoice-content td {
-  border: 1px solid #e5e7eb;
-  padding: 8px;
-  text-align: left;
-}
-.invoice-actions {
-  margin-top: 24px;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  max-width: 100%;
-  gap: 16px;
-  padding: 0;
-  flex-wrap: wrap;
-}
-
-.actions-left, .actions-right {
-  display: flex;
-  gap: 16px;
-  flex-wrap: wrap;
-  align-items: center;
-}
-
-.back-btn {
-  padding: 10px 20px;
-  border: none;
-  border-radius: 6px;
-  font-size: 14px;
-  font-weight: 600;
-  cursor: pointer;
-  transition: all 0.2s;
-  min-width: 120px;
-  margin-bottom: 8px;
-  background-color: #f3f4f6;
-  color: #1f2937;
-  border: 1px solid #d1d5db;
-}
-
-.back-btn:hover {
-  background-color: #e5e7eb;
-}
-
-.back-btn:active {
-  transform: scale(0.98);
-}
-
-.stripe-btn, .pdf-btn {
-  padding: 10px 20px;
-  border: none;
-  border-radius: 6px;
-  font-size: 14px;
-  font-weight: 600;
-  cursor: pointer;
-  transition: all 0.2s;
-  min-width: 150px;
-  margin-bottom: 8px;
-}
-.stripe-btn, .pdf-btn {
-  background-color: #f3f4f6;
-  color: #1f2937;
-  border: 1px solid #d1d5db;
-}
-.stripe-btn:hover:not(:disabled), .pdf-btn:hover:not(:disabled) {
-  background-color: #e5e7eb;
-}
-.stripe-btn:disabled, .pdf-btn:disabled {
-  opacity: 0.6;
-  cursor: not-allowed;
-}
-@media (max-width: 600px) {
-  .invoice-actions {
-    flex-direction: column;
-    align-items: stretch;
-  }
-  .actions-left, .actions-right {
-    flex-direction: column;
-  }
-  .stripe-btn, .pdf-btn, .back-btn {
-    width: 100%;
-  }
 }
 </style>

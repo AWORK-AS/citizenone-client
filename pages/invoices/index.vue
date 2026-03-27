@@ -13,44 +13,59 @@
             <template #header>{{ $t('clientInvoices.clientInvoices') }}</template>
 
             <div class="mt-10">
-                <div class="flex justify-end items-center mb-5 gap-3">
-                    <FormButton buttonStyle="secondary" class="rounded-lg" @click="fetchInvoices">
-                        <Icon name="ph:arrow-clockwise" class="h-4 w-4" aria-hidden="true" />
-                        {{ $t('refresh') || 'Refresh' }}
-                    </FormButton>
-                    <FormButton buttonStyle="action" class="rounded-lg"
-                        @click="openStripeInvoiceModal">
-                        <Icon name="ph:receipt" class="h-4 w-4" aria-hidden="true" />
-                        Opret faktura
-                    </FormButton>
-                </div>
                 <div class="space-y-5">
                     <Alert type="danger" :text="state?.error?.message"
                         v-if="state.error?.message && state.error.message.length > 0" />
-                    <form class="flex" @submit.prevent="submitSearch">
-                        <div class="grow relative">
-                            <span class="flex items-center gap-x-1 text-gray-800 absolute left-3 top-3">
-                                <Icon name="ic:search" class="text-primary w-6 h-6" />
-                            </span>
-                            <input
-                                type="text"
-                                name="stripe_invoice_search"
-                                autocomplete="off"
-                                list="stripe-invoice-suggestions"
-                                class="appearance-none block w-full pl-10 h-12 border border-primary placeholder-gray-500 text-gray-900 rounded-tl-md rounded-bl-md focus:outline-none focus:ring-primary-700 focus:border-primary-700 focus:z-10 sm:text-sm"
-                                :placeholder="$t('search')"
-                                v-model="state.searchInput"
-                            />
-                            <datalist id="stripe-invoice-suggestions">
-                                <option v-for="(suggestion, idx) in searchSuggestions" :key="idx" :value="suggestion" />
-                            </datalist>
+                    <div class="flex items-center gap-3 mb-5">
+                        <form class="flex w-1/2" @submit.prevent="submitSearch">
+                            <div class="grow relative">
+                                <span class="flex items-center gap-x-1 text-gray-800 absolute left-3 top-3">
+                                    <Icon name="ic:search" class="text-primary w-6 h-6" />
+                                </span>
+                                <div class="absolute inset-0 pl-10 pr-3 flex items-center pointer-events-none overflow-hidden" aria-hidden="true">
+                                    <span class="text-transparent whitespace-pre sm:text-sm">{{ state.searchInput }}</span><span class="text-gray-400 sm:text-sm">{{ inlineSuggestionRemainder }}</span>
+                                </div>
+                                <input
+                                    type="text"
+                                    name="stripe_invoice_search"
+                                    autocomplete="off"
+                                    class="appearance-none block w-full pl-10 h-12 border border-primary placeholder-gray-500 text-gray-900 bg-transparent rounded-tl-md rounded-bl-md focus:outline-none focus:ring-primary-700 focus:border-primary-700 focus:z-10 sm:text-sm"
+                                    :placeholder="$t('search')"
+                                    v-model="state.searchInput"
+                                    @keydown.tab.prevent="acceptSuggestion"
+                                />
+                            </div>
+                            <button type="submit"
+                                class="bg-primary px-4 py-1.5 border border-primary text-white hover:bg-primary-800 hover:border-primary-800 right-0.5 top-0.5 rounded-tr-md rounded-br-md text-xs">
+                                {{ $t('search') }}
+                            </button>
+                        </form>
+                        <div class="flex items-center gap-3 ml-auto pr-10">
+                            <FormButton
+                                v-if="isSuperadmin && state.connect.onboarded"
+                                type="button"
+                                buttonStyle="primary"
+                                class="rounded-lg !py-1.5 !px-3"
+                                :disabled="state.connect.isWorking"
+                                @click="handleConnectButton"
+                            >
+                                <Icon name="ph:plugs-connected" class="h-4 w-4" aria-hidden="true" />
+                                <span>Stripe Dashboard</span>
+                            </FormButton>
+                            <button type="button"
+                                class="flex items-center gap-1.5 rounded-lg px-3 py-1.5 text-sm bg-white border border-gray-200 text-gray-700 hover:bg-gray-50"
+                                @click="fetchInvoices">
+                                <Icon name="ph:arrow-clockwise" class="h-4 w-4" aria-hidden="true" />
+                                {{ $t('refresh') || 'Opdater' }}
+                            </button>
+                            <FormButton buttonStyle="action" class="rounded-lg !py-1.5 !px-3"
+                                @click="openStripeInvoiceModal">
+                                <Icon name="ph:receipt" class="h-4 w-4" aria-hidden="true" />
+                                {{ $t('stripeInvoices.createInvoice') }}
+                            </FormButton>
                         </div>
-                        <button type="submit"
-                            class="bg-primary px-6 py-1.5 border border-primary text-white hover:bg-primary-800 hover:border-primary-800 right-0.5 top-0.5 rounded-tr-md rounded-br-md text-xs">
-                            {{ $t('search') }}
-                        </button>
-                    </form>
-                    <div class="table-responsive">
+                    </div>
+                    <div class="table-responsive !overflow-auto">
                         <Table :columnHeaders="state.columnHeaders" :data="state.invoices"
                             :isLoading="state.isTableLoading" :sortData="state.sortData" @sort="sort">
                             <template #body v-if="!(state.isTableLoading || (state.invoices?.data?.length === 0))">
@@ -61,8 +76,8 @@
                                         </div>
                                     </td>
                                     <td width="20%">
-                                        <div>
-                                            {{ invoice?.invoice_number }}
+                                        <div class="font-bold">
+                                            {{ invoice?.invoice_number || '⎯⎯⎯' }}
                                         </div>
                                     </td>
                                     <td width="15%">
@@ -72,40 +87,36 @@
                                     </td>
                                     <td width="20%">
                                         <div>
-                                            <p>
-                                                {{ invoice?.bill_to_name }}
-                                            </p>
-                                            <p class="text-xs">
-                                                {{ invoice?.bill_to_number }}
-                                            </p>
-                                            <p class="text-xs">
-                                                {{ invoice?.bill_to_address }}
-                                            </p>
+                                            <p>{{ invoice?.bill_to_name || '⎯⎯⎯' }}</p>
+                                            <p class="text-xs text-gray-500" v-if="invoice?.bill_to_number">{{ invoice.bill_to_number }}</p>
+                                            <p class="text-xs text-gray-500" v-if="invoice?.bill_to_address">{{ invoice.bill_to_address }}</p>
                                         </div>
                                     </td>
                                     <td width="10%">
                                         <span :class="{
-                                            'px-2 py-1 rounded-full text-xs font-semibold': true,
+                                            'px-2 py-1 rounded-full text-xs font-semibold whitespace-nowrap': true,
                                             'bg-green-100 text-green-800': invoice?.status === 'paid',
                                             'bg-yellow-100 text-yellow-800': invoice?.status === 'open' || invoice?.status === 'draft',
-                                            'bg-gray-100 text-gray-800': !invoice?.status || (invoice?.status !== 'paid' && invoice?.status !== 'open' && invoice?.status !== 'draft')
+                                            'bg-red-100 text-red-800': invoice?.status === 'dispute_lost' || invoice?.status === 'disputed',
+                                            'bg-blue-100 text-blue-800': invoice?.status === 'refunded' || invoice?.status === 'refunded_partial' || invoice?.status === 'partially_refunded',
+                                            'bg-gray-100 text-gray-800': !invoice?.status || !['paid','open','draft','dispute_lost','disputed','refunded','refunded_partial','partially_refunded'].includes(invoice?.status)
                                         }">
                                             {{ formatStatus(invoice?.status) }}
                                         </span>
                                     </td>
                                     <td width="15%">
                                         <div class="flex items-end gap-2">
-                                            <FormButton type="button" buttonStyle="action" class="rounded-md"
+                                            <FormButton type="button" buttonStyle="action" class="rounded-md !py-1.5 !px-3"
                                                 @click="openInvoiceDetails(invoice)">
                                                 <Icon name="ph:eye" class="size-4" />
                                                 {{ $t('clientInvoices.table.actions.view') }}
                                             </FormButton>
-                                            <FormButton type="button" buttonStyle="action" class="rounded-md"
+                                            <FormButton type="button" buttonStyle="action" class="rounded-md !py-1.5 !px-3"
                                                 @click="downloadInvoiceDetails(invoice)">
                                                 <Icon name="ph:download" class="size-4" />
                                                 {{ $t('clientInvoices.table.actions.download') }}
                                             </FormButton>
-                                            <FormButton type="button" buttonStyle="action" class="rounded-md"
+                                            <FormButton type="button" buttonStyle="action" class="rounded-md !py-1.5 !px-3"
                                                 @click="openSendInvoiceModal(invoice)">
                                                 <Icon name="ph:envelope" class="size-4" />
                                                 {{ $t('clientInvoices.table.actions.sendInvoice') }}
@@ -119,7 +130,7 @@
                     <div class="mt-8 grid grid-cols-1 md:grid-cols-3 items-center gap-y-3"
                         v-if="state.invoices && state.invoices.meta">
                         <div class="flex justify-start">
-                            <button class="w-28 bg-tertiary text-white rounded-sm text-sm px-4 py-3 hover:bg-tertiary/90"
+                            <button class="w-28 bg-tertiary text-white rounded-lg text-sm px-3 py-1.5 hover:bg-tertiary/90"
                                 v-if="state.invoices?.links && state.invoices?.links?.prev !== null" @click="previous">
                                 {{ $t('pagination.previous') }}
                             </button>
@@ -136,8 +147,8 @@
                             </p>
                         </div>
 
-                        <div class="flex justify-start md:justify-end">
-                            <button class="w-28 bg-tertiary text-white rounded-sm text-sm px-4 py-3 hover:bg-tertiary/90"
+                        <div class="flex justify-start md:justify-end pr-10">
+                            <button class="w-28 bg-tertiary text-white rounded-lg text-sm px-3 py-1.5 hover:bg-tertiary/90"
                                 v-if="state.invoices?.links && state.invoices?.links?.next !== null" @click="next">
                                 {{ $t('pagination.next') }}
                             </button>
@@ -159,6 +170,7 @@
 <script setup lang="ts">
 import { clientInvoiceService } from '@/components/api/user/ClientInvoiceService'
 import { citizenService } from '@/components/api/user/CitizenService'
+
 import stripeApi from '@/components/api/stripeApi'
 import { useAmountFormatter } from '@/composables/amountFormatter'
 import { useDatetimeFormatter } from '@/composables/datetimeFormatter'
@@ -214,11 +226,23 @@ const state = reactive({
         sortField: 'id',
         sortOrder: 'descend',
     },
+    connect: {
+        isLoading: false,
+        onboarded: false,
+        isWorking: false,
+    },
 })
+
+const isSuperadmin = computed(() => userStore.getUser?.roles?.some((r: any) => ['Superadmin', 'Admin'].includes(r.name)))
 
 onMounted(() => {
     fetchInvoices()
-    fetchCitizens()
+    if (isSuperadmin.value) {
+        fetchCompaniesAsCustomers()
+        fetchConnectStatus()
+    } else {
+        fetchCitizens()
+    }
 })
 
 async function fetchCitizens() {
@@ -232,9 +256,26 @@ async function fetchCitizens() {
     }
 }
 
+async function fetchCompaniesAsCustomers() {
+    try {
+        const response = await stripeApi.getStripeCustomers()
+        if (response?.data) {
+            state.citizens = response.data.map((customer: any) => ({
+                uuid: customer.id,
+                firstname: customer.name || customer.email,
+                lastname: '',
+                email: customer.email,
+            }))
+        }
+    } catch (error) {
+        console.error('Failed to fetch Stripe customers:', error)
+    }
+}
+
 async function fetchInvoices() {
     state.error = {}
     state.isTableLoading = true
+    currentTablePage = 1
     
     try {
         // Fetch both regular and Stripe invoices
@@ -969,26 +1010,10 @@ function submitSearch() {
 
 function openStripeInvoiceModal() {
     state.modal.isStripeInvoiceOpen = true
-
-    if (!process.client) {
-        return
-    }
-
-    if (window.location.pathname === '/invoices') {
-        window.history.pushState({ stripeInvoiceModal: true }, '', '/invoices/new')
-    }
 }
 
 function closeStripeInvoiceModal() {
     state.modal.isStripeInvoiceOpen = false
-
-    if (!process.client) {
-        return
-    }
-
-    if (window.location.pathname === '/invoices/new') {
-        window.history.replaceState({ stripeInvoiceModal: false }, '', '/invoices')
-    }
 }
 
 function openInvoiceDetails(invoice: any) {
@@ -1091,11 +1116,16 @@ function formatStatus(status: string): string {
     
     // Common status values from Stripe and internal invoices
     const statusMap: Record<string, string> = {
-        'paid': 'Paid',
-        'open': 'Open',
-        'draft': 'Draft',
-        'void': 'Void',
-        'uncollectible': 'Uncollectible'
+        'paid': 'Betalt',
+        'open': 'Åben',
+        'draft': 'Udkast',
+        'void': 'Annulleret',
+        'uncollectible': 'Uinddrivelig',
+        'disputed': 'Tvist',
+        'dispute_lost': 'Tvist tabt',
+        'refunded_partial': 'Delvist refunderet',
+        'refunded': 'Refunderet',
+        'partially_refunded': 'Delvist refunderet',
     }
     
     return statusMap[status.toLowerCase()] || status.charAt(0).toUpperCase() + status.slice(1).toLowerCase()
@@ -1119,5 +1149,56 @@ function openSendInvoiceModal(invoice: any) {
         is_stripe_invoice: isStripeInvoice(invoice),
     }
     state.modal.isSendInvoiceOpen = true
+}
+
+async function fetchConnectStatus() {
+    state.connect.isLoading = true
+    try {
+        const status = await stripeApi.getConnectStatus()
+        state.connect.onboarded = !!(status?.onboarded && status?.charges_enabled)
+    } catch {
+        state.connect.onboarded = false
+    } finally {
+        state.connect.isLoading = false
+    }
+}
+
+const inlineSuggestion = computed(() => {
+    const q = state.searchInput?.trim()
+    if (!q) return ''
+    return searchSuggestions.value.find((s: string) => s.toLowerCase().startsWith(q.toLowerCase())) || ''
+})
+
+const inlineSuggestionRemainder = computed(() => {
+    if (!inlineSuggestion.value || !state.searchInput) return ''
+    return inlineSuggestion.value.slice(state.searchInput.length)
+})
+
+function acceptSuggestion() {
+    if (inlineSuggestion.value) {
+        state.searchInput = inlineSuggestion.value
+    }
+}
+
+async function handleConnectButton() {
+    if (state.connect.isWorking) return
+    state.connect.isWorking = true
+    try {
+        if (state.connect.onboarded) {
+            const result = await stripeApi.createConnectDashboardLink()
+            if (result?.url) {
+                window.open(result.url, '_blank')
+            }
+        } else {
+            const result = await stripeApi.createConnectOnboardingLink()
+            if (result?.url) {
+                window.location.href = result.url
+            }
+        }
+    } catch (error: any) {
+        state.error = error
+    } finally {
+        state.connect.isWorking = false
+    }
 }
 </script>

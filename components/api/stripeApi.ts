@@ -177,6 +177,10 @@ class stripeApi extends BaseAPIService {
     async getStripeInvoices(params?: object): Promise<any> {
         return await this.request('/stripe/invoices', 'GET', params);
     }
+
+    async getStripeCustomers(): Promise<any> {
+        return await this.request('/stripe/customers', 'GET');
+    }
 }
 
 export default new stripeApi();

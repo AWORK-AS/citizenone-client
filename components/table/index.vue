@@ -12,11 +12,11 @@
                     </label>
                 </th>
                 <th v-for="(item, index) in props.columnHeaders" :key="index" :width="props.width">
-                    <div class="flex items-center gap-x-2" :class="[
+                    <div class="flex items-center gap-x-1" :class="[
                         item.textAlign === 'left' && 'text-left',
                         item.textAlign === 'right' && 'text-right',
                         item.textAlign === 'center' && 'text-center']">
-                        <p class="grow truncate">
+                        <p class="truncate">
                             {{ item.name && (item.isTranslateName ? $t(item.name) : item.name) }}
                         </p>
                         <div class="flex items-center justify-end" v-if="item.sorter">
