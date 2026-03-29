@@ -23,9 +23,10 @@ class DawaService implements ZipLooker {
             
             const muniDetails = await $fetch(`https://api.dataforsyningen.dk/kommuner/${primaryMuni}`) as any
             const region = muniDetails.region.navn.split(" ")[1]
+            const city = data.navn.split(" ")[0]
 
             return {
-                city: data.navn,     
+                city: city,     
                 municipality: data.kommuner[0].navn,
                 region: region,
                 fullData: data
