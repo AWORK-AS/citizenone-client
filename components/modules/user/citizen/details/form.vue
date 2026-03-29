@@ -699,6 +699,7 @@ import { useI18n } from "vue-i18n"
 import { useNumberFormatter } from '@/composables/numberFormatter'
 import { useCustomPagesStore } from '@/store/custom-pages'
 import type { Error } from '@/types'
+import { zipLookerService } from '~/components/api/ziplooker/ZipLookerService'
 
 const userStore = useUserStore() as any
 const { t } = useI18n()
@@ -991,6 +992,36 @@ watch(() => state.formCitizen.social_security_number, (ssn) => {
     }
 })
 
+watch(() => state.formCitizen.post_code, async (newPostCode, oldPostCode, onCleanup) => {
+    if (!newPostCode || newPostCode.length < 4) return
+
+    let isStale = false
+    onCleanup(() => { isStale = true })
+
+    await new Promise(resolve => setTimeout(resolve, 500))
+    if (isStale) return
+
+    const data = await zipLookerService.findCityRegionMunicipality(newPostCode)
+    
+    if (data && !isStale) {
+        state.formCitizen.city = data.city
+
+        const matchedRegion = state.options.regions.find(
+            (r: any) => r.label.toLowerCase().includes(data.region.toLowerCase())
+        ) as any
+        
+        state.formCitizen.region = matchedRegion?.value          
+        await changeSelectedRegion(matchedRegion?.value)
+
+        const matchedMuni = state.options.municipalitiesPerRegion.find(
+            (m: any) => m.label.toLowerCase().includes(data.municipality.toLowerCase())
+        ) as any
+
+        state.formCitizen.municipality = matchedMuni?.value
+        await changeSelectedMunicipality(matchedMuni?.value)
+    }
+})
+
 onMounted(() => {
     fetchCitizenCaseWorkers()
     fetchDepartments()
@@ -1269,15 +1300,15 @@ async function fetchCities(municipalityUuid: any) {
     emit('isPageLoading', false)
 }
 
-function changeSelectedRegion(regionUuid: string) {
+async function changeSelectedRegion(regionUuid: string) {
     if (regionUuid) {
-        fetchMunicipalitiesPerRegion(regionUuid)
+        await fetchMunicipalitiesPerRegion(regionUuid)
     }
 }
 
-function changeSelectedMunicipality(municipalityUuid: string) {
+async function changeSelectedMunicipality(municipalityUuid: string) {
     if (municipalityUuid) {
-        fetchCities(municipalityUuid)
+        await fetchCities(municipalityUuid)
     }
 }
 
