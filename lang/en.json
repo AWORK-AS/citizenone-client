@@ -4333,6 +4333,8 @@
             "date": "Date",
             "invoiceNumber": "Invoice number",
             "new": "New",
+            "paid": "Paid",
+            "unpaid": "Unpaid",
             "status": "Status",
             "serviceFee": "Service fee"
         }
@@ -6592,7 +6594,9 @@
                 "date": "Date",
                 "invoiceNumber": "Invoice number",
                 "new": "New",
-                "status": "Status"
+                "status": "Status",
+                "paid": "Paid",
+                "unpaid": "Unpaid"
             }
         },
         "invoiceDetails": {

@@ -4333,6 +4333,8 @@
             "date": "Dato",
             "invoiceNumber": "Fakturanummer",
             "new": "Ny",
+            "paid": "Betalt",
+            "unpaid": "Ubetalt",
             "status": "Status",
             "serviceFee": "Servicegebyr"
         }
@@ -6592,7 +6594,9 @@
                 "date": "Dato",
                 "invoiceNumber": "Fakturanummer",
                 "new": "Ny",
-                "status": "Status"
+                "status": "Status",
+                "paid": "Betalt",
+                "unpaid": "Ubetalt"
             }
         },
         "invoiceDetails": {
