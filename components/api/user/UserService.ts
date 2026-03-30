@@ -57,6 +57,14 @@ class UserService extends BaseAPIService {
         return await this.request(`/user/company/settings/company/upload-logo`, 'POST', params)
     }
 
+    async readNews(): Promise<any> {
+        return await this.request(`/user/update/read-news`, 'PUT')
+    }
+
+    async readUpdates(): Promise<any> {
+        return await this.request(`/user/update/read-updates`, 'PUT')
+    }
+
     async deleteCompanyLogo(): Promise<any> {
         return await this.request(`/user/company/settings/company/delete-logo`, 'DELETE')
     }
