@@ -891,7 +891,9 @@
                 "move": "Flyt",
                 "removeFromFavorite": "Fjern fra favoritter",
                 "share": "Del",
-                "unlock": "Lås journal op"
+                "unlock": "Lås journal op",
+                "pin": "Fastgør journal",
+                "unpin": "Fjern fastgørelse"
             },
             "alert": {
                 "addedToFavorites": "Journal tilføjet til favoritter med succes",
@@ -902,7 +904,9 @@
                 "successfullyCopied": "Journalen blev kopieret succesfuldt",
                 "successfullyMoved": "Journalen blev flyttet succesfuldt",
                 "successfullyUpdated": "Journal opdateret med succes",
-                "unlockJournal": "Journal låst op med succes"
+                "unlockJournal": "Journal låst op med succes",
+                "pinJournal": "Journal fastgjort med succes",
+                "unpinJournal": "Fastgørelse fjernet med succes"
             },
             "confirmation": {
                 "copyConfirmation": "Er du sikker på, at du vil kopiere denne journal til den valgte borger",
