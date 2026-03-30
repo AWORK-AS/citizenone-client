@@ -39,6 +39,16 @@
                                             </Badge>
                                         </div>
                                     </td>
+                                    <td width="10%">
+                                        <div>
+                                            <Badge type="active" class="w-fit" v-if="invoice?.is_paid">
+                                                {{ $t('superadmin.invoices.table.paid') }}
+                                            </Badge>
+                                            <Badge type="inactive" class="w-fit" v-else>
+                                                {{ $t('superadmin.invoices.table.unpaid') }}
+                                            </Badge>
+                                        </div>
+                                    </td>
                                     <td width="15%">
                                         <div>
                                             {{ invoice?.invoice_number }}
@@ -93,6 +103,7 @@ const state = reactive({
     columnHeaders: [
         { name: 'superadmin.invoices.table.date', isTranslateName: true, sorter: true, key: 'created_at' },
         { name: 'superadmin.invoices.table.status', isTranslateName: true, },
+        { name: 'superadmin.invoices.table.paid', isTranslateName: true, },
         { name: 'superadmin.invoices.table.invoiceNumber', isTranslateName: true, sorter: true, key: 'invoice_number' },
         { name: 'superadmin.invoices.table.amount', isTranslateName: true, sorter: true, key: 'total_amount' },
         { name: 'superadmin.invoices.table.company', isTranslateName: true, },
