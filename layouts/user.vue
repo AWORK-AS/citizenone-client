@@ -650,15 +650,17 @@ function generateSidebarLinks(user: any) {
             'calendar-appointments-settings',
         ]
     })
-    navigation.push({
-        name: 'Duty schedules',
-        href: '/schedules',
-        icon: 'ph:calendar-dots',
-        activeRouteNames: [
-            'schedules',
-            'schedules-draft'
-        ]
-    })
+    if (user.pages.find((page: any) => page.name === "Duty Schedule")) {
+        navigation.push({
+            name: 'Duty schedules',
+            href: '/schedules',
+            icon: 'ph:calendar-dots',
+            activeRouteNames: [
+                'schedules',
+                'schedules-draft'
+            ]
+        })
+    }
     navigation.push({
         name: 'Messages',
         href: '/messages',
