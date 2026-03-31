@@ -215,6 +215,7 @@ import { useI18n } from "vue-i18n"
 import { useUserStore } from '@/store/user'
 import { useDepartmentStore } from '@/store/department'
 import type { Error } from '@/types'
+import { zipLookerService } from '~/components/api/ziplooker/ZipLookerService'
 
 const props = defineProps({
     error: {
@@ -380,6 +381,42 @@ watch(() => state.formContact.contact_job_title_uuid, () => {
 watch(() => language.locale.value, () => {
     fetchNotificationTypes()
     fetchRiskLevels()
+})
+
+watch(() => state.formContact.post_code, async (newPostCode, oldPostCode, onCleanup) => {
+    if (!newPostCode || newPostCode.length < 4) return
+
+    let isStale = false
+    onCleanup(() => { isStale = true })
+
+    await new Promise(resolve => setTimeout(resolve, 500))
+    if (isStale) return
+
+    const data = await zipLookerService.findCityRegionMunicipality(newPostCode)
+    
+    if (data && !isStale) {
+        const matchedRegion = state.options.regions.find(
+            (r: any) => r.label.toLowerCase().includes(data.region.toLowerCase())
+        ) as any
+        
+        state.formContact.region = matchedRegion?.value
+        await changeSelectedRegion(matchedRegion?.value)
+        if (isStale) return
+
+        const matchedMuni = state.options.municipalities.find(
+            (m: any) => m.label.toLowerCase().includes(data.municipality.toLowerCase())
+        ) as any
+
+        state.formContact.municipality = matchedMuni?.value
+        await changeSelectedMunicipality(matchedMuni?.value)
+        if (isStale) return
+
+        const matchedCity = state.options.cities.find(
+            (c: any) => c.label.toLowerCase().includes(data.city.toLowerCase())
+        ) as any
+
+        state.formContact.city = matchedCity?.value
+    }
 })
 
 const rules = computed(() => {
@@ -647,16 +684,26 @@ async function fetchCities(municipalityUuid: any) {
     state.isPageLoading = false
 }
 
-function changeSelectedRegion(regionUuid: string) {
+async function changeSelectedRegion(regionUuid: string) {
     if (regionUuid) {
-        fetchMunicipalitiesPerRegion(regionUuid)
+        await fetchMunicipalitiesPerRegion(regionUuid)
+        return
     }
+
+    state.options.municipalities = []
+    state.options.cities = []
+    state.formContact.municipality = ''
+    state.formContact.city = ''
 }
 
-function changeSelectedMunicipality(municipalityUuid: string) {
+async function changeSelectedMunicipality(municipalityUuid: string) {
     if (municipalityUuid) {
-        fetchCities(municipalityUuid)
+        await fetchCities(municipalityUuid)
+        return
     }
+
+    state.options.cities = []
+    state.formContact.city = ''
 }
 
 function addNotification() {
