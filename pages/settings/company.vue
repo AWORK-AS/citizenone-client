@@ -265,12 +265,14 @@ import { regionService } from '@/components/api/user/RegionService'
 import { municipalityService } from '@/components/api/user/MunicipalityService'
 import { citizenDisplayService } from '@/components/api/user/CitizenDisplayService'
 import { useUserStore } from '@/store/user'
+import { useCompanyStore } from '@/store/company'
 import { useAlert } from '@/composables/alert'
 import { useI18n } from "vue-i18n"
 import type { Error } from '@/types'
 
 const runtimeConfig = useRuntimeConfig()
 const userStore = useUserStore()
+const companyStore = useCompanyStore()
 const language = useI18n()
 const { successAlert } = useAlert()
 const { t } = useI18n()
@@ -350,17 +352,18 @@ watch(() => language.locale.value, (newValue: any) => {
 
 watch(() => userStore.getUser, (newValue: any) => {
     if (newValue != null) {
+        const address = newValue?.company?.company_address ?? companyStore.getCompanyAddress
         state.formCompany = {
             name: newValue?.company?.name,
             cvr: newValue?.company?.cvr,
             website: newValue?.company?.website,
             accountant_email: newValue?.company?.accountant_email,
             phone: newValue?.company?.phone,
-            street: newValue?.company?.company_address?.street,
-            region: newValue?.company?.company_address?.region?.uuid,
-            municipality: newValue?.company?.company_address?.municipality?.uuid,
-            city: newValue?.company?.company_address?.city,
-            post_code: newValue?.company?.company_address?.post_code,
+            street: address?.street ?? '',
+            region: address?.region?.uuid ?? '',
+            municipality: address?.municipality?.uuid ?? '',
+            city: address?.city ?? '',
+            post_code: address?.post_code ?? '',
             citizen_display_uuid: [],
             intervention_notification_hours: newValue?.company?.intervention_notification_hours?.toString(),
             is_2fa_enabled: newValue?.company?.is_2fa_enabled ? true : false,
@@ -384,8 +387,9 @@ watch(() => userStore.getUser, (newValue: any) => {
         if (newValue?.company?.logo_url) {
             logoPreviewUrl.value = newValue.company.logo_url
         }
-        fetchMunicipalitiesPerRegion(newValue?.company?.company_address?.region?.uuid)
-        newValue?.company?.citizen_displays?.forEach((item: any) => {
+        fetchMunicipalitiesPerRegion(address?.region?.uuid)
+        const displays = newValue?.company?.citizen_displays ?? companyStore.getCitizenDisplays
+        displays?.forEach((item: any) => {
             state.formCompany.citizen_display_uuid.push(item.uuid)
         })
     }
@@ -546,12 +550,15 @@ async function submitForm() {
             const response = await userService.updateCompany(params)
             if (response.data) {
                 userStore.setUserCheckinStatus(state.formCompany.checkin_enabled)
+                if (response.data.company_address) {
+                    companyStore.setCompanyAddress(response.data.company_address)
+                }
+                if (response.data.citizen_displays) {
+                    companyStore.setCitizenDisplays(response.data.citizen_displays)
+                }
                 const currentUser: any = { ...userStore.getUser }
-                if (currentUser?.company && response.data?.logo_url) {
-                    currentUser.company.logo_url = response.data.logo_url
-                    userStore.setUser(currentUser)
-                } else if (currentUser?.company && state.formCompany.should_delete_logo) {
-                    currentUser.company.logo_url = null
+                if (currentUser?.company) {
+                    currentUser.company = { ...currentUser.company, ...response.data }
                     userStore.setUser(currentUser)
                 }
                 successAlert(`${t('alert.success')}!`, `${t('settings.company.form.alert.successfullyUpdated')}.`)
