@@ -6966,6 +6966,7 @@
                 "timeLogSuccessfullyUpdated": "Time log successfully updated",
                 "newTimeLogSuccessfullySaved": "New time log successfully saved"
             },
+            "citizen": "Citizen",
             "dateTimeEnd": "Date time end",
             "dateTimeStart": "Date time start",
             "status": {

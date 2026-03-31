@@ -37,6 +37,7 @@ const state = reactive({
     formTimeLog: {
         date_time_start: moment().startOf('day').add(8, 'hours').format('YYYY-MM-DD H:mm'),
         date_time_end: moment().startOf('day').add(17, 'hours').format('YYYY-MM-DD H:mm'),
+        citizen_uuid: '',
         status: '',
         remarks: '',
     },
@@ -59,6 +60,7 @@ async function saveTimeLog(timeLogDetails: any) {
             employee_uuid: employeeUuid,
             date_time_start: timeLogDetails.date_time_start,
             date_time_end: timeLogDetails.date_time_end,
+            citizen_uuid: timeLogDetails.citizen_uuid,
             status: timeLogDetails.status,
             remarks: timeLogDetails.remarks,
         }

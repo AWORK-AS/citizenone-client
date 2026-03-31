@@ -6966,6 +6966,7 @@
                 "timeLogSuccessfullyUpdated": "Tidslog blev opdateret",
                 "newTimeLogSuccessfullySaved": "Ny tidslog blev gemt"
             },
+            "citizen": "Borger",
             "dateTimeEnd": "Slutdato og -tid",
             "dateTimeStart": "Startdato og -tid",
             "status": {
