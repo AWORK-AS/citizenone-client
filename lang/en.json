@@ -889,20 +889,24 @@
                 "journalLogs": "Journal logs",
                 "lock": "Lock journal",
                 "move": "Move",
+                "pin": "Pin journal",
                 "removeFromFavorite": "Remove from favorite",
                 "share": "Share",
-                "unlock": "Unlock journal"
+                "unlock": "Unlock journal",
+                "unpin": "Unpin journal"
             },
             "alert": {
                 "addedToFavorites": "Journal successfully added to favorites",
                 "deletedSuccessfully": "Journal successfully deleted",
                 "lockJournal": "Journal successfully locked",
+                "pinJournal": "Journal successfully pinned",
                 "removedToFavorites": "Journal successfully removed from favorites",
                 "successfullyAdded": "New journal successfully saved",
                 "successfullyCopied": "Journal successfully copied",
                 "successfullyMoved": "Journal successfully moved",
                 "successfullyUpdated": "Journal successfully updated",
-                "unlockJournal": "Journal successfully unlocked"
+                "unlockJournal": "Journal successfully unlocked",
+                "unpinJournal": "Journal successfully unpinned"
             },
             "confirmation": {
                 "copyConfirmation": "Are you sure you want to copy this journal to the selected citizen",
