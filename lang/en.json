@@ -5873,7 +5873,8 @@
             "deleteCitizenContact": "delete citizen contact",
             "createCitizenChildren": "create citizen children",
             "updateCitizenChildren": "update citizen children",
-            "deleteCitizenChildren": "delete citizen children"
+            "deleteCitizenChildren": "delete citizen children",
+            "createCitizen": "create citizen"
         }
     },
     "rooms": {

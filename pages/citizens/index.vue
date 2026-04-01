@@ -61,7 +61,7 @@
                             {{ $t('inquiries.inquiries') }}
                         </FormButton>
                         <FormButton buttonStyle="action" class="rounded-lg" @click="navigateTo('/citizens/new')"
-                            v-if="userStore.getUser?.roles?.[0]?.name === 'Admin'">
+                            v-if="userStore.getUser?.roles?.[0]?.name === 'Admin' || userStore.user?.permissions?.find((p: any) => p.name === 'create_citizen')">
                             <Icon name="ph:plus" class="h-4 w-4" aria-hidden="true" />
                             {{ $t('citizens.newCitizen') }}
                         </FormButton>
