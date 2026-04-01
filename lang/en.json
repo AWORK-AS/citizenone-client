@@ -6980,7 +6980,8 @@
         "table": {
             "actions": {
                 "delete": "Delete",
-                "edit": "Edit"
+                "edit": "Edit",
+                "view": "View"
             },
             "alert": {
                 "timeLogSuccessfullyDeleted": "Time log successfully deleted"
@@ -6999,6 +7000,13 @@
                 "status": "Status"
             },
             "summary": "Time summary"
+        },
+        "view": {
+            "title": "View Time Log",
+            "employee": "Employee",
+            "locationInformation": "Location Information",
+            "checkInLocation": "Check-in Location",
+            "checkOutLocation": "Check-out Location"
         },
         "timeLogs": "Time Logs",
         "interventionHours": "Intervention Hours"
