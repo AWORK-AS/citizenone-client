@@ -9,7 +9,13 @@
             <template #header>{{ $t('superadmin.invoices.invoices') }}</template>
 
             <div>
-                <div class="space-y-5">
+                <div class="flex flex-wrap items-center justify-end gap-3">
+                    <FormButton buttonStyle="action" class="rounded-lg" @click="state.modal.isDownloadOpen = true">
+                        <Icon name="ph:download" class="h-4 w-4" aria-hidden="true" />
+                        {{ $t('superadmin.invoices.download.download') }}
+                    </FormButton>
+                </div>
+                <div class="mt-5 space-y-5">
                     <Alert type="danger" :text="state?.error?.message"
                         v-if="state.error?.message && state.error.message.length > 0" />
                     <TableSearch @search="handleSearch" />
@@ -75,6 +81,8 @@
                     </div>
                     <Pagination :data="state.invoices" @previous="previous" @next="next" />
                 </div>
+                <ModulesSuperadminInvoiceModalDownload :isModalOpen="state.modal.isDownloadOpen"
+                    @close="state.modal.isDownloadOpen = false" />
             </div>
         </NuxtLayout>
     </div>
@@ -107,6 +115,9 @@ const state = reactive({
     error: {} as Error,
     invoices: [] as any,
     isTableLoading: false,
+    modal: {
+        isDownloadOpen: false,
+    },
     sortData: {
         sortField: 'id',
         sortOrder: 'descend',
