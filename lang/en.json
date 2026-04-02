@@ -2806,6 +2806,7 @@
         "deleteSchedule": "Delete schedule",
         "departmentSickLeaves": "Department sick leaves",
         "download": {
+            "archivedEmployeesOnly": "Download archived employees only",
             "date": "Date",
             "delimiter": {
                 "comma": "Comma",
