@@ -3787,7 +3787,8 @@
             "amount": "Beløb",
             "description": "Beskrivelse",
             "receipt": "Kvittering",
-            "clickToUpload": "Klik for at uploade"
+            "clickToUpload": "Klik for at uploade",
+            "citizen": "Borger"
         },
         "newExpense": "Ny udgift",
         "table": {

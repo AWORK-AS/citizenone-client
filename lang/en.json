@@ -3787,7 +3787,8 @@
             "amount": "Amount",
             "description": "Description",
             "receipt": "Receipt",
-            "clickToUpload": "Click to upload"
+            "clickToUpload": "Click to upload",
+            "citizen": "Citizen"
         },
         "newExpense": "New expense",
         "table": {

@@ -273,6 +273,7 @@ function editExpense(expense: any) {
         uuid: expense.uuid,
         name: expense.name,
         expense_category_uuid: expense.category?.uuid,
+        citizen_uuid: expense?.citizen?.uuid || '',
         description: expense.description,
         expense_date: expense.expense_date,
         amount: expense.amount,
