@@ -117,7 +117,8 @@ watch(() => userStore.getUser, (newValue: any) => {
             href: `/citizens/${citizenUuid}/wallets`,
             routeNames: [
                 'citizens-uuid-wallets',
-                'citizens-uuid-wallets-wallet_uuid'
+                'citizens-uuid-wallets-wallet_uuid',
+                'citizens-uuid-expenses'
             ]
         })
     }
@@ -142,8 +143,12 @@ watch(() => userStore.getUser, (newValue: any) => {
 
     // Check if current route is allowed
     const currentRouteName = route.name as string
-    const isCurrentRouteAccessible = state.tabs.some((tab: any) =>
-        tab.routeNames.some((name: string) => currentRouteName.startsWith(name))
+    const isCurrentRouteAccessible = state.tabs.some((tab: any) => {
+            console.log('State Tabs', state.tabs)
+            console.log('Current route name', currentRouteName)
+            return tab.routeNames.some((name: string) => currentRouteName.startsWith(name))
+
+        }
     )
 
 

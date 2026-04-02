@@ -1238,6 +1238,9 @@
             "useTemplate": "Use template"
         },
         "editCitizen": "Edit citizen",
+        "expenses": {
+            "expenses": "Expenses"
+        },
         "exportCitizens": "Export citizens",
         "form": {
             "addictions": "Substance abuse",
@@ -2247,6 +2250,10 @@
                 "available": "Available",
                 "name": "Name",
                 "note": "Note"
+            },
+            "tabs": {
+                "wallets": "Wallets",
+                "expenses": "Expenses"
             },
             "wallets": "Wallets"
         },

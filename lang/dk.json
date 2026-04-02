@@ -1238,6 +1238,9 @@
             "useTemplate": "Brug skabelon"
         },
         "editCitizen": "Rediger Borger",
+        "expenses": {
+            "expenses": "Expenses"
+        },
         "exportCitizens": "Eksporter borgere",
         "form": {
             "addictions": "Stofmisbrug",
@@ -2247,6 +2250,10 @@
                 "available": "Tilgængelig",
                 "name": "Navn",
                 "note": "Note"
+            },
+            "tabs": {
+                "wallets": "Punge",
+                "expenses": "Udgifter"
             },
             "wallets": "Økonomi"
         },
