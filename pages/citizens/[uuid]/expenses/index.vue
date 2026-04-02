@@ -126,6 +126,22 @@
                     </div>
                     <Pagination :data="state.expenses" @previous="previous" @next="next" />
                 </div>
+
+                <ModulesUserCitizenExpenseModalView :isModalOpen="state.modal.isViewExpenseOpen"
+                    :selectedExpense="state.selectedExpense" @editExpense="editExpense(state.selectedExpense)"
+                    @close="state.modal.isViewExpenseOpen = false" />
+                <ModulesUserCitizenExpenseModalNew :isModalOpen="state.modal.isAddExpenseOpen" :citizenUuid="citizenUuid"
+                    @close="state.modal.isAddExpenseOpen = false" @refreshExpenses="fetchExpenses" />
+                <ModulesUserCitizenExpenseModalEdit :isModalOpen="state.modal.isEditExpenseOpen"
+                    :selectedExpense="state.selectedExpense" @close="state.modal.isEditExpenseOpen = false"
+                    @refreshExpenses="fetchExpenses" />
+
+                <DialogConfirmation :isModalOpen="state.modal.isDeleteExpenseOpen"
+                    :message="$t('citizens.expenses.confirmation.deleteConfirmation')"
+                    @close="state.modal.isDeleteExpenseOpen = false" @confirm="deleteExpense" />
+                <DialogConfirmation :isModalOpen="state.modal.isRejectExpenseOpen"
+                    :message="$t('citizens.expenses.confirmation.rejectConfirmation')"
+                    @close="state.modal.isRejectExpenseOpen = false" @confirm="rejectExpense" />
             </div>
         </NuxtLayout>
     </div>
@@ -265,11 +281,6 @@ function editExpense(expense: any) {
     state.modal.isEditExpenseOpen = true
 }
 
-function closeEditExpenseModal() {
-    state.selectedExpense = {}
-    state.modal.isEditExpenseOpen = false
-}
-
 function rejectExpenseConfirmation(expense: any) {
     state.selectedExpense = expense
     state.modal.isRejectExpenseOpen = true
@@ -281,6 +292,7 @@ async function rejectExpense() {
     try {
         const response = await citizenExpenseService.rejectExpense(state.selectedExpense.uuid)
         if (response?.data) {
+            state.modal.isRejectExpenseOpen = false
             fetchExpenses()
             successAlert(`${t('alert.success')}!`, `${t('citizens.expenses.alert.expenseRejected')}.`)
         }
@@ -301,6 +313,7 @@ async function deleteExpense() {
     try {
         const response = await citizenExpenseService.deleteExpense(state.selectedExpense.uuid)
         if (response?.message) {
+            state.modal.isDeleteExpenseOpen = false
             fetchExpenses()
             successAlert(`${t('alert.success')}!`, `${t('citizens.expenses.alert.deletedSuccessfully')}.`)
         }

@@ -5,7 +5,14 @@ class CitizenExpenseService extends BaseAPIService {
         return await this.request(`/user/citizens/all/expenses`, 'GET', params)
     }
 
-    // TODO
+    async saveExpense(params: object): Promise<any> {
+        return await this.request(`/user/expenses`, 'POST', params)
+    }
+
+    async updateExpense(expenseUuid: any, params: object): Promise<any> {
+        return await this.request(`/user/expenses/${expenseUuid}/update`, 'POST', params)
+    }
+
     async deleteExpense(expenseUuid: any): Promise<any> {
         return await this.request(`/user/expenses/${expenseUuid}`, 'DELETE')
     }
