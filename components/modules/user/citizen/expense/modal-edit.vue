@@ -1,9 +1,9 @@
 <template>
     <div>
-        <Modal size="sm" :title="$t('expenses.editExpense')" :show="props.isModalOpen" @close="closeModal">
+        <Modal size="sm" :title="$t('citizens.expenses.editExpense')" :show="props.isModalOpen" @close="closeModal">
             <template #modal-body>
                 <LoadingSpinner :isActive="state.isPageLoading">
-                    <ModulesUserDocumentExpenseForm formType="update" :selectedExpense="props.selectedExpense"
+                    <ModulesUserCitizenExpenseForm formType="update" :selectedExpense="props.selectedExpense"
                         :error="state.error" @isPageLoading="(value: boolean) => state.isPageLoading = value"
                         @closeModal="closeModal" @submitForm="updateExpense" />
                 </LoadingSpinner>
@@ -11,7 +11,6 @@
         </Modal>
     </div>
 </template>
-
 
 <script setup lang="ts">
 import { expenseService } from '@/components/api/user/ExpenseService'
@@ -32,13 +31,11 @@ const props = defineProps({
 })
 
 const { t } = useI18n()
-const router = useRouter()
 const emit = defineEmits(['close', 'refreshExpenses'])
 
 const state = reactive({
     error: {} as Error,
     isPageLoading: false,
-
 })
 
 function closeModal() {
@@ -59,21 +56,21 @@ async function updateExpense(expenseDetails: any) {
         params.append('expense_category_uuid', expenseDetails.expense_category_uuid)
         params.append('citizen_uuid', expenseDetails.citizen_uuid)
         params.append('expense_date', expenseDetails.expense_date)
-        params.append('amount', parseFloat(expenseDetails.amount).toString())
-        if (expenseDetails.receipt && expenseDetails.receipt instanceof File) {
+        params.append('amount', expenseDetails.amount)
+        params.append('is_existing_file_removed', expenseDetails.is_existing_file_removed ? '1' : '0')
+        if (expenseDetails.receipt) {
             params.append('receipt', expenseDetails.receipt)
         }
 
-        const response = await expenseService.updateExpense(expenseDetails.uuid, params)
+        const response = await expenseService.updateExpense(props.selectedExpense.uuid, params)
         if (response?.data) {
             refreshExpenses()
             closeModal()
-            successAlert(`${t('alert.success')}!`, `${t('expenses.table.alert.expenseSuccessfullyUpdated')}.`)
+            successAlert(`${t('alert.success')}!`, `${t('citizens.expenses.form.alert.updatedSuccessfully')}.`)
         }
     } catch (error: any) {
         state.error = error
     }
     state.isPageLoading = false
-    emit('close')
 }
 </script>

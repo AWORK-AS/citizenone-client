@@ -1238,6 +1238,54 @@
             "useTemplate": "Use template"
         },
         "editCitizen": "Edit citizen",
+        "expenses": {
+            "alert": {
+                "deletedSuccessfully": "Expense successfully deleted",
+                "expenseRejected": "Expense successfully rejected",
+                "expenseReimbursed": "Payment successfully disbursed"
+            },
+            "confirmation": {
+                "deleteConfirmation": "Are you sure you want to delete this expense",
+                "rejectConfirmation": "Are you sure you want to reject this expense"
+            },
+            "editExpense": "Edit expense",
+            "expenses": "Expenses",
+            "form": {
+                "alert": {
+                    "savedSuccessfully": "Expense successfully saved",
+                    "updatedSuccessfully": "Expense successfully updated"
+                },
+                "amount": "Amount",
+                "category": "Category",
+                "date": "Date",
+                "description": "Description",
+                "name": "Name",
+                "note": "Note",
+                "receipt": "Receipt"
+            },
+            "newExpense": "New expense",
+            "table": {
+                "actions": {
+                    "delete": "Delete",
+                    "edit": "Edit",
+                    "view": "View",
+                    "reject": "Reject",
+                    "reimburse": "Disburse payment",
+                    "label": "Actions"
+                },
+                "amount": "Amount",
+                "category": "Category",
+                "date": "Date",
+                "employee": "Employee",
+                "name": "Name",
+                "note": "Note",
+                "receipt": "Receipt",
+                "status": "Status",
+                "reimbursed": "Outlay paid",
+                "pending": "Pending",
+                "rejected": "Rejected"
+            }
+        },
         "exportCitizens": "Export citizens",
         "form": {
             "addictions": "Substance abuse",
@@ -2247,6 +2295,10 @@
                 "available": "Available",
                 "name": "Name",
                 "note": "Note"
+            },
+            "tabs": {
+                "wallets": "Wallets",
+                "expenses": "Expenses"
             },
             "wallets": "Wallets"
         },
@@ -3787,7 +3839,8 @@
             "amount": "Amount",
             "description": "Description",
             "receipt": "Receipt",
-            "clickToUpload": "Click to upload"
+            "clickToUpload": "Click to upload",
+            "citizen": "Citizen"
         },
         "newExpense": "New expense",
         "table": {
