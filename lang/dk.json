@@ -7033,7 +7033,8 @@
         "table": {
             "actions": {
                 "delete": "Slet",
-                "edit": "Rediger"
+                "edit": "Rediger",
+                "view": "Vis"
             },
             "alert": {
                 "timeLogSuccessfullyDeleted": "Tidslog blev slettet"
@@ -7052,6 +7053,13 @@
                 "status": "Status"
             },
             "summary": "Tidsoversigt"
+        },
+        "view": {
+            "title": "Vis tidslog",
+            "employee": "Medarbejder",
+            "locationInformation": "Placeringsinformation",
+            "checkInLocation": "Check-in placering",
+            "checkOutLocation": "Check-out placering"
         },
         "timeLogs": "Tidslogge",
         "interventionHours": "Indsatstimer"
