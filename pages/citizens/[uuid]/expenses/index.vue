@@ -67,7 +67,7 @@
                                         <span>{{ expense?.category?.name }}</span>
                                     </td>
                                     <td width="10%">
-                                        <span>{{ expense?.amount }}</span>
+                                        <span>{{ formatNumber(locale, expense?.amount_raw) }}</span>
                                     </td>
                                     <td width="10%">
                                         <div v-if="expense?.status === 'reimbursed'" class="rounded-xl bg-green-100 text-green-800 px-2 py-1 text-xs font-semibold text-center w-fit">{{ $t('citizens.expenses.table.reimbursed') }}</div>
@@ -150,7 +150,7 @@
 <script setup lang="ts">
 import { citizenExpenseService } from '@/components/api/user/CitizenExpenseService'
 import { useDatetimeFormatter } from '@/composables/datetimeFormatter'
-import { useAmountFormatter } from '@/composables/amountFormatter'
+import { useNumberFormatter } from '@/composables/numberFormatter'
 import { useI18n } from "vue-i18n"
 import { useAlert } from '@/composables/alert'
 import { useCustomPagesStore } from '@/store/custom-pages'
@@ -159,9 +159,9 @@ import type { Error } from '@/types'
 
 const runtimeConfig = useRuntimeConfig()
 const { formatDateToReadable } = useDatetimeFormatter()
-const { formatAmount } = useAmountFormatter()
+const { formatNumber } = useNumberFormatter()
 const { successAlert } = useAlert()
-const { t } = useI18n()
+const { t, locale } = useI18n()
 const customPagesStore = useCustomPagesStore() as any
 const router = useRouter()
 const citizenUuid = router?.currentRoute?.value?.params?.uuid as any
@@ -263,6 +263,7 @@ function viewExpense(expense: any) {
 }
 
 function editExpense(expense: any) {
+    console.log('Selected Expense for Edit:', expense) // Debug log to check the expense data
     state.selectedExpense = {
         id: expense.id,
         uuid: expense.uuid,
@@ -271,7 +272,7 @@ function editExpense(expense: any) {
         citizen_uuid: expense?.citizen?.uuid || citizenUuid,
         description: expense.description,
         expense_date: expense.expense_date,
-        amount: expense.amount,
+        amount: expense.amount_raw,
         receipt: {
             name: expense.file_name_src,
             url: expense.file_url,
