@@ -31,6 +31,7 @@
 
                 <ModulesUserCitizenDetailsHeader />
                 <ModulesUserCitizenJournalTabs />
+                <ModulesUserCitizenWalletTabs />
 
                 <div>
                     <div class="mt-8 flex justify-end items-center mb-5 gap-x-2">
