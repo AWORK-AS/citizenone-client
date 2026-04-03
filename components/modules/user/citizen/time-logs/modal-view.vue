@@ -5,6 +5,11 @@
             <template #modal-body>
                 <div class="mt-6 flex items-center gap-x-2 justify-end">
                     <FormButton buttonStyle="action" class="rounded-lg"
+                        @click="openInterventionHoursModal">
+                        <Icon name="ph:clock" class="h-4 w-4" aria-hidden="true" />
+                        {{ $t('citizens.interventionHours.interventionHours') }}
+                    </FormButton>
+                    <FormButton buttonStyle="action" class="rounded-lg"
                         @click="state.modal.isAddNewTimeLogOpen = true">
                         <Icon name="ph:plus" class="h-4 w-4" aria-hidden="true" />
                         {{ $t('timeLogs.newTimeLog') }}
@@ -109,6 +114,7 @@
 
 <script setup lang="ts">
 import { citizenTimeLogService } from '@/components/api/user/CitizenTimeLogService'
+import { timeLogService } from '@/components/api/user/TimeLogService'
 import { useDatetimeFormatter } from '@/composables/datetimeFormatter'
 import { useAlert } from '@/composables/alert'
 import { useI18n } from "vue-i18n"
@@ -128,7 +134,7 @@ const props = defineProps({
 const { formatDateTimeToReadable } = useDatetimeFormatter()
 const { t } = useI18n()
 const { successAlert } = useAlert()
-const emit = defineEmits(['close'])
+const emit = defineEmits(['close', 'openInterventionHours'])
 let currentTablePage = 1
 
 const state = reactive({
@@ -163,6 +169,10 @@ const state = reactive({
 
 function closeModal() {
     emit('close')
+}
+
+function openInterventionHoursModal() {
+    emit('openInterventionHours')
 }
 
 watch(() => props.isModalOpen, (isModalOpen: boolean) => {

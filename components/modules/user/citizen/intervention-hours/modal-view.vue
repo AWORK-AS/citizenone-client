@@ -117,6 +117,11 @@
                 </div>
                 <div class="mt-6 flex items-center gap-x-2 justify-end">
                     <FormButton buttonStyle="action" class="rounded-lg"
+                        @click="openTimeLogsModal">
+                        <Icon name="ph:list-checks" class="h-4 w-4" aria-hidden="true" />
+                        {{ $t('citizens.timeLogs.timeLogs') }}
+                    </FormButton>
+                    <FormButton buttonStyle="action" class="rounded-lg"
                         @click="state.modal.isAddInterventionHoursOpen = true">
                         <Icon name="ph:plus" class="h-4 w-4" aria-hidden="true" />
                         {{ $t('citizens.interventionHours.newInterventionHours') }}
@@ -239,7 +244,7 @@ const { t } = useI18n()
 const { formatNumber } = useNumberFormatter()
 const language = useI18n()
 const { successAlert } = useAlert()
-const emit = defineEmits(['close', 'refreshCitizenDetails'])
+const emit = defineEmits(['close', 'refreshCitizenDetails', 'openTimeLogs'])
 let currentTablePage = 1
 
 const state = reactive({
@@ -290,6 +295,10 @@ function closeModal() {
 function refreshInterventionHours() {
     fetchInterventionHours()
     emit('refreshCitizenDetails')
+}
+
+function openTimeLogsModal() {
+    emit('openTimeLogs')
 }
 
 watch(() => props.isModalOpen, (isModalOpen: boolean) => {

@@ -82,16 +82,6 @@
                                                         state.selectedCitizen?.data?.patient_care_hours) }}
                                                 </p>
                                             </div>
-                                            <div class="w-fit flex items-center gap-x-1 cursor-pointer px-4"
-                                                @click="state.modal.isViewTimeLogsOpen = true">
-                                                <Tooltip :text="$t('citizens.timeLogs.timeLogs')"
-                                                    class="flex items-center">
-                                                    <Icon name="ph:list-checks" class="h-4 w-4" aria-hidden="true" />
-                                                </Tooltip>
-                                                <p class="text-sm font-medium text-gray-700">
-                                                    {{ $t('citizens.timeLogs.timeLogs') }}
-                                                </p>
-                                            </div>
                                         </LoadingSpinner>
                                     </div>
                                 </div>
@@ -347,9 +337,11 @@
             <ModulesUserCitizenInquiryStayDataModalView :isModalOpen="state.modal.isInquiryStayDataOpen"
                 @close="state.modal.isInquiryStayDataOpen = false" :selectedCitizen="state.selectedCitizen" />
             <ModulesUserCitizenInterventionHoursModalView :isModalOpen="state.modal.isViewPatienCareHoursOpen"
-                @close="state.modal.isViewPatienCareHoursOpen = false" @refreshCitizenDetails="fetchCitizen()" />
+                @close="state.modal.isViewPatienCareHoursOpen = false" @refreshCitizenDetails="fetchCitizen()"
+                @openTimeLogs="switchToTimeLogs" />
             <ModulesUserCitizenTimeLogsModalView :isModalOpen="state.modal.isViewTimeLogsOpen"
-                :citizenUuid="citizenUuid" @close="state.modal.isViewTimeLogsOpen = false" />
+                :citizenUuid="citizenUuid" @close="state.modal.isViewTimeLogsOpen = false"
+                @openInterventionHours="switchToInterventionHours" />
             <ModulesUserCitizenUseOfForceModalRelevantHelpLinks :isModalOpen="state.modal.isViewRelevantHelpLinksOpen"
                 @close="state.modal.isViewRelevantHelpLinksOpen = false" />
             <ModulesUserCitizenTimeRegistrationModalType :isModalOpen="state.modal.isTimeInTypeModalOpen"
@@ -795,6 +787,16 @@ async function transportLogout(transportLogoutDetails: any) {
         state.error = error
     }
     state.isPageLoading = false
+}
+
+function switchToTimeLogs() {
+    state.modal.isViewPatienCareHoursOpen = false
+    state.modal.isViewTimeLogsOpen = true
+}
+
+function switchToInterventionHours() {
+    state.modal.isViewTimeLogsOpen = false
+    state.modal.isViewPatienCareHoursOpen = true
 }
 
 // ... rest of your access control functions remain the same ...
