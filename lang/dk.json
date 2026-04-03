@@ -2026,6 +2026,9 @@
             "health": "Sundhed",
             "plansAndGoals": "Planer og mål"
         },
+        "timeLogs": {
+            "timeLogs":"Tidslogfiler"
+        },
         "treatments": {
             "alert": {
                 "treatmentSuccessfullyAdded": "Behandling gemt med succes",

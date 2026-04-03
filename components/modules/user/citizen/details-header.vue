@@ -82,6 +82,16 @@
                                                         state.selectedCitizen?.data?.patient_care_hours) }}
                                                 </p>
                                             </div>
+                                            <div class="w-fit flex items-center gap-x-1 cursor-pointer px-4"
+                                                @click="state.modal.isViewTimeLogsOpen = true">
+                                                <Tooltip :text="$t('citizens.timeLogs.timeLogs')"
+                                                    class="flex items-center">
+                                                    <Icon name="ph:list-checks" class="h-4 w-4" aria-hidden="true" />
+                                                </Tooltip>
+                                                <p class="text-sm font-medium text-gray-700">
+                                                    {{ $t('citizens.timeLogs.timeLogs') }}
+                                                </p>
+                                            </div>
                                         </LoadingSpinner>
                                     </div>
                                 </div>
@@ -338,6 +348,8 @@
                 @close="state.modal.isInquiryStayDataOpen = false" :selectedCitizen="state.selectedCitizen" />
             <ModulesUserCitizenInterventionHoursModalView :isModalOpen="state.modal.isViewPatienCareHoursOpen"
                 @close="state.modal.isViewPatienCareHoursOpen = false" @refreshCitizenDetails="fetchCitizen()" />
+            <ModulesUserCitizenTimeLogsModalView :isModalOpen="state.modal.isViewTimeLogsOpen"
+                :citizenUuid="citizenUuid" @close="state.modal.isViewTimeLogsOpen = false" />
             <ModulesUserCitizenUseOfForceModalRelevantHelpLinks :isModalOpen="state.modal.isViewRelevantHelpLinksOpen"
                 @close="state.modal.isViewRelevantHelpLinksOpen = false" />
             <ModulesUserCitizenTimeRegistrationModalType :isModalOpen="state.modal.isTimeInTypeModalOpen"
@@ -406,6 +418,7 @@ const state = reactive({
         isInquiryStayDataOpen: false,
         isViewPatienCareHoursOpen: false,
         isViewRelevantHelpLinksOpen: false,
+        isViewTimeLogsOpen: false,
         isTimeInTypeModalOpen: false,
         isTransportLoginOpen: false,
         isTransportLogoutOpen: false,

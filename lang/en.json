@@ -2026,6 +2026,9 @@
             "health": "Health",
             "plansAndGoals": "Plans and goals"
         },
+        "timeLogs": {
+            "timeLogs":"Time Logs"
+        },
         "treatments": {
             "alert": {
                 "treatmentSuccessfullyAdded": "Treatment successfully saved",
