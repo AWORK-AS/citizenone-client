@@ -73,6 +73,11 @@
                                                 <Icon name="ph:eye" class="size-4" />
                                                 {{ $t('superadmin.invoices.table.actions.view') }}
                                             </FormButton>
+                                            <FormButton v-if="!invoice?.is_paid && !invoice?.invoice_type" type="button" buttonStyle="success" class="rounded-md"
+                                                @click="markInvoiceAsPaid(invoice?.uuid)">
+                                                <Icon name="ph:check" class="size-4" />
+                                                {{ $t('superadmin.invoices.table.actions.markAsPaid') }}
+                                            </FormButton>
                                         </div>
                                     </td>
                                 </tr>
@@ -92,11 +97,15 @@
 import { invoiceService } from '@/components/api/superadmin/InvoiceService'
 import { useAmountFormatter } from '@/composables/amountFormatter'
 import { useDatetimeFormatter } from '@/composables/datetimeFormatter'
+import { useAlert } from '@/composables/alert'
+import { useI18n } from "vue-i18n"
 import type { Error } from '@/types'
 
 const runtimeConfig = useRuntimeConfig()
 const { formatAmount } = useAmountFormatter()
 const { formatDateTimeToReadable } = useDatetimeFormatter()
+const { successAlert } = useAlert()
+const { t } = useI18n()
 let currentTablePage = 1
 
 const state = reactive({
@@ -171,5 +180,16 @@ function handleSearch(value: any) {
     currentTablePage = 1
     state.dataFilter.search = value?.[0] == '' ? [] : value
     fetchInvoices()
+}
+
+async function markInvoiceAsPaid(invoiceUuid: string) {
+    state.error = {}
+    try {
+        await invoiceService.markInvoiceAsPaid(invoiceUuid)
+        successAlert(`${t('alert.success')}!`, `${t('superadmin.invoices.form.alert.invoiceMarkedAsPaid')}.`)
+        await fetchInvoices()
+    } catch (error: any) {
+        state.error = error
+    }
 }
 </script>

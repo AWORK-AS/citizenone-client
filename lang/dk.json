@@ -6585,10 +6585,16 @@
                     "filterDate": "Filtrer dato"
                 }
             },
+            "form": {
+                "alert": {
+                    "invoiceMarkedAsPaid": "Faktura markeret som betalt"
+                }
+            },
             "invoices": "Fakturaer",
             "table": {
                 "actions": {
-                    "view": "Se"
+                    "view": "Se",
+                    "markAsPaid": "Marker som betalt"
                 },
                 "amount": "Beløb",
                 "company": "Virksomhed",
