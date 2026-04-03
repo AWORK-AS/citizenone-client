@@ -89,11 +89,12 @@
                     </div>
                     <Pagination :data="state.timeLogs" @previous="previous" @next="next" />
                 </div>
-                <ModulesUserTimeRegistrationModalNew :isModalOpen="state.modal.isAddNewTimeLogOpen"
-                    @close="state.modal.isAddNewTimeLogOpen = false" @refreshTimeLogs="fetchTimeLogs" />
-                <ModulesUserTimeRegistrationModalEdit :isModalOpen="state.modal.isEditTimeLogOpen"
-                    :selectedTimeLog="state.selectedTimeLog" @close="state.modal.isEditTimeLogOpen = false"
+                <ModulesUserCitizenTimeLogsModalNew :isModalOpen="state.modal.isAddNewTimeLogOpen"
+                    :citizenUuid="props.citizenUuid" @close="state.modal.isAddNewTimeLogOpen = false"
                     @refreshTimeLogs="fetchTimeLogs" />
+                <ModulesUserCitizenTimeLogsModalEdit :isModalOpen="state.modal.isEditTimeLogOpen"
+                    :citizenUuid="props.citizenUuid" :selectedTimeLog="state.selectedTimeLog"
+                    @close="state.modal.isEditTimeLogOpen = false" @refreshTimeLogs="fetchTimeLogs" />
                 <ModulesUserTimeRegistrationModalDownload :isModalOpen="state.modal.isDownloadTimeLogsOpen"
                     @close="state.modal.isDownloadTimeLogsOpen = false" />
                 <ModulesUserTimeRegistrationModalViewLog :isModalOpen="state.modal.isViewTimeLogOpen"
