@@ -6603,7 +6603,10 @@
                 "new": "New",
                 "status": "Status",
                 "paid": "Paid",
-                "unpaid": "Unpaid"
+                "unpaid": "Unpaid",
+                "confirmation": {
+                    "markAsPaidConfirmation": "Are you sure you want to mark this invoice as paid"
+                }
             }
         },
         "invoiceDetails": {
