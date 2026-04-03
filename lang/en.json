@@ -6653,10 +6653,16 @@
                     "filterDate": "Filter date"
                 }
             },
+            "form": {
+                "alert": {
+                    "invoiceMarkedAsPaid": "Invoice successfully marked as paid"
+                }
+            },
             "invoices": "Invoices",
             "table": {
                 "actions": {
-                    "view": "View"
+                    "view": "View",
+                    "markAsPaid": "Mark as paid"
                 },
                 "amount": "Amount",
                 "company": "Company",
