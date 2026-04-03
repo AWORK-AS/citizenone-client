@@ -97,12 +97,12 @@
                                             {{ $t('dutySchedules.download.downloadOnlyLeaveTypes') }}
                                         </div>
                                     </div>
-                                    <div class="space-y-1">
-                                        <div class="w-fit flex items-center cursor-pointer"
-                                            @click="state.formDownload.archived_employees_only = !state.formDownload.archived_employees_only">
-                                            <FormCheckbox :value="state.formDownload.archived_employees_only" />
-                                            {{ $t('dutySchedules.download.archivedEmployeesOnly') }}
-                                        </div>
+                                </div>
+                                <div class="space-y-1">
+                                    <div class="w-fit flex items-center cursor-pointer"
+                                        @click="state.formDownload.archived_employees_only = !state.formDownload.archived_employees_only">
+                                        <FormCheckbox :value="state.formDownload.archived_employees_only" />
+                                        {{ $t('dutySchedules.download.archivedEmployeesOnly') }}
                                     </div>
                                 </div>
                             </div>
