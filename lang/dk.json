@@ -6602,7 +6602,10 @@
                 "new": "Ny",
                 "status": "Status",
                 "paid": "Betalt",
-                "unpaid": "Ubetalt"
+                "unpaid": "Ubetalt",
+                "confirmation": {
+                    "markAsPaidConfirmation": "Er du sikker på, at du vil markere denne faktura som betalt"
+                }
             }
         },
         "invoiceDetails": {
