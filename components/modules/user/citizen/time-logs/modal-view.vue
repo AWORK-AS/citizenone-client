@@ -100,8 +100,8 @@
                 <ModulesUserCitizenTimeLogsModalEdit :isModalOpen="state.modal.isEditTimeLogOpen"
                     :citizenUuid="props.citizenUuid" :selectedTimeLog="state.selectedTimeLog"
                     @close="state.modal.isEditTimeLogOpen = false" @refreshTimeLogs="fetchTimeLogs" />
-                <ModulesUserTimeRegistrationModalDownload :isModalOpen="state.modal.isDownloadTimeLogsOpen"
-                    @close="state.modal.isDownloadTimeLogsOpen = false" />
+                <ModulesUserCitizenTimeLogsModalDownload :isModalOpen="state.modal.isDownloadTimeLogsOpen"
+                    :citizenUuid="props.citizenUuid" @close="state.modal.isDownloadTimeLogsOpen = false" />
                 <ModulesUserTimeRegistrationModalViewLog :isModalOpen="state.modal.isViewTimeLogOpen"
                     :selectedTimeLog="state.selectedTimeLog" @close="state.modal.isViewTimeLogOpen = false" />
                 <DialogConfirmation :isModalOpen="state.modal.isDeleteTimeLogConfirmationOpen"
