@@ -4901,7 +4901,18 @@
         "send": "Send",
         "subject": "Subject",
         "unreadMessages": "Unread messages",
-        "users": "Users"
+        "users": "Users",
+        "conversationsAndMessaging": "Conversations & Messaging",
+        "searchConversations": "Search conversations...",
+        "directMessage": "Direct Message",
+        "members": "members",
+        "noConversationsFound": "No conversations found",
+        "welcomeToChat": "Welcome to Chat",
+        "welcomeDescription": "Select a conversation from the sidebar or create a new one to get started.",
+        "newConversation": "New Conversation",
+        "unread": "unread",
+        "attachFile": "Attach file",
+        "typeAMessage": "Type a message..."
     },
     "months": {
         "january": "January",

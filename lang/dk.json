@@ -4901,7 +4901,18 @@
         "send": "Send",
         "subject": "Emne",
         "unreadMessages": "Ulæste beskeder",
-        "users": "Brugere"
+        "users": "Brugere",
+        "conversationsAndMessaging": "Samtaler og beskeder",
+        "searchConversations": "Søg samtaler...",
+        "directMessage": "Direkte besked",
+        "members": "medlemmer",
+        "noConversationsFound": "Ingen samtaler fundet",
+        "welcomeToChat": "Velkommen til chat",
+        "welcomeDescription": "Vælg en samtale fra sidebjælken, eller opret en ny for at komme i gang.",
+        "newConversation": "Ny samtale",
+        "unread": "ulæste",
+        "attachFile": "Vedhæft fil",
+        "typeAMessage": "Skriv en besked..."
     },
     "months": {
         "january": "Januar",
