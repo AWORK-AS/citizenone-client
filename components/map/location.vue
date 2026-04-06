@@ -18,21 +18,11 @@
                 @update:lat-lng="onMarkerUpdate" 
                 @dragend="onMarkerDragEnd"
             >
-                <LIcon v-if="markerColor" :icon-anchor="[18, 36]">
-                    <svg width="36" height="36" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                        <path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z" :fill="markerColor" stroke="white" stroke-width="1"/>
-                    </svg>
-                </LIcon>
                 <LPopup v-if="markerPopup">{{ markerPopup }}</LPopup>
             </LMarker>
 
             <template v-for="(m, idx) in extraMarkers" :key="`extra-marker-${idx}`">
                 <LMarker v-if="validCoord(m)" :lat-lng="[Number(m.lat), Number(m.lng)]">
-                    <LIcon v-if="m.color" :icon-anchor="[18, 36]">
-                        <svg width="36" height="36" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                            <path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z" :fill="m.color" stroke="white" stroke-width="1"/>
-                        </svg>
-                    </LIcon>
                     <LPopup v-if="m.popup">{{ m.popup }}</LPopup>
                 </LMarker>
             </template>
@@ -50,7 +40,7 @@
 <script setup lang="ts">
 import { ref, watch, computed, nextTick } from 'vue'
 import type { PropType } from 'vue'
-import { LMap, LTileLayer, LMarker, LPopup, LPolyline, LIcon } from '@vue-leaflet/vue-leaflet'
+import { LMap, LTileLayer, LMarker, LPopup, LPolyline } from '@vue-leaflet/vue-leaflet'
 
 const props = defineProps({
     center: {
@@ -69,12 +59,8 @@ const props = defineProps({
         type: String,
         default: '',
     },
-    markerColor: {
-        type: String,
-        default: '',
-    },
     extraMarkers: {
-        type: Array as PropType<Array<{ lat: number | string; lng: number | string; popup?: string; color?: string }>>,
+        type: Array as PropType<Array<{ lat: number | string; lng: number | string; popup?: string }>>,
         default: () => [],
     },
     polylinePoints: {

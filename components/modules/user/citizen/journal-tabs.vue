@@ -117,8 +117,7 @@ watch(() => userStore.getUser, (newValue: any) => {
             href: `/citizens/${citizenUuid}/wallets`,
             routeNames: [
                 'citizens-uuid-wallets',
-                'citizens-uuid-wallets-wallet_uuid',
-                'citizens-uuid-expenses'
+                'citizens-uuid-wallets-wallet_uuid'
             ]
         })
     }

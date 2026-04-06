@@ -57,7 +57,6 @@ async function updateExpense(expenseDetails: any) {
         params.append('name', expenseDetails.name)
         params.append('description', expenseDetails.description)
         params.append('expense_category_uuid', expenseDetails.expense_category_uuid)
-        params.append('citizen_uuid', expenseDetails.citizen_uuid)
         params.append('expense_date', expenseDetails.expense_date)
         params.append('amount', parseFloat(expenseDetails.amount).toString())
         if (expenseDetails.receipt && expenseDetails.receipt instanceof File) {

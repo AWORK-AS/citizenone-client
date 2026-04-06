@@ -99,11 +99,6 @@
                                     <td width="10%">
                                         <div class="flex items-end gap-2">
                                             <FormButton type="button" buttonStyle="action" class="rounded-md"
-                                                @click="viewTimeLog(log)">
-                                                <Icon name="ph:eye" class="size-4" />
-                                                {{ $t('timeLogs.table.actions.view') }}
-                                            </FormButton>
-                                            <FormButton type="button" buttonStyle="action" class="rounded-md"
                                                 @click="editTimeLog(log)" v-if="log?.is_editable">
                                                 <Icon name="ph:pencil-simple" class="size-4" />
                                                 {{ $t('timeLogs.table.actions.edit') }}
@@ -132,8 +127,6 @@
                 :selectedTimeLog="state.selectedTimeLog" @close="state.modal.isEditTimeLogOpen = false"
                 @refreshTimeLogs="fetchTimeLogs" />
             <ModulesUserSettingsTimeLogsInterventionHoursEmployeeModal v-if="employeeUuid" :employeeUuid="employeeUuid.toString()" :isModalOpen="state.modal.isInterventionHoursOpen" @close="state.modal.isInterventionHoursOpen = false" />
-            <ModulesUserTimeRegistrationModalViewLog :isModalOpen="state.modal.isViewTimeLogOpen"
-                :selectedTimeLog="state.selectedTimeLog" @close="state.modal.isViewTimeLogOpen = false" />
             <DialogConfirmation :isModalOpen="state.modal.isDeleteTimeLogConfirmationOpen"
                 :message="`${$t('timeLogs.table.confirmation.deleteTimeLogConfirmation')}?`"
                 @close="state.modal.isDeleteTimeLogConfirmationOpen = false" @confirm="deleteTimeLog" />
@@ -190,8 +183,7 @@ const state = reactive({
         isDownloadTimeLogsOpen: false,
         isEditTimeLogOpen: false,
         isFilterTimeLogsOpen: false,
-        isInterventionHoursOpen: false,
-        isViewTimeLogOpen: false
+        isInterventionHoursOpen: false
     },
     selectedTimeLog: {} as any,
     sortData: {
@@ -277,10 +269,5 @@ function setFilter(filter: any) {
 
 function viewInterventionHours() {
     state.modal.isInterventionHoursOpen = true
-}
-
-function viewTimeLog(log: any) {
-    state.selectedTimeLog = log
-    state.modal.isViewTimeLogOpen = true
 }
 </script>

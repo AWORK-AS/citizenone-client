@@ -9,12 +9,12 @@ class UserService extends BaseAPIService {
         return await this.request(`/user`, 'GET')
     }
 
-    async checkin(params: object): Promise<any> {
-        return await this.request(`/user/time-logs/time/in`, 'POST', params)
+    async checkin(): Promise<any> {
+        return await this.request(`/user/time-logs/time/in`, 'POST')
     }
 
-    async checkout(params: object): Promise<any> {
-        return await this.request(`/user/time-logs/time/out`, 'PUT', params)
+    async checkout(): Promise<any> {
+        return await this.request(`/user/time-logs/time/out`, 'PUT')
     }
 
     async updateUser(params: object): Promise<any> {

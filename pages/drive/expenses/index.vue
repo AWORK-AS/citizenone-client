@@ -51,7 +51,7 @@
                                         <span>{{ expense?.category?.name }}</span>
                                     </td>
                                     <td width="10%">
-                                        <span>{{ formatNumber(locale, expense?.amount_raw) }}</span>
+                                        <span>{{ expense?.amount }}</span>
                                     </td>
                                     <td width="10%">
                                         <div v-if="expense?.status === 'reimbursed'" class="rounded-xl bg-green-100 text-green-800 px-2 py-1 text-xs font-semibold text-center w-fit">{{ $t('expenses.table.reimbursed') }}</div>
@@ -132,7 +132,6 @@
 </template>
 
 <script setup lang="ts">
-import { useNumberFormatter } from '@/composables/numberFormatter'
 import { useDatetimeFormatter } from '@/composables/datetimeFormatter'
 import { useI18n } from "vue-i18n"
 import { useAlert } from '@/composables/alert'
@@ -143,10 +142,9 @@ import { expenseService } from '@/components/api/user/ExpenseService'
 
 const runtimeConfig = useRuntimeConfig()
 const { formatDateToReadable } = useDatetimeFormatter()
-const { formatNumber } = useNumberFormatter()
 const { successAlert } = useAlert()
 const userStore = useUserStore() as any
-const { t, locale } = useI18n()
+const { t } = useI18n()
 const router = useRouter()
 const documentFile = ref(null) as any
 let currentTablePage = 1
@@ -275,10 +273,9 @@ function editExpense(expense: any) {
         uuid: expense.uuid,
         name: expense.name,
         expense_category_uuid: expense.category?.uuid,
-        citizen_uuid: expense?.citizen?.uuid || '',
         description: expense.description,
         expense_date: expense.expense_date,
-        amount: expense.amount_raw,
+        amount: expense.amount,
         receipt: {
             name: expense.file_name_src,
             url: expense.file_url,

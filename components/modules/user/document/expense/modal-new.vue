@@ -38,7 +38,6 @@ const state = reactive({
         id: '',
         uuid: '',
         expense_category_uuid: '',
-        citizen_uuid: '',
         name: '',
         description: '',
         expense_date: '',
@@ -63,7 +62,6 @@ async function saveExpense(expenseDetails: any) {
         params.append('name', expenseDetails.name)
         params.append('description', expenseDetails.description)
         params.append('expense_category_uuid', expenseDetails.expense_category_uuid)
-        params.append('citizen_uuid', expenseDetails.citizen_uuid)
         params.append('expense_date', expenseDetails.expense_date)
         params.append('amount', expenseDetails.amount)
         if (expenseDetails.receipt) {

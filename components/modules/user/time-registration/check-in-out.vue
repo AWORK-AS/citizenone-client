@@ -78,76 +78,12 @@ watch(() => userStore.isCheckInNow, (newValue: any) => {
     }
 })
 
-const getCurrentLocation = (): Promise<{ lat: number; lng: number }> => {
-    return new Promise((resolve, reject) => {
-        if (!navigator.geolocation) {
-            reject(new Error('Geolocation is not supported by your browser'))
-            return
-        }
-
-        navigator.geolocation.getCurrentPosition(
-            (position) => {
-                resolve({
-                    lat: position.coords.latitude,
-                    lng: position.coords.longitude
-                })
-            },
-            (error) => {
-                console.error('Error getting location:', error)
-                reject(error)
-            },
-            {
-                enableHighAccuracy: true,
-                timeout: 10000,
-                maximumAge: 0
-            }
-        )
-    })
-}
-
-const getAddressFromCoordinates = async (lat: number, lng: number): Promise<string> => {
-    try {
-        const response = await fetch(
-            `https://nominatim.openstreetmap.org/reverse?format=json&lat=${lat}&lon=${lng}&zoom=18&addressdetails=1`,
-            {
-                headers: {
-                    'Accept-Language': 'da,en',
-                }
-            }
-        )
-        const data = await response.json()
-        if (data && data.display_name) {
-            return data.display_name
-        }
-    } catch (error) {
-        console.error('Failed to get address from coordinates:', error)
-    }
-    return `${lat}, ${lng}`
-}
-
 async function toggleLogin() {
     state.error = {}
     state.isPageLoading = true
     try {
         if (!userStore.getIsLoggedIn) {
-            let location
-            let address = ''
-            try {
-                location = await getCurrentLocation()
-                if (location) {
-                    address = await getAddressFromCoordinates(location.lat, location.lng)
-                }
-            } catch (locError) {
-                console.warn('Could not get location for check-in:', locError)
-            }
-
-            const params = location ? {
-                start_lat: location.lat,
-                start_lng: location.lng,
-                start_address: address
-            } : {}
-
-            const response = await userService.checkin(params)
+            const response = await userService.checkin()
             if (response?.data) {
                 userStore.setIsLoggedIn(!userStore.getIsLoggedIn)
                 if (response?.data?.running_time) {
@@ -159,24 +95,7 @@ async function toggleLogin() {
                 startTimer()
             }
         } else {
-            let location
-            let address = ''
-            try {
-                location = await getCurrentLocation()
-                if (location) {
-                    address = await getAddressFromCoordinates(location.lat, location.lng)
-                }
-            } catch (locError) {
-                console.warn('Could not get location for check-out:', locError)
-            }
-
-            const params = location ? {
-                end_lat: location.lat,
-                end_lng: location.lng,
-                end_address: address
-            } : {}
-
-            const response = await userService.checkout(params)
+            const response = await userService.checkout()
             if (response?.data) {
                 userStore.setIsLoggedIn(!userStore.getIsLoggedIn)
                 if (response?.data?.running_time) {
