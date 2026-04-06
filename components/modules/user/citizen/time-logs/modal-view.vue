@@ -3,6 +3,92 @@
         <Modal size="4xl" :title="$t('citizens.timeLogs.timeLogs')" :show="props.isModalOpen"
             @close="closeModal">
             <template #modal-body>
+                <div class="space-y-3">
+                    <button class="text-sm text-primary hover:text-primary-700 hover:underline"
+                        @click="state.modal.isTimeLogSummaryDateRangeOpen = true">
+                        {{ $t('citizens.interventionHours.timeAccount.date') }}:
+                        {{ formatDateToReadable(state.timeLogSummaryFilter.formDateRange.date_start) }} -
+                        {{ formatDateToReadable(state.timeLogSummaryFilter.formDateRange.date_end) }}
+                    </button>
+                    <div class="grid grid-cols-1 md:grid-cols-4 gap-3">
+                        <LoadingSpinner :isActive="state.isTimeLogSummaryLoading">
+                            <div class="border-l-4 border-secondary shadow-md rounded-md px-4 py-3">
+                                <p class="text-xs">
+                                    {{ $t('citizens.interventionHours.timeAccount.timeAccount') }}
+                                </p>
+                                <p class="text-sm">
+                                    {{ state.timeLogSummary?.data?.total_hours || 0 }}
+                                </p>
+                            </div>
+                        </LoadingSpinner>
+                        <LoadingSpinner :isActive="state.isTimeLogSummaryLoading">
+                            <div :class="[
+                                state.timeLogSummary?.data?.daily_flag === 1 && 'border-orange-400',
+                                state.timeLogSummary?.data?.daily_flag === 2 && 'border-secondary',
+                                state.timeLogSummary?.data?.daily_flag === 3 && 'border-red-600',
+                                'border-l-4 shadow-md rounded-md px-4 py-3'
+                            ]">
+                                <p class="text-xs">
+                                    {{ $t('citizens.interventionHours.timeAccount.dailyAllocation') }}
+                                    ({{ formatNumber(language.locale.value,
+                                        citizenStore.getSelectedCitizen?.allocated_daily_hours) }})
+                                </p>
+                                <p :class="[
+                                    state.timeLogSummary?.data?.daily_flag === 1 && 'text-orange-400',
+                                    state.timeLogSummary?.data?.daily_flag === 2 && 'text-secondary',
+                                    state.timeLogSummary?.data?.daily_flag === 3 && 'text-red-600',
+                                    'text-sm'
+                                ]">
+                                    {{ state.timeLogSummary?.data?.daily ?? '-' }}
+                                </p>
+                            </div>
+                        </LoadingSpinner>
+                        <LoadingSpinner :isActive="state.isTimeLogSummaryLoading">
+                            <div :class="[
+                                state.timeLogSummary?.data?.weekly_flag === 1 && 'border-orange-400',
+                                state.timeLogSummary?.data?.weekly_flag === 2 && 'border-secondary',
+                                state.timeLogSummary?.data?.weekly_flag === 3 && 'border-red-600',
+                                'border-l-4 shadow-md rounded-md px-4 py-3'
+                            ]">
+                                <p class="text-xs">
+                                    {{ $t('citizens.interventionHours.timeAccount.weeklyAllocation') }}
+                                    ({{ formatNumber(language.locale.value,
+                                        citizenStore.getSelectedCitizen?.allocated_weekly_hours) }})
+                                </p>
+                                <p :class="[
+                                    state.timeLogSummary?.data?.weekly_flag === 1 && 'text-orange-400',
+                                    state.timeLogSummary?.data?.weekly_flag === 2 && 'text-secondary',
+                                    state.timeLogSummary?.data?.weekly_flag === 3 && 'text-red-600',
+                                    'text-sm'
+                                ]">
+                                    {{ state.timeLogSummary?.data?.weekly ?? '-' }}
+                                </p>
+                            </div>
+                        </LoadingSpinner>
+                        <LoadingSpinner :isActive="state.isTimeLogSummaryLoading">
+                            <div :class="[
+                                state.timeLogSummary?.data?.monthly_flag === 1 && 'border-orange-400',
+                                state.timeLogSummary?.data?.monthly_flag === 2 && 'border-secondary',
+                                state.timeLogSummary?.data?.monthly_flag === 3 && 'border-red-600',
+                                'border-l-4 shadow-md rounded-md px-4 py-3'
+                            ]">
+                                <p class="text-xs">
+                                    {{ $t('citizens.interventionHours.timeAccount.monthlyAllocation') }}
+                                    ({{ formatNumber(language.locale.value,
+                                        citizenStore.getSelectedCitizen?.allocated_monthly_hours) }})
+                                </p>
+                                <p :class="[
+                                    state.timeLogSummary?.data?.monthly_flag === 1 && 'text-orange-400',
+                                    state.timeLogSummary?.data?.monthly_flag === 2 && 'text-secondary',
+                                    state.timeLogSummary?.data?.monthly_flag === 3 && 'text-red-600',
+                                    'text-sm'
+                                ]">
+                                    {{ state.timeLogSummary?.data?.monthly ?? '-' }}
+                                </p>
+                            </div>
+                        </LoadingSpinner>
+                    </div>
+                </div>
                 <div class="mt-6 flex items-center gap-x-2 justify-end">
                     <FormButton buttonStyle="action" class="rounded-lg"
                         @click="openInterventionHoursModal">
@@ -104,6 +190,9 @@
                     :citizenUuid="props.citizenUuid" @close="state.modal.isDownloadTimeLogsOpen = false" />
                 <ModulesUserTimeRegistrationModalViewLog :isModalOpen="state.modal.isViewTimeLogOpen"
                     :selectedTimeLog="state.selectedTimeLog" @close="state.modal.isViewTimeLogOpen = false" />
+                <ModulesUserCitizenTimeLogsModalDateRange :isModalOpen="state.modal.isTimeLogSummaryDateRangeOpen"
+                    :dateRange="state.timeLogSummaryFilter.formDateRange"
+                    @close="state.modal.isTimeLogSummaryDateRangeOpen = false" @filterDate="filterTimeLogSummaryByDate" />
                 <DialogConfirmation :isModalOpen="state.modal.isDeleteTimeLogConfirmationOpen"
                     :message="`${$t('timeLogs.table.confirmation.deleteTimeLogConfirmation')}?`"
                     @close="state.modal.isDeleteTimeLogConfirmationOpen = false" @confirm="deleteTimeLog" />
@@ -113,9 +202,12 @@
 </template>
 
 <script setup lang="ts">
+import moment from 'moment'
 import { citizenTimeLogService } from '@/components/api/user/CitizenTimeLogService'
 import { timeLogService } from '@/components/api/user/TimeLogService'
 import { useDatetimeFormatter } from '@/composables/datetimeFormatter'
+import { useNumberFormatter } from '@/composables/numberFormatter'
+import { useCitizenStore } from '@/store/citizen'
 import { useAlert } from '@/composables/alert'
 import { useI18n } from "vue-i18n"
 import type { Error } from '@/types'
@@ -131,7 +223,10 @@ const props = defineProps({
     },
 })
 
-const { formatDateTimeToReadable } = useDatetimeFormatter()
+const citizenStore = useCitizenStore() as any
+const { formatDateToReadable, formatDateTimeToReadable } = useDatetimeFormatter()
+const { formatNumber } = useNumberFormatter()
+const language = useI18n()
 const { t } = useI18n()
 const { successAlert } = useAlert()
 const emit = defineEmits(['close', 'openInterventionHours'])
@@ -152,18 +247,27 @@ const state = reactive({
     },
     error: {} as Error,
     isTableLoading: false,
+    isTimeLogSummaryLoading: false,
     modal: {
         isAddNewTimeLogOpen: false,
         isDeleteTimeLogConfirmationOpen: false,
         isDownloadTimeLogsOpen: false,
         isEditTimeLogOpen: false,
-        isViewTimeLogOpen: false
+        isViewTimeLogOpen: false,
+        isTimeLogSummaryDateRangeOpen: false,
     },
     timeLogs: [] as any,
     selectedTimeLog: {} as any,
     sortData: {
         sortField: 'id',
         sortOrder: 'descend',
+    },
+    timeLogSummary: {} as any,
+    timeLogSummaryFilter: {
+        formDateRange: {
+            date_start: moment().startOf('month').format('YYYY-MM-DD'),
+            date_end: moment().endOf('month').format('YYYY-MM-DD'),
+        }
     },
 })
 
@@ -175,8 +279,33 @@ function openInterventionHoursModal() {
     emit('openInterventionHours')
 }
 
+async function fetchTimeLogSummary() {
+    state.error = {}
+    state.isTimeLogSummaryLoading = true
+    try {
+        const params = {
+            date_start: state.timeLogSummaryFilter.formDateRange.date_start,
+            date_end: state.timeLogSummaryFilter.formDateRange.date_end,
+        }
+        const response = await citizenTimeLogService.timeLogSummary(props.citizenUuid, params)
+        if (response) {
+            state.timeLogSummary = response
+        }
+    } catch (error: any) {
+        state.error = error
+    }
+    state.isTimeLogSummaryLoading = false
+}
+
+function filterTimeLogSummaryByDate(formDateRange: any) {
+    state.timeLogSummaryFilter.formDateRange.date_start = formDateRange.date_start
+    state.timeLogSummaryFilter.formDateRange.date_end = formDateRange.date_end
+    fetchTimeLogSummary()
+}
+
 watch(() => props.isModalOpen, (isModalOpen: boolean) => {
     if (isModalOpen) {
+        fetchTimeLogSummary()
         fetchTimeLogs()
     }
 })
