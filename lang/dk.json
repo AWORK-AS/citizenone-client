@@ -1238,6 +1238,54 @@
             "useTemplate": "Brug skabelon"
         },
         "editCitizen": "Rediger Borger",
+        "expenses": {
+            "alert": {
+                "deletedSuccessfully": "Udgift slettet med succes",
+                "expenseRejected": "Udgift afvist med succes",
+                "expenseReimbursed": "Udlæg udbetalt med succes"
+            },
+            "confirmation": {
+                "deleteConfirmation": "Er du sikker på, at du vil slette denne udgift",
+                "rejectConfirmation": "Er du sikker på, at du vil afvise denne udgift"
+            },
+            "editExpense": "Rediger udgift",
+            "expenses": "Udgifter",
+            "form": {
+                "alert": {
+                    "savedSuccessfully": "Udgift gemt med succes",
+                    "updatedSuccessfully": "Udgift opdateret med succes"
+                },
+                "amount": "Beløb",
+                "category": "Kategori",
+                "date": "Dato",
+                "description": "Beskrivelse",
+                "name": "Navn",
+                "note": "Note",
+                "receipt": "Kvittering"
+            },
+            "newExpense": "Ny udgift",
+            "table": {
+                "actions": {
+                    "delete": "Slet",
+                    "edit": "Rediger",
+                    "view": "Vis",
+                    "reject": "Afvis",
+                    "reimburse": "Udbetal udlæg",
+                    "label": "Handlinger"
+                },
+                "amount": "Beløb",
+                "category": "Kategori",
+                "date": "Dato",
+                "employee": "Medarbejder",
+                "name": "Navn",
+                "note": "Note",
+                "receipt": "Kvittering",
+                "status": "Status",
+                "reimbursed": "Udlæg betalt",
+                "pending": "Afventer",
+                "rejected": "Afvist"
+            }
+        },
         "exportCitizens": "Eksporter borgere",
         "form": {
             "addictions": "Stofmisbrug",
@@ -2247,6 +2295,10 @@
                 "available": "Tilgængelig",
                 "name": "Navn",
                 "note": "Note"
+            },
+            "tabs": {
+                "wallets": "Punge",
+                "expenses": "Udgifter"
             },
             "wallets": "Økonomi"
         },
@@ -3787,7 +3839,8 @@
             "amount": "Beløb",
             "description": "Beskrivelse",
             "receipt": "Kvittering",
-            "clickToUpload": "Klik for at uploade"
+            "clickToUpload": "Klik for at uploade",
+            "citizen": "Borger"
         },
         "newExpense": "Ny udgift",
         "table": {
@@ -6601,10 +6654,16 @@
                     "filterDate": "Filtrer dato"
                 }
             },
+            "form": {
+                "alert": {
+                    "invoiceMarkedAsPaid": "Faktura markeret som betalt"
+                }
+            },
             "invoices": "Fakturaer",
             "table": {
                 "actions": {
-                    "view": "Se"
+                    "view": "Se",
+                    "markAsPaid": "Marker som betalt"
                 },
                 "amount": "Beløb",
                 "company": "Virksomhed",
@@ -6981,7 +7040,8 @@
         "table": {
             "actions": {
                 "delete": "Slet",
-                "edit": "Rediger"
+                "edit": "Rediger",
+                "view": "Vis"
             },
             "alert": {
                 "timeLogSuccessfullyDeleted": "Tidslog blev slettet"
@@ -7000,6 +7060,13 @@
                 "status": "Status"
             },
             "summary": "Tidsoversigt"
+        },
+        "view": {
+            "title": "Vis tidslog",
+            "employee": "Medarbejder",
+            "locationInformation": "Placeringsinformation",
+            "checkInLocation": "Check-in placering",
+            "checkOutLocation": "Check-out placering"
         },
         "timeLogs": "Tidslogge",
         "interventionHours": "Indsatstimer"

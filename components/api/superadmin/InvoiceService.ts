@@ -16,6 +16,10 @@ class InvoiceService extends BaseAPIService {
     async downloadInvoiceDetails(invoiceUuid: any): Promise<any> {
         return await this.request(`/superadmin/invoices/${invoiceUuid}/download`, 'GET')
     }
+
+    async markInvoiceAsPaid(invoiceUuid: any): Promise<any> {
+        return await this.request(`/superadmin/invoices/${invoiceUuid}/mark-as-paid`, 'PUT')
+    }
 }
 
 export const invoiceService = new InvoiceService()

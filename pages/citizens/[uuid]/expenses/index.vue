@@ -3,25 +3,41 @@
         <NuxtLayout name="user">
 
             <Head>
-                <Title>{{ $t('expenses.expenses') }} - {{ runtimeConfig?.public?.appName }}</Title>
+                <Title>{{ $t('citizens.expenses.expenses') }} - {{ runtimeConfig?.public?.appName }}</Title>
             </Head>
 
             <template #breadcrumb>
-                <Breadcrumb :links="breadcrumbLinks" />
+                <Breadcrumb :links="breadcrumbLinks">
+                    <template #custom-link>
+                        <div class="flex items-center">
+                            <Icon name="heroicons:chevron-right" class="size-3 shrink-0 text-gray-400"
+                                aria-hidden="true" />
+                            <button @click="navigateTo('/citizens')"
+                                class="ml-4 text-sm font-medium text-gray-500 hover:text-gray-700">
+                                {{ customPagesStore.getCustomPagesName?.citizens }}
+                            </button>
+                        </div>
+                    </template>
+                </Breadcrumb>
             </template>
 
-            <template #header>{{ $t('expenses.expenses') }}</template>
+            <template #header>{{ $t('citizens.expenses.expenses') }}</template>
 
             <div class="space-y-5">
-                <div class="mt-8 flex flex-col md:flex-row justify-between gap-3">
-                    <div class="flex items-center justify-end md:justify-start gap-x-3">
-                        
-                    </div>
-                    <div class="flex flex-wrap items-center justify-end gap-3">
-                        <FormButton buttonStyle="action" class="rounded-md"
-                            @click="state.modal.isAddExpenseOpen = true">
+                <NuxtLink class="flex items-center gap-x-2 mb-3 max-w-fit hover:cursor-pointer" to="/citizens">
+                    <Icon name="ph:arrow-left" size="20" class="text-black" />
+                    <span>{{ $t('back') }}</span>
+                </NuxtLink>
+
+                <ModulesUserCitizenDetailsHeader />
+                <ModulesUserCitizenJournalTabs />
+                <ModulesUserCitizenWalletTabs />
+
+                <div>
+                    <div class="mt-8 flex justify-end items-center mb-5 gap-x-2">
+                        <FormButton buttonStyle="action" class="rounded-lg" @click="state.modal.isAddExpenseOpen = true">
                             <Icon name="ph:plus" class="h-4 w-4" aria-hidden="true" />
-                            {{ $t('expenses.addNewExpense') }}
+                            {{ $t('citizens.expenses.newExpense') }}
                         </FormButton>
                     </div>
                 </div>
@@ -31,9 +47,9 @@
                         v-if="state.error?.message && state.error.message.length > 0" />
                     <TableSearch @search="handleSearch" />
                     <div class="table-responsive">
-                        <Table :columnHeaders="state.columnHeaders" :data="state.expenses"
-                            :isLoading="state.isTableLoading" :sortData="state.sortData" @sort="sort">
-                            <template #body v-if="!(state.isTableLoading || (state.expenses?.data?.length === 0))">
+                        <Table :columnHeaders="state.columnHeaders" :data="state.expenses" :isLoading="state.isTableLoading"
+                            :sortData="state.sortData" @sort="sort">
+            <template #body v-if="!(state.isTableLoading || (state.expenses?.data?.length === 0))">
                                 <tr v-for="(expense, index) in state.expenses?.data" :key="index">
                                     <td width="15%">
                                         <div class="flex items-center gap-x-2">
@@ -54,9 +70,9 @@
                                         <span>{{ formatNumber(locale, expense?.amount_raw) }}</span>
                                     </td>
                                     <td width="10%">
-                                        <div v-if="expense?.status === 'reimbursed'" class="rounded-xl bg-green-100 text-green-800 px-2 py-1 text-xs font-semibold text-center w-fit">{{ $t('expenses.table.reimbursed') }}</div>
-                                        <div v-else-if="expense?.status === 'pending'" class="rounded-xl bg-amber-100 text-red-800 px-2 py-1 text-xs font-semibold text-center w-fit">{{ $t('expenses.table.pending') }}</div>
-                                        <div v-else-if="expense?.status === 'rejected'" class="rounded-xl bg-red-100 text-red-800 px-2 py-1 text-xs font-semibold text-center w-fit">{{ $t('expenses.table.rejected') }}</div>
+                                        <div v-if="expense?.status === 'reimbursed'" class="rounded-xl bg-green-100 text-green-800 px-2 py-1 text-xs font-semibold text-center w-fit">{{ $t('citizens.expenses.table.reimbursed') }}</div>
+                                        <div v-else-if="expense?.status === 'pending'" class="rounded-xl bg-amber-100 text-amber-800 px-2 py-1 text-xs font-semibold text-center w-fit">{{ $t('citizens.expenses.table.pending') }}</div>
+                                        <div v-else-if="expense?.status === 'rejected'" class="rounded-xl bg-red-100 text-red-800 px-2 py-1 text-xs font-semibold text-center w-fit">{{ $t('citizens.expenses.table.rejected') }}</div>
                                     </td>
                                     <td width="15%">
                                         <div class="text-tertiary hover:text-tertiary-700 cursor-pointer flex items-center gap-x-1"
@@ -72,31 +88,31 @@
                                     </td>
                                     <td width="20%">
                                         <div class="flex items-end gap-2">
-                                            <Tooltip :text="$t('expenses.table.actions.view')">
+                                            <Tooltip :text="$t('citizens.expenses.table.actions.view')">
                                                 <FormButton type="button" buttonStyle="action" class="rounded-md"
                                                     @click="viewExpense(expense)">
                                                     <Icon name="ph:eye" class="size-4" />
                                                 </FormButton>
                                             </Tooltip>
-                                            <Tooltip :text="$t('expenses.table.actions.edit')" v-if="isAdmin(userStore?.user?.roles) && expense?.status === 'pending'">
+                                            <Tooltip :text="$t('citizens.expenses.table.actions.edit')" v-if="expense?.status === 'pending'">
                                                 <FormButton type="button" buttonStyle="action" class="rounded-md"
                                                     @click="editExpense(expense)">
                                                     <Icon name="ph:pencil-simple" class="size-4" />
                                                 </FormButton>
                                             </Tooltip>
-                                            <Tooltip :text="$t('expenses.table.actions.reject')" v-if="expense?.status !== 'reimbursed' && isAdmin(userStore?.user?.roles) && expense?.status !== 'rejected'">
+                                            <Tooltip :text="$t('citizens.expenses.table.actions.reject')" v-if="expense?.status !== 'reimbursed' && expense?.status !== 'rejected'">
                                                 <FormButton type="button" buttonStyle="danger" class="rounded-md"
                                                     @click="rejectExpenseConfirmation(expense)">
                                                     <Icon name="ph:file-x-duotone" class="size-4" />
                                                 </FormButton>
                                             </Tooltip>
-                                            <Tooltip :text="$t('expenses.table.actions.reimburse')" v-if="expense?.status !== 'reimbursed' && expense?.status !== 'rejected' && isAdmin(userStore?.user?.roles)">
+                                            <Tooltip :text="$t('citizens.expenses.table.actions.reimburse')" v-if="expense?.status !== 'reimbursed' && expense?.status !== 'rejected'">
                                                 <FormButton type="button" buttonStyle="success" class="rounded-md"
                                                     @click="reimburse(expense)">
                                                     <Icon name="ph:check" class="size-4" />
                                                 </FormButton>
                                             </Tooltip>
-                                            <Tooltip :text="$t('expenses.table.actions.delete')" v-if="isAdmin(userStore?.user?.roles) && expense?.status !== 'pending'">
+                                            <Tooltip :text="$t('citizens.expenses.table.actions.delete')" v-if="expense?.status !== 'pending'">
                                                 <FormButton type="button" buttonStyle="danger" class="rounded-md"
                                                     @click="deleteExpenseConfirmation(expense)">
                                                     <Icon name="ph:trash" class="size-4" />
@@ -111,20 +127,20 @@
                     <Pagination :data="state.expenses" @previous="previous" @next="next" />
                 </div>
 
-                <ModulesUserDocumentExpenseModalView :isModalOpen="state.modal.isViewExpenseOpen"
+                <ModulesUserCitizenExpenseModalView :isModalOpen="state.modal.isViewExpenseOpen"
                     :selectedExpense="state.selectedExpense" @editExpense="editExpense(state.selectedExpense)"
                     @close="state.modal.isViewExpenseOpen = false" />
-                <ModulesUserDocumentExpenseModalNew :isModalOpen="state.modal.isAddExpenseOpen"
+                <ModulesUserCitizenExpenseModalNew :isModalOpen="state.modal.isAddExpenseOpen" :citizenUuid="citizenUuid"
                     @close="state.modal.isAddExpenseOpen = false" @refreshExpenses="fetchExpenses" />
-                <ModulesUserDocumentExpenseModalEdit :isModalOpen="state.modal.isEditExpenseOpen"
-                    :selectedExpense="state.selectedExpense"
-                    @close="state.modal.isEditExpenseOpen = false" @refreshExpenses="fetchExpenses" />
+                <ModulesUserCitizenExpenseModalEdit :isModalOpen="state.modal.isEditExpenseOpen"
+                    :selectedExpense="state.selectedExpense" @close="state.modal.isEditExpenseOpen = false"
+                    @refreshExpenses="fetchExpenses" />
 
                 <DialogConfirmation :isModalOpen="state.modal.isDeleteExpenseOpen"
-                    :message="$t('expenses.confirmation.deleteExpenseConfirmation')"
+                    :message="$t('citizens.expenses.confirmation.deleteConfirmation')"
                     @close="state.modal.isDeleteExpenseOpen = false" @confirm="deleteExpense" />
                 <DialogConfirmation :isModalOpen="state.modal.isRejectExpenseOpen"
-                    :message="$t('expenses.table.confirmation.rejectExpenseConfirmation')"
+                    :message="$t('citizens.expenses.confirmation.rejectConfirmation')"
                     @close="state.modal.isRejectExpenseOpen = false" @confirm="rejectExpense" />
             </div>
         </NuxtLayout>
@@ -132,65 +148,61 @@
 </template>
 
 <script setup lang="ts">
-import { useNumberFormatter } from '@/composables/numberFormatter'
+import { citizenExpenseService } from '@/components/api/user/CitizenExpenseService'
 import { useDatetimeFormatter } from '@/composables/datetimeFormatter'
+import { useNumberFormatter } from '@/composables/numberFormatter'
 import { useI18n } from "vue-i18n"
 import { useAlert } from '@/composables/alert'
-import { useUserStore } from '@/store/user'
-import type { Error } from '@/types'
+import { useCustomPagesStore } from '@/store/custom-pages'
 import { saveAs } from 'file-saver'
-import { expenseService } from '@/components/api/user/ExpenseService'
+import type { Error } from '@/types'
 
 const runtimeConfig = useRuntimeConfig()
 const { formatDateToReadable } = useDatetimeFormatter()
 const { formatNumber } = useNumberFormatter()
 const { successAlert } = useAlert()
-const userStore = useUserStore() as any
 const { t, locale } = useI18n()
+const customPagesStore = useCustomPagesStore() as any
 const router = useRouter()
-const documentFile = ref(null) as any
+const citizenUuid = router?.currentRoute?.value?.params?.uuid as any
 let currentTablePage = 1
+
 const breadcrumbLinks = [
     {
-        name: 'drive.companyDocuments',
+        name: 'citizens.expenses.expenses',
         translate: true,
-        href: '/drive',
-    },
-    {
-        name: 'drive.expenses',
-        translate: true,
-        href: '/drive/expenses',
+        href: `/citizens/${citizenUuid}/expenses`,
     },
 ]
 
 const state = reactive({
     columnHeaders: [
-        { name: 'expenses.table.employee', isTranslateName: true, sorter: true },
-        { name: 'expenses.table.name', isTranslateName: true, },
-        { name: 'expenses.table.category', isTranslateName: true, sorter: true, },
-        { name: 'expenses.table.amount', isTranslateName: true, sorter: true, },
-        { name: 'expenses.table.status', isTranslateName: true, sorter: true, },
-        { name: 'expenses.table.receipt', isTranslateName: true },
-        { name: 'expenses.table.date', isTranslateName: true, sorter: true, key: 'expense_date' },
+        { name: 'citizens.expenses.table.employee', isTranslateName: true, sorter: false },
+        { name: 'citizens.expenses.table.name', isTranslateName: true, sorter: true, key: 'name' },
+        { name: 'citizens.expenses.table.category', isTranslateName: true, sorter: false },
+        { name: 'citizens.expenses.table.amount', isTranslateName: true, sorter: true, key: 'amount' },
+        { name: 'citizens.expenses.table.status', isTranslateName: true, sorter: false },
+        { name: 'citizens.expenses.table.receipt', isTranslateName: true, sorter: false },
+        { name: 'citizens.expenses.table.date', isTranslateName: true, sorter: true, key: 'expense_date' },
         { name: '' },
     ],
+    expenses: [] as any,
     dataFilter: {
         search: ''
     },
     error: {} as Error,
     isPageLoading: false,
     isTableLoading: false,
-    expenses: [] as any,
     modal: {
-       isRejectExpenseOpen: false,
-       isAddExpenseOpen: false,
-       isEditExpenseOpen: false,
-       isDeleteExpenseOpen: false,
-       isViewExpenseOpen: false,
+        isAddExpenseOpen: false,
+        isDeleteExpenseOpen: false,
+        isEditExpenseOpen: false,
+        isViewExpenseOpen: false,
+        isRejectExpenseOpen: false,
     },
     selectedExpense: {} as any,
     sortData: {
-        sortField: 'id',
+        sortField: 'expense_date',
         sortOrder: 'descend',
     },
 })
@@ -199,22 +211,18 @@ onMounted(() => {
     fetchExpenses()
 })
 
-
-function isAdmin(roles: any) {
-    return roles && roles.some((role: any) => role.name === 'Admin')
-}
-
-async function fetchExpenses(folderUuid: any = null) {
+async function fetchExpenses() {
     state.error = {}
     state.isTableLoading = true
     try {
         const params = {
+            citizen_uuid: citizenUuid,
             page: currentTablePage,
             sortField: state.sortData.sortField,
             sortOrder: state.sortData.sortOrder,
             ...state.dataFilter,
         }
-        const response = await expenseService.getExpenses(params)
+        const response = await citizenExpenseService.getExpenses(params)
         if (response) {
             state.expenses = response
         }
@@ -249,33 +257,19 @@ function handleSearch(value: any) {
     fetchExpenses()
 }
 
-
-async function downloadReceipt(expense: any) {
-    state.isPageLoading = true
-    state.error = {}
-    try {
-        const response = await expenseService.downloadReceipt(expense.uuid)
-        if (response) {
-            saveAs(response, expense?.file_name_src || 'receipt')
-        }
-    } catch (error: any) {
-        state.error.message = error?.message || 'An error occurred during the download.'
-    }
-    state.isPageLoading = false
-}
-
 function viewExpense(expense: any) {
     state.selectedExpense = expense
     state.modal.isViewExpenseOpen = true
 }
 
 function editExpense(expense: any) {
+    console.log('Selected Expense for Edit:', expense) // Debug log to check the expense data
     state.selectedExpense = {
         id: expense.id,
         uuid: expense.uuid,
         name: expense.name,
         expense_category_uuid: expense.category?.uuid,
-        citizen_uuid: expense?.citizen?.uuid || '',
+        citizen_uuid: expense?.citizen?.uuid || citizenUuid,
         description: expense.description,
         expense_date: expense.expense_date,
         amount: expense.amount_raw,
@@ -297,10 +291,11 @@ async function rejectExpense() {
     state.error = {}
     state.isTableLoading = true
     try {
-        const response = await expenseService.rejectExpense(state.selectedExpense.uuid)
+        const response = await citizenExpenseService.rejectExpense(state.selectedExpense.uuid)
         if (response?.data) {
+            state.modal.isRejectExpenseOpen = false
             fetchExpenses()
-            successAlert(`${t('alert.success')}!`, `${t('expenses.table.alert.expenseSuccessfullyRejected')}.`)
+            successAlert(`${t('alert.success')}!`, `${t('citizens.expenses.alert.expenseRejected')}.`)
         }
     } catch (error: any) {
         state.error = error
@@ -317,15 +312,30 @@ async function deleteExpense() {
     state.error = {}
     state.isTableLoading = true
     try {
-        const response = await expenseService.deleteExpense(state.selectedExpense.uuid)
+        const response = await citizenExpenseService.deleteExpense(state.selectedExpense.uuid)
         if (response?.message) {
+            state.modal.isDeleteExpenseOpen = false
             fetchExpenses()
-            successAlert(`${t('alert.success')}!`, `${t('expenses.table.alert.expenseSuccessfullyDeleted')}.`)
+            successAlert(`${t('alert.success')}!`, `${t('citizens.expenses.alert.deletedSuccessfully')}.`)
         }
     } catch (error: any) {
         state.error = error
     }
     state.isTableLoading = false
+}
+
+async function downloadReceipt(expense: any) {
+    state.isPageLoading = true
+    state.error = {}
+    try {
+        const response = await citizenExpenseService.downloadReceipt(expense.uuid)
+        if (response) {
+            saveAs(response, expense?.file_name_src || 'receipt')
+        }
+    } catch (error: any) {
+        state.error.message = error?.message || 'An error occurred during the download.'
+    }
+    state.isPageLoading = false
 }
 
 async function reimburse(expense: any) {
@@ -335,10 +345,10 @@ async function reimburse(expense: any) {
         let params = {
             is_reimbursed: true
         }
-        const response = await expenseService.reimburseExpense(expense.uuid, params)
+        const response = await citizenExpenseService.reimburseExpense(expense.uuid, params)
         if (response?.data) {
             fetchExpenses()
-            successAlert(`${t('alert.success')}!`, `${t('expenses.table.alert.expenseSuccessfullyReimbursed')}.`)
+            successAlert(`${t('alert.success')}!`, `${t('citizens.expenses.alert.expenseReimbursed')}.`)
         }
     } catch (error: any) {
         state.error = error
