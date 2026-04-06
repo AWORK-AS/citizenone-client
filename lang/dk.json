@@ -3105,8 +3105,8 @@
         "newSchedule": "Ny vagt",
         "normHours": {
             "availableVacationHours": "Tilgængelige ferietimer",
-            "compensatoryHours": "Afspadseringstimer",
             "compensatoryHoursThisYear": "Afspadseringstimer i år",
+            "compensatoryHoursThisPeriod": "Afspadseringstimer i denne periode",
             "compensatoryHourFromPreviousYear": "Afspadseringstimer fra tidligere år",
             "compensatoryHoursGraph": "Afspadseringsgraf",
             "date": "Dato",
@@ -6051,7 +6051,7 @@
                 "website": "Hjemmeside",
                 "companyLogo": "Firmalogo",
                 "remove": "Fjern firmalogo",
-                "registerTransport":"Registrer transport"
+                "registerTransport": "Registrer transport"
             }
         },
         "licenseOverview": {

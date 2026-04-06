@@ -3105,8 +3105,8 @@
         "newSchedule": "New schedule",
         "normHours": {
             "availableVacationHours": "Available vacation hours",
-            "compensatoryHours": "Compensatory hours",
-            "compensatoryHoursThisYear": "Compensatory hours this period",
+            "compensatoryHoursThisYear": "Compensatory hours this year",
+            "compensatoryHoursThisPeriod": "Compensatory hours this period",
             "compensatoryHourFromPreviousYear": "Compensatory hours from previous period",
             "compensatoryHoursGraph": "Compensatory hours graph",
             "date": "Date",
@@ -6051,7 +6051,7 @@
                 "website": "Website",
                 "companyLogo": "Company logo",
                 "remove": "Remove company logo",
-                "registerTransport":"Register transport"
+                "registerTransport": "Register transport"
             }
         },
         "licenseOverview": {

@@ -283,13 +283,14 @@
                                                                 aria-hidden="true" />
                                                         </div>
 
-                                                        <div v-if="employee?.norm_period" class="flex items-center gap-1 cursor-pointer">
+                                                        <div v-if="employee?.norm_period"
+                                                            class="flex items-center gap-1 cursor-pointer">
                                                             <p class="text-xxs">
                                                                 {{ $t('dutySchedules.normPeriod') }}:
                                                                 {{ employee?.norm_period?.display_label ?? '' }}
                                                             </p>
                                                         </div>
-                                                        
+
                                                         <p class="text-xxs">
                                                             {{ $t('dutySchedules.totalHours') }}:
                                                             {{ employee?.total_hours ?? 0 }}
@@ -383,7 +384,7 @@
                                                                 <Icon name="ph:clock" class="h-3 w-3"
                                                                     aria-hidden="true" />
                                                                 {{
-                                                                    $t('dutySchedules.normHours.compensatoryHours')
+                                                                    $t('dutySchedules.normHours.compensatoryHoursThisYear')
                                                                 }}:
                                                                 {{
                                                                     formatNumber(language.locale.value,
