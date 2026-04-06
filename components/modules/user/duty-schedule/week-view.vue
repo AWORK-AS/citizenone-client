@@ -908,16 +908,16 @@
             <ModulesUserDutyScheduleModalNewShift :isModalOpen="state.modal.isAddShiftOpen"
                 :isModalLoading="state.isModalLoading" :error="state.newShiftError"
                 :selectedDate="state.newShift.selectedDate" :selectedEmployee="state.newShift.selectedEmployee"
-                :showWarningDialog="state.showWarningDialog" :shiftWarnings="state.shiftWarnings"
-                @dateTimeChange="dateTimeChange" @closeWarningDialog="closeWarningDialog"
+                :shiftWarnings="state.shiftWarnings"
+                @dateTimeChange="dateTimeChange"
                 @close="state.modal.isAddShiftOpen = false" @saveShift="saveShift"
                 @resetNewShiftError="state.newShiftError = {}" />
             <ModulesUserDutyScheduleModalEditShift :isModalLoading="state.isModalLoading"
                 :isModalOpen="state.modal.isEditShiftOpen" :error="state.editShiftError"
                 :selectedEmployee="state.editShift.selectedEmployee"
                 :selectedEmployeeSchedule="state.editShift.selectedEmployeeSchedule"
-                :showWarningDialog="state.showWarningDialog" :shiftWarnings="state.shiftWarnings"
-                @dateTimeChange="dateTimeChange" @closeWarningDialog="closeWarningDialog"
+                :shiftWarnings="state.shiftWarnings"
+                @dateTimeChange="dateTimeChange"
                 @close="state.modal.isEditShiftOpen = false" @resetEditShiftError="state.editShiftError = {}"
                 @updateShift="updateSelectedSchedule" />
             <ModulesUserDutyScheduleModalRemoveShiftConfirmation
@@ -1140,7 +1140,6 @@ const state = reactive({
     } as any,
     weeklySchedules: [] as any,
     shiftWarnings: [] as any,
-    showWarningDialog: false,
 })
 
 const hasCreatePermission = computed(() => {
@@ -1986,16 +1985,12 @@ async function dateTimeChange(employeeUuid: string, newDateTimeStart: string, ne
         const response = await dutyScheduleService.scheduleValidation(params)
         if (response.data && !response.data.valid) {
             state.shiftWarnings = response.data.warnings
-            state.showWarningDialog = true
+        } else {
+            state.shiftWarnings = []
         }
     } catch (error: any) {
 
     }
-}
-
-function closeWarningDialog() {
-    state.showWarningDialog = false
-    state.shiftWarnings = []
 }
 
 function openUserNormPeriodModal(employee: any) {
