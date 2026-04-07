@@ -576,7 +576,7 @@ const runtimeConfig = useRuntimeConfig()
 const customPagesStore = useCustomPagesStore() as any
 const userStore = useUserStore() as any
 const departmentStore = useDepartmentStore() as any
-const { successAlert, errorAlert } = useAlert()
+const { successAlert } = useAlert()
 const { t, locale } = useI18n()
 const weekViewRef = ref()
 
