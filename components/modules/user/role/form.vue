@@ -144,7 +144,10 @@ async function fetchAllPermissions() {
     state.error = {}
     emit('isPageLoading', true)
     try {
-        const response = await permissionService.getAllPermissions()
+        const params = {
+            role: props.selectedRole ? props.selectedRole.name : '',
+        }
+        const response = await permissionService.getAllPermissions(params)
         if (response?.data) {
             state.permissions = response.data.map((item: any) => ({
                 uuid: item?.uuid,
