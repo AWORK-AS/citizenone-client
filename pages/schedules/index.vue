@@ -576,7 +576,7 @@ const runtimeConfig = useRuntimeConfig()
 const customPagesStore = useCustomPagesStore() as any
 const userStore = useUserStore() as any
 const departmentStore = useDepartmentStore() as any
-const { successAlert } = useAlert()
+const { successAlert, errorAlert } = useAlert()
 const { t, locale } = useI18n()
 const weekViewRef = ref()
 
@@ -656,6 +656,13 @@ const state = reactive({
     selectedZenegyDepartment: '' as string,
     allZenegyEmployees: [] as any[],
     noMatchTooltip: { visible: false, x: 0, y: 0 },
+})
+
+watch(() => userStore.getUser, (user: any) => {
+    if (user && !user?.pages?.some((page: any) => page.name === 'Duty Schedule')) {
+        navigateTo('/overview')
+        errorAlert(`${t('alert.somethingWentWrong')}!`, `${t('youDontHaveAccessToThisPage')}.`)
+    }
 })
 
 const zenegyStepNumber = computed(() => {

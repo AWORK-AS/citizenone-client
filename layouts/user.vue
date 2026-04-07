@@ -539,15 +539,12 @@ import { useCustomPagesStore } from '@/store/custom-pages'
 import { useDepartmentStore } from '@/store/department'
 import { useUserStore } from '@/store/user'
 import { useI18n } from "vue-i18n"
-import { useAlert } from '@/composables/alert'
 import type { Error } from '@/types'
 
 const departmentStore = useDepartmentStore()
 const userStore = useUserStore() as any
 const customPagesStore = useCustomPagesStore() as any
 const language = useI18n()
-const { t } = useI18n()
-const { errorAlert } = useAlert()
 const router = useRouter()
 const routeName = router?.currentRoute?.value?.name
 
@@ -783,11 +780,7 @@ async function fetchUser() {
             plansGoalsSubgoalsCompletionReminderModalVisibility(response)
             checkInReminderModalVisibility(response)
             guidedUserTourModalVisibility()
-            const currentPath = router?.currentRoute?.value?.path
-            if (currentPath?.startsWith('/schedules') && !response.data?.pages?.some((page: any) => page.name === 'Duty Schedule')) {
-                navigateTo('/overview')
-                errorAlert(`${t('alert.somethingWentWrong')}!`, `${t('youDontHaveAccessToThisPage')}.`)
-            }
+
         }
     } catch (error: any) {
         state.error = error
