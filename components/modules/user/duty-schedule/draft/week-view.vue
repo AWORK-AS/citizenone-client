@@ -247,7 +247,17 @@
                                                                 {{ employee?.lastname }}
                                                             </p>
                                                         </div>
-                                                        <div>
+                                                        <div class="flex items-center gap-1">
+                                                            <Tooltip position="left"
+                                                                :text="$t('dutySchedules.extraHours.extraHours')"
+                                                                v-if="isAdmin(userStore.getUser?.role) || userStore.getUser?.uuid === employee?.uuid">
+                                                                <button
+                                                                    class="bg-gray-200 w-6 h-6 text-sm text-gray-600 rounded-sm hover:bg-gray-400 hover:text-gray-200 flex items-center justify-center"
+                                                                    @click="viewExtraHours(employee)">
+                                                                    <Icon name="mdi:clock-outline" class="h-3 w-3"
+                                                                        aria-hidden="true" />
+                                                                </button>
+                                                            </Tooltip>
                                                             <Tooltip position="right"
                                                                 :text="$t('dutySchedules.copy.copyEmployeeSchedule')">
                                                                 <button
@@ -620,6 +630,9 @@
                 :isModalOpen="state.modal.isCopyMultipleWeeklyScheduleOpen"
                 @close="state.modal.isCopyMultipleWeeklyScheduleOpen = false"
                 @refreshDutySchedules="fetchDraftDutySchedule()" />
+            <ModulesUserDutyScheduleExtraHoursModalView :isModalOpen="state.modal.isManageExtraHoursOpen"
+                :selectedEmployee="state.manageExtraHours.selectedEmployee"
+                @close="state.modal.isManageExtraHoursOpen = false" @refreshDutySchedules="fetchDraftDutySchedule()" />
         </LoadingSpinner>
     </div>
 </template>
@@ -669,12 +682,16 @@ const state = reactive({
     errorUpdateShift: {} as Error,
     isPageLoading: false,
     isModalLoading: false,
+    manageExtraHours: {
+        selectedEmployee: {},
+    },
     modal: {
         isAddShiftOpen: false,
         isCompensatoryHoursOpen: false,
         isCopyMultipleWeeklyScheduleOpen: false,
         isDepartmentSickLeaveDateRangeOpen: false,
         isEditShiftOpen: false,
+        isManageExtraHoursOpen: false,
         isPublishDraftOpen: false,
         isVacationHoursOpen: false,
         isAnnualNormHoursInfoOpen: false,
@@ -1454,5 +1471,10 @@ async function dateTimeChange(employeeUuid: string, newDateTimeStart: string, ne
 function closeWarningDialog() {
     state.showWarningDialog = false
     state.shiftWarnings = []
+}
+
+function viewExtraHours(employee: any) {
+    state.manageExtraHours.selectedEmployee = employee
+    state.modal.isManageExtraHoursOpen = true
 }
 </script>

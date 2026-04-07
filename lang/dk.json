@@ -2975,6 +2975,7 @@
                     "extraHoursSuccessfullyUpdated": "X-timer blev opdateret"
                 },
                 "date": "Dato",
+                "department": "Afdeling",
                 "hours": "Timer",
                 "note": "Bemærkning",
                 "tags": "Etiketter",
@@ -3004,7 +3005,9 @@
                     "deleteExtraHoursConfirmation": "Er du sikker på, at du vil slette disse x-timer?",
                     "rejectExtraHoursConfirmation": "Er du sikker på, at du vil afvise disse x-timer?"
                 },
+                "createdBy": "Oprettet af",
                 "date": "Dato",
+                "department": "Afdeling",
                 "hours": "Timer",
                 "note": "Bemærkning",
                 "status": {
