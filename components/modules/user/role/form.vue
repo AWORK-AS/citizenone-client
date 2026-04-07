@@ -108,13 +108,15 @@ const state = reactive({
         name: '',
         predefined: false,
         permissions:  [],
-        is_name_editable: false,
+        is_name_editable: true,
     },
     permissions: [] as Array<{ uuid: string, name: string }>,
 })
 
 onMounted(() => {
-    fetchAllPermissions()
+    if (props.formType === 'create') {
+        fetchAllPermissions()
+    }
 })
 
 watch(() => props.selectedRole, (newValue: any) => {
@@ -125,6 +127,7 @@ watch(() => props.selectedRole, (newValue: any) => {
             permissions: newValue.permissions || [],
             is_name_editable: newValue.is_name_editable || false,
         }
+        fetchAllPermissions()
     }
 })
 
@@ -144,6 +147,7 @@ async function fetchAllPermissions() {
     state.error = {}
     emit('isPageLoading', true)
     try {
+        console.log('selected role', props.selectedRole)
         const params = {
             role: props.selectedRole ? props.selectedRole.name : '',
         }
