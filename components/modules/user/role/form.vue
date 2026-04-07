@@ -98,6 +98,7 @@ const PERMISSION_LABELS:  Record<string, string> = {
     'create_citizen_children': 'roles.permissions.createCitizenChildren',
     'update_citizen_children': 'roles.permissions.updateCitizenChildren',
     'delete_citizen_children': 'roles.permissions.deleteCitizenChildren',
+    'create_citizen': 'roles.permissions.createCitizen',
 }
 
 const state = reactive({

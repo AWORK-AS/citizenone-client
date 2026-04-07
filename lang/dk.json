@@ -5940,7 +5940,8 @@
             "deleteCitizenContact": "slet borgerkontakt",
             "createCitizenChildren": "opret borgerbørn",
             "updateCitizenChildren": "rediger borgerbørn",
-            "deleteCitizenChildren": "slet borgerbørn"
+            "deleteCitizenChildren": "slet borgerbørn",
+            "createCitizen": "opret borger"
         }
     },
     "rooms": {
