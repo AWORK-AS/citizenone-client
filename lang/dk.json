@@ -4136,6 +4136,38 @@
             "name": "Navn"
         }
     },
+    "formFieldConfig": {
+        "title": "Formularfeltkonfiguration",
+        "subtitle": "Konfigurer hvilke felter der er synlige i borgerens oprettelses- og redigeringsformularer.",
+        "entityType": "Entitetstype",
+        "fieldVisibility": "Feltsynlighed",
+        "createForm": "Oprettelsesformular",
+        "editForm": "Redigeringsformular",
+        "alert": {
+            "successfullyUpdated": "Formularfeltkonfiguration opdateret med succes"
+        },
+        "fields": {
+            "diagnoses": "Diagnoser",
+            "medicationAllergies": "Medicinallergier",
+            "addictions": "Afhængigheder",
+            "dateAdmitted": "Indskrivningsdato / Udskrivningsdato",
+            "section": "Paragraf",
+            "pricing": "Prissætning",
+            "primaryCaseWorker": "Primær sagsbehandler",
+            "payingMunicipality": "Betalingskommune",
+            "assessmentMunicipality": "Handlekommune",
+            "responsibleMunicipality": "Ansvarlig kommune",
+            "eanNumber": "EAN-nummer",
+            "transportation": "Transport",
+            "hourlyRate": "Timepris",
+            "allocatedHours": "Tildelte timer",
+            "note": "Note",
+            "trafficLights": "Trafiklys",
+            "systemAccess": "Systemadgang",
+            "inquiryData": "Henvendelsesdata",
+            "stayData": "Opholdsdata"
+        }
+    },
     "forms": {
         "addNewQuestion": "Tilføj nyt spørgsmål",
         "addOption": "Tilføj mulighed",

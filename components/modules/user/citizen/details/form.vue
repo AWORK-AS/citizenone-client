@@ -184,7 +184,7 @@
                     <FormError :error="v$?.formCitizen?.origin?.$errors[0]?.$message.toString()" />
                     <FormError :error="props?.error?.errors?.origin_uuid?.[0]" />
                 </div>
-                <div class="space-y-1">
+                <div class="space-y-1" v-if="isFieldVisible('diagnoses')">
                     <div class="flex justify-between items-center py-0.5">
                         <FormLabel for="diagnoses" :label="$t('citizens.form.diagnoses')" />
                         <span class="text-xs cursor-pointer text-tertiary hover:text-tertiary-800"
@@ -197,7 +197,7 @@
                     <FormError :error="v$?.formCitizen?.diagnoses?.$errors[0]?.$message.toString()" />
                     <FormError :error="props?.error?.errors?.diagnoses?.[0]" />
                 </div>
-                <div class="space-y-1">
+                <div class="space-y-1" v-if="isFieldVisible('medication_allergies')">
                     <div class="flex justify-between items-center py-0.5">
                         <FormLabel for="medication_allergies" :label="$t('citizens.form.medicationAllergies')" />
                         <span class="text-xs cursor-pointer text-tertiary hover:text-tertiary-800"
@@ -210,7 +210,7 @@
                     <FormError :error="v$?.formCitizen?.medication_allergies?.$errors[0]?.$message.toString()" />
                     <FormError :error="props?.error?.errors?.medication_allergies?.[0]" />
                 </div>
-                <div class="space-y-1">
+                <div class="space-y-1" v-if="isFieldVisible('addictions')">
                     <div class="flex justify-between items-center py-0.5">
                         <FormLabel for="addictions" :label="customPagesStore.getCustomPagesName?.addictions" />
                         <span class="text-xs cursor-pointer text-tertiary hover:text-tertiary-800"
@@ -226,7 +226,7 @@
                     <FormError :error="v$?.formCitizen?.addictions?.$errors[0]?.$message.toString()" />
                     <FormError :error="props?.error?.errors?.addictions?.[0]" />
                 </div>
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-3" v-if="isFieldVisible('date_admitted')">
                     <div class="space-y-1">
                         <FormLabel for="date_admitted" :label="$t('citizens.form.dateAdmitted')" />
                         <FormDateField id="date_admitted" name="date_admitted"
@@ -245,7 +245,7 @@
                 </div>
                 <div class="w-fit cursor-pointer"
                     @click="state.formCitizen.is_discharge_reminded = !state.formCitizen.is_discharge_reminded"
-                    v-if="state.formCitizen.date_discharged">
+                    v-if="isFieldVisible('date_admitted') && state.formCitizen.date_discharged">
                     <div class="flex items-center">
                         <FormCheckbox id="is_discharge_reminded" :value="state.formCitizen.is_discharge_reminded" />
                         {{ $t('citizens.form.dateDischargedReminder') }}
@@ -254,7 +254,7 @@
                         {{ $t('citizens.form.dateDischargedReminderDescription') }}
                     </p>
                 </div>
-                <div class="space-y-1">
+                <div class="space-y-1" v-if="isFieldVisible('section')">
                     <div class="flex justify-between items-center py-0.5">
                         <FormLabel for="section" :label="$t('citizens.form.section')" />
                         <span class="text-xs cursor-pointer text-tertiary hover:text-tertiary-800"
@@ -266,7 +266,7 @@
                     <FormError :error="v$?.formCitizen?.section?.$errors[0]?.$message.toString()" />
                     <FormError :error="props?.error?.errors?.section?.[0]" />
                 </div>
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-3" v-if="isFieldVisible('pricing')">
                     <div class="space-y-1">
                         <FormLabel for="pricing" :label="$t('citizens.form.pricing')" />
                         <FormTextField id="pricing" name="pricing" :placeholder="$t('citizens.form.pricing')"
@@ -283,7 +283,7 @@
                         <FormError :error="props?.error?.errors?.pricing_start_date?.[0]" />
                     </div>
                 </div>
-                <div class="space-y-1">
+                <div class="space-y-1" v-if="isFieldVisible('primary_case_worker')">
                     <div class="flex justify-between items-center py-0.5">
                         <FormLabel for="primary_case_worker_uuid" :label="$t('citizens.form.primaryCaseworker')" />
                         <span class="text-xs cursor-pointer text-tertiary hover:text-tertiary-800"
@@ -296,49 +296,49 @@
                     <FormError :error="v$?.formCitizen?.primary_case_worker_uuid?.$errors[0]?.$message.toString()" />
                     <FormError :error="props?.error?.errors?.primary_case_worker_uuid?.[0]" />
                 </div>
-                <div class="space-y-1">
+                <div class="space-y-1" v-if="isFieldVisible('paying_municipality')">
                     <FormLabel for="paying_municipality" :label="$t('citizens.form.payingMunicipality')" />
                     <FormSelect id="paying_municipality" :options="state.options.municipalities"
                         v-model="state.formCitizen.paying_municipality" />
                     <FormError :error="v$?.formCitizen?.paying_municipality?.$errors[0]?.$message.toString()" />
                     <FormError :error="props?.error?.errors?.paying_municipality?.[0]" />
                 </div>
-                <div class="space-y-1">
+                <div class="space-y-1" v-if="isFieldVisible('assessment_municipality')">
                     <FormLabel for="assessment_municipality" :label="$t('citizens.form.assessmentMunicipality')" />
                     <FormSelect id="assessment_municipality" :options="state.options.municipalities"
                         v-model="state.formCitizen.assessment_municipality" />
                     <FormError :error="v$?.formCitizen?.assessment_municipality?.$errors[0]?.$message.toString()" />
                     <FormError :error="props?.error?.errors?.assessment_municipality?.[0]" />
                 </div>
-                <div class="space-y-1">
+                <div class="space-y-1" v-if="isFieldVisible('responsible_municipality')">
                     <FormLabel for="responsible_municipality" :label="$t('citizens.form.responsibleMunicipality')" />
                     <FormSelect id="responsible_municipality" :options="state.options.municipalities"
                         v-model="state.formCitizen.responsible_municipality" />
                     <FormError :error="v$?.formCitizen?.responsible_municipality?.$errors[0]?.$message.toString()" />
                     <FormError :error="props?.error?.errors?.responsible_municipality?.[0]" />
                 </div>
-                <div class="space-y-1">
+                <div class="space-y-1" v-if="isFieldVisible('ean_number')">
                     <FormLabel for="ean_number" :label="$t('citizens.form.eanNumber')" />
                     <FormTextField id="ean_number" name="ean_number" :placeholder="$t('citizens.form.eanNumber')"
                         v-model="state.formCitizen.ean_number" />
                     <FormError :error="v$?.formCitizen?.ean_number?.$errors[0]?.$message.toString()" />
                     <FormError :error="props?.error?.errors?.ean_number?.[0]" />
                 </div>
-                <div class="space-y-1">
+                <div class="space-y-1" v-if="isFieldVisible('transportation')">
                     <FormLabel for="transportation" :label="$t('citizens.form.transportation')" />
                     <FormTextField id="transportation" name="transportation"
                         :placeholder="$t('citizens.form.transportation')" v-model="state.formCitizen.transportation" />
                     <FormError :error="v$?.formCitizen?.transportation?.$errors[0]?.$message.toString()" />
                     <FormError :error="props?.error?.errors?.transportation?.[0]" />
                 </div>
-                <div class="space-y-1">
+                <div class="space-y-1" v-if="isFieldVisible('hourly_rate')">
                     <FormLabel for="hourly_rate" :label="$t('citizens.form.hourlyRate')" />
                     <FormTextField id="hourly_rate" name="hourly_rate" :placeholder="$t('citizens.form.hourlyRate')"
                         v-model="state.formCitizen.hourly_rate" />
                     <FormError :error="v$?.formCitizen?.hourly_rate?.$errors[0]?.$message.toString()" />
                     <FormError :error="props?.error?.errors?.hourly_rate?.[0]" />
                 </div>
-                <div class="grid grid-cols-1 md:grid-cols-3 gap-3">
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-3" v-if="isFieldVisible('allocated_hours')">
                     <div class="space-y-1">
                         <FormLabel for="allocated_daily_hours"
                             :label="$t('citizens.form.allocatedHours.allocatedDailyHours')" />
@@ -367,14 +367,14 @@
                         <FormError :error="props?.error?.errors?.allocated_monthly_hours?.[0]" />
                     </div>
                 </div>
-                <div class="space-y-1">
+                <div class="space-y-1" v-if="isFieldVisible('note')">
                     <FormLabel for="note" :label="$t('citizens.form.note')" />
                     <FormTextArea id="note" name="note" :placeholder="$t('citizens.form.note')"
                         v-model="state.formCitizen.note" />
                     <FormError :error="v$?.formCitizen?.note?.$errors[0]?.$message.toString()" />
                     <FormError :error="props?.error?.errors?.note?.[0]" />
                 </div>
-                <div class="space-y-1">
+                <div class="space-y-1" v-if="isFieldVisible('traffic_lights')">
                     <p class="text-sm text-gray-600">
                         {{ $t('citizens.form.trafficLights.trafficLights') }}
                     </p>
@@ -384,42 +384,42 @@
                     <FormError :error="v$?.formCitizen?.green?.$errors[0]?.$message.toString()" />
                     <FormError :error="props?.error?.errors?.green?.[0]" />
                 </div>
-                <div class="space-y-1">
+                <div class="space-y-1" v-if="isFieldVisible('traffic_lights')">
                     <FormLabel for="yellow" :label="$t('citizens.form.trafficLights.yellow')" />
                     <FormTextArea id="yellow" name="green" :placeholder="$t('citizens.form.trafficLights.yellow')"
                         v-model="state.formCitizen.yellow" />
                     <FormError :error="v$?.formCitizen?.yellow?.$errors[0]?.$message.toString()" />
                     <FormError :error="props?.error?.errors?.yellow?.[0]" />
                 </div>
-                <div class="space-y-1">
+                <div class="space-y-1" v-if="isFieldVisible('traffic_lights')">
                     <FormLabel for="red" :label="$t('citizens.form.trafficLights.red')" />
                     <FormTextArea id="red" name="red" :placeholder="$t('citizens.form.trafficLights.red')"
                         v-model="state.formCitizen.red" />
                     <FormError :error="v$?.formCitizen?.red?.$errors[0]?.$message.toString()" />
                     <FormError :error="props?.error?.errors?.red?.[0]" />
                 </div>
-                <div v-if="userStore.getUser?.has_citizen_app" class="space-y-1 flex items-center gap-x-2">
+                <div v-if="userStore.getUser?.has_citizen_app && isFieldVisible('system_access')" class="space-y-1 flex items-center gap-x-2">
                     <FormSwitch :value="state.formCitizen.has_system_access"
                         @toggleSwitch="state.formCitizen.has_system_access = !state.formCitizen.has_system_access" />
                     <p>
                         {{ $t('citizens.form.allowSystemAccess') }}
                     </p>
                 </div>
-                <div v-if="userStore.getUser?.has_citizen_app" class="space-y-1 flex items-center gap-x-2">
+                <div v-if="userStore.getUser?.has_citizen_app && isFieldVisible('system_access')" class="space-y-1 flex items-center gap-x-2">
                     <FormSwitch :value="state.formCitizen.has_chat_access"
                         @toggleSwitch="state.formCitizen.has_chat_access = !state.formCitizen.has_chat_access" />
                     <p>
                         {{ $t('citizens.form.allowChatAccess') }}
                     </p>
                 </div>
-                <div v-if="userStore.getUser?.has_citizen_app" class="space-y-1 flex items-center gap-x-2">
+                <div v-if="userStore.getUser?.has_citizen_app && isFieldVisible('system_access')" class="space-y-1 flex items-center gap-x-2">
                     <FormSwitch :value="state.formCitizen.has_duty_schedule_access"
                         @toggleSwitch="state.formCitizen.has_duty_schedule_access = !state.formCitizen.has_duty_schedule_access" />
                     <p>
                         {{ $t('citizens.form.allowDutyScheduleAccess') }}
                     </p>
                 </div>
-                <div v-if="userStore.getUser?.has_citizen_app" class="space-y-1 flex items-center gap-x-2">
+                <div v-if="userStore.getUser?.has_citizen_app && isFieldVisible('system_access')" class="space-y-1 flex items-center gap-x-2">
                     <FormSwitch :value="state.formCitizen.has_bullet_board_access"
                         @toggleSwitch="state.formCitizen.has_bullet_board_access = !state.formCitizen.has_bullet_board_access" />
                     <p>
@@ -429,7 +429,7 @@
             </div>
         </div>
         <div class="grid grid-cols-1 gap-x-8 gap-y-4 pb-10 mb-10 xl:grid-cols-3 border-b border-gray-900/10"
-            v-if="userStore.getUser?.company?.industry?.system_name === 'social_welfare' && ['Crisis center', 'Shelter'].includes(userStore.getUser?.company?.facility_type?.en_name)">
+            v-if="userStore.getUser?.company?.industry?.system_name === 'social_welfare' && ['Crisis center', 'Shelter'].includes(userStore.getUser?.company?.facility_type?.en_name) && isFieldVisible('inquiry_data')">
             <div>
                 <h2 class="text-base font-semibold leading-7 text-gray-900">
                     {{ $t('citizens.sections.inquiryData') }}
@@ -479,7 +479,7 @@
             </div>
         </div>
         <div class="grid grid-cols-1 gap-x-8 gap-y-4 pb-10 mb-10 xl:grid-cols-3 border-b border-gray-900/10"
-            v-if="userStore.getUser?.company?.industry?.system_name === 'social_welfare' && ['Crisis center', 'Shelter'].includes(userStore.getUser?.company?.facility_type?.en_name)">
+            v-if="userStore.getUser?.company?.industry?.system_name === 'social_welfare' && ['Crisis center', 'Shelter'].includes(userStore.getUser?.company?.facility_type?.en_name) && isFieldVisible('stay_data')">
             <div>
                 <h2 class="text-base font-semibold leading-7 text-gray-900">
                     {{ $t('citizens.sections.stayData') }}
@@ -700,6 +700,7 @@ import { useNumberFormatter } from '@/composables/numberFormatter'
 import { useCustomPagesStore } from '@/store/custom-pages'
 import type { Error } from '@/types'
 import { zipLookerService } from '~/components/api/ziplooker/ZipLookerService'
+import { formFieldConfigService } from '@/components/api/user/FormFieldConfigService'
 
 const userStore = useUserStore() as any
 const { t } = useI18n()
@@ -726,6 +727,13 @@ const props = defineProps({
     },
 })
 const emit = defineEmits(['isPageLoading', 'submitForm'])
+
+const formConfig = ref<Record<string, boolean>>({})
+
+function isFieldVisible(fieldKey: string): boolean {
+    if (Object.keys(formConfig.value).length === 0) return true
+    return formConfig.value[fieldKey] !== false
+}
 
 const state = reactive({
     error: {} as Error,
@@ -1022,7 +1030,16 @@ watch(() => state.formCitizen.post_code, async (newPostCode, oldPostCode, onClea
     }
 })
 
-onMounted(() => {
+onMounted(async () => {
+    try {
+        const response = await formFieldConfigService.getFormConfigs({ entity_type: 'citizen' })
+        if (response?.data) {
+            const config = response.data.find((c: any) => c.form_type === props.formType)
+            if (config?.form_fields) {
+                formConfig.value = config.form_fields
+            }
+        }
+    } catch (e) { /* silent — all fields visible on error */ }
     fetchCitizenCaseWorkers()
     fetchDepartments()
     fetchRooms()
