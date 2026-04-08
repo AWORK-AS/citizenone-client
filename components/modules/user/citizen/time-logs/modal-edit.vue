@@ -3,9 +3,10 @@
         <Modal size="sm" :title="$t('timeLogs.editTimeLog')" :show="props.isModalOpen" @close="closeModal">
             <template #modal-body>
                 <LoadingSpinner :isActive="state.isPageLoading">
-                    <ModulesUserTimeRegistrationForm formType="update" :selectedTimeLog="props.selectedTimeLog"
-                        :error="state.error" @isPageLoading="(value: boolean) => state.isPageLoading = value"
-                        @closeModal="closeModal" @submitForm="updateTimeLog" />
+                    <ModulesUserCitizenTimeLogsForm formType="update" :citizenUuid="props.citizenUuid"
+                        :selectedTimeLog="props.selectedTimeLog" :error="state.error"
+                        @isPageLoading="(value: boolean) => state.isPageLoading = value" @closeModal="closeModal"
+                        @submitForm="updateTimeLog" />
                 </LoadingSpinner>
             </template>
         </Modal>
@@ -17,12 +18,18 @@
 import { timeLogService } from '@/components/api/user/TimeLogService'
 import { useAlert } from '@/composables/alert'
 import { useI18n } from "vue-i18n"
+import { useUserStore } from '@/store/user'
 import type { Error } from '@/types'
 
 const { successAlert } = useAlert()
 const { t } = useI18n()
+const userStore = useUserStore() as any
 
 const props = defineProps({
+    citizenUuid: {
+        type: String,
+        required: true,
+    },
     isModalOpen: {
         type: Boolean,
         required: true,
@@ -53,9 +60,10 @@ async function updateTimeLog(timeLogDetails: any) {
     try {
         const timeLogUuid = props.selectedTimeLog.uuid
         const params = {
+            employee_uuid: userStore.getUser?.uuid,
+            citizen_uuid: props.citizenUuid,
             date_time_start: timeLogDetails.date_time_start,
             date_time_end: timeLogDetails.date_time_end,
-            citizen_uuid: timeLogDetails.citizen_uuid,
             status: timeLogDetails.status,
             remarks: timeLogDetails.remarks,
         }

@@ -2026,6 +2026,9 @@
             "health": "Health",
             "plansAndGoals": "Plans and goals"
         },
+        "timeLogs": {
+            "timeLogs":"Time Logs"
+        },
         "treatments": {
             "alert": {
                 "treatmentSuccessfullyAdded": "Treatment successfully saved",
@@ -7041,6 +7044,7 @@
                 "timeLogSuccessfullyUpdated": "Time log successfully updated",
                 "newTimeLogSuccessfullySaved": "New time log successfully saved"
             },
+            "citizen": "Citizen",
             "dateTimeEnd": "Date time end",
             "dateTimeStart": "Date time start",
             "status": {
