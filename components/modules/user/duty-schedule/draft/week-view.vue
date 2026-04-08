@@ -65,6 +65,14 @@
                             </div>
                         </div>
                         <div class="flex items-center justify-end gap-x-2">
+                            <button class="flex items-center gap-x-1 text-sm text-primary group"
+                                @click="state.modal.isFilterDutyScheduleOpen = true">
+                                <Icon name="ic:outline-filter-list"
+                                    class="text-primary w-6 h-6 group-hover:text-primary-700" />
+                                <span class="group-hover:text-primary-700">
+                                    {{ $t('filter') }}
+                                </span>
+                            </button>
                             <Tooltip
                                 :text="state.sortData.sortOrder === 'ascend' ? $t('dutySchedules.sort.sortNamesInDescendingOrder') : $t('dutySchedules.sort.sortNamesInAscendingOrder')"
                                 position="left">
@@ -641,6 +649,8 @@
                 @close="state.modal.isAnnualNormHoursInfoOpen = false" />
             <ModulesUserDutyScheduleNormHoursModalGraph :isModalOpen="state.modal.isGraphOpen"
                 :selectedEmployee="state.normHours.selectedEmployee" @close="state.modal.isGraphOpen = false" />
+            <ModulesUserDutyScheduleModalFilter :isModalOpen="state.modal.isFilterDutyScheduleOpen"
+                @close="state.modal.isFilterDutyScheduleOpen = false" @setFilter="setFilter" />
             <ModulesUserDutyScheduleNormHoursModalVacationHours :isModalOpen="state.modal.isVacationHoursOpen"
                 :selectedEmployee="state.normHours.selectedEmployeeSchedule"
                 @close="state.modal.isVacationHoursOpen = false" />
@@ -710,6 +720,11 @@ const state = reactive({
         search: ''
     },
     editShiftError: {} as Error,
+    filter: {
+        department_uuids: [],
+        employment_status: [],
+        employee_uuids: [],
+    },
     editShift: {
         selectedEmployee: {},
         selectedEmployeeSchedule: {},
@@ -727,6 +742,7 @@ const state = reactive({
         isCopyMultipleWeeklyScheduleOpen: false,
         isDepartmentSickLeaveDateRangeOpen: false,
         isEditShiftOpen: false,
+        isFilterDutyScheduleOpen: false,
         isGraphOpen: false,
         isManageExtraHoursOpen: false,
         isPublishDraftOpen: false,
@@ -965,6 +981,15 @@ async function fetchDraftDutySchedule() {
             sortField: state.sortData.sortField,
             sortOrder: state.sortData.sortOrder,
             ...state.dataFilter,
+        } as any
+        if (state.filter.department_uuids?.length > 0) {
+            params.department_uuids = Array(state.filter.department_uuids)
+        }
+        if (state.filter.employment_status) {
+            params.employment_status = Array(state.filter.employment_status)
+        }
+        if (state.filter.employee_uuids?.length > 0) {
+            params.employee_uuids = Array(state.filter.employee_uuids)
         }
         const response = await draftScheduleService.getDraftDutySchedules(params)
         if (response) {
@@ -1517,5 +1542,12 @@ function viewExtraHours(employee: any) {
 function openGraphModal(employee: any) {
     state.normHours.selectedEmployee = employee
     state.modal.isGraphOpen = true
+}
+
+function setFilter(filter: any) {
+    state.filter.department_uuids = filter.department_uuids
+    state.filter.employment_status = filter.employment_status
+    state.filter.employee_uuids = filter.employee_uuids
+    fetchDraftDutySchedule()
 }
 </script>
