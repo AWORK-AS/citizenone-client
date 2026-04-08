@@ -288,12 +288,12 @@
                             </span>
                             <Badge type="notification"
                                 class="w-5 h-5 flex items-center justify-center absolute -top-3 left-3"
-                                v-if="!hasSeenNews">
+                                v-if="!userStore.getUser?.is_read_news">
                                 {{ userStore?.getUnreadNewsCount }}
                             </Badge>
                         </button>
 
-                        <ModulesUserNavbarNewUpdates />
+                        <ModulesUserNavbarNewUpdates @fetchUser="fetchUser" />
                         <ModulesUserNavbarNotificationBell />
 
                         <div class="hidden lg:block lg:h-6 lg:w-px lg:bg-gray-900/10" aria-hidden="true" />
@@ -312,7 +312,7 @@
                             @click="navigateTo('/messages')" v-if="userStore.getUser?.unread_messages_count > 0">
                             <Icon name="ph:chat-circle" class="h-6 w-6 absolute -top-0.5 left-0" aria-hidden="true" />
                             <Badge type="notification"
-                                class="w-5 h-5 flex items-center justify-center absolute -top-4 left-3">
+                                class="w-5 h-5 flex items-center justify-center absolute -top-3.5 left-3">
                                 {{ userStore.getUser?.unread_messages_count ?? 0 }}
                             </Badge>
                         </button>
@@ -447,7 +447,7 @@
 
             <div class="relative overflow-clip">
                 <img src="/img/icons/asset-01.svg" alt="Image failed to load"
-                    class="w-52 md:w-1/4 absolute -top-28 -right-24 opacity-0 transition-opacity duration-500"
+                    class="w-48 md:w-1/4 absolute -top-36 -right-24 opacity-0 transition-opacity duration-500"
                     id="animatedImage">
                 <main class="py-10 relative">
                     <div class="px-4 sm:px-6 lg:px-8">
@@ -547,7 +547,6 @@ const customPagesStore = useCustomPagesStore() as any
 const language = useI18n()
 const router = useRouter()
 const routeName = router?.currentRoute?.value?.name
-const hasSeenNews = ref(localStorage.getItem('hasSeenNews-02-20-2026') === 'true')
 
 let navigation = [] as any
 
@@ -794,10 +793,9 @@ function plansGoalsSubgoalsCompletionReminderModalVisibility(response: any) {
 }
 
 function guidedUserTourModalVisibility() {
-    const guidedUserTourFirstTime = localStorage.getItem('guidedUserTourFirstTime')
-    if (guidedUserTourFirstTime === null) {
+    const guidedUserTourFirstTime = userStore.getUser?.is_first_login
+    if (guidedUserTourFirstTime) {
         state.modal.isGuidedTourWelcomeOpen = true
-        localStorage.setItem('guidedUserTourFirstTime', 'true')
     }
 }
 
@@ -910,10 +908,20 @@ function identifyFlag() {
     }
 }
 
-function navigateToNews() {
+async function navigateToNews() {
     navigateTo('/overview#news')
-    localStorage.setItem('hasSeenNews-02-20-2026', 'true')
-    hasSeenNews.value = true
+    state.error = {}
+    state.isPageLoading = true
+    try {
+        const response = await userService.readNews()
+        if (response) {
+            localStorage.setItem('hasSeenNews-02-20-2026', 'true')
+            fetchUser()
+        }
+    } catch (error: any) {
+        state.error = error
+    }
+    state.isPageLoading = false
 }
 </script>
 

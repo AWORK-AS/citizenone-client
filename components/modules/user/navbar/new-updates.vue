@@ -6,7 +6,7 @@
             <p class="text-xs font-semibold hidden lg:block">
                 {{ $t('updates.updates') }}
             </p>
-            <Badge v-if="!hasSeenUpdates" type="notification"
+            <Badge v-if="!userStore.getUser?.is_read_updates" type="notification"
                 class="w-5 h-5 flex items-center justify-center absolute top-0 left-3">
                 21
             </Badge>
@@ -16,28 +16,38 @@
 </template>
 
 <script setup lang="ts">
-import { ref, reactive } from 'vue'
+import { userService } from '@/components/api/user/UserService'
+import { useUserStore } from '@/store/user'
+import type { Error } from '@/types'
 
-// Reactive state
+const emit = defineEmits(['fetchUser'])
+const userStore = useUserStore() as any
+
 const state = reactive({
+    error: {} as Error,
+    isPageLoading: false,
     modal: {
         isNewUpdatesOpen: false,
-    }
+    },
 })
 
-// Flag to check if updates have been seen (loaded from localStorage)
-const hasSeenUpdates = ref(localStorage.getItem('hasSeenUpdates-02-20-2026') === 'true')
-
-// Method to open the modal and remove the badge
-const openUpdatesModal = () => {
+async function openUpdatesModal() {
     state.modal.isNewUpdatesOpen = true
-
-    // Mark as seen by setting localStorage flag
     localStorage.setItem('hasSeenUpdates-02-20-2026', 'true')
-    hasSeenUpdates.value = true  // Update the badge visibility
+    state.error = {}
+    state.isPageLoading = true
+    try {
+        const response = await userService.readUpdates()
+        if (response) {
+            localStorage.setItem('hasSeenUpdates-02-20-2026', 'true')
+            emit('fetchUser')
+        }
+    } catch (error: any) {
+        state.error = error
+    }
+    state.isPageLoading = false
 }
 
-// Method to close the modal
 const closeUpdatesModal = () => {
     state.modal.isNewUpdatesOpen = false
 }
