@@ -2026,6 +2026,9 @@
             "health": "Sundhed",
             "plansAndGoals": "Planer og mål"
         },
+        "timeLogs": {
+            "timeLogs":"Tidslogfiler"
+        },
         "treatments": {
             "alert": {
                 "treatmentSuccessfullyAdded": "Behandling gemt med succes",
@@ -5973,6 +5976,7 @@
             "createCitizenChildren": "opret borgerbørn",
             "updateCitizenChildren": "rediger borgerbørn",
             "deleteCitizenChildren": "slet borgerbørn",
+            "deleteCalendarEvent": "slet kalenderhændelse",
             "createCitizen": "opret borger"
         }
     },
@@ -7072,6 +7076,7 @@
                 "timeLogSuccessfullyUpdated": "Tidslog blev opdateret",
                 "newTimeLogSuccessfullySaved": "Ny tidslog blev gemt"
             },
+            "citizen": "Borger",
             "dateTimeEnd": "Slutdato og -tid",
             "dateTimeStart": "Startdato og -tid",
             "status": {

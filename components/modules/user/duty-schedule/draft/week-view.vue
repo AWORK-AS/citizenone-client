@@ -614,16 +614,16 @@
             <ModulesUserDutyScheduleModalNewShift :isModalOpen="state.modal.isAddShiftOpen"
                 :isModalLoading="state.isModalLoading" :error="state.newShiftError"
                 :selectedDate="state.newShift.selectedDate" :selectedEmployee="state.newShift.selectedEmployee"
-                :showWarningDialog="state.showWarningDialog" :shiftWarnings="state.shiftWarnings"
-                @dateTimeChange="dateTimeChange" @closeWarningDialog="closeWarningDialog"
+                :shiftWarnings="state.shiftWarnings"
+                @dateTimeChange="dateTimeChange"
                 @close="state.modal.isAddShiftOpen = false" @saveShift="saveShift"
                 @resetNewShiftError="state.newShiftError = {}" />
             <ModulesUserDutyScheduleModalEditShift :isModalOpen="state.modal.isEditShiftOpen"
                 :isModalLoading="state.isModalLoading" :error="state.editShiftError"
                 :selectedEmployee="state.editShift.selectedEmployee"
                 :selectedEmployeeSchedule="state.editShift.selectedEmployeeSchedule"
-                :showWarningDialog="state.showWarningDialog" :shiftWarnings="state.shiftWarnings"
-                @dateTimeChange="dateTimeChange" @closeWarningDialog="closeWarningDialog"
+                :shiftWarnings="state.shiftWarnings"
+                @dateTimeChange="dateTimeChange"
                 @close="state.modal.isEditShiftOpen = false" @resetEditShiftError="state.editShiftError = {}"
                 @updateShift="updateSelectedSchedule" />
             <ModulesUserDutyScheduleDraftModalCopyMultipleWeeks
@@ -729,7 +729,6 @@ const state = reactive({
     originalWeeklySchedules: [] as any,
     weeklySchedules: [] as any,
     shiftWarnings: [] as any,
-    showWarningDialog: false,
 })
 
 watch(() => state.progress.percentage, (newPercentage: any) => {
@@ -1461,7 +1460,6 @@ async function dateTimeChange(employeeUuid: string, newDateTimeStart: string, ne
         const response = await draftScheduleService.scheduleValidation(params)
         if (response.data && !response.data.valid) {
             state.shiftWarnings = response.data.warnings
-            state.showWarningDialog = true
         }
     } catch (error: any) {
 

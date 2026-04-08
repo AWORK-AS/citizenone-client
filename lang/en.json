@@ -2026,6 +2026,9 @@
             "health": "Health",
             "plansAndGoals": "Plans and goals"
         },
+        "timeLogs": {
+            "timeLogs":"Time Logs"
+        },
         "treatments": {
             "alert": {
                 "treatmentSuccessfullyAdded": "Treatment successfully saved",
@@ -5973,6 +5976,7 @@
             "createCitizenChildren": "create citizen children",
             "updateCitizenChildren": "update citizen children",
             "deleteCitizenChildren": "delete citizen children",
+            "deleteCalendar": "delete calendar",
             "createCitizen": "create citizen"
         }
     },
@@ -7072,6 +7076,7 @@
                 "timeLogSuccessfullyUpdated": "Time log successfully updated",
                 "newTimeLogSuccessfullySaved": "New time log successfully saved"
             },
+            "citizen": "Citizen",
             "dateTimeEnd": "Date time end",
             "dateTimeStart": "Date time start",
             "status": {
