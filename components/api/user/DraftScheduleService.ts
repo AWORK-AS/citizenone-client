@@ -44,6 +44,10 @@ class DraftScheduleService extends BaseAPIService {
     async scheduleValidation(params: object): Promise<any> {
         return await this.request(`/user/draft-schedules/schedule/validation`, 'POST', params)
     }
+
+    async getCompensatoryReport(employeeUuid: any, params: object): Promise<any> {
+        return await this.request(`/user/draft-schedules/compensatory-time/${employeeUuid}/report`, 'GET', params)
+    }
 }
 
 export const draftScheduleService = new DraftScheduleService()

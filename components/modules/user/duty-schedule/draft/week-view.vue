@@ -31,7 +31,15 @@
                             {{ $t('goToToday') }}
                         </button>
                     </div>
-                    <div />
+                    <div>
+                        <div class="space-y-1 flex items-center gap-x-2">
+                            <FormSwitch :value="draftDutyScheduleStore.getShowEmployeesWorkingToday"
+                                @toggleSwitch="draftDutyScheduleStore.setShowEmployeesWorkingToday(!draftDutyScheduleStore.getShowEmployeesWorkingToday)" />
+                            <p>
+                                {{ $t('dutySchedules.showEmployeesWorkingToday') }}
+                            </p>
+                        </div>
+                    </div>
                     <div>
                         <TableSearch @search="handleSearch" />
                     </div>
@@ -647,7 +655,7 @@
                 @close="state.modal.isCompensatoryHoursOpen = false" />
             <ModulesUserDutyScheduleNormHoursModalInfo :isModalOpen="state.modal.isAnnualNormHoursInfoOpen"
                 @close="state.modal.isAnnualNormHoursInfoOpen = false" />
-            <ModulesUserDutyScheduleNormHoursModalGraph :isModalOpen="state.modal.isGraphOpen"
+            <ModulesUserDutyScheduleDraftNormHoursModalGraph :isModalOpen="state.modal.isGraphOpen"
                 :selectedEmployee="state.normHours.selectedEmployee" @close="state.modal.isGraphOpen = false" />
             <ModulesUserDutyScheduleModalFilter :isModalOpen="state.modal.isFilterDutyScheduleOpen"
                 @close="state.modal.isFilterDutyScheduleOpen = false" @setFilter="setFilter" />
@@ -807,6 +815,11 @@ watch(() => state.selectedDate, (newSelectedDate: any) => {
         currentDate.value = moment(newSelectedDate)
         fetchDraftDutySchedule()
     }
+})
+
+watch(() => draftDutyScheduleStore.getShowEmployeesWorkingToday, (status: boolean) => {
+    draftDutyScheduleStore.setShowEmployeesWorkingToday(status)
+    fetchDraftDutySchedule()
 })
 
 onMounted(() => {
@@ -978,6 +991,7 @@ async function fetchDraftDutySchedule() {
             filter_date_start: moment(state.shiftDateRange.formDateRange.start_date).format('YYYY-MM-DD'),
             filter_date_end: moment(state.shiftDateRange.formDateRange.end_date).format('YYYY-MM-DD'),
             department: departmentStore.getSelectedDepartmentName,
+            show_employees_working_today: draftDutyScheduleStore.getShowEmployeesWorkingToday,
             sortField: state.sortData.sortField,
             sortOrder: state.sortData.sortOrder,
             ...state.dataFilter,
