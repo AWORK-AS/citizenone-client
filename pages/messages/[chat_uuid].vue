@@ -115,12 +115,14 @@
                             <!-- Bubble with action button anchored to its left center -->
                             <div class="relative group/bubble">
                                 <!-- Hover action buttons -->
-                                <div class="hidden group-hover/msg:flex items-center gap-0.5 absolute right-full pr-2 top-1/2 -translate-y-1/2">
+                                <div
+                                    class="hidden group-hover/msg:flex items-center gap-0.5 absolute right-full pr-2 top-1/2 -translate-y-1/2">
                                     <div class="relative">
                                         <button @click.stop="toggleMessageMenu(index)"
                                             class="w-7 h-7 rounded-lg hover:bg-gray-100 flex items-center justify-center transition-colors"
                                             :title="$t('messages.actions.more')">
-                                            <Icon name="ph:dots-three" class="h-4 w-4 text-gray-400" aria-hidden="true" />
+                                            <Icon name="ph:dots-three" class="h-4 w-4 text-gray-400"
+                                                aria-hidden="true" />
                                         </button>
                                         <!-- Dropdown -->
                                         <div v-if="state.openMessageMenuIndex === index"
@@ -142,27 +144,27 @@
                                         </div>
                                     </div>
                                 </div>
-                            <div class="bg-secondary text-white px-4 py-2.5 rounded-2xl rounded-br-sm shadow-sm">
-                                <!-- Attachments -->
-                                <div v-if="message?.chat_message_attachments?.length > 0" class="space-y-2">
-                                    <div v-for="(attachment, aIndex) in message?.chat_message_attachments"
-                                        :key="aIndex">
-                                        <img :src="attachment?.file_url" alt="Image"
-                                            v-if="isImageFile(attachment?.file_name)"
-                                            class="w-44 rounded-lg cursor-pointer hover:opacity-90"
-                                            @click="downloadFile(attachment)" />
-                                        <div v-else class="flex items-center gap-2 cursor-pointer hover:opacity-80"
-                                            @click="downloadFile(attachment)">
-                                            <Icon name="ph:file" class="h-7 w-7 flex-shrink-0" aria-hidden="true" />
-                                            <span class="text-sm truncate max-w-[180px]">{{
-                                                attachment?.file_name }}</span>
+                                <div class="bg-secondary text-white px-4 py-2.5 rounded-2xl rounded-br-sm shadow-sm">
+                                    <!-- Attachments -->
+                                    <div v-if="message?.chat_message_attachments?.length > 0" class="space-y-2">
+                                        <div v-for="(attachment, aIndex) in message?.chat_message_attachments"
+                                            :key="aIndex">
+                                            <img :src="attachment?.file_url" alt="Image"
+                                                v-if="isImageFile(attachment?.file_name)"
+                                                class="w-44 rounded-lg cursor-pointer hover:opacity-90"
+                                                @click="downloadFile(attachment)" />
+                                            <div v-else class="flex items-center gap-2 cursor-pointer hover:opacity-80"
+                                                @click="downloadFile(attachment)">
+                                                <Icon name="ph:file" class="h-7 w-7 flex-shrink-0" aria-hidden="true" />
+                                                <span class="text-sm truncate max-w-[180px]">{{
+                                                    attachment?.file_name }}</span>
+                                            </div>
                                         </div>
                                     </div>
+                                    <!-- Text -->
+                                    <p v-else class="text-sm leading-relaxed"
+                                        v-html="message?.message?.replace(/\n/g, '<br>')" />
                                 </div>
-                                <!-- Text -->
-                                <p v-else class="text-sm leading-relaxed"
-                                    v-html="message?.message?.replace(/\n/g, '<br>')" />
-                            </div>
                             </div>
                             <!-- Seen indicator -->
                             <ModulesUserMessagesTooltipSeenBy v-if="message?.receipts?.length > 0"
@@ -272,16 +274,16 @@
 
 <script setup lang="ts">
 import pusher from '@/services/pusher'
+import moment from 'moment'
 import { messageService } from '@/components/api/user/MessageService'
 import { useDatetimeFormatter } from '@/composables/datetimeFormatter'
 import { useI18n } from 'vue-i18n'
-import moment from 'moment'
 import { useAlert } from '@/composables/alert'
 import { useUserStore } from '@/store/user'
 import { saveAs } from 'file-saver'
 import type { Error } from '@/types'
 
-const { formatDateTimeToReadable, formatDateToReadable } = useDatetimeFormatter()
+const { formatDateToReadable } = useDatetimeFormatter()
 const { t } = useI18n()
 const { successAlert } = useAlert()
 const userStore = useUserStore() as any
