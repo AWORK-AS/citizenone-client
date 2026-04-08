@@ -1780,6 +1780,7 @@
             }
         },
         "newCitizen": "New citizen",
+        "editCitizenForm": "Edit citizen form",
         "note": {
             "latestJournalEntry": "Latest journal entry",
             "noJournalToDisplay": "No journal to display"

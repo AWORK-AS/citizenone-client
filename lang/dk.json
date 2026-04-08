@@ -1780,6 +1780,7 @@
             }
         },
         "newCitizen": "Ny borger",
+        "editCitizenForm": "Rediger borgerformular",
         "note": {
             "latestJournalEntry": "Seneste journalnotat",
             "noJournalToDisplay": "Ingen journal at vise"

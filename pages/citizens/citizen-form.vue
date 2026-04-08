@@ -22,7 +22,7 @@
                     <Alert type="danger" :text="state?.error?.message"
                         v-if="state.error?.message && state.error.message.length > 0" />
 
-                    <!-- Entity type selector -->
+                    <!-- Entity type selector (commented out — only one option for now, kept for future use)
                     <div class="flex gap-x-4 mb-6">
                         <div class="space-y-1">
                             <FormLabel :label="$t('formFieldConfig.entityType')" />
@@ -30,6 +30,7 @@
                                 v-model="state.selectedEntityType" :canClear="false" />
                         </div>
                     </div>
+                    -->
 
                     <!-- Create / Edit tabs -->
                     <div class="flex gap-x-4 mb-6">
@@ -75,15 +76,9 @@
                         <div class="grow min-w-0">
                             <div class="pointer-events-none select-none">
                                 <!-- Citizen Details Section -->
-                                <div
-                                    class="grid grid-cols-1 gap-x-8 gap-y-4 pb-10 mb-10 xl:grid-cols-3 border-b border-gray-900/10">
-                                    <div>
-                                        <h2 class="text-base font-semibold leading-7 text-gray-900">
-                                            {{ $t('citizens.sections.citizenDetails') }}
-                                        </h2>
-                                    </div>
+                                <div class="pb-10 mb-10 border-b border-gray-900/10">
                                     <div
-                                        class="md:col-span-2 space-y-3 bg-white shadow-sm ring-1 ring-gray-900/5 rounded-lg px-4 py-6 sm:p-8">
+                                        class="space-y-3 bg-white shadow-sm ring-1 ring-gray-900/5 rounded-lg px-4 py-6 sm:p-8">
                                         <!-- Avatar -->
                                         <div class="space-y-1">
                                             <div class="flex flex-col items-center">
@@ -538,14 +533,14 @@ const { t } = useI18n()
 
 const breadcrumbLinks = [
     {
-        name: 'forms.forms',
+        name: 'citizens.citizens',
         translate: true,
-        href: '/forms',
+        href: '/citizens',
     },
     {
         name: 'formFieldConfig.title',
         translate: true,
-        href: '/forms/field-configs',
+        href: '/citizens/citizen-form',
     },
 ]
 
