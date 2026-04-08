@@ -285,7 +285,10 @@
                                                             </Tooltip>
                                                         </div>
                                                     </div>
-                                                    <div class="-mt-1 ml-10">
+                                                    <div :class="[
+                                                        expandedRecords[employeeIndex] && 'hidden',
+                                                        '-mt-1 ml-10'
+                                                    ]">
                                                         <p class="text-xxs">
                                                             {{ employee?.employee_detail?.job?.title }}
                                                         </p>
