@@ -4862,16 +4862,19 @@
     "messages": {
         "actions": {
             "delete": "Slet",
-            "edit": "Rediger"
+            "edit": "Rediger",
+            "more": "Mere"
         },
         "and": "Og",
         "alert": {
             "messageSuccessfullyDeleted": "Besked slettet med succes",
-            "messageSuccessfullyUpdated": "Besked opdateret med succes"
+            "messageSuccessfullyUpdated": "Besked opdateret med succes",
+            "chatSuccessfullyDeleted": "Chat slettet med succes"
         },
         "allMessagesAreLoaded": "Alle beskeder er indlæst",
         "confirmation": {
-            "deleteMessageConfirmation": "Er du sikker på, at du vil slette denne besked"
+            "deleteMessageConfirmation": "Er du sikker på, at du vil slette denne besked",
+            "deleteChatConfirmation": "Er du sikker på, at du vil slette denne chat"
         },
         "editMessage": "Rediger besked",
         "groupChat": {
@@ -4918,7 +4921,11 @@
         "newConversation": "Ny samtale",
         "unread": "ulæste",
         "attachFile": "Vedhæft fil",
-        "typeAMessage": "Skriv en besked..."
+        "typeAMessage": "Skriv en besked...",
+        "today": "I dag",
+        "yesterday": "I går",
+        "you": "Dig",
+        "deleteChat": "Slet chat"
     },
     "months": {
         "january": "Januar",
