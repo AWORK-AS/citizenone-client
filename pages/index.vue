@@ -72,7 +72,30 @@
       </div>
 
       <div class="form-card">
-        <h1 class="form-title">Velkommen tilbage</h1>
+        <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:4px;">
+          <h1 class="form-title" style="margin-bottom:0;">Velkommen tilbage</h1>
+          <div style="position:relative;" v-click-outside="() => state.langOpen = false">
+            <button type="button" @click="state.langOpen = !state.langOpen"
+              style="display:flex;align-items:center;gap:6px;padding:5px 10px 5px 6px;border-radius:20px;border:1.5px solid #e2e8f0;background:#fff;cursor:pointer;font-family:inherit;font-size:12px;font-weight:600;color:#64748b;">
+              <img :src="identifyFlag()" alt="flag" style="width:20px;height:20px;border-radius:50%;object-fit:cover;"/>
+              {{ language.locale.value === 'en' ? 'EN' : 'DK' }}
+              <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"/></svg>
+            </button>
+            <div v-if="state.langOpen"
+              style="position:absolute;right:0;top:calc(100% + 6px);background:#fff;border:1.5px solid #e2e8f0;border-radius:10px;box-shadow:0 4px 16px rgba(15,43,70,0.10);z-index:100;min-width:120px;overflow:hidden;">
+              <button type="button" @click="setLang('dk')"
+                style="display:flex;align-items:center;gap:8px;width:100%;padding:9px 14px;border:none;background:none;cursor:pointer;font-family:inherit;font-size:13px;font-weight:500;color:#1a2332;"
+                :style="language.locale.value === 'dk' ? 'background:#edf5fb;' : ''">
+                <img src="/img/icons/flags/denmark.svg" style="width:20px;height:20px;border-radius:50%;object-fit:cover;"/> Dansk
+              </button>
+              <button type="button" @click="setLang('en')"
+                style="display:flex;align-items:center;gap:8px;width:100%;padding:9px 14px;border:none;background:none;cursor:pointer;font-family:inherit;font-size:13px;font-weight:500;color:#1a2332;"
+                :style="language.locale.value === 'en' ? 'background:#edf5fb;' : ''">
+                <img src="/img/icons/flags/united-kingdom.svg" style="width:20px;height:20px;border-radius:50%;object-fit:cover;"/> English
+              </button>
+            </div>
+          </div>
+        </div>
         <p class="form-sub">Log ind på din CitizenOne-konto.</p>
 
         <div class="field">
@@ -150,6 +173,7 @@ const { t } = useI18n()
 language.locale.value = userStore.getLanguage
 
 const state = reactive({
+  langOpen: false,
     error: {} as Error,
     formLogin: {
         email: null as any,
@@ -246,6 +270,12 @@ async function login() {
         }
         state.isPageLoading = false
     }
+}
+
+function setLang(lang: string) {
+  language.locale.value = lang
+  userStore.setLanguage(lang)
+  state.langOpen = false
 }
 
 function selectLanguage() {
