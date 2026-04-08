@@ -5941,7 +5941,8 @@
             "createCitizenChildren": "create citizen children",
             "updateCitizenChildren": "update citizen children",
             "deleteCitizenChildren": "delete citizen children",
-            "deleteCalendar": "delete calendar"
+            "deleteCalendar": "delete calendar",
+            "createCitizen": "create citizen"
         }
     },
     "rooms": {

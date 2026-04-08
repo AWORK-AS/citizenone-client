@@ -650,7 +650,7 @@ function generateSidebarLinks(user: any) {
             'calendar-appointments-settings',
         ]
     })
-    if (user.pages.find((page: any) => page.name === "Duty Schedule")) {
+    if (user.pages?.find((page: any) => page.name === "Duty Schedule")) {
         navigation.push({
             name: 'Duty schedules',
             href: '/schedules',
@@ -780,6 +780,7 @@ async function fetchUser() {
             plansGoalsSubgoalsCompletionReminderModalVisibility(response)
             checkInReminderModalVisibility(response)
             guidedUserTourModalVisibility()
+
         }
     } catch (error: any) {
         state.error = error

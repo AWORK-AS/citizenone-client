@@ -5941,7 +5941,8 @@
             "createCitizenChildren": "opret borgerbørn",
             "updateCitizenChildren": "rediger borgerbørn",
             "deleteCitizenChildren": "slet borgerbørn",
-            "deleteCalendarEvent": "slet kalenderhændelse"
+            "deleteCalendarEvent": "slet kalenderhændelse",
+            "createCitizen": "opret borger"
         }
     },
     "rooms": {
