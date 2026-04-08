@@ -422,6 +422,25 @@
                                                             </div>
                                                         </div>
                                                     </div>
+
+                                                    <div class="text-xs grid grid-cols-7 border-t-2 border-gray-200">
+                                                        <div class="col-span-3 border-gray-200">
+                                                            <div class="pl-3 py-2 font-semibold">
+                                                                {{ $t('dutySchedules.total') }}:
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-span-2 border-gray-200">
+                                                            <div class="text-right py-2 pr-2 font-semibold">
+                                                                {{ employee?.total_weekly_hours }}
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-span-2 border-l-0.5 border-gray-200">
+                                                            <div class="text-right py-2 pr-2 font-semibold">
+                                                                {{ employee?.total_yearly_hours }}
+                                                            </div>
+                                                        </div>
+                                                    </div>
+
                                                     <div class="text-xs grid grid-cols-7">
                                                         <div
                                                             class="px-3 col-span-7 space-y-2 border-t-0.5 border-gray-200 pt-3">

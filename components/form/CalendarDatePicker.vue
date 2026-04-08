@@ -1,3 +1,4 @@
+
 <template>
     <flat-pickr v-model="state.dateValue" :config="state.datePickerConfig" :id="props.id" :name="props.name"
         :placeholder="props.placeholder"
