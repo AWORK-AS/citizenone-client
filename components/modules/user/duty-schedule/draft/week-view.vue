@@ -408,7 +408,19 @@
                                                     </div>
                                                     <div class="text-xs grid grid-cols-7">
                                                         <div
-                                                            class="px-3 col-span-7 space-y-2 mt-4 border-t-0.5 border-gray-200 pt-3">
+                                                            class="px-3 col-span-7 space-y-2 border-t-0.5 border-gray-200 pt-3">
+                                                            <div :class="[
+                                                                'text-primary',
+                                                                'flex items-center gap-1 w-fit cursor-pointer'
+                                                            ]" @click="openGraphModal(employee)">
+                                                                <Icon name="ph:chart-bar-bold" class="h-3 w-3"
+                                                                    aria-hidden="true" />
+                                                                {{
+                                                                    $t('dutySchedules.normHours.compensatoryHoursGraph')
+                                                                }}
+                                                            </div>
+                                                        </div>
+                                                        <div class="px-3 col-span-7 space-y-2 mt-1">
                                                             <div :class="[
                                                                 employee?.total_norm_hours?.compensatory_hours > 0 ? 'text-green-700' : 'text-red-700',
                                                                 'flex items-center gap-1 w-fit cursor-pointer'
@@ -627,6 +639,8 @@
                 @close="state.modal.isCompensatoryHoursOpen = false" />
             <ModulesUserDutyScheduleNormHoursModalInfo :isModalOpen="state.modal.isAnnualNormHoursInfoOpen"
                 @close="state.modal.isAnnualNormHoursInfoOpen = false" />
+            <ModulesUserDutyScheduleNormHoursModalGraph :isModalOpen="state.modal.isGraphOpen"
+                :selectedEmployee="state.normHours.selectedEmployee" @close="state.modal.isGraphOpen = false" />
             <ModulesUserDutyScheduleNormHoursModalVacationHours :isModalOpen="state.modal.isVacationHoursOpen"
                 :selectedEmployee="state.normHours.selectedEmployeeSchedule"
                 @close="state.modal.isVacationHoursOpen = false" />
@@ -713,6 +727,7 @@ const state = reactive({
         isCopyMultipleWeeklyScheduleOpen: false,
         isDepartmentSickLeaveDateRangeOpen: false,
         isEditShiftOpen: false,
+        isGraphOpen: false,
         isManageExtraHoursOpen: false,
         isPublishDraftOpen: false,
         isVacationHoursOpen: false,
@@ -724,7 +739,8 @@ const state = reactive({
     },
     newShiftError: {} as Error,
     normHours: {
-        selectedEmployeeSchedule: {}
+        selectedEmployeeSchedule: {},
+        selectedEmployee: {} as any,
     },
     progress: {
         percentage: 100,
@@ -1496,5 +1512,10 @@ function closeWarningDialog() {
 function viewExtraHours(employee: any) {
     state.manageExtraHours.selectedEmployee = employee
     state.modal.isManageExtraHoursOpen = true
+}
+
+function openGraphModal(employee: any) {
+    state.normHours.selectedEmployee = employee
+    state.modal.isGraphOpen = true
 }
 </script>
