@@ -71,6 +71,19 @@
                                             </p>
                                         </td>
                                         <td width="10%">
+                                            <p class="truncate">
+                                                {{
+                                                    extraHours?.departments?.length ?
+                                                        extraHours.departments.map((d: any) => d.name).join(', ') : '-'
+                                                }}
+                                            </p>
+                                        </td>
+                                        <td width="10%">
+                                            <p class="truncate">
+                                                {{ extraHours?.user?.firstname }} {{ extraHours?.user?.lastname ?? '' }}
+                                            </p>
+                                        </td>
+                                        <td width="10%">
                                             <span v-if="extraHours?.extra_hours_status === 'pending'">
                                                 {{ $t('dutySchedules.extraHours.table.status.pending') }}
                                             </span>
@@ -184,6 +197,8 @@ const state = reactive({
         { name: 'dutySchedules.extraHours.table.tags', isTranslateName: true },
         { name: 'dutySchedules.extraHours.table.hours', isTranslateName: true, sorter: true, key: 'extra_hours' },
         { name: 'dutySchedules.extraHours.table.note', isTranslateName: true, },
+        { name: 'dutySchedules.extraHours.table.department', isTranslateName: true },
+        { name: 'dutySchedules.extraHours.table.createdBy', isTranslateName: true },
         { name: 'dutySchedules.extraHours.table.status.status', isTranslateName: true, sorter: true, key: 'extra_hours_status' },
         { name: '' },
     ],

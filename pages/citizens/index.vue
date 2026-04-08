@@ -61,7 +61,7 @@
                             {{ $t('inquiries.inquiries') }}
                         </FormButton>
                         <FormButton buttonStyle="action" class="rounded-lg" @click="navigateTo('/citizens/new')"
-                            v-if="userStore.getUser?.roles?.[0]?.name === 'Admin'">
+                            v-if="userStore.getUser?.roles?.[0]?.name === 'Admin' || userStore.user?.permissions?.find((p: any) => p.name === 'create_citizen')">
                             <Icon name="ph:plus" class="h-4 w-4" aria-hidden="true" />
                             {{ $t('citizens.newCitizen') }}
                         </FormButton>
@@ -76,11 +76,52 @@
                             <Icon name="ph:file-arrow-up" class="h-4 w-4" aria-hidden="true" />
                             {{ $t('citizens.importCitizens.importCitizens') }}
                         </FormButton>
-                        <FormButton buttonStyle="action" class="rounded-lg" @click="exportCitizens"
-                            v-if="userStore.getUser?.roles?.[0]?.name === 'Admin'">
+                        <FormButton buttonStyle="action" class="rounded-lg" @click="exportCitizens({})"
+                            v-if="userStore.getUser?.roles?.[0]?.name === 'Admin' && !isShelterOrCrisisCenter">
                             <Icon name="ph:file-arrow-down" class="h-4 w-4" aria-hidden="true" />
                             {{ $t('citizens.exportCitizens') }}
                         </FormButton>
+                        <Menu
+                            v-if="userStore.getUser?.roles?.[0]?.name === 'Admin' && isShelterOrCrisisCenter"
+                            as="div" class="relative inline-block text-left z-20">
+                            <div>
+                                <MenuButton>
+                                    <FormButton buttonStyle="action" class="rounded-lg">
+                                        <Icon name="ph:file-arrow-down" class="h-4 w-4" aria-hidden="true" />
+                                        {{ $t('citizens.exportCitizens') }}
+                                    </FormButton>
+                                </MenuButton>
+                            </div>
+
+                            <transition enter-active-class="transition duration-100 ease-out"
+                                enter-from-class="transform scale-95 opacity-0"
+                                enter-to-class="transform scale-100 opacity-100"
+                                leave-active-class="transition duration-75 ease-in"
+                                leave-from-class="transform scale-100 opacity-100"
+                                leave-to-class="transform scale-95 opacity-0">
+                                <MenuItems
+                                    class="absolute right-0 mt-2 min-w-44 origin-top-right divide-y divide-gray-100 rounded-md bg-white shadow-lg ring-1 ring-black/5 focus:outline-none max-h-96 overflow-y-auto">
+                                    <div class="px-1 py-1">
+                                        <MenuItem v-slot="{ active }">
+                                        <button :class="[
+                                            active && 'bg-gray-100',
+                                            'group flex w-full justify-start items-center rounded-md px-2 py-2.5 text-sm text-left',
+                                        ]" @click="exportCitizens({})">
+                                            {{ $t('department.allDepartment') }}
+                                        </button>
+                                        </MenuItem>
+                                        <MenuItem v-slot="{ active }" v-for="(department, index) in state.departments?.data?.filter((d: any) => d.name !== 'All departments')" :key="index">
+                                        <button :class="[
+                                            active && 'bg-gray-100',
+                                            'group flex w-full justify-start items-center rounded-md px-2 py-2.5 text-sm text-left',
+                                        ]" @click="exportCitizens({ department: department.name, department_uuid: department.uuid })">
+                                            {{ department.name }}
+                                        </button>
+                                        </MenuItem>
+                                    </div>
+                                </MenuItems>
+                            </transition>
+                        </Menu>
                         <Menu
                             v-if="userStore.getUser?.company?.industry?.system_name === 'social_welfare' && ['Crisis center', 'Shelter'].includes(userStore.getUser?.company?.facility_type?.en_name)"
                             as="div" class="relative inline-block text-left z-20">
@@ -292,6 +333,7 @@ import { useUserStore } from '@/store/user'
 import type { Error } from '@/types'
 import { saveAs } from 'file-saver'
 import { citizenInquiryService } from '@/components/api/user/CitizenInquiryService'
+import { departmentService } from '@/components/api/user/DepartmentService'
 import { useI18n } from 'vue-i18n'
 
 const runtimeConfig = useRuntimeConfig()
@@ -334,6 +376,7 @@ const state = reactive({
     selectedCitizen: null as any,
     arrivalDistance: 0,
     workingMinutes: 0,
+    departments: [] as any,
 })
 
 const arrivalCheckState = reactive({
@@ -349,12 +392,18 @@ const isTransportRegistrationEnabled = computed(() => {
     return userStore.getUser?.can_register_transport === true
 })
 
+const isShelterOrCrisisCenter = computed(() => {
+    return userStore.getUser?.company?.industry?.system_name === 'social_welfare'
+        && ['Crisis center', 'Shelter'].includes(userStore.getUser?.company?.facility_type?.en_name)
+})
+
 const isInterventionCheckinEnabled = computed(() => {
     return userStore.getUser?.company?.intervention_checkin_enabled === true
 })
 
 onMounted(() => {
     fetchCitizens()
+    fetchExportDepartments()
 
     if (isTransportRegistrationEnabled.value) {
         const savedLocationState = locationTracking.getSavedTrackingState()
@@ -600,12 +649,26 @@ function showCitizenNote(citizen: any) {
     state.modal.isShowNote = true
 }
 
-async function exportCitizens() {
+async function fetchExportDepartments() {
+    state.error = {}
+    try {
+        const params = {}
+        const response = await departmentService.getAllDepartments(params)
+        if (response) {
+            state.departments = response
+        }
+    } catch (error: any) {
+        state.error = error
+    }
+}
+
+async function exportCitizens(departmentParams: { department?: string, department_uuid?: string }) {
     state.error = {}
     state.isTableLoading = true
     try {
         const params = {
-            department: departmentStore.getSelectedDepartmentName,
+            department: departmentParams.department ?? departmentStore.getSelectedDepartmentName,
+            department_uuid: departmentParams.department_uuid ?? departmentStore.getSelectedDepartment?.uuid,
         }
         const response = await citizenService.exportCitizens(params)
         if (response) {

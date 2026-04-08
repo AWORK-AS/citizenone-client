@@ -144,7 +144,8 @@ const PERMISSION_LABELS: Record<string, string> = {
     'create_citizen_health': 'roles.permissions.createCitizenHealth',
     'view_citizen_health': 'roles.permissions.viewCitizenHealth',
     'update_citizen_health': 'roles.permissions.updateCitizenHealth',
-    'delete_citizen_health': 'roles.permissions.deleteCitizenHealth'
+    'delete_citizen_health': 'roles.permissions.deleteCitizenHealth',
+    'create_citizen': 'roles.permissions.createCitizen',
 }
 
 onMounted(() => {

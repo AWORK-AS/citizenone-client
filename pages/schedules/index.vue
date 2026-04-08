@@ -658,6 +658,13 @@ const state = reactive({
     noMatchTooltip: { visible: false, x: 0, y: 0 },
 })
 
+watch(() => userStore.getUser, (user: any) => {
+    if (user && !user?.pages?.some((page: any) => page.name === 'Duty Schedule')) {
+        navigateTo('/overview')
+        errorAlert(`${t('alert.somethingWentWrong')}!`, `${t('youDontHaveAccessToThisPage')}.`)
+    }
+})
+
 const zenegyStepNumber = computed(() => {
     const map: Record<string, number> = { 'configure': 1, 'assign-rates': 2, 'review': 3, 'result': 4 }
     return map[state.syncStep] || 1

@@ -550,7 +550,7 @@
                                                             </div>
                                                         </div>
                                                     </div>
-                                                    
+
                                                     <div class="text-xs grid grid-cols-7">
                                                         <div
                                                             class="px-3 col-span-7 space-y-2 border-t-0.5 border-gray-200 pt-3">
@@ -573,7 +573,7 @@
                                                                 <Icon name="ph:clock" class="h-3 w-3"
                                                                     aria-hidden="true" />
                                                                 {{
-                                                                    $t('dutySchedules.normHours.compensatoryHours')
+                                                                    $t('dutySchedules.normHours.compensatoryHoursThisYear')
                                                                 }}:
                                                                 {{
                                                                     formatNumber(language.locale.value,

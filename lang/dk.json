@@ -2975,6 +2975,7 @@
                     "extraHoursSuccessfullyUpdated": "X-timer blev opdateret"
                 },
                 "date": "Dato",
+                "department": "Afdeling",
                 "hours": "Timer",
                 "note": "Bemærkning",
                 "tags": "Etiketter",
@@ -3004,7 +3005,9 @@
                     "deleteExtraHoursConfirmation": "Er du sikker på, at du vil slette disse x-timer?",
                     "rejectExtraHoursConfirmation": "Er du sikker på, at du vil afvise disse x-timer?"
                 },
+                "createdBy": "Oprettet af",
                 "date": "Dato",
+                "department": "Afdeling",
                 "hours": "Timer",
                 "note": "Bemærkning",
                 "status": {
@@ -3105,8 +3108,8 @@
         "newSchedule": "Ny vagt",
         "normHours": {
             "availableVacationHours": "Tilgængelige ferietimer",
-            "compensatoryHours": "Afspadseringstimer",
             "compensatoryHoursThisYear": "Afspadseringstimer i år",
+            "compensatoryHoursThisPeriod": "Afspadseringstimer i denne periode",
             "compensatoryHourFromPreviousYear": "Afspadseringstimer fra tidligere år",
             "compensatoryHoursGraph": "Afspadseringsgraf",
             "date": "Dato",
@@ -4901,7 +4904,18 @@
         "send": "Send",
         "subject": "Emne",
         "unreadMessages": "Ulæste beskeder",
-        "users": "Brugere"
+        "users": "Brugere",
+        "conversationsAndMessaging": "Samtaler og beskeder",
+        "searchConversations": "Søg samtaler...",
+        "directMessage": "Direkte besked",
+        "members": "medlemmer",
+        "noConversationsFound": "Ingen samtaler fundet",
+        "welcomeToChat": "Velkommen til chat",
+        "welcomeDescription": "Vælg en samtale fra sidebjælken, eller opret en ny for at komme i gang.",
+        "newConversation": "Ny samtale",
+        "unread": "ulæste",
+        "attachFile": "Vedhæft fil",
+        "typeAMessage": "Skriv en besked..."
     },
     "months": {
         "january": "Januar",
@@ -5926,7 +5940,8 @@
             "deleteCitizenContact": "slet borgerkontakt",
             "createCitizenChildren": "opret borgerbørn",
             "updateCitizenChildren": "rediger borgerbørn",
-            "deleteCitizenChildren": "slet borgerbørn"
+            "deleteCitizenChildren": "slet borgerbørn",
+            "createCitizen": "opret borger"
         }
     },
     "rooms": {
@@ -6051,7 +6066,7 @@
                 "website": "Hjemmeside",
                 "companyLogo": "Firmalogo",
                 "remove": "Fjern firmalogo",
-                "registerTransport":"Registrer transport"
+                "registerTransport": "Registrer transport"
             }
         },
         "licenseOverview": {

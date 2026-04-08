@@ -49,6 +49,10 @@ export default defineNuxtConfig({
     'nuxt-echarts',
   ],
 
+  piniaPersistedstate: {
+    storage: 'localStorage',
+  },
+
   echarts: {
     renderer: ['canvas'],
     charts: ['LineChart'],

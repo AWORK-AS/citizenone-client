@@ -2975,6 +2975,7 @@
                     "extraHoursSuccessfullyUpdated": "Extra hours successfully updated"
                 },
                 "date": "Date",
+                "department": "Department",
                 "hours": "Hours",
                 "note": "Note",
                 "tags": "Tags",
@@ -3004,7 +3005,9 @@
                     "deleteExtraHoursConfirmation": "Are you sure you want to delete this extra hours",
                     "rejectExtraHoursConfirmation": "Are you sure you want to reject this extra hours"
                 },
+                "createdBy": "Created By",
                 "date": "Date",
+                "department": "Department",
                 "hours": "Hours",
                 "note": "Note",
                 "status": {
@@ -3105,8 +3108,8 @@
         "newSchedule": "New schedule",
         "normHours": {
             "availableVacationHours": "Available vacation hours",
-            "compensatoryHours": "Compensatory hours",
-            "compensatoryHoursThisYear": "Compensatory hours this period",
+            "compensatoryHoursThisYear": "Compensatory hours this year",
+            "compensatoryHoursThisPeriod": "Compensatory hours this period",
             "compensatoryHourFromPreviousYear": "Compensatory hours from previous period",
             "compensatoryHoursGraph": "Compensatory hours graph",
             "date": "Date",
@@ -4901,7 +4904,18 @@
         "send": "Send",
         "subject": "Subject",
         "unreadMessages": "Unread messages",
-        "users": "Users"
+        "users": "Users",
+        "conversationsAndMessaging": "Conversations & Messaging",
+        "searchConversations": "Search conversations...",
+        "directMessage": "Direct Message",
+        "members": "members",
+        "noConversationsFound": "No conversations found",
+        "welcomeToChat": "Welcome to Chat",
+        "welcomeDescription": "Select a conversation from the sidebar or create a new one to get started.",
+        "newConversation": "New Conversation",
+        "unread": "unread",
+        "attachFile": "Attach file",
+        "typeAMessage": "Type a message..."
     },
     "months": {
         "january": "January",
@@ -5926,7 +5940,8 @@
             "deleteCitizenContact": "delete citizen contact",
             "createCitizenChildren": "create citizen children",
             "updateCitizenChildren": "update citizen children",
-            "deleteCitizenChildren": "delete citizen children"
+            "deleteCitizenChildren": "delete citizen children",
+            "createCitizen": "create citizen"
         }
     },
     "rooms": {
@@ -6051,7 +6066,7 @@
                 "website": "Website",
                 "companyLogo": "Company logo",
                 "remove": "Remove company logo",
-                "registerTransport":"Register transport"
+                "registerTransport": "Register transport"
             }
         },
         "licenseOverview": {
