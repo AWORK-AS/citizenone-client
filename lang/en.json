@@ -7066,15 +7066,21 @@
         "requestNewTimeLog": "Request new time log",
         "table": {
             "actions": {
+                "approve": "Approve",
+                "decline": "Decline",
                 "delete": "Delete",
                 "edit": "Edit",
                 "view": "View"
             },
             "alert": {
+                "timeLogSuccessfullyApproved": "Time log successfully approved",
+                "timeLogSuccessfullyDeclined": "Time log successfully declined",
                 "timeLogSuccessfullyDeleted": "Time log successfully deleted"
             },
             "createdAt": "Created at",
             "confirmation": {
+                "approveTimeLogConfirmation": "Are you sure you want to approve this time log",
+                "declineTimeLogConfirmation": "Are you sure you want to decline this time log",
                 "deleteTimeLogConfirmation": "Are you sure you want to delete this time log"
             },
             "dateTimeEnd": "Date time end",

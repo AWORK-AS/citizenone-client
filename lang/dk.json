@@ -7066,15 +7066,21 @@
         "requestNewTimeLog": "Anmod om ny tidslog",
         "table": {
             "actions": {
+                "approve": "Godkend",
+                "decline": "Afvis",
                 "delete": "Slet",
                 "edit": "Rediger",
                 "view": "Vis"
             },
             "alert": {
+                "timeLogSuccessfullyApproved": "Tidslog blev godkendt",
+                "timeLogSuccessfullyDeclined": "Tidslog blev afvist",
                 "timeLogSuccessfullyDeleted": "Tidslog blev slettet"
             },
             "createdAt": "Oprettet den",
             "confirmation": {
+                "approveTimeLogConfirmation": "Er du sikker på, at du vil godkende denne tidslog",
+                "declineTimeLogConfirmation": "Er du sikker på, at du vil afvise denne tidslog",
                 "deleteTimeLogConfirmation": "Er du sikker på, at du vil slette denne tidslog?"
             },
             "dateTimeEnd": "Slutdato og -tid",
