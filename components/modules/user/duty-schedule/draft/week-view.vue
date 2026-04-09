@@ -189,8 +189,47 @@
                                             </button>
                                         </div>
                                     </div>
+                                    <Tooltip :text="$t('dutySchedules.scheduleSlots.scheduleSlots')"
+                                        v-for="day in weekDays" :key="day.date"
+                                        class="relative cursor-pointer hover:bg-gray-200 flex items-center justify-center py-4 border-0.5"
+                                        @click="openManageScheduleSlotModal(day)"
+                                        v-if="isAdmin(userStore.getUser?.role)">
+                                        <span class="flex gap-x-1 text-sm">
+                                            <span v-if="day.longName === 'Mon'">
+                                                {{ $t('calendar.week.short.Monday') }}
+                                            </span>
+                                            <span v-if="day.longName === 'Tue'">
+                                                {{ $t('calendar.week.short.Tuesday') }}
+                                            </span>
+                                            <span v-if="day.longName === 'Wed'">
+                                                {{ $t('calendar.week.short.Wednesday') }}
+                                            </span>
+                                            <span v-if="day.longName === 'Thu'">
+                                                {{ $t('calendar.week.short.Thursday') }}
+                                            </span>
+                                            <span v-if="day.longName === 'Fri'">
+                                                {{ $t('calendar.week.short.Friday') }}
+                                            </span>
+                                            <span v-if="day.longName === 'Sat'">
+                                                {{ $t('calendar.week.short.Saturday') }}
+                                            </span>
+                                            <span v-if="day.longName === 'Sun'">
+                                                {{ $t('calendar.week.short.Sunday') }}
+                                            </span>
+                                            <span class="items-center justify-center font-semibold text-gray-900">
+                                                {{ day.date }}
+                                            </span>
+                                        </span>
+                                        <div v-if="getSlotCount(day.longName) > 0"
+                                            class="absolute top-2 left-24 text-xxs flex items-center justify-center w-5 h-5 bg-red-400 text-white rounded-full">
+                                            {{
+                                                getSlotCount(day.longName) > 99 ? '99+' : getSlotCount(day.longName)
+                                            }}
+                                        </div>
+                                    </Tooltip>
                                     <div v-for="day in weekDays" :key="day.date"
-                                        class="flex items-center justify-center py-4 border-0.5">
+                                        class="flex items-center justify-center py-4 border-0.5"
+                                        v-if="!isAdmin(userStore.getUser?.role)">
                                         <span class="flex gap-x-1 text-sm">
                                             <span v-if="day.longName === 'Mon'">
                                                 {{ $t('calendar.week.short.Monday') }}
@@ -709,6 +748,9 @@
             <ModulesUserDutyScheduleExtraHoursModalView :isModalOpen="state.modal.isManageExtraHoursOpen"
                 :selectedEmployee="state.manageExtraHours.selectedEmployee"
                 @close="state.modal.isManageExtraHoursOpen = false" @refreshDutySchedules="fetchDraftDutySchedule()" />
+            <ModulesUserDutyScheduleDraftScheduleSlotsModalScheduleSlots :isModalOpen="state.modal.isManageScheduleSlotOpen"
+                :selectedDay="state.manageScheduleSlot.selectedDay"
+                @close="state.modal.isManageScheduleSlotOpen = false" @refreshDutySchedules="fetchDraftDutySchedule()" />
         </LoadingSpinner>
     </div>
 </template>
@@ -766,6 +808,9 @@ const state = reactive({
     manageExtraHours: {
         selectedEmployee: {},
     },
+    manageScheduleSlot: {
+        selectedDay: [],
+    } as any,
     modal: {
         isAddShiftOpen: false,
         isCompensatoryHoursOpen: false,
@@ -775,6 +820,7 @@ const state = reactive({
         isFilterDutyScheduleOpen: false,
         isGraphOpen: false,
         isManageExtraHoursOpen: false,
+        isManageScheduleSlotOpen: false,
         isPublishDraftOpen: false,
         isVacationHoursOpen: false,
         isAnnualNormHoursInfoOpen: false,
@@ -1083,6 +1129,25 @@ function changePageLength(event: any) {
     draftDutyScheduleStore.setCurrentPageNumber(1)
     draftDutyScheduleStore.setCurrentPageLength(event.target.value)
     fetchDraftDutySchedule()
+}
+
+function getSlotCount(dayName: string) {
+    const dayMap = {
+        Mon: 'monday',
+        Tue: 'tuesday',
+        Wed: 'wednesday',
+        Thu: 'thursday',
+        Fri: 'friday',
+        Sat: 'saturday',
+        Sun: 'sunday'
+    } as any
+    const key = dayMap[dayName]
+    return state.weeklySchedules?.week_data?.[key]?.total_slots || 0
+}
+
+function openManageScheduleSlotModal(day: any) {
+    state.manageScheduleSlot.selectedDay = day
+    state.modal.isManageScheduleSlotOpen = true
 }
 
 function toggleShowHideAllShifts() {
