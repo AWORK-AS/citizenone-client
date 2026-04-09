@@ -3356,9 +3356,22 @@
         },
         "week": "Uge",
         "yearToDate": "År til dato",
+        "shiftNote": "Note",
+        "shiftThreshold": {
+            "high": "Høj bemanding: medarbejdere er over minimumstærsklen",
+            "low": "Lav bemanding: medarbejdere er under minimumstærsklen",
+            "moderate": "Moderat bemanding: medarbejdere er tæt på minimumstærsklen"
+        },
         "shiftWarning": {
             "warning": "Advarsel",
             "warningsFound": "Advarsler er fundet i denne vagt."
+        },
+        "indicators": {
+            "exceedsNorm": "Overskrider norm",
+            "negative": "Negativ saldo",
+            "neutral": "Ingen saldo",
+            "positive": "Positiv saldo",
+            "withinNorm": "Inden for norm"
         }
     },
     "drive": {

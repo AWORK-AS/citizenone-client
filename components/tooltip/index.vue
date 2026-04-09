@@ -3,8 +3,8 @@
         <div class="flex items-center">
             <slot />
             <div v-if="visible" class="absolute z-50 p-2 text-sm text-white bg-primary rounded shadow-lg tooltip"
-                :class="positionClasses">
-                <p class="truncate text-xxs">{{ text }}</p>
+                :class="[positionClasses, wrap ? 'w-64' : '']">
+                <p :class="wrap ? 'text-xxs whitespace-pre-wrap break-words' : 'truncate text-xxs'">{{ text }}</p>
             </div>
         </div>
     </div>
@@ -19,6 +19,10 @@ const props = defineProps({
     position: {
         type: String,
         default: 'top',
+    },
+    wrap: {
+        type: Boolean,
+        default: false,
     },
 })
 

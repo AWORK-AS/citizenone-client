@@ -3356,9 +3356,22 @@
         },
         "week": "Week",
         "yearToDate": "Year to date",
+        "shiftNote": "Note",
+        "shiftThreshold": {
+            "high": "High staffing: employees are above the minimum threshold",
+            "low": "Low staffing: employees are below the minimum threshold",
+            "moderate": "Moderate staffing: employees are near the minimum threshold"
+        },
         "shiftWarning": {
             "warning": "Warning",
             "warningsFound": "Warnings have been found in this shift."
+        },
+        "indicators": {
+            "exceedsNorm": "Exceeds norm",
+            "negative": "Negative balance",
+            "neutral": "No balance",
+            "positive": "Positive balance",
+            "withinNorm": "Within norm"
         }
     },
     "drive": {
