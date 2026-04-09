@@ -29,7 +29,7 @@
                             </div>
                             <div class="space-y-1">
                                 <FormLabel for="date_range" :label="$t('citizens.interventionHours.filter.filterDate')" />
-                                <FormDateRangeField name="date_range"
+                                <FormDateRangeField name="date_range" :placeholder="t('citizens.interventionHours.filter.filterDate')"
                                     v-model="state.formFilter.date_range" />
                             </div>
                         </div>
