@@ -40,8 +40,10 @@
                             <FormButton buttonStyle="action" class="rounded-lg"
                                 @click="state.modal.isAddNewTimeLogOpen = true">
                                 <Icon name="ph:plus" class="h-4 w-4" aria-hidden="true" />
-                                {{ $t('timeLogs.newTimeLog') }}
-                            </FormButton>    
+                                {{ isAdmin(userStore.getUser?.roles) ?
+                                    $t('timeLogs.newTimeLog') :
+                                    $t('timeLogs.requestNewTimeLog') }}
+                            </FormButton>
                             <FormButton buttonStyle="action" class="rounded-lg"
                                 @click="state.modal.isDownloadTimeLogsOpen = true">
                                 <Icon name="ph:download" class="h-4 w-4" aria-hidden="true" />
@@ -131,7 +133,9 @@
             <ModulesUserTimeRegistrationModalEdit :isModalOpen="state.modal.isEditTimeLogOpen"
                 :selectedTimeLog="state.selectedTimeLog" @close="state.modal.isEditTimeLogOpen = false"
                 @refreshTimeLogs="fetchTimeLogs" />
-            <ModulesUserSettingsTimeLogsInterventionHoursEmployeeModal v-if="employeeUuid" :employeeUuid="employeeUuid.toString()" :isModalOpen="state.modal.isInterventionHoursOpen" @close="state.modal.isInterventionHoursOpen = false" />
+            <ModulesUserSettingsTimeLogsInterventionHoursEmployeeModal v-if="employeeUuid"
+                :employeeUuid="employeeUuid.toString()" :isModalOpen="state.modal.isInterventionHoursOpen"
+                @close="state.modal.isInterventionHoursOpen = false" />
             <ModulesUserTimeRegistrationModalViewLog :isModalOpen="state.modal.isViewTimeLogOpen"
                 :selectedTimeLog="state.selectedTimeLog" @close="state.modal.isViewTimeLogOpen = false" />
             <DialogConfirmation :isModalOpen="state.modal.isDeleteTimeLogConfirmationOpen"
@@ -146,12 +150,14 @@ import { useDatetimeFormatter } from '@/composables/datetimeFormatter'
 import { timeLogService } from '@/components/api/user/TimeLogService'
 import { useAlert } from '@/composables/alert'
 import { useI18n } from "vue-i18n"
+import { useUserStore } from '@/store/user'
 import type { Error } from '@/types'
 
 const runtimeConfig = useRuntimeConfig()
 const { formatDateTimeToReadable } = useDatetimeFormatter()
 const { successAlert } = useAlert()
 const { t } = useI18n()
+const userStore = useUserStore() as any
 const router = useRouter()
 const employeeUuid = router?.currentRoute?.value?.params?.employee_uuid
 let currentTablePage = 1
@@ -243,6 +249,10 @@ function sort(sortingData: any) {
         sortOrder: sortingData.sort,
     }
     fetchTimeLogs()
+}
+
+function isAdmin(roles: any) {
+    return roles && roles.some((role: any) => role.name === 'Admin')
 }
 
 function editTimeLog(log: any) {

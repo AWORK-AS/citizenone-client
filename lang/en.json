@@ -7063,6 +7063,7 @@
             "remarks": "Remarks"
         },
         "newTimeLog": "New time log",
+        "requestNewTimeLog": "Request new time log",
         "table": {
             "actions": {
                 "delete": "Delete",

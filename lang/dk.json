@@ -7063,6 +7063,7 @@
             "remarks": "Bemærkninger"
         },
         "newTimeLog": "Ny tidslog",
+        "requestNewTimeLog": "Anmod om ny tidslog",
         "table": {
             "actions": {
                 "delete": "Slet",

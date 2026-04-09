@@ -180,6 +180,9 @@ const rules = computed(() => {
                 status: {
                     required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
                 },
+                remarks: {
+                    required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
+                },
             },
         }
     }
