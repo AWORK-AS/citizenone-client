@@ -90,12 +90,14 @@
                                             {{ $t('timeLogs.table.actions.delete') }}
                                         </FormButton>
                                         <FormButton type="button" buttonStyle="action" class="rounded-md"
-                                            @click="confirmTimeLogApproval(log)" v-if="log?.request_status === 'pending' && isAdmin(userStore.getUser?.roles)">
+                                            @click="confirmTimeLogApproval(log)"
+                                            v-if="log?.request_status === 'pending' && isAdmin(userStore.getUser?.roles)">
                                             <Icon name="ph:check" class="size-4" />
                                             {{ $t('timeLogs.table.actions.approve') }}
                                         </FormButton>
                                         <FormButton type="button" buttonStyle="danger" class="rounded-md"
-                                            @click="confirmTimeLogDecline(log)" v-if="log?.request_status === 'pending' && isAdmin(userStore.getUser?.roles)">
+                                            @click="confirmTimeLogDecline(log)"
+                                            v-if="log?.request_status === 'pending' && isAdmin(userStore.getUser?.roles)">
                                             <Icon name="ph:x" class="size-4" />
                                             {{ $t('timeLogs.table.actions.decline') }}
                                         </FormButton>
