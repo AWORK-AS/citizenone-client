@@ -69,7 +69,7 @@ const props = defineProps({
         default: () => [],
     },
 })
-const emit = defineEmits(['close', 'updateShift', 'resetEditShiftError', 'dateTimeChange'])
+const emit = defineEmits(['close', 'updateShift', 'resetEditShiftError', 'resetShiftWarnings', 'dateTimeChange'])
 const state = reactive({
     error: {} as Error,
     isPageLoading: false,
@@ -108,6 +108,7 @@ const state = reactive({
 watch(() => props.isModalOpen, (isModalOpen: boolean) => {
     if (isModalOpen) {
         emit('resetEditShiftError')
+        emit('resetShiftWarnings')
     }
 })
 

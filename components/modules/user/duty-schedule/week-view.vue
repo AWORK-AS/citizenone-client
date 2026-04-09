@@ -947,13 +947,15 @@
                 :selectedDate="state.newShift.selectedDate" :selectedEmployee="state.newShift.selectedEmployee"
                 :shiftWarnings="state.shiftWarnings" @dateTimeChange="dateTimeChange"
                 @close="state.modal.isAddShiftOpen = false" @saveShift="saveShift"
-                @resetNewShiftError="state.newShiftError = {}" />
+                @resetNewShiftError="state.newShiftError = {}"
+                @resetShiftWarnings="state.shiftWarnings = []" />
             <ModulesUserDutyScheduleModalEditShift :isModalLoading="state.isModalLoading"
                 :isModalOpen="state.modal.isEditShiftOpen" :error="state.editShiftError"
                 :selectedEmployee="state.editShift.selectedEmployee"
                 :selectedEmployeeSchedule="state.editShift.selectedEmployeeSchedule"
                 :shiftWarnings="state.shiftWarnings" @dateTimeChange="dateTimeChange"
                 @close="state.modal.isEditShiftOpen = false" @resetEditShiftError="state.editShiftError = {}"
+                @resetShiftWarnings="state.shiftWarnings = []"
                 @updateShift="updateSelectedSchedule" />
             <ModulesUserDutyScheduleModalRemoveShiftConfirmation
                 :isModalOpen="state.modal.isRemoveShiftConfirmationOpen"
