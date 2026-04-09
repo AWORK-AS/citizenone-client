@@ -68,8 +68,7 @@
                             </span>
                             <button
                                 class="hidden group-hover/chat:flex w-6 h-6 rounded-md hover:bg-gray-200 items-center justify-center transition-colors"
-                                @click.stop="toggleChatMenu(chat.uuid)"
-                                :title="$t('messages.actions.more')">
+                                @click.stop="toggleChatMenu(chat.uuid)" :title="$t('messages.actions.more')">
                                 <Icon name="ph:dots-three" class="w-4 h-4 text-gray-500" aria-hidden="true" />
                             </button>
                             <!-- Dropdown -->
@@ -122,8 +121,7 @@
 
         <DialogConfirmation :isModalOpen="state.modal.isDeleteChatOpen"
             :message="$t('messages.confirmation.deleteChatConfirmation') + '?'"
-            @close="state.modal.isDeleteChatOpen = false"
-            @confirm="deleteChat" />
+            @close="state.modal.isDeleteChatOpen = false" @confirm="deleteChat" />
     </div>
 </template>
 

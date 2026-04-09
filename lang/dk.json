@@ -2027,7 +2027,7 @@
             "plansAndGoals": "Planer og mål"
         },
         "timeLogs": {
-            "timeLogs":"Tidslogfiler"
+            "timeLogs": "Tidslogfiler"
         },
         "treatments": {
             "alert": {
@@ -4865,13 +4865,13 @@
             "edit": "Rediger",
             "more": "Mere"
         },
-        "and": "Og",
         "alert": {
             "messageSuccessfullyDeleted": "Besked slettet med succes",
             "messageSuccessfullyUpdated": "Besked opdateret med succes",
             "chatSuccessfullyDeleted": "Chat slettet med succes"
         },
         "allMessagesAreLoaded": "Alle beskeder er indlæst",
+        "and": "Og",
         "confirmation": {
             "deleteMessageConfirmation": "Er du sikker på, at du vil slette denne besked",
             "deleteChatConfirmation": "Er du sikker på, at du vil slette denne chat"
