@@ -3157,7 +3157,7 @@
                 },
                 "actions": {
                     "approve": "Approve",
-                    "disapprove": "Dispprove"
+                    "disapprove": "Disapprove"
                 },
                 "name": "Name"
             }
