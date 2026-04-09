@@ -4794,16 +4794,19 @@
     "messages": {
         "actions": {
             "delete": "Slet",
-            "edit": "Rediger"
+            "edit": "Rediger",
+            "more": "Mere"
         },
-        "and": "Og",
         "alert": {
             "messageSuccessfullyDeleted": "Besked slettet med succes",
-            "messageSuccessfullyUpdated": "Besked opdateret med succes"
+            "messageSuccessfullyUpdated": "Besked opdateret med succes",
+            "chatSuccessfullyDeleted": "Chat slettet med succes"
         },
         "allMessagesAreLoaded": "Alle beskeder er indlæst",
+        "and": "Og",
         "confirmation": {
-            "deleteMessageConfirmation": "Er du sikker på, at du vil slette denne besked"
+            "deleteMessageConfirmation": "Er du sikker på, at du vil slette denne besked",
+            "deleteChatConfirmation": "Er du sikker på, at du vil slette denne chat"
         },
         "editMessage": "Rediger besked",
         "groupChat": {
@@ -4839,7 +4842,22 @@
         "send": "Send",
         "subject": "Emne",
         "unreadMessages": "Ulæste beskeder",
-        "users": "Brugere"
+        "users": "Brugere",
+        "conversationsAndMessaging": "Samtaler og beskeder",
+        "searchConversations": "Søg samtaler...",
+        "directMessage": "Direkte besked",
+        "members": "medlemmer",
+        "noConversationsFound": "Ingen samtaler fundet",
+        "welcomeToChat": "Velkommen til chat",
+        "welcomeDescription": "Vælg en samtale fra sidebjælken, eller opret en ny for at komme i gang.",
+        "newConversation": "Ny samtale",
+        "unread": "ulæste",
+        "attachFile": "Vedhæft fil",
+        "typeAMessage": "Skriv en besked...",
+        "today": "I dag",
+        "yesterday": "I går",
+        "you": "Dig",
+        "deleteChat": "Slet chat"
     },
     "months": {
         "january": "Januar",
