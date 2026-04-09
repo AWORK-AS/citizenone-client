@@ -89,6 +89,16 @@
                                             <Icon name="heroicons:trash" class="size-4" />
                                             {{ $t('timeLogs.table.actions.delete') }}
                                         </FormButton>
+                                        <FormButton type="button" buttonStyle="action" class="rounded-md"
+                                            @click="confirmTimeLogApproval(log)" v-if="log?.request_status === 'pending' && isAdmin(userStore.getUser?.roles)">
+                                            <Icon name="ph:check" class="size-4" />
+                                            {{ $t('timeLogs.table.actions.approve') }}
+                                        </FormButton>
+                                        <FormButton type="button" buttonStyle="danger" class="rounded-md"
+                                            @click="confirmTimeLogDecline(log)" v-if="log?.request_status === 'pending' && isAdmin(userStore.getUser?.roles)">
+                                            <Icon name="ph:x" class="size-4" />
+                                            {{ $t('timeLogs.table.actions.decline') }}
+                                        </FormButton>
                                     </div>
                                 </td>
                             </tr>
@@ -109,6 +119,12 @@
                 <DialogConfirmation :isModalOpen="state.modal.isDeleteTimeLogConfirmationOpen"
                     :message="`${$t('timeLogs.table.confirmation.deleteTimeLogConfirmation')}?`"
                     @close="state.modal.isDeleteTimeLogConfirmationOpen = false" @confirm="deleteTimeLog" />
+                <DialogConfirmation :isModalOpen="state.modal.isApproveTimeLogConfirmationOpen"
+                    :message="`${$t('timeLogs.table.confirmation.approveTimeLogConfirmation')}?`"
+                    @close="state.modal.isApproveTimeLogConfirmationOpen = false" @confirm="approveTimeLog" />
+                <DialogConfirmation :isModalOpen="state.modal.isDeclineTimeLogConfirmationOpen"
+                    :message="`${$t('timeLogs.table.confirmation.declineTimeLogConfirmation')}?`"
+                    @close="state.modal.isDeclineTimeLogConfirmationOpen = false" @confirm="declineTimeLog" />
             </div>
         </NuxtLayout>
     </div>
@@ -156,6 +172,8 @@ const state = reactive({
     },
     modal: {
         isAddNewTimeLogOpen: false,
+        isApproveTimeLogConfirmationOpen: false,
+        isDeclineTimeLogConfirmationOpen: false,
         isDeleteTimeLogConfirmationOpen: false,
         isEditTimeLogOpen: false,
         isInterventionHoursOpen: false,
@@ -236,6 +254,46 @@ async function deleteTimeLog() {
         if (response?.message === 'Success.' || response?.message === 'Succes.') {
             fetchTimeLogs()
             successAlert(`${t('alert.success')}!`, `${t('timeLogs.table.alert.timeLogSuccessfullyDeleted')}.`)
+        }
+    } catch (error: any) {
+        state.error = error
+    }
+    state.isTableLoading = false
+}
+
+function confirmTimeLogApproval(log: any) {
+    state.selectedTimeLog = log
+    state.modal.isApproveTimeLogConfirmationOpen = true
+}
+
+function confirmTimeLogDecline(log: any) {
+    state.selectedTimeLog = log
+    state.modal.isDeclineTimeLogConfirmationOpen = true
+}
+
+async function approveTimeLog() {
+    state.error = {}
+    state.isTableLoading = true
+    try {
+        const response = await timeLogService.approveTimeLogRequest(state.selectedTimeLog.uuid)
+        if (response?.message === 'Success.' || response?.message === 'Succes.') {
+            fetchTimeLogs()
+            successAlert(`${t('alert.success')}!`, `${t('timeLogs.table.alert.timeLogSuccessfullyApproved')}.`)
+        }
+    } catch (error: any) {
+        state.error = error
+    }
+    state.isTableLoading = false
+}
+
+async function declineTimeLog() {
+    state.error = {}
+    state.isTableLoading = true
+    try {
+        const response = await timeLogService.declineTimeLogRequest(state.selectedTimeLog.uuid)
+        if (response?.message === 'Success.' || response?.message === 'Succes.') {
+            fetchTimeLogs()
+            successAlert(`${t('alert.success')}!`, `${t('timeLogs.table.alert.timeLogSuccessfullyDeclined')}.`)
         }
     } catch (error: any) {
         state.error = error
