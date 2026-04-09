@@ -74,7 +74,7 @@
                                                 {{ $t('superadmin.invoices.table.actions.view') }}
                                             </FormButton>
                                             <FormButton v-if="!invoice?.is_paid && !invoice?.invoice_type" type="button" buttonStyle="success" class="rounded-md"
-                                                @click="markInvoiceAsPaid(invoice?.uuid)">
+                                                @click="confirmMarkInvoiceAsPaid(invoice)">
                                                 <Icon name="ph:check" class="size-4" />
                                                 {{ $t('superadmin.invoices.table.actions.markAsPaid') }}
                                             </FormButton>
@@ -86,6 +86,11 @@
                     </div>
                     <Pagination :data="state.invoices" @previous="previous" @next="next" />
                 </div>
+                <ModulesSuperadminInvoiceModalDownload :isModalOpen="state.modal.isDownloadOpen"
+                    @close="state.modal.isDownloadOpen = false" />
+                <DialogConfirmation :isModalOpen="state.modal.isMarkAsPaidConfirmationOpen"
+                    :message="$t('superadmin.invoices.table.confirmation.markAsPaidConfirmation') + '?'"
+                    @close="state.modal.isMarkAsPaidConfirmationOpen = false" @confirm="markInvoiceAsPaid" />
             </div>
             <ModulesSuperadminInvoiceModalDownload :isModalOpen="state.modal.isDownloadOpen"
                 @close="state.modal.isDownloadOpen = false" />
@@ -126,7 +131,9 @@ const state = reactive({
     isTableLoading: false,
     modal: {
         isDownloadOpen: false,
+        isMarkAsPaidConfirmationOpen: false,
     },
+    selectedInvoice: {} as any,
     sortData: {
         sortField: 'id',
         sortOrder: 'descend',
@@ -182,12 +189,18 @@ function handleSearch(value: any) {
     fetchInvoices()
 }
 
-async function markInvoiceAsPaid(invoiceUuid: string) {
+function confirmMarkInvoiceAsPaid(invoice: any) {
+    state.selectedInvoice = invoice
+    state.modal.isMarkAsPaidConfirmationOpen = true
+}
+
+async function markInvoiceAsPaid() {
     state.error = {}
     try {
-        await invoiceService.markInvoiceAsPaid(invoiceUuid)
-        successAlert(`${t('alert.success')}!`, `${t('superadmin.invoices.form.alert.invoiceMarkedAsPaid')}.`)
+        await invoiceService.markInvoiceAsPaid(state.selectedInvoice.uuid)
+        successAlert(`${t('alert.success')}!`, `${t('superadmin.invoices.form.alert.invoiceMarkedAsPaid')}`)
         await fetchInvoices()
+        state.modal.isMarkAsPaidConfirmationOpen = false
     } catch (error: any) {
         state.error = error
     }
