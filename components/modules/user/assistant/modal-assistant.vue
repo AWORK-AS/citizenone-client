@@ -165,7 +165,7 @@ async function sendMessage() {
 
         const response = await aIAssistantService.sendMessage(formData)
         if (response && response.output) {
-            const messageOutput = response.output.find((item: any) => item.type === 'message')
+            const messageOutput = response.output.find((item: any) => item.type === 'message' && item.phase === 'final_answer')
 
             if (messageOutput?.content?.[0]?.text) {
                 state.messages.push({

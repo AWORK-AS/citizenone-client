@@ -970,7 +970,8 @@ async function generateNoteForRiskAssessmentNote() {
         }
         const response = await aIAssistantService.generateNote(params)
         if (response && response.output) {
-            const messageOutput = response.output.find((item: any) => item.type === 'message');
+            const messageOutput = response.output.find((item: any) => item.type === 'message' && item.phase === 'final_answer')
+
             if (messageOutput?.content?.[0]?.text) {
                 state.formJournal.content = messageOutput.content[0].text
             }
