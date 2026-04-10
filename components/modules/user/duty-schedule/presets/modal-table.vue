@@ -6,6 +6,16 @@
                     <div class="space-y-5">
                         <Alert type="danger" :text="state?.error?.message"
                             v-if="state.error?.message && state.error.message.length > 0" />
+                        <!-- Forklaring -->
+                        <div class="bg-blue-50 border border-blue-200 rounded-xl p-3 flex items-start gap-3">
+                            <svg class="w-5 h-5 text-blue-500 mt-0.5 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                            </svg>
+                            <div>
+                                <p class="text-xs font-semibold text-blue-800 mb-0.5">Hvad er forudindstillinger?</p>
+                                <p class="text-xs text-blue-700">En forudindstilling er en gemt version af din vagtplanskladde, som du kan genbruge. Vælg en forudindstilling nedenfor og klik <strong>Anvend</strong> for at indlæse den i kladden — du kan derefter redigere og offentliggøre den.</p>
+                            </div>
+                        </div>
                         <TableSearch @search="handleSearch" />
                         <div class="table-responsive">
                             <Table :columnHeaders="state.columnHeaders" :data="state.presets"

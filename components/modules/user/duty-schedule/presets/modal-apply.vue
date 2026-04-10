@@ -71,6 +71,17 @@
                                 <Alert type="danger" :text="props?.error?.message"
                                     v-if="props.error?.message && props.error.message.length > 0" />
                                 <div class="space-y-3" v-if="state.currentStep === 1">
+                                    <!-- Forklaringsboks -->
+                                    <div class="bg-blue-50 border border-blue-200 rounded-xl p-3 flex items-start gap-2 mb-2">
+                                        <svg class="w-4 h-4 text-blue-500 mt-0.5 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                                        </svg>
+                                        <div class="text-xs text-blue-700">
+                                            <p class="font-semibold text-blue-800 mb-1">Hvilken periode skal forudindstillingen dække?</p>
+                                            <p>Vælg den periode i din kladde som forudindstillingens vagter skal kopieres ind i. Systemet vil automatisk tilpasse vagterne til de valgte datoer.</p>
+                                            <p class="mt-1 text-blue-600"><strong>Eksempel:</strong> Vælg mandag d. 14. april som startdato og søndag d. 20. april som slutdato for at fylde uge 16 ud med forudindstillingens vagtmønster.</p>
+                                        </div>
+                                    </div>
                                     <div class="space-y-1">
                                         <FormLabel for="target_start_date" :label="$t('dutySchedules.draft.preset.form.dateStart')" />
                                         <FormDateField id="target_start_date" name="target_start_date" :placeholder="$t('dutySchedules.draft.preset.form.dateStart')"
