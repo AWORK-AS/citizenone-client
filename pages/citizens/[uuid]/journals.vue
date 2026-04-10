@@ -100,7 +100,10 @@
                             </div>
                         </div>
                         <div class="mt-5 space-y-5">
-                            <div class="bg-white ring-1 ring-gray-200 rounded-md p-5 border-l-4 border-secondary"
+                            <div :class="[
+                                    'bg-white ring-1 rounded-md p-5 border-l-4',
+                                    journal.is_pinned ? 'ring-primary/40 border-primary' : 'ring-gray-200 border-secondary'
+                                ]"
                                 v-for="(journal, index) in state.journals?.data" :key="index">
                                 <div class="space-y-3">
                                     <div class="space-y-1.5">
@@ -110,6 +113,9 @@
                                                     <h3 class="text-md font-semibold">
                                                         {{ journal.title }}
                                                     </h3>
+                                                    <div v-if="journal.is_pinned" class="flex items-center gap-x-1 text-primary text-xs font-medium">
+                                                        <Icon name="ph:push-pin-fill" class="size-3.5" />
+                                                    </div>
                                                     <div v-if="journal.is_draft">
                                                         <Badge type="primary">
                                                             <p class="text-xs">
@@ -256,6 +262,16 @@
                                                     @click="lockUnlockJournal(journal.uuid)">
                                                     <Icon name="ph:lock" class="size-4" v-if="journal.is_locked" />
                                                     <Icon name="ph:lock-open" class="size-4" v-else />
+                                                </FormButton>
+                                            </Tooltip>
+                                            <Tooltip
+                                                :text="journal?.is_pinned ? $t('citizens.citizenJournals.actions.unpin') : $t('citizens.citizenJournals.actions.pin')">
+                                                <FormButton buttonSize="xs" :class="[
+                                                    journal?.is_pinned && 'border-primary bg-primary text-white',
+                                                    'rounded-md w-full md:w-fit']"
+                                                    @click="pinUnpinJournal(journal.uuid)">
+                                                    <Icon name="ph:push-pin-fill" class="size-4" v-if="journal.is_pinned" />
+                                                    <Icon name="ph:push-pin" class="size-4" v-else />
                                                 </FormButton>
                                             </Tooltip>
                                             <Tooltip :text="$t('citizens.citizenJournals.actions.journalLogs')">
@@ -537,6 +553,21 @@ async function lockUnlockJournal(journalUuid: any) {
         if (response?.data) {
             fetchJournals()
             successAlert(`${t('alert.success')}!`, response?.data?.is_locked ? `${t('citizens.citizenJournals.alert.lockJournal')}.` : `${t('citizens.citizenJournals.alert.unlockJournal')}.`)
+        }
+    } catch (error: any) {
+        state.error = error
+    }
+    state.isPageLoading = false
+}
+
+async function pinUnpinJournal(journalUuid: any) {
+    state.error = {}
+    state.isPageLoading = true
+    try {
+        const response = await journalService.updateJournalPin(journalUuid)
+        if (response?.data) {
+            fetchJournals()
+            successAlert(`${t('alert.success')}!`, response?.data?.is_pinned ? `${t('citizens.citizenJournals.alert.pinJournal')}.` : `${t('citizens.citizenJournals.alert.unpinJournal')}.`)
         }
     } catch (error: any) {
         state.error = error

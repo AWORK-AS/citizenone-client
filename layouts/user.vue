@@ -192,13 +192,12 @@
                             @click="navigateToNews()">
                             <Icon name="ph:megaphone" class="h-5 w-5" aria-hidden="true" />
                             <Badge type="notification" class="w-4.5 h-4.5 flex items-center justify-center absolute -top-0.5 -right-0.5 text-[10px]"
-                                v-if="!hasSeenNews">
+                                v-if="!userStore.getUser?.is_read_news">
                                 {{ userStore?.getUnreadNewsCount }}
                             </Badge>
                         </button>
 
-                        <!-- New Updates -->
-                        <ModulesUserNavbarNewUpdates />
+                        <ModulesUserNavbarNewUpdates @fetchUser="fetchUser" />
 
                         <!-- Notification Bell -->
                         <ModulesUserNavbarNotificationBell />
@@ -340,7 +339,6 @@ const router = useRouter()
 const route = useRoute()
 const isSchedulesPage = computed(() => route.path.startsWith('/schedules'))
 const routeName = router?.currentRoute?.value?.name
-const hasSeenNews = ref(localStorage.getItem('hasSeenNews-02-20-2026') === 'true')
 const searchInput = ref<HTMLInputElement | null>(null)
 
 let navigation = [] as any
@@ -429,13 +427,66 @@ function generateSidebarLinks(user: any) {
     const userHasSecuredMailAccess = user?.has_mail_access
     const userHasLeadsActive = user?.company?.is_leads_active
     const userHasPageAttendanceAccess = user?.pages?.some((page: any) => page.name === "Attendance")
-
-    navigation.push({ name: 'Overview', href: '/overview', icon: 'material-symbols:dashboard-rounded', activeRouteNames: ['overview'] })
-    navigation.push({ name: 'Citizens', href: '/citizens', icon: 'heroicons:user-group', activeRouteNames: ['citizens', 'citizens-new', 'citizens-uuid-edit', 'citizens-uuid-journals', 'citizens-uuid-medicine-journals', 'citizens-uuid-plans-and-goals', 'citizens-uuid-nursing-areas', 'citizens-uuid-documents', 'citizens-uuid-documents-document_uuid', 'citizens-uuid-attendance', 'citizens-uuid-attendance-citizen_protocol_uuid', 'citizens-uuid-calendar', 'citizens-uuid-wallets', 'citizens-uuid-wallets-wallet_uuid', 'citizens-uuid-contacts'] })
-    navigation.push({ name: 'Calendar', href: '/calendar', icon: 'ph:calendar-blank', activeRouteNames: ['calendar', 'calendar-appointments', 'calendar-appointments-settings'] })
-    navigation.push({ name: 'Duty schedules', href: '/schedules', icon: 'ph:calendar-dots', activeRouteNames: ['schedules', 'schedules-draft'] })
-    navigation.push({ name: 'Messages', href: '/messages', icon: 'ph:chat-circle', activeRouteNames: ['messages', 'messages-chat_uuid'] })
-
+    navigation.push({
+        name: 'Overview',
+        href: '/overview',
+        icon: 'material-symbols:dashboard',
+        activeRouteNames: [
+            'overview',
+        ]
+    })
+    navigation.push({
+        name: 'Citizens',
+        href: '/citizens',
+        icon: 'heroicons:user-group',
+        activeRouteNames: [
+            'citizens',
+            'citizens-new',
+            'citizens-uuid-edit',
+            'citizens-uuid-journals',
+            'citizens-uuid-medicine-journals',
+            'citizens-uuid-plans-and-goals',
+            'citizens-uuid-nursing-areas',
+            'citizens-uuid-documents',
+            'citizens-uuid-documents-document_uuid',
+            'citizens-uuid-attendance',
+            'citizens-uuid-attendance-citizen_protocol_uuid',
+            'citizens-uuid-calendar',
+            'citizens-uuid-wallets',
+            'citizens-uuid-wallets-wallet_uuid',
+            'citizens-uuid-contacts',
+        ]
+    })
+    navigation.push({
+        name: 'Calendar',
+        href: '/calendar',
+        icon: 'ph:calendar-blank',
+        activeRouteNames: [
+            'calendar',
+            'calendar-appointments',
+            'calendar-appointments-settings',
+        ]
+    })
+    if (user.pages?.find((page: any) => page.name === "Duty Schedule")) {
+        navigation.push({
+            name: 'Duty schedules',
+            href: '/schedules',
+            icon: 'ph:calendar-dots',
+            activeRouteNames: [
+                'schedules',
+                'schedules-draft'
+            ]
+        })
+    }
+    navigation.push({
+        name: 'Messages',
+        href: '/messages',
+        icon: 'ph:chat-circle',
+        activeRouteNames: [
+            'messages',
+            'messages-chat_uuid'
+        ]
+    })
     if (userHasPageAttendanceAccess) {
         navigation.push({ name: 'Protocols', href: '/protocols', icon: 'ic:outline-shield', activeRouteNames: ['protocols', 'protocols-new', 'protocols-uuid'] })
     }
@@ -482,8 +533,13 @@ async function fetchUser() {
     try {
         const response = await userService.getUser()
         if (response?.data) {
-            userStore.setUser(response?.data); userStore.setLanguage(response?.data?.language?.code); language.locale.value = response?.data?.language?.code
-            plansGoalsSubgoalsCompletionReminderModalVisibility(response); checkInReminderModalVisibility(response); guidedUserTourModalVisibility()
+            userStore.setUser(response?.data)
+            userStore.setLanguage(response?.data?.language?.code)
+            language.locale.value = response?.data?.language?.code
+            plansGoalsSubgoalsCompletionReminderModalVisibility(response)
+            checkInReminderModalVisibility(response)
+            guidedUserTourModalVisibility()
+
         }
     } catch (error: any) { state.error = error }
 }
@@ -520,9 +576,54 @@ function handleNextGuidedTour(next: any) {
     if (next === 'end') { state.modal.isGuidedTourEmployeesOpen = false; state.modal.isGuidedTourEndOpen = true }
 }
 
-async function logout() { state.error = {}; state.isPageLoading = true; try { const r = await authService.logout(); if (r) { localStorage.removeItem("_token"); localStorage.removeItem("remember_me"); navigateTo('/') } } catch (e: any) { state.error = e } state.isPageLoading = false }
-function openSupport() { state.slideOver.isSupportOpen = true }
-function selectLanguage() { state.slideOver.isLanguageSwitcherOpen = true }
-function identifyFlag() { return userStore.getLanguage === 'en' ? '/img/icons/flags/united-kingdom.svg' : '/img/icons/flags/denmark.svg' }
-function navigateToNews() { navigateTo('/overview#news'); localStorage.setItem('hasSeenNews-02-20-2026', 'true'); hasSeenNews.value = true }
+async function logout() {
+    state.error = {}
+    state.isPageLoading = true
+    try {
+        const response = await authService.logout()
+        if (response) {
+            localStorage.removeItem("_token")
+            localStorage.removeItem("remember_me")
+            navigateTo('/')
+        }
+    } catch (error: any) {
+        state.error = error
+    }
+    state.isPageLoading = false
+}
+
+function openSupport() {
+    state.slideOver.isSupportOpen = true
+}
+
+function selectLanguage() {
+    state.slideOver.isLanguageSwitcherOpen = true
+}
+
+function identifyFlag() {
+    const selectedLanguage = userStore.getLanguage
+    if (selectedLanguage === 'en') {
+        return '/img/icons/flags/united-kingdom.svg'
+    } else {
+        if (selectedLanguage === 'dk') {
+            return '/img/icons/flags/denmark.svg'
+        }
+    }
+}
+
+async function navigateToNews() {
+    navigateTo('/overview#news')
+    state.error = {}
+    state.isPageLoading = true
+    try {
+        const response = await userService.readNews()
+        if (response) {
+            localStorage.setItem('hasSeenNews-02-20-2026', 'true')
+            fetchUser()
+        }
+    } catch (error: any) {
+        state.error = error
+    }
+    state.isPageLoading = false
+}
 </script>

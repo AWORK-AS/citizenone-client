@@ -367,7 +367,7 @@
                                                                 <Icon name="ph:clock" class="h-3 w-3"
                                                                     aria-hidden="true" />
                                                                 {{
-                                                                    $t('dutySchedules.normHours.compensatoryHours')
+                                                                    $t('dutySchedules.normHours.compensatoryHoursThisYear')
                                                                 }}:
                                                                 {{
                                                                     formatNumber(language.locale.value,

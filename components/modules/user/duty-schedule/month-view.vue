@@ -294,13 +294,20 @@
                                             <div class="px-3 pt-3 pb-1 relative">
                                                 <div class="flex justify-between">
                                                     <div class="flex items-center gap-x-2">
-                                                        <img :src="employee?.profile_image ?? `https://ui-avatars.com/api/?background=42AED9&color=fff&name=${employee?.firstname + ' ' + employee?.lastname}`"
-                                                            :class="[
-                                                                employee?.shift_threshold === 'high' && 'border-green-700',
-                                                                employee?.shift_threshold === 'moderate' && 'border-yellow-500',
-                                                                employee?.shift_threshold === 'low' && 'border-red-600',
-                                                                'h-10 w-10 rounded-full bg-gray-50 object-cover border-2'
-                                                            ]" />
+                                                        <Tooltip
+                                                            :text="employee?.shift_threshold === 'high' ? $t('dutySchedules.shiftThreshold.high') : employee?.shift_threshold === 'moderate' ? $t('dutySchedules.shiftThreshold.moderate') : $t('dutySchedules.shiftThreshold.low')"
+                                                            position="right"
+                                                            v-if="employee?.shift_threshold">
+                                                            <img :src="employee?.profile_image ?? `https://ui-avatars.com/api/?background=42AED9&color=fff&name=${employee?.firstname + ' ' + employee?.lastname}`"
+                                                                :class="[
+                                                                    employee?.shift_threshold === 'high' && 'border-green-700',
+                                                                    employee?.shift_threshold === 'moderate' && 'border-yellow-500',
+                                                                    employee?.shift_threshold === 'low' && 'border-red-600',
+                                                                    'h-10 w-10 rounded-full bg-gray-50 object-cover border-2'
+                                                                ]" />
+                                                        </Tooltip>
+                                                        <img v-else :src="employee?.profile_image ?? `https://ui-avatars.com/api/?background=42AED9&color=fff&name=${employee?.firstname + ' ' + employee?.lastname}`"
+                                                            class="h-10 w-10 rounded-full bg-gray-50 object-cover border-2" />
                                                         <p class="text-sm font-medium">
                                                             {{ employee?.firstname }}
                                                             {{ employee?.lastname }}
@@ -376,26 +383,39 @@
                                                         employee?.average_weekly_work_time?.severity === 'info' ? 'text-green-700' :
                                                             employee?.average_weekly_work_time?.severity === 'warning' ? 'text-amber-700' :
                                                                 'text-red-700',
-                                                        'text-xxs'
+                                                        'text-xxs flex items-center gap-1'
                                                     ]">
-                                                        {{ $t('dutySchedules.averageWeeklyHours.averageWeeklyHours')
-                                                        }}:
-                                                        {{ employee?.average_weekly_work_time?.average_weekly_hours
-                                                        }}
+                                                        {{ $t('dutySchedules.averageWeeklyHours.averageWeeklyHours') }}:
+                                                        {{ employee?.average_weekly_work_time?.average_weekly_hours }}
+                                                        <Tooltip
+                                                            :text="employee?.average_weekly_work_time?.severity === 'info' ? $t('dutySchedules.indicators.withinNorm') : $t('dutySchedules.indicators.exceedsNorm')"
+                                                            position="right">
+                                                            <span class="w-1.5 h-1.5 rounded-full inline-block" :class="employee?.average_weekly_work_time?.severity === 'info' ? 'bg-green-700' : employee?.average_weekly_work_time?.severity === 'warning' ? 'bg-amber-700' : 'bg-red-700'" />
+                                                        </Tooltip>
                                                     </p>
                                                     <p :class="[
                                                         parseFloat(employee?.log_data.total_time_account_earned_hours?.replace(',', '.')) > 0 ? 'text-green-700' : 'text-red-700',
-                                                        'text-xxs'
+                                                        'text-xxs flex items-center gap-1'
                                                     ]">
                                                         {{ $t('dutySchedules.earnedWorkHours') }}:
                                                         {{ employee?.log_data.total_time_account_earned_hours }}
+                                                        <Tooltip
+                                                            :text="parseFloat(employee?.log_data.total_time_account_earned_hours?.replace(',', '.')) > 0 ? $t('dutySchedules.indicators.positive') : parseFloat(employee?.log_data.total_time_account_earned_hours?.replace(',', '.')) < 0 ? $t('dutySchedules.indicators.negative') : $t('dutySchedules.indicators.neutral')"
+                                                            position="right">
+                                                            <span class="w-1.5 h-1.5 rounded-full inline-block" :class="parseFloat(employee?.log_data.total_time_account_earned_hours?.replace(',', '.')) > 0 ? 'bg-green-700' : 'bg-red-700'" />
+                                                        </Tooltip>
                                                     </p>
                                                     <p :class="[
                                                         parseFloat(employee?.extra_hours?.replace(',', '.')) > 0 ? 'text-green-700' : 'text-red-700',
-                                                        'text-xxs'
+                                                        'text-xxs flex items-center gap-1'
                                                     ]">
                                                         {{ $t('dutySchedules.extraHours.extraHours') }}:
                                                         {{ employee?.extra_hours }}
+                                                        <Tooltip
+                                                            :text="parseFloat(employee?.extra_hours?.replace(',', '.')) > 0 ? $t('dutySchedules.indicators.positive') : parseFloat(employee?.extra_hours?.replace(',', '.')) < 0 ? $t('dutySchedules.indicators.negative') : $t('dutySchedules.indicators.neutral')"
+                                                            position="right">
+                                                            <span class="w-1.5 h-1.5 rounded-full inline-block" :class="parseFloat(employee?.extra_hours?.replace(',', '.')) > 0 ? 'bg-green-700' : 'bg-red-700'" />
+                                                        </Tooltip>
                                                     </p>
 
                                                     <div class="p-0 m-0 text-xxs text-primary cursor-pointer hover:text-primary-700"
@@ -492,37 +512,45 @@
                                                         </div>
                                                     </div>
                                                     <div class="px-3 col-span-7 space-y-2 mt-1">
-                                                        <div :class="[
-                                                            employee?.total_norm_hours?.compensatory_hours > 0 ? 'text-green-700' : 'text-red-700',
-                                                            'flex items-center gap-1 w-fit cursor-pointer'
-                                                        ]" @click="viewCompensatoryHours(employee)">
-                                                            <Icon name="ph:clock" class="h-3 w-3" aria-hidden="true" />
-                                                            {{
-                                                                $t('dutySchedules.normHours.compensatoryHours')
-                                                            }}:
-                                                            {{
-                                                                formatNumber(language.locale.value,
-                                                                    employee?.total_norm_hours?.compensatory_hours)
-                                                                ??
-                                                                0
-                                                            }}
-                                                        </div>
+                                                        <Tooltip
+                                                            :text="employee?.total_norm_hours?.compensatory_hours > 0 ? $t('dutySchedules.indicators.positive') : employee?.total_norm_hours?.compensatory_hours < 0 ? $t('dutySchedules.indicators.negative') : $t('dutySchedules.indicators.neutral')"
+                                                            position="right">
+                                                            <div :class="[
+                                                                employee?.total_norm_hours?.compensatory_hours > 0 ? 'text-green-700' : 'text-red-700',
+                                                                'flex items-center gap-1 w-fit cursor-pointer'
+                                                            ]" @click="viewCompensatoryHours(employee)">
+                                                                <Icon name="ph:clock" class="h-3 w-3" aria-hidden="true" />
+                                                                {{
+                                                                    $t('dutySchedules.normHours.compensatoryHoursThisYear')
+                                                                }}:
+                                                                {{
+                                                                    formatNumber(language.locale.value,
+                                                                        employee?.total_norm_hours?.compensatory_hours)
+                                                                    ??
+                                                                    0
+                                                                }}
+                                                            </div>
+                                                        </Tooltip>
                                                     </div>
                                                     <div class="px-3 col-span-7 space-y-2 mt-1">
-                                                        <div :class="[
-                                                            employee?.total_norm_hours?.available_vacation_hours > 0 ? 'text-green-700' : 'text-red-700',
-                                                            'flex items-center gap-1 w-fit cursor-pointer'
-                                                        ]" @click="viewAvailableVacationHours(employee)">
-                                                            <Icon name="ph:clock" class="h-3 w-3" aria-hidden="true" />
-                                                            {{
-                                                                $t('dutySchedules.normHours.availableVacationHours')
-                                                            }}:
-                                                            {{
-                                                                formatNumber(language.locale.value,
-                                                                    employee?.total_norm_hours?.available_vacation_hours ||
-                                                                    0)
-                                                            }}
-                                                        </div>
+                                                        <Tooltip
+                                                            :text="employee?.total_norm_hours?.available_vacation_hours > 0 ? $t('dutySchedules.indicators.positive') : employee?.total_norm_hours?.available_vacation_hours < 0 ? $t('dutySchedules.indicators.negative') : $t('dutySchedules.indicators.neutral')"
+                                                            position="right">
+                                                            <div :class="[
+                                                                employee?.total_norm_hours?.available_vacation_hours > 0 ? 'text-green-700' : 'text-red-700',
+                                                                'flex items-center gap-1 w-fit cursor-pointer'
+                                                            ]" @click="viewAvailableVacationHours(employee)">
+                                                                <Icon name="ph:clock" class="h-3 w-3" aria-hidden="true" />
+                                                                {{
+                                                                    $t('dutySchedules.normHours.availableVacationHours')
+                                                                }}:
+                                                                {{
+                                                                    formatNumber(language.locale.value,
+                                                                        employee?.total_norm_hours?.available_vacation_hours ||
+                                                                        0)
+                                                                }}
+                                                            </div>
+                                                        </Tooltip>
                                                     </div>
 
                                                 </div>
@@ -701,6 +729,11 @@
                                                                 </div>
                                                             </Tooltip>
                                                         </div>
+                                                        <Tooltip v-if="shift?.note" :text="`${$t('dutySchedules.shiftNote')}: ${shift?.note}`" position="left" :wrap="true">
+                                                            <div class="mt-1 flex items-center justify-center w-4 h-4 rounded-full bg-white bg-opacity-20 cursor-default">
+                                                                <Icon name="ph:note" class="h-2.5 w-2.5 text-white" aria-hidden="true" />
+                                                            </div>
+                                                        </Tooltip>
                                                         <button
                                                             class="bg-gray-200 w-4 h-4 text-sm text-gray-600 rounded-full flex items-center justify-center absolute -right-1 -top-1"
                                                             @click="removeShiftConfirmation(shift)"
@@ -810,17 +843,19 @@
             <ModulesUserDutyScheduleModalNewShift :isModalOpen="state.modal.isAddShiftOpen"
                 :isModalLoading="state.isModalLoading" :error="state.newShiftError"
                 :selectedDate="state.newShift.selectedDate" :selectedEmployee="state.newShift.selectedEmployee"
-                :showWarningDialog="state.showWarningDialog" :shiftWarnings="state.shiftWarnings"
-                @dateTimeChange="dateTimeChange" @closeWarningDialog="closeWarningDialog"
+                :shiftWarnings="state.shiftWarnings"
+                @dateTimeChange="dateTimeChange"
                 @close="state.modal.isAddShiftOpen = false" @saveShift="saveShift"
-                @resetNewShiftError="state.newShiftError = {}" />
+                @resetNewShiftError="state.newShiftError = {}"
+                @resetShiftWarnings="state.shiftWarnings = []" />
             <ModulesUserDutyScheduleModalEditShift :isModalLoading="state.isModalLoading"
                 :isModalOpen="state.modal.isEditShiftOpen" :error="state.editShiftError"
                 :selectedEmployee="state.editShift.selectedEmployee"
                 :selectedEmployeeSchedule="state.editShift.selectedEmployeeSchedule"
-                :showWarningDialog="state.showWarningDialog" :shiftWarnings="state.shiftWarnings"
-                @dateTimeChange="dateTimeChange" @closeWarningDialog="closeWarningDialog"
+                :shiftWarnings="state.shiftWarnings"
+                @dateTimeChange="dateTimeChange"
                 @close="state.modal.isEditShiftOpen = false" @resetEditShiftError="state.editShiftError = {}"
+                @resetShiftWarnings="state.shiftWarnings = []"
                 @updateShift="updateSelectedSchedule" />
             <ModulesUserDutyScheduleModalRemoveShiftConfirmation
                 :isModalOpen="state.modal.isRemoveShiftConfirmationOpen"
@@ -1007,7 +1042,6 @@ const state = reactive({
     } as any,
     monthlySchedules: [] as any,
     shiftWarnings: [] as any,
-    showWarningDialog: false,
 })
 
 const hasCreatePermission = computed(() => {
@@ -1705,14 +1739,8 @@ async function dateTimeChange(employeeUuid: string, newDateTimeStart: string, ne
         const response = await dutyScheduleService.scheduleValidation(params)
         if (response.data && !response.data.valid) {
             state.shiftWarnings = response.data.warnings
-            state.showWarningDialog = true
         }
     } catch (error: any) { }
-}
-
-function closeWarningDialog() {
-    state.showWarningDialog = false
-    state.shiftWarnings = []
 }
 
 function openGraphModal(employee: any) {

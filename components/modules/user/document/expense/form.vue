@@ -26,6 +26,13 @@
                 <FormError :error="props?.error?.errors?.expense_category_uuid?.[0]" />
             </div>
             <div class="space-y-1">
+                <FormLabel for="citizen_uuid" :label="$t('expenses.form.citizen')" />
+                <FormSelect id="citizen_uuid" :options="state.options.citizens"
+                    v-model="state.formExpense.citizen_uuid" />
+                <FormError :error="v$?.formExpense?.citizen_uuid?.$errors[0]?.$message.toString()" />
+                <FormError :error="props?.error?.errors?.citizen_uuid?.[0]" />
+            </div>
+            <div class="space-y-1">
                 <FormLabel for="expense_date" :label="$t('expenses.form.date')" />
                 <FormDateField id="expense_date" name="expense_date"
                     :placeholder="$t('expenses.form.date')" v-model="state.formExpense.expense_date" />
@@ -158,6 +165,7 @@ import { required, helpers } from '@vuelidate/validators'
 import { useI18n } from "vue-i18n"
 import type { Error } from '@/types'
 import { expenseCategoryService } from '~/components/api/user/ExpenseCategoryService'
+import { citizenService } from '@/components/api/user/CitizenService'
 
 const props = defineProps({
     error: {
@@ -180,10 +188,12 @@ const { t } = useI18n()
 
 const state = reactive({
     error: {} as Error,
+    isPageLoading: false,
     formExpense: {
         id: '',
         uuid: '',
         expense_category_uuid: '',
+        citizen_uuid: '',
         name: '',
         description: '',
         expense_date: '',
@@ -194,7 +204,8 @@ const state = reactive({
         addNewExpenseCategoryFormOpen: false,
     },
     options: {
-        expenseCategories: [] as any
+        expenseCategories: [] as any,
+        citizens: [] as any,
     },
     existingAttachment: {} as any,
 })
@@ -205,11 +216,13 @@ onMounted(() => {
         uuid: props.selectedExpense.uuid,
         name: props.selectedExpense.name,
         expense_category_uuid: props.selectedExpense.expense_category_uuid,
+        citizen_uuid: props.selectedExpense?.citizen_uuid || '',
         description: props.selectedExpense.description,
         expense_date: props.selectedExpense.expense_date,
         amount: props.selectedExpense.amount,
         receipt: props.selectedExpense.receipt,
     }
+    fetchAllCitizens()
     fetchExpenseCategories()
 })
 
@@ -220,6 +233,7 @@ watch(() => props.selectedExpense, (newValue: any) => {
             uuid: newValue.uuid,
             name: newValue.name,
             expense_category_uuid: newValue.expense_category_uuid,
+            citizen_uuid: newValue?.citizen_uuid || '',
             description: newValue.description,
             expense_date: newValue.expense_date,
             amount: newValue.amount,
@@ -260,6 +274,29 @@ function submitForm() {
     if (!v$.value.$error) {
         emit('submitForm', state.formExpense)
     }
+}
+
+async function fetchAllCitizens() {
+    state.error = {}
+    state.isPageLoading = true
+    try {
+        const params = {}
+        const response = await citizenService.getAllCitizens(params)
+        if (response.data) {
+            let options: any = []
+            response.data.forEach(
+                (citizen: any) => options.push({
+                    value: citizen?.uuid,
+                    label: citizen?.firstname + " " + (citizen?.lastname ?? ''),
+                })
+            )
+            options.shift()
+            state.options.citizens = options
+        }
+    } catch (error: any) {
+        state.error = error
+    }
+    state.isPageLoading = false
 }
 
 async function fetchExpenseCategories() {

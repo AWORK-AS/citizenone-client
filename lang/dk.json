@@ -891,7 +891,9 @@
                 "move": "Flyt",
                 "removeFromFavorite": "Fjern fra favoritter",
                 "share": "Del",
-                "unlock": "Lås journal op"
+                "unlock": "Lås journal op",
+                "pin": "Fastgør journal",
+                "unpin": "Fjern fastgørelse"
             },
             "alert": {
                 "addedToFavorites": "Journal tilføjet til favoritter med succes",
@@ -902,7 +904,9 @@
                 "successfullyCopied": "Journalen blev kopieret succesfuldt",
                 "successfullyMoved": "Journalen blev flyttet succesfuldt",
                 "successfullyUpdated": "Journal opdateret med succes",
-                "unlockJournal": "Journal låst op med succes"
+                "unlockJournal": "Journal låst op med succes",
+                "pinJournal": "Journal fastgjort med succes",
+                "unpinJournal": "Fastgørelse fjernet med succes"
             },
             "confirmation": {
                 "copyConfirmation": "Er du sikker på, at du vil kopiere denne journal til den valgte borger",
@@ -1234,6 +1238,54 @@
             "useTemplate": "Brug skabelon"
         },
         "editCitizen": "Rediger Borger",
+        "expenses": {
+            "alert": {
+                "deletedSuccessfully": "Udgift slettet med succes",
+                "expenseRejected": "Udgift afvist med succes",
+                "expenseReimbursed": "Udlæg udbetalt med succes"
+            },
+            "confirmation": {
+                "deleteConfirmation": "Er du sikker på, at du vil slette denne udgift",
+                "rejectConfirmation": "Er du sikker på, at du vil afvise denne udgift"
+            },
+            "editExpense": "Rediger udgift",
+            "expenses": "Udgifter",
+            "form": {
+                "alert": {
+                    "savedSuccessfully": "Udgift gemt med succes",
+                    "updatedSuccessfully": "Udgift opdateret med succes"
+                },
+                "amount": "Beløb",
+                "category": "Kategori",
+                "date": "Dato",
+                "description": "Beskrivelse",
+                "name": "Navn",
+                "note": "Note",
+                "receipt": "Kvittering"
+            },
+            "newExpense": "Ny udgift",
+            "table": {
+                "actions": {
+                    "delete": "Slet",
+                    "edit": "Rediger",
+                    "view": "Vis",
+                    "reject": "Afvis",
+                    "reimburse": "Udbetal udlæg",
+                    "label": "Handlinger"
+                },
+                "amount": "Beløb",
+                "category": "Kategori",
+                "date": "Dato",
+                "employee": "Medarbejder",
+                "name": "Navn",
+                "note": "Note",
+                "receipt": "Kvittering",
+                "status": "Status",
+                "reimbursed": "Udlæg betalt",
+                "pending": "Afventer",
+                "rejected": "Afvist"
+            }
+        },
         "exportCitizens": "Eksporter borgere",
         "form": {
             "addictions": "Stofmisbrug",
@@ -1728,6 +1780,7 @@
             }
         },
         "newCitizen": "Ny borger",
+        "editCitizenForm": "Rediger borgerformular",
         "note": {
             "latestJournalEntry": "Seneste journalnotat",
             "noJournalToDisplay": "Ingen journal at vise"
@@ -1973,6 +2026,9 @@
             "medicineCard": "Medicinkort",
             "health": "Sundhed",
             "plansAndGoals": "Planer og mål"
+        },
+        "timeLogs": {
+            "timeLogs": "Tidslogfiler"
         },
         "treatments": {
             "alert": {
@@ -2243,6 +2299,10 @@
                 "available": "Tilgængelig",
                 "name": "Navn",
                 "note": "Note"
+            },
+            "tabs": {
+                "wallets": "Punge",
+                "expenses": "Udgifter"
             },
             "wallets": "Økonomi"
         },
@@ -2919,6 +2979,7 @@
                     "extraHoursSuccessfullyUpdated": "X-timer blev opdateret"
                 },
                 "date": "Dato",
+                "department": "Afdeling",
                 "hours": "Timer",
                 "note": "Bemærkning",
                 "tags": "Etiketter",
@@ -2948,7 +3009,9 @@
                     "deleteExtraHoursConfirmation": "Er du sikker på, at du vil slette disse x-timer?",
                     "rejectExtraHoursConfirmation": "Er du sikker på, at du vil afvise disse x-timer?"
                 },
+                "createdBy": "Oprettet af",
                 "date": "Dato",
+                "department": "Afdeling",
                 "hours": "Timer",
                 "note": "Bemærkning",
                 "status": {
@@ -3049,8 +3112,8 @@
         "newSchedule": "Ny vagt",
         "normHours": {
             "availableVacationHours": "Tilgængelige ferietimer",
-            "compensatoryHours": "Afspadseringstimer",
             "compensatoryHoursThisYear": "Afspadseringstimer i år",
+            "compensatoryHoursThisPeriod": "Afspadseringstimer i denne periode",
             "compensatoryHourFromPreviousYear": "Afspadseringstimer fra tidligere år",
             "compensatoryHoursGraph": "Afspadseringsgraf",
             "date": "Dato",
@@ -3279,6 +3342,7 @@
             "timer": "Timer"
         },
         "totalHours": "Samlet antal timer",
+        "total": "Total",
         "typeOfShift": "Vagttyper",
         "typeOfShifts": "Vagttyper",
         "viewCalendar": "Se kalender",
@@ -3293,9 +3357,22 @@
         },
         "week": "Uge",
         "yearToDate": "År til dato",
+        "shiftNote": "Note",
+        "shiftThreshold": {
+            "high": "Høj bemanding: medarbejdere er over minimumstærsklen",
+            "low": "Lav bemanding: medarbejdere er under minimumstærsklen",
+            "moderate": "Moderat bemanding: medarbejdere er tæt på minimumstærsklen"
+        },
         "shiftWarning": {
             "warning": "Advarsel",
             "warningsFound": "Advarsler er fundet i denne vagt."
+        },
+        "indicators": {
+            "exceedsNorm": "Overskrider norm",
+            "negative": "Negativ saldo",
+            "neutral": "Ingen saldo",
+            "positive": "Positiv saldo",
+            "withinNorm": "Inden for norm"
         }
     },
     "drive": {
@@ -3310,6 +3387,11 @@
             "info-drive-1": "Du ser lige nu CitizenOne Documents-filer",
             "info-drive-2": "Hvis du også vil bruge Google drive så tryk 'Google Drive'-knappen i toppen. hvis du har linket din Google Drive konto",
             "info-drive-3": "Skift mellem systemerne uden at miste filer - upload til det ønskede system via upload-knappen.."
+        },
+        "drive-onedrive": {
+            "info-drive-1": "Du ser lige nu dine OneDrive-filer, fordi du har linket din Microsoft-konto.",
+            "info-drive-2": "Hvis du vil tilbage til CitizenOne Documents, så tryk 'Virksomhedsdokumenter'-knappen i toppen.",
+            "info-drive-3": "Skift mellem systemerne uden at miste filer — upload til det ønskede system via upload-knappen."
         },
         "alert": {
             "deletedFileSuccessfully": "Fil slettet med succes",
@@ -3777,7 +3859,8 @@
             "amount": "Beløb",
             "description": "Beskrivelse",
             "receipt": "Kvittering",
-            "clickToUpload": "Klik for at uploade"
+            "clickToUpload": "Klik for at uploade",
+            "citizen": "Borger"
         },
         "newExpense": "Ny udgift",
         "table": {
@@ -4068,6 +4151,38 @@
                 "deleteForeignCityConfirmation": "Er du sikker på, at du vil slette denne udenlandske by"
             },
             "name": "Navn"
+        }
+    },
+    "formFieldConfig": {
+        "title": "Formularfeltkonfiguration",
+        "subtitle": "Konfigurer hvilke felter der er synlige i borgerens oprettelses- og redigeringsformularer.",
+        "entityType": "Entitetstype",
+        "fieldVisibility": "Feltsynlighed",
+        "createForm": "Oprettelsesformular",
+        "editForm": "Redigeringsformular",
+        "alert": {
+            "successfullyUpdated": "Formularfeltkonfiguration opdateret med succes"
+        },
+        "fields": {
+            "diagnoses": "Diagnoser",
+            "medicationAllergies": "Medicinallergier",
+            "addictions": "Afhængigheder",
+            "dateAdmitted": "Indskrivningsdato / Udskrivningsdato",
+            "section": "Paragraf",
+            "pricing": "Prissætning",
+            "primaryCaseWorker": "Primær sagsbehandler",
+            "payingMunicipality": "Betalingskommune",
+            "assessmentMunicipality": "Handlekommune",
+            "responsibleMunicipality": "Ansvarlig kommune",
+            "eanNumber": "EAN-nummer",
+            "transportation": "Transport",
+            "hourlyRate": "Timepris",
+            "allocatedHours": "Tildelte timer",
+            "note": "Note",
+            "trafficLights": "Trafiklys",
+            "systemAccess": "Systemadgang",
+            "inquiryData": "Henvendelsesdata",
+            "stayData": "Opholdsdata"
         }
     },
     "forms": {
@@ -4793,16 +4908,19 @@
     "messages": {
         "actions": {
             "delete": "Slet",
-            "edit": "Rediger"
+            "edit": "Rediger",
+            "more": "Mere"
         },
-        "and": "Og",
         "alert": {
             "messageSuccessfullyDeleted": "Besked slettet med succes",
-            "messageSuccessfullyUpdated": "Besked opdateret med succes"
+            "messageSuccessfullyUpdated": "Besked opdateret med succes",
+            "chatSuccessfullyDeleted": "Chat slettet med succes"
         },
         "allMessagesAreLoaded": "Alle beskeder er indlæst",
+        "and": "Og",
         "confirmation": {
-            "deleteMessageConfirmation": "Er du sikker på, at du vil slette denne besked"
+            "deleteMessageConfirmation": "Er du sikker på, at du vil slette denne besked",
+            "deleteChatConfirmation": "Er du sikker på, at du vil slette denne chat"
         },
         "editMessage": "Rediger besked",
         "groupChat": {
@@ -4838,7 +4956,22 @@
         "send": "Send",
         "subject": "Emne",
         "unreadMessages": "Ulæste beskeder",
-        "users": "Brugere"
+        "users": "Brugere",
+        "conversationsAndMessaging": "Samtaler og beskeder",
+        "searchConversations": "Søg samtaler...",
+        "directMessage": "Direkte besked",
+        "members": "medlemmer",
+        "noConversationsFound": "Ingen samtaler fundet",
+        "welcomeToChat": "Velkommen til chat",
+        "welcomeDescription": "Vælg en samtale fra sidebjælken, eller opret en ny for at komme i gang.",
+        "newConversation": "Ny samtale",
+        "unread": "ulæste",
+        "attachFile": "Vedhæft fil",
+        "typeAMessage": "Skriv en besked...",
+        "today": "I dag",
+        "yesterday": "I går",
+        "you": "Dig",
+        "deleteChat": "Slet chat"
     },
     "months": {
         "january": "Januar",
@@ -5863,7 +5996,9 @@
             "deleteCitizenContact": "slet borgerkontakt",
             "createCitizenChildren": "opret borgerbørn",
             "updateCitizenChildren": "rediger borgerbørn",
-            "deleteCitizenChildren": "slet borgerbørn"
+            "deleteCitizenChildren": "slet borgerbørn",
+            "deleteCalendarEvent": "slet kalenderhændelse",
+            "createCitizen": "opret borger"
         }
     },
     "rooms": {
@@ -5988,7 +6123,7 @@
                 "website": "Hjemmeside",
                 "companyLogo": "Firmalogo",
                 "remove": "Fjern firmalogo",
-                "registerTransport":"Registrer transport"
+                "registerTransport": "Registrer transport"
             }
         },
         "licenseOverview": {
@@ -6261,7 +6396,13 @@
         "month": "Måned",
         "storage": "Lagerplads",
         "upgrade": "Opgradér",
-        "upgradeOptions": "Opgradéringsmuligheder"
+        "upgradeOptions": "Opgradéringsmuligheder",
+        "info-1": "Her kan du se, hvor meget lagerplads der er brugt i CitizenOne. Den gule bjælke viser forbruget af lokale dokumenter.",
+        "info-2": "Hvis du har forbundet OneDrive, vises forbruget heraf med en blå bjælke. De to typer lagerplads er separate og håndteres uafhængigt af hinanden.",
+        "info-3": "Har du brug for mere plads, kan du opgradere dit abonnement ved at klikke på 'Opgradér'.",
+        "upgrade-info-1": "På denne side kan du opgradere din CitizenOne lagerplads. Vælg den pakke der passer til dit behov.",
+        "upgrade-info-2": "Lagerplads i CitizenOne bruges til at gemme lokale dokumenter og filer. 1 GB svarer til cirka 5.000 filer.",
+        "upgrade-info-3": ""
     },
     "submit": "Indsend",
     "superadmin": {
@@ -6959,6 +7100,7 @@
                 "timeLogSuccessfullyUpdated": "Tidslog blev opdateret",
                 "newTimeLogSuccessfullySaved": "Ny tidslog blev gemt"
             },
+            "citizen": "Borger",
             "dateTimeEnd": "Slutdato og -tid",
             "dateTimeStart": "Startdato og -tid",
             "status": {
@@ -6970,16 +7112,24 @@
             "remarks": "Bemærkninger"
         },
         "newTimeLog": "Ny tidslog",
+        "requestNewTimeLog": "Anmod om ny tidslog",
         "table": {
             "actions": {
+                "approve": "Godkend",
+                "decline": "Afvis",
                 "delete": "Slet",
-                "edit": "Rediger"
+                "edit": "Rediger",
+                "view": "Vis"
             },
             "alert": {
+                "timeLogSuccessfullyApproved": "Tidslog blev godkendt",
+                "timeLogSuccessfullyDeclined": "Tidslog blev afvist",
                 "timeLogSuccessfullyDeleted": "Tidslog blev slettet"
             },
             "createdAt": "Oprettet den",
             "confirmation": {
+                "approveTimeLogConfirmation": "Er du sikker på, at du vil godkende denne tidslog",
+                "declineTimeLogConfirmation": "Er du sikker på, at du vil afvise denne tidslog",
                 "deleteTimeLogConfirmation": "Er du sikker på, at du vil slette denne tidslog?"
             },
             "dateTimeEnd": "Slutdato og -tid",
@@ -6991,7 +7141,20 @@
                 "completed": "Afholdt (afsluttet)",
                 "status": "Status"
             },
+            "requestStatus": {
+                "approved": "Godkendt",
+                "declined": "Afvist",
+                "pending": "Afventer",
+                "requestStatus": "Anmodningsstatus"
+            },
             "summary": "Tidsoversigt"
+        },
+        "view": {
+            "title": "Vis tidslog",
+            "employee": "Medarbejder",
+            "locationInformation": "Placeringsinformation",
+            "checkInLocation": "Check-in placering",
+            "checkOutLocation": "Check-out placering"
         },
         "timeLogs": "Tidslogge",
         "interventionHours": "Indsatstimer"

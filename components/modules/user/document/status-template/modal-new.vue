@@ -62,12 +62,16 @@ const props = defineProps({
         required: true,
     },
     variant: {
-        type: String, 
+        type: String,
         default: undefined
     },
     parentFolderId: {
         type: String,
         default: undefined
+    },
+    onedriveFolders: {
+        type: Array as () => {value: string, label: string}[],
+        default: () => []
     }
 })
 const router = useRouter()
@@ -131,7 +135,13 @@ async function fetchAllFolders() {
     try {
         let options: any = []
 
-        if(props.variant === 'google-drive') {
+        if (props.variant === 'onedrive') {
+            options.push({
+                value: '',
+                label: t('drive.form.rootFolder') || 'Root',
+            })
+            props.onedriveFolders.forEach((folder: any) => options.push(folder))
+        } else if(props.variant === 'google-drive') {
             // include root explicitly so user can select it
             options.push({
                 value: 'root',

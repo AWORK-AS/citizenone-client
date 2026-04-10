@@ -18,6 +18,13 @@
                 <FormError :error="props?.error?.errors?.date_time_end?.[0]" />
             </div>
             <div class="space-y-1">
+                <FormLabel for="citizen_uuid" :label="$t('timeLogs.form.citizen')" />
+                <FormSelect id="citizen_uuid" :options="state.options.citizens"
+                    v-model="state.formTimeLog.citizen_uuid" />
+                <FormError :error="v$?.formTimeLog?.citizen_uuid?.$errors[0]?.$message.toString()" />
+                <FormError :error="props?.error?.errors?.citizen_uuid?.[0]" />
+            </div>
+            <div class="space-y-1">
                 <FormLabel for="status" :label="$t('timeLogs.form.status.status')" />
                 <FormSelect id="status" name="status" :options="state.options.statuses"
                     v-model="state.formTimeLog.status" />
@@ -47,6 +54,7 @@
 </template>
 
 <script setup lang="ts">
+import { citizenService } from '@/components/api/user/CitizenService'
 import { useVuelidate } from "@vuelidate/core"
 import { required, helpers } from '@vuelidate/validators'
 import { useI18n } from "vue-i18n"
@@ -72,13 +80,16 @@ const { t } = useI18n()
 
 const state = reactive({
     error: {} as Error,
+    isPageLoading: false,
     formTimeLog: {
         date_time_start: '',
         date_time_end: '',
+        citizen_uuid: '',
         status: '',
         remarks: '',
     },
     options: {
+        citizens: [],
         statuses: [
             { value: 'cancelled_by_citizen', label: `${t('timeLogs.form.status.cancelledByCitizen')}` },
             { value: 'cancelled_by_employee', label: `${t('timeLogs.form.status.cancelledByEmployee')}` },
@@ -88,24 +99,50 @@ const state = reactive({
 })
 
 onMounted(() => {
+    fetchAllCitizens()
     state.formTimeLog = {
-        date_time_start: props.selectedTimeLog.date_time_start,
-        date_time_end: props.selectedTimeLog.date_time_end,
-        status: props.selectedTimeLog.status,
-        remarks: props.selectedTimeLog.remarks,
+        date_time_start: props.selectedTimeLog?.date_time_start,
+        date_time_end: props.selectedTimeLog?.date_time_end,
+        citizen_uuid: props.selectedTimeLog?.citizen?.uuid,
+        status: props.selectedTimeLog?.status,
+        remarks: props.selectedTimeLog?.remarks,
     }
 })
 
 watch(() => props.selectedTimeLog, (newValue: any) => {
     if (newValue != null) {
         state.formTimeLog = {
-            date_time_start: newValue.date_time_start,
-            date_time_end: newValue.date_time_end,
-            status: newValue.status,
-            remarks: newValue.remarks,
+            date_time_start: newValue?.date_time_start,
+            date_time_end: newValue?.date_time_end,
+            citizen_uuid: newValue?.citizen_uuid,
+            status: newValue?.status,
+            remarks: newValue?.remarks,
         }
     }
 })
+
+async function fetchAllCitizens() {
+    state.error = {}
+    state.isPageLoading = true
+    try {
+        const params = {}
+        const response = await citizenService.getAllCitizens(params)
+        if (response.data) {
+            let options: any = []
+            response.data.forEach(
+                (citizen: any) => options.push({
+                    value: citizen?.uuid,
+                    label: citizen?.firstname + " " + (citizen?.lastname ?? ''),
+                })
+            )
+            options.shift()
+            state.options.citizens = options
+        }
+    } catch (error: any) {
+        state.error = error
+    }
+    state.isPageLoading = false
+}
 
 const rules = computed(() => {
     if (state.formTimeLog.status === 'cancelled_by_employee') {
@@ -115,6 +152,9 @@ const rules = computed(() => {
                     required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
                 },
                 date_time_end: {
+                    required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
+                },
+                citizen_uuid: {
                     required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
                 },
                 status: {
@@ -134,7 +174,13 @@ const rules = computed(() => {
                 date_time_end: {
                     required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
                 },
+                citizen_uuid: {
+                    required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
+                },
                 status: {
+                    required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
+                },
+                remarks: {
                     required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
                 },
             },

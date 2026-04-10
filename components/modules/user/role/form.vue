@@ -8,6 +8,7 @@
             <div class="space-y-1">
                 <FormLabel for="name" :label="$t('roles.form.name')" />
                 <FormTextField  id="name" name="name" :placeholder="$t('roles.form.name')"
+                    :disabled="state.formRole?.is_name_editable === false"
                     v-model="state.formRole.name" :style="state.formRole?.predefined ? 'pointer-events: none; opacity: 0.6; cursor: not-allowed;' : ''" />
                 <FormError :error="v$?.formRole?.name?.$errors[0]?.$message.toString()" />
                 <FormError :error="props?.error?.errors?.name?.[0]" />
@@ -98,6 +99,8 @@ const PERMISSION_LABELS:  Record<string, string> = {
     'create_citizen_children': 'roles.permissions.createCitizenChildren',
     'update_citizen_children': 'roles.permissions.updateCitizenChildren',
     'delete_citizen_children': 'roles.permissions.deleteCitizenChildren',
+    'delete_calendar': 'roles.permissions.deleteCalendar',
+    'create_citizen': 'roles.permissions.createCitizen',
 }
 
 const state = reactive({
@@ -107,12 +110,15 @@ const state = reactive({
         name: '',
         predefined: false,
         permissions:  [],
+        is_name_editable: true,
     },
     permissions: [] as Array<{ uuid: string, name: string }>,
 })
 
 onMounted(() => {
-    fetchAllPermissions()
+    if (props.formType === 'create') {
+        fetchAllPermissions()
+    }
 })
 
 watch(() => props.selectedRole, (newValue: any) => {
@@ -121,7 +127,9 @@ watch(() => props.selectedRole, (newValue: any) => {
             name: newValue.name,
             predefined: newValue.predefined || false,
             permissions: newValue.permissions || [],
+            is_name_editable: newValue.is_name_editable || false,
         }
+        fetchAllPermissions()
     }
 })
 
@@ -141,7 +149,11 @@ async function fetchAllPermissions() {
     state.error = {}
     emit('isPageLoading', true)
     try {
-        const response = await permissionService.getAllPermissions()
+        console.log('selected role', props.selectedRole)
+        const params = {
+            role: props.selectedRole ? props.selectedRole.name : '',
+        }
+        const response = await permissionService.getAllPermissions(params)
         if (response?.data) {
             state.permissions = response.data.map((item: any) => ({
                 uuid: item?.uuid,

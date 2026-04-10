@@ -61,6 +61,7 @@ async function updateScheduleSlot(extraHoursDetails: any) {
             extra_hours_tags_uuid: extraHoursDetails.extra_hours_tags,
             extra_hours: extraHoursDetails.hours,
             note: extraHoursDetails.note,
+            department_uuids: extraHoursDetails.department_uuids,
         }
         const response = await extraHoursService.updateExtraHour(extraHoursUuid, params)
         if (response) {
