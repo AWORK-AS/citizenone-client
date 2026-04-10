@@ -218,18 +218,11 @@
                     <FormError :error="props?.error?.errors?.permission?.[0]" />
                 </div>
                 <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-2 py-2">
-                    <div class="space-y-1">
+                    <div class="space-y-1" v-if="state.formEmployee?.role !== 'Admin'">
                         <div class="w-fit flex items-center cursor-pointer"
                             @click="state.formEmployee.show_working_hours = !state.formEmployee.show_working_hours">
                             <FormCheckbox id="show_working_hours" :value="state.formEmployee.show_working_hours" />
                             {{ $t('employees.form.showWorkingHours') }}
-                        </div>
-                    </div>
-                    <div class="space-y-1">
-                        <div class="w-fit flex items-center cursor-pointer"
-                            @click="state.formEmployee.register_transport_enabled = !state.formEmployee.register_transport_enabled">
-                            <FormCheckbox id="register_transport_enabled" :value="state.formEmployee.register_transport_enabled" />
-                            {{ $t('employees.form.registerTransportEnabled') }}
                         </div>
                     </div>
                 </div>
@@ -665,7 +658,6 @@ const state = reactive({
         },
         show_working_hours: false,
         do_not_count_sick_leave: false,
-        register_transport_enabled: false,
     } as EmployeeForm,
     isChangePassword: false,
     modal: {
@@ -771,7 +763,6 @@ watch(() => props.selectedEmployee, (newValue: any) => {
                 norm_period_uuid: newValue.employment?.norm_period_uuid || 'default',
             },
             show_working_hours: newValue.show_working_hours,
-            register_transport_enabled: newValue.register_transport_enabled,
             do_not_count_sick_leave: newValue.do_not_count_sick_leave,
         }
         fetchMunicipalitiesPerRegion(newValue.region_uuid)

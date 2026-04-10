@@ -203,6 +203,14 @@
                                                     {{ $t('showAll') }}...
                                                 </button>
                                             </div>
+                                            <div class="text-gray-500 text-xxs mt-1">
+                                                <p>{{ $t('events.createdBy') }}:</p>
+                                                <div class="flex flex-wrap gap-1 mt-1">
+                                                    <div class="bg-secondary text-xxs p-1 text-white rounded-md">
+                                                        {{ myCalendarEvent.creator?.firstname }} {{ myCalendarEvent.creator?.lastname }}
+                                                    </div>
+                                                </div>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>

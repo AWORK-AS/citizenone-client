@@ -1,7 +1,7 @@
 export default defineEventHandler(async (event) => {
     const runtimeConfig = useRuntimeConfig()
     const authorization = getHeader(event, 'authorization')
-    
+
     const headers: Record<string, string> = {
         Accept: 'application/json',
     }
@@ -11,19 +11,15 @@ export default defineEventHandler(async (event) => {
     }
 
     try {
-        const body = await readBody(event)
-        
-        return await $fetch('/google-drive/create-folder', {
+        return await $fetch('/user/google-drive/status', {
             baseURL: runtimeConfig.public.apiBaseURL,
-            method: 'POST',
+            method: 'GET',
             headers,
-            body,
         })
-    } catch (error: any) {
-        console.error('Error creating Google Drive folder:', error)
+    } catch (error) {
         throw createError({
-            statusCode: error.statusCode || 500,
-            statusMessage: error.message || 'Failed to create folder in Google Drive',
+            statusCode: 500,
+            statusMessage: 'Failed to check Google Drive status',
         })
     }
 })
