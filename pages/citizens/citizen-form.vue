@@ -33,7 +33,10 @@
                     -->
 
                     <!-- Create / Edit tabs -->
-                    <div class="flex gap-x-4 mb-6">
+                    <div class="flex items-center gap-x-4 mb-6">
+                        <NuxtLink to="/citizens" class="flex items-center hover:cursor-pointer">
+                            <Icon name="ph:arrow-left" size="20" class="text-black" />
+                        </NuxtLink>
                         <button type="button"
                             :class="[state.activeFormType === 'create' ? 'bg-primary text-white' : 'bg-gray-100 text-gray-700', 'px-4 py-2 rounded-md text-sm font-medium']"
                             @click="state.activeFormType = 'create'">
@@ -647,6 +650,7 @@ async function submitFormFieldConfig() {
             form_fields: state.citizenFormConfig[state.activeFormType],
         })
         successAlert(`${t('alert.success')}!`, `${t('formFieldConfig.alert.successfullyUpdated')}.`)
+        navigateTo('/citizens')
     } catch (error: any) {
         state.error = error
     }
