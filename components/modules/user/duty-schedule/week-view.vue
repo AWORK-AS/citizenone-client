@@ -1920,6 +1920,7 @@ function editSchedule(employee: any, employeeIndex: number, weekIndex: any, shif
         note: shift?.note,
         do_not_count_sick_leave: shift?.do_not_count_sick_leave,
         use_compensatory_time: shift?.use_compensatory_time,
+        shift_span_position: shift?.shift_span_position,
         employeeIndex: employeeIndex,
         weekIndex: weekIndex,
         shiftIndex: shiftIndex,
@@ -2012,12 +2013,13 @@ function handleScroll() {
     lastScrollTop = currentScroll <= 0 ? 0 : currentScroll
 }
 
-async function dateTimeChange(employeeUuid: string, newDateTimeStart: string, newDateTimeEnd: string) {
+async function dateTimeChange(employeeUuid: string, newDateTimeStart: string, newDateTimeEnd: string, shiftSpanPosition?: string) {
     try {
-        const params = {
+        const params: any = {
             date_time_start: newDateTimeStart,
             date_time_end: newDateTimeEnd,
             user_uuid: employeeUuid,
+            ...(shiftSpanPosition && { shift_span_position: shiftSpanPosition }),
         }
         const response = await dutyScheduleService.scheduleValidation(params)
         if (response.data && !response.data.valid) {

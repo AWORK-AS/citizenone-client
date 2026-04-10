@@ -1361,6 +1361,7 @@ function editSchedule(employee: any, employeeIndex: number, weekIndex: any, shif
         departments: shift?.departments,
         note: shift?.note,
         do_not_count_sick_leave: shift?.do_not_count_sick_leave,
+        shift_span_position: shift?.shift_span_position,
         employeeIndex: employeeIndex,
         weekIndex: weekIndex,
         shiftIndex: shiftIndex,
@@ -1450,12 +1451,13 @@ function handleScroll() {
     lastScrollTop = currentScroll <= 0 ? 0 : currentScroll // Prevent negative scroll
 }
 
-async function dateTimeChange(employeeUuid: string, newDateTimeStart: string, newDateTimeEnd: string) {
+async function dateTimeChange(employeeUuid: string, newDateTimeStart: string, newDateTimeEnd: string, shiftSpanPosition?: string) {
     try {
-        const params = {
+        const params: any = {
             date_time_start: newDateTimeStart,
             date_time_end: newDateTimeEnd,
             user_uuid: employeeUuid,
+            ...(shiftSpanPosition && { shift_span_position: shiftSpanPosition }),
         }
         const response = await draftScheduleService.scheduleValidation(params)
         if (response.data && !response.data.valid) {
