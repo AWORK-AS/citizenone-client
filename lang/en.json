@@ -1780,6 +1780,7 @@
             }
         },
         "newCitizen": "New citizen",
+        "editCitizenForm": "Edit citizen form",
         "note": {
             "latestJournalEntry": "Latest journal entry",
             "noJournalToDisplay": "No journal to display"
@@ -4150,6 +4151,38 @@
                 "deleteForeignCityConfirmation": "Are you sure you want to delete this foreign city"
             },
             "name": "Name"
+        }
+    },
+    "formFieldConfig": {
+        "title": "Form Field Configuration",
+        "subtitle": "Configure which fields are visible in the citizen create and edit forms.",
+        "entityType": "Entity Type",
+        "fieldVisibility": "Field Visibility",
+        "createForm": "Create Form",
+        "editForm": "Edit Form",
+        "alert": {
+            "successfullyUpdated": "Form field configuration successfully updated"
+        },
+        "fields": {
+            "diagnoses": "Diagnoses",
+            "medicationAllergies": "Medication Allergies",
+            "addictions": "Dependencies",
+            "dateAdmitted": "Date Admitted / Discharged",
+            "section": "Section",
+            "pricing": "Pricing",
+            "primaryCaseWorker": "Primary Caseworker",
+            "payingMunicipality": "Paying Municipality",
+            "assessmentMunicipality": "Assessment Municipality",
+            "responsibleMunicipality": "Responsible Municipality",
+            "eanNumber": "EAN Number",
+            "transportation": "Transportation",
+            "hourlyRate": "Hourly Rate",
+            "allocatedHours": "Allocated Hours",
+            "note": "Note",
+            "trafficLights": "Traffic Lights",
+            "systemAccess": "System Access",
+            "inquiryData": "Inquiry Data",
+            "stayData": "Stay Data"
         }
     },
     "forms": {
