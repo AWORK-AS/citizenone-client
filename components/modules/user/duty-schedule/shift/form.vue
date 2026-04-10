@@ -45,10 +45,14 @@
                 <FormError :error="props?.error?.errors?.color?.[0]" />
             </div>
             <div class="space-y-1">
-                <div class="w-fit flex items-center cursor-pointer"
-                    @click="state.formShift.is_leave_shift_type = !state.formShift.is_leave_shift_type">
-                    <FormCheckbox :value="state.formShift.is_leave_shift_type" />
-                    {{ $t('shifts.form.markAsLeaveType') }}
+                <div class="flex items-center gap-x-2">
+                    <div class="flex items-center cursor-pointer"
+                        @click="state.formShift.is_leave_shift_type = !state.formShift.is_leave_shift_type">
+                        <FormCheckbox :value="state.formShift.is_leave_shift_type" />
+                        {{ $t('shifts.form.markAsLeaveType') }}
+                    </div>
+                    <Icon name="ph:question" class="size-4 cursor-pointer text-gray-500 hover:text-gray-700"
+                        aria-hidden="true" @click="state.isLeaveTypeModalOpen = true" />
                 </div>
             </div>
         </div>
@@ -65,6 +69,8 @@
             </div>
         </div>
     </form>
+    <ModulesUserDutyScheduleShiftModalLeaveType :isModalOpen="state.isLeaveTypeModalOpen"
+        @close="state.isLeaveTypeModalOpen = false" />
 </template>
 
 <script setup lang="ts">
@@ -94,6 +100,7 @@ const { t } = useI18n()
 
 const state = reactive({
     error: {} as Error,
+    isLeaveTypeModalOpen: false,
     formShift: {
         en_name: '',
         dk_name: '',
