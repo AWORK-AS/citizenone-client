@@ -7108,6 +7108,12 @@
                 "completed": "Held (completed)",
                 "status": "Status"
             },
+            "requestStatus": {
+                "approved": "Approved",
+                "declined": "Declined",
+                "pending": "Pending",
+                "requestStatus": "Request status"
+            },
             "summary": "Time summary"
         },
         "view": {

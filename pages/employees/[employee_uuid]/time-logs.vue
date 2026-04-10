@@ -99,7 +99,32 @@
                                         <span>{{ log?.time_summary }}</span>
                                     </td>
                                     <td width="10%">
-                                        <div class="flex items-end gap-2">
+                                        <Badge type="active" class="w-fit" v-if="log?.request_status === 'approved'">
+                                            <p class="text-xxs">{{ $t('timeLogs.table.requestStatus.approved') }}</p>
+                                        </Badge>
+                                        <Badge type="inactive" class="w-fit"
+                                            v-else-if="log?.request_status === 'declined'">
+                                            <p class="text-xxs">{{ $t('timeLogs.table.requestStatus.declined') }}</p>
+                                        </Badge>
+                                        <Badge type="pending" class="w-fit"
+                                            v-else-if="log?.request_status === 'pending'">
+                                            <p class="text-xxs">{{ $t('timeLogs.table.requestStatus.pending') }}</p>
+                                        </Badge>
+                                    </td>
+                                    <td width="10%">
+                                        <div class="flex items-end justify-end gap-2">
+                                            <FormButton type="button" buttonStyle="action" class="rounded-md"
+                                                @click="confirmTimeLogApproval(log)"
+                                                v-if="log?.request_status === 'pending' && isAdmin(userStore.getUser?.roles)">
+                                                <Icon name="ph:check" class="size-4" />
+                                                {{ $t('timeLogs.table.actions.approve') }}
+                                            </FormButton>
+                                            <FormButton type="button" buttonStyle="danger" class="rounded-md"
+                                                @click="confirmTimeLogDecline(log)"
+                                                v-if="log?.request_status === 'pending' && isAdmin(userStore.getUser?.roles)">
+                                                <Icon name="ph:x" class="size-4" />
+                                                {{ $t('timeLogs.table.actions.decline') }}
+                                            </FormButton>
                                             <FormButton type="button" buttonStyle="action" class="rounded-md"
                                                 @click="viewTimeLog(log)">
                                                 <Icon name="ph:eye" class="size-4" />
@@ -114,16 +139,6 @@
                                                 @click="confirmTimeLogDeletion(log)" v-if="log?.is_deletable">
                                                 <Icon name="heroicons:trash" class="size-4" />
                                                 {{ $t('timeLogs.table.actions.delete') }}
-                                            </FormButton>
-                                            <FormButton type="button" buttonStyle="action" class="rounded-md"
-                                                @click="confirmTimeLogApproval(log)" v-if="log?.request_status === 'pending' && isAdmin(userStore.getUser?.roles)">
-                                                <Icon name="ph:check" class="size-4" />
-                                                {{ $t('timeLogs.table.actions.approve') }}
-                                            </FormButton>
-                                            <FormButton type="button" buttonStyle="danger" class="rounded-md"
-                                                @click="confirmTimeLogDecline(log)" v-if="log?.request_status === 'pending' && isAdmin(userStore.getUser?.roles)">
-                                                <Icon name="ph:x" class="size-4" />
-                                                {{ $t('timeLogs.table.actions.decline') }}
                                             </FormButton>
                                         </div>
                                     </td>
@@ -198,6 +213,7 @@ const state = reactive({
         { name: 'timeLogs.table.status.status', isTranslateName: true, sorter: true, key: 'status' },
         { name: 'timeLogs.table.remarks', isTranslateName: true, },
         { name: 'timeLogs.table.summary', isTranslateName: true, },
+        { name: 'timeLogs.table.requestStatus.requestStatus', isTranslateName: true, },
         { name: '' },
     ],
     error: {} as Error,
@@ -313,7 +329,7 @@ async function approveTimeLog() {
     state.isTableLoading = true
     try {
         const response = await timeLogService.approveTimeLogRequest(state.selectedTimeLog.uuid)
-        if (response?.message === 'Success.' || response?.message === 'Succes.') {
+        if (response?.data) {
             fetchTimeLogs()
             successAlert(`${t('alert.success')}!`, `${t('timeLogs.table.alert.timeLogSuccessfullyApproved')}.`)
         }
@@ -328,7 +344,7 @@ async function declineTimeLog() {
     state.isTableLoading = true
     try {
         const response = await timeLogService.declineTimeLogRequest(state.selectedTimeLog.uuid)
-        if (response?.message === 'Success.' || response?.message === 'Succes.') {
+        if (response?.data) {
             fetchTimeLogs()
             successAlert(`${t('alert.success')}!`, `${t('timeLogs.table.alert.timeLogSuccessfullyDeclined')}.`)
         }

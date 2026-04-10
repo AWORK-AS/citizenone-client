@@ -7108,6 +7108,12 @@
                 "completed": "Afholdt (afsluttet)",
                 "status": "Status"
             },
+            "requestStatus": {
+                "approved": "Godkendt",
+                "declined": "Afvist",
+                "pending": "Afventer",
+                "requestStatus": "Anmodningsstatus"
+            },
             "summary": "Tidsoversigt"
         },
         "view": {

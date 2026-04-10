@@ -103,7 +103,7 @@ onMounted(() => {
     state.formTimeLog = {
         date_time_start: props.selectedTimeLog?.date_time_start,
         date_time_end: props.selectedTimeLog?.date_time_end,
-        citizen_uuid: props.selectedTimeLog?.citizen_uuid,
+        citizen_uuid: props.selectedTimeLog?.citizen?.uuid,
         status: props.selectedTimeLog?.status,
         remarks: props.selectedTimeLog?.remarks,
     }
