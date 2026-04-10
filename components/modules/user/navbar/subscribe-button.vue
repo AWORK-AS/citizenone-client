@@ -1,7 +1,7 @@
 <template>
     <div class="py-1">
-        <button @click="navigateTo('/subscription/subscribe')" class="w-full bg-upgrade rounded-md px-4 py-2.5">
-            <p class="text-xs text-white font-semibold">
+        <button @click="navigateTo('/subscription/subscribe')" class="w-full btn-amber">
+            <p class="text-xs font-semibold">
                 {{ $t('subscription.noSubscription.upgradeNow') }}
             </p>
         </button>
