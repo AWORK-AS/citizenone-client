@@ -3,6 +3,7 @@
         props.type === 'primary' && 'bg-primary text-white text-xs',
         props.type === 'active' && 'bg-green-700 text-white text-xs',
         props.type === 'inactive' && 'bg-red-800 text-white text-xs',
+        props.type === 'pending' && 'bg-yellow-500 text-white text-xs',
         props.type === 'cash-in' && 'bg-green-700 text-white text-xs',
         props.type === 'cash-out' && 'bg-red-400 text-white text-xs',
         props.type === 'coming-soon' && 'bg-secondary text-white',

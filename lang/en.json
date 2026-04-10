@@ -2028,7 +2028,7 @@
             "plansAndGoals": "Plans and goals"
         },
         "timeLogs": {
-            "timeLogs":"Time Logs"
+            "timeLogs": "Time Logs"
         },
         "treatments": {
             "alert": {
@@ -3357,9 +3357,22 @@
         },
         "week": "Week",
         "yearToDate": "Year to date",
+        "shiftNote": "Note",
+        "shiftThreshold": {
+            "high": "High staffing: employees are above the minimum threshold",
+            "low": "Low staffing: employees are below the minimum threshold",
+            "moderate": "Moderate staffing: employees are near the minimum threshold"
+        },
         "shiftWarning": {
             "warning": "Warning",
             "warningsFound": "Warnings have been found in this shift."
+        },
+        "indicators": {
+            "exceedsNorm": "Exceeds norm",
+            "negative": "Negative balance",
+            "neutral": "No balance",
+            "positive": "Positive balance",
+            "withinNorm": "Within norm"
         }
     },
     "drive": {
@@ -4895,16 +4908,19 @@
     "messages": {
         "actions": {
             "delete": "Delete",
-            "edit": "Edit"
+            "edit": "Edit",
+            "more": "More"
         },
-        "and": "And",
         "alert": {
             "messageSuccessfullyDeleted": "Message successfully deleted",
-            "messageSuccessfullyUpdated": "Message successfully updated"
+            "messageSuccessfullyUpdated": "Message successfully updated",
+            "chatSuccessfullyDeleted": "Chat successfully deleted"
         },
         "allMessagesAreLoaded": "All messages are loaded",
+        "and": "And",
         "confirmation": {
-            "deleteMessageConfirmation": "Are you sure you want to delete this message"
+            "deleteMessageConfirmation": "Are you sure you want to delete this message",
+            "deleteChatConfirmation": "Are you sure you want to delete this chat"
         },
         "editMessage": "Edit message",
         "groupChat": {
@@ -4951,7 +4967,11 @@
         "newConversation": "New Conversation",
         "unread": "unread",
         "attachFile": "Attach file",
-        "typeAMessage": "Type a message..."
+        "typeAMessage": "Type a message...",
+        "today": "Today",
+        "yesterday": "Yesterday",
+        "you": "You",
+        "deleteChat": "Delete chat"
     },
     "months": {
         "january": "January",
@@ -6723,7 +6743,10 @@
                 "new": "New",
                 "status": "Status",
                 "paid": "Paid",
-                "unpaid": "Unpaid"
+                "unpaid": "Unpaid",
+                "confirmation": {
+                    "markAsPaidConfirmation": "Are you sure you want to mark this invoice as paid"
+                }
             }
         },
         "invoiceDetails": {
@@ -7089,17 +7112,24 @@
             "remarks": "Remarks"
         },
         "newTimeLog": "New time log",
+        "requestNewTimeLog": "Request new time log",
         "table": {
             "actions": {
+                "approve": "Approve",
+                "decline": "Decline",
                 "delete": "Delete",
                 "edit": "Edit",
                 "view": "View"
             },
             "alert": {
+                "timeLogSuccessfullyApproved": "Time log successfully approved",
+                "timeLogSuccessfullyDeclined": "Time log successfully declined",
                 "timeLogSuccessfullyDeleted": "Time log successfully deleted"
             },
             "createdAt": "Created at",
             "confirmation": {
+                "approveTimeLogConfirmation": "Are you sure you want to approve this time log",
+                "declineTimeLogConfirmation": "Are you sure you want to decline this time log",
                 "deleteTimeLogConfirmation": "Are you sure you want to delete this time log"
             },
             "dateTimeEnd": "Date time end",
@@ -7110,6 +7140,12 @@
                 "cancelledByEmployee": "Cancelled by employee",
                 "completed": "Held (completed)",
                 "status": "Status"
+            },
+            "requestStatus": {
+                "approved": "Approved",
+                "declined": "Declined",
+                "pending": "Pending",
+                "requestStatus": "Request status"
             },
             "summary": "Time summary"
         },

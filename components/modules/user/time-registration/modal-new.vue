@@ -1,6 +1,8 @@
 <template>
     <div>
-        <Modal size="xs" :title="$t('timeLogs.newTimeLog')" :show="props.isModalOpen" @close="closeModal">
+        <Modal size="xs" :title="isAdmin(userStore.getUser?.roles) ?
+            $t('timeLogs.newTimeLog') :
+            $t('timeLogs.requestNewTimeLog')" :show="props.isModalOpen" @close="closeModal">
             <template #modal-body>
                 <LoadingSpinner :isActive="state.isPageLoading">
                     <ModulesUserTimeRegistrationForm formType="create" :selectedTimeLog="state.formTimeLog"
@@ -16,13 +18,15 @@
 import moment from 'moment'
 import { timeLogService } from '@/components/api/user/TimeLogService'
 import { useAlert } from '@/composables/alert'
+import { useUserStore } from '@/store/user'
 import { useI18n } from "vue-i18n"
 import type { Error } from '@/types'
 
 const { successAlert } = useAlert()
 const { t } = useI18n()
 const router = useRouter()
-const employeeUuid = router?.currentRoute?.value?.params?.employee_uuid
+const userStore = useUserStore() as any
+const employeeUuid = router?.currentRoute?.value?.params?.employee_uuid ?? userStore.getUser?.uuid
 
 const props = defineProps({
     isModalOpen: {
@@ -43,6 +47,10 @@ const state = reactive({
     },
     isPageLoading: false,
 })
+
+function isAdmin(roles: any) {
+    return roles && roles.some((role: any) => role.name === 'Admin')
+}
 
 function closeModal() {
     emit('close')

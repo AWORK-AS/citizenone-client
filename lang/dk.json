@@ -2028,7 +2028,7 @@
             "plansAndGoals": "Planer og mål"
         },
         "timeLogs": {
-            "timeLogs":"Tidslogfiler"
+            "timeLogs": "Tidslogfiler"
         },
         "treatments": {
             "alert": {
@@ -3357,9 +3357,22 @@
         },
         "week": "Uge",
         "yearToDate": "År til dato",
+        "shiftNote": "Note",
+        "shiftThreshold": {
+            "high": "Høj bemanding: medarbejdere er over minimumstærsklen",
+            "low": "Lav bemanding: medarbejdere er under minimumstærsklen",
+            "moderate": "Moderat bemanding: medarbejdere er tæt på minimumstærsklen"
+        },
         "shiftWarning": {
             "warning": "Advarsel",
             "warningsFound": "Advarsler er fundet i denne vagt."
+        },
+        "indicators": {
+            "exceedsNorm": "Overskrider norm",
+            "negative": "Negativ saldo",
+            "neutral": "Ingen saldo",
+            "positive": "Positiv saldo",
+            "withinNorm": "Inden for norm"
         }
     },
     "drive": {
@@ -4895,16 +4908,19 @@
     "messages": {
         "actions": {
             "delete": "Slet",
-            "edit": "Rediger"
+            "edit": "Rediger",
+            "more": "Mere"
         },
-        "and": "Og",
         "alert": {
             "messageSuccessfullyDeleted": "Besked slettet med succes",
-            "messageSuccessfullyUpdated": "Besked opdateret med succes"
+            "messageSuccessfullyUpdated": "Besked opdateret med succes",
+            "chatSuccessfullyDeleted": "Chat slettet med succes"
         },
         "allMessagesAreLoaded": "Alle beskeder er indlæst",
+        "and": "Og",
         "confirmation": {
-            "deleteMessageConfirmation": "Er du sikker på, at du vil slette denne besked"
+            "deleteMessageConfirmation": "Er du sikker på, at du vil slette denne besked",
+            "deleteChatConfirmation": "Er du sikker på, at du vil slette denne chat"
         },
         "editMessage": "Rediger besked",
         "groupChat": {
@@ -4951,7 +4967,11 @@
         "newConversation": "Ny samtale",
         "unread": "ulæste",
         "attachFile": "Vedhæft fil",
-        "typeAMessage": "Skriv en besked..."
+        "typeAMessage": "Skriv en besked...",
+        "today": "I dag",
+        "yesterday": "I går",
+        "you": "Dig",
+        "deleteChat": "Slet chat"
     },
     "months": {
         "january": "Januar",
@@ -6723,7 +6743,10 @@
                 "new": "Ny",
                 "status": "Status",
                 "paid": "Betalt",
-                "unpaid": "Ubetalt"
+                "unpaid": "Ubetalt",
+                "confirmation": {
+                    "markAsPaidConfirmation": "Er du sikker på, at du vil markere denne faktura som betalt"
+                }
             }
         },
         "invoiceDetails": {
@@ -7089,17 +7112,24 @@
             "remarks": "Bemærkninger"
         },
         "newTimeLog": "Ny tidslog",
+        "requestNewTimeLog": "Anmod om ny tidslog",
         "table": {
             "actions": {
+                "approve": "Godkend",
+                "decline": "Afvis",
                 "delete": "Slet",
                 "edit": "Rediger",
                 "view": "Vis"
             },
             "alert": {
+                "timeLogSuccessfullyApproved": "Tidslog blev godkendt",
+                "timeLogSuccessfullyDeclined": "Tidslog blev afvist",
                 "timeLogSuccessfullyDeleted": "Tidslog blev slettet"
             },
             "createdAt": "Oprettet den",
             "confirmation": {
+                "approveTimeLogConfirmation": "Er du sikker på, at du vil godkende denne tidslog",
+                "declineTimeLogConfirmation": "Er du sikker på, at du vil afvise denne tidslog",
                 "deleteTimeLogConfirmation": "Er du sikker på, at du vil slette denne tidslog?"
             },
             "dateTimeEnd": "Slutdato og -tid",
@@ -7110,6 +7140,12 @@
                 "cancelledByEmployee": "Aflyst af medarbejder",
                 "completed": "Afholdt (afsluttet)",
                 "status": "Status"
+            },
+            "requestStatus": {
+                "approved": "Godkendt",
+                "declined": "Afvist",
+                "pending": "Afventer",
+                "requestStatus": "Anmodningsstatus"
             },
             "summary": "Tidsoversigt"
         },

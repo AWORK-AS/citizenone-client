@@ -56,8 +56,9 @@ function closeModal() {
 }
 
 const state = reactive({
-    currentVersion: '2026-02-20',
+    currentVersion: '2026-04-10',
     availableVersions: [
+        '2026-04-10',
         '2026-02-20',
         '2026-01-30',
         '2026-01-23',
@@ -85,6 +86,141 @@ const state = reactive({
 
 const allUpdates: Record<string, Record<string, { title: string, description: string[] }[]>> = {
     en: {
+        '2026-04-10': [
+            {
+                title: 'Messaging UI improvements & chat history deletion',
+                description: [
+                    'The messaging interface has been updated with an improved UI for a better user experience.',
+                    'It is now possible to delete an entire message chat history directly from the conversation list.',
+                ],
+            },
+            {
+                title: 'Department column in duty schedule exports',
+                description: [
+                    'When exporting a duty schedule, a "Department" column is now included in the export.',
+                    'The Department column is positioned before the "Employee Name" column.',
+                ],
+            },
+            {
+                title: '💸 Expenses',
+                description: [
+                    'A citizen field has been added to expenses, allowing expenses to be linked to a specific citizen.',
+                    'Expenses are now displayed under the "Economy" section on the citizen profile, in a dedicated "Expenses" tab alongside the existing "Wallets" tab.',
+                    'Expenses can now be edited after rejection.',
+                    'Expenses can also be edited after reimbursement (expense paid out).',
+                ],
+            },
+            {
+                title: '🕒 Work Time Adjustments – Geo-location tracking',
+                description: [
+                    'Geo-location is now captured when starting and ending work time.',
+                    'No kilometer tracking is required – only the location at start and end.',
+                    'A green marker is shown for the start location and a red marker for the end location.',
+                ],
+            },
+            {
+                title: '📌 Pinning Journal Notes',
+                description: [
+                    'It is now possible to pin journal notes on a citizen.',
+                    'Pinned notes are displayed at the top of the journal note list and remain visible regardless of sorting or filtering.',
+                    'Notes can be pinned and unpinned easily, and multiple notes can be pinned at the same time.',
+                    'This helps staff highlight important or critical information and improves overview and accessibility.',
+                ],
+            },
+            {
+                title: '🔐 Page Access – Duty Schedule visibility',
+                description: [
+                    'An option has been added to hide or remove access to the "Duty Schedule" page, consistent with how other pages are managed.',
+                    'When hidden, the Duty Schedule page will not appear in the left sidebar.',
+                ],
+            },
+            {
+                title: '👤 Citizen & Contact Creation – Postal code auto-fill',
+                description: [
+                    'When creating a citizen, relative, or other contact, entering a postal code (ZIP code) will now automatically populate the City, Region, and Municipality fields.',
+                ],
+            },
+            {
+                title: 'Filter by archived/non-archived employees in duty schedule exports',
+                description: [
+                    'It is now possible to filter by archived and/or non-archived employees when exporting duty schedules.',
+                ],
+            },
+            {
+                title: '👤 Citizen Creation Permissions',
+                description: [
+                    'Creating citizens is no longer restricted to Admin profiles.',
+                    'A new "Create Citizen" permission has been introduced, which can be assigned to any role – including the standard user role – under "Roles" in the catalog.',
+                    'This allows administrators to control which users are permitted to create citizens.',
+                ],
+            },
+            {
+                title: 'Stop copying from current position',
+                description: [
+                    'It is now possible to stop a copying process from the current position in the schedule.',
+                    'Previously, stopping the copy required navigating back to the original start date. This is no longer necessary.',
+                ],
+            },
+            {
+                title: '"Compensatory hours" renamed to "Compensatory hours this year"',
+                description: [
+                    'The label "Compensatory hours" has been renamed to "Compensatory hours this year" for clarity.',
+                ],
+            },
+            {
+                title: '📊 Time Logs improvements',
+                description: [
+                    'A citizen field has been added to time logs, allowing time logs to be linked to a specific citizen.',
+                    'Time logs are now displayed on the citizen profile.',
+                    'Statistics, filtering, and export of time log data are now available, matching the functionality of intervention hours.',
+                ],
+            },
+            {
+                title: '11-hour & 48-hour rule – Leave type exclusion',
+                description: [
+                    'The 11-hour rule and 48-hour rule no longer count vacation hours, sick hours, or other shifts marked as "leave types" when calculating rule violations.',
+                    'These leave-type shifts can still be counted and calculated towards norm hours.',
+                    'The warning indicator has been changed to a warning triangle icon to reduce visual noise, as it was appearing too frequently.',
+                ],
+            },
+            {
+                title: '📤 Citizen Export by Department (Shelter & Crisis Center)',
+                description: [
+                    'For "Shelter" and "Crisis center" categories, the citizen export now supports filtering and exporting citizens by department.',
+                    'Each department\'s data can be exported separately, similar to how "Export inquiries" works.',
+                ],
+            },
+            {
+                title: 'Employee delete permissions – Calendar events',
+                description: [
+                    'Employees no longer have permission to delete items by default, except for calendar events.',
+                    'A dedicated delete permission for calendar events has been added under roles, and can be assigned to the "Regular user" role and other roles.',
+                ],
+            },
+            {
+                title: '🎯 UI Improvements – Duty schedule indicators & shift notes',
+                description: [
+                    'Green and red indicators in the duty schedule now include a hover tooltip explaining their meaning.',
+                    'Shift remarks/notes are now accessible via a hover tooltip on an icon displayed directly on the shift in the duty schedule.',
+                ],
+            },
+            {
+                title: 'X-timer (extra hours) additions',
+                description: [
+                    'A column showing the name of the person who created the extra hours entry has been added.',
+                    'A department column and corresponding field have been added to extra hours.',
+                    'Extra hours are now also included within duty schedule drafts.',
+                ],
+            },
+            {
+                title: '⏱ Time Registration Improvements',
+                description: [
+                    'Employees can now request registration of a missed check-in directly in the system.',
+                    'These requests must be reviewed and approved by an administrator before they are registered.',
+                    'Administrators can now edit existing time log entries.',
+                ],
+            },
+        ],
         '2026-02-20': [
             {
                 title: 'Online document creation and editing',
@@ -1015,6 +1151,141 @@ const allUpdates: Record<string, Record<string, { title: string, description: st
         ],
     },
     dk: {
+        '2026-04-10': [
+            {
+                title: 'Forbedringer af beskedsystem & sletning af chathistorik',
+                description: [
+                    'Beskedgrænsefladen er blevet opdateret med en forbedret brugergrænseflade.',
+                    'Det er nu muligt at slette en hel chatsamtales historik direkte fra samtalelisten.',
+                ],
+            },
+            {
+                title: 'Afdelingskolonne i eksport af vagtplan',
+                description: [
+                    'Når en vagtplan eksporteres, er der nu inkluderet en "Afdeling"-kolonne i eksporten.',
+                    '"Afdeling"-kolonnen er placeret før "Medarbejdernavn"-kolonnen.',
+                ],
+            },
+            {
+                title: '💸 Udgifter',
+                description: [
+                    'Der er tilføjet et borgerfelt til udgifter, så udgifter kan knyttes til en specifik borger.',
+                    'Udgifter vises nu under afsnittet "Økonomi" på borgerprofilen i en dedikeret "Udgifter"-fane ved siden af den eksisterende "Lommepenge"-fane.',
+                    'Udgifter kan nu redigeres efter afvisning.',
+                    'Udgifter kan også redigeres efter udbetaling (udgift refunderet).',
+                ],
+            },
+            {
+                title: '🕒 Arbejdstidsjusteringer – Geo-lokationssporing',
+                description: [
+                    'Geo-lokation registreres nu ved start og afslutning af arbejdstid.',
+                    'Der er ikke behov for kilometerregistrering – kun lokationen ved start og slut.',
+                    'En grøn markør vises for startlokationen og en rød markør for slutlokationen.',
+                ],
+            },
+            {
+                title: '📌 Fastgørelse af journalnotater',
+                description: [
+                    'Det er nu muligt at fastgøre journalnotater på en borger.',
+                    'Fastgjorte notater vises øverst på journalnotelisten og forbliver synlige uanset sortering eller filtrering.',
+                    'Notater kan nemt fastgøres og frigøres, og der kan fastgøres flere notater på samme tid.',
+                    'Dette hjælper personalet med at fremhæve vigtig eller kritisk information og forbedrer overblik og tilgængelighed.',
+                ],
+            },
+            {
+                title: '🔐 Sideadgang – Synlighed af vagtplan',
+                description: [
+                    'Der er tilføjet en mulighed for at skjule eller fjerne adgangen til "Vagtplan"-siden, svarende til håndteringen af andre sider.',
+                    'Når siden er skjult, vises Vagtplan ikke i den venstre sidebjælke.',
+                ],
+            },
+            {
+                title: '👤 Oprettelse af borger og kontakter – Automatisk udfyldning ved postnummer',
+                description: [
+                    'Når der oprettes en borger, pårørende eller anden kontakt, vil indtastning af et postnummer nu automatisk udfylde felterne By, Region og Kommune.',
+                ],
+            },
+            {
+                title: 'Filtrer efter arkiverede/ikke-arkiverede medarbejdere ved eksport af vagtplan',
+                description: [
+                    'Det er nu muligt at filtrere efter arkiverede og/eller ikke-arkiverede medarbejdere ved eksport af vagtplaner.',
+                ],
+            },
+            {
+                title: '👤 Rettigheder til oprettelse af borgere',
+                description: [
+                    'Oprettelse af borgere er ikke længere forbeholdt administratorer.',
+                    'En ny "Opret borger"-rettighed er blevet introduceret og kan tildeles alle roller – inkl. standardbrugerrollen – under "Roller" i kataloget.',
+                    'Dette giver administratorer mulighed for at styre, hvilke brugere der må oprette borgere.',
+                ],
+            },
+            {
+                title: 'Stop kopiering fra aktuel position',
+                description: [
+                    'Det er nu muligt at stoppe en kopieringsproces fra den aktuelle position i vagtplanen.',
+                    'Tidligere krævede stop af kopiering, at man navigerede tilbage til den oprindelige startdato. Dette er ikke længere nødvendigt.',
+                ],
+            },
+            {
+                title: '"Afspadsering" omdøbt til "Afspadsering i år"',
+                description: [
+                    'Etiketten "Afspadsering" er omdøbt til "Afspadsering i år" for større klarhed.',
+                ],
+            },
+            {
+                title: '📊 Forbedringer af tidsregistreringer',
+                description: [
+                    'Der er tilføjet et borgerfelt til tidsregistreringer, så registreringer kan knyttes til en specifik borger.',
+                    'Tidsregistreringer vises nu på borgerprofilen.',
+                    'Statistik, filtrering og eksport af tidsregistreringsdata er nu tilgængeligt svarende til funktionaliteten for interventionstimer.',
+                ],
+            },
+            {
+                title: '11-timers- og 48-timers-regel – Undtagelse for orlovstyper',
+                description: [
+                    'Ferie-, syge- og andre vagter markeret som "orlovstyper" tæller ikke længere med i 11-timers- og 48-timers-regelberegningerne.',
+                    'Disse orlovsvagter kan stadig medregnes og beregnes i normtimerne.',
+                    'Advarselsindikatoren er ændret til et advarselstrekant-ikon for at reducere visuel støj, da det tidligere optrådte for hyppigt.',
+                ],
+            },
+            {
+                title: '📤 Borgereksport pr. afdeling (Bosted & Krisecenter)',
+                description: [
+                    'For kategorierne "Bosted" og "Krisecenter" understøtter borgereksport nu filtrering og eksport af borgere pr. afdeling.',
+                    'Hver afdelings data kan eksporteres separat, svarende til funktionen "Eksportér henvendelser".',
+                ],
+            },
+            {
+                title: 'Sletterettigheder for medarbejdere – Kalenderbegivenheder',
+                description: [
+                    'Medarbejdere har som udgangspunkt ikke længere tilladelse til at slette elementer, undtagen kalenderbegivenheder.',
+                    'En dedikeret slette-rettighed for kalenderbegivenheder er tilføjet under roller og kan tildeles "Almindelig bruger"-rollen og andre roller.',
+                ],
+            },
+            {
+                title: '🎯 UI-forbedringer – Indikatorer og vagnotater i vagtplanen',
+                description: [
+                    'Grønne og røde indikatorer i vagtplanen har nu et hover-tooltip, der forklarer deres betydning.',
+                    'Vagters bemærkninger/noter er nu tilgængelige via et hover-tooltip på et ikon, der vises direkte på vagten i vagtplanen.',
+                ],
+            },
+            {
+                title: 'Udvidelser af x-timer (merarbejde)',
+                description: [
+                    'Der er tilføjet en kolonne med navnet på den person, der har oprettet merarbejdstimer.',
+                    'En afdelingskolonne og et tilsvarende felt er tilføjet til merarbejdstimer.',
+                    'Merarbejdstimer er nu også inkluderet i vagtplankladder.',
+                ],
+            },
+            {
+                title: '⏱ Forbedringer af tidsregistrering',
+                description: [
+                    'Medarbejdere kan nu anmode om registrering af et glemt tjek-ind direkte i systemet.',
+                    'Disse anmodninger skal gennemgås og godkendes af en administrator, før de registreres.',
+                    'Administratorer kan nu redigere eksisterende tidsregistreringer.',
+                ],
+            },
+        ],
         '2026-02-20': [
             {
                 title: 'Oprettelse og redigering af dokumenter online',

@@ -72,7 +72,7 @@ const props = defineProps({
     },
 })
 
-const emit = defineEmits(['close', 'saveShift', 'resetNewShiftError', 'dateTimeChange'])
+const emit = defineEmits(['close', 'saveShift', 'resetNewShiftError', 'resetShiftWarnings', 'dateTimeChange'])
 const { locale } = useI18n()
 
 const state = reactive({
@@ -113,6 +113,7 @@ const state = reactive({
 watch(() => props.isModalOpen, (isModalOpen) => {
     if (isModalOpen) {
         emit('resetNewShiftError')
+        emit('resetShiftWarnings')
         state.formShift.date_time_start = moment(props.selectedDate).startOf('day').add(8, 'hours').format('YYYY-MM-DD H:mm')
         state.formShift.date_time_end = moment(props.selectedDate).startOf('day').add(17, 'hours').format('YYYY-MM-DD H:mm')
     }
