@@ -1,6 +1,16 @@
 <template>
     <div>
         <form @submit.prevent="submitForm()" id="formTemplate">
+            <!-- Forklaringsboks -->
+            <div class="bg-amber-50 border border-amber-200 rounded-xl p-3 flex items-start gap-3 mb-4">
+                <svg class="w-5 h-5 text-amber-500 mt-0.5 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                </svg>
+                <div class="text-xs text-amber-700">
+                    <p class="font-semibold text-amber-800 mb-1">Opret en ny skabelon</p>
+                    <p>En skabelon er en genanvendelig vagtplan. Giv den et navn, vælg afdeling, og beslut om den skal være gentagende eller enkeltstående. Skabelonen kan efterfølgende anvendes direkte i vagtplanskladden.</p>
+                </div>
+            </div>
             <div class="grid grid-cols-1 gap-y-3">
                 <div class="space-y-1">
                     <FormLabel for="name" :label="$t('dutySchedules.draftTemplates.form.name')" />
@@ -21,22 +31,32 @@
                 </div>
 
                 <div class="space-y-1">
-                    <div class="w-fit flex items-center cursor-pointer"
+                    <div class="w-fit flex items-center cursor-pointer gap-2"
                         @click="state.formTemplate.is_admin_only = !state.formTemplate.is_admin_only">
                         <FormCheckbox :value="state.formTemplate.is_admin_only" />
-                        {{ $t('dutySchedules.draftTemplates.form.adminsOnly') }}
+                        <div>
+                            <span class="text-sm font-medium">{{ $t('dutySchedules.draftTemplates.form.adminsOnly') }}</span>
+                            <p class="text-xs text-gray-400 mt-0.5">Hvis markeret kan kun administratorer se og bruge denne skabelon.</p>
+                        </div>
                     </div>
                 </div>
 
                 <div class="space-y-1">
-                    <div class="w-fit flex items-center cursor-pointer"
+                    <div class="w-fit flex items-center cursor-pointer gap-2"
                         @click="state.formTemplate.recurring.is_recurring = !state.formTemplate.recurring.is_recurring">
                         <FormCheckbox :value="state.formTemplate.recurring.is_recurring" />
-                        {{ $t('dutySchedules.draftTemplates.form.isRecurring') }}
+                        <div>
+                            <span class="text-sm font-medium">{{ $t('dutySchedules.draftTemplates.form.isRecurring') }}</span>
+                            <p class="text-xs text-gray-400 mt-0.5">En gentagende skabelon roterer automatisk over flere uger (fx 4-ugers vagtrullering). En ikke-gentagende skabelon er en fast enkelt ugeplan.</p>
+                        </div>
                     </div>
                 </div>
 
                 <div class="space-y-3" v-if="state.formTemplate.recurring.is_recurring">
+                    <div class="bg-blue-50 border border-blue-200 rounded-lg p-3 text-xs text-blue-700">
+                        <p class="font-semibold text-blue-800 mb-1">🔄 Gentagende skabelon</p>
+                        <p>Angiv hvor mange uger skabelonen roterer over (fx 4 = 4-ugers rulning). Du kan valgfrit sætte en slutdato — hvis du ikke sætter en dato, kan skabelonen altid anvendes.</p>
+                    </div>
                     <div class="space-y-1">
                         <FormLabel for="week_rotations"
                             :label="$t('dutySchedules.draftTemplates.form.weekRotations')" />
