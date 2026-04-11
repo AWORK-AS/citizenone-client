@@ -302,7 +302,7 @@
                                     class="absolute right-0 z-10 mt-2 w-56 origin-top-right rounded-xl bg-white py-1.5 shadow-dropdown ring-1 ring-slate-900/5 focus:outline-none">
                                     <div class="px-3 py-2.5 border-b border-surface-100">
                                         <p class="text-sm font-semibold text-slate-900">{{ userStore.getUser?.firstname
-                                            }} {{ userStore.getUser?.lastname }}</p>
+                                        }} {{ userStore.getUser?.lastname }}</p>
                                         <p class="text-xs text-slate-500 mt-0.5">{{ userStore.getUser?.email }}</p>
                                     </div>
                                     <MenuItem>
