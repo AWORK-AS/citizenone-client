@@ -222,7 +222,7 @@ table td {
 
 .multiselect.is-active {
     box-shadow: 0 0 0 3px rgba(44, 93, 229, 0.1) !important;
-    @apply border border-primary !important;
+    @apply border border-primary-200 !important;
 }
 
 .multiselect-option.is-selected,
@@ -475,7 +475,7 @@ table td {
 .fixed-header-week-view-top {
     position: fixed !important;
     top: 4rem;
-    left: 17rem;
+    left: 6rem;
     right: 1.5rem;
     z-index: 20;
     background: white;

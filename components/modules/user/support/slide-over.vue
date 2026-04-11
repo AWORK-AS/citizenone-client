@@ -230,7 +230,7 @@ function handleBackGuidedTour(back: any) {
 }
 
 function handleNextGuidedTour(next: any) {
-    if (next === 'daily-overview') {
+    if (next === 'overview') {
         state.modal.isGuidedTourWelcomeOpen = false
         state.modal.isGuidedTourDailyOverviewOpen = true
     }

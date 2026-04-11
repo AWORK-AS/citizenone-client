@@ -1,6 +1,6 @@
 <template>
-    <div class="py-1">
-        <button class="relative text-primary hover:text-primary-700 rounded-lg p-2 flex items-center hover:bg-surface-100 transition-colors"
+    <div>
+        <button class="relative w-9 h-9 rounded-full flex items-center justify-center text-primary hover:text-primary-700 hover:bg-surface-100 transition-colors"
             @click="openUpdatesModal">
             <Icon name="ph:lightbulb" class="h-5 w-5" aria-hidden="true" />
             <Badge v-if="!userStore.getUser?.is_read_updates" type="notification"

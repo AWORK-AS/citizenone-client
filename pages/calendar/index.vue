@@ -12,7 +12,7 @@
 
             <template #header>{{ $t('events.calendar') }}</template>
             <template #guided-tour>
-                <Tooltip :text="$t('guidedTour')" @click="openGuidedTour()">
+                <Tooltip :text="$t('guidedTour')" position="left" @click="openGuidedTour()">
                     <Icon name="ph:question" class="size-6 cursor-pointer text-gray-700" aria-hidden="true" />
                 </Tooltip>
             </template>
@@ -101,8 +101,9 @@
                     </div>
                     <div>
                         <FormLabel for="employee_group_uuid" :label="$t('calendar.employeeGroups')" />:
-                        <FormSelectMultiple id="employee_group_uuid" name="employee_group_uuid" :options="state.options.employeeGroups"
-                            v-model="state.formCalendar.employee_group_uuid" @change="changeEmployeeGroupUuid" />
+                        <FormSelectMultiple id="employee_group_uuid" name="employee_group_uuid"
+                            :options="state.options.employeeGroups" v-model="state.formCalendar.employee_group_uuid"
+                            @change="changeEmployeeGroupUuid" />
                     </div>
                 </div>
             </div>
@@ -221,14 +222,14 @@ const state = reactive({
             recurring: '',
             recurring_until: '',
             frequency: '',
-            every:  '',
+            every: '',
             weekly_on: [] as any[],
             monthly_on_the_enabled: false,
             monthly_each: [] as any[],
             monthly_on_the_sequence: '',
-            monthly_on_the_day:  '',
+            monthly_on_the_day: '',
             yearly_in_months: [] as any[],
-            yearly_on_the_enabled:  false,
+            yearly_on_the_enabled: false,
             yearly_on_the_sequence: '',
             yearly_on_the_day: '',
             is_apply_to_all: false,
@@ -504,7 +505,7 @@ async function deleteMyCalendarEvent(selectedCalendarEvent: any, isDeleteFuture:
     state.modal.isEditEventOpen = false
     try {
         const scheduleUuid = selectedCalendarEvent?.uuid
-        const response = await myCalendarService.deleteSchedule(scheduleUuid, {is_delete_future: isDeleteFuture})
+        const response = await myCalendarService.deleteSchedule(scheduleUuid, { is_delete_future: isDeleteFuture })
         if (response) {
             fetchMyCalendarEvents()
             successAlert(`${t('alert.success')}!`, `${t('events.alert.successfullyDeleted')}.`)

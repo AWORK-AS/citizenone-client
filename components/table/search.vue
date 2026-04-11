@@ -5,11 +5,11 @@
                 <Icon name="ic:search" class="text-primary w-6 h-6" />
             </span>
             <input type="text" :id="props.id" :name="props.name" :autocomplete="props.name"
-                class="appearance-none block w-full pl-10 h-12 border border-primary placeholder-gray-500 text-gray-900 rounded-tl-md rounded-bl-md focus:outline-none focus:ring-primary-700 focus:border-primary-700 focus:z-10 sm:text-sm"
+                class="appearance-none block w-full pl-10 h-12 border border-primary placeholder-gray-500 text-gray-900 rounded-l-full focus:outline-none focus:ring-primary-700 focus:border-primary-700 focus:z-10 sm:text-sm"
                 :placeholder="$t('search')" v-model="state.search" />
         </div>
         <button type="submit"
-            class="bg-primary px-6 py-1.5 border border-primary text-white hover:bg-primary-800 hover:border-primary-800 right-0.5 top-0.5 rounded-tr-md rounded-br-md text-xs">
+            class="bg-primary h-12 px-6 border border-primary text-white hover:bg-primary-800 hover:border-primary-800 rounded-l-none rounded-r-full text-sm font-medium">
             {{ $t('search') }}
         </button>
     </form>

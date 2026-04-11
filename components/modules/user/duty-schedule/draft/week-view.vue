@@ -576,13 +576,14 @@
                                                                     </div>
                                                                 </Tooltip>
                                                             </div>
-                                                            <div v-if="shift&&shift.note&&shift.note.trim()" class="relative flex items-center gap-1 px-2.5 pb-1.5 cursor-help group/note">
-                                                                <Icon name="ph:note" class="w-3 h-3 flex-shrink-0" style="color:white" />
-                                                                <span class="text-xxs font-medium truncate" style="color:white;max-width:120px">{{ shift.note }}</span>
-                                                                <div class="hidden group-hover/note:block absolute bottom-full left-0 mb-2 z-[9999] bg-gray-900 rounded-lg px-3 py-2 shadow-xl pointer-events-none" style="min-width:180px;max-width:240px;white-space:pre-wrap;word-break:break-word">
-                                                                    <p class="text-xs" style="color:white;line-height:1.5">{{ shift.note }}</p>
+                                                            <Tooltip v-if="shift && shift.note && shift.note.trim()"
+                                                                :text="`${$t('dutySchedules.shiftNote')}: ${shift.note}`"
+                                                                position="left" :wrap="true">
+                                                                <div class="flex items-center gap-1 px-2.5 pb-1.5 cursor-help">
+                                                                    <Icon name="ph:note" class="w-3 h-3 flex-shrink-0" style="color:white" />
+                                                                    <span class="text-xxs font-medium truncate" style="color:white;max-width:120px">{{ shift.note }}</span>
                                                                 </div>
-                                                            </div>
+                                                            </Tooltip>
                                                             <button
                                                                 class="bg-gray-200 w-4 h-4 text-sm text-gray-600 rounded-full flex items-center justify-center absolute -right-1 -top-1"
                                                                 @click="removeShift(week, employeeIndex, weekIndex, shift, shiftIndex)"

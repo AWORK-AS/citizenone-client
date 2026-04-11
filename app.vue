@@ -5,7 +5,7 @@
 <iframe src="https://www.googletagmanager.com/ns.html?id=GTM-NHM44MFT" height="0" width="0"
 style="display:none;visibility:hidden"></iframe>
 </noscript>
-<NuxtPage />
+<NuxtPage :key="$route.path" />
 <notifications class="mt-24" />
 </NuxtLayout>
 </template>
