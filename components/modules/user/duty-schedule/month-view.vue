@@ -20,624 +20,637 @@
                 {{ state.dragSuccessMessage }}
             </div>
         </Transition>
-        <LoadingSpinner :isActive="state.isPageLoading">
-            <div class="flex h-full flex-col">
-                <!-- Teleport date picker to breadcrumb row -->
-                <Teleport to="#schedule-date-picker-target" v-if="teleportReady">
-                    <div class="flex items-center gap-1.5">
-                        <div
-                            class="relative flex items-center rounded-lg bg-white ring-1 ring-gray-200 overflow-hidden h-[32px]">
-                            <button @click="!isPreviousMonthDisabled() && previousMonth()" type="button" :class="[
-                                isPreviousMonthDisabled() && 'cursor-not-allowed',
-                                'flex h-7 w-7 items-center justify-center text-gray-400 hover:text-gray-600 hover:bg-gray-50 transition-colors'
-                            ]" :disabled="isPreviousMonthDisabled()">
-                                <Icon name="heroicons:chevron-left" class="h-3.5 w-3.5" aria-hidden="true" />
-                            </button>
-                            <FormDateField id="date" name="date" :placeholder="$t('dutySchedules.form.date')"
-                                dateType="duty-schedule" v-model="state.selectedDate" />
-                            <button @click="nextMonth()" type="button"
-                                class="flex h-7 w-7 items-center justify-center text-gray-400 hover:text-gray-600 hover:bg-gray-50 transition-colors">
-                                <Icon name="heroicons:chevron-right" class="h-3.5 w-3.5" aria-hidden="true" />
-                            </button>
-                        </div>
-                        <button @click="setToday()"
-                            class="text-primary text-xs font-semibold hover:text-primary-700 px-2 py-1 rounded-md hover:bg-blue-50 transition-colors">Gå
-                            til i dag</button>
+        <div class="flex h-full flex-col">
+            <!-- Teleport date picker to breadcrumb row -->
+            <Teleport to="#schedule-date-picker-target" v-if="teleportReady">
+                <div class="flex items-center gap-1.5">
+                    <div
+                        class="relative flex items-center rounded-lg bg-white ring-1 ring-gray-200 overflow-hidden h-[32px]">
+                        <button @click="!isPreviousMonthDisabled() && previousMonth()" type="button" :class="[
+                            isPreviousMonthDisabled() && 'cursor-not-allowed',
+                            'flex h-7 w-7 items-center justify-center text-gray-400 hover:text-gray-600 hover:bg-gray-50 transition-colors'
+                        ]" :disabled="isPreviousMonthDisabled()">
+                            <Icon name="heroicons:chevron-left" class="h-3.5 w-3.5" aria-hidden="true" />
+                        </button>
+                        <FormDateField id="date" name="date" :placeholder="$t('dutySchedules.form.date')"
+                            dateType="duty-schedule" v-model="state.selectedDate" />
+                        <button @click="nextMonth()" type="button"
+                            class="flex h-7 w-7 items-center justify-center text-gray-400 hover:text-gray-600 hover:bg-gray-50 transition-colors">
+                            <Icon name="heroicons:chevron-right" class="h-3.5 w-3.5" aria-hidden="true" />
+                        </button>
                     </div>
-                </Teleport>
+                    <button @click="setToday()"
+                        class="text-primary text-xs font-semibold hover:text-primary-700 px-2 py-1 rounded-md hover:bg-blue-50 transition-colors">{{
+                            $t('goToToday') }}</button>
+                </div>
+            </Teleport>
 
-                <div class="mb-2">
-                    <div class="flex flex-wrap items-center justify-between gap-2 py-1">
-                        <div class="flex items-center gap-3">
-                            <div class="bg-blue-50 ring-1 ring-blue-200 rounded-lg px-3 py-1">
-                                <h3 class="text-sm font-semibold leading-6 text-gray-900 text-center">
-                                    <span v-if="month === 'January'">{{ $t('calendar.month.January') }}</span>
-                                    <span v-if="month === 'February'">{{ $t('calendar.month.February') }}</span>
-                                    <span v-if="month === 'March'">{{ $t('calendar.month.March') }}</span>
-                                    <span v-if="month === 'April'">{{ $t('calendar.month.April') }}</span>
-                                    <span v-if="month === 'May'">{{ $t('calendar.month.May') }}</span>
-                                    <span v-if="month === 'June'">{{ $t('calendar.month.June') }}</span>
-                                    <span v-if="month === 'July'">{{ $t('calendar.month.July') }}</span>
-                                    <span v-if="month === 'August'">{{ $t('calendar.month.August') }}</span>
-                                    <span v-if="month === 'September'">{{ $t('calendar.month.September') }}</span>
-                                    <span v-if="month === 'October'">{{ $t('calendar.month.October') }}</span>
-                                    <span v-if="month === 'November'">{{ $t('calendar.month.November') }}</span>
-                                    <span v-if="month === 'December'">{{ $t('calendar.month.December') }}</span>
-                                    {{ year }}
-                                </h3>
-                            </div>
-                            <label v-if="false" class="flex items-center gap-2 cursor-pointer">
-                                <FormSwitch :value="userStore.getUser?.is_schedule_pinned ? true : false"
-                                    @toggleSwitch="pinSelfToTopOfSchedule()" />
-                                <span class="text-xs text-gray-600">Fastgør mig øverst</span>
-                            </label>
-                            <div class="hidden lg:block h-4 w-px bg-slate-200" />
-                            <label class="flex items-center gap-2 cursor-pointer">
-                                <FormSwitch :value="dutyScheduleStore.getShowEmployeesWorkingToday"
-                                    @toggleSwitch="dutyScheduleStore.setShowEmployeesWorkingToday(!dutyScheduleStore.getShowEmployeesWorkingToday)" />
-                                <span class="text-xs text-gray-600">Vis hvem der arbejder i dag</span>
-                            </label>
+            <div class="mb-2">
+                <div class="flex flex-wrap items-center justify-between gap-2 py-1">
+                    <div class="flex items-center gap-3">
+                        <div class="bg-blue-50 ring-1 ring-blue-200 rounded-lg px-3 py-1">
+                            <h3 class="text-sm font-semibold leading-6 text-gray-900 text-center">
+                                <span v-if="month === 'January'">{{ $t('calendar.month.January') }}</span>
+                                <span v-if="month === 'February'">{{ $t('calendar.month.February') }}</span>
+                                <span v-if="month === 'March'">{{ $t('calendar.month.March') }}</span>
+                                <span v-if="month === 'April'">{{ $t('calendar.month.April') }}</span>
+                                <span v-if="month === 'May'">{{ $t('calendar.month.May') }}</span>
+                                <span v-if="month === 'June'">{{ $t('calendar.month.June') }}</span>
+                                <span v-if="month === 'July'">{{ $t('calendar.month.July') }}</span>
+                                <span v-if="month === 'August'">{{ $t('calendar.month.August') }}</span>
+                                <span v-if="month === 'September'">{{ $t('calendar.month.September') }}</span>
+                                <span v-if="month === 'October'">{{ $t('calendar.month.October') }}</span>
+                                <span v-if="month === 'November'">{{ $t('calendar.month.November') }}</span>
+                                <span v-if="month === 'December'">{{ $t('calendar.month.December') }}</span>
+                                {{ year }}
+                            </h3>
                         </div>
-                        <div class="flex items-center gap-x-2">
-                            <Tooltip :text="'Indsæt kopieret måned her'" position="left"
-                                v-if="state.copy.selectedMonth && state.copy.selectedMonth.month !== moment(state.selectedDate).month()">
-                                <button
-                                    class="flex items-center gap-1 text-xxs bg-primary hover:bg-primary-700 px-2 py-1 rounded font-semibold"
-                                    style="color:white" @click="pasteMonth(monthWeeks)">
-                                    <Icon name="ph:calendar-check" class="h-3.5 w-3.5" />
-                                    Indsæt måned her
-                                </button>
-                            </Tooltip>
-                            <Tooltip :text="'Kopier måned'" position="left" v-if="!state.copy.selectedMonth">
-                                <button
-                                    class="flex items-center gap-1 text-xxs text-gray-500 hover:text-primary bg-gray-100 hover:bg-blue-50 px-2 py-1 rounded"
-                                    @click="copyMonth()">
-                                    <Icon name="ph:calendar-blank" class="h-3.5 w-3.5" />
-                                    Kopier måned
-                                </button>
-                            </Tooltip>
-                            <div v-if="state.copy.selectedMonth"
-                                class="flex items-center gap-2 bg-primary/10 border border-primary/20 rounded-lg px-3 py-1">
-                                <span class="text-xxs text-primary font-semibold">📋 Måned kopieret — naviger til anden
-                                    måned og klik Indsæt</span>
-                            </div>
-                            <button class="flex items-center gap-x-1 text-sm text-primary group"
-                                @click="state.modal.isFilterDutyScheduleOpen = true">
-                                <Icon name="ic:outline-filter-list"
-                                    class="text-primary w-6 h-6 group-hover:text-primary-700" />
-                                <span class="group-hover:text-primary-700">
-                                    {{ $t('filter') }}
-                                </span>
+                        <label v-if="false" class="flex items-center gap-2 cursor-pointer">
+                            <FormSwitch :value="userStore.getUser?.is_schedule_pinned ? true : false"
+                                @toggleSwitch="pinSelfToTopOfSchedule()" />
+                            <span class="text-xs text-gray-600">{{ $t('dutySchedules.pinSelfToTopOfSchedule')
+                            }}</span>
+                        </label>
+                        <div class="hidden lg:block h-4 w-px bg-slate-200" />
+                        <label class="flex items-center gap-2 cursor-pointer">
+                            <FormSwitch :value="dutyScheduleStore.getShowEmployeesWorkingToday"
+                                @toggleSwitch="dutyScheduleStore.setShowEmployeesWorkingToday(!dutyScheduleStore.getShowEmployeesWorkingToday)" />
+                            <span class="text-xs text-gray-600">{{ $t('dutySchedules.showEmployeesWorkingToday')
+                            }}</span>
+                        </label>
+                    </div>
+                    <div class="flex items-center gap-x-2">
+                        <Tooltip :text="$t('dutySchedules.monthView.insertCopiedMonthHere')" position="left"
+                            v-if="state.copy.selectedMonth && state.copy.selectedMonth.month !== moment(state.selectedDate).month()">
+                            <button
+                                class="flex items-center gap-1 text-xxs bg-primary hover:bg-primary-700 px-2 py-1 rounded font-semibold"
+                                style="color:white" @click="pasteMonth(monthWeeks)">
+                                <Icon name="ph:calendar-check" class="h-3.5 w-3.5" />
+                                {{ $t('dutySchedules.monthView.insertMonthHere') }}
                             </button>
+                        </Tooltip>
+                        <Tooltip :text="$t('dutySchedules.monthView.copyMonth')" position="left"
+                            v-if="!state.copy.selectedMonth">
+                            <button
+                                class="flex items-center gap-1 text-xxs text-gray-500 hover:text-primary bg-gray-100 hover:bg-blue-50 px-2 py-1 rounded"
+                                @click="copyMonth()">
+                                <Icon name="ph:calendar-blank" class="h-3.5 w-3.5" />
+                                {{ $t('dutySchedules.monthView.copyMonth') }}
+                            </button>
+                        </Tooltip>
+                        <div v-if="state.copy.selectedMonth"
+                            class="flex items-center gap-2 bg-primary/10 border border-primary/20 rounded-lg px-3 py-1">
+                            <span class="text-xxs text-primary font-semibold">📋 {{
+                                $t('dutySchedules.monthView.monthCopied') }}</span>
+                        </div>
+                        <button class="flex items-center gap-x-1 text-sm text-primary group"
+                            @click="state.modal.isFilterDutyScheduleOpen = true">
+                            <Icon name="ic:outline-filter-list"
+                                class="text-primary w-6 h-6 group-hover:text-primary-700" />
+                            <span class="group-hover:text-primary-700">
+                                {{ $t('filter') }}
+                            </span>
+                        </button>
 
-                            <Tooltip :text="state.sortData.sortOrder === 'ascend'
-                                ? $t('dutySchedules.sort.sortNamesInDescendingOrder')
-                                : $t('dutySchedules.sort.sortNamesInAscendingOrder')
-                                " position="left">
-                                <button
-                                    class="flex items-center justify-center gap-x-2 outline-none rounded-md text-xs truncate font-semibold bg-primary border border-primary text-white hover:bg-primary-800 px-2 py-2"
-                                    @click="sortDutySchedule">
-                                    <Icon name="heroicons:arrow-down" class="h-5 w-5" aria-hidden="true"
-                                        v-show="state.sortData?.sortOrder === 'ascend'" />
-                                    <Icon name="heroicons:arrow-up" class="h-5 w-5" aria-hidden="true"
-                                        v-show="state.sortData?.sortOrder === 'descend'" />
-                                </button>
-                            </Tooltip>
+                        <Tooltip :text="state.sortData.sortOrder === 'ascend'
+                            ? $t('dutySchedules.sort.sortNamesInDescendingOrder')
+                            : $t('dutySchedules.sort.sortNamesInAscendingOrder')
+                            " position="left">
+                            <button
+                                class="flex items-center justify-center gap-x-2 outline-none rounded-md text-xs truncate font-semibold bg-primary border border-primary text-white hover:bg-primary-800 px-2 py-2"
+                                @click="sortDutySchedule">
+                                <Icon name="heroicons:arrow-down" class="h-5 w-5" aria-hidden="true"
+                                    v-show="state.sortData?.sortOrder === 'ascend'" />
+                                <Icon name="heroicons:arrow-up" class="h-5 w-5" aria-hidden="true"
+                                    v-show="state.sortData?.sortOrder === 'descend'" />
+                            </button>
+                        </Tooltip>
 
-                            <div class="bg-white border border-gray-200 rounded-md px-3 py-2">
-                                <div class="flex items-center gap-x-1">
-                                    <span>{{ $t('entriesPerPage') }}:</span>
-                                    <select class="focus:outline-none bg-transparent" @change="changePageLength"
-                                        id="citizensPageLength">
-                                        <option value="10" :selected="dutyScheduleStore.getCurrentPageLength === '10'">
-                                            10</option>
-                                        <option value="20" :selected="dutyScheduleStore.getCurrentPageLength === '20'">
-                                            20</option>
-                                        <option value="30" :selected="dutyScheduleStore.getCurrentPageLength === '30'">
-                                            30</option>
-                                        <option value="40" :selected="dutyScheduleStore.getCurrentPageLength === '40'">
-                                            40</option>
-                                        <option value="50" :selected="dutyScheduleStore.getCurrentPageLength === '50'">
-                                            50</option>
-                                        <option value="100"
-                                            :selected="dutyScheduleStore.getCurrentPageLength === '100'">100</option>
-                                        <option value="200"
-                                            :selected="dutyScheduleStore.getCurrentPageLength === '200'">200</option>
-                                        <option value="300"
-                                            :selected="dutyScheduleStore.getCurrentPageLength === '300'">300</option>
-                                        <option value="400"
-                                            :selected="dutyScheduleStore.getCurrentPageLength === '400'">400</option>
-                                        <option value="500"
-                                            :selected="dutyScheduleStore.getCurrentPageLength === '500'">500</option>
-                                        <option value="all"
-                                            :selected="dutyScheduleStore.getCurrentPageLength === 'all'">{{ $t('all') }}
-                                        </option>
-                                    </select>
+                        <div class="bg-white border border-gray-200 rounded-md px-3 py-2">
+                            <div class="flex items-center gap-x-1">
+                                <span>{{ $t('entriesPerPage') }}:</span>
+                                <select class="focus:outline-none bg-transparent" @change="changePageLength"
+                                    id="citizensPageLength">
+                                    <option value="10" :selected="dutyScheduleStore.getCurrentPageLength === '10'">
+                                        10</option>
+                                    <option value="20" :selected="dutyScheduleStore.getCurrentPageLength === '20'">
+                                        20</option>
+                                    <option value="30" :selected="dutyScheduleStore.getCurrentPageLength === '30'">
+                                        30</option>
+                                    <option value="40" :selected="dutyScheduleStore.getCurrentPageLength === '40'">
+                                        40</option>
+                                    <option value="50" :selected="dutyScheduleStore.getCurrentPageLength === '50'">
+                                        50</option>
+                                    <option value="100" :selected="dutyScheduleStore.getCurrentPageLength === '100'">100
+                                    </option>
+                                    <option value="200" :selected="dutyScheduleStore.getCurrentPageLength === '200'">200
+                                    </option>
+                                    <option value="300" :selected="dutyScheduleStore.getCurrentPageLength === '300'">300
+                                    </option>
+                                    <option value="400" :selected="dutyScheduleStore.getCurrentPageLength === '400'">400
+                                    </option>
+                                    <option value="500" :selected="dutyScheduleStore.getCurrentPageLength === '500'">500
+                                    </option>
+                                    <option value="all" :selected="dutyScheduleStore.getCurrentPageLength === 'all'">{{
+                                        $t('all') }}
+                                    </option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="xl:min-w-[160px] [&_input]:!h-[38px] [&_button]:!h-[38px] [&_form]:!h-[38px]">
+                            <TableSearch @search="handleSearch" :placeholder="$t('dutySchedules.findEmployee')" />
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Progress bar (matches week-view: h-1.5 with gradient) -->
+            <div class="bg-gradient-to-r from-blue-600 to-blue-400 h-1.5 rounded-full transition-all ease-in-out duration-500 mb-1.5"
+                :style="{ width: `${state.progress.percentage}%` }" v-if="state.progress.showProgressBar" />
+            <div class="h-1.5 mb-1.5" v-else />
+
+            <!-- ============================================================ -->
+            <!-- NEW LAYOUT: Employee sidebar + weekly day grid               -->
+            <!-- ============================================================ -->
+            <div class="flex bg-white rounded-xl ring-1 ring-gray-200 shadow-sm overflow-hidden">
+
+                <!-- LEFT: Fixed employee avatar sidebar -->
+                <div class="flex-shrink-0 w-[90px] border-r border-gray-200 bg-gray-50/50">
+                    <!-- Top-left corner: copy button -->
+                    <div class="h-[73px] border-b border-gray-200 flex items-center justify-center px-2"
+                        v-if="isAdmin(userStore.getUser?.role)">
+                        <Tooltip :text="$t('dutySchedules.copy.copyMultipleWeeksSchedule')" position="right">
+                            <button
+                                class="bg-gray-200 w-6 h-6 text-sm text-gray-600 rounded-sm hover:bg-gray-400 hover:text-gray-200 flex items-center justify-center"
+                                @click="state.modal.isCopyMultipleWeeklyScheduleOpen = true">
+                                <Icon name="mdi:content-copy" class="h-3 w-3" aria-hidden="true" />
+                            </button>
+                        </Tooltip>
+                    </div>
+                    <div class="h-[73px] border-b border-gray-200" v-else />
+
+                    <!-- Employee avatars with rich popover -->
+                    <div v-for="(employee, employeeIndex) in state.monthlySchedules?.data"
+                        :key="'sidebar-' + employee.uuid"
+                        class="border-b border-gray-100 flex flex-col items-center justify-center py-3 px-2 cursor-default relative"
+                        @mouseenter="state.hoveredEmployee = employeeIndex" @mouseleave="state.hoveredEmployee = null">
+                        <img :src="employee?.profile_image ?? `https://ui-avatars.com/api/?background=42AED9&color=fff&name=${employee?.firstname + ' ' + employee?.lastname}`"
+                            :class="[
+                                employee?.shift_threshold === 'high' && 'ring-green-500',
+                                employee?.shift_threshold === 'moderate' && 'ring-yellow-500',
+                                employee?.shift_threshold === 'low' && 'ring-red-500',
+                                'h-10 w-10 rounded-full bg-gray-50 object-cover ring-2 cursor-pointer mx-auto transition-transform hover:scale-110'
+                            ]" />
+                        <p class="text-[10px] font-medium mt-1.5 text-center leading-tight text-gray-700 w-full">
+                            {{ employee?.firstname }} {{ employee?.lastname }}
+                        </p>
+                        <!-- Rich popover on hover -->
+                        <div v-if="state.hoveredEmployee === employeeIndex"
+                            class="absolute left-full ml-2 top-0 z-[60] bg-white rounded-xl shadow-2xl ring-1 ring-gray-200 p-4 w-[340px] text-left"
+                            @mouseenter="state.hoveredEmployee = employeeIndex"
+                            @mouseleave="state.hoveredEmployee = null">
+                            <div class="flex items-center gap-3 mb-3">
+                                <img :src="employee?.profile_image ?? `https://ui-avatars.com/api/?background=42AED9&color=fff&name=${employee?.firstname + ' ' + employee?.lastname}`"
+                                    :class="[employee?.shift_threshold === 'high' && 'border-green-700', employee?.shift_threshold === 'moderate' && 'border-yellow-500', employee?.shift_threshold === 'low' && 'border-red-600', 'h-12 w-12 rounded-full bg-gray-50 object-cover border-2 shadow-md ring-2 ring-white']" />
+                                <div>
+                                    <p class="text-sm font-semibold text-gray-900">{{ employee?.firstname }} {{
+                                        employee?.lastname }}</p>
+                                    <p class="text-xxs text-gray-500" v-if="employee?.employee_detail?.job?.title">
+                                        {{ employee?.employee_detail?.job?.title }}</p>
+                                </div>
+                                <div class="ml-auto flex gap-1">
+                                    <button
+                                        class="bg-gray-100 w-7 h-7 text-gray-500 rounded-lg hover:bg-blue-50 hover:text-blue-600 flex items-center justify-center"
+                                        @click="viewExtraHours(employee)"
+                                        v-if="isAdmin(userStore.getUser?.role) || userStore.getUser?.uuid === employee?.uuid">
+                                        <Icon name="mdi:clock-outline" class="h-3 w-3" />
+                                    </button>
+                                    <button
+                                        class="bg-gray-100 w-7 h-7 text-gray-500 rounded-lg hover:bg-blue-50 hover:text-blue-600 flex items-center justify-center"
+                                        @click="viewLeaveRequests(employee)"
+                                        v-if="isAdmin(userStore.getUser?.role) || userStore.getUser?.uuid === employee?.uuid">
+                                        <Icon name="mdi:wallet-travel" class="h-3 w-3" />
+                                    </button>
                                 </div>
                             </div>
-                            <div class="xl:min-w-[160px] [&_input]:!h-[38px] [&_button]:!h-[38px] [&_form]:!h-[38px]">
-                                <TableSearch @search="handleSearch" :placeholder="'Find medarbejder'" />
+                            <div class="text-xxs space-y-0.5 mb-2">
+                                <p><span class="text-gray-500">{{ $t('dutySchedules.filter.departments') }}:</span>
+                                    <span v-for="(dept, di) in employee?.departments" :key="di">{{ dept?.name
+                                    }}<span v-if="di < employee.departments.length - 1">, </span><span
+                                            v-else>.</span></span>
+                                </p>
+                                <p>{{ $t('dutySchedules.annualNormHours') }}: {{ employee?.annual_norm_hours ?? 0 }}
+                                </p>
+                                <p>{{ $t('dutySchedules.weeklyNormHours') }}: {{
+                                    (Math.round(Number(employee?.annual_norm_hours) / 52)) ??
+                                    0 }}</p>
+                                <p>{{ $t('dutySchedules.totalHours') }}: {{ employee?.total_hours ?? 0 }}</p>
+                                <p
+                                    :class="[employee?.average_weekly_work_time?.severity === 'info' ? 'text-green-700' : employee?.average_weekly_work_time?.severity === 'warning' ? 'text-amber-700' : 'text-red-700']">
+                                    {{ $t('dutySchedules.averageWeeklyHours.averageWeeklyHours') }}: {{
+                                        employee?.average_weekly_work_time?.average_weekly_hours }}</p>
+                                <p
+                                    :class="[parseFloat(String(employee?.log_data?.total_time_account_earned_hours || 0).replace(',', '.')) > 0 ? 'text-green-700' : 'text-red-700']">
+                                    {{ $t('dutySchedules.monthView.earnedHours') }}: {{
+                                        employee?.log_data?.total_time_account_earned_hours }}
+                                </p>
+                                <p
+                                    :class="[parseFloat(String(employee?.extra_hours || 0).replace(',', '.')) > 0 ? 'text-green-700' : 'text-red-700']">
+                                    {{ $t('dutySchedules.monthView.extraHours') }}: {{ employee?.extra_hours }}</p>
+                                <p class="text-primary cursor-pointer hover:text-primary-700 mt-1"
+                                    @click="navigateTo('/calendar?employee_uuid=' + employee?.uuid)">{{
+                                        $t('dutySchedules.monthView.seeCalendar') }}</p>
+                            </div>
+                            <div v-if="(isAdmin(userStore.getUser?.role) || userStore.getUser?.show_working_hours) && employee?.hours?.length > 0"
+                                class="border-t border-gray-100 pt-2">
+                                <div class="grid grid-cols-7 text-xxs mb-1">
+                                    <div class="col-span-3"></div>
+                                    <div class="col-span-2 text-right pr-2 text-gray-400 font-semibold">{{
+                                        $t('dutySchedules.month') }}</div>
+                                    <div
+                                        class="col-span-2 text-right pr-2 text-gray-400 font-semibold border-l border-gray-100">
+                                        {{ $t('dutySchedules.yearToDate') }}</div>
+                                </div>
+                                <div v-for="(time, ti) in employee?.hours" :key="ti"
+                                    :class="[ti % 2 ? 'bg-white' : 'bg-gray-50', 'grid grid-cols-7 text-xxs py-0.5']">
+                                    <div class="col-span-3 pl-1 flex items-center gap-1 truncate">
+                                        <div class="w-2 h-2 rounded-sm flex-shrink-0"
+                                            :style="{ background: time?.shift?.color }"></div><span class="truncate">{{
+                                                language.locale.value === 'en' ?
+                                                    time?.shift?.en_name : time?.shift?.dk_name }}</span>
+                                    </div>
+                                    <div class="col-span-2 text-right pr-2">{{ time?.monthly_hours ||
+                                        time?.weekly_hours }}</div>
+                                    <div class="col-span-2 text-right pr-2 border-l border-gray-100">{{
+                                        time?.yearly_hours }}</div>
+                                </div>
+                            </div>
+                            <div class="border-t border-gray-100 pt-2 mt-2 space-y-1"
+                                v-if="isAdmin(userStore.getUser?.role) || userStore.getUser?.show_working_hours">
+                                <div class="text-primary flex items-center gap-1 cursor-pointer text-xxs"
+                                    @click="openGraphModal(employee)">
+                                    <Icon name="ph:chart-bar-bold" class="h-3 w-3" />{{
+                                        $t('dutySchedules.normHours.compensatoryHoursGraph') }}
+                                </div>
+                                <div :class="[employee?.total_norm_hours?.compensatory_hours > 0 ? 'text-green-700' : 'text-red-700', 'flex items-center gap-1 cursor-pointer text-xxs']"
+                                    @click="viewCompensatoryHours(employee)">
+                                    <Icon name="ph:clock" class="h-3 w-3" />{{
+                                        $t('dutySchedules.normHours.compensatoryHours') }}: {{
+                                        formatNumber(language.locale.value,
+                                            employee?.total_norm_hours?.compensatory_hours) ?? 0 }}
+                                </div>
+                                <div :class="[employee?.total_norm_hours?.available_vacation_hours > 0 ? 'text-green-700' : 'text-red-700', 'flex items-center gap-1 cursor-pointer text-xxs']"
+                                    @click="viewAvailableVacationHours(employee)">
+                                    <Icon name="ph:clock" class="h-3 w-3" />{{
+                                        $t('dutySchedules.normHours.availableVacationHours') }}: {{
+                                        formatNumber(language.locale.value,
+                                            employee?.total_norm_hours?.available_vacation_hours || 0) }}
+                                </div>
                             </div>
                         </div>
                     </div>
                 </div>
 
-                <!-- Progress bar (matches week-view: h-1.5 with gradient) -->
-                <div class="bg-gradient-to-r from-blue-600 to-blue-400 h-1.5 rounded-full transition-all ease-in-out duration-500 mb-1.5"
-                    :style="{ width: `${state.progress.percentage}%` }" v-if="state.progress.showProgressBar" />
-                <div class="h-3 mb-1.5" v-else />
-
-                <!-- ============================================================ -->
-                <!-- NEW LAYOUT: Employee sidebar + weekly day grid               -->
-                <!-- ============================================================ -->
-                <div class="flex bg-white rounded-xl ring-1 ring-gray-200 shadow-sm overflow-hidden">
-
-                    <!-- LEFT: Fixed employee avatar sidebar -->
-                    <div class="flex-shrink-0 w-[90px] border-r border-gray-200 bg-gray-50/50">
-                        <!-- Top-left corner: copy button -->
-                        <div class="h-[73px] border-b border-gray-200 flex items-center justify-center px-2"
-                            v-if="isAdmin(userStore.getUser?.role)">
-                            <Tooltip :text="$t('dutySchedules.copy.copyMultipleWeeksSchedule')" position="right">
-                                <button
-                                    class="bg-gray-200 w-6 h-6 text-sm text-gray-600 rounded-sm hover:bg-gray-400 hover:text-gray-200 flex items-center justify-center"
-                                    @click="state.modal.isCopyMultipleWeeklyScheduleOpen = true">
-                                    <Icon name="mdi:content-copy" class="h-3 w-3" aria-hidden="true" />
-                                </button>
-                            </Tooltip>
-                        </div>
-                        <div class="h-[73px] border-b border-gray-200" v-else />
-
-                        <!-- Employee avatars with rich popover -->
-                        <div v-for="(employee, employeeIndex) in state.monthlySchedules?.data"
-                            :key="'sidebar-' + employee.uuid"
-                            class="border-b border-gray-100 flex flex-col items-center justify-center py-3 px-2 cursor-default relative"
-                            @mouseenter="state.hoveredEmployee = employeeIndex"
-                            @mouseleave="state.hoveredEmployee = null">
-                            <img :src="employee?.profile_image ?? `https://ui-avatars.com/api/?background=42AED9&color=fff&name=${employee?.firstname + ' ' + employee?.lastname}`"
-                                :class="[
-                                    employee?.shift_threshold === 'high' && 'ring-green-500',
-                                    employee?.shift_threshold === 'moderate' && 'ring-yellow-500',
-                                    employee?.shift_threshold === 'low' && 'ring-red-500',
-                                    'h-10 w-10 rounded-full bg-gray-50 object-cover ring-2 cursor-pointer mx-auto transition-transform hover:scale-110'
-                                ]" />
-                            <p class="text-[10px] font-medium mt-1.5 text-center leading-tight text-gray-700 w-full">
-                                {{ employee?.firstname }} {{ employee?.lastname }}
-                            </p>
-                            <!-- Rich popover on hover -->
-                            <div v-if="state.hoveredEmployee === employeeIndex"
-                                class="absolute left-full ml-2 top-0 z-[60] bg-white rounded-xl shadow-2xl ring-1 ring-gray-200 p-4 w-[340px] text-left"
-                                @mouseenter="state.hoveredEmployee = employeeIndex"
-                                @mouseleave="state.hoveredEmployee = null">
-                                <div class="flex items-center gap-3 mb-3">
-                                    <img :src="employee?.profile_image ?? `https://ui-avatars.com/api/?background=42AED9&color=fff&name=${employee?.firstname + ' ' + employee?.lastname}`"
-                                        :class="[employee?.shift_threshold === 'high' && 'border-green-700', employee?.shift_threshold === 'moderate' && 'border-yellow-500', employee?.shift_threshold === 'low' && 'border-red-600', 'h-12 w-12 rounded-full bg-gray-50 object-cover border-2 shadow-md ring-2 ring-white']" />
-                                    <div>
-                                        <p class="text-sm font-semibold text-gray-900">{{ employee?.firstname }} {{
-                                            employee?.lastname }}</p>
-                                        <p class="text-xxs text-gray-500" v-if="employee?.employee_detail?.job?.title">
-                                            {{ employee?.employee_detail?.job?.title }}</p>
-                                    </div>
-                                    <div class="ml-auto flex gap-1">
-                                        <button
-                                            class="bg-gray-100 w-7 h-7 text-gray-500 rounded-lg hover:bg-blue-50 hover:text-blue-600 flex items-center justify-center"
-                                            @click="viewExtraHours(employee)"
-                                            v-if="isAdmin(userStore.getUser?.role) || userStore.getUser?.uuid === employee?.uuid">
-                                            <Icon name="mdi:clock-outline" class="h-3 w-3" />
-                                        </button>
-                                        <button
-                                            class="bg-gray-100 w-7 h-7 text-gray-500 rounded-lg hover:bg-blue-50 hover:text-blue-600 flex items-center justify-center"
-                                            @click="viewLeaveRequests(employee)"
-                                            v-if="isAdmin(userStore.getUser?.role) || userStore.getUser?.uuid === employee?.uuid">
-                                            <Icon name="mdi:wallet-travel" class="h-3 w-3" />
-                                        </button>
-                                    </div>
-                                </div>
-                                <div class="text-xxs space-y-0.5 mb-2">
-                                    <p><span class="text-gray-500">Afdelinger:</span> <span
-                                            v-for="(dept, di) in employee?.departments" :key="di">{{ dept?.name }}<span
-                                                v-if="di < employee.departments.length - 1">, </span><span
-                                                v-else>.</span></span></p>
-                                    <p>Årlige normtimer: {{ employee?.annual_norm_hours ?? 0 }}</p>
-                                    <p>Ugentlige normtimer: {{ (Math.round(Number(employee?.annual_norm_hours) / 52)) ??
-                                        0 }}</p>
-                                    <p>Samlet antal timer: {{ employee?.total_hours ?? 0 }}</p>
-                                    <p
-                                        :class="[employee?.average_weekly_work_time?.severity === 'info' ? 'text-green-700' : employee?.average_weekly_work_time?.severity === 'warning' ? 'text-amber-700' : 'text-red-700']">
-                                        Gns. ugentlige timer: {{
-                                            employee?.average_weekly_work_time?.average_weekly_hours }}</p>
-                                    <p
-                                        :class="[parseFloat(String(employee?.log_data?.total_time_account_earned_hours || 0).replace(',', '.')) > 0 ? 'text-green-700' : 'text-red-700']">
-                                        Arbejdet/Tjent timer: {{ employee?.log_data?.total_time_account_earned_hours }}
-                                    </p>
-                                    <p
-                                        :class="[parseFloat(String(employee?.extra_hours || 0).replace(',', '.')) > 0 ? 'text-green-700' : 'text-red-700']">
-                                        X-timer: {{ employee?.extra_hours }}</p>
-                                    <p class="text-primary cursor-pointer hover:text-primary-700 mt-1"
-                                        @click="navigateTo('/calendar?employee_uuid=' + employee?.uuid)">Se kalender</p>
-                                </div>
-                                <div v-if="(isAdmin(userStore.getUser?.role) || userStore.getUser?.show_working_hours) && employee?.hours?.length > 0"
-                                    class="border-t border-gray-100 pt-2">
-                                    <div class="grid grid-cols-7 text-xxs mb-1">
-                                        <div class="col-span-3"></div>
-                                        <div class="col-span-2 text-right pr-2 text-gray-400 font-semibold">Måned</div>
-                                        <div
-                                            class="col-span-2 text-right pr-2 text-gray-400 font-semibold border-l border-gray-100">
-                                            År til dato</div>
-                                    </div>
-                                    <div v-for="(time, ti) in employee?.hours" :key="ti"
-                                        :class="[ti % 2 ? 'bg-white' : 'bg-gray-50', 'grid grid-cols-7 text-xxs py-0.5']">
-                                        <div class="col-span-3 pl-1 flex items-center gap-1 truncate">
-                                            <div class="w-2 h-2 rounded-sm flex-shrink-0"
-                                                :style="{ background: time?.shift?.color }"></div><span
-                                                class="truncate">{{ language.locale.value === 'en' ?
-                                                    time?.shift?.en_name : time?.shift?.dk_name }}</span>
-                                        </div>
-                                        <div class="col-span-2 text-right pr-2">{{ time?.monthly_hours ||
-                                            time?.weekly_hours }}</div>
-                                        <div class="col-span-2 text-right pr-2 border-l border-gray-100">{{
-                                            time?.yearly_hours }}</div>
-                                    </div>
-                                </div>
-                                <div class="border-t border-gray-100 pt-2 mt-2 space-y-1"
-                                    v-if="isAdmin(userStore.getUser?.role) || userStore.getUser?.show_working_hours">
-                                    <div class="text-primary flex items-center gap-1 cursor-pointer text-xxs"
-                                        @click="openGraphModal(employee)">
-                                        <Icon name="ph:chart-bar-bold" class="h-3 w-3" />Afspadseringsgraf
-                                    </div>
-                                    <div :class="[employee?.total_norm_hours?.compensatory_hours > 0 ? 'text-green-700' : 'text-red-700', 'flex items-center gap-1 cursor-pointer text-xxs']"
-                                        @click="viewCompensatoryHours(employee)">
-                                        <Icon name="ph:clock" class="h-3 w-3" />Afspadseringstimer: {{
-                                            formatNumber(language.locale.value,
-                                                employee?.total_norm_hours?.compensatory_hours) ?? 0 }}
-                                    </div>
-                                    <div :class="[employee?.total_norm_hours?.available_vacation_hours > 0 ? 'text-green-700' : 'text-red-700', 'flex items-center gap-1 cursor-pointer text-xxs']"
-                                        @click="viewAvailableVacationHours(employee)">
-                                        <Icon name="ph:clock" class="h-3 w-3" />Tilgængelig ferie: {{
-                                            formatNumber(language.locale.value,
-                                                employee?.total_norm_hours?.available_vacation_hours || 0) }}
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- RIGHT: Scrollable week-based grid -->
-                    <div class="flex-1 overflow-x-auto" id="month-view-scroll-container">
-                        <!-- Iterate through each week of the month -->
-                        <div v-for="(week, weekIndex) in monthWeeks" :key="'week-' + weekIndex">
-                            <!-- Week label -->
-                            <div class="bg-slate-50 border-b border-gray-200 px-3 py-1 flex items-center gap-2">
-                                <span class="text-primary text-xs font-bold">Uge {{ week.weekNumber }}</span>
-                                <button
-                                    v-if="state.copy.selectedWeek && state.copy.selectedWeek.weekNumber !== week.weekNumber"
-                                    class="text-xxs text-primary font-medium bg-primary/10 border border-primary/20 rounded px-2 py-0.5 cursor-pointer hover:bg-primary/20"
-                                    @click="pasteWeek(week)">📋 Indsæt uge her</button>
-                                <span class="text-[10px] text-gray-400">
-                                    {{ week.days[0] ? moment(week.days[0]).format('D. MMM') : '' }}
-                                    –
-                                    {{week.days[6] ? moment(week.days[6]).format('D. MMM') : (week.days.filter(d => d
-                                        !== null).pop() ?
-                                        moment(week.days.filter(d => d !== null).pop()).format('D. MMM') : '')}}
-                                </span>
-                                <div class="ml-auto flex items-center gap-1"
-                                    v-if="isDailyScheduleCopiedEmpty() && !state.copy.selectedWeek && !state.copy.selectedMonth">
-                                    <Tooltip :text="'Kopier vagtplan for flere uger'" position="left">
-                                        <button
-                                            class="flex items-center gap-1 text-xxs text-gray-500 hover:text-primary bg-gray-100 hover:bg-blue-50 px-2 py-0.5 rounded"
-                                            @click="state.modal.isCopyMultipleWeeklyScheduleOpen = true">
-                                            <Icon name="mdi:content-copy" class="h-3 w-3" />
-                                        </button>
-                                    </Tooltip>
-                                    <Tooltip :text="'Kopier uge'" position="left">
-                                        <button
-                                            class="flex items-center gap-1 text-xxs text-gray-500 hover:text-primary bg-gray-100 hover:bg-blue-50 px-2 py-0.5 rounded"
-                                            @click="copyWeek(week)">
-                                            <Icon name="ph:calendar" class="h-3 w-3" /> Uge
-                                        </button>
-                                    </Tooltip>
-                                </div>
-                                <!-- Copy/paste controls for week -->
-                                <div class="ml-auto flex items-center gap-1"
-                                    v-if="isAdmin(userStore.getUser?.role) && !isDailyScheduleCopiedEmpty()">
-                                    <button @click="stopCopying()"
-                                        class="text-xxs text-gray-500 hover:text-red-500 flex items-center gap-0.5">
-                                        <Icon name="ph:x" class="h-3 w-3" /> Stop kopiering
+                <!-- RIGHT: Scrollable week-based grid -->
+                <div class="flex-1 overflow-x-auto" id="month-view-scroll-container">
+                    <!-- Iterate through each week of the month -->
+                    <div v-for="(week, weekIndex) in monthWeeks" :key="'week-' + weekIndex">
+                        <!-- Week label -->
+                        <div class="bg-slate-50 border-b border-gray-200 px-3 py-1 flex items-center gap-2">
+                            <span class="text-primary text-xs font-bold">{{ $t('dutySchedules.week') }} {{
+                                week.weekNumber }}</span>
+                            <button
+                                v-if="state.copy.selectedWeek && state.copy.selectedWeek.weekNumber !== week.weekNumber"
+                                class="text-xxs text-primary font-medium bg-primary/10 border border-primary/20 rounded px-2 py-0.5 cursor-pointer hover:bg-primary/20"
+                                @click="pasteWeek(week)">📋 {{ $t('dutySchedules.monthView.insertWeekHere')
+                                }}</button>
+                            <span class="text-[10px] text-gray-400">
+                                {{ week.days[0] ? moment(week.days[0]).format('D. MMM') : '' }}
+                                –
+                                {{week.days[6] ? moment(week.days[6]).format('D. MMM') : (week.days.filter(d => d
+                                    !== null).pop() ?
+                                    moment(week.days.filter(d => d !== null).pop()).format('D. MMM') : '')}}
+                            </span>
+                            <div class="ml-auto flex items-center gap-1"
+                                v-if="isDailyScheduleCopiedEmpty() && !state.copy.selectedWeek && !state.copy.selectedMonth">
+                                <Tooltip :text="$t('dutySchedules.copy.copyMultipleWeeksSchedule')" position="left">
+                                    <button
+                                        class="flex items-center gap-1 text-xxs text-gray-500 hover:text-primary bg-gray-100 hover:bg-blue-50 px-2 py-0.5 rounded"
+                                        @click="state.modal.isCopyMultipleWeeklyScheduleOpen = true">
+                                        <Icon name="mdi:content-copy" class="h-3 w-3" />
                                     </button>
-                                </div>
+                                </Tooltip>
+                                <Tooltip :text="$t('dutySchedules.monthView.copyWeek')" position="left">
+                                    <button
+                                        class="flex items-center gap-1 text-xxs text-gray-500 hover:text-primary bg-gray-100 hover:bg-blue-50 px-2 py-0.5 rounded"
+                                        @click="copyWeek(week)">
+                                        <Icon name="ph:calendar" class="h-3 w-3" /> {{ $t('dutySchedules.week') }}
+                                    </button>
+                                </Tooltip>
                             </div>
+                            <!-- Copy/paste controls for week -->
+                            <div class="ml-auto flex items-center gap-1"
+                                v-if="isAdmin(userStore.getUser?.role) && !isDailyScheduleCopiedEmpty()">
+                                <button @click="stopCopying()"
+                                    class="text-xxs text-gray-500 hover:text-red-500 flex items-center gap-0.5">
+                                    <Icon name="ph:x" class="h-3 w-3" /> {{
+                                        $t('dutySchedules.copyPaste.stopCopying') }}
+                                </button>
+                            </div>
+                        </div>
 
-                            <!-- Week header with day columns -->
-                            <div class="grid grid-cols-7 border-b border-gray-200 bg-gray-50/80 sticky top-0 z-20">
-                                <div v-for="(day, dayIndex) in week.days" :key="'wh-' + dayIndex" :class="[
-                                    isToday(day) && 'bg-primary/10',
-                                    day === null && 'bg-gray-100/50',
-                                    'px-2 py-1 border-r border-gray-200 last:border-r-0 text-center min-w-[120px]'
-                                ]">
-                                    <template v-if="day !== null">
-                                        <div class="flex flex-col items-center gap-0.5">
-                                            <div class="flex items-center gap-1.5">
-                                                <span :class="[
-                                                    isToday(day) ? 'bg-primary text-white rounded-full w-6 h-6 flex items-center justify-center text-xs font-bold' : 'text-sm font-semibold text-gray-900'
-                                                ]">
-                                                    {{ moment(day).format('D') }}
-                                                </span>
-                                                <span class="text-xs text-gray-500">{{ getDayName(day) }}</span>
-                                            </div>
-                                            <span v-if="getHoliday(day)"
-                                                class="inline-block text-amber-700 bg-amber-100 ring-1 ring-amber-300 text-[9px] font-semibold px-2 py-0.5 rounded-full leading-none mt-0.5 truncate max-w-full">
-                                                🌴 {{ getHoliday(day) }}
+                        <!-- Week header with day columns -->
+                        <div class="grid grid-cols-7 border-b border-gray-200 bg-gray-50/80 sticky top-0 z-20">
+                            <div v-for="(day, dayIndex) in week.days" :key="'wh-' + dayIndex" :class="[
+                                isToday(day) && 'bg-primary/10',
+                                day === null && 'bg-gray-100/50',
+                                'px-2 py-1 border-r border-gray-200 last:border-r-0 text-center min-w-[120px]'
+                            ]">
+                                <template v-if="day !== null">
+                                    <div class="flex flex-col items-center gap-0.5">
+                                        <div class="flex items-center gap-1.5">
+                                            <span :class="[
+                                                isToday(day) ? 'bg-primary text-white rounded-full w-6 h-6 flex items-center justify-center text-xs font-bold' : 'text-sm font-semibold text-gray-900'
+                                            ]">
+                                                {{ moment(day).format('D') }}
                                             </span>
+                                            <span class="text-xs text-gray-500">{{ getDayName(day) }}</span>
                                         </div>
-                                    </template>
-                                </div>
+                                        <span v-if="getHoliday(day)"
+                                            class="inline-block text-amber-700 bg-amber-100 ring-1 ring-amber-300 text-[9px] font-semibold px-2 py-0.5 rounded-full leading-none mt-0.5 truncate max-w-full">
+                                            🌴 {{ getHoliday(day) }}
+                                        </span>
+                                    </div>
+                                </template>
                             </div>
+                        </div>
 
-                            <!-- Compact day row: alle vagter paa tvaers af medarbejdere -->
-                            <div class="grid grid-cols-7 border-b border-gray-100">
-                                <div v-for="(day, dayIndex) in week.days" :key="'compact-' + weekIndex + '-' + dayIndex"
-                                    :class="[
-                                        day === null && 'bg-gray-50/50',
-                                        day !== null && isToday(day) && 'bg-blue-50/30',
-                                        day !== null && isWeekend(day) && !isToday(day) && 'bg-gray-50/30',
-                                        'p-1.5 border-r border-gray-200 last:border-r-0 min-w-[120px] align-top'
-                                    ]" @dragover.prevent="onMonthDragOver($event)"
-                                    @dragleave="onMonthDragLeave($event)" @drop.prevent="onMonthDrop($event, day)"
-                                    @click="!isDailyScheduleCopiedEmpty() && !isCopiedDay(day) && day !== null ? pasteDayAllEmployees(day) : null">
-                                    <template v-if="day !== null">
-                                        <!-- Dag actions -->
-                                        <div class="flex justify-end gap-1 mb-1" v-if="isDailyScheduleCopiedEmpty()">
-                                            <Tooltip position="left" :text="$t('dutySchedules.copy.copy')">
-                                                <button
-                                                    class="bg-gray-100 w-5 h-5 text-gray-500 rounded hover:bg-gray-300 flex items-center justify-center"
-                                                    @click.stop="copyDayForAllEmployees(day)">
-                                                    <Icon name="mdi:content-copy" class="h-2.5 w-2.5" />
-                                                </button>
-                                            </Tooltip>
-                                            <Tooltip position="left" :text="$t('dutySchedules.newSchedule')">
-                                                <button
-                                                    class="bg-gray-100 w-5 h-5 text-gray-500 rounded hover:bg-gray-300 flex items-center justify-center font-bold"
-                                                    @click.stop="openAddNewShiftModalForDay(day)">+</button>
-                                            </Tooltip>
-                                        </div>
-                                        <div v-if="!isDailyScheduleCopiedEmpty() && isCopiedDay(day)"
-                                            class="flex justify-between items-center mb-1">
-                                            <span class="text-xxs text-primary font-bold">✓ Kopieret</span>
-                                            <button @click.stop="stopCopying()"
-                                                class="text-xxs text-red-500 bg-red-50 rounded px-1">Stop</button>
-                                        </div>
+                        <!-- Compact day row: alle vagter paa tvaers af medarbejdere -->
+                        <div class="grid grid-cols-7 border-b border-gray-100">
+                            <div v-for="(day, dayIndex) in week.days" :key="'compact-' + weekIndex + '-' + dayIndex"
+                                :class="[
+                                    day === null && 'bg-gray-50/50',
+                                    day !== null && isToday(day) && 'bg-blue-50/30',
+                                    day !== null && isWeekend(day) && !isToday(day) && 'bg-gray-50/30',
+                                    'px-3 py-1.5 border-r border-gray-200 last:border-r-0 min-w-[120px] align-top'
+                                ]" @dragover.prevent="onMonthDragOver($event)" @dragleave="onMonthDragLeave($event)"
+                                @drop.prevent="onMonthDrop($event, day)"
+                                @click="!isDailyScheduleCopiedEmpty() && !isCopiedDay(day) && day !== null ? pasteDayAllEmployees(day) : null">
+                                <template v-if="day !== null">
+                                    <!-- Dag actions -->
+                                    <div class="flex justify-end gap-1 mb-1" v-if="isDailyScheduleCopiedEmpty()">
+                                        <Tooltip position="left" :text="$t('dutySchedules.copy.copy')">
+                                            <button
+                                                class="bg-gray-100 w-5 h-5 text-gray-500 rounded hover:bg-gray-300 flex items-center justify-center"
+                                                @click.stop="copyDayForAllEmployees(day)">
+                                                <Icon name="mdi:content-copy" class="h-2.5 w-2.5" />
+                                            </button>
+                                        </Tooltip>
+                                        <Tooltip position="left" :text="$t('dutySchedules.newSchedule')">
+                                            <button
+                                                class="bg-gray-100 w-5 h-5 text-gray-500 rounded hover:bg-gray-300 flex items-center justify-center font-bold"
+                                                @click.stop="openAddNewShiftModalForDay(day)">+</button>
+                                        </Tooltip>
+                                    </div>
+                                    <div v-if="!isDailyScheduleCopiedEmpty() && isCopiedDay(day)"
+                                        class="flex justify-between items-center mb-1">
+                                        <span class="text-xxs text-primary font-bold">✓ {{
+                                            $t('dutySchedules.monthView.copied') }}</span>
+                                        <button @click.stop="stopCopying()"
+                                            class="text-xxs text-red-500 bg-red-50 rounded px-1">{{
+                                                $t('dutySchedules.copyPaste.stopCopying') }}</button>
+                                    </div>
+                                    <div v-if="!isDailyScheduleCopiedEmpty() && !isCopiedDay(day) && day !== null"
+                                        class="text-center mb-1">
                                         <div v-if="!isDailyScheduleCopiedEmpty() && !isCopiedDay(day) && day !== null"
-                                            class="text-center mb-1">
-                                            <div v-if="!isDailyScheduleCopiedEmpty() && !isCopiedDay(day) && day !== null"
-                                                class="flex items-center justify-center mb-1 rounded bg-primary/10 border border-primary/30 py-1 cursor-pointer"
-                                                @click.stop="pasteDayAllEmployees(day)"><span
-                                                    class="text-xxs text-primary font-semibold">📋 Indsæt her</span>
-                                            </div>
+                                            class="flex items-center justify-center mb-1 rounded bg-primary/10 border border-primary/30 py-1 cursor-pointer"
+                                            @click.stop="pasteDayAllEmployees(day)"><span
+                                                class="text-xxs text-primary font-semibold">📋 {{
+                                                    $t('dutySchedules.monthView.insertHere') }}</span>
                                         </div>
-                                        <!-- Vagter for alle medarbejdere denne dag -->
-                                        <div class="space-y-1">
-                                            <template v-for="(employee, employeeIndex) in state.monthlySchedules?.data"
-                                                :key="'emp-' + employeeIndex">
-                                                <div v-for="(shift, shiftIndex) in sortMultiDayShiftsFirst(state.monthlySchedules?.data?.[employeeIndex]?.days?.[moment(day).format('YYYY-MM-DD')]?.shifts)"
-                                                    :key="'s-' + employeeIndex + '-' + shiftIndex"
-                                                    :class="['rounded-lg relative cursor-pointer mt-2 overflow-visible', shift.is_conflict ? 'ring-2 ring-red-400' : '']"
-                                                    draggable="true" :style="{ backgroundColor: shift?.type?.color }"
-                                                    @click.stop="editSchedule(employee, employeeIndex, shift)"
-                                                    @dragstart="onMonthDragStart($event, employee, day, shift)"
-                                                    @dragend="onMonthDragEnd($event)">
-                                                    <!-- Konflikt indikator -->
-                                                    <div v-if="shift.is_conflict"
-                                                        class="absolute -top-2 -left-2 z-20 group/ct">
+                                    </div>
+                                    <!-- Shifts for all employees that day -->
+                                    <div class="space-y-3">
+                                        <template v-for="(employee, employeeIndex) in state.monthlySchedules?.data"
+                                            :key="'emp-' + employeeIndex">
+                                            <div v-for="(shift, shiftIndex) in sortMultiDayShiftsFirst(state.monthlySchedules?.data?.[employeeIndex]?.days?.[moment(day).format('YYYY-MM-DD')]?.shifts)"
+                                                :key="'s-' + employeeIndex + '-' + shiftIndex"
+                                                :class="['rounded-lg relative cursor-pointer mt-2 overflow-visible', shift.is_conflict ? 'ring-2 ring-red-400' : '']"
+                                                draggable="true" :style="{ backgroundColor: shift?.type?.color }"
+                                                @click.stop="editSchedule(employee, employeeIndex, shift)"
+                                                @dragstart="onMonthDragStart($event, employee, day, shift)"
+                                                @dragend="onMonthDragEnd($event)">
+                                                <!-- Konflikt indikator -->
+                                                <div v-if="shift.is_conflict" class="absolute -top-2 -left-2 z-30">
+                                                    <Tooltip position="right" :wrap="true"
+                                                        :text="$t('dutySchedules.conflictTooltip', { count: (sortMultiDayShiftsFirst(state.monthlySchedules?.data?.[employeeIndex]?.days?.[moment(day).format('YYYY-MM-DD')]?.shifts) || []).filter(s => s.is_conflict).length + 1 })">
                                                         <div
                                                             class="w-5 h-5 rounded-full bg-red-500 flex items-center justify-center cursor-help">
                                                             <Icon name="ph:warning" class="w-3 h-3"
                                                                 style="color:white" />
                                                         </div>
-                                                        <div
-                                                            class="hidden group-hover/ct:block absolute top-0 z-[9999] right-full mr-2 bg-gray-900 text-white text-xs rounded-lg px-3 py-2 whitespace-nowrap shadow-xl pointer-events-none min-w-max">
-                                                            {{$t('dutySchedules.conflictTooltip', {
-                                                                count:
-                                                                    (sortMultiDayShiftsFirst(state.monthlySchedules?.data?.[employeeIndex]?.days?.[moment(day).format('YYYY-MM-DD')]?.shifts)
-                                                            || []).filter(s => s.is_conflict).length + 1 })}}
-                                                        </div>
-                                                    </div>
-                                                    <!-- Status emojis -->
-                                                    <div class="absolute -left-2 -top-2 z-10 w-6 h-6 rounded-full bg-white border border-gray-200 flex items-center justify-center"
-                                                        style="font-size:0.875rem"
-                                                        v-if="shift?.type?.system_name === 'sick-leave'">🤒</div>
-                                                    <div class="absolute -left-2 -top-2 z-10 w-6 h-6 rounded-full bg-white border border-gray-200 flex items-center justify-center"
-                                                        style="font-size:0.875rem"
-                                                        v-if="shift?.type?.system_name === 'vacation-leave'">🏖️</div>
-                                                    <!-- Slet knap -->
-                                                    <button
-                                                        class="w-5 h-5 rounded-full flex items-center justify-center absolute -right-1.5 -top-1.5 z-20"
-                                                        style="background-color:#fef2f2;color:#dc2626;border:1.5px solid #fecaca"
-                                                        @click.stop="removeShiftConfirmation(shift)">
-                                                        <Icon name="ph:x" class="h-2.5 w-2.5" style="display:block" />
-                                                    </button>
-                                                    <!-- Tider - stor bold -->
-                                                    <div class="flex items-center justify-between px-2 pt-2 pb-1">
-                                                        <span class="text-sm font-bold" style="color:white">{{
-                                                            moment(shift?.date_time_start).format('HH:mm') }}</span>
-                                                        <Icon name="ph:arrow-right" class="w-3 h-3 flex-shrink-0"
-                                                            style="color:rgba(255,255,255,0.7)" />
-                                                        <span class="text-sm font-bold" style="color:white">{{
-                                                            moment(shift?.date_time_end).format('HH:mm') }}</span>
-                                                    </div>
-                                                    <div class="mx-2 border-t mb-1"
-                                                        style="border-color:rgba(255,255,255,0.25)"></div>
-                                                    <!-- Medarbejder - stor avatar + fuldt navn -->
-                                                    <div class="flex items-center gap-2 px-2 pb-1.5">
-                                                        <img :src="employee?.profile_image ?? `https://ui-avatars.com/api/?background=ffffff&color=0f4c75&name=${employee?.firstname}+${employee?.lastname}&size=32`"
-                                                            class="w-6 h-6 rounded-full object-cover flex-shrink-0"
-                                                            style="border:2px solid rgba(255,255,255,0.8)" />
-                                                        <span class="text-xs font-bold truncate" style="color:white">{{
-                                                            employee?.firstname }} {{ employee?.lastname }}</span>
-                                                    </div>
-                                                    <!-- Afdeling -->
-                                                    <div class="flex items-center gap-1 px-2 pb-1"
-                                                        v-if="shift?.departments?.length > 0">
-                                                        <Icon name="ph:house" class="w-3 h-3 flex-shrink-0"
-                                                            style="color:white" />
-                                                        <span class="text-xxs truncate" style="color:white">{{
+                                                    </Tooltip>
+                                                </div>
+                                                <div class="absolute top-1 left-1 z-10 w-6 h-6 rounded-full bg-white border border-gray-200 flex items-center justify-center"
+                                                    style="font-size:0.875rem"
+                                                    v-if="shift?.type?.system_name === 'sick-leave'">🤒</div>
+                                                <div class="absolute top-1 left-1 z-10 w-6 h-6 rounded-full bg-white border border-gray-200 flex items-center justify-center"
+                                                    style="font-size:0.875rem"
+                                                    v-if="shift?.type?.system_name === 'vacation-leave'">🏖️</div>
+                                                <button
+                                                    class="w-5 h-5 rounded-full flex items-center justify-center absolute -top-2 -right-2 z-20"
+                                                    style="background-color:#fef2f2;color:#dc2626;border:1.5px solid #fecaca"
+                                                    @click.stop="removeShiftConfirmation(shift)">
+                                                    <Tooltip position="left"
+                                                        :text="$t('dutySchedules.removeSchedule.removeSchedule')">
+                                                        <Icon name="ph:x" class="h-2 w-2" aria-hidden="true" />
+                                                    </Tooltip>
+                                                </button>
+                                                <div class="flex items-center justify-between px-2 pt-2 pb-1">
+                                                    <span class="text-sm font-bold" style="color:white">
+                                                        {{ moment(shift?.date_time_start).format('HH:mm') }}
+                                                    </span>
+                                                    <Icon name="ph:arrow-right" class="w-3 h-3 flex-shrink-0"
+                                                        style="color:rgba(255,255,255,0.7)" />
+                                                    <span class="text-sm font-bold" style="color:white">
+                                                        {{ moment(shift?.date_time_end).format('HH:mm') }}
+                                                    </span>
+                                                </div>
+                                                <div class="mx-2 border-t mb-1"
+                                                    style="border-color:rgba(255,255,255,0.25)"></div>
+
+                                                <div class="flex items-center gap-2 px-2 pb-1.5">
+                                                    <img :src="employee?.profile_image ?? `https://ui-avatars.com/api/?background=ffffff&color=0f4c75&name=${employee?.firstname}+${employee?.lastname}&size=32`"
+                                                        class="w-6 h-6 rounded-full object-cover flex-shrink-0"
+                                                        style="border:2px solid rgba(255,255,255,0.8)" />
+                                                    <span class="text-xs font-bold truncate" style="color:white">
+                                                        {{ employee?.firstname }} {{ employee?.lastname }}
+                                                    </span>
+                                                </div>
+
+                                                <div class="flex items-center gap-1 px-2 pb-1"
+                                                    v-if="shift?.departments?.length > 0">
+                                                    <Icon name="ph:house" class="w-3 h-3 flex-shrink-0"
+                                                        style="color:white" />
+                                                    <span class="text-xxs truncate" style="color:white">
+                                                        {{
                                                             shift?.departments?.map((d: any) => d.name).join(', ')
-                                                            }}</span>
-                                                    </div>
-                                                    <!-- Multi-dag badge - KUN ved multi-dag -->
-                                                    <div v-if="shift?.shift_span_position && shift?.shift_span_position !== 'single'"
-                                                        class="px-2 pb-1.5">
-                                                        <div class="flex items-center gap-1 rounded-full px-1.5 py-0.5 w-fit"
-                                                            style="background:rgba(255,255,255,0.2)">
-                                                            <span class="text-xxs font-medium" style="color:white">
-                                                                <span v-if="shift.shift_span_position === 'start'">→ {{
-                                                                    $t('dutySchedules.shiftSpan.start') }}</span>
-                                                                <span v-if="shift.shift_span_position === 'middle'">↔ {{
-                                                                    $t('dutySchedules.shiftSpan.middle') }}</span>
-                                                                <span v-if="shift.shift_span_position === 'end'">← {{
-                                                                    $t('dutySchedules.shiftSpan.end') }}</span>
+                                                        }}
+                                                    </span>
+                                                </div>
+
+                                                <div v-if="shift?.shift_span_position && shift?.shift_span_position !== 'single'"
+                                                    class="px-2 pb-1.5">
+                                                    <div class="flex items-center gap-1 rounded-full px-1.5 py-0.5 w-fit"
+                                                        style="background:rgba(255,255,255,0.2)">
+                                                        <span class="text-xxs font-medium" style="color:white">
+                                                            <span v-if="shift.shift_span_position === 'start'">
+                                                                → {{ $t('dutySchedules.shiftSpan.start') }}
                                                             </span>
-                                                        </div>
-                                                    </div>
-                                                    <!-- Borger -->
-                                                    <div class="flex flex-wrap gap-1 px-2 pb-1"
-                                                        v-if="shift?.citizen_schedules?.length > 0">
-                                                        <div v-for="(cs, csIdx) in shift.citizen_schedules" :key="csIdx"
-                                                            class="flex items-center gap-1 bg-white rounded-full pl-0.5 pr-1.5 py-0.5">
-                                                            <div
-                                                                class="w-3.5 h-3.5 rounded-full bg-gray-200 flex items-center justify-center flex-shrink-0">
-                                                                <span class="font-bold text-gray-600"
-                                                                    style="font-size:8px">{{
-                                                                        (cs?.citizen?.firstname?.charAt(0) || '') +
-                                                                        (cs?.citizen?.lastname?.charAt(0) || '')
-                                                                    }}</span>
-                                                            </div>
-                                                            <span class="text-xxs font-semibold text-gray-700">{{
-                                                                cs?.citizen?.firstname }}</span>
-                                                        </div>
-                                                    </div>
-                                                    <!-- Note tooltip - samme som week-view -->
-                                                    <div v-if="shift && shift.note && shift.note.trim()"
-                                                        class="relative flex items-center gap-1 px-2 pb-1.5 cursor-help group/note">
-                                                        <Icon name="ph:note" class="w-3 h-3 flex-shrink-0"
-                                                            style="color:white" />
-                                                        <span class="text-xxs font-medium truncate"
-                                                            style="color:white;max-width:100px">{{ shift.note }}</span>
-                                                        <div class="hidden group-hover/note:block absolute bottom-full left-0 mb-2 z-[9999] bg-gray-900 rounded-lg px-3 py-2 shadow-xl pointer-events-none"
-                                                            style="min-width:180px;max-width:240px;white-space:pre-wrap;word-break:break-word">
-                                                            <p class="text-xs" style="color:white;line-height:1.5">{{
-                                                                shift.note }}</p>
-                                                        </div>
-                                                    </div>
-                                                    <!-- Tags -->
-                                                    <div class="flex items-center flex-wrap gap-1 px-2 pb-1.5"
-                                                        v-if="shift?.tags?.length > 0">
-                                                        <Tooltip :text="tag?.tag" v-for="(tag, tagIndex) in shift?.tags"
-                                                            :key="tagIndex">
-                                                            <div class="w-4 h-4 rounded-full flex items-center justify-center font-bold flex-shrink-0"
-                                                                :style="{ backgroundColor: tag?.color, fontSize: '9px', color: 'white' }">
-                                                                <span v-if="tag?.tag">{{ tag?.tag?.charAt(0) }}</span>
-                                                            </div>
-                                                        </Tooltip>
+                                                            <span v-if="shift.shift_span_position === 'middle'">
+                                                                ↔ {{ $t('dutySchedules.shiftSpan.middle') }}
+                                                            </span>
+                                                            <span v-if="shift.shift_span_position === 'end'">
+                                                                ← {{ $t('dutySchedules.shiftSpan.end') }}
+                                                            </span>
+                                                        </span>
                                                     </div>
                                                 </div>
-                                            </template>
-                                        </div>
-                                    </template>
-                                    <template v-else>
-                                        <div class="h-full" />
-                                    </template>
-                                </div>
+
+                                                <div class="flex flex-wrap gap-1 px-2 pb-1"
+                                                    v-if="shift?.citizen_schedules?.length > 0">
+                                                    <div v-for="(cs, csIdx) in shift.citizen_schedules" :key="csIdx"
+                                                        class="flex items-center gap-1 bg-white rounded-full pl-0.5 pr-1.5 py-0.5">
+                                                        <div
+                                                            class="w-3.5 h-3.5 rounded-full bg-gray-200 flex items-center justify-center flex-shrink-0">
+                                                            <span class="font-bold text-gray-600" style="font-size:8px">
+                                                                {{
+                                                                    (cs?.citizen?.firstname?.charAt(0) || '') +
+                                                                    (cs?.citizen?.lastname?.charAt(0) || '')
+                                                                }}
+                                                            </span>
+                                                        </div>
+                                                        <span class="text-xxs font-semibold text-gray-700">
+                                                            {{ cs?.citizen?.firstname }}
+                                                        </span>
+                                                    </div>
+                                                </div>
+
+                                                <Tooltip v-if="shift && shift.note && shift.note.trim()"
+                                                    :text="`${$t('dutySchedules.shiftNote')}: ${shift.note}`"
+                                                    position="left" :wrap="true">
+                                                    <div class="flex items-center gap-1 px-2 pb-1.5 cursor-help">
+                                                        <Icon name="ph:note" class="w-3 h-3 flex-shrink-0"
+                                                            style="color:white" />
+                                                        <span
+                                                            class="text-white max-w-40 text-[10px] font-medium truncate">
+                                                            {{ shift.note }}
+                                                        </span>
+                                                    </div>
+                                                </Tooltip>
+
+                                                <div class="flex items-center flex-wrap gap-1 px-2 pb-1.5"
+                                                    v-if="shift?.tags?.length > 0">
+                                                    <Tooltip :text="tag?.tag" v-for="(tag, tagIndex) in shift?.tags"
+                                                        :key="tagIndex">
+                                                        <div class="w-4 h-4 rounded-full flex items-center justify-center font-bold flex-shrink-0"
+                                                            :style="{ backgroundColor: tag?.color, fontSize: '9px', color: 'white' }">
+                                                            <span v-if="tag?.tag">{{ tag?.tag?.charAt(0) }}</span>
+                                                        </div>
+                                                    </Tooltip>
+                                                </div>
+                                            </div>
+                                        </template>
+                                    </div>
+                                </template>
+                                <template v-else>
+                                    <div class="h-full" />
+                                </template>
                             </div>
                         </div>
                     </div>
                 </div>
-
-                <!-- Pagination -->
-                <div class="mt-5">
-                    <Pagination :data="state.monthlySchedules" @previous="previous" @next="next" />
-                </div>
             </div>
 
-            <!-- All modals (unchanged) -->
-            <ModulesUserDutyScheduleModalFilter :isModalOpen="state.modal.isFilterDutyScheduleOpen"
-                @close="state.modal.isFilterDutyScheduleOpen = false" @setFilter="setFilter" />
-            <ModulesUserDutyScheduleNormHoursModalCompensatoryHours :isModalOpen="state.modal.isCompensatoryHoursOpen"
-                :selectedEmployee="state.normHours.selectedEmployeeSchedule"
-                @close="state.modal.isCompensatoryHoursOpen = false" />
-            <ModulesUserDutyScheduleNormHoursModalInfo :isModalOpen="state.modal.isAnnualNormHoursInfoOpen"
-                @close="state.modal.isAnnualNormHoursInfoOpen = false" />
-            <ModulesUserDutyScheduleNormHoursModalVacationHours :isModalOpen="state.modal.isVacationHoursOpen"
-                :selectedEmployee="state.normHours.selectedEmployeeSchedule"
-                @close="state.modal.isVacationHoursOpen = false" />
-            <ModulesUserDutyScheduleModalNewShift :isModalOpen="state.modal.isAddShiftOpen"
-                :availableEmployees="filteredEmployeesForModal" :isModalLoading="state.isModalLoading"
-                :showEmployeeSelect="true" :error="state.newShiftError" :selectedDate="state.newShift.selectedDate"
-                :selectedEmployee="state.newShift.selectedEmployee" :showWarningDialog="state.showWarningDialog"
-                :shiftWarnings="state.shiftWarnings" @dateTimeChange="dateTimeChange"
-                @closeWarningDialog="closeWarningDialog" @close="state.modal.isAddShiftOpen = false"
-                @saveShift="saveShift" @resetNewShiftError="state.newShiftError = {}" />
-            <ModulesUserDutyScheduleModalEditShift :isModalLoading="state.isModalLoading"
-                :availableEmployees="filteredEmployeesForModal" :isModalOpen="state.modal.isEditShiftOpen"
-                :error="state.editShiftError" :selectedEmployee="state.editShift.selectedEmployee"
-                :selectedEmployeeSchedule="state.editShift.selectedEmployeeSchedule"
-                :showWarningDialog="state.showWarningDialog" :shiftWarnings="state.shiftWarnings"
-                @dateTimeChange="dateTimeChange" @closeWarningDialog="closeWarningDialog"
-                @close="state.modal.isEditShiftOpen = false" @resetEditShiftError="state.editShiftError = {}"
-                @updateShift="updateSelectedSchedule" />
-            <ModulesUserDutyScheduleModalRemoveShiftConfirmation
-                :isModalOpen="state.modal.isRemoveShiftConfirmationOpen"
-                @close="state.modal.isRemoveShiftConfirmationOpen = false" @confirm="removeShift" />
-            <ModulesUserDutyScheduleModalRemoveShiftSpanConfirmation
-                :isModalOpen="state.modal.isRemoveShiftSpanConfirmationOpen"
-                @close="state.modal.isRemoveShiftSpanConfirmationOpen = false" @confirm-single="removeShift"
-                @confirm-entire="removeEntireShiftSpan" />
-            <ModulesUserDutyScheduleModalViewShift :isModalOpen="state.modal.isViewShiftOpen"
-                :selectedEmployeeSchedule="state.viewShift.selectedEmployeeSchedule"
-                @close="state.modal.isViewShiftOpen = false" />
-            <ModulesUserDutyScheduleExtraHoursModalView :isModalOpen="state.modal.isManageExtraHoursOpen"
-                :selectedEmployee="state.manageExtraHours.selectedEmployee"
-                @close="state.modal.isManageExtraHoursOpen = false" @refreshDutySchedules="fetchDutySchedule()" />
-            <ModulesUserDutyScheduleLeaveRequestsModalView :isModalOpen="state.modal.isManageLeaveRequestsOpen"
-                :selectedEmployee="state.manageLeaveRequests.selectedEmployee"
-                @close="state.modal.isManageLeaveRequestsOpen = false" @refreshDutySchedules="fetchDutySchedule()" />
-            <ModulesUserDutyScheduleTimeRequestsModalRequests
-                :isModalOpen="state.modal.isManageTimeAdjustmentRequestsOpen"
-                :selectedDate="state.manageTimeRequest.selectedDate"
-                :selectedEmployee="state.manageTimeRequest.selectedEmployee"
-                @close="state.modal.isManageTimeAdjustmentRequestsOpen = false"
-                @refreshDutySchedules="fetchDutySchedule()" />
-            <ModulesUserDutyScheduleSwapScheduleModalRequests
-                :isModalOpen="state.modal.isManageSwapScheduleRequestsOpen"
-                :selectedDate="state.manageSwapScheduleRequest.selectedDate"
-                :selectedEmployee="state.manageSwapScheduleRequest.selectedEmployee"
-                @close="state.modal.isManageSwapScheduleRequestsOpen = false"
-                @refreshDutySchedules="fetchDutySchedule()" />
-            <ModulesUserDutyScheduleTimeRequestsModalNewRequest :isModalOpen="state.modal.isRequestTimeAdjustmentOpen"
-                :selectedEmployee="state.manageTimeRequest.selectedEmployee"
-                :selectedSchedule="state.manageTimeRequest.selectedSchedule"
-                @close="state.modal.isRequestTimeAdjustmentOpen = false" />
-            <ModulesUserDutyScheduleSwapScheduleModalNewRequest :isModalOpen="state.modal.isRequestSwapScheduleOpen"
-                :selectedSchedule="state.manageSwapScheduleRequest.selectedSchedule"
-                @close="state.modal.isRequestSwapScheduleOpen = false" />
-            <ModulesUserDutyScheduleScheduleSlotsModalScheduleSlots :isModalOpen="state.modal.isManageScheduleSlotOpen"
-                :selectedDay="state.manageScheduleSlot.selectedDay"
-                @close="state.modal.isManageScheduleSlotOpen = false" @refreshDutySchedules="fetchDutySchedule()" />
-            <ModulesUserDutyScheduleModalCopyMultipleWeeks :isModalOpen="state.modal.isCopyMultipleWeeklyScheduleOpen"
-                @close="state.modal.isCopyMultipleWeeklyScheduleOpen = false"
-                @refreshDutySchedules="fetchDutySchedule()" />
-            <ModulesUserDutyScheduleNormHoursModalGraph :isModalOpen="state.modal.isGraphOpen"
-                :selectedEmployee="state.normHours.selectedEmployee" @close="state.modal.isGraphOpen = false" />
+            <div class="mt-5">
+                <Pagination :data="state.monthlySchedules" @previous="previous" @next="next" />
+            </div>
+        </div>
 
-            <!-- Flydende Stop-kopiering knap - vises naar noget er kopieret -->
-            <Teleport to="body">
-                <div v-if="!isDailyScheduleCopiedEmpty() || state.copy.selectedWeek || state.copy.selectedMonth"
-                    class="fixed bottom-6 right-6 z-[9999] flex items-center gap-2 bg-primary text-white px-4 py-2.5 rounded-full shadow-xl cursor-pointer select-none"
-                    style="box-shadow: 0 4px 24px rgba(15,76,117,0.35)" @click="stopCopying()">
-                    <Icon name="mdi:content-copy" class="h-4 w-4" />
-                    <span class="text-sm font-semibold">Kopiering aktiv — Klik for at stoppe</span>
-                    <Icon name="ph:x-bold" class="h-4 w-4 ml-1 opacity-70" />
-                </div>
-            </Teleport>
-        </LoadingSpinner>
+        <ModulesUserDutyScheduleModalFilter :isModalOpen="state.modal.isFilterDutyScheduleOpen"
+            @close="state.modal.isFilterDutyScheduleOpen = false" @setFilter="setFilter" />
+        <ModulesUserDutyScheduleNormHoursModalCompensatoryHours :isModalOpen="state.modal.isCompensatoryHoursOpen"
+            :selectedEmployee="state.normHours.selectedEmployeeSchedule"
+            @close="state.modal.isCompensatoryHoursOpen = false" />
+        <ModulesUserDutyScheduleNormHoursModalInfo :isModalOpen="state.modal.isAnnualNormHoursInfoOpen"
+            @close="state.modal.isAnnualNormHoursInfoOpen = false" />
+        <ModulesUserDutyScheduleNormHoursModalVacationHours :isModalOpen="state.modal.isVacationHoursOpen"
+            :selectedEmployee="state.normHours.selectedEmployeeSchedule"
+            @close="state.modal.isVacationHoursOpen = false" />
+        <ModulesUserDutyScheduleModalNewShift :isModalOpen="state.modal.isAddShiftOpen"
+            :availableEmployees="filteredEmployeesForModal" :isModalLoading="state.isModalLoading"
+            :showEmployeeSelect="true" :error="state.newShiftError" :selectedDate="state.newShift.selectedDate"
+            :selectedEmployee="state.newShift.selectedEmployee" :showWarningDialog="state.showWarningDialog"
+            :shiftWarnings="state.shiftWarnings" @dateTimeChange="dateTimeChange"
+            @closeWarningDialog="closeWarningDialog" @close="state.modal.isAddShiftOpen = false" @saveShift="saveShift"
+            @resetNewShiftError="state.newShiftError = {}" />
+        <ModulesUserDutyScheduleModalEditShift :isModalLoading="state.isModalLoading"
+            :availableEmployees="filteredEmployeesForModal" :isModalOpen="state.modal.isEditShiftOpen"
+            :error="state.editShiftError" :selectedEmployee="state.editShift.selectedEmployee"
+            :selectedEmployeeSchedule="state.editShift.selectedEmployeeSchedule"
+            :showWarningDialog="state.showWarningDialog" :shiftWarnings="state.shiftWarnings"
+            @dateTimeChange="dateTimeChange" @closeWarningDialog="closeWarningDialog"
+            @close="state.modal.isEditShiftOpen = false" @resetEditShiftError="state.editShiftError = {}"
+            @updateShift="updateSelectedSchedule" />
+        <ModulesUserDutyScheduleModalRemoveShiftConfirmation :isModalOpen="state.modal.isRemoveShiftConfirmationOpen"
+            @close="state.modal.isRemoveShiftConfirmationOpen = false" @confirm="removeShift" />
+        <ModulesUserDutyScheduleModalRemoveShiftSpanConfirmation
+            :isModalOpen="state.modal.isRemoveShiftSpanConfirmationOpen"
+            @close="state.modal.isRemoveShiftSpanConfirmationOpen = false" @confirm-single="removeShift"
+            @confirm-entire="removeEntireShiftSpan" />
+        <ModulesUserDutyScheduleModalViewShift :isModalOpen="state.modal.isViewShiftOpen"
+            :selectedEmployeeSchedule="state.viewShift.selectedEmployeeSchedule"
+            @close="state.modal.isViewShiftOpen = false" />
+        <ModulesUserDutyScheduleExtraHoursModalView :isModalOpen="state.modal.isManageExtraHoursOpen"
+            :selectedEmployee="state.manageExtraHours.selectedEmployee"
+            @close="state.modal.isManageExtraHoursOpen = false" @refreshDutySchedules="fetchDutySchedule()" />
+        <ModulesUserDutyScheduleLeaveRequestsModalView :isModalOpen="state.modal.isManageLeaveRequestsOpen"
+            :selectedEmployee="state.manageLeaveRequests.selectedEmployee"
+            @close="state.modal.isManageLeaveRequestsOpen = false" @refreshDutySchedules="fetchDutySchedule()" />
+        <ModulesUserDutyScheduleTimeRequestsModalRequests :isModalOpen="state.modal.isManageTimeAdjustmentRequestsOpen"
+            :selectedDate="state.manageTimeRequest.selectedDate"
+            :selectedEmployee="state.manageTimeRequest.selectedEmployee"
+            @close="state.modal.isManageTimeAdjustmentRequestsOpen = false"
+            @refreshDutySchedules="fetchDutySchedule()" />
+        <ModulesUserDutyScheduleSwapScheduleModalRequests :isModalOpen="state.modal.isManageSwapScheduleRequestsOpen"
+            :selectedDate="state.manageSwapScheduleRequest.selectedDate"
+            :selectedEmployee="state.manageSwapScheduleRequest.selectedEmployee"
+            @close="state.modal.isManageSwapScheduleRequestsOpen = false" @refreshDutySchedules="fetchDutySchedule()" />
+        <ModulesUserDutyScheduleTimeRequestsModalNewRequest :isModalOpen="state.modal.isRequestTimeAdjustmentOpen"
+            :selectedEmployee="state.manageTimeRequest.selectedEmployee"
+            :selectedSchedule="state.manageTimeRequest.selectedSchedule"
+            @close="state.modal.isRequestTimeAdjustmentOpen = false" />
+        <ModulesUserDutyScheduleSwapScheduleModalNewRequest :isModalOpen="state.modal.isRequestSwapScheduleOpen"
+            :selectedSchedule="state.manageSwapScheduleRequest.selectedSchedule"
+            @close="state.modal.isRequestSwapScheduleOpen = false" />
+        <ModulesUserDutyScheduleScheduleSlotsModalScheduleSlots :isModalOpen="state.modal.isManageScheduleSlotOpen"
+            :selectedDay="state.manageScheduleSlot.selectedDay" @close="state.modal.isManageScheduleSlotOpen = false"
+            @refreshDutySchedules="fetchDutySchedule()" />
+        <ModulesUserDutyScheduleModalCopyMultipleWeeks :isModalOpen="state.modal.isCopyMultipleWeeklyScheduleOpen"
+            @close="state.modal.isCopyMultipleWeeklyScheduleOpen = false" @refreshDutySchedules="fetchDutySchedule()" />
+        <ModulesUserDutyScheduleNormHoursModalGraph :isModalOpen="state.modal.isGraphOpen"
+            :selectedEmployee="state.normHours.selectedEmployee" @close="state.modal.isGraphOpen = false" />
+
+        <!-- Floating stop-copying button — shown when something has been copied -->
+        <Teleport to="body">
+            <div v-if="!isDailyScheduleCopiedEmpty() || state.copy.selectedWeek || state.copy.selectedMonth"
+                class="fixed bottom-6 right-6 z-[9999] flex items-center gap-2 bg-primary text-white px-4 py-2.5 rounded-full shadow-xl cursor-pointer select-none"
+                style="box-shadow: 0 4px 24px rgba(15,76,117,0.35)" @click="stopCopying()">
+                <Icon name="mdi:content-copy" class="h-4 w-4" />
+                <span class="text-sm font-semibold">{{ $t('dutySchedules.copyPaste.copyingActive') }}</span>
+                <Icon name="ph:x-bold" class="h-4 w-4 ml-1 opacity-70" />
+            </div>
+        </Teleport>
     </div>
 </template>
 
@@ -646,7 +659,6 @@ let _dragShift: any = null
 let _dragSourceEmployee: any = null
 let _dragSourceDay: string | null = null
 import moment from 'moment'
-import { Menu, MenuButton, MenuItem, MenuItems } from '@headlessui/vue'
 import { dutyScheduleService } from '@/components/api/user/DutyScheduleService'
 import { useDepartmentStore } from '@/store/department'
 import { useNumberFormatter } from '@/composables/numberFormatter'
@@ -670,23 +682,136 @@ const filteredEmployeesForModal = computed(() => {
 })
 
 const { formatNumber } = useNumberFormatter()
-
 const currentDate = ref(moment())
 const month = computed(() => currentDate.value.format('MMMM'))
 const year = computed(() => currentDate.value.format('YYYY'))
 const expandedRecords = reactive([] as boolean[])
 
 const daysInMonth = computed(() => moment(currentDate.value).daysInMonth())
-const monthDays = computed(() => {
-    const start = moment(currentDate.value).startOf('month')
-    return Array.from({ length: daysInMonth.value }, (_, i) => start.clone().add(i, 'day'))
-})
-
-let lastScrollTop = 0
-const headerHeight = 395
 
 const teleportReady = ref(false)
-onMounted(() => { nextTick(() => { teleportReady.value = document.getElementById("schedule-date-picker-target") ? true : false }) })
+
+const state = reactive({
+    addShift: {
+        selectedEmployeeSchedule: {},
+    } as any,
+    copy: {
+        allEmployeeSchedules: {},
+        selectedEmployeeDailySchedule: {},
+        selectedWeek: null as any, // { weekNumber, days, year }
+        selectedMonth: null as any, // { weeks, year, month }
+    } as any,
+    copyShiftError: {} as Error,
+    customWeekLabel: 'month',
+    dataFilter: {
+        search: '',
+    },
+    dragSuccessMessage: '' as string,
+    editShiftError: {} as Error,
+    editShift: {
+        selectedEmployee: {},
+        selectedEmployeeSchedule: {},
+    } as any,
+    error: {} as Error,
+    filter: {
+        department_uuids: [],
+        employment_status: [],
+        employee_uuids: [],
+    },
+    isDragging: false,
+    isPageLoading: false,
+    isModalLoading: false,
+    isUpdateShift: false,
+    manageScheduleSlot: {
+        selectedDay: [],
+    },
+    manageExtraHours: {
+        selectedEmployee: {},
+        selectedSchedule: {},
+    },
+    manageLeaveRequests: {
+        selectedEmployee: {},
+    },
+    manageTimeRequest: {
+        selectedDate: '',
+        selectedEmployee: {},
+        selectedSchedule: {},
+    },
+    manageSwapScheduleRequest: {
+        selectedDate: '',
+        selectedEmployee: {},
+        selectedSchedule: {},
+    },
+    modal: {
+        isAddShiftOpen: false,
+        isCompensatoryHoursOpen: false,
+        isCopyMultipleWeeklyScheduleOpen: false,
+        isDepartmentSickLeaveDateRangeOpen: false,
+        isEditShiftOpen: false,
+        isFilterDutyScheduleOpen: false,
+        isManageExtraHoursOpen: false,
+        isManageLeaveRequestsOpen: false,
+        isManageScheduleSlotOpen: false,
+        isManageTimeAdjustmentRequestsOpen: false,
+        isManageSwapScheduleRequestsOpen: false,
+        isRemoveShiftConfirmationOpen: false,
+        isRemoveShiftSpanConfirmationOpen: false,
+        isRequestTimeAdjustmentOpen: false,
+        isRequestSwapScheduleOpen: false,
+        isVacationHoursOpen: false,
+        isViewShiftOpen: false,
+        isAnnualNormHoursInfoOpen: false,
+        isGraphOpen: false,
+    } as any,
+    monthlySchedules: null as any,
+    newShift: {
+        selectedDate: '',
+        selectedEmployee: {},
+        availableEmployees: [] as any[],
+    },
+    newShiftError: {} as Error,
+    normHours: {
+        selectedEmployeeSchedule: {},
+        selectedEmployee: {} as any,
+    },
+    progress: {
+        percentage: 100,
+        pendingRequests: 0,
+        showProgressBar: false,
+        totalRequests: 0,
+    },
+    removeShift: {
+        selectedShift: {},
+    } as any,
+    selectedDate: moment().format('YYYY-MM-DD'),
+    hoveredEmployee: null as number | null,
+    showAllShifts: false,
+    showAllShiftTypes: false,
+    showEmployeesWorkingToday: false,
+    shiftPercentage: {} as any,
+    shiftDateRange: {
+        formDateRange: {
+            start_date: moment().startOf('month'),
+            end_date: moment().endOf('month'),
+        },
+    } as any,
+    shiftWarnings: [] as any[],
+    showWarningDialog: false,
+    sortData: {
+        sortField: 'firstname',
+        sortOrder: 'ascend',
+    },
+    viewShift: {
+        selectedEmployeeSchedule: {},
+    } as any,
+})
+
+
+onMounted(() => {
+    nextTick(() => {
+        teleportReady.value = document.getElementById("schedule-date-picker-target") ? true : false
+    })
+})
 
 // ============================================================
 // NEW: Weekly grid computation
@@ -740,7 +865,7 @@ function isWeekend(day: any) {
 }
 
 function getEasterSunday(year: number) {
-    // Gauss algoritme til at beregne paaske
+    // Gauss’ algorithm for calculating Easter
     const a = year % 19
     const b = Math.floor(year / 100)
     const cc = year % 100
@@ -762,12 +887,12 @@ function getDanishHolidays(year: number): Record<string, string> {
     const easter = getEasterSunday(year)
     const holidays: Record<string, string> = {}
     const add = (m: any, name: string) => { holidays[m.format('YYYY-MM-DD')] = name }
-    // Faste helligdage
+    // Fixed public holidays
     add(moment(`${year}-01-01`), 'Nytårsdag')
     add(moment(`${year}-12-24`), 'Juleaften')
     add(moment(`${year}-12-25`), '1. juledag')
     add(moment(`${year}-12-26`), '2. juledag')
-    // Paaske-relaterede
+    // Easter-related
     add(easter.clone().subtract(3, 'days'), 'Skærtorsdag')
     add(easter.clone().subtract(2, 'days'), 'Langfredag')
     add(easter.clone(), 'Påskedag')
@@ -782,158 +907,13 @@ function getDanishHolidays(year: number): Record<string, string> {
 function getHoliday(day: any) {
     if (!day) return null
     const dateKey = moment(day).format('YYYY-MM-DD')
-    // Tjek backend data foerst, fallback til frontend-beregning
+    // Check backend data first, then fall back to frontend calculation
     const backendHoliday = state.monthlySchedules?.month_data?.[dateKey]?.holiday?.name
     if (backendHoliday) return backendHoliday
     const year = moment(day).year()
     const danishHolidays = getDanishHolidays(year)
     return danishHolidays[dateKey] || null
 }
-
-// Employee tooltip with full details
-function getEmployeeTooltip(employee: any) {
-    const parts = [
-        `${employee?.firstname} ${employee?.lastname}`,
-        `Afdelinger: ${employee?.departments?.map((d: any) => d.name).join(', ') || '-'}`,
-        `Årlige normtimer: ${employee?.annual_norm_hours ?? '0'}`,
-        `Ugentlige normtimer: ${Math.round(Number(employee?.annual_norm_hours) / 52) || '0'}`,
-        `Samlet antal timer: ${employee?.total_hours ?? '0'}`,
-        `Gns. ugentlige timer: ${employee?.average_weekly_work_time?.average_weekly_hours ?? '0'}`,
-        `Arbejdet/Tjent timer: ${employee?.log_data?.total_time_account_earned_hours ?? '0'}`,
-        `X-timer: ${employee?.extra_hours ?? '0'}`
-    ]
-    return parts.join('\n')
-}
-
-// Employee row height tracking for sidebar alignment
-const employeeRowRefs = reactive<Record<number, any>>({})
-const employeeRowHeights = reactive<Record<number, number>>({})
-
-function setEmployeeRowRef(el: any, index: number) {
-    if (el) {
-        employeeRowRefs[index] = el
-    }
-}
-
-function getEmployeeRowHeight(index: number) {
-    return employeeRowHeights[index] || 80
-}
-
-
-const state = reactive({
-    addShift: {
-        selectedEmployeeSchedule: {},
-    } as any,
-    copy: {
-        allEmployeeSchedules: {},
-        selectedEmployeeDailySchedule: {},
-        selectedWeek: null as any, // { weekNumber, days, year }
-        selectedMonth: null as any, // { weeks, year, month }
-    } as any,
-    copyShiftError: {} as Error,
-    customWeekLabel: 'month',
-    dataFilter: {
-        search: '',
-    },
-    editShiftError: {} as Error,
-    editShift: {
-        selectedEmployee: {},
-        selectedEmployeeSchedule: {},
-    } as any,
-    error: {} as Error,
-    filter: {
-        department_uuids: [],
-        employment_status: [],
-        employee_uuids: [],
-    },
-    isPageLoading: false,
-    isModalLoading: false,
-    isUpdateShift: false,
-    manageScheduleSlot: {
-        selectedDay: [],
-    },
-    manageExtraHours: {
-        selectedEmployee: {},
-        selectedSchedule: {},
-    },
-    manageLeaveRequests: {
-        selectedEmployee: {},
-    },
-    manageTimeRequest: {
-        selectedDate: '',
-        selectedEmployee: {},
-        selectedSchedule: {},
-    },
-    manageSwapScheduleRequest: {
-        selectedDate: '',
-        selectedEmployee: {},
-        selectedSchedule: {},
-    },
-    modal: {
-        isAddShiftOpen: false,
-        isCompensatoryHoursOpen: false,
-        isCopyMultipleWeeklyScheduleOpen: false,
-        isDepartmentSickLeaveDateRangeOpen: false,
-        isEditShiftOpen: false,
-        isFilterDutyScheduleOpen: false,
-        isManageExtraHoursOpen: false,
-        isManageLeaveRequestsOpen: false,
-        isManageScheduleSlotOpen: false,
-        isManageTimeAdjustmentRequestsOpen: false,
-        isManageSwapScheduleRequestsOpen: false,
-        isRemoveShiftConfirmationOpen: false,
-        isDragging: false,
-        dragSuccessMessage: '' as string,
-        isRemoveShiftSpanConfirmationOpen: false,
-        isRequestTimeAdjustmentOpen: false,
-        isRequestSwapScheduleOpen: false,
-        isVacationHoursOpen: false,
-        isViewShiftOpen: false,
-        isAnnualNormHoursInfoOpen: false,
-        isGraphOpen: false,
-    } as any,
-    monthlySchedules: null as any,
-    newShift: {
-        selectedDate: '',
-        selectedEmployee: {},
-        availableEmployees: [] as any[],
-    },
-    newShiftError: {} as Error,
-    normHours: {
-        selectedEmployeeSchedule: {},
-        selectedEmployee: {} as any,
-    },
-    progress: {
-        percentage: 100,
-        pendingRequests: 0,
-        showProgressBar: false,
-        totalRequests: 0,
-    },
-    removeShift: {
-        selectedShift: {},
-    } as any,
-    selectedDate: moment().format('YYYY-MM-DD'),
-    hoveredEmployee: null as number | null,
-    showAllShifts: false,
-    showAllShiftTypes: false,
-    showEmployeesWorkingToday: false,
-    shiftPercentage: {} as any,
-    shiftDateRange: {
-        formDateRange: {
-            start_date: moment().startOf('month'),
-            end_date: moment().endOf('month'),
-        },
-    } as any,
-    shiftWarnings: [] as any[],
-    showWarningDialog: false,
-    sortData: {
-        sortField: 'firstname',
-        sortOrder: 'ascend',
-    },
-    viewShift: {
-        selectedEmployeeSchedule: {},
-    } as any,
-})
 
 // ============================================================
 // Permissions
@@ -1050,18 +1030,10 @@ function openAddNewShiftModalForDay(day: any) {
     state.newShift.availableEmployees = filteredEmployeesForModal.value || []
 }
 
-function hasConflictForEmployee(employeeIndex: number, day: any) {
-    if (!day) return false
-    const dateKey = moment(day).format('YYYY-MM-DD')
-    const shifts = state.monthlySchedules?.data?.[employeeIndex]?.days?.[dateKey]?.shifts || []
-    return shifts.some((s: any) => s.is_conflict === true)
-}
-
 function isCopiedDay(day: any) {
     if (!day) return false
     return state.copy.selectedEmployeeDailySchedule?.date === moment(day).format('YYYY-MM-DD')
 }
-
 
 function copyWeek(week: any) {
     state.copy.selectedWeek = {
@@ -1076,7 +1048,7 @@ async function pasteWeek(targetWeek: any) {
     if (!state.copy.selectedWeek) return
     const srcDays = state.copy.selectedWeek.days
     const dstDays = targetWeek.days.filter((d: any) => d !== null)
-    // Kopier dag for dag - match paa ugedag (man=man, tir=tir osv)
+    // Copy day by day – match by weekday (Mon = Mon, Tue = Tue, etc.)
     for (let di = 0; di < Math.min(srcDays.length, dstDays.length); di++) {
         const srcDate = moment(srcDays[di]).format('YYYY-MM-DD')
         const dstDate = moment(dstDays[di]).format('YYYY-MM-DD')
@@ -1097,7 +1069,7 @@ async function pasteWeek(targetWeek: any) {
 }
 
 function copyMonth() {
-    // Gem snapshot af nuvaerende maaned inkl. alle medarbejderes vagter
+    // Save a snapshot of the current month including all employees’ shifts
     const employeeSnapshot = JSON.parse(JSON.stringify(state.monthlySchedules?.data || []))
     state.copy.selectedMonth = {
         weeks: JSON.parse(JSON.stringify(monthWeeks.value)),
@@ -1115,15 +1087,15 @@ async function pasteMonth(targetWeeks: any[]) {
     const srcWeeks = state.copy.selectedMonth.weeks
     const empSnap = state.copy.selectedMonth.employeeSnapshot || []
     console.log('pasteMonth: src uger', srcWeeks.length, 'dst uger', targetWeeks.length, 'emp', empSnap.length)
-    // Match uger 1:1 - hvis maaneder har forskelligt antal uger, tag min
+    // Match weeks 1:1 — if the months have a different number of weeks, use the minimum
     for (let wi = 0; wi < Math.min(srcWeeks.length, targetWeeks.length); wi++) {
         const srcDays = srcWeeks[wi].days.filter((d: any) => d !== null)
         const dstDays = targetWeeks[wi].days.filter((d: any) => d !== null)
-        // Match paa ugedag-position (index 0=man, 1=tir osv)
+        // Match by weekday position (index 0 = Mon, 1 = Tue, etc.)
         for (let di = 0; di < Math.min(srcDays.length, dstDays.length); di++) {
             const srcDate = moment(srcDays[di]).format('YYYY-MM-DD')
             const dstDate = moment(dstDays[di]).format('YYYY-MM-DD')
-            // Brug snapshot til at finde vagter fra source-maaned
+            // Use the snapshot to find shifts from the source month
             for (let ei = 0; ei < empSnap.length; ei++) {
                 const emp = empSnap[ei]
                 if (!emp) continue

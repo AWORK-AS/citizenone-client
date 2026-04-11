@@ -5,8 +5,7 @@
         </div>
         <div v-if="visible && !disabled && text"
             class="absolute z-50 text-sm text-white bg-primary rounded-md shadow-lg tooltip"
-            :class="[positionClasses, wrap ? 'w-64' : 'whitespace-nowrap']"
-            @mouseenter="cancelHide"
+            :class="[positionClasses, wrap ? 'w-44' : 'whitespace-nowrap']" @mouseenter="cancelHide"
             @mouseleave="scheduleHide">
             <div :class="wrap ? 'px-2.5 py-1.5 max-h-36 overflow-y-auto' : 'px-2.5 py-1.5'">
                 <p :class="wrap ? 'text-xs whitespace-pre-wrap break-words' : 'truncate text-xs'">{{ text }}</p>
