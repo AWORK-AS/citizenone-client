@@ -1003,7 +1003,7 @@ button { border-radius: 9999px !important; }
 }
 
 /* Topbar bag modal: topbar z-index lavere end modal overlay */
-.sticky.top-0 { z-index: 40 !important; }
+.sticky.top-0 { z-index: 49 !important; }
 
 /* Modal overlay og dialog: altid over topbar */
 [class*="fixed"][class*="inset-0"][class*="bg-gray"],

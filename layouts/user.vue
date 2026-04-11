@@ -99,26 +99,22 @@
         </TransitionRoot>
 
         <!-- Desktop sidebar: collapsible -->
-        <div class="hidden lg:fixed lg:inset-y-0 lg:z-50 lg:flex lg:flex-col transition-all duration-300 ease-in-out"
-            :class="sidebarExpanded ? 'lg:w-[17rem]' : 'lg:w-[4.5rem]'" @mouseenter="handleSidebarHover(true)"
-            @mouseleave="handleSidebarHover(false)">
-            <div
-                class="flex grow flex-col overflow-y-auto overflow-x-hidden bg-gradient-to-b from-sidebar to-sidebar-dark shadow-sidebar">
+        <div class="hidden lg:fixed lg:inset-y-0 lg:z-[55] lg:flex lg:flex-col lg:w-[17rem]">
+            <div class="flex grow flex-col overflow-y-auto overflow-x-hidden bg-gradient-to-b from-sidebar to-sidebar-dark shadow-sidebar transition-all duration-300 ease-in-out"
+                :class="sidebarExpanded ? 'w-[17rem]' : 'w-[4.5rem]'">
                 <!-- Logo + Pin -->
-                <div
-                    :class="['flex items-center h-16 flex-shrink-0 px-4', sidebarExpanded ? 'justify-between' : 'justify-start']">
-                    <span @click="navigateTo('/overview')" class="cursor-pointer flex items-center gap-x-2.5">
-                        <span class="flex-none inline-flex w-7 h-7 items-center justify-center"
-                            style="transform: translateZ(0); will-change: transform;">
+                <div class="flex items-center h-16 flex-shrink-0 px-4 justify-between">
+                    <span @click="navigateTo('/overview')" class="cursor-pointer flex items-center gap-x-2.5 min-w-0">
+                        <span class="ml-1.5 flex-none inline-flex w-7 h-7 items-center justify-center">
                             <img src="/img/icons/asset-app.png" alt="CitizenOne" class="h-7 w-7 object-contain" />
                         </span>
-                        <span v-show="sidebarExpanded"
-                            class="relative text-primary font-semibold text-lg whitespace-nowrap">
-                            CitizenOne<sup class="right-0 top-0 text-[20px]">™</sup>
+                        <span
+                            :class="['whitespace-nowrap overflow-hidden transition-all duration-200 delay-75 text-primary font-semibold text-lg', sidebarExpanded ? 'opacity-100 max-w-[200px]' : 'opacity-0 max-w-0']">
+                            CitizenOne™
                         </span>
                     </span>
-                    <button v-show="sidebarExpanded" @click="toggleSidebarPin"
-                        class="p-1.5 rounded-md text-blue-300/60 hover:text-white hover:bg-white/10 transition-colors"
+                    <button @click="toggleSidebarPin"
+                        :class="['p-1.5 rounded-md transition-all duration-200 delay-75', sidebarExpanded ? 'opacity-100 pointer-events-auto text-blue-300/60 hover:text-white hover:bg-white/10' : 'opacity-0 pointer-events-none']"
                         :title="sidebarPinned ? 'Frigør sidebar' : 'Fastgør sidebar'">
                         <Icon :name="sidebarPinned ? 'ph:push-pin-fill' : 'ph:push-pin'" class="h-4 w-4" />
                     </button>
@@ -302,7 +298,7 @@
                                     class="absolute right-0 z-10 mt-2 w-56 origin-top-right rounded-xl bg-white py-1.5 shadow-dropdown ring-1 ring-slate-900/5 focus:outline-none">
                                     <div class="px-3 py-2.5 border-b border-surface-100">
                                         <p class="text-sm font-semibold text-slate-900">{{ userStore.getUser?.firstname
-                                        }} {{ userStore.getUser?.lastname }}</p>
+                                            }} {{ userStore.getUser?.lastname }}</p>
                                         <p class="text-xs text-slate-500 mt-0.5">{{ userStore.getUser?.email }}</p>
                                     </div>
                                     <MenuItem>
@@ -471,7 +467,23 @@ const sidebarPinned = ref(localStorage.getItem('sidebarPinned') !== 'false')
 const sidebarHovered = ref(false)
 const sidebarExpanded = computed(() => sidebarPinned.value || sidebarHovered.value)
 
-function handleSidebarHover(hovering: boolean) { sidebarHovered.value = hovering }
+// Use global mousemove on raw clientX — immune to DOM event propagation issues
+// caused by CSS transitions triggering spurious mouseleave events on the sidebar
+function handleGlobalMouseMove(e: MouseEvent) {
+    if (sidebarPinned.value) return
+    sidebarHovered.value = e.clientX <= 272 // 17rem = 272px
+}
+function handleMouseLeaveWindow() {
+    if (!sidebarPinned.value) sidebarHovered.value = false
+}
+onMounted(() => {
+    document.addEventListener('mousemove', handleGlobalMouseMove)
+    document.addEventListener('mouseleave', handleMouseLeaveWindow)
+})
+onUnmounted(() => {
+    document.removeEventListener('mousemove', handleGlobalMouseMove)
+    document.removeEventListener('mouseleave', handleMouseLeaveWindow)
+})
 function toggleSidebarPin() { sidebarPinned.value = !sidebarPinned.value; localStorage.setItem('sidebarPinned', String(sidebarPinned.value)) }
 
 function openSearch() {
