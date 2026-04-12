@@ -993,7 +993,7 @@ input.appearance-none.border-primary {
 .text-white.w-4.h-4.text-xxs.rounded-full {
     color: #ffffff !important;
     font-weight: 700 !important;
-    padding: 0 !important;
+    /* padding: 0 !important; */
     display: flex !important;
     align-items: center !important;
     justify-content: center !important;
