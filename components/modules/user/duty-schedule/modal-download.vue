@@ -15,7 +15,7 @@
                                             :key="mode.id" :value="mode" :aria-label="mode.title"
                                             v-slot="{ active, checked }">
                                             <div
-                                                :class="[active ? 'border-primary ring-1 ring-primary' : 'border-gray-300', 'relative flex cursor-pointer rounded-lg border bg-white p-4 shadow-xs focus:outline-hidden']">
+                                                :class="[active ? 'border-primary ring-1 ring-primary' : 'border-gray-300', 'relative flex cursor-pointer rounded-full border bg-white p-4 shadow-xs focus:outline-hidden']">
                                                 <span class="flex flex-1">
                                                     <span class="flex flex-col">
                                                         <p class="block text-sm font-medium text-gray-900">
@@ -32,7 +32,7 @@
                                                     :class="[!checked ? 'invisible' : '', 'size-5 text-primary']"
                                                     aria-hidden="true" />
                                                 <span
-                                                    :class="[active ? 'border' : 'border-1', checked ? 'border-primary' : 'border-transparent', 'pointer-events-none absolute -inset-px rounded-lg']"
+                                                    :class="[active ? 'border' : 'border-1', checked ? 'border-primary' : 'border-transparent', 'pointer-events-none absolute -inset-px rounded-full']"
                                                     aria-hidden="true" />
                                             </div>
                                         </RadioGroupOption>

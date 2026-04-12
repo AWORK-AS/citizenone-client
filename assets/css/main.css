@@ -589,19 +589,17 @@ table td {
 }
 
 #fixed-header-week-view > div {
-    border-color: rgba(0, 0, 0, 0.06) !important;
-    border-width: 0 0 1px 0 !important;
+    @apply border-t-0 border-r-0 border-b border-l-0 border-[#f9fafc];
 }
 
 #fixed-header-week-view > div:first-child {
-    background: white;
-    border-right: 1px solid rgba(0, 0, 0, 0.06) !important;
+    @apply bg-white border-r border-black/5;
 }
 
 /* Day column headers: modern badge style */
 #fixed-header-week-view .flex.items-center.justify-center {
-    padding-top: 0.75rem; padding-bottom: 0.75rem;
-    transition: background-color 0.15s ease;
+    /* padding-top: 0.75rem; padding-bottom: 0.75rem; */
+    /* transition: background-color 0.15s ease; */
 }
 
 #fixed-header-week-view .flex.items-center.justify-center:hover {
@@ -1000,7 +998,7 @@ input.appearance-none.border-primary {
 }
 
 /* P tag specifik - linje 614 rød prik til schedule slot */
-.w-2.h-2.bg-red-400.rounded-full.absolute {
+/* .w-2.h-2.bg-red-400.rounded-full.absolute {
     width: 1.25rem !important;
     height: 1.25rem !important;
     font-size: 0.65rem !important;
@@ -1011,7 +1009,7 @@ input.appearance-none.border-primary {
     justify-content: center !important;
     top: -0.5rem !important;
     right: -0.5rem !important;
-}
+} */
 
 /* Topbar bag modal: topbar z-index lavere end modal overlay */
 /* .sticky.top-0 { z-index: 49 !important; } */

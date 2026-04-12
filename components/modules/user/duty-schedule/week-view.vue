@@ -191,7 +191,7 @@
                                 </div>
                                 <Tooltip :text="$t('dutySchedules.scheduleSlots.scheduleSlots')" position="left"
                                     v-for="day in weekDays" :key="day.date"
-                                    :class="['relative cursor-pointer hover:bg-blue-50/50 flex flex-col items-center justify-center py-3 pb-8 border-0.5 transition-colors', isToday(day.fullDate) && 'bg-blue-50 border-x-2 border-t-2 border-blue-400']"
+                                    :class="['relative cursor-pointer hover:bg-blue-50/50 flex flex-col items-center justify-center py-3 border-0.5 transition-colors', isToday(day.fullDate) && 'bg-blue-50 border-x-2 border-t-2 border-blue-400']"
                                     @click="openManageScheduleSlotModal(day)" v-if="isAdmin(userStore.getUser?.role)">
                                     <span class="flex gap-x-1 text-sm">
                                         <span v-if="day.longName === 'Mon'">
@@ -220,7 +220,7 @@
                                         </span>
                                     </span>
                                     <div v-if="getSlotCount(day.longName) > 0"
-                                        class="slot-badge absolute top-1 right-1 bg-primary font-bold shadow-sm">
+                                        class="slot-badge absolute top-2 right-2 bg-primary font-bold shadow-sm">
                                         {{ getSlotCount(day.longName) > 99 ? '99+' : getSlotCount(day.longName) }}
                                     </div>
                                     <span v-if="getHolidayForDay(day.longName)"
@@ -232,7 +232,7 @@
                                 </Tooltip>
                                 <div :text="$t('dutySchedules.scheduleSlots.scheduleSlots')" v-for="day in weekDays"
                                     :key="day.date"
-                                    :class="['relative flex flex-col items-center justify-center py-3 pb-8 border-0.5', isToday(day.fullDate) && 'bg-blue-50 border-x-2 border-t-2 border-blue-400']"
+                                    :class="['relative flex flex-col items-center justify-center py-3 pb-6 border-0.5', isToday(day.fullDate) && 'bg-blue-50 border-x-2 border-t-2 border-blue-400']"
                                     v-if="!isAdmin(userStore.getUser?.role)">
                                     <span class="flex gap-x-1 text-sm">
                                         <span v-if="day.longName === 'Mon'">
