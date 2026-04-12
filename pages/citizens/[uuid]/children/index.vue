@@ -34,7 +34,7 @@
 
                 <div>
                     <div class="mt-8 flex justify-end items-center mb-5 gap-x-2">
-                        <FormButton buttonStyle="action" class="rounded-lg" @click="state.modal.isAddChildOpen = true">
+                        <FormButton buttonStyle="action" @click="state.modal.isAddChildOpen = true">
                             <Icon name="ph:plus" class="h-4 w-4" aria-hidden="true" />
                             {{ $t('children.newChild') }}
                         </FormButton>
@@ -67,19 +67,19 @@
                                     <td width="20%">
                                         <div class="flex items-end justify-end gap-2">
                                             <Tooltip :text="$t('children.table.actions.view')">
-                                                <FormButton type="button" buttonStyle="action" class="rounded-md"
+                                                <FormButton type="button" buttonStyle="action"
                                                     @click="navigateTo(`/citizens/${citizenUuid}/children/${child.uuid}/journals`)">
                                                     <Icon name="ph:eye" class="size-4" />
                                                 </FormButton>
                                             </Tooltip>
                                             <Tooltip :text="$t('children.table.actions.edit')">
-                                                <FormButton type="button" buttonStyle="action" class="rounded-md"
+                                                <FormButton type="button" buttonStyle="action"
                                                     @click="editChild(child)">
                                                     <Icon name="ph:pencil-simple" class="size-4" />
                                                 </FormButton>
                                             </Tooltip>
                                             <Tooltip :text="$t('children.table.actions.delete')">
-                                                <FormButton type="button" buttonStyle="danger" class="rounded-md"
+                                                <FormButton type="button" buttonStyle="danger"
                                                     @click="deleteChildConfirmation(child)">
                                                     <Icon name="heroicons:trash" class="size-4" />
                                                 </FormButton>

@@ -128,7 +128,7 @@
                     </div>
                 </div>
                 <div class="mt-6">
-                    <FormButton type="button" buttonStyle="cancel" class="w-full rounded-md" @click="closeModal()">
+                    <FormButton type="button" buttonStyle="cancel" class="w-full" @click="closeModal()">
                         {{ $t('close') }}
                     </FormButton>
                 </div>

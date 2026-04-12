@@ -22,9 +22,11 @@
                             <Icon name="ph:calendar-blank" class="w-4 h-4 text-primary" />
                         </div>
                         <div class="space-y-1">
-                            <p class="text-sm font-semibold text-gray-800">{{ $t('dutyShiftRules.form.anchorDate') }}</p>
+                            <p class="text-sm font-semibold text-gray-800">{{ $t('dutyShiftRules.form.anchorDate') }}
+                            </p>
                             <p class="text-sm text-gray-600">{{ $t('dutyShiftRules.form.periodInfoAnchorDesc') }}</p>
-                            <p class="text-xs text-gray-400 italic">{{ $t('dutyShiftRules.form.anchorDateCheckboxHint') }}</p>
+                            <p class="text-xs text-gray-400 italic">{{ $t('dutyShiftRules.form.anchorDateCheckboxHint')
+                                }}</p>
                         </div>
                     </div>
 
@@ -46,7 +48,7 @@
                     </div>
 
                     <div class="flex justify-end">
-                        <FormButton buttonStyle="cancel" @click="closeModal" class="rounded-md">
+                        <FormButton buttonStyle="cancel" @click="closeModal">
                             {{ $t('close') }}
                         </FormButton>
                     </div>

@@ -47,12 +47,11 @@
                                 </span>
                             </button>
                             <div class="flex items-center gap-x-2 justify-end">
-                                <FormButton buttonStyle="action" class="rounded-lg"
-                                    @click="state.modal.isAddJournalOpen = true">
+                                <FormButton buttonStyle="action" @click="state.modal.isAddJournalOpen = true">
                                     <Icon name="ph:plus" class="h-4 w-4" aria-hidden="true" />
                                     {{ $t('citizens.citizenJournals.newNote') }}
                                 </FormButton>
-                                <FormButton buttonStyle="action" class="rounded-lg" @click="showDownloadJournalModal">
+                                <FormButton buttonStyle="action" @click="showDownloadJournalModal">
                                     <Icon name="ph:download" class="h-4 w-4" aria-hidden="true" />
                                     {{ $t('citizens.citizenJournals.download') }}
                                 </FormButton>
@@ -207,7 +206,7 @@
                                     </div>
                                     <div class="ms-auto">
                                         <div class="flex items-center gap-x-2">
-                                            <FormButton class="rounded-md" buttonSize="xs" @click="editJournal(journal)"
+                                            <FormButton buttonSize="xs" @click="editJournal(journal)"
                                                 v-if=journal?.is_editable>
                                                 <Icon name="ph:pencil-duotone" class="size-4" />
                                             </FormButton>
@@ -224,8 +223,8 @@
                                                 <Icon name="ph:lock" class="size-4" v-if="journal.is_locked" />
                                                 <Icon name="ph:lock-open" class="size-4" v-else />
                                             </FormButton>
-                                            <FormButton class="rounded-md" buttonSize="xs"
-                                                @click="confirmJournalDeletion(journal)" v-if="journal?.is_deletable">
+                                            <FormButton buttonSize="xs" @click="confirmJournalDeletion(journal)"
+                                                v-if="journal?.is_deletable">
                                                 <Icon name="ph:trash-duotone" class="size-4" />
                                             </FormButton>
                                         </div>

@@ -35,8 +35,7 @@
 
                 <div>
                     <div class="mt-8 flex justify-end items-center mb-5 gap-x-2">
-                        <FormButton buttonStyle="action" class="rounded-lg"
-                            @click="state.modal.isAddContactOpen = true">
+                        <FormButton buttonStyle="action" @click="state.modal.isAddContactOpen = true">
                             <Icon name="ph:plus" class="h-4 w-4" aria-hidden="true" />
                             {{ $t('citizens.contacts.newContact') }}
                         </FormButton>
@@ -96,18 +95,17 @@
                                     </td>
                                     <td width="10%">
                                         <div class="flex items-end justify-end gap-2">
-                                            <FormButton type="button" buttonStyle="action" class="rounded-md"
+                                            <FormButton type="button" buttonStyle="action"
                                                 @click="editContact(contact)">
                                                 <Icon name="ph:pencil-simple" class="size-4" />
                                                 {{ $t('citizens.contacts.table.action.edit') }}
                                             </FormButton>
-                                            <FormButton type="button" buttonStyle="danger" class="rounded-md"
+                                            <FormButton type="button" buttonStyle="danger"
                                                 @click="deleteContactConfirmation(contact)">
                                                 <Icon name="ph:trash" class="size-4" />
                                                 {{ $t('citizens.contacts.table.action.delete') }}
                                             </FormButton>
-                                            <FormButton type="button" buttonStyle="primary" class="rounded-md"
-                                                @click="sendEmail(contact)"
+                                            <FormButton type="button" buttonStyle="primary" @click="sendEmail(contact)"
                                                 v-if="contact?.email && userStore.getUser?.has_secure_mail_access">
                                                 <Icon name="ph:pencil-simple" class="size-4" />
                                                 {{ $t('citizens.contacts.table.action.sendEmail') }}

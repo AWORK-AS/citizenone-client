@@ -68,7 +68,7 @@
                                     </td>
                                     <td width="15%">
                                         <div class="flex items-end justify-end gap-2">
-                                            <FormButton type="button" buttonStyle="action" class="rounded-md"
+                                            <FormButton type="button" buttonStyle="action"
                                                 @click="viewDirectory(document)" v-if="document?.type === 'folder'">
                                                 <Icon name="ph:eye" class="size-4" />
                                                 {{ $t('citizens.documents.table.actions.view') }}

@@ -14,8 +14,7 @@
 
             <div>
                 <div class="flex justify-end items-center mb-5">
-                    <FormButton buttonStyle="action" class="rounded-lg"
-                        @click="state.modal.isAddNewTemplateOpen = true">
+                    <FormButton buttonStyle="action" @click="state.modal.isAddNewTemplateOpen = true">
                         <Icon name="ph:plus" class="h-4 w-4" aria-hidden="true" />
                         {{ $t('plansandgoals.VUMTemplates.newTemplate') }}
                     </FormButton>
@@ -43,17 +42,17 @@
                                     </td>
                                     <td width="25%">
                                         <div class="flex items-end gap-2">
-                                            <FormButton type="button" buttonStyle="action" class="rounded-md"
+                                            <FormButton type="button" buttonStyle="action"
                                                 @click="navigateTo(`vum-templates/${template?.uuid}/plans-template`)">
                                                 <Icon name="ph:eye" class="size-4" />
                                                 {{ $t('plansandgoals.VUMTemplates.table.actions.viewPlans') }}
                                             </FormButton>
-                                            <FormButton type="button" buttonStyle="action" class="rounded-md"
+                                            <FormButton type="button" buttonStyle="action"
                                                 @click="editTemplate(template)">
                                                 <Icon name="ph:pencil-simple" class="size-4" />
                                                 {{ $t('plansandgoals.VUMTemplates.table.actions.edit') }}
                                             </FormButton>
-                                            <FormButton type="button" buttonStyle="action" class="rounded-md"
+                                            <FormButton type="button" buttonStyle="action"
                                                 @click="confirmTemplateDeletion(template)">
                                                 <Icon name="ph:trash" class="size-4" />
                                                 {{ $t('plansandgoals.VUMTemplates.table.actions.delete') }}

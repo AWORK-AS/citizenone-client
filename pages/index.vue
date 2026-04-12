@@ -83,7 +83,7 @@
                             <div class="flex items-center justify-between">
                                 <div class="flex items-center">
                                     <input id="remember-me" name="remember-me" type="checkbox"
-                                        class="w-5 h-5 accent-primary cursor-pointer focus:ring-transparent"
+                                        class="w-5 h-5 accent-primary cursor-pointer focus:ring-transparent rounded-full"
                                         v-model="state.remember_me" />
                                     <label for="remember-me"
                                         class="ml-3 block text-sm leading-6 text-gray-700 cursor-pointer">

@@ -18,7 +18,7 @@
 
             <div class="mt-8">
                 <div class="flex justify-end items-center mb-5">
-                    <FormButton buttonStyle="action" class="rounded-lg" @click="navigateTo('/settings/units/new')">
+                    <FormButton buttonStyle="action" @click="navigateTo('/settings/units/new')">
                         <Icon name="ph:plus" class="h-4 w-4" aria-hidden="true" />
                         {{ $t('units.addNewUnit') }}
                     </FormButton>
@@ -37,12 +37,12 @@
                                     </td>
                                     <td width="30%">
                                         <div class="flex items-end justify-end gap-2">
-                                            <FormButton type="button" buttonStyle="action" class="rounded-md"
+                                            <FormButton type="button" buttonStyle="action"
                                                 @click="navigateTo(`/settings/units/${unit.uuid}/edit`)">
                                                 <Icon name="ph:pencil-simple" class="size-4" />
                                                 {{ $t('units.table.actions.edit') }}
                                             </FormButton>
-                                            <FormButton type="button" buttonStyle="danger" class="rounded-md"
+                                            <FormButton type="button" buttonStyle="danger"
                                                 @click="deleteUnitConfirmation(unit)">
                                                 <Icon name="ph:trash" class="size-4" />
                                                 {{ $t('units.table.actions.delete') }}

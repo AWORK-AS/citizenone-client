@@ -2,12 +2,12 @@
     <div class="mt-8 flex flex-col-reverse md:grid md:grid-cols-3 items-center gap-y-3"
         v-if="props.data && props.data.links">
         <div class="grow flex flex-row gap-x-3">
-            <button class="w-28 bg-tertiary text-white rounded-sm text-sm px-4 py-3 hover:bg-tertiary/90"
+            <button class="w-28 bg-tertiary text-white rounded-full text-sm px-4 py-3 hover:bg-tertiary/90"
                 v-if="props.data.links && props.data.links.prev !== null"
                 @click="!(props.data.links && props.data.links.prev === null) && $emit('previous')">
                 {{ $t('pagination.previous') }}
             </button>
-            <button class="w-28 bg-tertiary text-white rounded-sm text-sm px-4 py-3 hover:bg-tertiary/90"
+            <button class="w-28 bg-tertiary text-white rounded-full text-sm px-4 py-3 hover:bg-tertiary/90"
                 v-if="props.data.links && props.data.links.next !== null"
                 @click="!(props.data.links && props.data.links.next === null) && $emit('next')">
                 {{ $t('pagination.next') }}

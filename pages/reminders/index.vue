@@ -10,8 +10,7 @@
 
             <div class="mt-8">
                 <div class="flex justify-end items-center mb-5">
-                    <FormButton buttonStyle="action" class="rounded-lg"
-                        @click="state.modal.isNewTaskOpen = !state.modal.isNewTaskOpen">
+                    <FormButton buttonStyle="action" @click="state.modal.isNewTaskOpen = !state.modal.isNewTaskOpen">
                         <Icon name="ph:plus" class="h-4 w-4" aria-hidden="true" />
                         {{ $t('reminders.newReminder') }}
                     </FormButton>
@@ -48,16 +47,15 @@
                             </div>
                             <div>
                                 <div class="flex items-center gap-2 flex-wrap md:flex-nowrap">
-                                    <FormButton class="rounded-md" buttonSize="sm" @click="viewReminder(reminder)">
+                                    <FormButton buttonSize="sm" @click="viewReminder(reminder)">
                                         <Icon name="ph:eye" class="h-4 w-4" aria-hidden="true" />
                                         {{ $t('reminders.table.actions.view') }}
                                     </FormButton>
-                                    <FormButton class="rounded-md" buttonSize="sm" @click="editReminder(reminder)">
+                                    <FormButton buttonSize="sm" @click="editReminder(reminder)">
                                         <Icon name="ph:pencil-simple" class="h-4 w-4" aria-hidden="true" />
                                         {{ $t('reminders.table.actions.edit') }}
                                     </FormButton>
-                                    <FormButton class="rounded-md" buttonSize="sm"
-                                        @click="deleteReminderConfirmation(reminder)">
+                                    <FormButton buttonSize="sm" @click="deleteReminderConfirmation(reminder)">
                                         <Icon name="ph:trash" class="h-4 w-4" aria-hidden="true" />
                                         {{ $t('reminders.table.actions.delete') }}
                                     </FormButton>

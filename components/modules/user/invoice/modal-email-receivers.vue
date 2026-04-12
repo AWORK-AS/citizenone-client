@@ -3,7 +3,7 @@
         <Modal size="xl" :title="$t('invoices.email.emailReceivers')" :show="props.isModalOpen" @close="closeModal">
             <template #modal-body>
                 <div class="flex justify-end items-center mb-5">
-                    <FormButton buttonStyle="action" class="rounded-lg" @click="state.modal.isNewReceiverOpen = true">
+                    <FormButton buttonStyle="action" @click="state.modal.isNewReceiverOpen = true">
                         <Icon name="ph:plus" class="h-4 w-4" aria-hidden="true" />
                         {{ $t('invoices.email.newReceiver') }}
                     </FormButton>
@@ -30,12 +30,12 @@
                                     </td>
                                     <td width="20%">
                                         <div class="flex items-end gap-2">
-                                            <FormButton type="button" buttonStyle="action" class="rounded-md"
+                                            <FormButton type="button" buttonStyle="action"
                                                 @click="editInvoiceReceiver(invoiceReceiver)">
                                                 <Icon name="ph:pencil-simple" class="size-4" />
                                                 {{ $t('invoices.email.table.actions.edit') }}
                                             </FormButton>
-                                            <FormButton type="button" buttonStyle="action" class="rounded-md"
+                                            <FormButton type="button" buttonStyle="action"
                                                 @click="confirmEmailReceiverDeletion(invoiceReceiver)">
                                                 <Icon name="ph:note-blank" class="size-4" />
                                                 {{ $t('invoices.email.table.actions.delete') }}

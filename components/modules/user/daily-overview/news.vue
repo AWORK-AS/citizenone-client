@@ -33,8 +33,7 @@
                                     </p>
                                     <div class="mt-4" v-if="salesCampaign?.link">
                                         <FormButton buttonStyle="primary"
-                                            @click="navigateToExternalLink(salesCampaign?.link)"
-                                            class="w-full rounded-md">
+                                            @click="navigateToExternalLink(salesCampaign?.link)" class="w-full">
                                             {{ $t('overview.openLink') }}
                                         </FormButton>
                                     </div>

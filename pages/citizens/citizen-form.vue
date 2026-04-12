@@ -60,14 +60,13 @@
                                 <div class="space-y-3">
                                     <div class="flex items-center gap-x-2" v-for="field in citizenFormFields"
                                         :key="field.key">
-                                        <FormSwitch
-                                            :value="state.citizenFormConfig[state.activeFormType][field.key]"
+                                        <FormSwitch :value="state.citizenFormConfig[state.activeFormType][field.key]"
                                             @toggleSwitch="state.citizenFormConfig[state.activeFormType][field.key] = !state.citizenFormConfig[state.activeFormType][field.key]" />
                                         <p class="text-sm text-gray-700">{{ $t(field.label) }}</p>
                                     </div>
                                 </div>
                                 <div class="mt-6">
-                                    <FormButton type="button" buttonStyle="primary" class="rounded-md w-full"
+                                    <FormButton type="button" buttonStyle="primary" class="w-full"
                                         @click="submitFormFieldConfig()">
                                         {{ $t('save') }}
                                     </FormButton>
@@ -95,14 +94,12 @@
                                         <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
                                             <div class="space-y-1">
                                                 <FormLabel :label="$t('citizens.form.firstname')" />
-                                                <input type="text" disabled
-                                                    :placeholder="$t('citizens.form.firstname')"
+                                                <input type="text" disabled :placeholder="$t('citizens.form.firstname')"
                                                     class="appearance-none block w-full px-4 h-11 border border-gray-300 placeholder-gray-400 text-gray-400 rounded-md bg-gray-50 sm:text-sm" />
                                             </div>
                                             <div class="space-y-1">
                                                 <FormLabel :label="$t('citizens.form.lastname')" />
-                                                <input type="text" disabled
-                                                    :placeholder="$t('citizens.form.lastname')"
+                                                <input type="text" disabled :placeholder="$t('citizens.form.lastname')"
                                                     class="appearance-none block w-full px-4 h-11 border border-gray-300 placeholder-gray-400 text-gray-400 rounded-md bg-gray-50 sm:text-sm" />
                                             </div>
                                         </div>
@@ -112,14 +109,13 @@
                                             <div
                                                 class="w-full px-4 h-11 border border-gray-300 rounded-md bg-gray-50 flex items-center">
                                                 <span class="text-gray-400 text-sm">{{ $t('citizens.form.gender')
-                                                    }}</span>
+                                                }}</span>
                                             </div>
                                         </div>
                                         <!-- Email -->
                                         <div class="space-y-1">
                                             <FormLabel :label="$t('citizens.form.emailAddress')" />
-                                            <input type="text" disabled
-                                                :placeholder="$t('citizens.form.emailAddress')"
+                                            <input type="text" disabled :placeholder="$t('citizens.form.emailAddress')"
                                                 class="appearance-none block w-full px-4 h-11 border border-gray-300 placeholder-gray-400 text-gray-400 rounded-md bg-gray-50 sm:text-sm" />
                                         </div>
                                         <!-- SSN / Birthday -->
@@ -131,8 +127,7 @@
                                             </div>
                                             <div class="space-y-1">
                                                 <FormLabel :label="$t('citizens.form.birthday')" />
-                                                <input type="text" disabled
-                                                    :placeholder="$t('citizens.form.birthday')"
+                                                <input type="text" disabled :placeholder="$t('citizens.form.birthday')"
                                                     class="appearance-none block w-full px-4 h-11 border border-gray-300 placeholder-gray-400 text-gray-400 rounded-md bg-gray-50 sm:text-sm" />
                                             </div>
                                         </div>
@@ -140,8 +135,7 @@
                                         <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
                                             <div class="space-y-1">
                                                 <FormLabel :label="$t('citizens.form.phone')" />
-                                                <input type="text" disabled
-                                                    :placeholder="$t('citizens.form.phone')"
+                                                <input type="text" disabled :placeholder="$t('citizens.form.phone')"
                                                     class="appearance-none block w-full px-4 h-11 border border-gray-300 placeholder-gray-400 text-gray-400 rounded-md bg-gray-50 sm:text-sm" />
                                             </div>
                                             <div class="space-y-1">
@@ -187,8 +181,7 @@
                                             </div>
                                             <div class="space-y-1">
                                                 <FormLabel :label="$t('citizens.form.postCode')" />
-                                                <input type="text" disabled
-                                                    :placeholder="$t('citizens.form.postCode')"
+                                                <input type="text" disabled :placeholder="$t('citizens.form.postCode')"
                                                     class="appearance-none block w-full px-4 h-11 border border-gray-300 placeholder-gray-400 text-gray-400 rounded-md bg-gray-50 sm:text-sm" />
                                             </div>
                                         </div>
@@ -261,8 +254,7 @@
                                             v-if="isFieldVisible('pricing')">
                                             <div class="space-y-1">
                                                 <FormLabel :label="$t('citizens.form.pricing')" />
-                                                <input type="text" disabled
-                                                    :placeholder="$t('citizens.form.pricing')"
+                                                <input type="text" disabled :placeholder="$t('citizens.form.pricing')"
                                                     class="appearance-none block w-full px-4 h-11 border border-gray-300 placeholder-gray-400 text-gray-400 rounded-md bg-gray-50 sm:text-sm" />
                                             </div>
                                             <div class="space-y-1">
@@ -377,8 +369,8 @@
                                             </div>
                                             <div class="space-y-1">
                                                 <FormLabel :label="$t('citizens.form.trafficLights.red')" />
-                                                <textarea disabled
-                                                    :placeholder="$t('citizens.form.trafficLights.red')" rows="2"
+                                                <textarea disabled :placeholder="$t('citizens.form.trafficLights.red')"
+                                                    rows="2"
                                                     class="appearance-none block w-full px-3 py-2 border border-gray-300 placeholder-gray-400 text-gray-400 rounded-md bg-gray-50 sm:text-sm"></textarea>
                                             </div>
                                         </div>
@@ -441,8 +433,7 @@
                                                 class="appearance-none block w-full px-4 h-11 border border-gray-300 placeholder-gray-400 text-gray-400 rounded-md bg-gray-50 sm:text-sm" />
                                         </div>
                                         <div class="space-y-1">
-                                            <FormLabel
-                                                :label="$t('citizens.form.inquiryData.conversationSummary')" />
+                                            <FormLabel :label="$t('citizens.form.inquiryData.conversationSummary')" />
                                             <textarea disabled
                                                 :placeholder="$t('citizens.form.inquiryData.conversationSummary')"
                                                 rows="2"
@@ -476,8 +467,7 @@
                                                     class="appearance-none block w-full px-4 h-11 border border-gray-300 placeholder-gray-400 text-gray-400 rounded-md bg-gray-50 sm:text-sm" />
                                             </div>
                                             <div class="space-y-1">
-                                                <FormLabel
-                                                    :label="$t('citizens.form.stayData.accommodationEndDate')" />
+                                                <FormLabel :label="$t('citizens.form.stayData.accommodationEndDate')" />
                                                 <input type="text" disabled
                                                     :placeholder="$t('citizens.form.stayData.accommodationEndDate')"
                                                     class="appearance-none block w-full px-4 h-11 border border-gray-300 placeholder-gray-400 text-gray-400 rounded-md bg-gray-50 sm:text-sm" />
@@ -491,7 +481,7 @@
                                                     class="w-full px-4 h-11 border border-gray-300 rounded-md bg-gray-50 flex items-center">
                                                     <span class="text-gray-400 text-sm">{{
                                                         $t('citizens.form.stayData.municipalityOfResidenceBefore')
-                                                        }}</span>
+                                                    }}</span>
                                                 </div>
                                             </div>
                                             <div class="space-y-1">
@@ -501,7 +491,7 @@
                                                     class="w-full px-4 h-11 border border-gray-300 rounded-md bg-gray-50 flex items-center">
                                                     <span class="text-gray-400 text-sm">{{
                                                         $t('citizens.form.stayData.municipalityOfResidenceAfter')
-                                                        }}</span>
+                                                    }}</span>
                                                 </div>
                                             </div>
                                         </div>

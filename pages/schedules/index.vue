@@ -356,11 +356,11 @@
 
                             <!-- Action Buttons -->
                             <div class="mt-4 grid grid-cols-2 gap-3">
-                                <FormButton type="button" buttonStyle="cancel" class="rounded-md"
+                                <FormButton type="button" buttonStyle="cancel"
                                     @click="state.modal.isZenegySyncOpen = false">
                                     {{ $t('cancel') }}
                                 </FormButton>
-                                <FormButton type="button" buttonStyle="primary" class="rounded-md"
+                                <FormButton type="button" buttonStyle="primary"
                                     :class="{ 'opacity-50': selectedEmployeeCount === 0 || !state.syncDateRange?.length || selectedEmployeesHaveMixedPeriods }"
                                     @click="handleConfigureNext">
                                     {{ $t('next') }}
@@ -460,11 +460,10 @@
                                 :error="$t('dutySchedules.zenegy_validation_assign_rates')" />
 
                             <div class="mt-4 grid grid-cols-2 gap-3">
-                                <FormButton type="button" buttonStyle="cancel" class="rounded-md"
-                                    @click="state.syncStep = 'configure'">
+                                <FormButton type="button" buttonStyle="cancel" @click="state.syncStep = 'configure'">
                                     {{ $t('back') }}
                                 </FormButton>
-                                <FormButton type="button" buttonStyle="primary" class="rounded-md"
+                                <FormButton type="button" buttonStyle="primary"
                                     :class="{ 'opacity-50': !allShiftTypesAssigned }" @click="handleAssignRatesNext">
                                     {{ $t('dutySchedules.zenegy_review') }}
                                 </FormButton>
@@ -556,11 +555,10 @@
                                 {{ $t('dutySchedules.zenegy_no_registrations') }}
                             </div>
                             <div class="mt-4 grid grid-cols-2 gap-3">
-                                <FormButton type="button" buttonStyle="cancel" class="rounded-md"
-                                    @click="state.syncStep = 'assign-rates'">
+                                <FormButton type="button" buttonStyle="cancel" @click="state.syncStep = 'assign-rates'">
                                     {{ $t('back') }}
                                 </FormButton>
-                                <FormButton type="button" buttonStyle="primary" class="rounded-md"
+                                <FormButton type="button" buttonStyle="primary"
                                     :disabled="state.registrationsPreview.length === 0 && state.supplementRegistrationsPreview.length === 0"
                                     @click="executeSyncToZenegy">
                                     {{ $t('dutySchedules.zenegy_sync') }} ({{ state.registrationsPreview.length +
@@ -612,7 +610,7 @@
                                 </div>
                             </div>
 
-                            <FormButton type="button" buttonStyle="primary" class="w-full rounded-md"
+                            <FormButton type="button" buttonStyle="primary" class="w-full"
                                 @click="state.modal.isZenegySyncOpen = false">
                                 {{ $t('close') }}
                             </FormButton>

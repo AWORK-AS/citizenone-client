@@ -229,19 +229,19 @@
                                     :label="$t('bookings.formEvent.slots.startTime')" />
                                 <FormTimeField :id="`start_time_${idx}`" :name="`start_time_${idx}`"
                                     :placeholder="$t('bookings.formEvent.slots.startTime')" v-model="item.start_time"
-                                    class="border border-primary placeholder-gray-500 text-gray-900 rounded-md focus:outline-none focus:ring-primary-700 focus:border-primary-700 focus:z-10 sm:text-sm" />
+                                    class="border border-primary placeholder-gray-500 text-gray-900 focus:outline-none focus:ring-primary-700 focus:border-primary-700 focus:z-10 sm:text-sm" />
                             </div>
                             <div class="space-y-1">
                                 <FormLabel :for="`end_time_${idx}`" :label="$t('bookings.formEvent.slots.endTime')" />
                                 <FormTimeField :id="`end_time_${idx}`" :name="`end_time_${idx}`"
                                     :placeholder="$t('bookings.formEvent.slots.endTime')" v-model="item.end_time"
-                                    class="border border-primary placeholder-gray-500 text-gray-900 rounded-md focus:outline-none focus:ring-primary-700 focus:border-primary-700 focus:z-10 sm:text-sm" />
+                                    class="border border-primary placeholder-gray-500 text-gray-900 focus:outline-none focus:ring-primary-700 focus:border-primary-700 focus:z-10 sm:text-sm" />
                             </div>
                             <div class="space-y-1">
                                 <FormLabel :for="`capacity_${idx}`" :label="$t('bookings.formEvent.slots.capacity')" />
                                 <FormNumberField :id="`capacity_${idx}`" :name="`capacity_${idx}`"
                                     :placeholder="$t('bookings.formEvent.slots.capacity')" v-model="item.capacity"
-                                    class="border border-primary placeholder-gray-500 text-gray-900 rounded-md focus:outline-none focus:ring-primary-700 focus:border-primary-700 focus:z-10 sm:text-sm" />
+                                    class="border border-primary placeholder-gray-500 text-gray-900 focus:outline-none focus:ring-primary-700 focus:border-primary-700 focus:z-10 sm:text-sm" />
                             </div>
                             <div v-if="state.formEvent.slots.length > 1" class="space-y-1">
                                 <Tooltip :text="$t('bookings.formEvent.slots.removeSlot')" position="left" class="mt-7">
@@ -364,19 +364,17 @@
                     </FormButton>
                 </div>
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-3" v-else>
-                    <FormButton type="button" buttonStyle="cancel" class="rounded-md" @click="emit('closeModal')"
+                    <FormButton type="button" buttonStyle="cancel" @click="emit('closeModal')"
                         v-if="state.currentStep === 1">
                         {{ $t('cancel') }}
                     </FormButton>
-                    <FormButton type="button" buttonStyle="cancel" class="rounded-md" @click="handleBack()"
-                        v-if="state.currentStep > 1">
+                    <FormButton type="button" buttonStyle="cancel" @click="handleBack()" v-if="state.currentStep > 1">
                         {{ $t('back') }}
                     </FormButton>
-                    <FormButton type="submit" buttonStyle="primary" class="rounded-md" @click="handleNext()"
-                        v-if="state.currentStep >= 1">
+                    <FormButton type="submit" buttonStyle="primary" @click="handleNext()" v-if="state.currentStep >= 1">
                         {{ $t('next') }}
                     </FormButton>
-                    <FormButton type="submit" buttonStyle="primary" class="rounded-md" v-if="state.currentStep === 4">
+                    <FormButton type="submit" buttonStyle="primary" v-if="state.currentStep === 4">
                         {{ props.formType === 'create' ? $t('save') :
                             $t('update') }}
                     </FormButton>

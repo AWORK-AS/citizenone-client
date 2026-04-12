@@ -112,10 +112,9 @@
                 <div class="space-y-1">
                     <div class="flex justify-between items-center py-0.5">
                         <FormLabel for="street" :label="$t('citizens.form.street')" />
-                        <div class="flex gap-x-1 items-center"  @click="state.modal.isLocateCitizenOpen = true">
+                        <div class="flex gap-x-1 items-center" @click="state.modal.isLocateCitizenOpen = true">
                             <Icon name="ph:map-pin" class="text-tertiary w-4 h-4" />
-                            <span class="text-xs cursor-pointer text-tertiary hover:text-tertiary-800"
-                               >
+                            <span class="text-xs cursor-pointer text-tertiary hover:text-tertiary-800">
                                 {{ $t('citizens.form.locateCitizen') }}
                             </span>
                         </div>
@@ -398,28 +397,32 @@
                     <FormError :error="v$?.formCitizen?.red?.$errors[0]?.$message.toString()" />
                     <FormError :error="props?.error?.errors?.red?.[0]" />
                 </div>
-                <div v-if="userStore.getUser?.has_citizen_app && isFieldVisible('system_access')" class="space-y-1 flex items-center gap-x-2">
+                <div v-if="userStore.getUser?.has_citizen_app && isFieldVisible('system_access')"
+                    class="space-y-1 flex items-center gap-x-2">
                     <FormSwitch :value="state.formCitizen.has_system_access"
                         @toggleSwitch="state.formCitizen.has_system_access = !state.formCitizen.has_system_access" />
                     <p>
                         {{ $t('citizens.form.allowSystemAccess') }}
                     </p>
                 </div>
-                <div v-if="userStore.getUser?.has_citizen_app && isFieldVisible('system_access')" class="space-y-1 flex items-center gap-x-2">
+                <div v-if="userStore.getUser?.has_citizen_app && isFieldVisible('system_access')"
+                    class="space-y-1 flex items-center gap-x-2">
                     <FormSwitch :value="state.formCitizen.has_chat_access"
                         @toggleSwitch="state.formCitizen.has_chat_access = !state.formCitizen.has_chat_access" />
                     <p>
                         {{ $t('citizens.form.allowChatAccess') }}
                     </p>
                 </div>
-                <div v-if="userStore.getUser?.has_citizen_app && isFieldVisible('system_access')" class="space-y-1 flex items-center gap-x-2">
+                <div v-if="userStore.getUser?.has_citizen_app && isFieldVisible('system_access')"
+                    class="space-y-1 flex items-center gap-x-2">
                     <FormSwitch :value="state.formCitizen.has_duty_schedule_access"
                         @toggleSwitch="state.formCitizen.has_duty_schedule_access = !state.formCitizen.has_duty_schedule_access" />
                     <p>
                         {{ $t('citizens.form.allowDutyScheduleAccess') }}
                     </p>
                 </div>
-                <div v-if="userStore.getUser?.has_citizen_app && isFieldVisible('system_access')" class="space-y-1 flex items-center gap-x-2">
+                <div v-if="userStore.getUser?.has_citizen_app && isFieldVisible('system_access')"
+                    class="space-y-1 flex items-center gap-x-2">
                     <FormSwitch :value="state.formCitizen.has_bullet_board_access"
                         @toggleSwitch="state.formCitizen.has_bullet_board_access = !state.formCitizen.has_bullet_board_access" />
                     <p>
@@ -549,7 +552,7 @@
                         {{ $t('citizens.form.stayData.accompanyingChildren.accompanyingChildren') }}
                     </p>
                     <div v-if="state.formCitizen.stayData.accompanying_children?.length < 1" class="py-3">
-                        <FormButton buttonStyle="primary" @click="addAccompanyingChild()" class="w-full rounded-md">
+                        <FormButton buttonStyle="primary" @click="addAccompanyingChild()" class="w-full">
                             {{ $t('citizens.form.stayData.addAccompanyingChild') }}
                         </FormButton>
                     </div>
@@ -636,10 +639,10 @@
         </div>
         <div class="mt-6">
             <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
-                <FormButton type="button" buttonStyle="cancel" class="rounded-md" @click="navigateTo('/citizens')">
+                <FormButton type="button" buttonStyle="cancel" @click="navigateTo('/citizens')">
                     {{ $t('cancel') }}
                 </FormButton>
-                <FormButton type="submit" buttonStyle="primary" class="rounded-md w-full">
+                <FormButton type="submit" buttonStyle="primary" class="w-full">
                     {{ props.formType === 'create' ? $t('save') :
                         $t('update') }}
                 </FormButton>
@@ -663,19 +666,14 @@
         <ModulesUserCitizenContactModalNewCaseworker :isModalOpen="state.modal.isAddCaseworkerOpen"
             @close="state.modal.isAddCaseworkerOpen = false" @refreshCaseworkers="fetchCitizenCaseWorkers"
             v-if="state.modal.isAddCaseworkerOpen" />
-        <ModulesUserCitizenDetailsModalLocateCitizen
-            :isModalOpen="state.modal.isLocateCitizenOpen"
-            :initialLocation="state.selectedCitizenLocation"
-            :currentAddress="{
+        <ModulesUserCitizenDetailsModalLocateCitizen :isModalOpen="state.modal.isLocateCitizenOpen"
+            :initialLocation="state.selectedCitizenLocation" :currentAddress="{
                 street: state.formCitizen.street,
                 city: state.formCitizen.city,
                 postCode: state.formCitizen.post_code,
                 municipality: state.options.municipalities.find(m => m.value === state.formCitizen.municipality)?.label,
                 region: state.options.regions.find(r => r.value === state.formCitizen.region)?.label
-            }"
-            @close="state.modal.isLocateCitizenOpen = false" 
-            @locationSelected="onCitizenLocationSelected"
-        />
+            }" @close="state.modal.isLocateCitizenOpen = false" @locationSelected="onCitizenLocationSelected" />
     </form>
 </template>
 
@@ -855,7 +853,7 @@ watch(() => language.locale.value, () => {
 watch(() => props.selectedCitizen, async (selectedCitizen: any) => {
     if (selectedCitizen != null) {
         fetchMunicipalitiesPerRegion(selectedCitizen.region_uuid)
-        
+
         // Fetch cities and resolve city name if it's a UUID
         let cityName = selectedCitizen.city || selectedCitizen.address?.city || ''
         if (selectedCitizen.municipality_uuid) {
@@ -868,14 +866,14 @@ watch(() => props.selectedCitizen, async (selectedCitizen: any) => {
                 }
             }
         }
-        
+
         if (selectedCitizen.image) {
             avatarUrl.value = selectedCitizen.image
         }
-        
+
         const lat = selectedCitizen.address?.latitude || selectedCitizen.latitude
         const lng = selectedCitizen.address?.longitude || selectedCitizen.longitude
-        
+
         if (lat && lng) {
             state.selectedCitizenLocation = {
                 lat: Number(lat),
@@ -884,7 +882,7 @@ watch(() => props.selectedCitizen, async (selectedCitizen: any) => {
         } else {
             state.selectedCitizenLocation = null
         }
-        
+
         state.formCitizen = {
             image: selectedCitizen.image,
             firstname: selectedCitizen.firstname,
@@ -1010,15 +1008,15 @@ watch(() => state.formCitizen.post_code, async (newPostCode, oldPostCode, onClea
     if (isStale) return
 
     const data = await zipLookerService.findCityRegionMunicipality(newPostCode)
-    
+
     if (data && !isStale) {
         state.formCitizen.city = data.city
 
         const matchedRegion = state.options.regions.find(
             (r: any) => r.label.toLowerCase().includes(data.region.toLowerCase())
         ) as any
-        
-        state.formCitizen.region = matchedRegion?.value          
+
+        state.formCitizen.region = matchedRegion?.value
         await changeSelectedRegion(matchedRegion?.value)
 
         const matchedMuni = state.options.municipalitiesPerRegion.find(
@@ -1411,95 +1409,95 @@ async function parseAndUpdateAddress(addressData: any, location: { lat: number; 
         state.formCitizen.longitude = location.lng.toString()
         return
     }
-    
+
     const address = addressData.address || {}
-    
+
     const street = `${address.road || ''} ${address.house_number || ''}`.trim() || address.pedestrian || ''
     const postCode = address.postcode || ''
     const city = address.city || address.town || address.village || address.municipality || ''
-    
+
     state.formCitizen.street = street
     state.formCitizen.post_code = postCode
-    
+
     state.formCitizen.latitude = location.lat.toString()
     state.formCitizen.longitude = location.lng.toString()
-    
+
     const regionName = address.state || address.region || ''
     if (regionName) {
         const normalizedRegionName = regionName.replace(/^Region\s+/i, '').trim()
-        
+
         const matchedRegion = state.options.regions.find(
             (r: any) => {
                 if (!r?.label) return false
                 const normalizedLabel = r.label.trim()
-                
+
                 if (normalizedLabel.toLowerCase() === normalizedRegionName.toLowerCase()) {
                     return true
                 }
-                
+
                 if (normalizedLabel.toLowerCase().includes(normalizedRegionName.toLowerCase()) ||
                     normalizedRegionName.toLowerCase().includes(normalizedLabel.toLowerCase())) {
                     return true
                 }
-                
+
                 return false
             }
         )
-        
+
         if (matchedRegion && matchedRegion.value) {
             state.formCitizen.region = matchedRegion.value
             await fetchMunicipalitiesPerRegion(matchedRegion.value)
         }
     }
-    
+
     const municipalityName = address.municipality || address.county || ''
     if (municipalityName) {
         const normalizedMunicipalityName = municipalityName.replace(/\s+Kommune$/i, '').trim()
-        
+
         let matchedMunicipality = state.options.municipalitiesPerRegion.find(
             (m: any) => {
                 if (!m?.label) return false
                 const normalizedLabel = m.label.trim()
-                
+
                 if (normalizedLabel.toLowerCase() === normalizedMunicipalityName.toLowerCase()) {
                     return true
                 }
-                
+
                 if (normalizedLabel.toLowerCase().includes(normalizedMunicipalityName.toLowerCase()) ||
                     normalizedMunicipalityName.toLowerCase().includes(normalizedLabel.toLowerCase())) {
                     return true
                 }
-                
+
                 return false
             }
         )
-        
+
         if (!matchedMunicipality && state.options.municipalitiesPerRegion.length === 0) {
             matchedMunicipality = state.options.municipalities.find(
                 (m: any) => {
                     if (!m?.label) return false
                     const normalizedLabel = m.label.trim()
-                    
+
                     if (normalizedLabel.toLowerCase() === normalizedMunicipalityName.toLowerCase()) {
                         return true
                     }
-                    
+
                     if (normalizedLabel.toLowerCase().includes(normalizedMunicipalityName.toLowerCase()) ||
                         normalizedMunicipalityName.toLowerCase().includes(normalizedLabel.toLowerCase())) {
                         return true
                     }
-                    
+
                     return false
                 }
             )
         }
-        
+
         if (matchedMunicipality && matchedMunicipality.value) {
             state.formCitizen.municipality = matchedMunicipality.value
             await fetchCities(matchedMunicipality.value)
         }
     }
-    
+
     if (city) {
         const matchedCity = state.options.cities.find(
             (c: any) => c?.label && c.label.toLowerCase() === city.toLowerCase()
@@ -1510,7 +1508,7 @@ async function parseAndUpdateAddress(addressData: any, location: { lat: number; 
             state.formCitizen.city = city
         }
     }
-    
+
     state.selectedCitizenLocation = location
 }
 
@@ -1522,7 +1520,7 @@ async function onCitizenLocationSelected(location: { lat: number; lng: number },
         state.selectedCitizenLocation = location
         return
     }
-    
+
     await parseAndUpdateAddress(addressData, location)
 }
 </script>

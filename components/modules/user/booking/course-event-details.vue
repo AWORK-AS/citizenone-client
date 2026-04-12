@@ -323,7 +323,7 @@
             </div>
         </div>
         <div class="mt-6">
-            <FormButton buttonStyle="primary" class="w-full rounded-md" @click="$emit('continue')">
+            <FormButton buttonStyle="primary" class="w-full" @click="$emit('continue')">
                 {{ $t('bookings.booking.continue') }}
             </FormButton>
         </div>

@@ -51,12 +51,11 @@
                         </select>
                     </div>
                     <div class="flex flex-wrap items-center gap-3">
-                        <FormButton buttonStyle="action" class="rounded-lg"
-                            @click="state.modal.isViewLocationsOpen = true">
+                        <FormButton buttonStyle="action" @click="state.modal.isViewLocationsOpen = true">
                             <Icon name="ph:map-pin" class="h-4 w-4" aria-hidden="true" />
                             {{ $t('citizens.viewLocations.viewLocations') }}
                         </FormButton>
-                        <FormButton buttonStyle="action" class="rounded-lg" @click="navigateTo('/inquiries')"
+                        <FormButton buttonStyle="action" @click="navigateTo('/inquiries')"
                             v-if="userStore.getUser?.company?.industry?.system_name === 'social_welfare' && ['Crisis center', 'Shelter'].includes(userStore.getUser?.company?.facility_type?.en_name)">
                             <Icon name="ph:list-bullets" class="h-4 w-4" aria-hidden="true" />
                             {{ $t('inquiries.inquiries') }}
@@ -66,7 +65,7 @@
                             as="div" class="relative inline-block text-left z-20">
                             <div>
                                 <MenuButton>
-                                    <FormButton buttonStyle="action" class="rounded-lg">
+                                    <FormButton buttonStyle="action">
                                         <Icon name="ph:plus" class="h-4 w-4" aria-hidden="true" />
                                         {{ $t('citizens.newCitizen') }}
                                     </FormButton>
@@ -104,18 +103,16 @@
                                 </MenuItems>
                             </transition>
                         </Menu>
-                        <FormButton buttonStyle="action" class="rounded-lg"
-                            @click="state.modal.isSharedJournalsOpen = true">
+                        <FormButton buttonStyle="action" @click="state.modal.isSharedJournalsOpen = true">
                             <Icon name="ph:share-fat" class="h-4 w-4" aria-hidden="true" />
                             {{ $t('citizens.citizenJournals.shareJournals.sharedJournals') }}
                         </FormButton>
-                        <FormButton buttonStyle="action" class="rounded-lg"
-                            @click="state.modal.isImportCitizensOpen = true"
+                        <FormButton buttonStyle="action" @click="state.modal.isImportCitizensOpen = true"
                             v-if="userStore.getUser?.roles?.[0]?.name === 'Admin'">
                             <Icon name="ph:file-arrow-up" class="h-4 w-4" aria-hidden="true" />
                             {{ $t('citizens.importCitizens.importCitizens') }}
                         </FormButton>
-                        <FormButton buttonStyle="action" class="rounded-lg" @click="exportCitizens({})"
+                        <FormButton buttonStyle="action" @click="exportCitizens({})"
                             v-if="userStore.getUser?.roles?.[0]?.name === 'Admin' && !isShelterOrCrisisCenter">
                             <Icon name="ph:file-arrow-down" class="h-4 w-4" aria-hidden="true" />
                             {{ $t('citizens.exportCitizens') }}
@@ -124,7 +121,7 @@
                             class="relative inline-block text-left z-20">
                             <div>
                                 <MenuButton>
-                                    <FormButton buttonStyle="action" class="rounded-lg">
+                                    <FormButton buttonStyle="action">
                                         <Icon name="ph:file-arrow-down" class="h-4 w-4" aria-hidden="true" />
                                         {{ $t('citizens.exportCitizens') }}
                                     </FormButton>
@@ -168,7 +165,7 @@
                             as="div" class="relative inline-block text-left z-20">
                             <div>
                                 <MenuButton>
-                                    <FormButton buttonStyle="action" class="rounded-lg">
+                                    <FormButton buttonStyle="action">
                                         <Icon name="ph:file-arrow-down" class="h-4 w-4" aria-hidden="true" />
                                         {{ $t('inquiries.exportInquiries') }}
                                     </FormButton>
@@ -257,13 +254,13 @@
                                                     @toggleSwitch="toggleLogin(citizen)" />
                                             </Tooltip>
                                             <Tooltip :text="$t('citizens.table.actions.view')">
-                                                <FormButton type="button" buttonStyle="action" class="rounded-md"
+                                                <FormButton type="button" buttonStyle="action"
                                                     @click="navigateTo(`/citizens/${citizen.uuid}/journals`)">
                                                     <Icon name="ph:eye" class="size-4" />
                                                 </FormButton>
                                             </Tooltip>
                                             <Tooltip :text="$t('citizens.table.actions.medicationOverview')">
-                                                <FormButton type="button" buttonStyle="action" class="rounded-md"
+                                                <FormButton type="button" buttonStyle="action"
                                                     @click="navigateTo(`/citizens/${citizen.uuid}/medicine-journals`)">
                                                     <Icon name="solar:jar-of-pills-2-linear" class="size-4" />
                                                 </FormButton>
@@ -275,20 +272,20 @@
                                                 <FormButton type="button" :buttonStyle="citizen?.plans_goals_status === 'none' ? 'plans-none' :
                                                     citizen?.plans_goals_status === 'expiring' ? 'plans-expiring' :
                                                         citizen?.plans_goals_status === 'expired' ? 'plans-expired' :
-                                                            'action'" class="rounded-md"
+                                                            'action'"
                                                     @click="navigateTo(`/citizens/${citizen.uuid}/plans-and-goals/all`)">
                                                     <Icon name="ph:list-checks" class="size-4" />
                                                 </FormButton>
                                             </Tooltip>
                                             <Tooltip :text="$t('citizens.table.actions.edit')">
-                                                <FormButton type="button" buttonStyle="action" class="rounded-md"
+                                                <FormButton type="button" buttonStyle="action"
                                                     @click="navigateTo(`/citizens/${citizen.uuid}/edit`)"
                                                     v-if="userStore.getUser?.roles?.[0]?.name === 'Admin'">
                                                     <Icon name="ph:pencil-simple" class="size-4" />
                                                 </FormButton>
                                             </Tooltip>
                                             <Tooltip :text="$t('citizens.table.actions.latestJournalEntry')">
-                                                <FormButton type="button" buttonStyle="action" class="rounded-md"
+                                                <FormButton type="button" buttonStyle="action"
                                                     @click="showCitizenNote(citizen)">
                                                     <Icon name="ph:note" class="size-4" />
                                                 </FormButton>
@@ -298,12 +295,10 @@
                                                     citizen.latest_risk_assessment?.assessment === 'no risk' && 'no-risk' ||
                                                     citizen.latest_risk_assessment?.assessment === 'increased risk' && 'increased-risk' ||
                                                     citizen.latest_risk_assessment?.assessment === 'acute increased risk' && 'acute-increased-risk' || 'action'"
-                                                class="rounded-md"
                                                 @click="navigateTo(`/citizens/${citizen.uuid}/journals`)" :class="[
                                                     citizen.latest_risk_assessment?.assessment === 'no risk' && 'bg-green-700',
                                                     citizen.latest_risk_assessment?.assessment === 'increased risk' && 'bg-yellow-500',
                                                     citizen.latest_risk_assessment?.assessment === 'acute increased risk' && 'bg-red-600',
-                                                    'rounded-md'
                                                 ]">
                                                 {{ $t('citizens.table.actions.latestRiskAssessment') }}
                                             </FormButton>

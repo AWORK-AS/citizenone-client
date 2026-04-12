@@ -18,8 +18,7 @@
 
             <div class="mt-8">
                 <div class="flex justify-end items-center mb-5">
-                    <FormButton buttonStyle="action" class="rounded-lg"
-                        @click="navigateTo('/settings/calendar-tags/new')">
+                    <FormButton buttonStyle="action" @click="navigateTo('/settings/calendar-tags/new')">
                         <Icon name="ph:plus" class="h-4 w-4" aria-hidden="true" />
                         {{ $t('calendarTags.addNewCalendarTag') }}
                     </FormButton>
@@ -50,13 +49,13 @@
                                     </td>
                                     <td width="30%">
                                         <div class="flex items-end justify-end gap-2">
-                                            <FormButton type="button" buttonStyle="action" class="rounded-md"
+                                            <FormButton type="button" buttonStyle="action"
                                                 @click="navigateTo(`/settings/calendar-tags/${calendarTag.uuid}/edit`)"
                                                 v-if="calendarTag?.is_editable">
                                                 <Icon name="ph:pencil-simple" class="size-4" />
                                                 {{ $t('calendarTags.table.actions.edit') }}
                                             </FormButton>
-                                            <FormButton type="button" buttonStyle="danger" class="rounded-md"
+                                            <FormButton type="button" buttonStyle="danger"
                                                 @click="deleteCalendarTagConfirmation(calendarTag)"
                                                 v-if="calendarTag?.is_deletable">
                                                 <Icon name="ph:trash" class="size-4" />

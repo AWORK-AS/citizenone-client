@@ -209,11 +209,15 @@ table td {
     @vueform/multiselect
 ---------------------------------------------------------------------------------------------------- */
 .multiselect {
-    @apply border border-surface-200 rounded-lg min-h-11 shadow-sm !important;
+    @apply border border-gray-200 rounded-full min-h-11 !important;
+}
+
+.multiselect-wrapper, .multiselect-search {
+    @apply rounded-full !important;
 }
 
 .multiselect-dropdown {
-    @apply border border-surface-200 rounded-lg shadow-dropdown !important;
+    @apply border border-gray-200 rounded-lg shadow-dropdown !important;
 }
 
 .multiselect-tag {
@@ -221,8 +225,16 @@ table td {
 }
 
 .multiselect.is-active {
-    box-shadow: 0 0 0 3px rgba(44, 93, 229, 0.1) !important;
-    @apply border border-primary-200 !important;
+    /* box-shadow: 0 0 0 3px rgba(44, 93, 229, 0.1) !important; */
+    @apply border border-primary !important;
+    outline: none !important;
+    box-shadow: none !important;
+}
+
+.multiselect.is-active .multiselect-wrapper,
+.multiselect-search:focus {
+    outline: none !important;
+    box-shadow: none !important;
 }
 
 .multiselect-option.is-selected,
@@ -233,9 +245,42 @@ table td {
 /* ----------------------------------------------------------------------------------------------------
     Editor
 ---------------------------------------------------------------------------------------------------- */
+.ck.ck-editor {
+    border-radius: 1rem !important;
+    overflow: hidden !important;
+    border: 1px solid #e5e7eb !important;
+}
+
+.ck.ck-toolbar {
+    border-radius: 1rem 1rem 0 0 !important;
+    border: none !important;
+    border-bottom: 1px solid #e5e7eb !important;
+}
+
+.ck-sticky-panel__content {
+    border: none !important;
+}
+
 .ck-editor__editable_inline {
     min-height: 200px;
-    @apply rounded-b-lg border-surface-200 !important;
+    border-radius: 0 0 1rem 1rem !important;
+    border: none !important;
+    scrollbar-width: none !important;
+    @apply border-surface-200 !important;
+}
+
+.ck-editor__editable_inline::-webkit-scrollbar {
+    display: none !important;
+}
+
+.ck-powered-by-balloon {
+    display: none !important;
+}
+
+.ck.ck-editor__editable.ck-focused:not(.ck-editor__nested-editable) {
+    border: none !important;
+    box-shadow: none !important;
+    outline: none !important;
 }
 
 .ck-editor__editable h1 {
@@ -520,9 +565,6 @@ table td {
 /* ----------------------------------------------------------------------------------------------------
     Focus styles
 ---------------------------------------------------------------------------------------------------- */
-input:focus, select:focus, textarea:focus {
-    @apply outline-none ring-2 ring-primary-200 border-primary-400;
-}
 
 /* ----------------------------------------------------------------------------------------------------
     Tooltip override
@@ -630,7 +672,7 @@ input:focus, select:focus, textarea:focus {
 .text-xxs {
     font-size: 0.7rem;
     line-height: 1.4;
-    color: #64748b;
+    /* color: #64748b; */
 }
 
 /* --- Shift cells: modern rounded cards --- */
@@ -810,7 +852,7 @@ button.text-primary.text-sm.hover\:text-primary-700 {
 
 /* ===== KNAP SYSTEM ===== */
 
-.btn-ai, .btn-amber, .btn-blue, .btn-danger {
+/* .btn-ai, .btn-amber, .btn-blue, .btn-danger {
     height: 2.25rem;
     padding: 0 0.875rem;
     font-size: 0.75rem;
@@ -823,34 +865,7 @@ button.text-primary.text-sm.hover\:text-primary-700 {
     white-space: nowrap;
     cursor: pointer;
     transition: border-color 0.15s ease;
-}
-
-.btn-ai {
-    background-color: #f0faf9 !important;
-    color: #0a6e5e !important;
-    border: 1.5px solid #b6e9e3 !important;
-}
-.btn-ai:hover {
-    border-color: #0a6e5e !important;
-}
-
-.btn-amber {
-    background-color: #fff7ed !important;
-    color: #b45309 !important;
-    border: 1.5px solid #fed7aa !important;
-}
-.btn-amber:hover {
-    border-color: #f59e0b !important;
-}
-
-.btn-blue {
-    background-color: #eff6ff !important;
-    color: #1d4ed8 !important;
-    border: 1.5px solid #bfdbfe !important;
-}
-.btn-blue:hover {
-    border-color: #1d4ed8 !important;
-}
+} */
 
 .btn-danger {
     background-color: #fef2f2 !important;
@@ -861,7 +876,7 @@ button.text-primary.text-sm.hover\:text-primary-700 {
     border-color: #dc2626 !important;
 }
 
-button.outline-none.rounded-full {
+/* button.outline-none.rounded-full {
     background-color: #eff6ff;
     background-image: none;
     color: #1d4ed8;
@@ -873,7 +888,7 @@ button.outline-none.rounded-full:hover {
     background-image: none;
     box-shadow: none;
     transform: none;
-}
+} */
 
 /* END KNAP SYSTEM */
 
@@ -893,7 +908,7 @@ button.outline-none.rounded-full:hover {
 .sticky.top-0 button { border-radius: 9999px !important; }
 
 /* Alle inputs/selects: let afrunding */
-input:not([type="checkbox"]):not([type="radio"]), select, textarea { border-radius: 0.625rem !important; }
+/* input:not([type="text"]):not([type="password"]):not([type="checkbox"]):not([type="radio"]), select, textarea { border-radius: 0.625rem !important; } */
 
 /* Sidebar: lys hvid */
 [class*="from-sidebar"] {
@@ -941,9 +956,9 @@ input:not([type="checkbox"]):not([type="radio"]), select, textarea { border-radi
 
 /* Søgefelt */
 input.appearance-none.border-primary {
-    border-color: #e2e5ea !important;
-    border-right: none !important;
-    border-radius: 9999px 0 0 9999px !important;
+    /* border-color: #e2e5ea !important; */
+    /* border-right: none !important; */
+    /* border-radius: 9999px 9999px 9999px 9999px !important; */
 }
 .bg-primary.px-6.py-1\.5.border.border-primary {
     border-radius: 0 9999px 9999px 0 !important;
@@ -955,14 +970,10 @@ input.appearance-none.border-primary {
 /* ===== END REDESIGN PATCHES ===== */
 
 /* Alle knapper runde */
-button { border-radius: 9999px !important; }
+/* button { border-radius: 9999px !important; } */
 
 /* Modal altid over topbar */
 [class*="fixed"][class*="inset-0"], [class*="fixed"][class*="z-50"], .fixed.inset-0 { z-index: 100 !important; }
-
-
-
-
 
 /* ===== FINAL SHIFT + MODAL FIXES ===== */
 
@@ -1003,7 +1014,7 @@ button { border-radius: 9999px !important; }
 }
 
 /* Topbar bag modal: topbar z-index lavere end modal overlay */
-.sticky.top-0 { z-index: 49 !important; }
+/* .sticky.top-0 { z-index: 49 !important; } */
 
 /* Modal overlay og dialog: altid over topbar */
 [class*="fixed"][class*="inset-0"][class*="bg-gray"],
@@ -1018,12 +1029,6 @@ button { border-radius: 9999px !important; }
 [role='listbox'],[role='menu'] { z-index: 55 !important; }
 
 /* ===== END FINAL FIXES ===== */
-
-
-
-
-
-
 
 /* ===== SHIFT KORT REDESIGN ===== */
 
@@ -1097,19 +1102,19 @@ button { border-radius: 9999px !important; }
 [draggable="true"]:active { opacity: 0.7; }
 
 .slot-badge {
-  width: 20px !important;
-  height: 20px !important;
-  min-width: 20px !important;
-  min-height: 20px !important;
-  max-width: 20px !important;
-  max-height: 20px !important;
-  padding: 0 !important;
-  line-height: 20px !important;
-  text-align: center !important;
-  display: block !important;
-  font-size: 10px !important;
-  color: white !important;
-  box-sizing: border-box !important;
-  border-radius: 50% !important;
-  pointer-events: none !important;
+    width: 20px !important;
+    height: 20px !important;
+    min-width: 20px !important;
+    min-height: 20px !important;
+    max-width: 20px !important;
+    max-height: 20px !important;
+    padding: 0 !important;
+    line-height: 20px !important;
+    text-align: center !important;
+    display: block !important;
+    font-size: 10px !important;
+    color: white !important;
+    box-sizing: border-box !important;
+    border-radius: 50% !important;
+    pointer-events: none !important;
 }

@@ -20,7 +20,7 @@
                                         <div class="flex items-center gap-x-2">
                                             <div>
                                                 <span>{{ appointment?.appointment?.booking_setting?.appointment?.name
-                                                    }}</span>
+                                                }}</span>
                                             </div>
                                         </div>
                                     </td>
@@ -38,7 +38,7 @@
                                     <td width="10%">
                                         <div class="flex items-end justify-end gap-2">
                                             <Tooltip :text="$t('citizens.table.actions.view')">
-                                                <FormButton type="button" buttonStyle="action" class="rounded-md"
+                                                <FormButton type="button" buttonStyle="action"
                                                     @click="viewAppointment(appointment)">
                                                     <Icon name="ph:eye" class="size-4" />
                                                 </FormButton>

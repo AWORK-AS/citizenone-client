@@ -5,8 +5,7 @@
             <template #modal-body>
                 <div>
                     <div class="flex justify-end items-center mb-5">
-                        <FormButton buttonStyle="action" class="rounded-lg"
-                            @click="state.modal.isAssignCitizenOpen = true">
+                        <FormButton buttonStyle="action" @click="state.modal.isAssignCitizenOpen = true">
                             <Icon name="ph:plus" class="h-4 w-4" aria-hidden="true" />
                             {{ $t('employees.citizens.assignCitizens') }}
                         </FormButton>
@@ -27,7 +26,7 @@
                                         </td>
                                         <td width="20%">
                                             <div class="flex items-end gap-2">
-                                                <FormButton type="button" buttonStyle="action" class="rounded-md"
+                                                <FormButton type="button" buttonStyle="action"
                                                     @click="confirmDeleteCitizen(citizen)">
                                                     <Icon name="ph:trash" class="size-4" />
                                                     {{ $t('employees.citizens.table.actions.delete') }}

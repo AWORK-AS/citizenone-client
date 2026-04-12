@@ -17,8 +17,7 @@
 
             <div class="mt-8">
                 <div class="flex justify-end items-center mb-5">
-                    <FormButton buttonStyle="action" class="rounded-lg"
-                        @click="navigateTo('/settings/foreign-cities/new')">
+                    <FormButton buttonStyle="action" @click="navigateTo('/settings/foreign-cities/new')">
                         <Icon name="ph:plus" class="h-4 w-4" aria-hidden="true" />
                         {{ $t('foreignCities.newForeignCity') }}
                     </FormButton>
@@ -37,12 +36,12 @@
                                     </td>
                                     <td width="50%">
                                         <div class="flex items-end justify-end gap-2">
-                                            <FormButton type="button" buttonStyle="action" class="rounded-md"
+                                            <FormButton type="button" buttonStyle="action"
                                                 @click="navigateTo(`/settings/foreign-cities/${foreignCity.uuid}/edit`)">
                                                 <Icon name="ph:pencil-simple" class="size-4" />
                                                 {{ $t('foreignCities.table.actions.edit') }}
                                             </FormButton>
-                                            <FormButton type="button" buttonStyle="danger" class="rounded-md"
+                                            <FormButton type="button" buttonStyle="danger"
                                                 @click="deleteForeignCityConfirmation(foreignCity)">
                                                 <Icon name="ph:trash" class="size-4" />
                                                 {{ $t('foreignCities.table.actions.delete') }}

@@ -16,8 +16,7 @@
                                 {{ formatDateToReadable(state.shiftDateRange.formDateRange.end_date) }})
                             </button>
                         </div>
-                        <FormButton buttonStyle="action" class="rounded-lg"
-                            @click="state.modal.isAddNewLeaveRequestOpen = true">
+                        <FormButton buttonStyle="action" @click="state.modal.isAddNewLeaveRequestOpen = true">
                             <Icon name="ph:plus" class="h-4 w-4" aria-hidden="true" />
                             {{ $t('dutySchedules.leaveRequests.newLeaveRequest') }}
                         </FormButton>
@@ -71,22 +70,21 @@
                                                 <Tooltip :text="$t('dutySchedules.leaveRequests.table.actions.edit')"
                                                     @click="editLeaveRequest(leaveRequests)"
                                                     v-if="isAdmin(userStore.getUser?.role) || ['pending'].includes(leaveRequests?.status)">
-                                                    <FormButton type=" button" buttonStyle="action" class="rounded-md">
+                                                    <FormButton type=" button" buttonStyle="action">
                                                         <Icon name="ph:pencil-simple" class="size-4" />
                                                     </FormButton>
                                                 </Tooltip>
                                                 <Tooltip :text="$t('dutySchedules.leaveRequests.table.actions.approve')"
                                                     @click="confirmApproveLeaveRequestRequest(leaveRequests)"
                                                     v-if="isAdmin(userStore.getUser?.role) && leaveRequests?.status === 'pending'"">
-                                                    <FormButton type=" button" buttonStyle="success"
-                                                    class="rounded-md">
+                                                    <FormButton type=" button" buttonStyle="success">
                                                     <Icon name="ph:check" class="size-4" />
                                                     </FormButton>
                                                 </Tooltip>
                                                 <Tooltip :text="$t('dutySchedules.leaveRequests.table.actions.reject')"
                                                     @click="confirmRejectLeaveRequestRequest(leaveRequests)"
                                                     v-if="isAdmin(userStore.getUser?.role) && leaveRequests?.status === 'pending'"">
-                                                    <FormButton type=" button" buttonStyle="danger" class="rounded-md">
+                                                    <FormButton type=" button" buttonStyle="danger">
                                                     <Icon name="ph:x" class="size-4" />
                                                     </FormButton>
                                                 </Tooltip>
@@ -94,7 +92,7 @@
                                                     @click="confirmDeleteLeaveRequest(leaveRequests)"
                                                     v-if="isAdmin(userStore.getUser?.role) ||
                                                         (!isAdmin(userStore.getUser?.role) && ['pending'].includes(leaveRequests?.status))">
-                                                    <FormButton type="button" buttonStyle="danger" class="rounded-md">
+                                                    <FormButton type="button" buttonStyle="danger">
                                                         <Icon name="ph:trash" class="size-4" />
                                                     </FormButton>
                                                 </Tooltip>

@@ -36,115 +36,116 @@
             </template>
 
             <LoadingSpinner :isActive="state.isPageLoading">
-           <div class="space-y-5">
-            <div class="mt-8 flex flex-col md:flex-row justify-between gap-3">
-                <div class="flex items-center justify-end md:justify-start gap-x-3">
-                <FormButton buttonStyle="action" class="rounded-md" @click="toggleGoogleDriveView">
-                    <Icon v-if="state.viewMode !== 'google-drive'" name="mdi:google-drive" class="h-4 w-4" aria-hidden="true" />
-                    {{ state.viewMode === 'google-drive' ? 'CitizenOne Documents' : 'Google Drive' }}
-                </FormButton>
-                <FormButton buttonStyle="action" class="rounded-md" @click="handleOneDriveButtonClick">
-                    <Icon name="mdi:microsoft-onedrive" class="h-4 w-4" aria-hidden="true" />
-                    {{ state.isInsideOneDrive ? $t('drive.companyDocuments') : 'OneDrive' }}
-                </FormButton>
-                </div>
-                <div class="flex flex-wrap items-center justify-end gap-3">
-                <Menu as="div" class="w-full md:w-fit relative inline-block text-left z-20" v-if="state.viewMode === 'local'">
-                    <div>
-                    <MenuButton class="w-full md:w-fit">
-                        <FormButton buttonStyle="action" class="w-full md:w-fit rounded-lg">
-                        <Icon name="ph:plus" class="h-4 w-4" aria-hidden="true" />
-                        {{ $t('drive.new') }}
-                        </FormButton>
-                    </MenuButton>
-                    </div>
-                    <transition enter-active-class="transition duration-100 ease-out"
-                    enter-from-class="transform scale-95 opacity-0"
-                    enter-to-class="transform scale-100 opacity-100"
-                    leave-active-class="transition duration-75 ease-in"
-                    leave-from-class="transform scale-100 opacity-100"
-                    leave-to-class="transform scale-95 opacity-0">
-                    <MenuItems
-                        class="absolute right-0 mt-2 w-56 origin-top-right divide-y divide-gray-100 rounded-md bg-white shadow-lg ring-1 ring-black/5 focus:outline-none">
-                        <div class="px-1 py-1">
-                        <MenuItem v-slot="{ active }" @click="state.modal.isAddDirectoryOpen = true">
-                            <button :class="[
-                            active && 'bg-gray-100',
-                            'group flex w-full items-center rounded-md px-2 py-2.5 text-sm',
-                            ]">
-                            <Icon name="ph:folder" class="mr-2 h-4 w-4" aria-hidden="true" />
-                            {{ $t('drive.createNewFolder') }}
-                            </button>
-                        </MenuItem>
-                        <MenuItem v-slot="{ active }" @click="state.modal.isCreateDocumentFileOpen = true">
-                            <button :class="[
-                            active && 'bg-gray-100',
-                            'group flex w-full items-center rounded-md px-2 py-2.5 text-sm',
-                            ]">
-                            <Icon name="ph:file-plus" class="mr-2 h-4 w-4" aria-hidden="true" />
-                            {{ $t('drive.newDocument') }}
-                            </button>
-                        </MenuItem>
+                <div class="space-y-5">
+                    <div class="mt-8 flex flex-col md:flex-row justify-between gap-3">
+                        <div class="flex items-center justify-end md:justify-start gap-x-3">
+                            <FormButton buttonStyle="action" @click="toggleGoogleDriveView">
+                                <Icon v-if="state.viewMode !== 'google-drive'" name="mdi:google-drive" class="h-4 w-4"
+                                    aria-hidden="true" />
+                                {{ state.viewMode === 'google-drive' ? 'CitizenOne Documents' : 'Google Drive' }}
+                            </FormButton>
+                            <FormButton buttonStyle="action" @click="handleOneDriveButtonClick">
+                                <Icon name="mdi:microsoft-onedrive" class="h-4 w-4" aria-hidden="true" />
+                                {{ state.isInsideOneDrive ? $t('drive.companyDocuments') : 'OneDrive' }}
+                            </FormButton>
                         </div>
-                    </MenuItems>
-                    </transition>
-                </Menu>
+                        <div class="flex flex-wrap items-center justify-end gap-3">
+                            <Menu as="div" class="w-full md:w-fit relative inline-block text-left z-20"
+                                v-if="state.viewMode === 'local'">
+                                <div>
+                                    <MenuButton class="w-full md:w-fit">
+                                        <FormButton buttonStyle="action" class="w-full md:w-fit rounded-lg">
+                                            <Icon name="ph:plus" class="h-4 w-4" aria-hidden="true" />
+                                            {{ $t('drive.new') }}
+                                        </FormButton>
+                                    </MenuButton>
+                                </div>
+                                <transition enter-active-class="transition duration-100 ease-out"
+                                    enter-from-class="transform scale-95 opacity-0"
+                                    enter-to-class="transform scale-100 opacity-100"
+                                    leave-active-class="transition duration-75 ease-in"
+                                    leave-from-class="transform scale-100 opacity-100"
+                                    leave-to-class="transform scale-95 opacity-0">
+                                    <MenuItems
+                                        class="absolute right-0 mt-2 w-56 origin-top-right divide-y divide-gray-100 rounded-md bg-white shadow-lg ring-1 ring-black/5 focus:outline-none">
+                                        <div class="px-1 py-1">
+                                            <MenuItem v-slot="{ active }"
+                                                @click="state.modal.isAddDirectoryOpen = true">
+                                            <button :class="[
+                                                active && 'bg-gray-100',
+                                                'group flex w-full items-center rounded-md px-2 py-2.5 text-sm',
+                                            ]">
+                                                <Icon name="ph:folder" class="mr-2 h-4 w-4" aria-hidden="true" />
+                                                {{ $t('drive.createNewFolder') }}
+                                            </button>
+                                            </MenuItem>
+                                            <MenuItem v-slot="{ active }"
+                                                @click="state.modal.isCreateDocumentFileOpen = true">
+                                            <button :class="[
+                                                active && 'bg-gray-100',
+                                                'group flex w-full items-center rounded-md px-2 py-2.5 text-sm',
+                                            ]">
+                                                <Icon name="ph:file-plus" class="mr-2 h-4 w-4" aria-hidden="true" />
+                                                {{ $t('drive.newDocument') }}
+                                            </button>
+                                            </MenuItem>
+                                        </div>
+                                    </MenuItems>
+                                </transition>
+                            </Menu>
 
-                
-            
 
-               <!-- Knap til opret ny mappe (Google Drive/OneDrive) fjernet efter ønske -->
 
-                <FormButton buttonStyle="action" class="rounded-md"
-                @click="state.viewMode === 'google-drive' ? uploadToGoogleDrive() : state.isInsideOneDrive ? handleOneDriveUpload() : triggerFileInput()"
-                v-if="state.viewMode === 'google-drive' || state.isInsideOneDrive || state.viewMode === 'local'">
-                <Icon name="ph:upload" class="h-4 w-4" aria-hidden="true" />
-                {{ $t('drive.uploadFile') }}
-                </FormButton>
 
-                <input type="file" ref="documentFile" @change="uploadFile" class="hidden" multiple v-if="state.viewMode === 'local'" />
+                            <!-- Knap til opret ny mappe (Google Drive/OneDrive) fjernet efter ønske -->
 
-                <FormButton buttonStyle="action" class="rounded-md"
-                @click="state.modal.isViewFolderStructureOpen = true"
-                v-if="!state.isInsideOneDrive && (state.viewMode === 'local' || state.viewMode === 'google-drive')">
-                <Icon name="ph:folder-notch-open" class="h-4 w-4" aria-hidden="true" />
-                {{ $t('folderStructure.folderStructure') }}
-                </FormButton>
+                            <FormButton buttonStyle="action"
+                                @click="state.viewMode === 'google-drive' ? uploadToGoogleDrive() : state.isInsideOneDrive ? handleOneDriveUpload() : triggerFileInput()"
+                                v-if="state.viewMode === 'google-drive' || state.isInsideOneDrive || state.viewMode === 'local'">
+                                <Icon name="ph:upload" class="h-4 w-4" aria-hidden="true" />
+                                {{ $t('drive.uploadFile') }}
+                            </FormButton>
 
-                <FormButton buttonStyle="action" class="rounded-md"
-                @click="state.modal.isCreateTemplateOpen = true"
-                v-if="state.viewMode === 'local' || state.viewMode === 'google-drive' || state.isInsideOneDrive">
-                <Icon name="ph:file" class="h-4 w-4" aria-hidden="true" />
-                {{ $t('drive.createTemplate.createTemplate') }}
-                </FormButton>
+                            <input type="file" ref="documentFile" @change="uploadFile" class="hidden" multiple
+                                v-if="state.viewMode === 'local'" />
 
-                <FormButton buttonStyle="action" class="rounded-md" @click="navigateTo('/drive/expenses')"
-                v-if="!state.isInsideOneDrive && (state.viewMode === 'local' || state.viewMode === 'google-drive')">
-                <Icon name="ph:money" class="h-4 w-4" aria-hidden="true" />
-                {{ $t('drive.expenses') }}
-                </FormButton>
-               
-                </div>
-                </div>
-                <Alert type="danger" :text="state?.error?.message"
+                            <FormButton buttonStyle="action" @click="state.modal.isViewFolderStructureOpen = true"
+                                v-if="!state.isInsideOneDrive && (state.viewMode === 'local' || state.viewMode === 'google-drive')">
+                                <Icon name="ph:folder-notch-open" class="h-4 w-4" aria-hidden="true" />
+                                {{ $t('folderStructure.folderStructure') }}
+                            </FormButton>
+
+                            <FormButton buttonStyle="action" @click="state.modal.isCreateTemplateOpen = true"
+                                v-if="state.viewMode === 'local' || state.viewMode === 'google-drive' || state.isInsideOneDrive">
+                                <Icon name="ph:file" class="h-4 w-4" aria-hidden="true" />
+                                {{ $t('drive.createTemplate.createTemplate') }}
+                            </FormButton>
+
+                            <FormButton buttonStyle="action" @click="navigateTo('/drive/expenses')"
+                                v-if="!state.isInsideOneDrive && (state.viewMode === 'local' || state.viewMode === 'google-drive')">
+                                <Icon name="ph:money" class="h-4 w-4" aria-hidden="true" />
+                                {{ $t('drive.expenses') }}
+                            </FormButton>
+
+                        </div>
+                    </div>
+                    <Alert type="danger" :text="state?.error?.message"
                         v-if="state.error?.message && state.error.message.length > 0" />
                     <div class="flex items-center gap-x-2">
                         <TableSearch @search="handleSearch" class="flex-1" />
-                        <div v-if="state.isInsideOneDrive" class="flex items-center gap-x-1 text-xs text-gray-500 whitespace-nowrap">
+                        <div v-if="state.isInsideOneDrive"
+                            class="flex items-center gap-x-1 text-xs text-gray-500 whitespace-nowrap">
                             <span v-if="state.isOneDriveCacheLoading" class="flex items-center gap-x-1">
                                 <Icon name="ph:circle-notch" class="h-3.5 w-3.5 animate-spin text-blue-500" />
                                 Henter filer...
                             </span>
-                            <span v-else-if="state.isOneDriveCacheReady" class="flex items-center gap-x-1 text-green-600">
+                            <span v-else-if="state.isOneDriveCacheReady"
+                                class="flex items-center gap-x-1 text-green-600">
                                 <Icon name="ph:check-circle" class="h-3.5 w-3.5" />
                                 Søgning klar
                             </span>
-                            <button
-                                v-if="!state.isOneDriveCacheLoading"
-                                @click="prefetchOneDriveCache(true)"
-                                class="ml-1 p-1 rounded hover:bg-gray-100"
-                                title="Opdater søgecache"
-                            >
+                            <button v-if="!state.isOneDriveCacheLoading" @click="prefetchOneDriveCache(true)"
+                                class="ml-1 p-1 rounded hover:bg-gray-100" title="Opdater søgecache">
                                 <Icon name="ph:arrows-clockwise" class="h-3.5 w-3.5 text-gray-500" />
                             </button>
                         </div>
@@ -162,11 +163,9 @@
                             <Icon name="ph:arrow-left" size="16" class="text-black" />
                             <span class="text-sm">{{ $t('back') }}</span>
                         </div>
-                        <div
-                            class="flex items-center gap-x-2 mb-3 max-w-fit hover:cursor-pointer"
+                        <div class="flex items-center gap-x-2 mb-3 max-w-fit hover:cursor-pointer"
                             @click="goBackOneDriveFolder"
-                            v-if="state.isInsideOneDrive && (state.oneDriveFolderStack.length > 0 || state.dataFilter.search)"
-                        >
+                            v-if="state.isInsideOneDrive && (state.oneDriveFolderStack.length > 0 || state.dataFilter.search)">
                             <Icon name="ph:arrow-left" size="16" class="text-black" />
                             <span class="text-sm">{{ $t('back') }}</span>
                         </div>
@@ -204,7 +203,8 @@
                                         </div>
                                         <div v-else-if="state.isInsideOneDrive">
                                             <div class="text-tertiary hover:text-tertiary-700 cursor-pointer flex items-center gap-x-1"
-                                                v-if="document?.type === 'file'" @click="viewDownloadDocument(document)">
+                                                v-if="document?.type === 'file'"
+                                                @click="viewDownloadDocument(document)">
                                                 <Icon name="ph:file" class="size-6" />
                                                 <Tooltip :text="$t('drive.form.forAdministratorsOnly')"
                                                     class="flex items-center" v-if="document?.is_admin_access">
@@ -212,7 +212,8 @@
                                                 </Tooltip>
                                                 <span class="truncate">{{ document?.name }}</span>
                                             </div>
-                                            <div class="text-black flex items-center gap-x-1" v-else-if="document?.type === 'folder'">
+                                            <div class="text-black flex items-center gap-x-1"
+                                                v-else-if="document?.type === 'folder'">
                                                 <Icon name="ph:folder-notch-open-light" class="size-6" />
                                                 <Tooltip :text="$t('drive.form.forAdministratorsOnly')"
                                                     class="flex items-center" v-if="document?.is_admin_access">
@@ -262,27 +263,27 @@
                                             <!-- Google Drive: Folder View + Delete -->
                                             <Tooltip :text="$t('drive.table.actions.view')"
                                                 v-if="document?.type === 'folder'">
-                                                <FormButton type="button" buttonStyle="action" class="rounded-md"
+                                                <FormButton type="button" buttonStyle="action"
                                                     @click="viewGoogleDriveDirectory(document)">
                                                     <Icon name="ph:eye" class="size-4" />
                                                 </FormButton>
                                             </Tooltip>
                                             <Tooltip :text="$t('drive.table.actions.move')"
                                                 v-if="document?.type === 'file' || document?.type === 'folder'">
-                                                <FormButton type="button" buttonStyle="action" class="rounded-md"
+                                                <FormButton type="button" buttonStyle="action"
                                                     @click="moveGoogleDriveFileConfirmation(document)">
                                                     <Icon name="ph:arrows-out" class="size-4" />
                                                 </FormButton>
                                             </Tooltip>
                                             <Tooltip :text="$t('drive.table.actions.edit')"
                                                 v-if="document?.type === 'file' || document?.type === 'folder'">
-                                                <FormButton type="button" buttonStyle="action" class="rounded-md"
+                                                <FormButton type="button" buttonStyle="action"
                                                     @click="editDocument(document)">
                                                     <Icon name="ph:pencil-simple" class="size-4" />
                                                 </FormButton>
                                             </Tooltip>
                                             <Tooltip :text="$t('drive.table.actions.delete')">
-                                                <FormButton type="button" buttonStyle="danger" class="rounded-md"
+                                                <FormButton type="button" buttonStyle="danger"
                                                     @click="deleteFromGoogleDrive(document)">
                                                     <Icon name="ph:trash" class="size-4" />
                                                 </FormButton>
@@ -292,7 +293,7 @@
                                             <!-- OneDrive: Move always first -->
                                             <Tooltip :text="$t('drive.table.actions.move')"
                                                 v-if="document?.is_onedrive && (document?.type === 'file' || document?.type === 'folder')">
-                                                <FormButton type="button" buttonStyle="action" class="rounded-md"
+                                                <FormButton type="button" buttonStyle="action"
                                                     @click="moveFileConfirmation(document)">
                                                     <Icon name="ph:arrows-out" class="size-4" />
                                                 </FormButton>
@@ -300,7 +301,7 @@
                                             <!-- OneDrive: Folder View -->
                                             <Tooltip :text="$t('drive.table.actions.view')"
                                                 v-if="document?.type === 'folder' && state.isInsideOneDrive">
-                                                <FormButton type="button" buttonStyle="action" class="rounded-md"
+                                                <FormButton type="button" buttonStyle="action"
                                                     @click="viewOneDriveDirectory(document)">
                                                     <Icon name="ph:eye" class="size-4" />
                                                 </FormButton>
@@ -308,46 +309,47 @@
                                             <!-- Local files: Full actions -->
                                             <Tooltip :text="$t('drive.table.actions.view')"
                                                 v-else-if="document?.type === 'folder'">
-                                                <FormButton type="button" buttonStyle="action" class="rounded-md"
+                                                <FormButton type="button" buttonStyle="action"
                                                     @click="viewDirectory(document)">
                                                     <Icon name="ph:eye" class="size-4" />
                                                 </FormButton>
                                             </Tooltip>
                                             <Tooltip :text="$t('drive.table.actions.downloadPDF')"
                                                 v-if="document.type === 'file' && (state.isInsideOneDrive || state.viewMode === 'local')">
-                                                <FormButton type="button" buttonStyle="action" class="rounded-md"
+                                                <FormButton type="button" buttonStyle="action"
                                                     @click="openDownloadDocumentPdfDialog(document)">
                                                     <Icon name="ph:file-pdf" class="size-4" />
                                                 </FormButton>
                                             </Tooltip>
                                             <Tooltip :text="$t('drive.table.actions.edit')">
-                                                <FormButton type="button" buttonStyle="action" class="rounded-md"
+                                                <FormButton type="button" buttonStyle="action"
                                                     @click="editDocument(document)">
                                                     <Icon name="ph:pencil-simple" class="size-4" />
                                                 </FormButton>
                                             </Tooltip>
                                             <Tooltip :text="$t('drive.table.actions.access')"
                                                 v-if="isAdmin(userStore.getUser?.roles) && !state.isInsideOneDrive">
-                                                <FormButton type="button" buttonStyle="action" class="rounded-md"
+                                                <FormButton type="button" buttonStyle="action"
                                                     @click="viewDocumentAccess(document)">
                                                     <Icon name="ph:lock" class="size-4" />
                                                 </FormButton>
                                             </Tooltip>
-                                            <Tooltip :text="$t('drive.table.actions.archive')" v-if="!state.isInsideOneDrive">
-                                                <FormButton type="button" buttonStyle="action" class="rounded-md"
+                                            <Tooltip :text="$t('drive.table.actions.archive')"
+                                                v-if="!state.isInsideOneDrive">
+                                                <FormButton type="button" buttonStyle="action"
                                                     @click="confirmDocumentArchiving(document)">
                                                     <Icon name="ph:archive-light" class="size-4" />
                                                 </FormButton>
                                             </Tooltip>
                                             <Tooltip :text="$t('drive.table.actions.delete')"
                                                 v-if="document?.type === 'folder'">
-                                                <FormButton type="button" buttonStyle="danger" class="rounded-md"
+                                                <FormButton type="button" buttonStyle="danger"
                                                     @click="deleteDirectoryConfirmation(document)">
                                                     <Icon name="ph:trash" class="size-4" />
                                                 </FormButton>
                                             </Tooltip>
                                             <Tooltip :text="$t('drive.table.actions.delete')" v-else>
-                                                <FormButton type="button" buttonStyle="danger" class="rounded-md"
+                                                <FormButton type="button" buttonStyle="danger"
                                                     @click="deleteFileConfirmation(document)">
                                                     <Icon name="ph:trash" class="size-4" />
                                                 </FormButton>
@@ -364,166 +366,125 @@
 
 
 
-                <!-- Unified modal block for all modes (local, Google Drive, OneDrive) -->
-                <ModulesUserDocumentModalNewDirectory
-                    :isModalOpen="state.modal.isAddDirectoryOpen"
-                    :isOneDrive="state.isInsideOneDrive"
-                    @close="state.modal.isAddDirectoryOpen = false"
-                    @refreshDocuments="handleRefreshDocuments"
-                />
-                <ModulesUserDocumentModalEditDocument
-                    :isModalOpen="state.modal.isEditDocumentOpen && state.selectedDocument?.type === 'folder'"
-                    :selectedDocument="state.selectedDocument"
-                    @close="state.modal.isEditDocumentOpen = false"
-                    @refreshDocuments="handleRenameRefresh"
-                />
-                <ModulesUserDocumentDocsFileModalEdit
-                    :isModalOpen="state.modal.isEditDocumentOpen && state.selectedDocument?.type === 'file'"
-                    :selectedDocument="state.selectedDocument"
-                    @close="state.modal.isEditDocumentOpen = false"
-                    @refreshDocuments="handleRefreshDocuments"
-                    @submitForm="saveOneDriveFileContent"
-                />
-                <ModulesUserDocumentAccessModalView
-                    :isModalOpen="state.modal.isViewAccessOpen"
-                    :selectedDocument="state.selectedDocument"
-                    @close="state.modal.isViewAccessOpen = false"
-                />
-                <ModulesUserDocumentModalMoveFile
-                    :isModalOpen="state.modal.isMoveFileOpen"
-                    :selectedDocument="state.selectedDocument"
-                    :onedriveFolders="state.isInsideOneDrive ? state.onedriveFolders : []"
-                    :companyFolders="!state.isInsideOneDrive ? state.documents.data.filter((d: any) => d.type === 'folder') : []"
-                    @close="state.modal.isMoveFileOpen = false"
-                    @refreshDocuments="handleRefreshDocuments"
-                    @moveOneDriveFile="handleMoveOneDriveFile"
-                />
-                <ModulesUserDocumentFolderStructureModalFolderStructures
-                    :isModalOpen="state.modal.isViewFolderStructureOpen"
-                    @close="state.modal.isViewFolderStructureOpen = false"
-                />
+                    <!-- Unified modal block for all modes (local, Google Drive, OneDrive) -->
+                    <ModulesUserDocumentModalNewDirectory :isModalOpen="state.modal.isAddDirectoryOpen"
+                        :isOneDrive="state.isInsideOneDrive" @close="state.modal.isAddDirectoryOpen = false"
+                        @refreshDocuments="handleRefreshDocuments" />
+                    <ModulesUserDocumentModalEditDocument
+                        :isModalOpen="state.modal.isEditDocumentOpen && state.selectedDocument?.type === 'folder'"
+                        :selectedDocument="state.selectedDocument" @close="state.modal.isEditDocumentOpen = false"
+                        @refreshDocuments="handleRenameRefresh" />
+                    <ModulesUserDocumentDocsFileModalEdit
+                        :isModalOpen="state.modal.isEditDocumentOpen && state.selectedDocument?.type === 'file'"
+                        :selectedDocument="state.selectedDocument" @close="state.modal.isEditDocumentOpen = false"
+                        @refreshDocuments="handleRefreshDocuments" @submitForm="saveOneDriveFileContent" />
+                    <ModulesUserDocumentAccessModalView :isModalOpen="state.modal.isViewAccessOpen"
+                        :selectedDocument="state.selectedDocument" @close="state.modal.isViewAccessOpen = false" />
+                    <ModulesUserDocumentModalMoveFile :isModalOpen="state.modal.isMoveFileOpen"
+                        :selectedDocument="state.selectedDocument"
+                        :onedriveFolders="state.isInsideOneDrive ? state.onedriveFolders : []"
+                        :companyFolders="!state.isInsideOneDrive ? state.documents.data.filter((d: any) => d.type === 'folder') : []"
+                        @close="state.modal.isMoveFileOpen = false" @refreshDocuments="handleRefreshDocuments"
+                        @moveOneDriveFile="handleMoveOneDriveFile" />
+                    <ModulesUserDocumentFolderStructureModalFolderStructures
+                        :isModalOpen="state.modal.isViewFolderStructureOpen"
+                        @close="state.modal.isViewFolderStructureOpen = false" />
 
-                <!-- OneDrive mappestruktur modal -->
-                <Modal size="xl" title="OneDrive mappestruktur" :show="state.modal.isOneDriveFolderStructureOpen" @close="state.modal.isOneDriveFolderStructureOpen = false">
-                    <template #modal-body>
-                        <div v-if="!state.isOneDriveCacheReady" class="flex items-center gap-x-2 py-6 justify-center text-gray-500">
-                            <Icon name="ph:circle-notch" class="h-5 w-5 animate-spin text-blue-500" />
-                            <span>Henter filer...</span>
-                        </div>
-                        <div v-else>
-                            <input
-                                type="text"
-                                v-model="oneDriveFolderSearch"
-                                placeholder="Søg i mapper..."
-                                class="w-full mb-4 px-3 py-2 border border-gray-300 rounded-md text-sm focus:outline-none focus:ring-1 focus:ring-blue-500"
-                            />
-                            <div class="max-h-96 overflow-y-auto space-y-1">
-                                <div
-                                    v-for="folder in filteredOneDriveFolders"
-                                    :key="folder.uuid"
-                                    @click="navigateToOneDriveFolder(folder)"
-                                    class="flex items-center gap-x-2 px-3 py-2 rounded-md hover:bg-gray-100 cursor-pointer"
-                                >
-                                    <Icon name="ph:folder" class="h-5 w-5 text-blue-400 shrink-0" />
-                                    <div class="min-w-0">
-                                        <div class="text-sm font-medium truncate">{{ folder.name }}</div>
-                                        <div v-if="folder.parentPath" class="text-xs text-gray-400 truncate">{{ folder.parentPath }}</div>
+                    <!-- OneDrive mappestruktur modal -->
+                    <Modal size="xl" title="OneDrive mappestruktur" :show="state.modal.isOneDriveFolderStructureOpen"
+                        @close="state.modal.isOneDriveFolderStructureOpen = false">
+                        <template #modal-body>
+                            <div v-if="!state.isOneDriveCacheReady"
+                                class="flex items-center gap-x-2 py-6 justify-center text-gray-500">
+                                <Icon name="ph:circle-notch" class="h-5 w-5 animate-spin text-blue-500" />
+                                <span>Henter filer...</span>
+                            </div>
+                            <div v-else>
+                                <input type="text" v-model="oneDriveFolderSearch" placeholder="Søg i mapper..."
+                                    class="w-full mb-4 px-3 py-2 border border-gray-300 rounded-md text-sm focus:outline-none focus:ring-1 focus:ring-blue-500" />
+                                <div class="max-h-96 overflow-y-auto space-y-1">
+                                    <div v-for="folder in filteredOneDriveFolders" :key="folder.uuid"
+                                        @click="navigateToOneDriveFolder(folder)"
+                                        class="flex items-center gap-x-2 px-3 py-2 rounded-md hover:bg-gray-100 cursor-pointer">
+                                        <Icon name="ph:folder" class="h-5 w-5 text-blue-400 shrink-0" />
+                                        <div class="min-w-0">
+                                            <div class="text-sm font-medium truncate">{{ folder.name }}</div>
+                                            <div v-if="folder.parentPath" class="text-xs text-gray-400 truncate">{{
+                                                folder.parentPath }}</div>
+                                        </div>
+                                    </div>
+                                    <div v-if="filteredOneDriveFolders.length === 0"
+                                        class="text-center text-gray-400 text-sm py-6">
+                                        Ingen mapper fundet
                                     </div>
                                 </div>
-                                <div v-if="filteredOneDriveFolders.length === 0" class="text-center text-gray-400 text-sm py-6">
-                                    Ingen mapper fundet
-                                </div>
                             </div>
-                        </div>
-                    </template>
-                </Modal>
+                        </template>
+                    </Modal>
 
 
-                <!-- Unified dialog/modal block for all modes (local, Google Drive, OneDrive) -->
-                <DialogConfirmation :isModalOpen="state.modal.isArchiveDocumentOpen"
-                    :message="$t('drive.confirmation.archiveConfirmation') + '?'"
-                    @close="state.modal.isArchiveDocumentOpen = false" @confirm="archiveDocument" />
-                <DialogConfirmation :isModalOpen="state.modal.isDeleteDirectoryOpen"
-                    :message="$t('drive.confirmation.deleteFolderConfirmation') + '?'"
-                    @close="state.modal.isDeleteDirectoryOpen = false" @confirm="deleteDocument" />
-                <DialogConfirmation :isModalOpen="state.modal.isDeleteFileOpen"
-                    :message="$t('drive.confirmation.deleteFileConfirmation') + '?'"
-                    @close="state.modal.isDeleteFileOpen = false" @confirm="deleteDocument" />
-                <DialogConfirmation :isModalOpen="state.modal.isUpgradeStorageOpen"
-                    :title="$t('drive.upgradeStorage')"
-                    :message="state.error?.message + ' ' + $t('drive.confirmation.upgradeStorageConfirmation') + '?'"
-                    @close="closeUpgradeStorageModal" @confirm="navigateTo(`/storage/upgrade`)" />
-                <ModulesUserDocumentDocsFileModalNew
-                    :isModalOpen="state.modal.isCreateDocumentFileOpen"
-                    :isOneDrive="state.isInsideOneDrive"
-                    @close="state.modal.isCreateDocumentFileOpen = false"
-                    @refreshDocuments="handleRefreshDocuments"
-                />
-                <ModulesUserDocumentDocsFileModalEditLayoutWarning
-                    :isModalOpen="state.modal.isEditDocumentFileWarningOpen"
-                    :selectedDocument="state.selectedDocument"
-                    @close="state.modal.isEditDocumentFileWarningOpen = false"
-                    @refreshDocuments="handleRefreshDocuments"
-                />
-                <ModulesUserDocumentDocsFileModalPreview
-                    :isModalOpen="state.modal.isViewDocumentOpen"
-                    :selectedDocument="state.selectedDocument"
-                    @close="state.modal.isViewDocumentOpen = false"
-                />
-                <DialogConfirmation
-                    :isModalOpen="state.modal.isDownloadDialogConfirmationOpen"
-                    :message="$t('drive.confirmation.downloadWithCompanyLogoConfirmation') + '?'"
-                    @close="cancelCompanyLogoDownload" @confirm="confirmCompanyLogoDownload"
-                />
-                <ModulesUserDocumentModalNewGoogleDriveDirectory
-                    :isModalOpen="state.modal.isCreateGoogleDriveFolderOpen"
-                    :parentFolderId="state.googleDriveFolderId || undefined"
-                    @close="state.modal.isCreateGoogleDriveFolderOpen = false"
-                    @folderCreated="() => fetchGoogleDriveFiles(state.googleDriveFolderId)"
-                />
-                <ModulesUserDocumentModalEditGoogleDriveDocument
-                    :isModalOpen="state.modal.isEditGoogleDriveDocumentOpen"
-                    :selectedDocument="state.selectedDocument"
-                    :parentFolderId="state.googleDriveFolderId || undefined"
-                    @close="state.modal.isEditGoogleDriveDocumentOpen = false"
-                    @refreshDocuments="fetchGoogleDriveFiles"
-                />
-                <ModulesUserDocumentModalMoveGoogleDriveFile
-                    :isModalOpen="state.modal.isMoveGoogleDriveFileOpen"
-                    :selectedDocument="state.selectedDocument"
-                    :parentFolderId="state.googleDriveFolderId"
-                    @close="state.modal.isMoveGoogleDriveFileOpen = false"
-                    @refreshDocuments="fetchGoogleDriveFiles"
-                />
-                <ModulesUserDocumentStatusTemplateModalNew
-                    :isModalOpen="state.modal.isCreateTemplateOpen"
-                    :variant="state.isInsideOneDrive ? 'onedrive' : state.viewMode"
-                    :parentFolderId="state.viewMode === 'google-drive' ? (state.googleDriveFolderId || undefined) : undefined"
-                    :onedriveFolders="oneDriveFoldersForModal"
-                    @close="state.modal.isCreateTemplateOpen = false"
-                />
-                <DialogConfirmation
-                    :isModalOpen="state.modal.isActiveGoogleDriveOpen"
-                    :title="$t('drive.googleDrive')"
-                    :message="$t('drive.googleDriveNotActivatedMessage') || 'Google Drive is not activated. Activate now?'"
-                    @close="state.modal.isActiveGoogleDriveOpen = false" @confirm="navigateToApps"
-                />
-                <DialogConfirmation
-                    :isModalOpen="state.modal.isDeleteGoogleDriveFileOpen"
-                    :message="$t('drive.confirmation.deleteFileConfirmation') + '?'"
-                    @close="state.modal.isDeleteGoogleDriveFileOpen = false" @confirm="deleteGoogleDriveFile"
-                />
-                <ModulesUserDocumentModalDocumentInfo
-                    :isModalOpen="state.modal.isDriveInfoOpen"
-                    :variant="state.isInsideOneDrive ? 'drive-onedrive' : state.viewMode === 'google-drive' ? 'drive-google' : 'drive-local'"
-                    @close="state.modal.isDriveInfoOpen = false"
-                />
+                    <!-- Unified dialog/modal block for all modes (local, Google Drive, OneDrive) -->
+                    <DialogConfirmation :isModalOpen="state.modal.isArchiveDocumentOpen"
+                        :message="$t('drive.confirmation.archiveConfirmation') + '?'"
+                        @close="state.modal.isArchiveDocumentOpen = false" @confirm="archiveDocument" />
+                    <DialogConfirmation :isModalOpen="state.modal.isDeleteDirectoryOpen"
+                        :message="$t('drive.confirmation.deleteFolderConfirmation') + '?'"
+                        @close="state.modal.isDeleteDirectoryOpen = false" @confirm="deleteDocument" />
+                    <DialogConfirmation :isModalOpen="state.modal.isDeleteFileOpen"
+                        :message="$t('drive.confirmation.deleteFileConfirmation') + '?'"
+                        @close="state.modal.isDeleteFileOpen = false" @confirm="deleteDocument" />
+                    <DialogConfirmation :isModalOpen="state.modal.isUpgradeStorageOpen"
+                        :title="$t('drive.upgradeStorage')"
+                        :message="state.error?.message + ' ' + $t('drive.confirmation.upgradeStorageConfirmation') + '?'"
+                        @close="closeUpgradeStorageModal" @confirm="navigateTo(`/storage/upgrade`)" />
+                    <ModulesUserDocumentDocsFileModalNew :isModalOpen="state.modal.isCreateDocumentFileOpen"
+                        :isOneDrive="state.isInsideOneDrive" @close="state.modal.isCreateDocumentFileOpen = false"
+                        @refreshDocuments="handleRefreshDocuments" />
+                    <ModulesUserDocumentDocsFileModalEditLayoutWarning
+                        :isModalOpen="state.modal.isEditDocumentFileWarningOpen"
+                        :selectedDocument="state.selectedDocument"
+                        @close="state.modal.isEditDocumentFileWarningOpen = false"
+                        @refreshDocuments="handleRefreshDocuments" />
+                    <ModulesUserDocumentDocsFileModalPreview :isModalOpen="state.modal.isViewDocumentOpen"
+                        :selectedDocument="state.selectedDocument" @close="state.modal.isViewDocumentOpen = false" />
+                    <DialogConfirmation :isModalOpen="state.modal.isDownloadDialogConfirmationOpen"
+                        :message="$t('drive.confirmation.downloadWithCompanyLogoConfirmation') + '?'"
+                        @close="cancelCompanyLogoDownload" @confirm="confirmCompanyLogoDownload" />
+                    <ModulesUserDocumentModalNewGoogleDriveDirectory
+                        :isModalOpen="state.modal.isCreateGoogleDriveFolderOpen"
+                        :parentFolderId="state.googleDriveFolderId || undefined"
+                        @close="state.modal.isCreateGoogleDriveFolderOpen = false"
+                        @folderCreated="() => fetchGoogleDriveFiles(state.googleDriveFolderId)" />
+                    <ModulesUserDocumentModalEditGoogleDriveDocument
+                        :isModalOpen="state.modal.isEditGoogleDriveDocumentOpen"
+                        :selectedDocument="state.selectedDocument"
+                        :parentFolderId="state.googleDriveFolderId || undefined"
+                        @close="state.modal.isEditGoogleDriveDocumentOpen = false"
+                        @refreshDocuments="fetchGoogleDriveFiles" />
+                    <ModulesUserDocumentModalMoveGoogleDriveFile :isModalOpen="state.modal.isMoveGoogleDriveFileOpen"
+                        :selectedDocument="state.selectedDocument" :parentFolderId="state.googleDriveFolderId"
+                        @close="state.modal.isMoveGoogleDriveFileOpen = false"
+                        @refreshDocuments="fetchGoogleDriveFiles" />
+                    <ModulesUserDocumentStatusTemplateModalNew :isModalOpen="state.modal.isCreateTemplateOpen"
+                        :variant="state.isInsideOneDrive ? 'onedrive' : state.viewMode"
+                        :parentFolderId="state.viewMode === 'google-drive' ? (state.googleDriveFolderId || undefined) : undefined"
+                        :onedriveFolders="oneDriveFoldersForModal" @close="state.modal.isCreateTemplateOpen = false" />
+                    <DialogConfirmation :isModalOpen="state.modal.isActiveGoogleDriveOpen"
+                        :title="$t('drive.googleDrive')"
+                        :message="$t('drive.googleDriveNotActivatedMessage') || 'Google Drive is not activated. Activate now?'"
+                        @close="state.modal.isActiveGoogleDriveOpen = false" @confirm="navigateToApps" />
+                    <DialogConfirmation :isModalOpen="state.modal.isDeleteGoogleDriveFileOpen"
+                        :message="$t('drive.confirmation.deleteFileConfirmation') + '?'"
+                        @close="state.modal.isDeleteGoogleDriveFileOpen = false" @confirm="deleteGoogleDriveFile" />
+                    <ModulesUserDocumentModalDocumentInfo :isModalOpen="state.modal.isDriveInfoOpen"
+                        :variant="state.isInsideOneDrive ? 'drive-onedrive' : state.viewMode === 'google-drive' ? 'drive-google' : 'drive-local'"
+                        @close="state.modal.isDriveInfoOpen = false" />
 
-                
-                    </div>
-                </LoadingSpinner>
-            </NuxtLayout>
-        </div>
+
+                </div>
+            </LoadingSpinner>
+        </NuxtLayout>
+    </div>
 </template>
 
 <script setup lang="ts">
@@ -595,7 +556,7 @@ const oneDriveButtonText = computed(() => {
 
 async function handleOneDriveButtonClick() {
     if (state.isInsideOneDrive) {
-       
+
         const newQuery = { ...router.currentRoute.value.query };
         delete newQuery.onedrive;
         delete newQuery.onedrive_folder_id;
@@ -603,7 +564,7 @@ async function handleOneDriveButtonClick() {
         state.isInsideOneDrive = false;
         fetchDocuments();
     } else {
-       
+
         router.push({
             query: {
                 ...router.currentRoute.value.query,
@@ -643,7 +604,7 @@ function navigateToOneDriveFolder(folder: any) {
 
 // OneDrive søge-cache: henter alle filer i baggrunden én gang (modul-niveau via composable)
 const oneDriveCache = useOneDriveCache()
-const oneDriveFoldersForModal = ref<{value: string, label: string}[]>([])
+const oneDriveFoldersForModal = ref<{ value: string, label: string }[]>([])
 
 function mapOneDriveItem(item: any) {
     let ext = ''
@@ -990,7 +951,7 @@ async function fetchOneDriveFiles(): Promise<void> {
     } catch (error: any) {
         const status = error?.status || error?.statusCode || error?.response?.status
         if (status === 401 || status === 403) {
-        
+
             state.isOneDriveActivated = false;
             oneDriveLogin()
             return
@@ -1175,12 +1136,12 @@ function goBackLocalFolder() {
 async function viewOneDriveDirectory(document: any) {
     if (document?.type !== 'folder') return;
     const currentFolderId = router.currentRoute.value.query.onedrive_folder_id;
-    
+
     state.oneDriveFolderStack.push(typeof currentFolderId === 'string' ? currentFolderId : '');
     state.isPageLoading = true;
-   
+
     state.documents.data = [];
-    
+
     await router.push({
         query: {
             ...router.currentRoute.value.query,
@@ -1189,7 +1150,7 @@ async function viewOneDriveDirectory(document: any) {
         }
     });
     await fetchOneDriveFiles();
-    
+
 }
 
 async function goBackOneDriveFolder() {
@@ -1206,7 +1167,7 @@ async function goBackOneDriveFolder() {
         });
         await fetchOneDriveFiles();
     } else {
-       
+
         state.dataFilter.search = '';
         const newQuery = { ...router.currentRoute.value.query };
         delete newQuery.onedrive_folder_id;
@@ -1216,7 +1177,7 @@ async function goBackOneDriveFolder() {
     }
 }
 async function fetchDocuments(folderUuid: any = null): Promise<void> {
-    
+
     if (state.isInsideOneDrive || router?.currentRoute?.value?.query?.onedrive === '1') {
         return;
     }
@@ -1396,7 +1357,7 @@ async function downloadFile(document: any) {
                     return;
                 }
             } catch (e) {
-               
+
             }
             const downloadUrl = document?.['@microsoft.graph.downloadUrl'] || null;
             if (downloadUrl) {
@@ -1413,7 +1374,7 @@ async function downloadFile(document: any) {
             if (response) {
                 saveAs(response, (document?.name?.split('.')[0] || 'dokument') + '.pdf');
             }
-            
+
             state.error = {};
             state.isTableLoading = true;
             try {
@@ -1439,7 +1400,7 @@ function triggerFileInput() {
 }
 
 async function uploadFile(event: any) {
-    state.error = {}; 
+    state.error = {};
     state.isPageLoading = true;
     let allSuccess = true;
     let errorMessages: string[] = [];
@@ -1460,14 +1421,14 @@ async function uploadFile(event: any) {
                     state.error = { message: 'Du kan kun uploade .docx, .txt, .pdf eller .html filer til OneDrive.' };
                     continue;
                 }
-               
+
                 const formData = new FormData();
                 formData.append('file', file);
                 let endpoint = '/api/user/onedrive/uploade-document';
                 if (parentId) {
                     endpoint = `/api/user/onedrive/upload-to-folder/${parentId}`;
                 }
-              
+
                 if (!parentId) {
                     formData.append('parent_id', '');
                 }
@@ -1498,15 +1459,15 @@ async function uploadFile(event: any) {
                 }
             }
             resetFileInput();
-           
+
             if (parentId) {
-                
+
                 const folderObj = state.documents.data.find((doc: any) => doc.uuid === parentId && doc.type === 'folder');
                 if (folderObj) {
                     await viewDirectory(folderObj);
                 } else {
-                    
-                    await fetchOneDriveFiles(); 
+
+                    await fetchOneDriveFiles();
                 }
             } else {
                 await fetchOneDriveFiles();
@@ -1515,7 +1476,7 @@ async function uploadFile(event: any) {
                 successAlert(`${t('alert.success')}!`, `${t('drive.alert.fileSuccessfullyAdded') || 'Fil(er) uploadet til OneDrive.'}`);
             }
         }
-        
+
     } catch (error: any) {
         state.error = error;
         resetFileInput();
@@ -1593,19 +1554,20 @@ async function viewDirectory(document: any) {
             errorAlert('Fejl!', 'Kunne ikke åbne OneDrive mappen')
         }
         state.isTableLoading = false
-    const current = router?.currentRoute?.value?.query?.folder_uuid
-    if (current) {
-        state.folderStack.push(current as string)
+        const current = router?.currentRoute?.value?.query?.folder_uuid
+        if (current) {
+            state.folderStack.push(current as string)
+        }
+        await navigateTo(`/drive?folder_uuid=${document.uuid}`)
     }
-    await navigateTo(`/drive?folder_uuid=${document.uuid}`)
-}}
+}
 
 async function editDocument(document: any) {
-   
+
     if (document.is_onedrive) {
         state.selectedDocument = {
             ...document,
-            uuid: document.uuid, 
+            uuid: document.uuid,
             type: document.type,
             onedrive_type: document.onedrive_type,
         };
@@ -1615,10 +1577,10 @@ async function editDocument(document: any) {
     if (state.viewMode === 'google-drive') {
         state.modal.isEditGoogleDriveDocumentOpen = true;
     } else {
-       
+
         if (document.type === 'file') {
             state.modal.isEditDocumentOpen = true;
-            
+
             if (document.is_onedrive) {
                 state.isPageLoading = true;
                 try {
@@ -1641,9 +1603,9 @@ async function editDocument(document: any) {
                     state.docsFields.content = '';
                 }
                 state.isPageLoading = false;
-                
+
             } else {
-                
+
                 state.docsFields.content = document.content || '';
             }
         } else {
@@ -1707,7 +1669,7 @@ async function archiveDocument() {
         const documentUuid = state.selectedDocument?.uuid
         const response = await documentService.archiveUnarchiveDocument(documentUuid)
         if (response.data) {
-                state.error = {}
+            state.error = {}
             fetchDocuments()
         }
     } catch (error: any) {
@@ -1761,47 +1723,47 @@ async function fetchOneDriveFolders(force = false) {
         oneDriveCache.setFoldersLoading(false)
     }
 }
-      
-    async function handleOneDriveFileUpload() {
-                                   
+
+async function handleOneDriveFileUpload() {
+
     const input = document.createElement('input');
-        input.type = 'file';
-        input.multiple = true;
-        input.onchange = async (event: any) => {
+    input.type = 'file';
+    input.multiple = true;
+    input.onchange = async (event: any) => {
         const files = event.target.files;
-            if (!files || files.length === 0) return;
-            state.isPageLoading = true;
-            try {
-                let parentId = undefined;
-                const rawParentId = router?.currentRoute?.value?.query?.onedrive_folder_id;
+        if (!files || files.length === 0) return;
+        state.isPageLoading = true;
+        try {
+            let parentId = undefined;
+            const rawParentId = router?.currentRoute?.value?.query?.onedrive_folder_id;
             if (typeof rawParentId === 'string') {
-                 parentId = rawParentId;
+                parentId = rawParentId;
+            }
+            const userId = userStore.user?.id || localStorage.getItem('user_id');
+            let allSuccess = true;
+            for (const file of files) {
+                try {
+                    const res: any = await oneDriveService.uploadFile(parentId || 'root', file);
+                    if (res?.error) {
+                        allSuccess = false;
+                        errorAlert('Fejl!', res.error);
+                    }
+                } catch (uploadErr: any) {
+                    allSuccess = false;
+                    errorAlert('Fejl!', uploadErr?.data?.error || uploadErr?.message || 'Kunne ikke uploade filen.');
                 }
-                const userId = userStore.user?.id || localStorage.getItem('user_id');
-                    let allSuccess = true;
-                    for (const file of files) {
-                        try {
-                            const res: any = await oneDriveService.uploadFile(parentId || 'root', file);
-                            if (res?.error) {
-                                allSuccess = false;
-                                errorAlert('Fejl!', res.error);
-                            }
-                        } catch (uploadErr: any) {
-                            allSuccess = false;
-                            errorAlert('Fejl!', uploadErr?.data?.error || uploadErr?.message || 'Kunne ikke uploade filen.');
-                        }
-                    }
-                    await fetchOneDriveFiles();
-                    if (allSuccess) {
-                        successAlert(`${t('alert.success')}!`, `${t('drive.alert.fileSuccessfullyAdded') || 'Fil(er) uploadet til OneDrive.'}`);
-                    }
-                } catch (error: any) {
-                    errorAlert('Fejl!', String(error?.message) || 'Kunne ikke uploade fil(er) til OneDrive.');
-                        }
-                        state.isPageLoading = false;
-                        };
-                        input.click();
-                                }
+            }
+            await fetchOneDriveFiles();
+            if (allSuccess) {
+                successAlert(`${t('alert.success')}!`, `${t('drive.alert.fileSuccessfullyAdded') || 'Fil(er) uploadet til OneDrive.'}`);
+            }
+        } catch (error: any) {
+            errorAlert('Fejl!', String(error?.message) || 'Kunne ikke uploade fil(er) til OneDrive.');
+        }
+        state.isPageLoading = false;
+    };
+    input.click();
+}
 
 async function handleCreateNewFolder() {
     const userId = userStore.user?.id || localStorage.getItem('user_id');
@@ -1809,7 +1771,7 @@ async function handleCreateNewFolder() {
     if (!folderName) return;
 
     if (state.isInsideOneDrive) {
-    
+
         let parentId: string | undefined = undefined;
         const rawParentId = router?.currentRoute?.value?.query?.onedrive_folder_id;
         if (typeof rawParentId === 'string') {
@@ -1837,7 +1799,7 @@ async function handleCreateNewFolder() {
             errorAlert('Fejl!', error?.data?.error || error?.message || 'Kunne ikke oprette mappe i OneDrive.');
         }
     } else {
-        
+
         const params = new FormData();
         params.append('type', 'folder');
         params.append('name', folderName);
@@ -1888,7 +1850,7 @@ async function handleMoveOneDriveFile(folderId: string) {
             state.error = error;
             errorAlert('Fejl!', error?.message || 'Kunne ikke flytte filen. Prøv igen.');
         }
-    } 
+    }
     state.isTableLoading = false;
 }
 
@@ -1918,18 +1880,18 @@ async function deleteDocument() {
     try {
         let response;
         if (state.selectedDocument?.is_onedrive) {
-           response = await $fetch(`/api/user/onedrive/delete-onedrive/${state.selectedDocument.uuid}`, {
+            response = await $fetch(`/api/user/onedrive/delete-onedrive/${state.selectedDocument.uuid}`, {
                 method: 'DELETE',
                 headers: {
                     'X-User-Id': String(userStore.user?.id || localStorage.getItem('user_id')),
                     'Authorization': 'Bearer ' + localStorage.getItem('_token'),
-            },
+                },
                 credentials: 'include',
-});
+            });
         } else {
             response = await documentService.deleteDocument(state.selectedDocument.uuid);
         }
-      
+
         if (state.selectedDocument.type === 'folder') {
             successAlert(`${t('alert.success')}!`, `${t('drive.alert.deletedFolderSuccessfully') || 'Mappe blev slettet.'}`);
         } else {
@@ -1941,7 +1903,7 @@ async function deleteDocument() {
         }
         state.error = error;
     }
-	state.isTableLoading = false;
+    state.isTableLoading = false;
 }
 
 async function downloadDocumentPdf(document: any) {
@@ -1963,12 +1925,3 @@ async function downloadDocumentPdf(document: any) {
     state.isTableLoading = false;
 }
 </script>
-
-
-
-
-
-
-
-
-

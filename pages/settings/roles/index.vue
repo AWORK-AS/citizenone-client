@@ -18,7 +18,7 @@
 
             <div class="mt-8">
                 <div class="flex justify-end items-center mb-5">
-                    <FormButton buttonStyle="action" class="rounded-lg" @click="navigateTo('/settings/roles/new')">
+                    <FormButton buttonStyle="action" @click="navigateTo('/settings/roles/new')">
                         <Icon name="ph:plus" class="h-4 w-4" aria-hidden="true" />
                         {{ $t('roles.addNewRole') }}
                     </FormButton>
@@ -53,13 +53,13 @@
                                     </td>
                                     <td width="30%">
                                         <div class="flex items-end justify-end gap-2">
-                                            <FormButton type="button" buttonStyle="action" class="rounded-md"
+                                            <FormButton type="button" buttonStyle="action"
                                                 @click="navigateTo(`/settings/roles/${role.id}/edit`)"
                                                 v-if="role?.is_editable">
                                                 <Icon name="ph:pencil-simple" class="size-4" />
                                                 {{ $t('roles.table.actions.edit') }}
                                             </FormButton>
-                                            <FormButton type="button" buttonStyle="danger" class="rounded-md"
+                                            <FormButton type="button" buttonStyle="danger"
                                                 @click="deleteRoleConfirmation(role)" v-if="role?.is_deletable">
                                                 <Icon name="ph:trash" class="size-4" />
                                                 {{ $t('roles.table.actions.delete') }}
@@ -126,7 +126,7 @@ const state = reactive({
     },
 })
 
-const PERMISSION_LABELS:  Record<string, string> = {
+const PERMISSION_LABELS: Record<string, string> = {
     'scheduler': 'roles.permissions.scheduler',
     'create_schedule': 'roles.permissions.createSchedule',
     'read_schedule': 'roles.permissions.readSchedule',
@@ -142,7 +142,7 @@ const PERMISSION_LABELS:  Record<string, string> = {
     'update_citizen_calendar': 'roles.permissions.updateCitizenCalendar',
     'delete_citizen_calendar': 'roles.permissions.deleteCitizenCalendar',
     'create_citizen_health': 'roles.permissions.createCitizenHealth',
-    'view_citizen_health':  'roles.permissions.viewCitizenHealth',
+    'view_citizen_health': 'roles.permissions.viewCitizenHealth',
     'update_citizen_health': 'roles.permissions.updateCitizenHealth',
     'delete_citizen_health': 'roles.permissions.deleteCitizenHealth',
     'create_citizen_medicine': 'roles.permissions.createCitizenMedicine',

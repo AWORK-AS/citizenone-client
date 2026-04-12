@@ -26,7 +26,7 @@
                 <Menu as="div" class="relative inline-block text-left z-20">
                     <div>
                         <MenuButton>
-                            <FormButton buttonStyle="action" class="rounded-lg">
+                            <FormButton buttonStyle="action">
                                 <Icon name="ph:plus" class="h-4 w-4" aria-hidden="true" />
                                 {{ $t('events.newEvent') }}
                             </FormButton>
@@ -72,7 +72,7 @@
                         </MenuItems>
                     </transition>
                 </Menu>
-                <!-- <FormButton buttonStyle="action" class="rounded-lg" @click="subscribe">
+                <!-- <FormButton buttonStyle="action"  @click="subscribe">
                     <Icon name="ph:plus" class="h-4 w-4" aria-hidden="true" />
                     {{ $t('events.subscribe') }}
                 </FormButton> -->
