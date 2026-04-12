@@ -99,8 +99,8 @@
         </TransitionRoot>
 
         <!-- Desktop sidebar: collapsible -->
-        <div class="hidden lg:fixed lg:inset-y-0 lg:z-[55] lg:flex lg:flex-col lg:w-[17rem]">
-            <div class="flex grow flex-col overflow-y-auto overflow-x-hidden bg-gradient-to-b from-sidebar to-sidebar-dark shadow-sidebar transition-all duration-300 ease-in-out"
+        <div class="hidden lg:fixed lg:inset-y-0 lg:z-[55] lg:flex lg:flex-col lg:w-[17rem] pointer-events-none">
+            <div class="flex grow flex-col overflow-y-auto overflow-x-hidden bg-gradient-to-b from-sidebar to-sidebar-dark shadow-sidebar transition-all duration-300 ease-in-out pointer-events-auto"
                 :class="sidebarExpanded ? 'w-[17rem]' : 'w-[4.5rem]'">
                 <!-- Logo + Pin -->
                 <div class="flex items-center h-16 flex-shrink-0 px-4 justify-between">
@@ -471,7 +471,13 @@ const sidebarExpanded = computed(() => sidebarPinned.value || sidebarHovered.val
 // caused by CSS transitions triggering spurious mouseleave events on the sidebar
 function handleGlobalMouseMove(e: MouseEvent) {
     if (sidebarPinned.value) return
-    sidebarHovered.value = e.clientX <= 272 // 17rem = 272px
+    if (!sidebarHovered.value) {
+        // Collapsed: only expand when hovering over the collapsed strip (4.5rem = 72px)
+        if (e.clientX <= 72) sidebarHovered.value = true
+    } else {
+        // Expanded: only collapse when cursor leaves the full expanded sidebar (17rem = 272px)
+        if (e.clientX > 272) sidebarHovered.value = false
+    }
 }
 function handleMouseLeaveWindow() {
     if (!sidebarPinned.value) sidebarHovered.value = false

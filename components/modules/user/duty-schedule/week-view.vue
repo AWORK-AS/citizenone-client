@@ -44,7 +44,7 @@
             </Teleport>
             <div class="mb-2">
                 <div class="flex flex-wrap items-center justify-between gap-2 py-1">
-                    <div class="flex items-center gap-3">
+                    <div class="flex flex-wrap items-center gap-x-3 gap-y-2">
                         <div class="bg-blue-50 ring-1 ring-blue-200 rounded-lg px-3 py-1">
                             <h3 class="text-sm font-semibold leading-6 text-gray-900 text-center">
                                 <span v-if="month === 'January'">{{ $t('calendar.month.January') }}</span>
@@ -65,7 +65,7 @@
                         <label class="flex items-center gap-2 cursor-pointer">
                             <FormSwitch :value="userStore.getUser?.is_schedule_pinned ? true : false"
                                 @toggleSwitch="pinSelfToTopOfSchedule()" />
-                            <span class="text-xs text-gray-600">
+                            <span class="hidden sm:inline text-xs text-gray-600">
                                 {{ $t('dutySchedules.pinSelfToTopOfSchedule') }}
                             </span>
                         </label>
@@ -73,12 +73,12 @@
                         <label class="flex items-center gap-2 cursor-pointer">
                             <FormSwitch :value="dutyScheduleStore.getShowEmployeesWorkingToday"
                                 @toggleSwitch="dutyScheduleStore.setShowEmployeesWorkingToday(!dutyScheduleStore.getShowEmployeesWorkingToday)" />
-                            <span class="text-xs text-gray-600">
+                            <span class="hidden sm:inline text-xs text-gray-600">
                                 {{ $t('dutySchedules.showEmployeesWorkingToday') }}
                             </span>
                         </label>
                     </div>
-                    <div class="flex items-center gap-x-2">
+                    <div class="flex flex-wrap items-center gap-2">
                         <button
                             class="flex items-center gap-1.5 outline-none rounded-md text-xs font-semibold bg-white border border-gray-200 hover:bg-gray-50 px-3 py-2 text-gray-600"
                             @click="state.modal.isFilterDutyScheduleOpen = true">
@@ -138,8 +138,10 @@
                                 </select>
                             </div>
                         </div>
-                        <div class="xl:min-w-[160px] [&_input]:!h-[38px] [&_button]:!h-[38px] [&_form]:!h-[38px]">
-                            <TableSearch @search="handleSearch" :placeholder="$t('dutySchedules.findEmployee')" />
+                        <div
+                            class="w-full sm:w-auto xl:min-w-[160px] [&_input]:!h-[38px] [&_button]:!h-[38px] [&_form]:!h-[38px]">
+                            <TableSearch type="duty-schedule" @search="handleSearch"
+                                :placeholder="$t('dutySchedules.findEmployee')" />
                         </div>
                     </div>
                 </div>
@@ -147,10 +149,10 @@
             <div class="bg-gradient-to-r from-blue-600 to-blue-400 h-1.5 rounded-full transition-all ease-in-out duration-500 mb-1.5"
                 :style="{ width: `${state.progress.percentage}%` }" v-if="state.progress.showProgressBar" />
             <div class="h-1.5 mb-1.5" v-else />
-            <div
-                class="isolate flex flex-auto flex-col bg-white rounded-xl ring-1 ring-gray-200 shadow-sm overflow-hidden">
-                <div class="flex max-w-full flex-none flex-col sm:max-w-none md:max-w-full">
-                    <div>
+            <div class="isolate flex flex-auto flex-col bg-white rounded-xl ring-1 ring-gray-200 shadow-sm">
+                <div ref="weekHeaderRef"
+                    class="overflow-x-hidden sticky top-16 z-30 bg-white rounded-t-xl border-b border-gray-100">
+                    <div class="min-w-[700px]">
                         <div>
                             <div class="grid grid-cols-9" id="fixed-header-week-view">
                                 <div class="col-span-2 border-r border-gray-100 bg-gray-50/50">
@@ -158,7 +160,8 @@
                                         <p class="text-base font-bold text-blue-600">
                                             {{ $t('dutySchedules.week') }} {{ weekNumber }}
                                         </p>
-                                        <Tooltip :text="$t('dutySchedules.copy.copyThisWeeksSchedule')">
+                                        <Tooltip :text="$t('dutySchedules.copy.copyThisWeeksSchedule')"
+                                            position="right">
                                             <button
                                                 class="bg-gray-100 w-7 h-7 text-sm text-gray-500 rounded-lg hover:bg-blue-50 hover:text-blue-600 flex items-center justify-center transition-colors"
                                                 @click="copyWeeklySchedule(weekNumber)">
@@ -167,7 +170,8 @@
                                         </Tooltip>
                                         <div class="flex-1 flex justify-end gap-x-2"
                                             v-if="isAdmin(userStore.getUser?.role)">
-                                            <Tooltip :text="$t('dutySchedules.copy.copyMultipleWeeksSchedule')">
+                                            <Tooltip :text="$t('dutySchedules.copy.copyMultipleWeeksSchedule')"
+                                                position="right">
                                                 <button
                                                     class="bg-gray-100 w-7 h-7 text-sm text-gray-500 rounded-lg hover:bg-blue-50 hover:text-blue-600 flex items-center justify-center transition-colors"
                                                     @click="state.modal.isCopyMultipleWeeklyScheduleOpen = true">
@@ -316,6 +320,12 @@
                                     </p>
                                 </div>
                             </div>
+                        </div>
+                    </div>
+                </div>
+                <div ref="weekBodyRef" class="overflow-x-auto" @scroll="syncWeekHeaderScroll">
+                    <div class="min-w-[700px]">
+                        <div>
 
                             <div class="relative mt-0.5"
                                 @click="!isWeeklyScheduleCopied(weekNumber) && !isAllWeeklyScheduleCopiedEmpty() && !isPastWeek() && pasteWeeklySchedule(weekNumber)"
@@ -505,7 +515,8 @@
                                                             ]">
                                                             <div class="pl-3">
                                                                 <Tooltip
-                                                                    :text="language.locale.value === 'en' ? time?.shift?.en_name : time?.shift?.dk_name">
+                                                                    :text="language.locale.value === 'en' ? time?.shift?.en_name : time?.shift?.dk_name"
+                                                                    position="right">
                                                                     <div class="flex items-center gap-x-1">
                                                                         <div>
                                                                             <div :class="`w-2 h-2 rounded-sm`"
@@ -611,7 +622,7 @@
                                                 hasConflict(week) && 'border-1.5 border-red-400 rounded-md bg-red-100/60',
                                             ]"
                                             @click="!isDailyScheduleCopied(employeeIndex, weekIndex, weekNumber) && !isDailyScheduleCopiedEmpty() && pasteEmployeeDailySchedule(employeeIndex, weekIndex)">
-                                            <div v-if="hasConflict(week)" class="absolute -top-2 -left-2 z-50 group/ct">
+                                            <div v-if="hasConflict(week)" class="absolute -top-1 -left-2 z-20 group/ct">
                                                 <Tooltip position="left" :text="$t('dutySchedules.conflictTooltip', {
                                                     count:
                                                         week.shifts.filter(s => s.is_conflict).length + 1
@@ -844,7 +855,7 @@
                                                                 <Icon name="ph:note" class="w-3 h-3 flex-shrink-0"
                                                                     style="color:white" />
                                                                 <span
-                                                                    class="text-white max-w-32 text-[10px] font-medium truncate">
+                                                                    class="text-white max-w-24 text-[10px] font-medium truncate">
                                                                     {{ shift.note }}
                                                                 </span>
                                                             </div>
@@ -1064,6 +1075,14 @@ const month = computed(() => currentDate.value.format('MMMM'))
 const year = computed(() => currentDate.value.format('YYYY'))
 const teleportReady = ref(false)
 const expandedRecords = reactive([] as boolean[])
+const weekHeaderRef = ref<HTMLElement | null>(null)
+const weekBodyRef = ref<HTMLElement | null>(null)
+
+function syncWeekHeaderScroll() {
+    if (weekHeaderRef.value && weekBodyRef.value) {
+        weekHeaderRef.value.scrollLeft = weekBodyRef.value.scrollLeft
+    }
+}
 
 function buildEmptyWeeks() {
     const weekDaysOrder = ['monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday', 'sunday']
@@ -2021,37 +2040,6 @@ async function updateDutySchedule(scheduleUuid: any, params: object, employeeInd
     }
 }
 
-onMounted(() => {
-    window.addEventListener('scroll', handleScroll)
-})
-
-onBeforeUnmount(() => {
-    window.removeEventListener('scroll', handleScroll)
-})
-
-let lastScrollTop = 0
-const headerHeight = 200  // The height of the header
-
-function handleScroll() {
-    const header = document.getElementById('fixed-header-week-view')
-    const spacer = document.getElementById('fixed-header-spacer')
-    if (!header || !spacer) return
-
-    const currentScroll = window.pageYOffset || document.documentElement.scrollTop
-    const isFixed = header.classList.contains('fixed-header-week-view-top')
-
-    if (currentScroll > headerHeight && !isFixed) {
-        // Capture height BEFORE fixing, so the spacer is accurate
-        spacer.style.height = `${header.offsetHeight}px`
-        spacer.style.display = 'block'
-        header.classList.add('fixed-header-week-view-top')
-    } else if (currentScroll <= headerHeight && isFixed) {
-        header.classList.remove('fixed-header-week-view-top')
-        spacer.style.display = 'none'
-    }
-
-    lastScrollTop = currentScroll <= 0 ? 0 : currentScroll
-}
 
 async function dateTimeChange(employeeUuid: string, newDateTimeStart: string, newDateTimeEnd: string) {
     try {

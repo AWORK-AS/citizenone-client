@@ -1,12 +1,15 @@
 <template>
     <form class="flex" @submit.prevent="handleSearch">
         <div class="grow relative">
-            <span class="flex items-center gap-x-1 text-gray-800 absolute left-3 top-3">
+            <span :class="[
+                props.type === 'duty-schedule' ? 'top-2' : 'top-3',
+                'flex items-center gap-x-1 text-gray-800 absolute left-3'
+            ]">
                 <Icon name="ic:search" class="text-primary w-6 h-6" />
             </span>
             <input type="text" :id="props.id" :name="props.name" :autocomplete="props.name"
                 class="appearance-none block w-full pl-10 h-12 border border-primary placeholder-gray-500 text-gray-900 rounded-l-full focus:outline-none focus:ring-primary-700 focus:border-primary-700 focus:z-10 sm:text-sm"
-                :placeholder="$t('search')" v-model="state.search" />
+                :placeholder="props.placeholder ?? $t('search')" v-model="state.search" />
         </div>
         <button type="submit"
             class="bg-primary h-12 px-6 border border-primary text-white hover:bg-primary-800 hover:border-primary-800 rounded-l-none rounded-r-full text-sm font-medium">
@@ -27,6 +30,10 @@ const props = defineProps({
         default: 'search'
     },
     placeholder: {
+        type: String,
+        required: false,
+    },
+    type: {
         type: String,
         required: false,
     },

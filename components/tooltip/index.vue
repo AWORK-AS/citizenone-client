@@ -8,7 +8,7 @@
             :class="[positionClasses, wrap ? 'w-44' : 'whitespace-nowrap']" @mouseenter="cancelHide"
             @mouseleave="scheduleHide">
             <div :class="wrap ? 'px-2.5 py-1.5 max-h-36 overflow-y-auto' : 'px-2.5 py-1.5'">
-                <p :class="wrap ? 'text-xs whitespace-pre-wrap break-words' : 'truncate text-xs'">{{ text }}</p>
+                <p class="text-white" :class="wrap ? 'text-xs whitespace-pre-wrap break-words' : 'truncate text-xs'">{{ text }}</p>
             </div>
         </div>
     </div>

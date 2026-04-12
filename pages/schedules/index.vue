@@ -27,7 +27,7 @@
             </template>
 
             <template #guided-tour>
-                <div class="flex items-center gap-2">
+                <div class="flex items-center gap-2 flex-wrap">
 
                     <div id="schedule-date-picker-target" class="flex items-center"></div>
                     <div class="hidden lg:block h-5 w-px bg-slate-200" />
