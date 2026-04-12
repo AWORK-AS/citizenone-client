@@ -361,28 +361,62 @@
 
                         <!-- Week header with day columns -->
                         <div class="grid grid-cols-7 border-b border-gray-200 bg-gray-50/80 sticky top-0 z-20">
-                            <div v-for="(day, dayIndex) in week.days" :key="'wh-' + dayIndex" :class="[
-                                isToday(day) && 'bg-primary/10',
-                                day === null && 'bg-gray-100/50',
-                                'px-2 py-1 border-r border-gray-200 last:border-r-0 text-center min-w-[120px]'
-                            ]">
-                                <template v-if="day !== null">
-                                    <div class="flex flex-col items-center gap-0.5">
-                                        <div class="flex items-center gap-1.5">
-                                            <span :class="[
-                                                isToday(day) ? 'bg-primary text-white rounded-full w-6 h-6 flex items-center justify-center text-xs font-bold' : 'text-sm font-semibold text-gray-900'
-                                            ]">
-                                                {{ moment(day).format('D') }}
+                            <template v-for="(day, dayIndex) in week.days" :key="'wh-' + dayIndex">
+                                <!-- Admin: clickable with tooltip + slot badge -->
+                                <Tooltip v-if="isAdmin(userStore.getUser?.role)"
+                                    :text="day !== null ? $t('dutySchedules.scheduleSlots.scheduleSlots') : ''"
+                                    position="left" :class="[
+                                        isToday(day) && 'bg-primary/10',
+                                        day === null && 'bg-gray-100/50',
+                                        day !== null && 'cursor-pointer hover:bg-blue-50/50 transition-colors',
+                                        'relative px-2 py-1 border-r border-gray-200 last:border-r-0 text-center min-w-[120px]'
+                                    ]" @click="day !== null && openManageScheduleSlotModal(day)">
+                                    <template v-if="day !== null">
+                                        <div class="flex flex-col items-center gap-0.5">
+                                            <div class="flex items-center gap-1.5">
+                                                <span :class="[
+                                                    isToday(day) ? 'bg-primary text-white rounded-full w-6 h-6 flex items-center justify-center text-xs font-bold' : 'text-sm font-semibold text-gray-900'
+                                                ]">
+                                                    {{ moment(day).format('D') }}
+                                                </span>
+                                                <span class="text-xs text-gray-500">{{ getDayName(day) }}</span>
+                                            </div>
+                                            <span v-if="getHoliday(day)"
+                                                class="inline-block text-amber-700 bg-amber-100 ring-1 ring-amber-300 text-[9px] font-semibold px-2 py-0.5 rounded-full leading-none mt-0.5 truncate max-w-full">
+                                                🌴 {{ getHoliday(day) }}
                                             </span>
-                                            <span class="text-xs text-gray-500">{{ getDayName(day) }}</span>
                                         </div>
-                                        <span v-if="getHoliday(day)"
-                                            class="inline-block text-amber-700 bg-amber-100 ring-1 ring-amber-300 text-[9px] font-semibold px-2 py-0.5 rounded-full leading-none mt-0.5 truncate max-w-full">
-                                            🌴 {{ getHoliday(day) }}
-                                        </span>
-                                    </div>
-                                </template>
-                            </div>
+                                        <!-- Slot badge -->
+                                        <div v-if="getSlotCountForDay(day) > 0"
+                                            class="slot-badge absolute top-1 right-1 bg-primary font-bold shadow-sm">
+                                            {{ getSlotCountForDay(day) > 99 ? '99+' : getSlotCountForDay(day) }}
+                                        </div>
+                                    </template>
+                                </Tooltip>
+                                <!-- Non-admin: plain div -->
+                                <div v-else :class="[
+                                    isToday(day) && 'bg-primary/10',
+                                    day === null && 'bg-gray-100/50',
+                                    'relative px-2 py-1 border-r border-gray-200 last:border-r-0 text-center min-w-[120px]'
+                                ]">
+                                    <template v-if="day !== null">
+                                        <div class="flex flex-col items-center gap-0.5">
+                                            <div class="flex items-center gap-1.5">
+                                                <span :class="[
+                                                    isToday(day) ? 'bg-primary text-white rounded-full w-6 h-6 flex items-center justify-center text-xs font-bold' : 'text-sm font-semibold text-gray-900'
+                                                ]">
+                                                    {{ moment(day).format('D') }}
+                                                </span>
+                                                <span class="text-xs text-gray-500">{{ getDayName(day) }}</span>
+                                            </div>
+                                            <span v-if="getHoliday(day)"
+                                                class="inline-block text-amber-700 bg-amber-100 ring-1 ring-amber-300 text-[9px] font-semibold px-2 py-0.5 rounded-full leading-none mt-0.5 truncate max-w-full">
+                                                🌴 {{ getHoliday(day) }}
+                                            </span>
+                                        </div>
+                                    </template>
+                                </div>
+                            </template>
                         </div>
 
                         <!-- Compact day row: alle vagter paa tvaers af medarbejdere -->
@@ -433,6 +467,10 @@
                                     <div class="space-y-3">
                                         <template v-for="(employee, employeeIndex) in state.monthlySchedules?.data"
                                             :key="'emp-' + employeeIndex">
+                                            <ModulesUserDutyScheduleScheduleSlotsRequestAvailableSlots
+                                                :daysData="state.monthlySchedules?.data?.[employeeIndex]?.days?.[moment(day).format('YYYY-MM-DD')]"
+                                                :employee="employee"
+                                                @error="(error: any) => state.error = error" />
                                             <div v-for="(shift, shiftIndex) in sortMultiDayShiftsFirst(state.monthlySchedules?.data?.[employeeIndex]?.days?.[moment(day).format('YYYY-MM-DD')]?.shifts)"
                                                 :key="'s-' + employeeIndex + '-' + shiftIndex"
                                                 :class="['rounded-lg relative cursor-pointer mt-2 overflow-visible', shift.is_conflict ? 'ring-2 ring-red-400' : '']"
@@ -926,8 +964,8 @@ const hasDeletePermission = computed(() => {
     return userStore.getUser?.permissions?.includes('duty-schedule.delete') || false
 })
 
-function isAdmin(role: string) {
-    return role === 'super-admin' || role === 'admin'
+function isAdmin(role: any) {
+    return role && role === 'Admin'
 }
 
 // ============================================================
@@ -1207,6 +1245,11 @@ function openManageScheduleSlotModal(day: any) {
         fullDate: day
     }
     state.modal.isManageScheduleSlotOpen = true
+}
+
+function getSlotCountForDay(day: any) {
+    const dateKey = moment(day).format('YYYY-MM-DD')
+    return state.monthlySchedules?.month_data?.[dateKey]?.total_slots || 0
 }
 
 function viewChangeTimeRequests(employeeIndex: number, day: any) {
