@@ -189,8 +189,8 @@
                                         </button>
                                     </div>
                                 </div>
-                                <Tooltip :text="$t('dutySchedules.scheduleSlots.scheduleSlots')" v-for="day in weekDays"
-                                    :key="day.date"
+                                <Tooltip :text="$t('dutySchedules.scheduleSlots.scheduleSlots')" position="left"
+                                    v-for="day in weekDays" :key="day.date"
                                     :class="['relative cursor-pointer hover:bg-blue-50/50 flex flex-col items-center justify-center py-3 pb-8 border-0.5 transition-colors', isToday(day.fullDate) && 'bg-blue-50 border-x-2 border-t-2 border-blue-400']"
                                     @click="openManageScheduleSlotModal(day)" v-if="isAdmin(userStore.getUser?.role)">
                                     <span class="flex gap-x-1 text-sm">
