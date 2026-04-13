@@ -4,14 +4,14 @@
             v-if="state.error?.message && state.error.message.length > 0" />
         <div class="p-5" v-if="state.medicines?.data?.length === 0">
             <div
-                class="border-2 border-gray-300 border-dashed rounded-md flex items-center justify-center min-h-96 max-h-96 text-sm mt-2">
+                class="border-2 border-gray-300 border-dashed rounded-md flex items-center justify-center min-h-80 max-h-80 text-sm mt-2">
                 {{ $t('overview.noMedicinesToShow') }}
             </div>
         </div>
 
         <div class="text-sm space-y-2 divide-y overflow-scroll min-h-96 max-h-96 px-5 py-4" v-else>
             <div v-for="(medicine, index) in state.medicines?.data" :key="index"
-                class="pl-4 pr-3 py-5 cursor-pointer hover:bg-gray-100" @click="viewMedicineHistory(medicine)">
+                class="pl-4 pr-3 py-3 cursor-pointer hover:bg-gray-100" @click="viewMedicineHistory(medicine)">
                 <div>
                     <div>
                         <div>

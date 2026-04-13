@@ -5,10 +5,8 @@
 
         <div class="p-5" v-if="state.citizensWithFollowUps?.data?.length === 0">
             <div
-                class="border-2 border-gray-300 border-dashed rounded-md flex items-center justify-center min-h-96 max-h-96 text-sm mt-2">
-                <div class="text-center">
-                    <p>{{ $t('overview.followUpReminders.noFollowUps') }}</p>
-                </div>
+                class="border-2 border-gray-300 border-dashed rounded-md flex items-center justify-center min-h-80 max-h-80 text-sm mt-2">
+                {{ $t('overview.followUpReminders.noFollowUps') }}
             </div>
         </div>
 
