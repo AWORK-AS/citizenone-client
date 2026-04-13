@@ -2,26 +2,23 @@
     <LoadingSpinner :isActive="state.isPageLoading">
         <Alert type="danger" :text="state?.error?.message"
             v-if="state.error?.message && state.error.message.length > 0" />
-        <h3 class="text-primary text-base font-medium py-2">
-            {{ $t('overview.citizensEvents') }}
-        </h3>
-
-        <div class="border-2 border-gray-300 border-dashed rounded-md flex items-center justify-center min-h-96 max-h-96 text-sm mt-2"
-            v-if="state.citizenCalendarEvents?.data?.length === 0">
-            <div>
-                <p>
-                    {{ $t('overview.noEventsForToday') }}
-                </p>
-                <div class="flex items-center justify-center mt-2">
-                    <button class="w-fit text-center text-primary hover:text-primary-700"
-                        @click="navigateTo('/calendar')">
-                        {{ $t('overview.addDailyEvents') }}
-                    </button>
+        <div class="p-5" v-if="state.citizenCalendarEvents?.data?.length === 0">
+            <div
+                class="border-2 border-gray-300 border-dashed rounded-md flex items-center justify-center min-h-96 max-h-96 text-sm mt-2">
+                <div>
+                    <p>
+                        {{ $t('overview.noEventsForToday') }}
+                    </p>
+                    <div class="flex items-center justify-center mt-2">
+                        <button class="w-fit text-center text-primary hover:text-primary-700"
+                            @click="navigateTo('/calendar')">
+                            {{ $t('overview.addDailyEvents') }}
+                        </button>
+                    </div>
                 </div>
             </div>
         </div>
-        <div class="bg-white shadow-md rounded-md border-l-8 border-secondary mt-2 text-sm space-y-2 divide-y overflow-scroll min-h-96 max-h-96 pr-5 pt-4 pb-4 pl-6 mr-1"
-            v-else>
+        <div class="text-sm space-y-2 divide-y overflow-scroll min-h-96 max-h-96 px-5 py-4" v-else>
             <div v-for="(event, index) in state.citizenCalendarEvents?.data" :key="index" class="py-3">
                 <div class="space-y-1">
                     <p class="text-base font-semibold text-gray-700 xl:pr-0">

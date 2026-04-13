@@ -5315,10 +5315,12 @@
             "completed": "afsluttet",
             "journalEntries": "Journalnoter",
             "medicationsDue": "Medicin der skal gives",
+            "ongoing": "Igangværende",
             "overdue": "forsinket",
             "pending": "afventer",
             "staffCheckedIn": "personale tjekket ind",
-            "tasksToday": "Opgaver i dag"
+            "tasksToday": "Opgaver i dag",
+            "upcoming": "Kommende"
         },
         "tasks": "Opgaver",
         "treatments": {

@@ -5315,10 +5315,12 @@
             "completed": "completed",
             "journalEntries": "Journal entries",
             "medicationsDue": "Medications due",
+            "ongoing": "Ongoing",
             "overdue": "overdue",
             "pending": "pending",
             "staffCheckedIn": "staff checked in",
-            "tasksToday": "Tasks today"
+            "tasksToday": "Tasks today",
+            "upcoming": "Upcoming"
         },
         "tasks": "Tasks",
         "treatments": {

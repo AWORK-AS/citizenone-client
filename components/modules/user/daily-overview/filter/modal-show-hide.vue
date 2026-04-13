@@ -13,15 +13,15 @@
                             {{ $t('overview.filter.items.citizensEvents') }}
                         </div>
                         <div class="w-fit flex items-center cursor-pointer text-sm"
+                            @click="setDailyOverviewFilterShowLatestJournal()">
+                            <FormCheckbox :value="dailyOverviewStore.getDailyOverviewFilter.showLatestJournal" />
+                            {{ $t('overview.filter.items.latestJournal') }}
+                        </div>
+                        <div class="w-fit flex items-center cursor-pointer text-sm"
                             @click="setDailyOverviewFilterShowDailyMedicineOverview()">
                             <FormCheckbox
                                 :value="dailyOverviewStore.getDailyOverviewFilter.showDailyMedicineOverview" />
                             {{ $t('overview.filter.items.medicationOverview') }}
-                        </div>
-                        <div class="w-fit flex items-center cursor-pointer text-sm"
-                            @click="setDailyOverviewFilterShowLatestJournal()">
-                            <FormCheckbox :value="dailyOverviewStore.getDailyOverviewFilter.showLatestJournal" />
-                            {{ $t('overview.filter.items.latestJournal') }}
                         </div>
                         <div class="w-fit flex items-center cursor-pointer text-sm"
                             @click="setDailyOverviewFilterShowTreatments()">

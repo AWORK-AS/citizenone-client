@@ -36,6 +36,9 @@
                 </div>
             </template>
 
+            <Alert type="danger" :text="state?.error?.message"
+                v-if="state.error?.message && state.error.message.length > 0" />
+
             <!-- Action bar -->
             <div class="flex items-center justify-between gap-3 flex-wrap">
                 <div class="flex items-center gap-x-2">
@@ -69,11 +72,15 @@
                 <div class="stat-card">
                     <div class="stat-label">
                         <span class="w-2 h-2 rounded-full bg-accent-blue"></span>
-                        {{ $t('overview.stats.tasksToday') || 'Tasks today' }}
+                        {{ $t('overview.citizensEvents') }}
                     </div>
-                    <div class="mt-2 stat-value text-primary">11</div>
-                    <div class="stat-sublabel">4 {{ $t('overview.stats.completed') || 'completed' }} · 2 {{
-                        $t('overview.stats.overdue') || 'overdue' }}</div>
+                    <div class="mt-2 stat-value text-primary">
+                        {{ state.citizenCalendarEventsCount }}
+                    </div>
+                    <div class="stat-sublabel">
+                        {{ $t('overview.stats.ongoing') }} |
+                        {{ $t('overview.stats.upcoming') }}
+                    </div>
                 </div>
                 <div class="stat-card">
                     <div class="stat-label">
@@ -111,17 +118,21 @@
                         <div class="card-header">
                             <div class="flex items-center gap-x-2">
                                 <Icon name="ph:check-circle" class="h-5 w-5 text-primary" />
-                                <h3 class="text-sm font-semibold text-slate-900">{{ $t('overview.tasks') || 'Tasks' }}
+                                <h3 class="text-sm font-semibold text-slate-900">
+                                    {{ $t('overview.citizensEvents') }}
                                 </h3>
-                                <span class="badge badge-blue">11</span>
+                                <span class="badge badge-blue">
+                                    {{ state.citizenCalendarEventsCount }}
+                                </span>
                             </div>
                             <button
-                                class="text-sm text-primary font-medium hover:text-primary-700 transition-colors flex items-center gap-x-1">
-                                {{ $t('overview.viewAll') || 'View all' }}
+                                class="text-sm text-primary font-medium hover:text-primary-700 transition-colors flex items-center gap-x-1"
+                                @click="navigateTo('/calendar')">
+                                {{ $t('overview.viewAll') }}
                                 <Icon name="heroicons:arrow-right-20-solid" class="h-4 w-4" />
                             </button>
                         </div>
-                        <div class="divide-y divide-surface-100">
+                        <div>
                             <ModulesUserDailyOverviewCitizensDailyEvents :dateRange="state.dateRange.formDateRange" />
                         </div>
                     </div>
@@ -282,17 +293,20 @@
 <script setup lang="ts">
 import moment from 'moment'
 import { useUserStore } from '@/store/user'
+import { dailyOverviewService } from '@/components/api/user/DailyOverviewService'
 import { useDailyOverviewStore } from '@/store/daily-overview'
-import { useDatetimeFormatter } from '@/composables/datetimeFormatter'
+import { useDepartmentStore } from '@/store/department'
+import type { Error } from '@/types'
 
 const runtimeConfig = useRuntimeConfig()
 const overviewStore = useDailyOverviewStore()
+const departmentStore = useDepartmentStore()
 const userStore = useUserStore() as any
 const route = useRoute()
 const newsSection = ref<HTMLElement | null>(null)
-const { formatDateToReadable } = useDatetimeFormatter()
 
 const state = reactive({
+    citizenCalendarEventsCount: 0,
     currentDate: moment(),
     dateRange: {
         formDateRange: {
@@ -300,6 +314,8 @@ const state = reactive({
             end_date: moment().endOf('isoWeek').format('YYYY-MM-DD'),
         },
     } as any,
+    error: {} as Error,
+    isPageLoading: false,
     modal: {
         isDailyOverviewDateRangeOpen: false,
         isDateRangeHelperOpen: false,
@@ -336,6 +352,7 @@ watch(() => userStore.getUser, (user: any) => {
                 end_date: moment().endOf('isoWeek').format('YYYY-MM-DD'),
             }
         }
+        fetchCitizenCalendarEvents(state.dateRange.formDateRange)
     }
 })
 
@@ -372,5 +389,27 @@ function openGuidedTour() {
 function filterDailyOverviewByDate(formDateRange: any) {
     state.dateRange.formDateRange.start_date = formDateRange.start_date
     state.dateRange.formDateRange.end_date = formDateRange.end_date
+}
+
+async function fetchCitizenCalendarEvents(dateRange: any) {
+    state.error = {}
+    state.isPageLoading = true
+    try {
+        const params: any = {
+            department: departmentStore.getSelectedDepartmentName
+        }
+
+        if (state.dateRange) {
+            params.end_date = dateRange.end_date
+            params.start_date = dateRange.start_date
+        }
+        const response = await dailyOverviewService.getCitizenDailyEvents(params)
+        if (response) {
+            state.citizenCalendarEventsCount = response?.data?.length ?? 0
+        }
+    } catch (error: any) {
+        state.error = error
+    }
+    state.isPageLoading = false
 }
 </script>
