@@ -177,7 +177,7 @@
                     <div class="card" v-if="overviewStore.getDailyOverviewFilter.showCitizensFollowUpReminders">
                         <div class="card-header">
                             <div class="flex items-center gap-x-2">
-                                <Icon name="ph:camera-plus" class="h-5 w-5 text-primary" />
+                                <Icon name="ph:notification" class="h-5 w-5 text-primary" />
                                 <h3 class="text-sm font-semibold text-slate-900">
                                     {{ $t('overview.followUpReminders.followUpReminders') }}
                                 </h3>
