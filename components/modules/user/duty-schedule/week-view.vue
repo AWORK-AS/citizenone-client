@@ -428,8 +428,10 @@
                                                             {{ $t('dutySchedules.annualNormHours') }}:
                                                             {{ employee?.annual_norm_hours ?? 0 }}
                                                         </p>
-                                                        <Icon name="ph:question" class="h-3.5 w-3.5"
-                                                            aria-hidden="true" />
+                                                        <div>
+                                                            <Icon name="ph:question" class="h-3.5 w-3.5"
+                                                                aria-hidden="true" />
+                                                        </div>
                                                     </div>
 
                                                     <div class="flex items-center gap-1 cursor-pointer"
@@ -439,8 +441,10 @@
                                                             {{ (Math.round(Number(employee?.annual_norm_hours) /
                                                                 52)) ?? 0 }}
                                                         </p>
-                                                        <Icon name="ph:question" class="h-3.5 w-3.5"
-                                                            aria-hidden="true" />
+                                                        <div>
+                                                            <Icon name="ph:question" class="h-3.5 w-3.5"
+                                                                aria-hidden="true" />
+                                                        </div>
                                                     </div>
 
                                                     <p class="text-xxs">
