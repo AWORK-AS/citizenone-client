@@ -184,10 +184,10 @@
             <!-- ============================================================ -->
             <!-- NEW LAYOUT: Employee sidebar + weekly day grid               -->
             <!-- ============================================================ -->
-            <div class="flex bg-white rounded-xl ring-1 ring-gray-200 shadow-sm overflow-hidden">
+            <div class="flex bg-white rounded-xl ring-1 ring-gray-200 shadow-sm">
 
                 <!-- LEFT: Fixed employee avatar sidebar -->
-                <div class="flex-shrink-0 w-[90px] border-r border-gray-200 bg-gray-50/50">
+                <div class="flex-shrink-0 w-[90px] border-r border-gray-200 bg-gray-50/50 rounded-l-xl">
                     <!-- Top-left corner: copy button -->
                     <div class="h-[73px] border-b border-gray-200 flex items-center justify-center px-2"
                         v-if="isAdmin(userStore.getUser?.role)">
@@ -404,7 +404,7 @@
                                 <!-- Admin: clickable with tooltip + slot badge -->
                                 <Tooltip v-if="isAdmin(userStore.getUser?.role)"
                                     :text="day !== null ? $t('dutySchedules.scheduleSlots.scheduleSlots') : ''"
-                                    position="left" :class="[
+                                    :position="dayIndex === 0 ? 'right' : 'left'" :class="[
                                         isToday(day) && 'bg-primary/10',
                                         day === null && 'bg-gray-100/50',
                                         day !== null && 'cursor-pointer hover:bg-blue-50/50 transition-colors',
@@ -520,50 +520,38 @@
                                                 :employee="employee" @error="(error: any) => state.error = error" />
                                             <div v-if="(isAdmin(userStore.getUser?.role) || hasCreatePermission) && (state.monthlySchedules?.data?.[employeeIndex]?.days?.[moment(day).format('YYYY-MM-DD')]?.additional_hour_requests > 0 || state.monthlySchedules?.data?.[employeeIndex]?.days?.[moment(day).format('YYYY-MM-DD')]?.swap_requests > 0)"
                                                 class="flex justify-end" @click.stop>
-                                                <Menu as="div" class="relative">
-                                                    <MenuButton
-                                                        class="-m-1 flex items-center rounded-full p-1 text-gray-500 hover:text-gray-600">
-                                                        <Tooltip :position="dayIndex === 0 ? 'right' : 'left'"
-                                                            :text="`${state.monthlySchedules?.data?.[employeeIndex]?.days?.[moment(day).format('YYYY-MM-DD')]?.additional_hour_requests} ${state.monthlySchedules?.data?.[employeeIndex]?.days?.[moment(day).format('YYYY-MM-DD')]?.additional_hour_requests <= 1 ? $t('dutySchedules.scheduleRequests.changeTime.changeTimeRequest') : $t('dutySchedules.scheduleRequests.changeTime.changeTimeRequests')} | ${state.monthlySchedules?.data?.[employeeIndex]?.days?.[moment(day).format('YYYY-MM-DD')]?.swap_requests} ${state.monthlySchedules?.data?.[employeeIndex]?.days?.[moment(day).format('YYYY-MM-DD')]?.swap_requests === 1 ? $t('dutySchedules.scheduleRequests.swapSchedule.swapScheduleRequest') : $t('dutySchedules.scheduleRequests.swapSchedule.swapScheduleRequests')}`"
-                                                            class="relative">
-                                                            <button
-                                                                class="bg-gray-100 w-5 h-5 text-gray-500 rounded hover:bg-blue-50 hover:text-blue-600 flex items-center justify-center transition-colors">
-                                                                <Icon name="mdi:calendar-question-outline"
-                                                                    class="h-3 w-3" aria-hidden="true" />
-                                                            </button>
-                                                            <div
-                                                                class="w-2 h-2 bg-red-400 rounded-full absolute -top-1 -right-1" />
-                                                        </Tooltip>
-                                                    </MenuButton>
-                                                    <transition enter-active-class="transition ease-out duration-100"
-                                                        enter-from-class="transform opacity-0 scale-95"
-                                                        enter-to-class="transform opacity-100 scale-100"
-                                                        leave-active-class="transition ease-in duration-75"
-                                                        leave-from-class="transform opacity-100 scale-100"
-                                                        leave-to-class="transform opacity-0 scale-95">
-                                                        <MenuItems
-                                                            class="absolute right-0 z-10 w-48 origin-top-right rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
-                                                            <div class="py-1">
-                                                                <MenuItem v-slot="{ active }">
-                                                                <a :class="[active ? 'bg-gray-100 text-gray-900' : 'text-gray-700', 'block px-4 py-2 text-xs cursor-pointer']"
-                                                                    @click.stop="viewChangeTimeRequests(employeeIndex as number, day)">
-                                                                    {{
-                                                                        $t('dutySchedules.scheduleRequests.changeTime.changeTimeRequests')
-                                                                    }}
-                                                                </a>
-                                                                </MenuItem>
-                                                                <MenuItem v-slot="{ active }">
-                                                                <a :class="[active ? 'bg-gray-100 text-gray-900' : 'text-gray-700', 'block px-4 py-2 text-xs cursor-pointer']"
-                                                                    @click.stop="viewSwapScheduleRequests(employeeIndex as number, day)">
-                                                                    {{
-                                                                        $t('dutySchedules.scheduleRequests.swapSchedule.swapScheduleRequests')
-                                                                    }}
-                                                                </a>
-                                                                </MenuItem>
-                                                            </div>
-                                                        </MenuItems>
-                                                    </transition>
-                                                </Menu>
+                                                <Tooltip :position="dayIndex === 0 ? 'right' : 'left'"
+                                                    :text="`${state.monthlySchedules?.data?.[employeeIndex]?.days?.[moment(day).format('YYYY-MM-DD')]?.additional_hour_requests} ${state.monthlySchedules?.data?.[employeeIndex]?.days?.[moment(day).format('YYYY-MM-DD')]?.additional_hour_requests <= 1 ? $t('dutySchedules.scheduleRequests.changeTime.changeTimeRequest') : $t('dutySchedules.scheduleRequests.changeTime.changeTimeRequests')} | ${state.monthlySchedules?.data?.[employeeIndex]?.days?.[moment(day).format('YYYY-MM-DD')]?.swap_requests} ${state.monthlySchedules?.data?.[employeeIndex]?.days?.[moment(day).format('YYYY-MM-DD')]?.swap_requests === 1 ? $t('dutySchedules.scheduleRequests.swapSchedule.swapScheduleRequest') : $t('dutySchedules.scheduleRequests.swapSchedule.swapScheduleRequests')}`"
+                                                    class="relative">
+                                                    <button
+                                                        class="bg-gray-100 w-5 h-5 text-gray-500 rounded hover:bg-blue-50 hover:text-blue-600 flex items-center justify-center transition-colors relative"
+                                                        @click.stop="openRequestMenu(`${employeeIndex}-${moment(day).format('YYYY-MM-DD')}`, $event)">
+                                                        <Icon name="mdi:calendar-question-outline" class="h-3 w-3"
+                                                            aria-hidden="true" />
+                                                        <div
+                                                            class="w-2 h-2 bg-red-400 rounded-full absolute -top-1 -right-1 pointer-events-none" />
+                                                    </button>
+                                                </Tooltip>
+                                                <Teleport to="body">
+                                                    <div v-if="requestMenuState.openKey === `${employeeIndex}-${moment(day).format('YYYY-MM-DD')}`"
+                                                        class="fixed z-[9999] w-48 rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 py-1"
+                                                        :style="{ top: requestMenuState.top + 'px', left: requestMenuState.left + 'px' }">
+                                                        <button
+                                                            class="text-gray-700 block px-4 py-2 text-xs cursor-pointer hover:bg-gray-100 hover:text-gray-900 w-full text-left"
+                                                            @click.stop="viewChangeTimeRequests(employeeIndex as number, day); requestMenuState.openKey = null">
+                                                            {{
+                                                                $t('dutySchedules.scheduleRequests.changeTime.changeTimeRequests')
+                                                            }}
+                                                        </button>
+                                                        <button
+                                                            class="text-gray-700 block px-4 py-2 text-xs cursor-pointer hover:bg-gray-100 hover:text-gray-900 w-full text-left"
+                                                            @click.stop="viewSwapScheduleRequests(employeeIndex as number, day); requestMenuState.openKey = null">
+                                                            {{
+                                                                $t('dutySchedules.scheduleRequests.swapSchedule.swapScheduleRequests')
+                                                            }}
+                                                        </button>
+                                                    </div>
+                                                </Teleport>
                                             </div>
                                             <div v-for="(shift, shiftIndex) in sortMultiDayShiftsFirst(state.monthlySchedules?.data?.[employeeIndex]?.days?.[moment(day).format('YYYY-MM-DD')]?.shifts)"
                                                 :key="'s-' + employeeIndex + '-' + shiftIndex"
@@ -628,7 +616,7 @@
                                                             leave-from-class="transform opacity-100 scale-100"
                                                             leave-to-class="transform opacity-0 scale-95">
                                                             <MenuItems
-                                                                class="absolute right-0 z-10 w-44 origin-top-right rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
+                                                                class="absolute right-0 z-[200] w-44 origin-top-right rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
                                                                 <div class="py-1">
                                                                     <MenuItem v-slot="{ active }">
                                                                     <a :class="[active ? 'bg-gray-100 text-gray-900' : 'text-gray-700', 'block px-4 py-2 text-xs cursor-pointer']"
@@ -874,6 +862,27 @@ const year = computed(() => currentDate.value.format('YYYY'))
 const expandedRecords = reactive([] as boolean[])
 
 const teleportReady = ref(false)
+
+const requestMenuState = reactive({
+    openKey: null as string | null,
+    top: 0,
+    left: 0,
+})
+
+function openRequestMenu(key: string, event: MouseEvent) {
+    if (requestMenuState.openKey === key) {
+        requestMenuState.openKey = null
+        return
+    }
+    const rect = (event.currentTarget as HTMLElement).getBoundingClientRect()
+    requestMenuState.top = rect.bottom + 4
+    requestMenuState.left = Math.max(4, rect.right - 192)
+    requestMenuState.openKey = key
+}
+
+function closeRequestMenu() {
+    requestMenuState.openKey = null
+}
 
 const state = reactive({
     addShift: {
@@ -1865,5 +1874,10 @@ watch(() => dutyScheduleStore.getShowEmployeesWorkingToday, (status: boolean) =>
 // ============================================================
 onMounted(() => {
     fetchDutySchedule()
+    document.addEventListener('click', closeRequestMenu)
+})
+
+onUnmounted(() => {
+    document.removeEventListener('click', closeRequestMenu)
 })
 </script>
