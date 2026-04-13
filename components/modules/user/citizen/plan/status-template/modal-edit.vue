@@ -300,18 +300,15 @@
 
                         <div class="mt-6">
                             <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
-                                <FormButton type="button" buttonStyle="primary" class="rounded-md"
-                                    @click="submitResponse">
+                                <FormButton type="button" buttonStyle="primary" @click="submitResponse">
                                     {{ $t('save') }}
                                 </FormButton>
-                                <FormButton type="button" buttonStyle="primary" class="rounded-md"
-                                    @click="submitResponseAndDownloadPDF">
+                                <FormButton type="button" buttonStyle="primary" @click="submitResponseAndDownloadPDF">
                                     {{ $t('plansandgoals.createStatusTemplate.form.saveAndDownload') }}
                                 </FormButton>
                             </div>
                             <div class="mt-2 flex justify-center gap-3">
-                                <FormButton type="button" buttonStyle="link" class="rounded-md"
-                                    @click="state.currentStep = 1">
+                                <FormButton type="button" buttonStyle="link" @click="state.currentStep = 1">
                                     {{ $t('cancel') }}
                                 </FormButton>
                             </div>

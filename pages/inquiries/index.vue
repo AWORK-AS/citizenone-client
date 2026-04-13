@@ -37,7 +37,7 @@
                         <Menu as="div" class="relative inline-block text-left z-20">
                             <div>
                                 <MenuButton>
-                                    <FormButton buttonStyle="action" class="rounded-lg">
+                                    <FormButton buttonStyle="action">
                                         <Icon name="ph:plus" class="h-4 w-4" aria-hidden="true" />
                                         {{ $t('inquiries.newInquiry') }}
                                     </FormButton>
@@ -77,7 +77,7 @@
                         <Menu as="div" class="relative inline-block text-left z-20">
                             <div>
                                 <MenuButton>
-                                    <FormButton buttonStyle="action" class="rounded-lg">
+                                    <FormButton buttonStyle="action">
                                         <Icon name="ph:file-arrow-down" class="h-4 w-4" aria-hidden="true" />
                                         {{ $t('inquiries.exportInquiries') }}
                                     </FormButton>
@@ -157,20 +157,20 @@
                                     <td width="10%">
                                         <div class="flex items-end justify-end gap-2">
                                             <Tooltip :text="$t('inquiries.table.actions.edit')">
-                                                <FormButton type="button" buttonStyle="action" class="rounded-md"
+                                                <FormButton type="button" buttonStyle="action"
                                                     @click="editInquiry(inquiry)">
                                                     <Icon name="ph:pencil-simple" class="size-4" />
                                                 </FormButton>
                                             </Tooltip>
                                             <Tooltip :text="$t('inquiries.table.actions.convertAsCitizen')"
                                                 v-if="!inquiry?.citizen_id">
-                                                <FormButton type="button" buttonStyle="action" class="rounded-md"
+                                                <FormButton type="button" buttonStyle="action"
                                                     @click="convertInquiryConfirmation(inquiry)">
                                                     <Icon name="ph:check" class="size-4" />
                                                 </FormButton>
                                             </Tooltip>
                                             <Tooltip :text="$t('inquiries.table.actions.delete')">
-                                                <FormButton type="button" buttonStyle="danger" class="rounded-md"
+                                                <FormButton type="button" buttonStyle="danger"
                                                     @click="deleteConfirmation(inquiry)">
                                                     <Icon name="ph:trash" class="size-4" />
                                                 </FormButton>

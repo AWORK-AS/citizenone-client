@@ -41,25 +41,22 @@
 
                 <div>
                     <div class="mt-8 flex justify-end items-center gap-x-3">
-                        <FormButton buttonStyle="action" class="rounded-md"
-                            @click="state.modal.isAddDirectoryOpen = true">
+                        <FormButton buttonStyle="action" @click="state.modal.isAddDirectoryOpen = true">
                             <Icon name="ph:plus" class="h-4 w-4" aria-hidden="true" />
                             {{ $t('citizens.documents.createNewFolder') }}
                         </FormButton>
                         <LoadingSpinner :isActive="state.isPageLoading">
-                            <FormButton buttonStyle="action" class="rounded-md" @click="triggerFileInput">
+                            <FormButton buttonStyle="action" @click="triggerFileInput">
                                 <Icon name="ph:upload" class="h-4 w-4" aria-hidden="true" />
                                 {{ $t('citizens.documents.uploadFile') }}
                             </FormButton>
                             <input type="file" ref="documentFile" @change="uploadFile" class="hidden" multiple />
                         </LoadingSpinner>
-                        <FormButton buttonStyle="action" class="rounded-md"
-                            @click="state.modal.isViewFolderStructureOpen = true">
+                        <FormButton buttonStyle="action" @click="state.modal.isViewFolderStructureOpen = true">
                             <Icon name="ph:folder-notch-open" class="h-4 w-4" aria-hidden="true" />
                             {{ $t('folderStructure.folderStructure') }}
                         </FormButton>
-                        <FormButton buttonStyle="action" class="rounded-md"
-                            @click="state.modal.isCreateTemplateOpen = true">
+                        <FormButton buttonStyle="action" @click="state.modal.isCreateTemplateOpen = true">
                             <Icon name="ph:file" class="h-4 w-4" aria-hidden="true" />
                             {{ $t('citizens.documents.createTemplate.createReport') }}
                         </FormButton>
@@ -117,7 +114,7 @@
                                     <td width="15%">
                                         <div class="flex items-end justify-end gap-2">
                                             <Tooltip :text="$t('citizens.documents.table.actions.view')">
-                                                <FormButton type="button" buttonStyle="primary" class="rounded-md"
+                                                <FormButton type="button" buttonStyle="primary"
                                                     @click="viewDirectory(document)" v-if="document?.type === 'folder'">
                                                     <Icon name="ph:eye" class="size-4" />
                                                 </FormButton>
@@ -125,46 +122,46 @@
                                             <Tooltip :text="document?.is_shared ? $t('citizens.documents.table.actions.unshare') :
                                                 $t('citizens.documents.table.actions.share')"
                                                 v-if="document?.type === 'file'">
-                                                <FormButton type="button" buttonStyle="primary" class="rounded-md"
+                                                <FormButton type="button" buttonStyle="primary"
                                                     @click="confirmDocumentShareUnshare(document)">
                                                     <Icon name="ph:share" class="size-4" />
                                                 </FormButton>
                                             </Tooltip>
                                             <Tooltip :text="$t('citizens.documents.table.actions.move')"
                                                 v-if="document?.type === 'file'">
-                                                <FormButton type="button" buttonStyle="primary" class="rounded-md"
+                                                <FormButton type="button" buttonStyle="primary"
                                                     @click="moveFileConfirmation(document)">
                                                     <Icon name="ph:arrows-out" class="size-4" />
                                                 </FormButton>
                                             </Tooltip>
                                             <Tooltip :text="$t('citizens.documents.table.actions.edit')">
-                                                <FormButton type="button" buttonStyle="primary" class="rounded-md"
+                                                <FormButton type="button" buttonStyle="primary"
                                                     @click="editDocument(document)">
                                                     <Icon name="ph:pencil-simple" class="size-4" />
                                                 </FormButton>
                                             </Tooltip>
                                             <Tooltip :text="$t('citizens.documents.table.actions.access')"
                                                 v-if="isAdmin(userStore.getUser?.roles)">
-                                                <FormButton type="button" buttonStyle="primary" class="rounded-md"
+                                                <FormButton type="button" buttonStyle="primary"
                                                     @click="viewDocumentAccess(document)">
                                                     <Icon name="ph:lock" class="size-4" />
                                                 </FormButton>
                                             </Tooltip>
                                             <Tooltip :text="$t('citizens.documents.table.actions.archive')">
-                                                <FormButton type="button" buttonStyle="primary" class="rounded-md"
+                                                <FormButton type="button" buttonStyle="primary"
                                                     @click="confirmDocumentArchiving(document)">
                                                     <Icon name="ph:archive-light" class="size-4" />
                                                 </FormButton>
                                             </Tooltip>
                                             <Tooltip :text="$t('citizens.documents.table.actions.delete')"
                                                 v-if="document?.type === 'folder'">
-                                                <FormButton type="button" buttonStyle="danger" class="rounded-md"
+                                                <FormButton type="button" buttonStyle="danger"
                                                     @click="deleteDirectoryConfirmation(document)">
                                                     <Icon name="ph:trash" class="size-4" />
                                                 </FormButton>
                                             </Tooltip>
                                             <Tooltip :text="$t('citizens.documents.table.actions.delete')" v-else>
-                                                <FormButton type="button" buttonStyle="danger" class="rounded-md"
+                                                <FormButton type="button" buttonStyle="danger"
                                                     @click="deleteFileConfirmation(document)">
                                                     <Icon name="ph:trash" class="size-4" />
                                                 </FormButton>

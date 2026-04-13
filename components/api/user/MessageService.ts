@@ -9,6 +9,10 @@ class MessageService extends BaseAPIService {
         return await this.request(`/user/chats/${chatUuid}`, 'GET')
     }
 
+    async deleteChatHistory(chatUuid: any): Promise<any> {
+        return await this.request(`/user/chats/${chatUuid}/clear`, 'POST')
+    }
+
     async fetchChatHistory(params: object): Promise<any> {
         return await this.request(`/user/chat-messages`, 'GET', params)
     }
@@ -56,7 +60,6 @@ class MessageService extends BaseAPIService {
     async downloadAttachment(attachmentUuid: any): Promise<any> {
         return await this.request(`/user/chat-message-attachments/${attachmentUuid}/download`, 'POST')
     }
-
 }
 
 export const messageService = new MessageService()

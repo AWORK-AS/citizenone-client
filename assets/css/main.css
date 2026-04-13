@@ -1,16 +1,23 @@
-@import url('https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap');
 
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
+/* ----------------------------------------------------------------------------------------------------
+    Base / Reset
+---------------------------------------------------------------------------------------------------- */
 html {
     @apply scroll-smooth;
 }
 
 body {
-    font-family: "Montserrat", sans-serif;
+    font-family: "Inter", system-ui, -apple-system, sans-serif;
     padding: 0 !important;
+    @apply text-slate-700 bg-surface-50 antialiased;
+    font-feature-settings: "cv02", "cv03", "cv04", "cv11";
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
 }
 
 input:disabled {
@@ -27,7 +34,7 @@ input:disabled {
 
 #myChart {
     width: 100%;
-    height: 500px; /* Set a height */
+    height: 500px;
 }
 
 #cmp-icon {
@@ -35,33 +42,134 @@ input:disabled {
 }
 
 /* ----------------------------------------------------------------------------------------------------
+    Modern Card Utility
+---------------------------------------------------------------------------------------------------- */
+@layer components {
+    .card {
+        @apply bg-white rounded-xl border border-surface-200 shadow-card;
+    }
+
+    .card-hover {
+        @apply card transition-all duration-200 hover:shadow-card-hover hover:border-primary-100;
+    }
+
+    .card-header {
+        @apply px-5 py-4 border-b border-surface-200 flex items-center justify-between;
+    }
+
+    .card-body {
+        @apply p-5;
+    }
+
+    .stat-card {
+        @apply bg-white rounded-xl border border-surface-200 shadow-stat px-5 py-4;
+    }
+
+    .stat-value {
+        @apply text-2xl font-bold tracking-tight;
+    }
+
+    .stat-label {
+        @apply text-sm font-medium text-slate-500 flex items-center gap-x-1.5;
+    }
+
+    .stat-sublabel {
+        @apply text-xs text-slate-400 mt-0.5;
+    }
+
+    /* Badge styles */
+    .badge {
+        @apply inline-flex items-center px-2 py-0.5 rounded-full text-xs font-medium;
+    }
+
+    .badge-blue {
+        @apply bg-blue-50 text-blue-700 ring-1 ring-inset ring-blue-600/10;
+    }
+
+    .badge-green {
+        @apply bg-emerald-50 text-emerald-700 ring-1 ring-inset ring-emerald-600/10;
+    }
+
+    .badge-orange {
+        @apply bg-amber-50 text-amber-700 ring-1 ring-inset ring-amber-600/10;
+    }
+
+    .badge-red {
+        @apply bg-red-50 text-red-700 ring-1 ring-inset ring-red-600/10;
+    }
+
+    .badge-purple {
+        @apply bg-purple-50 text-purple-700 ring-1 ring-inset ring-purple-600/10;
+    }
+
+    .badge-gray {
+        @apply bg-slate-50 text-slate-600 ring-1 ring-inset ring-slate-500/10;
+    }
+
+    /* Sidebar nav item */
+    .sidebar-item {
+        @apply flex items-center gap-x-3 rounded-lg px-3 py-2.5 text-sm font-medium cursor-pointer transition-all duration-150;
+    }
+
+    .sidebar-item-active {
+        @apply bg-white/15 text-white;
+    }
+
+    .sidebar-item-inactive {
+        @apply text-blue-200 hover:text-white hover:bg-white/10;
+    }
+
+    .sidebar-section-label {
+        @apply text-[11px] font-semibold uppercase tracking-wider text-blue-300/60 px-3 mb-1.5;
+    }
+}
+
+/* ----------------------------------------------------------------------------------------------------
     Scrollbar
 ---------------------------------------------------------------------------------------------------- */
-/* Apply only if .custom-scrollbar is on the body */
 .custom-scrollbar ::-webkit-scrollbar {
-    width: 12px;
-    height: 12px;
+    width: 6px;
+    height: 6px;
 }
 
 .custom-scrollbar ::-webkit-scrollbar-track {
-    background: #f1f1f1;
+    background: transparent;
     border-radius: 10px;
 }
 
 .custom-scrollbar ::-webkit-scrollbar-thumb {
-    background: #888;
+    background: #cbd5e1;
     border-radius: 10px;
 }
 
 .custom-scrollbar ::-webkit-scrollbar-thumb:hover {
-    background: #555;
-} 
-/* ----------------------------------------------------------------------------------------------------
-    Table
----------------------------------------------------------------------------------------------------- */
+    background: #94a3b8;
+}
 
+/* Global thin scrollbar */
+::-webkit-scrollbar {
+    width: 6px;
+    height: 6px;
+}
+
+::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+    background: #e2e8f0;
+    border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: #cbd5e1;
+}
+
+/* ----------------------------------------------------------------------------------------------------
+    Table — Modern flat style
+---------------------------------------------------------------------------------------------------- */
 .table-responsive {
-   @apply w-full overflow-scroll;
+    @apply w-full overflow-x-auto rounded-xl border border-surface-200;
 }
 
 table {
@@ -69,24 +177,24 @@ table {
 }
 
 table th {
-    @apply bg-primary text-white font-normal border-b border-primary-50 px-10 py-5 text-left text-sm;
+    @apply bg-surface-50 text-slate-600 font-semibold border-b border-surface-200 px-5 py-3 text-left text-xs uppercase tracking-wider;
 }
 
 table th:first-child {
-    @apply rounded-tl-lg;
+    @apply rounded-tl-xl;
 }
 
 table th:last-child {
-    @apply rounded-tr-lg;
+    @apply rounded-tr-xl;
 }
 
 table tbody tr {
-    @apply border-b border-tertiary-50;
+    @apply border-b border-surface-100 transition-colors duration-150;
     vertical-align: middle;
 }
 
 table tbody tr:hover {
-    @apply bg-gray-50;
+    @apply bg-primary-25/50;
 }
 
 table tbody tr:last-child {
@@ -94,27 +202,39 @@ table tbody tr:last-child {
 }
 
 table td {
-    @apply text-sm font-normal px-10 py-3 text-left bg-white;
+    @apply text-sm font-normal px-5 py-3 text-left bg-white text-slate-700;
 }
 
 /* ----------------------------------------------------------------------------------------------------
     @vueform/multiselect
 ---------------------------------------------------------------------------------------------------- */
 .multiselect {
-    @apply border border-primary rounded-md min-h-11 !important;
+    @apply border border-gray-200 rounded-full min-h-11 !important;
+}
+
+.multiselect-wrapper, .multiselect-search {
+    @apply rounded-full !important;
 }
 
 .multiselect-dropdown {
-    @apply border border-primary rounded-tl-md rounded-tr-md !important;
+    @apply border border-gray-200 rounded-lg shadow-dropdown !important;
 }
 
 .multiselect-tag {
-    @apply bg-primary !important;
+    @apply bg-primary rounded-md !important;
 }
 
 .multiselect.is-active {
-    box-shadow: none !important;
+    /* box-shadow: 0 0 0 3px rgba(44, 93, 229, 0.1) !important; */
     @apply border border-primary !important;
+    outline: none !important;
+    box-shadow: none !important;
+}
+
+.multiselect.is-active .multiselect-wrapper,
+.multiselect-search:focus {
+    outline: none !important;
+    box-shadow: none !important;
 }
 
 .multiselect-option.is-selected,
@@ -125,8 +245,42 @@ table td {
 /* ----------------------------------------------------------------------------------------------------
     Editor
 ---------------------------------------------------------------------------------------------------- */
+.ck.ck-editor {
+    border-radius: 1rem !important;
+    overflow: hidden !important;
+    border: 1px solid #e5e7eb !important;
+}
+
+.ck.ck-toolbar {
+    border-radius: 1rem 1rem 0 0 !important;
+    border: none !important;
+    border-bottom: 1px solid #e5e7eb !important;
+}
+
+.ck-sticky-panel__content {
+    border: none !important;
+}
+
 .ck-editor__editable_inline {
     min-height: 200px;
+    border-radius: 0 0 1rem 1rem !important;
+    border: none !important;
+    scrollbar-width: none !important;
+    @apply border-surface-200 !important;
+}
+
+.ck-editor__editable_inline::-webkit-scrollbar {
+    display: none !important;
+}
+
+.ck-powered-by-balloon {
+    display: none !important;
+}
+
+.ck.ck-editor__editable.ck-focused:not(.ck-editor__nested-editable) {
+    border: none !important;
+    box-shadow: none !important;
+    outline: none !important;
 }
 
 .ck-editor__editable h1 {
@@ -176,9 +330,8 @@ table td {
 /* ----------------------------------------------------------------------------------------------------
     Content
 ---------------------------------------------------------------------------------------------------- */
-
 .content a {
-    @apply underline text-tertiary-700 hover:text-tertiary-500;
+    @apply underline text-primary-600 hover:text-primary-500;
 }
 
 .content h1 {
@@ -206,18 +359,18 @@ table td {
 }
 
 .content p {
-    @apply my-1.5 leading-3 !important;
+    @apply my-1.5 leading-relaxed !important;
 }
 
 .content strong {
     @apply font-semibold;
 }
 
-.content h1, .content h2, 
-.content h3, .content h4, 
-.content h5, .content h6, 
-.content div, .content p, 
-.content ul, .content ol, 
+.content h1, .content h2,
+.content h3, .content h4,
+.content h5, .content h6,
+.content div, .content p,
+.content ul, .content ol,
 .content blockquote {
     margin-block-start: 0.83em;
     margin-block-end: 0.83em;
@@ -256,13 +409,12 @@ table td {
 }
 
 .content blockquote {
-    @apply ml-6 pl-4 border-l-2 border-gray-500;
+    @apply ml-6 pl-4 border-l-2 border-slate-300;
 }
 
 /* ----------------------------------------------------------------------------------------------------
     Support
 ---------------------------------------------------------------------------------------------------- */
-
 .support-mask {
     mask-image: url('/img/icons/support-mask.svg');
     -webkit-mask-size: cover;
@@ -277,44 +429,40 @@ table td {
 /* ----------------------------------------------------------------------------------------------------
     Carousel
 ---------------------------------------------------------------------------------------------------- */
-
 .carousel__pagination-button::after {
-    background-color: #8695be7f;
+    background-color: #94a3b840;
 }
 
 .carousel__pagination-button--active::after {
-    background-color: #205E77;
+    background-color: #2C5DE5;
 }
 
-/* Pagination container */
 .carousel__pagination {
     display: flex;
     justify-content: center;
     gap: 10px;
-    flex-wrap: wrap;          /* ✅ allows wrapping on small screens */
+    flex-wrap: wrap;
     padding: 10px 12px;
 }
 
-/* Dots */
 .carousel__pagination button,
 .carousel__pagination .dot {
-    width: 10px;
-    height: 10px;
+    width: 8px;
+    height: 8px;
     border-radius: 999px;
     opacity: 0.5;
+    transition: all 0.2s ease;
 }
 
-/* Active dot */
 .carousel__pagination .is-active {
     opacity: 1;
-    transform: scale(1.15);
+    transform: scale(1.2);
 }
 
-/* Responsive tweaks */
 @media (max-width: 768px) {
     .carousel__pagination { gap: 8px; }
     .carousel__pagination button,
-    .carousel__pagination .dot { width: 8px; height: 8px; }
+    .carousel__pagination .dot { width: 7px; height: 7px; }
 }
 
 @media (max-width: 420px) {
@@ -326,21 +474,33 @@ table td {
 /* ----------------------------------------------------------------------------------------------------
     Animation
 ---------------------------------------------------------------------------------------------------- */
-
 .animate-fade-in {
-    animation: fade-in 1s forwards;
+    animation: fade-in 0.5s cubic-bezier(0.16, 1, 0.3, 1) forwards;
 }
 
 @keyframes fade-in {
     from {
         opacity: 0;
-        transform: translateY(20px);
+        transform: translateY(12px);
     }
     to {
         opacity: 1;
         transform: translateY(0);
     }
 }
+
+/* Staggered children animation */
+.stagger-children > * {
+    opacity: 0;
+    animation: fade-in 0.4s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+.stagger-children > *:nth-child(1) { animation-delay: 0.05s; }
+.stagger-children > *:nth-child(2) { animation-delay: 0.1s; }
+.stagger-children > *:nth-child(3) { animation-delay: 0.15s; }
+.stagger-children > *:nth-child(4) { animation-delay: 0.2s; }
+.stagger-children > *:nth-child(5) { animation-delay: 0.25s; }
+.stagger-children > *:nth-child(6) { animation-delay: 0.3s; }
 
 /* ----------------------------------------------------------------------------------------------------
     Chat
@@ -352,56 +512,607 @@ table td {
 /* ----------------------------------------------------------------------------------------------------
     Duty schedule
 ---------------------------------------------------------------------------------------------------- */
-
 #fixed-header-week-view {
     position: relative;
-    transition: top 0.3s ease; /* Smooth transition */
+    transition: top 0.3s ease;
 }
 
 .fixed-header-week-view-top {
     position: fixed !important;
     top: 4rem;
-    left: 20rem;
-    right: 2rem;
-    z-index: 20;
+    left: 6rem;
+    right: 1.5rem;
+    z-index: 30;
     background: white;
+    border-radius: 0 0 0.75rem 0.75rem;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.06);
 }
 
 .fixed-header-month-view-top {
     position: fixed !important;
     top: 4rem;
-    left: 20rem;
-    right: 2rem;
+    left: 17rem;
+    right: 1.5rem;
     z-index: 20;
     background: white;
     overflow: hidden;
+    border-radius: 0 0 0.75rem 0.75rem;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.06);
 }
 
 /* ----------------------------------------------------------------------------------------------------
     Register
 ---------------------------------------------------------------------------------------------------- */
-
 .square-grid-overlay {
     --square-grid--gap: 71px;
     --square-grid--bg-pos: calc(50% - var(--square-grid--gap) / 2);
-
     --square-grid--background-image: url("data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNzEiIGhlaWdodD0iNzEiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+CiA8Zz4KICA8cmVjdCBvcGFjaXR5PSIwLjMiIHN0cm9rZS13aWR0aD0iMC41IiBpZD0ic3ZnXzEiIGhlaWdodD0iNzEiIHdpZHRoPSI3MSIgeT0iMCIgeD0iMCIgc3Ryb2tlPSIjZmZmIiBmaWxsPSJub25lIi8+CiA8L2c+Cjwvc3ZnPg==");
-
     position: absolute;
     inset: 0;
     width: 100%;
     height: 100%;
     left: 0;
     top: 0;
-
     background-image: var(--square-grid--background-image);
     background-repeat: repeat;
     background-size: var(--square-grid--gap) auto;
     background-position: var(--square-grid--bg-pos) var(--square-grid--bg-pos);
-
     pointer-events: none;
-
-    /* Soft fade-out toward edges */
     -webkit-mask-image: radial-gradient(rgb(0, 0, 0) 33%, rgba(0, 0, 0, 0) 72%);
     mask-image: radial-gradient(rgb(0, 0, 0) 33%, rgba(0, 0, 0, 0) 72%);
+}
+
+/* ----------------------------------------------------------------------------------------------------
+    Focus styles
+---------------------------------------------------------------------------------------------------- */
+
+/* ----------------------------------------------------------------------------------------------------
+    Tooltip override
+---------------------------------------------------------------------------------------------------- */
+[data-tooltip] {
+    @apply relative;
+}
+
+/* ====================================================================================================
+    SCHEDULE / VAGTPLAN — Modern Redesign (CSS-only, no functionality changes)
+   ==================================================================================================== */
+
+/* --- Schedule page wrapper: softer background --- */
+.isolate.flex.flex-auto.flex-col.bg-white {
+    background: white; border-radius: 0.75rem; border: 1px solid #e2e8f0;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04);
+}
+
+/* --- Week header row: softer day columns --- */
+#fixed-header-week-view {
+    background-color: #f8fafc;
+}
+
+#fixed-header-week-view > div {
+    @apply border-t-0 border-r-0 border-b border-l-0 border-[#f9fafc];
+}
+
+#fixed-header-week-view > div:first-child {
+    @apply bg-white border-r border-black/5;
+}
+
+/* Day column headers: modern badge style */
+#fixed-header-week-view .flex.items-center.justify-center {
+    /* padding-top: 0.75rem; padding-bottom: 0.75rem; */
+    /* transition: background-color 0.15s ease; */
+}
+
+#fixed-header-week-view .flex.items-center.justify-center:hover {
+    background-color: rgba(44, 93, 229, 0.04);
+}
+
+#fixed-header-week-view .text-sm {
+    font-weight: 500; color: #475569;
+}
+
+#fixed-header-week-view .font-semibold {
+    color: #0f172a;
+}
+
+/* --- Holiday row: modern pill badges --- */
+.shadow.grid.grid-cols-9 {
+    box-shadow: none !important;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.06);
+    background: rgb(255, 251, 245);
+}
+
+.shadow.grid.grid-cols-9 .bg-secondary {
+    border-radius: 9999px; font-size: 0.75rem; font-weight: 500;
+    background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%) !important;
+    padding: 3px 10px !important;
+    font-size: 10px !important;
+    letter-spacing: 0.01em;
+    box-shadow: 0 1px 2px rgba(217, 119, 6, 0.2);
+}
+
+/* --- Employee card: modern card design --- */
+.grid.grid-cols-9 > .col-span-2.border-0\.5 {
+    border-color: rgba(0, 0, 0, 0.06) !important;
+    border-right: 1px solid rgba(0, 0, 0, 0.08) !important;
+    background: linear-gradient(180deg, #ffffff 0%, #fafbfc 100%);
+}
+
+/* Employee avatar: larger, modern ring */
+.grid.grid-cols-9 .h-10.w-10.rounded-full {
+    height: 2.75rem; width: 2.75rem; box-shadow: 0 0 0 2px white;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+    border-width: 2.5px !important;
+    transition: transform 0.15s ease, box-shadow 0.15s ease;
+}
+
+.grid.grid-cols-9 .h-10.w-10.rounded-full:hover {
+    transform: scale(1.05);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.12);
+}
+
+/* Employee name: bolder */
+.grid.grid-cols-9 .text-sm.font-medium {
+    font-weight: 600; color: #1e293b;
+    letter-spacing: -0.01em;
+}
+
+/* Small action buttons in employee card: softer */
+.bg-gray-200.w-6.h-6.text-sm.text-gray-600.rounded-sm {
+    border-radius: 0.375rem; background-color: #f1f5f9; color: #64748b;
+    transition: all 0.15s ease;
+}
+
+.bg-gray-200.w-6.h-6.text-sm.text-gray-600.rounded-sm:hover {
+    background-color: #E1E9FD; color: #2C5DE5;
+}
+
+/* Employee info text: better spacing */
+.text-xxs {
+    font-size: 0.7rem;
+    line-height: 1.4;
+    /* color: #64748b; */
+}
+
+/* --- Shift cells: modern rounded cards --- */
+.grid.grid-cols-9 > .p-3.border-0\.5 {
+    border-color: rgba(0, 0, 0, 0.05) !important;
+    padding: 10px !important;
+    transition: background-color 0.15s ease;
+}
+
+.grid.grid-cols-9 > .p-3.border-0\.5:hover {
+    background-color: rgba(44, 93, 229, 0.02);
+}
+
+/* Shift blocks: rounded, modern cards with subtle shadows */
+.rounded-md.p-1.relative.mb-2\.5 {
+    border-radius: 0.75rem;
+    padding: 0 !important;
+    overflow: hidden;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1), 0 1px 2px rgba(0, 0, 0, 0.06);
+    transition: transform 0.15s ease, box-shadow 0.15s ease;
+}
+
+.rounded-md.p-1.relative.mb-2\.5:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.12), 0 2px 4px rgba(0, 0, 0, 0.06);
+}
+
+/* Shift time display: cleaner layout */
+.rounded-md.p-1.relative.mb-2\.5 .flex.justify-between.text-white {
+    gap: 0;
+}
+
+.rounded-md.p-1.relative.mb-2\.5 .w-full.px-2.py-2.flex.items-center.justify-center {
+    padding: 0.5rem 0.375rem; font-size: 0.75rem; font-weight: 600;
+    border-color: rgba(255, 255, 255, 0.2) !important;
+    letter-spacing: 0.02em;
+}
+
+/* Shift type start/end labels */
+.rounded-md.p-1.relative.mb-2\.5 .px-1.py-0\.5.text-xxs.text-white {
+    padding: 0.25rem 0.5rem;
+    font-size: 0.65rem;
+    opacity: 0.9;
+}
+
+/* Remove shift X button: cleaner circle */
+.bg-gray-200.w-4.h-4.text-sm.text-gray-600.rounded-full {
+    background: white; box-shadow: 0 1px 2px rgba(0,0,0,0.05);
+    border: 1px solid rgba(0, 0, 0, 0.1);
+    transition: all 0.15s ease;
+}
+
+.bg-gray-200.w-4.h-4.text-sm.text-gray-600.rounded-full:hover {
+    background-color: #fef2f2;
+    border-color: #ef4444;
+}
+
+/* Sick leave indicator */
+.absolute.-left-1.-top-1.z-10.w-4.h-4.rounded-full {
+    background-color: #fef2f2; border-color: #fca5a5; color: #dc2626; font-weight: 700;
+    font-size: 0.6rem;
+}
+
+/* --- Copy/paste states: cleaner dashed borders --- */
+.border-1\.5.border-dashed.border-gray-700 {
+    border-color: #2C5DE5 !important;
+    border-radius: 0.5rem;
+    background: rgba(44, 93, 229, 0.03);
+}
+
+.cursor-copy.relative.group::after {
+    border-radius: 0.5rem;
+}
+
+/* --- Schedule slots badge: modern pill --- */
+.absolute.top-2.left-24.text-xxs.flex.items-center.justify-center.w-5.h-5.bg-red-400.text-white.rounded-full {
+    background-color: #ef4444;
+    box-shadow: 0 2px 4px rgba(239, 68, 68, 0.3);
+    font-weight: 600;
+}
+
+/* --- Pagination / entries per page: modern dropdown --- */
+.bg-white.border.border-gray-200.rounded-md.px-3.py-2 {
+    border-radius: 0.5rem; border-color: #e2e8f0;
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.04);
+}
+
+.bg-white.border.border-gray-200.rounded-md.px-3.py-2 select {
+    font-size: 0.875rem; color: #334155; font-weight: 500;
+}
+
+/* --- Filter/sort buttons: modern styling --- */
+.bg-tertiary.border.border-tertiary {
+    background-color: #2C5DE5; border-color: #2C5DE5; border-radius: 0.5rem;
+    box-shadow: 0 1px 3px rgba(44, 93, 229, 0.3);
+}
+
+.bg-tertiary.border.border-tertiary:hover {
+    background-color: #1C42AD; border-color: #1C42AD;
+}
+
+/* --- Week number badge: modern card --- */
+.w-fit.bg-white.border.border-gray-200.rounded-md.px-4.py-2 {
+    border-radius: 0.75rem; background-color: #F0F4FE; border-color: #C3D3FB;
+}
+
+.w-fit.bg-white.border.border-gray-200.rounded-md.px-4.py-2 h3 {
+    color: #153591; font-weight: 700;
+}
+
+/* --- Progress bar: smooth gradient --- */
+.bg-primary.h-3.rounded-full {
+    background: linear-gradient(90deg, #2C5DE5 0%, #60A5FA 100%) !important;
+    border-radius: 9999px;
+    box-shadow: 0 1px 3px rgba(44, 93, 229, 0.3);
+}
+
+/* --- Striped rows in employee hours: softer --- */
+.bg-gray-100 {
+    background-color: #f8fafc !important;
+}
+
+/* --- Show more/less links: modern style --- */
+.text-primary.text-xs.hover\:text-primary-700 {
+    font-weight: 500;
+    transition: color 0.15s ease;
+}
+
+/* --- Copy week button area --- */
+.grid.grid-cols-9 > .col-span-2.border-0\.5 .flex.items-center.gap-x-3.px-3.pt-3 .text-sm.font-medium {
+    color: #153591; font-weight: 700;
+}
+
+/* --- Month display in date picker --- */
+.relative.flex.items-center.rounded-md.bg-white.shadow-sm {
+    border-radius: 0.75rem; border-color: #e2e8f0;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.06);
+}
+
+.relative.flex.items-center.rounded-md.bg-white.shadow-sm button {
+    border-radius: 0.5rem;
+    transition: all 0.15s ease;
+}
+
+/* --- Conflict highlight: softer red --- */
+.border-1\.5.border-red-500.rounded-md {
+    border-color: #f87171 !important;
+    background: rgba(248, 113, 113, 0.04);
+    border-radius: 0.75rem;
+}
+
+/* --- Schedule slot count badges on day headers --- */
+.bg-red-400.text-white.rounded-full {
+    background-color: #ef4444; font-weight: 600;
+    box-shadow: 0 1px 4px rgba(239, 68, 68, 0.3);
+}
+
+/* --- "Go to today" link: modern accent --- */
+button.text-primary.text-sm.hover\:text-primary-700 {
+    font-weight: 500;
+}
+
+/* --- Expand/collapse employee cards: smooth transition --- */
+.grid.grid-cols-9 > .col-span-2.border-0\.5 > div {
+    transition: all 0.2s ease;
+}
+
+/* --- Better tag dots on shifts --- */
+.text-white.w-4.h-4.text-xxs.rounded-full {
+    width: 1.25rem; height: 1.25rem; font-size: 9px; font-weight: 700;
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.15);
+}
+
+/* ====================================================================================================
+    COMPENSATORY GRAPH — Modern Redesign
+   ====================================================
+
+/* ===== KNAP SYSTEM ===== */
+
+/* .btn-ai, .btn-amber, .btn-blue, .btn-danger {
+    height: 2.25rem;
+    padding: 0 0.875rem;
+    font-size: 0.75rem;
+    font-weight: 600;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.375rem;
+    border-radius: 9999px;
+    white-space: nowrap;
+    cursor: pointer;
+    transition: border-color 0.15s ease;
+} */
+
+.btn-danger {
+    background-color: #fef2f2 !important;
+    color: #dc2626 !important;
+    border: 1.5px solid #fecaca !important;
+}
+.btn-danger:hover {
+    border-color: #dc2626 !important;
+}
+
+/* button.outline-none.rounded-full {
+    background-color: #eff6ff;
+    background-image: none;
+    color: #1d4ed8;
+    border: 1.5px solid #bfdbfe;
+    box-shadow: none;
+}
+button.outline-none.rounded-full:hover {
+    border-color: #1d4ed8;
+    background-image: none;
+    box-shadow: none;
+    transform: none;
+} */
+
+/* END KNAP SYSTEM */
+
+
+/* ===== CITIZENONE REDESIGN PATCHES ===== */
+
+/* Topbar: ren hvid */
+.sticky.top-0.z-\[49\] {
+    background: #ffffff !important;
+    backdrop-filter: none !important;
+    -webkit-backdrop-filter: none !important;
+    border-bottom: 1px solid #e8eaef !important;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.04) !important;
+}
+
+/* Topbar knapper: rounded-full */
+.sticky.top-0 button { border-radius: 9999px !important; }
+
+/* Alle inputs/selects: let afrunding */
+/* input:not([type="text"]):not([type="password"]):not([type="checkbox"]):not([type="radio"]), select, textarea { border-radius: 0.625rem !important; } */
+
+/* Sidebar: lys hvid */
+[class*="from-sidebar"] {
+    background: #ffffff !important;
+    background-image: none !important;
+    border-right: 1px solid #e8eaef !important;
+    box-shadow: none !important;
+}
+
+/* Sidebar nav items */
+.sidebar-item { border-radius: 9999px !important; color: #6b7280 !important; }
+.sidebar-item:hover { background-color: #f3f4f6 !important; color: #0f1a2e !important; }
+.sidebar-item-active { background-color: #eff6ff !important; color: #0f4c75 !important; }
+.sidebar-item-inactive { color: #6b7280 !important; background: transparent !important; }
+.sidebar-item-inactive:hover { background-color: #f3f4f6 !important; color: #0f1a2e !important; }
+.sidebar-section-label { color: #9ca3af !important; }
+[class*="from-sidebar"] .text-blue-300\/60 { color: #9ca3af !important; }
+[class*="from-sidebar"] .hover\:bg-white\/10:hover { background-color: #f3f4f6 !important; }
+[class*="from-sidebar"] .hover\:text-white:hover { color: #0f4c75 !important; }
+
+/* Dropdown over sidebar */
+[role='listbox'],[role='menu'],[role='option'] { z-index: 9999 !important; }
+[class*='origin-top'] { z-index: 9999 !important; }
+
+/* Opgradér nu */
+.bg-upgrade { background: none !important; }
+
+/* Tooltips */
+.tippy-box { background-color: #1e293b !important; color: #f8fafc !important; border-radius: 0.5rem !important; }
+.tippy-arrow { color: #1e293b !important; }
+
+/* Rabat badge */
+.rotate-12, .-rotate-12 { color: #ffffff !important; font-weight: 700 !important; }
+
+/* Schedule: overflow-visible på shift container */
+.rounded-xl.overflow-hidden.relative.mb-2\.5.shadow-sm {
+    overflow: visible !important;
+}
+
+/* Schedule: shift action knapper synlige */
+.bg-gray-200.w-4.h-4.text-sm.text-gray-600.rounded-full.flex.items-center.justify-center.absolute {
+    background-color: rgba(255,255,255,0.95) !important;
+    color: #374151 !important;
+}
+
+/* Søgefelt */
+input.appearance-none.border-primary {
+    /* border-color: #e2e5ea !important; */
+    /* border-right: none !important; */
+    /* border-radius: 9999px 9999px 9999px 9999px !important; */
+}
+.bg-primary.px-6.py-1\.5.border.border-primary {
+    border-radius: 0 9999px 9999px 0 !important;
+    background: #0f4c75 !important;
+    border-color: #0f4c75 !important;
+    height: 2.5rem !important;
+}
+
+/* ===== END REDESIGN PATCHES ===== */
+
+/* Alle knapper runde */
+/* button { border-radius: 9999px !important; } */
+
+/* Modal altid over topbar */
+[class*="fixed"][class*="inset-0"], [class*="fixed"][class*="z-50"], .fixed.inset-0 { z-index: 100 !important; }
+
+/* ===== FINAL SHIFT + MODAL FIXES ===== */
+
+/* Afdeling tekst: tydelig */
+.rounded-xl.overflow-visible .text-xxs.text-white.px-1.py-0\.5,
+.rounded-xl.overflow-visible .text-xs.text-white\/90 {
+    color: rgba(255,255,255,0.95) !important;
+    font-size: 0.72rem !important;
+    font-weight: 500 !important;
+}
+
+/* Schedule slot P-tag badge: rund, hvid tekst, luft */
+.absolute.top-2.left-24.text-xxs.flex.items-center.justify-center.w-5.h-5.bg-red-400.text-white.rounded-full,
+.w-4.h-4.text-xxs.rounded-full.flex.items-center.justify-center[class*="absolute"],
+[class*="sidebar-item-active"][class*="w-4"],
+.rounded-full.bg-red-400,
+.text-white.w-4.h-4.text-xxs.rounded-full {
+    color: #ffffff !important;
+    font-weight: 700 !important;
+    /* padding: 0 !important; */
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+}
+
+/* P tag specifik - linje 614 rød prik til schedule slot */
+/* .w-2.h-2.bg-red-400.rounded-full.absolute {
+    width: 1.25rem !important;
+    height: 1.25rem !important;
+    font-size: 0.65rem !important;
+    color: #ffffff !important;
+    font-weight: 700 !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    top: -0.5rem !important;
+    right: -0.5rem !important;
+} */
+
+/* Topbar bag modal: topbar z-index lavere end modal overlay */
+/* .sticky.top-0 { z-index: 49 !important; } */
+
+/* Modal overlay og dialog: altid over topbar */
+[class*="fixed"][class*="inset-0"][class*="bg-gray"],
+[class*="fixed"][class*="inset-0"][class*="bg-black"],
+[class*="fixed"][class*="inset-0"][class*="bg-opacity"],
+[class*="fixed"][class*="inset-0"] {
+    z-index: 60 !important;
+}
+[role="dialog"] { z-index: 61 !important; }
+
+/* Sikr dropdown stadig over sidebar men under modal */
+[role='listbox'],[role='menu'] { z-index: 55 !important; }
+
+/* ===== END FINAL FIXES ===== */
+
+/* ===== SHIFT KORT REDESIGN ===== */
+
+/* Tider: tydeligere */
+.rounded-xl.overflow-visible .flex.justify-between.text-white {
+    padding: 8px 12px 6px !important;
+    border-bottom: 1px solid rgba(255,255,255,0.18) !important;
+    align-items: center !important;
+}
+.rounded-xl.overflow-visible p.text-xs.font-semibold.text-white {
+    font-size: 13px !important;
+    font-weight: 700 !important;
+    padding: 0 !important;
+    letter-spacing: -0.01em !important;
+    line-height: 1 !important;
+}
+
+/* Afdeling tekst */
+.rounded-xl.overflow-visible .text-xxs.text-white.px-1.py-0\.5,
+.rounded-xl.overflow-visible .text-xs.text-white\/90.px-1\.5 {
+    padding: 5px 12px 2px !important;
+    font-size: 11px !important;
+    font-weight: 500 !important;
+    color: rgba(255,255,255,0.92) !important;
+}
+
+/* Borger pills */
+.rounded-xl.overflow-visible .bg-white\/20.rounded-full {
+    font-size: 10px !important;
+    font-weight: 600 !important;
+    padding: 2px 8px !important;
+}
+.rounded-xl.overflow-visible .mt-1 {
+    padding: 0 8px 4px !important;
+}
+
+/* Tags: runde, hvid tekst, luft */
+.rounded-xl.overflow-visible .text-white.w-4.h-4.text-xxs.rounded-full {
+    width: 20px !important;
+    height: 20px !important;
+    min-width: 20px !important;
+    padding: 0 5px !important;
+    border-radius: 9999px !important;
+    font-size: 10px !important;
+    font-weight: 700 !important;
+    color: #ffffff !important;
+}
+.rounded-xl.overflow-visible .flex.items-center.flex-wrap {
+    padding: 2px 10px 8px !important;
+    gap: 4px !important;
+}
+
+/* Status emojis: lidt stoerre */
+.rounded-xl.overflow-visible .absolute.-left-1.-top-1.w-4.h-4 {
+    width: 24px !important;
+    height: 24px !important;
+    font-size: 14px !important;
+    top: -8px !important;
+    left: -8px !important;
+    box-shadow: 0 1px 4px rgba(0,0,0,0.12) !important;
+}
+
+/* END SHIFT KORT REDESIGN ===== */
+
+.is-dragging-shift .rounded-xl { pointer-events: none !important; }
+.is-dragging-shift .p-3 { cursor: copy !important; }
+
+
+/* Drag & drop */
+[draggable="true"] { -webkit-user-drag: element; user-select: none; }
+[draggable="true"]:active { opacity: 0.7; }
+
+.slot-badge {
+    width: 20px !important;
+    height: 20px !important;
+    min-width: 20px !important;
+    min-height: 20px !important;
+    max-width: 20px !important;
+    max-height: 20px !important;
+    padding: 0 !important;
+    line-height: 20px !important;
+    text-align: center !important;
+    display: block !important;
+    font-size: 10px !important;
+    color: white !important;
+    box-sizing: border-box !important;
+    border-radius: 50% !important;
+    pointer-events: none !important;
 }

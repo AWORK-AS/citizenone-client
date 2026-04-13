@@ -78,12 +78,12 @@
                                     </td>
                                     <td width="15%">
                                         <div class="flex items-end gap-2">
-                                            <FormButton type="button" buttonStyle="action" class="rounded-md"
+                                            <FormButton type="button" buttonStyle="action"
                                                 @click="navigateTo(`/settings/invoices/${invoice.uuid}/invoice-details`)">
                                                 <Icon name="ph:eye" class="size-4" />
                                                 {{ $t('invoices.table.actions.view') }}
                                             </FormButton>
-                                            <FormButton type="button" buttonStyle="action" class="rounded-md"
+                                            <FormButton type="button" buttonStyle="action"
                                                 @click="sendInvoice(invoice)">
                                                 <Icon name="ph:envelope-simple" class="size-4" />
                                                 {{ $t('invoices.table.actions.sendInvoice') }}

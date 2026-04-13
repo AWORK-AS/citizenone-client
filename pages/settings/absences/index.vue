@@ -17,7 +17,7 @@
 
             <div class="mt-8">
                 <div class="flex justify-end items-center mb-5">
-                    <FormButton buttonStyle="action" class="rounded-lg" @click="navigateTo('/settings/absences/new')">
+                    <FormButton buttonStyle="action" @click="navigateTo('/settings/absences/new')">
                         <Icon name="ph:plus" class="h-4 w-4" aria-hidden="true" />
                         {{ $t('absences.newAbsence') }}
                     </FormButton>
@@ -36,12 +36,12 @@
                                     </td>
                                     <td width="50%">
                                         <div class="flex items-end justify-end gap-2">
-                                            <FormButton type="button" buttonStyle="action" class="rounded-md"
+                                            <FormButton type="button" buttonStyle="action"
                                                 @click="navigateTo(`/settings/absences/${absence.uuid}/edit`)">
                                                 <Icon name="ph:pencil-simple" class="size-4" />
                                                 {{ $t('absences.table.actions.edit') }}
                                             </FormButton>
-                                            <FormButton type="button" buttonStyle="danger" class="rounded-md"
+                                            <FormButton type="button" buttonStyle="danger"
                                                 @click="deleteAbsenceConfirmation(absence)">
                                                 <Icon name="ph:trash" class="size-4" />
                                                 {{ $t('absences.table.actions.delete') }}

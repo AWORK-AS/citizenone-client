@@ -1,6 +1,6 @@
 <template>
     <div>
-        <Modal size="lg" :title="$t('dutySchedules.normHours.compensatoryHours')" :show="props.isModalOpen"
+        <Modal size="lg" :title="$t('dutySchedules.normHours.compensatoryHoursThisYear')" :show="props.isModalOpen"
             @close="closeModal">
             <template #modal-body>
                 <LoadingSpinner :isActive="state.isPageLoading">
@@ -17,7 +17,7 @@
                     <div class="mt-5 space-y-1">
                         <div class="flex items-center gap-x-1">
                             <p class="text-sm">
-                                {{ $t('dutySchedules.normHours.compensatoryHoursThisYear') }}
+                                {{ $t('dutySchedules.normHours.compensatoryHoursThisPeriod') }}
                                 ({{ formatDateToReadable(state.dateRange.formDateRange.start_date) }} -
                                 {{ formatDateToReadable(state.dateRange.formDateRange.end_date) }}):
                             </p>
@@ -69,7 +69,7 @@
                         </div>
                     </div>
                     <div class="mt-5 flex justify-end">
-                        <FormButton buttonStyle="cancel" @click="closeModal" class="rounded-md">
+                        <FormButton buttonStyle="cancel" @click="closeModal">
                             {{ $t('close') }}
                         </FormButton>
                     </div>

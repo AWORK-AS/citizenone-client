@@ -1,7 +1,7 @@
 <template>
     <div>
         <div class="flex justify-end items-center mb-5">
-            <FormButton buttonStyle="action" class="rounded-lg" @click="navigateTo('/procedures/new')">
+            <FormButton buttonStyle="action" @click="navigateTo('/procedures/new')">
                 <Icon name="ph:plus" class="h-4 w-4" aria-hidden="true" />
                 {{ $t('procedures.newProcedure') }}
             </FormButton>
@@ -40,17 +40,16 @@
                             </td>
                             <td width="15%">
                                 <div class="flex items-end gap-2">
-                                    <FormButton type="button" buttonStyle="action" class="rounded-md"
+                                    <FormButton type="button" buttonStyle="action"
                                         @click="navigateTo(`/procedures/${procedure.uuid}`)">
                                         <Icon name="ph:eye" class="size-4" />
                                         {{ $t('procedures.table.actions.view') }}
                                     </FormButton>
-                                    <FormButton type="button" buttonStyle="action" class="rounded-md"
-                                        @click="seeProgress(procedure)">
+                                    <FormButton type="button" buttonStyle="action" @click="seeProgress(procedure)">
                                         <Icon name="ph:eye" class="size-4" />
                                         {{ $t('procedures.table.actions.seeProgress') }}
                                     </FormButton>
-                                    <FormButton type="button" buttonStyle="action" class="rounded-md"
+                                    <FormButton type="button" buttonStyle="action"
                                         @click="navigateTo(`/procedures/${procedure.uuid}/edit`)">
                                         <Icon name="ph:pencil-simple" class="size-4" />
                                         {{ $t('procedures.table.actions.edit') }}

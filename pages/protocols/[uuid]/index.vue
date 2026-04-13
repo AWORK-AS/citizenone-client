@@ -20,7 +20,7 @@
                 <Alert type="danger" :text="state?.error?.message"
                     v-if="state.error?.message && state.error.message.length > 0" />
                 <div class="flex justify-end">
-                    <FormButton buttonStyle="action" class="rounded-lg" @click="downloadProtocol()">
+                    <FormButton buttonStyle="action" @click="downloadProtocol()">
                         {{ $t('protocols.download') }}
                     </FormButton>
                 </div>
@@ -61,20 +61,20 @@
                                         <Tooltip :text="$t('protocols.table.actions.markCitizenAsAttended')"
                                             position="left" @click="markAsPresent(citizenProtocol?.uuid)"
                                             v-if="disableIfFutureDate(citizenProtocol)">
-                                            <FormButton type="button" buttonStyle="primary" class="rounded-md">
+                                            <FormButton type="button" buttonStyle="primary">
                                                 <Icon name="material-symbols:event-available-outline" class="size-4" />
                                             </FormButton>
                                         </Tooltip>
                                         <Tooltip :text="$t('protocols.table.actions.markCitizenAsAbent')"
                                             position="left" @click="confirmMarkAsAbsent(citizenProtocol)"
                                             v-if="disableIfFutureDate(citizenProtocol)">
-                                            <FormButton type="button" buttonStyle="warning" class="rounded-md">
+                                            <FormButton type="button" buttonStyle="warning">
                                                 <Icon name="material-symbols:event-busy-outline" class="size-4" />
                                             </FormButton>
                                         </Tooltip>
                                         <Tooltip :text="$t('protocols.table.actions.removeCitizenForThisDate')"
                                             position="left" @click="confirmRemoving(citizenProtocol)">
-                                            <FormButton type="button" buttonStyle="danger" class="rounded-md">
+                                            <FormButton type="button" buttonStyle="danger">
                                                 <Icon name="ph:trash" class="size-4" />
                                             </FormButton>
                                         </Tooltip>

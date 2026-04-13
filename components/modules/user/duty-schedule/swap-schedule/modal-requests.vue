@@ -39,14 +39,14 @@
                                         </td>
                                         <td width="20%">
                                             <div class="flex items-end gap-2">
-                                                <FormButton type="button" buttonStyle="action" class="rounded-md"
+                                                <FormButton type="button" buttonStyle="action"
                                                     @click="confirmApproveScheduleRequest(request)">
                                                     <Icon name="ph:check" class="size-4" />
                                                     {{
                                                         $t('dutySchedules.scheduleRequests.swapSchedule.table.actions.approve')
                                                     }}
                                                 </FormButton>
-                                                <FormButton type="button" buttonStyle="action" class="rounded-md"
+                                                <FormButton type="button" buttonStyle="action"
                                                     @click="confirmDispproveScheduleRequest(request)">
                                                     <Icon name="ph:x" class="size-4" />
                                                     {{

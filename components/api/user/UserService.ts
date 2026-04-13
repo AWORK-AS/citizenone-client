@@ -9,12 +9,12 @@ class UserService extends BaseAPIService {
         return await this.request(`/user`, 'GET')
     }
 
-    async checkin(): Promise<any> {
-        return await this.request(`/user/time-logs/time/in`, 'POST')
+    async checkin(params: object): Promise<any> {
+        return await this.request(`/user/time-logs/time/in`, 'POST', params)
     }
 
-    async checkout(): Promise<any> {
-        return await this.request(`/user/time-logs/time/out`, 'PUT')
+    async checkout(params: object): Promise<any> {
+        return await this.request(`/user/time-logs/time/out`, 'PUT', params)
     }
 
     async updateUser(params: object): Promise<any> {
@@ -55,6 +55,14 @@ class UserService extends BaseAPIService {
 
     async uploadCompanyLogo(params: FormData): Promise<any> {
         return await this.request(`/user/company/settings/company/upload-logo`, 'POST', params)
+    }
+
+    async readNews(): Promise<any> {
+        return await this.request(`/user/update/read-news`, 'PUT')
+    }
+
+    async readUpdates(): Promise<any> {
+        return await this.request(`/user/update/read-updates`, 'PUT')
     }
 
     async deleteCompanyLogo(): Promise<any> {

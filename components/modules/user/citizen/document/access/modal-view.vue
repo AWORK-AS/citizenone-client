@@ -3,7 +3,7 @@
         <Modal size="2xl" :title="$t('citizens.documents.access.access')" :show="props.isModalOpen" @close="closeModal">
             <template #modal-body>
                 <div class="flex justify-end items-center gap-x-5 mb-5">
-                    <FormButton buttonStyle="action" class="rounded-lg" @click="state.modal.isAddAccessOpen = true">
+                    <FormButton buttonStyle="action" @click="state.modal.isAddAccessOpen = true">
                         <Icon name="ph:plus" class="h-4 w-4" aria-hidden="true" />
                         {{ $t('citizens.documents.access.newAccess') }}
                     </FormButton>
@@ -24,7 +24,7 @@
                                     </td>
                                     <td width="50%">
                                         <div class="flex items-end gap-2">
-                                            <FormButton type="button" buttonStyle="action" class="rounded-md"
+                                            <FormButton type="button" buttonStyle="action"
                                                 @click="deleteAccessConfirmation(access)">
                                                 <Icon name="ph:trash" class="size-4" />
                                                 {{ $t('citizens.documents.access.table.actions.delete') }}

@@ -4,11 +4,10 @@
             :show="props.isModalOpen" @close="closeModal">
             <template #modal-body>
                 <div class="flex items-center gap-x-2">
-                    <FormButton buttonStyle="primary" @click="loginViaMicrosoft" class="w-full rounded-md">
+                    <FormButton buttonStyle="primary" @click="loginViaMicrosoft" class="w-full">
                         {{ $t('mail.chooseYourEmailConfiguration.loginViaMicrosoft') }}
                     </FormButton>
-                    <FormButton buttonStyle="primary" @click="state.modal.isConnectYourSmtpOpen = true"
-                        class="w-full rounded-md">
+                    <FormButton buttonStyle="primary" @click="state.modal.isConnectYourSmtpOpen = true" class="w-full">
                         {{ $t('mail.chooseYourEmailConfiguration.loginViaSmtp') }}
                     </FormButton>
                 </div>

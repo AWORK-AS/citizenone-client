@@ -59,19 +59,14 @@
 
                     <div class="space-y-1 my-2" v-if="props.selectedCareHour?.is_transportation">
                         <div class="h-48 w-full rounded-md overflow-hidden border">
-                            <MapLocation 
-                                ref="mapRef" 
-                                :center="mapCenter" 
-                                :zoom="mapZoom" 
-                                :markerCoords="startMarker"
-                                :markerPopup="startMarkerPopup" 
-                                :extraMarkers="extraMarkers"
-                                :polylinePoints="polylinePoints"
-                                @map-ready="onMapReady"
-                            />
+                            <MapLocation ref="mapRef" :center="mapCenter" :zoom="mapZoom" :markerCoords="startMarker"
+                                :markerPopup="startMarkerPopup" :extraMarkers="extraMarkers"
+                                :polylinePoints="polylinePoints" @map-ready="onMapReady" />
                         </div>
                         <p v-if="hasLocationLogs" class="text-xs text-gray-500 mt-1">
-                            {{ t('citizens.interventionHours.view.routeBasedOnLocationLogs', { count: locationLogs.length }) }}
+                            {{ t('citizens.interventionHours.view.routeBasedOnLocationLogs', {
+                                count:
+                            locationLogs.length }) }}
                         </p>
                     </div>
 
@@ -81,7 +76,7 @@
                     </div>
 
                     <div class="mt-5 flex justify-end">
-                        <FormButton buttonStyle="cancel" @click="closeModal" class="rounded-md">
+                        <FormButton buttonStyle="cancel" @click="closeModal">
                             {{ $t('close') }}
                         </FormButton>
                     </div>
@@ -174,25 +169,25 @@ const startMarkerPopup = computed(() => {
 
 const extraMarkers = computed(() => {
     const arr: Array<{ lat: number; lng: number; popup?: string }> = []
-    
+
     if (hasLocationLogs.value) {
         locationLogs.value.forEach((log, idx) => {
             const lat = Number(log.latitude)
             const lng = Number(log.longitude)
-            
+
             if (!Number.isNaN(lat) && !Number.isNaN(lng)) {
-                const isStart = startCoordsValid.value && 
-                    Math.abs(lat - startLat.value!) < 0.0001 && 
+                const isStart = startCoordsValid.value &&
+                    Math.abs(lat - startLat.value!) < 0.0001 &&
                     Math.abs(lng - startLng.value!) < 0.0001
-                const isEnd = endCoordsValid.value && 
-                    Math.abs(lat - endLat.value!) < 0.0001 && 
+                const isEnd = endCoordsValid.value &&
+                    Math.abs(lat - endLat.value!) < 0.0001 &&
                     Math.abs(lng - endLng.value!) < 0.0001
-                
+
                 if (!isStart && !isEnd) {
                     arr.push({
                         lat,
                         lng,
-                        popup: t('citizens.interventionHours.view.locationLogPoint', { 
+                        popup: t('citizens.interventionHours.view.locationLogPoint', {
                             index: idx + 1,
                             time: new Date(log.created_at).toLocaleTimeString(locale.value)
                         })
@@ -201,7 +196,7 @@ const extraMarkers = computed(() => {
             }
         })
     }
-    
+
     if (endCoordsValid.value) {
         arr.push({
             lat: endLat.value as number,
@@ -209,17 +204,17 @@ const extraMarkers = computed(() => {
             popup: props.selectedCareHour?.end_address ?? t('citizens.timeRegistration.registerTransport.form.end'),
         })
     }
-    
+
     return arr
 })
 
 const polylinePoints = computed(() => {
     const points: Array<[number, number]> = []
-    
+
     if (startCoordsValid.value) {
         points.push([startLat.value as number, startLng.value as number])
     }
-    
+
     if (hasLocationLogs.value) {
         locationLogs.value.forEach(log => {
             const lat = Number(log.latitude)
@@ -229,11 +224,11 @@ const polylinePoints = computed(() => {
             }
         })
     }
-    
+
     if (endCoordsValid.value) {
         points.push([endLat.value as number, endLng.value as number])
     }
-    
+
     return points.length > 1 ? points : []
 })
 
@@ -244,11 +239,11 @@ function onMapReady(mapObj: any) {
 
 function fitMapBounds() {
     if (!mapInstance.value) return
-    
+
     nextTick(() => {
         try {
             if (polylinePoints.value.length > 1) {
-                mapInstance.value.fitBounds(polylinePoints.value, { 
+                mapInstance.value.fitBounds(polylinePoints.value, {
                     padding: [50, 50],
                     maxZoom: 15
                 })
@@ -257,7 +252,7 @@ function fitMapBounds() {
                     [startLat.value as number, startLng.value as number],
                     [endLat.value as number, endLng.value as number]
                 ]
-                mapInstance.value.fitBounds(bounds, { 
+                mapInstance.value.fitBounds(bounds, {
                     padding: [50, 50],
                     maxZoom: 15
                 })
@@ -276,15 +271,15 @@ watch(
     () => props.selectedCareHour,
     async (val) => {
         if (!val) return
-        
+
         await nextTick()
-        
+
         if (startCoordsValid.value) {
             mapCenter.value = [startLat.value as number, startLng.value as number]
         } else if (endCoordsValid.value) {
             mapCenter.value = [endLat.value as number, endLng.value as number]
         }
-        
+
         if (mapInstance.value) {
             fitMapBounds()
         }

@@ -137,7 +137,7 @@
                 </div>
             </div>
             <div class="mt-6">
-                <FormButton type="submit" buttonStyle="primary" class="rounded-md w-full">
+                <FormButton type="submit" buttonStyle="primary" class="w-full">
                     {{ $t('save') }}
                 </FormButton>
             </div>
@@ -397,7 +397,9 @@ async function submitForm() {
             params.append('email', state.formProfile.email)
             params.append('phone', state.formProfile.phone)
             params.append('birthday', state.formProfile.birthday)
-            params.append('language_uuid', state.formProfile.language_uuid)
+            if (state.formProfile.language_uuid) {
+                params.append('language_uuid', state.formProfile.language_uuid)
+            }
             if (state.formProfile.pages) {
                 params.append('page_uuid', JSON.stringify(state.formProfile.pages))
             }

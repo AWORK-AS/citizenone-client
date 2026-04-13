@@ -16,7 +16,7 @@
                             </div>
                         </div>
                         <div class="mt-6 mb-2">
-                            <FormButton type="submit" buttonStyle="primary" class="w-full rounded-md">
+                            <FormButton type="submit" buttonStyle="primary" class="w-full">
                                 {{ $t('messages.groupChat.add') }}
                             </FormButton>
                         </div>

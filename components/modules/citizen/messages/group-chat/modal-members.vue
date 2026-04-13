@@ -6,7 +6,7 @@
                     <Alert type="danger" :text="state?.error?.message"
                         v-if="state.error?.message && state.error.message.length > 0" />
                     <div class="flex justify-end items-center">
-                        <FormButton buttonStyle="action" buttonSize="sm" class="rounded-lg"
+                        <FormButton buttonStyle="action" buttonSize="sm"
                             @click="state.modal.isAddNewGroupChatMembersOpen = true">
                             <Icon name="ph:plus" class="h-4 w-4" aria-hidden="true" />
                             {{ $t('messages.groupChat.addUsers') }}

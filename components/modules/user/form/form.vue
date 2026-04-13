@@ -67,7 +67,8 @@
                                                     :placeholder="$t('forms.fields.inputYourQuestionTitleHere')"
                                                     v-model="state.form.fields[fieldIndex].value" />
                                                 <FormTextField :name="'text_field_' + fieldIndex"
-                                                    :placeholder="$t('forms.fields.enterYourAnswer')" :disabled="true" />
+                                                    :placeholder="$t('forms.fields.enterYourAnswer')"
+                                                    :disabled="true" />
                                             </div>
                                         </div>
                                     </div>
@@ -96,7 +97,8 @@
                                                     :placeholder="$t('forms.fields.inputYourQuestionTitleHere')"
                                                     v-model="state.form.fields[fieldIndex].value" />
                                                 <FormTextArea :name="'textarea_' + fieldIndex"
-                                                    :placeholder="$t('forms.fields.enterYourAnswer')" :disabled="true" />
+                                                    :placeholder="$t('forms.fields.enterYourAnswer')"
+                                                    :disabled="true" />
                                             </div>
                                         </div>
                                     </div>
@@ -268,7 +270,8 @@
                                                     v-model="state.form.fields[fieldIndex].value" />
                                                 <div class="relative">
                                                     <FormDateField :name="'date_field_' + fieldIndex"
-                                                        :placeholder="$t('forms.fields.enterYourAnswer')" :disabled="true" />
+                                                        :placeholder="$t('forms.fields.enterYourAnswer')"
+                                                        :disabled="true" />
                                                     <Icon name="ph:calendar"
                                                         class="h-5 w-5 absolute right-4 top-2.5 text-gray-500"
                                                         aria-hidden="true" />
@@ -398,10 +401,10 @@
 
         <div class="mt-6">
             <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
-                <FormButton type="button" buttonStyle="cancel" class="rounded-md" @click="navigateTo('/forms')">
+                <FormButton type="button" buttonStyle="cancel" @click="navigateTo('/forms')">
                     {{ $t('cancel') }}
                 </FormButton>
-                <FormButton type="submit" buttonStyle="primary" class="rounded-md">
+                <FormButton type="submit" buttonStyle="primary">
                     {{ props.formType === 'create' ? $t('save') :
                         $t('update') }}
                 </FormButton>

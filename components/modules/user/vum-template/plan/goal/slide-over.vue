@@ -34,8 +34,7 @@
                                     </div>
                                     <div class="relative flex-1 px-4 py-6 sm:px-6 space-y-3">
                                         <div class="flex justify-end items-center">
-                                            <FormButton buttonStyle="action" class="rounded-md"
-                                                @click="state.modal.isAddGoalOpen = true">
+                                            <FormButton buttonStyle="action" @click="state.modal.isAddGoalOpen = true">
                                                 <Icon name="ph:plus" class="h-4 w-4" aria-hidden="true" />
                                                 {{ $t('plansandgoals.VUMTemplates.newGoal') }}
                                             </FormButton>
@@ -60,7 +59,7 @@
                                                                 </div>
                                                             </div>
                                                             <div class="flex gap-x-2">
-                                                                <FormButton class="rounded-md" buttonSize="sm"
+                                                                <FormButton buttonStyle="action" buttonSize="sm"
                                                                     @click="addSubgoal(goal)">
                                                                     <Icon name="ph:plus" class="size-4" />
                                                                     <span class="hidden md:block">
@@ -69,7 +68,7 @@
                                                                         }}
                                                                     </span>
                                                                 </FormButton>
-                                                                <FormButton class="rounded-md" buttonSize="sm"
+                                                                <FormButton buttonStyle="action" buttonSize="sm"
                                                                     @click="editGoal(goal)">
                                                                     <Icon name="ph:pencil-duotone" class="size-4" />
                                                                     <span class="hidden md:block">
@@ -79,7 +78,7 @@
                                                                     </span>
                                                                 </FormButton>
                                                                 <DisclosureButton>
-                                                                    <FormButton class="rounded-md" buttonSize="sm">
+                                                                    <FormButton buttonStyle="action" buttonSize="sm">
                                                                         <Icon name="ic:round-keyboard-arrow-down"
                                                                             class="size-4" v-if="!open" />
                                                                         <Icon name="ic:round-keyboard-arrow-up"
@@ -98,7 +97,7 @@
                                                                     $t('plansandgoals.VUMTemplates.subgoalsTemplate')
                                                                 }}
                                                             </p>
-                                                            <p class="text-sm bg-tertiary-25 px-4 py-6 text-center rounded-md"
+                                                            <p class="text-sm bg-gray-200/50 px-4 py-6 text-center rounded-md"
                                                                 v-else>
                                                                 {{
                                                                     $t('plansandgoals.VUMTemplates.table.noAvailableSubgoals')
@@ -106,7 +105,7 @@
                                                             </p>
                                                             <dl class="mt-2 space-y-3">
                                                                 <div v-for="(subgoal, index) in goal?.subgoal_templates"
-                                                                    :key="index" class="bg-tertiary-25 p-4 rounded-md">
+                                                                    :key="index" class="bg-gray-200/50 p-4 rounded-md">
                                                                     <div class="py-4">
                                                                         <div class="flex justify-between items-center">
                                                                             <div>
@@ -117,7 +116,7 @@
                                                                                 </div>
                                                                             </div>
                                                                             <div class="flex gap-x-1">
-                                                                                <FormButton class="rounded-md"
+                                                                                <FormButton buttonStyle="action"
                                                                                     buttonSize="sm"
                                                                                     @click="editSubGoal(subgoal)">
                                                                                     <Icon name="ph:pencil-duotone"

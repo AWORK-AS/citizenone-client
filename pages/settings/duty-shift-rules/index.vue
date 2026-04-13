@@ -15,8 +15,7 @@
 
             <div class="mt-8">
                 <div class="flex justify-end items-center mb-5" v-if="state.isAdmin">
-                    <FormButton buttonStyle="action" class="rounded-lg"
-                        @click="navigateTo('/settings/duty-shift-rules/new')">
+                    <FormButton buttonStyle="action" @click="navigateTo('/settings/duty-shift-rules/new')">
                         <Icon name="ph:plus" class="h-4 w-4" aria-hidden="true" />
                         {{ $t('dutyShiftRules.newDutyShiftRule') }}
                     </FormButton>
@@ -47,12 +46,12 @@
                                     </td>
                                     <td>
                                         <div class="flex items-end justify-end gap-2">
-                                            <FormButton type="button" buttonStyle="action" class="rounded-md"
+                                            <FormButton type="button" buttonStyle="action"
                                                 @click="navigateTo(`/settings/duty-shift-rules/${rule.uuid}/edit`)">
                                                 <Icon name="ph:pencil-simple" class="size-4" />
                                                 {{ $t('dutyShiftRules.table.actions.edit') }}
                                             </FormButton>
-                                            <FormButton type="button" buttonStyle="danger" class="rounded-md"
+                                            <FormButton type="button" buttonStyle="danger"
                                                 @click="deleteRuleConfirmation(rule)">
                                                 <Icon name="ph:trash" class="size-4" />
                                                 {{ $t('dutyShiftRules.table.actions.delete') }}

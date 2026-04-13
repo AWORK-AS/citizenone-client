@@ -14,7 +14,7 @@
 
             <div class="mt-10">
                 <div class="flex justify-end items-center mb-5">
-                    <FormButton buttonStyle="action" class="rounded-lg" @click="navigateTo('/invoices/new')">
+                    <FormButton buttonStyle="action" @click="navigateTo('/invoices/new')">
                         <Icon name="ph:plus" class="h-4 w-4" aria-hidden="true" />
                         {{ $t('clientInvoices.newInvoice') }}
                     </FormButton>
@@ -58,22 +58,22 @@
                                     </td>
                                     <td width="15%">
                                         <div class="flex items-end gap-2">
-                                            <FormButton type="button" buttonStyle="action" class="rounded-md"
+                                            <FormButton type="button" buttonStyle="action"
                                                 @click="navigateTo(`/invoices/${invoice.uuid}/invoice-details`)">
                                                 <Icon name="ph:eye" class="size-4" />
                                                 {{ $t('clientInvoices.table.actions.view') }}
                                             </FormButton>
-                                            <FormButton type="button" buttonStyle="action" class="rounded-md"
+                                            <FormButton type="button" buttonStyle="action"
                                                 @click="navigateTo(`/invoices/${invoice.uuid}/edit`)">
                                                 <Icon name="ph:pencil-simple" class="size-4" />
                                                 {{ $t('clientInvoices.table.actions.edit') }}
                                             </FormButton>
-                                            <FormButton type="button" buttonStyle="action" class="rounded-md"
+                                            <FormButton type="button" buttonStyle="action"
                                                 @click="downloadInvoiceDetails(invoice)">
                                                 <Icon name="ph:download" class="size-4" />
                                                 {{ $t('clientInvoices.table.actions.download') }}
                                             </FormButton>
-                                            <FormButton type="button" buttonStyle="action" class="rounded-md"
+                                            <FormButton type="button" buttonStyle="action"
                                                 @click="openSendInvoiceModal(invoice)">
                                                 <Icon name="ph:envelope" class="size-4" />
                                                 {{ $t('clientInvoices.table.actions.sendInvoice') }}

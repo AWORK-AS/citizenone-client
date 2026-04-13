@@ -21,8 +21,7 @@
                                 {{ formatDateToReadable(state.shiftDateRange.formDateRange.end_date) }})
                             </button>
                         </div>
-                        <FormButton buttonStyle="action" class="rounded-lg"
-                            @click="state.modal.isAddNewExtraHoursOpen = true">
+                        <FormButton buttonStyle="action" @click="state.modal.isAddNewExtraHoursOpen = true">
                             <Icon name="ph:plus" class="h-4 w-4" aria-hidden="true" />
                             {{ isAdmin(userStore.getUser?.role) ?
                                 $t('dutySchedules.extraHours.newExtraHours') :
@@ -71,6 +70,19 @@
                                             </p>
                                         </td>
                                         <td width="10%">
+                                            <p class="truncate">
+                                                {{
+                                                    extraHours?.departments?.length ?
+                                                        extraHours.departments.map((d: any) => d.name).join(', ') : '-'
+                                                }}
+                                            </p>
+                                        </td>
+                                        <td width="10%">
+                                            <p class="truncate">
+                                                {{ extraHours?.user?.firstname }} {{ extraHours?.user?.lastname ?? '' }}
+                                            </p>
+                                        </td>
+                                        <td width="10%">
                                             <span v-if="extraHours?.extra_hours_status === 'pending'">
                                                 {{ $t('dutySchedules.extraHours.table.status.pending') }}
                                             </span>
@@ -86,22 +98,21 @@
                                                 <Tooltip :text="$t('dutySchedules.extraHours.table.actions.edit')"
                                                     @click="editExtraHours(extraHours)"
                                                     v-if="isAdmin(userStore.getUser?.role) || ['pending'].includes(extraHours?.extra_hours_status)">
-                                                    <FormButton type=" button" buttonStyle="action" class="rounded-md">
+                                                    <FormButton type=" button" buttonStyle="action">
                                                         <Icon name="ph:pencil-simple" class="size-4" />
                                                     </FormButton>
                                                 </Tooltip>
                                                 <Tooltip :text="$t('dutySchedules.extraHours.table.actions.approve')"
                                                     @click="confirmApproveExtraHoursRequest(extraHours)"
                                                     v-if="isAdmin(userStore.getUser?.role) && extraHours?.extra_hours_status === 'pending'"">
-                                                    <FormButton type=" button" buttonStyle="success"
-                                                    class="rounded-md">
+                                                    <FormButton type=" button" buttonStyle="success">
                                                     <Icon name="ph:check" class="size-4" />
                                                     </FormButton>
                                                 </Tooltip>
                                                 <Tooltip :text="$t('dutySchedules.extraHours.table.actions.reject')"
                                                     @click="confirmRejectExtraHoursRequest(extraHours)"
                                                     v-if="isAdmin(userStore.getUser?.role) && extraHours?.extra_hours_status === 'pending'"">
-                                                    <FormButton type=" button" buttonStyle="danger" class="rounded-md">
+                                                    <FormButton type=" button" buttonStyle="danger">
                                                     <Icon name="ph:x" class="size-4" />
                                                     </FormButton>
                                                 </Tooltip>
@@ -109,7 +120,7 @@
                                                     @click="confirmDeleteExtraHours(extraHours)"
                                                     v-if="isAdmin(userStore.getUser?.role) ||
                                                         (!isAdmin(userStore.getUser?.role) && ['pending'].includes(extraHours?.extra_hours_status))">
-                                                    <FormButton type="button" buttonStyle="danger" class="rounded-md">
+                                                    <FormButton type="button" buttonStyle="danger">
                                                         <Icon name="ph:trash" class="size-4" />
                                                     </FormButton>
                                                 </Tooltip>
@@ -184,6 +195,8 @@ const state = reactive({
         { name: 'dutySchedules.extraHours.table.tags', isTranslateName: true },
         { name: 'dutySchedules.extraHours.table.hours', isTranslateName: true, sorter: true, key: 'extra_hours' },
         { name: 'dutySchedules.extraHours.table.note', isTranslateName: true, },
+        { name: 'dutySchedules.extraHours.table.department', isTranslateName: true },
+        { name: 'dutySchedules.extraHours.table.createdBy', isTranslateName: true },
         { name: 'dutySchedules.extraHours.table.status.status', isTranslateName: true, sorter: true, key: 'extra_hours_status' },
         { name: '' },
     ],
