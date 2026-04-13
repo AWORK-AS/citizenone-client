@@ -4,7 +4,7 @@
             v-if="state.error?.message && state.error.message.length > 0" />
         <div class="overflow-scroll min-h-52 max-h-52">
             <div v-for="(addiction, index) in state.citizenAddictionsCount?.data" :key="index"
-                class="bg-white shadow-md rounded-md border-l-8 border-secondary mt-2 text-sm space-y-2 pr-5 pt-4 pb-4 pl-6 mr-1">
+                class="bg-white shadow-md rounded-md border-l-8 border-primary mt-2 text-sm space-y-2 pr-5 pt-4 pb-4 pl-6 mr-1">
                 <div class="flex items-center justify-between">
                     <div class="flex items-center gap-x-2">
                         <p class="text-sm">

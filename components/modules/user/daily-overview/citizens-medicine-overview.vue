@@ -25,7 +25,7 @@
                                         'rounded-full w-12 h-12 object-cover border-2'
                                     ]" />
                                 <span>{{ medicine?.citizen?.firstname + ' ' + (medicine?.citizen?.lastname ?? '')
-                                }}</span>
+                                    }}</span>
                             </div>
                             <Badge type="primary" class="flex items-center w-fit mt-1" v-if="medicine?.is_pn_medicine">
                                 <p class="text-xxs px-2">

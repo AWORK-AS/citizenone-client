@@ -5,7 +5,7 @@
         </h3>
         <div :class="[
             state.plans?.data?.length === 0 ? 'flex items-center justify-center' : 'divide-y overflow-scroll',
-            'bg-white shadow-md rounded-md border-l-8 border-secondary mt-2 text-sm min-h-96 max-h-96'
+            'bg-white shadow-md rounded-md border-l-8 border-primary mt-2 text-sm min-h-96 max-h-96'
         ]">
             <div class="space-y-5 pl-4 pr-5 py-5">
                 <div class="bg-white ring-1 ring-gray-200 rounded-md p-5" v-for="(plan, index) in state.plans?.data"

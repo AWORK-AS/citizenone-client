@@ -10,7 +10,7 @@
             v-if="state.citizensOrigin?.data?.length === 0">
             {{ $t('overview.noDataToDisplay') }}
         </div>
-        <div class="bg-white shadow-md rounded-md border-l-8 border-secondary mt-2 text-sm divide-y overflow-scroll min-h-96 max-h-96"
+        <div class="bg-white shadow-md rounded-md border-l-8 border-primary mt-2 text-sm divide-y overflow-scroll min-h-96 max-h-96"
             v-else>
             <div v-for="(citizen, index) in state.citizensOrigin?.data" :key="index">
                 <div class="flex gap-x-2 pl-4 pr-3 py-4 cursor-pointer hover:bg-gray-100"
