@@ -795,6 +795,15 @@
                 "Thursday": "Thu",
                 "Tuesday": "Tue",
                 "Wednesday": "Wed"
+            },
+            "full": {
+                "Monday": "Monday",
+                "Tuesday": "Tuesday",
+                "Wednesday": "Wednesday",
+                "Thursday": "Thursday",
+                "Friday": "Friday",
+                "Saturday": "Saturday",
+                "Sunday": "Sunday"
             }
         }
     },
@@ -2818,6 +2827,7 @@
         "custom": "Custom",
         "date": "Shift Date",
         "deleteSchedule": "Delete schedule",
+        "shiftMovedTo": "Shift moved to",
         "departmentSickLeaves": "Department sick leaves",
         "download": {
             "date": "Date",

@@ -795,6 +795,15 @@
                 "Thursday": "Tor",
                 "Tuesday": "Tir",
                 "Wednesday": "Ons"
+            },
+            "full": {
+                "Monday": "mandag",
+                "Tuesday": "tirsdag",
+                "Wednesday": "onsdag",
+                "Thursday": "torsdag",
+                "Friday": "fredag",
+                "Saturday": "lørdag",
+                "Sunday": "søndag"
             }
         }
     },
@@ -2818,6 +2827,7 @@
         "custom": "Brugerdefineret",
         "date": "Vagt dato",
         "deleteSchedule": "Slet tidsplan",
+        "shiftMovedTo": "Vagt rykket til",
         "departmentSickLeaves": "Afdelingens sygefravær",
         "download": {
             "date": "Dato",

@@ -641,9 +641,10 @@
                                                 </div> -->
                                             </div>
                                             <!-- Drop-zone overlay aktiv under drag -->
-                                            <div :class="['absolute inset-0 z-10', state.isDragging ? 'pointer-events-auto' : 'pointer-events-none']"
-                                                @dragover.prevent="onDragOver($event)" @dragleave="onDragLeave($event)"
-                                                @drop.prevent="onDrop($event, employee, weekIndex)">
+                                            <div :class="['absolute inset-0 z-10', isAdmin(userStore.getUser?.role) && state.isDragging ? 'pointer-events-auto' : 'pointer-events-none']"
+                                                @dragover.prevent="isAdmin(userStore.getUser?.role) && onDragOver($event)"
+                                                @dragleave="isAdmin(userStore.getUser?.role) && onDragLeave($event)"
+                                                @drop.prevent="isAdmin(userStore.getUser?.role) && onDrop($event, employee, weekIndex)">
                                             </div>
                                             <div class="space-y-2"
                                                 v-if="!isDailyScheduleCopied(employeeIndex, weekIndex, weekNumber)">
@@ -725,9 +726,9 @@
                                                             backgroundColor: `${shift?.type?.color}`,
                                                             width: `${calculateShiftWidth(shift, weekIndex.toString())}`,
                                                             marginTop: `${calculateMarginTop(employee?.weeks, weekIndex.toString(), shiftIndex)}rem`
-                                                        }" draggable="true"
-                                                        @dragstart="onDragStart($event, employee, weekIndex, shift)"
-                                                        @dragend="onDragEnd($event)">
+                                                        }" :draggable="isAdmin(userStore.getUser?.role)"
+                                                        @dragstart="isAdmin(userStore.getUser?.role) && onDragStart($event, employee, weekIndex, shift)"
+                                                        @dragend="isAdmin(userStore.getUser?.role) && onDragEnd($event)">
                                                         <div class="absolute -left-3 -top-3 z-10 w-6 h-6 rounded-full bg-white border-0.5 border-gray-300 flex items-center justify-center text-sm"
                                                             v-if="shift?.type?.system_name === 'sick-leave'">
                                                             🤒
@@ -2171,8 +2172,13 @@ async function onDrop(e: DragEvent, tEmp: any, tWi: any) {
     const ns = moment(td).set({ hour: ss.hour(), minute: ss.minute(), second: 0, millisecond: 0 })
     const ne = ns.clone().add(dur, "minutes")
     const dayMap: Record<string, string> = {
-        monday: "mandag", tuesday: "tirsdag", wednesday: "onsdag",
-        thursday: "torsdag", friday: "fredag", saturday: "lørdag", sunday: "søndag"
+        monday: language.t('calendar.week.full.Monday'),
+        tuesday: language.t('calendar.week.full.Tuesday'),
+        wednesday: language.t('calendar.week.full.Wednesday'),
+        thursday: language.t('calendar.week.full.Thursday'),
+        friday: language.t('calendar.week.full.Friday'),
+        saturday: language.t('calendar.week.full.Saturday'),
+        sunday: language.t('calendar.week.full.Sunday'),
     }
     state.isDragging = false; _dragShift = null; _dragSourceEmployee = null; _dragSourceWeekIndex = null
     try {
@@ -2182,7 +2188,7 @@ async function onDrop(e: DragEvent, tEmp: any, tWi: any) {
         })
         await fetchDutySchedule()
         const dag = dayMap[String(tWi).toLowerCase()] || String(tWi)
-        state.dragSuccessMessage = "Vagt rykket til " + dag
+        state.dragSuccessMessage = language.t('dutySchedules.shiftMovedTo') + ' ' + dag
         setTimeout(() => { state.dragSuccessMessage = "" }, 3000)
     } catch (err: any) { state.error = err }
 }

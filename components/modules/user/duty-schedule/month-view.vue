@@ -470,8 +470,9 @@
                                     day !== null && isToday(day) && 'bg-blue-50/30',
                                     day !== null && isWeekend(day) && !isToday(day) && 'bg-gray-50/30',
                                     'px-3 py-1.5 border-r border-gray-200 last:border-r-0 min-w-[120px] align-top'
-                                ]" @dragover.prevent="onMonthDragOver($event)" @dragleave="onMonthDragLeave($event)"
-                                @drop.prevent="onMonthDrop($event, day)"
+                                ]" @dragover.prevent="isAdmin(userStore.getUser?.role) && onMonthDragOver($event)"
+                                @dragleave="isAdmin(userStore.getUser?.role) && onMonthDragLeave($event)"
+                                @drop.prevent="isAdmin(userStore.getUser?.role) && onMonthDrop($event, day)"
                                 @click="!isDailyScheduleCopiedEmpty() && !isCopiedDay(day) && day !== null ? pasteDayAllEmployees(day) : null">
                                 <template v-if="day !== null">
                                     <!-- Dag actions -->
@@ -567,10 +568,11 @@
                                             <div v-for="(shift, shiftIndex) in sortMultiDayShiftsFirst(state.monthlySchedules?.data?.[employeeIndex]?.days?.[moment(day).format('YYYY-MM-DD')]?.shifts)"
                                                 :key="'s-' + employeeIndex + '-' + shiftIndex"
                                                 :class="['rounded-lg relative cursor-pointer mt-2 overflow-visible', shift.is_conflict ? 'ring-2 ring-red-400' : '']"
-                                                draggable="true" :style="{ backgroundColor: shift?.type?.color }"
+                                                :draggable="isAdmin(userStore.getUser?.role)"
+                                                :style="{ backgroundColor: shift?.type?.color }"
                                                 @click.stop="editSchedule(employee, employeeIndex as number, shift)"
-                                                @dragstart="onMonthDragStart($event, employee, day, shift)"
-                                                @dragend="onMonthDragEnd($event)">
+                                                @dragstart="isAdmin(userStore.getUser?.role) && onMonthDragStart($event, employee, day, shift)"
+                                                @dragend="isAdmin(userStore.getUser?.role) && onMonthDragEnd($event)">
                                                 <!-- Conflict indicator -->
                                                 <div v-if="shift.is_conflict" class="absolute -top-2 -left-2 z-30">
                                                     <Tooltip position="right" :wrap="true"
@@ -1339,7 +1341,7 @@ async function onMonthDrop(e: DragEvent, targetDay: any) {
             date: targetDate,
             user_uuid: emp.uuid
         })
-        state.dragSuccessMessage = 'Vagt rykket til ' + moment(targetDay).format('D. MMM')
+        state.dragSuccessMessage = language.t('dutySchedules.shiftMovedTo') + ' ' + moment(targetDay).format('D. ') + language.t('calendar.month.' + moment(targetDay).format('MMMM'))
         setTimeout(() => { state.dragSuccessMessage = '' }, 3000)
         await fetchDutySchedule()
     } catch (err: any) { state.error = err }
