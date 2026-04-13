@@ -770,7 +770,7 @@
                                                             v-if="shift?.type?.system_name === 'vacation-leave'">
                                                             🏖️
                                                         </div>
-                                                        <div class="flex flex-col lg:flex-row lg:items-center lg:justify-between text-white cursor-pointer px-1.5 sm:px-2.5 pt-1.5 sm:pt-2.5 pb-1 sm:pb-2"
+                                                        <div class="flex flex-col xl:flex-row xl:items-center xl:justify-between text-white cursor-pointer px-1.5 sm:px-2.5 pt-1.5 sm:pt-2.5 pb-1 sm:pb-2"
                                                             @click="(hasUpdatePermission || isAdmin(userStore.getUser?.role)) ? editSchedule(employee, employeeIndex as number, weekIndex as number, shift, shiftIndex as number) : viewSchedule(employeeIndex as number, weekIndex as number, shift, shiftIndex as number)">
                                                             <!-- Start time -->
                                                             <div class="flex items-center gap-0.5">
@@ -805,7 +805,7 @@
                                                         <div v-if="shift?.shift_span_position"
                                                             class="flex items-center gap-1 px-1.5 sm:px-2.5 pb-1 sm:pb-1.5">
                                                             <div v-if="shift.shift_span_position === 'start'"
-                                                                class="flex items-center flex-col lg:flex-row gap-1 bg-white/20 rounded-full px-2 py-0.5">
+                                                                class="flex items-center flex-col xl:flex-row gap-1 bg-white/20 rounded-full px-2 py-0.5">
                                                                 <Icon name="ph:arrow-right"
                                                                     class="w-4 h-4 lg:w-3 lg:h-3 text-white flex-shrink-0" />
                                                                 <span
@@ -816,7 +816,7 @@
                                                                 </span>
                                                             </div>
                                                             <div v-if="shift.shift_span_position === 'middle'"
-                                                                class="flex items-center flex-col lg:flex-row gap-1 bg-white/20 rounded-full px-2 py-0.5">
+                                                                class="flex items-center flex-col xl:flex-row gap-1 bg-white/20 rounded-full px-2 py-0.5">
                                                                 <Icon name="ph:arrows-horizontal"
                                                                     class="w-4 h-4 lg:w-3 lg:h-3 text-white flex-shrink-0" />
                                                                 <span
@@ -827,7 +827,7 @@
                                                                 </span>
                                                             </div>
                                                             <div v-if="shift.shift_span_position === 'end'"
-                                                                class="flex items-center flex-col lg:flex-row gap-1 bg-white/20 rounded-full px-2 py-0.5">
+                                                                class="flex items-center flex-col xl:flex-row gap-1 bg-white/20 rounded-full px-2 py-0.5">
                                                                 <Icon name="ph:arrow-left"
                                                                     class="w-4 h-4 lg:w-3 lg:h-3 text-white flex-shrink-0" />
                                                                 <span
@@ -841,7 +841,7 @@
                                                         <div class="flex flex-wrap gap-1 px-1.5 sm:px-2.5 pb-1 sm:pb-1.5"
                                                             v-if="shift && shift.citizen_schedules && shift.citizen_schedules.length > 0">
                                                             <!-- Mobile: initials-only avatars stacked horizontally -->
-                                                            <div class="flex lg:hidden flex-wrap gap-1">
+                                                            <div class="flex xl:hidden flex-wrap gap-1">
                                                                 <Tooltip v-for="(cs, csIdx) in shift.citizen_schedules"
                                                                     :key="csIdx"
                                                                     :text="(cs?.citizen?.firstname ?? '') + ' ' + (cs?.citizen?.lastname ?? '')"
@@ -860,7 +860,7 @@
                                                             <!-- Desktop: full pill with name -->
                                                             <div v-for="(cs, csIdx) in shift.citizen_schedules"
                                                                 :key="csIdx"
-                                                                class="hidden lg:flex items-center gap-1 bg-white rounded-full pl-0.5 pr-2 py-0.5">
+                                                                class="hidden xl:flex items-center gap-1 bg-white rounded-full pl-0.5 pr-2 py-0.5">
                                                                 <div
                                                                     class="w-4 h-4 rounded-full bg-gray-200 flex items-center justify-center flex-shrink-0">
                                                                     <span class="font-bold text-gray-600"
@@ -909,13 +909,13 @@
                                                         </div>
                                                         <Tooltip v-if="shift && shift.note && shift.note.trim()"
                                                             :text="`${$t('dutySchedules.shiftNote')}: ${shift.note}`"
-                                                            position="top" :wrap="true">
+                                                            position="left" :wrap="true">
                                                             <div
                                                                 class="flex items-center gap-1 px-1.5 sm:px-2.5 pb-1 sm:pb-1.5 cursor-help">
                                                                 <Icon name="ph:note" class="w-3 h-3 flex-shrink-0"
                                                                     style="color:white" />
                                                                 <span
-                                                                    class="text-white max-w-10 lg:max-w-24 text-[10px] font-medium truncate">
+                                                                    class="text-white max-w-10 xl:max-w-24 text-[10px] font-medium truncate">
                                                                     {{ shift.note }}
                                                                 </span>
                                                             </div>
