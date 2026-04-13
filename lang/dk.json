@@ -4707,20 +4707,34 @@
         }
     },
     "login": {
+        "activeUsers": "Aktive brugere",
+        "description": "Alt fra journalnotater og handleplaner til vagtplanlægning og rapportering — samlet i én platform, bygget til dem der arbejder med mennesker.",
         "doYouNeedHelp": "Har du brug for hjælp",
         "form": {
-            "createAccountHere": "Opret konto her",
+            "createHere": "Opret her",
             "dontHaveAnAccount": "Har du ikke en konto",
             "emailAddress": "E-mailadresse",
+            "emailPlaceholder": "din{'@'}email.dk",
             "forgotPassword": "Glemt adgangskode",
+            "help": "Hjælp",
             "login": "Log ind",
+            "loggingIn": "Logger ind",
+            "or": "Eller",
             "password": "Adgangskode",
             "rememberMeFor14Days": "Husk mig i 14 dage"
         },
+        "gdprNote": "GDPR-compliant · Hosting i EU · Udviklet af AWORK Group A/S",
+        "headlineLine1": "Fremtidens",
+        "headlineLine2": "journalsystem.",
+        "isoNote": "ISO-certificeret serverlagring beliggende i EU",
+        "journalNotesToday": "Journalnotater i dag",
+        "liveActivity": "Live aktivitet",
         "login": "Log ind",
         "loginToContinueTo": "Log ind for at fortsætte til",
         "seeWhatsNew": "Se hvad der er nyt",
+        "shiftsPlannedToday": "Vagter planlagt i dag",
         "signinToYourAccount": "Log ind på din konto",
+        "tagline": "Socialområdet · Plejesektoren · Sundhed",
         "welcomeBack": "Velkommen tilbage"
     },
     "logs": {
