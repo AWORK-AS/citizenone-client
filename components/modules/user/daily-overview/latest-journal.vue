@@ -2,20 +2,17 @@
     <LoadingSpinner :isActive="state.isPageLoading">
         <Alert type="danger" :text="state?.error?.message"
             v-if="state.error?.message && state.error.message.length > 0" />
-        <h3 class="text-primary text-base font-medium py-2">
-            {{ $t('overview.latestJournal.latestJournal') }}
-        </h3>
-
-        <div class="border-2 border-gray-300 border-dashed rounded-md flex items-center justify-center min-h-96 max-h-96 text-sm mt-2"
-            v-if="state.citizens?.data?.length === 0">
-            {{ $t('overview.noJournalsToShow') }}
+        <div class="p-5" v-if="state.citizens?.data?.length === 0">
+            <div
+                class="border-2 border-gray-300 border-dashed rounded-md flex items-center justify-center min-h-96 max-h-96 text-sm mt-2">
+                {{ $t('overview.noJournalsToShow') }}
+            </div>
         </div>
 
-        <div class="bg-white shadow-md rounded-md border-l-8 border-secondary mt-2 text-sm divide-y overflow-scroll min-h-96 max-h-96"
-            v-else>
+        <div class="text-sm space-y-2 divide-y overflow-scroll min-h-96 max-h-96 px-5 py-4" v-else>
             <div v-for="(citizen, citizenIndex) in state.citizens?.data" :key="citizenIndex">
                 <div v-for="(journal, journalIndex) in citizen?.citizen_journals" :key="journalIndex"
-                    class="pl-4 pr-3 py-5 cursor-pointer hover:bg-gray-100"
+                    class="pl-4 pr-3 py-5 cursor-pointer hover:bg-gray-50"
                     @click="navigateTo(`/citizens/${citizen?.uuid}/journals`)" v-if="props?.viewAll">
                     <div class="flex gap-x-2">
                         <img :src="citizen?.image ?? `https://ui-avatars.com/api/?background=42AED9&color=fff&name=${citizen?.firstname + ' ' + (citizen?.lastname ?? '')}`"
@@ -38,7 +35,7 @@
                                 <h3 class="text-base font-semibold">
                                     {{ journal?.title }}
                                 </h3>
-                                <div v-html="journal?.content" class="table-responsive text-sm" />
+                                <div v-html="journal?.content" class="text-sm" />
                                 <p class="content text-xs text-muted-400 mt-1">
                                     <span>{{ formatDateToReadable(journal?.date) }}</span>
                                 </p>
@@ -50,7 +47,7 @@
                         </div>
                     </div>
                 </div>
-                <div v-else class="pl-4 pr-3 py-5 cursor-pointer hover:bg-gray-100"
+                <div v-else class="pl-4 pr-3 py-5 cursor-pointer hover:bg-gray-50"
                     @click="navigateTo(`/citizens/${citizen?.uuid}/journals`)">
                     <div class="flex gap-x-2">
                         <img :src="citizen?.image ?? `https://ui-avatars.com/api/?background=42AED9&color=fff&name=${citizen?.firstname + ' ' + (citizen?.lastname ?? '')}`"
@@ -75,7 +72,7 @@
                                 <h3 class="text-base font-semibold">
                                     {{ citizen?.citizen_journal?.title }}
                                 </h3>
-                                <div v-html="citizen?.citizen_journal?.content" class="table-responsive text-sm" />
+                                <div v-html="citizen?.citizen_journal?.content" class="text-sm" />
                                 <p class="content text-xs text-muted-400 mt-1">
                                     <span>{{ formatDateToReadable(citizen?.citizen_journal?.date) }}</span>
                                 </p>

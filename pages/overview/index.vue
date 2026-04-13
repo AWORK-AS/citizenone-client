@@ -49,17 +49,17 @@
                         <span>{{ $t('showHide') }}</span>
                     </button>
                 </div>
-                <div class="flex gap-x-2">
-                    <FormButton buttonStyle="primary" class="rounded-lg shadow-sm"
+                <div class="flex flex-wrap gap-2">
+                    <FormButton buttonStyle="primary" class="w-full md:w-fit shadow-sm"
                         @click="navigateTo('/overview/view')">
                         {{ $t('overview.viewAll') }}
                     </FormButton>
-                    <FormButton buttonStyle="action" class="rounded-lg shadow-sm" @click="navigateTo('/inquiries')"
+                    <FormButton buttonStyle="action" class="w-full md:w-fit shadow-sm" @click="navigateTo('/inquiries')"
                         v-if="userStore.getUser?.company?.industry?.system_name === 'social_welfare' && ['Crisis center', 'Shelter'].includes(userStore.getUser?.company?.facility_type?.en_name)">
                         <Icon name="ph:list-bullets" class="h-4 w-4" aria-hidden="true" />
                         {{ $t('inquiries.inquiries') }}
                     </FormButton>
-                    <FormButton buttonStyle="primary" class="rounded-lg shadow-sm"
+                    <FormButton buttonStyle="primary" class="w-full md:w-fit shadow-sm"
                         @click="state.modal.isQuickRiskAssessmentOpen = true"
                         v-if="userStore.getUser?.company?.quick_risk_assessment_enabled">
                         {{ $t('overview.quickRiskAssessment.quickRiskAssessment') }}
@@ -68,14 +68,14 @@
             </div>
 
             <!-- Stat cards row -->
-            <div class="mt-5 grid grid-cols-2 lg:grid-cols-4 gap-4 stagger-children">
+            <div class="mt-5 grid grid-cols-1 md:grid-cols-3 gap-4 stagger-children">
                 <div class="stat-card">
                     <div class="stat-label">
                         <span class="w-2 h-2 rounded-full bg-accent-blue"></span>
                         {{ $t('overview.citizensEvents') }}
                     </div>
                     <div class="mt-2 stat-value text-primary">
-                        {{ state.citizenCalendarEventsCount }}
+                        {{ state.count.citizenCalendarEvents }}
                     </div>
                     <div class="stat-sublabel">
                         {{ $t('overview.stats.ongoing') }} |
@@ -87,8 +87,12 @@
                         <span class="w-2 h-2 rounded-full bg-accent-green"></span>
                         {{ $t('overview.stats.journalEntries') || 'Journal entries' }}
                     </div>
-                    <div class="mt-2 stat-value text-accent-green">8</div>
-                    <div class="stat-sublabel">{{ $t('overview.stats.acrossCitizens') || 'Across 6 citizens' }}</div>
+                    <div class="mt-2 stat-value text-accent-green">
+                        {{ state.count.latestCitizensJournal }}
+                    </div>
+                    <div class="stat-sublabel">
+                        {{ $t('overview.stats.acrossCitizens') }}
+                    </div>
                 </div>
                 <div class="stat-card">
                     <div class="stat-label">
@@ -99,21 +103,13 @@
                     <div class="stat-sublabel">2 {{ $t('overview.stats.administered') || 'administered' }} · 3 {{
                         $t('overview.stats.pending') || 'pending' }}</div>
                 </div>
-                <div class="stat-card">
-                    <div class="stat-label">
-                        <span class="w-2 h-2 rounded-full bg-accent-purple"></span>
-                        {{ $t('overview.stats.citizensOnShift') || 'Citizens on shift' }}
-                    </div>
-                    <div class="mt-2 stat-value text-accent-purple">9</div>
-                    <div class="stat-sublabel">3 {{ $t('overview.stats.staffCheckedIn') || 'staff checked in' }}</div>
-                </div>
             </div>
 
             <!-- Main content grid -->
             <div class="mt-6 space-y-6">
-                <!-- Tasks + Journal summaries row -->
+                <!-- Citizens' events + Latest journal notes row -->
                 <div class="grid grid-cols-1 xl:grid-cols-2 gap-5">
-                    <!-- Tasks panel -->
+                    <!-- Citizens' events panel -->
                     <div class="card" v-if="overviewStore.getDailyOverviewFilter.showCitizensDailyEvents">
                         <div class="card-header">
                             <div class="flex items-center gap-x-2">
@@ -122,7 +118,7 @@
                                     {{ $t('overview.citizensEvents') }}
                                 </h3>
                                 <span class="badge badge-blue">
-                                    {{ state.citizenCalendarEventsCount }}
+                                    {{ state.count.citizenCalendarEvents }}
                                 </span>
                             </div>
                             <button
@@ -137,33 +133,46 @@
                         </div>
                     </div>
 
-                    <!-- Journal summaries panel -->
+                    <!-- Latest journal notes panel -->
                     <div class="card" v-if="overviewStore.getDailyOverviewFilter.showLatestJournal">
                         <div class="card-header">
                             <div class="flex items-center gap-x-2">
                                 <Icon name="ph:notebook" class="h-5 w-5 text-primary" />
-                                <h3 class="text-sm font-semibold text-slate-900">{{ $t('overview.journalSummaries') ||
-                                    'Journal summaries' }}</h3>
+                                <h3 class="text-sm font-semibold text-slate-900">
+                                    {{ $t('overview.latestJournal.latestJournal') }}
+                                </h3>
                                 <span class="badge badge-green">8</span>
                             </div>
                             <button
-                                class="text-sm text-primary font-medium hover:text-primary-700 transition-colors flex items-center gap-x-1">
-                                {{ $t('overview.viewAll') || 'View all' }}
+                                class="text-sm text-primary font-medium hover:text-primary-700 transition-colors flex items-center gap-x-1"
+                                @click="navigateTo('/citizens')">
+                                {{ $t('overview.viewAll') }}
                                 <Icon name="heroicons:arrow-right-20-solid" class="h-4 w-4" />
                             </button>
                         </div>
-                        <div class="divide-y divide-surface-100">
+                        <div>
                             <ModulesUserDailyOverviewLatestJournal :dateRange="state.dateRange.formDateRange"
                                 :viewAll="false" />
                         </div>
                     </div>
                 </div>
 
-                <!-- Medicine + Follow-ups row -->
-                <div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-5" v-if="overviewStore.getDailyOverviewFilter.showDailyMedicineOverview ||
+                <!-- Medication overview row -->
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-5" v-if="overviewStore.getDailyOverviewFilter.showDailyMedicineOverview ||
                     overviewStore.getDailyOverviewFilter.showCitizensFollowUpReminders">
-                    <div v-if="overviewStore.getDailyOverviewFilter.showDailyMedicineOverview">
-                        <ModulesUserDailyOverviewCitizensMedicineOverview :dateRange="state.dateRange.formDateRange" />
+                    <div class="card" v-if="overviewStore.getDailyOverviewFilter.showDailyMedicineOverview">
+                        <div class="card-header">
+                            <div class="flex items-center gap-x-2">
+                                <Icon name="ph:camera-plus" class="h-5 w-5 text-primary" />
+                                <h3 class="text-sm font-semibold text-slate-900">
+                                    {{ $t('overview.medicationOverview.medicationOverview') }}
+                                </h3>
+                            </div>
+                        </div>
+                        <div>
+                            <ModulesUserDailyOverviewCitizensMedicineOverview
+                                :dateRange="state.dateRange.formDateRange" />
+                        </div>
                     </div>
                     <div v-if="overviewStore.getDailyOverviewFilter.showCitizensFollowUpReminders">
                         <ModulesUserDailyOverviewCitizensFollowUpReminders :dateRange="state.dateRange.formDateRange" />
@@ -306,7 +315,10 @@ const route = useRoute()
 const newsSection = ref<HTMLElement | null>(null)
 
 const state = reactive({
-    citizenCalendarEventsCount: 0,
+    count: {
+        citizenCalendarEvents: 0,
+        latestCitizensJournal: 0,
+    },
     currentDate: moment(),
     dateRange: {
         formDateRange: {
@@ -353,6 +365,7 @@ watch(() => userStore.getUser, (user: any) => {
             }
         }
         fetchCitizenCalendarEvents(state.dateRange.formDateRange)
+        fetchCitizensLatestJournal(state.dateRange.formDateRange)
     }
 })
 
@@ -405,7 +418,29 @@ async function fetchCitizenCalendarEvents(dateRange: any) {
         }
         const response = await dailyOverviewService.getCitizenDailyEvents(params)
         if (response) {
-            state.citizenCalendarEventsCount = response?.data?.length ?? 0
+            state.count.citizenCalendarEvents = response?.data?.length ?? 0
+        }
+    } catch (error: any) {
+        state.error = error
+    }
+    state.isPageLoading = false
+}
+
+async function fetchCitizensLatestJournal(dateRange: any) {
+    state.error = {}
+    state.isPageLoading = true
+    try {
+        const params: any = {
+            department: departmentStore.getSelectedDepartmentName,
+        }
+
+        if (state.dateRange) {
+            params.end_date = dateRange.end_date
+            params.start_date = dateRange.start_date
+        }
+        const response = await dailyOverviewService.getLatestCitizensJournal(params)
+        if (response) {
+            state.count.latestCitizensJournal = response?.data?.length ?? 0
         }
     } catch (error: any) {
         state.error = error
