@@ -273,10 +273,10 @@ function animateAssets() {
 		})
 	})
 
-	const animatedAsset01 = document.getElementById('animatedAsset01') as any
-	observer.observe(animatedAsset01)
-	const animatedAsset02 = document.getElementById('animatedAsset02') as any
-	observer.observe(animatedAsset02)
+	const animatedAsset01 = document.getElementById('animatedAsset01')
+	const animatedAsset02 = document.getElementById('animatedAsset02')
+	if (animatedAsset01) observer.observe(animatedAsset01)
+	if (animatedAsset02) observer.observe(animatedAsset02)
 }
 
 async function login() {
