@@ -6308,10 +6308,17 @@
             "confirmPassword": "Confirm password",
             "password": "Password"
         },
+        "headlineLine1": "Set up your",
+        "headlineLine2": "password.",
         "loginHereInstead": "Login here instead",
         "or": "Or",
+        "panelDescription": "Choose a strong password to get started with CitizenOne.",
+        "passwordEncryptedSub": "Your data is safe and encrypted",
+        "passwordEncryptedTitle": "Password is encrypted",
         "setPassword": "Set password",
-        "setupPassword": "Setup password"
+        "setupPassword": "Setup password",
+        "strongPasswordSub": "Use at least 8 characters with numbers and symbols",
+        "strongPasswordTitle": "Create a strong password"
     },
     "shifts": {
         "addNewShift": "Add new shift",

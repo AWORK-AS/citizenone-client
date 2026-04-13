@@ -6308,10 +6308,17 @@
             "confirmPassword": "Bekræft adgangskode",
             "password": "Adgangskode"
         },
+        "headlineLine1": "Opret din",
+        "headlineLine2": "adgangskode.",
         "loginHereInstead": "Log ind her i stedet",
         "or": "Eller",
+        "panelDescription": "Vælg en stærk adgangskode for at komme godt i gang med CitizenOne.",
+        "passwordEncryptedSub": "Dine data er sikre og krypterede",
+        "passwordEncryptedTitle": "Adgangskoden er krypteret",
         "setPassword": "Opret adgangskode",
-        "setupPassword": "Opret adgangskode"
+        "setupPassword": "Opret adgangskode",
+        "strongPasswordSub": "Brug mindst 8 tegn med tal og symboler",
+        "strongPasswordTitle": "Opret en stærk adgangskode"
     },
     "shifts": {
         "addNewShift": "Tilføj ny vagt",
