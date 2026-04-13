@@ -4220,11 +4220,18 @@
         }
     },
     "forgotPassword": {
+        "checkInboxSub": "Vi sender et link inden for få minutter",
+        "checkInboxTitle": "Tjek din indbakke",
         "emailAddress": "E-mail adresse",
         "enterEmailAssociated": "Indtast e-mailadressen, der er tilknyttet din konto, for at nulstille din adgangskode",
         "forgotPassword": "Glemt adgangskode",
+        "headlineLine1": "Nulstil din",
+        "headlineLine2": "adgangskode.",
+        "linkValidSub": "Anmod om et nyt link hvis det udløber",
+        "linkValidTitle": "Linket er gyldigt i 60 min.",
         "loginHereInstead": "Log ind her i stedet",
         "or": "Eller",
+        "panelDescription": "Indtast din e-mailadresse og vi sender dig et link til at nulstille din adgangskode.",
         "requestPasswordReset": "Anmod om nulstilling af adgangskode"
     },
     "formFieldConfig": {
@@ -5885,7 +5892,10 @@
             "termsAndConditions": "Vilkår og betingelser",
             "typeOfFacility": "Type af tilbud"
         },
+        "activeUsersNow": "Aktive brugere lige nu",
         "noCommitment": "Der er ingen binding, og du behøver ikke tilknytte et betalingskort",
+        "oauthBannerDescription": "Din {provider}-konto er ikke tilknyttet CitizenOne endnu. Udfyld formularen for at oprette din konto.",
+        "oauthBannerTitle": "Vi fandt ikke din konto",
         "of": "Af",
         "register": "Opret konto",
         "review": {
@@ -5992,9 +6002,16 @@
             "confirmPassword": "Bekræft adgangskode",
             "password": "Adgangskode"
         },
+        "headlineLine1": "Ny",
+        "headlineLine2": "adgangskode.",
         "loginHereInstead": "Log ind her i stedet",
         "or": "Eller",
-        "resetPassword": "Nulstil adgangskode"
+        "panelDescription": "Opret en stærk adgangskode for at beskytte din konto.",
+        "passwordEncryptedSub": "Dine data er sikre og krypterede",
+        "passwordEncryptedTitle": "Adgangskoden er krypteret",
+        "resetPassword": "Nulstil adgangskode",
+        "strongPasswordSub": "Brug mindst 8 tegn med tal og symboler",
+        "strongPasswordTitle": "Opret en stærk adgangskode"
     },
     "roles": {
         "addNewRole": "Tilføj ny rolle",

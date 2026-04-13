@@ -4220,11 +4220,18 @@
         }
     },
     "forgotPassword": {
+        "checkInboxSub": "We'll send a link within a few minutes",
+        "checkInboxTitle": "Check your inbox",
         "emailAddress": "Email address",
         "enterEmailAssociated": "Enter the email address associated with your account to reset your password",
         "forgotPassword": "Forgot password",
+        "headlineLine1": "Reset your",
+        "headlineLine2": "password.",
+        "linkValidSub": "Request a new link if it expires",
+        "linkValidTitle": "Link is valid for 60 min.",
         "loginHereInstead": "Login here instead",
         "or": "Or",
+        "panelDescription": "Enter your email address and we'll send you a link to reset your password.",
         "requestPasswordReset": "Request password reset"
     },
     "formFieldConfig": {
@@ -5885,7 +5892,10 @@
             "termsAndConditions": "Terms and Conditions",
             "typeOfFacility": "Type of facility"
         },
+        "activeUsersNow": "Active users right now",
         "noCommitment": "There's no commitment, and you don't need to link a payment card",
+        "oauthBannerDescription": "Your {provider} account is not yet linked to CitizenOne. Fill in the form to create your account.",
+        "oauthBannerTitle": "We didn't find your account",
         "of": "Of",
         "register": "Register",
         "review": {
@@ -5992,9 +6002,16 @@
             "confirmPassword": "Confirm password",
             "password": "Password"
         },
+        "headlineLine1": "New",
+        "headlineLine2": "password.",
         "loginHereInstead": "Login here instead",
         "or": "Or",
-        "resetPassword": "Reset password"
+        "panelDescription": "Create a strong password to keep your account secure.",
+        "passwordEncryptedSub": "Your data is safe and encrypted",
+        "passwordEncryptedTitle": "Password is encrypted",
+        "resetPassword": "Reset password",
+        "strongPasswordSub": "Use at least 8 characters with numbers and symbols",
+        "strongPasswordTitle": "Create a strong password"
     },
     "roles": {
         "addNewRole": "Add new role",
