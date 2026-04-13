@@ -19,11 +19,12 @@
                                 v-if="state.formGiveMedicine.medicines?.length === 0" />
 
                             <div class="max-h-[55vh] overflow-y-auto overflow-x-auto border border-gray-100 rounded-md"
-                                 v-if="state.formGiveMedicine.medicines?.some((m: any) => !m.is_pn_medicine)">
+                                v-if="state.formGiveMedicine.medicines?.some((m: any) => !m.is_pn_medicine)">
                                 <table class="w-full border-collapse">
                                     <thead>
                                         <tr>
-                                            <th class="sticky top-0 left-0 z-20 bg-primary text-white font-normal
+                                            <th
+                                                class="sticky top-0 left-0 z-20 bg-primary text-white font-normal
                                                         border-b border-white/20 px-4 py-3 text-left text-sm min-w-[200px]">
                                                 {{ $t('citizens.medicineJournals.table.medicine') }}
                                             </th>
@@ -43,10 +44,12 @@
                                                             min-w-[200px] border-r border-gray-100">
                                                     <div class="space-y-1">
                                                         <p class="font-medium text-gray-800 leading-tight">
-                                                            <span v-if="language.locale.value === 'en'">{{ medicine.medicine?.en_name }}</span>
+                                                            <span v-if="language.locale.value === 'en'">{{
+                                                                medicine.medicine?.en_name }}</span>
                                                             <span v-else>{{ medicine.medicine?.dk_name }}</span>
                                                         </p>
-                                                        <p class="text-xs text-gray-500">{{ medicine.medicine?.ingredients }}</p>
+                                                        <p class="text-xs text-gray-500">{{
+                                                            medicine.medicine?.ingredients }}</p>
                                                         <Badge type="primary" class="w-fit">
                                                             <p class="text-xxs">{{ medicine.dosage_unit }}</p>
                                                         </Badge>
@@ -55,24 +58,24 @@
 
                                                 <!-- Time slot cells -->
                                                 <td v-for="time in state.timeColumns" :key="time"
-                                                    class="px-3 py-3 align-top"
-                                                    :class="[
+                                                    class="px-3 py-3 align-top" :class="[
                                                         getDosageIndexByTime(Number(medicineIndex), time) === -1
                                                             ? '!bg-gray-50'
                                                             : ['', null].includes(
                                                                 state.formGiveMedicine.medicines[medicineIndex]
                                                                     .dosages[getDosageIndexByTime(Number(medicineIndex), time)].type
-                                                              )
-                                                            ? '!bg-red-50'
-                                                            : 'bg-white'
+                                                            )
+                                                                ? '!bg-red-50'
+                                                                : 'bg-white'
                                                     ]">
                                                     <div v-if="getDosageIndexByTime(Number(medicineIndex), time) !== -1"
-                                                         class="space-y-2">
+                                                        class="space-y-2">
                                                         <div class="flex justify-center">
                                                             <Badge type="primary" class="w-fit">
                                                                 <p class="text-xxs">
                                                                     {{ state.formGiveMedicine.medicines[medicineIndex]
-                                                                        .dosages[getDosageIndexByTime(Number(medicineIndex), time)].required_dosage }}
+                                                                        .dosages[getDosageIndexByTime(Number(medicineIndex),
+                                                                            time)].required_dosage }}
                                                                     {{ medicine.dosage_unit }}
                                                                 </p>
                                                             </Badge>
@@ -80,35 +83,37 @@
 
                                                         <div class="flex gap-1 justify-center flex-wrap">
                                                             <button v-for="typeOption in state.options.types"
-                                                                :key="typeOption.value"
-                                                                type="button"
-                                                                @click="state.formGiveMedicine.medicines[medicineIndex]
+                                                                :key="typeOption.value" type="button" @click="state.formGiveMedicine.medicines[medicineIndex]
                                                                     .dosages[getDosageIndexByTime(Number(medicineIndex), time)].type
-                                                                    = typeOption.value"
-                                                                :class="[
-                                                                    'px-2 py-1 rounded text-xxs font-semibold border transition-colors',
-                                                                    state.formGiveMedicine.medicines[medicineIndex]
-                                                                        .dosages[getDosageIndexByTime(Number(medicineIndex), time)].type
-                                                                        === typeOption.value
-                                                                        ? {
-                                                                            'bg-primary border-primary text-white': typeOption.title === 'Delivered',
-                                                                            'bg-red-600 border-red-600 text-white': typeOption.title === 'Deviated',
-                                                                            'bg-green-700 border-green-700 text-white': typeOption.title === 'Given',
-                                                                          }
-                                                                        : {
-                                                                            'bg-white border-primary text-primary hover:bg-blue-50': typeOption.title === 'Delivered',
-                                                                            'bg-white border-red-600 text-red-600 hover:bg-red-50': typeOption.title === 'Deviated',
-                                                                            'bg-white border-green-700 text-green-700 hover:bg-green-50': typeOption.title === 'Given',
-                                                                          }
-                                                                ]">
+                                                                    = typeOption.value" :class="[
+                                                                        'px-2 py-1 rounded text-xxs font-semibold border transition-colors',
+                                                                        state.formGiveMedicine.medicines[medicineIndex]
+                                                                            .dosages[getDosageIndexByTime(Number(medicineIndex), time)].type
+                                                                            === typeOption.value
+                                                                            ? {
+                                                                                'bg-primary border-primary text-white': typeOption.title === 'Delivered',
+                                                                                'bg-red-600 border-red-600 text-white': typeOption.title === 'Deviated',
+                                                                                'bg-green-700 border-green-700 text-white': typeOption.title === 'Given',
+                                                                            }
+                                                                            : {
+                                                                                'bg-white border-primary text-primary hover:bg-blue-50': typeOption.title === 'Delivered',
+                                                                                'bg-white border-red-600 text-red-600 hover:bg-red-50': typeOption.title === 'Deviated',
+                                                                                'bg-white border-green-700 text-green-700 hover:bg-green-50': typeOption.title === 'Given',
+                                                                            }
+                                                                    ]">
                                                                 <span v-if="typeOption.title === 'Delivered'">
-                                                                    {{ $t('citizens.medicineJournals.history.form.type.delivered') }}
+                                                                    {{
+                                                                        $t('citizens.medicineJournals.history.form.type.delivered')
+                                                                    }}
                                                                 </span>
                                                                 <span v-if="typeOption.title === 'Deviated'">
-                                                                    {{ $t('citizens.medicineJournals.history.form.type.deviated') }}
+                                                                    {{
+                                                                        $t('citizens.medicineJournals.history.form.type.deviated')
+                                                                    }}
                                                                 </span>
                                                                 <span v-if="typeOption.title === 'Given'">
-                                                                    {{ customPagesStore.getCustomPagesName?.giveMedicine }}
+                                                                    {{ customPagesStore.getCustomPagesName?.giveMedicine
+                                                                    }}
                                                                 </span>
                                                             </button>
                                                         </div>
@@ -119,13 +124,14 @@
                                                                 @click="toggleComment(`${medicineIndex}_${time}`)">
                                                                 <Icon :name="state.expandedComments.has(`${medicineIndex}_${time}`)
                                                                     ? 'ic:round-keyboard-arrow-up'
-                                                                    : 'ic:round-keyboard-arrow-down'" class="w-3 h-3" />
-                                                                {{ $t('citizens.medicineJournals.history.form.comment') }}
+                                                                    : 'ic:round-keyboard-arrow-down'"
+                                                                    class="w-3 h-3" />
+                                                                {{ $t('citizens.medicineJournals.history.form.comment')
+                                                                }}
                                                             </button>
                                                             <div v-if="state.expandedComments.has(`${medicineIndex}_${time}`)"
-                                                                 class="mt-1">
-                                                                <FormTextArea
-                                                                    :id="`comment_${medicineIndex}_${time}`"
+                                                                class="mt-1">
+                                                                <FormTextArea :id="`comment_${medicineIndex}_${time}`"
                                                                     :name="`comment_${medicineIndex}`"
                                                                     :placeholder="$t('citizens.medicineJournals.history.form.comment')"
                                                                     :rows="2"
@@ -147,7 +153,7 @@
 
                             <!-- PN section divider -->
                             <div v-if="state.formGiveMedicine.medicines?.some((m: any) => m.is_pn_medicine)"
-                                 class="flex items-center gap-2">
+                                class="flex items-center gap-2">
                                 <div class="h-px flex-1 bg-gray-200"></div>
                                 <span class="text-xs font-semibold text-gray-400 uppercase tracking-wide px-2">
                                     {{ $t('citizens.medicineJournals.table.pnMedicine') }}
@@ -376,11 +382,10 @@
                         </div>
                         <div class="mt-6">
                             <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
-                                <FormButton type="button" buttonStyle="cancel" class="rounded-md"
-                                    @click="emit('close')">
+                                <FormButton type="button" buttonStyle="cancel" @click="emit('close')">
                                     {{ $t('cancel') }}
                                 </FormButton>
-                                <FormButton type="submit" buttonStyle="primary" class="rounded-md w-full"
+                                <FormButton type="submit" buttonStyle="primary" class="w-full"
                                     v-if="state.formGiveMedicine.medicines?.length > 0">
                                     {{ $t('save') }}
                                 </FormButton>
@@ -603,7 +608,7 @@ async function fetchAllSelectedMedicines(date: any) {
                 }
             })
             state.formGiveMedicine.medicines = medicines
-            
+
             state.expandedComments.clear()
             medicines.forEach((medicine: any, medicineIndex: number) => {
                 if (!medicine.is_pn_medicine) {

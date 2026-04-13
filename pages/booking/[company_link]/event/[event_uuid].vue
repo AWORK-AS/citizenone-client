@@ -62,7 +62,8 @@
                                             <div class="grow grid grid-cols-1 md:grid-cols-[1fr_1fr] gap-6">
                                                 <div class="w-full">
                                                     <div class="space-y-3 w-[308px]">
-                                                        <FormLabel for="date_time_end" :label="$t('bookings.formEvent.appointment.selectDate')" />
+                                                        <FormLabel for="date_time_end"
+                                                            :label="$t('bookings.formEvent.appointment.selectDate')" />
                                                         <FormCalendarDatePicker id="selected_date" name="selected_date"
                                                             :placeholder="$t('bookings.formEvent.appointment.dateSelected')"
                                                             :available-dates="availableDates"
@@ -72,26 +73,33 @@
                                                     </div>
                                                 </div>
                                                 <div class="space-y-1">
-                                                    <FormLabel for="select_timeslot" :label="$t('bookings.formEvent.appointment.selectTimeSlot')" />
+                                                    <FormLabel for="select_timeslot"
+                                                        :label="$t('bookings.formEvent.appointment.selectTimeSlot')" />
                                                     <fieldset>
-                                                        
+
                                                         <RadioGroup v-model="state.formBooking.time_slot"
                                                             class="grid grid-cols-1 gap-y-6 sm:grid-cols-1 sm:gap-x-4 max-h-96 overflow-y-auto pl-1 pr-3 py-3 space-y-1">
-                                                            
-                                                            <div v-if="!state.date_time_slots?.length" class="text-gray-600 font-semibold text-sm mt-4">
+
+                                                            <div v-if="!state.date_time_slots?.length"
+                                                                class="text-gray-600 font-semibold text-sm mt-4">
                                                                 {{ $t('bookings.formEvent.appointment.noSlots') }}
                                                             </div>
 
-                                                            <RadioGroupOption as="template" v-for="timeSlot in state.date_time_slots"
-                                                                :key="timeSlot.id" :value="timeSlot" :aria-label="`${timeSlot.start_time} - ${timeSlot.end_time}`"
-                                                                v-slot="{ active, checked }" :disabled="timeSlot.capacity < 1">
+                                                            <RadioGroupOption as="template"
+                                                                v-for="timeSlot in state.date_time_slots"
+                                                                :key="timeSlot.id" :value="timeSlot"
+                                                                :aria-label="`${timeSlot.start_time} - ${timeSlot.end_time}`"
+                                                                v-slot="{ active, checked }"
+                                                                :disabled="timeSlot.capacity < 1">
                                                                 <div
                                                                     :class="[active ? 'border-primary ring-1 ring-primary' : 'border-gray-300', 'relative flex cursor-pointer rounded-lg border bg-white p-4 shadow-xs focus:outline-hidden', timeSlot.capacity < 1 ? '!border-gray-300 !bg-gray-100 !text-gray-400' : 'text-gray-900']">
-                                                                    <span class="flex flex-1">  
+                                                                    <span class="flex flex-1">
                                                                         <span class="flex flex-col">
-                                                                            <p class="w-full block text-sm font-medium ">
+                                                                            <p
+                                                                                class="w-full block text-sm font-medium ">
                                                                                 <span>
-                                                                                    {{ `${timeSlot.start_time} - ${timeSlot.end_time}` }}
+                                                                                    {{ `${timeSlot.start_time} -
+                                                                                    ${timeSlot.end_time}` }}
                                                                                 </span>
                                                                             </p>
                                                                         </span>
@@ -99,7 +107,8 @@
                                                                     <Icon name="ph:check-circle"
                                                                         :class="[!checked ? 'invisible' : '', 'size-5 text-primary']"
                                                                         aria-hidden="true" />
-                                                                    <span v-if="timeSlot.capacity < 1" class="text-red-500 text-sm font-medium">
+                                                                    <span v-if="timeSlot.capacity < 1"
+                                                                        class="text-red-500 text-sm font-medium">
                                                                         {{ $t('bookings.formEvent.appointment.full') }}
                                                                     </span>
                                                                     <span
@@ -113,12 +122,12 @@
                                                 </div>
                                             </div>
                                             <div class="mt-6 grid grid-cols-1 md:grid-cols-2 gap-3">
-                                                <FormButton type="button" buttonStyle="cancel" class="rounded-md"
+                                                <FormButton type="button" buttonStyle="cancel"
                                                     @click="handleBackStep()">
                                                     {{ $t('back') }}
                                                 </FormButton>
-                                                <FormButton type="button" buttonStyle="primary"
-                                                    class="rounded-md w-full" @click="handleNextStep()">
+                                                <FormButton type="button" buttonStyle="primary" class="w-full"
+                                                    @click="handleNextStep()">
                                                     {{ $t('next') }}
                                                 </FormButton>
                                             </div>
@@ -224,12 +233,11 @@
                                                 </div>
                                             </div>
                                             <div class="mt-6 grid grid-cols-1 md:grid-cols-2 gap-3">
-                                                <FormButton type="button" buttonStyle="cancel" class="rounded-md"
+                                                <FormButton type="button" buttonStyle="cancel"
                                                     @click="handleBackStep()">
                                                     {{ $t('back') }}
                                                 </FormButton>
-                                                <FormButton type="submit" buttonStyle="primary"
-                                                    class="rounded-md w-full">
+                                                <FormButton type="submit" buttonStyle="primary" class="w-full">
                                                     {{ $t('bookings.booking.continueToConfirmation') }}
                                                 </FormButton>
                                             </div>
@@ -286,16 +294,15 @@
                                         </div>
                                     </div>
                                     <div class="mt-6 grid grid-cols-1 md:grid-cols-2 gap-3">
-                                        <FormButton type="button" buttonStyle="cancel" class="rounded-md"
-                                            @click="handleBackStep()">
+                                        <FormButton type="button" buttonStyle="cancel" @click="handleBackStep()">
                                             {{ $t('back') }}
                                         </FormButton>
-                                        <FormButton type="submit" buttonStyle="primary" class="rounded-md w-full"
+                                        <FormButton type="submit" buttonStyle="primary" class="w-full"
                                             @click="signUpForCourseEvent()"
                                             v-if="state.courseEventDetails?.type === 'event'">
                                             {{ $t('bookings.booking.signUpForEvent') }}
                                         </FormButton>
-                                        <FormButton type="submit" buttonStyle="primary" class="rounded-md w-full"
+                                        <FormButton type="submit" buttonStyle="primary" class="w-full"
                                             @click="signUpForCourseEvent()" v-else>
                                             {{ $t('bookings.booking.signUpForCourse') }}
                                         </FormButton>

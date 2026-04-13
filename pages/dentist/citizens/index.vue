@@ -31,7 +31,7 @@
 
             <div>
                 <div class="flex justify-end items-center mb-5" v-if="userStore.getUser?.roles?.[0]?.name === 'Admin'">
-                    <FormButton buttonStyle="action" class="rounded-lg" @click="navigateTo('/citizens/new')">
+                    <FormButton buttonStyle="action" @click="navigateTo('/citizens/new')">
                         <Icon name="ph:plus" class="h-4 w-4" aria-hidden="true" />
                         {{ $t('citizens.newCitizen') }}
                     </FormButton>
@@ -60,18 +60,18 @@
                                     </td>
                                     <td width="20%">
                                         <div class="flex items-end gap-2">
-                                            <FormButton type="button" buttonStyle="action" class="rounded-md"
+                                            <FormButton type="button" buttonStyle="action"
                                                 @click="navigateTo(`/citizens/${citizen.uuid}/journals`)">
                                                 <Icon name="ph:eye" class="size-4" />
                                                 {{ $t('citizens.table.actions.view') }}
                                             </FormButton>
-                                            <FormButton type="button" buttonStyle="action" class="rounded-md"
+                                            <FormButton type="button" buttonStyle="action"
                                                 @click="navigateTo(`/citizens/${citizen.uuid}/edit`)"
                                                 v-if="userStore.getUser?.roles?.[0]?.name === 'Admin'">
                                                 <Icon name="ph:pencil-simple" class="size-4" />
                                                 {{ $t('citizens.table.actions.edit') }}
                                             </FormButton>
-                                            <FormButton type="button" buttonStyle="action" class="rounded-md"
+                                            <FormButton type="button" buttonStyle="action"
                                                 @click="showCitizenNote(citizen)">
                                                 <Icon name="ph:note-blank" class="size-4" />
                                                 {{ $t('citizens.table.actions.latestJournalEntry') }}

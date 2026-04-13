@@ -4,8 +4,7 @@
             <Alert type="danger" :text="state?.error?.message"
                 v-if="state.error?.message && state.error.message.length > 0" />
             <div class="flex justify-end items-center mb-5 gap-x-2">
-                <FormButton buttonStyle="action" class="rounded-lg"
-                    @click="state.modal.isAddConsentCompetenceCapacityOpen = true">
+                <FormButton buttonStyle="action" @click="state.modal.isAddConsentCompetenceCapacityOpen = true">
                     <Icon name="ph:plus" class="h-4 w-4" aria-hidden="true" />
                     {{ $t('citizens.nursingAreas.consentCompetenceOrCapacity.newConsentCompetenceOrCapacity') }}
                 </FormButton>
@@ -26,8 +25,7 @@
                         <div>
                             <div class="flex items-center gap-2 flex-wrap md:flex-nowrap">
                                 <Tooltip :text="$t('citizens.nursingAreas.table.actions.edit')">
-                                    <FormButton class="rounded-md" buttonSize="sm"
-                                        @click="editConsentCompetenceCapacity(record)">
+                                    <FormButton buttonSize="sm" @click="editConsentCompetenceCapacity(record)">
                                         <Icon name="ph:pencil-simple" class="size-4" />
                                     </FormButton>
                                 </Tooltip>

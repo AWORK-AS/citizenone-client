@@ -1,236 +1,31 @@
 <template>
-    <div>
-        <NuxtLayout name="user">
-
-            <Head>
-                <Title>{{ $t('messages.messages') }} - {{ runtimeConfig?.public?.appName }}</Title>
-            </Head>
-
-            <template #breadcrumb>
-                <Breadcrumb :links="breadcrumbLinks" />
-            </template>
-
-            <template #header>{{ $t('messages.messages') }}</template>
-
-            <div class="space-y-5">
-                <Alert type="danger" :text="state?.error?.message"
-                    v-if="state.error?.message && state.error.message.length > 0" />
-                <LoadingSpinner :isActive="state.isPageLoading">
-                    <div class="grid grid-cols-1 md:grid-cols-12 gap-x-10 gap-y-4" v-if="state.chats?.data?.length > 0">
-                        <div class="md:col-span-5 xl:col-span-4 bg-white rounded-md overflow-y-auto"
-                            style="height: 80vh;">
-                            <ModulesUserMessagesChats :chats="state.chats" @loadMoreMessages="fetchAdditionalChats" />
-                        </div>
-                    </div>
-                    <div v-else class="mx-auto max-w-lg py-20">
-                        <div v-if="!state.showStartConversation" class="text-center space-y-3">
-                            <h3 class="text-lg font-semibold">
-                                {{ $t('messages.noMessagesYet') }}.
-                            </h3>
-                            <p>
-                                {{ $t('messages.looksLikeYouHaventInitiatedAConversation') }}.
-                            </p>
-                            <FormButton buttonStyle="primary" class="w-full rounded-md"
-                                @click="state.showStartConversation = true">
-                                {{ $t('messages.startTheConversation') }}
-                            </FormButton>
-                        </div>
-                        <div v-else>
-                            <form @submit.prevent="sendMessage">
-                                <div class="space-y-3">
-                                    <h3 class="text-base font-semibold text-primary">
-                                        {{ $t('messages.startTheConversation') }}
-                                    </h3>
-                                    <div class="space-y-1">
-                                        <FormLabel for="message" :label="$t('messages.users')" />
-                                        <FormSelectMultiple id="receivers" :options="state.options.receivers"
-                                            v-model="state.formChat.receivers"
-                                            v-if="userStore.getUser?.company?.group_chat_enabled" />
-                                        <FormSelect id="receivers" :options="state.options.receivers"
-                                            v-model="state.formChat.receivers" v-else />
-                                        <FormError :error="v$?.formChat?.receivers?.$errors[0]?.$message.toString()" />
-                                        <FormError :error="state?.error?.errors?.receiver_uuid?.[0]" />
-                                    </div>
-                                    <div class="space-y-1">
-                                        <FormLabel for="subject" :label="$t('messages.subject')" />
-                                        <FormTextField id="subject" name="subject" :placeholder="$t('messages.subject')"
-                                            v-model="state.formChat.subject" />
-                                        <FormError :error="v$?.formChat?.subject?.$errors[0]?.$message.toString()" />
-                                        <FormError :error="state?.error?.errors?.subject?.[0]" />
-                                    </div>
-                                    <div class="space-y-1">
-                                        <FormLabel for="message" :label="$t('messages.message')" />
-                                        <FormTextArea id="message" name="message" :placeholder="$t('messages.message')"
-                                            v-model="state.formChat.message" />
-                                        <FormError :error="v$?.formChat?.message?.$errors[0]?.$message.toString()" />
-                                        <FormError :error="state?.error?.errors?.message?.[0]" />
-                                    </div>
-                                </div>
-                                <div class="mt-6">
-                                    <FormButton type="submit" buttonStyle="primary" class="w-full rounded-md">
-                                        {{ $t('messages.send') }}
-                                    </FormButton>
-                                </div>
-                            </form>
-                        </div>
-                    </div>
-                </LoadingSpinner>
+    <div class="flex-1 flex flex-col items-center justify-center bg-gray-50/30 h-full">
+        <div class="text-center space-y-5 max-w-xs px-4">
+            <div class="mx-auto w-20 h-20 bg-gray-100 rounded-2xl flex items-center justify-center">
+                <Icon name="ph:chat-dots" class="w-10 h-10 text-gray-400" aria-hidden="true" />
             </div>
-        </NuxtLayout>
+            <div>
+                <h3 class="text-xl font-bold text-gray-900">{{ $t('messages.welcomeToChat') }}</h3>
+                <p class="text-sm text-gray-500 mt-2 leading-relaxed">
+                    {{ $t('messages.welcomeDescription') }}
+                </p>
+            </div>
+            <button
+                class="px-6 py-2.5 bg-secondary text-white rounded-lg text-sm font-medium hover:bg-secondary-600 transition-colors shadow-sm"
+                @click="state.isNewChatOpen = true">
+                {{ $t('messages.newConversation') }}
+            </button>
+        </div>
+
+        <ModulesUserMessagesModalNewChat :isModalOpen="state.isNewChatOpen" @close="state.isNewChatOpen = false"
+            @chatCreated="fetchChats?.()" />
     </div>
 </template>
 
 <script setup lang="ts">
-import pusher from '@/services/pusher'
-import { userService } from '@/components/api/user/UserService'
-import { useVuelidate } from "@vuelidate/core"
-import { required, helpers } from '@vuelidate/validators'
-import { messageService } from '@/components/api/user/MessageService'
-import { useI18n } from "vue-i18n"
-import { useUserStore } from '@/store/user'
-import type { Error } from '@/types'
-import { useDepartmentStore } from '@/store/department'
-
-const runtimeConfig = useRuntimeConfig()
-const router = useRouter()
-const departmentStore = useDepartmentStore()
-const userStore = useUserStore() as any
-const chatUuid = router?.currentRoute?.value?.params?.chat_uuid
-const { t } = useI18n()
-const breadcrumbLinks = [
-    {
-        name: 'messages.messages',
-        translate: true,
-        href: '/messages',
-    },
-]
-let currentTablePage = 1
+const fetchChats = inject('fetchChats') as any
 
 const state = reactive({
-    chats: [] as any,
-    error: {} as Error,
-    formChat: {
-        message: '',
-        receivers: [],
-        subject: '',
-    },
-    isPageLoading: false,
-    showStartConversation: false,
-    options: {
-        receivers: []
-    }
+    isNewChatOpen: false,
 })
-
-onMounted(() => {
-    fetchAllAvailableChatUsers()
-    const channel = pusher.subscribe('citizenone.' + chatUuid)
-    channel.bind('chat-message', () => {
-        fetchChats()
-    })
-    fetchChats()
-})
-
-const rules = computed(() => {
-    return {
-        formChat: {
-            message: {
-                required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
-            },
-            receivers: {
-                required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
-            },
-        }
-    }
-})
-
-const v$ = useVuelidate(rules, state)
-
-async function fetchAllAvailableChatUsers() {
-    state.error = {}
-    state.isPageLoading = true
-    try {
-        const params = {
-            department: departmentStore.getSelectedDepartmentName
-        }
-        const response = await userService.getAllUsers(params)
-        if (response.data) {
-            let options: any = []
-            response.data.forEach(
-                (user: any) => options.push({
-                    value: user?.uuid,
-                    label: user?.firstname + " " + (user?.lastname ?? ''),
-                })
-            )
-            state.options.receivers = options
-        }
-    } catch (error: any) {
-        state.error = error
-    }
-    state.isPageLoading = false
-}
-
-async function fetchChats() {
-    state.error = {}
-    state.isPageLoading = true
-    try {
-        const params = {
-            page: currentTablePage
-        }
-        const response = await messageService.fetchChats(params)
-        if (response) {
-            state.chats = response
-        }
-    } catch (error: any) {
-        state.error = { message: error.message }
-    }
-    state.isPageLoading = false
-}
-
-async function fetchAdditionalChats() {
-    state.error = {}
-    state.isPageLoading = true
-    try {
-        currentTablePage = currentTablePage + 1
-        const params = {
-            page: currentTablePage
-        }
-        const response = await messageService.fetchChats(params)
-        if (response) {
-            state.chats.data?.push(...response?.data)
-            if (response?.meta) {
-                state.chats.meta = response?.meta
-            }
-            if (response?.links) {
-                state.chats.links = response?.links
-            }
-        }
-    } catch (error: any) {
-        state.error = { message: error.message }
-    }
-    state.isPageLoading = false
-}
-
-async function sendMessage() {
-    v$.value.$validate()
-    if (!v$.value.$error) {
-        state.isPageLoading = true
-        try {
-            const params = {
-                subject: state.formChat.subject,
-                message: state.formChat.message,
-                receiver_uuid: userStore.getUser?.company?.group_chat_enabled ?
-                    state.formChat.receivers :
-                    [state.formChat.receivers]
-            }
-            const response = await messageService.sendMessageViaReceiverUuid(params)
-            if (response) {
-                const chatUuid = response?.data?.chat?.uuid
-                navigateTo(`/messages/${chatUuid}`)
-            }
-        } catch (error: any) {
-            state.error = error
-        }
-        state.isPageLoading = false
-    }
-}
 </script>

@@ -1,7 +1,7 @@
 <template>
     <div>
         <div class="flex justify-end items-center mb-5">
-            <FormButton buttonStyle="action" class="rounded-lg" @click="navigateTo('/forms/new')">
+            <FormButton buttonStyle="action" @click="navigateTo('/forms/new')">
                 <Icon name="ph:plus" class="h-4 w-4" aria-hidden="true" />
                 {{ $t('forms.newForm') }}
             </FormButton>
@@ -23,22 +23,21 @@
                             </td>
                             <td width="20%">
                                 <div class="flex items-end justify-end gap-2">
-                                    <FormButton type="button" buttonStyle="action" class="rounded-md"
+                                    <FormButton type="button" buttonStyle="action"
                                         @click="navigateTo(`/forms/${form.uuid}/edit`)">
                                         <Icon name="ph:pencil-simple" class="size-4" />
                                         {{ $t('forms.table.actions.edit') }}
                                     </FormButton>
-                                    <FormButton type="button" buttonStyle="action" class="rounded-md"
-                                        @click="deleteConfirmation(form)">
+                                    <FormButton type="button" buttonStyle="action" @click="deleteConfirmation(form)">
                                         <Icon name="ph:trash" class="size-4" />
                                         {{ $t('forms.table.actions.delete') }}
                                     </FormButton>
-                                    <!-- <FormButton type="button" buttonStyle="action" class="rounded-md"
+                                    <!-- <FormButton type="button" buttonStyle="action" 
                                         @click="navigateTo(`/forms/${form.uuid}/responses`)">
                                         <Icon name="ph:eye" class="size-4" />
                                         {{ $t('forms.table.actions.viewResponses') }}
                                     </FormButton>
-                                    <FormButton type="button" buttonStyle="action" class="rounded-md"
+                                    <FormButton type="button" buttonStyle="action" 
                                         @click="navigateTo(`/forms/${form.uuid}/respond`)">
                                         <Icon name="ph:pencil-simple" class="size-4" />
                                         {{ $t('forms.table.actions.createResponse') }}

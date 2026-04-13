@@ -34,8 +34,8 @@
                                                 {{
                                                     state.formData.start_address ||
                                                     $t(
-                                                "citizens.timeRegistration.registerTransport.form.startLocation",
-                                                )
+                                                        "citizens.timeRegistration.registerTransport.form.startLocation",
+                                                    )
                                                 }}
                                             </LPopup>
                                         </LMarker>
@@ -50,11 +50,10 @@
                                 </div>
 
                                 <div class="flex justify-end gap-3">
-                                    <FormButton buttonStyle="cancel" @click="state.modal.isStartLocationOpen = false"
-                                        class="rounded-md">
+                                    <FormButton buttonStyle="cancel" @click="state.modal.isStartLocationOpen = false">
                                         {{ $t("cancel") }}
                                     </FormButton>
-                                    <FormButton buttonStyle="primary" @click="confirmStartLocation" class="rounded-md">
+                                    <FormButton buttonStyle="primary" @click="confirmStartLocation">
                                         {{ $t("citizens.form.useThisLocation") }}
                                     </FormButton>
                                 </div>
@@ -84,8 +83,8 @@
                                                 {{
                                                     state.formData.end_address ||
                                                     $t(
-                                                "citizens.timeRegistration.registerTransport.form.endLocation",
-                                                )
+                                                        "citizens.timeRegistration.registerTransport.form.endLocation",
+                                                    )
                                                 }}
                                             </LPopup>
                                         </LMarker>
@@ -100,11 +99,10 @@
                                 </div>
 
                                 <div class="flex justify-end gap-3">
-                                    <FormButton buttonStyle="cancel" @click="state.modal.isEndLocationOpen = false"
-                                        class="rounded-md">
+                                    <FormButton buttonStyle="cancel" @click="state.modal.isEndLocationOpen = false">
                                         {{ $t("cancel") }}
                                     </FormButton>
-                                    <FormButton buttonStyle="primary" @click="confirmEndLocation" class="rounded-md">
+                                    <FormButton buttonStyle="primary" @click="confirmEndLocation">
                                         {{ $t("citizens.form.useThisLocation") }}
                                     </FormButton>
                                 </div>

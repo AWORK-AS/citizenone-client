@@ -444,11 +444,11 @@
         </div>
         <div class="mt-6">
             <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
-                <FormButton type="button" buttonStyle="cancel" class="rounded-md"
+                <FormButton type="button" buttonStyle="cancel"
                     @click="navigateTo(['citizens-uuid-children-child_uuid-nursing-areas-nursing-professional-records-new', 'citizens-uuid-children-child_uuid-nursing-areas-nursing-professional-records-record_uuid-edit'].includes(router?.currentRoute?.value?.name as string) ? `/citizens/${citizenUuid}/children/${childUuid}/nursing-areas?open=nursing-professional-records` : `/citizens/${citizenUuid}/nursing-areas?open=nursing-professional-records`)">
                     {{ $t('cancel') }}
                 </FormButton>
-                <FormButton type="submit" buttonStyle="primary" class="rounded-md w-full">
+                <FormButton type="submit" buttonStyle="primary" class="w-full">
                     {{ props.formType === 'create' ? $t('save') :
                         $t('update') }}
                 </FormButton>

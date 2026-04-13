@@ -17,8 +17,7 @@
 
             <div class="mt-8">
                 <div class="flex justify-end items-center mb-5">
-                    <FormButton buttonStyle="action" class="rounded-lg"
-                        @click="navigateTo('/settings/journal-contents/new')">
+                    <FormButton buttonStyle="action" @click="navigateTo('/settings/journal-contents/new')">
                         <Icon name="ph:plus" class="h-4 w-4" aria-hidden="true" />
                         {{ $t('journalContents.newJournalContent') }}
                     </FormButton>
@@ -30,19 +29,20 @@
                     <div class="table-responsive">
                         <Table :columnHeaders="state.columnHeaders" :data="state.journalContents"
                             :isLoading="state.isTableLoading" :sortData="state.sortData" @sort="sort">
-                            <template #body v-if="!(state.isTableLoading || (state.journalContents?.data?.length === 0))">
+                            <template #body
+                                v-if="!(state.isTableLoading || (state.journalContents?.data?.length === 0))">
                                 <tr v-for="(journalContent, index) in state.journalContents?.data" :key="index">
                                     <td width="50%">
                                         <span>{{ journalContent?.name }}</span>
                                     </td>
                                     <td width="50%">
                                         <div class="flex items-end justify-end gap-2">
-                                            <FormButton type="button" buttonStyle="action" class="rounded-md"
+                                            <FormButton type="button" buttonStyle="action"
                                                 @click="navigateTo(`/settings/journal-contents/${journalContent.uuid}/edit`)">
                                                 <Icon name="ph:pencil-simple" class="size-4" />
                                                 {{ $t('journalContents.table.actions.edit') }}
                                             </FormButton>
-                                            <FormButton type="button" buttonStyle="danger" class="rounded-md"
+                                            <FormButton type="button" buttonStyle="danger"
                                                 @click="deleteJournalContentConfirmation(journalContent)">
                                                 <Icon name="ph:trash" class="size-4" />
                                                 {{ $t('journalContents.table.actions.delete') }}

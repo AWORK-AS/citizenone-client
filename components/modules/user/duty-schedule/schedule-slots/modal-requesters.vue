@@ -19,12 +19,12 @@
                                     </td>
                                     <td width="50%">
                                         <div class="flex items-end gap-2">
-                                            <FormButton type="button" buttonStyle="success" class="rounded-md"
+                                            <FormButton type="button" buttonStyle="success"
                                                 @click="confirmRequestApproval(requester)">
                                                 <Icon name="ph:check" class="size-4" />
                                                 {{ $t('dutySchedules.requesters.table.actions.approve') }}
                                             </FormButton>
-                                            <FormButton type="button" buttonStyle="primary" class="rounded-md"
+                                            <FormButton type="button" buttonStyle="primary"
                                                 @click="confirmRequestDisapproval(requester)">
                                                 <Icon name="ph:x" class="size-4" />
                                                 {{ $t('dutySchedules.requesters.table.actions.disapprove') }}

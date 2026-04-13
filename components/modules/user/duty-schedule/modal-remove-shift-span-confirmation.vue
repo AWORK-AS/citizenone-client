@@ -7,10 +7,10 @@
                     {{ $t('dutySchedules.shiftSpan.deleteConfirmMessage') }}
                 </p>
                 <div class="mt-5 flex gap-x-3">
-                    <FormButton buttonStyle="primary" @click="handleSingle" class="w-full rounded-md">
+                    <FormButton buttonStyle="primary" @click="handleSingle" class="w-full">
                         {{ $t('dutySchedules.shiftSpan.onlyShift') }}
                     </FormButton>
-                    <FormButton buttonStyle="primary" @click="handleEntire" class="w-full rounded-md">
+                    <FormButton buttonStyle="primary" @click="handleEntire" class="w-full">
                         {{ $t('dutySchedules.shiftSpan.entireShift') }}
                     </FormButton>
                 </div>

@@ -316,7 +316,7 @@
                                         <p class="text-sm text-muted-400 h-7">
                                             <div v-html="courseEvent?.description" class="content line-clamp-1" />
                                         </p>
-                                        <div class="flex flex-wrap items-center gap-x-1.5 gap-y-1 h-5 line-clamp-1">
+                                        <div class="flex flex-wrap items-center gap-x-1.5 gap-y-1 h-6 line-clamp-1">
                                             <div v-for="(tag, tagIndex) in courseEvent?.booking_setting?.tags"
                                                 :key="tagIndex"
                                                 class="bg-primary text-white px-2 py-1 text-xxs rounded-full flex items-center justify-center">
@@ -326,7 +326,7 @@
                                         <div>
                                             <FormButton buttonStyle="primary"
                                                 @click="navigateTo(`/booking/${companyLink}/event/${courseEvent?.uuid}`)"
-                                                class="w-full rounded-md">
+                                                class="w-full">
                                                 {{ $t('bookings.booking.signUp') }}
                                             </FormButton>
                                         </div>

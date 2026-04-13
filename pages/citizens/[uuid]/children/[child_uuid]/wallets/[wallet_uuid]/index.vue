@@ -45,8 +45,7 @@
                                 {{ formatAmount(state.wallet?.data?.running_balance) }}
                             </p>
                         </div>
-                        <FormButton buttonStyle="action" class="rounded-lg"
-                            @click="state.modal.isAddWalletTransactionOpen = true">
+                        <FormButton buttonStyle="action" @click="state.modal.isAddWalletTransactionOpen = true">
                             <Icon name="ph:plus" class="h-4 w-4" aria-hidden="true" />
                             {{ $t('citizens.walletTransactions.newWalletTransaction') }}
                         </FormButton>
@@ -96,7 +95,7 @@
                                     </td>
                                     <td width="15%">
                                         <div class="flex items-end justify-end gap-2">
-                                            <FormButton type="button" buttonStyle="action" class="rounded-md"
+                                            <FormButton type="button" buttonStyle="action"
                                                 @click="editWalletTransaction(walletTransaction)"
                                                 v-if="walletTransaction?.is_editable">
                                                 <Icon name="ph:pencil-simple" class="size-4" />

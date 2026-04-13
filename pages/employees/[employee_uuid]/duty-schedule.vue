@@ -158,7 +158,9 @@
                                                                     'text-xxs'
                                                                 ]">
                                                                     {{ $t('dutySchedules.earnedWorkHours') }}:
-                                                                    {{ employee?.log_data.total_time_account_earned_hours }}
+                                                                    {{
+                                                                        employee?.log_data.total_time_account_earned_hours
+                                                                    }}
                                                                 </p>
                                                                 <p :class="[
                                                                     parseFloat(employee?.extra_hours.replace(',', '.')) > 0 ? 'text-green-700' : 'text-red-700',
@@ -228,7 +230,7 @@
                                                                     <Icon name="ph:clock" class="h-3 w-3"
                                                                         aria-hidden="true" />
                                                                     {{
-                                                                        $t('dutySchedules.normHours.compensatoryHours')
+                                                                        $t('dutySchedules.normHours.compensatoryHoursThisYear')
                                                                     }}:
                                                                     {{
                                                                         formatNumber(language.locale.value,

@@ -19,13 +19,13 @@
                                 </div>
                                 <div class="flex items-center gap-x-4">
                                     <Tooltip :text="$t('reminders.table.markAsComplete')" v-if="!due?.is_complete">
-                                        <FormButton buttonStyle="primary" class="rounded-md" buttonSize="sm"
+                                        <FormButton buttonStyle="primary" buttonSize="sm"
                                             @click="markAsCompleteIncomplete(due)">
                                             <Icon name="ph:check" class="h-4 w-4" aria-hidden="true" />
                                         </FormButton>
                                     </Tooltip>
                                     <Tooltip :text="$t('reminders.table.markAsIncomplete')" v-else>
-                                        <FormButton buttonStyle="primary" class="rounded-md" buttonSize="sm"
+                                        <FormButton buttonStyle="primary" buttonSize="sm"
                                             @click="markAsCompleteIncomplete(due)">
                                             <Icon name="ph:x" class="h-4 w-4" aria-hidden="true" />
                                         </FormButton>

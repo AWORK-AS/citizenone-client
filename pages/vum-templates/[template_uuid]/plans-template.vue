@@ -26,8 +26,7 @@
                 <LoadingSpinner :isActive="state.isPageLoading">
                     <div class="mt-8 space-y-3">
                         <div class="flex justify-end items-center mb-5 gap-x-2">
-                            <FormButton buttonStyle="action" class="rounded-lg"
-                                @click="state.modal.isAddPlanOpen = true">
+                            <FormButton buttonStyle="action" @click="state.modal.isAddPlanOpen = true">
                                 <Icon name="ph:plus" class="h-4 w-4" aria-hidden="true" />
                                 {{ $t('plansandgoals.VUMTemplates.newPlan') }}
                             </FormButton>
@@ -53,15 +52,15 @@
                                     </div>
                                     <div>
                                         <div class="flex items-center gap-2 flex-wrap md:flex-nowrap">
-                                            <FormButton class="rounded-md" buttonSize="sm" @click="viewPlan(plan)">
+                                            <FormButton buttonStyle="action" buttonSize="sm" @click="viewPlan(plan)">
                                                 <Icon name="ph:eye" class="size-4" />
                                                 {{ $t('plansandgoals.VUMTemplates.table.actions.viewGoals') }}
                                             </FormButton>
-                                            <FormButton class="rounded-md" buttonSize="sm" @click="editPlan(plan)">
+                                            <FormButton buttonStyle="action" buttonSize="sm" @click="editPlan(plan)">
                                                 <Icon name="ph:pencil-duotone" class="size-4" />
                                                 {{ $t('plansandgoals.VUMTemplates.table.actions.edit') }}
                                             </FormButton>
-                                            <FormButton class="rounded-md" buttonSize="sm"
+                                            <FormButton buttonStyle="action" buttonSize="sm"
                                                 @click="confirmPlanDeletion(plan)">
                                                 <Icon name="heroicons:trash" class="size-4" />
                                                 {{ $t('plansandgoals.VUMTemplates.table.actions.delete') }}

@@ -12,7 +12,7 @@
 
             <template #header>{{ $t('employees.employees') }}</template>
             <template #guided-tour>
-                <Tooltip :text="$t('guidedTour')" @click="openGuidedTour()">
+                <Tooltip :text="$t('guidedTour')" position="left" @click="openGuidedTour()">
                     <Icon name="ph:question" class="size-6 cursor-pointer text-gray-700" aria-hidden="true" />
                 </Tooltip>
             </template>
@@ -33,21 +33,19 @@
                         </select>
                     </div>
                     <div class="flex flex-wrap items-center gap-3">
-                        <FormButton buttonStyle="action" class="rounded-lg" @click="navigateTo('/employees/new')">
+                        <FormButton buttonStyle="action" @click="navigateTo('/employees/new')">
                             <Icon name="ph:plus" class="h-4 w-4" aria-hidden="true" />
                             {{ $t('employees.newEmployee') }}
                         </FormButton>
-                        <FormButton buttonStyle="action" class="rounded-lg"
-                            @click="state.modal.isInviteEmployeeOpen = true">
+                        <FormButton buttonStyle="action" @click="state.modal.isInviteEmployeeOpen = true">
                             <Icon name="ph:envelope" class="h-4 w-4" aria-hidden="true" />
                             {{ $t('employees.inviteEmployee') }}
                         </FormButton>
-                        <FormButton buttonStyle="action" class="rounded-lg"
-                            @click="state.modal.isImportEmployeesOpen = true">
+                        <FormButton buttonStyle="action" @click="state.modal.isImportEmployeesOpen = true">
                             <Icon name="ph:file-arrow-up" class="h-4 w-4" aria-hidden="true" />
                             {{ $t('employees.importEmployees.importEmployees') }}
                         </FormButton>
-                        <FormButton buttonStyle="action" class="rounded-lg" @click="exportEmployees">
+                        <FormButton buttonStyle="action" @click="exportEmployees">
                             <Icon name="ph:file-arrow-down" class="h-4 w-4" aria-hidden="true" />
                             {{ $t('employees.exportEmployees') }}
                         </FormButton>
@@ -121,27 +119,27 @@
                                     <td width="20%">
                                         <div class="flex items-end gap-2">
                                             <Tooltip :text="$t('employees.table.actions.view')">
-                                                <FormButton type="button" buttonStyle="action" class="rounded-md"
+                                                <FormButton type="button" buttonStyle="action"
                                                     @click="navigateTo(`/employees/${employee.uuid}/view-details`)">
                                                     <Icon name="ph:eye" class="size-4" />
                                                 </FormButton>
                                             </Tooltip>
                                             <Tooltip :text="$t('employees.table.actions.edit')"
                                                 v-if="employee?.is_editable">
-                                                <FormButton type="button" buttonStyle="action" class="rounded-md"
+                                                <FormButton type="button" buttonStyle="action"
                                                     @click="navigateTo(`/employees/${employee.uuid}/edit`)">
                                                     <Icon name="ph:pencil-simple" class="size-4" />
                                                 </FormButton>
                                             </Tooltip>
                                             <Tooltip :text="$t('employees.table.actions.message')"
                                                 v-if="userStore.getUser?.id !== employee?.id">
-                                                <FormButton type="button" buttonStyle="action" class="rounded-md"
+                                                <FormButton type="button" buttonStyle="action"
                                                     @click="messageEmployee(employee)">
                                                     <Icon name="ph:chat-circle" class="size-4" />
                                                 </FormButton>
                                             </Tooltip>
                                             <Tooltip :text="$t('employees.table.actions.calendar')">
-                                                <FormButton type="button" buttonStyle="action" class="rounded-md"
+                                                <FormButton type="button" buttonStyle="action"
                                                     @click="navigateTo(`/calendar?employee_uuid=${employee?.uuid}`)">
                                                     <Icon name="ph:calendar-blank" class="size-4" />
                                                 </FormButton>
@@ -150,21 +148,21 @@
                                                 $t('employees.table.actions.removeSecureMailAccess') :
                                                 $t('employees.table.actions.giveSecureMail')"
                                                 v-if="userStore.getUser?.is_secure_mail_active && !employee?.has_secure_mail_access">
-                                                <FormButton type="button" buttonStyle="action" class="rounded-md"
+                                                <FormButton type="button" buttonStyle="action"
                                                     @click="giveRemoveSecureMailAccess(employee)">
                                                     <Icon name="ph:envelope-open" class="size-4" />
                                                 </FormButton>
                                             </Tooltip>
                                             <Tooltip :text="$t('employees.table.actions.giveAIAccess')"
                                                 v-if="userStore.getUser?.has_ai_access && !employee?.has_ai_access">
-                                                <FormButton type="button" buttonStyle="action" class="rounded-md"
+                                                <FormButton type="button" buttonStyle="action"
                                                     @click="giveAIAccessConfirmation(employee)">
                                                     <Icon name="ic:round-accessibility" class="size-4" />
                                                 </FormButton>
                                             </Tooltip>
                                             <Tooltip :text="$t('employees.table.actions.giveBookingAccess')"
                                                 v-if="userStore.getUser?.has_booking_app_access && !employee?.has_booking_app_access">
-                                                <FormButton type="button" buttonStyle="action" class="rounded-md"
+                                                <FormButton type="button" buttonStyle="action"
                                                     @click="giveBookingAccessConfirmation(employee)">
                                                     <Icon name="ph:calendar-check" class="size-4" />
                                                 </FormButton>

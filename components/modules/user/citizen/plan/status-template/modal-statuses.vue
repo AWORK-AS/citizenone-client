@@ -41,24 +41,24 @@
                                                 </Badge>
                                                 <Badge type="primary" class="w-fit" v-else>
                                                     <p class="text-xs">{{ $t('activityLogs.table.actionTypes.published')
-                                                        }}</p>
+                                                    }}</p>
                                                 </Badge>
                                             </div>
                                         </td>
 
                                         <td width="15%">
                                             <div class="flex items-end gap-2">
-                                                <FormButton v-if="status.is_draft" class="rounded-md" buttonSize="sm"
-                                                    @click="editDraft(status)">
+                                                <FormButton buttonStyle="action" buttonSize="sm"
+                                                    @click="editDraft(status)" v-if="status.is_draft">
                                                     <Icon name="ph:pencil-simple" class="size-4" />
                                                     {{ $t('plansandgoals.table.actions.edit') }}
                                                 </FormButton>
-                                                <FormButton class="rounded-md" buttonSize="sm"
+                                                <FormButton buttonStyle="action" buttonSize="sm"
                                                     @click="downloadStatus(status)">
                                                     <Icon name="ph:download" class="size-4" />
                                                     {{ $t('plansandgoals.table.actions.download') }}
                                                 </FormButton>
-                                                <FormButton class="rounded-md" buttonSize="sm"
+                                                <FormButton buttonStyle="action" buttonSize="sm"
                                                     @click="confirmStatusDeletion(status)" v-if="status?.is_deletable">
                                                     <Icon name="heroicons:trash" class="size-4" />
                                                     {{ $t('plansandgoals.table.actions.delete') }}

@@ -1,6 +1,6 @@
 <template>
     <textarea type="text" :name="props.name" :autocomplete="props.name"
-        class="appearance-none block w-full px-3 py-2 border border-primary placeholder-gray-500 text-gray-900 rounded-md focus:outline-none focus:ring-primary focus:border-primary focus:z-10 sm:text-sm"
+        class="appearance-none block w-full p-4 border border-gray-200 placeholder-gray-500 text-gray-900 rounded-2xl focus:outline-none focus:ring-primary focus:border-primary focus:z-10 sm:text-sm"
         :placeholder="props.placeholder" :rows="props.rows"
         @input="updateValue($event)">{{ props.modelValue }}</textarea>
 </template>

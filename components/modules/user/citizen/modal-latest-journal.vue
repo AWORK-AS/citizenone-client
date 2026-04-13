@@ -7,8 +7,7 @@
                         <h3 class="text-md font-semibold">
                             {{ props.selectedCitizen?.citizen_journal?.title }}
                         </h3>
-                        <div v-html="props.selectedCitizen?.citizen_journal?.content"
-                            class="content table-responsive" />
+                        <div v-html="props.selectedCitizen?.citizen_journal?.content" class="content overflow-auto" />
                         <p class="text-xs text-muted-400">
                             <span>{{ formatDateToReadable(props.selectedCitizen?.citizen_journal?.date) }}</span>
                         </p>
@@ -18,7 +17,7 @@
                     </p>
                 </div>
                 <div class="mt-5 flex gap-x-3 justify-end">
-                    <FormButton buttonStyle="primary" @click="closeModal" class="rounded-md">
+                    <FormButton buttonStyle="primary" @click="closeModal">
                         {{ $t('close') }}
                     </FormButton>
                 </div>
