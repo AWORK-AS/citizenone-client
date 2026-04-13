@@ -157,7 +157,7 @@
                     </div>
                 </div>
 
-                <!-- Medication overview row -->
+                <!-- Medication overview and Follow-up reminders row -->
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-5" v-if="overviewStore.getDailyOverviewFilter.showDailyMedicineOverview ||
                     overviewStore.getDailyOverviewFilter.showCitizensFollowUpReminders">
                     <div class="card" v-if="overviewStore.getDailyOverviewFilter.showDailyMedicineOverview">
@@ -174,8 +174,19 @@
                                 :dateRange="state.dateRange.formDateRange" />
                         </div>
                     </div>
-                    <div v-if="overviewStore.getDailyOverviewFilter.showCitizensFollowUpReminders">
-                        <ModulesUserDailyOverviewCitizensFollowUpReminders :dateRange="state.dateRange.formDateRange" />
+                    <div class="card" v-if="overviewStore.getDailyOverviewFilter.showCitizensFollowUpReminders">
+                        <div class="card-header">
+                            <div class="flex items-center gap-x-2">
+                                <Icon name="ph:camera-plus" class="h-5 w-5 text-primary" />
+                                <h3 class="text-sm font-semibold text-slate-900">
+                                    {{ $t('overview.followUpReminders.followUpReminders') }}
+                                </h3>
+                            </div>
+                        </div>
+                        <div>
+                            <ModulesUserDailyOverviewCitizensFollowUpReminders
+                                :dateRange="state.dateRange.formDateRange" />
+                        </div>
                     </div>
                 </div>
 

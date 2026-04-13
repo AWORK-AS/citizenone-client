@@ -2,19 +2,17 @@
     <LoadingSpinner :isActive="state.isPageLoading">
         <Alert type="danger" :text="state?.error?.message"
             v-if="state.error?.message && state.error.message.length > 0" />
-        <h3 class="text-primary text-base font-medium py-2">
-            {{ $t('overview.followUpReminders.followUpReminders') }}
-        </h3>
 
-        <div class="border-2 border-gray-300 border-dashed rounded-md flex items-center justify-center min-h-96 max-h-96 text-sm mt-2"
-            v-if="state.citizensWithFollowUps?.data?.length === 0">
-            <div class="text-center">
-                <p>{{ $t('overview.followUpReminders.noFollowUps') }}</p>
+        <div class="p-5" v-if="state.citizensWithFollowUps?.data?.length === 0">
+            <div
+                class="border-2 border-gray-300 border-dashed rounded-md flex items-center justify-center min-h-96 max-h-96 text-sm mt-2">
+                <div class="text-center">
+                    <p>{{ $t('overview.followUpReminders.noFollowUps') }}</p>
+                </div>
             </div>
         </div>
 
-        <div class="bg-white shadow-md rounded-md border-l-8 border-primary mt-2 text-sm divide-y overflow-scroll min-h-96 max-h-96"
-            v-else>
+        <div class="text-sm space-y-2 divide-y overflow-scroll min-h-96 max-h-96 px-5 py-4" v-else>
             <div v-for="(citizen, index) in state.citizensWithFollowUps?.data" :key="index"
                 class="pl-4 pr-3 py-4 cursor-pointer hover:bg-gray-50 transition-colors"
                 @click="navigateToCitizen(citizen)">
@@ -68,7 +66,8 @@
                                     <span v-else>
                                         {{ $t('overview.followUpReminders.dueOn') }}:
                                     </span>
-                                    {{ formatDateToReadable(getMostUrgentReminder(citizen)?.attachment?.follow_up_date)
+                                    {{
+                                        formatDateToReadable(getMostUrgentReminder(citizen)?.attachment?.follow_up_date)
                                     }}
                                 </p>
                             </div>
