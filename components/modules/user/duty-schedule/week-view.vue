@@ -554,6 +554,21 @@
                                                         </div>
                                                     </div>
                                                 </div>
+                                                <div class="text-xs grid grid-cols-7 border-t-0.5 border-gray-200">
+                                                    <div class="col-span-3">
+                                                        <div class="py-1 pl-3 font-bold">{{ $t('dutySchedules.total') }}:</div>
+                                                    </div>
+                                                    <div class="col-span-2">
+                                                        <div class="text-right py-1 pr-2 font-bold">
+                                                            {{ employee?.hours?.reduce((sum, t) => sum + (parseFloat(t?.weekly_hours) || 0), 0).toFixed(2) }}
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-span-2 border-l-0.5 border-gray-200">
+                                                        <div class="text-right py-1 pr-2 font-bold">
+                                                            {{ employee?.hours?.reduce((sum, t) => sum + (parseFloat(t?.yearly_hours) || 0), 0).toFixed(2) }}
+                                                        </div>
+                                                    </div>
+                                                </div>
                                                 <div class="text-xs grid grid-cols-7">
                                                     <div
                                                         class="px-3 col-span-7 space-y-2 mt-4 border-t-0.5 border-gray-200 pt-3">

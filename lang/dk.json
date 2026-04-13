@@ -4220,11 +4220,18 @@
         }
     },
     "forgotPassword": {
+        "checkInboxSub": "Vi sender et link inden for få minutter",
+        "checkInboxTitle": "Tjek din indbakke",
         "emailAddress": "E-mail adresse",
         "enterEmailAssociated": "Indtast e-mailadressen, der er tilknyttet din konto, for at nulstille din adgangskode",
         "forgotPassword": "Glemt adgangskode",
+        "headlineLine1": "Nulstil din",
+        "headlineLine2": "adgangskode.",
+        "linkValidSub": "Anmod om et nyt link hvis det udløber",
+        "linkValidTitle": "Linket er gyldigt i 60 min.",
         "loginHereInstead": "Log ind her i stedet",
         "or": "Eller",
+        "panelDescription": "Indtast din e-mailadresse og vi sender dig et link til at nulstille din adgangskode.",
         "requestPasswordReset": "Anmod om nulstilling af adgangskode"
     },
     "formFieldConfig": {
@@ -4707,20 +4714,34 @@
         }
     },
     "login": {
+        "activeUsers": "Aktive brugere",
+        "description": "Alt fra journalnotater og handleplaner til vagtplanlægning og rapportering — samlet i én platform, bygget til dem der arbejder med mennesker.",
         "doYouNeedHelp": "Har du brug for hjælp",
         "form": {
-            "createAccountHere": "Opret konto her",
+            "createHere": "Opret her",
             "dontHaveAnAccount": "Har du ikke en konto",
             "emailAddress": "E-mailadresse",
+            "emailPlaceholder": "din{'@'}email.dk",
             "forgotPassword": "Glemt adgangskode",
+            "help": "Hjælp",
             "login": "Log ind",
+            "loggingIn": "Logger ind",
+            "or": "Eller",
             "password": "Adgangskode",
             "rememberMeFor14Days": "Husk mig i 14 dage"
         },
+        "gdprNote": "GDPR-compliant · Hosting i EU · Udviklet af AWORK Group A/S",
+        "headlineLine1": "Fremtidens",
+        "headlineLine2": "journalsystem.",
+        "isoNote": "ISO-certificeret serverlagring beliggende i EU",
+        "journalNotesToday": "Journalnotater i dag",
+        "liveActivity": "Live aktivitet",
         "login": "Log ind",
         "loginToContinueTo": "Log ind for at fortsætte til",
         "seeWhatsNew": "Se hvad der er nyt",
+        "shiftsPlannedToday": "Vagter planlagt i dag",
         "signinToYourAccount": "Log ind på din konto",
+        "tagline": "Socialområdet · Plejesektoren · Sundhed",
         "welcomeBack": "Velkommen tilbage"
     },
     "logs": {
@@ -5871,7 +5892,10 @@
             "termsAndConditions": "Vilkår og betingelser",
             "typeOfFacility": "Type af tilbud"
         },
+        "activeUsersNow": "Aktive brugere lige nu",
         "noCommitment": "Der er ingen binding, og du behøver ikke tilknytte et betalingskort",
+        "oauthBannerDescription": "Din {provider}-konto er ikke tilknyttet CitizenOne endnu. Udfyld formularen for at oprette din konto.",
+        "oauthBannerTitle": "Vi fandt ikke din konto",
         "of": "Af",
         "register": "Opret konto",
         "review": {
@@ -5978,9 +6002,16 @@
             "confirmPassword": "Bekræft adgangskode",
             "password": "Adgangskode"
         },
+        "headlineLine1": "Ny",
+        "headlineLine2": "adgangskode.",
         "loginHereInstead": "Log ind her i stedet",
         "or": "Eller",
-        "resetPassword": "Nulstil adgangskode"
+        "panelDescription": "Opret en stærk adgangskode for at beskytte din konto.",
+        "passwordEncryptedSub": "Dine data er sikre og krypterede",
+        "passwordEncryptedTitle": "Adgangskoden er krypteret",
+        "resetPassword": "Nulstil adgangskode",
+        "strongPasswordSub": "Brug mindst 8 tegn med tal og symboler",
+        "strongPasswordTitle": "Opret en stærk adgangskode"
     },
     "roles": {
         "addNewRole": "Tilføj ny rolle",
@@ -6277,10 +6308,17 @@
             "confirmPassword": "Bekræft adgangskode",
             "password": "Adgangskode"
         },
+        "headlineLine1": "Opret din",
+        "headlineLine2": "adgangskode.",
         "loginHereInstead": "Log ind her i stedet",
         "or": "Eller",
+        "panelDescription": "Vælg en stærk adgangskode for at komme godt i gang med CitizenOne.",
+        "passwordEncryptedSub": "Dine data er sikre og krypterede",
+        "passwordEncryptedTitle": "Adgangskoden er krypteret",
         "setPassword": "Opret adgangskode",
-        "setupPassword": "Opret adgangskode"
+        "setupPassword": "Opret adgangskode",
+        "strongPasswordSub": "Brug mindst 8 tegn med tal og symboler",
+        "strongPasswordTitle": "Opret en stærk adgangskode"
     },
     "shifts": {
         "addNewShift": "Tilføj ny vagt",
