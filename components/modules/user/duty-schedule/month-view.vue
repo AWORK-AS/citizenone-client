@@ -318,6 +318,15 @@
                                         {{ time?.yearly_hours }}
                                     </div>
                                 </div>
+                                <div class="grid grid-cols-7 text-xxs py-0.5 border-t border-gray-200 mt-0.5">
+                                    <div class="col-span-3 pl-1 font-bold">{{ $t('dutySchedules.total') }}:</div>
+                                    <div class="col-span-2 text-right pr-2 font-bold">
+                                        {{ employee?.hours?.reduce((sum, t) => sum + (parseFloat(t?.monthly_hours || t?.weekly_hours) || 0), 0).toFixed(2) }}
+                                    </div>
+                                    <div class="col-span-2 text-right pr-2 font-bold border-l border-gray-100">
+                                        {{ employee?.hours?.reduce((sum, t) => sum + (parseFloat(t?.yearly_hours) || 0), 0).toFixed(2) }}
+                                    </div>
+                                </div>
                             </div>
                             <div class="border-t border-gray-100 pt-2 mt-2 space-y-1"
                                 v-if="isAdmin(userStore.getUser?.role) || userStore.getUser?.show_working_hours">
