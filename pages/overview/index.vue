@@ -75,7 +75,7 @@
                         {{ $t('overview.citizensEvents') }}
                     </div>
                     <div class="mt-2 stat-value text-primary">
-                        {{ state.count.citizenCalendarEvents }}
+                        {{ state.stats.citizenCalendarEvents?.data?.length ?? 0 }}
                     </div>
                     <div class="stat-sublabel">
                         {{ $t('overview.stats.ongoing') }} |
@@ -88,7 +88,7 @@
                         {{ $t('overview.stats.journalEntries') || 'Journal entries' }}
                     </div>
                     <div class="mt-2 stat-value text-accent-green">
-                        {{ state.count.latestCitizensJournal }}
+                        {{ state.stats.latestCitizensJournal?.data?.length ?? 0 }}
                     </div>
                     <div class="stat-sublabel">
                         {{ $t('overview.stats.acrossCitizens') }}
@@ -99,16 +99,28 @@
                         <span class="w-2 h-2 rounded-full bg-accent-orange"></span>
                         {{ $t('overview.stats.medicationsDue') || 'Medications due' }}
                     </div>
-                    <div class="mt-2 stat-value text-accent-orange">5</div>
-                    <div class="stat-sublabel">2 {{ $t('overview.stats.administered') || 'administered' }} · 3 {{
-                        $t('overview.stats.pending') || 'pending' }}</div>
+                    <div class="mt-2 stat-value text-accent-orange">
+                        {{ state.stats.medicinesPendingCount }}
+                    </div>
+                    <div class="stat-sublabel">
+                        {{ state.stats.medicinesGivenCount }}
+                        {{ $t('overview.stats.administered') }} ·
+                        {{ state.stats.medicinesPendingCount }}
+                        {{ $t('overview.stats.pending') }}·
+                        {{ state.stats.medicinesDeviatedCount }}
+                        {{ $t('overview.stats.deviated') }}
+                    </div>
                 </div>
             </div>
 
             <!-- Main content grid -->
             <div class="mt-6 space-y-6">
                 <!-- Citizens' events + Latest journal notes row -->
-                <div class="grid grid-cols-1 xl:grid-cols-2 gap-5">
+                <!-- Medication overview and Follow-up reminders row -->
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-x-5 gap-y-6" v-if="overviewStore.getDailyOverviewFilter.showCitizensDailyEvents ||
+                    overviewStore.getDailyOverviewFilter.showLatestJournal ||
+                    overviewStore.getDailyOverviewFilter.showDailyMedicineOverview ||
+                    overviewStore.getDailyOverviewFilter.showCitizensFollowUpReminders">
                     <!-- Citizens' events panel -->
                     <div class="card" v-if="overviewStore.getDailyOverviewFilter.showCitizensDailyEvents">
                         <div class="card-header">
@@ -118,7 +130,7 @@
                                     {{ $t('overview.citizensEvents') }}
                                 </h3>
                                 <span class="badge badge-blue">
-                                    {{ state.count.citizenCalendarEvents }}
+                                    {{ state.stats.citizenCalendarEvents?.data?.length ?? 0 }}
                                 </span>
                             </div>
                             <button
@@ -141,7 +153,9 @@
                                 <h3 class="text-sm font-semibold text-slate-900">
                                     {{ $t('overview.latestJournal.latestJournal') }}
                                 </h3>
-                                <span class="badge badge-green">8</span>
+                                <span class="badge badge-green">
+                                    {{ state.stats.latestCitizensJournal?.data?.length ?? 0 }}
+                                </span>
                             </div>
                             <button
                                 class="text-sm text-primary font-medium hover:text-primary-700 transition-colors flex items-center gap-x-1"
@@ -155,11 +169,8 @@
                                 :viewAll="false" />
                         </div>
                     </div>
-                </div>
 
-                <!-- Medication overview and Follow-up reminders row -->
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-5" v-if="overviewStore.getDailyOverviewFilter.showDailyMedicineOverview ||
-                    overviewStore.getDailyOverviewFilter.showCitizensFollowUpReminders">
+                    <!-- Medication overview panel -->
                     <div class="card" v-if="overviewStore.getDailyOverviewFilter.showDailyMedicineOverview">
                         <div class="card-header">
                             <div class="flex items-center gap-x-2">
@@ -174,6 +185,8 @@
                                 :dateRange="state.dateRange.formDateRange" />
                         </div>
                     </div>
+
+                    <!-- Follow up reminders panel -->
                     <div class="card" v-if="overviewStore.getDailyOverviewFilter.showCitizensFollowUpReminders">
                         <div class="card-header">
                             <div class="flex items-center gap-x-2">
@@ -326,10 +339,6 @@ const route = useRoute()
 const newsSection = ref<HTMLElement | null>(null)
 
 const state = reactive({
-    count: {
-        citizenCalendarEvents: 0,
-        latestCitizensJournal: 0,
-    },
     currentDate: moment(),
     dateRange: {
         formDateRange: {
@@ -345,7 +354,15 @@ const state = reactive({
         isFilterDailyOverviewOpen: false,
         isGuidedTourDailyOverviewOpen: false,
         isQuickRiskAssessmentOpen: false,
-    }
+    },
+    stats: {
+        citizenCalendarEvents: [],
+        latestCitizensJournal: [],
+        medicines: [],
+        medicinesDeviatedCount: 0,
+        medicinesGivenCount: 0,
+        medicinesPendingCount: 0,
+    } as any,
 })
 
 onMounted(() => {
@@ -377,6 +394,7 @@ watch(() => userStore.getUser, (user: any) => {
         }
         fetchCitizenCalendarEvents(state.dateRange.formDateRange)
         fetchCitizensLatestJournal(state.dateRange.formDateRange)
+        fetchCitizensMedicines(state.dateRange.formDateRange)
     }
 })
 
@@ -429,7 +447,7 @@ async function fetchCitizenCalendarEvents(dateRange: any) {
         }
         const response = await dailyOverviewService.getCitizenDailyEvents(params)
         if (response) {
-            state.count.citizenCalendarEvents = response?.data?.length ?? 0
+            state.stats.citizenCalendarEvents = response
         }
     } catch (error: any) {
         state.error = error
@@ -451,7 +469,49 @@ async function fetchCitizensLatestJournal(dateRange: any) {
         }
         const response = await dailyOverviewService.getLatestCitizensJournal(params)
         if (response) {
-            state.count.latestCitizensJournal = response?.data?.length ?? 0
+            state.stats.latestCitizensJournal = response
+        }
+    } catch (error: any) {
+        state.error = error
+    }
+    state.isPageLoading = false
+}
+
+async function fetchCitizensMedicines(dateRange: any) {
+    state.error = {}
+    state.isPageLoading = true
+    try {
+        const params: any = {
+            department: departmentStore.getSelectedDepartmentName
+        }
+
+        if (state.dateRange) {
+            params.end_date = dateRange.end_date
+            params.start_date = dateRange.start_date
+        }
+        const response = await dailyOverviewService.getCitizenDailyMedicineOverview(params)
+        if (response) {
+            state.stats.medicines = response
+
+            const today = moment().format('YYYY-MM-DD')
+
+            const todayDueDates = response?.data?.flatMap((medicine: any) =>
+                (medicine?.due_dates || []).filter((dueDate: any) => dueDate.date === today)
+            ) || []
+
+            state.stats.medicinesPendingCount = todayDueDates.filter(
+                (dueDate: any) => dueDate.status === null
+            ).length
+
+            state.stats.medicinesGivenCount = todayDueDates.filter(
+                (dueDate: any) => ['delivered', 'given'].includes(dueDate.status)
+            ).length
+
+            state.stats.medicinesDeviatedCount = todayDueDates.filter(
+                (dueDate: any) => dueDate.status === 'deviated'
+            ).length
+
+            console.log(state.stats.medicines)
         }
     } catch (error: any) {
         state.error = error
