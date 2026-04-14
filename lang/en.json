@@ -3201,7 +3201,7 @@
             "table": {
                 "actions": {
                     "approve": "Approve",
-                    "disapprove": "Dispprove"
+                    "disapprove": "Disapprove"
                 },
                 "alert": {
                     "requestApprovedSuccessfully": "Request approved successfully",
