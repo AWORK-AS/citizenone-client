@@ -2829,6 +2829,7 @@
         "deleteSchedule": "Slet tidsplan",
         "shiftMovedTo": "Vagt rykket til",
         "departmentSickLeaves": "Afdelingens sygefravær",
+        "distributionOfShiftTypes": "Fordeling af vagttyper",
         "download": {
             "date": "Dato",
             "delimiter": {
@@ -3035,10 +3036,14 @@
             }
         },
         "filter": {
+            "dateTimeEnd": "Dato og tid slut",
+            "dateTimeStart": "Dato og tid start",
             "departments": "Afdelinger",
+            "employee": "Medarbejder",
             "employees": "Medarbejdere",
             "employmentStatus": "Ansættelsesstatus",
-            "filterDate": "Filtrer dato"
+            "filterDate": "Filtrer dato",
+            "filterDateAndTime": "Filtrer dato og tid"
         },
         "findEmployee": "Find medarbejder",
         "form": {

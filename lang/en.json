@@ -2829,6 +2829,7 @@
         "deleteSchedule": "Delete schedule",
         "shiftMovedTo": "Shift moved to",
         "departmentSickLeaves": "Department sick leaves",
+        "distributionOfShiftTypes": "Distribution of shift types",
         "download": {
             "date": "Date",
             "delimiter": {
@@ -3035,10 +3036,14 @@
             }
         },
         "filter": {
+            "dateTimeEnd": "Date and time end",
+            "dateTimeStart": "Date and time start",
             "departments": "Departments",
+            "employee": "Employee",
             "employees": "Employees",
             "employmentStatus": "Employment status",
-            "filterDate": "Filter date"
+            "filterDate": "Filter date",
+            "filterDateAndTime": "Filter date and time"
         },
         "findEmployee": "Find employee",
         "form": {
