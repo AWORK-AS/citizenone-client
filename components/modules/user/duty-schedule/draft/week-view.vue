@@ -28,6 +28,42 @@
         <!-- Workflow guide banner -->
         <LoadingSpinner :isActive="state.isPageLoading">
             <div class="flex h-full flex-col">
+                <header class="grid grid-cols-1 xl:grid-cols-3 justify-between gap-3 py-3">
+                    <div class="space-y-2">
+                        <div class="flex items-center">
+                            <div class="relative flex items-center rounded-md bg-white shadow-sm md:items-stretch">
+                                <button @click="previousWeek()" type="button"
+                                    class="flex h-11 w-12 items-center justify-center rounded-l-md border-y border-l border-gray-300 pr-1 text-gray-400 hover:text-gray-500 focus:relative md:w-9 md:pr-0 md:hover:bg-gray-50">
+                                    <span class="sr-only">Previous week</span>
+                                    <Icon name="heroicons:chevron-left" class="h-5 w-5" aria-hidden="true" />
+                                </button>
+                                <FormDateField id="date" name="date" :placeholder="$t('dutySchedules.form.date')"
+                                    dateType="duty-schedule" v-model="state.selectedDate" />
+                                <span class="relative -mx-px h-5 w-px bg-gray-300 md:hidden" />
+                                <button @click="nextWeek()" type="button"
+                                    class="flex h-11 w-12 items-center justify-center rounded-r-md border-y border-r border-gray-300 pl-1 text-gray-400 hover:text-gray-500 focus:relative md:w-9 md:pl-0 md:hover:bg-gray-50">
+                                    <span class="sr-only">Next week</span>
+                                    <Icon name="heroicons:chevron-right" class="h-5 w-5" aria-hidden="true" />
+                                </button>
+                            </div>
+                        </div>
+                        <button @click="setToday()" class="text-primary text-sm hover:text-primary-700">
+                            {{ $t('goToToday') }}
+                        </button>
+                    </div>
+                    <div>
+                        <div class="space-y-1 flex items-center gap-x-2">
+                            <FormSwitch :value="draftDutyScheduleStore.getShowEmployeesWorkingToday"
+                                @toggleSwitch="draftDutyScheduleStore.setShowEmployeesWorkingToday(!draftDutyScheduleStore.getShowEmployeesWorkingToday)" />
+                            <p>
+                                {{ $t('dutySchedules.showEmployeesWorkingToday') }}
+                            </p>
+                        </div>
+                    </div>
+                    <div>
+                        <TableSearch @search="handleSearch" />
+                    </div>
+                </header>
                 <div class="space-y-2 mt-3 mb-3">
                     <div class="flex items-center justify-between gap-3 py-3 flex-wrap">
                         <div class="flex items-center gap-3 flex-shrink-0">
@@ -212,8 +248,47 @@
                                             </button>
                                         </div>
                                     </div>
+                                    <Tooltip :text="$t('dutySchedules.scheduleSlots.scheduleSlots')"
+                                        v-for="day in weekDays" :key="day.date"
+                                        class="relative cursor-pointer hover:bg-gray-200 flex items-center justify-center py-4 border-0.5"
+                                        @click="openManageScheduleSlotModal(day)"
+                                        v-if="isAdmin(userStore.getUser?.role)">
+                                        <span class="flex gap-x-1 text-sm">
+                                            <span v-if="day.longName === 'Mon'">
+                                                {{ $t('calendar.week.short.Monday') }}
+                                            </span>
+                                            <span v-if="day.longName === 'Tue'">
+                                                {{ $t('calendar.week.short.Tuesday') }}
+                                            </span>
+                                            <span v-if="day.longName === 'Wed'">
+                                                {{ $t('calendar.week.short.Wednesday') }}
+                                            </span>
+                                            <span v-if="day.longName === 'Thu'">
+                                                {{ $t('calendar.week.short.Thursday') }}
+                                            </span>
+                                            <span v-if="day.longName === 'Fri'">
+                                                {{ $t('calendar.week.short.Friday') }}
+                                            </span>
+                                            <span v-if="day.longName === 'Sat'">
+                                                {{ $t('calendar.week.short.Saturday') }}
+                                            </span>
+                                            <span v-if="day.longName === 'Sun'">
+                                                {{ $t('calendar.week.short.Sunday') }}
+                                            </span>
+                                            <span class="items-center justify-center font-semibold text-gray-900">
+                                                {{ day.date }}
+                                            </span>
+                                        </span>
+                                        <div v-if="getSlotCount(day.longName) > 0"
+                                            class="absolute top-2 left-24 text-xxs flex items-center justify-center w-5 h-5 bg-red-400 text-white rounded-full">
+                                            {{
+                                                getSlotCount(day.longName) > 99 ? '99+' : getSlotCount(day.longName)
+                                            }}
+                                        </div>
+                                    </Tooltip>
                                     <div v-for="day in weekDays" :key="day.date"
-                                        class="flex items-center justify-center py-4 border-0.5">
+                                        class="flex items-center justify-center py-4 border-0.5"
+                                        v-if="!isAdmin(userStore.getUser?.role)">
                                         <span class="flex gap-x-1 text-sm">
                                             <span v-if="day.longName === 'Mon'">
                                                 {{ $t('calendar.week.short.Monday') }}
@@ -308,7 +383,10 @@
                                                             </Tooltip>
                                                         </div>
                                                     </div>
-                                                    <div class="-mt-1 ml-10">
+                                                    <div :class="[
+                                                        expandedRecords[employeeIndex] && 'hidden',
+                                                        '-mt-1 ml-10'
+                                                    ]">
                                                         <p class="text-xxs">
                                                             {{ employee?.employee_detail?.job?.title }}
                                                         </p>
@@ -332,17 +410,39 @@
                                                                 aria-hidden="true" />
                                                         </div>
 
-                                                        <div v-if="employee?.norm_period"
-                                                            class="flex items-center gap-1 cursor-pointer">
+                                                        <div class="flex items-center gap-1 cursor-pointer"
+                                                            @click="state.modal.isAnnualNormHoursInfoOpen = true">
                                                             <p class="text-xxs">
-                                                                {{ $t('dutySchedules.normPeriod') }}:
-                                                                {{ employee?.norm_period?.display_label ?? '' }}
+                                                                {{ $t('dutySchedules.weeklyNormHours') }}:
+                                                                {{ (Math.round(Number(employee?.annual_norm_hours) /
+                                                                    52)) ?? 0 }}
                                                             </p>
+                                                            <Icon name="ph:question" class="h-3.5 w-3.5"
+                                                                aria-hidden="true" />
                                                         </div>
 
                                                         <p class="text-xxs">
                                                             {{ $t('dutySchedules.totalHours') }}:
                                                             {{ employee?.total_hours ?? 0 }}
+                                                        </p>
+                                                        <p :class="[
+                                                            employee?.average_weekly_work_time?.severity === 'info' ? 'text-green-700' :
+                                                                employee?.average_weekly_work_time?.severity === 'warning' ? 'text-amber-700' :
+                                                                    'text-red-700',
+                                                            'text-xxs'
+                                                        ]">
+                                                            {{
+                                                                $t('dutySchedules.averageWeeklyHours.averageWeeklyHours')
+                                                            }}:
+                                                            {{ employee?.average_weekly_work_time?.average_weekly_hours
+                                                            }}
+                                                        </p>
+                                                        <p :class="[
+                                                            parseFloat(employee?.log_data.total_time_account_earned_hours?.replace(',', '.')) > 0 ? 'text-green-700' : 'text-red-700',
+                                                            'text-xxs'
+                                                        ]">
+                                                            {{ $t('dutySchedules.earnedWorkHours') }}:
+                                                            {{ employee?.log_data.total_time_account_earned_hours }}
                                                         </p>
                                                         <div class="p-0 m-0 text-xxs text-primary cursor-pointer hover:text-primary-700"
                                                             @click="navigateTo(`/calendar?employee_uuid=${employee?.uuid}`)">
@@ -423,9 +523,40 @@
                                                             </div>
                                                         </div>
                                                     </div>
+
+                                                    <div class="text-xs grid grid-cols-7 border-t-2 border-gray-200">
+                                                        <div class="col-span-3 border-gray-200">
+                                                            <div class="pl-3 py-2 font-semibold">
+                                                                {{ $t('dutySchedules.total') }}:
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-span-2 border-gray-200">
+                                                            <div class="text-right py-2 pr-2 font-semibold">
+                                                                {{ employee?.total_weekly_hours }}
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-span-2 border-l-0.5 border-gray-200">
+                                                            <div class="text-right py-2 pr-2 font-semibold">
+                                                                {{ employee?.total_yearly_hours }}
+                                                            </div>
+                                                        </div>
+                                                    </div>
+
                                                     <div class="text-xs grid grid-cols-7">
                                                         <div
-                                                            class="px-3 col-span-7 space-y-2 mt-4 border-t-0.5 border-gray-200 pt-3">
+                                                            class="px-3 col-span-7 space-y-2 border-t-0.5 border-gray-200 pt-3">
+                                                            <div :class="[
+                                                                'text-primary',
+                                                                'flex items-center gap-1 w-fit cursor-pointer'
+                                                            ]" @click="openGraphModal(employee)">
+                                                                <Icon name="ph:chart-bar-bold" class="h-3 w-3"
+                                                                    aria-hidden="true" />
+                                                                {{
+                                                                    $t('dutySchedules.normHours.compensatoryHoursGraph')
+                                                                }}
+                                                            </div>
+                                                        </div>
+                                                        <div class="px-3 col-span-7 space-y-2 mt-1">
                                                             <div :class="[
                                                                 employee?.total_norm_hours?.compensatory_hours > 0 ? 'text-green-700' : 'text-red-700',
                                                                 'flex items-center gap-1 w-fit cursor-pointer'
@@ -648,12 +779,14 @@
                 </div>
             </div>
             <ModulesUserDutyScheduleModalFilter :isModalOpen="state.modal.isFilterDutyScheduleOpen"
-            @close="state.modal.isFilterDutyScheduleOpen = false" @setFilter="setFilter" />
-        <ModulesUserDutyScheduleNormHoursModalCompensatoryHours :isModalOpen="state.modal.isCompensatoryHoursOpen"
+                @close="state.modal.isFilterDutyScheduleOpen = false" @setFilter="setFilter" />
+            <ModulesUserDutyScheduleNormHoursModalCompensatoryHours :isModalOpen="state.modal.isCompensatoryHoursOpen"
                 :selectedEmployee="state.normHours.selectedEmployeeSchedule"
                 @close="state.modal.isCompensatoryHoursOpen = false" />
             <ModulesUserDutyScheduleNormHoursModalInfo :isModalOpen="state.modal.isAnnualNormHoursInfoOpen"
                 @close="state.modal.isAnnualNormHoursInfoOpen = false" />
+            <ModulesUserDutyScheduleDraftNormHoursModalGraph :isModalOpen="state.modal.isGraphOpen"
+                :selectedEmployee="state.normHours.selectedEmployee" @close="state.modal.isGraphOpen = false" />
             <ModulesUserDutyScheduleNormHoursModalVacationHours :isModalOpen="state.modal.isVacationHoursOpen"
                 :selectedEmployee="state.normHours.selectedEmployeeSchedule"
                 @close="state.modal.isVacationHoursOpen = false" />
@@ -682,6 +815,9 @@
             <ModulesUserDutyScheduleExtraHoursModalView :isModalOpen="state.modal.isManageExtraHoursOpen"
                 :selectedEmployee="state.manageExtraHours.selectedEmployee"
                 @close="state.modal.isManageExtraHoursOpen = false" @refreshDutySchedules="fetchDraftDutySchedule()" />
+            <ModulesUserDutyScheduleDraftScheduleSlotsModalScheduleSlots :isModalOpen="state.modal.isManageScheduleSlotOpen"
+                :selectedDay="state.manageScheduleSlot.selectedDay"
+                @close="state.modal.isManageScheduleSlotOpen = false" @refreshDutySchedules="fetchDraftDutySchedule()" />
         </LoadingSpinner>
     </div>
 </template>
@@ -734,6 +870,7 @@ const state = reactive({
     } as any,
     copyShiftError: {} as Error,
     customWeekLabel: 'week',
+    hideBanner: typeof localStorage !== 'undefined' ? localStorage.getItem('draftBannerHidden') === 'true' : false,
     showWorkingToday: false,
     isDragging: false,
     dragSuccessMessage: '',
@@ -741,6 +878,11 @@ const state = reactive({
         search: ''
     },
     editShiftError: {} as Error,
+    filter: {
+        department_uuids: [],
+        employment_status: [],
+        employee_uuids: [],
+    },
     editShift: {
         selectedEmployee: {},
         selectedEmployeeSchedule: {},
@@ -752,6 +894,9 @@ const state = reactive({
     manageExtraHours: {
         selectedEmployee: {},
     },
+    manageScheduleSlot: {
+        selectedDay: [],
+    } as any,
     modal: {
         isAddShiftOpen: false,
         isFilterDutyScheduleOpen: false,
@@ -759,7 +904,9 @@ const state = reactive({
         isCopyMultipleWeeklyScheduleOpen: false,
         isDepartmentSickLeaveDateRangeOpen: false,
         isEditShiftOpen: false,
+        isGraphOpen: false,
         isManageExtraHoursOpen: false,
+        isManageScheduleSlotOpen: false,
         isPublishDraftOpen: false,
         isVacationHoursOpen: false,
         isAnnualNormHoursInfoOpen: false,
@@ -770,7 +917,8 @@ const state = reactive({
     },
     newShiftError: {} as Error,
     normHours: {
-        selectedEmployeeSchedule: {}
+        selectedEmployeeSchedule: {},
+        selectedEmployee: {} as any,
     },
     progress: {
         percentage: 100,
@@ -781,6 +929,7 @@ const state = reactive({
     selectedDate: moment().format('YYYY-MM-DD'),
     showAllShifts: false,
     showAllShiftTypes: false,
+    showWarningDialog: false,
     shiftPercentage: {} as any,
     shiftDateRange: {
         formDateRange: {
@@ -821,6 +970,11 @@ watch(() => state.selectedDate, (newSelectedDate: any) => {
         currentDate.value = moment(newSelectedDate)
         fetchDraftDutySchedule()
     }
+})
+
+watch(() => draftDutyScheduleStore.getShowEmployeesWorkingToday, (status: boolean) => {
+    draftDutyScheduleStore.setShowEmployeesWorkingToday(status)
+    fetchDraftDutySchedule()
 })
 
 onMounted(() => {
@@ -992,10 +1146,19 @@ async function fetchDraftDutySchedule() {
             filter_date_start: moment(state.shiftDateRange.formDateRange.start_date).format('YYYY-MM-DD'),
             filter_date_end: moment(state.shiftDateRange.formDateRange.end_date).format('YYYY-MM-DD'),
             department: departmentStore.getSelectedDepartmentName,
+            show_employees_working_today: state.showWorkingToday ? 'true' : 'false',
             sortField: state.sortData.sortField,
             sortOrder: state.sortData.sortOrder,
-            show_employees_working_today: state.showWorkingToday ? 'true' : 'false',
             ...state.dataFilter,
+        } as any
+        if (state.filter.department_uuids?.length > 0) {
+            params.department_uuids = Array(state.filter.department_uuids)
+        }
+        if (state.filter.employment_status) {
+            params.employment_status = Array(state.filter.employment_status)
+        }
+        if (state.filter.employee_uuids?.length > 0) {
+            params.employee_uuids = Array(state.filter.employee_uuids)
         }
         const response = await draftScheduleService.getDraftDutySchedules(params)
         if (response) {
@@ -1053,6 +1216,25 @@ function changePageLength(event: any) {
     draftDutyScheduleStore.setCurrentPageNumber(1)
     draftDutyScheduleStore.setCurrentPageLength(event.target.value)
     fetchDraftDutySchedule()
+}
+
+function getSlotCount(dayName: string) {
+    const dayMap = {
+        Mon: 'monday',
+        Tue: 'tuesday',
+        Wed: 'wednesday',
+        Thu: 'thursday',
+        Fri: 'friday',
+        Sat: 'saturday',
+        Sun: 'sunday'
+    } as any
+    const key = dayMap[dayName]
+    return state.weeklySchedules?.week_data?.[key]?.total_slots || 0
+}
+
+function openManageScheduleSlotModal(day: any) {
+    state.manageScheduleSlot.selectedDay = day
+    state.modal.isManageScheduleSlotOpen = true
 }
 
 function toggleShowHideAllShifts() {
@@ -1132,21 +1314,6 @@ function openAddNewShiftModal(employee: any, employeeIndex: number, weekIndex: a
     }
     state.newShift.selectedDate = week?.date
     state.newShift.selectedEmployee = employee
-}
-
-function setFilter(filter: any) {
-    if(filter) {
-        // Map filter-modal felter til API-parameter navne
-        state.dataFilter = {
-            ...filter,
-            department_uuid: filter.department_uuids ?? [],
-            user_uuid: filter.employee_uuids ?? [],
-            employment_status: filter.employment_status ?? '',
-        }
-    } else {
-        state.dataFilter = {}
-    }
-    fetchDraftDutySchedule()
 }
 
 function onDragStart(e: DragEvent, emp: any, wi: any, sh: any) {
@@ -1621,5 +1788,17 @@ function closeWarningDialog() {
 function viewExtraHours(employee: any) {
     state.manageExtraHours.selectedEmployee = employee
     state.modal.isManageExtraHoursOpen = true
+}
+
+function openGraphModal(employee: any) {
+    state.normHours.selectedEmployee = employee
+    state.modal.isGraphOpen = true
+}
+
+function setFilter(filter: any) {
+    state.filter.department_uuids = filter.department_uuids
+    state.filter.employment_status = filter.employment_status
+    state.filter.employee_uuids = filter.employee_uuids
+    fetchDraftDutySchedule()
 }
 </script>
