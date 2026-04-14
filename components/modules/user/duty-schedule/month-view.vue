@@ -48,7 +48,7 @@
 
             <div class="mb-2">
                 <div class="flex flex-wrap items-center justify-between gap-2 py-1">
-                    <div class="flex items-center gap-3">
+                    <div class="flex flex-wrap items-center gap-x-3 gap-y-2">
                         <div class="bg-blue-50 ring-1 ring-blue-200 rounded-lg px-3 py-1">
                             <h3 class="text-sm font-semibold leading-6 text-gray-900 text-center">
                                 <span v-if="month === 'January'">{{ $t('calendar.month.January') }}</span>
@@ -82,7 +82,7 @@
                             </span>
                         </label>
                     </div>
-                    <div class="flex items-center gap-x-2">
+                    <div class="flex flex-wrap items-center gap-x-3 gap-y-2">
                         <button
                             class="flex items-center gap-1 text-xxs bg-primary text-white hover:bg-primary-700 px-2 py-1 rounded font-semibold"
                             @click="pasteMonth(monthWeeks)"
@@ -316,6 +316,17 @@
                                     </div>
                                     <div class="col-span-2 text-right pr-2 border-l border-gray-100">
                                         {{ time?.yearly_hours }}
+                                    </div>
+                                </div>
+                                <div class="grid grid-cols-7 text-xxs py-0.5 border-t border-gray-200 mt-0.5">
+                                    <div class="col-span-3 pl-1 font-bold">{{ $t('dutySchedules.total') }}:</div>
+                                    <div class="col-span-2 text-right pr-2 font-bold">
+                                        {{employee?.hours?.reduce((sum, t) => sum + (parseFloat(t?.monthly_hours ||
+                                            t?.weekly_hours) || 0), 0).toFixed(2)}}
+                                    </div>
+                                    <div class="col-span-2 text-right pr-2 font-bold border-l border-gray-100">
+                                        {{employee?.hours?.reduce((sum, t) => sum + (parseFloat(t?.yearly_hours) || 0),
+                                            0).toFixed(2)}}
                                     </div>
                                 </div>
                             </div>
