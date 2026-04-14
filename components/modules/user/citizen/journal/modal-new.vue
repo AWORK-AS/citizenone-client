@@ -1,6 +1,6 @@
 <template>
     <div>
-        <ModalSideBySide sizeLeft="lg" sizeRight="xxs" :titleLeft="$t('citizens.citizenJournals.newNote')"
+        <ModalSideBySide sizeLeft="lg" sizeRight="sm" :titleLeft="$t('citizens.citizenJournals.newNote')"
             :titleRight="$t('plansandgoals.currentPlansAndGoals')" :show="props.isModalOpen"
             :showRightModal="state.modal.showCurrentPlansAndGoals" @close="closeModal"
             @closeRightModal="state.modal.showCurrentPlansAndGoals = false">
@@ -71,7 +71,7 @@
                                 </div>
                                 <div>
                                     <div class="flex items-center gap-2 flex-wrap md:flex-nowrap">
-                                        <FormButton class="rounded-md" buttonSize="sm" @click="viewPlan(plan)">
+                                        <FormButton class="rounded-full" buttonSize="sm" @click="viewPlan(plan)">
                                             <Icon name="ph:eye" class="size-4" />
                                             {{ $t('plansandgoals.table.actions.seeGoals') }}
                                         </FormButton>

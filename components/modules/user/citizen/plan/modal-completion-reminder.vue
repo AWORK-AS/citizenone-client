@@ -22,11 +22,10 @@
                 </div>
                 <div class="mt-6">
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
-                        <FormButton type="button" buttonStyle="cancel" class="rounded-md" @click="handleCancel()">
+                        <FormButton type="button" buttonStyle="cancel" @click="handleCancel()">
                             {{ $t('cancel') }}
                         </FormButton>
-                        <FormButton type="submit" buttonStyle="primary" class="rounded-md w-full"
-                            @click="handleProceed()">
+                        <FormButton type="submit" buttonStyle="primary" class="w-full" @click="handleProceed()">
                             {{ $t('proceed') }}
                         </FormButton>
                     </div>

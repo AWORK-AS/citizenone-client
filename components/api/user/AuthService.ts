@@ -36,6 +36,21 @@ class AuthService extends BaseAPIService {
     async verifyEmail(token: any): Promise<any> {
         return await this.request(`/auth/verify-email/${token}`, 'POST')
     }
+
+    async microsoftLogin(): Promise<any> {
+        return null
+        // return await this.request(`/auth/verify-email/${token}`, 'POST')
+    }
+
+    async googleLogin(): Promise<any> {
+        return null
+        // return await this.request(`/auth/verify-email/${token}`, 'POST')
+    }
+
+    async ssoRedirect(email: any): Promise<any> {
+        return null
+        // return await this.request(`/auth/verify-email/${token}`, 'POST')
+    }
 }
 
 export const authService = new AuthService()

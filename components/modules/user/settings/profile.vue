@@ -137,7 +137,7 @@
                 </div>
             </div>
             <div class="mt-6">
-                <FormButton type="submit" buttonStyle="primary" class="rounded-md w-full">
+                <FormButton type="submit" buttonStyle="primary" class="w-full">
                     {{ $t('save') }}
                 </FormButton>
             </div>

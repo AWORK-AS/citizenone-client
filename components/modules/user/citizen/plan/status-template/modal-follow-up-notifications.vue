@@ -27,8 +27,7 @@
                                         </span>
                                     </td>
                                     <td width="15%">
-                                        <FormButton class="rounded-md" buttonSize="sm"
-                                            @click="viewReport(reminder, index)">
+                                        <FormButton buttonSize="sm" @click="viewReport(reminder, index)">
                                             <Icon name="ph:eye" class="size-4" />
                                             {{ $t('plansandgoals.table.actions.view') }}
                                         </FormButton>

@@ -90,7 +90,7 @@
                             <span v-else>{{ chat?.chat_members?.length || 0 }} {{ $t('messages.members') }}</span>
                         </p>
                         <span v-if="chat?.unread_messages > 0"
-                            class="flex-shrink-0 ml-1 bg-primary text-white text-xxs rounded-full min-w-[18px] h-[18px] flex items-center justify-center px-1 font-semibold">
+                            class="flex-shrink-0 ml-1 bg-primary text-white text-[10px] rounded-full min-w-[18px] h-[18px] flex items-center justify-center px-1 font-semibold">
                             {{ chat.unread_messages > 9 ? '9+' : chat.unread_messages }}
                         </span>
                     </div>

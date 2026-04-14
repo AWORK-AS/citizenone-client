@@ -13,15 +13,21 @@
                             {{ $t('overview.filter.items.citizensEvents') }}
                         </div>
                         <div class="w-fit flex items-center cursor-pointer text-sm"
+                            @click="setDailyOverviewFilterShowLatestJournal()">
+                            <FormCheckbox :value="dailyOverviewStore.getDailyOverviewFilter.showLatestJournal" />
+                            {{ $t('overview.filter.items.latestJournal') }}
+                        </div>
+                        <div class="w-fit flex items-center cursor-pointer text-sm"
                             @click="setDailyOverviewFilterShowDailyMedicineOverview()">
                             <FormCheckbox
                                 :value="dailyOverviewStore.getDailyOverviewFilter.showDailyMedicineOverview" />
                             {{ $t('overview.filter.items.medicationOverview') }}
                         </div>
                         <div class="w-fit flex items-center cursor-pointer text-sm"
-                            @click="setDailyOverviewFilterShowLatestJournal()">
-                            <FormCheckbox :value="dailyOverviewStore.getDailyOverviewFilter.showLatestJournal" />
-                            {{ $t('overview.filter.items.latestJournal') }}
+                            @click="setDailyOverviewFilterShowCitizensFollowUpReminders()">
+                            <FormCheckbox
+                                :value="dailyOverviewStore.getDailyOverviewFilter.showCitizensFollowUpReminders" />
+                            {{ $t('overview.filter.items.citizensFollowUpReminders') }}
                         </div>
                         <div class="w-fit flex items-center cursor-pointer text-sm"
                             @click="setDailyOverviewFilterShowTreatments()">
@@ -118,15 +124,9 @@
                             <FormCheckbox :value="dailyOverviewStore.getDailyOverviewFilter.showPlansAndGoals" />
                             {{ $t('overview.filter.items.plansAndGoals') }}
                         </div>
-                        <div class="w-fit flex items-center cursor-pointer text-sm"
-                            @click="setDailyOverviewFilterShowCitizensFollowUpReminders()">
-                            <FormCheckbox
-                                :value="dailyOverviewStore.getDailyOverviewFilter.showCitizensFollowUpReminders" />
-                            {{ $t('overview.filter.items.citizensFollowUpReminders') }}
-                        </div>
                     </div>
                     <div class="mt-5 flex gap-x-3 justify-end">
-                        <FormButton buttonStyle="primary" @click="closeModal" class="rounded-md">
+                        <FormButton buttonStyle="primary" @click="closeModal">
                             {{ $t('close') }}
                         </FormButton>
                     </div>

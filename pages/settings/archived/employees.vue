@@ -52,7 +52,7 @@
                                     </td>
                                     <td width="20%">
                                         <div class="flex items-end gap-2">
-                                            <FormButton type="button" buttonStyle="action" class="rounded-md"
+                                            <FormButton type="button" buttonStyle="action"
                                                 @click="confirmEmployeeUnarchiving(employee)">
                                                 <Icon name="mdi:archive-cancel-outline" class="size-4" />
                                                 {{ $t('archived.table.actions.unarchive') }}

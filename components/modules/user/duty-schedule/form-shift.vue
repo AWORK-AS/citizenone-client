@@ -38,6 +38,13 @@
             </div>
             <Alert type="warning" :text="$t('recurring.youAreEditingARecurringShift')"
                 v-if="props.selectedShift?.recurring?.is_recurring" />
+            <div v-if="props.showEmployeeSelect && props.formType === 'create'" class="mb-4 space-y-1">
+                <FormLabel for="modal-employee-select" :label="$t('employee')" />
+                <FormSelect id="modal-employee-select" :options="state.options.employees_without_all_users_option"
+                    v-model="state.formShift.user_uuid" />
+                <FormError :error="v$?.formShift?.user_uuid?.$errors[0]?.$message.toString()" />
+                <FormError :error="props?.error?.errors?.user_uuid?.[0]" />
+            </div>
             <div class="space-y-1">
                 <FormLabel for="shift_type" :label="$t('dutySchedules.typeOfShift')" />
                 <FormSelect id="shift_type" name="shift_type" :options="state.options.shifts"
@@ -300,10 +307,10 @@
         </div>
         <div class="mt-6">
             <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
-                <FormButton type="button" buttonStyle="cancel" class="rounded-md" @click="closeModal">
+                <FormButton type="button" buttonStyle="cancel" @click="closeModal">
                     {{ $t('cancel') }}
                 </FormButton>
-                <FormButton type="submit" buttonStyle="primary" class="rounded-md w-full">
+                <FormButton type="submit" buttonStyle="primary" class="w-full">
                     {{ props.formType === 'create' ? $t('save') :
                         $t('update') }}
                 </FormButton>
@@ -321,6 +328,7 @@ import moment from 'moment'
 import { departmentService } from '@/components/api/user/DepartmentService'
 import { scheduleTagService } from '@/components/api/user/ScheduleTagService'
 import { citizenService } from '@/components/api/user/CitizenService'
+import { userService } from '@/components/api/user/UserService'
 import { useVuelidate } from "@vuelidate/core"
 import { required, helpers } from '@vuelidate/validators'
 import { shiftService } from '@/components/api/user/ShiftService'
@@ -345,6 +353,10 @@ const props = defineProps({
         type: Object,
         required: true,
     },
+    showEmployeeSelect: {
+        type: Boolean,
+        default: false,
+    },
 })
 const { t } = useI18n()
 const emit = defineEmits(['close', 'isPageLoading', 'saveShift', 'dateTimeChange'])
@@ -354,6 +366,7 @@ const departmentStore = useDepartmentStore() as any
 const state = reactive({
     error: {} as Error,
     formShift: {
+        user_uuid: '',
         shift_type: '',
         is_sleeping_sick_leave: false,
         do_not_count_weekends: false,
@@ -384,6 +397,7 @@ const state = reactive({
         do_not_count_sick_leave: false,
         is_override_vacation_hours: false,
     } as any,
+    isPageLoading: false,
     modal: {
         isAddDepartmentOpen: false,
         isAddNewScheduleTagOpen: false,
@@ -392,6 +406,7 @@ const state = reactive({
     options: {
         citizens: [],
         departments: [],
+        employees_without_all_users_option: [],
         recurring: {
             frequency: [
                 { value: 'daily', label: `${t('recurring.frequency.daily.daily')}` },
@@ -486,6 +501,7 @@ const state = reactive({
 onMounted(() => {
     state.showChildProtectionCertificateWarning = false
     v$.value.$reset()
+    fetchAllUsersWithoutAllUsersOption()
     fetchAllShifts()
     fetchAllDepartments()
     fetchAllScheduleTags()
@@ -502,6 +518,27 @@ onMounted(() => {
     state.formShift.do_not_count_sick_leave = props.selectedShift.do_not_count_sick_leave
     state.formShift.use_compensatory_time = props.selectedShift.use_compensatory_time
 })
+
+async function fetchAllUsersWithoutAllUsersOption() {
+    state.error = {}
+    state.isPageLoading = true
+    try {
+        const response = await userService.getAllUsersWithoutAllUsersOption()
+        if (response.data) {
+            let options: any = []
+            response.data.forEach(
+                (user: any) => options.push({
+                    value: user?.uuid,
+                    label: user?.firstname + " " + user?.lastname,
+                })
+            )
+            state.options.employees_without_all_users_option = options
+        }
+    } catch (error: any) {
+        state.error = error
+    }
+    state.isPageLoading = false
+}
 
 watch(() => state.formShift.shift_type, (selectedShift) => {
     const selectShiftIndex = state.options.shifts.findIndex((shift: any) => shift.value === selectedShift)
@@ -684,7 +721,7 @@ async function fetchAllDepartments() {
     emit('isPageLoading', true)
     try {
         const params = {
-            employee_uuid: props?.selectedEmployee?.uuid
+            user_uuid: props?.selectedEmployee?.uuid
         }
         const response = await departmentService.getAllDepartments(params)
         if (response) {

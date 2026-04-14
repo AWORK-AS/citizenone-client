@@ -2,19 +2,16 @@
     <LoadingSpinner :isActive="state.isPageLoading">
         <Alert type="danger" :text="state?.error?.message"
             v-if="state.error?.message && state.error.message.length > 0" />
-        <h3 class="text-primary text-base font-medium py-2">
-            {{ $t('overview.medicationOverview.medicationOverview') }}
-        </h3>
-
-        <div class="border-2 border-gray-300 border-dashed rounded-md flex items-center justify-center min-h-96 max-h-96 text-sm mt-2"
-            v-if="state.medicines?.data?.length === 0">
-            {{ $t('overview.noMedicinesToShow') }}
+        <div class="p-5" v-if="state.medicines?.data?.length === 0">
+            <div
+                class="border-2 border-gray-300 border-dashed rounded-md flex items-center justify-center min-h-80 max-h-80 text-sm mt-2">
+                {{ $t('overview.noMedicinesToShow') }}
+            </div>
         </div>
 
-        <div class="bg-white shadow-md rounded-md border-l-8 border-secondary mt-2 text-sm divide-y overflow-scroll min-h-96 max-h-96"
-            v-else>
+        <div class="text-sm space-y-2 divide-y overflow-scroll min-h-96 max-h-96 px-5 py-4" v-else>
             <div v-for="(medicine, index) in state.medicines?.data" :key="index"
-                class="pl-4 pr-3 py-5 cursor-pointer hover:bg-gray-100" @click="viewMedicineHistory(medicine)">
+                class="pl-4 pr-3 py-3 cursor-pointer hover:bg-gray-100" @click="viewMedicineHistory(medicine)">
                 <div>
                     <div>
                         <div>

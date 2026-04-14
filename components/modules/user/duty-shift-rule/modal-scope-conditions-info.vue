@@ -1,6 +1,7 @@
 <template>
     <div>
-        <Modal size="md" :title="$t('dutyShiftRules.form.scopeConditions')" :show="props.isModalOpen" @close="closeModal">
+        <Modal size="md" :title="$t('dutyShiftRules.form.scopeConditions')" :show="props.isModalOpen"
+            @close="closeModal">
             <template #modal-body>
                 <div class="space-y-5">
                     <div class="flex gap-3">
@@ -8,8 +9,10 @@
                             <Icon name="ph:funnel" class="w-4 h-4 text-primary" />
                         </div>
                         <div class="space-y-1">
-                            <p class="text-sm font-semibold text-gray-800">{{ $t('dutyShiftRules.form.scopeConditionsInfoWhatTitle') }}</p>
-                            <p class="text-sm text-gray-600">{{ $t('dutyShiftRules.form.scopeConditionsInfoWhatDesc') }}</p>
+                            <p class="text-sm font-semibold text-gray-800">{{
+                                $t('dutyShiftRules.form.scopeConditionsInfoWhatTitle') }}</p>
+                            <p class="text-sm text-gray-600">{{ $t('dutyShiftRules.form.scopeConditionsInfoWhatDesc') }}
+                            </p>
                         </div>
                     </div>
 
@@ -20,8 +23,10 @@
                             <Icon name="ph:intersect" class="w-4 h-4 text-primary" />
                         </div>
                         <div class="space-y-1">
-                            <p class="text-sm font-semibold text-gray-800">{{ $t('dutyShiftRules.form.scopeConditionsInfoAndTitle') }}</p>
-                            <p class="text-sm text-gray-600">{{ $t('dutyShiftRules.form.scopeConditionsInfoAndDesc') }}</p>
+                            <p class="text-sm font-semibold text-gray-800">{{
+                                $t('dutyShiftRules.form.scopeConditionsInfoAndTitle') }}</p>
+                            <p class="text-sm text-gray-600">{{ $t('dutyShiftRules.form.scopeConditionsInfoAndDesc') }}
+                            </p>
                         </div>
                     </div>
 
@@ -32,13 +37,15 @@
                             <Icon name="ph:unite" class="w-4 h-4 text-primary" />
                         </div>
                         <div class="space-y-1">
-                            <p class="text-sm font-semibold text-gray-800">{{ $t('dutyShiftRules.form.scopeConditionsInfoOrTitle') }}</p>
-                            <p class="text-sm text-gray-600">{{ $t('dutyShiftRules.form.scopeConditionsInfoOrDesc') }}</p>
+                            <p class="text-sm font-semibold text-gray-800">{{
+                                $t('dutyShiftRules.form.scopeConditionsInfoOrTitle') }}</p>
+                            <p class="text-sm text-gray-600">{{ $t('dutyShiftRules.form.scopeConditionsInfoOrDesc') }}
+                            </p>
                         </div>
                     </div>
 
                     <div class="flex justify-end">
-                        <FormButton buttonStyle="cancel" @click="closeModal" class="rounded-md">
+                        <FormButton buttonStyle="cancel" @click="closeModal">
                             {{ $t('close') }}
                         </FormButton>
                     </div>

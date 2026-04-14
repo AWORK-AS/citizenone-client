@@ -6,182 +6,307 @@
                 <Title>{{ $t('overview.overview') }} - {{ runtimeConfig?.public?.appName }}</Title>
             </Head>
 
-            <template #header>{{ $t('overview.overview') }}</template>
-            <template #guided-tour>
-                <div />
-                <Tooltip :text="$t('guidedTour')" @click="openGuidedTour()">
-                    <Icon name="ph:question" class="size-6 cursor-pointer text-gray-700" aria-hidden="true" />
-                </Tooltip>
+            <template #header>
+                <div class="flex items-center gap-x-4">
+                    <span>{{ $t('overview.dailyOverview') || 'Daily overview' }}</span>
+                    <!-- Date navigator -->
+                    <div
+                        class="flex items-center gap-x-2 bg-white rounded-lg border border-surface-200 shadow-sm px-3 py-1.5">
+                        <button @click="previousDay" class="p-0.5 rounded hover:bg-surface-100 transition-colors">
+                            <Icon name="heroicons:chevron-left-20-solid" class="h-4 w-4 text-slate-400" />
+                        </button>
+                        <button @click="state.modal.isDailyOverviewDateRangeOpen = true"
+                            class="text-sm font-medium text-slate-700 hover:text-primary transition-colors px-1">
+                            {{ formatDisplayDate() }}
+                        </button>
+                        <button @click="nextDay" class="p-0.5 rounded hover:bg-surface-100 transition-colors">
+                            <Icon name="heroicons:chevron-right-20-solid" class="h-4 w-4 text-slate-400" />
+                        </button>
+                    </div>
+                </div>
             </template>
 
-            <div class="flex gap-x-2">
-                <button class="flex items-center gap-x-1 text-sm text-primary group"
-                    @click="state.modal.isFilterDailyOverviewOpen = true">
-                    <Icon name="ic:outline-filter-list" class="text-primary w-6 h-6 group-hover:text-primary-700" />
-                    <span class="group-hover:text-primary-700">
-                        {{ $t('showHide') }}
-                    </span>
-                </button>
-                <div class="flex items-center gap-x-1">
-                    <button class="text-sm text-primary hover:text-primary-700 hover:underline"
-                        @click="state.modal.isDailyOverviewDateRangeOpen = true">
-                        ({{ formatDateToReadable(state.dateRange.formDateRange.start_date) }} -
-                        {{ formatDateToReadable(state.dateRange.formDateRange.end_date) }})
+            <template #guided-tour>
+                <div class="flex items-center gap-x-2">
+                    <Tooltip :text="$t('guidedTour')" @click="openGuidedTour()">
+                        <Icon name="ph:question"
+                            class="size-5 cursor-pointer text-slate-400 hover:text-slate-600 transition-colors"
+                            aria-hidden="true" />
+                    </Tooltip>
+                </div>
+            </template>
+
+            <Alert type="danger" :text="state?.error?.message"
+                v-if="state.error?.message && state.error.message.length > 0" />
+
+            <!-- Action bar -->
+            <div class="flex items-center justify-between gap-3 flex-wrap">
+                <div class="flex items-center gap-x-2">
+                    <button
+                        class="flex items-center gap-x-1.5 text-sm text-slate-500 hover:text-primary transition-colors rounded-lg px-2.5 py-1.5 hover:bg-primary-25"
+                        @click="state.modal.isFilterDailyOverviewOpen = true">
+                        <Icon name="ph:sliders-horizontal" class="w-4 h-4" />
+                        <span>{{ $t('showHide') }}</span>
                     </button>
-                    <div>
-                        <Icon name="ph:question" class="w-4 h-4 cursor-pointer text-gray-700" aria-hidden="true"
-                            @click="state.modal.isDateRangeHelperOpen = true" />
+                </div>
+                <div class="flex flex-wrap gap-2">
+                    <FormButton buttonStyle="primary" class="w-full md:w-fit shadow-sm"
+                        @click="navigateTo('/overview/view')">
+                        {{ $t('overview.viewAll') }}
+                    </FormButton>
+                    <FormButton buttonStyle="action" class="w-full md:w-fit shadow-sm" @click="navigateTo('/inquiries')"
+                        v-if="userStore.getUser?.company?.industry?.system_name === 'social_welfare' && ['Crisis center', 'Shelter'].includes(userStore.getUser?.company?.facility_type?.en_name)">
+                        <Icon name="ph:list-bullets" class="h-4 w-4" aria-hidden="true" />
+                        {{ $t('inquiries.inquiries') }}
+                    </FormButton>
+                    <FormButton buttonStyle="primary" class="w-full md:w-fit shadow-sm"
+                        @click="state.modal.isQuickRiskAssessmentOpen = true"
+                        v-if="userStore.getUser?.company?.quick_risk_assessment_enabled">
+                        {{ $t('overview.quickRiskAssessment.quickRiskAssessment') }}
+                    </FormButton>
+                </div>
+            </div>
+
+            <!-- Stat cards row -->
+            <div class="mt-5 grid grid-cols-1 md:grid-cols-3 gap-4 stagger-children">
+                <div class="stat-card">
+                    <div class="stat-label">
+                        <span class="w-2 h-2 rounded-full bg-accent-blue"></span>
+                        {{ $t('overview.citizensEvents') }}
+                    </div>
+                    <div class="mt-2 stat-value text-primary">
+                        {{ state.stats.citizenCalendarEvents?.data?.length ?? 0 }}
+                    </div>
+                    <div class="stat-sublabel">
+                        {{ $t('overview.stats.ongoing') }} |
+                        {{ $t('overview.stats.upcoming') }}
+                    </div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-label">
+                        <span class="w-2 h-2 rounded-full bg-accent-green"></span>
+                        {{ $t('overview.stats.journalEntries') || 'Journal entries' }}
+                    </div>
+                    <div class="mt-2 stat-value text-accent-green">
+                        {{ state.stats.latestCitizensJournal?.data?.length ?? 0 }}
+                    </div>
+                    <div class="stat-sublabel">
+                        {{ $t('overview.stats.acrossCitizens') }}
+                    </div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-label">
+                        <span class="w-2 h-2 rounded-full bg-accent-orange"></span>
+                        {{ $t('overview.stats.medicationsDue') || 'Medications due' }}
+                    </div>
+                    <div class="mt-2 stat-value text-accent-orange">
+                        {{ state.stats.medicinesPendingCount }}
+                    </div>
+                    <div class="stat-sublabel">
+                        {{ state.stats.medicinesGivenCount }}
+                        {{ $t('overview.stats.administered') }} ·
+                        {{ state.stats.medicinesPendingCount }}
+                        {{ $t('overview.stats.pending') }}·
+                        {{ state.stats.medicinesDeviatedCount }}
+                        {{ $t('overview.stats.deviated') }}
                     </div>
                 </div>
             </div>
 
-            <div class="mt-2">
-                <div class="space-y-10">
-                    <div class="flex gap-x-3 justify-end">
-                        <FormButton buttonStyle="primary" @click="navigateTo('/overview/view')">
-                            {{ $t('overview.viewAll') }}
-                        </FormButton>
-                        <FormButton buttonStyle="action" class="rounded-lg" @click="navigateTo('/inquiries')"
-                            v-if="userStore.getUser?.company?.industry?.system_name === 'social_welfare' && ['Crisis center', 'Shelter'].includes(userStore.getUser?.company?.facility_type?.en_name)">
-                            <Icon name="ph:list-bullets" class="h-4 w-4" aria-hidden="true" />
-                            {{ $t('inquiries.inquiries') }}
-                        </FormButton>
-                        <FormButton buttonStyle="primary" @click="state.modal.isQuickRiskAssessmentOpen = true"
-                            v-if="userStore.getUser?.company?.quick_risk_assessment_enabled">
-                            {{ $t('overview.quickRiskAssessment.quickRiskAssessment') }}
-                        </FormButton>
-                    </div>
-
-                    <div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-5" v-if="overviewStore.getDailyOverviewFilter.showCitizensDailyEvents ||
-                        overviewStore.getDailyOverviewFilter.showDailyMedicineOverview ||
-                        overviewStore.getDailyOverviewFilter.showLatestJournal ||
-                        overviewStore.getDailyOverviewFilter.showCitizensFollowUpReminders">
-                        <div v-if="overviewStore.getDailyOverviewFilter.showCitizensDailyEvents">
+            <!-- Main content grid -->
+            <div class="mt-6 space-y-6">
+                <!-- Citizens' events + Latest journal notes row -->
+                <!-- Medication overview and Follow-up reminders row -->
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-x-5 gap-y-6" v-if="overviewStore.getDailyOverviewFilter.showCitizensDailyEvents ||
+                    overviewStore.getDailyOverviewFilter.showLatestJournal ||
+                    overviewStore.getDailyOverviewFilter.showDailyMedicineOverview ||
+                    overviewStore.getDailyOverviewFilter.showCitizensFollowUpReminders">
+                    <!-- Citizens' events panel -->
+                    <div class="card" v-if="overviewStore.getDailyOverviewFilter.showCitizensDailyEvents">
+                        <div class="card-header">
+                            <div class="flex items-center gap-x-2">
+                                <Icon name="ph:check-circle" class="h-5 w-5 text-primary" />
+                                <h3 class="text-sm font-semibold text-slate-900">
+                                    {{ $t('overview.citizensEvents') }}
+                                </h3>
+                                <span class="badge badge-blue">
+                                    {{ state.stats.citizenCalendarEvents?.data?.length ?? 0 }}
+                                </span>
+                            </div>
+                            <button
+                                class="text-sm text-primary font-medium hover:text-primary-700 transition-colors flex items-center gap-x-1"
+                                @click="navigateTo('/calendar')">
+                                {{ $t('overview.viewAll') }}
+                                <Icon name="heroicons:arrow-right-20-solid" class="h-4 w-4" />
+                            </button>
+                        </div>
+                        <div>
                             <ModulesUserDailyOverviewCitizensDailyEvents :dateRange="state.dateRange.formDateRange" />
                         </div>
-                        <ModulesUserDailyOverviewCitizensMedicineOverview :dateRange="state.dateRange.formDateRange"
-                            v-if="overviewStore.getDailyOverviewFilter.showDailyMedicineOverview" />
-                        <div v-if="overviewStore.getDailyOverviewFilter.showLatestJournal">
+                    </div>
+
+                    <!-- Latest journal notes panel -->
+                    <div class="card" v-if="overviewStore.getDailyOverviewFilter.showLatestJournal">
+                        <div class="card-header">
+                            <div class="flex items-center gap-x-2">
+                                <Icon name="ph:notebook" class="h-5 w-5 text-primary" />
+                                <h3 class="text-sm font-semibold text-slate-900">
+                                    {{ $t('overview.latestJournal.latestJournal') }}
+                                </h3>
+                                <span class="badge badge-green">
+                                    {{ state.stats.latestCitizensJournal?.data?.length ?? 0 }}
+                                </span>
+                            </div>
+                            <button
+                                class="text-sm text-primary font-medium hover:text-primary-700 transition-colors flex items-center gap-x-1"
+                                @click="navigateTo('/citizens')">
+                                {{ $t('overview.viewAll') }}
+                                <Icon name="heroicons:arrow-right-20-solid" class="h-4 w-4" />
+                            </button>
+                        </div>
+                        <div>
                             <ModulesUserDailyOverviewLatestJournal :dateRange="state.dateRange.formDateRange"
                                 :viewAll="false" />
                         </div>
-                        <div v-if="overviewStore.getDailyOverviewFilter.showCitizensFollowUpReminders">
+                    </div>
+
+                    <!-- Medication overview panel -->
+                    <div class="card" v-if="overviewStore.getDailyOverviewFilter.showDailyMedicineOverview">
+                        <div class="card-header">
+                            <div class="flex items-center gap-x-2">
+                                <Icon name="ph:camera-plus" class="h-5 w-5 text-primary" />
+                                <h3 class="text-sm font-semibold text-slate-900">
+                                    {{ $t('overview.medicationOverview.medicationOverview') }}
+                                </h3>
+                            </div>
+                        </div>
+                        <div>
+                            <ModulesUserDailyOverviewCitizensMedicineOverview
+                                :dateRange="state.dateRange.formDateRange" />
+                        </div>
+                    </div>
+
+                    <!-- Follow up reminders panel -->
+                    <div class="card" v-if="overviewStore.getDailyOverviewFilter.showCitizensFollowUpReminders">
+                        <div class="card-header">
+                            <div class="flex items-center gap-x-2">
+                                <Icon name="ph:notification" class="h-5 w-5 text-primary" />
+                                <h3 class="text-sm font-semibold text-slate-900">
+                                    {{ $t('overview.followUpReminders.followUpReminders') }}
+                                </h3>
+                            </div>
+                        </div>
+                        <div>
                             <ModulesUserDailyOverviewCitizensFollowUpReminders
                                 :dateRange="state.dateRange.formDateRange" />
                         </div>
                     </div>
+                </div>
 
-                    <div class="grid grid-cols-1 md:grid-cols-3 gap-5" v-if="overviewStore.getDailyOverviewFilter.showTreatments ||
-                        overviewStore.getDailyOverviewFilter.showMyDailyEvents ||
-                        overviewStore.getDailyOverviewFilter.showBulletBoard">
-                        <div v-if="overviewStore.getDailyOverviewFilter.showTreatments">
-                            <ModulesUserDailyOverviewTreatments :dateRange="state.dateRange.formDateRange" />
-                        </div>
-                        <div v-if="overviewStore.getDailyOverviewFilter.showMyDailyEvents">
-                            <ModulesUserDailyOverviewMyEventToday :dateRange="state.dateRange.formDateRange" />
-                        </div>
-                        <ModulesUserDailyOverviewBulletBoard :dateRange="state.dateRange.formDateRange"
-                            v-if="overviewStore.getDailyOverviewFilter.showBulletBoard" />
+                <!-- Treatments, My Events, Bulletin -->
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-5" v-if="overviewStore.getDailyOverviewFilter.showTreatments ||
+                    overviewStore.getDailyOverviewFilter.showMyDailyEvents ||
+                    overviewStore.getDailyOverviewFilter.showBulletBoard">
+                    <div v-if="overviewStore.getDailyOverviewFilter.showTreatments">
+                        <ModulesUserDailyOverviewTreatments :dateRange="state.dateRange.formDateRange" />
                     </div>
+                    <div v-if="overviewStore.getDailyOverviewFilter.showMyDailyEvents">
+                        <ModulesUserDailyOverviewMyEventToday :dateRange="state.dateRange.formDateRange" />
+                    </div>
+                    <ModulesUserDailyOverviewBulletBoard :dateRange="state.dateRange.formDateRange"
+                        v-if="overviewStore.getDailyOverviewFilter.showBulletBoard" />
+                </div>
 
-                    <div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-5" v-if="overviewStore.getDailyOverviewFilter.showCitizensAdmissionAndDischarged ||
-                        overviewStore.getDailyOverviewFilter.showCitizensOrigin ||
-                        overviewStore.getDailyOverviewFilter.showCitizensAddictions ||
-                        overviewStore.getDailyOverviewFilter.showCitizensDiagnoses ||
-                        overviewStore.getDailyOverviewFilter.showRiskAssessment ||
-                        overviewStore.getDailyOverviewFilter.showGender">
-                        <div v-if="overviewStore.getDailyOverviewFilter.showCitizensAdmissionAndDischarged">
-                            <ModulesUserDailyOverviewCitizensAdmissionDischarged
-                                :dateRange="state.dateRange.formDateRange" />
-                        </div>
-                        <div v-if="overviewStore.getDailyOverviewFilter.showCitizensOrigin">
-                            <ModulesUserDailyOverviewCitizensOrigin />
-                        </div>
-                        <div class="space-y-3" v-if="overviewStore.getDailyOverviewFilter.showCitizensAddictions">
-                            <ModulesUserDailyOverviewCitizensAddictions :dateRange="state.dateRange.formDateRange"
-                                v-if="overviewStore.getDailyOverviewFilter.showCitizensAddictions" />
-                            <ModulesUserDailyOverviewCitizensAddictionsCount :dateRange="state.dateRange.formDateRange"
-                                v-if="overviewStore.getDailyOverviewFilter.showCitizensAddictions" />
-                        </div>
-                        <div class="space-y-3" v-if="overviewStore.getDailyOverviewFilter.showCitizensDiagnoses">
-                            <ModulesUserDailyOverviewCitizensDiagnoses :dateRange="state.dateRange.formDateRange"
-                                v-if="overviewStore.getDailyOverviewFilter.showCitizensDiagnoses" />
-                            <ModulesUserDailyOverviewCitizensDiagnosesCount :dateRange="state.dateRange.formDateRange"
-                                v-if="overviewStore.getDailyOverviewFilter.showCitizensDiagnoses" />
-                        </div>
-                        <div class="space-y-3" v-if="overviewStore.getDailyOverviewFilter.showRiskAssessment">
-                            <ModulesUserDailyOverviewCitizensRiskAssessment :dateRange="state.dateRange.formDateRange"
-                                v-if="overviewStore.getDailyOverviewFilter.showRiskAssessment" />
-                        </div>
-                        <div class="space-y-3" v-if="overviewStore.getDailyOverviewFilter.showGender">
-                            <ModulesUserDailyOverviewCitizensGender
-                                v-if="overviewStore.getDailyOverviewFilter.showGender" />
-                        </div>
+                <!-- Statistics grid -->
+                <div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-5" v-if="overviewStore.getDailyOverviewFilter.showCitizensAdmissionAndDischarged ||
+                    overviewStore.getDailyOverviewFilter.showCitizensOrigin ||
+                    overviewStore.getDailyOverviewFilter.showCitizensAddictions ||
+                    overviewStore.getDailyOverviewFilter.showCitizensDiagnoses ||
+                    overviewStore.getDailyOverviewFilter.showRiskAssessment ||
+                    overviewStore.getDailyOverviewFilter.showGender">
+                    <div v-if="overviewStore.getDailyOverviewFilter.showCitizensAdmissionAndDischarged">
+                        <ModulesUserDailyOverviewCitizensAdmissionDischarged
+                            :dateRange="state.dateRange.formDateRange" />
                     </div>
+                    <div v-if="overviewStore.getDailyOverviewFilter.showCitizensOrigin">
+                        <ModulesUserDailyOverviewCitizensOrigin />
+                    </div>
+                    <div class="space-y-3" v-if="overviewStore.getDailyOverviewFilter.showCitizensAddictions">
+                        <ModulesUserDailyOverviewCitizensAddictions :dateRange="state.dateRange.formDateRange" />
+                        <ModulesUserDailyOverviewCitizensAddictionsCount :dateRange="state.dateRange.formDateRange" />
+                    </div>
+                    <div class="space-y-3" v-if="overviewStore.getDailyOverviewFilter.showCitizensDiagnoses">
+                        <ModulesUserDailyOverviewCitizensDiagnoses :dateRange="state.dateRange.formDateRange" />
+                        <ModulesUserDailyOverviewCitizensDiagnosesCount :dateRange="state.dateRange.formDateRange" />
+                    </div>
+                    <div class="space-y-3" v-if="overviewStore.getDailyOverviewFilter.showRiskAssessment">
+                        <ModulesUserDailyOverviewCitizensRiskAssessment :dateRange="state.dateRange.formDateRange" />
+                    </div>
+                    <div class="space-y-3" v-if="overviewStore.getDailyOverviewFilter.showGender">
+                        <ModulesUserDailyOverviewCitizensGender />
+                    </div>
+                </div>
 
-                    <div>
-                        <div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-5" v-if="overviewStore.getDailyOverviewFilter.showStatusesScoreStatistics ||
-                            overviewStore.getDailyOverviewFilter.showGoalsScoreStatistics ||
-                            overviewStore.getDailyOverviewFilter.showIncidentStatistics ||
-                            overviewStore.getDailyOverviewFilter.showMedicineDeviationStatistics ||
-                            overviewStore.getDailyOverviewFilter.showJournalScoreStatistics ||
-                            overviewStore.getDailyOverviewFilter.showSubgoalsScoreStatistics ||
-                            overviewStore.getDailyOverviewFilter.showUseOfForceStatistics">
-                            <div v-if="overviewStore.getDailyOverviewFilter.showStatusesScoreStatistics">
-                                <ModulesUserDailyOverviewStatusesScoreStatistics
-                                    :dateRange="state.dateRange.formDateRange" />
-                            </div>
-                            <div v-if="overviewStore.getDailyOverviewFilter.showGoalsScoreStatistics">
-                                <ModulesUserDailyOverviewGoalsScoreStatistics
-                                    :dateRange="state.dateRange.formDateRange" />
-                            </div>
-                            <div v-if="overviewStore.getDailyOverviewFilter.showIncidentStatistics">
-                                <ModulesUserDailyOverviewIncidentReportsStatistics
-                                    :dateRange="state.dateRange.formDateRange" />
-                            </div>
-                            <div v-if="overviewStore.getDailyOverviewFilter.showMedicineDeviationStatistics">
-                                <ModulesUserDailyOverviewMedicineDeviationStatistics
-                                    :dateRange="state.dateRange.formDateRange" />
-                            </div>
-                            <div v-if="overviewStore.getDailyOverviewFilter.showJournalScoreStatistics">
-                                <ModulesUserDailyOverviewJournalScoreStatistics
-                                    :dateRange="state.dateRange.formDateRange" />
-                            </div>
-                            <div v-if="overviewStore.getDailyOverviewFilter.showSubgoalsScoreStatistics">
-                                <ModulesUserDailyOverviewSubgoalsScoreStatistics
-                                    :dateRange="state.dateRange.formDateRange" />
-                            </div>
-                            <div v-if="overviewStore.getDailyOverviewFilter.showUseOfForceStatistics">
-                                <ModulesUserDailyOverviewUseOfForceStatistics
-                                    :dateRange="state.dateRange.formDateRange" />
-                            </div>
-                        </div>
+                <!-- Score statistics -->
+                <div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-5" v-if="overviewStore.getDailyOverviewFilter.showStatusesScoreStatistics ||
+                    overviewStore.getDailyOverviewFilter.showGoalsScoreStatistics ||
+                    overviewStore.getDailyOverviewFilter.showIncidentStatistics ||
+                    overviewStore.getDailyOverviewFilter.showMedicineDeviationStatistics ||
+                    overviewStore.getDailyOverviewFilter.showJournalScoreStatistics ||
+                    overviewStore.getDailyOverviewFilter.showSubgoalsScoreStatistics ||
+                    overviewStore.getDailyOverviewFilter.showUseOfForceStatistics">
+                    <div v-if="overviewStore.getDailyOverviewFilter.showStatusesScoreStatistics">
+                        <ModulesUserDailyOverviewStatusesScoreStatistics :dateRange="state.dateRange.formDateRange" />
+                    </div>
+                    <div v-if="overviewStore.getDailyOverviewFilter.showGoalsScoreStatistics">
+                        <ModulesUserDailyOverviewGoalsScoreStatistics :dateRange="state.dateRange.formDateRange" />
+                    </div>
+                    <div v-if="overviewStore.getDailyOverviewFilter.showIncidentStatistics">
+                        <ModulesUserDailyOverviewIncidentReportsStatistics :dateRange="state.dateRange.formDateRange" />
+                    </div>
+                    <div v-if="overviewStore.getDailyOverviewFilter.showMedicineDeviationStatistics">
+                        <ModulesUserDailyOverviewMedicineDeviationStatistics
+                            :dateRange="state.dateRange.formDateRange" />
+                    </div>
+                    <div v-if="overviewStore.getDailyOverviewFilter.showJournalScoreStatistics">
+                        <ModulesUserDailyOverviewJournalScoreStatistics :dateRange="state.dateRange.formDateRange" />
+                    </div>
+                    <div v-if="overviewStore.getDailyOverviewFilter.showSubgoalsScoreStatistics">
+                        <ModulesUserDailyOverviewSubgoalsScoreStatistics :dateRange="state.dateRange.formDateRange" />
+                    </div>
+                    <div v-if="overviewStore.getDailyOverviewFilter.showUseOfForceStatistics">
+                        <ModulesUserDailyOverviewUseOfForceStatistics :dateRange="state.dateRange.formDateRange" />
+                    </div>
+                </div>
 
+                <!-- Schedule + Plans -->
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-5"
+                    v-if="overviewStore.getDailyOverviewFilter.showScheduleSlots || overviewStore.getDailyOverviewFilter.showPlansAndGoals">
+                    <div v-if="overviewStore.getDailyOverviewFilter.showScheduleSlots">
+                        <ModulesUserDailyOverviewScheduleSlots :dateRange="state.dateRange.formDateRange" />
                     </div>
-                    <div class="grid grid-cols-1 md:grid-cols-2 gap-5"
-                        v-if="overviewStore.getDailyOverviewFilter.showScheduleSlots || overviewStore.getDailyOverviewFilter.showPlansAndGoals">
-                        <div v-if="overviewStore.getDailyOverviewFilter.showScheduleSlots">
-                            <ModulesUserDailyOverviewScheduleSlots :dateRange="state.dateRange.formDateRange" />
-                        </div>
-                        <div v-if="overviewStore.getDailyOverviewFilter.showPlansAndGoals">
-                            <ModulesUserDailyOverviewPlansAndGoals :dateRange="state.dateRange.formDateRange" />
-                        </div>
+                    <div v-if="overviewStore.getDailyOverviewFilter.showPlansAndGoals">
+                        <ModulesUserDailyOverviewPlansAndGoals :dateRange="state.dateRange.formDateRange" />
                     </div>
-                    <div>
-                        <p class="text-xl font-bold text-primary">
-                            {{ $t('overview.from') }} CitizenOne<sup class="text-sm">&#8482;</sup>
-                        </p>
-                        <div class="mt-2 grid grid-cols-1 md:grid-cols-7 gap-5" ref="newsSection" id="news">
-                            <div class="min-h-44 md:col-span-4">
-                                <ModulesUserDailyOverviewNews />
-                            </div>
-                            <div class="min-h-44 md:col-span-3">
-                                <ModulesUserDailyOverviewPoll />
-                            </div>
+                </div>
+
+                <!-- News section -->
+                <div>
+                    <p class="text-lg font-semibold text-slate-900">
+                        {{ $t('overview.from') }} CitizenOne<sup class="text-xs">&#8482;</sup>
+                    </p>
+                    <div class="mt-3 grid grid-cols-1 md:grid-cols-7 gap-5" ref="newsSection" id="news">
+                        <div class="min-h-44 md:col-span-4">
+                            <ModulesUserDailyOverviewNews />
+                        </div>
+                        <div class="min-h-44 md:col-span-3">
+                            <ModulesUserDailyOverviewPoll />
                         </div>
                     </div>
                 </div>
             </div>
+
+            <!-- Modals -->
             <ModulesUserDailyOverviewFilterModalShowHide :isModalOpen="state.modal.isFilterDailyOverviewOpen"
                 @close="state.modal.isFilterDailyOverviewOpen = false" />
             <ModulesUserDailyOverviewFilterModalDateRange :isModalOpen="state.modal.isDailyOverviewDateRangeOpen"
@@ -191,7 +316,6 @@
                 @close="state.modal.isDateRangeHelperOpen = false" />
             <ModulesUserDailyOverviewQuickRiskAssessmentModalNew :isModalOpen="state.modal.isQuickRiskAssessmentOpen"
                 @close="state.modal.isQuickRiskAssessmentOpen = false" />
-
             <ModulesUserGuidedTourModalDailyOverview v-if="state.modal.isGuidedTourDailyOverviewOpen"
                 :isModalOpen="state.modal.isGuidedTourDailyOverviewOpen" :isGuidedTour="false"
                 @close="state.modal.isGuidedTourDailyOverviewOpen = false" />
@@ -202,30 +326,43 @@
 <script setup lang="ts">
 import moment from 'moment'
 import { useUserStore } from '@/store/user'
+import { dailyOverviewService } from '@/components/api/user/DailyOverviewService'
 import { useDailyOverviewStore } from '@/store/daily-overview'
-import { useDatetimeFormatter } from '@/composables/datetimeFormatter'
+import { useDepartmentStore } from '@/store/department'
+import type { Error } from '@/types'
 
 const runtimeConfig = useRuntimeConfig()
 const overviewStore = useDailyOverviewStore()
+const departmentStore = useDepartmentStore()
 const userStore = useUserStore() as any
 const route = useRoute()
 const newsSection = ref<HTMLElement | null>(null)
-const { formatDateToReadable } = useDatetimeFormatter()
 
 const state = reactive({
+    currentDate: moment(),
     dateRange: {
         formDateRange: {
             start_date: moment().startOf('isoWeek').format('YYYY-MM-DD'),
             end_date: moment().endOf('isoWeek').format('YYYY-MM-DD'),
         },
     } as any,
+    error: {} as Error,
+    isPageLoading: false,
     modal: {
         isDailyOverviewDateRangeOpen: false,
         isDateRangeHelperOpen: false,
         isFilterDailyOverviewOpen: false,
         isGuidedTourDailyOverviewOpen: false,
         isQuickRiskAssessmentOpen: false,
-    }
+    },
+    stats: {
+        citizenCalendarEvents: [],
+        latestCitizensJournal: [],
+        medicines: [],
+        medicinesDeviatedCount: 0,
+        medicinesGivenCount: 0,
+        medicinesPendingCount: 0,
+    } as any,
 })
 
 onMounted(() => {
@@ -255,18 +392,34 @@ watch(() => userStore.getUser, (user: any) => {
                 end_date: moment().endOf('isoWeek').format('YYYY-MM-DD'),
             }
         }
+        fetchCitizenCalendarEvents(state.dateRange.formDateRange)
+        fetchCitizensLatestJournal(state.dateRange.formDateRange)
+        fetchCitizensMedicines(state.dateRange.formDateRange)
     }
 })
+
+function formatDisplayDate() {
+    return state.currentDate.format('dddd, D MMMM YYYY')
+}
+
+function previousDay() {
+    state.currentDate = moment(state.currentDate).subtract(1, 'day')
+    state.dateRange.formDateRange.start_date = state.currentDate.format('YYYY-MM-DD')
+    state.dateRange.formDateRange.end_date = state.currentDate.format('YYYY-MM-DD')
+}
+
+function nextDay() {
+    state.currentDate = moment(state.currentDate).add(1, 'day')
+    state.dateRange.formDateRange.start_date = state.currentDate.format('YYYY-MM-DD')
+    state.dateRange.formDateRange.end_date = state.currentDate.format('YYYY-MM-DD')
+}
 
 function scrollToNewsIfNeeded() {
     if (route.hash === '#news' && newsSection.value) {
         nextTick(() => {
             setTimeout(() => {
-                newsSection.value?.scrollIntoView({
-                    behavior: 'smooth',
-                    block: 'start'
-                })
-            }, 3000) // delay 3 seconds
+                newsSection.value?.scrollIntoView({ behavior: 'smooth', block: 'start' })
+            }, 3000)
         })
     }
 }
@@ -278,5 +431,91 @@ function openGuidedTour() {
 function filterDailyOverviewByDate(formDateRange: any) {
     state.dateRange.formDateRange.start_date = formDateRange.start_date
     state.dateRange.formDateRange.end_date = formDateRange.end_date
+}
+
+async function fetchCitizenCalendarEvents(dateRange: any) {
+    state.error = {}
+    state.isPageLoading = true
+    try {
+        const params: any = {
+            department: departmentStore.getSelectedDepartmentName
+        }
+
+        if (state.dateRange) {
+            params.end_date = dateRange.end_date
+            params.start_date = dateRange.start_date
+        }
+        const response = await dailyOverviewService.getCitizenDailyEvents(params)
+        if (response) {
+            state.stats.citizenCalendarEvents = response
+        }
+    } catch (error: any) {
+        state.error = error
+    }
+    state.isPageLoading = false
+}
+
+async function fetchCitizensLatestJournal(dateRange: any) {
+    state.error = {}
+    state.isPageLoading = true
+    try {
+        const params: any = {
+            department: departmentStore.getSelectedDepartmentName,
+        }
+
+        if (state.dateRange) {
+            params.end_date = dateRange.end_date
+            params.start_date = dateRange.start_date
+        }
+        const response = await dailyOverviewService.getLatestCitizensJournal(params)
+        if (response) {
+            state.stats.latestCitizensJournal = response
+        }
+    } catch (error: any) {
+        state.error = error
+    }
+    state.isPageLoading = false
+}
+
+async function fetchCitizensMedicines(dateRange: any) {
+    state.error = {}
+    state.isPageLoading = true
+    try {
+        const params: any = {
+            department: departmentStore.getSelectedDepartmentName
+        }
+
+        if (state.dateRange) {
+            params.end_date = dateRange.end_date
+            params.start_date = dateRange.start_date
+        }
+        const response = await dailyOverviewService.getCitizenDailyMedicineOverview(params)
+        if (response) {
+            state.stats.medicines = response
+
+            const today = moment().format('YYYY-MM-DD')
+
+            const todayDueDates = response?.data?.flatMap((medicine: any) =>
+                (medicine?.due_dates || []).filter((dueDate: any) => dueDate.date === today)
+            ) || []
+
+            state.stats.medicinesPendingCount = todayDueDates.filter(
+                (dueDate: any) => dueDate.status === null
+            ).length
+
+            state.stats.medicinesGivenCount = todayDueDates.filter(
+                (dueDate: any) => ['delivered', 'given'].includes(dueDate.status)
+            ).length
+
+            state.stats.medicinesDeviatedCount = todayDueDates.filter(
+                (dueDate: any) => dueDate.status === 'deviated'
+            ).length
+
+            console.log(state.stats.medicines)
+        }
+    } catch (error: any) {
+        state.error = error
+    }
+    state.isPageLoading = false
 }
 </script>

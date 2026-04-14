@@ -16,12 +16,11 @@
             <LoadingSpinner :isActive="state.isPageLoading">
                 <div class="mt-8 flex justify-end items-center mb-5 gap-x-2"
                     v-if="Object.keys(state.bookingSettings).length > 0">
-                    <FormButton buttonStyle="action" class="rounded-lg" @click="state.modal.isNewEventOpen = true">
+                    <FormButton buttonStyle="action" @click="state.modal.isNewEventOpen = true">
                         <Icon name="ph:plus" class="h-4 w-4" aria-hidden="true" />
                         {{ $t('bookings.newEvent') }}
                     </FormButton>
-                    <FormButton buttonStyle="action" class="rounded-lg"
-                        @click="navigateTo('/calendar/bookings/settings')">
+                    <FormButton buttonStyle="action" @click="navigateTo('/calendar/bookings/settings')">
                         <Icon name="ph:gear" class="h-4 w-4" aria-hidden="true" />
                         {{ $t('bookingSettings.bookingSettings') }}
                     </FormButton>
@@ -66,19 +65,19 @@
                                         <td width="20%">
                                             <div class="flex items-center justify-end gap-2">
                                                 <Tooltip :text="$t('bookings.table.actions.view')">
-                                                    <FormButton type="button" buttonStyle="action" class="rounded-md"
+                                                    <FormButton type="button" buttonStyle="action"
                                                         @click="viewCourseEvent(courseEvent)">
                                                         <Icon name="ph:eye" class="size-4" />
                                                     </FormButton>
                                                 </Tooltip>
                                                 <Tooltip :text="$t('bookings.table.actions.edit')">
-                                                    <FormButton type="button" buttonStyle="action" class="rounded-md"
+                                                    <FormButton type="button" buttonStyle="action"
                                                         @click="editCourseEvent(courseEvent)">
                                                         <Icon name="ph:pencil-simple" class="size-4" />
                                                     </FormButton>
                                                 </Tooltip>
                                                 <Tooltip :text="$t('bookings.table.actions.delete')">
-                                                    <FormButton type="button" buttonStyle="action" class="rounded-md"
+                                                    <FormButton type="button" buttonStyle="action"
                                                         @click="deleteCourseEventConfirmation(courseEvent)">
                                                         <Icon name="ph:trash" class="size-4" />
                                                     </FormButton>
@@ -111,8 +110,7 @@
                             så du kan begynde at oprette begivenheder eller kurser.
                         </p>
                     </div>
-                    <FormButton buttonStyle="action" class="rounded-lg"
-                        @click="navigateTo('/calendar/bookings/settings')">
+                    <FormButton buttonStyle="action" @click="navigateTo('/calendar/bookings/settings')">
                         <Icon name="ph:gear" class="h-4 w-4" aria-hidden="true" />
                         {{ $t('bookingSettings.bookingSettings') }}
                     </FormButton>

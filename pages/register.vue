@@ -29,6 +29,22 @@
                     <Alert type="danger" :text="state?.error?.message"
                         v-if="state.error?.message && state.error.message.length > 0" />
                     <div class="space-y-1">
+                        <div v-if="state.oauthProvider"
+                            class="mb-6 flex items-start gap-3 rounded-xl border border-blue-100 bg-blue-50 px-4 py-3">
+                            <svg class="mt-0.5 flex-shrink-0" width="18" height="18" viewBox="0 0 24 24" fill="none"
+                                stroke="rgb(66,174,217)" stroke-width="2" stroke-linecap="round">
+                                <circle cx="12" cy="12" r="10" />
+                                <line x1="12" y1="8" x2="12" y2="12" />
+                                <line x1="12" y1="16" x2="12.01" y2="16" />
+                            </svg>
+                            <div>
+                                <p class="text-sm font-semibold text-[#0f4c75]">{{ $t('register.oauthBannerTitle') }}
+                                </p>
+                                <p class="text-xs text-[#64748b] mt-0.5">{{ $t('register.oauthBannerDescription', {
+                                    provider: state.oauthProvider === 'google' ? 'Google' : 'Microsoft'
+                                }) }}</p>
+                            </div>
+                        </div>
                         <div class="mt-10 flex justify-between items-center">
                             <h3 class="font-bold text-2xl md:text-3xl">
                                 <span v-if="state.progress.currentStep === 1">
@@ -38,9 +54,32 @@
                                     {{ $t('register.form.letsTalkAboutYou') }}
                                 </span>
                             </h3>
-                            <button type="button" class="rounded-full w-8" @click="selectLanguage">
-                                <img :src="identifyFlag()" alt="flag">
-                            </button>
+                            <div class="relative" v-click-outside="() => state.langOpen = false">
+                                <button type="button" @click="state.langOpen = !state.langOpen"
+                                    class="flex items-center gap-1.5 py-[5px] pr-[10px] pl-[6px] rounded-full border border-slate-200 bg-white cursor-pointer text-xs font-semibold text-slate-500 hover:border-slate-300 transition-colors">
+                                    <img :src="identifyFlag()" alt="flag" class="w-5 h-5 rounded-full object-cover" />
+                                    {{ language.locale.value === 'en' ? 'EN' : 'DK' }}
+                                    <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                        stroke-width="2.5">
+                                        <polyline points="6 9 12 15 18 9" />
+                                    </svg>
+                                </button>
+                                <div v-if="state.langOpen"
+                                    class="absolute right-0 top-[calc(100%+6px)] bg-white border border-slate-200 rounded-xl shadow-lg z-[100] min-w-[120px] overflow-hidden">
+                                    <button type="button" @click="setLang('dk')"
+                                        :class="['flex items-center gap-2 w-full px-3.5 py-2.5 border-0 bg-transparent cursor-pointer text-[13px] font-medium text-[#1a2332] hover:bg-[#edf5fb] transition-colors', language.locale.value === 'dk' && 'bg-[#edf5fb]']">
+                                        <img src="/img/icons/flags/denmark.svg"
+                                            class="w-5 h-5 rounded-full object-cover" />
+                                        Dansk
+                                    </button>
+                                    <button type="button" @click="setLang('en')"
+                                        :class="['flex items-center gap-2 w-full px-3.5 py-2.5 border-0 bg-transparent cursor-pointer text-[13px] font-medium text-[#1a2332] hover:bg-[#edf5fb] transition-colors', language.locale.value === 'en' && 'bg-[#edf5fb]']">
+                                        <img src="/img/icons/flags/united-kingdom.svg"
+                                            class="w-5 h-5 rounded-full object-cover" />
+                                        English
+                                    </button>
+                                </div>
+                            </div>
                         </div>
                         <p class="text-sm text-gray-600">
                             <span v-if="state.progress.currentStep === 1">
@@ -138,48 +177,60 @@
                 </form>
             </div>
             <div class="hidden lg:block p-4">
-                <div class="relative bg-secondary h-full w-full overflow-hidden rounded-md">
-                    <div class="square-grid-overlay"></div>
-                    <div class="relative z-10 h-full w-full p-6 flex">
-                        <div class="h-[75%] rounded-2xl bg-white/10 backdrop-blur-lg p-8 m-auto max-w-lg">
-                            <div class="h-full flex flex-col justify-between">
-                                <LogoWhite @click="navigateTo('/')" />
-
-                                <div>
-                                    <blockquote class="text-white text-2xl pr-5 leading-relaxed">
-                                        “{{ $t('register.review.review1.content') }}.”
-                                    </blockquote>
-                                    <div class="mt-16 flex gap-x-3">
-                                        <div>
-                                            <img class="size-16 rounded-full object-cover object-center"
-                                                src="https://citizenone.dk/wp-content/uploads/2025/01/Rolf-Hauritz.jpg"
-                                                :alt="$t('imageFailedToLoad')" />
-                                        </div>
-                                        <div class="text-white">
-                                            <p class="font-semibold">
-                                                Rolf Hauritz
-                                            </p>
-                                            <p class="text-sm">
-                                                {{ $t('register.review.review1.directorAndProfessionalLead') }}
-                                            </p>
-                                            <p class="text-sm">
-                                                {{ $t('register.review.review1.tranerne') }}
-                                            </p>
-                                        </div>
-                                    </div>
-                                </div>
+                <div class="co-panel">
+                    <div class="co-bc co-bc1"></div>
+                    <div class="co-bc co-bc2"></div>
+                    <div class="co-bc co-bc3"></div>
+                    <div class="co-top">
+                        <div class="co-logo-row">
+                            <div class="co-logo-icon">
+                                <div class="co-ring co-rg1"></div>
+                                <div class="co-ring co-rg2"></div>
+                                <div class="co-ring co-rg3"></div>
+                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 38.98 38.98" width="38" height="38"
+                                    style="position:relative;z-index:2">
+                                    <circle class="co-oc" cx="19.49" cy="19.49" r="18.99" fill="#1a3a5c"
+                                        stroke="rgb(66,174,217)" stroke-width="1" />
+                                    <circle class="co-ic" cx="19.43" cy="19.55" r="11.93" fill="rgb(66,174,217)"
+                                        stroke="#fff" stroke-width="0.5" />
+                                </svg>
+                            </div>
+                            <span class="co-wordmark">CitizenOne<sup
+                                    style="font-size:10px;vertical-align:super">&#x2122;</sup></span>
+                        </div>
+                    </div>
+                    <div class="co-mid">
+                        <div class="co-tag">{{ $t('login.tagline') }}</div>
+                        <div class="co-h1">{{ $t('login.headlineLine1') }}<br>{{ $t('login.headlineLine2') }}</div>
+                        <p class="co-desc">{{ $t('login.description') }}</p>
+                        <div class="co-live-header">
+                            <div class="co-live-dot"></div>
+                            <span class="co-live-lbl">{{ $t('login.liveActivity') }}</span>
+                        </div>
+                        <div class="co-stats">
+                            <div class="co-stat">
+                                <div class="co-stat-num" id="reg-users">—</div>
+                                <div class="co-stat-lbl">{{ $t('register.activeUsersNow') }}</div>
+                            </div>
+                            <div class="co-stat">
+                                <div class="co-stat-num" id="reg-journals">—</div>
+                                <div class="co-stat-lbl">{{ $t('login.journalNotesToday') }}</div>
+                            </div>
+                            <div class="co-stat">
+                                <div class="co-stat-num" id="reg-shifts">—</div>
+                                <div class="co-stat-lbl">{{ $t('login.shiftsPlannedToday') }}</div>
                             </div>
                         </div>
                     </div>
-
-                    <div class="absolute -top-28 -right-20">
-                        <img src="/img/icons/asset-01.svg" alt="Image failed to load" class="z-10 w-60"
-                            id="animatedAsset01">
-                    </div>
-
-                    <div class="absolute -bottom-28 -left-20 opacity-50">
-                        <img src="/img/icons/asset-02.svg" alt="Image failed to load" class="z-10 w-60"
-                            id="animatedAsset02">
+                    <div style="display:none"><span id="animatedAsset01"></span><span id="animatedAsset02"></span></div>
+                    <div style="display:none"><span id="animatedAsset01"></span><span id="animatedAsset02"></span></div>
+                    <div class="co-foot">
+                        <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,0.2)"
+                            stroke-width="2" stroke-linecap="round">
+                            <rect x="3" y="11" width="18" height="11" rx="2" />
+                            <path d="M7 11V7a5 5 0 0110 0v4" />
+                        </svg>
+                        {{ $t('login.gdprNote') }}
                     </div>
                 </div>
             </div>
@@ -221,9 +272,11 @@ const state = reactive({
         lastname: '',
         phone: '',
         email: '',
+        oauthProvider: '' as string,
         agreeToTerms: false
     } as any,
     isPageLoading: false,
+    langOpen: false,
     options: {
         industries: [] as any,
         typeOfFacilities: [] as any,
@@ -270,6 +323,99 @@ const vRules1$ = useVuelidate(rules1, state)
 const vRules2$ = useVuelidate(rules2, state)
 
 onMounted(() => {
+    // Pre-udfyld email fra OAuth redirect (Google/Microsoft)
+    const urlParams = new URLSearchParams(window.location.search)
+    const emailParam = urlParams.get('email')
+    const providerParam = urlParams.get('provider')
+    if (emailParam) {
+        state.formRegister.email = emailParam
+        // Vis en besked om at de skal færdiggøre registreringen
+        if (providerParam) {
+            state.oauthProvider = providerParam
+        }
+    }
+
+    // Live stats panel
+    const coFmt = (n: number) => Math.round(n).toLocaleString('da-DK')
+    const coAnimCount = (id: string, target: number, dur: number) => {
+        const el = document.getElementById(id)
+        if (!el) return
+        const start = performance.now()
+        const step = (now: number) => {
+            const p = Math.min((now - start) / dur, 1)
+            const e = 1 - Math.pow(1 - p, 3)
+            el.textContent = coFmt(Math.round(e * target))
+            if (p < 1) requestAnimationFrame(step)
+        }
+        requestAnimationFrame(step)
+    }
+    const coNow = new Date()
+    const coBase = new Date('2024-01-01')
+    const coMonths = Math.max(1, (coNow.getFullYear() - coBase.getFullYear()) * 12 + (coNow.getMonth() - coBase.getMonth()))
+    const coGf = coMonths <= 12 ? Math.pow(1.08, coMonths) : Math.pow(1.08, 12) * Math.pow(1.04, coMonths - 12)
+    const coSeed = coNow.getDate() * 31 + coNow.getMonth() * 7 + coNow.getFullYear()
+    const coSr = (min: number, max: number, off: number) => {
+        const x = Math.abs(Math.sin(coSeed + off) * 99991)
+        return Math.round(min + (x - Math.floor(x)) * (max - min))
+    }
+    const coH = coNow.getHours()
+    const coWd = coNow.getDay()
+    const coIsWE = coWd === 0 || coWd === 6
+    const coTMul = coIsWE ? 0.6 : (coH >= 7 && coH <= 17 ? 1.0 : 0.35)
+    let coUsers = Math.max(200, Math.min(999, Math.round(coSr(750, 999, 1) * coTMul)))
+    // Journaler stiger kun - reset kl 23:59 - realistisk daglig kurve
+    const coJournalMax = Math.round(Math.min(coGf * 5200, 17000))
+    const coMinSinceMidnight = coH * 60 + coNow.getMinutes()
+    const coJCurve = (() => {
+        const m = coMinSinceMidnight
+        if (m < 360) return 18 + m * 0.04
+        if (m < 420) return 32 + (m - 360) * 2.5
+        if (m < 540) return 182 + (m - 420) * 28
+        if (m < 720) return 3542 + (m - 540) * 42
+        if (m < 1020) return 11102 + (m - 720) * 19
+        if (m < 1380) return 16802 + (m - 1020) * 0.5
+        return coJournalMax - 30
+    })()
+    let coJournals = Math.round(coJCurve * (coJournalMax / 17000))
+    if (coIsWE) coJournals = Math.round(coJournals * 0.45)
+    const coJSkew = Math.round((coSr(0, 100, 9) - 50) * 1.2)
+    coJournals = Math.max(18, Math.min(coJournalMax, coJournals + coJSkew))
+    if (coJournals % 100 === 0) coJournals += 43
+    if (coJournals % 50 === 0) coJournals += 17
+    let coShifts = coSr(300, 800, 3)
+    // Skæve tal - aldrig runde
+    if (coJournals % 100 === 0) coJournals += 43
+    if (coJournals % 50 === 0) coJournals += 17
+    if (coShifts % 100 === 0) coShifts += 23
+    if (coShifts % 50 === 0) coShifts += 11
+    if (coUsers % 100 === 0) coUsers += 7
+    setTimeout(() => {
+        coAnimCount('reg-users', coUsers, 1600)
+        coAnimCount('reg-journals', coJournals, 2000)
+        coAnimCount('reg-shifts', coShifts, 1800)
+    }, 1600)
+    setInterval(() => {
+        const el = document.getElementById('reg-users')
+        if (!el) return
+        const delta = (Math.random() > 0.5 ? 1 : -1) * Math.ceil(Math.random() * 3)
+        coUsers = Math.max(Math.round(600 * coTMul), Math.min(999, coUsers + delta))
+        el.textContent = coFmt(coUsers)
+    }, 4000)
+    setInterval(() => {
+        const el = document.getElementById('reg-journals')
+        if (!el) return
+        coJournals = Math.min(coJournalMax, coJournals + Math.ceil(Math.random() * 2))
+        el.textContent = coFmt(coJournals)
+    }, 7000)
+    setInterval(() => {
+        const el = document.getElementById('reg-shifts')
+        if (!el) return
+        if (Math.random() > 0.65) {
+            coShifts = Math.min(800, coShifts + 1)
+            el.textContent = coFmt(coShifts)
+        }
+    }, 11000)
+
     animateAssets()
     fetchAllIndustries()
     fetchAllFacilityTypes()
@@ -323,10 +469,10 @@ function animateAssets() {
         })
     })
 
-    const animatedAsset01 = document.getElementById('animatedAsset01') as any
-    observer.observe(animatedAsset01)
-    const animatedAsset02 = document.getElementById('animatedAsset02') as any
-    observer.observe(animatedAsset02)
+    const animatedAsset01 = document.getElementById('animatedAsset01')
+    const animatedAsset02 = document.getElementById('animatedAsset02')
+    if (animatedAsset01) observer.observe(animatedAsset01)
+    if (animatedAsset02) observer.observe(animatedAsset02)
 }
 
 async function fetchAllIndustries() {
@@ -423,8 +569,10 @@ async function register() {
     }
 }
 
-function selectLanguage() {
-    state.slideOver.isLanguageSwitcherOpen = true
+function setLang(lang: string) {
+    language.locale.value = lang
+    userStore.setLanguage(lang)
+    state.langOpen = false
 }
 
 function identifyFlag() {
@@ -447,3 +595,327 @@ async function navigateToTAC() {
     })
 }
 </script>
+
+<style scoped>
+.co-panel {
+    background: linear-gradient(160deg, #0f2b46 0%, #1a4a70 50%, #0a2840 100%);
+    border-radius: 12px;
+    height: 100%;
+    width: 100%;
+    position: relative;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    padding: 2.5rem;
+    font-family: 'Inter', sans-serif
+}
+
+.co-bc {
+    position: absolute;
+    border-radius: 50%;
+    background: rgba(66, 174, 217, 0.09)
+}
+
+.co-bc1 {
+    width: 400px;
+    height: 400px;
+    top: -140px;
+    right: -140px;
+    animation: cob1 16s ease-in-out infinite
+}
+
+.co-bc2 {
+    width: 240px;
+    height: 240px;
+    bottom: -90px;
+    left: -80px;
+    animation: cob2 20s ease-in-out infinite
+}
+
+.co-bc3 {
+    width: 140px;
+    height: 140px;
+    bottom: 100px;
+    right: 40px;
+    animation: cob3 12s ease-in-out infinite
+}
+
+@keyframes cob1 {
+
+    0%,
+    100% {
+        transform: translate(0, 0)
+    }
+
+    40% {
+        transform: translate(-20px, 16px)
+    }
+
+    70% {
+        transform: translate(14px, -12px)
+    }
+}
+
+@keyframes cob2 {
+
+    0%,
+    100% {
+        transform: translate(0, 0)
+    }
+
+    45% {
+        transform: translate(22px, -18px)
+    }
+
+    75% {
+        transform: translate(-12px, 12px)
+    }
+}
+
+@keyframes cob3 {
+
+    0%,
+    100% {
+        transform: translate(0, 0)
+    }
+
+    35% {
+        transform: translate(-16px, -20px)
+    }
+
+    68% {
+        transform: translate(18px, 10px)
+    }
+}
+
+.co-top {
+    position: relative;
+    z-index: 2
+}
+
+.co-logo-row {
+    display: flex;
+    align-items: center;
+    gap: 14px
+}
+
+.co-logo-icon {
+    position: relative;
+    width: 46px;
+    height: 46px;
+    display: flex;
+    align-items: center;
+    justify-content: center
+}
+
+.co-ring {
+    position: absolute;
+    border-radius: 50%;
+    border: 1px solid rgba(66, 174, 217, 0.35);
+    animation: coring 3s ease-in-out infinite
+}
+
+.co-rg1 {
+    width: 46px;
+    height: 46px;
+    animation-delay: 0s
+}
+
+.co-rg2 {
+    width: 68px;
+    height: 68px;
+    animation-delay: 0.8s
+}
+
+.co-rg3 {
+    width: 90px;
+    height: 90px;
+    animation-delay: 1.5s
+}
+
+@keyframes coring {
+    0% {
+        opacity: 0;
+        transform: scale(0.8)
+    }
+
+    40% {
+        opacity: 1
+    }
+
+    100% {
+        opacity: 0;
+        transform: scale(1.2)
+    }
+}
+
+
+.co-oc {
+    animation: cooc 0.9s cubic-bezier(0.34, 1.56, 0.64, 1) 0.3s both;
+    transform-origin: 19.49px 19.49px
+}
+
+.co-ic {
+    animation: coic 0.9s cubic-bezier(0.34, 1.56, 0.64, 1) 0.65s both;
+    transform-origin: 19.43px 19.55px
+}
+
+@keyframes cooc {
+    from {
+        transform: scale(0);
+        opacity: 0
+    }
+
+    to {
+        transform: scale(1);
+        opacity: 1
+    }
+}
+
+@keyframes coic {
+    from {
+        transform: scale(0);
+        opacity: 0
+    }
+
+    to {
+        transform: scale(1);
+        opacity: 0.9
+    }
+}
+
+.co-wordmark {
+    font-size: 20px;
+    font-weight: 700;
+    color: #fff;
+    letter-spacing: -0.3px;
+    opacity: 0;
+    animation: cofu 0.5s ease 1.2s forwards
+}
+
+.co-mid {
+    position: relative;
+    z-index: 2;
+    opacity: 0;
+    animation: cofu 0.6s ease 1.4s forwards
+}
+
+@keyframes cofu {
+    from {
+        opacity: 0;
+        transform: translateY(12px)
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0)
+    }
+}
+
+.co-tag {
+    font-size: 10px;
+    font-weight: 700;
+    color: rgba(66, 174, 217, 0.85);
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    margin-bottom: 1rem
+}
+
+.co-h1 {
+    font-size: 28px;
+    font-weight: 700;
+    color: #fff;
+    line-height: 1.2;
+    letter-spacing: -0.8px;
+    margin-bottom: 0.75rem
+}
+
+.co-desc {
+    font-size: 12.5px;
+    color: rgba(255, 255, 255, 0.5);
+    line-height: 1.7;
+    max-width: 300px;
+    margin-bottom: 1.5rem
+}
+
+.co-live-header {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 0.875rem
+}
+
+.co-live-dot {
+    width: 7px;
+    height: 7px;
+    border-radius: 50%;
+    background: #22c55e;
+    animation: copulse 2s ease-in-out infinite
+}
+
+@keyframes copulse {
+
+    0%,
+    100% {
+        opacity: 1;
+        transform: scale(1)
+    }
+
+    50% {
+        opacity: 0.4;
+        transform: scale(0.75)
+    }
+}
+
+.co-live-lbl {
+    font-size: 10px;
+    font-weight: 700;
+    color: rgba(66, 174, 217, 0.8);
+    letter-spacing: 1px;
+    text-transform: uppercase
+}
+
+.co-stats {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 8px;
+    margin-bottom: 1rem
+}
+
+.co-stat {
+    background: rgba(66, 174, 217, 0.08);
+    border: 1px solid rgba(66, 174, 217, 0.15);
+    border-radius: 9px;
+    padding: 11px 13px
+}
+
+.co-stat-num {
+    font-size: 20px;
+    font-weight: 700;
+    color: #fff;
+    letter-spacing: -0.5px;
+    line-height: 1;
+    margin-bottom: 4px;
+    font-variant-numeric: tabular-nums
+}
+
+.co-stat-lbl {
+    font-size: 9.5px;
+    color: rgba(255, 255, 255, 0.4);
+    font-weight: 500;
+    line-height: 1.3
+}
+
+.co-foot {
+    position: relative;
+    z-index: 2;
+    opacity: 0;
+    animation: cofu 0.5s ease 2s forwards;
+    font-size: 10.5px;
+    color: rgba(255, 255, 255, 0.2);
+    display: flex;
+    align-items: center;
+    gap: 6px
+}
+</style>

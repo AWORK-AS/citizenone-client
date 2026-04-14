@@ -72,7 +72,8 @@
             <div class="space-y-2">
                 <div class="w-fit flex items-center gap-2 cursor-pointer" @click="toggleAnchorDate">
                     <FormCheckbox :value="state.showAnchorDate" />
-                    <span class="text-sm font-medium text-gray-700 select-none">{{ $t('dutyShiftRules.form.addAnchorDate') }}</span>
+                    <span class="text-sm font-medium text-gray-700 select-none">{{
+                        $t('dutyShiftRules.form.addAnchorDate') }}</span>
                 </div>
                 <div v-if="state.showAnchorDate" class="space-y-1">
                     <FormLabel for="anchor_date" :label="$t('dutyShiftRules.form.anchorDate')" />
@@ -94,7 +95,8 @@
             <div class="w-fit flex items-center gap-2 cursor-pointer"
                 @click="state.formDutyShiftRule.is_active = !state.formDutyShiftRule.is_active">
                 <FormCheckbox :value="state.formDutyShiftRule.is_active" />
-                <span class="text-sm font-medium text-gray-700 select-none">{{ $t('dutyShiftRules.form.active') }}</span>
+                <span class="text-sm font-medium text-gray-700 select-none">{{ $t('dutyShiftRules.form.active')
+                    }}</span>
             </div>
             <div class="space-y-5">
                 <div class="flex items-center gap-1.5">
@@ -132,11 +134,10 @@
 
         <div class="mt-6">
             <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
-                <FormButton type="button" buttonStyle="cancel" class="rounded-md"
-                    @click="navigateTo('/settings/duty-shift-rules')">
+                <FormButton type="button" buttonStyle="cancel" @click="navigateTo('/settings/duty-shift-rules')">
                     {{ $t('cancel') }}
                 </FormButton>
-                <FormButton type="submit" buttonStyle="primary" class="rounded-md">
+                <FormButton type="submit" buttonStyle="primary">
                     {{ props.formType === 'create' ? $t('save') : $t('update') }}
                 </FormButton>
             </div>

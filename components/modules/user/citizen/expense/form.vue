@@ -27,15 +27,14 @@
             </div>
             <div class="space-y-1">
                 <FormLabel for="expense_date" :label="$t('citizens.expenses.form.date')" />
-                <FormDateField id="expense_date" name="expense_date"
-                    :placeholder="$t('citizens.expenses.form.date')" v-model="state.formExpense.expense_date" />
+                <FormDateField id="expense_date" name="expense_date" :placeholder="$t('citizens.expenses.form.date')"
+                    v-model="state.formExpense.expense_date" />
                 <FormError :error="v$?.formExpense?.expense_date?.$errors[0]?.$message.toString()" />
                 <FormError :error="props?.error?.errors?.expense_date?.[0]" />
             </div>
             <div class="space-y-1">
                 <FormLabel for="amount" :label="$t('citizens.expenses.form.amount')" />
-                <FormTextField id="amount" name="amount"
-                    :placeholder="$t('citizens.expenses.form.amount')"
+                <FormTextField id="amount" name="amount" :placeholder="$t('citizens.expenses.form.amount')"
                     v-model="state.formExpense.amount" />
                 <FormError :error="v$?.formExpense?.amount?.$errors[0]?.$message.toString()" />
                 <FormError :error="props?.error?.errors?.amount?.[0]" />
@@ -44,8 +43,7 @@
             <!-- File Attachment Section -->
             <div class="space-y-1">
                 <FormLabel for="receipt" :label="$t('citizens.expenses.form.receipt')" />
-                <input type="file" id="receipt" ref="attachmentInput" @change="onAttachmentChange"
-                    class="hidden" />
+                <input type="file" id="receipt" ref="attachmentInput" @change="onAttachmentChange" class="hidden" />
                 <div class="border-2 border-dashed border-tertiary-25 rounded-md p-4 text-center cursor-pointer hover:border-primary transition-colors"
                     @click="triggerAttachmentInput">
                     <div class="flex flex-col items-center gap-2">
@@ -62,8 +60,7 @@
                 <!-- Display existing attachments (for edit mode) -->
                 <div v-if="state.existingAttachment?.name" class="mt-3 space-y-2">
                     <p class="text-xs text-tertiary font-medium">{{ $t('citizens.expenses.form.receipt') }}</p>
-                    <div
-                        class="flex items-center justify-between p-3 bg-blue-50 rounded-md border border-blue-200">
+                    <div class="flex items-center justify-between p-3 bg-blue-50 rounded-md border border-blue-200">
                         <div class="flex items-center gap-3 flex-1 min-w-0">
                             <!-- PDF Icon -->
                             <Icon v-if="state.existingAttachment?.mime_type === 'application/pdf'" name="ph:file-pdf"
@@ -96,8 +93,7 @@
 
                 <div v-if="state.formExpense.receipt?.name" class="mt-3 space-y-2">
                     <p class="text-xs text-tertiary-600 font-medium">{{ $t('news.form.attachments') }}</p>
-                    <div
-                        class="flex items-center justify-between p-3 bg-green-50 rounded-md border border-green-200">
+                    <div class="flex items-center justify-between p-3 bg-green-50 rounded-md border border-green-200">
                         <div class="flex items-center gap-3 flex-1 min-w-0">
                             <svg class="w-6 h-6 text-green-600 flex-shrink-0" fill="none" stroke="currentColor"
                                 viewBox="0 0 24 24">
@@ -105,9 +101,11 @@
                                     d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
                             </svg>
                             <div class="flex-1 min-w-0">
-                                <span class="text-sm text-green-800 font-medium truncate block">{{ state.formExpense.receipt.name
+                                <span class="text-sm text-green-800 font-medium truncate block">{{
+                                    state.formExpense.receipt.name
                                 }}</span>
-                                <span class="text-xs text-tertiary-500 mt-0.5 block">{{ formatFileSize(state.formExpense.receipt.size)
+                                <span class="text-xs text-tertiary-500 mt-0.5 block">{{
+                                    formatFileSize(state.formExpense.receipt.size)
                                 }}</span>
                             </div>
                         </div>
@@ -129,8 +127,8 @@
 
             <div class="space-y-1">
                 <FormLabel for="description" :label="$t('citizens.expenses.form.description')" />
-                <FormTextArea id="description" name="description" :placeholder="$t('citizens.expenses.form.description')"
-                    v-model="state.formExpense.description" />
+                <FormTextArea id="description" name="description"
+                    :placeholder="$t('citizens.expenses.form.description')" v-model="state.formExpense.description" />
                 <FormError :error="v$?.formExpense?.description?.$errors[0]?.$message.toString()" />
                 <FormError :error="props?.error?.errors?.description?.[0]" />
             </div>
@@ -138,10 +136,10 @@
         </div>
         <div class="mt-6">
             <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
-                <FormButton type="button" buttonStyle="cancel" class="rounded-md" @click="emit('closeModal')">
+                <FormButton type="button" buttonStyle="cancel" @click="emit('closeModal')">
                     {{ $t('cancel') }}
                 </FormButton>
-                <FormButton type="submit" buttonStyle="primary" class="rounded-md w-full">
+                <FormButton type="submit" buttonStyle="primary" class="w-full">
                     {{ props.formType === 'create' ? $t('save') : $t('update') }}
                 </FormButton>
             </div>
@@ -214,7 +212,7 @@ onMounted(() => {
         receipt: props.selectedExpense.receipt || {},
         is_existing_file_removed: false,
     }
-    
+
     // Set existing attachment for edit mode
     if (props.formType === 'update' && props.selectedExpense.receipt?.url) {
         state.existingAttachment = {
@@ -224,7 +222,7 @@ onMounted(() => {
             mime_type: props.selectedExpense.receipt?.mime_type || 'application/octet-stream'
         }
     }
-    
+
     fetchExpenseCategories()
 })
 
@@ -242,7 +240,7 @@ watch(() => props.selectedExpense, (newValue: any) => {
             receipt: newValue.receipt || {},
             is_existing_file_removed: false,
         }
-        
+
         // Update existing attachment
         if (props.formType === 'update' && newValue.receipt?.url) {
             state.existingAttachment = {

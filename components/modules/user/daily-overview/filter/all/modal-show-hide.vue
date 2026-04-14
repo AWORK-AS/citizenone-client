@@ -24,7 +24,7 @@
                         </div>
                     </div>
                     <div class="mt-5 flex gap-x-3 justify-end">
-                        <FormButton buttonStyle="primary" @click="closeModal" class="rounded-md">
+                        <FormButton buttonStyle="primary" @click="closeModal">
                             {{ $t('close') }}
                         </FormButton>
                     </div>

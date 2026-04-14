@@ -26,11 +26,11 @@ class TimeLogService extends BaseAPIService {
     }
 
     async approveTimeLogRequest(timeLogUuid: any): Promise<any> {
-        return await this.request(`/user/time-logs/${timeLogUuid}/approve-request`, 'POST')
+        return await this.request(`/user/time-logs/${timeLogUuid}/approve-request`, 'PUT')
     }
 
     async declineTimeLogRequest(timeLogUuid: any): Promise<any> {
-        return await this.request(`/user/time-logs/${timeLogUuid}/decline-request`, 'POST')
+        return await this.request(`/user/time-logs/${timeLogUuid}/decline-request`, 'PUT')
     }
 
     async downloadTimeLog(params: object): Promise<any> {
