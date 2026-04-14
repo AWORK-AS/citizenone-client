@@ -5,8 +5,10 @@
             <template #modal-body>
                 <LoadingSpinner :isActive="state.isPageLoading">
                     <div class="space-y-3">
+                        <Alert type="danger" :text="state?.error?.message"
+                            v-if="state.error?.message && state.error.message.length > 0" />
                         <div class="flex flex-col md:flex-row gap-x-1 flex-wrap font-medium">
-                            <p>
+                            <p class="text-sm">
                                 {{ $t('dutySchedules.typeOfShifts') }}:
                             </p>
                             <button class="w-fit text-xs text-primary hover:text-primary-700 hover:underline"
