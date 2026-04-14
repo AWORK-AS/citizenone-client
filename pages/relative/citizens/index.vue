@@ -54,12 +54,12 @@
                                     </td>
                                     <td width="20%">
                                         <div class="flex items-end gap-2">
-                                            <FormButton type="button" buttonStyle="action" class="rounded-md"
+                                            <FormButton type="button" buttonStyle="action"
                                                 @click="navigateTo(`/relative/citizens/${citizen.uuid}/journals`)">
                                                 <Icon name="ph:eye" class="size-4" />
                                                 {{ $t('citizens.table.actions.view') }}
                                             </FormButton>
-                                            <FormButton type="button" buttonStyle="action" class="rounded-md"
+                                            <FormButton type="button" buttonStyle="action"
                                                 @click="showCitizenNote(citizen)">
                                                 <Icon name="ph:note-blank" class="size-4" />
                                                 {{ $t('citizens.table.actions.latestJournalEntry') }}

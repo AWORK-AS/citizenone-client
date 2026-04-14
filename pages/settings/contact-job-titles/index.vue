@@ -18,8 +18,7 @@
 
             <div class="mt-8">
                 <div class="flex justify-end items-center mb-5">
-                    <FormButton buttonStyle="action" class="rounded-lg"
-                        @click="navigateTo('/settings/contact-job-titles/new')">
+                    <FormButton buttonStyle="action" @click="navigateTo('/settings/contact-job-titles/new')">
                         <Icon name="ph:plus" class="h-4 w-4" aria-hidden="true" />
                         {{ $t('contactJobTitles.addNewContactJobTitle') }}
                     </FormButton>
@@ -42,13 +41,13 @@
                                     </td>
                                     <td width="40%">
                                         <div class="flex items-center justify-end gap-2">
-                                            <FormButton type="button" buttonStyle="action" class="rounded-md"
+                                            <FormButton type="button" buttonStyle="action"
                                                 @click="navigateTo(`/settings/contact-job-titles/${contactJobTitle.uuid}/edit`)"
                                                 v-if="contactJobTitle?.is_editable">
                                                 <Icon name="ph:pencil-simple" class="size-4" />
                                                 {{ $t('contactJobTitles.table.actions.edit') }}
                                             </FormButton>
-                                            <FormButton type="button" buttonStyle="danger" class="rounded-md"
+                                            <FormButton type="button" buttonStyle="danger"
                                                 @click="deleteContactJobTitleConfirmation(contactJobTitle)"
                                                 v-if="contactJobTitle?.is_deletable">
                                                 <Icon name="ph:trash" class="size-4" />

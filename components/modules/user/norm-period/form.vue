@@ -24,11 +24,10 @@
             <FormError :error="props?.error?.errors?.date_end?.[0]" />
         </div>
         <div class="space-y-1">
-            <FormLabel for="department_uuid"
-                :label="$t('normPeriod.form.department')" />
+            <FormLabel for="department_uuid" :label="$t('normPeriod.form.department')" />
             <FormSelectMultiple id="department_uuid" name="department_uuid"
-                :placeholder="$t('normPeriod.form.department')"
-                :options="state.options.departments" v-model="state.formNormPeriod.department_uuids" />
+                :placeholder="$t('normPeriod.form.department')" :options="state.options.departments"
+                v-model="state.formNormPeriod.department_uuids" />
             <FormError :error="v$?.formNormPeriod?.department_uuids?.$errors[0]?.$message.toString()" />
             <FormError :error="props?.error?.errors?.department_uuids?.[0]" />
         </div>
@@ -37,7 +36,8 @@
                 @click="state.formNormPeriod.update_all_users = !state.formNormPeriod.update_all_users">
                 <FormCheckbox id="update_all_users" :value="state.formNormPeriod.update_all_users" />
                 {{ $t('normPeriod.form.overrideNormPeriods') }}
-                <Icon name="ph:question" class="h-4 w-4 ml-1" aria-hidden="true" @click.stop="state.modal.isOverrideModalOpen = true" />
+                <Icon name="ph:question" class="h-4 w-4 ml-1" aria-hidden="true"
+                    @click.stop="state.modal.isOverrideModalOpen = true" />
             </div>
         </div>
         <div class="space-y-1">
@@ -49,11 +49,10 @@
         </div>
         <div class="mt-6 mb-20">
             <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
-                <FormButton type="button" buttonStyle="cancel" class="rounded-md"
-                    @click="navigateTo('/settings/norm-periods')">
+                <FormButton type="button" buttonStyle="cancel" @click="navigateTo('/settings/norm-periods')">
                     {{ $t('cancel') }}
                 </FormButton>
-                <FormButton type="submit" buttonStyle="primary" class="rounded-md">
+                <FormButton type="submit" buttonStyle="primary">
                     {{ props.formType === 'create' ? $t('save') :
                         $t('update') }}
                 </FormButton>
@@ -121,7 +120,7 @@ const state = reactive({
             { value: 11, label: t('months.november') },
             { value: 12, label: t('months.december') },
         ],
-        "days": Array.from({ length: 31 }, (_, i) => ({value: i + 1, label: (i + 1).toString()})),
+        "days": Array.from({ length: 31 }, (_, i) => ({ value: i + 1, label: (i + 1).toString() })),
         departments: [] as Array<any>,
     }
 })

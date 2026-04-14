@@ -4,18 +4,10 @@
             <template #modal-body>
                 <div class="space-y-4">
                     <div class="h-[600px] w-full rounded-md overflow-hidden border">
-                        <MapLocation 
-                            ref="mapRef" 
-                            :center="mapCenter" 
-                            :zoom="mapZoom" 
-                            :markerCoords="userLocation"
-                            :markerPopup="$t('citizens.viewLocations.yourLocation')"
-                            :extraMarkers="citizenMarkers"
-                            :polylinePoints="routeLines"
-                            :polylineColor="'#3b82f6'"
-                            :polylineWeight="2"
-                            @map-ready="onMapReady"
-                        />
+                        <MapLocation ref="mapRef" :center="mapCenter" :zoom="mapZoom" :markerCoords="userLocation"
+                            :markerPopup="$t('citizens.viewLocations.yourLocation')" :extraMarkers="citizenMarkers"
+                            :polylinePoints="routeLines" :polylineColor="'#3b82f6'" :polylineWeight="2"
+                            @map-ready="onMapReady" />
                     </div>
 
                     <div v-if="isLoading" class="flex items-center justify-center py-4 bg-blue-50 rounded">
@@ -26,21 +18,26 @@
                     <Alert v-if="locationError" type="danger" :text="locationError" />
 
                     <div v-if="citizensWithLocations.length > 0" class="space-y-2">
-                        <FormLabel :label="$t('citizens.viewLocations.citizensWithLocations', { count: citizensWithLocations.length })" />
+                        <FormLabel
+                            :label="$t('citizens.viewLocations.citizensWithLocations', { count: citizensWithLocations.length })" />
                         <div class="max-h-60 overflow-y-auto border rounded-md">
-                            <div v-for="(citizen, index) in citizensWithLocations" :key="citizen.uuid" 
-                                 class="flex items-center justify-between p-3 hover:bg-gray-50 border-b last:border-b-0">
+                            <div v-for="(citizen, index) in citizensWithLocations" :key="citizen.uuid"
+                                class="flex items-center justify-between p-3 hover:bg-gray-50 border-b last:border-b-0">
                                 <div class="flex items-center gap-x-3">
                                     <img :src="citizen.image ?? `https://ui-avatars.com/api/?background=42AED9&color=fff&name=${citizen.firstname + ' ' + citizen.lastname}`"
-                                         class="w-10 h-10 rounded-full object-cover border-2 border-gray-300" />
+                                        class="w-10 h-10 rounded-full object-cover border-2 border-gray-300" />
                                     <div>
-                                        <p class="text-sm font-medium">{{ citizen.firstname }} {{ citizen.lastname }}</p>
+                                        <p class="text-sm font-medium">{{ citizen.firstname }} {{ citizen.lastname }}
+                                        </p>
                                         <p class="text-xs text-gray-500">{{ citizen.address?.street }}</p>
                                     </div>
                                 </div>
                                 <div class="text-right">
                                     <p class="text-xs text-gray-500">
-                                        {{ $t('citizens.viewLocations.distance') }}: {{ calculateDistance(userLocation, { lat: Number(citizen.address.latitude), lng: Number(citizen.address.longitude) }) }} km
+                                        {{ $t('citizens.viewLocations.distance') }}: {{ calculateDistance(userLocation,
+                                            {
+                                                lat: Number(citizen.address.latitude), lng: Number(citizen.address.longitude)
+                                        }) }} km
                                     </p>
                                 </div>
                             </div>
@@ -57,7 +54,7 @@
                         </p>
                     </div>
                     <div class="flex justify-end gap-3 mt-5">
-                        <FormButton buttonStyle="cancel" @click="closeModal" class="rounded-md">
+                        <FormButton buttonStyle="cancel" @click="closeModal">
                             {{ $t('close') }}
                         </FormButton>
                     </div>
@@ -111,10 +108,10 @@ const locationError = ref<string>('')
 const citizensWithLocations = computed(() => {
     return props.citizens.filter(citizen => {
         if (!citizen.address) return false
-        
+
         const lat = Number(citizen.address.latitude)
         const lng = Number(citizen.address.longitude)
-        
+
         return !isNaN(lat) && !isNaN(lng) && lat !== 0 && lng !== 0
     })
 })
@@ -133,7 +130,7 @@ const routeLines = computed(() => {
     }
 
     const lines: Array<[number, number]> = []
-    
+
     citizensWithLocations.value.forEach(citizen => {
         // Add user location
         lines.push([userLocation.value!.lat, userLocation.value!.lng])
@@ -167,24 +164,24 @@ async function getUserLocation() {
         (position) => {
             const lat = position.coords.latitude
             const lng = position.coords.longitude
-            
+
             userLocation.value = { lat, lng }
             mapCenter.value = [lat, lng]
-            
+
             // Fit map to show all locations
             if (mapInstance.value && citizensWithLocations.value.length > 0) {
                 nextTick(() => {
                     fitMapBounds()
                 })
             }
-            
+
             isLoading.value = false
         },
         (error) => {
             console.error('Error getting location:', error)
             locationError.value = `Unable to get your location: ${error.message}`
             isLoading.value = false
-            
+
             // Still show citizens on map even without user location
             if (citizensWithLocations.value.length > 0) {
                 const firstCitizen = citizensWithLocations.value[0]
@@ -216,7 +213,7 @@ function fitMapBounds() {
 
     if (bounds.length > 0) {
         try {
-            mapInstance.value.fitBounds(bounds, { 
+            mapInstance.value.fitBounds(bounds, {
                 padding: [50, 50],
                 maxZoom: 14
             })
@@ -233,7 +230,7 @@ function calculateDistance(point1: { lat: number; lng: number } | null, point2: 
     const R = 6371 // Radius of the Earth in km
     const dLat = (point2.lat - point1.lat) * Math.PI / 180
     const dLon = (point2.lng - point1.lng) * Math.PI / 180
-    const a = 
+    const a =
         Math.sin(dLat / 2) * Math.sin(dLat / 2) +
         Math.cos(point1.lat * Math.PI / 180) * Math.cos(point2.lat * Math.PI / 180) *
         Math.sin(dLon / 2) * Math.sin(dLon / 2)

@@ -33,17 +33,17 @@
                             </button>
                         </div>
                         <div class="flex flex-wrap items-center justify-end gap-3">
-                            <FormButton buttonStyle="action" class="rounded-lg" @click="viewInterventionHours">
+                            <FormButton buttonStyle="action" @click="viewInterventionHours">
                                 <Icon name="ph:clock" class="h-4 w-4" aria-hidden="true" />
                                 {{ $t('timeLogs.interventionHours') }}
                             </FormButton>
-                            <FormButton buttonStyle="action" class="rounded-lg"
-                                @click="state.modal.isAddNewTimeLogOpen = true">
+                            <FormButton buttonStyle="action" @click="state.modal.isAddNewTimeLogOpen = true">
                                 <Icon name="ph:plus" class="h-4 w-4" aria-hidden="true" />
-                                {{ $t('timeLogs.newTimeLog') }}
-                            </FormButton>    
-                            <FormButton buttonStyle="action" class="rounded-lg"
-                                @click="state.modal.isDownloadTimeLogsOpen = true">
+                                {{ isAdmin(userStore.getUser?.roles) ?
+                                    $t('timeLogs.newTimeLog') :
+                                    $t('timeLogs.requestNewTimeLog') }}
+                            </FormButton>
+                            <FormButton buttonStyle="action" @click="state.modal.isDownloadTimeLogsOpen = true">
                                 <Icon name="ph:download" class="h-4 w-4" aria-hidden="true" />
                                 {{ $t('timeLogs.download.download') }}
                             </FormButton>
@@ -97,18 +97,42 @@
                                         <span>{{ log?.time_summary }}</span>
                                     </td>
                                     <td width="10%">
-                                        <div class="flex items-end gap-2">
-                                            <FormButton type="button" buttonStyle="action" class="rounded-md"
-                                                @click="viewTimeLog(log)">
+                                        <Badge type="active" class="w-fit" v-if="log?.request_status === 'approved'">
+                                            <p class="text-xxs">{{ $t('timeLogs.table.requestStatus.approved') }}</p>
+                                        </Badge>
+                                        <Badge type="inactive" class="w-fit"
+                                            v-else-if="log?.request_status === 'declined'">
+                                            <p class="text-xxs">{{ $t('timeLogs.table.requestStatus.declined') }}</p>
+                                        </Badge>
+                                        <Badge type="pending" class="w-fit"
+                                            v-else-if="log?.request_status === 'pending'">
+                                            <p class="text-xxs">{{ $t('timeLogs.table.requestStatus.pending') }}</p>
+                                        </Badge>
+                                    </td>
+                                    <td width="10%">
+                                        <div class="flex items-end justify-end gap-2">
+                                            <FormButton type="button" buttonStyle="action"
+                                                @click="confirmTimeLogApproval(log)"
+                                                v-if="log?.request_status === 'pending' && isAdmin(userStore.getUser?.roles)">
+                                                <Icon name="ph:check" class="size-4" />
+                                                {{ $t('timeLogs.table.actions.approve') }}
+                                            </FormButton>
+                                            <FormButton type="button" buttonStyle="danger"
+                                                @click="confirmTimeLogDecline(log)"
+                                                v-if="log?.request_status === 'pending' && isAdmin(userStore.getUser?.roles)">
+                                                <Icon name="ph:x" class="size-4" />
+                                                {{ $t('timeLogs.table.actions.decline') }}
+                                            </FormButton>
+                                            <FormButton type="button" buttonStyle="action" @click="viewTimeLog(log)">
                                                 <Icon name="ph:eye" class="size-4" />
                                                 {{ $t('timeLogs.table.actions.view') }}
                                             </FormButton>
-                                            <FormButton type="button" buttonStyle="action" class="rounded-md"
-                                                @click="editTimeLog(log)" v-if="log?.is_editable">
+                                            <FormButton type="button" buttonStyle="action" @click="editTimeLog(log)"
+                                                v-if="log?.is_editable">
                                                 <Icon name="ph:pencil-simple" class="size-4" />
                                                 {{ $t('timeLogs.table.actions.edit') }}
                                             </FormButton>
-                                            <FormButton type="button" buttonStyle="danger" class="rounded-md"
+                                            <FormButton type="button" buttonStyle="danger"
                                                 @click="confirmTimeLogDeletion(log)" v-if="log?.is_deletable">
                                                 <Icon name="heroicons:trash" class="size-4" />
                                                 {{ $t('timeLogs.table.actions.delete') }}
@@ -131,12 +155,20 @@
             <ModulesUserTimeRegistrationModalEdit :isModalOpen="state.modal.isEditTimeLogOpen"
                 :selectedTimeLog="state.selectedTimeLog" @close="state.modal.isEditTimeLogOpen = false"
                 @refreshTimeLogs="fetchTimeLogs" />
-            <ModulesUserSettingsTimeLogsInterventionHoursEmployeeModal v-if="employeeUuid" :employeeUuid="employeeUuid.toString()" :isModalOpen="state.modal.isInterventionHoursOpen" @close="state.modal.isInterventionHoursOpen = false" />
+            <ModulesUserSettingsTimeLogsInterventionHoursEmployeeModal v-if="employeeUuid"
+                :employeeUuid="employeeUuid.toString()" :isModalOpen="state.modal.isInterventionHoursOpen"
+                @close="state.modal.isInterventionHoursOpen = false" />
             <ModulesUserTimeRegistrationModalViewLog :isModalOpen="state.modal.isViewTimeLogOpen"
                 :selectedTimeLog="state.selectedTimeLog" @close="state.modal.isViewTimeLogOpen = false" />
             <DialogConfirmation :isModalOpen="state.modal.isDeleteTimeLogConfirmationOpen"
                 :message="`${$t('timeLogs.table.confirmation.deleteTimeLogConfirmation')}?`"
                 @close="state.modal.isDeleteTimeLogConfirmationOpen = false" @confirm="deleteTimeLog" />
+            <DialogConfirmation :isModalOpen="state.modal.isApproveTimeLogConfirmationOpen"
+                :message="`${$t('timeLogs.table.confirmation.approveTimeLogConfirmation')}?`"
+                @close="state.modal.isApproveTimeLogConfirmationOpen = false" @confirm="approveTimeLog" />
+            <DialogConfirmation :isModalOpen="state.modal.isDeclineTimeLogConfirmationOpen"
+                :message="`${$t('timeLogs.table.confirmation.declineTimeLogConfirmation')}?`"
+                @close="state.modal.isDeclineTimeLogConfirmationOpen = false" @confirm="declineTimeLog" />
         </NuxtLayout>
     </div>
 </template>
@@ -146,12 +178,14 @@ import { useDatetimeFormatter } from '@/composables/datetimeFormatter'
 import { timeLogService } from '@/components/api/user/TimeLogService'
 import { useAlert } from '@/composables/alert'
 import { useI18n } from "vue-i18n"
+import { useUserStore } from '@/store/user'
 import type { Error } from '@/types'
 
 const runtimeConfig = useRuntimeConfig()
 const { formatDateTimeToReadable } = useDatetimeFormatter()
 const { successAlert } = useAlert()
 const { t } = useI18n()
+const userStore = useUserStore() as any
 const router = useRouter()
 const employeeUuid = router?.currentRoute?.value?.params?.employee_uuid
 let currentTablePage = 1
@@ -176,6 +210,7 @@ const state = reactive({
         { name: 'timeLogs.table.status.status', isTranslateName: true, sorter: true, key: 'status' },
         { name: 'timeLogs.table.remarks', isTranslateName: true, },
         { name: 'timeLogs.table.summary', isTranslateName: true, },
+        { name: 'timeLogs.table.requestStatus.requestStatus', isTranslateName: true, },
         { name: '' },
     ],
     error: {} as Error,
@@ -186,6 +221,8 @@ const state = reactive({
     logs: [] as any,
     modal: {
         isAddNewTimeLogOpen: false,
+        isApproveTimeLogConfirmationOpen: false,
+        isDeclineTimeLogConfirmationOpen: false,
         isDeleteTimeLogConfirmationOpen: false,
         isDownloadTimeLogsOpen: false,
         isEditTimeLogOpen: false,
@@ -245,6 +282,10 @@ function sort(sortingData: any) {
     fetchTimeLogs()
 }
 
+function isAdmin(roles: any) {
+    return roles && roles.some((role: any) => role.name === 'Admin')
+}
+
 function editTimeLog(log: any) {
     state.selectedTimeLog = log
     state.modal.isEditTimeLogOpen = true
@@ -263,6 +304,46 @@ async function deleteTimeLog() {
         if (response?.message === 'Success.' || response?.message === 'Succes.') {
             fetchTimeLogs()
             successAlert(`${t('alert.success')}!`, `${t('timeLogs.table.alert.timeLogSuccessfullyDeleted')}.`)
+        }
+    } catch (error: any) {
+        state.error = error
+    }
+    state.isTableLoading = false
+}
+
+function confirmTimeLogApproval(log: any) {
+    state.selectedTimeLog = log
+    state.modal.isApproveTimeLogConfirmationOpen = true
+}
+
+function confirmTimeLogDecline(log: any) {
+    state.selectedTimeLog = log
+    state.modal.isDeclineTimeLogConfirmationOpen = true
+}
+
+async function approveTimeLog() {
+    state.error = {}
+    state.isTableLoading = true
+    try {
+        const response = await timeLogService.approveTimeLogRequest(state.selectedTimeLog.uuid)
+        if (response?.data) {
+            fetchTimeLogs()
+            successAlert(`${t('alert.success')}!`, `${t('timeLogs.table.alert.timeLogSuccessfullyApproved')}.`)
+        }
+    } catch (error: any) {
+        state.error = error
+    }
+    state.isTableLoading = false
+}
+
+async function declineTimeLog() {
+    state.error = {}
+    state.isTableLoading = true
+    try {
+        const response = await timeLogService.declineTimeLogRequest(state.selectedTimeLog.uuid)
+        if (response?.data) {
+            fetchTimeLogs()
+            successAlert(`${t('alert.success')}!`, `${t('timeLogs.table.alert.timeLogSuccessfullyDeclined')}.`)
         }
     } catch (error: any) {
         state.error = error

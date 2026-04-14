@@ -1,7 +1,6 @@
 <template>
     <div>
-        <Modal size="4xl" :title="$t('citizens.timeLogs.timeLogs')" :show="props.isModalOpen"
-            @close="closeModal">
+        <Modal size="4xl" :title="$t('citizens.timeLogs.timeLogs')" :show="props.isModalOpen" @close="closeModal">
             <template #modal-body>
                 <div class="space-y-3">
                     <button class="text-sm text-primary hover:text-primary-700 hover:underline"
@@ -90,18 +89,15 @@
                     </div>
                 </div>
                 <div class="mt-6 flex items-center gap-x-2 justify-end">
-                    <FormButton buttonStyle="action" class="rounded-lg"
-                        @click="openInterventionHoursModal">
+                    <FormButton buttonStyle="action" @click="openInterventionHoursModal">
                         <Icon name="ph:clock" class="h-4 w-4" aria-hidden="true" />
                         {{ $t('citizens.interventionHours.interventionHours') }}
                     </FormButton>
-                    <FormButton buttonStyle="action" class="rounded-lg"
-                        @click="state.modal.isAddNewTimeLogOpen = true">
+                    <FormButton buttonStyle="action" @click="state.modal.isAddNewTimeLogOpen = true">
                         <Icon name="ph:plus" class="h-4 w-4" aria-hidden="true" />
                         {{ $t('timeLogs.newTimeLog') }}
                     </FormButton>
-                    <FormButton buttonStyle="action" class="rounded-lg"
-                        @click="state.modal.isDownloadTimeLogsOpen = true">
+                    <FormButton buttonStyle="action" @click="state.modal.isDownloadTimeLogsOpen = true">
                         <Icon name="ph:download" class="h-4 w-4" aria-hidden="true" />
                         {{ $t('timeLogs.download.download') }}
                     </FormButton>
@@ -157,17 +153,16 @@
                                     </td>
                                     <td width="10%">
                                         <div class="flex items-end gap-2">
-                                            <FormButton type="button" buttonStyle="action" class="rounded-md"
-                                                @click="viewTimeLog(log)">
+                                            <FormButton type="button" buttonStyle="action" @click="viewTimeLog(log)">
                                                 <Icon name="ph:eye" class="size-4" />
                                                 {{ $t('timeLogs.table.actions.view') }}
                                             </FormButton>
-                                            <FormButton type="button" buttonStyle="action" class="rounded-md"
-                                                @click="editTimeLog(log)" v-if="log?.is_editable">
+                                            <FormButton type="button" buttonStyle="action" @click="editTimeLog(log)"
+                                                v-if="log?.is_editable">
                                                 <Icon name="ph:pencil-simple" class="size-4" />
                                                 {{ $t('timeLogs.table.actions.edit') }}
                                             </FormButton>
-                                            <FormButton type="button" buttonStyle="danger" class="rounded-md"
+                                            <FormButton type="button" buttonStyle="danger"
                                                 @click="confirmTimeLogDeletion(log)" v-if="log?.is_deletable">
                                                 <Icon name="heroicons:trash" class="size-4" />
                                                 {{ $t('timeLogs.table.actions.delete') }}
@@ -192,7 +187,8 @@
                     :selectedTimeLog="state.selectedTimeLog" @close="state.modal.isViewTimeLogOpen = false" />
                 <ModulesUserCitizenTimeLogsModalDateRange :isModalOpen="state.modal.isTimeLogSummaryDateRangeOpen"
                     :dateRange="state.timeLogSummaryFilter.formDateRange"
-                    @close="state.modal.isTimeLogSummaryDateRangeOpen = false" @filterDate="filterTimeLogSummaryByDate" />
+                    @close="state.modal.isTimeLogSummaryDateRangeOpen = false"
+                    @filterDate="filterTimeLogSummaryByDate" />
                 <DialogConfirmation :isModalOpen="state.modal.isDeleteTimeLogConfirmationOpen"
                     :message="`${$t('timeLogs.table.confirmation.deleteTimeLogConfirmation')}?`"
                     @close="state.modal.isDeleteTimeLogConfirmationOpen = false" @confirm="deleteTimeLog" />

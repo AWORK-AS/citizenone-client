@@ -4,11 +4,15 @@ export const useDraftDutyScheduleStore = defineStore('draftDutyScheduleStore',
     {
         persist: true,
         state: () => ({
+            showEmployeesWorkingToday: false,
             currentPageLength: 10,
             currentPageNumber: 1,
             showEmployeesWorkingToday: false,
         }),
         actions: {
+            setShowEmployeesWorkingToday(value) {
+                this.showEmployeesWorkingToday = value
+            },
             setCurrentPageLength(pageLength) {
                 this.currentPageLength = pageLength
             },
@@ -20,6 +24,7 @@ export const useDraftDutyScheduleStore = defineStore('draftDutyScheduleStore',
             },
         },
         getters: {
+            getShowEmployeesWorkingToday: (state) => state.showEmployeesWorkingToday,
             getCurrentPageLength: (state) => state.currentPageLength,
             getCurrentPageNumber: (state) => state.currentPageNumber,
             getShowEmployeesWorkingToday: (state) => state.showEmployeesWorkingToday,

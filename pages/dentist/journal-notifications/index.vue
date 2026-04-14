@@ -20,8 +20,7 @@
                 <LoadingSpinner :isActive="state.isPageLoading">
                     <div class="max-w-3xl" v-if="state.notifications.length > 0">
                         <div class="flex justify-end">
-                            <FormButton buttonStyle="primary" buttonSize="xs" @click="markAllAsRead"
-                                class="w-fit rounded-md">
+                            <FormButton buttonStyle="primary" buttonSize="xs" @click="markAllAsRead" class="w-fit">
                                 {{ $t('journalNotifications.markAllAsRead') }}
                             </FormButton>
                         </div>

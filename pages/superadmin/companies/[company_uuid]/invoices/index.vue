@@ -42,6 +42,16 @@
                                             </Badge>
                                         </div>
                                     </td>
+                                    <td width="10%">
+                                        <div>
+                                            <Badge type="active" class="w-fit" v-if="invoice?.is_paid">
+                                                {{ $t('superadmin.invoices.table.paid') }}
+                                            </Badge>
+                                            <Badge type="inactive" class="w-fit" v-else>
+                                                {{ $t('superadmin.invoices.table.unpaid') }}
+                                            </Badge>
+                                        </div>
+                                    </td>
                                     <td width="30%">
                                         <div>
                                             {{ invoice?.invoice_number }}
@@ -54,10 +64,15 @@
                                     </td>
                                     <td width="15%">
                                         <div class="flex items-end gap-2">
-                                            <FormButton type="button" buttonStyle="action" class="rounded-md"
+                                            <FormButton type="button" buttonStyle="action"
                                                 @click="navigateTo(`/superadmin/companies/${companyUuid}/invoices/${invoice.uuid}/invoice-details`)">
                                                 <Icon name="ph:eye" class="size-4" />
                                                 {{ $t('superadmin.invoices.table.actions.view') }}
+                                            </FormButton>
+                                            <FormButton v-if="!invoice?.is_paid && !invoice?.invoice_type" type="button"
+                                                buttonStyle="success" @click="confirmMarkInvoiceAsPaid(invoice)">
+                                                <Icon name="ph:check" class="size-4" />
+                                                {{ $t('superadmin.invoices.table.actions.markAsPaid') }}
                                             </FormButton>
                                         </div>
                                     </td>
@@ -67,6 +82,9 @@
                     </div>
                     <Pagination :data="state.invoices" @previous="previous" @next="next" />
                 </div>
+                <DialogConfirmation :isModalOpen="state.modal.isMarkAsPaidConfirmationOpen"
+                    :message="$t('superadmin.invoices.table.confirmation.markAsPaidConfirmation') + '?'"
+                    @close="state.modal.isMarkAsPaidConfirmationOpen = false" @confirm="markInvoiceAsPaid" />
             </div>
         </NuxtLayout>
     </div>
@@ -74,8 +92,11 @@
 
 <script setup lang="ts">
 import { companyService } from '@/components/api/superadmin/CompanyService'
+import { invoiceService } from '@/components/api/superadmin/InvoiceService'
 import { useAmountFormatter } from '@/composables/amountFormatter'
 import { useDatetimeFormatter } from '@/composables/datetimeFormatter'
+import { useAlert } from '@/composables/alert'
+import { useI18n } from "vue-i18n"
 import type { Error } from '@/types'
 
 const runtimeConfig = useRuntimeConfig()
@@ -83,12 +104,15 @@ const router = useRouter()
 const companyUuid = router?.currentRoute?.value?.params?.company_uuid
 const { formatAmount } = useAmountFormatter()
 const { formatDateTimeToReadable } = useDatetimeFormatter()
+const { successAlert } = useAlert()
+const { t } = useI18n()
 let currentTablePage = 1
 
 const state = reactive({
     columnHeaders: [
         { name: 'superadmin.invoices.table.date', isTranslateName: true, sorter: true, key: 'created_at' },
         { name: 'superadmin.invoices.table.status', isTranslateName: true, },
+        { name: 'superadmin.invoices.table.paid', isTranslateName: true, },
         { name: 'superadmin.invoices.table.invoiceNumber', isTranslateName: true, sorter: true, key: 'invoice_number' },
         { name: 'superadmin.invoices.table.amount', isTranslateName: true, sorter: true, key: 'total_amount' },
         { name: '' },
@@ -99,6 +123,10 @@ const state = reactive({
     error: {} as Error,
     invoices: [] as any,
     isTableLoading: false,
+    modal: {
+        isMarkAsPaidConfirmationOpen: false,
+    },
+    selectedInvoice: {} as any,
     sortData: {
         sortField: 'id',
         sortOrder: 'descend',
@@ -152,5 +180,22 @@ function handleSearch(value: any) {
     currentTablePage = 1
     state.dataFilter.search = value?.[0] == '' ? [] : value
     fetchInvoices()
+}
+
+function confirmMarkInvoiceAsPaid(invoice: any) {
+    state.selectedInvoice = invoice
+    state.modal.isMarkAsPaidConfirmationOpen = true
+}
+
+async function markInvoiceAsPaid() {
+    state.error = {}
+    try {
+        await invoiceService.markInvoiceAsPaid(state.selectedInvoice.uuid)
+        successAlert(`${t('alert.success')}!`, `${t('superadmin.invoices.form.alert.invoiceMarkedAsPaid')}`)
+        await fetchInvoices()
+        state.modal.isMarkAsPaidConfirmationOpen = false
+    } catch (error: any) {
+        state.error = error
+    }
 }
 </script>

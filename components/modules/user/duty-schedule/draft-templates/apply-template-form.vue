@@ -17,14 +17,12 @@
                         <table class="min-w-full divide-y divide-gray-200">
                             <thead class="bg-primary">
                                 <tr>
-                                    <th scope="col" class="px-4 py-3 text-left text-xs font-medium text-white uppercase tracking-wider inline-flex items-center cursor-pointer">
-                                        <input 
-                                            type="checkbox" 
-                                            @change="toggleAllWeeks"
-                                            :checked="allWeeksSelected"
-                                            class="peer w-5 h-5 appearance-none border bg-white border-primary rounded-sm mr-2 checked: bg-secondary checked:border-secondary focus:ring-0 cursor-pointer"
-                                        />
-                                        <span class="pointer-events-none absolute w-5 h-5 flex items-center justify-center">
+                                    <th scope="col"
+                                        class="px-4 py-3 text-left text-xs font-medium text-white uppercase tracking-wider inline-flex items-center cursor-pointer">
+                                        <input type="checkbox" @change="toggleAllWeeks" :checked="allWeeksSelected"
+                                            class="peer w-5 h-5 appearance-none border bg-white border-primary rounded-sm mr-2 checked: bg-secondary checked:border-secondary focus:ring-0 cursor-pointer" />
+                                        <span
+                                            class="pointer-events-none absolute w-5 h-5 flex items-center justify-center">
                                             <Icon name="ph:check-bold" class="h-4 w-4 text-white" />
                                         </span>
                                     </th>
@@ -40,27 +38,24 @@
                                 <tr v-for="week in weeks" :key="week.value" class="hover:bg-gray-50">
                                     <td class="px-4 py-3 whitespace-nowrap">
                                         <label class="inline-flex items-center cursor-pointer relative">
-                                            <input 
-                                                type="checkbox" 
-                                                :value="week.value"
+                                            <input type="checkbox" :value="week.value"
                                                 v-model="state.formTemplate.weeks"
                                                 @change="handleWeekChange(week.value, $event)"
-                                                class="peer w-5 h-5 appearance-none border border-primary rounded-sm checked:bg-secondary checked:border-secondary focus: ring-0 cursor-pointer"
-                                            />
-                                            <span class="pointer-events-none absolute top-0 left-0 w-5 h-5 flex items-center justify-center opacity-0 peer-checked:opacity-100 transition-opacity">
+                                                class="peer w-5 h-5 appearance-none border border-primary rounded-sm checked:bg-secondary checked:border-secondary focus: ring-0 cursor-pointer" />
+                                            <span
+                                                class="pointer-events-none absolute top-0 left-0 w-5 h-5 flex items-center justify-center opacity-0 peer-checked:opacity-100 transition-opacity">
                                                 <Icon name="ph:check-bold" class="h-4 w-4 text-white" />
                                             </span>
                                         </label>
                                     </td>
                                     <td class="px-4 py-3 whitespace-nowrap text-sm text-gray-900">
                                         <div class="flex items-center justify-between">
-                                            <div v-if="getTemplatesForWeek(week.value).length > 0" class="flex gap-1 flex-wrap">
-                                                <span 
-                                                    v-for="template in getTemplatesForWeek(week.value)" 
+                                            <div v-if="getTemplatesForWeek(week.value).length > 0"
+                                                class="flex gap-1 flex-wrap">
+                                                <span v-for="template in getTemplatesForWeek(week.value)"
                                                     :key="template.id"
                                                     class="px-2 py-0.5 text-xs rounded-full bg-tertiary text-white"
-                                                    :title="template.name"
-                                                >
+                                                    :title="template.name">
                                                     {{ template.name }}
                                                 </span>
                                             </div>
@@ -82,11 +77,11 @@
             </div>
             <div class="mt-6">
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
-                    <FormButton type="button" buttonStyle="cancel" class="rounded-md" @click="emit('closeModal')">
+                    <FormButton type="button" buttonStyle="cancel" @click="emit('closeModal')">
                         {{ $t('cancel') }}
                     </FormButton>
-                    <FormButton type="submit" buttonStyle="primary" class="rounded-md w-full">
-                        {{ props.formType === 'create' ?  $t('save') : $t('update') }}
+                    <FormButton type="submit" buttonStyle="primary" class="w-full">
+                        {{ props.formType === 'create' ? $t('save') : $t('update') }}
                     </FormButton>
                 </div>
             </div>
@@ -102,10 +97,10 @@ import type { Error } from '@/types'
 
 const props = defineProps({
     error: {
-        type:  Object,
+        type: Object,
         required: false,
     },
-    formType:  {
+    formType: {
         type: String,
         required: true,
     },
@@ -122,7 +117,7 @@ const emit = defineEmits(['closeModal', 'submitForm'])
 const { t } = useI18n()
 
 interface Option {
-    value:  string
+    value: string
     label: string
 }
 
@@ -132,8 +127,8 @@ interface Template {
     name: string
     is_recurring: boolean
     recurring_until: string | null
-    week_rotations:  number
-    departments?:  any[]
+    week_rotations: number
+    departments?: any[]
 }
 
 interface WeekTemplateMap {
@@ -152,11 +147,11 @@ const years = Array.from({ length: 20 }, (_, i) => {
 }) as Option[]
 
 const state = reactive({
-    error:  {} as Error,
+    error: {} as Error,
     isPageLoading: false,
     formTemplate: {
         weeks: [] as string[],
-        years:  [] as string[],
+        years: [] as string[],
     },
     weekTemplateMap: {} as WeekTemplateMap,
 })
@@ -167,40 +162,40 @@ const allWeeksSelected = computed(() => {
 
 function toggleAllWeeks(event: Event) {
     const checked = (event.target as HTMLInputElement).checked
-    
+
     if (checked) {
         // Get templates - prioritize selectedTemplates array if available
         const templates = (props.selectedTemplates && props.selectedTemplates.length > 0)
             ? props.selectedTemplates.map((t: any) => {
                 // Handle if template is wrapped in _custom. value (from your sample data)
                 return t._custom?.value || t
-              })
+            })
             : [props.selectedDraftTemplate]
-        
+
         // Select all weeks
-        state.formTemplate.weeks = weeks.map(week => week. value)
-        
+        state.formTemplate.weeks = weeks.map(week => week.value)
+
         // Clear weekTemplateMap
         state.weekTemplateMap = {}
-        
+
         const currentYear = new Date().getFullYear()
-        const selectedYear = state. formTemplate.years[0] 
-            ? parseInt(state.formTemplate.years[0]) 
+        const selectedYear = state.formTemplate.years[0]
+            ? parseInt(state.formTemplate.years[0])
             : currentYear
-        
+
         // For each template, calculate coverage starting from week 1
-        templates. forEach((template: any) => {
-            const weekRotations = template?. week_rotations || 1
+        templates.forEach((template: any) => {
+            const weekRotations = template?.week_rotations || 1
             const recurringUntil = template?.recurring_until
             const startWeek = 1 // Starting from week 1
-            
-            let coveredWeeks:  number[] = []
-            
+
+            let coveredWeeks: number[] = []
+
             if (recurringUntil) {
                 // Calculate weeks until recurring_until date
                 const recurringDate = new Date(recurringUntil)
                 const recurringWeek = getWeekNumber(recurringDate)
-                
+
                 // If recurring_until is in the same year
                 if (recurringDate.getFullYear() === selectedYear) {
                     for (let i = startWeek; i <= Math.min(recurringWeek, 52); i++) {
@@ -229,14 +224,14 @@ function toggleAllWeeks(event: Event) {
                     }
                 }
             }
-            
+
             // Add template to each covered week
             coveredWeeks.forEach(weekNum => {
                 const weekStr = String(weekNum)
-                if (! state.weekTemplateMap[weekStr]) {
-                    state. weekTemplateMap[weekStr] = []
+                if (!state.weekTemplateMap[weekStr]) {
+                    state.weekTemplateMap[weekStr] = []
                 }
-                
+
                 const exists = state.weekTemplateMap[weekStr].some((t: any) => t.id === template.id)
                 if (!exists) {
                     state.weekTemplateMap[weekStr].push(template)
@@ -244,7 +239,7 @@ function toggleAllWeeks(event: Event) {
             })
         })
     } else {
-        state.formTemplate. weeks = []
+        state.formTemplate.weeks = []
         state.weekTemplateMap = {}
     }
 }
@@ -316,7 +311,7 @@ function updateWeekTemplateMap(weekNumber: number, templates: Template[]) {
 
     allCoveredWeeks.forEach(week => {
         const weekStr = String(week)
-        if (! state.weekTemplateMap[weekStr]) {
+        if (!state.weekTemplateMap[weekStr]) {
             state.weekTemplateMap[weekStr] = []
         }
 
@@ -336,7 +331,7 @@ function updateWeekTemplateMap(weekNumber: number, templates: Template[]) {
 function removeFromWeekTemplateMap(weekNumber: number, templates: Template[]) {
     const currentYear = new Date().getFullYear()
     const selectedYear = state.formTemplate.years[0]
-        ?  parseInt(state.formTemplate.years[0])
+        ? parseInt(state.formTemplate.years[0])
         : currentYear
 
     templates.forEach(template => {
@@ -362,7 +357,7 @@ function handleWeekChange(weekValue: string, event: Event) {
     const templates = (props.selectedTemplates && props.selectedTemplates.length > 0)
         ? props.selectedTemplates.map((t: any) => {
             return t._custom?.value || t
-          })
+        })
         : [props.selectedDraftTemplate]
 
     nextTick(() => {
@@ -425,7 +420,7 @@ const v$ = useVuelidate(rules, state)
 
 function submitForm() {
     v$.value.$validate()
-    if (! v$.value.$error) {
+    if (!v$.value.$error) {
         emit('submitForm', {
             ...state.formTemplate,
             weekTemplateMap: state.weekTemplateMap
@@ -445,11 +440,13 @@ function submitForm() {
     overflow-y: auto;
 }
 
-#formTemplate thead, #formTemplate tbody tr {
+#formTemplate thead,
+#formTemplate tbody tr {
     display: table;
     width: 100%;
     table-layout: fixed;
 }
+
 table th {
     border-bottom-width: 0;
 }

@@ -1,5 +1,5 @@
 <template>
-    <div class="flex flex-col h-full">
+    <div class="flex flex-col h-full" @click="state.openChatMenuUuid = null">
         <!-- Sidebar Header -->
         <div class="px-5 pt-5 pb-4 border-b border-gray-100">
             <div class="flex items-center justify-between">
@@ -9,7 +9,7 @@
                 </div>
                 <button
                     class="w-8 h-8 rounded-full bg-gray-100 hover:bg-gray-200 flex items-center justify-center transition-colors"
-                    @click="state.modal.isNewChatOpen = true" :title="$t('messages.newMessage')">
+                    @click.stop="state.modal.isNewChatOpen = true" :title="$t('messages.newMessage')">
                     <Icon name="ph:plus" class="w-4 h-4 text-gray-600" aria-hidden="true" />
                 </button>
             </div>
@@ -27,9 +27,9 @@
         </div>
 
         <!-- Chat List -->
-        <ul class="flex-1 overflow-y-auto py-1">
+        <ul ref="chatListRef" class="flex-1 overflow-y-auto py-1">
             <li v-for="(chat, index) in filteredChats" :key="index" @click="openChat(chat)" :class="[
-                'flex items-center gap-3 px-4 py-4 md:py-3 cursor-pointer transition-all relative',
+                'flex items-center gap-3 px-4 py-4 md:py-3 cursor-pointer transition-all relative group/chat',
                 props.activeChatUuid === chat.uuid
                     ? 'bg-primary/8 before:absolute before:left-0 before:top-0 before:bottom-0 before:w-0.5 before:bg-primary'
                     : 'hover:bg-gray-50',
@@ -61,9 +61,28 @@
                         ]">
                             {{ getChatDisplayName(chat) }}
                         </h4>
-                        <span class="text-xs text-gray-400 flex-shrink-0">
-                            {{ formatChatTime(chat?.updated_at) }}
-                        </span>
+                        <!-- Time (hidden on hover) / Menu button (shown on hover) -->
+                        <div class="flex-shrink-0 relative">
+                            <span class="text-xs text-gray-400 group-hover/chat:hidden">
+                                {{ formatChatTime(chat?.updated_at) }}
+                            </span>
+                            <button
+                                class="hidden group-hover/chat:flex w-6 h-6 rounded-md hover:bg-gray-200 items-center justify-center transition-colors"
+                                @click.stop="toggleChatMenu(chat.uuid)" :title="$t('messages.actions.more')">
+                                <Icon name="ph:dots-three" class="w-4 h-4 text-gray-500" aria-hidden="true" />
+                            </button>
+                            <!-- Dropdown -->
+                            <div v-if="state.openChatMenuUuid === chat.uuid"
+                                class="absolute right-0 top-full mt-1 w-44 bg-white rounded-xl shadow-lg border border-gray-100 py-1 z-20"
+                                @click.stop>
+                                <button
+                                    class="w-full flex items-center gap-3 px-4 py-2.5 text-sm text-red-500 hover:bg-red-50 transition-colors"
+                                    @click="confirmDeleteChat(chat)">
+                                    <Icon name="ph:trash" class="h-4 w-4 text-red-500" aria-hidden="true" />
+                                    {{ $t('messages.deleteChat') }}
+                                </button>
+                            </div>
+                        </div>
                     </div>
                     <div class="flex items-center justify-between mt-0.5">
                         <p class="text-xs text-gray-400 truncate">
@@ -71,7 +90,7 @@
                             <span v-else>{{ chat?.chat_members?.length || 0 }} {{ $t('messages.members') }}</span>
                         </p>
                         <span v-if="chat?.unread_messages > 0"
-                            class="flex-shrink-0 ml-1 bg-primary text-white text-xxs rounded-full min-w-[18px] h-[18px] flex items-center justify-center px-1 font-semibold">
+                            class="flex-shrink-0 ml-1 bg-primary text-white text-[10px] rounded-full min-w-[18px] h-[18px] flex items-center justify-center px-1 font-semibold">
                             {{ chat.unread_messages > 9 ? '9+' : chat.unread_messages }}
                         </span>
                     </div>
@@ -98,17 +117,26 @@
         </ul>
 
         <ModulesUserMessagesModalNewChat :isModalOpen="state.modal.isNewChatOpen"
-            @close="state.modal.isNewChatOpen = false" />
+            @close="state.modal.isNewChatOpen = false" @chatCreated="fetchChats?.()" />
+
+        <DialogConfirmation :isModalOpen="state.modal.isDeleteChatOpen"
+            :message="$t('messages.confirmation.deleteChatConfirmation') + '?'"
+            @close="state.modal.isDeleteChatOpen = false" @confirm="deleteChat" />
     </div>
 </template>
 
 <script setup lang="ts">
 import { useUserStore } from '@/store/user'
 import { useI18n } from 'vue-i18n'
+import { messageService } from '@/components/api/user/MessageService'
+import { useAlert } from '@/composables/alert'
 
 const router = useRouter()
 const { t } = useI18n()
+const { successAlert } = useAlert()
 const userUuid = router?.currentRoute?.value?.query?.user_uuid
+const fetchChats = inject('fetchChats') as any
+const chatListRef = ref<HTMLElement | null>(null)
 
 const props = defineProps({
     error: { type: Object, required: false },
@@ -118,14 +146,54 @@ const props = defineProps({
 
 const userStore = useUserStore() as any
 
+watch(() => props.chats?.data?.[0]?.uuid, () => {
+    nextTick(() => {
+        if (chatListRef.value) chatListRef.value.scrollTop = 0
+    })
+})
+
 const state = reactive({
-    modal: { isNewChatOpen: false },
+    isPageLoading: false,
+    openChatMenuUuid: null as string | null,
+    selectedChat: null as any,
+    modal: {
+        isNewChatOpen: false,
+        isDeleteChatOpen: false,
+    },
     searchQuery: '',
 })
 
 onMounted(() => {
     if (userUuid) state.modal.isNewChatOpen = true
 })
+
+function toggleChatMenu(uuid: string) {
+    state.openChatMenuUuid = state.openChatMenuUuid === uuid ? null : uuid
+}
+
+function confirmDeleteChat(chat: any) {
+    state.selectedChat = chat
+    state.openChatMenuUuid = null
+    state.modal.isDeleteChatOpen = true
+}
+
+async function deleteChat() {
+    if (!state.selectedChat) return
+    state.isPageLoading = true
+    try {
+        const response = await messageService.deleteChatHistory(state.selectedChat.uuid)
+        if (response) {
+            successAlert(`${t('alert.success')}!`, `${t('messages.alert.chatSuccessfullyDeleted')}.`)
+            fetchChats?.()
+            if (router?.currentRoute?.value?.params?.chat_uuid === state.selectedChat.uuid) {
+                navigateTo('/messages')
+            }
+        }
+    } catch (error: any) { }
+    state.isPageLoading = false
+    state.modal.isDeleteChatOpen = false
+    state.selectedChat = null
+}
 
 const filteredChats = computed(() => {
     const chats = props.chats?.data || []
@@ -159,7 +227,6 @@ function getChatAvatar(chat: any): string {
 function getChatOnlineStatus(chat: any): boolean {
     const others = excludeCurrentUserFromChatMembers(chat?.chat_members || [])
     if (others.length > 0) return others[0]?.user?.is_online ?? false
-    // Self-chat: user is messaging themselves — always online
     return true
 }
 
@@ -171,7 +238,6 @@ function formatChatTime(dateStr: string): string {
     const minutes = Math.floor(diff / 60000)
     const hours = Math.floor(diff / 3600000)
     const days = Math.floor(diff / 86400000)
-    if (minutes < 1) return 'now'
     if (minutes < 60) return `${minutes}m`
     if (hours < 24) return `${hours}h`
     if (days < 7) return `${days}d`

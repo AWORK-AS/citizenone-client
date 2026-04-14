@@ -10,12 +10,11 @@
 
             <div>
                 <div class="flex justify-end items-center mb-5 gap-2">
-                    <FormButton buttonStyle="action" class="rounded-lg" @click="state.modal.isImportCompanyOpen = true">
+                    <FormButton buttonStyle="action" @click="state.modal.isImportCompanyOpen = true">
                         <Icon name="ph:plus" class="h-4 w-4" aria-hidden="true" />
                         {{ $t('superadmin.companies.importCompanies.importCompanies') }}
                     </FormButton>
-                    <FormButton buttonStyle="action" class="rounded-lg"
-                        @click="navigateTo('/superadmin/companies/new')">
+                    <FormButton buttonStyle="action" @click="navigateTo('/superadmin/companies/new')">
                         <Icon name="ph:plus" class="h-4 w-4" aria-hidden="true" />
                         {{ $t('superadmin.companies.newCompany') }}
                     </FormButton>
@@ -56,19 +55,19 @@
                                     </td>
                                     <td width="20%">
                                         <div class="flex items-end gap-2">
-                                            <FormButton type="button" buttonStyle="action" class="rounded-md"
+                                            <FormButton type="button" buttonStyle="action"
                                                 @click="navigateTo(`/superadmin/companies/${company.uuid}/accounts`)">
                                                 <Icon name="ph:eye" class="size-4" />
                                                 {{ $t('superadmin.companies.table.actions.view') }}
                                             </FormButton>
-                                            <FormButton type="button" buttonStyle="action" class="rounded-md"
+                                            <FormButton type="button" buttonStyle="action"
                                                 @click="navigateTo(`/superadmin/companies/${company.uuid}/edit`)">
                                                 <Icon name="ph:pencil-simple" class="size-4" />
                                                 {{ $t('superadmin.companies.table.actions.edit') }}
                                             </FormButton>
                                             <FormButton type="button"
                                                 :buttonStyle="company.is_active ? 'danger' : 'success'"
-                                                class="rounded-md" @click="activateDeactivateCompany(index, company)">
+                                                @click="activateDeactivateCompany(index, company)">
                                                 <Icon name="ph:x" class="size-4" v-if="company.is_active" />
                                                 <Icon name="ph:check" class="size-4" v-else />
                                                 {{ company.is_active ?

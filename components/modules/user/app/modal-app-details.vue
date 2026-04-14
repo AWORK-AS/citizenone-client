@@ -41,8 +41,7 @@
                         </div>
                     </div>
                     <div class="mt-5 flex gap-x-3">
-                        <FormButton buttonStyle="primary" @click="state.modal.isContactUsOpen = true"
-                            class="w-full rounded-md">
+                        <FormButton buttonStyle="primary" @click="state.modal.isContactUsOpen = true" class="w-full">
                             {{ $t('apps.contactUs') }}
                         </FormButton>
                         <FormButton type="button" buttonStyle="action" class="w-full"

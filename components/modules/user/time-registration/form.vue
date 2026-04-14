@@ -41,10 +41,10 @@
         </div>
         <div class="mt-6">
             <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
-                <FormButton type="button" buttonStyle="cancel" class="rounded-md" @click="emit('closeModal')">
+                <FormButton type="button" buttonStyle="cancel" @click="emit('closeModal')">
                     {{ $t('cancel') }}
                 </FormButton>
-                <FormButton type="submit" buttonStyle="primary" class="rounded-md">
+                <FormButton type="submit" buttonStyle="primary">
                     {{ props.formType === 'create' ? $t('save') :
                         $t('update') }}
                 </FormButton>
@@ -103,7 +103,7 @@ onMounted(() => {
     state.formTimeLog = {
         date_time_start: props.selectedTimeLog?.date_time_start,
         date_time_end: props.selectedTimeLog?.date_time_end,
-        citizen_uuid: props.selectedTimeLog?.citizen_uuid,
+        citizen_uuid: props.selectedTimeLog?.citizen?.uuid,
         status: props.selectedTimeLog?.status,
         remarks: props.selectedTimeLog?.remarks,
     }
@@ -178,6 +178,9 @@ const rules = computed(() => {
                     required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
                 },
                 status: {
+                    required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
+                },
+                remarks: {
                     required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
                 },
             },

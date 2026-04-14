@@ -34,7 +34,7 @@
             </div>
 
             <div class="flex gap-x-3 justify-end">
-                <FormButton buttonStyle="action" class="rounded-lg" @click="navigateTo('/inquiries')">
+                <FormButton buttonStyle="action" @click="navigateTo('/inquiries')">
                     <Icon name="ph:list-bullets" class="h-4 w-4" aria-hidden="true" />
                     {{ $t('inquiries.inquiries') }}
                 </FormButton>

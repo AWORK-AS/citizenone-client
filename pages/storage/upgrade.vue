@@ -33,14 +33,17 @@
                                         <h2 class="text-sm mb-2 text-primary flex items-center gap-1">
                                             {{ $t('storage.storage') }}
                                             ({{ state.usage?.total_storage }})
-                                            <button @click="state.isInfoOpen = true" class="text-gray-400 hover:text-primary-600 ml-1">
+                                            <button @click="state.isInfoOpen = true"
+                                                class="text-gray-400 hover:text-primary-600 ml-1">
                                                 <Icon name="ph:question" class="h-4 w-4" aria-hidden="true" />
                                             </button>
                                         </h2>
                                         <div class="space-y-2 text-xs text-primary">
                                             <div class="w-full bg-gray-200 rounded-full overflow-hidden flex">
-                                                <div class="h-4 bg-yellow-500" :style="{ width: `${localUsedPercent}%` }"></div>
-                                                <div class="h-4 bg-blue-500" :style="{ width: `${oneDriveUsedPercent}%` }"></div>
+                                                <div class="h-4 bg-yellow-500"
+                                                    :style="{ width: `${localUsedPercent}%` }"></div>
+                                                <div class="h-4 bg-blue-500"
+                                                    :style="{ width: `${oneDriveUsedPercent}%` }"></div>
                                             </div>
                                             <div class="flex items-center">
                                                 <span class="inline-block w-3 h-3 bg-yellow-500 mr-2"></span>
@@ -117,7 +120,7 @@
                                                 </div>
                                             </div>
                                             <div>
-                                                <FormButton class="rounded-md" @click="upgrade(deal)">
+                                                <FormButton @click="upgrade(deal)">
                                                     {{ $t('storage.upgrade') }}
                                                 </FormButton>
                                             </div>
@@ -127,7 +130,7 @@
                                         class="bg-white shadow-md p-6 rounded-md flex justify-between items-center gap-x-3">
                                         <p>{{ $t('storage.doYouNeedMoreStorage') }}?</p>
                                         <div>
-                                            <FormButton class="rounded-md" @click="state.modal.isContactUsOpen = true">
+                                            <FormButton @click="state.modal.isContactUsOpen = true">
                                                 {{ $t('storage.contactUs') }}
                                             </FormButton>
                                         </div>
@@ -143,11 +146,15 @@
             <Modal size="sm" :show="state.isInfoOpen" @close="state.isInfoOpen = false">
                 <template #modal-body>
                     <ul class="space-y-3">
-                        <li><p class="text-sm">{{ $t('storage.upgrade-info-1') }}</p></li>
-                        <li><p class="text-sm">{{ $t('storage.upgrade-info-2') }}</p></li>
+                        <li>
+                            <p class="text-sm">{{ $t('storage.upgrade-info-1') }}</p>
+                        </li>
+                        <li>
+                            <p class="text-sm">{{ $t('storage.upgrade-info-2') }}</p>
+                        </li>
                     </ul>
                     <div class="mt-5 flex justify-end">
-                        <FormButton buttonStyle="cancel" @click="state.isInfoOpen = false" class="rounded-md">
+                        <FormButton buttonStyle="cancel" @click="state.isInfoOpen = false">
                             {{ $t('close') }}
                         </FormButton>
                     </div>

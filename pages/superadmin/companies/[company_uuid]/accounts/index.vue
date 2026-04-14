@@ -18,7 +18,7 @@
                 <ModulesSuperadminCompanyTab />
 
                 <div class="flex justify-end items-center mt-10 mb-5">
-                    <FormButton buttonStyle="action" class="rounded-lg"
+                    <FormButton buttonStyle="action"
                         @click="navigateTo(`/superadmin/companies/${companyUuid}/accounts/new`)">
                         <Icon name="ph:plus" class="h-4 w-4" aria-hidden="true" />
                         {{ $t('superadmin.accounts.newAccount') }}
@@ -54,20 +54,20 @@
                                     </td>
                                     <td width="20%">
                                         <div class="flex items-end gap-2">
-                                            <FormButton type="button" buttonStyle="action" class="rounded-md"
+                                            <FormButton type="button" buttonStyle="action"
                                                 @click="navigateTo(`/superadmin/companies/${companyUuid}/accounts/${account.uuid}/edit`)">
                                                 <Icon name="ph:pencil-simple" class="size-4" />
                                                 {{ $t('superadmin.accounts.table.actions.edit') }}
                                             </FormButton>
                                             <FormButton type="button"
                                                 :buttonStyle="account.is_active ? 'danger' : 'success'"
-                                                class="rounded-md" @click="activateDeactivateAccount(index, account)">
+                                                @click="activateDeactivateAccount(index, account)">
                                                 <Icon name="ph:pencil-simple" class="size-4" />
                                                 {{ account.is_active ?
                                                     $t('superadmin.accounts.table.actions.deactivate') :
                                                     $t('superadmin.accounts.table.actions.activate') }}
                                             </FormButton>
-                                            <FormButton type="button" buttonStyle="danger" class="rounded-md"
+                                            <FormButton type="button" buttonStyle="danger"
                                                 @click="confirmAccountDeletion(account)">
                                                 <Icon name="ph:trash" class="size-4" />
                                                 {{ $t('superadmin.accounts.table.actions.delete') }}
