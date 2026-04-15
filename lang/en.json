@@ -3208,6 +3208,12 @@
         "normPeriod": "Norm period",
         "pinSelfToTopOfSchedule": "Pin myself to the top of the schedule",
         "published": {
+            "backToDraft": "Back to the draft schedule",
+            "close": "Close",
+            "infoBox": {
+                "title": "Previously published schedules",
+                "description": "Here you can see all previous versions of the schedule that have been published. Click the eye icon to view a version in detail. These versions are read-only and cannot be edited."
+            },
             "publishedVersions": "Published versions",
             "seePrevious": "See previous published versions",
             "table": {

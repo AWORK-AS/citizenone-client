@@ -3208,6 +3208,12 @@
         "normPeriod": "Norm periode",
         "pinSelfToTopOfSchedule": "Fastgør mig selv øverst i vagtplanen",
         "published": {
+            "backToDraft": "Tilbage til vagtplanskladden",
+            "close": "Luk",
+            "infoBox": {
+                "title": "Tidligere publicerede vagtplaner",
+                "description": "Her kan du se alle tidligere versioner af vagtplanen der er blevet offentliggjort. Klik på øje-ikonet for at se en version i detaljer. Disse versioner er skrivebeskyttede og kan ikke redigeres."
+            },
             "publishedVersions": "Publicerede versioner",
             "seePrevious": "Se tidligere publicerede versioner",
             "table": {
