@@ -23,8 +23,8 @@
                         <div class="table-responsive">
                             <Table :columnHeaders="state.columnHeaders" :data="state.presets"
                                 :isLoading="state.isTableLoading" :sortData="state.sortData" @sort="sort">
-                                <template #body v-if="!(state.isTableLoading || (state.presets?.length === 0))">
-                                    <tr v-for="(preset, index) in state.presets" :key="index">
+                                <template #body v-if="!(state.isTableLoading || (state.presets?.data?.length === 0))">
+                                    <tr v-for="(preset, index) in state.presets?.data" :key="index">
                                         <td width="30%">
                                             <span>{{ preset?.name }}</span>
                                         </td>
@@ -158,7 +158,7 @@ async function fetchPresets() {
             sortOrder: state.sortData.sortOrder,
             ...state.dataFilter,
         })
-        state.presets = response.data
+        state.presets = response
     } catch (error: any) {
         state.error = error
     } finally {
