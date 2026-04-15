@@ -2900,7 +2900,11 @@
                     "name": "Preset name"
                 },
                 "updateSuccess": "Draft schedules preset successfully updated!",
-                "viewPresets": "View presets"
+                "viewPresets": "View presets",
+                "infoBox": {
+                    "title": "What are presets?",
+                    "description": "A preset is a saved version of your draft schedule that you can reuse. Select a preset below and click Apply to load it into the draft — you can then edit and publish it."
+                }
             },
             "workflowBanner": {
                 "showGuide": "Show guide",

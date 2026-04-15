@@ -2900,7 +2900,11 @@
                     "name": "Navn på forudindstilling"
                 },
                 "updateSuccess": "Forudindstilling for vagtplanskladde opdateret med succes!",
-                "viewPresets": "Se forudindstillinger"
+                "viewPresets": "Se forudindstillinger",
+                "infoBox": {
+                    "title": "Hvad er forudindstillinger?",
+                    "description": "En forudindstilling er en gemt version af din vagtplanskladde, som du kan genbruge. Vælg en forudindstilling nedenfor og klik Anvend for at indlæse den i kladden — du kan derefter redigere og offentliggøre den."
+                }
             },
             "workflowBanner": {
                 "showGuide": "Vis guide",
