@@ -2943,8 +2943,19 @@
             }
         },
         "draftTemplates": {
+            "backToDraft": "Tilbage til vagtplanskladden",
+            "close": "Luk",
             "draftTemplates": "Skabeloner",
             "editDraft": "Rediger skabelon",
+            "infoBox": {
+                "title": "Hvad er skabeloner?",
+                "description": "En skabelon er en foruddefineret vagtplan du kan anvende direkte i din vagtplanskladde. Du kan oprette to typer:",
+                "oneTime": "Enkeltstående:",
+                "oneTimeDescription": "En fast ugentlig vagtplan du anvender én gang ad gangen.",
+                "recurring": "Gentagende:",
+                "recurringDescription": "En rullende vagtplan der gentages over flere uger (fx 4-ugers rotation). Kan sættes til at køre frem til en given dato.",
+                "tip": "Tip: Opret skabelonen, klik derefter Anvend for at indlæse den i din vagtplanskladde — du kan redigere den bagefter."
+            },
             "form": {
                 "adminsOnly": "Kun administratorer",
                 "applyTemplate": "Anvend skabelon",

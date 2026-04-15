@@ -2943,8 +2943,19 @@
             }
         },
         "draftTemplates": {
+            "backToDraft": "Back to the draft schedule",
+            "close": "Close",
             "draftTemplates": "Templates",
             "editDraft": "Edit Template",
+            "infoBox": {
+                "title": "What are templates?",
+                "description": "A template is a predefined schedule you can apply directly to your draft schedule. You can create two types:",
+                "oneTime": "One-time:",
+                "oneTimeDescription": "A fixed weekly schedule you apply one at a time.",
+                "recurring": "Recurring:",
+                "recurringDescription": "A rolling schedule that repeats over multiple weeks (e.g., 4-week rotation). Can be set to run until a specific date.",
+                "tip": "Tip: Create the template, then click Apply to load it into your draft schedule — you can edit it afterwards."
+            },
             "form": {
                 "adminsOnly": "Administrators only",
                 "applyTemplate": "Apply template",
