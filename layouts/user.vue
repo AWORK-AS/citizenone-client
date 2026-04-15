@@ -224,7 +224,7 @@
 
                         <!-- Journal Notifications -->
                         <button type="button"
-                            class="relative w-9 h-9 rounded-full flex items-center justify-center text-slate-400 hover:text-slate-600 hover:bg-surface-100 transition-colors"
+                            class="relative w-9 h-9 rounded-full flex items-center justify-center text-primary hover:text-primary-700 hover:bg-surface-100 transition-colors"
                             @click="navigateTo('/journal-notifications')"
                             v-if="userStore.getUser?.unread_notification_count > 0">
                             <Icon name="ph:note" class="h-5 w-5" aria-hidden="true" />
