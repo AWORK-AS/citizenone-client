@@ -2904,6 +2904,10 @@
                 "infoBox": {
                     "title": "What are presets?",
                     "description": "A preset is a saved version of your draft schedule that you can reuse. Select a preset below and click Apply to load it into the draft — you can then edit and publish it."
+                },
+                "saveInfoBox": {
+                    "title": "Save your current draft as a preset",
+                    "description": "Give the preset a name so you can easily recognize it. You can later retrieve it via View presets and reuse it as a starting point for a new schedule."
                 }
             },
             "workflowBanner": {

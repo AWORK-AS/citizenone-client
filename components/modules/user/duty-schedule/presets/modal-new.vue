@@ -9,8 +9,8 @@
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 5a2 2 0 012-2h10a2 2 0 012 2v16l-7-3.5L5 21V5z"/>
                         </svg>
                         <div>
-                            <p class="text-xs font-semibold text-amber-800 mb-0.5">Gem din nuværende kladde som forudindstilling</p>
-                            <p class="text-xs text-amber-700">Giv forudindstillingen et navn, så du nemt kan genkende den. Du kan senere hente den frem via <strong>Se forudindstillinger</strong> og genbruge den som udgangspunkt for en ny vagtplan.</p>
+                            <p class="text-xs font-semibold text-amber-800 mb-0.5">{{ $t('dutySchedules.draft.preset.saveInfoBox.title') }}</p>
+                            <p class="text-xs text-amber-700">{{ $t('dutySchedules.draft.preset.saveInfoBox.description') }}</p>
                         </div>
                     </div>
                     <ModulesUserDutySchedulePresetsForm formType="create"
