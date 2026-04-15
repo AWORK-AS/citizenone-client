@@ -6219,10 +6219,15 @@
             "licenses": "Licenser",
             "table": {
                 "license": "Licens",
-                "user": "Bruger"
+                "user": "Bruger",
+                "department": "Afdeling"
             },
             "unusedLicense": "Ubrugt licens",
-            "usedLicense": "Brugt licens"
+            "usedLicense": "Brugt licens",
+            "userLicenses": "Brugerlicenser",
+            "departmentLicenses": "Afdelingslicenser",
+            "usedDepartmentLicense": "Brugt afdelingslicens",
+            "unusedDepartmentLicense": "Ubrugt afdelingslicens"
         },
         "profile": {
             "form": {
@@ -6651,10 +6656,15 @@
                 "licenses": "Licenser",
                 "table": {
                     "license": "Licens",
-                    "user": "Bruger"
+                    "user": "Bruger",
+                    "department": "Afdeling"
                 },
                 "unusedLicense": "Ubrugt licens",
-                "usedLicense": "Brugt licens"
+                "usedLicense": "Brugt licens",
+                "userLicenses": "Brugerlicenser",
+                "departmentLicenses": "Afdelingslicenser",
+                "usedDepartmentLicense": "Brugt afdelingslicens",
+                "unusedDepartmentLicense": "Ubrugt afdelingslicens"
             },
             "newCompany": "Ny virksomhed",
             "subscriptions": {

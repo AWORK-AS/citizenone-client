@@ -6219,10 +6219,15 @@
             "licenses": "Licenses",
             "table": {
                 "license": "License",
-                "user": "User"
+                "user": "User",
+                "department": "Department"
             },
             "unusedLicense": "Unused license",
-            "usedLicense": "Used license"
+            "usedLicense": "Used license",
+            "userLicenses": "User licenses",
+            "departmentLicenses": "Department licenses",
+            "usedDepartmentLicense": "Used department license",
+            "unusedDepartmentLicense": "Unused department license"
         },
         "profile": {
             "form": {
@@ -6651,10 +6656,15 @@
                 "licenses": "Licenses",
                 "table": {
                     "license": "License",
-                    "user": "User"
+                    "user": "User",
+                    "department": "Department"
                 },
                 "unusedLicense": "Unused license",
-                "usedLicense": "Used license"
+                "usedLicense": "Used license",
+                "userLicenses": "User licenses",
+                "departmentLicenses": "Department licenses",
+                "usedDepartmentLicense": "Used department license",
+                "unusedDepartmentLicense": "Unused department license"
             },
             "newCompany": "New company",
             "subscriptions": {
