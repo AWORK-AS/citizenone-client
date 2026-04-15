@@ -2902,6 +2902,25 @@
                 "updateSuccess": "Draft schedules preset successfully updated!",
                 "viewPresets": "View presets"
             },
+            "workflowBanner": {
+                "showGuide": "Show guide",
+                "title": "How to work with the draft schedule",
+                "step1": "Create draft shifts",
+                "step2": "Save preset (optional)",
+                "step3": "Publish to schedule",
+                "tip": "💡 Tip: Use 'templates' for fixed shift rotations, and 'presets' to reuse a draft you've created before."
+            },
+            "backToPublished": "Back to the published schedule",
+            "contextBanner": {
+                "title": "You are now working in the draft schedule",
+                "selectedDepartment": "Selected department:",
+                "description": "Changes here will not affect the published schedule until you publish."
+            },
+            "monthViewDraft": {
+                "title": "Month view for draft",
+                "message": "Month view for the draft is under development. Use the week view to edit draft shifts. You can view the published monthly overview under Schedules → Month View.",
+                "switchToWeekView": "Switch to week view →"
+            },
             "publish": "Publish",
             "publishing": "Publishing schedules, please don't close or refresh the page",
             "selectDepartment": {

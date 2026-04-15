@@ -71,7 +71,7 @@
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                                         d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
                                 </svg>
-                                Vis guide
+                                {{ $t('dutySchedules.draft.workflowBanner.showGuide') }}
                             </button>
                             <button
                                 class="flex items-center gap-1.5 outline-none rounded-md text-xs font-semibold bg-white border border-gray-200 hover:bg-gray-50 px-3 py-2 text-gray-600"
@@ -160,24 +160,24 @@
                 </svg>
             </div>
             <div class="flex-1 min-w-0">
-                <p class="text-sm font-semibold text-blue-900 mb-1.5">Sådan arbejder du med vagtplanskladden</p>
+                <p class="text-sm font-semibold text-blue-900 mb-1.5">{{ $t('dutySchedules.draft.workflowBanner.title') }}</p>
                 <div class="flex flex-wrap items-center gap-2 text-xs">
                     <div class="flex items-center gap-1.5 bg-white border border-blue-200 rounded-full px-2.5 py-1">
                         <span class="w-5 h-5 rounded-full bg-blue-500 text-white flex items-center justify-center font-bold text-[10px] flex-shrink-0">1</span>
-                        <span class="text-blue-800 font-medium">Opret kladdevagter</span>
+                        <span class="text-blue-800 font-medium">{{ $t('dutySchedules.draft.workflowBanner.step1') }}</span>
                     </div>
                     <svg class="w-3 h-3 text-blue-300 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg>
                     <div class="flex items-center gap-1.5 bg-white border border-blue-200 rounded-full px-2.5 py-1">
                         <span class="w-5 h-5 rounded-full bg-blue-500 text-white flex items-center justify-center font-bold text-[10px] flex-shrink-0">2</span>
-                        <span class="text-blue-800 font-medium">Gem forudindstilling (valgfrit)</span>
+                        <span class="text-blue-800 font-medium">{{ $t('dutySchedules.draft.workflowBanner.step2') }}</span>
                     </div>
                     <svg class="w-3 h-3 text-blue-300 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg>
                     <div class="flex items-center gap-1.5 bg-white border border-blue-200 rounded-full px-2.5 py-1">
                         <span class="w-5 h-5 rounded-full bg-green-500 text-white flex items-center justify-center font-bold text-[10px] flex-shrink-0">3</span>
-                        <span class="text-green-800 font-medium">Offentliggør til vagtplan</span>
+                        <span class="text-green-800 font-medium">{{ $t('dutySchedules.draft.workflowBanner.step3') }}</span>
                     </div>
                 </div>
-                <p class="text-xs text-blue-600 mt-1.5">💡 Tip: Brug <strong>skabeloner</strong> til faste vagtrulleringer, og <strong>forudindstillinger</strong> til at genbruge en kladde du har lavet før.</p>
+                <p class="text-xs text-blue-600 mt-1.5">{{ $t('dutySchedules.draft.workflowBanner.tip') }}</p>
             </div>
             <button @click="() => { state.hideBanner = true; localStorage.setItem('draftBannerHidden', 'true'); emit('bannerClosed') }" class="flex-shrink-0 text-blue-300 hover:text-blue-500 mt-0.5">
                 <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">

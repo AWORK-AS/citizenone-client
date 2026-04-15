@@ -2902,6 +2902,25 @@
                 "updateSuccess": "Forudindstilling for vagtplanskladde opdateret med succes!",
                 "viewPresets": "Se forudindstillinger"
             },
+            "workflowBanner": {
+                "showGuide": "Vis guide",
+                "title": "Sådan arbejder du med vagtplanskladden",
+                "step1": "Opret kladdevagter",
+                "step2": "Gem forudindstilling (valgfrit)",
+                "step3": "Offentliggør til vagtplan",
+                "tip": "💡 Tip: Brug 'skabeloner' til faste vagtrulleringer, og 'forudindstillinger' til at genbruge en kladde du har lavet før."
+            },
+            "backToPublished": "Tilbage til den udgivede vagtplan",
+            "contextBanner": {
+                "title": "Du arbejder nu i vagtplanskladden",
+                "selectedDepartment": "Valgt afdeling:",
+                "description": "Ændringer her påvirker ikke den udgivede vagtplan, før du offentliggør."
+            },
+            "monthViewDraft": {
+                "title": "Månedsvisning for kladde",
+                "message": "Månedsvisning af kladden er under udvikling. Brug ugevisningen til at redigere kladdevagter. Du kan se den udgivede månedsoversigt under Vagtplaner → Månedsvisning.",
+                "switchToWeekView": "Skift til ugevisning →"
+            },
             "publish": "Offentliggør",
             "publishing": "Udgivelse af vagtplaner, luk eller opdater ikke siden.",
             "selectDepartment": {

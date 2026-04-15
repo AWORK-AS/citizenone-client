@@ -38,7 +38,7 @@
                     <NuxtLink to="/schedules"
                         class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-md text-xs font-medium text-slate-500 bg-slate-100 hover:bg-slate-200 border border-slate-200 transition-all">
                         <Icon name="ph:arrow-left" class="w-3.5 h-3.5" />
-                        Tilbage til den udgivede vagtplan
+                        {{ $t('dutySchedules.draft.backToPublished') }}
                     </NuxtLink>
                 </div>
             </template>
@@ -141,8 +141,8 @@
                         <svg class="w-5 h-5 text-amber-600" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"/></svg>
                     </div>
                     <div>
-                        <p class="text-sm font-semibold text-amber-800">Du arbejder nu i vagtplanskladden</p>
-                        <p class="text-xs text-amber-600 mt-0.5">Valgt afdeling: <strong>{{ departmentStore.getSelectedDepartmentName }}</strong> — Ændringer her påvirker ikke den udgivede vagtplan, før du offentliggør.</p>
+                        <p class="text-sm font-semibold text-amber-800">{{ $t('dutySchedules.draft.contextBanner.title') }}</p>
+                        <p class="text-xs text-amber-600 mt-0.5">{{ $t('dutySchedules.draft.contextBanner.selectedDepartment') }} <strong>{{ departmentStore.getSelectedDepartmentName }}</strong> — {{ $t('dutySchedules.draft.contextBanner.description') }}</p>
                     </div>
                 </div>
 
@@ -160,10 +160,10 @@
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
                     </svg>
                     <div>
-                        <p class="text-sm font-semibold text-amber-800">Månedsvisning for kladde</p>
-                        <p class="text-xs text-amber-700 mt-1">Månedsvisning af kladden er under udvikling. Brug ugevisningen til at redigere kladdevagter. Du kan se den udgivede månedsoversigt under <strong>Vagtplaner → Månedsvisning</strong>.</p>
+                        <p class="text-sm font-semibold text-amber-800">{{ $t('dutySchedules.draft.monthViewDraft.title') }}</p>
+                        <p class="text-xs text-amber-700 mt-1">{{ $t('dutySchedules.draft.monthViewDraft.message') }}</p>
                         <button @click="state.calendarView = 'week'" class="mt-2 text-xs font-semibold text-amber-800 underline hover:text-amber-900">
-                            Skift til ugevisning →
+                            {{ $t('dutySchedules.draft.monthViewDraft.switchToWeekView') }}
                         </button>
                     </div>
                 </div>
