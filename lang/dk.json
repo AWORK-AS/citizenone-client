@@ -3122,7 +3122,17 @@
                 "week": "Uge",
                 "weekNumber": "Ugenummer",
                 "weekRotations": "Ugerotationer",
-                "year": "År"
+                "year": "År",
+                "createInfoBox": {
+                    "title": "Opret en ny skabelon",
+                    "description": "En skabelon er en genanvendelig vagtplan. Giv den et navn, vælg afdeling, og beslut om den skal være gentagende eller enkeltstående. Skabelonen kan efterfølgende anvendes direkte i vagtplanskladden."
+                },
+                "adminsOnlyDescription": "Hvis markeret kan kun administratorer se og bruge denne skabelon.",
+                "isRecurringDescription": "En gentagende skabelon roterer automatisk over flere uger (fx 4-ugers vagtrullering). En ikke-gentagende skabelon er en fast enkelt ugeplan.",
+                "recurringInfoBox": {
+                    "title": "Gentagende skabelon",
+                    "description": "Angiv hvor mange uger skabelonen roterer over (fx 4 = 4-ugers rulning). Du kan valgfrit sætte en slutdato — hvis du ikke sætter en dato, kan skabelonen altid anvendes."
+                }
             },
             "newDraft": "Ny skabelon",
             "recurring": {

@@ -3122,7 +3122,17 @@
                 "week": "Week",
                 "weekNumber": "Week number",
                 "weekRotations": "Week rotations",
-                "year": "Year"
+                "year": "Year",
+                "createInfoBox": {
+                    "title": "Create a new template",
+                    "description": "A template is a reusable duty schedule. Give it a name, select a department, and decide whether it should be recurring or one-time. The template can then be applied directly to the draft schedule."
+                },
+                "adminsOnlyDescription": "If checked, only administrators can see and use this template.",
+                "isRecurringDescription": "A recurring template automatically rotates over multiple weeks (e.g., 4-week rotation). A non-recurring template is a fixed single week plan.",
+                "recurringInfoBox": {
+                    "title": "Recurring template",
+                    "description": "Specify how many weeks the template rotates over (e.g., 4 = 4-week rotation). You can optionally set an end date — if you don't set a date, the template can always be used."
+                }
             },
             "newDraft": "New Template",
             "recurring": {
