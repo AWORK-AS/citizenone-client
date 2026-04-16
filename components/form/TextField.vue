@@ -1,6 +1,6 @@
 <template>
     <input type="text" :id="props.id" :name="props.name" :maxlength="props.maxLength" :autocomplete="props.name"
-        class="appearance-none block w-full px-4 h-11 border border-primary placeholder-gray-500 text-gray-900 rounded-md focus:outline-none focus:ring-primary-700 focus:border-primary-700 focus:z-10 sm:text-sm"
+        class="appearance-none block w-full px-4 h-11 border border-gray-200 placeholder-gray-500 text-gray-900 rounded-full focus:outline-none focus:ring-primary-700 focus:border-primary-700 focus:z-10 sm:text-sm"
         :placeholder="props.placeholder" :value="props.modelValue" @input="updateValue($event)" />
 </template>
 

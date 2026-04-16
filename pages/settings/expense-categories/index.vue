@@ -17,7 +17,7 @@
 
             <div class="mt-8">
                 <div class="flex justify-end items-center mb-5">
-                    <FormButton buttonStyle="action" class="rounded-lg" @click="navigateTo('/settings/expense-categories/new')">
+                    <FormButton buttonStyle="action" @click="navigateTo('/settings/expense-categories/new')">
                         <Icon name="ph:plus" class="h-4 w-4" aria-hidden="true" />
                         {{ $t('expenseCategories.addNewExpenseCategory') }}
                     </FormButton>
@@ -29,19 +29,20 @@
                     <div class="table-responsive">
                         <Table :columnHeaders="state.columnHeaders" :data="state.expenseCategories"
                             :isLoading="state.isTableLoading" :sortData="state.sortData" @sort="sort">
-                            <template #body v-if="!(state.isTableLoading || (state.expenseCategories?.data?.length === 0))">
+                            <template #body
+                                v-if="!(state.isTableLoading || (state.expenseCategories?.data?.length === 0))">
                                 <tr v-for="(expenseCategory, index) in state.expenseCategories?.data" :key="index">
                                     <td width="50%">
                                         <span>{{ expenseCategory?.name }}</span>
                                     </td>
                                     <td width="50%">
                                         <div class="flex items-end justify-end gap-2">
-                                            <FormButton type="button" buttonStyle="action" class="rounded-md"
+                                            <FormButton type="button" buttonStyle="action"
                                                 @click="navigateTo(`/settings/expense-categories/${expenseCategory.uuid}/edit`)">
                                                 <Icon name="ph:pencil-simple" class="size-4" />
                                                 {{ $t('expenseCategories.table.actions.edit') }}
                                             </FormButton>
-                                            <FormButton type="button" buttonStyle="danger" class="rounded-md"
+                                            <FormButton type="button" buttonStyle="danger"
                                                 @click="deleteExpenseCategoryConfirmation(expenseCategory)">
                                                 <Icon name="ph:trash" class="size-4" />
                                                 {{ $t('expenseCategories.table.actions.delete') }}

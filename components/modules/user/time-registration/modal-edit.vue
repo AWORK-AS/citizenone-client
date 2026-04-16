@@ -55,6 +55,7 @@ async function updateTimeLog(timeLogDetails: any) {
         const params = {
             date_time_start: timeLogDetails.date_time_start,
             date_time_end: timeLogDetails.date_time_end,
+            citizen_uuid: timeLogDetails.citizen_uuid,
             status: timeLogDetails.status,
             remarks: timeLogDetails.remarks,
         }

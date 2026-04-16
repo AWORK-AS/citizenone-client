@@ -58,7 +58,7 @@
                                         ({{ state.citizenProtocolsCount?.data?.absent_percent ?? 0 }}%)
                                     </Badge>
                                 </div>
-                                <FormButton buttonStyle="action" class="rounded-lg" @click="downloadProtocol()">
+                                <FormButton buttonStyle="action" @click="downloadProtocol()">
                                     {{ $t('protocols.download') }}
                                 </FormButton>
                             </div>

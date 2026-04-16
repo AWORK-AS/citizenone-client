@@ -12,7 +12,7 @@
                     <div>
                         <MenuButton>
                             <Tooltip :text="$t('mail.settings.settings')">
-                                <FormButton buttonStyle="action" class="rounded-lg">
+                                <FormButton buttonStyle="action">
                                     <Icon name="ph:gear" class="h-3 w-3" aria-hidden="true" />
                                 </FormButton>
                             </Tooltip>
@@ -74,7 +74,7 @@
                                 <p>{{ $t('mail.connectYourMessage') }}.</p>
                                 <div class="flex justify-center">
                                     <FormButton buttonStyle="primary"
-                                        @click="state.modal.isChooseEmailConfiguration = true" class="rounded-md">
+                                        @click="state.modal.isChooseEmailConfiguration = true">
                                         {{ $t('mail.connectYourMail') }}
                                     </FormButton>
                                 </div>

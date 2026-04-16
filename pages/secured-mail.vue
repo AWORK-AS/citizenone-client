@@ -55,8 +55,8 @@
                                     {{ state.secured_mail?.subject }}
                                 </h3>
                                 <div>
-                                    <FormButton buttonStyle="primary" @click="state.modal.isReplySecuredMailOpen = true"
-                                        class="rounded-md">
+                                    <FormButton buttonStyle="primary"
+                                        @click="state.modal.isReplySecuredMailOpen = true">
                                         {{ $t('mail.secured.replySecurely') }}
                                     </FormButton>
                                 </div>

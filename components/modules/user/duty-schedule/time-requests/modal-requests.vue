@@ -21,9 +21,9 @@
                                         </td>
                                         <td width="20%">
                                             <span>{{ moment(request?.schedule?.time_in, "HH:mm").format('HH:mm')
-                                                }}</span> -
+                                            }}</span> -
                                             <span>{{ moment(request?.schedule?.time_out, "HH:mm").format('HH:mm')
-                                                }}</span>
+                                            }}</span>
                                         </td>
                                         <td width="20%">
                                             <span>{{ moment(request?.time_in, "HH:mm").format('HH:mm') }}</span> -
@@ -34,14 +34,14 @@
                                         </td>
                                         <td width="20%">
                                             <div class="flex items-end gap-2">
-                                                <FormButton type="button" buttonStyle="action" class="rounded-md"
+                                                <FormButton type="button" buttonStyle="action"
                                                     @click="confirmApproveScheduleRequest(request)">
                                                     <Icon name="ph:check" class="size-4" />
                                                     {{
                                                         $t('dutySchedules.scheduleRequests.changeTime.table.actions.approve')
                                                     }}
                                                 </FormButton>
-                                                <FormButton type="button" buttonStyle="action" class="rounded-md"
+                                                <FormButton type="button" buttonStyle="action"
                                                     @click="confirmDispproveScheduleRequest(request)">
                                                     <Icon name="ph:x" class="size-4" />
                                                     {{

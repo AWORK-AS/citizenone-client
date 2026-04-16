@@ -8,7 +8,7 @@
                         <Alert type="danger" :text="state?.error?.message"
                             v-if="state.error?.message && state.error.message.length > 0" />
                         <div class="flex justify-end">
-                            <FormButton buttonStyle="action" class="rounded-lg" @click="downloadAndPrintMedicine">
+                            <FormButton buttonStyle="action" @click="downloadAndPrintMedicine">
                                 <Icon name="ph:download" class="h-4 w-4" aria-hidden="true" />
                                 {{ $t('citizens.medicineJournals.viewMedicine.downloadAndPrintMedicine') }}
                             </FormButton>
@@ -171,12 +171,11 @@
                     </div>
                     <div class="mt-6">
                         <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
-                            <FormButton type="button" buttonStyle="primary" class="rounded-md w-full"
+                            <FormButton type="button" buttonStyle="primary" class="w-full"
                                 @click="state.modal.isEditMedicineOpen = true">
                                 {{ $t('citizens.medicineJournals.editMedicine') }}
                             </FormButton>
-                            <FormButton type="button" buttonStyle="cancel" class="rounded-md col-start-2"
-                                @click="closeModal()">
+                            <FormButton type="button" buttonStyle="cancel" class="col-start-2" @click="closeModal()">
                                 {{ $t('close') }}
                             </FormButton>
                         </div>

@@ -16,8 +16,7 @@
                                 {{ formatDateToReadable(state.scheduleSlotsDateRange.formDateRange.end_date) }})
                             </button>
                         </div>
-                        <FormButton buttonStyle="action" class="rounded-lg"
-                            @click="state.modal.isAddNewScheduleSlotOpen = true">
+                        <FormButton buttonStyle="action" @click="state.modal.isAddNewScheduleSlotOpen = true">
                             <Icon name="ph:plus" class="h-4 w-4" aria-hidden="true" />
                             {{ $t('dutySchedules.scheduleSlots.offerNewTime') }}
                         </FormButton>
@@ -81,19 +80,19 @@
                                             <div class="flex items-end gap-2">
                                                 <Tooltip
                                                     :text="$t('dutySchedules.scheduleSlots.table.actions.viewRequesters')">
-                                                    <FormButton type="button" buttonStyle="action" class="rounded-md"
+                                                    <FormButton type="button" buttonStyle="action"
                                                         @click="viewScheduleSlotRequesters(slot)">
                                                         <Icon name="ph:eye" class="size-4" />
                                                     </FormButton>
                                                 </Tooltip>
                                                 <Tooltip :text="$t('dutySchedules.scheduleSlots.table.actions.edit')">
-                                                    <FormButton type="button" buttonStyle="action" class="rounded-md"
+                                                    <FormButton type="button" buttonStyle="action"
                                                         @click="editScheduleSlot(slot)">
                                                         <Icon name="ph:pencil-simple" class="size-4" />
                                                     </FormButton>
                                                 </Tooltip>
                                                 <Tooltip :text="$t('dutySchedules.scheduleSlots.table.actions.delete')">
-                                                    <FormButton type="button" buttonStyle="danger" class="rounded-md"
+                                                    <FormButton type="button" buttonStyle="danger"
                                                         @click="confirmScheduleSlotDeletion(slot)">
                                                         <Icon name="ph:trash" class="size-4" />
                                                     </FormButton>

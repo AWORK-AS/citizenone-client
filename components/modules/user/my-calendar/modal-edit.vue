@@ -4,8 +4,7 @@
             <template #modal-body>
                 <LoadingSpinner :isActive="state.isPageLoading">
                     <div class="flex justify-end">
-                        <FormButton type="button" buttonStyle="danger" class="rounded-md"
-                            @click="state.modal.isDeleteScheduleOpen = true">
+                        <FormButton type="button" buttonStyle="danger" @click="state.modal.isDeleteScheduleOpen = true">
                             {{ $t('events.delete') }}
                         </FormButton>
                     </div>
@@ -14,12 +13,9 @@
                             :error="state.error" @isPageLoading="(value: boolean) => state.isPageLoading = value"
                             @closeModal="closeModal" @submitForm="updateSchedule" />
                     </div>
-                    <ModulesUserMyCalendarModalDelete
-                        :isModalOpen="state.modal.isDeleteScheduleOpen"
-                        :selectedSchedule="props.selectedSchedule"
-                        @deleteMyCalendarEvent="deleteMyCalendarEvent"
-                        @close="state.modal.isDeleteScheduleOpen = false"
-                        @confirm="deleteMyCalendarEvent" />
+                    <ModulesUserMyCalendarModalDelete :isModalOpen="state.modal.isDeleteScheduleOpen"
+                        :selectedSchedule="props.selectedSchedule" @deleteMyCalendarEvent="deleteMyCalendarEvent"
+                        @close="state.modal.isDeleteScheduleOpen = false" @confirm="deleteMyCalendarEvent" />
                 </LoadingSpinner>
             </template>
         </Modal>

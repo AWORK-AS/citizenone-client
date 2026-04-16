@@ -7,11 +7,10 @@
                         {{ $t('drive.alert.modifyDocumentLayoutWarning') }}.
                     </p>
                     <div class="mt-5 grid grid-cols-1 md:grid-cols-2 gap-3">
-                        <FormButton buttonStyle="cancel" class="rounded-md" @click="closeModal">
+                        <FormButton buttonStyle="cancel" @click="closeModal">
                             {{ $t('cancel') }}
                         </FormButton>
-                        <FormButton buttonStyle="primary" class="rounded-md"
-                            @click="state.modal.isEditDocumentFileOpen = true">
+                        <FormButton buttonStyle="primary" @click="state.modal.isEditDocumentFileOpen = true">
                             {{ $t('confirm') }}
                         </FormButton>
                     </div>

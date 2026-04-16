@@ -16,10 +16,10 @@
                         </div>
                         <div class="mt-6">
                             <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
-                                <FormButton type="button" buttonStyle="cancel" class="rounded-md" @click="closeModal">
+                                <FormButton type="button" buttonStyle="cancel" @click="closeModal">
                                     {{ $t('cancel') }}
                                 </FormButton>
-                                <FormButton type="submit" buttonStyle="primary" class="rounded-md w-full"
+                                <FormButton type="submit" buttonStyle="primary" class="w-full"
                                     @click="downloadInterventionHours">
                                     {{ $t('citizens.interventionHours.download.download') }}
                                 </FormButton>
@@ -117,7 +117,7 @@ async function downloadInterventionHours() {
             if (props?.filters?.is_transportation !== '') {
                 params.is_transportation = props?.filters?.is_transportation
             }
-            
+
             const response = await interventionHoursService.downloadInterventionHoursReport(params)
             if (response) {
                 saveAs(response, `${t('citizens.interventionHours.interventionHours').replace(' ', '-')}` + '-' + moment(state.downloadForm.start_date).format('MMMM-D-YYYY') + '-' + moment(state.downloadForm.end_date).format('MMMM-D-YYYY'))

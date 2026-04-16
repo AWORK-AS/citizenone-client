@@ -25,8 +25,7 @@
 
             <div class="mt-5">
                 <div class="flex justify-end items-center mb-5">
-                    <FormButton buttonStyle="action" class="rounded-lg"
-                        @click="navigateTo(`/settings/job-titles/${jobTitleUuid}/new`)">
+                    <FormButton buttonStyle="action" @click="navigateTo(`/settings/job-titles/${jobTitleUuid}/new`)">
                         <Icon name="ph:plus" class="h-4 w-4" aria-hidden="true" />
                         {{ $t('jobSpecialties.newJobSpecialty') }}
                     </FormButton>
@@ -46,12 +45,12 @@
                                     </td>
                                     <td width="50%">
                                         <div class="flex items-end justify-end gap-2">
-                                            <FormButton type="button" buttonStyle="action" class="rounded-md"
+                                            <FormButton type="button" buttonStyle="action"
                                                 @click="navigateTo(`/settings/job-titles/${jobTitleUuid}/${jobSpecialty.uuid}/edit`)">
                                                 <Icon name="ph:pencil-simple" class="size-4" />
                                                 {{ $t('jobSpecialties.table.actions.edit') }}
                                             </FormButton>
-                                            <FormButton type="button" buttonStyle="danger" class="rounded-md"
+                                            <FormButton type="button" buttonStyle="danger"
                                                 @click="deleteJobSpecialtyConfirmation(jobSpecialty)">
                                                 <Icon name="ph:trash" class="size-4" />
                                                 {{ $t('jobSpecialties.table.actions.delete') }}

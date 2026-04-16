@@ -6,14 +6,12 @@
                 <div class="mt-6 flex items-center gap-x-2 justify-end">
                     <button class="flex items-center gap-x-1 text-sm text-primary group"
                         @click="state.modal.isFilterDutyScheduleOpen = true">
-                        <Icon name="ic:outline-filter-list"
-                            class="text-primary w-6 h-6 group-hover:text-primary-700" />
+                        <Icon name="ic:outline-filter-list" class="text-primary w-6 h-6 group-hover:text-primary-700" />
                         <span class="group-hover:text-primary-700">
                             {{ $t('filter') }}
                         </span>
                     </button>
-                    <FormButton buttonStyle="action" class="rounded-lg"
-                        @click="state.modal.isDownloadInterventionHoursOpen = true">
+                    <FormButton buttonStyle="action" @click="state.modal.isDownloadInterventionHoursOpen = true">
                         <Icon name="ph:download" class="h-4 w-4" aria-hidden="true" />
                         {{ $t('citizens.interventionHours.download.download') }}
                     </FormButton>
@@ -29,7 +27,8 @@
                                 v-if="!(state.isTableLoading || (state.interventionHours?.data?.length === 0))">
                                 <tr v-for="(inteventionHours, index) in state.interventionHours?.data" :key="index">
                                     <td width="15%">
-                                        {{ inteventionHours?.citizen?.firstname + ' ' + inteventionHours?.citizen?.lastname }}
+                                        {{ inteventionHours?.citizen?.firstname + ' ' +
+                                            inteventionHours?.citizen?.lastname }}
                                     </td>
                                     <td width="15%">
                                         {{ inteventionHours?.date_time_start ?
@@ -52,26 +51,30 @@
                                         </div>
                                     </td>
                                     <td width="10%">
-                                        <div v-if="inteventionHours?.is_transportation" class="rounded-xl bg-green-100 text-green-800 px-2 py-1 text-xs font-semibold text-center w-fit">{{ $t('citizens.interventionHours.table.transport') }}</div>
-                                        <div v-else class="rounded-xl bg-teal-100 text-tertiary-800 px-2 py-1 text-xs font-semibold text-center w-fit">{{ $t('citizens.interventionHours.table.work') }}</div>
+                                        <div v-if="inteventionHours?.is_transportation"
+                                            class="rounded-xl bg-green-100 text-green-800 px-2 py-1 text-xs font-semibold text-center w-fit">
+                                            {{ $t('citizens.interventionHours.table.transport') }}</div>
+                                        <div v-else
+                                            class="rounded-xl bg-teal-100 text-tertiary-800 px-2 py-1 text-xs font-semibold text-center w-fit">
+                                            {{ $t('citizens.interventionHours.table.work') }}</div>
                                     </td>
                                     <td width="20%">
                                         {{ inteventionHours?.user?.firstname + ' ' + inteventionHours?.user?.lastname }}
                                     </td>
                                     <td width="15%">
                                         <div class="flex items-end gap-2">
-                                            <FormButton type="button" buttonStyle="action" class="rounded-md"
+                                            <FormButton type="button" buttonStyle="action"
                                                 @click="viewInterventionHourLog(inteventionHours)">
                                                 <Icon name="ph:eye" class="size-4" />
                                                 {{ $t('citizens.interventionHours.table.actions.view') }}
                                             </FormButton>
-                                            <FormButton type="button" buttonStyle="action" class="rounded-md"
+                                            <FormButton type="button" buttonStyle="action"
                                                 @click="editInterventionHours(inteventionHours)"
                                                 v-if="inteventionHours?.is_editable">
                                                 <Icon name="ph:pencil-simple" class="size-4" />
                                                 {{ $t('citizens.interventionHours.table.actions.edit') }}
                                             </FormButton>
-                                            <FormButton type="button" buttonStyle="action" class="rounded-md"
+                                            <FormButton type="button" buttonStyle="action"
                                                 @click="deleteInterventionHoursConfirmation(inteventionHours)"
                                                 v-if="inteventionHours?.is_deletable">
                                                 <Icon name="ph:trash" class="size-4" />
@@ -93,8 +96,7 @@
                     @close="state.modal.isEditInterventionHoursOpen = false"
                     @refreshInterventionHours="refreshInterventionHours()" />
                 <ModulesUserSettingsTimeLogsInterventionHoursEmployeeDownloadModal
-                    :isModalOpen="state.modal.isDownloadInterventionHoursOpen"
-                    :filters="state.filter"
+                    :isModalOpen="state.modal.isDownloadInterventionHoursOpen" :filters="state.filter"
                     @close="state.modal.isDownloadInterventionHoursOpen = false" />
                 <ModulesUserCitizenInterventionHoursModalDateRange :isModalOpen="state.modal.isTimeAccountDateRangeOpen"
                     :dateRange="state.timeAccountFilter.formDateRange"
@@ -102,11 +104,12 @@
                 <DialogConfirmation :isModalOpen="state.modal.isDeleteInterventionHoursOpen"
                     :message="$t('citizens.interventionHours.table.confirmation.deleteInterventionHoursConfirmation') + '?'"
                     @close="state.modal.isDeleteInterventionHoursOpen = false" @confirm="deleteInterventionHours" />
-                 <ModulesUserCitizenInterventionHoursModalViewLog
-                     :selectedCareHour="state.selectedInterventionHours"
-                    :isModalOpen="state.modal.isViewInterventionHourLogOpen" @close="state.modal.isViewInterventionHourLogOpen = false" />
+                <ModulesUserCitizenInterventionHoursModalViewLog :selectedCareHour="state.selectedInterventionHours"
+                    :isModalOpen="state.modal.isViewInterventionHourLogOpen"
+                    @close="state.modal.isViewInterventionHourLogOpen = false" />
                 <ModulesUserSettingsTimeLogsInterventionHoursModalFilter @setFilter="setFilter" :type="'employee'"
-                    :isModalOpen="state.modal.isFilterDutyScheduleOpen" @close="state.modal.isFilterDutyScheduleOpen = false" />
+                    :isModalOpen="state.modal.isFilterDutyScheduleOpen"
+                    @close="state.modal.isFilterDutyScheduleOpen = false" />
             </template>
         </Modal>
     </div>
@@ -142,7 +145,7 @@ let currentTablePage = 1
 
 const state = reactive({
     columnHeaders: [
-        { name: 'citizens.interventionHours.table.citizen', isTranslateName: true, sorter: true},
+        { name: 'citizens.interventionHours.table.citizen', isTranslateName: true, sorter: true },
         { name: 'citizens.interventionHours.table.datetimeStart', isTranslateName: true, sorter: true, key: 'date_time_start' },
         { name: 'citizens.interventionHours.table.datetimeEnd', isTranslateName: true, sorter: true, key: 'date_time_end' },
         { name: 'citizens.interventionHours.table.note', isTranslateName: true, },
@@ -159,7 +162,7 @@ const state = reactive({
     isContributionMarginLoading: false,
     isTimeAccountLoading: false,
     isTableLoading: false,
-        filter: {
+    filter: {
         department_uuids: [],
         citizen_uuids: [],
         user_uuids: [],
@@ -209,7 +212,7 @@ watch(() => props.isModalOpen, (isModalOpen: boolean) => {
 function filterByDate(formDateRange: any) {
     state.timeAccountFilter.formDateRange.date_time_start = formDateRange.date_time_start
     state.timeAccountFilter.formDateRange.date_time_end = formDateRange.date_time_end
-    
+
     fetchInterventionHours()
 }
 

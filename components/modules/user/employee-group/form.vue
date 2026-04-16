@@ -26,11 +26,10 @@
         </div>
         <div class="mt-6">
             <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
-                <FormButton type="button" buttonStyle="cancel" class="rounded-md"
-                    @click="navigateTo('/settings/employee-groups')">
+                <FormButton type="button" buttonStyle="cancel" @click="navigateTo('/settings/employee-groups')">
                     {{ $t('cancel') }}
                 </FormButton>
-                <FormButton type="submit" buttonStyle="primary" class="rounded-md">
+                <FormButton type="submit" buttonStyle="primary">
                     {{ props.formType === 'create' ? $t('save') :
                         $t('update') }}
                 </FormButton>

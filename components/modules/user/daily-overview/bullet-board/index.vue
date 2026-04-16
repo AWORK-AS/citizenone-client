@@ -71,7 +71,7 @@
 
                                 <div class="mt-4" v-if="news?.link">
                                     <FormButton buttonStyle="primary" @click="navigateToExternalLink(news?.link)"
-                                        class="w-full rounded-md">
+                                        class="w-full">
                                         {{ $t('overview.openLink') }}
                                     </FormButton>
                                 </div>

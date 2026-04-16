@@ -31,10 +31,11 @@
 
                 <ModulesUserCitizenDetailsHeader />
                 <ModulesUserCitizenJournalTabs />
+                <ModulesUserCitizenWalletTabs />
 
                 <div>
                     <div class="mt-8 flex justify-end items-center mb-5 gap-x-2">
-                        <FormButton buttonStyle="action" class="rounded-lg" @click="state.modal.isAddWalletOpen = true">
+                        <FormButton buttonStyle="action" @click="state.modal.isAddWalletOpen = true">
                             <Icon name="ph:plus" class="h-4 w-4" aria-hidden="true" />
                             {{ $t('citizens.wallets.newWallet') }}
                         </FormButton>

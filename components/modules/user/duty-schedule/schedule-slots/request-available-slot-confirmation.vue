@@ -7,10 +7,10 @@
                     {{ props.message }}
                 </p>
                 <div class="mt-5 flex gap-x-3">
-                    <FormButton @click="closeModal" class="w-full rounded-md">
+                    <FormButton @click="closeModal" class="w-full">
                         {{ $t('cancel') }}
                     </FormButton>
-                    <FormButton buttonStyle="primary" @click="handleConfirmation" class="w-full rounded-md">
+                    <FormButton buttonStyle="primary" @click="handleConfirmation" class="w-full">
                         {{ $t('dutySchedules.scheduleSlots.confirmation.requestConfirmButton') }}
                     </FormButton>
                 </div>

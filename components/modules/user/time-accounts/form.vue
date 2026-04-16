@@ -73,13 +73,15 @@
                         <FormLabel :label="$t('timeAccounts.form.minAge')" />
                         <FormNumberField id="rule_min_age" name="rule_min_age" placeholder="" :min="0"
                             v-model="state.formTimeAccount.rule.conditions.min_age" />
-                        <FormError :error="v$?.formTimeAccount?.rule?.conditions.min_age.$errors[0]?.$message.toString()" />
+                        <FormError
+                            :error="v$?.formTimeAccount?.rule?.conditions.min_age.$errors[0]?.$message.toString()" />
                     </div>
                     <div class="space-y-1">
                         <FormLabel :label="$t('timeAccounts.form.maxAge')" />
                         <FormNumberField id="rule_max_age" name="rule_max_age" placeholder="" :min="0"
                             v-model="state.formTimeAccount.rule.conditions.max_age" />
-                        <FormError :error="v$?.formTimeAccount?.rule?.conditions.max_age.$errors[0]?.$message.toString()" />
+                        <FormError
+                            :error="v$?.formTimeAccount?.rule?.conditions.max_age.$errors[0]?.$message.toString()" />
                     </div>
                 </template>
 
@@ -88,13 +90,15 @@
                         <FormLabel :label="$t('timeAccounts.form.hiredAfter')" />
                         <FormDateField id="rule_hired_after" name="rule_hired_after" placeholder=""
                             v-model="state.formTimeAccount.rule.conditions.hired_after" />
-                        <FormError :error="v$?.formTimeAccount?.rule?.conditions.hired_after.$errors[0]?.$message.toString()" />
+                        <FormError
+                            :error="v$?.formTimeAccount?.rule?.conditions.hired_after.$errors[0]?.$message.toString()" />
                     </div>
                     <div class="space-y-1">
                         <FormLabel :label="$t('timeAccounts.form.hiredBefore')" />
                         <FormDateField id="rule_hired_before" name="rule_hired_before" placeholder=""
                             v-model="state.formTimeAccount.rule.conditions.hired_before" />
-                        <FormError :error="v$?.formTimeAccount?.rule?.conditions.hired_before.$errors[0]?.$message.toString()" />
+                        <FormError
+                            :error="v$?.formTimeAccount?.rule?.conditions.hired_before.$errors[0]?.$message.toString()" />
                     </div>
                 </template>
 
@@ -103,7 +107,8 @@
                         <FormLabel :label="$t('timeAccounts.form.duration')" />
                         <FormNumberField id="rule_month_duration" name="rule_month_duration" placeholder="" :min="0"
                             v-model="state.formTimeAccount.rule.conditions.month_duration" />
-                        <FormError :error="v$?.formTimeAccount?.rule?.conditions.month_duration.$errors[0]?.$message.toString()" />
+                        <FormError
+                            :error="v$?.formTimeAccount?.rule?.conditions.month_duration.$errors[0]?.$message.toString()" />
                     </div>
                 </template>
             </div>
@@ -129,11 +134,10 @@
 
         <div class="mt-6 mb-20">
             <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
-                <FormButton type="button" buttonStyle="cancel" class="rounded-md"
-                    @click="navigateTo('/settings/time-accounts')">
+                <FormButton type="button" buttonStyle="cancel" @click="navigateTo('/settings/time-accounts')">
                     {{ $t('cancel') }}
                 </FormButton>
-                <FormButton type="submit" buttonStyle="primary" class="rounded-md">
+                <FormButton type="submit" buttonStyle="primary">
                     {{ props.formType === 'create' ? $t('save') : $t('update') }}
                 </FormButton>
             </div>

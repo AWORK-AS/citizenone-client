@@ -264,6 +264,8 @@
 <script setup lang="ts">
 import { appService } from '@/components/api/user/AppService'
 import { googledriveService } from '@/components/api/user/GoogleDriveService'
+import OneDriveService from '@/components/api/oneDrive/OneDriveService'
+const onedriveService = new OneDriveService()
 import { useI18n } from "vue-i18n"
 import { useAlert } from '@/composables/alert'
 import { useAmountFormatter } from '@/composables/amountFormatter'
@@ -280,6 +282,7 @@ let currentTablePage = 1
 let checkout = null as any
 const router = useRouter()
 let error: string | undefined = router?.currentRoute?.value?.query?.error as string | undefined
+
 const breadcrumbLinks = [
     {
         name: 'apps.apps',
@@ -287,6 +290,7 @@ const breadcrumbLinks = [
         href: '/apps',
     },
 ]
+
 
 const state = reactive({
     apps: [] as any,
@@ -305,17 +309,31 @@ const state = reactive({
 
 onMounted(async () => {
     // Set up message listener for Google Drive popup callback
-    // const handlePopupMessage = (event: MessageEvent) => {
-    //     console.log('Message received from popup:', event.data, 'origin:', event.origin)
+    const handlePopupMessage = (event: MessageEvent) => {
+        if (event.data?.type === 'google-drive-auth-complete') {
+            fetchApps()
+            successAlert(`${t('alert.success')}!`, 'Google Drive connection updated.')
+        }
+    }
 
-    //     if (event.data?.type === 'google-drive-auth-complete') {
-    //         console.log('Google Drive auth complete, refreshing apps...')
-    //         fetchApps()
-    //         successAlert(`${t('alert.success')}!`, 'Google Drive connection updated.')
-    //     }
-    // }
+    window.addEventListener('message', handlePopupMessage)
 
-    // window.addEventListener('message', handlePopupMessage)
+    // Vis success besked og aktiver app hvis bruger kommer tilbage fra OneDrive OAuth
+    if (router.currentRoute.value.query.onedrive_connected === '1') {
+        router.replace({ query: { ...router.currentRoute.value.query, onedrive_connected: undefined } })
+        const savedUuid = localStorage.getItem('onedrive_app_uuid')
+        localStorage.removeItem('onedrive_app_uuid')
+        if (savedUuid) {
+            try {
+                await appService.activateFreeApp({ app_uuid: savedUuid })
+            } catch (e1: any) {
+                try {
+                    await appService.activateApp(savedUuid as any, {})
+                } catch (e2) {}
+            }
+        }
+        successAlert(`${t('alert.success')}!`, 'OneDrive forbindelse opdateret.')
+    }
 
     fetchApps()
 })
@@ -333,7 +351,7 @@ async function fetchApps() {
             state.apps = response
 
             // Check real Google Drive connection status
-            // await updateGoogleDriveStatus()
+            await updateGoogleDriveStatus()
         }
     } catch (error: any) {
         state.error = error
@@ -370,7 +388,10 @@ function readMore(app: any) {
 }
 
 function confirmTACAcceptance(app: any) {
-    if (!userStore.getUser?.user_subscription) {
+    if (
+        app?.generic_name !== 'onedrive' &&
+        !userStore.getUser?.user_subscription
+    ) {
         navigateTo(`/subscription/subscribe?error=${t('apps.subscriptionRequired')}.`)
     } else {
         state.selectedApp = app
@@ -398,6 +419,22 @@ async function activateApp(formApp: any) {
                 console.log('Google Drive popup opened')
             } else {
                 console.error('No authUrl in response:', response)
+            }
+        } else if (state.selectedApp?.generic_name === 'onedrive') {
+            const response = await onedriveService.getOneDriveAuthUrl()
+            if (response?.authUrl || response?.auth_url) {
+                const authUrl = response?.authUrl || response?.auth_url
+                // Gem user_id og app UUID inden redirect
+                if (userStore.getUser?.id) {
+                    localStorage.setItem('user_id', userStore.getUser.id)
+                }
+                if (state.selectedApp?.uuid) {
+                    localStorage.setItem('onedrive_app_uuid', state.selectedApp.uuid)
+                }
+                // Full-page redirect i stedet for popup - Microsoft COOP headers blokerer window.close() i popup
+                window.location.href = authUrl
+            } else {
+                state.error = { message: 'Kunne ikke hente OneDrive login URL' } as Error
             }
         } else if (state.selectedApp?.is_free) {
             const params = {
@@ -448,24 +485,20 @@ async function navigateToExternalLink(link: any) {
     }
 }
 
-// async function updateGoogleDriveStatus() {
-//     try {
-//         const status = await googledriveService.getGoogleDriveStatus()
-//         const isConnected = status?.connected || false
+async function updateGoogleDriveStatus() {
+    try {
+        const status = await googledriveService.getGoogleDriveStatus()
+        const isConnected = status?.connected || false
 
-
-//         const categories = ['marketing', 'visual', 'other']
-//         categories.forEach(category => {
-//             const googleDriveApp = state.apps[category]?.find(
-//                 (app: any) => app.generic_name === 'google-drive'
-//             )
-//             if (googleDriveApp) {
-//                 googleDriveApp.user_activated = isConnected
-//             }
-//         })
-//     } catch (error) {
-//         // Silently fail - if status check fails, rely on database value
-//         console.error('Failed to check Google Drive status:', error)
-//     }
-// }
+        const googleDriveApp = state.apps?.data?.find(
+            (app: any) => app.generic_name === 'google-drive'
+        )
+        if (googleDriveApp) {
+            googleDriveApp.user_activated = isConnected
+        }
+    } catch (error) {
+        // Silently fail - if status check fails, rely on database value
+        console.error('Failed to check Google Drive status:', error)
+    }
+}
 </script>

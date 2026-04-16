@@ -138,7 +138,8 @@
                                     <span>{{ log.causer?.firstname + ' ' + log.causer?.lastname }}</span>
                                 </td>
                                 <td width="10%" v-if="isAdmin">
-                                    <FormButton class="rounded-md" buttonSize="sm" @click="confirmPermanentDelete(log)">
+                                    <FormButton buttonStyle="danger" buttonSize="sm"
+                                        @click="confirmPermanentDelete(log)">
                                         <Icon name="heroicons:trash" class="size-4" />
                                         {{ $t('journal.table.actions.delete') }}
                                     </FormButton>
