@@ -20,17 +20,24 @@
                         <div>
                             <div class="grid grid-cols-1 md:grid-cols-1 lg:grid-cols-2 gap-x-4 text-sm">
                                 <div class="flex items-center justify-between gap-x-2"
-                                    v-for="(shiftPercentage, index) in state.shiftPercentage?.data" :key="index">
+                                    v-for="(shiftDistribution, index) in state.shiftDistributions?.data" :key="index">
                                     <div class="flex items-center gap-x-2">
                                         <div class="w-3 h-3 rounded-sm"
-                                            :style="{ backgroundColor: shiftPercentage?.color }">
+                                            :style="{ backgroundColor: shiftDistribution?.shift_type?.color }">
                                         </div>
                                         <span>
-                                            {{ language.locale.value === 'en' ? shiftPercentage?.en_name :
-                                                shiftPercentage?.dk_name }}
+                                            {{ language.locale.value === 'en' ? shiftDistribution?.shift_type?.en_name :
+                                                shiftDistribution?.shift_type?.dk_name }}
                                         </span>
                                     </div>
-                                    <p class="text-xs">{{ shiftPercentage?.percentage }}%</p>
+                                    <p class="text-xs">
+                                        <span>
+                                            {{ formatNumber(language.locale.value, shiftDistribution?.hours_worked) }}
+                                        </span>
+                                        <span>
+                                            ({{ formatNumber(language.locale.value, shiftDistribution?.percentage) }}%)
+                                        </span>
+                                    </p>
                                 </div>
                             </div>
                         </div>
@@ -55,6 +62,7 @@ import moment from 'moment'
 import { dutyScheduleService } from '@/components/api/user/DutyScheduleService'
 import { useDepartmentStore } from '@/store/department'
 import { useDatetimeFormatter } from '@/composables/datetimeFormatter'
+import { useNumberFormatter } from '@/composables/numberFormatter'
 import { useI18n } from "vue-i18n"
 import type { Error } from '@/types'
 
@@ -67,6 +75,7 @@ const props = defineProps({
 
 const emit = defineEmits(['close'])
 const { formatDateTimeToReadable } = useDatetimeFormatter()
+const { formatNumber } = useNumberFormatter()
 const departmentStore = useDepartmentStore()
 const language = useI18n()
 
@@ -81,7 +90,7 @@ const state = reactive({
     modal: {
         isDepartmentSickLeaveDateRangeOpen: false,
     },
-    shiftPercentage: {} as any,
+    shiftDistributions: {} as any,
 })
 
 function closeModal() {
@@ -104,9 +113,9 @@ async function fetchDutySchedulePercentage() {
             department: departmentStore.getSelectedDepartmentName,
             employee_uuid: state.formFilter.employee_uuid,
         }
-        const response = await dutyScheduleService.getDutyScheduleAbsencePercentage(params)
+        const response = await dutyScheduleService.getShiftTypesDistribution(params)
         if (response) {
-            state.shiftPercentage = response
+            state.shiftDistributions = response
         }
     } catch (error: any) {
         state.error = error
