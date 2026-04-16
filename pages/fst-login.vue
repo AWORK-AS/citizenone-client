@@ -18,7 +18,6 @@
 						<div class="fst-ring fst-rg1"></div>
 						<div class="fst-ring fst-rg2"></div>
 						<div class="fst-ring fst-rg3"></div>
-						<div class="fst-scan"></div>
 						<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 38.98 38.98" width="38" height="38"
 							class="relative z-[2]">
 							<circle class="fst-oc" cx="19.49" cy="19.49" r="18.99" fill="#1a3a5c" stroke="rgb(66,174,217)"
@@ -438,14 +437,12 @@ async function navigateToSupport() {
 
 .fst-left-top { position:relative;z-index:2; }
 .fst-left-logo { display:flex;align-items:center;gap:14px; }
-.fst-logo-icon { position:relative;width:46px;height:46px;display:flex;align-items:center;justify-content:center;overflow:hidden; }
+.fst-logo-icon { position:relative;width:46px;height:46px;display:flex;align-items:center;justify-content:center; }
 .fst-ring { position:absolute;border-radius:50%;border:1px solid rgba(66,174,217,0.35);animation:fringa 3s ease-in-out infinite; }
 .fst-rg1 { width:46px;height:46px;animation-delay:0s; }
 .fst-rg2 { width:68px;height:68px;animation-delay:0.8s; }
 .fst-rg3 { width:90px;height:90px;animation-delay:1.5s; }
 @keyframes fringa { 0%{opacity:0;transform:scale(0.8)} 40%{opacity:1} 100%{opacity:0;transform:scale(1.2)} }
-.fst-scan { position:absolute;width:36px;height:1.5px;background:rgba(66,174,217,0.7);animation:fscana 2.8s ease-in-out 1.3s infinite;z-index:3; }
-@keyframes fscana { 0%{opacity:0;top:calc(50% - 16px)} 15%{opacity:1} 50%{top:calc(50% + 16px);opacity:1} 100%{opacity:0;top:calc(50% + 16px)} }
 .fst-oc { animation:foca 0.9s cubic-bezier(0.34,1.56,0.64,1) 0.3s both;transform-origin:19.49px 19.49px; }
 .fst-ic { animation:fica 0.9s cubic-bezier(0.34,1.56,0.64,1) 0.65s both;transform-origin:19.43px 19.55px; }
 @keyframes foca { from{transform:scale(0);opacity:0} to{transform:scale(1);opacity:1} }

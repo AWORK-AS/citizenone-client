@@ -18,7 +18,6 @@
 						<div class="ring rg1"></div>
 						<div class="ring rg2"></div>
 						<div class="ring rg3"></div>
-						<div class="scan"></div>
 						<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 38.98 38.98" width="38" height="38"
 							class="relative z-[2]">
 							<circle class="oc" cx="19.49" cy="19.49" r="18.99" fill="#1a3a5c" stroke="rgb(66,174,217)"
@@ -610,7 +609,6 @@ setInterval(() => {
 	display: flex;
 	align-items: center;
 	justify-content: center;
-	overflow: hidden;
 }
 
 .ring {
@@ -654,35 +652,6 @@ setInterval(() => {
 	}
 }
 
-.scan {
-	position: absolute;
-	width: 36px;
-	height: 1.5px;
-	background: rgba(66, 174, 217, 0.7);
-	animation: scana 2.8s ease-in-out 1.3s infinite;
-	z-index: 3;
-}
-
-@keyframes scana {
-	0% {
-		opacity: 0;
-		top: calc(50% - 16px)
-	}
-
-	15% {
-		opacity: 1
-	}
-
-	50% {
-		top: calc(50% + 16px);
-		opacity: 1
-	}
-
-	100% {
-		opacity: 0;
-		top: calc(50% + 16px)
-	}
-}
 
 .oc {
 	animation: oca 0.9s cubic-bezier(0.34, 1.56, 0.64, 1) 0.3s both;
