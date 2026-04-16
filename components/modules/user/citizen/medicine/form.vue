@@ -173,31 +173,31 @@
                     <div class="flex items-start gap-2">
                         <Icon name="ph:calendar-dots" class="size-5 text-primary shrink-0 mt-0.5" />
                         <div>
-                            <p class="text-sm font-semibold text-primary">Avanceret skemaindstilling</p>
-                            <p class="text-xs text-gray-500 mt-0.5">Brug disse indstillinger hvis borgeren skal have medicinen i bestemte perioder eller på specifikke enkeltdage — ud over den faste hyppighed ovenfor.</p>
+                            <p class="text-sm font-semibold text-primary">{{ $t('citizens.medicineJournals.form.advancedSchedule') }}</p>
+                            <p class="text-xs text-gray-500 mt-0.5">{{ $t('citizens.medicineJournals.form.advancedScheduleDesc') }}</p>
                         </div>
                     </div>
 
-                    <!-- Behandlingsperioder #545 -->
+                    <!-- Treatment periods #545 -->
                     <div class="space-y-2">
                         <div class="flex items-center justify-between">
                             <div>
-                                <p class="text-xs font-semibold text-gray-700">Behandlingsperioder</p>
-                                <p class="text-xs text-gray-400">Angiv perioder hvor medicinen aktivt skal gives — fx behandling i uge 1-3, pause i uge 4, behandling i uge 5-6.</p>
+                                <p class="text-xs font-semibold text-gray-700">{{ $t('citizens.medicineJournals.form.treatmentPeriods') }}</p>
+                                <p class="text-xs text-gray-400">{{ $t('citizens.medicineJournals.form.treatmentPeriodsDesc') }}</p>
                             </div>
                             <button type="button" @click="addTreatmentPeriod"
                                 class="shrink-0 text-xs text-primary border border-primary/30 bg-white rounded-lg px-2.5 py-1 hover:bg-primary/5">
-                                + Tilføj periode
+                                {{ $t('citizens.medicineJournals.form.addPeriod') }}
                             </button>
                         </div>
                         <div v-if="state.formMedicine.treatment_periods.length > 0" class="space-y-2">
                             <div v-for="(period, idx) in state.formMedicine.treatment_periods" :key="idx"
                                 class="flex items-center gap-2 bg-white rounded-lg px-3 py-2 border border-gray-200">
                                 <Icon name="ph:calendar-blank" class="size-4 text-gray-400 shrink-0" />
-                                <span class="text-xs text-gray-500 shrink-0">Fra</span>
+                                <span class="text-xs text-gray-500 shrink-0">{{ $t('citizens.medicineJournals.form.from') }}</span>
                                 <input type="date" v-model="period.start"
                                     class="text-xs border border-gray-200 rounded px-2 py-1.5 flex-1 focus:outline-none focus:border-primary bg-gray-50" />
-                                <span class="text-xs text-gray-500 shrink-0">til</span>
+                                <span class="text-xs text-gray-500 shrink-0">{{ $t('citizens.medicineJournals.form.to') }}</span>
                                 <input type="date" v-model="period.end"
                                     class="text-xs border border-gray-200 rounded px-2 py-1.5 flex-1 focus:outline-none focus:border-primary bg-gray-50" />
                                 <button type="button" @click="removeTreatmentPeriod(idx)"
@@ -207,15 +207,15 @@
                             </div>
                         </div>
                         <div v-else class="text-xs text-gray-400 bg-white border border-dashed border-gray-200 rounded-lg px-3 py-2.5 text-center">
-                            Ingen perioder tilføjet — medicinen følger hyppighedsindstillingen hele vejen
+                            {{ $t('citizens.medicineJournals.form.noPeriodsAdded') }}
                         </div>
                     </div>
 
-                    <!-- Ekstra individuelle dage #549 -->
+                    <!-- Extra individual dates #549 -->
                     <div class="space-y-2">
                         <div>
-                            <p class="text-xs font-semibold text-gray-700">Ekstra individuelle dage</p>
-                            <p class="text-xs text-gray-400">Tilføj specifikke enkeltdage hvor borgeren skal have medicinen — selvom det ikke passer med den faste hyppighed. Klik på en dato i kalenderen for at tilføje den.</p>
+                            <p class="text-xs font-semibold text-gray-700">{{ $t('citizens.medicineJournals.form.extraIndividualDates') }}</p>
+                            <p class="text-xs text-gray-400">{{ $t('citizens.medicineJournals.form.extraIndividualDatesDesc') }}</p>
                         </div>
                         <div class="bg-white border border-gray-200 rounded-xl p-3">
                             <div class="flex items-center justify-between mb-2">
@@ -228,7 +228,7 @@
                                 </button>
                             </div>
                             <div class="grid grid-cols-7 mb-1">
-                                <div v-for="d in ['M','T','O','T','F','L','S']" :key="d + Math.random()"
+                                <div v-for="(d, di) in calendarDayHeaders" :key="di"
                                     class="text-center text-xs text-gray-400 font-medium py-1">{{ d }}</div>
                             </div>
                             <div class="grid grid-cols-7 gap-y-0.5">
@@ -252,7 +252,7 @@
                                 <button type="button" @click="removeExtraDate(d)" class="hover:text-red-500 ml-0.5">×</button>
                             </span>
                         </div>
-                        <div v-else class="text-xs text-gray-400 text-center py-1">Ingen ekstra dage valgt</div>
+                        <div v-else class="text-xs text-gray-400 text-center py-1">{{ $t('citizens.medicineJournals.form.noExtraDaysSelected') }}</div>
                     </div>
                 </div>
 
@@ -336,8 +336,8 @@
                                     <p class="text-sm text-gray-600">
                                         {{ $t('citizens.medicineJournals.form.time') }}
                                     </p>
-                                    <FormSelect :options="getAvailableTimeOptions(data._uid)" :value="data?.time"
-                                        @change="(event: any) => state.formMedicine.max_dosage_per_time[index].time = event" />
+                                    <FormSelect :options="getAvailableTimeOptions(data._uid)"
+                                        v-model="state.formMedicine.max_dosage_per_time[index].time" />
                                 </div>
                                 <div class="space-y-1">
                                     <p class="text-sm text-gray-600">
@@ -676,6 +676,7 @@ onMounted(() => {
         recurring_dates: props.selectedMedicine?.extra_dates ?? [],
         treatment_periods: props.selectedMedicine?.treatment_periods ?? [],
     }
+    resetExtraDatesMonth()
     fetchDosageForms()
     fetchAllMedicines()
     fetchCitizenDoctors()
@@ -821,9 +822,22 @@ const v$ = useVuelidate(rules, state)
 // #545 & #549 helpers
 const extraDatesMonthState = reactive({ year: new Date().getFullYear(), month: new Date().getMonth() });
 
+function resetExtraDatesMonth() {
+    extraDatesMonthState.year = new Date().getFullYear()
+    extraDatesMonthState.month = new Date().getMonth()
+}
+
+const extraDatesLocale = computed(() => language.locale.value === 'dk' ? 'da-DK' : 'en-GB')
+
+const calendarDayHeaders = computed(() =>
+    language.locale.value === 'dk'
+        ? ['M', 'T', 'O', 'T', 'F', 'L', 'S']
+        : ['M', 'T', 'W', 'T', 'F', 'S', 'S']
+)
+
 const extraDatesMonthLabel = computed(() => {
     const d = new Date(extraDatesMonthState.year, extraDatesMonthState.month, 1);
-    return d.toLocaleDateString('da-DK', { month: 'long', year: 'numeric' });
+    return d.toLocaleDateString(extraDatesLocale.value, { month: 'long', year: 'numeric' });
 });
 
 const extraCalendarDays = computed(() => {
@@ -884,7 +898,10 @@ function removeExtraDate(dateStr: string) {
 }
 
 function formatExtraDate(dateStr: string): string {
-    return new Date(dateStr).toLocaleDateString('da-DK', { day: 'numeric', month: 'short' });
+    // Parse as local date (avoid UTC midnight → off-by-one-day in negative UTC offsets)
+    const [y, m, d] = dateStr.split('-').map(Number)
+    const date = new Date(y, m - 1, d)
+    return date.toLocaleDateString(extraDatesLocale.value, { day: 'numeric', month: 'short' })
 }
 
 function addTreatmentPeriod() {

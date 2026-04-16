@@ -63,7 +63,6 @@
 </template>
 
 <script setup lang="ts">
-import { journalNoteTagService } from '@/components/api/user/JournalNoteTagService'
 import { RadioGroup, RadioGroupOption } from '@headlessui/vue'
 import { useCitizenMedicineStore } from '@/store/citizen-medicines'
 import type { Error } from '@/types'

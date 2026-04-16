@@ -1,6 +1,7 @@
 <template>
     <div>
         <NuxtLayout name="user">
+
             <Head>
                 <Title>{{ $t('citizens.tabs.medicineCard') }} - {{ runtimeConfig?.public?.appName }}</Title>
             </Head>
@@ -9,8 +10,10 @@
                 <Breadcrumb :links="breadcrumbLinks">
                     <template #custom-link>
                         <div class="flex items-center">
-                            <Icon name="heroicons:chevron-right" class="size-3 shrink-0 text-gray-400" aria-hidden="true" />
-                            <button @click="navigateTo('/citizens')" class="ml-4 text-sm font-medium text-gray-500 hover:text-gray-700">
+                            <Icon name="heroicons:chevron-right" class="size-3 shrink-0 text-gray-400"
+                                aria-hidden="true" />
+                            <button @click="navigateTo('/citizens')"
+                                class="ml-4 text-sm font-medium text-gray-500 hover:text-gray-700">
                                 {{ customPagesStore.getCustomPagesName?.citizens }}
                             </button>
                         </div>
@@ -31,40 +34,60 @@
 
                 <!-- STATUS STATS -->
                 <div class="grid grid-cols-2 md:grid-cols-4 gap-3">
-                    <button type="button" @click="toggleStatsFilter('overdue')" :class="['rounded-xl border px-4 py-3 flex items-center gap-3 w-full text-left transition-all', state.statsFilter === 'overdue' ? 'border-red-400 bg-red-100 ring-2 ring-red-300' : 'border-red-200 bg-red-50 hover:bg-red-100']">
+                    <button type="button" @click="toggleStatsFilter('overdue')"
+                        :class="['rounded-xl border px-4 py-3 flex items-center gap-3 w-full text-left transition-all', state.statsFilter === 'overdue' ? 'border-red-400 bg-red-100 ring-2 ring-red-300' : 'border-red-200 bg-red-50 hover:bg-red-100']">
                         <div class="w-8 h-8 rounded-full bg-red-100 flex items-center justify-center shrink-0">
                             <Icon name="ph:warning-circle" class="size-4 text-red-600" />
                         </div>
                         <div>
-                            <p class="text-2xl font-semibold text-red-700 leading-none">{{ stats.overdue }}</p>
-                            <p class="text-xs text-red-500 mt-0.5">Forsinkede</p>
+                            <p class="text-2xl font-semibold text-red-700 leading-none">
+                                {{ stats.overdue }}
+                            </p>
+                            <p class="text-xs text-red-500 mt-0.5">
+                                {{ $t('citizens.medicineJournals.page.overdue') }}
+                            </p>
                         </div>
                     </button>
-                    <button type="button" @click="toggleStatsFilter('soon')" :class="['rounded-xl border px-4 py-3 flex items-center gap-3 w-full text-left transition-all', state.statsFilter === 'soon' ? 'border-amber-400 bg-amber-100 ring-2 ring-amber-300' : 'border-amber-200 bg-amber-50 hover:bg-amber-100']">
+                    <button type="button" @click="toggleStatsFilter('soon')"
+                        :class="['rounded-xl border px-4 py-3 flex items-center gap-3 w-full text-left transition-all', state.statsFilter === 'soon' ? 'border-amber-400 bg-amber-100 ring-2 ring-amber-300' : 'border-amber-200 bg-amber-50 hover:bg-amber-100']">
                         <div class="w-8 h-8 rounded-full bg-amber-100 flex items-center justify-center shrink-0">
                             <Icon name="ph:clock" class="size-4 text-amber-600" />
                         </div>
                         <div>
-                            <p class="text-2xl font-semibold text-amber-700 leading-none">{{ stats.dueSoon }}</p>
-                            <p class="text-xs text-amber-500 mt-0.5">Forfaldner snart</p>
+                            <p class="text-2xl font-semibold text-amber-700 leading-none">
+                                {{ stats.dueSoon }}
+                            </p>
+                            <p class="text-xs text-amber-500 mt-0.5">
+                                {{ $t('citizens.medicineJournals.page.dueSoon') }}
+                            </p>
                         </div>
                     </button>
-                    <button type="button" @click="toggleStatsFilter('given')" :class="['rounded-xl border px-4 py-3 flex items-center gap-3 w-full text-left transition-all', state.statsFilter === 'given' ? 'border-green-400 bg-green-100 ring-2 ring-green-300' : 'border-green-200 bg-green-50 hover:bg-green-100']">
+                    <button type="button" @click="toggleStatsFilter('given')"
+                        :class="['rounded-xl border px-4 py-3 flex items-center gap-3 w-full text-left transition-all', state.statsFilter === 'given' ? 'border-green-400 bg-green-100 ring-2 ring-green-300' : 'border-green-200 bg-green-50 hover:bg-green-100']">
                         <div class="w-8 h-8 rounded-full bg-green-100 flex items-center justify-center shrink-0">
                             <Icon name="ph:check-circle" class="size-4 text-green-600" />
                         </div>
                         <div>
-                            <p class="text-2xl font-semibold text-green-700 leading-none">{{ stats.given }}</p>
-                            <p class="text-xs text-green-500 mt-0.5">Givet i dag</p>
+                            <p class="text-2xl font-semibold text-green-700 leading-none">
+                                {{ stats.given }}
+                            </p>
+                            <p class="text-xs text-green-500 mt-0.5">
+                                {{ $t('citizens.medicineJournals.page.givenToday') }}
+                            </p>
                         </div>
                     </button>
-                    <button type="button" @click="toggleStatsFilter('pending')" :class="['rounded-xl border px-4 py-3 flex items-center gap-3 w-full text-left transition-all', state.statsFilter === 'pending' ? 'border-gray-400 bg-gray-100 ring-2 ring-gray-300' : 'border-gray-200 bg-gray-50 hover:bg-gray-100']">
+                    <button type="button" @click="toggleStatsFilter('pending')"
+                        :class="['rounded-xl border px-4 py-3 flex items-center gap-3 w-full text-left transition-all', state.statsFilter === 'pending' ? 'border-gray-400 bg-gray-100 ring-2 ring-gray-300' : 'border-gray-200 bg-gray-50 hover:bg-gray-100']">
                         <div class="w-8 h-8 rounded-full bg-gray-100 flex items-center justify-center shrink-0">
                             <Icon name="ph:hourglass" class="size-4 text-gray-500" />
                         </div>
                         <div>
-                            <p class="text-2xl font-semibold text-gray-700 leading-none">{{ stats.pending }}</p>
-                            <p class="text-xs text-gray-500 mt-0.5">Afventer</p>
+                            <p class="text-2xl font-semibold text-gray-700 leading-none">
+                                {{ stats.pending }}
+                            </p>
+                            <p class="text-xs text-gray-500 mt-0.5">
+                                {{ $t('citizens.medicineJournals.page.pending') }}
+                            </p>
                         </div>
                     </button>
                 </div>
@@ -73,39 +96,57 @@
                 <div class="space-y-2" v-if="alarmBanners.length > 0">
                     <div v-for="alarm in alarmBanners" :key="alarm.uuid"
                         :class="['rounded-xl border px-4 py-3 flex items-start gap-3', alarm.type === 'overdue' ? 'bg-red-50 border-red-200' : 'bg-amber-50 border-amber-200']">
-                        <div :class="['w-8 h-8 rounded-full flex items-center justify-center shrink-0 mt-0.5', alarm.type === 'overdue' ? 'bg-red-100' : 'bg-amber-100']">
-                            <Icon name="ph:warning-circle" :class="alarm.type === 'overdue' ? 'text-red-600' : 'text-amber-600'" class="size-4" />
+                        <div
+                            :class="['w-8 h-8 rounded-full flex items-center justify-center shrink-0 mt-0.5', alarm.type === 'overdue' ? 'bg-red-100' : 'bg-amber-100']">
+                            <Icon name="ph:warning-circle"
+                                :class="alarm.type === 'overdue' ? 'text-red-600' : 'text-amber-600'" class="size-4" />
                         </div>
                         <div class="flex-1 min-w-0">
-                            <p :class="['text-sm font-medium', alarm.type === 'overdue' ? 'text-red-800' : 'text-amber-800']">
-                                {{ alarm.type === 'overdue' ? 'Forsinket:' : 'Forfaldner snart:' }}
-                                {{ alarm.medicineName }} — planlagt kl. {{ alarm.time }}
+                            <p
+                                :class="['text-sm font-medium', alarm.type === 'overdue' ? 'text-red-800' : 'text-amber-800']">
+                                {{
+                                    alarm.type === 'overdue' ? $t('citizens.medicineJournals.page.overdueLabel') :
+                                        $t('citizens.medicineJournals.page.dueSoonLabel')
+                                }}
+                                {{ alarm.medicineName }} — {{ $t('citizens.medicineJournals.page.scheduledAt') }}
+                                {{ alarm.time }}
                             </p>
-                            <p :class="['text-xs mt-0.5', alarm.type === 'overdue' ? 'text-red-600' : 'text-amber-600']">
+                            <p
+                                :class="['text-xs mt-0.5', alarm.type === 'overdue' ? 'text-red-600' : 'text-amber-600']">
                                 {{ alarm.message }}
                             </p>
                         </div>
                         <button v-if="alarm.type === 'overdue'"
                             class="shrink-0 text-xs bg-red-600 text-white px-3 py-1.5 rounded-lg hover:bg-red-700 transition-colors"
                             @click="quickGive(alarm)">
-                            Giv nu
+                            {{ $t('citizens.medicineJournals.page.giveNow') }}
                         </button>
                     </div>
                 </div>
 
 
                 <!-- ACTIVE STATS FILTER BANNER -->
-                <div v-if="state.statsFilter" class="flex items-center gap-2 px-3 py-2 bg-primary/5 border border-primary/20 rounded-lg">
+                <div v-if="state.statsFilter"
+                    class="flex items-center gap-2 px-3 py-2 bg-primary/5 border border-primary/20 rounded-lg">
                     <Icon name="ph:funnel" class="size-4 text-primary" />
                     <span class="text-sm text-primary">
-                        Filtrerer:
-                        <span v-if="state.statsFilter === 'overdue'" class="font-medium">Forsinkede ({{ stats.overdue }})</span>
-                        <span v-if="state.statsFilter === 'soon'" class="font-medium">Forfaldner snart ({{ stats.dueSoon }})</span>
-                        <span v-if="state.statsFilter === 'given'" class="font-medium">Givet i dag ({{ stats.given }})</span>
-                        <span v-if="state.statsFilter === 'pending'" class="font-medium">Afventer ({{ stats.pending }})</span>
+                        {{ $t('citizens.medicineJournals.page.filtering') }}
+                        <span v-if="state.statsFilter === 'overdue'" class="font-medium">
+                            {{ $t('citizens.medicineJournals.page.overdue') }} ({{ stats.overdue }})
+                        </span>
+                        <span v-if="state.statsFilter === 'soon'" class="font-medium">
+                            {{ $t('citizens.medicineJournals.page.dueSoon') }} ({{ stats.dueSoon }})
+                        </span>
+                        <span v-if="state.statsFilter === 'given'" class="font-medium">
+                            {{ $t('citizens.medicineJournals.page.givenToday') }} ({{ stats.given }})
+                        </span>
+                        <span v-if="state.statsFilter === 'pending'" class="font-medium">
+                            {{ $t('citizens.medicineJournals.page.pending') }} ({{ stats.pending }})
+                        </span>
                     </span>
-                    <button @click="state.statsFilter = null" class="ml-auto text-xs text-primary hover:text-primary/70 flex items-center gap-1">
-                        <Icon name="ph:x" class="size-3" /> Ryd filter
+                    <button @click="state.statsFilter = null"
+                        class="ml-auto text-xs text-primary hover:text-primary/70 flex items-center gap-1">
+                        <Icon name="ph:x" class="size-3" /> {{ $t('citizens.medicineJournals.page.clearFilter') }}
                     </button>
                 </div>
 
@@ -113,8 +154,7 @@
                 <div class="flex flex-col-reverse md:flex-row justify-between gap-3">
                     <div class="flex items-center gap-2 flex-wrap">
                         <div class="flex items-center bg-gray-100 rounded-lg p-1 gap-1">
-                            <button v-for="mode in viewModes" :key="mode.key"
-                                @click="state.viewMode = mode.key"
+                            <button v-for="mode in viewModes" :key="mode.key" @click="state.viewMode = mode.key"
                                 :class="['flex items-center gap-1.5 px-3 py-1.5 rounded-md text-sm font-medium transition-all', state.viewMode === mode.key ? 'bg-white text-primary shadow-sm' : 'text-gray-500 hover:text-gray-700']">
                                 <Icon :name="mode.icon" class="size-4" />
                                 {{ mode.label }}
@@ -124,46 +164,62 @@
                             <button @click="navigateDate(-1)" class="p-1.5 rounded-lg hover:bg-gray-100">
                                 <Icon name="ph:caret-left" class="size-4 text-gray-500" />
                             </button>
-                            <span class="text-sm font-medium text-gray-700 min-w-40 text-center">{{ currentPeriodLabel }}</span>
+                            <span class="text-sm font-medium text-gray-700 min-w-40 text-center">
+                                {{ currentPeriodLabel }}
+                            </span>
                             <button @click="navigateDate(1)" class="p-1.5 rounded-lg hover:bg-gray-100">
                                 <Icon name="ph:caret-right" class="size-4 text-gray-500" />
                             </button>
-                            <button @click="goToToday" class="text-xs text-primary border border-primary/30 px-2 py-1 rounded-md hover:bg-primary/5">I dag</button>
+                            <button @click="goToToday"
+                                class="text-xs text-primary border border-primary/30 px-2 py-1 rounded-md hover:bg-primary/5">
+                                {{ $t('citizens.medicineJournals.page.today') }}
+                            </button>
                         </div>
-                        <button class="flex items-center gap-x-1 text-sm text-primary group" @click="state.modal.isFilterMedicineOpen = true">
+                        <button class="flex items-center gap-x-1 text-sm text-primary group"
+                            @click="state.modal.isFilterMedicineOpen = true">
                             <Icon name="ic:outline-filter-list" class="w-5 h-5" />
                             <span>{{ $t('filter') }}</span>
                         </button>
                     </div>
                     <div class="flex items-center gap-2 justify-end flex-wrap">
-                        <FormButton buttonStyle="action" class="rounded-md" @click="navigateToExternalLink('https://fmk-online.dk/fmk')">
+                        <FormButton buttonStyle="action" class="rounded-md"
+                            @click="navigateToExternalLink('https://fmk-online.dk/fmk')">
                             <Icon name="mdi:cloud-refresh-outline" class="h-4 w-4" />
                             {{ $t('citizens.medicineJournals.synchronizeWithFMK') }}
                         </FormButton>
                         <FormButton buttonStyle="action" class="rounded-md" @click="state.modal.isAnbrudOpen = true">
                             <Icon name="ph:drop" class="h-4 w-4" />
-                            Nyt anbrud
+                            {{ $t('citizens.medicineJournals.page.newPackageOpening') }}
                         </FormButton>
-                        <FormButton buttonStyle="action" class="rounded-md" @click="state.modal.isAddMedicineOpen = true">
+                        <FormButton buttonStyle="action" class="rounded-md"
+                            @click="state.modal.isAddMedicineOpen = true">
                             <Icon name="ph:plus" class="h-4 w-4" />
                             {{ $t('citizens.medicineJournals.newMedicine') }}
                         </FormButton>
-                        <FormButton buttonStyle="action" class="rounded-md" @click="state.modal.isDownloadMedicineOverviewOpen = true">
+                        <FormButton buttonStyle="action" class="rounded-md"
+                            @click="state.modal.isDownloadMedicineOverviewOpen = true">
                             <Icon name="ph:download" class="h-4 w-4" />
                             {{ $t('citizens.medicineJournals.downloadOverview') }}
                         </FormButton>
                     </div>
                 </div>
 
-                <Alert type="danger" :text="state?.error?.message" v-if="state.error?.message && state.error.message.length > 0" />
+                <Alert type="danger" :text="state?.error?.message"
+                    v-if="state.error?.message && state.error.message.length > 0" />
                 <TableSearch @search="handleSearch" />
 
                 <!-- Bulk give -->
                 <div v-if="citizenMedicineStore.getSelectedMedicines?.length > 0"
                     class="flex items-center gap-3 p-3 bg-primary/5 border border-primary/20 rounded-xl">
                     <Icon name="ph:check-square" class="size-5 text-primary" />
-                    <span class="text-sm text-primary font-medium">{{ citizenMedicineStore.getSelectedMedicines.length }} medicin valgt</span>
-                    <FormButton buttonStyle="action" class="rounded-md ml-auto" @click="state.modal.isGiveMedicinesOpen = true">
+                    <span class="text-sm text-primary font-medium">
+                        {{ $t('citizens.medicineJournals.page.medicinesSelected', {
+                            n: citizenMedicineStore.getSelectedMedicines.length
+                        })
+                        }}
+                    </span>
+                    <FormButton buttonStyle="action" class="rounded-md ml-auto"
+                        @click="state.modal.isGiveMedicinesOpen = true">
                         <Icon name="ph:plus" class="h-4 w-4" />
                         {{ $t('citizens.medicineJournals.history.giveAllMedicines') }}
                     </FormButton>
@@ -177,10 +233,13 @@
                     <div v-else-if="!allMedicines.length"
                         class="border-2 border-gray-200 border-dashed rounded-xl flex flex-col items-center justify-center min-h-48 gap-3">
                         <Icon name="ph:pill" class="size-10 text-gray-300" />
-                        <p class="text-sm text-gray-400">Ingen aktive mediciner på denne borger</p>
-                        <FormButton buttonStyle="action" class="rounded-md" @click="state.modal.isAddMedicineOpen = true">
+                        <p class="text-sm text-gray-400">
+                            {{ $t('citizens.medicineJournals.page.noActiveMedicines') }}
+                        </p>
+                        <FormButton buttonStyle="action" class="rounded-md"
+                            @click="state.modal.isAddMedicineOpen = true">
                             <Icon name="ph:plus" class="h-4 w-4" />
-                            Tilføj medicin
+                            {{ $t('citizens.medicineJournals.page.addMedicine') }}
                         </FormButton>
                     </div>
 
@@ -188,18 +247,25 @@
                         <div class="flex items-center justify-between px-5 py-3 bg-primary text-white">
                             <div class="flex items-center gap-3">
                                 <Icon name="ph:calendar" class="size-4 opacity-80" />
-                                <span class="font-semibold text-sm capitalize">{{ todayLabel }}</span>
-                                <span class="text-xs bg-white/20 px-2 py-0.5 rounded-full font-medium">I dag</span>
+                                <span class="font-semibold text-sm capitalize">
+                                    {{ todayLabel }}
+                                </span>
+                                <span class="text-xs bg-white/20 px-2 py-0.5 rounded-full font-medium">
+                                    {{ $t('citizens.medicineJournals.page.today') }}
+                                </span>
                             </div>
                             <div class="flex items-center gap-3 text-xs opacity-80">
                                 <span v-if="stats.overdue > 0" class="flex items-center gap-1">
-                                    <span class="w-2 h-2 rounded-full bg-red-400 inline-block"></span>{{ stats.overdue }} forsinket
+                                    <span class="w-2 h-2 rounded-full bg-red-400 inline-block"></span>
+                                    {{ $t('citizens.medicineJournals.page.overdueCountText', { n: stats.overdue }) }}
                                 </span>
                                 <span v-if="stats.given > 0" class="flex items-center gap-1">
-                                    <span class="w-2 h-2 rounded-full bg-green-400 inline-block"></span>{{ stats.given }} givet
+                                    <span class="w-2 h-2 rounded-full bg-green-400 inline-block"></span>
+                                    {{ $t('citizens.medicineJournals.page.givenCountText', { n: stats.given }) }}
                                 </span>
                                 <span v-if="stats.pending > 0" class="flex items-center gap-1">
-                                    <span class="w-2 h-2 rounded-full bg-gray-300 inline-block"></span>{{ stats.pending }} afventer
+                                    <span class="w-2 h-2 rounded-full bg-gray-300 inline-block"></span>
+                                    {{ $t('citizens.medicineJournals.page.pendingCountText', { n: stats.pending }) }}
                                 </span>
                             </div>
                         </div>
@@ -207,15 +273,17 @@
                         <div v-if="regularMedicines.length > 0">
                             <div v-if="timeColumns.length > 0" class="bg-gray-50 border-b border-gray-200"
                                 :style="gridStyle(timeColumns.length)">
-                                <div class="px-4 py-2.5 text-xs font-semibold text-gray-500 uppercase tracking-wide">Medicin</div>
+                                <div class="px-4 py-2.5 text-xs font-semibold text-gray-500 uppercase tracking-wide">
+                                    {{ $t('citizens.medicineJournals.table.medicine') }}
+                                </div>
                                 <div v-for="time in timeColumns" :key="time"
                                     class="px-3 py-2.5 text-center text-xs font-semibold text-gray-500 uppercase tracking-wide border-l border-gray-200">
                                     {{ time }}
                                 </div>
                             </div>
 
-                            <div v-for="(medicine, mIdx) in filteredRegularMedicines" :key="medicine.uuid"
-                                :class="['border-b border-gray-100 last:border-b-0', mIdx % 2 === 1 ? 'bg-gray-50/50' : 'bg-white', medicine.is_deactivated ? 'opacity-40' : '']"
+                            <div v-for="(medicine, medicineIndex) in filteredRegularMedicines" :key="medicine.uuid"
+                                :class="['border-b border-gray-100 last:border-b-0', (medicineIndex as number) % 2 === 1 ? 'bg-gray-50/50' : 'bg-white', medicine.is_deactivated ? 'opacity-40' : '']"
                                 :style="gridStyle(timeColumns.length)">
 
                                 <div class="px-4 py-3 flex items-start gap-3">
@@ -224,48 +292,76 @@
                                         @click="addRemoveMedicine(medicine)" class="mt-0.5 shrink-0" />
                                     <div class="min-w-0 flex-1">
                                         <p class="text-sm font-medium text-gray-900 truncate">
-                                            {{ language.locale.value === 'en' ? medicine?.medicine?.en_name : medicine?.medicine?.dk_name }}
+                                            {{
+                                                language.locale.value === 'en' ?
+                                                    medicine?.medicine?.en_name :
+                                                    medicine?.medicine?.dk_name
+                                            }}
                                         </p>
                                         <p class="text-xs text-gray-500">
-                                            {{ medicine?.medicine?.ingredients }}<span v-if="medicine?.strength"> · {{ medicine?.strength }}{{ medicine?.mass_unit?.name ? ' ' + medicine.mass_unit.name : '' }}</span>
+                                            {{ medicine?.medicine?.ingredients }}
+                                            <span v-if="medicine?.strength"> ·
+                                                {{ medicine?.strength }}
+                                                {{
+                                                    medicine?.mass_unit?.name ? ' ' + medicine.mass_unit.name : ''
+                                                }}
+                                            </span>
                                         </p>
                                         <div class="flex gap-1 flex-wrap mt-1">
-                                            <Tooltip v-if="medicine?.is_expired" text="Udløbet — tjek anbrud dato">
-                                                <span class="inline-flex items-center gap-1 text-xs bg-red-100 text-red-700 border border-red-200 px-1.5 py-0.5 rounded font-medium">
-                                                    <Icon name="ph:warning-circle" class="size-3" /> Udløbet
+                                            <Tooltip v-if="medicine?.is_expired"
+                                                :text="$t('citizens.medicineJournals.page.expiredCheckDate')">
+                                                <span
+                                                    class="inline-flex items-center gap-1 text-xs bg-red-100 text-red-700 border border-red-200 px-1.5 py-0.5 rounded font-medium">
+                                                    <Icon name="ph:warning-circle" class="size-3" />
+                                                    {{ t('citizens.medicineJournals.page.expired') }}
                                                 </span>
                                             </Tooltip>
-                                            <Tooltip v-if="medicine?.current_stocks !== null && medicine?.current_stocks <= 5 && medicine?.current_stocks >= 0"
-                                                :text="`Lavt lager: kun ${medicine?.current_stocks} tilbage`">
-                                                <span class="inline-flex items-center gap-1 text-xs bg-amber-100 text-amber-700 border border-amber-200 px-1.5 py-0.5 rounded font-medium">
-                                                    <Icon name="ph:warning" class="size-3" /> Lavt lager
+                                            <Tooltip
+                                                v-if="medicine?.current_stocks !== null && medicine?.current_stocks <= 5 && medicine?.current_stocks >= 0"
+                                                :text="$t('citizens.medicineJournals.page.lowStockOnly', { n: medicine?.current_stocks })">
+                                                <span
+                                                    class="inline-flex items-center gap-1 text-xs bg-amber-100 text-amber-700 border border-amber-200 px-1.5 py-0.5 rounded font-medium">
+                                                    <Icon name="ph:warning" class="size-3" />
+                                                    {{ $t('citizens.medicineJournals.page.lowStock') }}
                                                 </span>
                                             </Tooltip>
                                         </div>
                                     </div>
                                     <div class="flex items-center gap-0.5 shrink-0">
                                         <Tooltip :text="$t('citizens.medicineJournals.table.actions.view')">
-                                            <button type="button" class="p-1.5 rounded hover:bg-gray-100 text-gray-400 hover:text-gray-600" @click="viewMedicine(medicine)">
+                                            <button type="button"
+                                                class="p-1.5 rounded hover:bg-gray-100 text-gray-400 hover:text-gray-600"
+                                                @click="viewMedicine(medicine)">
                                                 <Icon name="ph:eye" class="size-4" />
                                             </button>
                                         </Tooltip>
                                         <Tooltip :text="$t('citizens.medicineJournals.table.actions.medicineHistory')">
-                                            <button type="button" class="p-1.5 rounded hover:bg-gray-100 text-gray-400 hover:text-gray-600" @click="viewMedicineHistory(medicine)">
+                                            <button type="button"
+                                                class="p-1.5 rounded hover:bg-gray-100 text-gray-400 hover:text-gray-600"
+                                                @click="viewMedicineHistory(medicine)">
                                                 <Icon name="ph:files" class="size-4" />
                                             </button>
                                         </Tooltip>
-                                        <Tooltip v-if="medicine?.is_editable" :text="$t('citizens.medicineJournals.table.actions.edit')">
-                                            <button type="button" class="p-1.5 rounded hover:bg-gray-100 text-gray-400 hover:text-gray-600" @click="editMedicine(medicine)">
+                                        <Tooltip v-if="medicine?.is_editable"
+                                            :text="$t('citizens.medicineJournals.table.actions.edit')">
+                                            <button type="button"
+                                                class="p-1.5 rounded hover:bg-gray-100 text-gray-400 hover:text-gray-600"
+                                                @click="editMedicine(medicine)">
                                                 <Icon name="ph:pencil-simple" class="size-4" />
                                             </button>
                                         </Tooltip>
-                                        <Tooltip v-if="!medicine?.is_deactivated" :text="$t('citizens.medicineJournals.table.actions.deactivate')">
-                                            <button type="button" class="p-1.5 rounded hover:bg-red-50 text-gray-400 hover:text-red-500" @click="confirmMedicineDeactivation(medicine)">
+                                        <Tooltip v-if="!medicine?.is_deactivated"
+                                            :text="$t('citizens.medicineJournals.table.actions.deactivate')">
+                                            <button type="button"
+                                                class="p-1.5 rounded hover:bg-red-50 text-gray-400 hover:text-red-500"
+                                                @click="confirmMedicineDeactivation(medicine)">
                                                 <Icon name="ph:x" class="size-4" />
                                             </button>
                                         </Tooltip>
                                         <Tooltip v-else :text="$t('citizens.medicineJournals.table.actions.activate')">
-                                            <button type="button" class="p-1.5 rounded hover:bg-green-50 text-gray-400 hover:text-green-600" @click="confirmMedicineActivation(medicine)">
+                                            <button type="button"
+                                                class="p-1.5 rounded hover:bg-green-50 text-gray-400 hover:text-green-600"
+                                                @click="confirmMedicineActivation(medicine)">
                                                 <Icon name="ph:check" class="size-4" />
                                             </button>
                                         </Tooltip>
@@ -279,11 +375,15 @@
                                             <button type="button"
                                                 @click="openGiveMedicine(medicine, getDosageForTime(medicine, time))"
                                                 :class="['inline-flex flex-col items-center gap-0.5 text-xs px-2.5 py-2 rounded-lg font-medium border min-w-16', getSlotClass(getDosageForTime(medicine, time), time)]">
-                                                <Icon :name="getSlotIcon(getDosageForTime(medicine, time))" class="size-3.5" />
-                                                <span>{{ getDosageForTime(medicine, time)?.dosage ?? '' }}</span>
+                                                <Icon :name="getSlotIcon(getDosageForTime(medicine, time))"
+                                                    class="size-3.5" />
+                                                <span>
+                                                    {{ getDosageForTime(medicine, time)?.dosage ?? '' }}
+                                                </span>
                                             </button>
                                         </Tooltip>
-                                        <span class="text-xs" :class="getSlotTimeClass(getDosageForTime(medicine, time), time)">
+                                        <span class="text-xs"
+                                            :class="getSlotTimeClass(getDosageForTime(medicine, time), time)">
                                             {{ getSlotTimeLabel(getDosageForTime(medicine, time), time) }}
                                         </span>
                                     </template>
@@ -301,9 +401,12 @@
                                 @click="state.pnExpanded = !state.pnExpanded">
                                 <div class="flex items-center gap-2 text-gray-500 font-medium">
                                     <Icon name="ph:clock-countdown" class="size-4" />
-                                    PN-medicin (efter behov) — {{ pnMedicines.length }} medicin
+                                    {{ $t('citizens.medicineJournals.page.pnMedicineAsNeeded') }} —
+                                    {{ pnMedicines.length }}
+                                    {{ $t('citizens.medicineJournals.table.medicine').toLowerCase() }}
                                 </div>
-                                <Icon :name="state.pnExpanded ? 'ph:caret-up' : 'ph:caret-down'" class="size-4 text-gray-400" />
+                                <Icon :name="state.pnExpanded ? 'ph:caret-up' : 'ph:caret-down'"
+                                    class="size-4 text-gray-400" />
                             </button>
                             <div v-if="state.pnExpanded">
                                 <div v-for="medicine in pnMedicines" :key="medicine.uuid"
@@ -313,25 +416,54 @@
                                         @click="addRemoveMedicine(medicine)" />
                                     <div class="flex-1 min-w-0">
                                         <p class="text-sm font-medium text-gray-900">
-                                            {{ language.locale.value === 'en' ? medicine?.medicine?.en_name : medicine?.medicine?.dk_name }}
+                                            {{
+                                                language.locale.value === 'en' ?
+                                                    medicine?.medicine?.en_name :
+                                                    medicine?.medicine?.dk_name
+                                            }}
                                         </p>
-                                        <p class="text-xs text-gray-500">{{ medicine?.medicine?.ingredients }}<span v-if="medicine?.strength"> · {{ medicine?.strength }}{{ medicine?.mass_unit?.name ? ' ' + medicine.mass_unit.name : '' }}</span></p>
+                                        <p class="text-xs text-gray-500">
+                                            {{ medicine?.medicine?.ingredients }}
+                                            <span v-if="medicine?.strength">
+                                                · {{ medicine?.strength }}
+                                                {{
+                                                    medicine?.mass_unit?.name ?
+                                                        ' ' + medicine.mass_unit.name : ''
+                                                }}
+                                            </span>
+                                        </p>
                                     </div>
-                                    <Badge type="primary" class="shrink-0"><p class="text-xxs">PN</p></Badge>
-                                    <Tooltip v-if="medicine?.last_given_minutes_ago !== null && medicine?.last_given_minutes_ago < 240"
-                                        :text="`Sidst givet for ${Math.round(medicine.last_given_minutes_ago / 60 * 10) / 10} timer siden. Vent ${Math.round((240 - medicine.last_given_minutes_ago) / 60 * 10) / 10} timer mere.`">
-                                        <span class="inline-flex items-center gap-1 text-xs bg-amber-50 text-amber-700 border border-amber-200 px-2 py-1 rounded-lg font-medium">
+                                    <Badge type="primary" class="shrink-0">
+                                        <p class="text-xxs">PN</p>
+                                    </Badge>
+                                    <Tooltip
+                                        v-if="medicine?.last_given_minutes_ago !== null && medicine?.last_given_minutes_ago < 240"
+                                        :text="$t('citizens.medicineJournals.page.lastGivenHoursAgo', { hours: Math.round(medicine.last_given_minutes_ago / 60 * 10) / 10, remaining: Math.round((240 - medicine.last_given_minutes_ago) / 60 * 10) / 10 })">
+                                        <span
+                                            class="inline-flex items-center gap-1 text-xs bg-amber-50 text-amber-700 border border-amber-200 px-2 py-1 rounded-lg font-medium">
                                             <Icon name="ph:warning" class="size-3" />
-                                            {{ Math.round((240 - medicine.last_given_minutes_ago) / 60 * 10) / 10 }}t tilbage
+                                            {{
+                                                $t('citizens.medicineJournals.page.hoursLeft',
+                                                    {
+                                                        hours: Math.round((240 -
+                                                            medicine.last_given_minutes_ago) / 60 * 10) / 10
+                                                    })
+                                            }}
                                         </span>
                                     </Tooltip>
-                                    <FormButton buttonStyle="action" class="rounded-md text-xs shrink-0" @click="giveMedicine(medicine)">
-                                        <Icon name="ph:plus" class="size-3" /> Giv PN
+                                    <FormButton buttonStyle="action" class="rounded-md text-xs shrink-0"
+                                        @click="giveMedicine(medicine)">
+                                        <Icon name="ph:plus" class="size-3" />
+                                        {{ $t('citizens.medicineJournals.page.givePN') }}
                                     </FormButton>
-                                    <button type="button" class="p-1.5 rounded hover:bg-gray-100 text-gray-400 hover:text-gray-600" @click="viewMedicineHistory(medicine)">
+                                    <button type="button"
+                                        class="p-1.5 rounded hover:bg-gray-100 text-gray-400 hover:text-gray-600"
+                                        @click="viewMedicineHistory(medicine)">
                                         <Icon name="ph:files" class="size-4" />
                                     </button>
-                                    <button v-if="medicine?.is_editable" type="button" class="p-1.5 rounded hover:bg-gray-100 text-gray-400 hover:text-gray-600" @click="editMedicine(medicine)">
+                                    <button v-if="medicine?.is_editable" type="button"
+                                        class="p-1.5 rounded hover:bg-gray-100 text-gray-400 hover:text-gray-600"
+                                        @click="editMedicine(medicine)">
                                         <Icon name="ph:pencil-simple" class="size-4" />
                                     </button>
                                 </div>
@@ -348,36 +480,64 @@
                     </div>
                     <div v-else>
                         <div class="bg-primary text-white px-5 py-3 flex items-center justify-between">
-                            <span class="font-semibold text-sm">{{ currentPeriodLabel }}</span>
+                            <span class="font-semibold text-sm">
+                                {{ currentPeriodLabel }}
+                            </span>
                             <div class="flex items-center gap-4 text-xs opacity-80">
-                                <span class="flex items-center gap-1.5"><span class="w-2.5 h-2.5 rounded-sm bg-green-400 inline-block"></span>Givet</span>
-                                <span class="flex items-center gap-1.5"><span class="w-2.5 h-2.5 rounded-sm bg-red-400 inline-block"></span>Forsinket/afvigelse</span>
-                                <span class="flex items-center gap-1.5"><span class="w-2.5 h-2.5 rounded-sm bg-gray-300 inline-block"></span>Afventer</span>
+                                <span class="flex items-center gap-1.5">
+                                    <span class="w-2.5 h-2.5 rounded-sm bg-green-400 inline-block"></span>
+                                    {{ $t('citizens.medicineJournals.page.givenLegend') }}
+                                </span>
+                                <span class="flex items-center gap-1.5">
+                                    <span class="w-2.5 h-2.5 rounded-sm bg-red-400 inline-block"></span>
+                                    {{ $t('citizens.medicineJournals.page.overdueDeviation') }}
+                                </span>
+                                <span class="flex items-center gap-1.5">
+                                    <span class="w-2.5 h-2.5 rounded-sm bg-gray-300 inline-block"></span>
+                                    {{ $t('citizens.medicineJournals.page.pendingLegend') }}
+                                </span>
                             </div>
                         </div>
                         <div class="overflow-x-auto">
                             <table class="w-full border-collapse" style="min-width: 600px;">
                                 <thead>
                                     <tr>
-                                        <th class="text-left px-4 py-2.5 text-xs font-semibold text-gray-500 uppercase tracking-wide bg-gray-50 border-b border-gray-200 w-40">Medicin</th>
+                                        <th
+                                            class="text-left px-4 py-2.5 text-xs font-semibold text-gray-500 uppercase tracking-wide bg-gray-50 border-b border-gray-200 w-40">
+                                            {{ $t('citizens.medicineJournals.table.medicine') }}
+                                        </th>
                                         <th v-for="day in weekDays" :key="day.dateStr"
                                             :class="['px-2 py-2.5 text-center text-xs font-semibold uppercase tracking-wide bg-gray-50 border-b border-l border-gray-200', day.isToday ? 'bg-primary/10 text-primary' : 'text-gray-500']">
-                                            <div>{{ day.dayShort }}</div>
-                                            <div :class="['text-sm font-medium mt-0.5', day.isToday ? 'text-primary' : 'text-gray-700']">{{ day.dayNum }}</div>
+                                            <div>
+                                                {{ day.dayShort }}
+                                            </div>
+                                            <div
+                                                :class="['text-sm font-medium mt-0.5', day.isToday ? 'text-primary' : 'text-gray-700']">
+                                                {{ day.dayNum }}
+                                            </div>
                                         </th>
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <tr v-for="medicine in regularMedicines" :key="medicine.uuid" class="border-b border-gray-100 last:border-b-0">
-                                        <td class="px-4 py-3 text-xs font-medium text-gray-900 border-r border-gray-100">
+                                    <tr v-for="medicine in regularMedicines" :key="medicine.uuid"
+                                        class="border-b border-gray-100 last:border-b-0">
+                                        <td
+                                            class="px-4 py-3 text-xs font-medium text-gray-900 border-r border-gray-100">
                                             <p class="truncate max-w-36">
-                                                {{ language.locale.value === 'en' ? medicine?.medicine?.en_name : medicine?.medicine?.dk_name }}
+                                                {{
+                                                    language.locale.value === 'en' ?
+                                                        medicine?.medicine?.en_name :
+                                                        medicine?.medicine?.dk_name
+                                                }}
                                             </p>
-                                            <p class="text-gray-400 text-xs truncate">{{ medicine?.strength }}</p>
+                                            <p class="text-gray-400 text-xs truncate">
+                                                {{ medicine?.strength }}
+                                            </p>
                                         </td>
                                         <td v-for="day in weekDays" :key="day.dateStr"
                                             :class="['px-1 py-2 border-l border-gray-100 align-top', day.isToday ? 'bg-primary/5' : '']">
-                                            <div v-for="dosage in getWeekDosagesForDay(medicine, day)" :key="dosage.time"
+                                            <div v-for="dosage in getWeekDosagesForDay(medicine, day)"
+                                                :key="dosage.time"
                                                 :class="['text-xs px-1.5 py-1 rounded mb-1 text-center cursor-pointer', getWeekSlotClass(dosage, day)]"
                                                 @click="openGiveMedicineOnDate(medicine, dosage, day)">
                                                 {{ dosage.time }}
@@ -385,7 +545,9 @@
                                         </td>
                                     </tr>
                                     <tr v-if="!regularMedicines.length">
-                                        <td :colspan="8" class="py-10 text-center text-sm text-gray-400">Ingen planlagte mediciner</td>
+                                        <td :colspan="8" class="py-10 text-center text-sm text-gray-400">
+                                            {{ $t('citizens.medicineJournals.page.noScheduledMedicines') }}
+                                        </td>
                                     </tr>
                                 </tbody>
                             </table>
@@ -401,12 +563,17 @@
                     </div>
                     <div v-else>
                         <div class="bg-primary text-white px-5 py-3 flex items-center justify-between">
-                            <span class="font-semibold text-sm capitalize">{{ currentMonthLabel }}</span>
+                            <span class="font-semibold text-sm capitalize">
+                                {{ currentMonthLabel }}
+                            </span>
                             <div class="flex items-center gap-2">
                                 <button @click="navigateDate(-1)" class="p-1 rounded hover:bg-white/20">
                                     <Icon name="ph:caret-left" class="size-4" />
                                 </button>
-                                <button @click="goToToday" class="text-xs bg-white/20 px-2 py-1 rounded hover:bg-white/30">I dag</button>
+                                <button @click="goToToday"
+                                    class="text-xs bg-white/20 px-2 py-1 rounded hover:bg-white/30">
+                                    {{ $t('citizens.medicineJournals.page.today') }}
+                                </button>
                                 <button @click="navigateDate(1)" class="p-1 rounded hover:bg-white/20">
                                     <Icon name="ph:caret-right" class="size-4" />
                                 </button>
@@ -414,19 +581,18 @@
                         </div>
                         <!-- Day headers -->
                         <div class="grid grid-cols-7 bg-gray-50 border-b border-gray-200">
-                            <div v-for="d in ['Man','Tir','Ons','Tor','Fre','Lør','Søn']" :key="d"
+                            <div v-for="(day, dayIndex) in weekDayHeaders" :key="dayIndex"
                                 class="py-2 text-center text-xs font-semibold text-gray-500 uppercase tracking-wide">
-                                {{ d }}
+                                {{ day }}
                             </div>
                         </div>
                         <!-- Calendar grid -->
                         <div class="grid grid-cols-7">
-                            <div v-for="(day, idx) in monthDays" :key="idx"
-                                :class="[
-                                    'min-h-20 p-1 border-r border-b border-gray-100 last:border-r-0',
-                                    day.isCurrentMonth ? 'bg-white' : 'bg-gray-50',
-                                    day.isToday ? 'bg-primary/5' : ''
-                                ]">
+                            <div v-for="(day, idx) in monthDays" :key="idx" :class="[
+                                'min-h-20 p-1 border-r border-b border-gray-100 last:border-r-0',
+                                day.isCurrentMonth ? 'bg-white' : 'bg-gray-50',
+                                day.isToday ? 'bg-primary/5' : ''
+                            ]">
                                 <div :class="[
                                     'text-xs font-medium w-6 h-6 flex items-center justify-center rounded-full mb-1',
                                     day.isToday ? 'bg-primary text-white' : day.isCurrentMonth ? 'text-gray-700' : 'text-gray-300'
@@ -435,7 +601,8 @@
                                 </div>
                                 <div v-if="day.isCurrentMonth">
                                     <div v-for="medicine in regularMedicines" :key="medicine.uuid">
-                                        <div v-for="dosage in getMonthDosagesForDay(medicine, day.dateStr)" :key="dosage.time"
+                                        <div v-for="dosage in getMonthDosagesForDay(medicine, day.dateStr)"
+                                            :key="dosage.time"
                                             :class="['text-xs px-1 py-0.5 rounded mb-0.5 truncate cursor-pointer', getMonthSlotClass(dosage.status, dosage.time, day.dateStr)]"
                                             @click="openGiveMedicineOnDate(medicine, dosage, day)">
                                             {{ dosage.time }}
@@ -460,44 +627,75 @@
                                                 :value="citizenMedicineStore.getSelectedMedicines?.includes(medicine.uuid)"
                                                 @click="addRemoveMedicine(medicine)" class="shrink-0" />
                                             <!-- Medicine image / placeholder -->
-                                            <Tooltip text="Skift billede via Katalog → Medicin">
+                                            <Tooltip
+                                                :text="$t('citizens.medicineJournals.page.changeImageViaCatalogue')">
                                                 <div class="shrink-0 relative group">
-                                                    <img v-if="medicine?.medicine?.image_url" :src="medicine.medicine.image_url" alt=""
+                                                    <img v-if="medicine?.medicine?.image_url"
+                                                        :src="medicine.medicine.image_url" alt=""
                                                         class="w-14 h-14 rounded-xl object-cover border border-gray-200">
                                                     <div v-else
                                                         class="w-14 h-14 rounded-xl bg-primary/10 border border-primary/20 flex items-center justify-center">
                                                         <Icon name="ph:pill-duotone" class="size-7 text-primary/50" />
                                                     </div>
-                                                    <div class="absolute inset-0 rounded-xl bg-black/0 group-hover:bg-black/10 transition-all flex items-center justify-center">
-                                                        <Icon name="ph:camera" class="size-4 text-white opacity-0 group-hover:opacity-100 transition-all" />
+                                                    <div
+                                                        class="absolute inset-0 rounded-xl bg-black/0 group-hover:bg-black/10 transition-all flex items-center justify-center">
+                                                        <Icon name="ph:camera"
+                                                            class="size-4 text-white opacity-0 group-hover:opacity-100 transition-all" />
                                                     </div>
                                                 </div>
                                             </Tooltip>
                                             <!-- Medicine info -->
                                             <div class="min-w-0">
                                                 <p class="text-sm font-semibold text-gray-900 truncate">
-                                                    {{ language.locale.value === 'en' ? medicine?.medicine?.en_name : medicine?.medicine?.dk_name }}
+                                                    {{
+                                                        language.locale.value === 'en' ?
+                                                            medicine?.medicine?.en_name :
+                                                            medicine?.medicine?.dk_name
+                                                    }}
                                                 </p>
-                                                <p class="text-xs text-gray-400 truncate mt-0.5">{{ medicine?.medicine?.ingredients }}{{ medicine?.strength ? ' · ' + medicine.strength + (medicine?.mass_unit?.name ? ' ' + medicine.mass_unit.name : '') : '' }}</p>
+                                                <p class="text-xs text-gray-400 truncate mt-0.5">
+                                                    {{ medicine?.medicine?.ingredients }}
+                                                    {{
+                                                        medicine?.strength ? ' · ' +
+                                                            medicine.strength + (medicine?.mass_unit?.name ? ' ' +
+                                                                medicine.mass_unit.name : '') : ''
+                                                    }}
+                                                </p>
                                                 <div class="flex gap-1 flex-wrap mt-1">
-                                                    <Badge v-if="medicine.is_pn_medicine" type="primary" class="w-fit"><p class="text-xxs">PN</p></Badge>
-                                                    <Tooltip v-if="medicine?.is_expired" text="Udløbet">
-                                                        <span class="text-xs bg-red-100 text-red-700 px-1.5 py-0.5 rounded inline-flex items-center gap-1">
-                                                            <Icon name="ph:warning-circle" class="size-3" /> Udløbet
+                                                    <Badge v-if="medicine.is_pn_medicine" type="primary" class="w-fit">
+                                                        <p class="text-xxs">PN</p>
+                                                    </Badge>
+                                                    <Tooltip v-if="medicine?.is_expired"
+                                                        :text="$t('citizens.medicineJournals.page.expired')">
+                                                        <span
+                                                            class="text-xs bg-red-100 text-red-700 px-1.5 py-0.5 rounded inline-flex items-center gap-1">
+                                                            <Icon name="ph:warning-circle" class="size-3" />
+                                                            {{ $t('citizens.medicineJournals.page.expired') }}
                                                         </span>
                                                     </Tooltip>
                                                 </div>
                                             </div>
                                         </div>
                                     </td>
-                                    <td width="8%">{{ medicine?.strength }}{{ medicine?.mass_unit?.name ? ' ' + medicine.mass_unit.name : '' }}</td>
-                                    <td width="8%">{{ medicine?.max_daily_dose }}</td>
+                                    <td width="8%">
+                                        {{ medicine?.strength }}
+                                        {{ medicine?.mass_unit?.name ? ' ' + medicine.mass_unit.name : '' }}
+                                    </td>
+                                    <td width="8%">
+                                        {{ medicine?.max_daily_dose }}
+                                    </td>
                                     <td width="28%">
-                                        <p class="text-sm">{{ medicine?.dosage?.name ?? medicine?.dosage?.dk_name }}</p>
-                                        <p class="text-xs text-gray-500">{{ formatScheduleFrequency(medicine) }}</p>
+                                        <p class="text-sm">
+                                            {{ medicine?.dosage?.name ?? medicine?.dosage?.dk_name }}
+                                        </p>
+                                        <p class="text-xs text-gray-500">
+                                            {{ formatScheduleFrequency(medicine) }}
+                                        </p>
                                         <div class="mt-1 flex flex-wrap gap-1" v-if="!medicine.is_pn_medicine">
-                                            <Tooltip v-for="(dosage, di) in medicine?.max_dosage_per_time" :key="di" :text="getStatusLabel(dosage?.status)">
-                                                <span :class="[getStatusBg(dosage?.status), 'px-1.5 py-0.5 text-white rounded text-xs']">
+                                            <Tooltip v-for="(dosage, di) in medicine?.max_dosage_per_time" :key="di"
+                                                :text="getStatusLabel(dosage?.status)">
+                                                <span
+                                                    :class="[getStatusBg(dosage?.status), 'px-1.5 py-0.5 text-white rounded text-xs']">
                                                     {{ dosage?.dosage }} @ {{ dosage?.time }}
                                                 </span>
                                             </Tooltip>
@@ -505,8 +703,12 @@
                                     </td>
                                     <td width="8%">
                                         <div class="flex items-center gap-1">
-                                            <span>{{ medicine?.current_stocks }}</span>
-                                            <Tooltip v-if="medicine?.current_stocks !== null && medicine?.current_stocks <= 5" text="Lavt lager">
+                                            <span>
+                                                {{ medicine?.current_stocks }}
+                                            </span>
+                                            <Tooltip
+                                                v-if="medicine?.current_stocks !== null && medicine?.current_stocks <= 5"
+                                                :text="$t('citizens.medicineJournals.page.lowStock')">
                                                 <Icon name="ph:warning" class="size-4 text-amber-500" />
                                             </Tooltip>
                                         </div>
@@ -514,32 +716,42 @@
                                     <td width="18%">
                                         <div class="flex items-end justify-end gap-1.5 flex-wrap">
                                             <Tooltip :text="$t('citizens.medicineJournals.table.actions.view')">
-                                                <FormButton type="button" buttonStyle="action" class="rounded-md" @click="viewMedicine(medicine)">
+                                                <FormButton type="button" buttonStyle="action" class="rounded-md"
+                                                    @click="viewMedicine(medicine)">
                                                     <Icon name="ph:eye" class="size-4" />
                                                 </FormButton>
                                             </Tooltip>
                                             <Tooltip :text="$t('citizens.medicineJournals.table.actions.giveMedicine')">
-                                                <FormButton type="button" buttonStyle="action" class="rounded-md" @click="giveMedicine(medicine)">
+                                                <FormButton type="button" buttonStyle="action" class="rounded-md"
+                                                    @click="giveMedicine(medicine)">
                                                     <Icon name="ph:plus" class="size-4" />
                                                 </FormButton>
                                             </Tooltip>
-                                            <Tooltip :text="$t('citizens.medicineJournals.table.actions.medicineHistory')">
-                                                <FormButton type="button" buttonStyle="action" class="rounded-md" @click="viewMedicineHistory(medicine)">
+                                            <Tooltip
+                                                :text="$t('citizens.medicineJournals.table.actions.medicineHistory')">
+                                                <FormButton type="button" buttonStyle="action" class="rounded-md"
+                                                    @click="viewMedicineHistory(medicine)">
                                                     <Icon name="ph:files" class="size-4" />
                                                 </FormButton>
                                             </Tooltip>
-                                            <Tooltip v-if="medicine?.is_editable" :text="$t('citizens.medicineJournals.table.actions.edit')">
-                                                <FormButton type="button" buttonStyle="action" class="rounded-md" @click="editMedicine(medicine)">
+                                            <Tooltip v-if="medicine?.is_editable"
+                                                :text="$t('citizens.medicineJournals.table.actions.edit')">
+                                                <FormButton type="button" buttonStyle="action" class="rounded-md"
+                                                    @click="editMedicine(medicine)">
                                                     <Icon name="ph:pencil-simple" class="size-4" />
                                                 </FormButton>
                                             </Tooltip>
-                                            <Tooltip v-if="medicine?.is_deactivated" :text="$t('citizens.medicineJournals.table.actions.activate')">
-                                                <FormButton type="button" buttonStyle="primary" class="rounded-md" @click="confirmMedicineActivation(medicine)">
+                                            <Tooltip v-if="medicine?.is_deactivated"
+                                                :text="$t('citizens.medicineJournals.table.actions.activate')">
+                                                <FormButton type="button" buttonStyle="primary" class="rounded-md"
+                                                    @click="confirmMedicineActivation(medicine)">
                                                     <Icon name="ph:check" class="size-4" />
                                                 </FormButton>
                                             </Tooltip>
-                                            <Tooltip v-else :text="$t('citizens.medicineJournals.table.actions.deactivate')">
-                                                <FormButton type="button" buttonStyle="danger" class="rounded-md" @click="confirmMedicineDeactivation(medicine)">
+                                            <Tooltip v-else
+                                                :text="$t('citizens.medicineJournals.table.actions.deactivate')">
+                                                <FormButton type="button" buttonStyle="danger" class="rounded-md"
+                                                    @click="confirmMedicineDeactivation(medicine)">
                                                     <Icon name="ph:x" class="size-4" />
                                                 </FormButton>
                                             </Tooltip>
@@ -564,41 +776,47 @@
                     :selectedMedicine="state.selectedMedicine" @close="closeEditMedicineModal"
                     @refreshMedicines="fetchCitizenMedicines" />
                 <ModulesUserCitizenMedicineModalGiveMedicine :isModalOpen="state.modal.isGiveMedicineOpen"
-                    :selectedMedicine="state.selectedMedicine"
-                    :preselectedDate="state.preselectedDate"
-                    :preselectedTime="state.preselectedTime"
-                    @close="closeGiveMedicineModal"
+                    :selectedMedicine="state.selectedMedicine" :preselectedDate="state.preselectedDate ?? undefined"
+                    :preselectedTime="state.preselectedTime ?? undefined" @close="closeGiveMedicineModal"
                     @refreshMedicines="fetchCitizenMedicines()" />
                 <ModulesUserCitizenMedicineHistoryModalGiveMultipleMedicine
-                    :isModalOpen="state.modal.isGiveMedicinesOpen"
-                    @close="state.modal.isGiveMedicinesOpen = false"
+                    :isModalOpen="state.modal.isGiveMedicinesOpen" @close="state.modal.isGiveMedicinesOpen = false"
                     @refreshMedicines="fetchCitizenMedicines()" />
                 <ModulesUserCitizenMedicineHistoryModalHistory :isModalOpen="state.modal.isViewMedicineHistoryOpen"
-                    :selectedMedicine="state.selectedMedicine"
-                    @close="state.modal.isViewMedicineHistoryOpen = false" />
+                    :selectedMedicine="state.selectedMedicine" @close="state.modal.isViewMedicineHistoryOpen = false" />
                 <ModulesUserCitizenMedicineModalDownload :isModalOpen="state.modal.isDownloadMedicineOverviewOpen"
                     @close="state.modal.isDownloadMedicineOverviewOpen = false" />
                 <DialogConfirmation :isModalOpen="state.modal.isDeactivateMedicineOpen"
                     :message="$t('citizens.medicineJournals.confirmation.deactivateConfirmation') + '?'"
-                    @close="state.modal.isDeactivateMedicineOpen = false"
-                    @confirm="toggleActivateDeactivateMedicine" />
+                    @close="state.modal.isDeactivateMedicineOpen = false" @confirm="toggleActivateDeactivateMedicine" />
 
                 <!-- Missed medicine toast -->
-                <div v-if="state.missedWarning" class="fixed bottom-6 right-6 z-50 max-w-sm bg-white border border-red-200 rounded-xl shadow-lg p-4">
+                <div v-if="state.missedWarning"
+                    class="fixed bottom-6 right-6 z-50 max-w-sm bg-white border border-red-200 rounded-xl shadow-lg p-4">
                     <div class="flex items-start gap-3">
                         <div class="shrink-0 w-8 h-8 bg-red-100 rounded-full flex items-center justify-center">
                             <Icon name="ph:warning-circle" class="size-5 text-red-600" />
                         </div>
                         <div class="flex-1 min-w-0">
-                            <p class="text-sm font-semibold text-gray-900">Glemt medicin</p>
-                            <p class="text-xs text-gray-500 mt-0.5">{{ state.missedWarning.name }} var planlagt kl. {{ state.missedWarning.time }}</p>
+                            <p class="text-sm font-semibold text-gray-900">
+                                {{ $t('citizens.medicineJournals.page.missedMedicine') }}
+                            </p>
+                            <p class="text-xs text-gray-500 mt-0.5">
+                                {{ state.missedWarning.name }}
+                                {{ $t('citizens.medicineJournals.page.wasScheduledAt') }}
+                                {{ state.missedWarning.time }}
+                            </p>
                             <div class="flex gap-2 mt-3">
                                 <button type="button"
                                     class="flex-1 text-xs bg-primary text-white px-3 py-1.5 rounded-lg font-medium hover:bg-primary/90"
-                                    @click="giveFromWarning">Giv nu</button>
+                                    @click="giveFromWarning">
+                                    {{ $t('citizens.medicineJournals.page.giveNow') }}
+                                </button>
                                 <button type="button"
                                     class="text-xs text-gray-500 px-3 py-1.5 rounded-lg hover:bg-gray-100"
-                                    @click="state.missedWarning = null">Luk</button>
+                                    @click="state.missedWarning = null">
+                                    {{ $t('close') }}
+                                </button>
                             </div>
                         </div>
                     </div>
@@ -624,6 +842,15 @@ const { t } = useI18n()
 const customPagesStore = useCustomPagesStore() as any
 const citizenMedicineStore = useCitizenMedicineStore() as any
 const language = useI18n()
+
+// Intl locale: app uses 'dk' but Intl uses 'da-DK' for Danish
+const intlLocale = computed(() => language.locale.value === 'dk' ? 'da-DK' : 'en-GB')
+
+const weekDayHeaders = computed(() =>
+    language.locale.value === 'dk'
+        ? ['Man', 'Tir', 'Ons', 'Tor', 'Fre', 'Lør', 'Søn']
+        : ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun']
+)
 const router = useRouter()
 const citizenUuid = router?.currentRoute?.value?.params?.uuid
 let currentTablePage = 1
@@ -632,12 +859,12 @@ const breadcrumbLinks = [
     { name: 'citizens.tabs.medicineCard', translate: true, href: `/citizens/${citizenUuid}/medicine-journals` },
 ]
 
-const viewModes = [
-    { key: 'day', label: 'Dag', icon: 'ph:calendar-dot' },
-    { key: 'week', label: 'Uge', icon: 'ph:calendar-dots' },
-    { key: 'month', label: 'Måned', icon: 'ph:calendar-blank' },
-    { key: 'list', label: 'Liste', icon: 'ph:list' },
-]
+const viewModes = computed(() => [
+    { key: 'day', label: t('citizens.medicineJournals.page.viewModeDay'), icon: 'ph:calendar-dot' },
+    { key: 'week', label: t('citizens.medicineJournals.page.viewModeWeek'), icon: 'ph:calendar-dots' },
+    { key: 'month', label: t('citizens.medicineJournals.page.viewModeMonth'), icon: 'ph:calendar-blank' },
+    { key: 'list', label: t('citizens.medicineJournals.page.viewModeList'), icon: 'ph:list' },
+])
 
 const state = reactive({
     viewMode: 'day',
@@ -700,25 +927,27 @@ watch(() => language.locale.value, () => fetchCitizenMedicines())
 // ─── Medicine schedule helpers ────────────────────────────────
 
 function isMedicineActiveOnDate(medicine: any, dateStr: string): boolean {
-    // 1. Check recurring_until (Indtil-dato)
+    // 1. Check recurring_until — if set, it is the true end of the schedule
     if (medicine?.recurring_until && dateStr > medicine.recurring_until) return false
 
-    // 2. Check end_date
-    if (medicine?.end_date && dateStr > medicine.end_date) return false
+    // 2. Check end_date — only applies when there is no recurring_until
+    //    (recurring_until extends the schedule beyond the initial end_date)
+    if (!medicine?.recurring_until && medicine?.end_date && dateStr > medicine.end_date) return false
 
     // 3. Check start_date
     if (medicine?.start_date && dateStr < medicine.start_date) return false
 
-    // 4. Check treatment_periods — if defined, date must fall within at least one
+    // 4. Check treatment_periods — only restrict if there is at least one valid (filled) period
     const periods = medicine?.treatment_periods
     if (periods && Array.isArray(periods) && periods.length > 0) {
-        const inPeriod = periods.some((p: any) => {
-            if (!p.start || !p.end) return false
-            return dateStr >= p.start && dateStr <= p.end
-        })
-        // Also allow extra_dates to override
-        const isExtraDate = medicine?.extra_dates?.includes(dateStr)
-        if (!inPeriod && !isExtraDate) return false
+        // Ignore incomplete rows where start or end was never filled in
+        const validPeriods = periods.filter((p: any) => p.start && p.end)
+        if (validPeriods.length > 0) {
+            const inPeriod = validPeriods.some((p: any) => dateStr >= p.start && dateStr <= p.end)
+            // Also allow extra_dates to override
+            const isExtraDate = (medicine?.extra_dates ?? []).includes(dateStr)
+            if (!inPeriod && !isExtraDate) return false
+        }
     }
 
     // 5. Extra dates always count (already handled above or standalone)
@@ -739,21 +968,30 @@ const timeColumns = computed(() => {
     return Array.from(times).sort() as string[]
 })
 
-const todayLabel = computed(() => moment().locale('da').format('dddd [d.] D. MMMM YYYY'))
+const todayLabel = computed(() => {
+    const loc = intlLocale.value
+    return new Intl.DateTimeFormat(loc, { weekday: 'long', day: 'numeric', month: 'long', year: 'numeric' }).format(new Date())
+})
 
 const currentPeriodLabel = computed(() => {
-    const start = moment().add(state.weekOffset, 'weeks').startOf('isoWeek')
-    const end = moment().add(state.weekOffset, 'weeks').endOf('isoWeek')
-    return `${start.locale('da').format('D. MMM')} – ${end.locale('da').format('D. MMM YYYY')}`
+    const loc = intlLocale.value
+    const start = moment().add(state.weekOffset, 'weeks').startOf('isoWeek').toDate()
+    const end = moment().add(state.weekOffset, 'weeks').endOf('isoWeek').toDate()
+    const fmtShort = new Intl.DateTimeFormat(loc, { day: 'numeric', month: 'short' })
+    const fmtFull = new Intl.DateTimeFormat(loc, { day: 'numeric', month: 'short', year: 'numeric' })
+    return `${fmtShort.format(start)} – ${fmtFull.format(end)}`
 })
 
 const weekDays = computed(() => {
+    const loc = intlLocale.value
+    const fmtShort = new Intl.DateTimeFormat(loc, { weekday: 'short' })
     const start = moment().add(state.weekOffset, 'weeks').startOf('isoWeek')
     return Array.from({ length: 7 }, (_, i) => {
         const day = start.clone().add(i, 'days')
+        const date = day.toDate()
         return {
             dateStr: day.format('YYYY-MM-DD'),
-            dayShort: day.locale('da').format('ddd'),
+            dayShort: fmtShort.format(date),
             dayNum: day.format('D/M'),
             isToday: day.isSame(moment(), 'day'),
         }
@@ -761,16 +999,19 @@ const weekDays = computed(() => {
 })
 
 const stats = computed(() => {
+    const today = moment().format('YYYY-MM-DD')
     let overdue = 0, dueSoon = 0, given = 0, pending = 0
-    regularMedicines.value.forEach((m: any) => {
-        m.max_dosage_per_time?.forEach((d: any) => {
-            const s = d?.status
-            if (s === 'given' || s === 'delivered') given++
-            else if (isMissed(d?.time)) overdue++
-            else if (isDueSoon(d?.time)) dueSoon++
-            else pending++
+    regularMedicines.value
+        .filter((m: any) => isMedicineActiveOnDate(m, today))
+        .forEach((m: any) => {
+            m.max_dosage_per_time?.forEach((d: any) => {
+                const s = d?.status
+                if (s === 'given' || s === 'delivered') given++
+                else if (isMissed(d?.time)) overdue++
+                else if (isDueSoon(d?.time)) dueSoon++
+                else pending++
+            })
         })
-    })
     return { overdue, dueSoon, given, pending }
 })
 
@@ -782,9 +1023,9 @@ const alarmBanners = computed(() => {
             if (d?.status) return
             if (isMissed(d?.time)) {
                 const mins = minutesSince(d?.time)
-                banners.push({ uuid: `${m.uuid}_${d.time}`, type: 'overdue', medicineName: name, time: d.time, message: `Medicinen er ${formatMinutesSince(mins)} forsinket. Giv straks eller registrér afvigelse.`, medicine: m, dosage: d })
+                banners.push({ uuid: `${m.uuid}_${d.time}`, type: 'overdue', medicineName: name, time: d.time, message: t('citizens.medicineJournals.page.medicineIsOverdue', { time: formatMinutesSince(mins) }), medicine: m, dosage: d })
             } else if (isDueSoon(d?.time)) {
-                banners.push({ uuid: `${m.uuid}_${d.time}_soon`, type: 'soon', medicineName: name, time: d.time, message: `Forfaldner om ${minutesUntil(d?.time)} minutter. Husk at give til tiden.` })
+                banners.push({ uuid: `${m.uuid}_${d.time}_soon`, type: 'soon', medicineName: name, time: d.time, message: t('citizens.medicineJournals.page.dueInMinutes', { minutes: minutesUntil(d?.time) }) })
             }
         })
     })
@@ -828,7 +1069,7 @@ function formatMinutesSince(mins: number): string {
     if (mins < 60) return `${mins} min`
     const h = Math.floor(mins / 60)
     const m = mins % 60
-    return m > 0 ? `${h}t ${m}min` : `${h} time${h !== 1 ? 'r' : ''}`
+    return m > 0 ? `${h}h ${m}min` : `${h} hour${h !== 1 ? 's' : ''}`
 }
 
 // ─── Slot helpers ─────────────────────────────────────────────
@@ -857,22 +1098,22 @@ function getSlotIcon(dosage: any): string {
 
 function getSlotTooltip(dosage: any, time: string): string {
     const s = dosage?.status
-    if (s === 'given') return customPagesStore.getCustomPagesName?.giveMedicine ?? 'Givet'
+    if (s === 'given') return customPagesStore.getCustomPagesName?.giveMedicine ?? t('citizens.medicineJournals.page.givenLegend')
     if (s === 'delivered') return t('citizens.medicineJournals.history.form.type.delivered')
     if (s === 'deviated') return t('citizens.medicineJournals.history.form.type.deviated')
-    if (isMissed(time)) return `Forsinket — planlagt kl. ${time}. Klik for at give.`
-    if (isDueSoon(time)) return `Forfaldner om ${minutesUntil(time)} min — kl. ${time}`
-    return `Klik for at give — planlagt kl. ${time}`
+    if (isMissed(time)) return t('citizens.medicineJournals.page.slotOverdue', { time })
+    if (isDueSoon(time)) return t('citizens.medicineJournals.page.slotDueSoon', { minutes: minutesUntil(time), time })
+    return t('citizens.medicineJournals.page.slotClickToGive', { time })
 }
 
 function getSlotTimeLabel(dosage: any, time: string): string {
     const s = dosage?.status
-    if (s === 'given') return 'Givet ✓'
-    if (s === 'delivered') return 'Udleveret ✓'
-    if (s === 'deviated') return 'Afvigelse'
+    if (s === 'given') return t('citizens.medicineJournals.page.slotGiven')
+    if (s === 'delivered') return t('citizens.medicineJournals.page.slotDelivered')
+    if (s === 'deviated') return t('citizens.medicineJournals.page.slotDeviation')
     if (isMissed(time)) return `+${formatMinutesSince(minutesSince(time))}`
-    if (isDueSoon(time)) return `Om ${minutesUntil(time)} min`
-    return `Kl. ${time}`
+    if (isDueSoon(time)) return t('citizens.medicineJournals.page.slotInMinutes', { minutes: minutesUntil(time) })
+    return t('citizens.medicineJournals.page.slotAt', { time })
 }
 
 function getSlotTimeClass(dosage: any, time: string): string {
@@ -928,10 +1169,10 @@ function getWeekSlotClass(dosage: any, day: any): string {
 }
 
 function getStatusLabel(status: string | null): string {
-    if (status === 'given') return customPagesStore.getCustomPagesName?.giveMedicine ?? 'Givet'
+    if (status === 'given') return customPagesStore.getCustomPagesName?.giveMedicine ?? t('citizens.medicineJournals.page.givenLegend')
     if (status === 'delivered') return t('citizens.medicineJournals.history.form.type.delivered')
     if (status === 'deviated') return t('citizens.medicineJournals.history.form.type.deviated')
-    return 'Ikke givet'
+    return t('citizens.medicineJournals.page.notGivenStatus')
 }
 
 function getStatusBg(status: string | null): string {
@@ -965,7 +1206,10 @@ async function navigateToExternalLink(link: any) {
 
 
 const currentMonthLabel = computed(() => {
-    return moment().add(state.monthOffset, 'months').locale('da').format('MMMM YYYY')
+    const loc = intlLocale.value
+    return new Intl.DateTimeFormat(loc, { month: 'long', year: 'numeric' }).format(
+        moment().add(state.monthOffset, 'months').toDate()
+    )
 })
 
 const monthDays = computed(() => {
@@ -1028,7 +1272,7 @@ function getMonthSlotClass(status: string | null, time: string, dateStr: string)
 async function fetchHistoryForRange(startDate: string, endDate: string) {
     const medicines = state.medicines?.data ?? []
     const regularMeds = medicines.filter((m: any) => !m.is_pn_medicine && m.max_dosage_per_time?.length > 0)
-    
+
     // Fetch all dates in range for all medicines in parallel
     const start = moment(startDate)
     const end = moment(endDate)
@@ -1038,9 +1282,9 @@ async function fetchHistoryForRange(startDate: string, endDate: string) {
         dates.push(cur.format('YYYY-MM-DD'))
         cur.add(1, 'day')
     }
-    
+
     const newCache: Record<string, Record<string, string>> = { ...state.historyCache }
-    
+
     await Promise.all(
         regularMeds.flatMap((med: any) =>
             dates.map(async (dateStr: string) => {

@@ -99,35 +99,45 @@
                                 </span>
                             </p>
                             <p v-if="state.selectedMedicine?.recurring_until">
-                                <span class="font-semibold">Indtil:</span>
+                                <span class="font-semibold">
+                                    {{ $t('citizens.medicineJournals.viewModal.until') }}:
+                                </span>
                                 {{ formatDateToReadable(state.selectedMedicine?.recurring_until) }}
                             </p>
                         </div>
 
-                        <!-- Behandlingsperioder #545 -->
+                        <!-- Treatment periods #545 -->
                         <div v-if="state.selectedMedicine?.treatment_periods?.length > 0"
                             class="rounded-xl border border-primary/20 bg-primary/5 p-3 space-y-2">
                             <p class="text-xs font-semibold text-primary flex items-center gap-1.5">
                                 <Icon name="ph:calendar-dots" class="size-4" />
-                                Behandlingsperioder
+                                {{ $t('citizens.medicineJournals.viewModal.treatmentPeriods') }}
                             </p>
                             <div class="space-y-1.5">
                                 <div v-for="(period, idx) in state.selectedMedicine.treatment_periods" :key="idx"
                                     class="flex items-center gap-2 text-xs text-gray-700 bg-white rounded-lg px-3 py-2 border border-gray-200">
-                                    <span class="text-gray-400">Fra</span>
-                                    <span class="font-medium">{{ formatDateToReadable(period.start) }}</span>
-                                    <span class="text-gray-400">til</span>
-                                    <span class="font-medium">{{ formatDateToReadable(period.end) }}</span>
+                                    <span class="text-gray-400">
+                                        {{ $t('citizens.medicineJournals.viewModal.from') }}
+                                    </span>
+                                    <span class="font-medium">
+                                        {{ formatDateToReadable(period.start) }}
+                                    </span>
+                                    <span class="text-gray-400">
+                                        {{ $t('citizens.medicineJournals.viewModal.to') }}
+                                    </span>
+                                    <span class="font-medium">
+                                        {{ formatDateToReadable(period.end) }}
+                                    </span>
                                 </div>
                             </div>
                         </div>
 
-                        <!-- Ekstra individuelle dage #549 -->
+                        <!-- Extra individual dates #549 -->
                         <div v-if="state.selectedMedicine?.extra_dates?.length > 0"
                             class="rounded-xl border border-primary/20 bg-primary/5 p-3 space-y-2">
                             <p class="text-xs font-semibold text-primary flex items-center gap-1.5">
                                 <Icon name="ph:calendar-plus" class="size-4" />
-                                Ekstra individuelle dage
+                                {{ $t('citizens.medicineJournals.viewModal.extraIndividualDates') }}
                             </p>
                             <div class="flex flex-wrap gap-1.5">
                                 <span v-for="d in state.selectedMedicine.recurring_dates.slice().sort()" :key="d"
@@ -194,10 +204,9 @@
 import { medicineJournalService } from '@/components/api/user/MedicineJournalService'
 import { useI18n } from "vue-i18n"
 import { useDatetimeFormatter } from '@/composables/datetimeFormatter'
-import type { Error } from '@/types'
 import { saveAs } from 'file-saver'
+import type { Error } from '@/types'
 
-const { t } = useI18n()
 const language = useI18n()
 
 const props = defineProps({
