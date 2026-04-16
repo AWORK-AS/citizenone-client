@@ -2,27 +2,27 @@
     <div>
         <Modal size="xs" :title="`${$t('filter')}`" :show="props.isModalOpen" @close="closeModal">
             <template #modal-body>
-                <form @submit.prevent="filterDistribution" id="formShiftDistribution">
+                <form @submit.prevent="filterDistribution">
                     <div class="space-y-3">
                         <div class="space-y-1">
+                            <FormLabel for="employee_uuid" :label="$t('dutySchedules.filter.employee')" />
+                            <FormSelect id="employee_uuid" :options="state.options.employees"
+                                v-model="state.formFilter.employee_uuid" />
+                            <FormError :error="v$?.formFilter.employee_uuid?.$errors[0]?.$message.toString()" />
+                        </div>
+                        <div class="space-y-1">
                             <FormLabel for="date_time_start" :label="$t('dutySchedules.filter.dateTimeStart')" />
-                            <FormDateTimeField name="date_time_start"
+                            <FormDateTimeField id="date_time_start" name="date_time_start"
                                 :placeholder="$t('dutySchedules.filter.dateTimeStart')"
                                 v-model="state.formFilter.date_time_start" />
                             <FormError :error="v$?.formFilter.date_time_start?.$errors[0]?.$message.toString()" />
                         </div>
                         <div class="space-y-1">
                             <FormLabel for="date_time_end" :label="$t('dutySchedules.filter.dateTimeEnd')" />
-                            <FormDateTimeField name="date_time_end"
+                            <FormDateTimeField id="date_time_end" name="date_time_end"
                                 :placeholder="$t('dutySchedules.filter.dateTimeEnd')"
                                 v-model="state.formFilter.date_time_end" />
                             <FormError :error="v$?.formFilter.date_time_end?.$errors[0]?.$message.toString()" />
-                        </div>
-                        <div class="space-y-1">
-                            <FormLabel for="employee_uuid" :label="$t('dutySchedules.filter.employee')" />
-                            <FormSelect id="employee_uuid" :options="state.options.employees"
-                                v-model="state.formFilter.employee_uuid" />
-                            <FormError :error="v$?.formFilter.employee_uuid?.$errors[0]?.$message.toString()" />
                         </div>
                     </div>
                     <div class="mt-6">
@@ -58,7 +58,11 @@ const props = defineProps({
     formFilter: {
         type: Object,
         required: true,
-    }
+    },
+    selectedEmployee: {
+        type: Object,
+        required: false,
+    },
 })
 
 const { t } = useI18n()
@@ -125,11 +129,14 @@ async function fetchAllUsers() {
             response.data.forEach(
                 (user: any) => options.push({
                     value: user?.uuid,
-                    label: user?.firstname + " " + user?.lastname,
+                    label: user?.firstname + " " + (user?.lastname ?? ''),
+                    uuid: user?.uuid,
+                    firstname: user?.firstname,
+                    lastname: user?.lastname ?? '',
                 })
             )
             state.options.employees = options
-            state.formFilter.employee_uuid = options[0]?.value || ''
+            state.formFilter.employee_uuid = props.selectedEmployee?.uuid || options[0]?.value
         }
     } catch (error: any) {
         state.error = error
@@ -140,14 +147,11 @@ async function fetchAllUsers() {
 function filterDistribution() {
     v$.value.$validate()
     if (!v$.value.$error) {
-        emit('filterDistribution', state.formFilter)
+        emit('filterDistribution', {
+            ...state.formFilter,
+            employee: state.options.employees.find((employee: any) => employee.value === state.formFilter.employee_uuid) || '',
+        })
         closeModal()
     }
 }
 </script>
-
-<style>
-#formShiftDistribution .multiselect-dropdown {
-    max-height: 5rem !important;
-}
-</style>

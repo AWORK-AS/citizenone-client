@@ -476,6 +476,11 @@
                                                     </p>
 
                                                     <div class="p-0 m-0 text-xxs text-primary cursor-pointer hover:text-primary-700"
+                                                        @click="showShiftTypeDistribution(employee)">
+                                                        {{ $t('dutySchedules.showTheDistributionOfShiftTypes') }}
+                                                    </div>
+
+                                                    <div class="p-0 m-0 text-xxs text-primary cursor-pointer hover:text-primary-700"
                                                         @click="navigateTo(`/calendar?employee_uuid=${employee?.uuid}`)">
                                                         {{ $t('dutySchedules.viewCalendar') }}
                                                     </div>
@@ -1036,6 +1041,9 @@
         <ModulesUserDutyScheduleNormHoursModalCompensatoryHours :isModalOpen="state.modal.isCompensatoryHoursOpen"
             :selectedEmployee="state.normHours.selectedEmployeeSchedule"
             @close="state.modal.isCompensatoryHoursOpen = false" />
+        <ModulesUserDutyScheduleModalShiftTypes :isModalOpen="state.modal.isShowDistributionOfShiftTypes"
+            :selectedEmployee="state.shiftTypesDistribution.selectedEmployee"
+            @close="state.modal.isShowDistributionOfShiftTypes = false" />
         <ModulesUserDutyScheduleNormHoursModalInfo :isModalOpen="state.modal.isAnnualNormHoursInfoOpen"
             @close="state.modal.isAnnualNormHoursInfoOpen = false" />
         <ModulesUserDutyScheduleNormHoursModalVacationHours :isModalOpen="state.modal.isVacationHoursOpen"
@@ -1244,6 +1252,7 @@ const state = reactive({
         isRemoveShiftSpanConfirmationOpen: false,
         isRequestTimeAdjustmentOpen: false,
         isRequestSwapScheduleOpen: false,
+        isShowDistributionOfShiftTypes: false,
         isVacationHoursOpen: false,
         isViewShiftOpen: false,
         isAnnualNormHoursInfoOpen: false,
@@ -1268,6 +1277,9 @@ const state = reactive({
         selectedShift: {}
     } as any,
     selectedDate: moment().format('YYYY-MM-DD'),
+    shiftTypesDistribution: {
+        selectedEmployee: {} as any,
+    },
     showAllShifts: false,
     dragSuccessMessage: '' as string,
     isDragging: false as boolean,
@@ -1362,6 +1374,11 @@ function handleKeyDown(event: KeyboardEvent) {
 
 function isAdmin(role: any) {
     return role && role === 'Admin'
+}
+
+function showShiftTypeDistribution(employee: any) {
+    state.shiftTypesDistribution.selectedEmployee = employee
+    state.modal.isShowDistributionOfShiftTypes = true
 }
 
 function sortMultiDayShiftsFirst(shifts: any) {

@@ -48,10 +48,9 @@
 
                     <div class="hidden lg:block h-5 w-px bg-slate-200" />
 
-
-
                     <!-- Shift Types Toggle -->
-                    <button @click="state.modal.isShowAllShiftTypes = !state.modal.isShowAllShiftTypes"
+                    <button
+                        @click="state.modal.isShowDistributionOfShiftTypes = !state.modal.isShowDistributionOfShiftTypes"
                         class="text-primary text-xs font-medium hover:text-primary-700 hidden lg:block">
                         {{ $t('dutySchedules.showTheDistributionOfShiftTypes') }}
                     </button>
@@ -150,8 +149,8 @@
                     @setDutyScheduleCurrentFilter="setDutyScheduleCurrentFilter" />
             </div>
 
-            <ModulesUserDutyScheduleModalShiftTypes :isModalOpen="state.modal.isShowAllShiftTypes"
-                @close="state.modal.isShowAllShiftTypes = false" />
+            <ModulesUserDutyScheduleModalShiftTypes :isModalOpen="state.modal.isShowDistributionOfShiftTypes"
+                @close="state.modal.isShowDistributionOfShiftTypes = false" />
             <ModulesUserDutyScheduleModalDownload :isModalOpen="state.modal.isDownloadOpen"
                 :selectedDate="state.selectedDate" :filter="state.filter" @close="state.modal.isDownloadOpen = false" />
             <ModulesUserDutyScheduleActivityLogsModalHistory :isModalOpen="state.modal.isActivityLogsOpen"
@@ -657,8 +656,8 @@ const state = reactive({
         isActivityLogsOpen: false,
         isDownloadOpen: false,
         isGuidedTourDutyScheduleOpen: false,
+        isShowDistributionOfShiftTypes: false,
         isViewSharedDutyScheduleOpen: false,
-        isShowAllShiftTypes: false,
         isZenegySyncOpen: false,
     },
     selectedDate: moment().format('YYYY-MM-DD'),

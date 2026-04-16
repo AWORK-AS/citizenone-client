@@ -1,22 +1,22 @@
 <template>
     <div>
-        <Modal size="lg" :title="$t('dutySchedules.distributionOfShiftTypes')" :show="props.isModalOpen"
-            @close="closeModal">
+        <Modal size="lg" :title="modalTitle" :show="props.isModalOpen" @close="closeModal">
             <template #modal-body>
                 <LoadingSpinner :isActive="state.isPageLoading">
                     <div class="space-y-3">
                         <Alert type="danger" :text="state?.error?.message"
                             v-if="state.error?.message && state.error.message.length > 0" />
                         <div class="flex flex-col md:flex-row gap-x-1 flex-wrap font-medium">
-                            <p class="text-sm">
-                                {{ $t('dutySchedules.typeOfShifts') }}:
-                            </p>
+                            <Icon name="ph:sliders-horizontal" class="w-4 h-4" />
                             <button class="w-fit text-xs text-primary hover:text-primary-700 hover:underline"
                                 @click="state.modal.isDepartmentSickLeaveDateRangeOpen = true">
                                 ({{ formatDateTimeToReadable(state.formFilter.date_time_start) }} -
                                 {{ formatDateTimeToReadable(state.formFilter.date_time_end) }})
                             </button>
                         </div>
+                        <p class="text-sm">
+                            {{ $t('dutySchedules.typeOfShifts') }}:
+                        </p>
                         <div>
                             <div class="grid grid-cols-1 md:grid-cols-1 lg:grid-cols-2 gap-x-4 text-sm">
                                 <div class="flex items-center justify-between gap-x-2"
@@ -50,6 +50,7 @@
                 </LoadingSpinner>
                 <ModulesUserDutyScheduleModalShiftDistributionFilter
                     :isModalOpen="state.modal.isDepartmentSickLeaveDateRangeOpen" :formFilter="state.formFilter"
+                    :selectedEmployee="state.selectedEmployee"
                     @close="state.modal.isDepartmentSickLeaveDateRangeOpen = false"
                     @filterDistribution="filterShiftDistribution" />
             </template>
@@ -71,12 +72,17 @@ const props = defineProps({
         type: Boolean,
         required: true,
     },
+    selectedEmployee: {
+        type: Object,
+        required: false,
+    },
 })
 
 const emit = defineEmits(['close'])
 const { formatDateTimeToReadable } = useDatetimeFormatter()
 const { formatNumber } = useNumberFormatter()
 const departmentStore = useDepartmentStore()
+const { t } = useI18n()
 const language = useI18n()
 
 const state = reactive({
@@ -90,17 +96,32 @@ const state = reactive({
     modal: {
         isDepartmentSickLeaveDateRangeOpen: false,
     },
+    selectedEmployee: null as any,
     shiftDistributions: {} as any,
+})
+
+
+watch(() => props.isModalOpen, (isModalOpen) => {
+    if (isModalOpen) {
+        fetchDutySchedulePercentage()
+    }
+})
+
+watch(() => props.selectedEmployee, (selectedEmployee) => {
+    if (selectedEmployee) {
+        state.selectedEmployee = selectedEmployee
+    }
 })
 
 function closeModal() {
     emit('close')
 }
 
-watch(() => props.isModalOpen, (isModalOpen) => {
-    if (isModalOpen) {
-        fetchDutySchedulePercentage()
-    }
+const modalTitle = computed(() => {
+    return state.selectedEmployee?.value === 'all-employees' ||
+        state.selectedEmployee === null
+        ? t('dutySchedules.distributionOfShiftTypes')
+        : `${t('dutySchedules.distributionOfShiftTypes')} (${state.selectedEmployee?.firstname + ' ' + (state.selectedEmployee?.lastname ?? '')})`
 })
 
 async function fetchDutySchedulePercentage() {
@@ -127,6 +148,7 @@ function filterShiftDistribution(formShiftDistribution: any) {
     state.formFilter.date_time_start = formShiftDistribution.date_time_start
     state.formFilter.date_time_end = formShiftDistribution.date_time_end
     state.formFilter.employee_uuid = formShiftDistribution.employee_uuid
+    state.selectedEmployee = formShiftDistribution.employee
     fetchDutySchedulePercentage()
 }
 </script>
