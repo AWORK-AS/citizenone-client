@@ -64,13 +64,13 @@
                                     </td>
                                     <td width="15%">
                                         <div class="flex items-end gap-2">
-                                            <FormButton type="button" buttonStyle="action" class="rounded-md"
+                                            <FormButton type="button" buttonStyle="action"
                                                 @click="navigateTo(`/superadmin/companies/${companyUuid}/invoices/${invoice.uuid}/invoice-details`)">
                                                 <Icon name="ph:eye" class="size-4" />
                                                 {{ $t('superadmin.invoices.table.actions.view') }}
                                             </FormButton>
-                                            <FormButton v-if="!invoice?.is_paid && !invoice?.invoice_type" type="button" buttonStyle="success" class="rounded-md"
-                                                @click="confirmMarkInvoiceAsPaid(invoice)">
+                                            <FormButton v-if="!invoice?.is_paid && !invoice?.invoice_type" type="button"
+                                                buttonStyle="success" @click="confirmMarkInvoiceAsPaid(invoice)">
                                                 <Icon name="ph:check" class="size-4" />
                                                 {{ $t('superadmin.invoices.table.actions.markAsPaid') }}
                                             </FormButton>

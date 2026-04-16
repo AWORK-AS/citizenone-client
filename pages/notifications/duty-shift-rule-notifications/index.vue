@@ -19,8 +19,7 @@
                 <LoadingSpinner :isActive="state.isPageLoading">
                     <div v-if="state.notifications?.data?.length > 0">
                         <div class="flex justify-end">
-                            <FormButton buttonStyle="primary" buttonSize="xs" @click="markAllAsRead"
-                                class="w-fit rounded-md">
+                            <FormButton buttonStyle="primary" buttonSize="xs" @click="markAllAsRead" class="w-fit">
                                 {{ $t('dutyShiftRuleNotifications.markAllAsRead') }}
                             </FormButton>
                         </div>

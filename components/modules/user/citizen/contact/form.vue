@@ -182,10 +182,10 @@
             </div>
             <div class="mt-6">
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
-                    <FormButton type="button" buttonStyle="cancel" class="rounded-md" @click="emit('closeModal')">
+                    <FormButton type="button" buttonStyle="cancel" @click="emit('closeModal')">
                         {{ $t('cancel') }}
                     </FormButton>
-                    <FormButton type="submit" buttonStyle="primary" class="rounded-md w-full">
+                    <FormButton type="submit" buttonStyle="primary" class="w-full">
                         {{ props.formType === 'create' ? $t('save') :
                             $t('update') }}
                     </FormButton>
@@ -393,12 +393,12 @@ watch(() => state.formContact.post_code, async (newPostCode, oldPostCode, onClea
     if (isStale) return
 
     const data = await zipLookerService.findCityRegionMunicipality(newPostCode)
-    
+
     if (data && !isStale) {
         const matchedRegion = state.options.regions.find(
             (r: any) => r.label.toLowerCase().includes(data.region.toLowerCase())
         ) as any
-        
+
         state.formContact.region = matchedRegion?.value
         await changeSelectedRegion(matchedRegion?.value)
         if (isStale) return

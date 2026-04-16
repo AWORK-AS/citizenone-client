@@ -55,7 +55,7 @@
                                     </div>
                                     <div class="relative flex-1 px-4 py-6 sm:px-6 space-y-3">
                                         <div class="flex justify-end items-center">
-                                            <FormButton buttonStyle="action" class="rounded-md"
+                                            <FormButton buttonStyle="action"
                                                 @click="state.modal.isAddSubgoalOpen = true"
                                                 v-if="hasCreateSubgoalsAccess()">
                                                 <Icon name="ph:plus" class="h-4 w-4" aria-hidden="true" />
@@ -91,28 +91,28 @@
                                                             <div class="flex gap-x-2">
                                                                 <Tooltip :text="$t('plansandgoals.table.actions.edit')"
                                                                     v-if="subgoal?.is_editable">
-                                                                    <FormButton class="rounded-md" buttonSize="sm"
+                                                                    <FormButton buttonSize="sm"
                                                                         @click="editSubGoal(subgoal)">
                                                                         <Icon name="ph:pencil-duotone" class="size-4" />
                                                                     </FormButton>
                                                                 </Tooltip>
                                                                 <Tooltip
                                                                     :text="$t('plansandgoals.table.actions.notifications')">
-                                                                    <FormButton class="rounded-md" buttonSize="sm"
+                                                                    <FormButton buttonSize="sm"
                                                                         @click="viewNotifications(subgoal)">
                                                                         <Icon name="ph:bell" class="size-4" />
                                                                     </FormButton>
                                                                 </Tooltip>
                                                                 <Tooltip
                                                                     :text="$t('plansandgoals.table.actions.archive')">
-                                                                    <FormButton class="rounded-md" buttonSize="sm"
+                                                                    <FormButton buttonSize="sm"
                                                                         @click="confirmSubgoalArchive(subgoal)">
                                                                         <Icon name="ph:archive" class="size-4" />
                                                                     </FormButton>
                                                                 </Tooltip>
                                                                 <Tooltip
                                                                     :text="$t('plansandgoals.table.actions.notes')">
-                                                                    <FormButton class="rounded-md" buttonSize="sm"
+                                                                    <FormButton buttonSize="sm"
                                                                         @click="viewSubgoalNotes(subgoal)">
                                                                         <Icon name="ph:check-square-offset"
                                                                             class="size-4" />
@@ -120,14 +120,14 @@
                                                                 </Tooltip>
                                                                 <Tooltip
                                                                     :text="$t('plansandgoals.table.actions.reports')">
-                                                                    <FormButton class="rounded-md" buttonSize="sm"
+                                                                    <FormButton buttonSize="sm"
                                                                         @click="viewStatuses(subgoal)">
                                                                         <Icon name="ph:file" class="size-4" />
                                                                     </FormButton>
                                                                 </Tooltip>
                                                                 <Tooltip
                                                                     :text="$t('plansandgoals.table.actions.graph')">
-                                                                    <FormButton class="rounded-md" buttonSize="sm"
+                                                                    <FormButton buttonSize="sm"
                                                                         @click="openChart(subgoal)">
                                                                         <Icon name="ph:chart-line" class="size-4" />
                                                                     </FormButton>
@@ -135,7 +135,7 @@
                                                                 <Tooltip
                                                                     :text="$t('plansandgoals.table.actions.delete')"
                                                                     v-if="subgoal?.is_deletable">
-                                                                    <FormButton class="rounded-md" buttonSize="sm"
+                                                                    <FormButton buttonSize="sm"
                                                                         @click="confirmSubgoalDeletion(subgoal)">
                                                                         <Icon name="ph:trash" class="size-4" />
                                                                     </FormButton>

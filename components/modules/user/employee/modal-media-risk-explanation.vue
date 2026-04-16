@@ -8,7 +8,7 @@
                         {{ $t('employees.form.mediaRisks.mediaRiskExplanation') }}.
                     </p>
                     <div class="mt-5 flex gap-x-3 justify-end">
-                        <FormButton buttonStyle="cancel" @click="closeModal" class="rounded-md">
+                        <FormButton buttonStyle="cancel" @click="closeModal">
                             {{ $t('close') }}
                         </FormButton>
                     </div>

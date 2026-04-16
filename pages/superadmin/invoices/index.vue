@@ -10,7 +10,7 @@
 
             <div>
                 <div class="flex flex-wrap items-center justify-end gap-3">
-                    <FormButton buttonStyle="action" class="rounded-lg" @click="state.modal.isDownloadOpen = true">
+                    <FormButton buttonStyle="action" @click="state.modal.isDownloadOpen = true">
                         <Icon name="ph:download" class="h-4 w-4" aria-hidden="true" />
                         {{ $t('superadmin.invoices.download.download') }}
                     </FormButton>
@@ -68,13 +68,13 @@
                                     </td>
                                     <td width="15%">
                                         <div class="flex items-end gap-2">
-                                            <FormButton type="button" buttonStyle="action" class="rounded-md"
+                                            <FormButton type="button" buttonStyle="action"
                                                 @click="navigateTo(`/superadmin/invoices/${invoice.uuid}/invoice-details`)">
                                                 <Icon name="ph:eye" class="size-4" />
                                                 {{ $t('superadmin.invoices.table.actions.view') }}
                                             </FormButton>
-                                            <FormButton v-if="!invoice?.is_paid && !invoice?.invoice_type" type="button" buttonStyle="success" class="rounded-md"
-                                                @click="confirmMarkInvoiceAsPaid(invoice)">
+                                            <FormButton v-if="!invoice?.is_paid && !invoice?.invoice_type" type="button"
+                                                buttonStyle="success" @click="confirmMarkInvoiceAsPaid(invoice)">
                                                 <Icon name="ph:check" class="size-4" />
                                                 {{ $t('superadmin.invoices.table.actions.markAsPaid') }}
                                             </FormButton>

@@ -4,7 +4,7 @@
             @close="closeModal">
             <template #modal-body>
                 <div class="flex justify-end items-center gap-x-5 mb-5">
-                    <FormButton buttonStyle="action" class="rounded-lg" @click="state.modal.isShareJournalsOpen = true">
+                    <FormButton buttonStyle="action" @click="state.modal.isShareJournalsOpen = true">
                         <Icon name="ph:share-fat" class="h-4 w-4" aria-hidden="true" />
                         {{ $t('citizens.citizenJournals.shareJournals.shareJournals') }}
                     </FormButton>
@@ -38,7 +38,7 @@
                                     </td>
                                     <td width="30%">
                                         <div class="flex items-end justify-end gap-2">
-                                            <FormButton type="button" buttonStyle="danger" class="rounded-md"
+                                            <FormButton type="button" buttonStyle="danger"
                                                 @click="deleteSharedJournalConfirmation(shared_journal)">
                                                 <Icon name="ph:trash" class="size-4" />
                                                 {{ $t('absences.table.actions.delete') }}

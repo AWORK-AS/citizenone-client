@@ -9,11 +9,12 @@
                     </div>
                     <div class="mt-6">
                         <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
-                            <FormButton type="button" buttonStyle="primary" class="rounded-md" @click="emit('openWork'); closeModal()">
+                            <FormButton type="button" buttonStyle="primary" @click="emit('openWork'); closeModal()">
                                 {{ $t('citizens.timeRegistration.work') }}
                             </FormButton>
-                            <FormButton type="button" buttonStyle="primary" class="rounded-md w-full" @click="emit('openTransport'); closeModal()">
-                                    {{ $t('citizens.timeRegistration.transport') }}
+                            <FormButton type="button" buttonStyle="primary" class="w-full"
+                                @click="emit('openTransport'); closeModal()">
+                                {{ $t('citizens.timeRegistration.transport') }}
                             </FormButton>
                         </div>
                     </div>

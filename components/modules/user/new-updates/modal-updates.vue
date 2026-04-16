@@ -26,7 +26,7 @@
                     </div>
 
                     <div class="pt-4 flex justify-end">
-                        <FormButton buttonStyle="cancel" @click="closeModal" class="rounded-md">
+                        <FormButton buttonStyle="cancel" @click="closeModal">
                             {{ $t('close') }}
                         </FormButton>
                     </div>

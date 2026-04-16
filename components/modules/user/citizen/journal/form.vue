@@ -171,7 +171,7 @@
                                 !active && !checked && assessment.title === 'Increased risk' && 'border border-yellow-500 ring-inset',
                                 !active && !checked && assessment.title === 'Acute increased risk' && 'border border-red-600 ring-inset',
                                 active && checked ? 'text-white ring-1' : '',
-                                'cursor-pointer flex items-center justify-center rounded-md px-2 py-2 text-xs']">
+                                'cursor-pointer flex items-center justify-center rounded-full px-2 py-2 text-xs']">
                                 <span v-if="assessment.title === 'None'">
                                     {{ $t('citizens.citizenJournals.form.risk.none') }}
                                 </span>
@@ -320,10 +320,10 @@
         </div>
         <div class="mt-6">
             <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
-                <FormButton type="button" buttonStyle="cancel" class="rounded-md" @click="emit('closeModal')">
+                <FormButton type="button" buttonStyle="cancel" @click="emit('closeModal')">
                     {{ $t('cancel') }}
                 </FormButton>
-                <FormButton type="submit" buttonStyle="primary" class="rounded-md w-full">
+                <FormButton type="submit" buttonStyle="primary" class="w-full">
                     {{ props.formType === 'create' ? $t('save') : $t('update') }}
                 </FormButton>
             </div>

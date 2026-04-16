@@ -1,10 +1,14 @@
 <template>
-    <div class="relative inline-block" @mouseover="showTooltip" @mouseleave="hideTooltip">
+    <div class="relative inline-block" @mouseenter="showTooltip" @mouseleave="scheduleHide">
         <div class="flex items-center">
             <slot />
-            <div v-if="visible" class="absolute z-50 p-2 text-sm text-white bg-primary rounded shadow-lg tooltip"
-                :class="[positionClasses, wrap ? 'w-64' : '']">
-                <p :class="wrap ? 'text-xxs whitespace-pre-wrap break-words' : 'truncate text-xxs'">{{ text }}</p>
+        </div>
+        <div v-if="visible && !disabled && text"
+            class="absolute z-50 text-sm text-white bg-primary rounded-md shadow-lg tooltip"
+            :class="[positionClasses, wrap ? 'w-44' : 'whitespace-nowrap']" @mouseenter="cancelHide"
+            @mouseleave="scheduleHide">
+            <div :class="wrap ? 'px-2.5 py-1.5 max-h-36 overflow-y-auto' : 'px-2.5 py-1.5'">
+                <p class="text-white" :class="wrap ? 'text-xs whitespace-pre-wrap break-words' : 'truncate text-xs'">{{ text }}</p>
             </div>
         </div>
     </div>
@@ -24,30 +28,52 @@ const props = defineProps({
         type: Boolean,
         default: false,
     },
+    disabled: {
+        type: Boolean,
+        default: false,
+    },
 })
 
 const visible = ref(false)
+let hideTimer = null
 
 const showTooltip = () => {
     visible.value = true
 }
 
-const hideTooltip = () => {
-    visible.value = false
+const scheduleHide = () => {
+    hideTimer = setTimeout(() => {
+        visible.value = false
+    }, 100)
 }
+
+const cancelHide = () => {
+    if (hideTimer) {
+        clearTimeout(hideTimer)
+        hideTimer = null
+    }
+}
+
+onBeforeUnmount(() => {
+    visible.value = false
+    if (hideTimer) {
+        clearTimeout(hideTimer)
+        hideTimer = null
+    }
+})
 
 const positionClasses = computed(() => {
     switch (props.position) {
         case 'top':
-            return 'bottom-full mb-2 left-1/2 transform -translate-x-1/2 tooltip-arrow-top'
+            return 'bottom-full mb-2 left-1/2 -translate-x-1/2 tooltip-arrow-top'
         case 'bottom':
-            return 'top-full mt-2 left-1/2 transform -translate-x-1/2 tooltip-arrow-bottom'
+            return 'top-full mt-2 left-1/2 -translate-x-1/2 tooltip-arrow-bottom'
         case 'left':
-            return 'right-full mr-2 top-1/2 transform -translate-y-1/2 tooltip-arrow-left'
+            return 'right-full mr-2 top-1/2 -translate-y-1/2 tooltip-arrow-left'
         case 'right':
-            return 'left-full ml-2 top-1/2 transform -translate-y-1/2 tooltip-arrow-right'
+            return 'left-full ml-2 top-1/2 -translate-y-1/2 tooltip-arrow-right'
         default:
-            return 'bottom-full mb-2 left-1/2 transform -translate-x-1/2 tooltip-arrow-top'
+            return 'bottom-full mb-2 left-1/2 -translate-x-1/2 tooltip-arrow-top'
     }
 })
 </script>
@@ -66,7 +92,7 @@ const positionClasses = computed(() => {
     left: 50%;
     transform: translateX(-50%);
     border-width: 4px 4px 0 4px;
-    border-color: #205E77 transparent transparent transparent;
+    border-color: #0f4c75 transparent transparent transparent;
 }
 
 .tooltip-arrow-bottom::after {
@@ -74,7 +100,7 @@ const positionClasses = computed(() => {
     left: 50%;
     transform: translateX(-50%);
     border-width: 0 4px 4px 4px;
-    border-color: transparent transparent #205E77 transparent;
+    border-color: transparent transparent #0f4c75 transparent;
 }
 
 .tooltip-arrow-left::after {
@@ -82,7 +108,7 @@ const positionClasses = computed(() => {
     top: 50%;
     transform: translateY(-50%);
     border-width: 4px 0 4px 4px;
-    border-color: transparent transparent transparent #205E77;
+    border-color: transparent transparent transparent #0f4c75;
 }
 
 .tooltip-arrow-right::after {
@@ -90,6 +116,6 @@ const positionClasses = computed(() => {
     top: 50%;
     transform: translateY(-50%);
     border-width: 4px 4px 4px 0;
-    border-color: transparent #205E77 transparent transparent;
+    border-color: transparent #0f4c75 transparent transparent;
 }
 </style>

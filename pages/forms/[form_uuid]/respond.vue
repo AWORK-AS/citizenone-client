@@ -189,11 +189,10 @@
                     </div>
                     <div class="mt-6">
                         <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
-                            <FormButton type="button" buttonStyle="cancel" class="rounded-md"
-                                @click="navigateTo('/forms')">
+                            <FormButton type="button" buttonStyle="cancel" @click="navigateTo('/forms')">
                                 {{ $t('cancel') }}
                             </FormButton>
-                            <FormButton type="button" buttonStyle="primary" class="rounded-md" @click="submitResponse">
+                            <FormButton type="button" buttonStyle="primary" @click="submitResponse">
                                 {{ $t('save') }}
                             </FormButton>
                         </div>

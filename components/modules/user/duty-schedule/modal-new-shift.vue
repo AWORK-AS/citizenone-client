@@ -3,15 +3,16 @@
         <Modal size="sm" :title="$t('dutySchedules.newSchedule')" :show="props.isModalOpen" @close="closeModal">
             <template #modal-body>
                 <Alert type="warning"
-                    :text="locale === 'en' ? props.selectedEmployee?.average_weekly_work_time?.message_en : props.selectedEmployee?.average_weekly_work_time?.message_dk"
-                    v-if="props.selectedEmployee?.average_weekly_work_time?.severity && props.selectedEmployee?.average_weekly_work_time?.severity !== 'info'" />
-                
+                    :text="locale === 'en' ? localEmployee?.average_weekly_work_time?.message_en : localEmployee?.average_weekly_work_time?.message_dk"
+                    v-if="localEmployee?.average_weekly_work_time?.severity && localEmployee?.average_weekly_work_time?.severity !== 'info'" />
+
                 <!-- Inline shift warnings -->
-                <div v-if="props.shiftWarnings && props.shiftWarnings.length > 0" 
+                <div v-if="props.shiftWarnings && props.shiftWarnings.length > 0"
                     class="mb-4 rounded-md bg-yellow-50 border border-yellow-200 p-4">
                     <div class="flex">
                         <div class="flex-shrink-0">
-                            <Icon name="heroicons:exclamation-triangle" class="h-5 w-5 text-yellow-400" aria-hidden="true" />
+                            <Icon name="heroicons:exclamation-triangle" class="h-5 w-5 text-yellow-400"
+                                aria-hidden="true" />
                         </div>
                         <div class="ml-3">
                             <h3 class="text-sm font-medium text-yellow-800">
@@ -27,12 +28,12 @@
                         </div>
                     </div>
                 </div>
-
                 <LoadingSpinner :isActive="props.isModalLoading || state.isPageLoading">
                     <ModulesUserDutyScheduleFormShift formType="create" :error="props.error"
                         :selectedEmployee="props.selectedEmployee" :selectedShift="state.formShift"
-                        @dateTimeChange="dateTimeChange" @close="closeModal()"
-                        @isPageLoading="(value: boolean) => state.isPageLoading = value" @saveShift="saveShift" />
+                        :showEmployeeSelect="props.showEmployeeSelect" @dateTimeChange="dateTimeChange"
+                        @close="closeModal()" @isPageLoading="(value: boolean) => state.isPageLoading = value"
+                        @saveShift="saveShift" />
                 </LoadingSpinner>
             </template>
         </Modal>
@@ -63,7 +64,15 @@ const props = defineProps({
     },
     selectedEmployee: {
         type: Object,
-        required: true,
+        default: null,
+    },
+    availableEmployees: {
+        type: Array,
+        default: () => [],
+    },
+    showEmployeeSelect: {
+        type: Boolean,
+        default: false,
     },
     shiftWarnings: {
         type: Object,
@@ -74,6 +83,22 @@ const props = defineProps({
 
 const emit = defineEmits(['close', 'saveShift', 'resetNewShiftError', 'resetShiftWarnings', 'dateTimeChange'])
 const { locale } = useI18n()
+
+const localEmployeeUuid = ref<string | null>(null)
+
+watch(() => props.selectedEmployee, (val) => {
+    localEmployeeUuid.value = val?.uuid ?? null
+}, { immediate: true })
+
+watch(() => props.availableEmployees, (employees: any[]) => {
+    if (employees?.length && !localEmployeeUuid.value) {
+        localEmployeeUuid.value = employees[0]?.uuid ?? null
+    }
+}, { immediate: true })
+
+const localEmployee = computed(() =>
+    (props.availableEmployees as any[]).find(e => e.uuid === localEmployeeUuid.value) ?? null
+)
 
 const state = reactive({
     error: {} as Error,

@@ -42,7 +42,6 @@
                                         <div class="flex items-end gap-2">
                                             <FormButton type="button"
                                                 :buttonStyle="companyApp.is_active ? 'warning' : 'success'"
-                                                class="rounded-md"
                                                 @click="activateDeactivateCompanyApp(index, companyApp)">
                                                 <Icon name="ph:x" class="size-4" v-if="companyApp.is_active" />
                                                 <Icon name="ph:check" class="size-4" v-else />

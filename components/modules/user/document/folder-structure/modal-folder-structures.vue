@@ -3,13 +3,11 @@
         <Modal size="2xl" :title="$t('folderStructure.folderStructure')" :show="props.isModalOpen" @close="closeModal">
             <template #modal-body>
                 <div class="flex justify-end items-center gap-x-5 mb-5">
-                    <FormButton buttonStyle="action" class="rounded-lg"
-                        @click="state.modal.newFolderStructureOpen = true">
+                    <FormButton buttonStyle="action" @click="state.modal.newFolderStructureOpen = true">
                         <Icon name="ph:plus" class="h-4 w-4" aria-hidden="true" />
                         {{ $t('folderStructure.newFolderStructure') }}
                     </FormButton>
-                    <FormButton buttonStyle="action" class="rounded-lg"
-                        @click="state.modal.isViewFolderStructureRequestsOpen = true">
+                    <FormButton buttonStyle="action" @click="state.modal.isViewFolderStructureRequestsOpen = true">
                         <Icon name="ph:folder" class="h-4 w-4" aria-hidden="true" />
                         {{ $t('folderStructure.requests.folderStructureRequests') }}
                     </FormButton>
@@ -29,12 +27,12 @@
                                     </td>
                                     <td width="50%">
                                         <div class="flex items-end gap-2">
-                                            <FormButton type="button" buttonStyle="action" class="rounded-md"
+                                            <FormButton type="button" buttonStyle="action"
                                                 @click="viewFolderStructure(folder_structure)">
                                                 <Icon name="ph:eye" class="size-4" />
                                                 {{ $t('folderStructure.table.actions.view') }}
                                             </FormButton>
-                                            <FormButton type="button" buttonStyle="action" class="rounded-md"
+                                            <FormButton type="button" buttonStyle="action"
                                                 @click="editFolderStructure(folder_structure)">
                                                 <Icon name="ph:pencil-simple" class="size-4" />
                                                 {{ $t('folderStructure.table.actions.edit') }}

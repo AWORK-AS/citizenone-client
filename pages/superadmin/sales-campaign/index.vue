@@ -10,8 +10,7 @@
 
             <div>
                 <div class="flex justify-end items-center mb-5">
-                    <FormButton buttonStyle="action" class="rounded-lg"
-                        @click="navigateTo('/superadmin/sales-campaign/new')">
+                    <FormButton buttonStyle="action" @click="navigateTo('/superadmin/sales-campaign/new')">
                         <Icon name="ph:plus" class="h-4 w-4" aria-hidden="true" />
                         {{ $t('superadmin.salesCampaign.newCampaign') }}
                     </FormButton>
@@ -59,12 +58,12 @@
                                     </td>
                                     <td width="20%">
                                         <div class="flex items-end gap-2">
-                                            <FormButton type="button" buttonStyle="action" class="rounded-md"
+                                            <FormButton type="button" buttonStyle="action"
                                                 @click="navigateTo(`/superadmin/sales-campaign/edit/${salesCampaign.uuid}`)">
                                                 <Icon name="ph:pencil-simple" class="size-4" />
                                                 {{ $t('superadmin.salesCampaign.table.actions.edit') }}
                                             </FormButton>
-                                            <FormButton type="button" buttonStyle="danger" class="rounded-md"
+                                            <FormButton type="button" buttonStyle="danger"
                                                 @click="deleteConfirmation(salesCampaign)">
                                                 <Icon name="ph:trash" class="size-4" />
                                                 {{ $t('superadmin.salesCampaign.table.actions.delete') }}

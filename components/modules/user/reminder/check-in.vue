@@ -12,7 +12,7 @@
                         <label class="text-sm cursor-pointer">{{ $t('reminders.doNotShowAgain') }}</label>
                     </div>
                     <div class="flex flex-col items-center gap-2">
-                        <FormButton buttonStyle="primary" class="w-full rounded-md" @click="handleCheckIn">
+                        <FormButton buttonStyle="primary" class="w-full" @click="handleCheckIn">
                             {{ $t('reminders.checkIn') }}
                         </FormButton>
                         <p class="w-fit text-sm text-center text-primary cursor-pointer hover:text-primary-700"

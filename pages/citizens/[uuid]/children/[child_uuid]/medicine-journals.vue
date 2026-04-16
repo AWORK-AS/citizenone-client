@@ -44,13 +44,12 @@
                             </span>
                         </button>
                         <div class="flex items-center gap-x-2 justify-end">
-                            <FormButton buttonStyle="action" class="rounded-md"
+                            <FormButton buttonStyle="action"
                                 @click="navigateToExternalLink('https://fmk-online.dk/fmk')">
                                 <Icon name="mdi:cloud-refresh-outline" class="h-4 w-4" aria-hidden="true" />
                                 {{ $t('citizens.medicineJournals.synchronizeWithFMK') }}
                             </FormButton>
-                            <FormButton buttonStyle="action" class="rounded-md"
-                                @click="state.modal.isAddMedicineOpen = true">
+                            <FormButton buttonStyle="action" @click="state.modal.isAddMedicineOpen = true">
                                 <Icon name="ph:plus" class="h-4 w-4" aria-hidden="true" />
                                 {{ $t('citizens.medicineJournals.newMedicine') }}
                             </FormButton>
@@ -63,8 +62,7 @@
                         v-if="state.error?.message && state.error.message.length > 0" />
                     <TableSearch @search="handleSearch" />
                     <div v-if="citizenMedicineStore.getSelectedMedicines?.length > 0">
-                        <FormButton buttonStyle="action" class="rounded-md"
-                            @click="state.modal.isGiveMedicinesOpen = true">
+                        <FormButton buttonStyle="action" @click="state.modal.isGiveMedicinesOpen = true">
                             <Icon name="ph:plus" class="h-4 w-4" aria-hidden="true" />
                             {{ $t('citizens.medicineJournals.history.giveAllMedicines') }}
                         </FormButton>
@@ -217,35 +215,35 @@
                                     <td width="10%">
                                         <div class="flex items-end justify-end gap-2">
                                             <Tooltip :text="`${$t('citizens.medicineJournals.table.actions.view')}`">
-                                                <FormButton type="button" buttonStyle="action" class="rounded-md"
+                                                <FormButton type="button" buttonStyle="action"
                                                     @click="viewMedicine(medicine)">
                                                     <Icon name="ph:eye" class="size-4" />
                                                 </FormButton>
                                             </Tooltip>
                                             <Tooltip
                                                 :text="`${$t('citizens.medicineJournals.table.actions.giveMedicine')}`">
-                                                <FormButton type="button" buttonStyle="action" class="rounded-md"
+                                                <FormButton type="button" buttonStyle="action"
                                                     @click="giveMedicine(medicine)">
                                                     <Icon name="ph:plus" class="size-4" />
                                                 </FormButton>
                                             </Tooltip>
                                             <Tooltip
                                                 :text="`${$t('citizens.medicineJournals.table.actions.medicineHistory')}`">
-                                                <FormButton type="button" buttonStyle="action" class="rounded-md"
+                                                <FormButton type="button" buttonStyle="action"
                                                     @click="viewMedicineHistory(medicine)">
                                                     <Icon name="ph:files" class="size-4" />
                                                 </FormButton>
                                             </Tooltip>
                                             <Tooltip :text="`${$t('citizens.medicineJournals.table.actions.edit')}`"
                                                 v-if="medicine?.is_editable">
-                                                <FormButton type="button" buttonStyle="action" class="rounded-md"
+                                                <FormButton type="button" buttonStyle="action"
                                                     @click="editMedicine(medicine)">
                                                     <Icon name="ph:pencil-simple" class="size-4" />
                                                 </FormButton>
                                             </Tooltip>
                                             <Tooltip :text="`${$t('citizens.medicineJournals.table.actions.activate')}`"
                                                 v-if="medicine?.is_deactivated">
-                                                <FormButton type="button" buttonStyle="primary" class="rounded-md"
+                                                <FormButton type="button" buttonStyle="primary"
                                                     @click="confirmMedicineActivation(medicine)">
                                                     <Icon name="ph:check" class="size-4" />
                                                 </FormButton>
@@ -253,14 +251,14 @@
                                             <Tooltip
                                                 :text="`${$t('citizens.medicineJournals.table.actions.deactivate')}`"
                                                 v-else>
-                                                <FormButton type="button" buttonStyle="primary" class="rounded-md"
+                                                <FormButton type="button" buttonStyle="primary"
                                                     @click="confirmMedicineDeactivation(medicine)">
                                                     <Icon name="ph:x" class="size-4" />
                                                 </FormButton>
                                             </Tooltip>
                                             <Tooltip :text="`${$t('citizens.medicineJournals.table.actions.delete')}`"
                                                 v-if="medicine?.is_deletable">
-                                                <FormButton type="button" buttonStyle="danger" class="rounded-md"
+                                                <FormButton type="button" buttonStyle="danger"
                                                     @click="confirmMedicineDeletion(medicine)">
                                                     <Icon name="ph:trash" class="size-4" />
                                                 </FormButton>

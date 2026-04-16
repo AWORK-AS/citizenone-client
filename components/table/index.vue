@@ -21,15 +21,15 @@
                         </p>
                         <div class="flex items-center justify-end" v-if="item.sorter">
                             <Icon name="heroicons:arrows-up-down"
-                                class="h-5 w-5 cursor-pointer text-white hover:text-gray-200" aria-hidden="true"
+                                class="h-5 w-5 cursor-pointer text-gray-400 hover:text-gray-500" aria-hidden="true"
                                 v-show="item.key !== props?.sortData?.sortField"
                                 @click="$emit('sort', { sort: 'ascend', column: item.key })" />
                             <Icon name="heroicons:arrow-down"
-                                class="h-5 w-5 cursor-pointer text-white hover:text-gray-200" aria-hidden="true"
+                                class="h-5 w-5 cursor-pointer text-gray-400 hover:text-gray-500" aria-hidden="true"
                                 v-show="['ascend', null].includes(props?.sortData?.sortOrder) && item.key === props?.sortData?.sortField"
                                 @click="$emit('sort', { sort: 'descend', column: item.key })" />
                             <Icon name="heroicons:arrow-up"
-                                class="h-5 w-5 cursor-pointer text-white hover:text-gray-200" aria-hidden="true"
+                                class="h-5 w-5 cursor-pointer text-gray-400 hover:text-gray-500" aria-hidden="true"
                                 v-show="props?.sortData?.sortOrder == 'descend' && item.key === props?.sortData?.sortField"
                                 @click="$emit('sort', { sort: null, column: null })" />
                         </div>

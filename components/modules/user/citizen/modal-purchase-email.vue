@@ -9,7 +9,7 @@
                     </p>
                 </div>
                 <div class="mt-6">
-                    <FormButton buttonStyle="primary" class="rounded-md w-full" @click="closeModal">
+                    <FormButton buttonStyle="primary" class="w-full" @click="closeModal">
                         {{ $t('close') }}
                     </FormButton>
                 </div>

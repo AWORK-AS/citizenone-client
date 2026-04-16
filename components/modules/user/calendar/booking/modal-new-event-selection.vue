@@ -12,8 +12,7 @@
                             {{ $t('bookings.singleEvent.createASingleEventLabel') }}
                         </p>
                         <div class="mt-4">
-                            <FormButton buttonStyle="action" class="rounded-lg"
-                                @click="state.modal.isNewSingleEventOpen = true">
+                            <FormButton buttonStyle="action" @click="state.modal.isNewSingleEventOpen = true">
                                 <Icon name="ph:plus" class="h-4 w-4" aria-hidden="true" />
                                 {{ $t('bookings.singleEvent.createASingleEvent') }}
                             </FormButton>
@@ -28,8 +27,7 @@
                             {{ $t('bookings.course.createACourseByGroupingMultipleEvents') }}
                         </p>
                         <div class="mt-4">
-                            <FormButton buttonStyle="action" class="rounded-lg"
-                                @click="state.modal.isNewCourseOpen = true">
+                            <FormButton buttonStyle="action" @click="state.modal.isNewCourseOpen = true">
                                 <Icon name="ph:plus" class="h-4 w-4" aria-hidden="true" />
                                 {{ $t('bookings.course.createACourse') }}
                             </FormButton>

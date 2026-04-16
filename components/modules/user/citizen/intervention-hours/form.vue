@@ -4,12 +4,13 @@
             v-if="props.error?.message && props.error.message.length > 0" />
         <Alert type="danger" :text="state?.error?.message"
             v-if="state.error?.message && state.error.message.length > 0" />
-        
+
         <!-- Transportation fields if transportation type -->
         <div v-if="props.selectedInterventionHours?.is_transportation" class="space-y-3 mb-4">
             <div class="space-y-1">
                 <div class="flex justify-between items-center py-0.5">
-                    <FormLabel for="start_address" :label="$t('citizens.timeRegistration.registerTransport.form.startAddress')" />
+                    <FormLabel for="start_address"
+                        :label="$t('citizens.timeRegistration.registerTransport.form.startAddress')" />
                     <div class="flex gap-x-1 items-center cursor-pointer" @click="openStartLocationMap">
                         <Icon name="ph:map-pin" class="text-tertiary w-4 h-4" />
                         <span class="text-xs text-tertiary hover:text-tertiary-800">
@@ -17,18 +18,16 @@
                         </span>
                     </div>
                 </div>
-                <FormTextArea 
-                    id="start_address" 
-                    name="start_address"
+                <FormTextArea id="start_address" name="start_address"
                     :placeholder="$t('citizens.timeRegistration.registerTransport.form.startAddress')"
-                    v-model="state.formTransport.start_address" 
-                />
+                    v-model="state.formTransport.start_address" />
                 <FormError :error="props?.error?.errors?.start_address?.[0]" />
             </div>
-            
+
             <div class="space-y-1">
                 <div class="flex justify-between items-center py-0.5">
-                    <FormLabel for="end_address" :label="$t('citizens.timeRegistration.registerTransport.form.endAddress')" />
+                    <FormLabel for="end_address"
+                        :label="$t('citizens.timeRegistration.registerTransport.form.endAddress')" />
                     <div class="flex gap-x-1 items-center cursor-pointer" @click="openEndLocationMap">
                         <Icon name="ph:map-pin" class="text-tertiary w-4 h-4" />
                         <span class="text-xs text-tertiary hover:text-tertiary-800">
@@ -36,29 +35,22 @@
                         </span>
                     </div>
                 </div>
-                <FormTextArea 
-                    id="end_address" 
-                    name="end_address"
+                <FormTextArea id="end_address" name="end_address"
                     :placeholder="$t('citizens.timeRegistration.registerTransport.form.endAddress')"
-                    v-model="state.formTransport.end_address" 
-                />
+                    v-model="state.formTransport.end_address" />
                 <FormError :error="props?.error?.errors?.end_address?.[0]" />
             </div>
-            
+
             <div class="space-y-1">
-                <FormLabel for="kilometers" :label="$t('citizens.timeRegistration.registerTransport.form.kilometers')" />
-                <FormTextField 
-                    id="kilometers" 
-                    name="kilometers"
-                    type="number"
-                    step="0.01"
+                <FormLabel for="kilometers"
+                    :label="$t('citizens.timeRegistration.registerTransport.form.kilometers')" />
+                <FormTextField id="kilometers" name="kilometers" type="number" step="0.01"
                     :placeholder="$t('citizens.timeRegistration.registerTransport.form.kilometers')"
-                    v-model="state.formTransport.kilometers" 
-                />
+                    v-model="state.formTransport.kilometers" />
                 <FormError :error="props?.error?.errors?.distance_km?.[0]" />
             </div>
         </div>
-        
+
         <div class="space-y-3">
             <div class="space-y-1">
                 <FormLabel for="date_time_start" :label="$t('citizens.interventionHours.form.datetimeStart')" />
@@ -86,10 +78,10 @@
         </div>
         <div class="mt-6">
             <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
-                <FormButton type="button" buttonStyle="cancel" class="rounded-md" @click="closeModal">
+                <FormButton type="button" buttonStyle="cancel" @click="closeModal">
                     {{ $t('cancel') }}
                 </FormButton>
-                <FormButton type="submit" buttonStyle="primary" class="rounded-md">
+                <FormButton type="submit" buttonStyle="primary">
                     {{ props.formType === 'create' ? $t('save') : $t('update') }}
                 </FormButton>
             </div>
@@ -163,7 +155,7 @@ watch(() => props.selectedInterventionHours, (selectedInterventionHours: any) =>
             date_time_end: selectedInterventionHours.date_time_end,
             note: selectedInterventionHours.note,
         }
-        
+
         if (selectedInterventionHours.is_transportation) {
             state.formTransport = {
                 start_address: selectedInterventionHours.start_address || '',

@@ -19,7 +19,7 @@
                             </td>
                             <td width="20%">
                                 <div class="flex items-end justify-end gap-2">
-                                    <FormButton type="button" buttonStyle="action" class="rounded-md"
+                                    <FormButton type="button" buttonStyle="action"
                                         @click="convertAsCitizenConfirmation(participant)">
                                         <Icon name="ph:user-plus" class="size-4" />
                                         {{ $t('bookings.view.participants.actions.convertAsCitizen') }}

@@ -1,10 +1,9 @@
-
 <template>
     <div>
         <Modal size="sm" :title="$t('drive.form.moveFile')" :show="props.isModalOpen" @close="closeModal">
             <template #modal-body>
                 <div class="relative">
-                                        
+
                     <form @submit.prevent="submitForm" id="formDirectory">
                         <Alert type="danger" :text="state?.error?.message"
                             v-if="state.error?.message && state.error.message.length > 0" />
@@ -12,26 +11,25 @@
                             <div class="space-y-1">
                                 <FormLabel for="folder" :label="$t('drive.form.folderName')" />
                                 <FormSelect id="folder" :options="state.options.folders"
-                                    v-model="state.formFile.folder_uuid"
-                                    :disabled="state.isPageLoading" />
+                                    v-model="state.formFile.folder_uuid" :disabled="state.isPageLoading" />
                                 <FormError :error="v$?.formDirectory?.folder_uuid?.$errors[0]?.$message.toString()" />
                                 <FormError :error="state?.error?.errors?.folder_uuid?.[0]" />
-                                
+
                             </div>
                         </div>
                         <div class="mt-6">
                             <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
-                                <FormButton type="button" buttonStyle="cancel" class="rounded-md"
-                                    @click="emit('close')">
+                                <FormButton type="button" buttonStyle="cancel" @click="emit('close')">
                                     {{ $t('cancel') }}
                                 </FormButton>
-                                <FormButton type="submit" buttonStyle="primary" class="rounded-md w-full">
+                                <FormButton type="submit" buttonStyle="primary" class="w-full">
                                     {{ $t('save') }}
                                 </FormButton>
                             </div>
                         </div>
                     </form>
-                    <div v-if="state.isPageLoading" class="absolute inset-0 z-50 flex items-center justify-center bg-white bg-opacity-60">
+                    <div v-if="state.isPageLoading"
+                        class="absolute inset-0 z-50 flex items-center justify-center bg-white bg-opacity-60">
                         <Spinner :isActive="true" />
                     </div>
                 </div>
@@ -105,13 +103,13 @@ watch(
                 } else {
                     state.options.folders = [];
                 }
-               
+
             } else if (Array.isArray(companyFolders) && companyFolders.length > 0) {
                 state.options.folders = companyFolders.map((item: FolderOption) => ({ value: item.uuid || item.value, label: item.name || item.label }));
                 state.isPageLoading = false;
-                
+
             } else {
-                
+
                 fetchAllFolders().finally(() => {
                     state.isPageLoading = false;
                 });
@@ -124,7 +122,7 @@ watch(
 async function fetchAllFolders() {
     state.error = {}
     state.isPageLoading = true
-    await nextTick() 
+    await nextTick()
     try {
         const response = await documentService.getAllFolders()
         if (response) {

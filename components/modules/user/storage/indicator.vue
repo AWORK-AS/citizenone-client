@@ -41,12 +41,18 @@
     <Modal size="sm" :show="state.isInfoOpen" @close="state.isInfoOpen = false">
         <template #modal-body>
             <ul class="space-y-3">
-                <li><p class="text-sm">{{ $t('storage.info-1') }}</p></li>
-                <li><p class="text-sm">{{ $t('storage.info-2') }}</p></li>
-                <li><p class="text-sm">{{ $t('storage.info-3') }}</p></li>
+                <li>
+                    <p class="text-sm">{{ $t('storage.info-1') }}</p>
+                </li>
+                <li>
+                    <p class="text-sm">{{ $t('storage.info-2') }}</p>
+                </li>
+                <li>
+                    <p class="text-sm">{{ $t('storage.info-3') }}</p>
+                </li>
             </ul>
             <div class="mt-5 flex justify-end">
-                <FormButton buttonStyle="cancel" @click="state.isInfoOpen = false" class="rounded-md">
+                <FormButton buttonStyle="cancel" @click="state.isInfoOpen = false">
                     {{ $t('close') }}
                 </FormButton>
             </div>

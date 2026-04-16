@@ -18,8 +18,7 @@
 
             <div class="mt-8">
                 <div class="flex justify-end items-center mb-5">
-                    <FormButton buttonStyle="action" class="rounded-lg"
-                        @click="navigateTo('/settings/medication-allergies/new')">
+                    <FormButton buttonStyle="action" @click="navigateTo('/settings/medication-allergies/new')">
                         <Icon name="ph:plus" class="h-4 w-4" aria-hidden="true" />
                         {{ $t('medicationAllergies.newMedicationAllergy') }}
                     </FormButton>
@@ -39,12 +38,12 @@
                                     </td>
                                     <td width="50%">
                                         <div class="flex items-end justify-end gap-2">
-                                            <FormButton type="button" buttonStyle="action" class="rounded-md"
+                                            <FormButton type="button" buttonStyle="action"
                                                 @click="navigateTo(`/settings/medication-allergies/${medicationAllergy.uuid}/edit`)">
                                                 <Icon name="ph:pencil-simple" class="size-4" />
                                                 {{ $t('medicationAllergies.table.actions.edit') }}
                                             </FormButton>
-                                            <FormButton type="button" buttonStyle="danger" class="rounded-md"
+                                            <FormButton type="button" buttonStyle="danger"
                                                 @click="deleteMedicationAllergyConfirmation(medicationAllergy)">
                                                 <Icon name="ph:trash" class="size-4" />
                                                 {{ $t('medicationAllergies.table.actions.delete') }}

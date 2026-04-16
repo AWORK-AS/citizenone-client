@@ -33,19 +33,17 @@
                             </button>
                         </div>
                         <div class="flex flex-wrap items-center justify-end gap-3">
-                            <FormButton buttonStyle="action" class="rounded-lg" @click="viewInterventionHours">
+                            <FormButton buttonStyle="action" @click="viewInterventionHours">
                                 <Icon name="ph:clock" class="h-4 w-4" aria-hidden="true" />
                                 {{ $t('timeLogs.interventionHours') }}
                             </FormButton>
-                            <FormButton buttonStyle="action" class="rounded-lg"
-                                @click="state.modal.isAddNewTimeLogOpen = true">
+                            <FormButton buttonStyle="action" @click="state.modal.isAddNewTimeLogOpen = true">
                                 <Icon name="ph:plus" class="h-4 w-4" aria-hidden="true" />
                                 {{ isAdmin(userStore.getUser?.roles) ?
                                     $t('timeLogs.newTimeLog') :
                                     $t('timeLogs.requestNewTimeLog') }}
                             </FormButton>
-                            <FormButton buttonStyle="action" class="rounded-lg"
-                                @click="state.modal.isDownloadTimeLogsOpen = true">
+                            <FormButton buttonStyle="action" @click="state.modal.isDownloadTimeLogsOpen = true">
                                 <Icon name="ph:download" class="h-4 w-4" aria-hidden="true" />
                                 {{ $t('timeLogs.download.download') }}
                             </FormButton>
@@ -113,29 +111,28 @@
                                     </td>
                                     <td width="10%">
                                         <div class="flex items-end justify-end gap-2">
-                                            <FormButton type="button" buttonStyle="action" class="rounded-md"
+                                            <FormButton type="button" buttonStyle="action"
                                                 @click="confirmTimeLogApproval(log)"
                                                 v-if="log?.request_status === 'pending' && isAdmin(userStore.getUser?.roles)">
                                                 <Icon name="ph:check" class="size-4" />
                                                 {{ $t('timeLogs.table.actions.approve') }}
                                             </FormButton>
-                                            <FormButton type="button" buttonStyle="danger" class="rounded-md"
+                                            <FormButton type="button" buttonStyle="danger"
                                                 @click="confirmTimeLogDecline(log)"
                                                 v-if="log?.request_status === 'pending' && isAdmin(userStore.getUser?.roles)">
                                                 <Icon name="ph:x" class="size-4" />
                                                 {{ $t('timeLogs.table.actions.decline') }}
                                             </FormButton>
-                                            <FormButton type="button" buttonStyle="action" class="rounded-md"
-                                                @click="viewTimeLog(log)">
+                                            <FormButton type="button" buttonStyle="action" @click="viewTimeLog(log)">
                                                 <Icon name="ph:eye" class="size-4" />
                                                 {{ $t('timeLogs.table.actions.view') }}
                                             </FormButton>
-                                            <FormButton type="button" buttonStyle="action" class="rounded-md"
-                                                @click="editTimeLog(log)" v-if="log?.is_editable">
+                                            <FormButton type="button" buttonStyle="action" @click="editTimeLog(log)"
+                                                v-if="log?.is_editable">
                                                 <Icon name="ph:pencil-simple" class="size-4" />
                                                 {{ $t('timeLogs.table.actions.edit') }}
                                             </FormButton>
-                                            <FormButton type="button" buttonStyle="danger" class="rounded-md"
+                                            <FormButton type="button" buttonStyle="danger"
                                                 @click="confirmTimeLogDeletion(log)" v-if="log?.is_deletable">
                                                 <Icon name="heroicons:trash" class="size-4" />
                                                 {{ $t('timeLogs.table.actions.delete') }}
