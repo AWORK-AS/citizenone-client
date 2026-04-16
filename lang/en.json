@@ -6145,6 +6145,7 @@
                 "newRoomSuccessfullySaved": "New room successfully saved",
                 "roomSuccessfullyUpdated": "Room successfully updated"
             },
+            "capacity": "Capacity",
             "name": "Name"
         },
         "newRoom": "New room",
@@ -6160,6 +6161,7 @@
             "confirmation": {
                 "deleteRoomConfirmation": "Are you sure you want to delete this room"
             },
+            "capacity": "Capacity",
             "name": "Name"
         }
     },
