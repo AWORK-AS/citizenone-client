@@ -137,7 +137,8 @@
                                 <h3 class="py-3 text-sm font-semibold">
                                     {{ $t('settings.licenseOverview.licenses') }}
                                 </h3>
-                                <div class="bg-white ring-1 ring-gray-200 rounded-md p-8 xl:p-10">
+                                <ModulesUserSettingsLicenseOverviewSubTab />
+                                <div class="bg-white ring-1 ring-gray-200 rounded-md p-8 xl:p-10 mt-4">
                                     <div class="flex justify-between gap-3 mb-5">
                                         <div class="flex items-center gap-x-5 justify-end">
                                             <div>

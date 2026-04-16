@@ -262,6 +262,12 @@ function chatGroupMembers(chat: any): string {
 }
 
 function openChat(chat: any) {
+    const selectedChat = filteredChats.value.find((item: any) => item.uuid === chat.uuid)
+
+    if (selectedChat) {
+        selectedChat.unread_messages = 0
+    }
+
     navigateTo(`/messages/${chat.uuid}`)
 }
 </script>

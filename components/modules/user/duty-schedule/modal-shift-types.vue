@@ -1,21 +1,24 @@
 <template>
     <div>
-        <Modal size="lg" :title="$t('dutySchedules.newSchedule')" :show="props.isModalOpen" @close="closeModal">
+        <Modal size="lg" :title="$t('dutySchedules.distributionOfShiftTypes')" :show="props.isModalOpen"
+            @close="closeModal">
             <template #modal-body>
                 <LoadingSpinner :isActive="state.isPageLoading">
                     <div class="space-y-3">
+                        <Alert type="danger" :text="state?.error?.message"
+                            v-if="state.error?.message && state.error.message.length > 0" />
                         <div class="flex flex-col md:flex-row gap-x-1 flex-wrap font-medium">
-                            <p>
+                            <p class="text-sm">
                                 {{ $t('dutySchedules.typeOfShifts') }}:
                             </p>
                             <button class="w-fit text-xs text-primary hover:text-primary-700 hover:underline"
                                 @click="state.modal.isDepartmentSickLeaveDateRangeOpen = true">
-                                ({{ formatDateToReadable(state.shiftDateRange.formDateRange.start_date) }} -
-                                {{ formatDateToReadable(state.shiftDateRange.formDateRange.end_date) }})
+                                ({{ formatDateTimeToReadable(state.formFilter.date_time_start) }} -
+                                {{ formatDateTimeToReadable(state.formFilter.date_time_end) }})
                             </button>
                         </div>
                         <div>
-                            <div class="grid grid-cols-1 md:grid-cols-1 lg:grid-cols-3 gap-x-4 text-sm">
+                            <div class="grid grid-cols-1 md:grid-cols-1 lg:grid-cols-2 gap-x-4 text-sm">
                                 <div class="flex items-center justify-between gap-x-2"
                                     v-for="(shiftPercentage, index) in state.shiftPercentage?.data" :key="index">
                                     <div class="flex items-center gap-x-2">
@@ -38,10 +41,10 @@
                         </FormButton>
                     </div>
                 </LoadingSpinner>
-                <ModulesUserDutyScheduleModalShiftDateRange
-                    :isModalOpen="state.modal.isDepartmentSickLeaveDateRangeOpen" :dateRange="state.shiftDateRange"
+                <ModulesUserDutyScheduleModalShiftDistributionFilter
+                    :isModalOpen="state.modal.isDepartmentSickLeaveDateRangeOpen" :formFilter="state.formFilter"
                     @close="state.modal.isDepartmentSickLeaveDateRangeOpen = false"
-                    @filterDate="filterDutyScheduleDate" />
+                    @filterDistribution="filterShiftDistribution" />
             </template>
         </Modal>
     </div>
@@ -63,22 +66,21 @@ const props = defineProps({
 })
 
 const emit = defineEmits(['close'])
-const { formatDateToReadable } = useDatetimeFormatter()
+const { formatDateTimeToReadable } = useDatetimeFormatter()
 const departmentStore = useDepartmentStore()
 const language = useI18n()
 
 const state = reactive({
     error: {} as Error,
+    formFilter: {
+        date_time_end: moment().endOf('isoWeek').hour(17).minute(0).second(0).millisecond(0),
+        date_time_start: moment().startOf('isoWeek').hour(8).minute(0).second(0).millisecond(0),
+        employee_uuid: '',
+    } as any,
     isPageLoading: false,
     modal: {
         isDepartmentSickLeaveDateRangeOpen: false,
     },
-    shiftDateRange: {
-        formDateRange: {
-            start_date: moment().startOf('week').add(1, 'day'),
-            end_date: moment().startOf('week').add(7, 'day'),
-        },
-    } as any,
     shiftPercentage: {} as any,
 })
 
@@ -97,9 +99,10 @@ async function fetchDutySchedulePercentage() {
     state.isPageLoading = true
     try {
         const params = {
-            start_date: moment(state.shiftDateRange.formDateRange.start_date).format('YYYY-MM-DD'),
-            end_date: moment(state.shiftDateRange.formDateRange.end_date).format('YYYY-MM-DD'),
+            date_time_start: moment(state.formFilter.date_time_start).format('YYYY-MM-DD HH:mm'),
+            date_time_end: moment(state.formFilter.date_time_end).format('YYYY-MM-DD HH:mm'),
             department: departmentStore.getSelectedDepartmentName,
+            employee_uuid: state.formFilter.employee_uuid,
         }
         const response = await dutyScheduleService.getDutyScheduleAbsencePercentage(params)
         if (response) {
@@ -111,9 +114,10 @@ async function fetchDutySchedulePercentage() {
     state.isPageLoading = false
 }
 
-function filterDutyScheduleDate(formDateRange: any) {
-    state.shiftDateRange.formDateRange.start_date = formDateRange?.[0]
-    state.shiftDateRange.formDateRange.end_date = formDateRange?.[1]
+function filterShiftDistribution(formShiftDistribution: any) {
+    state.formFilter.date_time_start = formShiftDistribution.date_time_start
+    state.formFilter.date_time_end = formShiftDistribution.date_time_end
+    state.formFilter.employee_uuid = formShiftDistribution.employee_uuid
     fetchDutySchedulePercentage()
 }
 </script>

@@ -2829,6 +2829,7 @@
         "deleteSchedule": "Delete schedule",
         "shiftMovedTo": "Shift moved to",
         "departmentSickLeaves": "Department sick leaves",
+        "distributionOfShiftTypes": "Distribution of shift types",
         "download": {
             "date": "Date",
             "delimiter": {
@@ -2899,7 +2900,34 @@
                     "name": "Preset name"
                 },
                 "updateSuccess": "Draft schedules preset successfully updated!",
-                "viewPresets": "View presets"
+                "viewPresets": "View presets",
+                "infoBox": {
+                    "title": "What are presets?",
+                    "description": "A preset is a saved version of your draft schedule that you can reuse. Select a preset below and click Apply to load it into the draft — you can then edit and publish it."
+                },
+                "saveInfoBox": {
+                    "title": "Save your current draft as a preset",
+                    "description": "Give the preset a name so you can easily recognize it. You can later retrieve it via View presets and reuse it as a starting point for a new schedule."
+                }
+            },
+            "workflowBanner": {
+                "showGuide": "Show guide",
+                "title": "How to work with the draft schedule",
+                "step1": "Create draft shifts",
+                "step2": "Save preset (optional)",
+                "step3": "Publish to schedule",
+                "tip": "💡 Tip: Use 'templates' for fixed shift rotations, and 'presets' to reuse a draft you've created before."
+            },
+            "backToPublished": "Back to the published schedule",
+            "contextBanner": {
+                "title": "You are now working in the draft schedule",
+                "selectedDepartment": "Selected department:",
+                "description": "Changes here will not affect the published schedule until you publish."
+            },
+            "monthViewDraft": {
+                "title": "Month view for draft",
+                "message": "Month view for the draft is under development. Use the week view to edit draft shifts. You can view the published monthly overview under Schedules → Month View.",
+                "switchToWeekView": "Switch to week view →"
             },
             "publish": "Publish",
             "publishing": "Publishing schedules, please don't close or refresh the page",
@@ -2919,8 +2947,19 @@
             }
         },
         "draftTemplates": {
+            "backToDraft": "Back to the draft schedule",
+            "close": "Close",
             "draftTemplates": "Templates",
             "editDraft": "Edit Template",
+            "infoBox": {
+                "title": "What are templates?",
+                "description": "A template is a predefined schedule you can apply directly to your draft schedule. You can create two types:",
+                "oneTime": "One-time:",
+                "oneTimeDescription": "A fixed weekly schedule you apply one at a time.",
+                "recurring": "Recurring:",
+                "recurringDescription": "A rolling schedule that repeats over multiple weeks (e.g., 4-week rotation). Can be set to run until a specific date.",
+                "tip": "Tip: Create the template, then click Apply to load it into your draft schedule — you can edit it afterwards."
+            },
             "form": {
                 "adminsOnly": "Administrators only",
                 "applyTemplate": "Apply template",
@@ -3035,10 +3074,14 @@
             }
         },
         "filter": {
+            "dateTimeEnd": "Date and time end",
+            "dateTimeStart": "Date and time start",
             "departments": "Departments",
+            "employee": "Employee",
             "employees": "Employees",
             "employmentStatus": "Employment status",
-            "filterDate": "Filter date"
+            "filterDate": "Filter date",
+            "filterDateAndTime": "Filter date and time"
         },
         "findEmployee": "Find employee",
         "form": {
@@ -3169,6 +3212,12 @@
         "normPeriod": "Norm period",
         "pinSelfToTopOfSchedule": "Pin myself to the top of the schedule",
         "published": {
+            "backToDraft": "Back to the draft schedule",
+            "close": "Close",
+            "infoBox": {
+                "title": "Previously published schedules",
+                "description": "Here you can see all previous versions of the schedule that have been published. Click the eye icon to view a version in detail. These versions are read-only and cannot be edited."
+            },
             "publishedVersions": "Published versions",
             "seePrevious": "See previous published versions",
             "table": {
@@ -6219,10 +6268,15 @@
             "licenses": "Licenses",
             "table": {
                 "license": "License",
-                "user": "User"
+                "user": "User",
+                "department": "Department"
             },
             "unusedLicense": "Unused license",
-            "usedLicense": "Used license"
+            "usedLicense": "Used license",
+            "userLicenses": "User licenses",
+            "departmentLicenses": "Department licenses",
+            "usedDepartmentLicense": "Used department license",
+            "unusedDepartmentLicense": "Unused department license"
         },
         "profile": {
             "form": {
@@ -6651,10 +6705,15 @@
                 "licenses": "Licenses",
                 "table": {
                     "license": "License",
-                    "user": "User"
+                    "user": "User",
+                    "department": "Department"
                 },
                 "unusedLicense": "Unused license",
-                "usedLicense": "Used license"
+                "usedLicense": "Used license",
+                "userLicenses": "User licenses",
+                "departmentLicenses": "Department licenses",
+                "usedDepartmentLicense": "Used department license",
+                "unusedDepartmentLicense": "Unused department license"
             },
             "newCompany": "New company",
             "subscriptions": {

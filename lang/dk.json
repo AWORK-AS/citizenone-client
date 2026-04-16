@@ -2829,6 +2829,7 @@
         "deleteSchedule": "Slet tidsplan",
         "shiftMovedTo": "Vagt rykket til",
         "departmentSickLeaves": "Afdelingens sygefravær",
+        "distributionOfShiftTypes": "Fordeling af vagttyper",
         "download": {
             "date": "Dato",
             "delimiter": {
@@ -2899,7 +2900,34 @@
                     "name": "Navn på forudindstilling"
                 },
                 "updateSuccess": "Forudindstilling for vagtplanskladde opdateret med succes!",
-                "viewPresets": "Se forudindstillinger"
+                "viewPresets": "Se forudindstillinger",
+                "infoBox": {
+                    "title": "Hvad er forudindstillinger?",
+                    "description": "En forudindstilling er en gemt version af din vagtplanskladde, som du kan genbruge. Vælg en forudindstilling nedenfor og klik Anvend for at indlæse den i kladden — du kan derefter redigere og offentliggøre den."
+                },
+                "saveInfoBox": {
+                    "title": "Gem din nuværende kladde som forudindstilling",
+                    "description": "Giv forudindstillingen et navn, så du nemt kan genkende den. Du kan senere hente den frem via Se forudindstillinger og genbruge den som udgangspunkt for en ny vagtplan."
+                }
+            },
+            "workflowBanner": {
+                "showGuide": "Vis guide",
+                "title": "Sådan arbejder du med vagtplanskladden",
+                "step1": "Opret kladdevagter",
+                "step2": "Gem forudindstilling (valgfrit)",
+                "step3": "Offentliggør til vagtplan",
+                "tip": "💡 Tip: Brug 'skabeloner' til faste vagtrulleringer, og 'forudindstillinger' til at genbruge en kladde du har lavet før."
+            },
+            "backToPublished": "Tilbage til den udgivede vagtplan",
+            "contextBanner": {
+                "title": "Du arbejder nu i vagtplanskladden",
+                "selectedDepartment": "Valgt afdeling:",
+                "description": "Ændringer her påvirker ikke den udgivede vagtplan, før du offentliggør."
+            },
+            "monthViewDraft": {
+                "title": "Månedsvisning for kladde",
+                "message": "Månedsvisning af kladden er under udvikling. Brug ugevisningen til at redigere kladdevagter. Du kan se den udgivede månedsoversigt under Vagtplaner → Månedsvisning.",
+                "switchToWeekView": "Skift til ugevisning →"
             },
             "publish": "Offentliggør",
             "publishing": "Udgivelse af vagtplaner, luk eller opdater ikke siden.",
@@ -2919,8 +2947,19 @@
             }
         },
         "draftTemplates": {
+            "backToDraft": "Tilbage til vagtplanskladden",
+            "close": "Luk",
             "draftTemplates": "Skabeloner",
             "editDraft": "Rediger skabelon",
+            "infoBox": {
+                "title": "Hvad er skabeloner?",
+                "description": "En skabelon er en foruddefineret vagtplan du kan anvende direkte i din vagtplanskladde. Du kan oprette to typer:",
+                "oneTime": "Enkeltstående:",
+                "oneTimeDescription": "En fast ugentlig vagtplan du anvender én gang ad gangen.",
+                "recurring": "Gentagende:",
+                "recurringDescription": "En rullende vagtplan der gentages over flere uger (fx 4-ugers rotation). Kan sættes til at køre frem til en given dato.",
+                "tip": "Tip: Opret skabelonen, klik derefter Anvend for at indlæse den i din vagtplanskladde — du kan redigere den bagefter."
+            },
             "form": {
                 "adminsOnly": "Kun administratorer",
                 "applyTemplate": "Anvend skabelon",
@@ -3035,10 +3074,14 @@
             }
         },
         "filter": {
+            "dateTimeEnd": "Dato og tid slut",
+            "dateTimeStart": "Dato og tid start",
             "departments": "Afdelinger",
+            "employee": "Medarbejder",
             "employees": "Medarbejdere",
             "employmentStatus": "Ansættelsesstatus",
-            "filterDate": "Filtrer dato"
+            "filterDate": "Filtrer dato",
+            "filterDateAndTime": "Filtrer dato og tid"
         },
         "findEmployee": "Find medarbejder",
         "form": {
@@ -3169,6 +3212,12 @@
         "normPeriod": "Norm periode",
         "pinSelfToTopOfSchedule": "Fastgør mig selv øverst i vagtplanen",
         "published": {
+            "backToDraft": "Tilbage til vagtplanskladden",
+            "close": "Luk",
+            "infoBox": {
+                "title": "Tidligere publicerede vagtplaner",
+                "description": "Her kan du se alle tidligere versioner af vagtplanen der er blevet offentliggjort. Klik på øje-ikonet for at se en version i detaljer. Disse versioner er skrivebeskyttede og kan ikke redigeres."
+            },
             "publishedVersions": "Publicerede versioner",
             "seePrevious": "Se tidligere publicerede versioner",
             "table": {
@@ -6219,10 +6268,15 @@
             "licenses": "Licenser",
             "table": {
                 "license": "Licens",
-                "user": "Bruger"
+                "user": "Bruger",
+                "department": "Afdeling"
             },
             "unusedLicense": "Ubrugt licens",
-            "usedLicense": "Brugt licens"
+            "usedLicense": "Brugt licens",
+            "userLicenses": "Brugerlicenser",
+            "departmentLicenses": "Afdelingslicenser",
+            "usedDepartmentLicense": "Brugt afdelingslicens",
+            "unusedDepartmentLicense": "Ubrugt afdelingslicens"
         },
         "profile": {
             "form": {
@@ -6651,10 +6705,15 @@
                 "licenses": "Licenser",
                 "table": {
                     "license": "Licens",
-                    "user": "Bruger"
+                    "user": "Bruger",
+                    "department": "Afdeling"
                 },
                 "unusedLicense": "Ubrugt licens",
-                "usedLicense": "Brugt licens"
+                "usedLicense": "Brugt licens",
+                "userLicenses": "Brugerlicenser",
+                "departmentLicenses": "Afdelingslicenser",
+                "usedDepartmentLicense": "Brugt afdelingslicens",
+                "unusedDepartmentLicense": "Ubrugt afdelingslicens"
             },
             "newCompany": "Ny virksomhed",
             "subscriptions": {

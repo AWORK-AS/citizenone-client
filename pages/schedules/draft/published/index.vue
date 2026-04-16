@@ -54,7 +54,7 @@
                         class="inline-flex items-center gap-1.5 text-sm text-gray-500 hover:text-primary transition-colors"
                         to="/schedules/draft">
                         <Icon name="ph:arrow-left" size="16" />
-                        <span>Tilbage til vagtplanskladden</span>
+                        <span>{{ $t('dutySchedules.published.backToDraft') }}</span>
                     </NuxtLink>
                     <button onclick="document.getElementById('help-guide-modal').style.display='flex'"
                         class="ml-auto inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-white border border-slate-200 hover:border-primary hover:text-primary text-slate-500 text-xs font-semibold transition-all shadow-sm flex-shrink-0">
@@ -84,7 +84,7 @@
                                 </div>
                                 <button onclick="document.getElementById('help-guide-modal').style.display='none'"
                                     style="padding:8px;border-radius:8px;border:none;background:#f1f5f9;cursor:pointer;display:flex;align-items:center;color:#64748b;"
-                                    title="Luk">
+                                    :title="$t('dutySchedules.published.close')">
                                     <svg style="width:18px;height:18px" fill="none" viewBox="0 0 24 24"
                                         stroke="currentColor">
                                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
@@ -105,12 +105,8 @@
                             d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
                     </svg>
                     <div>
-                        <p class="text-sm font-semibold text-blue-900 mb-1">Tidligere publicerede vagtplaner</p>
-                        <p class="text-sm text-blue-700">Her kan du se alle tidligere versioner af vagtplanen der er
-                            blevet
-                            offentliggjort. Klik på øje-ikonet for at se en version i detaljer. Disse versioner er
-                            skrivebeskyttede
-                            og kan ikke redigeres.</p>
+                        <p class="text-sm font-semibold text-blue-900 mb-1">{{ $t('dutySchedules.published.infoBox.title') }}</p>
+                        <p class="text-sm text-blue-700">{{ $t('dutySchedules.published.infoBox.description') }}</p>
                     </div>
                 </div>
 

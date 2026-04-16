@@ -25,82 +25,57 @@
         <Alert type="danger" :text="state?.copyShiftError?.message"
             v-if="state.copyShiftError?.message && state.copyShiftError.message.length > 0" />
 
-        <!-- Workflow guide banner -->
         <LoadingSpinner :isActive="state.isPageLoading">
-            <div class="flex h-full flex-col">
-                <header class="grid grid-cols-1 xl:grid-cols-3 justify-between gap-3 py-3">
-                    <div class="space-y-2">
-                        <div class="flex items-center">
-                            <div class="relative flex items-center rounded-md bg-white shadow-sm md:items-stretch">
-                                <button @click="previousWeek()" type="button"
-                                    class="flex h-11 w-12 items-center justify-center rounded-l-md border-y border-l border-gray-300 pr-1 text-gray-400 hover:text-gray-500 focus:relative md:w-9 md:pr-0 md:hover:bg-gray-50">
-                                    <span class="sr-only">Previous week</span>
-                                    <Icon name="heroicons:chevron-left" class="h-5 w-5" aria-hidden="true" />
-                                </button>
-                                <FormDateField id="date" name="date" :placeholder="$t('dutySchedules.form.date')"
-                                    dateType="duty-schedule" v-model="state.selectedDate" />
-                                <span class="relative -mx-px h-5 w-px bg-gray-300 md:hidden" />
-                                <button @click="nextWeek()" type="button"
-                                    class="flex h-11 w-12 items-center justify-center rounded-r-md border-y border-r border-gray-300 pl-1 text-gray-400 hover:text-gray-500 focus:relative md:w-9 md:pl-0 md:hover:bg-gray-50">
-                                    <span class="sr-only">Next week</span>
-                                    <Icon name="heroicons:chevron-right" class="h-5 w-5" aria-hidden="true" />
-                                </button>
+            <div class="flex h-full flex-col min-w-0">
+                <div class="mb-2">
+                    <div class="flex flex-col sm:flex-row sm:flex-wrap sm:items-center sm:justify-between gap-y-2 py-1">
+                        <div class="flex flex-wrap items-center gap-x-3 gap-y-2">
+                            <div class="bg-blue-50 ring-1 ring-blue-200 rounded-lg px-3 py-1">
+                                <h3 class="text-sm font-semibold leading-6 text-gray-900 text-center">
+                                    <span v-if="month === 'January'">{{ $t('calendar.month.January') }}</span>
+                                    <span v-if="month === 'February'">{{ $t('calendar.month.February') }}</span>
+                                    <span v-if="month === 'March'">{{ $t('calendar.month.March') }}</span>
+                                    <span v-if="month === 'April'">{{ $t('calendar.month.April') }}</span>
+                                    <span v-if="month === 'May'">{{ $t('calendar.month.May') }}</span>
+                                    <span v-if="month === 'June'">{{ $t('calendar.month.June') }}</span>
+                                    <span v-if="month === 'July'">{{ $t('calendar.month.July') }}</span>
+                                    <span v-if="month === 'August'">{{ $t('calendar.month.August') }}</span>
+                                    <span v-if="month === 'September'">{{ $t('calendar.month.September') }}</span>
+                                    <span v-if="month === 'October'">{{ $t('calendar.month.October') }}</span>
+                                    <span v-if="month === 'November'">{{ $t('calendar.month.November') }}</span>
+                                    <span v-if="month === 'December'">{{ $t('calendar.month.December') }}</span>
+                                    {{ year }}
+                                </h3>
                             </div>
-                        </div>
-                        <button @click="setToday()" class="text-primary text-sm hover:text-primary-700">
-                            {{ $t('goToToday') }}
-                        </button>
-                    </div>
-                    <div>
-                        <div class="space-y-1 flex items-center gap-x-2">
-                            <FormSwitch :value="draftDutyScheduleStore.getShowEmployeesWorkingToday"
-                                @toggleSwitch="draftDutyScheduleStore.setShowEmployeesWorkingToday(!draftDutyScheduleStore.getShowEmployeesWorkingToday)" />
-                            <p>
-                                {{ $t('dutySchedules.showEmployeesWorkingToday') }}
-                            </p>
-                        </div>
-                    </div>
-                    <div>
-                        <TableSearch @search="handleSearch" />
-                    </div>
-                </header>
-                <div class="space-y-2 mt-3 mb-3">
-                    <div class="flex items-center justify-between gap-3 py-3 flex-wrap">
-                        <div class="flex items-center gap-3 flex-shrink-0">
-                            <h3 class="text-sm font-semibold bg-blue-50 ring-1 ring-blue-200 rounded-lg px-3 py-1 text-gray-900">
-                                <span v-if="month === 'January'">{{ $t('calendar.month.January') }}</span>
-                                <span v-if="month === 'February'">{{ $t('calendar.month.February') }}</span>
-                                <span v-if="month === 'March'">{{ $t('calendar.month.March') }}</span>
-                                <span v-if="month === 'April'">{{ $t('calendar.month.April') }}</span>
-                                <span v-if="month === 'May'">{{ $t('calendar.month.May') }}</span>
-                                <span v-if="month === 'June'">{{ $t('calendar.month.June') }}</span>
-                                <span v-if="month === 'July'">{{ $t('calendar.month.July') }}</span>
-                                <span v-if="month === 'August'">{{ $t('calendar.month.August') }}</span>
-                                <span v-if="month === 'September'">{{ $t('calendar.month.September') }}</span>
-                                <span v-if="month === 'October'">{{ $t('calendar.month.October') }}</span>
-                                <span v-if="month === 'November'">{{ $t('calendar.month.November') }}</span>
-                                <span v-if="month === 'December'">{{ $t('calendar.month.December') }}</span>
-                                {{ year }}
-                            </h3>
-                            <div class="space-y-1 flex items-center gap-x-2">
+                            <label class="flex items-center gap-2 cursor-pointer">
                                 <FormSwitch :value="userStore.getUser?.is_draft_schedule_pinned ? true : false"
                                     @toggleSwitch="pinSelfToTopOfSchedule()" />
-                                <span class="text-xs text-gray-600">{{ $t('dutySchedules.pinSelfToTopOfSchedule') }}</span>
-                            </div>
-                            <label class="flex items-center gap-2 cursor-pointer select-none">
-                                <FormSwitch :value="state.showWorkingToday" @toggleSwitch="() => { state.showWorkingToday = !state.showWorkingToday; fetchDraftDutySchedule() }" />
-                                <span class="text-xs text-gray-600">{{ $t('dutySchedules.showEmployeesWorkingToday') }}</span>
+                                <span class="text-xs text-gray-600 leading-tight">
+                                    {{ $t('dutySchedules.pinSelfToTopOfSchedule') }}
+                                </span>
+                            </label>
+                            <div class="hidden lg:block h-4 w-px bg-slate-200" />
+                            <label class="flex items-center gap-2 cursor-pointer">
+                                <FormSwitch :value="state.showWorkingToday"
+                                    @toggleSwitch="() => { state.showWorkingToday = !state.showWorkingToday; fetchDraftDutySchedule() }" />
+                                <span class="text-xs text-gray-600 leading-tight">
+                                    {{ $t('dutySchedules.showEmployeesWorkingToday') }}
+                                </span>
                             </label>
                         </div>
-                        <div class="flex items-center gap-x-2 flex-shrink-0">
+                        <div class="flex flex-wrap items-center gap-2 w-full sm:w-auto">
                             <button v-if="state.hideBanner"
                                 class="flex items-center gap-1.5 outline-none rounded-md text-xs font-medium bg-blue-50 border border-blue-200 hover:bg-blue-100 px-2.5 py-2 text-blue-600"
                                 @click="() => { state.hideBanner = false; localStorage.removeItem('draftBannerHidden') }">
-                                <svg class="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
-                                Vis guide
+                                <svg class="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                        d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                                </svg>
+                                {{ $t('dutySchedules.draft.workflowBanner.showGuide') }}
                             </button>
-                            <button class="flex items-center gap-1.5 outline-none rounded-md text-xs font-semibold bg-white border border-gray-200 hover:bg-gray-50 px-3 py-2 text-gray-600"
-                                @click="state.modal.isFilterDutyScheduleOpen = !state.modal.isFilterDutyScheduleOpen">
+                            <button
+                                class="flex items-center gap-1.5 outline-none rounded-md text-xs font-semibold bg-white border border-gray-200 hover:bg-gray-50 px-3 py-2 text-gray-600"
+                                @click="state.modal.isFilterDutyScheduleOpen = true">
                                 <Icon name="ic:outline-filter-list" class="h-4 w-4" />
                                 {{ $t('filter') }}
                             </button>
@@ -117,7 +92,7 @@
                                 </button>
                             </Tooltip>
                             <div class="bg-white border border-gray-200 rounded-md px-3 py-2">
-                                <div class="flex items-center gap-x-1 text-sm">
+                                <div class="flex items-center gap-x-1">
                                     <span>{{ $t('entriesPerPage') }}:</span>
                                     <select class="focus:outline-none bg-transparent" @change="changePageLength"
                                         id="citizensPageLength">
@@ -167,39 +142,42 @@
                                         </option>
                                     </select>
                                 </div>
-
                             </div>
-                            <div class="[&_input]:!h-[38px] [&_button]:!h-[38px] [&_form]:!h-[38px]">
+                            <div
+                                class="flex-1 sm:flex-none sm:w-auto xl:min-w-[160px] [&_input]:!h-[38px] [&_button]:!h-[38px] [&_form]:!h-[38px]">
                                 <TableSearch @search="handleSearch" :placeholder="$t('dutySchedules.findEmployee')" />
                             </div>
                         </div>
                     </div>
                 </div>
-        <div v-if="!state.hideBanner" class="bg-gradient-to-r from-blue-50 to-indigo-50 border border-blue-200 rounded-xl px-4 py-3 flex items-start gap-3">
+                <div class="bg-gradient-to-r from-blue-600 to-blue-400 h-1.5 rounded-full transition-all ease-in-out duration-500 mb-1.5"
+                    :style="{ width: `${state.progress.percentage}%` }" v-if="state.progress.showProgressBar" />
+                <div class="h-1.5 mb-1.5" v-else />
+                <div v-if="!state.hideBanner" class="bg-gradient-to-r from-blue-50 to-indigo-50 border border-blue-200 rounded-xl px-4 py-3 flex items-start gap-3 mb-3">
             <div class="flex-shrink-0 mt-0.5">
                 <svg class="w-5 h-5 text-blue-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2" />
                 </svg>
             </div>
             <div class="flex-1 min-w-0">
-                <p class="text-sm font-semibold text-blue-900 mb-1.5">Sådan arbejder du med vagtplanskladden</p>
+                <p class="text-sm font-semibold text-blue-900 mb-1.5">{{ $t('dutySchedules.draft.workflowBanner.title') }}</p>
                 <div class="flex flex-wrap items-center gap-2 text-xs">
                     <div class="flex items-center gap-1.5 bg-white border border-blue-200 rounded-full px-2.5 py-1">
                         <span class="w-5 h-5 rounded-full bg-blue-500 text-white flex items-center justify-center font-bold text-[10px] flex-shrink-0">1</span>
-                        <span class="text-blue-800 font-medium">Opret kladdevagter</span>
+                        <span class="text-blue-800 font-medium">{{ $t('dutySchedules.draft.workflowBanner.step1') }}</span>
                     </div>
                     <svg class="w-3 h-3 text-blue-300 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg>
                     <div class="flex items-center gap-1.5 bg-white border border-blue-200 rounded-full px-2.5 py-1">
                         <span class="w-5 h-5 rounded-full bg-blue-500 text-white flex items-center justify-center font-bold text-[10px] flex-shrink-0">2</span>
-                        <span class="text-blue-800 font-medium">Gem forudindstilling (valgfrit)</span>
+                        <span class="text-blue-800 font-medium">{{ $t('dutySchedules.draft.workflowBanner.step2') }}</span>
                     </div>
                     <svg class="w-3 h-3 text-blue-300 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg>
                     <div class="flex items-center gap-1.5 bg-white border border-blue-200 rounded-full px-2.5 py-1">
                         <span class="w-5 h-5 rounded-full bg-green-500 text-white flex items-center justify-center font-bold text-[10px] flex-shrink-0">3</span>
-                        <span class="text-green-800 font-medium">Offentliggør til vagtplan</span>
+                        <span class="text-green-800 font-medium">{{ $t('dutySchedules.draft.workflowBanner.step3') }}</span>
                     </div>
                 </div>
-                <p class="text-xs text-blue-600 mt-1.5">💡 Tip: Brug <strong>skabeloner</strong> til faste vagtrulleringer, og <strong>forudindstillinger</strong> til at genbruge en kladde du har lavet før.</p>
+                <p class="text-xs text-blue-600 mt-1.5">{{ $t('dutySchedules.draft.workflowBanner.tip') }}</p>
             </div>
             <button @click="() => { state.hideBanner = true; localStorage.setItem('draftBannerHidden', 'true'); emit('bannerClosed') }" class="flex-shrink-0 text-blue-300 hover:text-blue-500 mt-0.5">
                 <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -207,9 +185,6 @@
                 </svg>
             </button>
         </div>
-                <div class="bg-primary h-3 rounded-full transition-all ease-in-out duration-500 mb-1.5"
-                    :style="{ width: `${state.progress.percentage}%` }" v-if="state.progress.showProgressBar" />
-                <div class="h-3 mb-1.5" v-else />
                 <div class="isolate flex flex-auto flex-col bg-white">
                     <div class="flex max-w-full flex-none flex-col sm:max-w-none md:max-w-full">
                         <div>
