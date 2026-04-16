@@ -291,6 +291,11 @@
     "apps": {
         "activate": "Aktivér",
         "activated": "Aktiveret",
+        "activation": {
+            "activationSuccessful": "Aktivering gennemført",
+            "activatedSuccessfully": "Aktiveret succesfuldt",
+            "activationSuccessMessage": "Din app er blevet aktiveret"
+        },
         "agreetoTAC": "Du skal acceptere vilkårene og betingelserne",
         "alert": {
             "appSuccessfullyActivated": "App aktiveret med succes",

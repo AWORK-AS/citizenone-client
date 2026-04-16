@@ -329,7 +329,7 @@ onMounted(async () => {
             } catch (e1: any) {
                 try {
                     await appService.activateApp(savedUuid as any, {})
-                } catch (e2) {}
+                } catch (e2) { }
             }
         }
         successAlert(`${t('alert.success')}!`, 'OneDrive forbindelse opdateret.')
@@ -441,6 +441,9 @@ async function activateApp(formApp: any) {
                 app_uuid: state.selectedApp?.uuid,
             }
             const response = await appService.activateFreeApp(params)
+            if (response) {
+                navigateTo(`/apps/activated-successfully`)
+            }
         } else {
             const params = {} as any
             if (!state.selectedApp?.is_one_time_fee) {

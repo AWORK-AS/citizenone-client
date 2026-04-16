@@ -291,6 +291,11 @@
     "apps": {
         "activate": "Activate",
         "activated": "Activated",
+        "activation": {
+            "activationSuccessful": "Activation successful",
+            "activatedSuccessfully": "Activated successfully",
+            "activationSuccessMessage": "Your app has been successfully activated"
+        },
         "agreetoTAC": "You must agree to the terms and conditions",
         "alert": {
             "appSuccessfullyActivated": "App successfully activated",
