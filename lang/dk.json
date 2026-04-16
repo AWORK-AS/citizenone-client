@@ -2228,30 +2228,32 @@
             "timeLogs": "Tidslogfiler"
         },
         "timeRegistration": {
-            "checkIn": "Tjek ind",
-            "checkOut": "Tjek ud",
+            "away": "Fraværende",
+            "checkIn": "Check ind",
+            "checkOut": "Check ud",
+            "confirmArrival": {
+                "arrivedAt": "Ankommet kl.",
+                "distance": "Afstand",
+                "question": "Er du ankommet?",
+                "title": "Bekræftelse af ankomst",
+                "totalDistance": "Samlet tilbagelagt afstand"
+            },
+            "confirmWorking": {
+                "question": "Arbejder du stadig?",
+                "title": "Bekræftelse af arbejde",
+                "workingFor": "Arbejdet i"
+            },
             "history": "Historik",
+            "minute": "Minut",
+            "no": "Nej",
             "registerTransport": {
-                "away": "væk",
-                "confirmArrival": {
-                    "arrivedAt": "Ankom til",
-                    "distance": "Afstand",
-                    "question": "Er du ankommet?",
-                    "title": "Ankomstbekræftelse",
-                    "totalDistance": "Samlet tilbagelagt afstand"
-                },
-                "confirmWorking": {
-                    "question": "Arbejder du stadig?",
-                    "title": "Arbejdsbekræftelse",
-                    "workingFor": "Arbejdet i"
-                },
                 "endTransport": "Afslut transport",
                 "errors": {
-                    "geolocationNotSupported": "Geolocation understøttes ikke i denne browser.",
-                    "permissionDenied": "Aktivér lokationstilladelse i browseren.",
-                    "positionUnavailable": "Positionsoplysninger er ikke tilgængelige.",
-                    "somethingWentWrong": "Der opstod en fejl ved hentning af din aktuelle placering. Prøv igen.",
-                    "timeout": "Anmodningen om at hente din placering udløb.",
+                    "geolocationNotSupported": "Geolokation understøttes ikke af denne browser.",
+                    "permissionDenied": "Aktivér placeringstilladelse i browseren.",
+                    "positionUnavailable": "Lokationsoplysninger er ikke tilgængelige.",
+                    "somethingWentWrong": "Der opstod en fejl ved hentning af din nuværende placering. Prøv venligst igen.",
+                    "timeout": "Anmodningen om at hente din placering fik timeout.",
                     "unableToLocate": "Kunne ikke bestemme din placering."
                 },
                 "form": {
@@ -2259,23 +2261,21 @@
                     "currentLocation": "Nuværende placering",
                     "endAddress": "Slutadresse",
                     "kilometers": "Kilometer",
-                    "locating": "Finder din placering...",
-                    "note": "Notat (valgfrit)",
+                    "locating": "Finder placering...",
+                    "note": "Bemærkning (valgfri)",
                     "searchAddress": "Søg adresse",
                     "selectLocation": "Vælg placering",
                     "startAddress": "Startadresse",
                     "useCurrentLocation": "Brug nuværende placering"
                 },
-                "minute": "minutter",
-                "no": "Nej",
-                "registerTransport": "Registrér transport",
-                "yes": "Ja"
+                "registerTransport": "Registrer transport"
             },
             "selectType": "Vil du registrere transport eller arbejdstid?",
-            "selectTypeMessage": "Registrer din tid nemt — vælg arbejde eller transport for at komme i gang.",
+            "selectTypeMessage": "Registrér din tid nemt, vælg arbejde eller transport for at komme i gang.",
             "timeRegistration": "Tidsregistrering",
-            "transport": "Transportere",
-            "work": "Arbejdstid"
+            "transport": "Transport",
+            "work": "Arbejde",
+            "yes": "Ja"
         },
         "treatments": {
             "alert": {
