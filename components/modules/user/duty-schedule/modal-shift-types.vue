@@ -102,7 +102,7 @@ const state = reactive({
 
 
 watch(() => props.isModalOpen, (isModalOpen) => {
-    if (isModalOpen) {
+    if (isModalOpen && !props.selectedEmployee) {
         fetchDutySchedulePercentage()
     }
 })
@@ -110,6 +110,8 @@ watch(() => props.isModalOpen, (isModalOpen) => {
 watch(() => props.selectedEmployee, (selectedEmployee) => {
     if (selectedEmployee) {
         state.selectedEmployee = selectedEmployee
+        state.formFilter.employee_uuid = selectedEmployee?.uuid
+        fetchDutySchedulePercentage()
     }
 })
 
