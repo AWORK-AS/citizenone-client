@@ -466,6 +466,8 @@
             "information": "Information",
             "language": "Language",
             "languageLabel": "The default language which Online Booking will be displayed in for new clients",
+            "copyLink": "Copy link",
+            "linkCopied": "Copied!",
             "onlineBookingLink": "Online Booking link",
             "onlineBookingLinkLabel": "The link to your public online booking page",
             "phone": "Phone"
