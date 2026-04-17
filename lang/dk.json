@@ -666,6 +666,8 @@
         "loading": {
             "fetchingUpcomingEvents": "Henter kommende begivenheder",
             "loadingEventDetails": "Indlæser begivenhedsdetaljer",
+            "noUpcomingEvents": "Ingen kommende begivenheder",
+            "noUpcomingEventsDescription": "Der er i øjeblikket ingen begivenheder eller kurser tilgængelige. Tjek igen snart.",
             "theSystemIsRetrievening": "Systemet henter og indlæser begivenhedsoplysninger. Vent venligst, mens vi forbereder detaljerne til visning",
             "wereGatheringAllTheExcitingEvents": "Vi samler alle de spændende begivenheder til dig. Hold ud – det tager ikke lang tid"
         },

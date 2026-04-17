@@ -666,6 +666,8 @@
         "loading": {
             "fetchingUpcomingEvents": "Fetching upcoming events",
             "loadingEventDetails": "Loading event details",
+            "noUpcomingEvents": "No upcoming events",
+            "noUpcomingEventsDescription": "There are currently no events or courses available. Check back soon.",
             "theSystemIsRetrievening": "The system is retrieving and loading the event information. Please wait while we prepare the event details for display",
             "wereGatheringAllTheExcitingEvents": "We're gathering all the exciting events for you. Hang tight - it won't take long"
         },
