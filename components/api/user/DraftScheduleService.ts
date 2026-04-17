@@ -25,6 +25,10 @@ class DraftScheduleService extends BaseAPIService {
         return await this.request(`/user/draft-schedules/show/percentage`, 'GET', params)
     }
 
+    async getShiftTypesDistribution(params: object): Promise<any> {
+        return await this.request(`/user/draft-schedules/employee/shift-distribution`, 'GET', params)
+    }
+
     async copyEmployeeWeeklyDraftDutySchedule(params: object): Promise<any> {
         return await this.request(`/user/draft-schedules/employee/weekly/copy`, 'POST', params)
     }
