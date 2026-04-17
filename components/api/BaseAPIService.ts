@@ -55,6 +55,86 @@ class BaseAPIService {
         }
     }
 
+    async requestFormData(url: string, formData: FormData): Promise<any> {
+        const runtimeConfig = useRuntimeConfig()
+        const config = {
+            baseURL: runtimeConfig.public.apiBaseURL,
+            method: 'POST',
+            headers: {
+                Authorization: 'Bearer ' + localStorage.getItem('_token'),
+                Accept: 'application/json',
+            },
+            body: formData,
+        }
+
+        try {
+            return await $fetch(url, config)
+        } catch (error: any) {
+            switch (error.response.status) {
+                case 400:
+                    throw new APIError(error.response._data)
+                case 404:
+                case 422:
+                    throw new APIError(error.response._data)
+                case 429:
+                    throw new APIError(error.response._data)
+                case 401:
+                    this.revokeAccess()
+                case 500:
+                    throw new APIError({
+                        message: "Server error. Please try again. If the problem persists, contact your system administrator"
+                    })
+                default:
+                    throw new APIError({
+                        message: "Something went wrong. Please try again. If the problem persists, contact your system administrator"
+                    })
+            }
+        }
+    }
+
+    async requestBlob(url: string, method: string, params: object = {}): Promise<Blob | null> {
+        const runtimeConfig = useRuntimeConfig()
+        const config: any = {
+            baseURL: runtimeConfig.public.apiBaseURL,
+            method,
+            headers: {
+                Authorization: 'Bearer ' + localStorage.getItem('_token'),
+                Accept: 'application/json',
+            },
+            responseType: 'blob' as const,
+        }
+
+        if (method === 'GET') {
+            config.params = params
+        } else {
+            config.body = params
+        }
+
+        try {
+            return await $fetch(url, config) as Blob
+        } catch (error: any) {
+            switch (error.response.status) {
+                case 400:
+                    throw new APIError(error.response._data)
+                case 404:
+                case 422:
+                    throw new APIError(error.response._data)
+                case 429:
+                    throw new APIError(error.response._data)
+                case 401:
+                    this.revokeAccess()
+                case 500:
+                    throw new APIError({
+                        message: "Server error. Please try again. If the problem persists, contact your system administrator"
+                    })
+                default:
+                    throw new APIError({
+                        message: "Something went wrong. Please try again. If the problem persists, contact your system administrator"
+                    })
+            }
+        }
+    }
+
     revokeAccess() {
         localStorage.removeItem("_token")
         localStorage.removeItem("remember_me")

@@ -405,18 +405,9 @@ async function activateApp(formApp: any) {
     try {
         if (state.selectedApp?.generic_name === 'google-drive') {
             const response = await googledriveService.getGoogleDriveAuthUrl()
-            console.log('Google Drive response:', response)
             if (response?.authUrl || response?.auth_url) {
                 const authUrl = response?.authUrl || response?.auth_url
-
-                // Open Google OAuth in a popup
-                const popup = window.open(
-                    authUrl,
-                    'GoogleDriveAuth',
-                    'width=600,height=700,left=200,top=100'
-                )
-
-                console.log('Google Drive popup opened')
+                window.open(authUrl, 'Google Drive Authentication', 'width=500,height=600')
             } else {
                 console.error('No authUrl in response:', response)
             }
