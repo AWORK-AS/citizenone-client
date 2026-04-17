@@ -73,10 +73,14 @@
                                                         <div class="flex justify-center">
                                                             <Badge type="primary" class="w-fit">
                                                                 <p class="text-xxs">
-                                                                    {{ state.formGiveMedicine.medicines[medicineIndex]
-                                                                        .dosages[getDosageIndexByTime(Number(medicineIndex),
-                                                                            time)].required_dosage }}
-                                                                    {{ medicine.dosage_unit }}
+                                                                    {{
+                                                                        state.formGiveMedicine.medicines[medicineIndex]
+                                                                            .dosages[getDosageIndexByTime(Number(medicineIndex),
+                                                                                time)].required_dosage
+                                                                    }}
+                                                                    {{
+                                                                        medicine.dosage_unit
+                                                                    }}
                                                                 </p>
                                                             </Badge>
                                                         </div>
@@ -126,7 +130,8 @@
                                                                     ? 'ic:round-keyboard-arrow-up'
                                                                     : 'ic:round-keyboard-arrow-down'"
                                                                     class="w-3 h-3" />
-                                                                {{ $t('citizens.medicineJournals.history.form.comment')
+                                                                {{
+                                                                    $t('citizens.medicineJournals.history.form.comment')
                                                                 }}
                                                             </button>
                                                             <div v-if="state.expandedComments.has(`${medicineIndex}_${time}`)"
@@ -401,7 +406,6 @@
         </Modal>
     </div>
 </template>
-
 
 <script setup lang="ts">
 import moment from 'moment'

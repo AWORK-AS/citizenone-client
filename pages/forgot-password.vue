@@ -24,7 +24,6 @@
                                             <div class="fp-ring fp-rg1"></div>
                                             <div class="fp-ring fp-rg2"></div>
                                             <div class="fp-ring fp-rg3"></div>
-                                            <div class="fp-scan"></div>
                                             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 38.98 38.98" width="38"
                                                 height="38" class="relative z-[2]">
                                                 <circle class="fp-oc" cx="19.49" cy="19.49" r="18.99" fill="#1a3a5c"
@@ -377,8 +376,7 @@ function identifyFlag() {
     height: 46px;
     display: flex;
     align-items: center;
-    justify-content: center;
-    overflow: hidden
+    justify-content: center
 }
 
 .fp-ring {
@@ -419,41 +417,6 @@ function identifyFlag() {
     100% {
         opacity: 0;
         transform: scale(1.2)
-    }
-}
-
-.fp-scan {
-    position: absolute;
-    width: 36px;
-    height: 1.5px;
-    background: rgba(66, 174, 217, 0.7);
-    animation: fpscan 2.8s ease-in-out 1.3s infinite;
-    z-index: 3;
-    border-radius: 1px
-}
-
-@keyframes fpscan {
-    0% {
-        opacity: 0;
-        top: calc(50% - 16px)
-    }
-
-    15% {
-        opacity: 1
-    }
-
-    50% {
-        top: calc(50% + 16px);
-        opacity: 1
-    }
-
-    90% {
-        opacity: 1
-    }
-
-    100% {
-        opacity: 0;
-        top: calc(50% + 16px)
     }
 }
 

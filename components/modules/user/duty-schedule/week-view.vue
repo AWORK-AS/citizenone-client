@@ -567,14 +567,22 @@
                                                     </div>
                                                     <div class="col-span-2">
                                                         <div class="text-right py-1 pr-2 font-bold">
-                                                            {{employee?.hours?.reduce((sum: number, t: any) => sum +
-                                                                (parseFloat(t?.weekly_hours) || 0), 0).toFixed(2)}}
+                                                            {{
+                                                                formatNumber(language.locale.value,
+                                                                    employee?.hours?.reduce((sum: number, t: any) => sum +
+                                                                        (parseFloat(String(t?.weekly_hours || '0').replace(',',
+                                                                            '.')) || 0), 0))
+                                                            }}
                                                         </div>
                                                     </div>
                                                     <div class="col-span-2 border-l-0.5 border-gray-200">
                                                         <div class="text-right py-1 pr-2 font-bold">
-                                                            {{employee?.hours?.reduce((sum: number, t: any) => sum +
-                                                                (parseFloat(t?.yearly_hours) || 0), 0).toFixed(2)}}
+                                                            {{
+                                                                formatNumber(language.locale.value,
+                                                                    employee?.hours?.reduce((sum: number, t: any) => sum +
+                                                                        (parseFloat(String(t?.yearly_hours || '0').replace(',',
+                                                                            '.')) || 0), 0))
+                                                            }}
                                                         </div>
                                                     </div>
                                                 </div>

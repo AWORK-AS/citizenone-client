@@ -9,10 +9,8 @@
                         d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
                 </svg>
                 <div class="text-xs text-amber-700">
-                    <p class="font-semibold text-amber-800 mb-1">Opret en ny skabelon</p>
-                    <p>En skabelon er en genanvendelig vagtplan. Giv den et navn, vælg afdeling, og beslut om den skal
-                        være gentagende eller enkeltstående. Skabelonen kan efterfølgende anvendes direkte i
-                        vagtplanskladden.</p>
+                    <p class="font-semibold text-amber-800 mb-1">{{ $t('dutySchedules.draftTemplates.form.createInfoBox.title') }}</p>
+                    <p>{{ $t('dutySchedules.draftTemplates.form.createInfoBox.description') }}</p>
                 </div>
             </div>
             <div class="grid grid-cols-1 gap-y-3">
@@ -41,8 +39,7 @@
                         <div>
                             <span class="text-sm font-medium">{{ $t('dutySchedules.draftTemplates.form.adminsOnly')
                             }}</span>
-                            <p class="text-xs text-gray-400 mt-0.5">Hvis markeret kan kun administratorer se og bruge
-                                denne skabelon.</p>
+                            <p class="text-xs text-gray-400 mt-0.5">{{ $t('dutySchedules.draftTemplates.form.adminsOnlyDescription') }}</p>
                         </div>
                     </div>
                 </div>
@@ -54,18 +51,15 @@
                         <div>
                             <span class="text-sm font-medium">{{ $t('dutySchedules.draftTemplates.form.isRecurring')
                             }}</span>
-                            <p class="text-xs text-gray-400 mt-0.5">En gentagende skabelon roterer automatisk over flere
-                                uger (fx 4-ugers vagtrullering). En ikke-gentagende skabelon er en fast enkelt ugeplan.
-                            </p>
+                            <p class="text-xs text-gray-400 mt-0.5">{{ $t('dutySchedules.draftTemplates.form.isRecurringDescription') }}</p>
                         </div>
                     </div>
                 </div>
 
                 <div class="space-y-3" v-if="state.formTemplate.recurring.is_recurring">
                     <div class="bg-blue-50 border border-blue-200 rounded-lg p-3 text-xs text-blue-700">
-                        <p class="font-semibold text-blue-800 mb-1">🔄 Gentagende skabelon</p>
-                        <p>Angiv hvor mange uger skabelonen roterer over (fx 4 = 4-ugers rulning). Du kan valgfrit sætte
-                            en slutdato — hvis du ikke sætter en dato, kan skabelonen altid anvendes.</p>
+                        <p class="font-semibold text-blue-800 mb-1">🔄 {{ $t('dutySchedules.draftTemplates.form.recurringInfoBox.title') }}</p>
+                        <p>{{ $t('dutySchedules.draftTemplates.form.recurringInfoBox.description') }}</p>
                     </div>
                     <div class="space-y-1">
                         <FormLabel for="week_rotations"
