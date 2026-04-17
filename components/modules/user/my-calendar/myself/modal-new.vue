@@ -19,7 +19,9 @@ import { useAlert } from '@/composables/alert'
 import { useI18n } from "vue-i18n"
 import type { Error } from '@/types'
 import { useUserStore } from '@/store/user'
+import { useDepartmentStore } from '@/store/department'
 
+const departmentStore = useDepartmentStore()
 const userStore = useUserStore() as any
 const { successAlert } = useAlert()
 const { t } = useI18n()
@@ -51,6 +53,7 @@ const state = reactive({
         user_group_uuid: [],
         calendar_tag_uuid: [],
         send_invitation: false,
+        department_uuid: [],
         recurring: {
             is_recurring: false,
             recurring: '',
@@ -98,6 +101,7 @@ async function saveSchedule(scheduleDetails: any) {
             user_group_uuid: scheduleDetails.user_group_uuid,
             calendar_tag_uuid: scheduleDetails.calendar_tag_uuid,
             send_invitation: scheduleDetails.send_invitation,
+            department_uuid: [departmentStore.getSelectedDepartment.uuid],
             is_recurring: scheduleDetails.recurring.is_recurring,
             recurring: scheduleDetails.recurring.recurring,
             recurring_until: scheduleDetails.recurring.recurring_until,
