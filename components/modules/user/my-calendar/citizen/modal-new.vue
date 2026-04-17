@@ -19,9 +19,11 @@ import { myCalendarService } from '@/components/api/user/MyCalendarService'
 import { useAlert } from '@/composables/alert'
 import { useI18n } from "vue-i18n"
 import type { Error } from '@/types'
+import { useDepartmentStore } from '@/store/department'
 
 const { successAlert } = useAlert()
 const { t } = useI18n()
+const departmentStore = useDepartmentStore()
 
 const props = defineProps({
     isModalOpen: {
@@ -46,6 +48,7 @@ const state = reactive({
         calendar_tag_uuid: [],
         is_private: false,
         send_invitation: false,
+        department_uuid: [],
         recurring: {
             is_recurring: false,
             recurring: '',
@@ -89,6 +92,7 @@ async function saveSchedule(scheduleDetails: any) {
             calendar_tag_uuid: scheduleDetails.calendar_tag_uuid,
             is_private: scheduleDetails.is_private,
             send_invitation: scheduleDetails.send_invitation,
+            department_uuid: [departmentStore.getSelectedDepartment.uuid],
             is_recurring: scheduleDetails.recurring.is_recurring,
             recurring: scheduleDetails.recurring.recurring,
             recurring_until: scheduleDetails.recurring.recurring_until,
