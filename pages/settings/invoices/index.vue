@@ -49,6 +49,16 @@
                                             </Badge>
                                         </div>
                                     </td>
+                                    <td width="20%">
+                                        <div>
+                                            <Badge type="active" class="w-fit" v-if="invoice?.is_paid">
+                                                {{ $t('invoices.table.paid') }}
+                                            </Badge>
+                                            <Badge type="inactive" class="w-fit" v-else>
+                                                {{ $t('invoices.table.unpaid') }}
+                                            </Badge>
+                                        </div>
+                                    </td>
                                     <td width="15%">
                                         <div>
                                             {{ invoice?.invoice_number }}
@@ -68,12 +78,12 @@
                                     </td>
                                     <td width="15%">
                                         <div class="flex items-end gap-2">
-                                            <FormButton type="button" buttonStyle="action" class="rounded-md"
+                                            <FormButton type="button" buttonStyle="action"
                                                 @click="navigateTo(`/settings/invoices/${invoice.uuid}/invoice-details`)">
                                                 <Icon name="ph:eye" class="size-4" />
                                                 {{ $t('invoices.table.actions.view') }}
                                             </FormButton>
-                                            <FormButton type="button" buttonStyle="action" class="rounded-md"
+                                            <FormButton type="button" buttonStyle="action"
                                                 @click="sendInvoice(invoice)">
                                                 <Icon name="ph:envelope-simple" class="size-4" />
                                                 {{ $t('invoices.table.actions.sendInvoice') }}
@@ -119,6 +129,7 @@ const state = reactive({
     columnHeaders: [
         { name: 'invoices.table.date', isTranslateName: true, sorter: true, key: 'created_at' },
         { name: 'invoices.table.status', isTranslateName: true, },
+        { name: 'invoices.table.paid', isTranslateName: true, },
         { name: 'invoices.table.invoiceNumber', isTranslateName: true, sorter: true, key: 'invoice_number' },
         { name: 'invoices.table.amount', isTranslateName: true, sorter: true, key: 'total_amount' },
         { name: 'invoices.table.company', isTranslateName: true, },

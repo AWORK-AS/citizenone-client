@@ -10,7 +10,7 @@
 
             <div>
                 <div class="flex justify-end items-center mb-5">
-                    <FormButton buttonStyle="action" class="rounded-lg" @click="navigateTo('/superadmin/apps/new')">
+                    <FormButton buttonStyle="action" @click="navigateTo('/superadmin/apps/new')">
                         <Icon name="ph:plus" class="h-4 w-4" aria-hidden="true" />
                         {{ $t('superadmin.apps.newApp') }}
                     </FormButton>
@@ -31,6 +31,23 @@
                                                 v-if="app?.is_thirdparty">
                                                 {{
                                                     $t('superadmin.apps.table.thirdPartyApp')
+                                                }}
+                                            </Badge>
+                                            <Badge type="harmless" class="text-xxs truncate w-fit"
+                                                v-if="app?.is_recommended">
+                                                {{
+                                                    $t('superadmin.apps.table.recommended')
+                                                }}
+                                            </Badge>
+                                            <Badge type="harmless" class="text-xxs truncate w-fit"
+                                                v-if="app?.is_popular">
+                                                {{
+                                                    $t('superadmin.apps.table.popular')
+                                                }}
+                                            </Badge>
+                                            <Badge type="harmless" class="text-xxs truncate w-fit" v-if="app?.is_news">
+                                                {{
+                                                    $t('superadmin.apps.table.news')
                                                 }}
                                             </Badge>
                                             <div class="flex items-center gap-x-2">
@@ -68,12 +85,12 @@
                                     </td>
                                     <td width="30%">
                                         <div class="flex items-end gap-2">
-                                            <FormButton type="button" buttonStyle="action" class="rounded-md"
+                                            <FormButton type="button" buttonStyle="action"
                                                 @click="navigateTo(`/superadmin/apps/${app.uuid}/edit`)">
                                                 <Icon name="ph:pencil-simple" class="size-4" />
                                                 {{ $t('superadmin.apps.table.actions.edit') }}
                                             </FormButton>
-                                            <FormButton type="button" buttonStyle="danger" class="rounded-md"
+                                            <FormButton type="button" buttonStyle="danger"
                                                 @click="deleteConfirmation(app)">
                                                 <Icon name="ph:trash" class="size-4" />
                                                 {{ $t('superadmin.apps.table.actions.delete') }}

@@ -11,7 +11,7 @@
             {{ $t('overview.treatments.noTreatmentsToShow') }}
         </div>
 
-        <div class="bg-white shadow-md rounded-md border-l-8 border-secondary mt-2 text-sm divide-y overflow-scroll min-h-96 max-h-96"
+        <div class="bg-white shadow-md rounded-md border-l-8 border-primary mt-2 text-sm divide-y overflow-scroll min-h-96 max-h-96"
             v-else>
             <div v-for="(treatment, treatmentIndex) in state.treatments?.data" :key="treatmentIndex"
                 class="pl-4 pr-3 py-5 cursor-pointer hover:bg-gray-100"

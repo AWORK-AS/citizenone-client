@@ -4,7 +4,7 @@
             <Alert type="danger" :text="state?.error?.message"
                 v-if="state.error?.message && state.error.message.length > 0" />
             <div class="flex justify-end items-center mb-5 gap-x-2">
-                <FormButton buttonStyle="action" class="rounded-lg" @click="state.modal.isAddTreatmentOpen = true">
+                <FormButton buttonStyle="action" @click="state.modal.isAddTreatmentOpen = true">
                     <Icon name="ph:plus" class="h-4 w-4" aria-hidden="true" />
                     {{ $t('citizens.treatments.newTreatment') }}
                 </FormButton>
@@ -32,13 +32,11 @@
                         </div>
                         <div>
                             <div class="flex items-center gap-2 flex-wrap md:flex-nowrap">
-                                <FormButton type="button" buttonStyle="action" class="rounded-md"
-                                    @click="viewStatuses(treatment)">
+                                <FormButton type="button" buttonStyle="action" @click="viewStatuses(treatment)">
                                     <Icon name="ph:eye" class="size-4" />
                                     {{ $t('citizens.treatments.table.actions.statuses') }}
                                 </FormButton>
-                                <FormButton type="button" buttonStyle="action" class="rounded-md"
-                                    @click="editTreatment(treatment)">
+                                <FormButton type="button" buttonStyle="action" @click="editTreatment(treatment)">
                                     <Icon name="ph:pencil-simple" class="size-4" />
                                     {{ $t('citizens.treatments.table.actions.edit') }}
                                 </FormButton>

@@ -218,18 +218,11 @@
                     <FormError :error="props?.error?.errors?.permission?.[0]" />
                 </div>
                 <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-2 py-2">
-                    <div class="space-y-1">
+                    <div class="space-y-1" v-if="state.formEmployee?.role !== 'Admin'">
                         <div class="w-fit flex items-center cursor-pointer"
                             @click="state.formEmployee.show_working_hours = !state.formEmployee.show_working_hours">
                             <FormCheckbox id="show_working_hours" :value="state.formEmployee.show_working_hours" />
                             {{ $t('employees.form.showWorkingHours') }}
-                        </div>
-                    </div>
-                    <div class="space-y-1">
-                        <div class="w-fit flex items-center cursor-pointer"
-                            @click="state.formEmployee.register_transport_enabled = !state.formEmployee.register_transport_enabled">
-                            <FormCheckbox id="register_transport_enabled" :value="state.formEmployee.register_transport_enabled" />
-                            {{ $t('employees.form.registerTransportEnabled') }}
                         </div>
                     </div>
                 </div>
@@ -325,9 +318,11 @@
                                 {{ $t('normPeriod.addCustomNormPeriod') }}
                             </span>
                         </div>
-                        <FormSelect id="norm_period_uuid" name="norm_period_uuid" :placeholder="$t('normPeriod.form.normPeriod')" :options="state.options.normPeriods"
+                        <FormSelect id="norm_period_uuid" name="norm_period_uuid"
+                            :placeholder="$t('normPeriod.form.normPeriod')" :options="state.options.normPeriods"
                             v-model="state.formEmployee.employment.norm_period_uuid" />
-                        <FormError :error="v$?.formEmployee?.employment?.norm_period_uuid?.$errors[0]?.$message.toString()" />
+                        <FormError
+                            :error="v$?.formEmployee?.employment?.norm_period_uuid?.$errors[0]?.$message.toString()" />
                         <FormError :error="props?.error?.errors?.norm_period_uuid?.[0]" />
                     </div>
                     <div class="space-y-1" ref="vacationDaysField" v-if="isAdmin(userStore.getUser?.roles)">
@@ -410,7 +405,7 @@
                         <div class="bg-white shadow-sm ring-1 ring-gray-900/5 rounded-lg px-4 py-6 sm:p-8"
                             v-if="state.formEmployee.emergencyInfo.trustees.length === 0">
                             <div class="mx-auto max-w-md">
-                                <FormButton buttonStyle="primary" @click="addTrustee" class="w-full rounded-md">
+                                <FormButton buttonStyle="primary" @click="addTrustee" class="w-full">
                                     {{ $t('employees.form.emergencyInfo.addTrustee') }}
                                 </FormButton>
                             </div>
@@ -467,8 +462,7 @@
                         <div class="bg-white shadow-sm ring-1 ring-gray-900/5 rounded-lg px-4 py-6 sm:p-8"
                             v-if="state.formEmployee.emergencyInfo.emergency_contacts.length === 0">
                             <div class="mx-auto max-w-md">
-                                <FormButton buttonStyle="primary" @click="addEmergencyContact"
-                                    class="w-full rounded-md">
+                                <FormButton buttonStyle="primary" @click="addEmergencyContact" class="w-full">
                                     {{ $t('employees.form.emergencyInfo.addEmergencyContactPerson') }}
                                 </FormButton>
                             </div>
@@ -533,11 +527,11 @@
         </div>
         <div class="mt-6">
             <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
-                <FormButton type="button" buttonStyle="cancel" class="rounded-md"
+                <FormButton type="button" buttonStyle="cancel"
                     @click="navigateTo(router?.currentRoute?.value?.name === 'employees-employee_uuid-edit' ? `/employees` : `/employees/${employeeUuid}/view-details`)">
                     {{ $t('cancel') }}
                 </FormButton>
-                <FormButton type="submit" buttonStyle="primary" class="rounded-md">
+                <FormButton type="submit" buttonStyle="primary">
                     {{ props.formType === 'create' ? $t('save') :
                         $t('update') }}
                 </FormButton>
@@ -556,8 +550,8 @@
             @refreshJobSpecialty="fetchJobSpecialties(state.formEmployee.employment.job_title_uuid)" />
         <ModulesUserDutyScheduleNormHoursModalInfo :isModalOpen="state.modal.isAnnualNormHoursInfoOpen"
             @close="state.modal.isAnnualNormHoursInfoOpen = false" />
-        <ModulesUserEmployeeModalNormPeriod :isModalOpen="state.modal.isAddNewNormPeriod" @close="state.modal.isAddNewNormPeriod = false"
-            @refreshNormPeriods="fetchNormPeriods" />
+        <ModulesUserEmployeeModalNormPeriod :isModalOpen="state.modal.isAddNewNormPeriod"
+            @close="state.modal.isAddNewNormPeriod = false" @refreshNormPeriods="fetchNormPeriods" />
     </form>
 </template>
 
@@ -665,7 +659,6 @@ const state = reactive({
         },
         show_working_hours: false,
         do_not_count_sick_leave: false,
-        register_transport_enabled: false,
     } as EmployeeForm,
     isChangePassword: false,
     modal: {
@@ -771,7 +764,6 @@ watch(() => props.selectedEmployee, (newValue: any) => {
                 norm_period_uuid: newValue.employment?.norm_period_uuid || 'default',
             },
             show_working_hours: newValue.show_working_hours,
-            register_transport_enabled: newValue.register_transport_enabled,
             do_not_count_sick_leave: newValue.do_not_count_sick_leave,
         }
         fetchMunicipalitiesPerRegion(newValue.region_uuid)

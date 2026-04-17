@@ -245,6 +245,14 @@ watch(() => userStore.getUser, (newValue: any) => {
                 ]
             },
             {
+                name: 'settings.tabs.timeAccounts',
+                isTranslateName: true,
+                href: `/settings/time-accounts`,
+                routeNames: [
+                    'settings-time-accounts'
+                ]
+            },
+            {
                 name: 'settings.tabs.units',
                 isTranslateName: true,
                 href: `/settings/units`,
@@ -336,6 +344,9 @@ function changeTab(value: any) {
     }
     else if (value === '/settings/shifts') {
         navigateTo(`/settings/shifts`)
+    }
+    else if (value === '/settings/time-accounts') {
+        navigateTo(`/settings/time-accounts`)
     }
     else if (value === '/settings/units') {
         navigateTo(`/settings/units`)

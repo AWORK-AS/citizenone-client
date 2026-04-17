@@ -179,6 +179,8 @@ async function updateMedicine(medicineDetails: any) {
         params.append('medication_storage', medicineDetails.medication_storage)
         params.append('ingredients', medicineDetails.ingredients)
         params.append('description', medicineDetails.description)
+        params.append('extra_dates', JSON.stringify(medicineDetails.extra_dates ?? []))
+        params.append('treatment_periods', JSON.stringify(medicineDetails.treatment_periods ?? []))
         const response = await medicineJournalService.updateMedicine(medicineUuid, params)
         if (response?.data) {
             refreshMedicines()

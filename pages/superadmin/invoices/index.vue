@@ -9,7 +9,13 @@
             <template #header>{{ $t('superadmin.invoices.invoices') }}</template>
 
             <div>
-                <div class="space-y-5">
+                <div class="flex flex-wrap items-center justify-end gap-3">
+                    <FormButton buttonStyle="action" @click="state.modal.isDownloadOpen = true">
+                        <Icon name="ph:download" class="h-4 w-4" aria-hidden="true" />
+                        {{ $t('superadmin.invoices.download.download') }}
+                    </FormButton>
+                </div>
+                <div class="mt-5 space-y-5">
                     <Alert type="danger" :text="state?.error?.message"
                         v-if="state.error?.message && state.error.message.length > 0" />
                     <TableSearch @search="handleSearch" />
@@ -33,6 +39,16 @@
                                             </Badge>
                                         </div>
                                     </td>
+                                    <td width="10%">
+                                        <div>
+                                            <Badge type="active" class="w-fit" v-if="invoice?.is_paid">
+                                                {{ $t('superadmin.invoices.table.paid') }}
+                                            </Badge>
+                                            <Badge type="inactive" class="w-fit" v-else>
+                                                {{ $t('superadmin.invoices.table.unpaid') }}
+                                            </Badge>
+                                        </div>
+                                    </td>
                                     <td width="15%">
                                         <div>
                                             {{ invoice?.invoice_number }}
@@ -52,10 +68,15 @@
                                     </td>
                                     <td width="15%">
                                         <div class="flex items-end gap-2">
-                                            <FormButton type="button" buttonStyle="action" class="rounded-md"
+                                            <FormButton type="button" buttonStyle="action"
                                                 @click="navigateTo(`/superadmin/invoices/${invoice.uuid}/invoice-details`)">
                                                 <Icon name="ph:eye" class="size-4" />
                                                 {{ $t('superadmin.invoices.table.actions.view') }}
+                                            </FormButton>
+                                            <FormButton v-if="!invoice?.is_paid && !invoice?.invoice_type" type="button"
+                                                buttonStyle="success" @click="confirmMarkInvoiceAsPaid(invoice)">
+                                                <Icon name="ph:check" class="size-4" />
+                                                {{ $t('superadmin.invoices.table.actions.markAsPaid') }}
                                             </FormButton>
                                         </div>
                                     </td>
@@ -65,7 +86,14 @@
                     </div>
                     <Pagination :data="state.invoices" @previous="previous" @next="next" />
                 </div>
+                <ModulesSuperadminInvoiceModalDownload :isModalOpen="state.modal.isDownloadOpen"
+                    @close="state.modal.isDownloadOpen = false" />
+                <DialogConfirmation :isModalOpen="state.modal.isMarkAsPaidConfirmationOpen"
+                    :message="$t('superadmin.invoices.table.confirmation.markAsPaidConfirmation') + '?'"
+                    @close="state.modal.isMarkAsPaidConfirmationOpen = false" @confirm="markInvoiceAsPaid" />
             </div>
+            <ModulesSuperadminInvoiceModalDownload :isModalOpen="state.modal.isDownloadOpen"
+                @close="state.modal.isDownloadOpen = false" />
         </NuxtLayout>
     </div>
 </template>
@@ -74,17 +102,22 @@
 import { invoiceService } from '@/components/api/superadmin/InvoiceService'
 import { useAmountFormatter } from '@/composables/amountFormatter'
 import { useDatetimeFormatter } from '@/composables/datetimeFormatter'
+import { useAlert } from '@/composables/alert'
+import { useI18n } from "vue-i18n"
 import type { Error } from '@/types'
 
 const runtimeConfig = useRuntimeConfig()
 const { formatAmount } = useAmountFormatter()
 const { formatDateTimeToReadable } = useDatetimeFormatter()
+const { successAlert } = useAlert()
+const { t } = useI18n()
 let currentTablePage = 1
 
 const state = reactive({
     columnHeaders: [
         { name: 'superadmin.invoices.table.date', isTranslateName: true, sorter: true, key: 'created_at' },
         { name: 'superadmin.invoices.table.status', isTranslateName: true, },
+        { name: 'superadmin.invoices.table.paid', isTranslateName: true, },
         { name: 'superadmin.invoices.table.invoiceNumber', isTranslateName: true, sorter: true, key: 'invoice_number' },
         { name: 'superadmin.invoices.table.amount', isTranslateName: true, sorter: true, key: 'total_amount' },
         { name: 'superadmin.invoices.table.company', isTranslateName: true, },
@@ -96,6 +129,11 @@ const state = reactive({
     error: {} as Error,
     invoices: [] as any,
     isTableLoading: false,
+    modal: {
+        isDownloadOpen: false,
+        isMarkAsPaidConfirmationOpen: false,
+    },
+    selectedInvoice: {} as any,
     sortData: {
         sortField: 'id',
         sortOrder: 'descend',
@@ -149,5 +187,22 @@ function handleSearch(value: any) {
     currentTablePage = 1
     state.dataFilter.search = value?.[0] == '' ? [] : value
     fetchInvoices()
+}
+
+function confirmMarkInvoiceAsPaid(invoice: any) {
+    state.selectedInvoice = invoice
+    state.modal.isMarkAsPaidConfirmationOpen = true
+}
+
+async function markInvoiceAsPaid() {
+    state.error = {}
+    try {
+        await invoiceService.markInvoiceAsPaid(state.selectedInvoice.uuid)
+        successAlert(`${t('alert.success')}!`, `${t('superadmin.invoices.form.alert.invoiceMarkedAsPaid')}`)
+        await fetchInvoices()
+        state.modal.isMarkAsPaidConfirmationOpen = false
+    } catch (error: any) {
+        state.error = error
+    }
 }
 </script>

@@ -29,7 +29,7 @@
                 {{ customPagesStore.getCustomPagesName?.citizens }}
             </template>
             <template #guided-tour>
-                <Tooltip :text="$t('guidedTour')" @click="openGuidedTour()">
+                <Tooltip :text="$t('guidedTour')" position="left" @click="openGuidedTour()">
                     <Icon name="ph:question" class="size-6 cursor-pointer text-gray-700" aria-hidden="true" />
                 </Tooltip>
             </template>
@@ -51,42 +51,125 @@
                         </select>
                     </div>
                     <div class="flex flex-wrap items-center gap-3">
-                        <FormButton buttonStyle="action" class="rounded-lg" @click="state.modal.isViewLocationsOpen = true">
+                        <FormButton buttonStyle="action" @click="state.modal.isViewLocationsOpen = true">
                             <Icon name="ph:map-pin" class="h-4 w-4" aria-hidden="true" />
                             {{ $t('citizens.viewLocations.viewLocations') }}
                         </FormButton>
-                        <FormButton buttonStyle="action" class="rounded-lg" @click="navigateTo('/inquiries')"
+                        <FormButton buttonStyle="action" @click="navigateTo('/inquiries')"
                             v-if="userStore.getUser?.company?.industry?.system_name === 'social_welfare' && ['Crisis center', 'Shelter'].includes(userStore.getUser?.company?.facility_type?.en_name)">
                             <Icon name="ph:list-bullets" class="h-4 w-4" aria-hidden="true" />
                             {{ $t('inquiries.inquiries') }}
                         </FormButton>
-                        <FormButton buttonStyle="action" class="rounded-lg" @click="navigateTo('/citizens/new')"
-                            v-if="userStore.getUser?.roles?.[0]?.name === 'Admin'">
-                            <Icon name="ph:plus" class="h-4 w-4" aria-hidden="true" />
-                            {{ $t('citizens.newCitizen') }}
+                        <FormButton buttonStyle="action" @click="navigateTo('/rooms')">
+                            <Icon name="ph:door" class="h-4 w-4" aria-hidden="true" />
+                            {{ customPagesStore.getCustomPagesName?.rooms || $t('rooms.rooms') }}
                         </FormButton>
-                        <FormButton buttonStyle="action" class="rounded-lg"
-                            @click="state.modal.isSharedJournalsOpen = true">
+                        <Menu
+                            v-if="userStore.getUser?.roles?.[0]?.name === 'Admin' || userStore.user?.permissions?.find((p: any) => p.name === 'create_citizen')"
+                            as="div" class="relative inline-block text-left z-20">
+                            <div>
+                                <MenuButton>
+                                    <FormButton buttonStyle="action">
+                                        <Icon name="ph:plus" class="h-4 w-4" aria-hidden="true" />
+                                        {{ $t('citizens.newCitizen') }}
+                                    </FormButton>
+                                </MenuButton>
+                            </div>
+
+                            <transition enter-active-class="transition duration-100 ease-out"
+                                enter-from-class="transform scale-95 opacity-0"
+                                enter-to-class="transform scale-100 opacity-100"
+                                leave-active-class="transition duration-75 ease-in"
+                                leave-from-class="transform scale-100 opacity-100"
+                                leave-to-class="transform scale-95 opacity-0">
+                                <MenuItems
+                                    class="absolute right-0 bottom-full mb-2 md:bottom-auto md:mb-0 md:top-full md:mt-2 min-w-44 origin-bottom-right md:origin-top-right divide-y divide-gray-100 rounded-md bg-white shadow-lg ring-1 ring-black/5 focus:outline-none">
+                                    <div class="px-1 py-1">
+                                        <MenuItem v-slot="{ active }">
+                                        <button :class="[
+                                            active && 'bg-gray-100',
+                                            'group flex w-full justify-start items-center rounded-md px-2 py-2.5 text-sm text-left',
+                                        ]" @click="navigateTo('/citizens/new')">
+                                            <Icon name="ph:plus" class="h-4 w-4 mr-2" aria-hidden="true" />
+                                            {{ $t('citizens.newCitizen') }}
+                                        </button>
+                                        </MenuItem>
+                                        <MenuItem v-slot="{ active }">
+                                        <button :class="[
+                                            active && 'bg-gray-100',
+                                            'group flex w-full justify-start items-center rounded-md px-2 py-2.5 text-sm text-left',
+                                        ]" @click="navigateTo('/citizens/citizen-form')">
+                                            <Icon name="ph:gear" class="h-4 w-4 mr-2" aria-hidden="true" />
+                                            {{ $t('citizens.editCitizenForm') }}
+                                        </button>
+                                        </MenuItem>
+                                    </div>
+                                </MenuItems>
+                            </transition>
+                        </Menu>
+                        <FormButton buttonStyle="action" @click="state.modal.isSharedJournalsOpen = true">
                             <Icon name="ph:share-fat" class="h-4 w-4" aria-hidden="true" />
                             {{ $t('citizens.citizenJournals.shareJournals.sharedJournals') }}
                         </FormButton>
-                        <FormButton buttonStyle="action" class="rounded-lg"
-                            @click="state.modal.isImportCitizensOpen = true"
+                        <FormButton buttonStyle="action" @click="state.modal.isImportCitizensOpen = true"
                             v-if="userStore.getUser?.roles?.[0]?.name === 'Admin'">
                             <Icon name="ph:file-arrow-up" class="h-4 w-4" aria-hidden="true" />
                             {{ $t('citizens.importCitizens.importCitizens') }}
                         </FormButton>
-                        <FormButton buttonStyle="action" class="rounded-lg" @click="exportCitizens"
-                            v-if="userStore.getUser?.roles?.[0]?.name === 'Admin'">
+                        <FormButton buttonStyle="action" @click="exportCitizens({})"
+                            v-if="userStore.getUser?.roles?.[0]?.name === 'Admin' && !isShelterOrCrisisCenter">
                             <Icon name="ph:file-arrow-down" class="h-4 w-4" aria-hidden="true" />
                             {{ $t('citizens.exportCitizens') }}
                         </FormButton>
+                        <Menu v-if="userStore.getUser?.roles?.[0]?.name === 'Admin' && isShelterOrCrisisCenter" as="div"
+                            class="relative inline-block text-left z-20">
+                            <div>
+                                <MenuButton>
+                                    <FormButton buttonStyle="action">
+                                        <Icon name="ph:file-arrow-down" class="h-4 w-4" aria-hidden="true" />
+                                        {{ $t('citizens.exportCitizens') }}
+                                    </FormButton>
+                                </MenuButton>
+                            </div>
+
+                            <transition enter-active-class="transition duration-100 ease-out"
+                                enter-from-class="transform scale-95 opacity-0"
+                                enter-to-class="transform scale-100 opacity-100"
+                                leave-active-class="transition duration-75 ease-in"
+                                leave-from-class="transform scale-100 opacity-100"
+                                leave-to-class="transform scale-95 opacity-0">
+                                <MenuItems
+                                    class="absolute right-0 mt-2 min-w-44 origin-top-right divide-y divide-gray-100 rounded-md bg-white shadow-lg ring-1 ring-black/5 focus:outline-none max-h-96 overflow-y-auto">
+                                    <div class="px-1 py-1">
+                                        <MenuItem v-slot="{ active }">
+                                        <button :class="[
+                                            active && 'bg-gray-100',
+                                            'group flex w-full justify-start items-center rounded-md px-2 py-2.5 text-sm text-left',
+                                        ]" @click="exportCitizens({})">
+                                            {{ $t('department.allDepartment') }}
+                                        </button>
+                                        </MenuItem>
+                                        <MenuItem v-slot="{ active }"
+                                            v-for="(department, index) in state.departments?.data?.filter((d: any) => d.name !== 'All departments')"
+                                            :key="index">
+                                        <button :class="[
+                                            active && 'bg-gray-100',
+                                            'group flex w-full justify-start items-center rounded-md px-2 py-2.5 text-sm text-left',
+                                        ]"
+                                            @click="exportCitizens({ department: department.name, department_uuid: department.uuid })">
+                                            {{ department.name }}
+                                        </button>
+                                        </MenuItem>
+                                    </div>
+                                </MenuItems>
+                            </transition>
+                        </Menu>
                         <Menu
                             v-if="userStore.getUser?.company?.industry?.system_name === 'social_welfare' && ['Crisis center', 'Shelter'].includes(userStore.getUser?.company?.facility_type?.en_name)"
                             as="div" class="relative inline-block text-left z-20">
                             <div>
                                 <MenuButton>
-                                    <FormButton buttonStyle="action" class="rounded-lg">
+                                    <FormButton buttonStyle="action">
                                         <Icon name="ph:file-arrow-down" class="h-4 w-4" aria-hidden="true" />
                                         {{ $t('inquiries.exportInquiries') }}
                                     </FormButton>
@@ -169,19 +252,19 @@
                                     </td>
                                     <td width="20%">
                                         <div class="flex items-center justify-end gap-2">
-                                            <Tooltip v-if="isInterventionCheckinEnabled" :text="citizen?.is_checked_in ? $t('citizens.table.actions.checkOut') : $t('citizens.table.actions.checkIn')">
-                                                <FormSwitch
-                                                    :value="citizen?.is_checked_in"
+                                            <Tooltip v-if="isInterventionCheckinEnabled"
+                                                :text="citizen?.is_checked_in ? $t('citizens.table.actions.checkOut') : $t('citizens.table.actions.checkIn')">
+                                                <FormSwitch :value="citizen?.is_checked_in"
                                                     @toggleSwitch="toggleLogin(citizen)" />
                                             </Tooltip>
                                             <Tooltip :text="$t('citizens.table.actions.view')">
-                                                <FormButton type="button" buttonStyle="action" class="rounded-md"
+                                                <FormButton type="button" buttonStyle="action"
                                                     @click="navigateTo(`/citizens/${citizen.uuid}/journals`)">
                                                     <Icon name="ph:eye" class="size-4" />
                                                 </FormButton>
                                             </Tooltip>
                                             <Tooltip :text="$t('citizens.table.actions.medicationOverview')">
-                                                <FormButton type="button" buttonStyle="action" class="rounded-md"
+                                                <FormButton type="button" buttonStyle="action"
                                                     @click="navigateTo(`/citizens/${citizen.uuid}/medicine-journals`)">
                                                     <Icon name="solar:jar-of-pills-2-linear" class="size-4" />
                                                 </FormButton>
@@ -193,20 +276,20 @@
                                                 <FormButton type="button" :buttonStyle="citizen?.plans_goals_status === 'none' ? 'plans-none' :
                                                     citizen?.plans_goals_status === 'expiring' ? 'plans-expiring' :
                                                         citizen?.plans_goals_status === 'expired' ? 'plans-expired' :
-                                                            'action'" class="rounded-md"
+                                                            'action'"
                                                     @click="navigateTo(`/citizens/${citizen.uuid}/plans-and-goals/all`)">
                                                     <Icon name="ph:list-checks" class="size-4" />
                                                 </FormButton>
                                             </Tooltip>
                                             <Tooltip :text="$t('citizens.table.actions.edit')">
-                                                <FormButton type="button" buttonStyle="action" class="rounded-md"
+                                                <FormButton type="button" buttonStyle="action"
                                                     @click="navigateTo(`/citizens/${citizen.uuid}/edit`)"
                                                     v-if="userStore.getUser?.roles?.[0]?.name === 'Admin'">
                                                     <Icon name="ph:pencil-simple" class="size-4" />
                                                 </FormButton>
                                             </Tooltip>
                                             <Tooltip :text="$t('citizens.table.actions.latestJournalEntry')">
-                                                <FormButton type="button" buttonStyle="action" class="rounded-md"
+                                                <FormButton type="button" buttonStyle="action"
                                                     @click="showCitizenNote(citizen)">
                                                     <Icon name="ph:note" class="size-4" />
                                                 </FormButton>
@@ -216,12 +299,10 @@
                                                     citizen.latest_risk_assessment?.assessment === 'no risk' && 'no-risk' ||
                                                     citizen.latest_risk_assessment?.assessment === 'increased risk' && 'increased-risk' ||
                                                     citizen.latest_risk_assessment?.assessment === 'acute increased risk' && 'acute-increased-risk' || 'action'"
-                                                class="rounded-md"
                                                 @click="navigateTo(`/citizens/${citizen.uuid}/journals`)" :class="[
                                                     citizen.latest_risk_assessment?.assessment === 'no risk' && 'bg-green-700',
                                                     citizen.latest_risk_assessment?.assessment === 'increased risk' && 'bg-yellow-500',
                                                     citizen.latest_risk_assessment?.assessment === 'acute increased risk' && 'bg-red-600',
-                                                    'rounded-md'
                                                 ]">
                                                 {{ $t('citizens.table.actions.latestRiskAssessment') }}
                                             </FormButton>
@@ -249,34 +330,26 @@
                 @close="state.modal.isGuidedTourCitizensOverviewOpen = false" />
 
             <ModulesUserCitizenTimeRegistrationModalType :isModalOpen="state.modal.isTimeInTypeModalOpen"
-                @close="state.modal.isTimeInTypeModalOpen = false" @openTransport="openTransportLogin" @open-work="workLogin" />
-            <ModulesUserCitizenTimeRegistrationModalTransport type="login" :isModalOpen="state.modal.isTransportLoginOpen" @transportLogin="transportLogin"
+                @close="state.modal.isTimeInTypeModalOpen = false" @openTransport="openTransportLogin"
+                @open-work="workLogin" />
+            <ModulesUserCitizenTimeRegistrationModalTransport type="login"
+                :isModalOpen="state.modal.isTransportLoginOpen" @transportLogin="transportLogin"
                 @close="state.modal.isTransportLoginOpen = false" @submitTransportLogin="transportLogin" />
-            <ModulesUserCitizenTimeRegistrationModalTransport type="logout" :isModalOpen="state.modal.isTransportLogoutOpen" @transportLogout="transportLogout"
+            <ModulesUserCitizenTimeRegistrationModalTransport type="logout"
+                :isModalOpen="state.modal.isTransportLogoutOpen" @transportLogout="transportLogout"
                 @close="state.modal.isTransportLogoutOpen = false" @submitTransportLogout="transportLogout" />
-            <ModulesUserCitizenModalViewLocations
-                :isModalOpen="state.modal.isViewLocationsOpen"
-                :citizens="state.citizens?.data || []"
-                @close="state.modal.isViewLocationsOpen = false"
-            />
-            <ModulesUserCitizenTimeRegistrationModalConfirmArrival
-                :isModalOpen="state.modal.isConfirmArrivalOpen"
+            <ModulesUserCitizenModalViewLocations :isModalOpen="state.modal.isViewLocationsOpen"
+                :citizens="state.citizens?.data || []" @close="state.modal.isViewLocationsOpen = false" />
+            <ModulesUserCitizenTimeRegistrationModalConfirmArrival :isModalOpen="state.modal.isConfirmArrivalOpen"
                 :citizenName="`${state.selectedCitizen?.firstname || ''} ${state.selectedCitizen?.lastname || ''}`"
-                :citizenAddress="state.selectedCitizen?.address?.street || ''"
-                :distanceInMeters="state.arrivalDistance"
+                :citizenAddress="state.selectedCitizen?.address?.street || ''" :distanceInMeters="state.arrivalDistance"
                 :totalDistanceKm="locationTracking.getTotalDistanceKm()"
-                @close="state.modal.isConfirmArrivalOpen = false"
-                @confirmed="onArrivalConfirmed"
-                @dismissed="onArrivalDismissed"
-            />
-            <ModulesUserCitizenTimeRegistrationModalConfirmWorking
-                :isModalOpen="state.modal.isConfirmWorkingOpen"
+                @close="state.modal.isConfirmArrivalOpen = false" @confirmed="onArrivalConfirmed"
+                @dismissed="onArrivalDismissed" />
+            <ModulesUserCitizenTimeRegistrationModalConfirmWorking :isModalOpen="state.modal.isConfirmWorkingOpen"
                 :citizenName="`${state.selectedCitizen?.firstname || ''} ${state.selectedCitizen?.lastname || ''}`"
-                :workingMinutes="state.workingMinutes"
-                @close="state.modal.isConfirmWorkingOpen = false"
-                @confirmed="onWorkConfirmed"
-                @dismissed="onWorkDismissed"
-            />
+                :workingMinutes="state.workingMinutes" @close="state.modal.isConfirmWorkingOpen = false"
+                @confirmed="onWorkConfirmed" @dismissed="onWorkDismissed" />
         </NuxtLayout>
     </div>
 </template>
@@ -292,6 +365,7 @@ import { useUserStore } from '@/store/user'
 import type { Error } from '@/types'
 import { saveAs } from 'file-saver'
 import { citizenInquiryService } from '@/components/api/user/CitizenInquiryService'
+import { departmentService } from '@/components/api/user/DepartmentService'
 import { useI18n } from 'vue-i18n'
 
 const runtimeConfig = useRuntimeConfig()
@@ -334,6 +408,7 @@ const state = reactive({
     selectedCitizen: null as any,
     arrivalDistance: 0,
     workingMinutes: 0,
+    departments: [] as any,
 })
 
 const arrivalCheckState = reactive({
@@ -346,7 +421,12 @@ const workCheckState = reactive({
 })
 
 const isTransportRegistrationEnabled = computed(() => {
-    return userStore.getUser?.register_transport_enabled === true
+    return userStore.getUser?.can_register_transport === true
+})
+
+const isShelterOrCrisisCenter = computed(() => {
+    return userStore.getUser?.company?.industry?.system_name === 'social_welfare'
+        && ['Crisis center', 'Shelter'].includes(userStore.getUser?.company?.facility_type?.en_name)
 })
 
 const isInterventionCheckinEnabled = computed(() => {
@@ -355,6 +435,7 @@ const isInterventionCheckinEnabled = computed(() => {
 
 onMounted(() => {
     fetchCitizens()
+    fetchExportDepartments()
 
     if (isTransportRegistrationEnabled.value) {
         const savedLocationState = locationTracking.getSavedTrackingState()
@@ -363,7 +444,7 @@ onMounted(() => {
                 const trackingCitizen = state.citizens?.data?.find(
                     (c: any) => c.uuid === savedLocationState.citizenUuid && c.is_checked_in
                 )
-                
+
                 if (trackingCitizen && savedLocationState.careHourUuid) {
                     state.selectedCitizen = trackingCitizen
                     arrivalCheckState.hasShownPrompt = locationTracking.getArrivalPromptShown()
@@ -374,16 +455,16 @@ onMounted(() => {
             })
         }
     }
-    
+
     const savedWorkState = workTimeTracking.getSavedWorkTimeState()
     if (savedWorkState && savedWorkState.isWorking && savedWorkState.careHourUuid) {
         console.log('Restoring work time tracking from localStorage')
-        
+
         nextTick(() => {
             const workingCitizen = state.citizens?.data?.find(
                 (c: any) => c.uuid === savedWorkState.citizenUuid && c.is_checked_in
             )
-            
+
             if (workingCitizen) {
                 state.selectedCitizen = workingCitizen
                 workTimeTracking.restoreFromState(savedWorkState, showWorkPrompt)
@@ -435,21 +516,21 @@ function checkIfNearCitizen(userLocation: { lat: number; lng: number }) {
 
 function showWorkPrompt() {
     if (workCheckState.hasShownPrompt) return
-    
+
     workCheckState.hasShownPrompt = true
     state.workingMinutes = workTimeTracking.getWorkingMinutes()
     state.modal.isConfirmWorkingOpen = true
-    
+
     console.log(`Work prompt shown after ${state.workingMinutes} minutes`)
 }
 
 async function onArrivalConfirmed() {
     await locationTracking.logCurrentLocation()
-    
+
     const currentLat = locationTracking.currentLocation.value?.lat
     const currentLng = locationTracking.currentLocation.value?.lng
     const totalDistanceKm = locationTracking.getTotalDistanceKm()
-    
+
     let arrivalAddress = ''
     if (currentLat && currentLng) {
         try {
@@ -469,13 +550,13 @@ async function onArrivalConfirmed() {
             arrivalAddress = `${currentLat}, ${currentLng}`
         }
     }
-    
+
     state.error = {}
     state.isTableLoading = true
     try {
         if (state.selectedCitizen?.is_checked_in) {
             await stopLocationTracking()
-            
+
             const params = {
                 is_transportation: true,
                 geo_end_lat: currentLat,
@@ -483,7 +564,7 @@ async function onArrivalConfirmed() {
                 end_address: arrivalAddress,
                 note: `${t('citizens.timeRegistration.confirmArrival.arrivedAt')} ${arrivalAddress}. ${t('citizens.timeRegistration.confirmArrival.totalDistance')}: ${totalDistanceKm.toFixed(2)}km`
             }
-            
+
             const response = await interventionHoursService.checkout(state.selectedCitizen.uuid, params)
             if (response?.data) {
                 await fetchCitizens()
@@ -515,13 +596,13 @@ function onWorkDismissed() {
 
 function startLocationTracking(careHourUuid: string) {
     if (!isTransportRegistrationEnabled.value) return
-    
+
     arrivalCheckState.hasShownPrompt = locationTracking.getArrivalPromptShown()
-    
+
     locationTracking.startTracking(
         careHourUuid,
-        (location) => {},
-        (error) => {},
+        (location) => { },
+        (error) => { },
         30000,
         state.selectedCitizen?.uuid,
         `${state.selectedCitizen?.firstname} ${state.selectedCitizen?.lastname}`,
@@ -600,12 +681,26 @@ function showCitizenNote(citizen: any) {
     state.modal.isShowNote = true
 }
 
-async function exportCitizens() {
+async function fetchExportDepartments() {
+    state.error = {}
+    try {
+        const params = {}
+        const response = await departmentService.getAllDepartments(params)
+        if (response) {
+            state.departments = response
+        }
+    } catch (error: any) {
+        state.error = error
+    }
+}
+
+async function exportCitizens(departmentParams: { department?: string, department_uuid?: string }) {
     state.error = {}
     state.isTableLoading = true
     try {
         const params = {
-            department: departmentStore.getSelectedDepartmentName,
+            department: departmentParams.department ?? departmentStore.getSelectedDepartmentName,
+            department_uuid: departmentParams.department_uuid ?? departmentStore.getSelectedDepartment?.uuid,
         }
         const response = await citizenService.exportCitizens(params)
         if (response) {
@@ -654,7 +749,7 @@ function selectTimeInType() {
         workLogin()
         return
     }
-    
+
     state.modal.isTimeInTypeModalOpen = true
 }
 
@@ -667,9 +762,9 @@ async function workLogin() {
             const response = await interventionHoursService.checkin(state.selectedCitizen.uuid, params)
             if (response?.data) {
                 const careHourUuid = response.data.uuid || response.data.citizen_care_hour_uuid
-                
+
                 await fetchCitizens()
-                
+
                 if (careHourUuid) {
                     workTimeTracking.startTracking(
                         careHourUuid,
@@ -691,7 +786,7 @@ function openTransportLogin() {
         console.warn('Transport registration is disabled')
         return
     }
-    
+
     state.modal.isTimeInTypeModalOpen = false
     state.modal.isTransportLoginOpen = true
 }
@@ -701,7 +796,7 @@ function openTransportLogout() {
         console.warn('Transport registration is disabled')
         return
     }
-    
+
     state.modal.isTimeInTypeModalOpen = false
     state.modal.isTransportLogoutOpen = true
 }
@@ -711,7 +806,7 @@ async function transportLogin(transportLoginDetails: any) {
         console.error('Transport registration is disabled')
         return
     }
-    
+
     state.error = {}
     state.isTableLoading = true
     try {
@@ -726,10 +821,10 @@ async function transportLogin(transportLoginDetails: any) {
             const response = await interventionHoursService.checkin(state.selectedCitizen.uuid, params)
             if (response?.data) {
                 const careHourUuid = response.data.uuid || response.data.citizen_care_hour_uuid
-                
+
                 await fetchCitizens()
                 state.modal.isTransportLoginOpen = false
-                
+
                 if (careHourUuid) {
                     startLocationTracking(careHourUuid)
                 }
@@ -746,7 +841,7 @@ async function workLogout() {
     state.isTableLoading = true
     try {
         workTimeTracking.stopTracking()
-        
+
         const params = {}
         const response = await interventionHoursService.checkout(state.selectedCitizen.uuid, params)
         if (response?.data) {
@@ -765,13 +860,13 @@ async function transportLogout(transportLogoutDetails: any) {
         console.error('Transport registration is disabled')
         return
     }
-    
+
     state.error = {}
     state.isTableLoading = true
     try {
         if (state.selectedCitizen?.is_checked_in) {
             await stopLocationTracking()
-            
+
             const params = {
                 is_transportation: true,
                 geo_end_lat: transportLogoutDetails.geo_end_lat,

@@ -46,8 +46,8 @@
                     <div class="absolute right-11 -top-10 sm:right-16 sm:-top-10 md:right-24 md:-top-11">
                         <div class="relative">
                             <img src="/img/icons/discount-badge.svg" alt="Discount" width="73px">
-                            <div class="text-xxs text-center font-semibold text-white absolute top-8 right-5 w-10">
-                                <p class="text-center" :class="language.locale.value === 'dk' && 'ml-1.5'">
+                            <div class="absolute inset-0 z-10 flex items-center justify-center">
+                                <p class="text-xxs font-semibold !text-white text-center leading-tight">
                                     {{ $t('subscription.discount.discount') }}
                                 </p>
                             </div>
@@ -162,7 +162,12 @@
                                     <Icon name="ph:check"
                                         :class="[index === 1 ? 'text-white' : 'text-primary', 'h-6 w-5 flex-none']"
                                         aria-hidden="true" />
-                                    {{ $t('subscription.deal.telephoneSupport') }}
+                                    <span v-if="deal.name === 'Pro'">
+                                        {{ $t('subscription.deal.telephoneSupport') }}
+                                    </span>
+                                    <span v-else>
+                                        {{ $t('subscription.deal.chatSupport') }}
+                                    </span>
                                 </li>
                                 <li :class="[index === 1 ? 'text-white' : 'text-primary', 'flex gap-x-2']"
                                     v-if="deal.name === 'Pro'">
@@ -293,7 +298,12 @@
                                     <Icon name="ph:check"
                                         :class="[index === 1 ? 'text-white' : 'text-primary', 'h-6 w-5 flex-none']"
                                         aria-hidden="true" />
-                                    {{ $t('subscription.deal.telephoneSupport') }}
+                                    <span v-if="deal.name === 'Pro'">
+                                        {{ $t('subscription.deal.telephoneSupport') }}
+                                    </span>
+                                    <span v-else>
+                                        {{ $t('subscription.deal.chatSupport') }}
+                                    </span>
                                 </li>
                                 <li :class="[index === 1 ? 'text-white' : 'text-primary', 'flex gap-x-2']"
                                     v-if="deal.name === 'Pro'">
@@ -386,7 +396,12 @@
                                 </li>
                                 <li class="text-primary flex gap-x-2 lowercase">
                                     <Icon name="ph:check" class="text-primary h-6 w-5 flex-none" aria-hidden="true" />
-                                    {{ $t('subscription.deal.telephoneSupport') }}
+                                    <span v-if="deal.name === 'Pro'">
+                                        {{ $t('subscription.deal.telephoneSupport') }}
+                                    </span>
+                                    <span v-else>
+                                        {{ $t('subscription.deal.chatSupport') }}
+                                    </span>
                                 </li>
                                 <li class="text-primary flex gap-x-2 lowercase" v-if="deal.name === 'Pro'">
                                     <Icon name="ph:check" class="text-primary h-6 w-5 flex-none" aria-hidden="true" />

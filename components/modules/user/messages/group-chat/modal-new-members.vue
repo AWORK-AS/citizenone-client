@@ -16,7 +16,7 @@
                             </div>
                         </div>
                         <div class="mt-6 mb-2">
-                            <FormButton type="submit" buttonStyle="primary" class="w-full rounded-md">
+                            <FormButton type="submit" buttonStyle="primary" class="w-full">
                                 {{ $t('messages.groupChat.add') }}
                             </FormButton>
                         </div>
@@ -91,7 +91,7 @@ async function fetchAvailableGroupMembers() {
             response.data.forEach(
                 (user: any) => options.push({
                     value: user?.uuid,
-                    label: user?.firstname + " " + user?.lastname,
+                    label: user?.firstname + " " + (user?.lastname ?? ''),
                 })
             )
             state.options.users = options

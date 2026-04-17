@@ -1,17 +1,19 @@
 <template>
     <LoadingSpinner :isActive="state.isPageLoading">
-        <div class="flex flex-col items-center">
-            <FormButton buttonStyle="incident" @click="state.modal.isReportUseOfForceOpen = true">
+        <div class="flex flex-col items-center gap-y-1.5">
+            <button type="button"
+                class="inline-flex items-center gap-x-1.5 rounded-lg bg-red-400 px-3 py-1.5 text-xs font-semibold text-white hover:bg-red-500 transition-colors whitespace-nowrap"
+                @click="state.modal.isReportUseOfForceOpen = true">
                 ! {{ $t('citizens.useOfForce.reportUseOfForce') }}
-            </FormButton>
+            </button>
             <div class="flex items-center" @click="state.slideOver.isReportUseOfForceOpen = true">
                 <Tooltip :text="$t('citizens.useOfForce.missingAttachmentToOneOrMoreRecord')"
                     v-if="props.selectedCitizen?.data?.is_missing_form" class="mt-1.5 cursor-pointer">
                     <Icon name="ph:warning" class="h-5 w-5 text-yellow-500" aria-hidden="true" />
                 </Tooltip>
-                <FormButton buttonStyle="incident-link">
+                <button type="button" class="text-xs font-semibold text-red-600 hover:text-red-700 transition-colors whitespace-nowrap">
                     {{ $t('citizens.useOfForce.seePreviousUseOfForce') }}
-                </FormButton>
+                </button>
             </div>
             <ModulesUserCitizenUseOfForceSlideOver :isOpen="state.slideOver.isReportUseOfForceOpen"
                 @close="state.slideOver.isReportUseOfForceOpen = false" />

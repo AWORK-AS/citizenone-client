@@ -7,7 +7,7 @@
             v-if="state.error?.message && state.error.message.length > 0" />
 
         <div
-            class="bg-white shadow-md rounded-md border-l-8 border-secondary mt-2 text-sm space-y-2 pr-5 pt-5 pb-5 pl-6 mr-1">
+            class="bg-white shadow-md rounded-md border-l-8 border-primary mt-2 text-sm space-y-2 pr-5 pt-5 pb-5 pl-6 mr-1">
             <div class="space-y-1">
                 <div class="flex items-center justify-between">
                     <div class="flex items-center gap-x-2">
@@ -23,7 +23,7 @@
             </div>
         </div>
         <div
-            class="bg-white shadow-md rounded-md border-l-8 border-secondary mt-2 text-sm space-y-2 pr-5 pt-5 pb-5 pl-6 mr-1">
+            class="bg-white shadow-md rounded-md border-l-8 border-primary mt-2 text-sm space-y-2 pr-5 pt-5 pb-5 pl-6 mr-1">
             <div class="flex items-center justify-between">
                 <div class="flex items-center gap-x-2">
                     <div class="w-2.5 h-2.5 bg-yellow-500 rounded-sm"></div>
@@ -37,7 +37,7 @@
             </div>
         </div>
         <div
-            class="bg-white shadow-md rounded-md border-l-8 border-secondary mt-2 text-sm space-y-2 pr-5 pt-5 pb-5 pl-6 mr-1">
+            class="bg-white shadow-md rounded-md border-l-8 border-primary mt-2 text-sm space-y-2 pr-5 pt-5 pb-5 pl-6 mr-1">
             <div class="flex items-center justify-between">
                 <div class="flex items-center gap-x-2">
                     <div class="w-2.5 h-2.5 bg-red-600 rounded-sm"></div>

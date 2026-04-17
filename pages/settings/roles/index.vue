@@ -18,7 +18,7 @@
 
             <div class="mt-8">
                 <div class="flex justify-end items-center mb-5">
-                    <FormButton buttonStyle="action" class="rounded-lg" @click="navigateTo('/settings/roles/new')">
+                    <FormButton buttonStyle="action" @click="navigateTo('/settings/roles/new')">
                         <Icon name="ph:plus" class="h-4 w-4" aria-hidden="true" />
                         {{ $t('roles.addNewRole') }}
                     </FormButton>
@@ -53,13 +53,13 @@
                                     </td>
                                     <td width="30%">
                                         <div class="flex items-end justify-end gap-2">
-                                            <FormButton type="button" buttonStyle="action" class="rounded-md"
+                                            <FormButton type="button" buttonStyle="action"
                                                 @click="navigateTo(`/settings/roles/${role.id}/edit`)"
                                                 v-if="role?.is_editable">
                                                 <Icon name="ph:pencil-simple" class="size-4" />
                                                 {{ $t('roles.table.actions.edit') }}
                                             </FormButton>
-                                            <FormButton type="button" buttonStyle="danger" class="rounded-md"
+                                            <FormButton type="button" buttonStyle="danger"
                                                 @click="deleteRoleConfirmation(role)" v-if="role?.is_deletable">
                                                 <Icon name="ph:trash" class="size-4" />
                                                 {{ $t('roles.table.actions.delete') }}
@@ -144,7 +144,27 @@ const PERMISSION_LABELS: Record<string, string> = {
     'create_citizen_health': 'roles.permissions.createCitizenHealth',
     'view_citizen_health': 'roles.permissions.viewCitizenHealth',
     'update_citizen_health': 'roles.permissions.updateCitizenHealth',
-    'delete_citizen_health': 'roles.permissions.deleteCitizenHealth'
+    'delete_citizen_health': 'roles.permissions.deleteCitizenHealth',
+    'create_citizen_medicine': 'roles.permissions.createCitizenMedicine',
+    'update_citizen_medicine': 'roles.permissions.updateCitizenMedicine',
+    'delete_citizen_medicine': 'roles.permissions.deleteCitizenMedicine',
+    'create_citizen_plan': 'roles.permissions.createCitizenPlan',
+    'update_citizen_plan': 'roles.permissions.updateCitizenPlan',
+    'delete_citizen_plan': 'roles.permissions.deleteCitizenPlan',
+    'create_citizen_document': 'roles.permissions.createCitizenDocument',
+    'update_citizen_document': 'roles.permissions.updateCitizenDocument',
+    'delete_citizen_document': 'roles.permissions.deleteCitizenDocument',
+    'create_citizen_economy': 'roles.permissions.createCitizenEconomy',
+    'update_citizen_economy': 'roles.permissions.updateCitizenEconomy',
+    'delete_citizen_economy': 'roles.permissions.deleteCitizenEconomy',
+    'create_citizen_contact': 'roles.permissions.createCitizenContact',
+    'update_citizen_contact': 'roles.permissions.updateCitizenContact',
+    'delete_citizen_contact': 'roles.permissions.deleteCitizenContact',
+    'create_citizen_children': 'roles.permissions.createCitizenChildren',
+    'update_citizen_children': 'roles.permissions.updateCitizenChildren',
+    'delete_citizen_children': 'roles.permissions.deleteCitizenChildren',
+    'delete_calendar': 'roles.permissions.deleteCalendar',
+    'create_citizen': 'roles.permissions.createCitizen',
 }
 
 onMounted(() => {

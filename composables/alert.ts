@@ -6,6 +6,7 @@ export function useAlert() {
             title: title,
             text: message || 'An unknown error occurred.',
             type: 'error',
+            duration: 5000, // 5 seconds
         })
     }
 
@@ -14,6 +15,7 @@ export function useAlert() {
             title: title,
             text: message,
             type: 'success',
+            duration: 5000, // 5 seconds
         })
     }
 

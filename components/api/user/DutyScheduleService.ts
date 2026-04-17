@@ -21,12 +21,20 @@ class DutyScheduleService extends BaseAPIService {
         return await this.request(`/user/duty-schedules/${scheduleUuid}`, 'DELETE', params)
     }
 
+    async moveShift(scheduleUuid: any, params?: object): Promise<any> {
+        return await this.request(`/user/duty-schedules/${scheduleUuid}/move-shift`, 'POST', params)
+    }
+
     async downloadDutySchedules(params: object): Promise<any> {
         return await this.request(`/user/duty-schedules/download/report`, 'GET', params)
     }
 
     async getDutyScheduleAbsencePercentage(params: object): Promise<any> {
         return await this.request(`/user/duty-schedules/show/percentage`, 'GET', params)
+    }
+
+    async getShiftTypesDistribution(params: object): Promise<any> {
+        return await this.request(`/user/duty-schedules/employee/shift-distribution`, 'GET', params)
     }
 
     async copyEmployeeWeeklyDutySchedule(params: object): Promise<any> {

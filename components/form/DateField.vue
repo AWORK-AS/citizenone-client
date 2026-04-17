@@ -2,9 +2,9 @@
     <flat-pickr v-model="state.dateValue" :config="state.datePickerConfig" :id="props.id" :name="props.name"
         @on-change="updateValue" :placeholder="props.placeholder" :class="[
             props.dateType === 'duty-schedule' && 'h-11 text-center rounded-none border-l-0 border-r-0 border border-gray-300 focus:outline-none',
-            props.dateType === 'calendar' && 'h-11 text-center rounded-none border-l-0 border-r-0 border border-gray-300 focus:outline-none',
-            !props.dateType && 'border-primary focus:outline-none focus:ring-primary focus:border-primary',
-            'appearance-none block w-full px-3 py-2.5 border placeholder-gray-500 text-gray-900 rounded-md focus:z-10 sm:text-sm'
+            props.dateType === 'calendar' && 'h-11 text-center rounded-none border-0 focus:outline-none bg-transparent',
+            !props.dateType && 'rounded-full border border-gray-200 focus:outline-none focus:ring-primary focus:border-primary',
+            'appearance-none block w-full px-5 py-3 placeholder-gray-500 text-gray-900 focus:z-10 sm:text-sm'
         ]" />
 </template>
 
@@ -51,7 +51,7 @@ const state = reactive({
             firstDayOfWeek: 1, // Set Monday as the first day of the week
         },
         weekNumbers: true,
-        minDate: props.disablePreviousWeeks ? moment().startOf('isoWeek').toDate() : new Date(0), // Disable previous weeks if enabled
+        minDate: props.disablePreviousWeeks ? moment().startOf('isoWeek').toDate() : null, // Disable previous weeks if enabled
     }
 })
 

@@ -76,17 +76,17 @@
             </div>
 
             <div class="flex justify-center mt-3">
-                <FormButton type="button" buttonStyle="primary" @click="addAdditionalField" class="rounded-md">
+                <FormButton type="button" buttonStyle="primary" @click="addAdditionalField">
                     {{ $t('citizens.nursingAreas.vitals.form.newFields.addNewField') }}
                 </FormButton>
             </div>
         </div>
         <div class="mt-6">
             <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
-                <FormButton type="button" buttonStyle="cancel" class="rounded-md" @click="emit('closeModal')">
+                <FormButton type="button" buttonStyle="cancel" @click="emit('closeModal')">
                     {{ $t('cancel') }}
                 </FormButton>
-                <FormButton type="submit" buttonStyle="primary" class="rounded-md w-full">
+                <FormButton type="submit" buttonStyle="primary" class="w-full">
                     {{ props.formType === 'create' ? $t('save') :
                         $t('update') }}
                 </FormButton>

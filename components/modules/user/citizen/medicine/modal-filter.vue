@@ -13,7 +13,7 @@
                                     :key="viewFilter.value" :value="viewFilter" :aria-label="viewFilter.title"
                                     v-slot="{ active, checked }">
                                     <div
-                                        :class="[active ? 'border-primary ring-1 ring-primary' : 'border-gray-300', 'relative flex cursor-pointer rounded-lg border bg-white p-4 shadow-xs focus:outline-hidden']">
+                                        :class="[active ? 'border-primary ring-1 ring-primary' : 'border-gray-300', 'relative flex cursor-pointer rounded-full border bg-white p-4 shadow-xs focus:outline-hidden']">
                                         <span class="flex flex-1">
                                             <span class="flex flex-col">
                                                 <p class="block text-sm font-medium text-gray-900">
@@ -39,7 +39,7 @@
                                             :class="[!checked ? 'invisible' : '', 'size-5 text-primary']"
                                             aria-hidden="true" />
                                         <span
-                                            :class="[active ? 'border' : 'border-1', checked ? 'border-primary' : 'border-transparent', 'pointer-events-none absolute -inset-px rounded-lg']"
+                                            :class="[active ? 'border' : 'border-1', checked ? 'border-primary' : 'border-transparent', 'pointer-events-none absolute -inset-px rounded-full']"
                                             aria-hidden="true" />
                                     </div>
                                 </RadioGroupOption>
@@ -48,10 +48,10 @@
                     </div>
                     <div class="mt-6">
                         <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
-                            <FormButton type="button" buttonStyle="cancel" class="rounded-md" @click="closeModal()">
+                            <FormButton type="button" buttonStyle="cancel" @click="closeModal()">
                                 {{ $t('cancel') }}
                             </FormButton>
-                            <FormButton type="submit" buttonStyle="primary" class="rounded-md">
+                            <FormButton type="submit" buttonStyle="primary">
                                 {{ $t('filter') }}
                             </FormButton>
                         </div>
@@ -63,7 +63,6 @@
 </template>
 
 <script setup lang="ts">
-import { journalNoteTagService } from '@/components/api/user/JournalNoteTagService'
 import { RadioGroup, RadioGroupOption } from '@headlessui/vue'
 import { useCitizenMedicineStore } from '@/store/citizen-medicines'
 import type { Error } from '@/types'

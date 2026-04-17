@@ -25,6 +25,10 @@ class DraftScheduleService extends BaseAPIService {
         return await this.request(`/user/draft-schedules/show/percentage`, 'GET', params)
     }
 
+    async getShiftTypesDistribution(params: object): Promise<any> {
+        return await this.request(`/user/draft-schedules/employee/shift-distribution`, 'GET', params)
+    }
+
     async copyEmployeeWeeklyDraftDutySchedule(params: object): Promise<any> {
         return await this.request(`/user/draft-schedules/employee/weekly/copy`, 'POST', params)
     }
@@ -43,6 +47,14 @@ class DraftScheduleService extends BaseAPIService {
 
     async scheduleValidation(params: object): Promise<any> {
         return await this.request(`/user/draft-schedules/schedule/validation`, 'POST', params)
+    }
+
+    async getCompensatoryReport(employeeUuid: any, params: object): Promise<any> {
+        return await this.request(`/user/draft-schedules/compensatory-time/${employeeUuid}/report`, 'GET', params)
+    }
+
+    async getCompensatoryVacationHours(params: object): Promise<any> {
+        return await this.request(`/user/draft-schedules/overview/compensatory-vacation-hours`, 'GET', params)
     }
 }
 

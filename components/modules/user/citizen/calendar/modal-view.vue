@@ -4,8 +4,7 @@
             <template #modal-body>
                 <LoadingSpinner :isActive="state.isPageLoading">
                     <div class="flex justify-end">
-                        <FormButton type="button" buttonStyle="danger" class="rounded-md"
-                            @click="state.modal.isDeleteScheduleOpen = true">
+                        <FormButton type="button" buttonStyle="danger" @click="state.modal.isDeleteScheduleOpen = true">
                             {{ $t('citizens.calendar.delete') }}
                         </FormButton>
                     </div>

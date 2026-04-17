@@ -2,47 +2,55 @@
     <div>
         <Modal size="sm" :title="$t('filter')" :show="props.isModalOpen" @close="closeModal">
             <template #modal-body>
-                <form @submit.prevent="submitForm()" id="calendarFilterForm">
-                    <Alert type="danger" :text="state?.error?.message"
-                        v-if="state.error?.message && state.error.message.length > 0" />
-                    <div class="space-y-3">
-                        <div class="space-y-1">
-                            <FormLabel for="department_uuids" :label="$t('citizens.interventionHours.filter.departments')" />
-                            <FormSelectMultiple id="department_uuids" :options="state.options.departments"
-                                v-model="state.formFilter.department_uuids" />
+                <LoadingSpinner :isActive="state.isPageLoading">
+                    <form @submit.prevent="submitForm()" id="calendarFilterForm">
+                        <Alert type="danger" :text="state?.error?.message"
+                            v-if="state.error?.message && state.error.message.length > 0" />
+                        <div class="space-y-3">
+                            <div class="space-y-1">
+                                <FormLabel for="department_uuids"
+                                    :label="$t('citizens.interventionHours.filter.departments')" />
+                                <FormSelectMultiple id="department_uuids" :options="state.options.departments"
+                                    v-model="state.formFilter.department_uuids" />
+                            </div>
+                            <div class="space-y-1" v-if="!props.type || props.type !== 'employee'">
+                                <FormLabel for="employee_uuids"
+                                    :label="$t('citizens.interventionHours.filter.employees')" />
+                                <FormSelectMultiple id="employee_uuids" :options="state.options.employees"
+                                    v-model="state.formFilter.employee_uuids" />
+                            </div>
+                            <div class="space-y-1">
+                                <FormLabel for="citizen_uuids"
+                                    :label="$t('citizens.interventionHours.filter.citizens')" />
+                                <FormSelectMultiple id="citizen_uuids" :options="state.options.citizens"
+                                    v-model="state.formFilter.citizen_uuids" />
+                            </div>
+                            <div class="space-y-1">
+                                <FormLabel for="employment_status"
+                                    :label="$t('citizens.interventionHours.filter.type')" />
+                                <FormSelect id="employment_status" :options="state.options.employment_status"
+                                    v-model="state.formFilter.employment_status" />
+                            </div>
+                            <div class="space-y-1">
+                                <FormLabel for="date_range"
+                                    :label="$t('citizens.interventionHours.filter.filterDate')" />
+                                <FormDateRangeField name="date_range"
+                                    :placeholder="t('citizens.interventionHours.filter.filterDate')"
+                                    v-model="state.formFilter.date_range" />
+                            </div>
                         </div>
-                        <div class="space-y-1" v-if="!props.type || props.type !== 'employee'">
-                            <FormLabel for="employee_uuids" :label="$t('citizens.interventionHours.filter.employees')" />
-                            <FormSelectMultiple id="employee_uuids" :options="state.options.employees"
-                                v-model="state.formFilter.employee_uuids" />
+                        <div class="mt-6">
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
+                                <FormButton type="button" buttonStyle="cancel" @click="closeModal()">
+                                    {{ $t('cancel') }}
+                                </FormButton>
+                                <FormButton type="submit" buttonStyle="primary">
+                                    {{ $t('filter') }}
+                                </FormButton>
+                            </div>
                         </div>
-                        <div class="space-y-1">
-                            <FormLabel for="citizen_uuids" :label="$t('citizens.interventionHours.filter.citizens')" />
-                            <FormSelectMultiple id="citizen_uuids" :options="state.options.citizens"
-                                v-model="state.formFilter.citizen_uuids" />
-                        </div>
-                        <div class="space-y-1">
-                            <FormLabel for="employment_status" :label="$t('citizens.interventionHours.filter.type')" />
-                            <FormSelect id="employment_status" :options="state.options.employment_status"
-                                v-model="state.formFilter.employment_status" />
-                        </div>
-                        <div class="space-y-1">
-                            <FormLabel for="date_range" :label="$t('citizens.interventionHours.filter.filterDate')" />
-                            <FormDateRangeField name="date_range"
-                                v-model="state.formFilter.date_range" />
-                        </div>
-                    </div>
-                    <div class="mt-6">
-                        <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
-                            <FormButton type="button" buttonStyle="cancel" class="rounded-md" @click="closeModal()">
-                                {{ $t('cancel') }}
-                            </FormButton>
-                            <FormButton type="submit" buttonStyle="primary" class="rounded-md">
-                                {{ $t('filter') }}
-                            </FormButton>
-                        </div>
-                    </div>
-                </form>
+                    </form>
+                </LoadingSpinner>
             </template>
         </Modal>
     </div>

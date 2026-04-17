@@ -15,11 +15,10 @@
             <div class="space-y-5">
                 <div class="mt-8 flex flex-col md:flex-row justify-between gap-3">
                     <div class="flex items-center justify-end md:justify-start gap-x-3">
-                        
+
                     </div>
                     <div class="flex flex-wrap items-center justify-end gap-3">
-                        <FormButton buttonStyle="action" class="rounded-md"
-                            @click="state.modal.isAddExpenseOpen = true">
+                        <FormButton buttonStyle="action" @click="state.modal.isAddExpenseOpen = true">
                             <Icon name="ph:plus" class="h-4 w-4" aria-hidden="true" />
                             {{ $t('expenses.addNewExpense') }}
                         </FormButton>
@@ -51,12 +50,18 @@
                                         <span>{{ expense?.category?.name }}</span>
                                     </td>
                                     <td width="10%">
-                                        <span>{{ expense?.amount }}</span>
+                                        <span>{{ formatNumber(locale, expense?.amount_raw) }}</span>
                                     </td>
                                     <td width="10%">
-                                        <div v-if="expense?.status === 'reimbursed'" class="rounded-xl bg-green-100 text-green-800 px-2 py-1 text-xs font-semibold text-center w-fit">{{ $t('expenses.table.reimbursed') }}</div>
-                                        <div v-else-if="expense?.status === 'pending'" class="rounded-xl bg-amber-100 text-red-800 px-2 py-1 text-xs font-semibold text-center w-fit">{{ $t('expenses.table.pending') }}</div>
-                                        <div v-else-if="expense?.status === 'rejected'" class="rounded-xl bg-red-100 text-red-800 px-2 py-1 text-xs font-semibold text-center w-fit">{{ $t('expenses.table.rejected') }}</div>
+                                        <div v-if="expense?.status === 'reimbursed'"
+                                            class="rounded-xl bg-green-100 text-green-800 px-2 py-1 text-xs font-semibold text-center w-fit">
+                                            {{ $t('expenses.table.reimbursed') }}</div>
+                                        <div v-else-if="expense?.status === 'pending'"
+                                            class="rounded-xl bg-amber-100 text-red-800 px-2 py-1 text-xs font-semibold text-center w-fit">
+                                            {{ $t('expenses.table.pending') }}</div>
+                                        <div v-else-if="expense?.status === 'rejected'"
+                                            class="rounded-xl bg-red-100 text-red-800 px-2 py-1 text-xs font-semibold text-center w-fit">
+                                            {{ $t('expenses.table.rejected') }}</div>
                                     </td>
                                     <td width="15%">
                                         <div class="text-tertiary hover:text-tertiary-700 cursor-pointer flex items-center gap-x-1"
@@ -73,31 +78,35 @@
                                     <td width="20%">
                                         <div class="flex items-end gap-2">
                                             <Tooltip :text="$t('expenses.table.actions.view')">
-                                                <FormButton type="button" buttonStyle="action" class="rounded-md"
+                                                <FormButton type="button" buttonStyle="action"
                                                     @click="viewExpense(expense)">
                                                     <Icon name="ph:eye" class="size-4" />
                                                 </FormButton>
                                             </Tooltip>
-                                            <Tooltip :text="$t('expenses.table.actions.edit')" v-if="isAdmin(userStore?.user?.roles) && expense?.status === 'pending'">
-                                                <FormButton type="button" buttonStyle="action" class="rounded-md"
+                                            <Tooltip :text="$t('expenses.table.actions.edit')"
+                                                v-if="isAdmin(userStore?.user?.roles) && expense?.status === 'pending'">
+                                                <FormButton type="button" buttonStyle="action"
                                                     @click="editExpense(expense)">
                                                     <Icon name="ph:pencil-simple" class="size-4" />
                                                 </FormButton>
                                             </Tooltip>
-                                            <Tooltip :text="$t('expenses.table.actions.reject')" v-if="expense?.status !== 'reimbursed' && isAdmin(userStore?.user?.roles) && expense?.status !== 'rejected'">
-                                                <FormButton type="button" buttonStyle="danger" class="rounded-md"
+                                            <Tooltip :text="$t('expenses.table.actions.reject')"
+                                                v-if="expense?.status !== 'reimbursed' && isAdmin(userStore?.user?.roles) && expense?.status !== 'rejected'">
+                                                <FormButton type="button" buttonStyle="danger"
                                                     @click="rejectExpenseConfirmation(expense)">
                                                     <Icon name="ph:file-x-duotone" class="size-4" />
                                                 </FormButton>
                                             </Tooltip>
-                                            <Tooltip :text="$t('expenses.table.actions.reimburse')" v-if="expense?.status !== 'reimbursed' && expense?.status !== 'rejected' && isAdmin(userStore?.user?.roles)">
-                                                <FormButton type="button" buttonStyle="success" class="rounded-md"
+                                            <Tooltip :text="$t('expenses.table.actions.reimburse')"
+                                                v-if="expense?.status !== 'reimbursed' && expense?.status !== 'rejected' && isAdmin(userStore?.user?.roles)">
+                                                <FormButton type="button" buttonStyle="success"
                                                     @click="reimburse(expense)">
                                                     <Icon name="ph:check" class="size-4" />
                                                 </FormButton>
                                             </Tooltip>
-                                            <Tooltip :text="$t('expenses.table.actions.delete')" v-if="isAdmin(userStore?.user?.roles) && expense?.status !== 'pending'">
-                                                <FormButton type="button" buttonStyle="danger" class="rounded-md"
+                                            <Tooltip :text="$t('expenses.table.actions.delete')"
+                                                v-if="isAdmin(userStore?.user?.roles) && expense?.status !== 'pending'">
+                                                <FormButton type="button" buttonStyle="danger"
                                                     @click="deleteExpenseConfirmation(expense)">
                                                     <Icon name="ph:trash" class="size-4" />
                                                 </FormButton>
@@ -117,8 +126,8 @@
                 <ModulesUserDocumentExpenseModalNew :isModalOpen="state.modal.isAddExpenseOpen"
                     @close="state.modal.isAddExpenseOpen = false" @refreshExpenses="fetchExpenses" />
                 <ModulesUserDocumentExpenseModalEdit :isModalOpen="state.modal.isEditExpenseOpen"
-                    :selectedExpense="state.selectedExpense"
-                    @close="state.modal.isEditExpenseOpen = false" @refreshExpenses="fetchExpenses" />
+                    :selectedExpense="state.selectedExpense" @close="state.modal.isEditExpenseOpen = false"
+                    @refreshExpenses="fetchExpenses" />
 
                 <DialogConfirmation :isModalOpen="state.modal.isDeleteExpenseOpen"
                     :message="$t('expenses.confirmation.deleteExpenseConfirmation')"
@@ -132,6 +141,7 @@
 </template>
 
 <script setup lang="ts">
+import { useNumberFormatter } from '@/composables/numberFormatter'
 import { useDatetimeFormatter } from '@/composables/datetimeFormatter'
 import { useI18n } from "vue-i18n"
 import { useAlert } from '@/composables/alert'
@@ -142,9 +152,10 @@ import { expenseService } from '@/components/api/user/ExpenseService'
 
 const runtimeConfig = useRuntimeConfig()
 const { formatDateToReadable } = useDatetimeFormatter()
+const { formatNumber } = useNumberFormatter()
 const { successAlert } = useAlert()
 const userStore = useUserStore() as any
-const { t } = useI18n()
+const { t, locale } = useI18n()
 const router = useRouter()
 const documentFile = ref(null) as any
 let currentTablePage = 1
@@ -180,11 +191,11 @@ const state = reactive({
     isTableLoading: false,
     expenses: [] as any,
     modal: {
-       isRejectExpenseOpen: false,
-       isAddExpenseOpen: false,
-       isEditExpenseOpen: false,
-       isDeleteExpenseOpen: false,
-       isViewExpenseOpen: false,
+        isRejectExpenseOpen: false,
+        isAddExpenseOpen: false,
+        isEditExpenseOpen: false,
+        isDeleteExpenseOpen: false,
+        isViewExpenseOpen: false,
     },
     selectedExpense: {} as any,
     sortData: {
@@ -273,9 +284,10 @@ function editExpense(expense: any) {
         uuid: expense.uuid,
         name: expense.name,
         expense_category_uuid: expense.category?.uuid,
+        citizen_uuid: expense?.citizen?.uuid || '',
         description: expense.description,
         expense_date: expense.expense_date,
-        amount: expense.amount,
+        amount: expense.amount_raw,
         receipt: {
             name: expense.file_name_src,
             url: expense.file_url,

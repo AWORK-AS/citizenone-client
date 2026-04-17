@@ -19,17 +19,16 @@
                         {{ year }}
                     </h3>
                     <div class="space-y-2">
-                        <div class="relative flex items-center rounded-md bg-white shadow-sm md:items-stretch">
+                        <div class="inline-flex items-center rounded-lg border border-gray-200 bg-white shadow-sm overflow-hidden">
                             <button type="button" @click="previousMonth"
-                                class="flex h-11 w-12 items-center justify-center rounded-l-md border-y border-l border-gray-300 pr-1 text-gray-400 hover:text-gray-500 focus:relative md:w-9 md:pr-0 md:hover:bg-gray-50">
+                                class="flex h-11 w-10 flex-shrink-0 items-center justify-center border-r border-gray-200 text-gray-400 hover:text-gray-600 hover:bg-gray-50 transition-colors">
                                 <span class="sr-only">Previous month</span>
                                 <Icon name="heroicons:chevron-left" class="h-5 w-5" aria-hidden="true" />
                             </button>
                             <FormDateField id="date" name="date" :placeholder="$t('dutySchedules.form.date')"
                                 dateType="calendar" v-model="state.selectedDate" />
-                            <span class="relative -mx-px h-5 w-px bg-gray-300 md:hidden" />
                             <button type="button" @click="nextMonth"
-                                class="flex h-11 w-12 items-center justify-center rounded-r-md border-y border-r border-gray-300 pl-1 text-gray-400 hover:text-gray-500 focus:relative md:w-9 md:pl-0 md:hover:bg-gray-50">
+                                class="flex h-11 w-10 flex-shrink-0 items-center justify-center border-l border-gray-200 text-gray-400 hover:text-gray-600 hover:bg-gray-50 transition-colors">
                                 <span class="sr-only">Next month</span>
                                 <Icon name="heroicons:chevron-right" class="h-5 w-5" aria-hidden="true" />
                             </button>
@@ -206,6 +205,14 @@
                                         v-if="myCalendarEvent.calendar_users?.length > 5">
                                         {{ $t('showAll') }}...
                                     </button>
+                                </div>
+                            </div>
+                            <div class="text-gray-500 text-xxs mt-1">
+                                <p>{{ $t('events.createdBy') }}:</p>
+                                <div class="flex flex-wrap gap-1 mt-1">
+                                    <div class="bg-secondary text-xxs p-1 text-white rounded-md">
+                                        {{ myCalendarEvent.creator?.firstname }} {{ myCalendarEvent.creator?.lastname }}
+                                    </div>
                                 </div>
                             </div>
                         </div>

@@ -57,20 +57,20 @@
                                                 </div>
                                                 <div class="-mt-2">
                                                     <FormButton buttonStyle="primary" @click="navigateToSupport()"
-                                                        class="w-full rounded-md">
-                                                        {{ $t('support.goToSupportcenter') }}
+                                                        class="w-full">
+                                                        {{ $t('support.findGuidesHere') }}
                                                     </FormButton>
                                                 </div>
                                                 <div class="mt-2">
                                                     <FormButton buttonStyle="primary" @click="toggleChatVisibility()"
-                                                        class="w-full rounded-md">
+                                                        class="w-full">
                                                         {{ $t('support.chatWithSupport') }}
                                                     </FormButton>
                                                 </div>
                                                 <div class="mt-2">
                                                     <FormButton buttonStyle="primary"
                                                         @click="state.modal.isGuidedTourWelcomeOpen = true"
-                                                        class="w-full rounded-md">
+                                                        class="w-full">
                                                         {{ $t('support.getAGuidedTour') }}
                                                     </FormButton>
                                                 </div>
@@ -86,7 +86,7 @@
                                                     </p>
                                                     <div>
                                                         <FormButton buttonStyle="primary" @click="navigateToCourses()"
-                                                            class="w-full rounded-md">
+                                                            class="w-full">
                                                             {{ $t('support.viewCourses') }}
                                                         </FormButton>
                                                     </div>
@@ -103,8 +103,7 @@
                                                     </p>
                                                     <div>
                                                         <FormButton buttonStyle="primary"
-                                                            @click="navigateToLatestFeatures()"
-                                                            class="w-full rounded-md">
+                                                            @click="navigateToLatestFeatures()" class="w-full">
                                                             {{ $t('support.seeTheNewFeatures') }}
                                                         </FormButton>
                                                     </div>
@@ -121,8 +120,7 @@
                                                     </p>
                                                     <div>
                                                         <FormButton buttonStyle="primary"
-                                                            @click="state.modal.isContactUsOpen = true"
-                                                            class="w-full rounded-md">
+                                                            @click="state.modal.isContactUsOpen = true" class="w-full">
                                                             {{ $t('support.sendUsYourRequests') }}
                                                         </FormButton>
                                                     </div>
@@ -230,7 +228,7 @@ function handleBackGuidedTour(back: any) {
 }
 
 function handleNextGuidedTour(next: any) {
-    if (next === 'daily-overview') {
+    if (next === 'overview') {
         state.modal.isGuidedTourWelcomeOpen = false
         state.modal.isGuidedTourDailyOverviewOpen = true
     }

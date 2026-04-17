@@ -20,14 +20,12 @@
                 <LoadingSpinner :isActive="state.isPageLoading">
                     <div class="flex gap-x-3 justify-end" v-if="isAdmin(userStore.getUser?.roles)">
                         <div class="flex justify-end">
-                            <FormButton type="button" buttonStyle="warning" class="rounded-md"
-                                @click="confirmCitizenArchiving">
+                            <FormButton type="button" buttonStyle="warning" @click="confirmCitizenArchiving">
                                 {{ $t('employees.archiveEmployee') }}
                             </FormButton>
                         </div>
                         <div class="flex justify-end" v-if="userStore.getUser?.uuid !== employeeUuid">
-                            <FormButton type="button" buttonStyle="danger" class="rounded-md"
-                                @click="confirmEmployeeDeletion">
+                            <FormButton type="button" buttonStyle="danger" @click="confirmEmployeeDeletion">
                                 {{ $t('employees.deleteEmployee') }}
                             </FormButton>
                         </div>
@@ -94,7 +92,6 @@ const state = reactive({
         post_code: '',
         permissions: [],
         show_working_hours: false,
-        register_transport_enabled: false,
         do_not_count_sick_leave: false,
         media_risks: [],
         pages: [],
@@ -154,7 +151,6 @@ async function fetchEmployee() {
                 post_code: response?.data?.employee_address?.post_code ?? '',
                 permissions: response?.data?.permissions ?? [],
                 show_working_hours: response?.data?.show_working_hours ?? false,
-                register_transport_enabled: response?.data?.register_transport_enabled ?? false,
                 do_not_count_sick_leave: response?.data?.do_not_count_sick_leave ?? false,
                 media_risks: [],
                 pages: [],
@@ -228,7 +224,6 @@ async function updateEmployee(employeeDetails: any) {
         params.append('role', employeeDetails.role)
         params.append('permission', JSON.stringify(employeeDetails.permissions))
         params.append('show_working_hours', employeeDetails.show_working_hours)
-        params.append('register_transport_enabled', employeeDetails.register_transport_enabled)
         params.append('do_not_count_sick_leave', employeeDetails.do_not_count_sick_leave)
         params.append('media_risk_uuid', JSON.stringify(employeeDetails.media_risks))
         if (employeeDetails.pages) {

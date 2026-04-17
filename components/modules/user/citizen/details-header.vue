@@ -337,7 +337,11 @@
             <ModulesUserCitizenInquiryStayDataModalView :isModalOpen="state.modal.isInquiryStayDataOpen"
                 @close="state.modal.isInquiryStayDataOpen = false" :selectedCitizen="state.selectedCitizen" />
             <ModulesUserCitizenInterventionHoursModalView :isModalOpen="state.modal.isViewPatienCareHoursOpen"
-                @close="state.modal.isViewPatienCareHoursOpen = false" @refreshCitizenDetails="fetchCitizen()" />
+                @close="state.modal.isViewPatienCareHoursOpen = false" @refreshCitizenDetails="fetchCitizen()"
+                @openTimeLogs="switchToTimeLogs" />
+            <ModulesUserCitizenTimeLogsModalView :isModalOpen="state.modal.isViewTimeLogsOpen"
+                :citizenUuid="citizenUuid" @close="state.modal.isViewTimeLogsOpen = false"
+                @openInterventionHours="switchToInterventionHours" />
             <ModulesUserCitizenUseOfForceModalRelevantHelpLinks :isModalOpen="state.modal.isViewRelevantHelpLinksOpen"
                 @close="state.modal.isViewRelevantHelpLinksOpen = false" />
             <ModulesUserCitizenTimeRegistrationModalType :isModalOpen="state.modal.isTimeInTypeModalOpen"
@@ -406,6 +410,7 @@ const state = reactive({
         isInquiryStayDataOpen: false,
         isViewPatienCareHoursOpen: false,
         isViewRelevantHelpLinksOpen: false,
+        isViewTimeLogsOpen: false,
         isTimeInTypeModalOpen: false,
         isTransportLoginOpen: false,
         isTransportLogoutOpen: false,
@@ -428,7 +433,7 @@ const workCheckState = reactive({
 })
 
 const isTransportRegistrationEnabled = computed(() => {
-    return userStore.getUser?.register_transport_enabled === true
+    return userStore.getUser?.can_register_transport === true
 })
 
 const isInterventionCheckinEnabled = computed(() => {
@@ -782,6 +787,16 @@ async function transportLogout(transportLogoutDetails: any) {
         state.error = error
     }
     state.isPageLoading = false
+}
+
+function switchToTimeLogs() {
+    state.modal.isViewPatienCareHoursOpen = false
+    state.modal.isViewTimeLogsOpen = true
+}
+
+function switchToInterventionHours() {
+    state.modal.isViewTimeLogsOpen = false
+    state.modal.isViewPatienCareHoursOpen = true
 }
 
 // ... rest of your access control functions remain the same ...

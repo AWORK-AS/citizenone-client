@@ -25,6 +25,10 @@ class JournalService extends BaseAPIService {
         return await this.request(`/user/citizen-journals/${journalUuid}/lock`, 'PUT')
     }
 
+    async updateJournalPin(journalUuid: any): Promise<any> {
+        return await this.request(`/user/citizen-journals/${journalUuid}/pin`, 'PUT')
+    }
+
     async copyJournal(journalUuid: any, params: object): Promise<any> {
         return await this.request(`/user/citizen-journals/${journalUuid}/copy`, 'POST', params)
     }
@@ -67,6 +71,10 @@ class JournalService extends BaseAPIService {
 
     async deleteSharedJournals(sharedJournalUuid: any): Promise<any> {
         return await this.request(`/user/citizen-journals/share/journal/${sharedJournalUuid}`, 'DELETE')
+    }
+
+    async permanentDeleteJournalLog(changeLogUuid: any): Promise<any> {
+        return await this.request(`/user/citizen-journals/${changeLogUuid}/delete`, 'DELETE')
     }
 }
 

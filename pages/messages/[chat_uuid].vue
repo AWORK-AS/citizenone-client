@@ -1,351 +1,313 @@
 <template>
-    <div>
-        <NuxtLayout name="user">
+    <div class="relative w-full h-full flex flex-col overflow-hidden">
 
-            <Head>
-                <Title>{{ $t('messages.messages') }} - {{ runtimeConfig?.public?.appName }}</Title>
-            </Head>
+        <Alert type="danger" :text="state?.error?.message" v-if="state.error?.message && state.error.message.length > 0"
+            class="mb-3" />
 
-            <template #breadcrumb>
-                <Breadcrumb :links="breadcrumbLinks" />
-            </template>
+        <!-- Loading overlay -->
+        <div v-if="state.isChatHistoryDividerLoading"
+            class="absolute inset-0 bg-white/60 z-10 flex items-center justify-center pointer-events-none">
+            <div class="w-10 h-10 border-b-2 border-gray-400 rounded-full animate-spin"></div>
+        </div>
 
-            <template #header>{{ $t('messages.messages') }}</template>
+        <div class="flex flex-col flex-1 min-h-0">
 
-            <div class="space-y-5">
-                <Alert type="danger" :text="state?.error?.message"
-                    v-if="state.error?.message && state.error.message.length > 0" />
+            <!-- Chat Header -->
+            <div class="flex items-center justify-between px-4 md:px-5 py-3.5 border-b border-gray-100 bg-white gap-2">
+                <!-- Mobile Back Button -->
+                <button
+                    class="md:hidden flex-shrink-0 w-8 h-8 flex items-center justify-center rounded-lg hover:bg-gray-100 transition-colors"
+                    @click="navigateTo('/messages')" :title="$t('back')">
+                    <Icon name="ph:arrow-left" class="w-5 h-5 text-gray-600" aria-hidden="true" />
+                </button>
 
-                <ul>
-                    <li v-for="file in files" :key="file.name">{{ file.name }}</li>
-                </ul>
-
-                <div class="grid grid-cols-1 md:grid-cols-12 gap-x-10 gap-y-4">
-                    <LoadingSpinner :isActive="state.isChatLoading"
-                        class="md:col-span-5 xl:col-span-4 bg-white rounded-md overflow-y-auto" style="height: 80vh;">
-                        <ModulesUserMessagesChats :chats="state.chats" @loadMoreMessages="fetchAdditionalChats" />
-                    </LoadingSpinner>
-                    <LoadingSpinner :isActive="state.isChatHistoryDividerLoading"
-                        class="md:col-span-7 xl:col-span-8 bg-white rounded-md pb-6">
-                        <div class="px-6 py-3 shadow-sm">
-                            <div>
-                                <div v-if="state.chat?.data?.type === 'direct'">
-                                    <div class="h-10">
-                                        <div
-                                            v-if="excludeCurrentUserFromChatMembers(state.chat?.data?.chat_members)?.length > 0">
-                                            <div v-for="(chatMember, index) in excludeCurrentUserFromChatMembers(state.chat?.data?.chat_members)"
-                                                :index="index" class="flex items-center space-x-4">
-                                                <img :src="chatMember?.user?.profile_image ?? '/img/avatars/user.svg'"
-                                                    alt="Item 1" class="w-10 h-10 rounded-full object-cover">
-                                                <div>
-                                                    <h4 class="font-semibold text-sm">
-                                                        {{ chatMember?.user?.firstname + " " +
-                                                            (chatMember?.user?.lastname ?? '') }}
-                                                    </h4>
-                                                    <p class="text-xs line-clamp-1">
-                                                        {{ state.chat?.data?.subject }}
-                                                    </p>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div v-else class="flex items-center space-x-4">
-                                            <img :src="chatToSelf(state.chat?.data?.chat_members)[0]?.user?.profile_image ?? '/img/avatars/user.svg'"
-                                                alt="Item 1" class="w-10 h-10 rounded-full object-cover">
-                                            <div>
-                                                <h4 class="font-semibold text-sm">
-                                                    {{ chatToSelf(state.chat?.data?.chat_members)[0]?.user?.firstname +
-                                                        " " +
-                                                        (chatToSelf(state.chat?.data?.chat_members)[0]?.user?.lastname ??
-                                                            '') }}
-                                                </h4>
-                                                <p class="text-xs line-clamp-1">
-                                                    {{ state.chat?.data?.subject }}
-                                                </p>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div v-if="state.chat?.data?.type === 'group'">
-                                    <div class="flex items-center justify-between">
-                                        <div class="grow flex items-center">
-                                            <div class="mr-6">
-                                                <div class="relative w-9 h-9">
-                                                    <img src="/img/avatars/user.svg" alt="Item 1"
-                                                        class="w-7 h-7 rounded-full object-cover relative top-1.5 left-1">
-                                                    <img src="/img/avatars/user.svg" alt="Item 1"
-                                                        class="w-7 h-7 rounded-full object-cover absolute -top-2.5 left-4">
-                                                    <img src="/img/avatars/user.svg" alt="Item 1"
-                                                        class="w-7 h-7 rounded-full object-cover absolute top-2.5 left-7">
-                                                </div>
-                                            </div>
-                                            <div class="flex-1">
-                                                <Tooltip :text="state.chat?.data?.name" v-if="state.chat?.data?.name">
-                                                    <h4 class="font-semibold text-sm">
-                                                        {{ state.chat?.data?.name }}
-                                                    </h4>
-                                                </Tooltip>
-
-                                                <Tooltip :text="`${chatGroupMembers(state.chat?.data)}.`" v-else>
-                                                    <h4 class="font-semibold text-sm line-clamp-1">
-                                                        {{ chatGroupMembers(state.chat?.data) }}.
-                                                    </h4>
-                                                </Tooltip>
-
-                                                <p class="text-xs line-clamp-1">
-                                                    {{ state.chat?.data?.subject }}
-                                                </p>
-
-                                                <p class="text-xxs" v-if="state.chat?.data?.unread_messages > 0">
-                                                    {{ state.chat?.data?.unread_messages }}
-                                                    <span class="lowercase">
-                                                        {{ $t('messages.unreadMessages') }}
-                                                    </span>
-                                                </p>
-                                            </div>
-                                        </div>
-
-                                        <div class="flex items-center space-x-1">
-                                            <Tooltip :text="$t('messages.groupChat.editGroupName')">
-                                                <button v-if="state.chat?.data?.type === 'group'"
-                                                    @click="editGroupChatName()">
-                                                    <Icon name="ph:pencil-simple"
-                                                        class="h-5 w-5 text-primary hover:text-primary-700"
-                                                        aria-hidden="true" />
-                                                </button>
-                                            </Tooltip>
-                                            <Tooltip :text="$t('messages.groupChat.groupMembers')">
-                                                <button v-if="state.chat?.data?.type === 'group'"
-                                                    @click="state.modal.isManageGroupChatMembersOpen = true">
-                                                    <Icon name="ph:users-three"
-                                                        class="h-6 w-6 text-primary hover:text-primary-700"
-                                                        aria-hidden="true" />
-                                                </button>
-                                            </Tooltip>
-                                        </div>
-                                    </div>
-                                </div>
-
-                            </div>
-                        </div>
-                        <div class="overflow-y-auto pt-4 mb-4" style="height: 62vh;" ref="scrollableChatHistory"
-                            @scroll="handleScroll">
-                            <!-- Chat Messages -->
-                            <div class="px-4 md:px-6">
-                                <div v-if="state.isLastPage && currentPage !== 1"
-                                    class="text-center text-gray-500 text-sm">
-                                    {{ $t('messages.allMessagesAreLoaded') }}
-                                </div>
-                                <div class="text-center text-gray-500 text-sm" v-if="state.isChatHistoryLoading">
-                                    {{ $t('messages.loadingMessages') }}
-                                    <span class="dot1">.</span>
-                                    <span class="dot2">.</span>
-                                    <span class="dot3">.</span>
-                                    <span class="dot4">.</span>
-                                    <span class="dot5">.</span>
-                                </div>
-                                <div v-for="(message, index) in state.messages" :key="index">
-                                    <!-- Message (Right) -->
-                                    <div v-if="message?.sender?.id === userStore.getUser?.id">
-                                        <div class="flex items-start justify-end mb-4">
-                                            <div class="mr-2 flex flex-col items-end">
-                                                <Tooltip position="left"
-                                                    :text="formatDateTimeToReadable(message?.created_at)">
-                                                    <div class="bg-secondary text-white p-3 rounded-lg">
-                                                        <div v-if="message?.chat_message_attachments?.length > 0"
-                                                            class="space-y-3">
-                                                            <div v-for="(attachment, index) in message?.chat_message_attachments"
-                                                                :key="index">
-                                                                <img :src="attachment?.file_url"
-                                                                    alt="Image failed to load."
-                                                                    v-if="isImageFile(attachment?.file_name)"
-                                                                    class="w-44 cursor-pointer"
-                                                                    @click="downloadFile(attachment)">
-                                                                <div v-else
-                                                                    class="flex items-center gap-x-1 w-fit cursor-pointer"
-                                                                    @click="downloadFile(attachment)">
-                                                                    <Icon name="ph:file" class="h-8 w-8"
-                                                                        aria-hidden="true" />
-                                                                    {{ attachment?.file_name }}
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                        <p v-else class="text-sm"
-                                                            v-html="message?.message?.replace(/\n/g, '<br>')" />
-                                                        <div class="mt-2 flex justify-end gap-x-1">
-                                                            <Tooltip position="top" :text="$t('messages.actions.edit')"
-                                                                v-if="!(message?.chat_message_attachments?.length > 0)">
-                                                                <button @click="editChatMessage(index, message)">
-                                                                    <Icon name="ph:pencil-simple" class="h-4 w-4"
-                                                                        aria-hidden="true" />
-                                                                </button>
-                                                            </Tooltip>
-                                                            <Tooltip position="top"
-                                                                :text="$t('messages.actions.delete')">
-                                                                <button @click="deleteChatConfirmation(index, message)">
-                                                                    <Icon name="ph:trash" class="h-4 w-4"
-                                                                        aria-hidden="true" />
-                                                                </button>
-                                                            </Tooltip>
-                                                        </div>
-                                                    </div>
-                                                </Tooltip>
-                                                <!-- seen indicator -->
-                                                <ModulesUserMessagesTooltipSeenBy v-if="message?.receipts?.length > 0"
-                                                    :receipts="message.receipts">
-                                                    <div class="flex items-center mt-1 justify-end">
-                                                        <span class="text-xs text-gray-500 mr-1">
-                                                            {{ $t('messages.seen') }}
-                                                        </span>
-                                                        <div class="flex -space-x-2">
-                                                            <img v-for="(receipt, rIndex) in message.receipts.slice(0, 5)"
-                                                                :key="rIndex"
-                                                                :src="receipt?.user?.profile_image ?? '/img/avatars/user.svg'"
-                                                                class="w-4 h-4 rounded-full border border-white object-cover" />
-                                                        </div>
-                                                        <span v-if="message.receipts.length > 5"
-                                                            class="text-xs text-gray-500 ml-1">
-                                                            +{{ message.receipts.length - 5 }}
-                                                        </span>
-                                                    </div>
-                                                </ModulesUserMessagesTooltipSeenBy>
-                                            </div>
-                                            <div class="flex-shrink-0 flex items-center">
-                                                <img :src="message?.sender?.profile_image ?? '/img/avatars/user.svg'"
-                                                    alt="User" class="w-10 h-10 rounded-full object-cover"
-                                                    v-if="index === 0 || message?.sender?.id !== state.messages[index - 1]?.sender?.id">
-                                                <div v-else class="mr-10"></div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <!-- Message (Left) -->
-                                    <div v-else>
-                                        <p class="text-xs ml-12"
-                                            v-if="index === 0 || message?.sender?.id !== state.messages[index - 1]?.sender?.id">
-                                            {{ message?.sender?.firstname + " " + (message?.sender?.lastname ?? '') }}
-                                        </p>
-                                        <div class="flex items-start mt-1 mb-4">
-                                            <div class="flex-shrink-0">
-                                                <img :src="message?.sender?.profile_image ?? '/img/avatars/user.svg'"
-                                                    alt="User" class="w-10 h-10 rounded-full object-cover"
-                                                    v-if="index === 0 || message?.sender?.id !== state.messages[index - 1]?.sender?.id">
-                                                <div v-else class="ml-10"></div>
-                                            </div>
-                                            <div class="ml-2">
-                                                <Tooltip position="right"
-                                                    :text="formatDateTimeToReadable(message?.created_at)">
-                                                    <div class="bg-gray-200 p-3 rounded-lg">
-                                                        <div v-if="message?.chat_message_attachments?.length > 0"
-                                                            class="space-y-3">
-                                                            <div v-for="(attachment, index) in message?.chat_message_attachments"
-                                                                :key="index">
-                                                                <img :src="attachment?.file_url"
-                                                                    alt="Image failed to load."
-                                                                    v-if="isImageFile(attachment?.file_name)"
-                                                                    class="w-44 cursor-pointer"
-                                                                    @click="downloadFile(attachment)">
-                                                                <div v-else
-                                                                    class="flex items-center gap-x-1 w-fit cursor-pointer"
-                                                                    @click="downloadFile(attachment)">
-                                                                    <Icon name="ph:file" class="h-8 w-8"
-                                                                        aria-hidden="true" />
-                                                                    {{ attachment?.file_name }}
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                        <p v-else class="text-gray-700 text-sm"
-                                                            v-html="message?.message?.replace(/\n/g, '<br>')" />
-                                                    </div>
-                                                </Tooltip>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="flex items-center px-4 md:px-6">
-                            <!-- Chat Input -->
-                            <div class="w-full flex justify-between gap-x-1">
-                                <input ref="fileInput" type="file" multiple @change="handleFileChange" class="hidden" />
-                                <button type="button"
-                                    class="flex items-center px-2 rounded-md focus:outline-none focus:ring-1 focus:ring-primary-700 focus:ring-opacity-50"
-                                    :disabled="state.isPageLoading" @click="triggerFileInput">
-                                    <Icon name="ph:paperclip" class="w-7 h-7 text-primary rounded-full" />
-                                </button>
-                                <textarea type="text" rows="1"
-                                    class="text-sm flex-1 px-4 py-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent"
-                                    placeholder="Type a message..." v-model="state.message" />
-                                <button type="button"
-                                    class="px-4 py-3 bg-secondary text-white rounded-md hover:bg-secondary-600 focus:outline-none focus:ring-1 focus:ring-primary-700 focus:ring-opacity-50"
-                                    @click="sendMessage" :disabled="state.isPageLoading">
-                                    {{ $t('messages.send') }}
-                                </button>
-                            </div>
-                        </div>
-                    </LoadingSpinner>
+                <!-- Direct Chat Header -->
+                <div v-if="state.chat?.data?.type === 'direct'" class="flex items-center gap-3 flex-1 min-w-0">
+                    <div class="relative">
+                        <img :src="getChatHeaderAvatar()" alt="avatar" class="w-9 h-9 rounded-full object-cover" />
+                    </div>
+                    <div>
+                        <h4 class="font-semibold text-sm text-gray-900">{{ getChatHeaderName() }}</h4>
+                        <p class="text-xs text-gray-400 line-clamp-1">{{ state.chat?.data?.subject }}</p>
+                    </div>
                 </div>
-                <ModulesUserMessagesGroupChatModalEditName :isModalOpen="state.modal.isEditGroupNameOpen"
-                    :selectedChat="state.selectedChat" @close="state.modal.isEditGroupNameOpen = false"
-                    @refreshChatDetails="refreshChatDetails" />
-                <ModulesUserMessagesGroupChatModalMembers :isModalOpen="state.modal.isManageGroupChatMembersOpen"
-                    @close="state.modal.isManageGroupChatMembersOpen = false" @refreshChat="fetchChat" />
-                <ModulesUserMessagesModalEditMessage :isModalOpen="state.modal.isEditChatMessageOpen"
-                    :selectedChat="state.selectedChat" @close="state.modal.isEditChatMessageOpen = false"
-                    @updateMessage="updateMessage" />
-                <DialogConfirmation :isModalOpen="state.modal.isUpgradeStorageOpen"
-                    :title="$t('citizens.documents.upgradeStorage')"
-                    :message="state.error?.message + ' ' + $t('citizens.documents.confirmation.upgradeStorageConfirmation') + '?'"
-                    @close="closeUpgradeStorageModal" @confirm="navigateTo(`/storage/upgrade`)" />
-                <DialogConfirmation :isModalOpen="state.modal.isDeleteConfirmationOpen"
-                    :message="$t('messages.confirmation.deleteMessageConfirmation') + '?'"
-                    @close="state.modal.isDeleteConfirmationOpen = false" @confirm="deleteChatMessage" />
+
+                <!-- Group Chat Header -->
+                <div v-if="state.chat?.data?.type === 'group'" class="flex items-center gap-3 flex-1 min-w-0">
+                    <div class="w-9 h-9 rounded-full bg-primary/10 flex items-center justify-center flex-shrink-0">
+                        <Icon name="ph:users-three" class="w-5 h-5 text-primary" aria-hidden="true" />
+                    </div>
+                    <div class="min-w-0">
+                        <Tooltip :text="state.chat?.data?.name || chatGroupMembers(state.chat?.data)" position="bottom">
+                            <h4 class="font-semibold text-sm text-gray-900 line-clamp-1">
+                                {{ state.chat?.data?.name || chatGroupMembers(state.chat?.data) }}
+                            </h4>
+                        </Tooltip>
+                        <p class="text-xs text-gray-400">
+                            {{ state.chat?.data?.chat_members?.length || 0 }} {{ $t('messages.members') }}
+                            <span v-if="state.chat?.data?.unread_messages > 0" class="ml-1 text-primary font-medium">
+                                · {{ state.chat?.data?.unread_messages }} {{ $t('messages.unread') }}
+                            </span>
+                        </p>
+                    </div>
+                </div>
+
+                <!-- Header Actions -->
+                <div class="flex items-center gap-1">
+                    <Tooltip :text="$t('messages.groupChat.editGroupName')" position="left"
+                        v-if="state.chat?.data?.type === 'group'">
+                        <button
+                            class="w-8 h-8 rounded-lg hover:bg-gray-100 flex items-center justify-center transition-colors"
+                            @click="editGroupChatName()">
+                            <Icon name="ph:pencil-simple" class="h-4 w-4 text-gray-500" aria-hidden="true" />
+                        </button>
+                    </Tooltip>
+                    <Tooltip :text="$t('messages.groupChat.groupMembers')" position="left"
+                        v-if="state.chat?.data?.type === 'group'">
+                        <button
+                            class="w-8 h-8 rounded-lg hover:bg-gray-100 flex items-center justify-center transition-colors"
+                            @click="state.modal.isManageGroupChatMembersOpen = true">
+                            <Icon name="ph:users-three" class="h-5 w-5 text-gray-500" aria-hidden="true" />
+                        </button>
+                    </Tooltip>
+                </div>
             </div>
-        </NuxtLayout>
+
+            <!-- Messages Area -->
+            <div class="flex-1 overflow-y-auto px-3 md:px-5 py-4 space-y-1" ref="scrollableChatHistory"
+                @scroll="handleScroll" @click="state.openMessageMenuIndex = null">
+                <!-- Load more indicator -->
+                <div v-if="state.isLastPage && currentPage !== 1" class="text-center text-gray-400 text-xs py-2">
+                    {{ $t('messages.allMessagesAreLoaded') }}
+                </div>
+                <div v-if="state.isChatHistoryLoading" class="text-center text-gray-400 text-xs py-2">
+                    {{ $t('messages.loadingMessages') }}
+                    <span class="dot1">.</span><span class="dot2">.</span><span class="dot3">.</span><span
+                        class="dot4">.</span><span class="dot5">.</span>
+                </div>
+
+                <!-- Messages -->
+                <div v-for="(message, index) in state.messages" :key="index">
+
+                    <!-- Date Divider -->
+                    <div v-if="shouldShowDateDivider(index)" class="flex items-center gap-3 py-2 my-1">
+                        <div class="flex-1 h-px bg-gray-200"></div>
+                        <span class="text-xs text-gray-400 font-medium flex-shrink-0">{{
+                            getMessageDateLabel(message?.created_at) }}</span>
+                        <div class="flex-1 h-px bg-gray-200"></div>
+                    </div>
+
+                    <!-- Sent Message (Right) -->
+                    <div v-if="message?.sender?.id === userStore.getUser?.id"
+                        class="flex flex-col items-end mb-3 group/msg">
+                        <!-- Header: name + time + avatar -->
+                        <div class="flex items-center gap-2 mb-1">
+                            <p class="text-xs text-gray-500 font-medium">
+                                {{ $t('messages.you') }}
+                                <span class="text-gray-400 font-normal">{{
+                                    formatMessageTime(message?.created_at) }}</span>
+                            </p>
+                            <img :src="message?.sender?.profile_image ?? '/img/avatars/user.svg'" alt="User"
+                                class="w-8 h-8 rounded-full object-cover flex-shrink-0" />
+                        </div>
+                        <!-- Bubble row -->
+                        <div class="mr-10 max-w-[85%] md:max-w-[70%] flex flex-col items-end gap-1">
+                            <!-- Bubble with action button anchored to its left center -->
+                            <div class="relative group/bubble">
+                                <!-- Hover action buttons -->
+                                <div
+                                    class="hidden group-hover/msg:flex items-center gap-0.5 absolute right-full pr-2 top-1/2 -translate-y-1/2">
+                                    <div class="relative">
+                                        <button @click.stop="toggleMessageMenu(index)"
+                                            class="w-7 h-7 rounded-lg hover:bg-gray-100 flex items-center justify-center transition-colors"
+                                            :title="$t('messages.actions.more')">
+                                            <Icon name="ph:dots-three" class="h-4 w-4 text-gray-400"
+                                                aria-hidden="true" />
+                                        </button>
+                                        <!-- Dropdown -->
+                                        <div v-if="state.openMessageMenuIndex === index"
+                                            class="absolute right-0 bottom-full mb-1 w-44 bg-white rounded-xl shadow-lg border border-gray-100 py-1 z-20"
+                                            @click.stop>
+                                            <button v-if="!(message?.chat_message_attachments?.length > 0)"
+                                                class="w-full flex items-center gap-3 px-4 py-2.5 text-sm text-gray-700 hover:bg-gray-50 transition-colors"
+                                                @click="editChatMessage(index, message); state.openMessageMenuIndex = null">
+                                                <Icon name="ph:pencil-simple" class="h-4 w-4 text-gray-400"
+                                                    aria-hidden="true" />
+                                                {{ $t('messages.actions.edit') }}
+                                            </button>
+                                            <button
+                                                class="w-full flex items-center gap-3 px-4 py-2.5 text-sm text-red-500 hover:bg-red-50 transition-colors"
+                                                @click="deleteChatConfirmation(index, message); state.openMessageMenuIndex = null">
+                                                <Icon name="ph:trash" class="h-4 w-4 text-red-500" aria-hidden="true" />
+                                                {{ $t('messages.actions.delete') }}
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="bg-secondary text-white px-4 py-2.5 rounded-2xl rounded-br-sm shadow-sm">
+                                    <!-- Attachments -->
+                                    <div v-if="message?.chat_message_attachments?.length > 0" class="space-y-2">
+                                        <div v-for="(attachment, aIndex) in message?.chat_message_attachments"
+                                            :key="aIndex">
+                                            <img :src="attachment?.file_url" alt="Image"
+                                                v-if="isImageFile(attachment?.file_name)"
+                                                class="w-44 rounded-lg cursor-pointer hover:opacity-90"
+                                                @click="downloadFile(attachment)" />
+                                            <div v-else class="flex items-center gap-2 cursor-pointer hover:opacity-80"
+                                                @click="downloadFile(attachment)">
+                                                <Icon name="ph:file" class="h-7 w-7 flex-shrink-0" aria-hidden="true" />
+                                                <span class="text-sm truncate max-w-[180px]">{{
+                                                    attachment?.file_name }}</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <!-- Text -->
+                                    <p v-else class="text-sm leading-relaxed"
+                                        v-html="message?.message?.replace(/\n/g, '<br>')" />
+                                </div>
+                            </div>
+                            <!-- Seen indicator -->
+                            <ModulesUserMessagesTooltipSeenBy v-if="message?.receipts?.length > 0"
+                                :receipts="message.receipts">
+                                <div class="flex items-center gap-1">
+                                    <span class="text-xs text-gray-400">{{ $t('messages.seen') }}</span>
+                                    <div class="flex -space-x-1.5">
+                                        <img v-for="(receipt, rIndex) in message.receipts.slice(0, 5)" :key="rIndex"
+                                            :src="receipt?.user?.profile_image ?? '/img/avatars/user.svg'"
+                                            class="w-4 h-4 rounded-full border border-white object-cover" />
+                                    </div>
+                                    <span v-if="message.receipts.length > 5" class="text-xs text-gray-400">+{{
+                                        message.receipts.length - 5 }}</span>
+                                </div>
+                            </ModulesUserMessagesTooltipSeenBy>
+                        </div>
+                    </div>
+
+                    <!-- Received Message (Left) -->
+                    <div v-else class="flex flex-col items-start mb-3">
+                        <!-- Header: avatar + name + time -->
+                        <div class="flex items-center gap-2 mb-1">
+                            <img :src="message?.sender?.profile_image ?? '/img/avatars/user.svg'" alt="User"
+                                class="w-8 h-8 rounded-full object-cover flex-shrink-0" />
+                            <p class="text-xs text-gray-500 font-medium">
+                                {{ message?.sender?.firstname + ' ' + (message?.sender?.lastname ?? '') }}
+                                <span class="text-gray-400 font-normal">{{
+                                    formatMessageTime(message?.created_at) }}</span>
+                            </p>
+                        </div>
+                        <!-- Bubble -->
+                        <div class="max-w-[85%] md:max-w-[70%] ml-10">
+                            <div class="bg-gray-100 text-gray-800 px-4 py-2.5 rounded-2xl rounded-bl-sm shadow-sm">
+                                <!-- Attachments -->
+                                <div v-if="message?.chat_message_attachments?.length > 0" class="space-y-2">
+                                    <div v-for="(attachment, aIndex) in message?.chat_message_attachments"
+                                        :key="aIndex">
+                                        <img :src="attachment?.file_url" alt="Image"
+                                            v-if="isImageFile(attachment?.file_name)"
+                                            class="w-44 rounded-lg cursor-pointer hover:opacity-90"
+                                            @click="downloadFile(attachment)" />
+                                        <div v-else class="flex items-center gap-2 cursor-pointer hover:opacity-80"
+                                            @click="downloadFile(attachment)">
+                                            <Icon name="ph:file" class="h-7 w-7 flex-shrink-0 text-gray-500"
+                                                aria-hidden="true" />
+                                            <span class="text-sm truncate max-w-[180px]">{{
+                                                attachment?.file_name }}</span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!-- Text -->
+                                <p v-else class="text-sm leading-relaxed"
+                                    v-html="message?.message?.replace(/\n/g, '<br>')" />
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Message Input -->
+            <div class="flex-shrink-0 border-t border-gray-100 px-4 py-3 bg-white">
+                <div class="flex items-stretch gap-2">
+                    <!-- Attachment Button -->
+                    <input ref="fileInput" type="file" multiple @change="handleFileChange" class="hidden" />
+                    <button type="button"
+                        class="w-10 h-10 rounded-lg hover:bg-gray-100 flex items-center justify-center transition-colors flex-shrink-0"
+                        :disabled="state.isPageLoading" @click="triggerFileInput" :title="$t('messages.attachFile')">
+                        <Icon name="ph:paperclip" class="w-5 h-5 text-gray-500" aria-hidden="true" />
+                    </button>
+
+                    <!-- Text Input -->
+                    <textarea rows="1"
+                        class="flex-1 h-10 px-4 bg-gray-100 rounded-md text-sm text-gray-800 placeholder-gray-400 resize-none focus:outline-none focus:ring-1 focus:ring-primary/20 border-0 leading-10"
+                        :placeholder="$t('messages.typeAMessage')" v-model="state.message"
+                        @keydown.enter.exact.prevent="sendMessage" />
+
+                    <!-- Send Button -->
+                    <button type="button"
+                        class="w-10 h-10 rounded-lg bg-secondary hover:bg-secondary-600 flex items-center justify-center transition-colors flex-shrink-0 disabled:opacity-50"
+                        @click="sendMessage" :disabled="state.isPageLoading || !state.message.trim()">
+                        <Icon name="ph:paper-plane-tilt" class="w-4 h-4 text-white" aria-hidden="true" />
+                    </button>
+                </div>
+            </div>
+
+        </div>
+
+        <!-- Modals -->
+        <ModulesUserMessagesGroupChatModalEditName :isModalOpen="state.modal.isEditGroupNameOpen"
+            :selectedChat="state.selectedChat" @close="state.modal.isEditGroupNameOpen = false"
+            @refreshChatDetails="refreshChatDetails" />
+        <ModulesUserMessagesGroupChatModalMembers :isModalOpen="state.modal.isManageGroupChatMembersOpen"
+            @close="state.modal.isManageGroupChatMembersOpen = false" @refreshChat="fetchChat" />
+        <ModulesUserMessagesModalEditMessage :isModalOpen="state.modal.isEditChatMessageOpen"
+            :selectedChat="state.selectedChat" @close="state.modal.isEditChatMessageOpen = false"
+            @updateMessage="updateMessage" />
+        <DialogConfirmation :isModalOpen="state.modal.isUpgradeStorageOpen"
+            :title="$t('citizens.documents.upgradeStorage')"
+            :message="state.error?.message + ' ' + $t('citizens.documents.confirmation.upgradeStorageConfirmation') + '?'"
+            @close="closeUpgradeStorageModal" @confirm="navigateTo(`/storage/upgrade`)" />
+        <DialogConfirmation :isModalOpen="state.modal.isDeleteConfirmationOpen"
+            :message="$t('messages.confirmation.deleteMessageConfirmation') + '?'"
+            @close="state.modal.isDeleteConfirmationOpen = false" @confirm="deleteChatMessage" />
+
     </div>
 </template>
 
 <script setup lang="ts">
 import pusher from '@/services/pusher'
+import moment from 'moment'
 import { messageService } from '@/components/api/user/MessageService'
 import { useDatetimeFormatter } from '@/composables/datetimeFormatter'
-import { useI18n } from "vue-i18n"
+import { useI18n } from 'vue-i18n'
 import { useAlert } from '@/composables/alert'
 import { useUserStore } from '@/store/user'
 import { saveAs } from 'file-saver'
 import type { Error } from '@/types'
 
-const runtimeConfig = useRuntimeConfig()
-const { formatDateTimeToReadable } = useDatetimeFormatter()
+const { formatDateToReadable } = useDatetimeFormatter()
 const { t } = useI18n()
 const { successAlert } = useAlert()
 const userStore = useUserStore() as any
 const router = useRouter()
 const chatUuid = router?.currentRoute?.value?.params?.chat_uuid
-const currentRoute = router?.currentRoute?.value?.name
 const scrollableChatHistory = ref<HTMLElement | null>(null)
 let currentPage = 1
 let scrollHeight = 0
-let currentTablePage = 1
 const fileInput = ref(null) as any
 const files = ref<File[]>([])
-const breadcrumbLinks = [
-    {
-        name: 'messages.messages',
-        translate: true,
-        href: '/messages',
-    },
-]
+
+const fetchChats = inject('fetchChats') as any
+const updateChatName = inject('updateChatName') as any
 
 const state = reactive({
     chat: [] as any,
-    chats: [] as any,
     error: {} as Error,
     isLastPage: false,
-    isChatLoading: false,
     isChatHistoryDividerLoading: false,
     isChatHistoryLoading: false,
     isPageLoading: false,
     message: '',
     messages: [] as any,
+    openMessageMenuIndex: null as number | null,
     modal: {
         isDeleteConfirmationOpen: false,
         isEditChatMessageOpen: false,
@@ -364,17 +326,50 @@ onMounted(() => {
         scrollToBottom()
     })
     fetchChat()
-    fetchChats()
-    fetchChatHistory()
+    fetchChatHistory().then(autoFillChatHistory)
     readChat()
     scrollHeight = scrollableChatHistory.value?.scrollHeight ?? 0
 })
 
-// window.setInterval(() => {
-//     if (currentRoute === 'messages-chat_uuid') {
-//         fetchChats()
-//     }
-// }, 10000)
+function toggleMessageMenu(index: number) {
+    state.openMessageMenuIndex = state.openMessageMenuIndex === index ? null : index
+}
+
+function formatMessageTime(datetime: string): string {
+    return moment(datetime).format('hh:mm A')
+}
+
+function getMessageDateLabel(datetime: string): string {
+    const date = moment(datetime).startOf('day')
+    const today = moment().startOf('day')
+    const yesterday = moment().subtract(1, 'days').startOf('day')
+    if (date.isSame(today)) return t('messages.today')
+    if (date.isSame(yesterday)) return t('messages.yesterday')
+    return formatDateToReadable(datetime)
+}
+
+function shouldShowDateDivider(index: number): boolean {
+    if (index === 0) return true
+    const currentDate = moment(state.messages[index]?.created_at).format('YYYY-MM-DD')
+    const prevDate = moment(state.messages[index - 1]?.created_at).format('YYYY-MM-DD')
+    return currentDate !== prevDate
+}
+
+function getChatHeaderName(): string {
+    const members = excludeCurrentUserFromChatMembers(state.chat?.data?.chat_members || [])
+    if (members.length > 0) {
+        return `${members[0]?.user?.firstname} ${members[0]?.user?.lastname ?? ''}`
+    }
+    const self = chatToSelf(state.chat?.data?.chat_members || [])
+    return self[0] ? `${self[0]?.user?.firstname} ${self[0]?.user?.lastname ?? ''}` : ''
+}
+
+function getChatHeaderAvatar(): string {
+    const members = excludeCurrentUserFromChatMembers(state.chat?.data?.chat_members || [])
+    if (members.length > 0) return members[0]?.user?.profile_image ?? '/img/avatars/user.svg'
+    const self = chatToSelf(state.chat?.data?.chat_members || [])
+    return self[0]?.user?.profile_image ?? '/img/avatars/user.svg'
+}
 
 function closeUpgradeStorageModal() {
     state.modal.isUpgradeStorageOpen = false
@@ -383,10 +378,7 @@ function closeUpgradeStorageModal() {
 
 function refreshChatDetails(chatDetails: any) {
     fetchChat()
-    const currentChatIndex = state.chats?.data.findIndex((chat: any) => chat.uuid === chatUuid)
-    if (currentChatIndex >= 0) {
-        state.chats.data[currentChatIndex].name = chatDetails?.name
-    }
+    updateChatName?.(chatUuid, chatDetails?.name)
 }
 
 async function fetchChat() {
@@ -394,50 +386,7 @@ async function fetchChat() {
     state.isPageLoading = true
     try {
         const response = await messageService.fetchChat(chatUuid)
-        if (response) {
-            state.chat = response
-        }
-    } catch (error: any) {
-        state.error = { message: error.message }
-    }
-    state.isPageLoading = false
-}
-
-async function fetchChats() {
-    state.error = {}
-    state.isChatLoading = true
-    try {
-        const params = {
-            page: currentTablePage
-        }
-        const response = await messageService.fetchChats(params)
-        if (response) {
-            state.chats = response
-        }
-    } catch (error: any) {
-        state.error = { message: error.message }
-    }
-    state.isChatLoading = false
-}
-
-async function fetchAdditionalChats() {
-    state.error = {}
-    state.isPageLoading = true
-    try {
-        currentTablePage = currentTablePage + 1
-        const params = {
-            page: currentTablePage
-        }
-        const response = await messageService.fetchChats(params)
-        if (response) {
-            state.chats.data?.push(...response?.data)
-            if (response?.meta) {
-                state.chats.meta = response?.meta
-            }
-            if (response?.links) {
-                state.chats.links = response?.links
-            }
-        }
+        if (response) state.chat = response
     } catch (error: any) {
         state.error = { message: error.message }
     }
@@ -448,26 +397,28 @@ async function fetchChatHistory() {
     state.error = {}
     state.isChatHistoryLoading = true
     try {
-        const params = {
-            page: currentPage,
-            chat_uuid: chatUuid,
-        }
+        const params = { page: currentPage, chat_uuid: chatUuid }
         const response = await messageService.fetchChatHistory(params)
         if (response.data) {
-            response?.data?.forEach((chat: any) => {
-                state.messages.unshift(chat)
-            })
-            if (currentPage === 1) {
-                scrollToBottom()
-            }
-            if (response.links.next === null) {
-                state.isLastPage = true
-            }
+            response?.data?.forEach((chat: any) => state.messages.unshift(chat))
+            if (response.links.next === null) state.isLastPage = true
         }
     } catch (error: any) {
         state.error = { message: error.message }
     }
     state.isChatHistoryLoading = false
+}
+
+async function autoFillChatHistory() {
+    await nextTick()
+    while (!state.isLastPage && scrollableChatHistory.value) {
+        const el = scrollableChatHistory.value
+        if (el.scrollHeight > el.clientHeight) break
+        currentPage++
+        await fetchChatHistory()
+        await nextTick()
+    }
+    scrollToBottom()
 }
 
 function editGroupChatName() {
@@ -479,12 +430,8 @@ async function readChat() {
     state.error = {}
     state.isChatHistoryDividerLoading = true
     try {
-        const params = {
-            chat_uuid: chatUuid,
-        }
-        const response = await messageService.readChat(params)
-        if (response) {
-        }
+        const params = { chat_uuid: chatUuid }
+        await messageService.readChat(params)
     } catch (error: any) {
         state.error = { message: error.message }
     }
@@ -492,15 +439,13 @@ async function readChat() {
 }
 
 async function sendMessage() {
-    if (state.message !== '') {
+    if (state.message.trim() !== '') {
         state.isChatHistoryDividerLoading = true
         try {
-            const params = {
-                message: state.message,
-                chat_uuid: chatUuid
-            }
+            const params = { message: state.message, chat_uuid: chatUuid }
             const response = await messageService.sendMessageViaChatUuid(params)
             if (response) {
+                fetchChats?.()
                 scrollToBottom()
             }
         } catch (error: any) {
@@ -522,36 +467,22 @@ function scrollToBottom() {
 function handleScroll() {
     if (scrollableChatHistory.value) {
         if (scrollableChatHistory.value.scrollTop === 0 && !state.isLastPage) {
-            // Store the current scroll height
             const previousScrollHeight = scrollableChatHistory.value.scrollHeight
-
-            // Store the position of the current scroll position relative to the scroll container
             const currentScrollTop = scrollableChatHistory.value.scrollTop
-
-            // Increment the page number and fetch the chat history
             currentPage++
             fetchChatHistory().then(() => {
                 if (scrollableChatHistory.value) {
-                    // Calculate the new scroll position to maintain the current view
                     const newScrollHeight = scrollableChatHistory.value.scrollHeight
-                    const scrollDifference = newScrollHeight - previousScrollHeight
-
-                    // Set the scrollTop to the calculated position
-
-                    scrollableChatHistory.value.scrollTop = scrollDifference + currentScrollTop
+                    scrollableChatHistory.value.scrollTop = (newScrollHeight - previousScrollHeight) + currentScrollTop
                 }
             })
         }
     }
 }
 
-const triggerFileInput = () => {
-    fileInput.value?.click()
-}
+const triggerFileInput = () => fileInput.value?.click()
 
-const handleFileChange = (event: any) => {
-    uploadFiles(event.target.files)
-}
+const handleFileChange = (event: any) => uploadFiles(event.target.files)
 
 const uploadFiles = async (files: any) => {
     state.isChatHistoryDividerLoading = true
@@ -564,15 +495,16 @@ const uploadFiles = async (files: any) => {
             }
             const response = await messageService.sendMessageViaChatUuid(params)
             if (response) {
-                fetchChats()
+                fetchChats?.()
                 scrollToBottom()
                 fileInput.value.value = ''
             }
         } catch (error: any) {
             state.error = error
-            if (error?.message === 'You do not have enough storage space to upload new files.') {
-                state.modal.isUpgradeStorageOpen = true
-            } else if (error?.message === 'Du har ikke nok lagerplads til at uploade nye filer.') {
+            if (
+                error?.message === 'You do not have enough storage space to upload new files.' ||
+                error?.message === 'Du har ikke nok lagerplads til at uploade nye filer.'
+            ) {
                 state.modal.isUpgradeStorageOpen = true
             }
         }
@@ -581,19 +513,15 @@ const uploadFiles = async (files: any) => {
 }
 
 function isImageFile(filename: string) {
-    const imageExtensions = /\.(jpg|jpeg|png|gif|bmp|svg|webp)$/i;
-    return imageExtensions.test(filename);
+    return /\.(jpg|jpeg|png|gif|bmp|svg|webp)$/i.test(filename)
 }
 
 async function downloadFile(attachment: any) {
     state.error = {}
     state.isChatHistoryDividerLoading = true
     try {
-        const attachmentUuid = attachment?.uuid
-        const response = await messageService.downloadAttachment(attachmentUuid)
-        if (response) {
-            saveAs(response, attachment?.file_name)
-        }
+        const response = await messageService.downloadAttachment(attachment?.uuid)
+        if (response) saveAs(response, attachment?.file_name)
     } catch (error: any) {
         state.error = error
     }
@@ -601,21 +529,18 @@ async function downloadFile(attachment: any) {
 }
 
 function chatToSelf(chatMembers: any) {
-    return chatMembers.filter((chatMember: any) => chatMember.user_id === userStore.getUser?.id)
+    return chatMembers.filter((m: any) => m.user_id === userStore.getUser?.id)
 }
 
 function excludeCurrentUserFromChatMembers(chatMembers: any) {
-    return chatMembers.filter((chatMember: any) => chatMember.user_id !== userStore.getUser?.id)
+    return chatMembers.filter((m: any) => m.user_id !== userStore.getUser?.id)
 }
 
 function chatGroupMembers(chat: any) {
     const members = excludeCurrentUserFromChatMembers(chat?.chat_members || [])
-        .map((chatMember: any) => `${chatMember?.user?.firstname} ${chatMember?.user?.lastname ?? ''}`)
-
+        .map((m: any) => `${m?.user?.firstname} ${m?.user?.lastname ?? ''}`)
     if (members.length === 0) return ''
-
     if (members.length <= 3) return members.join(', ')
-
     const remaining = members.length - 1
     return `${members[0]}, ${members[1]}, ${t('messages.and')?.toLowerCase()} ${remaining} ${t('messages.more')?.toLowerCase()}`
 }
@@ -641,8 +566,8 @@ async function deleteChatMessage() {
     state.isChatHistoryDividerLoading = true
     try {
         const chatIndex = state.selectedChatIndex as any
-        const chatUuid = state.selectedChat?.uuid
-        const response = await messageService.deleteChatMessage(chatUuid)
+        const uuid = state.selectedChat?.uuid
+        const response = await messageService.deleteChatMessage(uuid)
         if (response?.message === 'Success.' || response?.message === 'Succes.') {
             successAlert(`${t('alert.success')}!`, `${t('messages.alert.messageSuccessfullyDeleted')}.`)
             if (chatIndex !== undefined && chatIndex !== -1) {
@@ -654,10 +579,9 @@ async function deleteChatMessage() {
     }
     state.isChatHistoryDividerLoading = false
 }
-
 </script>
 
-<style>
+<style scoped>
 @keyframes blink {
     0% {
         opacity: 0;

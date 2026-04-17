@@ -154,12 +154,22 @@
                                                                     {{ employee?.total_hours ?? 0 }}
                                                                 </p>
                                                                 <p :class="[
-                                                                    employee?.extra_hours > 0 ? 'text-green-700' : 'text-red-700',
+                                                                    parseFloat(employee?.log_data.total_time_account_earned_hours.replace(',', '.')) > 0 ? 'text-green-700' : 'text-red-700',
+                                                                    'text-xxs'
+                                                                ]">
+                                                                    {{ $t('dutySchedules.earnedWorkHours') }}:
+                                                                    {{
+                                                                        employee?.log_data.total_time_account_earned_hours
+                                                                    }}
+                                                                </p>
+                                                                <p :class="[
+                                                                    parseFloat(employee?.extra_hours.replace(',', '.')) > 0 ? 'text-green-700' : 'text-red-700',
                                                                     'text-xxs'
                                                                 ]">
                                                                     {{ $t('dutySchedules.extraHours.extraHours') }}:
                                                                     {{ employee?.extra_hours }}
                                                                 </p>
+
                                                                 <div class="p-0 m-0 text-xxs text-primary cursor-pointer hover:text-primary-700"
                                                                     @click="navigateTo(`/calendar?employee_uuid=${employee?.uuid}`)">
                                                                     {{ $t('dutySchedules.viewCalendar') }}
@@ -220,7 +230,7 @@
                                                                     <Icon name="ph:clock" class="h-3 w-3"
                                                                         aria-hidden="true" />
                                                                     {{
-                                                                        $t('dutySchedules.normHours.compensatoryHours')
+                                                                        $t('dutySchedules.normHours.compensatoryHoursThisYear')
                                                                     }}:
                                                                     {{
                                                                         formatNumber(language.locale.value,

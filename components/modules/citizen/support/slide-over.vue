@@ -50,8 +50,8 @@
                                                     </div>
                                                     <div>
                                                         <FormButton buttonStyle="primary" @click="navigateToSupport"
-                                                            class="w-full rounded-md">
-                                                            {{ $t('support.goToSupportcenter') }}
+                                                            class="w-full">
+                                                            {{ $t('support.findGuidesHere') }}
                                                         </FormButton>
                                                     </div>
                                                 </div>
@@ -65,7 +65,7 @@
                                                     </p>
                                                     <div>
                                                         <FormButton buttonStyle="primary" @click="navigateToCourses"
-                                                            class="w-full rounded-md">
+                                                            class="w-full">
                                                             {{ $t('support.viewCourses') }}
                                                         </FormButton>
                                                     </div>

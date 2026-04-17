@@ -69,6 +69,7 @@ async function saveScheduleSlot(extraHoursDetails: any) {
             extra_hours_tags_uuid: extraHoursDetails.extra_hours_tags,
             extra_hours: extraHoursDetails.hours,
             note: extraHoursDetails.note,
+            department_uuids: extraHoursDetails.department_uuids,
         }
         const response = await extraHoursService.saveExtraHour(params)
         if (response) {

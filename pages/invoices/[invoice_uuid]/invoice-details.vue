@@ -21,7 +21,7 @@
                         <span>{{ $t('back') }}</span>
                     </NuxtLink>
                     <div class="flex items-center gap-x-2 justify-end">
-                        <FormButton buttonStyle="action" class="rounded-lg" @click="downloadInvoiceDetails">
+                        <FormButton buttonStyle="action"  @click="downloadInvoiceDetails">
                             <Icon name="ph:download" class="h-4 w-4" aria-hidden="true" />
                             {{ $t('clientInvoices.table.actions.download') }}
                         </FormButton>

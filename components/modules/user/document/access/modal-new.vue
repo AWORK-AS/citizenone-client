@@ -18,11 +18,10 @@
                         </div>
                         <div class="mt-6">
                             <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
-                                <FormButton type="button" buttonStyle="cancel" class="rounded-md"
-                                    @click="emit('closeModal')">
+                                <FormButton type="button" buttonStyle="cancel" @click="emit('closeModal')">
                                     {{ $t('cancel') }}
                                 </FormButton>
-                                <FormButton type="submit" buttonStyle="primary" class="rounded-md">
+                                <FormButton type="submit" buttonStyle="primary">
                                     {{ $t('citizens.documents.access.form.giveAccess') }}
                                 </FormButton>
                             </div>
@@ -140,7 +139,7 @@ async function fetchAllUsersWithoutAllUsersOption() {
             response.data.forEach(
                 (user: any) => options.push({
                     value: user?.uuid,
-                    label: user?.firstname + " " + user?.lastname,
+                    label: user?.firstname + " " + (user?.lastname ?? ''),
                 })
             )
             state.options.employees_without_all_users_option = options

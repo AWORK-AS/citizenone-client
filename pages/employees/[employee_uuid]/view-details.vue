@@ -24,13 +24,13 @@
                     <div class="mt-6">
                         <div class="flex gap-x-3 justify-end mb-6" v-if="isAdmin(userStore.getUser?.roles)">
                             <div class="flex justify-end">
-                                <FormButton type="button" buttonStyle="primary" class="rounded-md"
+                                <FormButton type="button" buttonStyle="primary"
                                     @click="navigateTo(`/employees/${employeeUuid}/view-edit`)">
                                     {{ $t('employees.editEmployee') }}
                                 </FormButton>
                             </div>
                             <div class="flex justify-end">
-                                <FormButton type="button" buttonStyle="primary" class="rounded-md"
+                                <FormButton type="button" buttonStyle="primary"
                                     @click="state.modal.isViewCitizensOpen = true">
                                     {{ $t('employees.citizens.assignedCitizens') }}
                                 </FormButton>
@@ -583,8 +583,8 @@ async function fetchEmployee() {
                     employment_status: response?.data?.employee_detail?.status,
                     annual_norm_hours: response?.data?.employee_detail?.annual_norm_hours,
                     weekly_norm_hours: response?.data?.employee_detail?.annual_norm_hours
-                    ? Math.round(Number(response?.data?.employee_detail?.annual_norm_hours) / 52)
-                    : '',
+                        ? Math.round(Number(response?.data?.employee_detail?.annual_norm_hours) / 52)
+                        : '',
                     vacation_days: response?.data?.employee_detail?.vacation_days,
                 },
                 emergencyInfo: {

@@ -139,6 +139,8 @@ async function saveMedicine(medicineDetails: any) {
         }
 
 
+        params.append('extra_dates', JSON.stringify(medicineDetails.extra_dates ?? []))
+        params.append('treatment_periods', JSON.stringify(medicineDetails.treatment_periods ?? []))
         const response = await medicineJournalService.saveMedicine(params)
         if (response?.data) {
             refreshMedicines()

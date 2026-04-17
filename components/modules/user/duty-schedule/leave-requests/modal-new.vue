@@ -39,8 +39,8 @@ const emit = defineEmits(['close', 'refreshLeaveRequests', 'refreshDutySchedules
 const state = reactive({
     error: {} as Error,
     formLeaveRequest: {
-        date_time_start: moment().format('YYYY-MM-DD HH:mm'),
-        date_time_end: moment().format('YYYY-MM-DD HH:mm'),
+        date_time_start: moment().hour(8).minute(0).format('YYYY-MM-DD HH:mm'),
+        date_time_end: moment().hour(17).minute(0).format('YYYY-MM-DD HH:mm'),
         type: '',
         note: '',
     },

@@ -237,9 +237,17 @@
                                 {{ $t('settings.company.form.quickRiskAssessment') }}
                             </p>
                         </div>
+                        <div class="space-y-1 flex items-center gap-x-2">
+                            <FormSwitch :value="state.formCompany.register_transport_enabled"
+                                @toggleSwitch="state.formCompany.register_transport_enabled = !state.formCompany.register_transport_enabled" />
+                            <p>
+                                {{ $t('settings.company.form.registerTransport') }}
+                            </p>
+                        </div>
+
                     </div>
                     <div class="mt-6">
-                        <FormButton type="submit" buttonStyle="primary" class="rounded-md w-full">
+                        <FormButton type="submit" buttonStyle="primary" class="w-full">
                             {{ $t('save') }}
                         </FormButton>
                     </div>
@@ -308,6 +316,7 @@ const state = reactive({
         quick_risk_assessment_enabled: false,
         logo: null as File | null,
         should_delete_logo: false,
+        register_transport_enabled: false,
     },
     isPageLoading: false,
     options: {
@@ -367,6 +376,7 @@ watch(() => userStore.getUser, (newValue: any) => {
             is_sort_by_status: newValue?.company?.is_sort_by_status ? true : false,
             social_og_boligstyrelsen: newValue?.company?.social_og_boligstyrelsen ? true : false,
             quick_risk_assessment_enabled: newValue?.company?.quick_risk_assessment_enabled ? true : false,
+            register_transport_enabled: newValue?.company?.register_transport_enabled ? true : false,
             logo: null,
             should_delete_logo: false,
         }
@@ -530,6 +540,7 @@ async function submitForm() {
                 is_sort_by_status: state.formCompany.is_sort_by_status,
                 social_og_boligstyrelsen: state.formCompany.social_og_boligstyrelsen,
                 quick_risk_assessment_enabled: state.formCompany.quick_risk_assessment_enabled,
+                register_transport_enabled: state.formCompany.register_transport_enabled,
             }
 
             const response = await userService.updateCompany(params)

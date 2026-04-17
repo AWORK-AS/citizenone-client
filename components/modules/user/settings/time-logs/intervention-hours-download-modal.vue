@@ -16,10 +16,10 @@
                         </div>
                         <div class="mt-6">
                             <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
-                                <FormButton type="button" buttonStyle="cancel" class="rounded-md" @click="closeModal">
+                                <FormButton type="button" buttonStyle="cancel" @click="closeModal">
                                     {{ $t('cancel') }}
                                 </FormButton>
-                                <FormButton type="submit" buttonStyle="primary" class="rounded-md w-full"
+                                <FormButton type="submit" buttonStyle="primary" class="w-full"
                                     @click="downloadInterventionHours">
                                     {{ $t('citizens.interventionHours.download.download') }}
                                 </FormButton>
@@ -46,6 +46,10 @@ const props = defineProps({
     isModalOpen: {
         type: Boolean,
         required: true,
+    },
+    filters: {
+        type: Object,
+        required: false,
     },
 })
 const emit = defineEmits(['close'])
@@ -96,10 +100,24 @@ async function downloadInterventionHours() {
     v$.value.$validate()
     if (!v$.value.$error) {
         try {
-            const params = {
+            let params = {
                 start_date: state.downloadForm.start_date,
                 end_date: state.downloadForm.end_date,
+            } as any
+
+            if (props?.filters?.department_uuids?.length > 0) {
+                params.department_uuids = Array(props?.filters?.department_uuids)
             }
+            if (props?.filters?.citizen_uuids?.length > 0) {
+                params.citizen_uuids = Array(props?.filters?.citizen_uuids)
+            }
+            if (props?.filters?.user_uuids?.length > 0) {
+                params.user_uuids = Array(props?.filters?.user_uuids)
+            }
+            if (props?.filters?.is_transportation !== '') {
+                params.is_transportation = props?.filters?.is_transportation
+            }
+
             const response = await interventionHoursService.downloadInterventionHoursReport(params)
             if (response) {
                 saveAs(response, `${t('citizens.interventionHours.interventionHours').replace(' ', '-')}` + '-' + moment(state.downloadForm.start_date).format('MMMM-D-YYYY') + '-' + moment(state.downloadForm.end_date).format('MMMM-D-YYYY'))

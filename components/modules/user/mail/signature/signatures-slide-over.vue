@@ -35,7 +35,7 @@
                                     <div class="relative mt-10 flex-1 px-4 sm:px-6">
                                         <div class="space-y-5">
                                             <div class="flex items-center gap-3 justify-end">
-                                                <FormButton buttonStyle="action" class="rounded-lg"
+                                                <FormButton buttonStyle="action"
                                                     @click="state.modal.isAddSignatureOpen = true">
                                                     <Icon name="ph:plus" class="h-4 w-4" aria-hidden="true" />
                                                     {{ $t('mail.settings.signatures.newSignature') }}
@@ -72,7 +72,6 @@
                                                                     <Tooltip
                                                                         :text="$t('mail.settings.signatures.table.actions.edit')">
                                                                         <FormButton type="button" buttonStyle="action"
-                                                                            class="rounded-md"
                                                                             @click="editSignature(signature)">
                                                                             <Icon name="ph:pencil-simple"
                                                                                 class="size-4" />
@@ -82,7 +81,6 @@
                                                                         :text="$t('mail.settings.signatures.table.actions.setToDefault')"
                                                                         v-if="!signature?.is_default">
                                                                         <FormButton type="button" buttonStyle="action"
-                                                                            class="rounded-md"
                                                                             @click="setSignatureToDefaultConfirmation(signature)">
                                                                             <Icon name="ph:check" class="size-4" />
                                                                         </FormButton>
@@ -90,7 +88,6 @@
                                                                     <Tooltip
                                                                         :text="$t('mail.settings.signatures.table.actions.delete')">
                                                                         <FormButton type="button" buttonStyle="danger"
-                                                                            class="rounded-md"
                                                                             @click="deleteSignatureConfirmation(signature)">
                                                                             <Icon name="ph:trash" class="size-4" />
                                                                         </FormButton>

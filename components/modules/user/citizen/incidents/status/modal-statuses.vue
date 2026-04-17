@@ -5,7 +5,7 @@
             <template #modal-body>
                 <div>
                     <div class="flex justify-end items-center mb-5">
-                        <FormButton buttonStyle="action" class="rounded-lg" @click="state.modal.isAddStatusOpen = true">
+                        <FormButton buttonStyle="action" @click="state.modal.isAddStatusOpen = true">
                             <Icon name="ph:plus" class="h-4 w-4" aria-hidden="true" />
                             {{ $t('citizens.incidents.statuses.newStatus') }}
                         </FormButton>
@@ -64,13 +64,13 @@
                                         </td>
                                         <td width="10%">
                                             <div class="flex items-end gap-2">
-                                                <FormButton class="rounded-md" buttonSize="sm"
-                                                    @click="editStatus(status)" v-if="status?.is_editable">
+                                                <FormButton buttonSize="sm" @click="editStatus(status)"
+                                                    v-if="status?.is_editable">
                                                     <Icon name="ph:pencil-simple" class="size-4" />
                                                     {{ $t('citizens.incidents.statuses.table.actions.edit') }}
                                                 </FormButton>
-                                                <FormButton class="rounded-md" buttonSize="sm"
-                                                    @click="confirmStatusDeletion(status)" v-if="status?.is_deletable">
+                                                <FormButton buttonSize="sm" @click="confirmStatusDeletion(status)"
+                                                    v-if="status?.is_deletable">
                                                     <Icon name="heroicons:trash" class="size-4" />
                                                     {{ $t('citizens.incidents.statuses.table.actions.delete') }}
                                                 </FormButton>
