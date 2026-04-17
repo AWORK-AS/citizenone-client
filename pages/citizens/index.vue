@@ -62,7 +62,7 @@
                         </FormButton>
                         <FormButton buttonStyle="action" @click="navigateTo('/rooms')">
                             <Icon name="ph:door" class="h-4 w-4" aria-hidden="true" />
-                            {{ $t('rooms.rooms') }}
+                            {{ customPagesStore.getCustomPagesName?.rooms || $t('rooms.rooms') }}
                         </FormButton>
                         <Menu
                             v-if="userStore.getUser?.roles?.[0]?.name === 'Admin' || userStore.user?.permissions?.find((p: any) => p.name === 'create_citizen')"

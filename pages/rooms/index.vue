@@ -3,14 +3,14 @@
         <NuxtLayout name="user">
 
             <Head>
-                <Title>{{ $t('rooms.rooms') }} - {{ runtimeConfig?.public?.appName }}</Title>
+                <Title>{{ roomsPageName }} - {{ runtimeConfig?.public?.appName }}</Title>
             </Head>
 
             <template #breadcrumb>
                 <Breadcrumb :links="breadcrumbLinks" />
             </template>
 
-            <template #header>{{ $t('rooms.rooms') }}</template>
+            <template #header>{{ roomsPageName }}</template>
 
             <div class="space-y-5">
                 <Alert type="danger" :text="state?.error?.message"
@@ -77,17 +77,25 @@
 
 <script setup lang="ts">
 import { roomService } from '@/components/api/user/RoomService'
+import { useAlert } from '@/composables/alert'
+import { useI18n } from 'vue-i18n'
+import { useCustomPagesStore } from '@/store/custom-pages'
 import type { Error } from '@/types'
 
 const runtimeConfig = useRuntimeConfig()
+const { successAlert } = useAlert()
+const { t } = useI18n()
+const customPagesStore = useCustomPagesStore() as any
 let currentTablePage = 1
-const breadcrumbLinks = [
+
+const roomsPageName = computed(() => customPagesStore.getCustomPagesName?.rooms || t('rooms.rooms'))
+const breadcrumbLinks = computed(() => [
     {
-        name: 'rooms.rooms',
-        translate: true,
+        name: roomsPageName.value,
+        translate: false,
         href: '/rooms',
     },
-]
+])
 
 const state = reactive({
     rooms: [] as any,
