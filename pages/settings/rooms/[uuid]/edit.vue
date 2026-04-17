@@ -54,6 +54,7 @@ const state = reactive({
     error: {} as Error,
     formRoom: {
         name: '',
+        capacity: null as number | null,
     },
     isPageLoading: false,
 })
@@ -70,6 +71,7 @@ async function fetchRoom() {
         if (response) {
             state.formRoom = {
                 name: response?.data?.name ?? '',
+                capacity: response?.data?.capacity ?? null,
             }
         }
     } catch (error: any) {
@@ -84,6 +86,7 @@ async function updateRoom(roomDetails: any) {
     try {
         const params = {
             name: roomDetails.name,
+            capacity: roomDetails.capacity,
         }
         const response = await roomService.updateRoom(roomUuid, params)
         if (response.data) {

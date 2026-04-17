@@ -10,6 +10,7 @@ export const useCustomPagesStore = defineStore('customPagesStore', {
             dutySchedules: '',
             giveMedicine: '',
             riskAssessment: '',
+            rooms: '',
         },
     }),
     actions: {
@@ -30,6 +31,9 @@ export const useCustomPagesStore = defineStore('customPagesStore', {
         },
         setGiveMedicineNaming(name) {
             this.customName.giveMedicine = name
+        },
+        setRoomsNaming(name) {
+            this.customName.rooms = name
         },
     },
     getters: {

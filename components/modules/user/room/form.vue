@@ -8,6 +8,11 @@
             <FormError :error="v$?.formRoom?.name?.$errors[0]?.$message.toString()" />
             <FormError :error="props?.error?.errors?.name?.[0]" />
         </div>
+        <div class="space-y-1 mt-4">
+            <FormLabel for="capacity" :label="$t('rooms.form.capacity')" />
+            <FormNumberField id="capacity" name="capacity" placeholder="0" :min="0" v-model="state.formRoom.capacity" />
+            <FormError :error="props?.error?.errors?.capacity?.[0]" />
+        </div>
         <div class="mt-6">
             <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
                 <FormButton type="button" buttonStyle="cancel" @click="navigateTo('/settings/rooms')">
@@ -50,6 +55,7 @@ const state = reactive({
     error: {} as Error,
     formRoom: {
         name: '',
+        capacity: '' as string,
     },
 })
 
@@ -57,6 +63,7 @@ watch(() => props.selectedRoom, (newValue: any) => {
     if (newValue != null) {
         state.formRoom = {
             name: newValue.name,
+            capacity: newValue.capacity ?? '',
         }
     }
 })

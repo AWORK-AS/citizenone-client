@@ -658,6 +658,7 @@ function setCustomPageNames() {
     customPagesStore.setDutySchedulesNaming(n(cp('duty_schedules')))
     customPagesStore.setRiskAssessmentNaming(n(cp('risk_assessment')))
     customPagesStore.setGiveMedicineNaming(n(cp('give_medicine')))
+    customPagesStore.setRoomsNaming(n(cp('rooms')))
 }
 
 function animateAssets() {
