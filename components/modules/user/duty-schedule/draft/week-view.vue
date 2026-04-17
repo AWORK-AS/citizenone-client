@@ -774,14 +774,14 @@
                 :shiftWarnings="state.shiftWarnings"
                 @dateTimeChange="dateTimeChange"
                 @close="state.modal.isAddShiftOpen = false" @saveShift="saveShift"
-                @resetNewShiftError="state.newShiftError = {}" />
+                @resetNewShiftError="state.newShiftError = {}" @resetShiftWarnings="state.shiftWarnings = []" />
             <ModulesUserDutyScheduleModalEditShift :isModalOpen="state.modal.isEditShiftOpen"
                 :isModalLoading="state.isModalLoading" :error="state.editShiftError"
                 :selectedEmployee="state.editShift.selectedEmployee"
                 :selectedEmployeeSchedule="state.editShift.selectedEmployeeSchedule"
                 :shiftWarnings="state.shiftWarnings"
                 @dateTimeChange="dateTimeChange"
-                @close="state.modal.isEditShiftOpen = false" @resetEditShiftError="state.editShiftError = {}"
+                @close="state.modal.isEditShiftOpen = false; state.shiftWarnings = []" @resetEditShiftError="state.editShiftError = {}"
                 @updateShift="updateSelectedSchedule" />
             <ModulesUserDutyScheduleDraftModalCopyMultipleWeeks
                 :isModalOpen="state.modal.isCopyMultipleWeeklyScheduleOpen"

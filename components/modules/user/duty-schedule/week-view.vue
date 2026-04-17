@@ -1051,14 +1051,14 @@
             :showWarningDialog="state.showWarningDialog" :shiftWarnings="state.shiftWarnings"
             @dateTimeChange="dateTimeChange" @closeWarningDialog="closeWarningDialog"
             @close="state.modal.isAddShiftOpen = false" @saveShift="saveShift"
-            @resetNewShiftError="state.newShiftError = {}" />
+            @resetNewShiftError="state.newShiftError = {}" @resetShiftWarnings="state.shiftWarnings = []" />
         <ModulesUserDutyScheduleModalEditShift :isModalLoading="state.isModalLoading"
             :isModalOpen="state.modal.isEditShiftOpen" :error="state.editShiftError"
             :selectedEmployee="state.editShift.selectedEmployee"
             :selectedEmployeeSchedule="state.editShift.selectedEmployeeSchedule"
             :showWarningDialog="state.showWarningDialog" :shiftWarnings="state.shiftWarnings"
             @dateTimeChange="dateTimeChange" @closeWarningDialog="closeWarningDialog"
-            @close="state.modal.isEditShiftOpen = false" @resetEditShiftError="state.editShiftError = {}"
+            @close="state.modal.isEditShiftOpen = false; state.shiftWarnings = []" @resetEditShiftError="state.editShiftError = {}"
             @updateShift="updateSelectedSchedule" />
         <ModulesUserDutyScheduleModalRemoveShiftConfirmation :isModalOpen="state.modal.isRemoveShiftConfirmationOpen"
             @close="state.modal.isRemoveShiftConfirmationOpen = false" @confirm="removeShift" />
