@@ -6306,8 +6306,15 @@
                 "newRoomSuccessfullySaved": "Nyt værelse gemt",
                 "roomSuccessfullyUpdated": "Værelse opdateret"
             },
+            "capacity": "Kapacitet",
             "name": "Navn"
         },
+        "addCitizen": "Tilføj borger",
+        "citizenAddedSuccessfully": "Borger tilføjet til værelse",
+        "citizenRemovedSuccessfully": "Borger fjernet fra værelse",
+        "full": "Fuldt",
+        "noCitizens": "Ingen borgere på dette værelse",
+        "removeConfirmation": "Er du sikker på, at du vil fjerne",
         "newRoom": "Nyt værelse",
         "rooms": "Værelser",
         "table": {
@@ -6321,6 +6328,7 @@
             "confirmation": {
                 "deleteRoomConfirmation": "Er du sikker på, at du vil slette dette værelse"
             },
+            "capacity": "Kapacitet",
             "name": "Navn"
         }
     },
