@@ -15,19 +15,16 @@
                                     d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
                             </svg>
                             <div>
-                                <p class="text-xs font-semibold text-blue-800 mb-0.5">Hvad er forudindstillinger?</p>
-                                <p class="text-xs text-blue-700">En forudindstilling er en gemt version af din
-                                    vagtplanskladde, som du kan genbruge. Vælg en forudindstilling nedenfor og klik
-                                    <strong>Anvend</strong> for at indlæse den i kladden — du kan derefter redigere og
-                                    offentliggøre den.</p>
+                                <p class="text-xs font-semibold text-blue-800 mb-0.5">{{ $t('dutySchedules.draft.preset.infoBox.title') }}</p>
+                                <p class="text-xs text-blue-700">{{ $t('dutySchedules.draft.preset.infoBox.description') }}</p>
                             </div>
                         </div>
                         <TableSearch @search="handleSearch" />
                         <div class="table-responsive">
                             <Table :columnHeaders="state.columnHeaders" :data="state.presets"
                                 :isLoading="state.isTableLoading" :sortData="state.sortData" @sort="sort">
-                                <template #body v-if="!(state.isTableLoading || (state.presets?.length === 0))">
-                                    <tr v-for="(preset, index) in state.presets" :key="index">
+                                <template #body v-if="!(state.isTableLoading || (state.presets?.data?.length === 0))">
+                                    <tr v-for="(preset, index) in state.presets?.data" :key="index">
                                         <td width="30%">
                                             <span>{{ preset?.name }}</span>
                                         </td>
@@ -161,7 +158,7 @@ async function fetchPresets() {
             sortOrder: state.sortData.sortOrder,
             ...state.dataFilter,
         })
-        state.presets = response.data
+        state.presets = response
     } catch (error: any) {
         state.error = error
     } finally {

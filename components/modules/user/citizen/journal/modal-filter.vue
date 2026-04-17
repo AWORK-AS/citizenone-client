@@ -158,7 +158,7 @@ async function fetchAllUsersWithoutAllUsersOption() {
             response.data.forEach(
                 (user: any) => options.push({
                     value: user?.uuid,
-                    label: user?.firstname + " " + user?.lastname,
+                    label: user?.firstname + " " + (user?.lastname ?? ''),
                 })
             )
             state.options.users = options

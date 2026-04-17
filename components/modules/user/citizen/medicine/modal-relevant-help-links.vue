@@ -11,14 +11,14 @@
                         }}.
                     </p>
                     <div class="text-sm">
-                        Styrelsen for Patientsikkerhed - Utilsigtede hændelser (UTH):
+                        {{ $t('citizens.medicineJournals.relevantHelpLinksForWorkingWithMedicine.uthLabel') }}
                         <p class="text-primary hover:text-primary-700 cursor-pointer"
                             @click="navigateToExternalLink('https://stps.dk/da/rapporter-en-utilsigtet-haendelse')">
                             https://stps.dk/da/rapporter-en-utilsigtet-haendelse
                         </p>
                     </div>
                     <div class="text-sm">
-                        DPSD - Dansk Patientsikkerhedsdatabase (officiel UTH-portal):
+                        {{ $t('citizens.medicineJournals.relevantHelpLinksForWorkingWithMedicine.dpsdLabel') }}
                         <p class="text-primary hover:text-primary-700 cursor-pointer"
                             @click="navigateToExternalLink('https://uth.dpsd.dk')">
                             https://uth.dpsd.dk

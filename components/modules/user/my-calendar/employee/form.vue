@@ -474,6 +474,11 @@ watch(() => state.formSchedule.date_time_start, (dateTimeStart: any) => {
     state.formSchedule.date_time_end = moment(dateTimeStart).add(1, 'hours').format('YYYY-MM-DD HH:mm')
 })
 
+watch(() => state.formSchedule.employees, () => {
+    fetchAllCitizens()
+    syncSelectedCitizensWithOptions()
+})
+
 const rules = computed(() => {
     if (state.formSchedule.recurring.is_recurring) {
         return {
@@ -534,6 +539,14 @@ function toggleEmployees() {
     state.formSchedule.is_groups = !state.formSchedule.is_groups
     state.formSchedule.users_uuid = []
     state.formSchedule.user_group_uuid = []
+}
+
+function syncSelectedCitizensWithOptions() {
+    const availableCitizenUuids = new Set(state.options.citizens.map((option) => option.value))
+    state.formSchedule.citizens_uuid = state.formSchedule.citizens_uuid.filter((citizenUuid: any) => {
+        const selectedUuid = typeof citizenUuid === 'string' ? citizenUuid : citizenUuid?.value
+        return availableCitizenUuids.has(selectedUuid)
+    })
 }
 
 function formatDateTimeToYYYYmmddHHmm(inputDate: string): string {
@@ -606,13 +619,26 @@ async function fetchAllCalendarTags() {
 }
 
 async function fetchAllCitizens() {
+    if (!state.formSchedule.employees.length) {
+        state.options.citizens = []
+        return
+    }
     state.error = {}
     state.isPageLoading = true
     try {
+        const selectedDepartment = departmentStore.getSelectedDepartment
+        const selectedDepartmentUuid = typeof selectedDepartment === 'string'
+            ? selectedDepartment
+            : selectedDepartment?.uuid
+
+        const ownerIds = [...state.formSchedule.employees]
+        const departmentUuids = selectedDepartmentUuid ? [selectedDepartmentUuid] : ['all-departments']
+
         const params = {
-            department: departmentStore.getSelectedDepartmentName
+            'owner_uuid[]': ownerIds,
+            'department_uuid[]': departmentUuids,
         }
-        const response = await citizenService.getAllCitizens(params)
+        const response = await citizenService.getAllAssignedCitizenByEmployee(params)
         if (response.data) {
             let options: any = []
             response.data.forEach(
@@ -622,6 +648,7 @@ async function fetchAllCitizens() {
                 })
             )
             state.options.citizens = options
+            syncSelectedCitizensWithOptions()
         }
     } catch (error: any) {
         state.error = error

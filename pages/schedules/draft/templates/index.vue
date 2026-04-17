@@ -52,7 +52,7 @@
                     class="inline-flex items-center gap-1.5 mb-4 text-sm text-gray-500 hover:text-primary transition-colors max-w-fit"
                     to="/schedules/draft">
                     <Icon name="ph:arrow-left" size="16" />
-                    <span>Tilbage til vagtplanskladden</span>
+                    <span>{{ $t('dutySchedules.draftTemplates.backToDraft') }}</span>
                 </NuxtLink>
                 <!-- Forklaringsboks -->
                 <div class="bg-blue-50 border border-blue-200 rounded-xl p-4 flex items-start gap-3 mb-5">
@@ -62,26 +62,19 @@
                             d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2" />
                     </svg>
                     <div>
-                        <p class="text-sm font-semibold text-blue-900 mb-1">Hvad er skabeloner?</p>
-                        <p class="text-sm text-blue-700 mb-2">En skabelon er en foruddefineret vagtplan du kan anvende
-                            direkte i din
-                            vagtplanskladde. Du kan oprette to typer:</p>
+                        <p class="text-sm font-semibold text-blue-900 mb-1">{{ $t('dutySchedules.draftTemplates.infoBox.title') }}</p>
+                        <p class="text-sm text-blue-700 mb-2">{{ $t('dutySchedules.draftTemplates.infoBox.description') }}</p>
                         <div class="flex flex-col gap-1.5 text-xs text-blue-700">
                             <div class="flex items-start gap-2">
-                                <span class="font-semibold text-blue-800 shrink-0">📅 Enkeltstående:</span>
-                                <span>En fast ugentlig vagtplan du anvender én gang ad gangen.</span>
+                                <span class="font-semibold text-blue-800 shrink-0">📅 {{ $t('dutySchedules.draftTemplates.infoBox.oneTime') }}</span>
+                                <span>{{ $t('dutySchedules.draftTemplates.infoBox.oneTimeDescription') }}</span>
                             </div>
                             <div class="flex items-start gap-2">
-                                <span class="font-semibold text-blue-800 shrink-0">🔄 Gentagende:</span>
-                                <span>En rullende vagtplan der gentages over flere uger (fx 4-ugers rotation). Kan
-                                    sættes til at
-                                    køre frem til en given dato.</span>
+                                <span class="font-semibold text-blue-800 shrink-0">🔄 {{ $t('dutySchedules.draftTemplates.infoBox.recurring') }}</span>
+                                <span>{{ $t('dutySchedules.draftTemplates.infoBox.recurringDescription') }}</span>
                             </div>
                         </div>
-                        <p class="text-xs text-blue-600 mt-2">💡 Tip: Opret skabelonen, klik derefter
-                            <strong>Anvend</strong> for at
-                            indlæse den i din vagtplanskladde — du kan redigere den bagefter.
-                        </p>
+                        <p class="text-xs text-blue-600 mt-2">💡 {{ $t('dutySchedules.draftTemplates.infoBox.tip') }}</p>
                     </div>
                 </div>
                 <div class="flex-none lg:flex justify-between items-center gap-3 space-y-3 mb-5">
@@ -127,7 +120,7 @@
                                     </div>
                                     <button onclick="document.getElementById('help-guide-modal').style.display='none'"
                                         style="padding:8px;border-radius:8px;border:none;background:#f1f5f9;cursor:pointer;display:flex;align-items:center;color:#64748b;"
-                                        title="Luk">
+                                        :title="$t('dutySchedules.draftTemplates.close')">
                                         <svg style="width:18px;height:18px" fill="none" viewBox="0 0 24 24"
                                             stroke="currentColor">
                                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"

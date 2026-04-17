@@ -46,15 +46,6 @@
                         :error="v$?.formMedicine?.schedule_frequency?.recurring?.$errors[0]?.$message?.toString()" />
                     <FormError :error="state?.error?.errors?.recurring?.[0]" />
                 </div>
-                <div class="space-y-1" v-if="!state.formMedicine.is_pn_medicine">
-                    <FormLabel for="recurring_until" :label="$t('citizens.medicineJournals.form.scheduleUntil')" />
-                    <FormDateField id="recurring_until" name="recurring_until"
-                        :placeholder="`${$t('citizens.medicineJournals.form.scheduleUntil')}`"
-                        v-model="state.formMedicine.schedule_frequency.recurring_until" />
-                    <FormError
-                        :error="v$?.formMedicine?.schedule_frequency?.recurring_until?.$errors[0]?.$message.toString()" />
-                    <FormError :error="state?.error?.errors?.recurring_until?.[0]" />
-                </div>
                 <div class="space-y-3" v-if="state.formMedicine.schedule_frequency?.recurring === 'custom'">
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
                         <div class="space-y-1">
@@ -177,8 +168,106 @@
                 </div>
                 <!-- End Frequency Recurring Fields -->
 
+                <!-- #545 & #549: Avanceret skemaindstilling — perioder og ekstra dage -->
+                <div v-if="!state.formMedicine.is_pn_medicine" class="rounded-xl border border-primary/20 bg-primary/5 p-4 space-y-4">
+                    <div class="flex items-start gap-2">
+                        <Icon name="ph:calendar-dots" class="size-5 text-primary shrink-0 mt-0.5" />
+                        <div>
+                            <p class="text-sm font-semibold text-primary">{{ $t('citizens.medicineJournals.form.advancedSchedule') }}</p>
+                            <p class="text-xs text-gray-500 mt-0.5">{{ $t('citizens.medicineJournals.form.advancedScheduleDesc') }}</p>
+                        </div>
+                    </div>
 
-                <div class="grid grid-cols-1 gap-3" :class="[
+                    <!-- Treatment periods #545 -->
+                    <div class="space-y-2">
+                        <div class="flex items-center justify-between">
+                            <div>
+                                <p class="text-xs font-semibold text-gray-700">{{ $t('citizens.medicineJournals.form.treatmentPeriods') }}</p>
+                                <p class="text-xs text-gray-400">{{ $t('citizens.medicineJournals.form.treatmentPeriodsDesc') }}</p>
+                            </div>
+                            <button type="button" @click="addTreatmentPeriod"
+                                class="shrink-0 text-xs text-primary border border-primary/30 bg-white rounded-lg px-2.5 py-1 hover:bg-primary/5">
+                                {{ $t('citizens.medicineJournals.form.addPeriod') }}
+                            </button>
+                        </div>
+                        <div v-if="state.formMedicine.treatment_periods.length > 0" class="space-y-2">
+                            <div v-for="(period, idx) in state.formMedicine.treatment_periods" :key="idx"
+                                class="flex items-center gap-2 bg-white rounded-lg px-3 py-2 border border-gray-200">
+                                <Icon name="ph:calendar-blank" class="size-4 text-gray-400 shrink-0" />
+                                <span class="text-xs text-gray-500 shrink-0">{{ $t('citizens.medicineJournals.form.from') }}</span>
+                                <input type="date" v-model="period.start"
+                                    class="text-xs border border-gray-200 rounded px-2 py-1.5 flex-1 focus:outline-none focus:border-primary bg-gray-50" />
+                                <span class="text-xs text-gray-500 shrink-0">{{ $t('citizens.medicineJournals.form.to') }}</span>
+                                <input type="date" v-model="period.end"
+                                    class="text-xs border border-gray-200 rounded px-2 py-1.5 flex-1 focus:outline-none focus:border-primary bg-gray-50" />
+                                <button type="button" @click="removeTreatmentPeriod(idx)"
+                                    class="text-red-400 hover:text-red-600 shrink-0">
+                                    <Icon name="ph:x" class="size-4" />
+                                </button>
+                            </div>
+                        </div>
+                        <div v-else class="text-xs text-gray-400 bg-white border border-dashed border-gray-200 rounded-lg px-3 py-2.5 text-center">
+                            {{ $t('citizens.medicineJournals.form.noPeriodsAdded') }}
+                        </div>
+                    </div>
+
+                    <!-- Extra individual dates #549 -->
+                    <div class="space-y-2">
+                        <div>
+                            <p class="text-xs font-semibold text-gray-700">{{ $t('citizens.medicineJournals.form.extraIndividualDates') }}</p>
+                            <p class="text-xs text-gray-400">{{ $t('citizens.medicineJournals.form.extraIndividualDatesDesc') }}</p>
+                        </div>
+                        <div class="bg-white border border-gray-200 rounded-xl p-3">
+                            <div class="flex items-center justify-between mb-2">
+                                <button type="button" @click="extraDatesPrevMonth" class="p-1 rounded hover:bg-gray-100 text-gray-500">
+                                    <Icon name="ph:caret-left" class="size-4" />
+                                </button>
+                                <span class="text-xs font-semibold text-gray-700 capitalize">{{ extraDatesMonthLabel }}</span>
+                                <button type="button" @click="extraDatesNextMonth" class="p-1 rounded hover:bg-gray-100 text-gray-500">
+                                    <Icon name="ph:caret-right" class="size-4" />
+                                </button>
+                            </div>
+                            <div class="grid grid-cols-7 mb-1">
+                                <div v-for="(d, di) in calendarDayHeaders" :key="di"
+                                    class="text-center text-xs text-gray-400 font-medium py-1">{{ d }}</div>
+                            </div>
+                            <div class="grid grid-cols-7 gap-y-0.5">
+                                <button v-for="day in extraCalendarDays" :key="day.dateStr" type="button"
+                                    @click="toggleExtraDate(day)"
+                                    :disabled="!day.isCurrentMonth"
+                                    :class="[
+                                        'relative flex flex-col items-center justify-center h-8 rounded-lg text-xs transition-all',
+                                        !day.isCurrentMonth ? 'text-gray-300 cursor-default' : 'cursor-pointer',
+                                        state.formMedicine.recurring_dates.includes(day.dateStr) ? 'bg-primary text-white font-semibold' : '',
+                                        day.isCurrentMonth && !state.formMedicine.recurring_dates.includes(day.dateStr) ? 'hover:bg-gray-100 text-gray-700' : '',
+                                    ]">
+                                    {{ day.dayNum }}
+                                </button>
+                            </div>
+                        </div>
+                        <div v-if="state.formMedicine.recurring_dates.length > 0" class="flex flex-wrap gap-1.5">
+                            <span v-for="d in state.formMedicine.recurring_dates.slice().sort()" :key="d"
+                                class="text-xs bg-primary/10 text-primary border border-primary/20 px-2 py-0.5 rounded-full flex items-center gap-1">
+                                {{ formatExtraDate(d) }}
+                                <button type="button" @click="removeExtraDate(d)" class="hover:text-red-500 ml-0.5">×</button>
+                            </span>
+                        </div>
+                        <div v-else class="text-xs text-gray-400 text-center py-1">{{ $t('citizens.medicineJournals.form.noExtraDaysSelected') }}</div>
+                    </div>
+                </div>
+
+
+                <div class="space-y-1" v-if="!state.formMedicine.is_pn_medicine">
+                    <FormLabel for="recurring_until" :label="$t('citizens.medicineJournals.form.scheduleUntil')" />
+                    <FormDateField id="recurring_until" name="recurring_until"
+                        :placeholder="`${$t('citizens.medicineJournals.form.scheduleUntil')}`"
+                        v-model="state.formMedicine.schedule_frequency.recurring_until" />
+                    <FormError
+                        :error="v$?.formMedicine?.schedule_frequency?.recurring_until?.$errors[0]?.$message.toString()" />
+                    <FormError :error="state?.error?.errors?.recurring_until?.[0]" />
+                </div>
+
+                                <div class="grid grid-cols-1 gap-3" :class="[
                     !state.formMedicine.is_pn_medicine && 'md:grid-cols-2'
                 ]">
                     <div class="space-y-1">
@@ -247,8 +336,8 @@
                                     <p class="text-sm text-gray-600">
                                         {{ $t('citizens.medicineJournals.form.time') }}
                                     </p>
-                                    <FormSelect :options="getAvailableTimeOptions(data._uid)" :value="data?.time"
-                                        @change="(event: any) => state.formMedicine.max_dosage_per_time[index].time = event" />
+                                    <FormSelect :options="getAvailableTimeOptions(data._uid)"
+                                        v-model="state.formMedicine.max_dosage_per_time[index].time" />
                                 </div>
                                 <div class="space-y-1">
                                     <p class="text-sm text-gray-600">
@@ -308,6 +397,7 @@
                     <FormError :error="v$?.formMedicine?.end_date?.$errors[0]?.$message.toString()" />
                     <FormError :error="props?.error?.errors?.end_date?.[0]" />
                 </div>
+
                 <div class="space-y-1">
                     <div class="flex justify-between items-center py-0.5">
                         <FormLabel for="doctor" :label="$t('citizens.medicineJournals.form.doctor')" />
@@ -428,6 +518,8 @@ const state = reactive({
         package_leaflet_link: '',
         start_date: '',
         end_date: '',
+        recurring_dates: [] as string[], // #549: individuelle ekstra dage
+        treatment_periods: [] as {start: string, end: string}[], // #545: perioder
         doctor: '',
         treatment_reason: '',
         medication_storage: '',
@@ -581,7 +673,10 @@ onMounted(() => {
         description: props.selectedMedicine.description,
         current_stocks: props.selectedMedicine.current_stocks?.toString(),
         schedule_frequency: props.selectedMedicine?.schedule_frequency,
+        recurring_dates: props.selectedMedicine?.extra_dates ?? [],
+        treatment_periods: props.selectedMedicine?.treatment_periods ?? [],
     }
+    resetExtraDatesMonth()
     fetchDosageForms()
     fetchAllMedicines()
     fetchCitizenDoctors()
@@ -724,6 +819,99 @@ const rules = computed(() => {
 
 const v$ = useVuelidate(rules, state)
 
+// #545 & #549 helpers
+const extraDatesMonthState = reactive({ year: new Date().getFullYear(), month: new Date().getMonth() });
+
+function resetExtraDatesMonth() {
+    extraDatesMonthState.year = new Date().getFullYear()
+    extraDatesMonthState.month = new Date().getMonth()
+}
+
+const extraDatesLocale = computed(() => language.locale.value === 'dk' ? 'da-DK' : 'en-GB')
+
+const calendarDayHeaders = computed(() =>
+    language.locale.value === 'dk'
+        ? ['M', 'T', 'O', 'T', 'F', 'L', 'S']
+        : ['M', 'T', 'W', 'T', 'F', 'S', 'S']
+)
+
+const extraDatesMonthLabel = computed(() => {
+    const d = new Date(extraDatesMonthState.year, extraDatesMonthState.month, 1);
+    return d.toLocaleDateString(extraDatesLocale.value, { month: 'long', year: 'numeric' });
+});
+
+const extraCalendarDays = computed(() => {
+    const year = extraDatesMonthState.year;
+    const month = extraDatesMonthState.month;
+    const firstDay = new Date(year, month, 1);
+    const lastDay = new Date(year, month + 1, 0);
+    // Start from Monday
+    let startDate = new Date(firstDay);
+    const dow = startDate.getDay();
+    startDate.setDate(startDate.getDate() - (dow === 0 ? 6 : dow - 1));
+    
+    const days = [];
+    const cur = new Date(startDate);
+    while (cur <= lastDay || days.length % 7 !== 0) {
+        const ds = cur.getFullYear() + '-' + String(cur.getMonth() + 1).padStart(2, '0') + '-' + String(cur.getDate()).padStart(2, '0');
+        days.push({
+            dateStr: ds,
+            dayNum: cur.getDate(),
+            isCurrentMonth: cur.getMonth() === month,
+        });
+        cur.setDate(cur.getDate() + 1);
+        if (days.length > 42) break;
+    }
+    return days;
+});
+
+function extraDatesPrevMonth() {
+    if (extraDatesMonthState.month === 0) {
+        extraDatesMonthState.month = 11;
+        extraDatesMonthState.year--;
+    } else {
+        extraDatesMonthState.month--;
+    }
+}
+
+function extraDatesNextMonth() {
+    if (extraDatesMonthState.month === 11) {
+        extraDatesMonthState.month = 0;
+        extraDatesMonthState.year++;
+    } else {
+        extraDatesMonthState.month++;
+    }
+}
+
+function toggleExtraDate(day: any) {
+    if (!day.isCurrentMonth) return;
+    const idx = state.formMedicine.recurring_dates.indexOf(day.dateStr);
+    if (idx === -1) {
+        state.formMedicine.recurring_dates.push(day.dateStr);
+    } else {
+        state.formMedicine.recurring_dates.splice(idx, 1);
+    }
+}
+
+function removeExtraDate(dateStr: string) {
+    state.formMedicine.recurring_dates = state.formMedicine.recurring_dates.filter(d => d !== dateStr);
+}
+
+function formatExtraDate(dateStr: string): string {
+    // Parse as local date (avoid UTC midnight → off-by-one-day in negative UTC offsets)
+    const [y, m, d] = dateStr.split('-').map(Number)
+    const date = new Date(y, m - 1, d)
+    return date.toLocaleDateString(extraDatesLocale.value, { day: 'numeric', month: 'short' })
+}
+
+function addTreatmentPeriod() {
+    state.formMedicine.treatment_periods.push({ start: '', end: '' });
+}
+
+function removeTreatmentPeriod(idx: number) {
+    state.formMedicine.treatment_periods.splice(idx, 1);
+}
+
 function submitForm() {
     v$.value.$validate()
     if (!v$.value.$error) {
@@ -732,6 +920,8 @@ function submitForm() {
             max_dosage_per_time: state.formMedicine.max_dosage_per_time.map(
                 ({ _uid, ...rest }: any) => rest
             ),
+            extra_dates: state.formMedicine.recurring_dates,
+            treatment_periods: state.formMedicine.treatment_periods,
         }
         emit('submitForm', payload)
     }
@@ -828,7 +1018,7 @@ async function fetchTimeIntervals() {
     emit('isPageLoading', true)
     try {
         const response = await timeIntervalService.getAllTimeIntervals()
-        if (response) {
+        if (response && response.data && response.data.length > 0) {
             let options: any = []
             response.data.forEach(
                 (item: any) => options.push({
@@ -836,6 +1026,15 @@ async function fetchTimeIntervals() {
                     label: item?.time,
                 })
             )
+            state.options.time = options
+        } else {
+            const options: any = []
+            for (let h = 0; h < 24; h++) {
+                for (const m of [0, 15, 30, 45]) {
+                    const t = String(h).padStart(2,"0") + ":" + String(m).padStart(2,"0")
+                    options.push({ value: t, label: t })
+                }
+            }
             state.options.time = options
         }
     } catch (error: any) {

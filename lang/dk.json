@@ -291,6 +291,11 @@
     "apps": {
         "activate": "Aktivér",
         "activated": "Aktiveret",
+        "activation": {
+            "activationSuccessful": "Aktivering gennemført",
+            "activatedSuccessfully": "Aktiveret succesfuldt",
+            "activationSuccessMessage": "Din app er blevet aktiveret"
+        },
         "agreetoTAC": "Du skal acceptere vilkårene og betingelserne",
         "alert": {
             "appSuccessfullyActivated": "App aktiveret med succes",
@@ -1677,7 +1682,18 @@
                 "time": "Tid",
                 "treatmentReason": "Behandlingsårsag",
                 "treatmentReasonPlaceholder": "Hvad er årsagen til, at borgeren får denne medicin",
-                "unit": "Enhed"
+                "unit": "Enhed",
+                "advancedSchedule": "Avanceret skemaindstilling",
+                "advancedScheduleDesc": "Brug disse indstillinger hvis borgeren skal have medicinen i bestemte perioder eller på specifikke enkeltdage — ud over den faste hyppighed ovenfor.",
+                "treatmentPeriods": "Behandlingsperioder",
+                "treatmentPeriodsDesc": "Angiv perioder hvor medicinen aktivt skal gives — fx behandling i uge 1-3, pause i uge 4, behandling i uge 5-6.",
+                "addPeriod": "+ Tilføj periode",
+                "from": "Fra",
+                "to": "til",
+                "noPeriodsAdded": "Ingen perioder tilføjet — medicinen følger hyppighedsindstillingen hele vejen",
+                "extraIndividualDates": "Ekstra individuelle dage",
+                "extraIndividualDatesDesc": "Tilføj specifikke enkeltdage hvor borgeren skal have medicinen — selvom det ikke passer med den faste hyppighed. Klik på en dato i kalenderen for at tilføje den.",
+                "noExtraDaysSelected": "Ingen ekstra dage valgt"
             },
             "history": {
                 "alert": {
@@ -1735,10 +1751,139 @@
                     "user": "Bruger"
                 }
             },
+            "giveMedicineModal": {
+                "strengthLabel": "Styrke:",
+                "selectDate": "Vælg dato",
+                "multipleDays": "Flere dage",
+                "timeSlots": "Tidspunkter",
+                "noScheduledDoses": "Ingen planlagte doser på denne dato",
+                "at": "Kl.",
+                "given": "Givet",
+                "delivered": "Udleveret",
+                "deviation": "Afvigelse",
+                "amountDelivered": "Mængde udleveret",
+                "amountGiven": "Mængde givet",
+                "commentOptional": "Kommentar (valgfri)...",
+                "daySelected": "{n} dag(e) valgt",
+                "clear": "Ryd",
+                "registerForAllDays": "Registrér for alle valgte dage:",
+                "total": "Samlet:",
+                "days": "dage",
+                "timeSlotsEquals": "tidspunkter =",
+                "registrations": "registreringer",
+                "inTotal": "i alt",
+                "pcs": "stk",
+                "commentForAll": "Kommentar til alle (valgfri)...",
+                "saving": "Gemmer...",
+                "saveDay": "Gem {n} dag(e)",
+                "saveDoses": "Gem {n} doser",
+                "saveDose": "Gem dosis",
+                "legendGiven": "Givet",
+                "legendOverdue": "Forsinket",
+                "legendScheduled": "Planlagt",
+                "anErrorOccurred": "Der opstod en fejl.",
+                "anErrorOccurredRetry": "Der opstod en fejl. Prøv igen.",
+                "savedTitle": "Gemt!",
+                "registeredForDays": "Registreret for {n} dag(e).",
+                "overdueMinutes": "{minutes} min forsinket",
+                "overdueHoursMinutes": "{hours}t {minutes}min forsinket",
+                "overdueHours": "{hours}t forsinket",
+                "overdueCount": "{n} forsinket"
+            },
+            "historyModal": {
+                "effectEvaluationPending": "{n} effektevaluering afventer",
+                "effectEvaluationsPending": "{n} effektevalueringer afventer",
+                "evaluateAt": "Evaluér kl.",
+                "noPreviousAdministrations": "Ingen tidligere givninger registreret",
+                "effectEvaluation": "Effektevaluering",
+                "evaluatedAt": "Evalueret kl.",
+                "allEffectEvaluations": "Alle effektevalueringer",
+                "unknown": "Ukendt",
+                "registerEffectEvaluation": "Registrér effektevaluering",
+                "scheduledAt": "Planlagt kl.",
+                "describeReaction": "Beskriv borgerens reaktion og effekt af medicinen siden den blev givet.",
+                "observation": "Observation",
+                "evaluationPlaceholder": "Fx: God smertelindring efter 45 min. Borger angiver smerteniveau 3/10 mod tidligere 8/10...",
+                "saving": "Gemmer...",
+                "saveEvaluation": "Gem evaluering",
+                "savedTitle": "Gemt!",
+                "evaluationRegistered": "Effektevalueringen er registreret.",
+                "me": "Mig"
+            },
             "newMedicine": "Ny medicin",
+            "page": {
+                "overdue": "Forsinkede",
+                "dueSoon": "Forfaldner snart",
+                "givenToday": "Givet i dag",
+                "pending": "Afventer",
+                "overdueLabel": "Forsinket:",
+                "dueSoonLabel": "Forfaldner snart:",
+                "scheduledAt": "planlagt kl.",
+                "giveNow": "Giv nu",
+                "filtering": "Filtrerer:",
+                "clearFilter": "Ryd filter",
+                "today": "I dag",
+                "newPackageOpening": "Nyt anbrud",
+                "noActiveMedicines": "Ingen aktive mediciner på denne borger",
+                "addMedicine": "Tilføj medicin",
+                "medicinesSelected": "{n} medicin valgt",
+                "medicineIsOverdue": "Medicinen er {time} forsinket. Giv straks eller registrér afvigelse.",
+                "dueInMinutes": "Forfaldner om {minutes} minutter. Husk at give til tiden.",
+                "expired": "Udløbet",
+                "expiredCheckDate": "Udløbet — tjek anbrud dato",
+                "lowStock": "Lavt lager",
+                "lowStockOnly": "Lavt lager: kun {n} tilbage",
+                "pnMedicineAsNeeded": "PN-medicin (efter behov)",
+                "lastGivenHoursAgo": "Sidst givet for {hours} timer siden. Vent {remaining} timer mere.",
+                "hoursLeft": "{hours}t tilbage",
+                "givePN": "Giv PN",
+                "noScheduledMedicines": "Ingen planlagte mediciner",
+                "overdueDeviation": "Forsinket/afvigelse",
+                "givenLegend": "Givet",
+                "pendingLegend": "Afventer",
+                "changeImageViaCatalogue": "Skift billede via Katalog → Medicin",
+                "missedMedicine": "Glemt medicin",
+                "wasScheduledAt": "var planlagt kl.",
+                "notGivenStatus": "Ikke givet",
+                "viewModeDay": "Dag",
+                "viewModeWeek": "Uge",
+                "viewModeMonth": "Måned",
+                "viewModeList": "Liste",
+                "slotGiven": "Givet ✓",
+                "slotDelivered": "Udleveret ✓",
+                "slotDeviation": "Afvigelse",
+                "slotInMinutes": "Om {minutes} min",
+                "slotAt": "Kl. {time}",
+                "slotOverdue": "Forsinket — planlagt kl. {time}. Klik for at give.",
+                "slotDueSoon": "Forfaldner om {minutes} min — kl. {time}",
+                "slotClickToGive": "Klik for at give — planlagt kl. {time}",
+                "overdueCountText": "{n} forsinket",
+                "givenCountText": "{n} givet",
+                "pendingCountText": "{n} afventer",
+                "weekDayHeaders": [
+                    "Man",
+                    "Tir",
+                    "Ons",
+                    "Tor",
+                    "Fre",
+                    "Lør",
+                    "Søn"
+                ],
+                "calendarDayHeaders": [
+                    "M",
+                    "T",
+                    "O",
+                    "T",
+                    "F",
+                    "L",
+                    "S"
+                ]
+            },
             "relevantHelpLinksForWorkingWithMedicine": {
                 "hereYouWillFindRelevantLinks": "Her finder du relevante links, der kan hjælpe dig i dit arbejde med medicin",
-                "relevantHelpLinksForWorkingWithMedicine": "Relevante hjælpelinks til arbejde med medicin"
+                "relevantHelpLinksForWorkingWithMedicine": "Relevante hjælpelinks til arbejde med medicin",
+                "uthLabel": "Styrelsen for Patientsikkerhed - Utilsigtede hændelser (UTH):",
+                "dpsdLabel": "DPSD - Dansk Patientsikkerhedsdatabase (officiel UTH-portal):"
             },
             "scheduleFrequencies": {
                 "annually": "Årligt",
@@ -1780,6 +1925,13 @@
             "viewMedicine": {
                 "downloadAndPrintMedicine": "Download og udskriv medicin",
                 "viewMedicine": "Se medicin"
+            },
+            "viewModal": {
+                "until": "Indtil",
+                "treatmentPeriods": "Behandlingsperioder",
+                "from": "Fra",
+                "to": "til",
+                "extraIndividualDates": "Ekstra individuelle dage"
             }
         },
         "newCitizen": "Ny borger",
@@ -2080,30 +2232,32 @@
             "timeLogs": "Tidslogfiler"
         },
         "timeRegistration": {
-            "checkIn": "Tjek ind",
-            "checkOut": "Tjek ud",
+            "away": "Fraværende",
+            "checkIn": "Check ind",
+            "checkOut": "Check ud",
+            "confirmArrival": {
+                "arrivedAt": "Ankommet kl.",
+                "distance": "Afstand",
+                "question": "Er du ankommet?",
+                "title": "Bekræftelse af ankomst",
+                "totalDistance": "Samlet tilbagelagt afstand"
+            },
+            "confirmWorking": {
+                "question": "Arbejder du stadig?",
+                "title": "Bekræftelse af arbejde",
+                "workingFor": "Arbejdet i"
+            },
             "history": "Historik",
+            "minute": "Minut",
+            "no": "Nej",
             "registerTransport": {
-                "away": "væk",
-                "confirmArrival": {
-                    "arrivedAt": "Ankom til",
-                    "distance": "Afstand",
-                    "question": "Er du ankommet?",
-                    "title": "Ankomstbekræftelse",
-                    "totalDistance": "Samlet tilbagelagt afstand"
-                },
-                "confirmWorking": {
-                    "question": "Arbejder du stadig?",
-                    "title": "Arbejdsbekræftelse",
-                    "workingFor": "Arbejdet i"
-                },
                 "endTransport": "Afslut transport",
                 "errors": {
-                    "geolocationNotSupported": "Geolocation understøttes ikke i denne browser.",
-                    "permissionDenied": "Aktivér lokationstilladelse i browseren.",
-                    "positionUnavailable": "Positionsoplysninger er ikke tilgængelige.",
-                    "somethingWentWrong": "Der opstod en fejl ved hentning af din aktuelle placering. Prøv igen.",
-                    "timeout": "Anmodningen om at hente din placering udløb.",
+                    "geolocationNotSupported": "Geolokation understøttes ikke af denne browser.",
+                    "permissionDenied": "Aktivér placeringstilladelse i browseren.",
+                    "positionUnavailable": "Lokationsoplysninger er ikke tilgængelige.",
+                    "somethingWentWrong": "Der opstod en fejl ved hentning af din nuværende placering. Prøv venligst igen.",
+                    "timeout": "Anmodningen om at hente din placering fik timeout.",
                     "unableToLocate": "Kunne ikke bestemme din placering."
                 },
                 "form": {
@@ -2111,23 +2265,21 @@
                     "currentLocation": "Nuværende placering",
                     "endAddress": "Slutadresse",
                     "kilometers": "Kilometer",
-                    "locating": "Finder din placering...",
-                    "note": "Notat (valgfrit)",
+                    "locating": "Finder placering...",
+                    "note": "Bemærkning (valgfri)",
                     "searchAddress": "Søg adresse",
                     "selectLocation": "Vælg placering",
                     "startAddress": "Startadresse",
                     "useCurrentLocation": "Brug nuværende placering"
                 },
-                "minute": "minutter",
-                "no": "Nej",
-                "registerTransport": "Registrér transport",
-                "yes": "Ja"
+                "registerTransport": "Registrer transport"
             },
             "selectType": "Vil du registrere transport eller arbejdstid?",
-            "selectTypeMessage": "Registrer din tid nemt — vælg arbejde eller transport for at komme i gang.",
+            "selectTypeMessage": "Registrér din tid nemt, vælg arbejde eller transport for at komme i gang.",
             "timeRegistration": "Tidsregistrering",
-            "transport": "Transportere",
-            "work": "Arbejdstid"
+            "transport": "Transport",
+            "work": "Arbejde",
+            "yes": "Ja"
         },
         "treatments": {
             "alert": {
@@ -2833,6 +2985,7 @@
         "deleteSchedule": "Slet tidsplan",
         "shiftMovedTo": "Vagt rykket til",
         "departmentSickLeaves": "Afdelingens sygefravær",
+        "distributionOfShiftTypes": "Fordeling af vagttyper",
         "download": {
             "date": "Dato",
             "delimiter": {
@@ -2903,7 +3056,34 @@
                     "name": "Navn på forudindstilling"
                 },
                 "updateSuccess": "Forudindstilling for vagtplanskladde opdateret med succes!",
-                "viewPresets": "Se forudindstillinger"
+                "viewPresets": "Se forudindstillinger",
+                "infoBox": {
+                    "title": "Hvad er forudindstillinger?",
+                    "description": "En forudindstilling er en gemt version af din vagtplanskladde, som du kan genbruge. Vælg en forudindstilling nedenfor og klik Anvend for at indlæse den i kladden — du kan derefter redigere og offentliggøre den."
+                },
+                "saveInfoBox": {
+                    "title": "Gem din nuværende kladde som forudindstilling",
+                    "description": "Giv forudindstillingen et navn, så du nemt kan genkende den. Du kan senere hente den frem via Se forudindstillinger og genbruge den som udgangspunkt for en ny vagtplan."
+                }
+            },
+            "workflowBanner": {
+                "showGuide": "Vis guide",
+                "title": "Sådan arbejder du med vagtplanskladden",
+                "step1": "Opret kladdevagter",
+                "step2": "Gem forudindstilling (valgfrit)",
+                "step3": "Offentliggør til vagtplan",
+                "tip": "💡 Tip: Brug 'skabeloner' til faste vagtrulleringer, og 'forudindstillinger' til at genbruge en kladde du har lavet før."
+            },
+            "backToPublished": "Tilbage til den udgivede vagtplan",
+            "contextBanner": {
+                "title": "Du arbejder nu i vagtplanskladden",
+                "selectedDepartment": "Valgt afdeling:",
+                "description": "Ændringer her påvirker ikke den udgivede vagtplan, før du offentliggør."
+            },
+            "monthViewDraft": {
+                "title": "Månedsvisning for kladde",
+                "message": "Månedsvisning af kladden er under udvikling. Brug ugevisningen til at redigere kladdevagter. Du kan se den udgivede månedsoversigt under Vagtplaner → Månedsvisning.",
+                "switchToWeekView": "Skift til ugevisning →"
             },
             "publish": "Offentliggør",
             "publishing": "Udgivelse af vagtplaner, luk eller opdater ikke siden.",
@@ -2923,8 +3103,19 @@
             }
         },
         "draftTemplates": {
+            "backToDraft": "Tilbage til vagtplanskladden",
+            "close": "Luk",
             "draftTemplates": "Skabeloner",
             "editDraft": "Rediger skabelon",
+            "infoBox": {
+                "title": "Hvad er skabeloner?",
+                "description": "En skabelon er en foruddefineret vagtplan du kan anvende direkte i din vagtplanskladde. Du kan oprette to typer:",
+                "oneTime": "Enkeltstående:",
+                "oneTimeDescription": "En fast ugentlig vagtplan du anvender én gang ad gangen.",
+                "recurring": "Gentagende:",
+                "recurringDescription": "En rullende vagtplan der gentages over flere uger (fx 4-ugers rotation). Kan sættes til at køre frem til en given dato.",
+                "tip": "Tip: Opret skabelonen, klik derefter Anvend for at indlæse den i din vagtplanskladde — du kan redigere den bagefter."
+            },
             "form": {
                 "adminsOnly": "Kun administratorer",
                 "applyTemplate": "Anvend skabelon",
@@ -2935,7 +3126,17 @@
                 "week": "Uge",
                 "weekNumber": "Ugenummer",
                 "weekRotations": "Ugerotationer",
-                "year": "År"
+                "year": "År",
+                "createInfoBox": {
+                    "title": "Opret en ny skabelon",
+                    "description": "En skabelon er en genanvendelig vagtplan. Giv den et navn, vælg afdeling, og beslut om den skal være gentagende eller enkeltstående. Skabelonen kan efterfølgende anvendes direkte i vagtplanskladden."
+                },
+                "adminsOnlyDescription": "Hvis markeret kan kun administratorer se og bruge denne skabelon.",
+                "isRecurringDescription": "En gentagende skabelon roterer automatisk over flere uger (fx 4-ugers vagtrullering). En ikke-gentagende skabelon er en fast enkelt ugeplan.",
+                "recurringInfoBox": {
+                    "title": "Gentagende skabelon",
+                    "description": "Angiv hvor mange uger skabelonen roterer over (fx 4 = 4-ugers rulning). Du kan valgfrit sætte en slutdato — hvis du ikke sætter en dato, kan skabelonen altid anvendes."
+                }
             },
             "newDraft": "Ny skabelon",
             "recurring": {
@@ -3039,10 +3240,14 @@
             }
         },
         "filter": {
+            "dateTimeEnd": "Dato og tid slut",
+            "dateTimeStart": "Dato og tid start",
             "departments": "Afdelinger",
+            "employee": "Medarbejder",
             "employees": "Medarbejdere",
             "employmentStatus": "Ansættelsesstatus",
-            "filterDate": "Filtrer dato"
+            "filterDate": "Filtrer dato",
+            "filterDateAndTime": "Filtrer dato og tid"
         },
         "findEmployee": "Find medarbejder",
         "form": {
@@ -3173,6 +3378,12 @@
         "normPeriod": "Norm periode",
         "pinSelfToTopOfSchedule": "Fastgør mig selv øverst i vagtplanen",
         "published": {
+            "backToDraft": "Tilbage til vagtplanskladden",
+            "close": "Luk",
+            "infoBox": {
+                "title": "Tidligere publicerede vagtplaner",
+                "description": "Her kan du se alle tidligere versioner af vagtplanen der er blevet offentliggjort. Klik på øje-ikonet for at se en version i detaljer. Disse versioner er skrivebeskyttede og kan ikke redigeres."
+            },
             "publishedVersions": "Publicerede versioner",
             "seePrevious": "Se tidligere publicerede versioner",
             "table": {
@@ -6095,8 +6306,15 @@
                 "newRoomSuccessfullySaved": "Nyt værelse gemt",
                 "roomSuccessfullyUpdated": "Værelse opdateret"
             },
+            "capacity": "Kapacitet",
             "name": "Navn"
         },
+        "addCitizen": "Tilføj borger",
+        "citizenAddedSuccessfully": "Borger tilføjet til værelse",
+        "citizenRemovedSuccessfully": "Borger fjernet fra værelse",
+        "full": "Fuldt",
+        "noCitizens": "Ingen borgere på dette værelse",
+        "removeConfirmation": "Er du sikker på, at du vil fjerne",
         "newRoom": "Nyt værelse",
         "rooms": "Værelser",
         "table": {
@@ -6110,6 +6328,7 @@
             "confirmation": {
                 "deleteRoomConfirmation": "Er du sikker på, at du vil slette dette værelse"
             },
+            "capacity": "Kapacitet",
             "name": "Navn"
         }
     },

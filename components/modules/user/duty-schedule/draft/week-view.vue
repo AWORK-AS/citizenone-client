@@ -25,46 +25,57 @@
         <Alert type="danger" :text="state?.copyShiftError?.message"
             v-if="state.copyShiftError?.message && state.copyShiftError.message.length > 0" />
 
-        <!-- Workflow guide banner -->
         <LoadingSpinner :isActive="state.isPageLoading">
-            <div class="flex h-full flex-col">
-                <div class="space-y-2 mt-3 mb-3">
-                    <div class="flex items-center justify-between gap-3 py-3 flex-wrap">
-                        <div class="flex items-center gap-3 flex-shrink-0">
-                            <h3 class="text-sm font-semibold bg-blue-50 ring-1 ring-blue-200 rounded-lg px-3 py-1 text-gray-900">
-                                <span v-if="month === 'January'">{{ $t('calendar.month.January') }}</span>
-                                <span v-if="month === 'February'">{{ $t('calendar.month.February') }}</span>
-                                <span v-if="month === 'March'">{{ $t('calendar.month.March') }}</span>
-                                <span v-if="month === 'April'">{{ $t('calendar.month.April') }}</span>
-                                <span v-if="month === 'May'">{{ $t('calendar.month.May') }}</span>
-                                <span v-if="month === 'June'">{{ $t('calendar.month.June') }}</span>
-                                <span v-if="month === 'July'">{{ $t('calendar.month.July') }}</span>
-                                <span v-if="month === 'August'">{{ $t('calendar.month.August') }}</span>
-                                <span v-if="month === 'September'">{{ $t('calendar.month.September') }}</span>
-                                <span v-if="month === 'October'">{{ $t('calendar.month.October') }}</span>
-                                <span v-if="month === 'November'">{{ $t('calendar.month.November') }}</span>
-                                <span v-if="month === 'December'">{{ $t('calendar.month.December') }}</span>
-                                {{ year }}
-                            </h3>
-                            <div class="space-y-1 flex items-center gap-x-2">
+            <div class="flex h-full flex-col min-w-0">
+                <div class="mb-2">
+                    <div class="flex flex-col sm:flex-row sm:flex-wrap sm:items-center sm:justify-between gap-y-2 py-1">
+                        <div class="flex flex-wrap items-center gap-x-3 gap-y-2">
+                            <div class="bg-blue-50 ring-1 ring-blue-200 rounded-lg px-3 py-1">
+                                <h3 class="text-sm font-semibold leading-6 text-gray-900 text-center">
+                                    <span v-if="month === 'January'">{{ $t('calendar.month.January') }}</span>
+                                    <span v-if="month === 'February'">{{ $t('calendar.month.February') }}</span>
+                                    <span v-if="month === 'March'">{{ $t('calendar.month.March') }}</span>
+                                    <span v-if="month === 'April'">{{ $t('calendar.month.April') }}</span>
+                                    <span v-if="month === 'May'">{{ $t('calendar.month.May') }}</span>
+                                    <span v-if="month === 'June'">{{ $t('calendar.month.June') }}</span>
+                                    <span v-if="month === 'July'">{{ $t('calendar.month.July') }}</span>
+                                    <span v-if="month === 'August'">{{ $t('calendar.month.August') }}</span>
+                                    <span v-if="month === 'September'">{{ $t('calendar.month.September') }}</span>
+                                    <span v-if="month === 'October'">{{ $t('calendar.month.October') }}</span>
+                                    <span v-if="month === 'November'">{{ $t('calendar.month.November') }}</span>
+                                    <span v-if="month === 'December'">{{ $t('calendar.month.December') }}</span>
+                                    {{ year }}
+                                </h3>
+                            </div>
+                            <label class="flex items-center gap-2 cursor-pointer">
                                 <FormSwitch :value="userStore.getUser?.is_draft_schedule_pinned ? true : false"
                                     @toggleSwitch="pinSelfToTopOfSchedule()" />
-                                <span class="text-xs text-gray-600">{{ $t('dutySchedules.pinSelfToTopOfSchedule') }}</span>
-                            </div>
-                            <label class="flex items-center gap-2 cursor-pointer select-none">
-                                <FormSwitch :value="state.showWorkingToday" @toggleSwitch="() => { state.showWorkingToday = !state.showWorkingToday; fetchDraftDutySchedule() }" />
-                                <span class="text-xs text-gray-600">{{ $t('dutySchedules.showEmployeesWorkingToday') }}</span>
+                                <span class="text-xs text-gray-600 leading-tight">
+                                    {{ $t('dutySchedules.pinSelfToTopOfSchedule') }}
+                                </span>
+                            </label>
+                            <div class="hidden lg:block h-4 w-px bg-slate-200" />
+                            <label class="flex items-center gap-2 cursor-pointer">
+                                <FormSwitch :value="state.showWorkingToday"
+                                    @toggleSwitch="() => { state.showWorkingToday = !state.showWorkingToday; fetchDraftDutySchedule() }" />
+                                <span class="text-xs text-gray-600 leading-tight">
+                                    {{ $t('dutySchedules.showEmployeesWorkingToday') }}
+                                </span>
                             </label>
                         </div>
-                        <div class="flex items-center gap-x-2 flex-shrink-0">
+                        <div class="flex flex-wrap items-center gap-2 w-full sm:w-auto">
                             <button v-if="state.hideBanner"
                                 class="flex items-center gap-1.5 outline-none rounded-md text-xs font-medium bg-blue-50 border border-blue-200 hover:bg-blue-100 px-2.5 py-2 text-blue-600"
                                 @click="() => { state.hideBanner = false; localStorage.removeItem('draftBannerHidden') }">
-                                <svg class="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
-                                Vis guide
+                                <svg class="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                        d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                                </svg>
+                                {{ $t('dutySchedules.draft.workflowBanner.showGuide') }}
                             </button>
-                            <button class="flex items-center gap-1.5 outline-none rounded-md text-xs font-semibold bg-white border border-gray-200 hover:bg-gray-50 px-3 py-2 text-gray-600"
-                                @click="state.modal.isFilterDutyScheduleOpen = !state.modal.isFilterDutyScheduleOpen">
+                            <button
+                                class="flex items-center gap-1.5 outline-none rounded-md text-xs font-semibold bg-white border border-gray-200 hover:bg-gray-50 px-3 py-2 text-gray-600"
+                                @click="state.modal.isFilterDutyScheduleOpen = true">
                                 <Icon name="ic:outline-filter-list" class="h-4 w-4" />
                                 {{ $t('filter') }}
                             </button>
@@ -81,7 +92,7 @@
                                 </button>
                             </Tooltip>
                             <div class="bg-white border border-gray-200 rounded-md px-3 py-2">
-                                <div class="flex items-center gap-x-1 text-sm">
+                                <div class="flex items-center gap-x-1">
                                     <span>{{ $t('entriesPerPage') }}:</span>
                                     <select class="focus:outline-none bg-transparent" @change="changePageLength"
                                         id="citizensPageLength">
@@ -131,39 +142,42 @@
                                         </option>
                                     </select>
                                 </div>
-
                             </div>
-                            <div class="[&_input]:!h-[38px] [&_button]:!h-[38px] [&_form]:!h-[38px]">
+                            <div
+                                class="flex-1 sm:flex-none sm:w-auto xl:min-w-[160px] [&_input]:!h-[38px] [&_button]:!h-[38px] [&_form]:!h-[38px]">
                                 <TableSearch @search="handleSearch" :placeholder="$t('dutySchedules.findEmployee')" />
                             </div>
                         </div>
                     </div>
                 </div>
-        <div v-if="!state.hideBanner" class="bg-gradient-to-r from-blue-50 to-indigo-50 border border-blue-200 rounded-xl px-4 py-3 flex items-start gap-3">
+                <div class="bg-gradient-to-r from-blue-600 to-blue-400 h-1.5 rounded-full transition-all ease-in-out duration-500 mb-1.5"
+                    :style="{ width: `${state.progress.percentage}%` }" v-if="state.progress.showProgressBar" />
+                <div class="h-1.5 mb-1.5" v-else />
+                <div v-if="!state.hideBanner" class="bg-gradient-to-r from-blue-50 to-indigo-50 border border-blue-200 rounded-xl px-4 py-3 flex items-start gap-3 mb-3">
             <div class="flex-shrink-0 mt-0.5">
                 <svg class="w-5 h-5 text-blue-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2" />
                 </svg>
             </div>
             <div class="flex-1 min-w-0">
-                <p class="text-sm font-semibold text-blue-900 mb-1.5">Sådan arbejder du med vagtplanskladden</p>
+                <p class="text-sm font-semibold text-blue-900 mb-1.5">{{ $t('dutySchedules.draft.workflowBanner.title') }}</p>
                 <div class="flex flex-wrap items-center gap-2 text-xs">
                     <div class="flex items-center gap-1.5 bg-white border border-blue-200 rounded-full px-2.5 py-1">
                         <span class="w-5 h-5 rounded-full bg-blue-500 text-white flex items-center justify-center font-bold text-[10px] flex-shrink-0">1</span>
-                        <span class="text-blue-800 font-medium">Opret kladdevagter</span>
+                        <span class="text-blue-800 font-medium">{{ $t('dutySchedules.draft.workflowBanner.step1') }}</span>
                     </div>
                     <svg class="w-3 h-3 text-blue-300 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg>
                     <div class="flex items-center gap-1.5 bg-white border border-blue-200 rounded-full px-2.5 py-1">
                         <span class="w-5 h-5 rounded-full bg-blue-500 text-white flex items-center justify-center font-bold text-[10px] flex-shrink-0">2</span>
-                        <span class="text-blue-800 font-medium">Gem forudindstilling (valgfrit)</span>
+                        <span class="text-blue-800 font-medium">{{ $t('dutySchedules.draft.workflowBanner.step2') }}</span>
                     </div>
                     <svg class="w-3 h-3 text-blue-300 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg>
                     <div class="flex items-center gap-1.5 bg-white border border-blue-200 rounded-full px-2.5 py-1">
                         <span class="w-5 h-5 rounded-full bg-green-500 text-white flex items-center justify-center font-bold text-[10px] flex-shrink-0">3</span>
-                        <span class="text-green-800 font-medium">Offentliggør til vagtplan</span>
+                        <span class="text-green-800 font-medium">{{ $t('dutySchedules.draft.workflowBanner.step3') }}</span>
                     </div>
                 </div>
-                <p class="text-xs text-blue-600 mt-1.5">💡 Tip: Brug <strong>skabeloner</strong> til faste vagtrulleringer, og <strong>forudindstillinger</strong> til at genbruge en kladde du har lavet før.</p>
+                <p class="text-xs text-blue-600 mt-1.5">{{ $t('dutySchedules.draft.workflowBanner.tip') }}</p>
             </div>
             <button @click="() => { state.hideBanner = true; localStorage.setItem('draftBannerHidden', 'true'); emit('bannerClosed') }" class="flex-shrink-0 text-blue-300 hover:text-blue-500 mt-0.5">
                 <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -171,9 +185,6 @@
                 </svg>
             </button>
         </div>
-                <div class="bg-primary h-3 rounded-full transition-all ease-in-out duration-500 mb-1.5"
-                    :style="{ width: `${state.progress.percentage}%` }" v-if="state.progress.showProgressBar" />
-                <div class="h-3 mb-1.5" v-else />
                 <div class="isolate flex flex-auto flex-col bg-white">
                     <div class="flex max-w-full flex-none flex-col sm:max-w-none md:max-w-full">
                         <div>
@@ -212,8 +223,47 @@
                                             </button>
                                         </div>
                                     </div>
+                                    <Tooltip :text="$t('dutySchedules.scheduleSlots.scheduleSlots')"
+                                        v-for="day in weekDays" :key="day.date"
+                                        class="relative cursor-pointer hover:bg-gray-200 flex items-center justify-center py-4 border-0.5"
+                                        @click="openManageScheduleSlotModal(day)"
+                                        v-if="isAdmin(userStore.getUser?.role)">
+                                        <span class="flex gap-x-1 text-sm">
+                                            <span v-if="day.longName === 'Mon'">
+                                                {{ $t('calendar.week.short.Monday') }}
+                                            </span>
+                                            <span v-if="day.longName === 'Tue'">
+                                                {{ $t('calendar.week.short.Tuesday') }}
+                                            </span>
+                                            <span v-if="day.longName === 'Wed'">
+                                                {{ $t('calendar.week.short.Wednesday') }}
+                                            </span>
+                                            <span v-if="day.longName === 'Thu'">
+                                                {{ $t('calendar.week.short.Thursday') }}
+                                            </span>
+                                            <span v-if="day.longName === 'Fri'">
+                                                {{ $t('calendar.week.short.Friday') }}
+                                            </span>
+                                            <span v-if="day.longName === 'Sat'">
+                                                {{ $t('calendar.week.short.Saturday') }}
+                                            </span>
+                                            <span v-if="day.longName === 'Sun'">
+                                                {{ $t('calendar.week.short.Sunday') }}
+                                            </span>
+                                            <span class="items-center justify-center font-semibold text-gray-900">
+                                                {{ day.date }}
+                                            </span>
+                                        </span>
+                                        <div v-if="getSlotCount(day.longName) > 0"
+                                            class="absolute top-2 left-24 text-xxs flex items-center justify-center w-5 h-5 bg-red-400 text-white rounded-full">
+                                            {{
+                                                getSlotCount(day.longName) > 99 ? '99+' : getSlotCount(day.longName)
+                                            }}
+                                        </div>
+                                    </Tooltip>
                                     <div v-for="day in weekDays" :key="day.date"
-                                        class="flex items-center justify-center py-4 border-0.5">
+                                        class="flex items-center justify-center py-4 border-0.5"
+                                        v-if="!isAdmin(userStore.getUser?.role)">
                                         <span class="flex gap-x-1 text-sm">
                                             <span v-if="day.longName === 'Mon'">
                                                 {{ $t('calendar.week.short.Monday') }}
@@ -308,7 +358,10 @@
                                                             </Tooltip>
                                                         </div>
                                                     </div>
-                                                    <div class="-mt-1 ml-10">
+                                                    <div :class="[
+                                                        expandedRecords[employeeIndex] && 'hidden',
+                                                        '-mt-1 ml-10'
+                                                    ]">
                                                         <p class="text-xxs">
                                                             {{ employee?.employee_detail?.job?.title }}
                                                         </p>
@@ -332,18 +385,44 @@
                                                                 aria-hidden="true" />
                                                         </div>
 
-                                                        <div v-if="employee?.norm_period"
-                                                            class="flex items-center gap-1 cursor-pointer">
+                                                        <div class="flex items-center gap-1 cursor-pointer"
+                                                            @click="state.modal.isAnnualNormHoursInfoOpen = true">
                                                             <p class="text-xxs">
-                                                                {{ $t('dutySchedules.normPeriod') }}:
-                                                                {{ employee?.norm_period?.display_label ?? '' }}
+                                                                {{ $t('dutySchedules.weeklyNormHours') }}:
+                                                                {{ (Math.round(Number(employee?.annual_norm_hours) /
+                                                                    52)) ?? 0 }}
                                                             </p>
+                                                            <Icon name="ph:question" class="h-3.5 w-3.5"
+                                                                aria-hidden="true" />
                                                         </div>
 
                                                         <p class="text-xxs">
                                                             {{ $t('dutySchedules.totalHours') }}:
                                                             {{ employee?.total_hours ?? 0 }}
                                                         </p>
+                                                        <p :class="[
+                                                            employee?.average_weekly_work_time?.severity === 'info' ? 'text-green-700' :
+                                                                employee?.average_weekly_work_time?.severity === 'warning' ? 'text-amber-700' :
+                                                                    'text-red-700',
+                                                            'text-xxs'
+                                                        ]">
+                                                            {{
+                                                                $t('dutySchedules.averageWeeklyHours.averageWeeklyHours')
+                                                            }}:
+                                                            {{ employee?.average_weekly_work_time?.average_weekly_hours
+                                                            }}
+                                                        </p>
+                                                        <p :class="[
+                                                            parseFloat(employee?.log_data.total_time_account_earned_hours?.replace(',', '.')) > 0 ? 'text-green-700' : 'text-red-700',
+                                                            'text-xxs'
+                                                        ]">
+                                                            {{ $t('dutySchedules.earnedWorkHours') }}:
+                                                            {{ employee?.log_data.total_time_account_earned_hours }}
+                                                        </p>
+                                                        <div class="p-0 m-0 text-xxs text-primary cursor-pointer hover:text-primary-700"
+                                                            @click="showShiftTypeDistribution(employee)">
+                                                            {{ $t('dutySchedules.showTheDistributionOfShiftTypes') }}
+                                                        </div>
                                                         <div class="p-0 m-0 text-xxs text-primary cursor-pointer hover:text-primary-700"
                                                             @click="navigateTo(`/calendar?employee_uuid=${employee?.uuid}`)">
                                                             {{ $t('dutySchedules.viewCalendar') }}
@@ -423,9 +502,40 @@
                                                             </div>
                                                         </div>
                                                     </div>
+
+                                                    <div class="text-xs grid grid-cols-7 border-t-2 border-gray-200">
+                                                        <div class="col-span-3 border-gray-200">
+                                                            <div class="pl-3 py-2 font-semibold">
+                                                                {{ $t('dutySchedules.total') }}:
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-span-2 border-gray-200">
+                                                            <div class="text-right py-2 pr-2 font-semibold">
+                                                                {{ employee?.total_weekly_hours }}
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-span-2 border-l-0.5 border-gray-200">
+                                                            <div class="text-right py-2 pr-2 font-semibold">
+                                                                {{ employee?.total_yearly_hours }}
+                                                            </div>
+                                                        </div>
+                                                    </div>
+
                                                     <div class="text-xs grid grid-cols-7">
                                                         <div
-                                                            class="px-3 col-span-7 space-y-2 mt-4 border-t-0.5 border-gray-200 pt-3">
+                                                            class="px-3 col-span-7 space-y-2 border-t-0.5 border-gray-200 pt-3">
+                                                            <div :class="[
+                                                                'text-primary',
+                                                                'flex items-center gap-1 w-fit cursor-pointer'
+                                                            ]" @click="openGraphModal(employee)">
+                                                                <Icon name="ph:chart-bar-bold" class="h-3 w-3"
+                                                                    aria-hidden="true" />
+                                                                {{
+                                                                    $t('dutySchedules.normHours.compensatoryHoursGraph')
+                                                                }}
+                                                            </div>
+                                                        </div>
+                                                        <div class="px-3 col-span-7 space-y-2 mt-1">
                                                             <div :class="[
                                                                 employee?.total_norm_hours?.compensatory_hours > 0 ? 'text-green-700' : 'text-red-700',
                                                                 'flex items-center gap-1 w-fit cursor-pointer'
@@ -648,12 +758,14 @@
                 </div>
             </div>
             <ModulesUserDutyScheduleModalFilter :isModalOpen="state.modal.isFilterDutyScheduleOpen"
-            @close="state.modal.isFilterDutyScheduleOpen = false" @setFilter="setFilter" />
-        <ModulesUserDutyScheduleNormHoursModalCompensatoryHours :isModalOpen="state.modal.isCompensatoryHoursOpen"
+                @close="state.modal.isFilterDutyScheduleOpen = false" @setFilter="setFilter" />
+            <ModulesUserDutyScheduleNormHoursModalCompensatoryHours :isModalOpen="state.modal.isCompensatoryHoursOpen"
                 :selectedEmployee="state.normHours.selectedEmployeeSchedule"
                 @close="state.modal.isCompensatoryHoursOpen = false" />
             <ModulesUserDutyScheduleNormHoursModalInfo :isModalOpen="state.modal.isAnnualNormHoursInfoOpen"
                 @close="state.modal.isAnnualNormHoursInfoOpen = false" />
+            <ModulesUserDutyScheduleDraftNormHoursModalGraph :isModalOpen="state.modal.isGraphOpen"
+                :selectedEmployee="state.normHours.selectedEmployee" @close="state.modal.isGraphOpen = false" />
             <ModulesUserDutyScheduleNormHoursModalVacationHours :isModalOpen="state.modal.isVacationHoursOpen"
                 :selectedEmployee="state.normHours.selectedEmployeeSchedule"
                 @close="state.modal.isVacationHoursOpen = false" />
@@ -666,14 +778,14 @@
                 :shiftWarnings="state.shiftWarnings"
                 @dateTimeChange="dateTimeChange"
                 @close="state.modal.isAddShiftOpen = false" @saveShift="saveShift"
-                @resetNewShiftError="state.newShiftError = {}" />
+                @resetNewShiftError="state.newShiftError = {}" @resetShiftWarnings="state.shiftWarnings = []" />
             <ModulesUserDutyScheduleModalEditShift :isModalOpen="state.modal.isEditShiftOpen"
                 :isModalLoading="state.isModalLoading" :error="state.editShiftError"
                 :selectedEmployee="state.editShift.selectedEmployee"
                 :selectedEmployeeSchedule="state.editShift.selectedEmployeeSchedule"
                 :shiftWarnings="state.shiftWarnings"
                 @dateTimeChange="dateTimeChange"
-                @close="state.modal.isEditShiftOpen = false" @resetEditShiftError="state.editShiftError = {}"
+                @close="state.modal.isEditShiftOpen = false; state.shiftWarnings = []" @resetEditShiftError="state.editShiftError = {}"
                 @updateShift="updateSelectedSchedule" />
             <ModulesUserDutyScheduleDraftModalCopyMultipleWeeks
                 :isModalOpen="state.modal.isCopyMultipleWeeklyScheduleOpen"
@@ -682,6 +794,12 @@
             <ModulesUserDutyScheduleExtraHoursModalView :isModalOpen="state.modal.isManageExtraHoursOpen"
                 :selectedEmployee="state.manageExtraHours.selectedEmployee"
                 @close="state.modal.isManageExtraHoursOpen = false" @refreshDutySchedules="fetchDraftDutySchedule()" />
+            <ModulesUserDutyScheduleDraftScheduleSlotsModalScheduleSlots :isModalOpen="state.modal.isManageScheduleSlotOpen"
+                :selectedDay="state.manageScheduleSlot.selectedDay"
+                @close="state.modal.isManageScheduleSlotOpen = false" @refreshDutySchedules="fetchDraftDutySchedule()" />
+            <ModulesUserDutyScheduleDraftModalShiftTypes :isModalOpen="state.modal.isShowDistributionOfShiftTypes"
+                :selectedEmployee="state.shiftTypesDistribution.selectedEmployee"
+                @close="state.modal.isShowDistributionOfShiftTypes = false" />
         </LoadingSpinner>
     </div>
 </template>
@@ -734,6 +852,7 @@ const state = reactive({
     } as any,
     copyShiftError: {} as Error,
     customWeekLabel: 'week',
+    hideBanner: typeof localStorage !== 'undefined' ? localStorage.getItem('draftBannerHidden') === 'true' : false,
     showWorkingToday: false,
     isDragging: false,
     dragSuccessMessage: '',
@@ -741,6 +860,11 @@ const state = reactive({
         search: ''
     },
     editShiftError: {} as Error,
+    filter: {
+        department_uuids: [],
+        employment_status: [],
+        employee_uuids: [],
+    },
     editShift: {
         selectedEmployee: {},
         selectedEmployeeSchedule: {},
@@ -752,6 +876,9 @@ const state = reactive({
     manageExtraHours: {
         selectedEmployee: {},
     },
+    manageScheduleSlot: {
+        selectedDay: [],
+    } as any,
     modal: {
         isAddShiftOpen: false,
         isFilterDutyScheduleOpen: false,
@@ -759,10 +886,13 @@ const state = reactive({
         isCopyMultipleWeeklyScheduleOpen: false,
         isDepartmentSickLeaveDateRangeOpen: false,
         isEditShiftOpen: false,
+        isGraphOpen: false,
         isManageExtraHoursOpen: false,
+        isManageScheduleSlotOpen: false,
         isPublishDraftOpen: false,
         isVacationHoursOpen: false,
         isAnnualNormHoursInfoOpen: false,
+        isShowDistributionOfShiftTypes: false,
     } as any,
     newShift: {
         selectedDate: '',
@@ -770,7 +900,8 @@ const state = reactive({
     },
     newShiftError: {} as Error,
     normHours: {
-        selectedEmployeeSchedule: {}
+        selectedEmployeeSchedule: {},
+        selectedEmployee: {} as any,
     },
     progress: {
         percentage: 100,
@@ -781,7 +912,11 @@ const state = reactive({
     selectedDate: moment().format('YYYY-MM-DD'),
     showAllShifts: false,
     showAllShiftTypes: false,
+    showWarningDialog: false,
     shiftPercentage: {} as any,
+    shiftTypesDistribution: {
+        selectedEmployee: {} as any,
+    },
     shiftDateRange: {
         formDateRange: {
             start_date: moment().startOf('week').add(1, 'day'),
@@ -821,6 +956,11 @@ watch(() => state.selectedDate, (newSelectedDate: any) => {
         currentDate.value = moment(newSelectedDate)
         fetchDraftDutySchedule()
     }
+})
+
+watch(() => draftDutyScheduleStore.getShowEmployeesWorkingToday, (status: boolean) => {
+    draftDutyScheduleStore.setShowEmployeesWorkingToday(status)
+    fetchDraftDutySchedule()
 })
 
 onMounted(() => {
@@ -951,6 +1091,11 @@ function getMultiDayShift(shifts: any) {
     })
 }
 
+function showShiftTypeDistribution(employee: any) {
+    state.shiftTypesDistribution.selectedEmployee = employee
+    state.modal.isShowDistributionOfShiftTypes = true
+}
+
 async function fetchDutySchedulePercentage() {
     state.error = {}
     state.isPageLoading = true
@@ -992,10 +1137,19 @@ async function fetchDraftDutySchedule() {
             filter_date_start: moment(state.shiftDateRange.formDateRange.start_date).format('YYYY-MM-DD'),
             filter_date_end: moment(state.shiftDateRange.formDateRange.end_date).format('YYYY-MM-DD'),
             department: departmentStore.getSelectedDepartmentName,
+            show_employees_working_today: state.showWorkingToday ? 'true' : 'false',
             sortField: state.sortData.sortField,
             sortOrder: state.sortData.sortOrder,
-            show_employees_working_today: state.showWorkingToday ? 'true' : 'false',
             ...state.dataFilter,
+        } as any
+        if (state.filter.department_uuids?.length > 0) {
+            params.department_uuids = Array(state.filter.department_uuids)
+        }
+        if (state.filter.employment_status) {
+            params.employment_status = Array(state.filter.employment_status)
+        }
+        if (state.filter.employee_uuids?.length > 0) {
+            params.employee_uuids = Array(state.filter.employee_uuids)
         }
         const response = await draftScheduleService.getDraftDutySchedules(params)
         if (response) {
@@ -1053,6 +1207,25 @@ function changePageLength(event: any) {
     draftDutyScheduleStore.setCurrentPageNumber(1)
     draftDutyScheduleStore.setCurrentPageLength(event.target.value)
     fetchDraftDutySchedule()
+}
+
+function getSlotCount(dayName: string) {
+    const dayMap = {
+        Mon: 'monday',
+        Tue: 'tuesday',
+        Wed: 'wednesday',
+        Thu: 'thursday',
+        Fri: 'friday',
+        Sat: 'saturday',
+        Sun: 'sunday'
+    } as any
+    const key = dayMap[dayName]
+    return state.weeklySchedules?.week_data?.[key]?.total_slots || 0
+}
+
+function openManageScheduleSlotModal(day: any) {
+    state.manageScheduleSlot.selectedDay = day
+    state.modal.isManageScheduleSlotOpen = true
 }
 
 function toggleShowHideAllShifts() {
@@ -1132,21 +1305,6 @@ function openAddNewShiftModal(employee: any, employeeIndex: number, weekIndex: a
     }
     state.newShift.selectedDate = week?.date
     state.newShift.selectedEmployee = employee
-}
-
-function setFilter(filter: any) {
-    if(filter) {
-        // Map filter-modal felter til API-parameter navne
-        state.dataFilter = {
-            ...filter,
-            department_uuid: filter.department_uuids ?? [],
-            user_uuid: filter.employee_uuids ?? [],
-            employment_status: filter.employment_status ?? '',
-        }
-    } else {
-        state.dataFilter = {}
-    }
-    fetchDraftDutySchedule()
 }
 
 function onDragStart(e: DragEvent, emp: any, wi: any, sh: any) {
@@ -1508,6 +1666,7 @@ function editSchedule(employee: any, employeeIndex: number, weekIndex: any, shif
         departments: shift?.departments,
         note: shift?.note,
         do_not_count_sick_leave: shift?.do_not_count_sick_leave,
+        shift_span_position: shift?.shift_span_position,
         employeeIndex: employeeIndex,
         weekIndex: weekIndex,
         shiftIndex: shiftIndex,
@@ -1597,12 +1756,13 @@ function handleScroll() {
     lastScrollTop = currentScroll <= 0 ? 0 : currentScroll // Prevent negative scroll
 }
 
-async function dateTimeChange(employeeUuid: string, newDateTimeStart: string, newDateTimeEnd: string) {
+async function dateTimeChange(employeeUuid: string, newDateTimeStart: string, newDateTimeEnd: string, shiftSpanPosition?: string) {
     try {
-        const params = {
+        const params: any = {
             date_time_start: newDateTimeStart,
             date_time_end: newDateTimeEnd,
             user_uuid: employeeUuid,
+            ...(shiftSpanPosition && { shift_span_position: shiftSpanPosition }),
         }
         const response = await draftScheduleService.scheduleValidation(params)
         if (response.data && !response.data.valid) {
@@ -1621,5 +1781,17 @@ function closeWarningDialog() {
 function viewExtraHours(employee: any) {
     state.manageExtraHours.selectedEmployee = employee
     state.modal.isManageExtraHoursOpen = true
+}
+
+function openGraphModal(employee: any) {
+    state.normHours.selectedEmployee = employee
+    state.modal.isGraphOpen = true
+}
+
+function setFilter(filter: any) {
+    state.filter.department_uuids = filter.department_uuids
+    state.filter.employment_status = filter.employment_status
+    state.filter.employee_uuids = filter.employee_uuids
+    fetchDraftDutySchedule()
 }
 </script>
