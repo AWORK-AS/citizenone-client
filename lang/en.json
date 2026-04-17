@@ -6148,7 +6148,11 @@
             "capacity": "Capacity",
             "name": "Name"
         },
+        "addCitizen": "Add citizen",
+        "citizenAddedSuccessfully": "Citizen successfully added to room",
+        "citizenRemovedSuccessfully": "Citizen successfully removed from room",
         "noCitizens": "No citizens in this room",
+        "removeConfirmation": "Are you sure you want to remove",
         "newRoom": "New room",
         "rooms": "Rooms",
         "table": {

@@ -6148,7 +6148,11 @@
             "capacity": "Kapacitet",
             "name": "Navn"
         },
+        "addCitizen": "Tilføj borger",
+        "citizenAddedSuccessfully": "Borger tilføjet til værelse",
+        "citizenRemovedSuccessfully": "Borger fjernet fra værelse",
         "noCitizens": "Ingen borgere på dette værelse",
+        "removeConfirmation": "Er du sikker på, at du vil fjerne",
         "newRoom": "Nyt værelse",
         "rooms": "Værelser",
         "table": {
