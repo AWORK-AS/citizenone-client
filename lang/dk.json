@@ -6148,6 +6148,7 @@
             "capacity": "Kapacitet",
             "name": "Navn"
         },
+        "noCitizens": "Ingen borgere på dette værelse",
         "newRoom": "Nyt værelse",
         "rooms": "Værelser",
         "table": {

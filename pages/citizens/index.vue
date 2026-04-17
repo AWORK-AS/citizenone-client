@@ -60,6 +60,10 @@
                             <Icon name="ph:list-bullets" class="h-4 w-4" aria-hidden="true" />
                             {{ $t('inquiries.inquiries') }}
                         </FormButton>
+                        <FormButton buttonStyle="action" @click="navigateTo('/rooms')">
+                            <Icon name="ph:door" class="h-4 w-4" aria-hidden="true" />
+                            {{ $t('rooms.rooms') }}
+                        </FormButton>
                         <Menu
                             v-if="userStore.getUser?.roles?.[0]?.name === 'Admin' || userStore.user?.permissions?.find((p: any) => p.name === 'create_citizen')"
                             as="div" class="relative inline-block text-left z-20">
