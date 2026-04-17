@@ -42,7 +42,22 @@
                 <div class="mx-auto max-w-6xl px-4 py-8" v-if="Object.keys(state.bookingSettings).length > 0">
                     <Alert type="danger" :text="state?.error?.message"
                         v-if="state.error?.message && state.error.message.length > 0" />
-                    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
+                    <div v-if="!state.coursesEvents?.data?.length"
+                        class="text-center py-24 space-y-4">
+                        <div class="flex justify-center">
+                            <Icon name="ph:calendar-x" class="size-16 text-gray-300" />
+                        </div>
+                        <div>
+                            <h2 class="text-xl font-semibold text-gray-900">
+                                {{ $t('bookings.loading.noUpcomingEvents') }}
+                            </h2>
+                            <p class="text-gray-500 mt-1">
+                                {{ $t('bookings.loading.noUpcomingEventsDescription') }}
+                            </p>
+                        </div>
+                    </div>
+
+                    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5" v-else>
                         <div v-for="(courseEvent, index) in state.coursesEvents?.data" :key="index">
                             <div class="relative">
                                 <div class="absolute inset-px rounded-lg bg-white"></div>

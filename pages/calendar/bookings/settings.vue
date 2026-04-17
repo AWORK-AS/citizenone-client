@@ -40,19 +40,26 @@
                         </div>
                         <div class="space-y-1">
                             <FormLabel for="link" :label="$t('bookingSettings.form.onlineBookingLink')" />
-                            <div class="flex items-start">
-                                <div class="pl-3 pr-5 bg-gray-100 py-2.5 rounded-tl-md rounded-bl-md">
-                                    {{ runtimeConfig.public.appBaseURL }}/book/
-                                </div>
-                                <div class="grow">
-                                    <FormTextField id="link" name="link" class="rounded-tl-none rounded-bl-none"
+                            <div class="flex items-center gap-x-2">
+                                <div class="flex flex-1 min-w-0 items-stretch">
+                                    <div class="flex items-center px-3 h-11 bg-gray-100 border border-r-0 border-primary rounded-l-md text-sm text-gray-500 whitespace-nowrap shrink-0">
+                                        {{ runtimeConfig.public.appBaseURL }}/booking/
+                                    </div>
+                                    <FormTextField id="link" name="link" class="!rounded-none flex-1 min-w-0"
                                         :placeholder="$t('bookingSettings.form.onlineBookingLinkLabel')"
                                         v-model="state.formBookingSettings.link" />
-                                    <FormError
-                                        :error="v$?.formBookingSettings?.link?.$errors[0]?.$message.toString()" />
-                                    <FormError :error="state?.error?.errors?.link?.[0]" />
+                                    <div class="flex items-center px-3 h-11 bg-gray-100 border border-l-0 border-primary rounded-r-md text-sm text-gray-500 whitespace-nowrap shrink-0">
+                                        /overview
+                                    </div>
                                 </div>
+                                <button type="button" @click="copyBookingLink"
+                                    class="shrink-0 flex items-center gap-x-1 h-11 px-3 text-sm bg-white border border-gray-300 rounded-md hover:bg-gray-50 whitespace-nowrap">
+                                    <Icon :name="state.linkCopied ? 'ph:check' : 'ph:copy'" size="16" />
+                                    {{ state.linkCopied ? $t('bookingSettings.form.linkCopied') : $t('bookingSettings.form.copyLink') }}
+                                </button>
                             </div>
+                            <FormError :error="v$?.formBookingSettings?.link?.$errors[0]?.$message.toString()" />
+                            <FormError :error="state?.error?.errors?.link?.[0]" />
                         </div>
                         <div class="space-y-1">
                             <p class="text-sm text-gray-600">
@@ -355,6 +362,7 @@ const state = reactive({
         is_private_calendar: false,
     } as any,
     isPageLoading: false,
+    linkCopied: false,
     modal: {},
     options: {
         languages: [],
@@ -497,6 +505,13 @@ function toggleFieldRequired(field: string) {
     state.formBookingSettings.fields = fields // Update the state with the modified fields object
 }
 
+
+function copyBookingLink() {
+    const link = `${runtimeConfig.public.appBaseURL}/booking/${state.formBookingSettings.link}/overview`
+    navigator.clipboard.writeText(link)
+    state.linkCopied = true
+    setTimeout(() => { state.linkCopied = false }, 2000)
+}
 
 async function submitForm() {
     v$.value.$validate()
