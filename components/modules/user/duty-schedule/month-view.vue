@@ -1716,6 +1716,7 @@ function editSchedule(employee: any, employeeIndex: number, shift: any) {
         note: shift?.note,
         do_not_count_sick_leave: shift?.do_not_count_sick_leave,
         use_compensatory_time: shift?.use_compensatory_time,
+        shift_span_position: shift?.shift_span_position,
     }
     state.modal.isEditShiftOpen = true
 }
@@ -1827,12 +1828,13 @@ function isPreviousMonthDisabled() {
     return false
 }
 
-async function dateTimeChange(employeeUuid: string, newDateTimeStart: string, newDateTimeEnd: string) {
+async function dateTimeChange(employeeUuid: string, newDateTimeStart: string, newDateTimeEnd: string, shiftSpanPosition?: string) {
     try {
-        const params = {
+        const params: any = {
             date_time_start: newDateTimeStart,
             date_time_end: newDateTimeEnd,
             user_uuid: employeeUuid,
+            ...(shiftSpanPosition && { shift_span_position: shiftSpanPosition }),
         }
         const response = await dutyScheduleService.scheduleValidation(params)
         if (response.data && !response.data.valid) {
