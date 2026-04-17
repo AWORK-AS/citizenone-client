@@ -420,6 +420,10 @@
                                                             {{ employee?.log_data.total_time_account_earned_hours }}
                                                         </p>
                                                         <div class="p-0 m-0 text-xxs text-primary cursor-pointer hover:text-primary-700"
+                                                            @click="showShiftTypeDistribution(employee)">
+                                                            {{ $t('dutySchedules.showTheDistributionOfShiftTypes') }}
+                                                        </div>
+                                                        <div class="p-0 m-0 text-xxs text-primary cursor-pointer hover:text-primary-700"
                                                             @click="navigateTo(`/calendar?employee_uuid=${employee?.uuid}`)">
                                                             {{ $t('dutySchedules.viewCalendar') }}
                                                         </div>
@@ -793,6 +797,9 @@
             <ModulesUserDutyScheduleDraftScheduleSlotsModalScheduleSlots :isModalOpen="state.modal.isManageScheduleSlotOpen"
                 :selectedDay="state.manageScheduleSlot.selectedDay"
                 @close="state.modal.isManageScheduleSlotOpen = false" @refreshDutySchedules="fetchDraftDutySchedule()" />
+            <ModulesUserDutyScheduleDraftModalShiftTypes :isModalOpen="state.modal.isShowDistributionOfShiftTypes"
+                :selectedEmployee="state.shiftTypesDistribution.selectedEmployee"
+                @close="state.modal.isShowDistributionOfShiftTypes = false" />
         </LoadingSpinner>
     </div>
 </template>
@@ -885,6 +892,7 @@ const state = reactive({
         isPublishDraftOpen: false,
         isVacationHoursOpen: false,
         isAnnualNormHoursInfoOpen: false,
+        isShowDistributionOfShiftTypes: false,
     } as any,
     newShift: {
         selectedDate: '',
@@ -906,6 +914,9 @@ const state = reactive({
     showAllShiftTypes: false,
     showWarningDialog: false,
     shiftPercentage: {} as any,
+    shiftTypesDistribution: {
+        selectedEmployee: {} as any,
+    },
     shiftDateRange: {
         formDateRange: {
             start_date: moment().startOf('week').add(1, 'day'),
@@ -1078,6 +1089,11 @@ function getMultiDayShift(shifts: any) {
 
         return isMultiDay && !isExcluded
     })
+}
+
+function showShiftTypeDistribution(employee: any) {
+    state.shiftTypesDistribution.selectedEmployee = employee
+    state.modal.isShowDistributionOfShiftTypes = true
 }
 
 async function fetchDutySchedulePercentage() {
