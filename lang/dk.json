@@ -6308,6 +6308,7 @@
         "addCitizen": "Tilføj borger",
         "citizenAddedSuccessfully": "Borger tilføjet til værelse",
         "citizenRemovedSuccessfully": "Borger fjernet fra værelse",
+        "full": "Fuldt",
         "noCitizens": "Ingen borgere på dette værelse",
         "removeConfirmation": "Er du sikker på, at du vil fjerne",
         "newRoom": "Nyt værelse",

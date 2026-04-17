@@ -26,11 +26,18 @@
                 <div v-else class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-5">
                     <div v-for="(room, index) in state.rooms?.data" :key="index"
                         @click="openRoom(room)">
-                        <div class="h-36 bg-white border-l-4 border-primary/70 px-4 py-5 relative overflow-clip ring-1 ring-gray-200 rounded-md cursor-pointer hover:bg-gray-100">
+                        <div class="h-36 bg-white border-l-4 px-4 py-5 relative overflow-clip ring-1 ring-gray-200 rounded-md cursor-pointer hover:bg-gray-100"
+                            :class="room?.capacity && state.citizensPerRoom[room.uuid]?.length >= room.capacity ? 'border-red-400' : 'border-primary/70'">
                             <img src="/img/icons/asset-02.svg" alt="Image failed to load"
                                 class="z-10 w-24 absolute -bottom-8 -right-8">
                             <div class="space-y-1 relative z-20">
-                                <p class="text-sm font-semibold">{{ room?.name }}</p>
+                                <div class="flex items-center justify-between gap-x-2">
+                                    <p class="text-sm font-semibold truncate">{{ room?.name }}</p>
+                                    <Badge v-if="room?.capacity && state.citizensPerRoom[room.uuid]?.length >= room.capacity"
+                                        type="inactive" class="shrink-0">
+                                        {{ $t('rooms.full') }}
+                                    </Badge>
+                                </div>
                                 <p class="text-xs text-gray-500" v-if="room?.capacity">
                                     {{ $t('rooms.form.capacity') }}: {{ room.capacity }}
                                 </p>
