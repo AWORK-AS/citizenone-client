@@ -349,9 +349,6 @@ async function fetchApps() {
         const response = await appService.getApps(params)
         if (response) {
             state.apps = response
-
-            // Check real Google Drive connection status
-            await updateGoogleDriveStatus()
         }
     } catch (error: any) {
         state.error = error
@@ -405,18 +402,9 @@ async function activateApp(formApp: any) {
     try {
         if (state.selectedApp?.generic_name === 'google-drive') {
             const response = await googledriveService.getGoogleDriveAuthUrl()
-            console.log('Google Drive response:', response)
             if (response?.authUrl || response?.auth_url) {
                 const authUrl = response?.authUrl || response?.auth_url
-
-                // Open Google OAuth in a popup
-                const popup = window.open(
-                    authUrl,
-                    'GoogleDriveAuth',
-                    'width=600,height=700,left=200,top=100'
-                )
-
-                console.log('Google Drive popup opened')
+                window.open(authUrl, 'Google Drive Authentication', 'width=500,height=600')
             } else {
                 console.error('No authUrl in response:', response)
             }
@@ -488,20 +476,4 @@ async function navigateToExternalLink(link: any) {
     }
 }
 
-async function updateGoogleDriveStatus() {
-    try {
-        const status = await googledriveService.getGoogleDriveStatus()
-        const isConnected = status?.connected || false
-
-        const googleDriveApp = state.apps?.data?.find(
-            (app: any) => app.generic_name === 'google-drive'
-        )
-        if (googleDriveApp) {
-            googleDriveApp.user_activated = isConnected
-        }
-    } catch (error) {
-        // Silently fail - if status check fails, rely on database value
-        console.error('Failed to check Google Drive status:', error)
-    }
-}
 </script>

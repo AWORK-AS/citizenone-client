@@ -51,7 +51,7 @@
                         </div>
                         <div class="flex flex-wrap items-center justify-end gap-3">
                             <Menu as="div" class="w-full md:w-fit relative inline-block text-left z-20"
-                                v-if="state.viewMode === 'local'">
+                                v-if="state.viewMode === 'local' || state.viewMode === 'google-drive'">
                                 <div>
                                     <MenuButton class="w-full md:w-fit">
                                         <FormButton buttonStyle="action" class="w-full md:w-fit rounded-lg">
@@ -70,7 +70,7 @@
                                         class="absolute right-0 mt-2 w-56 origin-top-right divide-y divide-gray-100 rounded-md bg-white shadow-lg ring-1 ring-black/5 focus:outline-none">
                                         <div class="px-1 py-1">
                                             <MenuItem v-slot="{ active }"
-                                                @click="state.modal.isAddDirectoryOpen = true">
+                                                @click="state.viewMode === 'google-drive' ? state.modal.isCreateGoogleDriveFolderOpen = true : state.modal.isAddDirectoryOpen = true">
                                             <button :class="[
                                                 active && 'bg-gray-100',
                                                 'group flex w-full items-center rounded-md px-2 py-2.5 text-sm',
@@ -555,28 +555,28 @@ const oneDriveButtonText = computed(() => {
 
 
 async function handleOneDriveButtonClick() {
-    if (state.isInsideOneDrive) {
+    // if (state.isInsideOneDrive) {
 
-        const newQuery = { ...router.currentRoute.value.query };
-        delete newQuery.onedrive;
-        delete newQuery.onedrive_folder_id;
-        router.push({ query: newQuery });
-        state.isInsideOneDrive = false;
-        fetchDocuments();
-    } else {
+    //     const newQuery = { ...router.currentRoute.value.query };
+    //     delete newQuery.onedrive;
+    //     delete newQuery.onedrive_folder_id;
+    //     router.push({ query: newQuery });
+    //     state.isInsideOneDrive = false;
+    //     fetchDocuments();
+    // } else {
 
-        router.push({
-            query: {
-                ...router.currentRoute.value.query,
-                onedrive: '1',
-            }
-        });
-        state.isInsideOneDrive = true;
-        prefetchOneDriveCache();
-        fetchOneDriveFiles().then(() => { prefetchOneDriveCache(); });
-        // Start folder fetch in background after a short delay to avoid PHP session lock contention
-        setTimeout(() => fetchOneDriveFolders(), 200);
-    }
+    //     router.push({
+    //         query: {
+    //             ...router.currentRoute.value.query,
+    //             onedrive: '1',
+    //         }
+    //     });
+    //     state.isInsideOneDrive = true;
+    //     prefetchOneDriveCache();
+    //     fetchOneDriveFiles().then(() => { prefetchOneDriveCache(); });
+    //     // Start folder fetch in background after a short delay to avoid PHP session lock contention
+    //     setTimeout(() => fetchOneDriveFolders(), 200);
+    // }
 }
 
 const { formatDateTimeToReadable } = useDatetimeFormatter()
@@ -765,33 +765,7 @@ onMounted(() => {
     } else {
         fetchDocuments();
     }
-    fetchDocuments()
-    initDriveView()
 })
-
-async function initDriveView() {
-    state.isPageLoading = true
-    try {
-        const status = await googledriveService.getGoogleDriveStatus()
-        // Expecting status to indicate connection; accept several shapes
-        const connected = !!(status?.connected || status?.is_connected || status === true || status?.data?.connected)
-        state.googleDriveConnected = connected
-        if (connected) {
-            state.viewMode = 'google-drive'
-            state.googleDriveFolderId = null
-            state.googleDriveFolderStack = []
-            await fetchGoogleDriveFiles()
-        } else {
-            state.viewMode = 'local'
-            await fetchDocuments()
-        }
-    } catch (error: any) {
-        // fallback to local view on error
-        state.viewMode = 'local'
-        await fetchDocuments()
-    }
-    state.isPageLoading = false
-}
 
 watch(() => router?.currentRoute?.value?.query, (newParams, oldParams) => {
     // Undgå fetch hvis vi er i gang med en OneDrive-søgning
@@ -976,21 +950,17 @@ async function toggleGoogleDriveView() {
             const status = await googledriveService.getGoogleDriveStatus()
             const connected = !!(status?.connected || status?.is_connected || status === true || status?.data?.connected)
             state.googleDriveConnected = connected
-
             if (connected) {
-                // only switch to google-drive when actually connected
                 state.viewMode = 'google-drive'
                 state.googleDriveFolderId = null
                 state.googleDriveFolderStack = []
                 await fetchGoogleDriveFiles()
             } else {
-                // keep local view and prompt activation
                 state.modal.isActiveGoogleDriveOpen = true
                 state.googleDriveFiles = { data: [], current_page: 1, per_page: 0, total: 0 }
             }
         } catch (error: any) {
             state.googleDriveConnected = false
-            // on error keep local view and prompt activation
             state.modal.isActiveGoogleDriveOpen = true
             state.googleDriveFiles = { data: [], current_page: 1, per_page: 0, total: 0 }
         } finally {
@@ -1020,13 +990,11 @@ async function uploadToGoogleDrive() {
     fileInput.onchange = async (e: any) => {
         const files = e.target.files
         if (!files || files.length === 0) return
-
         state.isPageLoading = true
         try {
             for (const file of files) {
                 await googledriveService.uploadFileToGoogleDrive(file, state.googleDriveFolderId || undefined)
             }
-
             successAlert(`${t('alert.success')}!`, 'File uploaded to Google Drive')
             await fetchGoogleDriveFiles(state.googleDriveFolderId)
         } catch (error: any) {
@@ -1075,7 +1043,6 @@ async function fetchGoogleDriveFiles(parentFolderId: string | null = null, searc
                             : []
 
         if (files?.length) {
-            // Transform Google Drive response to match table structure
             const transformedFiles = files.map((file: any) => ({
                 id: file.id,
                 name: file.name,
@@ -1089,7 +1056,6 @@ async function fetchGoogleDriveFiles(parentFolderId: string | null = null, searc
                 type: file.mimeType?.includes('folder') ? 'folder' : 'file',
                 is_admin_access: false
             }))
-
             state.googleDriveFiles = {
                 data: transformedFiles,
                 current_page: 1,
@@ -1113,10 +1079,7 @@ async function fetchGoogleDriveFiles(parentFolderId: string | null = null, searc
 
 function viewGoogleDriveDirectory(document: any) {
     if (document?.type !== 'folder') return
-    // Always push current folder id (can be null for root) so the back button shows
-    if (typeof state.googleDriveFolderId === 'string') {
-        state.googleDriveFolderStack.push(state.googleDriveFolderId)
-    }
+    state.googleDriveFolderStack.push(state.googleDriveFolderId ?? '')
     fetchGoogleDriveFiles(document.id)
 }
 
@@ -1408,7 +1371,30 @@ async function uploadFile(event: any) {
         const files = event.target.files;
         if (!files || files.length === 0) return;
 
-        if (state.isInsideOneDrive) {
+        if (!state.isInsideOneDrive && state.viewMode === 'local') {
+            const folderUuid = router?.currentRoute?.value?.query?.folder_uuid;
+            for (const file of files) {
+                const formData = new FormData();
+                formData.append('type', 'file');
+                formData.append('file', file);
+                formData.append('name', file.name);
+                formData.append('is_admin_access', 'false');
+                if (typeof folderUuid === 'string') formData.append('folder_uuid', folderUuid);
+                try {
+                    await documentService.saveFileFolder(formData);
+                } catch (err: any) {
+                    allSuccess = false;
+                    errorMessages.push(err?.message || 'Kunne ikke uploade filen.');
+                }
+            }
+            resetFileInput();
+            await fetchDocuments();
+            if (allSuccess) {
+                successAlert(`${t('alert.success')}!`, `${t('drive.alert.fileSuccessfullyAdded') || 'Fil(er) uploadet.'}`);
+            } else {
+                errorAlert('Fejl!', errorMessages.join('\n'));
+            }
+        } else if (state.isInsideOneDrive) {
             const userId = userStore.user?.id || localStorage.getItem('user_id');
             const token = localStorage.getItem('_token');
             const parentId = router?.currentRoute?.value?.query?.onedrive_folder_id;
@@ -1493,6 +1479,14 @@ const resetFileInput = () => {
 
 async function viewDirectory(document: any) {
     currentTablePage = 1
+    if (!document?.is_onedrive) {
+        const current = router?.currentRoute?.value?.query?.folder_uuid
+        if (current) {
+            state.folderStack.push(current as string)
+        }
+        await navigateTo(`/drive?folder_uuid=${document.uuid}`)
+        return
+    }
     if (document?.is_onedrive) {
         if (!document?.uuid) {
             errorAlert('Fejl!', 'Mappen har ikke noget id. (uuid mangler)');
