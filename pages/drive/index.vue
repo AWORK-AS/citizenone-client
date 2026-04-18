@@ -765,33 +765,7 @@ onMounted(() => {
     } else {
         fetchDocuments();
     }
-    fetchDocuments()
-    initDriveView()
 })
-
-async function initDriveView() {
-    state.isPageLoading = true
-    try {
-        const status = await googledriveService.getGoogleDriveStatus()
-        // Expecting status to indicate connection; accept several shapes
-        const connected = !!(status?.connected || status?.is_connected || status === true || status?.data?.connected)
-        state.googleDriveConnected = connected
-        if (connected) {
-            state.viewMode = 'google-drive'
-            state.googleDriveFolderId = null
-            state.googleDriveFolderStack = []
-            await fetchGoogleDriveFiles()
-        } else {
-            state.viewMode = 'local'
-            await fetchDocuments()
-        }
-    } catch (error: any) {
-        // fallback to local view on error
-        state.viewMode = 'local'
-        await fetchDocuments()
-    }
-    state.isPageLoading = false
-}
 
 watch(() => router?.currentRoute?.value?.query, (newParams, oldParams) => {
     // Undgå fetch hvis vi er i gang med en OneDrive-søgning
@@ -1397,7 +1371,30 @@ async function uploadFile(event: any) {
         const files = event.target.files;
         if (!files || files.length === 0) return;
 
-        if (state.isInsideOneDrive) {
+        if (!state.isInsideOneDrive && state.viewMode === 'local') {
+            const folderUuid = router?.currentRoute?.value?.query?.folder_uuid;
+            for (const file of files) {
+                const formData = new FormData();
+                formData.append('type', 'file');
+                formData.append('file', file);
+                formData.append('name', file.name);
+                formData.append('is_admin_access', 'false');
+                if (typeof folderUuid === 'string') formData.append('folder_uuid', folderUuid);
+                try {
+                    await documentService.saveFileFolder(formData);
+                } catch (err: any) {
+                    allSuccess = false;
+                    errorMessages.push(err?.message || 'Kunne ikke uploade filen.');
+                }
+            }
+            resetFileInput();
+            await fetchDocuments();
+            if (allSuccess) {
+                successAlert(`${t('alert.success')}!`, `${t('drive.alert.fileSuccessfullyAdded') || 'Fil(er) uploadet.'}`);
+            } else {
+                errorAlert('Fejl!', errorMessages.join('\n'));
+            }
+        } else if (state.isInsideOneDrive) {
             const userId = userStore.user?.id || localStorage.getItem('user_id');
             const token = localStorage.getItem('_token');
             const parentId = router?.currentRoute?.value?.query?.onedrive_folder_id;

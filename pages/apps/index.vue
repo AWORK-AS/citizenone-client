@@ -349,9 +349,6 @@ async function fetchApps() {
         const response = await appService.getApps(params)
         if (response) {
             state.apps = response
-
-            // Check real Google Drive connection status
-            await updateGoogleDriveStatus()
         }
     } catch (error: any) {
         state.error = error
@@ -479,20 +476,4 @@ async function navigateToExternalLink(link: any) {
     }
 }
 
-async function updateGoogleDriveStatus() {
-    try {
-        const status = await googledriveService.getGoogleDriveStatus()
-        const isConnected = status?.connected || false
-
-        const googleDriveApp = state.apps?.data?.find(
-            (app: any) => app.generic_name === 'google-drive'
-        )
-        if (googleDriveApp) {
-            googleDriveApp.user_activated = isConnected
-        }
-    } catch (error) {
-        // Silently fail - if status check fails, rely on database value
-        console.error('Failed to check Google Drive status:', error)
-    }
-}
 </script>
