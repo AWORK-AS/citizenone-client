@@ -1063,14 +1063,14 @@
             :showWarningDialog="state.showWarningDialog" :shiftWarnings="state.shiftWarnings"
             @dateTimeChange="dateTimeChange" @closeWarningDialog="closeWarningDialog"
             @close="state.modal.isAddShiftOpen = false" @saveShift="saveShift"
-            @resetNewShiftError="state.newShiftError = {}" />
+            @resetNewShiftError="state.newShiftError = {}" @resetShiftWarnings="state.shiftWarnings = []" />
         <ModulesUserDutyScheduleModalEditShift :isModalLoading="state.isModalLoading"
             :isModalOpen="state.modal.isEditShiftOpen" :error="state.editShiftError"
             :selectedEmployee="state.editShift.selectedEmployee"
             :selectedEmployeeSchedule="state.editShift.selectedEmployeeSchedule"
             :showWarningDialog="state.showWarningDialog" :shiftWarnings="state.shiftWarnings"
             @dateTimeChange="dateTimeChange" @closeWarningDialog="closeWarningDialog"
-            @close="state.modal.isEditShiftOpen = false" @resetEditShiftError="state.editShiftError = {}"
+            @close="state.modal.isEditShiftOpen = false; state.shiftWarnings = []" @resetEditShiftError="state.editShiftError = {}"
             @updateShift="updateSelectedSchedule" />
         <ModulesUserDutyScheduleModalRemoveShiftConfirmation :isModalOpen="state.modal.isRemoveShiftConfirmationOpen"
             @close="state.modal.isRemoveShiftConfirmationOpen = false" @confirm="removeShift" />
@@ -2061,6 +2061,7 @@ function editSchedule(employee: any, employeeIndex: number, weekIndex: any, shif
         note: shift?.note,
         do_not_count_sick_leave: shift?.do_not_count_sick_leave,
         use_compensatory_time: shift?.use_compensatory_time,
+        shift_span_position: shift?.shift_span_position,
         employeeIndex: employeeIndex,
         weekIndex: weekIndex,
         shiftIndex: shiftIndex,
@@ -2122,12 +2123,13 @@ async function updateDutySchedule(scheduleUuid: any, params: object, employeeInd
 }
 
 
-async function dateTimeChange(employeeUuid: string, newDateTimeStart: string, newDateTimeEnd: string) {
+async function dateTimeChange(employeeUuid: string, newDateTimeStart: string, newDateTimeEnd: string, shiftSpanPosition?: string) {
     try {
-        const params = {
+        const params: any = {
             date_time_start: newDateTimeStart,
             date_time_end: newDateTimeEnd,
             user_uuid: employeeUuid,
+            ...(shiftSpanPosition && { shift_span_position: shiftSpanPosition }),
         }
         const response = await dutyScheduleService.scheduleValidation(params)
         if (response.data && !response.data.valid) {
