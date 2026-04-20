@@ -744,6 +744,7 @@
         }
     },
     "bulletBoard": {
+        "attachments": "Attachments",
         "bulletBoard": "Bullet board",
         "featured": "Featured"
     },
@@ -5330,7 +5331,9 @@
                 "edit": "Edit"
             },
             "active": "Active",
+            "author": "Author",
             "content": "Content",
+            "created": "Created",
             "featured": "Featured",
             "image": "Image",
             "inactive": "Inactive",
