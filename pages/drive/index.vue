@@ -1198,17 +1198,8 @@ function sort(sortingData: any) {
 
 async function handleSearch(value: any) {
     currentTablePage = 1;
-    let searchValue = '';
-    if (Array.isArray(value)) {
-        searchValue = value[0] ?? '';
-    } else if (typeof value === 'string') {
-        searchValue = value;
-    } else if (value && typeof value === 'object' && 'value' in value) {
-        searchValue = (value as any).value ?? '';
-    } else {
-        searchValue = '';
-    }
-    state.dataFilter.search = searchValue;
+    const searchValue = Array.isArray(value) ? value[0] ?? '' : value ?? '';
+    state.dataFilter.search = (Array.isArray(searchValue) ? searchValue[0] : searchValue) == '' ? [] : value;
 
     if (state.viewMode === 'google-drive') {
         fetchGoogleDriveFiles(state.googleDriveFolderId, state.dataFilter.search || undefined);
@@ -1373,26 +1364,29 @@ async function uploadFile(event: any) {
 
         if (!state.isInsideOneDrive && state.viewMode === 'local') {
             const folderUuid = router?.currentRoute?.value?.query?.folder_uuid;
+            const params = new FormData();
+            params.append('type', 'file');
+            params.append('is_admin_access', 'false');
             for (const file of files) {
-                const formData = new FormData();
-                formData.append('type', 'file');
-                formData.append('file', file);
-                formData.append('name', file.name);
-                formData.append('is_admin_access', 'false');
-                if (typeof folderUuid === 'string') formData.append('folder_uuid', folderUuid);
-                try {
-                    await documentService.saveFileFolder(formData);
-                } catch (err: any) {
-                    allSuccess = false;
-                    errorMessages.push(err?.message || 'Kunne ikke uploade filen.');
-                }
+                params.append('files[]', file);
             }
-            resetFileInput();
-            await fetchDocuments();
-            if (allSuccess) {
-                successAlert(`${t('alert.success')}!`, `${t('drive.alert.fileSuccessfullyAdded') || 'Fil(er) uploadet.'}`);
-            } else {
-                errorAlert('Fejl!', errorMessages.join('\n'));
+            if (typeof folderUuid === 'string') params.append('folder_uuid', folderUuid);
+            try {
+                const response = await documentService.saveFileFolder(params);
+                if (response?.data) {
+                    resetFileInput();
+                    await fetchDocuments();
+                    successAlert(`${t('alert.success')}!`, `${t('drive.alert.fileSuccessfullyAdded')}.`);
+                }
+            } catch (err: any) {
+                state.error = err;
+                resetFileInput();
+                if (err?.message === 'You do not have enough storage space to upload new files.' ||
+                    err?.message === 'Du har ikke nok lagerplads til at uploade nye filer.') {
+                    state.modal.isUpgradeStorageOpen = true;
+                } else {
+                    errorAlert('Fejl!', err?.message || 'Kunne ikke uploade filen.');
+                }
             }
         } else if (state.isInsideOneDrive) {
             const userId = userStore.user?.id || localStorage.getItem('user_id');
