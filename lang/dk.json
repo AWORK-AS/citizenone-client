@@ -1667,6 +1667,12 @@
                 "ingredientsLabel": "Er der andre ingredienser, der er relevante at nævne",
                 "maxDailyDose": "Maksimal daglig dosis",
                 "maxDosagePerTime": "Maksimal dosis pr. gang",
+                "medicationTypes": {
+                    "all": "Alle",
+                    "medicationType": "Medicin type",
+                    "pnMedicine": "PN-medicin",
+                    "regularMedicine": "Fast medicin"
+                },
                 "medicine": "Medicin",
                 "medicineStorage": "Medicinopbevaring",
                 "medicineStoragePlaceholder": "Hvor opbevarer I medicinen",

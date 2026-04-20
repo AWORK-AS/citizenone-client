@@ -960,6 +960,7 @@ const state = reactive({
 let clockInterval: any
 
 onMounted(() => {
+    citizenMedicineStore.setFilterMedicationType('all')
     fetchCitizenMedicines()
     clockInterval = setInterval(() => { state.now = new Date() }, 60_000)
 })
@@ -1420,6 +1421,7 @@ async function fetchCitizenMedicines(viewMode?: string) {
 
         const params: any = {
             citizen_uuid: citizenUuid,
+            medication_type: citizenMedicineStore.getFilterMedicationType,
             page: currentTablePage,
             sortField: state.sortData.sortField,
             sortOrder: state.sortData.sortOrder,
@@ -1472,10 +1474,13 @@ function handleSearch(value: any) {
 
 function setFilter(filter: any) {
     citizenMedicineStore.setFilterByActiveInactiveDeactivated(filter.isActive.value)
+    citizenMedicineStore.setFilterMedicationType(filter.medicationType)
     fetchCitizenMedicines()
 }
 
-function addRemoveMedicine(medicine: any) { citizenMedicineStore.addRemoveSelectedMedicine(medicine) }
+function addRemoveMedicine(medicine: any) {
+    citizenMedicineStore.addRemoveSelectedMedicine(medicine)
+}
 
 function viewMedicine(medicine: any) {
     state.selectedMedicine = medicine

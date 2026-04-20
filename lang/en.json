@@ -1667,6 +1667,12 @@
                 "ingredientsLabel": "Are there any other ingredients that are relevant to mention",
                 "maxDailyDose": "Max daily dose",
                 "maxDosagePerTime": "Max dosage per time",
+                "medicationTypes": {
+                    "all": "All",
+                    "medicationType": "Medication type",
+                    "pnMedicine": "PN medicine",
+                    "regularMedicine": "Regular medicine"
+                },
                 "medicine": "Medicine",
                 "medicineStorage": "Medicine storage",
                 "medicineStoragePlaceholder": "Where do you store the medicine",
