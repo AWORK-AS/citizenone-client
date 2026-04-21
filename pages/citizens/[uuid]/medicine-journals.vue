@@ -32,6 +32,9 @@
                 <ModulesUserCitizenDetailsHeader />
                 <ModulesUserCitizenJournalTabs />
 
+                <Alert type="danger" :text="state?.error?.message"
+                    v-if="state.error?.message && state.error.message.length > 0" />
+
                 <!-- STATUS STATS -->
                 <div class="grid grid-cols-2 md:grid-cols-4 gap-3">
                     <button type="button" @click="toggleStatsFilter('overdue')"
@@ -203,9 +206,19 @@
                         </FormButton>
                     </div>
                 </div>
+                <div>
+                    <div class="flex items-center gap-x-1 text-sm text-gray-600">
+                        <span>{{ $t('entriesPerPage') }}:</span>
+                        <select class="focus:outline-none bg-transparent" @change="changePageLength">
+                            <option v-for="(pageLength, pageLengthIndex) in [10, 20, 30, 40, 50, 100, 500]"
+                                :key="pageLengthIndex" :value="pageLength"
+                                :selected="state.currentPageLength === pageLength">
+                                {{ pageLength }}
+                            </option>
+                        </select>
+                    </div>
+                </div>
 
-                <Alert type="danger" :text="state?.error?.message"
-                    v-if="state.error?.message && state.error.message.length > 0" />
                 <TableSearch @search="handleSearch" />
 
                 <!-- Bulk give -->
@@ -935,6 +948,7 @@ const state = reactive({
         { name: 'citizens.medicineJournals.table.currentStocks', isTranslateName: true },
         { name: '' },
     ],
+    currentPageLength: 10,
     dataFilter: { search: '' },
     error: {} as Error,
     isTableLoading: false,
@@ -1430,6 +1444,7 @@ async function fetchCitizenMedicines(viewMode?: string) {
             citizen_uuid: citizenUuid,
             medication_type: citizenMedicineStore.getFilterMedicationType,
             page: currentTablePage,
+            page_length: state.currentPageLength,
             sortField: state.sortData.sortField,
             sortOrder: state.sortData.sortOrder,
             start_date: startDate,
@@ -1464,6 +1479,12 @@ function previous() {
 
 function next() {
     currentTablePage++
+    fetchCitizenMedicines()
+}
+
+function changePageLength(event: any) {
+    currentTablePage = 1
+    state.currentPageLength = Number(event.target.value)
     fetchCitizenMedicines()
 }
 
