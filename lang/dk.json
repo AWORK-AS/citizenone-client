@@ -1742,6 +1742,7 @@
                     },
                     "comment": "Kommentar",
                     "date": "Dato",
+                    "dateTime": "Dato og tid",
                     "dateCreated": "Oprettelsesdato",
                     "dose": "Dosis",
                     "evaluationFrequency": "Hvornår vil du evaluere",

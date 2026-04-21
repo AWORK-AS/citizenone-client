@@ -20,16 +20,26 @@
                             <div class="flex items-center gap-2">
                                 <Icon name="ph:clock" class="size-4 text-amber-600 shrink-0" />
                                 <p class="text-sm font-medium text-amber-800">
-                                    {{ pendingEvaluations.length > 1 ? $t('citizens.medicineJournals.historyModal.effectEvaluationsPending', { n: pendingEvaluations.length }) : $t('citizens.medicineJournals.historyModal.effectEvaluationPending', { n: pendingEvaluations.length }) }}
+                                    {{
+                                        pendingEvaluations.length > 1 ?
+                                            $t('citizens.medicineJournals.historyModal.effectEvaluationsPending', {
+                                                n:
+                                                    pendingEvaluations.length
+                                            }) :
+                                            $t('citizens.medicineJournals.historyModal.effectEvaluationPending', {
+                                                n:
+                                                    pendingEvaluations.length
+                                            })
+                                    }}
                                 </p>
                             </div>
                             <div class="flex flex-wrap gap-2">
-                                <button v-for="pending in pendingEvaluations" :key="pending.key"
-                                    type="button"
+                                <button v-for="pending in pendingEvaluations" :key="pending.key" type="button"
                                     @click="openEvaluation(pending)"
                                     class="inline-flex items-center gap-1.5 text-xs bg-white border border-amber-300 text-amber-800 px-3 py-1.5 rounded-lg hover:bg-amber-100 transition-colors font-medium">
                                     <Icon name="ph:clock" class="size-3" />
-                                    {{ $t('citizens.medicineJournals.historyModal.evaluateAt') }} {{ pending.evalTime }} — {{ pending.medicineName }}
+                                    {{ $t('citizens.medicineJournals.historyModal.evaluateAt') }}
+                                    {{ pending.evalTime }} — {{ pending.medicineName }}
                                 </button>
                             </div>
                         </div>
@@ -47,22 +57,29 @@
                                 <div v-for="(entry, idx) in state.medicineHistories?.data" :key="entry.uuid"
                                     class="rounded-xl border border-gray-200 overflow-hidden">
                                     <!-- Entry header -->
-                                    <div class="flex items-center justify-between px-4 py-3 bg-gray-50 border-b border-gray-100">
+                                    <div
+                                        class="flex items-center justify-between px-4 py-3 bg-gray-50 border-b border-gray-100">
                                         <div class="flex items-center gap-3">
                                             <div :class="[
                                                 'w-2.5 h-2.5 rounded-full shrink-0',
                                                 entry.type === 'given' ? 'bg-green-500' :
-                                                entry.type === 'delivered' ? 'bg-primary' :
-                                                entry.type === 'deviated' ? 'bg-red-500' : 'bg-gray-300'
+                                                    entry.type === 'delivered' ? 'bg-primary' :
+                                                        entry.type === 'deviated' ? 'bg-red-500' : 'bg-gray-300'
                                             ]"></div>
-                                            <span class="text-sm font-medium text-gray-800">
-                                                {{ formatDateToReadable(entry.date) }}
-                                            </span>
+                                            <div>
+                                                <p class="text-sm font-medium text-gray-800">
+                                                    {{ formatDateToReadable(entry.date) }}
+                                                </p>
+                                                <p class="text-xxs text-gray-800">
+                                                    {{ $t('citizens.medicineJournals.history.table.dateCreated') }}:
+                                                    {{ formatDateTimeToReadable(entry.created_at) }}
+                                                </p>
+                                            </div>
                                             <span :class="[
                                                 'text-xs px-2 py-0.5 rounded-full font-medium',
                                                 entry.type === 'given' ? 'bg-green-100 text-green-700' :
-                                                entry.type === 'delivered' ? 'bg-blue-100 text-blue-700' :
-                                                entry.type === 'deviated' ? 'bg-red-100 text-red-700' : 'bg-gray-100 text-gray-600'
+                                                    entry.type === 'delivered' ? 'bg-blue-100 text-blue-700' :
+                                                        entry.type === 'deviated' ? 'bg-red-100 text-red-700' : 'bg-gray-100 text-gray-600'
                                             ]">
                                                 {{ getTypeLabel(entry.type) }}
                                             </span>
@@ -95,7 +112,8 @@
                                         </p>
 
                                         <!-- Evaluator -->
-                                        <div v-if="entry.evaluator?.firstname" class="flex items-center gap-1.5 text-xs text-gray-500">
+                                        <div v-if="entry.evaluator?.firstname"
+                                            class="flex items-center gap-1.5 text-xs text-gray-500">
                                             <Icon name="ph:user" class="size-3" />
                                             Evaluator: {{ entry.evaluator.firstname }} {{ entry.evaluator.lastname }}
                                         </div>
@@ -103,15 +121,21 @@
 
                                         <!-- Pending evaluations -->
                                         <div v-if="entry.evaluation_frequency?.length > 0" class="space-y-2">
-                                            <p class="text-xs font-medium text-gray-500 uppercase tracking-wide">{{ $t('citizens.medicineJournals.historyModal.effectEvaluation') }}</p>
+                                            <p class="text-xs font-medium text-gray-500 uppercase tracking-wide">{{
+                                                $t('citizens.medicineJournals.historyModal.effectEvaluation') }}</p>
                                             <div class="flex flex-wrap gap-2">
                                                 <div v-for="evalTime in entry.evaluation_frequency" :key="evalTime"
                                                     class="flex items-center gap-1.5">
                                                     <!-- Check if already evaluated at this time -->
                                                     <template v-if="isEvaluated(entry, evalTime)">
-                                                        <div class="inline-flex items-center gap-1.5 text-xs bg-green-50 border border-green-200 text-green-700 px-2.5 py-1.5 rounded-lg">
+                                                        <div
+                                                            class="inline-flex items-center gap-1.5 text-xs bg-green-50 border border-green-200 text-green-700 px-2.5 py-1.5 rounded-lg">
                                                             <Icon name="ph:check-circle" class="size-3" />
-                                                            {{ $t('citizens.medicineJournals.historyModal.evaluatedAt') }} {{ evalTime }}
+                                                            {{
+                                                                $t('citizens.medicineJournals.historyModal.evaluatedAt')
+                                                            }} {{
+                                                                evalTime
+                                                            }}
                                                         </div>
                                                     </template>
                                                     <template v-else>
@@ -119,7 +143,11 @@
                                                             @click="openEvaluation({ evalTime, medicineName: getEntryMedicineName(), entry })"
                                                             class="inline-flex items-center gap-1.5 text-xs bg-amber-50 border border-amber-300 text-amber-800 px-2.5 py-1.5 rounded-lg hover:bg-amber-100 transition-colors font-medium">
                                                             <Icon name="ph:clock" class="size-3" />
-                                                            {{ $t('citizens.medicineJournals.historyModal.evaluateAt') }} {{ evalTime }}
+                                                            {{
+                                                                $t('citizens.medicineJournals.historyModal.evaluateAt')
+                                                            }} {{
+                                                                evalTime
+                                                            }}
                                                         </button>
                                                     </template>
                                                 </div>
@@ -132,11 +160,24 @@
                                                 class="bg-gray-50 rounded-lg px-3 py-2.5 space-y-1">
                                                 <div class="flex items-center justify-between">
                                                     <span class="text-xs font-medium text-gray-600">
-                                                        {{ $t('citizens.medicineJournals.historyModal.effectEvaluation') }} — {{ $t('citizens.medicineJournals.historyModal.evaluatedAt') }} {{ evaluation.time ?? evaluation.evaluated_at }}
+                                                        {{
+                                                            $t('citizens.medicineJournals.historyModal.effectEvaluation')
+                                                        }} — {{
+                                                            $t('citizens.medicineJournals.historyModal.evaluatedAt') }} {{
+                                                            evaluation.time ??
+                                                            evaluation.evaluated_at
+                                                        }}
                                                     </span>
-                                                    <span class="text-xs text-gray-400">{{ evaluation.evaluator ?? (evaluation.user ? evaluation.user.firstname + ' ' + (evaluation.user.lastname ?? '') : '') }}</span>
+                                                    <span class="text-xs text-gray-400">
+                                                        {{ evaluation.evaluator ??
+                                                            (evaluation.user ? evaluation.user.firstname
+                                                                + ' ' + (evaluation.user.lastname ?? '') : '')
+                                                        }}
+                                                    </span>
                                                 </div>
-                                                <p class="text-xs text-gray-700">{{ evaluation.comment }}</p>
+                                                <p class="text-xs text-gray-700">
+                                                    {{ evaluation.comment }}
+                                                </p>
                                             </div>
                                         </div>
                                     </div>
@@ -144,25 +185,29 @@
                             </div>
                             <Pagination :data="state.medicineHistories" @previous="previous" @next="next" />
 
-                        <!-- All evaluations section -->
-                        <div v-if="state.apiEvaluations.length > 0" class="mt-4">
-                            <p class="text-xs font-semibold text-gray-400 uppercase tracking-wide mb-2">{{ $t('citizens.medicineJournals.historyModal.allEffectEvaluations') }}</p>
-                            <div class="space-y-2">
-                                <div v-for="ev in state.apiEvaluations" :key="ev.uuid"
-                                    class="bg-blue-50 border border-blue-100 rounded-lg px-3 py-2.5">
-                                    <div class="flex items-center justify-between mb-1">
-                                        <span class="text-xs font-medium text-blue-800">
-                                            <Icon name="ph:stethoscope" class="size-3 inline mr-1" />
-                                            {{ $t('citizens.medicineJournals.historyModal.effectEvaluation') }}
-                                        </span>
-                                        <span class="text-xs text-gray-400">
-                                            {{ ev.user ? ev.user.firstname + ' ' + (ev.user.lastname ?? '') : $t('citizens.medicineJournals.historyModal.unknown') }} · {{ formatDateTimeToReadable(ev.created_at) }}
-                                        </span>
+                            <!-- All evaluations section -->
+                            <div v-if="state.apiEvaluations.length > 0" class="mt-4">
+                                <p class="text-xs font-semibold text-gray-400 uppercase tracking-wide mb-2">{{
+                                    $t('citizens.medicineJournals.historyModal.allEffectEvaluations') }}</p>
+                                <div class="space-y-2">
+                                    <div v-for="ev in state.apiEvaluations" :key="ev.uuid"
+                                        class="bg-blue-50 border border-blue-100 rounded-lg px-3 py-2.5">
+                                        <div class="flex items-center justify-between mb-1">
+                                            <span class="text-xs font-medium text-blue-800">
+                                                <Icon name="ph:stethoscope" class="size-3 inline mr-1" />
+                                                {{ $t('citizens.medicineJournals.historyModal.effectEvaluation') }}
+                                            </span>
+                                            <span class="text-xs text-gray-400">
+                                                {{ ev.user ? ev.user.firstname + ' ' + (ev.user.lastname ?? '') :
+                                                    $t('citizens.medicineJournals.historyModal.unknown') }} · {{
+                                                    formatDateTimeToReadable(ev.created_at)
+                                                }}
+                                            </span>
+                                        </div>
+                                        <p class="text-xs text-gray-700">{{ ev.evaluation }}</p>
                                     </div>
-                                    <p class="text-xs text-gray-700">{{ ev.evaluation }}</p>
                                 </div>
                             </div>
-                        </div>
                         </div>
 
                         <!-- Regular medicine: original table view -->
@@ -172,26 +217,47 @@
                                     :isLoading="state.isTableLoading" :sortData="state.sortData" @sort="sort">
                                     <template #body
                                         v-if="!(state.isTableLoading || (state.medicineHistories?.data?.length === 0))">
-                                        <tr v-for="(medicineHistory, index) in state.medicineHistories?.data" :key="index">
+                                        <tr v-for="(medicineHistory, index) in state.medicineHistories?.data"
+                                            :key="index">
                                             <td width="20%">
-                                                <span class="truncate">{{ formatDateToReadable(medicineHistory?.date) }}</span>
+                                                <p class="truncate">
+                                                    {{ formatDateToReadable(medicineHistory?.date) }}
+                                                </p>
+                                                <p>
+                                                    {{ medicineHistory.time }}
+                                                </p>
                                             </td>
                                             <td width="5%">
-                                                <p>{{ formatNumber(language.locale.value, medicineHistory?.quantity) }}</p>
+                                                <p>
+                                                    {{ formatNumber(language.locale.value, medicineHistory?.quantity) }}
+                                                </p>
                                             </td>
                                             <td width="10%">
-                                                <span v-if="medicineHistory?.type === 'delivered'">{{ $t('citizens.medicineJournals.history.table.type.delivered') }}</span>
-                                                <span v-if="medicineHistory?.type === 'deviated'">{{ $t('citizens.medicineJournals.history.table.type.deviated') }}</span>
-                                                <span v-if="medicineHistory?.type === 'given'">{{ customPagesStore.getCustomPagesName?.giveMedicine }}</span>
+                                                <span v-if="medicineHistory?.type === 'delivered'">
+                                                    {{ $t('citizens.medicineJournals.history.table.type.delivered') }}
+                                                </span>
+                                                <span v-if="medicineHistory?.type === 'deviated'">
+                                                    {{ $t('citizens.medicineJournals.history.table.type.deviated') }}
+                                                </span>
+                                                <span v-if="medicineHistory?.type === 'given'">
+                                                    {{ customPagesStore.getCustomPagesName?.giveMedicine }}
+                                                </span>
                                             </td>
                                             <td width="15%">
-                                                <span class="truncate">{{ medicineHistory?.user?.firstname }} {{ medicineHistory?.user?.lastname }}</span>
+                                                <span class="truncate">
+                                                    {{ medicineHistory?.user?.firstname }} {{
+                                                        medicineHistory?.user?.lastname }}
+                                                </span>
                                             </td>
                                             <td width="15%">
-                                                <p>{{ medicineHistory?.comment }}</p>
+                                                <p>
+                                                    {{ medicineHistory?.comment }}
+                                                </p>
                                             </td>
                                             <td width="10%">
-                                                <span class="truncate">{{ formatDateTimeToReadable(medicineHistory?.created_at) }}</span>
+                                                <span class="truncate">
+                                                    {{ formatDateTimeToReadable(medicineHistory?.created_at) }}
+                                                </span>
                                             </td>
                                             <td width="10%">
                                                 <div class="flex items-end gap-2">
@@ -217,46 +283,58 @@
 
                     <!-- Evaluation modal via Teleport to bypass z-index stacking -->
                     <Teleport to="body">
-                    <div v-if="state.activeEvaluation"
-                        style="position:fixed;inset:0;z-index:99999;display:flex;align-items:center;justify-content:center;background:rgba(0,0,0,0.6);">
-                        <div class="bg-white rounded-2xl shadow-xl w-full max-w-md mx-4 overflow-hidden">
-                            <div class="bg-primary text-white px-5 py-4 flex items-center justify-between">
-                                <div>
-                                    <p class="font-semibold text-sm">{{ $t('citizens.medicineJournals.historyModal.registerEffectEvaluation') }}</p>
-                                    <p class="text-xs opacity-75 mt-0.5">
-                                        {{ $t('citizens.medicineJournals.historyModal.scheduledAt') }} {{ state.activeEvaluation.evalTime }} · {{ state.activeEvaluation.medicineName }}
-                                    </p>
-                                </div>
-                                <button type="button" @click="state.activeEvaluation = null" class="opacity-70 hover:opacity-100">
-                                    <Icon name="ph:x" class="size-5" />
-                                </button>
-                            </div>
-                            <div class="p-5 space-y-4">
-                                <div class="bg-blue-50 border border-blue-100 rounded-lg px-4 py-3">
-                                    <p class="text-xs text-blue-700">
-                                        {{ $t('citizens.medicineJournals.historyModal.describeReaction') }}
-                                    </p>
-                                </div>
-                                <div class="space-y-1">
-                                    <label class="text-sm font-medium text-gray-700">{{ $t('citizens.medicineJournals.historyModal.observation') }}</label>
-                                    <textarea v-model="state.evalComment" rows="4"
-                                        :placeholder="$t('citizens.medicineJournals.historyModal.evaluationPlaceholder')"
-                                        class="w-full text-sm border border-gray-200 rounded-xl px-3 py-2.5 focus:outline-none focus:border-primary resize-none bg-gray-50"></textarea>
-                                </div>
-                                <div class="grid grid-cols-2 gap-3">
+                        <div v-if="state.activeEvaluation"
+                            style="position:fixed;inset:0;z-index:99999;display:flex;align-items:center;justify-content:center;background:rgba(0,0,0,0.6);">
+                            <div class="bg-white rounded-2xl shadow-xl w-full max-w-md mx-4 overflow-hidden">
+                                <div class="bg-primary text-white px-5 py-4 flex items-center justify-between">
+                                    <div>
+                                        <p class="font-semibold text-sm">
+                                            {{ $t('citizens.medicineJournals.historyModal.registerEffectEvaluation') }}
+                                        </p>
+                                        <p class="text-xs opacity-75 mt-0.5">
+                                            {{
+                                                $t('citizens.medicineJournals.historyModal.scheduledAt')
+                                            }} {{
+                                                state.activeEvaluation.evalTime
+                                            }} · {{
+                                                state.activeEvaluation.medicineName
+                                            }}
+                                        </p>
+                                    </div>
                                     <button type="button" @click="state.activeEvaluation = null"
-                                        class="text-sm border border-gray-200 rounded-xl py-2.5 hover:bg-gray-50 transition-colors text-gray-600">
-                                        {{ $t('cancel') }}
+                                        class="opacity-70 hover:opacity-100">
+                                        <Icon name="ph:x" class="size-5" />
                                     </button>
-                                    <button type="button" @click="saveEvaluation"
-                                        :disabled="!state.evalComment.trim() || state.isSavingEval"
-                                        class="text-sm bg-primary text-white rounded-xl py-2.5 hover:bg-primary/90 transition-colors font-medium disabled:opacity-50">
-                                        {{ state.isSavingEval ? $t('citizens.medicineJournals.historyModal.saving') : $t('citizens.medicineJournals.historyModal.saveEvaluation') }}
-                                    </button>
+                                </div>
+                                <div class="p-5 space-y-4">
+                                    <div class="bg-blue-50 border border-blue-100 rounded-lg px-4 py-3">
+                                        <p class="text-xs text-blue-700">
+                                            {{ $t('citizens.medicineJournals.historyModal.describeReaction') }}
+                                        </p>
+                                    </div>
+                                    <div class="space-y-1">
+                                        <label class="text-sm font-medium text-gray-700">{{
+                                            $t('citizens.medicineJournals.historyModal.observation') }}</label>
+                                        <textarea v-model="state.evalComment" rows="4"
+                                            :placeholder="$t('citizens.medicineJournals.historyModal.evaluationPlaceholder')"
+                                            class="w-full text-sm border border-gray-200 rounded-xl px-3 py-2.5 focus:outline-none focus:border-primary resize-none bg-gray-50"></textarea>
+                                    </div>
+                                    <div class="grid grid-cols-2 gap-3">
+                                        <button type="button" @click="state.activeEvaluation = null"
+                                            class="text-sm border border-gray-200 rounded-xl py-2.5 hover:bg-gray-50 transition-colors text-gray-600">
+                                            {{ $t('cancel') }}
+                                        </button>
+                                        <button type="button" @click="saveEvaluation"
+                                            :disabled="!state.evalComment.trim() || state.isSavingEval"
+                                            class="text-sm bg-primary text-white rounded-xl py-2.5 hover:bg-primary/90 transition-colors font-medium disabled:opacity-50">
+                                            {{ state.isSavingEval ? $t('citizens.medicineJournals.historyModal.saving')
+                                                :
+                                                $t('citizens.medicineJournals.historyModal.saveEvaluation') }}
+                                        </button>
+                                    </div>
                                 </div>
                             </div>
                         </div>
-                    </div>
 
                     </Teleport>
 
@@ -418,7 +496,7 @@ watch(() => props.isModalOpen, (isModalOpen: any) => {
         if (props.selectedMedicine?.is_pn_medicine) fetchEffectEvaluations()
         if (props.selectedMedicine?.is_pn_medicine) {
             state.columnHeaders = [
-                { name: 'citizens.medicineJournals.history.table.date', isTranslateName: true, sorter: true, key: 'date' },
+                { name: 'citizens.medicineJournals.history.table.dateTime', isTranslateName: true, sorter: true, key: 'date' },
                 { name: 'citizens.medicineJournals.history.table.dose', isTranslateName: true },
                 { name: 'citizens.medicineJournals.history.table.type.type', isTranslateName: true },
                 { name: 'citizens.medicineJournals.history.table.evaluator', isTranslateName: true },
@@ -429,7 +507,7 @@ watch(() => props.isModalOpen, (isModalOpen: any) => {
             ]
         } else {
             state.columnHeaders = [
-                { name: 'citizens.medicineJournals.history.table.date', isTranslateName: true, sorter: true, key: 'date' },
+                { name: 'citizens.medicineJournals.history.table.dateTime', isTranslateName: true, sorter: true, key: 'date' },
                 { name: 'citizens.medicineJournals.history.table.dose', isTranslateName: true },
                 { name: 'citizens.medicineJournals.history.table.type.type', isTranslateName: true },
                 { name: 'citizens.medicineJournals.history.table.user', isTranslateName: true },

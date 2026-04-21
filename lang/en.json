@@ -1742,6 +1742,7 @@
                     },
                     "comment": "Comment",
                     "date": "Date",
+                    "dateTime": "Date time",
                     "dateCreated": "Date created",
                     "dose": "Dose",
                     "evaluationFrequency": "What time do you want to evaluate",
