@@ -460,9 +460,16 @@
                                                 · {{ medicine?.strength }}
                                                 {{
                                                     medicine?.mass_unit?.name ?
-                                                        ' ' + medicine.mass_unit.name : ''
+                                                        ' · ' + medicine.mass_unit.name : ''
                                                 }}
                                             </span>
+                                        </p>
+                                        <p class="text-xs text-gray-500">
+                                            {{ $t('citizens.medicineJournals.form.maxDailyDose') }}:
+                                            {{ medicine?.max_daily_dose }}
+                                        </p>
+                                        <p class="text-xs text-gray-500">
+                                            {{ medicine?.description }}
                                         </p>
                                         <!-- Dosage for PN -->
                                         <div v-if="medicine?.max_dosage_per_time?.length"
