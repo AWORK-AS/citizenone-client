@@ -767,41 +767,47 @@
                                     </td>
                                     <td width="18%">
                                         <div class="flex items-end justify-end gap-1.5 flex-wrap">
-                                            <Tooltip :text="$t('citizens.medicineJournals.table.actions.view')">
+                                            <Tooltip :text="$t('citizens.medicineJournals.table.actions.view')"
+                                                position="left">
                                                 <FormButton type="button" buttonStyle="action" class="rounded-md"
                                                     @click="viewMedicine(medicine)">
                                                     <Icon name="ph:eye" class="size-4" />
                                                 </FormButton>
                                             </Tooltip>
-                                            <Tooltip :text="$t('citizens.medicineJournals.table.actions.giveMedicine')">
+                                            <Tooltip :text="$t('citizens.medicineJournals.table.actions.giveMedicine')"
+                                                position="left">
                                                 <FormButton type="button" buttonStyle="action" class="rounded-md"
                                                     @click="giveMedicine(medicine)">
                                                     <Icon name="ph:plus" class="size-4" />
                                                 </FormButton>
                                             </Tooltip>
                                             <Tooltip
-                                                :text="$t('citizens.medicineJournals.table.actions.medicineHistory')">
+                                                :text="$t('citizens.medicineJournals.table.actions.medicineHistory')"
+                                                position="left">
                                                 <FormButton type="button" buttonStyle="action" class="rounded-md"
                                                     @click="viewMedicineHistory(medicine)">
                                                     <Icon name="ph:files" class="size-4" />
                                                 </FormButton>
                                             </Tooltip>
                                             <Tooltip v-if="medicine?.is_editable"
-                                                :text="$t('citizens.medicineJournals.table.actions.edit')">
+                                                :text="$t('citizens.medicineJournals.table.actions.edit')"
+                                                position="left">
                                                 <FormButton type="button" buttonStyle="action" class="rounded-md"
                                                     @click="editMedicine(medicine)">
                                                     <Icon name="ph:pencil-simple" class="size-4" />
                                                 </FormButton>
                                             </Tooltip>
                                             <Tooltip v-if="medicine?.is_deactivated"
-                                                :text="$t('citizens.medicineJournals.table.actions.activate')">
+                                                :text="$t('citizens.medicineJournals.table.actions.activate')"
+                                                position="left">
                                                 <FormButton type="button" buttonStyle="primary" class="rounded-md"
                                                     @click="confirmMedicineActivation(medicine)">
                                                     <Icon name="ph:check" class="size-4" />
                                                 </FormButton>
                                             </Tooltip>
                                             <Tooltip v-else
-                                                :text="$t('citizens.medicineJournals.table.actions.deactivate')">
+                                                :text="$t('citizens.medicineJournals.table.actions.deactivate')"
+                                                position="left">
                                                 <FormButton type="button" buttonStyle="danger" class="rounded-md"
                                                     @click="confirmMedicineDeactivation(medicine)">
                                                     <Icon name="ph:x" class="size-4" />
@@ -921,10 +927,10 @@ const state = reactive({
     viewMode: 'day',
     statsFilter: null as string | null,
     columnHeaders: [
-        { name: 'citizens.medicineJournals.table.medicine', isTranslateName: true, sorter: true, key: 'medicine' },
+        { name: 'citizens.medicineJournals.table.medicine', isTranslateName: true, sorter: true, key: language.locale.value === 'en' ? 'en_name' : 'dk_name' },
         { name: 'citizens.medicineJournals.table.strength', isTranslateName: true },
         { name: 'citizens.medicineJournals.table.maxDailyDose', isTranslateName: true },
-        { name: 'citizens.medicineJournals.table.dosageForm', isTranslateName: true, sorter: true, key: 'dosage' },
+        { name: 'citizens.medicineJournals.table.dosageForm', isTranslateName: true, sorter: true, key: 'max_daily_dose' },
         { name: 'citizens.medicineJournals.table.currentStocks', isTranslateName: true },
         { name: '' },
     ],
