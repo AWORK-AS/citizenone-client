@@ -381,7 +381,8 @@
                                 <div v-for="time in timeColumns" :key="time"
                                     class="border-l border-gray-100 px-2 py-3 flex flex-col items-center justify-center gap-1">
                                     <template v-if="getDosageForTime(medicine, time)">
-                                        <Tooltip :text="getSlotTooltip(getDosageForTime(medicine, time), time)">
+                                        <Tooltip :text="getSlotTooltip(getDosageForTime(medicine, time), time)"
+                                            position="left">
                                             <button type="button"
                                                 @click="openGiveMedicine(medicine, getDosageForTime(medicine, time))"
                                                 :class="['inline-flex flex-col items-center gap-0.5 text-xs px-2.5 py-2 rounded-lg font-medium border min-w-16', getSlotClass(getDosageForTime(medicine, time), time)]">
