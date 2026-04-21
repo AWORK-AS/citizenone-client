@@ -315,10 +315,18 @@
                                             {{ medicine?.medicine?.ingredients }}
                                             <span v-if="medicine?.strength"> ·
                                                 {{ medicine?.strength }}
+                                                ·
                                                 {{
                                                     medicine?.mass_unit?.name ? ' ' + medicine.mass_unit.name : ''
                                                 }}
                                             </span>
+                                        </p>
+                                        <p class="text-xs text-gray-500">
+                                            {{ $t('citizens.medicineJournals.form.maxDailyDose') }}:
+                                            {{ medicine?.max_daily_dose }}
+                                        </p>
+                                        <p class="text-xs text-gray-500">
+                                            {{ medicine?.description }}
                                         </p>
                                         <div class="flex gap-1 flex-wrap mt-1">
                                             <Tooltip v-if="medicine?.is_expired"
@@ -554,8 +562,8 @@
                                 <tbody>
                                     <tr v-for="medicine in regularMedicines" :key="medicine.uuid"
                                         class="border-b border-gray-100 last:border-b-0">
-                                        <td
-                                            class="px-4 py-3 text-xs font-medium text-gray-900 border-r border-gray-100">
+                                        <td class="px-4 py-3 text-xs font-medium text-gray-900 border-r border-gray-100"
+                                            width="15%">
                                             <p class="truncate max-w-36">
                                                 {{
                                                     language.locale.value === 'en' ?
@@ -563,8 +571,19 @@
                                                         medicine?.medicine?.dk_name
                                                 }}
                                             </p>
-                                            <p class="text-gray-400 text-xs truncate">
-                                                {{ medicine?.strength }}
+                                            <p class="text-xxs text-gray-400">
+                                                {{ medicine?.medicine?.ingredients }}
+                                                <span v-if="medicine?.strength"> ·
+                                                    {{ medicine?.strength }}
+                                                    ·
+                                                    {{
+                                                        medicine?.mass_unit?.name ? ' ' + medicine.mass_unit.name : ''
+                                                    }}
+                                                </span>
+                                            </p>
+                                            <p class="text-xxs text-gray-400">
+                                                {{ $t('citizens.medicineJournals.form.maxDailyDose') }}:
+                                                {{ medicine?.max_daily_dose }}
                                             </p>
                                             <div v-if="medicine?.max_dosage_per_time?.length"
                                                 class="flex gap-1 flex-wrap mt-1.5">
@@ -719,8 +738,8 @@
                                                 <p class="text-xs text-gray-400 truncate mt-0.5">
                                                     {{ medicine?.medicine?.ingredients }}
                                                     {{
-                                                        medicine?.strength ? ' · ' +
-                                                            medicine.strength + (medicine?.mass_unit?.name ? ' ' +
+                                                        medicine?.strength ? ' · ' + medicine.strength +
+                                                            (medicine?.mass_unit?.name ? ' · ' +
                                                                 medicine.mass_unit.name : '') : ''
                                                     }}
                                                 </p>
@@ -1255,7 +1274,7 @@ function getStatusLabel(status: string | null): string {
 }
 
 function getStatusBg(status: string | null): string {
-    if (status === 'given') return 'bg-green-700'
+    if (status === 'given') return 'bg-green-600'
     if (status === 'delivered') return 'bg-primary'
     if (status === 'deviated') return 'bg-red-600'
     return 'bg-gray-400'
