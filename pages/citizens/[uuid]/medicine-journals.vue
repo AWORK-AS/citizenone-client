@@ -877,9 +877,13 @@
                 <ModulesUserCitizenMedicineModalEdit :isModalOpen="state.modal.isEditMedicineOpen"
                     :selectedMedicine="state.selectedMedicine" @close="closeEditMedicineModal"
                     @refreshMedicines="fetchCitizenMedicines" />
-                <ModulesUserCitizenMedicineHistoryModalNew :isModalOpen="state.modal.isGiveMedicineOpen"
+                <!-- <ModulesUserCitizenMedicineHistoryModalNew :isModalOpen="state.modal.isGiveMedicineOpen"
                     :selectedMedicine="state.selectedMedicine" @close="state.modal.isGiveMedicineOpen = false"
-                    @refreshMedicines="fetchCitizenMedicines" />
+                    @refreshMedicines="fetchCitizenMedicines" /> -->
+                <ModulesUserCitizenMedicineModalGiveMedicine :isModalOpen="state.modal.isGiveMedicineOpen"
+                    :selectedMedicine="state.selectedMedicine" :preselectedDate="state.preselectedDate ?? undefined"
+                    :preselectedTime="state.preselectedTime ?? undefined" @close="closeGiveMedicineModal"
+                    @refreshMedicines="fetchCitizenMedicines()" />
                 <ModulesUserCitizenMedicineHistoryModalGiveMultipleMedicine
                     :isModalOpen="state.modal.isGiveMedicinesOpen" @close="state.modal.isGiveMedicinesOpen = false"
                     @refreshMedicines="() => { state.historyCache = {}; fetchCitizenMedicines() }" />
