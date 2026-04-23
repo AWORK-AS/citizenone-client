@@ -2293,6 +2293,11 @@
                 "treatmentSuccessfullyAdded": "Behandling gemt med succes",
                 "treatmentSuccessfullyUpdated": "Behandling opdateret med succes"
             },
+            "download": "Download",
+            "downloadForm": {
+                "date": "Dato"
+            },
+            "downloadOverview": "Download oversigt",
             "editTreatment": "Rediger behandling",
             "form": {
                 "areaTypes": {

@@ -16,6 +16,10 @@ class TreatmentService extends BaseAPIService {
     async deleteTreatment(treatmentUuid: any): Promise<any> {
         return await this.request(`/user/treatments/${treatmentUuid}`, 'DELETE')
     }
+
+    async downloadTreatments(params: object): Promise<any> {
+        return await this.requestBlob(`/user/treatments/download`, 'GET', params)
+    }
 }
 
 export const treatmentService = new TreatmentService()
