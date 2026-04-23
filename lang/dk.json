@@ -6439,6 +6439,9 @@
                 "remove": "Fjern firmalogo",
                 "street": "Gade",
                 "transferNormHours": "Overfør normtimer til næste år, hvis de ikke er brugt",
+                "warning13HourShift": "Advarsel ved vagter over 13 timer",
+                "warning11HourRest": "Advarsel ved hviletid under 11 timer",
+                "warning48HourRule": "Advarsel ved 48-timers reglen",
                 "website": "Hjemmeside"
             }
         },
