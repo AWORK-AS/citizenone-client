@@ -3130,6 +3130,8 @@
                 "name": "Template name",
                 "recurringUntil": "Until",
                 "repeat": "Repeat",
+                "copyToConsecutiveWeeks": "Copy to consecutive weeks",
+                "numberOfWeeks": "Number of weeks",
                 "week": "Week",
                 "weekNumber": "Week number",
                 "weekRotations": "Week rotations",

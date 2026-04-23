@@ -77,6 +77,8 @@ async function applyTemplate(applyDetails: any) {
            weeks: applyDetails.weeks,
            years: applyDetails.years,
            template_uuids: props.selectedTemplates.map((template: any) => template.uuid),
+           copy: applyDetails.copy ?? null,
+           number_of_weeks: applyDetails.number_of_weeks ?? null,
         } as any
 
         const response = await draftTemplateService.applyDraftTemplate(params)

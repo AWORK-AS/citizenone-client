@@ -74,6 +74,28 @@
                     <FormError :error="props?.error?.errors?.weeks?.[0]" />
                 </div>
 
+                <div v-if="isNonRecurring" class="space-y-3 pt-3 border-t border-gray-100">
+                    <div class="flex items-center gap-3">
+                        <label class="inline-flex items-center cursor-pointer relative">
+                            <input type="checkbox" v-model="state.formTemplate.copy"
+                                class="peer w-5 h-5 appearance-none border border-primary rounded-sm checked:bg-secondary checked:border-secondary focus:ring-0 cursor-pointer" />
+                            <span
+                                class="pointer-events-none absolute top-0 left-0 w-5 h-5 flex items-center justify-center opacity-0 peer-checked:opacity-100 transition-opacity">
+                                <Icon name="ph:check-bold" class="h-4 w-4 text-white" />
+                            </span>
+                        </label>
+                        <span class="text-sm font-medium text-gray-700">{{ $t('dutySchedules.draftTemplates.form.copyToConsecutiveWeeks') }}</span>
+                    </div>
+                    <div v-if="state.formTemplate.copy" class="space-y-1">
+                        <FormLabel for="number_of_weeks" :label="$t('dutySchedules.draftTemplates.form.numberOfWeeks')" />
+                        <FormNumberField id="number_of_weeks" name="number_of_weeks"
+                            :placeholder="$t('dutySchedules.draftTemplates.form.numberOfWeeks')"
+                            :min="2"
+                            v-model="state.formTemplate.number_of_weeks" />
+                        <FormError :error="v$?.formTemplate?.number_of_weeks?.$errors[0]?.$message.toString()" />
+                    </div>
+                </div>
+
             </div>
             <div class="mt-6">
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
@@ -91,7 +113,7 @@
 
 <script setup lang="ts">
 import { useVuelidate } from "@vuelidate/core"
-import { required, helpers } from '@vuelidate/validators'
+import { required, helpers, minValue } from '@vuelidate/validators'
 import { useI18n } from "vue-i18n"
 import type { Error } from '@/types'
 
@@ -152,12 +174,21 @@ const state = reactive({
     formTemplate: {
         weeks: [] as string[],
         years: [] as string[],
+        copy: false,
+        number_of_weeks: '2',
     },
     weekTemplateMap: {} as WeekTemplateMap,
 })
 
 const allWeeksSelected = computed(() => {
     return state.formTemplate.weeks.length === weeks.length
+})
+
+const isNonRecurring = computed(() => {
+    const templates = (props.selectedTemplates && props.selectedTemplates.length > 0)
+        ? props.selectedTemplates.map((t: any) => t._custom?.value || t)
+        : [props.selectedDraftTemplate]
+    return templates.every((t: any) => !t?.is_recurring)
 })
 
 function toggleAllWeeks(event: Event) {
@@ -412,6 +443,12 @@ const rules = computed(() => {
             years: {
                 required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
             },
+            ...(state.formTemplate.copy ? {
+                number_of_weeks: {
+                    required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
+                    minValue: helpers.withMessage(`${t('validation.minValue', { min: 2 })}.`, minValue(2)),
+                },
+            } : {}),
         },
     }
 })
@@ -423,6 +460,8 @@ function submitForm() {
     if (!v$.value.$error) {
         emit('submitForm', {
             ...state.formTemplate,
+            copy: state.formTemplate.copy || null,
+            number_of_weeks: state.formTemplate.copy ? Number(state.formTemplate.number_of_weeks) : null,
             weekTemplateMap: state.weekTemplateMap
         })
     }
