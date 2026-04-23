@@ -197,8 +197,10 @@
                                     }}
                                 </p>
                                 <div class="space-y-2">
-                                    <div v-for="ev in state.effectEvaluations?.data" :key="ev.uuid"
-                                        class="bg-blue-50 border border-blue-100 rounded-lg px-3 py-2.5">
+                                    <div v-for="(effectEvaluation, effectEvaluationIndex) in state.effectEvaluations?.data"
+                                        :key="effectEvaluationIndex"
+                                        class="bg-blue-50 border border-blue-100 rounded-lg px-3 py-2.5"
+                                        @click="editEvaluation(effectEvaluation)">
                                         <div class="flex items-center justify-between mb-1">
                                             <span class="flex items-center gap-x-1 text-xs font-medium text-blue-800">
                                                 <Icon name="ph:stethoscope" class="w-3 h-3" />
@@ -206,16 +208,17 @@
                                             </span>
                                             <span class="text-xs text-gray-400">
                                                 {{
-                                                    ev.user ?
-                                                        ev.user.firstname + ' ' + (ev.user.lastname ?? '') :
+                                                    effectEvaluation.user ?
+                                                        effectEvaluation.user.firstname + ' ' +
+                                                        (effectEvaluation.user.lastname ?? '') :
                                                         $t('citizens.medicineJournals.historyModal.unknown')
                                                 }} · {{
-                                                    formatDateTimeToReadable(ev.created_at)
+                                                    formatDateTimeToReadable(effectEvaluation.created_at)
                                                 }}
                                             </span>
                                         </div>
                                         <p class="text-sm text-gray-700"
-                                            v-html="ev.evaluation?.replace(/\n/g, '<br>')" />
+                                            v-html="effectEvaluation.evaluation?.replace(/\n/g, '<br>')" />
                                     </div>
                                 </div>
                             </div>
@@ -302,6 +305,12 @@
                     <ModulesUserCitizenMedicineEvaluationModalNew :isModalOpen="state.modal.isAddMedicineEvaluationOpen"
                         :selectedMedicineEvaluation="state.selectedMedicineEvaluation"
                         @close="state.modal.isAddMedicineEvaluationOpen = false"
+                        @refreshMedicineHistories="fetchCitizenMedicineHistories"
+                        @refreshEvaluations="fetchEffectEvaluations" />
+                    <ModulesUserCitizenMedicineEvaluationModalEdit
+                        :isModalOpen="state.modal.isEditMedicineEvaluationOpen"
+                        :selectedMedicineEvaluation="state.selectedMedicineEvaluation"
+                        @close="state.modal.isEditMedicineEvaluationOpen = false"
                         @refreshMedicineHistories="fetchCitizenMedicineHistories"
                         @refreshEvaluations="fetchEffectEvaluations" />
                     <DialogConfirmation :isModalOpen="state.modal.isDeleteMedicineHistoryOpen"
@@ -416,9 +425,19 @@ function getEvaluations(entry: any): any[] {
 // ─── Evaluation ───────────────────────────────────────────────
 
 function createEvaluation(pending: any) {
-    console.log('pending', pending)
     state.selectedMedicineEvaluation = pending
     state.modal.isAddMedicineEvaluationOpen = true
+}
+
+function editEvaluation(effectEvaluation: any) {
+    state.selectedMedicineEvaluation = {
+        entry: effectEvaluation,
+        medicine_name: language.locale.value === 'en' ?
+            effectEvaluation?.citizen_medicine?.medicine?.en_name :
+            effectEvaluation?.citizen_medicine?.medicine?.dk_name,
+        time: effectEvaluation?.time,
+    }
+    state.modal.isEditMedicineEvaluationOpen = true
 }
 
 // ─── Data ─────────────────────────────────────────────────────

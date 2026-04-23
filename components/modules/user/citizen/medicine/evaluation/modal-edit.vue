@@ -1,13 +1,13 @@
 <template>
     <div>
-        <Modal size="sm" :title="$t('citizens.medicineJournals.historyModal.registerEffectEvaluation')"
+        <Modal size="sm" :title="$t('citizens.medicineJournals.historyModal.editEffectEvaluation')"
             :show="props.isModalOpen" @close="closeModal">
             <template #modal-body>
                 <LoadingSpinner :isActive="state.isPageLoading">
-                    <ModulesUserCitizenMedicineEvaluationForm formType="create"
+                    <ModulesUserCitizenMedicineEvaluationForm formType="update"
                         :selectedMedicineEvaluation="state.formEvaluation" :error="state.error" @error="setError"
                         @isPageLoading="(value: boolean) => state.isPageLoading = value" @closeModal="closeModal"
-                        @submitForm="saveEvaluation" />
+                        @submitForm="updateEvaluation" />
                 </LoadingSpinner>
             </template>
         </Modal>
@@ -34,7 +34,7 @@ const props = defineProps({
         required: true,
     }
 })
-const emit = defineEmits(['close', 'refreshEvaluations', 'refreshMedicineHistories'])
+const emit = defineEmits(['close', 'refreshEvaluations'])
 
 const state = reactive({
     error: {} as Error,
@@ -52,7 +52,7 @@ watch(() => props.selectedMedicineEvaluation, (selectedMedicineEvaluation: any) 
         state.formEvaluation = {
             medicine_name: props.selectedMedicineEvaluation?.medicine_name,
             citizen_medicine_uuid: props.selectedMedicineEvaluation?.entry?.citizen_medicine?.uuid,
-            evaluation: '',
+            evaluation: selectedMedicineEvaluation?.entry?.evaluation,
             time: props.selectedMedicineEvaluation?.time,
         }
     }
@@ -70,25 +70,19 @@ function refreshEvaluations() {
     emit('refreshEvaluations')
 }
 
-function refreshMedicineHistories() {
-    emit('refreshMedicineHistories')
-}
-
-async function saveEvaluation(evaluation: any) {
+async function updateEvaluation(evaluation: any) {
     state.error = {}
     state.isPageLoading = true
     try {
+        const evaluationUuid = props.selectedMedicineEvaluation?.entry?.uuid
         const params = {
-            citizen_medicine_uuid: props.selectedMedicineEvaluation?.entry?.citizen_medicine?.uuid,
             evaluation: evaluation.evaluation,
-            time: props.selectedMedicineEvaluation?.time
         }
-        const response = await effectEvaluationService.saveEffectEvaluation(params)
+        const response = await effectEvaluationService.updateEffectEvaluation(evaluationUuid, params)
         if (response?.data) {
-            refreshMedicineHistories()
             refreshEvaluations()
             closeModal()
-            successAlert(`${t('alert.success')}!`, `${t('citizens.medicineJournals.historyModal.evaluationRegistered')}.`)
+            successAlert(`${t('alert.success')}!`, `${t('citizens.medicineJournals.historyModal.evaluationUpdated')}.`)
         }
     } catch (error: any) {
         state.error = error

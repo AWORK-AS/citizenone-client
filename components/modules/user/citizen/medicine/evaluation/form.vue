@@ -14,7 +14,7 @@
                     }}
                 </p>
                 <p class="text-xs text-blue-700">
-                    {{ $t('citizens.medicineJournals.historyModal.describeReaction') }}
+                    {{ $t('citizens.medicineJournals.historyModal.describeReaction') }}.
                 </p>
             </div>
             <div class="space-y-1">
@@ -77,6 +77,10 @@ watch(() => props.selectedMedicineEvaluation, (newValue: any) => {
             evaluation: newValue.evaluation,
         }
     }
+})
+
+onMounted(() => {
+    state.formEvaluation.evaluation = props.selectedMedicineEvaluation.evaluation
 })
 
 const rules = computed(() => {
