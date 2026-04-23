@@ -1293,6 +1293,24 @@
         },
         "editCitizen": "Rediger Borger",
         "editCitizenForm": "Rediger borgerformular",
+        "employeeGroups": {
+            "alert": {
+                "groupSuccessfullyAssigned": "Medarbejdergruppe tildelt med succes",
+                "groupSuccessfullyUnassigned": "Medarbejdergruppe fjernet med succes"
+            },
+            "assignGroup": "Tildel medarbejdergruppe",
+            "assignedGroups": "Tildelte medarbejdergrupper",
+            "confirmation": {
+                "unassignConfirmation": "Er du sikker på, at du vil fjerne denne medarbejdergruppe"
+            },
+            "employeeGroups": "Medarbejdergrupper",
+            "table": {
+                "actions": {
+                    "unassign": "Fjern"
+                },
+                "name": "Navn"
+            }
+        },
         "expenses": {
             "alert": {
                 "deletedSuccessfully": "Udgift slettet med succes",
@@ -2230,6 +2248,7 @@
             "contacts": "Kontakter",
             "documents": "Dokumenter",
             "economy": "Økonomi",
+            "employeeGroups": "Medarbejdergrupper",
             "health": "Sundhed",
             "journals": "Journaler",
             "medicineCard": "Medicinkort",
@@ -3796,6 +3815,25 @@
     },
     "employee": "Medarbejder",
     "employeeGroups": {
+        "citizens": {
+            "alert": {
+                "citizenSuccessfullyAssigned": "Borger tildelt med succes",
+                "citizenSuccessfullyUnassigned": "Borger fjernet med succes"
+            },
+            "assignCitizen": "Tildel borger",
+            "assignedCitizens": "Tildelte borgere",
+            "citizens": "Borgere",
+            "confirmation": {
+                "unassignConfirmation": "Er du sikker på, at du vil fjerne denne borger"
+            },
+            "table": {
+                "actions": {
+                    "unassign": "Fjern"
+                },
+                "firstname": "Fornavn",
+                "lastname": "Efternavn"
+            }
+        },
         "editEmployeeGroup": "Rediger medarbejdergruppe",
         "employeeGroups": "Medarbejdergrupper",
         "form": {
@@ -3811,6 +3849,7 @@
         "newEmployeeGroup": "Ny medarbejdergruppe",
         "table": {
             "actions": {
+                "citizens": "Borgere",
                 "delete": "Slet",
                 "edit": "Rediger"
             },
