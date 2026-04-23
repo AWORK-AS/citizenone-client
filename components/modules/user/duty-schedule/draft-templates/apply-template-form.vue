@@ -15,21 +15,22 @@
                     <FormLabel :label="$t('dutySchedules.draftTemplates.form.weekNumber')" />
                     <div class="border rounded-md overflow-hidden">
                         <table class="min-w-full divide-y divide-gray-200">
-                            <thead class="bg-primary">
+                            <thead class="">
                                 <tr>
-                                    <th scope="col"
-                                        class="px-4 py-3 text-left text-xs font-medium text-white uppercase tracking-wider inline-flex items-center cursor-pointer">
-                                        <input type="checkbox" @change="toggleAllWeeks" :checked="allWeeksSelected"
-                                            class="peer w-5 h-5 appearance-none border bg-white border-primary rounded-sm mr-2 checked: bg-secondary checked:border-secondary focus:ring-0 cursor-pointer" />
-                                        <span
-                                            class="pointer-events-none absolute w-5 h-5 flex items-center justify-center">
-                                            <Icon name="ph:check-bold" class="h-4 w-4 text-white" />
-                                        </span>
+                                    <th scope="col" class="px-4 py-3 w-12 rounded-tl-md">
+                                        <label class="inline-flex items-center cursor-pointer relative">
+                                            <input type="checkbox" @change="toggleAllWeeks" :checked="allWeeksSelected"
+                                                class="peer w-5 h-5 appearance-none border bg-white border-primary rounded-sm checked:bg-secondary checked:border-secondary focus:ring-0 cursor-pointer" />
+                                            <span
+                                                class="pointer-events-none absolute top-0 left-0 w-5 h-5 flex items-center justify-center opacity-0 peer-checked:opacity-100 transition-opacity">
+                                                <Icon name="ph:check-bold" class="h-4 w-4 text-white" />
+                                            </span>
+                                        </label>
                                     </th>
                                     <th scope="col" class="px-4 py-3 text-left font-medium text-white">
                                         {{ $t('dutySchedules.draftTemplates.draftTemplates') }}
                                     </th>
-                                    <th scope="col" class="px-4 py-3 text-left font-medium text-white">
+                                    <th scope="col" class="px-4 py-3 text-left font-medium text-white rounded-tr-md">
                                         {{ $t('dutySchedules.draftTemplates.form.week') }}
                                     </th>
                                 </tr>
