@@ -54,7 +54,7 @@
                                 {{ $t('citizens.medicineJournals.historyModal.noPreviousAdministrations') }}
                             </div>
                             <div v-else class="space-y-3">
-                                <div v-for="(entry, idx) in state.medicineHistories?.data" :key="entry.uuid"
+                                <div v-for="(entry, entryIndex) in state.medicineHistories?.data" :key="entryIndex"
                                     class="rounded-xl border border-gray-200 overflow-hidden">
                                     <!-- Entry header -->
                                     <div
@@ -115,7 +115,8 @@
                                         <div v-if="entry.evaluator?.firstname"
                                             class="flex items-center gap-1.5 text-xs text-gray-500">
                                             <Icon name="ph:user" class="size-3" />
-                                            Evaluator: {{ entry.evaluator.firstname }} {{ entry.evaluator.lastname }}
+                                            {{ $t('citizens.medicineJournals.history.table.evaluator') }}:
+                                            {{ entry.evaluator.firstname }} {{ entry.evaluator.lastname }}
                                         </div>
 
 
@@ -175,9 +176,12 @@
                                                         }}
                                                     </span>
                                                 </div>
+                                                <!-- <p>
+                                                    {{ entry }}
+                                                </p>
                                                 <p class="text-xs text-gray-700">
                                                     {{ evaluation.comment }}
-                                                </p>
+                                                </p> -->
                                             </div>
                                         </div>
                                     </div>
@@ -187,24 +191,31 @@
 
                             <!-- All evaluations section -->
                             <div v-if="state.apiEvaluations.length > 0" class="mt-4">
-                                <p class="text-xs font-semibold text-gray-400 uppercase tracking-wide mb-2">{{
-                                    $t('citizens.medicineJournals.historyModal.allEffectEvaluations') }}</p>
+                                <p class="text-xs font-semibold text-gray-400 uppercase tracking-wide mb-2">
+                                    {{
+                                        $t('citizens.medicineJournals.historyModal.allEffectEvaluations')
+                                    }}
+                                </p>
                                 <div class="space-y-2">
                                     <div v-for="ev in state.apiEvaluations" :key="ev.uuid"
                                         class="bg-blue-50 border border-blue-100 rounded-lg px-3 py-2.5">
                                         <div class="flex items-center justify-between mb-1">
-                                            <span class="text-xs font-medium text-blue-800">
-                                                <Icon name="ph:stethoscope" class="size-3 inline mr-1" />
+                                            <span class="flex items-center gap-x-1 text-xs font-medium text-blue-800">
+                                                <Icon name="ph:stethoscope" class="w-3 h-3" />
                                                 {{ $t('citizens.medicineJournals.historyModal.effectEvaluation') }}
                                             </span>
                                             <span class="text-xs text-gray-400">
-                                                {{ ev.user ? ev.user.firstname + ' ' + (ev.user.lastname ?? '') :
-                                                    $t('citizens.medicineJournals.historyModal.unknown') }} · {{
+                                                {{
+                                                    ev.user ?
+                                                        ev.user.firstname + ' ' + (ev.user.lastname ?? '') :
+                                                        $t('citizens.medicineJournals.historyModal.unknown')
+                                                }} · {{
                                                     formatDateTimeToReadable(ev.created_at)
                                                 }}
                                             </span>
                                         </div>
-                                        <p class="text-xs text-gray-700">{{ ev.evaluation }}</p>
+                                        <p class="text-sm text-gray-700"
+                                            v-html="ev.evaluation?.replace(/\n/g, '<br>')" />
                                     </div>
                                 </div>
                             </div>
@@ -376,7 +387,7 @@ const { formatNumber } = useNumberFormatter()
 const language = useI18n()
 const customPagesStore = useCustomPagesStore() as any
 let currentTablePage = 1
-const emit = defineEmits(['close'])
+const emit = defineEmits(['close', 'refreshMedicines'])
 
 const state = reactive({
     columnHeaders: [] as any,
@@ -551,6 +562,10 @@ async function fetchCitizenMedicineHistories() {
     state.isTableLoading = false
 }
 
+function refreshMedicines() {
+    emit('refreshMedicines')
+}
+
 function previous() { currentTablePage--; fetchCitizenMedicineHistories() }
 function next() { currentTablePage++; fetchCitizenMedicineHistories() }
 
@@ -583,6 +598,7 @@ async function deleteMedicineHistory() {
         if (response?.message === 'Success.' || response?.message === 'Succes.') {
             if (state.selectedMedicineHistory?.data?.length === 1) currentTablePage = 1
             fetchCitizenMedicineHistories()
+            refreshMedicines()
             successAlert(`${t('alert.success')}!`, `${t('citizens.medicineJournals.history.alert.successfullyDeleted')}.`)
         }
     } catch (error: any) {
