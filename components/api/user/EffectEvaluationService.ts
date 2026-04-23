@@ -5,7 +5,7 @@ class EffectEvaluationService extends BaseAPIService {
         return await this.request(`/user/effect-evaluations`, 'GET', params)
     }
 
-    async createEffectEvaluation(params: object): Promise<any> {
+    async saveEffectEvaluation(params: object): Promise<any> {
         return await this.request(`/user/effect-evaluations`, 'POST', params)
     }
 

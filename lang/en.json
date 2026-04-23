@@ -1790,7 +1790,6 @@
                 "legendScheduled": "Scheduled",
                 "anErrorOccurred": "An error occurred.",
                 "anErrorOccurredRetry": "An error occurred. Please try again.",
-                "savedTitle": "Saved!",
                 "registeredForDays": "Registered for {n} day(s).",
                 "overdueMinutes": "{minutes} min overdue",
                 "overdueHoursMinutes": "{hours}h {minutes}min overdue",
@@ -1813,7 +1812,6 @@
                 "evaluationPlaceholder": "E.g.: Good pain relief after 45 min. Citizen reports pain level 3/10 compared to previous 8/10...",
                 "saving": "Saving...",
                 "saveEvaluation": "Save evaluation",
-                "savedTitle": "Saved!",
                 "evaluationRegistered": "The effect evaluation has been registered.",
                 "me": "Me"
             },
