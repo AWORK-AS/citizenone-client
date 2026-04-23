@@ -240,11 +240,9 @@ async function unassignGroup() {
     state.error = {}
     state.isTableLoading = true
     try {
-        const response = await citizenEmployeeGroupService.unassignGroup(citizenUuid, state.selectedGroup?.uuid)
-        if (response?.message === 'Success.' || response?.message === 'Succes.') {
-            successAlert(`${t('alert.success')}!`, `${t('citizens.employeeGroups.alert.groupSuccessfullyUnassigned')}.`)
-            fetchAssignedGroups()
-        }
+        await citizenEmployeeGroupService.unassignGroup(citizenUuid, state.selectedGroup?.uuid)
+        successAlert(`${t('alert.success')}!`, `${t('citizens.employeeGroups.alert.groupSuccessfullyUnassigned')}.`)
+        fetchAssignedGroups()
     } catch (error: any) {
         state.error = error
     }
