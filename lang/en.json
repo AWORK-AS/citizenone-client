@@ -6441,6 +6441,9 @@
                 "remove": "Remove company logo",
                 "street": "Street",
                 "transferNormHours": "Transfer norm hours to next year if not used",
+                "warning13HourShift": "Warning for shifts exceeding 13 hours",
+                "warning11HourRest": "Warning for rest periods under 11 hours",
+                "warning48HourRule": "Warning for the 48-hour rule",
                 "website": "Website"
             }
         },
