@@ -501,7 +501,7 @@
                                         </span>
                                     </Tooltip>
                                     <FormButton buttonStyle="action" class="rounded-md text-xs shrink-0"
-                                        @click="giveMedicine(medicine)">
+                                        @click="givePNMedicine(medicine)">
                                         <Icon name="ph:plus" class="size-3" />
                                         {{ $t('citizens.medicineJournals.page.givePN') }}
                                     </FormButton>
@@ -877,9 +877,9 @@
                 <ModulesUserCitizenMedicineModalEdit :isModalOpen="state.modal.isEditMedicineOpen"
                     :selectedMedicine="state.selectedMedicine" @close="closeEditMedicineModal"
                     @refreshMedicines="fetchCitizenMedicines" />
-                <!-- <ModulesUserCitizenMedicineHistoryModalNew :isModalOpen="state.modal.isGiveMedicineOpen"
-                    :selectedMedicine="state.selectedMedicine" @close="state.modal.isGiveMedicineOpen = false"
-                    @refreshMedicines="fetchCitizenMedicines" /> -->
+                <ModulesUserCitizenMedicineHistoryModalNew :isModalOpen="state.modal.isGivePNMedicineOpen"
+                    :selectedMedicine="state.selectedMedicine" @close="state.modal.isGivePNMedicineOpen = false"
+                    @refreshMedicines="fetchCitizenMedicines" />
                 <ModulesUserCitizenMedicineModalGiveMedicine :isModalOpen="state.modal.isGiveMedicineOpen"
                     :selectedMedicine="state.selectedMedicine" :preselectedDate="state.preselectedDate ?? undefined"
                     :preselectedTime="state.preselectedTime ?? undefined" @close="closeGiveMedicineModal"
@@ -997,6 +997,7 @@ const state = reactive({
         isFilterMedicineOpen: false,
         isGiveMedicineOpen: false,
         isGiveMedicinesOpen: false,
+        isGivePNMedicineOpen: false,
         isViewMedicineOpen: false,
         isViewMedicineHistoryOpen: false,
     },
@@ -1505,6 +1506,11 @@ function closeGiveMedicineModal() {
 function giveMedicine(medicine: any) {
     state.selectedMedicine = medicine
     state.modal.isGiveMedicineOpen = true
+}
+
+function givePNMedicine(medicine: any) {
+    state.selectedMedicine = medicine
+    state.modal.isGivePNMedicineOpen = true
 }
 
 function openGiveMedicineOnDate(medicine: any, dosage: any, day: any) {
