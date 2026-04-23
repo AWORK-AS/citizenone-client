@@ -414,7 +414,7 @@
                                                 </span>
                                             </button>
                                         </Tooltip>
-                                        <span class="text-xs"
+                                        <span class="text-xs text-center"
                                             :class="getSlotTimeClass(getDosageForTime(medicine, time), time)">
                                             {{ getSlotTimeLabel(getDosageForTime(medicine, time), time) }}
                                         </span>
