@@ -102,7 +102,7 @@
                     </div>
 
                     <!-- Time slots -->
-                    <div>
+                    <div v-if="!props.selectedMedicine?.is_pn_medicine">
                         <div class="flex items-center justify-between mb-2">
                             <p class="text-xs font-semibold text-gray-400 uppercase tracking-wide">
                                 {{

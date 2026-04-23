@@ -313,8 +313,8 @@
                     </div>
                 </div>
                 <div class="col-span-12 lg:col-span-3 flex flex-col justify-center lg:gap-8">
-                    <!-- <ModulesUserCitizenMedicineQrHeader :selectedCitizen="state.selectedCitizen"
-                        v-if="$route.name === 'citizens-uuid-medicine-journals'" /> -->
+                    <ModulesUserCitizenMedicineQrHeader :selectedCitizen="state.selectedCitizen"
+                        v-if="$route.name === 'citizens-uuid-medicine-journals'" />
                     <div class="flex flex-col items-center gap-y-3 md:gap-y-10">
                         <ModulesUserCitizenUseOfForceHeader :selectedCitizen="state.selectedCitizen"
                             v-if="$route.name === 'citizens-uuid-journals' && userStore?.getUser?.industry !== 'Dentists and dental hygienists'" />

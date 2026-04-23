@@ -199,7 +199,7 @@
                                 <div class="space-y-2">
                                     <div v-for="(effectEvaluation, effectEvaluationIndex) in state.effectEvaluations?.data"
                                         :key="effectEvaluationIndex"
-                                        class="bg-blue-50 border border-blue-100 rounded-lg px-3 py-2.5"
+                                        class="bg-blue-50 border border-blue-100 rounded-lg px-3 py-2.5 cursor-pointer"
                                         @click="editEvaluation(effectEvaluation)">
                                         <div class="flex items-center justify-between mb-1">
                                             <span class="flex items-center gap-x-1 text-xs font-medium text-blue-800">

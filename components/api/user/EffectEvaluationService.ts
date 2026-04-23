@@ -9,12 +9,12 @@ class EffectEvaluationService extends BaseAPIService {
         return await this.request(`/user/effect-evaluations`, 'POST', params)
     }
 
-    async updateEffectEvaluation(uuid: string, params: object): Promise<any> {
-        return await this.request(`/user/effect-evaluations/${uuid}`, 'PUT', params)
+    async updateEffectEvaluation(effectEvaluationUuid: string, params: object): Promise<any> {
+        return await this.request(`/user/effect-evaluations/${effectEvaluationUuid}`, 'PUT', params)
     }
 
-    async deleteEffectEvaluation(uuid: string): Promise<any> {
-        return await this.request(`/user/effect-evaluations/${uuid}`, 'DELETE')
+    async deleteEffectEvaluation(effectEvaluationUuid: string): Promise<any> {
+        return await this.request(`/user/effect-evaluations/${effectEvaluationUuid}`, 'DELETE')
     }
 }
 
