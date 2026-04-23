@@ -744,6 +744,7 @@
         }
     },
     "bulletBoard": {
+        "attachments": "Vedhæftede filer",
         "bulletBoard": "Opslagstavle",
         "featured": "Fremhævet"
     },
@@ -5337,7 +5338,9 @@
                 "edit": "Rediger"
             },
             "active": "Aktiv",
+            "author": "Forfatter",
             "content": "Indhold",
+            "created": "Oprettet",
             "featured": "Fremhævet",
             "image": "Billede",
             "inactive": "Inaktiv",
