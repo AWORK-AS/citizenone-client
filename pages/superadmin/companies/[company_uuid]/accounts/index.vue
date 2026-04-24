@@ -59,6 +59,11 @@
                                                 <Icon name="ph:pencil-simple" class="size-4" />
                                                 {{ $t('superadmin.accounts.table.actions.edit') }}
                                             </FormButton>
+                                            <FormButton type="button" buttonStyle="action"
+                                                @click="impersonateAccount(account)">
+                                                <Icon name="ph:user-switch" class="size-4" />
+                                                {{ $t('superadmin.accounts.table.actions.impersonate') }}
+                                            </FormButton>
                                             <FormButton type="button"
                                                 :buttonStyle="account.is_active ? 'danger' : 'success'"
                                                 @click="activateDeactivateAccount(index, account)">
@@ -200,6 +205,22 @@ async function activateDeactivateAccount(index: any, account: any) {
 function confirmAccountDeletion(account: any) {
     state.selectedAccount = account
     state.modal.isDeleteAccountOpen = true
+}
+
+async function impersonateAccount(account: any) {
+    state.error = {}
+    state.isTableLoading = true
+    try {
+        const response = await accountService.impersonateAccount(account.uuid)
+        if (response?.impersonation_token) {
+            localStorage.setItem('_original_token', localStorage.getItem('_token') ?? '')
+            localStorage.setItem('_token', response.impersonation_token)
+            navigateTo('/overview')
+        }
+    } catch (error: any) {
+        state.error = error
+    }
+    state.isTableLoading = false
 }
 
 async function deleteAccount() {
