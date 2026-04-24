@@ -659,6 +659,10 @@ function setCustomPageNames() {
     customPagesStore.setRiskAssessmentNaming(n(cp('risk_assessment')))
     customPagesStore.setGiveMedicineNaming(n(cp('give_medicine')))
     customPagesStore.setRoomsNaming(n(cp('rooms')))
+    customPagesStore.setShelterNaming(n(cp('shelter')))
+    customPagesStore.setCrisisCenterNaming(n(cp('crisis_center')))
+    customPagesStore.setCompletedByNaming(n(cp('completed_by')))
+    customPagesStore.setDateOfInquiryNaming(n(cp('date_of_inquiry')))
 }
 
 function animateAssets() {
