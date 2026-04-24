@@ -54,6 +54,7 @@ const state = reactive({
     formCustomPage: {
         en_name: '',
         dk_name: '',
+        is_field_active: true,
     },
     isPageLoading: false,
 })
@@ -71,6 +72,7 @@ async function fetchCustomPage() {
             state.formCustomPage = {
                 en_name: response?.data?.en_name ?? '',
                 dk_name: response?.data?.dk_name ?? '',
+                is_field_active: response?.data?.is_field_active ?? true,
             }
         }
     } catch (error: any) {
@@ -86,6 +88,7 @@ async function updateCustomPage(customPageDetails: any) {
         const params = {
             en_name: customPageDetails.en_name,
             dk_name: customPageDetails.dk_name,
+            is_field_active: customPageDetails.is_field_active,
         }
         const response = await customPagesService.updateCustomPage(customPageUuid, params)
         if (response.data) {

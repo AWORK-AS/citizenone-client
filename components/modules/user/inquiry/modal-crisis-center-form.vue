@@ -92,7 +92,7 @@
                     <FormError :error="v$?.formInquiry?.guidance_uuid?.$errors[0]?.$message.toString()" />
                     <FormError :error="props?.error?.errors?.guidance_uuid?.[0]" />
                 </div>
-                <div class="space-y-1">
+                <div class="space-y-1" v-if="isNotesActive">
                     <FormLabel for="notes" :label="$t('inquiries.form.notes')" />
                     <FormTextArea id="notes" name="notes" :placeholder="$t('inquiries.form.notes')"
                         v-model="state.formInquiry.notes" />
@@ -106,7 +106,7 @@
                     <FormError :error="v$?.formInquiry?.outcome?.$errors[0]?.$message.toString()" />
                     <FormError :error="props?.error?.errors?.outcome?.[0]" />
                 </div>
-                <div class="space-y-1">
+                <div class="space-y-1" v-if="isPurposeActive">
                     <FormLabel for="purpose" :label="$t('inquiries.form.purpose')" />
                     <FormTextField id="purpose" name="purpose" :placeholder="$t('inquiries.form.purpose')"
                         v-model="state.formInquiry.purpose" />
@@ -145,6 +145,7 @@ import { useCustomPagesStore } from '@/store/custom-pages'
 import type { Error } from '@/types'
 import { citizenInquiryService } from '@/components/api/user/CitizenInquiryService'
 import { departmentService } from '@/components/api/user/DepartmentService'
+import { customPagesService } from '@/components/api/user/CustomPagesService'
 
 const props = defineProps({
     error: {
@@ -168,6 +169,10 @@ const customPagesStore = useCustomPagesStore() as any
 const completedByLabel = computed(() => customPagesStore.getCustomPagesName?.completedBy || t('inquiries.form.inquirerName'))
 const dateOfInquiryLabel = computed(() => customPagesStore.getCustomPagesName?.dateOfInquiry || t('inquiries.form.dateOfInquiry'))
 const departmentLabel = computed(() => customPagesStore.getCustomPagesName?.department || t('department.department'))
+
+const customPages = ref<any[]>([])
+const isNotesActive = computed(() => customPages.value.find((p: any) => p.page_type === 'own_notes')?.is_field_active ?? true)
+const isPurposeActive = computed(() => customPages.value.find((p: any) => p.page_type === 'purpose')?.is_field_active ?? true)
 
 const state = reactive({
     error: {} as Error,
@@ -246,6 +251,7 @@ onMounted(() => {
     }
 
     fetchDepartments()
+    fetchCustomPages()
     fetchInquiryAboutListOptions()
     fetchAssessmentReasonListOptions()
     fetchGuidanceListOptions()
@@ -351,6 +357,15 @@ async function fetchDepartments() {
                 label: item.name,
             }))
         }
+    } catch (error: any) {
+        state.error = error
+    }
+}
+
+async function fetchCustomPages() {
+    try {
+        const response = await customPagesService.getCustomPages({})
+        if (response?.data) customPages.value = response.data
     } catch (error: any) {
         state.error = error
     }
