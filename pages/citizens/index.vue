@@ -189,16 +189,16 @@
                                         <button :class="[
                                             active && 'bg-gray-100',
                                             'group flex w-full justify-start items-center rounded-md px-2 py-2.5 text-sm text-left',
-                                        ]" @click="exportInquiries({ inquiry_type: 'shelter' })">
-                                            {{ $t('inquiries.form.options.inquiryType.shelter') }}
+                                        ]" @click="openExportInquiriesModal('shelter')">
+                                            {{ shelterName }}
                                         </button>
                                         </MenuItem>
                                         <MenuItem v-slot="{ active }">
                                         <button :class="[
                                             active && 'bg-gray-100',
                                             'group flex w-full items-center rounded-md px-2 py-2.5 text-sm',
-                                        ]" @click="exportInquiries({ inquiry_type: 'crisis_center' })">
-                                            {{ $t('inquiries.form.options.inquiryType.crisisCenter') }}
+                                        ]" @click="openExportInquiriesModal('crisis_center')">
+                                            {{ crisisCenterName }}
                                         </button>
                                         </MenuItem>
                                     </div>
@@ -350,6 +350,26 @@
                 :citizenName="`${state.selectedCitizen?.firstname || ''} ${state.selectedCitizen?.lastname || ''}`"
                 :workingMinutes="state.workingMinutes" @close="state.modal.isConfirmWorkingOpen = false"
                 @confirmed="onWorkConfirmed" @dismissed="onWorkDismissed" />
+
+            <Modal size="xs" :title="exportInquiryModalTitle" :show="state.modal.isExportInquiriesDepartmentOpen"
+                @close="state.modal.isExportInquiriesDepartmentOpen = false">
+                <template #modal-body>
+                    <div class="space-y-4">
+                        <div class="space-y-1">
+                            <FormLabel :label="customPagesStore.getCustomPagesName?.department || $t('department.department')" />
+                            <FormSelect :options="exportInquiryDepartmentOptions" v-model="state.selectedExportInquiryDepartmentUuid" />
+                        </div>
+                        <div class="grid grid-cols-2 gap-3 pb-6">
+                            <FormButton buttonStyle="cancel" @click="state.modal.isExportInquiriesDepartmentOpen = false">
+                                {{ $t('cancel') }}
+                            </FormButton>
+                            <FormButton buttonStyle="primary" @click="confirmExportInquiries">
+                                {{ $t('inquiries.exportInquiries') }}
+                            </FormButton>
+                        </div>
+                    </div>
+                </template>
+            </Modal>
         </NuxtLayout>
     </div>
 </template>
@@ -404,11 +424,14 @@ const state = reactive({
         isViewLocationsOpen: false,
         isConfirmArrivalOpen: false,
         isConfirmWorkingOpen: false,
+        isExportInquiriesDepartmentOpen: false,
     },
     selectedCitizen: null as any,
     arrivalDistance: 0,
     workingMinutes: 0,
     departments: [] as any,
+    exportInquiryType: '',
+    selectedExportInquiryDepartmentUuid: '',
 })
 
 const arrivalCheckState = reactive({
@@ -419,6 +442,16 @@ const arrivalCheckState = reactive({
 const workCheckState = reactive({
     hasShownPrompt: false,
 })
+
+const shelterName = computed(() => customPagesStore.getCustomPagesName?.shelter || t('inquiries.form.options.inquiryType.shelter'))
+const crisisCenterName = computed(() => customPagesStore.getCustomPagesName?.crisisCenter || t('inquiries.form.options.inquiryType.crisisCenter'))
+const exportInquiryModalTitle = computed(() => state.exportInquiryType === 'shelter' ? shelterName.value : crisisCenterName.value)
+const exportInquiryDepartmentOptions = computed(() => [
+    { value: '', label: t('department.allDepartment') },
+    ...(state.departments?.data ?? [])
+        .filter((d: any) => d.name !== 'All departments')
+        .map((d: any) => ({ value: d.uuid, label: d.name })),
+])
 
 const isTransportRegistrationEnabled = computed(() => {
     return userStore.getUser?.can_register_transport === true
@@ -712,17 +745,34 @@ async function exportCitizens(departmentParams: { department?: string, departmen
     state.isTableLoading = false
 }
 
-async function exportInquiries(params: { inquiry_type: string }) {
+function openExportInquiriesModal(inquiryType: string) {
+    state.exportInquiryType = inquiryType
+    state.selectedExportInquiryDepartmentUuid = ''
+    state.modal.isExportInquiriesDepartmentOpen = true
+}
+
+async function confirmExportInquiries() {
+    const dept = (state.departments?.data ?? []).find((d: any) => d.uuid === state.selectedExportInquiryDepartmentUuid)
+    await exportInquiries({
+        inquiry_type: state.exportInquiryType,
+        department: dept?.name,
+        department_uuid: dept?.uuid,
+    })
+    state.modal.isExportInquiriesDepartmentOpen = false
+}
+
+async function exportInquiries(params: { inquiry_type: string, department?: string, department_uuid?: string }) {
     state.error = {}
     state.isTableLoading = true
     try {
         const queryParams = {
-            ...params
+            inquiry_type: params.inquiry_type,
+            department: params.department ?? departmentStore.getSelectedDepartmentName,
+            department_uuid: params.department_uuid ?? departmentStore.getSelectedDepartment,
         }
         const response = await citizenInquiryService.exportInquiries(queryParams)
         if (response) {
             let fileName = params.inquiry_type === 'shelter' ? t('inquiries.shelterInquiry') : t('inquiries.crisisCenterInquiry')
-
             saveAs(response, `${customPagesStore.getCustomPagesName?.citizens}-${fileName}`)
         }
     } catch (error: any) {

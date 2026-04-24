@@ -94,18 +94,14 @@
                                     class="absolute right-0 mt-2 min-w-44 origin-top-right divide-y divide-gray-100 rounded-md bg-white shadow-lg ring-1 ring-black/5 focus:outline-none">
                                     <div class="px-1 py-1">
                                         <MenuItem v-slot="{ active }">
-                                        <button :class="[
-                                            active && 'bg-gray-100',
-                                            'group flex w-full justify-start items-center rounded-md px-2 py-2.5 text-sm text-left',
-                                        ]" @click="exportInquiries({ inquiry_type: 'shelter' })">
+                                        <button :class="[active && 'bg-gray-100', 'group flex w-full justify-start items-center rounded-md px-2 py-2.5 text-sm text-left']"
+                                            @click="openExportModal('shelter')">
                                             {{ shelterName }}
                                         </button>
                                         </MenuItem>
                                         <MenuItem v-slot="{ active }">
-                                        <button :class="[
-                                            active && 'bg-gray-100',
-                                            'group flex w-full items-center rounded-md px-2 py-2.5 text-sm',
-                                        ]" @click="exportInquiries({ inquiry_type: 'crisis_center' })">
+                                        <button :class="[active && 'bg-gray-100', 'group flex w-full justify-start items-center rounded-md px-2 py-2.5 text-sm text-left']"
+                                            @click="openExportModal('crisis_center')">
                                             {{ crisisCenterName }}
                                         </button>
                                         </MenuItem>
@@ -205,6 +201,26 @@
             <DialogConfirmation :isModalOpen="state.modal.isDeleteInquiryOpen"
                 :message="$t('inquiries.table.confirmation.deleteInquiryConfirmation') + '?'"
                 @close="state.modal.isDeleteInquiryOpen = false" @confirm="deleteInquiry" />
+
+            <Modal size="xs" :title="exportModalTitle" :show="state.modal.isExportDepartmentOpen"
+                @close="state.modal.isExportDepartmentOpen = false">
+                <template #modal-body>
+                    <div class="space-y-4">
+                        <div class="space-y-1">
+                            <FormLabel :label="customPagesStore.getCustomPagesName?.department || $t('department.department')" />
+                            <FormSelect :options="exportDepartmentOptions" v-model="state.selectedExportDepartmentUuid" />
+                        </div>
+                        <div class="grid grid-cols-2 gap-3 pb-6">
+                            <FormButton buttonStyle="cancel" @click="state.modal.isExportDepartmentOpen = false">
+                                {{ $t('cancel') }}
+                            </FormButton>
+                            <FormButton buttonStyle="primary" @click="confirmExport">
+                                {{ $t('inquiries.exportInquiries') }}
+                            </FormButton>
+                        </div>
+                    </div>
+                </template>
+            </Modal>
         </NuxtLayout>
     </div>
 </template>
@@ -212,6 +228,7 @@
 <script setup lang="ts">
 import { Menu, MenuButton, MenuItems, MenuItem } from '@headlessui/vue'
 import { citizenInquiryService } from '@/components/api/user/CitizenInquiryService'
+import { departmentService } from '@/components/api/user/DepartmentService'
 import { useInquiryStore } from '@/store/inquiry'
 import { useDepartmentStore } from '@/store/department'
 import { useDatetimeFormatter } from '@/composables/datetimeFormatter'
@@ -231,6 +248,12 @@ const { t } = useI18n()
 
 const shelterName = computed(() => customPagesStore.getCustomPagesName?.shelter || t('inquiries.form.options.inquiryType.shelter'))
 const crisisCenterName = computed(() => customPagesStore.getCustomPagesName?.crisisCenter || t('inquiries.form.options.inquiryType.crisisCenter'))
+
+const exportModalTitle = computed(() => state.exportInquiryType === 'shelter' ? shelterName.value : crisisCenterName.value)
+const exportDepartmentOptions = computed(() => [
+    { value: '', label: t('department.allDepartment') },
+    ...state.departments.map((d: any) => ({ value: d.uuid, label: d.name })),
+])
 
 const breadcrumbLinks = [
     {
@@ -256,6 +279,7 @@ const state = reactive({
     dataFilter: {
         search: ''
     },
+    departments: [] as any,
     error: {} as Error,
     isTableLoading: false,
     inquiries: [] as any,
@@ -264,12 +288,16 @@ const state = reactive({
         isConvertInquiryOpen: false,
         isEditInquiryOpen: false,
         isDeleteInquiryOpen: false,
+        isExportDepartmentOpen: false,
     },
     selectedInquiry: {} as any,
     inquiryTpe: '',
+    exportInquiryType: '',
+    selectedExportDepartmentUuid: '',
 })
 
 onMounted(() => {
+    fetchDepartments()
     fetchInquiries()
 })
 
@@ -390,17 +418,45 @@ async function deleteInquiry() {
     state.isTableLoading = false
 }
 
-async function exportInquiries(params: { inquiry_type: string }) {
+async function fetchDepartments() {
+    try {
+        const response = await departmentService.getAllDepartments({})
+        if (response) {
+            state.departments = response.data
+        }
+    } catch (error: any) {
+        state.error = error
+    }
+}
+
+function openExportModal(inquiryType: string) {
+    state.exportInquiryType = inquiryType
+    state.selectedExportDepartmentUuid = ''
+    state.modal.isExportDepartmentOpen = true
+}
+
+async function confirmExport() {
+    const dept = state.departments.find((d: any) => d.uuid === state.selectedExportDepartmentUuid)
+    await exportInquiries({
+        inquiry_type: state.exportInquiryType,
+        department: dept?.name,
+        department_uuid: dept?.uuid,
+    })
+    state.modal.isExportDepartmentOpen = false
+}
+
+async function exportInquiries(params: { inquiry_type: string, department?: string, department_uuid?: string }) {
     state.error = {}
     state.isTableLoading = true
     try {
         const queryParams = {
-            ...params
+            inquiry_type: params.inquiry_type,
+            department: params.department ?? departmentStore.getSelectedDepartmentName,
+            department_uuid: params.department_uuid ?? departmentStore.getSelectedDepartment,
         }
         const response = await citizenInquiryService.exportInquiries(queryParams)
         if (response) {
             let fileName = params.inquiry_type === 'shelter' ? t('inquiries.shelterInquiry') : t('inquiries.crisisCenterInquiry')
-
             saveAs(response, `${customPagesStore.getCustomPagesName?.citizens}-${fileName}`)
         }
     } catch (error: any) {
