@@ -6,7 +6,7 @@
             <div class="flex justify-end items-center mb-5 gap-x-2">
                 <FormButton buttonStyle="action" @click="state.modal.isDownloadOpen = true">
                     <Icon name="ph:download" class="h-4 w-4" />
-                    {{ $t('citizens.treatments.downloadOverview') }}
+                    {{ $t('citizens.treatments.treatmentOverview') }}
                 </FormButton>
                 <FormButton buttonStyle="action" @click="state.modal.isAddTreatmentOpen = true">
                     <Icon name="ph:plus" class="h-4 w-4" aria-hidden="true" />
