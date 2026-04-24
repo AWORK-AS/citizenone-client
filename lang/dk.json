@@ -2715,6 +2715,7 @@
             "alert": {
                 "customPageSuccessfullyUpdated": "Brugerdefineret side blev opdateret med succes"
             },
+            "isFieldActive": "Felt aktiv",
             "nameDanish": "Navn (dansk)",
             "nameEnglish": "Navn (engelsk)"
         },
