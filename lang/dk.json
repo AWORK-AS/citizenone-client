@@ -2995,6 +2995,7 @@
         "departmentSickLeaves": "Afdelingens sygefravær",
         "distributionOfShiftTypes": "Fordeling af vagttyper",
         "download": {
+            "archivedEmployeesOnly": "Download arkiverede medarbejdere kun",
             "date": "Dato",
             "delimiter": {
                 "comma": "Komma",
