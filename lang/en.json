@@ -1294,6 +1294,24 @@
         },
         "editCitizen": "Edit citizen",
         "editCitizenForm": "Edit citizen form",
+        "employeeGroups": {
+            "alert": {
+                "groupSuccessfullyAssigned": "Employee group successfully assigned",
+                "groupSuccessfullyUnassigned": "Employee group successfully unassigned"
+            },
+            "assignGroup": "Assign employee group",
+            "assignedGroups": "Assigned employee groups",
+            "confirmation": {
+                "unassignConfirmation": "Are you sure you want to unassign this employee group"
+            },
+            "employeeGroups": "Employee groups",
+            "table": {
+                "actions": {
+                    "unassign": "Unassign"
+                },
+                "name": "Name"
+            }
+        },
         "expenses": {
             "alert": {
                 "deletedSuccessfully": "Expense successfully deleted",
@@ -2231,6 +2249,7 @@
             "contacts": "Contacts",
             "documents": "Documents",
             "economy": "Economy",
+            "employeeGroups": "Employee groups",
             "health": "Health",
             "journals": "Journals",
             "medicineCard": "Medicine card",
@@ -3798,6 +3817,25 @@
     },
     "employee": "Employee",
     "employeeGroups": {
+        "citizens": {
+            "alert": {
+                "citizenSuccessfullyAssigned": "Citizen successfully assigned",
+                "citizenSuccessfullyUnassigned": "Citizen successfully unassigned"
+            },
+            "assignCitizen": "Assign citizen",
+            "assignedCitizens": "Assigned citizens",
+            "citizens": "Citizens",
+            "confirmation": {
+                "unassignConfirmation": "Are you sure you want to unassign this citizen"
+            },
+            "table": {
+                "actions": {
+                    "unassign": "Unassign"
+                },
+                "firstname": "First name",
+                "lastname": "Last name"
+            }
+        },
         "editEmployeeGroup": "Edit employee group",
         "employeeGroups": "Employee groups",
         "form": {
@@ -3813,6 +3851,7 @@
         "newEmployeeGroup": "New employee group",
         "table": {
             "actions": {
+                "citizens": "Citizens",
                 "delete": "Delete",
                 "edit": "Edit"
             },
