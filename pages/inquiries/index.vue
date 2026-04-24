@@ -146,6 +146,14 @@
                                         <span>{{ inquiry?.lastname }}</span>
                                     </td>
                                     <td width="10%">
+                                        <div class="flex flex-wrap gap-1">
+                                            <span v-for="(dept, di) in inquiry?.departments" :key="di"
+                                                class="bg-primary px-2 py-1 text-white text-xxs rounded-md">
+                                                {{ dept?.name }}
+                                            </span>
+                                        </div>
+                                    </td>
+                                    <td width="10%">
                                         <span>{{ inquiry?.outcome }}</span>
                                     </td>
                                     <td width="10%">
@@ -205,6 +213,7 @@
 import { Menu, MenuButton, MenuItems, MenuItem } from '@headlessui/vue'
 import { citizenInquiryService } from '@/components/api/user/CitizenInquiryService'
 import { useInquiryStore } from '@/store/inquiry'
+import { useDepartmentStore } from '@/store/department'
 import { useDatetimeFormatter } from '@/composables/datetimeFormatter'
 import { useI18n } from "vue-i18n"
 import { useAlert } from '@/composables/alert'
@@ -214,6 +223,7 @@ import { useCustomPagesStore } from '@/store/custom-pages'
 
 const runtimeConfig = useRuntimeConfig()
 const inquiryStore = useInquiryStore() as any
+const departmentStore = useDepartmentStore()
 const { formatDateToReadable } = useDatetimeFormatter()
 const customPagesStore = useCustomPagesStore() as any
 const { successAlert } = useAlert()
@@ -237,6 +247,7 @@ const state = reactive({
         { name: 'inquiries.table.inquirerName', isTranslateName: true, sorter: true, key: 'inquirer_name' },
         { name: 'inquiries.table.firstname', isTranslateName: true, sorter: true, key: 'firstname' },
         { name: 'inquiries.table.lastname', isTranslateName: true, sorter: true, key: 'lastname' },
+        { name: 'department.department', isTranslateName: true, },
         { name: 'inquiries.table.outcome', isTranslateName: true, },
         { name: 'inquiries.table.purpose', isTranslateName: true, },
         { name: 'inquiries.table.conversationSummary', isTranslateName: true, },
@@ -262,11 +273,18 @@ onMounted(() => {
     fetchInquiries()
 })
 
+watch(() => departmentStore.getSelectedDepartmentName, (newValue: any) => {
+    if (newValue != null) {
+        fetchInquiries()
+    }
+})
+
 async function fetchInquiries() {
     state.error = {}
     state.isTableLoading = true
     try {
         const params = {
+            department: departmentStore.getSelectedDepartmentName,
             page: inquiryStore.getCurrentPageNumber,
             page_length: inquiryStore.getCurrentPageLength,
             sortField: inquiryStore.getSortData.sortField,
