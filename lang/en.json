@@ -3014,6 +3014,7 @@
         "departmentSickLeaves": "Department sick leaves",
         "distributionOfShiftTypes": "Distribution of shift types",
         "download": {
+            "archivedEmployeesOnly": "Download archived employees only",
             "date": "Date",
             "delimiter": {
                 "comma": "Comma",

@@ -190,10 +190,10 @@
                             <Icon name="mdi:cloud-refresh-outline" class="h-4 w-4" />
                             {{ $t('citizens.medicineJournals.synchronizeWithFMK') }}
                         </FormButton>
-                        <FormButton buttonStyle="action" class="rounded-md" @click="state.modal.isAnbrudOpen = true">
+                        <!-- <FormButton buttonStyle="action" class="rounded-md" @click="state.modal.isAnbrudOpen = true">
                             <Icon name="ph:drop" class="h-4 w-4" />
                             {{ $t('citizens.medicineJournals.page.newPackageOpening') }}
-                        </FormButton>
+                        </FormButton> -->
                         <FormButton buttonStyle="action" class="rounded-md"
                             @click="state.modal.isAddMedicineOpen = true">
                             <Icon name="ph:plus" class="h-4 w-4" />
