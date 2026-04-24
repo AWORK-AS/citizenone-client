@@ -59,7 +59,8 @@
                                                 <Icon name="ph:pencil-simple" class="size-4" />
                                                 {{ $t('superadmin.accounts.table.actions.edit') }}
                                             </FormButton>
-                                            <FormButton type="button" buttonStyle="action"
+                                            <FormButton v-if="!account?.roles?.some((r: any) => r.name === 'Superadmin')"
+                                                type="button" buttonStyle="action"
                                                 @click="impersonateAccount(account)">
                                                 <Icon name="ph:user-switch" class="size-4" />
                                                 {{ $t('superadmin.accounts.table.actions.impersonate') }}
