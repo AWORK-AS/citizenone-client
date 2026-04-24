@@ -1,6 +1,6 @@
 <template>
     <div>
-        <Modal size="md" :title="inquiryType === 'shelter' ? $t('inquiries.shelterInquiry') : $t('inquiries.crisisCenterInquiry')" :show="props.isModalOpen" @close="closeModal">
+        <Modal size="md" :title="inquiryType === 'shelter' ? shelterName : crisisCenterName" :show="props.isModalOpen" @close="closeModal">
             <template #modal-body>
                 <LoadingSpinner :isActive="state.isPageLoading">
                     <ModulesUserInquiryModalCrisisCenterForm v-if="inquiryType === 'crisis_center'" formType="create" :selectedInquiry="state.formInquiry"
@@ -19,10 +19,15 @@
 import { citizenInquiryService } from '@/components/api/user/CitizenInquiryService'
 import { useAlert } from '@/composables/alert'
 import { useI18n } from "vue-i18n"
+import { useCustomPagesStore } from '@/store/custom-pages'
 import type { Error } from '@/types'
 
 const { successAlert } = useAlert()
 const { t } = useI18n()
+const customPagesStore = useCustomPagesStore() as any
+
+const shelterName = computed(() => customPagesStore.getCustomPagesName?.shelter || t('inquiries.form.options.inquiryType.shelter'))
+const crisisCenterName = computed(() => customPagesStore.getCustomPagesName?.crisisCenter || t('inquiries.form.options.inquiryType.crisisCenter'))
 
 const props = defineProps({
     inquiryType: {
@@ -42,6 +47,7 @@ const state = reactive({
         inquiry_type: props.inquiryType,
         cpr: '',
         inquiry_date: '',
+        department_uuid: [],
         inquirer_name: '',
         first_name: '',
         last_name: '',
@@ -76,6 +82,7 @@ async function saveCrisisCenterInquiry(inquiryDetails: any) {
             inquiry_type: inquiryDetails.inquiry_type,
             cpr: inquiryDetails.cpr,
             inquiry_date: inquiryDetails.inquiry_date,
+            department_uuid: inquiryDetails.department_uuid,
             inquirer_name: inquiryDetails.inquirer_name,
             first_name: inquiryDetails.first_name,
             last_name: inquiryDetails.last_name,
@@ -111,6 +118,7 @@ async function saveShelterInquiry(inquiryDetails: any) {
             cpr: inquiryDetails.cpr,
             cpr_missing_reason: inquiryDetails.cpr_missing_reason,
             inquiry_date: inquiryDetails.inquiry_date,
+            department_uuid: inquiryDetails.department_uuid,
             inquirer_name: inquiryDetails.inquirer_name,
             first_name: inquiryDetails.first_name,
             last_name: inquiryDetails.last_name,

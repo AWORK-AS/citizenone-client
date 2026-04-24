@@ -744,6 +744,7 @@
         }
     },
     "bulletBoard": {
+        "attachments": "Attachments",
         "bulletBoard": "Bullet board",
         "featured": "Featured"
     },
@@ -1293,6 +1294,24 @@
         },
         "editCitizen": "Edit citizen",
         "editCitizenForm": "Edit citizen form",
+        "employeeGroups": {
+            "alert": {
+                "groupSuccessfullyAssigned": "Employee group successfully assigned",
+                "groupSuccessfullyUnassigned": "Employee group successfully unassigned"
+            },
+            "assignGroup": "Assign employee group",
+            "assignedGroups": "Assigned employee groups",
+            "confirmation": {
+                "unassignConfirmation": "Are you sure you want to unassign this employee group"
+            },
+            "employeeGroups": "Employee groups",
+            "table": {
+                "actions": {
+                    "unassign": "Unassign"
+                },
+                "name": "Name"
+            }
+        },
         "expenses": {
             "alert": {
                 "deletedSuccessfully": "Expense successfully deleted",
@@ -1667,6 +1686,12 @@
                 "ingredientsLabel": "Are there any other ingredients that are relevant to mention",
                 "maxDailyDose": "Max daily dose",
                 "maxDosagePerTime": "Max dosage per time",
+                "medicationTypes": {
+                    "all": "All",
+                    "medicationType": "Medication type",
+                    "pnMedicine": "PN medicine",
+                    "regularMedicine": "Regular medicine"
+                },
                 "medicine": "Medicine",
                 "medicineStorage": "Medicine storage",
                 "medicineStoragePlaceholder": "Where do you store the medicine",
@@ -1736,6 +1761,7 @@
                     },
                     "comment": "Comment",
                     "date": "Date",
+                    "dateTime": "Date time",
                     "dateCreated": "Date created",
                     "dose": "Dose",
                     "evaluationFrequency": "What time do you want to evaluate",
@@ -1783,7 +1809,6 @@
                 "legendScheduled": "Scheduled",
                 "anErrorOccurred": "An error occurred.",
                 "anErrorOccurredRetry": "An error occurred. Please try again.",
-                "savedTitle": "Saved!",
                 "registeredForDays": "Registered for {n} day(s).",
                 "overdueMinutes": "{minutes} min overdue",
                 "overdueHoursMinutes": "{hours}h {minutes}min overdue",
@@ -1799,15 +1824,16 @@
                 "evaluatedAt": "Evaluated at",
                 "allEffectEvaluations": "All effect evaluations",
                 "unknown": "Unknown",
+                "editEffectEvaluation": "Edit effect evaluation",
                 "registerEffectEvaluation": "Register effect evaluation",
                 "scheduledAt": "Scheduled at",
-                "describeReaction": "Describe the citizen's reaction and effect of the medicine since it was given.",
+                "describeReaction": "Describe the citizen's reaction and effect of the medicine since it was given",
                 "observation": "Observation",
                 "evaluationPlaceholder": "E.g.: Good pain relief after 45 min. Citizen reports pain level 3/10 compared to previous 8/10...",
                 "saving": "Saving...",
                 "saveEvaluation": "Save evaluation",
-                "savedTitle": "Saved!",
-                "evaluationRegistered": "The effect evaluation has been registered.",
+                "evaluationRegistered": "The effect evaluation has been registered",
+                "evaluationUpdated": "The effect evaluation has been updated",
                 "me": "Me"
             },
             "newMedicine": "New medicine",
@@ -2223,6 +2249,7 @@
             "contacts": "Contacts",
             "documents": "Documents",
             "economy": "Economy",
+            "employeeGroups": "Employee groups",
             "health": "Health",
             "journals": "Journals",
             "medicineCard": "Medicine card",
@@ -2286,6 +2313,11 @@
                 "treatmentSuccessfullyAdded": "Treatment successfully saved",
                 "treatmentSuccessfullyUpdated": "Treatment successfully updated"
             },
+            "download": "Download",
+            "downloadForm": {
+                "date": "Date"
+            },
+            "treatmentOverview": "Treatment overview",
             "editTreatment": "Edit treatment",
             "form": {
                 "areaTypes": {
@@ -2707,6 +2739,7 @@
             "alert": {
                 "customPageSuccessfullyUpdated": "Custom page successfully updated"
             },
+            "isFieldActive": "Field active",
             "nameDanish": "Name (danish)",
             "nameEnglish": "Name (english)"
         },
@@ -2987,6 +3020,7 @@
         "departmentSickLeaves": "Department sick leaves",
         "distributionOfShiftTypes": "Distribution of shift types",
         "download": {
+            "archivedEmployeesOnly": "Download archived employees only",
             "date": "Date",
             "delimiter": {
                 "comma": "Comma",
@@ -3789,6 +3823,25 @@
     },
     "employee": "Employee",
     "employeeGroups": {
+        "citizens": {
+            "alert": {
+                "citizenSuccessfullyAssigned": "Citizen successfully assigned",
+                "citizenSuccessfullyUnassigned": "Citizen successfully unassigned"
+            },
+            "assignCitizen": "Assign citizen",
+            "assignedCitizens": "Assigned citizens",
+            "citizens": "Citizens",
+            "confirmation": {
+                "unassignConfirmation": "Are you sure you want to unassign this citizen"
+            },
+            "table": {
+                "actions": {
+                    "unassign": "Unassign"
+                },
+                "firstname": "First name",
+                "lastname": "Last name"
+            }
+        },
         "editEmployeeGroup": "Edit employee group",
         "employeeGroups": "Employee groups",
         "form": {
@@ -3804,6 +3857,7 @@
         "newEmployeeGroup": "New employee group",
         "table": {
             "actions": {
+                "citizens": "Citizens",
                 "delete": "Delete",
                 "edit": "Edit"
             },
@@ -5330,7 +5384,9 @@
                 "edit": "Edit"
             },
             "active": "Active",
+            "author": "Author",
             "content": "Content",
+            "created": "Created",
             "featured": "Featured",
             "image": "Image",
             "inactive": "Inactive",
@@ -6434,6 +6490,9 @@
                 "remove": "Remove company logo",
                 "street": "Street",
                 "transferNormHours": "Transfer norm hours to next year if not used",
+                "warning13HourShift": "Warning for shifts exceeding 13 hours",
+                "warning11HourRest": "Warning for rest periods under 11 hours",
+                "warning48HourRule": "Warning for the 48-hour rule",
                 "website": "Website"
             }
         },

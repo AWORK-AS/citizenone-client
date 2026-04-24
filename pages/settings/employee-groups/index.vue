@@ -42,6 +42,11 @@
                                                 <Icon name="ph:pencil-simple" class="size-4" />
                                                 {{ $t('employeeGroups.table.actions.edit') }}
                                             </FormButton>
+                                            <FormButton type="button" buttonStyle="action"
+                                                @click="navigateTo(`/settings/employee-groups/${employeeGroup.uuid}/citizens`)">
+                                                <Icon name="ph:users" class="size-4" />
+                                                {{ $t('employeeGroups.table.actions.citizens') }}
+                                            </FormButton>
                                             <FormButton type="button" buttonStyle="danger"
                                                 @click="deleteEmployeeGroupConfirmation(employeeGroup)">
                                                 <Icon name="ph:trash" class="size-4" />

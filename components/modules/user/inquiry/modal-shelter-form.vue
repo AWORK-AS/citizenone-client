@@ -5,13 +5,19 @@
                 v-if="props.error?.message && props.error.message.length > 0" />
             <div class="space-y-3">
                 <div class="space-y-1">
-                    <FormLabel for="inquiry_date" :label="$t('inquiries.form.dateOfInquiry')" />
+                    <FormLabel for="inquiry_date" :label="dateOfInquiryLabel" />
                     <FormDateField id="inquiry_date" name="inquiry_date"
-                        :placeholder="$t('inquiries.form.dateOfInquiry')" v-model="state.formInquiry.inquiry_date" />
+                        :placeholder="dateOfInquiryLabel" v-model="state.formInquiry.inquiry_date" />
                     <FormError :error="v$?.formInquiry?.inquiry_date?.$errors[0]?.$message.toString()" />
                     <FormError :error="props?.error?.errors?.inquiry_date?.[0]" />
                 </div>
 
+                <div class="space-y-1">
+                    <FormLabel for="department_uuid" :label="departmentLabel" />
+                    <FormSelectMultiple id="department_uuid" :options="state.options.departments"
+                        v-model="state.formInquiry.department_uuid" />
+                    <FormError :error="props?.error?.errors?.department_uuid?.[0]" />
+                </div>
                 <div class="space-y-1">
                     <FormLabel for="cpr" :label="$t('inquiries.form.cpr')" />
                     <FormTextField id="cpr" name="cpr" :placeholder="$t('inquiries.form.cpr')"
@@ -31,9 +37,9 @@
 
 
                 <div class="space-y-1">
-                    <FormLabel for="inquirer_name" :label="$t('inquiries.form.inquirerName')" />
+                    <FormLabel for="inquirer_name" :label="completedByLabel" />
                     <FormTextField id="inquirer_name" name="inquirer_name"
-                        :placeholder="$t('inquiries.form.inquirerName')" v-model="state.formInquiry.inquirer_name" />
+                        :placeholder="completedByLabel" v-model="state.formInquiry.inquirer_name" />
                     <FormError :error="v$?.formInquiry?.inquirer_name?.$errors[0]?.$message.toString()" />
                     <FormError :error="props?.error?.errors?.inquirer_name?.[0]" />
                 </div>
@@ -113,7 +119,7 @@
                     <FormError :error="v$?.formInquiry?.referral_destination?.$errors[0]?.$message.toString()" />
                     <FormError :error="props?.error?.errors?.referral_destination?.[0]" />
                 </div>
-                <div class="space-y-1">
+                <div class="space-y-1" v-if="isNotesActive">
                     <FormLabel for="notes" :label="$t('inquiries.form.notes')" />
                     <FormTextArea id="notes" name="notes" :placeholder="$t('inquiries.form.notes')"
                         v-model="state.formInquiry.notes" />
@@ -127,7 +133,7 @@
                     <FormError :error="v$?.formInquiry?.outcome?.$errors[0]?.$message.toString()" />
                     <FormError :error="props?.error?.errors?.outcome?.[0]" />
                 </div>
-                <div class="space-y-1">
+                <div class="space-y-1" v-if="isPurposeActive">
                     <FormLabel for="purpose" :label="$t('inquiries.form.purpose')" />
                     <FormTextField id="purpose" name="purpose" :placeholder="$t('inquiries.form.purpose')"
                         v-model="state.formInquiry.purpose" />
@@ -162,8 +168,11 @@
 import { useVuelidate } from "@vuelidate/core"
 import { required, helpers } from '@vuelidate/validators'
 import { useI18n } from "vue-i18n"
+import { useCustomPagesStore } from '@/store/custom-pages'
 import type { Error } from '@/types'
 import { citizenInquiryService } from '@/components/api/user/CitizenInquiryService'
+import { departmentService } from '@/components/api/user/DepartmentService'
+import { customPagesService } from '@/components/api/user/CustomPagesService'
 
 const props = defineProps({
     error: {
@@ -182,6 +191,15 @@ const props = defineProps({
 const emit = defineEmits(['closeModal', 'isPageLoading', 'submitForm'])
 
 const { t, locale } = useI18n()
+const customPagesStore = useCustomPagesStore() as any
+
+const completedByLabel = computed(() => customPagesStore.getCustomPagesName?.completedBy || t('inquiries.form.inquirerName'))
+const dateOfInquiryLabel = computed(() => customPagesStore.getCustomPagesName?.dateOfInquiry || t('inquiries.form.dateOfInquiry'))
+const departmentLabel = computed(() => customPagesStore.getCustomPagesName?.department || t('department.department'))
+
+const customPages = ref<any[]>([])
+const isNotesActive = computed(() => customPages.value.find((p: any) => p.page_type === 'own_notes')?.is_field_active ?? true)
+const isPurposeActive = computed(() => customPages.value.find((p: any) => p.page_type === 'purpose')?.is_field_active ?? true)
 
 const state = reactive({
     error: {} as Error,
@@ -191,6 +209,7 @@ const state = reactive({
         cpr: '',
         cpr_missing_reason: '',
         inquiry_date: '',
+        department_uuid: [] as any,
         inquirer_name: '',
         first_name: '',
         last_name: '',
@@ -207,6 +226,7 @@ const state = reactive({
 
     },
     options: {
+        departments: [] as any,
         inquiry_type: [
             { value: 'shelter', label: `${t('inquiries.form.options.inquiryType.shelter')}` },
             { value: 'crisis_center', label: `${t('inquiries.form.options.inquiryType.crisisCenter')}` }
@@ -354,11 +374,14 @@ watch([
 })
 
 onMounted(() => {
+    fetchDepartments()
+    fetchCustomPages()
     state.formInquiry = {
         inquiry_type: 'shelter',
         cpr: props.selectedInquiry?.cpr || '',
         cpr_missing_reason: props.selectedInquiry?.cpr_missing_reason || '',
         inquiry_date: props.selectedInquiry?.inquiry_date,
+        department_uuid: props.selectedInquiry?.departments?.map((d: any) => d.uuid) || [],
         inquirer_name: props.selectedInquiry?.inquirer_name,
         first_name: props.selectedInquiry?.firstname,
         last_name: props.selectedInquiry?.lastname,
@@ -382,6 +405,7 @@ watch(() => props.selectedInquiry, (newValue: any) => {
             cpr: props.selectedInquiry?.cpr || '',
             cpr_missing_reason: props.selectedInquiry?.cpr_missing_reason || '',
             inquiry_date: props.selectedInquiry?.inquiry_date,
+            department_uuid: props.selectedInquiry?.departments?.map((d: any) => d.uuid) || [],
             inquirer_name: props.selectedInquiry?.inquirer_name,
             first_name: props.selectedInquiry?.firstname,
             last_name: props.selectedInquiry?.lastname,
@@ -416,6 +440,29 @@ const rules = computed(() => {
 })
 
 const v$ = useVuelidate(rules, state)
+
+async function fetchDepartments() {
+    try {
+        const response = await departmentService.getAllDepartments({})
+        if (response) {
+            state.options.departments = response.data.map((item: any) => ({
+                value: item.uuid,
+                label: item.name,
+            }))
+        }
+    } catch (error: any) {
+        state.error = error
+    }
+}
+
+async function fetchCustomPages() {
+    try {
+        const response = await customPagesService.getCustomPages({})
+        if (response?.data) customPages.value = response.data
+    } catch (error: any) {
+        state.error = error
+    }
+}
 
 function submitForm() {
     state.error = {}

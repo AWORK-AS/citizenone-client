@@ -744,6 +744,7 @@
         }
     },
     "bulletBoard": {
+        "attachments": "Vedhæftede filer",
         "bulletBoard": "Opslagstavle",
         "featured": "Fremhævet"
     },
@@ -1293,6 +1294,24 @@
         },
         "editCitizen": "Rediger Borger",
         "editCitizenForm": "Rediger borgerformular",
+        "employeeGroups": {
+            "alert": {
+                "groupSuccessfullyAssigned": "Medarbejdergruppe tildelt med succes",
+                "groupSuccessfullyUnassigned": "Medarbejdergruppe fjernet med succes"
+            },
+            "assignGroup": "Tildel medarbejdergruppe",
+            "assignedGroups": "Tildelte medarbejdergrupper",
+            "confirmation": {
+                "unassignConfirmation": "Er du sikker på, at du vil fjerne denne medarbejdergruppe"
+            },
+            "employeeGroups": "Medarbejdergrupper",
+            "table": {
+                "actions": {
+                    "unassign": "Fjern"
+                },
+                "name": "Navn"
+            }
+        },
         "expenses": {
             "alert": {
                 "deletedSuccessfully": "Udgift slettet med succes",
@@ -1667,6 +1686,12 @@
                 "ingredientsLabel": "Er der andre ingredienser, der er relevante at nævne",
                 "maxDailyDose": "Maksimal daglig dosis",
                 "maxDosagePerTime": "Maksimal dosis pr. gang",
+                "medicationTypes": {
+                    "all": "Alle",
+                    "medicationType": "Medicin type",
+                    "pnMedicine": "PN-medicin",
+                    "regularMedicine": "Fast medicin"
+                },
                 "medicine": "Medicin",
                 "medicineStorage": "Medicinopbevaring",
                 "medicineStoragePlaceholder": "Hvor opbevarer I medicinen",
@@ -1736,6 +1761,7 @@
                     },
                     "comment": "Kommentar",
                     "date": "Dato",
+                    "dateTime": "Dato og tid",
                     "dateCreated": "Oprettelsesdato",
                     "dose": "Dosis",
                     "evaluationFrequency": "Hvornår vil du evaluere",
@@ -1783,7 +1809,6 @@
                 "legendScheduled": "Planlagt",
                 "anErrorOccurred": "Der opstod en fejl.",
                 "anErrorOccurredRetry": "Der opstod en fejl. Prøv igen.",
-                "savedTitle": "Gemt!",
                 "registeredForDays": "Registreret for {n} dag(e).",
                 "overdueMinutes": "{minutes} min forsinket",
                 "overdueHoursMinutes": "{hours}t {minutes}min forsinket",
@@ -1799,15 +1824,16 @@
                 "evaluatedAt": "Evalueret kl.",
                 "allEffectEvaluations": "Alle effektevalueringer",
                 "unknown": "Ukendt",
+                "editEffectEvaluation": "Rediger effektevaluering",
                 "registerEffectEvaluation": "Registrér effektevaluering",
                 "scheduledAt": "Planlagt kl.",
-                "describeReaction": "Beskriv borgerens reaktion og effekt af medicinen siden den blev givet.",
+                "describeReaction": "Beskriv borgerens reaktion og effekt af medicinen siden den blev givet",
                 "observation": "Observation",
                 "evaluationPlaceholder": "Fx: God smertelindring efter 45 min. Borger angiver smerteniveau 3/10 mod tidligere 8/10...",
                 "saving": "Gemmer...",
                 "saveEvaluation": "Gem evaluering",
-                "savedTitle": "Gemt!",
-                "evaluationRegistered": "Effektevalueringen er registreret.",
+                "evaluationRegistered": "Effektevalueringen er registreret",
+                "evaluationUpdated": "Effektevalueringen er blevet opdateret",
                 "me": "Mig"
             },
             "newMedicine": "Ny medicin",
@@ -2223,6 +2249,7 @@
             "contacts": "Kontakter",
             "documents": "Dokumenter",
             "economy": "Økonomi",
+            "employeeGroups": "Medarbejdergrupper",
             "health": "Sundhed",
             "journals": "Journaler",
             "medicineCard": "Medicinkort",
@@ -2286,6 +2313,11 @@
                 "treatmentSuccessfullyAdded": "Behandling gemt med succes",
                 "treatmentSuccessfullyUpdated": "Behandling opdateret med succes"
             },
+            "download": "Download",
+            "downloadForm": {
+                "date": "Dato"
+            },
+            "treatmentOverview": "Behandlingsoversigt",
             "editTreatment": "Rediger behandling",
             "form": {
                 "areaTypes": {
@@ -2707,6 +2739,7 @@
             "alert": {
                 "customPageSuccessfullyUpdated": "Brugerdefineret side blev opdateret med succes"
             },
+            "isFieldActive": "Felt aktiv",
             "nameDanish": "Navn (dansk)",
             "nameEnglish": "Navn (engelsk)"
         },
@@ -2987,6 +3020,7 @@
         "departmentSickLeaves": "Afdelingens sygefravær",
         "distributionOfShiftTypes": "Fordeling af vagttyper",
         "download": {
+            "archivedEmployeesOnly": "Download arkiverede medarbejdere kun",
             "date": "Dato",
             "delimiter": {
                 "comma": "Komma",
@@ -3789,6 +3823,25 @@
     },
     "employee": "Medarbejder",
     "employeeGroups": {
+        "citizens": {
+            "alert": {
+                "citizenSuccessfullyAssigned": "Borger tildelt med succes",
+                "citizenSuccessfullyUnassigned": "Borger fjernet med succes"
+            },
+            "assignCitizen": "Tildel borger",
+            "assignedCitizens": "Tildelte borgere",
+            "citizens": "Borgere",
+            "confirmation": {
+                "unassignConfirmation": "Er du sikker på, at du vil fjerne denne borger"
+            },
+            "table": {
+                "actions": {
+                    "unassign": "Fjern"
+                },
+                "firstname": "Fornavn",
+                "lastname": "Efternavn"
+            }
+        },
         "editEmployeeGroup": "Rediger medarbejdergruppe",
         "employeeGroups": "Medarbejdergrupper",
         "form": {
@@ -3804,6 +3857,7 @@
         "newEmployeeGroup": "Ny medarbejdergruppe",
         "table": {
             "actions": {
+                "citizens": "Borgere",
                 "delete": "Slet",
                 "edit": "Rediger"
             },
@@ -5330,7 +5384,9 @@
                 "edit": "Rediger"
             },
             "active": "Aktiv",
+            "author": "Forfatter",
             "content": "Indhold",
+            "created": "Oprettet",
             "featured": "Fremhævet",
             "image": "Billede",
             "inactive": "Inaktiv",
@@ -6434,6 +6490,9 @@
                 "remove": "Fjern firmalogo",
                 "street": "Gade",
                 "transferNormHours": "Overfør normtimer til næste år, hvis de ikke er brugt",
+                "warning13HourShift": "Advarsel ved vagter over 13 timer",
+                "warning11HourRest": "Advarsel ved hviletid under 11 timer",
+                "warning48HourRule": "Advarsel ved 48-timers reglen",
                 "website": "Hjemmeside"
             }
         },
