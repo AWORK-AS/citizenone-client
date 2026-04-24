@@ -18,7 +18,7 @@ class TreatmentService extends BaseAPIService {
     }
 
     async downloadTreatments(params: object): Promise<any> {
-        return await this.requestBlob(`/user/treatments/download`, 'GET', params)
+        return await this.requestBlob(`/user/treatments/overview/download`, 'GET', params)
     }
 }
 

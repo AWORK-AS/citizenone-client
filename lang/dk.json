@@ -2297,7 +2297,7 @@
             "downloadForm": {
                 "date": "Dato"
             },
-            "downloadOverview": "Download oversigt",
+            "treatmentOverview": "Behandlingsoversigt",
             "editTreatment": "Rediger behandling",
             "form": {
                 "areaTypes": {

@@ -1,6 +1,6 @@
 <template>
     <div>
-        <Modal size="xs" :title="$t('citizens.treatments.downloadOverview')" :show="props.isModalOpen"
+        <Modal size="xs" :title="$t('citizens.treatments.treatmentOverview')" :show="props.isModalOpen"
             @close="closeModal">
             <template #modal-body>
                 <LoadingSpinner :isActive="state.isPageLoading">
@@ -109,7 +109,7 @@ async function downloadTreatments() {
         }
         const response = await treatmentService.downloadTreatments(params)
         if (response) {
-            saveAs(response, t('citizens.treatments.downloadOverview'))
+            saveAs(response, t('citizens.treatments.treatmentOverview'))
         }
     } catch (error: any) {
         state.error = error

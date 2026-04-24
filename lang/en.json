@@ -2297,7 +2297,7 @@
             "downloadForm": {
                 "date": "Date"
             },
-            "downloadOverview": "Download overview",
+            "treatmentOverview": "Treatment overview",
             "editTreatment": "Edit treatment",
             "form": {
                 "areaTypes": {
