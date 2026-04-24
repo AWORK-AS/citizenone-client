@@ -13,6 +13,12 @@
                 </div>
 
                 <div class="space-y-1">
+                    <FormLabel for="department_uuid" :label="departmentLabel" />
+                    <FormSelectMultiple id="department_uuid" :options="state.options.departments"
+                        v-model="state.formInquiry.department_uuid" />
+                    <FormError :error="props?.error?.errors?.department_uuid?.[0]" />
+                </div>
+                <div class="space-y-1">
                     <FormLabel for="cpr" :label="$t('inquiries.form.cpr')" />
                     <FormTextField id="cpr" name="cpr" :placeholder="$t('inquiries.form.cpr')"
                         v-model="state.formInquiry.cpr" />
@@ -165,6 +171,7 @@ import { useI18n } from "vue-i18n"
 import { useCustomPagesStore } from '@/store/custom-pages'
 import type { Error } from '@/types'
 import { citizenInquiryService } from '@/components/api/user/CitizenInquiryService'
+import { departmentService } from '@/components/api/user/DepartmentService'
 
 const props = defineProps({
     error: {
@@ -187,6 +194,7 @@ const customPagesStore = useCustomPagesStore() as any
 
 const completedByLabel = computed(() => customPagesStore.getCustomPagesName?.completedBy || t('inquiries.form.inquirerName'))
 const dateOfInquiryLabel = computed(() => customPagesStore.getCustomPagesName?.dateOfInquiry || t('inquiries.form.dateOfInquiry'))
+const departmentLabel = computed(() => customPagesStore.getCustomPagesName?.department || t('department.department'))
 
 const state = reactive({
     error: {} as Error,
@@ -196,6 +204,7 @@ const state = reactive({
         cpr: '',
         cpr_missing_reason: '',
         inquiry_date: '',
+        department_uuid: [] as any,
         inquirer_name: '',
         first_name: '',
         last_name: '',
@@ -212,6 +221,7 @@ const state = reactive({
 
     },
     options: {
+        departments: [] as any,
         inquiry_type: [
             { value: 'shelter', label: `${t('inquiries.form.options.inquiryType.shelter')}` },
             { value: 'crisis_center', label: `${t('inquiries.form.options.inquiryType.crisisCenter')}` }
@@ -359,11 +369,13 @@ watch([
 })
 
 onMounted(() => {
+    fetchDepartments()
     state.formInquiry = {
         inquiry_type: 'shelter',
         cpr: props.selectedInquiry?.cpr || '',
         cpr_missing_reason: props.selectedInquiry?.cpr_missing_reason || '',
         inquiry_date: props.selectedInquiry?.inquiry_date,
+        department_uuid: props.selectedInquiry?.departments?.map((d: any) => d.uuid) || [],
         inquirer_name: props.selectedInquiry?.inquirer_name,
         first_name: props.selectedInquiry?.firstname,
         last_name: props.selectedInquiry?.lastname,
@@ -387,6 +399,7 @@ watch(() => props.selectedInquiry, (newValue: any) => {
             cpr: props.selectedInquiry?.cpr || '',
             cpr_missing_reason: props.selectedInquiry?.cpr_missing_reason || '',
             inquiry_date: props.selectedInquiry?.inquiry_date,
+            department_uuid: props.selectedInquiry?.departments?.map((d: any) => d.uuid) || [],
             inquirer_name: props.selectedInquiry?.inquirer_name,
             first_name: props.selectedInquiry?.firstname,
             last_name: props.selectedInquiry?.lastname,
@@ -421,6 +434,20 @@ const rules = computed(() => {
 })
 
 const v$ = useVuelidate(rules, state)
+
+async function fetchDepartments() {
+    try {
+        const response = await departmentService.getAllDepartments({})
+        if (response) {
+            state.options.departments = response.data.map((item: any) => ({
+                value: item.uuid,
+                label: item.name,
+            }))
+        }
+    } catch (error: any) {
+        state.error = error
+    }
+}
 
 function submitForm() {
     state.error = {}
