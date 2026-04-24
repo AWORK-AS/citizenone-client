@@ -202,25 +202,12 @@
                 :message="$t('inquiries.table.confirmation.deleteInquiryConfirmation') + '?'"
                 @close="state.modal.isDeleteInquiryOpen = false" @confirm="deleteInquiry" />
 
-            <Modal size="xs" :title="exportModalTitle" :show="state.modal.isExportDepartmentOpen"
-                @close="state.modal.isExportDepartmentOpen = false">
-                <template #modal-body>
-                    <div class="space-y-4">
-                        <div class="space-y-1">
-                            <FormLabel :label="customPagesStore.getCustomPagesName?.department || $t('department.department')" />
-                            <FormSelect :options="exportDepartmentOptions" v-model="state.selectedExportDepartmentUuid" />
-                        </div>
-                        <div class="grid grid-cols-2 gap-3 pb-6">
-                            <FormButton buttonStyle="cancel" @click="state.modal.isExportDepartmentOpen = false">
-                                {{ $t('cancel') }}
-                            </FormButton>
-                            <FormButton buttonStyle="primary" @click="confirmExport">
-                                {{ $t('inquiries.exportInquiries') }}
-                            </FormButton>
-                        </div>
-                    </div>
-                </template>
-            </Modal>
+            <ModulesUserCitizenModalExportInquiries
+                :isModalOpen="state.modal.isExportDepartmentOpen"
+                :title="exportModalTitle"
+                :departmentOptions="exportDepartmentOptions"
+                @close="state.modal.isExportDepartmentOpen = false"
+                @confirm="confirmExport" />
         </NuxtLayout>
     </div>
 </template>
@@ -293,7 +280,6 @@ const state = reactive({
     selectedInquiry: {} as any,
     inquiryTpe: '',
     exportInquiryType: '',
-    selectedExportDepartmentUuid: '',
 })
 
 onMounted(() => {
@@ -431,12 +417,11 @@ async function fetchDepartments() {
 
 function openExportModal(inquiryType: string) {
     state.exportInquiryType = inquiryType
-    state.selectedExportDepartmentUuid = ''
     state.modal.isExportDepartmentOpen = true
 }
 
-async function confirmExport() {
-    const dept = state.departments.find((d: any) => d.uuid === state.selectedExportDepartmentUuid)
+async function confirmExport(departmentUuid: string) {
+    const dept = state.departments.find((d: any) => d.uuid === departmentUuid)
     await exportInquiries({
         inquiry_type: state.exportInquiryType,
         department: dept?.name,

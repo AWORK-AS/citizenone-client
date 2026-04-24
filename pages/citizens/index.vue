@@ -351,25 +351,12 @@
                 :workingMinutes="state.workingMinutes" @close="state.modal.isConfirmWorkingOpen = false"
                 @confirmed="onWorkConfirmed" @dismissed="onWorkDismissed" />
 
-            <Modal size="xs" :title="exportInquiryModalTitle" :show="state.modal.isExportInquiriesDepartmentOpen"
-                @close="state.modal.isExportInquiriesDepartmentOpen = false">
-                <template #modal-body>
-                    <div class="space-y-4">
-                        <div class="space-y-1">
-                            <FormLabel :label="customPagesStore.getCustomPagesName?.department || $t('department.department')" />
-                            <FormSelect :options="exportInquiryDepartmentOptions" v-model="state.selectedExportInquiryDepartmentUuid" />
-                        </div>
-                        <div class="grid grid-cols-2 gap-3 pb-6">
-                            <FormButton buttonStyle="cancel" @click="state.modal.isExportInquiriesDepartmentOpen = false">
-                                {{ $t('cancel') }}
-                            </FormButton>
-                            <FormButton buttonStyle="primary" @click="confirmExportInquiries">
-                                {{ $t('inquiries.exportInquiries') }}
-                            </FormButton>
-                        </div>
-                    </div>
-                </template>
-            </Modal>
+            <ModulesUserCitizenModalExportInquiries
+                :isModalOpen="state.modal.isExportInquiriesDepartmentOpen"
+                :title="exportInquiryModalTitle"
+                :departmentOptions="exportInquiryDepartmentOptions"
+                @close="state.modal.isExportInquiriesDepartmentOpen = false"
+                @confirm="confirmExportInquiries" />
         </NuxtLayout>
     </div>
 </template>
@@ -431,7 +418,6 @@ const state = reactive({
     workingMinutes: 0,
     departments: [] as any,
     exportInquiryType: '',
-    selectedExportInquiryDepartmentUuid: '',
 })
 
 const arrivalCheckState = reactive({
@@ -751,8 +737,8 @@ function openExportInquiriesModal(inquiryType: string) {
     state.modal.isExportInquiriesDepartmentOpen = true
 }
 
-async function confirmExportInquiries() {
-    const dept = (state.departments?.data ?? []).find((d: any) => d.uuid === state.selectedExportInquiryDepartmentUuid)
+async function confirmExportInquiries(departmentUuid: string) {
+    const dept = (state.departments?.data ?? []).find((d: any) => d.uuid === departmentUuid)
     await exportInquiries({
         inquiry_type: state.exportInquiryType,
         department: dept?.name,
