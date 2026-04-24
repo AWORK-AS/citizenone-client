@@ -661,6 +661,8 @@ function setCustomPageNames() {
     customPagesStore.setRoomsNaming(n(cp('rooms')))
     customPagesStore.setShelterNaming(n(cp('shelter')))
     customPagesStore.setCrisisCenterNaming(n(cp('crisis_center')))
+    customPagesStore.setCompletedByNaming(n(cp('completed_by')))
+    customPagesStore.setDateOfInquiryNaming(n(cp('date_of_inquiry')))
 }
 
 function animateAssets() {

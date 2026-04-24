@@ -5,9 +5,9 @@
                 v-if="props.error?.message && props.error.message.length > 0" />
             <div class="space-y-3">
                 <div class="space-y-1">
-                    <FormLabel for="inquiry_date" :label="$t('inquiries.form.dateOfInquiry')" />
+                    <FormLabel for="inquiry_date" :label="dateOfInquiryLabel" />
                     <FormDateField id="inquiry_date" name="inquiry_date"
-                        :placeholder="$t('inquiries.form.dateOfInquiry')" v-model="state.formInquiry.inquiry_date" />
+                        :placeholder="dateOfInquiryLabel" v-model="state.formInquiry.inquiry_date" />
                     <FormError :error="v$?.formInquiry?.inquiry_date?.$errors[0]?.$message.toString()" />
                     <FormError :error="props?.error?.errors?.inquiry_date?.[0]" />
                 </div>
@@ -31,9 +31,9 @@
 
 
                 <div class="space-y-1">
-                    <FormLabel for="inquirer_name" :label="$t('inquiries.form.inquirerName')" />
+                    <FormLabel for="inquirer_name" :label="completedByLabel" />
                     <FormTextField id="inquirer_name" name="inquirer_name"
-                        :placeholder="$t('inquiries.form.inquirerName')" v-model="state.formInquiry.inquirer_name" />
+                        :placeholder="completedByLabel" v-model="state.formInquiry.inquirer_name" />
                     <FormError :error="v$?.formInquiry?.inquirer_name?.$errors[0]?.$message.toString()" />
                     <FormError :error="props?.error?.errors?.inquirer_name?.[0]" />
                 </div>
@@ -162,6 +162,7 @@
 import { useVuelidate } from "@vuelidate/core"
 import { required, helpers } from '@vuelidate/validators'
 import { useI18n } from "vue-i18n"
+import { useCustomPagesStore } from '@/store/custom-pages'
 import type { Error } from '@/types'
 import { citizenInquiryService } from '@/components/api/user/CitizenInquiryService'
 
@@ -182,6 +183,10 @@ const props = defineProps({
 const emit = defineEmits(['closeModal', 'isPageLoading', 'submitForm'])
 
 const { t, locale } = useI18n()
+const customPagesStore = useCustomPagesStore() as any
+
+const completedByLabel = computed(() => customPagesStore.getCustomPagesName?.completedBy || t('inquiries.form.inquirerName'))
+const dateOfInquiryLabel = computed(() => customPagesStore.getCustomPagesName?.dateOfInquiry || t('inquiries.form.dateOfInquiry'))
 
 const state = reactive({
     error: {} as Error,
