@@ -6,11 +6,13 @@ export const useCustomPagesStore = defineStore('customPagesStore', {
         customName: {
             addictions: 'asdasda',
             citizens: '',
+            crisisCenter: '',
             department: '',
             dutySchedules: '',
             giveMedicine: '',
             riskAssessment: '',
             rooms: '',
+            shelter: '',
         },
     }),
     actions: {
@@ -19,6 +21,9 @@ export const useCustomPagesStore = defineStore('customPagesStore', {
         },
         setCitizensNaming(name) {
             this.customName.citizens = name
+        },
+        setCrisisCenterNaming(name) {
+            this.customName.crisisCenter = name
         },
         setDepartmentNaming(name) {
             this.customName.department = name
@@ -34,6 +39,9 @@ export const useCustomPagesStore = defineStore('customPagesStore', {
         },
         setRoomsNaming(name) {
             this.customName.rooms = name
+        },
+        setShelterNaming(name) {
+            this.customName.shelter = name
         },
     },
     getters: {

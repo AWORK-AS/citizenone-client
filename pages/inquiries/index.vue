@@ -58,7 +58,7 @@
                                             active && 'bg-gray-100',
                                             'group flex w-full justify-start items-center rounded-md px-2 py-2.5 text-sm text-left',
                                         ]" @click="shelterNewInquiry">
-                                            {{ $t('inquiries.form.options.inquiryType.shelter') }}
+                                            {{ shelterName }}
                                         </button>
                                         </MenuItem>
                                         <MenuItem v-slot="{ active }">
@@ -66,7 +66,7 @@
                                             active && 'bg-gray-100',
                                             'group flex w-full items-center rounded-md px-2 py-2.5 text-sm',
                                         ]" @click="crisisCenterNewInquiry">
-                                            {{ $t('inquiries.form.options.inquiryType.crisisCenter') }}
+                                            {{ crisisCenterName }}
                                         </button>
                                         </MenuItem>
                                     </div>
@@ -98,7 +98,7 @@
                                             active && 'bg-gray-100',
                                             'group flex w-full justify-start items-center rounded-md px-2 py-2.5 text-sm text-left',
                                         ]" @click="exportInquiries({ inquiry_type: 'shelter' })">
-                                            {{ $t('inquiries.form.options.inquiryType.shelter') }}
+                                            {{ shelterName }}
                                         </button>
                                         </MenuItem>
                                         <MenuItem v-slot="{ active }">
@@ -106,7 +106,7 @@
                                             active && 'bg-gray-100',
                                             'group flex w-full items-center rounded-md px-2 py-2.5 text-sm',
                                         ]" @click="exportInquiries({ inquiry_type: 'crisis_center' })">
-                                            {{ $t('inquiries.form.options.inquiryType.crisisCenter') }}
+                                            {{ crisisCenterName }}
                                         </button>
                                         </MenuItem>
                                     </div>
@@ -218,6 +218,9 @@ const { formatDateToReadable } = useDatetimeFormatter()
 const customPagesStore = useCustomPagesStore() as any
 const { successAlert } = useAlert()
 const { t } = useI18n()
+
+const shelterName = computed(() => customPagesStore.getCustomPagesName?.shelter || t('inquiries.form.options.inquiryType.shelter'))
+const crisisCenterName = computed(() => customPagesStore.getCustomPagesName?.crisisCenter || t('inquiries.form.options.inquiryType.crisisCenter'))
 
 const breadcrumbLinks = [
     {
