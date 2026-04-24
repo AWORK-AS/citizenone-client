@@ -433,9 +433,7 @@ const shelterName = computed(() => customPagesStore.getCustomPagesName?.shelter 
 const crisisCenterName = computed(() => customPagesStore.getCustomPagesName?.crisisCenter || t('inquiries.form.options.inquiryType.crisisCenter'))
 const exportInquiryModalTitle = computed(() => state.exportInquiryType === 'shelter' ? shelterName.value : crisisCenterName.value)
 const exportInquiryDepartmentOptions = computed(() => [
-    { value: '', label: t('department.allDepartment') },
     ...(state.departments?.data ?? [])
-        .filter((d: any) => d.name !== 'All departments')
         .map((d: any) => ({ value: d.uuid, label: d.name })),
 ])
 

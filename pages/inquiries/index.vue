@@ -238,7 +238,6 @@ const crisisCenterName = computed(() => customPagesStore.getCustomPagesName?.cri
 
 const exportModalTitle = computed(() => state.exportInquiryType === 'shelter' ? shelterName.value : crisisCenterName.value)
 const exportDepartmentOptions = computed(() => [
-    { value: '', label: t('department.allDepartment') },
     ...state.departments.map((d: any) => ({ value: d.uuid, label: d.name })),
 ])
 
