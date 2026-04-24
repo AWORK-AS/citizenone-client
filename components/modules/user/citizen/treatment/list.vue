@@ -4,6 +4,10 @@
             <Alert type="danger" :text="state?.error?.message"
                 v-if="state.error?.message && state.error.message.length > 0" />
             <div class="flex justify-end items-center mb-5 gap-x-2">
+                <FormButton buttonStyle="action" @click="state.modal.isDownloadOpen = true">
+                    <Icon name="ph:download" class="h-4 w-4" />
+                    {{ $t('citizens.treatments.treatmentOverview') }}
+                </FormButton>
                 <FormButton buttonStyle="action" @click="state.modal.isAddTreatmentOpen = true">
                     <Icon name="ph:plus" class="h-4 w-4" aria-hidden="true" />
                     {{ $t('citizens.treatments.newTreatment') }}
@@ -149,6 +153,8 @@
                 <Pagination :data="state.treatments" @previous="previous" @next="next" />
             </div>
         </div>
+        <ModulesUserCitizenTreatmentModalDownload :isModalOpen="state.modal.isDownloadOpen"
+            @close="state.modal.isDownloadOpen = false" />
         <ModulesUserCitizenTreatmentModalNew :isModalOpen="state.modal.isAddTreatmentOpen"
             :selectedTreatment="state.selectedTreatment" @close="state.modal.isAddTreatmentOpen = false"
             @refreshTreatments="fetchTreatments" />
@@ -176,6 +182,7 @@ const state = reactive({
     treatments: [] as any,
     modal: {
         isAddTreatmentOpen: false,
+        isDownloadOpen: false,
         isEditTreatmentOpen: false,
         isStatusOpen: false
     },

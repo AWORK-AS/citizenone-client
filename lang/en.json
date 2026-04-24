@@ -2313,6 +2313,11 @@
                 "treatmentSuccessfullyAdded": "Treatment successfully saved",
                 "treatmentSuccessfullyUpdated": "Treatment successfully updated"
             },
+            "download": "Download",
+            "downloadForm": {
+                "date": "Date"
+            },
+            "treatmentOverview": "Treatment overview",
             "editTreatment": "Edit treatment",
             "form": {
                 "areaTypes": {
