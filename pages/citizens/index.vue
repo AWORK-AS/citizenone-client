@@ -94,7 +94,8 @@
                                             {{ $t('citizens.newCitizen') }}
                                         </button>
                                         </MenuItem>
-                                        <MenuItem v-slot="{ active }">
+                                        <MenuItem v-slot="{ active }"
+                                            v-if="userStore.getUser?.roles?.[0]?.name === 'Admin' || userStore.user?.permissions?.find((p: any) => p.name === 'update_form_field_config')">
                                         <button :class="[
                                             active && 'bg-gray-100',
                                             'group flex w-full justify-start items-center rounded-md px-2 py-2.5 text-sm text-left',

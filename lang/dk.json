@@ -6333,6 +6333,7 @@
             "updateCitizenJournal": "rediger borgerjournal",
             "updateCitizenMedicine": "rediger borgermedicin",
             "updateCitizenPlan": "rediger borgerplan",
+            "updateFormFieldConfig": "rediger borgerformular feltkonfiguration",
             "updateSchedule": "rediger vagtplan",
             "viewCitizenCalendar": "se borgerkalender",
             "viewCitizenHealth": "se borgersundhed",
