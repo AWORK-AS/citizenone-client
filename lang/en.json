@@ -7511,6 +7511,7 @@
                 "timeLogSuccessfullyDeclined": "Time log successfully declined",
                 "timeLogSuccessfullyDeleted": "Time log successfully deleted"
             },
+            "citizen": "Citizen",
             "confirmation": {
                 "approveTimeLogConfirmation": "Are you sure you want to approve this time log",
                 "declineTimeLogConfirmation": "Are you sure you want to decline this time log",
