@@ -10,18 +10,6 @@ const runtimeConfig = useRuntimeConfig()
 useHead({
 	script: [
 		{
-			src: 'https://www.googletagmanager.com/gtag/js?id=AW-16858750370',
-			async: true
-		},
-		{
-			children: `
-        window.dataLayer = window.dataLayer || [];
-        function gtag(){ dataLayer.push(arguments); }
-        gtag('js', new Date());
-        gtag('config', 'AW-16858750370');
-      `
-		},
-		{
 			id: "awork-cmp",
 			src: runtimeConfig.public.cmp,
 			async: true,

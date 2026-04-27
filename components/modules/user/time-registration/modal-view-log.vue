@@ -19,7 +19,7 @@
                         <p class="text-sm text-gray-600">
                             {{ $t('timeLogs.table.citizen') }}
                         </p>
-                        <p class="text-sm font-semibold text-gray-700">
+                        <p class="text-sm font-semibold text-gray-700" v-if="props.selectedTimeLog?.citizen">
                             {{
                                 props.selectedTimeLog?.citizen?.firstname + ' ' +
                                 (props.selectedTimeLog?.citizen?.lastname ?? '')
