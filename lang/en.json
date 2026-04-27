@@ -6665,7 +6665,9 @@
         "mail": "Mail",
         "messages": "Messages",
         "overview": "Overview",
-        "protocols": "Protocols"
+        "protocols": "Protocols",
+        "pinSidebar": "Pin sidebar",
+        "unpinSidebar": "Unpin sidebar"
     },
     "somethingWentWrong": "Something went wrong",
     "storage": {

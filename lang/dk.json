@@ -6665,7 +6665,9 @@
         "mail": "Mail",
         "messages": "Beskeder",
         "overview": "Oversigt",
-        "protocols": "Protokol"
+        "protocols": "Protokol",
+        "pinSidebar": "Fastgør sidebar",
+        "unpinSidebar": "Frigør sidebar"
     },
     "somethingWentWrong": "Noget gik galt",
     "storage": {
