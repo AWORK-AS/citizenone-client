@@ -601,6 +601,14 @@ function isFieldVisible(fieldKey: string): boolean {
 }
 
 onMounted(() => {
+    const isAdmin = userStore.getUser?.roles?.[0]?.name === 'Admin'
+    const hasPermission = userStore.user?.permissions?.find((p: any) => p.name === 'update_form_field_config')
+
+    if (!isAdmin && !hasPermission) {
+        navigateTo('/citizens')
+        return
+    }
+
     fetchFormFieldConfigs()
 })
 

@@ -115,7 +115,7 @@
                     </span>
                     <button @click="toggleSidebarPin"
                         :class="['p-1.5 rounded-md transition-all duration-200 delay-75', sidebarExpanded ? 'opacity-100 pointer-events-auto text-blue-300/60 hover:text-white hover:bg-white/10' : 'opacity-0 pointer-events-none']"
-                        :title="sidebarPinned ? 'Frigør sidebar' : 'Fastgør sidebar'">
+                        :title="sidebarPinned ? $t('sidebar.unpinSidebar') : $t('sidebar.pinSidebar')">
                         <Icon :name="sidebarPinned ? 'ph:push-pin-fill' : 'ph:push-pin'" class="h-4 w-4" />
                     </button>
                 </div>
@@ -659,6 +659,10 @@ function setCustomPageNames() {
     customPagesStore.setRiskAssessmentNaming(n(cp('risk_assessment')))
     customPagesStore.setGiveMedicineNaming(n(cp('give_medicine')))
     customPagesStore.setRoomsNaming(n(cp('rooms')))
+    customPagesStore.setShelterNaming(n(cp('shelter')))
+    customPagesStore.setCrisisCenterNaming(n(cp('crisis_center')))
+    customPagesStore.setCompletedByNaming(n(cp('completed_by')))
+    customPagesStore.setDateOfInquiryNaming(n(cp('date_of_inquiry')))
 }
 
 function animateAssets() {

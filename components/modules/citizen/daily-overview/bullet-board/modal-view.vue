@@ -17,10 +17,18 @@
                         !props.selectedNews?.image ? 'pt-5' : 'mt-3',
                         'text-left'
                     ]">
-                        <h3 class="font-semibold text-lg cursor-pointer">
+                        <h3 class="font-semibold text-lg">
                             {{ props.selectedNews?.title }}
                         </h3>
-                        <p class="text-xs text-gray-400 mt-1"
+                        <div class="flex items-center gap-2 mt-1 text-xs text-gray-400">
+                            <Icon name="ph:user" class="w-3 h-3" />
+                            <span>{{ [props.selectedNews?.user?.firstname,
+                                props.selectedNews?.user?.lastname].filter(Boolean).join(' ') }}</span>
+                            <span class="text-gray-300">·</span>
+                            <Icon name="ph:calendar" class="w-3 h-3" />
+                            <span>{{ formatDateToReadable(props.selectedNews?.created_at) }}</span>
+                        </div>
+                        <p class="text-xs text-gray-400 mt-3"
                             v-html="props.selectedNews?.content?.replace(/\n/g, '<br>')" />
                         <div class="mt-4" v-if="props.selectedNews?.link">
                             <FormButton buttonStyle="primary" @click="navigateToExternalLink(props.selectedNews?.link)"
@@ -41,6 +49,8 @@
 </template>
 
 <script setup lang="ts">
+const { formatDateToReadable } = useDatetimeFormatter()
+
 const props = defineProps({
     isModalOpen: {
         type: Boolean,

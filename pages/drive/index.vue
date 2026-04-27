@@ -765,33 +765,7 @@ onMounted(() => {
     } else {
         fetchDocuments();
     }
-    fetchDocuments()
-    initDriveView()
 })
-
-async function initDriveView() {
-    state.isPageLoading = true
-    try {
-        const status = await googledriveService.getGoogleDriveStatus()
-        // Expecting status to indicate connection; accept several shapes
-        const connected = !!(status?.connected || status?.is_connected || status === true || status?.data?.connected)
-        state.googleDriveConnected = connected
-        if (connected) {
-            state.viewMode = 'google-drive'
-            state.googleDriveFolderId = null
-            state.googleDriveFolderStack = []
-            await fetchGoogleDriveFiles()
-        } else {
-            state.viewMode = 'local'
-            await fetchDocuments()
-        }
-    } catch (error: any) {
-        // fallback to local view on error
-        state.viewMode = 'local'
-        await fetchDocuments()
-    }
-    state.isPageLoading = false
-}
 
 watch(() => router?.currentRoute?.value?.query, (newParams, oldParams) => {
     // Undgå fetch hvis vi er i gang med en OneDrive-søgning
@@ -1224,17 +1198,8 @@ function sort(sortingData: any) {
 
 async function handleSearch(value: any) {
     currentTablePage = 1;
-    let searchValue = '';
-    if (Array.isArray(value)) {
-        searchValue = value[0] ?? '';
-    } else if (typeof value === 'string') {
-        searchValue = value;
-    } else if (value && typeof value === 'object' && 'value' in value) {
-        searchValue = (value as any).value ?? '';
-    } else {
-        searchValue = '';
-    }
-    state.dataFilter.search = searchValue;
+    const searchValue = Array.isArray(value) ? value[0] ?? '' : value ?? '';
+    state.dataFilter.search = (Array.isArray(searchValue) ? searchValue[0] : searchValue) == '' ? [] : value;
 
     if (state.viewMode === 'google-drive') {
         fetchGoogleDriveFiles(state.googleDriveFolderId, state.dataFilter.search || undefined);
@@ -1397,7 +1362,33 @@ async function uploadFile(event: any) {
         const files = event.target.files;
         if (!files || files.length === 0) return;
 
-        if (state.isInsideOneDrive) {
+        if (!state.isInsideOneDrive && state.viewMode === 'local') {
+            const folderUuid = router?.currentRoute?.value?.query?.folder_uuid;
+            const params = new FormData();
+            params.append('type', 'file');
+            params.append('is_admin_access', 'false');
+            for (const file of files) {
+                params.append('files[]', file);
+            }
+            if (typeof folderUuid === 'string') params.append('folder_uuid', folderUuid);
+            try {
+                const response = await documentService.saveFileFolder(params);
+                if (response?.data) {
+                    resetFileInput();
+                    await fetchDocuments();
+                    successAlert(`${t('alert.success')}!`, `${t('drive.alert.fileSuccessfullyAdded')}.`);
+                }
+            } catch (err: any) {
+                state.error = err;
+                resetFileInput();
+                if (err?.message === 'You do not have enough storage space to upload new files.' ||
+                    err?.message === 'Du har ikke nok lagerplads til at uploade nye filer.') {
+                    state.modal.isUpgradeStorageOpen = true;
+                } else {
+                    errorAlert('Fejl!', err?.message || 'Kunne ikke uploade filen.');
+                }
+            }
+        } else if (state.isInsideOneDrive) {
             const userId = userStore.user?.id || localStorage.getItem('user_id');
             const token = localStorage.getItem('_token');
             const parentId = router?.currentRoute?.value?.query?.onedrive_folder_id;

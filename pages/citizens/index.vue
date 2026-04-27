@@ -94,7 +94,8 @@
                                             {{ $t('citizens.newCitizen') }}
                                         </button>
                                         </MenuItem>
-                                        <MenuItem v-slot="{ active }">
+                                        <MenuItem v-slot="{ active }"
+                                            v-if="userStore.getUser?.roles?.[0]?.name === 'Admin' || userStore.user?.permissions?.find((p: any) => p.name === 'update_form_field_config')">
                                         <button :class="[
                                             active && 'bg-gray-100',
                                             'group flex w-full justify-start items-center rounded-md px-2 py-2.5 text-sm text-left',
@@ -189,16 +190,16 @@
                                         <button :class="[
                                             active && 'bg-gray-100',
                                             'group flex w-full justify-start items-center rounded-md px-2 py-2.5 text-sm text-left',
-                                        ]" @click="exportInquiries({ inquiry_type: 'shelter' })">
-                                            {{ $t('inquiries.form.options.inquiryType.shelter') }}
+                                        ]" @click="openExportInquiriesModal('shelter')">
+                                            {{ shelterName }}
                                         </button>
                                         </MenuItem>
                                         <MenuItem v-slot="{ active }">
                                         <button :class="[
                                             active && 'bg-gray-100',
                                             'group flex w-full items-center rounded-md px-2 py-2.5 text-sm',
-                                        ]" @click="exportInquiries({ inquiry_type: 'crisis_center' })">
-                                            {{ $t('inquiries.form.options.inquiryType.crisisCenter') }}
+                                        ]" @click="openExportInquiriesModal('crisis_center')">
+                                            {{ crisisCenterName }}
                                         </button>
                                         </MenuItem>
                                     </div>
@@ -350,6 +351,13 @@
                 :citizenName="`${state.selectedCitizen?.firstname || ''} ${state.selectedCitizen?.lastname || ''}`"
                 :workingMinutes="state.workingMinutes" @close="state.modal.isConfirmWorkingOpen = false"
                 @confirmed="onWorkConfirmed" @dismissed="onWorkDismissed" />
+
+            <ModulesUserCitizenModalExportInquiries
+                :isModalOpen="state.modal.isExportInquiriesDepartmentOpen"
+                :title="exportInquiryModalTitle"
+                :departmentOptions="exportInquiryDepartmentOptions"
+                @close="state.modal.isExportInquiriesDepartmentOpen = false"
+                @confirm="confirmExportInquiries" />
         </NuxtLayout>
     </div>
 </template>
@@ -404,11 +412,13 @@ const state = reactive({
         isViewLocationsOpen: false,
         isConfirmArrivalOpen: false,
         isConfirmWorkingOpen: false,
+        isExportInquiriesDepartmentOpen: false,
     },
     selectedCitizen: null as any,
     arrivalDistance: 0,
     workingMinutes: 0,
     departments: [] as any,
+    exportInquiryType: '',
 })
 
 const arrivalCheckState = reactive({
@@ -419,6 +429,14 @@ const arrivalCheckState = reactive({
 const workCheckState = reactive({
     hasShownPrompt: false,
 })
+
+const shelterName = computed(() => customPagesStore.getCustomPagesName?.shelter || t('inquiries.form.options.inquiryType.shelter'))
+const crisisCenterName = computed(() => customPagesStore.getCustomPagesName?.crisisCenter || t('inquiries.form.options.inquiryType.crisisCenter'))
+const exportInquiryModalTitle = computed(() => state.exportInquiryType === 'shelter' ? shelterName.value : crisisCenterName.value)
+const exportInquiryDepartmentOptions = computed(() => [
+    ...(state.departments?.data ?? [])
+        .map((d: any) => ({ value: d.uuid, label: d.name })),
+])
 
 const isTransportRegistrationEnabled = computed(() => {
     return userStore.getUser?.can_register_transport === true
@@ -712,17 +730,34 @@ async function exportCitizens(departmentParams: { department?: string, departmen
     state.isTableLoading = false
 }
 
-async function exportInquiries(params: { inquiry_type: string }) {
+function openExportInquiriesModal(inquiryType: string) {
+    state.exportInquiryType = inquiryType
+    state.selectedExportInquiryDepartmentUuid = ''
+    state.modal.isExportInquiriesDepartmentOpen = true
+}
+
+async function confirmExportInquiries(departmentUuid: string) {
+    const dept = (state.departments?.data ?? []).find((d: any) => d.uuid === departmentUuid)
+    await exportInquiries({
+        inquiry_type: state.exportInquiryType,
+        department: dept?.name,
+        department_uuid: dept?.uuid,
+    })
+    state.modal.isExportInquiriesDepartmentOpen = false
+}
+
+async function exportInquiries(params: { inquiry_type: string, department?: string, department_uuid?: string }) {
     state.error = {}
     state.isTableLoading = true
     try {
         const queryParams = {
-            ...params
+            inquiry_type: params.inquiry_type,
+            department: params.department ?? departmentStore.getSelectedDepartmentName,
+            department_uuid: params.department_uuid ?? departmentStore.getSelectedDepartment,
         }
         const response = await citizenInquiryService.exportInquiries(queryParams)
         if (response) {
             let fileName = params.inquiry_type === 'shelter' ? t('inquiries.shelterInquiry') : t('inquiries.crisisCenterInquiry')
-
             saveAs(response, `${customPagesStore.getCustomPagesName?.citizens}-${fileName}`)
         }
     } catch (error: any) {
