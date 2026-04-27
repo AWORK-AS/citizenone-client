@@ -6333,6 +6333,7 @@
             "updateCitizenJournal": "update citizen journal",
             "updateCitizenMedicine": "update citizen medicine",
             "updateCitizenPlan": "update citizen plan",
+            "updateFormFieldConfig": "update citizen form field configuration",
             "updateSchedule": "update schedule",
             "viewCitizenCalendar": "view citizen calendar",
             "viewCitizenHealth": "view citizen health",
@@ -6664,7 +6665,9 @@
         "mail": "Mail",
         "messages": "Messages",
         "overview": "Overview",
-        "protocols": "Protocols"
+        "protocols": "Protocols",
+        "pinSidebar": "Pin sidebar",
+        "unpinSidebar": "Unpin sidebar"
     },
     "somethingWentWrong": "Something went wrong",
     "storage": {
@@ -7510,6 +7513,7 @@
                 "timeLogSuccessfullyDeclined": "Time log successfully declined",
                 "timeLogSuccessfullyDeleted": "Time log successfully deleted"
             },
+            "citizen": "Citizen",
             "confirmation": {
                 "approveTimeLogConfirmation": "Are you sure you want to approve this time log",
                 "declineTimeLogConfirmation": "Are you sure you want to decline this time log",

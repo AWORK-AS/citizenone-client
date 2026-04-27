@@ -115,7 +115,7 @@
                     </span>
                     <button @click="toggleSidebarPin"
                         :class="['p-1.5 rounded-md transition-all duration-200 delay-75', sidebarExpanded ? 'opacity-100 pointer-events-auto text-blue-300/60 hover:text-white hover:bg-white/10' : 'opacity-0 pointer-events-none']"
-                        :title="sidebarPinned ? 'Frigør sidebar' : 'Fastgør sidebar'">
+                        :title="sidebarPinned ? $t('sidebar.unpinSidebar') : $t('sidebar.pinSidebar')">
                         <Icon :name="sidebarPinned ? 'ph:push-pin-fill' : 'ph:push-pin'" class="h-4 w-4" />
                     </button>
                 </div>

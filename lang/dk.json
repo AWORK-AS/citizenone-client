@@ -6333,6 +6333,7 @@
             "updateCitizenJournal": "rediger borgerjournal",
             "updateCitizenMedicine": "rediger borgermedicin",
             "updateCitizenPlan": "rediger borgerplan",
+            "updateFormFieldConfig": "rediger borgerformular feltkonfiguration",
             "updateSchedule": "rediger vagtplan",
             "viewCitizenCalendar": "se borgerkalender",
             "viewCitizenHealth": "se borgersundhed",
@@ -6664,7 +6665,9 @@
         "mail": "Mail",
         "messages": "Beskeder",
         "overview": "Oversigt",
-        "protocols": "Protokol"
+        "protocols": "Protokol",
+        "pinSidebar": "Fastgør sidebar",
+        "unpinSidebar": "Frigør sidebar"
     },
     "somethingWentWrong": "Noget gik galt",
     "storage": {
@@ -7510,6 +7513,7 @@
                 "timeLogSuccessfullyDeclined": "Tidslog blev afvist",
                 "timeLogSuccessfullyDeleted": "Tidslog blev slettet"
             },
+            "citizen": "Borger",
             "confirmation": {
                 "approveTimeLogConfirmation": "Er du sikker på, at du vil godkende denne tidslog",
                 "declineTimeLogConfirmation": "Er du sikker på, at du vil afvise denne tidslog",
