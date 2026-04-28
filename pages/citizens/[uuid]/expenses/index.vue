@@ -274,7 +274,6 @@ function viewExpense(expense: any) {
 }
 
 function editExpense(expense: any) {
-    console.log('Selected Expense for Edit:', expense) // Debug log to check the expense data
     state.selectedExpense = {
         id: expense.id,
         uuid: expense.uuid,
