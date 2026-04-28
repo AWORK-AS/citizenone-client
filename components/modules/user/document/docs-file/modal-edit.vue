@@ -15,8 +15,9 @@
                             <div class="inline-block px-4 py-2 bg-red-100 text-red-700 rounded">
                                 {{
                                     $t('drive.editOneDriveNotSupported') !== 'drive.editOneDriveNotSupported'
-                                    ? $t('drive.editOneDriveNotSupported')
-                                    : 'Redigering af denne filtype fra OneDrive er ikke understøttet direkte i CitizenOne. Åbn og redigér filen i OneDrive.'
+                                        ? $t('drive.editOneDriveNotSupported')
+                                        : 'Redigering af denne filtype fra OneDrive er ikke understøttet direkte i CitizenOne.
+                                Åbn og redigér filen i OneDrive.'
                                 }}
                             </div>
                         </div>
@@ -97,7 +98,6 @@ watch(() => props.isModalOpen, (isModalOpen) => {
 async function fetchOneDriveDocument() {
     state.isPageLoading = true
     // Debug: Log selectedDocument
-    console.log('[OneDrive DEBUG] props.selectedDocument:', props.selectedDocument);
     try {
         // Brug hele OneDrive-id'et (inkl. '!')
         const fileId = props.selectedDocument?.uuid;
@@ -108,11 +108,7 @@ async function fetchOneDriveDocument() {
         const userId = localStorage.getItem('user_id');
         const token = localStorage.getItem('_token');
 
-        // Debug log
-        console.log('[OneDrive DEBUG] ext:', ext, 'fileId:', fileId, 'name:', props.selectedDocument?.name);
-
         if (ext === 'docx') {
-            console.log('[OneDrive DEBUG] Bruger docx-text endpoint');
             const response = await fetch(`/api/user/onedrive/docx-text/${encodedFileId}`, {
                 method: 'GET',
                 headers: {
@@ -125,8 +121,7 @@ async function fetchOneDriveDocument() {
             const data = await response.json();
             state.formDocument.content = data.text || '';
         } else if (["txt", "html"].includes(ext)) {
-            console.log('[OneDrive DEBUG] Bruger file endpoint');
-                        const response = await fetch(`/api/user/onedrive/file/${encodedFileId}`, {
+            const response = await fetch(`/api/user/onedrive/file/${encodedFileId}`, {
                 method: 'GET',
                 headers: {
                     'X-User-Id': String(userId),
@@ -137,9 +132,7 @@ async function fetchOneDriveDocument() {
             if (!response.ok) throw new Error('Kunne ikke hente fil fra OneDrive');
             const text = await response.text();
             state.formDocument.content = text;
-            console.log('[OneDrive DEBUG] hentet content:', text);
         } else {
-            console.log('[OneDrive DEBUG] Ukendt/ikke-understøttet filtype, content blank');
             state.formDocument.content = '';
         }
     } catch (error) {
@@ -188,7 +181,6 @@ async function updateOneDriveDocument(documentDetails: any) {
         // 2. Opdater indhold hvis tekstfil
         if (["txt", "html"].includes(ext)) {
             const contentToSend = typeof documentDetails.content === 'string' ? documentDetails.content : '';
-            console.log('[OneDrive DEBUG] update content:', contentToSend);
             const response = await fetch(`/api/user/onedrive/file/${encodedFileId}`, {
                 method: 'PUT',
                 headers: {

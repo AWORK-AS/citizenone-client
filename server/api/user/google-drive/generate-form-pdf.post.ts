@@ -13,8 +13,6 @@ export default defineEventHandler(async (event) => {
     try {
         const body = await readBody(event)
 
-        console.log('Proxy /api/user/google-drive/generate-form-pdf - forwarding request')
-
         const response = await $fetch('/user/google-drive/generate-form-pdf', {
             baseURL: runtimeConfig.public.apiBaseURL,
             method: 'POST',
@@ -22,8 +20,6 @@ export default defineEventHandler(async (event) => {
             body,
             responseType: 'blob',
         })
-
-        console.log('Proxy /api/user/google-drive/generate-form-pdf - backend response received')
 
         // Set response headers for PDF download
         setResponseHeader(event, 'Content-Type', 'application/pdf')
