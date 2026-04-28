@@ -452,12 +452,10 @@ onMounted(() => {
 
     const savedWorkState = workTimeTracking.getSavedWorkTimeState()
     if (savedWorkState && savedWorkState.isWorking && savedWorkState.careHourUuid && savedWorkState.citizenUuid === citizenUuid) {
-        console.log('Restoring work time tracking')
 
         nextTick(() => {
             if (state.selectedCitizen?.data?.is_checked_in && !state.selectedCitizen?.data?.current_care_hour?.is_transportation) {
                 workTimeTracking.restoreFromState(savedWorkState, showWorkPrompt)
-                console.log('Work time tracking restored')
             }
         })
     }
@@ -492,8 +490,6 @@ function checkIfNearCitizen(userLocation: { lat: number; lng: number }) {
         state.modal.isConfirmArrivalOpen = true
         state.arrivalDistance = distance
         locationTracking.setArrivalPromptShown(true)
-
-        console.log(`Near citizen! Distance: ${distance}m`)
     }
 }
 
@@ -503,8 +499,6 @@ function showWorkPrompt() {
     workCheckState.hasShownPrompt = true
     state.workingMinutes = workTimeTracking.getWorkingMinutes()
     state.modal.isConfirmWorkingOpen = true
-
-    console.log(`Work prompt shown after ${state.workingMinutes} minutes`)
 }
 
 async function onArrivalConfirmed() {
@@ -568,13 +562,11 @@ function onArrivalDismissed() {
 }
 
 function onWorkConfirmed() {
-    console.log('User confirmed still working')
     workCheckState.hasShownPrompt = false
     state.modal.isConfirmWorkingOpen = false
 }
 
 function onWorkDismissed() {
-    console.log('User said they are not working')
     workLogout()
 }
 
@@ -586,10 +578,10 @@ function startLocationTracking(careHourUuid: string) {
     locationTracking.startTracking(
         careHourUuid,
         (location) => {
-            console.log('Current location:', location)
+
         },
         (error) => {
-            console.error('Tracking error:', error)
+
         },
         30000,
         state.selectedCitizen?.data?.uuid,
