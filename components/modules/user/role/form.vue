@@ -149,7 +149,6 @@ async function fetchAllPermissions() {
     state.error = {}
     emit('isPageLoading', true)
     try {
-        console.log('selected role', props.selectedRole)
         const params = {
             role: props.selectedRole ? props.selectedRole.name : '',
         }
