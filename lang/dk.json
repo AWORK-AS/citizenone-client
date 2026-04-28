@@ -1741,7 +1741,7 @@
                     "dose": "Dosis",
                     "evaluationFrequency": "Hvornår vil du evaluere",
                     "evaluator": "Evaluator",
-                    "maximumDosePerAdministration": "Maksimal dosis pr. administration",
+                    "maximumDosePerAdministrationForThisCitizenIs": "Maksimal dosis pr. administration for denne borger er {n} for dette PN-præparat.",
                     "noMedicineToday": "Grunden til, at du ikke ser nogen mulighed for at udlevere medicin, er, at borgeren ikke skal have medicin i dag",
                     "time": "Tid",
                     "type": {
