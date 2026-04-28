@@ -4604,6 +4604,19 @@
         "nonbinary": "Nonbinary",
         "willNotDisclose": "Will not disclose"
     },
+    "globalSearch": {
+        "bookings": "Bookings",
+        "citizens": "Citizens",
+        "companies": "Companies",
+        "documents": "Documents",
+        "employees": "Employees",
+        "hint": "Start typing to search across the entire system...",
+        "invoices": "Invoices",
+        "noResults": "No results found",
+        "placeholder": "Search everything...",
+        "recent": "Recent searches",
+        "searching": "Searching..."
+    },
     "goToToday": "Go to today",
     "guidedTour": "Guided tour",
     "helpGuide": {

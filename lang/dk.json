@@ -4604,6 +4604,19 @@
         "nonbinary": "Ikke-binær",
         "willNotDisclose": "Vil ikke oplyse"
     },
+    "globalSearch": {
+        "bookings": "Bookinger",
+        "citizens": "Borgere",
+        "companies": "Virksomheder",
+        "documents": "Dokumenter",
+        "employees": "Medarbejdere",
+        "hint": "Begynd at skrive for at søge på tværs af hele systemet...",
+        "invoices": "Fakturaer",
+        "noResults": "Ingen resultater fundet",
+        "placeholder": "Søg efter alt...",
+        "recent": "Seneste søgninger",
+        "searching": "Søger..."
+    },
     "goToToday": "Gå til i dag",
     "guidedTour": "Guidet tur",
     "helpGuide": {
