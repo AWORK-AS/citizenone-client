@@ -143,12 +143,8 @@ export const useLocationTracking = () => {
         }
 
         if (isTracking.value) {
-            console.log('Already tracking, skipping...')
             return
         }
-
-        console.log('Starting location tracking for care hour:', careHourId)
-
         isTracking.value = true
         trackingError.value = ''
         careHourUuid.value = careHourId
@@ -203,13 +199,9 @@ export const useLocationTracking = () => {
         if (currentLocation.value) {
             logLocationToBackend(currentLocation.value)
         }
-
-        console.log('Location tracking started successfully')
     }
 
     const stopTracking = async () => {
-        console.log('Stopping location tracking...')
-
         if (watchId !== null) {
             navigator.geolocation.clearWatch(watchId)
             watchId = null
@@ -231,8 +223,6 @@ export const useLocationTracking = () => {
 
         // Clear localStorage
         clearTrackingState()
-
-        console.log('Location tracking stopped')
     }
 
     const isNearDestination = (

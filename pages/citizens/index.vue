@@ -415,6 +415,7 @@ const state = reactive({
         isExportInquiriesDepartmentOpen: false,
     },
     selectedCitizen: null as any,
+    selectedExportInquiryDepartmentUuid: null as string | null,
     arrivalDistance: 0,
     workingMinutes: 0,
     departments: [] as any,
@@ -476,7 +477,6 @@ onMounted(() => {
 
     const savedWorkState = workTimeTracking.getSavedWorkTimeState()
     if (savedWorkState && savedWorkState.isWorking && savedWorkState.careHourUuid) {
-        console.log('Restoring work time tracking from localStorage')
 
         nextTick(() => {
             const workingCitizen = state.citizens?.data?.find(
@@ -486,7 +486,6 @@ onMounted(() => {
             if (workingCitizen) {
                 state.selectedCitizen = workingCitizen
                 workTimeTracking.restoreFromState(savedWorkState, showWorkPrompt)
-                console.log('Work time tracking restored')
             } else {
                 workTimeTracking.stopTracking()
             }
@@ -538,8 +537,6 @@ function showWorkPrompt() {
     workCheckState.hasShownPrompt = true
     state.workingMinutes = workTimeTracking.getWorkingMinutes()
     state.modal.isConfirmWorkingOpen = true
-
-    console.log(`Work prompt shown after ${state.workingMinutes} minutes`)
 }
 
 async function onArrivalConfirmed() {
@@ -602,13 +599,11 @@ function onArrivalDismissed() {
 }
 
 function onWorkConfirmed() {
-    console.log('User confirmed still working')
     workCheckState.hasShownPrompt = false
     state.modal.isConfirmWorkingOpen = false
 }
 
 function onWorkDismissed() {
-    console.log('User said they are not working')
     workLogout()
 }
 
