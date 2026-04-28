@@ -582,12 +582,12 @@
                                                         </div>
                                                     </Tooltip>
                                                 </div>
-                                                <div class="absolute top-1 left-1 z-10 w-6 h-6 rounded-full bg-white border border-gray-200 flex items-center justify-center"
+                                                <div class="absolute -top-3 -left-2 z-10 w-6 h-6 rounded-full bg-white border border-gray-200 flex items-center justify-center"
                                                     style="font-size:0.875rem"
                                                     v-if="shift?.type?.system_name === 'sick-leave'">
                                                     🤒
                                                 </div>
-                                                <div class="absolute top-1 left-1 z-10 w-6 h-6 rounded-full bg-white border border-gray-200 flex items-center justify-center"
+                                                <div class="absolute -top-3 -left-2 z-10 w-6 h-6 rounded-full bg-white border border-gray-200 flex items-center justify-center"
                                                     style="font-size:0.875rem"
                                                     v-if="shift?.type?.system_name === 'vacation-leave'">
                                                     🏖️
