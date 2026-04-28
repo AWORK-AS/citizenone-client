@@ -1686,6 +1686,7 @@
                 "ingredientsLabel": "Are there any other ingredients that are relevant to mention",
                 "maxDailyDose": "Max daily dose",
                 "maxDosagePerTime": "Max dosage per time",
+                "maximumDosePerAdministration": "Maximum dose per administration",
                 "medicationTypes": {
                     "all": "All",
                     "medicationType": "Medication type",

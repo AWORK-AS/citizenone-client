@@ -1686,6 +1686,7 @@
                 "ingredientsLabel": "Er der andre ingredienser, der er relevante at nævne",
                 "maxDailyDose": "Maksimal daglig dosis",
                 "maxDosagePerTime": "Maksimal dosis pr. gang",
+                "maximumDosePerAdministration": "Maksimal dosis pr. administration",
                 "medicationTypes": {
                     "all": "Alle",
                     "medicationType": "Medicin type",
