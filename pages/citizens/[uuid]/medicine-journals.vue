@@ -828,8 +828,16 @@
                                                     <Icon name="ph:eye" class="size-4" />
                                                 </FormButton>
                                             </Tooltip>
+                                            <Tooltip
+                                                :text="$t('citizens.medicineJournals.table.actions.givePNMedicine')"
+                                                position="left" v-if="medicine.is_pn_medicine">
+                                                <FormButton buttonStyle="action" class="rounded-md text-xs shrink-0"
+                                                    @click="givePNMedicine(medicine)">
+                                                    <Icon name="ph:plus" class="size-3" />
+                                                </FormButton>
+                                            </Tooltip>
                                             <Tooltip :text="$t('citizens.medicineJournals.table.actions.giveMedicine')"
-                                                position="left">
+                                                position="left" v-else>
                                                 <FormButton type="button" buttonStyle="action" class="rounded-md"
                                                     @click="giveMedicine(medicine)">
                                                     <Icon name="ph:plus" class="size-4" />
