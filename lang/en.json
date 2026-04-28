@@ -1933,6 +1933,7 @@
                     "delete": "Delete",
                     "edit": "Edit",
                     "giveMedicine": "Give medicine",
+                    "givePNMedicine": "Give PN medicine",
                     "medicineHistory": "Medicine history",
                     "view": "View"
                 },
