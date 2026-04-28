@@ -71,10 +71,10 @@
                 <div class="space-y-1">
                     <div class="flex items-center gap-x-1">
                         <FormLabel for="dosage" :label="$t('citizens.medicineJournals.history.form.dose')" />
-                        <!-- <Tooltip position="right"
-                            :text="`${$t('citizens.medicineJournals.history.form.maximumDosePerAdministration')}: ${props.selectedMedicine?.max_daily_dose}`">
+                        <Tooltip position="right"
+                            :text="`${$t('citizens.medicineJournals.history.form.maximumDosePerAdministration')}: ${props.selectedMedicine?.max_dose_per_administration ?? ''}`">
                             <Icon name="ph:question" class="h-3.5 w-3.5" aria-hidden="true" />
-                        </Tooltip> -->
+                        </Tooltip>
                     </div>
                     <FormTextField id="dosage" name="dosage"
                         :placeholder="$t('citizens.medicineJournals.history.form.dose')"
