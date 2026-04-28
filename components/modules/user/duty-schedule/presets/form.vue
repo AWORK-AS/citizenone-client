@@ -249,7 +249,6 @@ async function previewPreset() {
     emit('isPageLoading', true)
     try {
         const response = await draftSchedulePresetService.previewPreset(state.formDutySchedulePreset)
-        console.log('Preview response', response)
         state.presetPreview = response.data
     } catch (error: any) {
         state.error = error

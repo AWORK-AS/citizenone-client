@@ -119,8 +119,6 @@ export const useLocationTracking = () => {
             lastLoggedLocation.value = location
             allLocations.value.push(location)
             totalDistanceTraveled.value = calculateTotalDistance()
-            
-            console.log(`Location logged: ${location.lat}, ${location.lng}. Total distance: ${(totalDistanceTraveled.value / 1000).toFixed(2)}km`)
         } catch (error) {
             console.error('Failed to log location:', error)
         }
@@ -145,11 +143,8 @@ export const useLocationTracking = () => {
         }
 
         if (isTracking.value) {
-            console.log('Already tracking, skipping...')
             return
         }
-
-        console.log('Starting location tracking for care hour:', careHourId)
         
         isTracking.value = true
         trackingError.value = ''
@@ -205,13 +200,9 @@ export const useLocationTracking = () => {
         if (currentLocation.value) {
             logLocationToBackend(currentLocation.value)
         }
-
-        console.log('Location tracking started successfully')
     }
 
-    const stopTracking = async () => {
-        console.log('Stopping location tracking...')
-        
+    const stopTracking = async () => {        
         if (watchId !== null) {
             navigator.geolocation.clearWatch(watchId)
             watchId = null
@@ -233,8 +224,6 @@ export const useLocationTracking = () => {
         
         // Clear localStorage
         clearTrackingState()
-        
-        console.log('Location tracking stopped')
     }
 
     const isNearDestination = (
