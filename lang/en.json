@@ -4605,17 +4605,27 @@
         "willNotDisclose": "Will not disclose"
     },
     "globalSearch": {
+        "attendance": "Attendance",
         "bookings": "Bookings",
+        "calendar": "Calendar",
         "citizens": "Citizens",
         "companies": "Companies",
+        "contacts": "Contacts",
         "documents": "Documents",
+        "economy": "Economy",
         "employees": "Employees",
+        "health": "Health Records",
         "hint": "Start typing to search across the entire system...",
         "invoices": "Invoices",
+        "journals": "Journals",
+        "medicines": "Medicines",
         "noResults": "No results found",
+        "pages": "Pages",
         "placeholder": "Search everything...",
+        "plans": "Plans & Goals",
         "recent": "Recent searches",
-        "searching": "Searching..."
+        "searching": "Searching...",
+        "sectionSettings": "Settings"
     },
     "goToToday": "Go to today",
     "guidedTour": "Guided tour",
