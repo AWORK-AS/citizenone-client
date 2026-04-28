@@ -1740,6 +1740,7 @@
                     "dose": "Dose",
                     "evaluationFrequency": "What time do you want to evaluate",
                     "evaluator": "Evaluator",
+                    "maximumDosePerAdministration": "Maximum dose per administration",
                     "noMedicineToday": "The reason you do not see any availability to provide medicine, is that the citizen should not have medicine today",
                     "time": "Time",
                     "type": {
