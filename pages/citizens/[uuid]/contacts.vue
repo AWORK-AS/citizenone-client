@@ -34,6 +34,10 @@
 
                 <div>
                     <div class="mt-8 flex justify-end items-center mb-5 gap-x-2">
+                        <FormButton buttonStyle="secondary" @click="state.modal.isAssignFromAddressBookOpen = true">
+                            <Icon name="ph:address-book" class="h-4 w-4" aria-hidden="true" />
+                            {{ $t('addressBook.assignFromAddressBook') }}
+                        </FormButton>
                         <FormButton buttonStyle="action" @click="state.modal.isAddContactOpen = true">
                             <Icon name="ph:plus" class="h-4 w-4" aria-hidden="true" />
                             {{ $t('citizens.contacts.newContact') }}
@@ -116,6 +120,47 @@
                     </div>
                     <Pagination :data="state.contacts" @previous="previous" @next="next" />
                 </div>
+
+                <div class="mt-10" v-if="state.addressBookContacts.length > 0 || state.isAddressBookLoading">
+                    <h3 class="text-base font-semibold text-gray-700 mb-4">{{ $t('addressBook.assignedContacts') }}</h3>
+                    <div class="table-responsive">
+                        <Table :columnHeaders="state.addressBookColumnHeaders" :data="{ data: state.addressBookContacts }" :isLoading="state.isAddressBookLoading">
+                            <template #body v-if="!(state.isAddressBookLoading || state.addressBookContacts.length === 0)">
+                                <tr v-for="(contact, index) in state.addressBookContacts" :key="index">
+                                    <td width="20%">
+                                        <span>{{ language.locale.value === 'en' ? contact?.contact_job_title?.en_title : contact?.contact_job_title?.dk_title }}</span>
+                                        <Badge type="info" class="w-fit mt-1 ml-1">
+                                            <p class="text-xxs px-2">{{ $t('addressBook.addressBook') }}</p>
+                                        </Badge>
+                                    </td>
+                                    <td width="20%">
+                                        <span>{{ contact?.firstname }} {{ contact?.lastname }}</span>
+                                    </td>
+                                    <td width="20%">{{ contact?.email }}</td>
+                                    <td width="10%">{{ contact?.phone }}</td>
+                                    <td width="20%">
+                                        <span>{{ contact?.street }}</span>
+                                        <span v-if="contact?.street">&nbsp;</span>
+                                        <span>{{ contact?.region?.name }}</span>
+                                        <span v-if="contact?.region?.name">, </span>
+                                        <span>{{ contact?.municipality?.name }}</span>
+                                        <span v-if="contact?.municipality?.name">, </span>
+                                        <span>{{ contact?.city?.name }}</span>
+                                    </td>
+                                    <td width="10%">
+                                        <div class="flex items-end justify-end gap-2">
+                                            <FormButton type="button" buttonStyle="danger" @click="unassignAddressBookContact(contact)">
+                                                <Icon name="ph:link-break" class="size-4" />
+                                                {{ $t('addressBook.unassignContact') }}
+                                            </FormButton>
+                                        </div>
+                                    </td>
+                                </tr>
+                            </template>
+                        </Table>
+                    </div>
+                </div>
+
                 <ModulesUserCitizenContactModalNew :isModalOpen="state.modal.isAddContactOpen"
                     @close="state.modal.isAddContactOpen = false" @refreshContacts="fetchContacts" />
                 <ModulesUserCitizenContactModalEdit :isModalOpen="state.modal.isEditContactOpen"
@@ -126,6 +171,19 @@
                     @close="state.modal.isDeleteContactOpen = false" @confirm="deleteContact" />
                 <ModulesUserMailModalSendEmail :isModalOpen="state.modal.isSendEmailOpen"
                     :selectedContact="state.selectedContact" @close="state.modal.isSendEmailOpen = false" />
+                <ModulesUserCitizenContactModalAssignAddressBook
+                    :isModalOpen="state.modal.isAssignFromAddressBookOpen"
+                    :citizenUuid="citizenUuid"
+                    :assignedContacts="state.addressBookContacts"
+                    @close="state.modal.isAssignFromAddressBookOpen = false"
+                    @refreshAddressBookContacts="fetchAddressBookContacts"
+                />
+                <DialogConfirmation
+                    :isModalOpen="state.modal.isUnassignAddressBookContactOpen"
+                    :message="$t('addressBook.table.confirmation.unassignContactConfirmation') + '?'"
+                    @close="state.modal.isUnassignAddressBookContactOpen = false"
+                    @confirm="confirmUnassign"
+                />
             </div>
         </NuxtLayout>
     </div>
@@ -133,6 +191,7 @@
 
 <script setup lang="ts">
 import { citizenContactService } from '@/components/api/user/CitizenContactService'
+import { citizenCompanyContactService } from '@/components/api/user/CitizenCompanyContactService'
 import { useI18n } from "vue-i18n"
 import { useAlert } from '@/composables/alert'
 import { useCustomPagesStore } from '@/store/custom-pages'
@@ -176,7 +235,20 @@ const state = reactive({
         isDeleteContactOpen: false,
         isEditContactOpen: false,
         isSendEmailOpen: false,
+        isAssignFromAddressBookOpen: false,
+        isUnassignAddressBookContactOpen: false,
     },
+    addressBookContacts: [] as any[],
+    addressBookColumnHeaders: [
+        { name: 'citizens.contacts.table.title', isTranslateName: true },
+        { name: 'citizens.contacts.table.name', isTranslateName: true },
+        { name: 'citizens.contacts.table.email', isTranslateName: true },
+        { name: 'citizens.contacts.table.phone', isTranslateName: true },
+        { name: 'citizens.contacts.table.address', isTranslateName: true },
+        { name: '' },
+    ],
+    isAddressBookLoading: false,
+    selectedAddressBookContact: null as any,
     selectedContact: [] as any,
     sortData: {
         sortField: 'id',
@@ -186,6 +258,7 @@ const state = reactive({
 
 onMounted(() => {
     fetchContacts()
+    fetchAddressBookContacts()
 })
 
 async function fetchContacts() {
@@ -262,5 +335,32 @@ async function deleteContact() {
 function sendEmail(contact: any) {
     state.selectedContact = contact
     state.modal.isSendEmailOpen = true
+}
+
+async function fetchAddressBookContacts() {
+    state.isAddressBookLoading = true
+    try {
+        const response = await citizenCompanyContactService.getByCitizen(citizenUuid)
+        if (response) {
+            state.addressBookContacts = response?.data ?? response
+        }
+    } catch {}
+    state.isAddressBookLoading = false
+}
+
+function unassignAddressBookContact(contact: any) {
+    state.selectedAddressBookContact = contact
+    state.modal.isUnassignAddressBookContactOpen = true
+}
+
+async function confirmUnassign() {
+    try {
+        await citizenCompanyContactService.unassign(citizenUuid, state.selectedAddressBookContact.uuid)
+        successAlert(`${t('alert.success')}!`, `${t('addressBook.alert.contactSuccessfullyUnassigned')}.`)
+        await fetchAddressBookContacts()
+    } catch (error: any) {
+        state.error = error
+    }
+    state.modal.isUnassignAddressBookContactOpen = false
 }
 </script>

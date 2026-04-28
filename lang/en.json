@@ -17,6 +17,57 @@
         "google2FactorAuthentication": "Google 2 factor authentication",
         "useYour2faCodeFromGoogleAuthenticatorAppOnYourPhone": "Use your 2FA code from Google Authenticator app on your phone"
     },
+    "addressBook": {
+        "addressBook": "Address book",
+        "addNewContact": "Add new contact",
+        "assign": "Assign",
+        "assigned": "Assigned",
+        "assignedContacts": "Assigned contacts",
+        "assignFromAddressBook": "Assign from address book",
+        "editContact": "Edit contact",
+        "newContact": "New contact",
+        "noContactsInAddressBook": "No contacts in address book",
+        "unassignContact": "Unassign",
+        "alert": {
+            "contactSuccessfullyAssigned": "Contact successfully assigned",
+            "contactSuccessfullyDeleted": "Contact successfully deleted",
+            "contactSuccessfullySaved": "Contact successfully saved",
+            "contactSuccessfullyUnassigned": "Contact successfully unassigned",
+            "contactSuccessfullyUpdated": "Contact successfully updated"
+        },
+        "form": {
+            "city": "City",
+            "companyName": "Company name",
+            "contactJobTitle": "Contact job title",
+            "email": "Email",
+            "firstname": "First name",
+            "lastname": "Last name",
+            "municipality": "Municipality",
+            "phone": "Phone",
+            "postCode": "Post code",
+            "region": "Region",
+            "selectCity": "Select city",
+            "selectContactJobTitle": "Select contact job title",
+            "selectMunicipality": "Select municipality",
+            "selectRegion": "Select region",
+            "street": "Street"
+        },
+        "table": {
+            "actions": {
+                "delete": "Delete",
+                "edit": "Edit"
+            },
+            "assignedCitizens": "Assigned citizens",
+            "confirmation": {
+                "deleteContactConfirmation": "Are you sure you want to delete this contact",
+                "unassignContactConfirmation": "Are you sure you want to unassign this contact"
+            },
+            "email": "Email",
+            "jobTitle": "Job title",
+            "name": "Name",
+            "phone": "Phone"
+        }
+    },
     "absences": {
         "absences": "Absences",
         "addNewAbsence": "Add new absence",
@@ -6540,6 +6591,7 @@
             "absences": "Absences",
             "activityLogs": "Activity logs",
             "addictions": "Substance abuse",
+            "addressBook": "Address book",
             "archived": "Archived",
             "bookingTags": "Booking tags",
             "calendarTags": "Calendar tags",
