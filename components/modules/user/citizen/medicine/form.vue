@@ -204,7 +204,7 @@
                                 <input type="date" v-model="period.start"
                                     class="text-xs border border-gray-200 rounded px-2 py-1.5 flex-1 focus:outline-none focus:border-primary bg-gray-50" />
                                 <span class="text-xs text-gray-500 shrink-0">{{ $t('citizens.medicineJournals.form.to')
-                                }}</span>
+                                    }}</span>
                                 <input type="date" v-model="period.end"
                                     class="text-xs border border-gray-200 rounded px-2 py-1.5 flex-1 focus:outline-none focus:border-primary bg-gray-50" />
                                 <button type="button" @click="removeTreatmentPeriod(idx)"
@@ -234,7 +234,7 @@
                                     <Icon name="ph:caret-left" class="size-4" />
                                 </button>
                                 <span class="text-xs font-semibold text-gray-700 capitalize">{{ extraDatesMonthLabel
-                                }}</span>
+                                    }}</span>
                                 <button type="button" @click="extraDatesNextMonth"
                                     class="p-1 rounded hover:bg-gray-100 text-gray-500">
                                     <Icon name="ph:caret-right" class="size-4" />
