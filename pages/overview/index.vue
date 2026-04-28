@@ -544,8 +544,6 @@ async function fetchCitizensMedicines(dateRange: any) {
             state.stats.medicinesDeviatedCount = todayDueDates.filter(
                 (dueDate: any) => dueDate.status === 'deviated'
             ).length
-
-            console.log(state.stats.medicines)
         }
     } catch (error: any) {
         state.error = error
