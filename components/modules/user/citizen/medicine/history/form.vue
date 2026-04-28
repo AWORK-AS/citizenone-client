@@ -69,7 +69,13 @@
             </div>
             <div class="space-y-3" v-if="props.selectedMedicine.is_pn_medicine">
                 <div class="space-y-1">
-                    <FormLabel for="dosage" :label="$t('citizens.medicineJournals.history.form.dose')" />
+                    <div class="flex items-center gap-x-1">
+                        <FormLabel for="dosage" :label="$t('citizens.medicineJournals.history.form.dose')" />
+                        <Tooltip position="right"
+                            :text="`${$t('citizens.medicineJournals.history.form.maximumDosePerAdministration')}: ${props.selectedMedicine?.max_daily_dose}`">
+                            <Icon name="ph:question" class="h-3.5 w-3.5" aria-hidden="true" />
+                        </Tooltip>
+                    </div>
                     <FormTextField id="dosage" name="dosage"
                         :placeholder="$t('citizens.medicineJournals.history.form.dose')"
                         v-model="state.formMedicineHistory.dosage" />
