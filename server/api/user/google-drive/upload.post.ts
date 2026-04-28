@@ -31,9 +31,7 @@ export default defineEventHandler(async (event) => {
 
         try {
             const respString = typeof response === 'string' ? response : JSON.stringify(response)
-            // console.log('Proxy /api/user/google-drive/upload - backend response (truncated):', respString.substring(0, 2000))
         } catch (e) {
-            // console.log('Proxy /api/user/google-drive/upload - could not stringify backend response', e)
         }
 
         return response
