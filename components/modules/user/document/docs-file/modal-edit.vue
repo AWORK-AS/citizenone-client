@@ -16,8 +16,9 @@
                                 {{
                                     $t('drive.editOneDriveNotSupported') !== 'drive.editOneDriveNotSupported'
                                         ? $t('drive.editOneDriveNotSupported')
-                                        : 'Redigering af denne filtype fra OneDrive er ikke understøttet direkte i CitizenOne.
-                                Åbn og redigér filen i OneDrive.'
+                                        : 'Redigering af denne filtype fra OneDrive er ikke understøttet direkte i CitizenOne.'
+                                        +
+                                        ' Åbn og redigér filen i OneDrive.'
                                 }}
                             </div>
                         </div>
