@@ -1,42 +1,7 @@
 <template>
     <LoadingSpinner :isActive="state.isPageLoading">
-        <!-- Search Overlay -->
-        <Teleport to="body">
-            <Transition enter-active-class="transition ease-out duration-200" enter-from-class="opacity-0"
-                enter-to-class="opacity-100" leave-active-class="transition ease-in duration-150"
-                leave-from-class="opacity-100" leave-to-class="opacity-0">
-                <div v-if="state.isSearchOpen" class="fixed inset-0 z-[100] bg-slate-900/50 backdrop-blur-sm"
-                    @click="state.isSearchOpen = false">
-                    <div class="flex items-start justify-center pt-[15vh]" @click.stop>
-                        <div
-                            class="w-full max-w-xl bg-white rounded-2xl shadow-2xl border border-surface-200 overflow-hidden">
-                            <div class="flex items-center gap-3 px-5 py-4 border-b border-surface-100">
-                                <Icon name="heroicons:magnifying-glass" class="h-5 w-5 text-slate-400 shrink-0" />
-                                <input ref="searchInput" v-model="state.searchQuery" type="text"
-                                    placeholder="Søg på borgere, journaler, medicin og mere..."
-                                    class="flex-1 text-base text-slate-700 placeholder-slate-400 outline-none bg-transparent"
-                                    @keyup.enter="executeSearch" />
-                                <button @click="state.isSearchOpen = false"
-                                    class="p-1 rounded-md hover:bg-surface-100 text-slate-400 hover:text-slate-600 transition-colors">
-                                    <Icon name="heroicons:x-mark" class="h-5 w-5" />
-                                </button>
-                            </div>
-                            <div class="max-h-80 overflow-y-auto">
-                                <div class="px-5 py-6 text-center text-sm text-slate-400" v-if="!state.searchQuery">
-                                    Skriv for at søge på tværs af borgere, journaler, medicin og mere...
-                                </div>
-                                <div class="px-5 py-6 text-center text-sm text-slate-400" v-else-if="state.isSearching">
-                                    Søger efter "{{ state.searchQuery }}"...
-                                </div>
-                                <div class="px-5 py-6 text-center text-sm text-slate-400" v-else>
-                                    Ingen resultater fundet for "{{ state.searchQuery }}"
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </Transition>
-        </Teleport>
+        <!-- Global Search -->
+        <ModulesUserNavbarGlobalSearch ref="globalSearch" />
 
         <!-- Mobile sidebar -->
         <TransitionRoot as="template" :show="sidebarOpen">
@@ -248,7 +213,7 @@
                         <div class="hidden lg:block lg:h-6 lg:w-px lg:bg-slate-200" aria-hidden="true" />
 
                         <!-- Search -->
-                        <button type="button" @click="openSearch"
+                        <button type="button" @click="globalSearch?.open()"
                             class="w-9 h-9 rounded-full flex items-center justify-center text-slate-400 hover:text-slate-600 hover:bg-surface-100 transition-colors">
                             <Icon name="heroicons:magnifying-glass" class="h-5 w-5" aria-hidden="true" />
                         </button>
@@ -459,9 +424,10 @@ const router = useRouter()
 const route = useRoute()
 const isSchedulesPage = computed(() => route.path.startsWith('/schedules'))
 const routeName = router?.currentRoute?.value?.name
-const searchInput = ref<HTMLInputElement | null>(null)
 
 let navigation = [] as any
+
+const globalSearch = ref<any>(null)
 
 const sidebarOpen = ref(false)
 const sidebarPinned = ref(localStorage.getItem('sidebarPinned') !== 'false')
@@ -493,33 +459,15 @@ onUnmounted(() => {
 })
 function toggleSidebarPin() { sidebarPinned.value = !sidebarPinned.value; localStorage.setItem('sidebarPinned', String(sidebarPinned.value)) }
 
-function openSearch() {
-    state.isSearchOpen = true; state.searchQuery = ''; state.isSearching = false
-    nextTick(() => { searchInput.value?.focus() })
-}
-
-function executeSearch() {
-    if (state.searchQuery.trim()) { state.isSearching = true }
-}
-
 onMounted(() => {
     fetchUser()
     animateAssets()
-    const handler = (e: KeyboardEvent) => {
-        if ((e.metaKey || e.ctrlKey) && e.key === 'k') { e.preventDefault(); openSearch() }
-        if (e.key === 'Escape' && state.isSearchOpen) { state.isSearchOpen = false }
-    }
-    window.addEventListener('keydown', handler)
-    onUnmounted(() => window.removeEventListener('keydown', handler))
 })
 
 const state = reactive({
     error: {} as Error,
     isPageLoading: false,
     isSidebarLoading: true,
-    isSearchOpen: false,
-    isSearching: false,
-    searchQuery: '',
     modal: {
         is2faRequiredOpen: false,
         isAIAssistantOpen: false,
