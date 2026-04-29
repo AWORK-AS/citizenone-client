@@ -1,5 +1,5 @@
 <template>
-    <div>
+    <div data-search-exclude>
         <LoadingSpinner :isActive="state.isPageLoading">
             <Alert type="danger" :text="state?.error?.message"
                 v-if="state.error?.message && state.error.message.length > 0" />
