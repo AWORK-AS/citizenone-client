@@ -66,7 +66,7 @@
                                                 v-if="userStore.getUser?.user_subscription">
                                                 <FormButton buttonStyle="primary"
                                                     @click="navigateToExternalLink('https://citizenone.dk/priser-til-journalsystem/kurser')"
-                                                    class="w-fit rounded-md">
+                                                    class="w-fit">
                                                     <span v-if="language.locale.value === 'en'">
                                                         Take a course
                                                     </span>
@@ -78,7 +78,7 @@
                                             <div class="flex gap-x-2 justify-center" v-else>
                                                 <FormButton buttonStyle="primary"
                                                     @click="navigateToExternalLink('https://citizenone.dk/book-gratis-demo-af-journalsystemet')"
-                                                    class="w-fit rounded-md">
+                                                    class="w-fit">
                                                     <span v-if="language.locale.value === 'en'">
                                                         Book demo
                                                     </span>
@@ -87,7 +87,7 @@
                                                     </span>
                                                 </FormButton>
                                                 <FormButton buttonStyle="get-started" @click="navigateToSubscription()"
-                                                    class="w-fit rounded-md">
+                                                    class="w-fit">
                                                     <span v-if="language.locale.value === 'en'">
                                                         Get started
                                                     </span>
@@ -100,12 +100,10 @@
 
                                         <div class="flex gap-x-2 justify-center lg:justify-end"
                                             v-if="props.isGuidedTour">
-                                            <FormButton buttonStyle="primary" @click="handleBack()"
-                                                class="w-fit rounded-md px-6">
+                                            <FormButton buttonStyle="primary" @click="handleBack()" class="w-fit px-6">
                                                 {{ $t('back') }}
                                             </FormButton>
-                                            <FormButton buttonStyle="primary" @click="handleNext()"
-                                                class="w-fit rounded-md px-6">
+                                            <FormButton buttonStyle="primary" @click="handleNext()" class="w-fit px-6">
                                                 {{ $t('next') }}
                                             </FormButton>
                                         </div>
