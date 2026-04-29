@@ -38,6 +38,12 @@ function findElementByText(term: string): Element | null {
             if (!parent) return NodeFilter.FILTER_REJECT
             const tag = parent.tagName.toLowerCase()
             if (['script', 'style', 'noscript', 'meta'].includes(tag)) return NodeFilter.FILTER_REJECT
+            // Skip content inside excluded zones (e.g. citizen details header)
+            let ancestor: Element | null = parent
+            while (ancestor && ancestor !== root) {
+                if (ancestor.hasAttribute('data-search-exclude')) return NodeFilter.FILTER_REJECT
+                ancestor = ancestor.parentElement
+            }
             return NodeFilter.FILTER_ACCEPT
         },
     })
