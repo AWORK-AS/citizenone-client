@@ -345,13 +345,13 @@
                                             employee?.total_norm_hours?.compensatory_hours) ?? 0
                                     }}
                                 </div>
-                                <div :class="[employee?.total_norm_hours?.available_vacation_hours > 0 ? 'text-green-700' : 'text-red-700', 'flex items-center gap-1 cursor-pointer text-xxs']"
+                                <div :class="[employee?.total_norm_hours?.available_vacation_days > 0 ? 'text-green-700' : 'text-red-700', 'flex items-center gap-1 cursor-pointer text-xxs']"
                                     @click="viewAvailableVacationHours(employee)">
                                     <Icon name="ph:clock" class="h-3 w-3" />
-                                    {{ $t('dutySchedules.normHours.availableVacationHours') }}:
+                                    {{ $t('dutySchedules.normHours.availableVacationDays') }}:
                                     {{
                                         formatNumber(language.locale.value,
-                                            employee?.total_norm_hours?.available_vacation_hours || 0)
+                                            employee?.total_norm_hours?.available_vacation_days || 0)
                                     }}
                                 </div>
                             </div>
