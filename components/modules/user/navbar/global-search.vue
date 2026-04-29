@@ -362,7 +362,11 @@ async function executeSearch() {
 
     isSearching.value = true
     try {
-        const result = await generalSearchService.search(query, 5, signal)
+        const params = {
+            search: JSON.stringify([query]),
+            page_length: 5,
+        }
+        const result = await generalSearchService.search(params, signal)
         searchResults.value = result
         hasSearched.value = true
         saveRecentSearch(query)
