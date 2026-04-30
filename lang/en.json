@@ -28,6 +28,7 @@
         "newContact": "New contact",
         "noContactsInAddressBook": "No contacts in address book",
         "unassignContact": "Unassign",
+        "useContact": "Use",
         "alert": {
             "contactSuccessfullyAssigned": "Contact successfully assigned",
             "contactSuccessfullyDeleted": "Contact successfully deleted",

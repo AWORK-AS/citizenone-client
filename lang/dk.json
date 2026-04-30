@@ -28,6 +28,7 @@
         "newContact": "Ny kontakt",
         "noContactsInAddressBook": "Ingen kontakter i adressebogen",
         "unassignContact": "Fjern tildeling",
+        "useContact": "Brug",
         "alert": {
             "contactSuccessfullyAssigned": "Kontakt tildelt",
             "contactSuccessfullyDeleted": "Kontakt slettet",

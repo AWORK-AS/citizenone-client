@@ -20,17 +20,10 @@
                                 </p>
                                 <p class="text-xs text-gray-400" v-if="contact?.email">{{ contact?.email }}</p>
                             </div>
-                            <FormButton
-                                v-if="!isAlreadyAssigned(contact.uuid)"
-                                buttonStyle="action"
-                                @click="assign(contact)"
-                            >
-                                <Icon name="ph:link" class="size-4" />
-                                {{ $t('addressBook.assign') }}
+                            <FormButton buttonStyle="action" @click="useContact(contact)">
+                                <Icon name="ph:arrow-square-out" class="size-4" />
+                                {{ $t('addressBook.useContact') }}
                             </FormButton>
-                            <Badge v-else type="success">
-                                <p class="text-xxs px-2">{{ $t('addressBook.assigned') }}</p>
-                            </Badge>
                         </div>
                     </div>
                 </LoadingSpinner>
@@ -41,13 +34,9 @@
 
 <script setup lang="ts">
 import { companyContactService } from '@/components/api/user/CompanyContactService'
-import { citizenCompanyContactService } from '@/components/api/user/CitizenCompanyContactService'
-import { useAlert } from '@/composables/alert'
 import { useI18n } from 'vue-i18n'
 import type { Error } from '@/types'
 
-const { successAlert } = useAlert()
-const { t } = useI18n()
 const language = useI18n()
 
 const props = defineProps({
@@ -55,17 +44,9 @@ const props = defineProps({
         type: Boolean,
         required: true,
     },
-    citizenUuid: {
-        type: String,
-        required: true,
-    },
-    assignedContacts: {
-        type: Array as () => any[],
-        default: () => [],
-    },
 })
 
-const emit = defineEmits(['close', 'refreshAddressBookContacts'])
+const emit = defineEmits(['close', 'prefillContact'])
 
 const state = reactive({
     contacts: [] as any[],
@@ -90,17 +71,8 @@ async function fetchAddressBook() {
     state.isLoading = false
 }
 
-function isAlreadyAssigned(contactUuid: string) {
-    return props.assignedContacts.some((c: any) => c.uuid === contactUuid)
-}
-
-async function assign(contact: any) {
-    try {
-        await citizenCompanyContactService.assign(props.citizenUuid, contact.uuid)
-        successAlert(`${t('alert.success')}!`, `${t('addressBook.alert.contactSuccessfullyAssigned')}.`)
-        emit('refreshAddressBookContacts')
-    } catch (error: any) {
-        state.error = error
-    }
+function useContact(contact: any) {
+    emit('prefillContact', contact)
+    emit('close')
 }
 </script>

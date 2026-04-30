@@ -27,6 +27,10 @@ const props = defineProps({
         type: Boolean,
         required: true,
     },
+    prefillData: {
+        type: Object as () => any,
+        default: null,
+    },
 })
 const router = useRouter()
 const citizenUuid = router?.currentRoute?.value?.params?.uuid
@@ -39,6 +43,7 @@ const state = reactive({
         uuid: '',
         title: '',
         contact_job_title_uuid: '',
+        company_contact_uuid: '',
         employees_uuid: [],
         firstname: '',
         lastname: '',
@@ -49,14 +54,27 @@ const state = reactive({
         municipality: '',
         city: '',
         post_code: '',
-        // risk_level: '',
-        // notification_types: [],
         notifications: [{
             notification_uuid: '',
             risk_level_uuid: '',
         }],
         has_system_access: false,
     },
+})
+
+watch(() => props.prefillData, (data) => {
+    if (!data) return
+    state.formContact.company_contact_uuid = data.uuid ?? ''
+    state.formContact.contact_job_title_uuid = data.contact_job_title?.uuid ?? ''
+    state.formContact.firstname = data.firstname ?? ''
+    state.formContact.lastname = data.lastname ?? ''
+    state.formContact.email = data.email ?? ''
+    state.formContact.phone = data.phone ?? ''
+    state.formContact.street = data.street ?? ''
+    state.formContact.region = data.region?.uuid ?? ''
+    state.formContact.municipality = data.municipality?.uuid ?? ''
+    state.formContact.city = data.city?.uuid ?? ''
+    state.formContact.post_code = data.post_code ?? ''
 })
 
 function closeModal() {
@@ -96,6 +114,7 @@ async function saveContact(contactDetails: any) {
                 city_uuid: contactDetails.city,
                 post_code: contactDetails.post_code,
                 has_system_access: contactDetails.has_system_access,
+                company_contact_uuid: state.formContact.company_contact_uuid || null,
             }
         }
         const response = await citizenContactService.saveContact(params)
