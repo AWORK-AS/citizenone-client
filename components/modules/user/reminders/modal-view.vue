@@ -5,19 +5,50 @@
                 <LoadingSpinner :isActive="state.isPageLoading">
                     <Alert type="danger" :text="state?.error?.message"
                         v-if="state.error?.message && state.error.message.length > 0" />
-                    <div v-if="state.reminder?.due_dates?.length > 0" class="mt-10 mb-4 space-y-2">
-                        <div v-for="(due, index) in state.reminder?.due_dates" :key="index" class="bg-white shadow-md rounded-md border-l-8 mt-2 text-sm space-y-2 pr-5 pt-5 pb-5 pl-6 mr-1
-                        border-yellow-500">
-                            <div class="flex items-center justify-between">
-                                <div>
-                                    <p class="text-lg">
+                    <div v-if="state.reminder?.due_dates?.length > 0" class="mt-6 space-y-3">
+                        <div v-for="(due, index) in state.reminder?.due_dates" :key="index"
+                            class="rounded-xl border transition-colors px-5 pt-4 pb-4"
+                            :class="due?.is_complete
+                                ? 'bg-green-50 border-green-200'
+                                : 'bg-white border-gray-200 shadow-sm'">
+                            <div class="flex items-start gap-3">
+                                <!-- Completion indicator -->
+                                <div class="mt-0.5 w-6 h-6 rounded-full flex items-center justify-center flex-shrink-0 transition-all"
+                                    :class="due?.is_complete
+                                        ? 'bg-green-500'
+                                        : 'border-2 border-gray-300'">
+                                    <Icon v-if="due?.is_complete" name="ph:check" class="h-3.5 w-3.5 text-white" />
+                                </div>
+
+                                <div class="grow min-w-0">
+                                    <p class="font-semibold leading-snug transition-all"
+                                        :class="due?.is_complete ? 'line-through text-gray-400' : 'text-gray-900'">
                                         {{ state.reminder?.title }}
                                     </p>
-                                    <p class="text-sm">
+                                    <p class="text-sm text-gray-500 mt-0.5">
                                         {{ formatDateTimeToReadable(due?.date) }}
                                     </p>
+
+                                    <!-- Completion log -->
+                                    <div v-if="due?.is_complete"
+                                        class="flex items-center gap-1 mt-2 text-xs text-green-700">
+                                        <Icon name="ph:check-circle-fill" class="h-3.5 w-3.5 flex-shrink-0" />
+                                        <span>{{ $t('reminders.table.completed') }}</span>
+                                        <template v-if="due?.completed_by?.firstname || due?.completed_by?.lastname">
+                                            <span>·</span>
+                                            <span class="font-medium">
+                                                {{ due.completed_by?.firstname }} {{ due.completed_by?.lastname }}
+                                            </span>
+                                            <template v-if="due.completed_by?.profile_image">
+                                                <img :src="due.completed_by.profile_image"
+                                                    class="w-4 h-4 rounded-full object-cover ml-0.5"
+                                                    :alt="due.completed_by.firstname" />
+                                            </template>
+                                        </template>
+                                    </div>
                                 </div>
-                                <div class="flex items-center gap-x-4">
+
+                                <div class="flex-shrink-0">
                                     <Tooltip :text="$t('reminders.table.markAsComplete')" v-if="!due?.is_complete">
                                         <FormButton buttonStyle="primary" buttonSize="sm"
                                             @click="markAsCompleteIncomplete(due)">
@@ -25,9 +56,9 @@
                                         </FormButton>
                                     </Tooltip>
                                     <Tooltip :text="$t('reminders.table.markAsIncomplete')" v-else>
-                                        <FormButton buttonStyle="primary" buttonSize="sm"
-                                            @click="markAsCompleteIncomplete(due)">
-                                            <Icon name="ph:x" class="h-4 w-4" aria-hidden="true" />
+                                        <FormButton buttonSize="sm" @click="markAsCompleteIncomplete(due)">
+                                            <Icon name="ph:arrow-counter-clockwise" class="h-4 w-4"
+                                                aria-hidden="true" />
                                         </FormButton>
                                     </Tooltip>
                                 </div>
@@ -72,7 +103,7 @@ const state = reactive({
     reminder: {} as any,
 })
 
-const emit = defineEmits(['close'])
+const emit = defineEmits(['close', 'refreshReminders'])
 
 function closeModal() {
     emit('close')
@@ -110,6 +141,7 @@ async function markAsCompleteIncomplete(reminder: any) {
         const response = await reminderService.toggleReminderCompleteIncomplete(params)
         if (response) {
             fetchReminder()
+            emit('refreshReminders')
         }
     } catch (error: any) {
         state.error = error
