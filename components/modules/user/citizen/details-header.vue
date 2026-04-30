@@ -31,11 +31,11 @@
                                                 {{ state.selectedCitizen?.data?.firstname }}
                                                 {{ state.selectedCitizen?.data?.lastname }}
                                             </h1>
-                                            <Tooltip :text="$t('citizens.table.actions.edit')">
+                                            <Tooltip :text="$t('citizens.table.actions.edit')"
+                                                v-if="userStore.getUser?.roles?.[0]?.name === 'Admin' || userStore.user?.permissions?.find((p: any) => p.name === 'update_citizen')">
                                                 <Icon name="ph:pencil-simple"
                                                     class="w-6 h-6 cursor-pointer text-primary"
-                                                    @click="navigateTo(`/citizens/${state.selectedCitizen?.data?.uuid}/view-edit`)"
-                                                    v-if="userStore.getUser?.roles?.[0]?.name === 'Admin'" />
+                                                    @click="navigateTo(`/citizens/${state.selectedCitizen?.data?.uuid}/view-edit`)" />
                                             </Tooltip>
                                             <Tooltip :text="$t('plansandgoals.followUps')">
                                                 <div class="relative inline-flex mx-1 cursor-pointer"
