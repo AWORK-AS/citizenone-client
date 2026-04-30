@@ -6362,6 +6362,7 @@
             "updateCitizenJournal": "update citizen journal",
             "updateCitizenMedicine": "update citizen medicine",
             "updateCitizenPlan": "update citizen plan",
+            "updateCitizen": "update citizen",
             "updateFormFieldConfig": "update citizen form field configuration",
             "updateSchedule": "update schedule",
             "viewCitizenCalendar": "view citizen calendar",
