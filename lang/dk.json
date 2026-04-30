@@ -6232,6 +6232,7 @@
         }
     },
     "reminders": {
+        "allCaughtUp": "Du er helt ajour!",
         "assign": "Tildel",
         "assignAnEmployee": "Tildel en medarbejder",
         "assignees": "Modtagere",

@@ -6232,6 +6232,7 @@
         }
     },
     "reminders": {
+        "allCaughtUp": "You're all caught up!",
         "assign": "Assign",
         "assignAnEmployee": "Assign an employee",
         "assignees": "Assignees",
