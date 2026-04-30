@@ -18,6 +18,10 @@ class CitizenWalletTransactionService extends BaseAPIService {
         return await this.request(`/user/citizen-wallet-transactions/${walletTransactionUuid}`, 'DELETE')
     }
 
+    async deleteWalletTransactionFile(fileUuid: any): Promise<any> {
+        return await this.request(`/user/citizen-wallet-transaction-files/${fileUuid}`, 'DELETE')
+    }
+
     async sendWalletTransaction(params: object): Promise<any> {
         return await this.request(`/user/citizen-wallet-transactions/transactions-per-citizen/send`, 'POST', params)
     }

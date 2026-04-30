@@ -2571,10 +2571,12 @@
         },
         "walletTransactions": {
             "alert": {
-                "deletedSuccessfully": "Wallet transaction successfully deleted"
+                "deletedFileSuccessfully": "Wallet transaction file successfully deleted",
+                "deletedTransactionSuccessfully": "Wallet transaction successfully deleted"
             },
             "confirmation": {
-                "deleteConfirmation": "Are you sure you want to delete this transaction"
+                "deleteTransactionConfirmation": "Are you sure you want to delete this transaction",
+                "deleteFileConfirmation": "Are you sure you want to delete this transaction file"
             },
             "editWalletTransaction": "Edit wallet transaction",
             "form": {
@@ -2593,7 +2595,8 @@
             "table": {
                 "actions": {
                     "delete": "Delete",
-                    "edit": "Edit"
+                    "edit": "Edit",
+                    "remove": "Remove"
                 },
                 "amount": "Amount",
                 "cashIn": "Cash in",
