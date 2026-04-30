@@ -68,8 +68,23 @@
                 </div>
             </div>
             <div class="space-y-3" v-if="props.selectedMedicine.is_pn_medicine">
-                <div class="space-y-1">
-                    <FormLabel for="dosage" :label="$t('citizens.medicineJournals.history.form.dose')" />
+                <div class="space-y-2">
+                    <div class="flex items-center gap-x-1">
+                        <FormLabel for="dosage" :label="$t('citizens.medicineJournals.history.form.dose')" />
+                        <div
+                            class="bg-blue-50 border border-blue-200 rounded-md text-blue-600 p-1 text-xs flex items-center gap-x-1">
+                            <div class="flex items-center">
+                                <Icon name="ph:info" class="h-3.5 w-3.5" aria-hidden="true" />
+                            </div>
+                            {{
+                                $t('citizens.medicineJournals.history.form.maximumDosePerAdministrationForThisCitizenIs',
+                                    {
+                                        n:
+                                            props.selectedMedicine?.max_dose_per_administration
+                                    })
+                            }}.
+                        </div>
+                    </div>
                     <FormTextField id="dosage" name="dosage"
                         :placeholder="$t('citizens.medicineJournals.history.form.dose')"
                         v-model="state.formMedicineHistory.dosage" />

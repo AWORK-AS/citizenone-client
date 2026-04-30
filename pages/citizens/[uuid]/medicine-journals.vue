@@ -675,9 +675,9 @@
                                     <div v-for="medicine in regularMedicines" :key="medicine.uuid">
                                         <div v-for="dosage in getMonthDosagesForDay(medicine, day.dateStr)"
                                             :key="dosage.time"
-                                            :class="['mb-0.5 rounded-full overflow-hidden border cursor-pointer', getMonthSlotBorderClass(dosage.status, dosage.time, day.dateStr)]"
+                                            :class="['mb-0.5 rounded-md overflow-hidden border cursor-pointer', getMonthSlotBorderClass(dosage.status, dosage.time, day.dateStr)]"
                                             @click="openGiveMedicineOnDate(medicine, dosage, day)">
-                                            <div :class="['px-3 py-0.5', getMonthSlotBgClass(dosage.status, dosage.time, day.dateStr)]"
+                                            <div :class="['px-2 py-1', getMonthSlotBgClass(dosage.status, dosage.time, day.dateStr)]"
                                                 style="font-size:10px;line-height:1.4">
                                                 <p class="font-medium">
                                                     {{
@@ -685,6 +685,16 @@
                                                             medicine?.medicine?.en_name :
                                                             medicine?.medicine?.dk_name
                                                     }}
+                                                </p>
+                                                <p class="text-gray-500">
+                                                    {{ medicine?.medicine?.ingredients }}
+                                                    <span v-if="medicine?.strength"> ·
+                                                        {{ medicine?.strength }}
+                                                        ·
+                                                        {{
+                                                            medicine?.mass_unit?.name ? ' ' + medicine.mass_unit.name : ''
+                                                        }}
+                                                    </span>
                                                 </p>
                                                 <p>
                                                     <span v-if="dosage.dosage">
@@ -818,8 +828,16 @@
                                                     <Icon name="ph:eye" class="size-4" />
                                                 </FormButton>
                                             </Tooltip>
+                                            <Tooltip
+                                                :text="$t('citizens.medicineJournals.table.actions.givePNMedicine')"
+                                                position="left" v-if="medicine.is_pn_medicine">
+                                                <FormButton buttonStyle="action" class="rounded-md text-xs shrink-0"
+                                                    @click="givePNMedicine(medicine)">
+                                                    <Icon name="ph:plus" class="size-3" />
+                                                </FormButton>
+                                            </Tooltip>
                                             <Tooltip :text="$t('citizens.medicineJournals.table.actions.giveMedicine')"
-                                                position="left">
+                                                position="left" v-else>
                                                 <FormButton type="button" buttonStyle="action" class="rounded-md"
                                                     @click="giveMedicine(medicine)">
                                                     <Icon name="ph:plus" class="size-4" />

@@ -165,6 +165,7 @@ const PERMISSION_LABELS: Record<string, string> = {
     'delete_citizen_children': 'roles.permissions.deleteCitizenChildren',
     'delete_calendar': 'roles.permissions.deleteCalendar',
     'create_citizen': 'roles.permissions.createCitizen',
+    'update_form_field_config': 'roles.permissions.updateFormFieldConfig',
 }
 
 onMounted(() => {

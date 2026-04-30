@@ -6,9 +6,15 @@
                 <Title>{{ $t('overview.overview') }} - {{ runtimeConfig?.public?.appName }}</Title>
             </Head>
 
+            <template #breadcrumb>
+                <Breadcrumb :links="breadcrumbLinks" />
+            </template>
+
             <template #header>
                 <div class="flex items-center gap-x-4">
-                    <span>{{ $t('overview.dailyOverview') || 'Daily overview' }}</span>
+                    <span>
+                        {{ $t('overview.overview') }}
+                    </span>
                     <!-- Date navigator -->
                     <div
                         class="flex items-center gap-x-2 bg-white rounded-lg border border-surface-200 shadow-sm px-3 py-1.5">
@@ -28,7 +34,7 @@
 
             <template #guided-tour>
                 <div class="flex items-center gap-x-2">
-                    <Tooltip :text="$t('guidedTour')" @click="openGuidedTour()">
+                    <Tooltip :text="$t('guidedTour')" position="left" @click="openGuidedTour()">
                         <Icon name="ph:question"
                             class="size-5 cursor-pointer text-slate-400 hover:text-slate-600 transition-colors"
                             aria-hidden="true" />
@@ -331,6 +337,13 @@ import { useDailyOverviewStore } from '@/store/daily-overview'
 import { useDepartmentStore } from '@/store/department'
 import type { Error } from '@/types'
 
+const breadcrumbLinks = [
+    {
+        name: 'overview.overview',
+        translate: true,
+        href: '/overview',
+    },
+]
 const runtimeConfig = useRuntimeConfig()
 const overviewStore = useDailyOverviewStore()
 const departmentStore = useDepartmentStore()
@@ -399,19 +412,40 @@ watch(() => userStore.getUser, (user: any) => {
 })
 
 function formatDisplayDate() {
-    return state.currentDate.format('dddd, D MMMM YYYY')
+    const start = moment(state.dateRange.formDateRange.start_date)
+    const end = moment(state.dateRange.formDateRange.end_date)
+    if (start.isSame(end, 'day')) {
+        return start.format('DD. MMMM YYYY')
+    }
+    return `${start.format('DD. MMMM YYYY')} - ${end.format('DD. MMMM YYYY')}`
 }
 
 function previousDay() {
-    state.currentDate = moment(state.currentDate).subtract(1, 'day')
-    state.dateRange.formDateRange.start_date = state.currentDate.format('YYYY-MM-DD')
-    state.dateRange.formDateRange.end_date = state.currentDate.format('YYYY-MM-DD')
+    const start = moment(state.dateRange.formDateRange.start_date)
+    const end = moment(state.dateRange.formDateRange.end_date)
+    const diff = end.diff(start, 'days') + 1
+    const newStart = start.clone().subtract(diff, 'days')
+    const newEnd = end.clone().subtract(diff, 'days')
+    state.dateRange.formDateRange.start_date = newStart.format('YYYY-MM-DD')
+    state.dateRange.formDateRange.end_date = newEnd.format('YYYY-MM-DD')
+    state.currentDate = newStart
+    fetchCitizenCalendarEvents(state.dateRange.formDateRange)
+    fetchCitizensLatestJournal(state.dateRange.formDateRange)
+    fetchCitizensMedicines(state.dateRange.formDateRange)
 }
 
 function nextDay() {
-    state.currentDate = moment(state.currentDate).add(1, 'day')
-    state.dateRange.formDateRange.start_date = state.currentDate.format('YYYY-MM-DD')
-    state.dateRange.formDateRange.end_date = state.currentDate.format('YYYY-MM-DD')
+    const start = moment(state.dateRange.formDateRange.start_date)
+    const end = moment(state.dateRange.formDateRange.end_date)
+    const diff = end.diff(start, 'days') + 1
+    const newStart = start.clone().add(diff, 'days')
+    const newEnd = end.clone().add(diff, 'days')
+    state.dateRange.formDateRange.start_date = newStart.format('YYYY-MM-DD')
+    state.dateRange.formDateRange.end_date = newEnd.format('YYYY-MM-DD')
+    state.currentDate = newStart
+    fetchCitizenCalendarEvents(state.dateRange.formDateRange)
+    fetchCitizensLatestJournal(state.dateRange.formDateRange)
+    fetchCitizensMedicines(state.dateRange.formDateRange)
 }
 
 function scrollToNewsIfNeeded() {
@@ -510,8 +544,6 @@ async function fetchCitizensMedicines(dateRange: any) {
             state.stats.medicinesDeviatedCount = todayDueDates.filter(
                 (dueDate: any) => dueDate.status === 'deviated'
             ).length
-
-            console.log(state.stats.medicines)
         }
     } catch (error: any) {
         state.error = error

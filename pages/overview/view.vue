@@ -6,7 +6,28 @@
                 <Title>{{ $t('overview.overview') }} - {{ runtimeConfig?.public?.appName }}</Title>
             </Head>
 
-            <template #header>{{ $t('overview.overview') }}</template>
+            <template #header>
+                <div class="flex items-center gap-x-4">
+                    <span>
+                        {{ $t('overview.overview') }}
+                    </span>
+                    <!-- Date navigator -->
+                    <div
+                        class="flex items-center gap-x-2 bg-white rounded-lg border border-surface-200 shadow-sm px-3 py-1.5">
+                        <button @click="previousDay" class="p-0.5 rounded hover:bg-surface-100 transition-colors">
+                            <Icon name="heroicons:chevron-left-20-solid" class="h-4 w-4 text-slate-400" />
+                        </button>
+                        <button @click="state.modal.isDailyOverviewDateRangeOpen = true"
+                            class="text-sm font-medium text-slate-700 hover:text-primary transition-colors px-1">
+                            {{ formatDisplayDate() }}
+                        </button>
+                        <button @click="nextDay" class="p-0.5 rounded hover:bg-surface-100 transition-colors">
+                            <Icon name="heroicons:chevron-right-20-solid" class="h-4 w-4 text-slate-400" />
+                        </button>
+                    </div>
+                </div>
+            </template>
+
             <div>
                 <NuxtLink class="flex items-center gap-x-2 mb-3 max-w-fit hover:cursor-pointer" to="/overview">
                     <Icon name="ph:arrow-left" size="20" class="text-black" />
@@ -15,21 +36,13 @@
             </div>
 
             <div class="flex gap-x-2">
-                <button class="flex items-center gap-x-1 text-sm text-primary group"
-                    @click="state.modal.isFilterDailyOverviewViewAllOpen = true">
-                    <Icon name="ic:outline-filter-list" class="text-primary w-6 h-6 group-hover:text-primary-700" />
-                    <span class="group-hover:text-primary-700">
-                        {{ $t('showHide') }}
-                    </span>
-                </button>
-                <button class="text-sm text-primary hover:text-primary-700 hover:underline"
-                    @click="state.modal.isDailyOverviewDateRangeOpen = true">
-                    ({{ formatDateToReadable(state.dateRange.formDateRange.start_date) }} -
-                    {{ formatDateToReadable(state.dateRange.formDateRange.end_date) }})
-                </button>
-                <div>
-                    <Icon name="ph:question" class="w-4 h-4 cursor-pointer text-gray-700" aria-hidden="true"
-                        @click="state.modal.isDateRangeHelperOpen = true" />
+                <div class="flex items-center gap-x-2">
+                    <button
+                        class="flex items-center gap-x-1.5 text-sm text-slate-500 hover:text-primary transition-colors rounded-lg px-2.5 py-1.5 hover:bg-primary-25"
+                        @click="state.modal.isFilterDailyOverviewViewAllOpen = true">
+                        <Icon name="ph:sliders-horizontal" class="w-4 h-4" />
+                        <span>{{ $t('showHide') }}</span>
+                    </button>
                 </div>
             </div>
 
@@ -69,15 +82,14 @@
 <script setup lang="ts">
 import moment from 'moment'
 import { useUserStore } from '@/store/user'
-import { useDatetimeFormatter } from '@/composables/datetimeFormatter'
 import { useDailyOverviewStore } from '@/store/daily-overview'
 
 const runtimeConfig = useRuntimeConfig()
 const overviewStore = useDailyOverviewStore()
 const userStore = useUserStore()
-const { formatDateToReadable } = useDatetimeFormatter()
 
 const state = reactive({
+    currentDate: moment(),
     dateRange: {
         formDateRange: {
             start_date: moment().startOf('isoWeek').format('YYYY-MM-DD'),
@@ -116,6 +128,37 @@ watch(() => userStore.getUser, (user: any) => {
         }
     }
 })
+
+function formatDisplayDate() {
+    const start = moment(state.dateRange.formDateRange.start_date)
+    const end = moment(state.dateRange.formDateRange.end_date)
+    if (start.isSame(end, 'day')) {
+        return start.format('DD. MMMM YYYY')
+    }
+    return `${start.format('DD. MMMM YYYY')} - ${end.format('DD. MMMM YYYY')}`
+}
+
+function previousDay() {
+    const start = moment(state.dateRange.formDateRange.start_date)
+    const end = moment(state.dateRange.formDateRange.end_date)
+    const diff = end.diff(start, 'days') + 1
+    const newStart = start.clone().subtract(diff, 'days')
+    const newEnd = end.clone().subtract(diff, 'days')
+    state.dateRange.formDateRange.start_date = newStart.format('YYYY-MM-DD')
+    state.dateRange.formDateRange.end_date = newEnd.format('YYYY-MM-DD')
+    state.currentDate = newStart
+}
+
+function nextDay() {
+    const start = moment(state.dateRange.formDateRange.start_date)
+    const end = moment(state.dateRange.formDateRange.end_date)
+    const diff = end.diff(start, 'days') + 1
+    const newStart = start.clone().add(diff, 'days')
+    const newEnd = end.clone().add(diff, 'days')
+    state.dateRange.formDateRange.start_date = newStart.format('YYYY-MM-DD')
+    state.dateRange.formDateRange.end_date = newEnd.format('YYYY-MM-DD')
+    state.currentDate = newStart
+}
 
 async function filterDailyOverviewByDate(formDateRange: any) {
     state.dateRange.formDateRange.start_date = formDateRange.start_date

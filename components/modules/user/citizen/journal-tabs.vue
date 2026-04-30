@@ -1,5 +1,6 @@
 <template>
-    <Tabs :tabs="state.tabs" :isJustifyBetween="state.tabs?.length > 4 ? true : false" @changeTab="changeTab" />
+    <Tabs id="journal-tabs" :tabs="state.tabs" :isJustifyBetween="state.tabs?.length > 4 ? true : false"
+        @changeTab="changeTab" />
 </template>
 
 <script setup lang="ts">

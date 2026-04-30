@@ -13,7 +13,7 @@
             props.buttonStyle === 'back' && 'text-tertiary hover:text-tertiary/90 pl-0',
             props.buttonStyle === 'cancel' && 'bg-gray-200/50 border-1.5 border-gray-200 hover:bg-gray-200/70',
             props.buttonStyle === 'white' && 'py-3 bg-white hover:hover:bg-tertiary-25',
-            props.buttonStyle === 'get-started' && 'bg-upgrade border border-upgrade text-white hover:bg-green-600',
+            props.buttonStyle === 'get-started' && 'bg-upgrade border border-upgrade text-upgrade hover:bg-green-600',
             props.buttonStyle === 'no-risk' && 'bg-green-700 border border-green-700 text-white',
             props.buttonStyle === 'increased-risk' && 'bg-yellow-500 border border-yellow-500 text-white',
             props.buttonStyle === 'acute-increased-risk' && 'bg-red-600 border border-red-600 text-white',

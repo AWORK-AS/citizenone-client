@@ -40,9 +40,13 @@
                             <div>
                                 <p class="text-sm font-semibold text-[#0f4c75]">{{ $t('register.oauthBannerTitle') }}
                                 </p>
-                                <p class="text-xs text-[#64748b] mt-0.5">{{ $t('register.oauthBannerDescription', {
-                                    provider: state.oauthProvider === 'google' ? 'Google' : 'Microsoft'
-                                }) }}</p>
+                                <p class="text-xs text-[#64748b] mt-0.5">
+                                    {{
+                                        $t('register.oauthBannerDescription', {
+                                            provider: state.oauthProvider === 'google' ? 'Google' : 'Microsoft'
+                                        })
+                                    }}
+                                </p>
                             </div>
                         </div>
                         <div class="mt-10 flex justify-between items-center">

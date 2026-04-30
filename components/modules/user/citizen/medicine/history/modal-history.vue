@@ -4,8 +4,7 @@
             <template #modal-body>
                 <div>
                     <div class="flex justify-end items-center mb-5">
-                        <FormButton buttonStyle="action" class="rounded-lg"
-                            @click="state.modal.isAddMedicineHistoryOpen = true">
+                        <FormButton buttonStyle="action" @click="state.modal.isAddMedicineHistoryOpen = true">
                             <Icon name="ph:plus" class="h-4 w-4" aria-hidden="true" />
                             {{ $t('citizens.medicineJournals.history.giveMedicine') }}
                         </FormButton>
@@ -266,12 +265,12 @@
                                             </td>
                                             <td width="10%">
                                                 <div class="flex items-end gap-2">
-                                                    <FormButton type="button" buttonStyle="action" class="rounded-md"
+                                                    <FormButton type="button" buttonStyle="action"
                                                         @click="editMedicineHistory(medicineHistory)">
                                                         <Icon name="ph:pencil-simple" class="size-4" />
                                                         {{ $t('citizens.medicineJournals.table.actions.edit') }}
                                                     </FormButton>
-                                                    <FormButton type="button" buttonStyle="danger" class="rounded-md"
+                                                    <FormButton type="button" buttonStyle="danger"
                                                         @click="confirmMedicineDeletion(medicineHistory)">
                                                         <Icon name="ph:trash-duotone" class="size-4" />
                                                         {{ $t('citizens.medicineJournals.table.actions.delete') }}

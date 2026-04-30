@@ -1688,6 +1688,7 @@
                 "ingredientsLabel": "Er der andre ingredienser, der er relevante at nævne",
                 "maxDailyDose": "Maksimal daglig dosis",
                 "maxDosagePerTime": "Maksimal dosis pr. gang",
+                "maximumDosePerAdministration": "Maksimal dosis pr. administration",
                 "medicationTypes": {
                     "all": "Alle",
                     "medicationType": "Medicin type",
@@ -1742,6 +1743,7 @@
                     "dose": "Dosis",
                     "evaluationFrequency": "Hvornår vil du evaluere",
                     "evaluator": "Evaluator",
+                    "maximumDosePerAdministrationForThisCitizenIs": "Maksimal dosis pr. administration for denne borger er {n} for dette PN-præparat.",
                     "noMedicineToday": "Grunden til, at du ikke ser nogen mulighed for at udlevere medicin, er, at borgeren ikke skal have medicin i dag",
                     "time": "Tid",
                     "type": {
@@ -1935,6 +1937,7 @@
                     "delete": "Slet",
                     "edit": "Rediger",
                     "giveMedicine": "Giv medicin",
+                    "givePNMedicine": "Giv PN-medicin",
                     "medicineHistory": "Medicinhistorik",
                     "view": "Se"
                 },
@@ -2570,10 +2573,12 @@
         },
         "walletTransactions": {
             "alert": {
-                "deletedSuccessfully": "Pungtransaktion slettet med succes"
+                "deletedFileSuccessfully": "Wallet-transaktionsfilen blev slettet",
+                "deletedTransactionSuccessfully": "Wallet-transaktionen blev slettet"
             },
             "confirmation": {
-                "deleteConfirmation": "Er du sikker på, at du vil slette denne transaktion"
+                "deleteTransactionConfirmation": "Er du sikker på, at du vil slette denne transaktion",
+                "deleteFileConfirmation": "Er du sikker på, at du vil slette denne transaktionsfil"
             },
             "editWalletTransaction": "Rediger pungtransaktion",
             "form": {
@@ -2592,7 +2597,8 @@
             "table": {
                 "actions": {
                     "delete": "Slet",
-                    "edit": "Rediger"
+                    "edit": "Rediger",
+                    "remove": "Fjern"
                 },
                 "amount": "Beløb",
                 "cashIn": "Indbetaling",
@@ -4618,6 +4624,29 @@
         "nonbinary": "Ikke-binær",
         "willNotDisclose": "Vil ikke oplyse"
     },
+    "globalSearch": {
+        "attendance": "Fremmøde",
+        "bookings": "Bookinger",
+        "calendar": "Kalender",
+        "citizens": "Borgere",
+        "companies": "Virksomheder",
+        "contacts": "Kontakter",
+        "documents": "Dokumenter",
+        "economy": "Økonomi",
+        "employees": "Medarbejdere",
+        "health": "Sygepleje",
+        "hint": "Begynd at skrive for at søge på tværs af hele systemet...",
+        "invoices": "Fakturaer",
+        "journals": "Journaler",
+        "medicines": "Medicin",
+        "noResults": "Ingen resultater fundet",
+        "pages": "Sider",
+        "placeholder": "Søge på borgere, journaler, medicin og mere...",
+        "plans": "Planer & Mål",
+        "recent": "Seneste søgninger",
+        "searching": "Søger...",
+        "sectionSettings": "Indstillinger"
+    },
     "goToToday": "Gå til i dag",
     "guidedTour": "Guidet tur",
     "helpGuide": {
@@ -6317,44 +6346,47 @@
         },
         "newRole": "Ny rolle",
         "permissions": {
-            "createCitizen": "opret borger",
-            "createCitizenCalendar": "opret borgerkalender",
-            "createCitizenChildren": "opret borgerbørn",
-            "createCitizenContact": "opret borgerkontakt",
-            "createCitizenDocument": "opret borgerdokument",
-            "createCitizenEconomy": "opret borgerøkonomi",
-            "createCitizenHealth": "opret borgersundhed",
-            "createCitizenJournal": "opret borgerjournal",
-            "createCitizenMedicine": "opret borgermedicin",
-            "createCitizenPlan": "opret borgerplan",
-            "createSchedule": "opret vagtplan",
-            "deleteCalendarEvent": "slet kalenderhændelse",
-            "deleteCitizenCalendar": "slet borgerkalender",
-            "deleteCitizenChildren": "slet borgerbørn",
-            "deleteCitizenContact": "slet borgerkontakt",
-            "deleteCitizenDocument": "slet borgerdokument",
-            "deleteCitizenEconomy": "slet borgerøkonomi",
-            "deleteCitizenHealth": "slet borgersundhed",
-            "deleteCitizenJournal": "slet borgerjournal",
-            "deleteCitizenMedicine": "slet borgermedicin",
-            "deleteCitizenPlan": "slet borgerplan",
-            "deleteSchedule": "slet vagtplan",
-            "readSchedule": "se vagtplan",
+            "createCitizen": "Opret borger",
+            "createCitizenCalendar": "Opret borgerkalender",
+            "createCitizenChildren": "Opret borgerbørn",
+            "createCitizenContact": "Opret borgerkontakt",
+            "createCitizenDocument": "Opret borgerdokument",
+            "createCitizenEconomy": "Opret borgerøkonomi",
+            "createCitizenHealth": "Opret borgersundhed",
+            "createCitizenJournal": "Opret borgerjournal",
+            "createCitizenMedicine": "Opret borgermedicin",
+            "createCitizenPlan": "Opret borgerplan",
+            "createSchedule": "Opret vagtplan",
+            "deleteCalendar": "Slet kalender",
+            "deleteCalendarEvent": "Slet kalenderhændelse",
+            "deleteCitizenCalendar": "Slet borgerkalender",
+            "deleteCitizenChildren": "Slet borgerbørn",
+            "deleteCitizenContact": "Slet borgerkontakt",
+            "deleteCitizenDocument": "Slet borgerdokument",
+            "deleteCitizenEconomy": "Slet borgerøkonomi",
+            "deleteCitizenHealth": "Slet borgersundhed",
+            "deleteCitizenJournal": "Slet borgerjournal",
+            "deleteCitizenMedicine": "Slet borgermedicin",
+            "deleteCitizenPlan": "Slet borgerplan",
+            "deleteSchedule": "Slet vagtplan",
+            "readSchedule": "Se vagtplan",
             "scheduler": "Vagtplanlægger",
-            "updateCitizenCalendar": "rediger borgerkalender",
-            "updateCitizenChildren": "rediger borgerbørn",
-            "updateCitizenContact": "rediger borgerkontakt",
-            "updateCitizenDocument": "rediger borgerdokument",
-            "updateCitizenEconomy": "rediger borgerøkonomi",
-            "updateCitizenHealth": "rediger borgersundhed",
-            "updateCitizenJournal": "rediger borgerjournal",
-            "updateCitizenMedicine": "rediger borgermedicin",
-            "updateCitizenPlan": "rediger borgerplan",
-            "updateSchedule": "rediger vagtplan",
-            "viewCitizenCalendar": "se borgerkalender",
-            "viewCitizenHealth": "se borgersundhed",
-            "viewCitizenJournal": "se borgerjournal",
-            "viewSchedule": "se vagtplan"
+            "updateCitizenCalendar": "Rediger borgerkalender",
+            "updateCitizenChildren": "Rediger borgerbørn",
+            "updateCitizenContact": "Rediger borgerkontakt",
+            "updateCitizenDocument": "Rediger borgerdokument",
+            "updateCitizenEconomy": "Rediger borgerøkonomi",
+            "updateCitizenHealth": "Rediger borgersundhed",
+            "updateCitizenJournal": "Rediger borgerjournal",
+            "updateCitizenMedicine": "Rediger borgermedicin",
+            "updateCitizenPlan": "Rediger borgerplan",
+            "updateCitizen": "Rediger borger",
+            "updateFormFieldConfig": "Rediger borgerformular feltkonfiguration",
+            "updateSchedule": "Rediger vagtplan",
+            "viewCitizenCalendar": "Se borgerkalender",
+            "viewCitizenHealth": "Se borgersundhed",
+            "viewCitizenJournal": "Se borgerjournal",
+            "viewSchedule": "Se vagtplan"
         },
         "roles": "Roller",
         "table": {
@@ -6681,7 +6713,9 @@
         "mail": "Mail",
         "messages": "Beskeder",
         "overview": "Oversigt",
-        "protocols": "Protokol"
+        "protocols": "Protokol",
+        "pinSidebar": "Fastgør sidebar",
+        "unpinSidebar": "Frigør sidebar"
     },
     "somethingWentWrong": "Noget gik galt",
     "storage": {
@@ -7527,6 +7561,7 @@
                 "timeLogSuccessfullyDeclined": "Tidslog blev afvist",
                 "timeLogSuccessfullyDeleted": "Tidslog blev slettet"
             },
+            "citizen": "Borger",
             "confirmation": {
                 "approveTimeLogConfirmation": "Er du sikker på, at du vil godkende denne tidslog",
                 "declineTimeLogConfirmation": "Er du sikker på, at du vil afvise denne tidslog",
