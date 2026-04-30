@@ -54,9 +54,13 @@
                                     class="h-36 bg-white border-l-4 border-primary/70 px-4 py-5 relative overflow-clip ring-1 ring-gray-200 rounded-md cursor-pointer hover:bg-gray-100">
                                     <img src="/img/icons/asset-02.svg" alt="Image failed to load"
                                         class="z-10 w-24 absolute -bottom-8 -right-8">
-                                    <div class="absolute z-30 right-2">
+                                    <div class="flex items-center gap-x-1 absolute z-30 right-2">
                                         <button class="hover:text-primar-800" @click="editWallet(wallet)">
                                             <Icon name="ph:pencil-simple" class="size-5" />
+                                        </button>
+                                        <button class="hover:text-primar-800" @click="deleteWalletConfirmation(wallet)"
+                                            v-if="wallet?.is_deletable">
+                                            <Icon name="ph:trash" class="size-5" />
                                         </button>
                                     </div>
                                     <div class="space-y-1 relative z-20">

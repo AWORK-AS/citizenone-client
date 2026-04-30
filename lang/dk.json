@@ -2571,10 +2571,12 @@
         },
         "walletTransactions": {
             "alert": {
-                "deletedSuccessfully": "Pungtransaktion slettet med succes"
+                "deletedFileSuccessfully": "Wallet-transaktionsfilen blev slettet",
+                "deletedTransactionSuccessfully": "Wallet-transaktionen blev slettet"
             },
             "confirmation": {
-                "deleteConfirmation": "Er du sikker på, at du vil slette denne transaktion"
+                "deleteTransactionConfirmation": "Er du sikker på, at du vil slette denne transaktion",
+                "deleteFileConfirmation": "Er du sikker på, at du vil slette denne transaktionsfil"
             },
             "editWalletTransaction": "Rediger pungtransaktion",
             "form": {
@@ -2593,7 +2595,8 @@
             "table": {
                 "actions": {
                     "delete": "Slet",
-                    "edit": "Rediger"
+                    "edit": "Rediger",
+                    "remove": "Fjern"
                 },
                 "amount": "Beløb",
                 "cashIn": "Indbetaling",
