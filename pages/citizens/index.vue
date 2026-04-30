@@ -282,10 +282,10 @@
                                                     <Icon name="ph:list-checks" class="size-4" />
                                                 </FormButton>
                                             </Tooltip>
-                                            <Tooltip :text="$t('citizens.table.actions.edit')">
+                                            <Tooltip :text="$t('citizens.table.actions.edit')"
+                                                v-if="userStore.getUser?.roles?.[0]?.name === 'Admin' || userStore.user?.permissions?.find((p: any) => p.name === 'update_citizen')">
                                                 <FormButton type="button" buttonStyle="action"
-                                                    @click="navigateTo(`/citizens/${citizen.uuid}/edit`)"
-                                                    v-if="userStore.getUser?.roles?.[0]?.name === 'Admin'">
+                                                    @click="navigateTo(`/citizens/${citizen.uuid}/edit`)">
                                                     <Icon name="ph:pencil-simple" class="size-4" />
                                                 </FormButton>
                                             </Tooltip>
