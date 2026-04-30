@@ -6232,7 +6232,7 @@
         }
     },
     "reminders": {
-        "allCaughtUp": "You're all caught up!",
+        "noRemindersToShow": "No reminders to show",
         "assign": "Assign",
         "assignAnEmployee": "Assign an employee",
         "assignees": "Assignees",

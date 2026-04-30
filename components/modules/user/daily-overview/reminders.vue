@@ -5,9 +5,8 @@
 
         <div v-if="activeReminders.length === 0" class="p-5">
             <div
-                class="border-2 border-gray-300 border-dashed rounded-md flex flex-col items-center justify-center min-h-80 max-h-80 gap-2 text-gray-400">
-                <Icon name="ph:check-circle" class="h-8 w-8" />
-                <p class="text-sm">{{ $t('reminders.allCaughtUp') }}</p>
+                class="border-2 border-gray-300 border-dashed rounded-md flex items-center justify-center min-h-80 max-h-80 text-sm mt-2">
+                {{ $t('reminders.noRemindersToShow') }}
             </div>
         </div>
 

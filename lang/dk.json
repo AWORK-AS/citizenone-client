@@ -6232,7 +6232,7 @@
         }
     },
     "reminders": {
-        "allCaughtUp": "Du er helt ajour!",
+        "noRemindersToShow": "Ingen påmindelser at vise",
         "assign": "Tildel",
         "assignAnEmployee": "Tildel en medarbejder",
         "assignees": "Modtagere",
