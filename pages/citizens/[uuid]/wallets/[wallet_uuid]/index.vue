@@ -101,6 +101,12 @@
                                                 <Icon name="ph:pencil-simple" class="size-4" />
                                                 {{ $t('citizens.walletTransactions.table.actions.edit') }}
                                             </FormButton>
+                                            <FormButton type="button" buttonStyle="danger"
+                                                @click="deleteWalletTransactionConfirmation(walletTransaction)"
+                                                v-if="walletTransaction?.is_deletable">
+                                                <Icon name="ph:trash" class="size-4" />
+                                                {{ $t('citizens.walletTransactions.table.actions.delete') }}
+                                            </FormButton>
                                         </div>
                                     </td>
                                 </tr>
@@ -116,6 +122,9 @@
                     :selectedWalletTranscation="state.selectedWalletTransaction"
                     @close="state.modal.isEditWalletTransactionOpen = false"
                     @refreshWalletTransactions="refreshWalletTransactions" />
+                <DialogConfirmation :isModalOpen="state.modal.isDeleteWalletTransactionOpen"
+                    :message="$t('citizens.walletTransactions.confirmation.deleteConfirmation') + '?'"
+                    @close="state.modal.isDeleteWalletTransactionOpen = false" @confirm="deleteWalletTransaction" />
             </div>
         </NuxtLayout>
     </div>
