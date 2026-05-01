@@ -1,5 +1,5 @@
 <template>
-    <div class="space-y-4">
+    <div class="mt-6 max-w-xl space-y-4">
         <Alert type="danger" :text="props.error?.message"
             v-if="props.error?.message && props.error.message.length > 0" />
 
@@ -7,6 +7,7 @@
             <FormLabel for="contact_job_title_uuid" :label="$t('addressBook.form.contactJobTitle')" />
             <FormSelect id="contact_job_title_uuid" :options="state.options.contactJobTitles"
                 v-model="form.contact_job_title_uuid" />
+            <FormError :error="v$.contact_job_title_uuid.$errors[0]?.$message?.toString()" />
             <FormError :error="props.error?.errors?.contact_job_title_uuid?.[0]" />
         </div>
 
@@ -24,6 +25,7 @@
                 <FormTextField id="firstname" name="firstname"
                     :placeholder="$t('addressBook.form.firstname')"
                     v-model="form.firstname" />
+                <FormError :error="v$.firstname.$errors[0]?.$message?.toString()" />
                 <FormError :error="props.error?.errors?.firstname?.[0]" />
             </div>
             <div class="space-y-1">
@@ -90,11 +92,11 @@
             </div>
         </div>
 
-        <div class="flex justify-end gap-3 pt-2">
-            <FormButton buttonStyle="secondary" type="button" @click="emit('closeModal')">
+        <div class="mt-6 grid grid-cols-1 md:grid-cols-2 gap-3">
+            <FormButton buttonStyle="cancel" type="button" @click="emit('closeModal')">
                 {{ $t('cancel') }}
             </FormButton>
-            <FormButton buttonStyle="action" type="button" @click="submit">
+            <FormButton buttonStyle="primary" type="button" @click="submit">
                 {{ props.formType === 'create' ? $t('save') : $t('update') }}
             </FormButton>
         </div>
@@ -106,10 +108,13 @@ import { contactJobTitlesService } from '@/components/api/user/ContactJobTitlesS
 import { regionService } from '@/components/api/user/RegionService'
 import { municipalityService } from '@/components/api/user/MunicipalityService'
 import { cityService } from '@/components/api/user/CityService'
+import { useVuelidate } from '@vuelidate/core'
+import { required, helpers } from '@vuelidate/validators'
 import { useI18n } from 'vue-i18n'
 import type { Error } from '@/types'
 
 const language = useI18n()
+const { t } = useI18n()
 
 const props = defineProps({
     formType: {
@@ -149,6 +154,30 @@ const state = reactive({
         municipalities: [] as any[],
         cities: [] as any[],
     },
+})
+
+watch(() => props.selectedContact, async (newValue: any) => {
+    if (!newValue?.uuid) return
+
+    form.contact_job_title_uuid = newValue?.contact_job_title?.uuid ?? ''
+    form.firstname = newValue?.firstname ?? ''
+    form.lastname = newValue?.lastname ?? ''
+    form.email = newValue?.email ?? ''
+    form.phone = newValue?.phone ?? ''
+    form.street = newValue?.street ?? ''
+    form.post_code = newValue?.post_code ?? ''
+    form.company_name = newValue?.company_name ?? ''
+    form.region_uuid = newValue?.region?.uuid ?? ''
+
+    if (form.region_uuid) {
+        await fetchMunicipalities(form.region_uuid)
+        form.municipality_uuid = newValue?.municipality?.uuid ?? ''
+
+        if (form.municipality_uuid) {
+            await fetchCities(form.municipality_uuid)
+            form.city_uuid = newValue?.city?.uuid ?? ''
+        }
+    }
 })
 
 onMounted(async () => {
@@ -219,7 +248,21 @@ function onMunicipalityChange(municipalityUuid: string) {
     if (municipalityUuid) fetchCities(municipalityUuid)
 }
 
+const rules = computed(() => ({
+    contact_job_title_uuid: {
+        required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
+    },
+    firstname: {
+        required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
+    },
+}))
+
+const v$ = useVuelidate(rules, form)
+
 function submit() {
-    emit('submitForm', { ...form })
+    v$.value.$validate()
+    if (!v$.value.$error) {
+        emit('submitForm', { ...form })
+    }
 }
 </script>

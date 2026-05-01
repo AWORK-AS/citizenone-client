@@ -34,7 +34,7 @@
 
                 <div>
                     <div class="mt-8 flex justify-end items-center mb-5 gap-x-2">
-                        <FormButton buttonStyle="secondary" @click="state.modal.isAssignFromAddressBookOpen = true">
+                        <FormButton buttonStyle="action" @click="state.modal.isAssignFromAddressBookOpen = true">
                             <Icon name="ph:address-book" class="h-4 w-4" aria-hidden="true" />
                             {{ $t('addressBook.assignFromAddressBook') }}
                         </FormButton>
@@ -126,9 +126,8 @@
 
                 <ModulesUserCitizenContactModalNew
                     :isModalOpen="state.modal.isAddContactOpen"
-                    :prefillData="state.prefillContact"
                     @close="closeNewContactModal"
-                    @refreshContacts="fetchContacts"
+                    @saved="handleNewContactSaved"
                 />
                 <ModulesUserCitizenContactModalEdit :isModalOpen="state.modal.isEditContactOpen"
                     :selectedContact="state.selectedContact" @close="state.modal.isEditContactOpen = false"
@@ -157,7 +156,7 @@ import { useUserStore } from '@/store/user'
 import type { Error } from '@/types'
 
 const runtimeConfig = useRuntimeConfig()
-const { successAlert } = useAlert()
+const { successAlert, errorAlert } = useAlert()
 const { t } = useI18n()
 const language = useI18n()
 const customPagesStore = useCustomPagesStore() as any
@@ -195,7 +194,6 @@ const state = reactive({
         isSendEmailOpen: false,
         isAssignFromAddressBookOpen: false,
     },
-    prefillContact: null as any,
     selectedContact: [] as any,
     sortData: {
         sortField: 'id',
@@ -283,13 +281,41 @@ function sendEmail(contact: any) {
     state.modal.isSendEmailOpen = true
 }
 
-function handlePrefillContact(contact: any) {
-    state.prefillContact = contact
-    state.modal.isAddContactOpen = true
+async function handlePrefillContact(contact: any) {
+    state.isTableLoading = true
+    try {
+        const params = {
+            citizen_uuid: citizenUuid,
+            contact_job_title_uuid: contact.contact_job_title?.uuid ?? '',
+            company_name: contact.company_name ?? '',
+            firstname: contact.firstname ?? '',
+            lastname: contact.lastname ?? '',
+            email: contact.email ?? '',
+            phone: contact.phone ?? '',
+            street: contact.street ?? '',
+            region_uuid: contact.region?.uuid ?? '',
+            municipality_uuid: contact.municipality?.uuid ?? '',
+            city_uuid: contact.city?.uuid ?? '',
+            post_code: contact.post_code ?? '',
+            company_contact_uuid: contact.uuid,
+        }
+        const response = await citizenContactService.saveContact(params)
+        if (response?.data) {
+            await fetchContacts()
+            successAlert(`${t('alert.success')}!`, `${t('citizens.contacts.form.alert.contactSuccessfullyAdded')}.`)
+        }
+    } catch (error: any) {
+        errorAlert(`${t('alert.error')}!`, error?.message)
+    }
+    state.isTableLoading = false
 }
 
 function closeNewContactModal() {
     state.modal.isAddContactOpen = false
-    state.prefillContact = null
+}
+
+async function handleNewContactSaved() {
+    await fetchContacts()
+    state.modal.isAddContactOpen = false
 }
 </script>

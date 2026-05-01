@@ -9,6 +9,10 @@ class CompanyContactService extends BaseAPIService {
         return await this.request(`/user/company-contacts/all/list`, 'GET')
     }
 
+    async getContact(contactUuid: string): Promise<any> {
+        return await this.request(`/user/company-contacts/${contactUuid}`, 'GET')
+    }
+
     async saveContact(params: object): Promise<any> {
         return await this.request(`/user/company-contacts`, 'POST', params)
     }

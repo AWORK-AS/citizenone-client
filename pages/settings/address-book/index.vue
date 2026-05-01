@@ -18,7 +18,7 @@
 
             <div class="mt-8">
                 <div class="flex justify-end items-center mb-5">
-                    <FormButton buttonStyle="action" @click="state.modal.isNewContactOpen = true">
+                    <FormButton buttonStyle="action" @click="navigateTo('/settings/address-book/new')">
                         <Icon name="ph:plus" class="h-4 w-4" aria-hidden="true" />
                         {{ $t('addressBook.addNewContact') }}
                     </FormButton>
@@ -51,11 +51,8 @@
                                         <span>{{ contact?.phone ?? '—' }}</span>
                                     </td>
                                     <td>
-                                        <span>{{ contact?.assigned_citizens_count ?? 0 }}</span>
-                                    </td>
-                                    <td>
                                         <div class="flex items-center justify-end gap-2">
-                                            <FormButton type="button" buttonStyle="action" @click="openEditModal(contact)">
+                                            <FormButton type="button" buttonStyle="action" @click="navigateTo(`/settings/address-book/${contact.uuid}/edit`)">
                                                 <Icon name="ph:pencil-simple" class="size-4" />
                                                 {{ $t('addressBook.table.actions.edit') }}
                                             </FormButton>
@@ -72,20 +69,6 @@
                     <Pagination :data="state.contacts" @previous="previous" @next="next" />
                 </div>
             </div>
-
-            <ModulesUserSettingsAddressBookModalNew
-                :isModalOpen="state.modal.isNewContactOpen"
-                @close="state.modal.isNewContactOpen = false"
-                @refreshContacts="fetchContacts"
-            />
-
-            <ModulesUserSettingsAddressBookModalEdit
-                v-if="state.selectedContact?.uuid"
-                :isModalOpen="state.modal.isEditContactOpen"
-                :selectedContact="state.selectedContact"
-                @close="state.modal.isEditContactOpen = false"
-                @refreshContacts="fetchContacts"
-            />
 
             <DialogConfirmation
                 :isModalOpen="state.modal.isDeleteContactOpen"
@@ -122,8 +105,7 @@ const state = reactive({
         { name: 'addressBook.table.name', isTranslateName: true, sorter: true, key: 'firstname' },
         { name: 'addressBook.table.email', isTranslateName: true, sorter: false, key: 'email' },
         { name: 'addressBook.table.phone', isTranslateName: true, sorter: false, key: 'phone' },
-        { name: 'addressBook.table.assignedCitizens', isTranslateName: true, sorter: false, key: '' },
-        { name: '' },
+{ name: '' },
     ],
     contacts: [] as any,
     dataFilter: {
@@ -132,8 +114,6 @@ const state = reactive({
     error: {} as Error,
     isTableLoading: false,
     modal: {
-        isNewContactOpen: false,
-        isEditContactOpen: false,
         isDeleteContactOpen: false,
     },
     selectedContact: {} as any,
@@ -192,11 +172,6 @@ function handleSearch(value: any) {
     fetchContacts()
 }
 
-function openEditModal(contact: any) {
-    state.selectedContact = contact
-    state.modal.isEditContactOpen = true
-}
-
 function deleteContactConfirmation(contact: any) {
     state.selectedContact = contact
     state.modal.isDeleteContactOpen = true
@@ -207,10 +182,8 @@ async function deleteContact() {
     state.isTableLoading = true
     try {
         const response = await companyContactService.deleteContact(state.selectedContact.uuid)
-        if (response?.message === 'Success.' || response?.message === 'Succes.' || response?.status === 204) {
-            fetchContacts()
-            successAlert(`${t('alert.success')}!`, `${t('addressBook.alert.contactSuccessfullyDeleted')}.`)
-        }
+        fetchContacts()
+        successAlert(`${t('alert.success')}!`, `${t('addressBook.alert.contactSuccessfullyDeleted')}.`)
     } catch (error: any) {
         state.error = error
     }

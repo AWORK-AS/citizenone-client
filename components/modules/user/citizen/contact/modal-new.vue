@@ -64,17 +64,20 @@ const state = reactive({
 
 watch(() => props.prefillData, (data) => {
     if (!data) return
-    state.formContact.company_contact_uuid = data.uuid ?? ''
-    state.formContact.contact_job_title_uuid = data.contact_job_title?.uuid ?? ''
-    state.formContact.firstname = data.firstname ?? ''
-    state.formContact.lastname = data.lastname ?? ''
-    state.formContact.email = data.email ?? ''
-    state.formContact.phone = data.phone ?? ''
-    state.formContact.street = data.street ?? ''
-    state.formContact.region = data.region?.uuid ?? ''
-    state.formContact.municipality = data.municipality?.uuid ?? ''
-    state.formContact.city = data.city?.uuid ?? ''
-    state.formContact.post_code = data.post_code ?? ''
+    state.formContact = {
+        ...state.formContact,
+        company_contact_uuid: data.uuid ?? '',
+        contact_job_title_uuid: data.contact_job_title?.uuid ?? '',
+        firstname: data.firstname ?? '',
+        lastname: data.lastname ?? '',
+        email: data.email ?? '',
+        phone: data.phone ?? '',
+        street: data.street ?? '',
+        region: data.region?.uuid ?? '',
+        municipality: data.municipality?.uuid ?? '',
+        city: data.city?.uuid ?? '',
+        post_code: data.post_code ?? '',
+    }
 })
 
 function closeModal() {
@@ -101,7 +104,6 @@ async function saveContact(contactDetails: any) {
             params = {
                 citizen_uuid: citizenUuid,
                 contact_job_title_uuid: contactDetails.contact_job_title_uuid,
-                employees_uuid: contactDetails.employees,
                 relationship_uuid: contactDetails.title === 'relatives' ? contactDetails.relationship : '',
                 company_name: contactDetails.company_name,
                 firstname: contactDetails.firstname,
