@@ -1,5 +1,5 @@
 <template>
-    <div class="text-xs text-white text-center">
+    <div class="text-xs text-primary text-center">
         {{ $t('sidebar.companyId') }}:
         <span v-if="userStore.getUser?.company?.id">
             74312{{ String(userStore.getUser?.company?.id) }}
