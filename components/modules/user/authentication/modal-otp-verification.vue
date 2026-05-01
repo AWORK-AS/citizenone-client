@@ -114,6 +114,8 @@ async function verifyOtp() {
                 email: props.email,
                 otp: state.formOtp.otp,
                 device_uuid: props.deviceUuid,
+                platform: 'web',
+                user_agent: navigator.userAgent,
             })
         }
         if (response.data) {

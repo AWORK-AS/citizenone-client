@@ -15,15 +15,10 @@
             <ModulesUserSettingsTab />
 
             <div class="mt-8">
-                <div class="flex justify-end items-center mb-5">
-                    <FormButton buttonStyle="action" @click="state.modal.isAddOpen = true">
-                        <Icon name="ph:plus" class="h-4 w-4" aria-hidden="true" />
-                        {{ $t('approvedDevices.addDevice') }}
-                    </FormButton>
-                </div>
                 <div class="space-y-5">
                     <Alert type="danger" :text="state?.error?.message"
                         v-if="state.error?.message && state.error.message.length > 0" />
+                    <TableSearch @search="handleSearch" />
                     <div class="table-responsive">
                         <Table :columnHeaders="state.columnHeaders" :data="state.approvedDevices"
                             :isLoading="state.isTableLoading">
@@ -33,6 +28,14 @@
                                     <td>{{ item.user?.firstname }} {{ item.user?.lastname }}</td>
                                     <td>{{ item.device_uuid }}</td>
                                     <td>{{ item.label }}</td>
+                                    <td>
+                                        <span :class="item.is_active
+                                            ? 'bg-green-100 text-green-700'
+                                            : 'bg-red-100 text-red-700'"
+                                            class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium">
+                                            {{ item.is_active ? $t('approvedDevices.active') : $t('approvedDevices.inactive') }}
+                                        </span>
+                                    </td>
                                     <td>
                                         <div class="flex items-end justify-end gap-2">
                                             <FormButton type="button" buttonStyle="action"
@@ -58,11 +61,6 @@
             <DialogConfirmation :isModalOpen="state.modal.isDeleteOpen"
                 :message="$t('approvedDevices.confirmation.delete') + '?'"
                 @close="state.modal.isDeleteOpen = false" @confirm="deleteApprovedDevice" />
-
-            <ModulesUserSettingsApprovedDeviceModalAdd
-                :isModalOpen="state.modal.isAddOpen"
-                @close="state.modal.isAddOpen = false"
-                @refresh="fetchAll" />
 
             <ModulesUserSettingsApprovedDeviceModalEdit
                 v-if="state.selectedItem"
@@ -95,13 +93,16 @@ const state = reactive({
         { name: 'approvedDevices.table.user', value: 'user', isTranslateName: true },
         { name: 'approvedDevices.table.deviceUuid', value: 'device_uuid', isTranslateName: true },
         { name: 'approvedDevices.table.label', value: 'label', isTranslateName: true },
+        { name: 'approvedDevices.table.isActive', value: 'is_active', isTranslateName: true },
         { name: 'approvedDevices.table.actions.header', value: 'actions', isTranslateName: true },
     ],
+    dataFilter: {
+        search: '',
+    },
     error: {} as Error,
     approvedDevices: {} as any,
     isTableLoading: false,
     modal: {
-        isAddOpen: false,
         isEditOpen: false,
         isDeleteOpen: false,
     },
@@ -119,7 +120,7 @@ async function fetchAll() {
     state.error = {}
     state.isTableLoading = true
     try {
-        const params = { page: state.pagination.current_page }
+        const params = { page: state.pagination.current_page, ...state.dataFilter }
         const response = await approvedDeviceService.getAll(params)
         if (response.data) {
             state.approvedDevices = Array.isArray(response.data)
@@ -130,6 +131,12 @@ async function fetchAll() {
         state.error = error
     }
     state.isTableLoading = false
+}
+
+function handleSearch(value: any) {
+    state.pagination.current_page = 1
+    state.dataFilter.search = value?.[0] === '' ? [] : value
+    fetchAll()
 }
 
 function editItem(item: any) {

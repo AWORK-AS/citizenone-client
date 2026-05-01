@@ -7681,10 +7681,14 @@
         "user": "User",
         "deviceUuid": "Device UUID",
         "label": "Label",
+        "isActive": "Active",
+        "active": "Active",
+        "inactive": "Inactive",
         "table": {
             "user": "User",
             "deviceUuid": "Device UUID",
             "label": "Label",
+            "isActive": "Status",
             "actions": {
                 "header": "Actions",
                 "edit": "Edit",

@@ -3,26 +3,35 @@
         <Alert type="danger" :text="props?.error?.message"
             v-if="props.error?.message && props.error.message.length > 0" />
         <div class="space-y-3">
-            <div class="space-y-1">
-                <FormLabel for="user_uuid" :label="$t('approvedDevices.user')" />
-                <FormSelect id="user_uuid" :options="state.options.users"
-                    v-model="state.form.user_uuid" />
-                <FormError :error="v$?.form?.user_uuid?.$errors[0]?.$message.toString()" />
-                <FormError :error="props?.error?.errors?.user_uuid?.[0]" />
-            </div>
-            <div class="space-y-1">
-                <FormLabel for="device_uuid" :label="$t('approvedDevices.deviceUuid')" />
-                <FormTextField id="device_uuid" name="device_uuid"
-                    :placeholder="$t('approvedDevices.deviceUuid')"
-                    v-model="state.form.device_uuid" />
-                <FormError :error="v$?.form?.device_uuid?.$errors[0]?.$message.toString()" />
-                <FormError :error="props?.error?.errors?.device_uuid?.[0]" />
-            </div>
+            <template v-if="props.formType === 'create'">
+                <div class="space-y-1">
+                    <FormLabel for="user_uuid" :label="$t('approvedDevices.user')" />
+                    <FormSelect id="user_uuid" :options="state.options.users"
+                        v-model="state.form.user_uuid" />
+                    <FormError :error="v$?.form?.user_uuid?.$errors[0]?.$message.toString()" />
+                    <FormError :error="props?.error?.errors?.user_uuid?.[0]" />
+                </div>
+                <div class="space-y-1">
+                    <FormLabel for="device_uuid" :label="$t('approvedDevices.deviceUuid')" />
+                    <FormTextField id="device_uuid" name="device_uuid"
+                        :placeholder="$t('approvedDevices.deviceUuid')"
+                        v-model="state.form.device_uuid" />
+                    <FormError :error="v$?.form?.device_uuid?.$errors[0]?.$message.toString()" />
+                    <FormError :error="props?.error?.errors?.device_uuid?.[0]" />
+                </div>
+            </template>
             <div class="space-y-1">
                 <FormLabel for="label" :label="$t('approvedDevices.label')" />
                 <FormTextField id="label" name="label"
                     :placeholder="$t('approvedDevices.label')"
                     v-model="state.form.label" />
+            </div>
+            <div v-if="props.formType === 'update'" class="space-y-1">
+                <div class="w-fit flex items-center cursor-pointer"
+                    @click="state.form.is_active = !state.form.is_active">
+                    <FormCheckbox :value="state.form.is_active" />
+                    {{ $t('approvedDevices.isActive') }}
+                </div>
             </div>
         </div>
         <div class="mt-6">
@@ -69,6 +78,7 @@ const state = reactive({
         user_uuid: '',
         device_uuid: '',
         label: '',
+        is_active: true,
     },
     options: {
         users: [] as any[],
@@ -76,14 +86,15 @@ const state = reactive({
 })
 
 onMounted(() => {
-    fetchUsers()
+    if (props.formType === 'create') {
+        fetchUsers()
+    }
 })
 
 watch(() => props.selectedApprovedDevice, (val) => {
     if (val && props.formType === 'update') {
-        state.form.user_uuid = val.user?.uuid ?? ''
-        state.form.device_uuid = val.device_uuid ?? ''
         state.form.label = val.label ?? ''
+        state.form.is_active = val.is_active ?? true
     }
 }, { immediate: true })
 
@@ -103,12 +114,14 @@ async function fetchUsers() {
 
 const rules = computed(() => ({
     form: {
-        user_uuid: {
-            required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
-        },
-        device_uuid: {
-            required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
-        },
+        ...(props.formType === 'create' && {
+            user_uuid: {
+                required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
+            },
+            device_uuid: {
+                required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
+            },
+        }),
     },
 }))
 
@@ -118,7 +131,11 @@ async function submitForm() {
     v$.value.$reset()
     await v$.value.$validate()
     if (!v$.value.$error) {
-        emit('submitForm', { ...state.form })
+        if (props.formType === 'update') {
+            emit('submitForm', { label: state.form.label, is_active: state.form.is_active })
+        } else {
+            emit('submitForm', { user_uuid: state.form.user_uuid, device_uuid: state.form.device_uuid, label: state.form.label })
+        }
     }
 }
 </script>

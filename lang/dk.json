@@ -7682,10 +7682,14 @@
         "user": "Bruger",
         "deviceUuid": "Enheds-UUID",
         "label": "Etiket",
+        "isActive": "Aktiv",
+        "active": "Aktiv",
+        "inactive": "Inaktiv",
         "table": {
             "user": "Bruger",
             "deviceUuid": "Enheds-UUID",
             "label": "Etiket",
+            "isActive": "Status",
             "actions": {
                 "header": "Handlinger",
                 "edit": "Rediger",

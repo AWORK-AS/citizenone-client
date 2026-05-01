@@ -24,6 +24,7 @@
                 <div class="space-y-5">
                     <Alert type="danger" :text="state?.error?.message"
                         v-if="state.error?.message && state.error.message.length > 0" />
+                    <TableSearch @search="handleSearch" />
                     <div class="table-responsive">
                         <Table :columnHeaders="state.columnHeaders" :data="state.ipRestrictions"
                             :isLoading="state.isTableLoading">
@@ -95,6 +96,9 @@ const state = reactive({
         { name: 'ipRestrictions.table.label', value: 'label', isTranslateName: true },
         { name: 'ipRestrictions.table.actions.header', value: 'actions', isTranslateName: true },
     ],
+    dataFilter: {
+        search: '',
+    },
     error: {} as Error,
     ipRestrictions: {} as any,
     isTableLoading: false,
@@ -117,7 +121,7 @@ async function fetchAll() {
     state.error = {}
     state.isTableLoading = true
     try {
-        const params = { page: state.pagination.current_page }
+        const params = { page: state.pagination.current_page, ...state.dataFilter }
         const response = await ipRestrictionService.getAll(params)
         if (response.data) {
             state.ipRestrictions = Array.isArray(response.data)
@@ -128,6 +132,12 @@ async function fetchAll() {
         state.error = error
     }
     state.isTableLoading = false
+}
+
+function handleSearch(value: any) {
+    state.pagination.current_page = 1
+    state.dataFilter.search = value?.[0] === '' ? [] : value
+    fetchAll()
 }
 
 function editItem(item: any) {
