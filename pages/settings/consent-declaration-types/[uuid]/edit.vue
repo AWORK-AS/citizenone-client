@@ -63,12 +63,6 @@ const state = reactive({
     error: {} as Error,
     formConsentDeclarationType: {
         name: '',
-        photo: false,
-        parent_collaboration: false,
-        student_collaboration: false,
-        general_consent: false,
-        personal_guardianship: false,
-        financial_guardianship: false,
     },
     isPageLoading: false,
 })
@@ -85,12 +79,6 @@ async function fetchConsentDeclarationType() {
         if (response) {
             state.formConsentDeclarationType = {
                 name: response?.data?.name ?? '',
-                photo: response?.data?.photo ? true : false,
-                parent_collaboration: response?.data?.parent_collaboration ? true : false,
-                student_collaboration: response?.data?.student_collaboration ? true : false,
-                general_consent: response?.data?.general_consent ? true : false,
-                personal_guardianship: response?.data?.personal_guardianship ? true : false,
-                financial_guardianship: response?.data?.financial_guardianship ? true : false,
             }
         }
     } catch (error: any) {
@@ -105,12 +93,6 @@ async function updateConsentDeclarationType(consentDeclarationType: any) {
     try {
         const params = {
             name: consentDeclarationType.name,
-            photo: consentDeclarationType.photo,
-            parent_collaboration: consentDeclarationType.parent_collaboration,
-            student_collaboration: consentDeclarationType.student_collaboration,
-            general_consent: consentDeclarationType.general_consent,
-            personal_guardianship: consentDeclarationType.personal_guardianship,
-            financial_guardianship: consentDeclarationType.financial_guardianship,
         }
         const response = await consentDeclarationTypeService.updateConsentDeclarationType(uuid, params)
         if (response.data) {

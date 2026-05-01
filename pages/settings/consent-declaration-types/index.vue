@@ -44,12 +44,13 @@
                                     <td width="50%">
                                         <div class="flex items-end justify-end gap-2">
                                             <FormButton type="button" buttonStyle="action"
-                                                @click="navigateTo(`/settings/consent-declaration-types/${type.uuid}/edit`)">
+                                                @click="navigateTo(`/settings/consent-declaration-types/${type.uuid}/edit`)"
+                                                v-if="type?.is_editable">
                                                 <Icon name="ph:pencil-simple" class="size-4" />
                                                 {{ $t('consentDeclarationTypes.table.actions.edit') }}
                                             </FormButton>
                                             <FormButton type="button" buttonStyle="danger"
-                                                @click="deleteConfirmation(type)">
+                                                @click="deleteConfirmation(type)" v-if="type?.is_deletable">
                                                 <Icon name="ph:trash" class="size-4" />
                                                 {{ $t('consentDeclarationTypes.table.actions.delete') }}
                                             </FormButton>

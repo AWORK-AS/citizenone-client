@@ -60,12 +60,6 @@ const state = reactive({
     error: {} as Error,
     formConsentDeclarationType: {
         name: '',
-        photo: false,
-        parent_collaboration: false,
-        student_collaboration: false,
-        general_consent: false,
-        personal_guardianship: false,
-        financial_guardianship: false,
     },
     isPageLoading: false,
 })
@@ -76,12 +70,6 @@ async function saveConsentDeclarationType(consentDeclarationType: any) {
     try {
         const params = {
             name: consentDeclarationType.name,
-            photo: consentDeclarationType.photo,
-            parent_collaboration: consentDeclarationType.parent_collaboration,
-            student_collaboration: consentDeclarationType.student_collaboration,
-            general_consent: consentDeclarationType.general_consent,
-            personal_guardianship: consentDeclarationType.personal_guardianship,
-            financial_guardianship: consentDeclarationType.financial_guardianship,
         }
         const response = await consentDeclarationTypeService.saveConsentDeclarationType(params)
         if (response.data) {
