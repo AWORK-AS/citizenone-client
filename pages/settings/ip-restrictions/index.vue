@@ -85,6 +85,7 @@ const { t } = useI18n()
 const { successAlert } = useAlert()
 
 const breadcrumbLinks = [
+    { name: 'settings.tabs.company', translate: true, href: '/settings/company' },
     { name: 'ipRestrictions.title', translate: true, href: '/settings/ip-restrictions' },
 ]
 

@@ -86,6 +86,7 @@ const { t } = useI18n()
 const { successAlert } = useAlert()
 
 const breadcrumbLinks = [
+    { name: 'settings.tabs.company', translate: true, href: '/settings/company' },
     { name: 'approvedDevices.title', translate: true, href: '/settings/approved-devices' },
 ]
 
