@@ -60,6 +60,14 @@ watch(() => userStore.getUser, (newValue: any) => {
                 ]
             },
             {
+                name: 'settings.tabs.consentDeclarationTypes',
+                isTranslateName: true,
+                href: `/settings/consent-declaration-types`,
+                routeNames: [
+                    'settings-consent-declaration-types'
+                ]
+            },
+            {
                 name: 'settings.tabs.contactJobTitles',
                 isTranslateName: true,
                 href: `/settings/contact-job-titles`,
@@ -278,6 +286,9 @@ function changeTab(value: any) {
     }
     else if (value === '/settings/calendar-tags') {
         navigateTo(`/settings/calendar-tags`)
+    }
+    else if (value === '/settings/consent-declaration-types') {
+        navigateTo(`/settings/consent-declaration-types`)
     }
     else if (value === '/settings/contact-job-titles') {
         navigateTo(`/settings/contact-job-titles`)

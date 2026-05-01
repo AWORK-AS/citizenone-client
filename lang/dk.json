@@ -45,6 +45,39 @@
             "name": "Navn"
         }
     },
+    "consentDeclarationTypes": {
+        "consentDeclarationTypes": "Samtykkeerklæringstyper",
+        "editConsentDeclarationType": "Rediger samtykkeerklæringstype",
+        "newConsentDeclarationType": "Ny samtykkeerklæringstype",
+        "form": {
+            "alert": {
+                "successfullySaved": "Samtykkeerklæringstype gemt med succes",
+                "successfullyUpdated": "Samtykkeerklæringstype opdateret med succes"
+            },
+            "consentFields": "Samtykke",
+            "financialGuardianship": "Økonomiværge",
+            "generalConsent": "Generelt samtykke",
+            "guardianship": "Værgemål",
+            "name": "Navn",
+            "parentCollaboration": "Forældresamarbejde",
+            "personalGuardianship": "Personværge",
+            "photo": "Foto",
+            "studentCollaboration": "Elevsamarbejde"
+        },
+        "table": {
+            "actions": {
+                "delete": "Slet",
+                "edit": "Rediger"
+            },
+            "alert": {
+                "successfullyDeleted": "Samtykkeerklæringstype slettet med succes"
+            },
+            "confirmation": {
+                "deleteConfirmation": "Er du sikker på, at du vil slette denne samtykkeerklæringstype"
+            },
+            "name": "Navn"
+        }
+    },
     "activityLogs": {
         "activityLogs": "Aktivitetslogfiler",
         "logs": {
@@ -6573,6 +6606,7 @@
             "calendarTags": "Kalenderetiketter",
             "catalog": "Katalog",
             "company": "Virksomhed",
+            "consentDeclarationTypes": "Samtykkeerklæringstyper",
             "contactJobTitles": "Kontaktjobtitler",
             "customPages": "Ordliste",
             "departments": "Afdelinger",
@@ -7637,6 +7671,7 @@
             "sendMessage": "Send besked"
         }
     },
+    "no": "Nej",
     "yes": "Ja",
     "youDontHaveAccessToThisPage": "Du har ikke adgang til denne side. Kontakt venligst din administrator"
 }
