@@ -552,15 +552,25 @@ watch(() => state.formShift.shift_type, (selectedShift) => {
         const startDate = moment(props.selectedShift.date_time_start, 'YYYY-MM-DD H:mm')
         const endDate = moment(props.selectedShift.date_time_end, 'YYYY-MM-DD H:mm')
 
+        const shiftOption = state.options.shifts[selectShiftIndex]
+
         state.formShift.date_time_start = moment(
-            startDate.format('YYYY-MM-DD') + ' ' + state.options.shifts[selectShiftIndex]?.time_in,
-            'YYYY-MM-DD HH:mm'
+            startDate.format('YYYY-MM-DD') + ' ' + shiftOption?.time_in,
+            'YYYY-MM-DD HH:mm:ss'
         ).format('YYYY-MM-DD H:mm')
 
-        state.formShift.date_time_end = moment(
-            endDate.format('YYYY-MM-DD') + ' ' + state.options.shifts[selectShiftIndex]?.time_out,
-            'YYYY-MM-DD HH:mm'
-        ).format('YYYY-MM-DD H:mm')
+        if (shiftOption?.system_name === 'sleeping-night-shift' && shiftOption?.end_time_day_offset != null) {
+            const offset = shiftOption.end_time_day_offset
+            state.formShift.date_time_end = moment(
+                startDate.clone().add(offset, 'days').format('YYYY-MM-DD') + ' ' + shiftOption.time_out,
+                'YYYY-MM-DD HH:mm:ss'
+            ).format('YYYY-MM-DD H:mm')
+        } else {
+            state.formShift.date_time_end = moment(
+                endDate.format('YYYY-MM-DD') + ' ' + shiftOption?.time_out,
+                'YYYY-MM-DD HH:mm:ss'
+            ).format('YYYY-MM-DD H:mm')
+        }
     }
 
     emit('dateTimeChange', props.selectedEmployee.uuid, state.formShift.date_time_start, state.formShift.date_time_end)
@@ -568,6 +578,14 @@ watch(() => state.formShift.shift_type, (selectedShift) => {
 
 watch(() => state.formShift.date_time_start, () => {
     if (!state.formShift.shift_type) return
+    if (isSleepingNightShift.value && selectedShiftOption.value?.end_time_day_offset != null) {
+        const offset = selectedShiftOption.value.end_time_day_offset
+        const timeOut = selectedShiftOption.value.time_out
+        state.formShift.date_time_end = moment(
+            moment(state.formShift.date_time_start, 'YYYY-MM-DD H:mm').clone().add(offset, 'days').format('YYYY-MM-DD') + ' ' + timeOut,
+            'YYYY-MM-DD HH:mm:ss'
+        ).format('YYYY-MM-DD H:mm')
+    }
     emit('dateTimeChange', props.selectedEmployee.uuid, state.formShift.date_time_start, state.formShift.date_time_end)
 })
 
@@ -586,6 +604,14 @@ watch(() => state.formShift.shift_type, () => {
 const isVacationLeave = computed(() => {
     return ['vacation-leave'].includes(state.options.shifts.find((shift: any) => shift.value === state.formShift.shift_type)?.system_name)
 })
+
+const selectedShiftOption = computed(() =>
+    state.options.shifts.find((shift: any) => shift.value === state.formShift.shift_type) ?? null
+)
+
+const isSleepingNightShift = computed(() =>
+    selectedShiftOption.value?.system_name === 'sleeping-night-shift'
+)
 
 const rules = computed(() => {
     if (isVacationLeave.value) {
@@ -706,6 +732,7 @@ async function fetchAllShifts() {
                     system_name: shift?.system_name,
                     time_in: shift?.time_in,
                     time_out: shift?.time_out,
+                    end_time_day_offset: shift?.end_time_day_offset,
                 })
             )
             state.options.shifts = options
