@@ -94,9 +94,12 @@
                                     </div>
                                     <div class="space-y-1" v-if="userStore.getUser?.roles?.[0]?.name === 'Admin'">
                                         <Label :label="$t('employees.form.role')" />
-                                        <p class="font-medium">
-                                            {{ state.selectedEmployee?.role }}
-                                        </p>
+                                        <div class="flex flex-wrap gap-1">
+                                            <span v-for="(roleName, index) in state.selectedEmployee?.roles" :key="index"
+                                                class="bg-primary px-2 py-1 text-white text-xs rounded-md font-medium">
+                                                {{ roleName }}
+                                            </span>
+                                        </div>
                                     </div>
                                 </div>
                                 <div class="space-y-1" v-if="userStore.getUser?.roles?.[0]?.name === 'Admin'">
@@ -504,7 +507,7 @@ const state = reactive({
         phone: '',
         birthday: '',
         departments: [],
-        role: '',
+        roles: [],
         street: '',
         region: '',
         municipality: '',
@@ -565,7 +568,7 @@ async function fetchEmployee() {
                 phone: response?.data?.phone ?? '',
                 birthday: response?.data?.birthday ?? '',
                 departments: concatenatedDepartments,
-                role: response?.data?.roles?.[0]?.name ?? '',
+                roles: response?.data?.roles?.map((r: any) => r.name) ?? [],
                 street: response?.data?.employee_address?.street ?? '',
                 region: response?.data?.employee_address?.region?.name ?? '',
                 municipality: response?.data?.employee_address?.municipality?.name ?? '',

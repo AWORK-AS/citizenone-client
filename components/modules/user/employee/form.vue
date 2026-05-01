@@ -113,16 +113,15 @@
                     </div>
                     <div class="space-y-1" ref="roleField" v-if="userStore.getUser?.roles?.[0]?.name === 'Admin'">
                         <div class="flex justify-between items-center py-0.5">
-                            <FormLabel for="departments" :label="$t('employees.form.role')" />
+                            <FormLabel for="roles" :label="$t('employees.form.role')" />
                             <span class="text-xs cursor-pointer text-tertiary hover:text-tertiary-800"
                                 @click="state.modal.isAddRoleOpen = true">
                                 {{ $t('roles.addNewRole') }}
                             </span>
                         </div>
-                        <FormSelect id="role" name="role" :options="state.options.roleOptions"
-                            v-model="state.formEmployee.role" />
-                        <FormError :error="v$?.formEmployee?.role?.$errors[0]?.$message.toString()" />
-                        <FormError :error="props?.error?.errors?.role?.[0]" />
+                        <FormSelectMultiple id="roles" name="roles" :options="state.options.roleOptions"
+                            v-model="state.formEmployee.roles" />
+                        <FormError :error="props?.error?.errors?.roles?.[0]" />
                     </div>
                 </div>
                 <div class="space-y-1" ref="streetField">
@@ -218,7 +217,7 @@
                     <FormError :error="props?.error?.errors?.permission?.[0]" />
                 </div>
                 <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-2 py-2">
-                    <div class="space-y-1" v-if="state.formEmployee?.role !== 'Admin'">
+                    <div class="space-y-1" v-if="!state.formEmployee?.roles?.includes('Admin')">
                         <div class="w-fit flex items-center cursor-pointer"
                             @click="state.formEmployee.show_working_hours = !state.formEmployee.show_working_hours">
                             <FormCheckbox id="show_working_hours" :value="state.formEmployee.show_working_hours" />
@@ -631,7 +630,7 @@ const state = reactive({
         birthday: '',
         seniority_date: '',
         departments: [],
-        role: '',
+        roles: [] as string[],
         street: '',
         region_uuid: '',
         municipality_uuid: '',
@@ -735,7 +734,7 @@ watch(() => props.selectedEmployee, (newValue: any) => {
             birthday: newValue.birthday,
             seniority_date: newValue.seniority_date,
             departments: newValue.departments,
-            role: newValue.role,
+            roles: newValue.roles?.map((r: any) => r.name) ?? [],
             street: newValue.street,
             region_uuid: newValue.region_uuid,
             municipality_uuid: newValue.municipality_uuid,

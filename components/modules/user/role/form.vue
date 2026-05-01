@@ -14,6 +14,12 @@
                 <FormError :error="props?.error?.errors?.name?.[0]" />
             </div>
             <div class="space-y-1">
+                <FormLabel for="level" :label="$t('roles.form.level')" />
+                <FormSelect id="level" name="level" :options="levelOptions" v-model="state.formRole.level"
+                    :disabled="state.formRole?.predefined" />
+                <FormError :error="props?.error?.errors?.level?.[0]" />
+            </div>
+            <div class="space-y-1">
                 <FormLabel for="permissions" :label="$t('roles.form.permissions')" />
                 <FormSelectMultiple id="permissions" :options="translatedPermissions"
                     v-model="state.formRole.permissions" />
@@ -112,26 +118,44 @@ const state = reactive({
         predefined: false,
         permissions: [],
         is_name_editable: true,
+        level: 20,
     },
     permissions: [] as Array<{ uuid: string, name: string }>,
 })
+
+const levelOptions = computed(() => [
+    { value: 20, label: t('roles.table.regular') },
+    { value: 50, label: t('roles.table.manager') },
+])
+
+const isInitializing = ref(true)
 
 onMounted(() => {
     if (props.formType === 'create') {
         fetchAllPermissions()
     }
+    nextTick(() => { isInitializing.value = false })
 })
 
 watch(() => props.selectedRole, (newValue: any) => {
     if (newValue != null) {
+        isInitializing.value = true
         state.formRole = {
             name: newValue.name,
             predefined: newValue.predefined || false,
             permissions: newValue.permissions || [],
             is_name_editable: newValue.is_name_editable || false,
+            level: newValue.level ?? 20,
         }
         fetchAllPermissions()
+        nextTick(() => { isInitializing.value = false })
     }
+})
+
+watch(() => state.formRole.level, () => {
+    if (isInitializing.value) return
+    state.formRole.permissions = []
+    fetchAllPermissions()
 })
 
 const rules = computed(() => {
@@ -151,7 +175,7 @@ async function fetchAllPermissions() {
     emit('isPageLoading', true)
     try {
         const params = {
-            role: props.selectedRole ? props.selectedRole.name : '',
+            level: state.formRole.level,
         }
         const response = await permissionService.getAllPermissions(params)
         if (response?.data) {
@@ -182,7 +206,7 @@ function submitForm() {
     state.error = {}
     v$.value.$validate()
     if (!v$.value.$error) {
-        emit('submitForm', state.formRole)
+        emit('submitForm', { ...state.formRole })
     }
 }
 </script>

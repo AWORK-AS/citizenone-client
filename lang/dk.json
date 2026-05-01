@@ -6325,7 +6325,8 @@
                 "roleSuccessfullyUpdated": "Rolle opdateret med succes"
             },
             "name": "Navn",
-            "permissions": "Tilladelser"
+            "permissions": "Tilladelser",
+            "level": "Niveau"
         },
         "newRole": "Ny rolle",
         "permissions": {
@@ -6383,7 +6384,10 @@
             },
             "name": "Navn",
             "permissions": "Tilladelser",
-            "user": "Bruger"
+            "user": "Bruger",
+            "level": "Niveau",
+            "regular": "Almindelig",
+            "manager": "Leder"
         }
     },
     "rooms": {

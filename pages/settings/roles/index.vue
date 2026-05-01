@@ -32,7 +32,7 @@
                             :isLoading="state.isTableLoading" :sortData="state.sortData" @sort="sort">
                             <template #body v-if="!(state.isTableLoading || (state.roles?.data?.length === 0))">
                                 <tr v-for="(role, index) in state.roles?.data" :key="index">
-                                    <td width="35%">
+                                    <td width="25%">
                                         <span v-if="role.name === 'Admin'">
                                             {{ $t('roles.table.admin') }}
                                         </span>
@@ -43,7 +43,17 @@
                                             {{ role?.name }}
                                         </span>
                                     </td>
-                                    <td width="35%">
+                                    <td width="15%">
+                                        <span v-if="role?.level === 50"
+                                            class="bg-blue-100 text-blue-800 text-xs px-2 py-1 rounded-md font-medium">
+                                            {{ $t('roles.table.manager') }}
+                                        </span>
+                                        <span v-else
+                                            class="bg-gray-100 text-gray-700 text-xs px-2 py-1 rounded-md font-medium">
+                                            {{ $t('roles.table.regular') }}
+                                        </span>
+                                    </td>
+                                    <td width="30%">
                                         <div class="text-xxs flex flex-wrap gap-1">
                                             <span v-for="(permission, index) in role?.permissions" :key=index
                                                 class="bg-primary px-2 py-1 text-white rounded-md">
@@ -51,7 +61,7 @@
                                             </span>
                                         </div>
                                     </td>
-                                    <td width="30%">
+                                    <td width="20%">
                                         <div class="flex items-end justify-end gap-2">
                                             <FormButton type="button" buttonStyle="action"
                                                 @click="navigateTo(`/settings/roles/${role.id}/edit`)"
@@ -102,6 +112,7 @@ const breadcrumbLinks = [
 const state = reactive({
     columnHeaders: [
         { name: 'roles.table.name', isTranslateName: true, sorter: true, key: 'name' },
+        { name: 'roles.table.level', isTranslateName: true },
         { name: 'roles.table.permissions', isTranslateName: true, },
         { name: '' }
     ],
