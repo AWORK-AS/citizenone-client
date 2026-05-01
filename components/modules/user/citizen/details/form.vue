@@ -618,9 +618,11 @@
                                     @change="state.formCitizen.stayData.general_consent = false" />
                             </div>
                         </div>
-                        <div v-for="type in state.options.consentDeclarationTypes" :key="type.id"
+                        <div v-for="(type, typeIndex) in state.options.consentDeclarationTypes" :key="typeIndex"
                             class="grid grid-cols-[1fr_80px_80px] items-center px-4 py-3">
-                            <span class="text-sm text-gray-700">{{ type.name }}</span>
+                            <span class="text-sm text-gray-700">
+                                {{ type.name }}
+                            </span>
                             <div class="flex justify-center">
                                 <input type="radio" :name="`consent_declaration_${type.id}`" value="yes"
                                     class="w-4 h-4 accent-tertiary cursor-pointer"
@@ -637,7 +639,9 @@
                     </div>
                 </div>
                 <div class="space-y-2">
-                    <p class="text-sm font-medium text-gray-700">{{ $t('citizens.form.stayData.guardianship') }}</p>
+                    <p class="text-sm font-medium text-gray-700">
+                        {{ $t('citizens.form.stayData.guardianship') }}
+                    </p>
                     <div class="rounded-lg border border-gray-200 divide-y divide-gray-100">
                         <div
                             class="grid grid-cols-[1fr_80px_80px] px-4 py-2 bg-gray-50 text-xs font-semibold text-gray-500 uppercase tracking-wide">
@@ -646,8 +650,9 @@
                             <span class="text-center">{{ $t('no') }}</span>
                         </div>
                         <div class="grid grid-cols-[1fr_80px_80px] items-center px-4 py-3">
-                            <span class="text-sm text-gray-700">{{ $t('citizens.form.stayData.personalGuardianship')
-                                }}</span>
+                            <span class="text-sm text-gray-700">
+                                {{ $t('citizens.form.stayData.personalGuardianship') }}
+                            </span>
                             <div class="flex justify-center">
                                 <input type="radio" name="stayData_personal_guardianship" value="yes"
                                     class="w-4 h-4 accent-tertiary cursor-pointer"
@@ -662,8 +667,9 @@
                             </div>
                         </div>
                         <div class="grid grid-cols-[1fr_80px_80px] items-center px-4 py-3">
-                            <span class="text-sm text-gray-700">{{ $t('citizens.form.stayData.financialGuardianship')
-                                }}</span>
+                            <span class="text-sm text-gray-700">
+                                {{ $t('citizens.form.stayData.financialGuardianship') }}
+                            </span>
                             <div class="flex justify-center">
                                 <input type="radio" name="stayData_financial_guardianship" value="yes"
                                     class="w-4 h-4 accent-tertiary cursor-pointer"
@@ -803,8 +809,8 @@
                 street: state.formCitizen.street,
                 city: state.formCitizen.city,
                 postCode: state.formCitizen.post_code,
-                municipality: state.options.municipalities.find(m => m.value === state.formCitizen.municipality)?.label,
-                region: state.options.regions.find(r => r.value === state.formCitizen.region)?.label
+                municipality: state.options.municipalities.find((municipality: any) => municipality.value === state.formCitizen.municipality)?.label,
+                region: state.options.regions.find((region: any) => region.value === state.formCitizen.region)?.label
             }" @close="state.modal.isLocateCitizenOpen = false" @locationSelected="onCitizenLocationSelected" />
     </form>
 </template>
@@ -959,25 +965,25 @@ const state = reactive({
         isLocateCitizenOpen: false,
     },
     options: {
-        addictions: [],
-        cities: [],
-        caseworkers: [],
-        departments: [],
-        diagnoses: [],
-        foreignCities: [],
+        addictions: [] as any,
+        cities: [] as any,
+        caseworkers: [] as any,
+        departments: [] as any,
+        diagnoses: [] as any,
+        foreignCities: [] as any,
         genders: [
             { value: 'male', label: `${t('gender.male')}`, },
             { value: 'female', label: `${t('gender.female')}`, },
             { value: 'non_binary', label: `${t('gender.nonbinary')}`, },
             { value: 'will_not_disclose', label: `${t('gender.willNotDisclose')}`, },
         ],
-        consentDeclarationTypes: [],
-        medicationAllergies: [],
-        municipalities: [],
-        municipalitiesPerRegion: [],
-        regions: [],
-        rooms: [],
-        sections: [],
+        consentDeclarationTypes: [] as any,
+        medicationAllergies: [] as any,
+        municipalities: [] as any,
+        municipalitiesPerRegion: [] as any,
+        regions: [] as any,
+        rooms: [] as any,
+        sections: [] as any,
     },
     selectedCitizenLocation: null as { lat: number; lng: number } | null,
 })
@@ -1281,7 +1287,10 @@ async function fetchConsentDeclarationTypes() {
             const saved = state.formCitizen.stayData.consent_declarations as any[]
             state.formCitizen.stayData.consent_declarations = state.options.consentDeclarationTypes.map((type: any) => {
                 const existing = saved?.find((d: any) => d.consent_declaration_type_id === type.id)
-                return { consent_declaration_type_id: type.id, value: existing ? existing.value : false }
+                return {
+                    consent_declaration_type_id: type.id,
+                    value: existing ? existing.value : false
+                }
             })
         }
     } catch (error: any) {
