@@ -59,7 +59,7 @@
             <div class="space-y-2 pt-2 border-t border-gray-100">
                 <FormLabel for="working_hours_factor" :label="$t('shifts.form.workingHoursFactor')" />
                 <FormNumberField id="working_hours_factor" name="working_hours_factor"
-                    :placeholder="$t('shifts.form.workingHoursFactorPlaceholder')" :min="0.01"
+                    :placeholder="$t('shifts.form.workingHoursFactorPlaceholder')"
                     v-model="state.formShift.working_hours_factor" />
                 <FormError :error="props?.error?.errors?.working_hours_factor?.[0]" />
 
@@ -137,10 +137,10 @@ const emit = defineEmits(['isPageLoading', 'submitForm'])
 const { t } = useI18n()
 
 const endTimeDayOffsetOptions = computed(() => [
-    { value: 0, label: t('shifts.form.endTimeDayOffsetSameDay') },
-    { value: 1, label: t('shifts.form.endTimeDayOffsetOneDayLater') },
-    { value: 2, label: t('shifts.form.endTimeDayOffsetTwoDaysLater') },
-    { value: 3, label: t('shifts.form.endTimeDayOffsetThreeDaysLater') },
+    { value: '0', label: t('shifts.form.endTimeDayOffsetSameDay') },
+    { value: '1', label: t('shifts.form.endTimeDayOffsetOneDayLater') },
+    { value: '2', label: t('shifts.form.endTimeDayOffsetTwoDaysLater') },
+    { value: '3', label: t('shifts.form.endTimeDayOffsetThreeDaysLater') },
 ])
 
 const state = reactive({
@@ -154,10 +154,10 @@ const state = reactive({
         time_out: '',
         color: '#000000',
         is_leave_shift_type: false,
-        working_hours_factor: '' as string | null,
+        working_hours_factor: '' as string | undefined,
         working_hours_factor_from: '' as string | null,
         working_hours_factor_to: '' as string | null,
-        end_time_day_offset: null as number | null,
+        end_time_day_offset: null as any,
         system_name: '' as string | null,
     },
 })
@@ -175,7 +175,7 @@ watch(() => props.selectedShift, (newValue: any) => {
             working_hours_factor: newValue.working_hours_factor ?? '',
             working_hours_factor_from: newValue.working_hours_factor_from ?? '',
             working_hours_factor_to: newValue.working_hours_factor_to ?? '',
-            end_time_day_offset: newValue.end_time_day_offset ?? null,
+            end_time_day_offset: newValue.end_time_day_offset != null ? String(newValue.end_time_day_offset) : null,
             system_name: newValue.system_name ?? null,
         }
     }
@@ -221,7 +221,10 @@ function submitForm() {
     state.error = {}
     v$.value.$validate()
     if (!v$.value.$error) {
-        emit('submitForm', state.formShift)
+        emit('submitForm', {
+            ...state.formShift,
+            end_time_day_offset: state.formShift.end_time_day_offset != null ? Number(state.formShift.end_time_day_offset) : null,
+        })
     }
 }
 </script>
