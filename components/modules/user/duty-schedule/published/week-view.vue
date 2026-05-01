@@ -232,7 +232,7 @@
                                                     expandedRecords[employeeIndex as number] && 'hidden'
                                                 ]">
                                                     <div class="text-xs grid grid-cols-7"
-                                                        v-if="isAdmin(userStore.getUser?.role) || (!isAdmin(userStore.getUser?.role) && userStore.getUser?.show_working_hours)">
+                                                        v-if="isAtLeast('Admin') || (!isAtLeast('Admin') && userStore.getUser?.show_working_hours)">
                                                         <div class="col-span-3 space-y-2" />
                                                         <div class="col-span-2 flex gap-2 flex-col items-end">
                                                             <p class="text-xxs py-2 pr-2">
@@ -465,6 +465,7 @@ import moment from 'moment'
 import { useDepartmentStore } from '@/store/department'
 import { useDraftDutyScheduleStore } from '@/store/draft-duty-schedule'
 import { useUserStore } from '@/store/user'
+import { usePermissions } from '@/composables/usePermissions'
 import { useNumberFormatter } from '@/composables/numberFormatter'
 import { useI18n } from "vue-i18n"
 import type { Error } from '@/types'
@@ -472,6 +473,7 @@ import { publishedVersionsService } from '~/components/api/user/PublishedVersion
 
 const language = useI18n()
 const userStore = useUserStore() as any
+const { isAtLeast, can } = usePermissions()
 const departmentStore = useDepartmentStore()
 const draftDutyScheduleStore = useDraftDutyScheduleStore() as any
 const { formatNumber } = useNumberFormatter()
@@ -553,9 +555,6 @@ onBeforeUnmount(() => {
     window.removeEventListener('scroll', handleScroll)
 })
 
-function isAdmin(role: any) {
-    return role && role === 'Admin'
-}
 
 function filterDutyScheduleDate(formDateRange: any) {
     state.shiftDateRange.formDateRange.start_date = formDateRange?.[0]

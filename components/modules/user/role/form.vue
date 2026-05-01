@@ -43,6 +43,7 @@
 
 <script setup lang="ts">
 import { permissionService } from '@/components/api/user/PermissionService'
+import { PERMISSION_LABELS } from '@/composables/usePermissions'
 import { useVuelidate } from "@vuelidate/core"
 import { required, helpers } from '@vuelidate/validators'
 import { useI18n } from "vue-i18n"
@@ -67,49 +68,6 @@ const emit = defineEmits(['isPageLoading', 'submitForm'])
 
 const { t, locale } = useI18n()
 
-const PERMISSION_LABELS: Record<string, string> = {
-    'scheduler': 'roles.permissions.scheduler',
-    'create_schedule': 'roles.permissions.createSchedule',
-    'read_schedule': 'roles.permissions.readSchedule',
-    'view_schedule': 'roles.permissions.viewSchedule',
-    'update_schedule': 'roles.permissions.updateSchedule',
-    'delete_schedule': 'roles.permissions.deleteSchedule',
-    'create_citizen_journal': 'roles.permissions.createCitizenJournal',
-    'view_citizen_journal': 'roles.permissions.viewCitizenJournal',
-    'update_citizen_journal': 'roles.permissions.updateCitizenJournal',
-    'delete_citizen_journal': 'roles.permissions.deleteCitizenJournal',
-    'create_citizen_calendar': 'roles.permissions.createCitizenCalendar',
-    'view_citizen_calendar': 'roles.permissions.viewCitizenCalendar',
-    'update_citizen_calendar': 'roles.permissions.updateCitizenCalendar',
-    'delete_citizen_calendar': 'roles.permissions.deleteCitizenCalendar',
-    'create_citizen_health': 'roles.permissions.createCitizenHealth',
-    'view_citizen_health': 'roles.permissions.viewCitizenHealth',
-    'update_citizen_health': 'roles.permissions.updateCitizenHealth',
-    'delete_citizen_health': 'roles.permissions.deleteCitizenHealth',
-    'create_citizen_medicine': 'roles.permissions.createCitizenMedicine',
-    'update_citizen_medicine': 'roles.permissions.updateCitizenMedicine',
-    'delete_citizen_medicine': 'roles.permissions.deleteCitizenMedicine',
-    'create_citizen_plan': 'roles.permissions.createCitizenPlan',
-    'update_citizen_plan': 'roles.permissions.updateCitizenPlan',
-    'delete_citizen_plan': 'roles.permissions.deleteCitizenPlan',
-    'create_citizen_document': 'roles.permissions.createCitizenDocument',
-    'update_citizen_document': 'roles.permissions.updateCitizenDocument',
-    'delete_citizen_document': 'roles.permissions.deleteCitizenDocument',
-    'create_citizen_economy': 'roles.permissions.createCitizenEconomy',
-    'update_citizen_economy': 'roles.permissions.updateCitizenEconomy',
-    'delete_citizen_economy': 'roles.permissions.deleteCitizenEconomy',
-    'create_citizen_contact': 'roles.permissions.createCitizenContact',
-    'update_citizen_contact': 'roles.permissions.updateCitizenContact',
-    'delete_citizen_contact': 'roles.permissions.deleteCitizenContact',
-    'create_citizen_children': 'roles.permissions.createCitizenChildren',
-    'update_citizen_children': 'roles.permissions.updateCitizenChildren',
-    'delete_citizen_children': 'roles.permissions.deleteCitizenChildren',
-    'delete_calendar': 'roles.permissions.deleteCalendar',
-    'create_citizen': 'roles.permissions.createCitizen',
-    'update_citizen': 'roles.permissions.updateCitizen',
-    'update_form_field_config': 'roles.permissions.updateFormFieldConfig',
-}
-
 const state = reactive({
     error: {} as Error,
     isPageLoading: false,
@@ -118,14 +76,14 @@ const state = reactive({
         predefined: false,
         permissions: [],
         is_name_editable: true,
-        level: 20,
+        level: '20',
     },
     permissions: [] as Array<{ uuid: string, name: string }>,
 })
 
 const levelOptions = computed(() => [
-    { value: 20, label: t('roles.table.regular') },
-    { value: 50, label: t('roles.table.manager') },
+    { value: '20', label: t('roles.table.regular') },
+    { value: '50', label: t('roles.table.manager') },
 ])
 
 const isInitializing = ref(true)
@@ -145,7 +103,7 @@ watch(() => props.selectedRole, (newValue: any) => {
             predefined: newValue.predefined || false,
             permissions: newValue.permissions || [],
             is_name_editable: newValue.is_name_editable || false,
-            level: newValue.level ?? 20,
+            level: String(newValue.level ?? 20),
         }
         fetchAllPermissions()
         nextTick(() => { isInitializing.value = false })
@@ -191,7 +149,7 @@ async function fetchAllPermissions() {
 }
 
 const translatedPermissions = computed(() => {
-    const currentLocale = locale.value
+    locale.value // reactive dependency so labels re-compute on locale change
 
     return state.permissions.map((permission) => {
         const translationKey = PERMISSION_LABELS[permission.name]

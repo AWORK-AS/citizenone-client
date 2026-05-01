@@ -95,7 +95,7 @@
                     <FormError :error="props?.error?.errors?.seniority_date?.[0]" />
                 </div>
                 <div class="grid grid-cols-1 gap-3" :class="[
-                    isAdmin(userStore.getUser?.roles) && 'md:grid-cols-2'
+                    isAtLeast('Admin') && 'md:grid-cols-2'
                 ]">
                     <div class="space-y-1">
                         <div class="flex justify-between items-center py-0.5">
@@ -111,7 +111,7 @@
                         <FormError :error="v$?.formEmployee?.departments?.$errors[0]?.$message.toString()" />
                         <FormError :error="props?.error?.errors?.department_uuid?.[0]" />
                     </div>
-                    <div class="space-y-1" ref="roleField" v-if="userStore.getUser?.roles?.[0]?.name === 'Admin'">
+                    <div class="space-y-1" ref="roleField" v-if="isAtLeast('Admin')">
                         <div class="flex justify-between items-center py-0.5">
                             <FormLabel for="roles" :label="$t('employees.form.role')" />
                             <span class="text-xs cursor-pointer text-tertiary hover:text-tertiary-800"
@@ -163,7 +163,7 @@
                         <FormError :error="props?.error?.errors?.post_code?.[0]" />
                     </div>
                 </div>
-                <div class="space-y-1" v-if="isAdmin(userStore.getUser?.roles)">
+                <div class="space-y-1" v-if="isAtLeast('Admin')">
                     <div class="flex items-center gap-x-2">
                         <p class="text-sm text-gray-600">
                             {{ $t('employees.form.mediaRisks.mediaRisks') }}
@@ -192,7 +192,7 @@
                     </div>
                     <FormError :error="props?.error?.errors?.media_risk?.[0]" />
                 </div>
-                <div class="space-y-1" v-if="isAdmin(userStore.getUser?.roles)">
+                <div class="space-y-1" v-if="isAtLeast('Admin')">
                     <p class="text-sm text-gray-600">
                         {{ $t('employees.form.permissions.permissions') }}
                     </p>
@@ -225,7 +225,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="space-y-1" v-if="isAdmin(userStore.getUser?.roles)">
+                <div class="space-y-1" v-if="isAtLeast('Admin')">
                     <FormLabel for="pages" :label="$t('employees.form.pageAccess')" />
                     <FormSelectMultiple id="pages" :options="state.options.pages" v-model="state.formEmployee.pages" />
                     <FormError :error="v$?.formEmployee?.pages?.$errors[0]?.$message.toString()" />
@@ -243,7 +243,7 @@
                 </p>
             </div>
             <div class="md:col-span-2 space-y-3 bg-white shadow-sm ring-1 ring-gray-900/5 rounded-lg px-4 py-6 sm:p-8">
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-3" v-if="isAdmin(userStore.getUser?.roles)">
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-3" v-if="isAtLeast('Admin')">
                     <div class="space-y-1 col-span-1 md:col-span-2" ref="salaryIDField">
                         <FormLabel for="salary_id" :label="$t('employees.form.employment.salaryID')" />
                         <FormTextField id="salary_id" name="salary_id"
@@ -273,7 +273,7 @@
                     </div>
                 </div>
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
-                    <div class="space-y-1" ref="annualNormHoursField" v-if="isAdmin(userStore.getUser?.roles)">
+                    <div class="space-y-1" ref="annualNormHoursField" v-if="isAtLeast('Admin')">
                         <div class="flex items-center gap-x-1">
                             <FormLabel for="annual_norm_hours"
                                 :label="$t('employees.form.employment.annualNormHours')" />
@@ -291,7 +291,7 @@
                         <FormError :error="props?.error?.errors?.annual_norm_hours?.[0]" />
                         <FormError :error="state?.error?.errors?.annual_norm_hours?.[0]" />
                     </div>
-                    <div class="space-y-1" ref="weeklyNormHoursField" v-if="isAdmin(userStore.getUser?.roles)">
+                    <div class="space-y-1" ref="weeklyNormHoursField" v-if="isAtLeast('Admin')">
                         <div class="flex items-center gap-x-1">
                             <FormLabel for="weekly_norm_hours"
                                 :label="$t('employees.form.employment.weeklyNormHours')" />
@@ -324,7 +324,7 @@
                             :error="v$?.formEmployee?.employment?.norm_period_uuid?.$errors[0]?.$message.toString()" />
                         <FormError :error="props?.error?.errors?.norm_period_uuid?.[0]" />
                     </div>
-                    <div class="space-y-1" ref="vacationDaysField" v-if="isAdmin(userStore.getUser?.roles)">
+                    <div class="space-y-1" ref="vacationDaysField" v-if="isAtLeast('Admin')">
                         <FormLabel for="vacation_days" :label="$t('employees.form.employment.vacationDays')" />
                         <FormTextField id="vacation_days" name="vacation_days"
                             :placeholder="$t('employees.form.employment.vacationDays')"
@@ -367,7 +367,7 @@
                     </div>
                 </div>
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
-                    <div class="space-y-1" ref="workingHoursField" v-if="isAdmin(userStore.getUser?.roles)">
+                    <div class="space-y-1" ref="workingHoursField" v-if="isAtLeast('Admin')">
                         <FormLabel for="working_hours" :label="$t('employees.form.employment.workingHours')" />
                         <FormSelect id="working_hours" :options="state.options.working_hours"
                             v-model="state.formEmployee.employment.working_hours" />
@@ -375,7 +375,7 @@
                             :error="v$?.formEmployee?.employment?.working_hours?.$errors[0]?.$message.toString()" />
                         <FormError :error="props?.error?.errors?.working_hours?.[0]" />
                     </div>
-                    <div class="space-y-1" ref="employmentStatusField" v-if="isAdmin(userStore.getUser?.roles)">
+                    <div class="space-y-1" ref="employmentStatusField" v-if="isAtLeast('Admin')">
                         <FormLabel for="employment_status" :label="$t('employees.form.employment.employmentStatus')" />
                         <FormSelect id="employment_status" :options="state.options.employment_status"
                             v-model="state.formEmployee.employment.employment_status" />
@@ -571,6 +571,7 @@ import { required, helpers } from '@vuelidate/validators'
 import { useI18n } from "vue-i18n"
 import { useAlert } from '@/composables/alert'
 import { useUserStore } from '@/store/user'
+import { usePermissions } from '@/composables/usePermissions'
 import type { EmployeeForm, Error } from '@/types'
 
 const props = defineProps({
@@ -592,6 +593,7 @@ const customPagesStore = useCustomPagesStore() as any
 const router = useRouter()
 const employeeUuid = router?.currentRoute?.value?.params?.employee_uuid
 const userStore = useUserStore() as any
+const { isAtLeast, can } = usePermissions()
 const image = ref<HTMLInputElement | null>(null)
 const avatarUrl = ref('/img/avatars/user.svg')
 const { errorAlert } = useAlert()
@@ -833,10 +835,6 @@ onMounted(() => {
     fetchRegions()
     fetchNormPeriods()
 })
-
-function isAdmin(roles: any) {
-    return roles && roles.some((role: any) => role.name === 'Admin')
-}
 
 function triggerFileInput() {
     if (image.value) {

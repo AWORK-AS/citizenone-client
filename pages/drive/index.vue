@@ -328,7 +328,7 @@
                                                 </FormButton>
                                             </Tooltip>
                                             <Tooltip :text="$t('drive.table.actions.access')"
-                                                v-if="isAdmin(userStore.getUser?.roles) && !state.isInsideOneDrive">
+                                                v-if="isAtLeast('Admin') && !state.isInsideOneDrive">
                                                 <FormButton type="button" buttonStyle="action"
                                                     @click="viewDocumentAccess(document)">
                                                     <Icon name="ph:lock" class="size-4" />
@@ -495,6 +495,7 @@ import { googledriveService } from '@/components/api/user/GoogleDriveService'
 import { useI18n } from "vue-i18n"
 import { useAlert } from '@/composables/alert'
 import { useUserStore } from '@/store/user'
+import { usePermissions } from '@/composables/usePermissions'
 import type { Error } from '@/types'
 import { saveAs } from 'file-saver'
 import OneDriveService from '@/components/api/oneDrive/OneDriveService'
@@ -582,6 +583,7 @@ async function handleOneDriveButtonClick() {
 const { formatDateTimeToReadable } = useDatetimeFormatter()
 const { successAlert, errorAlert } = useAlert()
 const userStore = useUserStore() as any
+const { isAtLeast, can } = usePermissions()
 const { t } = useI18n()
 const router = useRouter()
 const documentFile = ref(null) as any
@@ -785,9 +787,6 @@ watch(() => router?.currentRoute?.value?.query, (newParams, oldParams) => {
     }
 }, { deep: true })
 
-function isAdmin(roles: any) {
-    return roles && roles.some((role: any) => role.name === 'Admin')
-}
 
 async function navigateToExternalLink(link: any) {
     await navigateTo(link, {

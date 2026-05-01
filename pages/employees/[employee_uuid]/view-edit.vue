@@ -19,7 +19,7 @@
                     <span>{{ $t('back') }}</span>
                 </NuxtLink>
                 <LoadingSpinner :isActive="state.isPageLoading">
-                    <div class="flex gap-x-3 justify-end" v-if="isAdmin(userStore.getUser?.roles)">
+                    <div class="flex gap-x-3 justify-end" v-if="isAtLeast('Admin')">
                         <div class="flex justify-end">
                             <FormButton type="button" buttonStyle="warning" @click="confirmCitizenArchiving">
                                 {{ $t('employees.archiveEmployee') }}
@@ -52,12 +52,14 @@ import { employeeService } from '@/components/api/user/EmployeeService'
 import { useI18n } from "vue-i18n"
 import { useAlert } from '@/composables/alert'
 import { useUserStore } from '@/store/user'
+import { usePermissions } from '@/composables/usePermissions'
 import type { EmployeeForm, Error } from '@/types'
 
 const runtimeConfig = useRuntimeConfig()
 const { successAlert } = useAlert()
 const { t } = useI18n()
 const userStore = useUserStore() as any
+const { isAtLeast } = usePermissions()
 const router = useRouter()
 const employeeUuid = router?.currentRoute?.value?.params?.employee_uuid
 const breadcrumbLinks = [
@@ -262,10 +264,6 @@ function confirmCitizenArchiving() {
 
 function confirmEmployeeDeletion() {
     state.modal.isDeleteEmployeeOpen = true
-}
-
-function isAdmin(roles: any) {
-    return roles && roles.some((role: any) => role.name === 'Admin')
 }
 
 async function archiveEmployee() {

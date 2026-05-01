@@ -342,6 +342,7 @@ import { goalService } from '@/components/api/user/GoalService'
 import { useI18n } from "vue-i18n"
 import { useAlert } from '@/composables/alert'
 import { useUserStore } from '@/store/user'
+import { usePermissions } from '@/composables/usePermissions'
 import { useCitizenPlansAndGoalsStore } from '@/store/citizen-plans-and-goals'
 import { useCustomPagesStore } from '@/store/custom-pages'
 import type { Error } from '@/types'
@@ -354,6 +355,7 @@ const { t } = useI18n()
 const citizenPlansAndGoalsStore = useCitizenPlansAndGoalsStore()
 const customPagesStore = useCustomPagesStore() as any
 const userStore = useUserStore() as any
+const { isAtLeast, can } = usePermissions()
 const router = useRouter()
 const citizenUuid = router?.currentRoute?.value?.params?.uuid
 const childUuid = router?.currentRoute?.value?.params?.child_uuid
@@ -416,7 +418,7 @@ onMounted(() => {
 
 function hasCreatePlanAccess() {
     const user = userStore.getUser
-    const hasAdminAccess = isAdmin(user?.roles)
+    const hasAdminAccess = isAtLeast('Admin')
     const employeeCanCreatePlan = user?.company?.employee_create_plans_enabled
     if (hasAdminAccess) {
         return true
@@ -426,9 +428,6 @@ function hasCreatePlanAccess() {
     return false
 }
 
-function isAdmin(roles: any) {
-    return roles && roles.some((role: any) => role.name === 'Admin')
-}
 
 function setFilterView(formFilter: any) {
     citizenPlansAndGoalsStore.setFilterIsCompleted(formFilter?.is_completed)

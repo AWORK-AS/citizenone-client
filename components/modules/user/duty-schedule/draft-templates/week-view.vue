@@ -143,7 +143,7 @@
                                                 </button>
                                             </Tooltip>
                                             <div class="flex-1 flex justify-end gap-x-2"
-                                                v-if="isAdmin(userStore.getUser?.role)">
+                                                v-if="isAtLeast('Admin')">
                                                 <Tooltip :text="$t('dutySchedules.copy.copyMultipleWeeksSchedule')">
                                                     <button
                                                         class="bg-gray-200 w-6 h-6 text-sm text-gray-600 rounded-sm hover:bg-gray-400 hover:text-gray-200 flex items-center justify-center"
@@ -288,7 +288,7 @@
                                                     expandedRecords[employeeIndex] && 'hidden'
                                                 ]">
                                                     <div class="text-xs grid grid-cols-7"
-                                                        v-if="isAdmin(userStore.getUser?.role) || (!isAdmin(userStore.getUser?.role) && userStore.getUser?.show_working_hours)">
+                                                        v-if="isAtLeast('Admin') || (!isAtLeast('Admin') && userStore.getUser?.show_working_hours)">
                                                         <div class="col-span-3 space-y-2" />
                                                         <div class="col-span-2 flex gap-2 flex-col items-end">
                                                             <p class="text-xxs py-2 pr-2">
@@ -415,7 +415,7 @@
                                                 <div class="space-y-2"
                                                     v-if="!isDailyScheduleCopied(employeeIndex, weekIndex, weekNumber)">
                                                     <div class="flex justify-end gap-2"
-                                                        v-if="isAdmin(userStore.getUser?.role)">
+                                                        v-if="isAtLeast('Admin')">
                                                         <Tooltip position="left" :text="$t('dutySchedules.copy.copy')">
                                                             <button
                                                                 class="bg-gray-200 w-6 h-6 text-sm text-gray-600 rounded-sm hover:bg-gray-400 hover:text-gray-200 flex items-center justify-center"
@@ -447,7 +447,7 @@
                                                                 S
                                                             </div>
                                                             <div class="flex justify-between text-white"
-                                                                :class="isAdmin(userStore.getUser?.role) ? 'cursor-pointer' : 'cursor-not-allowed'"
+                                                                :class="isAtLeast('Admin') ? 'cursor-pointer' : 'cursor-not-allowed'"
                                                                 @click="editSchedule(employee, employeeIndex, weekIndex, shift, shiftIndex)">
                                                                 <div class="relative w-full">
                                                                     <div class="bg-white border-0.5 border-gray-300 w-4 h-4 rounded-full absolute -left-2 top-2.5 flex items-center justify-center"
@@ -513,7 +513,7 @@
                                                             <button
                                                                 class="bg-gray-200 w-4 h-4 text-sm text-gray-600 rounded-full flex items-center justify-center absolute -right-1 -top-1"
                                                                 @click="removeShift(week, employeeIndex, weekIndex, shift, shiftIndex)"
-                                                                v-if="isAdmin(userStore.getUser?.role)">
+                                                                v-if="isAtLeast('Admin')">
                                                                 <Tooltip position="left"
                                                                     :text="$t('dutySchedules.removeSchedule.removeSchedule')">
                                                                     <Icon name="ph:x" class="h-2 w-2"
@@ -610,6 +610,7 @@ import { draftTemplateScheduleService } from '@/components/api/user/DraftTemplat
 import { useDepartmentStore } from '@/store/department'
 import { useDraftDutyScheduleStore } from '@/store/draft-duty-schedule'
 import { useUserStore } from '@/store/user'
+import { usePermissions } from '@/composables/usePermissions'
 import { useNumberFormatter } from '@/composables/numberFormatter'
 import { useAlert } from '@/composables/alert'
 import { useI18n } from "vue-i18n"
@@ -617,6 +618,7 @@ import type { Error } from '@/types'
 
 const language = useI18n()
 const userStore = useUserStore() as any
+const { isAtLeast, can } = usePermissions()
 const departmentStore = useDepartmentStore()
 const draftDutyScheduleStore = useDraftDutyScheduleStore() as any
 const { formatNumber } = useNumberFormatter()
@@ -735,9 +737,6 @@ function handleKeyDown(event: KeyboardEvent) {
     }
 }
 
-function isAdmin(role: any) {
-    return role && role === 'Admin'
-}
 
 function filterDutyScheduleDate(formDateRange: any) {
     state.shiftDateRange.formDateRange.start_date = formDateRange?.[0]

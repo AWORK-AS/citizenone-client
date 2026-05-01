@@ -1,6 +1,6 @@
 <template>
     <div>
-        <Modal size="xs" :title="isAdmin(userStore.getUser?.role) ?
+        <Modal size="xs" :title="isAtLeast('Admin') ?
             $t('dutySchedules.extraHours.newExtraHours') :
             $t('dutySchedules.extraHours.newExtraHoursRequest')" :show="props.isModalOpen" @close="closeModal">
             <template #modal-body>
@@ -20,11 +20,13 @@ import { extraHoursService } from '@/components/api/user/ExtraHoursService'
 import { useAlert } from '@/composables/alert'
 import { useI18n } from "vue-i18n"
 import { useUserStore } from '@/store/user'
+import { usePermissions } from '@/composables/usePermissions'
 import type { Error } from '@/types'
 
 const { successAlert } = useAlert()
 const { t } = useI18n()
 const userStore = useUserStore() as any
+const { isAtLeast, can } = usePermissions()
 
 const props = defineProps({
     isModalOpen: {
@@ -73,7 +75,7 @@ async function saveScheduleSlot(extraHoursDetails: any) {
         }
         const response = await extraHoursService.saveExtraHour(params)
         if (response) {
-            if (isAdmin(userStore.getUser?.role)) {
+            if (isAtLeast('Admin')) {
                 successAlert(`${t('alert.success')}!`, `${t('dutySchedules.extraHours.form.alert.extraHoursSuccessfullyAdded')}.`)
             } else {
                 successAlert(`${t('alert.success')}!`, `${t('dutySchedules.extraHours.form.alert.extraHoursRequestSuccessfullyAdded')}.`)
@@ -88,7 +90,4 @@ async function saveScheduleSlot(extraHoursDetails: any) {
     state.isPageLoading = false
 }
 
-function isAdmin(role: any) {
-    return role && role === 'Admin'
-}
 </script>

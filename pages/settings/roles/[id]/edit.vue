@@ -75,7 +75,7 @@ async function fetchRole() {
                 predefined: response?.data?.predefined ?? false,
                 is_name_editable: response?.data?.is_name_editable ?? false,
                 permissions: [],
-                level: response?.data?.level ?? 20,
+                level: String(response?.data?.level ?? 20),
             }
             response?.data?.permissions.forEach((permission: any) => {
                 state.formRole.permissions.push(permission?.uuid)

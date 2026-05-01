@@ -30,17 +30,18 @@ import { dutyShiftRuleService } from '@/components/api/user/DutyShiftRuleService
 import { useI18n } from "vue-i18n"
 import { useAlert } from '@/composables/alert'
 import { useUserStore } from '@/store/user'
+import { usePermissions } from '@/composables/usePermissions'
 import type { Error } from '@/types'
 
 const runtimeConfig = useRuntimeConfig()
 const { successAlert } = useAlert()
 const { t } = useI18n()
 const userStore = useUserStore() as any
+const { isAtLeast } = usePermissions()
 
 watch(() => userStore.getUser, (newValue: any) => {
     if (newValue != null) {
-        const isAdmin = userStore.getUser.roles.some((role: any) => role.name === 'Admin')
-        if (!isAdmin) navigateTo('/settings/duty-shift-rules')
+        if (!isAtLeast('Admin')) navigateTo('/settings/duty-shift-rules')
     }
 })
 

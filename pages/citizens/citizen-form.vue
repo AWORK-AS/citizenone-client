@@ -517,12 +517,14 @@ import { formFieldConfigService } from '@/components/api/user/FormFieldConfigSer
 import { useUserStore } from '@/store/user'
 import { useAlert } from '@/composables/alert'
 import { useI18n } from 'vue-i18n'
+import { usePermissions } from '@/composables/usePermissions'
 import type { Error } from '@/types'
 
 const runtimeConfig = useRuntimeConfig()
 const userStore = useUserStore() as any
 const { successAlert } = useAlert()
 const { t } = useI18n()
+const { isAtLeast, can } = usePermissions()
 
 const breadcrumbLinks = [
     {
@@ -601,10 +603,7 @@ function isFieldVisible(fieldKey: string): boolean {
 }
 
 onMounted(() => {
-    const isAdmin = userStore.getUser?.roles?.[0]?.name === 'Admin'
-    const hasPermission = userStore.user?.permissions?.find((p: any) => p.name === 'update_form_field_config')
-
-    if (!isAdmin && !hasPermission) {
+    if (!isAtLeast('Admin') && !can('update_form_field_config')) {
         navigateTo('/citizens')
         return
     }

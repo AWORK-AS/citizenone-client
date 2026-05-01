@@ -22,7 +22,7 @@
 
                 <LoadingSpinner :isActive="state.isPageLoading">
                     <div class="mt-6">
-                        <div class="flex gap-x-3 justify-end mb-6" v-if="isAdmin(userStore.getUser?.roles)">
+                        <div class="flex gap-x-3 justify-end mb-6" v-if="isAtLeast('Admin')">
                             <div class="flex justify-end">
                                 <FormButton type="button" buttonStyle="primary"
                                     @click="navigateTo(`/employees/${employeeUuid}/view-edit`)">
@@ -77,7 +77,7 @@
                                         <Label :label="$t('employees.form.phone')" />
                                         <p class="font-medium">{{ state.selectedEmployee.phone }}</p>
                                     </div>
-                                    <div class="space-y-1" v-if="userStore.getUser?.roles?.[0]?.name === 'Admin'">
+                                    <div class="space-y-1" v-if="isAtLeast('Admin')">
                                         <Label :label="$t('employees.form.birthday')" />
                                         <p class="font-medium" v-if="state.selectedEmployee.birthday">
                                             {{ formatDateToReadable(state.selectedEmployee.birthday) }}
@@ -92,7 +92,7 @@
                                             {{ state.selectedEmployee?.departments }}
                                         </p>
                                     </div>
-                                    <div class="space-y-1" v-if="userStore.getUser?.roles?.[0]?.name === 'Admin'">
+                                    <div class="space-y-1" v-if="isAtLeast('Admin')">
                                         <Label :label="$t('employees.form.role')" />
                                         <div class="flex flex-wrap gap-1">
                                             <span v-for="(roleName, index) in state.selectedEmployee?.roles" :key="index"
@@ -102,14 +102,14 @@
                                         </div>
                                     </div>
                                 </div>
-                                <div class="space-y-1" v-if="userStore.getUser?.roles?.[0]?.name === 'Admin'">
+                                <div class="space-y-1" v-if="isAtLeast('Admin')">
                                     <Label :label="$t('employees.form.street')" />
                                     <p class="font-medium">
                                         {{ state.selectedEmployee?.street }}
                                     </p>
                                 </div>
                                 <div class="grid grid-cols-1 md:grid-cols-2 gap-3"
-                                    v-if="userStore.getUser?.roles?.[0]?.name === 'Admin'">
+                                    v-if="isAtLeast('Admin')">
                                     <div class="space-y-1">
                                         <Label :label="$t('employees.form.region')" />
                                         <p class="font-medium">
@@ -124,7 +124,7 @@
                                     </div>
                                 </div>
                                 <div class="grid grid-cols-1 md:grid-cols-2 gap-3"
-                                    v-if="userStore.getUser?.roles?.[0]?.name === 'Admin'">
+                                    v-if="isAtLeast('Admin')">
                                     <div class="space-y-1">
                                         <Label :label="$t('employees.form.city')" />
                                         <p class="font-medium">
@@ -138,7 +138,7 @@
                                         </p>
                                     </div>
                                 </div>
-                                <div class="space-y-1" v-if="isAdmin(userStore.getUser?.roles)">
+                                <div class="space-y-1" v-if="isAtLeast('Admin')">
                                     <Label :label="$t('employees.form.permissions.permissions')" />
                                     <div class="flex items-center gap-x-1 text-xs text-muted-400 mt-1">
                                         <div class="text-xs flex flex-wrap gap-2"
@@ -161,7 +161,7 @@
                                         </div>
                                     </div>
                                 </div>
-                                <div class="space-y-1" v-if="isAdmin(userStore.getUser?.roles)">
+                                <div class="space-y-1" v-if="isAtLeast('Admin')">
                                     <Label :label="$t('employees.form.mediaRisks.mediaRisks')" />
                                     <div class="flex items-center gap-x-1 text-xs text-muted-400 mt-1">
                                         <div class="text-xs flex flex-wrap gap-2"
@@ -197,7 +197,7 @@
                             <div
                                 class="md:col-span-2 space-y-3 bg-white shadow-sm ring-1 ring-gray-900/5 rounded-lg px-4 py-6 sm:px-8 sm:py-6">
                                 <div class="grid grid-cols-1 md:grid-cols-2 gap-3"
-                                    v-if="userStore.getUser?.roles?.[0]?.name === 'Admin'">
+                                    v-if="isAtLeast('Admin')">
                                     <div class="space-y-1">
                                         <Label :label="$t('employees.form.employment.employmentDate')" />
                                         <p class="font-medium" v-if="state.selectedEmployee.employment.employment_date">
@@ -206,7 +206,7 @@
                                             }}
                                         </p>
                                     </div>
-                                    <div class="space-y-1" v-if="userStore.getUser?.roles?.[0]?.name === 'Admin'">
+                                    <div class="space-y-1" v-if="isAtLeast('Admin')">
                                         <Label :label="$t('employees.form.employment.terminationDate')" />
                                         <p class="font-medium"
                                             v-if="state.selectedEmployee.employment.termination_date">
@@ -217,7 +217,7 @@
                                     </div>
                                 </div>
                                 <div class="grid grid-cols-1 md:grid-cols-2 gap-3"
-                                    v-if="isAdmin(userStore.getUser?.roles)">
+                                    v-if="isAtLeast('Admin')">
                                     <div class="space-y-1">
                                         <Label :label="$t('employees.form.employment.annualNormHours')" />
                                         <p class="font-medium">
@@ -230,7 +230,7 @@
                                             {{ state.selectedEmployee.employment.weekly_norm_hours ?? 0 }}
                                         </p>
                                     </div>
-                                    <div class="space-y-1" v-if="isAdmin(userStore.getUser?.roles)">
+                                    <div class="space-y-1" v-if="isAtLeast('Admin')">
                                         <Label :label="$t('employees.form.employment.vacationDays')" />
                                         <p class="font-medium">
                                             {{ state.selectedEmployee.employment.vacation_days ?? 0 }}
@@ -253,7 +253,7 @@
                                     </div>
                                 </div>
                                 <div class="grid grid-cols-1 md:grid-cols-2 gap-3"
-                                    v-if="userStore.getUser?.roles?.[0]?.name === 'Admin'">
+                                    v-if="isAtLeast('Admin')">
                                     <div class="space-y-1">
                                         <Label :label="$t('employees.form.employment.workingHours')" />
                                         <p class="font-medium capitalize">
@@ -287,7 +287,7 @@
                                 </p>
                             </div>
                             <div class="grid grid-cols-1 md:col-span-2 gap-y-3">
-                                <div v-if="userStore.getUser?.roles?.[0]?.name === 'Admin'">
+                                <div v-if="isAtLeast('Admin')">
                                     <p class="text-sm text-gray-600 font-semibold leading-5">
                                         {{ $t('employees.form.emergencyInfo.trustees') }}
                                     </p>
@@ -375,7 +375,7 @@
                         </div>
 
                         <div class="grid grid-cols-1 gap-x-8 gap-y-4 pb-10 mb-10 xl:grid-cols-3"
-                            v-if="userStore.getUser?.roles?.[0]?.name === 'Admin'">
+                            v-if="isAtLeast('Admin')">
                             <div>
                                 <h2 class="text-base font-semibold leading-7 text-gray-900">
                                     {{ $t('employees.documents.documents') }}
@@ -468,12 +468,14 @@ import { useDatetimeFormatter } from '@/composables/datetimeFormatter'
 import { employeeService } from '@/components/api/user/EmployeeService'
 import { useCustomPagesStore } from '@/store/custom-pages'
 import { useUserStore } from '@/store/user'
+import { usePermissions } from '@/composables/usePermissions'
 import type { Error } from '@/types'
 
 const runtimeConfig = useRuntimeConfig()
 const router = useRouter()
 const customPagesStore = useCustomPagesStore() as any
 const userStore = useUserStore() as any
+const { isAtLeast } = usePermissions()
 const { formatDateToReadable } = useDatetimeFormatter()
 const employeeUuid = router?.currentRoute?.value?.params?.employee_uuid
 const breadcrumbLinks = [
@@ -617,7 +619,4 @@ async function fetchEmployee() {
     state.isPageLoading = false
 }
 
-function isAdmin(roles: any) {
-    return roles && roles.some((role: any) => role.name === 'Admin')
-}
 </script>

@@ -141,7 +141,7 @@
                                                 </FormButton>
                                             </Tooltip>
                                             <Tooltip :text="$t('citizens.documents.table.actions.access')"
-                                                v-if="isAdmin(userStore.getUser?.roles)">
+                                                v-if="isAtLeast('Admin')">
                                                 <FormButton type="button" buttonStyle="primary"
                                                     @click="viewDocumentAccess(document)">
                                                     <Icon name="ph:lock" class="size-4" />
@@ -219,6 +219,7 @@ import { useCustomPagesStore } from '@/store/custom-pages'
 import { useI18n } from "vue-i18n"
 import { useAlert } from '@/composables/alert'
 import { useUserStore } from '@/store/user'
+import { usePermissions } from '@/composables/usePermissions'
 import { saveAs } from 'file-saver'
 import type { Error } from '@/types'
 
@@ -228,6 +229,7 @@ const { successAlert } = useAlert()
 const { t } = useI18n()
 const customPagesStore = useCustomPagesStore() as any
 const userStore = useUserStore() as any
+const { isAtLeast, can } = usePermissions()
 const router = useRouter()
 const citizenUuid = router?.currentRoute?.value?.params?.uuid as any
 const childUuid = router?.currentRoute?.value?.params?.child_uuid as any
@@ -300,9 +302,6 @@ function closeUpgradeStorageModal() {
     state.error = {}
 }
 
-function isAdmin(roles: any) {
-    return roles && roles.some((role: any) => role.name === 'Admin')
-}
 
 async function fetchDocuments(folderUuid: any = null) {
     state.error = {}
