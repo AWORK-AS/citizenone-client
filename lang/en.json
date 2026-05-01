@@ -97,6 +97,39 @@
             "name": "Name"
         }
     },
+    "consentDeclarationTypes": {
+        "consentDeclarationTypes": "Consent declaration types",
+        "editConsentDeclarationType": "Edit consent declaration type",
+        "newConsentDeclarationType": "New consent declaration type",
+        "form": {
+            "alert": {
+                "successfullySaved": "Consent declaration type successfully saved",
+                "successfullyUpdated": "Consent declaration type successfully updated"
+            },
+            "consentFields": "Consent",
+            "financialGuardianship": "Financial guardianship",
+            "generalConsent": "General consent",
+            "guardianship": "Guardianship",
+            "name": "Name",
+            "parentCollaboration": "Parent collaboration",
+            "personalGuardianship": "Personal guardianship",
+            "photo": "Photo",
+            "studentCollaboration": "Student collaboration"
+        },
+        "table": {
+            "actions": {
+                "delete": "Delete",
+                "edit": "Edit"
+            },
+            "alert": {
+                "successfullyDeleted": "Consent declaration type successfully deleted"
+            },
+            "confirmation": {
+                "deleteConfirmation": "Are you sure you want to delete this consent declaration type"
+            },
+            "name": "Name"
+        }
+    },
     "activityLogs": {
         "activityLogs": "Activity logs",
         "logs": {
@@ -3441,6 +3474,7 @@
         "noScheduleFound": "No schedule found",
         "normHours": {
             "annualNormHours": "Annual norm hours",
+            "availableVacationDays": "Available vacation days",
             "availableVacationHours": "Available vacation hours",
             "compensatoryHourFromPreviousYear": "Compensatory hours from previous period",
             "compensatoryHours": "Compensatory hours",
@@ -3463,7 +3497,10 @@
             "info2": "If the employee has been employed partway through the year, the annual norm will be calculated proportionally based on the employment start date.",
             "info3": "Compensatory and vacation hours are calculated from that annual norm.",
             "totalCompensatoryHours": "Total compensatory hours",
+            "totalVacationDays": "Total vacation days",
             "totalVacationHours": "Total vacation hours",
+            "vacationDaysFromPreviousYear": "Vacation days from previous period",
+            "vacationDaysThisYear": "Vacation days this period",
             "vacationHoursFromPreviousYear": "Vacation hours from previous period",
             "vacationHoursThisYear": "Vacation hours this period"
         },
@@ -6625,6 +6662,7 @@
             "calendarTags": "Calendar tags",
             "catalog": "Catalog",
             "company": "Company",
+            "consentDeclarationTypes": "Consent declaration types",
             "contactJobTitles": "Contact job titles",
             "customPages": "Glossary",
             "departments": "Departments",
@@ -7689,6 +7727,7 @@
             "sendMessage": "Send message"
         }
     },
+    "no": "No",
     "yes": "Yes",
     "youDontHaveAccessToThisPage": "You do not have access to this page. Please contact your administrator"
 }

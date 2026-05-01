@@ -97,6 +97,39 @@
             "name": "Navn"
         }
     },
+    "consentDeclarationTypes": {
+        "consentDeclarationTypes": "Samtykkeerklæringstyper",
+        "editConsentDeclarationType": "Rediger samtykkeerklæringstype",
+        "newConsentDeclarationType": "Ny samtykkeerklæringstype",
+        "form": {
+            "alert": {
+                "successfullySaved": "Samtykkeerklæringstype gemt med succes",
+                "successfullyUpdated": "Samtykkeerklæringstype opdateret med succes"
+            },
+            "consentFields": "Samtykke",
+            "financialGuardianship": "Økonomiværge",
+            "generalConsent": "Generelt samtykke",
+            "guardianship": "Værgemål",
+            "name": "Navn",
+            "parentCollaboration": "Forældresamarbejde",
+            "personalGuardianship": "Personværge",
+            "photo": "Foto",
+            "studentCollaboration": "Elevsamarbejde"
+        },
+        "table": {
+            "actions": {
+                "delete": "Slet",
+                "edit": "Rediger"
+            },
+            "alert": {
+                "successfullyDeleted": "Samtykkeerklæringstype slettet med succes"
+            },
+            "confirmation": {
+                "deleteConfirmation": "Er du sikker på, at du vil slette denne samtykkeerklæringstype"
+            },
+            "name": "Navn"
+        }
+    },
     "activityLogs": {
         "activityLogs": "Aktivitetslogfiler",
         "logs": {
@@ -3441,6 +3474,7 @@
         "noScheduleFound": "Ingen tidsplan fundet",
         "normHours": {
             "annualNormHours": "Årlig norm i timer",
+            "availableVacationDays": "Tilgængelige feriedage",
             "availableVacationHours": "Tilgængelige ferietimer",
             "compensatoryHourFromPreviousYear": "Afspadseringstimer fra tidligere år",
             "compensatoryHours": "Afspadseringstimer",
@@ -3463,7 +3497,10 @@
             "info2": "Hvis medarbejderen er startet i løbet af året, beregnes den årlige norm forholdsmæssigt ud fra ansættelsesdatoen.",
             "info3": "Afspadserings- og ferietimer beregnes ud fra denne årlige norm.",
             "totalCompensatoryHours": "Samlede afspadseringstimer",
+            "totalVacationDays": "Samlede feriedage",
             "totalVacationHours": "Samlede ferietimer",
+            "vacationDaysFromPreviousYear": "Feriedage fra tidligere år",
+            "vacationDaysThisYear": "Feriedage i år",
             "vacationHoursFromPreviousYear": "Ferietimer fra tidligere år",
             "vacationHoursThisYear": "Ferietimer i år"
         },
@@ -6626,6 +6663,7 @@
             "calendarTags": "Kalenderetiketter",
             "catalog": "Katalog",
             "company": "Virksomhed",
+            "consentDeclarationTypes": "Samtykkeerklæringstyper",
             "contactJobTitles": "Kontaktjobtitler",
             "customPages": "Ordliste",
             "departments": "Afdelinger",
@@ -7690,6 +7728,7 @@
             "sendMessage": "Send besked"
         }
     },
+    "no": "Nej",
     "yes": "Ja",
     "youDontHaveAccessToThisPage": "Du har ikke adgang til denne side. Kontakt venligst din administrator"
 }
