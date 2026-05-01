@@ -3422,6 +3422,7 @@
         "noScheduleFound": "Ingen tidsplan fundet",
         "normHours": {
             "annualNormHours": "Årlig norm i timer",
+            "availableVacationDays": "Tilgængelige feriedage",
             "availableVacationHours": "Tilgængelige ferietimer",
             "compensatoryHourFromPreviousYear": "Afspadseringstimer fra tidligere år",
             "compensatoryHours": "Afspadseringstimer",
@@ -3444,7 +3445,10 @@
             "info2": "Hvis medarbejderen er startet i løbet af året, beregnes den årlige norm forholdsmæssigt ud fra ansættelsesdatoen.",
             "info3": "Afspadserings- og ferietimer beregnes ud fra denne årlige norm.",
             "totalCompensatoryHours": "Samlede afspadseringstimer",
+            "totalVacationDays": "Samlede feriedage",
             "totalVacationHours": "Samlede ferietimer",
+            "vacationDaysFromPreviousYear": "Feriedage fra tidligere år",
+            "vacationDaysThisYear": "Feriedage i år",
             "vacationHoursFromPreviousYear": "Ferietimer fra tidligere år",
             "vacationHoursThisYear": "Ferietimer i år"
         },
