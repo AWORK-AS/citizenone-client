@@ -6525,7 +6525,17 @@
                 "warning13HourShift": "Advarsel ved vagter over 13 timer",
                 "warning11HourRest": "Advarsel ved hviletid under 11 timer",
                 "warning48HourRule": "Advarsel ved 48-timers reglen",
-                "website": "Hjemmeside"
+                "website": "Hjemmeside",
+                "ipRestriction": "IP-begrænsning",
+                "enableIpRestriction": "Aktivér IP-begrænsning",
+                "ipRestrictionAction": "Begrænsningshandling",
+                "manageIpWhitelist": "Administrér IP-hvidliste",
+                "deviceRestriction": "Enhedsbegrænsning",
+                "enableDeviceRestriction": "Aktivér enhedsbegrænsning",
+                "deviceRestrictionAction": "Begrænsningshandling",
+                "manageApprovedDevices": "Administrér godkendte enheder",
+                "actionBlock": "Blokér adgang",
+                "actionOtp": "Kræv OTP-bekræftelse"
             }
         },
         "licenseOverview": {
@@ -6607,7 +6617,9 @@
             "timeAccounts": "Tidskonti",
             "timeLogs": "Tidslogfiler",
             "transactions": "Transaktioner",
-            "units": "Enheder"
+            "units": "Enheder",
+            "ipRestrictions": "IP-begrænsninger",
+            "approvedDevices": "Godkendte enheder"
         },
         "wallets": {
             "citizenWalletTransactions": "Transaktioner for borgernes wallets",
@@ -7638,5 +7650,63 @@
         }
     },
     "yes": "Ja",
-    "youDontHaveAccessToThisPage": "Du har ikke adgang til denne side. Kontakt venligst din administrator"
+    "youDontHaveAccessToThisPage": "Du har ikke adgang til denne side. Kontakt venligst din administrator",
+    "ipRestrictions": {
+        "title": "IP-begrænsninger",
+        "addIp": "Tilføj IP-adresse",
+        "editIp": "Rediger IP-adresse",
+        "ipAddress": "IP-adresse",
+        "label": "Etiket",
+        "table": {
+            "ipAddress": "IP-adresse",
+            "label": "Etiket",
+            "actions": {
+                "header": "Handlinger",
+                "edit": "Rediger",
+                "delete": "Slet"
+            }
+        },
+        "confirmation": {
+            "delete": "Er du sikker på, at du vil slette denne IP-begrænsning"
+        },
+        "alert": {
+            "added": "IP-begrænsning tilføjet succesfuldt",
+            "updated": "IP-begrænsning opdateret succesfuldt",
+            "deleted": "IP-begrænsning slettet succesfuldt"
+        }
+    },
+    "approvedDevices": {
+        "title": "Godkendte enheder",
+        "addDevice": "Tilføj enhed",
+        "editDevice": "Rediger enhed",
+        "user": "Bruger",
+        "deviceUuid": "Enheds-UUID",
+        "label": "Etiket",
+        "table": {
+            "user": "Bruger",
+            "deviceUuid": "Enheds-UUID",
+            "label": "Etiket",
+            "actions": {
+                "header": "Handlinger",
+                "edit": "Rediger",
+                "delete": "Slet"
+            }
+        },
+        "confirmation": {
+            "delete": "Er du sikker på, at du vil fjerne denne godkendte enhed"
+        },
+        "alert": {
+            "added": "Enhed godkendt succesfuldt",
+            "updated": "Godkendt enhed opdateret succesfuldt",
+            "deleted": "Godkendt enhed fjernet succesfuldt"
+        }
+    },
+    "otpVerification": {
+        "checkYourEmailForOtp": "En engangskode er sendt til din e-mail. Indtast den nedenfor.",
+        "form": {
+            "verifyCode": "Bekræft kode",
+            "otp": "Engangskode",
+            "verify": "Bekræft"
+        }
+    }
 }

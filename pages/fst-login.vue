@@ -88,6 +88,22 @@
 				<div class="fst-rbc fst-rbc3"></div>
 			</div>
 
+			<ModulesUserAuthenticationModalOtpVerification
+				v-if="state.modal.isIpOtpOpen"
+				:isModalOpen="state.modal.isIpOtpOpen"
+				otpType="ip"
+				:email="state.formLogin.email ?? ''"
+				:deviceUuid="state.deviceUuid"
+				@close="state.modal.isIpOtpOpen = false" />
+
+			<ModulesUserAuthenticationModalOtpVerification
+				v-if="state.modal.isDeviceOtpOpen"
+				:isModalOpen="state.modal.isDeviceOtpOpen"
+				otpType="device"
+				:email="state.formLogin.email ?? ''"
+				:deviceUuid="state.deviceUuid"
+				@close="state.modal.isDeviceOtpOpen = false" />
+
 			<div class="fst-form-card">
 				<Alert type="danger" :text="state?.error?.message"
 					v-if="state.error?.message && state.error.message.length > 0" />
@@ -220,6 +236,7 @@ const { t } = language
 language.locale.value = userStore.getLanguage
 
 const state = reactive({
+	deviceUuid: '' as string,
 	error: {} as Error,
 	formLogin: {
 		email: null as any,
@@ -228,7 +245,9 @@ const state = reactive({
 	isPageLoading: false,
 	langOpen: false,
 	modal: {
-		isGoogle2faVerificationOpen: false
+		isGoogle2faVerificationOpen: false,
+		isIpOtpOpen: false,
+		isDeviceOtpOpen: false,
 	},
 	remember_me: false,
 	showPassword: false,
@@ -254,6 +273,12 @@ onMounted(() => {
 	if (rememberMe) {
 		navigateTo('/overview')
 	}
+	let deviceUuid = localStorage.getItem("device_uuid")
+	if (!deviceUuid) {
+		deviceUuid = crypto.randomUUID()
+		localStorage.setItem("device_uuid", deviceUuid)
+	}
+	state.deviceUuid = deviceUuid
 
 	// Live stats
 	const fstFmt = (n: number) => Math.round(n).toLocaleString('da-DK')
@@ -357,9 +382,14 @@ async function login() {
 			const params = {
 				email: state.formLogin.email,
 				password: state.formLogin.password,
+				device_uuid: state.deviceUuid,
 			}
 			const response = await authService.login(params)
-			if (response.data) {
+			if (response.requires_ip_otp) {
+				state.modal.isIpOtpOpen = true
+			} else if (response.requires_device_otp) {
+				state.modal.isDeviceOtpOpen = true
+			} else if (response.data) {
 				if (state.remember_me) {
 					localStorage.setItem("remember_me", state.remember_me?.toString())
 				} else {

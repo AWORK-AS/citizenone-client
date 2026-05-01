@@ -88,6 +88,23 @@
 				<div class="rbc rbc3"></div>
 			</div>
 
+			<ModulesUserAuthenticationModalOtpVerification
+				v-if="state.modal.isIpOtpOpen"
+				:isModalOpen="state.modal.isIpOtpOpen"
+				otpType="ip"
+				:email="state.formLogin.email ?? ''"
+				:deviceUuid="state.deviceUuid"
+				@close="state.modal.isIpOtpOpen = false" />
+
+			<ModulesUserAuthenticationModalOtpVerification
+				v-if="state.modal.isDeviceOtpOpen"
+				:isModalOpen="state.modal.isDeviceOtpOpen"
+				otpType="device"
+				:email="state.formLogin.email ?? ''"
+				:deviceUuid="state.deviceUuid"
+				@close="state.modal.isDeviceOtpOpen = false" />
+
+
 			<form class="form-card" @submit.prevent="login">
 				<Alert type="danger" :text="state?.error?.message"
 					v-if="state.error?.message && state.error.message.length > 0" />
@@ -227,6 +244,7 @@ language.locale.value = userStore.getLanguage
 
 const state = reactive({
 	langOpen: false,
+	deviceUuid: '' as string,
 	error: {} as Error,
 	formLogin: {
 		email: null as any,
@@ -234,7 +252,9 @@ const state = reactive({
 	},
 	isPageLoading: false,
 	modal: {
-		isGoogle2faVerificationOpen: false
+		isGoogle2faVerificationOpen: false,
+		isIpOtpOpen: false,
+		isDeviceOtpOpen: false,
 	},
 	rememberMe: false,
 	showPassword: false,
@@ -263,6 +283,12 @@ onMounted(() => {
 	if (rememberMe) {
 		navigateTo('/overview')
 	}
+	let deviceUuid = localStorage.getItem("device_uuid")
+	if (!deviceUuid) {
+		deviceUuid = crypto.randomUUID()
+		localStorage.setItem("device_uuid", deviceUuid)
+	}
+	state.deviceUuid = deviceUuid
 })
 
 function animateAssets() {
@@ -291,9 +317,14 @@ async function login() {
 			const params = {
 				email: state.formLogin.email,
 				password: state.formLogin.password,
+				device_uuid: state.deviceUuid,
 			}
 			const response = await authService.login(params)
-			if (response.data) {
+			if (response.requires_ip_otp) {
+				state.modal.isIpOtpOpen = true
+			} else if (response.requires_device_otp) {
+				state.modal.isDeviceOtpOpen = true
+			} else if (response.data) {
 				if (state.rememberMe) {
 					localStorage.setItem("rememberMe", state.rememberMe?.toString())
 				} else {
