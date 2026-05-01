@@ -6650,12 +6650,22 @@
                 "shiftSuccessfullyUpdated": "Shift successfully updated"
             },
             "color": "Color",
+            "endTimeDayOffset": "Default end time (day offset)",
+            "endTimeDayOffsetOneDayLater": "1 day later",
+            "endTimeDayOffsetSameDay": "Same day",
+            "endTimeDayOffsetThreeDaysLater": "3 days later",
+            "endTimeDayOffsetTwoDaysLater": "2 days later",
             "markAsLeaveType": "Mark as leave type",
             "nameDanish": "Name (danish)",
             "nameEnglish": "Name (english)",
             "paycode": "Paycode",
             "timeIn": "Time out",
-            "timeOut": "Time in"
+            "timeOut": "Time in",
+            "workingHoursFactor": "Working hours factor",
+            "workingHoursFactorFrom": "From",
+            "workingHoursFactorInterval": "Apply within time interval (optional)",
+            "workingHoursFactorPlaceholder": "e.g. 0.75",
+            "workingHoursFactorTo": "To"
         },
         "newShift": "New shift",
         "shifts": "Shifts",
@@ -6675,7 +6685,8 @@
             "standard": "Standard",
             "standardShift": "Standard shift",
             "timeIn": "Time out",
-            "timeOut": "Time in"
+            "timeOut": "Time in",
+            "workingHoursFactor": "Working hours factor"
         }
     },
     "show": "Show",

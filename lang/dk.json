@@ -6651,12 +6651,22 @@
                 "shiftSuccessfullyUpdated": "Vagt opdateret med succes"
             },
             "color": "Farve",
+            "endTimeDayOffset": "Standard sluttidspunkt (dag-offset)",
+            "endTimeDayOffsetOneDayLater": "1 dag senere",
+            "endTimeDayOffsetSameDay": "Samme dag",
+            "endTimeDayOffsetThreeDaysLater": "3 dage senere",
+            "endTimeDayOffsetTwoDaysLater": "2 dage senere",
             "markAsLeaveType": "Marker som fraværstype",
             "nameDanish": "Navn (dansk)",
             "nameEnglish": "Navn (engelsk)",
             "paycode": "Lønningskode",
             "timeIn": "Tid ind",
-            "timeOut": "Tid ud"
+            "timeOut": "Tid ud",
+            "workingHoursFactor": "Arbejdstidsfaktor",
+            "workingHoursFactorFrom": "Fra",
+            "workingHoursFactorInterval": "Anvend inden for tidsinterval (valgfrit)",
+            "workingHoursFactorPlaceholder": "f.eks. 0.75",
+            "workingHoursFactorTo": "Til"
         },
         "newShift": "Ny vagt",
         "shifts": "Vagter",
@@ -6676,7 +6686,8 @@
             "standard": "Standard",
             "standardShift": "Standard vagt",
             "timeIn": "Tid ind",
-            "timeOut": "Tid ud"
+            "timeOut": "Tid ud",
+            "workingHoursFactor": "Arbejdstidsfaktor"
         }
     },
     "show": "Vis",
