@@ -1467,10 +1467,18 @@
                     "origin": "Oprindelse"
                 },
                 "addAccompanyingChild": "Tilføj ledsagende barn",
+                "consentFields": "Samtykke",
                 "dischargeReason": "Udskrivningsårsag",
+                "financialGuardianship": "Økonomiværge",
+                "generalConsent": "Generelt samtykke",
+                "guardianship": "Værgemål",
                 "journalNumber": "Journalnummer",
                 "municipalityOfResidenceAfter": "Bopælskommune efter ophold",
-                "municipalityOfResidenceBefore": "Bopælskommune før ophold"
+                "municipalityOfResidenceBefore": "Bopælskommune før ophold",
+                "parentCollaboration": "Forældresamarbejde",
+                "personalGuardianship": "Personværge",
+                "photo": "Foto",
+                "studentCollaboration": "Elevsamarbejde"
             },
             "street": "Gade",
             "trafficLights": {

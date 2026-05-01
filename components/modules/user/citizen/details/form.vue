@@ -547,6 +547,138 @@
                     <FormError :error="v$?.formCitizen?.stayData?.discharge_reason?.$errors[0]?.$message.toString()" />
                     <FormError :error="props?.error?.errors?.discharge_reason?.[0]" />
                 </div>
+                <div class="space-y-2">
+                    <p class="text-sm font-medium text-gray-700">{{ $t('citizens.form.stayData.consentFields') }}</p>
+                    <div class="rounded-lg border border-gray-200 divide-y divide-gray-100">
+                        <div
+                            class="grid grid-cols-[1fr_80px_80px] px-4 py-2 bg-gray-50 text-xs font-semibold text-gray-500 uppercase tracking-wide">
+                            <span></span>
+                            <span class="text-center">{{ $t('yes') }}</span>
+                            <span class="text-center">{{ $t('no') }}</span>
+                        </div>
+                        <div class="grid grid-cols-[1fr_80px_80px] items-center px-4 py-3">
+                            <span class="text-sm text-gray-700">{{ $t('citizens.form.stayData.photo') }}</span>
+                            <div class="flex justify-center">
+                                <input type="radio" name="stayData_photo" value="yes"
+                                    class="w-4 h-4 accent-tertiary cursor-pointer"
+                                    :checked="state.formCitizen.stayData.photo === true"
+                                    @change="state.formCitizen.stayData.photo = true" />
+                            </div>
+                            <div class="flex justify-center">
+                                <input type="radio" name="stayData_photo" value="no"
+                                    class="w-4 h-4 accent-tertiary cursor-pointer"
+                                    :checked="state.formCitizen.stayData.photo === false"
+                                    @change="state.formCitizen.stayData.photo = false" />
+                            </div>
+                        </div>
+                        <div class="grid grid-cols-[1fr_80px_80px] items-center px-4 py-3">
+                            <span class="text-sm text-gray-700">{{ $t('citizens.form.stayData.parentCollaboration')
+                                }}</span>
+                            <div class="flex justify-center">
+                                <input type="radio" name="stayData_parent_collaboration" value="yes"
+                                    class="w-4 h-4 accent-tertiary cursor-pointer"
+                                    :checked="state.formCitizen.stayData.parent_collaboration === true"
+                                    @change="state.formCitizen.stayData.parent_collaboration = true" />
+                            </div>
+                            <div class="flex justify-center">
+                                <input type="radio" name="stayData_parent_collaboration" value="no"
+                                    class="w-4 h-4 accent-tertiary cursor-pointer"
+                                    :checked="state.formCitizen.stayData.parent_collaboration === false"
+                                    @change="state.formCitizen.stayData.parent_collaboration = false" />
+                            </div>
+                        </div>
+                        <div class="grid grid-cols-[1fr_80px_80px] items-center px-4 py-3">
+                            <span class="text-sm text-gray-700">{{ $t('citizens.form.stayData.studentCollaboration')
+                                }}</span>
+                            <div class="flex justify-center">
+                                <input type="radio" name="stayData_student_collaboration" value="yes"
+                                    class="w-4 h-4 accent-tertiary cursor-pointer"
+                                    :checked="state.formCitizen.stayData.student_collaboration === true"
+                                    @change="state.formCitizen.stayData.student_collaboration = true" />
+                            </div>
+                            <div class="flex justify-center">
+                                <input type="radio" name="stayData_student_collaboration" value="no"
+                                    class="w-4 h-4 accent-tertiary cursor-pointer"
+                                    :checked="state.formCitizen.stayData.student_collaboration === false"
+                                    @change="state.formCitizen.stayData.student_collaboration = false" />
+                            </div>
+                        </div>
+                        <div class="grid grid-cols-[1fr_80px_80px] items-center px-4 py-3">
+                            <span class="text-sm text-gray-700">{{ $t('citizens.form.stayData.generalConsent') }}</span>
+                            <div class="flex justify-center">
+                                <input type="radio" name="stayData_general_consent" value="yes"
+                                    class="w-4 h-4 accent-tertiary cursor-pointer"
+                                    :checked="state.formCitizen.stayData.general_consent === true"
+                                    @change="state.formCitizen.stayData.general_consent = true" />
+                            </div>
+                            <div class="flex justify-center">
+                                <input type="radio" name="stayData_general_consent" value="no"
+                                    class="w-4 h-4 accent-tertiary cursor-pointer"
+                                    :checked="state.formCitizen.stayData.general_consent === false"
+                                    @change="state.formCitizen.stayData.general_consent = false" />
+                            </div>
+                        </div>
+                        <div v-for="type in state.options.consentDeclarationTypes" :key="type.id"
+                            class="grid grid-cols-[1fr_80px_80px] items-center px-4 py-3">
+                            <span class="text-sm text-gray-700">{{ type.name }}</span>
+                            <div class="flex justify-center">
+                                <input type="radio" :name="`consent_declaration_${type.id}`" value="yes"
+                                    class="w-4 h-4 accent-tertiary cursor-pointer"
+                                    :checked="getConsentDeclarationValue(type.id) === true"
+                                    @change="setConsentDeclarationValue(type.id, true)" />
+                            </div>
+                            <div class="flex justify-center">
+                                <input type="radio" :name="`consent_declaration_${type.id}`" value="no"
+                                    class="w-4 h-4 accent-tertiary cursor-pointer"
+                                    :checked="getConsentDeclarationValue(type.id) === false"
+                                    @change="setConsentDeclarationValue(type.id, false)" />
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="space-y-2">
+                    <p class="text-sm font-medium text-gray-700">{{ $t('citizens.form.stayData.guardianship') }}</p>
+                    <div class="rounded-lg border border-gray-200 divide-y divide-gray-100">
+                        <div
+                            class="grid grid-cols-[1fr_80px_80px] px-4 py-2 bg-gray-50 text-xs font-semibold text-gray-500 uppercase tracking-wide">
+                            <span></span>
+                            <span class="text-center">{{ $t('yes') }}</span>
+                            <span class="text-center">{{ $t('no') }}</span>
+                        </div>
+                        <div class="grid grid-cols-[1fr_80px_80px] items-center px-4 py-3">
+                            <span class="text-sm text-gray-700">{{ $t('citizens.form.stayData.personalGuardianship')
+                                }}</span>
+                            <div class="flex justify-center">
+                                <input type="radio" name="stayData_personal_guardianship" value="yes"
+                                    class="w-4 h-4 accent-tertiary cursor-pointer"
+                                    :checked="state.formCitizen.stayData.personal_guardianship === true"
+                                    @change="state.formCitizen.stayData.personal_guardianship = true" />
+                            </div>
+                            <div class="flex justify-center">
+                                <input type="radio" name="stayData_personal_guardianship" value="no"
+                                    class="w-4 h-4 accent-tertiary cursor-pointer"
+                                    :checked="state.formCitizen.stayData.personal_guardianship === false"
+                                    @change="state.formCitizen.stayData.personal_guardianship = false" />
+                            </div>
+                        </div>
+                        <div class="grid grid-cols-[1fr_80px_80px] items-center px-4 py-3">
+                            <span class="text-sm text-gray-700">{{ $t('citizens.form.stayData.financialGuardianship')
+                                }}</span>
+                            <div class="flex justify-center">
+                                <input type="radio" name="stayData_financial_guardianship" value="yes"
+                                    class="w-4 h-4 accent-tertiary cursor-pointer"
+                                    :checked="state.formCitizen.stayData.financial_guardianship === true"
+                                    @change="state.formCitizen.stayData.financial_guardianship = true" />
+                            </div>
+                            <div class="flex justify-center">
+                                <input type="radio" name="stayData_financial_guardianship" value="no"
+                                    class="w-4 h-4 accent-tertiary cursor-pointer"
+                                    :checked="state.formCitizen.stayData.financial_guardianship === false"
+                                    @change="state.formCitizen.stayData.financial_guardianship = false" />
+                            </div>
+                        </div>
+                    </div>
+                </div>
                 <div class="space-y-1">
                     <p class="text-sm text-gray-600">
                         {{ $t('citizens.form.stayData.accompanyingChildren.accompanyingChildren') }}
@@ -684,6 +816,7 @@ import { required, helpers } from '@vuelidate/validators'
 import { citizenCaseworkerService } from '@/components/api/user/CitizenCaseworkerService'
 import { departmentService } from '@/components/api/user/DepartmentService'
 import { roomService } from '@/components/api/user/RoomService'
+import { consentDeclarationTypeService } from '@/components/api/user/ConsentDeclarationTypeService'
 import { diagnosisService } from '@/components/api/user/DiagnosisService'
 import { medicationAllergyService } from '@/components/api/user/MedicationAllergyService'
 import { addictionService } from '@/components/api/user/AddictionService'
@@ -804,6 +937,13 @@ const state = reactive({
             residence_before_uuid: '',
             residence_after_uuid: '',
             discharge_reason: '',
+            consent_declarations: [] as { consent_declaration_type_id: number, value: boolean }[],
+            photo: false,
+            parent_collaboration: false,
+            student_collaboration: false,
+            general_consent: false,
+            personal_guardianship: false,
+            financial_guardianship: false,
         } as any,
     },
     formattedSocialSecurityNumber: '',
@@ -831,6 +971,7 @@ const state = reactive({
             { value: 'non_binary', label: `${t('gender.nonbinary')}`, },
             { value: 'will_not_disclose', label: `${t('gender.willNotDisclose')}`, },
         ],
+        consentDeclarationTypes: [],
         medicationAllergies: [],
         municipalities: [],
         municipalitiesPerRegion: [],
@@ -946,6 +1087,13 @@ watch(() => props.selectedCitizen, async (selectedCitizen: any) => {
                 residence_before_uuid: selectedCitizen.stayData?.residence_before_uuid || '',
                 residence_after_uuid: selectedCitizen.stayData?.residence_after_uuid || '',
                 discharge_reason: selectedCitizen.stayData?.discharge_reason || '',
+                consent_declarations: selectedCitizen.stayData?.consent_declarations ?? [],
+                photo: selectedCitizen.stayData?.photo ?? false,
+                parent_collaboration: selectedCitizen.stayData?.parent_collaboration ?? false,
+                student_collaboration: selectedCitizen.stayData?.student_collaboration ?? false,
+                general_consent: selectedCitizen.stayData?.general_consent ?? false,
+                personal_guardianship: selectedCitizen.stayData?.personal_guardianship ?? false,
+                financial_guardianship: selectedCitizen.stayData?.financial_guardianship ?? false,
             }
         }
     }
@@ -1039,6 +1187,7 @@ onMounted(async () => {
         }
     } catch (e) { /* silent — all fields visible on error */ }
     fetchCitizenCaseWorkers()
+    fetchConsentDeclarationTypes()
     fetchDepartments()
     fetchRooms()
     fetchDiagnoses()
@@ -1118,6 +1267,43 @@ async function fetchRooms() {
         state.error = error
     }
     emit('isPageLoading', false)
+}
+
+async function fetchConsentDeclarationTypes() {
+    try {
+        const response = await consentDeclarationTypeService.getAllConsentDeclarationTypes()
+        if (response.data) {
+            state.options.consentDeclarationTypes = response.data.map((item: any) => ({
+                id: item.id,
+                name: item.name,
+            }))
+            // Merge fetched types with any already-saved values from the API
+            const saved = state.formCitizen.stayData.consent_declarations as any[]
+            state.formCitizen.stayData.consent_declarations = state.options.consentDeclarationTypes.map((type: any) => {
+                const existing = saved?.find((d: any) => d.consent_declaration_type_id === type.id)
+                return { consent_declaration_type_id: type.id, value: existing ? existing.value : false }
+            })
+        }
+    } catch (error: any) {
+        state.error = error
+    }
+}
+
+function getConsentDeclarationValue(typeId: number): boolean {
+    const entry = (state.formCitizen.stayData.consent_declarations as any[])?.find(
+        (d: any) => d.consent_declaration_type_id === typeId
+    )
+    return entry ? entry.value : false
+}
+
+function setConsentDeclarationValue(typeId: number, value: boolean) {
+    const declarations = state.formCitizen.stayData.consent_declarations as any[]
+    const index = declarations?.findIndex((d: any) => d.consent_declaration_type_id === typeId)
+    if (index >= 0) {
+        declarations[index].value = value
+    } else {
+        declarations?.push({ consent_declaration_type_id: typeId, value })
+    }
 }
 
 async function fetchDiagnoses() {
