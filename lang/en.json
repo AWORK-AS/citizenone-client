@@ -6272,6 +6272,7 @@
         }
     },
     "reminders": {
+        "noRemindersToShow": "No reminders to show",
         "assign": "Assign",
         "assignAnEmployee": "Assign an employee",
         "assignees": "Assignees",
@@ -6329,6 +6330,7 @@
                 "deleteReminderConfirmation": "Are you sure you want to delete this reminder"
             },
             "dueDate": "Due date",
+            "completed": "Completed",
             "markAsComplete": "Mark as complete",
             "markAsIncomplete": "Mark as incomplete",
             "time": "Time"

@@ -6272,6 +6272,7 @@
         }
     },
     "reminders": {
+        "noRemindersToShow": "Ingen påmindelser at vise",
         "assign": "Tildel",
         "assignAnEmployee": "Tildel en medarbejder",
         "assignees": "Modtagere",
@@ -6329,6 +6330,7 @@
                 "deleteReminderConfirmation": "Er du sikker på, at du vil slette denne påmindelse"
             },
             "dueDate": "Afleveringsfrist",
+            "completed": "Fuldført",
             "markAsComplete": "Markér som fuldført",
             "markAsIncomplete": "Markér som ikke fuldført",
             "time": "Tid"
