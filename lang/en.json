@@ -817,8 +817,10 @@
         "today": "Today",
         "view": {
             "defaultView": "Default view",
+            "halfYearView": "Half year",
             "monthView": "Month view",
-            "weekView": "Week view"
+            "weekView": "Week view",
+            "yearView": "Year"
         },
         "week": {
             "oneLetter": {
@@ -3425,6 +3427,21 @@
             "insertWeekHere": "Insert week here",
             "monthCopied": "Month copied — navigate to another month and click Insert",
             "seeCalendar": "See calendar"
+        },
+        "halfYearView": {
+            "employees": "Employees",
+            "hasLeave": "Has leave",
+            "hasShifts": "Has shifts",
+            "isHoliday": "Holiday",
+            "shiftDays": "shift days",
+            "viewMonth": "View month"
+        },
+        "yearView": {
+            "hasShifts": "Has shifts",
+            "isHoliday": "Holiday",
+            "totalHolidays": "public holidays",
+            "totalShiftDays": "total shift days",
+            "viewMonth": "View month"
         },
         "newSchedule": "New schedule",
         "noScheduleFound": "No schedule found",

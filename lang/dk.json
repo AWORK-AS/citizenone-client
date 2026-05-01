@@ -817,8 +817,10 @@
         "today": "I dag",
         "view": {
             "defaultView": "Standardvisning",
+            "halfYearView": "Halvår",
             "monthView": "Månedsvisning",
-            "weekView": "Ugevisning"
+            "weekView": "Ugevisning",
+            "yearView": "Årsvisning"
         },
         "week": {
             "oneLetter": {
@@ -3425,6 +3427,21 @@
             "insertWeekHere": "Indsæt uge her",
             "monthCopied": "Måned kopieret — naviger til anden måned og klik Indsæt",
             "seeCalendar": "Se kalender"
+        },
+        "halfYearView": {
+            "employees": "Medarbejdere",
+            "hasLeave": "Har orlov",
+            "hasShifts": "Har vagter",
+            "isHoliday": "Helligdag",
+            "shiftDays": "vagtdage",
+            "viewMonth": "Se måned"
+        },
+        "yearView": {
+            "hasShifts": "Har vagter",
+            "isHoliday": "Helligdag",
+            "totalHolidays": "helligdage",
+            "totalShiftDays": "vagtdage i alt",
+            "viewMonth": "Se måned"
         },
         "newSchedule": "Ny vagt",
         "noScheduleFound": "Ingen tidsplan fundet",
