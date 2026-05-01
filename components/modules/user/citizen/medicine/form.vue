@@ -204,7 +204,7 @@
                                 <input type="date" v-model="period.start"
                                     class="text-xs border border-gray-200 rounded px-2 py-1.5 flex-1 focus:outline-none focus:border-primary bg-gray-50" />
                                 <span class="text-xs text-gray-500 shrink-0">{{ $t('citizens.medicineJournals.form.to')
-                                    }}</span>
+                                }}</span>
                                 <input type="date" v-model="period.end"
                                     class="text-xs border border-gray-200 rounded px-2 py-1.5 flex-1 focus:outline-none focus:border-primary bg-gray-50" />
                                 <button type="button" @click="removeTreatmentPeriod(idx)"
@@ -234,7 +234,7 @@
                                     <Icon name="ph:caret-left" class="size-4" />
                                 </button>
                                 <span class="text-xs font-semibold text-gray-700 capitalize">{{ extraDatesMonthLabel
-                                    }}</span>
+                                }}</span>
                                 <button type="button" @click="extraDatesNextMonth"
                                     class="p-1 rounded hover:bg-gray-100 text-gray-500">
                                     <Icon name="ph:caret-right" class="size-4" />
@@ -367,7 +367,7 @@
                                     <p class="text-sm text-gray-600">
                                         {{ $t('citizens.medicineJournals.form.dosage') }}
                                     </p>
-                                    <FormNumberField :name="`max_daily_dose_${index}`"
+                                    <FormTextField :name="`max_daily_dose_${index}`"
                                         :placeholder="$t('citizens.medicineJournals.form.dosage')"
                                         :modelValue="data?.dosage ?? null"
                                         @update:modelValue="(value: string | null) => handleDoseInput(value, index)" />
@@ -685,10 +685,14 @@ onMounted(() => {
         unit: props.selectedMedicine.unit,
         dosage: props.selectedMedicine.dosage,
         max_dosage_per_time: (props?.selectedMedicine?.max_dosage_per_time ?? []).map(
-            (entry: any) => ({ _uid: crypto.randomUUID(), ...entry })
+            (entry: any) => ({
+                _uid: crypto.randomUUID(),
+                ...entry,
+                dosage: toLocaleDecimal(entry.dosage),
+            })
         ),
-        max_dose_per_administration: language.locale.value === 'dk' ? props.selectedMedicine.max_dose_per_administration?.toString() : props.selectedMedicine.max_dose_per_administration?.toString(),
-        max_daily_dose: language.locale.value === 'dk' ? props.selectedMedicine.max_daily_dose?.toString() : props.selectedMedicine.max_daily_dose?.toString(),
+        max_dose_per_administration: toLocaleDecimal(props.selectedMedicine.max_dose_per_administration),
+        max_daily_dose: toLocaleDecimal(props.selectedMedicine.max_daily_dose),
         package_leaflet_link: props.selectedMedicine.package_leaflet_link,
         start_date: props.selectedMedicine.start_date,
         end_date: props.selectedMedicine.end_date,
@@ -1075,10 +1079,20 @@ async function fetchTimeIntervals() {
     emit('isPageLoading', false)
 }
 
+// Converts a raw API value (dot decimal) to the locale's decimal format for display
+function toLocaleDecimal(value: any): string {
+    const str = (value ?? '').toString()
+    if (!str) return ''
+    return language.locale.value === 'dk' ? str.replace('.', ',') : str
+}
+
 function handleMaxDailyDoseInput(event: Event) {
     const target = event.target as HTMLInputElement
     if (language.locale.value === 'dk') {
         target.value = validateEuropeanDecimal(target.value)
+    } else {
+        // EN: only allow digits and a single dot
+        target.value = target.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1')
     }
     state.formMedicine.max_daily_dose = target.value
 }
@@ -1087,6 +1101,9 @@ function handleMaxDosePerAdministrationInput(event: Event) {
     const target = event.target as HTMLInputElement
     if (language.locale.value === 'dk') {
         target.value = validateEuropeanDecimal(target.value)
+    } else {
+        // EN: only allow digits and a single dot
+        target.value = target.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1')
     }
     state.formMedicine.max_dose_per_administration = target.value
 }
@@ -1098,17 +1115,12 @@ function handleDoseInput(value: string | null, index: number) {
     }
     if (language.locale.value === 'dk') {
         value = validateEuropeanDecimal(value)
+    } else {
+        // EN: only allow digits and a single dot
+        value = value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1')
     }
     const numeric = parseFloat(value.replace(',', '.'))
-    if (isNaN(numeric)) {
-        state.formMedicine.max_dosage_per_time[index].dosage = ''
-        return
-    }
-    if (numeric < 0) {
-        state.formMedicine.max_dosage_per_time[index].dosage = ''
-        return
-    }
-    if (numeric === 0) {
+    if (isNaN(numeric) || numeric <= 0) {
         state.formMedicine.max_dosage_per_time[index].dosage = ''
         return
     }

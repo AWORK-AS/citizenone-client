@@ -173,7 +173,11 @@ async function updateMedicine(medicineDetails: any) {
         params.append('mass_unit_uuid', medicineDetails.unit)
         params.append('max_dose_per_administration', (medicineDetails.max_dose_per_administration ?? '').toString().replace(',', '.'))
         params.append('max_daily_dose', (medicineDetails.max_daily_dose ?? '').toString().replace(',', '.'))
-        params.append('max_dosage_per_time', JSON.stringify(medicineDetails.max_dosage_per_time))
+        const normalizedMaxDosagePerTime = (medicineDetails.max_dosage_per_time ?? []).map((item: any) => ({
+            ...item,
+            dosage: item.dosage != null ? String(item.dosage).replace(',', '.') : item.dosage,
+        }))
+        params.append('max_dosage_per_time', JSON.stringify(normalizedMaxDosagePerTime))
         params.append('package_leaflet_link', medicineDetails.package_leaflet_link)
         params.append('start_date', medicineDetails.start_date)
         params.append('end_date', medicineDetails.end_date)
