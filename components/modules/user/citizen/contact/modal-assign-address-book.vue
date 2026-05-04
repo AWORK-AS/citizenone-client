@@ -27,11 +27,16 @@
 
 <script setup lang="ts">
 import { companyContactService } from '@/components/api/user/CompanyContactService'
+import { citizenContactService } from '@/components/api/user/CitizenContactService'
 import type { Error } from '@/types'
 
 const props = defineProps({
     isModalOpen: {
         type: Boolean,
+        required: true,
+    },
+    citizenUuid: {
+        type: String,
         required: true,
     },
 })
@@ -53,14 +58,24 @@ watch(() => props.isModalOpen, (val) => {
 async function fetchAddressBook() {
     state.isLoading = true
     try {
-        const response = await companyContactService.getContactList()
-        if (response) {
-            state.contacts = response?.data ?? response
-            state.contactOptions = state.contacts.map((c: any) => ({
+        const [addressBookRes, citizenContactsRes] = await Promise.all([
+            companyContactService.getContactList(),
+            citizenContactService.getContacts({ citizen_uuid: props.citizenUuid, per_page: 1000 }),
+        ])
+
+        const assignedIds = new Set(
+            (citizenContactsRes?.data ?? [])
+                .map((c: any) => c.company_contact_id)
+                .filter(Boolean)
+        )
+
+        state.contacts = addressBookRes?.data ?? addressBookRes
+        state.contactOptions = state.contacts
+            .filter((c: any) => !assignedIds.has(c.id))
+            .map((c: any) => ({
                 value: c.uuid,
                 label: `${c.firstname} ${c.lastname ?? ''}`.trim(),
             }))
-        }
     } catch (error: any) {
         state.error = error
     }

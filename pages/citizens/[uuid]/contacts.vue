@@ -139,6 +139,7 @@
                     :selectedContact="state.selectedContact" @close="state.modal.isSendEmailOpen = false" />
                 <ModulesUserCitizenContactModalAssignAddressBook
                     :isModalOpen="state.modal.isAssignFromAddressBookOpen"
+                    :citizenUuid="citizenUuid"
                     @close="state.modal.isAssignFromAddressBookOpen = false"
                     @prefillContact="handlePrefillContact"
                 />
