@@ -1739,6 +1739,7 @@
                 "medicine": "Medicine",
                 "medicineStorage": "Medicine storage",
                 "medicineStoragePlaceholder": "Where do you store the medicine",
+                "medicationNote": "Medication note",
                 "otherInformation": "Other information",
                 "otherInformationLabel": "Are there any other important details to highlight",
                 "packageLeafletLink": "Package leaflet link",
