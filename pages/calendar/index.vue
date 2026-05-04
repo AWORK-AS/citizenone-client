@@ -74,7 +74,7 @@
                 </Menu>
                 <FormButton buttonStyle="action" @click="subscribe">
                     <Icon name="ph:bell-ringing" class="h-4 w-4" aria-hidden="true" />
-                    {{ $t('events.subscribe') }}
+                    {{ $t('events.subscribe.label') }}
                 </FormButton>
             </div>
 
@@ -140,6 +140,9 @@
             <ModulesUserGuidedTourModalCalendar v-if="state.modal.isGuidedTourCalendarOpen"
                 :isModalOpen="state.modal.isGuidedTourCalendarOpen" :isGuidedTour="false"
                 @close="state.modal.isGuidedTourCalendarOpen = false" />
+
+            <ModulesUserMyCalendarModalSubscribe :isModalOpen="state.modal.isSubscribeOpen"
+                @close="state.modal.isSubscribeOpen = false" />
         </NuxtLayout>
     </div>
 </template>
@@ -195,7 +198,8 @@ const state = reactive({
         isDeleteScheduleOpen: false,
         isEditEventOpen: false,
         isGuidedTourCalendarOpen: false,
-        isFilterCalendarOpen: false
+        isFilterCalendarOpen: false,
+        isSubscribeOpen: false,
     },
     myCalendarEvents: [] as any,
     selectedDate: {
@@ -516,19 +520,8 @@ async function deleteMyCalendarEvent(selectedCalendarEvent: any, isDeleteFuture:
     state.isPageLoading = false
 }
 
-async function subscribe() {
-    // state.error = {}
-    // state.isPageLoading = true
-    // try {
-    //     const response = await myCalendarService.downloadCalendar()
-    //     if (response) {
-    //         var file = new File([response], "my-schedule.ics")
-    //         // saveAs(file, 'my-schedule.ics')
-    //     }
-    // } catch (error: any) {
-    //     state.error = error
-    // }
-    // state.isPageLoading = false
+function subscribe() {
+    state.modal.isSubscribeOpen = true
 }
 
 function setFilter(filter: any) {

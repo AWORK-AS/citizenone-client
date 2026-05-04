@@ -4203,7 +4203,21 @@
         "noEventFound": "No event found",
         "pleaseSelectWhomYouWouldLikeToCreateTheEventFor": "Please select whom you would like to create the event for",
         "proceed": "Proceed",
-        "subscribe": "Subscribe"
+        "subscribe": {
+            "copied": "Copied!",
+            "label": "Subscribe",
+            "copy": "Copy",
+            "howToSubscribe": "How to subscribe",
+            "instructions": {
+                "apple": "Open Apple Calendar → File → New Calendar Subscription → paste the URL → click Subscribe",
+                "google": "Open Google Calendar → click the + next to \"Other calendars\" → From URL → paste the URL → click Add calendar",
+                "outlook": "Open Outlook Calendar → Add calendar → Subscribe from web → paste the URL → click Import"
+            },
+            "regenerate": "Regenerate",
+            "regenerateWarning": "Regenerating will invalidate your current URL. Anyone who subscribed with the old link will no longer receive updates.",
+            "title": "Subscribe to calendar",
+            "yourCalendarUrl": "Your personal calendar URL"
+        }
     },
     "excludeVat": "excl. vat",
     "expenseCategories": {

@@ -4203,7 +4203,21 @@
         "noEventFound": "Ingen begivenhed fundet",
         "pleaseSelectWhomYouWouldLikeToCreateTheEventFor": "Vælg venligst, hvem du ønsker at oprette begivenheden for",
         "proceed": "Fortsæt",
-        "subscribe": "Abonner"
+        "subscribe": {
+            "copied": "Kopieret!",
+            "label": "Abonner",
+            "copy": "Kopiér",
+            "howToSubscribe": "Sådan abonnerer du",
+            "instructions": {
+                "apple": "Åbn Apple Kalender → Fil → Nyt kalenderabonnement → indsæt URL'en → klik Abonner",
+                "google": "Åbn Google Kalender → klik + ud for \"Andre kalendere\" → Fra URL → indsæt URL'en → klik Tilføj kalender",
+                "outlook": "Åbn Outlook Kalender → Tilføj kalender → Abonner fra web → indsæt URL'en → klik Importer"
+            },
+            "regenerate": "Regenerér",
+            "regenerateWarning": "Regenerering vil ugyldiggøre din nuværende URL. Alle der har abonneret med det gamle link vil ikke længere modtage opdateringer.",
+            "title": "Abonner på kalender",
+            "yourCalendarUrl": "Din personlige kalender-URL"
+        }
     },
     "excludeVat": "ekskl. moms",
     "expenseCategories": {
