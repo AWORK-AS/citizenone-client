@@ -126,7 +126,8 @@
                 <div class="grid grid-cols-1 lg:grid-cols-2 gap-x-5 gap-y-6" v-if="overviewStore.getDailyOverviewFilter.showCitizensDailyEvents ||
                     overviewStore.getDailyOverviewFilter.showLatestJournal ||
                     overviewStore.getDailyOverviewFilter.showDailyMedicineOverview ||
-                    overviewStore.getDailyOverviewFilter.showCitizensFollowUpReminders">
+                    overviewStore.getDailyOverviewFilter.showCitizensFollowUpReminders ||
+                    overviewStore.getDailyOverviewFilter.showReminders">
                     <!-- Citizens' events panel -->
                     <div class="card" v-if="overviewStore.getDailyOverviewFilter.showCitizensDailyEvents">
                         <div class="card-header">
@@ -189,6 +190,27 @@
                         <div>
                             <ModulesUserDailyOverviewCitizensMedicineOverview
                                 :dateRange="state.dateRange.formDateRange" />
+                        </div>
+                    </div>
+
+                    <!-- User reminders panel -->
+                    <div class="card" v-if="overviewStore.getDailyOverviewFilter.showReminders">
+                        <div class="card-header">
+                            <div class="flex items-center gap-x-2">
+                                <Icon name="ph:check-square" class="h-5 w-5 text-primary" />
+                                <h3 class="text-sm font-semibold text-slate-900">
+                                    {{ $t('reminders.reminders') }}
+                                </h3>
+                            </div>
+                            <button
+                                class="text-sm text-primary font-medium hover:text-primary-700 transition-colors flex items-center gap-x-1"
+                                @click="navigateTo('/reminders')">
+                                {{ $t('overview.viewAll') }}
+                                <Icon name="heroicons:arrow-right-20-solid" class="h-4 w-4" />
+                            </button>
+                        </div>
+                        <div>
+                            <ModulesUserDailyOverviewReminders />
                         </div>
                     </div>
 

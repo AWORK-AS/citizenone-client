@@ -869,8 +869,10 @@
         "today": "I dag",
         "view": {
             "defaultView": "Standardvisning",
+            "halfYearView": "Halvår",
             "monthView": "Månedsvisning",
-            "weekView": "Ugevisning"
+            "weekView": "Ugevisning",
+            "yearView": "Årsvisning"
         },
         "week": {
             "oneLetter": {
@@ -1519,10 +1521,18 @@
                     "origin": "Oprindelse"
                 },
                 "addAccompanyingChild": "Tilføj ledsagende barn",
+                "consentFields": "Samtykke",
                 "dischargeReason": "Udskrivningsårsag",
+                "financialGuardianship": "Økonomiværge",
+                "generalConsent": "Generelt samtykke",
+                "guardianship": "Værgemål",
                 "journalNumber": "Journalnummer",
                 "municipalityOfResidenceAfter": "Bopælskommune efter ophold",
-                "municipalityOfResidenceBefore": "Bopælskommune før ophold"
+                "municipalityOfResidenceBefore": "Bopælskommune før ophold",
+                "parentCollaboration": "Forældresamarbejde",
+                "personalGuardianship": "Personværge",
+                "photo": "Foto",
+                "studentCollaboration": "Elevsamarbejde"
             },
             "street": "Gade",
             "trafficLights": {
@@ -3469,6 +3479,21 @@
             "insertWeekHere": "Indsæt uge her",
             "monthCopied": "Måned kopieret — naviger til anden måned og klik Indsæt",
             "seeCalendar": "Se kalender"
+        },
+        "halfYearView": {
+            "employees": "Medarbejdere",
+            "hasLeave": "Har orlov",
+            "hasShifts": "Har vagter",
+            "isHoliday": "Helligdag",
+            "shiftDays": "vagtdage",
+            "viewMonth": "Se måned"
+        },
+        "yearView": {
+            "hasShifts": "Har vagter",
+            "isHoliday": "Helligdag",
+            "totalHolidays": "helligdage",
+            "totalShiftDays": "vagtdage i alt",
+            "viewMonth": "Se måned"
         },
         "newSchedule": "Ny vagt",
         "noScheduleFound": "Ingen tidsplan fundet",
@@ -6324,6 +6349,7 @@
         }
     },
     "reminders": {
+        "noRemindersToShow": "Ingen påmindelser at vise",
         "assign": "Tildel",
         "assignAnEmployee": "Tildel en medarbejder",
         "assignees": "Modtagere",
@@ -6381,6 +6407,7 @@
                 "deleteReminderConfirmation": "Er du sikker på, at du vil slette denne påmindelse"
             },
             "dueDate": "Afleveringsfrist",
+            "completed": "Fuldført",
             "markAsComplete": "Markér som fuldført",
             "markAsIncomplete": "Markér som ikke fuldført",
             "time": "Tid"

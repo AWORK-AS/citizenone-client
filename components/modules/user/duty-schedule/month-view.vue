@@ -169,8 +169,10 @@
                                 </select>
                             </div>
                         </div>
-                        <div class="xl:min-w-[160px] [&_input]:!h-[38px] [&_button]:!h-[38px] [&_form]:!h-[38px]">
-                            <TableSearch @search="handleSearch" :placeholder="$t('dutySchedules.findEmployee')" />
+                        <div
+                            class="flex-1 sm:flex-none sm:w-auto xl:min-w-[160px] [&_input]:!h-[38px] [&_button]:!h-[38px] [&_form]:!h-[38px]">
+                            <TableSearch type="duty-schedule" @search="handleSearch"
+                                :placeholder="$t('dutySchedules.findEmployee')" />
                         </div>
                     </div>
                 </div>

@@ -19,16 +19,17 @@
                         {{ year }}
                     </h3>
                     <div class="space-y-2">
-                        <div class="inline-flex items-center rounded-lg border border-gray-200 bg-white shadow-sm overflow-hidden">
+                        <div
+                            class="inline-flex items-center rounded-lg border border-gray-200 bg-white shadow-sm overflow-hidden">
                             <button type="button" @click="previousMonth"
-                                class="flex h-11 w-10 flex-shrink-0 items-center justify-center border-r border-gray-200 text-gray-400 hover:text-gray-600 hover:bg-gray-50 transition-colors">
+                                class="flex h-11 w-10 flex-shrink-0 items-center justify-center text-gray-400 hover:text-gray-600 hover:bg-gray-50 transition-colors">
                                 <span class="sr-only">Previous month</span>
                                 <Icon name="heroicons:chevron-left" class="h-5 w-5" aria-hidden="true" />
                             </button>
                             <FormDateField id="date" name="date" :placeholder="$t('dutySchedules.form.date')"
                                 dateType="calendar" v-model="state.selectedDate" />
                             <button type="button" @click="nextMonth"
-                                class="flex h-11 w-10 flex-shrink-0 items-center justify-center border-l border-gray-200 text-gray-400 hover:text-gray-600 hover:bg-gray-50 transition-colors">
+                                class="flex h-11 w-10 flex-shrink-0 items-center justify-center text-gray-400 hover:text-gray-600 hover:bg-gray-50 transition-colors">
                                 <span class="sr-only">Next month</span>
                                 <Icon name="heroicons:chevron-right" class="h-5 w-5" aria-hidden="true" />
                             </button>
