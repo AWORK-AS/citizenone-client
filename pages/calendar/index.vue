@@ -72,10 +72,10 @@
                         </MenuItems>
                     </transition>
                 </Menu>
-                <!-- <FormButton buttonStyle="action"  @click="subscribe">
-                    <Icon name="ph:plus" class="h-4 w-4" aria-hidden="true" />
+                <FormButton buttonStyle="action" @click="subscribe">
+                    <Icon name="ph:bell-ringing" class="h-4 w-4" aria-hidden="true" />
                     {{ $t('events.subscribe') }}
-                </FormButton> -->
+                </FormButton>
             </div>
 
             <div class="grid lg:grid-cols-6 gap-3">
@@ -517,18 +517,18 @@ async function deleteMyCalendarEvent(selectedCalendarEvent: any, isDeleteFuture:
 }
 
 async function subscribe() {
-    state.error = {}
-    state.isPageLoading = true
-    try {
-        const response = await myCalendarService.downloadCalendar()
-        if (response) {
-            var file = new File([response], "my-schedule.ics")
-            // saveAs(file, 'my-schedule.ics')
-        }
-    } catch (error: any) {
-        state.error = error
-    }
-    state.isPageLoading = false
+    // state.error = {}
+    // state.isPageLoading = true
+    // try {
+    //     const response = await myCalendarService.downloadCalendar()
+    //     if (response) {
+    //         var file = new File([response], "my-schedule.ics")
+    //         // saveAs(file, 'my-schedule.ics')
+    //     }
+    // } catch (error: any) {
+    //     state.error = error
+    // }
+    // state.isPageLoading = false
 }
 
 function setFilter(filter: any) {
