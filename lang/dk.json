@@ -970,6 +970,7 @@
             "newCaseWorker": "Ny sagsbehandler"
         },
         "citizenJournals": {
+            "aiUsed": "CitizenOne AI blev brugt",
             "actions": {
                 "addToFavorite": "Føj til favoritter",
                 "copy": "Kopiér",

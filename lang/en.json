@@ -970,6 +970,7 @@
             "newCaseWorker": "New case worker"
         },
         "citizenJournals": {
+            "aiUsed": "CitizenOne AI was used",
             "actions": {
                 "addToFavorite": "Add to favorite",
                 "copy": "Copy",

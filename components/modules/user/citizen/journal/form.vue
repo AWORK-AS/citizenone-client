@@ -448,6 +448,7 @@ const state = reactive({
         risk_assessment_subgoal: '',
         title: '',
         is_draft: false,
+        is_ai_used: false,
         assessment: null,
         note: '',
         risk_assessment_tags: [],
@@ -625,6 +626,7 @@ function setFormJournalFromSelected(journal: any) {
         risk_assessment_subgoal: '',
         title: journal.title,
         is_draft: journal.is_draft,
+        is_ai_used: journal.is_ai_used ?? false,
         assessment: journal.assessment,
         note: journal.note === null ? '' : journal.note,
         risk_assessment_tags: [],
@@ -952,6 +954,7 @@ async function generateNoteForJournalContent() {
             const messageOutput = response.output.find((item: any) => item.type === 'message');
             if (messageOutput?.content?.[0]?.text) {
                 state.formJournal.content = messageOutput.content[0].text
+                state.formJournal.is_ai_used = true
             }
         }
     } catch (error: any) {
@@ -973,6 +976,7 @@ async function generateNoteForRiskAssessmentNote() {
             const messageOutput = response.output.find((item: any) => item.type === 'message');
             if (messageOutput?.content?.[0]?.text) {
                 state.formJournal.content = messageOutput.content[0].text
+                state.formJournal.is_ai_used = true
             }
         }
     } catch (error: any) {
