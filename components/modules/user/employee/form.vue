@@ -736,7 +736,7 @@ watch(() => props.selectedEmployee, (newValue: any) => {
             birthday: newValue.birthday,
             seniority_date: newValue.seniority_date,
             departments: newValue.departments,
-            roles: newValue.roles?.map((r: any) => r.name) ?? [],
+            roles: newValue.roles ?? [],
             street: newValue.street,
             region_uuid: newValue.region_uuid,
             municipality_uuid: newValue.municipality_uuid,
