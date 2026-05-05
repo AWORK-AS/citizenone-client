@@ -204,6 +204,9 @@
 				</div>
 			</form>
 		</div>
+		<ModulesUserAuthenticationModal2fa :isModalOpen="state.modal.isGoogle2faVerificationOpen"
+			:formLogin="state.formLogin" @close="state.modal.isGoogle2faVerificationOpen = false"
+			v-if="state.modal.isGoogle2faVerificationOpen" />
 	</div>
 </template>
 
