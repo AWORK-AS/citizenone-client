@@ -2180,7 +2180,8 @@
                         "verySubstantialChallenges": "Very substantial challenges"
                     },
                     "date": "Date",
-                    "status": "Status"
+                    "status": "Status",
+                    "problemStatus": "Status selection"
                 },
                 "newStatus": "New status",
                 "statuses": "Statuses",
@@ -2199,7 +2200,13 @@
                     "createdBy": "Created by",
                     "date": "Date",
                     "dateCreated": "Date created",
-                    "status": "Status"
+                    "status": "Status",
+                    "problemStatus": "Problem status"
+                },
+                "problemStatuses": {
+                    "activeProblem": "Active problem",
+                    "notAnActiveProblem": "Not an active problem",
+                    "potentialProblem": "Potential problem"
                 }
             },
             "table": {

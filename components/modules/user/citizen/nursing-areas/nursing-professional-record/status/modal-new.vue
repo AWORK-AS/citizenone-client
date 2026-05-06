@@ -44,6 +44,7 @@ const state = reactive({
         area_type: '',
         score: '',
         status: '',
+        problem_status: '',
     },
 })
 
@@ -65,6 +66,7 @@ async function saveStatus(statusDetails: any) {
             area_type: statusDetails.area_type,
             score: statusDetails.score,
             status: statusDetails.status,
+            problem_status: statusDetails.problem_status,
         }
         const response = await statusService.saveStatus(params)
         if (response?.data) {

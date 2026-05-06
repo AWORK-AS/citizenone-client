@@ -117,6 +117,21 @@
                                             </Badge>
                                         </td>
                                         <td width="20%">
+                                            <span v-if="status?.problem_status === 'not_an_active_problem'"
+                                                class="inline-flex items-center rounded-full bg-green-100 px-2 py-0.5 text-xxs font-medium text-green-700">
+                                                {{ $t('citizens.nursingAreas.statuses.problemStatuses.notAnActiveProblem') }}
+                                            </span>
+                                            <span v-else-if="status?.problem_status === 'potential_problem'"
+                                                class="inline-flex items-center rounded-full bg-amber-100 px-2 py-0.5 text-xxs font-medium text-amber-700">
+                                                {{ $t('citizens.nursingAreas.statuses.problemStatuses.potentialProblem') }}
+                                            </span>
+                                            <span v-else-if="status?.problem_status === 'active_problem'"
+                                                class="inline-flex items-center rounded-full bg-red-100 px-2 py-0.5 text-xxs font-medium text-red-700">
+                                                {{ $t('citizens.nursingAreas.statuses.problemStatuses.activeProblem') }}
+                                            </span>
+                                            <span v-else class="text-gray-400 text-xxs">—</span>
+                                        </td>
+                                        <td width="20%">
                                             <span>{{ formatDateToReadable(status?.created_at) }}</span>
                                         </td>
                                         <td width="20%">
@@ -190,6 +205,7 @@ const state = reactive({
     columnHeaders: [
         { name: 'citizens.nursingAreas.statuses.table.date', isTranslateName: true, },
         { name: 'citizens.nursingAreas.statuses.table.status', isTranslateName: true, sorter: true, key: 'status' },
+        { name: 'citizens.nursingAreas.statuses.table.problemStatus', isTranslateName: true, },
         { name: 'citizens.nursingAreas.statuses.table.dateCreated', isTranslateName: true, },
         { name: 'citizens.nursingAreas.statuses.table.createdBy', isTranslateName: true, },
         { name: '' },

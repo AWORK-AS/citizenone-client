@@ -59,6 +59,7 @@ async function updateStatus(statusDetails: any) {
             area_type: statusDetails.area_type,
             score: statusDetails.score,
             status: statusDetails.status,
+            problem_status: statusDetails.problem_status,
         }
         const response = await statusService.updateStatus(statusUuid, params)
         if (response?.data) {

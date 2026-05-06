@@ -2180,7 +2180,8 @@
                         "verySubstantialChallenges": "Meget store udfordringer"
                     },
                     "date": "Dato",
-                    "status": "Status"
+                    "status": "Status",
+                    "problemStatus": "Statusvalg"
                 },
                 "newStatus": "Ny status",
                 "statuses": "Statusser",
@@ -2199,7 +2200,13 @@
                     "createdBy": "Oprettet af",
                     "date": "Dato",
                     "dateCreated": "Oprettelsesdato",
-                    "status": "Status"
+                    "status": "Status",
+                    "problemStatus": "Problemstatus"
+                },
+                "problemStatuses": {
+                    "activeProblem": "Aktivt problem",
+                    "notAnActiveProblem": "Ikke et aktivt problem",
+                    "potentialProblem": "Potentielt problem"
                 }
             },
             "table": {
