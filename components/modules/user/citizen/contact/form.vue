@@ -281,85 +281,106 @@ const state = reactive({
     }
 })
 
-onMounted(() => {
+onMounted(async () => {
     fetchAllContactJobTitles()
     fetchNotificationTypes()
     fetchRiskLevels()
     fetchRegions()
-    fetchMunicipalitiesPerRegion(props.selectedContact?.region?.uuid)
-    fetchCities(props.selectedContact?.municipality?.uuid)
+
+    const c = props.selectedContact
+    const regionUuid = c?.region?.uuid ?? (typeof c?.region === 'string' ? c?.region : '')
+    const municipalityUuid = c?.municipality?.uuid ?? (typeof c?.municipality === 'string' ? c?.municipality : '')
+    const cityUuid = c?.city?.uuid ?? (typeof c?.city === 'string' ? c?.city : '')
+
     state.formContact = {
-        id: props.selectedContact?.id,
-        uuid: props.selectedContact?.uuid,
-        title: props.selectedContact?.title,
-        contact_job_title_uuid: props.selectedContact?.contact_job_title?.uuid,
-        relationship: props.selectedContact?.relationship?.uuid,
-        company_name: props.selectedContact?.company_name,
-        employee: props.selectedContact?.employee?.uuid,
-        employees: props.selectedContact?.employees,
-        firstname: props.selectedContact?.firstname,
-        lastname: props.selectedContact?.lastname,
-        email: props.selectedContact?.email,
-        phone: props.selectedContact?.phone,
-        street: props.selectedContact?.street,
-        region: props.selectedContact?.region?.uuid,
-        municipality: props.selectedContact?.municipality?.uuid,
-        city: props.selectedContact?.city?.uuid,
-        post_code: props.selectedContact?.post_code,
+        id: c?.id,
+        uuid: c?.uuid,
+        title: c?.title,
+        contact_job_title_uuid: c?.contact_job_title?.uuid ?? c?.contact_job_title_uuid ?? '',
+        relationship: c?.relationship?.uuid ?? '',
+        company_name: c?.company_name ?? '',
+        employee: c?.employee?.uuid ?? '',
+        employees: c?.employees ?? [],
+        firstname: c?.firstname ?? '',
+        lastname: c?.lastname ?? '',
+        email: c?.email ?? '',
+        phone: c?.phone ?? '',
+        street: c?.street ?? '',
+        region: regionUuid,
+        municipality: '',
+        city: '',
+        post_code: c?.post_code ?? '',
         notifications: [],
-        has_system_access: props.selectedContact?.has_system_access
+        has_system_access: c?.has_system_access ?? false,
     }
-    props.selectedContact?.notification_types?.forEach((notification_type: any) => {
+
+    if (regionUuid) {
+        await fetchMunicipalitiesPerRegion(regionUuid)
+        state.formContact.municipality = municipalityUuid
+        if (municipalityUuid) {
+            await fetchCities(municipalityUuid)
+            state.formContact.city = cityUuid
+        }
+    }
+
+    c?.notification_types?.forEach((notification_type: any) => {
         state.formContact.notifications.push({
             notification_uuid: notification_type?.uuid,
             risk_level_uuid: notification_type?.pivot?.risk_level?.uuid,
         })
     })
     if (state.formContact.notifications?.length === 0) {
-        state.formContact.notifications = [{
-            notification_uuid: '',
-            risk_level_uuid: '',
-        }]
+        state.formContact.notifications = [{ notification_uuid: '', risk_level_uuid: '' }]
     }
 })
 
-watch(() => props.selectedContact, (newValue: any) => {
-    fetchMunicipalitiesPerRegion(props.selectedContact?.region?.uuid)
-    fetchCities(props.selectedContact?.municipality?.uuid)
-    if (newValue != null) {
-        state.formContact = {
-            id: props.selectedContact?.id,
-            uuid: props.selectedContact?.uuid,
-            title: props.selectedContact?.title,
-            contact_job_title_uuid: props.selectedContact?.contact_job_title?.uuid,
-            relationship: props.selectedContact?.relationship?.uuid,
-            company_name: props.selectedContact?.company_name,
-            employee: props.selectedContact?.employee?.uuid,
-            employees: props.selectedContact?.employees,
-            firstname: props.selectedContact?.firstname,
-            lastname: props.selectedContact?.lastname,
-            email: props.selectedContact?.email,
-            phone: props.selectedContact?.phone,
-            street: props.selectedContact?.street,
-            region: props.selectedContact?.region?.uuid,
-            municipality: props.selectedContact?.municipality?.uuid,
-            city: props.selectedContact?.city?.uuid,
-            post_code: props.selectedContact?.post_code,
-            notifications: [],
-            has_system_access: props.selectedContact?.has_system_access
+watch(() => props.selectedContact, async (newValue: any) => {
+    if (!newValue) return
+
+    const regionUuid = newValue?.region?.uuid ?? newValue?.region ?? ''
+    const municipalityUuid = newValue?.municipality?.uuid ?? newValue?.municipality ?? ''
+    const cityUuid = newValue?.city?.uuid ?? newValue?.city ?? ''
+
+    state.formContact = {
+        id: newValue?.id,
+        uuid: newValue?.uuid,
+        title: newValue?.title,
+        contact_job_title_uuid: newValue?.contact_job_title?.uuid ?? newValue?.contact_job_title_uuid ?? '',
+        relationship: newValue?.relationship?.uuid ?? '',
+        company_name: newValue?.company_name ?? '',
+        employee: newValue?.employee?.uuid ?? '',
+        employees: newValue?.employees ?? [],
+        firstname: newValue?.firstname ?? '',
+        lastname: newValue?.lastname ?? '',
+        email: newValue?.email ?? '',
+        phone: newValue?.phone ?? '',
+        street: newValue?.street ?? '',
+        region: regionUuid,
+        municipality: '',
+        city: '',
+        post_code: newValue?.post_code ?? '',
+        notifications: [],
+        has_system_access: newValue?.has_system_access ?? false,
+    }
+
+    if (regionUuid) {
+        await fetchMunicipalitiesPerRegion(regionUuid)
+        state.formContact.municipality = municipalityUuid
+
+        if (municipalityUuid) {
+            await fetchCities(municipalityUuid)
+            state.formContact.city = cityUuid
         }
-        props.selectedContact?.notification_types?.forEach((notification_type: any) => {
-            state.formContact.notifications.push({
-                notification_uuid: notification_type?.uuid,
-                risk_level_uuid: notification_type?.pivot?.risk_level?.uuid,
-            })
+    }
+
+    newValue?.notification_types?.forEach((notification_type: any) => {
+        state.formContact.notifications.push({
+            notification_uuid: notification_type?.uuid,
+            risk_level_uuid: notification_type?.pivot?.risk_level?.uuid,
         })
-        if (state.formContact.notifications?.length === 0) {
-            state.formContact.notifications = [{
-                notification_uuid: '',
-                risk_level_uuid: '',
-            }]
-        }
+    })
+    if (state.formContact.notifications?.length === 0) {
+        state.formContact.notifications = [{ notification_uuid: '', risk_level_uuid: '' }]
     }
 })
 

@@ -44,6 +44,14 @@ watch(() => userStore.getUser, (newValue: any) => {
                 ]
             },
             {
+                name: 'settings.tabs.addressBook',
+                isTranslateName: true,
+                href: `/settings/address-book`,
+                routeNames: [
+                    'settings-address-book'
+                ]
+            },
+            {
                 name: 'settings.tabs.bookingTags',
                 isTranslateName: true,
                 href: `/settings/booking-tags`,
@@ -280,6 +288,9 @@ function changeTab(value: any) {
     }
     else if (value === '/settings/addictions') {
         navigateTo(`/settings/addictions`)
+    }
+    else if (value === '/settings/address-book') {
+        navigateTo(`/settings/address-book`)
     }
     else if (value === '/settings/booking-tags') {
         navigateTo(`/settings/booking-tags`)
