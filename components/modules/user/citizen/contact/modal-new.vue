@@ -27,6 +27,10 @@ const props = defineProps({
         type: Boolean,
         required: true,
     },
+    prefillData: {
+        type: Object as () => any,
+        default: null,
+    },
 })
 const router = useRouter()
 const citizenUuid = router?.currentRoute?.value?.params?.uuid
@@ -39,6 +43,7 @@ const state = reactive({
         uuid: '',
         title: '',
         contact_job_title_uuid: '',
+        company_contact_uuid: '',
         employees_uuid: [],
         firstname: '',
         lastname: '',
@@ -49,14 +54,30 @@ const state = reactive({
         municipality: '',
         city: '',
         post_code: '',
-        // risk_level: '',
-        // notification_types: [],
         notifications: [{
             notification_uuid: '',
             risk_level_uuid: '',
         }],
         has_system_access: false,
     },
+})
+
+watch(() => props.prefillData, (data) => {
+    if (!data) return
+    state.formContact = {
+        ...state.formContact,
+        company_contact_uuid: data.uuid ?? '',
+        contact_job_title_uuid: data.contact_job_title?.uuid ?? '',
+        firstname: data.firstname ?? '',
+        lastname: data.lastname ?? '',
+        email: data.email ?? '',
+        phone: data.phone ?? '',
+        street: data.street ?? '',
+        region: data.region?.uuid ?? '',
+        municipality: data.municipality?.uuid ?? '',
+        city: data.city?.uuid ?? '',
+        post_code: data.post_code ?? '',
+    }
 })
 
 function closeModal() {
@@ -83,7 +104,6 @@ async function saveContact(contactDetails: any) {
             params = {
                 citizen_uuid: citizenUuid,
                 contact_job_title_uuid: contactDetails.contact_job_title_uuid,
-                employees_uuid: contactDetails.employees,
                 relationship_uuid: contactDetails.title === 'relatives' ? contactDetails.relationship : '',
                 company_name: contactDetails.company_name,
                 firstname: contactDetails.firstname,
@@ -96,6 +116,7 @@ async function saveContact(contactDetails: any) {
                 city_uuid: contactDetails.city,
                 post_code: contactDetails.post_code,
                 has_system_access: contactDetails.has_system_access,
+                company_contact_uuid: state.formContact.company_contact_uuid || null,
             }
         }
         const response = await citizenContactService.saveContact(params)

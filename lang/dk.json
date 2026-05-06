@@ -17,6 +17,58 @@
         "google2FactorAuthentication": "Google 2-faktor autentifikation",
         "useYour2faCodeFromGoogleAuthenticatorAppOnYourPhone": "Brug din 2FA-kode fra Google Authenticator appen på din telefon"
     },
+    "addressBook": {
+        "addressBook": "Adressebog",
+        "addNewContact": "Tilføj ny kontakt",
+        "assign": "Tildel",
+        "assigned": "Tildelt",
+        "assignedContacts": "Tildelte kontakter",
+        "assignFromAddressBook": "Tildel fra adressebog",
+        "editContact": "Rediger kontakt",
+        "newContact": "Ny kontakt",
+        "noContactsInAddressBook": "Ingen kontakter i adressebogen",
+        "unassignContact": "Fjern tildeling",
+        "useContact": "Brug",
+        "alert": {
+            "contactSuccessfullyAssigned": "Kontakt tildelt",
+            "contactSuccessfullyDeleted": "Kontakt slettet",
+            "contactSuccessfullySaved": "Kontakt gemt",
+            "contactSuccessfullyUnassigned": "Kontakttildeling fjernet",
+            "contactSuccessfullyUpdated": "Kontakt opdateret"
+        },
+        "form": {
+            "city": "By",
+            "companyName": "Firmanavn",
+            "contactJobTitle": "Kontakttitel",
+            "email": "E-mail",
+            "firstname": "Fornavn",
+            "lastname": "Efternavn",
+            "municipality": "Kommune",
+            "phone": "Telefon",
+            "postCode": "Postnummer",
+            "region": "Region",
+            "selectCity": "Vælg by",
+            "selectContactJobTitle": "Vælg kontakttitel",
+            "selectMunicipality": "Vælg kommune",
+            "selectRegion": "Vælg region",
+            "street": "Gade"
+        },
+        "table": {
+            "actions": {
+                "delete": "Slet",
+                "edit": "Rediger"
+            },
+            "assignedCitizens": "Tilknyttede borgere",
+            "confirmation": {
+                "deleteContactConfirmation": "Er du sikker på at du vil slette denne kontakt",
+                "unassignContactConfirmation": "Er du sikker på at du vil fjerne tildelingen af denne kontakt"
+            },
+            "email": "E-mail",
+            "jobTitle": "Jobtitel",
+            "name": "Navn",
+            "phone": "Telefon"
+        }
+    },
     "absences": {
         "absences": "Fravær",
         "addNewAbsence": "Tilføj nyt fravær",
@@ -6648,6 +6700,7 @@
             "absences": "Fravær",
             "activityLogs": "Aktivitetslogfiler",
             "addictions": "Stofmisbrug",
+            "addressBook": "Adressebog",
             "archived": "Arkiveret",
             "bookingTags": "Booking tags",
             "calendarTags": "Kalenderetiketter",
