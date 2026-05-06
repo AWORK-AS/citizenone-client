@@ -287,31 +287,31 @@ onMounted(async () => {
     fetchRiskLevels()
     fetchRegions()
 
-    const c = props.selectedContact
-    const regionUuid = c?.region?.uuid ?? (typeof c?.region === 'string' ? c?.region : '')
-    const municipalityUuid = c?.municipality?.uuid ?? (typeof c?.municipality === 'string' ? c?.municipality : '')
-    const cityUuid = c?.city?.uuid ?? (typeof c?.city === 'string' ? c?.city : '')
+    const contact = props.selectedContact
+    const regionUuid = contact?.region?.uuid ?? (typeof contact?.region === 'string' ? contact?.region : '')
+    const municipalityUuid = contact?.municipality?.uuid ?? (typeof contact?.municipality === 'string' ? contact?.municipality : '')
+    const cityUuid = contact?.city?.uuid ?? (typeof contact?.city === 'string' ? contact?.city : '')
 
     state.formContact = {
-        id: c?.id,
-        uuid: c?.uuid,
-        title: c?.title,
-        contact_job_title_uuid: c?.contact_job_title?.uuid ?? c?.contact_job_title_uuid ?? '',
-        relationship: c?.relationship?.uuid ?? '',
-        company_name: c?.company_name ?? '',
-        employee: c?.employee?.uuid ?? '',
-        employees: c?.employees ?? [],
-        firstname: c?.firstname ?? '',
-        lastname: c?.lastname ?? '',
-        email: c?.email ?? '',
-        phone: c?.phone ?? '',
-        street: c?.street ?? '',
+        id: contact?.id,
+        uuid: contact?.uuid,
+        title: contact?.title,
+        contact_job_title_uuid: contact?.contact_job_title?.uuid ?? contact?.contact_job_title_uuid ?? '',
+        relationship: contact?.relationship?.uuid ?? '',
+        company_name: contact?.company_name ?? '',
+        employee: contact?.employee?.uuid ?? '',
+        employees: contact?.employees ?? [],
+        firstname: contact?.firstname ?? '',
+        lastname: contact?.lastname ?? '',
+        email: contact?.email ?? '',
+        phone: contact?.phone ?? '',
+        street: contact?.street ?? '',
         region: regionUuid,
         municipality: '',
         city: '',
-        post_code: c?.post_code ?? '',
+        post_code: contact?.post_code ?? '',
         notifications: [],
-        has_system_access: c?.has_system_access ?? false,
+        has_system_access: contact?.has_system_access ?? false,
     }
 
     if (regionUuid) {
@@ -323,7 +323,7 @@ onMounted(async () => {
         }
     }
 
-    c?.notification_types?.forEach((notification_type: any) => {
+    contact?.notification_types?.forEach((notification_type: any) => {
         state.formContact.notifications.push({
             notification_uuid: notification_type?.uuid,
             risk_level_uuid: notification_type?.pivot?.risk_level?.uuid,
