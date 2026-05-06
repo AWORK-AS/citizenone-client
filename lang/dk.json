@@ -5567,6 +5567,22 @@
             "viewNormPeriod": "Vis normperiode"
         }
     },
+    "ownChatGpt": {
+        "apiKey": "OpenAI API-nøgle",
+        "apiKeyPlaceholder": "sk-...",
+        "clearChat": "Ryd chat",
+        "emptySubtitle": "Skriv en besked nedenfor for at komme i gang",
+        "emptyTitle": "Hvad er på dagsordenen i dag?",
+        "placeholder": "Spørg om alt...",
+        "poweredByYourKey": "Drevet af din OpenAI-nøgle",
+        "save": "Gem",
+        "savedSuccess": "API-nøgle gemt",
+        "settings": "Indstillinger",
+        "sync": "Synkroniser AI",
+        "syncComplete": "Synkronisering fuldført",
+        "syncing": "Synkroniserer...",
+        "title": "Din ChatGPT Integration"
+    },
     "overview": {
         "addDailyEvents": "Tilføj daglige begivenheder",
         "bulletBoard": "Opslagstavle",
