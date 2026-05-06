@@ -96,9 +96,15 @@ watch(() => props.selectedDocument, (newValue: any) => {
     }
 }, { deep: true })
 
+const invalidCharsRegex = /[:\*\?"<>|]/
+
 const rules = computed(() => {
     return {
         formDocument: {
+            name: {
+                required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
+                noInvalidChars: helpers.withMessage(t('validation.documentNameInvalidChars'), (val: string) => !invalidCharsRegex.test(val)),
+            },
             content: {
                 required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
             },

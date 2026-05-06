@@ -7616,6 +7616,7 @@
         "updates": "Opdateringer"
     },
     "validation": {
+        "documentNameInvalidChars": "Dokumentnavn må ikke indeholde: : * ? \" ＜ ＞ ｜",
         "invalidNumber": "Ugyldigt nummer",
         "thisFieldIsRequired": "Dette felt er påkrævet"
     },
