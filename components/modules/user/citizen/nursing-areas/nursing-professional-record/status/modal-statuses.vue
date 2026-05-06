@@ -166,6 +166,7 @@
                     @refreshStatuses="fetchStatuses" />
                 <ModulesUserCitizenNursingAreasNursingProfessionalRecordStatusModalEdit
                     :isModalOpen="state.modal.isEditStatusOpen" :selectedStatus="state.selectedStatus"
+                    :selectedRecord="props.selectedRecord"
                     @close="state.modal.isEditStatusOpen = false" @refreshStatuses="fetchStatuses" />
                 <DialogConfirmation :isModalOpen="state.modal.isDeleteStatusOpen"
                     :message="`${$t('citizens.nursingAreas.statuses.table.confirmation.deleteStatusConfirmation')}?`"
