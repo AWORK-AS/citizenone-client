@@ -52,6 +52,11 @@
                         </div>
                     </div>
 
+                    <!-- Sync error -->
+                    <div v-if="syncStore.error" class="px-4 pt-3 flex-shrink-0">
+                        <Alert type="danger" :text="syncStore.error" />
+                    </div>
+
                     <!-- Messages -->
                     <div class="flex-1 overflow-y-auto px-4 py-4 space-y-4" ref="messagesContainer">
 
