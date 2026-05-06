@@ -7696,6 +7696,7 @@
         "updates": "Updates"
     },
     "validation": {
+        "documentNameInvalidChars": "Document name cannot contain: : * ? \" ＜ ＞ ｜",
         "invalidNumber": "Invalid number",
         "thisFieldIsRequired": "This field is required"
     },

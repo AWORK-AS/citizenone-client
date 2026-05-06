@@ -71,23 +71,23 @@
                                         <div class="px-1 py-1">
                                             <MenuItem v-slot="{ active }"
                                                 @click="state.viewMode === 'google-drive' ? state.modal.isCreateGoogleDriveFolderOpen = true : state.modal.isAddDirectoryOpen = true">
-                                            <button :class="[
-                                                active && 'bg-gray-100',
-                                                'group flex w-full items-center rounded-md px-2 py-2.5 text-sm',
-                                            ]">
-                                                <Icon name="ph:folder" class="mr-2 h-4 w-4" aria-hidden="true" />
-                                                {{ $t('drive.createNewFolder') }}
-                                            </button>
+                                                <button :class="[
+                                                    active && 'bg-gray-100',
+                                                    'group flex w-full items-center rounded-md px-2 py-2.5 text-sm',
+                                                ]">
+                                                    <Icon name="ph:folder" class="mr-2 h-4 w-4" aria-hidden="true" />
+                                                    {{ $t('drive.createNewFolder') }}
+                                                </button>
                                             </MenuItem>
                                             <MenuItem v-slot="{ active }"
                                                 @click="state.modal.isCreateDocumentFileOpen = true">
-                                            <button :class="[
-                                                active && 'bg-gray-100',
-                                                'group flex w-full items-center rounded-md px-2 py-2.5 text-sm',
-                                            ]">
-                                                <Icon name="ph:file-plus" class="mr-2 h-4 w-4" aria-hidden="true" />
-                                                {{ $t('drive.newDocument') }}
-                                            </button>
+                                                <button :class="[
+                                                    active && 'bg-gray-100',
+                                                    'group flex w-full items-center rounded-md px-2 py-2.5 text-sm',
+                                                ]">
+                                                    <Icon name="ph:file-plus" class="mr-2 h-4 w-4" aria-hidden="true" />
+                                                    {{ $t('drive.newDocument') }}
+                                                </button>
                                             </MenuItem>
                                         </div>
                                     </MenuItems>
@@ -315,7 +315,7 @@
                                                 </FormButton>
                                             </Tooltip>
                                             <Tooltip :text="$t('drive.table.actions.downloadPDF')"
-                                                v-if="document.type === 'file' && (state.isInsideOneDrive || state.viewMode === 'local')">
+                                                v-if="document.type === 'file' && (state.isInsideOneDrive || state.viewMode === 'local') && ['.docx', '.html', '.htm'].some(ext => document.file_url?.toLowerCase().endsWith(ext))">
                                                 <FormButton type="button" buttonStyle="action"
                                                     @click="openDownloadDocumentPdfDialog(document)">
                                                     <Icon name="ph:file-pdf" class="size-4" />
@@ -1304,7 +1304,7 @@ async function downloadFile(document: any) {
     try {
         if (document?.is_onedrive) {
             try {
-                const response = await documentService.downloadPdf(document?.uuid);
+                const response = await documentService.downloadFile(document?.uuid);
                 if (response) {
                     saveAs(response, (document?.name?.split('.')[0] || 'dokument') + '.pdf');
                     state.isTableLoading = false;
@@ -1324,7 +1324,7 @@ async function downloadFile(document: any) {
                 throw new Error('Kunne ikke finde link til OneDrive-filen');
             }
         } else {
-            const response = await documentService.downloadPdf(document?.uuid);
+            const response = await documentService.downloadFile(document?.uuid);
             if (response) {
                 saveAs(response, (document?.name?.split('.')[0] || 'dokument') + '.pdf');
             }
