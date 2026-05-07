@@ -164,15 +164,11 @@ async function sendMessage() {
         const formData = processPayload()
 
         const response = await aIAssistantService.sendMessage(formData)
-        if (response && response.output) {
-            const messageOutput = response.output.find((item: any) => item.type === 'message')
-
-            if (messageOutput?.content?.[0]?.text) {
-                state.messages.push({
-                    type: 'bot',
-                    text: messageOutput.content[0].text,
-                })
-            }
+        if (response?.data) {
+            state.messages.push({
+                type: 'bot',
+                text: response?.data?.answer,
+            })
 
             if (response.conversation_id) {
                 state.aiElements.conversationId = response.conversation_id

@@ -44,6 +44,14 @@ watch(() => userStore.getUser, (newValue: any) => {
                 ]
             },
             {
+                name: 'settings.tabs.addressBook',
+                isTranslateName: true,
+                href: `/settings/address-book`,
+                routeNames: [
+                    'settings-address-book'
+                ]
+            },
+            {
                 name: 'settings.tabs.bookingTags',
                 isTranslateName: true,
                 href: `/settings/booking-tags`,
@@ -57,6 +65,14 @@ watch(() => userStore.getUser, (newValue: any) => {
                 href: `/settings/calendar-tags`,
                 routeNames: [
                     'settings-calendar-tags'
+                ]
+            },
+            {
+                name: 'settings.tabs.consentDeclarationTypes',
+                isTranslateName: true,
+                href: `/settings/consent-declaration-types`,
+                routeNames: [
+                    'settings-consent-declaration-types'
                 ]
             },
             {
@@ -273,11 +289,17 @@ function changeTab(value: any) {
     else if (value === '/settings/addictions') {
         navigateTo(`/settings/addictions`)
     }
+    else if (value === '/settings/address-book') {
+        navigateTo(`/settings/address-book`)
+    }
     else if (value === '/settings/booking-tags') {
         navigateTo(`/settings/booking-tags`)
     }
     else if (value === '/settings/calendar-tags') {
         navigateTo(`/settings/calendar-tags`)
+    }
+    else if (value === '/settings/consent-declaration-types') {
+        navigateTo(`/settings/consent-declaration-types`)
     }
     else if (value === '/settings/contact-job-titles') {
         navigateTo(`/settings/contact-job-titles`)

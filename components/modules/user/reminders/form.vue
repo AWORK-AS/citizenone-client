@@ -65,6 +65,7 @@ import { useI18n } from "vue-i18n"
 import { userService } from '@/components/api/user/UserService'
 import type { Error } from '@/types'
 import { useDepartmentStore } from '@/store/department'
+import { useUserStore } from '@/store/user'
 
 const props = defineProps({
     error: {
@@ -83,6 +84,7 @@ const props = defineProps({
 const emit = defineEmits(['closeModal', 'submitForm'])
 const { t } = useI18n()
 const departmentStore = useDepartmentStore()
+const userStore = useUserStore() as any
 const editor = ref(ClassicEditor)
 const editorStatusConfig = ref({
     toolbar: ['undo', 'redo', 'heading', '|', 'bold', 'italic', 'link', 'bulletedList', 'numberedList', 'blockQuote'],
@@ -194,6 +196,10 @@ const v$ = useVuelidate(rules, state)
 function submitForm() {
     v$.value.$validate()
     if (!v$.value.$error) {
+        const currentUserUuid = userStore.getUser?.uuid
+        if (currentUserUuid && !state.formReminder.employee.includes(currentUserUuid)) {
+            state.formReminder.employee = [...state.formReminder.employee, currentUserUuid]
+        }
         emit('submitForm', state.formReminder)
     }
 }

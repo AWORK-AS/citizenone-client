@@ -58,6 +58,7 @@ async function updateJournal(journalDetails: any) {
             content: journalDetails.formJournal.content,
             journal_note_tags_uuid: journalDetails.formJournal.journal_note_tags,
             is_draft: journalDetails.formJournal.is_draft,
+            is_ai_used: journalDetails.formJournal.is_ai_used ?? false,
             assessment: journalDetails.formJournal.assessment,
             note: journalDetails.formJournal.note,
             risk_assessment_tags_uuid: journalDetails.formJournal.risk_assessment_tags,

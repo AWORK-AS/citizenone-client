@@ -101,7 +101,24 @@
                 </div>
 
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-3"
-                    v-if="!isVacationLeave || (isVacationLeave && state.formShift.is_override_vacation_hours)">
+                    v-if="isVacationLeave && !state.formShift.is_override_vacation_hours">
+                    <div class="space-y-1">
+                        <FormLabel for="date_time_start" :label="$t('dutySchedules.form.datetimeStart')" />
+                        <FormDateField id="date_time_start" name="date_time_start"
+                            :placeholder="`${$t('dutySchedules.form.datetimeStart')}`"
+                            v-model="state.formShift.date_time_start" />
+                        <FormError :error="v$?.formShift.date_time_start?.$errors[0]?.$message.toString()" />
+                    </div>
+                    <div class="space-y-1">
+                        <FormLabel for="date_time_end" :label="$t('dutySchedules.form.dateTimeEnd')" />
+                        <FormDateField id="date_time_end" name="date_time_end"
+                            :placeholder="`${$t('dutySchedules.form.dateTimeEnd')}`"
+                            v-model="state.formShift.date_time_end" />
+                        <FormError :error="v$?.formShift.date_time_end?.$errors[0]?.$message.toString()" />
+                    </div>
+                </div>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-3"
+                    v-if="!isVacationLeave || state.formShift.is_override_vacation_hours">
                     <div class="space-y-1">
                         <FormLabel for="date_time_start" :label="$t('dutySchedules.form.datetimeStart')" />
                         <FormDateTimeField id="date_time_start" name="date_time_start"
@@ -517,6 +534,7 @@ onMounted(() => {
     state.formShift.note = props.selectedShift.note
     state.formShift.do_not_count_sick_leave = props.selectedShift.do_not_count_sick_leave
     state.formShift.use_compensatory_time = props.selectedShift.use_compensatory_time
+    state.formShift.is_override_vacation_hours = props.selectedShift.is_override_vacation_hours ?? false
 })
 
 async function fetchAllUsersWithoutAllUsersOption() {
@@ -554,18 +572,24 @@ watch(() => state.formShift.shift_type, (selectedShift) => {
 
         const shiftOption = state.options.shifts[selectShiftIndex]
 
-        state.formShift.date_time_start = moment(
-            startDate.format('YYYY-MM-DD') + ' ' + shiftOption?.time_in,
-            'YYYY-MM-DD HH:mm:ss'
-        ).format('YYYY-MM-DD H:mm')
-
-        if (shiftOption?.system_name === 'sleeping-night-shift' && shiftOption?.end_time_day_offset != null) {
+        if (isVacationLeave.value) {
+            state.formShift.date_time_start = startDate.format('YYYY-MM-DD')
+            state.formShift.date_time_end = endDate.format('YYYY-MM-DD')
+        } else if (shiftOption?.system_name === 'sleeping-night-shift' && shiftOption?.end_time_day_offset != null) {
+            state.formShift.date_time_start = moment(
+                startDate.format('YYYY-MM-DD') + ' ' + shiftOption.time_in,
+                'YYYY-MM-DD HH:mm:ss'
+            ).format('YYYY-MM-DD H:mm')
             const offset = shiftOption.end_time_day_offset
             state.formShift.date_time_end = moment(
                 startDate.clone().add(offset, 'days').format('YYYY-MM-DD') + ' ' + shiftOption.time_out,
                 'YYYY-MM-DD HH:mm:ss'
             ).format('YYYY-MM-DD H:mm')
         } else {
+            state.formShift.date_time_start = moment(
+                startDate.format('YYYY-MM-DD') + ' ' + shiftOption?.time_in,
+                'YYYY-MM-DD HH:mm:ss'
+            ).format('YYYY-MM-DD H:mm')
             state.formShift.date_time_end = moment(
                 endDate.format('YYYY-MM-DD') + ' ' + shiftOption?.time_out,
                 'YYYY-MM-DD HH:mm:ss'
@@ -594,10 +618,14 @@ watch(() => state.formShift.date_time_end, () => {
     emit('dateTimeChange', props.selectedEmployee.uuid, state.formShift.date_time_start, state.formShift.date_time_end)
 })
 
-watch(() => state.formShift.shift_type, () => {
-    if (isVacationLeave.value) {
-        state.formShift.date_time_start = moment(props.selectedShift.date_time_start).startOf('day').add(8, 'hours').format('YYYY-MM-DD H:mm')
-        state.formShift.date_time_end = moment(props.selectedShift.date_time_start).startOf('day').add(15.4, 'hours').format('YYYY-MM-DD H:mm')
+watch(() => state.formShift.is_override_vacation_hours, (isOverride) => {
+    if (!isVacationLeave.value) return
+    if (isOverride) {
+        state.formShift.date_time_start = moment(state.formShift.date_time_start, 'YYYY-MM-DD').startOf('day').add(8, 'hours').format('YYYY-MM-DD H:mm')
+        state.formShift.date_time_end = moment(state.formShift.date_time_end, 'YYYY-MM-DD').startOf('day').add(15.4, 'hours').format('YYYY-MM-DD H:mm')
+    } else {
+        state.formShift.date_time_start = moment(state.formShift.date_time_start).format('YYYY-MM-DD')
+        state.formShift.date_time_end = moment(state.formShift.date_time_end).format('YYYY-MM-DD')
     }
 })
 
@@ -621,6 +649,12 @@ const rules = computed(() => {
                     required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
                 },
                 department_uuid: {
+                    required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
+                },
+                date_time_start: {
+                    required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
+                },
+                date_time_end: {
                     required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
                 },
             },
@@ -824,7 +858,12 @@ async function fetchAllCitizensPerUserDepartment() {
 async function saveShift() {
     v$.value.$validate()
     if (!v$.value.$error) {
-        emit('saveShift', state.formShift)
+        const payload = { ...state.formShift }
+        if (isVacationLeave.value && !state.formShift.is_override_vacation_hours) {
+            payload.date_time_start = moment(state.formShift.date_time_start, 'YYYY-MM-DD').startOf('day').add(8, 'hours').format('YYYY-MM-DD H:mm')
+            payload.date_time_end = moment(state.formShift.date_time_end, 'YYYY-MM-DD').startOf('day').add(15.4, 'hours').format('YYYY-MM-DD H:mm')
+        }
+        emit('saveShift', payload)
     }
 }
 </script>
