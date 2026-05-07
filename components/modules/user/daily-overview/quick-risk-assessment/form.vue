@@ -461,10 +461,8 @@ async function generateNoteForRiskAssessmentNote() {
             prompt: state.formRiskAssessment.note,
         }
         const response = await aIAssistantService.generateNote(params)
-        if (response) {
-            if (JSON.parse(response)?.output?.[0]?.content?.[0]?.text) {
-                state.formRiskAssessment.note = JSON.parse(response)?.output?.[0]?.content?.[0]?.text
-            }
+        if (response?.data) {
+            state.formRiskAssessment.note = response?.data?.answer
         }
     } catch (error: any) {
         state.error = error
