@@ -5622,6 +5622,7 @@
     "ownChatGpt": {
         "apiKey": "OpenAI API Key",
         "apiKeyPlaceholder": "sk-...",
+        "attachFile": "Attach file",
         "clearChat": "Clear chat",
         "emptySubtitle": "Type a message below to get started",
         "emptyTitle": "What's on the agenda today?",

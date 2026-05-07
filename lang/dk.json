@@ -5622,6 +5622,7 @@
     "ownChatGpt": {
         "apiKey": "OpenAI API-nøgle",
         "apiKeyPlaceholder": "sk-...",
+        "attachFile": "Vedhæft fil",
         "clearChat": "Ryd chat",
         "emptySubtitle": "Skriv en besked nedenfor for at komme i gang",
         "emptyTitle": "Hvad er på dagsordenen i dag?",

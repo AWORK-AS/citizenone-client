@@ -81,7 +81,16 @@
                                     ? 'bg-secondary text-white rounded-br-sm'
                                     : 'bg-gray-100 text-gray-800 rounded-bl-sm'
                             ]">
-                                <p style="white-space: pre-wrap">{{ msg.content }}</p>
+                                <div v-if="msg.files && msg.files.length > 0"
+                                    class="flex flex-wrap gap-1.5 mb-2">
+                                    <div v-for="(file, fi) in msg.files" :key="fi"
+                                        class="flex items-center gap-1.5 text-xs bg-white/20 text-white px-2 py-1 rounded-md">
+                                        <Icon name="ph:file" class="h-3 w-3 shrink-0" aria-hidden="true" />
+                                        <span class="max-w-[120px] truncate">{{ file.name }}</span>
+                                    </div>
+                                </div>
+                                <p v-if="msg.role === 'user'" style="white-space: pre-wrap">{{ msg.content }}</p>
+                                <p v-else v-html="msg.content" />
                             </div>
                         </div>
 
@@ -98,7 +107,28 @@
                     <!-- Input -->
                     <div class="flex-shrink-0 border-t border-gray-100 px-4 py-3 bg-white">
                         <Alert type="danger" :text="state.error" v-if="state.error" class="mb-3" />
+                        <div v-if="state.files.length > 0" class="flex flex-wrap gap-1.5 mb-2">
+                            <div v-for="(file, index) in state.files" :key="index"
+                                class="flex items-center gap-1.5 bg-gray-100 text-xs text-gray-600 pl-2.5 pr-1.5 py-1.5 rounded-md">
+                                <Icon name="ph:file" class="h-3.5 w-3.5 text-gray-400" aria-hidden="true" />
+                                <span class="max-w-[150px] truncate">{{ file.name }}</span>
+                                <button type="button" @click="removeFile(index)"
+                                    class="text-gray-300 hover:text-red-500 hover:bg-red-50 rounded p-0.5 transition-colors">
+                                    <Icon name="ph:x" class="h-3 w-3" aria-hidden="true" />
+                                </button>
+                            </div>
+                        </div>
+                        <input ref="fileInput" type="file" multiple
+                            accept=".pdf,.doc,.docx,.xls,.xlsx,.csv,.txt,.jpg,.jpeg,.png"
+                            class="hidden" @change="onFilesSelected" />
                         <div class="flex items-stretch gap-2">
+                            <Tooltip :text="$t('ownChatGpt.attachFile')" position="top">
+                                <button type="button"
+                                    class="h-10 px-2 text-gray-400 hover:text-primary hover:bg-primary/5 rounded-lg transition-colors flex items-center"
+                                    @click="($refs.fileInput as HTMLInputElement).click()">
+                                    <Icon name="ph:paperclip" class="h-5 w-5" aria-hidden="true" />
+                                </button>
+                            </Tooltip>
                             <textarea rows="1"
                                 class="flex-1 h-10 px-4 bg-gray-100 rounded-md text-sm text-gray-800 placeholder-gray-400 resize-none focus:outline-none focus:ring-1 focus:ring-primary/20 border-0 leading-10"
                                 :placeholder="$t('ownChatGpt.placeholder')"
@@ -107,7 +137,7 @@
                             <button type="button"
                                 class="w-10 h-10 rounded-lg bg-secondary hover:bg-secondary-600 flex items-center justify-center transition-colors flex-shrink-0 disabled:opacity-50"
                                 @click="send"
-                                :disabled="state.isThinking || !state.input.trim()">
+                                :disabled="state.isThinking || (!state.input.trim() && state.files.length === 0)">
                                 <Icon name="ph:paper-plane-tilt" class="w-4 h-4 text-white" aria-hidden="true" />
                             </button>
                         </div>
@@ -146,15 +176,28 @@
 <script setup lang="ts">
 import { ownChatGptService } from '@/components/api/user/OwnChatGptService'
 import { useOwnChatGptSyncStore } from '@/store/own-chatgpt-sync'
+import { useUserStore } from '@/store/user'
+import { useAlert } from '@/composables/alert'
+import { useI18n } from 'vue-i18n'
+
+const userStore = useUserStore()
+if (!(userStore.getUser as any)?.has_own_chatgpt_access) {
+    await navigateTo('/')
+}
 
 const syncStore = useOwnChatGptSyncStore()
-
 const runtimeConfig = useRuntimeConfig()
+const { t } = useI18n()
+const { errorAlert } = useAlert()
+
+const MAX_FILE_SIZE = 20 * 1024 * 1024
+
 const messagesContainer = ref<HTMLElement | null>(null)
 
 const state = reactive({
-    messages: [] as { role: 'user' | 'assistant'; content: string }[],
+    messages: [] as any,
     input: '',
+    files: [] as File[],
     isThinking: false,
     error: '',
     isSettingsOpen: false,
@@ -162,30 +205,75 @@ const state = reactive({
     isSavingKey: false,
     settingsError: '',
     settingsSuccess: false,
+    aiElements: {
+        conversationId: null as string | null,
+        vectorStoreId: null as string | null,
+        fileIds: [] as string[],
+    },
 })
 
 async function send() {
     const content = state.input.trim()
-    if (!content || state.isThinking) return
+    if ((!content && state.files.length === 0) || state.isThinking) return
 
-    state.input = ''
     state.error = ''
-    state.messages.push({ role: 'user', content })
+    const attachedFiles = state.files.map(f => ({ name: f.name }))
+    state.messages.push({ role: 'user', content, files: attachedFiles.length ? attachedFiles : undefined })
     state.isThinking = true
+    await nextTick()
     scrollToBottom()
 
+    const formData = buildFormData(content)
+
     try {
-        const res = await ownChatGptService.sendMessage({ messages: state.messages })
-        state.messages.push({ role: 'assistant', content: res?.data?.message ?? res?.message ?? '' })
+        const res = await ownChatGptService.sendMessage(formData)
+        const messageOutput = res?.output?.find((item: any) => item.type === 'message')
+        const reply = messageOutput?.content?.[0]?.text ?? ''
+        state.messages.push({ role: 'assistant', content: reply })
+
+        if (res?.conversation_id) state.aiElements.conversationId = res.conversation_id
+        if (res?.tools?.[0]?.vector_store_ids) state.aiElements.vectorStoreId = res.tools[0].vector_store_ids[0]
+        if (res?.file_ids?.length) state.aiElements.fileIds.push(...res.file_ids)
     } catch (e: any) {
-        state.error = e?.response?.data?.message ?? e?.message ?? 'Something went wrong'
+        state.error = e?.message ?? 'Something went wrong'
         state.messages.pop()
         state.input = content
+        state.files = attachedFiles.length ? state.files : []
     } finally {
         state.isThinking = false
         await nextTick()
         scrollToBottom()
     }
+}
+
+function buildFormData(content: string): FormData {
+    const formData = new FormData()
+    formData.append('prompt', content)
+    if (state.aiElements.conversationId) formData.append('conversation_id', state.aiElements.conversationId)
+    if (state.aiElements.vectorStoreId) formData.append('vector_store_id', state.aiElements.vectorStoreId)
+    state.files.forEach(file => formData.append('files[]', file))
+    state.input = ''
+    state.files = []
+    return formData
+}
+
+function onFilesSelected(event: Event) {
+    const input = event.target as HTMLInputElement
+    if (!input.files) return
+    const newFiles = Array.from(input.files)
+    const currentSize = state.files.reduce((t, f) => t + f.size, 0)
+    const incomingSize = newFiles.reduce((t, f) => t + f.size, 0)
+    if (currentSize + incomingSize > MAX_FILE_SIZE) {
+        errorAlert(t('alert.error'), t('assistants.fileSizeExceeds'))
+        input.value = ''
+        return
+    }
+    state.files.push(...newFiles)
+    input.value = ''
+}
+
+function removeFile(index: number) {
+    state.files.splice(index, 1)
 }
 
 async function saveApiKey() {
@@ -196,8 +284,9 @@ async function saveApiKey() {
         await ownChatGptService.saveApiKey({ api_key: state.apiKey })
         state.settingsSuccess = true
         state.apiKey = ''
+        setTimeout(() => { state.isSettingsOpen = false }, 1500)
     } catch (e: any) {
-        state.settingsError = e?.response?.data?.message ?? e?.message ?? 'Something went wrong'
+        state.settingsError = e?.message ?? 'Something went wrong'
     } finally {
         state.isSavingKey = false
     }
@@ -206,13 +295,15 @@ async function saveApiKey() {
 function clearChat() {
     state.messages = []
     state.error = ''
+    state.files = []
+    state.aiElements.conversationId = null
+    state.aiElements.vectorStoreId = null
+    state.aiElements.fileIds = []
 }
 
 function scrollToBottom() {
-    nextTick(() => {
-        if (messagesContainer.value) {
-            messagesContainer.value.scrollTop = messagesContainer.value.scrollHeight
-        }
-    })
+    if (messagesContainer.value) {
+        messagesContainer.value.scrollTop = messagesContainer.value.scrollHeight
+    }
 }
 </script>
