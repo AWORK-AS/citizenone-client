@@ -41,12 +41,12 @@
 
                 <div>
                     <div class="mt-8 flex justify-end items-center gap-x-3">
-                        <FormButton buttonStyle="action" @click="state.modal.isAddDirectoryOpen = true">
+                        <FormButton v-if="isAtLeast('Admin') || can('create_citizen_document')" buttonStyle="action" @click="state.modal.isAddDirectoryOpen = true">
                             <Icon name="ph:plus" class="h-4 w-4" aria-hidden="true" />
                             {{ $t('citizens.documents.createNewFolder') }}
                         </FormButton>
                         <LoadingSpinner :isActive="state.isPageLoading">
-                            <FormButton buttonStyle="action" @click="triggerFileInput">
+                            <FormButton v-if="isAtLeast('Admin') || can('create_citizen_document')" buttonStyle="action" @click="triggerFileInput">
                                 <Icon name="ph:upload" class="h-4 w-4" aria-hidden="true" />
                                 {{ $t('citizens.documents.uploadFile') }}
                             </FormButton>
@@ -134,7 +134,8 @@
                                                     <Icon name="ph:arrows-out" class="size-4" />
                                                 </FormButton>
                                             </Tooltip>
-                                            <Tooltip :text="$t('citizens.documents.table.actions.edit')">
+                                            <Tooltip :text="$t('citizens.documents.table.actions.edit')"
+                                                v-if="isAtLeast('Admin') || can('update_citizen_document')">
                                                 <FormButton type="button" buttonStyle="primary"
                                                     @click="editDocument(document)">
                                                     <Icon name="ph:pencil-simple" class="size-4" />
@@ -147,20 +148,22 @@
                                                     <Icon name="ph:lock" class="size-4" />
                                                 </FormButton>
                                             </Tooltip>
-                                            <Tooltip :text="$t('citizens.documents.table.actions.archive')">
+                                            <Tooltip :text="$t('citizens.documents.table.actions.archive')"
+                                                v-if="isAtLeast('Admin') || can('update_citizen_document')">
                                                 <FormButton type="button" buttonStyle="primary"
                                                     @click="confirmDocumentArchiving(document)">
                                                     <Icon name="ph:archive-light" class="size-4" />
                                                 </FormButton>
                                             </Tooltip>
                                             <Tooltip :text="$t('citizens.documents.table.actions.delete')"
-                                                v-if="document?.type === 'folder'">
+                                                v-if="document?.type === 'folder' && (isAtLeast('Admin') || can('delete_citizen_document'))">
                                                 <FormButton type="button" buttonStyle="danger"
                                                     @click="deleteDirectoryConfirmation(document)">
                                                     <Icon name="ph:trash" class="size-4" />
                                                 </FormButton>
                                             </Tooltip>
-                                            <Tooltip :text="$t('citizens.documents.table.actions.delete')" v-else>
+                                            <Tooltip :text="$t('citizens.documents.table.actions.delete')"
+                                                v-else-if="document?.type !== 'folder' && (isAtLeast('Admin') || can('delete_citizen_document'))">
                                                 <FormButton type="button" buttonStyle="danger"
                                                     @click="deleteFileConfirmation(document)">
                                                     <Icon name="ph:trash" class="size-4" />

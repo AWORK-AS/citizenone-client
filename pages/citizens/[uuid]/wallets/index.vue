@@ -35,7 +35,7 @@
 
                 <div>
                     <div class="mt-8 flex justify-end items-center mb-5 gap-x-2">
-                        <FormButton buttonStyle="action" @click="state.modal.isAddWalletOpen = true">
+                        <FormButton v-if="isAtLeast('Admin') || can('create_citizen_economy')" buttonStyle="action" @click="state.modal.isAddWalletOpen = true">
                             <Icon name="ph:plus" class="h-4 w-4" aria-hidden="true" />
                             {{ $t('citizens.wallets.newWallet') }}
                         </FormButton>
@@ -93,6 +93,7 @@ import { useAmountFormatter } from '@/composables/amountFormatter'
 import { useI18n } from "vue-i18n"
 import { useAlert } from '@/composables/alert'
 import { useCustomPagesStore } from '@/store/custom-pages'
+import { usePermissions } from '@/composables/usePermissions'
 import type { Error } from '@/types'
 
 const runtimeConfig = useRuntimeConfig()
@@ -100,6 +101,7 @@ const { formatAmount } = useAmountFormatter()
 const { successAlert } = useAlert()
 const { t } = useI18n()
 const customPagesStore = useCustomPagesStore() as any
+const { isAtLeast, can } = usePermissions()
 const router = useRouter()
 const citizenUuid = router?.currentRoute?.value?.params?.uuid as any
 let currentTablePage = 1

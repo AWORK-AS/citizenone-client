@@ -186,7 +186,8 @@
                     </div>
                     <div class="flex items-center gap-2 justify-end flex-wrap">
                         <FormButton buttonStyle="action" class="rounded-md"
-                            @click="navigateToExternalLink('https://fmk-online.dk/fmk')">
+                            @click="navigateToExternalLink('https://fmk-online.dk/fmk')"
+                            v-if="isAtLeast('Admin') || can('update_citizen_medicine')">
                             <Icon name="mdi:cloud-refresh-outline" class="h-4 w-4" />
                             {{ $t('citizens.medicineJournals.synchronizeWithFMK') }}
                         </FormButton>
@@ -195,12 +196,14 @@
                             {{ $t('citizens.medicineJournals.page.newPackageOpening') }}
                         </FormButton> -->
                         <FormButton buttonStyle="action" class="rounded-md"
-                            @click="state.modal.isAddMedicineOpen = true">
+                            @click="state.modal.isAddMedicineOpen = true"
+                            v-if="isAtLeast('Admin') || can('create_citizen_medicine')">
                             <Icon name="ph:plus" class="h-4 w-4" />
                             {{ $t('citizens.medicineJournals.newMedicine') }}
                         </FormButton>
                         <FormButton buttonStyle="action" class="rounded-md"
-                            @click="state.modal.isDownloadMedicineOverviewOpen = true">
+                            @click="state.modal.isDownloadMedicineOverviewOpen = true"
+                            v-if="isAtLeast('Admin') || can('create_citizen_medicine') || can('update_citizen_medicine')">
                             <Icon name="ph:download" class="h-4 w-4" />
                             {{ $t('citizens.medicineJournals.downloadOverview') }}
                         </FormButton>
@@ -232,7 +235,8 @@
                         }}
                     </span>
                     <FormButton buttonStyle="action" class="rounded-md ml-auto"
-                        @click="state.modal.isGiveMedicinesOpen = true">
+                        @click="state.modal.isGiveMedicinesOpen = true"
+                        v-if="isAtLeast('Admin') || can('update_citizen_medicine')">
                         <Icon name="ph:plus" class="h-4 w-4" />
                         {{ $t('citizens.medicineJournals.history.giveAllMedicines') }}
                     </FormButton>
@@ -250,7 +254,8 @@
                             {{ $t('citizens.medicineJournals.page.noActiveMedicines') }}
                         </p>
                         <FormButton buttonStyle="action" class="rounded-md"
-                            @click="state.modal.isAddMedicineOpen = true">
+                            @click="state.modal.isAddMedicineOpen = true"
+                            v-if="isAtLeast('Admin') || can('create_citizen_medicine')">
                             <Icon name="ph:plus" class="h-4 w-4" />
                             {{ $t('citizens.medicineJournals.page.addMedicine') }}
                         </FormButton>
@@ -830,14 +835,16 @@
                                             </Tooltip>
                                             <Tooltip
                                                 :text="$t('citizens.medicineJournals.table.actions.givePNMedicine')"
-                                                position="left" v-if="medicine.is_pn_medicine">
+                                                position="left"
+                                                v-if="medicine.is_pn_medicine && (isAtLeast('Admin') || can('update_citizen_medicine'))">
                                                 <FormButton buttonStyle="action" class="rounded-md text-xs shrink-0"
                                                     @click="givePNMedicine(medicine)">
                                                     <Icon name="ph:plus" class="size-3" />
                                                 </FormButton>
                                             </Tooltip>
                                             <Tooltip :text="$t('citizens.medicineJournals.table.actions.giveMedicine')"
-                                                position="left" v-else>
+                                                position="left"
+                                                v-else-if="!medicine.is_pn_medicine && (isAtLeast('Admin') || can('update_citizen_medicine'))">
                                                 <FormButton type="button" buttonStyle="action" class="rounded-md"
                                                     @click="giveMedicine(medicine)">
                                                     <Icon name="ph:plus" class="size-4" />
@@ -859,7 +866,7 @@
                                                     <Icon name="ph:pencil-simple" class="size-4" />
                                                 </FormButton>
                                             </Tooltip>
-                                            <Tooltip v-if="medicine?.is_deactivated"
+                                            <Tooltip v-if="medicine?.is_deactivated && (isAtLeast('Admin') || can('update_citizen_medicine'))"
                                                 :text="$t('citizens.medicineJournals.table.actions.activate')"
                                                 position="left">
                                                 <FormButton type="button" buttonStyle="primary" class="rounded-md"
@@ -867,7 +874,7 @@
                                                     <Icon name="ph:check" class="size-4" />
                                                 </FormButton>
                                             </Tooltip>
-                                            <Tooltip v-else
+                                            <Tooltip v-else-if="!medicine?.is_deactivated && (isAtLeast('Admin') || can('delete_citizen_medicine'))"
                                                 :text="$t('citizens.medicineJournals.table.actions.deactivate')"
                                                 position="left">
                                                 <FormButton type="button" buttonStyle="danger" class="rounded-md"
@@ -958,11 +965,13 @@ import { useI18n } from "vue-i18n"
 import { useAlert } from '@/composables/alert'
 import { useCustomPagesStore } from '@/store/custom-pages'
 import { useCitizenMedicineStore } from '@/store/citizen-medicines'
+import { usePermissions } from '@/composables/usePermissions'
 import type { Error } from '@/types'
 
 const runtimeConfig = useRuntimeConfig()
 const { successAlert } = useAlert()
 const { t } = useI18n()
+const { isAtLeast, can } = usePermissions()
 const customPagesStore = useCustomPagesStore() as any
 const citizenMedicineStore = useCitizenMedicineStore() as any
 const language = useI18n()

@@ -44,12 +44,12 @@
                             </span>
                         </button>
                         <div class="flex items-center gap-x-2 justify-end">
-                            <FormButton buttonStyle="action"
+                            <FormButton v-if="isAtLeast('Admin') || can('update_citizen_medicine')" buttonStyle="action"
                                 @click="navigateToExternalLink('https://fmk-online.dk/fmk')">
                                 <Icon name="mdi:cloud-refresh-outline" class="h-4 w-4" aria-hidden="true" />
                                 {{ $t('citizens.medicineJournals.synchronizeWithFMK') }}
                             </FormButton>
-                            <FormButton buttonStyle="action" @click="state.modal.isAddMedicineOpen = true">
+                            <FormButton v-if="isAtLeast('Admin') || can('create_citizen_medicine')" buttonStyle="action" @click="state.modal.isAddMedicineOpen = true">
                                 <Icon name="ph:plus" class="h-4 w-4" aria-hidden="true" />
                                 {{ $t('citizens.medicineJournals.newMedicine') }}
                             </FormButton>
@@ -61,7 +61,7 @@
                     <Alert type="danger" :text="state?.error?.message"
                         v-if="state.error?.message && state.error.message.length > 0" />
                     <TableSearch @search="handleSearch" />
-                    <div v-if="citizenMedicineStore.getSelectedMedicines?.length > 0">
+                    <div v-if="citizenMedicineStore.getSelectedMedicines?.length > 0 && (isAtLeast('Admin') || can('update_citizen_medicine'))">
                         <FormButton buttonStyle="action" @click="state.modal.isGiveMedicinesOpen = true">
                             <Icon name="ph:plus" class="h-4 w-4" aria-hidden="true" />
                             {{ $t('citizens.medicineJournals.history.giveAllMedicines') }}
@@ -221,7 +221,8 @@
                                                 </FormButton>
                                             </Tooltip>
                                             <Tooltip
-                                                :text="`${$t('citizens.medicineJournals.table.actions.giveMedicine')}`">
+                                                :text="`${$t('citizens.medicineJournals.table.actions.giveMedicine')}`"
+                                                v-if="isAtLeast('Admin') || can('update_citizen_medicine')">
                                                 <FormButton type="button" buttonStyle="action"
                                                     @click="giveMedicine(medicine)">
                                                     <Icon name="ph:plus" class="size-4" />
@@ -242,7 +243,7 @@
                                                 </FormButton>
                                             </Tooltip>
                                             <Tooltip :text="`${$t('citizens.medicineJournals.table.actions.activate')}`"
-                                                v-if="medicine?.is_deactivated">
+                                                v-if="medicine?.is_deactivated && (isAtLeast('Admin') || can('update_citizen_medicine'))">
                                                 <FormButton type="button" buttonStyle="primary"
                                                     @click="confirmMedicineActivation(medicine)">
                                                     <Icon name="ph:check" class="size-4" />
@@ -250,7 +251,7 @@
                                             </Tooltip>
                                             <Tooltip
                                                 :text="`${$t('citizens.medicineJournals.table.actions.deactivate')}`"
-                                                v-else>
+                                                v-else-if="!medicine?.is_deactivated && (isAtLeast('Admin') || can('delete_citizen_medicine'))">
                                                 <FormButton type="button" buttonStyle="primary"
                                                     @click="confirmMedicineDeactivation(medicine)">
                                                     <Icon name="ph:x" class="size-4" />
@@ -308,6 +309,7 @@ import { useI18n } from "vue-i18n"
 import { useAlert } from '@/composables/alert'
 import { useCustomPagesStore } from '@/store/custom-pages'
 import { useCitizenMedicineStore } from '@/store/citizen-medicines'
+import { usePermissions } from '@/composables/usePermissions'
 import type { Error } from '@/types'
 
 const runtimeConfig = useRuntimeConfig()
@@ -319,6 +321,7 @@ const language = useI18n()
 const router = useRouter()
 const citizenUuid = router?.currentRoute?.value?.params?.uuid
 const childUuid = router?.currentRoute?.value?.params?.child_uuid
+const { isAtLeast, can } = usePermissions()
 let currentTablePage = 1
 const breadcrumbLinks = [
     {
