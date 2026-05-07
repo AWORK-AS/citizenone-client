@@ -227,8 +227,7 @@ async function send() {
 
     try {
         const res = await ownChatGptService.sendMessage(formData)
-        const messageOutput = res?.output?.find((item: any) => item.type === 'message')
-        const reply = messageOutput?.content?.[0]?.text ?? ''
+        const reply = res?.data?.answer ?? ''
         state.messages.push({ role: 'assistant', content: reply })
 
         if (res?.conversation_id) state.aiElements.conversationId = res.conversation_id
