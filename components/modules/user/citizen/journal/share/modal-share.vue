@@ -108,15 +108,15 @@ const rules = computed(() => {
     return {
         formShare: {
             citizen_uuids: {
-                required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
+                required: helpers.withMessage(() => `${t('validation.thisFieldIsRequired')}.`, required),
             },
             password: {
-                required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
-                minLength: helpers.withMessage(`${t('citizens.citizenJournals.shareJournals.form.alert.required8Characters')}.`, minLength(8))
+                required: helpers.withMessage(() => `${t('validation.thisFieldIsRequired')}.`, required),
+                minLength: helpers.withMessage(() => `${t('citizens.citizenJournals.shareJournals.form.alert.required8Characters')}.`, minLength(8))
             },
             confirm_password: {
-                required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
-                sameAsPassword: helpers.withMessage(`${t('citizens.citizenJournals.shareJournals.form.alert.enteredPasswordMismatched')}.`, sameAs(state.formShare.password)),
+                required: helpers.withMessage(() => `${t('validation.thisFieldIsRequired')}.`, required),
+                sameAsPassword: helpers.withMessage(() => `${t('citizens.citizenJournals.shareJournals.form.alert.enteredPasswordMismatched')}.`, sameAs(state.formShare.password)),
             },
         },
     }

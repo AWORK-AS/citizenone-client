@@ -839,7 +839,7 @@ function fieldRule(fieldName: string) {
     // If a template is selected, only fields configured as 'required' are required
     const isRequired = !state.formNursingProfessionalRecord.template_uuid || activeFieldConfig.value[fieldName] === 'required'
     return isRequired
-        ? { required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required) }
+        ? { required: helpers.withMessage(() => `${t('validation.thisFieldIsRequired')}.`, required) }
         : {}
 }
 
@@ -847,7 +847,7 @@ const rules = computed(() => {
     return {
         formNursingProfessionalRecord: {
             date: {
-                required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
+                required: helpers.withMessage(() => `${t('validation.thisFieldIsRequired')}.`, required),
             },
             functional_level: fieldRule('functional_level'),
             musculoskeletal_system: fieldRule('musculoskeletal_system'),

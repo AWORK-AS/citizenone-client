@@ -238,39 +238,39 @@ const rules = computed(() => {
     return {
         formTimeAccount: {
             name: {
-                required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
+                required: helpers.withMessage(() => `${t('validation.thisFieldIsRequired')}.`, required),
             },
             initial_amount: {
-                required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
+                required: helpers.withMessage(() => `${t('validation.thisFieldIsRequired')}.`, required),
             },
             start_date: {
-                required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
+                required: helpers.withMessage(() => `${t('validation.thisFieldIsRequired')}.`, required),
             },
             rule: {
                 type: {
-                    required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
+                    required: helpers.withMessage(() => `${t('validation.thisFieldIsRequired')}.`, required),
                 },
                 grant_amount: {
-                    required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
+                    required: helpers.withMessage(() => `${t('validation.thisFieldIsRequired')}.`, required),
                 },
                 grant_frequency: {
-                    required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
+                    required: helpers.withMessage(() => `${t('validation.thisFieldIsRequired')}.`, required),
                 },
                 conditions: {
                     min_age: state.formTimeAccount.rule.type === 'age' && state.formTimeAccount.rule.conditions.max_age === '' ? {
-                        required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
+                        required: helpers.withMessage(() => `${t('validation.thisFieldIsRequired')}.`, required),
                     } : {},
                     max_age: state.formTimeAccount.rule.type === 'age' && state.formTimeAccount.rule.conditions.min_age === '' ? {
-                        required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
+                        required: helpers.withMessage(() => `${t('validation.thisFieldIsRequired')}.`, required),
                     } : {},
                     hired_after: state.formTimeAccount.rule.type === 'employment_date' && state.formTimeAccount.rule.conditions.hired_before === '' ? {
-                        required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
+                        required: helpers.withMessage(() => `${t('validation.thisFieldIsRequired')}.`, required),
                     } : {},
                     hired_before: state.formTimeAccount.rule.type === 'employment_date' && state.formTimeAccount.rule.conditions.hired_after === '' ? {
-                        required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
+                        required: helpers.withMessage(() => `${t('validation.thisFieldIsRequired')}.`, required),
                     } : {},
                     month_duration: state.formTimeAccount.rule.type === 'employment_duration' ? {
-                        required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
+                        required: helpers.withMessage(() => `${t('validation.thisFieldIsRequired')}.`, required),
                     } : {},
                 },
             }

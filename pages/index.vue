@@ -250,10 +250,10 @@ const rules = computed(() => {
 	return {
 		formLogin: {
 			email: {
-				required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
+				required: helpers.withMessage(() => `${t('validation.thisFieldIsRequired')}.`, required),
 			},
 			password: {
-				required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
+				required: helpers.withMessage(() => `${t('validation.thisFieldIsRequired')}.`, required),
 			},
 		}
 	}

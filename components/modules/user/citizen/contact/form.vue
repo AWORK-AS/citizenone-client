@@ -446,7 +446,7 @@ const rules = computed(() => {
             return {
                 formContact: {
                     employees: {
-                        required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
+                        required: helpers.withMessage(() => `${t('validation.thisFieldIsRequired')}.`, required),
                     },
                 }
             }
@@ -454,10 +454,10 @@ const rules = computed(() => {
             return {
                 formContact: {
                     contact_job_title_uuid: {
-                        required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
+                        required: helpers.withMessage(() => `${t('validation.thisFieldIsRequired')}.`, required),
                     },
                     firstname: {
-                        required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
+                        required: helpers.withMessage(() => `${t('validation.thisFieldIsRequired')}.`, required),
                     },
                 },
             }
@@ -467,7 +467,7 @@ const rules = computed(() => {
             return {
                 formContact: {
                     employee: {
-                        required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
+                        required: helpers.withMessage(() => `${t('validation.thisFieldIsRequired')}.`, required),
                     },
                 }
             }
@@ -475,10 +475,10 @@ const rules = computed(() => {
             return {
                 formContact: {
                     contact_job_title_uuid: {
-                        required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
+                        required: helpers.withMessage(() => `${t('validation.thisFieldIsRequired')}.`, required),
                     },
                     firstname: {
-                        required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
+                        required: helpers.withMessage(() => `${t('validation.thisFieldIsRequired')}.`, required),
                     },
                 },
             }

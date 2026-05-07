@@ -142,10 +142,10 @@ const rules = computed(() => {
     return {
         formStatusTemplate: {
             form_uuid: {
-                required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
+                required: helpers.withMessage(() => `${t('validation.thisFieldIsRequired')}.`, required),
             },
             plan_uuid: !(state.formStatusTemplate.goal_uuid || state.formStatusTemplate.subgoal_uuid) ? {
-                required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
+                required: helpers.withMessage(() => `${t('validation.thisFieldIsRequired')}.`, required),
             } : {},
         },
     }

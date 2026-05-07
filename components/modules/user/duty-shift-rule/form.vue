@@ -278,15 +278,15 @@ watch(() => props.selectedRule, (newValue: any) => {
 
 const rules = computed(() => ({
     formDutyShiftRule: {
-        name: { required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required) },
-        period_days: { required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required) },
-        condition_type: { required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required) },
+        name: { required: helpers.withMessage(() => `${t('validation.thisFieldIsRequired')}.`, required) },
+        period_days: { required: helpers.withMessage(() => `${t('validation.thisFieldIsRequired')}.`, required) },
+        condition_type: { required: helpers.withMessage(() => `${t('validation.thisFieldIsRequired')}.`, required) },
         condition_threshold: (state.formDutyShiftRule.condition_type === 'count' || state.formDutyShiftRule.condition_type === 'consecutive')
-            ? { required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required) }
+            ? { required: helpers.withMessage(() => `${t('validation.thisFieldIsRequired')}.`, required) }
             : {},
-        shift_type_uuids: { required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required) },
+        shift_type_uuids: { required: helpers.withMessage(() => `${t('validation.thisFieldIsRequired')}.`, required) },
     },
-    recipientType: { required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required) },
+    recipientType: { required: helpers.withMessage(() => `${t('validation.thisFieldIsRequired')}.`, required) },
 }))
 
 const v$ = useVuelidate(rules, state)

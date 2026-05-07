@@ -1526,7 +1526,7 @@ const rules = computed(() => {
     return {
         formCitizen: {
             firstname: {
-                required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
+                required: helpers.withMessage(() => `${t('validation.thisFieldIsRequired')}.`, required),
             },
             inquiryData: {},
             stayData: {},
