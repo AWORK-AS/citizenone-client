@@ -213,6 +213,14 @@ watch(() => userStore.getUser, (newValue: any) => {
                 ]
             },
             {
+                name: 'settings.tabs.nursingProfessionalRecordTemplates',
+                isTranslateName: true,
+                href: `/settings/nursing-professional-record-templates`,
+                routeNames: [
+                    'settings-nursing-professional-record-templates'
+                ]
+            },
+            {
                 name: 'settings.tabs.relationships',
                 isTranslateName: true,
                 href: `/settings/relationships`,
@@ -348,6 +356,9 @@ function changeTab(value: any) {
     }
     else if (value === '/settings/norm-periods') {
         navigateTo(`/settings/norm-periods`)
+    }
+    else if (value === '/settings/nursing-professional-record-templates') {
+        navigateTo(`/settings/nursing-professional-record-templates`)
     }
     else if (value === '/settings/relationships') {
         navigateTo(`/settings/relationships`)

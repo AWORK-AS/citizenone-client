@@ -2110,7 +2110,11 @@
                 "respirationAndCirculation": "Respiration og kredsløb",
                 "sexuality": "Seksualitet",
                 "skinAndMucousMembranes": "Hud og slimhinder",
-                "sleepAndRest": "Søvn og hvile"
+                "sleepAndRest": "Søvn og hvile",
+                "template": "Skabelon",
+                "selectTemplate": "Vælg skabelon (valgfrit)",
+                "fieldRequired": "Påkrævet",
+                "fieldOptional": "Valgfrit"
             },
             "illnessAndFunctionalImpairment": {
                 "editIllnessAndFunctionalImpairment": "Rediger sygdom og funktionelle nedsættelser",
@@ -6748,7 +6752,8 @@
             "timeAccounts": "Tidskonti",
             "timeLogs": "Tidslogfiler",
             "transactions": "Transaktioner",
-            "units": "Enheder"
+            "units": "Enheder",
+            "nursingProfessionalRecordTemplates": "Sygeplejejournalskabeloner"
         },
         "wallets": {
             "citizenWalletTransactions": "Transaktioner for borgernes wallets",
@@ -7780,5 +7785,35 @@
     },
     "no": "Nej",
     "yes": "Ja",
-    "youDontHaveAccessToThisPage": "Du har ikke adgang til denne side. Kontakt venligst din administrator"
+    "youDontHaveAccessToThisPage": "Du har ikke adgang til denne side. Kontakt venligst din administrator",
+    "nursingProfessionalRecordTemplates": {
+        "nursingProfessionalRecordTemplates": "Sygeplejejournalskabeloner",
+        "newTemplate": "Ny skabelon",
+        "editTemplate": "Rediger skabelon",
+        "form": {
+            "name": "Skabelonnavn",
+            "fieldConfiguration": "Feltkonfiguration",
+            "field": "Felt",
+            "required": "Påkrævet",
+            "optional": "Valgfrit",
+            "alert": {
+                "newTemplateSuccessfullySaved": "Skabelon gemt",
+                "templateSuccessfullyUpdated": "Skabelon opdateret"
+            }
+        },
+        "table": {
+            "name": "Navn",
+            "requiredFields": "Påkrævede felter",
+            "actions": {
+                "edit": "Rediger",
+                "delete": "Slet"
+            },
+            "alert": {
+                "templateSuccessfullyDeleted": "Skabelon slettet"
+            },
+            "confirmation": {
+                "deleteTemplateConfirmation": "Er du sikker på, at du vil slette denne skabelon"
+            }
+        }
+    }
 }

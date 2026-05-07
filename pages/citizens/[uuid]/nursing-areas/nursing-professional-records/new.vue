@@ -28,7 +28,7 @@
 
             <div>
                 <NuxtLink class="flex items-center gap-x-2 mb-3 max-w-fit hover:cursor-pointer"
-                    :to="`/citizens/${citizenUuid}/nursing-areas`">
+                    :to="`/citizens/${citizenUuid}/nursing-areas?open=nursing-professional-records`">
                     <Icon name="ph:arrow-left" size="20" class="text-black" />
                     <span>{{ $t('back') }}</span>
                 </NuxtLink>
@@ -59,7 +59,7 @@ const breadcrumbLinks = [
     {
         name: 'citizens.nursingAreas.nursingProfessionalRecords',
         translate: true,
-        href: `/citizens/${citizenUuid}/nursing-areas`,
+        href: `/citizens/${citizenUuid}/nursing-areas?open=nursing-professional-records`,
     },
     {
         name: 'citizens.nursingAreas.newNursingProfessionalRecords',
