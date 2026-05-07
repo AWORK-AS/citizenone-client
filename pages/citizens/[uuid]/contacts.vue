@@ -34,8 +34,11 @@
 
                 <div>
                     <div class="mt-8 flex justify-end items-center mb-5 gap-x-2">
-                        <FormButton buttonStyle="action" @click="state.modal.isAddContactOpen = true"
-                            v-if="isAtLeast('Admin') || can('create_citizen_contact')">
+                        <FormButton buttonStyle="action" @click="state.modal.isAssignFromAddressBookOpen = true">
+                            <Icon name="ph:address-book" class="h-4 w-4" aria-hidden="true" />
+                            {{ $t('addressBook.assignFromAddressBook') }}
+                        </FormButton>
+                        <FormButton buttonStyle="action" @click="state.modal.isAddContactOpen = true" v-if="isAtLeast('Admin') || can('create_citizen_contact')">
                             <Icon name="ph:plus" class="h-4 w-4" aria-hidden="true" />
                             {{ $t('citizens.contacts.newContact') }}
                         </FormButton>
@@ -56,6 +59,9 @@
                                             {{ language.locale.value === 'en' ? contact?.contact_job_title?.en_title :
                                                 contact?.contact_job_title?.dk_title }}
                                         </span>
+                                        <Badge type="info" class="w-fit mt-1 ml-1" v-if="contact?.company_contact_id">
+                                            <p class="text-xxs px-2">{{ $t('addressBook.addressBook') }}</p>
+                                        </Badge>
                                         <span v-if="contact?.contact_job_title?.system_name === 'relatives'">
                                             <Badge type="primary" class="w-fit mt-1" v-if="contact?.relationship">
                                                 <p class="text-xxs px-2">
@@ -119,8 +125,12 @@
                     </div>
                     <Pagination :data="state.contacts" @previous="previous" @next="next" />
                 </div>
-                <ModulesUserCitizenContactModalNew :isModalOpen="state.modal.isAddContactOpen"
-                    @close="state.modal.isAddContactOpen = false" @refreshContacts="fetchContacts" />
+
+                <ModulesUserCitizenContactModalNew
+                    :isModalOpen="state.modal.isAddContactOpen"
+                    @close="closeNewContactModal"
+                    @saved="handleNewContactSaved"
+                />
                 <ModulesUserCitizenContactModalEdit :isModalOpen="state.modal.isEditContactOpen"
                     :selectedContact="state.selectedContact" @close="state.modal.isEditContactOpen = false"
                     @refreshContacts="fetchContacts" />
@@ -129,6 +139,11 @@
                     @close="state.modal.isDeleteContactOpen = false" @confirm="deleteContact" />
                 <ModulesUserMailModalSendEmail :isModalOpen="state.modal.isSendEmailOpen"
                     :selectedContact="state.selectedContact" @close="state.modal.isSendEmailOpen = false" />
+                <ModulesUserCitizenContactModalAssignAddressBook
+                    :isModalOpen="state.modal.isAssignFromAddressBookOpen"
+                    @close="state.modal.isAssignFromAddressBookOpen = false"
+                    @prefillContact="handlePrefillContact"
+                />
             </div>
         </NuxtLayout>
     </div>
@@ -144,7 +159,7 @@ import { usePermissions } from '@/composables/usePermissions'
 import type { Error } from '@/types'
 
 const runtimeConfig = useRuntimeConfig()
-const { successAlert } = useAlert()
+const { successAlert, errorAlert } = useAlert()
 const { t } = useI18n()
 const language = useI18n()
 const customPagesStore = useCustomPagesStore() as any
@@ -181,6 +196,7 @@ const state = reactive({
         isDeleteContactOpen: false,
         isEditContactOpen: false,
         isSendEmailOpen: false,
+        isAssignFromAddressBookOpen: false,
     },
     selectedContact: [] as any,
     sortData: {
@@ -267,5 +283,43 @@ async function deleteContact() {
 function sendEmail(contact: any) {
     state.selectedContact = contact
     state.modal.isSendEmailOpen = true
+}
+
+async function handlePrefillContact(contact: any) {
+    state.isTableLoading = true
+    try {
+        const params = {
+            citizen_uuid: citizenUuid,
+            contact_job_title_uuid: contact.contact_job_title?.uuid ?? '',
+            company_name: contact.company_name ?? '',
+            firstname: contact.firstname ?? '',
+            lastname: contact.lastname ?? '',
+            email: contact.email ?? '',
+            phone: contact.phone ?? '',
+            street: contact.street ?? '',
+            region_uuid: contact.region?.uuid ?? '',
+            municipality_uuid: contact.municipality?.uuid ?? '',
+            city_uuid: contact.city?.uuid ?? '',
+            post_code: contact.post_code ?? '',
+            company_contact_uuid: contact.uuid,
+        }
+        const response = await citizenContactService.saveContact(params)
+        if (response?.data) {
+            await fetchContacts()
+            successAlert(`${t('alert.success')}!`, `${t('citizens.contacts.form.alert.contactSuccessfullyAdded')}.`)
+        }
+    } catch (error: any) {
+        errorAlert(`${t('alert.error')}!`, error?.message)
+    }
+    state.isTableLoading = false
+}
+
+function closeNewContactModal() {
+    state.modal.isAddContactOpen = false
+}
+
+async function handleNewContactSaved() {
+    await fetchContacts()
+    state.modal.isAddContactOpen = false
 }
 </script>

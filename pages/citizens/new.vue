@@ -127,6 +127,13 @@ const state = reactive({
             residence_before_uuid: '',
             residence_after_uuid: '',
             discharge_reason: '',
+            consent_declarations: [],
+            photo: false,
+            parent_collaboration: false,
+            student_collaboration: false,
+            general_consent: false,
+            personal_guardianship: false,
+            financial_guardianship: false,
         },
     } as CitizenForm,
     isPageLoading: false,
@@ -216,6 +223,13 @@ async function saveCitizen(citizenDetails: any) {
             params.append('residence_after_uuid', citizenDetails.stayData.residence_after_uuid)
         }
         params.append('discharge_reason', citizenDetails.stayData.discharge_reason)
+        params.append('consent_declarations', JSON.stringify(citizenDetails.stayData.consent_declarations))
+        params.append('photo', citizenDetails.stayData.photo)
+        params.append('parent_collaboration', citizenDetails.stayData.parent_collaboration)
+        params.append('student_collaboration', citizenDetails.stayData.student_collaboration)
+        params.append('general_consent', citizenDetails.stayData.general_consent)
+        params.append('personal_guardianship', citizenDetails.stayData.personal_guardianship)
+        params.append('financial_guardianship', citizenDetails.stayData.financial_guardianship)
         const response = await citizenService.saveCitizen(params)
         if (response.data) {
             successAlert(`${t('alert.success')}!`, `${t('citizens.form.alert.successfullyAdded')}.`)

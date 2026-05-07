@@ -21,6 +21,7 @@ export const useDailyOverviewStore = defineStore('dailyOverviewStore',
                 showMedicineDeviationStatistics: false,
                 showMyDailyEvents: false,
                 showPlansAndGoals: false,
+                showReminders: true,
                 showRiskAssessment: false,
                 showScheduleSlots: false,
                 showStatusesScoreStatistics: false,
@@ -100,6 +101,9 @@ export const useDailyOverviewStore = defineStore('dailyOverviewStore',
             },
             setDailyOverviewFilterShowPlansAndGoals(flag) {
                 this.dailyOverviewFilter.showPlansAndGoals = flag
+            },
+            setDailyOverviewFilterShowReminders(flag) {
+                this.dailyOverviewFilter.showReminders = flag
             },
             setViewAllShowCitizenDailyEvents(flag) {
                 this.viewAllFilter.showCitizenDailyEvents = flag

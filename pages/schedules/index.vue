@@ -44,6 +44,16 @@
                             <Icon name="ph:calendar-dots" class="h-3.5 w-3.5" aria-hidden="true" />
                             {{ $t('calendar.view.monthView') }}
                         </button>
+                        <button @click="setCalendarView('half-year')"
+                            :class="[state.calendarView === 'half-year' ? 'bg-white text-primary shadow-sm' : 'text-slate-500 hover:text-slate-700', 'flex items-center gap-1.5 px-3 py-1.5 rounded-md text-xs font-semibold transition-all']">
+                            <Icon name="ph:calendar-blank" class="h-3.5 w-3.5" aria-hidden="true" />
+                            {{ $t('calendar.view.halfYearView') }}
+                        </button>
+                        <button @click="setCalendarView('year')"
+                            :class="[state.calendarView === 'year' ? 'bg-white text-primary shadow-sm' : 'text-slate-500 hover:text-slate-700', 'flex items-center gap-1.5 px-3 py-1.5 rounded-md text-xs font-semibold transition-all']">
+                            <Icon name="ph:calendar" class="h-3.5 w-3.5" aria-hidden="true" />
+                            {{ $t('calendar.view.yearView') }}
+                        </button>
                     </div>
 
                     <div class="hidden lg:block h-5 w-px bg-slate-200" />
@@ -145,6 +155,12 @@
                     @setDutyScheduleCurrentDate="setDutyScheduleCurrentDate"
                     @setDutyScheduleCurrentFilter="setDutyScheduleCurrentFilter" />
                 <ModulesUserDutyScheduleMonthView v-if="state.calendarView === 'month'"
+                    @setDutyScheduleCurrentDate="setDutyScheduleCurrentDate"
+                    @setDutyScheduleCurrentFilter="setDutyScheduleCurrentFilter" />
+                <ModulesUserDutyScheduleHalfYearView v-if="state.calendarView === 'half-year'"
+                    @setDutyScheduleCurrentDate="setDutyScheduleCurrentDate"
+                    @setDutyScheduleCurrentFilter="setDutyScheduleCurrentFilter" />
+                <ModulesUserDutyScheduleYearView v-if="state.calendarView === 'year'"
                     @setDutyScheduleCurrentDate="setDutyScheduleCurrentDate"
                     @setDutyScheduleCurrentFilter="setDutyScheduleCurrentFilter" />
             </div>

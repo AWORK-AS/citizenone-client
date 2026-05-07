@@ -309,13 +309,18 @@
                                         :value="citizenMedicineStore.getSelectedMedicines?.includes(medicine.uuid)"
                                         @click="addRemoveMedicine(medicine)" class="mt-0.5 shrink-0" />
                                     <div class="min-w-0 flex-1">
-                                        <p class="text-sm font-medium text-gray-900 truncate">
-                                            {{
-                                                language.locale.value === 'en' ?
-                                                    medicine?.medicine?.en_name :
-                                                    medicine?.medicine?.dk_name
-                                            }}
-                                        </p>
+                                        <div class="flex items-center gap-1.5 min-w-0">
+                                            <p class="text-sm font-medium text-gray-900 truncate">
+                                                {{
+                                                    language.locale.value === 'en' ?
+                                                        medicine?.medicine?.en_name :
+                                                        medicine?.medicine?.dk_name
+                                                }}
+                                            </p>
+                                            <Tooltip v-if="medicine?.description" :text="medicine.description" :wrap="true" class="shrink-0">
+                                                <Icon name="ph:info" class="size-3.5 text-primary/60 hover:text-primary cursor-default" />
+                                            </Tooltip>
+                                        </div>
                                         <p class="text-xs text-gray-500">
                                             {{ medicine?.medicine?.ingredients }}
                                             <span v-if="medicine?.strength"> ·
@@ -329,9 +334,6 @@
                                         <p class="text-xs text-gray-500">
                                             {{ $t('citizens.medicineJournals.form.maxDailyDose') }}:
                                             {{ medicine?.max_daily_dose }}
-                                        </p>
-                                        <p class="text-xs text-gray-500">
-                                            {{ medicine?.description }}
                                         </p>
                                         <div class="flex gap-1 flex-wrap mt-1">
                                             <Tooltip v-if="medicine?.is_expired"
@@ -452,13 +454,18 @@
                                         :value="citizenMedicineStore.getSelectedMedicines?.includes(medicine.uuid)"
                                         @click="addRemoveMedicine(medicine)" />
                                     <div class="flex-1 min-w-0">
-                                        <p class="text-sm font-medium text-gray-900">
-                                            {{
-                                                language.locale.value === 'en' ?
-                                                    medicine?.medicine?.en_name :
-                                                    medicine?.medicine?.dk_name
-                                            }}
-                                        </p>
+                                        <div class="flex items-center gap-1.5 min-w-0">
+                                            <p class="text-sm font-medium text-gray-900">
+                                                {{
+                                                    language.locale.value === 'en' ?
+                                                        medicine?.medicine?.en_name :
+                                                        medicine?.medicine?.dk_name
+                                                }}
+                                            </p>
+                                            <Tooltip v-if="medicine?.description" :text="medicine.description" :wrap="true" class="shrink-0">
+                                                <Icon name="ph:info" class="size-3.5 text-primary/60 hover:text-primary cursor-default" />
+                                            </Tooltip>
+                                        </div>
                                         <p class="text-xs text-gray-500">
                                             {{ medicine?.medicine?.ingredients }}
                                             <span v-if="medicine?.strength">
@@ -472,9 +479,6 @@
                                         <p class="text-xs text-gray-500">
                                             {{ $t('citizens.medicineJournals.form.maxDailyDose') }}:
                                             {{ medicine?.max_daily_dose }}
-                                        </p>
-                                        <p class="text-xs text-gray-500">
-                                            {{ medicine?.description }}
                                         </p>
                                         <!-- Dosage for PN -->
                                         <div v-if="medicine?.dosage_status_by_date?.[todayStr]?.length"
@@ -577,13 +581,18 @@
                                         class="border-b border-gray-100 last:border-b-0">
                                         <td class="px-4 py-3 text-xs font-medium text-gray-900 border-r border-gray-100"
                                             width="15%">
-                                            <p class="truncate max-w-36">
-                                                {{
-                                                    language.locale.value === 'en' ?
-                                                        medicine?.medicine?.en_name :
-                                                        medicine?.medicine?.dk_name
-                                                }}
-                                            </p>
+                                            <div class="flex items-center gap-1 min-w-0">
+                                                <p class="truncate max-w-36">
+                                                    {{
+                                                        language.locale.value === 'en' ?
+                                                            medicine?.medicine?.en_name :
+                                                            medicine?.medicine?.dk_name
+                                                    }}
+                                                </p>
+                                                <Tooltip v-if="medicine?.description" :text="medicine.description" :wrap="true" class="shrink-0">
+                                                    <Icon name="ph:info" class="size-3.5 text-primary/60 hover:text-primary cursor-default" />
+                                                </Tooltip>
+                                            </div>
                                             <p class="text-xxs text-gray-400">
                                                 {{ medicine?.medicine?.ingredients }}
                                                 <span v-if="medicine?.strength"> ·
@@ -753,13 +762,18 @@
                                             </Tooltip>
                                             <!-- Medicine info -->
                                             <div class="min-w-0">
-                                                <p class="text-sm font-semibold text-gray-900 truncate">
-                                                    {{
-                                                        language.locale.value === 'en' ?
-                                                            medicine?.medicine?.en_name :
-                                                            medicine?.medicine?.dk_name
-                                                    }}
-                                                </p>
+                                                <div class="flex items-center gap-1.5 min-w-0">
+                                                    <p class="text-sm font-semibold text-gray-900 truncate">
+                                                        {{
+                                                            language.locale.value === 'en' ?
+                                                                medicine?.medicine?.en_name :
+                                                                medicine?.medicine?.dk_name
+                                                        }}
+                                                    </p>
+                                                    <Tooltip v-if="medicine?.description" :text="medicine.description" :wrap="true" class="shrink-0">
+                                                        <Icon name="ph:info" class="size-3.5 text-primary/60 hover:text-primary cursor-default" />
+                                                    </Tooltip>
+                                                </div>
                                                 <p class="text-xs text-gray-400 truncate mt-0.5">
                                                     {{ medicine?.medicine?.ingredients }}
                                                     {{

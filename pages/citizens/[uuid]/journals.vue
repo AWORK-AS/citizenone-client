@@ -123,6 +123,13 @@
                                                             </p>
                                                         </Badge>
                                                     </div>
+                                                    <div v-if="journal.is_ai_used">
+                                                        <span
+                                                            class="inline-flex items-center gap-1 rounded-full bg-violet-100 px-2 py-0.5 text-xxs font-medium text-violet-700">
+                                                            <Icon name="ph:sparkle-fill" class="size-3 shrink-0" />
+                                                            {{ $t('citizens.citizenJournals.aiUsed') }}
+                                                        </span>
+                                                    </div>
                                                 </div>
                                                 <div
                                                     v-if="['Standard view', 'Risk assessment view'].includes(citizenJournalStore.getFilterView)">

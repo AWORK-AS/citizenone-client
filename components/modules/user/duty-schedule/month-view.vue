@@ -169,8 +169,10 @@
                                 </select>
                             </div>
                         </div>
-                        <div class="xl:min-w-[160px] [&_input]:!h-[38px] [&_button]:!h-[38px] [&_form]:!h-[38px]">
-                            <TableSearch @search="handleSearch" :placeholder="$t('dutySchedules.findEmployee')" />
+                        <div
+                            class="flex-1 sm:flex-none sm:w-auto xl:min-w-[160px] [&_input]:!h-[38px] [&_button]:!h-[38px] [&_form]:!h-[38px]">
+                            <TableSearch type="duty-schedule" @search="handleSearch"
+                                :placeholder="$t('dutySchedules.findEmployee')" />
                         </div>
                     </div>
                 </div>
@@ -345,13 +347,13 @@
                                             employee?.total_norm_hours?.compensatory_hours) ?? 0
                                     }}
                                 </div>
-                                <div :class="[employee?.total_norm_hours?.available_vacation_hours > 0 ? 'text-green-700' : 'text-red-700', 'flex items-center gap-1 cursor-pointer text-xxs']"
+                                <div :class="[employee?.total_norm_hours?.available_vacation_days > 0 ? 'text-green-700' : 'text-red-700', 'flex items-center gap-1 cursor-pointer text-xxs']"
                                     @click="viewAvailableVacationHours(employee)">
                                     <Icon name="ph:clock" class="h-3 w-3" />
-                                    {{ $t('dutySchedules.normHours.availableVacationHours') }}:
+                                    {{ $t('dutySchedules.normHours.availableVacationDays') }}:
                                     {{
                                         formatNumber(language.locale.value,
-                                            employee?.total_norm_hours?.available_vacation_hours || 0)
+                                            employee?.total_norm_hours?.available_vacation_days || 0)
                                     }}
                                 </div>
                             </div>

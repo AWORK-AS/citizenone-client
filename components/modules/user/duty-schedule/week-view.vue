@@ -623,21 +623,21 @@
 
                                                         <!-- Available vacation hours -->
                                                         <div :class="[
-                                                            employee?.total_norm_hours?.available_vacation_hours > 0 ? 'text-green-700' : 'text-red-700',
+                                                            employee?.total_norm_hours?.available_vacation_days > 0 ? 'text-green-700' : 'text-red-700',
                                                             'flex items-center gap-2 sm:gap-1 w-fit cursor-pointer'
                                                         ]" @click="viewAvailableVacationHours(employee)">
                                                             <div :class="[
-                                                                employee?.total_norm_hours?.available_vacation_hours > 0 ? 'bg-green-100' : 'bg-red-100',
+                                                                employee?.total_norm_hours?.available_vacation_days > 0 ? 'bg-green-100' : 'bg-red-100',
                                                                 'w-7 h-7 sm:w-auto sm:h-auto rounded-md sm:rounded-none sm:bg-transparent flex items-center justify-center flex-shrink-0'
                                                             ]">
                                                                 <Icon name="ph:umbrella-simple" :class="[
-                                                                    employee?.total_norm_hours?.available_vacation_hours > 0 ? 'text-green-600' : 'text-red-600',
+                                                                    employee?.total_norm_hours?.available_vacation_days > 0 ? 'text-green-600' : 'text-red-600',
                                                                     'h-4 w-4 sm:h-3 sm:w-3 sm:text-current'
                                                                 ]" aria-hidden="true" />
                                                             </div>
-                                                            {{ $t('dutySchedules.normHours.availableVacationHours') }}:
+                                                            {{ $t('dutySchedules.normHours.availableVacationDays') }}:
                                                             {{ formatNumber(language.locale.value,
-                                                                employee?.total_norm_hours?.available_vacation_hours || 0)
+                                                                employee?.total_norm_hours?.available_vacation_days || 0)
                                                             }}
                                                         </div>
 
