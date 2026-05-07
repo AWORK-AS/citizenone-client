@@ -72,6 +72,7 @@ const breadcrumbLinks = [
 const state = reactive({
     error: {} as Error,
     formNursingProfessionalRecord: {
+        template_uuid: '',
         date: '',
         functional_level: '',
         functional_level_note: '',
@@ -150,6 +151,7 @@ async function updateRecord(recordDetails: any) {
     state.isPageLoading = true
     try {
         const params = {
+            template_uuid: recordDetails.template_uuid ?? null,
             date: recordDetails.date,
             functional_level: recordDetails.functional_level,
             functional_level_note: recordDetails.functional_level_note,

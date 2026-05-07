@@ -14,8 +14,9 @@
                         {{ $t('nursingProfessionalRecordTemplates.nursingProfessionalRecordTemplates') }}
                     </NuxtLink>
                 </div>
-                <FormSelect id="template" :options="state.templateOptions" v-model="state.selectedTemplateUuid" />
-                <div v-if="state.selectedTemplateUuid"
+                <FormSelect id="template" :options="state.templateOptions"
+                    v-model="state.formNursingProfessionalRecord.template_uuid" />
+                <div v-if="state.formNursingProfessionalRecord.template_uuid"
                     class="mt-2 p-3 bg-primary-50 rounded-md border border-primary-200">
                     <p class="text-xs font-medium text-primary-700 mb-2 flex items-center gap-1">
                         <Icon name="ph:layout" class="size-3.5" />
@@ -690,6 +691,7 @@ const editorExcretionOfWasteConfig = ref({
 const state = reactive({
     error: {} as Error,
     formNursingProfessionalRecord: {
+        template_uuid: '',
         date: '',
         functional_level: '',
         functional_level_note: '',
@@ -715,11 +717,10 @@ const state = reactive({
         knowledge_and_development_note: '',
         excretion_of_waste: '',
         excretion_of_waste_note: '',
-    },
+    } as any,
     modal: {
         isUpgradeStorageOpen: false
     },
-    selectedTemplateUuid: '' as string,
     templateOptions: [{ value: '', label: `— ${t('citizens.nursingAreas.form.template')} —` }] as any[],
     templates: [] as any[],
 })
@@ -740,8 +741,8 @@ const areaFieldDefs = computed(() => [
 ])
 
 const activeFieldConfig = computed<Record<string, string>>(() => {
-    if (!state.selectedTemplateUuid) return {}
-    const tpl = state.templates.find((t: any) => t.uuid === state.selectedTemplateUuid)
+    if (!state.formNursingProfessionalRecord.template_uuid) return {}
+    const tpl = state.templates.find((t: any) => t.uuid === state.formNursingProfessionalRecord.template_uuid)
     if (!tpl) return {}
     return {
         functional_level: tpl.functional_level ?? 'optional',
@@ -823,7 +824,7 @@ watch(() => props.selectedRecord, (newValue: any) => {
 })
 
 function getFieldBadge(field: string) {
-    if (!state.selectedTemplateUuid) return null
+    if (!state.formNursingProfessionalRecord.template_uuid) return null
     const isRequired = activeFieldConfig.value[field] === 'required'
     return {
         cls: isRequired
@@ -836,7 +837,7 @@ function getFieldBadge(field: string) {
 function fieldRule(fieldName: string) {
     // If no template is selected, all fields are required (legacy behaviour)
     // If a template is selected, only fields configured as 'required' are required
-    const isRequired = !state.selectedTemplateUuid || activeFieldConfig.value[fieldName] === 'required'
+    const isRequired = !state.formNursingProfessionalRecord.template_uuid || activeFieldConfig.value[fieldName] === 'required'
     return isRequired
         ? { required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required) }
         : {}
@@ -869,7 +870,9 @@ const v$ = useVuelidate(rules, state)
 function submitForm() {
     v$.value.$validate()
     if (!v$.value.$error) {
-        emit('submitForm', state.formNursingProfessionalRecord)
+        emit('submitForm', {
+            ...state.formNursingProfessionalRecord
+        })
     }
 }
 
