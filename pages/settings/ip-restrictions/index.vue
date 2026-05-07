@@ -94,7 +94,7 @@ const state = reactive({
     columnHeaders: [
         { name: 'ipRestrictions.table.ipAddress', value: 'ip_address', isTranslateName: true },
         { name: 'ipRestrictions.table.label', value: 'label', isTranslateName: true },
-        { name: 'ipRestrictions.table.actions.header', value: 'actions', isTranslateName: true },
+        { name: '', value: 'actions' },
     ],
     dataFilter: {
         search: '',

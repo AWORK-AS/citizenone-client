@@ -94,7 +94,7 @@ const state = reactive({
         { name: 'approvedDevices.table.deviceUuid', value: 'device_uuid', isTranslateName: true },
         { name: 'approvedDevices.table.label', value: 'label', isTranslateName: true },
         { name: 'approvedDevices.table.isActive', value: 'is_active', isTranslateName: true },
-        { name: 'approvedDevices.table.actions.header', value: 'actions', isTranslateName: true },
+        { name: '', value: 'actions' },
     ],
     dataFilter: {
         search: '',
