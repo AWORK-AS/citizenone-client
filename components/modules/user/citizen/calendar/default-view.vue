@@ -72,7 +72,7 @@
                 <p v-if="props.myCalendarEvents?.data?.length < 1" class="text-center py-28">
                     {{ $t('events.noEventFound') }}
                 </p>
-                <li v-for="(myCalendarEvent, index) in state.filteredSchedules" :key="index"
+                <li v-for="(myCalendarEvent, index) in state.filteredSchedules" :key="index" :data-uuid="myCalendarEvent.uuid"
                     class="relative flex space-x-6 py-6 xl:static">
                     <img :src="myCalendarEvent?.user?.profile_image ?? `https://ui-avatars.com/api/?background=42AED9&color=fff&name=${myCalendarEvent?.user?.firstname + ' ' + myCalendarEvent?.user?.lastname}`"
                         class="h-14 w-14 rounded-full bg-gray-50 object-cover" />

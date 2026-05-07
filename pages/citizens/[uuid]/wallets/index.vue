@@ -48,7 +48,7 @@
                     <TableSearch @search="handleSearch" />
                     <div>
                         <div class="mt-8 grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-5">
-                            <div v-for="(wallet, index) in state.wallets?.data" :key="index"
+                            <div v-for="(wallet, index) in state.wallets?.data" :key="index" :data-uuid="wallet.uuid"
                                 @click="Object.keys(state.selectedWallet)?.length === 0 && navigateTo(`/citizens/${citizenUuid}/wallets/${wallet?.uuid}`)">
                                 <div
                                     class="h-36 bg-white border-l-4 border-primary/70 px-4 py-5 relative overflow-clip ring-1 ring-gray-200 rounded-md cursor-pointer hover:bg-gray-100">
