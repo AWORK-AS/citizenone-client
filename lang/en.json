@@ -2110,7 +2110,11 @@
                 "respirationAndCirculation": "Respiration and circulation",
                 "sexuality": "Sexuality",
                 "skinAndMucousMembranes": "Skin and mucous membranes",
-                "sleepAndRest": "Sleep and rest"
+                "sleepAndRest": "Sleep and rest",
+                "template": "Template",
+                "selectTemplate": "Select template (optional)",
+                "fieldRequired": "Required",
+                "fieldOptional": "Optional"
             },
             "illnessAndFunctionalImpairment": {
                 "editIllnessAndFunctionalImpairment": "Edit illness and functional impairment",
@@ -2180,7 +2184,8 @@
                         "verySubstantialChallenges": "Very substantial challenges"
                     },
                     "date": "Date",
-                    "status": "Status"
+                    "status": "Status",
+                    "problemStatus": "Status selection"
                 },
                 "newStatus": "New status",
                 "statuses": "Statuses",
@@ -2199,7 +2204,13 @@
                     "createdBy": "Created by",
                     "date": "Date",
                     "dateCreated": "Date created",
-                    "status": "Status"
+                    "status": "Status",
+                    "problemStatus": "Problem status"
+                },
+                "problemStatuses": {
+                    "activeProblem": "Active problem",
+                    "notAnActiveProblem": "Not an active problem",
+                    "potentialProblem": "Potential problem"
                 }
             },
             "table": {
@@ -6740,7 +6751,8 @@
             "timeAccounts": "Time accounts",
             "timeLogs": "Time logs",
             "transactions": "Transactions",
-            "units": "Units"
+            "units": "Units",
+            "nursingProfessionalRecordTemplates": "Nursing record templates"
         },
         "wallets": {
             "citizenWalletTransactions": "Citizen wallet transactions",
@@ -7783,5 +7795,35 @@
     },
     "no": "No",
     "yes": "Yes",
-    "youDontHaveAccessToThisPage": "You do not have access to this page. Please contact your administrator"
+    "youDontHaveAccessToThisPage": "You do not have access to this page. Please contact your administrator",
+    "nursingProfessionalRecordTemplates": {
+        "nursingProfessionalRecordTemplates": "Nursing record templates",
+        "newTemplate": "New template",
+        "editTemplate": "Edit template",
+        "form": {
+            "name": "Template name",
+            "fieldConfiguration": "Field configuration",
+            "field": "Field",
+            "required": "Required",
+            "optional": "Optional",
+            "alert": {
+                "newTemplateSuccessfullySaved": "Template successfully saved",
+                "templateSuccessfullyUpdated": "Template successfully updated"
+            }
+        },
+        "table": {
+            "name": "Name",
+            "requiredFields": "Required fields",
+            "actions": {
+                "edit": "Edit",
+                "delete": "Delete"
+            },
+            "alert": {
+                "templateSuccessfullyDeleted": "Template successfully deleted"
+            },
+            "confirmation": {
+                "deleteTemplateConfirmation": "Are you sure you want to delete this template"
+            }
+        }
+    }
 }
