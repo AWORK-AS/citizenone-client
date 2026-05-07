@@ -196,12 +196,15 @@ async function toggleComplete(reminder: any) {
     state.isToggling = reminder.id
     try {
         const dueDate = reminder?.due_dates?.[0]
-        const params = {
+        await reminderService.toggleReminderCompleteIncomplete({
             reminder_uuid: reminder?.uuid,
             due_date_time: dueDate?.date || reminder?.date_time,
+        })
+        const target = (state.reminders?.data || []).find((r: any) => r.id === reminder.id)
+        if (target) {
+            if (!target.due_dates?.[0]) target.due_dates = [{ is_complete: true }]
+            else target.due_dates[0].is_complete = !target.due_dates[0].is_complete
         }
-        await reminderService.toggleReminderCompleteIncomplete(params)
-        await fetchReminders()
     } catch (error: any) {
         state.error = error
     }

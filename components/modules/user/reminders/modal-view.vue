@@ -20,7 +20,7 @@
                             <!-- Creator -->
                             <div v-if="state.reminder.creator" class="flex items-center gap-2">
                                 <Icon name="ph:user" class="h-4 w-4 text-gray-400 flex-shrink-0" />
-                                <span class="text-gray-500">{{ $t('reminders.dateCreated') }}:</span>
+                                <span class="text-gray-500">{{ $t('overview.createdBy') }}:</span>
                                 <div class="flex items-center gap-1.5">
                                     <img v-if="state.reminder.creator.profile_image"
                                         :src="state.reminder.creator.profile_image"
@@ -29,6 +29,13 @@
                                         {{ state.reminder.creator.firstname }} {{ state.reminder.creator.lastname }}
                                     </span>
                                 </div>
+                            </div>
+
+                            <!-- Date created -->
+                            <div v-if="state.reminder.created_at" class="flex items-center gap-2">
+                                <Icon name="ph:calendar-blank" class="h-4 w-4 text-gray-400 flex-shrink-0" />
+                                <span class="text-gray-500">{{ $t('reminders.dateCreated') }}:</span>
+                                <span class="font-medium text-gray-700">{{ formatDateTimeToReadable(state.reminder.created_at) }}</span>
                             </div>
 
                             <!-- Repeat -->
