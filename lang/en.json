@@ -1657,6 +1657,7 @@
                     "firstname": "First name",
                     "gender": "Gender",
                     "lastname": "Last name",
+                    "name": "Name",
                     "origin": "Origin"
                 },
                 "dischargeReason": "Discharge reason",

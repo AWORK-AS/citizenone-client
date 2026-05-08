@@ -113,7 +113,7 @@ async function fetchNursingProfessionalRecord() {
         const response = await nursingAreasService.getNursingProfessionalRecord(recordUuid)
         if (response) {
             state.formNursingProfessionalRecord = {
-                template_uuid: response?.data?.template?.uuid ?? '',
+                template_uuid: response?.data?.nursing_professional_record_template?.uuid ?? '',
                 date: response?.data?.date ?? '',
                 functional_level: response?.data?.functional_level ?? '',
                 functional_level_note: response?.data?.functional_level_note ?? '',

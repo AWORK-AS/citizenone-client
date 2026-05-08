@@ -1656,7 +1656,8 @@
                     "cprNumber": "CPR-nummer",
                     "firstname": "Fornavn",
                     "gender": "Køn",
-                    "lastname": "Last name",
+                    "lastname": "Efternavn",
+                    "name": "Navn",
                     "origin": "Oprindelse"
                 },
                 "dischargeReason": "Udskrivningsårsag",
