@@ -480,7 +480,7 @@ function submitForm() {
     if (!v$.value.$error) {
         emit('submitForm', {
             ...state.formTemplate,
-            copy: state.formTemplate.copy || null,
+            copy: state.formTemplate.copy,
             number_of_weeks: state.formTemplate.copy ? Number(state.formTemplate.number_of_weeks) : null,
             weekTemplateMap: state.weekTemplateMap
         })
