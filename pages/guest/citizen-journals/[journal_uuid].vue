@@ -214,7 +214,7 @@ const rules = computed(() => {
     return {
         formSecuredJournals: {
             password: {
-                required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
+                required: helpers.withMessage(() => `${t('validation.thisFieldIsRequired')}.`, required),
             },
         }
     }

@@ -100,7 +100,7 @@ const rules = computed(() => {
     return {
         formDocument: {
             content: {
-                required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
+                required: helpers.withMessage(() => `${t('validation.thisFieldIsRequired')}.`, required),
             },
         },
     }

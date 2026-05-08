@@ -100,7 +100,7 @@
                             <div :class="[
                                 'bg-white ring-1 rounded-md p-5 border-l-4',
                                 journal.is_pinned ? 'ring-primary/40 border-primary' : 'ring-gray-200 border-secondary'
-                            ]" v-for="(journal, index) in state.journals?.data" :key="index">
+                            ]" v-for="(journal, index) in state.journals?.data" :key="index" :data-uuid="journal.uuid">
                                 <div class="space-y-3">
                                     <div class="space-y-1.5">
                                         <div>

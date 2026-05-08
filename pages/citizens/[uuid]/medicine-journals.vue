@@ -295,7 +295,7 @@
                                 </div>
                             </div>
 
-                            <div v-for="(medicine, medicineIndex) in filteredRegularMedicines" :key="medicine.uuid"
+                            <div v-for="(medicine, medicineIndex) in filteredRegularMedicines" :key="medicine.uuid" :data-uuid="medicine.uuid"
                                 :class="['border-b border-gray-100 last:border-b-0', (medicineIndex as number) % 2 === 1 ? 'bg-gray-50/50' : 'bg-white', medicine.is_deactivated ? 'opacity-40' : '']"
                                 :style="gridStyle(timeColumns.length)">
 
@@ -312,8 +312,10 @@
                                                         medicine?.medicine?.dk_name
                                                 }}
                                             </p>
-                                            <Tooltip v-if="medicine?.description" :text="medicine.description" :wrap="true" class="shrink-0">
-                                                <Icon name="ph:info" class="size-3.5 text-primary/60 hover:text-primary cursor-default" />
+                                            <Tooltip v-if="medicine?.description" :text="medicine.description"
+                                                :wrap="true" class="shrink-0">
+                                                <Icon name="ph:info"
+                                                    class="size-3.5 text-primary/60 hover:text-primary cursor-default" />
                                             </Tooltip>
                                         </div>
                                         <p class="text-xs text-gray-500">
@@ -416,7 +418,7 @@
                                                 </span>
                                             </button>
                                         </Tooltip>
-                                        <span class="text-xs text-center"
+                                        <span class="text-xs text-center truncate"
                                             :class="getSlotTimeClass(getDosageForTime(medicine, time), time)">
                                             {{ getSlotTimeLabel(getDosageForTime(medicine, time), time) }}
                                         </span>
@@ -443,7 +445,7 @@
                                     class="size-4 text-gray-400" />
                             </button>
                             <div v-if="state.pnExpanded">
-                                <div v-for="medicine in pnMedicines" :key="medicine.uuid"
+                                <div v-for="medicine in pnMedicines" :key="medicine.uuid" :data-uuid="medicine.uuid"
                                     class="flex items-center gap-4 px-5 py-3 border-t border-gray-100 hover:bg-gray-50/50">
                                     <FormCheckbox :id="`pn_${medicine.uuid}`"
                                         :value="citizenMedicineStore.getSelectedMedicines?.includes(medicine.uuid)"
@@ -457,8 +459,10 @@
                                                         medicine?.medicine?.dk_name
                                                 }}
                                             </p>
-                                            <Tooltip v-if="medicine?.description" :text="medicine.description" :wrap="true" class="shrink-0">
-                                                <Icon name="ph:info" class="size-3.5 text-primary/60 hover:text-primary cursor-default" />
+                                            <Tooltip v-if="medicine?.description" :text="medicine.description"
+                                                :wrap="true" class="shrink-0">
+                                                <Icon name="ph:info"
+                                                    class="size-3.5 text-primary/60 hover:text-primary cursor-default" />
                                             </Tooltip>
                                         </div>
                                         <p class="text-xs text-gray-500">
@@ -584,8 +588,10 @@
                                                             medicine?.medicine?.dk_name
                                                     }}
                                                 </p>
-                                                <Tooltip v-if="medicine?.description" :text="medicine.description" :wrap="true" class="shrink-0">
-                                                    <Icon name="ph:info" class="size-3.5 text-primary/60 hover:text-primary cursor-default" />
+                                                <Tooltip v-if="medicine?.description" :text="medicine.description"
+                                                    :wrap="true" class="shrink-0">
+                                                    <Icon name="ph:info"
+                                                        class="size-3.5 text-primary/60 hover:text-primary cursor-default" />
                                                 </Tooltip>
                                             </div>
                                             <p class="text-xxs text-gray-400">
@@ -765,8 +771,10 @@
                                                                 medicine?.medicine?.dk_name
                                                         }}
                                                     </p>
-                                                    <Tooltip v-if="medicine?.description" :text="medicine.description" :wrap="true" class="shrink-0">
-                                                        <Icon name="ph:info" class="size-3.5 text-primary/60 hover:text-primary cursor-default" />
+                                                    <Tooltip v-if="medicine?.description" :text="medicine.description"
+                                                        :wrap="true" class="shrink-0">
+                                                        <Icon name="ph:info"
+                                                            class="size-3.5 text-primary/60 hover:text-primary cursor-default" />
                                                     </Tooltip>
                                                 </div>
                                                 <p class="text-xs text-gray-400 truncate mt-0.5">

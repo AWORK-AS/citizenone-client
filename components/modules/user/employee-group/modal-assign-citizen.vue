@@ -65,7 +65,7 @@ const state = reactive({
 const rules = computed(() => ({
     form: {
         citizen_uuids: {
-            required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
+            required: helpers.withMessage(() => `${t('validation.thisFieldIsRequired')}.`, required),
         },
     },
 }))

@@ -122,7 +122,7 @@ const rules = computed(() => {
     return {
         formUseOfForce: {
             risk_level: {
-                required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
+                required: helpers.withMessage(() => `${t('validation.thisFieldIsRequired')}.`, required),
             },
         },
     }

@@ -1,6 +1,6 @@
 <template>
     <div>
-        <Modal size="xs" :title="$t('dutySchedules.draftTemplates.form.applyTemplate')" :show="props.isModalOpen" @close="closeModal">
+        <Modal size="xl" :title="$t('dutySchedules.draftTemplates.form.applyTemplate')" :show="props.isModalOpen" @close="closeModal">
             <template #modal-body>
                 <LoadingSpinner :isActive="state.isPageLoading">
                     <ModulesUserDutyScheduleDraftTemplatesApplyTemplateForm formType="create"
@@ -77,6 +77,8 @@ async function applyTemplate(applyDetails: any) {
            weeks: applyDetails.weeks,
            years: applyDetails.years,
            template_uuids: props.selectedTemplates.map((template: any) => template.uuid),
+           copy: applyDetails.copy ?? false,
+           number_of_weeks: applyDetails.number_of_weeks ?? null,
         } as any
 
         const response = await draftTemplateService.applyDraftTemplate(params)

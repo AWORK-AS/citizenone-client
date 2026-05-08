@@ -55,6 +55,45 @@
                         aria-hidden="true" @click="state.isLeaveTypeModalOpen = true" />
                 </div>
             </div>
+
+            <div class="space-y-2 pt-2 border-t border-gray-100">
+                <FormLabel for="working_hours_factor" :label="$t('shifts.form.workingHoursFactor')" />
+                <FormNumberField id="working_hours_factor" name="working_hours_factor"
+                    :placeholder="$t('shifts.form.workingHoursFactorPlaceholder')"
+                    v-model="state.formShift.working_hours_factor" />
+                <FormError :error="props?.error?.errors?.working_hours_factor?.[0]" />
+
+                <div class="space-y-2 pl-1" v-if="state.formShift.working_hours_factor">
+                    <p class="text-sm text-gray-500">{{ $t('shifts.form.workingHoursFactorInterval') }}</p>
+                    <div class="flex items-center gap-3">
+                        <div class="flex-1 space-y-1">
+                            <FormLabel for="working_hours_factor_from" :label="$t('shifts.form.workingHoursFactorFrom')" />
+                            <FormTimeField id="working_hours_factor_from" name="working_hours_factor_from"
+                                :placeholder="$t('shifts.form.workingHoursFactorFrom')"
+                                v-model="state.formShift.working_hours_factor_from" />
+                            <FormError :error="v$?.formShift?.working_hours_factor_from?.$errors[0]?.$message.toString()" />
+                            <FormError :error="props?.error?.errors?.working_hours_factor_from?.[0]" />
+                        </div>
+                        <div class="flex-1 space-y-1">
+                            <FormLabel for="working_hours_factor_to" :label="$t('shifts.form.workingHoursFactorTo')" />
+                            <FormTimeField id="working_hours_factor_to" name="working_hours_factor_to"
+                                :placeholder="$t('shifts.form.workingHoursFactorTo')"
+                                v-model="state.formShift.working_hours_factor_to" />
+                            <FormError :error="v$?.formShift?.working_hours_factor_to?.$errors[0]?.$message.toString()" />
+                            <FormError :error="props?.error?.errors?.working_hours_factor_to?.[0]" />
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="space-y-1 pt-2 border-t border-gray-100"
+                v-if="state.formShift.system_name === 'sleeping-night-shift'">
+                <FormLabel for="end_time_day_offset" :label="$t('shifts.form.endTimeDayOffset')" />
+                <FormSelect id="end_time_day_offset" name="end_time_day_offset"
+                    :options="endTimeDayOffsetOptions" :canClear="true"
+                    v-model="state.formShift.end_time_day_offset" />
+                <FormError :error="props?.error?.errors?.end_time_day_offset?.[0]" />
+            </div>
         </div>
         <div class="mt-6">
             <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
@@ -97,6 +136,13 @@ const emit = defineEmits(['isPageLoading', 'submitForm'])
 
 const { t } = useI18n()
 
+const endTimeDayOffsetOptions = computed(() => [
+    { value: '0', label: t('shifts.form.endTimeDayOffsetSameDay') },
+    { value: '1', label: t('shifts.form.endTimeDayOffsetOneDayLater') },
+    { value: '2', label: t('shifts.form.endTimeDayOffsetTwoDaysLater') },
+    { value: '3', label: t('shifts.form.endTimeDayOffsetThreeDaysLater') },
+])
+
 const state = reactive({
     error: {} as Error,
     isLeaveTypeModalOpen: false,
@@ -108,6 +154,11 @@ const state = reactive({
         time_out: '',
         color: '#000000',
         is_leave_shift_type: false,
+        working_hours_factor: '' as string | undefined,
+        working_hours_factor_from: '' as string | null,
+        working_hours_factor_to: '' as string | null,
+        end_time_day_offset: null as any,
+        system_name: '' as string | null,
     },
 })
 
@@ -121,27 +172,44 @@ watch(() => props.selectedShift, (newValue: any) => {
             time_out: newValue.time_out,
             color: newValue.color,
             is_leave_shift_type: newValue.is_leave_shift_type,
+            working_hours_factor: newValue.working_hours_factor ?? '',
+            working_hours_factor_from: newValue.working_hours_factor_from ?? '',
+            working_hours_factor_to: newValue.working_hours_factor_to ?? '',
+            end_time_day_offset: newValue.end_time_day_offset != null ? String(newValue.end_time_day_offset) : null,
+            system_name: newValue.system_name ?? null,
         }
     }
 })
 
 const rules = computed(() => {
+    const hasFrom = !!state.formShift.working_hours_factor_from
+    const hasTo = !!state.formShift.working_hours_factor_to
     return {
         formShift: {
             en_name: {
-                required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
+                required: helpers.withMessage(() => `${t('validation.thisFieldIsRequired')}.`, required),
             },
             dk_name: {
-                required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
+                required: helpers.withMessage(() => `${t('validation.thisFieldIsRequired')}.`, required),
             },
             time_in: {
-                required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
+                required: helpers.withMessage(() => `${t('validation.thisFieldIsRequired')}.`, required),
             },
             time_out: {
-                required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
+                required: helpers.withMessage(() => `${t('validation.thisFieldIsRequired')}.`, required),
             },
             color: {
-                required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
+                required: helpers.withMessage(() => `${t('validation.thisFieldIsRequired')}.`, required),
+            },
+            working_hours_factor_from: {
+                ...(hasTo && {
+                    required: helpers.withMessage(() => `${t('validation.thisFieldIsRequired')}.`, required),
+                }),
+            },
+            working_hours_factor_to: {
+                ...(hasFrom && {
+                    required: helpers.withMessage(() => `${t('validation.thisFieldIsRequired')}.`, required),
+                }),
             },
         },
     }
@@ -153,7 +221,10 @@ function submitForm() {
     state.error = {}
     v$.value.$validate()
     if (!v$.value.$error) {
-        emit('submitForm', state.formShift)
+        emit('submitForm', {
+            ...state.formShift,
+            end_time_day_offset: state.formShift.end_time_day_offset != null ? Number(state.formShift.end_time_day_offset) : null,
+        })
     }
 }
 </script>

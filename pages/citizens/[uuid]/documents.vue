@@ -80,7 +80,7 @@
                         <Table :columnHeaders="state.columnHeaders" :data="state.documents"
                             :isLoading="state.isTableLoading" :sortData="state.sortData" @sort="sort">
                             <template #body v-if="!(state.isTableLoading || (state.documents?.data?.length === 0))">
-                                <tr v-for="(document, index) in state.documents?.data" :key="index">
+                                <tr v-for="(document, index) in state.documents?.data" :key="index" :data-uuid="document.uuid">
                                     <td width="25%">
                                         <div class="text-tertiary hover:text-tertiary-700 cursor-pointer flex items-center gap-x-1"
                                             v-if="document?.file_url" @click="downloadFile(document)">

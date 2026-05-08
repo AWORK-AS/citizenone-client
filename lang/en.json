@@ -1657,13 +1657,22 @@
                     "firstname": "First name",
                     "gender": "Gender",
                     "lastname": "Last name",
+                    "name": "Name",
                     "origin": "Origin"
                 },
+                "consentFields": "Consent",
                 "dischargeReason": "Discharge reason",
+                "financialGuardianship": "Financial guardianship",
+                "generalConsent": "General consent",
+                "guardianship": "Guardianship",
                 "journalNumber": "Journal number",
                 "municipalityOfResidenceAfter": "Municipality of residence after",
                 "municipalityOfResidenceBefore": "Municipality of residence before",
-                "stayData": "Stay data"
+                "parentCollaboration": "Parent collaboration",
+                "personalGuardianship": "Personal guardianship",
+                "photo": "Photo",
+                "stayData": "Stay data",
+                "studentCollaboration": "Student collaboration"
             }
         },
         "interventionHours": {
@@ -2110,7 +2119,11 @@
                 "respirationAndCirculation": "Respiration and circulation",
                 "sexuality": "Sexuality",
                 "skinAndMucousMembranes": "Skin and mucous membranes",
-                "sleepAndRest": "Sleep and rest"
+                "sleepAndRest": "Sleep and rest",
+                "template": "Template",
+                "selectTemplate": "Select template (optional)",
+                "fieldRequired": "Required",
+                "fieldOptional": "Optional"
             },
             "illnessAndFunctionalImpairment": {
                 "editIllnessAndFunctionalImpairment": "Edit illness and functional impairment",
@@ -2180,7 +2193,8 @@
                         "verySubstantialChallenges": "Very substantial challenges"
                     },
                     "date": "Date",
-                    "status": "Status"
+                    "status": "Status",
+                    "problemStatus": "Status selection"
                 },
                 "newStatus": "New status",
                 "statuses": "Statuses",
@@ -2199,7 +2213,13 @@
                     "createdBy": "Created by",
                     "date": "Date",
                     "dateCreated": "Date created",
-                    "status": "Status"
+                    "status": "Status",
+                    "problemStatus": "Problem status"
+                },
+                "problemStatuses": {
+                    "activeProblem": "Active problem",
+                    "notAnActiveProblem": "Not an active problem",
+                    "potentialProblem": "Potential problem"
                 }
             },
             "table": {
@@ -3260,6 +3280,8 @@
                 "name": "Template name",
                 "recurringUntil": "Until",
                 "repeat": "Repeat",
+                "copyToConsecutiveWeeks": "Copy to consecutive weeks",
+                "numberOfWeeks": "Number of weeks",
                 "week": "Week",
                 "weekNumber": "Week number",
                 "weekRotations": "Week rotations",
@@ -6667,13 +6689,24 @@
                 "quickRiskAssessment": "Quick risk assessment",
                 "region": "Region",
                 "registerTransport": "Register transport",
+                "sundayShiftCalculation": "Enable Sunday shift calculation",
                 "remove": "Remove company logo",
                 "street": "Street",
                 "transferNormHours": "Transfer norm hours to next year if not used",
                 "warning13HourShift": "Warning for shifts exceeding 13 hours",
                 "warning11HourRest": "Warning for rest periods under 11 hours",
                 "warning48HourRule": "Warning for the 48-hour rule",
-                "website": "Website"
+                "website": "Website",
+                "ipRestriction": "IP restriction",
+                "enableIpRestriction": "Enable IP restriction",
+                "ipRestrictionAction": "Restriction action",
+                "manageIpWhitelist": "Manage IP whitelist",
+                "deviceRestriction": "Device restriction",
+                "enableDeviceRestriction": "Enable device restriction",
+                "deviceRestrictionAction": "Restriction action",
+                "manageApprovedDevices": "Manage approved devices",
+                "actionBlock": "Block access",
+                "actionOtp": "Require OTP verification"
             }
         },
         "licenseOverview": {
@@ -6757,7 +6790,10 @@
             "timeAccounts": "Time accounts",
             "timeLogs": "Time logs",
             "transactions": "Transactions",
-            "units": "Units"
+            "units": "Units",
+            "ipRestrictions": "IP restrictions",
+            "approvedDevices": "Approved devices",
+            "nursingProfessionalRecordTemplates": "Nursing record templates"
         },
         "wallets": {
             "citizenWalletTransactions": "Citizen wallet transactions",
@@ -6801,12 +6837,22 @@
                 "shiftSuccessfullyUpdated": "Shift successfully updated"
             },
             "color": "Color",
+            "endTimeDayOffset": "Default end time (day offset)",
+            "endTimeDayOffsetOneDayLater": "1 day later",
+            "endTimeDayOffsetSameDay": "Same day",
+            "endTimeDayOffsetThreeDaysLater": "3 days later",
+            "endTimeDayOffsetTwoDaysLater": "2 days later",
             "markAsLeaveType": "Mark as leave type",
             "nameDanish": "Name (danish)",
             "nameEnglish": "Name (english)",
             "paycode": "Paycode",
             "timeIn": "Time out",
-            "timeOut": "Time in"
+            "timeOut": "Time in",
+            "workingHoursFactor": "Working hours factor",
+            "workingHoursFactorFrom": "From",
+            "workingHoursFactorInterval": "Apply within time interval (optional)",
+            "workingHoursFactorPlaceholder": "e.g. 0.75",
+            "workingHoursFactorTo": "To"
         },
         "newShift": "New shift",
         "shifts": "Shifts",
@@ -6826,7 +6872,8 @@
             "standard": "Standard",
             "standardShift": "Standard shift",
             "timeIn": "Time out",
-            "timeOut": "Time in"
+            "timeOut": "Time in",
+            "workingHoursFactor": "Working hours factor"
         }
     },
     "show": "Show",
@@ -7789,5 +7836,97 @@
     },
     "no": "No",
     "yes": "Yes",
-    "youDontHaveAccessToThisPage": "You do not have access to this page. Please contact your administrator"
+    "youDontHaveAccessToThisPage": "You do not have access to this page. Please contact your administrator",
+    "ipRestrictions": {
+        "title": "IP restrictions",
+        "addIp": "Add IP address",
+        "editIp": "Edit IP address",
+        "ipAddress": "IP address",
+        "label": "Label",
+        "table": {
+            "ipAddress": "IP address",
+            "label": "Label",
+            "actions": {
+                "header": "Actions",
+                "edit": "Edit",
+                "delete": "Delete"
+            }
+        },
+        "confirmation": {
+            "delete": "Are you sure you want to delete this IP restriction"
+        },
+        "alert": {
+            "added": "IP restriction added successfully",
+            "updated": "IP restriction updated successfully",
+            "deleted": "IP restriction deleted successfully"
+        }
+    },
+    "approvedDevices": {
+        "title": "Approved devices",
+        "addDevice": "Add device",
+        "editDevice": "Edit device",
+        "user": "User",
+        "deviceUuid": "Device UUID",
+        "label": "Label",
+        "isActive": "Active",
+        "active": "Active",
+        "inactive": "Inactive",
+        "table": {
+            "user": "User",
+            "deviceUuid": "Device UUID",
+            "label": "Label",
+            "isActive": "Status",
+            "actions": {
+                "header": "Actions",
+                "edit": "Edit",
+                "delete": "Delete"
+            }
+        },
+        "confirmation": {
+            "delete": "Are you sure you want to remove this approved device"
+        },
+        "alert": {
+            "added": "Device approved successfully",
+            "updated": "Approved device updated successfully",
+            "deleted": "Approved device removed successfully"
+        }
+    },
+    "otpVerification": {
+        "checkYourEmailForOtp": "A one-time code has been sent to your email. Please enter it below.",
+        "form": {
+            "verifyCode": "Verify code",
+            "otp": "One-time code",
+            "verify": "Verify"
+        }
+    },
+    "nursingProfessionalRecordTemplates": {
+        "nursingProfessionalRecordTemplates": "Nursing record templates",
+        "newTemplate": "New template",
+        "editTemplate": "Edit template",
+        "form": {
+            "name": "Template name",
+            "fieldConfiguration": "Field configuration",
+            "field": "Field",
+            "required": "Required",
+            "optional": "Optional",
+            "alert": {
+                "newTemplateSuccessfullySaved": "Template successfully saved",
+                "templateSuccessfullyUpdated": "Template successfully updated"
+            }
+        },
+        "table": {
+            "name": "Name",
+            "requiredFields": "Required fields",
+            "actions": {
+                "edit": "Edit",
+                "delete": "Delete"
+            },
+            "alert": {
+                "templateSuccessfullyDeleted": "Template successfully deleted"
+            },
+            "confirmation": {
+                "deleteTemplateConfirmation": "Are you sure you want to delete this template"
+            }
+        }
+    }
 }

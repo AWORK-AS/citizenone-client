@@ -60,7 +60,7 @@ const rules = computed(() => {
     return {
         formChat: {
             users: {
-                required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
+                required: helpers.withMessage(() => `${t('validation.thisFieldIsRequired')}.`, required),
             },
         }
     }
