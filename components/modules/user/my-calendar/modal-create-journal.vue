@@ -131,11 +131,10 @@ watch(() => props.isModalOpen, (newValue: boolean) => {
 
 function resolveCitizenUuid() {
     const event = props.selectedEvent
-    state.citizenUuid =
-        event?.citizen_uuid ||
-        event?.citizen?.uuid ||
-        event?.calendar_citizens?.[0]?.citizen?.uuid ||
-        ''
+    const citizenOwner = event?.calendar_owners?.find(
+        (o: any) => o.owner_type === 'App\\Models\\Citizen'
+    )
+    state.citizenUuid = citizenOwner?.owner?.uuid || ''
 }
 
 function resetForm() {
