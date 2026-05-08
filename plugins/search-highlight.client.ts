@@ -76,7 +76,8 @@ function applyHighlight(el: Element) {
 }
 
 function tryFind(uuid: string | null, term: string): Element | null {
-    return (uuid ? findElementByUuid(uuid) : null) ?? findElementByText(term)
+    if (uuid) return findElementByUuid(uuid)
+    return findElementByText(term)
 }
 
 function watchAndHighlight(uuid: string | null, term: string) {
