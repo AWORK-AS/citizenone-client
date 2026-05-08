@@ -12,7 +12,7 @@
             </div>
             <div class="space-y-5">
                 <div class="bg-white ring-1 ring-gray-200 rounded-md p-5 border-l-4 border-secondary"
-                    v-for="(record, index) in state.records?.data" :key="index">
+                    v-for="(record, index) in state.records?.data" :key="index" :data-uuid="record.uuid">
                     <div class="flex flex-col md:flex-row gap-3 md:gap-10">
                         <div class="grow">
                             <p class="text-sm">
