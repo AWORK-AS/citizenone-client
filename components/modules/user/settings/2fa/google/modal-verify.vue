@@ -114,7 +114,7 @@ const rules = computed(() => {
     return {
         form2fa: {
             code: {
-                required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
+                required: helpers.withMessage(() => `${t('validation.thisFieldIsRequired')}.`, required),
             },
         },
     }

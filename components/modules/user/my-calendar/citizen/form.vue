@@ -415,23 +415,23 @@ const rules = computed(() => {
         return {
             formSchedule: {
                 citizens: {
-                    required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
+                    required: helpers.withMessage(() => `${t('validation.thisFieldIsRequired')}.`, required),
                 },
                 title: {
-                    required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
+                    required: helpers.withMessage(() => `${t('validation.thisFieldIsRequired')}.`, required),
                 },
                 date_time_start: {
-                    required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
+                    required: helpers.withMessage(() => `${t('validation.thisFieldIsRequired')}.`, required),
                 },
                 date_time_end: {
-                    required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
+                    required: helpers.withMessage(() => `${t('validation.thisFieldIsRequired')}.`, required),
                 },
                 recurring: {
                     recurring: {
-                        required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
+                        required: helpers.withMessage(() => `${t('validation.thisFieldIsRequired')}.`, required),
                     },
                     recurring_until: {
-                        required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
+                        required: helpers.withMessage(() => `${t('validation.thisFieldIsRequired')}.`, required),
                     },
                 }
             },
@@ -440,16 +440,16 @@ const rules = computed(() => {
         return {
             formSchedule: {
                 citizens: {
-                    required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
+                    required: helpers.withMessage(() => `${t('validation.thisFieldIsRequired')}.`, required),
                 },
                 title: {
-                    required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
+                    required: helpers.withMessage(() => `${t('validation.thisFieldIsRequired')}.`, required),
                 },
                 date_time_start: {
-                    required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
+                    required: helpers.withMessage(() => `${t('validation.thisFieldIsRequired')}.`, required),
                 },
                 date_time_end: {
-                    required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
+                    required: helpers.withMessage(() => `${t('validation.thisFieldIsRequired')}.`, required),
                 },
             },
         }

@@ -61,7 +61,7 @@ const rules = computed(() => {
     return {
         formMessage: {
             message: {
-                required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
+                required: helpers.withMessage(() => `${t('validation.thisFieldIsRequired')}.`, required),
             },
         }
     }
