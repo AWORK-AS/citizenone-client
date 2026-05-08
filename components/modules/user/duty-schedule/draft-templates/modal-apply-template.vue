@@ -1,6 +1,6 @@
 <template>
     <div>
-        <Modal size="xs" :title="$t('dutySchedules.draftTemplates.form.applyTemplate')" :show="props.isModalOpen" @close="closeModal">
+        <Modal size="xl" :title="$t('dutySchedules.draftTemplates.form.applyTemplate')" :show="props.isModalOpen" @close="closeModal">
             <template #modal-body>
                 <LoadingSpinner :isActive="state.isPageLoading">
                     <ModulesUserDutyScheduleDraftTemplatesApplyTemplateForm formType="create"

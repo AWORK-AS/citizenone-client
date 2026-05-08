@@ -17,7 +17,7 @@
                         <table class="min-w-full divide-y divide-gray-200">
                             <thead class="">
                                 <tr>
-                                    <th scope="col" class="px-4 py-3 w-12 rounded-tl-md">
+                                    <th scope="col" class="w-px px-2 py-3 rounded-tl-md">
                                         <label class="inline-flex items-center cursor-pointer relative">
                                             <input type="checkbox" @change="toggleAllWeeks" :checked="allWeeksSelected"
                                                 class="peer w-5 h-5 appearance-none border bg-white border-primary rounded-sm checked:bg-secondary checked:border-secondary focus:ring-0 cursor-pointer" />
@@ -37,7 +37,7 @@
                             </thead>
                             <tbody class="bg-white divide-y divide-gray-200">
                                 <tr v-for="week in weeks" :key="week.value" class="hover:bg-gray-50">
-                                    <td class="px-4 py-3 whitespace-nowrap">
+                                    <td class="w-px px-2 py-3 whitespace-nowrap" width="10%">
                                         <label class="inline-flex items-center cursor-pointer relative">
                                             <input type="checkbox" :value="week.value"
                                                 v-model="state.formTemplate.weeks"
@@ -49,7 +49,7 @@
                                             </span>
                                         </label>
                                     </td>
-                                    <td class="px-4 py-3 whitespace-nowrap text-sm text-gray-900">
+                                    <td class="px-4 py-3 whitespace-nowrap text-sm text-gray-900" width="30%">
                                         <div class="flex items-center justify-between">
                                             <div v-if="getTemplatesForWeek(week.value).length > 0"
                                                 class="flex gap-1 flex-wrap">
@@ -62,7 +62,7 @@
                                             </div>
                                         </div>
                                     </td>
-                                    <td class="px-4 py-3 whitespace-nowrap text-sm text-gray-900">
+                                    <td class="px-4 py-3 whitespace-nowrap text-sm text-gray-900" width="60%">
                                         <div class="flex items-center justify-between">
                                             <span>{{ week.label }}</span>
                                         </div>
@@ -116,6 +116,7 @@
 import { useVuelidate } from "@vuelidate/core"
 import { required, helpers, minValue } from '@vuelidate/validators'
 import { useI18n } from "vue-i18n"
+import { useDatetimeFormatter } from '@/composables/datetimeFormatter'
 import type { Error } from '@/types'
 
 const props = defineProps({
@@ -138,6 +139,7 @@ const props = defineProps({
 })
 const emit = defineEmits(['closeModal', 'submitForm'])
 const { t } = useI18n()
+const { formatDateToReadable } = useDatetimeFormatter()
 
 interface Option {
     value: string
@@ -158,10 +160,27 @@ interface WeekTemplateMap {
     [weekNumber: string]: Template[]
 }
 
-const weeks = Array.from({ length: 52 }, (_, i) => {
-    const week = String(i + 1)
-    return { value: week, label: t('dutySchedules.draftTemplates.form.week') + ' ' + week }
-}) as Option[]
+function getWeekStartDate(weekNum: number, year: number): Date {
+    const jan4 = new Date(year, 0, 4)
+    const dayOfWeek = jan4.getDay() || 7
+    const monday = new Date(jan4)
+    monday.setDate(jan4.getDate() - (dayOfWeek - 1) + (weekNum - 1) * 7)
+    return monday
+}
+
+const weeks = computed(() => {
+    const year = state.formTemplate.years[0] ? parseInt(state.formTemplate.years[0]) : new Date().getFullYear()
+    return Array.from({ length: 52 }, (_, i) => {
+        const weekNum = i + 1
+        const base = t('dutySchedules.draftTemplates.form.week') + ' ' + weekNum
+        const start = getWeekStartDate(weekNum, year)
+        const end = new Date(start)
+        end.setDate(start.getDate() + 6)
+        const startStr = formatDateToReadable(start.toISOString())
+        const endStr = formatDateToReadable(end.toISOString())
+        return { value: String(weekNum), label: `${base} (${startStr} - ${endStr})` }
+    }) as Option[]
+})
 
 const currentYear = new Date().getFullYear()
 const years = Array.from({ length: 20 }, (_, i) => {
@@ -182,7 +201,7 @@ const state = reactive({
 })
 
 const allWeeksSelected = computed(() => {
-    return state.formTemplate.weeks.length === weeks.length
+    return state.formTemplate.weeks.length === weeks.value.length
 })
 
 const isNonRecurring = computed(() => {
@@ -205,7 +224,7 @@ function toggleAllWeeks(event: Event) {
             : [props.selectedDraftTemplate]
 
         // Select all weeks
-        state.formTemplate.weeks = weeks.map(week => week.value)
+        state.formTemplate.weeks = weeks.value.map(week => week.value)
 
         // Clear weekTemplateMap
         state.weekTemplateMap = {}
