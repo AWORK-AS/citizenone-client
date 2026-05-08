@@ -3,437 +3,279 @@
         <Modal size="xl" :title="$t('citizens.inquiryStayData.inquiryAndStayData')" :show="props.isModalOpen"
             @close="closeModal">
             <template #modal-body>
-                <div class="space-y-1">
-                    <h3 class="text-sm font-semibold">
-                        {{ $t('citizens.inquiryStayData.inquiryData.inquiryData') }}
-                    </h3>
+                <div class="space-y-4">
 
-                    <div class="flex items-center gap-x-1 text-sm">
-                        <p>
-                            {{ $t('citizens.inquiryStayData.inquiryData.dateOfInquiry') }}:
-                        </p>
-                        <p v-if="props?.selectedCitizen?.data?.inquiry_data?.inquiry_date">
-                            {{ formatDateToReadable(props?.selectedCitizen?.data?.inquiry_data?.inquiry_date) }}
-                        </p>
-                    </div>
-                    <div class="flex items-center gap-x-1 text-sm">
-                        <p>
-                            {{ $t('inquiries.form.cpr') }}:
-                        </p>
-                        <p>
-                            {{ props?.selectedCitizen?.data?.inquiry_data?.cpr }}
-                        </p>
-                    </div>
-
-                    <!-- CPR Missing Reason (Shelter only) -->
-                    <div v-if="isShelterInquiry && props?.selectedCitizen?.data?.inquiry_data?.cpr_missing_reason"
-                        class="flex items-center gap-x-1 text-sm">
-                        <p>
-                            {{ $t('inquiries.form.shelter.fields.cprMissingReason') }}:
-                        </p>
-                        <p>
-                            {{state.options.cprMissingReason.find((option: any) => option.value ===
-                                props?.selectedCitizen?.data?.inquiry_data?.cpr_missing_reason)?.label}}
-                        </p>
-                    </div>
-
-                    <div class="flex items-center gap-x-1 text-sm">
-                        <p>
-                            {{ $t('inquiries.form.firstname') }}:
-                        </p>
-                        <p>
-                            {{ props?.selectedCitizen?.data?.inquiry_data?.firstname }}
-                        </p>
-                    </div>
-                    <div class="flex items-center gap-x-1 text-sm">
-                        <p>
-                            {{ $t('inquiries.form.lastname') }}:
-                        </p>
-                        <p>
-                            {{ props?.selectedCitizen?.data?.inquiry_data?.lastname }}
-                        </p>
-                    </div>
-                    <div class="flex items-center gap-x-1 text-sm">
-                        <p>
-                            {{ $t('citizens.inquiryStayData.inquiryData.inquirerName') }}:
-                        </p>
-                        <p>
-                            {{ props?.selectedCitizen?.data?.inquiry_data?.inquirer_name }}
-                        </p>
-                    </div>
-
-                    <!-- Crisis Center Specific Fields -->
-                    <template v-if="isCrisisCenterInquiry">
-                        <!-- Contacted By -->
-                        <div v-if="props?.selectedCitizen?.data?.inquiry_data?.contacted_by"
-                            class="flex items-center gap-x-1 text-sm">
-                            <p>
-                                {{ $t('inquiries.form.crisisCenter.fields.contactedBy') }}:
-                            </p>
-                            <p>
-                                {{state.options.contactedBy.find((option: any) => option.value ===
-                                    props?.selectedCitizen?.data?.inquiry_data?.contacted_by)?.label}}
-                            </p>
+                    <!-- ── Inquiry Data ── -->
+                    <div class="rounded-lg border border-gray-200 overflow-hidden">
+                        <div class="bg-gray-50 px-4 py-2.5 border-b border-gray-200">
+                            <h3 class="text-xs font-semibold uppercase tracking-wider text-gray-500">
+                                {{ $t('citizens.inquiryStayData.inquiryData.inquiryData') }}
+                            </h3>
                         </div>
+                        <dl class="divide-y divide-gray-100">
+                            <!-- Date of inquiry -->
+                            <div v-if="props?.selectedCitizen?.data?.inquiry_data?.inquiry_date"
+                                class="grid grid-cols-5 px-4 py-2.5">
+                                <dt class="col-span-2 text-xs text-gray-500 self-center">{{ $t('citizens.inquiryStayData.inquiryData.dateOfInquiry') }}</dt>
+                                <dd class="col-span-3 text-sm text-gray-800 font-medium">{{ formatDateToReadable(props?.selectedCitizen?.data?.inquiry_data?.inquiry_date) }}</dd>
+                            </div>
+                            <!-- CPR -->
+                            <div v-if="props?.selectedCitizen?.data?.inquiry_data?.cpr"
+                                class="grid grid-cols-5 px-4 py-2.5">
+                                <dt class="col-span-2 text-xs text-gray-500 self-center">{{ $t('inquiries.form.cpr') }}</dt>
+                                <dd class="col-span-3 text-sm text-gray-800 font-medium">{{ props?.selectedCitizen?.data?.inquiry_data?.cpr }}</dd>
+                            </div>
+                            <!-- CPR Missing Reason (Shelter only) -->
+                            <div v-if="isShelterInquiry && props?.selectedCitizen?.data?.inquiry_data?.cpr_missing_reason"
+                                class="grid grid-cols-5 px-4 py-2.5">
+                                <dt class="col-span-2 text-xs text-gray-500 self-center">{{ $t('inquiries.form.shelter.fields.cprMissingReason') }}</dt>
+                                <dd class="col-span-3 text-sm text-gray-800 font-medium">{{ state.options.cprMissingReason.find((o: any) => o.value === props?.selectedCitizen?.data?.inquiry_data?.cpr_missing_reason)?.label }}</dd>
+                            </div>
+                            <!-- First name -->
+                            <div v-if="props?.selectedCitizen?.data?.inquiry_data?.firstname"
+                                class="grid grid-cols-5 px-4 py-2.5">
+                                <dt class="col-span-2 text-xs text-gray-500 self-center">{{ $t('inquiries.form.firstname') }}</dt>
+                                <dd class="col-span-3 text-sm text-gray-800 font-medium">{{ props?.selectedCitizen?.data?.inquiry_data?.firstname }}</dd>
+                            </div>
+                            <!-- Last name -->
+                            <div v-if="props?.selectedCitizen?.data?.inquiry_data?.lastname"
+                                class="grid grid-cols-5 px-4 py-2.5">
+                                <dt class="col-span-2 text-xs text-gray-500 self-center">{{ $t('inquiries.form.lastname') }}</dt>
+                                <dd class="col-span-3 text-sm text-gray-800 font-medium">{{ props?.selectedCitizen?.data?.inquiry_data?.lastname }}</dd>
+                            </div>
+                            <!-- Inquirer name -->
+                            <div v-if="props?.selectedCitizen?.data?.inquiry_data?.inquirer_name"
+                                class="grid grid-cols-5 px-4 py-2.5">
+                                <dt class="col-span-2 text-xs text-gray-500 self-center">{{ $t('citizens.inquiryStayData.inquiryData.inquirerName') }}</dt>
+                                <dd class="col-span-3 text-sm text-gray-800 font-medium">{{ props?.selectedCitizen?.data?.inquiry_data?.inquirer_name }}</dd>
+                            </div>
 
-                        <!-- Topic (Multiple Selection) -->
-                        <div v-if="topics" class="flex items-center gap-x-1 text-sm">
-                            <p>
-                                {{ $t('inquiries.form.crisisCenter.fields.topic') }}:
-                            </p>
-                            <p>
-                                {{ topics }}
-                            </p>
-                        </div>
+                            <!-- Crisis Center fields -->
+                            <template v-if="isCrisisCenterInquiry">
+                                <div v-if="props?.selectedCitizen?.data?.inquiry_data?.contacted_by"
+                                    class="grid grid-cols-5 px-4 py-2.5">
+                                    <dt class="col-span-2 text-xs text-gray-500 self-center">{{ $t('inquiries.form.crisisCenter.fields.contactedBy') }}</dt>
+                                    <dd class="col-span-3 text-sm text-gray-800 font-medium">{{ state.options.contactedBy.find((o: any) => o.value === props?.selectedCitizen?.data?.inquiry_data?.contacted_by)?.label }}</dd>
+                                </div>
+                                <div v-if="topics" class="grid grid-cols-5 px-4 py-2.5">
+                                    <dt class="col-span-2 text-xs text-gray-500 self-center">{{ $t('inquiries.form.crisisCenter.fields.topic') }}</dt>
+                                    <dd class="col-span-3 text-sm text-gray-800 font-medium">{{ topics }}</dd>
+                                </div>
+                                <div v-if="props?.selectedCitizen?.data?.inquiry_data?.target_group_crisis_center"
+                                    class="grid grid-cols-5 px-4 py-2.5">
+                                    <dt class="col-span-2 text-xs text-gray-500 self-center">{{ $t('inquiries.form.crisisCenter.fields.assessment') }}</dt>
+                                    <dd class="col-span-3 text-sm text-gray-800 font-medium">{{ state.options.assessment.find((o: any) => o.value === props?.selectedCitizen?.data?.inquiry_data?.target_group_crisis_center)?.label }}</dd>
+                                </div>
+                                <div v-if="props?.selectedCitizen?.data?.inquiry_data?.received_visit !== null && props?.selectedCitizen?.data?.inquiry_data?.received_visit !== undefined"
+                                    class="grid grid-cols-5 px-4 py-2.5">
+                                    <dt class="col-span-2 text-xs text-gray-500 self-center">{{ $t('inquiries.form.crisisCenter.fields.receivedVisit') }}</dt>
+                                    <dd class="col-span-3">
+                                        <span :class="props?.selectedCitizen?.data?.inquiry_data?.received_visit ? 'inline-flex items-center rounded-full px-2 py-0.5 text-xs font-medium bg-green-100 text-green-700' : 'inline-flex items-center rounded-full px-2 py-0.5 text-xs font-medium bg-red-100 text-red-600'">{{ props?.selectedCitizen?.data?.inquiry_data?.received_visit ? $t('yes') : $t('no') }}</span>
+                                    </dd>
+                                </div>
+                                <div v-if="noAssessmentReasons" class="grid grid-cols-5 px-4 py-2.5">
+                                    <dt class="col-span-2 text-xs text-gray-500 self-center">{{ $t('inquiries.form.crisisCenter.fields.notOfferedInterview') }}</dt>
+                                    <dd class="col-span-3 text-sm text-gray-800 font-medium">{{ noAssessmentReasons }}</dd>
+                                </div>
+                                <div v-if="guidances" class="grid grid-cols-5 px-4 py-2.5">
+                                    <dt class="col-span-2 text-xs text-gray-500 self-center">{{ $t('inquiries.form.crisisCenter.fields.guidance') }}</dt>
+                                    <dd class="col-span-3 text-sm text-gray-800 font-medium">{{ guidances }}</dd>
+                                </div>
+                            </template>
 
-                        <!-- Assessment (Target Group Crisis Center) -->
-                        <div v-if="props?.selectedCitizen?.data?.inquiry_data?.target_group_crisis_center"
-                            class="flex items-center gap-x-1 text-sm">
-                            <p>
-                                {{ $t('inquiries.form.crisisCenter.fields.assessment') }}:
-                            </p>
-                            <p>
-                                {{state.options.assessment.find((option: any) => option.value ===
-                                    props?.selectedCitizen?.data?.inquiry_data?.target_group_crisis_center)?.label}}
-                            </p>
-                        </div>
+                            <!-- Shelter fields -->
+                            <template v-if="isShelterInquiry">
+                                <div v-if="props?.selectedCitizen?.data?.inquiry_data?.vacant_place_available !== null && props?.selectedCitizen?.data?.inquiry_data?.vacant_place_available !== undefined"
+                                    class="grid grid-cols-5 px-4 py-2.5">
+                                    <dt class="col-span-2 text-xs text-gray-500 self-center">{{ $t('inquiries.form.shelter.fields.vacantPlaceAvailable') }}</dt>
+                                    <dd class="col-span-3">
+                                        <span :class="props?.selectedCitizen?.data?.inquiry_data?.vacant_place_available ? 'inline-flex items-center rounded-full px-2 py-0.5 text-xs font-medium bg-green-100 text-green-700' : 'inline-flex items-center rounded-full px-2 py-0.5 text-xs font-medium bg-red-100 text-red-600'">{{ props?.selectedCitizen?.data?.inquiry_data?.vacant_place_available ? $t('yes') : $t('no') }}</span>
+                                    </dd>
+                                </div>
+                                <div v-if="props?.selectedCitizen?.data?.inquiry_data?.in_shelter_target_group !== null && props?.selectedCitizen?.data?.inquiry_data?.in_shelter_target_group !== undefined"
+                                    class="grid grid-cols-5 px-4 py-2.5">
+                                    <dt class="col-span-2 text-xs text-gray-500 self-center">{{ $t('inquiries.form.shelter.fields.inShelterTargetGroup') }}</dt>
+                                    <dd class="col-span-3">
+                                        <span :class="props?.selectedCitizen?.data?.inquiry_data?.in_shelter_target_group ? 'inline-flex items-center rounded-full px-2 py-0.5 text-xs font-medium bg-green-100 text-green-700' : 'inline-flex items-center rounded-full px-2 py-0.5 text-xs font-medium bg-red-100 text-red-600'">{{ props?.selectedCitizen?.data?.inquiry_data?.in_shelter_target_group ? $t('yes') : $t('no') }}</span>
+                                    </dd>
+                                </div>
+                                <div v-if="props?.selectedCitizen?.data?.inquiry_data?.fits_in_target_group !== null && props?.selectedCitizen?.data?.inquiry_data?.fits_in_target_group !== undefined"
+                                    class="grid grid-cols-5 px-4 py-2.5">
+                                    <dt class="col-span-2 text-xs text-gray-500 self-center">{{ $t('inquiries.form.shelter.fields.fitsInTargetGroup') }}</dt>
+                                    <dd class="col-span-3">
+                                        <span :class="props?.selectedCitizen?.data?.inquiry_data?.fits_in_target_group ? 'inline-flex items-center rounded-full px-2 py-0.5 text-xs font-medium bg-green-100 text-green-700' : 'inline-flex items-center rounded-full px-2 py-0.5 text-xs font-medium bg-red-100 text-red-600'">{{ props?.selectedCitizen?.data?.inquiry_data?.fits_in_target_group ? $t('yes') : $t('no') }}</span>
+                                    </dd>
+                                </div>
+                                <div v-if="props?.selectedCitizen?.data?.inquiry_data?.non_admission_reason"
+                                    class="grid grid-cols-5 px-4 py-2.5">
+                                    <dt class="col-span-2 text-xs text-gray-500 self-center">{{ $t('inquiries.form.shelter.fields.nonAdmissionReason') }}</dt>
+                                    <dd class="col-span-3 text-sm text-gray-800 font-medium">{{ state.options.nonAdmissionReason.find((o: any) => o.value === props?.selectedCitizen?.data?.inquiry_data?.non_admission_reason)?.label }}</dd>
+                                </div>
+                                <div v-if="props?.selectedCitizen?.data?.inquiry_data?.not_in_service_target_group_reason"
+                                    class="grid grid-cols-5 px-4 py-2.5">
+                                    <dt class="col-span-2 text-xs text-gray-500 self-center">{{ $t('inquiries.form.shelter.fields.notInServiceTargetGroupReason') }}</dt>
+                                    <dd class="col-span-3 text-sm text-gray-800 font-medium">{{ state.options.notInServiceTargetGroupReason.find((o: any) => o.value === props?.selectedCitizen?.data?.inquiry_data?.not_in_service_target_group_reason)?.label }}</dd>
+                                </div>
+                                <div v-if="props?.selectedCitizen?.data?.inquiry_data?.referral_destination"
+                                    class="grid grid-cols-5 px-4 py-2.5">
+                                    <dt class="col-span-2 text-xs text-gray-500 self-center">{{ $t('inquiries.form.shelter.fields.referralDestination') }}</dt>
+                                    <dd class="col-span-3 text-sm text-gray-800 font-medium">{{ state.options.referralDestination.find((o: any) => o.value === props?.selectedCitizen?.data?.inquiry_data?.referral_destination)?.label }}</dd>
+                                </div>
+                            </template>
 
-                        <!-- Received Visit -->
-                        <div v-if="props?.selectedCitizen?.data?.inquiry_data?.received_visit !== null && props?.selectedCitizen?.data?.inquiry_data?.received_visit !== undefined"
-                            class="flex items-center gap-x-1 text-sm">
-                            <p>
-                                {{ $t('inquiries.form.crisisCenter.fields.receivedVisit') }}:
-                            </p>
-                            <p>
-                                {{props?.selectedCitizen?.data?.inquiry_data?.received_visit ?
-                                    state.options.yesNo.find((option: any) => option.value === 'yes')?.label :
-                                    state.options.yesNo.find((option: any) => option.value === 'no')?.label}}
-                            </p>
-                        </div>
-
-                        <!-- No Assessment Reasons (Not Offered Interview - Multiple Selection) -->
-                        <div v-if="noAssessmentReasons" class="flex items-center gap-x-1 text-sm">
-                            <p>
-                                {{ $t('inquiries.form.crisisCenter.fields.notOfferedInterview') }}:
-                            </p>
-                            <p>
-                                {{ noAssessmentReasons }}
-                            </p>
-                        </div>
-
-                        <!-- Guidance (Multiple Selection) -->
-                        <div v-if="guidances" class="flex items-center gap-x-1 text-sm">
-                            <p>
-                                {{ $t('inquiries.form.crisisCenter.fields.guidance') }}:
-                            </p>
-                            <p>
-                                {{ guidances }}
-                            </p>
-                        </div>
-                    </template>
-
-                    <!-- Shelter Specific Fields -->
-                    <template v-if="isShelterInquiry">
-                        <!-- Vacant Place Available -->
-                        <div v-if="props?.selectedCitizen?.data?.inquiry_data?.vacant_place_available !== null && props?.selectedCitizen?.data?.inquiry_data?.vacant_place_available !== undefined"
-                            class="flex items-center gap-x-1 text-sm">
-                            <p>
-                                {{ $t('inquiries.form.shelter.fields.vacantPlaceAvailable') }}:
-                            </p>
-                            <p>
-                                {{props?.selectedCitizen?.data?.inquiry_data?.vacant_place_available ?
-                                    state.options.yesNo.find((option: any) => option.value === 'yes')?.label :
-                                    state.options.yesNo.find((option: any) => option.value === 'no')?.label}}
-                            </p>
-                        </div>
-
-                        <!-- In Shelter Target Group -->
-                        <div v-if="props?.selectedCitizen?.data?.inquiry_data?.in_shelter_target_group !== null && props?.selectedCitizen?.data?.inquiry_data?.in_shelter_target_group !== undefined"
-                            class="flex items-center gap-x-1 text-sm">
-                            <p>
-                                {{ $t('inquiries.form.shelter.fields.inShelterTargetGroup') }}:
-                            </p>
-                            <p>
-                                {{props?.selectedCitizen?.data?.inquiry_data?.in_shelter_target_group ?
-                                    state.options.yesNo.find((option: any) => option.value === 'yes')?.label :
-                                    state.options.yesNo.find((option: any) => option.value === 'no')?.label}}
-                            </p>
-                        </div>
-
-                        <!-- Fits In Target Group -->
-                        <div v-if="props?.selectedCitizen?.data?.inquiry_data?.fits_in_target_group !== null && props?.selectedCitizen?.data?.inquiry_data?.fits_in_target_group !== undefined"
-                            class="flex items-center gap-x-1 text-sm">
-                            <p>
-                                {{ $t('inquiries.form.shelter.fields.fitsInTargetGroup') }}:
-                            </p>
-                            <p>
-                                {{props?.selectedCitizen?.data?.inquiry_data?.fits_in_target_group ?
-                                    state.options.yesNo.find((option: any) => option.value === 'yes')?.label :
-                                    state.options.yesNo.find((option: any) => option.value === 'no')?.label}}
-                            </p>
-                        </div>
-
-                        <!-- Non Admission Reason -->
-                        <div v-if="props?.selectedCitizen?.data?.inquiry_data?.non_admission_reason"
-                            class="flex items-center gap-x-1 text-sm">
-                            <p>
-                                {{ $t('inquiries.form.shelter.fields.nonAdmissionReason') }}:
-                            </p>
-                            <p>
-                                {{state.options.nonAdmissionReason.find((option: any) => option.value ===
-                                    props?.selectedCitizen?.data?.inquiry_data?.non_admission_reason)?.label}}
-                            </p>
-                        </div>
-
-                        <!-- Not In Service Target Group Reason -->
-                        <div v-if="props?.selectedCitizen?.data?.inquiry_data?.not_in_service_target_group_reason"
-                            class="flex items-center gap-x-1 text-sm">
-                            <p>
-                                {{ $t('inquiries.form.shelter.fields.notInServiceTargetGroupReason') }}:
-                            </p>
-                            <p>
-                                {{state.options.notInServiceTargetGroupReason.find((option: any) => option.value ===
-                                    props?.selectedCitizen?.data?.inquiry_data?.not_in_service_target_group_reason)?.label
-                                }}
-                            </p>
-                        </div>
-
-                        <!-- Referral Destination -->
-                        <div v-if="props?.selectedCitizen?.data?.inquiry_data?.referral_destination"
-                            class="flex items-center gap-x-1 text-sm">
-                            <p>
-                                {{ $t('inquiries.form.shelter.fields.referralDestination') }}:
-                            </p>
-                            <p>
-                                {{state.options.referralDestination.find((option: any) => option.value ===
-                                    props?.selectedCitizen?.data?.inquiry_data?.referral_destination)?.label}}
-                            </p>
-                        </div>
-                    </template>
-
-                    <!-- Common Fields -->
-                    <!-- Notes -->
-                    <div v-if="props?.selectedCitizen?.data?.inquiry_data?.notes" class="space-y-1 text-sm">
-                        <p>
-                            {{ $t('inquiries.form.notes') }}:
-                        </p>
-                        <p class="ml-3">
-                            {{ props?.selectedCitizen?.data?.inquiry_data?.notes }}
-                        </p>
+                            <!-- Notes -->
+                            <div v-if="props?.selectedCitizen?.data?.inquiry_data?.notes"
+                                class="px-4 py-2.5 space-y-1">
+                                <dt class="text-xs text-gray-500">{{ $t('inquiries.form.notes') }}</dt>
+                                <dd class="text-sm text-gray-800 bg-gray-50 rounded-md px-3 py-2">{{ props?.selectedCitizen?.data?.inquiry_data?.notes }}</dd>
+                            </div>
+                            <!-- Outcome -->
+                            <div v-if="props?.selectedCitizen?.data?.inquiry_data?.outcome"
+                                class="grid grid-cols-5 px-4 py-2.5">
+                                <dt class="col-span-2 text-xs text-gray-500 self-center">{{ $t('citizens.inquiryStayData.inquiryData.outcome') }}</dt>
+                                <dd class="col-span-3 text-sm text-gray-800 font-medium">{{ props?.selectedCitizen?.data?.inquiry_data?.outcome }}</dd>
+                            </div>
+                            <!-- Purpose -->
+                            <div v-if="props?.selectedCitizen?.data?.inquiry_data?.purpose"
+                                class="grid grid-cols-5 px-4 py-2.5">
+                                <dt class="col-span-2 text-xs text-gray-500 self-center">{{ $t('citizens.inquiryStayData.inquiryData.purpose') }}</dt>
+                                <dd class="col-span-3 text-sm text-gray-800 font-medium">{{ props?.selectedCitizen?.data?.inquiry_data?.purpose }}</dd>
+                            </div>
+                            <!-- Conversation Summary -->
+                            <div v-if="props?.selectedCitizen?.data?.inquiry_data?.conversation_summary"
+                                class="px-4 py-2.5 space-y-1">
+                                <dt class="text-xs text-gray-500">{{ $t('citizens.inquiryStayData.inquiryData.conversationSummary') }}</dt>
+                                <dd class="text-sm text-gray-800 bg-gray-50 rounded-md px-3 py-2">{{ props?.selectedCitizen?.data?.inquiry_data?.conversation_summary }}</dd>
+                            </div>
+                        </dl>
                     </div>
 
-                    <!-- Outcome -->
-                    <div v-if="props?.selectedCitizen?.data?.inquiry_data?.outcome"
-                        class="flex items-center gap-x-1 text-sm">
-                        <p>
-                            {{ $t('citizens.inquiryStayData.inquiryData.outcome') }}:
-                        </p>
-                        <p>
-                            {{ props?.selectedCitizen?.data?.inquiry_data?.outcome }}
-                        </p>
-                    </div>
+                    <!-- ── Stay Data ── -->
+                    <div v-if="props?.selectedCitizen?.data?.stay_data" class="rounded-lg border border-gray-200 overflow-hidden">
+                        <div class="bg-gray-50 px-4 py-2.5 border-b border-gray-200">
+                            <h3 class="text-xs font-semibold uppercase tracking-wider text-gray-500">
+                                {{ $t('citizens.inquiryStayData.stayData.stayData') }}
+                            </h3>
+                        </div>
+                        <dl class="divide-y divide-gray-100">
+                            <div v-if="props?.selectedCitizen?.data?.stay_data?.journal_number"
+                                class="grid grid-cols-5 px-4 py-2.5">
+                                <dt class="col-span-2 text-xs text-gray-500 self-center">{{ $t('citizens.inquiryStayData.stayData.journalNumber') }}</dt>
+                                <dd class="col-span-3 text-sm text-gray-800 font-medium">{{ props?.selectedCitizen?.data?.stay_data?.journal_number }}</dd>
+                            </div>
+                            <div v-if="props?.selectedCitizen?.data?.stay_data?.start_date"
+                                class="grid grid-cols-5 px-4 py-2.5">
+                                <dt class="col-span-2 text-xs text-gray-500 self-center">{{ $t('citizens.inquiryStayData.stayData.accommodationStartDate') }}</dt>
+                                <dd class="col-span-3 text-sm text-gray-800 font-medium">{{ formatDateToReadable(props?.selectedCitizen?.data?.stay_data?.start_date) }}</dd>
+                            </div>
+                            <div v-if="props?.selectedCitizen?.data?.stay_data?.end_date"
+                                class="grid grid-cols-5 px-4 py-2.5">
+                                <dt class="col-span-2 text-xs text-gray-500 self-center">{{ $t('citizens.inquiryStayData.stayData.accommodationEndDate') }}</dt>
+                                <dd class="col-span-3 text-sm text-gray-800 font-medium">{{ formatDateToReadable(props?.selectedCitizen?.data?.stay_data?.end_date) }}</dd>
+                            </div>
+                            <div v-if="props?.selectedCitizen?.data?.stay_data?.residence_before_municipality?.name"
+                                class="grid grid-cols-5 px-4 py-2.5">
+                                <dt class="col-span-2 text-xs text-gray-500 self-center">{{ $t('citizens.inquiryStayData.stayData.municipalityOfResidenceBefore') }}</dt>
+                                <dd class="col-span-3 text-sm text-gray-800 font-medium">{{ props?.selectedCitizen?.data?.stay_data?.residence_before_municipality?.name }}</dd>
+                            </div>
+                            <div v-if="props?.selectedCitizen?.data?.stay_data?.residence_after_municipality?.name"
+                                class="grid grid-cols-5 px-4 py-2.5">
+                                <dt class="col-span-2 text-xs text-gray-500 self-center">{{ $t('citizens.inquiryStayData.stayData.municipalityOfResidenceAfter') }}</dt>
+                                <dd class="col-span-3 text-sm text-gray-800 font-medium">{{ props?.selectedCitizen?.data?.stay_data?.residence_after_municipality?.name }}</dd>
+                            </div>
+                            <div v-if="props?.selectedCitizen?.data?.stay_data?.discharge_reason"
+                                class="grid grid-cols-5 px-4 py-2.5">
+                                <dt class="col-span-2 text-xs text-gray-500 self-center">{{ $t('citizens.inquiryStayData.stayData.dischargeReason') }}</dt>
+                                <dd class="col-span-3 text-sm text-gray-800 font-medium">{{ props?.selectedCitizen?.data?.stay_data?.discharge_reason }}</dd>
+                            </div>
 
-                    <!-- Purpose -->
-                    <div v-if="props?.selectedCitizen?.data?.inquiry_data?.purpose"
-                        class="flex items-center gap-x-1 text-sm">
-                        <p>
-                            {{ $t('citizens.inquiryStayData.inquiryData.purpose') }}:
-                        </p>
-                        <p>
-                            {{ props?.selectedCitizen?.data?.inquiry_data?.purpose }}
-                        </p>
-                    </div>
-
-                    <!-- Conversation Summary -->
-                    <div v-if="props?.selectedCitizen?.data?.inquiry_data?.conversation_summary"
-                        class="space-y-1 text-sm">
-                        <p>
-                            {{ $t('citizens.inquiryStayData.inquiryData.conversationSummary') }}:
-                        </p>
-                        <p class="ml-3">
-                            {{ props?.selectedCitizen?.data?.inquiry_data?.conversation_summary }}
-                        </p>
-                    </div>
-                </div>
-                <div v-if="props?.selectedCitizen?.data?.stay_data" class="mt-5 space-y-1">
-                    <h3 class="text-sm font-semibold">
-                        {{ $t('citizens.inquiryStayData.stayData.stayData') }}
-                    </h3>
-                    <div class="flex items-center gap-x-1 text-sm">
-                        <p>
-                            {{ $t('citizens.inquiryStayData.stayData.journalNumber') }}:
-                        </p>
-                        <p>
-                            {{ props?.selectedCitizen?.data?.stay_data?.journal_number }}
-                        </p>
-                    </div>
-                    <div class="flex items-center gap-x-1 text-sm">
-                        <p>
-                            {{ $t('citizens.inquiryStayData.stayData.accommodationStartDate') }}:
-                        </p>
-                        <p v-if="props?.selectedCitizen?.data?.stay_data?.start_date">
-                            {{ formatDateToReadable(props?.selectedCitizen?.data?.stay_data?.start_date) }}
-                        </p>
-                    </div>
-                    <div class="flex items-center gap-x-1 text-sm">
-                        <p>
-                            {{ $t('citizens.inquiryStayData.stayData.accommodationEndDate') }}:
-                        </p>
-                        <p v-if="props?.selectedCitizen?.data?.stay_data?.end_date">
-                            {{ formatDateToReadable(props?.selectedCitizen?.data?.stay_data?.end_date) }}
-                        </p>
-                    </div>
-                    <div class="flex items-center gap-x-1 text-sm">
-                        <p>
-                            {{ $t('citizens.inquiryStayData.stayData.municipalityOfResidenceBefore') }}:
-                        </p>
-                        <p>
-                            {{ props?.selectedCitizen?.data?.stay_data?.residence_before_municipality?.name }}
-                        </p>
-                    </div>
-                    <div class="flex items-center gap-x-1 text-sm">
-                        <p>
-                            {{ $t('citizens.inquiryStayData.stayData.municipalityOfResidenceAfter') }}:
-                        </p>
-                        <p>
-                            {{ props?.selectedCitizen?.data?.stay_data?.residence_after_municipality?.name }}
-                        </p>
-                    </div>
-                    <div class="flex items-center gap-x-1 text-sm">
-                        <p>
-                            {{ $t('citizens.inquiryStayData.stayData.dischargeReason') }}:
-                        </p>
-                        <p>
-                            {{ props?.selectedCitizen?.data?.stay_data?.discharge_reason }}
-                        </p>
-                    </div>
-
-                    <!-- Consent -->
-                    <div class="pt-1">
-                        <p class="text-sm font-semibold">
-                            {{ $t('citizens.inquiryStayData.stayData.consentFields') }}
-                        </p>
-                        <div class="ml-3 space-y-1 mt-1">
+                            <!-- ── Consent sub-section ── -->
+                            <div class="px-4 py-2.5 bg-gray-50/60">
+                                <p class="text-xs font-semibold text-gray-500 uppercase tracking-wider">{{ $t('citizens.inquiryStayData.stayData.consentFields') }}</p>
+                            </div>
                             <div v-if="props?.selectedCitizen?.data?.stay_data?.photo !== null && props?.selectedCitizen?.data?.stay_data?.photo !== undefined"
-                                class="flex items-center gap-x-1 text-sm">
-                                <p>{{ $t('citizens.inquiryStayData.stayData.photo') }}:</p>
-                                <p>{{props?.selectedCitizen?.data?.stay_data?.photo
-                                    ? state.options.yesNo.find((o: any) => o.value === 'yes')?.label
-                                    : state.options.yesNo.find((o: any) => o.value === 'no')?.label}}</p>
+                                class="grid grid-cols-5 px-4 py-2.5 pl-6">
+                                <dt class="col-span-2 text-xs text-gray-500 self-center">{{ $t('citizens.inquiryStayData.stayData.photo') }}</dt>
+                                <dd class="col-span-3"><span :class="props?.selectedCitizen?.data?.stay_data?.photo ? 'inline-flex items-center rounded-full px-2 py-0.5 text-xs font-medium bg-green-100 text-green-700' : 'inline-flex items-center rounded-full px-2 py-0.5 text-xs font-medium bg-red-100 text-red-600'">{{ props?.selectedCitizen?.data?.stay_data?.photo ? $t('yes') : $t('no') }}</span></dd>
                             </div>
                             <div v-if="props?.selectedCitizen?.data?.stay_data?.parent_collaboration !== null && props?.selectedCitizen?.data?.stay_data?.parent_collaboration !== undefined"
-                                class="flex items-center gap-x-1 text-sm">
-                                <p>{{ $t('citizens.inquiryStayData.stayData.parentCollaboration') }}:</p>
-                                <p>{{props?.selectedCitizen?.data?.stay_data?.parent_collaboration
-                                    ? state.options.yesNo.find((o: any) => o.value === 'yes')?.label
-                                    : state.options.yesNo.find((o: any) => o.value === 'no')?.label}}</p>
+                                class="grid grid-cols-5 px-4 py-2.5 pl-6">
+                                <dt class="col-span-2 text-xs text-gray-500 self-center">{{ $t('citizens.inquiryStayData.stayData.parentCollaboration') }}</dt>
+                                <dd class="col-span-3"><span :class="props?.selectedCitizen?.data?.stay_data?.parent_collaboration ? 'inline-flex items-center rounded-full px-2 py-0.5 text-xs font-medium bg-green-100 text-green-700' : 'inline-flex items-center rounded-full px-2 py-0.5 text-xs font-medium bg-red-100 text-red-600'">{{ props?.selectedCitizen?.data?.stay_data?.parent_collaboration ? $t('yes') : $t('no') }}</span></dd>
                             </div>
                             <div v-if="props?.selectedCitizen?.data?.stay_data?.student_collaboration !== null && props?.selectedCitizen?.data?.stay_data?.student_collaboration !== undefined"
-                                class="flex items-center gap-x-1 text-sm">
-                                <p>{{ $t('citizens.inquiryStayData.stayData.studentCollaboration') }}:</p>
-                                <p>{{props?.selectedCitizen?.data?.stay_data?.student_collaboration
-                                    ? state.options.yesNo.find((o: any) => o.value === 'yes')?.label
-                                    : state.options.yesNo.find((o: any) => o.value === 'no')?.label}}</p>
+                                class="grid grid-cols-5 px-4 py-2.5 pl-6">
+                                <dt class="col-span-2 text-xs text-gray-500 self-center">{{ $t('citizens.inquiryStayData.stayData.studentCollaboration') }}</dt>
+                                <dd class="col-span-3"><span :class="props?.selectedCitizen?.data?.stay_data?.student_collaboration ? 'inline-flex items-center rounded-full px-2 py-0.5 text-xs font-medium bg-green-100 text-green-700' : 'inline-flex items-center rounded-full px-2 py-0.5 text-xs font-medium bg-red-100 text-red-600'">{{ props?.selectedCitizen?.data?.stay_data?.student_collaboration ? $t('yes') : $t('no') }}</span></dd>
                             </div>
                             <div v-if="props?.selectedCitizen?.data?.stay_data?.general_consent !== null && props?.selectedCitizen?.data?.stay_data?.general_consent !== undefined"
-                                class="flex items-center gap-x-1 text-sm">
-                                <p>{{ $t('citizens.inquiryStayData.stayData.generalConsent') }}:</p>
-                                <p>{{props?.selectedCitizen?.data?.stay_data?.general_consent
-                                    ? state.options.yesNo.find((o: any) => o.value === 'yes')?.label
-                                    : state.options.yesNo.find((o: any) => o.value === 'no')?.label}}</p>
+                                class="grid grid-cols-5 px-4 py-2.5 pl-6">
+                                <dt class="col-span-2 text-xs text-gray-500 self-center">{{ $t('citizens.inquiryStayData.stayData.generalConsent') }}</dt>
+                                <dd class="col-span-3"><span :class="props?.selectedCitizen?.data?.stay_data?.general_consent ? 'inline-flex items-center rounded-full px-2 py-0.5 text-xs font-medium bg-green-100 text-green-700' : 'inline-flex items-center rounded-full px-2 py-0.5 text-xs font-medium bg-red-100 text-red-600'">{{ props?.selectedCitizen?.data?.stay_data?.general_consent ? $t('yes') : $t('no') }}</span></dd>
                             </div>
                             <template v-if="props?.selectedCitizen?.data?.stay_data?.consent_declarations?.length > 0">
                                 <div v-for="declaration in props?.selectedCitizen?.data?.stay_data?.consent_declarations"
                                     :key="declaration.consent_declaration_type_id"
-                                    class="flex items-center gap-x-1 text-sm">
-                                    <p>{{ declaration.name }}:</p>
-                                    <p>{{declaration.value
-                                        ? state.options.yesNo.find((o: any) => o.value === 'yes')?.label
-                                        : state.options.yesNo.find((o: any) => o.value === 'no')?.label}}</p>
+                                    class="grid grid-cols-5 px-4 py-2.5 pl-6">
+                                    <dt class="col-span-2 text-xs text-gray-500 self-center">{{ declaration.name }}</dt>
+                                    <dd class="col-span-3"><span :class="declaration.value ? 'inline-flex items-center rounded-full px-2 py-0.5 text-xs font-medium bg-green-100 text-green-700' : 'inline-flex items-center rounded-full px-2 py-0.5 text-xs font-medium bg-red-100 text-red-600'">{{ declaration.value ? $t('yes') : $t('no') }}</span></dd>
                                 </div>
                             </template>
-                        </div>
-                    </div>
 
-                    <!-- Guardianship -->
-                    <div class="pt-1">
-                        <p class="text-sm font-semibold">
-                            {{ $t('citizens.inquiryStayData.stayData.guardianship') }}
-                        </p>
-                        <div class="ml-3 space-y-1 mt-1">
+                            <!-- ── Guardianship sub-section ── -->
+                            <div class="px-4 py-2.5 bg-gray-50/60">
+                                <p class="text-xs font-semibold text-gray-500 uppercase tracking-wider">{{ $t('citizens.inquiryStayData.stayData.guardianship') }}</p>
+                            </div>
                             <div v-if="props?.selectedCitizen?.data?.stay_data?.personal_guardianship !== null && props?.selectedCitizen?.data?.stay_data?.personal_guardianship !== undefined"
-                                class="flex items-center gap-x-1 text-sm">
-                                <p>{{ $t('citizens.inquiryStayData.stayData.personalGuardianship') }}:</p>
-                                <p>{{props?.selectedCitizen?.data?.stay_data?.personal_guardianship
-                                    ? state.options.yesNo.find((o: any) => o.value === 'yes')?.label
-                                    : state.options.yesNo.find((o: any) => o.value === 'no')?.label}}</p>
+                                class="grid grid-cols-5 px-4 py-2.5 pl-6">
+                                <dt class="col-span-2 text-xs text-gray-500 self-center">{{ $t('citizens.inquiryStayData.stayData.personalGuardianship') }}</dt>
+                                <dd class="col-span-3"><span :class="props?.selectedCitizen?.data?.stay_data?.personal_guardianship ? 'inline-flex items-center rounded-full px-2 py-0.5 text-xs font-medium bg-green-100 text-green-700' : 'inline-flex items-center rounded-full px-2 py-0.5 text-xs font-medium bg-red-100 text-red-600'">{{ props?.selectedCitizen?.data?.stay_data?.personal_guardianship ? $t('yes') : $t('no') }}</span></dd>
                             </div>
                             <div v-if="props?.selectedCitizen?.data?.stay_data?.financial_guardianship !== null && props?.selectedCitizen?.data?.stay_data?.financial_guardianship !== undefined"
-                                class="flex items-center gap-x-1 text-sm">
-                                <p>{{ $t('citizens.inquiryStayData.stayData.financialGuardianship') }}:</p>
-                                <p>{{props?.selectedCitizen?.data?.stay_data?.financial_guardianship
-                                    ? state.options.yesNo.find((o: any) => o.value === 'yes')?.label
-                                    : state.options.yesNo.find((o: any) => o.value === 'no')?.label}}</p>
+                                class="grid grid-cols-5 px-4 py-2.5 pl-6">
+                                <dt class="col-span-2 text-xs text-gray-500 self-center">{{ $t('citizens.inquiryStayData.stayData.financialGuardianship') }}</dt>
+                                <dd class="col-span-3"><span :class="props?.selectedCitizen?.data?.stay_data?.financial_guardianship ? 'inline-flex items-center rounded-full px-2 py-0.5 text-xs font-medium bg-green-100 text-green-700' : 'inline-flex items-center rounded-full px-2 py-0.5 text-xs font-medium bg-red-100 text-red-600'">{{ props?.selectedCitizen?.data?.stay_data?.financial_guardianship ? $t('yes') : $t('no') }}</span></dd>
                             </div>
-                        </div>
-                    </div>
 
-                    <div v-if="props?.selectedCitizen?.data?.stay_data?.accompanying_children?.length > 0"
-                        class="text-sm font-semibold">
-                        <p>
-                            {{ $t('citizens.inquiryStayData.stayData.accompanyingChildren.accompanyingChildren') }}:
-                        </p>
-                        <div class="divide-y divide-gray-300 divide-dashed">
-                            <div v-for="(child, index) in props?.selectedCitizen?.data?.stay_data?.accompanying_children"
-                                :key="index" class="ml-3">
-                                <div class="space-y-1 py-2">
-                                    <div class="flex items-center gap-x-1 text-sm">
-                                        <p>
-                                            {{ $t('citizens.inquiryStayData.stayData.accompanyingChildren.name') }}:
-                                        </p>
-                                        <p>
-                                            {{ child?.firstname }} {{ child?.lastname ?? '' }}
-                                        </p>
-                                    </div>
-                                    <div class="flex items-center gap-x-1 text-sm">
-                                        <p>
-                                            {{ $t('citizens.inquiryStayData.stayData.accompanyingChildren.gender') }}:
-                                        </p>
-                                        <p>
-                                            <span v-if="child?.gender === 'male'">
-                                                {{ $t('gender.male') }}
-                                            </span>
-                                            <span v-if="child?.gender === 'female'">
-                                                {{ $t('gender.female') }}
-                                            </span>
-                                            <span v-if="child?.gender === 'non_binary'">
-                                                {{ $t('gender.nonbinary') }}
-                                            </span>
-                                            <span v-if="child?.gender === 'will_not_disclose'">
-                                                {{ $t('gender.willNotDisclose') }}
-                                            </span>
-                                        </p>
-                                    </div>
-                                    <div class="flex items-center gap-x-1 text-sm">
-                                        <p>
-                                            {{ $t('citizens.inquiryStayData.stayData.accompanyingChildren.age') }}:
-                                        </p>
-                                        <p>
-                                            {{ getAgeFromBirthday(child?.birthday) }}
-                                        </p>
-                                    </div>
-                                    <div class="flex items-center gap-x-1 text-sm">
-                                        <p>
-                                            {{ $t('citizens.inquiryStayData.stayData.accompanyingChildren.origin') }}:
-                                        </p>
-                                        <p>
-                                            {{ child?.origin }}
-                                        </p>
+                            <!-- ── Accompanying Children ── -->
+                            <template v-if="props?.selectedCitizen?.data?.stay_data?.accompanying_children?.length > 0">
+                                <div class="px-4 py-2.5 bg-gray-50/60">
+                                    <p class="text-xs font-semibold text-gray-500 uppercase tracking-wider">{{ $t('citizens.inquiryStayData.stayData.accompanyingChildren.accompanyingChildren') }}</p>
+                                </div>
+                                <div class="px-4 py-3 space-y-2">
+                                    <div v-for="(child, index) in props?.selectedCitizen?.data?.stay_data?.accompanying_children"
+                                        :key="index"
+                                        class="rounded-md border border-gray-200 overflow-hidden">
+                                        <div class="bg-gray-50 px-3 py-1.5 border-b border-gray-200">
+                                            <p class="text-xs font-medium text-gray-600">
+                                                {{ child?.firstname }} {{ child?.lastname ?? '' }}
+                                            </p>
+                                        </div>
+                                        <dl class="divide-y divide-gray-100">
+                                            <div class="grid grid-cols-5 px-3 py-2">
+                                                <dt class="col-span-2 text-xs text-gray-500 self-center">{{ $t('citizens.inquiryStayData.stayData.accompanyingChildren.gender') }}</dt>
+                                                <dd class="col-span-3 text-sm text-gray-800 font-medium">
+                                                    <span v-if="child?.gender === 'male'">{{ $t('gender.male') }}</span>
+                                                    <span v-else-if="child?.gender === 'female'">{{ $t('gender.female') }}</span>
+                                                    <span v-else-if="child?.gender === 'non_binary'">{{ $t('gender.nonbinary') }}</span>
+                                                    <span v-else-if="child?.gender === 'will_not_disclose'">{{ $t('gender.willNotDisclose') }}</span>
+                                                </dd>
+                                            </div>
+                                            <div v-if="getAgeFromBirthday(child?.birthday) !== null" class="grid grid-cols-5 px-3 py-2">
+                                                <dt class="col-span-2 text-xs text-gray-500 self-center">{{ $t('citizens.inquiryStayData.stayData.accompanyingChildren.age') }}</dt>
+                                                <dd class="col-span-3 text-sm text-gray-800 font-medium">{{ getAgeFromBirthday(child?.birthday) }}</dd>
+                                            </div>
+                                            <div v-if="child?.origin" class="grid grid-cols-5 px-3 py-2">
+                                                <dt class="col-span-2 text-xs text-gray-500 self-center">{{ $t('citizens.inquiryStayData.stayData.accompanyingChildren.origin') }}</dt>
+                                                <dd class="col-span-3 text-sm text-gray-800 font-medium">{{ child?.origin }}</dd>
+                                            </div>
+                                        </dl>
                                     </div>
                                 </div>
-                            </div>
-                        </div>
+                            </template>
+                        </dl>
                     </div>
+
                 </div>
             </template>
         </Modal>
