@@ -66,7 +66,7 @@ const rules = computed(() => {
     return {
         formJournalTitle: {
             title: {
-                required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
+                required: helpers.withMessage(() => `${t('validation.thisFieldIsRequired')}.`, required),
             },
         },
     }

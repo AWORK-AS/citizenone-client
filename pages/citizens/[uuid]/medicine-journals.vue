@@ -312,8 +312,10 @@
                                                         medicine?.medicine?.dk_name
                                                 }}
                                             </p>
-                                            <Tooltip v-if="medicine?.description" :text="medicine.description" :wrap="true" class="shrink-0">
-                                                <Icon name="ph:info" class="size-3.5 text-primary/60 hover:text-primary cursor-default" />
+                                            <Tooltip v-if="medicine?.description" :text="medicine.description"
+                                                :wrap="true" class="shrink-0">
+                                                <Icon name="ph:info"
+                                                    class="size-3.5 text-primary/60 hover:text-primary cursor-default" />
                                             </Tooltip>
                                         </div>
                                         <p class="text-xs text-gray-500">
@@ -416,7 +418,7 @@
                                                 </span>
                                             </button>
                                         </Tooltip>
-                                        <span class="text-xs text-center"
+                                        <span class="text-xs text-center truncate"
                                             :class="getSlotTimeClass(getDosageForTime(medicine, time), time)">
                                             {{ getSlotTimeLabel(getDosageForTime(medicine, time), time) }}
                                         </span>
@@ -457,8 +459,10 @@
                                                         medicine?.medicine?.dk_name
                                                 }}
                                             </p>
-                                            <Tooltip v-if="medicine?.description" :text="medicine.description" :wrap="true" class="shrink-0">
-                                                <Icon name="ph:info" class="size-3.5 text-primary/60 hover:text-primary cursor-default" />
+                                            <Tooltip v-if="medicine?.description" :text="medicine.description"
+                                                :wrap="true" class="shrink-0">
+                                                <Icon name="ph:info"
+                                                    class="size-3.5 text-primary/60 hover:text-primary cursor-default" />
                                             </Tooltip>
                                         </div>
                                         <p class="text-xs text-gray-500">
@@ -584,8 +588,10 @@
                                                             medicine?.medicine?.dk_name
                                                     }}
                                                 </p>
-                                                <Tooltip v-if="medicine?.description" :text="medicine.description" :wrap="true" class="shrink-0">
-                                                    <Icon name="ph:info" class="size-3.5 text-primary/60 hover:text-primary cursor-default" />
+                                                <Tooltip v-if="medicine?.description" :text="medicine.description"
+                                                    :wrap="true" class="shrink-0">
+                                                    <Icon name="ph:info"
+                                                        class="size-3.5 text-primary/60 hover:text-primary cursor-default" />
                                                 </Tooltip>
                                             </div>
                                             <p class="text-xxs text-gray-400">
@@ -765,8 +771,10 @@
                                                                 medicine?.medicine?.dk_name
                                                         }}
                                                     </p>
-                                                    <Tooltip v-if="medicine?.description" :text="medicine.description" :wrap="true" class="shrink-0">
-                                                        <Icon name="ph:info" class="size-3.5 text-primary/60 hover:text-primary cursor-default" />
+                                                    <Tooltip v-if="medicine?.description" :text="medicine.description"
+                                                        :wrap="true" class="shrink-0">
+                                                        <Icon name="ph:info"
+                                                            class="size-3.5 text-primary/60 hover:text-primary cursor-default" />
                                                     </Tooltip>
                                                 </div>
                                                 <p class="text-xs text-gray-400 truncate mt-0.5">

@@ -1656,14 +1656,23 @@
                     "cprNumber": "CPR-nummer",
                     "firstname": "Fornavn",
                     "gender": "Køn",
-                    "lastname": "Last name",
+                    "lastname": "Efternavn",
+                    "name": "Navn",
                     "origin": "Oprindelse"
                 },
+                "consentFields": "Samtykke",
                 "dischargeReason": "Udskrivningsårsag",
+                "financialGuardianship": "Økonomiværge",
+                "generalConsent": "Generelt samtykke",
+                "guardianship": "Værgemål",
                 "journalNumber": "Journalnummer",
                 "municipalityOfResidenceAfter": "Bopælskommune efter ophold",
                 "municipalityOfResidenceBefore": "Bopælskommune før ophold",
-                "stayData": "Opholdsdata"
+                "parentCollaboration": "Forældresamarbejde",
+                "personalGuardianship": "Personværge",
+                "photo": "Foto",
+                "stayData": "Opholdsdata",
+                "studentCollaboration": "Elevsamarbejde"
             }
         },
         "interventionHours": {
@@ -2110,7 +2119,11 @@
                 "respirationAndCirculation": "Respiration og kredsløb",
                 "sexuality": "Seksualitet",
                 "skinAndMucousMembranes": "Hud og slimhinder",
-                "sleepAndRest": "Søvn og hvile"
+                "sleepAndRest": "Søvn og hvile",
+                "template": "Skabelon",
+                "selectTemplate": "Vælg skabelon (valgfrit)",
+                "fieldRequired": "Påkrævet",
+                "fieldOptional": "Valgfrit"
             },
             "illnessAndFunctionalImpairment": {
                 "editIllnessAndFunctionalImpairment": "Rediger sygdom og funktionelle nedsættelser",
@@ -2180,7 +2193,8 @@
                         "verySubstantialChallenges": "Meget store udfordringer"
                     },
                     "date": "Dato",
-                    "status": "Status"
+                    "status": "Status",
+                    "problemStatus": "Statusvalg"
                 },
                 "newStatus": "Ny status",
                 "statuses": "Statusser",
@@ -2199,7 +2213,13 @@
                     "createdBy": "Oprettet af",
                     "date": "Dato",
                     "dateCreated": "Oprettelsesdato",
-                    "status": "Status"
+                    "status": "Status",
+                    "problemStatus": "Problemstatus"
+                },
+                "problemStatuses": {
+                    "activeProblem": "Aktivt problem",
+                    "notAnActiveProblem": "Ikke et aktivt problem",
+                    "potentialProblem": "Potentielt problem"
                 }
             },
             "table": {
@@ -3260,6 +3280,8 @@
                 "name": "Skabelonnavn",
                 "recurringUntil": "Indtil",
                 "repeat": "Gentag",
+                "copyToConsecutiveWeeks": "Kopier til på hinanden følgende uger",
+                "numberOfWeeks": "Antal uger",
                 "week": "Uge",
                 "weekNumber": "Ugenummer",
                 "weekRotations": "Ugerotationer",
@@ -6651,13 +6673,24 @@
                 "quickRiskAssessment": "Hurtig risikovurdering",
                 "region": "Region",
                 "registerTransport": "Registrer transport",
+                "sundayShiftCalculation": "Aktivér søndagsvagtberegning",
                 "remove": "Fjern firmalogo",
                 "street": "Gade",
                 "transferNormHours": "Overfør normtimer til næste år, hvis de ikke er brugt",
                 "warning13HourShift": "Advarsel ved vagter over 13 timer",
                 "warning11HourRest": "Advarsel ved hviletid under 11 timer",
                 "warning48HourRule": "Advarsel ved 48-timers reglen",
-                "website": "Hjemmeside"
+                "website": "Hjemmeside",
+                "ipRestriction": "IP-begrænsning",
+                "enableIpRestriction": "Aktivér IP-begrænsning",
+                "ipRestrictionAction": "Begrænsningshandling",
+                "manageIpWhitelist": "Administrér IP-hvidliste",
+                "deviceRestriction": "Enhedsbegrænsning",
+                "enableDeviceRestriction": "Aktivér enhedsbegrænsning",
+                "deviceRestrictionAction": "Begrænsningshandling",
+                "manageApprovedDevices": "Administrér godkendte enheder",
+                "actionBlock": "Blokér adgang",
+                "actionOtp": "Kræv OTP-bekræftelse"
             }
         },
         "licenseOverview": {
@@ -6741,7 +6774,10 @@
             "timeAccounts": "Tidskonti",
             "timeLogs": "Tidslogfiler",
             "transactions": "Transaktioner",
-            "units": "Enheder"
+            "units": "Enheder",
+            "ipRestrictions": "IP-begrænsninger",
+            "approvedDevices": "Godkendte enheder",
+            "nursingProfessionalRecordTemplates": "Sygeplejejournalskabeloner"
         },
         "wallets": {
             "citizenWalletTransactions": "Transaktioner for borgernes wallets",
@@ -6785,12 +6821,22 @@
                 "shiftSuccessfullyUpdated": "Vagt opdateret med succes"
             },
             "color": "Farve",
+            "endTimeDayOffset": "Standard sluttidspunkt (dag-offset)",
+            "endTimeDayOffsetOneDayLater": "1 dag senere",
+            "endTimeDayOffsetSameDay": "Samme dag",
+            "endTimeDayOffsetThreeDaysLater": "3 dage senere",
+            "endTimeDayOffsetTwoDaysLater": "2 dage senere",
             "markAsLeaveType": "Marker som fraværstype",
             "nameDanish": "Navn (dansk)",
             "nameEnglish": "Navn (engelsk)",
             "paycode": "Lønningskode",
             "timeIn": "Tid ind",
-            "timeOut": "Tid ud"
+            "timeOut": "Tid ud",
+            "workingHoursFactor": "Arbejdstidsfaktor",
+            "workingHoursFactorFrom": "Fra",
+            "workingHoursFactorInterval": "Anvend inden for tidsinterval (valgfrit)",
+            "workingHoursFactorPlaceholder": "f.eks. 0.75",
+            "workingHoursFactorTo": "Til"
         },
         "newShift": "Ny vagt",
         "shifts": "Vagter",
@@ -6810,7 +6856,8 @@
             "standard": "Standard",
             "standardShift": "Standard vagt",
             "timeIn": "Tid ind",
-            "timeOut": "Tid ud"
+            "timeOut": "Tid ud",
+            "workingHoursFactor": "Arbejdstidsfaktor"
         }
     },
     "show": "Vis",
@@ -7773,5 +7820,97 @@
     },
     "no": "Nej",
     "yes": "Ja",
-    "youDontHaveAccessToThisPage": "Du har ikke adgang til denne side. Kontakt venligst din administrator"
+    "youDontHaveAccessToThisPage": "Du har ikke adgang til denne side. Kontakt venligst din administrator",
+    "ipRestrictions": {
+        "title": "IP-begrænsninger",
+        "addIp": "Tilføj IP-adresse",
+        "editIp": "Rediger IP-adresse",
+        "ipAddress": "IP-adresse",
+        "label": "Etiket",
+        "table": {
+            "ipAddress": "IP-adresse",
+            "label": "Etiket",
+            "actions": {
+                "header": "Handlinger",
+                "edit": "Rediger",
+                "delete": "Slet"
+            }
+        },
+        "confirmation": {
+            "delete": "Er du sikker på, at du vil slette denne IP-begrænsning"
+        },
+        "alert": {
+            "added": "IP-begrænsning tilføjet succesfuldt",
+            "updated": "IP-begrænsning opdateret succesfuldt",
+            "deleted": "IP-begrænsning slettet succesfuldt"
+        }
+    },
+    "approvedDevices": {
+        "title": "Godkendte enheder",
+        "addDevice": "Tilføj enhed",
+        "editDevice": "Rediger enhed",
+        "user": "Bruger",
+        "deviceUuid": "Enheds-UUID",
+        "label": "Etiket",
+        "isActive": "Aktiv",
+        "active": "Aktiv",
+        "inactive": "Inaktiv",
+        "table": {
+            "user": "Bruger",
+            "deviceUuid": "Enheds-UUID",
+            "label": "Etiket",
+            "isActive": "Status",
+            "actions": {
+                "header": "Handlinger",
+                "edit": "Rediger",
+                "delete": "Slet"
+            }
+        },
+        "confirmation": {
+            "delete": "Er du sikker på, at du vil fjerne denne godkendte enhed"
+        },
+        "alert": {
+            "added": "Enhed godkendt succesfuldt",
+            "updated": "Godkendt enhed opdateret succesfuldt",
+            "deleted": "Godkendt enhed fjernet succesfuldt"
+        }
+    },
+    "otpVerification": {
+        "checkYourEmailForOtp": "En engangskode er sendt til din e-mail. Indtast den nedenfor.",
+        "form": {
+            "verifyCode": "Bekræft kode",
+            "otp": "Engangskode",
+            "verify": "Bekræft"
+        }
+    },
+    "nursingProfessionalRecordTemplates": {
+        "nursingProfessionalRecordTemplates": "Sygeplejejournalskabeloner",
+        "newTemplate": "Ny skabelon",
+        "editTemplate": "Rediger skabelon",
+        "form": {
+            "name": "Skabelonnavn",
+            "fieldConfiguration": "Feltkonfiguration",
+            "field": "Felt",
+            "required": "Påkrævet",
+            "optional": "Valgfrit",
+            "alert": {
+                "newTemplateSuccessfullySaved": "Skabelon gemt",
+                "templateSuccessfullyUpdated": "Skabelon opdateret"
+            }
+        },
+        "table": {
+            "name": "Navn",
+            "requiredFields": "Påkrævede felter",
+            "actions": {
+                "edit": "Rediger",
+                "delete": "Slet"
+            },
+            "alert": {
+                "templateSuccessfullyDeleted": "Skabelon slettet"
+            },
+            "confirmation": {
+                "deleteTemplateConfirmation": "Er du sikker på, at du vil slette denne skabelon"
+            }
+        }
+    }
 }

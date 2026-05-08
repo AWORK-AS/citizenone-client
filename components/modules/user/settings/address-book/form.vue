@@ -250,10 +250,10 @@ function onMunicipalityChange(municipalityUuid: string) {
 
 const rules = computed(() => ({
     contact_job_title_uuid: {
-        required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
+        required: helpers.withMessage(() => `${t('validation.thisFieldIsRequired')}.`, required),
     },
     firstname: {
-        required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
+        required: helpers.withMessage(() => `${t('validation.thisFieldIsRequired')}.`, required),
     },
 }))
 

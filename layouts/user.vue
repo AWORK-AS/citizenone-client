@@ -681,7 +681,7 @@ async function logout() {
         const response = await authService.logout()
         if (response) {
             localStorage.removeItem("_token")
-            localStorage.removeItem("remember_me")
+            localStorage.removeItem("rememberMe")
             navigateTo('/')
         }
     } catch (error: any) {

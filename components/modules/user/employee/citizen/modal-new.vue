@@ -77,7 +77,7 @@ const rules = computed(() => {
     return {
         formAssignCitizen: {
             citizen_uuid: {
-                required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
+                required: helpers.withMessage(() => `${t('validation.thisFieldIsRequired')}.`, required),
             },
         },
     }

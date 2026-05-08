@@ -376,13 +376,13 @@ const rules = computed(() => {
     const baseRules: any = {
         formBookingSettings: {
             header: {
-                required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
+                required: helpers.withMessage(() => `${t('validation.thisFieldIsRequired')}.`, required),
             },
             link: {
-                required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
+                required: helpers.withMessage(() => `${t('validation.thisFieldIsRequired')}.`, required),
             },
             language_uuid: {
-                required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
+                required: helpers.withMessage(() => `${t('validation.thisFieldIsRequired')}.`, required),
             },
         }
     }
@@ -391,7 +391,7 @@ const rules = computed(() => {
         baseRules.formBookingSettings.fields = {
             conditions: {
                 value: {
-                    required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
+                    required: helpers.withMessage(() => `${t('validation.thisFieldIsRequired')}.`, required),
                 }
             }
         }

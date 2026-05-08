@@ -460,28 +460,28 @@ const rules = computed(() => {
     return {
         formBooking: {
             firstname: {
-                required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
+                required: helpers.withMessage(() => `${t('validation.thisFieldIsRequired')}.`, required),
             },
             lastname: {
-                required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
+                required: helpers.withMessage(() => `${t('validation.thisFieldIsRequired')}.`, required),
             },
             email: fields?.email?.required
-                ? { required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required) }
+                ? { required: helpers.withMessage(() => `${t('validation.thisFieldIsRequired')}.`, required) }
                 : {},
             phone: fields?.phone?.required
-                ? { required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required) }
+                ? { required: helpers.withMessage(() => `${t('validation.thisFieldIsRequired')}.`, required) }
                 : {},
             address: fields?.address?.required
-                ? { required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required) }
+                ? { required: helpers.withMessage(() => `${t('validation.thisFieldIsRequired')}.`, required) }
                 : {},
             notes: fields?.notes?.required
-                ? { required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required) }
+                ? { required: helpers.withMessage(() => `${t('validation.thisFieldIsRequired')}.`, required) }
                 : {},
             social_security_number: fields?.social_security_number?.required
-                ? { required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required) }
+                ? { required: helpers.withMessage(() => `${t('validation.thisFieldIsRequired')}.`, required) }
                 : {},
             date_of_birth: fields?.date_of_birth?.required
-                ? { required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required) }
+                ? { required: helpers.withMessage(() => `${t('validation.thisFieldIsRequired')}.`, required) }
                 : {},
         },
     }

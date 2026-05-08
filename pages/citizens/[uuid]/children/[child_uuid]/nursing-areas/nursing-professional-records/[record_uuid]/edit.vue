@@ -181,6 +181,7 @@ async function updateRecord(recordDetails: any) {
             knowledge_and_development_note: recordDetails.knowledge_and_development_note,
             excretion_of_waste: recordDetails.excretion_of_waste,
             excretion_of_waste_note: recordDetails.excretion_of_waste_note,
+            template_uuid: recordDetails.template_uuid ?? null,
         }
         const response = await nursingAreasService.updateNursingProfessionalRecord(recordUuid, params)
         if (response.data) {

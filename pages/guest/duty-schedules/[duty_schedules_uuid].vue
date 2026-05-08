@@ -435,7 +435,7 @@ const rules = computed(() => {
     return {
         formSecuredDutySchedule: {
             password: {
-                required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
+                required: helpers.withMessage(() => `${t('validation.thisFieldIsRequired')}.`, required),
             },
         }
     }
