@@ -18,6 +18,17 @@
                     <span>{{ $t('back') }}</span>
                 </NuxtLink>
                 <LoadingSpinner :isActive="state.isPageLoading">
+                    <div v-if="state.meta.author" class="flex items-center gap-4 mb-4 p-3 bg-gray-50 rounded-md text-sm text-gray-500">
+                        <div class="flex items-center gap-1">
+                            <Icon name="ph:user" class="w-4 h-4" />
+                            <span>{{ state.meta.author }}</span>
+                        </div>
+                        <span class="text-gray-300">·</span>
+                        <div class="flex items-center gap-1">
+                            <Icon name="ph:calendar" class="w-4 h-4" />
+                            <span>{{ state.meta.createdAt }}</span>
+                        </div>
+                    </div>
                     <ModulesUserNewsForm formType="update" :selectedNews="state.formNews" :error="state.error"
                         @isPageLoading="(value: boolean) => state.isPageLoading = value" @submitForm="updateNews" />
                 </LoadingSpinner>
@@ -34,6 +45,7 @@ import type { Error } from '@/types'
 
 const runtimeConfig = useRuntimeConfig()
 const { successAlert } = useAlert()
+const { formatDateToReadable } = useDatetimeFormatter()
 const { t } = useI18n()
 const router = useRouter()
 const newsUuid = router?.currentRoute?.value?.params?.uuid
@@ -52,6 +64,10 @@ const breadcrumbLinks = [
 
 const state = reactive({
     error: {} as Error,
+    meta: {
+        author: '',
+        createdAt: '',
+    },
     formNews: {
         image: '',
         title: '',
@@ -76,6 +92,8 @@ async function fetchNews() {
     try {
         const response = await newsService.getSelectedNews(newsUuid)
         if (response) {
+            state.meta.author = [response?.data?.author?.firstname, response?.data?.author?.lastname].filter(Boolean).join(' ')
+            state.meta.createdAt = response?.data?.created_at ? formatDateToReadable(response.data.created_at) : ''
             state.formNews = {
                 image: response?.data?.image ?? '',
                 title: response?.data?.title ?? '',

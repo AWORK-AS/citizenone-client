@@ -98,6 +98,13 @@
                                         </div>
                                     </div>
                                 </div>
+                                <div class="space-y-1">
+                                    <div class="w-fit flex items-center cursor-pointer"
+                                        @click="state.formDownload.archived_employees_only = !state.formDownload.archived_employees_only">
+                                        <FormCheckbox :value="state.formDownload.archived_employees_only" />
+                                        {{ $t('dutySchedules.download.archivedEmployeesOnly') }}
+                                    </div>
+                                </div>
                             </div>
                             <div class="mt-6">
                                 <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
@@ -168,6 +175,7 @@ const state = reactive({
         date_start: '',
         date_end: '',
         show_leaves_only: false,
+        archived_employees_only: false,
     } as any,
     modal: {
         isAddDepartmentOpen: false,
@@ -229,15 +237,15 @@ const rules = computed(() => {
     return {
         filter: {
             date_range: {
-                required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
+                required: helpers.withMessage(() => `${t('validation.thisFieldIsRequired')}.`, required),
             },
         },
         formDownload: {
             departments: {
-                required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
+                required: helpers.withMessage(() => `${t('validation.thisFieldIsRequired')}.`, required),
             },
             download_type: {
-                required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
+                required: helpers.withMessage(() => `${t('validation.thisFieldIsRequired')}.`, required),
             },
         },
     }
@@ -320,6 +328,7 @@ async function downloadDutySchedule() {
             date_start: state.formDownload.date_start,
             date_end: state.formDownload.date_end,
             show_leaves_only: state.formDownload.show_leaves_only,
+            archived_employees_only: state.formDownload.archived_employees_only,
             delimiter: state.formDownload.delimiter,
         } as any
         if (state.formDownload.employment_status) {

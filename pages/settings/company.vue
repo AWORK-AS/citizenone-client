@@ -210,6 +210,27 @@
                             </p>
                         </div>
                         <div class="space-y-1 flex items-center gap-x-2">
+                            <FormSwitch :value="state.formCompany.warning_13_hour_shift_enabled"
+                                @toggleSwitch="state.formCompany.warning_13_hour_shift_enabled = !state.formCompany.warning_13_hour_shift_enabled" />
+                            <p>
+                                {{ $t('settings.company.form.warning13HourShift') }}
+                            </p>
+                        </div>
+                        <div class="space-y-1 flex items-center gap-x-2">
+                            <FormSwitch :value="state.formCompany.warning_11_hour_rest_enabled"
+                                @toggleSwitch="state.formCompany.warning_11_hour_rest_enabled = !state.formCompany.warning_11_hour_rest_enabled" />
+                            <p>
+                                {{ $t('settings.company.form.warning11HourRest') }}
+                            </p>
+                        </div>
+                        <div class="space-y-1 flex items-center gap-x-2">
+                            <FormSwitch :value="state.formCompany.warning_48_hour_rule_enabled"
+                                @toggleSwitch="state.formCompany.warning_48_hour_rule_enabled = !state.formCompany.warning_48_hour_rule_enabled" />
+                            <p>
+                                {{ $t('settings.company.form.warning48HourRule') }}
+                            </p>
+                        </div>
+                        <div class="space-y-1 flex items-center gap-x-2">
                             <FormSwitch :value="state.formCompany.transfer_norm_hours_enabled"
                                 @toggleSwitch="state.formCompany.transfer_norm_hours_enabled = !state.formCompany.transfer_norm_hours_enabled" />
                             <p>
@@ -319,6 +340,9 @@ const state = reactive({
         logo: null as File | null,
         should_delete_logo: false,
         register_transport_enabled: false,
+        warning_13_hour_shift_enabled: true,
+        warning_11_hour_rest_enabled: true,
+        warning_48_hour_rule_enabled: true,
     },
     isPageLoading: false,
     options: {
@@ -333,7 +357,7 @@ const rules = computed(() => {
     return {
         formCompany: {
             name: {
-                required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
+                required: helpers.withMessage(() => `${t('validation.thisFieldIsRequired')}.`, required),
             },
         },
     }
@@ -380,6 +404,9 @@ watch(() => userStore.getUser, (newValue: any) => {
             social_og_boligstyrelsen: newValue?.company?.social_og_boligstyrelsen ? true : false,
             quick_risk_assessment_enabled: newValue?.company?.quick_risk_assessment_enabled ? true : false,
             register_transport_enabled: newValue?.company?.register_transport_enabled ? true : false,
+            warning_13_hour_shift_enabled: newValue?.company?.warning_13_hour_shift_enabled !== false,
+            warning_11_hour_rest_enabled: newValue?.company?.warning_11_hour_rest_enabled !== false,
+            warning_48_hour_rule_enabled: newValue?.company?.warning_48_hour_rule_enabled !== false,
             logo: null,
             should_delete_logo: false,
         }
@@ -545,6 +572,9 @@ async function submitForm() {
                 social_og_boligstyrelsen: state.formCompany.social_og_boligstyrelsen,
                 quick_risk_assessment_enabled: state.formCompany.quick_risk_assessment_enabled,
                 register_transport_enabled: state.formCompany.register_transport_enabled,
+                warning_13_hour_shift_enabled: state.formCompany.warning_13_hour_shift_enabled,
+                warning_11_hour_rest_enabled: state.formCompany.warning_11_hour_rest_enabled,
+                warning_48_hour_rule_enabled: state.formCompany.warning_48_hour_rule_enabled,
             }
 
             const response = await userService.updateCompany(params)

@@ -96,10 +96,10 @@ const rules = computed(() => {
     return {
         formJobTitle: {
             job_title_uuid: {
-                required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
+                required: helpers.withMessage(() => `${t('validation.thisFieldIsRequired')}.`, required),
             },
             title: {
-                required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
+                required: helpers.withMessage(() => `${t('validation.thisFieldIsRequired')}.`, required),
             },
         },
     }

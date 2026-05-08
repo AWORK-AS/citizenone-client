@@ -67,32 +67,37 @@ async function saveMedicineHistory(medicineHistoryDetails: any) {
     state.error = {}
     state.isPageLoading = true
     try {
-        let params = {}
         const selectedMedicineUuid = props.selectedMedicine?.uuid
-        if (props.selectedMedicine?.is_pn_medicine) {
-            params = {
-                medicine_uuid: selectedMedicineUuid,
-                date: medicineHistoryDetails.date,
-                dosage: medicineHistoryDetails.dosage,
-                type: medicineHistoryDetails.type,
-                evaluator_uuid: medicineHistoryDetails.evaluator,
-                evaluation_frequency: medicineHistoryDetails.evaluation_frequency,
-                comment: medicineHistoryDetails.comment,
+        const dates = medicineHistoryDetails.selectedDates?.length > 0
+            ? medicineHistoryDetails.selectedDates
+            : [medicineHistoryDetails.date]
+
+        for (const date of dates) {
+            let params = {}
+            if (props.selectedMedicine?.is_pn_medicine) {
+                params = {
+                    medicine_uuid: selectedMedicineUuid,
+                    date,
+                    dosage: medicineHistoryDetails.dosage,
+                    type: medicineHistoryDetails.type,
+                    evaluator_uuid: medicineHistoryDetails.evaluator,
+                    evaluation_frequency: medicineHistoryDetails.evaluation_frequency,
+                    comment: medicineHistoryDetails.comment,
+                }
+            } else {
+                params = {
+                    medicine_uuid: selectedMedicineUuid,
+                    date,
+                    dosages: medicineHistoryDetails.dosages,
+                }
             }
-        } else {
-            params = {
-                medicine_uuid: selectedMedicineUuid,
-                date: medicineHistoryDetails.date,
-                dosages: medicineHistoryDetails.dosages,
-            }
+            await medicineHistoryService.saveMedicineHistory(params)
         }
-        const response = await medicineHistoryService.saveMedicineHistory(params)
-        if (response?.data) {
-            refreshMedicines()
-            refreshMedicineHistories()
-            closeModal()
-            successAlert(`${t('alert.success')}!`, `${t('citizens.medicineJournals.history.form.alert.successfullyAdded')}.`)
-        }
+
+        refreshMedicines()
+        refreshMedicineHistories()
+        closeModal()
+        successAlert(`${t('alert.success')}!`, `${t('citizens.medicineJournals.history.form.alert.successfullyAdded')}.`)
     } catch (error: any) {
         state.error = error
     }

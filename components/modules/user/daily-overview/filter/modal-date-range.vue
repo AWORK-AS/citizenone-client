@@ -112,7 +112,7 @@ const rules = computed(() => {
     return {
         filter: {
             date_range: {
-                required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
+                required: helpers.withMessage(() => `${t('validation.thisFieldIsRequired')}.`, required),
             },
         }
     }

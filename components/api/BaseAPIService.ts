@@ -1,7 +1,7 @@
 import APIError from '@/components/api/user/APIError'
 
 class BaseAPIService {
-    async request(url: string, method: string, params: object = []): Promise<any> {
+    async request(url: string, method: string, params: object = [], signal?: AbortSignal): Promise<any> {
         const runtimeConfig = useRuntimeConfig()
         let config: any = null
         if (method === 'GET') {
@@ -13,6 +13,7 @@ class BaseAPIService {
                     Authorization: 'Bearer ' + localStorage.getItem('_token'),
                     Accept: 'application/json',
                 },
+                signal,
                 async onRequest({ request, options }: { request: any, options: any }) {
                     options.params = params
                 },
@@ -26,6 +27,7 @@ class BaseAPIService {
                     Authorization: 'Bearer ' + localStorage.getItem('_token'),
                     Accept: 'application/json',
                 },
+                signal,
                 body: params,
             }
         }
@@ -33,7 +35,8 @@ class BaseAPIService {
         try {
             return await $fetch(url, config)
         } catch (error: any) {
-            switch (error.response.status) {
+            if (error?.name === 'AbortError') throw error
+            switch (error.response?.status) {
                 case 400:
                     throw new APIError(error.response._data)
                 case 404:
@@ -137,7 +140,7 @@ class BaseAPIService {
 
     revokeAccess() {
         localStorage.removeItem("_token")
-        localStorage.removeItem("remember_me")
+        localStorage.removeItem("rememberMe")
         navigateTo('/')
     }
 }

@@ -114,7 +114,7 @@
                         :label="`${$t('dutySchedules.draft.preset.form.affectedDepartments')} (${state.presetPreview.affected_departments.length})`" />
                     <p class="text-sm font-semibold text-gray-700">{{state.presetPreview.affected_departments.map((i:
                         any) =>
-                        i.name).join(', ') }}</p>
+                        i.name).join(', ')}}</p>
                 </div>
                 <div class="space-y-1">
                     <FormLabel
@@ -199,13 +199,13 @@ const rules = computed(() => {
     return {
         formDutySchedulePreset: {
             name: {
-                required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
+                required: helpers.withMessage(() => `${t('validation.thisFieldIsRequired')}.`, required),
             },
             date_start: {
-                required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
+                required: helpers.withMessage(() => `${t('validation.thisFieldIsRequired')}.`, required),
             },
             date_end: {
-                required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
+                required: helpers.withMessage(() => `${t('validation.thisFieldIsRequired')}.`, required),
             },
         },
     }
@@ -249,7 +249,6 @@ async function previewPreset() {
     emit('isPageLoading', true)
     try {
         const response = await draftSchedulePresetService.previewPreset(state.formDutySchedulePreset)
-        console.log('Preview response', response)
         state.presetPreview = response.data
     } catch (error: any) {
         state.error = error

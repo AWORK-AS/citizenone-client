@@ -171,10 +171,10 @@ const rules = computed(() => {
         return {
             formDownload: {
                 citizens_uuid: {
-                    required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
+                    required: helpers.withMessage(() => `${t('validation.thisFieldIsRequired')}.`, required),
                 },
                 citizen_folder_uuid: {
-                    required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
+                    required: helpers.withMessage(() => `${t('validation.thisFieldIsRequired')}.`, required),
                 },
             },
         }
@@ -182,7 +182,7 @@ const rules = computed(() => {
         return {
             formDownload: {
                 company_folder_uuid: {
-                    required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
+                    required: helpers.withMessage(() => `${t('validation.thisFieldIsRequired')}.`, required),
                 },
             },
         }

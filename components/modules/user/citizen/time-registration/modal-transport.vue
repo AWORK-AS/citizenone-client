@@ -367,7 +367,6 @@ async function onMapClick(e: any) {
 
     const addr = await attemptReverseGeocode(lat, lng, 3, 500)
     if (addr) {
-        console.log('✅ Reverse geocode successful:', addr)
         state.startAddress = addr
         return
     }
@@ -378,7 +377,6 @@ async function onMapClick(e: any) {
         return
     }
 
-    console.log('⚠️ No address found, using coordinates')
 }
 
 async function onMarkerDrag(payload: any) {

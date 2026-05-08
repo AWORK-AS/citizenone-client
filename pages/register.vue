@@ -40,9 +40,13 @@
                             <div>
                                 <p class="text-sm font-semibold text-[#0f4c75]">{{ $t('register.oauthBannerTitle') }}
                                 </p>
-                                <p class="text-xs text-[#64748b] mt-0.5">{{ $t('register.oauthBannerDescription', {
-                                    provider: state.oauthProvider === 'google' ? 'Google' : 'Microsoft'
-                                }) }}</p>
+                                <p class="text-xs text-[#64748b] mt-0.5">
+                                    {{
+                                        $t('register.oauthBannerDescription', {
+                                            provider: state.oauthProvider === 'google' ? 'Google' : 'Microsoft'
+                                        })
+                                    }}
+                                </p>
                             </div>
                         </div>
                         <div class="mt-10 flex justify-between items-center">
@@ -295,16 +299,16 @@ const rules1 = computed(() => {
     return {
         formRegister: {
             firstname: {
-                required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
+                required: helpers.withMessage(() => `${t('validation.thisFieldIsRequired')}.`, required),
             },
             lastname: {
-                required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
+                required: helpers.withMessage(() => `${t('validation.thisFieldIsRequired')}.`, required),
             },
             email: {
-                required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
+                required: helpers.withMessage(() => `${t('validation.thisFieldIsRequired')}.`, required),
             },
             phone: {
-                required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
+                required: helpers.withMessage(() => `${t('validation.thisFieldIsRequired')}.`, required),
             },
         }
     }
@@ -314,7 +318,7 @@ const rules2 = computed(() => {
     return {
         formRegister: {
             industry: {
-                required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
+                required: helpers.withMessage(() => `${t('validation.thisFieldIsRequired')}.`, required),
             },
         }
     }

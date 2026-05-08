@@ -102,7 +102,7 @@
                     </div>
 
                     <!-- Time slots -->
-                    <div>
+                    <div v-if="!props.selectedMedicine?.is_pn_medicine && !state.multiDateMode">
                         <div class="flex items-center justify-between mb-2">
                             <p class="text-xs font-semibold text-gray-400 uppercase tracking-wide">
                                 {{
@@ -562,7 +562,7 @@ async function saveMultiDate() {
                 })
             })
         )
-        successAlert(t('citizens.medicineJournals.giveMedicineModal.savedTitle'), t('citizens.medicineJournals.giveMedicineModal.registeredForDays', { n: state.selectedDates.length }))
+        successAlert(`${t('alert.success')}!`, t('citizens.medicineJournals.giveMedicineModal.registeredForDays', { n: state.selectedDates.length }))
         state.selectedDates = []
         state.multiType = ''
         state.multiComment = ''

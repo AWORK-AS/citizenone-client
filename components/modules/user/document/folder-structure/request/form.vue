@@ -89,7 +89,7 @@ const rules = computed(() => {
     return {
         formFolderStructure: {
             folder_structure: {
-                required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
+                required: helpers.withMessage(() => `${t('validation.thisFieldIsRequired')}.`, required),
             },
         },
     }

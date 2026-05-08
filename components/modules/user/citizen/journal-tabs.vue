@@ -1,5 +1,6 @@
 <template>
-    <Tabs :tabs="state.tabs" :isJustifyBetween="state.tabs?.length > 4 ? true : false" @changeTab="changeTab" />
+    <Tabs id="journal-tabs" :tabs="state.tabs" :isJustifyBetween="state.tabs?.length > 4 ? true : false"
+        @changeTab="changeTab" />
 </template>
 
 <script setup lang="ts">
@@ -32,6 +33,7 @@ watch(() => userStore.getUser, (newValue: any) => {
         Calendar: pages.some((page: any) => page.name === 'Calendar'),
         Economy: pages.some((page: any) => page.name === 'Economy'),
         Contacts: pages.some((page: any) => page.name === 'Contacts'),
+        EmployeeGroups: pages.some((page: any) => page.name === 'Employee Group'),
     }
 
     state.tabs = []
@@ -132,6 +134,15 @@ watch(() => userStore.getUser, (newValue: any) => {
         })
     }
 
+    if (accessMap.EmployeeGroups) {
+        state.tabs.push({
+            name: 'citizens.tabs.employeeGroups',
+            isTranslateName: true,
+            href: `/citizens/${citizenUuid}/employee-groups`,
+            routeNames: ['citizens-uuid-employee-groups']
+        })
+    }
+
     if (newValue?.company?.industry?.system_name === 'social_welfare' && ['Crisis center', 'Shelter'].includes(newValue?.company?.facility_type?.en_name)) {
         state.tabs.push({
             name: 'citizens.tabs.children',
@@ -187,6 +198,9 @@ function changeTab(value: any) {
     }
     else if (value === `/citizens/${citizenUuid}/contacts`) {
         navigateTo(`/citizens/${citizenUuid}/contacts`)
+    }
+    else if (value === `/citizens/${citizenUuid}/employee-groups`) {
+        navigateTo(`/citizens/${citizenUuid}/employee-groups`)
     }
     else if (value === `/citizens/${citizenUuid}/children`) {
         navigateTo(`/citizens/${citizenUuid}/children`)

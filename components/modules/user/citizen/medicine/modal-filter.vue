@@ -127,7 +127,7 @@ const rules = computed(() => {
     return {
         filter: {
             medicationType: {
-                required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
+                required: helpers.withMessage(() => `${t('validation.thisFieldIsRequired')}.`, required),
             },
         },
     }

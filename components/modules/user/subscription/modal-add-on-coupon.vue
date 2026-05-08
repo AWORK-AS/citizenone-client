@@ -64,7 +64,7 @@ const rules = computed(() => {
     return {
         formCoupon: {
             code: {
-                required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
+                required: helpers.withMessage(() => `${t('validation.thisFieldIsRequired')}.`, required),
             },
         },
     }

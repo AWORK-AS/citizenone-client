@@ -108,12 +108,12 @@ const rules = computed(() => {
     return {
         formUser: {
             password: {
-                required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
-                minLength: helpers.withMessage(`${t('alert.setupPassword.required8Characters')}.`, minLength(8))
+                required: helpers.withMessage(() => `${t('validation.thisFieldIsRequired')}.`, required),
+                minLength: helpers.withMessage(() => `${t('alert.setupPassword.required8Characters')}.`, minLength(8))
             },
             confirm_password: {
-                required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
-                sameAsPassword: helpers.withMessage(`${t('alert.setupPassword.confirmPasswordNotTheSame')}.`, sameAs(state.formUser.password)),
+                required: helpers.withMessage(() => `${t('validation.thisFieldIsRequired')}.`, required),
+                sameAsPassword: helpers.withMessage(() => `${t('alert.setupPassword.confirmPasswordNotTheSame')}.`, sameAs(state.formUser.password)),
             }
         }
     }

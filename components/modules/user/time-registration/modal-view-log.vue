@@ -16,23 +16,42 @@
                     </div>
 
                     <div class="space-y-1 my-1">
+                        <p class="text-sm text-gray-600">
+                            {{ $t('timeLogs.table.citizen') }}
+                        </p>
+                        <p class="text-sm font-semibold text-gray-700" v-if="props.selectedTimeLog?.citizen">
+                            {{
+                                props.selectedTimeLog?.citizen?.firstname + ' ' +
+                                (props.selectedTimeLog?.citizen?.lastname ?? '')
+                            }}
+                        </p>
+                    </div>
+
+                    <div class="space-y-1 my-1">
                         <FormLabel :label="$t('timeLogs.table.createdAt')" />
-                        <p class="text-sm font-semibold text-gray-700">{{
-                            formatDateTimeToReadable(props.selectedTimeLog?.created_at) }}</p>
+                        <p class="text-sm font-semibold text-gray-700">
+                            {{
+                                formatDateTimeToReadable(props.selectedTimeLog?.created_at)
+                            }}
+                        </p>
                     </div>
 
                     <div class="space-y-1 my-1">
                         <FormLabel :label="$t('timeLogs.table.dateTimeStart')" />
                         <p class="text-sm font-semibold text-gray-700">
-                            {{ props.selectedTimeLog?.date_time_start ?
-                                formatDateTimeToReadable(props.selectedTimeLog?.date_time_start) : '-' }}
+                            {{
+                                props.selectedTimeLog?.date_time_start ?
+                                    formatDateTimeToReadable(props.selectedTimeLog?.date_time_start) : '-'
+                            }}
                         </p>
                     </div>
                     <div class="space-y-1 my-1">
                         <FormLabel :label="$t('timeLogs.table.dateTimeEnd')" />
                         <p class="text-sm font-semibold text-gray-700">
-                            {{ props.selectedTimeLog?.date_time_end ?
-                                formatDateTimeToReadable(props.selectedTimeLog?.date_time_end) : '-' }}
+                            {{
+                                props.selectedTimeLog?.date_time_end ?
+                                    formatDateTimeToReadable(props.selectedTimeLog?.date_time_end) : '-'
+                            }}
                         </p>
                     </div>
 
@@ -63,7 +82,7 @@
 
                     <div v-if="hasLocationData" class="mt-4 pt-4 border-t">
                         <h3 class="text-sm font-semibold text-gray-900 mb-3">{{ $t('timeLogs.view.locationInformation')
-                            }}</h3>
+                        }}</h3>
 
                         <div class="space-y-1 my-1" v-if="startAddress">
                             <FormLabel :label="$t('timeLogs.view.checkInLocation')" />

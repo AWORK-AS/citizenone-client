@@ -1,16 +1,21 @@
 <template>
-    <div class="relative inline-block" @mouseenter="showTooltip" @mouseleave="scheduleHide">
+    <div ref="triggerRef" class="relative inline-block" @mouseenter="showTooltip" @mouseleave="scheduleHide">
         <div class="flex items-center">
             <slot />
         </div>
-        <div v-if="visible && !disabled && text"
-            class="absolute z-50 text-sm text-white bg-primary rounded-md shadow-lg tooltip"
-            :class="[positionClasses, wrap ? 'w-44' : 'whitespace-nowrap']" @mouseenter="cancelHide"
-            @mouseleave="scheduleHide">
-            <div :class="wrap ? 'px-2.5 py-1.5 max-h-36 overflow-y-auto' : 'px-2.5 py-1.5'">
-                <p class="text-white" :class="wrap ? 'text-xs whitespace-pre-wrap break-words' : 'truncate text-xs'">{{ text }}</p>
+
+        <Teleport to="body">
+            <div v-if="visible && !disabled && text"
+                class="fixed z-[9999] text-sm text-white bg-primary rounded-md shadow-lg tooltip"
+                :class="wrap ? 'w-72' : 'whitespace-nowrap'" :style="tooltipStyle" @mouseenter="cancelHide"
+                @mouseleave="scheduleHide">
+                <div :class="wrap ? 'px-2.5 py-1.5 max-h-36 overflow-y-auto' : 'px-2.5 py-1.5'">
+                    <p class="text-white"
+                        :class="wrap ? 'text-xs whitespace-pre-wrap break-words' : 'truncate text-xs'">{{ text }}</p>
+                </div>
+                <span class="tooltip-arrow" :class="`tooltip-arrow-${position}`" />
             </div>
-        </div>
+        </Teleport>
     </div>
 </template>
 
@@ -35,9 +40,50 @@ const props = defineProps({
 })
 
 const visible = ref(false)
+const triggerRef = ref(null)
+const tooltipStyle = ref({})
 let hideTimer = null
 
+function computePosition() {
+    if (!triggerRef.value) return
+    const rect = triggerRef.value.getBoundingClientRect()
+    const GAP = 8
+
+    switch (props.position) {
+        case 'bottom':
+            tooltipStyle.value = {
+                top: `${rect.bottom + GAP}px`,
+                left: `${rect.left + rect.width / 2}px`,
+                transform: 'translateX(-50%)',
+            }
+            break
+        case 'left':
+            tooltipStyle.value = {
+                top: `${rect.top + rect.height / 2}px`,
+                left: `${rect.left - GAP}px`,
+                transform: 'translate(-100%, -50%)',
+            }
+            break
+        case 'right':
+            tooltipStyle.value = {
+                top: `${rect.top + rect.height / 2}px`,
+                left: `${rect.right + GAP}px`,
+                transform: 'translateY(-50%)',
+            }
+            break
+        case 'top':
+        default:
+            tooltipStyle.value = {
+                top: `${rect.top - GAP}px`,
+                left: `${rect.left + rect.width / 2}px`,
+                transform: 'translate(-50%, -100%)',
+            }
+            break
+    }
+}
+
 const showTooltip = () => {
+    computePosition()
     visible.value = true
 }
 
@@ -61,33 +107,17 @@ onBeforeUnmount(() => {
         hideTimer = null
     }
 })
-
-const positionClasses = computed(() => {
-    switch (props.position) {
-        case 'top':
-            return 'bottom-full mb-2 left-1/2 -translate-x-1/2 tooltip-arrow-top'
-        case 'bottom':
-            return 'top-full mt-2 left-1/2 -translate-x-1/2 tooltip-arrow-bottom'
-        case 'left':
-            return 'right-full mr-2 top-1/2 -translate-y-1/2 tooltip-arrow-left'
-        case 'right':
-            return 'left-full ml-2 top-1/2 -translate-y-1/2 tooltip-arrow-right'
-        default:
-            return 'bottom-full mb-2 left-1/2 -translate-x-1/2 tooltip-arrow-top'
-    }
-})
 </script>
 
 <style>
-.tooltip::after {
-    content: "";
+.tooltip-arrow {
     position: absolute;
     width: 0;
     height: 0;
     border-style: solid;
 }
 
-.tooltip-arrow-top::after {
+.tooltip-arrow-top {
     bottom: -4px;
     left: 50%;
     transform: translateX(-50%);
@@ -95,7 +125,7 @@ const positionClasses = computed(() => {
     border-color: #0f4c75 transparent transparent transparent;
 }
 
-.tooltip-arrow-bottom::after {
+.tooltip-arrow-bottom {
     top: -4px;
     left: 50%;
     transform: translateX(-50%);
@@ -103,7 +133,7 @@ const positionClasses = computed(() => {
     border-color: transparent transparent #0f4c75 transparent;
 }
 
-.tooltip-arrow-left::after {
+.tooltip-arrow-left {
     right: -4px;
     top: 50%;
     transform: translateY(-50%);
@@ -111,7 +141,7 @@ const positionClasses = computed(() => {
     border-color: transparent transparent transparent #0f4c75;
 }
 
-.tooltip-arrow-right::after {
+.tooltip-arrow-right {
     left: -4px;
     top: 50%;
     transform: translateY(-50%);

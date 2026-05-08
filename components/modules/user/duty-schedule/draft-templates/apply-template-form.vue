@@ -458,10 +458,10 @@ const rules = computed(() => {
     return {
         formTemplate: {
             weeks: {
-                required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
+                required: helpers.withMessage(() => `${t('validation.thisFieldIsRequired')}.`, required),
             },
             years: {
-                required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
+                required: helpers.withMessage(() => `${t('validation.thisFieldIsRequired')}.`, required),
             },
             ...(state.formTemplate.copy ? {
                 number_of_weeks: {

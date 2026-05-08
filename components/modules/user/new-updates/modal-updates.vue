@@ -4,16 +4,18 @@
             :show="props.isModalOpen" @close="closeModal">
             <template #modal-body>
                 <div class="space-y-5 text-sm text-gray-700">
-                    <div class="flex items-center">
-                        <label class="text-sm text-gray-500">
-                            {{ $t('updates.showUpdate') }}:
-                        </label>
-                        <select v-model="state.currentVersion" @change="loadUpdates(state.currentVersion)"
-                            class="text-sm text-primary underline bg-transparent focus:outline-none">
-                            <option v-for="(version, i) in state.availableVersions" :key="i" :value="version">
-                                {{ formatDateToReadable(version) }}
-                            </option>
-                        </select>
+                    <div class="flex items-center gap-2">
+                        <Icon name="ph:calendar-blank" size="15" class="text-tertiary shrink-0" />
+                        <div class="relative">
+                            <select v-model="state.currentVersion" @change="loadUpdates(state.currentVersion)"
+                                class="appearance-none bg-transparent text-sm text-tertiary pr-5 focus:outline-none cursor-pointer">
+                                <option v-for="(version, i) in state.availableVersions" :key="i" :value="version">
+                                    {{ formatDateToReadable(version) }}
+                                </option>
+                            </select>
+                            <Icon name="ph:caret-down" size="12"
+                                class="pointer-events-none absolute right-0 top-1/2 -translate-y-1/2 text-tertiary" />
+                        </div>
                     </div>
 
                     <div v-for="(update, index) in state.updates" :key="index">
@@ -56,8 +58,10 @@ function closeModal() {
 }
 
 const state = reactive({
-    currentVersion: '2026-04-10',
+    currentVersion: '2026-05-01',
     availableVersions: [
+        '2026-05-01',
+        '2026-04-24',
         '2026-04-10',
         '2026-02-20',
         '2026-01-30',
@@ -86,6 +90,273 @@ const state = reactive({
 
 const allUpdates: Record<string, Record<string, { title: string, description: string[] }[]>> = {
     en: {
+        '2026-05-01': [
+            {
+                title: 'Additions to Extra Hours (X-timer)',
+                description: [
+                    'A new column has been added showing the name of the person who created the extra hours entry.',
+                    'A new column and corresponding field for departments has been added to extra hours.',
+                    'Extra hours are now also visible within duty schedule drafts.',
+                ],
+            },
+            {
+                title: '⏱ Time Registration Improvements',
+                description: [
+                    'Employees can now request registration of a missed check-in.',
+                    'These requests must be approved by an administrator before they are registered.',
+                    'Administrators can now edit existing time log entries.',
+                ],
+            },
+            {
+                title: '💊 Medication Overview Improvements',
+                description: [
+                    'The number of pills / dosage is now displayed clearly and prominently for each medication.',
+                    'The medication overview now clearly distinguishes between PN (as-needed) medication and regular (scheduled) medication.',
+                    'Filtering options have been added: view all medications, only PN medication, or only regular medication.',
+                    'It is now possible to sort columns in the medication overview alphabetically (e.g., by medication name) and numerically (e.g., by dosage).',
+                    'It is now possible to view all medications at once, instead of being limited to 10 entries per page.',
+                ],
+            },
+            {
+                title: '👥 Employee Groups Assignment to Citizens',
+                description: [
+                    'It is now possible to assign an employee group to a citizen, and vice versa – from the employee group, assign one or more citizens; from the citizen profile, assign one or more employee groups.',
+                    'When an employee group is assigned to a citizen, all employees within that group are automatically assigned to the citizen.',
+                    'This assignment behaves the same way as assigning an employee directly via "Assigned Citizens" or assigning a contact via "Contacts" on the citizen.',
+                    'The relationship stays synchronized: if an employee is added to or removed from the group, the citizen assignment updates automatically.',
+                    'If an employee group is removed from a citizen, all associated employees are also unassigned (unless assigned manually elsewhere).',
+                ],
+            },
+            {
+                title: '📥 Treatment Export Functionality',
+                description: [
+                    'It is now possible to download/export treatments along with their statuses, similar to the existing medication history export.',
+                    'The export includes treatment details and current status (e.g., active, completed, etc.).',
+                ],
+            },
+            {
+                title: '📩 Inquiry (Henvendelser) Improvements',
+                description: [
+                    'Inquiries can now be assigned to a department, similar to how it works for citizens.',
+                    'A new "Department" field has been added to the inquiry form.',
+                    'On the Inquiries page, it is now possible to filter inquiries by department and export inquiries per department.',
+                    'The inquiry categories "Herberger og forsorgshjem" and "Krisecenter" can now be renamed in Settings → Other → Glossary (e.g., to §110 and §109).',
+                    'The fields "Navn på spørger" and "Dato for henvendelser" can now be renamed in Settings → Other → Glossary.',
+                    'The fields "Own notes" and "Purpose" can now be removed via Settings → Other → Glossary.',
+                ],
+            },
+            {
+                title: '💊 Medication – Trade Name Display',
+                description: [
+                    'The trade name of a medication (e.g., Panodil) is now clearly displayed alongside or as part of the medication information.',
+                ],
+            },
+            {
+                title: '🔔 Reminders & Task List',
+                description: [
+                    'It is now more clearly visible whether a reminder is marked as "Completed".',
+                    'A log has been added showing which user completed a reminder.',
+                    'The reminder feature now functions as a full task list, inspired by Apple\'s Reminders app.',
+                    'A reminders overview has been added to the dashboard/home page.',
+                ],
+            },
+            {
+                title: '🔁 Duty Schedule Template – Copy Across Multiple Weeks',
+                description: [
+                    'It is now possible to copy shorter source weeks into multiple consecutive future weeks when creating a duty schedule template.',
+                    'Example: copy 1 week into 2, 3, 4, or more consecutive weeks.',
+                ],
+            },
+            {
+                title: '📇 Company Contacts & Address Book',
+                description: [
+                    'Company contacts can now be created in the same way as citizen contacts.',
+                    'All contacts (e.g., doctors, case workers, etc. – not relatives) are now stored centrally in the system so they can be reused and assigned to multiple citizens.',
+                    'A company-wide address book has been introduced where contacts are centrally stored and can be selected when needed.',
+                ],
+            },
+            {
+                title: '🔐 Login Restriction by IP / Device',
+                description: [
+                    'Administrators can now restrict login access based on IP address and/or device.',
+                    'Specific IP addresses (e.g., the office network) can be whitelisted.',
+                    'Optionally, access can be restricted to approved devices.',
+                    'Users outside allowed IPs/devices will be blocked or required to complete additional verification.',
+                ],
+            },
+            {
+                title: '⚙️ Shift Type Configuration',
+                description: [
+                    'Under Shift Types, it is now possible to define that 1 working hour equals 0.75 hours (optionally), and this rule can also be applied within a specific time interval.',
+                    'For "Sleeping Night Shift", it is now possible to define a default end time that is 1, 2, or more days later.',
+                ],
+            },
+            {
+                title: '🧩 Roles & Permissions',
+                description: [
+                    'The Coordinator role and roles in general have been reviewed and improved so administrators no longer need to assign full "Administrator" rights unnecessarily.',
+                    'A clear overview and explanation of how specific permissions work has been provided.',
+                    'It is now possible to define a role hierarchy (e.g., Administrator has higher privileges than Manager).',
+                    'Specialized domain-specific roles can now be created (e.g., "Medication Responsible") to control access to specific modules.',
+                    'Multiple roles can now be assigned to a single employee (multi-select), and the system combines permissions from all assigned roles.',
+                ],
+            },
+            {
+                title: '📅 Duty Schedule – Yearly & Half-Year View per Employee',
+                description: [
+                    'A yearly and half-year calendar view has been added to the duty schedule.',
+                    'The view can be shown per individual employee, displaying their assigned shifts and an overview across time.',
+                ],
+            },
+        ],
+        '2026-04-24': [
+            {
+                title: '🏷 Tags & Filtering – Duty Schedule Draft',
+                description: [
+                    'Tags are now visible when copying shifts in the duty schedule draft.',
+                    'The draft now behaves identically to the published schedule, including tags and filtering functionality.',
+                ],
+            },
+            {
+                title: '📢 Open Shifts in Draft',
+                description: [
+                    'It is now possible to create an open shift directly in the duty schedule draft, matching the behavior of the extended draft view.',
+                    'The shift is only published and triggers notifications once the draft is officially released.',
+                ],
+            },
+            {
+                title: '🔔 News & Updates – Notification Counter',
+                description: [
+                    'The notification counter for "News" and "Updates" is now cleared immediately after the user views it.',
+                    'This reset occurs every time the user opens "News" or "Updates".',
+                ],
+            },
+            {
+                title: 'Department column in duty schedule exports',
+                description: [
+                    'When exporting a duty schedule, a "Department" column is included and positioned before the "Employee Name" column.',
+                ],
+            },
+            {
+                title: 'Duty schedule sorting – employees on duty today',
+                description: [
+                    'When the "on duty today" toggle is enabled, employees are now sorted starting with those whose shift begins earliest.',
+                ],
+            },
+            {
+                title: '📍 Employee Check-in – Geo-location',
+                description: [
+                    'Geo-location is now captured when employees check in.',
+                    'The system records the location (latitude/longitude) at the time of check-in.',
+                    'The location can optionally be displayed on a map view.',
+                ],
+            },
+            {
+                title: '📧 Apps – Mail Activation',
+                description: [
+                    'When activating the "Mail" app, the page now automatically reloads so the Mail module becomes immediately visible in the left sidebar.',
+                ],
+            },
+            {
+                title: 'Distribution of shift types',
+                description: [
+                    'Shift type distribution can now be filtered by start and end date/time and by employee.',
+                ],
+            },
+            {
+                title: '🏠 Room Management Improvements',
+                description: [
+                    'It is now possible to rename the label "Room" in the glossary/dictionary.',
+                    'A proper overview of rooms and their availability is now available.',
+                    'Occupied rooms can no longer be selected – only available rooms are selectable.',
+                ],
+            },
+            {
+                title: '⏱ Multi-day Shifts',
+                description: [
+                    'Shifts spanning multiple days (2–3 days or more) are now treated as one continuous shift.',
+                    'No warnings are triggered for the maximum 13-hour shift rule or the 11-hour rest period rule for such shifts.',
+                ],
+            },
+            {
+                title: '🩺 Sick Leave & Vacation Approval',
+                description: [
+                    'Administrators must now approve sick leave and vacation requests submitted by employees through the duty schedule before they are registered.',
+                ],
+            },
+            {
+                title: '💊 Medication – Scheduled Period & Extra Days',
+                description: [
+                    'It is now possible to schedule medication administration over a specified period, rather than requiring daily administration.',
+                    'It is also possible to add individual extra medication days on specific dates.',
+                    'Example: a child who usually attends on weekends can have medication added for a specific extra weekday without changing the regular schedule.',
+                ],
+            },
+            {
+                title: '💊 Medication Administration – Flexible Recording',
+                description: [
+                    'It is now possible to administer, record, and mark deviations for medication much more flexibly.',
+                ],
+            },
+            {
+                title: '💊 Medication UI – Multiple Administration Times',
+                description: [
+                    'The medication UI now supports viewing multiple administration times for a single medication.',
+                    'Each medication entry clearly displays all scheduled times (e.g., morning, noon, evening, night or specific timestamps).',
+                    'Times are visually grouped under the same medication so it is clear they belong to the same prescription.',
+                ],
+            },
+            {
+                title: '💊 PN Medication – No Fixed Administration Time',
+                description: [
+                    'PN (as-needed) medication no longer has a fixed administration time, as it is given based on need.',
+                ],
+            },
+            {
+                title: '💊 Medication Inventory – Stock Calculation Fix',
+                description: [
+                    'Issues with incorrect medication stock calculations have been investigated and resolved.',
+                    'Stock levels now always reflect accurate quantities based on registrations.',
+                    'Inventory values can no longer drop below zero.',
+                ],
+            },
+            {
+                title: '💊 Medication – Date & Time Display',
+                description: [
+                    'The administration date column for both regular and PN medication now also includes the exact time of administration.',
+                ],
+            },
+            {
+                title: '💊 Medication Overview – Additional Fields',
+                description: [
+                    'The medication overview now also displays "Maximum dose per administration" and "Description".',
+                    'For PN medication, the "Maximum dose per administration" field is now shown, consistent with regular medication.',
+                ],
+            },
+            {
+                title: '⚠️ Warning Configuration – Duty Schedule',
+                description: [
+                    'It is now possible to disable the "13-hour shift", "11-hour rest rule", and "48-hour rule" warnings in the duty schedule.',
+                ],
+            },
+            {
+                title: '📌 Bulletin Board Improvements',
+                description: [
+                    'Each post now displays the author and timestamp (date and time of creation).',
+                    'Only the original author of a post or an admin can edit it.',
+                    'Multiple posts can now be highlighted/pinned simultaneously.',
+                    'Posts on the dashboard are now displayed in a list format showing the title and a short preview. Users can click a post to view its full content.',
+                ],
+            },
+            {
+                title: '💊 PN Medication – Effect Evaluation',
+                description: [
+                    'After administering PN (as-needed) medication, users can now perform an effect evaluation.',
+                    'Click "Perform effect evaluation" to enter and save notes, outcome, or effect observations.',
+                    'Multiple effect evaluations can be performed for the same medication entry.',
+                ],
+            },
+        ],
         '2026-04-10': [
             {
                 title: 'Messaging UI improvements & chat history deletion',
@@ -1151,6 +1422,273 @@ const allUpdates: Record<string, Record<string, { title: string, description: st
         ],
     },
     dk: {
+        '2026-05-01': [
+            {
+                title: 'Tilføjelser til Ekstra Timer (X-timer)',
+                description: [
+                    'En ny kolonne er tilføjet, der viser navnet på den person, der har oprettet ekstra-timer-posten.',
+                    'En ny kolonne og et tilsvarende felt for afdelinger er tilføjet til ekstra timer.',
+                    'Ekstra timer er nu også synlige i vagtplanudkast.',
+                ],
+            },
+            {
+                title: '⏱ Forbedringer af tidsregistrering',
+                description: [
+                    'Medarbejdere kan nu anmode om registrering af et glemt check-ind.',
+                    'Disse anmodninger skal godkendes af en administrator, før de registreres.',
+                    'Administratorer kan nu redigere eksisterende tidslog-poster.',
+                ],
+            },
+            {
+                title: '💊 Forbedringer af medicinoversigtens',
+                description: [
+                    'Antal piller / dosis vises nu tydeligt og fremtrædende for hvert lægemiddel.',
+                    'Medicinoversigtens skelner nu klart mellem PN-medicin (efter behov) og fast (planlagt) medicin.',
+                    'Filtreringsmuligheder er tilføjet: vis al medicin, kun PN-medicin eller kun fast medicin.',
+                    'Det er nu muligt at sortere kolonner i medicinoversigtens alfabetisk (f.eks. efter medicinnavn) og numerisk (f.eks. efter dosis).',
+                    'Det er nu muligt at se al medicin på én gang i stedet for at være begrænset til 10 poster pr. side.',
+                ],
+            },
+            {
+                title: '👥 Tildeling af medarbejdergrupper til borgere',
+                description: [
+                    'Det er nu muligt at tildele en medarbejdergruppe til en borger og omvendt – fra medarbejdergruppen tildeles en eller flere borgere, og fra borgerprofilen tildeles en eller flere medarbejdergrupper.',
+                    'Når en medarbejdergruppe tildeles en borger, tildeles alle medarbejdere i gruppen automatisk til borgeren.',
+                    'Tildelingen fungerer på samme måde som direkte tildeling af en medarbejder via "Tildelte borgere" eller tildeling af en kontakt via "Kontakter" på borgeren.',
+                    'Forholdet holdes synkroniseret: hvis en medarbejder tilføjes eller fjernes fra gruppen, opdateres borgerens tildeling automatisk.',
+                    'Hvis en medarbejdergruppe fjernes fra en borger, fratages alle tilknyttede medarbejdere også (medmindre de er tildelt manuelt andetsteds).',
+                ],
+            },
+            {
+                title: '📥 Eksport af behandlinger',
+                description: [
+                    'Det er nu muligt at downloade/eksportere behandlinger sammen med deres statusser, svarende til den eksisterende eksport af medicinhistorik.',
+                    'Eksporten indeholder behandlingsdetaljer og nuværende status (f.eks. aktiv, afsluttet osv.).',
+                ],
+            },
+            {
+                title: '📩 Forbedringer af henvendelser',
+                description: [
+                    'Henvendelser kan nu tildeles en afdeling, på samme måde som det fungerer for borgere.',
+                    'Et nyt "Afdeling"-felt er tilføjet i henvendelsesskemaet.',
+                    'På henvendelsessiden er det nu muligt at filtrere henvendelser efter afdeling og eksportere henvendelser pr. afdeling.',
+                    'Kategorierne "Herberger og forsorgshjem" og "Krisecenter" kan nu omdøbes i Indstillinger → Andet → Ordliste (f.eks. til §110 og §109).',
+                    'Felterne "Navn på spørger" og "Dato for henvendelser" kan nu omdøbes i Indstillinger → Andet → Ordliste.',
+                    'Felterne "Egne noter" og "Formål" kan nu fjernes via Indstillinger → Andet → Ordliste.',
+                ],
+            },
+            {
+                title: '💊 Medicin – visning af handelsnavn',
+                description: [
+                    'Handelsnavnet på et lægemiddel (f.eks. Panodil) vises nu tydeligt som en del af medicininformationen.',
+                ],
+            },
+            {
+                title: '🔔 Påmindelser og opgaveliste',
+                description: [
+                    'Det er nu tydeligere synligt, om en påmindelse er markeret som "Fuldført".',
+                    'En log er tilføjet, der viser hvilken bruger der fuldførte en påmindelse.',
+                    'Påmindelsesfunktionen fungerer nu som en fuld opgaveliste, inspireret af Apples Påmindelser-app.',
+                    'En påmindelsesoversigt er tilføjet på dashboardet/startsiden.',
+                ],
+            },
+            {
+                title: '🔁 Vagtplanskabelon – kopiering over flere uger',
+                description: [
+                    'Det er nu muligt at kopiere kortere kildesuger ind i flere på hinanden følgende fremtidige uger ved oprettelse af en vagtplanskabelon.',
+                    'Eksempel: kopiér 1 uge til 2, 3, 4 eller flere på hinanden følgende uger.',
+                ],
+            },
+            {
+                title: '📇 Virksomhedskontakter og adressebog',
+                description: [
+                    'Virksomhedskontakter kan nu oprettes på samme måde som borgerkontakter.',
+                    'Alle kontakter (f.eks. læger, sagsbehandlere osv. – ikke pårørende) gemmes nu centralt i systemet, så de kan genbruges og tildeles flere borgere.',
+                    'En virksomhedsdækkende adressebog er introduceret, hvor kontakter gemmes centralt og kan vælges efter behov.',
+                ],
+            },
+            {
+                title: '🔐 Loginbegrænsning via IP / enhed',
+                description: [
+                    'Administratorer kan nu begrænse loginadgang baseret på IP-adresse og/eller enhed.',
+                    'Specifikke IP-adresser (f.eks. kontorets netværk) kan hvidlistes.',
+                    'Adgangen kan eventuelt begrænses til godkendte enheder.',
+                    'Brugere uden for tilladte IP-adresser/enheder blokeres eller skal gennemføre yderligere bekræftelse.',
+                ],
+            },
+            {
+                title: '⚙️ Konfiguration af vagttyper',
+                description: [
+                    'Under vagttyper er det nu muligt at definere, at 1 arbejdstime svarer til 0,75 time (valgfrit), og denne regel kan også gælde inden for et bestemt tidsinterval.',
+                    'For "Sovende nattevagt" er det nu muligt at definere et standardsluttidspunkt, der er 1, 2 eller flere dage senere.',
+                ],
+            },
+            {
+                title: '🧩 Roller og rettigheder',
+                description: [
+                    'Koordinatorrollen og roller generelt er gennemgået og forbedret, så administratorer ikke længere behøver at tildele fulde "Administrator"-rettigheder unødvendigt.',
+                    'En klar oversigt og forklaring af, hvordan specifikke rettigheder fungerer, er nu tilgængelig.',
+                    'Det er nu muligt at definere et rollehierarki (f.eks. Administrator har højere rettigheder end Leder).',
+                    'Domænespecifikke roller kan nu oprettes (f.eks. "Medicinansvarlig") til at styre adgang til specifikke moduler.',
+                    'Flere roller kan nu tildeles en enkelt medarbejder (flervalg), og systemet kombinerer rettigheder fra alle tildelte roller.',
+                ],
+            },
+            {
+                title: '📅 Vagtplan – års- og halvårsvisning pr. medarbejder',
+                description: [
+                    'En års- og halvårskalendervisning er tilføjet til vagtplanen.',
+                    'Visningen kan vises pr. enkelt medarbejder med deres tildelte vagter og en oversigt over tid.',
+                ],
+            },
+        ],
+        '2026-04-24': [
+            {
+                title: '🏷 Tags & filtrering – Vagtplanudkast',
+                description: [
+                    'Tags er nu synlige, når man kopierer vagter i vagtplanudkastet.',
+                    'Udkastet opfører sig nu identisk med den offentliggjorte vagtplan, herunder tags og filtreringsfunktionalitet.',
+                ],
+            },
+            {
+                title: '📢 Åbne vagter i udkast',
+                description: [
+                    'Det er nu muligt at oprette en åben vagt direkte i vagtplanudkastet, på samme måde som i den udvidede udkastvisning.',
+                    'Vagten publiceres og sender notifikationer først, når udkastet officielt frigives.',
+                ],
+            },
+            {
+                title: '🔔 Nyheder & Opdateringer – Notifikationstæller',
+                description: [
+                    'Notifikationstælleren for "Nyheder" og "Opdateringer" nulstilles nu øjeblikkeligt, når brugeren åbner dem.',
+                    'Dette sker hver gang brugeren åbner "Nyheder" eller "Opdateringer".',
+                ],
+            },
+            {
+                title: 'Afdelingskolonne i vagtplaneksporter',
+                description: [
+                    'Når man eksporterer en vagtplan, er der nu inkluderet en "Afdeling"-kolonne, der er placeret før "Medarbejdernavn"-kolonnen.',
+                ],
+            },
+            {
+                title: 'Sortering af vagtplan – medarbejdere på vagt i dag',
+                description: [
+                    'Når funktionen "på vagt i dag" er aktiveret, sorteres medarbejdere nu startende med dem, hvis vagt begynder tidligst.',
+                ],
+            },
+            {
+                title: '📍 Medarbejder check-in – Geo-lokation',
+                description: [
+                    'Geo-lokation registreres nu, når medarbejdere checker ind.',
+                    'Systemet gemmer lokationen (bredde- og længdegrad) på tidspunktet for check-in.',
+                    'Lokationen kan valgfrit vises på en kortvisning.',
+                ],
+            },
+            {
+                title: '📧 Apps – Aktivering af Mail',
+                description: [
+                    'Når "Mail"-appen aktiveres, genindlæser siden nu automatisk, så Mail-modulet straks bliver synligt i venstre navigationsmenu.',
+                ],
+            },
+            {
+                title: 'Fordeling af vagttyper',
+                description: [
+                    'Fordelingen af vagttyper kan nu filtreres efter start- og sluttidspunkt samt medarbejder.',
+                ],
+            },
+            {
+                title: '🏠 Forbedringer af rumhåndtering',
+                description: [
+                    'Det er nu muligt at omdøbe etiketten "Rum" i ordbogen/glossaret.',
+                    'Der er nu et korrekt overblik over rum og deres tilgængelighed.',
+                    'Optagne rum kan ikke længere vælges – kun ledige rum er valgbare.',
+                ],
+            },
+            {
+                title: '⏱ Flerdag-vagter',
+                description: [
+                    'Vagter, der strækker sig over flere dage (2–3 dage eller mere), behandles nu som én sammenhængende vagt.',
+                    'Der udløses ingen advarsler om maksimal 13-timers vagt eller 11-timers hviletid for sådanne vagter.',
+                ],
+            },
+            {
+                title: '🩺 Godkendelse af sygefravær & ferie',
+                description: [
+                    'Administratorer skal nu godkende anmodninger om sygefravær og ferie indsendt af medarbejdere via vagtplanen, før de registreres.',
+                ],
+            },
+            {
+                title: '💊 Medicin – Planlagt periode & ekstra dage',
+                description: [
+                    'Det er nu muligt at planlægge medicinering over en bestemt periode i stedet for daglig administration.',
+                    'Det er også muligt at tilføje individuelle ekstra medicindage på specifikke datoer.',
+                    'Eksempel: et barn, der normalt kommer i weekender, kan få tilføjet medicin for en specifik ekstra hverdag uden at ændre den normale plan.',
+                ],
+            },
+            {
+                title: '💊 Medicinering – Fleksibel registrering',
+                description: [
+                    'Det er nu muligt at administrere, registrere og markere afvigelser for medicin langt mere fleksibelt.',
+                ],
+            },
+            {
+                title: '💊 Medicin UI – Flere administrationstidspunkter',
+                description: [
+                    'Medicin-UI understøtter nu visning af flere administrationstidspunkter for ét enkelt lægemiddel.',
+                    'Hver medicinpost viser tydeligt alle planlagte tidspunkter (f.eks. morgen, middag, aften, nat eller specifikke tidsstempler).',
+                    'Tidspunkterne er visuelt grupperet under det samme lægemiddel, så det er klart, at de hører til den samme recept.',
+                ],
+            },
+            {
+                title: '💊 PN-medicin – Intet fast administrationstidspunkt',
+                description: [
+                    'PN-medicin (behovsbestemt medicin) har ikke længere et fast administrationstidspunkt, da det gives efter behov.',
+                ],
+            },
+            {
+                title: '💊 Medicinkassebeholdning – Rettelse af beregningsfejl',
+                description: [
+                    'Fejl i beregningen af medicinkassebeholdningen er undersøgt og udbedret.',
+                    'Lagerbeholdningen afspejler nu altid korrekte mængder baseret på registreringer.',
+                    'Lagerværdier kan ikke længere falde under nul.',
+                ],
+            },
+            {
+                title: '💊 Medicin – Dato- og tidsvisning',
+                description: [
+                    'Dato-kolonnen for administreret medicin (herunder PN-medicin) viser nu også det præcise tidspunkt for administrationen.',
+                ],
+            },
+            {
+                title: '💊 Medicinsoversigt – Ekstra felter',
+                description: [
+                    'Medicinsoversigten viser nu også "Maksimal dosis pr. administration" og "Beskrivelse".',
+                    'For PN-medicin vises feltet "Maksimal dosis pr. administration" nu, som det gøres for almindelig medicin.',
+                ],
+            },
+            {
+                title: '⚠️ Konfiguration af advarsler – Vagtplan',
+                description: [
+                    'Det er nu muligt at deaktivere advarslerne for "13-timers vagt", "11-timers hviletidsregel" og "48-timers reglen" i vagtplanen.',
+                ],
+            },
+            {
+                title: '📌 Forbedringer af opslagstavlen',
+                description: [
+                    'Hvert opslag viser nu forfatter og tidsstempel (dato og klokkeslæt for oprettelsen).',
+                    'Kun den oprindelige forfatter af et opslag eller en administrator kan redigere det.',
+                    'Flere opslag kan nu fremhæves/fastgøres samtidigt.',
+                    'Opslag på dashboardet vises nu i et listeformat med titel og et kort uddrag. Brugere kan klikke på et opslag for at se det fulde indhold.',
+                ],
+            },
+            {
+                title: '💊 PN-medicin – Effektvurdering',
+                description: [
+                    'Efter administration af PN-medicin kan brugere nu udføre en effektvurdering.',
+                    'Klik på "Udfør effektvurdering" for at indtaste og gemme noter, resultat eller observationer.',
+                    'Der kan udføres flere effektvurderinger for den samme medicinregistrering.',
+                ],
+            },
+        ],
         '2026-04-10': [
             {
                 title: 'Forbedringer af beskedsystem & sletning af chathistorik',

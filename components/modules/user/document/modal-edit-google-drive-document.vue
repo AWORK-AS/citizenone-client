@@ -6,8 +6,9 @@
             <template #modal-body>
                 <LoadingSpinner :isActive="state.isPageLoading">
                     <ModulesUserCitizenDocumentForm formType="update" :selectedDocument="props.selectedDocument"
-                        :error="state.error" :showAdminCheckbox="false" @isPageLoading="(value: boolean) => state.isPageLoading = value"
-                        @closeModal="closeModal" @submitForm="updateGoogleDrive" />
+                        :error="state.error" :showAdminCheckbox="false"
+                        @isPageLoading="(value: boolean) => state.isPageLoading = value" @closeModal="closeModal"
+                        @submitForm="updateGoogleDrive" />
                 </LoadingSpinner>
             </template>
         </Modal>
@@ -56,16 +57,13 @@ async function updateGoogleDrive(details: any) {
     state.error = {}
     state.isPageLoading = true
     try {
-        console.log('modal updateGoogleDrive called; details:', details, 'props.selectedDocument:', props.selectedDocument)
         const fileId = details.id || props.selectedDocument?.id
         if (!fileId) throw new Error('Missing Google Drive file id')
         const params: any = { name: details.name }
         const response = await googledriveService.updateGoogleDriveFile(fileId, params)
-        console.log('Google Drive PATCH response:', response)
         // determine parent folder id: prefer details.parent_id, then selectedDocument.parents[0], then prop
         const parentId = details.parent_id || details.parentId || props.selectedDocument?.parents?.[0] || props.parentFolderId || null
         refreshDocuments(parentId)
-        console.log('Emitted refreshDocuments for folder:', parentId)
         closeModal()
         successAlert(`${t('alert.success')}!`, `${t('drive.alert.folderSuccessfullyUpdated') || 'Document updated'}`)
     } catch (error: any) {

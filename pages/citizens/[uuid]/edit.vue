@@ -137,6 +137,13 @@ const state = reactive({
             residence_before_uuid: '',
             residence_after_uuid: '',
             discharge_reason: '',
+            consent_declarations: [],
+            photo: false,
+            parent_collaboration: false,
+            student_collaboration: false,
+            general_consent: false,
+            personal_guardianship: false,
+            financial_guardianship: false,
         },
     } as CitizenForm,
     isPageLoading: false,
@@ -222,6 +229,13 @@ async function fetchCitizen() {
                     residence_before_uuid: response?.data?.stay_data?.residence_before_municipality?.uuid?.toString() ?? '',
                     residence_after_uuid: response?.data?.stay_data?.residence_after_municipality?.uuid?.toString() ?? '',
                     discharge_reason: response?.data?.stay_data?.discharge_reason ?? '',
+                    consent_declarations: response?.data?.stay_data?.consent_declarations ?? [],
+                    photo: response?.data?.stay_data?.photo ?? false,
+                    parent_collaboration: response?.data?.stay_data?.parent_collaboration ?? false,
+                    student_collaboration: response?.data?.stay_data?.student_collaboration ?? false,
+                    general_consent: response?.data?.stay_data?.general_consent ?? false,
+                    personal_guardianship: response?.data?.stay_data?.personal_guardianship ?? false,
+                    financial_guardianship: response?.data?.stay_data?.financial_guardianship ?? false,
                 },
             }
             response?.data?.departments?.forEach((department: any) => {
@@ -342,6 +356,13 @@ async function updateCitizen(citizenDetails: any) {
             params.append('residence_after_uuid', citizenDetails.stayData.residence_after_uuid)
         }
         params.append('discharge_reason', citizenDetails.stayData.discharge_reason)
+        params.append('consent_declarations', JSON.stringify(citizenDetails.stayData.consent_declarations))
+        params.append('photo', citizenDetails.stayData.photo)
+        params.append('parent_collaboration', citizenDetails.stayData.parent_collaboration)
+        params.append('student_collaboration', citizenDetails.stayData.student_collaboration)
+        params.append('general_consent', citizenDetails.stayData.general_consent)
+        params.append('personal_guardianship', citizenDetails.stayData.personal_guardianship)
+        params.append('financial_guardianship', citizenDetails.stayData.financial_guardianship)
         const response = await citizenService.updateCitizen(citizenUuid, params)
         if (response.data) {
             successAlert(`${t('alert.success')}!`, `${t('citizens.form.alert.successfullyUpdate')}.`)

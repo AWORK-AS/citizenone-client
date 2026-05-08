@@ -190,10 +190,10 @@
                             <Icon name="mdi:cloud-refresh-outline" class="h-4 w-4" />
                             {{ $t('citizens.medicineJournals.synchronizeWithFMK') }}
                         </FormButton>
-                        <FormButton buttonStyle="action" class="rounded-md" @click="state.modal.isAnbrudOpen = true">
+                        <!-- <FormButton buttonStyle="action" class="rounded-md" @click="state.modal.isAnbrudOpen = true">
                             <Icon name="ph:drop" class="h-4 w-4" />
                             {{ $t('citizens.medicineJournals.page.newPackageOpening') }}
-                        </FormButton>
+                        </FormButton> -->
                         <FormButton buttonStyle="action" class="rounded-md"
                             @click="state.modal.isAddMedicineOpen = true">
                             <Icon name="ph:plus" class="h-4 w-4" />
@@ -304,13 +304,20 @@
                                         :value="citizenMedicineStore.getSelectedMedicines?.includes(medicine.uuid)"
                                         @click="addRemoveMedicine(medicine)" class="mt-0.5 shrink-0" />
                                     <div class="min-w-0 flex-1">
-                                        <p class="text-sm font-medium text-gray-900 truncate">
-                                            {{
-                                                language.locale.value === 'en' ?
-                                                    medicine?.medicine?.en_name :
-                                                    medicine?.medicine?.dk_name
-                                            }}
-                                        </p>
+                                        <div class="flex items-center gap-1.5 min-w-0">
+                                            <p class="text-sm font-medium text-gray-900 truncate">
+                                                {{
+                                                    language.locale.value === 'en' ?
+                                                        medicine?.medicine?.en_name :
+                                                        medicine?.medicine?.dk_name
+                                                }}
+                                            </p>
+                                            <Tooltip v-if="medicine?.description" :text="medicine.description"
+                                                :wrap="true" class="shrink-0">
+                                                <Icon name="ph:info"
+                                                    class="size-3.5 text-primary/60 hover:text-primary cursor-default" />
+                                            </Tooltip>
+                                        </div>
                                         <p class="text-xs text-gray-500">
                                             {{ medicine?.medicine?.ingredients }}
                                             <span v-if="medicine?.strength"> ·
@@ -324,9 +331,6 @@
                                         <p class="text-xs text-gray-500">
                                             {{ $t('citizens.medicineJournals.form.maxDailyDose') }}:
                                             {{ medicine?.max_daily_dose }}
-                                        </p>
-                                        <p class="text-xs text-gray-500">
-                                            {{ medicine?.description }}
                                         </p>
                                         <div class="flex gap-1 flex-wrap mt-1">
                                             <Tooltip v-if="medicine?.is_expired"
@@ -348,9 +352,9 @@
                                             </Tooltip>
                                         </div>
                                         <!-- Dosage per time slot -->
-                                        <div v-if="medicine?.max_dosage_per_time?.length"
+                                        <div v-if="medicine?.dosage_status_by_date?.[todayStr]?.length"
                                             class="flex gap-1 flex-wrap mt-1.5">
-                                            <span v-for="d in medicine.max_dosage_per_time" :key="d.time"
+                                            <span v-for="d in medicine.dosage_status_by_date[todayStr]" :key="d.time"
                                                 class="inline-flex items-center gap-1 text-xs bg-primary/10 text-primary border border-primary/20 px-2 py-0.5 rounded-full font-semibold">
                                                 <Icon name="ph:pill" class="size-3" />
                                                 {{ d.dosage }}
@@ -414,7 +418,7 @@
                                                 </span>
                                             </button>
                                         </Tooltip>
-                                        <span class="text-xs"
+                                        <span class="text-xs text-center truncate"
                                             :class="getSlotTimeClass(getDosageForTime(medicine, time), time)">
                                             {{ getSlotTimeLabel(getDosageForTime(medicine, time), time) }}
                                         </span>
@@ -447,13 +451,20 @@
                                         :value="citizenMedicineStore.getSelectedMedicines?.includes(medicine.uuid)"
                                         @click="addRemoveMedicine(medicine)" />
                                     <div class="flex-1 min-w-0">
-                                        <p class="text-sm font-medium text-gray-900">
-                                            {{
-                                                language.locale.value === 'en' ?
-                                                    medicine?.medicine?.en_name :
-                                                    medicine?.medicine?.dk_name
-                                            }}
-                                        </p>
+                                        <div class="flex items-center gap-1.5 min-w-0">
+                                            <p class="text-sm font-medium text-gray-900">
+                                                {{
+                                                    language.locale.value === 'en' ?
+                                                        medicine?.medicine?.en_name :
+                                                        medicine?.medicine?.dk_name
+                                                }}
+                                            </p>
+                                            <Tooltip v-if="medicine?.description" :text="medicine.description"
+                                                :wrap="true" class="shrink-0">
+                                                <Icon name="ph:info"
+                                                    class="size-3.5 text-primary/60 hover:text-primary cursor-default" />
+                                            </Tooltip>
+                                        </div>
                                         <p class="text-xs text-gray-500">
                                             {{ medicine?.medicine?.ingredients }}
                                             <span v-if="medicine?.strength">
@@ -468,13 +479,11 @@
                                             {{ $t('citizens.medicineJournals.form.maxDailyDose') }}:
                                             {{ medicine?.max_daily_dose }}
                                         </p>
-                                        <p class="text-xs text-gray-500">
-                                            {{ medicine?.description }}
-                                        </p>
                                         <!-- Dosage for PN -->
-                                        <div v-if="medicine?.max_dosage_per_time?.length"
+                                        <div v-if="medicine?.dosage_status_by_date?.[todayStr]?.length"
                                             class="flex gap-1 flex-wrap mt-1">
-                                            <span v-for="d in medicine.max_dosage_per_time" :key="d.time ?? 'pn'"
+                                            <span v-for="d in medicine.dosage_status_by_date[todayStr]"
+                                                :key="d.time ?? 'pn'"
                                                 class="inline-flex items-center gap-1 text-xs bg-primary/10 text-primary border border-primary/20 px-2 py-0.5 rounded-full font-semibold">
                                                 <Icon name="ph:pill" class="size-3" />
                                                 {{ d.dosage }}
@@ -500,7 +509,7 @@
                                         </span>
                                     </Tooltip>
                                     <FormButton buttonStyle="action" class="rounded-md text-xs shrink-0"
-                                        @click="giveMedicine(medicine)">
+                                        @click="givePNMedicine(medicine)">
                                         <Icon name="ph:plus" class="size-3" />
                                         {{ $t('citizens.medicineJournals.page.givePN') }}
                                     </FormButton>
@@ -571,13 +580,20 @@
                                         class="border-b border-gray-100 last:border-b-0">
                                         <td class="px-4 py-3 text-xs font-medium text-gray-900 border-r border-gray-100"
                                             width="15%">
-                                            <p class="truncate max-w-36">
-                                                {{
-                                                    language.locale.value === 'en' ?
-                                                        medicine?.medicine?.en_name :
-                                                        medicine?.medicine?.dk_name
-                                                }}
-                                            </p>
+                                            <div class="flex items-center gap-1 min-w-0">
+                                                <p class="truncate max-w-36">
+                                                    {{
+                                                        language.locale.value === 'en' ?
+                                                            medicine?.medicine?.en_name :
+                                                            medicine?.medicine?.dk_name
+                                                    }}
+                                                </p>
+                                                <Tooltip v-if="medicine?.description" :text="medicine.description"
+                                                    :wrap="true" class="shrink-0">
+                                                    <Icon name="ph:info"
+                                                        class="size-3.5 text-primary/60 hover:text-primary cursor-default" />
+                                                </Tooltip>
+                                            </div>
                                             <p class="text-xxs text-gray-400">
                                                 {{ medicine?.medicine?.ingredients }}
                                                 <span v-if="medicine?.strength"> ·
@@ -592,9 +608,10 @@
                                                 {{ $t('citizens.medicineJournals.form.maxDailyDose') }}:
                                                 {{ medicine?.max_daily_dose }}
                                             </p>
-                                            <div v-if="medicine?.max_dosage_per_time?.length"
+                                            <div v-if="medicine?.dosage_status_by_date?.[todayStr]?.length"
                                                 class="flex gap-1 flex-wrap mt-1.5">
-                                                <span v-for="d in medicine.max_dosage_per_time" :key="d.time"
+                                                <span v-for="d in medicine.dosage_status_by_date[todayStr]"
+                                                    :key="d.time"
                                                     class="inline-flex items-center gap-1 text-xs bg-primary/10 text-primary border border-primary/20 px-2 py-0.5 rounded-full font-semibold">
                                                     <Icon name="ph:pill" class="size-3" />
                                                     {{ d.dosage }}
@@ -605,9 +622,10 @@
                                         <td v-for="day in weekDays" :key="day.dateStr"
                                             :class="['px-1 py-2 border-l border-gray-100 align-top', day.isToday ? 'bg-primary/5' : '']">
                                             <div v-for="dosage in getWeekDosagesForDay(medicine, day)"
-                                                :key="dosage.time"
-                                                :class="['text-xs px-1.5 py-1 rounded mb-1 text-center cursor-pointer leading-tight', getWeekSlotClass(dosage, day)]"
-                                                @click="openGiveMedicineOnDate(medicine, dosage, day)">
+                                                :key="dosage.time" :class="[
+                                                    getWeekSlotClass(dosage, day),
+                                                    'text-xs px-1.5 py-1 rounded mb-1 text-center cursor-pointer leading-tight'
+                                                ]" @click="openGiveMedicineOnDate(medicine, dosage, day)">
                                                 <div v-if="dosage.dosage" class="font-bold">{{ dosage.dosage }}</div>
                                                 <div>{{ dosage.time }}</div>
                                             </div>
@@ -672,9 +690,9 @@
                                     <div v-for="medicine in regularMedicines" :key="medicine.uuid">
                                         <div v-for="dosage in getMonthDosagesForDay(medicine, day.dateStr)"
                                             :key="dosage.time"
-                                            :class="['mb-0.5 rounded-full overflow-hidden border cursor-pointer', getMonthSlotBorderClass(dosage.status, dosage.time, day.dateStr)]"
+                                            :class="['mb-0.5 rounded-md overflow-hidden border cursor-pointer', getMonthSlotBorderClass(dosage.status, dosage.time, day.dateStr)]"
                                             @click="openGiveMedicineOnDate(medicine, dosage, day)">
-                                            <div :class="['px-3 py-0.5', getMonthSlotBgClass(dosage.status, dosage.time, day.dateStr)]"
+                                            <div :class="['px-2 py-1', getMonthSlotBgClass(dosage.status, dosage.time, day.dateStr)]"
                                                 style="font-size:10px;line-height:1.4">
                                                 <p class="font-medium">
                                                     {{
@@ -682,6 +700,16 @@
                                                             medicine?.medicine?.en_name :
                                                             medicine?.medicine?.dk_name
                                                     }}
+                                                </p>
+                                                <p class="text-gray-500">
+                                                    {{ medicine?.medicine?.ingredients }}
+                                                    <span v-if="medicine?.strength"> ·
+                                                        {{ medicine?.strength }}
+                                                        ·
+                                                        {{
+                                                            medicine?.mass_unit?.name ? ' ' + medicine.mass_unit.name : ''
+                                                        }}
+                                                    </span>
                                                 </p>
                                                 <p>
                                                     <span v-if="dosage.dosage">
@@ -735,13 +763,20 @@
                                             </Tooltip>
                                             <!-- Medicine info -->
                                             <div class="min-w-0">
-                                                <p class="text-sm font-semibold text-gray-900 truncate">
-                                                    {{
-                                                        language.locale.value === 'en' ?
-                                                            medicine?.medicine?.en_name :
-                                                            medicine?.medicine?.dk_name
-                                                    }}
-                                                </p>
+                                                <div class="flex items-center gap-1.5 min-w-0">
+                                                    <p class="text-sm font-semibold text-gray-900 truncate">
+                                                        {{
+                                                            language.locale.value === 'en' ?
+                                                                medicine?.medicine?.en_name :
+                                                                medicine?.medicine?.dk_name
+                                                        }}
+                                                    </p>
+                                                    <Tooltip v-if="medicine?.description" :text="medicine.description"
+                                                        :wrap="true" class="shrink-0">
+                                                        <Icon name="ph:info"
+                                                            class="size-3.5 text-primary/60 hover:text-primary cursor-default" />
+                                                    </Tooltip>
+                                                </div>
                                                 <p class="text-xs text-gray-400 truncate mt-0.5">
                                                     {{ medicine?.medicine?.ingredients }}
                                                     {{
@@ -781,7 +816,8 @@
                                             {{ formatScheduleFrequency(medicine) }}
                                         </p>
                                         <div class="mt-1 flex flex-wrap gap-1" v-if="!medicine.is_pn_medicine">
-                                            <Tooltip v-for="(dosage, dosageIndex) in medicine?.max_dosage_per_time"
+                                            <Tooltip
+                                                v-for="(dosage, dosageIndex) in medicine?.dosage_status_by_date?.[todayStr]"
                                                 :key="dosageIndex" :text="getStatusLabel(dosage?.status)">
                                                 <span :class="[
                                                     getStatusBg(dosage?.status),
@@ -814,8 +850,16 @@
                                                     <Icon name="ph:eye" class="size-4" />
                                                 </FormButton>
                                             </Tooltip>
+                                            <Tooltip
+                                                :text="$t('citizens.medicineJournals.table.actions.givePNMedicine')"
+                                                position="left" v-if="medicine.is_pn_medicine">
+                                                <FormButton buttonStyle="action" class="rounded-md text-xs shrink-0"
+                                                    @click="givePNMedicine(medicine)">
+                                                    <Icon name="ph:plus" class="size-3" />
+                                                </FormButton>
+                                            </Tooltip>
                                             <Tooltip :text="$t('citizens.medicineJournals.table.actions.giveMedicine')"
-                                                position="left">
+                                                position="left" v-else>
                                                 <FormButton type="button" buttonStyle="action" class="rounded-md"
                                                     @click="giveMedicine(medicine)">
                                                     <Icon name="ph:plus" class="size-4" />
@@ -873,15 +917,19 @@
                 <ModulesUserCitizenMedicineModalEdit :isModalOpen="state.modal.isEditMedicineOpen"
                     :selectedMedicine="state.selectedMedicine" @close="closeEditMedicineModal"
                     @refreshMedicines="fetchCitizenMedicines" />
+                <ModulesUserCitizenMedicineHistoryModalNew :isModalOpen="state.modal.isGivePNMedicineOpen"
+                    :selectedMedicine="state.selectedMedicine" @close="state.modal.isGivePNMedicineOpen = false"
+                    @refreshMedicines="fetchCitizenMedicines" />
                 <ModulesUserCitizenMedicineModalGiveMedicine :isModalOpen="state.modal.isGiveMedicineOpen"
                     :selectedMedicine="state.selectedMedicine" :preselectedDate="state.preselectedDate ?? undefined"
                     :preselectedTime="state.preselectedTime ?? undefined" @close="closeGiveMedicineModal"
-                    @refreshMedicines="() => { state.historyCache = {}; fetchCitizenMedicines() }" />
+                    @refreshMedicines="fetchCitizenMedicines()" />
                 <ModulesUserCitizenMedicineHistoryModalGiveMultipleMedicine
                     :isModalOpen="state.modal.isGiveMedicinesOpen" @close="state.modal.isGiveMedicinesOpen = false"
                     @refreshMedicines="() => { state.historyCache = {}; fetchCitizenMedicines() }" />
                 <ModulesUserCitizenMedicineHistoryModalHistory :isModalOpen="state.modal.isViewMedicineHistoryOpen"
-                    :selectedMedicine="state.selectedMedicine" @close="state.modal.isViewMedicineHistoryOpen = false" />
+                    :selectedMedicine="state.selectedMedicine" @close="state.modal.isViewMedicineHistoryOpen = false"
+                    @refreshMedicines="() => { state.historyCache = {}; fetchCitizenMedicines() }" />
                 <ModulesUserCitizenMedicineModalDownload :isModalOpen="state.modal.isDownloadMedicineOverviewOpen"
                     @close="state.modal.isDownloadMedicineOverviewOpen = false" />
                 <DialogConfirmation :isModalOpen="state.modal.isDeactivateMedicineOpen"
@@ -989,6 +1037,7 @@ const state = reactive({
         isFilterMedicineOpen: false,
         isGiveMedicineOpen: false,
         isGiveMedicinesOpen: false,
+        isGivePNMedicineOpen: false,
         isViewMedicineOpen: false,
         isViewMedicineHistoryOpen: false,
     },
@@ -1058,11 +1107,13 @@ function isMedicineActiveOnDate(medicine: any, dateStr: string): boolean {
 const allMedicines = computed(() => state.medicines?.data ?? [])
 const regularMedicines = computed(() => allMedicines.value.filter((m: any) => !m.is_pn_medicine))
 const pnMedicines = computed(() => allMedicines.value.filter((m: any) => m.is_pn_medicine))
+const todayStr = computed(() => moment().format('YYYY-MM-DD'))
 
 const timeColumns = computed(() => {
     const times = new Set()
     regularMedicines.value.forEach((m: any) => {
-        m.max_dosage_per_time?.forEach((d: any) => { if (d?.time) times.add(d.time) })
+        const entries: any[] = m?.dosage_status_by_date?.[todayStr.value] ?? []
+        entries.forEach((d: any) => { if (d?.time) times.add(d.time) })
     })
     return Array.from(times).sort() as string[]
 })
@@ -1103,7 +1154,8 @@ const stats = computed(() => {
     regularMedicines.value
         .filter((m: any) => isMedicineActiveOnDate(m, today))
         .forEach((m: any) => {
-            m.max_dosage_per_time?.forEach((d: any) => {
+            const entries: any[] = m?.dosage_status_by_date?.[today] ?? []
+            entries.forEach((d: any) => {
                 const s = d?.status
                 if (s === 'given' || s === 'delivered') given++
                 else if (isMissed(d?.time)) overdue++
@@ -1116,9 +1168,11 @@ const stats = computed(() => {
 
 const alarmBanners = computed(() => {
     const banners: any[] = []
+    const today = moment().format('YYYY-MM-DD')
     regularMedicines.value.forEach((m: any) => {
         const name = language.locale.value === 'en' ? m?.medicine?.en_name : m?.medicine?.dk_name
-        m.max_dosage_per_time?.forEach((d: any) => {
+        const entries: any[] = m?.dosage_status_by_date?.[today] ?? []
+        entries.forEach((d: any) => {
             if (d?.status) return
             if (isMissed(d?.time)) {
                 const mins = minutesSince(d?.time)
@@ -1174,13 +1228,9 @@ function formatMinutesSince(mins: number): string {
 // ─── Slot helpers ─────────────────────────────────────────────
 
 function getDosageForTime(medicine: any, time: string) {
-    const raw = medicine?.max_dosage_per_time?.find((d: any) => d?.time === time) ?? null
-    if (!raw) return null
     const today = moment().format('YYYY-MM-DD')
-    const cacheKey = `${medicine?.uuid}_${today}`
-    const byTime = state.historyCache[cacheKey]
-    const status = byTime !== undefined ? (byTime[time] ?? null) : (raw.status ?? null)
-    return { ...raw, status }
+    const entries: any[] = medicine?.dosage_status_by_date?.[today] ?? []
+    return entries.find((d: any) => d?.time === time) ?? null
 }
 
 function getSlotClass(dosage: any, time: string): string {
@@ -1238,21 +1288,8 @@ function gridStyle(colCount: number) {
 }
 
 function getWeekDosagesForDay(medicine: any, day: any): any[] {
-    // If medicine is not active on this date, return empty (no slots shown)
     if (!isMedicineActiveOnDate(medicine, day.dateStr)) return []
-
-    const cacheKey = `${medicine?.uuid}_${day.dateStr}`
-    const cacheLoaded = cacheKey in state.historyCache
-    const byTime = state.historyCache[cacheKey] ?? {}
-    const rawDosages = (medicine?.max_dosage_per_time ?? []).map((d: any) => ({
-        time: d.time ?? d,
-        dosage: d.dosage ?? '',
-    }))
-    return rawDosages.map((d: any) => ({
-        time: d.time,
-        dosage: d.dosage,
-        status: cacheLoaded ? (byTime[d.time] ?? null) : null,
-    }))
+    return medicine?.dosage_status_by_date?.[day.dateStr] ?? []
 }
 
 function getWeekSlotClass(dosage: any, day: any): string {
@@ -1351,10 +1388,11 @@ const filteredRegularMedicines = computed(() => {
     const activeMedicines = regularMedicines.value.filter((m: any) => isMedicineActiveOnDate(m, today))
     if (!state.statsFilter) return activeMedicines
     return activeMedicines.filter((m: any) => {
-        if (state.statsFilter === 'given') return m.max_dosage_per_time?.some((d: any) => d?.status === 'given' || d?.status === 'delivered')
-        if (state.statsFilter === 'overdue') return m.max_dosage_per_time?.some((d: any) => !d?.status && isMissed(d?.time))
-        if (state.statsFilter === 'soon') return m.max_dosage_per_time?.some((d: any) => !d?.status && isDueSoon(d?.time))
-        if (state.statsFilter === 'pending') return m.max_dosage_per_time?.some((d: any) => !d?.status && !isMissed(d?.time) && !isDueSoon(d?.time))
+        const entries: any[] = m?.dosage_status_by_date?.[today] ?? []
+        if (state.statsFilter === 'given') return entries.some((d: any) => d?.status === 'given' || d?.status === 'delivered')
+        if (state.statsFilter === 'overdue') return entries.some((d: any) => !d?.status && isMissed(d?.time))
+        if (state.statsFilter === 'soon') return entries.some((d: any) => !d?.status && isDueSoon(d?.time))
+        if (state.statsFilter === 'pending') return entries.some((d: any) => !d?.status && !isMissed(d?.time) && !isDueSoon(d?.time))
         return true
     })
 })
@@ -1365,13 +1403,7 @@ function toggleStatsFilter(filter: string) {
 }
 
 function getMonthDosagesForDay(medicine: any, dateStr: string): any[] {
-    const cacheKey = `${medicine?.uuid}_${dateStr}`
-    const byTime = state.historyCache[cacheKey]
-    return (medicine?.max_dosage_per_time ?? []).map((d: any) => ({
-        time: d.time,
-        dosage: d.dosage,
-        status: byTime ? (byTime[d.time] ?? null) : null,
-    }))
+    return medicine?.dosage_status_by_date?.[dateStr] ?? []
 }
 
 function getMonthSlotClass(status: string | null, time: string, dateStr: string): string {
@@ -1406,43 +1438,6 @@ function getMonthSlotBgClass(status: string | null, time: string, dateStr: strin
     if (isToday && isMissed(time)) return 'bg-red-50 text-red-700'
     if (isToday) return 'bg-primary/5 text-primary'
     return 'bg-white text-gray-500'
-}
-
-async function fetchHistoryForRange(startDate: string, endDate: string) {
-    const medicines = state.medicines?.data ?? []
-    const regularMeds = medicines.filter((m: any) => !m.is_pn_medicine && m.max_dosage_per_time?.length > 0)
-
-    // Fetch all dates in range for all medicines in parallel
-    const start = moment(startDate)
-    const end = moment(endDate)
-    const dates: string[] = []
-    let cur = start.clone()
-    while (cur.isSameOrBefore(end, 'day')) {
-        dates.push(cur.format('YYYY-MM-DD'))
-        cur.add(1, 'day')
-    }
-
-    const newCache: Record<string, Record<string, string>> = { ...state.historyCache }
-
-    await Promise.all(
-        regularMeds.flatMap((med: any) =>
-            dates.map(async (dateStr: string) => {
-                const key = `${med.uuid}_${dateStr}`
-                if (newCache[key]) return // already cached
-                try {
-                    const res = await medicineHistoryService.getMedicineHistoryByMedicineUuid(med.uuid, { date: dateStr })
-                    const byTime: Record<string, string> = {}
-                    if (Array.isArray(res?.data)) {
-                        res.data.forEach((h: any) => { if (h.time && h.type) byTime[h.time] = h.type })
-                    }
-                    newCache[key] = byTime
-                } catch (e) {
-                    newCache[key] = {}
-                }
-            })
-        )
-    )
-    state.historyCache = newCache
 }
 
 async function fetchCitizenMedicines(viewMode?: string) {
@@ -1485,12 +1480,6 @@ async function fetchCitizenMedicines(viewMode?: string) {
         const response = await medicineJournalService.getMedicines(params)
         if (response) {
             state.medicines = response
-            // Fetch history for the visible range
-            if (activeMode === 'week' || activeMode === 'month') {
-                fetchHistoryForRange(startDate, endDate)
-            } else {
-                fetchHistoryForRange(startDate, endDate)
-            }
         }
     } catch (error: any) {
         state.error = error
@@ -1557,6 +1546,11 @@ function closeGiveMedicineModal() {
 function giveMedicine(medicine: any) {
     state.selectedMedicine = medicine
     state.modal.isGiveMedicineOpen = true
+}
+
+function givePNMedicine(medicine: any) {
+    state.selectedMedicine = medicine
+    state.modal.isGivePNMedicineOpen = true
 }
 
 function openGiveMedicineOnDate(medicine: any, dosage: any, day: any) {

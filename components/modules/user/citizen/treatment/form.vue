@@ -197,10 +197,10 @@ const rules = computed(() => {
         return {
             formTreatment: {
                 name: {
-                    required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
+                    required: helpers.withMessage(() => `${t('validation.thisFieldIsRequired')}.`, required),
                 },
                 date_completed: {
-                    required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
+                    required: helpers.withMessage(() => `${t('validation.thisFieldIsRequired')}.`, required),
                 },
             },
         }
@@ -208,10 +208,10 @@ const rules = computed(() => {
         return {
             formTreatment: {
                 name: {
-                    required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
+                    required: helpers.withMessage(() => `${t('validation.thisFieldIsRequired')}.`, required),
                 },
                 completion_date: {
-                    required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
+                    required: helpers.withMessage(() => `${t('validation.thisFieldIsRequired')}.`, required),
                 },
             },
         }

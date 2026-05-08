@@ -4,8 +4,7 @@
             <template #modal-body>
                 <div>
                     <div class="flex justify-end items-center mb-5">
-                        <FormButton buttonStyle="action" class="rounded-lg"
-                            @click="state.modal.isAddMedicineHistoryOpen = true">
+                        <FormButton buttonStyle="action" @click="state.modal.isAddMedicineHistoryOpen = true">
                             <Icon name="ph:plus" class="h-4 w-4" aria-hidden="true" />
                             {{ $t('citizens.medicineJournals.history.giveMedicine') }}
                         </FormButton>
@@ -35,11 +34,11 @@
                             </div>
                             <div class="flex flex-wrap gap-2">
                                 <button v-for="pending in pendingEvaluations" :key="pending.key" type="button"
-                                    @click="openEvaluation(pending)"
+                                    @click="createEvaluation(pending)"
                                     class="inline-flex items-center gap-1.5 text-xs bg-white border border-amber-300 text-amber-800 px-3 py-1.5 rounded-lg hover:bg-amber-100 transition-colors font-medium">
                                     <Icon name="ph:clock" class="size-3" />
                                     {{ $t('citizens.medicineJournals.historyModal.evaluateAt') }}
-                                    {{ pending.evalTime }} — {{ pending.medicineName }}
+                                    {{ pending.time }} — {{ pending.medicine_name }}
                                 </button>
                             </div>
                         </div>
@@ -54,7 +53,7 @@
                                 {{ $t('citizens.medicineJournals.historyModal.noPreviousAdministrations') }}
                             </div>
                             <div v-else class="space-y-3">
-                                <div v-for="(entry, idx) in state.medicineHistories?.data" :key="entry.uuid"
+                                <div v-for="(entry, entryIndex) in state.medicineHistories?.data" :key="entryIndex"
                                     class="rounded-xl border border-gray-200 overflow-hidden">
                                     <!-- Entry header -->
                                     <div
@@ -115,7 +114,8 @@
                                         <div v-if="entry.evaluator?.firstname"
                                             class="flex items-center gap-1.5 text-xs text-gray-500">
                                             <Icon name="ph:user" class="size-3" />
-                                            Evaluator: {{ entry.evaluator.firstname }} {{ entry.evaluator.lastname }}
+                                            {{ $t('citizens.medicineJournals.history.table.evaluator') }}:
+                                            {{ entry.evaluator.firstname }} {{ entry.evaluator.lastname }}
                                         </div>
 
 
@@ -124,8 +124,8 @@
                                             <p class="text-xs font-medium text-gray-500 uppercase tracking-wide">{{
                                                 $t('citizens.medicineJournals.historyModal.effectEvaluation') }}</p>
                                             <div class="flex flex-wrap gap-2">
-                                                <div v-for="evalTime in entry.evaluation_frequency" :key="evalTime"
-                                                    class="flex items-center gap-1.5">
+                                                <div v-for="(evalTime, evalTimeIndex) in entry.evaluation_frequency"
+                                                    :key="evalTimeIndex" class="flex items-center gap-1.5">
                                                     <!-- Check if already evaluated at this time -->
                                                     <template v-if="isEvaluated(entry, evalTime)">
                                                         <div
@@ -140,7 +140,7 @@
                                                     </template>
                                                     <template v-else>
                                                         <button type="button"
-                                                            @click="openEvaluation({ evalTime, medicineName: getEntryMedicineName(), entry })"
+                                                            @click="createEvaluation({ time: evalTime, medicine_name: getEntryMedicineName(), entry })"
                                                             class="inline-flex items-center gap-1.5 text-xs bg-amber-50 border border-amber-300 text-amber-800 px-2.5 py-1.5 rounded-lg hover:bg-amber-100 transition-colors font-medium">
                                                             <Icon name="ph:clock" class="size-3" />
                                                             {{
@@ -160,23 +160,17 @@
                                                 class="bg-gray-50 rounded-lg px-3 py-2.5 space-y-1">
                                                 <div class="flex items-center justify-between">
                                                     <span class="text-xs font-medium text-gray-600">
-                                                        {{
-                                                            $t('citizens.medicineJournals.historyModal.effectEvaluation')
-                                                        }} — {{
-                                                            $t('citizens.medicineJournals.historyModal.evaluatedAt') }} {{
-                                                            evaluation.time ??
-                                                            evaluation.evaluated_at
+                                                        {{ $t('citizens.medicineJournals.historyModal.effectEvaluation')
                                                         }}
+                                                        — {{ $t('citizens.medicineJournals.historyModal.evaluatedAt') }}
+                                                        {{ normalizeTime(evaluation.time) }}
                                                     </span>
                                                     <span class="text-xs text-gray-400">
-                                                        {{ evaluation.evaluator ??
-                                                            (evaluation.user ? evaluation.user.firstname
-                                                                + ' ' + (evaluation.user.lastname ?? '') : '')
-                                                        }}
+                                                        {{ evaluation.user?.firstname }} {{ evaluation.user?.lastname }}
                                                     </span>
                                                 </div>
-                                                <p class="text-xs text-gray-700">
-                                                    {{ evaluation.comment }}
+                                                <p v-if="evaluation.evaluation" class="text-xs text-gray-700">
+                                                    {{ evaluation.evaluation }}
                                                 </p>
                                             </div>
                                         </div>
@@ -186,25 +180,35 @@
                             <Pagination :data="state.medicineHistories" @previous="previous" @next="next" />
 
                             <!-- All evaluations section -->
-                            <div v-if="state.apiEvaluations.length > 0" class="mt-4">
-                                <p class="text-xs font-semibold text-gray-400 uppercase tracking-wide mb-2">{{
-                                    $t('citizens.medicineJournals.historyModal.allEffectEvaluations') }}</p>
+                            <div v-if="state.effectEvaluations?.data?.length > 0" class="mt-4">
+                                <p class="text-xs font-semibold text-gray-400 uppercase tracking-wide mb-2">
+                                    {{
+                                        $t('citizens.medicineJournals.historyModal.allEffectEvaluations')
+                                    }}
+                                </p>
                                 <div class="space-y-2">
-                                    <div v-for="ev in state.apiEvaluations" :key="ev.uuid"
-                                        class="bg-blue-50 border border-blue-100 rounded-lg px-3 py-2.5">
+                                    <div v-for="(effectEvaluation, effectEvaluationIndex) in state.effectEvaluations?.data"
+                                        :key="effectEvaluationIndex"
+                                        class="bg-blue-50 border border-blue-100 rounded-lg px-3 py-2.5 cursor-pointer"
+                                        @click="editEvaluation(effectEvaluation)">
                                         <div class="flex items-center justify-between mb-1">
-                                            <span class="text-xs font-medium text-blue-800">
-                                                <Icon name="ph:stethoscope" class="size-3 inline mr-1" />
+                                            <span class="flex items-center gap-x-1 text-xs font-medium text-blue-800">
+                                                <Icon name="ph:stethoscope" class="w-3 h-3" />
                                                 {{ $t('citizens.medicineJournals.historyModal.effectEvaluation') }}
                                             </span>
                                             <span class="text-xs text-gray-400">
-                                                {{ ev.user ? ev.user.firstname + ' ' + (ev.user.lastname ?? '') :
-                                                    $t('citizens.medicineJournals.historyModal.unknown') }} · {{
-                                                    formatDateTimeToReadable(ev.created_at)
+                                                {{
+                                                    effectEvaluation.user ?
+                                                        effectEvaluation.user.firstname + ' ' +
+                                                        (effectEvaluation.user.lastname ?? '') :
+                                                        $t('citizens.medicineJournals.historyModal.unknown')
+                                                }} · {{
+                                                    formatDateTimeToReadable(effectEvaluation.created_at)
                                                 }}
                                             </span>
                                         </div>
-                                        <p class="text-xs text-gray-700">{{ ev.evaluation }}</p>
+                                        <p class="text-sm text-gray-700"
+                                            v-html="effectEvaluation.evaluation?.replace(/\n/g, '<br>')" />
                                     </div>
                                 </div>
                             </div>
@@ -261,12 +265,12 @@
                                             </td>
                                             <td width="10%">
                                                 <div class="flex items-end gap-2">
-                                                    <FormButton type="button" buttonStyle="action" class="rounded-md"
+                                                    <FormButton type="button" buttonStyle="action"
                                                         @click="editMedicineHistory(medicineHistory)">
                                                         <Icon name="ph:pencil-simple" class="size-4" />
                                                         {{ $t('citizens.medicineJournals.table.actions.edit') }}
                                                     </FormButton>
-                                                    <FormButton type="button" buttonStyle="danger" class="rounded-md"
+                                                    <FormButton type="button" buttonStyle="danger"
                                                         @click="confirmMedicineDeletion(medicineHistory)">
                                                         <Icon name="ph:trash-duotone" class="size-4" />
                                                         {{ $t('citizens.medicineJournals.table.actions.delete') }}
@@ -281,63 +285,6 @@
                         </div>
                     </div>
 
-                    <!-- Evaluation modal via Teleport to bypass z-index stacking -->
-                    <Teleport to="body">
-                        <div v-if="state.activeEvaluation"
-                            style="position:fixed;inset:0;z-index:99999;display:flex;align-items:center;justify-content:center;background:rgba(0,0,0,0.6);">
-                            <div class="bg-white rounded-2xl shadow-xl w-full max-w-md mx-4 overflow-hidden">
-                                <div class="bg-primary text-white px-5 py-4 flex items-center justify-between">
-                                    <div>
-                                        <p class="font-semibold text-sm">
-                                            {{ $t('citizens.medicineJournals.historyModal.registerEffectEvaluation') }}
-                                        </p>
-                                        <p class="text-xs opacity-75 mt-0.5">
-                                            {{
-                                                $t('citizens.medicineJournals.historyModal.scheduledAt')
-                                            }} {{
-                                                state.activeEvaluation.evalTime
-                                            }} · {{
-                                                state.activeEvaluation.medicineName
-                                            }}
-                                        </p>
-                                    </div>
-                                    <button type="button" @click="state.activeEvaluation = null"
-                                        class="opacity-70 hover:opacity-100">
-                                        <Icon name="ph:x" class="size-5" />
-                                    </button>
-                                </div>
-                                <div class="p-5 space-y-4">
-                                    <div class="bg-blue-50 border border-blue-100 rounded-lg px-4 py-3">
-                                        <p class="text-xs text-blue-700">
-                                            {{ $t('citizens.medicineJournals.historyModal.describeReaction') }}
-                                        </p>
-                                    </div>
-                                    <div class="space-y-1">
-                                        <label class="text-sm font-medium text-gray-700">{{
-                                            $t('citizens.medicineJournals.historyModal.observation') }}</label>
-                                        <textarea v-model="state.evalComment" rows="4"
-                                            :placeholder="$t('citizens.medicineJournals.historyModal.evaluationPlaceholder')"
-                                            class="w-full text-sm border border-gray-200 rounded-xl px-3 py-2.5 focus:outline-none focus:border-primary resize-none bg-gray-50"></textarea>
-                                    </div>
-                                    <div class="grid grid-cols-2 gap-3">
-                                        <button type="button" @click="state.activeEvaluation = null"
-                                            class="text-sm border border-gray-200 rounded-xl py-2.5 hover:bg-gray-50 transition-colors text-gray-600">
-                                            {{ $t('cancel') }}
-                                        </button>
-                                        <button type="button" @click="saveEvaluation"
-                                            :disabled="!state.evalComment.trim() || state.isSavingEval"
-                                            class="text-sm bg-primary text-white rounded-xl py-2.5 hover:bg-primary/90 transition-colors font-medium disabled:opacity-50">
-                                            {{ state.isSavingEval ? $t('citizens.medicineJournals.historyModal.saving')
-                                                :
-                                                $t('citizens.medicineJournals.historyModal.saveEvaluation') }}
-                                        </button>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-
-                    </Teleport>
-
                     <ModulesUserCitizenMedicineHistoryModalNew :isModalOpen="state.modal.isAddMedicineHistoryOpen"
                         :selectedMedicine="props.selectedMedicine" @close="state.modal.isAddMedicineHistoryOpen = false"
                         @refreshMedicineHistories="fetchCitizenMedicineHistories" />
@@ -345,6 +292,17 @@
                         :selectedMedicine="props.selectedMedicine"
                         :selectedMedicineHistory="state.selectedMedicineHistory" @close="closeEditMedicineHistoryModal"
                         @refreshMedicineHistories="fetchCitizenMedicineHistories" />
+                    <ModulesUserCitizenMedicineEvaluationModalNew :isModalOpen="state.modal.isAddMedicineEvaluationOpen"
+                        :selectedMedicineEvaluation="state.selectedMedicineEvaluation"
+                        @close="state.modal.isAddMedicineEvaluationOpen = false"
+                        @refreshMedicineHistories="fetchCitizenMedicineHistories"
+                        @refreshEvaluations="fetchEffectEvaluations" />
+                    <ModulesUserCitizenMedicineEvaluationModalEdit
+                        :isModalOpen="state.modal.isEditMedicineEvaluationOpen"
+                        :selectedMedicineEvaluation="state.selectedMedicineEvaluation"
+                        @close="state.modal.isEditMedicineEvaluationOpen = false"
+                        @refreshMedicineHistories="fetchCitizenMedicineHistories"
+                        @refreshEvaluations="fetchEffectEvaluations" />
                     <DialogConfirmation :isModalOpen="state.modal.isDeleteMedicineHistoryOpen"
                         :message="$t('citizens.medicineJournals.history.confirmation.deleteConfirmation') + '?'"
                         @close="state.modal.isDeleteMedicineHistoryOpen = false" @confirm="deleteMedicineHistory" />
@@ -376,25 +334,27 @@ const { formatNumber } = useNumberFormatter()
 const language = useI18n()
 const customPagesStore = useCustomPagesStore() as any
 let currentTablePage = 1
-const emit = defineEmits(['close'])
+const emit = defineEmits(['close', 'refreshMedicines'])
 
 const state = reactive({
     columnHeaders: [] as any,
+    effectEvaluations: [] as any,
     error: {} as Error,
     isTableLoading: false,
     medicineHistories: [] as any,
     modal: {
+        isAddMedicineEvaluationOpen: false,
         isAddMedicineHistoryOpen: false,
         isDeleteMedicineHistoryOpen: false,
+        isEditMedicineEvaluationOpen: false,
         isEditMedicineHistoryOpen: false,
     },
+    selectedMedicineEvaluation: {} as any,
     selectedMedicineHistory: [] as any,
     sortData: { sortField: 'id', sortOrder: 'descend' },
-    activeEvaluation: null as any,
     evalComment: '',
     isSavingEval: false,
     localEvaluations: {} as Record<string, any[]>,
-    apiEvaluations: [] as any[], // evaluations fetched from API
 })
 
 // ─── Computed ─────────────────────────────────────────────────
@@ -403,12 +363,12 @@ const pendingEvaluations = computed(() => {
     const pending: any[] = []
     const entries = state.medicineHistories?.data ?? []
     entries.forEach((entry: any) => {
-        entry.evaluation_frequency?.forEach((evalTime: string) => {
-            if (!isEvaluated(entry, evalTime)) {
+        entry.evaluation_frequency?.forEach((time: string) => {
+            if (!isEvaluated(entry, time)) {
                 pending.push({
-                    key: `${entry.uuid}_${evalTime}`,
-                    evalTime,
-                    medicineName: getEntryMedicineName(),
+                    key: `${entry.uuid}_${time}`,
+                    time,
+                    medicine_name: getEntryMedicineName(),
                     entry,
                 })
             }
@@ -434,58 +394,34 @@ function getEntryMedicineName(): string {
 }
 
 function isEvaluated(entry: any, evalTime: string): boolean {
-    const local = state.localEvaluations[`${entry.uuid}_${evalTime}`]
-    if (local?.length) return true
-    return entry.evaluations?.some((e: any) =>
-        e.time === evalTime || e.evaluated_at === evalTime
-    ) ?? false
+    const normalized = normalizeTime(evalTime)
+    return entry.effect_evaluations?.some((e: any) => normalizeTime(e.time) === normalized) ?? false
+}
+
+function normalizeTime(time: string): string {
+    return time?.replace(/^(\d{2}:\d{2}):\d{2}$/, '$1') ?? ''
 }
 
 function getEvaluations(entry: any): any[] {
-    const apiEvals = entry.evaluations ?? []
-    // Also check our fetched API evaluations
-    const fetchedEvals = state.apiEvaluations.filter((e: any) =>
-        e.citizen_medicine?.uuid === props.selectedMedicine?.uuid
-    )
-    const localEvals = Object.entries(state.localEvaluations)
-        .filter(([key]) => key.startsWith(entry.uuid))
-        .flatMap(([, evals]) => evals)
-    return [...apiEvals, ...fetchedEvals, ...localEvals]
+    return entry.effect_evaluations ?? []
 }
 
 // ─── Evaluation ───────────────────────────────────────────────
 
-function openEvaluation(pending: any) {
-    state.activeEvaluation = pending
-    state.evalComment = ''
+function createEvaluation(pending: any) {
+    state.selectedMedicineEvaluation = pending
+    state.modal.isAddMedicineEvaluationOpen = true
 }
 
-async function saveEvaluation() {
-    if (!state.evalComment.trim() || !state.activeEvaluation) return
-    state.isSavingEval = true
-    try {
-        // Save to API
-        await effectEvaluationService.createEffectEvaluation({
-            citizen_medicine_uuid: props.selectedMedicine?.uuid,
-            evaluation: state.evalComment,
-        })
-        // Also optimistic local update so UI updates immediately
-        const key = `${state.activeEvaluation.entry.uuid}_${state.activeEvaluation.evalTime}`
-        if (!state.localEvaluations[key]) state.localEvaluations[key] = []
-        state.localEvaluations[key].push({
-            time: state.activeEvaluation.evalTime,
-            comment: state.evalComment,
-            evaluator: t('citizens.medicineJournals.historyModal.me'),
-        })
-        successAlert(t('citizens.medicineJournals.historyModal.savedTitle'), t('citizens.medicineJournals.historyModal.evaluationRegistered'))
-        state.activeEvaluation = null
-        state.evalComment = ''
-        // Refresh to get server data
-        await fetchEffectEvaluations()
-    } catch (error: any) {
-        state.error = error
+function editEvaluation(effectEvaluation: any) {
+    state.selectedMedicineEvaluation = {
+        entry: effectEvaluation,
+        medicine_name: language.locale.value === 'en' ?
+            effectEvaluation?.citizen_medicine?.medicine?.en_name :
+            effectEvaluation?.citizen_medicine?.medicine?.dk_name,
+        time: effectEvaluation?.time,
     }
-    state.isSavingEval = false
+    state.modal.isEditMedicineEvaluationOpen = true
 }
 
 // ─── Data ─────────────────────────────────────────────────────
@@ -526,12 +462,20 @@ function modalTitle() {
 }
 
 async function fetchEffectEvaluations() {
+    state.error = {} as Error
+    state.isTableLoading = true
     try {
-        const res = await effectEvaluationService.getEffectEvaluations({
+        const params = {
             citizen_medicine_uuid: props.selectedMedicine?.uuid,
-        })
-        if (res?.data) state.apiEvaluations = res.data
-    } catch (e) { /* ignore */ }
+        }
+        const response = await effectEvaluationService.getEffectEvaluations(params)
+        if (response) {
+            state.effectEvaluations = response
+        }
+    } catch (error: any) {
+        state.error = error
+    }
+    state.isTableLoading = false
 }
 
 async function fetchCitizenMedicineHistories() {
@@ -549,6 +493,10 @@ async function fetchCitizenMedicineHistories() {
         state.error = error
     }
     state.isTableLoading = false
+}
+
+function refreshMedicines() {
+    emit('refreshMedicines')
 }
 
 function previous() { currentTablePage--; fetchCitizenMedicineHistories() }
@@ -583,6 +531,7 @@ async function deleteMedicineHistory() {
         if (response?.message === 'Success.' || response?.message === 'Succes.') {
             if (state.selectedMedicineHistory?.data?.length === 1) currentTablePage = 1
             fetchCitizenMedicineHistories()
+            refreshMedicines()
             successAlert(`${t('alert.success')}!`, `${t('citizens.medicineJournals.history.alert.successfullyDeleted')}.`)
         }
     } catch (error: any) {

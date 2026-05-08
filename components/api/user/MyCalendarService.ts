@@ -20,6 +20,14 @@ class MyCalendarService extends BaseAPIService {
     async downloadCalendar(): Promise<any> {
         return await this.request(`/user/my-calendars/download/calendar`, 'GET')
     }
+
+    async getIcalToken(): Promise<any> {
+        return await this.request(`/user/my-calendars/ical/fetch/token`, 'GET')
+    }
+
+    async refreshIcalToken(): Promise<any> {
+        return await this.request(`/user/my-calendars/ical/token/refresh`, 'POST')
+    }
 }
 
 export const myCalendarService = new MyCalendarService()

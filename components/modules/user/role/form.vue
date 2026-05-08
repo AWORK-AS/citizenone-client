@@ -100,6 +100,8 @@ const PERMISSION_LABELS: Record<string, string> = {
     'delete_citizen_children': 'roles.permissions.deleteCitizenChildren',
     'delete_calendar': 'roles.permissions.deleteCalendar',
     'create_citizen': 'roles.permissions.createCitizen',
+    'update_citizen': 'roles.permissions.updateCitizen',
+    'update_form_field_config': 'roles.permissions.updateFormFieldConfig',
 }
 
 const state = reactive({
@@ -136,7 +138,7 @@ const rules = computed(() => {
     return {
         formRole: {
             name: {
-                required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
+                required: helpers.withMessage(() => `${t('validation.thisFieldIsRequired')}.`, required),
             },
         },
     }
@@ -148,7 +150,6 @@ async function fetchAllPermissions() {
     state.error = {}
     emit('isPageLoading', true)
     try {
-        console.log('selected role', props.selectedRole)
         const params = {
             role: props.selectedRole ? props.selectedRole.name : '',
         }
