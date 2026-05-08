@@ -1660,11 +1660,19 @@
                     "name": "Navn",
                     "origin": "Oprindelse"
                 },
+                "consentFields": "Samtykke",
                 "dischargeReason": "Udskrivningsårsag",
+                "financialGuardianship": "Økonomiværge",
+                "generalConsent": "Generelt samtykke",
+                "guardianship": "Værgemål",
                 "journalNumber": "Journalnummer",
                 "municipalityOfResidenceAfter": "Bopælskommune efter ophold",
                 "municipalityOfResidenceBefore": "Bopælskommune før ophold",
-                "stayData": "Opholdsdata"
+                "parentCollaboration": "Forældresamarbejde",
+                "personalGuardianship": "Personværge",
+                "photo": "Foto",
+                "stayData": "Opholdsdata",
+                "studentCollaboration": "Elevsamarbejde"
             }
         },
         "interventionHours": {

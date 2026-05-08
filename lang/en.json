@@ -1660,11 +1660,19 @@
                     "name": "Name",
                     "origin": "Origin"
                 },
+                "consentFields": "Consent",
                 "dischargeReason": "Discharge reason",
+                "financialGuardianship": "Financial guardianship",
+                "generalConsent": "General consent",
+                "guardianship": "Guardianship",
                 "journalNumber": "Journal number",
                 "municipalityOfResidenceAfter": "Municipality of residence after",
                 "municipalityOfResidenceBefore": "Municipality of residence before",
-                "stayData": "Stay data"
+                "parentCollaboration": "Parent collaboration",
+                "personalGuardianship": "Personal guardianship",
+                "photo": "Photo",
+                "stayData": "Stay data",
+                "studentCollaboration": "Student collaboration"
             }
         },
         "interventionHours": {

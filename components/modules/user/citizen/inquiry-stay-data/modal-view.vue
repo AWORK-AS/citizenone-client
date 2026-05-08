@@ -307,8 +307,79 @@
                             {{ props?.selectedCitizen?.data?.stay_data?.discharge_reason }}
                         </p>
                     </div>
+
+                    <!-- Consent -->
+                    <div class="pt-1">
+                        <p class="text-sm font-semibold">
+                            {{ $t('citizens.inquiryStayData.stayData.consentFields') }}
+                        </p>
+                        <div class="ml-3 space-y-1 mt-1">
+                            <div v-if="props?.selectedCitizen?.data?.stay_data?.photo !== null && props?.selectedCitizen?.data?.stay_data?.photo !== undefined"
+                                class="flex items-center gap-x-1 text-sm">
+                                <p>{{ $t('citizens.inquiryStayData.stayData.photo') }}:</p>
+                                <p>{{props?.selectedCitizen?.data?.stay_data?.photo
+                                    ? state.options.yesNo.find((o: any) => o.value === 'yes')?.label
+                                    : state.options.yesNo.find((o: any) => o.value === 'no')?.label}}</p>
+                            </div>
+                            <div v-if="props?.selectedCitizen?.data?.stay_data?.parent_collaboration !== null && props?.selectedCitizen?.data?.stay_data?.parent_collaboration !== undefined"
+                                class="flex items-center gap-x-1 text-sm">
+                                <p>{{ $t('citizens.inquiryStayData.stayData.parentCollaboration') }}:</p>
+                                <p>{{props?.selectedCitizen?.data?.stay_data?.parent_collaboration
+                                    ? state.options.yesNo.find((o: any) => o.value === 'yes')?.label
+                                    : state.options.yesNo.find((o: any) => o.value === 'no')?.label}}</p>
+                            </div>
+                            <div v-if="props?.selectedCitizen?.data?.stay_data?.student_collaboration !== null && props?.selectedCitizen?.data?.stay_data?.student_collaboration !== undefined"
+                                class="flex items-center gap-x-1 text-sm">
+                                <p>{{ $t('citizens.inquiryStayData.stayData.studentCollaboration') }}:</p>
+                                <p>{{props?.selectedCitizen?.data?.stay_data?.student_collaboration
+                                    ? state.options.yesNo.find((o: any) => o.value === 'yes')?.label
+                                    : state.options.yesNo.find((o: any) => o.value === 'no')?.label}}</p>
+                            </div>
+                            <div v-if="props?.selectedCitizen?.data?.stay_data?.general_consent !== null && props?.selectedCitizen?.data?.stay_data?.general_consent !== undefined"
+                                class="flex items-center gap-x-1 text-sm">
+                                <p>{{ $t('citizens.inquiryStayData.stayData.generalConsent') }}:</p>
+                                <p>{{props?.selectedCitizen?.data?.stay_data?.general_consent
+                                    ? state.options.yesNo.find((o: any) => o.value === 'yes')?.label
+                                    : state.options.yesNo.find((o: any) => o.value === 'no')?.label}}</p>
+                            </div>
+                            <template v-if="props?.selectedCitizen?.data?.stay_data?.consent_declarations?.length > 0">
+                                <div v-for="declaration in props?.selectedCitizen?.data?.stay_data?.consent_declarations"
+                                    :key="declaration.consent_declaration_type_id"
+                                    class="flex items-center gap-x-1 text-sm">
+                                    <p>{{ declaration.name }}:</p>
+                                    <p>{{declaration.value
+                                        ? state.options.yesNo.find((o: any) => o.value === 'yes')?.label
+                                        : state.options.yesNo.find((o: any) => o.value === 'no')?.label}}</p>
+                                </div>
+                            </template>
+                        </div>
+                    </div>
+
+                    <!-- Guardianship -->
+                    <div class="pt-1">
+                        <p class="text-sm font-semibold">
+                            {{ $t('citizens.inquiryStayData.stayData.guardianship') }}
+                        </p>
+                        <div class="ml-3 space-y-1 mt-1">
+                            <div v-if="props?.selectedCitizen?.data?.stay_data?.personal_guardianship !== null && props?.selectedCitizen?.data?.stay_data?.personal_guardianship !== undefined"
+                                class="flex items-center gap-x-1 text-sm">
+                                <p>{{ $t('citizens.inquiryStayData.stayData.personalGuardianship') }}:</p>
+                                <p>{{props?.selectedCitizen?.data?.stay_data?.personal_guardianship
+                                    ? state.options.yesNo.find((o: any) => o.value === 'yes')?.label
+                                    : state.options.yesNo.find((o: any) => o.value === 'no')?.label}}</p>
+                            </div>
+                            <div v-if="props?.selectedCitizen?.data?.stay_data?.financial_guardianship !== null && props?.selectedCitizen?.data?.stay_data?.financial_guardianship !== undefined"
+                                class="flex items-center gap-x-1 text-sm">
+                                <p>{{ $t('citizens.inquiryStayData.stayData.financialGuardianship') }}:</p>
+                                <p>{{props?.selectedCitizen?.data?.stay_data?.financial_guardianship
+                                    ? state.options.yesNo.find((o: any) => o.value === 'yes')?.label
+                                    : state.options.yesNo.find((o: any) => o.value === 'no')?.label}}</p>
+                            </div>
+                        </div>
+                    </div>
+
                     <div v-if="props?.selectedCitizen?.data?.stay_data?.accompanying_children?.length > 0"
-                        class="text-sm">
+                        class="text-sm font-semibold">
                         <p>
                             {{ $t('citizens.inquiryStayData.stayData.accompanyingChildren.accompanyingChildren') }}:
                         </p>
