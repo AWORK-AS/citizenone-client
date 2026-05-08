@@ -263,9 +263,12 @@
                                 <MenuItems
                                     class="absolute right-0 z-10 mt-2 w-56 origin-top-right rounded-xl bg-white py-1.5 shadow-dropdown ring-1 ring-slate-900/5 focus:outline-none">
                                     <div class="px-3 py-2.5 border-b border-surface-100">
-                                        <p class="text-sm font-semibold text-slate-900">{{ userStore.getUser?.firstname
-                                        }} {{ userStore.getUser?.lastname }}</p>
-                                        <p class="text-xs text-slate-500 mt-0.5">{{ userStore.getUser?.email }}</p>
+                                        <p class="text-sm font-semibold text-slate-900">
+                                            {{ userStore.getUser?.firstname }} {{ userStore.getUser?.lastname }}
+                                        </p>
+                                        <p class="text-xs text-slate-500 mt-0.5">
+                                            {{ userStore.getUser?.email }}
+                                        </p>
                                     </div>
                                     <MenuItem>
                                     <div class="cursor-pointer flex items-center gap-x-3 px-3 py-2.5 text-sm text-slate-700 hover:bg-surface-50 transition-colors"
@@ -678,7 +681,7 @@ async function logout() {
         const response = await authService.logout()
         if (response) {
             localStorage.removeItem("_token")
-            localStorage.removeItem("remember_me")
+            localStorage.removeItem("rememberMe")
             navigateTo('/')
         }
     } catch (error: any) {

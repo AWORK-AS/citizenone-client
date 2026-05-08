@@ -73,7 +73,7 @@ const rules = computed(() => {
     return {
         formMove: {
             citizen_uuid: {
-                required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
+                required: helpers.withMessage(() => `${t('validation.thisFieldIsRequired')}.`, required),
             },
         }
     }

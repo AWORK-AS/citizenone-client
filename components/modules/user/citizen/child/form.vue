@@ -344,7 +344,7 @@ const rules = computed(() => {
     return {
         formChild: {
             firstname: {
-                required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
+                required: helpers.withMessage(() => `${t('validation.thisFieldIsRequired')}.`, required),
             },
         },
     }

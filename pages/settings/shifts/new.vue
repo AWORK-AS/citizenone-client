@@ -57,6 +57,11 @@ const state = reactive({
         time_out: '',
         color: '',
         is_leave_shift_type: false,
+        working_hours_factor: null as string | null,
+        working_hours_factor_from: null as string | null,
+        working_hours_factor_to: null as string | null,
+        end_time_day_offset: null as number | null,
+        system_name: null as string | null,
     },
     isPageLoading: false,
 })
@@ -73,6 +78,9 @@ async function saveShift(shiftDetails: any) {
             time_out: shiftDetails.time_out ?? '',
             color: shiftDetails.color,
             is_leave_shift_type: shiftDetails.is_leave_shift_type,
+            working_hours_factor: shiftDetails.working_hours_factor || null,
+            working_hours_factor_from: shiftDetails.working_hours_factor_from ? shiftDetails.working_hours_factor_from.substring(0, 5) : null,
+            working_hours_factor_to: shiftDetails.working_hours_factor_to ? shiftDetails.working_hours_factor_to.substring(0, 5) : null,
         }
         const response = await shiftService.saveShift(params)
         if (response.data) {

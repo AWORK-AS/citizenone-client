@@ -3,13 +3,13 @@
         <Transition enter-active-class="transition ease-out duration-200" enter-from-class="opacity-0"
             enter-to-class="opacity-100" leave-active-class="transition ease-in duration-150"
             leave-from-class="opacity-100" leave-to-class="opacity-0">
-            <div v-if="isOpen" class="fixed inset-0 z-[100] bg-slate-900/50 backdrop-blur-sm" @click="close">
+            <div v-if="state.isOpen" class="fixed inset-0 z-[100] bg-slate-900/50 backdrop-blur-sm" @click="close">
                 <div class="flex items-start justify-center pt-[15vh]" @click.stop>
                     <div
                         class="w-full max-w-xl bg-white rounded-2xl shadow-2xl border border-surface-200 overflow-hidden">
                         <div class="flex items-center gap-3 px-5 py-4 border-b border-surface-100">
                             <Icon name="heroicons:magnifying-glass" class="h-5 w-5 text-slate-400 shrink-0" />
-                            <input ref="searchInput" v-model="searchQuery" type="text"
+                            <input ref="searchInput" v-model="state.searchQuery" type="text"
                                 :placeholder="$t('globalSearch.placeholder')"
                                 class="flex-1 text-base text-slate-700 placeholder-slate-400 outline-none bg-transparent" />
                             <button @click="close"
@@ -19,13 +19,13 @@
                         </div>
                         <div class="max-h-[26rem] overflow-y-auto">
                             <!-- Empty state: recent searches -->
-                            <div v-if="!searchQuery">
-                                <div v-if="recentSearches.length > 0" class="px-5 pt-4 pb-2">
+                            <div v-if="!state.searchQuery">
+                                <div v-if="state.recentSearches.length > 0" class="px-5 pt-4 pb-2">
                                     <p class="text-xs font-semibold text-slate-400 uppercase tracking-wider mb-2">{{
                                         $t('globalSearch.recent') }}</p>
-                                    <button v-for="term in recentSearches" :key="term"
+                                    <button v-for="term in state.recentSearches" :key="term"
                                         class="flex items-center gap-2 w-full px-3 py-2 rounded-lg text-sm text-slate-600 hover:bg-surface-50 hover:text-primary transition-colors text-left"
-                                        @click="searchQuery = term">
+                                        @click="state.searchQuery = term">
                                         <Icon name="heroicons:clock" class="h-4 w-4 text-slate-300 shrink-0" />
                                         {{ term }}
                                     </button>
@@ -36,12 +36,12 @@
                             </div>
 
                             <!-- Loading state -->
-                            <div v-else-if="isSearching" class="px-5 py-6 text-center text-sm text-slate-400">
+                            <div v-else-if="state.isSearching" class="px-5 py-6 text-center text-sm text-slate-400">
                                 {{ $t('globalSearch.searching') }}
                             </div>
 
                             <!-- Results -->
-                            <div v-else-if="hasSearched">
+                            <div v-else-if="state.hasSearched">
                                 <template v-for="group in resultGroups" :key="group.key">
                                     <div v-if="group.items.length > 0" class="px-5 pt-4 pb-2">
                                         <p class="text-xs font-semibold text-slate-400 uppercase tracking-wider mb-1">{{
@@ -58,7 +58,7 @@
                                                     group.primaryLabel(item) }}</p>
                                                 <p v-if="group.secondaryLabel(item)"
                                                     class="text-xs text-slate-400 truncate">{{
-                                                    group.secondaryLabel(item) }}</p>
+                                                        group.secondaryLabel(item) }}</p>
                                             </div>
                                         </button>
                                     </div>
@@ -87,12 +87,14 @@ import { useI18n } from 'vue-i18n'
 const RECENT_SEARCHES_KEY = 'globalSearch_recent'
 const MAX_RECENT = 5
 
-const isOpen = ref(false)
-const isSearching = ref(false)
-const hasSearched = ref(false)
-const searchQuery = ref('')
-const recentSearches = ref<string[]>([])
-const searchResults = ref<Record<string, any[]>>({})
+const state = reactive({
+    isOpen: false,
+    isSearching: false,
+    hasSearched: false,
+    searchQuery: '',
+    recentSearches: [] as string[],
+    searchResults: {} as Record<string, any[]>,
+})
 const searchInput = ref<HTMLInputElement | null>(null)
 
 const userStore = useUserStore()
@@ -133,7 +135,7 @@ const STATIC_PAGES: StaticPage[] = [
 ]
 
 const staticPageResults = computed(() => {
-    const query = searchQuery.value.trim().toLowerCase()
+    const query = state.searchQuery.trim().toLowerCase()
     if (!query || query.length < 2) return []
     const roles: any[] = userStore.getUser?.roles ?? []
     const isAdmin = roles.some((r: any) => r.name === 'Admin' || r.name === 'Superadmin')
@@ -169,8 +171,8 @@ const resultGroups = computed(() => [
         icon: 'heroicons:user-circle',
         iconBg: 'bg-blue-50',
         iconColor: 'text-blue-500',
-        items: searchResults.value.citizens ?? [],
-        primaryLabel: (i: any) => `${i.firstname} ${i.lastname}`,
+        items: state.searchResults.citizens ?? [],
+        primaryLabel: (i: any) => [i.firstname, i.lastname].filter(Boolean).join(' '),
         secondaryLabel: (i: any) => i.email ?? '',
     },
     {
@@ -179,7 +181,7 @@ const resultGroups = computed(() => [
         icon: 'heroicons:book-open',
         iconBg: 'bg-indigo-50',
         iconColor: 'text-indigo-500',
-        items: searchResults.value.journals ?? [],
+        items: state.searchResults.journals ?? [],
         primaryLabel: (i: any) => i.title ?? '',
         secondaryLabel: (i: any) => citizenName(i),
     },
@@ -189,7 +191,7 @@ const resultGroups = computed(() => [
         icon: 'heroicons:beaker',
         iconBg: 'bg-rose-50',
         iconColor: 'text-rose-500',
-        items: searchResults.value.medicines ?? [],
+        items: state.searchResults.medicines ?? [],
         primaryLabel: (i: any) => i.medicine?.dk_name || i.medicine?.en_name || '',
         secondaryLabel: (i: any) => citizenName(i),
     },
@@ -199,7 +201,7 @@ const resultGroups = computed(() => [
         icon: 'heroicons:paper-clip',
         iconBg: 'bg-emerald-50',
         iconColor: 'text-emerald-500',
-        items: searchResults.value.documents ?? [],
+        items: state.searchResults.documents ?? [],
         primaryLabel: (i: any) => i.name ?? '',
         secondaryLabel: (i: any) => citizenName(i),
     },
@@ -209,7 +211,7 @@ const resultGroups = computed(() => [
         icon: 'heroicons:clipboard-document-list',
         iconBg: 'bg-teal-50',
         iconColor: 'text-teal-500',
-        items: searchResults.value.plans ?? [],
+        items: state.searchResults.plans ?? [],
         primaryLabel: (i: any) => i.name ?? '',
         secondaryLabel: (i: any) => citizenName(i),
     },
@@ -219,7 +221,7 @@ const resultGroups = computed(() => [
         icon: 'heroicons:heart',
         iconBg: 'bg-pink-50',
         iconColor: 'text-pink-500',
-        items: searchResults.value.health ?? [],
+        items: state.searchResults.health ?? [],
         primaryLabel: (i: any) => citizenName(i),
         secondaryLabel: (i: any) => i.date ?? '',
     },
@@ -229,7 +231,7 @@ const resultGroups = computed(() => [
         icon: 'heroicons:clipboard-document-check',
         iconBg: 'bg-amber-50',
         iconColor: 'text-amber-500',
-        items: searchResults.value.attendance ?? [],
+        items: state.searchResults.attendance ?? [],
         primaryLabel: (i: any) => i.name ?? '',
         secondaryLabel: (i: any) => i.company?.name ?? '',
     },
@@ -239,7 +241,7 @@ const resultGroups = computed(() => [
         icon: 'heroicons:calendar-days',
         iconBg: 'bg-sky-50',
         iconColor: 'text-sky-500',
-        items: searchResults.value.calendar ?? [],
+        items: state.searchResults.calendar ?? [],
         primaryLabel: (i: any) => i.title ?? '',
         secondaryLabel: (i: any) => citizenName(i),
     },
@@ -249,7 +251,7 @@ const resultGroups = computed(() => [
         icon: 'heroicons:banknotes',
         iconBg: 'bg-lime-50',
         iconColor: 'text-lime-600',
-        items: searchResults.value.economy ?? [],
+        items: state.searchResults.economy ?? [],
         primaryLabel: (i: any) => i.name ?? '',
         secondaryLabel: (i: any) => citizenName(i),
     },
@@ -259,8 +261,8 @@ const resultGroups = computed(() => [
         icon: 'heroicons:user-group',
         iconBg: 'bg-violet-50',
         iconColor: 'text-violet-500',
-        items: searchResults.value.contacts ?? [],
-        primaryLabel: (i: any) => `${i.firstname ?? ''} ${i.lastname ?? ''}`.trim(),
+        items: state.searchResults.contacts ?? [],
+        primaryLabel: (i: any) => [i.firstname, i.lastname].filter(Boolean).join(' '),
         secondaryLabel: (i: any) => citizenName(i),
     },
     {
@@ -283,18 +285,18 @@ function cancelPendingSearch() {
 }
 
 function open() {
-    isOpen.value = true
-    searchQuery.value = ''
-    isSearching.value = false
-    hasSearched.value = false
-    searchResults.value = {}
-    recentSearches.value = loadRecentSearches()
+    state.isOpen = true
+    state.searchQuery = ''
+    state.isSearching = false
+    state.hasSearched = false
+    state.searchResults = {}
+    state.recentSearches = loadRecentSearches()
     nextTick(() => searchInput.value?.focus())
 }
 
 function close() {
     cancelPendingSearch()
-    isOpen.value = false
+    state.isOpen = false
 }
 
 function loadRecentSearches(): string[] {
@@ -311,11 +313,11 @@ function saveRecentSearch(term: string) {
     const recent = loadRecentSearches().filter(t => t !== trimmed)
     recent.unshift(trimmed)
     localStorage.setItem(RECENT_SEARCHES_KEY, JSON.stringify(recent.slice(0, MAX_RECENT)))
-    recentSearches.value = recent.slice(0, MAX_RECENT)
+    state.recentSearches = recent.slice(0, MAX_RECENT)
 }
 
 function navigateToResult(group: string, item: any) {
-    const term = searchQuery.value.trim()
+    const term = state.searchQuery.trim()
     close()
     const citizenUuid = item.citizen?.uuid
     if (group === 'citizens') {
@@ -354,50 +356,50 @@ function navigateToResult(group: string, item: any) {
 
 async function executeSearch() {
     cancelPendingSearch()
-    const query = searchQuery.value.trim()
+    const query = state.searchQuery.trim()
     if (!query || query.length < 2) return
 
     abortController = new AbortController()
     const { signal } = abortController
 
-    isSearching.value = true
+    state.isSearching = true
     try {
         const params = {
             search: JSON.stringify([query]),
             page_length: 5,
         }
         const result = await generalSearchService.search(params, signal)
-        searchResults.value = result
-        hasSearched.value = true
+        state.searchResults = result
+        state.hasSearched = true
         saveRecentSearch(query)
     } catch (e: any) {
         if (e?.name === 'AbortError') return
-        hasSearched.value = true
+        state.hasSearched = true
     } finally {
         if (!signal.aborted) {
-            isSearching.value = false
+            state.isSearching = false
         }
     }
 }
 
 let debounceTimer: ReturnType<typeof setTimeout> | null = null
 
-watch(searchQuery, (val) => {
+watch(() => state.searchQuery, (val) => {
     if (debounceTimer) { clearTimeout(debounceTimer); debounceTimer = null }
     cancelPendingSearch()
     if (!val.trim() || val.trim().length < 2) {
-        isSearching.value = false
-        hasSearched.value = false
+        state.isSearching = false
+        state.hasSearched = false
         return
     }
-    isSearching.value = true
+    state.isSearching = true
     debounceTimer = setTimeout(() => executeSearch(), 400)
 })
 
 onMounted(() => {
     const handler = (e: KeyboardEvent) => {
         if ((e.metaKey || e.ctrlKey) && e.key === 'k') { e.preventDefault(); open() }
-        if (e.key === 'Escape' && isOpen.value) { close() }
+        if (e.key === 'Escape' && state.isOpen) { close() }
     }
     window.addEventListener('keydown', handler)
     onUnmounted(() => {

@@ -126,7 +126,7 @@ const rules = computed(() => {
         return {
             formDirectory: {
                 template: {
-                    required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
+                    required: helpers.withMessage(() => `${t('validation.thisFieldIsRequired')}.`, required),
                 },
             },
         }
@@ -134,7 +134,7 @@ const rules = computed(() => {
         return {
             formDirectory: {
                 name: {
-                    required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
+                    required: helpers.withMessage(() => `${t('validation.thisFieldIsRequired')}.`, required),
                 },
             },
         }

@@ -406,7 +406,7 @@ const rules = computed(() => {
     return {
         formCompany: {
             name: {
-                required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
+                required: helpers.withMessage(() => `${t('validation.thisFieldIsRequired')}.`, required),
             },
         },
     }

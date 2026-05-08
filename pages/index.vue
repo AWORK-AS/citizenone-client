@@ -221,6 +221,9 @@
 				</div>
 			</form>
 		</div>
+		<ModulesUserAuthenticationModal2fa :isModalOpen="state.modal.isGoogle2faVerificationOpen"
+			:formLogin="state.formLogin" @close="state.modal.isGoogle2faVerificationOpen = false"
+			v-if="state.modal.isGoogle2faVerificationOpen" />
 	</div>
 </template>
 
@@ -267,10 +270,10 @@ const rules = computed(() => {
 	return {
 		formLogin: {
 			email: {
-				required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
+				required: helpers.withMessage(() => `${t('validation.thisFieldIsRequired')}.`, required),
 			},
 			password: {
-				required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
+				required: helpers.withMessage(() => `${t('validation.thisFieldIsRequired')}.`, required),
 			},
 		}
 	}

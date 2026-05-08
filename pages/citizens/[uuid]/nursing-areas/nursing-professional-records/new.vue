@@ -28,7 +28,7 @@
 
             <div>
                 <NuxtLink class="flex items-center gap-x-2 mb-3 max-w-fit hover:cursor-pointer"
-                    :to="`/citizens/${citizenUuid}/nursing-areas`">
+                    :to="`/citizens/${citizenUuid}/nursing-areas?open=nursing-professional-records`">
                     <Icon name="ph:arrow-left" size="20" class="text-black" />
                     <span>{{ $t('back') }}</span>
                 </NuxtLink>
@@ -59,7 +59,7 @@ const breadcrumbLinks = [
     {
         name: 'citizens.nursingAreas.nursingProfessionalRecords',
         translate: true,
-        href: `/citizens/${citizenUuid}/nursing-areas`,
+        href: `/citizens/${citizenUuid}/nursing-areas?open=nursing-professional-records`,
     },
     {
         name: 'citizens.nursingAreas.newNursingProfessionalRecords',
@@ -71,6 +71,7 @@ const breadcrumbLinks = [
 const state = reactive({
     error: {} as Error,
     formNursingProfessionalRecord: {
+        template_uuid: '',
         date: '',
         functional_level: '',
         functional_level_note: '',
@@ -106,6 +107,7 @@ async function saveRecord(recordDetails: any) {
     try {
         const params = {
             citizen_uuid: citizenUuid,
+            template_uuid: recordDetails.template_uuid ?? null,
             date: recordDetails.date,
             functional_level: recordDetails.functional_level,
             functional_level_note: recordDetails.functional_level_note,

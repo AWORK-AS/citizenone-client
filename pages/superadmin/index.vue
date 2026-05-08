@@ -108,10 +108,10 @@ const state = reactive({
 const rules = computed(() => {
     return {
         email: {
-            required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
+            required: helpers.withMessage(() => `${t('validation.thisFieldIsRequired')}.`, required),
         },
         password: {
-            required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
+            required: helpers.withMessage(() => `${t('validation.thisFieldIsRequired')}.`, required),
         },
     }
 })

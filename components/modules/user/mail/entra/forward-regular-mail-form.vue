@@ -57,7 +57,7 @@ const rules = computed(() => {
     return {
         formEmail: {
             email: {
-                required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
+                required: helpers.withMessage(() => `${t('validation.thisFieldIsRequired')}.`, required),
             },
         }
     }

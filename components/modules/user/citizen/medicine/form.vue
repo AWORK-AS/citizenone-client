@@ -723,28 +723,28 @@ const rules = computed(() => {
             return {
                 formMedicine: {
                     medicine: {
-                        required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
+                        required: helpers.withMessage(() => `${t('validation.thisFieldIsRequired')}.`, required),
                     },
                     strength: {
-                        required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
+                        required: helpers.withMessage(() => `${t('validation.thisFieldIsRequired')}.`, required),
                     },
                     dosage: {
-                        required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
+                        required: helpers.withMessage(() => `${t('validation.thisFieldIsRequired')}.`, required),
                     },
                     max_dosage_per_time: {
-                        required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
+                        required: helpers.withMessage(() => `${t('validation.thisFieldIsRequired')}.`, required),
                     },
                     max_dose_per_administration: {
-                        required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
+                        required: helpers.withMessage(() => `${t('validation.thisFieldIsRequired')}.`, required),
                     },
                     max_daily_dose: {
-                        required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
+                        required: helpers.withMessage(() => `${t('validation.thisFieldIsRequired')}.`, required),
                     },
                     ingredients: {
-                        required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
+                        required: helpers.withMessage(() => `${t('validation.thisFieldIsRequired')}.`, required),
                     },
                     description: {
-                        required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
+                        required: helpers.withMessage(() => `${t('validation.thisFieldIsRequired')}.`, required),
                     },
                     schedule_frequency: {},
                 },
@@ -753,32 +753,32 @@ const rules = computed(() => {
             return {
                 formMedicine: {
                     medicine: {
-                        required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
+                        required: helpers.withMessage(() => `${t('validation.thisFieldIsRequired')}.`, required),
                     },
                     strength: {
-                        required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
+                        required: helpers.withMessage(() => `${t('validation.thisFieldIsRequired')}.`, required),
                     },
                     dosage: {
-                        required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
+                        required: helpers.withMessage(() => `${t('validation.thisFieldIsRequired')}.`, required),
                     },
                     max_dosage_per_time: {
-                        required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
+                        required: helpers.withMessage(() => `${t('validation.thisFieldIsRequired')}.`, required),
                     },
                     max_daily_dose: {
-                        required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
+                        required: helpers.withMessage(() => `${t('validation.thisFieldIsRequired')}.`, required),
                     },
                     ingredients: {
-                        required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
+                        required: helpers.withMessage(() => `${t('validation.thisFieldIsRequired')}.`, required),
                     },
                     description: {
-                        required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
+                        required: helpers.withMessage(() => `${t('validation.thisFieldIsRequired')}.`, required),
                     },
                     schedule_frequency: {
                         // recurring: {
-                        //     required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
+                        //     required: helpers.withMessage(() => `${t('validation.thisFieldIsRequired')}.`, required),
                         // },
                         // recurring_until: {
-                        //     required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
+                        //     required: helpers.withMessage(() => `${t('validation.thisFieldIsRequired')}.`, required),
                         // },
                     },
                 },
@@ -789,28 +789,28 @@ const rules = computed(() => {
             return {
                 formMedicine: {
                     medicine: {
-                        required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
+                        required: helpers.withMessage(() => `${t('validation.thisFieldIsRequired')}.`, required),
                     },
                     strength: {
-                        required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
+                        required: helpers.withMessage(() => `${t('validation.thisFieldIsRequired')}.`, required),
                     },
                     dosage: {
-                        required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
+                        required: helpers.withMessage(() => `${t('validation.thisFieldIsRequired')}.`, required),
                     },
                     max_dosage_per_time: {
-                        required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
+                        required: helpers.withMessage(() => `${t('validation.thisFieldIsRequired')}.`, required),
                     },
                     max_dose_per_administration: {
-                        required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
+                        required: helpers.withMessage(() => `${t('validation.thisFieldIsRequired')}.`, required),
                     },
                     max_daily_dose: {
-                        required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
+                        required: helpers.withMessage(() => `${t('validation.thisFieldIsRequired')}.`, required),
                     },
                     ingredients: {
-                        required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
+                        required: helpers.withMessage(() => `${t('validation.thisFieldIsRequired')}.`, required),
                     },
                     description: {
-                        required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
+                        required: helpers.withMessage(() => `${t('validation.thisFieldIsRequired')}.`, required),
                     },
                     schedule_frequency: {},
                 },
@@ -819,32 +819,32 @@ const rules = computed(() => {
             return {
                 formMedicine: {
                     medicine: {
-                        required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
+                        required: helpers.withMessage(() => `${t('validation.thisFieldIsRequired')}.`, required),
                     },
                     strength: {
-                        required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
+                        required: helpers.withMessage(() => `${t('validation.thisFieldIsRequired')}.`, required),
                     },
                     dosage: {
-                        required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
+                        required: helpers.withMessage(() => `${t('validation.thisFieldIsRequired')}.`, required),
                     },
                     max_dosage_per_time: {
-                        required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
+                        required: helpers.withMessage(() => `${t('validation.thisFieldIsRequired')}.`, required),
                     },
                     max_daily_dose: {
-                        required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
+                        required: helpers.withMessage(() => `${t('validation.thisFieldIsRequired')}.`, required),
                     },
                     ingredients: {
-                        required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
+                        required: helpers.withMessage(() => `${t('validation.thisFieldIsRequired')}.`, required),
                     },
                     description: {
-                        required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
+                        required: helpers.withMessage(() => `${t('validation.thisFieldIsRequired')}.`, required),
                     },
                     schedule_frequency: {
                         // recurring: {
-                        //     required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
+                        //     required: helpers.withMessage(() => `${t('validation.thisFieldIsRequired')}.`, required),
                         // },
                         // recurring_until: {
-                        //     required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
+                        //     required: helpers.withMessage(() => `${t('validation.thisFieldIsRequired')}.`, required),
                         // },
                     },
                 },

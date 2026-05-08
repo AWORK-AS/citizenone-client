@@ -281,16 +281,16 @@ const rules = computed(() => {
         return {
             formApp: {
                 name: {
-                    required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
+                    required: helpers.withMessage(() => `${t('validation.thisFieldIsRequired')}.`, required),
                 },
                 description: {
-                    required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
+                    required: helpers.withMessage(() => `${t('validation.thisFieldIsRequired')}.`, required),
                 },
                 price: {
-                    required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
+                    required: helpers.withMessage(() => `${t('validation.thisFieldIsRequired')}.`, required),
                 },
                 type: {
-                    required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
+                    required: helpers.withMessage(() => `${t('validation.thisFieldIsRequired')}.`, required),
                 },
             },
         }
@@ -298,19 +298,19 @@ const rules = computed(() => {
         return {
             formApp: {
                 name: {
-                    required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
+                    required: helpers.withMessage(() => `${t('validation.thisFieldIsRequired')}.`, required),
                 },
                 description: {
-                    required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
+                    required: helpers.withMessage(() => `${t('validation.thisFieldIsRequired')}.`, required),
                 },
                 monthly_price: {
-                    required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
+                    required: helpers.withMessage(() => `${t('validation.thisFieldIsRequired')}.`, required),
                 },
                 yearly_price: {
-                    required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
+                    required: helpers.withMessage(() => `${t('validation.thisFieldIsRequired')}.`, required),
                 },
                 type: {
-                    required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
+                    required: helpers.withMessage(() => `${t('validation.thisFieldIsRequired')}.`, required),
                 },
             },
         }

@@ -96,7 +96,7 @@ const rules = computed(() => {
     return {
         formTransport: {
             end_address: {
-                required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
+                required: helpers.withMessage(() => `${t('validation.thisFieldIsRequired')}.`, required),
             },
         },
     }
