@@ -3271,6 +3271,8 @@
                 "name": "Skabelonnavn",
                 "recurringUntil": "Indtil",
                 "repeat": "Gentag",
+                "copyToConsecutiveWeeks": "Kopier til på hinanden følgende uger",
+                "numberOfWeeks": "Antal uger",
                 "week": "Uge",
                 "weekNumber": "Ugenummer",
                 "weekRotations": "Ugerotationer",
