@@ -1,30 +1,51 @@
 <template>
     <div>
-        <Modal size="sm" :title="$t('events.createJournalNote')" :show="props.isModalOpen" @close="closeModal">
+        <Modal size="md" :title="$t('events.createJournalNote')" :show="props.isModalOpen" @close="closeModal">
             <template #modal-body>
                 <LoadingSpinner :isActive="state.isPageLoading">
                     <Alert type="danger" :text="state.error?.message"
                         v-if="state.error?.message && state.error.message.length > 0" />
                     <form @submit.prevent="saveJournal" class="space-y-4">
-                        <div class="space-y-1">
-                            <FormLabel for="journal_title" :label="$t('citizens.citizenJournals.form.title')" />
-                            <FormTextField id="journal_title" name="journal_title"
-                                :placeholder="$t('citizens.citizenJournals.form.title')"
-                                v-model="state.formJournal.title" />
-                            <FormError :error="state.error?.errors?.title?.[0]" />
+                        <div class="grid md:grid-cols-2 gap-x-3">
+                            <div class="md:col-span-2">
+                                <button type="button" class="text-sm text-primary hover:text-primary-700"
+                                    @click="state.usePredefinedTitle = !state.usePredefinedTitle">
+                                    <span v-if="state.usePredefinedTitle">
+                                        {{ $t('citizens.citizenJournals.form.enterJournalTitleManually') }}
+                                    </span>
+                                    <span v-else>
+                                        {{ $t('citizens.citizenJournals.form.usePredefinedJournalTitle') }}
+                                    </span>
+                                </button>
+                            </div>
+                            <div class="space-y-1" v-if="state.usePredefinedTitle">
+                                <div class="flex justify-between items-center py-0.5">
+                                    <FormLabel for="journal_title" :label="$t('citizens.citizenJournals.form.title')" />
+                                </div>
+                                <FormSelect id="journal_title" v-model="state.formJournal.title"
+                                    :options="state.options.journal_titles" />
+                                <FormError :error="state.error?.errors?.title?.[0]" />
+                            </div>
+                            <div class="space-y-1" v-else>
+                                <FormLabel for="journal_title" :label="$t('citizens.citizenJournals.form.title')" />
+                                <FormTextField id="journal_title" name="journal_title"
+                                    :placeholder="$t('citizens.citizenJournals.form.title')"
+                                    v-model="state.formJournal.title" />
+                                <FormError :error="state.error?.errors?.title?.[0]" />
+                            </div>
+                            <div class="space-y-1">
+                                <FormLabel for="journal_date" :label="$t('citizens.citizenJournals.form.date')" />
+                                <FormDateField id="journal_date" name="journal_date" placeholder="Date"
+                                    v-model="state.formJournal.date" />
+                                <FormError :error="state.error?.errors?.date?.[0]" />
+                            </div>
                         </div>
                         <div class="space-y-1">
-                            <FormLabel for="journal_date" :label="$t('citizens.citizenJournals.form.date')" />
-                            <FormDateField id="journal_date" name="journal_date" placeholder="Date"
-                                v-model="state.formJournal.date" />
-                            <FormError :error="state.error?.errors?.date?.[0]" />
-                        </div>
-                        <div class="space-y-1">
-                            <FormLabel for="journal_content" :label="$t('events.journalNote.form.content')" />
-                            <FormTextArea id="journal_content" name="journal_content"
-                                :placeholder="$t('events.journalNote.form.content')"
-                                v-model="state.formJournal.content" rows="5" />
-                            <FormError :error="state.error?.errors?.content?.[0]" />
+                            <FormLabel for="journal_score"
+                                :label="$t('citizens.citizenJournals.form.currentLevels.currentLevel')" />
+                            <FormSelect id="journal_score" :options="state.options.scores"
+                                v-model="state.formJournal.score" />
+                            <FormError :error="state.error?.errors?.score?.[0]" />
                         </div>
                         <div v-if="state.citizenUuid">
                             <div class="w-fit flex items-center cursor-pointer"
@@ -57,6 +78,28 @@
                                     v-model="state.formJournal.journal_note_subgoal" />
                             </div>
                         </div>
+                        <div class="space-y-1">
+                            <p class="text-sm text-gray-600">
+                                {{ $t('citizens.citizenJournals.form.content') }}
+                            </p>
+                            <ckeditor :editor="editor" v-model="state.formJournal.content"
+                                :config="editorConfig"></ckeditor>
+                            <FormError :error="state.error?.errors?.content?.[0]" />
+                        </div>
+                        <div class="space-y-1">
+                            <FormLabel for="journal_note_tags"
+                                :label="$t('citizens.citizenJournals.form.journalNoteTags')" />
+                            <FormSelectMultiple id="journal_note_tags" :options="state.options.journal_note_tags"
+                                v-model="state.formJournal.journal_note_tags" />
+                            <FormError :error="state.error?.errors?.journal_note_tags_uuid?.[0]" />
+                        </div>
+                        <div>
+                            <div class="w-fit flex items-center cursor-pointer"
+                                @click="state.formJournal.is_draft = !state.formJournal.is_draft">
+                                <FormCheckbox id="is_draft" :value="state.formJournal.is_draft" />
+                                {{ $t('citizens.citizenJournals.form.draft') }}
+                            </div>
+                        </div>
                         <div class="grid grid-cols-2 gap-3 mt-6">
                             <FormButton type="button" buttonStyle="cancel" @click="closeModal">
                                 {{ $t('cancel') }}
@@ -74,16 +117,21 @@
 
 <script setup lang="ts">
 import moment from 'moment'
+import ClassicEditor from '@ckeditor/ckeditor5-build-classic'
 import { myCalendarService } from '@/components/api/user/MyCalendarService'
 import { planService } from '@/components/api/user/PlanService'
 import { goalService } from '@/components/api/user/GoalService'
 import { subgoalService } from '@/components/api/user/SubgoalService'
+import { journalNoteTagService } from '@/components/api/user/JournalNoteTagService'
+import { journalTitleService } from '@/components/api/user/JournalTitleService'
+import { useDepartmentStore } from '@/store/department'
 import { useAlert } from '@/composables/alert'
 import { useI18n } from 'vue-i18n'
 import type { Error } from '@/types'
 
 const { successAlert } = useAlert()
 const { t } = useI18n()
+const departmentStore = useDepartmentStore() as any
 
 const props = defineProps({
     isModalOpen: {
@@ -98,23 +146,49 @@ const props = defineProps({
 
 const emit = defineEmits(['close', 'journalCreated'])
 
+const editor = ref(ClassicEditor)
+const editorConfig = ref({
+    toolbar: ['undo', 'redo', 'heading', '|', 'bold', 'italic', 'link', 'bulletedList', 'numberedList', 'blockQuote'],
+    heading: {
+        options: [
+            { model: 'paragraph', title: 'Paragraph', class: 'ck-heading_paragraph' },
+            { model: 'heading1', view: 'h1', title: 'Heading 1', class: 'ck-heading_heading1' },
+            { model: 'heading2', view: 'h2', title: 'Heading 2', class: 'ck-heading_heading2' },
+            { model: 'heading3', view: 'h3', title: 'Heading 3', class: 'ck-heading_heading3' },
+        ]
+    },
+})
+
 const state = reactive({
     isPageLoading: false,
     error: {} as Error,
     citizenUuid: '' as string,
+    usePredefinedTitle: false,
     formJournal: {
         title: '',
         date: moment().format('YYYY-MM-DD'),
+        score: '',
         content: '',
+        journal_note_tags: [] as string[],
+        is_draft: false,
         copy_journal_note_to_plan_or_goal_or_subgoal: false,
         journal_note_plan: '',
         journal_note_goal: '',
         journal_note_subgoal: '',
     },
     options: {
+        scores: [
+            { value: 1, label: `1. ${t('citizens.citizenJournals.form.currentLevels.minorChallenges')}` },
+            { value: 2, label: `2. ${t('citizens.citizenJournals.form.currentLevels.moderateChallenges')}` },
+            { value: 3, label: `3. ${t('citizens.citizenJournals.form.currentLevels.significantChallenges')}` },
+            { value: 4, label: `4. ${t('citizens.citizenJournals.form.currentLevels.severeChallenges')}` },
+            { value: 5, label: `5. ${t('citizens.citizenJournals.form.currentLevels.verySubstantialChallenges')}` },
+        ],
         plans: [] as any[],
         goals: [] as any[],
         subgoals: [] as any[],
+        journal_titles: [] as any[],
+        journal_note_tags: [] as any[],
     },
 })
 
@@ -125,6 +199,8 @@ watch(() => props.isModalOpen, (newValue: boolean) => {
         resolveCitizenUuid()
         if (state.citizenUuid) {
             fetchPlans()
+            fetchJournalNoteTags()
+            fetchJournalTitles()
         }
     }
 })
@@ -139,10 +215,14 @@ function resolveCitizenUuid() {
 
 function resetForm() {
     state.error = {}
+    state.usePredefinedTitle = false
     state.formJournal = {
         title: '',
         date: moment().format('YYYY-MM-DD'),
+        score: '',
         content: '',
+        journal_note_tags: [],
+        is_draft: false,
         copy_journal_note_to_plan_or_goal_or_subgoal: false,
         journal_note_plan: '',
         journal_note_goal: '',
@@ -151,6 +231,8 @@ function resetForm() {
     state.options.plans = []
     state.options.goals = []
     state.options.subgoals = []
+    state.options.journal_titles = []
+    state.options.journal_note_tags = []
 }
 
 async function fetchPlans() {
@@ -203,6 +285,36 @@ async function fetchSubgoalsForGoal(goalUuid: string) {
     }
 }
 
+async function fetchJournalNoteTags() {
+    try {
+        const response = await journalNoteTagService.getAllJournalNoteTags({
+            department: departmentStore.getSelectedDepartmentName,
+        })
+        if (response?.data) {
+            state.options.journal_note_tags = response.data.map((tag: any) => ({
+                value: tag.uuid,
+                label: tag.name,
+            }))
+        }
+    } catch (error: any) {
+        state.error = error
+    }
+}
+
+async function fetchJournalTitles() {
+    try {
+        const response = await journalTitleService.getAllJournalTitles()
+        if (response?.data) {
+            state.options.journal_titles = response.data.map((item: any) => ({
+                value: item.title,
+                label: item.title,
+            }))
+        }
+    } catch (error: any) {
+        state.error = error
+    }
+}
+
 async function saveJournal() {
     state.error = {}
     state.isPageLoading = true
@@ -217,7 +329,10 @@ async function saveJournal() {
         const params: any = {
             title: state.formJournal.title,
             date: state.formJournal.date,
+            score: state.formJournal.score,
             content: state.formJournal.content,
+            journal_note_tags_uuid: state.formJournal.journal_note_tags,
+            is_draft: state.formJournal.is_draft,
             copy_journal_note_to_plan_or_goal_or_subgoal: state.formJournal.copy_journal_note_to_plan_or_goal_or_subgoal,
         }
         if (state.formJournal.copy_journal_note_to_plan_or_goal_or_subgoal && journal_note_plan_goal_subgoal_uuid) {
