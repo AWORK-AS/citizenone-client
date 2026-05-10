@@ -23,6 +23,12 @@
                 <span class="text-xs font-medium text-gray-500 flex-shrink-0">
                     {{ Math.round(syncStore.progress) }}%
                 </span>
+                <button v-if="!syncStore.isComplete"
+                    type="button"
+                    class="flex-shrink-0 w-5 h-5 flex items-center justify-center rounded-full hover:bg-gray-100 text-gray-400 hover:text-gray-600 transition-colors"
+                    @click="syncStore.cancelSync()">
+                    <Icon name="ph:x" class="w-3 h-3" aria-hidden="true" />
+                </button>
             </div>
 
             <!-- Progress bar -->

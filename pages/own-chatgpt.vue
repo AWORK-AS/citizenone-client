@@ -190,6 +190,8 @@ const runtimeConfig = useRuntimeConfig()
 const { t } = useI18n()
 const { errorAlert } = useAlert()
 
+onMounted(() => syncStore.resumePolling())
+
 const MAX_FILE_SIZE = 20 * 1024 * 1024
 
 const messagesContainer = ref<HTMLElement | null>(null)
