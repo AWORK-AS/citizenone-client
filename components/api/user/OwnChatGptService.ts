@@ -13,9 +13,7 @@ class OwnChatGptService extends BaseAPIService {
         return await this.request(`/user/own-chatgpt/sync`, 'POST', {})
     }
 
-    async getStatus(): Promise<any> {
-        return await this.request(`/user/own-chatgpt/status`, 'GET')
-    }
+
 }
 
 export const ownChatGptService = new OwnChatGptService()
