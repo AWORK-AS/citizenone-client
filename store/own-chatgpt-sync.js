@@ -19,15 +19,19 @@ export const useOwnChatGptSyncStore = defineStore('ownChatGptSync', {
             this.progress = 0
             this.error = null
 
+            this._subscribe()
+
             try {
                 await ownChatGptService.sync()
             } catch (e) {
+                if (this._channel) {
+                    pusher.unsubscribe(this._channel.name)
+                    this._channel = null
+                }
                 this.error = e?.response?.data?.message ?? e?.message ?? 'Sync failed.'
                 this.isSyncing = false
                 return
             }
-
-            this._subscribe()
         },
 
 
