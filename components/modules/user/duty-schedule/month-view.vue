@@ -205,7 +205,7 @@
                     <div v-for="(employee, employeeIndex) in state.monthlySchedules?.data"
                         :key="'sidebar-' + employee.uuid"
                         class="border-b border-gray-100 flex flex-col items-center justify-center py-3 px-2 cursor-default relative"
-                        @mouseenter="state.hoveredEmployee = employeeIndex" @mouseleave="state.hoveredEmployee = null">
+                        @mouseenter="showPopover(employeeIndex)" @mouseleave="hidePopoverWithDelay()">
                         <img :src="employee?.profile_image ?? `https://ui-avatars.com/api/?background=42AED9&color=fff&name=${employee?.firstname + ' ' + employee?.lastname}`"
                             :class="[
                                 employee?.shift_threshold === 'high' && 'ring-green-500',
@@ -219,8 +219,7 @@
                         <!-- Rich popover on hover -->
                         <div v-if="state.hoveredEmployee === employeeIndex"
                             class="absolute left-full ml-2 top-0 z-[60] bg-white rounded-xl shadow-2xl ring-1 ring-gray-200 p-4 w-[340px] text-left"
-                            @mouseenter="state.hoveredEmployee = employeeIndex"
-                            @mouseleave="state.hoveredEmployee = null">
+                            @mouseenter="showPopover(employeeIndex)" @mouseleave="hidePopoverWithDelay()">
                             <div class="flex items-center gap-3 mb-3">
                                 <img :src="employee?.profile_image ?? `https://ui-avatars.com/api/?background=42AED9&color=fff&name=${employee?.firstname + ' ' + employee?.lastname}`"
                                     :class="[employee?.shift_threshold === 'high' && 'border-green-700', employee?.shift_threshold === 'moderate' && 'border-yellow-500', employee?.shift_threshold === 'low' && 'border-red-600', 'h-12 w-12 rounded-full bg-gray-50 object-cover border-2 shadow-md ring-2 ring-white']" />
@@ -583,12 +582,12 @@
                                                         </div>
                                                     </Tooltip>
                                                 </div>
-                                                <div class="absolute top-1 left-1 z-10 w-6 h-6 rounded-full bg-white border border-gray-200 flex items-center justify-center"
+                                                <div class="absolute -top-3 -left-2 z-10 w-6 h-6 rounded-full bg-white border border-gray-200 flex items-center justify-center"
                                                     style="font-size:0.875rem"
                                                     v-if="shift?.type?.system_name === 'sick-leave'">
                                                     🤒
                                                 </div>
-                                                <div class="absolute top-1 left-1 z-10 w-6 h-6 rounded-full bg-white border border-gray-200 flex items-center justify-center"
+                                                <div class="absolute -top-3 -left-2 z-10 w-6 h-6 rounded-full bg-white border border-gray-200 flex items-center justify-center"
                                                     style="font-size:0.875rem"
                                                     v-if="shift?.type?.system_name === 'vacation-leave'">
                                                     🏖️
@@ -842,6 +841,19 @@
 let _dragShift: any = null
 let _dragSourceEmployee: any = null
 let _dragSourceDay: string | null = null
+let _hoverTimer: ReturnType<typeof setTimeout> | null = null
+
+function showPopover(index: number) {
+    if (_hoverTimer) { clearTimeout(_hoverTimer); _hoverTimer = null }
+    state.hoveredEmployee = index
+}
+
+function hidePopoverWithDelay() {
+    _hoverTimer = setTimeout(() => {
+        state.hoveredEmployee = null
+        _hoverTimer = null
+    }, 1000)
+}
 import moment from 'moment'
 import { Menu, MenuButton, MenuItem, MenuItems } from '@headlessui/vue'
 import { dutyScheduleService } from '@/components/api/user/DutyScheduleService'
@@ -1283,14 +1295,12 @@ function copyMonth() {
     }
     state.copy.selectedWeek = null
     state.copy.selectedEmployeeDailySchedule = {}
-    console.log('copyMonth: gemte', employeeSnapshot.length, 'medarbejdere')
 }
 
 async function pasteMonth(targetWeeks: any[]) {
     if (!state.copy.selectedMonth) return
     const srcWeeks = state.copy.selectedMonth.weeks
     const empSnap = state.copy.selectedMonth.employeeSnapshot || []
-    console.log('pasteMonth: src uger', srcWeeks.length, 'dst uger', targetWeeks.length, 'emp', empSnap.length)
     // Match weeks 1:1 — if the months have a different number of weeks, use the minimum
     for (let wi = 0; wi < Math.min(srcWeeks.length, targetWeeks.length); wi++) {
         const srcDays = srcWeeks[wi].days.filter((d: any) => d !== null)
@@ -1305,7 +1315,6 @@ async function pasteMonth(targetWeeks: any[]) {
                 if (!emp) continue
                 const shifts = emp?.days?.[srcDate]?.shifts || []
                 if (shifts.length === 0) continue
-                console.log('Kopierer', emp.firstname, srcDate, '->', dstDate)
                 await copyDutySchedule({
                     user_uuid_source: emp.uuid,
                     user_uuid_destination: emp.uuid,
@@ -1722,7 +1731,6 @@ function editSchedule(employee: any, employeeIndex: number, shift: any) {
 }
 
 async function updateSelectedSchedule(shiftDetails: any) {
-    console.log("[DEBUG] employee_uuid from modal:", shiftDetails.employee_uuid, "original:", state.editShift.selectedEmployeeSchedule.user_uuid)
     const scheduleUuid = state.editShift.selectedEmployeeSchedule.scheduleUuid
     const originalEmployeeUuid = state.editShift.selectedEmployeeSchedule.user_uuid
     const newEmployeeUuid = shiftDetails.employee_uuid || originalEmployeeUuid

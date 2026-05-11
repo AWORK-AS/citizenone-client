@@ -79,7 +79,7 @@
                                         </td>
                                         <td width="10%">
                                             <p class="truncate">
-                                                {{ extraHours?.user?.firstname }} {{ extraHours?.user?.lastname ?? '' }}
+                                                {{ extraHours?.creator?.firstname }} {{ extraHours?.creator?.lastname ?? '' }}
                                             </p>
                                         </td>
                                         <td width="10%">

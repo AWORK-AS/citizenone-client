@@ -175,7 +175,6 @@ async function geocodeCurrentAddress() {
         return
     }
 
-    console.log('Geocoding address:', addressString)
     isGeocodingAddress.value = true
 
     try {

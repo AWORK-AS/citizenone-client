@@ -1580,9 +1580,7 @@ async function editDocument(document: any) {
                         'Accept': 'application/json',
                         'X-User-Id': userId,
                         'Authorization': 'Bearer ' + token
-                    };
-                    console.log('[OneDrive DEBUG] fetch endpoint:', endpoint);
-                    console.log('[OneDrive DEBUG] fetch headers:', headers);
+                    }
                     const res = await fetch(endpoint, { headers });
                     const data = await res.json();
                     state.docsFields.content = data.content;

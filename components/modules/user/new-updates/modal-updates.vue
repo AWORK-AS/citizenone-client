@@ -56,8 +56,9 @@ function closeModal() {
 }
 
 const state = reactive({
-    currentVersion: '2026-04-10',
+    currentVersion: '2026-04-24',
     availableVersions: [
+        '2026-04-24',
         '2026-04-10',
         '2026-02-20',
         '2026-01-30',
@@ -86,6 +87,154 @@ const state = reactive({
 
 const allUpdates: Record<string, Record<string, { title: string, description: string[] }[]>> = {
     en: {
+        '2026-04-24': [
+            {
+                title: '🏷 Tags & Filtering – Duty Schedule Draft',
+                description: [
+                    'Tags are now visible when copying shifts in the duty schedule draft.',
+                    'The draft now behaves identically to the published schedule, including tags and filtering functionality.',
+                ],
+            },
+            {
+                title: '📢 Open Shifts in Draft',
+                description: [
+                    'It is now possible to create an open shift directly in the duty schedule draft, matching the behavior of the extended draft view.',
+                    'The shift is only published and triggers notifications once the draft is officially released.',
+                ],
+            },
+            {
+                title: '🔔 News & Updates – Notification Counter',
+                description: [
+                    'The notification counter for "News" and "Updates" is now cleared immediately after the user views it.',
+                    'This reset occurs every time the user opens "News" or "Updates".',
+                ],
+            },
+            {
+                title: 'Department column in duty schedule exports',
+                description: [
+                    'When exporting a duty schedule, a "Department" column is included and positioned before the "Employee Name" column.',
+                ],
+            },
+            {
+                title: 'Duty schedule sorting – employees on duty today',
+                description: [
+                    'When the "on duty today" toggle is enabled, employees are now sorted starting with those whose shift begins earliest.',
+                ],
+            },
+            {
+                title: '📍 Employee Check-in – Geo-location',
+                description: [
+                    'Geo-location is now captured when employees check in.',
+                    'The system records the location (latitude/longitude) at the time of check-in.',
+                    'The location can optionally be displayed on a map view.',
+                ],
+            },
+            {
+                title: '📧 Apps – Mail Activation',
+                description: [
+                    'When activating the "Mail" app, the page now automatically reloads so the Mail module becomes immediately visible in the left sidebar.',
+                ],
+            },
+            {
+                title: 'Distribution of shift types',
+                description: [
+                    'Shift type distribution can now be filtered by start and end date/time and by employee.',
+                ],
+            },
+            {
+                title: '🏠 Room Management Improvements',
+                description: [
+                    'It is now possible to rename the label "Room" in the glossary/dictionary.',
+                    'A proper overview of rooms and their availability is now available.',
+                    'Occupied rooms can no longer be selected – only available rooms are selectable.',
+                ],
+            },
+            {
+                title: '⏱ Multi-day Shifts',
+                description: [
+                    'Shifts spanning multiple days (2–3 days or more) are now treated as one continuous shift.',
+                    'No warnings are triggered for the maximum 13-hour shift rule or the 11-hour rest period rule for such shifts.',
+                ],
+            },
+            {
+                title: '🩺 Sick Leave & Vacation Approval',
+                description: [
+                    'Administrators must now approve sick leave and vacation requests submitted by employees through the duty schedule before they are registered.',
+                ],
+            },
+            {
+                title: '💊 Medication – Scheduled Period & Extra Days',
+                description: [
+                    'It is now possible to schedule medication administration over a specified period, rather than requiring daily administration.',
+                    'It is also possible to add individual extra medication days on specific dates.',
+                    'Example: a child who usually attends on weekends can have medication added for a specific extra weekday without changing the regular schedule.',
+                ],
+            },
+            {
+                title: '💊 Medication Administration – Flexible Recording',
+                description: [
+                    'It is now possible to administer, record, and mark deviations for medication much more flexibly.',
+                ],
+            },
+            {
+                title: '💊 Medication UI – Multiple Administration Times',
+                description: [
+                    'The medication UI now supports viewing multiple administration times for a single medication.',
+                    'Each medication entry clearly displays all scheduled times (e.g., morning, noon, evening, night or specific timestamps).',
+                    'Times are visually grouped under the same medication so it is clear they belong to the same prescription.',
+                ],
+            },
+            {
+                title: '💊 PN Medication – No Fixed Administration Time',
+                description: [
+                    'PN (as-needed) medication no longer has a fixed administration time, as it is given based on need.',
+                ],
+            },
+            {
+                title: '💊 Medication Inventory – Stock Calculation Fix',
+                description: [
+                    'Issues with incorrect medication stock calculations have been investigated and resolved.',
+                    'Stock levels now always reflect accurate quantities based on registrations.',
+                    'Inventory values can no longer drop below zero.',
+                ],
+            },
+            {
+                title: '💊 Medication – Date & Time Display',
+                description: [
+                    'The administration date column for both regular and PN medication now also includes the exact time of administration.',
+                ],
+            },
+            {
+                title: '💊 Medication Overview – Additional Fields',
+                description: [
+                    'The medication overview now also displays "Maximum dose per administration" and "Description".',
+                    'For PN medication, the "Maximum dose per administration" field is now shown, consistent with regular medication.',
+                ],
+            },
+            {
+                title: '⚠️ Warning Configuration – Duty Schedule',
+                description: [
+                    'It is now possible to disable the "13-hour shift", "11-hour rest rule", and "48-hour rule" warnings in the duty schedule.',
+                ],
+            },
+            {
+                title: '📌 Bulletin Board Improvements',
+                description: [
+                    'Each post now displays the author and timestamp (date and time of creation).',
+                    'Only the original author of a post or an admin can edit it.',
+                    'Multiple posts can now be highlighted/pinned simultaneously.',
+                    'Posts on the dashboard are now displayed in a list format showing the title and a short preview. Users can click a post to view its full content.',
+                ],
+            },
+            {
+                title: '💊 PN Medication – Effect Evaluation',
+                description: [
+                    'After administering PN (as-needed) medication, users can now perform an effect evaluation.',
+                    'Click "Perform effect evaluation" to enter and save notes, outcome, or effect observations.',
+                    'Multiple effect evaluations can be performed for the same medication entry.',
+                ],
+            },
+        ],
         '2026-04-10': [
             {
                 title: 'Messaging UI improvements & chat history deletion',
@@ -1151,6 +1300,154 @@ const allUpdates: Record<string, Record<string, { title: string, description: st
         ],
     },
     dk: {
+        '2026-04-24': [
+            {
+                title: '🏷 Tags & filtrering – Vagtplanudkast',
+                description: [
+                    'Tags er nu synlige, når man kopierer vagter i vagtplanudkastet.',
+                    'Udkastet opfører sig nu identisk med den offentliggjorte vagtplan, herunder tags og filtreringsfunktionalitet.',
+                ],
+            },
+            {
+                title: '📢 Åbne vagter i udkast',
+                description: [
+                    'Det er nu muligt at oprette en åben vagt direkte i vagtplanudkastet, på samme måde som i den udvidede udkastvisning.',
+                    'Vagten publiceres og sender notifikationer først, når udkastet officielt frigives.',
+                ],
+            },
+            {
+                title: '🔔 Nyheder & Opdateringer – Notifikationstæller',
+                description: [
+                    'Notifikationstælleren for "Nyheder" og "Opdateringer" nulstilles nu øjeblikkeligt, når brugeren åbner dem.',
+                    'Dette sker hver gang brugeren åbner "Nyheder" eller "Opdateringer".',
+                ],
+            },
+            {
+                title: 'Afdelingskolonne i vagtplaneksporter',
+                description: [
+                    'Når man eksporterer en vagtplan, er der nu inkluderet en "Afdeling"-kolonne, der er placeret før "Medarbejdernavn"-kolonnen.',
+                ],
+            },
+            {
+                title: 'Sortering af vagtplan – medarbejdere på vagt i dag',
+                description: [
+                    'Når funktionen "på vagt i dag" er aktiveret, sorteres medarbejdere nu startende med dem, hvis vagt begynder tidligst.',
+                ],
+            },
+            {
+                title: '📍 Medarbejder check-in – Geo-lokation',
+                description: [
+                    'Geo-lokation registreres nu, når medarbejdere checker ind.',
+                    'Systemet gemmer lokationen (bredde- og længdegrad) på tidspunktet for check-in.',
+                    'Lokationen kan valgfrit vises på en kortvisning.',
+                ],
+            },
+            {
+                title: '📧 Apps – Aktivering af Mail',
+                description: [
+                    'Når "Mail"-appen aktiveres, genindlæser siden nu automatisk, så Mail-modulet straks bliver synligt i venstre navigationsmenu.',
+                ],
+            },
+            {
+                title: 'Fordeling af vagttyper',
+                description: [
+                    'Fordelingen af vagttyper kan nu filtreres efter start- og sluttidspunkt samt medarbejder.',
+                ],
+            },
+            {
+                title: '🏠 Forbedringer af rumhåndtering',
+                description: [
+                    'Det er nu muligt at omdøbe etiketten "Rum" i ordbogen/glossaret.',
+                    'Der er nu et korrekt overblik over rum og deres tilgængelighed.',
+                    'Optagne rum kan ikke længere vælges – kun ledige rum er valgbare.',
+                ],
+            },
+            {
+                title: '⏱ Flerdag-vagter',
+                description: [
+                    'Vagter, der strækker sig over flere dage (2–3 dage eller mere), behandles nu som én sammenhængende vagt.',
+                    'Der udløses ingen advarsler om maksimal 13-timers vagt eller 11-timers hviletid for sådanne vagter.',
+                ],
+            },
+            {
+                title: '🩺 Godkendelse af sygefravær & ferie',
+                description: [
+                    'Administratorer skal nu godkende anmodninger om sygefravær og ferie indsendt af medarbejdere via vagtplanen, før de registreres.',
+                ],
+            },
+            {
+                title: '💊 Medicin – Planlagt periode & ekstra dage',
+                description: [
+                    'Det er nu muligt at planlægge medicinering over en bestemt periode i stedet for daglig administration.',
+                    'Det er også muligt at tilføje individuelle ekstra medicindage på specifikke datoer.',
+                    'Eksempel: et barn, der normalt kommer i weekender, kan få tilføjet medicin for en specifik ekstra hverdag uden at ændre den normale plan.',
+                ],
+            },
+            {
+                title: '💊 Medicinering – Fleksibel registrering',
+                description: [
+                    'Det er nu muligt at administrere, registrere og markere afvigelser for medicin langt mere fleksibelt.',
+                ],
+            },
+            {
+                title: '💊 Medicin UI – Flere administrationstidspunkter',
+                description: [
+                    'Medicin-UI understøtter nu visning af flere administrationstidspunkter for ét enkelt lægemiddel.',
+                    'Hver medicinpost viser tydeligt alle planlagte tidspunkter (f.eks. morgen, middag, aften, nat eller specifikke tidsstempler).',
+                    'Tidspunkterne er visuelt grupperet under det samme lægemiddel, så det er klart, at de hører til den samme recept.',
+                ],
+            },
+            {
+                title: '💊 PN-medicin – Intet fast administrationstidspunkt',
+                description: [
+                    'PN-medicin (behovsbestemt medicin) har ikke længere et fast administrationstidspunkt, da det gives efter behov.',
+                ],
+            },
+            {
+                title: '💊 Medicinkassebeholdning – Rettelse af beregningsfejl',
+                description: [
+                    'Fejl i beregningen af medicinkassebeholdningen er undersøgt og udbedret.',
+                    'Lagerbeholdningen afspejler nu altid korrekte mængder baseret på registreringer.',
+                    'Lagerværdier kan ikke længere falde under nul.',
+                ],
+            },
+            {
+                title: '💊 Medicin – Dato- og tidsvisning',
+                description: [
+                    'Dato-kolonnen for administreret medicin (herunder PN-medicin) viser nu også det præcise tidspunkt for administrationen.',
+                ],
+            },
+            {
+                title: '💊 Medicinsoversigt – Ekstra felter',
+                description: [
+                    'Medicinsoversigten viser nu også "Maksimal dosis pr. administration" og "Beskrivelse".',
+                    'For PN-medicin vises feltet "Maksimal dosis pr. administration" nu, som det gøres for almindelig medicin.',
+                ],
+            },
+            {
+                title: '⚠️ Konfiguration af advarsler – Vagtplan',
+                description: [
+                    'Det er nu muligt at deaktivere advarslerne for "13-timers vagt", "11-timers hviletidsregel" og "48-timers reglen" i vagtplanen.',
+                ],
+            },
+            {
+                title: '📌 Forbedringer af opslagstavlen',
+                description: [
+                    'Hvert opslag viser nu forfatter og tidsstempel (dato og klokkeslæt for oprettelsen).',
+                    'Kun den oprindelige forfatter af et opslag eller en administrator kan redigere det.',
+                    'Flere opslag kan nu fremhæves/fastgøres samtidigt.',
+                    'Opslag på dashboardet vises nu i et listeformat med titel og et kort uddrag. Brugere kan klikke på et opslag for at se det fulde indhold.',
+                ],
+            },
+            {
+                title: '💊 PN-medicin – Effektvurdering',
+                description: [
+                    'Efter administration af PN-medicin kan brugere nu udføre en effektvurdering.',
+                    'Klik på "Udfør effektvurdering" for at indtaste og gemme noter, resultat eller observationer.',
+                    'Der kan udføres flere effektvurderinger for den samme medicinregistrering.',
+                ],
+            },
+        ],
         '2026-04-10': [
             {
                 title: 'Forbedringer af beskedsystem & sletning af chathistorik',

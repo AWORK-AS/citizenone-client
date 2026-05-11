@@ -41,7 +41,7 @@ const state = reactive({
     isPageLoading: false,
     formEvaluation: {
         medicine_name: '',
-        citizen_medicine_uuid: '',
+        history_uuid: '',
         evaluation: '',
         time: '',
     },
@@ -51,7 +51,7 @@ watch(() => props.selectedMedicineEvaluation, (selectedMedicineEvaluation: any) 
     if (selectedMedicineEvaluation) {
         state.formEvaluation = {
             medicine_name: props.selectedMedicineEvaluation?.medicine_name,
-            citizen_medicine_uuid: props.selectedMedicineEvaluation?.entry?.citizen_medicine?.uuid,
+            history_uuid: props.selectedMedicineEvaluation?.entry?.uuid,
             evaluation: selectedMedicineEvaluation?.entry?.evaluation,
             time: props.selectedMedicineEvaluation?.time,
         }

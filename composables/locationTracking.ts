@@ -89,7 +89,7 @@ export const useLocationTracking = () => {
 
     const calculateTotalDistance = (): number => {
         if (allLocations.value.length < 2) return 0
-        
+
         let total = 0
         for (let i = 1; i < allLocations.value.length; i++) {
             total += calculateDistance(allLocations.value[i - 1], allLocations.value[i])
@@ -119,8 +119,6 @@ export const useLocationTracking = () => {
             lastLoggedLocation.value = location
             allLocations.value.push(location)
             totalDistanceTraveled.value = calculateTotalDistance()
-            
-            console.log(`Location logged: ${location.lat}, ${location.lng}. Total distance: ${(totalDistanceTraveled.value / 1000).toFixed(2)}km`)
         } catch (error) {
             console.error('Failed to log location:', error)
         }
@@ -145,12 +143,8 @@ export const useLocationTracking = () => {
         }
 
         if (isTracking.value) {
-            console.log('Already tracking, skipping...')
             return
         }
-
-        console.log('Starting location tracking for care hour:', careHourId)
-        
         isTracking.value = true
         trackingError.value = ''
         careHourUuid.value = careHourId
@@ -205,13 +199,9 @@ export const useLocationTracking = () => {
         if (currentLocation.value) {
             logLocationToBackend(currentLocation.value)
         }
-
-        console.log('Location tracking started successfully')
     }
 
     const stopTracking = async () => {
-        console.log('Stopping location tracking...')
-        
         if (watchId !== null) {
             navigator.geolocation.clearWatch(watchId)
             watchId = null
@@ -230,11 +220,9 @@ export const useLocationTracking = () => {
         isTracking.value = false
         careHourUuid.value = null
         lastLoggedLocation.value = null
-        
+
         // Clear localStorage
         clearTrackingState()
-        
-        console.log('Location tracking stopped')
     }
 
     const isNearDestination = (

@@ -1,42 +1,7 @@
 <template>
     <LoadingSpinner :isActive="state.isPageLoading">
-        <!-- Search Overlay -->
-        <Teleport to="body">
-            <Transition enter-active-class="transition ease-out duration-200" enter-from-class="opacity-0"
-                enter-to-class="opacity-100" leave-active-class="transition ease-in duration-150"
-                leave-from-class="opacity-100" leave-to-class="opacity-0">
-                <div v-if="state.isSearchOpen" class="fixed inset-0 z-[100] bg-slate-900/50 backdrop-blur-sm"
-                    @click="state.isSearchOpen = false">
-                    <div class="flex items-start justify-center pt-[15vh]" @click.stop>
-                        <div
-                            class="w-full max-w-xl bg-white rounded-2xl shadow-2xl border border-surface-200 overflow-hidden">
-                            <div class="flex items-center gap-3 px-5 py-4 border-b border-surface-100">
-                                <Icon name="heroicons:magnifying-glass" class="h-5 w-5 text-slate-400 shrink-0" />
-                                <input ref="searchInput" v-model="state.searchQuery" type="text"
-                                    placeholder="Søg på borgere, journaler, medicin og mere..."
-                                    class="flex-1 text-base text-slate-700 placeholder-slate-400 outline-none bg-transparent"
-                                    @keyup.enter="executeSearch" />
-                                <button @click="state.isSearchOpen = false"
-                                    class="p-1 rounded-md hover:bg-surface-100 text-slate-400 hover:text-slate-600 transition-colors">
-                                    <Icon name="heroicons:x-mark" class="h-5 w-5" />
-                                </button>
-                            </div>
-                            <div class="max-h-80 overflow-y-auto">
-                                <div class="px-5 py-6 text-center text-sm text-slate-400" v-if="!state.searchQuery">
-                                    Skriv for at søge på tværs af borgere, journaler, medicin og mere...
-                                </div>
-                                <div class="px-5 py-6 text-center text-sm text-slate-400" v-else-if="state.isSearching">
-                                    Søger efter "{{ state.searchQuery }}"...
-                                </div>
-                                <div class="px-5 py-6 text-center text-sm text-slate-400" v-else>
-                                    Ingen resultater fundet for "{{ state.searchQuery }}"
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </Transition>
-        </Teleport>
+        <!-- Global Search -->
+        <ModulesUserNavbarGlobalSearch ref="globalSearch" />
 
         <!-- Mobile sidebar -->
         <TransitionRoot as="template" :show="sidebarOpen">
@@ -114,8 +79,8 @@
                         </span>
                     </span>
                     <button @click="toggleSidebarPin"
-                        :class="['p-1.5 rounded-md transition-all duration-200 delay-75', sidebarExpanded ? 'opacity-100 pointer-events-auto text-blue-300/60 hover:text-white hover:bg-white/10' : 'opacity-0 pointer-events-none']"
-                        :title="sidebarPinned ? 'Frigør sidebar' : 'Fastgør sidebar'">
+                        :class="['flex items-center p-1.5 rounded-md transition-all duration-200 delay-75', sidebarExpanded ? 'opacity-100 pointer-events-auto text-blue-300/60 hover:text-white hover:bg-white/10' : 'opacity-0 pointer-events-none']"
+                        :title="sidebarPinned ? $t('sidebar.unpinSidebar') : $t('sidebar.pinSidebar')">
                         <Icon :name="sidebarPinned ? 'ph:push-pin-fill' : 'ph:push-pin'" class="h-4 w-4" />
                     </button>
                 </div>
@@ -262,7 +227,7 @@
                         <div class="hidden lg:block lg:h-6 lg:w-px lg:bg-slate-200" aria-hidden="true" />
 
                         <!-- Search -->
-                        <button type="button" @click="openSearch"
+                        <button type="button" @click="globalSearch?.open()"
                             class="w-9 h-9 rounded-full flex items-center justify-center text-slate-400 hover:text-slate-600 hover:bg-surface-100 transition-colors">
                             <Icon name="heroicons:magnifying-glass" class="h-5 w-5" aria-hidden="true" />
                         </button>
@@ -312,9 +277,12 @@
                                 <MenuItems
                                     class="absolute right-0 z-10 mt-2 w-56 origin-top-right rounded-xl bg-white py-1.5 shadow-dropdown ring-1 ring-slate-900/5 focus:outline-none">
                                     <div class="px-3 py-2.5 border-b border-surface-100">
-                                        <p class="text-sm font-semibold text-slate-900">{{ userStore.getUser?.firstname
-                                        }} {{ userStore.getUser?.lastname }}</p>
-                                        <p class="text-xs text-slate-500 mt-0.5">{{ userStore.getUser?.email }}</p>
+                                        <p class="text-sm font-semibold text-slate-900">
+                                            {{ userStore.getUser?.firstname }} {{ userStore.getUser?.lastname }}
+                                        </p>
+                                        <p class="text-xs text-slate-500 mt-0.5">
+                                            {{ userStore.getUser?.email }}
+                                        </p>
                                     </div>
                                     <MenuItem>
                                     <div class="cursor-pointer flex items-center gap-x-3 px-3 py-2.5 text-sm text-slate-700 hover:bg-surface-50 transition-colors"
@@ -473,11 +441,11 @@ const router = useRouter()
 const route = useRoute()
 const isSchedulesPage = computed(() => route.path.startsWith('/schedules'))
 const routeName = router?.currentRoute?.value?.name
-const searchInput = ref<HTMLInputElement | null>(null)
 
 let navigation = [] as any
 
 const isImpersonating = ref(!!localStorage.getItem('_original_token'))
+const globalSearch = ref<any>(null)
 
 const sidebarOpen = ref(false)
 const sidebarPinned = ref(localStorage.getItem('sidebarPinned') !== 'false')
@@ -509,33 +477,15 @@ onUnmounted(() => {
 })
 function toggleSidebarPin() { sidebarPinned.value = !sidebarPinned.value; localStorage.setItem('sidebarPinned', String(sidebarPinned.value)) }
 
-function openSearch() {
-    state.isSearchOpen = true; state.searchQuery = ''; state.isSearching = false
-    nextTick(() => { searchInput.value?.focus() })
-}
-
-function executeSearch() {
-    if (state.searchQuery.trim()) { state.isSearching = true }
-}
-
 onMounted(() => {
     fetchUser()
     animateAssets()
-    const handler = (e: KeyboardEvent) => {
-        if ((e.metaKey || e.ctrlKey) && e.key === 'k') { e.preventDefault(); openSearch() }
-        if (e.key === 'Escape' && state.isSearchOpen) { state.isSearchOpen = false }
-    }
-    window.addEventListener('keydown', handler)
-    onUnmounted(() => window.removeEventListener('keydown', handler))
 })
 
 const state = reactive({
     error: {} as Error,
     isPageLoading: false,
     isSidebarLoading: true,
-    isSearchOpen: false,
-    isSearching: false,
-    searchQuery: '',
     modal: {
         is2faRequiredOpen: false,
         isAIAssistantOpen: false,
@@ -675,6 +625,10 @@ function setCustomPageNames() {
     customPagesStore.setRiskAssessmentNaming(n(cp('risk_assessment')))
     customPagesStore.setGiveMedicineNaming(n(cp('give_medicine')))
     customPagesStore.setRoomsNaming(n(cp('rooms')))
+    customPagesStore.setShelterNaming(n(cp('shelter')))
+    customPagesStore.setCrisisCenterNaming(n(cp('crisis_center')))
+    customPagesStore.setCompletedByNaming(n(cp('completed_by')))
+    customPagesStore.setDateOfInquiryNaming(n(cp('date_of_inquiry')))
 }
 
 function animateAssets() {
@@ -742,7 +696,7 @@ async function logout() {
         const response = await authService.logout()
         if (response) {
             localStorage.removeItem("_token")
-            localStorage.removeItem("remember_me")
+            localStorage.removeItem("rememberMe")
             navigateTo('/')
         }
     } catch (error: any) {

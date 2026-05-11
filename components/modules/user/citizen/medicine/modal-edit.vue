@@ -46,6 +46,7 @@ const state = reactive({
         current_stocks: '',
         strength: '',
         unit: '',
+        max_dose_per_administration: '',
         max_daily_dose: '',
         max_dosage_per_time: [],
         package_leaflet_link: '',
@@ -97,6 +98,7 @@ watch(() => props.isModalOpen, (isModalOpen) => {
             current_stocks: props.selectedMedicine?.current_stocks ?? '',
             strength: props.selectedMedicine?.strength,
             unit: props.selectedMedicine?.mass_unit?.uuid ?? '',
+            max_dose_per_administration: props.selectedMedicine?.max_dose_per_administration,
             max_daily_dose: props.selectedMedicine?.max_daily_dose,
             max_dosage_per_time: props.selectedMedicine?.max_dosage_per_time,
             package_leaflet_link: props.selectedMedicine?.package_leaflet_link,
@@ -169,8 +171,13 @@ async function updateMedicine(medicineDetails: any) {
         params.append('current_stocks', medicineDetails.current_stocks)
         params.append('strength', medicineDetails.strength)
         params.append('mass_unit_uuid', medicineDetails.unit)
-        params.append('max_daily_dose', medicineDetails.max_daily_dose.replace(',', '.'))
-        params.append('max_dosage_per_time', JSON.stringify(medicineDetails.max_dosage_per_time))
+        params.append('max_dose_per_administration', (medicineDetails.max_dose_per_administration ?? '').toString().replace(',', '.'))
+        params.append('max_daily_dose', (medicineDetails.max_daily_dose ?? '').toString().replace(',', '.'))
+        const normalizedMaxDosagePerTime = (medicineDetails.max_dosage_per_time ?? []).map((item: any) => ({
+            ...item,
+            dosage: item.dosage != null ? String(item.dosage).replace(',', '.') : item.dosage,
+        }))
+        params.append('max_dosage_per_time', JSON.stringify(normalizedMaxDosagePerTime))
         params.append('package_leaflet_link', medicineDetails.package_leaflet_link)
         params.append('start_date', medicineDetails.start_date)
         params.append('end_date', medicineDetails.end_date)

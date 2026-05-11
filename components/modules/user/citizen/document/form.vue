@@ -105,7 +105,6 @@ onMounted(() => {
         is_use_template: false,
         template: '',
     }
-    console.log('ModulesUserCitizenDocumentForm mounted; showAdminCheckbox=', props.showAdminCheckbox, 'initial formDirectory=', state.formDirectory)
     fetchTemplates()
 })
 
@@ -119,7 +118,6 @@ watch(() => props.selectedDocument, (newValue: any) => {
             is_use_template: false,
             template: '',
         }
-        console.log('ModulesUserCitizenDocumentForm props.selectedDocument changed; showAdminCheckbox=', props.showAdminCheckbox, 'formDirectory=', state.formDirectory)
     }
 })
 

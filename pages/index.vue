@@ -88,7 +88,7 @@
 				<div class="rbc rbc3"></div>
 			</div>
 
-			<div class="form-card">
+			<form class="form-card" @submit.prevent="login">
 				<Alert type="danger" :text="state?.error?.message"
 					v-if="state.error?.message && state.error.message.length > 0" />
 				<div class="flex items-center justify-between mb-1">
@@ -129,8 +129,10 @@
 					<label for="co-email">
 						{{ $t('login.form.emailAddress') }}
 					</label>
-					<input id="co-email" v-model="state.formLogin.email" type="email"
+					<input id="co-email" v-model="state.formLogin.email" type="text"
 						:placeholder="$t('login.form.emailPlaceholder')" autocomplete="email" />
+					<FormError :error="v$?.formLogin?.email?.$errors[0]?.$message.toString()" />
+					<FormError :error="state?.error?.errors?.email?.[0]" />
 				</div>
 
 				<div class="field">
@@ -148,6 +150,8 @@
 								<circle cx="12" cy="12" r="3" />
 							</svg>
 						</button>
+						<FormError :error="v$?.formLogin?.password?.$errors[0]?.$message.toString()" />
+						<FormError :error="state?.error?.errors?.password?.[0]" />
 					</div>
 				</div>
 
@@ -161,7 +165,7 @@
 					</a>
 				</div>
 
-				<button class="btn-primary" type="button" :disabled="state.isPageLoading" @click="login">
+				<button class="btn-primary" type="submit" :disabled="state.isPageLoading">
 					{{ state.isPageLoading ? $t('login.form.login') + '...' : $t('login.form.login') }}
 				</button>
 
@@ -198,8 +202,11 @@
 					</svg>
 					{{ $t('login.isoNote') }}
 				</div>
-			</div>
+			</form>
 		</div>
+		<ModulesUserAuthenticationModal2fa :isModalOpen="state.modal.isGoogle2faVerificationOpen"
+			:formLogin="state.formLogin" @close="state.modal.isGoogle2faVerificationOpen = false"
+			v-if="state.modal.isGoogle2faVerificationOpen" />
 	</div>
 </template>
 

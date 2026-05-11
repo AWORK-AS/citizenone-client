@@ -4,8 +4,7 @@
             <template #modal-body>
                 <div>
                     <div class="flex justify-end items-center mb-5">
-                        <FormButton buttonStyle="action" class="rounded-lg"
-                            @click="state.modal.isAddMedicineHistoryOpen = true">
+                        <FormButton buttonStyle="action" @click="state.modal.isAddMedicineHistoryOpen = true">
                             <Icon name="ph:plus" class="h-4 w-4" aria-hidden="true" />
                             {{ $t('citizens.medicineJournals.history.giveMedicine') }}
                         </FormButton>
@@ -161,27 +160,18 @@
                                                 class="bg-gray-50 rounded-lg px-3 py-2.5 space-y-1">
                                                 <div class="flex items-center justify-between">
                                                     <span class="text-xs font-medium text-gray-600">
-                                                        {{
-                                                            $t('citizens.medicineJournals.historyModal.effectEvaluation')
-                                                        }} — {{
-                                                            $t('citizens.medicineJournals.historyModal.evaluatedAt') }} {{
-                                                            evaluation.time ??
-                                                            evaluation.evaluated_at
+                                                        {{ $t('citizens.medicineJournals.historyModal.effectEvaluation')
                                                         }}
+                                                        — {{ $t('citizens.medicineJournals.historyModal.evaluatedAt') }}
+                                                        {{ normalizeTime(evaluation.time) }}
                                                     </span>
                                                     <span class="text-xs text-gray-400">
-                                                        {{ evaluation.evaluator ??
-                                                            (evaluation.user ? evaluation.user.firstname
-                                                                + ' ' + (evaluation.user.lastname ?? '') : '')
-                                                        }}
+                                                        {{ evaluation.user?.firstname }} {{ evaluation.user?.lastname }}
                                                     </span>
                                                 </div>
-                                                <!-- <p>
-                                                    {{ entry }}
+                                                <p v-if="evaluation.evaluation" class="text-xs text-gray-700">
+                                                    {{ evaluation.evaluation }}
                                                 </p>
-                                                <p class="text-xs text-gray-700">
-                                                    {{ evaluation.comment }}
-                                                </p> -->
                                             </div>
                                         </div>
                                     </div>
@@ -275,12 +265,12 @@
                                             </td>
                                             <td width="10%">
                                                 <div class="flex items-end gap-2">
-                                                    <FormButton type="button" buttonStyle="action" class="rounded-md"
+                                                    <FormButton type="button" buttonStyle="action"
                                                         @click="editMedicineHistory(medicineHistory)">
                                                         <Icon name="ph:pencil-simple" class="size-4" />
                                                         {{ $t('citizens.medicineJournals.table.actions.edit') }}
                                                     </FormButton>
-                                                    <FormButton type="button" buttonStyle="danger" class="rounded-md"
+                                                    <FormButton type="button" buttonStyle="danger"
                                                         @click="confirmMedicineDeletion(medicineHistory)">
                                                         <Icon name="ph:trash-duotone" class="size-4" />
                                                         {{ $t('citizens.medicineJournals.table.actions.delete') }}
@@ -404,22 +394,16 @@ function getEntryMedicineName(): string {
 }
 
 function isEvaluated(entry: any, evalTime: string): boolean {
-    const local = state.localEvaluations[`${entry.uuid}_${evalTime}`]
-    if (local?.length) return true
-    return entry.evaluations?.some((e: any) =>
-        e.time === evalTime || e.evaluated_at === evalTime
-    ) ?? false
+    const normalized = normalizeTime(evalTime)
+    return entry.effect_evaluations?.some((e: any) => normalizeTime(e.time) === normalized) ?? false
+}
+
+function normalizeTime(time: string): string {
+    return time?.replace(/^(\d{2}:\d{2}):\d{2}$/, '$1') ?? ''
 }
 
 function getEvaluations(entry: any): any[] {
-    const apiEvals = entry.evaluations ?? []
-    const fetchedEvals = state.effectEvaluations?.data?.filter((e: any) =>
-        e.citizen_medicine?.uuid === props.selectedMedicine?.uuid
-    ) ?? []
-    const localEvals = Object.entries(state.localEvaluations)
-        .filter(([key]) => key.startsWith(entry.uuid))
-        .flatMap(([, evals]) => evals)
-    return [...apiEvals, ...fetchedEvals, ...localEvals]
+    return entry.effect_evaluations ?? []
 }
 
 // ─── Evaluation ───────────────────────────────────────────────
