@@ -7020,7 +7020,8 @@
                     "activate": "Aktivér",
                     "deactivate": "Deaktiver",
                     "delete": "Slet",
-                    "edit": "Rediger"
+                    "edit": "Rediger",
+                    "impersonate": "Impersonér"
                 },
                 "email": "E-mail",
                 "name": "Navn",

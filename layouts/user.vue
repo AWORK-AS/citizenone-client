@@ -131,9 +131,23 @@
         <!-- Main content -->
         <div class="bg-surface-50 min-h-screen transition-all duration-300 ease-in-out"
             :class="sidebarExpanded ? 'lg:pl-[17rem]' : 'lg:pl-[4.5rem]'">
+            <!-- Impersonation Banner -->
+            <div v-if="isImpersonating"
+                class="sticky top-0 z-[60] bg-amber-500 text-white px-6 py-2.5 flex items-center justify-between gap-x-4">
+                <div class="flex items-center gap-x-2 min-w-0">
+                    <Icon name="ph:user-switch" class="h-5 w-5 shrink-0" />
+                    <span class="text-sm font-semibold truncate">Impersonating: {{ userStore.getUser?.firstname }} {{ userStore.getUser?.lastname }}</span>
+                </div>
+                <button @click="stopImpersonation"
+                    class="flex items-center gap-x-1.5 text-sm font-semibold bg-amber-600 hover:bg-amber-700 px-3 py-1 rounded-md transition-colors shrink-0">
+                    <Icon name="ph:arrow-u-up-left" class="h-4 w-4" />
+                    Stop impersonation
+                </button>
+            </div>
             <!-- Navbar -->
             <div
-                class="sticky top-0 z-50 flex h-16 shrink-0 items-center gap-x-3 bg-white/95 backdrop-blur-md border-b border-surface-200 px-4 sm:px-6 lg:px-6">
+                class="sticky z-50 flex h-16 shrink-0 items-center gap-x-3 bg-white/95 backdrop-blur-md border-b border-surface-200 px-4 sm:px-6 lg:px-6"
+                :class="isImpersonating ? 'top-[42px]' : 'top-0'">
                 <button type="button" class="-m-2.5 p-2.5 text-slate-500 lg:hidden" @click="sidebarOpen = true">
                     <Icon name="heroicons:bars-3" class="h-6 w-6" aria-hidden="true" />
                 </button>
@@ -430,6 +444,7 @@ const routeName = router?.currentRoute?.value?.name
 
 let navigation = [] as any
 
+const isImpersonating = ref(!!localStorage.getItem('_original_token'))
 const globalSearch = ref<any>(null)
 
 const sidebarOpen = ref(false)
@@ -687,6 +702,21 @@ async function logout() {
     } catch (error: any) {
         state.error = error
     }
+    state.isPageLoading = false
+}
+
+async function stopImpersonation() {
+    state.isPageLoading = true
+    try {
+        await authService.stopImpersonation()
+    } catch (_) {}
+    const originalToken = localStorage.getItem('_original_token')
+    if (originalToken) {
+        localStorage.setItem('_token', originalToken)
+        localStorage.removeItem('_original_token')
+    }
+    isImpersonating.value = false
+    navigateTo('/superadmin/companies')
     state.isPageLoading = false
 }
 
