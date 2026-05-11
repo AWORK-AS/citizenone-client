@@ -3287,7 +3287,9 @@
             "employees": "Medarbejdere",
             "employmentStatus": "Ansættelsesstatus",
             "filterDate": "Filtrer dato",
-            "filterDateAndTime": "Filtrer dato og tid"
+            "filterDateAndTime": "Filtrer dato og tid",
+            "timeFrom": "Tid fra",
+            "timeTo": "Tid til"
         },
         "findEmployee": "Find medarbejder",
         "form": {
@@ -3731,7 +3733,8 @@
         "zenegy_update_preset": "Opdater forudindstilling",
         "zenegy_validation_assign_rates": "Tildel venligst en sats for alle vagttyper og tillæg.",
         "zenegy_validation_date_range": "Vælg venligst et datointerval.",
-        "zenegy_validation_select_employee": "Vælg venligst mindst én medarbejder."
+        "zenegy_validation_select_employee": "Vælg venligst mindst én medarbejder.",
+        "timeRange": "Tidsinterval"
     },
     "dutyShiftRuleNotifications": {
         "empty": "Du har ingen vagtregel notifikationer",
@@ -7639,5 +7642,6 @@
         }
     },
     "yes": "Ja",
-    "youDontHaveAccessToThisPage": "Du har ikke adgang til denne side. Kontakt venligst din administrator"
+    "youDontHaveAccessToThisPage": "Du har ikke adgang til denne side. Kontakt venligst din administrator",
+    "clear": "Ryd"
 }

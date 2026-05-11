@@ -506,7 +506,11 @@
                                                     <div class="text-xs grid grid-cols-7 border-t-2 border-gray-200">
                                                         <div class="col-span-3 border-gray-200">
                                                             <div class="pl-3 py-2 font-semibold">
-                                                                {{ $t('dutySchedules.total') }}:
+                                                                {{ $t('dutySchedules.total') }}
+                                                                <span v-if="state.filter.time_from && state.filter.time_to"
+                                                                    class="font-normal">
+                                                                    ({{ state.filter.time_from }}–{{ state.filter.time_to }})
+                                                                </span>:
                                                             </div>
                                                         </div>
                                                         <div class="col-span-2 border-gray-200">
@@ -864,6 +868,8 @@ const state = reactive({
         department_uuids: [],
         employment_status: [],
         employee_uuids: [],
+        time_from: '',
+        time_to: '',
     },
     editShift: {
         selectedEmployee: {},
@@ -1150,6 +1156,12 @@ async function fetchDraftDutySchedule() {
         }
         if (state.filter.employee_uuids?.length > 0) {
             params.employee_uuids = Array(state.filter.employee_uuids)
+        }
+        if (state.filter.time_from) {
+            params.time_from = state.filter.time_from
+        }
+        if (state.filter.time_to) {
+            params.time_to = state.filter.time_to
         }
         const response = await draftScheduleService.getDraftDutySchedules(params)
         if (response) {
@@ -1792,6 +1804,8 @@ function setFilter(filter: any) {
     state.filter.department_uuids = filter.department_uuids
     state.filter.employment_status = filter.employment_status
     state.filter.employee_uuids = filter.employee_uuids
+    state.filter.time_from = filter.time_from ?? ''
+    state.filter.time_to = filter.time_to ?? ''
     fetchDraftDutySchedule()
 }
 </script>
