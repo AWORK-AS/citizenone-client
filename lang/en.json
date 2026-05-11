@@ -7019,7 +7019,8 @@
                     "activate": "Activate",
                     "deactivate": "Deactivate",
                     "delete": "Delete",
-                    "edit": "Edit"
+                    "edit": "Edit",
+                    "impersonate": "Impersonate"
                 },
                 "email": "Email",
                 "name": "Name",

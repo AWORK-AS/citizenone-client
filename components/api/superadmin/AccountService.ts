@@ -25,6 +25,10 @@ class AccountService extends BaseAPIService {
         return await this.request(`/superadmin/accounts/${accountUuid}/update-status `, 'PUT', params)
     }
 
+    async impersonateAccount(accountUuid: any): Promise<any> {
+        return await this.request(`/superadmin/accounts/${accountUuid}/impersonate`, 'POST')
+    }
+
     async getCurrentAccount(): Promise<any> {
         return await this.request(`/superadmin`, 'GET')
     }
