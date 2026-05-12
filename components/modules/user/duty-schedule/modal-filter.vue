@@ -21,6 +21,32 @@
                             <FormSelectMultiple id="employment_status" :options="state.options.employment_status"
                                 v-model="state.formFilter.employment_status" />
                         </div>
+                        <div class="space-y-1">
+                            <div class="flex items-center justify-between">
+                                <FormLabel :label="$t('dutySchedules.timeRange')" />
+                                <button type="button"
+                                    v-if="state.formFilter.time_from || state.formFilter.time_to"
+                                    @click="state.formFilter.time_from = ''; state.formFilter.time_to = ''"
+                                    class="flex items-center gap-1 text-xs text-red-500 hover:text-red-700">
+                                    <Icon name="ph:x-circle" class="h-3.5 w-3.5" />
+                                    {{ $t('clear') }}
+                                </button>
+                            </div>
+                            <div class="grid grid-cols-2 gap-2">
+                                <div>
+                                    <FormLabel for="time_from" :label="$t('dutySchedules.filter.timeFrom')" />
+                                    <FormTimeField id="time_from" name="time_from"
+                                        :placeholder="$t('dutySchedules.filter.timeFrom')"
+                                        v-model:value="state.formFilter.time_from" />
+                                </div>
+                                <div>
+                                    <FormLabel for="time_to" :label="$t('dutySchedules.filter.timeTo')" />
+                                    <FormTimeField id="time_to" name="time_to"
+                                        :placeholder="$t('dutySchedules.filter.timeTo')"
+                                        v-model:value="state.formFilter.time_to" />
+                                </div>
+                            </div>
+                        </div>
                     </div>
                     <div class="mt-6">
                         <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
@@ -59,6 +85,8 @@ const state = reactive({
         department_uuids: [],
         employment_status: [],
         employee_uuids: [],
+        time_from: '',
+        time_to: '',
     },
     isPageLoading: false,
     options: {

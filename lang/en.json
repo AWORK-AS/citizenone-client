@@ -3406,7 +3406,9 @@
             "employees": "Employees",
             "employmentStatus": "Employment status",
             "filterDate": "Filter date",
-            "filterDateAndTime": "Filter date and time"
+            "filterDateAndTime": "Filter date and time",
+            "timeFrom": "Time from",
+            "timeTo": "Time to"
         },
         "findEmployee": "Find employee",
         "form": {
@@ -3869,7 +3871,8 @@
         "zenegy_update_preset": "Update preset",
         "zenegy_validation_assign_rates": "Please assign a rate for all shift types and supplements.",
         "zenegy_validation_date_range": "Please select a date range.",
-        "zenegy_validation_select_employee": "Please select at least one employee."
+        "zenegy_validation_select_employee": "Please select at least one employee.",
+        "timeRange": "Time range"
     },
     "dutyShiftRuleNotifications": {
         "empty": "You don't have any duty shift rule notifications",
@@ -7912,5 +7915,6 @@
                 "deleteTemplateConfirmation": "Are you sure you want to delete this template"
             }
         }
-    }
+    },
+    "clear": "Clear"
 }
