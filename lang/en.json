@@ -2226,7 +2226,8 @@
                 "actions": {
                     "edit": "Edit",
                     "statuses": "Statuses",
-                    "view": "View"
+                    "view": "View",
+                    "viewTreatments": "View treatments"
                 },
                 "communication": "Communication",
                 "data": "Data",

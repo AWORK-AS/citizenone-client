@@ -2226,7 +2226,8 @@
                 "actions": {
                     "edit": "Rediger",
                     "statuses": "Statusser",
-                    "view": "Se"
+                    "view": "Se",
+                    "viewTreatments": "Se behandlinger"
                 },
                 "communication": "Kommunikation",
                 "data": "Data",
