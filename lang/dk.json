@@ -2471,7 +2471,11 @@
                 },
                 "name": "Navn",
                 "score": "Score",
-                "titleOfTheTreatment": "Behandlingens titel"
+                "titleOfTheTreatment": "Behandlingens titel",
+                "template": "Skabelon",
+                "selectTemplate": "Vælg skabelon (valgfrit)",
+                "required": "Påkrævet",
+                "optional": "Valgfrit"
             },
             "newTreatment": "Ny behandling",
             "statuses": {
@@ -6783,7 +6787,8 @@
             "units": "Enheder",
             "ipRestrictions": "IP-begrænsninger",
             "approvedDevices": "Godkendte enheder",
-            "nursingProfessionalRecordTemplates": "Sygeplejejournalskabeloner"
+            "nursingProfessionalRecordTemplates": "Sygeplejejournalskabeloner",
+            "treatmentTemplates": "Behandlingsskabeloner"
         },
         "wallets": {
             "citizenWalletTransactions": "Transaktioner for borgernes wallets",
@@ -7888,6 +7893,36 @@
             "verifyCode": "Bekræft kode",
             "otp": "Engangskode",
             "verify": "Bekræft"
+        }
+    },
+    "treatmentTemplates": {
+        "treatmentTemplates": "Behandlingsskabeloner",
+        "newTemplate": "Ny skabelon",
+        "editTemplate": "Rediger skabelon",
+        "form": {
+            "name": "Skabelonnavn",
+            "fieldConfiguration": "Feltkonfiguration",
+            "field": "Felt",
+            "required": "Påkrævet",
+            "optional": "Valgfrit",
+            "alert": {
+                "newTemplateSuccessfullySaved": "Skabelon gemt",
+                "templateSuccessfullyUpdated": "Skabelon opdateret"
+            }
+        },
+        "table": {
+            "name": "Navn",
+            "requiredFields": "Påkrævede felter",
+            "actions": {
+                "edit": "Rediger",
+                "delete": "Slet"
+            },
+            "alert": {
+                "templateSuccessfullyDeleted": "Skabelon slettet"
+            },
+            "confirmation": {
+                "deleteTemplateConfirmation": "Er du sikker på, at du vil slette denne skabelon"
+            }
         }
     },
     "nursingProfessionalRecordTemplates": {

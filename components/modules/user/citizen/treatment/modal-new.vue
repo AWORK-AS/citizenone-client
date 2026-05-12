@@ -72,6 +72,7 @@ async function saveTreatment(treatmentDetails: any) {
             score: treatmentDetails.score,
             completion_date: treatmentDetails.completion_date,
             enable_reminder: treatmentDetails.enable_reminder,
+            template_uuid: treatmentDetails.template_uuid || undefined,
         }
         const response = await treatmentService.saveTreatment(params)
         if (response?.data) {

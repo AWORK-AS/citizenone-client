@@ -2471,7 +2471,11 @@
                 },
                 "name": "Name",
                 "score": "Score",
-                "titleOfTheTreatment": "Title of the treatment"
+                "titleOfTheTreatment": "Title of the treatment",
+                "template": "Template",
+                "selectTemplate": "Select template (optional)",
+                "required": "Required",
+                "optional": "Optional"
             },
             "newTreatment": "New treatment",
             "statuses": {
@@ -6782,7 +6786,8 @@
             "units": "Units",
             "ipRestrictions": "IP restrictions",
             "approvedDevices": "Approved devices",
-            "nursingProfessionalRecordTemplates": "Nursing record templates"
+            "nursingProfessionalRecordTemplates": "Nursing record templates",
+            "treatmentTemplates": "Treatment templates"
         },
         "wallets": {
             "citizenWalletTransactions": "Citizen wallet transactions",
@@ -7887,6 +7892,36 @@
             "verifyCode": "Verify code",
             "otp": "One-time code",
             "verify": "Verify"
+        }
+    },
+    "treatmentTemplates": {
+        "treatmentTemplates": "Treatment templates",
+        "newTemplate": "New template",
+        "editTemplate": "Edit template",
+        "form": {
+            "name": "Template name",
+            "fieldConfiguration": "Field configuration",
+            "field": "Field",
+            "required": "Required",
+            "optional": "Optional",
+            "alert": {
+                "newTemplateSuccessfullySaved": "Template successfully saved",
+                "templateSuccessfullyUpdated": "Template successfully updated"
+            }
+        },
+        "table": {
+            "name": "Name",
+            "requiredFields": "Required fields",
+            "actions": {
+                "edit": "Edit",
+                "delete": "Delete"
+            },
+            "alert": {
+                "templateSuccessfullyDeleted": "Template successfully deleted"
+            },
+            "confirmation": {
+                "deleteTemplateConfirmation": "Are you sure you want to delete this template"
+            }
         }
     },
     "nursingProfessionalRecordTemplates": {
