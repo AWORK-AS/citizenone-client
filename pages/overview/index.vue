@@ -74,7 +74,7 @@
             </div>
 
             <!-- Stat cards row -->
-            <div class="mt-5 grid grid-cols-1 md:grid-cols-3 gap-4 stagger-children">
+            <div class="mt-5 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 stagger-children">
                 <div class="stat-card">
                     <div class="stat-label">
                         <span class="w-2 h-2 rounded-full bg-accent-blue"></span>
@@ -115,6 +115,20 @@
                         {{ $t('overview.stats.pending') }}·
                         {{ state.stats.medicinesDeviatedCount }}
                         {{ $t('overview.stats.deviated') }}
+                    </div>
+                </div>
+                <div class="stat-card cursor-pointer hover:ring-secondary hover:ring-2 transition-all"
+                    @click="scrollToTreatments" v-if="overviewStore.getDailyOverviewFilter.showTreatments">
+                    <div class="stat-label">
+                        <span class="w-2 h-2 rounded-full bg-green-500"></span>
+                        {{ $t('overview.stats.activeTreatments') }}
+                    </div>
+                    <div class="mt-2 stat-value text-green-600">
+                        {{ state.stats.activeTreatmentsCount }}
+                    </div>
+                    <div class="stat-sublabel flex items-center gap-1">
+                        {{ $t('overview.stats.viewAll') }}
+                        <Icon name="ph:arrow-right" class="size-3" />
                     </div>
                 </div>
             </div>
@@ -232,7 +246,7 @@
                 </div>
 
                 <!-- Treatments, My Events, Bulletin -->
-                <div class="grid grid-cols-1 md:grid-cols-3 gap-5" v-if="overviewStore.getDailyOverviewFilter.showTreatments ||
+                <div id="treatments-section" class="grid grid-cols-1 md:grid-cols-3 gap-5" v-if="overviewStore.getDailyOverviewFilter.showTreatments ||
                     overviewStore.getDailyOverviewFilter.showMyDailyEvents ||
                     overviewStore.getDailyOverviewFilter.showBulletBoard">
                     <div v-if="overviewStore.getDailyOverviewFilter.showTreatments">
@@ -397,6 +411,7 @@ const state = reactive({
         medicinesDeviatedCount: 0,
         medicinesGivenCount: 0,
         medicinesPendingCount: 0,
+        activeTreatmentsCount: 0,
     } as any,
 })
 
@@ -430,8 +445,18 @@ watch(() => userStore.getUser, (user: any) => {
         fetchCitizenCalendarEvents(state.dateRange.formDateRange)
         fetchCitizensLatestJournal(state.dateRange.formDateRange)
         fetchCitizensMedicines(state.dateRange.formDateRange)
+        fetchActiveTreatmentsCount()
     }
 })
+
+function scrollToTreatments() {
+    const el = document.getElementById('treatments-section')
+    if (el) {
+        const offset = 80 // compensate for fixed navbar height
+        const top = el.getBoundingClientRect().top + window.scrollY - offset
+        window.scrollTo({ top, behavior: 'smooth' })
+    }
+}
 
 function formatDisplayDate() {
     const start = moment(state.dateRange.formDateRange.start_date)
@@ -571,5 +596,21 @@ async function fetchCitizensMedicines(dateRange: any) {
         state.error = error
     }
     state.isPageLoading = false
+}
+
+async function fetchActiveTreatmentsCount() {
+    try {
+        const params: any = {
+            is_completed: 0,
+            department: departmentStore.getSelectedDepartmentName,
+            per_page: 1,
+        }
+        const response = await dailyOverviewService.getTreatments(params)
+        if (response) {
+            state.stats.activeTreatmentsCount = response.total ?? response.data?.length ?? 0
+        }
+    } catch {
+        // silently fail — widget shows 0
+    }
 }
 </script>

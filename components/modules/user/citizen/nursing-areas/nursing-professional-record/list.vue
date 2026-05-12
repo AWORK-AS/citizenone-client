@@ -42,11 +42,16 @@
                                         <Icon name="ph:pencil-simple" class="size-4" />
                                     </FormButton>
                                 </Tooltip>
+                                <Tooltip :text="$t('citizens.nursingAreas.table.actions.viewTreatments')">
+                                    <FormButton buttonSize="sm" @click="router.push({ query: { open: 'treatments' } })">
+                                        <Icon name="ph:pill" class="size-4" />
+                                    </FormButton>
+                                </Tooltip>
                             </div>
                         </div>
                     </div>
                     <div class="mt-2 space-y-1">
-                        <div class="space-y-3" :class="expandedRecords[index] ? '' : 'line-clamp-2'">
+                        <div class="space-y-3" :class="expandedRecords[index as number] ? '' : 'line-clamp-2'">
                             <div>
                                 <p class="font-bold">
                                     {{ $t('citizens.nursingAreas.form.functionalLevel') }}
@@ -247,8 +252,9 @@
                                 </p>
                             </div>
                         </div>
-                        <button @click="toggleExpanded(index)" class="mt-3 text-primary text-sm hover:text-primary-700">
-                            {{ expandedRecords[index] ?
+                        <button @click="toggleExpanded(index as number)"
+                            class="mt-3 text-primary text-sm hover:text-primary-700">
+                            {{ expandedRecords[index as number] ?
                                 $t('showLess') :
                                 $t('showMore') }}
                         </button>

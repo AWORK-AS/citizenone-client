@@ -277,6 +277,14 @@ watch(() => userStore.getUser, (newValue: any) => {
                 ]
             },
             {
+                name: 'settings.tabs.treatmentTemplates',
+                isTranslateName: true,
+                href: `/settings/treatment-templates`,
+                routeNames: [
+                    'settings-treatment-templates'
+                ]
+            },
+            {
                 name: 'settings.tabs.units',
                 isTranslateName: true,
                 href: `/settings/units`,
@@ -359,6 +367,9 @@ function changeTab(value: any) {
     }
     else if (value === '/settings/nursing-professional-record-templates') {
         navigateTo(`/settings/nursing-professional-record-templates`)
+    }
+    else if (value === '/settings/treatment-templates') {
+        navigateTo(`/settings/treatment-templates`)
     }
     else if (value === '/settings/relationships') {
         navigateTo(`/settings/relationships`)
