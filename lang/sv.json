@@ -6505,6 +6505,7 @@
             "createCitizenPlan": "Skapa klientplan",
             "createSchedule": "Skapa tjänsteschema",
             "deleteCalendar": "Radera kalender",
+            "deleteCalendarEvent": "Radera kalenderhändelse",
             "deleteCitizenCalendar": "Radera borgerkalender",
             "deleteCitizenChildren": "Radera klientbarn",
             "deleteCitizenContact": "Radera klientkontakt",
