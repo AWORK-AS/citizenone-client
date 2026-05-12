@@ -43,7 +43,7 @@
                                     </FormButton>
                                 </Tooltip>
                                 <Tooltip :text="$t('citizens.nursingAreas.table.actions.viewTreatments')">
-                                    <FormButton buttonSize="sm" @click="router.push({ query: { open: 'treatments' } })">
+                                    <FormButton buttonSize="sm" @click="openTreatments">
                                         <Icon name="ph:pill" class="size-4" />
                                     </FormButton>
                                 </Tooltip>
@@ -341,5 +341,16 @@ function toggleExpanded(index: number) {
 function viewStatuses(record: any) {
     state.selectedRecord = record
     state.modal.isStatusOpen = true
+}
+
+async function openTreatments() {
+    await router.push({ query: { open: 'treatments' } })
+    await nextTick()
+    const el = document.getElementById('treatments-disclosure')
+    if (el) {
+        const offset = 80
+        const top = el.getBoundingClientRect().top + window.scrollY - offset
+        window.scrollTo({ top, behavior: 'smooth' })
+    }
 }
 </script>

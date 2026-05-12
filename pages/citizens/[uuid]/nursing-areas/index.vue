@@ -56,6 +56,7 @@
                         </Disclosure>
 
                         <Disclosure as="div" v-slot="{ open }" :key="'treatments-' + openSection"
+                            id="treatments-disclosure"
                             class="bg-white ring-1 ring-gray-200 rounded-md border-t-3 border-secondary"
                             :defaultOpen="openSection === 'treatments'">
                             <DisclosureButton class="w-full flex justify-between items-center text-left px-5 py-6">
