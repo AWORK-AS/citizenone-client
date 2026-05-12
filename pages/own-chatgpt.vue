@@ -23,6 +23,23 @@
                                 <p class="text-xs text-gray-400">{{ $t('ownChatGpt.poweredByYourKey') }}</p>
                             </div>
                         </div>
+                        <div class="flex items-center gap-2">
+                            <!-- Sync status badge -->
+                            <span v-if="syncStatus === null && !syncStore.isSyncing"
+                                class="flex items-center gap-1 text-xs text-gray-400">
+                                <Icon name="ph:spinner" class="h-3.5 w-3.5 animate-spin" aria-hidden="true" />
+                            </span>
+                            <span v-else-if="syncStatus === true"
+                                class="flex items-center gap-1 text-xs font-medium text-amber-600 bg-amber-50 border border-amber-200 px-2 py-0.5 rounded-full">
+                                <Icon name="ph:warning" class="h-3.5 w-3.5" aria-hidden="true" />
+                                {{ $t('ownChatGpt.outOfSync') }}
+                            </span>
+                            <span v-else-if="syncStatus === false"
+                                class="flex items-center gap-1 text-xs font-medium text-green-600 bg-green-50 border border-green-200 px-2 py-0.5 rounded-full">
+                                <Icon name="ph:check-circle" class="h-3.5 w-3.5" aria-hidden="true" />
+                                {{ $t('ownChatGpt.synced') }}
+                            </span>
+                        </div>
                         <div class="flex items-center gap-1">
                             <Tooltip :text="$t('ownChatGpt.sync')" position="left">
                                 <button type="button"
@@ -192,6 +209,7 @@ import { useOwnChatGptSyncStore } from '@/store/own-chatgpt-sync'
 import { useUserStore } from '@/store/user'
 import { useAlert } from '@/composables/alert'
 import { useI18n } from 'vue-i18n'
+import { ref, watch, onMounted } from 'vue'
 
 const userStore = useUserStore()
 if (!(userStore.getUser as any)?.has_own_chatgpt_access) {
@@ -207,6 +225,22 @@ const { errorAlert } = useAlert()
 const MAX_FILE_SIZE = 20 * 1024 * 1024
 
 const messagesContainer = ref<HTMLElement | null>(null)
+const syncStatus = ref<boolean | null>(null)
+
+async function fetchSyncStatus() {
+    try {
+        const res = await ownChatGptService.checkSyncStatus()
+        syncStatus.value = res?.need_sync ?? null
+    } catch {
+        syncStatus.value = null
+    }
+}
+
+onMounted(fetchSyncStatus)
+
+watch(() => syncStore.isComplete, (val) => {
+    if (val) fetchSyncStatus()
+})
 
 const state = reactive({
     messages: [] as any,

@@ -5652,6 +5652,7 @@
         "clearChat": "Clear chat",
         "emptySubtitle": "Type a message below to get started",
         "emptyTitle": "What's on the agenda today?",
+        "outOfSync": "Out of sync",
         "placeholder": "Ask anything...",
         "poweredByYourKey": "Powered by your OpenAI key",
         "save": "Save",
@@ -5660,6 +5661,7 @@
         "sync": "Sync AI",
         "syncComplete": "Sync complete",
         "syncReminderBody": "This ensures the AI has access to your company's data.",
+        "synced": "Synced",
         "syncReminderTitle": "Sync your AI with the company AI before chatting.",
         "syncing": "Syncing...",
         "title": "Your ChatGPT Integration"
