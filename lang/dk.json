@@ -5797,6 +5797,7 @@
         "scheduleSlots": "Udbyd vagter",
         "stats": {
             "acrossCitizens": "På tværs af {n} borgere",
+            "activeTreatments": "Aktive behandlinger",
             "administered": "givet",
             "citizensOnShift": "Borgere på vagt",
             "completed": "afsluttet",
@@ -5808,7 +5809,8 @@
             "pending": "afventer",
             "staffCheckedIn": "personale tjekket ind",
             "tasksToday": "Opgaver i dag",
-            "upcoming": "Kommende"
+            "upcoming": "Kommende",
+            "viewAll": "Se alle"
         },
         "tasks": "Opgaver",
         "treatments": {

@@ -5797,6 +5797,7 @@
         "scheduleSlots": "Schedule slots",
         "stats": {
             "acrossCitizens": "Across {n} citizens",
+            "activeTreatments": "Active treatments",
             "administered": "administered",
             "citizensOnShift": "Citizens on shift",
             "completed": "completed",
@@ -5808,7 +5809,8 @@
             "pending": "pending",
             "staffCheckedIn": "staff checked in",
             "tasksToday": "Tasks today",
-            "upcoming": "Upcoming"
+            "upcoming": "Upcoming",
+            "viewAll": "View all"
         },
         "tasks": "Tasks",
         "treatments": {
