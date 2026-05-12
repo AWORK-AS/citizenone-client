@@ -562,8 +562,13 @@
                                                 </div>
                                                 <div class="text-xs grid grid-cols-7 border-t-0.5 border-gray-200">
                                                     <div class="col-span-3 min-w-0">
-                                                        <div class="py-1 pl-1.5 sm:pl-3 font-bold">{{
-                                                            $t('dutySchedules.total') }}:</div>
+                                                        <div class="py-1 pl-1.5 sm:pl-3 font-bold">
+                                                            {{ $t('dutySchedules.total') }}
+                                                            <span v-if="state.filter.time_from && state.filter.time_to"
+                                                                class="font-normal">
+                                                                ({{ state.filter.time_from }}–{{ state.filter.time_to }})
+                                                            </span>:
+                                                        </div>
                                                     </div>
                                                     <div class="col-span-2">
                                                         <div class="text-right py-1 pr-2 font-bold">
@@ -1221,6 +1226,8 @@ const state = reactive({
         department_uuids: [],
         employment_status: [],
         employee_uuids: [],
+        time_from: '',
+        time_to: '',
     },
     isPageLoading: false,
     isModalLoading: false,
@@ -1493,6 +1500,12 @@ async function fetchDutySchedule() {
         if (state.filter.employee_uuids?.length > 0) {
             params.employee_uuids = Array(state.filter.employee_uuids)
         }
+        if (state.filter.time_from) {
+            params.time_from = state.filter.time_from
+        }
+        if (state.filter.time_to) {
+            params.time_to = state.filter.time_to
+        }
         const response = await dutyScheduleService.getDutySchedules(params)
         if (response) {
             state.weeklySchedules = response
@@ -1528,6 +1541,8 @@ function setFilter(filter: any) {
     state.filter.department_uuids = filter.department_uuids
     state.filter.employment_status = filter.employment_status
     state.filter.employee_uuids = filter.employee_uuids
+    state.filter.time_from = filter.time_from ?? ''
+    state.filter.time_to = filter.time_to ?? ''
     emit('setDutyScheduleCurrentFilter', state.filter)
     fetchDutySchedule()
 }
