@@ -31,12 +31,8 @@
                     </button>
                 </div>
                 <div class="space-y-1" v-if="state.usePredefinedJournalTitle">
-                    <div class="flex justify-between items-center py-0.5">
+                    <div class="flex items-center py-0.5">
                         <FormLabel for="predefined_title" :label="$t('citizens.citizenJournals.form.title')" />
-                        <span class="text-xs cursor-pointer text-tertiary hover:text-tertiary-800"
-                            @click="state.modal.isAddJournalTitleOpen = true">
-                            {{ $t('journalTitles.addNewJournalTitle') }}
-                        </span>
                     </div>
                     <FormSelect id="predefined_title" v-model="state.formJournal.title"
                         :options="state.options.journal_titles" />
@@ -62,13 +58,13 @@
                     <FormLabel :for="`dyn_field_${field.uuid}`" :label="field.label" />
                     <FormTextArea v-if="field.field_type === 'textarea'"
                         :name="`dyn_field_${field.uuid}`"
-                        :placeholder="field.label"
+                        placeholder=""
                         :rows="3"
                         v-model="state.formJournal.field_answers[i].response" />
                     <FormTextField v-else
                         :id="`dyn_field_${field.uuid}`"
                         :name="`dyn_field_${field.uuid}`"
-                        :placeholder="field.label"
+                        placeholder=""
                         v-model="state.formJournal.field_answers[i].response" />
                 </div>
             </div>
@@ -343,9 +339,7 @@
                 </FormButton>
             </div>
         </div>
-        <ModulesUserJournalTitleModalNew :isModalOpen="state.modal.isAddJournalTitleOpen"
-            @close="state.modal.isAddJournalTitleOpen = false" @refreshJournalTitles="fetchAllJournalTitles" />
-        <ModulesUserJournalNoteTagModalNew :isModalOpen="state.modal.isAddJournalNoteTagsOpen"
+<ModulesUserJournalNoteTagModalNew :isModalOpen="state.modal.isAddJournalNoteTagsOpen"
             @close="state.modal.isAddJournalNoteTagsOpen = false" @refreshJournalNoteTags="fetchAllJournalNoteTags" />
 
         <ModulesUserJournalContentModalSelect :isModalOpen="state.modal.isSelectJournalContent"
@@ -476,7 +470,6 @@ const state = reactive({
     hasChanges: false,
     modal: {
         isAddJournalNoteTagsOpen: false,
-        isAddJournalTitleOpen: false,
         isUpgradeStorageOpen: false,
         isSelectJournalContent: false,
     },
