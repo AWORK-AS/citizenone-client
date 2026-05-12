@@ -57,6 +57,21 @@
                     <FormError :error="props?.error?.errors?.date?.[0]" />
                 </div>
             </div>
+            <div v-if="state.selectedJournalTitleFields.length > 0" class="space-y-3">
+                <div v-for="(field, i) in state.selectedJournalTitleFields" :key="field.uuid" class="space-y-1">
+                    <FormLabel :for="`dyn_field_${field.uuid}`" :label="field.label" />
+                    <FormTextArea v-if="field.field_type === 'textarea'"
+                        :name="`dyn_field_${field.uuid}`"
+                        :placeholder="field.label"
+                        :rows="3"
+                        v-model="state.formJournal.field_answers[i].response" />
+                    <FormTextField v-else
+                        :id="`dyn_field_${field.uuid}`"
+                        :name="`dyn_field_${field.uuid}`"
+                        :placeholder="field.label"
+                        v-model="state.formJournal.field_answers[i].response" />
+                </div>
+            </div>
             <div class="space-y-1">
                 <FormLabel for="score" :label="$t('citizens.citizenJournals.form.currentLevels.currentLevel')" />
                 <FormSelect id="score" :options="state.options.scores" v-model="state.formJournal.score" />
@@ -455,7 +470,9 @@ const state = reactive({
         score: '',
         teeth: [],
         is_for_teeth: false,
+        field_answers: [] as Array<{ journal_title_field_uuid: string, response: string }>,
     } as any,
+    selectedJournalTitleFields: [] as Array<{ uuid: string, label: string, field_type: string }>,
     hasChanges: false,
     modal: {
         isAddJournalNoteTagsOpen: false,
@@ -481,6 +498,7 @@ const state = reactive({
         journal_note_goals: [],
         journal_note_subgoals: [],
         journal_titles: [],
+        journal_titles_raw: [] as any[],
         risk_assessment_plans: [],
         risk_assessment_goals: [],
         risk_assessment_subgoals: [],
@@ -579,6 +597,26 @@ watch(() => props.selectedJournal, (newValue: any) => {
     }
 })
 
+watch([() => state.formJournal.title, () => state.usePredefinedJournalTitle], () => {
+    if (suppressChangeTracking) return
+    if (!state.usePredefinedJournalTitle) {
+        state.selectedJournalTitleFields = []
+        state.formJournal.field_answers = []
+        return
+    }
+    const match = state.options.journal_titles_raw.find((o: any) => o.value === state.formJournal.title)
+    const fields = match?.fields ?? []
+    state.selectedJournalTitleFields = fields.map((f: any) => ({
+        uuid: f.uuid,
+        label: f.label,
+        field_type: f.field_type ?? 'text',
+    }))
+    state.formJournal.field_answers = state.selectedJournalTitleFields.map((f: any) => ({
+        journal_title_field_uuid: f.uuid,
+        response: '',
+    }))
+})
+
 watch(() => state.formJournal, () => {
     if (!isInitialized) return
 
@@ -643,6 +681,23 @@ function setFormJournalFromSelected(journal: any) {
     journal.teeth?.forEach((tooth: any) => {
         state.formJournal.teeth.push(tooth?.uuid)
     })
+
+    const savedAnswers = journal.journal_field_answers ?? []
+    if (savedAnswers.length > 0) {
+        state.usePredefinedJournalTitle = true
+        state.selectedJournalTitleFields = savedAnswers.map((a: any) => ({
+            uuid: a.journal_title_field_uuid,
+            label: a.label ?? '',
+            field_type: a.field_type ?? 'text',
+        }))
+        state.formJournal.field_answers = savedAnswers.map((a: any) => ({
+            journal_title_field_uuid: a.journal_title_field_uuid,
+            response: a.response ?? '',
+        }))
+    } else {
+        state.selectedJournalTitleFields = []
+        state.formJournal.field_answers = []
+    }
 }
 
 const rules = computed(() => {
@@ -927,13 +982,15 @@ async function fetchAllJournalTitles() {
         const response = await journalTitleService.getAllJournalTitles()
         if (response.data) {
             let options: any = []
+            let raw: any = []
             response.data.forEach(
-                (item: any) => options.push({
-                    value: item?.title,
-                    label: item?.title,
-                })
+                (item: any) => {
+                    options.push({ value: item?.title, label: item?.title })
+                    raw.push({ value: item?.title, label: item?.title, uuid: item?.uuid, fields: item?.journal_fields ?? [] })
+                }
             )
             state.options.journal_titles = options
+            state.options.journal_titles_raw = raw
         }
     } catch (error: any) {
         state.error = error

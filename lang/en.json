@@ -5132,7 +5132,16 @@
                 "journalTitleSuccessfullyUpdated": "Journal title successfully updated",
                 "newJournalTitleSuccessfullySaved": "New journal title successfully saved"
             },
-            "title": "Title"
+            "title": "Title",
+            "fields": "Fields",
+            "addField": "Add field",
+            "noFieldsYet": "No fields added yet",
+            "fieldLabel": "Label",
+            "fieldLabelPlaceholder": "Enter field label",
+            "fieldType": "Type",
+            "fieldTypeText": "Text",
+            "fieldTypeTextarea": "Textarea",
+            "required": "Required"
         },
         "journalTitles": "Journal titles",
         "newJournalTitle": "New journal title",

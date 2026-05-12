@@ -64,6 +64,7 @@ async function saveJournalTitle(journalTitleDetails: any) {
     try {
         const params = {
             title: journalTitleDetails.title,
+            journal_fields: journalTitleDetails.journal_fields ?? [],
         }
         const response = await journalTitleService.saveJournalTitle(params)
         if (response.data) {

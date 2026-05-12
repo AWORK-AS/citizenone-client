@@ -64,6 +64,7 @@ async function updateJournal(journalDetails: any) {
             risk_assessment_tags_uuid: journalDetails.formJournal.risk_assessment_tags,
             score: journalDetails.formJournal.score,
             teeth_uuid: journalDetails.formJournal.teeth,
+            field_answers: journalDetails.formJournal.field_answers ?? [],
         }
         const response = await journalService.updateJournal(journalUuid, params)
         if (response?.data) {
