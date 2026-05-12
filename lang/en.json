@@ -5641,6 +5641,23 @@
             "viewNormPeriod": "View norm period"
         }
     },
+    "ownChatGpt": {
+        "apiKey": "OpenAI API Key",
+        "apiKeyPlaceholder": "sk-...",
+        "attachFile": "Attach file",
+        "clearChat": "Clear chat",
+        "emptySubtitle": "Type a message below to get started",
+        "emptyTitle": "What's on the agenda today?",
+        "placeholder": "Ask anything...",
+        "poweredByYourKey": "Powered by your OpenAI key",
+        "save": "Save",
+        "savedSuccess": "API key saved successfully",
+        "settings": "Settings",
+        "sync": "Sync AI",
+        "syncComplete": "Sync complete",
+        "syncing": "Syncing...",
+        "title": "Your ChatGPT Integration"
+    },
     "overview": {
         "addDailyEvents": "Add daily events",
         "bulletBoard": "Bullet board",
