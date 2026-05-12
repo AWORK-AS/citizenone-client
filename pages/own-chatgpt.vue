@@ -70,6 +70,19 @@
                                 <h3 class="text-base font-semibold text-gray-800">{{ $t('ownChatGpt.emptyTitle') }}</h3>
                                 <p class="text-sm text-gray-400 mt-1">{{ $t('ownChatGpt.emptySubtitle') }}</p>
                             </div>
+                            <div class="flex items-start gap-3 bg-blue-50 border border-blue-100 rounded-xl px-4 py-3 max-w-sm text-left">
+                                <Icon name="ph:info" class="h-4 w-4 text-blue-500 mt-0.5 flex-shrink-0" aria-hidden="true" />
+                                <div class="flex-1 text-xs text-blue-700">
+                                    <p class="font-medium">{{ $t('ownChatGpt.syncReminderTitle') }}</p>
+                                    <p class="mt-0.5 text-blue-500">{{ $t('ownChatGpt.syncReminderBody') }}</p>
+                                </div>
+                                <button type="button"
+                                    class="text-xs font-medium text-blue-600 hover:text-blue-800 underline flex-shrink-0 disabled:opacity-40"
+                                    :disabled="syncStore.isSyncing"
+                                    @click="syncStore.startSync()">
+                                    {{ syncStore.isSyncing ? $t('ownChatGpt.syncing') : $t('ownChatGpt.sync') }}
+                                </button>
+                            </div>
                         </div>
 
                         <!-- Message bubbles -->

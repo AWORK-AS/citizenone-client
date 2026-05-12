@@ -5655,6 +5655,8 @@
         "settings": "Settings",
         "sync": "Sync AI",
         "syncComplete": "Sync complete",
+        "syncReminderBody": "This ensures the AI has access to your company's data.",
+        "syncReminderTitle": "Sync your AI with the company AI before chatting.",
         "syncing": "Syncing...",
         "title": "Your ChatGPT Integration"
     },
