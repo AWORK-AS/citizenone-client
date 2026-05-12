@@ -2455,7 +2455,7 @@
                     "skinAndMucousMembranes": "Hud og slimhinder",
                     "sleepAndRest": "Søvn og hvile"
                 },
-                "completed": "Afsluttet",
+                "completed": "Markér som afsluttet",
                 "completionDate": "Afslutningsdato",
                 "dateCompleted": "Dato afsluttet",
                 "description": "Beskrivelse",

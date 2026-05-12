@@ -2455,7 +2455,7 @@
                     "skinAndMucousMembranes": "Skin and mucous membranes",
                     "sleepAndRest": "Sleep and rest"
                 },
-                "completed": "Completed",
+                "completed": "Mark as completed",
                 "completionDate": "Completion date",
                 "dateCompleted": "Date completed",
                 "description": "Description",
