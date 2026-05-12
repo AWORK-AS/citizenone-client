@@ -2226,7 +2226,8 @@
                 "actions": {
                     "edit": "Rediger",
                     "statuses": "Statusser",
-                    "view": "Se"
+                    "view": "Se",
+                    "viewTreatments": "Se behandlinger"
                 },
                 "communication": "Kommunikation",
                 "data": "Data",
@@ -2455,7 +2456,7 @@
                     "skinAndMucousMembranes": "Hud og slimhinder",
                     "sleepAndRest": "Søvn og hvile"
                 },
-                "completed": "Afsluttet",
+                "completed": "Markér som afsluttet",
                 "completionDate": "Afslutningsdato",
                 "dateCompleted": "Dato afsluttet",
                 "description": "Beskrivelse",
@@ -3406,7 +3407,9 @@
             "employees": "Medarbejdere",
             "employmentStatus": "Ansættelsesstatus",
             "filterDate": "Filtrer dato",
-            "filterDateAndTime": "Filtrer dato og tid"
+            "filterDateAndTime": "Filtrer dato og tid",
+            "timeFrom": "Tid fra",
+            "timeTo": "Tid til"
         },
         "findEmployee": "Find medarbejder",
         "form": {
@@ -3869,7 +3872,8 @@
         "zenegy_update_preset": "Opdater forudindstilling",
         "zenegy_validation_assign_rates": "Tildel venligst en sats for alle vagttyper og tillæg.",
         "zenegy_validation_date_range": "Vælg venligst et datointerval.",
-        "zenegy_validation_select_employee": "Vælg venligst mindst én medarbejder."
+        "zenegy_validation_select_employee": "Vælg venligst mindst én medarbejder.",
+        "timeRange": "Tidsinterval"
     },
     "dutyShiftRuleNotifications": {
         "empty": "Du har ingen vagtregel notifikationer",
@@ -5812,6 +5816,7 @@
         "scheduleSlots": "Udbyd vagter",
         "stats": {
             "acrossCitizens": "På tværs af {n} borgere",
+            "activeTreatments": "Aktive behandlinger",
             "administered": "givet",
             "citizensOnShift": "Borgere på vagt",
             "completed": "afsluttet",
@@ -5823,7 +5828,8 @@
             "pending": "afventer",
             "staffCheckedIn": "personale tjekket ind",
             "tasksToday": "Opgaver i dag",
-            "upcoming": "Kommende"
+            "upcoming": "Kommende",
+            "viewAll": "Se alle"
         },
         "tasks": "Opgaver",
         "treatments": {
@@ -7932,5 +7938,6 @@
                 "deleteTemplateConfirmation": "Er du sikker på, at du vil slette denne skabelon"
             }
         }
-    }
+    },
+    "clear": "Ryd"
 }

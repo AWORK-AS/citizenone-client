@@ -58,8 +58,9 @@ function closeModal() {
 }
 
 const state = reactive({
-    currentVersion: '2026-05-01',
+    currentVersion: '2026-05-08',
     availableVersions: [
+        '2026-05-08',
         '2026-05-01',
         '2026-04-24',
         '2026-04-10',
@@ -90,6 +91,64 @@ const state = reactive({
 
 const allUpdates: Record<string, Record<string, { title: string, description: string[] }[]>> = {
     en: {
+        '2026-05-08': [
+            {
+                title: '📇 Company Contacts & Address Book',
+                description: [
+                    'Company contacts can now be created in the same way as citizen contacts.',
+                    'All contacts (e.g., doctors, case workers, etc. – not relatives) are now stored centrally in the system so they can be reused and assigned to multiple citizens.',
+                    'A company-wide address book has been introduced where contacts are centrally stored and can be selected when needed.',
+                ],
+            },
+            {
+                title: '⚙️ Shift Type Configuration',
+                description: [
+                    'Under Shift Types, it is now possible to define that 1 working hour equals 0.75 hours (optionally), and this rule can also be applied within a specific time interval.',
+                    'For "Sleeping Night Shift", it is now possible to define a default end time that is 1, 2, or more days later.',
+                ],
+            },
+            {
+                title: '📅 Duty Schedule – Yearly & Half-Year Calendar View',
+                description: [
+                    'A yearly and half-year calendar view has been added to the duty schedule.',
+                    'The view can be shown per individual employee, displaying their assigned shifts and an overview across time.',
+                ],
+            },
+            {
+                title: '💊 Medication Notes – Information Icon',
+                description: [
+                    'An information icon ("i") has been added for medication notes.',
+                    'Hovering over the icon shows the associated remark for that medication.',
+                    'Example: "Do not administer if the patient is under the influence of cocaine."',
+                ],
+            },
+            {
+                title: '🤖 AI Usage Badge on Journal Notes',
+                description: [
+                    'The system now registers when the AI assistant has been used to create or assist with a journal note.',
+                    'A badge is displayed on the journal note indicating that the AI assistant was used.',
+                    'The badge reads: "CitizenOne AI was used".',
+                ],
+            },
+            {
+                title: '🔐 Login Restriction by IP / Device',
+                description: [
+                    'Administrators can now restrict login access based on IP address and/or device.',
+                    'Specific IP addresses (e.g., the office network) can be whitelisted.',
+                    'Optionally, access can be restricted to approved devices.',
+                    'Users outside allowed IPs/devices will be blocked or required to complete additional verification.',
+                    'This feature increases security and ensures access only from trusted environments.',
+                ],
+            },
+            {
+                title: '🎄 Holiday & Sunday Pay Rules',
+                description: [
+                    'On holidays, a standard example applies: 08:00 – 15:24 = 7.4 hours.',
+                    'On Sundays, employees must receive 1.5× their hours.',
+                    'If an employee works on a Sunday or holiday, they receive shift hours × 1.5.',
+                ],
+            },
+        ],
         '2026-05-01': [
             {
                 title: 'Additions to Extra Hours (X-timer)',
@@ -1422,6 +1481,64 @@ const allUpdates: Record<string, Record<string, { title: string, description: st
         ],
     },
     dk: {
+        '2026-05-08': [
+            {
+                title: '📇 Virksomhedskontakter og adressebog',
+                description: [
+                    'Virksomhedskontakter kan nu oprettes på samme måde som borgerkontakter.',
+                    'Alle kontakter (f.eks. læger, sagsbehandlere osv. – ikke pårørende) gemmes nu centralt i systemet, så de kan genbruges og tildeles flere borgere.',
+                    'En virksomhedsdækkende adressebog er introduceret, hvor kontakter gemmes centralt og kan vælges efter behov.',
+                ],
+            },
+            {
+                title: '⚙️ Konfiguration af vagttyper',
+                description: [
+                    'Under vagttyper er det nu muligt at definere, at 1 arbejdstime svarer til 0,75 time (valgfrit), og denne regel kan også gælde inden for et bestemt tidsinterval.',
+                    'For "Sovende nattevagt" er det nu muligt at definere et standardsluttidspunkt, der er 1, 2 eller flere dage senere.',
+                ],
+            },
+            {
+                title: '📅 Vagtplan – års- og halvårsvisning pr. medarbejder',
+                description: [
+                    'En års- og halvårskalendervisning er tilføjet til vagtplanen.',
+                    'Visningen kan vises pr. enkelt medarbejder med deres tildelte vagter og en oversigt over tid.',
+                ],
+            },
+            {
+                title: '💊 Medicinnoter – informationsikon',
+                description: [
+                    'Et informationsikon ("i") er tilføjet til medicinnoter.',
+                    'Når man holder musen over ikonet, vises den tilknyttede bemærkning til det pågældende lægemiddel.',
+                    'Eksempel: "Må ikke administreres, hvis patienten er under indflydelse af kokain."',
+                ],
+            },
+            {
+                title: '🤖 AI-badge på journalnoter',
+                description: [
+                    'Systemet registrerer nu, når AI-assistenten er blevet brugt til at oprette eller assistere med en journalnote.',
+                    'Et badge vises på journalnoten for at angive, at AI-assistenten blev anvendt.',
+                    'Badget viser: "CitizenOne AI was used".',
+                ],
+            },
+            {
+                title: '🔐 Loginbegrænsning via IP / enhed',
+                description: [
+                    'Administratorer kan nu begrænse loginadgang baseret på IP-adresse og/eller enhed.',
+                    'Specifikke IP-adresser (f.eks. kontorets netværk) kan hvidlistes.',
+                    'Adgangen kan eventuelt begrænses til godkendte enheder.',
+                    'Brugere uden for tilladte IP-adresser/enheder blokeres eller skal gennemføre yderligere bekræftelse.',
+                    'Denne funktion øger sikkerheden og sikrer adgang kun fra betroede miljøer.',
+                ],
+            },
+            {
+                title: '🎄 Helligdags- og søndagslønregler',
+                description: [
+                    'På helligdage gælder et standardeksempel: 08:00 – 15:24 = 7,4 timer.',
+                    'På søndage skal medarbejdere modtage 1,5× deres timer.',
+                    'Hvis en medarbejder arbejder på en søndag eller helligdag, modtager de vagttimer × 1,5.',
+                ],
+            },
+        ],
         '2026-05-01': [
             {
                 title: 'Tilføjelser til Ekstra Timer (X-timer)',

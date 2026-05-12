@@ -37,9 +37,9 @@
 
                 <div>
                     <div class="mt-8 space-y-5">
-                        <Disclosure as="div" v-slot="{ open }"
+                        <Disclosure as="div" v-slot="{ open }" :key="'npr-' + openSection"
                             class="bg-white ring-1 ring-gray-200 rounded-md border-t-3 border-secondary"
-                            :defaultOpen="open === 'nursing-professional-records' ? true : false">
+                            :defaultOpen="openSection === 'nursing-professional-records'">
                             <DisclosureButton class="w-full flex justify-between items-center text-left px-5 py-6">
                                 <div class="flex items-center gap-x-2">
                                     <h3 class="font-semibold text-sm">
@@ -55,9 +55,9 @@
                             </DisclosurePanel>
                         </Disclosure>
 
-                        <Disclosure as="div" v-slot="{ open }"
+                        <Disclosure as="div" v-slot="{ open }" :key="'treatments-' + openSection"
                             class="bg-white ring-1 ring-gray-200 rounded-md border-t-3 border-secondary"
-                            :defaultOpen="open === 'treatments' ? true : false">
+                            :defaultOpen="openSection === 'treatments'">
                             <DisclosureButton class="w-full flex justify-between items-center text-left px-5 py-6">
                                 <div class="flex items-center gap-x-2">
                                     <h3 class="font-semibold text-sm">
@@ -146,14 +146,15 @@
 </template>
 
 <script setup lang="ts">
-import { useCustomPagesStore } from '@/store/custom-pages'
 import { Disclosure, DisclosureButton, DisclosurePanel } from '@headlessui/vue'
+import { useCustomPagesStore } from '@/store/custom-pages'
 
 const customPagesStore = useCustomPagesStore() as any
 const runtimeConfig = useRuntimeConfig()
 const router = useRouter()
+const route = useRoute()
 const citizenUuid = router?.currentRoute?.value?.params?.uuid
-const open = router?.currentRoute?.value?.query?.open
+const openSection = computed(() => route.query.open as string)
 const breadcrumbLinks = [
     {
         name: 'citizens.nursingAreas.nursingProfessionalRecords',
