@@ -62,6 +62,30 @@
                                                             </div>
                                                         </div>
                                                     </span>
+                                                    <span v-else-if="language.code === 'no'">
+                                                        <img src="/img/icons/flags/norway.svg" alt="flag"
+                                                            class="w-12 h-12">
+                                                        <div class="bg-white rounded-full absolute -end-3 -top-3 p-1 w-fit h-fit"
+                                                            v-if="userStore.getLanguage === 'no'">
+                                                            <div
+                                                                class="bg-tertiary text-white rounded-full p-1 flex items-center justify-center">
+                                                                <Icon name="material-symbols:check-rounded"
+                                                                    class="h-4 w-4" aria-hidden="true" />
+                                                            </div>
+                                                        </div>
+                                                    </span>
+                                                    <span v-else-if="language.code === 'sv'">
+                                                        <img src="/img/icons/flags/sweden.svg" alt="flag"
+                                                            class="w-12 h-12">
+                                                        <div class="bg-white rounded-full absolute -end-3 -top-3 p-1 w-fit h-fit"
+                                                            v-if="userStore.getLanguage === 'sv'">
+                                                            <div
+                                                                class="bg-tertiary text-white rounded-full p-1 flex items-center justify-center">
+                                                                <Icon name="material-symbols:check-rounded"
+                                                                    class="h-4 w-4" aria-hidden="true" />
+                                                            </div>
+                                                        </div>
+                                                    </span>
                                                 </button>
                                             </div>
                                         </div>
