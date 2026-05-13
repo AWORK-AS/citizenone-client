@@ -7190,6 +7190,30 @@
                     "type": "Type"
                 }
             },
+            "accounts": {
+                "activatedAppsAndModules": "Aktiverede apps & moduler",
+                "allCompanies": "Alle virksomheder",
+                "cardLinkSent": "Kortupdate-link er sendt til kunden",
+                "loginAs": "Log ind som",
+                "manualInvoice": "Manuel faktura",
+                "monthly": "md.",
+                "newAccount": "Ny konto",
+                "noAccounts": "Ingen brugerkonti",
+                "noAppsActivated": "Ingen apps aktiveret",
+                "paymentCard": "Betalingskort",
+                "sendCardLink": "Send kortlink",
+                "stats": {
+                    "activeLicenses": "aktive licenser",
+                    "activatedModules": "aktiverede moduler",
+                    "availableLicenses": "ledige licenser",
+                    "unused": "Ubrugte"
+                },
+                "tabs": {
+                    "overview": "Oversigt"
+                },
+                "userAccounts": "Brugerkonti",
+                "yearly": "år"
+            },
             "editCompany": "Rediger virksomhed",
             "form": {
                 "active": "Aktiv",

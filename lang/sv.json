@@ -7159,6 +7159,30 @@
                     "type": "Typ"
                 }
             },
+            "accounts": {
+                "activatedAppsAndModules": "Aktiverade appar & moduler",
+                "allCompanies": "Alla företag",
+                "cardLinkSent": "Kortuppdateringslänk har skickats till kunden",
+                "loginAs": "Logga in som",
+                "manualInvoice": "Manuell faktura",
+                "monthly": "mån.",
+                "newAccount": "Nytt konto",
+                "noAccounts": "Inga användarkonton",
+                "noAppsActivated": "Inga appar aktiverade",
+                "paymentCard": "Betalkort",
+                "sendCardLink": "Skicka kortlänk",
+                "stats": {
+                    "activeLicenses": "aktiva licenser",
+                    "activatedModules": "aktiverade moduler",
+                    "availableLicenses": "lediga licenser",
+                    "unused": "Oanvända"
+                },
+                "tabs": {
+                    "overview": "Översikt"
+                },
+                "userAccounts": "Användarkonton",
+                "yearly": "år"
+            },
             "editCompany": "Redigera företag",
             "form": {
                 "active": "Aktiv",

@@ -9,11 +9,11 @@
             <template #header>{{ $t('superadmin.companies.editCompany') }}</template>
 
             <div>
-                <NuxtLink class="flex items-center gap-x-2 mb-3 max-w-fit hover:cursor-pointer"
-                    to="/superadmin/companies">
+                <button type="button" class="flex items-center gap-x-2 mb-3 max-w-fit hover:cursor-pointer"
+                    @click="router.back()">
                     <Icon name="ph:arrow-left" size="20" class="text-black" />
                     <span>{{ $t('back') }}</span>
-                </NuxtLink>
+                </button>
                 <LoadingSpinner :isActive="state.isPageLoading">
                     <div class="max-w-2xl">
                         <Alert type="danger" :text="state?.error?.message"

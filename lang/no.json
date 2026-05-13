@@ -7159,6 +7159,30 @@
                     "type": "Type"
                 }
             },
+            "accounts": {
+                "activatedAppsAndModules": "Aktiverte apper & moduler",
+                "allCompanies": "Alle virksomheter",
+                "cardLinkSent": "Kortoppdateringslenke er sendt til kunden",
+                "loginAs": "Logg inn som",
+                "manualInvoice": "Manuell faktura",
+                "monthly": "md.",
+                "newAccount": "Ny konto",
+                "noAccounts": "Ingen brukerkontoer",
+                "noAppsActivated": "Ingen apper aktivert",
+                "paymentCard": "Betalingskort",
+                "sendCardLink": "Send kortlenke",
+                "stats": {
+                    "activeLicenses": "aktive lisenser",
+                    "activatedModules": "aktiverte moduler",
+                    "availableLicenses": "ledige lisenser",
+                    "unused": "Ubrukte"
+                },
+                "tabs": {
+                    "overview": "Oversikt"
+                },
+                "userAccounts": "Brukerkontoer",
+                "yearly": "år"
+            },
             "editCompany": "Rediger virksomhet",
             "form": {
                 "active": "Aktiv",

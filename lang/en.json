@@ -7190,6 +7190,30 @@
                     "type": "Type"
                 }
             },
+            "accounts": {
+                "activatedAppsAndModules": "Activated apps & modules",
+                "allCompanies": "All companies",
+                "cardLinkSent": "Card update link has been sent to the customer",
+                "loginAs": "Log in as",
+                "manualInvoice": "Manual invoice",
+                "monthly": "mo.",
+                "newAccount": "New account",
+                "noAccounts": "No user accounts",
+                "noAppsActivated": "No apps activated",
+                "paymentCard": "Payment card",
+                "sendCardLink": "Send card link",
+                "stats": {
+                    "activeLicenses": "active licenses",
+                    "activatedModules": "activated modules",
+                    "availableLicenses": "available licenses",
+                    "unused": "Unused"
+                },
+                "tabs": {
+                    "overview": "Overview"
+                },
+                "userAccounts": "User accounts",
+                "yearly": "yr."
+            },
             "editCompany": "Edit company",
             "form": {
                 "active": "Active",
