@@ -7124,6 +7124,18 @@
         "companies": {
             "companies": "Företag",
             "company": "Företag",
+            "createFirstClient": "Skapa din första klient",
+            "import": "Importera",
+            "noCompaniesFound": "Inga företag hittades",
+            "searchPlaceholder": "Sök på namn, e-post eller domän...",
+            "showing": "Visar {from}–{to} av {total}",
+            "sort": {
+                "nameAsc": "Namn A–Z",
+                "nameDesc": "Namn Z–A",
+                "newestFirst": "Nyaste först",
+                "oldestFirst": "Äldsta först"
+            },
+            "totalClients": "{count} klienter totalt",
             "companyApps": {
                 "alert": {
                     "appSuccessfullyActivated": "App aktiverad",
@@ -7150,20 +7162,39 @@
             "editCompany": "Redigera företag",
             "form": {
                 "active": "Aktiv",
+                "activeImmediately": "Aktiv direkt",
+                "activeImmediatelyDesc": "Företaget aktiveras omedelbart",
+                "address": "Adress",
+                "addressPlaceholder": "Gatunamn 1, 12345 Stad",
+                "adminUser": "Administratörsanvändare",
+                "adminUserDesc": "Denna användare får administratörsåtkomst till företaget",
                 "alert": {
                     "companySuccessfullyActivated": "Företaget är aktiverad",
                     "companySuccessfullyDeactivated": "Företaget är inaktiverad",
                     "companySuccessfullyUpdated": "Företaget är uppdaterad",
                     "newCompanySuccessfullySaved": "Ny företag är sparad"
                 },
+                "companyInformation": "Företagsinformation",
                 "companyName": "Företagsnamn",
+                "companyNamePlaceholder": "t.ex. Acme AB",
+                "confirmPassword": "Bekräfta lösenord",
+                "creating": "Skapar...",
                 "cvr": "ORGANISATIONSNUMMER",
                 "emailAddress": "E-postadress",
                 "firstname": "Förnamn",
                 "inactive": "Inaktiv",
-                "industry": "Industri",
+                "industry": "Bransch",
                 "lastname": "Efternamn",
+                "password": "Lösenord",
+                "passwordMismatch": "Lösenorden matchar inte",
+                "passwordPlaceholder": "Min. 8 tecken",
                 "phone": "Telefon",
+                "repeatPassword": "Upprepa lösenord",
+                "selectIndustry": "Välj bransch...",
+                "selectType": "Välj typ...",
+                "sendWelcomeEmail": "Skicka välkomstmejl",
+                "sendWelcomeEmailDesc": "Administratören får inloggningsinstruktioner via e-post",
+                "settings": "Inställningar",
                 "typeOfFacility": "Typ av erbjudande",
                 "website": "Websted"
             },
@@ -7235,7 +7266,10 @@
             },
             "tabs": {
                 "accounts": "Konton",
+                "active": "Aktiva",
+                "all": "Alla",
                 "apps": "Apps",
+                "inactive": "Inaktiva",
                 "invoices": "Fakturor",
                 "licenseOverview": "Licensoversigt",
                 "licenses": "Licenser"

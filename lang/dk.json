@@ -7155,6 +7155,18 @@
         "companies": {
             "companies": "Virksomheder",
             "company": "Virksomhed",
+            "createFirstClient": "Opret din første klient",
+            "import": "Importer",
+            "noCompaniesFound": "Ingen virksomheder fundet",
+            "searchPlaceholder": "Søg på navn, email eller domæne...",
+            "showing": "Viser {from}–{to} af {total}",
+            "sort": {
+                "nameAsc": "Navn A–Z",
+                "nameDesc": "Navn Z–A",
+                "newestFirst": "Nyeste først",
+                "oldestFirst": "Ældste først"
+            },
+            "totalClients": "{count} klienter i alt",
             "companyApps": {
                 "alert": {
                     "appSuccessfullyActivated": "App aktiveret med succes",
@@ -7181,20 +7193,39 @@
             "editCompany": "Rediger virksomhed",
             "form": {
                 "active": "Aktiv",
+                "activeImmediately": "Aktiv med det samme",
+                "activeImmediatelyDesc": "Virksomheden aktiveres øjeblikkeligt",
+                "address": "Adresse",
+                "addressPlaceholder": "Vejnavn 1, 1234 By",
+                "adminUser": "Administrator-bruger",
+                "adminUserDesc": "Denne bruger får admin-adgang til virksomheden",
                 "alert": {
                     "companySuccessfullyActivated": "Virksomheden er aktiveret med succes",
                     "companySuccessfullyDeactivated": "Virksomheden er deaktiveret med succes",
                     "companySuccessfullyUpdated": "Virksomheden er opdateret med succes",
                     "newCompanySuccessfullySaved": "Ny virksomhed er gemt med succes"
                 },
+                "companyInformation": "Virksomhedsoplysninger",
                 "companyName": "Firmanavn",
+                "companyNamePlaceholder": "fx Danmarks Fængsler",
+                "confirmPassword": "Bekræft adgangskode",
+                "creating": "Opretter...",
                 "cvr": "CVR",
                 "emailAddress": "E-mailadresse",
                 "firstname": "Fornavn",
                 "inactive": "Inaktiv",
-                "industry": "Industri",
+                "industry": "Branche",
                 "lastname": "Efternavn",
+                "password": "Adgangskode",
+                "passwordMismatch": "Adgangskoderne matcher ikke",
+                "passwordPlaceholder": "Min. 8 tegn",
                 "phone": "Telefon",
+                "repeatPassword": "Gentag adgangskode",
+                "selectIndustry": "Vælg branche...",
+                "selectType": "Vælg type...",
+                "sendWelcomeEmail": "Send velkomst-email",
+                "sendWelcomeEmailDesc": "Administratoren modtager login-instruktioner på email",
+                "settings": "Indstillinger",
                 "typeOfFacility": "Type af tilbud",
                 "website": "Websted"
             },
@@ -7266,7 +7297,10 @@
             },
             "tabs": {
                 "accounts": "Kontoer",
+                "active": "Aktive",
+                "all": "Alle",
                 "apps": "Apps",
+                "inactive": "Inaktive",
                 "invoices": "Fakturaer",
                 "licenseOverview": "Licensoversigt",
                 "licenses": "Licenser"

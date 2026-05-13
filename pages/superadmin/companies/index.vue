@@ -1,29 +1,41 @@
 <template>
     <div>
         <NuxtLayout name="superadmin">
+
             <Head>
-                <Title>Virksomheder - {{ runtimeConfig?.public?.appName }}</Title>
+                <Title>
+                    {{ $t('superadmin.companies.companies') }} - {{ runtimeConfig?.public?.appName }}
+                </Title>
             </Head>
-            <template #header>Virksomheder</template>
+            <template #header>
+                {{ $t('superadmin.companies.companies') }}
+            </template>
 
             <div class="p-1">
                 <!-- Header -->
                 <div class="flex items-center justify-between mb-5">
                     <div>
-                        <h1 class="text-[22px] font-semibold text-[#1F2533]">Virksomheder</h1>
-                        <p class="text-sm text-[#5C6478] mt-0.5">{{ state.companies?.total ?? 0 }} klienter i alt</p>
+                        <h1 class="text-[22px] font-semibold text-[#1F2533]">
+                            {{ $t('superadmin.companies.companies') }}
+                        </h1>
+                        <p class="text-sm text-[#5C6478] mt-0.5">
+                            {{ $t('superadmin.companies.totalClients', {
+                                count:
+                                    state.companies?.meta?.total ?? 0
+                            }) }}
+                        </p>
                     </div>
                     <div class="flex items-center gap-2">
                         <button @click="state.modal.isImportCompanyOpen = true"
                             class="inline-flex items-center gap-1.5 px-3 py-2 rounded-lg text-sm font-medium bg-white text-[#5C6478] border border-[#EAECF0] hover:bg-[#F5F6F8] transition-colors">
                             <Icon name="ph:upload-simple" class="w-4 h-4" />
-                            Importer
+                            {{ $t('superadmin.companies.import') }}
                         </button>
                         <button @click="navigateTo('/superadmin/companies/new')"
                             class="inline-flex items-center gap-1.5 px-3 py-2 rounded-lg text-sm font-semibold text-white transition-colors"
                             style="background:#205E77">
                             <Icon name="ph:plus" class="w-4 h-4" />
-                            Ny virksomhed
+                            {{ $t('superadmin.companies.newCompany') }}
                         </button>
                     </div>
                 </div>
@@ -32,9 +44,10 @@
                 <div class="flex flex-wrap items-center gap-3 mb-4">
                     <!-- Search -->
                     <div class="relative flex-1 min-w-[220px] max-w-[380px]">
-                        <Icon name="ph:magnifying-glass" class="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-[#8891A4]" />
+                        <Icon name="ph:magnifying-glass"
+                            class="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-[#8891A4]" />
                         <input v-model="searchQuery" type="text"
-                            placeholder="Søg på navn, email eller domæne..."
+                            :placeholder="$t('superadmin.companies.searchPlaceholder')"
                             class="w-full pl-9 pr-3 py-2 text-sm border border-[#EAECF0] rounded-lg bg-white text-[#1F2533] placeholder-[#8891A4] outline-none focus:border-[#42AED9] focus:ring-2 focus:ring-[#42AED9]/10 transition-colors"
                             @input="debouncedSearch" />
                     </div>
@@ -54,14 +67,15 @@
                     <select v-model="sortLabel"
                         class="text-sm border border-[#EAECF0] rounded-lg px-3 py-2 bg-white text-[#5C6478] outline-none focus:border-[#42AED9] transition-colors ml-auto"
                         @change="handleSortChange">
-                        <option value="name_asc">Navn A–Z</option>
-                        <option value="name_desc">Navn Z–A</option>
-                        <option value="id_desc">Nyeste først</option>
-                        <option value="id_asc">Ældste først</option>
+                        <option value="name_asc">{{ $t('superadmin.companies.sort.nameAsc') }}</option>
+                        <option value="name_desc">{{ $t('superadmin.companies.sort.nameDesc') }}</option>
+                        <option value="id_desc">{{ $t('superadmin.companies.sort.newestFirst') }}</option>
+                        <option value="id_asc">{{ $t('superadmin.companies.sort.oldestFirst') }}</option>
                     </select>
                 </div>
 
-                <Alert type="danger" :text="state?.error?.message" v-if="state.error?.message?.length > 0" />
+                <Alert type="danger" :text="state?.error?.message"
+                    v-if="state.error?.message && state.error.message.length > 0" />
 
                 <!-- Table card -->
                 <div class="bg-white border border-[#EAECF0] rounded-xl overflow-hidden shadow-sm">
@@ -71,21 +85,22 @@
                     </div>
 
                     <!-- Empty -->
-                    <div v-else-if="!state.companies?.data?.length" class="flex flex-col items-center gap-3 py-16 text-[#8891A4]">
+                    <div v-else-if="!state.companies?.data?.length"
+                        class="flex flex-col items-center gap-3 py-16 text-[#8891A4]">
                         <Icon name="ph:magnifying-glass" class="w-12 h-12 opacity-30" />
-                        <p class="text-sm font-medium">Ingen virksomheder fundet</p>
-                        <p class="text-xs">Opret din første klient</p>
+                        <p class="text-sm font-medium">{{ $t('superadmin.companies.noCompaniesFound') }}</p>
+                        <p class="text-xs">{{ $t('superadmin.companies.createFirstClient') }}</p>
                     </div>
 
                     <!-- Table -->
                     <table v-else class="w-full">
                         <thead>
                             <tr class="border-b border-[#EAECF0] bg-[#F9FAFB]">
-                                <th class="co-th">Virksomhed</th>
-                                <th class="co-th">Status</th>
-                                <th class="co-th">Telefon</th>
-                                <th class="co-th">CVR</th>
-                                <th class="co-th">Websted</th>
+                                <th class="co-th">{{ $t('superadmin.companies.company') }}</th>
+                                <th class="co-th">{{ $t('superadmin.companies.table.status') }}</th>
+                                <th class="co-th">{{ $t('superadmin.companies.table.phone') }}</th>
+                                <th class="co-th">{{ $t('superadmin.companies.table.cvr') }}</th>
+                                <th class="co-th">{{ $t('superadmin.companies.table.website') }}</th>
                                 <th class="co-th"></th>
                             </tr>
                         </thead>
@@ -102,7 +117,8 @@
                                             {{ initials(company?.name) }}
                                         </div>
                                         <div>
-                                            <p class="text-[13px] font-semibold text-[#1F2533]">{{ company?.name || '—' }}</p>
+                                            <p class="text-[13px] font-semibold text-[#1F2533]">{{ company?.name || '—'
+                                            }}</p>
                                             <p class="text-[11px] text-[#8891A4]">{{ company?.email || '' }}</p>
                                         </div>
                                     </div>
@@ -113,12 +129,12 @@
                                     <span v-if="company?.is_active"
                                         class="inline-flex items-center gap-1 px-2.5 py-1 rounded-full text-[11px] font-semibold bg-[#EDF7EE] text-[#2E9E33]">
                                         <span class="w-1.5 h-1.5 rounded-full bg-[#2E9E33]"></span>
-                                        Aktiv
+                                        {{ $t('superadmin.companies.table.active') }}
                                     </span>
                                     <span v-else
                                         class="inline-flex items-center gap-1 px-2.5 py-1 rounded-full text-[11px] font-semibold bg-[#FFF0F0] text-[#CC3B2D]">
                                         <span class="w-1.5 h-1.5 rounded-full bg-[#CC3B2D]"></span>
-                                        Inaktiv
+                                        {{ $t('superadmin.companies.table.inactive') }}
                                     </span>
                                 </td>
 
@@ -140,11 +156,12 @@
 
                                 <!-- Actions (reveal on hover) -->
                                 <td class="co-td" @click.stop>
-                                    <div class="flex items-center gap-1.5 justify-end opacity-0 group-hover:opacity-100 transition-opacity">
+                                    <div
+                                        class="flex items-center gap-1.5 justify-end opacity-0 group-hover:opacity-100 transition-opacity">
                                         <button class="co-action-btn"
                                             @click="navigateTo(`/superadmin/companies/${company.uuid}/accounts`)">
                                             <Icon name="ph:eye" class="w-3.5 h-3.5" />
-                                            Vis
+                                            {{ $t('superadmin.companies.table.actions.view') }}
                                         </button>
                                         <button class="co-action-btn"
                                             @click="navigateTo(`/superadmin/companies/${company.uuid}/edit`)">
@@ -152,7 +169,7 @@
                                         </button>
                                         <button class="co-action-btn"
                                             :class="company.is_active ? 'text-[#CC3B2D] hover:bg-red-50 border-red-200' : 'text-[#2E9E33] hover:bg-green-50 border-green-200'"
-                                            @click="activateDeactivateCompany(index, company)">
+                                            @click="activateDeactivateCompany(index as number, company)">
                                             <Icon :name="company.is_active ? 'ph:x' : 'ph:check'" class="w-3.5 h-3.5" />
                                         </button>
                                     </div>
@@ -162,13 +179,7 @@
                     </table>
                 </div>
 
-                <!-- Pagination -->
-                <div class="mt-4 flex items-center justify-between">
-                    <p class="text-sm text-[#8891A4]">
-                        Viser {{ state.companies?.from ?? 0 }}–{{ state.companies?.to ?? 0 }} af {{ state.companies?.total ?? 0 }}
-                    </p>
-                    <Pagination :data="state.companies" @previous="previous" @next="next" />
-                </div>
+                <Pagination :data="state.companies" @previous="previous" @next="next" />
             </div>
 
             <ModulesSuperadminCompanyModalImport :isModalOpen="state.modal.isImportCompanyOpen"
@@ -203,17 +214,20 @@ const state = reactive({
     isTableLoading: false,
     modal: { isImportCompanyOpen: false },
     sortData: { sortField: 'id', sortOrder: 'descend' },
-    dataFilter: { search: '', status: '' },
+    dataFilter: {
+        search: '',
+        status: ''
+    } as any,
 })
 
 const tabs = computed(() => [
-    { key: 'all',      label: 'Alle',    count: state.allCount },
-    { key: 'active',   label: 'Aktive',  count: state.activeCount },
-    { key: 'inactive', label: 'Inaktive',count: state.inactiveCount },
+    { key: 'all', label: t('superadmin.companies.tabs.all'), count: state.allCount },
+    { key: 'active', label: t('superadmin.companies.tabs.active'), count: state.activeCount },
+    { key: 'inactive', label: t('superadmin.companies.tabs.inactive'), count: state.inactiveCount },
 ])
 
 // Avatar colours based on name
-const COLORS = ['#205E77','#2E9E33','#368F8B','#1A4D99','#D4900A','#9B4D9B']
+const COLORS = ['#205E77', '#2E9E33', '#368F8B', '#1A4D99', '#D4900A', '#9B4D9B']
 const avatarColor = (name: string) => COLORS[(name?.charCodeAt(0) ?? 0) % COLORS.length]
 const initials = (name: string) => (name || '?').split(' ').map((w: string) => w[0]).join('').toUpperCase().slice(0, 2)
 
@@ -235,7 +249,7 @@ async function fetchCompanies() {
             sortOrder: state.sortData.sortOrder,
         }
         if (state.dataFilter.search) params.search = state.dataFilter.search
-        if (state.activeTab === 'active')   params.is_active = true
+        if (state.activeTab === 'active') params.is_active = true
         if (state.activeTab === 'inactive') params.is_active = false
 
         const response = await companyService.getCompanies(params)
@@ -254,7 +268,8 @@ async function fetchCompanies() {
 function debouncedSearch() {
     clearTimeout(searchTimeout)
     searchTimeout = setTimeout(() => {
-        state.dataFilter.search = searchQuery.value
+        state.dataFilter.search = Array(searchQuery.value.trim().split(/\s+/))
+        // state.dataFilter.search = value?.[0] == '' ? [] : value
         currentTablePage = 1
         fetchCompanies()
     }, 350)
@@ -302,10 +317,12 @@ async function activateDeactivateCompany(index: number, company: any) {
     letter-spacing: 0.06em;
     white-space: nowrap;
 }
+
 .co-td {
     padding: 12px 16px;
     vertical-align: middle;
 }
+
 .co-action-btn {
     display: inline-flex;
     align-items: center;
@@ -320,6 +337,7 @@ async function activateDeactivateCompany(index: number, company: any) {
     transition: all 0.15s;
     cursor: pointer;
 }
+
 .co-action-btn:hover {
     background: #EEF4FB;
     color: #205E77;

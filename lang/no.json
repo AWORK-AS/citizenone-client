@@ -7124,6 +7124,18 @@
         "companies": {
             "companies": "Virksomheter",
             "company": "Virksomhet",
+            "createFirstClient": "Opprett din første klient",
+            "import": "Importer",
+            "noCompaniesFound": "Ingen virksomheter funnet",
+            "searchPlaceholder": "Søk på navn, e-post eller domene...",
+            "showing": "Viser {from}–{to} av {total}",
+            "sort": {
+                "nameAsc": "Navn A–Z",
+                "nameDesc": "Navn Z–A",
+                "newestFirst": "Nyeste først",
+                "oldestFirst": "Eldste først"
+            },
+            "totalClients": "{count} klienter totalt",
             "companyApps": {
                 "alert": {
                     "appSuccessfullyActivated": "App aktivert vellykket",
@@ -7150,20 +7162,39 @@
             "editCompany": "Rediger virksomhet",
             "form": {
                 "active": "Aktiv",
+                "activeImmediately": "Aktiv med en gang",
+                "activeImmediatelyDesc": "Virksomheten aktiveres umiddelbart",
+                "address": "Adresse",
+                "addressPlaceholder": "Veinavnsvei 1, 1234 By",
+                "adminUser": "Administratorbruker",
+                "adminUserDesc": "Denne brukeren får admin-tilgang til virksomheten",
                 "alert": {
                     "companySuccessfullyActivated": "Virksomheten er aktivert vellykket",
                     "companySuccessfullyDeactivated": "Virksomheten er deaktivert vellykket",
                     "companySuccessfullyUpdated": "Virksomheten er oppdatert vellykket",
                     "newCompanySuccessfullySaved": "Ny virksomhet er lagret vellykket"
                 },
+                "companyInformation": "Virksomhetsinformasjon",
                 "companyName": "Firmanavn",
+                "companyNamePlaceholder": "f.eks. Norsk Fengsel",
+                "confirmPassword": "Bekreft passord",
+                "creating": "Oppretter...",
                 "cvr": "CVR",
                 "emailAddress": "E-postadresse",
                 "firstname": "Fornavn",
                 "inactive": "Inaktiv",
-                "industry": "Industri",
+                "industry": "Bransje",
                 "lastname": "Etternavn",
+                "password": "Passord",
+                "passwordMismatch": "Passordene stemmer ikke overens",
+                "passwordPlaceholder": "Min. 8 tegn",
                 "phone": "Telefon",
+                "repeatPassword": "Gjenta passord",
+                "selectIndustry": "Velg bransje...",
+                "selectType": "Velg type...",
+                "sendWelcomeEmail": "Send velkomst-e-post",
+                "sendWelcomeEmailDesc": "Administratoren mottar innloggingsinstruksjoner på e-post",
+                "settings": "Innstillinger",
                 "typeOfFacility": "Type av tilbud",
                 "website": "Websted"
             },
@@ -7235,7 +7266,10 @@
             },
             "tabs": {
                 "accounts": "Kontoer",
+                "active": "Aktive",
+                "all": "Alle",
                 "apps": "Apper",
+                "inactive": "Inaktive",
                 "invoices": "Fakturaer",
                 "licenseOverview": "Licensoversigt",
                 "licenses": "Lisenser"

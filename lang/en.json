@@ -7155,6 +7155,18 @@
         "companies": {
             "companies": "Companies",
             "company": "Company",
+            "createFirstClient": "Create your first client",
+            "import": "Import",
+            "noCompaniesFound": "No companies found",
+            "searchPlaceholder": "Search by name, email or domain...",
+            "showing": "Showing {from}–{to} of {total}",
+            "sort": {
+                "nameAsc": "Name A–Z",
+                "nameDesc": "Name Z–A",
+                "newestFirst": "Newest first",
+                "oldestFirst": "Oldest first"
+            },
+            "totalClients": "{count} clients in total",
             "companyApps": {
                 "alert": {
                     "appSuccessfullyActivated": "App successfully activated",
@@ -7181,20 +7193,39 @@
             "editCompany": "Edit company",
             "form": {
                 "active": "Active",
+                "activeImmediately": "Active immediately",
+                "activeImmediatelyDesc": "The company is activated immediately",
+                "address": "Address",
+                "addressPlaceholder": "Street 1, 1234 City",
+                "adminUser": "Administrator user",
+                "adminUserDesc": "This user gets admin access to the company",
                 "alert": {
                     "companySuccessfullyActivated": "Company successfully activated",
                     "companySuccessfullyDeactivated": "Company successfully deactivated",
                     "companySuccessfullyUpdated": "Company successfully updated",
                     "newCompanySuccessfullySaved": "New company successfully saved"
                 },
+                "companyInformation": "Company information",
                 "companyName": "Company name",
+                "companyNamePlaceholder": "e.g. Acme Corp",
+                "confirmPassword": "Confirm password",
+                "creating": "Creating...",
                 "cvr": "CVR",
                 "emailAddress": "Email address",
                 "firstname": "First name",
                 "inactive": "Inactive",
                 "industry": "Industry",
                 "lastname": "Last name",
+                "password": "Password",
+                "passwordMismatch": "Passwords do not match",
+                "passwordPlaceholder": "Min. 8 characters",
                 "phone": "Phone",
+                "repeatPassword": "Repeat password",
+                "selectIndustry": "Select industry...",
+                "selectType": "Select type...",
+                "sendWelcomeEmail": "Send welcome email",
+                "sendWelcomeEmailDesc": "The administrator receives login instructions by email",
+                "settings": "Settings",
                 "typeOfFacility": "Type of facility",
                 "website": "Website"
             },
@@ -7266,7 +7297,10 @@
             },
             "tabs": {
                 "accounts": "Accounts",
+                "active": "Active",
+                "all": "All",
                 "apps": "Apps",
+                "inactive": "Inactive",
                 "invoices": "Invoices",
                 "licenseOverview": "License overview",
                 "licenses": "Licenses"

@@ -163,11 +163,13 @@ async function switchLanguage(selectedLanguage: any) {
                 const languageCode = selectedLanguage.code
                 userStore.setLanguage(languageCode)
                 if (languageCode === 'en') {
-                    // English
                     language.locale.value = 'en'
                 } else if (languageCode === 'dk') {
-                    // Danish
                     language.locale.value = 'dk'
+                } else if (languageCode === 'no') {
+                    language.locale.value = 'no'
+                } else if (languageCode === 'sv') {
+                    language.locale.value = 'sv'
                 }
             }
         } catch (error: any) {
