@@ -64,6 +64,7 @@ const state = reactive({
         working_hours_factor_to: null as string | null,
         end_time_day_offset: null as number | null,
         system_name: null as string | null,
+        multiplier_rules: [] as any[],
     },
     isPageLoading: false,
 })
@@ -91,6 +92,7 @@ async function fetchShift() {
                 working_hours_factor_to: response?.data?.working_hours_factor_to ?? null,
                 end_time_day_offset: response?.data?.end_time_day_offset ?? null,
                 system_name: response?.data?.system_name ?? null,
+                multiplier_rules: response?.data?.multiplier_rules ?? [],
             }
         }
     } catch (error: any) {
@@ -114,6 +116,7 @@ async function updateShift(shiftDetails: any) {
             working_hours_factor: shiftDetails.working_hours_factor || null,
             working_hours_factor_from: shiftDetails.working_hours_factor_from ? shiftDetails.working_hours_factor_from.substring(0, 5) : null,
             working_hours_factor_to: shiftDetails.working_hours_factor_to ? shiftDetails.working_hours_factor_to.substring(0, 5) : null,
+            multiplier_rules: shiftDetails.multiplier_rules?.length > 0 ? shiftDetails.multiplier_rules : null,
         }
         if (state.formShift.system_name === 'sleeping-night-shift') {
             params.end_time_day_offset = shiftDetails.end_time_day_offset ?? null
