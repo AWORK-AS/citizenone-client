@@ -7444,8 +7444,34 @@
                 "new": "Ny",
                 "paid": "Betalt",
                 "status": "Status",
+                "unpaid": "Ubetalt",
+                "type": "Type"
+            },
+            "failed": "Avvist",
+            "noInvoicesFound": "Ingen fakturaer funnet",
+            "pending": "Venter",
+            "showing": "Viser {from}–{to} av {total}",
+            "totalInvoices": "{count} fakturaer totalt",
+            "tryToClearFilters": "Prøv å fjerne filtrene dine",
+            "filter": {
+                "allPayments": "Alle betalinger",
+                "clearFilters": "Fjern filtre",
+                "from": "Fra",
+                "to": "Til",
                 "unpaid": "Ubetalt"
-            }
+            },
+            "sort": {
+                "highestAmount": "Høyeste beløp",
+                "invoiceNumber": "Fakturanr.",
+                "newestFirst": "Nyeste først"
+            },
+            "tabs": {
+                "all": "Alle",
+                "failed": "Avvist",
+                "paid": "Betalt",
+                "pending": "Venter"
+            },
+            "searchPlaceholder": "Søk på fakturanummer, selskap..."
         },
         "orders": {
             "orders": "Ordrer",

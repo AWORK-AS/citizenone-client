@@ -7444,8 +7444,34 @@
                 "new": "Ny",
                 "paid": "Betald",
                 "status": "Status",
+                "unpaid": "Obetald",
+                "type": "Typ"
+            },
+            "failed": "Avvisad",
+            "noInvoicesFound": "Inga fakturor hittades",
+            "pending": "Väntande",
+            "showing": "Visar {from}–{to} av {total}",
+            "totalInvoices": "{count} fakturor totalt",
+            "tryToClearFilters": "Försök att rensa dina filter",
+            "filter": {
+                "allPayments": "Alla betalningar",
+                "clearFilters": "Rensa filter",
+                "from": "Från",
+                "to": "Till",
                 "unpaid": "Obetald"
-            }
+            },
+            "sort": {
+                "highestAmount": "Högsta belopp",
+                "invoiceNumber": "Fakturanr.",
+                "newestFirst": "Nyaste först"
+            },
+            "tabs": {
+                "all": "Alla",
+                "failed": "Avvisad",
+                "paid": "Betald",
+                "pending": "Väntande"
+            },
+            "searchPlaceholder": "Sök på fakturanummer, företag..."
         },
         "orders": {
             "orders": "Ordrer",

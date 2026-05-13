@@ -7475,8 +7475,34 @@
                 "new": "New",
                 "paid": "Paid",
                 "status": "Status",
+                "unpaid": "Unpaid",
+                "type": "Type"
+            },
+            "failed": "Failed",
+            "noInvoicesFound": "No invoices found",
+            "pending": "Pending",
+            "showing": "Showing {from}–{to} of {total}",
+            "totalInvoices": "{count} invoices in total",
+            "tryToClearFilters": "Try clearing your filters",
+            "filter": {
+                "allPayments": "All payments",
+                "clearFilters": "Clear filters",
+                "from": "From",
+                "to": "To",
                 "unpaid": "Unpaid"
-            }
+            },
+            "sort": {
+                "highestAmount": "Highest amount",
+                "invoiceNumber": "Invoice no.",
+                "newestFirst": "Newest first"
+            },
+            "tabs": {
+                "all": "All",
+                "failed": "Failed",
+                "paid": "Paid",
+                "pending": "Pending"
+            },
+            "searchPlaceholder": "Search by invoice number, company..."
         },
         "orders": {
             "orders": "Orders",

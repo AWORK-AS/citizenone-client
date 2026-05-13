@@ -7475,8 +7475,34 @@
                 "new": "Ny",
                 "paid": "Betalt",
                 "status": "Status",
+                "unpaid": "Ubetalt",
+                "type": "Type"
+            },
+            "failed": "Afvist",
+            "noInvoicesFound": "Ingen fakturaer fundet",
+            "pending": "Afventer",
+            "showing": "Viser {from}–{to} af {total}",
+            "totalInvoices": "{count} fakturaer i alt",
+            "tryToClearFilters": "Prøv at ryde dine filtre",
+            "filter": {
+                "allPayments": "Alle betalinger",
+                "clearFilters": "Ryd filtre",
+                "from": "Fra",
+                "to": "Til",
                 "unpaid": "Ubetalt"
-            }
+            },
+            "sort": {
+                "highestAmount": "Højeste beløb",
+                "invoiceNumber": "Fakturanr.",
+                "newestFirst": "Nyeste først"
+            },
+            "tabs": {
+                "all": "Alle",
+                "failed": "Afvist",
+                "paid": "Betalt",
+                "pending": "Afventer"
+            },
+            "searchPlaceholder": "Søg på fakturanummer, virksomhed..."
         },
         "orders": {
             "orders": "Ordrer",
