@@ -53,6 +53,7 @@ async function updateTreatment(treatmentDetails: any) {
     try {
         const treatmentUuid = treatmentDetails.uuid
         const params = {
+            template_uuid: treatmentDetails.template_uuid,
             area_type: treatmentDetails.area_type,
             name: treatmentDetails.name,
             description: treatmentDetails.description,
