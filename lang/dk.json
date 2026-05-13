@@ -1087,6 +1087,7 @@
             "form": {
                 "attachFile": "Vedhæft fil",
                 "content": "Indhold",
+                "createJournalTitle": "Skab en journal titel baseret på skabeloner eller indtast manuelt",
                 "copyJournalNoteToPlanOrGoalOrSubgoal": "Kopiér journalnote til plan, mål eller delmål",
                 "copyRiskAssessmentToPlanOrGoalOrSubgoal": "Kopiér risikovurdering til plan, mål eller delmål",
                 "currentLevels": {

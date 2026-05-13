@@ -1087,6 +1087,7 @@
             "form": {
                 "attachFile": "Attach file",
                 "content": "Content",
+                "createJournalTitle": "Create journal title",
                 "copyJournalNoteToPlanOrGoalOrSubgoal": "Copy journal note to plan, goal or subgoal",
                 "copyRiskAssessmentToPlanOrGoalOrSubgoal": "Copy risk assessment to plan, goal or subgoal",
                 "currentLevels": {

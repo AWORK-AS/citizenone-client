@@ -33,6 +33,12 @@
                 <div class="space-y-1" v-if="state.usePredefinedJournalTitle">
                     <div class="flex items-center py-0.5">
                         <FormLabel for="predefined_title" :label="$t('citizens.citizenJournals.form.title')" />
+                        <button type="button" class="ml-auto text-sm text-primary hover:text-primary-700"
+                            @click="navigateTo('/settings/journal-titles')">
+                            <span>
+                                {{ $t('citizens.citizenJournals.form.createJournalTitle') }}
+                            </span>
+                        </button>
                     </div>
                     <FormSelect id="predefined_title" v-model="state.formJournal.title"
                         :options="state.options.journal_titles" />
@@ -56,16 +62,10 @@
             <div v-if="state.selectedJournalTitleFields.length > 0" class="space-y-3">
                 <div v-for="(field, i) in state.selectedJournalTitleFields" :key="field.uuid" class="space-y-1">
                     <FormLabel :for="`dyn_field_${field.uuid}`" :label="field.label" />
-                    <FormTextArea v-if="field.field_type === 'textarea'"
-                        :name="`dyn_field_${field.uuid}`"
-                        placeholder=""
-                        :rows="3"
-                        v-model="state.formJournal.field_answers[i].response" />
-                    <FormTextField v-else
-                        :id="`dyn_field_${field.uuid}`"
-                        :name="`dyn_field_${field.uuid}`"
-                        placeholder=""
-                        v-model="state.formJournal.field_answers[i].response" />
+                    <FormTextArea v-if="field.field_type === 'textarea'" :name="`dyn_field_${field.uuid}`"
+                        placeholder="" :rows="3" v-model="state.formJournal.field_answers[i].response" />
+                    <FormTextField v-else :id="`dyn_field_${field.uuid}`" :name="`dyn_field_${field.uuid}`"
+                        placeholder="" v-model="state.formJournal.field_answers[i].response" />
                 </div>
             </div>
             <div class="space-y-1">
@@ -339,7 +339,7 @@
                 </FormButton>
             </div>
         </div>
-<ModulesUserJournalNoteTagModalNew :isModalOpen="state.modal.isAddJournalNoteTagsOpen"
+        <ModulesUserJournalNoteTagModalNew :isModalOpen="state.modal.isAddJournalNoteTagsOpen"
             @close="state.modal.isAddJournalNoteTagsOpen = false" @refreshJournalNoteTags="fetchAllJournalNoteTags" />
 
         <ModulesUserJournalContentModalSelect :isModalOpen="state.modal.isSelectJournalContent"
