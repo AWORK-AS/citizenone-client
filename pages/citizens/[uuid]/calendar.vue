@@ -63,13 +63,19 @@
                     <LoadingSpinner :isActive="state.isPageLoading">
                         <ModulesUserCitizenCalendarDefaultView :myCalendarEvents="state.myCalendarEvents"
                             @changeMonthYear="changeMonthYear" @deleteMyCalendarEvent="deleteMyCalendarEvent"
+                            @markEventAsStatus="handleMarkEventAsStatus"
+                            @createJournalFromEvent="handleCreateJournalFromEvent"
                             v-if="state.calendarView === 'default'" />
                         <ModulesUserCitizenCalendarWeekView :myCalendarEvents="state.myCalendarEvents"
                             @changeDatePerWeek="changeDatePerWeek" v-if="state.calendarView === 'week'"
-                            @viewMyCalendarEvent="viewMyCalendarEvent" />
+                            @viewMyCalendarEvent="viewMyCalendarEvent"
+                            @markEventAsStatus="handleMarkEventAsStatus"
+                            @createJournalFromEvent="handleCreateJournalFromEvent" />
                         <ModulesUserCitizenCalendarMonthView :myCalendarEvents="state.myCalendarEvents"
                             @changeMonthYear="changeMonthYear" v-if="state.calendarView === 'month'"
-                            @viewMyCalendarEvent="viewMyCalendarEvent" />
+                            @viewMyCalendarEvent="viewMyCalendarEvent"
+                            @markEventAsStatus="handleMarkEventAsStatus"
+                            @createJournalFromEvent="handleCreateJournalFromEvent" />
                     </LoadingSpinner>
                 </div>
 
@@ -78,6 +84,14 @@
                 <ModulesUserCitizenCalendarModalView :isModalOpen="state.modal.isViewEventOpen"
                     :selectedSchedule="state.selectedSchedule" @close="state.modal.isViewEventOpen = false"
                     @deleteMyCalendarEvent="deleteMyCalendarEvent" @refreshSchedules="fetchMyCalendarEvents" />
+                <ModulesUserMyCalendarModalEventJournalPrompt :isModalOpen="state.modal.isEventJournalPromptOpen"
+                    @close="state.modal.isEventJournalPromptOpen = false"
+                    @yes="handleJournalPromptYes"
+                    @no="state.modal.isEventJournalPromptOpen = false" />
+                <ModulesUserMyCalendarModalCreateJournal :isModalOpen="state.modal.isCreateEventJournalOpen"
+                    :selectedEvent="state.selectedSchedule"
+                    @close="state.modal.isCreateEventJournalOpen = false"
+                    @journalCreated="fetchMyCalendarEvents" />
             </div>
         </NuxtLayout>
     </div>
@@ -86,6 +100,7 @@
 <script setup lang="ts">
 import moment from 'moment'
 import { citizenService } from '@/components/api/user/CitizenService'
+import { myCalendarService } from '@/components/api/user/MyCalendarService'
 import { useI18n } from "vue-i18n"
 import { useAlert } from '@/composables/alert'
 import { useCustomPagesStore } from '@/store/custom-pages'
@@ -113,20 +128,13 @@ const state = reactive({
     modal: {
         isAddEventForCitizenOpen: false,
         isViewEventOpen: false,
+        isEventJournalPromptOpen: false,
+        isCreateEventJournalOpen: false,
     },
+    selectedSchedule: null as any,
     selectedDate: {
         end_date: moment().endOf('month').format('YYYY-MM-DD'),
         start_date: moment().startOf('month').format('YYYY-MM-DD'),
-    },
-    selectedSchedule: {
-        id: '',
-        uuid: '',
-        user: '',
-        title: '',
-        description: '',
-        start: '',
-        end: '',
-        is_private: false,
     },
     selectedYear: '',
     selectedMonth: '',
@@ -219,13 +227,15 @@ function changeMonthYear(year: any, month: any) {
 }
 
 function viewMyCalendarEvent(selectedCalendarEvent: any) {
-    state.selectedSchedule.uuid = selectedCalendarEvent.uuid
-    state.selectedSchedule.user = selectedCalendarEvent.user
-    state.selectedSchedule.title = selectedCalendarEvent.title
-    state.selectedSchedule.description = selectedCalendarEvent.description
-    state.selectedSchedule.start = selectedCalendarEvent.date_time_start
-    state.selectedSchedule.end = selectedCalendarEvent.date_time_end
-    state.selectedSchedule.is_private = selectedCalendarEvent.is_private ? true : false
+    state.selectedSchedule = {
+        uuid: selectedCalendarEvent.uuid,
+        user: selectedCalendarEvent.user,
+        title: selectedCalendarEvent.title,
+        description: selectedCalendarEvent.description,
+        start: selectedCalendarEvent.date_time_start,
+        end: selectedCalendarEvent.date_time_end,
+        is_private: selectedCalendarEvent.is_private ? true : false,
+    }
     state.modal.isViewEventOpen = true
 }
 
@@ -247,5 +257,32 @@ async function deleteMyCalendarEvent(selectedCalendarEvent: any) {
         state.error = error
     }
     state.isPageLoading = false
+}
+
+async function handleMarkEventAsStatus(selectedCalendarEvent: any, status: 'completed' | 'not_completed') {
+    state.error = {}
+    state.isPageLoading = true
+    state.selectedSchedule = selectedCalendarEvent
+    try {
+        const response = await myCalendarService.updateEventStatus(selectedCalendarEvent?.uuid, { status })
+        if (response?.data) {
+            fetchMyCalendarEvents()
+            successAlert(`${t('alert.success')}!`, `${t('events.alert.statusSuccessfullyUpdated')}.`)
+            state.modal.isEventJournalPromptOpen = true
+        }
+    } catch (error: any) {
+        state.error = error
+    }
+    state.isPageLoading = false
+}
+
+function handleCreateJournalFromEvent(selectedCalendarEvent: any) {
+    state.selectedSchedule = selectedCalendarEvent
+    state.modal.isCreateEventJournalOpen = true
+}
+
+function handleJournalPromptYes() {
+    state.modal.isEventJournalPromptOpen = false
+    state.modal.isCreateEventJournalOpen = true
 }
 </script>
