@@ -5445,7 +5445,9 @@
             },
             "image": "Image",
             "nameDanish": "Name (danish)",
-            "nameEnglish": "Name (english)"
+            "nameEnglish": "Name (english)",
+            "nameNorwegian": "Name (norwegian)",
+            "nameSwedish": "Name (swedish)"
         },
         "medicines": "Medicines",
         "newMedicine": "New medicine",
@@ -5460,7 +5462,9 @@
             },
             "image": "Image",
             "nameDanish": "Name (danish)",
-            "nameEnglish": "Name (english)"
+            "nameEnglish": "Name (english)",
+            "nameNorwegian": "Name (norwegian)",
+            "nameSwedish": "Name (swedish)"
         }
     },
     "messages": {

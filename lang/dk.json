@@ -5445,7 +5445,9 @@
             },
             "image": "Billede",
             "nameDanish": "Navn (dansk)",
-            "nameEnglish": "Navn (engelsk)"
+            "nameEnglish": "Navn (engelsk)",
+            "nameNorwegian": "Navn (norsk)",
+            "nameSwedish": "Navn (svensk)"
         },
         "medicines": "Medicin",
         "newMedicine": "Ny medicin",
@@ -5460,7 +5462,9 @@
             },
             "image": "Billede",
             "nameDanish": "Navn (dansk)",
-            "nameEnglish": "Navn (engelsk)"
+            "nameEnglish": "Navn (engelsk)",
+            "nameNorwegian": "Navn (norsk)",
+            "nameSwedish": "Navn (svensk)"
         }
     },
     "messages": {
