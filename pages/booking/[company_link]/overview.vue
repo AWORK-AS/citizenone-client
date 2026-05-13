@@ -42,7 +42,21 @@
                 <div class="mx-auto max-w-6xl px-4 py-8" v-if="Object.keys(state.bookingSettings).length > 0">
                     <Alert type="danger" :text="state?.error?.message"
                         v-if="state.error?.message && state.error.message.length > 0" />
-                    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
+                    <div v-if="!state.coursesEvents?.data?.length" class="text-center py-24 space-y-4">
+                        <div class="flex justify-center">
+                            <Icon name="ph:calendar-x" class="size-16 text-gray-300" />
+                        </div>
+                        <div>
+                            <h2 class="text-xl font-semibold text-gray-900">
+                                {{ $t('bookings.loading.noUpcomingEvents') }}
+                            </h2>
+                            <p class="text-gray-500 mt-1">
+                                {{ $t('bookings.loading.noUpcomingEventsDescription') }}
+                            </p>
+                        </div>
+                    </div>
+
+                    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5" v-else>
                         <div v-for="(courseEvent, index) in state.coursesEvents?.data" :key="index">
                             <div class="relative">
                                 <div class="absolute inset-px rounded-lg bg-white"></div>
@@ -316,7 +330,7 @@
                                         <p class="text-sm text-muted-400 h-7">
                                             <div v-html="courseEvent?.description" class="content line-clamp-1" />
                                         </p>
-                                        <div class="flex flex-wrap items-center gap-x-1.5 gap-y-1 h-5 line-clamp-1">
+                                        <div class="flex flex-wrap items-center gap-x-1.5 gap-y-1 h-6 line-clamp-1">
                                             <div v-for="(tag, tagIndex) in courseEvent?.booking_setting?.tags"
                                                 :key="tagIndex"
                                                 class="bg-primary text-white px-2 py-1 text-xxs rounded-full flex items-center justify-center">
@@ -326,7 +340,7 @@
                                         <div>
                                             <FormButton buttonStyle="primary"
                                                 @click="navigateTo(`/booking/${companyLink}/event/${courseEvent?.uuid}`)"
-                                                class="w-full rounded-md">
+                                                class="w-full">
                                                 {{ $t('bookings.booking.signUp') }}
                                             </FormButton>
                                         </div>
@@ -423,13 +437,13 @@ onMounted(() => {
 
 function identifyFlag() {
     const selectedLanguage = userStore.getLanguage
-    if (selectedLanguage === 'en') {
-        return '/img/icons/flags/united-kingdom.svg'
-    } else {
-        if (selectedLanguage === 'dk') {
-            return '/img/icons/flags/denmark.svg'
-        }
+    const flags: Record<string, string> = {
+        en: '/img/icons/flags/united-kingdom.svg',
+        dk: '/img/icons/flags/denmark.svg',
+        no: '/img/icons/flags/norway.svg',
+        sv: '/img/icons/flags/sweden.svg',
     }
+    return flags[selectedLanguage] ?? '/img/icons/flags/united-kingdom.svg'
 }
 
 function selectLanguage() {

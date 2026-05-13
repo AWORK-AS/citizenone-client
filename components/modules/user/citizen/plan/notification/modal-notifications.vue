@@ -5,8 +5,7 @@
             <template #modal-body>
                 <div>
                     <div class="flex justify-end items-center mb-5">
-                        <FormButton buttonStyle="action" class="rounded-lg"
-                            @click="state.modal.isAddNotificationOpen = true">
+                        <FormButton buttonStyle="action" @click="state.modal.isAddNotificationOpen = true">
                             <Icon name="ph:plus" class="h-4 w-4" aria-hidden="true" />
                             {{ $t('plansandgoals.notifications.newNotification') }}
                         </FormButton>
@@ -98,12 +97,11 @@
                                         </td>
                                         <td width="10%">
                                             <div class="flex items-end gap-2">
-                                                <FormButton class="rounded-md" buttonSize="sm"
-                                                    @click="editNotification(notification)">
+                                                <FormButton buttonSize="sm" @click="editNotification(notification)">
                                                     <Icon name="ph:pencil-simple" class="size-4" />
                                                     {{ $t('plansandgoals.notifications.table.actions.edit') }}
                                                 </FormButton>
-                                                <FormButton class="rounded-md" buttonSize="sm"
+                                                <FormButton buttonSize="sm"
                                                     @click="confirmNotificationDeletion(notification)">
                                                     <Icon name="heroicons:trash" class="size-4" />
                                                     {{ $t('plansandgoals.notifications.table.actions.delete') }}

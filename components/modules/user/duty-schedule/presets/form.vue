@@ -76,21 +76,24 @@
                 </div>
                 <div class="space-y-1">
                     <FormLabel for="date_start" :label="$t('dutySchedules.draft.preset.form.dateStart')" />
-                    <FormDateField id="date_start" name="date_start" :placeholder="$t('dutySchedules.draft.preset.form.dateStart')"
+                    <FormDateField id="date_start" name="date_start"
+                        :placeholder="$t('dutySchedules.draft.preset.form.dateStart')"
                         v-model="state.formDutySchedulePreset.date_start" />
                     <FormError :error="v$?.formDutySchedulePreset?.date_start?.$errors[0]?.$message.toString()" />
                     <FormError :error="props?.error?.errors?.date_start?.[0]" />
                 </div>
                 <div class="space-y-1">
                     <FormLabel for="date_end" :label="$t('dutySchedules.draft.preset.form.dateEnd')" />
-                    <FormDateField id="date_end" name="date_end" :placeholder="$t('dutySchedules.draft.preset.form.dateEnd')"
+                    <FormDateField id="date_end" name="date_end"
+                        :placeholder="$t('dutySchedules.draft.preset.form.dateEnd')"
                         v-model="state.formDutySchedulePreset.date_end" />
                     <FormError :error="v$?.formDutySchedulePreset?.date_end?.$errors[0]?.$message.toString()" />
                     <FormError :error="props?.error?.errors?.date_end?.[0]" />
                 </div>
                 <div class="space-y-1">
                     <FormLabel for="description" :label="$t('dutySchedules.draft.preset.form.description')" />
-                    <FormTextArea id="description" name="description" :placeholder="$t('dutySchedules.draft.preset.form.description')"
+                    <FormTextArea id="description" name="description"
+                        :placeholder="$t('dutySchedules.draft.preset.form.description')"
                         v-model="state.formDutySchedulePreset.description" />
                 </div>
             </div>
@@ -102,16 +105,24 @@
                 </div>
                 <div class="space-y-1">
                     <FormLabel :label="$t('dutySchedules.draft.preset.form.presetDateRange')" />
-                    <p class="text-sm font-semibold text-gray-700">{{ formatDateToReadable(state.formDutySchedulePreset.date_start) }} - {{ formatDateToReadable(state.formDutySchedulePreset.date_end) }}</p>
+                    <p class="text-sm font-semibold text-gray-700">{{
+                        formatDateToReadable(state.formDutySchedulePreset.date_start) }} - {{
+                            formatDateToReadable(state.formDutySchedulePreset.date_end) }}</p>
                 </div>
                 <div class="space-y-1">
-                    <FormLabel :label="`${$t('dutySchedules.draft.preset.form.affectedDepartments')} (${state.presetPreview.affected_departments.length})`" />
-                    <p class="text-sm font-semibold text-gray-700">{{ state.presetPreview.affected_departments.map((i: any) => i.name).join(', ') }}</p>
+                    <FormLabel
+                        :label="`${$t('dutySchedules.draft.preset.form.affectedDepartments')} (${state.presetPreview.affected_departments.length})`" />
+                    <p class="text-sm font-semibold text-gray-700">{{state.presetPreview.affected_departments.map((i:
+                        any) =>
+                        i.name).join(', ')}}</p>
                 </div>
                 <div class="space-y-1">
-                    <FormLabel :label="`${$t('dutySchedules.draft.preset.form.affectedUsers')} (${state.presetPreview.affected_users_count})`" />
+                    <FormLabel
+                        :label="`${$t('dutySchedules.draft.preset.form.affectedUsers')} (${state.presetPreview.affected_users_count})`" />
                     <div class="max-h-44 mt-6 overflow-auto">
-                        <div class="flex items-center gap-x-2 py-1" v-for="employee in state.presetPreview.affected_users.sort((a: any, b: any) => a.firstname.localeCompare(b.firstname))" :key="employee.uuid">
+                        <div class="flex items-center gap-x-2 py-1"
+                            v-for="employee in state.presetPreview.affected_users.sort((a: any, b: any) => a.firstname.localeCompare(b.firstname))"
+                            :key="employee.uuid">
                             <img :src="employee?.profile_image ?? `https://ui-avatars.com/api/?background=42AED9&color=fff&name=${employee?.firstname + ' ' + employee?.lastname}`"
                                 :class="[
                                     'h-10 w-10 rounded-full bg-gray-50 object-cover border-2'
@@ -124,22 +135,19 @@
                     </div>
                 </div>
             </div>
-            
+
             <div class="mt-10">
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
-                    <FormButton type="button" buttonStyle="cancel" class="rounded-md"
-                        @click="closeForm()" v-if="state.currentStep === 1">
+                    <FormButton type="button" buttonStyle="cancel" @click="closeForm()" v-if="state.currentStep === 1">
                         {{ $t('cancel') }}
                     </FormButton>
-                    <FormButton type="button" buttonStyle="cancel" class="rounded-md" @click="handleBack()"
-                        v-if="state.currentStep > 1" >
+                    <FormButton type="button" buttonStyle="cancel" @click="handleBack()" v-if="state.currentStep > 1">
                         {{ $t('back') }}
                     </FormButton>
-                    <FormButton type="submit" buttonStyle="primary" class="rounded-md"
-                        v-if="state.currentStep === 1">
+                    <FormButton type="submit" buttonStyle="primary" v-if="state.currentStep === 1">
                         {{ $t('next') }}
                     </FormButton>
-                    <FormButton type="submit" buttonStyle="primary" class="rounded-md" v-if="state.currentStep > 1">
+                    <FormButton type="submit" buttonStyle="primary" v-if="state.currentStep > 1">
                         {{ props.formType === 'create' ? $t('save') :
                             $t('update') }}
                     </FormButton>
@@ -191,13 +199,13 @@ const rules = computed(() => {
     return {
         formDutySchedulePreset: {
             name: {
-                required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
+                required: helpers.withMessage(() => `${t('validation.thisFieldIsRequired')}.`, required),
             },
             date_start: {
-                required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
+                required: helpers.withMessage(() => `${t('validation.thisFieldIsRequired')}.`, required),
             },
             date_end: {
-                required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
+                required: helpers.withMessage(() => `${t('validation.thisFieldIsRequired')}.`, required),
             },
         },
     }
@@ -241,7 +249,6 @@ async function previewPreset() {
     emit('isPageLoading', true)
     try {
         const response = await draftSchedulePresetService.previewPreset(state.formDutySchedulePreset)
-        console.log('Preview response', response)
         state.presetPreview = response.data
     } catch (error: any) {
         state.error = error

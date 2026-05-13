@@ -34,7 +34,7 @@
                             </div>
                         </div>
                         <div class="mt-6 mb-2">
-                            <FormButton type="submit" buttonStyle="primary" class="w-full rounded-md">
+                            <FormButton type="submit" buttonStyle="primary" class="w-full">
                                 {{ $t('messages.send') }}
                             </FormButton>
                         </div>
@@ -61,7 +61,7 @@ const props = defineProps({
         required: true,
     },
 })
-const emit = defineEmits(['close'])
+const emit = defineEmits(['close', 'chatCreated'])
 const { t } = useI18n()
 const departmentStore = useDepartmentStore()
 const userStore = useUserStore() as any
@@ -92,10 +92,10 @@ const rules = computed(() => {
     return {
         formChat: {
             message: {
-                required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
+                required: helpers.withMessage(() => `${t('validation.thisFieldIsRequired')}.`, required),
             },
             receivers: {
-                required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
+                required: helpers.withMessage(() => `${t('validation.thisFieldIsRequired')}.`, required),
             },
         }
     }
@@ -146,9 +146,13 @@ async function sendMessage() {
             const response = await messageService.sendMessageViaReceiverUuid(params)
             if (response) {
                 const chatUuid = response?.data?.chat?.uuid
+                state.formChat.receivers = []
+                state.formChat.subject = ''
+                state.formChat.message = ''
+                v$.value.$reset()
+                emit('chatCreated')
                 navigateTo(`/messages/${chatUuid}`)
                 closeModal()
-                state.formChat.receivers = []
             }
         } catch (error: any) {
             state.error = error

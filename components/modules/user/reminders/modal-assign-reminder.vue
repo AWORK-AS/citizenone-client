@@ -16,7 +16,7 @@
                             <FormError :error="props?.error?.errors?.employee_uuid?.[0]" />
                         </div>
                         <div class="mt-6">
-                            <FormButton type="submit" class="w-full rounded-md" buttonStyle="primary">
+                            <FormButton type="submit" class="w-full" buttonStyle="primary">
                                 {{ $t('reminders.assign') }}
                             </FormButton>
                         </div>
@@ -86,7 +86,7 @@ const rules = computed(() => {
     return {
         formAssignees: {
             assignees: {
-                required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
+                required: helpers.withMessage(() => `${t('validation.thisFieldIsRequired')}.`, required),
             },
         },
     }

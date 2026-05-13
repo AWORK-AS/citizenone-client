@@ -13,15 +13,21 @@
                             {{ $t('overview.filter.items.citizensEvents') }}
                         </div>
                         <div class="w-fit flex items-center cursor-pointer text-sm"
+                            @click="setDailyOverviewFilterShowLatestJournal()">
+                            <FormCheckbox :value="dailyOverviewStore.getDailyOverviewFilter.showLatestJournal" />
+                            {{ $t('overview.filter.items.latestJournal') }}
+                        </div>
+                        <div class="w-fit flex items-center cursor-pointer text-sm"
                             @click="setDailyOverviewFilterShowDailyMedicineOverview()">
                             <FormCheckbox
                                 :value="dailyOverviewStore.getDailyOverviewFilter.showDailyMedicineOverview" />
                             {{ $t('overview.filter.items.medicationOverview') }}
                         </div>
                         <div class="w-fit flex items-center cursor-pointer text-sm"
-                            @click="setDailyOverviewFilterShowLatestJournal()">
-                            <FormCheckbox :value="dailyOverviewStore.getDailyOverviewFilter.showLatestJournal" />
-                            {{ $t('overview.filter.items.latestJournal') }}
+                            @click="setDailyOverviewFilterShowCitizensFollowUpReminders()">
+                            <FormCheckbox
+                                :value="dailyOverviewStore.getDailyOverviewFilter.showCitizensFollowUpReminders" />
+                            {{ $t('overview.filter.items.citizensFollowUpReminders') }}
                         </div>
                         <div class="w-fit flex items-center cursor-pointer text-sm"
                             @click="setDailyOverviewFilterShowTreatments()">
@@ -119,14 +125,13 @@
                             {{ $t('overview.filter.items.plansAndGoals') }}
                         </div>
                         <div class="w-fit flex items-center cursor-pointer text-sm"
-                            @click="setDailyOverviewFilterShowCitizensFollowUpReminders()">
-                            <FormCheckbox
-                                :value="dailyOverviewStore.getDailyOverviewFilter.showCitizensFollowUpReminders" />
-                            {{ $t('overview.filter.items.citizensFollowUpReminders') }}
+                            @click="setDailyOverviewFilterShowReminders()">
+                            <FormCheckbox :value="dailyOverviewStore.getDailyOverviewFilter.showReminders" />
+                            {{ $t('reminders.reminders') }}
                         </div>
                     </div>
                     <div class="mt-5 flex gap-x-3 justify-end">
-                        <FormButton buttonStyle="primary" @click="closeModal" class="rounded-md">
+                        <FormButton buttonStyle="primary" @click="closeModal">
                             {{ $t('close') }}
                         </FormButton>
                     </div>
@@ -184,6 +189,7 @@ watch(() => userStore.getUser, (user: any) => {
         dailyOverviewStore.setDailyOverviewFilterShowTreatments(JSON.parse(user?.daily_overview_filter)?.showTreatments)
         dailyOverviewStore.setDailyOverviewFilterShowScheduleSlots(JSON.parse(user?.daily_overview_filter)?.showScheduleSlots)
         dailyOverviewStore.setDailyOverviewFilterShowPlansAndGoals(JSON.parse(user?.daily_overview_filter)?.showPlansAndGoals)
+        dailyOverviewStore.setDailyOverviewFilterShowReminders(JSON.parse(user?.daily_overview_filter)?.showReminders ?? true)
     }
 })
 
@@ -218,6 +224,7 @@ async function setDailyOverviewFilterShowBulletBoard() {
             showTreatments: dailyOverviewStore.getDailyOverviewFilter.showTreatments,
             showScheduleSlots: dailyOverviewStore.getDailyOverviewFilter.showScheduleSlots,
             showPlansAndGoals: dailyOverviewStore.getDailyOverviewFilter.showPlansAndGoals,
+            showReminders: dailyOverviewStore.getDailyOverviewFilter.showReminders,
         }
         const params = {
             daily_overview_filter: daily_overview_filter
@@ -259,6 +266,7 @@ async function setDailyOverviewFilterShowCitizenAdditictions() {
             showTreatments: dailyOverviewStore.getDailyOverviewFilter.showTreatments,
             showScheduleSlots: dailyOverviewStore.getDailyOverviewFilter.showScheduleSlots,
             showPlansAndGoals: dailyOverviewStore.getDailyOverviewFilter.showPlansAndGoals,
+            showReminders: dailyOverviewStore.getDailyOverviewFilter.showReminders,
         }
         const params = {
             daily_overview_filter: daily_overview_filter
@@ -300,6 +308,7 @@ async function setDailyOverviewFilterShowCitizensAdmissionAndDischarged() {
             showTreatments: dailyOverviewStore.getDailyOverviewFilter.showTreatments,
             showScheduleSlots: dailyOverviewStore.getDailyOverviewFilter.showScheduleSlots,
             showPlansAndGoals: dailyOverviewStore.getDailyOverviewFilter.showPlansAndGoals,
+            showReminders: dailyOverviewStore.getDailyOverviewFilter.showReminders,
         }
         const params = {
             daily_overview_filter: daily_overview_filter
@@ -341,6 +350,7 @@ async function setDailyOverviewFilterShowCitizensDailyEvents() {
             showTreatments: dailyOverviewStore.getDailyOverviewFilter.showTreatments,
             showScheduleSlots: dailyOverviewStore.getDailyOverviewFilter.showScheduleSlots,
             showPlansAndGoals: dailyOverviewStore.getDailyOverviewFilter.showPlansAndGoals,
+            showReminders: dailyOverviewStore.getDailyOverviewFilter.showReminders,
         }
         const params = {
             daily_overview_filter: daily_overview_filter
@@ -381,6 +391,7 @@ async function setDailyOverviewFilterShowCitizensDiagnoses() {
             showTreatments: dailyOverviewStore.getDailyOverviewFilter.showTreatments,
             showScheduleSlots: dailyOverviewStore.getDailyOverviewFilter.showScheduleSlots,
             showPlansAndGoals: dailyOverviewStore.getDailyOverviewFilter.showPlansAndGoals,
+            showReminders: dailyOverviewStore.getDailyOverviewFilter.showReminders,
         }
         const params = {
             daily_overview_filter: daily_overview_filter
@@ -421,6 +432,7 @@ async function setDailyOverviewFilterShowCitizensOrigin() {
             showTreatments: dailyOverviewStore.getDailyOverviewFilter.showTreatments,
             showScheduleSlots: dailyOverviewStore.getDailyOverviewFilter.showScheduleSlots,
             showPlansAndGoals: dailyOverviewStore.getDailyOverviewFilter.showPlansAndGoals,
+            showReminders: dailyOverviewStore.getDailyOverviewFilter.showReminders,
         }
         const params = {
             daily_overview_filter: daily_overview_filter
@@ -462,6 +474,7 @@ async function setDailyOverviewFilterShowDailyMedicineOverview() {
             showTreatments: dailyOverviewStore.getDailyOverviewFilter.showTreatments,
             showScheduleSlots: dailyOverviewStore.getDailyOverviewFilter.showScheduleSlots,
             showPlansAndGoals: dailyOverviewStore.getDailyOverviewFilter.showPlansAndGoals,
+            showReminders: dailyOverviewStore.getDailyOverviewFilter.showReminders,
         }
         const params = {
             daily_overview_filter: daily_overview_filter
@@ -503,6 +516,7 @@ async function setDailyOverviewFilterShowGender() {
             showTreatments: dailyOverviewStore.getDailyOverviewFilter.showTreatments,
             showScheduleSlots: dailyOverviewStore.getDailyOverviewFilter.showScheduleSlots,
             showPlansAndGoals: dailyOverviewStore.getDailyOverviewFilter.showPlansAndGoals,
+            showReminders: dailyOverviewStore.getDailyOverviewFilter.showReminders,
         }
         const params = {
             daily_overview_filter: daily_overview_filter
@@ -544,6 +558,7 @@ async function setDailyOverviewFilterShowLatestJournal() {
             showTreatments: dailyOverviewStore.getDailyOverviewFilter.showTreatments,
             showScheduleSlots: dailyOverviewStore.getDailyOverviewFilter.showScheduleSlots,
             showPlansAndGoals: dailyOverviewStore.getDailyOverviewFilter.showPlansAndGoals,
+            showReminders: dailyOverviewStore.getDailyOverviewFilter.showReminders,
         }
         const params = {
             daily_overview_filter: daily_overview_filter
@@ -585,6 +600,7 @@ async function setDailyOverviewFilterShowJournalScoreStatistics() {
             showTreatments: dailyOverviewStore.getDailyOverviewFilter.showTreatments,
             showScheduleSlots: dailyOverviewStore.getDailyOverviewFilter.showScheduleSlots,
             showPlansAndGoals: dailyOverviewStore.getDailyOverviewFilter.showPlansAndGoals,
+            showReminders: dailyOverviewStore.getDailyOverviewFilter.showReminders,
         }
         const params = {
             daily_overview_filter: daily_overview_filter
@@ -626,6 +642,7 @@ async function setDailyOverviewFilterShowMyDailyEvents() {
             showTreatments: dailyOverviewStore.getDailyOverviewFilter.showTreatments,
             showScheduleSlots: dailyOverviewStore.getDailyOverviewFilter.showScheduleSlots,
             showPlansAndGoals: dailyOverviewStore.getDailyOverviewFilter.showPlansAndGoals,
+            showReminders: dailyOverviewStore.getDailyOverviewFilter.showReminders,
         }
         const params = {
             daily_overview_filter: daily_overview_filter
@@ -667,6 +684,7 @@ async function setDailyOverviewFilterShowRiskAssessment() {
             showTreatments: dailyOverviewStore.getDailyOverviewFilter.showTreatments,
             showScheduleSlots: dailyOverviewStore.getDailyOverviewFilter.showScheduleSlots,
             showPlansAndGoals: dailyOverviewStore.getDailyOverviewFilter.showPlansAndGoals,
+            showReminders: dailyOverviewStore.getDailyOverviewFilter.showReminders,
         }
         const params = {
             daily_overview_filter: daily_overview_filter
@@ -708,6 +726,7 @@ async function setDailyOverviewFilterShowGoalsScoreStatistics() {
             showTreatments: dailyOverviewStore.getDailyOverviewFilter.showTreatments,
             showScheduleSlots: dailyOverviewStore.getDailyOverviewFilter.showScheduleSlots,
             showPlansAndGoals: dailyOverviewStore.getDailyOverviewFilter.showPlansAndGoals,
+            showReminders: dailyOverviewStore.getDailyOverviewFilter.showReminders,
         }
         const params = {
             daily_overview_filter: daily_overview_filter
@@ -749,6 +768,7 @@ async function setDailyOverviewFilterShowSubgoalsScoreStatistics() {
             showTreatments: dailyOverviewStore.getDailyOverviewFilter.showTreatments,
             showScheduleSlots: dailyOverviewStore.getDailyOverviewFilter.showScheduleSlots,
             showPlansAndGoals: dailyOverviewStore.getDailyOverviewFilter.showPlansAndGoals,
+            showReminders: dailyOverviewStore.getDailyOverviewFilter.showReminders,
         }
         const params = {
             daily_overview_filter: daily_overview_filter
@@ -790,6 +810,7 @@ async function setDailyOverviewFilterShowStatusesScoreStatistics() {
             showTreatments: dailyOverviewStore.getDailyOverviewFilter.showTreatments,
             showScheduleSlots: dailyOverviewStore.getDailyOverviewFilter.showScheduleSlots,
             showPlansAndGoals: dailyOverviewStore.getDailyOverviewFilter.showPlansAndGoals,
+            showReminders: dailyOverviewStore.getDailyOverviewFilter.showReminders,
         }
         const params = {
             daily_overview_filter: daily_overview_filter
@@ -831,6 +852,7 @@ async function setDailyOverviewFilterShowIncidentStatistics() {
             showTreatments: dailyOverviewStore.getDailyOverviewFilter.showTreatments,
             showScheduleSlots: dailyOverviewStore.getDailyOverviewFilter.showScheduleSlots,
             showPlansAndGoals: dailyOverviewStore.getDailyOverviewFilter.showPlansAndGoals,
+            showReminders: dailyOverviewStore.getDailyOverviewFilter.showReminders,
         }
         const params = {
             daily_overview_filter: daily_overview_filter
@@ -872,6 +894,7 @@ async function setDailyOverviewFilterShowUseOfForceStatistics() {
             showTreatments: dailyOverviewStore.getDailyOverviewFilter.showTreatments,
             showScheduleSlots: dailyOverviewStore.getDailyOverviewFilter.showScheduleSlots,
             showPlansAndGoals: dailyOverviewStore.getDailyOverviewFilter.showPlansAndGoals,
+            showReminders: dailyOverviewStore.getDailyOverviewFilter.showReminders,
         }
         const params = {
             daily_overview_filter: daily_overview_filter
@@ -913,6 +936,7 @@ async function setDailyOverviewFilterShowMedicineDeviationStatistics() {
             showTreatments: dailyOverviewStore.getDailyOverviewFilter.showTreatments,
             showScheduleSlots: dailyOverviewStore.getDailyOverviewFilter.showScheduleSlots,
             showPlansAndGoals: dailyOverviewStore.getDailyOverviewFilter.showPlansAndGoals,
+            showReminders: dailyOverviewStore.getDailyOverviewFilter.showReminders,
         }
         const params = {
             daily_overview_filter: daily_overview_filter
@@ -954,6 +978,7 @@ async function setDailyOverviewFilterShowTreatments() {
             showTreatments: !dailyOverviewStore.getDailyOverviewFilter.showTreatments,
             showScheduleSlots: dailyOverviewStore.getDailyOverviewFilter.showScheduleSlots,
             showPlansAndGoals: dailyOverviewStore.getDailyOverviewFilter.showPlansAndGoals,
+            showReminders: dailyOverviewStore.getDailyOverviewFilter.showReminders,
         }
         const params = {
             daily_overview_filter: daily_overview_filter
@@ -995,6 +1020,7 @@ async function setDailyOverviewFilterShowScheduleSlots() {
             showTreatments: dailyOverviewStore.getDailyOverviewFilter.showTreatments,
             showScheduleSlots: !dailyOverviewStore.getDailyOverviewFilter.showScheduleSlots,
             showPlansAndGoals: dailyOverviewStore.getDailyOverviewFilter.showPlansAndGoals,
+            showReminders: dailyOverviewStore.getDailyOverviewFilter.showReminders,
         }
         const params = {
             daily_overview_filter: daily_overview_filter
@@ -1036,6 +1062,7 @@ async function setDailyOverviewFilterShowPlansAndGoals() {
             showTreatments: dailyOverviewStore.getDailyOverviewFilter.showTreatments,
             showScheduleSlots: dailyOverviewStore.getDailyOverviewFilter.showScheduleSlots,
             showPlansAndGoals: !dailyOverviewStore.getDailyOverviewFilter.showPlansAndGoals,
+            showReminders: dailyOverviewStore.getDailyOverviewFilter.showReminders,
         }
         const params = {
             daily_overview_filter: daily_overview_filter
@@ -1077,6 +1104,7 @@ async function setDailyOverviewFilterShowCitizensFollowUpReminders() {
             showTreatments: dailyOverviewStore.getDailyOverviewFilter.showTreatments,
             showScheduleSlots: dailyOverviewStore.getDailyOverviewFilter.showScheduleSlots,
             showPlansAndGoals: dailyOverviewStore.getDailyOverviewFilter.showPlansAndGoals,
+            showReminders: dailyOverviewStore.getDailyOverviewFilter.showReminders,
         }
         const params = {
             daily_overview_filter: daily_overview_filter
@@ -1084,6 +1112,48 @@ async function setDailyOverviewFilterShowCitizensFollowUpReminders() {
         const response = await dailyOverviewService.updateDailyOverviewFilter(params)
         if (response) {
             dailyOverviewStore.setDailyOverviewFilterShowCitizensFollowUpReminders(!dailyOverviewStore.getDailyOverviewFilter.showCitizensFollowUpReminders)
+        }
+    } catch (error: any) {
+        state.error = error
+    }
+    state.isPageLoading = false
+}
+
+async function setDailyOverviewFilterShowReminders() {
+    state.error = {}
+    state.isPageLoading = true
+    try {
+        const daily_overview_filter = {
+            showBulletBoard: dailyOverviewStore.getDailyOverviewFilter.showBulletBoard,
+            showCitizensAddictions: dailyOverviewStore.getDailyOverviewFilter.showCitizensAddictions,
+            showCitizensAdmissionAndDischarged: dailyOverviewStore.getDailyOverviewFilter.showCitizensAdmissionAndDischarged,
+            showCitizensDailyEvents: dailyOverviewStore.getDailyOverviewFilter.showCitizensDailyEvents,
+            showCitizensDiagnoses: dailyOverviewStore.getDailyOverviewFilter.showCitizensDiagnoses,
+            showCitizensFollowUpReminders: dailyOverviewStore.getDailyOverviewFilter.showCitizensFollowUpReminders,
+            showCitizensOrigin: dailyOverviewStore.getDailyOverviewFilter.showCitizensOrigin,
+            showDailyMedicineOverview: dailyOverviewStore.getDailyOverviewFilter.showDailyMedicineOverview,
+            showGender: dailyOverviewStore.getDailyOverviewFilter.showGender,
+            showGoalsScoreStatistics: dailyOverviewStore.getDailyOverviewFilter.showGoalsScoreStatistics,
+            showLatestJournal: dailyOverviewStore.getDailyOverviewFilter.showLatestJournal,
+            showJournalScoreStatistics: dailyOverviewStore.getDailyOverviewFilter.showJournalScoreStatistics,
+            showMyDailyEvents: dailyOverviewStore.getDailyOverviewFilter.showMyDailyEvents,
+            showRiskAssessment: dailyOverviewStore.getDailyOverviewFilter.showRiskAssessment,
+            showStatusesScoreStatistics: dailyOverviewStore.getDailyOverviewFilter.showStatusesScoreStatistics,
+            showSubgoalsScoreStatistics: dailyOverviewStore.getDailyOverviewFilter.showSubgoalsScoreStatistics,
+            showIncidentStatistics: dailyOverviewStore.getDailyOverviewFilter.showIncidentStatistics,
+            showUseOfForceStatistics: dailyOverviewStore.getDailyOverviewFilter.showUseOfForceStatistics,
+            showMedicineDeviationStatistics: dailyOverviewStore.getDailyOverviewFilter.showMedicineDeviationStatistics,
+            showTreatments: dailyOverviewStore.getDailyOverviewFilter.showTreatments,
+            showScheduleSlots: dailyOverviewStore.getDailyOverviewFilter.showScheduleSlots,
+            showPlansAndGoals: dailyOverviewStore.getDailyOverviewFilter.showPlansAndGoals,
+            showReminders: !dailyOverviewStore.getDailyOverviewFilter.showReminders,
+        }
+        const params = {
+            daily_overview_filter: daily_overview_filter
+        }
+        const response = await dailyOverviewService.updateDailyOverviewFilter(params)
+        if (response) {
+            dailyOverviewStore.setDailyOverviewFilterShowReminders(!dailyOverviewStore.getDailyOverviewFilter.showReminders)
         }
     } catch (error: any) {
         state.error = error

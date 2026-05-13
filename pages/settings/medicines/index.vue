@@ -18,7 +18,7 @@
 
             <div class="mt-8">
                 <div class="flex justify-end items-center mb-5">
-                    <FormButton buttonStyle="action" class="rounded-lg" @click="navigateTo('/settings/medicines/new')">
+                    <FormButton buttonStyle="action" @click="navigateTo('/settings/medicines/new')">
                         <Icon name="ph:plus" class="h-4 w-4" aria-hidden="true" />
                         {{ $t('medicines.addNewMedicine') }}
                     </FormButton>
@@ -35,23 +35,29 @@
                                     <td width="15%">
                                         <img :src="medicine?.image_url" class="h-24" v-if="medicine?.image_url" />
                                     </td>
-                                    <td width="20%">
+                                    <td width="15%">
                                         <span>{{ medicine?.en_name }}</span>
                                     </td>
-                                    <td width="20%">
+                                    <td width="15%">
                                         <span>{{ medicine?.dk_name }}</span>
                                     </td>
-                                    <td width="25%">
+                                    <td width="15%">
+                                        <span>{{ medicine?.no_name }}</span>
+                                    </td>
+                                    <td width="15%">
+                                        <span>{{ medicine?.sv_name }}</span>
+                                    </td>
+                                    <td width="20%">
                                         <span>{{ medicine?.ingredients }}</span>
                                     </td>
                                     <td width="20%">
                                         <div class="flex items-end justify-end gap-2">
-                                            <FormButton type="button" buttonStyle="action" class="rounded-md"
+                                            <FormButton type="button" buttonStyle="action"
                                                 @click="navigateTo(`/settings/medicines/${medicine.uuid}/edit`)">
                                                 <Icon name="ph:pencil-simple" class="size-4" />
                                                 {{ $t('medicines.table.actions.edit') }}
                                             </FormButton>
-                                            <FormButton type="button" buttonStyle="danger" class="rounded-md"
+                                            <FormButton type="button" buttonStyle="danger"
                                                 @click="deleteMedicineConfirmation(medicine)">
                                                 <Icon name="ph:trash" class="size-4" />
                                                 {{ $t('medicines.table.actions.delete') }}
@@ -96,6 +102,8 @@ const state = reactive({
         { name: 'medicines.table.image', isTranslateName: true, },
         { name: 'medicines.table.nameEnglish', isTranslateName: true, sorter: true, key: 'en_name' },
         { name: 'medicines.table.nameDanish', isTranslateName: true, sorter: true, key: 'dk_name' },
+        { name: 'medicines.table.nameNorwegian', isTranslateName: true, sorter: true, key: 'no_name' },
+        { name: 'medicines.table.nameSwedish', isTranslateName: true, sorter: true, key: 'sv_name' },
         { name: 'medicines.table.activeIngredients', isTranslateName: true, },
         { name: '' }
     ],

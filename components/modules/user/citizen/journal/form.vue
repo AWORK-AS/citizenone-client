@@ -31,12 +31,14 @@
                     </button>
                 </div>
                 <div class="space-y-1" v-if="state.usePredefinedJournalTitle">
-                    <div class="flex justify-between items-center py-0.5">
+                    <div class="flex items-center py-0.5">
                         <FormLabel for="predefined_title" :label="$t('citizens.citizenJournals.form.title')" />
-                        <span class="text-xs cursor-pointer text-tertiary hover:text-tertiary-800"
-                            @click="state.modal.isAddJournalTitleOpen = true">
-                            {{ $t('journalTitles.addNewJournalTitle') }}
-                        </span>
+                        <button type="button" class="ml-auto text-sm text-primary hover:text-primary-700"
+                            @click="navigateTo('/settings/journal-titles')">
+                            <span>
+                                {{ $t('citizens.citizenJournals.form.createJournalTitle') }}
+                            </span>
+                        </button>
                     </div>
                     <FormSelect id="predefined_title" v-model="state.formJournal.title"
                         :options="state.options.journal_titles" />
@@ -55,6 +57,15 @@
                     <FormDateField id="date" name="date" placeholder="Date" v-model="state.formJournal.date" />
                     <FormError :error="v$?.formJournal?.date?.$errors[0]?.$message.toString()" />
                     <FormError :error="props?.error?.errors?.date?.[0]" />
+                </div>
+            </div>
+            <div v-if="state.selectedJournalTitleFields.length > 0" class="space-y-3">
+                <div v-for="(field, i) in state.selectedJournalTitleFields" :key="field.uuid" class="space-y-1">
+                    <FormLabel :for="`dyn_field_${field.uuid}`" :label="field.label" />
+                    <FormTextArea v-if="field.field_type === 'textarea'" :name="`dyn_field_${field.uuid}`"
+                        placeholder="" :rows="3" v-model="state.formJournal.field_answers[i].response" />
+                    <FormTextField v-else :id="`dyn_field_${field.uuid}`" :name="`dyn_field_${field.uuid}`"
+                        placeholder="" v-model="state.formJournal.field_answers[i].response" />
                 </div>
             </div>
             <div class="space-y-1">
@@ -171,7 +182,7 @@
                                 !active && !checked && assessment.title === 'Increased risk' && 'border border-yellow-500 ring-inset',
                                 !active && !checked && assessment.title === 'Acute increased risk' && 'border border-red-600 ring-inset',
                                 active && checked ? 'text-white ring-1' : '',
-                                'cursor-pointer flex items-center justify-center rounded-md px-2 py-2 text-xs']">
+                                'cursor-pointer flex items-center justify-center rounded-full px-2 py-2 text-xs']">
                                 <span v-if="assessment.title === 'None'">
                                     {{ $t('citizens.citizenJournals.form.risk.none') }}
                                 </span>
@@ -320,16 +331,14 @@
         </div>
         <div class="mt-6">
             <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
-                <FormButton type="button" buttonStyle="cancel" class="rounded-md" @click="emit('closeModal')">
+                <FormButton type="button" buttonStyle="cancel" @click="emit('closeModal')">
                     {{ $t('cancel') }}
                 </FormButton>
-                <FormButton type="submit" buttonStyle="primary" class="rounded-md w-full">
+                <FormButton type="submit" buttonStyle="primary" class="w-full">
                     {{ props.formType === 'create' ? $t('save') : $t('update') }}
                 </FormButton>
             </div>
         </div>
-        <ModulesUserJournalTitleModalNew :isModalOpen="state.modal.isAddJournalTitleOpen"
-            @close="state.modal.isAddJournalTitleOpen = false" @refreshJournalTitles="fetchAllJournalTitles" />
         <ModulesUserJournalNoteTagModalNew :isModalOpen="state.modal.isAddJournalNoteTagsOpen"
             @close="state.modal.isAddJournalNoteTagsOpen = false" @refreshJournalNoteTags="fetchAllJournalNoteTags" />
 
@@ -448,17 +457,19 @@ const state = reactive({
         risk_assessment_subgoal: '',
         title: '',
         is_draft: false,
+        is_ai_used: false,
         assessment: null,
         note: '',
         risk_assessment_tags: [],
         score: '',
         teeth: [],
         is_for_teeth: false,
+        field_answers: [] as Array<{ journal_title_field_uuid: string, response: string }>,
     } as any,
+    selectedJournalTitleFields: [] as Array<{ uuid: string, label: string, field_type: string }>,
     hasChanges: false,
     modal: {
         isAddJournalNoteTagsOpen: false,
-        isAddJournalTitleOpen: false,
         isUpgradeStorageOpen: false,
         isSelectJournalContent: false,
     },
@@ -480,6 +491,7 @@ const state = reactive({
         journal_note_goals: [],
         journal_note_subgoals: [],
         journal_titles: [],
+        journal_titles_raw: [] as any[],
         risk_assessment_plans: [],
         risk_assessment_goals: [],
         risk_assessment_subgoals: [],
@@ -578,6 +590,26 @@ watch(() => props.selectedJournal, (newValue: any) => {
     }
 })
 
+watch([() => state.formJournal.title, () => state.usePredefinedJournalTitle], () => {
+    if (suppressChangeTracking) return
+    if (!state.usePredefinedJournalTitle) {
+        state.selectedJournalTitleFields = []
+        state.formJournal.field_answers = []
+        return
+    }
+    const match = state.options.journal_titles_raw.find((o: any) => o.value === state.formJournal.title)
+    const fields = match?.fields ?? []
+    state.selectedJournalTitleFields = fields.map((f: any) => ({
+        uuid: f.uuid,
+        label: f.label,
+        field_type: f.field_type ?? 'text',
+    }))
+    state.formJournal.field_answers = state.selectedJournalTitleFields.map((f: any) => ({
+        journal_title_field_uuid: f.uuid,
+        response: '',
+    }))
+})
+
 watch(() => state.formJournal, () => {
     if (!isInitialized) return
 
@@ -625,6 +657,7 @@ function setFormJournalFromSelected(journal: any) {
         risk_assessment_subgoal: '',
         title: journal.title,
         is_draft: journal.is_draft,
+        is_ai_used: journal.is_ai_used ?? false,
         assessment: journal.assessment,
         note: journal.note === null ? '' : journal.note,
         risk_assessment_tags: [],
@@ -641,6 +674,23 @@ function setFormJournalFromSelected(journal: any) {
     journal.teeth?.forEach((tooth: any) => {
         state.formJournal.teeth.push(tooth?.uuid)
     })
+
+    const savedAnswers = journal.journal_field_answers ?? []
+    if (savedAnswers.length > 0) {
+        state.usePredefinedJournalTitle = true
+        state.selectedJournalTitleFields = savedAnswers.map((a: any) => ({
+            uuid: a.journal_title_field_uuid,
+            label: a.label ?? '',
+            field_type: a.field_type ?? 'text',
+        }))
+        state.formJournal.field_answers = savedAnswers.map((a: any) => ({
+            journal_title_field_uuid: a.journal_title_field_uuid,
+            response: a.response ?? '',
+        }))
+    } else {
+        state.selectedJournalTitleFields = []
+        state.formJournal.field_answers = []
+    }
 }
 
 const rules = computed(() => {
@@ -648,13 +698,13 @@ const rules = computed(() => {
         return {
             formJournal: {
                 title: {
-                    required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
+                    required: helpers.withMessage(() => `${t('validation.thisFieldIsRequired')}.`, required),
                 },
                 date: {
-                    required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
+                    required: helpers.withMessage(() => `${t('validation.thisFieldIsRequired')}.`, required),
                 },
                 content: {
-                    required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
+                    required: helpers.withMessage(() => `${t('validation.thisFieldIsRequired')}.`, required),
                 },
             },
         }
@@ -662,13 +712,13 @@ const rules = computed(() => {
         return {
             formJournal: {
                 title: {
-                    required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
+                    required: helpers.withMessage(() => `${t('validation.thisFieldIsRequired')}.`, required),
                 },
                 date: {
-                    required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
+                    required: helpers.withMessage(() => `${t('validation.thisFieldIsRequired')}.`, required),
                 },
                 note: {
-                    required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
+                    required: helpers.withMessage(() => `${t('validation.thisFieldIsRequired')}.`, required),
                 },
             },
         }
@@ -676,10 +726,10 @@ const rules = computed(() => {
         return {
             formJournal: {
                 title: {
-                    required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
+                    required: helpers.withMessage(() => `${t('validation.thisFieldIsRequired')}.`, required),
                 },
                 date: {
-                    required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
+                    required: helpers.withMessage(() => `${t('validation.thisFieldIsRequired')}.`, required),
                 },
             },
         }
@@ -925,13 +975,15 @@ async function fetchAllJournalTitles() {
         const response = await journalTitleService.getAllJournalTitles()
         if (response.data) {
             let options: any = []
+            let raw: any = []
             response.data.forEach(
-                (item: any) => options.push({
-                    value: item?.title,
-                    label: item?.title,
-                })
+                (item: any) => {
+                    options.push({ value: item?.title, label: item?.title })
+                    raw.push({ value: item?.title, label: item?.title, uuid: item?.uuid, fields: item?.journal_fields ?? [] })
+                }
             )
             state.options.journal_titles = options
+            state.options.journal_titles_raw = raw
         }
     } catch (error: any) {
         state.error = error
@@ -948,11 +1000,9 @@ async function generateNoteForJournalContent() {
             prompt: state.formJournal.content,
         }
         const response = await aIAssistantService.generateNote(params)
-        if (response && response.output) {
-            const messageOutput = response.output.find((item: any) => item.type === 'message');
-            if (messageOutput?.content?.[0]?.text) {
-                state.formJournal.content = messageOutput.content[0].text
-            }
+        if (response?.data) {
+            state.formJournal.content = response?.data?.answer
+            state.formJournal.is_ai_used = true
         }
     } catch (error: any) {
         state.error = error
@@ -969,11 +1019,9 @@ async function generateNoteForRiskAssessmentNote() {
             prompt: state.formJournal.note,
         }
         const response = await aIAssistantService.generateNote(params)
-        if (response && response.output) {
-            const messageOutput = response.output.find((item: any) => item.type === 'message');
-            if (messageOutput?.content?.[0]?.text) {
-                state.formJournal.content = messageOutput.content[0].text
-            }
+        if (response?.data) {
+            state.formJournal.note = response?.data?.answer
+            state.formJournal.is_ai_used = true
         }
     } catch (error: any) {
         state.error = error

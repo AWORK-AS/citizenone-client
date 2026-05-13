@@ -112,10 +112,9 @@
                 <div class="space-y-1">
                     <div class="flex justify-between items-center py-0.5">
                         <FormLabel for="street" :label="$t('citizens.form.street')" />
-                        <div class="flex gap-x-1 items-center"  @click="state.modal.isLocateCitizenOpen = true">
+                        <div class="flex gap-x-1 items-center" @click="state.modal.isLocateCitizenOpen = true">
                             <Icon name="ph:map-pin" class="text-tertiary w-4 h-4" />
-                            <span class="text-xs cursor-pointer text-tertiary hover:text-tertiary-800"
-                               >
+                            <span class="text-xs cursor-pointer text-tertiary hover:text-tertiary-800">
                                 {{ $t('citizens.form.locateCitizen') }}
                             </span>
                         </div>
@@ -184,7 +183,7 @@
                     <FormError :error="v$?.formCitizen?.origin?.$errors[0]?.$message.toString()" />
                     <FormError :error="props?.error?.errors?.origin_uuid?.[0]" />
                 </div>
-                <div class="space-y-1">
+                <div class="space-y-1" v-if="isFieldVisible('diagnoses')">
                     <div class="flex justify-between items-center py-0.5">
                         <FormLabel for="diagnoses" :label="$t('citizens.form.diagnoses')" />
                         <span class="text-xs cursor-pointer text-tertiary hover:text-tertiary-800"
@@ -197,7 +196,7 @@
                     <FormError :error="v$?.formCitizen?.diagnoses?.$errors[0]?.$message.toString()" />
                     <FormError :error="props?.error?.errors?.diagnoses?.[0]" />
                 </div>
-                <div class="space-y-1">
+                <div class="space-y-1" v-if="isFieldVisible('medication_allergies')">
                     <div class="flex justify-between items-center py-0.5">
                         <FormLabel for="medication_allergies" :label="$t('citizens.form.medicationAllergies')" />
                         <span class="text-xs cursor-pointer text-tertiary hover:text-tertiary-800"
@@ -210,7 +209,7 @@
                     <FormError :error="v$?.formCitizen?.medication_allergies?.$errors[0]?.$message.toString()" />
                     <FormError :error="props?.error?.errors?.medication_allergies?.[0]" />
                 </div>
-                <div class="space-y-1">
+                <div class="space-y-1" v-if="isFieldVisible('addictions')">
                     <div class="flex justify-between items-center py-0.5">
                         <FormLabel for="addictions" :label="customPagesStore.getCustomPagesName?.addictions" />
                         <span class="text-xs cursor-pointer text-tertiary hover:text-tertiary-800"
@@ -226,7 +225,7 @@
                     <FormError :error="v$?.formCitizen?.addictions?.$errors[0]?.$message.toString()" />
                     <FormError :error="props?.error?.errors?.addictions?.[0]" />
                 </div>
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-3" v-if="isFieldVisible('date_admitted')">
                     <div class="space-y-1">
                         <FormLabel for="date_admitted" :label="$t('citizens.form.dateAdmitted')" />
                         <FormDateField id="date_admitted" name="date_admitted"
@@ -245,7 +244,7 @@
                 </div>
                 <div class="w-fit cursor-pointer"
                     @click="state.formCitizen.is_discharge_reminded = !state.formCitizen.is_discharge_reminded"
-                    v-if="state.formCitizen.date_discharged">
+                    v-if="isFieldVisible('date_admitted') && state.formCitizen.date_discharged">
                     <div class="flex items-center">
                         <FormCheckbox id="is_discharge_reminded" :value="state.formCitizen.is_discharge_reminded" />
                         {{ $t('citizens.form.dateDischargedReminder') }}
@@ -254,7 +253,7 @@
                         {{ $t('citizens.form.dateDischargedReminderDescription') }}
                     </p>
                 </div>
-                <div class="space-y-1">
+                <div class="space-y-1" v-if="isFieldVisible('section')">
                     <div class="flex justify-between items-center py-0.5">
                         <FormLabel for="section" :label="$t('citizens.form.section')" />
                         <span class="text-xs cursor-pointer text-tertiary hover:text-tertiary-800"
@@ -266,7 +265,7 @@
                     <FormError :error="v$?.formCitizen?.section?.$errors[0]?.$message.toString()" />
                     <FormError :error="props?.error?.errors?.section?.[0]" />
                 </div>
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-3" v-if="isFieldVisible('pricing')">
                     <div class="space-y-1">
                         <FormLabel for="pricing" :label="$t('citizens.form.pricing')" />
                         <FormTextField id="pricing" name="pricing" :placeholder="$t('citizens.form.pricing')"
@@ -283,7 +282,7 @@
                         <FormError :error="props?.error?.errors?.pricing_start_date?.[0]" />
                     </div>
                 </div>
-                <div class="space-y-1">
+                <div class="space-y-1" v-if="isFieldVisible('primary_case_worker')">
                     <div class="flex justify-between items-center py-0.5">
                         <FormLabel for="primary_case_worker_uuid" :label="$t('citizens.form.primaryCaseworker')" />
                         <span class="text-xs cursor-pointer text-tertiary hover:text-tertiary-800"
@@ -296,49 +295,49 @@
                     <FormError :error="v$?.formCitizen?.primary_case_worker_uuid?.$errors[0]?.$message.toString()" />
                     <FormError :error="props?.error?.errors?.primary_case_worker_uuid?.[0]" />
                 </div>
-                <div class="space-y-1">
+                <div class="space-y-1" v-if="isFieldVisible('paying_municipality')">
                     <FormLabel for="paying_municipality" :label="$t('citizens.form.payingMunicipality')" />
                     <FormSelect id="paying_municipality" :options="state.options.municipalities"
                         v-model="state.formCitizen.paying_municipality" />
                     <FormError :error="v$?.formCitizen?.paying_municipality?.$errors[0]?.$message.toString()" />
                     <FormError :error="props?.error?.errors?.paying_municipality?.[0]" />
                 </div>
-                <div class="space-y-1">
+                <div class="space-y-1" v-if="isFieldVisible('assessment_municipality')">
                     <FormLabel for="assessment_municipality" :label="$t('citizens.form.assessmentMunicipality')" />
                     <FormSelect id="assessment_municipality" :options="state.options.municipalities"
                         v-model="state.formCitizen.assessment_municipality" />
                     <FormError :error="v$?.formCitizen?.assessment_municipality?.$errors[0]?.$message.toString()" />
                     <FormError :error="props?.error?.errors?.assessment_municipality?.[0]" />
                 </div>
-                <div class="space-y-1">
+                <div class="space-y-1" v-if="isFieldVisible('responsible_municipality')">
                     <FormLabel for="responsible_municipality" :label="$t('citizens.form.responsibleMunicipality')" />
                     <FormSelect id="responsible_municipality" :options="state.options.municipalities"
                         v-model="state.formCitizen.responsible_municipality" />
                     <FormError :error="v$?.formCitizen?.responsible_municipality?.$errors[0]?.$message.toString()" />
                     <FormError :error="props?.error?.errors?.responsible_municipality?.[0]" />
                 </div>
-                <div class="space-y-1">
+                <div class="space-y-1" v-if="isFieldVisible('ean_number')">
                     <FormLabel for="ean_number" :label="$t('citizens.form.eanNumber')" />
                     <FormTextField id="ean_number" name="ean_number" :placeholder="$t('citizens.form.eanNumber')"
                         v-model="state.formCitizen.ean_number" />
                     <FormError :error="v$?.formCitizen?.ean_number?.$errors[0]?.$message.toString()" />
                     <FormError :error="props?.error?.errors?.ean_number?.[0]" />
                 </div>
-                <div class="space-y-1">
+                <div class="space-y-1" v-if="isFieldVisible('transportation')">
                     <FormLabel for="transportation" :label="$t('citizens.form.transportation')" />
                     <FormTextField id="transportation" name="transportation"
                         :placeholder="$t('citizens.form.transportation')" v-model="state.formCitizen.transportation" />
                     <FormError :error="v$?.formCitizen?.transportation?.$errors[0]?.$message.toString()" />
                     <FormError :error="props?.error?.errors?.transportation?.[0]" />
                 </div>
-                <div class="space-y-1">
+                <div class="space-y-1" v-if="isFieldVisible('hourly_rate')">
                     <FormLabel for="hourly_rate" :label="$t('citizens.form.hourlyRate')" />
                     <FormTextField id="hourly_rate" name="hourly_rate" :placeholder="$t('citizens.form.hourlyRate')"
                         v-model="state.formCitizen.hourly_rate" />
                     <FormError :error="v$?.formCitizen?.hourly_rate?.$errors[0]?.$message.toString()" />
                     <FormError :error="props?.error?.errors?.hourly_rate?.[0]" />
                 </div>
-                <div class="grid grid-cols-1 md:grid-cols-3 gap-3">
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-3" v-if="isFieldVisible('allocated_hours')">
                     <div class="space-y-1">
                         <FormLabel for="allocated_daily_hours"
                             :label="$t('citizens.form.allocatedHours.allocatedDailyHours')" />
@@ -367,14 +366,14 @@
                         <FormError :error="props?.error?.errors?.allocated_monthly_hours?.[0]" />
                     </div>
                 </div>
-                <div class="space-y-1">
+                <div class="space-y-1" v-if="isFieldVisible('note')">
                     <FormLabel for="note" :label="$t('citizens.form.note')" />
                     <FormTextArea id="note" name="note" :placeholder="$t('citizens.form.note')"
                         v-model="state.formCitizen.note" />
                     <FormError :error="v$?.formCitizen?.note?.$errors[0]?.$message.toString()" />
                     <FormError :error="props?.error?.errors?.note?.[0]" />
                 </div>
-                <div class="space-y-1">
+                <div class="space-y-1" v-if="isFieldVisible('traffic_lights')">
                     <p class="text-sm text-gray-600">
                         {{ $t('citizens.form.trafficLights.trafficLights') }}
                     </p>
@@ -384,42 +383,46 @@
                     <FormError :error="v$?.formCitizen?.green?.$errors[0]?.$message.toString()" />
                     <FormError :error="props?.error?.errors?.green?.[0]" />
                 </div>
-                <div class="space-y-1">
+                <div class="space-y-1" v-if="isFieldVisible('traffic_lights')">
                     <FormLabel for="yellow" :label="$t('citizens.form.trafficLights.yellow')" />
                     <FormTextArea id="yellow" name="green" :placeholder="$t('citizens.form.trafficLights.yellow')"
                         v-model="state.formCitizen.yellow" />
                     <FormError :error="v$?.formCitizen?.yellow?.$errors[0]?.$message.toString()" />
                     <FormError :error="props?.error?.errors?.yellow?.[0]" />
                 </div>
-                <div class="space-y-1">
+                <div class="space-y-1" v-if="isFieldVisible('traffic_lights')">
                     <FormLabel for="red" :label="$t('citizens.form.trafficLights.red')" />
                     <FormTextArea id="red" name="red" :placeholder="$t('citizens.form.trafficLights.red')"
                         v-model="state.formCitizen.red" />
                     <FormError :error="v$?.formCitizen?.red?.$errors[0]?.$message.toString()" />
                     <FormError :error="props?.error?.errors?.red?.[0]" />
                 </div>
-                <div v-if="userStore.getUser?.has_citizen_app" class="space-y-1 flex items-center gap-x-2">
+                <div v-if="userStore.getUser?.has_citizen_app && isFieldVisible('system_access')"
+                    class="space-y-1 flex items-center gap-x-2">
                     <FormSwitch :value="state.formCitizen.has_system_access"
                         @toggleSwitch="state.formCitizen.has_system_access = !state.formCitizen.has_system_access" />
                     <p>
                         {{ $t('citizens.form.allowSystemAccess') }}
                     </p>
                 </div>
-                <div v-if="userStore.getUser?.has_citizen_app" class="space-y-1 flex items-center gap-x-2">
+                <div v-if="userStore.getUser?.has_citizen_app && isFieldVisible('system_access')"
+                    class="space-y-1 flex items-center gap-x-2">
                     <FormSwitch :value="state.formCitizen.has_chat_access"
                         @toggleSwitch="state.formCitizen.has_chat_access = !state.formCitizen.has_chat_access" />
                     <p>
                         {{ $t('citizens.form.allowChatAccess') }}
                     </p>
                 </div>
-                <div v-if="userStore.getUser?.has_citizen_app" class="space-y-1 flex items-center gap-x-2">
+                <div v-if="userStore.getUser?.has_citizen_app && isFieldVisible('system_access')"
+                    class="space-y-1 flex items-center gap-x-2">
                     <FormSwitch :value="state.formCitizen.has_duty_schedule_access"
                         @toggleSwitch="state.formCitizen.has_duty_schedule_access = !state.formCitizen.has_duty_schedule_access" />
                     <p>
                         {{ $t('citizens.form.allowDutyScheduleAccess') }}
                     </p>
                 </div>
-                <div v-if="userStore.getUser?.has_citizen_app" class="space-y-1 flex items-center gap-x-2">
+                <div v-if="userStore.getUser?.has_citizen_app && isFieldVisible('system_access')"
+                    class="space-y-1 flex items-center gap-x-2">
                     <FormSwitch :value="state.formCitizen.has_bullet_board_access"
                         @toggleSwitch="state.formCitizen.has_bullet_board_access = !state.formCitizen.has_bullet_board_access" />
                     <p>
@@ -429,7 +432,7 @@
             </div>
         </div>
         <div class="grid grid-cols-1 gap-x-8 gap-y-4 pb-10 mb-10 xl:grid-cols-3 border-b border-gray-900/10"
-            v-if="userStore.getUser?.company?.industry?.system_name === 'social_welfare' && ['Crisis center', 'Shelter'].includes(userStore.getUser?.company?.facility_type?.en_name)">
+            v-if="userStore.getUser?.company?.industry?.system_name === 'social_welfare' && ['Crisis center', 'Shelter'].includes(userStore.getUser?.company?.facility_type?.en_name) && isFieldVisible('inquiry_data')">
             <div>
                 <h2 class="text-base font-semibold leading-7 text-gray-900">
                     {{ $t('citizens.sections.inquiryData') }}
@@ -479,7 +482,7 @@
             </div>
         </div>
         <div class="grid grid-cols-1 gap-x-8 gap-y-4 pb-10 mb-10 xl:grid-cols-3 border-b border-gray-900/10"
-            v-if="userStore.getUser?.company?.industry?.system_name === 'social_welfare' && ['Crisis center', 'Shelter'].includes(userStore.getUser?.company?.facility_type?.en_name)">
+            v-if="userStore.getUser?.company?.industry?.system_name === 'social_welfare' && ['Crisis center', 'Shelter'].includes(userStore.getUser?.company?.facility_type?.en_name) && isFieldVisible('stay_data')">
             <div>
                 <h2 class="text-base font-semibold leading-7 text-gray-900">
                     {{ $t('citizens.sections.stayData') }}
@@ -544,12 +547,150 @@
                     <FormError :error="v$?.formCitizen?.stayData?.discharge_reason?.$errors[0]?.$message.toString()" />
                     <FormError :error="props?.error?.errors?.discharge_reason?.[0]" />
                 </div>
+                <div class="space-y-2">
+                    <p class="text-sm font-medium text-gray-700">{{ $t('citizens.form.stayData.consentFields') }}</p>
+                    <div class="rounded-lg border border-gray-200 divide-y divide-gray-100">
+                        <div
+                            class="grid grid-cols-[1fr_80px_80px] px-4 py-2 bg-gray-50 text-xs font-semibold text-gray-500 uppercase tracking-wide">
+                            <span></span>
+                            <span class="text-center">{{ $t('yes') }}</span>
+                            <span class="text-center">{{ $t('no') }}</span>
+                        </div>
+                        <div class="grid grid-cols-[1fr_80px_80px] items-center px-4 py-3">
+                            <span class="text-sm text-gray-700">{{ $t('citizens.form.stayData.photo') }}</span>
+                            <div class="flex justify-center">
+                                <input type="radio" name="stayData_photo" value="yes"
+                                    class="w-4 h-4 accent-tertiary cursor-pointer"
+                                    :checked="state.formCitizen.stayData.photo === true"
+                                    @change="state.formCitizen.stayData.photo = true" />
+                            </div>
+                            <div class="flex justify-center">
+                                <input type="radio" name="stayData_photo" value="no"
+                                    class="w-4 h-4 accent-tertiary cursor-pointer"
+                                    :checked="state.formCitizen.stayData.photo === false"
+                                    @change="state.formCitizen.stayData.photo = false" />
+                            </div>
+                        </div>
+                        <div class="grid grid-cols-[1fr_80px_80px] items-center px-4 py-3">
+                            <span class="text-sm text-gray-700">{{ $t('citizens.form.stayData.parentCollaboration')
+                                }}</span>
+                            <div class="flex justify-center">
+                                <input type="radio" name="stayData_parent_collaboration" value="yes"
+                                    class="w-4 h-4 accent-tertiary cursor-pointer"
+                                    :checked="state.formCitizen.stayData.parent_collaboration === true"
+                                    @change="state.formCitizen.stayData.parent_collaboration = true" />
+                            </div>
+                            <div class="flex justify-center">
+                                <input type="radio" name="stayData_parent_collaboration" value="no"
+                                    class="w-4 h-4 accent-tertiary cursor-pointer"
+                                    :checked="state.formCitizen.stayData.parent_collaboration === false"
+                                    @change="state.formCitizen.stayData.parent_collaboration = false" />
+                            </div>
+                        </div>
+                        <div class="grid grid-cols-[1fr_80px_80px] items-center px-4 py-3">
+                            <span class="text-sm text-gray-700">{{ $t('citizens.form.stayData.studentCollaboration')
+                                }}</span>
+                            <div class="flex justify-center">
+                                <input type="radio" name="stayData_student_collaboration" value="yes"
+                                    class="w-4 h-4 accent-tertiary cursor-pointer"
+                                    :checked="state.formCitizen.stayData.student_collaboration === true"
+                                    @change="state.formCitizen.stayData.student_collaboration = true" />
+                            </div>
+                            <div class="flex justify-center">
+                                <input type="radio" name="stayData_student_collaboration" value="no"
+                                    class="w-4 h-4 accent-tertiary cursor-pointer"
+                                    :checked="state.formCitizen.stayData.student_collaboration === false"
+                                    @change="state.formCitizen.stayData.student_collaboration = false" />
+                            </div>
+                        </div>
+                        <div class="grid grid-cols-[1fr_80px_80px] items-center px-4 py-3">
+                            <span class="text-sm text-gray-700">{{ $t('citizens.form.stayData.generalConsent') }}</span>
+                            <div class="flex justify-center">
+                                <input type="radio" name="stayData_general_consent" value="yes"
+                                    class="w-4 h-4 accent-tertiary cursor-pointer"
+                                    :checked="state.formCitizen.stayData.general_consent === true"
+                                    @change="state.formCitizen.stayData.general_consent = true" />
+                            </div>
+                            <div class="flex justify-center">
+                                <input type="radio" name="stayData_general_consent" value="no"
+                                    class="w-4 h-4 accent-tertiary cursor-pointer"
+                                    :checked="state.formCitizen.stayData.general_consent === false"
+                                    @change="state.formCitizen.stayData.general_consent = false" />
+                            </div>
+                        </div>
+                        <div v-for="(type, typeIndex) in state.options.consentDeclarationTypes" :key="typeIndex"
+                            class="grid grid-cols-[1fr_80px_80px] items-center px-4 py-3">
+                            <span class="text-sm text-gray-700">
+                                {{ type.name }}
+                            </span>
+                            <div class="flex justify-center">
+                                <input type="radio" :name="`consent_declaration_${type.id}`" value="yes"
+                                    class="w-4 h-4 accent-tertiary cursor-pointer"
+                                    :checked="getConsentDeclarationValue(type.id) === true"
+                                    @change="setConsentDeclarationValue(type.id, true)" />
+                            </div>
+                            <div class="flex justify-center">
+                                <input type="radio" :name="`consent_declaration_${type.id}`" value="no"
+                                    class="w-4 h-4 accent-tertiary cursor-pointer"
+                                    :checked="getConsentDeclarationValue(type.id) === false"
+                                    @change="setConsentDeclarationValue(type.id, false)" />
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="space-y-2">
+                    <p class="text-sm font-medium text-gray-700">
+                        {{ $t('citizens.form.stayData.guardianship') }}
+                    </p>
+                    <div class="rounded-lg border border-gray-200 divide-y divide-gray-100">
+                        <div
+                            class="grid grid-cols-[1fr_80px_80px] px-4 py-2 bg-gray-50 text-xs font-semibold text-gray-500 uppercase tracking-wide">
+                            <span></span>
+                            <span class="text-center">{{ $t('yes') }}</span>
+                            <span class="text-center">{{ $t('no') }}</span>
+                        </div>
+                        <div class="grid grid-cols-[1fr_80px_80px] items-center px-4 py-3">
+                            <span class="text-sm text-gray-700">
+                                {{ $t('citizens.form.stayData.personalGuardianship') }}
+                            </span>
+                            <div class="flex justify-center">
+                                <input type="radio" name="stayData_personal_guardianship" value="yes"
+                                    class="w-4 h-4 accent-tertiary cursor-pointer"
+                                    :checked="state.formCitizen.stayData.personal_guardianship === true"
+                                    @change="state.formCitizen.stayData.personal_guardianship = true" />
+                            </div>
+                            <div class="flex justify-center">
+                                <input type="radio" name="stayData_personal_guardianship" value="no"
+                                    class="w-4 h-4 accent-tertiary cursor-pointer"
+                                    :checked="state.formCitizen.stayData.personal_guardianship === false"
+                                    @change="state.formCitizen.stayData.personal_guardianship = false" />
+                            </div>
+                        </div>
+                        <div class="grid grid-cols-[1fr_80px_80px] items-center px-4 py-3">
+                            <span class="text-sm text-gray-700">
+                                {{ $t('citizens.form.stayData.financialGuardianship') }}
+                            </span>
+                            <div class="flex justify-center">
+                                <input type="radio" name="stayData_financial_guardianship" value="yes"
+                                    class="w-4 h-4 accent-tertiary cursor-pointer"
+                                    :checked="state.formCitizen.stayData.financial_guardianship === true"
+                                    @change="state.formCitizen.stayData.financial_guardianship = true" />
+                            </div>
+                            <div class="flex justify-center">
+                                <input type="radio" name="stayData_financial_guardianship" value="no"
+                                    class="w-4 h-4 accent-tertiary cursor-pointer"
+                                    :checked="state.formCitizen.stayData.financial_guardianship === false"
+                                    @change="state.formCitizen.stayData.financial_guardianship = false" />
+                            </div>
+                        </div>
+                    </div>
+                </div>
                 <div class="space-y-1">
                     <p class="text-sm text-gray-600">
                         {{ $t('citizens.form.stayData.accompanyingChildren.accompanyingChildren') }}
                     </p>
                     <div v-if="state.formCitizen.stayData.accompanying_children?.length < 1" class="py-3">
-                        <FormButton buttonStyle="primary" @click="addAccompanyingChild()" class="w-full rounded-md">
+                        <FormButton buttonStyle="primary" @click="addAccompanyingChild()" class="w-full">
                             {{ $t('citizens.form.stayData.addAccompanyingChild') }}
                         </FormButton>
                     </div>
@@ -596,9 +737,6 @@
                                                 v-model="state.formCitizen.stayData.accompanying_children[accompanyingChildenIndex].gender" />
                                         </div>
                                         <div class="space-y-1">
-                                            {{
-                                                state.formCitizen.stayData.accompanying_children[accompanyingChildenIndex].birthday
-                                            }}
                                             <FormLabel :for="`birthday_${accompanyingChildenIndex}`"
                                                 :label="$t('citizens.form.stayData.accompanyingChildren.birthday')" />
                                             <FormDateField :id="`birthday_${accompanyingChildenIndex}`"
@@ -636,10 +774,10 @@
         </div>
         <div class="mt-6">
             <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
-                <FormButton type="button" buttonStyle="cancel" class="rounded-md" @click="navigateTo('/citizens')">
+                <FormButton type="button" buttonStyle="cancel" @click="navigateTo('/citizens')">
                     {{ $t('cancel') }}
                 </FormButton>
-                <FormButton type="submit" buttonStyle="primary" class="rounded-md w-full">
+                <FormButton type="submit" buttonStyle="primary" class="w-full">
                     {{ props.formType === 'create' ? $t('save') :
                         $t('update') }}
                 </FormButton>
@@ -663,19 +801,14 @@
         <ModulesUserCitizenContactModalNewCaseworker :isModalOpen="state.modal.isAddCaseworkerOpen"
             @close="state.modal.isAddCaseworkerOpen = false" @refreshCaseworkers="fetchCitizenCaseWorkers"
             v-if="state.modal.isAddCaseworkerOpen" />
-        <ModulesUserCitizenDetailsModalLocateCitizen
-            :isModalOpen="state.modal.isLocateCitizenOpen"
-            :initialLocation="state.selectedCitizenLocation"
-            :currentAddress="{
+        <ModulesUserCitizenDetailsModalLocateCitizen :isModalOpen="state.modal.isLocateCitizenOpen"
+            :initialLocation="state.selectedCitizenLocation" :currentAddress="{
                 street: state.formCitizen.street,
                 city: state.formCitizen.city,
                 postCode: state.formCitizen.post_code,
-                municipality: state.options.municipalities.find(m => m.value === state.formCitizen.municipality)?.label,
-                region: state.options.regions.find(r => r.value === state.formCitizen.region)?.label
-            }"
-            @close="state.modal.isLocateCitizenOpen = false" 
-            @locationSelected="onCitizenLocationSelected"
-        />
+                municipality: state.options.municipalities.find((municipality: any) => municipality.value === state.formCitizen.municipality)?.label,
+                region: state.options.regions.find((region: any) => region.value === state.formCitizen.region)?.label
+            }" @close="state.modal.isLocateCitizenOpen = false" @locationSelected="onCitizenLocationSelected" />
     </form>
 </template>
 
@@ -686,6 +819,7 @@ import { required, helpers } from '@vuelidate/validators'
 import { citizenCaseworkerService } from '@/components/api/user/CitizenCaseworkerService'
 import { departmentService } from '@/components/api/user/DepartmentService'
 import { roomService } from '@/components/api/user/RoomService'
+import { consentDeclarationTypeService } from '@/components/api/user/ConsentDeclarationTypeService'
 import { diagnosisService } from '@/components/api/user/DiagnosisService'
 import { medicationAllergyService } from '@/components/api/user/MedicationAllergyService'
 import { addictionService } from '@/components/api/user/AddictionService'
@@ -699,6 +833,8 @@ import { useI18n } from "vue-i18n"
 import { useNumberFormatter } from '@/composables/numberFormatter'
 import { useCustomPagesStore } from '@/store/custom-pages'
 import type { Error } from '@/types'
+import { zipLookerService } from '~/components/api/ziplooker/ZipLookerService'
+import { formFieldConfigService } from '@/components/api/user/FormFieldConfigService'
 
 const userStore = useUserStore() as any
 const { t } = useI18n()
@@ -725,6 +861,13 @@ const props = defineProps({
     },
 })
 const emit = defineEmits(['isPageLoading', 'submitForm'])
+
+const formConfig = ref<Record<string, boolean>>({})
+
+function isFieldVisible(fieldKey: string): boolean {
+    if (Object.keys(formConfig.value).length === 0) return true
+    return formConfig.value[fieldKey] !== false
+}
 
 const state = reactive({
     error: {} as Error,
@@ -797,6 +940,13 @@ const state = reactive({
             residence_before_uuid: '',
             residence_after_uuid: '',
             discharge_reason: '',
+            consent_declarations: [] as { consent_declaration_type_id: number, value: boolean }[],
+            photo: false,
+            parent_collaboration: false,
+            student_collaboration: false,
+            general_consent: false,
+            personal_guardianship: false,
+            financial_guardianship: false,
         } as any,
     },
     formattedSocialSecurityNumber: '',
@@ -812,24 +962,25 @@ const state = reactive({
         isLocateCitizenOpen: false,
     },
     options: {
-        addictions: [],
-        cities: [],
-        caseworkers: [],
-        departments: [],
-        diagnoses: [],
-        foreignCities: [],
+        addictions: [] as any,
+        cities: [] as any,
+        caseworkers: [] as any,
+        departments: [] as any,
+        diagnoses: [] as any,
+        foreignCities: [] as any,
         genders: [
             { value: 'male', label: `${t('gender.male')}`, },
             { value: 'female', label: `${t('gender.female')}`, },
             { value: 'non_binary', label: `${t('gender.nonbinary')}`, },
             { value: 'will_not_disclose', label: `${t('gender.willNotDisclose')}`, },
         ],
-        medicationAllergies: [],
-        municipalities: [],
-        municipalitiesPerRegion: [],
-        regions: [],
-        rooms: [],
-        sections: [],
+        consentDeclarationTypes: [] as any,
+        medicationAllergies: [] as any,
+        municipalities: [] as any,
+        municipalitiesPerRegion: [] as any,
+        regions: [] as any,
+        rooms: [] as any,
+        sections: [] as any,
     },
     selectedCitizenLocation: null as { lat: number; lng: number } | null,
 })
@@ -846,7 +997,7 @@ watch(() => language.locale.value, () => {
 watch(() => props.selectedCitizen, async (selectedCitizen: any) => {
     if (selectedCitizen != null) {
         fetchMunicipalitiesPerRegion(selectedCitizen.region_uuid)
-        
+
         // Fetch cities and resolve city name if it's a UUID
         let cityName = selectedCitizen.city || selectedCitizen.address?.city || ''
         if (selectedCitizen.municipality_uuid) {
@@ -859,14 +1010,14 @@ watch(() => props.selectedCitizen, async (selectedCitizen: any) => {
                 }
             }
         }
-        
+
         if (selectedCitizen.image) {
             avatarUrl.value = selectedCitizen.image
         }
-        
+
         const lat = selectedCitizen.address?.latitude || selectedCitizen.latitude
         const lng = selectedCitizen.address?.longitude || selectedCitizen.longitude
-        
+
         if (lat && lng) {
             state.selectedCitizenLocation = {
                 lat: Number(lat),
@@ -875,7 +1026,7 @@ watch(() => props.selectedCitizen, async (selectedCitizen: any) => {
         } else {
             state.selectedCitizenLocation = null
         }
-        
+
         state.formCitizen = {
             image: selectedCitizen.image,
             firstname: selectedCitizen.firstname,
@@ -939,6 +1090,13 @@ watch(() => props.selectedCitizen, async (selectedCitizen: any) => {
                 residence_before_uuid: selectedCitizen.stayData?.residence_before_uuid || '',
                 residence_after_uuid: selectedCitizen.stayData?.residence_after_uuid || '',
                 discharge_reason: selectedCitizen.stayData?.discharge_reason || '',
+                consent_declarations: selectedCitizen.stayData?.consent_declarations ?? [],
+                photo: selectedCitizen.stayData?.photo ?? false,
+                parent_collaboration: selectedCitizen.stayData?.parent_collaboration ?? false,
+                student_collaboration: selectedCitizen.stayData?.student_collaboration ?? false,
+                general_consent: selectedCitizen.stayData?.general_consent ?? false,
+                personal_guardianship: selectedCitizen.stayData?.personal_guardianship ?? false,
+                financial_guardianship: selectedCitizen.stayData?.financial_guardianship ?? false,
             }
         }
     }
@@ -991,8 +1149,48 @@ watch(() => state.formCitizen.social_security_number, (ssn) => {
     }
 })
 
-onMounted(() => {
+watch(() => state.formCitizen.post_code, async (newPostCode, oldPostCode, onCleanup) => {
+    if (!newPostCode || newPostCode.length < 4) return
+
+    let isStale = false
+    onCleanup(() => { isStale = true })
+
+    await new Promise(resolve => setTimeout(resolve, 500))
+    if (isStale) return
+
+    const data = await zipLookerService.findCityRegionMunicipality(newPostCode)
+
+    if (data && !isStale) {
+        state.formCitizen.city = data.city
+
+        const matchedRegion = state.options.regions.find(
+            (r: any) => r.label.toLowerCase().includes(data.region.toLowerCase())
+        ) as any
+
+        state.formCitizen.region = matchedRegion?.value
+        await changeSelectedRegion(matchedRegion?.value)
+
+        const matchedMuni = state.options.municipalitiesPerRegion.find(
+            (m: any) => m.label.toLowerCase().includes(data.municipality.toLowerCase())
+        ) as any
+
+        state.formCitizen.municipality = matchedMuni?.value
+        await changeSelectedMunicipality(matchedMuni?.value)
+    }
+})
+
+onMounted(async () => {
+    try {
+        const response = await formFieldConfigService.getFormConfigs({ entity_type: 'citizen' })
+        if (response?.data) {
+            const config = response.data.find((c: any) => c.form_type === props.formType)
+            if (config?.form_fields) {
+                formConfig.value = config.form_fields
+            }
+        }
+    } catch (e) { /* silent — all fields visible on error */ }
     fetchCitizenCaseWorkers()
+    fetchConsentDeclarationTypes()
     fetchDepartments()
     fetchRooms()
     fetchDiagnoses()
@@ -1072,6 +1270,46 @@ async function fetchRooms() {
         state.error = error
     }
     emit('isPageLoading', false)
+}
+
+async function fetchConsentDeclarationTypes() {
+    try {
+        const response = await consentDeclarationTypeService.getAllConsentDeclarationTypes()
+        if (response.data) {
+            state.options.consentDeclarationTypes = response.data.map((item: any) => ({
+                id: item.id,
+                name: item.name,
+            }))
+            // Merge fetched types with any already-saved values from the API
+            const saved = state.formCitizen.stayData.consent_declarations as any[]
+            state.formCitizen.stayData.consent_declarations = state.options.consentDeclarationTypes.map((type: any) => {
+                const existing = saved?.find((d: any) => d.consent_declaration_type_id === type.id)
+                return {
+                    consent_declaration_type_id: type.id,
+                    value: existing ? existing.value : false
+                }
+            })
+        }
+    } catch (error: any) {
+        state.error = error
+    }
+}
+
+function getConsentDeclarationValue(typeId: number): boolean {
+    const entry = (state.formCitizen.stayData.consent_declarations as any[])?.find(
+        (d: any) => d.consent_declaration_type_id === typeId
+    )
+    return entry ? entry.value : false
+}
+
+function setConsentDeclarationValue(typeId: number, value: boolean) {
+    const declarations = state.formCitizen.stayData.consent_declarations as any[]
+    const index = declarations?.findIndex((d: any) => d.consent_declaration_type_id === typeId)
+    if (index >= 0) {
+        declarations[index].value = value
+    } else {
+        declarations?.push({ consent_declaration_type_id: typeId, value })
+    }
 }
 
 async function fetchDiagnoses() {
@@ -1269,15 +1507,15 @@ async function fetchCities(municipalityUuid: any) {
     emit('isPageLoading', false)
 }
 
-function changeSelectedRegion(regionUuid: string) {
+async function changeSelectedRegion(regionUuid: string) {
     if (regionUuid) {
-        fetchMunicipalitiesPerRegion(regionUuid)
+        await fetchMunicipalitiesPerRegion(regionUuid)
     }
 }
 
-function changeSelectedMunicipality(municipalityUuid: string) {
+async function changeSelectedMunicipality(municipalityUuid: string) {
     if (municipalityUuid) {
-        fetchCities(municipalityUuid)
+        await fetchCities(municipalityUuid)
     }
 }
 
@@ -1285,7 +1523,7 @@ const rules = computed(() => {
     return {
         formCitizen: {
             firstname: {
-                required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
+                required: helpers.withMessage(() => `${t('validation.thisFieldIsRequired')}.`, required),
             },
             inquiryData: {},
             stayData: {},
@@ -1363,95 +1601,95 @@ async function parseAndUpdateAddress(addressData: any, location: { lat: number; 
         state.formCitizen.longitude = location.lng.toString()
         return
     }
-    
+
     const address = addressData.address || {}
-    
+
     const street = `${address.road || ''} ${address.house_number || ''}`.trim() || address.pedestrian || ''
     const postCode = address.postcode || ''
     const city = address.city || address.town || address.village || address.municipality || ''
-    
+
     state.formCitizen.street = street
     state.formCitizen.post_code = postCode
-    
+
     state.formCitizen.latitude = location.lat.toString()
     state.formCitizen.longitude = location.lng.toString()
-    
+
     const regionName = address.state || address.region || ''
     if (regionName) {
         const normalizedRegionName = regionName.replace(/^Region\s+/i, '').trim()
-        
+
         const matchedRegion = state.options.regions.find(
             (r: any) => {
                 if (!r?.label) return false
                 const normalizedLabel = r.label.trim()
-                
+
                 if (normalizedLabel.toLowerCase() === normalizedRegionName.toLowerCase()) {
                     return true
                 }
-                
+
                 if (normalizedLabel.toLowerCase().includes(normalizedRegionName.toLowerCase()) ||
                     normalizedRegionName.toLowerCase().includes(normalizedLabel.toLowerCase())) {
                     return true
                 }
-                
+
                 return false
             }
         )
-        
+
         if (matchedRegion && matchedRegion.value) {
             state.formCitizen.region = matchedRegion.value
             await fetchMunicipalitiesPerRegion(matchedRegion.value)
         }
     }
-    
+
     const municipalityName = address.municipality || address.county || ''
     if (municipalityName) {
         const normalizedMunicipalityName = municipalityName.replace(/\s+Kommune$/i, '').trim()
-        
+
         let matchedMunicipality = state.options.municipalitiesPerRegion.find(
             (m: any) => {
                 if (!m?.label) return false
                 const normalizedLabel = m.label.trim()
-                
+
                 if (normalizedLabel.toLowerCase() === normalizedMunicipalityName.toLowerCase()) {
                     return true
                 }
-                
+
                 if (normalizedLabel.toLowerCase().includes(normalizedMunicipalityName.toLowerCase()) ||
                     normalizedMunicipalityName.toLowerCase().includes(normalizedLabel.toLowerCase())) {
                     return true
                 }
-                
+
                 return false
             }
         )
-        
+
         if (!matchedMunicipality && state.options.municipalitiesPerRegion.length === 0) {
             matchedMunicipality = state.options.municipalities.find(
                 (m: any) => {
                     if (!m?.label) return false
                     const normalizedLabel = m.label.trim()
-                    
+
                     if (normalizedLabel.toLowerCase() === normalizedMunicipalityName.toLowerCase()) {
                         return true
                     }
-                    
+
                     if (normalizedLabel.toLowerCase().includes(normalizedMunicipalityName.toLowerCase()) ||
                         normalizedMunicipalityName.toLowerCase().includes(normalizedLabel.toLowerCase())) {
                         return true
                     }
-                    
+
                     return false
                 }
             )
         }
-        
+
         if (matchedMunicipality && matchedMunicipality.value) {
             state.formCitizen.municipality = matchedMunicipality.value
             await fetchCities(matchedMunicipality.value)
         }
     }
-    
+
     if (city) {
         const matchedCity = state.options.cities.find(
             (c: any) => c?.label && c.label.toLowerCase() === city.toLowerCase()
@@ -1462,7 +1700,7 @@ async function parseAndUpdateAddress(addressData: any, location: { lat: number; 
             state.formCitizen.city = city
         }
     }
-    
+
     state.selectedCitizenLocation = location
 }
 
@@ -1474,7 +1712,7 @@ async function onCitizenLocationSelected(location: { lat: number; lng: number },
         state.selectedCitizenLocation = location
         return
     }
-    
+
     await parseAndUpdateAddress(addressData, location)
 }
 </script>

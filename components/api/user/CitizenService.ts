@@ -72,6 +72,10 @@ class CitizenService extends BaseAPIService {
     async downloadImportCitizensTemplate(): Promise<any> {
         return await this.request(`/user/citizens/imports/download/template`, 'GET')
     }
+
+    async getAllAssignedCitizenByEmployee(params: object): Promise<any> {
+        return await this.request(`/user/citizens/all/list/user/assigned/department`, 'GET', params)
+    }
 }
 
 export const citizenService = new CitizenService()

@@ -18,6 +18,20 @@
                 <FormError :error="props?.error?.errors?.dk_name?.[0]" />
             </div>
             <div class="space-y-1">
+                <FormLabel for="no_name" :label="$t('shifts.form.nameNorwegian')" />
+                <FormTextField id="no_name" name="no_name" :placeholder="$t('shifts.form.nameNorwegian')"
+                    v-model="state.formShift.no_name" />
+                <FormError :error="v$?.formShift?.no_name?.$errors[0]?.$message.toString()" />
+                <FormError :error="props?.error?.errors?.no_name?.[0]" />
+            </div>
+            <div class="space-y-1">
+                <FormLabel for="sv_name" :label="$t('shifts.form.nameSwedish')" />
+                <FormTextField id="sv_name" name="sv_name" :placeholder="$t('shifts.form.nameSwedish')"
+                    v-model="state.formShift.sv_name" />
+                <FormError :error="v$?.formShift?.sv_name?.$errors[0]?.$message.toString()" />
+                <FormError :error="props?.error?.errors?.sv_name?.[0]" />
+            </div>
+            <div class="space-y-1">
                 <FormLabel for="pay_code" :label="$t('shifts.form.paycode')" />
                 <FormTextField id="pay_code" name="pay_code" :placeholder="$t('shifts.form.paycode')"
                     v-model="state.formShift.pay_code" />
@@ -45,26 +59,72 @@
                 <FormError :error="props?.error?.errors?.color?.[0]" />
             </div>
             <div class="space-y-1">
-                <div class="w-fit flex items-center cursor-pointer"
-                    @click="state.formShift.is_leave_shift_type = !state.formShift.is_leave_shift_type">
-                    <FormCheckbox :value="state.formShift.is_leave_shift_type" />
-                    {{ $t('shifts.form.markAsLeaveType') }}
+                <div class="flex items-center gap-x-2">
+                    <div class="flex items-center cursor-pointer"
+                        @click="state.formShift.is_leave_shift_type = !state.formShift.is_leave_shift_type">
+                        <FormCheckbox :value="state.formShift.is_leave_shift_type" />
+                        {{ $t('shifts.form.markAsLeaveType') }}
+                    </div>
+                    <Icon name="ph:question" class="size-4 cursor-pointer text-gray-500 hover:text-gray-700"
+                        aria-hidden="true" @click="state.isLeaveTypeModalOpen = true" />
                 </div>
+            </div>
+
+            <div class="space-y-2 pt-2 border-t border-gray-100">
+                <FormLabel for="working_hours_factor" :label="$t('shifts.form.workingHoursFactor')" />
+                <FormNumberField id="working_hours_factor" name="working_hours_factor"
+                    :placeholder="$t('shifts.form.workingHoursFactorPlaceholder')"
+                    v-model="state.formShift.working_hours_factor" />
+                <FormError :error="props?.error?.errors?.working_hours_factor?.[0]" />
+
+                <div class="space-y-2 pl-1" v-if="state.formShift.working_hours_factor">
+                    <p class="text-sm text-gray-500">{{ $t('shifts.form.workingHoursFactorInterval') }}</p>
+                    <div class="flex items-center gap-3">
+                        <div class="flex-1 space-y-1">
+                            <FormLabel for="working_hours_factor_from"
+                                :label="$t('shifts.form.workingHoursFactorFrom')" />
+                            <FormTimeField id="working_hours_factor_from" name="working_hours_factor_from"
+                                :placeholder="$t('shifts.form.workingHoursFactorFrom')"
+                                v-model="state.formShift.working_hours_factor_from" />
+                            <FormError
+                                :error="v$?.formShift?.working_hours_factor_from?.$errors[0]?.$message.toString()" />
+                            <FormError :error="props?.error?.errors?.working_hours_factor_from?.[0]" />
+                        </div>
+                        <div class="flex-1 space-y-1">
+                            <FormLabel for="working_hours_factor_to" :label="$t('shifts.form.workingHoursFactorTo')" />
+                            <FormTimeField id="working_hours_factor_to" name="working_hours_factor_to"
+                                :placeholder="$t('shifts.form.workingHoursFactorTo')"
+                                v-model="state.formShift.working_hours_factor_to" />
+                            <FormError
+                                :error="v$?.formShift?.working_hours_factor_to?.$errors[0]?.$message.toString()" />
+                            <FormError :error="props?.error?.errors?.working_hours_factor_to?.[0]" />
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="space-y-1 pt-2 border-t border-gray-100"
+                v-if="state.formShift.system_name === 'sleeping-night-shift'">
+                <FormLabel for="end_time_day_offset" :label="$t('shifts.form.endTimeDayOffset')" />
+                <FormSelect id="end_time_day_offset" name="end_time_day_offset" :options="endTimeDayOffsetOptions"
+                    :canClear="true" v-model="state.formShift.end_time_day_offset" />
+                <FormError :error="props?.error?.errors?.end_time_day_offset?.[0]" />
             </div>
         </div>
         <div class="mt-6">
             <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
-                <FormButton type="button" buttonStyle="cancel" class="rounded-md"
-                    @click="navigateTo('/settings/shifts')">
+                <FormButton type="button" buttonStyle="cancel" @click="navigateTo('/settings/shifts')">
                     {{ $t('cancel') }}
                 </FormButton>
-                <FormButton type="submit" buttonStyle="primary" class="rounded-md">
+                <FormButton type="submit" buttonStyle="primary">
                     {{ props.formType === 'create' ? $t('save') :
                         $t('update') }}
                 </FormButton>
             </div>
         </div>
     </form>
+    <ModulesUserDutyScheduleShiftModalLeaveType :isModalOpen="state.isLeaveTypeModalOpen"
+        @close="state.isLeaveTypeModalOpen = false" />
 </template>
 
 <script setup lang="ts">
@@ -92,16 +152,31 @@ const emit = defineEmits(['isPageLoading', 'submitForm'])
 
 const { t } = useI18n()
 
+const endTimeDayOffsetOptions = computed(() => [
+    { value: '0', label: t('shifts.form.endTimeDayOffsetSameDay') },
+    { value: '1', label: t('shifts.form.endTimeDayOffsetOneDayLater') },
+    { value: '2', label: t('shifts.form.endTimeDayOffsetTwoDaysLater') },
+    { value: '3', label: t('shifts.form.endTimeDayOffsetThreeDaysLater') },
+])
+
 const state = reactive({
     error: {} as Error,
+    isLeaveTypeModalOpen: false,
     formShift: {
         en_name: '',
         dk_name: '',
+        no_name: '',
+        sv_name: '',
         pay_code: '',
         time_in: '',
         time_out: '',
         color: '#000000',
         is_leave_shift_type: false,
+        working_hours_factor: '' as string | undefined,
+        working_hours_factor_from: '' as string | null,
+        working_hours_factor_to: '' as string | null,
+        end_time_day_offset: null as any,
+        system_name: '' as string | null,
     },
 })
 
@@ -110,32 +185,57 @@ watch(() => props.selectedShift, (newValue: any) => {
         state.formShift = {
             en_name: newValue.en_name,
             dk_name: newValue.dk_name,
+            no_name: newValue.no_name,
+            sv_name: newValue.sv_name,
             pay_code: newValue.pay_code,
             time_in: newValue.time_in,
             time_out: newValue.time_out,
             color: newValue.color,
             is_leave_shift_type: newValue.is_leave_shift_type,
+            working_hours_factor: newValue.working_hours_factor ?? '',
+            working_hours_factor_from: newValue.working_hours_factor_from ?? '',
+            working_hours_factor_to: newValue.working_hours_factor_to ?? '',
+            end_time_day_offset: newValue.end_time_day_offset != null ? String(newValue.end_time_day_offset) : null,
+            system_name: newValue.system_name ?? null,
         }
     }
 })
 
 const rules = computed(() => {
+    const hasFrom = !!state.formShift.working_hours_factor_from
+    const hasTo = !!state.formShift.working_hours_factor_to
     return {
         formShift: {
             en_name: {
-                required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
+                required: helpers.withMessage(() => `${t('validation.thisFieldIsRequired')}.`, required),
             },
             dk_name: {
-                required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
+                required: helpers.withMessage(() => `${t('validation.thisFieldIsRequired')}.`, required),
+            },
+            no_name: {
+                required: helpers.withMessage(() => `${t('validation.thisFieldIsRequired')}.`, required),
+            },
+            sv_name: {
+                required: helpers.withMessage(() => `${t('validation.thisFieldIsRequired')}.`, required),
             },
             time_in: {
-                required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
+                required: helpers.withMessage(() => `${t('validation.thisFieldIsRequired')}.`, required),
             },
             time_out: {
-                required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
+                required: helpers.withMessage(() => `${t('validation.thisFieldIsRequired')}.`, required),
             },
             color: {
-                required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
+                required: helpers.withMessage(() => `${t('validation.thisFieldIsRequired')}.`, required),
+            },
+            working_hours_factor_from: {
+                ...(hasTo && {
+                    required: helpers.withMessage(() => `${t('validation.thisFieldIsRequired')}.`, required),
+                }),
+            },
+            working_hours_factor_to: {
+                ...(hasFrom && {
+                    required: helpers.withMessage(() => `${t('validation.thisFieldIsRequired')}.`, required),
+                }),
             },
         },
     }
@@ -147,7 +247,10 @@ function submitForm() {
     state.error = {}
     v$.value.$validate()
     if (!v$.value.$error) {
-        emit('submitForm', state.formShift)
+        emit('submitForm', {
+            ...state.formShift,
+            end_time_day_offset: state.formShift.end_time_day_offset != null ? Number(state.formShift.end_time_day_offset) : null,
+        })
     }
 }
 </script>

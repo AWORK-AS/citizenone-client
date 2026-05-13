@@ -36,6 +36,8 @@ const state = reactive({
     formContactJobTitle: {
         en_title: '',
         dk_title: '',
+        no_title: '',
+        sv_title: '',
     },
     isPageLoading: false,
 })
@@ -55,6 +57,8 @@ async function saveContactJobTitle(contactJobTitleDetails: any) {
         const params = {
             en_title: contactJobTitleDetails.en_title,
             dk_title: contactJobTitleDetails.dk_title,
+            no_title: contactJobTitleDetails.no_title,
+            sv_title: contactJobTitleDetails.sv_title,
         }
         const response = await contactJobTitlesService.saveContactJobTitle(params)
         if (response.data) {

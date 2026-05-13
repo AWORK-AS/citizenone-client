@@ -18,7 +18,7 @@
 
             <div class="mt-8">
                 <div class="flex justify-end items-center mb-5">
-                    <FormButton buttonStyle="action" class="rounded-lg" @click="navigateTo('/settings/shifts/new')">
+                    <FormButton buttonStyle="action" @click="navigateTo('/settings/shifts/new')">
                         <Icon name="ph:plus" class="h-4 w-4" aria-hidden="true" />
                         {{ $t('shifts.addNewShift') }}
                     </FormButton>
@@ -32,7 +32,7 @@
                             :isLoading="state.isTableLoading" :sortData="state.sortData" @sort="sort">
                             <template #body v-if="!(state.isTableLoading || (state.shifts?.data?.length === 0))">
                                 <tr v-for="(shift, index) in state.shifts?.data" :key="index">
-                                    <td width="15%">
+                                    <td width="12%">
                                         <div class="flex items-center gap-x-1">
                                             <Tooltip :text="$t('shifts.table.standard')" position="right"
                                                 @click="state.modal.isStandardShiftOpen = true"
@@ -48,8 +48,14 @@
                                             {{ $t('shifts.table.markedAsLeave') }}
                                         </Badge>
                                     </td>
-                                    <td width="15%">
+                                    <td width="12%">
                                         <span>{{ shift?.dk_name }}</span>
+                                    </td>
+                                    <td width="12%">
+                                        <span>{{ shift?.no_name }}</span>
+                                    </td>
+                                    <td width="12%">
+                                        <span>{{ shift?.sv_name }}</span>
                                     </td>
                                     <td width="10%">
                                         <span>{{ shift?.pay_code }}</span>
@@ -61,18 +67,22 @@
                                         <span>{{ shift?.time_out }}</span>
                                     </td>
                                     <td width="10%">
+                                        <span v-if="shift?.working_hours_factor">{{ shift.working_hours_factor }}</span>
+                                        <span v-else class="text-gray-400">—</span>
+                                    </td>
+                                    <td width="10%">
                                         <span :style="{ backgroundColor: shift?.color }"
                                             class="inline-block w-8 h-8 rounded" />
                                     </td>
                                     <td width="30%">
                                         <div class="flex items-center justify-end gap-2">
-                                            <FormButton type="button" buttonStyle="action" class="rounded-md"
+                                            <FormButton type="button" buttonStyle="action"
                                                 @click="navigateTo(`/settings/shifts/${shift.uuid}/edit`)"
                                                 v-if="shift?.is_editable">
                                                 <Icon name="ph:pencil-simple" class="size-4" />
                                                 {{ $t('shifts.table.actions.edit') }}
                                             </FormButton>
-                                            <FormButton type="button" buttonStyle="danger" class="rounded-md"
+                                            <FormButton type="button" buttonStyle="danger"
                                                 @click="deleteShiftConfirmation(shift)" v-if="shift?.is_deletable">
                                                 <Icon name="ph:trash" class="size-4" />
                                                 {{ $t('shifts.table.actions.delete') }}
@@ -118,9 +128,12 @@ const state = reactive({
     columnHeaders: [
         { name: 'shifts.table.nameEnglish', isTranslateName: true, sorter: true, key: 'en_name' },
         { name: 'shifts.table.nameDanish', isTranslateName: true, sorter: true, key: 'dk_name' },
+        { name: 'shifts.table.nameNorwegian', isTranslateName: true, sorter: true, key: 'no_name' },
+        { name: 'shifts.table.nameSwedish', isTranslateName: true, sorter: true, key: 'sv_name' },
         { name: 'shifts.table.paycode', isTranslateName: true, sorter: true, key: 'pay_code' },
         { name: 'shifts.table.timeIn', isTranslateName: true, },
         { name: 'shifts.table.timeOut', isTranslateName: true, },
+        { name: 'shifts.table.workingHoursFactor', isTranslateName: true, },
         { name: 'shifts.table.color', isTranslateName: true, },
         { name: '' }
     ],

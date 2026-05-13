@@ -36,7 +36,8 @@
                             <div v-else
                                 class="w-32 h-32 rounded-md border-2 border-dashed border-gray-300 bg-gray-50 flex flex-col items-center justify-center hover:border-primary hover:bg-gray-100 transition-colors gap-2 p-2">
                                 <Icon name="ph:file-text" class="w-8 h-8 text-primary" />
-                                <span class="text-xs text-gray-600 text-center truncate w-full">{{ state.formWalletTransaction?.file?.name }}</span>
+                                <span class="text-xs text-gray-600 text-center truncate w-full">{{
+                                    state.formWalletTransaction?.file?.name }}</span>
                             </div>
                         </div>
                     </div>
@@ -45,10 +46,10 @@
             </div>
             <div class="mt-6">
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
-                    <FormButton type="button" buttonStyle="cancel" class="rounded-md" @click="emit('closeModal')">
+                    <FormButton type="button" buttonStyle="cancel" @click="emit('closeModal')">
                         {{ $t('cancel') }}
                     </FormButton>
-                    <FormButton type="submit" buttonStyle="primary" class="rounded-md w-full">
+                    <FormButton type="submit" buttonStyle="primary" class="w-full">
                         {{ props.formType === 'create' ? $t('save') :
                             $t('update') }}
                     </FormButton>
@@ -130,10 +131,10 @@ const rules = computed(() => {
     return {
         formWalletTransaction: {
             type: {
-                required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
+                required: helpers.withMessage(() => `${t('validation.thisFieldIsRequired')}.`, required),
             },
             amount: {
-                required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
+                required: helpers.withMessage(() => `${t('validation.thisFieldIsRequired')}.`, required),
             },
         },
     }

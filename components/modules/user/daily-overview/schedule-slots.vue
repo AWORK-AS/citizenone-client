@@ -10,7 +10,7 @@
         <div>
             <div :class="[
                 state.scheduleSlots?.data?.length === 0 ? 'flex items-center justify-center' : 'divide-y overflow-scroll',
-                'bg-white shadow-md rounded-md border-l-8 border-secondary mt-2 text-sm min-h-96 max-h-96'
+                'bg-white shadow-md rounded-md border-l-8 border-primary mt-2 text-sm min-h-96 max-h-96'
             ]">
                 <div class="space-y-2 pl-4 pr-5 py-5">
                     <div v-for="(slot, index) in state.scheduleSlots?.data" :key="index"

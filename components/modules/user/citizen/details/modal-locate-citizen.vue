@@ -4,16 +4,9 @@
             <template #modal-body>
                 <div class="space-y-4">
                     <div class="h-96 w-full rounded-md overflow-hidden border">
-                        <MapLocation 
-                            ref="mapRef" 
-                            :center="mapCenter" 
-                            :zoom="mapZoom" 
-                            :markerCoords="selectedLocation"
-                            :markerPopup="$t('citizens.form.selectedLocation')"
-                            :draggable="true"
-                            @update:marker="onLocationSelected"
-                            @map-ready="onMapReady"
-                        />
+                        <MapLocation ref="mapRef" :center="mapCenter" :zoom="mapZoom" :markerCoords="selectedLocation"
+                            :markerPopup="$t('citizens.form.selectedLocation')" :draggable="true"
+                            @update:marker="onLocationSelected" @map-ready="onMapReady" />
                     </div>
 
                     <div v-if="isGeocodingAddress" class="flex items-center justify-center py-4 bg-blue-50 rounded">
@@ -26,30 +19,31 @@
                         <div class="p-3 bg-gray-50 rounded-md border border-gray-200">
                             <p class="text-sm font-semibold text-gray-700">{{ selectedAddress }}</p>
                         </div>
-                        
-                        <div v-if="addressData" class="grid grid-cols-2 gap-2 text-xs text-gray-600 p-2 bg-blue-50 rounded">
+
+                        <div v-if="addressData"
+                            class="grid grid-cols-2 gap-2 text-xs text-gray-600 p-2 bg-blue-50 rounded">
                             <div v-if="addressData.address?.road">
-                                <span class="font-medium">{{ $t('citizens.form.street') }}:</span> 
+                                <span class="font-medium">{{ $t('citizens.form.street') }}:</span>
                                 {{ addressData.address.road }} {{ addressData.address.house_number || '' }}
                             </div>
                             <div v-if="addressData.address?.postcode">
-                                <span class="font-medium">{{ $t('citizens.form.postCode') }}:</span> 
+                                <span class="font-medium">{{ $t('citizens.form.postCode') }}:</span>
                                 {{ addressData.address.postcode }}
                             </div>
                             <div v-if="addressData.address?.city || addressData.address?.town">
-                                <span class="font-medium">{{ $t('citizens.form.city') }}:</span> 
+                                <span class="font-medium">{{ $t('citizens.form.city') }}:</span>
                                 {{ addressData.address.city || addressData.address.town }}
                             </div>
                             <div v-if="addressData.address?.municipality">
-                                <span class="font-medium">{{ $t('citizens.form.municipality') }}:</span> 
+                                <span class="font-medium">{{ $t('citizens.form.municipality') }}:</span>
                                 {{ addressData.address.municipality }}
                             </div>
                             <div v-if="addressData.address?.state">
-                                <span class="font-medium">{{ $t('citizens.form.region') }}:</span> 
+                                <span class="font-medium">{{ $t('citizens.form.region') }}:</span>
                                 {{ addressData.address.state }}
                             </div>
                             <div v-if="addressData.address?.country">
-                                <span class="font-medium">{{ $t('citizens.form.country') }}:</span> 
+                                <span class="font-medium">{{ $t('citizens.form.country') }}:</span>
                                 {{ addressData.address.country }}
                             </div>
                         </div>
@@ -69,15 +63,10 @@
                     </div>
 
                     <div class="flex justify-end gap-3 mt-5">
-                        <FormButton buttonStyle="cancel" @click="closeModal" class="rounded-md">
+                        <FormButton buttonStyle="cancel" @click="closeModal">
                             {{ $t('cancel') }}
                         </FormButton>
-                        <FormButton 
-                            buttonStyle="primary" 
-                            @click="confirmLocation" 
-                            class="rounded-md"
-                            :disabled="!canConfirm"
-                        >
+                        <FormButton buttonStyle="primary" @click="confirmLocation" :disabled="!canConfirm">
                             {{ $t('citizens.form.useThisLocation') }}
                         </FormButton>
                     </div>
@@ -136,10 +125,10 @@ const isGeocodingAddress = ref<boolean>(false)
 const errorMessage = ref<string>('')
 
 const canConfirm = computed(() => {
-    return selectedLocation.value !== null && 
-           selectedAddress.value !== '' && 
-           !isLoadingAddress.value && 
-           !isGeocodingAddress.value
+    return selectedLocation.value !== null &&
+        selectedAddress.value !== '' &&
+        !isLoadingAddress.value &&
+        !isGeocodingAddress.value
 })
 
 const hasCurrentAddress = computed(() => {
@@ -156,7 +145,7 @@ function closeModal() {
 
 function onMapReady(mapObj: any) {
     mapInstance.value = mapObj
-    
+
     if (props.initialLocation) {
         mapCenter.value = [props.initialLocation.lat, props.initialLocation.lng]
         mapZoom.value = 15
@@ -168,9 +157,9 @@ function onMapReady(mapObj: any) {
 
 async function geocodeCurrentAddress() {
     if (!props.currentAddress) return
-    
+
     const { street, city, postCode, municipality, region } = props.currentAddress
-    
+
     const addressParts = [
         street,
         postCode,
@@ -178,17 +167,16 @@ async function geocodeCurrentAddress() {
         region,
         'Denmark'
     ].filter(Boolean)
-    
+
     const addressString = addressParts.join(', ')
-    
+
     if (!addressString || addressString === 'Denmark') {
         console.warn('Insufficient address data for geocoding')
         return
     }
-    
-    console.log('Geocoding address:', addressString)
+
     isGeocodingAddress.value = true
-    
+
     try {
         const response = await fetch(
             `https://nominatim.openstreetmap.org/search?format=json&q=${encodeURIComponent(addressString)}&limit=1&addressdetails=1&countrycodes=dk`,
@@ -198,26 +186,26 @@ async function geocodeCurrentAddress() {
                 }
             }
         )
-        
+
         if (!response.ok) {
             throw new Error('Failed to geocode address')
         }
-        
+
         const data = await response.json()
-        
+
         if (data && data.length > 0) {
             const result = data[0]
             const lat = parseFloat(result.lat)
             const lng = parseFloat(result.lon)
-            
+
             selectedLocation.value = { lat, lng }
             mapCenter.value = [lat, lng]
             mapZoom.value = 15
-            
+
             if (mapInstance.value) {
                 mapInstance.value.setView([lat, lng], 15)
             }
-            
+
             await fetchAddressFromCoordinates(lat, lng)
 
         } else {
@@ -240,7 +228,7 @@ async function fetchAddressFromCoordinates(lat: number, lng: number) {
     isLoadingAddress.value = true
     errorMessage.value = ''
     addressData.value = null
-    
+
     try {
         const response = await fetch(
             `https://nominatim.openstreetmap.org/reverse?format=json&lat=${lat}&lon=${lng}&zoom=18&addressdetails=1`,
@@ -250,13 +238,13 @@ async function fetchAddressFromCoordinates(lat: number, lng: number) {
                 }
             }
         )
-        
+
         if (!response.ok) {
             throw new Error('Failed to fetch address')
         }
-        
+
         const data = await response.json()
-        
+
         if (data && data.display_name) {
             selectedAddress.value = data.display_name
             addressData.value = data
@@ -290,12 +278,12 @@ watch(
                 addressData.value = null
             }
             errorMessage.value = ''
-            
+
             await nextTick()
             if (mapInstance.value) {
                 setTimeout(() => {
                     mapInstance.value.invalidateSize()
-                    
+
                     if (!props.initialLocation && hasCurrentAddress.value) {
                         geocodeCurrentAddress()
                     }

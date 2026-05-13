@@ -246,10 +246,10 @@
         </div>
         <div class="mt-6">
             <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
-                <FormButton type="button" buttonStyle="cancel" class="rounded-md" @click="emit('closeModal')">
+                <FormButton type="button" buttonStyle="cancel" @click="emit('closeModal')">
                     {{ $t('cancel') }}
                 </FormButton>
-                <FormButton type="submit" buttonStyle="primary" class="rounded-md w-full">
+                <FormButton type="submit" buttonStyle="primary" class="w-full">
                     {{ props.formType === 'create' ? $t('save') :
                         $t('update') }}
                 </FormButton>
@@ -272,6 +272,7 @@ import { useVuelidate } from "@vuelidate/core"
 import { required, helpers } from '@vuelidate/validators'
 import { useI18n } from "vue-i18n"
 import { useDepartmentStore } from '@/store/department'
+import { useUserStore } from '@/store/user'
 import type { Error } from '@/types'
 import { employeeGroupService } from '@/components/api/user/EmployeeGroupService'
 
@@ -292,6 +293,7 @@ const props = defineProps({
 const emit = defineEmits(['closeModal', 'submitForm'])
 const { t } = useI18n()
 const departmentStore = useDepartmentStore()
+const userStore = useUserStore()
 
 interface Option {
     value: string
@@ -304,7 +306,7 @@ const state = reactive({
     formSchedule: {
         id: '',
         uuid: '',
-        employee_uuid: [],
+        employee_uuid: [(userStore.getUser as any).uuid],
         title: '',
         description: '',
         date_time_start: '',
@@ -454,20 +456,20 @@ const rules = computed(() => {
         return {
             formSchedule: {
                 title: {
-                    required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
+                    required: helpers.withMessage(() => `${t('validation.thisFieldIsRequired')}.`, required),
                 },
                 date_time_start: {
-                    required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
+                    required: helpers.withMessage(() => `${t('validation.thisFieldIsRequired')}.`, required),
                 },
                 date_time_end: {
-                    required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
+                    required: helpers.withMessage(() => `${t('validation.thisFieldIsRequired')}.`, required),
                 },
                 recurring: {
                     recurring: {
-                        required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
+                        required: helpers.withMessage(() => `${t('validation.thisFieldIsRequired')}.`, required),
                     },
                     recurring_until: {
-                        required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
+                        required: helpers.withMessage(() => `${t('validation.thisFieldIsRequired')}.`, required),
                     },
                 },
             },
@@ -476,13 +478,13 @@ const rules = computed(() => {
         return {
             formSchedule: {
                 title: {
-                    required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
+                    required: helpers.withMessage(() => `${t('validation.thisFieldIsRequired')}.`, required),
                 },
                 date_time_start: {
-                    required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
+                    required: helpers.withMessage(() => `${t('validation.thisFieldIsRequired')}.`, required),
                 },
                 date_time_end: {
-                    required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
+                    required: helpers.withMessage(() => `${t('validation.thisFieldIsRequired')}.`, required),
                 },
                 recurring: {},
             },
@@ -572,10 +574,15 @@ async function fetchAllCitizens() {
     state.error = {}
     state.isPageLoading = true
     try {
+        const selectedDepartment = departmentStore.getSelectedDepartment as any
+        const selectedDepartmentUuid = typeof selectedDepartment === 'string'
+            ? selectedDepartment
+            : selectedDepartment?.uuid
         const params = {
-            department: departmentStore.getSelectedDepartmentName
+            'owner_uuid[]': [(userStore.getUser as any).uuid],
+            'department_uuid[]': selectedDepartmentUuid ? [selectedDepartmentUuid] : ['all-departments'],
         }
-        const response = await citizenService.getAllCitizens(params)
+        const response = await citizenService.getAllAssignedCitizenByEmployee(params)
         if (response.data) {
             let options: any = []
             response.data.forEach(

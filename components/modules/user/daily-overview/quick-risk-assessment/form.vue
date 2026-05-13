@@ -177,10 +177,10 @@
         </div>
         <div class="mt-6">
             <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
-                <FormButton type="button" buttonStyle="cancel" class="rounded-md" @click="emit('closeModal')">
+                <FormButton type="button" buttonStyle="cancel" @click="emit('closeModal')">
                     {{ $t('cancel') }}
                 </FormButton>
-                <FormButton type="submit" buttonStyle="primary" class="rounded-md w-full">
+                <FormButton type="submit" buttonStyle="primary" class="w-full">
                     {{ props.formType === 'create' ? $t('save') :
                         $t('update') }}
                 </FormButton>
@@ -293,13 +293,13 @@ const rules = computed(() => {
     return {
         formRiskAssessment: {
             citizen_uuid: {
-                required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
+                required: helpers.withMessage(() => `${t('validation.thisFieldIsRequired')}.`, required),
             },
             title: {
-                required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
+                required: helpers.withMessage(() => `${t('validation.thisFieldIsRequired')}.`, required),
             },
             date: {
-                required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
+                required: helpers.withMessage(() => `${t('validation.thisFieldIsRequired')}.`, required),
             },
         },
     }
@@ -461,10 +461,8 @@ async function generateNoteForRiskAssessmentNote() {
             prompt: state.formRiskAssessment.note,
         }
         const response = await aIAssistantService.generateNote(params)
-        if (response) {
-            if (JSON.parse(response)?.output?.[0]?.content?.[0]?.text) {
-                state.formRiskAssessment.note = JSON.parse(response)?.output?.[0]?.content?.[0]?.text
-            }
+        if (response?.data) {
+            state.formRiskAssessment.note = response?.data?.answer
         }
     } catch (error: any) {
         state.error = error

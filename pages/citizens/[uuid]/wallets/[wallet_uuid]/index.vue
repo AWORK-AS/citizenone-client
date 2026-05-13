@@ -45,8 +45,7 @@
                                 {{ formatAmount(state.wallet?.data?.running_balance) }}
                             </p>
                         </div>
-                        <FormButton buttonStyle="action" class="rounded-lg"
-                            @click="state.modal.isAddWalletTransactionOpen = true">
+                        <FormButton buttonStyle="action" @click="state.modal.isAddWalletTransactionOpen = true">
                             <Icon name="ph:plus" class="h-4 w-4" aria-hidden="true" />
                             {{ $t('citizens.walletTransactions.newWalletTransaction') }}
                         </FormButton>
@@ -82,25 +81,36 @@
                                         <span v-if="walletTransaction?.type === 'cash_out'">)</span>
                                     </td>
                                     <td width="30%">
-                                        <div class="text-tertiary hover:text-tertiary-700 cursor-pointer flex items-center gap-x-1"
-                                            v-if="walletTransaction?.file?.file_url"
-                                            @click="openFile(walletTransaction?.file)">
-                                            <Icon name="ph:file" class="size-5" />
-                                            <span>
-                                                {{
-                                                    $t('citizens.walletTransactions.table.openUploadDocument')
-                                                }}
-                                            </span>
+                                        <div class="flex items-center gap-x-1" v-if="walletTransaction?.file?.file_url">
+                                            <div class="text-tertiary hover:text-tertiary-700 cursor-pointer flex items-center gap-x-1"
+                                                @click="openFile(walletTransaction?.file)">
+                                                <Icon name="ph:file" class="size-4" />
+                                                <span>
+                                                    {{
+                                                        $t('citizens.walletTransactions.table.openUploadDocument')
+                                                    }}
+                                                </span>
+                                            </div>
+                                            <Tooltip :text="$t('citizens.walletTransactions.table.actions.remove')">
+                                                <Icon name="ph:trash" class="size-4 text-red-600 cursor-pointer"
+                                                    @click="deleteWalletTransactionFileConfirmation(walletTransaction)" />
+                                            </Tooltip>
                                         </div>
                                         <p class="mt-2">{{ walletTransaction?.note }}</p>
                                     </td>
                                     <td width="15%">
                                         <div class="flex items-end justify-end gap-2">
-                                            <FormButton type="button" buttonStyle="action" class="rounded-md"
+                                            <FormButton type="button" buttonStyle="action"
                                                 @click="editWalletTransaction(walletTransaction)"
                                                 v-if="walletTransaction?.is_editable">
                                                 <Icon name="ph:pencil-simple" class="size-4" />
                                                 {{ $t('citizens.walletTransactions.table.actions.edit') }}
+                                            </FormButton>
+                                            <FormButton type="button" buttonStyle="danger"
+                                                @click="deleteWalletTransactionConfirmation(walletTransaction)"
+                                                v-if="walletTransaction?.is_deletable">
+                                                <Icon name="ph:trash" class="size-4" />
+                                                {{ $t('citizens.walletTransactions.table.actions.delete') }}
                                             </FormButton>
                                         </div>
                                     </td>
@@ -117,6 +127,13 @@
                     :selectedWalletTranscation="state.selectedWalletTransaction"
                     @close="state.modal.isEditWalletTransactionOpen = false"
                     @refreshWalletTransactions="refreshWalletTransactions" />
+                <DialogConfirmation :isModalOpen="state.modal.isDeleteWalletTransactionOpen"
+                    :message="$t('citizens.walletTransactions.confirmation.deleteTransactionConfirmation') + '?'"
+                    @close="state.modal.isDeleteWalletTransactionOpen = false" @confirm="deleteWalletTransaction" />
+                <DialogConfirmation :isModalOpen="state.modal.isDeleteWalletTransactionFileOpen"
+                    :message="$t('citizens.walletTransactions.confirmation.deleteFileConfirmation') + '?'"
+                    @close="state.modal.isDeleteWalletTransactionFileOpen = false"
+                    @confirm="deleteWalletTransactionFile" />
             </div>
         </NuxtLayout>
     </div>
@@ -174,6 +191,7 @@ const state = reactive({
     modal: {
         isAddWalletTransactionOpen: false,
         isDeleteWalletTransactionOpen: false,
+        isDeleteWalletTransactionFileOpen: false,
         isEditWalletTransactionOpen: false,
     },
     selectedWalletTransaction: [] as any,
@@ -279,7 +297,27 @@ async function deleteWalletTransaction() {
         const response = await citizenWalletTransactionService.deleteWalletTransaction(state.selectedWalletTransaction.uuid)
         if (response?.message === 'Success.' || response?.message === 'Succes.') {
             fetchWalletTransactions()
-            successAlert(`${t('alert.success')}!`, `${t('citizens.walletTransactions.alert.deletedSuccessfully')}.`)
+            successAlert(`${t('alert.success')}!`, `${t('citizens.walletTransactions.alert.deletedTransactionSuccessfully')}.`)
+        }
+    } catch (error: any) {
+        state.error = error
+    }
+    state.isTableLoading = false
+}
+
+function deleteWalletTransactionFileConfirmation(walletTransaction: any) {
+    state.selectedWalletTransaction = walletTransaction
+    state.modal.isDeleteWalletTransactionFileOpen = true
+}
+
+async function deleteWalletTransactionFile() {
+    state.error = {}
+    state.isTableLoading = true
+    try {
+        const response = await citizenWalletTransactionService.deleteWalletTransactionFile(state.selectedWalletTransaction.file.uuid)
+        if (response?.message === 'Success.' || response?.message === 'Succes.') {
+            fetchWalletTransactions()
+            successAlert(`${t('alert.success')}!`, `${t('citizens.walletTransactions.alert.deletedFileSuccessfully')}.`)
         }
     } catch (error: any) {
         state.error = error

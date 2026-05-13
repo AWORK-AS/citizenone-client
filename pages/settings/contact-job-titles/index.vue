@@ -18,8 +18,7 @@
 
             <div class="mt-8">
                 <div class="flex justify-end items-center mb-5">
-                    <FormButton buttonStyle="action" class="rounded-lg"
-                        @click="navigateTo('/settings/contact-job-titles/new')">
+                    <FormButton buttonStyle="action" @click="navigateTo('/settings/contact-job-titles/new')">
                         <Icon name="ph:plus" class="h-4 w-4" aria-hidden="true" />
                         {{ $t('contactJobTitles.addNewContactJobTitle') }}
                     </FormButton>
@@ -34,21 +33,27 @@
                             <template #body
                                 v-if="!(state.isTableLoading || (state.contactJobTitles?.data?.length === 0))">
                                 <tr v-for="(contactJobTitle, index) in state.contactJobTitles?.data" :key="index">
-                                    <td width="30%">
+                                    <td width="20%">
                                         <span>{{ contactJobTitle?.en_title }}</span>
                                     </td>
-                                    <td width="30%">
+                                    <td width="20%">
                                         <span>{{ contactJobTitle?.dk_title }}</span>
                                     </td>
-                                    <td width="40%">
+                                    <td width="20%">
+                                        <span>{{ contactJobTitle?.no_title }}</span>
+                                    </td>
+                                    <td width="20%">
+                                        <span>{{ contactJobTitle?.sv_title }}</span>
+                                    </td>
+                                    <td width="20%">
                                         <div class="flex items-center justify-end gap-2">
-                                            <FormButton type="button" buttonStyle="action" class="rounded-md"
+                                            <FormButton type="button" buttonStyle="action"
                                                 @click="navigateTo(`/settings/contact-job-titles/${contactJobTitle.uuid}/edit`)"
                                                 v-if="contactJobTitle?.is_editable">
                                                 <Icon name="ph:pencil-simple" class="size-4" />
                                                 {{ $t('contactJobTitles.table.actions.edit') }}
                                             </FormButton>
-                                            <FormButton type="button" buttonStyle="danger" class="rounded-md"
+                                            <FormButton type="button" buttonStyle="danger"
                                                 @click="deleteContactJobTitleConfirmation(contactJobTitle)"
                                                 v-if="contactJobTitle?.is_deletable">
                                                 <Icon name="ph:trash" class="size-4" />
@@ -93,6 +98,8 @@ const state = reactive({
     columnHeaders: [
         { name: 'contactJobTitles.table.titleEnglish', isTranslateName: true, sorter: true, key: 'en_title' },
         { name: 'contactJobTitles.table.titleDanish', isTranslateName: true, sorter: true, key: 'dk_title' },
+        { name: 'contactJobTitles.table.titleNorwegian', isTranslateName: true, sorter: true, key: 'no_title' },
+        { name: 'contactJobTitles.table.titleSwedish', isTranslateName: true, sorter: true, key: 'sv_title' },
         { name: '' }
     ],
     contactJobTitles: [] as any,

@@ -21,27 +21,25 @@
                         <div></div>
                     </template>
                     <template v-else>
-                        <FormButton buttonStyle="action" class="rounded-lg"
+                        <FormButton buttonStyle="action"
                             @click="state.activeView = 'timeAccounts', navigateTo('/settings/time-accounts')">
                             <Icon name="ph:arrow-left" class="h-4 w-4" aria-hidden="true" />
                         </FormButton>
                     </template>
                     <template v-if="state.activeView === 'timeAccounts'">
                         <div class="flex gap-2">
-                            <FormButton buttonStyle="action" class="rounded-lg"
-                                @click="state.activeView = 'templateAgreements'">
+                            <FormButton buttonStyle="action" @click="state.activeView = 'templateAgreements'">
                                 <Icon name="ph:plus" class="h-4 w-4" aria-hidden="true" />
                                 {{ $t('timeAccounts.templateAgreement') }}
                             </FormButton>
-                            <FormButton buttonStyle="action" class="rounded-lg"
-                                @click="navigateTo('/settings/time-accounts/new')">
+                            <FormButton buttonStyle="action" @click="navigateTo('/settings/time-accounts/new')">
                                 <Icon name="ph:plus" class="h-4 w-4" aria-hidden="true" />
                                 {{ $t('timeAccounts.newTimeAccount') }}
                             </FormButton>
                         </div>
                     </template>
                     <template v-else>
-                        <FormButton buttonStyle="action" class="rounded-lg"
+                        <FormButton buttonStyle="action"
                             @click="navigateTo('/settings/time-accounts/template-agreements/new')">
                             <Icon name="ph:plus" class="h-4 w-4" aria-hidden="true" />
                             {{ $t('timeAccounts.newTemplateAgreement') }}
@@ -79,17 +77,17 @@
                                     </td>
                                     <td>
                                         <div class="flex items-end justify-end gap-2">
-                                            <FormButton type="button" buttonStyle="action" class="rounded-md"
+                                            <FormButton type="button" buttonStyle="action"
                                                 @click="openAssignModal(timeAccount)">
                                                 <Icon name="ph:circles-four-light" class="size-4" />
                                                 {{ $t('timeAccounts.table.actions.assign') }}
                                             </FormButton>
-                                            <FormButton type="button" buttonStyle="action" class="rounded-md"
+                                            <FormButton type="button" buttonStyle="action"
                                                 @click="navigateTo(`/settings/time-accounts/${timeAccount.uuid}/edit`)">
                                                 <Icon name="ph:pencil-simple" class="size-4" />
                                                 {{ $t('timeAccounts.table.actions.edit') }}
                                             </FormButton>
-                                            <FormButton type="button" buttonStyle="danger" class="rounded-md"
+                                            <FormButton type="button" buttonStyle="danger"
                                                 @click="deleteTimeAccountConfirmation(timeAccount)">
                                                 <Icon name="ph:trash" class="size-4" />
                                                 {{ $t('timeAccounts.table.actions.delete') }}
@@ -119,17 +117,17 @@
                                     </td>
                                     <td>
                                         <div class="flex items-end justify-end gap-2">
-                                            <FormButton type="button" buttonStyle="action" class="rounded-md"
+                                            <FormButton type="button" buttonStyle="action"
                                                 @click="openAssignTemplateModal(agreement)">
                                                 <Icon name="ph:circles-four-light" class="size-4" />
                                                 {{ $t('timeAccounts.templateAgreementsTable.actions.assign') }}
                                             </FormButton>
-                                            <FormButton type="button" buttonStyle="action" class="rounded-md"
+                                            <FormButton type="button" buttonStyle="action"
                                                 @click="navigateTo(`/settings/time-accounts/template-agreements/${agreement.uuid}/edit`)">
                                                 <Icon name="ph:pencil-simple" class="size-4" />
                                                 {{ $t('timeAccounts.templateAgreementsTable.actions.edit') }}
                                             </FormButton>
-                                            <FormButton type="button" buttonStyle="danger" class="rounded-md"
+                                            <FormButton type="button" buttonStyle="danger"
                                                 @click="deleteTemplateAgreementConfirmation(agreement)">
                                                 <Icon name="ph:trash" class="size-4" />
                                                 {{ $t('timeAccounts.templateAgreementsTable.actions.delete') }}

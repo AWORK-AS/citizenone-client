@@ -108,12 +108,12 @@ const rules = computed(() => {
     return {
         formUser: {
             password: {
-                required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
-                minLength: helpers.withMessage(`${t('alert.resetPassword.required8Characters')}.`, minLength(8))
+                required: helpers.withMessage(() => `${t('validation.thisFieldIsRequired')}.`, required),
+                minLength: helpers.withMessage(() => `${t('alert.resetPassword.required8Characters')}.`, minLength(8))
             },
             confirm_password: {
-                required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
-                sameAsPassword: helpers.withMessage(`${t('alert.resetPassword.confirmPasswordNotTheSame')}.`, sameAs(state.formUser.password)),
+                required: helpers.withMessage(() => `${t('validation.thisFieldIsRequired')}.`, required),
+                sameAsPassword: helpers.withMessage(() => `${t('alert.resetPassword.confirmPasswordNotTheSame')}.`, sameAs(state.formUser.password)),
             }
         }
     }
@@ -180,12 +180,12 @@ function selectLanguage() {
 
 function identifyFlag() {
     const selectedLanguage = userStore.getLanguage
-    if (selectedLanguage === 'en') {
-        return '/img/icons/flags/united-kingdom.svg'
-    } else {
-        if (selectedLanguage === 'dk') {
-            return '/img/icons/flags/denmark.svg'
-        }
+    const flags: Record<string, string> = {
+        en: '/img/icons/flags/united-kingdom.svg',
+        dk: '/img/icons/flags/denmark.svg',
+        no: '/img/icons/flags/norway.svg',
+        sv: '/img/icons/flags/sweden.svg',
     }
+    return flags[selectedLanguage] ?? '/img/icons/flags/united-kingdom.svg'
 }
 </script>

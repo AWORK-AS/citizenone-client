@@ -54,11 +54,10 @@
                         </div>
                         <div class="mt-6">
                             <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
-                                <FormButton type="button" buttonStyle="cancel" class="rounded-md"
-                                    @click="emit('close')">
+                                <FormButton type="button" buttonStyle="cancel" @click="emit('close')">
                                     {{ $t('cancel') }}
                                 </FormButton>
-                                <FormButton type="submit" buttonStyle="primary" class="rounded-md">
+                                <FormButton type="submit" buttonStyle="primary">
                                     {{ $t('citizens.citizenJournals.actions.share') }}
                                 </FormButton>
                             </div>
@@ -109,15 +108,15 @@ const rules = computed(() => {
     return {
         formShare: {
             password: {
-                required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
-                minLength: helpers.withMessage(`${t('dutySchedules.shareDutySchedule.form.alert.required8Characters')}.`, minLength(8))
+                required: helpers.withMessage(() => `${t('validation.thisFieldIsRequired')}.`, required),
+                minLength: helpers.withMessage(() => `${t('dutySchedules.shareDutySchedule.form.alert.required8Characters')}.`, minLength(8))
             },
             confirm_password: {
-                required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
-                sameAsPassword: helpers.withMessage(`${t('dutySchedules.shareDutySchedule.form.alert.enteredPasswordMismatched')}.`, sameAs(state.formShare.password)),
+                required: helpers.withMessage(() => `${t('validation.thisFieldIsRequired')}.`, required),
+                sameAsPassword: helpers.withMessage(() => `${t('dutySchedules.shareDutySchedule.form.alert.enteredPasswordMismatched')}.`, sameAs(state.formShare.password)),
             },
             employee_uuids: {
-                required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
+                required: helpers.withMessage(() => `${t('validation.thisFieldIsRequired')}.`, required),
             },
         },
     }

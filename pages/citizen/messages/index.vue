@@ -30,7 +30,7 @@
                             <p>
                                 {{ $t('messages.looksLikeYouHaventInitiatedAConversation') }}.
                             </p>
-                            <FormButton buttonStyle="primary" class="w-full rounded-md"
+                            <FormButton buttonStyle="primary" class="w-full"
                                 @click="state.showStartConversation = true">
                                 {{ $t('messages.startTheConversation') }}
                             </FormButton>
@@ -67,7 +67,7 @@
                                     </div>
                                 </div>
                                 <div class="mt-6">
-                                    <FormButton type="submit" buttonStyle="primary" class="w-full rounded-md">
+                                    <FormButton type="submit" buttonStyle="primary" class="w-full">
                                         {{ $t('messages.send') }}
                                     </FormButton>
                                 </div>
@@ -130,10 +130,10 @@ const rules = computed(() => {
     return {
         formChat: {
             message: {
-                required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
+                required: helpers.withMessage(() => `${t('validation.thisFieldIsRequired')}.`, required),
             },
             receivers: {
-                required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
+                required: helpers.withMessage(() => `${t('validation.thisFieldIsRequired')}.`, required),
             },
         }
     }

@@ -6,6 +6,36 @@
             v-if="state.error?.message && state.error.message.length > 0" />
         <div class="grid grid-cols-1 gap-y-6">
             <div class="space-y-1">
+                <div class="flex items-center justify-between">
+                    <FormLabel for="template" :label="$t('citizens.nursingAreas.form.template')" />
+                    <NuxtLink to="/settings/nursing-professional-record-templates"
+                        class="text-xs text-primary hover:text-primary-700 flex items-center gap-1">
+                        <Icon name="ph:gear" class="size-3.5" />
+                        {{ $t('nursingProfessionalRecordTemplates.nursingProfessionalRecordTemplates') }}
+                    </NuxtLink>
+                </div>
+                <FormSelect id="template" :options="state.templateOptions"
+                    v-model="state.formNursingProfessionalRecord.template_uuid" />
+                <div v-if="state.formNursingProfessionalRecord.template_uuid"
+                    class="mt-2 p-3 bg-primary-50 rounded-md border border-primary-200">
+                    <p class="text-xs font-medium text-primary-700 mb-2 flex items-center gap-1">
+                        <Icon name="ph:layout" class="size-3.5" />
+                        {{ $t('citizens.nursingAreas.form.selectTemplate') }}
+                    </p>
+                    <div class="flex flex-wrap gap-1.5">
+                        <span v-for="area in requiredAreaLabels" :key="area"
+                            class="inline-flex items-center gap-0.5 rounded-full bg-red-100 px-2 py-0.5 text-xxs font-medium text-red-700">
+                            <Icon name="ph:asterisk" class="size-2.5" />
+                            {{ area }}
+                        </span>
+                        <span v-for="area in optionalAreaLabels" :key="area"
+                            class="inline-flex items-center rounded-full bg-gray-100 px-2 py-0.5 text-xxs font-medium text-gray-500">
+                            {{ area }}
+                        </span>
+                    </div>
+                </div>
+            </div>
+            <div class="space-y-1">
                 <FormLabel for="date" :label="$t('citizens.nursingAreas.form.date')" />
                 <FormDateField id="date" name="birthday" :placeholder="$t('citizens.nursingAreas.form.date')"
                     v-model="state.formNursingProfessionalRecord.date" />
@@ -14,7 +44,12 @@
             </div>
             <div class="grid grid-cols-1 md:grid-cols-5 gap-5">
                 <div class="space-y-1 md:col-span-3">
-                    <FormLabel for="functional_level" :label="$t('citizens.nursingAreas.form.functionalLevel')" />
+                    <div class="flex items-center gap-2">
+                        <FormLabel for="functional_level" :label="$t('citizens.nursingAreas.form.functionalLevel')" />
+                        <span v-if="getFieldBadge('functional_level')"
+                            :class="getFieldBadge('functional_level')!.cls">{{ getFieldBadge('functional_level')!.label
+                            }}</span>
+                    </div>
                     <FormTextArea :rows="11" id="functional_level" name="functional_level"
                         :placeholder="$t('citizens.nursingAreas.form.functionalLevel')"
                         v-model="state.formNursingProfessionalRecord.functional_level" />
@@ -49,8 +84,13 @@
             </div>
             <div class="grid grid-cols-1 md:grid-cols-5 gap-5">
                 <div class="space-y-1 md:col-span-3">
-                    <FormLabel for="musculoskeletal_system"
-                        :label="$t('citizens.nursingAreas.form.musculoskeletalSystem')" />
+                    <div class="flex items-center gap-2">
+                        <FormLabel for="musculoskeletal_system"
+                            :label="$t('citizens.nursingAreas.form.musculoskeletalSystem')" />
+                        <span v-if="getFieldBadge('musculoskeletal_system')"
+                            :class="getFieldBadge('musculoskeletal_system')!.cls">{{
+                                getFieldBadge('musculoskeletal_system')!.label }}</span>
+                    </div>
                     <FormTextArea :rows="11" id="musculoskeletal_system" name="musculoskeletal_system"
                         :placeholder="$t('citizens.nursingAreas.form.musculoskeletalSystem')"
                         v-model="state.formNursingProfessionalRecord.musculoskeletal_system" />
@@ -85,7 +125,11 @@
             </div>
             <div class="grid grid-cols-1 md:grid-cols-5 gap-5">
                 <div class="space-y-1 md:col-span-3">
-                    <FormLabel for="nutrition" :label="$t('citizens.nursingAreas.form.nutrition')" />
+                    <div class="flex items-center gap-2">
+                        <FormLabel for="nutrition" :label="$t('citizens.nursingAreas.form.nutrition')" />
+                        <span v-if="getFieldBadge('nutrition')" :class="getFieldBadge('nutrition')!.cls">{{
+                            getFieldBadge('nutrition')!.label }}</span>
+                    </div>
                     <FormTextArea :rows="11" id="nutrition" name="nutrition"
                         :placeholder="$t('citizens.nursingAreas.form.nutrition')"
                         v-model="state.formNursingProfessionalRecord.nutrition" />
@@ -119,8 +163,13 @@
             </div>
             <div class="grid grid-cols-1 md:grid-cols-5 gap-5">
                 <div class="space-y-1 md:col-span-3">
-                    <FormLabel for="skin_and_mucous_membranes"
-                        :label="$t('citizens.nursingAreas.form.skinAndMucousMembranes')" />
+                    <div class="flex items-center gap-2">
+                        <FormLabel for="skin_and_mucous_membranes"
+                            :label="$t('citizens.nursingAreas.form.skinAndMucousMembranes')" />
+                        <span v-if="getFieldBadge('skin_and_mucous_membranes')"
+                            :class="getFieldBadge('skin_and_mucous_membranes')!.cls">{{
+                                getFieldBadge('skin_and_mucous_membranes')!.label }}</span>
+                    </div>
                     <FormTextArea :rows="11" id="skin_and_mucous_membranes" name="skin_and_mucous_membranes"
                         :placeholder="$t('citizens.nursingAreas.form.skinAndMucousMembranes')"
                         v-model="state.formNursingProfessionalRecord.skin_and_mucous_membranes" />
@@ -156,7 +205,11 @@
             </div>
             <div class="grid grid-cols-1 md:grid-cols-5 gap-5">
                 <div class="space-y-1 md:col-span-3">
-                    <FormLabel for="communication" :label="$t('citizens.nursingAreas.form.communication')" />
+                    <div class="flex items-center gap-2">
+                        <FormLabel for="communication" :label="$t('citizens.nursingAreas.form.communication')" />
+                        <span v-if="getFieldBadge('communication')" :class="getFieldBadge('communication')!.cls">{{
+                            getFieldBadge('communication')!.label }}</span>
+                    </div>
                     <FormTextArea :rows="11" id="communication" name="communication"
                         :placeholder="$t('citizens.nursingAreas.form.communication')"
                         v-model="state.formNursingProfessionalRecord.communication" />
@@ -191,8 +244,13 @@
             </div>
             <div class="grid grid-cols-1 md:grid-cols-5 gap-5">
                 <div class="space-y-1 md:col-span-3">
-                    <FormLabel for="psychosocial_conditions"
-                        :label="$t('citizens.nursingAreas.form.psychosocialConditions')" />
+                    <div class="flex items-center gap-2">
+                        <FormLabel for="psychosocial_conditions"
+                            :label="$t('citizens.nursingAreas.form.psychosocialConditions')" />
+                        <span v-if="getFieldBadge('psychosocial_conditions')"
+                            :class="getFieldBadge('psychosocial_conditions')!.cls">{{
+                                getFieldBadge('psychosocial_conditions')!.label }}</span>
+                    </div>
                     <FormTextArea :rows="11" id="psychosocial_conditions" name="psychosocial_conditions"
                         :placeholder="$t('citizens.nursingAreas.form.psychosocialConditions')"
                         v-model="state.formNursingProfessionalRecord.psychosocial_conditions" />
@@ -228,8 +286,13 @@
             </div>
             <div class="grid grid-cols-1 md:grid-cols-5 gap-5">
                 <div class="space-y-1 md:col-span-3">
-                    <FormLabel for="respiration_and_circulation"
-                        :label="$t('citizens.nursingAreas.form.respirationAndCirculation')" />
+                    <div class="flex items-center gap-2">
+                        <FormLabel for="respiration_and_circulation"
+                            :label="$t('citizens.nursingAreas.form.respirationAndCirculation')" />
+                        <span v-if="getFieldBadge('respiration_and_circulation')"
+                            :class="getFieldBadge('respiration_and_circulation')!.cls">{{
+                                getFieldBadge('respiration_and_circulation')!.label }}</span>
+                    </div>
                     <FormTextArea :rows="11" id="respiration_and_circulation" name="respiration_and_circulation"
                         :placeholder="$t('citizens.nursingAreas.form.respirationAndCirculation')"
                         v-model="state.formNursingProfessionalRecord.respiration_and_circulation" />
@@ -265,7 +328,11 @@
             </div>
             <div class="grid grid-cols-1 md:grid-cols-5 gap-5">
                 <div class="space-y-1 md:col-span-3">
-                    <FormLabel for="sexuality" :label="$t('citizens.nursingAreas.form.sexuality')" />
+                    <div class="flex items-center gap-2">
+                        <FormLabel for="sexuality" :label="$t('citizens.nursingAreas.form.sexuality')" />
+                        <span v-if="getFieldBadge('sexuality')" :class="getFieldBadge('sexuality')!.cls">{{
+                            getFieldBadge('sexuality')!.label }}</span>
+                    </div>
                     <FormTextArea :rows="11" id="sexuality" name="sexuality"
                         :placeholder="$t('citizens.nursingAreas.form.sexuality')"
                         v-model="state.formNursingProfessionalRecord.sexuality" />
@@ -299,8 +366,13 @@
             </div>
             <div class="grid grid-cols-1 md:grid-cols-5 gap-5">
                 <div class="space-y-1 md:col-span-3">
-                    <FormLabel for="pain_and_sensory_impressions"
-                        :label="$t('citizens.nursingAreas.form.painAndSensoryImpressions')" />
+                    <div class="flex items-center gap-2">
+                        <FormLabel for="pain_and_sensory_impressions"
+                            :label="$t('citizens.nursingAreas.form.painAndSensoryImpressions')" />
+                        <span v-if="getFieldBadge('pain_and_sensory_impressions')"
+                            :class="getFieldBadge('pain_and_sensory_impressions')!.cls">{{
+                                getFieldBadge('pain_and_sensory_impressions')!.label }}</span>
+                    </div>
                     <FormTextArea :rows="11" id="pain_and_sensory_impressions" name="pain_and_sensory_impressions"
                         :placeholder="$t('citizens.nursingAreas.form.painAndSensoryImpressions')"
                         v-model="state.formNursingProfessionalRecord.pain_and_sensory_impressions" />
@@ -336,7 +408,11 @@
             </div>
             <div class="grid grid-cols-1 md:grid-cols-5 gap-5">
                 <div class="space-y-1 md:col-span-3">
-                    <FormLabel for="sleep_and_rest" :label="$t('citizens.nursingAreas.form.sleepAndRest')" />
+                    <div class="flex items-center gap-2">
+                        <FormLabel for="sleep_and_rest" :label="$t('citizens.nursingAreas.form.sleepAndRest')" />
+                        <span v-if="getFieldBadge('sleep_and_rest')" :class="getFieldBadge('sleep_and_rest')!.cls">{{
+                            getFieldBadge('sleep_and_rest')!.label }}</span>
+                    </div>
                     <FormTextArea :rows="11" id="sleep_and_rest" name="sleep_and_rest"
                         :placeholder="$t('citizens.nursingAreas.form.sleepAndRest')"
                         v-model="state.formNursingProfessionalRecord.sleep_and_rest" />
@@ -371,8 +447,13 @@
             </div>
             <div class="grid grid-cols-1 md:grid-cols-5 gap-5">
                 <div class="space-y-1 md:col-span-3">
-                    <FormLabel for="knowledge_and_development"
-                        :label="$t('citizens.nursingAreas.form.knowledgeAndDevelopment')" />
+                    <div class="flex items-center gap-2">
+                        <FormLabel for="knowledge_and_development"
+                            :label="$t('citizens.nursingAreas.form.knowledgeAndDevelopment')" />
+                        <span v-if="getFieldBadge('knowledge_and_development')"
+                            :class="getFieldBadge('knowledge_and_development')!.cls">{{
+                                getFieldBadge('knowledge_and_development')!.label }}</span>
+                    </div>
                     <FormTextArea :rows="11" id="knowledge_and_development" name="knowledge_and_development"
                         :placeholder="$t('citizens.nursingAreas.form.knowledgeAndDevelopment')"
                         v-model="state.formNursingProfessionalRecord.knowledge_and_development" />
@@ -408,7 +489,13 @@
             </div>
             <div class="grid grid-cols-1 md:grid-cols-5 gap-5">
                 <div class="space-y-1 md:col-span-3">
-                    <FormLabel for="excretion_of_waste" :label="$t('citizens.nursingAreas.form.excretionOfWaste')" />
+                    <div class="flex items-center gap-2">
+                        <FormLabel for="excretion_of_waste"
+                            :label="$t('citizens.nursingAreas.form.excretionOfWaste')" />
+                        <span v-if="getFieldBadge('excretion_of_waste')"
+                            :class="getFieldBadge('excretion_of_waste')!.cls">{{
+                                getFieldBadge('excretion_of_waste')!.label }}</span>
+                    </div>
                     <FormTextArea :rows="11" id="excretion_of_waste" name="excretion_of_waste"
                         :placeholder="$t('citizens.nursingAreas.form.excretionOfWaste')"
                         v-model="state.formNursingProfessionalRecord.excretion_of_waste" />
@@ -444,11 +531,11 @@
         </div>
         <div class="mt-6">
             <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
-                <FormButton type="button" buttonStyle="cancel" class="rounded-md"
+                <FormButton type="button" buttonStyle="cancel"
                     @click="navigateTo(['citizens-uuid-children-child_uuid-nursing-areas-nursing-professional-records-new', 'citizens-uuid-children-child_uuid-nursing-areas-nursing-professional-records-record_uuid-edit'].includes(router?.currentRoute?.value?.name as string) ? `/citizens/${citizenUuid}/children/${childUuid}/nursing-areas?open=nursing-professional-records` : `/citizens/${citizenUuid}/nursing-areas?open=nursing-professional-records`)">
                     {{ $t('cancel') }}
                 </FormButton>
-                <FormButton type="submit" buttonStyle="primary" class="rounded-md w-full">
+                <FormButton type="submit" buttonStyle="primary" class="w-full">
                     {{ props.formType === 'create' ? $t('save') :
                         $t('update') }}
                 </FormButton>
@@ -464,6 +551,7 @@
 <script setup lang="ts">
 import ClassicEditor from '@ckeditor/ckeditor5-build-classic'
 import { nursingAreasService } from '@/components/api/user/NursingAreasService'
+import { nursingProfessionalRecordTemplateService } from '@/components/api/user/NursingProfessionalRecordTemplateService'
 import { useVuelidate } from "@vuelidate/core"
 import { required, helpers } from '@vuelidate/validators'
 import { useI18n } from "vue-i18n"
@@ -603,6 +691,7 @@ const editorExcretionOfWasteConfig = ref({
 const state = reactive({
     error: {} as Error,
     formNursingProfessionalRecord: {
+        template_uuid: '',
         date: '',
         functional_level: '',
         functional_level_note: '',
@@ -628,15 +717,84 @@ const state = reactive({
         knowledge_and_development_note: '',
         excretion_of_waste: '',
         excretion_of_waste_note: '',
-    },
+    } as any,
     modal: {
         isUpgradeStorageOpen: false
     },
+    templateOptions: [{ value: '', label: `— ${t('citizens.nursingAreas.form.template')} —` }] as any[],
+    templates: [] as any[],
 })
+
+const areaFieldDefs = computed(() => [
+    { field: 'functional_level', label: t('citizens.nursingAreas.form.functionalLevel') },
+    { field: 'musculoskeletal_system', label: t('citizens.nursingAreas.form.musculoskeletalSystem') },
+    { field: 'nutrition', label: t('citizens.nursingAreas.form.nutrition') },
+    { field: 'skin_and_mucous_membranes', label: t('citizens.nursingAreas.form.skinAndMucousMembranes') },
+    { field: 'communication', label: t('citizens.nursingAreas.form.communication') },
+    { field: 'psychosocial_conditions', label: t('citizens.nursingAreas.form.psychosocialConditions') },
+    { field: 'respiration_and_circulation', label: t('citizens.nursingAreas.form.respirationAndCirculation') },
+    { field: 'sexuality', label: t('citizens.nursingAreas.form.sexuality') },
+    { field: 'pain_and_sensory_impressions', label: t('citizens.nursingAreas.form.painAndSensoryImpressions') },
+    { field: 'sleep_and_rest', label: t('citizens.nursingAreas.form.sleepAndRest') },
+    { field: 'knowledge_and_development', label: t('citizens.nursingAreas.form.knowledgeAndDevelopment') },
+    { field: 'excretion_of_waste', label: t('citizens.nursingAreas.form.excretionOfWaste') },
+])
+
+const activeFieldConfig = computed<Record<string, string>>(() => {
+    if (!state.formNursingProfessionalRecord.template_uuid) return {}
+    const tpl = state.templates.find((t: any) => t.uuid === state.formNursingProfessionalRecord.template_uuid)
+    if (!tpl) return {}
+    return {
+        functional_level: tpl.functional_level ?? 'optional',
+        musculoskeletal_system: tpl.musculoskeletal_system ?? 'optional',
+        nutrition: tpl.nutrition ?? 'optional',
+        skin_and_mucous_membranes: tpl.skin_and_mucous_membranes ?? 'optional',
+        communication: tpl.communication ?? 'optional',
+        psychosocial_conditions: tpl.psychosocial_conditions ?? 'optional',
+        respiration_and_circulation: tpl.respiration_and_circulation ?? 'optional',
+        sexuality: tpl.sexuality ?? 'optional',
+        pain_and_sensory_impressions: tpl.pain_and_sensory_impressions ?? 'optional',
+        sleep_and_rest: tpl.sleep_and_rest ?? 'optional',
+        knowledge_and_development: tpl.knowledge_and_development ?? 'optional',
+        excretion_of_waste: tpl.excretion_of_waste ?? 'optional',
+    }
+})
+
+const requiredAreaLabels = computed(() =>
+    areaFieldDefs.value
+        .filter(a => activeFieldConfig.value[a.field] === 'required')
+        .map(a => a.label)
+)
+
+const optionalAreaLabels = computed(() =>
+    areaFieldDefs.value
+        .filter(a => activeFieldConfig.value[a.field] === 'optional')
+        .map(a => a.label)
+)
+
+onMounted(async () => {
+    await fetchTemplates()
+})
+
+async function fetchTemplates() {
+    try {
+        const response = await nursingProfessionalRecordTemplateService.getAllTemplates()
+        if (response?.data) {
+            state.templates = response.data
+            state.templateOptions = [
+                { value: '', label: `— ${t('citizens.nursingAreas.form.template')} —` },
+                ...response.data.map((tpl: any) => ({ value: tpl.uuid, label: tpl.name })),
+            ]
+        }
+    } catch (error: any) {
+        state.error = error
+    }
+}
 
 watch(() => props.selectedRecord, (newValue: any) => {
     if (newValue != null) {
         state.formNursingProfessionalRecord = {
+            template_uuid: newValue.template_uuid,
             date: newValue.date,
             functional_level: newValue.functional_level,
             functional_level_note: newValue.functional_level_note,
@@ -666,48 +824,44 @@ watch(() => props.selectedRecord, (newValue: any) => {
     }
 })
 
+function getFieldBadge(field: string) {
+    if (!state.formNursingProfessionalRecord.template_uuid) return null
+    const isRequired = activeFieldConfig.value[field] === 'required'
+    return {
+        cls: isRequired
+            ? 'inline-flex items-center rounded-full bg-red-100 px-2 py-0.5 text-xxs font-medium text-red-700'
+            : 'inline-flex items-center rounded-full bg-gray-100 px-2 py-0.5 text-xxs font-medium text-gray-500',
+        label: isRequired ? t('citizens.nursingAreas.form.fieldRequired') : t('citizens.nursingAreas.form.fieldOptional'),
+    }
+}
+
+function fieldRule(fieldName: string) {
+    // If no template is selected, all fields are required (legacy behaviour)
+    // If a template is selected, only fields configured as 'required' are required
+    const isRequired = !state.formNursingProfessionalRecord.template_uuid || activeFieldConfig.value[fieldName] === 'required'
+    return isRequired
+        ? { required: helpers.withMessage(() => `${t('validation.thisFieldIsRequired')}.`, required) }
+        : {}
+}
+
 const rules = computed(() => {
     return {
         formNursingProfessionalRecord: {
             date: {
-                required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
+                required: helpers.withMessage(() => `${t('validation.thisFieldIsRequired')}.`, required),
             },
-            functional_level: {
-                required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
-            },
-            musculoskeletal_system: {
-                required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
-            },
-            nutrition: {
-                required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
-            },
-            skin_and_mucous_membranes: {
-                required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
-            },
-            communication: {
-                required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
-            },
-            psychosocial_conditions: {
-                required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
-            },
-            respiration_and_circulation: {
-                required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
-            },
-            sexuality: {
-                required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
-            },
-            pain_and_sensory_impressions: {
-                required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
-            },
-            sleep_and_rest: {
-                required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
-            },
-            knowledge_and_development: {
-                required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
-            },
-            excretion_of_waste: {
-                required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
-            },
+            functional_level: fieldRule('functional_level'),
+            musculoskeletal_system: fieldRule('musculoskeletal_system'),
+            nutrition: fieldRule('nutrition'),
+            skin_and_mucous_membranes: fieldRule('skin_and_mucous_membranes'),
+            communication: fieldRule('communication'),
+            psychosocial_conditions: fieldRule('psychosocial_conditions'),
+            respiration_and_circulation: fieldRule('respiration_and_circulation'),
+            sexuality: fieldRule('sexuality'),
+            pain_and_sensory_impressions: fieldRule('pain_and_sensory_impressions'),
+            sleep_and_rest: fieldRule('sleep_and_rest'),
+            knowledge_and_development: fieldRule('knowledge_and_development'),
+            excretion_of_waste: fieldRule('excretion_of_waste'),
         },
     }
 })
@@ -717,7 +871,9 @@ const v$ = useVuelidate(rules, state)
 function submitForm() {
     v$.value.$validate()
     if (!v$.value.$error) {
-        emit('submitForm', state.formNursingProfessionalRecord)
+        emit('submitForm', {
+            ...state.formNursingProfessionalRecord
+        })
     }
 }
 

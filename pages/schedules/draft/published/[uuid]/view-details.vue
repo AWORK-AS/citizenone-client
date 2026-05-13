@@ -21,9 +21,9 @@
             <template #header v-if="versionName && versionName.length">{{versionName }}</template>
 
             <div>
-                <NuxtLink class="flex items-center gap-x-2 mb-3 max-w-fit hover:cursor-pointer" to="/schedules/draft/templates">
-                    <Icon name="ph:arrow-left" size="20" class="text-black" />
-                    <span>{{ $t('back') }}</span>
+                <NuxtLink class="inline-flex items-center gap-1.5 mb-4 text-sm text-gray-500 hover:text-primary transition-colors max-w-fit" to="/schedules/draft/published">
+                    <Icon name="ph:arrow-left" size="16" />
+                    <span>Tilbage til publicerede versioner</span>
                 </NuxtLink>
 
                 <div class="space-y-5">
@@ -59,12 +59,12 @@ const breadcrumbLinks = [
         href: `/schedules/draft`,
     },
     {
-        name: 'dutySchedules.draftTemplates.draftTemplates',
+        name: 'dutySchedules.published.publishedVersions',
         translate: true,
-        href: `/schedules/draft/templates`,
+        href: `/schedules/draft/published`,
     },
     {
-        name: 'dutySchedules.draftTemplates.viewDraftTemplate',
+        name: 'dutySchedules.published.viewPublishedVersion',
         translate: true,
         href: `/schedules/draft/published/${publishedVersionUuid}/view-details`,
     },

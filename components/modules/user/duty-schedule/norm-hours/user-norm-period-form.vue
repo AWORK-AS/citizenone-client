@@ -14,26 +14,25 @@
                     {{ $t('normPeriod.addCustomNormPeriod') }}
                 </span>
             </div>
-            <FormSelect id="norm_period_uuid" name="norm_period_uuid" :placeholder="$t('normPeriod.form.normPeriod')" :options="state.options.normPeriods"
-                v-model="state.formNormPeriod.norm_period_uuid" />
+            <FormSelect id="norm_period_uuid" name="norm_period_uuid" :placeholder="$t('normPeriod.form.normPeriod')"
+                :options="state.options.normPeriods" v-model="state.formNormPeriod.norm_period_uuid" />
             <FormError :error="v$?.formNormPeriod?.norm_period_uuid?.$errors[0]?.$message.toString()" />
             <FormError :error="props?.error?.errors?.norm_period_uuid?.[0]" />
         </div>
         <div class="mt-10">
             <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
-                <FormButton type="button" buttonStyle="cancel" class="rounded-md"
-                    @click="navigateTo('/settings/absences')">
+                <FormButton type="button" buttonStyle="cancel" @click="navigateTo('/settings/absences')">
                     {{ $t('cancel') }}
                 </FormButton>
-                <FormButton type="submit" buttonStyle="primary" class="rounded-md">
+                <FormButton type="submit" buttonStyle="primary">
                     {{ props.formType === 'create' ? $t('save') :
                         $t('update') }}
                 </FormButton>
             </div>
         </div>
 
-        <ModulesUserDutyScheduleNormHoursModalNormPeriodNew :isModalOpen="state.modal.isAddNewNormPeriod" @close="state.modal.isAddNewNormPeriod = false"
-            @refreshNormPeriods="refreshNormPeriods" />
+        <ModulesUserDutyScheduleNormHoursModalNormPeriodNew :isModalOpen="state.modal.isAddNewNormPeriod"
+            @close="state.modal.isAddNewNormPeriod = false" @refreshNormPeriods="refreshNormPeriods" />
     </form>
 </template>
 
@@ -91,7 +90,7 @@ const rules = computed(() => {
     return {
         formNormPeriod: {
             norm_period_uuid: {
-                required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
+                required: helpers.withMessage(() => `${t('validation.thisFieldIsRequired')}.`, required),
             },
         },
     }

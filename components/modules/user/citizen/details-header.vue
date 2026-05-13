@@ -1,5 +1,5 @@
 <template>
-    <div>
+    <div data-search-exclude>
         <LoadingSpinner :isActive="state.isPageLoading">
             <Alert type="danger" :text="state?.error?.message"
                 v-if="state.error?.message && state.error.message.length > 0" />
@@ -31,11 +31,11 @@
                                                 {{ state.selectedCitizen?.data?.firstname }}
                                                 {{ state.selectedCitizen?.data?.lastname }}
                                             </h1>
-                                            <Tooltip :text="$t('citizens.table.actions.edit')">
+                                            <Tooltip :text="$t('citizens.table.actions.edit')"
+                                                v-if="userStore.getUser?.roles?.[0]?.name === 'Admin' || userStore.user?.permissions?.find((p: any) => p.name === 'update_citizen')">
                                                 <Icon name="ph:pencil-simple"
                                                     class="w-6 h-6 cursor-pointer text-primary"
-                                                    @click="navigateTo(`/citizens/${state.selectedCitizen?.data?.uuid}/view-edit`)"
-                                                    v-if="userStore.getUser?.roles?.[0]?.name === 'Admin'" />
+                                                    @click="navigateTo(`/citizens/${state.selectedCitizen?.data?.uuid}/view-edit`)" />
                                             </Tooltip>
                                             <Tooltip :text="$t('plansandgoals.followUps')">
                                                 <div class="relative inline-flex mx-1 cursor-pointer"
@@ -56,8 +56,7 @@
                                     </div>
                                     <div>
                                         <LoadingSpinner :isActive="state.isPageLoading">
-                                            <div
-                                                v-if="isInterventionCheckinEnabled"
+                                            <div v-if="isInterventionCheckinEnabled"
                                                 class="bg-white rounded-md flex items-center justify-between gap-x-2 px-4">
                                                 <p class="text-sm text-primary font-bold">
                                                     {{ state.selectedCitizen?.data?.is_checked_in ?
@@ -337,37 +336,36 @@
             <ModulesUserCitizenInquiryStayDataModalView :isModalOpen="state.modal.isInquiryStayDataOpen"
                 @close="state.modal.isInquiryStayDataOpen = false" :selectedCitizen="state.selectedCitizen" />
             <ModulesUserCitizenInterventionHoursModalView :isModalOpen="state.modal.isViewPatienCareHoursOpen"
-                @close="state.modal.isViewPatienCareHoursOpen = false" @refreshCitizenDetails="fetchCitizen()" />
+                @close="state.modal.isViewPatienCareHoursOpen = false" @refreshCitizenDetails="fetchCitizen()"
+                @openTimeLogs="switchToTimeLogs" />
+            <ModulesUserCitizenTimeLogsModalView :isModalOpen="state.modal.isViewTimeLogsOpen"
+                :citizenUuid="citizenUuid" @close="state.modal.isViewTimeLogsOpen = false"
+                @openInterventionHours="switchToInterventionHours" />
             <ModulesUserCitizenUseOfForceModalRelevantHelpLinks :isModalOpen="state.modal.isViewRelevantHelpLinksOpen"
                 @close="state.modal.isViewRelevantHelpLinksOpen = false" />
             <ModulesUserCitizenTimeRegistrationModalType :isModalOpen="state.modal.isTimeInTypeModalOpen"
-                @close="state.modal.isTimeInTypeModalOpen = false" @openTransport="openTransportLogin" @open-work="workLogin" />
-            <ModulesUserCitizenTimeRegistrationModalTransport type="login" :isModalOpen="state.modal.isTransportLoginOpen" @transportLogin="transportLogin"
+                @close="state.modal.isTimeInTypeModalOpen = false" @openTransport="openTransportLogin"
+                @open-work="workLogin" />
+            <ModulesUserCitizenTimeRegistrationModalTransport type="login"
+                :isModalOpen="state.modal.isTransportLoginOpen" @transportLogin="transportLogin"
                 @close="state.modal.isTransportLoginOpen = false" @submitTransportLogin="transportLogin" />
-            <ModulesUserCitizenTimeRegistrationModalTransport type="logout" :isModalOpen="state.modal.isTransportLogoutOpen" @transportLogout="transportLogout"
+            <ModulesUserCitizenTimeRegistrationModalTransport type="logout"
+                :isModalOpen="state.modal.isTransportLogoutOpen" @transportLogout="transportLogout"
                 @close="state.modal.isTransportLogoutOpen = false" @submitTransportLogout="transportLogout" />
-            
+
             <!-- Arrival Confirmation Modal -->
-            <ModulesUserCitizenTimeRegistrationModalConfirmArrival
-                :isModalOpen="state.modal.isConfirmArrivalOpen"
+            <ModulesUserCitizenTimeRegistrationModalConfirmArrival :isModalOpen="state.modal.isConfirmArrivalOpen"
                 :citizenName="`${state.selectedCitizen?.data?.firstname || ''} ${state.selectedCitizen?.data?.lastname || ''}`"
                 :citizenAddress="state.selectedCitizen?.data?.address?.street || ''"
-                :distanceInMeters="state.arrivalDistance"
-                :totalDistanceKm="locationTracking.getTotalDistanceKm()"
-                @close="state.modal.isConfirmArrivalOpen = false"
-                @confirmed="onArrivalConfirmed"
-                @dismissed="onArrivalDismissed"
-            />
-            
+                :distanceInMeters="state.arrivalDistance" :totalDistanceKm="locationTracking.getTotalDistanceKm()"
+                @close="state.modal.isConfirmArrivalOpen = false" @confirmed="onArrivalConfirmed"
+                @dismissed="onArrivalDismissed" />
+
             <!-- Work Confirmation Modal -->
-            <ModulesUserCitizenTimeRegistrationModalConfirmWorking
-                :isModalOpen="state.modal.isConfirmWorkingOpen"
+            <ModulesUserCitizenTimeRegistrationModalConfirmWorking :isModalOpen="state.modal.isConfirmWorkingOpen"
                 :citizenName="`${state.selectedCitizen?.data?.firstname || ''} ${state.selectedCitizen?.data?.lastname || ''}`"
-                :workingMinutes="state.workingMinutes"
-                @close="state.modal.isConfirmWorkingOpen = false"
-                @confirmed="onWorkConfirmed"
-                @dismissed="onWorkDismissed"
-            />
+                :workingMinutes="state.workingMinutes" @close="state.modal.isConfirmWorkingOpen = false"
+                @confirmed="onWorkConfirmed" @dismissed="onWorkDismissed" />
         </LoadingSpinner>
     </div>
 </template>
@@ -406,6 +404,7 @@ const state = reactive({
         isInquiryStayDataOpen: false,
         isViewPatienCareHoursOpen: false,
         isViewRelevantHelpLinksOpen: false,
+        isViewTimeLogsOpen: false,
         isTimeInTypeModalOpen: false,
         isTransportLoginOpen: false,
         isTransportLogoutOpen: false,
@@ -438,7 +437,7 @@ const isInterventionCheckinEnabled = computed(() => {
 onMounted(() => {
     fetchCitizen()
     fetchFollowUpReminderCount()
-    
+
     if (isTransportRegistrationEnabled.value) {
         const savedLocationState = locationTracking.getSavedTrackingState()
         if (savedLocationState && savedLocationState.isTracking && savedLocationState.careHourUuid && savedLocationState.citizenUuid === citizenUuid) {
@@ -450,15 +449,13 @@ onMounted(() => {
             })
         }
     }
-    
+
     const savedWorkState = workTimeTracking.getSavedWorkTimeState()
     if (savedWorkState && savedWorkState.isWorking && savedWorkState.careHourUuid && savedWorkState.citizenUuid === citizenUuid) {
-        console.log('Restoring work time tracking')
-        
+
         nextTick(() => {
             if (state.selectedCitizen?.data?.is_checked_in && !state.selectedCitizen?.data?.current_care_hour?.is_transportation) {
                 workTimeTracking.restoreFromState(savedWorkState, showWorkPrompt)
-                console.log('Work time tracking restored')
             }
         })
     }
@@ -493,19 +490,15 @@ function checkIfNearCitizen(userLocation: { lat: number; lng: number }) {
         state.modal.isConfirmArrivalOpen = true
         state.arrivalDistance = distance
         locationTracking.setArrivalPromptShown(true)
-        
-        console.log(`Near citizen! Distance: ${distance}m`)
     }
 }
 
 function showWorkPrompt() {
     if (workCheckState.hasShownPrompt) return
-    
+
     workCheckState.hasShownPrompt = true
     state.workingMinutes = workTimeTracking.getWorkingMinutes()
     state.modal.isConfirmWorkingOpen = true
-    
-    console.log(`Work prompt shown after ${state.workingMinutes} minutes`)
 }
 
 async function onArrivalConfirmed() {
@@ -514,7 +507,7 @@ async function onArrivalConfirmed() {
     const currentLat = locationTracking.currentLocation.value?.lat
     const currentLng = locationTracking.currentLocation.value?.lng
     const totalDistanceKm = locationTracking.getTotalDistanceKm()
-    
+
     let arrivalAddress = ''
     if (currentLat && currentLng) {
         try {
@@ -535,13 +528,13 @@ async function onArrivalConfirmed() {
             arrivalAddress = `${currentLat}, ${currentLng}`
         }
     }
-    
+
     state.error = {}
     state.isPageLoading = true
     try {
         if (state.selectedCitizen?.data?.is_checked_in) {
             await stopLocationTracking()
-            
+
             const params = {
                 is_transportation: true,
                 geo_end_lat: currentLat,
@@ -549,7 +542,7 @@ async function onArrivalConfirmed() {
                 end_address: arrivalAddress,
                 note: `${t('citizens.timeRegistration.confirmArrival.arrivedAt')} ${arrivalAddress}. ${t('citizens.timeRegistration.confirmArrival.totalDistance')}: ${totalDistanceKm.toFixed(2)}km`
             }
-            
+
             const response = await interventionHoursService.checkout(citizenUuid, params)
             if (response?.data) {
                 await fetchCitizen()
@@ -569,28 +562,26 @@ function onArrivalDismissed() {
 }
 
 function onWorkConfirmed() {
-    console.log('User confirmed still working')
     workCheckState.hasShownPrompt = false
     state.modal.isConfirmWorkingOpen = false
 }
 
 function onWorkDismissed() {
-    console.log('User said they are not working')
     workLogout()
 }
 
 function startLocationTracking(careHourUuid: string) {
     if (!isTransportRegistrationEnabled.value) return
-    
+
     arrivalCheckState.hasShownPrompt = locationTracking.getArrivalPromptShown()
-    
+
     locationTracking.startTracking(
         careHourUuid,
         (location) => {
-            console.log('Current location:', location)
+
         },
         (error) => {
-            console.error('Tracking error:', error)
+
         },
         30000,
         state.selectedCitizen?.data?.uuid,
@@ -637,7 +628,7 @@ function selectTimeInType() {
         workLogin()
         return
     }
-    
+
     state.modal.isTimeInTypeModalOpen = true
 }
 
@@ -650,9 +641,9 @@ async function workLogin() {
             const response = await interventionHoursService.checkin(citizenUuid, params)
             if (response?.data) {
                 const careHourUuid = response.data.uuid || response.data.citizen_care_hour_uuid
-                
+
                 await fetchCitizen()
-                
+
                 if (careHourUuid) {
                     workTimeTracking.startTracking(
                         careHourUuid,
@@ -674,7 +665,7 @@ function openTransportLogin() {
         console.warn('Transport registration is disabled')
         return
     }
-    
+
     state.modal.isTimeInTypeModalOpen = false
     state.modal.isTransportLoginOpen = true
 }
@@ -684,7 +675,7 @@ function openTransportLogout() {
         console.warn('Transport registration is disabled')
         return
     }
-    
+
     state.modal.isTimeInTypeModalOpen = false
     state.modal.isTransportLogoutOpen = true
 }
@@ -694,7 +685,7 @@ async function transportLogin(transportLoginDetails: any) {
         console.error('Transport registration is disabled')
         return
     }
-    
+
     state.error = {}
     state.isPageLoading = true
     try {
@@ -709,10 +700,10 @@ async function transportLogin(transportLoginDetails: any) {
             const response = await interventionHoursService.checkin(citizenUuid, params)
             if (response?.data) {
                 const careHourUuid = response.data.uuid || response.data.citizen_care_hour_uuid
-                
+
                 await fetchCitizen()
                 state.modal.isTransportLoginOpen = false
-                
+
                 if (careHourUuid) {
                     startLocationTracking(careHourUuid)
                 }
@@ -741,7 +732,7 @@ async function workLogout() {
     state.isPageLoading = true
     try {
         workTimeTracking.stopTracking()
-        
+
         const params = {}
         const response = await interventionHoursService.checkout(citizenUuid, params)
         if (response?.data) {
@@ -758,13 +749,13 @@ async function transportLogout(transportLogoutDetails: any) {
         console.error('Transport registration is disabled')
         return
     }
-    
+
     state.error = {}
     state.isPageLoading = true
     try {
         if (state.selectedCitizen?.data?.is_checked_in) {
             await stopLocationTracking()
-            
+
             const params = {
                 is_transportation: true,
                 geo_end_lat: transportLogoutDetails.geo_end_lat,
@@ -782,6 +773,16 @@ async function transportLogout(transportLogoutDetails: any) {
         state.error = error
     }
     state.isPageLoading = false
+}
+
+function switchToTimeLogs() {
+    state.modal.isViewPatienCareHoursOpen = false
+    state.modal.isViewTimeLogsOpen = true
+}
+
+function switchToInterventionHours() {
+    state.modal.isViewTimeLogsOpen = false
+    state.modal.isViewPatienCareHoursOpen = true
 }
 
 // ... rest of your access control functions remain the same ...

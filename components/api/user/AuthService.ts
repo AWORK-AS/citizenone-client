@@ -8,9 +8,11 @@ class AuthService extends BaseAPIService {
     async microsoftLogin(): Promise<any> {
         return await this.request(`/auth/ad/login`, 'GET')
     }
+  
     async googleLogin(): Promise<any> {
         return await this.request(`/auth/google/login`, 'GET')
     }
+  
     async verify2faCode(params: object): Promise<any> {
         return await this.request(`/auth/2fa/verify/code`, 'POST', params)
     }

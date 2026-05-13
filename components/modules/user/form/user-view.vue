@@ -17,7 +17,7 @@
                             </td>
                             <!-- <td width="20%">
                                 <div class="flex items-end gap-2">
-                                    <FormButton type="button" buttonStyle="action" class="rounded-md"
+                                    <FormButton type="button" buttonStyle="action" 
                                         @click="navigateTo(`/forms/${form.uuid}/respond`)">
                                         <Icon name="ph:pencil-simple" class="size-4" />
                                         {{ $t('forms.table.actions.createResponse') }}

@@ -14,7 +14,7 @@
 
             <div>
                 <div class="flex justify-end items-center mb-5">
-                    <FormButton buttonStyle="action" class="rounded-lg" @click="navigateTo('/news/new')">
+                    <FormButton buttonStyle="action" @click="navigateTo('/news/new')">
                         <Icon name="ph:plus" class="h-4 w-4" aria-hidden="true" />
                         {{ $t('news.newNews') }}
                     </FormButton>
@@ -28,19 +28,25 @@
                             :sortData="state.sortData" @sort="sort">
                             <template #body v-if="!(state.isTableLoading || (state.news?.data?.length === 0))">
                                 <tr v-for="(news, index) in state.news?.data" :key="index">
-                                    <td width="15%">
+                                    <td width="10%">
                                         <img :src="news?.image ?? `https://ui-avatars.com/api/?background=42AED9&color=fff&name=${news?.title}`"
                                             class="w-full" />
                                     </td>
-                                    <td width="20%">
+                                    <td width="15%">
                                         <div class="flex items-center gap-x-2">
                                             <span>{{ news?.title }}</span>
                                         </div>
                                     </td>
-                                    <td width="30%">
-                                        <span class="line-clamp-4">{{ news?.content }}</span>
+                                    <td width="20%">
+                                        <span class="line-clamp-4">{{ news?.preview }}</span>
                                     </td>
-                                    <td width="15%">
+                                    <td width="12%">
+                                        <span class="text-sm">{{ news?.author?.name }}</span>
+                                    </td>
+                                    <td width="10%">
+                                        <span class="text-sm">{{ formatDate(news?.created_at) }}</span>
+                                    </td>
+                                    <td width="10%">
                                         <div class="flex items-center gap-x-2">
                                             <Badge :type="news?.is_featured ? 'active' : 'primary'">
                                                 <p class="text-xs">
@@ -50,7 +56,7 @@
                                             </Badge>
                                         </div>
                                     </td>
-                                    <td width="15%">
+                                    <td width="10%">
                                         <div class="flex items-center gap-x-2">
                                             <Badge :type="news?.is_active ? 'active' : 'inactive'">
                                                 <p class="text-xs">
@@ -60,14 +66,14 @@
                                             </Badge>
                                         </div>
                                     </td>
-                                    <td width="20%">
-                                        <div class="flex items-end justify-end gap-2">
-                                            <FormButton type="button" buttonStyle="action" class="rounded-md"
+                                    <td width="13%">
+                                        <div class="flex items-end justify-end gap-2" v-if="canEdit(news)">
+                                            <FormButton type="button" buttonStyle="action"
                                                 @click="navigateTo(`/news/${news.uuid}/edit`)">
                                                 <Icon name="ph:pencil-simple" class="size-4" />
                                                 {{ $t('news.table.actions.edit') }}
                                             </FormButton>
-                                            <FormButton type="button" buttonStyle="danger" class="rounded-md"
+                                            <FormButton type="button" buttonStyle="danger"
                                                 @click="deleteConfirmation(news)">
                                                 <Icon name="ph:trash" class="size-4" />
                                                 {{ $t('news.table.actions.delete') }}
@@ -92,11 +98,13 @@
 import { newsService } from '@/components/api/user/NewsService'
 import { useI18n } from "vue-i18n"
 import { useAlert } from '@/composables/alert'
+import { useUserStore } from '@/store/user'
 import type { Error } from '@/types'
 
 const runtimeConfig = useRuntimeConfig()
 const { successAlert } = useAlert()
 const { t } = useI18n()
+const userStore = useUserStore() as any
 let currentTablePage = 1
 const breadcrumbLinks = [
     {
@@ -108,10 +116,12 @@ const breadcrumbLinks = [
 
 const state = reactive({
     columnHeaders: [
-        { name: 'news.table.image', isTranslateName: true, },
+        { name: 'news.table.image', isTranslateName: true },
         { name: 'news.table.title', isTranslateName: true, sorter: true, key: 'title' },
-        { name: 'news.table.content', isTranslateName: true, },
-        { name: 'news.table.featured', isTranslateName: true, },
+        { name: 'news.table.content', isTranslateName: true },
+        { name: 'news.table.author', isTranslateName: true },
+        { name: 'news.table.created', isTranslateName: true, sorter: true, key: 'created_at' },
+        { name: 'news.table.featured', isTranslateName: true },
         { name: 'news.table.status', isTranslateName: true, sorter: true, key: 'is_active' },
         { name: '' },
     ],
@@ -199,5 +209,21 @@ async function deleteNews() {
         state.error = error
     }
     state.isTableLoading = false
+}
+
+function canEdit(news: any): boolean {
+    const currentUser = userStore.getUser
+    const isAdmin = currentUser?.roles?.some((role: any) => role.name === 'Admin')
+    const isAuthor = currentUser?.uuid === news?.author?.uuid
+    return isAdmin || isAuthor
+}
+
+function formatDate(dateStr: string): string {
+    if (!dateStr) return ''
+    return new Date(dateStr).toLocaleDateString(undefined, {
+        day: '2-digit',
+        month: 'short',
+        year: 'numeric',
+    })
 }
 </script>

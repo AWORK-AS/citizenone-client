@@ -30,12 +30,12 @@
                 <div class="mt-4 flex items-center gap-x-2">
                     <FormButton buttonStyle="primary"
                         @click="navigateToExternalLink(`${runtimeConfig.public.appBaseURL}/booking/${props.bookingSettings?.link}/event/${props.selectedCourseEvent?.uuid}`)"
-                        class="w-full rounded-md">
+                        class="w-full">
                         {{ $t('bookings.view.viewSignUpForm') }}
                     </FormButton>
                     <FormButton buttonStyle="primary"
                         @click="navigateToExternalLink(`${runtimeConfig.public.appBaseURL}/booking/${props.bookingSettings?.link}/overview`)"
-                        class="w-full rounded-md">
+                        class="w-full">
                         {{ $t('bookings.view.viewFutureEvents') }}
                     </FormButton>
                 </div>

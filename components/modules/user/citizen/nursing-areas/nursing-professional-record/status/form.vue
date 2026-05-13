@@ -4,6 +4,30 @@
             v-if="props.error?.message && props.error.message.length > 0" />
         <div class="space-y-3">
             <div class="space-y-1">
+                <FormLabel :label="$t('citizens.nursingAreas.statuses.form.problemStatus')" />
+                <RadioGroup v-model="state.formStatus.problem_status" class="grid grid-cols-1 md:grid-cols-3 gap-2">
+                    <RadioGroupOption as="template" v-for="option in state.options.problem_statuses" :key="option.value"
+                        :value="option.value" v-slot="{ active, checked }">
+                        <div :class="[
+                            active ? 'ring-1 ring-offset-2' : '',
+                            option.value === 'not_an_active_problem' && 'ring-green-600',
+                            option.value === 'potential_problem' && 'ring-amber-500',
+                            option.value === 'active_problem' && 'ring-red-600',
+                            checked && option.value === 'not_an_active_problem' && 'bg-green-600 text-white ring-0',
+                            checked && option.value === 'potential_problem' && 'bg-amber-500 text-white ring-0',
+                            checked && option.value === 'active_problem' && 'bg-red-600 text-white ring-0',
+                            !checked && option.value === 'not_an_active_problem' && 'border border-green-600 text-green-700',
+                            !checked && option.value === 'potential_problem' && 'border border-amber-500 text-amber-700',
+                            !checked && option.value === 'active_problem' && 'border border-red-600 text-red-700',
+                            'cursor-pointer flex items-center justify-center rounded-full px-3 py-2 text-xs font-medium transition-colors'
+                        ]">
+                            {{ option.label }}
+                        </div>
+                    </RadioGroupOption>
+                </RadioGroup>
+                <FormError :error="props?.error?.errors?.problem_status?.[0]" />
+            </div>
+            <div class="space-y-1">
                 <FormLabel for="date" :label="$t('citizens.nursingAreas.statuses.form.date')" />
                 <FormDateField id="date" name="date" :placeholder="$t('citizens.nursingAreas.statuses.form.date')"
                     v-model="state.formStatus.date" />
@@ -33,10 +57,10 @@
         </div>
         <div class="mt-6">
             <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
-                <FormButton type="button" buttonStyle="cancel" class="rounded-md" @click="emit('closeModal')">
+                <FormButton type="button" buttonStyle="cancel" @click="emit('closeModal')">
                     {{ $t('cancel') }}
                 </FormButton>
-                <FormButton type="submit" buttonStyle="primary" class="rounded-md w-full">
+                <FormButton type="submit" buttonStyle="primary" class="w-full">
                     {{ props.formType === 'create' ? $t('save') :
                         $t('update') }}
                 </FormButton>
@@ -47,6 +71,7 @@
 
 <script setup lang="ts">
 import ClassicEditor from '@ckeditor/ckeditor5-build-classic'
+import { RadioGroup, RadioGroupOption } from '@headlessui/vue'
 import { useVuelidate } from "@vuelidate/core"
 import { required, helpers } from '@vuelidate/validators'
 import { useI18n } from "vue-i18n"
@@ -91,8 +116,14 @@ const state = reactive({
         area_type: '',
         score: '',
         status: '',
+        problem_status: '',
     },
     options: {
+        problem_statuses: [
+            { value: 'not_an_active_problem', label: t('citizens.nursingAreas.statuses.problemStatuses.notAnActiveProblem') },
+            { value: 'potential_problem', label: t('citizens.nursingAreas.statuses.problemStatuses.potentialProblem') },
+            { value: 'active_problem', label: t('citizens.nursingAreas.statuses.problemStatuses.activeProblem') },
+        ],
         area_types: [
             { value: 'functional_level', label: `${t('citizens.treatments.form.areaTypes.functionalLevel')}` },
             { value: 'musculoskeletal_system', label: `${t('citizens.treatments.form.areaTypes.musculoskeletalSystem')}` },
@@ -123,6 +154,7 @@ onMounted(() => {
         area_type: props.selectedStatus.area_type,
         score: props.selectedStatus.score,
         status: props.selectedStatus.status,
+        problem_status: props.selectedStatus.problem_status ?? '',
     }
 })
 
@@ -133,6 +165,7 @@ watch(() => props.selectedStatus, (newValue: any) => {
             area_type: newValue.area_type,
             score: newValue.score,
             status: newValue.status,
+            problem_status: newValue.problem_status ?? '',
         }
     }
 })
@@ -141,10 +174,10 @@ const rules = computed(() => {
     return {
         formStatus: {
             date: {
-                required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
+                required: helpers.withMessage(() => `${t('validation.thisFieldIsRequired')}.`, required),
             },
             status: {
-                required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
+                required: helpers.withMessage(() => `${t('validation.thisFieldIsRequired')}.`, required),
             },
         },
     }

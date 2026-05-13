@@ -210,6 +210,27 @@
                             </p>
                         </div>
                         <div class="space-y-1 flex items-center gap-x-2">
+                            <FormSwitch :value="state.formCompany.warning_13_hour_shift_enabled"
+                                @toggleSwitch="state.formCompany.warning_13_hour_shift_enabled = !state.formCompany.warning_13_hour_shift_enabled" />
+                            <p>
+                                {{ $t('settings.company.form.warning13HourShift') }}
+                            </p>
+                        </div>
+                        <div class="space-y-1 flex items-center gap-x-2">
+                            <FormSwitch :value="state.formCompany.warning_11_hour_rest_enabled"
+                                @toggleSwitch="state.formCompany.warning_11_hour_rest_enabled = !state.formCompany.warning_11_hour_rest_enabled" />
+                            <p>
+                                {{ $t('settings.company.form.warning11HourRest') }}
+                            </p>
+                        </div>
+                        <div class="space-y-1 flex items-center gap-x-2">
+                            <FormSwitch :value="state.formCompany.warning_48_hour_rule_enabled"
+                                @toggleSwitch="state.formCompany.warning_48_hour_rule_enabled = !state.formCompany.warning_48_hour_rule_enabled" />
+                            <p>
+                                {{ $t('settings.company.form.warning48HourRule') }}
+                            </p>
+                        </div>
+                        <div class="space-y-1 flex items-center gap-x-2">
                             <FormSwitch :value="state.formCompany.transfer_norm_hours_enabled"
                                 @toggleSwitch="state.formCompany.transfer_norm_hours_enabled = !state.formCompany.transfer_norm_hours_enabled" />
                             <p>
@@ -244,10 +265,62 @@
                                 {{ $t('settings.company.form.registerTransport') }}
                             </p>
                         </div>
+                        <div class="space-y-1 flex items-center gap-x-2">
+                            <FormSwitch :value="state.formCompany.sunday_multiplier_enabled"
+                                @toggleSwitch="state.formCompany.sunday_multiplier_enabled = !state.formCompany.sunday_multiplier_enabled" />
+                            <p>
+                                {{ $t('settings.company.form.sundayShiftCalculation') }}
+                            </p>
+                        </div>
 
                     </div>
+
+                    <div class="mt-6 border-t border-gray-200 pt-6 space-y-4">
+                        <h3 class="text-sm font-semibold text-gray-700">{{ $t('settings.company.form.ipRestriction') }}</h3>
+                        <div class="space-y-1 flex items-center gap-x-2">
+                            <FormSwitch :value="state.formCompany.is_ip_restriction_enabled"
+                                @toggleSwitch="state.formCompany.is_ip_restriction_enabled = !state.formCompany.is_ip_restriction_enabled" />
+                            <p>{{ $t('settings.company.form.enableIpRestriction') }}</p>
+                        </div>
+                        <template v-if="state.formCompany.is_ip_restriction_enabled">
+                            <div class="space-y-1 max-w-xs">
+                                <FormLabel :label="$t('settings.company.form.ipRestrictionAction')" />
+                                <FormSelect
+                                    :options="[{ value: 'block', label: $t('settings.company.form.actionBlock') }, { value: 'otp', label: $t('settings.company.form.actionOtp') }]"
+                                    v-model="state.formCompany.ip_restriction_action" />
+                            </div>
+                            <div>
+                                <FormButton type="button" buttonStyle="action" @click="navigateTo('/settings/ip-restrictions')">
+                                    {{ $t('settings.company.form.manageIpWhitelist') }}
+                                </FormButton>
+                            </div>
+                        </template>
+                    </div>
+
+                    <div class="mt-6 border-t border-gray-200 pt-6 space-y-4">
+                        <h3 class="text-sm font-semibold text-gray-700">{{ $t('settings.company.form.deviceRestriction') }}</h3>
+                        <div class="space-y-1 flex items-center gap-x-2">
+                            <FormSwitch :value="state.formCompany.is_device_restriction_enabled"
+                                @toggleSwitch="state.formCompany.is_device_restriction_enabled = !state.formCompany.is_device_restriction_enabled" />
+                            <p>{{ $t('settings.company.form.enableDeviceRestriction') }}</p>
+                        </div>
+                        <template v-if="state.formCompany.is_device_restriction_enabled">
+                            <div class="space-y-1 max-w-xs">
+                                <FormLabel :label="$t('settings.company.form.deviceRestrictionAction')" />
+                                <FormSelect
+                                    :options="[{ value: 'block', label: $t('settings.company.form.actionBlock') }, { value: 'otp', label: $t('settings.company.form.actionOtp') }]"
+                                    v-model="state.formCompany.device_restriction_action" />
+                            </div>
+                            <div>
+                                <FormButton type="button" buttonStyle="action" @click="navigateTo('/settings/approved-devices')">
+                                    {{ $t('settings.company.form.manageApprovedDevices') }}
+                                </FormButton>
+                            </div>
+                        </template>
+                    </div>
+
                     <div class="mt-6">
-                        <FormButton type="submit" buttonStyle="primary" class="rounded-md w-full">
+                        <FormButton type="submit" buttonStyle="primary" class="w-full">
                             {{ $t('save') }}
                         </FormButton>
                     </div>
@@ -265,12 +338,14 @@ import { regionService } from '@/components/api/user/RegionService'
 import { municipalityService } from '@/components/api/user/MunicipalityService'
 import { citizenDisplayService } from '@/components/api/user/CitizenDisplayService'
 import { useUserStore } from '@/store/user'
+import { useCompanyStore } from '@/store/company'
 import { useAlert } from '@/composables/alert'
 import { useI18n } from "vue-i18n"
 import type { Error } from '@/types'
 
 const runtimeConfig = useRuntimeConfig()
 const userStore = useUserStore()
+const companyStore = useCompanyStore()
 const language = useI18n()
 const { successAlert } = useAlert()
 const { t } = useI18n()
@@ -317,6 +392,14 @@ const state = reactive({
         logo: null as File | null,
         should_delete_logo: false,
         register_transport_enabled: false,
+        sunday_multiplier_enabled: false,
+        warning_13_hour_shift_enabled: true,
+        warning_11_hour_rest_enabled: true,
+        warning_48_hour_rule_enabled: true,
+        is_ip_restriction_enabled: false,
+        ip_restriction_action: 'block' as string,
+        is_device_restriction_enabled: false,
+        device_restriction_action: 'block' as string,
     },
     isPageLoading: false,
     options: {
@@ -331,7 +414,7 @@ const rules = computed(() => {
     return {
         formCompany: {
             name: {
-                required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
+                required: helpers.withMessage(() => `${t('validation.thisFieldIsRequired')}.`, required),
             },
         },
     }
@@ -350,17 +433,18 @@ watch(() => language.locale.value, (newValue: any) => {
 
 watch(() => userStore.getUser, (newValue: any) => {
     if (newValue != null) {
+        const address = newValue?.company?.company_address ?? companyStore.getCompanyAddress
         state.formCompany = {
             name: newValue?.company?.name,
             cvr: newValue?.company?.cvr,
             website: newValue?.company?.website,
             accountant_email: newValue?.company?.accountant_email,
             phone: newValue?.company?.phone,
-            street: newValue?.company?.company_address?.street,
-            region: newValue?.company?.company_address?.region?.uuid,
-            municipality: newValue?.company?.company_address?.municipality?.uuid,
-            city: newValue?.company?.company_address?.city,
-            post_code: newValue?.company?.company_address?.post_code,
+            street: address?.street ?? '',
+            region: address?.region?.uuid ?? '',
+            municipality: address?.municipality?.uuid ?? '',
+            city: address?.city ?? '',
+            post_code: address?.post_code ?? '',
             citizen_display_uuid: [],
             intervention_notification_hours: newValue?.company?.intervention_notification_hours?.toString(),
             is_2fa_enabled: newValue?.company?.is_2fa_enabled ? true : false,
@@ -377,6 +461,14 @@ watch(() => userStore.getUser, (newValue: any) => {
             social_og_boligstyrelsen: newValue?.company?.social_og_boligstyrelsen ? true : false,
             quick_risk_assessment_enabled: newValue?.company?.quick_risk_assessment_enabled ? true : false,
             register_transport_enabled: newValue?.company?.register_transport_enabled ? true : false,
+            sunday_multiplier_enabled: newValue?.company?.sunday_multiplier_enabled ? true : false,
+            warning_13_hour_shift_enabled: newValue?.company?.warning_13_hour_shift_enabled !== false,
+            warning_11_hour_rest_enabled: newValue?.company?.warning_11_hour_rest_enabled !== false,
+            warning_48_hour_rule_enabled: newValue?.company?.warning_48_hour_rule_enabled !== false,
+            is_ip_restriction_enabled: newValue?.company?.is_ip_restriction_enabled ? true : false,
+            ip_restriction_action: newValue?.company?.ip_restriction_action ?? 'block',
+            is_device_restriction_enabled: newValue?.company?.is_device_restriction_enabled ? true : false,
+            device_restriction_action: newValue?.company?.device_restriction_action ?? 'block',
             logo: null,
             should_delete_logo: false,
         }
@@ -384,8 +476,9 @@ watch(() => userStore.getUser, (newValue: any) => {
         if (newValue?.company?.logo_url) {
             logoPreviewUrl.value = newValue.company.logo_url
         }
-        fetchMunicipalitiesPerRegion(newValue?.company?.company_address?.region?.uuid)
-        newValue?.company?.citizen_displays?.forEach((item: any) => {
+        fetchMunicipalitiesPerRegion(address?.region?.uuid)
+        const displays = newValue?.company?.citizen_displays ?? companyStore.getCitizenDisplays
+        displays?.forEach((item: any) => {
             state.formCompany.citizen_display_uuid.push(item.uuid)
         })
     }
@@ -541,17 +634,28 @@ async function submitForm() {
                 social_og_boligstyrelsen: state.formCompany.social_og_boligstyrelsen,
                 quick_risk_assessment_enabled: state.formCompany.quick_risk_assessment_enabled,
                 register_transport_enabled: state.formCompany.register_transport_enabled,
+                sunday_multiplier_enabled: state.formCompany.sunday_multiplier_enabled,
+                warning_13_hour_shift_enabled: state.formCompany.warning_13_hour_shift_enabled,
+                warning_11_hour_rest_enabled: state.formCompany.warning_11_hour_rest_enabled,
+                warning_48_hour_rule_enabled: state.formCompany.warning_48_hour_rule_enabled,
+                is_ip_restriction_enabled: state.formCompany.is_ip_restriction_enabled,
+                ip_restriction_action: state.formCompany.ip_restriction_action,
+                is_device_restriction_enabled: state.formCompany.is_device_restriction_enabled,
+                device_restriction_action: state.formCompany.device_restriction_action,
             }
 
             const response = await userService.updateCompany(params)
             if (response.data) {
                 userStore.setUserCheckinStatus(state.formCompany.checkin_enabled)
+                if (response.data.company_address) {
+                    companyStore.setCompanyAddress(response.data.company_address)
+                }
+                if (response.data.citizen_displays) {
+                    companyStore.setCitizenDisplays(response.data.citizen_displays)
+                }
                 const currentUser: any = { ...userStore.getUser }
-                if (currentUser?.company && response.data?.logo_url) {
-                    currentUser.company.logo_url = response.data.logo_url
-                    userStore.setUser(currentUser)
-                } else if (currentUser?.company && state.formCompany.should_delete_logo) {
-                    currentUser.company.logo_url = null
+                if (currentUser?.company) {
+                    currentUser.company = { ...currentUser.company, ...response.data }
                     userStore.setUser(currentUser)
                 }
                 successAlert(`${t('alert.success')}!`, `${t('settings.company.form.alert.successfullyUpdated')}.`)

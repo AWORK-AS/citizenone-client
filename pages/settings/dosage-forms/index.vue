@@ -18,8 +18,7 @@
 
             <div class="mt-8">
                 <div class="flex justify-end items-center mb-5">
-                    <FormButton buttonStyle="action" class="rounded-lg"
-                        @click="navigateTo('/settings/dosage-forms/new')">
+                    <FormButton buttonStyle="action" @click="navigateTo('/settings/dosage-forms/new')">
                         <Icon name="ph:plus" class="h-4 w-4" aria-hidden="true" />
                         {{ $t('dosageForms.addNewDosageForm') }}
                     </FormButton>
@@ -33,21 +32,27 @@
                             :isLoading="state.isTableLoading" :sortData="state.sortData" @sort="sort">
                             <template #body v-if="!(state.isTableLoading || (state.dosageForms?.data?.length === 0))">
                                 <tr v-for="(dosageForm, index) in state.dosageForms?.data" :key="index">
-                                    <td width="30%">
+                                    <td width="20%">
                                         <span>{{ dosageForm?.en_name }}</span>
                                     </td>
-                                    <td width="30%">
+                                    <td width="20%">
                                         <span>{{ dosageForm?.dk_name }}</span>
                                     </td>
-                                    <td width="40%">
+                                    <td width="20%">
+                                        <span>{{ dosageForm?.no_name }}</span>
+                                    </td>
+                                    <td width="20%">
+                                        <span>{{ dosageForm?.sv_name }}</span>
+                                    </td>
+                                    <td width="20%">
                                         <div class="flex items-center justify-end gap-2">
-                                            <FormButton type="button" buttonStyle="action" class="rounded-md"
+                                            <FormButton type="button" buttonStyle="action"
                                                 @click="navigateTo(`/settings/dosage-forms/${dosageForm.uuid}/edit`)"
                                                 v-if="dosageForm?.is_editable">
                                                 <Icon name="ph:pencil-simple" class="size-4" />
                                                 {{ $t('dosageForms.table.actions.edit') }}
                                             </FormButton>
-                                            <FormButton type="button" buttonStyle="danger" class="rounded-md"
+                                            <FormButton type="button" buttonStyle="danger"
                                                 @click="deleteDosageFormConfirmation(dosageForm)"
                                                 v-if="dosageForm?.is_deletable">
                                                 <Icon name="ph:trash" class="size-4" />
@@ -92,6 +97,8 @@ const state = reactive({
     columnHeaders: [
         { name: 'dosageForms.table.nameEnglish', isTranslateName: true, sorter: true, key: 'en_name' },
         { name: 'dosageForms.table.nameDanish', isTranslateName: true, sorter: true, key: 'dk_name' },
+        { name: 'dosageForms.table.nameNorwegian', isTranslateName: true, sorter: true, key: 'no_name' },
+        { name: 'dosageForms.table.nameSwedish', isTranslateName: true, sorter: true, key: 'sv_name' },
         { name: '' }
     ],
     dataFilter: {

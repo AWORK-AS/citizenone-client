@@ -4,7 +4,8 @@
             v-if="state.error?.message && state.error.message.length > 0" />
         <div class="space-y-1">
             <div class="flex justify-between items-center py-0.5">
-                <FormLabel for="start_address" :label="$t('citizens.timeRegistration.registerTransport.form.startAddress')" />
+                <FormLabel for="start_address"
+                    :label="$t('citizens.timeRegistration.registerTransport.form.startAddress')" />
             </div>
             <FormTextArea id="start_address" name="start_address"
                 :placeholder="$t('citizens.timeRegistration.registerTransport.form.startAddress')"
@@ -17,21 +18,22 @@
             <div v-else class="flex items-center gap-x-2 w-full">
                 <div class="flex gap-x-1 text-tertiary hover:text-primary text-xs cursor-pointer"
                     @click="useCurrentLocation">
-                    <Icon name="ph:map-pin" class="h-4 w-4" aria-hidden="true" /> 
-                    <span class="">{{ $t('citizens.timeRegistration.registerTransport.form.useCurrentLocation') }}</span>
+                    <Icon name="ph:map-pin" class="h-4 w-4" aria-hidden="true" />
+                    <span class="">{{ $t('citizens.timeRegistration.registerTransport.form.useCurrentLocation')
+                        }}</span>
                 </div>
                 <div class="flex gap-x-1 text-tertiary hover:text-primary text-xs cursor-pointer"
                     @click="searchAddress">
-                    <Icon name="ph:magnifying-glass" class="h-4 w-4" aria-hidden="true" /> 
+                    <Icon name="ph:magnifying-glass" class="h-4 w-4" aria-hidden="true" />
                     <span class="">{{ $t('citizens.timeRegistration.registerTransport.form.searchAddress') }}</span>
                 </div>
                 <div class="flex gap-x-1 text-tertiary hover:text-primary text-xs cursor-pointer"
                     @click="centerMapToCoords">
-                    <Icon name="ph:crosshair" class="h-4 w-4" aria-hidden="true" /> 
+                    <Icon name="ph:crosshair" class="h-4 w-4" aria-hidden="true" />
                     <span class="">{{ $t('citizens.timeRegistration.registerTransport.form.centerMap') }}</span>
                 </div>
             </div>
-            
+
             <FormError :error="v$?.formTransport?.start_address?.$errors[0]?.$message.toString()" />
             <FormError :error="state?.error?.errors?.start_address?.[0]" />
         </div>
@@ -45,13 +47,13 @@
             <FormError :error="v$?.formTransport?.note?.$errors[0]?.$message.toString()" />
             <FormError :error="state?.error?.errors?.note?.[0]" />
         </div>
-        
+
         <div class="mt-6">
             <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
-                <FormButton type="button" buttonStyle="cancel" class="rounded-md" @click="closeModal">
+                <FormButton type="button" buttonStyle="cancel" @click="closeModal">
                     {{ $t('cancel') }}
                 </FormButton>
-                <FormButton type="submit" buttonStyle="primary" class="rounded-md">
+                <FormButton type="submit" buttonStyle="primary">
                     {{ $t('citizens.timeRegistration.checkIn') }}
                 </FormButton>
             </div>
@@ -94,7 +96,7 @@ const rules = computed(() => {
     return {
         formTransport: {
             start_address: {
-                required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
+                required: helpers.withMessage(() => `${t('validation.thisFieldIsRequired')}.`, required),
             },
         },
     }

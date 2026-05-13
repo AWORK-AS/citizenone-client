@@ -1,11 +1,13 @@
 <template>
     <div>
-        <Modal size="sm" :title="$t('citizens.timeRegistration.confirmArrival.title')" :show="props.isModalOpen" @close="handleNo">
+        <Modal size="sm" :title="$t('citizens.timeRegistration.confirmArrival.title')" :show="props.isModalOpen"
+            @close="handleNo">
             <template #modal-body>
                 <div class="space-y-4">
                     <!-- Icon and message -->
                     <div class="flex flex-col items-center text-center">
-                        <div class="w-16 h-16 bg-blue-100 rounded-full flex items-center justify-center mb-4 animate-pulse">
+                        <div
+                            class="w-16 h-16 bg-blue-100 rounded-full flex items-center justify-center mb-4 animate-pulse">
                             <Icon name="ph:map-pin" class="w-8 h-8 text-primary" />
                         </div>
                         <h3 class="text-lg font-semibold mb-2">
@@ -20,7 +22,7 @@
                         <div class="mt-3 flex items-center gap-2 text-xs text-gray-500">
                             <Icon name="ph:navigation-arrow" class="w-4 h-4" />
                             <span>
-                                {{ $t('citizens.timeRegistration.confirmArrival.distance') }}: 
+                                {{ $t('citizens.timeRegistration.confirmArrival.distance') }}:
                                 {{ distanceDisplay }}
                             </span>
                         </div>
@@ -28,10 +30,10 @@
 
                     <!-- Action Buttons -->
                     <div class="grid grid-cols-2 gap-3 mt-6">
-                        <FormButton buttonStyle="cancel" @click="handleNo" class="rounded-md">
+                        <FormButton buttonStyle="cancel" @click="handleNo">
                             {{ $t('citizens.timeRegistration.no') }}
                         </FormButton>
-                        <FormButton buttonStyle="primary" @click="handleYes" class="rounded-md">
+                        <FormButton buttonStyle="primary" @click="handleYes">
                             {{ $t('citizens.timeRegistration.yes') }}
                         </FormButton>
                     </div>

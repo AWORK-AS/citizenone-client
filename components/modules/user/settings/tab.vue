@@ -1,12 +1,13 @@
 <template>
-    <Tabs :tabs="state.tabs" :isJustifyBetween="true" @changeTab="changeTab" />
+    <Tabs :tabs="state.tabs"
+        :isJustifyBetween="userStore.getUser?.roles?.some((role: any) => role.name === 'Admin') ? true : false"
+        @changeTab="changeTab" />
 </template>
 
 <script setup lang="ts">
 import { useI18n } from "vue-i18n"
 import { useUserStore } from '@/store/user'
 
-const { t } = useI18n()
 const userStore = useUserStore()
 const router = useRouter()
 

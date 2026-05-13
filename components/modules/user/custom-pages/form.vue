@@ -17,14 +17,20 @@
                 <FormError :error="v$?.formCustomPage?.dk_name?.$errors[0]?.$message.toString()" />
                 <FormError :error="props?.error?.errors?.dk_name?.[0]" />
             </div>
+            <div>
+                <div class="w-fit flex items-center cursor-pointer"
+                    @click="state.formCustomPage.is_field_active = !state.formCustomPage.is_field_active">
+                    <FormCheckbox :value="state.formCustomPage.is_field_active" />
+                    {{ $t('customPages.form.isFieldActive') }}
+                </div>
+            </div>
         </div>
         <div class="mt-6">
             <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
-                <FormButton type="button" buttonStyle="cancel" class="rounded-md"
-                    @click="navigateTo('/settings/custom-pages')">
+                <FormButton type="button" buttonStyle="cancel" @click="navigateTo('/settings/custom-pages')">
                     {{ $t('cancel') }}
                 </FormButton>
-                <FormButton type="submit" buttonStyle="primary" class="rounded-md">
+                <FormButton type="submit" buttonStyle="primary">
                     {{ props.formType === 'create' ? $t('save') :
                         $t('update') }}
                 </FormButton>
@@ -63,6 +69,7 @@ const state = reactive({
     formCustomPage: {
         en_name: '',
         dk_name: '',
+        is_field_active: true,
     },
 })
 
@@ -71,6 +78,7 @@ watch(() => props.selectedCustomPage, (newValue: any) => {
         state.formCustomPage = {
             en_name: newValue.en_name,
             dk_name: newValue.dk_name,
+            is_field_active: newValue.is_field_active ?? true,
         }
     }
 })
@@ -79,10 +87,10 @@ const rules = computed(() => {
     return {
         formCustomPage: {
             en_name: {
-                required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
+                required: helpers.withMessage(() => `${t('validation.thisFieldIsRequired')}.`, required),
             },
             dk_name: {
-                required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
+                required: helpers.withMessage(() => `${t('validation.thisFieldIsRequired')}.`, required),
             },
         },
     }

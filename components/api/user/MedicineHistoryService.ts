@@ -5,6 +5,10 @@ class MedicineHistoryService extends BaseAPIService {
         return await this.request(`/user/citizen-medicine-histories`, 'GET', params)
     }
 
+    async getMedicineHistoriesByCitizen(citizenUuid: any, params: object): Promise<any> {
+        return await this.request(`/user/citizen-medicine-histories/${citizenUuid}/citizen-medicine-histories/give-medicine`, 'GET', params)
+    }
+
     async getMedicineHistoryByMedicineUuid(medicineUuid: any, params: object): Promise<any> {
         return await this.request(`/user/citizen-medicine-histories/${medicineUuid}/give-medicine`, 'GET', params)
     }

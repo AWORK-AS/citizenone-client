@@ -36,6 +36,20 @@
                 <FormError :error="props?.error?.errors?.dk_name?.[0]" />
             </div>
             <div class="space-y-1">
+                <FormLabel for="no_name" :label="$t('medicines.form.nameNorwegian')" />
+                <FormTextField id="no_name" name="no_name" :placeholder="$t('medicines.form.nameNorwegian')"
+                    v-model="state.formMedicine.no_name" />
+                <FormError :error="v$?.formMedicine?.no_name?.$errors[0]?.$message.toString()" />
+                <FormError :error="props?.error?.errors?.no_name?.[0]" />
+            </div>
+            <div class="space-y-1">
+                <FormLabel for="sv_name" :label="$t('medicines.form.nameSwedish')" />
+                <FormTextField id="sv_name" name="sv_name" :placeholder="$t('medicines.form.nameSwedish')"
+                    v-model="state.formMedicine.sv_name" />
+                <FormError :error="v$?.formMedicine?.sv_name?.$errors[0]?.$message.toString()" />
+                <FormError :error="props?.error?.errors?.sv_name?.[0]" />
+            </div>
+            <div class="space-y-1">
                 <FormLabel for="active_ingredients" :label="$t('medicines.form.activeIngredients')" />
                 <FormTextField id="active_ingredients" name="active_ingredients"
                     :placeholder="$t('medicines.form.activeIngredients')"
@@ -46,10 +60,10 @@
         </div>
         <div class="mt-6">
             <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
-                <FormButton type="button" buttonStyle="cancel" class="rounded-md" @click="emit('closeModal')">
+                <FormButton type="button" buttonStyle="cancel" @click="emit('closeModal')">
                     {{ $t('cancel') }}
                 </FormButton>
-                <FormButton type="submit" buttonStyle="primary" class="rounded-md">
+                <FormButton type="submit" buttonStyle="primary">
                     {{ props.formType === 'create' ? $t('save') :
                         $t('update') }}
                 </FormButton>
@@ -90,6 +104,8 @@ const state = reactive({
         image: '',
         en_name: '',
         dk_name: '',
+        no_name: '',
+        sv_name: '',
         active_ingredients: '',
     },
 })
@@ -100,6 +116,8 @@ watch(() => props.selectedMedicine, (newValue: any) => {
             image: '',
             en_name: newValue.en_name,
             dk_name: newValue.dk_name,
+            no_name: newValue.no_name ?? '',
+            sv_name: newValue.sv_name ?? '',
             active_ingredients: newValue.active_ingredients,
         }
         if (newValue?.image) {
@@ -112,10 +130,16 @@ const rules = computed(() => {
     return {
         formMedicine: {
             en_name: {
-                required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
+                required: helpers.withMessage(() => `${t('validation.thisFieldIsRequired')}.`, required),
             },
             dk_name: {
-                required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
+                required: helpers.withMessage(() => `${t('validation.thisFieldIsRequired')}.`, required),
+            },
+            no_name: {
+                required: helpers.withMessage(() => `${t('validation.thisFieldIsRequired')}.`, required),
+            },
+            sv_name: {
+                required: helpers.withMessage(() => `${t('validation.thisFieldIsRequired')}.`, required),
             },
         },
     }

@@ -71,6 +71,7 @@ async function fetchRole() {
             state.formRole = {
                 name: response?.data?.name ?? '',
                 predefined: response?.data?.predefined ?? false,
+                is_name_editable: response?.data?.is_name_editable ?? false,
                 permissions: [],
             }
             response?.data?.permissions.forEach((permission: any) => {

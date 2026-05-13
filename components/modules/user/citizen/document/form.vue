@@ -39,10 +39,10 @@
         </div>
         <div class="mt-6">
             <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
-                <FormButton type="button" buttonStyle="cancel" class="rounded-md" @click="emit('closeModal')">
+                <FormButton type="button" buttonStyle="cancel" @click="emit('closeModal')">
                     {{ $t('cancel') }}
                 </FormButton>
-                <FormButton type="submit" buttonStyle="primary" class="rounded-md w-full">
+                <FormButton type="submit" buttonStyle="primary" class="w-full">
                     {{ props.formType === 'create' ? $t('save') :
                         $t('update') }}
                 </FormButton>
@@ -105,7 +105,6 @@ onMounted(() => {
         is_use_template: false,
         template: '',
     }
-    console.log('ModulesUserCitizenDocumentForm mounted; showAdminCheckbox=', props.showAdminCheckbox, 'initial formDirectory=', state.formDirectory)
     fetchTemplates()
 })
 
@@ -119,7 +118,6 @@ watch(() => props.selectedDocument, (newValue: any) => {
             is_use_template: false,
             template: '',
         }
-        console.log('ModulesUserCitizenDocumentForm props.selectedDocument changed; showAdminCheckbox=', props.showAdminCheckbox, 'formDirectory=', state.formDirectory)
     }
 })
 
@@ -128,7 +126,7 @@ const rules = computed(() => {
         return {
             formDirectory: {
                 template: {
-                    required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
+                    required: helpers.withMessage(() => `${t('validation.thisFieldIsRequired')}.`, required),
                 },
             },
         }
@@ -136,7 +134,7 @@ const rules = computed(() => {
         return {
             formDirectory: {
                 name: {
-                    required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
+                    required: helpers.withMessage(() => `${t('validation.thisFieldIsRequired')}.`, required),
                 },
             },
         }

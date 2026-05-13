@@ -1,6 +1,6 @@
 <template>
     <div>
-        <ModalSideBySide sizeLeft="lg" sizeRight="xxs" :titleLeft="$t('citizens.citizenJournals.newNote')"
+        <ModalSideBySide sizeLeft="lg" sizeRight="sm" :titleLeft="$t('citizens.citizenJournals.newNote')"
             :titleRight="$t('plansandgoals.currentPlansAndGoals')" :show="props.isModalOpen"
             :showRightModal="state.modal.showCurrentPlansAndGoals" @close="closeModal"
             @closeRightModal="state.modal.showCurrentPlansAndGoals = false">
@@ -71,7 +71,7 @@
                                 </div>
                                 <div>
                                     <div class="flex items-center gap-2 flex-wrap md:flex-nowrap">
-                                        <FormButton class="rounded-md" buttonSize="sm" @click="viewPlan(plan)">
+                                        <FormButton class="rounded-full" buttonSize="sm" @click="viewPlan(plan)">
                                             <Icon name="ph:eye" class="size-4" />
                                             {{ $t('plansandgoals.table.actions.seeGoals') }}
                                         </FormButton>
@@ -141,6 +141,7 @@ const state = reactive({
         risk_assessment_plan_goal_subgoal_uuid: '',
         title: '',
         is_draft: false,
+        is_ai_used: false,
         assessment: null,
         risk_assessment_tags: [],
         note: '',
@@ -246,11 +247,13 @@ async function saveJournal(journalDetails: any) {
             content: journalDetails.formJournal.content,
             journal_note_tags_uuid: journalDetails.formJournal.journal_note_tags,
             is_draft: journalDetails.formJournal.is_draft,
+            is_ai_used: journalDetails.formJournal.is_ai_used ?? false,
             assessment: journalDetails.formJournal.assessment,
             note: journalDetails.formJournal.note,
             risk_assessment_tags_uuid: journalDetails.formJournal.risk_assessment_tags,
             score: journalDetails.formJournal.score,
             teeth_uuid: journalDetails.formJournal.teeth,
+            field_answers: journalDetails.formJournal.field_answers ?? [],
         }
         const response = await journalService.saveJournal(params)
         if (response?.data) {

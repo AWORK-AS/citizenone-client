@@ -48,17 +48,15 @@
                                 </span>
                             </button>
                             <div class="flex items-center gap-x-2 justify-end">
-                                <FormButton buttonStyle="action" class="rounded-lg"
-                                    @click="state.modal.isAddJournalOpen = true">
+                                <FormButton buttonStyle="action" @click="state.modal.isAddJournalOpen = true">
                                     <Icon name="ph:plus" class="h-4 w-4" aria-hidden="true" />
                                     {{ $t('citizens.citizenJournals.newNote') }}
                                 </FormButton>
-                                <FormButton buttonStyle="action" class="rounded-lg" @click="showDownloadJournal">
+                                <FormButton buttonStyle="action" @click="showDownloadJournal">
                                     <Icon name="ph:download" class="h-4 w-4" aria-hidden="true" />
                                     {{ $t('citizens.citizenJournals.download') }}
                                 </FormButton>
-                                <FormButton buttonStyle="action" class="rounded-lg"
-                                    @click="showDeletedJournalHistories">
+                                <FormButton buttonStyle="action" @click="showDeletedJournalHistories">
                                     <Icon name="ph:clock-clockwise" class="h-4 w-4" aria-hidden="true" />
                                     {{ $t('citizens.citizenJournals.journalLogs.deletedNotes') }}
                                 </FormButton>
@@ -221,21 +219,21 @@
                                         <div class="flex items-center gap-x-2">
                                             <Tooltip :text="$t('citizens.citizenJournals.actions.edit')"
                                                 v-if="journal?.is_editable">
-                                                <FormButton class="rounded-md" buttonStyle="primary" buttonSize="xs"
+                                                <FormButton buttonStyle="primary" buttonSize="xs"
                                                     @click="editJournal(journal)">
                                                     <Icon name="ph:pencil-duotone" class="size-4" />
                                                 </FormButton>
                                             </Tooltip>
                                             <Tooltip :text="$t('citizens.citizenJournals.actions.copy')"
                                                 v-if="journal?.is_copyable">
-                                                <FormButton class="rounded-md" buttonStyle="primary" buttonSize="xs"
+                                                <FormButton buttonStyle="primary" buttonSize="xs"
                                                     @click="copyJournal(journal)">
                                                     <Icon name="ph:copy" class="size-4" />
                                                 </FormButton>
                                             </Tooltip>
                                             <Tooltip :text="$t('citizens.citizenJournals.actions.move')"
                                                 v-if="journal?.is_movable">
-                                                <FormButton class="rounded-md" buttonStyle="primary" buttonSize="xs"
+                                                <FormButton buttonStyle="primary" buttonSize="xs"
                                                     @click="moveJournal(journal)">
                                                     <Icon name="ph:arrows-out-cardinal" class="size-4" />
                                                 </FormButton>
@@ -260,13 +258,13 @@
                                                 </FormButton>
                                             </Tooltip>
                                             <Tooltip :text="$t('citizens.citizenJournals.actions.journalLogs')">
-                                                <FormButton class="rounded-md" buttonStyle="primary" buttonSize="xs"
+                                                <FormButton buttonStyle="primary" buttonSize="xs"
                                                     @click="viewJournalLogs(journal)">
                                                     <Icon name="ph:clock-clockwise" class="size-4" />
                                                 </FormButton>
                                             </Tooltip>
                                             <Tooltip :text="$t('citizens.citizenJournals.actions.delete')">
-                                                <FormButton class="rounded-md" buttonStyle="danger" buttonSize="xs"
+                                                <FormButton buttonStyle="danger" buttonSize="xs"
                                                     @click="confirmJournalDeletion(journal)"
                                                     v-if="journal?.is_deletable">
                                                     <Icon name="ph:trash-duotone" class="size-4" />

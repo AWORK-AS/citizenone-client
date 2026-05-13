@@ -56,7 +56,8 @@
                 </div>
                 <div class="space-y-1">
                     <div class="flex justify-between items-center py-0.5">
-                        <FormLabel for="job_specialty_uuid" :label="$t('dutySchedules.scheduleSlots.form.jobSpecialty')" />
+                        <FormLabel for="job_specialty_uuid"
+                            :label="$t('dutySchedules.scheduleSlots.form.jobSpecialty')" />
                         <span class="text-xs cursor-pointer text-tertiary hover:text-tertiary-800"
                             @click="addNewJobSpecialty">
                             {{ $t('jobSpecialties.addNewJobSpecialty') }}
@@ -78,10 +79,10 @@
             </div>
             <div class="mt-6">
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
-                    <FormButton type="button" buttonStyle="cancel" class="rounded-md" @click="closeModal">
+                    <FormButton type="button" buttonStyle="cancel" @click="closeModal">
                         {{ $t('cancel') }}
                     </FormButton>
-                    <FormButton type="submit" buttonStyle="primary" class="rounded-md">
+                    <FormButton type="submit" buttonStyle="primary">
                         {{ props.formType === 'create' ? $t('save') :
                             $t('update') }}
                     </FormButton>
@@ -293,16 +294,16 @@ const rules = computed(() => {
     return {
         formScheduleSlot: {
             date_time_start: {
-                required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
+                required: helpers.withMessage(() => `${t('validation.thisFieldIsRequired')}.`, required),
             },
             date_time_end: {
-                required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
+                required: helpers.withMessage(() => `${t('validation.thisFieldIsRequired')}.`, required),
             },
             available_slots: {
-                required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
+                required: helpers.withMessage(() => `${t('validation.thisFieldIsRequired')}.`, required),
             },
             shift_type: {
-                required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
+                required: helpers.withMessage(() => `${t('validation.thisFieldIsRequired')}.`, required),
             },
         },
     }

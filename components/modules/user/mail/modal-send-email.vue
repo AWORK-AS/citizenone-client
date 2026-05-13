@@ -170,11 +170,10 @@
                         </div>
                         <div class="mt-6">
                             <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
-                                <FormButton type="button" buttonStyle="cancel" class="rounded-md"
-                                    @click="emit('close')">
+                                <FormButton type="button" buttonStyle="cancel" @click="emit('close')">
                                     {{ $t('cancel') }}
                                 </FormButton>
-                                <FormButton type="submit" buttonStyle="primary" class="rounded-md">
+                                <FormButton type="submit" buttonStyle="primary">
                                     {{ $t('mail.form.send') }}
                                 </FormButton>
                             </div>
@@ -273,23 +272,23 @@ const rules = computed(() => {
         return {
             formEmail: {
                 recipient: {
-                    required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
+                    required: helpers.withMessage(() => `${t('validation.thisFieldIsRequired')}.`, required),
                 },
                 subject: {
-                    required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
+                    required: helpers.withMessage(() => `${t('validation.thisFieldIsRequired')}.`, required),
                 },
                 content: {
-                    required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
+                    required: helpers.withMessage(() => `${t('validation.thisFieldIsRequired')}.`, required),
                 },
                 password: {
-                    required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
+                    required: helpers.withMessage(() => `${t('validation.thisFieldIsRequired')}.`, required),
                 },
                 confirm_password: {
-                    required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
-                    sameAsPassword: helpers.withMessage(`${t('mail.form.alert.enteredCodeMismatched')}.`, sameAs(state.formEmail.password)),
+                    required: helpers.withMessage(() => `${t('validation.thisFieldIsRequired')}.`, required),
+                    sameAsPassword: helpers.withMessage(() => `${t('mail.form.alert.enteredCodeMismatched')}.`, sameAs(state.formEmail.password)),
                 },
                 password_hint: {
-                    required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
+                    required: helpers.withMessage(() => `${t('validation.thisFieldIsRequired')}.`, required),
                 },
             },
         }
@@ -297,13 +296,13 @@ const rules = computed(() => {
         return {
             formEmail: {
                 recipient: {
-                    required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
+                    required: helpers.withMessage(() => `${t('validation.thisFieldIsRequired')}.`, required),
                 },
                 subject: {
-                    required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
+                    required: helpers.withMessage(() => `${t('validation.thisFieldIsRequired')}.`, required),
                 },
                 content: {
-                    required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
+                    required: helpers.withMessage(() => `${t('validation.thisFieldIsRequired')}.`, required),
                 },
             },
         }

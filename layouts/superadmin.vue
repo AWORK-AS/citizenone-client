@@ -258,8 +258,14 @@ async function logout() {
 function selectLanguage() { state.slideOver.isLanguageSwitcherOpen = true }
 
 function identifyFlag() {
-    const lang = userStore.getLanguage
-    return lang === 'en' ? '/img/icons/flags/united-kingdom.svg' : '/img/icons/flags/denmark.svg'
+    const selectedLanguage = userStore.getLanguage
+    const flags: Record<string, string> = {
+        en: '/img/icons/flags/united-kingdom.svg',
+        dk: '/img/icons/flags/denmark.svg',
+        no: '/img/icons/flags/norway.svg',
+        sv: '/img/icons/flags/sweden.svg',
+    }
+    return flags[selectedLanguage] ?? '/img/icons/flags/united-kingdom.svg'
 }
 </script>
 

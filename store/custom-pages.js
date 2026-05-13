@@ -6,10 +6,15 @@ export const useCustomPagesStore = defineStore('customPagesStore', {
         customName: {
             addictions: 'asdasda',
             citizens: '',
+            completedBy: '',
+            crisisCenter: '',
+            dateOfInquiry: '',
             department: '',
             dutySchedules: '',
             giveMedicine: '',
             riskAssessment: '',
+            rooms: '',
+            shelter: '',
         },
     }),
     actions: {
@@ -18,6 +23,15 @@ export const useCustomPagesStore = defineStore('customPagesStore', {
         },
         setCitizensNaming(name) {
             this.customName.citizens = name
+        },
+        setCompletedByNaming(name) {
+            this.customName.completedBy = name
+        },
+        setCrisisCenterNaming(name) {
+            this.customName.crisisCenter = name
+        },
+        setDateOfInquiryNaming(name) {
+            this.customName.dateOfInquiry = name
         },
         setDepartmentNaming(name) {
             this.customName.department = name
@@ -30,6 +44,12 @@ export const useCustomPagesStore = defineStore('customPagesStore', {
         },
         setGiveMedicineNaming(name) {
             this.customName.giveMedicine = name
+        },
+        setRoomsNaming(name) {
+            this.customName.rooms = name
+        },
+        setShelterNaming(name) {
+            this.customName.shelter = name
         },
     },
     getters: {

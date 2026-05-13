@@ -49,10 +49,67 @@
             </template>
 
             <div>
-                <NuxtLink class="flex items-center gap-x-2 mb-3 max-w-fit hover:cursor-pointer" to="/schedules/draft">
-                    <Icon name="ph:arrow-left" size="20" class="text-black" />
-                    <span>{{ $t('back') }}</span>
-                </NuxtLink>
+                <div class="flex items-center justify-between mb-4">
+                    <NuxtLink
+                        class="inline-flex items-center gap-1.5 text-sm text-gray-500 hover:text-primary transition-colors"
+                        to="/schedules/draft">
+                        <Icon name="ph:arrow-left" size="16" />
+                        <span>{{ $t('dutySchedules.published.backToDraft') }}</span>
+                    </NuxtLink>
+                    <button onclick="document.getElementById('help-guide-modal').style.display='flex'"
+                        class="ml-auto inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-white border border-slate-200 hover:border-primary hover:text-primary text-slate-500 text-xs font-semibold transition-all shadow-sm flex-shrink-0">
+                        <svg class="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M8.228 9c.549-1.165 2.03-2 3.772-2 2.21 0 4 1.343 4 3 0 1.4-1.278 2.575-3.006 2.907-.542.104-.994.54-.994 1.093m0 3h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                        </svg>
+                        {{ $t('helpGuide.title') }}
+                    </button>
+                    <!-- Help Modal -->
+                    <div id="help-guide-modal"
+                        style="display:none;position:fixed;inset:0;z-index:9999;background:rgba(15,43,70,0.6);backdrop-filter:blur(4px);align-items:center;justify-content:center;"
+                        onclick="if(event.target===this)this.style.display='none'">
+                        <div
+                            style="background:white;border-radius:20px;width:90vw;max-width:1100px;height:88vh;display:flex;flex-direction:column;overflow:hidden;box-shadow:0 25px 80px rgba(0,0,0,0.35);">
+                            <div
+                                style="display:flex;align-items:center;justify-content:space-between;padding:16px 24px;border-bottom:1px solid #e2e8f0;flex-shrink:0;">
+                                <div style="display:flex;align-items:center;gap:10px;">
+                                    <svg style="width:20px;height:20px;color:#0f4c75" fill="none" viewBox="0 0 24 24"
+                                        stroke="currentColor">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                            d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" />
+                                    </svg>
+                                    <span style="font-weight:600;color:#0f2b46;font-size:15px;">{{
+                                        $t('helpGuide.scheduleTitle')
+                                        }}</span>
+                                </div>
+                                <button onclick="document.getElementById('help-guide-modal').style.display='none'"
+                                    style="padding:8px;border-radius:8px;border:none;background:#f1f5f9;cursor:pointer;display:flex;align-items:center;color:#64748b;"
+                                    :title="$t('dutySchedules.published.close')">
+                                    <svg style="width:18px;height:18px" fill="none" viewBox="0 0 24 24"
+                                        stroke="currentColor">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                            d="M6 18L18 6M6 6l12 12" />
+                                    </svg>
+                                </button>
+                            </div>
+                            <iframe src="/vagtplan-guide.html" style="flex:1;border:none;width:100%;"
+                                :title="$t('helpGuide.title')"></iframe>
+                        </div>
+                    </div>
+                </div>
+                <!-- Forklaringsboks -->
+                <div class="bg-blue-50 border border-blue-200 rounded-xl p-4 flex items-start gap-3 mb-5">
+                    <svg class="w-5 h-5 text-blue-500 mt-0.5 flex-shrink-0" fill="none" viewBox="0 0 24 24"
+                        stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+                    </svg>
+                    <div>
+                        <p class="text-sm font-semibold text-blue-900 mb-1">{{ $t('dutySchedules.published.infoBox.title') }}</p>
+                        <p class="text-sm text-blue-700">{{ $t('dutySchedules.published.infoBox.description') }}</p>
+                    </div>
+                </div>
+
             </div>
 
             <div class="flex-none lg:flex justify-between items-center space-y-3 mb-5">
@@ -89,7 +146,7 @@
                                 <td width="20%">
                                     <div class="flex items-end gap-2">
                                         <Tooltip :text="$t('dutySchedules.published.table.actions.view')">
-                                            <FormButton type="button" buttonStyle="action" class="rounded-md"
+                                            <FormButton type="button" buttonStyle="action"
                                                 @click="navigateTo(`/schedules/draft/published/${publishedVersion.uuid}/view-details`)">
                                                 <Icon name="ph:eye" class="size-4" />
                                             </FormButton>

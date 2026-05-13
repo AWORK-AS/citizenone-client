@@ -37,7 +37,7 @@
                         <Menu as="div" class="relative inline-block text-left z-20">
                             <div>
                                 <MenuButton>
-                                    <FormButton buttonStyle="action" class="rounded-lg">
+                                    <FormButton buttonStyle="action">
                                         <Icon name="ph:plus" class="h-4 w-4" aria-hidden="true" />
                                         {{ $t('inquiries.newInquiry') }}
                                     </FormButton>
@@ -58,7 +58,7 @@
                                             active && 'bg-gray-100',
                                             'group flex w-full justify-start items-center rounded-md px-2 py-2.5 text-sm text-left',
                                         ]" @click="shelterNewInquiry">
-                                            {{ $t('inquiries.form.options.inquiryType.shelter') }}
+                                            {{ shelterName }}
                                         </button>
                                         </MenuItem>
                                         <MenuItem v-slot="{ active }">
@@ -66,7 +66,7 @@
                                             active && 'bg-gray-100',
                                             'group flex w-full items-center rounded-md px-2 py-2.5 text-sm',
                                         ]" @click="crisisCenterNewInquiry">
-                                            {{ $t('inquiries.form.options.inquiryType.crisisCenter') }}
+                                            {{ crisisCenterName }}
                                         </button>
                                         </MenuItem>
                                     </div>
@@ -77,7 +77,7 @@
                         <Menu as="div" class="relative inline-block text-left z-20">
                             <div>
                                 <MenuButton>
-                                    <FormButton buttonStyle="action" class="rounded-lg">
+                                    <FormButton buttonStyle="action">
                                         <Icon name="ph:file-arrow-down" class="h-4 w-4" aria-hidden="true" />
                                         {{ $t('inquiries.exportInquiries') }}
                                     </FormButton>
@@ -94,19 +94,15 @@
                                     class="absolute right-0 mt-2 min-w-44 origin-top-right divide-y divide-gray-100 rounded-md bg-white shadow-lg ring-1 ring-black/5 focus:outline-none">
                                     <div class="px-1 py-1">
                                         <MenuItem v-slot="{ active }">
-                                        <button :class="[
-                                            active && 'bg-gray-100',
-                                            'group flex w-full justify-start items-center rounded-md px-2 py-2.5 text-sm text-left',
-                                        ]" @click="exportInquiries({ inquiry_type: 'shelter' })">
-                                            {{ $t('inquiries.form.options.inquiryType.shelter') }}
+                                        <button :class="[active && 'bg-gray-100', 'group flex w-full justify-start items-center rounded-md px-2 py-2.5 text-sm text-left']"
+                                            @click="openExportModal('shelter')">
+                                            {{ shelterName }}
                                         </button>
                                         </MenuItem>
                                         <MenuItem v-slot="{ active }">
-                                        <button :class="[
-                                            active && 'bg-gray-100',
-                                            'group flex w-full items-center rounded-md px-2 py-2.5 text-sm',
-                                        ]" @click="exportInquiries({ inquiry_type: 'crisis_center' })">
-                                            {{ $t('inquiries.form.options.inquiryType.crisisCenter') }}
+                                        <button :class="[active && 'bg-gray-100', 'group flex w-full justify-start items-center rounded-md px-2 py-2.5 text-sm text-left']"
+                                            @click="openExportModal('crisis_center')">
+                                            {{ crisisCenterName }}
                                         </button>
                                         </MenuItem>
                                     </div>
@@ -146,6 +142,14 @@
                                         <span>{{ inquiry?.lastname }}</span>
                                     </td>
                                     <td width="10%">
+                                        <div class="flex flex-wrap gap-1">
+                                            <span v-for="(dept, di) in inquiry?.departments" :key="di"
+                                                class="bg-primary px-2 py-1 text-white text-xxs rounded-md">
+                                                {{ dept?.name }}
+                                            </span>
+                                        </div>
+                                    </td>
+                                    <td width="10%">
                                         <span>{{ inquiry?.outcome }}</span>
                                     </td>
                                     <td width="10%">
@@ -157,20 +161,20 @@
                                     <td width="10%">
                                         <div class="flex items-end justify-end gap-2">
                                             <Tooltip :text="$t('inquiries.table.actions.edit')">
-                                                <FormButton type="button" buttonStyle="action" class="rounded-md"
+                                                <FormButton type="button" buttonStyle="action"
                                                     @click="editInquiry(inquiry)">
                                                     <Icon name="ph:pencil-simple" class="size-4" />
                                                 </FormButton>
                                             </Tooltip>
                                             <Tooltip :text="$t('inquiries.table.actions.convertAsCitizen')"
                                                 v-if="!inquiry?.citizen_id">
-                                                <FormButton type="button" buttonStyle="action" class="rounded-md"
+                                                <FormButton type="button" buttonStyle="action"
                                                     @click="convertInquiryConfirmation(inquiry)">
                                                     <Icon name="ph:check" class="size-4" />
                                                 </FormButton>
                                             </Tooltip>
                                             <Tooltip :text="$t('inquiries.table.actions.delete')">
-                                                <FormButton type="button" buttonStyle="danger" class="rounded-md"
+                                                <FormButton type="button" buttonStyle="danger"
                                                     @click="deleteConfirmation(inquiry)">
                                                     <Icon name="ph:trash" class="size-4" />
                                                 </FormButton>
@@ -197,6 +201,13 @@
             <DialogConfirmation :isModalOpen="state.modal.isDeleteInquiryOpen"
                 :message="$t('inquiries.table.confirmation.deleteInquiryConfirmation') + '?'"
                 @close="state.modal.isDeleteInquiryOpen = false" @confirm="deleteInquiry" />
+
+            <ModulesUserCitizenModalExportInquiries
+                :isModalOpen="state.modal.isExportDepartmentOpen"
+                :title="exportModalTitle"
+                :departmentOptions="exportDepartmentOptions"
+                @close="state.modal.isExportDepartmentOpen = false"
+                @confirm="confirmExport" />
         </NuxtLayout>
     </div>
 </template>
@@ -204,7 +215,9 @@
 <script setup lang="ts">
 import { Menu, MenuButton, MenuItems, MenuItem } from '@headlessui/vue'
 import { citizenInquiryService } from '@/components/api/user/CitizenInquiryService'
+import { departmentService } from '@/components/api/user/DepartmentService'
 import { useInquiryStore } from '@/store/inquiry'
+import { useDepartmentStore } from '@/store/department'
 import { useDatetimeFormatter } from '@/composables/datetimeFormatter'
 import { useI18n } from "vue-i18n"
 import { useAlert } from '@/composables/alert'
@@ -214,10 +227,19 @@ import { useCustomPagesStore } from '@/store/custom-pages'
 
 const runtimeConfig = useRuntimeConfig()
 const inquiryStore = useInquiryStore() as any
+const departmentStore = useDepartmentStore()
 const { formatDateToReadable } = useDatetimeFormatter()
 const customPagesStore = useCustomPagesStore() as any
 const { successAlert } = useAlert()
 const { t } = useI18n()
+
+const shelterName = computed(() => customPagesStore.getCustomPagesName?.shelter || t('inquiries.form.options.inquiryType.shelter'))
+const crisisCenterName = computed(() => customPagesStore.getCustomPagesName?.crisisCenter || t('inquiries.form.options.inquiryType.crisisCenter'))
+
+const exportModalTitle = computed(() => state.exportInquiryType === 'shelter' ? shelterName.value : crisisCenterName.value)
+const exportDepartmentOptions = computed(() => [
+    ...state.departments.map((d: any) => ({ value: d.uuid, label: d.name })),
+])
 
 const breadcrumbLinks = [
     {
@@ -234,6 +256,7 @@ const state = reactive({
         { name: 'inquiries.table.inquirerName', isTranslateName: true, sorter: true, key: 'inquirer_name' },
         { name: 'inquiries.table.firstname', isTranslateName: true, sorter: true, key: 'firstname' },
         { name: 'inquiries.table.lastname', isTranslateName: true, sorter: true, key: 'lastname' },
+        { name: 'department.department', isTranslateName: true, },
         { name: 'inquiries.table.outcome', isTranslateName: true, },
         { name: 'inquiries.table.purpose', isTranslateName: true, },
         { name: 'inquiries.table.conversationSummary', isTranslateName: true, },
@@ -242,6 +265,7 @@ const state = reactive({
     dataFilter: {
         search: ''
     },
+    departments: [] as any,
     error: {} as Error,
     isTableLoading: false,
     inquiries: [] as any,
@@ -250,13 +274,22 @@ const state = reactive({
         isConvertInquiryOpen: false,
         isEditInquiryOpen: false,
         isDeleteInquiryOpen: false,
+        isExportDepartmentOpen: false,
     },
     selectedInquiry: {} as any,
     inquiryTpe: '',
+    exportInquiryType: '',
 })
 
 onMounted(() => {
+    fetchDepartments()
     fetchInquiries()
+})
+
+watch(() => departmentStore.getSelectedDepartmentName, (newValue: any) => {
+    if (newValue != null) {
+        fetchInquiries()
+    }
 })
 
 async function fetchInquiries() {
@@ -264,6 +297,7 @@ async function fetchInquiries() {
     state.isTableLoading = true
     try {
         const params = {
+            department: departmentStore.getSelectedDepartmentName,
             page: inquiryStore.getCurrentPageNumber,
             page_length: inquiryStore.getCurrentPageLength,
             sortField: inquiryStore.getSortData.sortField,
@@ -369,17 +403,44 @@ async function deleteInquiry() {
     state.isTableLoading = false
 }
 
-async function exportInquiries(params: { inquiry_type: string }) {
+async function fetchDepartments() {
+    try {
+        const response = await departmentService.getAllDepartments({})
+        if (response) {
+            state.departments = response.data
+        }
+    } catch (error: any) {
+        state.error = error
+    }
+}
+
+function openExportModal(inquiryType: string) {
+    state.exportInquiryType = inquiryType
+    state.modal.isExportDepartmentOpen = true
+}
+
+async function confirmExport(departmentUuid: string) {
+    const dept = state.departments.find((d: any) => d.uuid === departmentUuid)
+    await exportInquiries({
+        inquiry_type: state.exportInquiryType,
+        department: dept?.name,
+        department_uuid: dept?.uuid,
+    })
+    state.modal.isExportDepartmentOpen = false
+}
+
+async function exportInquiries(params: { inquiry_type: string, department?: string, department_uuid?: string }) {
     state.error = {}
     state.isTableLoading = true
     try {
         const queryParams = {
-            ...params
+            inquiry_type: params.inquiry_type,
+            department: params.department ?? departmentStore.getSelectedDepartmentName,
+            department_uuid: params.department_uuid ?? departmentStore.getSelectedDepartment,
         }
         const response = await citizenInquiryService.exportInquiries(queryParams)
         if (response) {
             let fileName = params.inquiry_type === 'shelter' ? t('inquiries.shelterInquiry') : t('inquiries.crisisCenterInquiry')
-
             saveAs(response, `${customPagesStore.getCustomPagesName?.citizens}-${fileName}`)
         }
     } catch (error: any) {

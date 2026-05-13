@@ -16,7 +16,7 @@
                             <FormError :error="state?.error?.errors?.citizen_uuid?.[0]" />
                         </div>
                         <div class="mt-6">
-                            <FormButton type="submit" class="w-full rounded-md" buttonStyle="primary">
+                            <FormButton type="submit" class="w-full" buttonStyle="primary">
                                 {{ $t('employees.citizens.assign') }}
                             </FormButton>
                         </div>
@@ -77,7 +77,7 @@ const rules = computed(() => {
     return {
         formAssignCitizen: {
             citizen_uuid: {
-                required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
+                required: helpers.withMessage(() => `${t('validation.thisFieldIsRequired')}.`, required),
             },
         },
     }

@@ -15,7 +15,7 @@
                                             :key="mode.id" :value="mode" :aria-label="mode.title"
                                             v-slot="{ active, checked }">
                                             <div
-                                                :class="[active ? 'border-primary ring-1 ring-primary' : 'border-gray-300', 'relative flex cursor-pointer rounded-lg border bg-white p-4 shadow-xs focus:outline-hidden']">
+                                                :class="[active ? 'border-primary ring-1 ring-primary' : 'border-gray-300', 'relative flex cursor-pointer rounded-full border bg-white p-4 shadow-xs focus:outline-hidden']">
                                                 <span class="flex flex-1">
                                                     <span class="flex flex-col">
                                                         <p class="block text-sm font-medium text-gray-900">
@@ -32,7 +32,7 @@
                                                     :class="[!checked ? 'invisible' : '', 'size-5 text-primary']"
                                                     aria-hidden="true" />
                                                 <span
-                                                    :class="[active ? 'border' : 'border-1', checked ? 'border-primary' : 'border-transparent', 'pointer-events-none absolute -inset-px rounded-lg']"
+                                                    :class="[active ? 'border' : 'border-1', checked ? 'border-primary' : 'border-transparent', 'pointer-events-none absolute -inset-px rounded-full']"
                                                     aria-hidden="true" />
                                             </div>
                                         </RadioGroupOption>
@@ -98,14 +98,46 @@
                                         </div>
                                     </div>
                                 </div>
+                                <div class="space-y-1">
+                                    <div class="flex items-center justify-between">
+                                        <FormLabel :label="$t('dutySchedules.timeRange')" />
+                                        <button type="button"
+                                            v-if="state.formDownload.time_from || state.formDownload.time_to"
+                                            @click="state.formDownload.time_from = ''; state.formDownload.time_to = ''"
+                                            class="flex items-center gap-1 text-xs text-red-500 hover:text-red-700">
+                                            <Icon name="ph:x-circle" class="h-3.5 w-3.5" />
+                                            {{ $t('clear') }}
+                                        </button>
+                                    </div>
+                                    <div class="grid grid-cols-2 gap-2">
+                                        <div>
+                                            <FormLabel for="dl_time_from" :label="$t('dutySchedules.filter.timeFrom')" />
+                                            <FormTimeField id="dl_time_from" name="dl_time_from"
+                                                :placeholder="$t('dutySchedules.filter.timeFrom')"
+                                                v-model:value="state.formDownload.time_from" />
+                                        </div>
+                                        <div>
+                                            <FormLabel for="dl_time_to" :label="$t('dutySchedules.filter.timeTo')" />
+                                            <FormTimeField id="dl_time_to" name="dl_time_to"
+                                                :placeholder="$t('dutySchedules.filter.timeTo')"
+                                                v-model:value="state.formDownload.time_to" />
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="space-y-1">
+                                    <div class="w-fit flex items-center cursor-pointer"
+                                        @click="state.formDownload.archived_employees_only = !state.formDownload.archived_employees_only">
+                                        <FormCheckbox :value="state.formDownload.archived_employees_only" />
+                                        {{ $t('dutySchedules.download.archivedEmployeesOnly') }}
+                                    </div>
+                                </div>
                             </div>
                             <div class="mt-6">
                                 <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
-                                    <FormButton type="button" buttonStyle="cancel" class="rounded-md"
-                                        @click="closeModal">
+                                    <FormButton type="button" buttonStyle="cancel" @click="closeModal">
                                         {{ $t('cancel') }}
                                     </FormButton>
-                                    <FormButton type="submit" buttonStyle="primary" class="rounded-md w-full">
+                                    <FormButton type="submit" buttonStyle="primary" class="w-full">
                                         {{ $t('dutySchedules.download.download') }}
                                     </FormButton>
                                 </div>
@@ -169,6 +201,9 @@ const state = reactive({
         date_start: '',
         date_end: '',
         show_leaves_only: false,
+        archived_employees_only: false,
+        time_from: '',
+        time_to: '',
     } as any,
     modal: {
         isAddDepartmentOpen: false,
@@ -212,6 +247,8 @@ watch(() => props.isModalOpen, (isModalOpen: boolean) => {
             moment(props.selectedDate).startOf('isoWeek').format('YYYY-MM-DD'),
             moment(props.selectedDate).endOf('isoWeek').format('YYYY-MM-DD'),
         ]
+        state.formDownload.time_from = props.filter?.time_from ?? ''
+        state.formDownload.time_to = props.filter?.time_to ?? ''
         fetchDepartments()
         fetchAllUsers()
         state.formDownload.mode = state.options.downloadModeLists.find((item: any) => item.title === 'current_view')
@@ -230,15 +267,15 @@ const rules = computed(() => {
     return {
         filter: {
             date_range: {
-                required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
+                required: helpers.withMessage(() => `${t('validation.thisFieldIsRequired')}.`, required),
             },
         },
         formDownload: {
             departments: {
-                required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
+                required: helpers.withMessage(() => `${t('validation.thisFieldIsRequired')}.`, required),
             },
             download_type: {
-                required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
+                required: helpers.withMessage(() => `${t('validation.thisFieldIsRequired')}.`, required),
             },
         },
     }
@@ -321,6 +358,7 @@ async function downloadDutySchedule() {
             date_start: state.formDownload.date_start,
             date_end: state.formDownload.date_end,
             show_leaves_only: state.formDownload.show_leaves_only,
+            archived_employees_only: state.formDownload.archived_employees_only,
             delimiter: state.formDownload.delimiter,
         } as any
         if (state.formDownload.employment_status) {
@@ -328,6 +366,12 @@ async function downloadDutySchedule() {
         }
         if (state.formDownload.employee_uuids?.length > 0) {
             params.employee_uuids = Array(state.formDownload.employee_uuids)
+        }
+        if (state.formDownload.time_from) {
+            params.time_from = state.formDownload.time_from
+        }
+        if (state.formDownload.time_to) {
+            params.time_to = state.formDownload.time_to
         }
         const response = await dutyScheduleService.downloadDutySchedules(params)
         if (response) {

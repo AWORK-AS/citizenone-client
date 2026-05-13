@@ -5,6 +5,8 @@ export const useCompanyStore = defineStore('companyStore',
         persist: true,
         state: () => ({
             selectedCompany: {},
+            companyAddress: null,
+            citizenDisplays: [],
         }),
         actions: {
             setSelectedCompany(company) {
@@ -13,9 +15,17 @@ export const useCompanyStore = defineStore('companyStore',
             resetSelectedCompany() {
                 this.selectedCompany = {}
             },
+            setCompanyAddress(address) {
+                this.companyAddress = address
+            },
+            setCitizenDisplays(displays) {
+                this.citizenDisplays = displays
+            },
         },
         getters: {
             getSelectedCompany: (state) => state.selectedCompany,
+            getCompanyAddress: (state) => state.companyAddress,
+            getCitizenDisplays: (state) => state.citizenDisplays,
         },
     },
 )

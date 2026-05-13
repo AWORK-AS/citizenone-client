@@ -14,43 +14,81 @@
                 <div class="bg-white shadow rounded-lg">
                     <div class="grid grid-cols-1 lg:grid-cols-2">
                         <div class="hidden lg:block p-3">
-                            <div class="relative h-[600px] w-full overflow-hidden rounded-md ">
-                                <img class="h-full w-full object-cover"
-                                    src="https://citizenone.dk/wp-content/uploads/2025/03/DSC_6902-1024x684-1.jpg"
-                                    :alt="$t('imageFailedToLoad')" />
-
-                                <div class="absolute inset-0 bg-black/15"></div>
-
-                                <div class="absolute -top-28 -right-20">
-                                    <img src="/img/icons/asset-01.svg" alt="Image failed to load" class="z-10 w-60"
-                                        id="animatedAsset01">
+                            <div class="rp-panel">
+                                <div class="rp-bc rp-bc1"></div>
+                                <div class="rp-bc rp-bc2"></div>
+                                <div class="rp-bc rp-bc3"></div>
+                                <div class="rp-top">
+                                    <div class="rp-logo-row">
+                                        <div class="rp-logo-icon">
+                                            <div class="rp-ring rp-rg1"></div>
+                                            <div class="rp-ring rp-rg2"></div>
+                                            <div class="rp-ring rp-rg3"></div>
+                                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 38.98 38.98" width="38"
+                                                height="38" class="relative z-[2]">
+                                                <circle class="rp-oc" cx="19.49" cy="19.49" r="18.99" fill="#1a3a5c"
+                                                    stroke="rgb(66,174,217)" stroke-width="1" />
+                                                <circle class="rp-ic" cx="19.43" cy="19.55" r="11.93"
+                                                    fill="rgb(66,174,217)" stroke="#fff" stroke-width="0.5" />
+                                            </svg>
+                                        </div>
+                                        <span class="rp-wordmark">
+                                            CitizenOne<sup class="text-[10px] align-super">&#x2122;</sup>
+                                        </span>
+                                    </div>
                                 </div>
-
-                                <div class="absolute -bottom-28 -left-20 opacity-80">
-                                    <img src="/img/icons/asset-02.svg" alt="Image failed to load" class="z-10 w-60"
-                                        id="animatedAsset02">
-                                </div>
-
-                                <div
-                                    class="absolute inset-0 flex items-center justify-center text-white text-3xl font-bold">
-                                    <div class="text-center">
-                                        <h4 class="text-base">
-                                            {{ $t('login.welcomeBack') }}👋
-                                        </h4>
-                                        <h3 class="mt-5 text-4xl">
-                                            <span class="font-normal">
-                                                {{ $t('login.loginToContinueTo') }}
-                                            </span>
-                                            <br />
-                                            <span>CitizenOne</span>.
-                                        </h3>
-                                        <div class="mt-10 flex justify-center">
-                                            <FormButton type="button" buttonStyle="primary" class="w-fit"
-                                                @click="navigateToHomePage('https://citizenone.dk')">
-                                                {{ $t('login.seeWhatsNew') }}
-                                            </FormButton>
+                                <div class="rp-mid">
+                                    <div class="rp-tag">
+                                        {{ $t('login.tagline') }}
+                                    </div>
+                                    <div class="rp-h1">
+                                        {{ $t('resetPassword.headlineLine1') }}<br>{{ $t('resetPassword.headlineLine2')
+                                        }}
+                                    </div>
+                                    <p class="rp-desc">
+                                        {{ $t('resetPassword.panelDescription') }}
+                                    </p>
+                                    <div class="rp-card">
+                                        <div class="rp-card-icon">
+                                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none"
+                                                stroke="rgb(66,174,217)" stroke-width="2" stroke-linecap="round">
+                                                <rect x="3" y="11" width="18" height="11" rx="2" />
+                                                <path d="M7 11V7a5 5 0 0110 0v4" />
+                                            </svg>
+                                        </div>
+                                        <div>
+                                            <div class="rp-card-title">
+                                                {{ $t('resetPassword.strongPasswordTitle') }}
+                                            </div>
+                                            <div class="rp-card-sub">
+                                                {{ $t('resetPassword.strongPasswordSub') }}
+                                            </div>
                                         </div>
                                     </div>
+                                    <div class="rp-card">
+                                        <div class="rp-card-icon">
+                                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none"
+                                                stroke="rgb(66,174,217)" stroke-width="2" stroke-linecap="round">
+                                                <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" />
+                                            </svg>
+                                        </div>
+                                        <div>
+                                            <div class="rp-card-title">
+                                                {{ $t('resetPassword.passwordEncryptedTitle') }}
+                                            </div>
+                                            <div class="rp-card-sub">
+                                                {{ $t('resetPassword.passwordEncryptedSub') }}
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="rp-foot">
+                                    <svg width="11" height="11" viewBox="0 0 24 24" fill="none"
+                                        stroke="rgba(255,255,255,0.2)" stroke-width="2" stroke-linecap="round">
+                                        <rect x="3" y="11" width="18" height="11" rx="2" />
+                                        <path d="M7 11V7a5 5 0 0110 0v4" />
+                                    </svg>
+                                    {{ $t('login.gdprNote') }}
                                 </div>
                             </div>
                         </div>
@@ -63,9 +101,45 @@
                                     <h3 class="font-medium">
                                         {{ $t('resetPassword.resetPassword') }}
                                     </h3>
-                                    <button type="button" class="rounded-full w-8" @click="selectLanguage">
-                                        <img :src="identifyFlag()" alt="flag">
-                                    </button>
+                                    <div class="relative" v-click-outside="() => state.langOpen = false">
+                                        <button type="button" @click="state.langOpen = !state.langOpen"
+                                            class="flex items-center gap-1.5 py-[5px] pr-[10px] pl-[6px] rounded-full border border-slate-200 bg-white cursor-pointer text-xs font-semibold text-slate-500 hover:border-slate-300 transition-colors">
+                                            <img :src="identifyFlag()" alt="flag"
+                                                class="w-5 h-5 rounded-full object-cover" />
+                                            {{ language.locale.value === 'en' ? 'EN' : 'DK' }}
+                                            <svg width="10" height="10" viewBox="0 0 24 24" fill="none"
+                                                stroke="currentColor" stroke-width="2.5">
+                                                <polyline points="6 9 12 15 18 9" />
+                                            </svg>
+                                        </button>
+                                        <div v-if="state.langOpen"
+                                            class="absolute right-0 top-[calc(100%+6px)] bg-white border border-slate-200 rounded-xl shadow-lg z-[100] min-w-[120px] overflow-hidden">
+                                            <button type="button" @click="setLang('dk')"
+                                                :class="['flex items-center gap-2 w-full px-3.5 py-2.5 border-0 bg-transparent cursor-pointer text-[13px] font-medium text-[#1a2332] hover:bg-[#edf5fb] transition-colors', language.locale.value === 'dk' && 'bg-[#edf5fb]']">
+                                                <img src="/img/icons/flags/denmark.svg"
+                                                    class="w-5 h-5 rounded-full object-cover" />
+                                                Dansk
+                                            </button>
+                                            <button type="button" @click="setLang('en')"
+                                                :class="['flex items-center gap-2 w-full px-3.5 py-2.5 border-0 bg-transparent cursor-pointer text-[13px] font-medium text-[#1a2332] hover:bg-[#edf5fb] transition-colors', language.locale.value === 'en' && 'bg-[#edf5fb]']">
+                                                <img src="/img/icons/flags/united-kingdom.svg"
+                                                    class="w-5 h-5 rounded-full object-cover" />
+                                                English
+                                            </button>
+                                            <button type="button" @click="setLang('no')"
+                                                :class="['flex items-center gap-2 w-full px-3.5 py-2.5 border-0 bg-transparent cursor-pointer text-[13px] font-medium text-[#1a2332] hover:bg-[#edf5fb] transition-colors', language.locale.value === 'no' && 'bg-[#edf5fb]']">
+                                                <img src="/img/icons/flags/norway.svg"
+                                                    class="w-5 h-5 rounded-full object-cover" />
+                                                Norsk
+                                            </button>
+                                            <button type="button" @click="setLang('sv')"
+                                                :class="['flex items-center gap-2 w-full px-3.5 py-2.5 border-0 bg-transparent cursor-pointer text-[13px] font-medium text-[#1a2332] hover:bg-[#edf5fb] transition-colors', language.locale.value === 'sv' && 'bg-[#edf5fb]']">
+                                                <img src="/img/icons/flags/sweden.svg"
+                                                    class="w-5 h-5 rounded-full object-cover" />
+                                                Svenska
+                                            </button>
+                                        </div>
+                                    </div>
                                 </div>
                                 <div class="space-y-1">
                                     <FormLabel for="password" :label="$t('resetPassword.form.password')" />
@@ -103,7 +177,7 @@
                 </div>
 
                 <p class="mt-8 text-center text-sm/6 text-gray-500">
-                    ISO-certificeret serverlagring beliggende i EU
+                    {{ $t('login.isoNote') }}
                 </p>
             </div>
         </div>
@@ -138,6 +212,7 @@ const state = reactive({
         confirm_password: null,
     } as any,
     isPageLoading: false,
+    langOpen: false,
     slideOver: {
         isLanguageSwitcherOpen: false
     },
@@ -148,12 +223,12 @@ const rules = computed(() => {
     return {
         formUser: {
             password: {
-                required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
-                minLength: helpers.withMessage(`${t('alert.resetPassword.required8Characters')}.`, minLength(8))
+                required: helpers.withMessage(() => `${t('validation.thisFieldIsRequired')}.`, required),
+                minLength: helpers.withMessage(() => `${t('alert.resetPassword.required8Characters')}.`, minLength(8))
             },
             confirm_password: {
-                required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
-                sameAsPassword: helpers.withMessage(`${t('alert.resetPassword.confirmPasswordNotTheSame')}.`, sameAs(state.formUser.password)),
+                required: helpers.withMessage(() => `${t('validation.thisFieldIsRequired')}.`, required),
+                sameAsPassword: helpers.withMessage(() => `${t('alert.resetPassword.confirmPasswordNotTheSame')}.`, sameAs(state.formUser.password)),
             }
         }
     }
@@ -183,10 +258,10 @@ function animateAssets() {
         })
     })
 
-    const animatedAsset01 = document.getElementById('animatedAsset01') as any
-    const animatedAsset02 = document.getElementById('animatedAsset02') as any
-    observer.observe(animatedAsset01)
-    observer.observe(animatedAsset02)
+    const animatedAsset01 = document.getElementById('animatedAsset01')
+    const animatedAsset02 = document.getElementById('animatedAsset02')
+    if (animatedAsset01) observer.observe(animatedAsset01)
+    if (animatedAsset02) observer.observe(animatedAsset02)
 }
 
 async function verifyPasswordResetToken() {
@@ -232,19 +307,21 @@ async function resetPassword() {
     }
 }
 
-function selectLanguage() {
-    state.slideOver.isLanguageSwitcherOpen = true
+function setLang(lang: string) {
+    language.locale.value = lang
+    userStore.setLanguage(lang)
+    state.langOpen = false
 }
 
 function identifyFlag() {
     const selectedLanguage = userStore.getLanguage
-    if (selectedLanguage === 'en') {
-        return '/img/icons/flags/united-kingdom.svg'
-    } else {
-        if (selectedLanguage === 'dk') {
-            return '/img/icons/flags/denmark.svg'
-        }
+    const flags: Record<string, string> = {
+        en: '/img/icons/flags/united-kingdom.svg',
+        dk: '/img/icons/flags/denmark.svg',
+        no: '/img/icons/flags/norway.svg',
+        sv: '/img/icons/flags/sweden.svg',
     }
+    return flags[selectedLanguage] ?? '/img/icons/flags/united-kingdom.svg'
 }
 
 async function navigateToHomePage(link: any) {
@@ -253,3 +330,293 @@ async function navigateToHomePage(link: any) {
     })
 }
 </script>
+
+<style scoped>
+.rp-panel {
+    background: linear-gradient(160deg, #0f2b46 0%, #1a4a70 50%, #0a2840 100%);
+    border-radius: 12px;
+    height: 100%;
+    min-height: 500px;
+    width: 100%;
+    position: relative;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    padding: 2.5rem;
+    font-family: 'Inter', sans-serif
+}
+
+.rp-bc {
+    position: absolute;
+    border-radius: 50%;
+    background: rgba(66, 174, 217, 0.09)
+}
+
+.rp-bc1 {
+    width: 400px;
+    height: 400px;
+    top: -140px;
+    right: -140px;
+    animation: rpb1 16s ease-in-out infinite
+}
+
+.rp-bc2 {
+    width: 240px;
+    height: 240px;
+    bottom: -90px;
+    left: -80px;
+    animation: rpb2 20s ease-in-out infinite
+}
+
+.rp-bc3 {
+    width: 140px;
+    height: 140px;
+    bottom: 100px;
+    right: 40px;
+    animation: rpb3 12s ease-in-out infinite
+}
+
+@keyframes rpb1 {
+
+    0%,
+    100% {
+        transform: translate(0, 0)
+    }
+
+    40% {
+        transform: translate(-20px, 16px)
+    }
+
+    70% {
+        transform: translate(14px, -12px)
+    }
+}
+
+@keyframes rpb2 {
+
+    0%,
+    100% {
+        transform: translate(0, 0)
+    }
+
+    45% {
+        transform: translate(22px, -18px)
+    }
+
+    75% {
+        transform: translate(-12px, 12px)
+    }
+}
+
+@keyframes rpb3 {
+
+    0%,
+    100% {
+        transform: translate(0, 0)
+    }
+
+    35% {
+        transform: translate(-16px, -20px)
+    }
+
+    68% {
+        transform: translate(18px, 10px)
+    }
+}
+
+.rp-top {
+    position: relative;
+    z-index: 2
+}
+
+.rp-logo-row {
+    display: flex;
+    align-items: center;
+    gap: 14px
+}
+
+.rp-logo-icon {
+    position: relative;
+    width: 46px;
+    height: 46px;
+    display: flex;
+    align-items: center;
+    justify-content: center
+}
+
+.rp-ring {
+    position: absolute;
+    border-radius: 50%;
+    border: 1px solid rgba(66, 174, 217, 0.35);
+    animation: rpring 3s ease-in-out infinite
+}
+
+.rp-rg1 {
+    width: 46px;
+    height: 46px;
+    animation-delay: 0s
+}
+
+.rp-rg2 {
+    width: 68px;
+    height: 68px;
+    animation-delay: 0.8s
+}
+
+.rp-rg3 {
+    width: 90px;
+    height: 90px;
+    animation-delay: 1.5s
+}
+
+@keyframes rpring {
+    0% {
+        opacity: 0;
+        transform: scale(0.8)
+    }
+
+    40% {
+        opacity: 1
+    }
+
+    100% {
+        opacity: 0;
+        transform: scale(1.2)
+    }
+}
+
+.rp-oc {
+    animation: rpoc 0.9s cubic-bezier(0.34, 1.56, 0.64, 1) 0.3s both;
+    transform-origin: 19.49px 19.49px
+}
+
+.rp-ic {
+    animation: rpic 0.9s cubic-bezier(0.34, 1.56, 0.64, 1) 0.65s both;
+    transform-origin: 19.43px 19.55px
+}
+
+@keyframes rpoc {
+    from {
+        transform: scale(0);
+        opacity: 0
+    }
+
+    to {
+        transform: scale(1);
+        opacity: 1
+    }
+}
+
+@keyframes rpic {
+    from {
+        transform: scale(0);
+        opacity: 0
+    }
+
+    to {
+        transform: scale(1);
+        opacity: 0.9
+    }
+}
+
+.rp-wordmark {
+    font-size: 20px;
+    font-weight: 700;
+    color: #fff;
+    letter-spacing: -0.3px;
+    opacity: 0;
+    animation: rpfu 0.5s ease 1.2s forwards
+}
+
+.rp-mid {
+    position: relative;
+    z-index: 2;
+    opacity: 0;
+    animation: rpfu 0.6s ease 1.4s forwards
+}
+
+@keyframes rpfu {
+    from {
+        opacity: 0;
+        transform: translateY(12px)
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0)
+    }
+}
+
+.rp-tag {
+    font-size: 10px;
+    font-weight: 700;
+    color: rgba(66, 174, 217, 0.85);
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    margin-bottom: 1rem
+}
+
+.rp-h1 {
+    font-size: 28px;
+    font-weight: 700;
+    color: #fff;
+    line-height: 1.2;
+    letter-spacing: -0.8px;
+    margin-bottom: 0.75rem
+}
+
+.rp-desc {
+    font-size: 12.5px;
+    color: rgba(255, 255, 255, 0.5);
+    line-height: 1.7;
+    max-width: 300px;
+    margin-bottom: 2rem
+}
+
+.rp-card {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    background: rgba(66, 174, 217, 0.08);
+    border: 1px solid rgba(66, 174, 217, 0.15);
+    border-radius: 10px;
+    padding: 14px 16px;
+    margin-bottom: 10px
+}
+
+.rp-card-icon {
+    width: 36px;
+    height: 36px;
+    background: rgba(66, 174, 217, 0.12);
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0
+}
+
+.rp-card-title {
+    font-size: 13px;
+    font-weight: 600;
+    color: #fff;
+    margin-bottom: 2px
+}
+
+.rp-card-sub {
+    font-size: 11px;
+    color: rgba(255, 255, 255, 0.4)
+}
+
+.rp-foot {
+    position: relative;
+    z-index: 2;
+    opacity: 0;
+    animation: rpfu 0.5s ease 2s forwards;
+    font-size: 10.5px;
+    color: rgba(255, 255, 255, 0.2);
+    display: flex;
+    align-items: center;
+    gap: 6px
+}
+</style>

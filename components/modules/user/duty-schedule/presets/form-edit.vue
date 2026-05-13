@@ -11,16 +11,16 @@
         </div>
         <div class="space-y-1">
             <FormLabel for="description" :label="$t('dutySchedules.draft.preset.form.description')" />
-            <FormTextArea id="description" name="description" :placeholder="$t('dutySchedules.draft.preset.form.description')"
+            <FormTextArea id="description" name="description"
+                :placeholder="$t('dutySchedules.draft.preset.form.description')"
                 v-model="state.formDutySchedulePreset.description" />
         </div>
         <div class="mt-6">
             <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
-                <FormButton type="button" buttonStyle="cancel" class="rounded-md"
-                    @click="closeForm()">
+                <FormButton type="button" buttonStyle="cancel" @click="closeForm()">
                     {{ $t('cancel') }}
                 </FormButton>
-                <FormButton type="submit" buttonStyle="primary" class="rounded-md">
+                <FormButton type="submit" buttonStyle="primary">
                     {{ props.formType === 'create' ? $t('save') :
                         $t('update') }}
                 </FormButton>
@@ -75,7 +75,7 @@ const rules = computed(() => {
     return {
         formDutySchedulePreset: {
             name: {
-                required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
+                required: helpers.withMessage(() => `${t('validation.thisFieldIsRequired')}.`, required),
             },
         },
     }

@@ -23,10 +23,10 @@
                         </div>
                         <div class="mt-6">
                             <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
-                                <FormButton type="button" buttonStyle="cancel" class="rounded-md" @click="closeModal()">
+                                <FormButton type="button" buttonStyle="cancel" @click="closeModal()">
                                     {{ $t('cancel') }}
                                 </FormButton>
-                                <FormButton type="submit" buttonStyle="primary" class="rounded-md w-full">
+                                <FormButton type="submit" buttonStyle="primary" class="w-full">
                                     {{ $t('proceed') }}
                                 </FormButton>
                             </div>
@@ -34,10 +34,8 @@
                     </form>
                 </LoadingSpinner>
                 <ModulesUserDocumentStatusTemplateModalRespond :isModalOpen="state.modal.isRespondOpen"
-                    :selectedFormStatusTemplate="state.formTemplate" 
-                    :variant="props.variant"
-                    :parentFolderId="state.formTemplate.folder_uuid"
-                    @close="state.modal.isRespondOpen = false"
+                    :selectedFormStatusTemplate="state.formTemplate" :variant="props.variant"
+                    :parentFolderId="state.formTemplate.folder_uuid" @close="state.modal.isRespondOpen = false"
                     @closeModalNew="closeModal()" />
             </template>
         </Modal>
@@ -62,12 +60,16 @@ const props = defineProps({
         required: true,
     },
     variant: {
-        type: String, 
+        type: String,
         default: undefined
     },
     parentFolderId: {
         type: String,
         default: undefined
+    },
+    onedriveFolders: {
+        type: Array as () => { value: string, label: string }[],
+        default: () => []
     }
 })
 const router = useRouter()
@@ -114,10 +116,10 @@ const rules = computed(() => {
     return {
         formTemplate: {
             folder_uuid: {
-                required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
+                required: helpers.withMessage(() => `${t('validation.thisFieldIsRequired')}.`, required),
             },
             form_uuid: {
-                required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
+                required: helpers.withMessage(() => `${t('validation.thisFieldIsRequired')}.`, required),
             },
         },
     }
@@ -131,7 +133,13 @@ async function fetchAllFolders() {
     try {
         let options: any = []
 
-        if(props.variant === 'google-drive') {
+        if (props.variant === 'onedrive') {
+            options.push({
+                value: '',
+                label: t('drive.form.rootFolder') || 'Root',
+            })
+            props.onedriveFolders.forEach((folder: any) => options.push(folder))
+        } else if (props.variant === 'google-drive') {
             // include root explicitly so user can select it
             options.push({
                 value: 'root',
@@ -139,7 +147,7 @@ async function fetchAllFolders() {
             })
 
             const folders = await googledriveService.getGoogleDriveFolders(props.parentFolderId || undefined)
-            folders.forEach((folder: any) => options.push ({
+            folders.forEach((folder: any) => options.push({
                 value: folder.id,
                 label: folder.name,
             }))

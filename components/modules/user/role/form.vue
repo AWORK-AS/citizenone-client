@@ -7,8 +7,9 @@
         <div class="space-y-3">
             <div class="space-y-1">
                 <FormLabel for="name" :label="$t('roles.form.name')" />
-                <FormTextField  id="name" name="name" :placeholder="$t('roles.form.name')"
-                    v-model="state.formRole.name" :style="state.formRole?.predefined ? 'pointer-events: none; opacity: 0.6; cursor: not-allowed;' : ''" />
+                <FormTextField id="name" name="name" :placeholder="$t('roles.form.name')"
+                    :disabled="state.formRole?.is_name_editable === false" v-model="state.formRole.name"
+                    :style="state.formRole?.predefined ? 'pointer-events: none; opacity: 0.6; cursor: not-allowed;' : ''" />
                 <FormError :error="v$?.formRole?.name?.$errors[0]?.$message.toString()" />
                 <FormError :error="props?.error?.errors?.name?.[0]" />
             </div>
@@ -22,11 +23,10 @@
         </div>
         <div class="mt-6">
             <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
-                <FormButton type="button" buttonStyle="cancel" class="rounded-md"
-                    @click="navigateTo('/settings/roles')">
+                <FormButton type="button" buttonStyle="cancel" @click="navigateTo('/settings/roles')">
                     {{ $t('cancel') }}
                 </FormButton>
-                <FormButton type="submit" buttonStyle="primary" class="rounded-md">
+                <FormButton type="submit" buttonStyle="primary">
                     {{ props.formType === 'create' ? $t('save') :
                         $t('update') }}
                 </FormButton>
@@ -61,7 +61,7 @@ const emit = defineEmits(['isPageLoading', 'submitForm'])
 
 const { t, locale } = useI18n()
 
-const PERMISSION_LABELS:  Record<string, string> = {
+const PERMISSION_LABELS: Record<string, string> = {
     'scheduler': 'roles.permissions.scheduler',
     'create_schedule': 'roles.permissions.createSchedule',
     'read_schedule': 'roles.permissions.readSchedule',
@@ -77,7 +77,7 @@ const PERMISSION_LABELS:  Record<string, string> = {
     'update_citizen_calendar': 'roles.permissions.updateCitizenCalendar',
     'delete_citizen_calendar': 'roles.permissions.deleteCitizenCalendar',
     'create_citizen_health': 'roles.permissions.createCitizenHealth',
-    'view_citizen_health':  'roles.permissions.viewCitizenHealth',
+    'view_citizen_health': 'roles.permissions.viewCitizenHealth',
     'update_citizen_health': 'roles.permissions.updateCitizenHealth',
     'delete_citizen_health': 'roles.permissions.deleteCitizenHealth',
     'create_citizen_medicine': 'roles.permissions.createCitizenMedicine',
@@ -98,21 +98,28 @@ const PERMISSION_LABELS:  Record<string, string> = {
     'create_citizen_children': 'roles.permissions.createCitizenChildren',
     'update_citizen_children': 'roles.permissions.updateCitizenChildren',
     'delete_citizen_children': 'roles.permissions.deleteCitizenChildren',
+    'delete_calendar': 'roles.permissions.deleteCalendar',
+    'create_citizen': 'roles.permissions.createCitizen',
+    'update_citizen': 'roles.permissions.updateCitizen',
+    'update_form_field_config': 'roles.permissions.updateFormFieldConfig',
 }
 
 const state = reactive({
     error: {} as Error,
-    isPageLoading:  false,
+    isPageLoading: false,
     formRole: {
         name: '',
         predefined: false,
-        permissions:  [],
+        permissions: [],
+        is_name_editable: true,
     },
     permissions: [] as Array<{ uuid: string, name: string }>,
 })
 
 onMounted(() => {
-    fetchAllPermissions()
+    if (props.formType === 'create') {
+        fetchAllPermissions()
+    }
 })
 
 watch(() => props.selectedRole, (newValue: any) => {
@@ -121,7 +128,9 @@ watch(() => props.selectedRole, (newValue: any) => {
             name: newValue.name,
             predefined: newValue.predefined || false,
             permissions: newValue.permissions || [],
+            is_name_editable: newValue.is_name_editable || false,
         }
+        fetchAllPermissions()
     }
 })
 
@@ -129,7 +138,7 @@ const rules = computed(() => {
     return {
         formRole: {
             name: {
-                required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
+                required: helpers.withMessage(() => `${t('validation.thisFieldIsRequired')}.`, required),
             },
         },
     }
@@ -141,14 +150,17 @@ async function fetchAllPermissions() {
     state.error = {}
     emit('isPageLoading', true)
     try {
-        const response = await permissionService.getAllPermissions()
+        const params = {
+            role: props.selectedRole ? props.selectedRole.name : '',
+        }
+        const response = await permissionService.getAllPermissions(params)
         if (response?.data) {
             state.permissions = response.data.map((item: any) => ({
                 uuid: item?.uuid,
                 name: item?.name,
             }))
         }
-    } catch (error:  any) {
+    } catch (error: any) {
         state.error = error
     }
     emit('isPageLoading', false)
@@ -156,12 +168,12 @@ async function fetchAllPermissions() {
 
 const translatedPermissions = computed(() => {
     const currentLocale = locale.value
-    
+
     return state.permissions.map((permission) => {
         const translationKey = PERMISSION_LABELS[permission.name]
         return {
             value: permission.uuid,
-            label: translationKey ?  t(translationKey) : permission.name,
+            label: translationKey ? t(translationKey) : permission.name,
         }
     })
 })

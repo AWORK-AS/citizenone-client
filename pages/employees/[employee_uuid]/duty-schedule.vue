@@ -158,7 +158,9 @@
                                                                     'text-xxs'
                                                                 ]">
                                                                     {{ $t('dutySchedules.earnedWorkHours') }}:
-                                                                    {{ employee?.log_data.total_time_account_earned_hours }}
+                                                                    {{
+                                                                        employee?.log_data.total_time_account_earned_hours
+                                                                    }}
                                                                 </p>
                                                                 <p :class="[
                                                                     parseFloat(employee?.extra_hours.replace(',', '.')) > 0 ? 'text-green-700' : 'text-red-700',
@@ -228,7 +230,7 @@
                                                                     <Icon name="ph:clock" class="h-3 w-3"
                                                                         aria-hidden="true" />
                                                                     {{
-                                                                        $t('dutySchedules.normHours.compensatoryHours')
+                                                                        $t('dutySchedules.normHours.compensatoryHoursThisYear')
                                                                     }}:
                                                                     {{
                                                                         formatNumber(language.locale.value,
@@ -238,17 +240,17 @@
                                                             </div>
                                                             <div class="col-span-7 space-y-2 mt-1">
                                                                 <div :class="[
-                                                                    employee?.available_vacation_hours > 0 ? 'text-green-700' : 'text-red-700',
+                                                                    employee?.available_vacation_days > 0 ? 'text-green-700' : 'text-red-700',
                                                                     'flex items-center gap-1 w-fit cursor-pointer'
                                                                 ]" @click="viewAvailableVacationHours(employee)">
                                                                     <Icon name="ph:clock" class="h-3 w-3"
                                                                         aria-hidden="true" />
                                                                     {{
-                                                                        $t('dutySchedules.normHours.availableVacationHours')
+                                                                        $t('dutySchedules.normHours.availableVacationDays')
                                                                     }}:
                                                                     {{
                                                                         formatNumber(language.locale.value,
-                                                                            employee?.available_vacation_hours) ?? 0
+                                                                            employee?.available_vacation_days) ?? 0
                                                                     }}
                                                                 </div>
                                                             </div>

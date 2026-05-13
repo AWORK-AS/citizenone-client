@@ -16,7 +16,7 @@
                             </div>
                         </div>
                         <div class="mt-6 mb-2">
-                            <FormButton type="submit" buttonStyle="primary" class="w-full rounded-md">
+                            <FormButton type="submit" buttonStyle="primary" class="w-full">
                                 {{ $t('update') }}
                             </FormButton>
                         </div>
@@ -63,7 +63,7 @@ const rules = computed(() => {
     return {
         formGroupChat: {
             name: {
-                required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
+                required: helpers.withMessage(() => `${t('validation.thisFieldIsRequired')}.`, required),
             },
         }
     }

@@ -36,21 +36,20 @@
                     <div class="mt-8 flex flex-col-reverse md:flex-row md:justify-between gap-3">
                         <div class="flex items-center gap-x-3">
                             <FormButton :buttonStyle="state.calendarView === 'default' ? 'primary' : ''"
-                                @click="setCalendarView('default')" class="rounded-md">
+                                @click="setCalendarView('default')">
                                 {{ $t('calendar.view.defaultView') }}
                             </FormButton>
                             <FormButton :buttonStyle="state.calendarView === 'week' ? 'primary' : ''"
-                                @click="setCalendarView('week')" class="rounded-md">
+                                @click="setCalendarView('week')">
                                 {{ $t('calendar.view.weekView') }}
                             </FormButton>
                             <FormButton :buttonStyle="state.calendarView === 'month' ? 'primary' : ''"
-                                @click="setCalendarView('month')" class="rounded-md">
+                                @click="setCalendarView('month')">
                                 {{ $t('calendar.view.monthView') }}
                             </FormButton>
                         </div>
                         <div class="flex justify-end">
-                            <FormButton buttonStyle="action" class="rounded-lg"
-                                @click="state.modal.isAddEventForCitizenOpen = true">
+                            <FormButton buttonStyle="action" @click="state.modal.isAddEventForCitizenOpen = true">
                                 <Icon name="ph:plus" class="h-4 w-4" aria-hidden="true" />
                                 {{ $t('events.newEvent') }}
                             </FormButton>

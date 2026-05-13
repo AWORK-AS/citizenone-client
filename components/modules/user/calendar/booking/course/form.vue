@@ -359,19 +359,19 @@
                     </FormButton>
                 </div>
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-3" v-else>
-                    <FormButton type="button" buttonStyle="cancel" class="rounded-md" @click="emit('closeModal')"
+                    <FormButton type="button" buttonStyle="cancel" @click="emit('closeModal')"
                         v-if="state.currentStep === 1">
                         {{ $t('cancel') }}
                     </FormButton>
-                    <FormButton type="button" buttonStyle="cancel" class="rounded-md" @click="handleBack()"
+                    <FormButton type="button" buttonStyle="cancel" @click="handleBack()"
                         v-if="state.currentStep === 2 || state.currentStep === 3">
                         {{ $t('back') }}
                     </FormButton>
-                    <FormButton type="submit" buttonStyle="primary" class="rounded-md"
+                    <FormButton type="submit" buttonStyle="primary"
                         v-if="state.currentStep === 1 || state.currentStep === 2">
                         {{ $t('next') }}
                     </FormButton>
-                    <FormButton type="submit" buttonStyle="primary" class="rounded-md" v-if="state.currentStep === 3">
+                    <FormButton type="submit" buttonStyle="primary" v-if="state.currentStep === 3">
                         {{ props.formType === 'create' ? $t('save') :
                             $t('update') }}
                     </FormButton>
@@ -521,10 +521,10 @@ const rules = computed(() => {
     return {
         formCourse: {
             name: {
-                required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
+                required: helpers.withMessage(() => `${t('validation.thisFieldIsRequired')}.`, required),
             },
             spots: {
-                required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
+                required: helpers.withMessage(() => `${t('validation.thisFieldIsRequired')}.`, required),
             },
         },
     }

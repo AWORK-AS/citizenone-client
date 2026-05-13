@@ -1,6 +1,6 @@
 <template>
     <div>
-        <Modal size="lg" :title="$t('dutySchedules.normHours.availableVacationHours')" :show="props.isModalOpen"
+        <Modal size="lg" :title="$t('dutySchedules.normHours.availableVacationDays')" :show="props.isModalOpen"
             @close="closeModal">
             <template #modal-body>
                 <LoadingSpinner :isActive="state.isPageLoading">
@@ -17,23 +17,23 @@
                     <div class="mt-5 space-y-1">
                         <div class="flex items-center gap-x-1">
                             <p class="text-sm">
-                                {{ $t('dutySchedules.normHours.vacationHoursThisYear') }}
+                                {{ $t('dutySchedules.normHours.vacationDaysThisYear') }}
                                 ({{ formatDateToReadable(state.dateRange.formDateRange.start_date) }} -
                                 {{ formatDateToReadable(state.dateRange.formDateRange.end_date) }}):
                             </p>
                             <p :class="[
-                                state.vacationHours?.data?.current_vacation_hours > 0 ? 'text-green-700' : 'text-red-700',
+                                state.vacationHours?.data?.current_vacation_days > 0 ? 'text-green-700' : 'text-red-700',
                                 'text-sm'
                             ]">
                                 {{
                                     formatNumber(language.locale.value,
-                                        state.vacationHours?.data?.current_vacation_hours || 0)
+                                        state.vacationHours?.data?.current_vacation_days || 0)
                                 }}
                             </p>
                         </div>
                         <div class="flex items-center gap-x-1">
                             <p class="text-sm">
-                                {{ $t('dutySchedules.normHours.vacationHoursFromPreviousYear') }}
+                                {{ $t('dutySchedules.normHours.vacationDaysFromPreviousYear') }}
                                 ({{
                                     formatDateToReadable(moment(state.dateRange.formDateRange.start_date).subtract(1,
                                         'year').startOf('year').format('YYYY-MM-DD'))
@@ -44,32 +44,32 @@
                                 }}):
                             </p>
                             <p :class="[
-                                state.vacationHours?.data?.previous_vacation_hours > 0 ? 'text-green-700' : 'text-red-700',
+                                state.vacationHours?.data?.previous_vacation_days > 0 ? 'text-green-700' : 'text-red-700',
                                 'text-sm'
                             ]">
                                 {{
                                     formatNumber(language.locale.value,
-                                        state.vacationHours?.data?.previous_vacation_hours || 0)
+                                        state.vacationHours?.data?.previous_vacation_days || 0)
                                 }}
                             </p>
                         </div>
                         <div class="flex items-center gap-x-1">
                             <p class="text-sm">
-                                {{ $t('dutySchedules.normHours.totalVacationHours') }}:
+                                {{ $t('dutySchedules.normHours.totalVacationDays') }}:
                             </p>
                             <p :class="[
-                                state.vacationHours?.data?.total_vacation_hours > 0 ? 'text-green-700' : 'text-red-700',
+                                state.vacationHours?.data?.total_vacation_days > 0 ? 'text-green-700' : 'text-red-700',
                                 'text-sm'
                             ]">
                                 {{
                                     formatNumber(language.locale.value,
-                                        state.vacationHours?.data?.total_vacation_hours || 0)
+                                        state.vacationHours?.data?.total_vacation_days || 0)
                                 }}
                             </p>
                         </div>
                     </div>
                     <div class="mt-5 flex justify-end">
-                        <FormButton buttonStyle="cancel" @click="closeModal" class="rounded-md">
+                        <FormButton buttonStyle="cancel" @click="closeModal">
                             {{ $t('close') }}
                         </FormButton>
                     </div>
