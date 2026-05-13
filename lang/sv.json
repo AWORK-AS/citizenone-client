@@ -2843,7 +2843,9 @@
                 "newContactJobTitleSuccessfullySaved": "Ny kontaktjobtitel har sparats"
             },
             "titleDanish": "Titel (svenska)",
-            "titleEnglish": "Titel (engelska)"
+            "titleEnglish": "Titel (engelska)",
+            "titleNorwegian": "Titel (norska)",
+            "titleSwedish": "Titel (svenska)"
         },
         "newContactJobTitle": "Ny kontaktjobtitel",
         "table": {
@@ -2855,7 +2857,9 @@
                 "deleteContactJobTitleConfirmation": "Är du säker på att du vill radera denna kontaktjobtitel?"
             },
             "titleDanish": "Titel (svenska)",
-            "titleEnglish": "Titel (engelska)"
+            "titleEnglish": "Titel (engelska)",
+            "titleNorwegian": "Titel (norska)",
+            "titleSwedish": "Titel (svenska)"
         }
     },
     "contactUs": "Kontakt oss",
@@ -2958,8 +2962,10 @@
                 "dosageFormSuccessfullyUpdated": "Doseringsform har uppdaterats",
                 "newDosageFormSuccessfullySaved": "Ny doseringsform har sparats"
             },
-            "nameDanish": "Namn (svenska)",
-            "nameEnglish": "Namn (engelska)"
+            "nameDanish": "Namn (danska)",
+            "nameEnglish": "Namn (engelska)",
+            "nameNorwegian": "Namn (norska)",
+            "nameSwedish": "Namn (svenska)"
         },
         "newDosageForm": "Ny doseringsform",
         "table": {
@@ -2970,8 +2976,10 @@
             "confirmation": {
                 "deleteDosageFormConfirmation": "Är du säker på att du vill radera denna doseringsform?"
             },
-            "nameDanish": "Namn (svenska)",
-            "nameEnglish": "Namn (engelska)"
+            "nameDanish": "Namn (danska)",
+            "nameEnglish": "Namn (engelska)",
+            "nameNorwegian": "Namn (norska)",
+            "nameSwedish": "Namn (svenska)"
         }
     },
     "drive": {
@@ -5426,8 +5434,10 @@
                 "newMedicineSuccessfullySaved": "Ny medicin sparad"
             },
             "image": "Bild",
-            "nameDanish": "Namn (svenska)",
-            "nameEnglish": "Namn (engelska)"
+            "nameDanish": "Namn (danska)",
+            "nameEnglish": "Namn (engelska)",
+            "nameNorwegian": "Namn (norska)",
+            "nameSwedish": "Namn (svenska)"
         },
         "medicines": "Medicin",
         "newMedicine": "Ny medicin",
@@ -5441,8 +5451,10 @@
                 "deleteMedicineConfirmation": "Är du säker på att du vill radera denna medicin"
             },
             "image": "Bild",
-            "nameDanish": "Namn (svenska)",
-            "nameEnglish": "Namn (engelska)"
+            "nameDanish": "Namn (danska)",
+            "nameEnglish": "Namn (engelska)",
+            "nameNorwegian": "Namn (norska)",
+            "nameSwedish": "Namn (svenska)"
         }
     },
     "messages": {
@@ -6838,8 +6850,10 @@
             "endTimeDayOffsetThreeDaysLater": "3 dagar senere",
             "endTimeDayOffsetTwoDaysLater": "2 dagar senere",
             "markAsLeaveType": "Markera som fravärstype",
-            "nameDanish": "Namn (svenska)",
+            "nameDanish": "Namn (danska)",
             "nameEnglish": "Namn (engelska)",
+            "nameNorwegian": "Namn (norska)",
+            "nameSwedish": "Namn (svenska)",
             "paycode": "Lönningskode",
             "timeIn": "Tid in",
             "timeOut": "Tid ut",
@@ -6861,8 +6875,10 @@
                 "deleteShiftConfirmation": "Är du säker på att du vill radera denna pass"
             },
             "markedAsLeave": "Markeret som semester",
-            "nameDanish": "Namn (svenska)",
+            "nameDanish": "Namn (danska)",
             "nameEnglish": "Namn (engelska)",
+            "nameNorwegian": "Namn (norska)",
+            "nameSwedish": "Namn (svenska)",
             "paycode": "Lönningskode",
             "standard": "Standard",
             "standardShift": "Standard pass",

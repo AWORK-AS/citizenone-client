@@ -6,18 +6,16 @@
             <!-- Template selector -->
             <div class="space-y-1">
                 <FormLabel for="template_uuid" :label="$t('citizens.treatments.form.template')" />
-                <FormSelect id="template_uuid" :options="templateOptions"
-                    v-model="state.formTreatment.template_uuid" />
+                <FormSelect id="template_uuid" :options="templateOptions" v-model="state.formTreatment.template_uuid" />
                 <!-- Field configuration preview -->
                 <div v-if="activeTemplate"
                     class="mt-2 flex flex-wrap gap-1.5 p-3 bg-gray-50 rounded-md border border-gray-200">
-                    <span v-for="field in templateFields" :key="field.key"
-                        :class="[
-                            'inline-flex items-center gap-1 rounded-full px-2 py-0.5 text-xxs font-medium',
-                            activeTemplate[field.key] === 'required'
-                                ? 'bg-red-100 text-red-700'
-                                : 'bg-gray-200 text-gray-500',
-                        ]">
+                    <span v-for="field in templateFields" :key="field.key" :class="[
+                        'inline-flex items-center gap-1 rounded-full px-2 py-0.5 text-xxs font-medium',
+                        activeTemplate[field.key] === 'required'
+                            ? 'bg-red-100 text-red-700'
+                            : 'bg-gray-200 text-gray-500',
+                    ]">
                         {{ field.label }}
                         <span class="font-normal opacity-75">
                             · {{ activeTemplate[field.key] === 'required'
@@ -30,11 +28,13 @@
 
             <div class="space-y-1">
                 <div class="flex items-center gap-1.5">
-                    <FormLabel for="area_type" :label="$t('citizens.treatments.form.areaTypes.areaType')" class="mb-0" />
+                    <FormLabel for="area_type" :label="$t('citizens.treatments.form.areaTypes.areaType')"
+                        class="mb-0" />
                     <span v-if="getFieldConfig('area_type')"
                         :class="getFieldConfig('area_type') === 'required' ? 'bg-red-100 text-red-700' : 'bg-gray-100 text-gray-500'"
                         class="inline-flex items-center rounded-full px-1.5 py-0.5 text-xxs font-medium">
-                        {{ getFieldConfig('area_type') === 'required' ? $t('citizens.treatments.form.required') : $t('citizens.treatments.form.optional') }}
+                        {{ getFieldConfig('area_type') === 'required' ? $t('citizens.treatments.form.required') :
+                            $t('citizens.treatments.form.optional') }}
                     </span>
                 </div>
                 <FormSelect id="area_type" :options="state.options.area_types"
@@ -45,11 +45,13 @@
             <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
                 <div class="space-y-1">
                     <div class="flex items-center gap-1.5">
-                        <FormLabel for="name" :label="$t('citizens.treatments.form.titleOfTheTreatment')" class="mb-0" />
+                        <FormLabel for="name" :label="$t('citizens.treatments.form.titleOfTheTreatment')"
+                            class="mb-0" />
                         <span v-if="getFieldConfig('title')"
                             :class="getFieldConfig('title') === 'required' ? 'bg-red-100 text-red-700' : 'bg-gray-100 text-gray-500'"
                             class="inline-flex items-center rounded-full px-1.5 py-0.5 text-xxs font-medium">
-                            {{ getFieldConfig('title') === 'required' ? $t('citizens.treatments.form.required') : $t('citizens.treatments.form.optional') }}
+                            {{ getFieldConfig('title') === 'required' ? $t('citizens.treatments.form.required') :
+                                $t('citizens.treatments.form.optional') }}
                         </span>
                     </div>
                     <FormTextField id="name" name="name"
@@ -60,11 +62,13 @@
                 </div>
                 <div class="space-y-1">
                     <div class="flex items-center gap-1.5">
-                        <FormLabel for="completion_date" :label="$t('citizens.treatments.form.completionDate')" class="mb-0" />
+                        <FormLabel for="completion_date" :label="$t('citizens.treatments.form.completionDate')"
+                            class="mb-0" />
                         <span v-if="getFieldConfig('completion_date')"
                             :class="getFieldConfig('completion_date') === 'required' ? 'bg-red-100 text-red-700' : 'bg-gray-100 text-gray-500'"
                             class="inline-flex items-center rounded-full px-1.5 py-0.5 text-xxs font-medium">
-                            {{ getFieldConfig('completion_date') === 'required' ? $t('citizens.treatments.form.required') : $t('citizens.treatments.form.optional') }}
+                            {{ getFieldConfig('completion_date') === 'required' ?
+                                $t('citizens.treatments.form.required') : $t('citizens.treatments.form.optional') }}
                         </span>
                     </div>
                     <FormDateField id="completion_date" name="completion_date"
@@ -76,11 +80,13 @@
             </div>
             <div class="space-y-1">
                 <div class="flex items-center gap-1.5">
-                    <p class="text-sm text-gray-600">{{ $t('citizens.treatments.form.expectedLevels.expectedLevel') }}</p>
+                    <p class="text-sm text-gray-600">{{ $t('citizens.treatments.form.expectedLevels.expectedLevel') }}
+                    </p>
                     <span v-if="getFieldConfig('score')"
                         :class="getFieldConfig('score') === 'required' ? 'bg-red-100 text-red-700' : 'bg-gray-100 text-gray-500'"
                         class="inline-flex items-center rounded-full px-1.5 py-0.5 text-xxs font-medium">
-                        {{ getFieldConfig('score') === 'required' ? $t('citizens.treatments.form.required') : $t('citizens.treatments.form.optional') }}
+                        {{ getFieldConfig('score') === 'required' ? $t('citizens.treatments.form.required') :
+                            $t('citizens.treatments.form.optional') }}
                     </span>
                 </div>
                 <FormSelect id="score" :options="state.options.scores" v-model="state.formTreatment.score" />
@@ -93,7 +99,8 @@
                     <span v-if="getFieldConfig('description')"
                         :class="getFieldConfig('description') === 'required' ? 'bg-red-100 text-red-700' : 'bg-gray-100 text-gray-500'"
                         class="inline-flex items-center rounded-full px-1.5 py-0.5 text-xxs font-medium">
-                        {{ getFieldConfig('description') === 'required' ? $t('citizens.treatments.form.required') : $t('citizens.treatments.form.optional') }}
+                        {{ getFieldConfig('description') === 'required' ? $t('citizens.treatments.form.required') :
+                            $t('citizens.treatments.form.optional') }}
                     </span>
                 </div>
                 <ckeditor :editor="editor" v-model="state.formTreatment.description" :config="editorDescriptionConfig">
@@ -185,6 +192,7 @@ const templateFields = computed(() => [
 
 const state = reactive({
     formTreatment: {
+        template_uuid: '',
         id: '',
         uuid: '',
         area_type: '',
@@ -195,8 +203,7 @@ const state = reactive({
         is_completed: false,
         score: '',
         enable_reminder: false,
-        template_uuid: '',
-    },
+    } as any,
     templates: [] as any[],
     options: {
         area_types: [
@@ -252,7 +259,7 @@ onMounted(async () => {
         is_completed: props.selectedTreatment.is_completed ? true : false,
         score: props.selectedTreatment.score,
         enable_reminder: props.selectedTreatment.enable_reminder ? true : false,
-        template_uuid: props.selectedTreatment.template_uuid ?? '',
+        template_uuid: props.selectedTreatment.template?.uuid ?? '',
     }
     if (props.selectedTreatment.date_completed) {
         state.formTreatment.is_completed = true

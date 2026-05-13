@@ -1132,7 +1132,8 @@
         "teeth": "Tænder",
         "title": "Titel",
         "usePredefinedJournalTitle": "Brug foruddefineret journal titel",
-        "usePredefinedcontent": "Brug foruddefineret indhold"
+        "usePredefinedcontent": "Brug foruddefineret indhold",
+        "createJournalTitle": "Skab en journal titel baseret på skabeloner eller indtast manuelt"
       },
       "journalLogs": {
         "date": "Dato",
@@ -1656,14 +1657,23 @@
           "cprNumber": "CPR-nummer",
           "firstname": "Fornavn",
           "gender": "Køn",
-          "lastname": "Last name",
-          "origin": "Oprindelse"
+          "lastname": "Efternavn",
+          "origin": "Oprindelse",
+          "name": "Navn"
         },
         "dischargeReason": "Udskrivningsårsag",
         "journalNumber": "Journalnummer",
         "municipalityOfResidenceAfter": "Bopælskommune efter ophold",
         "municipalityOfResidenceBefore": "Bopælskommune før ophold",
-        "stayData": "Opholdsdata"
+        "stayData": "Opholdsdata",
+        "consentFields": "Samtykke",
+        "financialGuardianship": "Økonomiværge",
+        "generalConsent": "Generelt samtykke",
+        "guardianship": "Værgemål",
+        "parentCollaboration": "Forældresamarbejde",
+        "personalGuardianship": "Personværge",
+        "photo": "Foto",
+        "studentCollaboration": "Elevsamarbejde"
       }
     },
     "interventionHours": {
@@ -2217,7 +2227,8 @@
         "actions": {
           "edit": "Rediger",
           "statuses": "Statusser",
-          "view": "Se"
+          "view": "Se",
+          "viewTreatments": "Se behandlinger"
         },
         "communication": "Kommunikation",
         "data": "Data",
@@ -2446,7 +2457,7 @@
           "skinAndMucousMembranes": "Hud og slimhinder",
           "sleepAndRest": "Søvn og hvile"
         },
-        "completed": "Afsluttet",
+        "completed": "Markér som afsluttet",
         "completionDate": "Afslutningsdato",
         "dateCompleted": "Dato afsluttet",
         "description": "Beskrivelse",
@@ -2461,7 +2472,11 @@
         },
         "name": "Navn",
         "score": "Score",
-        "titleOfTheTreatment": "Behandlingens titel"
+        "titleOfTheTreatment": "Behandlingens titel",
+        "template": "Skabelon",
+        "selectTemplate": "Vælg skabelon (valgfrit)",
+        "required": "Påkrævet",
+        "optional": "Valgfrit"
       },
       "newTreatment": "Ny behandling",
       "statuses": {
@@ -2829,7 +2844,9 @@
         "newContactJobTitleSuccessfullySaved": "Ny kontaktjobtitel blev gemt"
       },
       "titleDanish": "Titel (dansk)",
-      "titleEnglish": "Titel (engelsk)"
+      "titleEnglish": "Titel (engelsk)",
+      "titleNorwegian": "Titel (norsk)",
+      "titleSwedish": "Titel (svensk)"
     },
     "newContactJobTitle": "Ny kontaktjobtitel",
     "table": {
@@ -2841,7 +2858,9 @@
         "deleteContactJobTitleConfirmation": "Er du sikker på, at du vil slette denne kontaktjobtitel?"
       },
       "titleDanish": "Titel (dansk)",
-      "titleEnglish": "Titel (engelsk)"
+      "titleEnglish": "Titel (engelsk)",
+      "titleNorwegian": "Titel (norsk)",
+      "titleSwedish": "Titel (svensk)"
     }
   },
   "contactUs": "Kontakt os",
@@ -2945,7 +2964,9 @@
         "newDosageFormSuccessfullySaved": "Ny doseringsform blev gemt"
       },
       "nameDanish": "Navn (dansk)",
-      "nameEnglish": "Navn (engelsk)"
+      "nameEnglish": "Navn (engelsk)",
+      "nameNorwegian": "Navn (norsk)",
+      "nameSwedish": "Navn (svensk)"
     },
     "newDosageForm": "Ny doseringsform",
     "table": {
@@ -2957,7 +2978,9 @@
         "deleteDosageFormConfirmation": "Er du sikker på, at du vil slette denne doseringsform?"
       },
       "nameDanish": "Navn (dansk)",
-      "nameEnglish": "Navn (engelsk)"
+      "nameEnglish": "Navn (engelsk)",
+      "nameNorwegian": "Navn (norsk)",
+      "nameSwedish": "Navn (svensk)"
     }
   },
   "drive": {
@@ -3284,7 +3307,9 @@
         "recurringInfoBox": {
           "title": "Gentagende skabelon",
           "description": "Angiv hvor mange uger skabelonen roterer over (fx 4 = 4-ugers rulning). Du kan valgfrit sætte en slutdato — hvis du ikke sætter en dato, kan skabelonen altid anvendes."
-        }
+        },
+        "copyToConsecutiveWeeks": "Kopier til på hinanden følgende uger",
+        "numberOfWeeks": "Antal uger"
       },
       "newDraft": "Ny skabelon",
       "recurring": {
@@ -3395,7 +3420,9 @@
       "employees": "Medarbejdere",
       "employmentStatus": "Ansættelsesstatus",
       "filterDate": "Filtrer dato",
-      "filterDateAndTime": "Filtrer dato og tid"
+      "filterDateAndTime": "Filtrer dato og tid",
+      "timeFrom": "Tid fra",
+      "timeTo": "Tid til"
     },
     "findEmployee": "Find medarbejder",
     "form": {
@@ -3858,7 +3885,8 @@
     "zenegy_update_preset": "Opdater forudindstilling",
     "zenegy_validation_assign_rates": "Tildel venligst en sats for alle vagttyper og tillæg.",
     "zenegy_validation_date_range": "Vælg venligst et datointerval.",
-    "zenegy_validation_select_employee": "Vælg venligst mindst én medarbejder."
+    "zenegy_validation_select_employee": "Vælg venligst mindst én medarbejder.",
+    "timeRange": "Tidsinterval"
   },
   "dutyShiftRuleNotifications": {
     "empty": "Du har ingen vagtregel notifikationer",
@@ -5121,7 +5149,16 @@
         "journalTitleSuccessfullyUpdated": "Journal titel opdateret succesfuldt",
         "newJournalTitleSuccessfullySaved": "Ny journal titel gemt succesfuldt"
       },
-      "title": "Titel"
+      "title": "Titel",
+      "fields": "Felter",
+      "addField": "Tilføj felt",
+      "noFieldsYet": "Ingen felter tilføjet endnu",
+      "fieldLabel": "Label",
+      "fieldLabelPlaceholder": "Indtast feltlabel",
+      "fieldType": "Type",
+      "fieldTypeText": "Tekst",
+      "fieldTypeTextarea": "Tekstområde",
+      "required": "Påkrævet"
     },
     "journalTitles": "Journal titler",
     "newJournalTitle": "Ny journal titel",
@@ -5408,7 +5445,9 @@
       },
       "image": "Billede",
       "nameDanish": "Navn (dansk)",
-      "nameEnglish": "Navn (engelsk)"
+      "nameEnglish": "Navn (engelsk)",
+      "nameNorwegian": "Navn (norsk)",
+      "nameSwedish": "Navn (svensk)"
     },
     "medicines": "Medicin",
     "newMedicine": "Ny medicin",
@@ -5423,7 +5462,9 @@
       },
       "image": "Billede",
       "nameDanish": "Navn (dansk)",
-      "nameEnglish": "Navn (engelsk)"
+      "nameEnglish": "Navn (engelsk)",
+      "nameNorwegian": "Navn (norsk)",
+      "nameSwedish": "Navn (svensk)"
     }
   },
   "messages": {
@@ -5793,7 +5834,9 @@
       "pending": "afventer",
       "staffCheckedIn": "personale tjekket ind",
       "tasksToday": "Opgaver i dag",
-      "upcoming": "Kommende"
+      "upcoming": "Kommende",
+      "activeTreatments": "Aktive behandlinger",
+      "viewAll": "Se alle"
     },
     "tasks": "Opgaver",
     "treatments": {
@@ -6668,7 +6711,18 @@
         "warning13HourShift": "Advarsel ved vagter over 13 timer",
         "warning11HourRest": "Advarsel ved hviletid under 11 timer",
         "warning48HourRule": "Advarsel ved 48-timers reglen",
-        "website": "Hjemmeside"
+        "website": "Hjemmeside",
+        "sundayShiftCalculation": "Aktivér søndagsvagtberegning",
+        "ipRestriction": "IP-begrænsning",
+        "enableIpRestriction": "Aktivér IP-begrænsning",
+        "ipRestrictionAction": "Begrænsningshandling",
+        "manageIpWhitelist": "Administrér IP-hvidliste",
+        "deviceRestriction": "Enhedsbegrænsning",
+        "enableDeviceRestriction": "Aktivér enhedsbegrænsning",
+        "deviceRestrictionAction": "Begrænsningshandling",
+        "manageApprovedDevices": "Administrér godkendte enheder",
+        "actionBlock": "Blokér adgang",
+        "actionOtp": "Kræv OTP-bekræftelse"
       }
     },
     "licenseOverview": {
@@ -6753,7 +6807,10 @@
       "timeLogs": "Tidslogfiler",
       "transactions": "Transaktioner",
       "units": "Enheder",
-      "nursingProfessionalRecordTemplates": "Sygeplejejournalskabeloner"
+      "nursingProfessionalRecordTemplates": "Sygeplejejournalskabeloner",
+      "ipRestrictions": "IP-begrænsninger",
+      "approvedDevices": "Godkendte enheder",
+      "treatmentTemplates": "Behandlingsskabeloner"
     },
     "wallets": {
       "citizenWalletTransactions": "Transaktioner for borgernes wallets",
@@ -6812,7 +6869,9 @@
       "workingHoursFactorFrom": "Fra",
       "workingHoursFactorInterval": "Anvend inden for tidsinterval (valgfrit)",
       "workingHoursFactorPlaceholder": "f.eks. 0.75",
-      "workingHoursFactorTo": "Til"
+      "workingHoursFactorTo": "Til",
+      "nameNorwegian": "Navn (norsk)",
+      "nameSwedish": "Navn (svensk)"
     },
     "newShift": "Ny vagt",
     "shifts": "Vagter",
@@ -6833,7 +6892,9 @@
       "standardShift": "Standard vagt",
       "timeIn": "Tid ind",
       "timeOut": "Tid ud",
-      "workingHoursFactor": "Arbejdstidsfaktor"
+      "workingHoursFactor": "Arbejdstidsfaktor",
+      "nameNorwegian": "Navn (norsk)",
+      "nameSwedish": "Navn (svensk)"
     }
   },
   "show": "Vis",
@@ -6996,7 +7057,8 @@
           "activate": "Aktivér",
           "deactivate": "Deaktiver",
           "delete": "Slet",
-          "edit": "Rediger"
+          "edit": "Rediger",
+          "impersonate": "Impersonér"
         },
         "email": "E-mail",
         "name": "Navn",

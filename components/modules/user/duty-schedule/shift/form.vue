@@ -18,6 +18,20 @@
                 <FormError :error="props?.error?.errors?.dk_name?.[0]" />
             </div>
             <div class="space-y-1">
+                <FormLabel for="no_name" :label="$t('shifts.form.nameNorwegian')" />
+                <FormTextField id="no_name" name="no_name" :placeholder="$t('shifts.form.nameNorwegian')"
+                    v-model="state.formShift.no_name" />
+                <FormError :error="v$?.formShift?.no_name?.$errors[0]?.$message.toString()" />
+                <FormError :error="props?.error?.errors?.no_name?.[0]" />
+            </div>
+            <div class="space-y-1">
+                <FormLabel for="sv_name" :label="$t('shifts.form.nameSwedish')" />
+                <FormTextField id="sv_name" name="sv_name" :placeholder="$t('shifts.form.nameSwedish')"
+                    v-model="state.formShift.sv_name" />
+                <FormError :error="v$?.formShift?.sv_name?.$errors[0]?.$message.toString()" />
+                <FormError :error="props?.error?.errors?.sv_name?.[0]" />
+            </div>
+            <div class="space-y-1">
                 <FormLabel for="pay_code" :label="$t('shifts.form.paycode')" />
                 <FormTextField id="pay_code" name="pay_code" :placeholder="$t('shifts.form.paycode')"
                     v-model="state.formShift.pay_code" />
@@ -67,11 +81,13 @@
                     <p class="text-sm text-gray-500">{{ $t('shifts.form.workingHoursFactorInterval') }}</p>
                     <div class="flex items-center gap-3">
                         <div class="flex-1 space-y-1">
-                            <FormLabel for="working_hours_factor_from" :label="$t('shifts.form.workingHoursFactorFrom')" />
+                            <FormLabel for="working_hours_factor_from"
+                                :label="$t('shifts.form.workingHoursFactorFrom')" />
                             <FormTimeField id="working_hours_factor_from" name="working_hours_factor_from"
                                 :placeholder="$t('shifts.form.workingHoursFactorFrom')"
                                 v-model="state.formShift.working_hours_factor_from" />
-                            <FormError :error="v$?.formShift?.working_hours_factor_from?.$errors[0]?.$message.toString()" />
+                            <FormError
+                                :error="v$?.formShift?.working_hours_factor_from?.$errors[0]?.$message.toString()" />
                             <FormError :error="props?.error?.errors?.working_hours_factor_from?.[0]" />
                         </div>
                         <div class="flex-1 space-y-1">
@@ -79,7 +95,8 @@
                             <FormTimeField id="working_hours_factor_to" name="working_hours_factor_to"
                                 :placeholder="$t('shifts.form.workingHoursFactorTo')"
                                 v-model="state.formShift.working_hours_factor_to" />
-                            <FormError :error="v$?.formShift?.working_hours_factor_to?.$errors[0]?.$message.toString()" />
+                            <FormError
+                                :error="v$?.formShift?.working_hours_factor_to?.$errors[0]?.$message.toString()" />
                             <FormError :error="props?.error?.errors?.working_hours_factor_to?.[0]" />
                         </div>
                     </div>
@@ -89,9 +106,8 @@
             <div class="space-y-1 pt-2 border-t border-gray-100"
                 v-if="state.formShift.system_name === 'sleeping-night-shift'">
                 <FormLabel for="end_time_day_offset" :label="$t('shifts.form.endTimeDayOffset')" />
-                <FormSelect id="end_time_day_offset" name="end_time_day_offset"
-                    :options="endTimeDayOffsetOptions" :canClear="true"
-                    v-model="state.formShift.end_time_day_offset" />
+                <FormSelect id="end_time_day_offset" name="end_time_day_offset" :options="endTimeDayOffsetOptions"
+                    :canClear="true" v-model="state.formShift.end_time_day_offset" />
                 <FormError :error="props?.error?.errors?.end_time_day_offset?.[0]" />
             </div>
         </div>
@@ -149,6 +165,8 @@ const state = reactive({
     formShift: {
         en_name: '',
         dk_name: '',
+        no_name: '',
+        sv_name: '',
         pay_code: '',
         time_in: '',
         time_out: '',
@@ -167,6 +185,8 @@ watch(() => props.selectedShift, (newValue: any) => {
         state.formShift = {
             en_name: newValue.en_name,
             dk_name: newValue.dk_name,
+            no_name: newValue.no_name,
+            sv_name: newValue.sv_name,
             pay_code: newValue.pay_code,
             time_in: newValue.time_in,
             time_out: newValue.time_out,
@@ -190,6 +210,12 @@ const rules = computed(() => {
                 required: helpers.withMessage(() => `${t('validation.thisFieldIsRequired')}.`, required),
             },
             dk_name: {
+                required: helpers.withMessage(() => `${t('validation.thisFieldIsRequired')}.`, required),
+            },
+            no_name: {
+                required: helpers.withMessage(() => `${t('validation.thisFieldIsRequired')}.`, required),
+            },
+            sv_name: {
                 required: helpers.withMessage(() => `${t('validation.thisFieldIsRequired')}.`, required),
             },
             time_in: {

@@ -52,6 +52,8 @@ const state = reactive({
         image: '',
         en_name: '',
         dk_name: '',
+        no_name: '',
+        sv_name: '',
         active_ingredients: '',
     },
     isPageLoading: false,
@@ -67,6 +69,8 @@ async function saveMedicine(medicineDetails: any) {
         }
         params.append('en_name', medicineDetails.en_name)
         params.append('dk_name', medicineDetails.dk_name)
+        params.append('no_name', medicineDetails.no_name)
+        params.append('sv_name', medicineDetails.sv_name)
         params.append('ingredients', medicineDetails.active_ingredients)
         const response = await medicineService.saveMedicine(params)
         if (response.data) {

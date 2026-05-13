@@ -40,6 +40,7 @@ const state = reactive({
     error: {} as Error,
     isPageLoading: false,
     formTreatment: {
+        template_uuid: '',
         id: '',
         uuid: '',
         area_type: '',
@@ -65,6 +66,7 @@ async function saveTreatment(treatmentDetails: any) {
     state.isPageLoading = true
     try {
         const params = {
+            template_uuid: treatmentDetails.template_uuid,
             citizen_uuid: citizenUuid,
             area_type: treatmentDetails.area_type,
             name: treatmentDetails.name,
@@ -72,7 +74,6 @@ async function saveTreatment(treatmentDetails: any) {
             score: treatmentDetails.score,
             completion_date: treatmentDetails.completion_date,
             enable_reminder: treatmentDetails.enable_reminder,
-            template_uuid: treatmentDetails.template_uuid || undefined,
         }
         const response = await treatmentService.saveTreatment(params)
         if (response?.data) {
