@@ -320,7 +320,12 @@
                                     </div>
                                 </div>
                                 <div class="grid grid-cols-7 text-xxs py-0.5 border-t border-gray-200 mt-0.5">
-                                    <div class="col-span-3 pl-1 font-bold">{{ $t('dutySchedules.total') }}:</div>
+                                    <div class="col-span-3 pl-1 font-bold">
+                                        {{ $t('dutySchedules.total') }}
+                                        <span v-if="state.filter.time_from && state.filter.time_to" class="font-normal">
+                                            ({{ state.filter.time_from }}–{{ state.filter.time_to }})
+                                        </span>:
+                                    </div>
                                     <div class="col-span-2 text-right pr-2 font-bold">
                                         {{employee?.hours?.reduce((sum, t) => sum + (parseFloat(t?.monthly_hours ||
                                             t?.weekly_hours) || 0), 0).toFixed(2)}}
@@ -935,6 +940,8 @@ const state = reactive({
         department_uuids: [],
         employment_status: [],
         employee_uuids: [],
+        time_from: '',
+        time_to: '',
     },
     isDragging: false,
     isPageLoading: false,
@@ -1176,6 +1183,8 @@ async function fetchDutySchedule() {
         if (state.filter.department_uuids?.length > 0) params.department_uuids = Array(state.filter.department_uuids)
         if (state.filter.employment_status) params.employment_status = Array(state.filter.employment_status)
         if (state.filter.employee_uuids?.length > 0) params.employee_uuids = Array(state.filter.employee_uuids)
+        if (state.filter.time_from) params.time_from = state.filter.time_from
+        if (state.filter.time_to) params.time_to = state.filter.time_to
         const response = await dutyScheduleService.getDutySchedulesMonthView(params)
         if (response) {
             state.monthlySchedules = response
