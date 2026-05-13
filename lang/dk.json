@@ -1087,6 +1087,7 @@
             "form": {
                 "attachFile": "Vedhæft fil",
                 "content": "Indhold",
+                "createJournalTitle": "Skab en journal titel baseret på skabeloner eller indtast manuelt",
                 "copyJournalNoteToPlanOrGoalOrSubgoal": "Kopiér journalnote til plan, mål eller delmål",
                 "copyRiskAssessmentToPlanOrGoalOrSubgoal": "Kopiér risikovurdering til plan, mål eller delmål",
                 "currentLevels": {
@@ -5140,7 +5141,16 @@
                 "journalTitleSuccessfullyUpdated": "Journal titel opdateret succesfuldt",
                 "newJournalTitleSuccessfullySaved": "Ny journal titel gemt succesfuldt"
             },
-            "title": "Titel"
+            "title": "Titel",
+            "fields": "Felter",
+            "addField": "Tilføj felt",
+            "noFieldsYet": "Ingen felter tilføjet endnu",
+            "fieldLabel": "Label",
+            "fieldLabelPlaceholder": "Indtast feltlabel",
+            "fieldType": "Type",
+            "fieldTypeText": "Tekst",
+            "fieldTypeTextarea": "Tekstområde",
+            "required": "Påkrævet"
         },
         "journalTitles": "Journal titler",
         "newJournalTitle": "Ny journal titel",
