@@ -184,6 +184,10 @@
                             </FormButton>
                         </div>
 
+                        <!-- Own ChatGPT Integration -->
+                        <!-- TODO: restore v-if="userStore.getUser?.has_own_chatgpt_access" once backend adds flag -->
+                        <ModulesUserNavbarOwnChatGpt />
+
                         <!-- News / Megaphone -->
                         <button type="button"
                             class="relative w-9 h-9 rounded-full flex items-center justify-center text-primary hover:text-primary-700 hover:bg-surface-100 transition-colors"
@@ -421,6 +425,7 @@
             @next="handleNextGuidedTour" />
         <ModulesUserAssistantModalAssistant :isModalOpen="state.modal.isAIAssistantOpen"
             @close="state.modal.isAIAssistantOpen = false" />
+        <ModulesUserOwnChatGptSyncProgressBar />
     </LoadingSpinner>
 </template>
 

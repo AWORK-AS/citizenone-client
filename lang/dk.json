@@ -1087,6 +1087,7 @@
             "form": {
                 "attachFile": "Vedhæft fil",
                 "content": "Indhold",
+                "createJournalTitle": "Skab en journal titel baseret på skabeloner eller indtast manuelt",
                 "copyJournalNoteToPlanOrGoalOrSubgoal": "Kopiér journalnote til plan, mål eller delmål",
                 "copyRiskAssessmentToPlanOrGoalOrSubgoal": "Kopiér risikovurdering til plan, mål eller delmål",
                 "currentLevels": {
@@ -5140,7 +5141,16 @@
                 "journalTitleSuccessfullyUpdated": "Journal titel opdateret succesfuldt",
                 "newJournalTitleSuccessfullySaved": "Ny journal titel gemt succesfuldt"
             },
-            "title": "Titel"
+            "title": "Titel",
+            "fields": "Felter",
+            "addField": "Tilføj felt",
+            "noFieldsYet": "Ingen felter tilføjet endnu",
+            "fieldLabel": "Label",
+            "fieldLabelPlaceholder": "Indtast feltlabel",
+            "fieldType": "Type",
+            "fieldTypeText": "Tekst",
+            "fieldTypeTextarea": "Tekstområde",
+            "required": "Påkrævet"
         },
         "journalTitles": "Journal titler",
         "newJournalTitle": "Ny journal titel",
@@ -5648,6 +5658,27 @@
             "startMonth": "Startmåned",
             "viewNormPeriod": "Vis normperiode"
         }
+    },
+    "ownChatGpt": {
+        "apiKey": "OpenAI API-nøgle",
+        "apiKeyPlaceholder": "sk-...",
+        "attachFile": "Vedhæft fil",
+        "clearChat": "Ryd chat",
+        "emptySubtitle": "Skriv en besked nedenfor for at komme i gang",
+        "emptyTitle": "Hvad er på dagsordenen i dag?",
+        "outOfSync": "Ikke synkroniseret",
+        "placeholder": "Spørg om alt...",
+        "poweredByYourKey": "Drevet af din OpenAI-nøgle",
+        "save": "Gem",
+        "savedSuccess": "API-nøgle gemt",
+        "settings": "Indstillinger",
+        "sync": "Synkroniser AI",
+        "syncComplete": "Synkronisering fuldført",
+        "syncReminderBody": "Dette sikrer, at AI'en har adgang til din virksomheds data.",
+        "synced": "Synkroniseret",
+        "syncReminderTitle": "Synkroniser din AI med virksomhedens AI, inden du chatter.",
+        "syncing": "Synkroniserer...",
+        "title": "Din ChatGPT Integration"
     },
     "overview": {
         "addDailyEvents": "Tilføj daglige begivenheder",

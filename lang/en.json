@@ -1087,6 +1087,7 @@
             "form": {
                 "attachFile": "Attach file",
                 "content": "Content",
+                "createJournalTitle": "Create journal title",
                 "copyJournalNoteToPlanOrGoalOrSubgoal": "Copy journal note to plan, goal or subgoal",
                 "copyRiskAssessmentToPlanOrGoalOrSubgoal": "Copy risk assessment to plan, goal or subgoal",
                 "currentLevels": {
@@ -5140,7 +5141,16 @@
                 "journalTitleSuccessfullyUpdated": "Journal title successfully updated",
                 "newJournalTitleSuccessfullySaved": "New journal title successfully saved"
             },
-            "title": "Title"
+            "title": "Title",
+            "fields": "Fields",
+            "addField": "Add field",
+            "noFieldsYet": "No fields added yet",
+            "fieldLabel": "Label",
+            "fieldLabelPlaceholder": "Enter field label",
+            "fieldType": "Type",
+            "fieldTypeText": "Text",
+            "fieldTypeTextarea": "Textarea",
+            "required": "Required"
         },
         "journalTitles": "Journal titles",
         "newJournalTitle": "New journal title",
@@ -5648,6 +5658,27 @@
             "startMonth": "Start Month",
             "viewNormPeriod": "View norm period"
         }
+    },
+    "ownChatGpt": {
+        "apiKey": "OpenAI API Key",
+        "apiKeyPlaceholder": "sk-...",
+        "attachFile": "Attach file",
+        "clearChat": "Clear chat",
+        "emptySubtitle": "Type a message below to get started",
+        "emptyTitle": "What's on the agenda today?",
+        "outOfSync": "Out of sync",
+        "placeholder": "Ask anything...",
+        "poweredByYourKey": "Powered by your OpenAI key",
+        "save": "Save",
+        "savedSuccess": "API key saved successfully",
+        "settings": "Settings",
+        "sync": "Sync AI",
+        "syncComplete": "Sync complete",
+        "syncReminderBody": "This ensures the AI has access to your company's data.",
+        "synced": "Synced",
+        "syncReminderTitle": "Sync your AI with the company AI before chatting.",
+        "syncing": "Syncing...",
+        "title": "Your ChatGPT Integration"
     },
     "overview": {
         "addDailyEvents": "Add daily events",
