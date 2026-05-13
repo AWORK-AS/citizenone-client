@@ -214,85 +214,85 @@
                                 <MenuItems
                                     class="absolute right-0 z-10 mt-2.5 w-48 origin-top-right rounded-sm bg-white py-2 shadow-lg ring-1 ring-gray-900/5 focus:outline-none">
                                     <MenuItem>
-                                    <div class="cursor-pointer bg-gray-50 block px-3 py-3 text-sm leading-6 text-gray-900 hover:bg-gray-100"
-                                        @click="selectLanguage">
-                                        <div class="flex items-center gap-x-2">
-                                            <img :src="identifyFlag()" alt="flag" class="w-5 h-5">
-                                            {{ $t('navbar.switchLanguage') }}
+                                        <div class="cursor-pointer bg-gray-50 block px-3 py-3 text-sm leading-6 text-gray-900 hover:bg-gray-100"
+                                            @click="selectLanguage">
+                                            <div class="flex items-center gap-x-2">
+                                                <img :src="identifyFlag()" alt="flag" class="w-5 h-5">
+                                                {{ $t('navbar.switchLanguage') }}
+                                            </div>
                                         </div>
-                                    </div>
                                     </MenuItem>
                                     <MenuItem>
-                                    <div @click="navigateTo('/settings/profile')"
-                                        class="cursor-pointer bg-gray-50 block px-3 py-3 text-sm leading-6 text-gray-900 hover:bg-gray-100">
-                                        <div class="flex items-center gap-x-3">
-                                            <Icon name="ph:gear" class="h-5 w-5" aria-hidden="true" />
-                                            {{ $t('navbar.settings') }}
+                                        <div @click="navigateTo('/settings/profile')"
+                                            class="cursor-pointer bg-gray-50 block px-3 py-3 text-sm leading-6 text-gray-900 hover:bg-gray-100">
+                                            <div class="flex items-center gap-x-3">
+                                                <Icon name="ph:gear" class="h-5 w-5" aria-hidden="true" />
+                                                {{ $t('navbar.settings') }}
+                                            </div>
                                         </div>
-                                    </div>
                                     </MenuItem>
                                     <MenuItem>
-                                    <div @click="navigateTo('/employees')"
-                                        class="cursor-pointer bg-gray-50 block px-3 py-3 text-sm leading-6 text-gray-900 hover:bg-gray-100">
-                                        <div class="flex items-center gap-x-3">
-                                            <Icon name="ph:users-three" class="h-5 w-5" aria-hidden="true" />
-                                            {{ $t('navbar.colleagues') }}
+                                        <div @click="navigateTo('/employees')"
+                                            class="cursor-pointer bg-gray-50 block px-3 py-3 text-sm leading-6 text-gray-900 hover:bg-gray-100">
+                                            <div class="flex items-center gap-x-3">
+                                                <Icon name="ph:users-three" class="h-5 w-5" aria-hidden="true" />
+                                                {{ $t('navbar.colleagues') }}
+                                            </div>
                                         </div>
-                                    </div>
                                     </MenuItem>
                                     <MenuItem>
-                                    <div @click="navigateTo('/apps')"
-                                        class="cursor-pointer bg-gray-50 block px-3 py-3 text-sm leading-6 text-gray-900 hover:bg-gray-100">
-                                        <div class="flex items-center gap-x-3">
-                                            <Icon name="ic:baseline-apps" class="h-5 w-5" aria-hidden="true" />
-                                            {{ $t('navbar.apps') }}
+                                        <div @click="navigateTo('/apps')"
+                                            class="cursor-pointer bg-gray-50 block px-3 py-3 text-sm leading-6 text-gray-900 hover:bg-gray-100">
+                                            <div class="flex items-center gap-x-3">
+                                                <Icon name="ic:baseline-apps" class="h-5 w-5" aria-hidden="true" />
+                                                {{ $t('navbar.apps') }}
+                                            </div>
                                         </div>
-                                    </div>
                                     </MenuItem>
                                     <MenuItem>
-                                    <div @click="navigateTo('/reminders')"
-                                        class="cursor-pointer bg-gray-50 block px-3 py-3 text-sm leading-6 text-gray-900 hover:bg-gray-100">
-                                        <div class="flex items-center gap-x-3">
-                                            <Icon name="ph:note-pencil" class="h-5 w-5" aria-hidden="true" />
-                                            {{ $t('navbar.reminders') }}
+                                        <div @click="navigateTo('/reminders')"
+                                            class="cursor-pointer bg-gray-50 block px-3 py-3 text-sm leading-6 text-gray-900 hover:bg-gray-100">
+                                            <div class="flex items-center gap-x-3">
+                                                <Icon name="ph:note-pencil" class="h-5 w-5" aria-hidden="true" />
+                                                {{ $t('navbar.reminders') }}
+                                            </div>
                                         </div>
-                                    </div>
                                     </MenuItem>
                                     <MenuItem>
-                                    <div @click="navigateTo('/forms')"
-                                        class="cursor-pointer bg-gray-50 block px-3 py-3 text-sm leading-6 text-gray-900 hover:bg-gray-100">
-                                        <div class="flex items-center gap-x-3">
-                                            <Icon name="ph:list-numbers" class="h-5 w-5" aria-hidden="true" />
-                                            {{ $t('navbar.forms') }}
+                                        <div @click="navigateTo('/forms')"
+                                            class="cursor-pointer bg-gray-50 block px-3 py-3 text-sm leading-6 text-gray-900 hover:bg-gray-100">
+                                            <div class="flex items-center gap-x-3">
+                                                <Icon name="ph:list-numbers" class="h-5 w-5" aria-hidden="true" />
+                                                {{ $t('navbar.forms') }}
+                                            </div>
                                         </div>
-                                    </div>
                                     </MenuItem>
                                     <MenuItem>
-                                    <div @click="navigateTo('/procedures')"
-                                        class="cursor-pointer bg-gray-50 block px-3 py-3 text-sm leading-6 text-gray-900 hover:bg-gray-100">
-                                        <div class="flex items-center gap-x-3">
-                                            <Icon name="ph:list-checks" class="h-5 w-5" aria-hidden="true" />
-                                            {{ $t('navbar.procedures') }}
+                                        <div @click="navigateTo('/procedures')"
+                                            class="cursor-pointer bg-gray-50 block px-3 py-3 text-sm leading-6 text-gray-900 hover:bg-gray-100">
+                                            <div class="flex items-center gap-x-3">
+                                                <Icon name="ph:list-checks" class="h-5 w-5" aria-hidden="true" />
+                                                {{ $t('navbar.procedures') }}
+                                            </div>
                                         </div>
-                                    </div>
                                     </MenuItem>
                                     <MenuItem>
-                                    <div @click="state.modal.isContactUsOpen = true"
-                                        class="cursor-pointer bg-gray-50 block px-3 py-3 text-sm leading-6 text-gray-900 hover:bg-gray-100">
-                                        <div class="flex items-center gap-x-3">
-                                            <Icon name="ph:shooting-star" class="h-5 w-5" aria-hidden="true" />
-                                            {{ $t('navbar.newWishes') }}
+                                        <div @click="state.modal.isContactUsOpen = true"
+                                            class="cursor-pointer bg-gray-50 block px-3 py-3 text-sm leading-6 text-gray-900 hover:bg-gray-100">
+                                            <div class="flex items-center gap-x-3">
+                                                <Icon name="ph:shooting-star" class="h-5 w-5" aria-hidden="true" />
+                                                {{ $t('navbar.newWishes') }}
+                                            </div>
                                         </div>
-                                    </div>
                                     </MenuItem>
                                     <MenuItem>
-                                    <div @click="logout()"
-                                        class="cursor-pointer bg-gray-50 block px-3 py-3 text-sm leading-6 text-gray-900 hover:bg-gray-100">
-                                        <div class="flex items-center gap-x-3">
-                                            <Icon name="ph:sign-out" class="h-5 w-5" aria-hidden="true" />
-                                            {{ $t('navbar.logout') }}
+                                        <div @click="logout()"
+                                            class="cursor-pointer bg-gray-50 block px-3 py-3 text-sm leading-6 text-gray-900 hover:bg-gray-100">
+                                            <div class="flex items-center gap-x-3">
+                                                <Icon name="ph:sign-out" class="h-5 w-5" aria-hidden="true" />
+                                                {{ $t('navbar.logout') }}
+                                            </div>
                                         </div>
-                                    </div>
                                     </MenuItem>
                                 </MenuItems>
                             </transition>
@@ -487,12 +487,12 @@ function selectLanguage() {
 
 function identifyFlag() {
     const selectedLanguage = userStore.getLanguage
-    if (selectedLanguage === 'en') {
-        return '/img/icons/flags/united-kingdom.svg'
-    } else {
-        if (selectedLanguage === 'dk') {
-            return '/img/icons/flags/denmark.svg'
-        }
+    const flags: Record<string, string> = {
+        en: '/img/icons/flags/united-kingdom.svg',
+        dk: '/img/icons/flags/denmark.svg',
+        no: '/img/icons/flags/norway.svg',
+        sv: '/img/icons/flags/sweden.svg',
     }
+    return flags[selectedLanguage] ?? '/img/icons/flags/united-kingdom.svg'
 }
 </script>

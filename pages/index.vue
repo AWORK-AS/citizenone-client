@@ -88,21 +88,13 @@
 				<div class="rbc rbc3"></div>
 			</div>
 
-			<ModulesUserAuthenticationModalOtpVerification
-				v-if="state.modal.isIpOtpOpen"
-				:isModalOpen="state.modal.isIpOtpOpen"
-				otpType="ip"
-				:email="state.formLogin.email ?? ''"
-				:deviceUuid="state.deviceUuid"
-				@close="state.modal.isIpOtpOpen = false" />
+			<ModulesUserAuthenticationModalOtpVerification v-if="state.modal.isIpOtpOpen"
+				:isModalOpen="state.modal.isIpOtpOpen" otpType="ip" :email="state.formLogin.email ?? ''"
+				:deviceUuid="state.deviceUuid" @close="state.modal.isIpOtpOpen = false" />
 
-			<ModulesUserAuthenticationModalOtpVerification
-				v-if="state.modal.isDeviceOtpOpen"
-				:isModalOpen="state.modal.isDeviceOtpOpen"
-				otpType="device"
-				:email="state.formLogin.email ?? ''"
-				:deviceUuid="state.deviceUuid"
-				@close="state.modal.isDeviceOtpOpen = false" />
+			<ModulesUserAuthenticationModalOtpVerification v-if="state.modal.isDeviceOtpOpen"
+				:isModalOpen="state.modal.isDeviceOtpOpen" otpType="device" :email="state.formLogin.email ?? ''"
+				:deviceUuid="state.deviceUuid" @close="state.modal.isDeviceOtpOpen = false" />
 
 
 			<form class="form-card" @submit.prevent="login">
@@ -116,7 +108,7 @@
 						<button type="button" @click="state.langOpen = !state.langOpen"
 							class="flex items-center gap-1.5 py-[5px] pr-[10px] pl-[6px] rounded-full border border-slate-200 bg-white cursor-pointer text-xs font-semibold text-slate-500 hover:border-slate-300 transition-colors">
 							<img :src="identifyFlag()" alt="flag" class="w-5 h-5 rounded-full object-cover" />
-							{{ language.locale.value === 'en' ? 'EN' : 'DK' }}
+							{{ { en: 'EN', dk: 'DK', no: 'NO', sv: 'SV' }[language.locale.value] ?? 'EN' }}
 							<svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor"
 								stroke-width="2.5">
 								<polyline points="6 9 12 15 18 9" />
@@ -134,6 +126,16 @@
 								<img src="/img/icons/flags/united-kingdom.svg"
 									class="w-5 h-5 rounded-full object-cover" />
 								English
+							</button>
+							<button type="button" @click="setLang('no')"
+								:class="['flex items-center gap-2 w-full px-3.5 py-2.5 border-0 bg-transparent cursor-pointer text-[13px] font-medium text-[#1a2332] hover:bg-[#edf5fb] transition-colors', language.locale.value === 'no' && 'bg-[#edf5fb]']">
+								<img src="/img/icons/flags/norway.svg" class="w-5 h-5 rounded-full object-cover" />
+								Norsk
+							</button>
+							<button type="button" @click="setLang('sv')"
+								:class="['flex items-center gap-2 w-full px-3.5 py-2.5 border-0 bg-transparent cursor-pointer text-[13px] font-medium text-[#1a2332] hover:bg-[#edf5fb] transition-colors', language.locale.value === 'sv' && 'bg-[#edf5fb]']">
+								<img src="/img/icons/flags/sweden.svg" class="w-5 h-5 rounded-full object-cover" />
+								Svenska
 							</button>
 						</div>
 					</div>
@@ -372,13 +374,13 @@ function selectLanguage() {
 
 function identifyFlag() {
 	const selectedLanguage = userStore.getLanguage
-	if (selectedLanguage === 'en') {
-		return '/img/icons/flags/united-kingdom.svg'
-	} else {
-		if (selectedLanguage === 'dk') {
-			return '/img/icons/flags/denmark.svg'
-		}
+	const flags: Record<string, string> = {
+		en: '/img/icons/flags/united-kingdom.svg',
+		dk: '/img/icons/flags/denmark.svg',
+		no: '/img/icons/flags/norway.svg',
+		sv: '/img/icons/flags/sweden.svg',
 	}
+	return flags[selectedLanguage] ?? '/img/icons/flags/united-kingdom.svg'
 }
 
 async function navigateToSupport() {
