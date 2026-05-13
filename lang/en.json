@@ -7615,9 +7615,44 @@
                 },
                 "email": "Email",
                 "name": "Name",
-                "phone": "Phone"
+                "phone": "Phone",
+                "company": "Company",
+                "role": "Role",
+                "status": "Status"
             },
-            "users": "Users"
+            "users": "Users",
+            "createFirstUser": "Create the first user",
+            "createUser": "Create user",
+            "noUsersFound": "No users found",
+            "searchPlaceholder": "Search by name, email or company...",
+            "showing": "Showing {from}–{to} of {total}",
+            "totalUsers": "{count} users in total",
+            "tabs": {
+                "admins": "Admins",
+                "all": "All",
+                "active": "Active",
+                "inactive": "Inactive"
+            },
+            "sort": {
+                "nameAsc": "Name A–Z",
+                "nameDesc": "Name Z–A",
+                "newestFirst": "Newest first",
+                "oldestFirst": "Oldest first"
+            },
+            "slider": {
+                "attachToCompany": "Attach to company",
+                "createAndAttach": "Create and attach to company",
+                "creating": "Creating...",
+                "leaveEmptyForWelcomeEmail": "Leave empty to send a welcome email with a link",
+                "minChars": "Min. 8 characters",
+                "password": "Password",
+                "roleAdmin": "Administrator",
+                "roleUser": "User",
+                "searchCompany": "Search company...",
+                "searchToAttach": "Search to attach an existing company",
+                "userCanLogin": "The user can log in",
+                "userInfo": "User information"
+            }
         }
     },
     "support": {

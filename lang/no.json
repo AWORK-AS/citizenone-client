@@ -7584,9 +7584,44 @@
                 },
                 "email": "E-post",
                 "name": "Navn",
-                "phone": "Telefon"
+                "phone": "Telefon",
+                "company": "Selskap",
+                "role": "Rolle",
+                "status": "Status"
             },
-            "users": "Brukere"
+            "users": "Brukere",
+            "createFirstUser": "Opprett den første brukeren",
+            "createUser": "Opprett bruker",
+            "noUsersFound": "Ingen brukere funnet",
+            "searchPlaceholder": "Søk på navn, e-post eller selskap...",
+            "showing": "Viser {from}–{to} av {total}",
+            "totalUsers": "{count} brukere totalt",
+            "tabs": {
+                "admins": "Admins",
+                "all": "Alle",
+                "active": "Aktive",
+                "inactive": "Inaktive"
+            },
+            "sort": {
+                "nameAsc": "Navn A–Z",
+                "nameDesc": "Navn Z–A",
+                "newestFirst": "Nyeste først",
+                "oldestFirst": "Eldste først"
+            },
+            "slider": {
+                "attachToCompany": "Tilknytt til selskap",
+                "createAndAttach": "Opprett og tilknytt til selskap",
+                "creating": "Oppretter...",
+                "leaveEmptyForWelcomeEmail": "La stå tom for å sende velkomst-e-post med lenke",
+                "minChars": "Min. 8 tegn",
+                "password": "Passord",
+                "roleAdmin": "Administrator",
+                "roleUser": "Bruker",
+                "searchCompany": "Søk selskap...",
+                "searchToAttach": "Søk for å tilknytte et eksisterende selskap",
+                "userCanLogin": "Brukeren kan logge inn",
+                "userInfo": "Brukeropplysninger"
+            }
         }
     },
     "support": {

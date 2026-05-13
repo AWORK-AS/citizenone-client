@@ -7615,9 +7615,44 @@
                 },
                 "email": "Email",
                 "name": "Navn",
-                "phone": "Telefon"
+                "phone": "Telefon",
+                "company": "Virksomhed",
+                "role": "Rolle",
+                "status": "Status"
             },
-            "users": "Brugere"
+            "users": "Brugere",
+            "createFirstUser": "Opret den første bruger",
+            "createUser": "Opret bruger",
+            "noUsersFound": "Ingen brugere fundet",
+            "searchPlaceholder": "Søg på navn, email eller virksomhed...",
+            "showing": "Viser {from}–{to} af {total}",
+            "totalUsers": "{count} brugere i alt",
+            "tabs": {
+                "admins": "Admins",
+                "all": "Alle",
+                "active": "Aktive",
+                "inactive": "Inaktive"
+            },
+            "sort": {
+                "nameAsc": "Navn A–Z",
+                "nameDesc": "Navn Z–A",
+                "newestFirst": "Nyeste først",
+                "oldestFirst": "Ældste først"
+            },
+            "slider": {
+                "attachToCompany": "Tilknyt til virksomhed",
+                "createAndAttach": "Opret og tilknyt til virksomhed",
+                "creating": "Opretter...",
+                "leaveEmptyForWelcomeEmail": "Lad stå tom for at sende velkomst-email med link",
+                "minChars": "Min. 8 tegn",
+                "password": "Adgangskode",
+                "roleAdmin": "Administrator",
+                "roleUser": "Bruger",
+                "searchCompany": "Søg virksomhed...",
+                "searchToAttach": "Søg for at tilknytte en eksisterende virksomhed",
+                "userCanLogin": "Brugeren kan logge ind",
+                "userInfo": "Brugeroplysninger"
+            }
         }
     },
     "support": {

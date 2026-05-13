@@ -7584,9 +7584,44 @@
                 },
                 "email": "Email",
                 "name": "Namn",
-                "phone": "Telefon"
+                "phone": "Telefon",
+                "company": "Företag",
+                "role": "Roll",
+                "status": "Status"
             },
-            "users": "Användare"
+            "users": "Användare",
+            "createFirstUser": "Skapa den första användaren",
+            "createUser": "Skapa användare",
+            "noUsersFound": "Inga användare hittades",
+            "searchPlaceholder": "Sök på namn, e-post eller företag...",
+            "showing": "Visar {from}–{to} av {total}",
+            "totalUsers": "{count} användare totalt",
+            "tabs": {
+                "admins": "Admins",
+                "all": "Alla",
+                "active": "Aktiva",
+                "inactive": "Inaktiva"
+            },
+            "sort": {
+                "nameAsc": "Namn A–Z",
+                "nameDesc": "Namn Z–A",
+                "newestFirst": "Nyaste först",
+                "oldestFirst": "Äldsta först"
+            },
+            "slider": {
+                "attachToCompany": "Koppla till företag",
+                "createAndAttach": "Skapa och koppla till företag",
+                "creating": "Skapar...",
+                "leaveEmptyForWelcomeEmail": "Lämna tomt för att skicka välkomst-e-post med länk",
+                "minChars": "Min. 8 tecken",
+                "password": "Lösenord",
+                "roleAdmin": "Administratör",
+                "roleUser": "Användare",
+                "searchCompany": "Sök företag...",
+                "searchToAttach": "Sök för att koppla ett befintligt företag",
+                "userCanLogin": "Användaren kan logga in",
+                "userInfo": "Användaruppgifter"
+            }
         }
     },
     "support": {
