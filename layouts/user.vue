@@ -131,9 +131,23 @@
         <!-- Main content -->
         <div class="bg-surface-50 min-h-screen transition-all duration-300 ease-in-out"
             :class="sidebarExpanded ? 'lg:pl-[17rem]' : 'lg:pl-[4.5rem]'">
+            <!-- Impersonation Banner -->
+            <div v-if="isImpersonating"
+                class="sticky top-0 z-[60] bg-amber-500 text-white px-6 py-2.5 flex items-center justify-between gap-x-4">
+                <div class="flex items-center gap-x-2 min-w-0">
+                    <Icon name="ph:user-switch" class="h-5 w-5 shrink-0" />
+                    <span class="text-sm font-semibold truncate">Impersonating: {{ userStore.getUser?.firstname }} {{
+                        userStore.getUser?.lastname }}</span>
+                </div>
+                <button @click="stopImpersonation"
+                    class="flex items-center gap-x-1.5 text-sm font-semibold bg-amber-600 hover:bg-amber-700 px-3 py-1 rounded-md transition-colors shrink-0">
+                    <Icon name="ph:arrow-u-up-left" class="h-4 w-4" />
+                    Stop impersonation
+                </button>
+            </div>
             <!-- Navbar -->
-            <div
-                class="sticky top-0 z-50 flex h-16 shrink-0 items-center gap-x-3 bg-white/95 backdrop-blur-md border-b border-surface-200 px-4 sm:px-6 lg:px-6">
+            <div class="sticky z-50 flex h-16 shrink-0 items-center gap-x-3 bg-white/95 backdrop-blur-md border-b border-surface-200 px-4 sm:px-6 lg:px-6"
+                :class="isImpersonating ? 'top-[42px]' : 'top-0'">
                 <button type="button" class="-m-2.5 p-2.5 text-slate-500 lg:hidden" @click="sidebarOpen = true">
                     <Icon name="heroicons:bars-3" class="h-6 w-6" aria-hidden="true" />
                 </button>
@@ -169,6 +183,10 @@
                                 <p class="text-sm font-semibold hidden lg:block">{{ $t('assistants.askAI') }}</p>
                             </FormButton>
                         </div>
+
+                        <!-- Own ChatGPT Integration -->
+                        <!-- TODO: restore v-if="userStore.getUser?.has_own_chatgpt_access" once backend adds flag -->
+                        <ModulesUserNavbarOwnChatGpt />
 
                         <!-- News / Megaphone -->
                         <button type="button"
@@ -271,65 +289,67 @@
                                         </p>
                                     </div>
                                     <MenuItem>
-                                    <div class="cursor-pointer flex items-center gap-x-3 px-3 py-2.5 text-sm text-slate-700 hover:bg-surface-50 transition-colors"
-                                        @click="selectLanguage"><img :src="identifyFlag()" alt="flag" class="w-4 h-4">{{
-                                            $t('navbar.switchLanguage') }}</div>
+                                        <div class="cursor-pointer flex items-center gap-x-3 px-3 py-2.5 text-sm text-slate-700 hover:bg-surface-50 transition-colors"
+                                            @click="selectLanguage"><img :src="identifyFlag()" alt="flag"
+                                                class="w-4 h-4">{{
+                                                    $t('navbar.switchLanguage') }}</div>
                                     </MenuItem>
                                     <MenuItem>
-                                    <div @click="navigateTo('/settings/profile')"
-                                        class="cursor-pointer flex items-center gap-x-3 px-3 py-2.5 text-sm text-slate-700 hover:bg-surface-50 transition-colors">
-                                        <Icon name="ph:gear" class="h-4 w-4 text-slate-400" />{{ $t('navbar.settings')
-                                        }}
-                                    </div>
+                                        <div @click="navigateTo('/settings/profile')"
+                                            class="cursor-pointer flex items-center gap-x-3 px-3 py-2.5 text-sm text-slate-700 hover:bg-surface-50 transition-colors">
+                                            <Icon name="ph:gear" class="h-4 w-4 text-slate-400" />{{
+                                                $t('navbar.settings')
+                                            }}
+                                        </div>
                                     </MenuItem>
                                     <MenuItem>
-                                    <div @click="navigateTo('/employees')"
-                                        class="cursor-pointer flex items-center gap-x-3 px-3 py-2.5 text-sm text-slate-700 hover:bg-surface-50 transition-colors">
-                                        <Icon name="ph:users-three" class="h-4 w-4 text-slate-400" />{{
-                                            $t('navbar.colleagues') }}
-                                    </div>
+                                        <div @click="navigateTo('/employees')"
+                                            class="cursor-pointer flex items-center gap-x-3 px-3 py-2.5 text-sm text-slate-700 hover:bg-surface-50 transition-colors">
+                                            <Icon name="ph:users-three" class="h-4 w-4 text-slate-400" />{{
+                                                $t('navbar.colleagues') }}
+                                        </div>
                                     </MenuItem>
                                     <MenuItem>
-                                    <div @click="navigateTo('/apps')"
-                                        class="cursor-pointer flex items-center gap-x-3 px-3 py-2.5 text-sm text-slate-700 hover:bg-surface-50 transition-colors">
-                                        <Icon name="ic:baseline-apps" class="h-4 w-4 text-slate-400" />{{
-                                            $t('navbar.apps') }}
-                                    </div>
+                                        <div @click="navigateTo('/apps')"
+                                            class="cursor-pointer flex items-center gap-x-3 px-3 py-2.5 text-sm text-slate-700 hover:bg-surface-50 transition-colors">
+                                            <Icon name="ic:baseline-apps" class="h-4 w-4 text-slate-400" />{{
+                                                $t('navbar.apps') }}
+                                        </div>
                                     </MenuItem>
                                     <MenuItem v-if="userStore.getUser?.has_invoice_app">
-                                    <div @click="navigateTo('/invoices')"
-                                        class="cursor-pointer flex items-center gap-x-3 px-3 py-2.5 text-sm text-slate-700 hover:bg-surface-50 transition-colors">
-                                        <Icon name="ph:receipt" class="h-4 w-4 text-slate-400" />{{
-                                            $t('navbar.invoices') }}
-                                    </div>
+                                        <div @click="navigateTo('/invoices')"
+                                            class="cursor-pointer flex items-center gap-x-3 px-3 py-2.5 text-sm text-slate-700 hover:bg-surface-50 transition-colors">
+                                            <Icon name="ph:receipt" class="h-4 w-4 text-slate-400" />{{
+                                                $t('navbar.invoices') }}
+                                        </div>
                                     </MenuItem>
                                     <MenuItem>
-                                    <div @click="navigateTo('/reminders')"
-                                        class="cursor-pointer flex items-center gap-x-3 px-3 py-2.5 text-sm text-slate-700 hover:bg-surface-50 transition-colors">
-                                        <Icon name="ph:note-pencil" class="h-4 w-4 text-slate-400" />{{
-                                            $t('navbar.reminders') }}
-                                    </div>
+                                        <div @click="navigateTo('/reminders')"
+                                            class="cursor-pointer flex items-center gap-x-3 px-3 py-2.5 text-sm text-slate-700 hover:bg-surface-50 transition-colors">
+                                            <Icon name="ph:note-pencil" class="h-4 w-4 text-slate-400" />{{
+                                                $t('navbar.reminders') }}
+                                        </div>
                                     </MenuItem>
                                     <MenuItem>
-                                    <div @click="navigateTo('/forms')"
-                                        class="cursor-pointer flex items-center gap-x-3 px-3 py-2.5 text-sm text-slate-700 hover:bg-surface-50 transition-colors">
-                                        <Icon name="ph:list-numbers" class="h-4 w-4 text-slate-400" />{{
-                                            $t('navbar.forms') }}
-                                    </div>
+                                        <div @click="navigateTo('/forms')"
+                                            class="cursor-pointer flex items-center gap-x-3 px-3 py-2.5 text-sm text-slate-700 hover:bg-surface-50 transition-colors">
+                                            <Icon name="ph:list-numbers" class="h-4 w-4 text-slate-400" />{{
+                                                $t('navbar.forms') }}
+                                        </div>
                                     </MenuItem>
                                     <MenuItem>
-                                    <div @click="navigateTo('/procedures')"
-                                        class="cursor-pointer flex items-center gap-x-3 px-3 py-2.5 text-sm text-slate-700 hover:bg-surface-50 transition-colors">
-                                        <Icon name="ph:list-checks" class="h-4 w-4 text-slate-400" />{{
-                                            $t('navbar.procedures') }}
-                                    </div>
+                                        <div @click="navigateTo('/procedures')"
+                                            class="cursor-pointer flex items-center gap-x-3 px-3 py-2.5 text-sm text-slate-700 hover:bg-surface-50 transition-colors">
+                                            <Icon name="ph:list-checks" class="h-4 w-4 text-slate-400" />{{
+                                                $t('navbar.procedures') }}
+                                        </div>
                                     </MenuItem>
                                     <div class="border-t border-surface-100 mt-1 pt-1">
                                         <MenuItem>
-                                        <div @click="logout()"
-                                            class="cursor-pointer flex items-center gap-x-3 px-3 py-2.5 text-sm text-red-600 hover:bg-red-50 transition-colors">
-                                            <Icon name="ph:sign-out" class="h-4 w-4" />{{ $t('navbar.logout') }}
-                                        </div>
+                                            <div @click="logout()"
+                                                class="cursor-pointer flex items-center gap-x-3 px-3 py-2.5 text-sm text-red-600 hover:bg-red-50 transition-colors">
+                                                <Icon name="ph:sign-out" class="h-4 w-4" />{{ $t('navbar.logout') }}
+                                            </div>
                                         </MenuItem>
                                     </div>
                                 </MenuItems>
@@ -405,6 +425,7 @@
             @next="handleNextGuidedTour" />
         <ModulesUserAssistantModalAssistant :isModalOpen="state.modal.isAIAssistantOpen"
             @close="state.modal.isAIAssistantOpen = false" />
+        <ModulesUserOwnChatGptSyncProgressBar />
     </LoadingSpinner>
 </template>
 
@@ -430,6 +451,7 @@ const routeName = router?.currentRoute?.value?.name
 
 let navigation = [] as any
 
+const isImpersonating = ref(!!localStorage.getItem('_original_token'))
 const globalSearch = ref<any>(null)
 
 const sidebarOpen = ref(false)
@@ -690,6 +712,21 @@ async function logout() {
     state.isPageLoading = false
 }
 
+async function stopImpersonation() {
+    state.isPageLoading = true
+    try {
+        await authService.stopImpersonation()
+    } catch (_) { }
+    const originalToken = localStorage.getItem('_original_token')
+    if (originalToken) {
+        localStorage.setItem('_token', originalToken)
+        localStorage.removeItem('_original_token')
+    }
+    isImpersonating.value = false
+    navigateTo('/superadmin/companies')
+    state.isPageLoading = false
+}
+
 function openSupport() {
     state.slideOver.isSupportOpen = true
 }
@@ -700,13 +737,13 @@ function selectLanguage() {
 
 function identifyFlag() {
     const selectedLanguage = userStore.getLanguage
-    if (selectedLanguage === 'en') {
-        return '/img/icons/flags/united-kingdom.svg'
-    } else {
-        if (selectedLanguage === 'dk') {
-            return '/img/icons/flags/denmark.svg'
-        }
+    const flags: Record<string, string> = {
+        en: '/img/icons/flags/united-kingdom.svg',
+        dk: '/img/icons/flags/denmark.svg',
+        no: '/img/icons/flags/norway.svg',
+        sv: '/img/icons/flags/sweden.svg',
     }
+    return flags[selectedLanguage] ?? '/img/icons/flags/united-kingdom.svg'
 }
 
 async function navigateToNews() {

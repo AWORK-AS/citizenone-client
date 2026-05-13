@@ -4232,9 +4232,7 @@
     "alert": {
       "successfullyAdded": "Ny begivenhed blev tilføjet med succes",
       "successfullyDeleted": "Begivenhed slettet med succes",
-      "successfullyUpdated": "Begivenhed blev opdateret med succes",
-      "statusSuccessfullyUpdated": "Begivenhedsstatus opdateret med succes",
-      "journalSuccessfullyCreated": "Journalnotat oprettet med succes"
+      "successfullyUpdated": "Begivenhed blev opdateret med succes"
     },
     "calendar": "Kalender",
     "citizens": "Borgere",
@@ -4283,33 +4281,6 @@
       "regenerateWarning": "Regenerering vil ugyldiggøre din nuværende URL. Alle der har abonneret med det gamle link vil ikke længere modtage opdateringer.",
       "title": "Abonner på kalender",
       "yourCalendarUrl": "Din personlige kalender-URL"
-    },
-    "createJournalNote": "Opret journalnotat",
-    "markAsCompleted": "Marker som afsluttet",
-    "markAsNotCompleted": "Marker som ikke afsluttet",
-    "viewJournalNote": "Se journalnotat",
-    "status": {
-      "completed": "Afsluttet",
-      "notCompleted": "Ikke afsluttet"
-    },
-    "journalNotePrompt": {
-      "title": "Journalnotat",
-      "message": "Vil du skrive et journalnotat om dette?"
-    },
-    "journalNote": {
-      "form": {
-        "content": "Hvordan gik det?"
-      }
-    },
-    "completionStatistics": {
-      "title": "Afslutningsstatistik",
-      "completed": "Afsluttet",
-      "notCompleted": "Ikke afsluttet",
-      "total": "Total",
-      "fetchStatistics": "Se statistik",
-      "noData": "Ingen data for den valgte periode",
-      "startDate": "Fra",
-      "endDate": "Til"
     }
   },
   "excludeVat": "ekskl. moms",
@@ -7828,6 +7799,120 @@
   "youDontHaveAccessToThisPage": "Du har ikke adgang til denne side. Kontakt venligst din administrator",
   "nursingProfessionalRecordTemplates": {
     "nursingProfessionalRecordTemplates": "Sygeplejejournalskabeloner",
+    "newTemplate": "Ny skabelon",
+    "editTemplate": "Rediger skabelon",
+    "form": {
+      "name": "Skabelonnavn",
+      "fieldConfiguration": "Feltkonfiguration",
+      "field": "Felt",
+      "required": "Påkrævet",
+      "optional": "Valgfrit",
+      "alert": {
+        "newTemplateSuccessfullySaved": "Skabelon gemt",
+        "templateSuccessfullyUpdated": "Skabelon opdateret"
+      }
+    },
+    "table": {
+      "name": "Navn",
+      "requiredFields": "Påkrævede felter",
+      "actions": {
+        "edit": "Rediger",
+        "delete": "Slet"
+      },
+      "alert": {
+        "templateSuccessfullyDeleted": "Skabelon slettet"
+      },
+      "confirmation": {
+        "deleteTemplateConfirmation": "Er du sikker på, at du vil slette denne skabelon"
+      }
+    }
+  },
+  "approvedDevices": {
+    "title": "Godkendte enheder",
+    "addDevice": "Tilføj enhed",
+    "editDevice": "Rediger enhed",
+    "user": "Bruger",
+    "deviceUuid": "Enheds-UUID",
+    "label": "Etiket",
+    "isActive": "Aktiv",
+    "active": "Aktiv",
+    "inactive": "Inaktiv",
+    "table": {
+      "user": "Bruger",
+      "deviceUuid": "Enheds-UUID",
+      "label": "Etiket",
+      "isActive": "Status",
+      "actions": {
+        "header": "Handlinger",
+        "edit": "Rediger",
+        "delete": "Slet"
+      }
+    },
+    "confirmation": {
+      "delete": "Er du sikker på, at du vil fjerne denne godkendte enhed"
+    },
+    "alert": {
+      "added": "Enhed godkendt succesfuldt",
+      "updated": "Godkendt enhed opdateret succesfuldt",
+      "deleted": "Godkendt enhed fjernet succesfuldt"
+    }
+  },
+  "clear": "Ryd",
+  "ipRestrictions": {
+    "title": "IP-begrænsninger",
+    "addIp": "Tilføj IP-adresse",
+    "editIp": "Rediger IP-adresse",
+    "ipAddress": "IP-adresse",
+    "label": "Etiket",
+    "table": {
+      "ipAddress": "IP-adresse",
+      "label": "Etiket",
+      "actions": {
+        "header": "Handlinger",
+        "edit": "Rediger",
+        "delete": "Slet"
+      }
+    },
+    "confirmation": {
+      "delete": "Er du sikker på, at du vil slette denne IP-begrænsning"
+    },
+    "alert": {
+      "added": "IP-begrænsning tilføjet succesfuldt",
+      "updated": "IP-begrænsning opdateret succesfuldt",
+      "deleted": "IP-begrænsning slettet succesfuldt"
+    }
+  },
+  "otpVerification": {
+    "checkYourEmailForOtp": "En engangskode er sendt til din e-mail. Indtast den nedenfor.",
+    "form": {
+      "verifyCode": "Bekræft kode",
+      "otp": "Engangskode",
+      "verify": "Bekræft"
+    }
+  },
+  "ownChatGpt": {
+    "apiKey": "OpenAI API-nøgle",
+    "apiKeyPlaceholder": "sk-...",
+    "attachFile": "Vedhæft fil",
+    "clearChat": "Ryd chat",
+    "emptySubtitle": "Skriv en besked nedenfor for at komme i gang",
+    "emptyTitle": "Hvad er på dagsordenen i dag?",
+    "outOfSync": "Ikke synkroniseret",
+    "placeholder": "Spørg om alt...",
+    "poweredByYourKey": "Drevet af din OpenAI-nøgle",
+    "save": "Gem",
+    "savedSuccess": "API-nøgle gemt",
+    "settings": "Indstillinger",
+    "sync": "Synkroniser AI",
+    "syncComplete": "Synkronisering fuldført",
+    "syncReminderBody": "Dette sikrer, at AI'en har adgang til din virksomheds data.",
+    "synced": "Synkroniseret",
+    "syncReminderTitle": "Synkroniser din AI med virksomhedens AI, inden du chatter.",
+    "syncing": "Synkroniserer...",
+    "title": "Din ChatGPT Integration"
+  },
+  "treatmentTemplates": {
+    "treatmentTemplates": "Behandlingsskabeloner",
     "newTemplate": "Ny skabelon",
     "editTemplate": "Rediger skabelon",
     "form": {

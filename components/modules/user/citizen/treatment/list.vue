@@ -14,10 +14,31 @@
                 </FormButton>
             </div>
             <div class="space-y-5">
-                <div class="bg-white ring-1 ring-gray-200 rounded-md p-5 border-l-4 border-secondary"
+                <div :class="[
+                        'ring-1 ring-gray-200 rounded-md p-5 border-l-4 transition-colors',
+                        treatment?.is_completed
+                            ? 'bg-gray-50 border-gray-300'
+                            : 'bg-white border-secondary',
+                    ]"
                     v-for="(treatment, index) in state.treatments?.data" :key="index">
                     <div class="flex flex-col md:flex-row gap-3 md:gap-10">
                         <div class="grow">
+                            <div class="flex items-center gap-2 mb-1">
+                                <span :class="[
+                                    'inline-flex items-center gap-1 rounded-full px-2.5 py-0.5 text-xs font-medium',
+                                    treatment?.is_completed
+                                        ? 'bg-gray-200 text-gray-600'
+                                        : 'bg-green-100 text-green-700',
+                                ]">
+                                    <Icon :name="treatment?.is_completed ? 'ph:check-circle-fill' : 'ph:circle-dashed'" class="size-3.5" />
+                                    {{ treatment?.is_completed
+                                        ? $t('citizens.treatments.table.completed')
+                                        : $t('citizens.treatments.table.inProgress') }}
+                                    <template v-if="treatment?.is_completed && treatment?.date_completed">
+                                        · {{ formatDateToReadable(treatment?.date_completed) }}
+                                    </template>
+                                </span>
+                            </div>
                             <p class="text-sm">
                                 <span>{{ formatDateToReadable(treatment?.date) }}</span>
                             </p>

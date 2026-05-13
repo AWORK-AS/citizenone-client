@@ -51,6 +51,18 @@ class AuthService extends BaseAPIService {
         return null
         // return await this.request(`/auth/verify-email/${token}`, 'POST')
     }
+
+    async verifyIpOtp(params: object): Promise<any> {
+        return await this.request(`/auth/verify-ip-otp`, 'POST', params)
+    }
+
+    async verifyDeviceOtp(params: object): Promise<any> {
+        return await this.request(`/auth/verify-device-otp`, 'POST', params)
+    }
+
+    async stopImpersonation(): Promise<any> {
+        return await this.request(`/user/impersonate/stop`, 'POST')
+    }
 }
 
 export const authService = new AuthService()

@@ -737,9 +737,6 @@
                                                 v-model="state.formCitizen.stayData.accompanying_children[accompanyingChildenIndex].gender" />
                                         </div>
                                         <div class="space-y-1">
-                                            {{
-                                                state.formCitizen.stayData.accompanying_children[accompanyingChildenIndex].birthday
-                                            }}
                                             <FormLabel :for="`birthday_${accompanyingChildenIndex}`"
                                                 :label="$t('citizens.form.stayData.accompanyingChildren.birthday')" />
                                             <FormDateField :id="`birthday_${accompanyingChildenIndex}`"

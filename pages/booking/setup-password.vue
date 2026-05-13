@@ -1,4 +1,5 @@
 <template>
+
     <Head>
         <Title>
             {{ $t("setupPassword.setupPassword") }} -
@@ -9,109 +10,59 @@
     <LoadingSpinner :isActive="state.isPageLoading">
         <div class="flex h-screen flex-1">
             <div class="relative hidden w-0 flex-1 lg:block overflow-clip">
-                <img
-                    src="https://citizenone.dk/wp-content/uploads/2024/09/CitizenOne-6.jpg"
-                    alt="Image failed to load"
-                    class="absolute inset-0 h-full w-full object-cover"
-                />
-                <img
-                    src="https://citizenone.dk/wp-content/uploads/2025/03/citizenone-journalsystem.svg"
-                    alt="Image failed to load"
-                    class="absolute w-1/2"
-                    style="top: -16%; left: -11%"
-                />
+                <img src="https://citizenone.dk/wp-content/uploads/2024/09/CitizenOne-6.jpg" alt="Image failed to load"
+                    class="absolute inset-0 h-full w-full object-cover" />
+                <img src="https://citizenone.dk/wp-content/uploads/2025/03/citizenone-journalsystem.svg"
+                    alt="Image failed to load" class="absolute w-1/2" style="top: -16%; left: -11%" />
                 <div>
-                    <img
-                        src="/img/icons/asset-01.svg"
-                        alt="Image failed to load"
-                        class="absolute w-2/4 -bottom-56 -right-12"
-                    />
-                    <p
-                        class="absolute bottom-10 right-10 text-lg text-white flex items-center gap-x-2"
-                    >
-                        <img
-                            src="/img/icons/shield.svg"
-                            alt="Image failed to load"
-                            class="w-8 h-8"
-                        />
+                    <img src="/img/icons/asset-01.svg" alt="Image failed to load"
+                        class="absolute w-2/4 -bottom-56 -right-12" />
+                    <p class="absolute bottom-10 right-10 text-lg text-white flex items-center gap-x-2">
+                        <img src="/img/icons/shield.svg" alt="Image failed to load" class="w-8 h-8" />
                         ISO-certificeret serverlagring beliggende i EU
                     </p>
                 </div>
             </div>
             <div
-                class="relative overflow-clip flex flex-1 flex-col justify-center px-4 py-12 sm:px-6 lg:flex-none lg:px-20 xl:px-24"
-            >
-                <img
-                    src="/img/icons/asset-01.svg"
-                    alt="Image failed to load"
+                class="relative overflow-clip flex flex-1 flex-col justify-center px-4 py-12 sm:px-6 lg:flex-none lg:px-20 xl:px-24">
+                <img src="/img/icons/asset-01.svg" alt="Image failed to load"
                     class="w-64 lg:w-1/2 absolute -top-32 -right-32 opacity-0 transition-opacity duration-500"
-                    id="animatedAsset01"
-                />
-                <img
-                    src="/img/icons/asset-02.svg"
-                    alt="Image failed to load"
+                    id="animatedAsset01" />
+                <img src="/img/icons/asset-02.svg" alt="Image failed to load"
                     class="w-64 lg:w-1/2 absolute -bottom-32 -left-32 opacity-0 transition-opacity duration-500"
-                    id="animatedAsset02"
-                />
+                    id="animatedAsset02" />
                 <div class="mx-auto w-full max-w-sm lg:w-96">
                     <div class="flex items-center justify-between">
                         <Logo @click="navigateTo('/')" />
-                        <button
-                            type="button"
-                            class="-m-2.5 rounded-full w-8"
-                            @click="selectLanguage"
-                        >
+                        <button type="button" class="-m-2.5 rounded-full w-8" @click="selectLanguage">
                             <img :src="identifyFlag()" alt="flag" />
                         </button>
                     </div>
 
                     <form class="mt-5" method="POST" @submit.prevent="setPassword">
                         <div class="space-y-3">
-                            <Alert
-                                type="danger"
-                                :text="state?.error?.message"
-                                v-if="state.error?.message && state.error.message.length > 0"
-                            />
+                            <Alert type="danger" :text="state?.error?.message"
+                                v-if="state.error?.message && state.error.message.length > 0" />
                             <h3 class="font-medium">
                                 {{ $t("setupPassword.setupPassword") }}
                             </h3>
                             <div class="space-y-1">
-                                <FormLabel
-                                    for="password"
-                                    :label="$t('setupPassword.form.password')"
-                                />
-                                <FormPasswordField
-                                    id="password"
-                                    name="password"
+                                <FormLabel for="password" :label="$t('setupPassword.form.password')" />
+                                <FormPasswordField id="password" name="password"
                                     :placeholder="$t('setupPassword.form.password')"
-                                    v-model="state.formUser.password"
-                                />
-                                <FormError
-                                    :error="
-                                        v$?.formUser?.password?.$errors[0]?.$message.toString()
-                                    "
-                                />
+                                    v-model="state.formUser.password" />
+                                <FormError :error="v$?.formUser?.password?.$errors[0]?.$message.toString()
+                                    " />
                                 <FormError :error="state?.error?.errors?.password?.[0]" />
                             </div>
                             <div class="space-y-1">
-                                <FormLabel
-                                    for="confirm_password"
-                                    :label="$t('setupPassword.form.confirmPassword')"
-                                />
-                                <FormPasswordField
-                                    id="confirm_password"
-                                    name="confirm_password"
+                                <FormLabel for="confirm_password" :label="$t('setupPassword.form.confirmPassword')" />
+                                <FormPasswordField id="confirm_password" name="confirm_password"
                                     :placeholder="$t('setupPassword.form.confirmPassword')"
-                                    v-model="state.formUser.confirm_password"
-                                />
-                                <FormError
-                                    :error="
-                                        v$?.formUser?.confirm_password?.$errors[0]?.$message.toString()
-                                    "
-                                />
-                                <FormError
-                                    :error="state?.error?.errors?.confirm_password?.[0]"
-                                />
+                                    v-model="state.formUser.confirm_password" />
+                                <FormError :error="v$?.formUser?.confirm_password?.$errors[0]?.$message.toString()
+                                    " />
+                                <FormError :error="state?.error?.errors?.confirm_password?.[0]" />
                             </div>
                         </div>
                         <div class="mt-6">
@@ -122,10 +73,7 @@
                         <p class="text-center text-sm leading-6 text-gray-500">
                             {{ $t("setupPassword.or") }}
                             {{ " " }}
-                            <a
-                                class="text-primary hover:text-primary-800 cursor-pointer"
-                                @click="navigateTo('/')"
-                            >
+                            <a class="text-primary hover:text-primary-800 cursor-pointer" @click="navigateTo('/')">
                                 {{ $t("setupPassword.loginHereInstead") }}.
                             </a>
                         </p>
@@ -133,31 +81,29 @@
                 </div>
             </div>
         </div>
-        <ModulesUserLanguageSlideOver
-            :isOpen="state.slideOver.isLanguageSwitcherOpen"
-            @close="state.slideOver.isLanguageSwitcherOpen = false"
-        />
+        <ModulesUserLanguageSlideOver :isOpen="state.slideOver.isLanguageSwitcherOpen"
+            @close="state.slideOver.isLanguageSwitcherOpen = false" />
     </LoadingSpinner>
 </template>
 
 <script setup lang="ts">
-import { useVuelidate } from "@vuelidate/core";
-import { required, helpers, minLength, sameAs } from "@vuelidate/validators";
-import { onlineBookingService } from "@/components/api/user/OnlineBookingService";
-import { useAlert } from "@/composables/alert";
-import { useI18n } from "vue-i18n";
-import { useUserStore } from "@/store/user";
-import type { Error } from "@/types";
+import { useVuelidate } from "@vuelidate/core"
+import { required, helpers, minLength, sameAs } from "@vuelidate/validators"
+import { onlineBookingService } from "@/components/api/user/OnlineBookingService"
+import { useAlert } from "@/composables/alert"
+import { useI18n } from "vue-i18n"
+import { useUserStore } from "@/store/user"
+import type { Error } from "@/types"
 
-const runtimeConfig = useRuntimeConfig();
-const userStore = useUserStore();
-const route = useRoute();
-const language = useI18n();
-const { errorAlert, successAlert } = useAlert();
-const { t } = useI18n();
+const runtimeConfig = useRuntimeConfig()
+const userStore = useUserStore()
+const route = useRoute()
+const language = useI18n()
+const { errorAlert, successAlert } = useAlert()
+const { t } = useI18n()
 
 // Set language
-language.locale.value = userStore.getLanguage;
+language.locale.value = userStore.getLanguage
 
 const state = reactive({
     error: {} as Error,
@@ -170,7 +116,7 @@ const state = reactive({
         isLanguageSwitcherOpen: false,
     },
     token: "",
-});
+})
 
 const rules = computed(() => {
     return {
@@ -196,103 +142,103 @@ const rules = computed(() => {
                 ),
             },
         },
-    };
-});
-const v$ = useVuelidate(rules, state);
+    }
+})
+const v$ = useVuelidate(rules, state)
 
 onMounted(() => {
-    animateAssets();
-    const token = route.query.token;
+    animateAssets()
+    const token = route.query.token
     if (token && typeof token === "string") {
-        state.token = token;
-        verifyPasswordResetToken();
+        state.token = token
+        verifyPasswordResetToken()
     } else {
         errorAlert(
             `${t("alert.somethingWentWrong")}.`,
             `${t("alert.setupPassword.invalidPasswordSetupToken")}.`
-        );
-        navigateTo("/forgot-password");
+        )
+        navigateTo("/forgot-password")
     }
-});
+})
 
 function animateAssets() {
     const observer = new IntersectionObserver((entries) => {
         entries.forEach((entry) => {
             if (entry.isIntersecting) {
-                entry.target.classList.add("animate-fade-in");
+                entry.target.classList.add("animate-fade-in")
             } else {
-                entry.target.classList.remove("animate-fade-in");
+                entry.target.classList.remove("animate-fade-in")
             }
-        });
-    });
+        })
+    })
 
-    const animatedAsset01 = document.getElementById("animatedAsset01") as any;
-    const animatedAsset02 = document.getElementById("animatedAsset02") as any;
-    observer.observe(animatedAsset01);
-    observer.observe(animatedAsset02);
+    const animatedAsset01 = document.getElementById("animatedAsset01") as any
+    const animatedAsset02 = document.getElementById("animatedAsset02") as any
+    observer.observe(animatedAsset01)
+    observer.observe(animatedAsset02)
 }
 
 async function verifyPasswordResetToken() {
-    state.isPageLoading = true;
-    state.error = {};
+    state.isPageLoading = true
+    state.error = {}
     try {
-        await onlineBookingService.verifyResetPassword(state.token);
+        await onlineBookingService.verifyResetPassword(state.token)
     } catch (error) {
         if (error) {
-            const err = error as Error;
-            state.error = err;
+            const err = error as Error
+            state.error = err
             if (err.hasOwnProperty("message")) {
                 if (err.message === "Invalid password reset token.") {
                     errorAlert(
                         `${t("alert.somethingWentWrong")}.`,
                         `${t("alert.setupPassword.invalidPasswordSetupToken")}.`
-                    );
+                    )
                 } else {
-                    errorAlert(`${t("alert.somethingWentWrong")}.`, err.message ?? "");
+                    errorAlert(`${t("alert.somethingWentWrong")}.`, err.message ?? "")
                 }
-                navigateTo("/");
+                navigateTo("/")
             }
         }
     }
-    state.isPageLoading = false;
+    state.isPageLoading = false
 }
 
 async function setPassword() {
-    state.error = {};
-    v$.value.$validate();
+    state.error = {}
+    v$.value.$validate()
     if (!v$.value.$error) {
-        state.isPageLoading = true;
+        state.isPageLoading = true
         const params = {
             password: state.formUser.password,
             token: state.token,
-        };
+        }
         try {
-            await onlineBookingService.setPassword(params);
+            await onlineBookingService.setPassword(params)
             successAlert(
                 `${t("alert.success")}!`,
                 `${t("alert.setupPassword.passwordSetupSucessfully")}.`
-            );
-            navigateTo("/booking/login");
+            )
+            navigateTo("/booking/login")
         } catch (error) {
-            const err = error as Error;
-            state.error = err;
+            const err = error as Error
+            state.error = err
         }
-        state.isPageLoading = false;
+        state.isPageLoading = false
     }
 }
 
 function selectLanguage() {
-    state.slideOver.isLanguageSwitcherOpen = true;
+    state.slideOver.isLanguageSwitcherOpen = true
 }
 
 function identifyFlag() {
-    const selectedLanguage = userStore.getLanguage;
-    if (selectedLanguage === "en") {
-        return "/img/icons/flags/united-kingdom.svg";
-    } else {
-        if (selectedLanguage === "dk") {
-            return "/img/icons/flags/denmark.svg";
-        }
+    const selectedLanguage = userStore.getLanguage
+    const flags: Record<string, string> = {
+        en: '/img/icons/flags/united-kingdom.svg',
+        dk: '/img/icons/flags/denmark.svg',
+        no: '/img/icons/flags/norway.svg',
+        sv: '/img/icons/flags/sweden.svg',
     }
+    return flags[selectedLanguage] ?? '/img/icons/flags/united-kingdom.svg'
 }
 </script>

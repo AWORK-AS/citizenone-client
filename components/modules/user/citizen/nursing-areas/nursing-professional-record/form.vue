@@ -794,6 +794,7 @@ async function fetchTemplates() {
 watch(() => props.selectedRecord, (newValue: any) => {
     if (newValue != null) {
         state.formNursingProfessionalRecord = {
+            template_uuid: newValue.template_uuid,
             date: newValue.date,
             functional_level: newValue.functional_level,
             functional_level_note: newValue.functional_level_note,

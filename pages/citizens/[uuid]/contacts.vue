@@ -53,7 +53,7 @@
                         <Table :columnHeaders="state.columnHeaders" :data="state.contacts"
                             :isLoading="state.isTableLoading" :sortData="state.sortData" @sort="sort">
                             <template #body v-if="!(state.isTableLoading || (state.contacts?.data?.length === 0))">
-                                <tr v-for="(contact, index) in state.contacts?.data" :key="index">
+                                <tr v-for="(contact, index) in state.contacts?.data" :key="index" :data-uuid="contact.uuid">
                                     <td width="20%">
                                         <span>
                                             {{ language.locale.value === 'en' ? contact?.contact_job_title?.en_title :
