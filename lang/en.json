@@ -2964,7 +2964,9 @@
                 "newDosageFormSuccessfullySaved": "New dosage form successfully saved"
             },
             "nameDanish": "Name (danish)",
-            "nameEnglish": "Name (english)"
+            "nameEnglish": "Name (english)",
+            "nameNorwegian": "Name (norwegian)",
+            "nameSwedish": "Name (swedish)"
         },
         "newDosageForm": "New dosage form",
         "table": {
@@ -2976,7 +2978,9 @@
                 "deleteDosageFormConfirmation": "Are you sure you want to delete this dosage form"
             },
             "nameDanish": "Name (danish)",
-            "nameEnglish": "Name (english)"
+            "nameEnglish": "Name (english)",
+            "nameNorwegian": "Name (norwegian)",
+            "nameSwedish": "Name (swedish)"
         }
     },
     "drive": {

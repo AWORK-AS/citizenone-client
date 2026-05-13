@@ -2962,8 +2962,10 @@
                 "dosageFormSuccessfullyUpdated": "Doseringsform har uppdaterats",
                 "newDosageFormSuccessfullySaved": "Ny doseringsform har sparats"
             },
-            "nameDanish": "Namn (svenska)",
-            "nameEnglish": "Namn (engelska)"
+            "nameDanish": "Namn (danska)",
+            "nameEnglish": "Namn (engelska)",
+            "nameNorwegian": "Namn (norska)",
+            "nameSwedish": "Namn (svenska)"
         },
         "newDosageForm": "Ny doseringsform",
         "table": {
@@ -2974,8 +2976,10 @@
             "confirmation": {
                 "deleteDosageFormConfirmation": "Är du säker på att du vill radera denna doseringsform?"
             },
-            "nameDanish": "Namn (svenska)",
-            "nameEnglish": "Namn (engelska)"
+            "nameDanish": "Namn (danska)",
+            "nameEnglish": "Namn (engelska)",
+            "nameNorwegian": "Namn (norska)",
+            "nameSwedish": "Namn (svenska)"
         }
     },
     "drive": {
