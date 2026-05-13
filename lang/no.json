@@ -2843,7 +2843,9 @@
                 "newContactJobTitleSuccessfullySaved": "Ny kontaktjobbtittel ble lagret"
             },
             "titleDanish": "Tittel (norsk)",
-            "titleEnglish": "Tittel (engelsk)"
+            "titleEnglish": "Tittel (engelsk)",
+            "titleNorwegian": "Tittel (norsk)",
+            "titleSwedish": "Tittel (svensk)"
         },
         "newContactJobTitle": "Ny kontaktjobbtittel",
         "table": {
@@ -2855,7 +2857,9 @@
                 "deleteContactJobTitleConfirmation": "Er du sikker på at du vil slette denne kontaktjobbtittel?"
             },
             "titleDanish": "Tittel (norsk)",
-            "titleEnglish": "Tittel (engelsk)"
+            "titleEnglish": "Tittel (engelsk)",
+            "titleNorwegian": "Tittel (norsk)",
+            "titleSwedish": "Tittel (svensk)"
         }
     },
     "contactUs": "Kontakt oss",
