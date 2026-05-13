@@ -1,83 +1,120 @@
 <template>
     <div>
         <NuxtLayout name="superadmin">
+
             <Head>
-                <Title>Dashboard - {{ runtimeConfig?.public?.appName }}</Title>
+                <Title>
+                    {{ $t('superadmin.dashboard.dashboard') }} - {{ runtimeConfig?.public?.appName }}
+                </Title>
             </Head>
-            <template #header>Instrumentbræt</template>
+            <template #header>
+                {{ $t('superadmin.dashboard.dashboard') }}
+            </template>
 
             <div class="p-1 space-y-5">
 
                 <!-- Header -->
                 <div class="flex items-center justify-between">
                     <div>
-                        <h1 class="text-[22px] font-bold text-[#1F2533]">Instrumentbræt</h1>
-                        <p class="text-sm text-[#5C6478] mt-0.5 capitalize">{{ formattedDate }}</p>
+                        <h1 class="text-[22px] font-bold text-[#1F2533]">
+                            {{ $t('superadmin.dashboard.dashboard') }}
+                        </h1>
+                        <p class="text-sm text-[#5C6478] mt-0.5 capitalize">
+                            {{ formattedDate }}
+                        </p>
                     </div>
                     <button @click="navigateTo('/superadmin/companies/new')"
                         class="inline-flex items-center gap-1.5 px-4 py-2 rounded-lg text-sm font-semibold text-white transition-colors shadow-sm"
                         style="background:#205E77">
                         <Icon name="ph:plus" class="w-4 h-4" />
-                        Ny virksomhed
+                        {{ $t('superadmin.companies.newCompany') }}
                     </button>
                 </div>
 
-                <!-- Row 1: 4 stat cards matching Obiyen -->
+                <!-- Row 1: 4 stat cards -->
                 <div class="grid grid-cols-2 lg:grid-cols-4 gap-4">
-                    <!-- Klienter -->
+                    <!-- Clients -->
                     <div @click="navigateTo('/superadmin/companies')"
                         class="co-stat-card cursor-pointer hover:shadow-md transition-shadow" style="--accent:#42AED9">
                         <div class="flex items-start justify-between">
                             <div>
-                                <p class="co-stat-label">Klienter</p>
-                                <p class="co-stat-value">{{ state.totalCompanies }}</p>
-                                <p class="co-stat-sub">Aktive virksomheder</p>
+                                <p class="co-stat-label">
+                                    {{ $t('superadmin.dashboard.clients') }}
+                                </p>
+                                <p class="co-stat-value">
+                                    {{ state.totalCompanies }}
+                                </p>
+                                <p class="co-stat-sub">
+                                    {{ $t('superadmin.dashboard.activeCompanies') }}
+                                </p>
                             </div>
-                            <div class="w-9 h-9 rounded-lg flex items-center justify-center flex-shrink-0" style="background:#E4F1F6">
+                            <div class="w-9 h-9 rounded-lg flex items-center justify-center flex-shrink-0"
+                                style="background:#E4F1F6">
                                 <Icon name="ph:buildings" class="w-5 h-5 text-[#205E77]" />
                             </div>
                         </div>
                     </div>
 
-                    <!-- Betalende -->
+                    <!-- Paying -->
                     <div @click="navigateTo('/superadmin/companies?paying=true')"
                         class="co-stat-card cursor-pointer hover:shadow-md transition-shadow" style="--accent:#2E9E33">
                         <div class="flex items-start justify-between">
                             <div>
-                                <p class="co-stat-label">Betalende</p>
-                                <p class="co-stat-value text-[#2E9E33]">{{ state.payingCompanies }}</p>
-                                <p class="co-stat-sub">Aktive abonnenter</p>
+                                <p class="co-stat-label">
+                                    {{ $t('superadmin.dashboard.paying') }}
+                                </p>
+                                <p class="co-stat-value text-[#2E9E33]">
+                                    {{ state.payingCompanies }}
+                                </p>
+                                <p class="co-stat-sub">
+                                    {{ $t('superadmin.dashboard.activeSubscribers') }}
+                                </p>
                             </div>
-                            <div class="w-9 h-9 rounded-lg flex items-center justify-center flex-shrink-0" style="background:#EDF7EE">
+                            <div class="w-9 h-9 rounded-lg flex items-center justify-center flex-shrink-0"
+                                style="background:#EDF7EE">
                                 <Icon name="ph:currency-circle-dollar" class="w-5 h-5 text-[#2E9E33]" />
                             </div>
                         </div>
                     </div>
 
-                    <!-- Brugere -->
+                    <!-- Users -->
                     <div class="co-stat-card" style="--accent:#368F8B">
                         <div class="flex items-start justify-between">
                             <div>
-                                <p class="co-stat-label">Brugere</p>
-                                <p class="co-stat-value">{{ state.usersWithLicenses }}</p>
-                                <p class="co-stat-sub">Registrerede brugere</p>
+                                <p class="co-stat-label">
+                                    {{ $t('superadmin.dashboard.users') }}
+                                </p>
+                                <p class="co-stat-value">
+                                    {{ state.usersWithLicenses }}
+                                </p>
+                                <p class="co-stat-sub">
+                                    {{ $t('superadmin.dashboard.registeredUsers') }}
+                                </p>
                             </div>
-                            <div class="w-9 h-9 rounded-lg flex items-center justify-center flex-shrink-0" style="background:#EEF8F8">
+                            <div class="w-9 h-9 rounded-lg flex items-center justify-center flex-shrink-0"
+                                style="background:#EEF8F8">
                                 <Icon name="ph:users-three" class="w-5 h-5 text-[#368F8B]" />
                             </div>
                         </div>
                     </div>
 
-                    <!-- Fakturaer -->
+                    <!-- Invoices -->
                     <div @click="navigateTo('/superadmin/invoices')"
                         class="co-stat-card cursor-pointer hover:shadow-md transition-shadow" style="--accent:#368F8B">
                         <div class="flex items-start justify-between">
                             <div>
-                                <p class="co-stat-label">Fakturaer</p>
-                                <p class="co-stat-value">{{ state.totalActiveLicenses }}</p>
-                                <p class="co-stat-sub">Aktive licenser</p>
+                                <p class="co-stat-label">
+                                    {{ $t('superadmin.dashboard.invoices') }}
+                                </p>
+                                <p class="co-stat-value">
+                                    {{ state.totalActiveLicenses }}
+                                </p>
+                                <p class="co-stat-sub">
+                                    {{ $t('superadmin.dashboard.activeLicenses') }}
+                                </p>
                             </div>
-                            <div class="w-9 h-9 rounded-lg flex items-center justify-center flex-shrink-0" style="background:#EEF8F8">
+                            <div class="w-9 h-9 rounded-lg flex items-center justify-center flex-shrink-0"
+                                style="background:#EEF8F8">
                                 <Icon name="ph:invoice" class="w-5 h-5 text-[#368F8B]" />
                             </div>
                         </div>
@@ -87,33 +124,52 @@
                 <!-- Row 2: small licence stats -->
                 <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
                     <div class="bg-white border border-[#EAECF0] rounded-xl p-4 shadow-sm">
-                        <p class="co-stat-label">Brugere med licenser</p>
-                        <p class="text-[22px] font-bold text-[#1F2533] mt-1">{{ state.usersWithLicenses }}</p>
+                        <p class="co-stat-label">
+                            {{ $t('superadmin.dashboard.usersWithLicenses') }}
+                        </p>
+                        <p class="text-[22px] font-bold text-[#1F2533] mt-1">
+                            {{ state.usersWithLicenses }}
+                        </p>
                     </div>
                     <div class="bg-white border border-[#EAECF0] rounded-xl p-4 shadow-sm">
-                        <p class="co-stat-label">Aktive licenser</p>
-                        <p class="text-[22px] font-bold text-[#1F2533] mt-1">{{ state.totalActiveLicenses }}</p>
+                        <p class="co-stat-label">
+                            {{ $t('superadmin.dashboard.activeLicenses') }}
+                        </p>
+                        <p class="text-[22px] font-bold text-[#1F2533] mt-1">
+                            {{ state.totalActiveLicenses }}
+                        </p>
                     </div>
                     <div class="bg-white border border-[#EAECF0] rounded-xl p-4 shadow-sm">
-                        <p class="co-stat-label">Ubrugte licenser</p>
-                        <p class="text-[22px] font-bold text-[#1F2533] mt-1">{{ state.unusedLicenses }}</p>
+                        <p class="co-stat-label">
+                            {{ $t('superadmin.dashboard.unusedLicenses') }}
+                        </p>
+                        <p class="text-[22px] font-bold text-[#1F2533] mt-1">
+                            {{ state.unusedLicenses }}
+                        </p>
                     </div>
                     <div class="bg-white border border-[#EAECF0] rounded-xl p-4 shadow-sm">
-                        <p class="co-stat-label">Shared CitizenOne</p>
-                        <p class="text-[22px] font-bold text-[#1F2533] mt-1">{{ state.sharedCitizenOne }}</p>
+                        <p class="co-stat-label">
+                            {{ $t('superadmin.dashboard.sharedCitizenOne') }}
+                        </p>
+                        <p class="text-[22px] font-bold text-[#1F2533] mt-1">
+                            {{ state.sharedCitizenOne }}
+                        </p>
                     </div>
                 </div>
 
                 <!-- Row 3: recent companies + right column -->
                 <div class="grid grid-cols-1 lg:grid-cols-3 gap-5">
 
-                    <!-- Seneste virksomheder (2/3) -->
+                    <!-- Recent companies (2/3) -->
                     <div class="lg:col-span-2 bg-white border border-[#EAECF0] rounded-xl shadow-sm overflow-hidden">
                         <div class="flex items-center justify-between px-5 py-4 border-b border-[#EAECF0]">
-                            <h2 class="text-[13px] font-semibold text-[#1F2533]">Seneste virksomheder</h2>
+                            <h2 class="text-[13px] font-semibold text-[#1F2533]">{{
+                                $t('superadmin.dashboard.recentCompanies') }}
+                            </h2>
                             <button @click="navigateTo('/superadmin/companies')"
                                 class="text-[12px] text-[#42AED9] hover:underline flex items-center gap-1">
-                                Se alle <Icon name="ph:arrow-right" class="w-3 h-3" />
+                                {{ $t('superadmin.dashboard.viewAll') }}
+                                <Icon name="ph:arrow-right" class="w-3 h-3" />
                             </button>
                         </div>
                         <div v-if="state.isLoading" class="flex justify-center py-10">
@@ -122,7 +178,9 @@
                         <div v-else-if="!state.recentCompanies.length"
                             class="flex flex-col items-center gap-2 py-10 text-[#8891A4]">
                             <Icon name="ph:buildings" class="w-10 h-10 opacity-30" />
-                            <p class="text-sm">Ingen virksomheder endnu</p>
+                            <p class="text-sm">
+                                {{ $t('superadmin.dashboard.noCompaniesYet') }}
+                            </p>
                         </div>
                         <div v-else>
                             <div v-for="(company, i) in state.recentCompanies" :key="i"
@@ -134,20 +192,24 @@
                                         {{ initials(company.name) }}
                                     </div>
                                     <div>
-                                        <p class="text-[13px] font-semibold text-[#1F2533]">{{ company.name || '—' }}</p>
-                                        <p class="text-[11px] text-[#8891A4]">{{ company.email || company.phone || '' }}</p>
+                                        <p class="text-[13px] font-semibold text-[#1F2533]">
+                                            {{ company.name || '—' }}
+                                        </p>
+                                        <p class="text-[11px] text-[#8891A4]">
+                                            {{ company.email || company.phone || '' }}
+                                        </p>
                                     </div>
                                 </div>
                                 <div class="flex items-center gap-2">
                                     <span v-if="company.is_active"
                                         class="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[11px] font-semibold bg-[#EDF7EE] text-[#2E9E33]">
                                         <span class="w-1.5 h-1.5 rounded-full bg-[#2E9E33]"></span>
-                                        Aktiv
+                                        {{ $t('superadmin.dashboard.active') }}
                                     </span>
                                     <span v-else
                                         class="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[11px] font-semibold bg-[#FFF0F0] text-[#CC3B2D]">
                                         <span class="w-1.5 h-1.5 rounded-full bg-[#CC3B2D]"></span>
-                                        Inaktiv
+                                        {{ $t('superadmin.dashboard.inactive') }}
                                     </span>
                                     <Icon name="ph:caret-right" class="w-3.5 h-3.5 text-[#D5D9E2]" />
                                 </div>
@@ -160,7 +222,9 @@
                         <!-- Revenue -->
                         <div class="bg-white border border-[#EAECF0] rounded-xl p-5 shadow-sm">
                             <div class="flex items-center justify-between mb-3">
-                                <h2 class="text-[13px] font-semibold text-[#1F2533]">Omsætning</h2>
+                                <h2 class="text-[13px] font-semibold text-[#1F2533]">
+                                    {{ $t('superadmin.dashboard.revenue.revenue') }}
+                                </h2>
                             </div>
                             <div class="flex gap-1.5 mb-3">
                                 <input type="date" v-model="state.revenueDateFrom"
@@ -173,24 +237,34 @@
                             <p class="text-[24px] font-bold text-[#1F2533]">
                                 {{ formatAmount(state.revenue) }}
                             </p>
-                            <p class="text-[11px] text-[#8891A4] mt-0.5">ekskl. moms</p>
+                            <p class="text-[11px] text-[#8891A4] mt-0.5">
+                                {{ $t('superadmin.dashboard.exclVat') }}
+                            </p>
                         </div>
 
                         <!-- Storage -->
                         <div class="bg-white border border-[#EAECF0] rounded-xl p-5 shadow-sm">
-                            <h2 class="text-[13px] font-semibold text-[#1F2533] mb-3">Virksomhedslager</h2>
+                            <h2 class="text-[13px] font-semibold text-[#1F2533] mb-3">{{
+                                $t('superadmin.dashboard.companyStorage.companyStorage') }}</h2>
                             <div v-if="!state.companyStorage?.length" class="text-[12px] text-[#8891A4]">
-                                Ingen virksomheder endnu
+                                {{ $t('superadmin.dashboard.noCompaniesYet') }}
                             </div>
                             <div v-else class="space-y-3">
-                                <div v-for="(s, i) in state.companyStorage.slice(0, 5)" :key="i">
+                                <div v-for="(storage, storageIndex) in state.companyStorage.slice(0, 5)"
+                                    :key="storageIndex">
                                     <div class="flex items-center justify-between text-[12px] mb-1">
-                                        <span class="text-[#1F2533] font-medium truncate max-w-[140px]">{{ s.name }}</span>
-                                        <span class="text-[#8891A4] ml-2">{{ s.used_storage ?? 0 }} GB</span>
+                                        <span class="text-[#1F2533] font-medium truncate max-w-[140px]">
+                                            {{ storage.name }}
+                                        </span>
+                                        <span class="text-[#8891A4] ml-2">
+                                            {{ storage.used_storage ?? 0 }} GB
+                                        </span>
                                     </div>
                                     <div class="h-1.5 bg-[#F5F6F8] rounded-full overflow-hidden">
-                                        <div class="h-full rounded-full transition-all" style="background:#42AED9;opacity:0.6"
-                                            :style="`width:${Math.min(100, ((s.used_storage ?? 0) / 10) * 100)}%`"></div>
+                                        <div class="h-full rounded-full transition-all"
+                                            style="background:#42AED9;opacity:0.6"
+                                            :style="`width:${Math.min(100, ((storage.used_storage ?? 0) / 10) * 100)}%`">
+                                        </div>
                                     </div>
                                 </div>
                             </div>
@@ -208,16 +282,27 @@ import moment from 'moment'
 import { dashboardService } from '@/components/api/superadmin/DashboardService'
 import { companyService } from '@/components/api/superadmin/CompanyService'
 import { useAmountFormatter } from '@/composables/amountFormatter'
+import { useUserStore } from '@/store/user'
 import type { Error } from '@/types'
 
 const runtimeConfig = useRuntimeConfig()
 const { formatAmount } = useAmountFormatter()
+const userStore = useUserStore() as any
 
-const formattedDate = computed(() =>
-    new Date().toLocaleDateString('da-DK', { weekday: 'long', day: 'numeric', month: 'long', year: 'numeric' })
-)
+const localeMap: Record<string, string> = {
+    en: 'en-GB',
+    dk: 'da-DK',
+    no: 'nb-NO',
+    sv: 'sv-SE',
+}
 
-const COLORS = ['#205E77','#2E9E33','#368F8B','#1A4D99','#D4900A','#9B4D9B']
+const formattedDate = computed(() => {
+    const lang = userStore.getLanguage ?? 'dk'
+    const locale = localeMap[lang] ?? 'da-DK'
+    return new Date().toLocaleDateString(locale, { weekday: 'long', day: 'numeric', month: 'long', year: 'numeric' })
+})
+
+const COLORS = ['#205E77', '#2E9E33', '#368F8B', '#1A4D99', '#D4900A', '#9B4D9B']
 const avatarColor = (name: string) => COLORS[(name?.charCodeAt(0) ?? 0) % COLORS.length]
 const initials = (name: string) => (name || '?').split(' ').map((w: string) => w[0]).join('').toUpperCase().slice(0, 2)
 
@@ -249,15 +334,15 @@ async function fetchDashboard() {
             date: { start_date: state.revenueDateFrom, end_date: state.revenueDateTo }
         })
         if (response) {
-            state.totalCompanies      = response?.data?.total_companies ?? 0
-            state.payingCompanies     = response?.data?.paying_companies ?? 0
-            state.nonPayingCompanies  = response?.data?.non_paying_companies ?? 0
-            state.usersWithLicenses   = response?.data?.users_with_licenses ?? 0
+            state.totalCompanies = response?.data?.total_companies ?? 0
+            state.payingCompanies = response?.data?.paying_companies ?? 0
+            state.nonPayingCompanies = response?.data?.non_paying_companies ?? 0
+            state.usersWithLicenses = response?.data?.users_with_licenses ?? 0
             state.totalActiveLicenses = response?.data?.total_active_licenses ?? 0
-            state.unusedLicenses      = response?.data?.unused_licenses ?? 0
-            state.sharedCitizenOne    = response?.data?.shared_citizen ?? 0
-            state.revenue             = response?.data?.total_revenue ?? 0
-            state.companyStorage      = response?.data?.company_storage ?? []
+            state.unusedLicenses = response?.data?.unused_licenses ?? 0
+            state.sharedCitizenOne = response?.data?.shared_citizen ?? 0
+            state.revenue = response?.data?.total_revenue ?? 0
+            state.companyStorage = response?.data?.company_storage ?? []
         }
     } catch (e: any) { state.error = e }
 }
@@ -267,7 +352,7 @@ async function fetchRecentCompanies() {
     try {
         const response = await companyService.getCompanies({ page: 1, sortField: 'id', sortOrder: 'descend' })
         if (response) state.recentCompanies = response?.data?.slice(0, 8) ?? []
-    } catch (_) {}
+    } catch (_) { }
     state.isLoading = false
 }
 </script>
@@ -278,18 +363,22 @@ async function fetchRecentCompanies() {
     border: 1px solid #EAECF0;
     border-radius: 12px;
     padding: 16px;
-    box-shadow: 0 1px 3px rgba(0,0,0,0.04);
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04);
     position: relative;
     overflow: hidden;
 }
+
 .co-stat-card::before {
     content: '';
     position: absolute;
-    top: 0; left: 0; right: 0;
+    top: 0;
+    left: 0;
+    right: 0;
     height: 3px;
     border-radius: 12px 12px 0 0;
     background: var(--accent, #42AED9);
 }
+
 .co-stat-label {
     font-size: 10px;
     font-weight: 700;
@@ -297,6 +386,7 @@ async function fetchRecentCompanies() {
     text-transform: uppercase;
     letter-spacing: 0.07em;
 }
+
 .co-stat-value {
     font-size: 28px;
     font-weight: 800;
@@ -304,6 +394,7 @@ async function fetchRecentCompanies() {
     line-height: 1;
     margin-top: 6px;
 }
+
 .co-stat-sub {
     font-size: 11px;
     color: #8891A4;
