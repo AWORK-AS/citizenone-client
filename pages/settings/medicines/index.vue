@@ -35,13 +35,19 @@
                                     <td width="15%">
                                         <img :src="medicine?.image_url" class="h-24" v-if="medicine?.image_url" />
                                     </td>
-                                    <td width="20%">
+                                    <td width="15%">
                                         <span>{{ medicine?.en_name }}</span>
                                     </td>
-                                    <td width="20%">
+                                    <td width="15%">
                                         <span>{{ medicine?.dk_name }}</span>
                                     </td>
-                                    <td width="25%">
+                                    <td width="15%">
+                                        <span>{{ medicine?.no_name }}</span>
+                                    </td>
+                                    <td width="15%">
+                                        <span>{{ medicine?.sv_name }}</span>
+                                    </td>
+                                    <td width="20%">
                                         <span>{{ medicine?.ingredients }}</span>
                                     </td>
                                     <td width="20%">
@@ -96,6 +102,8 @@ const state = reactive({
         { name: 'medicines.table.image', isTranslateName: true, },
         { name: 'medicines.table.nameEnglish', isTranslateName: true, sorter: true, key: 'en_name' },
         { name: 'medicines.table.nameDanish', isTranslateName: true, sorter: true, key: 'dk_name' },
+        { name: 'medicines.table.nameNorwegian', isTranslateName: true, sorter: true, key: 'no_name' },
+        { name: 'medicines.table.nameSwedish', isTranslateName: true, sorter: true, key: 'sv_name' },
         { name: 'medicines.table.activeIngredients', isTranslateName: true, },
         { name: '' }
     ],

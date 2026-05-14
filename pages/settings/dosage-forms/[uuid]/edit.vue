@@ -53,6 +53,8 @@ const state = reactive({
     formDosageForm: {
         en_name: '',
         dk_name: '',
+        no_name: '',
+        sv_name: '',
     },
     isPageLoading: false,
 })
@@ -70,6 +72,8 @@ async function fetchShift() {
             state.formDosageForm = {
                 en_name: response?.data?.en_name ?? '',
                 dk_name: response?.data?.dk_name ?? '',
+                no_name: response?.data?.no_name ?? '',
+                sv_name: response?.data?.sv_name ?? '',
             }
         }
     } catch (error: any) {
@@ -85,6 +89,8 @@ async function updateDosageForm(dosageFormDetails: any) {
         const params = {
             en_name: dosageFormDetails.en_name,
             dk_name: dosageFormDetails.dk_name,
+            no_name: dosageFormDetails.no_name,
+            sv_name: dosageFormDetails.sv_name,
         }
         const response = await dosageFormService.updateDosageForm(dosageFormUuid, params)
         if (response.data) {

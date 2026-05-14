@@ -15,12 +15,11 @@
             </div>
             <div class="space-y-5">
                 <div :class="[
-                        'ring-1 ring-gray-200 rounded-md p-5 border-l-4 transition-colors',
-                        treatment?.is_completed
-                            ? 'bg-gray-50 border-gray-300'
-                            : 'bg-white border-secondary',
-                    ]"
-                    v-for="(treatment, index) in state.treatments?.data" :key="index">
+                    'ring-1 ring-gray-200 rounded-md p-5 border-l-4 transition-colors',
+                    treatment?.is_completed
+                        ? 'bg-gray-50 border-gray-300'
+                        : 'bg-white border-secondary',
+                ]" v-for="(treatment, index) in state.treatments?.data" :key="index">
                     <div class="flex flex-col md:flex-row gap-3 md:gap-10">
                         <div class="grow">
                             <div class="flex items-center gap-2 mb-1">
@@ -30,7 +29,8 @@
                                         ? 'bg-gray-200 text-gray-600'
                                         : 'bg-green-100 text-green-700',
                                 ]">
-                                    <Icon :name="treatment?.is_completed ? 'ph:check-circle-fill' : 'ph:circle-dashed'" class="size-3.5" />
+                                    <Icon :name="treatment?.is_completed ? 'ph:check-circle-fill' : 'ph:circle-dashed'"
+                                        class="size-3.5" />
                                     {{ treatment?.is_completed
                                         ? $t('citizens.treatments.table.completed')
                                         : $t('citizens.treatments.table.inProgress') }}
@@ -52,7 +52,9 @@
                             </p>
                             <p class="text-sm">
                                 {{ $t('citizens.treatments.table.completionDate') }}:
-                                {{ formatDateToReadable(treatment?.completion_date) }}
+                                <span v-if="treatment?.completion_date">
+                                    {{ formatDateToReadable(treatment?.completion_date) }}
+                                </span>
                             </p>
                         </div>
                         <div>

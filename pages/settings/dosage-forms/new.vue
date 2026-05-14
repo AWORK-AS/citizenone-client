@@ -51,6 +51,8 @@ const state = reactive({
     formDosageForm: {
         en_name: '',
         dk_name: '',
+        no_name: '',
+        sv_name: '',
     },
     isPageLoading: false,
 })
@@ -62,6 +64,8 @@ async function saveDosageForm(dosageFormDetails: any) {
         const params = {
             en_name: dosageFormDetails.en_name,
             dk_name: dosageFormDetails.dk_name,
+            no_name: dosageFormDetails.no_name,
+            sv_name: dosageFormDetails.sv_name,
         }
         const response = await dosageFormService.saveDosageForm(params)
         if (response.data) {
