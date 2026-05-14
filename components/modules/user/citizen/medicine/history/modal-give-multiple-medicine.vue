@@ -44,9 +44,18 @@
                                                             min-w-[200px] border-r border-gray-100">
                                                     <div class="space-y-1">
                                                         <p class="font-medium text-gray-800 leading-tight">
-                                                            <span v-if="language.locale.value === 'en'">{{
-                                                                medicine.medicine?.en_name }}</span>
-                                                            <span v-else>{{ medicine.medicine?.dk_name }}</span>
+                                                            <span v-if="language.locale.value === 'en'">
+                                                                {{ medicine.medicine?.en_name }}
+                                                            </span>
+                                                            <span v-if="language.locale.value === 'no'">
+                                                                {{ medicine.medicine?.no_name }}
+                                                            </span>
+                                                            <span v-if="language.locale.value === 'sv'">
+                                                                {{ medicine.medicine?.sv_name }}
+                                                            </span>
+                                                            <span v-else>
+                                                                {{ medicine.medicine?.dk_name }}
+                                                            </span>
                                                         </p>
                                                         <p class="text-xs text-gray-500">{{
                                                             medicine.medicine?.ingredients }}</p>
@@ -180,6 +189,12 @@
                                                 </span>
                                                 <span v-if="language.locale.value === 'dk'">
                                                     {{ selectedMedicine?.medicine?.dk_name }},
+                                                </span>
+                                                <span v-if="language.locale.value === 'no'">
+                                                    {{ selectedMedicine?.medicine?.no_name }},
+                                                </span>
+                                                <span v-if="language.locale.value === 'sv'">
+                                                    {{ selectedMedicine?.medicine?.sv_name }},
                                                 </span>
                                                 <span>
                                                     {{ selectedMedicine?.medicine?.ingredients }}

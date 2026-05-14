@@ -33,6 +33,26 @@
                                 Upload senere.
                             </span>
                         </p>
+                        <p v-if="language.locale.value === 'no'">
+                            <span class="text-red-700">
+                                OBS: Det er registrert en borger under 18 år, men den tilknyttede ansatte har ikke
+                                et gyldig politiattest lastet opp på sin brukerkonto.
+                            </span>
+                            <span class="cursor-pointer text-primary hover:text-primary-700"
+                                @click="state.showChildProtectionCertificateWarning = false">
+                                Last opp senere.
+                            </span>
+                        </p>
+                        <p v-if="language.locale.value === 'sv'">
+                            <span class="text-red-700">
+                                OBS: En medborgare under 18 år har registrerats, men den tilldelade anställde har inget
+                                giltigt utdrag ur belastningsregistret uppladdat på sitt användarkonto.
+                            </span>
+                            <span class="cursor-pointer text-primary hover:text-primary-700"
+                                @click="state.showChildProtectionCertificateWarning = false">
+                                Ladda upp senare.
+                            </span>
+                        </p>
                     </div>
                 </div>
             </div>

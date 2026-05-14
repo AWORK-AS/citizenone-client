@@ -40,6 +40,44 @@
                         medarbejders afspadseringstimer — det vil kun opfylde normtimerne for den pågældende dag.
                     </p>
                 </div>
+                <div class="space-y-3 text-justify" v-if="language.locale.value === 'no'">
+                    <p>
+                        Når en vakttype er merket som en <strong>Fraværstype</strong>, behandler systemet den
+                        annerledes enn vanlige arbeidsvakter. Denne innstillingen gjelder automatisk for vakttyper som
+                        <strong>Ferie</strong> og <strong>Sykefravær</strong>.
+                    </p>
+                    <p>
+                        Fraværstyper følger disse reglene:
+                    </p>
+                    <ul class="list-disc list-inside space-y-1">
+                        <li>De teller med i den ansattes normtimer</li>
+                        <li>De teller <strong>ikke</strong> som arbeidede timer</li>
+                        <li>De skal <strong>ikke</strong> generere avspasering</li>
+                    </ul>
+                    <p>
+                        Det betyr at registrering av ferie eller sykefravær <strong>aldri</strong> vil øke en
+                        ansatts avspaseringstimer — det vil kun oppfylle normtimene for den aktuelle dagen.
+                    </p>
+                </div>
+                <div class="space-y-3 text-justify" v-if="language.locale.value === 'sv'">
+                    <p>
+                        När en skifttyp är markerad som en <strong>Frånvarotyp</strong>, hanterar systemet den
+                        annorlunda än vanliga arbetsskift. Den här inställningen gäller automatiskt för skifttyper som
+                        <strong>Semester</strong> och <strong>Sjukfrånvaro</strong>.
+                    </p>
+                    <p>
+                        Frånvarotyper följer dessa regler:
+                    </p>
+                    <ul class="list-disc list-inside space-y-1">
+                        <li>De räknas in i den anställdes normtimmar</li>
+                        <li>De räknas <strong>inte</strong> som arbetade timmar</li>
+                        <li>De får <strong>inte</strong> generera kompensationsledighet</li>
+                    </ul>
+                    <p>
+                        Det innebär att registrering av semester eller sjukfrånvaro <strong>aldrig</strong> kommer att
+                        öka en anställds kompensationstimmar — det uppfyller endast normtimmarna för den dagen.
+                    </p>
+                </div>
                 <div class="mt-5 flex gap-x-3 justify-end">
                     <FormButton buttonStyle="cancel" @click="closeModal" class="rounded-md">
                         {{ $t('close') }}

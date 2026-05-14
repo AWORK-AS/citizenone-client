@@ -48,6 +48,12 @@
                                             <span v-if="language.locale.value === 'dk'">
                                                 Velkommen til CitizenOne 👋
                                             </span>
+                                            <span v-if="language.locale.value === 'no'">
+                                                Velkommen til CitizenOne 👋
+                                            </span>
+                                            <span v-if="language.locale.value === 'sv'">
+                                                Välkommen till CitizenOne 👋
+                                            </span>
                                         </h3>
 
                                         <p class="text-center text-primary text-xs md:text-base">
@@ -61,6 +67,14 @@
                                                 hvordan
                                                 systemet skaber overblik og effektivitet i din hverdag.
                                             </span>
+                                            <span v-if="language.locale.value === 'no'">
+                                                I denne introduksjonen får du en rask gjennomgang av CitizenOne og
+                                                hvordan systemet skaper oversikt og effektivitet i hverdagen din.
+                                            </span>
+                                            <span v-if="language.locale.value === 'sv'">
+                                                I den här introduktionen får du en snabb genomgång av CitizenOne och
+                                                hur systemet skapar överblick och effektivitet i din vardag.
+                                            </span>
                                         </p>
 
                                         <div v-if="state.isSubscribed">
@@ -72,7 +86,13 @@
                                                     <span v-if="language.locale.value === 'en'">
                                                         Take a course
                                                     </span>
-                                                    <span v-else-if="language.locale.value === 'dk'">
+                                                    <span v-else-if="language.locale.value === 'no'">
+                                                        Ta et kurs
+                                                    </span>
+                                                    <span v-else-if="language.locale.value === 'sv'">
+                                                        Ta en kurs
+                                                    </span>
+                                                    <span v-else>
                                                         Tag et kursus
                                                     </span>
                                                 </FormButton>
@@ -81,10 +101,7 @@
                                                 <FormButton buttonStyle="primary"
                                                     @click="navigateToExternalLink('https://citizenone.dk/book-gratis-demo-af-journalsystemet')"
                                                     class="w-fit">
-                                                    <span v-if="language.locale.value === 'en'">
-                                                        Book demo
-                                                    </span>
-                                                    <span v-else-if="language.locale.value === 'dk'">
+                                                    <span>
                                                         Book demo
                                                     </span>
                                                 </FormButton>
@@ -93,7 +110,13 @@
                                                     <span v-if="language.locale.value === 'en'">
                                                         Get started
                                                     </span>
-                                                    <span v-else-if="language.locale.value === 'dk'">
+                                                    <span v-else-if="language.locale.value === 'no'">
+                                                        Kom i gang
+                                                    </span>
+                                                    <span v-else-if="language.locale.value === 'sv'">
+                                                        Kom igång
+                                                    </span>
+                                                    <span v-else>
                                                         Kom i gang
                                                     </span>
                                                 </FormButton>

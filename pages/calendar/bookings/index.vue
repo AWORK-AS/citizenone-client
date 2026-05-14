@@ -110,6 +110,24 @@
                             så du kan begynde at oprette begivenheder eller kurser.
                         </p>
                     </div>
+                    <div class="text-pretty text-base text-gray-600" v-if="language.locale.value === 'no'">
+                        <p>
+                            Det ser ut til at du ennå ikke har satt opp bookinginnstillingene dine.
+                        </p>
+                        <p>
+                            Klikk på knappen nedenfor for å konfigurere innstillingene dine,
+                            slik at du kan begynne å opprette arrangementer eller kurs.
+                        </p>
+                    </div>
+                    <div class="text-pretty text-base text-gray-600" v-if="language.locale.value === 'sv'">
+                        <p>
+                            Det verkar som att du ännu inte har konfigurerat dina bokningsinställningar.
+                        </p>
+                        <p>
+                            Klicka på knappen nedan för att konfigurera dina inställningar
+                            så att du kan börja skapa evenemang eller kurser.
+                        </p>
+                    </div>
                     <FormButton buttonStyle="action" @click="navigateTo('/calendar/bookings/settings')">
                         <Icon name="ph:gear" class="h-4 w-4" aria-hidden="true" />
                         {{ $t('bookingSettings.bookingSettings') }}
