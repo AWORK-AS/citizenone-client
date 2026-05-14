@@ -69,7 +69,6 @@
                         aria-hidden="true" @click="state.isLeaveTypeModalOpen = true" />
                 </div>
             </div>
-<<<<<<< HEAD
             <div class="space-y-3 pt-2 border-t border-gray-100">
                 <div class="flex items-center justify-between">
                     <span class="text-sm font-medium">{{ $t('shifts.form.multiplierRules') }}</span>
@@ -108,37 +107,6 @@
                             <span v-if="state.ruleErrors[index]?.factor" class="text-xs text-red-500">
                                 {{ state.ruleErrors[index].factor }}
                             </span>
-=======
-
-            <div class="space-y-2 pt-2 border-t border-gray-100">
-                <FormLabel for="working_hours_factor" :label="$t('shifts.form.workingHoursFactor')" />
-                <FormNumberField id="working_hours_factor" name="working_hours_factor"
-                    :placeholder="$t('shifts.form.workingHoursFactorPlaceholder')"
-                    v-model="state.formShift.working_hours_factor" />
-                <FormError :error="props?.error?.errors?.working_hours_factor?.[0]" />
-
-                <div class="space-y-2 pl-1" v-if="state.formShift.working_hours_factor">
-                    <p class="text-sm text-gray-500">{{ $t('shifts.form.workingHoursFactorInterval') }}</p>
-                    <div class="flex items-center gap-3">
-                        <div class="flex-1 space-y-1">
-                            <FormLabel for="working_hours_factor_from"
-                                :label="$t('shifts.form.workingHoursFactorFrom')" />
-                            <FormTimeField id="working_hours_factor_from" name="working_hours_factor_from"
-                                :placeholder="$t('shifts.form.workingHoursFactorFrom')"
-                                v-model="state.formShift.working_hours_factor_from" />
-                            <FormError
-                                :error="v$?.formShift?.working_hours_factor_from?.$errors[0]?.$message.toString()" />
-                            <FormError :error="props?.error?.errors?.working_hours_factor_from?.[0]" />
-                        </div>
-                        <div class="flex-1 space-y-1">
-                            <FormLabel for="working_hours_factor_to" :label="$t('shifts.form.workingHoursFactorTo')" />
-                            <FormTimeField id="working_hours_factor_to" name="working_hours_factor_to"
-                                :placeholder="$t('shifts.form.workingHoursFactorTo')"
-                                v-model="state.formShift.working_hours_factor_to" />
-                            <FormError
-                                :error="v$?.formShift?.working_hours_factor_to?.$errors[0]?.$message.toString()" />
-                            <FormError :error="props?.error?.errors?.working_hours_factor_to?.[0]" />
->>>>>>> wip
                         </div>
                     </div>
                     <div class="space-y-1">
@@ -200,17 +168,6 @@
                     </div>
                 </div>
             </div>
-<<<<<<< HEAD
-=======
-
-            <div class="space-y-1 pt-2 border-t border-gray-100"
-                v-if="state.formShift.system_name === 'sleeping-night-shift'">
-                <FormLabel for="end_time_day_offset" :label="$t('shifts.form.endTimeDayOffset')" />
-                <FormSelect id="end_time_day_offset" name="end_time_day_offset" :options="endTimeDayOffsetOptions"
-                    :canClear="true" v-model="state.formShift.end_time_day_offset" />
-                <FormError :error="props?.error?.errors?.end_time_day_offset?.[0]" />
-            </div>
->>>>>>> wip
         </div>
         <div class="mt-6">
             <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
