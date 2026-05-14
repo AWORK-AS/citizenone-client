@@ -17,6 +17,20 @@
                 <FormError :error="v$?.formContactJobTitle?.dk_title?.$errors[0]?.$message.toString()" />
                 <FormError :error="props?.error?.errors?.dk_title?.[0]" />
             </div>
+            <div class="space-y-1">
+                <FormLabel for="no_title" :label="$t('contactJobTitles.form.titleNorwegian')" />
+                <FormTextField id="no_title" name="no_title" :placeholder="$t('contactJobTitles.form.titleNorwegian')"
+                    v-model="state.formContactJobTitle.no_title" />
+                <FormError :error="v$?.formContactJobTitle?.no_title?.$errors[0]?.$message.toString()" />
+                <FormError :error="props?.error?.errors?.no_title?.[0]" />
+            </div>
+            <div class="space-y-1">
+                <FormLabel for="sv_title" :label="$t('contactJobTitles.form.titleSwedish')" />
+                <FormTextField id="sv_title" name="sv_title" :placeholder="$t('contactJobTitles.form.titleSwedish')"
+                    v-model="state.formContactJobTitle.sv_title" />
+                <FormError :error="v$?.formContactJobTitle?.sv_title?.$errors[0]?.$message.toString()" />
+                <FormError :error="props?.error?.errors?.sv_title?.[0]" />
+            </div>
         </div>
         <div class="mt-6">
             <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
@@ -62,6 +76,8 @@ const state = reactive({
     formContactJobTitle: {
         en_title: '',
         dk_title: '',
+        no_title: '',
+        sv_title: '',
     },
 })
 
@@ -70,6 +86,8 @@ watch(() => props.selectedContactJobTitle, (newValue: any) => {
         state.formContactJobTitle = {
             en_title: newValue.en_title,
             dk_title: newValue.dk_title,
+            no_title: newValue.no_title ?? '',
+            sv_title: newValue.sv_title ?? '',
         }
     }
 })
@@ -78,10 +96,16 @@ const rules = computed(() => {
     return {
         formContactJobTitle: {
             en_title: {
-                required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
+                required: helpers.withMessage(() => `${t('validation.thisFieldIsRequired')}.`, required),
             },
             dk_title: {
-                required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
+                required: helpers.withMessage(() => `${t('validation.thisFieldIsRequired')}.`, required),
+            },
+            no_title: {
+                required: helpers.withMessage(() => `${t('validation.thisFieldIsRequired')}.`, required),
+            },
+            sv_title: {
+                required: helpers.withMessage(() => `${t('validation.thisFieldIsRequired')}.`, required),
             },
         },
     }

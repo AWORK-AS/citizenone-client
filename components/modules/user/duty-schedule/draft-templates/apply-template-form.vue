@@ -15,28 +15,29 @@
                     <FormLabel :label="$t('dutySchedules.draftTemplates.form.weekNumber')" />
                     <div class="border rounded-md overflow-hidden">
                         <table class="min-w-full divide-y divide-gray-200">
-                            <thead class="bg-primary">
+                            <thead class="">
                                 <tr>
-                                    <th scope="col"
-                                        class="px-4 py-3 text-left text-xs font-medium text-white uppercase tracking-wider inline-flex items-center cursor-pointer">
-                                        <input type="checkbox" @change="toggleAllWeeks" :checked="allWeeksSelected"
-                                            class="peer w-5 h-5 appearance-none border bg-white border-primary rounded-sm mr-2 checked: bg-secondary checked:border-secondary focus:ring-0 cursor-pointer" />
-                                        <span
-                                            class="pointer-events-none absolute w-5 h-5 flex items-center justify-center">
-                                            <Icon name="ph:check-bold" class="h-4 w-4 text-white" />
-                                        </span>
+                                    <th scope="col" class="w-px px-2 py-3 rounded-tl-md">
+                                        <label class="inline-flex items-center cursor-pointer relative">
+                                            <input type="checkbox" @change="toggleAllWeeks" :checked="allWeeksSelected"
+                                                class="peer w-5 h-5 appearance-none border bg-white border-primary rounded-sm checked:bg-secondary checked:border-secondary focus:ring-0 cursor-pointer" />
+                                            <span
+                                                class="pointer-events-none absolute top-0 left-0 w-5 h-5 flex items-center justify-center opacity-0 peer-checked:opacity-100 transition-opacity">
+                                                <Icon name="ph:check-bold" class="h-4 w-4 text-white" />
+                                            </span>
+                                        </label>
                                     </th>
                                     <th scope="col" class="px-4 py-3 text-left font-medium text-white">
                                         {{ $t('dutySchedules.draftTemplates.draftTemplates') }}
                                     </th>
-                                    <th scope="col" class="px-4 py-3 text-left font-medium text-white">
+                                    <th scope="col" class="px-4 py-3 text-left font-medium text-white rounded-tr-md">
                                         {{ $t('dutySchedules.draftTemplates.form.week') }}
                                     </th>
                                 </tr>
                             </thead>
                             <tbody class="bg-white divide-y divide-gray-200">
                                 <tr v-for="week in weeks" :key="week.value" class="hover:bg-gray-50">
-                                    <td class="px-4 py-3 whitespace-nowrap">
+                                    <td class="w-px px-2 py-3 whitespace-nowrap" width="10%">
                                         <label class="inline-flex items-center cursor-pointer relative">
                                             <input type="checkbox" :value="week.value"
                                                 v-model="state.formTemplate.weeks"
@@ -48,7 +49,7 @@
                                             </span>
                                         </label>
                                     </td>
-                                    <td class="px-4 py-3 whitespace-nowrap text-sm text-gray-900">
+                                    <td class="px-4 py-3 whitespace-nowrap text-sm text-gray-900" width="30%">
                                         <div class="flex items-center justify-between">
                                             <div v-if="getTemplatesForWeek(week.value).length > 0"
                                                 class="flex gap-1 flex-wrap">
@@ -61,7 +62,7 @@
                                             </div>
                                         </div>
                                     </td>
-                                    <td class="px-4 py-3 whitespace-nowrap text-sm text-gray-900">
+                                    <td class="px-4 py-3 whitespace-nowrap text-sm text-gray-900" width="60%">
                                         <div class="flex items-center justify-between">
                                             <span>{{ week.label }}</span>
                                         </div>
@@ -72,6 +73,28 @@
                     </div>
                     <FormError :error="v$?.formTemplate?.weeks?.$errors[0]?.$message.toString()" />
                     <FormError :error="props?.error?.errors?.weeks?.[0]" />
+                </div>
+
+                <div v-if="isNonRecurring" class="space-y-3 pt-3 border-t border-gray-100">
+                    <div class="flex items-center gap-3">
+                        <label class="inline-flex items-center cursor-pointer relative">
+                            <input type="checkbox" v-model="state.formTemplate.copy"
+                                class="peer w-5 h-5 appearance-none border border-primary rounded-sm checked:bg-secondary checked:border-secondary focus:ring-0 cursor-pointer" />
+                            <span
+                                class="pointer-events-none absolute top-0 left-0 w-5 h-5 flex items-center justify-center opacity-0 peer-checked:opacity-100 transition-opacity">
+                                <Icon name="ph:check-bold" class="h-4 w-4 text-white" />
+                            </span>
+                        </label>
+                        <span class="text-sm font-medium text-gray-700">{{ $t('dutySchedules.draftTemplates.form.copyToConsecutiveWeeks') }}</span>
+                    </div>
+                    <div v-if="state.formTemplate.copy" class="space-y-1">
+                        <FormLabel for="number_of_weeks" :label="$t('dutySchedules.draftTemplates.form.numberOfWeeks')" />
+                        <FormNumberField id="number_of_weeks" name="number_of_weeks"
+                            :placeholder="$t('dutySchedules.draftTemplates.form.numberOfWeeks')"
+                            :min="2"
+                            v-model="state.formTemplate.number_of_weeks" />
+                        <FormError :error="v$?.formTemplate?.number_of_weeks?.$errors[0]?.$message.toString()" />
+                    </div>
                 </div>
 
             </div>
@@ -91,8 +114,9 @@
 
 <script setup lang="ts">
 import { useVuelidate } from "@vuelidate/core"
-import { required, helpers } from '@vuelidate/validators'
+import { required, helpers, minValue } from '@vuelidate/validators'
 import { useI18n } from "vue-i18n"
+import { useDatetimeFormatter } from '@/composables/datetimeFormatter'
 import type { Error } from '@/types'
 
 const props = defineProps({
@@ -115,6 +139,7 @@ const props = defineProps({
 })
 const emit = defineEmits(['closeModal', 'submitForm'])
 const { t } = useI18n()
+const { formatDateToReadable } = useDatetimeFormatter()
 
 interface Option {
     value: string
@@ -135,10 +160,27 @@ interface WeekTemplateMap {
     [weekNumber: string]: Template[]
 }
 
-const weeks = Array.from({ length: 52 }, (_, i) => {
-    const week = String(i + 1)
-    return { value: week, label: t('dutySchedules.draftTemplates.form.week') + ' ' + week }
-}) as Option[]
+function getWeekStartDate(weekNum: number, year: number): Date {
+    const jan4 = new Date(year, 0, 4)
+    const dayOfWeek = jan4.getDay() || 7
+    const monday = new Date(jan4)
+    monday.setDate(jan4.getDate() - (dayOfWeek - 1) + (weekNum - 1) * 7)
+    return monday
+}
+
+const weeks = computed(() => {
+    const year = state.formTemplate.years[0] ? parseInt(state.formTemplate.years[0]) : new Date().getFullYear()
+    return Array.from({ length: 52 }, (_, i) => {
+        const weekNum = i + 1
+        const base = t('dutySchedules.draftTemplates.form.week') + ' ' + weekNum
+        const start = getWeekStartDate(weekNum, year)
+        const end = new Date(start)
+        end.setDate(start.getDate() + 6)
+        const startStr = formatDateToReadable(start.toISOString())
+        const endStr = formatDateToReadable(end.toISOString())
+        return { value: String(weekNum), label: `${base} (${startStr} - ${endStr})` }
+    }) as Option[]
+})
 
 const currentYear = new Date().getFullYear()
 const years = Array.from({ length: 20 }, (_, i) => {
@@ -152,12 +194,21 @@ const state = reactive({
     formTemplate: {
         weeks: [] as string[],
         years: [] as string[],
+        copy: false,
+        number_of_weeks: '2',
     },
     weekTemplateMap: {} as WeekTemplateMap,
 })
 
 const allWeeksSelected = computed(() => {
-    return state.formTemplate.weeks.length === weeks.length
+    return state.formTemplate.weeks.length === weeks.value.length
+})
+
+const isNonRecurring = computed(() => {
+    const templates = (props.selectedTemplates && props.selectedTemplates.length > 0)
+        ? props.selectedTemplates.map((t: any) => t._custom?.value || t)
+        : [props.selectedDraftTemplate]
+    return templates.every((t: any) => !t?.is_recurring)
 })
 
 function toggleAllWeeks(event: Event) {
@@ -173,7 +224,7 @@ function toggleAllWeeks(event: Event) {
             : [props.selectedDraftTemplate]
 
         // Select all weeks
-        state.formTemplate.weeks = weeks.map(week => week.value)
+        state.formTemplate.weeks = weeks.value.map(week => week.value)
 
         // Clear weekTemplateMap
         state.weekTemplateMap = {}
@@ -407,11 +458,17 @@ const rules = computed(() => {
     return {
         formTemplate: {
             weeks: {
-                required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
+                required: helpers.withMessage(() => `${t('validation.thisFieldIsRequired')}.`, required),
             },
             years: {
-                required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
+                required: helpers.withMessage(() => `${t('validation.thisFieldIsRequired')}.`, required),
             },
+            ...(state.formTemplate.copy ? {
+                number_of_weeks: {
+                    required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
+                    minValue: helpers.withMessage(`${t('validation.minValue', { min: 2 })}.`, minValue(2)),
+                },
+            } : {}),
         },
     }
 })
@@ -423,6 +480,8 @@ function submitForm() {
     if (!v$.value.$error) {
         emit('submitForm', {
             ...state.formTemplate,
+            copy: state.formTemplate.copy,
+            number_of_weeks: state.formTemplate.copy ? Number(state.formTemplate.number_of_weeks) : null,
             weekTemplateMap: state.weekTemplateMap
         })
     }

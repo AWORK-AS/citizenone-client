@@ -33,13 +33,19 @@
                             <template #body
                                 v-if="!(state.isTableLoading || (state.contactJobTitles?.data?.length === 0))">
                                 <tr v-for="(contactJobTitle, index) in state.contactJobTitles?.data" :key="index">
-                                    <td width="30%">
+                                    <td width="20%">
                                         <span>{{ contactJobTitle?.en_title }}</span>
                                     </td>
-                                    <td width="30%">
+                                    <td width="20%">
                                         <span>{{ contactJobTitle?.dk_title }}</span>
                                     </td>
-                                    <td width="40%">
+                                    <td width="20%">
+                                        <span>{{ contactJobTitle?.no_title }}</span>
+                                    </td>
+                                    <td width="20%">
+                                        <span>{{ contactJobTitle?.sv_title }}</span>
+                                    </td>
+                                    <td width="20%">
                                         <div class="flex items-center justify-end gap-2">
                                             <FormButton type="button" buttonStyle="action"
                                                 @click="navigateTo(`/settings/contact-job-titles/${contactJobTitle.uuid}/edit`)"
@@ -92,6 +98,8 @@ const state = reactive({
     columnHeaders: [
         { name: 'contactJobTitles.table.titleEnglish', isTranslateName: true, sorter: true, key: 'en_title' },
         { name: 'contactJobTitles.table.titleDanish', isTranslateName: true, sorter: true, key: 'dk_title' },
+        { name: 'contactJobTitles.table.titleNorwegian', isTranslateName: true, sorter: true, key: 'no_title' },
+        { name: 'contactJobTitles.table.titleSwedish', isTranslateName: true, sorter: true, key: 'sv_title' },
         { name: '' }
     ],
     contactJobTitles: [] as any,

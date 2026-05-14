@@ -42,6 +42,14 @@
                                 {{ state.selectedMedicine?.medicine?.dk_name }},
                                 {{ state.selectedMedicine?.medicine?.ingredients }}
                             </p>
+                            <p v-if="language.locale.value === 'no'">
+                                {{ state.selectedMedicine?.medicine?.no_name }},
+                                {{ state.selectedMedicine?.medicine?.ingredients }}
+                            </p>
+                            <p v-if="language.locale.value === 'sv'">
+                                {{ state.selectedMedicine?.medicine?.sv_name }},
+                                {{ state.selectedMedicine?.medicine?.ingredients }}
+                            </p>
                             <Badge :type="state.selectedMedicine?.is_active ? 'active' : 'inactive'"
                                 class="text-xxs truncate w-fit">
                                 {{

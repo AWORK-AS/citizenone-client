@@ -14,6 +14,16 @@
                         slutdatoen
                         eller markere dem som fuldførte.
                     </p>
+                    <p v-if="language.locale.value === 'no'">
+                        Det er {{ userStore.getUser?.plans_goals_subgoals_reached_deadline_count }} planer, mål eller
+                        delmål som allerede har nådd sin fullføringsdato. Klikk på knappen nedenfor for å oppdatere
+                        fullføringsdatoen eller markere dem som fullførte.
+                    </p>
+                    <p v-if="language.locale.value === 'sv'">
+                        Det finns {{ userStore.getUser?.plans_goals_subgoals_reached_deadline_count }} planer, mål eller
+                        delmål som redan har nått sitt slutdatum. Klicka på knappen nedan för att uppdatera
+                        slutdatumet eller markera dem som slutförda.
+                    </p>
                     <div class="w-fit flex items-center cursor-pointer mb-4"
                         @click="state.doNotShowAgain = !state.doNotShowAgain">
                         <FormCheckbox :value="state.doNotShowAgain" class="mr-2" />

@@ -124,7 +124,7 @@
 
                         <div class="space-y-5">
                             <div class="bg-white ring-1 ring-gray-200 rounded-md p-5 border-l-4 border-secondary"
-                                v-for="(plan, index) in state.plans?.data" :key="index">
+                                v-for="(plan, index) in state.plans?.data" :key="index" :data-uuid="plan.uuid">
                                 <div class="flex flex-col md:flex-row md:items-center gap-3 md:gap-10">
                                     <div class="grow space-y-1">
                                         <Badge type="plans-and-goals" class="w-fit" v-if="plan?.is_plans_with_goals">

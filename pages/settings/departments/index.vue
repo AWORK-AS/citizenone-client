@@ -43,7 +43,10 @@
                                             <div v-for="(shift, index) in department?.shifts" :key="index">
                                                 <p class="truncate text-xs bg-primary text-white px-2 py-1 rounded-md">
                                                     {{
-                                                        language.locale.value === 'en' ? shift?.en_name : shift?.dk_name
+                                                        language.locale.value === 'en' ? shift?.en_name :
+                                                            language.locale.value === 'no' ? shift?.no_name :
+                                                                language.locale.value === 'sv' ? shift?.sv_name :
+                                                                    shift?.dk_name
                                                     }}
                                                 </p>
                                             </div>

@@ -42,8 +42,7 @@
                 <div class="mx-auto max-w-6xl px-4 py-8" v-if="Object.keys(state.bookingSettings).length > 0">
                     <Alert type="danger" :text="state?.error?.message"
                         v-if="state.error?.message && state.error.message.length > 0" />
-                    <div v-if="!state.coursesEvents?.data?.length"
-                        class="text-center py-24 space-y-4">
+                    <div v-if="!state.coursesEvents?.data?.length" class="text-center py-24 space-y-4">
                         <div class="flex justify-center">
                             <Icon name="ph:calendar-x" class="size-16 text-gray-300" />
                         </div>
@@ -438,13 +437,13 @@ onMounted(() => {
 
 function identifyFlag() {
     const selectedLanguage = userStore.getLanguage
-    if (selectedLanguage === 'en') {
-        return '/img/icons/flags/united-kingdom.svg'
-    } else {
-        if (selectedLanguage === 'dk') {
-            return '/img/icons/flags/denmark.svg'
-        }
+    const flags: Record<string, string> = {
+        en: '/img/icons/flags/united-kingdom.svg',
+        dk: '/img/icons/flags/denmark.svg',
+        no: '/img/icons/flags/norway.svg',
+        sv: '/img/icons/flags/sweden.svg',
     }
+    return flags[selectedLanguage] ?? '/img/icons/flags/united-kingdom.svg'
 }
 
 function selectLanguage() {

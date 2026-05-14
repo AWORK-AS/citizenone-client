@@ -213,6 +213,14 @@ watch(() => userStore.getUser, (newValue: any) => {
                 ]
             },
             {
+                name: 'settings.tabs.nursingProfessionalRecordTemplates',
+                isTranslateName: true,
+                href: `/settings/nursing-professional-record-templates`,
+                routeNames: [
+                    'settings-nursing-professional-record-templates'
+                ]
+            },
+            {
                 name: 'settings.tabs.relationships',
                 isTranslateName: true,
                 href: `/settings/relationships`,
@@ -266,6 +274,14 @@ watch(() => userStore.getUser, (newValue: any) => {
                 href: `/settings/time-accounts`,
                 routeNames: [
                     'settings-time-accounts'
+                ]
+            },
+            {
+                name: 'settings.tabs.treatmentTemplates',
+                isTranslateName: true,
+                href: `/settings/treatment-templates`,
+                routeNames: [
+                    'settings-treatment-templates'
                 ]
             },
             {
@@ -348,6 +364,12 @@ function changeTab(value: any) {
     }
     else if (value === '/settings/norm-periods') {
         navigateTo(`/settings/norm-periods`)
+    }
+    else if (value === '/settings/nursing-professional-record-templates') {
+        navigateTo(`/settings/nursing-professional-record-templates`)
+    }
+    else if (value === '/settings/treatment-templates') {
+        navigateTo(`/settings/treatment-templates`)
     }
     else if (value === '/settings/relationships') {
         navigateTo(`/settings/relationships`)

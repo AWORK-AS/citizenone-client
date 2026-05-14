@@ -669,6 +669,8 @@ const state = reactive({
         department_uuids: [],
         employment_status: [],
         employee_uuids: [],
+        time_from: '',
+        time_to: '',
     },
     modal: {
         isActivityLogsOpen: false,
@@ -895,6 +897,8 @@ function setDutyScheduleCurrentFilter(filter: any) {
     state.filter.department_uuids = filter.department_uuids
     state.filter.employment_status = filter.employment_status
     state.filter.employee_uuids = filter.employee_uuids
+    state.filter.time_from = filter.time_from ?? ''
+    state.filter.time_to = filter.time_to ?? ''
 }
 
 // --- Zenegy Sync Logic ---
@@ -1249,9 +1253,13 @@ async function fetchAndBuildShiftTypes() {
                     const hours = moment(to).diff(moment(from), 'hours', true)
                     if (hours <= 0) continue
 
-                    const shiftTypeName = locale.value === 'dk'
-                        ? (shift.type?.dk_name || shift.type?.en_name || t('dutySchedules.zenegy_unknown_shift'))
-                        : (shift.type?.en_name || shift.type?.dk_name || t('dutySchedules.zenegy_unknown_shift'))
+                    const shiftTypeName = locale.value === 'en'
+                        ? (shift.type?.en_name || shift.type?.dk_name || t('dutySchedules.zenegy_unknown_shift'))
+                        : locale.value === 'no'
+                        ? (shift.type?.no_name || shift.type?.dk_name || t('dutySchedules.zenegy_unknown_shift'))
+                        : locale.value === 'sv'
+                        ? (shift.type?.sv_name || shift.type?.dk_name || t('dutySchedules.zenegy_unknown_shift'))
+                        : (shift.type?.dk_name || shift.type?.en_name || t('dutySchedules.zenegy_unknown_shift'))
 
                     empData.shiftTypes.set(shiftTypeName, (empData.shiftTypes.get(shiftTypeName) || 0) + 1)
                 }
@@ -1432,9 +1440,13 @@ function buildRegistrationsPreview() {
                 const hours = Math.round(moment(to).diff(moment(from), 'hours', true) * 100) / 100
                 if (hours <= 0) continue
 
-                const shiftTypeName = locale.value === 'dk'
-                    ? (shift.type?.dk_name || shift.type?.en_name || t('dutySchedules.zenegy_unknown_shift'))
-                    : (shift.type?.en_name || shift.type?.dk_name || t('dutySchedules.zenegy_unknown_shift'))
+                const shiftTypeName = locale.value === 'en'
+                    ? (shift.type?.en_name || shift.type?.dk_name || t('dutySchedules.zenegy_unknown_shift'))
+                    : locale.value === 'no'
+                    ? (shift.type?.no_name || shift.type?.dk_name || t('dutySchedules.zenegy_unknown_shift'))
+                    : locale.value === 'sv'
+                    ? (shift.type?.sv_name || shift.type?.dk_name || t('dutySchedules.zenegy_unknown_shift'))
+                    : (shift.type?.dk_name || shift.type?.en_name || t('dutySchedules.zenegy_unknown_shift'))
 
                 registrations.push({
                     employeeName: empName,

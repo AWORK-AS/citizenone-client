@@ -157,7 +157,7 @@ const state = reactive({
 const rules = computed(() => ({
     formAssign: {
         group_uuid: {
-            required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
+            required: helpers.withMessage(() => `${t('validation.thisFieldIsRequired')}.`, required),
         },
     },
 }))

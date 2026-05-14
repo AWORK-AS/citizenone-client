@@ -45,7 +45,7 @@
 
                                         <p class="text-xs text-gray-500" v-if="notification?.data?.content?.shift_type">
                                             {{ $t('dutyShiftRuleNotifications.shiftType') }}:
-                                            {{ notification.data.content.shift_type.en_name }}
+                                            {{ language.locale.value === 'en' ? notification.data.content.shift_type.en_name : language.locale.value === 'no' ? notification.data.content.shift_type.no_name : language.locale.value === 'sv' ? notification.data.content.shift_type.sv_name : notification.data.content.shift_type.dk_name }}
                                         </p>
 
                                         <p class="text-xs text-gray-500"
@@ -84,10 +84,12 @@ import { useDatetimeFormatter } from '@/composables/datetimeFormatter'
 import { notificationService } from '@/components/api/user/NotificationService'
 import { useUserStore } from '@/store/user'
 import type { Error } from '@/types'
+import { useI18n } from "vue-i18n"
 
 const runtimeConfig = useRuntimeConfig()
 const { formatDateToReadable } = useDatetimeFormatter()
 const userStore = useUserStore() as any
+const language = useI18n()
 
 const breadcrumbLinks = [
     { name: 'dutyShiftRuleNotifications.title', translate: true, href: '/duty-shift-rule-notifications' },

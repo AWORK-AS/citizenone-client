@@ -3,7 +3,8 @@
         <!-- Teleport datovælger til breadcrumb-rækken -->
         <Teleport to="#schedule-date-picker-target" v-if="teleportReady">
             <div class="flex items-center gap-1.5">
-                <div class="relative flex items-center rounded-lg bg-white ring-1 ring-gray-200 overflow-hidden h-[32px]">
+                <div
+                    class="relative flex items-center rounded-lg bg-white ring-1 ring-gray-200 overflow-hidden h-[32px]">
                     <button @click="previousWeek()" type="button"
                         class="flex h-7 w-7 items-center justify-center text-gray-400 hover:text-gray-600 hover:bg-gray-50 transition-colors">
                         <Icon name="heroicons:chevron-left" class="h-3.5 w-3.5" aria-hidden="true" />
@@ -15,7 +16,9 @@
                         <Icon name="heroicons:chevron-right" class="h-3.5 w-3.5" aria-hidden="true" />
                     </button>
                 </div>
-                <button @click="setToday()" class="text-primary text-xs font-semibold hover:text-primary-700 px-2 py-1 rounded-md hover:bg-blue-50 transition-colors">{{ $t('goToToday') }}</button>
+                <button @click="setToday()"
+                    class="text-primary text-xs font-semibold hover:text-primary-700 px-2 py-1 rounded-md hover:bg-blue-50 transition-colors">{{
+                        $t('goToToday') }}</button>
             </div>
         </Teleport>
         <Alert type="danger" :text="state?.error?.message"
@@ -153,38 +156,61 @@
                 <div class="bg-gradient-to-r from-blue-600 to-blue-400 h-1.5 rounded-full transition-all ease-in-out duration-500 mb-1.5"
                     :style="{ width: `${state.progress.percentage}%` }" v-if="state.progress.showProgressBar" />
                 <div class="h-1.5 mb-1.5" v-else />
-                <div v-if="!state.hideBanner" class="bg-gradient-to-r from-blue-50 to-indigo-50 border border-blue-200 rounded-xl px-4 py-3 flex items-start gap-3 mb-3">
-            <div class="flex-shrink-0 mt-0.5">
-                <svg class="w-5 h-5 text-blue-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2" />
-                </svg>
-            </div>
-            <div class="flex-1 min-w-0">
-                <p class="text-sm font-semibold text-blue-900 mb-1.5">{{ $t('dutySchedules.draft.workflowBanner.title') }}</p>
-                <div class="flex flex-wrap items-center gap-2 text-xs">
-                    <div class="flex items-center gap-1.5 bg-white border border-blue-200 rounded-full px-2.5 py-1">
-                        <span class="w-5 h-5 rounded-full bg-blue-500 text-white flex items-center justify-center font-bold text-[10px] flex-shrink-0">1</span>
-                        <span class="text-blue-800 font-medium">{{ $t('dutySchedules.draft.workflowBanner.step1') }}</span>
+                <div v-if="!state.hideBanner"
+                    class="bg-gradient-to-r from-blue-50 to-indigo-50 border border-blue-200 rounded-xl px-4 py-3 flex items-start gap-3 mb-3">
+                    <div class="flex-shrink-0 mt-0.5">
+                        <svg class="w-5 h-5 text-blue-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2" />
+                        </svg>
                     </div>
-                    <svg class="w-3 h-3 text-blue-300 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg>
-                    <div class="flex items-center gap-1.5 bg-white border border-blue-200 rounded-full px-2.5 py-1">
-                        <span class="w-5 h-5 rounded-full bg-blue-500 text-white flex items-center justify-center font-bold text-[10px] flex-shrink-0">2</span>
-                        <span class="text-blue-800 font-medium">{{ $t('dutySchedules.draft.workflowBanner.step2') }}</span>
+                    <div class="flex-1 min-w-0">
+                        <p class="text-sm font-semibold text-blue-900 mb-1.5">{{
+                            $t('dutySchedules.draft.workflowBanner.title') }}</p>
+                        <div class="flex flex-wrap items-center gap-2 text-xs">
+                            <div
+                                class="flex items-center gap-1.5 bg-white border border-blue-200 rounded-full px-2.5 py-1">
+                                <span
+                                    class="w-5 h-5 rounded-full bg-blue-500 text-white flex items-center justify-center font-bold text-[10px] flex-shrink-0">1</span>
+                                <span class="text-blue-800 font-medium">{{
+                                    $t('dutySchedules.draft.workflowBanner.step1') }}</span>
+                            </div>
+                            <svg class="w-3 h-3 text-blue-300 flex-shrink-0" fill="none" viewBox="0 0 24 24"
+                                stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M9 5l7 7-7 7" />
+                            </svg>
+                            <div
+                                class="flex items-center gap-1.5 bg-white border border-blue-200 rounded-full px-2.5 py-1">
+                                <span
+                                    class="w-5 h-5 rounded-full bg-blue-500 text-white flex items-center justify-center font-bold text-[10px] flex-shrink-0">2</span>
+                                <span class="text-blue-800 font-medium">{{
+                                    $t('dutySchedules.draft.workflowBanner.step2') }}</span>
+                            </div>
+                            <svg class="w-3 h-3 text-blue-300 flex-shrink-0" fill="none" viewBox="0 0 24 24"
+                                stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M9 5l7 7-7 7" />
+                            </svg>
+                            <div
+                                class="flex items-center gap-1.5 bg-white border border-blue-200 rounded-full px-2.5 py-1">
+                                <span
+                                    class="w-5 h-5 rounded-full bg-green-500 text-white flex items-center justify-center font-bold text-[10px] flex-shrink-0">3</span>
+                                <span class="text-green-800 font-medium">{{
+                                    $t('dutySchedules.draft.workflowBanner.step3') }}</span>
+                            </div>
+                        </div>
+                        <p class="text-xs text-blue-600 mt-1.5">{{ $t('dutySchedules.draft.workflowBanner.tip') }}</p>
                     </div>
-                    <svg class="w-3 h-3 text-blue-300 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg>
-                    <div class="flex items-center gap-1.5 bg-white border border-blue-200 rounded-full px-2.5 py-1">
-                        <span class="w-5 h-5 rounded-full bg-green-500 text-white flex items-center justify-center font-bold text-[10px] flex-shrink-0">3</span>
-                        <span class="text-green-800 font-medium">{{ $t('dutySchedules.draft.workflowBanner.step3') }}</span>
-                    </div>
+                    <button
+                        @click="() => { state.hideBanner = true; localStorage.setItem('draftBannerHidden', 'true'); emit('bannerClosed') }"
+                        class="flex-shrink-0 text-blue-300 hover:text-blue-500 mt-0.5">
+                        <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M6 18L18 6M6 6l12 12" />
+                        </svg>
+                    </button>
                 </div>
-                <p class="text-xs text-blue-600 mt-1.5">{{ $t('dutySchedules.draft.workflowBanner.tip') }}</p>
-            </div>
-            <button @click="() => { state.hideBanner = true; localStorage.setItem('draftBannerHidden', 'true'); emit('bannerClosed') }" class="flex-shrink-0 text-blue-300 hover:text-blue-500 mt-0.5">
-                <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
-                </svg>
-            </button>
-        </div>
                 <div class="isolate flex flex-auto flex-col bg-white">
                     <div class="flex max-w-full flex-none flex-col sm:max-w-none md:max-w-full">
                         <div>
@@ -430,7 +456,7 @@
                                                     </div>
                                                 </div>
                                                 <div :class="[
-                                                    expandedRecords[employeeIndex] && 'hidden'
+                                                    expandedRecords[employeeIndex as number] && 'hidden'
                                                 ]">
                                                     <div class="text-xs grid grid-cols-7"
                                                         v-if="isAtLeast('Admin') || (!isAtLeast('Admin') && userStore.getUser?.show_working_hours)">
@@ -457,14 +483,16 @@
                                                     </div>
                                                     <div class="text-xs grid grid-cols-7">
                                                         <div class="col-span-3">
-                                                            <div v-for="(time, timeIndex) in employee?.hours"
+                                                            <div v-for="(time, timeIndex) in employee?.hours?.filter((t: any) => t?.shift?.system_name !== 'time-filter')"
                                                                 :key="timeIndex" :class="[
-                                                                    timeIndex % 2 ? 'bg-white' : 'bg-gray-100',
+                                                                    (timeIndex as number) % 2 ? 'bg-white' : 'bg-gray-100',
                                                                     'py-1'
                                                                 ]">
                                                                 <div class="pl-3">
-                                                                    <Tooltip
-                                                                        :text="language.locale.value === 'en' ? time?.shift?.en_name : time?.shift?.dk_name">
+                                                                    <Tooltip :text="language.locale.value === 'en' ? time?.shift?.en_name :
+                                                                        language.locale.value === 'no' ? time?.shift?.no_name :
+                                                                            language.locale.value === 'sv' ? time?.shift?.sv_name :
+                                                                                time?.shift?.dk_name">
                                                                         <div class="flex items-center gap-x-1">
                                                                             <div>
                                                                                 <div :class="`w-2 h-2 rounded-sm`"
@@ -473,7 +501,11 @@
                                                                             <div class="truncate w-36">
                                                                                 {{ language.locale.value === 'en' ?
                                                                                     time?.shift?.en_name :
-                                                                                    time?.shift?.dk_name
+                                                                                    language.locale.value === 'no' ?
+                                                                                        time?.shift?.no_name :
+                                                                                        language.locale.value === 'sv' ?
+                                                                                            time?.shift?.sv_name :
+                                                                                            time?.shift?.dk_name
                                                                                 }}
                                                                             </div>
                                                                         </div>
@@ -482,9 +514,9 @@
                                                             </div>
                                                         </div>
                                                         <div class="col-span-2">
-                                                            <div v-for="(time, timeIndex) in employee?.hours"
+                                                            <div v-for="(time, timeIndex) in employee?.hours?.filter((t: any) => t?.shift?.system_name !== 'time-filter')"
                                                                 :key="timeIndex" :class="[
-                                                                    timeIndex % 2 ? 'bg-white' : 'bg-gray-100',
+                                                                    (timeIndex as number) % 2 ? 'bg-white' : 'bg-gray-100',
                                                                 ]">
                                                                 <div class="text-right py-1 pr-2">
                                                                     {{ time?.weekly_hours }}
@@ -492,9 +524,9 @@
                                                             </div>
                                                         </div>
                                                         <div class="col-span-2 border-l-0.5 border-gray-200">
-                                                            <div v-for="(time, timeIndex) in employee?.hours"
+                                                            <div v-for="(time, timeIndex) in employee?.hours?.filter((t: any) => t?.shift?.system_name !== 'time-filter')"
                                                                 :key="timeIndex" :class="[
-                                                                    timeIndex % 2 ? 'bg-white' : 'bg-gray-100',
+                                                                    (timeIndex as number) % 2 ? 'bg-white' : 'bg-gray-100',
                                                                 ]">
                                                                 <div class="text-right py-1 pr-2">
                                                                     {{ time?.yearly_hours }}
@@ -503,6 +535,39 @@
                                                         </div>
                                                     </div>
 
+                                                    <div class="text-xs grid grid-cols-7 cursor-pointer hover:bg-blue-50/60 transition-colors"
+                                                        @click="state.modal.isTimeRangeFilterOpen = true">
+                                                        <div class="col-span-3 border-gray-200">
+                                                            <div
+                                                                class="pl-3 py-2 flex items-center gap-1 text-gray-500 italic">
+                                                                <Icon name="ph:clock" class="w-2 h-2 flex-shrink-0" />
+                                                                <span class="truncate">
+                                                                    {{ state.filter.time_from && state.filter.time_to
+                                                                        ? state.filter.time_from + '–' +
+                                                                        state.filter.time_to
+                                                                        : $t('dutySchedules.timeRange') }}
+                                                                </span>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-span-2 border-gray-200">
+                                                            <div class="text-right py-2 pr-2 text-gray-500">
+                                                                {{state.filter.time_from && state.filter.time_to
+                                                                    ? employee?.hours?.find((t: any) =>
+                                                                        t?.shift?.system_name === 'time-filter')?.weekly_hours
+                                                                    ?? '--'
+                                                                    : '--'}}
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-span-2 border-l-0.5 border-gray-200">
+                                                            <div class="text-right py-2 pr-2 text-gray-500">
+                                                                {{state.filter.time_from && state.filter.time_to
+                                                                    ? employee?.hours?.find((t: any) =>
+                                                                        t?.shift?.system_name === 'time-filter')?.yearly_hours
+                                                                    ?? '--'
+                                                                    : '--'}}
+                                                            </div>
+                                                        </div>
+                                                    </div>
                                                     <div class="text-xs grid grid-cols-7 border-t-2 border-gray-200">
                                                         <div class="col-span-3 border-gray-200">
                                                             <div class="pl-3 py-2 font-semibold">
@@ -581,16 +646,15 @@
                                                     </button>
                                                 </div>
                                             </div>
-                                            <div class="p-3 border-0.5 relative" v-for="(week, weekIndex) in employee?.weeks"
-                                                :key="weekIndex" :class="[
+                                            <div class="p-3 border-0.5 relative"
+                                                v-for="(week, weekIndex) in employee?.weeks" :key="weekIndex" :class="[
                                                     isDailyScheduleCopied(employeeIndex, weekIndex, weekNumber) && 'border-1.5 border-dashed border-gray-700',
                                                     !isDailyScheduleCopied(employeeIndex, weekIndex, weekNumber) && !isDailyScheduleCopiedEmpty() && 'cursor-copy relative group',
                                                     hasConflict(week) && 'border-1.5 border-red-500 rounded-md',
                                                 ]"
                                                 @click="!isDailyScheduleCopied(employeeIndex, weekIndex, weekNumber) && !isDailyScheduleCopiedEmpty() && pasteEmployeeDailySchedule(employeeIndex, weekIndex)">
                                                 <!-- Drop-zone overlay - præcis som udgivet vagtplan -->
-                                                <div
-                                                    :class="['absolute inset-0 z-10', state.isDragging ? 'pointer-events-auto' : 'pointer-events-none']"
+                                                <div :class="['absolute inset-0 z-10', state.isDragging ? 'pointer-events-auto' : 'pointer-events-none']"
                                                     @dragover.prevent="onDragOver($event)"
                                                     @dragleave="onDragLeave($event)"
                                                     @drop.prevent="onDrop($event, employee, weekIndex)">
@@ -624,11 +688,9 @@
                                                                 backgroundColor: `${shift?.type?.color}`,
                                                                 width: `${calculateShiftWidth(shift, weekIndex.toString())}`,
                                                                 marginTop: `${calculateMarginTop(employee?.weeks, weekIndex.toString(), shiftIndex)}rem`
-                                                            }"
-                                                            draggable="true"
+                                                            }" draggable="true"
                                                             @dragstart="onDragStart($event, employee, weekIndex, shift)"
-                                                            @dragend="onDragEnd($event)"
-                                                            >
+                                                            @dragend="onDragEnd($event)">
                                                             <div class="absolute -left-3 -top-3 z-10 w-6 h-6 rounded-full bg-white border-0.5 border-gray-300 flex items-center justify-center text-sm"
                                                                 v-if="shift?.type?.system_name === 'sick-leave'">🤒
                                                             </div>
@@ -637,61 +699,106 @@
                                                             </div>
                                                             <div class="flex items-center justify-between text-white cursor-pointer px-2.5 pt-2.5 pb-2"
                                                                 @click="editSchedule(employee, employeeIndex, weekIndex, shift, shiftIndex)">
-                                                                <div v-if="shift?.is_from_lastweek" class="bg-white/20 w-4 h-4 rounded-full flex items-center justify-center flex-shrink-0">
-                                                                    <Icon name="ph:arrow-left" class="w-3 h-3 text-white" />
+                                                                <div v-if="shift?.is_from_lastweek"
+                                                                    class="bg-white/20 w-4 h-4 rounded-full flex items-center justify-center flex-shrink-0">
+                                                                    <Icon name="ph:arrow-left"
+                                                                        class="w-3 h-3 text-white" />
                                                                 </div>
-                                                                <span class="text-base font-bold text-white tracking-tight leading-none">{{ moment(shift?.date_time_start).format('HH:mm') }}</span>
-                                                                <Icon name="ph:arrow-right" class="w-3.5 h-3.5 text-white/70 flex-shrink-0 mx-1" />
-                                                                <span class="text-base font-bold text-white tracking-tight leading-none">{{ moment(shift?.date_time_end).format('HH:mm') }}</span>
-                                                                <div v-if="shift?.is_until_nextweek" class="bg-white/20 w-4 h-4 rounded-full flex items-center justify-center flex-shrink-0">
-                                                                    <Icon name="ph:arrow-right" class="w-3 h-3 text-white" />
+                                                                <span
+                                                                    class="text-base font-bold text-white tracking-tight leading-none">{{
+                                                                        moment(shift?.date_time_start).format('HH:mm')
+                                                                    }}</span>
+                                                                <Icon name="ph:arrow-right"
+                                                                    class="w-3.5 h-3.5 text-white/70 flex-shrink-0 mx-1" />
+                                                                <span
+                                                                    class="text-base font-bold text-white tracking-tight leading-none">{{
+                                                                        moment(shift?.date_time_end).format('HH:mm')
+                                                                    }}</span>
+                                                                <div v-if="shift?.is_until_nextweek"
+                                                                    class="bg-white/20 w-4 h-4 rounded-full flex items-center justify-center flex-shrink-0">
+                                                                    <Icon name="ph:arrow-right"
+                                                                        class="w-3 h-3 text-white" />
                                                                 </div>
                                                             </div>
                                                             <div class="mx-2.5 border-t border-white/20 mb-1.5"></div>
-                                                            <div class="flex items-center gap-1 px-2.5 pb-1.5" v-if="shift?.shift_span_position">
-                                                                <div v-if="shift.shift_span_position==='start'" class="flex items-center gap-1 bg-white/20 rounded-full px-2 py-0.5">
-                                                                    <Icon name="ph:arrow-right" class="w-3 h-3 text-white flex-shrink-0" />
-                                                                    <span class="text-xxs font-medium" style="color:white">{{ $t('dutySchedules.shiftSpan.start') }}</span>
+                                                            <div class="flex items-center gap-1 px-2.5 pb-1.5"
+                                                                v-if="shift?.shift_span_position">
+                                                                <div v-if="shift.shift_span_position === 'start'"
+                                                                    class="flex items-center gap-1 bg-white/20 rounded-full px-2 py-0.5">
+                                                                    <Icon name="ph:arrow-right"
+                                                                        class="w-3 h-3 text-white flex-shrink-0" />
+                                                                    <span class="text-xxs font-medium"
+                                                                        style="color:white">{{
+                                                                            $t('dutySchedules.shiftSpan.start') }}</span>
                                                                 </div>
-                                                                <div v-if="shift.shift_span_position==='middle'" class="flex items-center gap-1 bg-white/20 rounded-full px-2 py-0.5">
-                                                                    <Icon name="ph:arrows-horizontal" class="w-3 h-3 text-white flex-shrink-0" />
-                                                                    <span class="text-xxs font-medium" style="color:white">{{ $t('dutySchedules.shiftSpan.middle') }}</span>
+                                                                <div v-if="shift.shift_span_position === 'middle'"
+                                                                    class="flex items-center gap-1 bg-white/20 rounded-full px-2 py-0.5">
+                                                                    <Icon name="ph:arrows-horizontal"
+                                                                        class="w-3 h-3 text-white flex-shrink-0" />
+                                                                    <span class="text-xxs font-medium"
+                                                                        style="color:white">{{
+                                                                            $t('dutySchedules.shiftSpan.middle') }}</span>
                                                                 </div>
-                                                                <div v-if="shift.shift_span_position==='end'" class="flex items-center gap-1 bg-white/20 rounded-full px-2 py-0.5">
-                                                                    <Icon name="ph:arrow-left" class="w-3 h-3 text-white flex-shrink-0" />
-                                                                    <span class="text-xxs font-medium" style="color:white">{{ $t('dutySchedules.shiftSpan.end') }}</span>
+                                                                <div v-if="shift.shift_span_position === 'end'"
+                                                                    class="flex items-center gap-1 bg-white/20 rounded-full px-2 py-0.5">
+                                                                    <Icon name="ph:arrow-left"
+                                                                        class="w-3 h-3 text-white flex-shrink-0" />
+                                                                    <span class="text-xxs font-medium"
+                                                                        style="color:white">{{
+                                                                            $t('dutySchedules.shiftSpan.end') }}</span>
                                                                 </div>
                                                             </div>
-                                                            <div v-if="shift&&shift.citizen_schedules&&shift.citizen_schedules.length>0" class="flex flex-wrap gap-1 px-2.5 pb-1.5">
-                                                                <div v-for="(cs,csIdx) in shift.citizen_schedules" :key="csIdx" class="flex items-center gap-1 bg-white rounded-full pl-0.5 pr-2 py-0.5">
-                                                                    <div class="w-4 h-4 rounded-full bg-gray-200 flex items-center justify-center flex-shrink-0">
-                                                                        <span class="font-bold text-gray-600" style="font-size:9px">{{ (cs?.citizen?.firstname?.charAt(0)||'')+(cs?.citizen?.lastname?.charAt(0)||'') }}</span>
+                                                            <div v-if="shift && shift.citizen_schedules && shift.citizen_schedules.length > 0"
+                                                                class="flex flex-wrap gap-1 px-2.5 pb-1.5">
+                                                                <div v-for="(cs, csIdx) in shift.citizen_schedules"
+                                                                    :key="csIdx"
+                                                                    class="flex items-center gap-1 bg-white rounded-full pl-0.5 pr-2 py-0.5">
+                                                                    <div
+                                                                        class="w-4 h-4 rounded-full bg-gray-200 flex items-center justify-center flex-shrink-0">
+                                                                        <span class="font-bold text-gray-600"
+                                                                            style="font-size:9px">{{
+                                                                                (cs?.citizen?.firstname?.charAt(0) || '') +
+                                                                                (cs?.citizen?.lastname?.charAt(0) || '')
+                                                                            }}</span>
                                                                     </div>
-                                                                    <span class="text-xxs font-semibold text-gray-700 leading-none">{{ cs?.citizen?.firstname }} {{ cs?.citizen?.lastname?.charAt(0) }}.</span>
+                                                                    <span
+                                                                        class="text-xxs font-semibold text-gray-700 leading-none">{{
+                                                                            cs?.citizen?.firstname }} {{
+                                                                            cs?.citizen?.lastname?.charAt(0) }}.</span>
                                                                 </div>
                                                             </div>
-                                                            <div class="flex flex-col gap-0.5 px-2.5 pb-1.5" v-if="shift?.departments?.length > 0">
-                                                                <div v-for="(dept, dIdx) in shift.departments" :key="dIdx" class="flex items-center gap-1">
-                                                                    <Icon name="ph:house" class="w-3 h-3 flex-shrink-0 text-white" />
-                                                                    <span class="text-xxs font-medium" style="color:white">{{ dept.name }}</span>
+                                                            <div class="flex flex-col gap-0.5 px-2.5 pb-1.5"
+                                                                v-if="shift?.departments?.length > 0">
+                                                                <div v-for="(dept, dIdx) in shift.departments"
+                                                                    :key="dIdx" class="flex items-center gap-1">
+                                                                    <Icon name="ph:house"
+                                                                        class="w-3 h-3 flex-shrink-0 text-white" />
+                                                                    <span class="text-xxs font-medium"
+                                                                        style="color:white">{{ dept.name }}</span>
                                                                 </div>
                                                             </div>
-                                                            <div class="flex items-center flex-wrap gap-1 px-2.5 pb-2" v-if="shift?.tags?.length > 0">
-                                                                <Tooltip :text="tag&&tag.tag?tag.tag:''"
+                                                            <div class="flex items-center flex-wrap gap-1 px-2.5 pb-2"
+                                                                v-if="shift?.tags?.length > 0">
+                                                                <Tooltip :text="tag && tag.tag ? tag.tag : ''"
                                                                     v-for="(tag, tagIndex) in shift?.tags"
                                                                     :key="tagIndex">
                                                                     <div class="w-5 h-5 rounded-full flex items-center justify-center font-bold text-white shadow-sm"
-                                                                        :style="{ backgroundColor: tag&&tag.tag?tag.color:'#888', fontSize: '10px' }">
-                                                                        <span v-if="tag&&tag.tag">{{ tag.tag.charAt(0) }}</span>
+                                                                        :style="{ backgroundColor: tag && tag.tag ? tag.color : '#888', fontSize: '10px' }">
+                                                                        <span v-if="tag && tag.tag">{{ tag.tag.charAt(0)
+                                                                            }}</span>
                                                                     </div>
                                                                 </Tooltip>
                                                             </div>
                                                             <Tooltip v-if="shift && shift.note && shift.note.trim()"
                                                                 :text="`${$t('dutySchedules.shiftNote')}: ${shift.note}`"
                                                                 position="left" :wrap="true">
-                                                                <div class="flex items-center gap-1 px-2.5 pb-1.5 cursor-help">
-                                                                    <Icon name="ph:note" class="w-3 h-3 flex-shrink-0" style="color:white" />
-                                                                    <span class="text-xxs font-medium truncate" style="color:white;max-width:120px">{{ shift.note }}</span>
+                                                                <div
+                                                                    class="flex items-center gap-1 px-2.5 pb-1.5 cursor-help">
+                                                                    <Icon name="ph:note" class="w-3 h-3 flex-shrink-0"
+                                                                        style="color:white" />
+                                                                    <span class="text-xxs font-medium truncate"
+                                                                        style="color:white;max-width:120px">{{
+                                                                            shift.note }}</span>
                                                                 </div>
                                                             </Tooltip>
                                                             <button
@@ -775,18 +882,16 @@
             <ModulesUserDutyScheduleModalNewShift :isModalOpen="state.modal.isAddShiftOpen"
                 :isModalLoading="state.isModalLoading" :error="state.newShiftError"
                 :selectedDate="state.newShift.selectedDate" :selectedEmployee="state.newShift.selectedEmployee"
-                :shiftWarnings="state.shiftWarnings"
-                @dateTimeChange="dateTimeChange"
+                :shiftWarnings="state.shiftWarnings" @dateTimeChange="dateTimeChange"
                 @close="state.modal.isAddShiftOpen = false" @saveShift="saveShift"
                 @resetNewShiftError="state.newShiftError = {}" @resetShiftWarnings="state.shiftWarnings = []" />
             <ModulesUserDutyScheduleModalEditShift :isModalOpen="state.modal.isEditShiftOpen"
                 :isModalLoading="state.isModalLoading" :error="state.editShiftError"
                 :selectedEmployee="state.editShift.selectedEmployee"
                 :selectedEmployeeSchedule="state.editShift.selectedEmployeeSchedule"
-                :shiftWarnings="state.shiftWarnings"
-                @dateTimeChange="dateTimeChange"
-                @close="state.modal.isEditShiftOpen = false; state.shiftWarnings = []" @resetEditShiftError="state.editShiftError = {}"
-                @updateShift="updateSelectedSchedule" />
+                :shiftWarnings="state.shiftWarnings" @dateTimeChange="dateTimeChange"
+                @close="state.modal.isEditShiftOpen = false; state.shiftWarnings = []"
+                @resetEditShiftError="state.editShiftError = {}" @updateShift="updateSelectedSchedule" />
             <ModulesUserDutyScheduleDraftModalCopyMultipleWeeks
                 :isModalOpen="state.modal.isCopyMultipleWeeklyScheduleOpen"
                 @close="state.modal.isCopyMultipleWeeklyScheduleOpen = false"
@@ -794,12 +899,16 @@
             <ModulesUserDutyScheduleExtraHoursModalView :isModalOpen="state.modal.isManageExtraHoursOpen"
                 :selectedEmployee="state.manageExtraHours.selectedEmployee"
                 @close="state.modal.isManageExtraHoursOpen = false" @refreshDutySchedules="fetchDraftDutySchedule()" />
-            <ModulesUserDutyScheduleDraftScheduleSlotsModalScheduleSlots :isModalOpen="state.modal.isManageScheduleSlotOpen"
-                :selectedDay="state.manageScheduleSlot.selectedDay"
-                @close="state.modal.isManageScheduleSlotOpen = false" @refreshDutySchedules="fetchDraftDutySchedule()" />
+            <ModulesUserDutyScheduleDraftScheduleSlotsModalScheduleSlots
+                :isModalOpen="state.modal.isManageScheduleSlotOpen" :selectedDay="state.manageScheduleSlot.selectedDay"
+                @close="state.modal.isManageScheduleSlotOpen = false"
+                @refreshDutySchedules="fetchDraftDutySchedule()" />
             <ModulesUserDutyScheduleDraftModalShiftTypes :isModalOpen="state.modal.isShowDistributionOfShiftTypes"
                 :selectedEmployee="state.shiftTypesDistribution.selectedEmployee"
                 @close="state.modal.isShowDistributionOfShiftTypes = false" />
+            <ModulesUserDutyScheduleModalTimeRangeFilter :isModalOpen="state.modal.isTimeRangeFilterOpen"
+                :timeFrom="state.filter.time_from" :timeTo="state.filter.time_to"
+                @close="state.modal.isTimeRangeFilterOpen = false" @setTimeRange="setTimeRange" />
         </LoadingSpinner>
     </div>
 </template>
@@ -866,6 +975,8 @@ const state = reactive({
         department_uuids: [],
         employment_status: [],
         employee_uuids: [],
+        time_from: '',
+        time_to: '',
     },
     editShift: {
         selectedEmployee: {},
@@ -895,6 +1006,7 @@ const state = reactive({
         isVacationHoursOpen: false,
         isAnnualNormHoursInfoOpen: false,
         isShowDistributionOfShiftTypes: false,
+        isTimeRangeFilterOpen: false,
     } as any,
     newShift: {
         selectedDate: '',
@@ -1150,6 +1262,12 @@ async function fetchDraftDutySchedule() {
         if (state.filter.employee_uuids?.length > 0) {
             params.employee_uuids = Array(state.filter.employee_uuids)
         }
+        if (state.filter.time_from) {
+            params.time_from = state.filter.time_from
+        }
+        if (state.filter.time_to) {
+            params.time_to = state.filter.time_to
+        }
         const response = await draftScheduleService.getDraftDutySchedules(params)
         if (response) {
             state.weeklySchedules = response
@@ -1346,7 +1464,7 @@ async function onDrop(e: DragEvent, tEmp: any, tWi: any) {
     const sh = _dragShift
     // Find dato fra weekDays computed array (virker uanset om medarbejder har vagter)
     // Hent dato fra weekDays computed (primær) eller DOM data-attribut (fallback)
-    const weekDaysOrder = ['monday','tuesday','wednesday','thursday','friday','saturday','sunday']
+    const weekDaysOrder = ['monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday', 'sunday']
     const dayIdx = weekDaysOrder.indexOf(String(tWi))
     const fromWeekDays = weekDays.value?.[dayIdx]?.fullDate?.format('YYYY-MM-DD')
     const fromWeeks = tEmp?.weeks?.[tWi]?.date
@@ -1791,6 +1909,14 @@ function setFilter(filter: any) {
     state.filter.department_uuids = filter.department_uuids
     state.filter.employment_status = filter.employment_status
     state.filter.employee_uuids = filter.employee_uuids
+    state.filter.time_from = filter.time_from ?? ''
+    state.filter.time_to = filter.time_to ?? ''
+    fetchDraftDutySchedule()
+}
+
+function setTimeRange({ time_from, time_to }: { time_from: string; time_to: string }) {
+    state.filter.time_from = time_from
+    state.filter.time_to = time_to
     fetchDraftDutySchedule()
 }
 </script>

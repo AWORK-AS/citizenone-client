@@ -366,7 +366,7 @@ async function executeSearch() {
     try {
         const params = {
             search: JSON.stringify([query]),
-            page_length: 5,
+            page_length: 100,
         }
         const result = await generalSearchService.search(params, signal)
         state.searchResults = result

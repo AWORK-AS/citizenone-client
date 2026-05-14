@@ -33,6 +33,26 @@
                                 Upload senere.
                             </span>
                         </p>
+                        <p v-if="language.locale.value === 'no'">
+                            <span class="text-red-700">
+                                OBS: Det er registrert en borger under 18 år, men den tilknyttede ansatte har ikke
+                                et gyldig politiattest lastet opp på sin brukerkonto.
+                            </span>
+                            <span class="cursor-pointer text-primary hover:text-primary-700"
+                                @click="state.showChildProtectionCertificateWarning = false">
+                                Last opp senere.
+                            </span>
+                        </p>
+                        <p v-if="language.locale.value === 'sv'">
+                            <span class="text-red-700">
+                                OBS: En medborgare under 18 år har registrerats, men den tilldelade anställde har inget
+                                giltigt utdrag ur belastningsregistret uppladdat på sitt användarkonto.
+                            </span>
+                            <span class="cursor-pointer text-primary hover:text-primary-700"
+                                @click="state.showChildProtectionCertificateWarning = false">
+                                Ladda upp senare.
+                            </span>
+                        </p>
                     </div>
                 </div>
             </div>
@@ -570,18 +590,29 @@ watch(() => state.formShift.shift_type, (selectedShift) => {
         const startDate = moment(props.selectedShift.date_time_start, 'YYYY-MM-DD H:mm')
         const endDate = moment(props.selectedShift.date_time_end, 'YYYY-MM-DD H:mm')
 
+        const shiftOption = state.options.shifts[selectShiftIndex]
+
         if (isVacationLeave.value) {
             state.formShift.date_time_start = startDate.format('YYYY-MM-DD')
             state.formShift.date_time_end = endDate.format('YYYY-MM-DD')
+        } else if (shiftOption?.system_name === 'sleeping-night-shift' && shiftOption?.end_time_day_offset != null) {
+            state.formShift.date_time_start = moment(
+                startDate.format('YYYY-MM-DD') + ' ' + shiftOption.time_in,
+                'YYYY-MM-DD HH:mm:ss'
+            ).format('YYYY-MM-DD H:mm')
+            const offset = shiftOption.end_time_day_offset
+            state.formShift.date_time_end = moment(
+                startDate.clone().add(offset, 'days').format('YYYY-MM-DD') + ' ' + shiftOption.time_out,
+                'YYYY-MM-DD HH:mm:ss'
+            ).format('YYYY-MM-DD H:mm')
         } else {
             state.formShift.date_time_start = moment(
-                startDate.format('YYYY-MM-DD') + ' ' + state.options.shifts[selectShiftIndex]?.time_in,
-                'YYYY-MM-DD HH:mm'
+                startDate.format('YYYY-MM-DD') + ' ' + shiftOption?.time_in,
+                'YYYY-MM-DD HH:mm:ss'
             ).format('YYYY-MM-DD H:mm')
-
             state.formShift.date_time_end = moment(
-                endDate.format('YYYY-MM-DD') + ' ' + state.options.shifts[selectShiftIndex]?.time_out,
-                'YYYY-MM-DD HH:mm'
+                endDate.format('YYYY-MM-DD') + ' ' + shiftOption?.time_out,
+                'YYYY-MM-DD HH:mm:ss'
             ).format('YYYY-MM-DD H:mm')
         }
     }
@@ -591,6 +622,14 @@ watch(() => state.formShift.shift_type, (selectedShift) => {
 
 watch(() => state.formShift.date_time_start, () => {
     if (!state.formShift.shift_type) return
+    if (isSleepingNightShift.value && selectedShiftOption.value?.end_time_day_offset != null) {
+        const offset = selectedShiftOption.value.end_time_day_offset
+        const timeOut = selectedShiftOption.value.time_out
+        state.formShift.date_time_end = moment(
+            moment(state.formShift.date_time_start, 'YYYY-MM-DD H:mm').clone().add(offset, 'days').format('YYYY-MM-DD') + ' ' + timeOut,
+            'YYYY-MM-DD HH:mm:ss'
+        ).format('YYYY-MM-DD H:mm')
+    }
     emit('dateTimeChange', props.selectedEmployee.uuid, state.formShift.date_time_start, state.formShift.date_time_end)
 })
 
@@ -614,21 +653,29 @@ const isVacationLeave = computed(() => {
     return ['vacation-leave'].includes(state.options.shifts.find((shift: any) => shift.value === state.formShift.shift_type)?.system_name)
 })
 
+const selectedShiftOption = computed(() =>
+    state.options.shifts.find((shift: any) => shift.value === state.formShift.shift_type) ?? null
+)
+
+const isSleepingNightShift = computed(() =>
+    selectedShiftOption.value?.system_name === 'sleeping-night-shift'
+)
+
 const rules = computed(() => {
     if (isVacationLeave.value) {
         return {
             formShift: {
                 shift_type: {
-                    required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
+                    required: helpers.withMessage(() => `${t('validation.thisFieldIsRequired')}.`, required),
                 },
                 department_uuid: {
-                    required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
+                    required: helpers.withMessage(() => `${t('validation.thisFieldIsRequired')}.`, required),
                 },
                 date_time_start: {
-                    required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
+                    required: helpers.withMessage(() => `${t('validation.thisFieldIsRequired')}.`, required),
                 },
                 date_time_end: {
-                    required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
+                    required: helpers.withMessage(() => `${t('validation.thisFieldIsRequired')}.`, required),
                 },
             },
         }
@@ -638,20 +685,20 @@ const rules = computed(() => {
         return {
             formShift: {
                 shift_type: {
-                    required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
+                    required: helpers.withMessage(() => `${t('validation.thisFieldIsRequired')}.`, required),
                 },
                 date_time_start: {
-                    required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
+                    required: helpers.withMessage(() => `${t('validation.thisFieldIsRequired')}.`, required),
                 },
                 date_time_end: {
-                    required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
+                    required: helpers.withMessage(() => `${t('validation.thisFieldIsRequired')}.`, required),
                 },
                 recurring: {
                     recurring: {
-                        required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
+                        required: helpers.withMessage(() => `${t('validation.thisFieldIsRequired')}.`, required),
                     },
                     recurring_until: {
-                        required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
+                        required: helpers.withMessage(() => `${t('validation.thisFieldIsRequired')}.`, required),
                     },
                 }
             },
@@ -660,13 +707,13 @@ const rules = computed(() => {
         return {
             formShift: {
                 shift_type: {
-                    required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
+                    required: helpers.withMessage(() => `${t('validation.thisFieldIsRequired')}.`, required),
                 },
                 date_time_start: {
-                    required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
+                    required: helpers.withMessage(() => `${t('validation.thisFieldIsRequired')}.`, required),
                 },
                 date_time_end: {
-                    required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
+                    required: helpers.withMessage(() => `${t('validation.thisFieldIsRequired')}.`, required),
                 },
             },
         }
@@ -735,10 +782,14 @@ async function fetchAllShifts() {
             response.data.forEach(
                 (shift: any) => options.push({
                     value: shift?.uuid,
-                    label: language.locale.value === 'en' ? shift?.en_name : shift?.dk_name,
+                    label: language.locale.value === 'en' ? shift?.en_name :
+                        language.locale.value === 'no' ? shift?.no_name :
+                            language.locale.value === 'sv' ? shift?.sv_name :
+                                shift?.dk_name,
                     system_name: shift?.system_name,
                     time_in: shift?.time_in,
                     time_out: shift?.time_out,
+                    end_time_day_offset: shift?.end_time_day_offset,
                 })
             )
             state.options.shifts = options

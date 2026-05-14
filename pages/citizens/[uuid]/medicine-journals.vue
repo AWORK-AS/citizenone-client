@@ -301,6 +301,7 @@
                             </div>
 
                             <div v-for="(medicine, medicineIndex) in filteredRegularMedicines" :key="medicine.uuid"
+                                :data-uuid="medicine.uuid"
                                 :class="['border-b border-gray-100 last:border-b-0', (medicineIndex as number) % 2 === 1 ? 'bg-gray-50/50' : 'bg-white', medicine.is_deactivated ? 'opacity-40' : '']"
                                 :style="gridStyle(timeColumns.length)">
 
@@ -311,14 +312,12 @@
                                     <div class="min-w-0 flex-1">
                                         <div class="flex items-center gap-1.5 min-w-0">
                                             <p class="text-sm font-medium text-gray-900 truncate">
-                                                {{
-                                                    language.locale.value === 'en' ?
-                                                        medicine?.medicine?.en_name :
-                                                        medicine?.medicine?.dk_name
-                                                }}
+                                                {{ getMedicineName(medicine) }}
                                             </p>
-                                            <Tooltip v-if="medicine?.description" :text="medicine.description" :wrap="true" class="shrink-0">
-                                                <Icon name="ph:info" class="size-3.5 text-primary/60 hover:text-primary cursor-default" />
+                                            <Tooltip v-if="medicine?.description" :text="medicine.description"
+                                                :wrap="true" class="shrink-0">
+                                                <Icon name="ph:info"
+                                                    class="size-3.5 text-primary/60 hover:text-primary cursor-default" />
                                             </Tooltip>
                                         </div>
                                         <p class="text-xs text-gray-500">
@@ -421,7 +420,7 @@
                                                 </span>
                                             </button>
                                         </Tooltip>
-                                        <span class="text-xs text-center"
+                                        <span class="text-xs text-center truncate"
                                             :class="getSlotTimeClass(getDosageForTime(medicine, time), time)">
                                             {{ getSlotTimeLabel(getDosageForTime(medicine, time), time) }}
                                         </span>
@@ -448,7 +447,7 @@
                                     class="size-4 text-gray-400" />
                             </button>
                             <div v-if="state.pnExpanded">
-                                <div v-for="medicine in pnMedicines" :key="medicine.uuid"
+                                <div v-for="medicine in pnMedicines" :key="medicine.uuid" :data-uuid="medicine.uuid"
                                     class="flex items-center gap-4 px-5 py-3 border-t border-gray-100 hover:bg-gray-50/50">
                                     <FormCheckbox :id="`pn_${medicine.uuid}`"
                                         :value="citizenMedicineStore.getSelectedMedicines?.includes(medicine.uuid)"
@@ -456,14 +455,12 @@
                                     <div class="flex-1 min-w-0">
                                         <div class="flex items-center gap-1.5 min-w-0">
                                             <p class="text-sm font-medium text-gray-900">
-                                                {{
-                                                    language.locale.value === 'en' ?
-                                                        medicine?.medicine?.en_name :
-                                                        medicine?.medicine?.dk_name
-                                                }}
+                                                {{ getMedicineName(medicine) }}
                                             </p>
-                                            <Tooltip v-if="medicine?.description" :text="medicine.description" :wrap="true" class="shrink-0">
-                                                <Icon name="ph:info" class="size-3.5 text-primary/60 hover:text-primary cursor-default" />
+                                            <Tooltip v-if="medicine?.description" :text="medicine.description"
+                                                :wrap="true" class="shrink-0">
+                                                <Icon name="ph:info"
+                                                    class="size-3.5 text-primary/60 hover:text-primary cursor-default" />
                                             </Tooltip>
                                         </div>
                                         <p class="text-xs text-gray-500">
@@ -583,14 +580,12 @@
                                             width="15%">
                                             <div class="flex items-center gap-1 min-w-0">
                                                 <p class="truncate max-w-36">
-                                                    {{
-                                                        language.locale.value === 'en' ?
-                                                            medicine?.medicine?.en_name :
-                                                            medicine?.medicine?.dk_name
-                                                    }}
+                                                    {{ getMedicineName(medicine) }}
                                                 </p>
-                                                <Tooltip v-if="medicine?.description" :text="medicine.description" :wrap="true" class="shrink-0">
-                                                    <Icon name="ph:info" class="size-3.5 text-primary/60 hover:text-primary cursor-default" />
+                                                <Tooltip v-if="medicine?.description" :text="medicine.description"
+                                                    :wrap="true" class="shrink-0">
+                                                    <Icon name="ph:info"
+                                                        class="size-3.5 text-primary/60 hover:text-primary cursor-default" />
                                                 </Tooltip>
                                             </div>
                                             <p class="text-xxs text-gray-400">
@@ -694,11 +689,7 @@
                                             <div :class="['px-2 py-1', getMonthSlotBgClass(dosage.status, dosage.time, day.dateStr)]"
                                                 style="font-size:10px;line-height:1.4">
                                                 <p class="font-medium">
-                                                    {{
-                                                        language.locale.value === 'en' ?
-                                                            medicine?.medicine?.en_name :
-                                                            medicine?.medicine?.dk_name
-                                                    }}
+                                                    {{ getMedicineName(medicine) }}
                                                 </p>
                                                 <p class="text-gray-500">
                                                     {{ medicine?.medicine?.ingredients }}
@@ -764,14 +755,12 @@
                                             <div class="min-w-0">
                                                 <div class="flex items-center gap-1.5 min-w-0">
                                                     <p class="text-sm font-semibold text-gray-900 truncate">
-                                                        {{
-                                                            language.locale.value === 'en' ?
-                                                                medicine?.medicine?.en_name :
-                                                                medicine?.medicine?.dk_name
-                                                        }}
+                                                        {{ getMedicineName(medicine) }}
                                                     </p>
-                                                    <Tooltip v-if="medicine?.description" :text="medicine.description" :wrap="true" class="shrink-0">
-                                                        <Icon name="ph:info" class="size-3.5 text-primary/60 hover:text-primary cursor-default" />
+                                                    <Tooltip v-if="medicine?.description" :text="medicine.description"
+                                                        :wrap="true" class="shrink-0">
+                                                        <Icon name="ph:info"
+                                                            class="size-3.5 text-primary/60 hover:text-primary cursor-default" />
                                                     </Tooltip>
                                                 </div>
                                                 <p class="text-xs text-gray-400 truncate mt-0.5">
@@ -807,7 +796,7 @@
                                     </td>
                                     <td width="28%">
                                         <p class="text-sm">
-                                            {{ medicine?.dosage?.name ?? medicine?.dosage?.dk_name }}
+                                            {{ getDosageName(medicine) }}
                                         </p>
                                         <p class="text-xs text-gray-500">
                                             {{ formatScheduleFrequency(medicine) }}
@@ -990,13 +979,38 @@ const customPagesStore = useCustomPagesStore() as any
 const citizenMedicineStore = useCitizenMedicineStore() as any
 const language = useI18n()
 
-const intlLocale = computed(() => language.locale.value === 'dk' ? 'da-DK' : 'en-GB')
+const intlLocale = computed(() =>
+    language.locale.value === 'dk' ? 'da-DK' :
+        language.locale.value === 'no' ? 'nb-NO' :
+            language.locale.value === 'sv' ? 'sv-SE' :
+                'en-GB'
+)
 
 const weekDayHeaders = computed(() =>
     language.locale.value === 'dk'
         ? ['Man', 'Tir', 'Ons', 'Tor', 'Fre', 'Lør', 'Søn']
-        : ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun']
+        : language.locale.value === 'no'
+            ? ['Man', 'Tir', 'Ons', 'Tor', 'Fre', 'Lør', 'Søn']
+            : language.locale.value === 'sv'
+                ? ['Mån', 'Tis', 'Ons', 'Tor', 'Fre', 'Lör', 'Sön']
+                : ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun']
 )
+
+function getMedicineName(medicine: any): string {
+    const locale = language.locale.value
+    if (locale === 'en') return medicine?.medicine?.en_name ?? ''
+    if (locale === 'no') return medicine?.medicine?.no_name ?? medicine?.medicine?.dk_name ?? ''
+    if (locale === 'sv') return medicine?.medicine?.sv_name ?? medicine?.medicine?.dk_name ?? ''
+    return medicine?.medicine?.dk_name ?? ''
+}
+
+function getDosageName(medicine: any): string {
+    const locale = language.locale.value
+    if (locale === 'en') return medicine?.dosage?.en_name ?? medicine?.dosage?.dk_name ?? ''
+    if (locale === 'no') return medicine?.dosage?.no_name ?? medicine?.dosage?.dk_name ?? ''
+    if (locale === 'sv') return medicine?.dosage?.sv_name ?? medicine?.dosage?.dk_name ?? ''
+    return medicine?.dosage?.dk_name ?? medicine?.dosage?.en_name ?? ''
+}
 const router = useRouter()
 const citizenUuid = router?.currentRoute?.value?.params?.uuid
 let currentTablePage = 1
@@ -1016,7 +1030,7 @@ const state = reactive({
     viewMode: 'day',
     statsFilter: null as string | null,
     columnHeaders: [
-        { name: 'citizens.medicineJournals.table.medicine', isTranslateName: true, sorter: true, key: language.locale.value === 'en' ? 'en_name' : 'dk_name' },
+        { name: 'citizens.medicineJournals.table.medicine', isTranslateName: true, sorter: true, key: language.locale.value === 'en' ? 'en_name' : language.locale.value === 'no' ? 'no_name' : language.locale.value === 'sv' ? 'sv_name' : 'dk_name' },
         { name: 'citizens.medicineJournals.table.strength', isTranslateName: true },
         { name: 'citizens.medicineJournals.table.maxDailyDose', isTranslateName: true },
         { name: 'citizens.medicineJournals.table.dosageForm', isTranslateName: true, sorter: true, key: 'max_daily_dose' },
@@ -1171,7 +1185,7 @@ const alarmBanners = computed(() => {
     const banners: any[] = []
     const today = moment().format('YYYY-MM-DD')
     regularMedicines.value.forEach((m: any) => {
-        const name = language.locale.value === 'en' ? m?.medicine?.en_name : m?.medicine?.dk_name
+        const name = getMedicineName(m)
         const entries: any[] = m?.dosage_status_by_date?.[today] ?? []
         entries.forEach((d: any) => {
             if (d?.status) return

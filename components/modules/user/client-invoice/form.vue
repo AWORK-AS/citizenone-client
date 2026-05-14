@@ -161,7 +161,7 @@ const rules = computed(() => {
     return {
         formInvoice: {
             bill_to_name: {
-                required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
+                required: helpers.withMessage(() => `${t('validation.thisFieldIsRequired')}.`, required),
             },
         },
     }

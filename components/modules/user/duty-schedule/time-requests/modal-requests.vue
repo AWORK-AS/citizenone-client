@@ -16,8 +16,12 @@
                                     v-if="!(state.isTableLoading || (state.scheduleRequests?.data?.length === 0))">
                                     <tr v-for="(request, index) in state.scheduleRequests?.data" :key="index">
                                         <td width="15%">
-                                            {{ language.locale.value === 'en' ? request?.schedule?.shift?.en_name :
-                                                request?.schedule?.shift?.dk_name }}
+                                            {{
+                                                language.locale.value === 'en' ? request?.schedule?.shift?.en_name :
+                                                    language.locale.value === 'no' ? request?.schedule?.shift?.no_name :
+                                                        language.locale.value === 'sv' ? request?.schedule?.shift?.sv_name :
+                                                            request?.schedule?.shift?.dk_name
+                                            }}
                                         </td>
                                         <td width="20%">
                                             <span>{{ moment(request?.schedule?.time_in, "HH:mm").format('HH:mm')

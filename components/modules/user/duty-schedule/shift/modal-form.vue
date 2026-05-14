@@ -18,6 +18,20 @@
                 <FormError :error="props?.error?.errors?.dk_name?.[0]" />
             </div>
             <div class="space-y-1">
+                <FormLabel for="no_name" :label="$t('shifts.form.nameNorwegian')" />
+                <FormTextField id="no_name" name="no_name" :placeholder="$t('shifts.form.nameNorwegian')"
+                    v-model="state.formShift.no_name" />
+                <FormError :error="v$?.formShift?.no_name?.$errors[0]?.$message.toString()" />
+                <FormError :error="props?.error?.errors?.no_name?.[0]" />
+            </div>
+            <div class="space-y-1">
+                <FormLabel for="sv_name" :label="$t('shifts.form.nameSwedish')" />
+                <FormTextField id="sv_name" name="sv_name" :placeholder="$t('shifts.form.nameSwedish')"
+                    v-model="state.formShift.sv_name" />
+                <FormError :error="v$?.formShift?.sv_name?.$errors[0]?.$message.toString()" />
+                <FormError :error="props?.error?.errors?.sv_name?.[0]" />
+            </div>
+            <div class="space-y-1">
                 <FormLabel for="pay_code" :label="$t('shifts.form.paycode')" />
                 <FormTextField id="pay_code" name="pay_code" :placeholder="$t('shifts.form.paycode')"
                     v-model="state.formShift.pay_code" />
@@ -88,6 +102,8 @@ const state = reactive({
     formShift: {
         en_name: '',
         dk_name: '',
+        no_name: '',
+        sv_name: '',
         pay_code: '',
         time_in: '',
         time_out: '',
@@ -100,6 +116,8 @@ watch(() => props.selectedAddiction, (newValue: any) => {
         state.formShift = {
             en_name: newValue.en_name,
             dk_name: newValue.dk_name,
+            no_name: newValue.no_name,
+            sv_name: newValue.sv_name,
             pay_code: newValue.pay_code,
             time_in: newValue.time_in,
             time_out: newValue.time_out,
@@ -112,19 +130,25 @@ const rules = computed(() => {
     return {
         formShift: {
             en_name: {
-                required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
+                required: helpers.withMessage(() => `${t('validation.thisFieldIsRequired')}.`, required),
             },
             dk_name: {
-                required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
+                required: helpers.withMessage(() => `${t('validation.thisFieldIsRequired')}.`, required),
+            },
+            no_name: {
+                required: helpers.withMessage(() => `${t('validation.thisFieldIsRequired')}.`, required),
+            },
+            sv_name: {
+                required: helpers.withMessage(() => `${t('validation.thisFieldIsRequired')}.`, required),
             },
             time_in: {
-                required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
+                required: helpers.withMessage(() => `${t('validation.thisFieldIsRequired')}.`, required),
             },
             time_out: {
-                required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
+                required: helpers.withMessage(() => `${t('validation.thisFieldIsRequired')}.`, required),
             },
             color: {
-                required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
+                required: helpers.withMessage(() => `${t('validation.thisFieldIsRequired')}.`, required),
             },
         },
     }

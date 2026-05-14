@@ -15,6 +15,12 @@
                 <span v-if="language.locale.value === 'dk'">
                     <h3 class="text-lg font-semibold">FindSocialeTilbud.dk er en del af CitizenOne</h3>
                 </span>
+                <span v-if="language.locale.value === 'no'">
+                    <h3 class="text-lg font-semibold">FindSocialeTilbud.dk er en del av CitizenOne.</h3>
+                </span>
+                <span v-if="language.locale.value === 'sv'">
+                    <h3 class="text-lg font-semibold">FindSocialeTilbud.dk är en del av CitizenOne.</h3>
+                </span>
                 <button type="button"
                     class="top-4 right-3 z-10 outline-none px-0 py-2 text-gray-800 hover:text-gray-700"
                     @click="$emit('button-click', '0')">
@@ -28,6 +34,12 @@
                 <span v-if="language.locale.value === 'dk'">
                     Hold din profil opdateret for at sikre, at potentielle sagsbehandlere får korrekt information.
                 </span>
+                <span v-if="language.locale.value === 'no'">
+                    Hold profilen din oppdatert for å sikre at potensielle saksbehandlere får korrekt informasjon.
+                </span>
+                <span v-if="language.locale.value === 'sv'">
+                    Håll din profil uppdaterad för att säkerställa att potentiella handläggare får korrekt information.
+                </span>
             </p>
             <ul class="list-disc list-inside text-gray-600 text-sm space-y-2">
                 <li>
@@ -37,6 +49,12 @@
                     <span v-if="language.locale.value === 'dk'">
                         Opdatér dine profiloplysninger med de nyeste informationer.
                     </span>
+                    <span v-if="language.locale.value === 'no'">
+                        Oppdater profilinformasjonen din med de nyeste opplysningene.
+                    </span>
+                    <span v-if="language.locale.value === 'sv'">
+                        Uppdatera din profilinformation med de senaste uppgifterna.
+                    </span>
                 </li>
                 <li>
                     <span v-if="language.locale.value === 'en'">
@@ -44,6 +62,12 @@
                     </span>
                     <span v-if="language.locale.value === 'dk'">
                         Tilføj relevante ydelser eller tilbud, så du når ud til de rette.
+                    </span>
+                    <span v-if="language.locale.value === 'no'">
+                        Legg til relevante tjenester eller tilbud for å nå riktig målgruppe.
+                    </span>
+                    <span v-if="language.locale.value === 'sv'">
+                        Lägg till relevanta tjänster eller erbjudanden för att nå rätt målgrupp.
                     </span>
                 </li>
             </ul>
@@ -55,6 +79,14 @@
                 <button v-if="language.locale.value === 'dk'" @click="handleNext"
                     class="px-4 py-2 bg-tertiary text-white rounded">
                     Næste
+                </button>
+                <button v-if="language.locale.value === 'no'" @click="handleNext"
+                    class="px-4 py-2 bg-tertiary text-white rounded">
+                    Neste
+                </button>
+                <button v-if="language.locale.value === 'sv'" @click="handleNext"
+                    class="px-4 py-2 bg-tertiary text-white rounded">
+                    Nästa
                 </button>
             </div>
         </div>

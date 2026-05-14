@@ -12,7 +12,7 @@
             </div>
             <div class="space-y-5">
                 <div class="bg-white ring-1 ring-gray-200 rounded-md p-5 border-l-4 border-secondary"
-                    v-for="(record, index) in state.records?.data" :key="index">
+                    v-for="(record, index) in state.records?.data" :key="index" :data-uuid="record.uuid">
                     <div class="flex flex-col md:flex-row gap-3 md:gap-10">
                         <div class="grow">
                             <p class="text-sm">
@@ -42,11 +42,16 @@
                                         <Icon name="ph:pencil-simple" class="size-4" />
                                     </FormButton>
                                 </Tooltip>
+                                <Tooltip :text="$t('citizens.nursingAreas.table.actions.viewTreatments')">
+                                    <FormButton buttonSize="sm" @click="openTreatments">
+                                        <Icon name="ph:pill" class="size-4" />
+                                    </FormButton>
+                                </Tooltip>
                             </div>
                         </div>
                     </div>
                     <div class="mt-2 space-y-1">
-                        <div class="space-y-3" :class="expandedRecords[index] ? '' : 'line-clamp-2'">
+                        <div class="space-y-3" :class="expandedRecords[index as number] ? '' : 'line-clamp-2'">
                             <div>
                                 <p class="font-bold">
                                     {{ $t('citizens.nursingAreas.form.functionalLevel') }}
@@ -247,8 +252,9 @@
                                 </p>
                             </div>
                         </div>
-                        <button @click="toggleExpanded(index)" class="mt-3 text-primary text-sm hover:text-primary-700">
-                            {{ expandedRecords[index] ?
+                        <button @click="toggleExpanded(index as number)"
+                            class="mt-3 text-primary text-sm hover:text-primary-700">
+                            {{ expandedRecords[index as number] ?
                                 $t('showLess') :
                                 $t('showMore') }}
                         </button>
@@ -335,5 +341,16 @@ function toggleExpanded(index: number) {
 function viewStatuses(record: any) {
     state.selectedRecord = record
     state.modal.isStatusOpen = true
+}
+
+async function openTreatments() {
+    await router.push({ query: { open: 'treatments' } })
+    await nextTick()
+    const el = document.getElementById('treatments-disclosure')
+    if (el) {
+        const offset = 80
+        const top = el.getBoundingClientRect().top + window.scrollY - offset
+        window.scrollTo({ top, behavior: 'smooth' })
+    }
 }
 </script>

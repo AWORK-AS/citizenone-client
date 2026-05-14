@@ -300,15 +300,18 @@
                                         {{ $t('dutySchedules.yearToDate') }}
                                     </div>
                                 </div>
-                                <div v-for="(time, timeIndex) in employee?.hours" :key="timeIndex"
+                                <div v-for="(time, timeIndex) in employee?.hours?.filter((t: any) => t?.shift?.system_name !== 'time-filter')"
+                                    :key="timeIndex"
                                     :class="[timeIndex as number % 2 ? 'bg-white' : 'bg-gray-50', 'grid grid-cols-7 text-xxs py-0.5']">
                                     <div class="col-span-3 pl-1 flex items-center gap-1 truncate">
                                         <div class="w-2 h-2 rounded-sm flex-shrink-0"
                                             :style="{ background: time?.shift?.color }"></div>
                                         <span class="truncate">
                                             {{
-                                                language.locale.value === 'en' ?
-                                                    time?.shift?.en_name : time?.shift?.dk_name
+                                                language.locale.value === 'en' ? time?.shift?.en_name :
+                                                    language.locale.value === 'no' ? time?.shift?.no_name :
+                                                        language.locale.value === 'sv' ? time?.shift?.sv_name :
+                                                            time?.shift?.dk_name
                                             }}
                                         </span>
                                     </div>
@@ -319,15 +322,44 @@
                                         {{ time?.yearly_hours }}
                                     </div>
                                 </div>
+                                <div class="grid grid-cols-7 text-xxs py-0.5 cursor-pointer hover:bg-blue-50/60 transition-colors"
+                                    @click="state.modal.isTimeRangeFilterOpen = true">
+                                    <div class="col-span-3 pl-1 flex items-center gap-1 text-gray-500 italic">
+                                        <Icon name="ph:clock" class="w-2 h-2 flex-shrink-0" />
+                                        <span class="truncate">
+                                            {{ state.filter.time_from && state.filter.time_to
+                                                ? state.filter.time_from + '–' + state.filter.time_to
+                                                : $t('dutySchedules.timeRange') }}
+                                        </span>
+                                    </div>
+                                    <div class="col-span-2 text-right pr-2 text-gray-500">
+                                        {{state.filter.time_from && state.filter.time_to
+                                            ? (employee?.hours?.find((t: any) => t?.shift?.system_name ===
+                                                'time-filter')?.monthly_hours
+                                                || employee?.hours?.find((t: any) => t?.shift?.system_name ===
+                                                    'time-filter')?.weekly_hours
+                                                || '--')
+                                            : '--'}}
+                                    </div>
+                                    <div class="col-span-2 text-right pr-2 text-gray-500 border-l border-gray-100">
+                                        {{state.filter.time_from && state.filter.time_to
+                                            ? employee?.hours?.find((t: any) => t?.shift?.system_name ===
+                                                'time-filter')?.yearly_hours ?? '--'
+                                            : '--'}}
+                                    </div>
+                                </div>
                                 <div class="grid grid-cols-7 text-xxs py-0.5 border-t border-gray-200 mt-0.5">
-                                    <div class="col-span-3 pl-1 font-bold">{{ $t('dutySchedules.total') }}:</div>
+                                    <div class="col-span-3 pl-1 font-bold">
+                                        {{ $t('dutySchedules.total') }}:
+                                    </div>
                                     <div class="col-span-2 text-right pr-2 font-bold">
-                                        {{employee?.hours?.reduce((sum, t) => sum + (parseFloat(t?.monthly_hours ||
-                                            t?.weekly_hours) || 0), 0).toFixed(2)}}
+                                        {{employee?.hours?.filter((t: any) => t?.shift?.system_name !== 'time-filter')
+                                            .reduce((sum, t) => sum + (parseFloat(t?.monthly_hours || t?.weekly_hours) ||
+                                                0), 0).toFixed(2)}}
                                     </div>
                                     <div class="col-span-2 text-right pr-2 font-bold border-l border-gray-100">
-                                        {{employee?.hours?.reduce((sum, t) => sum + (parseFloat(t?.yearly_hours) || 0),
-                                            0).toFixed(2)}}
+                                        {{employee?.hours?.filter((t: any) => t?.shift?.system_name !== 'time-filter')
+                                            .reduce((sum, t) => sum + (parseFloat(t?.yearly_hours) || 0), 0).toFixed(2)}}
                                     </div>
                                 </div>
                             </div>
@@ -631,20 +663,20 @@
                                                                 class="absolute right-0 z-[200] w-44 origin-top-right rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
                                                                 <div class="py-1">
                                                                     <MenuItem v-slot="{ active }">
-                                                                    <a :class="[active ? 'bg-gray-100 text-gray-900' : 'text-gray-700', 'block px-4 py-2 text-xs cursor-pointer']"
-                                                                        @click.stop="requestTimeAdjustment(employeeIndex as number, shift)">
-                                                                        {{
-                                                                            $t('dutySchedules.scheduleRequests.changeTime.changeTimeRequest')
-                                                                        }}
-                                                                    </a>
+                                                                        <a :class="[active ? 'bg-gray-100 text-gray-900' : 'text-gray-700', 'block px-4 py-2 text-xs cursor-pointer']"
+                                                                            @click.stop="requestTimeAdjustment(employeeIndex as number, shift)">
+                                                                            {{
+                                                                                $t('dutySchedules.scheduleRequests.changeTime.changeTimeRequest')
+                                                                            }}
+                                                                        </a>
                                                                     </MenuItem>
                                                                     <MenuItem v-slot="{ active }">
-                                                                    <a :class="[active ? 'bg-gray-100 text-gray-900' : 'text-gray-700', 'block px-4 py-2 text-xs cursor-pointer']"
-                                                                        @click.stop="requestSwapSchedule(shift)">
-                                                                        {{
-                                                                            $t('dutySchedules.scheduleRequests.swapSchedule.swapScheduleRequest')
-                                                                        }}
-                                                                    </a>
+                                                                        <a :class="[active ? 'bg-gray-100 text-gray-900' : 'text-gray-700', 'block px-4 py-2 text-xs cursor-pointer']"
+                                                                            @click.stop="requestSwapSchedule(shift)">
+                                                                            {{
+                                                                                $t('dutySchedules.scheduleRequests.swapSchedule.swapScheduleRequest')
+                                                                            }}
+                                                                        </a>
                                                                     </MenuItem>
                                                                 </div>
                                                             </MenuItems>
@@ -825,6 +857,9 @@
             @close="state.modal.isCopyMultipleWeeklyScheduleOpen = false" @refreshDutySchedules="fetchDutySchedule()" />
         <ModulesUserDutyScheduleNormHoursModalGraph :isModalOpen="state.modal.isGraphOpen"
             :selectedEmployee="state.normHours.selectedEmployee" @close="state.modal.isGraphOpen = false" />
+        <ModulesUserDutyScheduleModalTimeRangeFilter :isModalOpen="state.modal.isTimeRangeFilterOpen"
+            :timeFrom="state.filter.time_from" :timeTo="state.filter.time_to"
+            @close="state.modal.isTimeRangeFilterOpen = false" @setTimeRange="setTimeRange" />
 
         <!-- Floating stop-copying button — shown when something has been copied -->
         <Teleport to="body">
@@ -937,6 +972,8 @@ const state = reactive({
         department_uuids: [],
         employment_status: [],
         employee_uuids: [],
+        time_from: '',
+        time_to: '',
     },
     isDragging: false,
     isPageLoading: false,
@@ -982,6 +1019,7 @@ const state = reactive({
         isViewShiftOpen: false,
         isAnnualNormHoursInfoOpen: false,
         isGraphOpen: false,
+        isTimeRangeFilterOpen: false,
     } as any,
     monthlySchedules: null as any,
     newShift: {
@@ -1175,6 +1213,8 @@ async function fetchDutySchedule() {
         if (state.filter.department_uuids?.length > 0) params.department_uuids = Array(state.filter.department_uuids)
         if (state.filter.employment_status) params.employment_status = Array(state.filter.employment_status)
         if (state.filter.employee_uuids?.length > 0) params.employee_uuids = Array(state.filter.employee_uuids)
+        if (state.filter.time_from) params.time_from = state.filter.time_from
+        if (state.filter.time_to) params.time_to = state.filter.time_to
         const response = await dutyScheduleService.getDutySchedulesMonthView(params)
         if (response) {
             state.monthlySchedules = response
@@ -1811,6 +1851,13 @@ function setFilter(filter: any) {
     state.filter = filter
     state.modal.isFilterDutyScheduleOpen = false
     emit('setDutyScheduleCurrentFilter', filter)
+    fetchDutySchedule()
+}
+
+function setTimeRange({ time_from, time_to }: { time_from: string; time_to: string }) {
+    state.filter.time_from = time_from
+    state.filter.time_to = time_to
+    emit('setDutyScheduleCurrentFilter', state.filter)
     fetchDutySchedule()
 }
 

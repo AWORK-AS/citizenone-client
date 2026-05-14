@@ -107,7 +107,7 @@ const rules = computed(() => {
     return {
         formFile: {
             folder_uuid: {
-                required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
+                required: helpers.withMessage(() => `${t('validation.thisFieldIsRequired')}.`, required),
             },
         },
     }
