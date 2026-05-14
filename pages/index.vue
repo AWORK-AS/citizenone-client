@@ -263,9 +263,6 @@ const state = reactive({
 	},
 	rememberMe: false,
 	showPassword: false,
-	slideOver: {
-		isLanguageSwitcherOpen: false
-	},
 })
 
 const rules = computed(() => {
@@ -366,10 +363,6 @@ function setLang(lang: string) {
 	language.locale.value = lang
 	userStore.setLanguage(lang)
 	state.langOpen = false
-}
-
-function selectLanguage() {
-	state.slideOver.isLanguageSwitcherOpen = true
 }
 
 function identifyFlag() {
