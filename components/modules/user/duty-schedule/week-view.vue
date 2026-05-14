@@ -520,18 +520,24 @@
                                                                 'py-1'
                                                             ]">
                                                             <div class="pl-1.5 sm:pl-3">
-                                                                <Tooltip class="!block w-full"
-                                                                    :text="language.locale.value === 'en' ? time?.shift?.en_name : time?.shift?.dk_name"
-                                                                    position="right">
+                                                                <Tooltip class="!block w-full" :text="language.locale.value === 'en' ? time?.shift?.en_name :
+                                                                    language.locale.value === 'no' ? time?.shift?.no_name :
+                                                                        language.locale.value === 'sv' ? time?.shift?.sv_name :
+                                                                            time?.shift?.dk_name" position="right">
                                                                     <div class="flex items-center gap-x-1 min-w-0">
                                                                         <div class="flex-shrink-0">
                                                                             <div :class="`w-2 h-2 rounded-sm`"
                                                                                 :style="{ background: time?.shift?.color }" />
                                                                         </div>
                                                                         <div class="truncate min-w-0">
-                                                                            {{ language.locale.value === 'en' ?
-                                                                                time?.shift?.en_name :
-                                                                                time?.shift?.dk_name
+                                                                            {{
+                                                                                language.locale.value === 'en' ?
+                                                                                    time?.shift?.en_name :
+                                                                                    language.locale.value === 'no' ?
+                                                                                        time?.shift?.no_name :
+                                                                                        language.locale.value === 'sv' ?
+                                                                                            time?.shift?.sv_name :
+                                                                                            time?.shift?.dk_name
                                                                             }}
                                                                         </div>
                                                                     </div>
@@ -563,7 +569,8 @@
                                                 <div class="text-xs grid grid-cols-7 cursor-pointer hover:bg-blue-50/60 transition-colors"
                                                     @click="state.modal.isTimeRangeFilterOpen = true">
                                                     <div class="col-span-3 min-w-0">
-                                                        <div class="py-1 pl-1.5 sm:pl-3 flex items-center gap-1 text-gray-500 italic">
+                                                        <div
+                                                            class="py-1 pl-1.5 sm:pl-3 flex items-center gap-1 text-gray-500 italic">
                                                             <Icon name="ph:clock" class="w-2 h-2 flex-shrink-0" />
                                                             <span class="truncate">
                                                                 {{ state.filter.time_from && state.filter.time_to
@@ -574,16 +581,18 @@
                                                     </div>
                                                     <div class="col-span-2">
                                                         <div class="text-right py-1 pr-2 text-gray-500">
-                                                            {{ state.filter.time_from && state.filter.time_to
-                                                                ? employee?.hours?.find((t: any) => t?.shift?.system_name === 'time-filter')?.weekly_hours ?? '--'
-                                                                : '--' }}
+                                                            {{state.filter.time_from && state.filter.time_to
+                                                                ? employee?.hours?.find((t: any) => t?.shift?.system_name
+                                                                    === 'time-filter')?.weekly_hours ?? '--'
+                                                                : '--'}}
                                                         </div>
                                                     </div>
                                                     <div class="col-span-2 border-l-0.5 border-gray-200">
                                                         <div class="text-right py-1 pr-2 text-gray-500">
-                                                            {{ state.filter.time_from && state.filter.time_to
-                                                                ? employee?.hours?.find((t: any) => t?.shift?.system_name === 'time-filter')?.yearly_hours ?? '--'
-                                                                : '--' }}
+                                                            {{state.filter.time_from && state.filter.time_to
+                                                                ? employee?.hours?.find((t: any) => t?.shift?.system_name
+                                                                    === 'time-filter')?.yearly_hours ?? '--'
+                                                                : '--'}}
                                                         </div>
                                                     </div>
                                                 </div>
@@ -597,9 +606,11 @@
                                                         <div class="text-right py-1 pr-2 font-bold">
                                                             {{
                                                                 formatNumber(language.locale.value,
-                                                                    employee?.hours?.filter((t: any) => t?.shift?.system_name !== 'time-filter')
+                                                                    employee?.hours?.filter((t: any) => t?.shift?.system_name
+                                                                        !== 'time-filter')
                                                                         .reduce((sum: number, t: any) => sum +
-                                                                            (parseFloat(String(t?.weekly_hours || '0').replace(',', '.')) || 0), 0))
+                                                                            (parseFloat(String(t?.weekly_hours || '0').replace(',',
+                                                                                '.')) || 0), 0))
                                                             }}
                                                         </div>
                                                     </div>
@@ -607,9 +618,11 @@
                                                         <div class="text-right py-1 pr-2 font-bold">
                                                             {{
                                                                 formatNumber(language.locale.value,
-                                                                    employee?.hours?.filter((t: any) => t?.shift?.system_name !== 'time-filter')
+                                                                    employee?.hours?.filter((t: any) => t?.shift?.system_name
+                                                                        !== 'time-filter')
                                                                         .reduce((sum: number, t: any) => sum +
-                                                                            (parseFloat(String(t?.yearly_hours || '0').replace(',', '.')) || 0), 0))
+                                                                            (parseFloat(String(t?.yearly_hours || '0').replace(',',
+                                                                                '.')) || 0), 0))
                                                             }}
                                                         </div>
                                                     </div>
@@ -753,20 +766,20 @@
                                                                 class="absolute right-0 z-10 w-48 origin-top-right rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
                                                                 <div class="py-1">
                                                                     <MenuItem v-slot="{ active }">
-                                                                    <a :class="[active ? 'bg-gray-100 text-gray-900' : 'text-gray-700', 'block px-4 py-2 text-xs cursor-pointer']"
-                                                                        @click="viewChangeTimeRequests(employeeIndex as number, weekIndex as number, employee, weekNumber)">
-                                                                        {{
-                                                                            $t('dutySchedules.scheduleRequests.changeTime.changeTimeRequests')
-                                                                        }}
-                                                                    </a>
+                                                                        <a :class="[active ? 'bg-gray-100 text-gray-900' : 'text-gray-700', 'block px-4 py-2 text-xs cursor-pointer']"
+                                                                            @click="viewChangeTimeRequests(employeeIndex as number, weekIndex as number, employee, weekNumber)">
+                                                                            {{
+                                                                                $t('dutySchedules.scheduleRequests.changeTime.changeTimeRequests')
+                                                                            }}
+                                                                        </a>
                                                                     </MenuItem>
                                                                     <MenuItem v-slot="{ active }">
-                                                                    <a :class="[active ? 'bg-gray-100 text-gray-900' : 'text-gray-700', 'block px-4 py-2 text-xs cursor-pointer']"
-                                                                        @click="viewSwapScheduleRequests(employeeIndex as number, weekIndex as number, employee, weekNumber)">
-                                                                        {{
-                                                                            $t('dutySchedules.scheduleRequests.swapSchedule.swapScheduleRequests')
-                                                                        }}
-                                                                    </a>
+                                                                        <a :class="[active ? 'bg-gray-100 text-gray-900' : 'text-gray-700', 'block px-4 py-2 text-xs cursor-pointer']"
+                                                                            @click="viewSwapScheduleRequests(employeeIndex as number, weekIndex as number, employee, weekNumber)">
+                                                                            {{
+                                                                                $t('dutySchedules.scheduleRequests.swapSchedule.swapScheduleRequests')
+                                                                            }}
+                                                                        </a>
                                                                     </MenuItem>
                                                                 </div>
                                                             </MenuItems>
@@ -994,20 +1007,20 @@
                                                                         class="absolute right-0 z-10 w-44 origin-top-right rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
                                                                         <div class="py-1">
                                                                             <MenuItem v-slot="{ active }">
-                                                                            <a :class="[active ? 'bg-gray-100 text-gray-900' : 'text-gray-700', 'block px-4 py-2 text-xs']"
-                                                                                @click="requestTimeAdjustment(employeeIndex as number, shift)">
-                                                                                {{
-                                                                                    $t('dutySchedules.scheduleRequests.changeTime.requestAChange')
-                                                                                }}
-                                                                            </a>
+                                                                                <a :class="[active ? 'bg-gray-100 text-gray-900' : 'text-gray-700', 'block px-4 py-2 text-xs']"
+                                                                                    @click="requestTimeAdjustment(employeeIndex as number, shift)">
+                                                                                    {{
+                                                                                        $t('dutySchedules.scheduleRequests.changeTime.requestAChange')
+                                                                                    }}
+                                                                                </a>
                                                                             </MenuItem>
                                                                             <MenuItem v-slot="{ active }">
-                                                                            <a :class="[active ? 'bg-gray-100 text-gray-900' : 'text-gray-700', 'block px-4 py-2 text-xs']"
-                                                                                @click="requestSwapSchedule(shift)">
-                                                                                {{
-                                                                                    $t('dutySchedules.scheduleRequests.swapSchedule.swapThisShift')
-                                                                                }}
-                                                                            </a>
+                                                                                <a :class="[active ? 'bg-gray-100 text-gray-900' : 'text-gray-700', 'block px-4 py-2 text-xs']"
+                                                                                    @click="requestSwapSchedule(shift)">
+                                                                                    {{
+                                                                                        $t('dutySchedules.scheduleRequests.swapSchedule.swapThisShift')
+                                                                                    }}
+                                                                                </a>
                                                                             </MenuItem>
                                                                         </div>
                                                                     </MenuItems>
@@ -1098,8 +1111,8 @@
             :selectedEmployeeSchedule="state.editShift.selectedEmployeeSchedule"
             :showWarningDialog="state.showWarningDialog" :shiftWarnings="state.shiftWarnings"
             @dateTimeChange="dateTimeChange" @closeWarningDialog="closeWarningDialog"
-            @close="state.modal.isEditShiftOpen = false; state.shiftWarnings = []" @resetEditShiftError="state.editShiftError = {}"
-            @updateShift="updateSelectedSchedule" />
+            @close="state.modal.isEditShiftOpen = false; state.shiftWarnings = []"
+            @resetEditShiftError="state.editShiftError = {}" @updateShift="updateSelectedSchedule" />
         <ModulesUserDutyScheduleModalRemoveShiftConfirmation :isModalOpen="state.modal.isRemoveShiftConfirmationOpen"
             @close="state.modal.isRemoveShiftConfirmationOpen = false" @confirm="removeShift" />
         <ModulesUserDutyScheduleModalRemoveShiftSpanConfirmation

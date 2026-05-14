@@ -19,7 +19,12 @@
                         <div class="border border-white rounded-md p-2 text-white">
                             <div class="flex items-center gap-x-1">
                                 <p>
-                                    {{ language.locale.value === 'en' ? slot?.shift?.en_name : slot?.shift?.dk_name }}
+                                    {{
+                                        language.locale.value === 'en' ? slot?.shift?.en_name :
+                                            language.locale.value === 'no' ? slot?.shift?.no_name :
+                                                language.locale.value === 'sv' ? slot?.shift?.sv_name :
+                                                    slot?.shift?.dk_name
+                                    }}
                                 </p>
                                 ({{ formatDateTimeToReadable(slot?.date_time_start) + ' - ' +
                                     formatDateTimeToReadable(slot?.date_time_end) }})

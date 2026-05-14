@@ -300,15 +300,18 @@
                                         {{ $t('dutySchedules.yearToDate') }}
                                     </div>
                                 </div>
-                                <div v-for="(time, timeIndex) in employee?.hours?.filter((t: any) => t?.shift?.system_name !== 'time-filter')" :key="timeIndex"
+                                <div v-for="(time, timeIndex) in employee?.hours?.filter((t: any) => t?.shift?.system_name !== 'time-filter')"
+                                    :key="timeIndex"
                                     :class="[timeIndex as number % 2 ? 'bg-white' : 'bg-gray-50', 'grid grid-cols-7 text-xxs py-0.5']">
                                     <div class="col-span-3 pl-1 flex items-center gap-1 truncate">
                                         <div class="w-2 h-2 rounded-sm flex-shrink-0"
                                             :style="{ background: time?.shift?.color }"></div>
                                         <span class="truncate">
                                             {{
-                                                language.locale.value === 'en' ?
-                                                    time?.shift?.en_name : time?.shift?.dk_name
+                                                language.locale.value === 'en' ? time?.shift?.en_name :
+                                                    language.locale.value === 'no' ? time?.shift?.no_name :
+                                                        language.locale.value === 'sv' ? time?.shift?.sv_name :
+                                                            time?.shift?.dk_name
                                             }}
                                         </span>
                                     </div>
@@ -330,16 +333,19 @@
                                         </span>
                                     </div>
                                     <div class="col-span-2 text-right pr-2 text-gray-500">
-                                        {{ state.filter.time_from && state.filter.time_to
-                                            ? (employee?.hours?.find((t: any) => t?.shift?.system_name === 'time-filter')?.monthly_hours
-                                                || employee?.hours?.find((t: any) => t?.shift?.system_name === 'time-filter')?.weekly_hours
+                                        {{state.filter.time_from && state.filter.time_to
+                                            ? (employee?.hours?.find((t: any) => t?.shift?.system_name ===
+                                                'time-filter')?.monthly_hours
+                                                || employee?.hours?.find((t: any) => t?.shift?.system_name ===
+                                                    'time-filter')?.weekly_hours
                                                 || '--')
-                                            : '--' }}
+                                            : '--'}}
                                     </div>
                                     <div class="col-span-2 text-right pr-2 text-gray-500 border-l border-gray-100">
-                                        {{ state.filter.time_from && state.filter.time_to
-                                            ? employee?.hours?.find((t: any) => t?.shift?.system_name === 'time-filter')?.yearly_hours ?? '--'
-                                            : '--' }}
+                                        {{state.filter.time_from && state.filter.time_to
+                                            ? employee?.hours?.find((t: any) => t?.shift?.system_name ===
+                                                'time-filter')?.yearly_hours ?? '--'
+                                            : '--'}}
                                     </div>
                                 </div>
                                 <div class="grid grid-cols-7 text-xxs py-0.5 border-t border-gray-200 mt-0.5">
@@ -348,7 +354,8 @@
                                     </div>
                                     <div class="col-span-2 text-right pr-2 font-bold">
                                         {{employee?.hours?.filter((t: any) => t?.shift?.system_name !== 'time-filter')
-                                            .reduce((sum, t) => sum + (parseFloat(t?.monthly_hours || t?.weekly_hours) || 0), 0).toFixed(2)}}
+                                            .reduce((sum, t) => sum + (parseFloat(t?.monthly_hours || t?.weekly_hours) ||
+                                                0), 0).toFixed(2)}}
                                     </div>
                                     <div class="col-span-2 text-right pr-2 font-bold border-l border-gray-100">
                                         {{employee?.hours?.filter((t: any) => t?.shift?.system_name !== 'time-filter')
@@ -656,20 +663,20 @@
                                                                 class="absolute right-0 z-[200] w-44 origin-top-right rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
                                                                 <div class="py-1">
                                                                     <MenuItem v-slot="{ active }">
-                                                                    <a :class="[active ? 'bg-gray-100 text-gray-900' : 'text-gray-700', 'block px-4 py-2 text-xs cursor-pointer']"
-                                                                        @click.stop="requestTimeAdjustment(employeeIndex as number, shift)">
-                                                                        {{
-                                                                            $t('dutySchedules.scheduleRequests.changeTime.changeTimeRequest')
-                                                                        }}
-                                                                    </a>
+                                                                        <a :class="[active ? 'bg-gray-100 text-gray-900' : 'text-gray-700', 'block px-4 py-2 text-xs cursor-pointer']"
+                                                                            @click.stop="requestTimeAdjustment(employeeIndex as number, shift)">
+                                                                            {{
+                                                                                $t('dutySchedules.scheduleRequests.changeTime.changeTimeRequest')
+                                                                            }}
+                                                                        </a>
                                                                     </MenuItem>
                                                                     <MenuItem v-slot="{ active }">
-                                                                    <a :class="[active ? 'bg-gray-100 text-gray-900' : 'text-gray-700', 'block px-4 py-2 text-xs cursor-pointer']"
-                                                                        @click.stop="requestSwapSchedule(shift)">
-                                                                        {{
-                                                                            $t('dutySchedules.scheduleRequests.swapSchedule.swapScheduleRequest')
-                                                                        }}
-                                                                    </a>
+                                                                        <a :class="[active ? 'bg-gray-100 text-gray-900' : 'text-gray-700', 'block px-4 py-2 text-xs cursor-pointer']"
+                                                                            @click.stop="requestSwapSchedule(shift)">
+                                                                            {{
+                                                                                $t('dutySchedules.scheduleRequests.swapSchedule.swapScheduleRequest')
+                                                                            }}
+                                                                        </a>
                                                                     </MenuItem>
                                                                 </div>
                                                             </MenuItems>

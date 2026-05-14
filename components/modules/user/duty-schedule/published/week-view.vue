@@ -262,17 +262,24 @@
                                                                     'py-1'
                                                                 ]">
                                                                 <div class="pl-3">
-                                                                    <Tooltip
-                                                                        :text="language.locale.value === 'en' ? time?.shift?.en_name : time?.shift?.dk_name">
+                                                                    <Tooltip :text="language.locale.value === 'en' ? time?.shift?.en_name :
+                                                                        language.locale.value === 'no' ? time?.shift?.no_name :
+                                                                            language.locale.value === 'sv' ? time?.shift?.sv_name :
+                                                                                time?.shift?.dk_name">
                                                                         <div class="flex items-center gap-x-1">
                                                                             <div>
                                                                                 <div :class="`w-2 h-2 rounded-sm`"
                                                                                     :style="{ background: time?.shift?.color }" />
                                                                             </div>
                                                                             <div class="truncate w-36">
-                                                                                {{ language.locale.value === 'en' ?
-                                                                                    time?.shift?.en_name :
-                                                                                    time?.shift?.dk_name
+                                                                                {{
+                                                                                    language.locale.value === 'en' ?
+                                                                                        time?.shift?.en_name :
+                                                                                        language.locale.value === 'no' ?
+                                                                                            time?.shift?.no_name :
+                                                                                            language.locale.value === 'sv' ?
+                                                                                                time?.shift?.sv_name :
+                                                                                                time?.shift?.dk_name
                                                                                 }}
                                                                             </div>
                                                                         </div>

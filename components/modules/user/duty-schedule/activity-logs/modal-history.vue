@@ -44,11 +44,16 @@
                                                             {{ $t('activityLogs.table.data.typeOfShift') }}:
                                                         </p>
                                                         <p>
-                                                            <span v-if="language.locale.value === 'en'">
-                                                                {{ log?.new_data?.shift?.en_name }}
-                                                            </span>
-                                                            <span v-if="language.locale.value === 'dk'">
-                                                                {{ log?.new_data?.shift?.dk_name }}
+                                                            <span>
+                                                                {{
+                                                                    language.locale.value === 'en' ?
+                                                                        log?.new_data?.shift?.en_name :
+                                                                        language.locale.value === 'no' ?
+                                                                            log?.new_data?.shift?.no_name :
+                                                                            language.locale.value === 'sv' ?
+                                                                                log?.new_data?.shift?.sv_name :
+                                                                                log?.new_data?.shift?.dk_name
+                                                                }}
                                                             </span>
                                                         </p>
                                                     </div>
@@ -135,11 +140,16 @@
                                                             {{ $t('activityLogs.table.data.typeOfShift') }}:
                                                         </p>
                                                         <p>
-                                                            <span v-if="language.locale.value === 'en'">
-                                                                {{ log?.old_data?.shift?.en_name }}
-                                                            </span>
-                                                            <span v-if="language.locale.value === 'dk'">
-                                                                {{ log?.old_data?.shift?.dk_name }}
+                                                            <span>
+                                                                {{
+                                                                    language.locale.value === 'en' ?
+                                                                        log?.old_data?.shift?.en_name :
+                                                                        language.locale.value === 'no' ?
+                                                                            log?.old_data?.shift?.no_name :
+                                                                            language.locale.value === 'sv' ?
+                                                                                log?.old_data?.shift?.sv_name :
+                                                                                log?.old_data?.shift?.dk_name
+                                                                }}
                                                             </span>
                                                         </p>
                                                     </div>

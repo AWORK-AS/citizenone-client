@@ -224,11 +224,17 @@
                                     <div class="col-span-3 pl-1 flex items-center gap-1 truncate">
                                         <div class="w-2 h-2 rounded-sm flex-shrink-0"
                                             :style="{ background: time?.shift?.color }"></div>
-                                        <span class="truncate">{{ language.locale.value === 'en' ? time?.shift?.en_name
-                                            : time?.shift?.dk_name }}</span>
+                                        <span class="truncate">
+                                            {{
+                                                language.locale.value === 'en' ? time?.shift?.en_name :
+                                                    language.locale.value === 'no' ? time?.shift?.no_name :
+                                                        language.locale.value === 'sv' ? time?.shift?.sv_name :
+                                                            time?.shift?.dk_name
+                                            }}
+                                        </span>
                                     </div>
                                     <div class="col-span-2 text-right pr-2">{{ time?.monthly_hours || time?.weekly_hours
-                                    }}</div>
+                                        }}</div>
                                     <div class="col-span-2 text-right pr-2 border-l border-gray-100">{{
                                         time?.yearly_hours }}</div>
                                 </div>

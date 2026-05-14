@@ -22,7 +22,9 @@
                                         :style="{ backgroundColor: shiftPercentage?.color }"></div>
                                     <span>
                                         {{ language.locale.value === 'en' ? shiftPercentage?.en_name :
-                                            shiftPercentage?.dk_name }}
+                                            language.locale.value === 'no' ? shiftPercentage?.no_name :
+                                                language.locale.value === 'sv' ? shiftPercentage?.sv_name :
+                                                    shiftPercentage?.dk_name }}
                                     </span>
                                 </div>
                                 <p class="text-xs">{{ shiftPercentage?.percentage }}%</p>
@@ -171,8 +173,12 @@
                                                 <div class="col-span-3 space-y-2">
                                                     <p v-for="(time, timeIndex) in weeklySchedule?.employee?.hours"
                                                         :key="timeIndex">
-                                                        {{ language.locale.value === 'en' ? time?.shift?.en_name :
-                                                            time?.shift?.dk_name }}
+                                                        {{
+                                                            language.locale.value === 'en' ? time?.shift?.en_name :
+                                                                language.locale.value === 'no' ? time?.shift?.no_name :
+                                                                    language.locale.value === 'sv' ? time?.shift?.sv_name :
+                                                                        time?.shift?.dk_name
+                                                        }}
                                                     </p>
                                                 </div>
                                                 <div class="col-span-2 flex gap-2 flex-col items-end">
