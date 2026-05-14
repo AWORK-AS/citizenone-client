@@ -144,15 +144,17 @@
                         </div>
 
                         <!-- Role -->
-                        <div class="mb-3">
+                        <!-- <div class="mb-3">
                             <label class="co-label">
                                 {{ $t('superadmin.users.table.role') }}
                             </label>
                             <select v-model="state.formUser.role" class="co-input">
                                 <option value="user">{{ $t('superadmin.users.slider.roleUser') }}</option>
-                                <option value="admin">{{ $t('superadmin.users.slider.roleAdmin') }}</option>
+                                <option value="superadmin">{{ $t('superadmin.users.slider.roleAdmin') }}</option>
                             </select>
-                        </div>
+                            <FormError :error="v$?.formUser?.role?.$errors[0]?.$message.toString()" />
+                            <FormError :error="state.error?.errors?.role?.[0]" />
+                        </div> -->
 
                         <!-- Password -->
                         <div class="mb-1">
@@ -247,7 +249,7 @@ const state = reactive({
         email: '',
         phone: '',
         birthday: '',
-        role: 'user',
+        role: 'superadmin',
         password: '',
         is_active: true,
     },
@@ -278,7 +280,16 @@ const rules = computed(() => ({
 const v$ = useVuelidate(rules, state)
 
 function open() {
-    state.formUser = { firstname: '', lastname: '', email: '', phone: '', birthday: '', role: 'user', password: '', is_active: true }
+    state.formUser = {
+        firstname: '',
+        lastname: '',
+        email: '',
+        phone: '',
+        birthday: '',
+        role: 'superadmin',
+        password: '',
+        is_active: true
+    }
     state.error = {}
     state.companySearch = ''
     state.companyResults = []
