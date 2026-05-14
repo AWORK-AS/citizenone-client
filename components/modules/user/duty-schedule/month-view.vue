@@ -300,7 +300,7 @@
                                         {{ $t('dutySchedules.yearToDate') }}
                                     </div>
                                 </div>
-                                <div v-for="(time, timeIndex) in employee?.hours" :key="timeIndex"
+                                <div v-for="(time, timeIndex) in employee?.hours?.filter((t: any) => t?.shift?.system_name !== 'time-filter')" :key="timeIndex"
                                     :class="[timeIndex as number % 2 ? 'bg-white' : 'bg-gray-50', 'grid grid-cols-7 text-xxs py-0.5']">
                                     <div class="col-span-3 pl-1 flex items-center gap-1 truncate">
                                         <div class="w-2 h-2 rounded-sm flex-shrink-0"
@@ -319,20 +319,40 @@
                                         {{ time?.yearly_hours }}
                                     </div>
                                 </div>
+                                <div class="grid grid-cols-7 text-xxs py-0.5 cursor-pointer hover:bg-blue-50/60 transition-colors"
+                                    @click="state.modal.isTimeRangeFilterOpen = true">
+                                    <div class="col-span-3 pl-1 flex items-center gap-1 text-gray-500 italic">
+                                        <Icon name="ph:clock" class="w-2 h-2 flex-shrink-0" />
+                                        <span class="truncate">
+                                            {{ state.filter.time_from && state.filter.time_to
+                                                ? state.filter.time_from + '–' + state.filter.time_to
+                                                : $t('dutySchedules.timeRange') }}
+                                        </span>
+                                    </div>
+                                    <div class="col-span-2 text-right pr-2 text-gray-500">
+                                        {{ state.filter.time_from && state.filter.time_to
+                                            ? (employee?.hours?.find((t: any) => t?.shift?.system_name === 'time-filter')?.monthly_hours
+                                                || employee?.hours?.find((t: any) => t?.shift?.system_name === 'time-filter')?.weekly_hours
+                                                || '--')
+                                            : '--' }}
+                                    </div>
+                                    <div class="col-span-2 text-right pr-2 text-gray-500 border-l border-gray-100">
+                                        {{ state.filter.time_from && state.filter.time_to
+                                            ? employee?.hours?.find((t: any) => t?.shift?.system_name === 'time-filter')?.yearly_hours ?? '--'
+                                            : '--' }}
+                                    </div>
+                                </div>
                                 <div class="grid grid-cols-7 text-xxs py-0.5 border-t border-gray-200 mt-0.5">
                                     <div class="col-span-3 pl-1 font-bold">
-                                        {{ $t('dutySchedules.total') }}
-                                        <span v-if="state.filter.time_from && state.filter.time_to" class="font-normal">
-                                            ({{ state.filter.time_from }}–{{ state.filter.time_to }})
-                                        </span>:
+                                        {{ $t('dutySchedules.total') }}:
                                     </div>
                                     <div class="col-span-2 text-right pr-2 font-bold">
-                                        {{employee?.hours?.reduce((sum, t) => sum + (parseFloat(t?.monthly_hours ||
-                                            t?.weekly_hours) || 0), 0).toFixed(2)}}
+                                        {{employee?.hours?.filter((t: any) => t?.shift?.system_name !== 'time-filter')
+                                            .reduce((sum, t) => sum + (parseFloat(t?.monthly_hours || t?.weekly_hours) || 0), 0).toFixed(2)}}
                                     </div>
                                     <div class="col-span-2 text-right pr-2 font-bold border-l border-gray-100">
-                                        {{employee?.hours?.reduce((sum, t) => sum + (parseFloat(t?.yearly_hours) || 0),
-                                            0).toFixed(2)}}
+                                        {{employee?.hours?.filter((t: any) => t?.shift?.system_name !== 'time-filter')
+                                            .reduce((sum, t) => sum + (parseFloat(t?.yearly_hours) || 0), 0).toFixed(2)}}
                                     </div>
                                 </div>
                             </div>
@@ -830,6 +850,9 @@
             @close="state.modal.isCopyMultipleWeeklyScheduleOpen = false" @refreshDutySchedules="fetchDutySchedule()" />
         <ModulesUserDutyScheduleNormHoursModalGraph :isModalOpen="state.modal.isGraphOpen"
             :selectedEmployee="state.normHours.selectedEmployee" @close="state.modal.isGraphOpen = false" />
+        <ModulesUserDutyScheduleModalTimeRangeFilter :isModalOpen="state.modal.isTimeRangeFilterOpen"
+            :timeFrom="state.filter.time_from" :timeTo="state.filter.time_to"
+            @close="state.modal.isTimeRangeFilterOpen = false" @setTimeRange="setTimeRange" />
 
         <!-- Floating stop-copying button — shown when something has been copied -->
         <Teleport to="body">
@@ -987,6 +1010,7 @@ const state = reactive({
         isViewShiftOpen: false,
         isAnnualNormHoursInfoOpen: false,
         isGraphOpen: false,
+        isTimeRangeFilterOpen: false,
     } as any,
     monthlySchedules: null as any,
     newShift: {
@@ -1821,6 +1845,13 @@ function setFilter(filter: any) {
     state.filter = filter
     state.modal.isFilterDutyScheduleOpen = false
     emit('setDutyScheduleCurrentFilter', filter)
+    fetchDutySchedule()
+}
+
+function setTimeRange({ time_from, time_to }: { time_from: string; time_to: string }) {
+    state.filter.time_from = time_from
+    state.filter.time_to = time_to
+    emit('setDutyScheduleCurrentFilter', state.filter)
     fetchDutySchedule()
 }
 

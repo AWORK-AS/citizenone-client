@@ -18,6 +18,20 @@
                 <FormError :error="props?.error?.errors?.dk_name?.[0]" />
             </div>
             <div class="space-y-1">
+                <FormLabel for="no_name" :label="$t('shifts.form.nameNorwegian')" />
+                <FormTextField id="no_name" name="no_name" :placeholder="$t('shifts.form.nameNorwegian')"
+                    v-model="state.formShift.no_name" />
+                <FormError :error="v$?.formShift?.no_name?.$errors[0]?.$message.toString()" />
+                <FormError :error="props?.error?.errors?.no_name?.[0]" />
+            </div>
+            <div class="space-y-1">
+                <FormLabel for="sv_name" :label="$t('shifts.form.nameSwedish')" />
+                <FormTextField id="sv_name" name="sv_name" :placeholder="$t('shifts.form.nameSwedish')"
+                    v-model="state.formShift.sv_name" />
+                <FormError :error="v$?.formShift?.sv_name?.$errors[0]?.$message.toString()" />
+                <FormError :error="props?.error?.errors?.sv_name?.[0]" />
+            </div>
+            <div class="space-y-1">
                 <FormLabel for="pay_code" :label="$t('shifts.form.paycode')" />
                 <FormTextField id="pay_code" name="pay_code" :placeholder="$t('shifts.form.paycode')"
                     v-model="state.formShift.pay_code" />
@@ -55,6 +69,46 @@
                         aria-hidden="true" @click="state.isLeaveTypeModalOpen = true" />
                 </div>
             </div>
+<<<<<<< HEAD
+            <div class="space-y-3 pt-2 border-t border-gray-100">
+                <div class="flex items-center justify-between">
+                    <span class="text-sm font-medium">{{ $t('shifts.form.multiplierRules') }}</span>
+                    <button type="button" @click="addMultiplierRule"
+                        class="text-sm text-primary hover:text-primary-700 flex items-center gap-1">
+                        <Icon name="ph:plus" size="16" />
+                        {{ $t('shifts.form.addMultiplierRule') }}
+                    </button>
+                </div>
+                <p v-if="state.formShift.multiplier_rules.length === 0" class="text-sm text-gray-400">
+                    {{ $t('shifts.form.multiplierRulesEmpty') }}
+                </p>
+                <div v-for="(rule, index) in state.formShift.multiplier_rules" :key="index"
+                    class="border border-gray-200 rounded-xl p-3 space-y-3">
+                    <div class="flex items-center justify-between">
+                        <span class="text-sm font-medium text-gray-700">
+                            {{ $t('shifts.form.multiplierRuleTitle') }} {{ index + 1 }}
+                        </span>
+                        <button type="button" @click="removeMultiplierRule(index)"
+                            class="text-red-500 hover:text-red-700">
+                            <Icon name="ph:trash" size="18" />
+                        </button>
+                    </div>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
+                        <div class="space-y-1">
+                            <FormLabel :label="$t('shifts.form.multiplierRuleName')" />
+                            <FormTextField :name="`rule_name_${index}`"
+                                :placeholder="$t('shifts.form.multiplierRuleNamePlaceholder')"
+                                v-model="rule.name" />
+                        </div>
+                        <div class="space-y-1">
+                            <FormLabel :label="$t('shifts.form.multiplierRuleFactor')" />
+                            <FormNumberField :name="`rule_factor_${index}`"
+                                :placeholder="$t('shifts.form.multiplierRuleFactorPlaceholder')"
+                                v-model="rule.factor" />
+                            <span v-if="state.ruleErrors[index]?.factor" class="text-xs text-red-500">
+                                {{ state.ruleErrors[index].factor }}
+                            </span>
+=======
 
             <div class="space-y-2 pt-2 border-t border-gray-100">
                 <FormLabel for="working_hours_factor" :label="$t('shifts.form.workingHoursFactor')" />
@@ -67,11 +121,13 @@
                     <p class="text-sm text-gray-500">{{ $t('shifts.form.workingHoursFactorInterval') }}</p>
                     <div class="flex items-center gap-3">
                         <div class="flex-1 space-y-1">
-                            <FormLabel for="working_hours_factor_from" :label="$t('shifts.form.workingHoursFactorFrom')" />
+                            <FormLabel for="working_hours_factor_from"
+                                :label="$t('shifts.form.workingHoursFactorFrom')" />
                             <FormTimeField id="working_hours_factor_from" name="working_hours_factor_from"
                                 :placeholder="$t('shifts.form.workingHoursFactorFrom')"
                                 v-model="state.formShift.working_hours_factor_from" />
-                            <FormError :error="v$?.formShift?.working_hours_factor_from?.$errors[0]?.$message.toString()" />
+                            <FormError
+                                :error="v$?.formShift?.working_hours_factor_from?.$errors[0]?.$message.toString()" />
                             <FormError :error="props?.error?.errors?.working_hours_factor_from?.[0]" />
                         </div>
                         <div class="flex-1 space-y-1">
@@ -79,21 +135,82 @@
                             <FormTimeField id="working_hours_factor_to" name="working_hours_factor_to"
                                 :placeholder="$t('shifts.form.workingHoursFactorTo')"
                                 v-model="state.formShift.working_hours_factor_to" />
-                            <FormError :error="v$?.formShift?.working_hours_factor_to?.$errors[0]?.$message.toString()" />
+                            <FormError
+                                :error="v$?.formShift?.working_hours_factor_to?.$errors[0]?.$message.toString()" />
                             <FormError :error="props?.error?.errors?.working_hours_factor_to?.[0]" />
+>>>>>>> wip
                         </div>
+                    </div>
+                    <div class="space-y-1">
+                        <p class="text-sm text-gray-500">{{ $t('shifts.form.multiplierRuleTimeInterval') }}</p>
+                        <div class="flex items-center gap-3">
+                            <div class="flex-1 space-y-1">
+                                <FormLabel :label="$t('shifts.form.multiplierRuleTimeFrom')" />
+                                <FormTimeField :name="`rule_time_from_${index}`"
+                                    v-model:value="rule.time_from" />
+                                <span v-if="state.ruleErrors[index]?.time_from" class="text-xs text-red-500">
+                                    {{ state.ruleErrors[index].time_from }}
+                                </span>
+                            </div>
+                            <div class="flex-1 space-y-1">
+                                <FormLabel :label="$t('shifts.form.multiplierRuleTimeTo')" />
+                                <FormTimeField :name="`rule_time_to_${index}`"
+                                    v-model:value="rule.time_to" />
+                                <span v-if="state.ruleErrors[index]?.time_to" class="text-xs text-red-500">
+                                    {{ state.ruleErrors[index].time_to }}
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="space-y-1">
+                        <p class="text-sm text-gray-500">{{ $t('shifts.form.multiplierRuleDaysOfWeek') }}</p>
+                        <div class="flex gap-1 flex-wrap">
+                            <button v-for="day in daysOfWeekOptions" :key="day.value" type="button"
+                                @click="toggleDayOfWeek(rule, day.value)"
+                                :class="[
+                                    'px-2 py-1 text-xs rounded-full border transition-colors',
+                                    (rule.days_of_week ?? []).includes(day.value)
+                                        ? 'bg-primary text-white border-primary'
+                                        : 'bg-white text-gray-600 border-gray-300 hover:border-gray-400'
+                                ]">
+                                {{ day.label }}
+                            </button>
+                        </div>
+                    </div>
+                    <div class="flex flex-wrap gap-x-4 gap-y-2">
+                        <div class="flex items-center cursor-pointer"
+                            @click="rule.applies_to_weekdays = !rule.applies_to_weekdays">
+                            <FormCheckbox :value="rule.applies_to_weekdays" />
+                            <span class="ml-1 text-sm">{{ $t('shifts.form.multiplierRuleAppliesToWeekdays') }}</span>
+                        </div>
+                        <div class="flex items-center cursor-pointer"
+                            @click="rule.applies_to_weekends = !rule.applies_to_weekends">
+                            <FormCheckbox :value="rule.applies_to_weekends" />
+                            <span class="ml-1 text-sm">{{ $t('shifts.form.multiplierRuleAppliesToWeekends') }}</span>
+                        </div>
+                        <div class="flex items-center cursor-pointer"
+                            @click="rule.applies_to_holidays = !rule.applies_to_holidays">
+                            <FormCheckbox :value="rule.applies_to_holidays" />
+                            <span class="ml-1 text-sm">{{ $t('shifts.form.multiplierRuleAppliesToHolidays') }}</span>
+                        </div>
+                    </div>
+                    <div class="flex items-center cursor-pointer" @click="rule.is_active = !rule.is_active">
+                        <FormCheckbox :value="rule.is_active" />
+                        <span class="ml-1 text-sm">{{ $t('shifts.form.multiplierRuleIsActive') }}</span>
                     </div>
                 </div>
             </div>
+<<<<<<< HEAD
+=======
 
             <div class="space-y-1 pt-2 border-t border-gray-100"
                 v-if="state.formShift.system_name === 'sleeping-night-shift'">
                 <FormLabel for="end_time_day_offset" :label="$t('shifts.form.endTimeDayOffset')" />
-                <FormSelect id="end_time_day_offset" name="end_time_day_offset"
-                    :options="endTimeDayOffsetOptions" :canClear="true"
-                    v-model="state.formShift.end_time_day_offset" />
+                <FormSelect id="end_time_day_offset" name="end_time_day_offset" :options="endTimeDayOffsetOptions"
+                    :canClear="true" v-model="state.formShift.end_time_day_offset" />
                 <FormError :error="props?.error?.errors?.end_time_day_offset?.[0]" />
             </div>
+>>>>>>> wip
         </div>
         <div class="mt-6">
             <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
@@ -136,29 +253,21 @@ const emit = defineEmits(['isPageLoading', 'submitForm'])
 
 const { t } = useI18n()
 
-const endTimeDayOffsetOptions = computed(() => [
-    { value: '0', label: t('shifts.form.endTimeDayOffsetSameDay') },
-    { value: '1', label: t('shifts.form.endTimeDayOffsetOneDayLater') },
-    { value: '2', label: t('shifts.form.endTimeDayOffsetTwoDaysLater') },
-    { value: '3', label: t('shifts.form.endTimeDayOffsetThreeDaysLater') },
-])
-
 const state = reactive({
     error: {} as Error,
     isLeaveTypeModalOpen: false,
+    ruleErrors: [] as any[],
     formShift: {
         en_name: '',
         dk_name: '',
+        no_name: '',
+        sv_name: '',
         pay_code: '',
         time_in: '',
         time_out: '',
         color: '#000000',
         is_leave_shift_type: false,
-        working_hours_factor: '' as string | undefined,
-        working_hours_factor_from: '' as string | null,
-        working_hours_factor_to: '' as string | null,
-        end_time_day_offset: null as any,
-        system_name: '' as string | null,
+        multiplier_rules: [] as any[],
     },
 })
 
@@ -167,49 +276,52 @@ watch(() => props.selectedShift, (newValue: any) => {
         state.formShift = {
             en_name: newValue.en_name,
             dk_name: newValue.dk_name,
+            no_name: newValue.no_name,
+            sv_name: newValue.sv_name,
             pay_code: newValue.pay_code,
             time_in: newValue.time_in,
             time_out: newValue.time_out,
             color: newValue.color,
             is_leave_shift_type: newValue.is_leave_shift_type,
-            working_hours_factor: newValue.working_hours_factor ?? '',
-            working_hours_factor_from: newValue.working_hours_factor_from ?? '',
-            working_hours_factor_to: newValue.working_hours_factor_to ?? '',
-            end_time_day_offset: newValue.end_time_day_offset != null ? String(newValue.end_time_day_offset) : null,
-            system_name: newValue.system_name ?? null,
+            multiplier_rules: (newValue.multiplier_rules ?? []).map((rule: any) => ({
+                name: rule.name ?? '',
+                factor: rule.factor != null ? String(rule.factor) : '',
+                time_from: rule.time_from ?? '',
+                time_to: rule.time_to ?? '',
+                days_of_week: rule.days_of_week ?? [],
+                applies_to_weekdays: rule.applies_to_weekdays ?? false,
+                applies_to_weekends: rule.applies_to_weekends ?? false,
+                applies_to_holidays: rule.applies_to_holidays ?? false,
+                is_active: rule.is_active ?? true,
+            })),
         }
+        state.ruleErrors = (newValue.multiplier_rules ?? []).map(() => ({}))
     }
 })
 
 const rules = computed(() => {
-    const hasFrom = !!state.formShift.working_hours_factor_from
-    const hasTo = !!state.formShift.working_hours_factor_to
     return {
         formShift: {
             en_name: {
-                required: helpers.withMessage(() => `${t('validation.thisFieldIsRequired')}.`, required),
+                required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
             },
             dk_name: {
+                required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
+            },
+            no_name: {
+                required: helpers.withMessage(() => `${t('validation.thisFieldIsRequired')}.`, required),
+            },
+            sv_name: {
                 required: helpers.withMessage(() => `${t('validation.thisFieldIsRequired')}.`, required),
             },
             time_in: {
-                required: helpers.withMessage(() => `${t('validation.thisFieldIsRequired')}.`, required),
+                required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
             },
             time_out: {
-                required: helpers.withMessage(() => `${t('validation.thisFieldIsRequired')}.`, required),
+                required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
             },
             color: {
-                required: helpers.withMessage(() => `${t('validation.thisFieldIsRequired')}.`, required),
-            },
-            working_hours_factor_from: {
-                ...(hasTo && {
-                    required: helpers.withMessage(() => `${t('validation.thisFieldIsRequired')}.`, required),
-                }),
-            },
-            working_hours_factor_to: {
-                ...(hasFrom && {
-                    required: helpers.withMessage(() => `${t('validation.thisFieldIsRequired')}.`, required),
-                }),
+                required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
             },
         },
     }
@@ -217,13 +329,85 @@ const rules = computed(() => {
 
 const v$ = useVuelidate(rules, state)
 
+const daysOfWeekOptions = computed(() => [
+    { value: 0, label: t('recurring.days.sunday').slice(0, 3) },
+    { value: 1, label: t('recurring.days.monday').slice(0, 3) },
+    { value: 2, label: t('recurring.days.tuesday').slice(0, 3) },
+    { value: 3, label: t('recurring.days.wednesday').slice(0, 3) },
+    { value: 4, label: t('recurring.days.thursday').slice(0, 3) },
+    { value: 5, label: t('recurring.days.friday').slice(0, 3) },
+    { value: 6, label: t('recurring.days.saturday').slice(0, 3) },
+])
+
+function addMultiplierRule() {
+    state.formShift.multiplier_rules.push({
+        name: '',
+        factor: '',
+        time_from: '',
+        time_to: '',
+        days_of_week: [],
+        applies_to_weekdays: false,
+        applies_to_weekends: false,
+        applies_to_holidays: false,
+        is_active: true,
+    })
+    state.ruleErrors.push({})
+}
+
+function removeMultiplierRule(index: number) {
+    state.formShift.multiplier_rules.splice(index, 1)
+    state.ruleErrors.splice(index, 1)
+}
+
+function toggleDayOfWeek(rule: any, day: number) {
+    if (!rule.days_of_week) rule.days_of_week = []
+    const idx = rule.days_of_week.indexOf(day)
+    if (idx === -1) {
+        rule.days_of_week.push(day)
+    } else {
+        rule.days_of_week.splice(idx, 1)
+    }
+}
+
+function validateMultiplierRules(): boolean {
+    let valid = true
+    state.ruleErrors = state.formShift.multiplier_rules.map((rule: any) => {
+        const errors: any = {}
+        if (!rule.factor && rule.factor !== 0) {
+            errors.factor = `${t('validation.thisFieldIsRequired')}.`
+            valid = false
+        }
+        if (rule.time_to && !rule.time_from) {
+            errors.time_from = `${t('validation.thisFieldIsRequired')}.`
+            valid = false
+        }
+        if (rule.time_from && !rule.time_to) {
+            errors.time_to = `${t('validation.thisFieldIsRequired')}.`
+            valid = false
+        }
+        return errors
+    })
+    return valid
+}
+
 function submitForm() {
     state.error = {}
     v$.value.$validate()
-    if (!v$.value.$error) {
+    if (!v$.value.$error && validateMultiplierRules()) {
+        const multiplierRules = state.formShift.multiplier_rules.map((rule: any) => ({
+            name: rule.name || null,
+            factor: Number(rule.factor),
+            time_from: rule.time_from ? rule.time_from.substring(0, 5) : null,
+            time_to: rule.time_to ? rule.time_to.substring(0, 5) : null,
+            days_of_week: rule.days_of_week?.length > 0 ? rule.days_of_week : null,
+            applies_to_weekdays: rule.applies_to_weekdays ?? false,
+            applies_to_weekends: rule.applies_to_weekends ?? false,
+            applies_to_holidays: rule.applies_to_holidays ?? false,
+            is_active: rule.is_active ?? true,
+        }))
         emit('submitForm', {
             ...state.formShift,
-            end_time_day_offset: state.formShift.end_time_day_offset != null ? Number(state.formShift.end_time_day_offset) : null,
+            multiplier_rules: multiplierRules,
         })
     }
 }

@@ -514,7 +514,7 @@
                                                 </div>
                                                 <div class="text-xs grid grid-cols-7">
                                                     <div class="col-span-3 min-w-0">
-                                                        <div v-for="(time, timeIndex) in employee?.hours"
+                                                        <div v-for="(time, timeIndex) in employee?.hours?.filter((t: any) => t?.shift?.system_name !== 'time-filter')"
                                                             :key="timeIndex" :class="[
                                                                 (timeIndex as number) % 2 ? 'bg-white' : 'bg-gray-100',
                                                                 'py-1'
@@ -540,7 +540,7 @@
                                                         </div>
                                                     </div>
                                                     <div class="col-span-2">
-                                                        <div v-for="(time, timeIndex) in employee?.hours"
+                                                        <div v-for="(time, timeIndex) in employee?.hours?.filter((t: any) => t?.shift?.system_name !== 'time-filter')"
                                                             :key="timeIndex" :class="[
                                                                 (timeIndex as number) % 2 ? 'bg-white' : 'bg-gray-100',
                                                             ]">
@@ -550,7 +550,7 @@
                                                         </div>
                                                     </div>
                                                     <div class="col-span-2 border-l-0.5 border-gray-200">
-                                                        <div v-for="(time, timeIndex) in employee?.hours"
+                                                        <div v-for="(time, timeIndex) in employee?.hours?.filter((t: any) => t?.shift?.system_name !== 'time-filter')"
                                                             :key="timeIndex" :class="[
                                                                 (timeIndex as number) % 2 ? 'bg-white' : 'bg-gray-100',
                                                             ]">
@@ -560,23 +560,46 @@
                                                         </div>
                                                     </div>
                                                 </div>
+                                                <div class="text-xs grid grid-cols-7 cursor-pointer hover:bg-blue-50/60 transition-colors"
+                                                    @click="state.modal.isTimeRangeFilterOpen = true">
+                                                    <div class="col-span-3 min-w-0">
+                                                        <div class="py-1 pl-1.5 sm:pl-3 flex items-center gap-1 text-gray-500 italic">
+                                                            <Icon name="ph:clock" class="w-2 h-2 flex-shrink-0" />
+                                                            <span class="truncate">
+                                                                {{ state.filter.time_from && state.filter.time_to
+                                                                    ? state.filter.time_from + '–' + state.filter.time_to
+                                                                    : $t('dutySchedules.timeRange') }}
+                                                            </span>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-span-2">
+                                                        <div class="text-right py-1 pr-2 text-gray-500">
+                                                            {{ state.filter.time_from && state.filter.time_to
+                                                                ? employee?.hours?.find((t: any) => t?.shift?.system_name === 'time-filter')?.weekly_hours ?? '--'
+                                                                : '--' }}
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-span-2 border-l-0.5 border-gray-200">
+                                                        <div class="text-right py-1 pr-2 text-gray-500">
+                                                            {{ state.filter.time_from && state.filter.time_to
+                                                                ? employee?.hours?.find((t: any) => t?.shift?.system_name === 'time-filter')?.yearly_hours ?? '--'
+                                                                : '--' }}
+                                                        </div>
+                                                    </div>
+                                                </div>
                                                 <div class="text-xs grid grid-cols-7 border-t-0.5 border-gray-200">
                                                     <div class="col-span-3 min-w-0">
                                                         <div class="py-1 pl-1.5 sm:pl-3 font-bold">
-                                                            {{ $t('dutySchedules.total') }}
-                                                            <span v-if="state.filter.time_from && state.filter.time_to"
-                                                                class="font-normal">
-                                                                ({{ state.filter.time_from }}–{{ state.filter.time_to }})
-                                                            </span>:
+                                                            {{ $t('dutySchedules.total') }}:
                                                         </div>
                                                     </div>
                                                     <div class="col-span-2">
                                                         <div class="text-right py-1 pr-2 font-bold">
                                                             {{
                                                                 formatNumber(language.locale.value,
-                                                                    employee?.hours?.reduce((sum: number, t: any) => sum +
-                                                                        (parseFloat(String(t?.weekly_hours || '0').replace(',',
-                                                                            '.')) || 0), 0))
+                                                                    employee?.hours?.filter((t: any) => t?.shift?.system_name !== 'time-filter')
+                                                                        .reduce((sum: number, t: any) => sum +
+                                                                            (parseFloat(String(t?.weekly_hours || '0').replace(',', '.')) || 0), 0))
                                                             }}
                                                         </div>
                                                     </div>
@@ -584,9 +607,9 @@
                                                         <div class="text-right py-1 pr-2 font-bold">
                                                             {{
                                                                 formatNumber(language.locale.value,
-                                                                    employee?.hours?.reduce((sum: number, t: any) => sum +
-                                                                        (parseFloat(String(t?.yearly_hours || '0').replace(',',
-                                                                            '.')) || 0), 0))
+                                                                    employee?.hours?.filter((t: any) => t?.shift?.system_name !== 'time-filter')
+                                                                        .reduce((sum: number, t: any) => sum +
+                                                                            (parseFloat(String(t?.yearly_hours || '0').replace(',', '.')) || 0), 0))
                                                             }}
                                                         </div>
                                                     </div>
@@ -1115,6 +1138,9 @@
             @close="state.modal.isCopyMultipleWeeklyScheduleOpen = false" @refreshDutySchedules="fetchDutySchedule()" />
         <ModulesUserDutyScheduleNormHoursModalGraph :isModalOpen="state.modal.isGraphOpen"
             :selectedEmployee="state.normHours.selectedEmployee" @close="state.modal.isGraphOpen = false" />
+        <ModulesUserDutyScheduleModalTimeRangeFilter :isModalOpen="state.modal.isTimeRangeFilterOpen"
+            :timeFrom="state.filter.time_from" :timeTo="state.filter.time_to"
+            @close="state.modal.isTimeRangeFilterOpen = false" @setTimeRange="setTimeRange" />
 
         <!-- Floating stop-copying button — shown when something has been copied -->
         <div v-if="!isDailyScheduleCopiedEmpty()"
@@ -1272,6 +1298,7 @@ const state = reactive({
         isViewShiftOpen: false,
         isAnnualNormHoursInfoOpen: false,
         isGraphOpen: false,
+        isTimeRangeFilterOpen: false,
     } as any,
     newShift: {
         selectedDate: '',
@@ -1543,6 +1570,13 @@ function setFilter(filter: any) {
     state.filter.employee_uuids = filter.employee_uuids
     state.filter.time_from = filter.time_from ?? ''
     state.filter.time_to = filter.time_to ?? ''
+    emit('setDutyScheduleCurrentFilter', state.filter)
+    fetchDutySchedule()
+}
+
+function setTimeRange({ time_from, time_to }: { time_from: string; time_to: string }) {
+    state.filter.time_from = time_from
+    state.filter.time_to = time_to
     emit('setDutyScheduleCurrentFilter', state.filter)
     fetchDutySchedule()
 }

@@ -54,16 +54,14 @@ const state = reactive({
     formShift: {
         en_name: '',
         dk_name: '',
+        no_name: '',
+        sv_name: '',
         pay_code: '',
         time_in: '',
         time_out: '',
         color: '',
         is_leave_shift_type: false,
-        working_hours_factor: null as string | null,
-        working_hours_factor_from: null as string | null,
-        working_hours_factor_to: null as string | null,
-        end_time_day_offset: null as number | null,
-        system_name: null as string | null,
+        multiplier_rules: [] as any[],
     },
     isPageLoading: false,
 })
@@ -81,16 +79,14 @@ async function fetchShift() {
             state.formShift = {
                 en_name: response?.data?.en_name ?? '',
                 dk_name: response?.data?.dk_name ?? '',
+                no_name: response?.data?.no_name ?? '',
+                sv_name: response?.data?.sv_name ?? '',
                 pay_code: response?.data?.pay_code ?? '',
                 time_in: response?.data?.time_in ?? '',
                 time_out: response?.data?.time_out ?? '',
                 color: response?.data?.color ?? '',
                 is_leave_shift_type: response?.data?.is_leave_shift_type ? true : false,
-                working_hours_factor: response?.data?.working_hours_factor ?? null,
-                working_hours_factor_from: response?.data?.working_hours_factor_from ?? null,
-                working_hours_factor_to: response?.data?.working_hours_factor_to ?? null,
-                end_time_day_offset: response?.data?.end_time_day_offset ?? null,
-                system_name: response?.data?.system_name ?? null,
+                multiplier_rules: response?.data?.multiplier_rules ?? [],
             }
         }
     } catch (error: any) {
@@ -103,20 +99,17 @@ async function updateShift(shiftDetails: any) {
     state.error = {}
     state.isPageLoading = true
     try {
-        const params: any = {
+        const params = {
             en_name: shiftDetails.en_name,
             dk_name: shiftDetails.dk_name,
+            no_name: shiftDetails.no_name,
+            sv_name: shiftDetails.sv_name,
             pay_code: shiftDetails.pay_code,
             time_in: shiftDetails.time_in,
             time_out: shiftDetails.time_out,
             color: shiftDetails.color,
             is_leave_shift_type: shiftDetails.is_leave_shift_type,
-            working_hours_factor: shiftDetails.working_hours_factor || null,
-            working_hours_factor_from: shiftDetails.working_hours_factor_from ? shiftDetails.working_hours_factor_from.substring(0, 5) : null,
-            working_hours_factor_to: shiftDetails.working_hours_factor_to ? shiftDetails.working_hours_factor_to.substring(0, 5) : null,
-        }
-        if (state.formShift.system_name === 'sleeping-night-shift') {
-            params.end_time_day_offset = shiftDetails.end_time_day_offset ?? null
+            multiplier_rules: shiftDetails.multiplier_rules?.length > 0 ? shiftDetails.multiplier_rules : null,
         }
         const response = await shiftService.updateShift(shiftUuid, params)
         if (response.data) {

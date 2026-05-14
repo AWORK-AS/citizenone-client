@@ -53,8 +53,12 @@
                                 <tr v-for="(contact, index) in state.contacts?.data" :key="index">
                                     <td width="20%">
                                         <span>
-                                            {{ language.locale.value === 'en' ? contact?.contact_job_title?.en_title :
-                                                contact?.contact_job_title?.dk_title }}
+                                            {{
+                                                language.locale.value === 'en' ? contact?.contact_job_title?.en_title :
+                                                    language.locale.value === 'no' ? contact?.contact_job_title?.no_title :
+                                                        language.locale.value === 'sv' ? contact?.contact_job_title?.sv_title :
+                                                            contact?.contact_job_title?.dk_title
+                                            }}
                                         </span>
                                         {{ contact?.relationship }}
                                         <span v-if="contact?.contact_job_title?.system_name === 'relatives'">
