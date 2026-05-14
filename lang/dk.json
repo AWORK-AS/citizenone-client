@@ -1658,21 +1658,21 @@
           "firstname": "Fornavn",
           "gender": "Køn",
           "lastname": "Efternavn",
-          "origin": "Oprindelse",
-          "name": "Navn"
+          "name": "Navn",
+          "origin": "Oprindelse"
         },
-        "dischargeReason": "Udskrivningsårsag",
-        "journalNumber": "Journalnummer",
-        "municipalityOfResidenceAfter": "Bopælskommune efter ophold",
-        "municipalityOfResidenceBefore": "Bopælskommune før ophold",
-        "stayData": "Opholdsdata",
         "consentFields": "Samtykke",
+        "dischargeReason": "Udskrivningsårsag",
         "financialGuardianship": "Økonomiværge",
         "generalConsent": "Generelt samtykke",
         "guardianship": "Værgemål",
+        "journalNumber": "Journalnummer",
+        "municipalityOfResidenceAfter": "Bopælskommune efter ophold",
+        "municipalityOfResidenceBefore": "Bopælskommune før ophold",
         "parentCollaboration": "Forældresamarbejde",
         "personalGuardianship": "Personværge",
         "photo": "Foto",
+        "stayData": "Opholdsdata",
         "studentCollaboration": "Elevsamarbejde"
       }
     },
@@ -3294,6 +3294,8 @@
         "name": "Skabelonnavn",
         "recurringUntil": "Indtil",
         "repeat": "Gentag",
+        "copyToConsecutiveWeeks": "Kopier til på hinanden følgende uger",
+        "numberOfWeeks": "Antal uger",
         "week": "Uge",
         "weekNumber": "Ugenummer",
         "weekRotations": "Ugerotationer",
@@ -3307,9 +3309,7 @@
         "recurringInfoBox": {
           "title": "Gentagende skabelon",
           "description": "Angiv hvor mange uger skabelonen roterer over (fx 4 = 4-ugers rulning). Du kan valgfrit sætte en slutdato — hvis du ikke sætter en dato, kan skabelonen altid anvendes."
-        },
-        "copyToConsecutiveWeeks": "Kopier til på hinanden følgende uger",
-        "numberOfWeeks": "Antal uger"
+        }
       },
       "newDraft": "Ny skabelon",
       "recurring": {
@@ -5823,6 +5823,7 @@
     "scheduleSlots": "Udbyd vagter",
     "stats": {
       "acrossCitizens": "På tværs af {n} borgere",
+      "activeTreatments": "Aktive behandlinger",
       "administered": "givet",
       "citizensOnShift": "Borgere på vagt",
       "completed": "afsluttet",
@@ -5835,7 +5836,6 @@
       "staffCheckedIn": "personale tjekket ind",
       "tasksToday": "Opgaver i dag",
       "upcoming": "Kommende",
-      "activeTreatments": "Aktive behandlinger",
       "viewAll": "Se alle"
     },
     "tasks": "Opgaver",
@@ -6705,6 +6705,7 @@
         "quickRiskAssessment": "Hurtig risikovurdering",
         "region": "Region",
         "registerTransport": "Registrer transport",
+        "sundayShiftCalculation": "Aktivér søndagsvagtberegning",
         "remove": "Fjern firmalogo",
         "street": "Gade",
         "transferNormHours": "Overfør normtimer til næste år, hvis de ikke er brugt",
@@ -6712,7 +6713,6 @@
         "warning11HourRest": "Advarsel ved hviletid under 11 timer",
         "warning48HourRule": "Advarsel ved 48-timers reglen",
         "website": "Hjemmeside",
-        "sundayShiftCalculation": "Aktivér søndagsvagtberegning",
         "ipRestriction": "IP-begrænsning",
         "enableIpRestriction": "Aktivér IP-begrænsning",
         "ipRestrictionAction": "Begrænsningshandling",
@@ -6807,9 +6807,9 @@
       "timeLogs": "Tidslogfiler",
       "transactions": "Transaktioner",
       "units": "Enheder",
-      "nursingProfessionalRecordTemplates": "Sygeplejejournalskabeloner",
       "ipRestrictions": "IP-begrænsninger",
       "approvedDevices": "Godkendte enheder",
+      "nursingProfessionalRecordTemplates": "Sygeplejejournalskabeloner",
       "treatmentTemplates": "Behandlingsskabeloner"
     },
     "wallets": {
@@ -6865,6 +6865,22 @@
       "paycode": "Lønningskode",
       "timeIn": "Tid ind",
       "timeOut": "Tid ud",
+      "multiplierRules": "Timemultiplikatorregler",
+      "multiplierRulesEmpty": "Ingen regler konfigureret",
+      "addMultiplierRule": "Tilføj regel",
+      "multiplierRuleTitle": "Regel",
+      "multiplierRuleName": "Regelnavn",
+      "multiplierRuleNamePlaceholder": "f.eks. Nattillæg",
+      "multiplierRuleFactor": "Faktor",
+      "multiplierRuleFactorPlaceholder": "f.eks. 1.25",
+      "multiplierRuleTimeInterval": "Tidsinterval (valgfrit)",
+      "multiplierRuleTimeFrom": "Fra",
+      "multiplierRuleTimeTo": "Til",
+      "multiplierRuleDaysOfWeek": "Ugedage (valgfrit)",
+      "multiplierRuleAppliesToWeekdays": "Hverdage",
+      "multiplierRuleAppliesToWeekends": "Weekender",
+      "multiplierRuleAppliesToHolidays": "Helligdage",
+      "multiplierRuleIsActive": "Aktiv",
       "workingHoursFactor": "Arbejdstidsfaktor",
       "workingHoursFactorFrom": "Fra",
       "workingHoursFactorInterval": "Anvend inden for tidsinterval (valgfrit)",
@@ -7859,34 +7875,28 @@
   "no": "Nej",
   "yes": "Ja",
   "youDontHaveAccessToThisPage": "Du har ikke adgang til denne side. Kontakt venligst din administrator",
-  "nursingProfessionalRecordTemplates": {
-    "nursingProfessionalRecordTemplates": "Sygeplejejournalskabeloner",
-    "newTemplate": "Ny skabelon",
-    "editTemplate": "Rediger skabelon",
-    "form": {
-      "name": "Skabelonnavn",
-      "fieldConfiguration": "Feltkonfiguration",
-      "field": "Felt",
-      "required": "Påkrævet",
-      "optional": "Valgfrit",
-      "alert": {
-        "newTemplateSuccessfullySaved": "Skabelon gemt",
-        "templateSuccessfullyUpdated": "Skabelon opdateret"
-      }
-    },
+  "ipRestrictions": {
+    "title": "IP-begrænsninger",
+    "addIp": "Tilføj IP-adresse",
+    "editIp": "Rediger IP-adresse",
+    "ipAddress": "IP-adresse",
+    "label": "Etiket",
     "table": {
-      "name": "Navn",
-      "requiredFields": "Påkrævede felter",
+      "ipAddress": "IP-adresse",
+      "label": "Etiket",
       "actions": {
+        "header": "Handlinger",
         "edit": "Rediger",
         "delete": "Slet"
-      },
-      "alert": {
-        "templateSuccessfullyDeleted": "Skabelon slettet"
-      },
-      "confirmation": {
-        "deleteTemplateConfirmation": "Er du sikker på, at du vil slette denne skabelon"
       }
+    },
+    "confirmation": {
+      "delete": "Er du sikker på, at du vil slette denne IP-begrænsning"
+    },
+    "alert": {
+      "added": "IP-begrænsning tilføjet succesfuldt",
+      "updated": "IP-begrænsning opdateret succesfuldt",
+      "deleted": "IP-begrænsning slettet succesfuldt"
     }
   },
   "approvedDevices": {
@@ -7919,31 +7929,6 @@
       "deleted": "Godkendt enhed fjernet succesfuldt"
     }
   },
-  "clear": "Ryd",
-  "ipRestrictions": {
-    "title": "IP-begrænsninger",
-    "addIp": "Tilføj IP-adresse",
-    "editIp": "Rediger IP-adresse",
-    "ipAddress": "IP-adresse",
-    "label": "Etiket",
-    "table": {
-      "ipAddress": "IP-adresse",
-      "label": "Etiket",
-      "actions": {
-        "header": "Handlinger",
-        "edit": "Rediger",
-        "delete": "Slet"
-      }
-    },
-    "confirmation": {
-      "delete": "Er du sikker på, at du vil slette denne IP-begrænsning"
-    },
-    "alert": {
-      "added": "IP-begrænsning tilføjet succesfuldt",
-      "updated": "IP-begrænsning opdateret succesfuldt",
-      "deleted": "IP-begrænsning slettet succesfuldt"
-    }
-  },
   "otpVerification": {
     "checkYourEmailForOtp": "En engangskode er sendt til din e-mail. Indtast den nedenfor.",
     "form": {
@@ -7951,27 +7936,6 @@
       "otp": "Engangskode",
       "verify": "Bekræft"
     }
-  },
-  "ownChatGpt": {
-    "apiKey": "OpenAI API-nøgle",
-    "apiKeyPlaceholder": "sk-...",
-    "attachFile": "Vedhæft fil",
-    "clearChat": "Ryd chat",
-    "emptySubtitle": "Skriv en besked nedenfor for at komme i gang",
-    "emptyTitle": "Hvad er på dagsordenen i dag?",
-    "outOfSync": "Ikke synkroniseret",
-    "placeholder": "Spørg om alt...",
-    "poweredByYourKey": "Drevet af din OpenAI-nøgle",
-    "save": "Gem",
-    "savedSuccess": "API-nøgle gemt",
-    "settings": "Indstillinger",
-    "sync": "Synkroniser AI",
-    "syncComplete": "Synkronisering fuldført",
-    "syncReminderBody": "Dette sikrer, at AI'en har adgang til din virksomheds data.",
-    "synced": "Synkroniseret",
-    "syncReminderTitle": "Synkroniser din AI med virksomhedens AI, inden du chatter.",
-    "syncing": "Synkroniserer...",
-    "title": "Din ChatGPT Integration"
   },
   "treatmentTemplates": {
     "treatmentTemplates": "Behandlingsskabeloner",
@@ -8002,5 +7966,57 @@
         "deleteTemplateConfirmation": "Er du sikker på, at du vil slette denne skabelon"
       }
     }
+  },
+  "nursingProfessionalRecordTemplates": {
+    "nursingProfessionalRecordTemplates": "Sygeplejejournalskabeloner",
+    "newTemplate": "Ny skabelon",
+    "editTemplate": "Rediger skabelon",
+    "form": {
+      "name": "Skabelonnavn",
+      "fieldConfiguration": "Feltkonfiguration",
+      "field": "Felt",
+      "required": "Påkrævet",
+      "optional": "Valgfrit",
+      "alert": {
+        "newTemplateSuccessfullySaved": "Skabelon gemt",
+        "templateSuccessfullyUpdated": "Skabelon opdateret"
+      }
+    },
+    "table": {
+      "name": "Navn",
+      "requiredFields": "Påkrævede felter",
+      "actions": {
+        "edit": "Rediger",
+        "delete": "Slet"
+      },
+      "alert": {
+        "templateSuccessfullyDeleted": "Skabelon slettet"
+      },
+      "confirmation": {
+        "deleteTemplateConfirmation": "Er du sikker på, at du vil slette denne skabelon"
+      }
+    }
+  },
+  "clear": "Ryd",
+  "ownChatGpt": {
+    "apiKey": "OpenAI API-nøgle",
+    "apiKeyPlaceholder": "sk-...",
+    "attachFile": "Vedhæft fil",
+    "clearChat": "Ryd chat",
+    "emptySubtitle": "Skriv en besked nedenfor for at komme i gang",
+    "emptyTitle": "Hvad er på dagsordenen i dag?",
+    "outOfSync": "Ikke synkroniseret",
+    "placeholder": "Spørg om alt...",
+    "poweredByYourKey": "Drevet af din OpenAI-nøgle",
+    "save": "Gem",
+    "savedSuccess": "API-nøgle gemt",
+    "settings": "Indstillinger",
+    "sync": "Synkroniser AI",
+    "syncComplete": "Synkronisering fuldført",
+    "syncReminderBody": "Dette sikrer, at AI'en har adgang til din virksomheds data.",
+    "synced": "Synkroniseret",
+    "syncReminderTitle": "Synkroniser din AI med virksomhedens AI, inden du chatter.",
+    "syncing": "Synkroniserer...",
+    "title": "Din ChatGPT Integration"
   }
 }

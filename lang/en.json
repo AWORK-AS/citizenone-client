@@ -1658,21 +1658,21 @@
           "firstname": "First name",
           "gender": "Gender",
           "lastname": "Last name",
-          "origin": "Origin",
-          "name": "Name"
+          "name": "Name",
+          "origin": "Origin"
         },
-        "dischargeReason": "Discharge reason",
-        "journalNumber": "Journal number",
-        "municipalityOfResidenceAfter": "Municipality of residence after",
-        "municipalityOfResidenceBefore": "Municipality of residence before",
-        "stayData": "Stay data",
         "consentFields": "Consent",
+        "dischargeReason": "Discharge reason",
         "financialGuardianship": "Financial guardianship",
         "generalConsent": "General consent",
         "guardianship": "Guardianship",
+        "journalNumber": "Journal number",
+        "municipalityOfResidenceAfter": "Municipality of residence after",
+        "municipalityOfResidenceBefore": "Municipality of residence before",
         "parentCollaboration": "Parent collaboration",
         "personalGuardianship": "Personal guardianship",
         "photo": "Photo",
+        "stayData": "Stay data",
         "studentCollaboration": "Student collaboration"
       }
     },
@@ -3294,6 +3294,8 @@
         "name": "Template name",
         "recurringUntil": "Until",
         "repeat": "Repeat",
+        "copyToConsecutiveWeeks": "Copy to consecutive weeks",
+        "numberOfWeeks": "Number of weeks",
         "week": "Week",
         "weekNumber": "Week number",
         "weekRotations": "Week rotations",
@@ -3307,9 +3309,7 @@
         "recurringInfoBox": {
           "title": "Recurring template",
           "description": "Specify how many weeks the template rotates over (e.g., 4 = 4-week rotation). You can optionally set an end date — if you don't set a date, the template can always be used."
-        },
-        "copyToConsecutiveWeeks": "Copy to consecutive weeks",
-        "numberOfWeeks": "Number of weeks"
+        }
       },
       "newDraft": "New Template",
       "recurring": {
@@ -5852,6 +5852,7 @@
     "scheduleSlots": "Schedule slots",
     "stats": {
       "acrossCitizens": "Across {n} citizens",
+      "activeTreatments": "Active treatments",
       "administered": "administered",
       "citizensOnShift": "Citizens on shift",
       "completed": "completed",
@@ -5864,7 +5865,6 @@
       "staffCheckedIn": "staff checked in",
       "tasksToday": "Tasks today",
       "upcoming": "Upcoming",
-      "activeTreatments": "Active treatments",
       "viewAll": "View all"
     },
     "tasks": "Tasks",
@@ -6556,6 +6556,7 @@
       "createCitizenPlan": "Create citizen plan",
       "createSchedule": "Create schedule",
       "deleteCalendar": "Delete calendar",
+      "deleteCalendarEvent": "Delete calendar event",
       "deleteCitizenCalendar": "Delete citizen calendar",
       "deleteCitizenChildren": "Delete citizen children",
       "deleteCitizenContact": "Delete citizen contact",
@@ -6583,8 +6584,7 @@
       "viewCitizenCalendar": "View citizen calendar",
       "viewCitizenHealth": "View citizen health",
       "viewCitizenJournal": "View citizen journal",
-      "viewSchedule": "View schedule",
-      "deleteCalendarEvent": "Delete calendar event"
+      "viewSchedule": "View schedule"
     },
     "roles": "Roles",
     "table": {
@@ -6734,6 +6734,7 @@
         "quickRiskAssessment": "Quick risk assessment",
         "region": "Region",
         "registerTransport": "Register transport",
+        "sundayShiftCalculation": "Enable Sunday shift calculation",
         "remove": "Remove company logo",
         "street": "Street",
         "transferNormHours": "Transfer norm hours to next year if not used",
@@ -6741,7 +6742,6 @@
         "warning11HourRest": "Warning for rest periods under 11 hours",
         "warning48HourRule": "Warning for the 48-hour rule",
         "website": "Website",
-        "sundayShiftCalculation": "Enable Sunday shift calculation",
         "ipRestriction": "IP restriction",
         "enableIpRestriction": "Enable IP restriction",
         "ipRestrictionAction": "Restriction action",
@@ -6836,9 +6836,9 @@
       "timeLogs": "Time logs",
       "transactions": "Transactions",
       "units": "Units",
-      "nursingProfessionalRecordTemplates": "Nursing record templates",
       "ipRestrictions": "IP restrictions",
       "approvedDevices": "Approved devices",
+      "nursingProfessionalRecordTemplates": "Nursing record templates",
       "treatmentTemplates": "Treatment templates"
     },
     "wallets": {
@@ -6894,6 +6894,22 @@
       "paycode": "Paycode",
       "timeIn": "Time out",
       "timeOut": "Time in",
+      "multiplierRules": "Hour multiplier rules",
+      "multiplierRulesEmpty": "No rules configured",
+      "addMultiplierRule": "Add rule",
+      "multiplierRuleTitle": "Rule",
+      "multiplierRuleName": "Rule name",
+      "multiplierRuleNamePlaceholder": "e.g. Night premium",
+      "multiplierRuleFactor": "Factor",
+      "multiplierRuleFactorPlaceholder": "e.g. 1.25",
+      "multiplierRuleTimeInterval": "Time interval (optional)",
+      "multiplierRuleTimeFrom": "From",
+      "multiplierRuleTimeTo": "To",
+      "multiplierRuleDaysOfWeek": "Days of week (optional)",
+      "multiplierRuleAppliesToWeekdays": "Weekdays",
+      "multiplierRuleAppliesToWeekends": "Weekends",
+      "multiplierRuleAppliesToHolidays": "Holidays",
+      "multiplierRuleIsActive": "Active",
       "workingHoursFactor": "Working hours factor",
       "workingHoursFactorFrom": "From",
       "workingHoursFactorInterval": "Apply within time interval (optional)",
@@ -7888,57 +7904,6 @@
   "no": "No",
   "yes": "Yes",
   "youDontHaveAccessToThisPage": "You do not have access to this page. Please contact your administrator",
-  "nursingProfessionalRecordTemplates": {
-    "nursingProfessionalRecordTemplates": "Nursing record templates",
-    "newTemplate": "New template",
-    "editTemplate": "Edit template",
-    "form": {
-      "name": "Template name",
-      "fieldConfiguration": "Field configuration",
-      "field": "Field",
-      "required": "Required",
-      "optional": "Optional",
-      "alert": {
-        "newTemplateSuccessfullySaved": "Template successfully saved",
-        "templateSuccessfullyUpdated": "Template successfully updated"
-      }
-    },
-    "table": {
-      "name": "Name",
-      "requiredFields": "Required fields",
-      "actions": {
-        "edit": "Edit",
-        "delete": "Delete"
-      },
-      "alert": {
-        "templateSuccessfullyDeleted": "Template successfully deleted"
-      },
-      "confirmation": {
-        "deleteTemplateConfirmation": "Are you sure you want to delete this template"
-      }
-    }
-  },
-  "ownChatGpt": {
-    "apiKey": "OpenAI API Key",
-    "apiKeyPlaceholder": "sk-...",
-    "attachFile": "Attach file",
-    "clearChat": "Clear chat",
-    "emptySubtitle": "Type a message below to get started",
-    "emptyTitle": "What's on the agenda today?",
-    "outOfSync": "Out of sync",
-    "placeholder": "Ask anything...",
-    "poweredByYourKey": "Powered by your OpenAI key",
-    "save": "Save",
-    "savedSuccess": "API key saved successfully",
-    "settings": "Settings",
-    "sync": "Sync AI",
-    "syncComplete": "Sync complete",
-    "syncReminderBody": "This ensures the AI has access to your company's data.",
-    "synced": "Synced",
-    "syncReminderTitle": "Sync your AI with the company AI before chatting.",
-    "syncing": "Syncing...",
-    "title": "Your ChatGPT Integration"
-  },
   "ipRestrictions": {
     "title": "IP restrictions",
     "addIp": "Add IP address",
@@ -8031,5 +7996,56 @@
       }
     }
   },
-  "clear": "Clear"
+  "nursingProfessionalRecordTemplates": {
+    "nursingProfessionalRecordTemplates": "Nursing record templates",
+    "newTemplate": "New template",
+    "editTemplate": "Edit template",
+    "form": {
+      "name": "Template name",
+      "fieldConfiguration": "Field configuration",
+      "field": "Field",
+      "required": "Required",
+      "optional": "Optional",
+      "alert": {
+        "newTemplateSuccessfullySaved": "Template successfully saved",
+        "templateSuccessfullyUpdated": "Template successfully updated"
+      }
+    },
+    "table": {
+      "name": "Name",
+      "requiredFields": "Required fields",
+      "actions": {
+        "edit": "Edit",
+        "delete": "Delete"
+      },
+      "alert": {
+        "templateSuccessfullyDeleted": "Template successfully deleted"
+      },
+      "confirmation": {
+        "deleteTemplateConfirmation": "Are you sure you want to delete this template"
+      }
+    }
+  },
+  "clear": "Clear",
+  "ownChatGpt": {
+    "apiKey": "OpenAI API Key",
+    "apiKeyPlaceholder": "sk-...",
+    "attachFile": "Attach file",
+    "clearChat": "Clear chat",
+    "emptySubtitle": "Type a message below to get started",
+    "emptyTitle": "What's on the agenda today?",
+    "outOfSync": "Out of sync",
+    "placeholder": "Ask anything...",
+    "poweredByYourKey": "Powered by your OpenAI key",
+    "save": "Save",
+    "savedSuccess": "API key saved successfully",
+    "settings": "Settings",
+    "sync": "Sync AI",
+    "syncComplete": "Sync complete",
+    "syncReminderBody": "This ensures the AI has access to your company's data.",
+    "synced": "Synced",
+    "syncReminderTitle": "Sync your AI with the company AI before chatting.",
+    "syncing": "Syncing...",
+    "title": "Your ChatGPT Integration"
+  }
 }
