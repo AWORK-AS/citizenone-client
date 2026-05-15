@@ -1,6 +1,7 @@
 <template>
     <Multiselect mode="tags" :close-on-select="true" :searchable="true" :options="props.options" :limit="props.limit"
         :no-options-text="$t('theListIsEmpty')" :noResultsText="$t('noResultFound')" :max-height="props.maxHeight"
+        :appendToBody="props.appendToBody"
         class="multiselect-limited" :modelValue="modelValue" @update:modelValue="emit('update:modelValue', $event)" />
 </template>
 
@@ -9,6 +10,10 @@ import Multiselect from '@vueform/multiselect'
 import '@vueform/multiselect/themes/default.css'
 
 const props = defineProps({
+    appendToBody: {
+        type: Boolean,
+        default: false,
+    },
     options: {
         type: Object,
         required: true,

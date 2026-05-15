@@ -5104,6 +5104,15 @@
       }
     }
   },
+  "journalNotes": {
+    "title": "Journal notes",
+    "citizen": "Citizen",
+    "department": "Department",
+    "newNote": "New note",
+    "selectCitizen": "Select citizen",
+    "citizenRequired": "Please select a citizen",
+    "assessment": "Assessment"
+  },
   "journalContents": {
     "addnNewJournalContent": "New journal content",
     "editJournalContent": "Edit journal content",
@@ -7034,6 +7043,7 @@
     "messages": "Messages",
     "overview": "Overview",
     "protocols": "Protocols",
+    "journalNotes": "Journal notes",
     "pinSidebar": "Pin sidebar",
     "unpinSidebar": "Unpin sidebar"
   },
