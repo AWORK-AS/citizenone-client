@@ -410,15 +410,9 @@ onMounted(() => {
 })
 
 function hasCreatePlanAccess() {
-    const user = userStore.getUser
-    const hasAdminAccess = isAtLeast('Admin')
-    const employeeCanCreatePlan = user?.company?.employee_create_plans_enabled
-    if (hasAdminAccess) {
-        return true
-    } else if (employeeCanCreatePlan) {
-        return true
-    }
-    return false
+    if (isAtLeast('Admin')) return true
+    const employeeCanCreatePlan = userStore.getUser?.company?.employee_create_plans_enabled
+    return employeeCanCreatePlan && can('create_citizen_plan')
 }
 
 

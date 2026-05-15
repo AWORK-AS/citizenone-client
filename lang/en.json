@@ -6540,7 +6540,8 @@
         "roleSuccessfullyUpdated": "Role successfully updated"
       },
       "name": "Name",
-      "permissions": "Permissions"
+      "permissions": "Permissions",
+      "level": "Level"
     },
     "newRole": "New role",
     "permissions": {
@@ -6598,7 +6599,10 @@
       },
       "name": "Name",
       "permissions": "Permissions",
-      "user": "User"
+      "user": "User",
+      "level": "Level",
+      "regular": "Regular",
+      "manager": "Manager"
     }
   },
   "rooms": {
