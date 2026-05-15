@@ -84,28 +84,28 @@
                                                 </FormButton>
                                             </Tooltip>
                                             <Tooltip :text="$t('expenses.table.actions.edit')"
-                                                v-if="isAdmin(userStore?.user?.roles) && expense?.status === 'pending'">
+                                                v-if="isAtLeast('Admin') && expense?.status === 'pending'">
                                                 <FormButton type="button" buttonStyle="action"
                                                     @click="editExpense(expense)">
                                                     <Icon name="ph:pencil-simple" class="size-4" />
                                                 </FormButton>
                                             </Tooltip>
                                             <Tooltip :text="$t('expenses.table.actions.reject')"
-                                                v-if="expense?.status !== 'reimbursed' && isAdmin(userStore?.user?.roles) && expense?.status !== 'rejected'">
+                                                v-if="expense?.status !== 'reimbursed' && isAtLeast('Admin') && expense?.status !== 'rejected'">
                                                 <FormButton type="button" buttonStyle="danger"
                                                     @click="rejectExpenseConfirmation(expense)">
                                                     <Icon name="ph:file-x-duotone" class="size-4" />
                                                 </FormButton>
                                             </Tooltip>
                                             <Tooltip :text="$t('expenses.table.actions.reimburse')"
-                                                v-if="expense?.status !== 'reimbursed' && expense?.status !== 'rejected' && isAdmin(userStore?.user?.roles)">
+                                                v-if="expense?.status !== 'reimbursed' && expense?.status !== 'rejected' && isAtLeast('Admin')">
                                                 <FormButton type="button" buttonStyle="success"
                                                     @click="reimburse(expense)">
                                                     <Icon name="ph:check" class="size-4" />
                                                 </FormButton>
                                             </Tooltip>
                                             <Tooltip :text="$t('expenses.table.actions.delete')"
-                                                v-if="isAdmin(userStore?.user?.roles) && expense?.status !== 'pending'">
+                                                v-if="isAtLeast('Admin') && expense?.status !== 'pending'">
                                                 <FormButton type="button" buttonStyle="danger"
                                                     @click="deleteExpenseConfirmation(expense)">
                                                     <Icon name="ph:trash" class="size-4" />
@@ -146,6 +146,7 @@ import { useDatetimeFormatter } from '@/composables/datetimeFormatter'
 import { useI18n } from "vue-i18n"
 import { useAlert } from '@/composables/alert'
 import { useUserStore } from '@/store/user'
+import { usePermissions } from '@/composables/usePermissions'
 import type { Error } from '@/types'
 import { saveAs } from 'file-saver'
 import { expenseService } from '@/components/api/user/ExpenseService'
@@ -155,6 +156,7 @@ const { formatDateToReadable } = useDatetimeFormatter()
 const { formatNumber } = useNumberFormatter()
 const { successAlert } = useAlert()
 const userStore = useUserStore() as any
+const { isAtLeast, can } = usePermissions()
 const { t, locale } = useI18n()
 const router = useRouter()
 const documentFile = ref(null) as any
@@ -209,9 +211,6 @@ onMounted(() => {
 })
 
 
-function isAdmin(roles: any) {
-    return roles && roles.some((role: any) => role.name === 'Admin')
-}
 
 async function fetchExpenses(folderUuid: any = null) {
     state.error = {}

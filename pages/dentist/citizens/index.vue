@@ -30,7 +30,7 @@
             </template>
 
             <div>
-                <div class="flex justify-end items-center mb-5" v-if="userStore.getUser?.roles?.[0]?.name === 'Admin'">
+                <div class="flex justify-end items-center mb-5" v-if="isAtLeast('Admin')">
                     <FormButton buttonStyle="action" @click="navigateTo('/citizens/new')">
                         <Icon name="ph:plus" class="h-4 w-4" aria-hidden="true" />
                         {{ $t('citizens.newCitizen') }}
@@ -67,7 +67,7 @@
                                             </FormButton>
                                             <FormButton type="button" buttonStyle="action"
                                                 @click="navigateTo(`/citizens/${citizen.uuid}/edit`)"
-                                                v-if="userStore.getUser?.roles?.[0]?.name === 'Admin'">
+                                                v-if="isAtLeast('Admin')">
                                                 <Icon name="ph:pencil-simple" class="size-4" />
                                                 {{ $t('citizens.table.actions.edit') }}
                                             </FormButton>
@@ -97,12 +97,14 @@ import { citizenService } from '@/components/api/user/CitizenService'
 import { useDepartmentStore } from '@/store/department'
 import { useCustomPagesStore } from '@/store/custom-pages'
 import { useUserStore } from '@/store/user'
+import { usePermissions } from '@/composables/usePermissions'
 import type { Error } from '@/types'
 
 const runtimeConfig = useRuntimeConfig()
 const departmentStore = useDepartmentStore()
 const customPagesStore = useCustomPagesStore() as any
 const userStore = useUserStore() as any
+const { isAtLeast } = usePermissions()
 let currentTablePage = 1
 
 const state = reactive({

@@ -229,7 +229,7 @@
                                                 </button>
                                             </Tooltip>
                                             <div class="flex-1 flex justify-end gap-x-2"
-                                                v-if="isAdmin(userStore.getUser?.role)">
+                                                v-if="isAtLeast('Admin')">
                                                 <Tooltip :text="$t('dutySchedules.copy.copyMultipleWeeksSchedule')">
                                                     <button
                                                         class="bg-gray-200 w-6 h-6 text-sm text-gray-600 rounded-sm hover:bg-gray-400 hover:text-gray-200 flex items-center justify-center"
@@ -253,7 +253,7 @@
                                         v-for="day in weekDays" :key="day.date"
                                         class="relative cursor-pointer hover:bg-gray-200 flex items-center justify-center py-4 border-0.5"
                                         @click="openManageScheduleSlotModal(day)"
-                                        v-if="isAdmin(userStore.getUser?.role)">
+                                        v-if="isAtLeast('Admin')">
                                         <span class="flex gap-x-1 text-sm">
                                             <span v-if="day.longName === 'Mon'">
                                                 {{ $t('calendar.week.short.Monday') }}
@@ -289,7 +289,7 @@
                                     </Tooltip>
                                     <div v-for="day in weekDays" :key="day.date"
                                         class="flex items-center justify-center py-4 border-0.5"
-                                        v-if="!isAdmin(userStore.getUser?.role)">
+                                        v-if="!isAtLeast('Admin')">
                                         <span class="flex gap-x-1 text-sm">
                                             <span v-if="day.longName === 'Mon'">
                                                 {{ $t('calendar.week.short.Monday') }}
@@ -365,7 +365,7 @@
                                                         <div class="flex items-center gap-1">
                                                             <Tooltip position="left"
                                                                 :text="$t('dutySchedules.extraHours.extraHours')"
-                                                                v-if="isAdmin(userStore.getUser?.role) || userStore.getUser?.uuid === employee?.uuid">
+                                                                v-if="isAtLeast('Admin') || userStore.getUser?.uuid === employee?.uuid">
                                                                 <button
                                                                     class="bg-gray-200 w-6 h-6 text-sm text-gray-600 rounded-sm hover:bg-gray-400 hover:text-gray-200 flex items-center justify-center"
                                                                     @click="viewExtraHours(employee)">
@@ -459,7 +459,7 @@
                                                     expandedRecords[employeeIndex as number] && 'hidden'
                                                 ]">
                                                     <div class="text-xs grid grid-cols-7"
-                                                        v-if="isAdmin(userStore.getUser?.role) || (!isAdmin(userStore.getUser?.role) && userStore.getUser?.show_working_hours)">
+                                                        v-if="isAtLeast('Admin') || (!isAtLeast('Admin') && userStore.getUser?.show_working_hours)">
                                                         <div class="col-span-3 space-y-2" />
                                                         <div class="col-span-2 flex gap-2 flex-col items-end">
                                                             <p class="text-xxs py-2 pr-2">
@@ -662,7 +662,7 @@
                                                 <div class="space-y-2"
                                                     v-if="!isDailyScheduleCopied(employeeIndex, weekIndex, weekNumber)">
                                                     <div class="flex justify-end gap-2"
-                                                        v-if="isAdmin(userStore.getUser?.role)">
+                                                        v-if="isAtLeast('Admin')">
                                                         <Tooltip position="left" :text="$t('dutySchedules.copy.copy')">
                                                             <button
                                                                 class="bg-gray-200 w-6 h-6 text-sm text-gray-600 rounded-sm hover:bg-gray-400 hover:text-gray-200 flex items-center justify-center"
@@ -804,7 +804,7 @@
                                                             <button
                                                                 class="bg-gray-200 w-4 h-4 text-sm text-gray-600 rounded-full flex items-center justify-center absolute -right-1 -top-1"
                                                                 @click="removeShift(week, employeeIndex, weekIndex, shift, shiftIndex)"
-                                                                v-if="isAdmin(userStore.getUser?.role)">
+                                                                v-if="isAtLeast('Admin')">
                                                                 <Tooltip position="left"
                                                                     :text="$t('dutySchedules.removeSchedule.removeSchedule')">
                                                                     <Icon name="ph:x" class="h-2 w-2"
@@ -921,12 +921,14 @@ import { draftScheduleService } from '@/components/api/user/DraftScheduleService
 import { useDepartmentStore } from '@/store/department'
 import { useDraftDutyScheduleStore } from '@/store/draft-duty-schedule'
 import { useUserStore } from '@/store/user'
+import { usePermissions } from '@/composables/usePermissions'
 import { useNumberFormatter } from '@/composables/numberFormatter'
 import { useI18n } from "vue-i18n"
 import type { Error } from '@/types'
 
 const language = useI18n()
 const userStore = useUserStore() as any
+const { isAtLeast, can } = usePermissions()
 const departmentStore = useDepartmentStore()
 const draftDutyScheduleStore = useDraftDutyScheduleStore() as any
 const { formatNumber } = useNumberFormatter()
@@ -1090,9 +1092,6 @@ function handleKeyDown(event: KeyboardEvent) {
     }
 }
 
-function isAdmin(role: any) {
-    return role && role === 'Admin'
-}
 
 function filterDutyScheduleDate(formDateRange: any) {
     state.shiftDateRange.formDateRange.start_date = formDateRange?.[0]
@@ -1426,7 +1425,7 @@ function openAddNewShiftModal(employee: any, employeeIndex: number, weekIndex: a
 }
 
 function onDragStart(e: DragEvent, emp: any, wi: any, sh: any) {
-    if (!isAdmin(userStore.getUser?.role)) { e.preventDefault(); return }
+    if (!isAtLeast('Admin')) { e.preventDefault(); return }
     _dragShift = sh; _dragSourceEmployee = emp; _dragSourceWeekIndex = wi
     state.isDragging = true
     if (e.dataTransfer) { e.dataTransfer.effectAllowed = "move" }

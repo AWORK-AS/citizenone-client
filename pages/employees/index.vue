@@ -103,16 +103,12 @@
                                         <span>{{ employee?.phone }}</span>
                                     </td>
                                     <td width="10%">
-                                        <div class="flex items-center gap-x-2" v-for="(role, index) in employee?.roles"
-                                            :key="index">
-                                            <span v-if="role.name === 'Admin'">
-                                                {{ $t('employees.table.admin') }}
-                                            </span>
-                                            <span v-else-if="role.name === 'User'">
-                                                {{ $t('employees.table.user') }}
-                                            </span>
-                                            <span v-else>
-                                                {{ role?.name }}
+                                        <div class="flex flex-wrap gap-1">
+                                            <span v-for="(role, index) in employee?.roles" :key="index"
+                                                class="bg-primary px-2 py-1 text-white text-xs rounded-md font-medium">
+                                                <template v-if="role.name === 'Admin'">{{ $t('employees.table.admin') }}</template>
+                                                <template v-else-if="role.name === 'User'">{{ $t('employees.table.user') }}</template>
+                                                <template v-else>{{ role?.name }}</template>
                                             </span>
                                         </div>
                                     </td>

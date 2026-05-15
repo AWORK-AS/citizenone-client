@@ -69,29 +69,29 @@
                                             <div class="flex items-end gap-2">
                                                 <Tooltip :text="$t('dutySchedules.leaveRequests.table.actions.edit')"
                                                     @click="editLeaveRequest(leaveRequests)"
-                                                    v-if="isAdmin(userStore.getUser?.role) || ['pending'].includes(leaveRequests?.status)">
+                                                    v-if="isAtLeast('Admin') || ['pending'].includes(leaveRequests?.status)">
                                                     <FormButton type=" button" buttonStyle="action">
                                                         <Icon name="ph:pencil-simple" class="size-4" />
                                                     </FormButton>
                                                 </Tooltip>
                                                 <Tooltip :text="$t('dutySchedules.leaveRequests.table.actions.approve')"
                                                     @click="confirmApproveLeaveRequestRequest(leaveRequests)"
-                                                    v-if="isAdmin(userStore.getUser?.role) && leaveRequests?.status === 'pending'"">
+                                                    v-if="isAtLeast('Admin') && leaveRequests?.status === 'pending'"">
                                                     <FormButton type=" button" buttonStyle="success">
                                                     <Icon name="ph:check" class="size-4" />
                                                     </FormButton>
                                                 </Tooltip>
                                                 <Tooltip :text="$t('dutySchedules.leaveRequests.table.actions.reject')"
                                                     @click="confirmRejectLeaveRequestRequest(leaveRequests)"
-                                                    v-if="isAdmin(userStore.getUser?.role) && leaveRequests?.status === 'pending'"">
+                                                    v-if="isAtLeast('Admin') && leaveRequests?.status === 'pending'"">
                                                     <FormButton type=" button" buttonStyle="danger">
                                                     <Icon name="ph:x" class="size-4" />
                                                     </FormButton>
                                                 </Tooltip>
                                                 <Tooltip :text="$t('dutySchedules.leaveRequests.table.actions.delete')"
                                                     @click="confirmDeleteLeaveRequest(leaveRequests)"
-                                                    v-if="isAdmin(userStore.getUser?.role) ||
-                                                        (!isAdmin(userStore.getUser?.role) && ['pending'].includes(leaveRequests?.status))">
+                                                    v-if="isAtLeast('Admin') ||
+                                                        (!isAtLeast('Admin') && ['pending'].includes(leaveRequests?.status))">
                                                     <FormButton type="button" buttonStyle="danger">
                                                         <Icon name="ph:trash" class="size-4" />
                                                     </FormButton>
@@ -137,6 +137,7 @@ import { useNumberFormatter } from '@/composables/numberFormatter'
 import { useI18n } from "vue-i18n"
 import { useAlert } from '@/composables/alert'
 import { useUserStore } from '@/store/user'
+import { usePermissions } from '@/composables/usePermissions'
 import type { Error } from '@/types'
 
 const props = defineProps({
@@ -157,6 +158,7 @@ const { successAlert } = useAlert()
 const { t } = useI18n()
 const language = useI18n()
 const userStore = useUserStore() as any
+const { isAtLeast, can } = usePermissions()
 let currentTablePage = 1
 
 const state = reactive({
@@ -260,9 +262,6 @@ function filterLeaveRequestByDateRange(formDateRange: any) {
     fetchLeaveRequests()
 }
 
-function isAdmin(role: any) {
-    return role && role === 'Admin'
-}
 
 function editLeaveRequest(leaveRequests: any) {
     state.selectedLeaveRequest = leaveRequests

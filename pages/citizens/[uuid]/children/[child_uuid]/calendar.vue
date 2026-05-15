@@ -50,7 +50,7 @@
                             </FormButton>
                         </div>
                         <div class="flex justify-end">
-                            <FormButton buttonStyle="action" @click="state.modal.isAddEventForCitizenOpen = true">
+                            <FormButton v-if="isAtLeast('Admin') || can('create_citizen_calendar')" buttonStyle="action" @click="state.modal.isAddEventForCitizenOpen = true">
                                 <Icon name="ph:plus" class="h-4 w-4" aria-hidden="true" />
                                 {{ $t('events.newEvent') }}
                             </FormButton>
@@ -90,6 +90,7 @@ import { citizenService } from '@/components/api/user/CitizenService'
 import { useI18n } from "vue-i18n"
 import { useAlert } from '@/composables/alert'
 import { useCustomPagesStore } from '@/store/custom-pages'
+import { usePermissions } from '@/composables/usePermissions'
 import type { Error } from '@/types'
 
 const runtimeConfig = useRuntimeConfig()
@@ -99,6 +100,7 @@ const childUuid = router?.currentRoute?.value?.params?.child_uuid
 const customPagesStore = useCustomPagesStore() as any
 const { successAlert } = useAlert()
 const { t } = useI18n()
+const { isAtLeast, can } = usePermissions()
 const breadcrumbLinks = [
     {
         name: 'citizens.tabs.children',

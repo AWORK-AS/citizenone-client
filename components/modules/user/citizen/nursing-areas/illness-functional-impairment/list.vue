@@ -3,7 +3,7 @@
         <div class="space-y-3">
             <Alert type="danger" :text="state?.error?.message"
                 v-if="state.error?.message && state.error.message.length > 0" />
-            <div class="flex justify-end items-center mb-5 gap-x-2">
+            <div class="flex justify-end items-center mb-5 gap-x-2" v-if="isAtLeast('Admin') || can('create_citizen_health')">
                 <FormButton buttonStyle="action" @click="state.modal.isAddIllnessFunctionalImpairmentOpen = true">
                     <Icon name="ph:plus" class="h-4 w-4" aria-hidden="true" />
                     {{ $t('citizens.nursingAreas.illnessAndFunctionalImpairment.newIllnessAndFunctionalImpairment') }}
@@ -24,7 +24,8 @@
                         </div>
                         <div>
                             <div class="flex items-center gap-2 flex-wrap md:flex-nowrap">
-                                <Tooltip :text="$t('citizens.nursingAreas.table.actions.edit')">
+                                <Tooltip :text="$t('citizens.nursingAreas.table.actions.edit')"
+                                    v-if="isAtLeast('Admin') || can('update_citizen_health')">
                                     <FormButton buttonSize="sm" @click="editIllnessFunctionalImpairment(record)">
                                         <Icon name="ph:pencil-simple" class="size-4" />
                                     </FormButton>
@@ -91,10 +92,12 @@
 <script setup lang="ts">
 import { useDatetimeFormatter } from '@/composables/datetimeFormatter'
 import { illnessFunctionalImpairmentService } from '@/components/api/user/IllnessFunctionalImpairmentService'
+import { usePermissions } from '@/composables/usePermissions'
 import type { Error } from '@/types'
 
 const router = useRouter()
 const { formatDateToReadable } = useDatetimeFormatter()
+const { isAtLeast, can } = usePermissions()
 const citizenUuid = router?.currentRoute?.value?.params?.uuid as any
 const expandedRecords = reactive([] as boolean[])
 let currentTablePage = 1

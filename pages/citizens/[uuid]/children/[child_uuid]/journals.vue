@@ -48,15 +48,15 @@
                                 </span>
                             </button>
                             <div class="flex items-center gap-x-2 justify-end">
-                                <FormButton buttonStyle="action" @click="state.modal.isAddJournalOpen = true">
+                                <FormButton v-if="isAtLeast('Admin') || can('create_citizen_journal')" buttonStyle="action" @click="state.modal.isAddJournalOpen = true">
                                     <Icon name="ph:plus" class="h-4 w-4" aria-hidden="true" />
                                     {{ $t('citizens.citizenJournals.newNote') }}
                                 </FormButton>
-                                <FormButton buttonStyle="action" @click="showDownloadJournal">
+                                <FormButton v-if="isAtLeast('Admin') || can('view_citizen_journal')" buttonStyle="action" @click="showDownloadJournal">
                                     <Icon name="ph:download" class="h-4 w-4" aria-hidden="true" />
                                     {{ $t('citizens.citizenJournals.download') }}
                                 </FormButton>
-                                <FormButton buttonStyle="action" @click="showDeletedJournalHistories">
+                                <FormButton v-if="isAtLeast('Admin') || can('view_citizen_journal')" buttonStyle="action" @click="showDeletedJournalHistories">
                                     <Icon name="ph:clock-clockwise" class="h-4 w-4" aria-hidden="true" />
                                     {{ $t('citizens.citizenJournals.journalLogs.deletedNotes') }}
                                 </FormButton>
@@ -316,6 +316,7 @@ import { journalService } from '@/components/api/user/JournalService'
 import { useI18n } from "vue-i18n"
 import { useAlert } from '@/composables/alert'
 import { useCitizenJournalStore } from '@/store/citizen-journal'
+import { usePermissions } from '@/composables/usePermissions'
 import type { Error } from '@/types'
 import { useCustomPagesStore } from '@/store/custom-pages'
 
@@ -325,6 +326,7 @@ const { successAlert } = useAlert()
 const { t } = useI18n()
 const language = useI18n()
 const customPagesStore = useCustomPagesStore() as any
+const { isAtLeast, can } = usePermissions()
 const router = useRouter()
 const citizenJournalStore = useCitizenJournalStore()
 const citizenUuid = router?.currentRoute?.value?.params?.uuid

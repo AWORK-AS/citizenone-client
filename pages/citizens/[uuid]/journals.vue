@@ -47,15 +47,18 @@
                                 </span>
                             </button>
                             <div class="flex items-center gap-x-2 justify-end">
-                                <FormButton buttonStyle="action" @click="state.modal.isAddJournalOpen = true">
+                                <FormButton buttonStyle="action" @click="state.modal.isAddJournalOpen = true"
+                                    v-if="isAtLeast('Admin') || can('create_citizen_journal')">
                                     <Icon name="ph:plus" class="h-4 w-4" aria-hidden="true" />
                                     {{ $t('citizens.citizenJournals.newNote') }}
                                 </FormButton>
-                                <FormButton buttonStyle="action" @click="showDownloadJournal">
+                                <FormButton buttonStyle="action" @click="showDownloadJournal"
+                                    v-if="isAtLeast('Admin') || can('view_citizen_journal')">
                                     <Icon name="ph:download" class="h-4 w-4" aria-hidden="true" />
                                     {{ $t('citizens.citizenJournals.download') }}
                                 </FormButton>
-                                <FormButton buttonStyle="action" @click="showDeletedJournalHistories">
+                                <FormButton buttonStyle="action" @click="showDeletedJournalHistories"
+                                    v-if="isAtLeast('Admin') || can('view_citizen_journal')">
                                     <Icon name="ph:clock-clockwise" class="h-4 w-4" aria-hidden="true" />
                                     {{ $t('citizens.citizenJournals.journalLogs.deletedNotes') }}
                                 </FormButton>
@@ -338,11 +341,13 @@ import { useAlert } from '@/composables/alert'
 import { useCitizenJournalStore } from '@/store/citizen-journal'
 import type { Error } from '@/types'
 import { useCustomPagesStore } from '@/store/custom-pages'
+import { usePermissions } from '@/composables/usePermissions'
 
 const runtimeConfig = useRuntimeConfig()
 const { formatDateToReadable, formatDateTimeToReadable } = useDatetimeFormatter()
 const { successAlert } = useAlert()
 const { t } = useI18n()
+const { isAtLeast, can } = usePermissions()
 const language = useI18n()
 const customPagesStore = useCustomPagesStore() as any
 const router = useRouter()
