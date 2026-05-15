@@ -3,13 +3,15 @@ import { ownChatGptService } from '@/components/api/user/OwnChatGptService'
 import pusher from '@/services/pusher'
 import { useUserStore } from '@/store/user'
 
+let _channel = null
+let _fakeTimer = null
+
 export const useOwnChatGptSyncStore = defineStore('ownChatGptSync', {
     state: () => ({
         isSyncing: false,
         isComplete: false,
         progress: 0,
         error: null,
-        _channel: null,
     }),
     actions: {
         async startSync() {
@@ -20,69 +22,91 @@ export const useOwnChatGptSyncStore = defineStore('ownChatGptSync', {
             this.error = null
 
             this._subscribe()
+            this._startFakeProgress()
 
             try {
                 await ownChatGptService.sync()
             } catch (e) {
-                if (this._channel) {
-                    pusher.unsubscribe(this._channel.name)
-                    this._channel = null
+                this._stopFakeTimer()
+                if (_channel) {
+                    pusher.unsubscribe(_channel.name)
+                    _channel = null
                 }
                 this.error = e?.response?.data?.message ?? e?.message ?? 'Sync failed.'
                 this.isSyncing = false
-                return
             }
         },
 
-
-
         cancelSync() {
-            if (this._channel) {
-                pusher.unsubscribe(this._channel.name)
-                this._channel = null
+            this._stopFakeTimer()
+            if (_channel) {
+                pusher.unsubscribe(_channel.name)
+                _channel = null
             }
             this.isSyncing = false
             this.progress = 0
             this.error = null
         },
 
+        _startFakeProgress() {
+            const tick = () => {
+                if (_fakeTimer === null) return
+                if (this.progress < 80) {
+                    this.progress = Math.min(80, this.progress + (80 - this.progress) * 0.02)
+                    _fakeTimer = setTimeout(tick, 300)
+                } else {
+                    _fakeTimer = null
+                }
+            }
+            _fakeTimer = setTimeout(tick, 200)
+        },
+
+        _stopFakeTimer() {
+            if (_fakeTimer !== null) {
+                clearTimeout(_fakeTimer)
+                _fakeTimer = null
+            }
+        },
+
         _subscribe() {
-            if (this._channel) return
+            if (_channel) return
 
             const userStore = useUserStore()
             const companyId = userStore.getUser?.company_id
             if (!companyId) return
 
             const channelName = `citizenone.owngpt.${companyId}`
-            this._channel = pusher.subscribe(channelName)
+            _channel = pusher.subscribe(channelName)
 
-            this._channel.bind('sync-progress', (data) => {
+            _channel.bind('sync-progress', (data) => {
                 const status = data?.status
-                if (status === 'building' || status === 'pending') {
-                    const uploaded = data?.uploaded_count ?? 0
-                    const total = data?.total_count ?? 0
-                    if (total > 0) {
-                        this.progress = Math.min(95, Math.round((uploaded / total) * 100))
-                    } else if (this.progress < 30) {
-                        this.progress = Math.min(30, this.progress + 2)
-                    }
-                } else if (status === 'ready') {
-                    this.progress = 100
-                    this.isSyncing = false
-                    this.isComplete = true
-                    
-                    if (this._channel) {
-                        pusher.unsubscribe(this._channel.name)
-                        this._channel = null
+
+                if (status === 'ready') {
+                    this._stopFakeTimer()
+
+                    if (_channel) {
+                        pusher.unsubscribe(_channel.name)
+                        _channel = null
                     }
 
-                    setTimeout(() => { this.isComplete = false }, 3000)
+                    const animateTo100 = () => {
+                        if (this.progress < 100) {
+                            this.progress = Math.min(100, this.progress + 2)
+                            setTimeout(animateTo100, 20)
+                        } else {
+                            this.isSyncing = false
+                            this.isComplete = true
+                            setTimeout(() => { this.isComplete = false }, 3000)
+                        }
+                    }
+                    animateTo100()
                 } else if (status === 'failed') {
+                    this._stopFakeTimer()
                     this.error = data?.error_message ?? 'Sync failed.'
-                    
-                    if (this._channel) {
-                        pusher.unsubscribe(this._channel.name)
-                        this._channel = null
+
+                    if (_channel) {
+                        pusher.unsubscribe(_channel.name)
+                        _channel = null
                     }
                     this.isSyncing = false
                 }
