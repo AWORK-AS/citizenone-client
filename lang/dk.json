@@ -5075,6 +5075,15 @@
       }
     }
   },
+  "journalNotes": {
+    "title": "Journalnotater",
+    "citizen": "Borger",
+    "department": "Afdeling",
+    "newNote": "Ny note",
+    "selectCitizen": "Vælg borger",
+    "citizenRequired": "Vælg venligst en borger",
+    "assessment": "Vurdering"
+  },
   "journalContents": {
     "addnNewJournalContent": "Nyt journalindhold",
     "editJournalContent": "Rediger journalindhold",
@@ -6931,6 +6940,7 @@
     "messages": "Beskeder",
     "overview": "Oversigt",
     "protocols": "Protokol",
+    "journalNotes": "Journalnotater",
     "pinSidebar": "Fastgør sidebar",
     "unpinSidebar": "Frigør sidebar"
   },
