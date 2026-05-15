@@ -14,7 +14,7 @@
 
                     <!-- Header -->
                     <div class="flex items-center justify-between px-5 py-3.5 border-b border-gray-100 bg-white gap-2 flex-shrink-0">
-                        <div class="flex items-center gap-3">
+                        <div class="flex items-center gap-3 flex-1">
                             <div class="w-8 h-8 rounded-full bg-gray-900 flex items-center justify-center flex-shrink-0">
                                 <Icon name="simple-icons:openai" class="w-4 h-4 text-white" aria-hidden="true" />
                             </div>
@@ -23,7 +23,7 @@
                                 <p class="text-xs text-gray-400">{{ $t('ownChatGpt.poweredByYourKey') }}</p>
                             </div>
                         </div>
-                        <div class="flex items-center gap-2">
+                        <div class="flex items-center justify-center flex-1">
                             <!-- Sync status badge -->
                             <span v-if="syncStatus === null && !syncStore.isSyncing"
                                 class="flex items-center gap-1 text-xs text-gray-400">
@@ -40,7 +40,7 @@
                                 {{ $t('ownChatGpt.synced') }}
                             </span>
                         </div>
-                        <div class="flex items-center gap-1">
+                        <div class="flex items-center gap-1 flex-1 justify-end">
                             <Tooltip :text="$t('ownChatGpt.sync')" position="left">
                                 <button type="button"
                                     class="w-8 h-8 rounded-lg hover:bg-gray-100 flex items-center justify-center transition-colors disabled:opacity-40"
@@ -55,7 +55,7 @@
                             <Tooltip :text="$t('ownChatGpt.clearChat')" position="left">
                                 <button type="button"
                                     class="w-8 h-8 rounded-lg hover:bg-gray-100 flex items-center justify-center transition-colors"
-                                    @click="clearChat">
+                                    @click="state.isConfirmClearOpen = true">
                                     <Icon name="ph:trash" class="h-4 w-4 text-gray-500" aria-hidden="true" />
                                 </button>
                             </Tooltip>
@@ -175,29 +175,15 @@
                 </div>
             </div>
 
-            <!-- Settings Modal -->
-            <Modal size="md" :title="$t('ownChatGpt.settings')" :show="state.isSettingsOpen" @close="state.isSettingsOpen = false">
-                <template #modal-body>
-                    <div class="space-y-4">
-                        <Alert type="danger" :text="state.settingsError" v-if="state.settingsError" />
-                        <Alert type="success" :text="$t('ownChatGpt.savedSuccess')" v-if="state.settingsSuccess" />
-                        <div class="space-y-1">
-                            <label class="text-sm font-medium text-gray-700">{{ $t('ownChatGpt.apiKey') }}</label>
-                            <input v-model="state.apiKey" type="password"
-                                :placeholder="$t('ownChatGpt.apiKeyPlaceholder')"
-                                class="w-full rounded-lg border border-gray-300 px-3 py-2 text-sm focus:border-primary focus:outline-none focus:ring-1 focus:ring-primary" />
-                        </div>
-                        <div class="flex justify-end gap-x-2 pt-2">
-                            <FormButton buttonStyle="cancel" @click="state.isSettingsOpen = false">
-                                {{ $t('close') }}
-                            </FormButton>
-                            <FormButton buttonStyle="primary" :isLoading="state.isSavingKey" @click="saveApiKey">
-                                {{ $t('ownChatGpt.save') }}
-                            </FormButton>
-                        </div>
-                    </div>
-                </template>
-            </Modal>
+            <ModulesUserOwnChatgptModalSettings
+                :isModalOpen="state.isSettingsOpen"
+                @close="state.isSettingsOpen = false" />
+
+            <DialogConfirmation
+                :isModalOpen="state.isConfirmClearOpen"
+                :message="$t('ownChatGpt.clearChatConfirmation')"
+                @close="state.isConfirmClearOpen = false"
+                @confirm="clearChat" />
 
         </NuxtLayout>
     </div>
@@ -249,10 +235,7 @@ const state = reactive({
     isThinking: false,
     error: '',
     isSettingsOpen: false,
-    apiKey: '',
-    isSavingKey: false,
-    settingsError: '',
-    settingsSuccess: false,
+    isConfirmClearOpen: false,
     aiElements: {
         conversationId: null as string | null,
         vectorStoreId: null as string | null,
@@ -321,22 +304,6 @@ function onFilesSelected(event: Event) {
 
 function removeFile(index: number) {
     state.files.splice(index, 1)
-}
-
-async function saveApiKey() {
-    state.settingsError = ''
-    state.settingsSuccess = false
-    state.isSavingKey = true
-    try {
-        await ownChatGptService.saveApiKey({ api_key: state.apiKey })
-        state.settingsSuccess = true
-        state.apiKey = ''
-        setTimeout(() => { state.isSettingsOpen = false }, 1500)
-    } catch (e: any) {
-        state.settingsError = e?.message ?? 'Something went wrong'
-    } finally {
-        state.isSavingKey = false
-    }
 }
 
 function clearChat() {

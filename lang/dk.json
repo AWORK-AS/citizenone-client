@@ -8085,6 +8085,9 @@
   "clear": "Ryd",
   "ownChatGpt": {
     "apiKey": "OpenAI API-nøgle",
+    "clearChatConfirmation": "Er du sikker på, at du vil rydde chatten? Dette kan ikke fortrydes.",
+    "apiKeyInstructions": "Har du ikke en API-nøgle endnu? Du kan oprette en på OpenAI-platformen.",
+    "apiKeyInstructionsLink": "Hent din API-nøgle →",
     "apiKeyPlaceholder": "sk-...",
     "attachFile": "Vedhæft fil",
     "clearChat": "Ryd chat",

@@ -8113,6 +8113,9 @@
   "clear": "Clear",
   "ownChatGpt": {
     "apiKey": "OpenAI API Key",
+    "clearChatConfirmation": "Are you sure you want to clear the chat? This cannot be undone.",
+    "apiKeyInstructions": "Don't have an API key yet? You can create one at the OpenAI platform.",
+    "apiKeyInstructionsLink": "Get your API key →",
     "apiKeyPlaceholder": "sk-...",
     "attachFile": "Attach file",
     "clearChat": "Clear chat",
