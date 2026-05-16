@@ -65,6 +65,12 @@
                                         <span v-if="language.locale.value === 'dk'">
                                             Fortæl os om dit sted
                                         </span>
+                                        <span v-if="language.locale.value === 'no'">
+                                            Fortell oss om stedet ditt
+                                        </span>
+                                        <span v-if="language.locale.value === 'sv'">
+                                            Berätta om din plats
+                                        </span>
                                     </h3>
                                 </div>
 
@@ -81,6 +87,17 @@
                                             vises på
                                             FindSocialeTilbud.dk.
                                         </span>
+                                        <span v-if="language.locale.value === 'no'">
+                                            Ved å klikke på lenken nedenfor kan du fylle ut profilinnstillingene dine
+                                            slik
+                                            de vises på
+                                            FindSocialeTilbud.dk.
+                                        </span>
+                                        <span v-if="language.locale.value === 'sv'">
+                                            Genom att klicka på länken nedan kan du fylla i dina profilinställningar som
+                                            de visas på
+                                            FindSocialeTilbud.dk.
+                                        </span>
                                     </p>
                                     <p class="text-sm leading-6">
                                         <span v-if="language.locale.value === 'en'">
@@ -91,12 +108,22 @@
                                             Det er vigtigt for at blive synlig overfor sagsbehandlere, borgere,
                                             pårørende m.fl.
                                         </span>
+                                        <span v-if="language.locale.value === 'no'">
+                                            Det er viktig for å bli synlig for saksbehandlere, borgere,
+                                            pårørende m.fl.
+                                        </span>
+                                        <span v-if="language.locale.value === 'sv'">
+                                            Det är viktigt för att bli synlig för handläggare, medborgare,
+                                            anhöriga m.fl.
+                                        </span>
                                     </p>
                                 </div>
                                 <div class="mt-8">
                                     <FormButton type="button" buttonStyle="primary" class="w-full"
                                         @click="state.modal.isManageCompanyOpen = true">
                                         <span v-if="language.locale.value === 'en'">Complete your profile</span>
+                                        <span v-if="language.locale.value === 'no'">Fullfør profilen din</span>
+                                        <span v-if="language.locale.value === 'sv'">Fyll i din profil</span>
                                         <span v-if="language.locale.value === 'dk'">Udfyld din profil</span>
                                     </FormButton>
 
@@ -122,6 +149,12 @@
                                         <span v-if="language.locale.value === 'dk'">
                                             Få henvendelser fra sagsbehandlere
                                         </span>
+                                        <span v-if="language.locale.value === 'no'">
+                                            Motta henvendelser fra saksbehandlere.
+                                        </span>
+                                        <span v-if="language.locale.value === 'sv'">
+                                            Ta emot förfrågningar från handläggare.
+                                        </span>
                                     </h3>
                                     <div class="space-y-4 text-gray-700">
                                         <p class="text-base sm:text-sm leading-relaxed sm:leading-6">
@@ -139,6 +172,20 @@
                                                 Start ved at
                                                 klikke på knappen nedenfor.
                                             </span>
+                                            <span v-if="language.locale.value === 'no'">
+                                                Nå er du snart klar til å motta henvendelser fra saksbehandlere. Det
+                                                eneste du trenger
+                                                er å oppgi hvilken type plasseringer du er interessert i.
+                                                Start ved å
+                                                klikke på knappen nedenfor.
+                                            </span>
+                                            <span v-if="language.locale.value === 'sv'">
+                                                Nu är du snart redo att ta emot förfrågningar från handläggare. Det
+                                                enda du behöver
+                                                göra är att ange vilken typ av placeringar du är intresserad av.
+                                                Börja med att
+                                                klicka på knappen nedan.
+                                            </span>
                                         </p>
                                     </div>
 
@@ -148,8 +195,9 @@
                                         @click="state.modal.isShowInterestOpen = true">
                                         <span v-if="language.locale.value === 'en'">Fill out and get inquiries</span>
                                         <span v-if="language.locale.value === 'dk'">Udfyld og få henvendelser</span>
+                                        <span v-if="language.locale.value === 'no'">Fyll ut og få henvendelser</span>
+                                        <span v-if="language.locale.value === 'sv'">Fyll i och få förfrågningar</span>
                                     </FormButton>
-
                                 </div>
                             </div>
                         </div>

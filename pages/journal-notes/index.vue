@@ -3,38 +3,18 @@
         <NuxtLayout name="user">
 
             <Head>
-                <Title>{{ $t('citizens.tabs.journals') }} - {{ runtimeConfig?.public?.appName }}</Title>
+                <Title>{{ $t('journalNotes.title') }} - {{ runtimeConfig?.public?.appName }}</Title>
             </Head>
 
             <template #breadcrumb>
-                <Breadcrumb :links="breadcrumbLinks">
-                    <template #custom-link>
-                        <div class="flex items-center">
-                            <Icon name="heroicons:chevron-right" class="size-3 shrink-0 text-gray-400"
-                                aria-hidden="true" />
-                            <button @click="navigateTo('/citizens')"
-                                class="ml-4 text-sm font-medium text-gray-500 hover:text-gray-700">
-                                {{ customPagesStore.getCustomPagesName?.citizens }}
-                            </button>
-                        </div>
-                    </template>
-                </Breadcrumb>
+                <Breadcrumb :links="breadcrumbLinks" />
             </template>
 
-            <template #header>{{ $t('citizens.tabs.journals') }}</template>
+            <template #header>{{ $t('journalNotes.title') }}</template>
 
             <div class="space-y-5">
                 <Alert type="danger" :text="state?.error?.message"
                     v-if="state.error?.message && state.error.message.length > 0" />
-
-                <NuxtLink class="flex items-center gap-x-2 mb-3 max-w-fit hover:cursor-pointer"
-                    :to="`/citizens/${citizenUuid}/children`">
-                    <Icon name="ph:arrow-left" size="20" class="text-black" />
-                    <span>{{ $t('back') }}</span>
-                </NuxtLink>
-
-                <ModulesUserCitizenChildDetailsHeader />
-                <ModulesUserCitizenChildJournalTabs />
 
                 <LoadingSpinner :isActive="state.isPageLoading">
                     <div class="mt-8 space-y-5">
@@ -48,15 +28,11 @@
                                 </span>
                             </button>
                             <div class="flex items-center gap-x-2 justify-end">
-                                <FormButton v-if="isAtLeast('Admin') || can('create_citizen_journal')" buttonStyle="action" @click="state.modal.isAddJournalOpen = true">
+                                <FormButton buttonStyle="action" @click="state.modal.isAddJournalOpen = true">
                                     <Icon name="ph:plus" class="h-4 w-4" aria-hidden="true" />
-                                    {{ $t('citizens.citizenJournals.newNote') }}
+                                    {{ $t('journalNotes.newNote') }}
                                 </FormButton>
-                                <FormButton v-if="isAtLeast('Admin') || can('view_citizen_journal')" buttonStyle="action" @click="showDownloadJournal">
-                                    <Icon name="ph:download" class="h-4 w-4" aria-hidden="true" />
-                                    {{ $t('citizens.citizenJournals.download') }}
-                                </FormButton>
-                                <FormButton v-if="isAtLeast('Admin') || can('view_citizen_journal')" buttonStyle="action" @click="showDeletedJournalHistories">
+                                <FormButton buttonStyle="action" @click="state.modal.isDeletedJournalHistoriesOpen = true">
                                     <Icon name="ph:clock-clockwise" class="h-4 w-4" aria-hidden="true" />
                                     {{ $t('citizens.citizenJournals.journalLogs.deletedNotes') }}
                                 </FormButton>
@@ -74,47 +50,66 @@
                                     v-model="state.filter.date_range" class="w-full md:w-96 h-11" />
                                 <FormButton buttonSize="sm" :class="[
                                     ['Journal ascending', ''].includes(citizenJournalStore.getSortDataBy) && 'border-secondary bg-secondary text-white',
-                                    'rounded-md w-full md:w-fit']" @click="sortJournalAscending('Journal ascending')">
+                                    'w-full md:w-fit']" @click="sortJournalAscending('Journal ascending')">
                                     <Icon name="mdi:sort-ascending" class="size-4" />
                                 </FormButton>
                                 <FormButton buttonSize="sm" :class="[
                                     ['Journal descending'].includes(citizenJournalStore.getSortDataBy) && 'border-secondary bg-secondary text-white',
-                                    'rounded-md w-full md:w-fit']"
-                                    @click="sortJournalDescending('Journal descending')">
+                                    'w-full md:w-fit']" @click="sortJournalDescending('Journal descending')">
                                     <Icon name="mdi:sort-descending" class="size-4" />
                                 </FormButton>
                                 <FormButton buttonSize="sm" :class="[
                                     citizenJournalStore.getFilterDataBy === 'Locked journals' && 'border-secondary bg-secondary text-white',
-                                    'rounded-md w-full md:w-fit']" @click="fetchLockedJournals('Locked journals')">
+                                    'w-full md:w-fit']" @click="fetchLockedJournals('Locked journals')">
                                     <Icon name="ph:lock" class="size-4" />
                                 </FormButton>
                                 <FormButton buttonSize="sm" :class="[
                                     citizenJournalStore.getFilterDataBy === 'Favorite journals' && 'border-secondary bg-secondary text-white',
-                                    'rounded-md w-full md:w-fit']" @click="fetchFavoriteJournals('Favorite journals')">
+                                    'w-full md:w-fit']" @click="fetchFavoriteJournals('Favorite journals')">
                                     <Icon name="ph:star" class="size-4" />
                                 </FormButton>
-                                <FormButton class="rounded-md w-full md:w-fit" buttonSize="sm" @click="resetFilter">
+                                <FormButton class="w-full md:w-fit" buttonSize="sm" @click="resetFilter">
                                     <Icon name="mdi:refresh" class="size-4" />
                                 </FormButton>
                             </div>
                         </div>
+
                         <div class="mt-5 space-y-5">
-                            <div class="bg-white ring-1 ring-gray-200 rounded-md p-5 border-l-4 border-secondary"
-                                v-for="(journal, index) in state.journals?.data" :key="index">
+                            <div :class="[
+                                'bg-white ring-1 rounded-md p-5 border-l-4',
+                                journal.is_pinned ? 'ring-primary/40 border-primary' : 'ring-gray-200 border-secondary'
+                            ]" v-for="(journal, index) in state.journals?.data" :key="index"
+                                :data-uuid="journal.uuid">
                                 <div class="space-y-3">
                                     <div class="space-y-1.5">
                                         <div>
                                             <div class="flex items-center gap-x-3 justify-between">
-                                                <div class="flex items-center gap-x-3">
+                                                <div class="flex items-center gap-x-3 flex-wrap">
+                                                    <NuxtLink
+                                                        :to="'/citizens/' + journal.citizen?.uuid + '/journals'"
+                                                        class="text-sm font-medium text-primary hover:text-primary-700">
+                                                        {{ journal.citizen?.firstname }} {{ journal.citizen?.lastname }}
+                                                    </NuxtLink>
                                                     <h3 class="text-md font-semibold">
                                                         {{ journal.title }}
                                                     </h3>
+                                                    <div v-if="journal.is_pinned"
+                                                        class="flex items-center gap-x-1 text-primary text-xs font-medium">
+                                                        <Icon name="ph:push-pin-fill" class="size-3.5" />
+                                                    </div>
                                                     <div v-if="journal.is_draft">
                                                         <Badge type="primary">
                                                             <p class="text-xs">
                                                                 {{ $t('citizens.citizenJournals.form.draft') }}
                                                             </p>
                                                         </Badge>
+                                                    </div>
+                                                    <div v-if="journal.is_ai_used">
+                                                        <span
+                                                            class="inline-flex items-center gap-1 rounded-full bg-violet-100 px-2 py-0.5 text-xxs font-medium text-violet-700">
+                                                            <Icon name="ph:sparkle-fill" class="size-3 shrink-0" />
+                                                            {{ $t('citizens.citizenJournals.aiUsed') }}
+                                                        </span>
                                                     </div>
                                                 </div>
                                                 <div
@@ -127,17 +122,13 @@
                                                     <Badge type="increased-risk"
                                                         v-if="journal.assessment === 'increased risk'">
                                                         <p class="text-xs">
-                                                            {{
-                                                                $t('citizens.citizenJournals.form.risk.increasedRisk')
-                                                            }}
+                                                            {{ $t('citizens.citizenJournals.form.risk.increasedRisk') }}
                                                         </p>
                                                     </Badge>
                                                     <Badge type="acute-increased-risk"
                                                         v-if="journal.assessment === 'acute increased risk'">
                                                         <p class="text-xs">
-                                                            {{
-                                                                $t('citizens.citizenJournals.form.risk.acuteIncreasedRisk')
-                                                            }}
+                                                            {{ $t('citizens.citizenJournals.form.risk.acuteIncreasedRisk') }}
                                                         </p>
                                                     </Badge>
                                                 </div>
@@ -148,29 +139,19 @@
                                             <div class="mt-1">
                                                 <Badge type="primary" class="w-fit" v-if="journal.score">
                                                     <p class="text-xxs" v-if="journal.score === 1">
-                                                        {{
-                                                            $t('plansandgoals.table.expectedLevels.minorChallenges')
-                                                        }}
+                                                        {{ $t('plansandgoals.table.expectedLevels.minorChallenges') }}
                                                     </p>
                                                     <p class="text-xxs" v-if="journal.score === 2">
-                                                        {{
-                                                            $t('plansandgoals.table.expectedLevels.moderateChallenges')
-                                                        }}
+                                                        {{ $t('plansandgoals.table.expectedLevels.moderateChallenges') }}
                                                     </p>
                                                     <p class="text-xxs" v-if="journal.score === 3">
-                                                        {{
-                                                            $t('plansandgoals.table.expectedLevels.significantChallenges')
-                                                        }}
+                                                        {{ $t('plansandgoals.table.expectedLevels.significantChallenges') }}
                                                     </p>
                                                     <p class="text-xxs" v-if="journal.score === 4">
-                                                        {{
-                                                            $t('plansandgoals.table.expectedLevels.severeChallenges')
-                                                        }}
+                                                        {{ $t('plansandgoals.table.expectedLevels.severeChallenges') }}
                                                     </p>
                                                     <p class="text-xxs" v-if="journal.score === 5">
-                                                        {{
-                                                            $t('plansandgoals.table.expectedLevels.verySubstantialChallenges')
-                                                        }}
+                                                        {{ $t('plansandgoals.table.expectedLevels.verySubstantialChallenges') }}
                                                     </p>
                                                 </Badge>
                                             </div>
@@ -183,7 +164,8 @@
                                             v-if="['Standard view', 'Journal note view'].includes(citizenJournalStore.getFilterView)">
                                             <div class="px-2 py-1 rounded-full text-white text-xxs"
                                                 :style="`background:${journalTag?.color};`"
-                                                v-for="(journalTag, index) in journal?.journal_tags" :index="index">
+                                                v-for="(journalTag, tagIndex) in journal?.journal_tags"
+                                                :key="tagIndex">
                                                 {{ journalTag?.name }}
                                             </div>
                                         </div>
@@ -198,12 +180,13 @@
                                             v-if="['Standard view', 'Risk assessment view'].includes(citizenJournalStore.getFilterView)">
                                             <div class="px-2 py-1 rounded-full text-white text-xxs"
                                                 :style="`background:${riskTag?.color};`"
-                                                v-for="(riskTag, index) in journal?.risk_tags" :index="index">
+                                                v-for="(riskTag, riskIndex) in journal?.risk_tags"
+                                                :key="riskIndex">
                                                 {{ riskTag?.name }}
                                             </div>
                                         </div>
                                         <div class="text-sm">
-                                            <p v-for="(tooth, index) in journal?.teeth" :key="index">
+                                            <p v-for="(tooth, toothIndex) in journal?.teeth" :key="toothIndex">
                                                 {{ tooth?.number }}.
                                                 {{ language.locale.value === 'en' ? tooth?.en_name : tooth?.dk_name }}
                                             </p>
@@ -242,7 +225,7 @@
                                                 :text="journal?.is_favorite ? $t('citizens.citizenJournals.actions.removeFromFavorite') : $t('citizens.citizenJournals.actions.addToFavorite')">
                                                 <FormButton buttonSize="xs" :class="[
                                                     journal?.is_favorite && 'border-secondary bg-secondary text-white',
-                                                    'rounded-md w-full md:w-fit']"
+                                                    'w-full md:w-fit']"
                                                     @click="addRemoveJournalToFavorite(journal.uuid)">
                                                     <Icon name="ph:star" class="size-4" />
                                                 </FormButton>
@@ -251,10 +234,19 @@
                                                 :text="journal?.is_locked ? $t('citizens.citizenJournals.actions.unlock') : $t('citizens.citizenJournals.actions.lock')">
                                                 <FormButton buttonSize="xs" :class="[
                                                     journal?.is_locked && 'border-secondary bg-secondary text-white',
-                                                    'rounded-md w-full md:w-fit']"
-                                                    @click="lockUnlockJournal(journal.uuid)">
+                                                    'w-full md:w-fit']" @click="lockUnlockJournal(journal.uuid)">
                                                     <Icon name="ph:lock" class="size-4" v-if="journal.is_locked" />
                                                     <Icon name="ph:lock-open" class="size-4" v-else />
+                                                </FormButton>
+                                            </Tooltip>
+                                            <Tooltip
+                                                :text="journal?.is_pinned ? $t('citizens.citizenJournals.actions.unpin') : $t('citizens.citizenJournals.actions.pin')">
+                                                <FormButton buttonSize="xs" :class="[
+                                                    journal?.is_pinned && 'border-primary bg-primary text-white',
+                                                    'w-full md:w-fit']" @click="pinUnpinJournal(journal.uuid)">
+                                                    <Icon name="ph:push-pin-fill" class="size-4"
+                                                        v-if="journal.is_pinned" />
+                                                    <Icon name="ph:push-pin" class="size-4" v-else />
                                                 </FormButton>
                                             </Tooltip>
                                             <Tooltip :text="$t('citizens.citizenJournals.actions.journalLogs')">
@@ -284,15 +276,16 @@
                     </div>
                 </LoadingSpinner>
             </div>
-            <ModulesUserCitizenJournalModalFilter :isModalOpen="state.modal.isFilterJournalOpen"
-                @close="state.modal.isFilterJournalOpen = false" @setFilter="setFilter" />
-            <ModulesUserCitizenJournalModalNew :isModalOpen="state.modal.isAddJournalOpen"
-                @close="state.modal.isAddJournalOpen = false" @refreshJournal="fetchJournals" />
+
+            <ModulesUserJournalNotesModalFilter :isModalOpen="state.modal.isFilterJournalOpen"
+                :citizenOptions="state.citizenOptions" @close="state.modal.isFilterJournalOpen = false"
+                @setFilter="setFilter" />
+            <ModulesUserJournalNotesModalNew :isModalOpen="state.modal.isAddJournalOpen"
+                :citizenOptions="state.citizenOptions" @close="state.modal.isAddJournalOpen = false"
+                @refreshJournal="fetchJournals" />
             <ModulesUserCitizenJournalModalEdit :isModalOpen="state.modal.isEditJournalOpen"
                 :selectedJournal="state.selectedJournal" @close="closeEditJournalModal"
                 @refreshJournal="fetchJournals" />
-            <ModulesUserCitizenJournalModalDownload :isModalOpen="state.modal.isDownloadJournalOpen"
-                @close="state.modal.isDownloadJournalOpen = false" />
             <ModulesUserCitizenJournalModalDeletedLogs :isModalOpen="state.modal.isDeletedJournalHistoriesOpen"
                 @close="state.modal.isDeletedJournalHistoriesOpen = false" />
             <ModulesUserCitizenJournalModalCopy :isModalOpen="state.modal.isCopyJournalOpen"
@@ -311,14 +304,15 @@
 </template>
 
 <script setup lang="ts">
-import { useDatetimeFormatter } from '@/composables/datetimeFormatter'
 import { journalService } from '@/components/api/user/JournalService'
-import { useI18n } from "vue-i18n"
+import { citizenService } from '@/components/api/user/CitizenService'
+import { useDatetimeFormatter } from '@/composables/datetimeFormatter'
 import { useAlert } from '@/composables/alert'
 import { useCitizenJournalStore } from '@/store/citizen-journal'
-import { usePermissions } from '@/composables/usePermissions'
-import type { Error } from '@/types'
 import { useCustomPagesStore } from '@/store/custom-pages'
+import { useDepartmentStore } from '@/store/department'
+import { useI18n } from 'vue-i18n'
+import type { Error } from '@/types'
 
 const runtimeConfig = useRuntimeConfig()
 const { formatDateToReadable, formatDateTimeToReadable } = useDatetimeFormatter()
@@ -326,33 +320,25 @@ const { successAlert } = useAlert()
 const { t } = useI18n()
 const language = useI18n()
 const customPagesStore = useCustomPagesStore() as any
-const { isAtLeast, can } = usePermissions()
-const router = useRouter()
 const citizenJournalStore = useCitizenJournalStore()
-const citizenUuid = router?.currentRoute?.value?.params?.uuid
-const childUuid = router?.currentRoute?.value?.params?.child_uuid
+const departmentStore = useDepartmentStore()
 let currentTablePage = 1
 
 const breadcrumbLinks = [
     {
-        name: 'citizens.tabs.children',
+        name: 'journalNotes.title',
         translate: true,
-        href: `/citizens/${citizenUuid}/children`,
-    },
-    {
-        name: 'citizens.tabs.journals',
-        translate: true,
-        href: `/citizens/${citizenUuid}/children/${childUuid}/journals`,
+        href: '/journal-notes',
     },
 ]
 
 const state = reactive({
+    citizenOptions: [] as any,
     dataFilter: [] as any,
     error: {} as Error,
     filter: {
         date_range: [] as any,
         journal: '' as any,
-        view: "Standard view"
     },
     isPageLoading: false,
     journals: [] as any,
@@ -376,15 +362,9 @@ const state = reactive({
 
 onMounted(() => {
     if (citizenJournalStore.getSortDataBy === 'Journal ascending') {
-        state.sortData = {
-            sortField: 'date',
-            sortOrder: 'ascend',
-        }
+        state.sortData = { sortField: 'date', sortOrder: 'ascend' }
     } else if (citizenJournalStore.getSortDataBy === 'Journal descending') {
-        state.sortData = {
-            sortField: 'date',
-            sortOrder: 'descend',
-        }
+        state.sortData = { sortField: 'date', sortOrder: 'descend' }
     }
 
     if (citizenJournalStore.getFilterDataBy === 'Locked journals') {
@@ -394,6 +374,14 @@ onMounted(() => {
     }
 
     fetchJournals()
+    fetchAllCitizens()
+})
+
+watch(() => departmentStore.getSelectedDepartmentName, (newValue: any) => {
+    if (newValue != null) {
+        currentTablePage = 1
+        fetchJournals()
+    }
 })
 
 watch(() => state.filter.date_range, (dates: any) => {
@@ -404,8 +392,12 @@ watch(() => state.filter.date_range, (dates: any) => {
 
 function setFilter(filter: any) {
     citizenJournalStore.setFilterView(filter.selectedView.title)
-    state.dataFilter.tags_uuid = JSON.stringify(filter.tags)
-    state.dataFilter.created_by = JSON.stringify(filter.created_by)
+    state.dataFilter.tagsUuid = JSON.stringify(filter.tags)
+    state.dataFilter.createdBy = JSON.stringify(filter.created_by)
+    state.dataFilter.citizen_uuid = filter.citizens?.[0] ?? ''
+    state.dataFilter.citizen_name = ''
+    state.dataFilter.department = filter.departments?.[0] ?? ''
+    state.dataFilter.assessment = filter.assessment ?? ''
     fetchJournals()
 }
 
@@ -414,13 +406,13 @@ async function fetchJournals() {
     state.isPageLoading = true
     try {
         const params = {
-            citizen_uuid: citizenUuid,
             page: currentTablePage,
-            sortField: state.sortData.sortField,
-            sortOrder: state.sortData.sortOrder,
+            sort_field: state.sortData.sortField,
+            sort_order: state.sortData.sortOrder === 'ascend' ? 'asc' : 'desc',
+            department: departmentStore.getSelectedDepartmentName,
             ...state.dataFilter
         }
-        const response = await journalService.getJournals(params)
+        const response = await journalService.getJournalsOverview(params)
         if (response) {
             state.journals = response
         }
@@ -430,12 +422,18 @@ async function fetchJournals() {
     state.isPageLoading = false
 }
 
-function showDownloadJournal() {
-    state.modal.isDownloadJournalOpen = true
-}
-
-function showDeletedJournalHistories() {
-    state.modal.isDeletedJournalHistoriesOpen = true
+async function fetchAllCitizens() {
+    try {
+        const response = await citizenService.getAllCitizens({})
+        if (response?.data) {
+            state.citizenOptions = response.data.map((citizen: any) => ({
+                value: citizen?.uuid,
+                label: `${citizen?.firstname} ${citizen?.lastname}`,
+            }))
+        }
+    } catch {
+        // silently ignore - citizens list is optional for filters
+    }
 }
 
 function filterJournal() {
@@ -446,20 +444,14 @@ function filterJournal() {
 function sortJournalAscending(filterDataBy: any) {
     citizenJournalStore.setSortDataBy(filterDataBy)
     currentTablePage = 1
-    state.sortData = {
-        sortField: 'date',
-        sortOrder: 'ascend',
-    }
+    state.sortData = { sortField: 'date', sortOrder: 'ascend' }
     fetchJournals()
 }
 
 function sortJournalDescending(filterDataBy: any) {
     citizenJournalStore.setSortDataBy(filterDataBy)
     currentTablePage = 1
-    state.sortData = {
-        sortField: 'date',
-        sortOrder: 'descend',
-    }
+    state.sortData = { sortField: 'date', sortOrder: 'descend' }
     fetchJournals()
 }
 
@@ -482,10 +474,7 @@ function resetFilter() {
     citizenJournalStore.resetSortDataBy()
     currentTablePage = 1
     state.dataFilter = []
-    state.sortData = {
-        sortField: 'date',
-        sortOrder: 'descend',
-    }
+    state.sortData = { sortField: 'date', sortOrder: 'descend' }
     state.filter.date_range = []
     state.filter.journal = ''
     fetchJournals()
@@ -506,6 +495,11 @@ function editJournal(journal: any) {
     state.modal.isEditJournalOpen = true
 }
 
+function closeEditJournalModal() {
+    state.modal.isEditJournalOpen = false
+    state.selectedJournal = []
+}
+
 function copyJournal(journal: any) {
     state.selectedJournal = journal
     state.modal.isCopyJournalOpen = true
@@ -516,9 +510,14 @@ function moveJournal(journal: any) {
     state.modal.isMoveJournalOpen = true
 }
 
-function closeEditJournalModal() {
-    state.modal.isEditJournalOpen = false
-    state.selectedJournal = []
+function viewJournalLogs(journal: any) {
+    state.selectedJournal = journal
+    state.modal.isViewLogsOpen = true
+}
+
+function confirmJournalDeletion(journal: any) {
+    state.selectedJournal = journal
+    state.modal.isDeleteJournalOpen = true
 }
 
 async function addRemoveJournalToFavorite(journalUuid: any) {
@@ -528,7 +527,9 @@ async function addRemoveJournalToFavorite(journalUuid: any) {
         const response = await journalService.updateJournalFavorite(journalUuid)
         if (response?.data) {
             fetchJournals()
-            successAlert(`${t('alert.success')}!`, response?.data?.is_favorite ? `${t('citizens.citizenJournals.alert.addedToFavorites')}.` : `${t('citizens.citizenJournals.alert.removedToFavorites')}.`)
+            successAlert(`${t('alert.success')}!`, response?.data?.is_favorite
+                ? `${t('citizens.citizenJournals.alert.addedToFavorites')}.`
+                : `${t('citizens.citizenJournals.alert.removedToFavorites')}.`)
         }
     } catch (error: any) {
         state.error = error
@@ -543,7 +544,9 @@ async function lockUnlockJournal(journalUuid: any) {
         const response = await journalService.updateJournalLock(journalUuid)
         if (response?.data) {
             fetchJournals()
-            successAlert(`${t('alert.success')}!`, response?.data?.is_locked ? `${t('citizens.citizenJournals.alert.lockJournal')}.` : `${t('citizens.citizenJournals.alert.unlockJournal')}.`)
+            successAlert(`${t('alert.success')}!`, response?.data?.is_locked
+                ? `${t('citizens.citizenJournals.alert.lockJournal')}.`
+                : `${t('citizens.citizenJournals.alert.unlockJournal')}.`)
         }
     } catch (error: any) {
         state.error = error
@@ -551,14 +554,21 @@ async function lockUnlockJournal(journalUuid: any) {
     state.isPageLoading = false
 }
 
-function viewJournalLogs(journal: any) {
-    state.selectedJournal = journal
-    state.modal.isViewLogsOpen = true
-}
-
-function confirmJournalDeletion(journal: any) {
-    state.selectedJournal = journal
-    state.modal.isDeleteJournalOpen = true
+async function pinUnpinJournal(journalUuid: any) {
+    state.error = {}
+    state.isPageLoading = true
+    try {
+        const response = await journalService.updateJournalPin(journalUuid)
+        if (response?.data) {
+            fetchJournals()
+            successAlert(`${t('alert.success')}!`, response?.data?.is_pinned
+                ? `${t('citizens.citizenJournals.alert.pinJournal')}.`
+                : `${t('citizens.citizenJournals.alert.unpinJournal')}.`)
+        }
+    } catch (error: any) {
+        state.error = error
+    }
+    state.isPageLoading = false
 }
 
 async function deleteJournal() {

@@ -3,7 +3,7 @@
         <div class="space-y-3">
             <Alert type="danger" :text="state?.error?.message"
                 v-if="state.error?.message && state.error.message.length > 0" />
-            <div class="flex justify-end items-center mb-5 gap-x-2" v-if="state.records?.data?.length === 0">
+            <div class="flex justify-end items-center mb-5 gap-x-2" v-if="state.records?.data?.length === 0 && (isAtLeast('Admin') || can('create_citizen_health'))">
                 <FormButton buttonStyle="action"
                     @click="navigateTo(`/citizens/${citizenUuid}/nursing-areas/nursing-professional-records/new`)">
                     <Icon name="ph:plus" class="h-4 w-4" aria-hidden="true" />
@@ -36,7 +36,8 @@
                                         <Icon name="ph:file" class="size-4" />
                                     </FormButton>
                                 </Tooltip>
-                                <Tooltip :text="$t('citizens.nursingAreas.table.actions.edit')">
+                                <Tooltip :text="$t('citizens.nursingAreas.table.actions.edit')"
+                                    v-if="isAtLeast('Admin') || can('update_citizen_health')">
                                     <FormButton buttonSize="sm"
                                         @click="navigateTo(`/citizens/${citizenUuid}/nursing-areas/nursing-professional-records/${record.uuid}/edit`)">
                                         <Icon name="ph:pencil-simple" class="size-4" />
@@ -277,10 +278,12 @@
 <script setup lang="ts">
 import { useDatetimeFormatter } from '@/composables/datetimeFormatter'
 import { nursingAreasService } from '@/components/api/user/NursingAreasService'
+import { usePermissions } from '@/composables/usePermissions'
 import type { Error } from '@/types'
 
 const router = useRouter()
 const { formatDateToReadable } = useDatetimeFormatter()
+const { isAtLeast, can } = usePermissions()
 const citizenUuid = router?.currentRoute?.value?.params?.uuid as any
 const expandedRecords = reactive([] as boolean[])
 let currentTablePage = 1

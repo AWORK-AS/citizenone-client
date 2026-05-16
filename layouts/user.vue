@@ -534,6 +534,7 @@ function getNavItemLabel(item: any) {
     if (item.name === 'Mail') return t('sidebar.mail')
     if (item.name === 'Leads') return t('sidebar.leads')
     if (item.name === 'Bullet Board') return t('sidebar.bulletBoard')
+    if (item.name === 'Journal Notes') return t('sidebar.journalNotes')
     return item.name
 }
 
@@ -617,6 +618,8 @@ function generateSidebarLinks(user: any) {
     }
 
     navigation.push({ name: 'Bullet Board', href: '/news', icon: 'ph:newspaper', activeRouteNames: ['news', 'news-new', 'news-edit-uuid'] })
+
+    navigation.push({ name: 'Journal Notes', href: '/journal-notes', icon: 'ph:note-pencil', activeRouteNames: ['journal-notes'] })
 
     state.isSidebarLoading = false
 }

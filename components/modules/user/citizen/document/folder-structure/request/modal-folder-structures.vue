@@ -32,19 +32,19 @@
                                             </FormButton>
                                             <FormButton type="button" buttonStyle="action"
                                                 @click="confirmDeleteFolderStructureRequest(folderStructure)"
-                                                v-if="!isAdmin(userStore.getUser?.roles)">
+                                                v-if="!isAtLeast('Admin')">
                                                 <Icon name="ph:trash" class="size-4" />
                                                 {{ $t('folderStructure.requests.table.actions.delete') }}
                                             </FormButton>
                                             <FormButton type="button" buttonStyle="action"
                                                 @click="confirmApproveFolderStructureRequest(folderStructure)"
-                                                v-if="isAdmin(userStore.getUser?.roles)">
+                                                v-if="isAtLeast('Admin')">
                                                 <Icon name="ph:check" class="size-4" />
                                                 {{ $t('folderStructure.requests.table.actions.approve') }}
                                             </FormButton>
                                             <FormButton type="button" buttonStyle="action"
                                                 @click="confirmDisapproveFolderStructureRequest(folderStructure)"
-                                                v-if="isAdmin(userStore.getUser?.roles)">
+                                                v-if="isAtLeast('Admin')">
                                                 <Icon name="ph:x" class="size-4" />
                                                 {{ $t('folderStructure.requests.table.actions.disapprove') }}
                                             </FormButton>
@@ -85,6 +85,7 @@
 <script setup lang="ts">
 import { folderStructureRequestService } from '@/components/api/user/FolderStructureRequestService'
 import { useUserStore } from '@/store/user'
+import { usePermissions } from '@/composables/usePermissions'
 import { useI18n } from "vue-i18n"
 import { useAlert } from '@/composables/alert'
 import type { Error } from '@/types'
@@ -99,6 +100,7 @@ const router = useRouter()
 const citizenUuid = router?.currentRoute?.value?.params?.uuid as any
 const emit = defineEmits(['close', 'refreshFolderStructures'])
 const userStore = useUserStore() as any
+const { isAtLeast, can } = usePermissions()
 const { t } = useI18n()
 const { successAlert } = useAlert()
 let currentTablePage = 1
@@ -139,9 +141,6 @@ watch(() => props.isModalOpen, (isModalOpen: any) => {
     }
 })
 
-function isAdmin(roles: any) {
-    return roles && roles.some((role: any) => role.name === 'Admin')
-}
 
 async function fetchFolderStructureRequests() {
     state.error = {}

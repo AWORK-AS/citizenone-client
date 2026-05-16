@@ -5,6 +5,10 @@ class JournalService extends BaseAPIService {
         return await this.request(`/user/citizen-journals`, 'GET', params)
     }
 
+    async getJournalsOverview(params: object): Promise<any> {
+        return await this.request(`/user/citizen-journals/all/overview`, 'GET', params)
+    }
+
     async getJournal(journalUuid: any): Promise<any> {
         return await this.request(`/user/citizen-journals/${journalUuid}`, 'GET')
     }

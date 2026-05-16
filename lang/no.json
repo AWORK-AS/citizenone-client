@@ -7987,5 +7987,29 @@
             }
         }
     },
-    "clear": "Ryd"
+    "clear": "Ryd",
+  "ownChatGpt": {
+    "apiKey": "OpenAI API-nøkkel",
+    "clearChatConfirmation": "Er du sikker på at du vil tømme chatten? Dette kan ikke angres.",
+    "apiKeyInstructions": "Har du ikke en API-nøkkel ennå? Du kan opprette en på OpenAI-plattformen.",
+    "apiKeyInstructionsLink": "Hent din API-nøkkel →",
+    "apiKeyPlaceholder": "sk-...",
+    "attachFile": "Legg ved fil",
+    "clearChat": "Tøm chat",
+    "emptySubtitle": "Skriv en melding nedenfor for å komme i gang",
+    "emptyTitle": "Hva er på agendaen i dag?",
+    "outOfSync": "Ikke synkronisert",
+    "placeholder": "Spør om hva som helst...",
+    "poweredByYourKey": "Drevet av din OpenAI-nøkkel",
+    "save": "Lagre",
+    "savedSuccess": "API-nøkkel lagret",
+    "settings": "Innstillinger",
+    "sync": "Synkroniser AI",
+    "syncComplete": "Synkronisering fullført",
+    "syncReminderBody": "Dette sikrer at AI-en har tilgang til bedriftens data.",
+    "synced": "Synkronisert",
+    "syncReminderTitle": "Synkroniser AI-en med bedriftens AI før du chatter.",
+    "syncing": "Synkroniserer...",
+    "title": "Din ChatGPT-integrasjon"
+  }
 }

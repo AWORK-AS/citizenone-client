@@ -96,6 +96,42 @@
                                                 20 GB er omkring 100.000 filer
                                             </li>
                                         </ul>
+                                        <ul class="list-disc list-inside text-sm text-gray-600"
+                                            v-if="language.locale.value === 'no'">
+                                            <li>
+                                                1 GB er omtrent 5 000 filer
+                                            </li>
+                                            <li>
+                                                3 GB er omtrent 15 000 filer
+                                            </li>
+                                            <li>
+                                                5 GB er omtrent 25 000 filer
+                                            </li>
+                                            <li>
+                                                10 GB er omtrent 50 000 filer
+                                            </li>
+                                            <li>
+                                                20 GB er omtrent 100 000 filer
+                                            </li>
+                                        </ul>
+                                        <ul class="list-disc list-inside text-sm text-gray-600"
+                                            v-if="language.locale.value === 'sv'">
+                                            <li>
+                                                1 GB är ungefär 5 000 filer
+                                            </li>
+                                            <li>
+                                                3 GB är ungefär 15 000 filer
+                                            </li>
+                                            <li>
+                                                5 GB är ungefär 25 000 filer
+                                            </li>
+                                            <li>
+                                                10 GB är ungefär 50 000 filer
+                                            </li>
+                                            <li>
+                                                20 GB är ungefär 100 000 filer
+                                            </li>
+                                        </ul>
                                     </div>
                                 </div>
                             </div>

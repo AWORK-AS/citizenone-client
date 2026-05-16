@@ -35,7 +35,7 @@
 
                 <div>
                     <div class="mt-8 flex justify-end items-center mb-5 gap-x-2">
-                        <FormButton buttonStyle="action" @click="state.modal.isAddExpenseOpen = true">
+                        <FormButton v-if="isAtLeast('Admin') || can('create_citizen_economy')" buttonStyle="action" @click="state.modal.isAddExpenseOpen = true">
                             <Icon name="ph:plus" class="h-4 w-4" aria-hidden="true" />
                             {{ $t('citizens.expenses.newExpense') }}
                         </FormButton>
@@ -101,28 +101,28 @@
                                                 </FormButton>
                                             </Tooltip>
                                             <Tooltip :text="$t('citizens.expenses.table.actions.edit')"
-                                                v-if="expense?.status === 'pending'">
+                                                v-if="expense?.status === 'pending' && (isAtLeast('Admin') || can('update_citizen_economy'))">
                                                 <FormButton type="button" buttonStyle="action"
                                                     @click="editExpense(expense)">
                                                     <Icon name="ph:pencil-simple" class="size-4" />
                                                 </FormButton>
                                             </Tooltip>
                                             <Tooltip :text="$t('citizens.expenses.table.actions.reject')"
-                                                v-if="expense?.status !== 'reimbursed' && expense?.status !== 'rejected'">
+                                                v-if="expense?.status !== 'reimbursed' && expense?.status !== 'rejected' && (isAtLeast('Admin') || can('update_citizen_economy'))">
                                                 <FormButton type="button" buttonStyle="danger"
                                                     @click="rejectExpenseConfirmation(expense)">
                                                     <Icon name="ph:file-x-duotone" class="size-4" />
                                                 </FormButton>
                                             </Tooltip>
                                             <Tooltip :text="$t('citizens.expenses.table.actions.reimburse')"
-                                                v-if="expense?.status !== 'reimbursed' && expense?.status !== 'rejected'">
+                                                v-if="expense?.status !== 'reimbursed' && expense?.status !== 'rejected' && (isAtLeast('Admin') || can('update_citizen_economy'))">
                                                 <FormButton type="button" buttonStyle="success"
                                                     @click="reimburse(expense)">
                                                     <Icon name="ph:check" class="size-4" />
                                                 </FormButton>
                                             </Tooltip>
                                             <Tooltip :text="$t('citizens.expenses.table.actions.delete')"
-                                                v-if="expense?.status !== 'pending'">
+                                                v-if="expense?.status !== 'pending' && (isAtLeast('Admin') || can('delete_citizen_economy'))">
                                                 <FormButton type="button" buttonStyle="danger"
                                                     @click="deleteExpenseConfirmation(expense)">
                                                     <Icon name="ph:trash" class="size-4" />
@@ -166,6 +166,7 @@ import { useI18n } from "vue-i18n"
 import { useAlert } from '@/composables/alert'
 import { useCustomPagesStore } from '@/store/custom-pages'
 import { saveAs } from 'file-saver'
+import { usePermissions } from '@/composables/usePermissions'
 import type { Error } from '@/types'
 
 const runtimeConfig = useRuntimeConfig()
@@ -174,6 +175,7 @@ const { formatNumber } = useNumberFormatter()
 const { successAlert } = useAlert()
 const { t, locale } = useI18n()
 const customPagesStore = useCustomPagesStore() as any
+const { isAtLeast, can } = usePermissions()
 const router = useRouter()
 const citizenUuid = router?.currentRoute?.value?.params?.uuid as any
 let currentTablePage = 1

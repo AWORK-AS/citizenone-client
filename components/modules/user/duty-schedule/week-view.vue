@@ -169,7 +169,7 @@
                                             </button>
                                         </Tooltip>
                                         <div class="flex-1 flex justify-end gap-x-2"
-                                            v-if="isAdmin(userStore.getUser?.role)">
+                                            v-if="isAtLeast('Admin')">
                                             <Tooltip :text="$t('dutySchedules.copy.copyMultipleWeeksSchedule')"
                                                 position="right">
                                                 <button
@@ -180,7 +180,7 @@
                                             </Tooltip>
                                         </div>
                                     </div>
-                                    <div class="px-3 pb-2" v-if="isAdmin(userStore.getUser?.role)">
+                                    <div class="px-3 pb-2" v-if="isAtLeast('Admin')">
                                         <button @click="toggleShowHideAllShifts()"
                                             class="text-primary text-xs hover:text-primary-700">
                                             {{ state.showAllShifts ?
@@ -193,7 +193,7 @@
                                     :position="dayIndex === 0 ? 'right' : 'left'" v-for="(day, dayIndex) in weekDays"
                                     :key="day.date"
                                     :class="['relative cursor-pointer hover:bg-blue-50/50 flex flex-col items-center justify-center py-2 sm:py-3 border-0.5 transition-colors', isToday(day.fullDate) && 'bg-blue-50 border-x-2 border-t-2 border-blue-400']"
-                                    @click="openManageScheduleSlotModal(day)" v-if="isAdmin(userStore.getUser?.role)">
+                                    @click="openManageScheduleSlotModal(day)" v-if="isAtLeast('Admin')">
                                     <span class="flex gap-x-1 text-sm">
                                         <span v-if="day.longName === 'Mon'">
                                             {{ $t('calendar.week.short.Monday') }}
@@ -234,7 +234,7 @@
                                 <div :text="$t('dutySchedules.scheduleSlots.scheduleSlots')" v-for="day in weekDays"
                                     :key="day.date"
                                     :class="['relative flex flex-col items-center justify-center py-2 sm:py-3 pb-5 sm:pb-6 border-0.5', isToday(day.fullDate) && 'bg-blue-50 border-x-2 border-t-2 border-blue-400']"
-                                    v-if="!isAdmin(userStore.getUser?.role)">
+                                    v-if="!isAtLeast('Admin')">
                                     <span class="flex gap-x-1 text-sm">
                                         <span v-if="day.longName === 'Mon'">
                                             {{ $t('calendar.week.short.Monday') }}
@@ -374,7 +374,7 @@
                                                     <div class="flex items-center gap-x-0.5 sm:gap-x-1 flex-shrink-0">
                                                         <Tooltip position="right"
                                                             :text="$t('dutySchedules.copy.copyEmployeeSchedule')"
-                                                            v-if="isAdmin(userStore.getUser?.role)">
+                                                            v-if="isAtLeast('Admin')">
                                                             <button
                                                                 class="bg-gray-100 w-6 h-6 sm:w-7 sm:h-7 text-sm text-gray-500 rounded-lg hover:bg-blue-50 hover:text-blue-600 flex items-center justify-center transition-colors"
                                                                 @click="copyEmployeeWeeklySchedule(employee)">
@@ -384,7 +384,7 @@
                                                         </Tooltip>
                                                         <Tooltip position="right"
                                                             :text="$t('dutySchedules.extraHours.extraHours')"
-                                                            v-if="isAdmin(userStore.getUser?.role) || userStore.getUser?.uuid === employee?.uuid">
+                                                            v-if="isAtLeast('Admin') || userStore.getUser?.uuid === employee?.uuid">
                                                             <button
                                                                 class="bg-gray-100 w-6 h-6 sm:w-7 sm:h-7 text-sm text-gray-500 rounded-lg hover:bg-blue-50 hover:text-blue-600 flex items-center justify-center transition-colors"
                                                                 @click="viewExtraHours(employee)">
@@ -394,7 +394,7 @@
                                                         </Tooltip>
                                                         <Tooltip position="right"
                                                             :text="$t('dutySchedules.leaveRequests.leaveRequests')"
-                                                            v-if="isAdmin(userStore.getUser?.role) || (!isAdmin(userStore.getUser?.role) && userStore.getUser?.uuid === employee?.uuid)">
+                                                            v-if="isAtLeast('Admin') || (!isAtLeast('Admin') && userStore.getUser?.uuid === employee?.uuid)">
                                                             <button
                                                                 class="bg-gray-100 w-6 h-6 sm:w-7 sm:h-7 text-sm text-gray-500 rounded-lg hover:bg-blue-50 hover:text-blue-600 flex items-center justify-center transition-colors"
                                                                 @click="viewLeaveRequests(employee)">
@@ -490,7 +490,7 @@
                                                 expandedRecords[employeeIndex as number] && 'hidden'
                                             ]">
                                                 <div class="text-xs grid grid-cols-7"
-                                                    v-if="isAdmin(userStore.getUser?.role) || (!isAdmin(userStore.getUser?.role) && userStore.getUser?.show_working_hours)">
+                                                    v-if="isAtLeast('Admin') || (!isAtLeast('Admin') && userStore.getUser?.show_working_hours)">
                                                     <div class="col-span-3 space-y-2" />
                                                     <div class="col-span-2 flex gap-2 flex-col items-end">
                                                         <p class="text-xxs py-2 pr-2">
@@ -520,18 +520,24 @@
                                                                 'py-1'
                                                             ]">
                                                             <div class="pl-1.5 sm:pl-3">
-                                                                <Tooltip class="!block w-full"
-                                                                    :text="language.locale.value === 'en' ? time?.shift?.en_name : time?.shift?.dk_name"
-                                                                    position="right">
+                                                                <Tooltip class="!block w-full" :text="language.locale.value === 'en' ? time?.shift?.en_name :
+                                                                    language.locale.value === 'no' ? time?.shift?.no_name :
+                                                                        language.locale.value === 'sv' ? time?.shift?.sv_name :
+                                                                            time?.shift?.dk_name" position="right">
                                                                     <div class="flex items-center gap-x-1 min-w-0">
                                                                         <div class="flex-shrink-0">
                                                                             <div :class="`w-2 h-2 rounded-sm`"
                                                                                 :style="{ background: time?.shift?.color }" />
                                                                         </div>
                                                                         <div class="truncate min-w-0">
-                                                                            {{ language.locale.value === 'en' ?
-                                                                                time?.shift?.en_name :
-                                                                                time?.shift?.dk_name
+                                                                            {{
+                                                                                language.locale.value === 'en' ?
+                                                                                    time?.shift?.en_name :
+                                                                                    language.locale.value === 'no' ?
+                                                                                        time?.shift?.no_name :
+                                                                                        language.locale.value === 'sv' ?
+                                                                                            time?.shift?.sv_name :
+                                                                                            time?.shift?.dk_name
                                                                             }}
                                                                         </div>
                                                                     </div>
@@ -563,7 +569,8 @@
                                                 <div class="text-xs grid grid-cols-7 cursor-pointer hover:bg-blue-50/60 transition-colors"
                                                     @click="state.modal.isTimeRangeFilterOpen = true">
                                                     <div class="col-span-3 min-w-0">
-                                                        <div class="py-1 pl-1.5 sm:pl-3 flex items-center gap-1 text-gray-500 italic">
+                                                        <div
+                                                            class="py-1 pl-1.5 sm:pl-3 flex items-center gap-1 text-gray-500 italic">
                                                             <Icon name="ph:clock" class="w-2 h-2 flex-shrink-0" />
                                                             <span class="truncate">
                                                                 {{ state.filter.time_from && state.filter.time_to
@@ -574,16 +581,18 @@
                                                     </div>
                                                     <div class="col-span-2">
                                                         <div class="text-right py-1 pr-2 text-gray-500">
-                                                            {{ state.filter.time_from && state.filter.time_to
-                                                                ? employee?.hours?.find((t: any) => t?.shift?.system_name === 'time-filter')?.weekly_hours ?? '--'
-                                                                : '--' }}
+                                                            {{state.filter.time_from && state.filter.time_to
+                                                                ? employee?.hours?.find((t: any) => t?.shift?.system_name
+                                                                    === 'time-filter')?.weekly_hours ?? '--'
+                                                                : '--'}}
                                                         </div>
                                                     </div>
                                                     <div class="col-span-2 border-l-0.5 border-gray-200">
                                                         <div class="text-right py-1 pr-2 text-gray-500">
-                                                            {{ state.filter.time_from && state.filter.time_to
-                                                                ? employee?.hours?.find((t: any) => t?.shift?.system_name === 'time-filter')?.yearly_hours ?? '--'
-                                                                : '--' }}
+                                                            {{state.filter.time_from && state.filter.time_to
+                                                                ? employee?.hours?.find((t: any) => t?.shift?.system_name
+                                                                    === 'time-filter')?.yearly_hours ?? '--'
+                                                                : '--'}}
                                                         </div>
                                                     </div>
                                                 </div>
@@ -597,9 +606,11 @@
                                                         <div class="text-right py-1 pr-2 font-bold">
                                                             {{
                                                                 formatNumber(language.locale.value,
-                                                                    employee?.hours?.filter((t: any) => t?.shift?.system_name !== 'time-filter')
+                                                                    employee?.hours?.filter((t: any) => t?.shift?.system_name
+                                                                        !== 'time-filter')
                                                                         .reduce((sum: number, t: any) => sum +
-                                                                            (parseFloat(String(t?.weekly_hours || '0').replace(',', '.')) || 0), 0))
+                                                                            (parseFloat(String(t?.weekly_hours || '0').replace(',',
+                                                                                '.')) || 0), 0))
                                                             }}
                                                         </div>
                                                     </div>
@@ -607,9 +618,11 @@
                                                         <div class="text-right py-1 pr-2 font-bold">
                                                             {{
                                                                 formatNumber(language.locale.value,
-                                                                    employee?.hours?.filter((t: any) => t?.shift?.system_name !== 'time-filter')
+                                                                    employee?.hours?.filter((t: any) => t?.shift?.system_name
+                                                                        !== 'time-filter')
                                                                         .reduce((sum: number, t: any) => sum +
-                                                                            (parseFloat(String(t?.yearly_hours || '0').replace(',', '.')) || 0), 0))
+                                                                            (parseFloat(String(t?.yearly_hours || '0').replace(',',
+                                                                                '.')) || 0), 0))
                                                             }}
                                                         </div>
                                                     </div>
@@ -674,7 +687,7 @@
                                             </div>
                                             <div class="px-2 pb-2 sm:px-3 sm:pb-3">
                                                 <div
-                                                    v-if="isAdmin(userStore.getUser?.role) || (!isAdmin(userStore.getUser?.role) && userStore.getUser?.show_working_hours && userStore.getUser?.uuid === employee?.uuid)">
+                                                    v-if="isAtLeast('Admin') || (!isAtLeast('Admin') && userStore.getUser?.show_working_hours && userStore.getUser?.uuid === employee?.uuid)">
                                                     <button @click="toggleExpanded(employeeIndex as number)"
                                                         class="text-primary text-xs hover:text-primary-700">
                                                         {{ !expandedRecords[employeeIndex as number] ?
@@ -711,15 +724,15 @@
                                                 </div> -->
                                             </div>
                                             <!-- Drop-zone overlay aktiv under drag -->
-                                            <div :class="['absolute inset-0 z-10', isAdmin(userStore.getUser?.role) && state.isDragging ? 'pointer-events-auto' : 'pointer-events-none']"
-                                                @dragover.prevent="isAdmin(userStore.getUser?.role) && onDragOver($event)"
-                                                @dragleave="isAdmin(userStore.getUser?.role) && onDragLeave($event)"
-                                                @drop.prevent="isAdmin(userStore.getUser?.role) && onDrop($event, employee, weekIndex)">
+                                            <div :class="['absolute inset-0 z-10', isAtLeast('Admin') && state.isDragging ? 'pointer-events-auto' : 'pointer-events-none']"
+                                                @dragover.prevent="isAtLeast('Admin') && onDragOver($event)"
+                                                @dragleave="isAtLeast('Admin') && onDragLeave($event)"
+                                                @drop.prevent="isAtLeast('Admin') && onDrop($event, employee, weekIndex)">
                                             </div>
                                             <div class="space-y-2"
                                                 v-if="!isDailyScheduleCopied(employeeIndex as number, weekIndex as number, weekNumber)">
                                                 <div class="flex justify-end gap-1 sm:gap-2"
-                                                    v-if="hasCreatePermission || isAdmin(userStore.getUser?.role)">
+                                                    v-if="hasCreatePermission || isAtLeast('Admin')">
                                                     <Menu as="div"
                                                         class="absolute right-0 top-6 xl:relative xl:right-auto xl:top-auto xl:self-center">
                                                         <div>
@@ -753,20 +766,20 @@
                                                                 class="absolute right-0 z-10 w-48 origin-top-right rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
                                                                 <div class="py-1">
                                                                     <MenuItem v-slot="{ active }">
-                                                                    <a :class="[active ? 'bg-gray-100 text-gray-900' : 'text-gray-700', 'block px-4 py-2 text-xs cursor-pointer']"
-                                                                        @click="viewChangeTimeRequests(employeeIndex as number, weekIndex as number, employee, weekNumber)">
-                                                                        {{
-                                                                            $t('dutySchedules.scheduleRequests.changeTime.changeTimeRequests')
-                                                                        }}
-                                                                    </a>
+                                                                        <a :class="[active ? 'bg-gray-100 text-gray-900' : 'text-gray-700', 'block px-4 py-2 text-xs cursor-pointer']"
+                                                                            @click="viewChangeTimeRequests(employeeIndex as number, weekIndex as number, employee, weekNumber)">
+                                                                            {{
+                                                                                $t('dutySchedules.scheduleRequests.changeTime.changeTimeRequests')
+                                                                            }}
+                                                                        </a>
                                                                     </MenuItem>
                                                                     <MenuItem v-slot="{ active }">
-                                                                    <a :class="[active ? 'bg-gray-100 text-gray-900' : 'text-gray-700', 'block px-4 py-2 text-xs cursor-pointer']"
-                                                                        @click="viewSwapScheduleRequests(employeeIndex as number, weekIndex as number, employee, weekNumber)">
-                                                                        {{
-                                                                            $t('dutySchedules.scheduleRequests.swapSchedule.swapScheduleRequests')
-                                                                        }}
-                                                                    </a>
+                                                                        <a :class="[active ? 'bg-gray-100 text-gray-900' : 'text-gray-700', 'block px-4 py-2 text-xs cursor-pointer']"
+                                                                            @click="viewSwapScheduleRequests(employeeIndex as number, weekIndex as number, employee, weekNumber)">
+                                                                            {{
+                                                                                $t('dutySchedules.scheduleRequests.swapSchedule.swapScheduleRequests')
+                                                                            }}
+                                                                        </a>
                                                                     </MenuItem>
                                                                 </div>
                                                             </MenuItems>
@@ -796,9 +809,9 @@
                                                             backgroundColor: `${shift?.type?.color}`,
                                                             width: `${calculateShiftWidth(shift, weekIndex.toString())}`,
                                                             marginTop: `${calculateMarginTop(employee?.weeks, weekIndex.toString(), shiftIndex as number)}rem`
-                                                        }" :draggable="isAdmin(userStore.getUser?.role)"
-                                                        @dragstart="isAdmin(userStore.getUser?.role) && onDragStart($event, employee, weekIndex as number, shift)"
-                                                        @dragend="isAdmin(userStore.getUser?.role) && onDragEnd($event)">
+                                                        }" :draggable="isAtLeast('Admin')"
+                                                        @dragstart="isAtLeast('Admin') && onDragStart($event, employee, weekIndex as number, shift)"
+                                                        @dragend="isAtLeast('Admin') && onDragEnd($event)">
                                                         <div class="absolute -left-2 -top-2 sm:-left-3 sm:-top-3 z-10 w-5 h-5 sm:w-6 sm:h-6 rounded-full bg-white border-0.5 border-gray-300 flex items-center justify-center text-xs sm:text-sm"
                                                             v-if="shift?.type?.system_name === 'sick-leave'">
                                                             🤒
@@ -808,7 +821,7 @@
                                                             🏖️
                                                         </div>
                                                         <div class="flex flex-col xl:flex-row xl:items-center xl:justify-between text-white cursor-pointer px-1.5 sm:px-2.5 pt-1.5 sm:pt-2.5 pb-1 sm:pb-2"
-                                                            @click="(hasUpdatePermission || isAdmin(userStore.getUser?.role)) ? editSchedule(employee, employeeIndex as number, weekIndex as number, shift, shiftIndex as number) : viewSchedule(employeeIndex as number, weekIndex as number, shift, shiftIndex as number)">
+                                                            @click="(hasUpdatePermission || isAtLeast('Admin')) ? editSchedule(employee, employeeIndex as number, weekIndex as number, shift, shiftIndex as number) : viewSchedule(employeeIndex as number, weekIndex as number, shift, shiftIndex as number)">
                                                             <!-- Start time -->
                                                             <div class="flex items-center gap-0.5">
                                                                 <div v-if="shift?.is_from_lastweek"
@@ -961,7 +974,7 @@
                                                             class="w-5 h-5 rounded-full flex items-center justify-center absolute -right-1 -top-2"
                                                             style="background-color:#fef2f2;color:#dc2626;border:1.5px solid #fecaca"
                                                             @click="removeShiftConfirmation(shift)"
-                                                            v-if="hasDeletePermission || isAdmin(userStore.getUser?.role)">
+                                                            v-if="hasDeletePermission || isAtLeast('Admin')">
                                                             <Tooltip position="left"
                                                                 :text="$t('dutySchedules.removeSchedule.removeSchedule')">
                                                                 <Icon name="ph:x" class="h-2 w-2" aria-hidden="true" />
@@ -994,20 +1007,20 @@
                                                                         class="absolute right-0 z-10 w-44 origin-top-right rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
                                                                         <div class="py-1">
                                                                             <MenuItem v-slot="{ active }">
-                                                                            <a :class="[active ? 'bg-gray-100 text-gray-900' : 'text-gray-700', 'block px-4 py-2 text-xs']"
-                                                                                @click="requestTimeAdjustment(employeeIndex as number, shift)">
-                                                                                {{
-                                                                                    $t('dutySchedules.scheduleRequests.changeTime.requestAChange')
-                                                                                }}
-                                                                            </a>
+                                                                                <a :class="[active ? 'bg-gray-100 text-gray-900' : 'text-gray-700', 'block px-4 py-2 text-xs']"
+                                                                                    @click="requestTimeAdjustment(employeeIndex as number, shift)">
+                                                                                    {{
+                                                                                        $t('dutySchedules.scheduleRequests.changeTime.requestAChange')
+                                                                                    }}
+                                                                                </a>
                                                                             </MenuItem>
                                                                             <MenuItem v-slot="{ active }">
-                                                                            <a :class="[active ? 'bg-gray-100 text-gray-900' : 'text-gray-700', 'block px-4 py-2 text-xs']"
-                                                                                @click="requestSwapSchedule(shift)">
-                                                                                {{
-                                                                                    $t('dutySchedules.scheduleRequests.swapSchedule.swapThisShift')
-                                                                                }}
-                                                                            </a>
+                                                                                <a :class="[active ? 'bg-gray-100 text-gray-900' : 'text-gray-700', 'block px-4 py-2 text-xs']"
+                                                                                    @click="requestSwapSchedule(shift)">
+                                                                                    {{
+                                                                                        $t('dutySchedules.scheduleRequests.swapSchedule.swapThisShift')
+                                                                                    }}
+                                                                                </a>
                                                                             </MenuItem>
                                                                         </div>
                                                                     </MenuItems>
@@ -1098,8 +1111,8 @@
             :selectedEmployeeSchedule="state.editShift.selectedEmployeeSchedule"
             :showWarningDialog="state.showWarningDialog" :shiftWarnings="state.shiftWarnings"
             @dateTimeChange="dateTimeChange" @closeWarningDialog="closeWarningDialog"
-            @close="state.modal.isEditShiftOpen = false; state.shiftWarnings = []" @resetEditShiftError="state.editShiftError = {}"
-            @updateShift="updateSelectedSchedule" />
+            @close="state.modal.isEditShiftOpen = false; state.shiftWarnings = []"
+            @resetEditShiftError="state.editShiftError = {}" @updateShift="updateSelectedSchedule" />
         <ModulesUserDutyScheduleModalRemoveShiftConfirmation :isModalOpen="state.modal.isRemoveShiftConfirmationOpen"
             @close="state.modal.isRemoveShiftConfirmationOpen = false" @confirm="removeShift" />
         <ModulesUserDutyScheduleModalRemoveShiftSpanConfirmation
@@ -1162,6 +1175,7 @@ import { useDepartmentStore } from '@/store/department'
 import { useNumberFormatter } from '@/composables/numberFormatter'
 import { useDutyScheduleStore } from '@/store/duty-schedule'
 import { useUserStore } from '@/store/user'
+import { usePermissions } from '@/composables/usePermissions'
 import { useI18n } from "vue-i18n"
 import { useAlert } from '@/composables/alert'
 import type { Error } from '@/types'
@@ -1170,6 +1184,7 @@ const emit = defineEmits(['setDutyScheduleCurrentDate', 'setDutyScheduleCurrentF
 const language = useI18n()
 const dutyScheduleStore = useDutyScheduleStore() as any
 const userStore = useUserStore() as any
+const { isAtLeast, can } = usePermissions()
 const departmentStore = useDepartmentStore()
 const { formatNumber } = useNumberFormatter()
 const { errorAlert } = useAlert()
@@ -1414,9 +1429,6 @@ function handleKeyDown(event: KeyboardEvent) {
     }
 }
 
-function isAdmin(role: any) {
-    return role && role === 'Admin'
-}
 
 function showShiftTypeDistribution(employee: any) {
     state.shiftTypesDistribution.selectedEmployee = employee
@@ -1554,7 +1566,7 @@ function isPreviousWeekDisabled() {
     const selectedDate = moment(state.selectedDate).startOf('week') // Start of the selected week (Monday)
 
     // For regular users, disable the previous week button only if we're in today's week
-    if (!isAdmin(userStore.getUser?.role)) {
+    if (!isAtLeast('Admin')) {
         // Disable the previous week button if we are in today's week (not in the future or past)
         if (selectedDate.isSame(today, 'week') && userStore.getUser?.company?.is_lock_past_schedules) {
             return true // Disable button if we are in today's week
@@ -2196,7 +2208,7 @@ function closeWarningDialog() {
 }
 
 function openUserNormPeriodModal(employee: any) {
-    if (!isAdmin(userStore.getUser?.role)) return
+    if (!isAtLeast('Admin')) return
     state.normHours.selectedEmployee = employee
     state.modal.isUserNormPeriodOpen = true
 }
@@ -2259,7 +2271,7 @@ let _dragSourceEmployee: any = null
 let _dragSourceWeekIndex: any = null
 
 function onDragStart(e: DragEvent, emp: any, wi: any, sh: any) {
-    if (!(hasUpdatePermission || isAdmin(userStore.getUser?.role))) { e.preventDefault(); return }
+    if (!(hasUpdatePermission || isAtLeast('Admin'))) { e.preventDefault(); return }
     _dragShift = sh; _dragSourceEmployee = emp; _dragSourceWeekIndex = wi
     state.isDragging = true
     if (e.dataTransfer) { e.dataTransfer.effectAllowed = "move" }

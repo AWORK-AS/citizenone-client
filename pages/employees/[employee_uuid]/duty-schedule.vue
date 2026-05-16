@@ -205,6 +205,8 @@
                                                                     :key="timeIndex">
                                                                     {{ language.locale.value === 'en' ?
                                                                         time?.shift?.en_name :
+                                                                        language.locale.value === 'no' ? time?.shift?.no_name :
+                                                                        language.locale.value === 'sv' ? time?.shift?.sv_name :
                                                                         time?.shift?.dk_name }}
                                                                 </p>
                                                             </div>

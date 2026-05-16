@@ -28,6 +28,32 @@
                         </p>
                     </div>
                 </div>
+                <div v-if="language.locale.value === 'no'">
+                    <div class="space-y-3">
+                        <Alert type="default"
+                            text="Handling kreves: For ekstra sikkerhet må du aktivere tofaktorautentisering (2FA) for kontoen din." />
+                        <p class="text-sm">
+                            Tofaktorautentisering (2FA) legger til et ekstra beskyttelseslag for kontoen din. Det krever
+                            ikke bare passordet ditt, men også en annen verifiseringsmetode.
+                        </p>
+                        <p class="text-sm">
+                            Klikk på knappen nedenfor for å aktivere 2FA og sikre kontoen din.
+                        </p>
+                    </div>
+                </div>
+                <div v-if="language.locale.value === 'sv'">
+                    <div class="space-y-3">
+                        <Alert type="default"
+                            text="Åtgärd krävs: För ökad säkerhet måste du aktivera tvåfaktorsautentisering (2FA) för ditt konto." />
+                        <p class="text-sm">
+                            Tvåfaktorsautentisering (2FA) lägger till ett extra skyddslager för ditt konto. Det kräver
+                            inte bara ditt lösenord utan också en andra verifieringsmetod.
+                        </p>
+                        <p class="text-sm">
+                            Klicka på knappen nedan för att aktivera 2FA och säkra ditt konto.
+                        </p>
+                    </div>
+                </div>
                 <div class="mt-5 flex gap-x-3">
                     <FormButton @click="closeModal" class="w-full">
                         {{ $t('cancel') }}

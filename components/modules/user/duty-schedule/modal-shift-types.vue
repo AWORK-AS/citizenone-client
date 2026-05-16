@@ -26,8 +26,7 @@
                                             :style="{ backgroundColor: shiftDistribution?.shift_type?.color }">
                                         </div>
                                         <span>
-                                            {{ language.locale.value === 'en' ? shiftDistribution?.shift_type?.en_name :
-                                                shiftDistribution?.shift_type?.dk_name }}
+                                            {{ language.locale.value === 'en' ? shiftDistribution?.shift_type?.en_name : language.locale.value === 'no' ? shiftDistribution?.shift_type?.no_name : language.locale.value === 'sv' ? shiftDistribution?.shift_type?.sv_name : shiftDistribution?.shift_type?.dk_name }}
                                         </span>
                                     </div>
                                     <p class="text-xs">

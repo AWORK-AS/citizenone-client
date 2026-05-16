@@ -8,7 +8,7 @@
                     <Icon name="ph:download" class="h-4 w-4" />
                     {{ $t('citizens.treatments.treatmentOverview') }}
                 </FormButton>
-                <FormButton buttonStyle="action" @click="state.modal.isAddTreatmentOpen = true">
+                <FormButton v-if="isAtLeast('Admin') || can('create_citizen_health')" buttonStyle="action" @click="state.modal.isAddTreatmentOpen = true">
                     <Icon name="ph:plus" class="h-4 w-4" aria-hidden="true" />
                     {{ $t('citizens.treatments.newTreatment') }}
                 </FormButton>
@@ -63,7 +63,7 @@
                                     <Icon name="ph:eye" class="size-4" />
                                     {{ $t('citizens.treatments.table.actions.statuses') }}
                                 </FormButton>
-                                <FormButton type="button" buttonStyle="action" @click="editTreatment(treatment)">
+                                <FormButton v-if="isAtLeast('Admin') || can('update_citizen_health')" type="button" buttonStyle="action" @click="editTreatment(treatment)">
                                     <Icon name="ph:pencil-simple" class="size-4" />
                                     {{ $t('citizens.treatments.table.actions.edit') }}
                                 </FormButton>
@@ -192,10 +192,12 @@
 <script setup lang="ts">
 import { useDatetimeFormatter } from '@/composables/datetimeFormatter'
 import { treatmentService } from '@/components/api/user/TreatmentService'
+import { usePermissions } from '@/composables/usePermissions'
 import type { Error } from '@/types'
 
 const router = useRouter()
 const { formatDateToReadable } = useDatetimeFormatter()
+const { isAtLeast, can } = usePermissions()
 const citizenUuid = router?.currentRoute?.value?.params?.uuid as any
 let currentTablePage = 1
 

@@ -225,6 +225,7 @@ import { useDatetimeFormatter } from '@/composables/datetimeFormatter'
 import { Dialog, DialogPanel, DialogTitle, TransitionChild, TransitionRoot } from '@headlessui/vue'
 import { subgoalService } from '@/components/api/user/SubgoalService'
 import { useUserStore } from '@/store/user'
+import { usePermissions } from '@/composables/usePermissions'
 import { useAlert } from '@/composables/alert'
 import { useI18n } from "vue-i18n"
 import type { Error } from '@/types'
@@ -241,6 +242,7 @@ const props = defineProps({
     },
 })
 const userStore = useUserStore() as any
+const { isAtLeast, can } = usePermissions()
 const { successAlert } = useAlert()
 const { t } = useI18n()
 const emit = defineEmits(['close'])
@@ -277,7 +279,7 @@ function closeSlide() {
 
 function hasCreateSubgoalsAccess() {
     const user = userStore.getUser
-    const hasAdminAccess = isAdmin(user?.roles)
+    const hasAdminAccess = isAtLeast('Admin')
     const employeeCanCreateSubgoals = user?.company?.employee_create_subgoals_enabled
     if (hasAdminAccess) {
         return true
@@ -287,9 +289,6 @@ function hasCreateSubgoalsAccess() {
     return false
 }
 
-function isAdmin(roles: any) {
-    return roles && roles.some((role: any) => role.name === 'Admin')
-}
 
 watch(() => props.selectedGoal, (newValue: any) => {
     if (newValue != null) {
