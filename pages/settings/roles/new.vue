@@ -51,6 +51,7 @@ const state = reactive({
     formRole: {
         name: '',
         permissions: [],
+        level: 20,
     },
     isPageLoading: false,
 })
@@ -61,6 +62,7 @@ async function saveRole(roleDetails: any) {
     try {
         const params = {
             name: roleDetails.name,
+            level: roleDetails.level,
             permission_uuid: roleDetails.permissions,
         }
         const response = await roleService.saveRole(params)

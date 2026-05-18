@@ -83,6 +83,7 @@ import { generalSearchService } from '@/components/api/user/GeneralSearchService
 import { useUserStore } from '@/store/user'
 import { useSearchHighlightStore } from '@/store/searchHighlight'
 import { useI18n } from 'vue-i18n'
+import { usePermissions } from '@/composables/usePermissions'
 
 const RECENT_SEARCHES_KEY = 'globalSearch_recent'
 const MAX_RECENT = 5
@@ -100,6 +101,7 @@ const searchInput = ref<HTMLInputElement | null>(null)
 const userStore = useUserStore()
 const highlightStore = useSearchHighlightStore()
 const { t } = useI18n()
+const { isAtLeast } = usePermissions()
 let abortController: AbortController | null = null
 
 interface StaticPage {
@@ -137,10 +139,8 @@ const STATIC_PAGES: StaticPage[] = [
 const staticPageResults = computed(() => {
     const query = state.searchQuery.trim().toLowerCase()
     if (!query || query.length < 2) return []
-    const roles: any[] = userStore.getUser?.roles ?? []
-    const isAdmin = roles.some((r: any) => r.name === 'Admin' || r.name === 'Superadmin')
     return STATIC_PAGES.filter(p => {
-        if (p.adminOnly && !isAdmin) return false
+        if (p.adminOnly && !isAtLeast('Admin')) return false
         return p.keywords.some(k => k.toLowerCase().includes(query)) ||
             t(p.titleKey).toLowerCase().includes(query)
     })

@@ -5075,6 +5075,15 @@
       }
     }
   },
+  "journalNotes": {
+    "title": "Journalnotater",
+    "citizen": "Borger",
+    "department": "Afdeling",
+    "newNote": "Ny note",
+    "selectCitizen": "Vælg borger",
+    "citizenRequired": "Vælg venligst en borger",
+    "assessment": "Vurdering"
+  },
   "journalContents": {
     "addnNewJournalContent": "Nyt journalindhold",
     "editJournalContent": "Rediger journalindhold",
@@ -6511,7 +6520,8 @@
         "roleSuccessfullyUpdated": "Rolle opdateret med succes"
       },
       "name": "Navn",
-      "permissions": "Tilladelser"
+      "permissions": "Tilladelser",
+      "level": "Niveau"
     },
     "newRole": "Ny rolle",
     "permissions": {
@@ -6569,7 +6579,10 @@
       },
       "name": "Navn",
       "permissions": "Tilladelser",
-      "user": "Bruger"
+      "user": "Bruger",
+      "level": "Niveau",
+      "regular": "Almindelig",
+      "manager": "Leder"
     }
   },
   "rooms": {
@@ -6679,6 +6692,77 @@
         "accountantEmail": "Revisor eller regnskabs e-mail (borgernes wallet transaktioner)",
         "alert": {
           "successfullyUpdated": "Firma opdateret med succes"
+        },
+        "editRole": "Rediger rolle",
+        "form": {
+            "alert": {
+                "newRoleSuccessfullySaved": "Ny rolle gemt med succes",
+                "roleSuccessfullyUpdated": "Rolle opdateret med succes"
+            },
+            "name": "Navn",
+            "permissions": "Tilladelser",
+            "level": "Niveau"
+        },
+        "newRole": "Ny rolle",
+        "permissions": {
+            "createCitizen": "Opret borger",
+            "createCitizenCalendar": "Opret borgerkalender",
+            "createCitizenChildren": "Opret borgerbørn",
+            "createCitizenContact": "Opret borgerkontakt",
+            "createCitizenDocument": "Opret borgerdokument",
+            "createCitizenEconomy": "Opret borgerøkonomi",
+            "createCitizenHealth": "Opret borgersundhed",
+            "createCitizenJournal": "Opret borgerjournal",
+            "createCitizenMedicine": "Opret borgermedicin",
+            "createCitizenPlan": "Opret borgerplan",
+            "createSchedule": "Opret vagtplan",
+            "deleteCalendar": "Slet kalender",
+            "deleteCalendarEvent": "Slet kalenderhændelse",
+            "deleteCitizenCalendar": "Slet borgerkalender",
+            "deleteCitizenChildren": "Slet borgerbørn",
+            "deleteCitizenContact": "Slet borgerkontakt",
+            "deleteCitizenDocument": "Slet borgerdokument",
+            "deleteCitizenEconomy": "Slet borgerøkonomi",
+            "deleteCitizenHealth": "Slet borgersundhed",
+            "deleteCitizenJournal": "Slet borgerjournal",
+            "deleteCitizenMedicine": "Slet borgermedicin",
+            "deleteCitizenPlan": "Slet borgerplan",
+            "deleteSchedule": "Slet vagtplan",
+            "readSchedule": "Se vagtplan",
+            "scheduler": "Vagtplanlægger",
+            "updateCitizenCalendar": "Rediger borgerkalender",
+            "updateCitizenChildren": "Rediger borgerbørn",
+            "updateCitizenContact": "Rediger borgerkontakt",
+            "updateCitizenDocument": "Rediger borgerdokument",
+            "updateCitizenEconomy": "Rediger borgerøkonomi",
+            "updateCitizenHealth": "Rediger borgersundhed",
+            "updateCitizenJournal": "Rediger borgerjournal",
+            "updateCitizenMedicine": "Rediger borgermedicin",
+            "updateCitizenPlan": "Rediger borgerplan",
+            "updateCitizen": "Rediger borger",
+            "updateFormFieldConfig": "Rediger borgerformular feltkonfiguration",
+            "updateSchedule": "Rediger vagtplan",
+            "viewCitizenCalendar": "Se borgerkalender",
+            "viewCitizenHealth": "Se borgersundhed",
+            "viewCitizenJournal": "Se borgerjournal",
+            "viewSchedule": "Se vagtplan"
+        },
+        "roles": "Roller",
+        "table": {
+            "actions": {
+                "delete": "Slet",
+                "edit": "Rediger"
+            },
+            "admin": "Admin",
+            "confirmation": {
+                "deleteRoleConfirmation": "Er du sikker på, at du vil slette denne rolle"
+            },
+            "name": "Navn",
+            "permissions": "Tilladelser",
+            "user": "Bruger",
+            "level": "Niveau",
+            "regular": "Almindelig",
+            "manager": "Leder"
         },
         "allowChangePassword": "Tillad medarbejdere at ændre adgangskode",
         "allowGoals": "Tillad medarbejdere at oprette mål",
@@ -6931,6 +7015,7 @@
     "messages": "Beskeder",
     "overview": "Oversigt",
     "protocols": "Protokol",
+    "journalNotes": "Journalnotater",
     "pinSidebar": "Fastgør sidebar",
     "unpinSidebar": "Frigør sidebar"
   },
@@ -8000,6 +8085,9 @@
   "clear": "Ryd",
   "ownChatGpt": {
     "apiKey": "OpenAI API-nøgle",
+    "clearChatConfirmation": "Er du sikker på, at du vil rydde chatten? Dette kan ikke fortrydes.",
+    "apiKeyInstructions": "Har du ikke en API-nøgle endnu? Du kan oprette en på OpenAI-platformen.",
+    "apiKeyInstructionsLink": "Hent din API-nøgle →",
     "apiKeyPlaceholder": "sk-...",
     "attachFile": "Vedhæft fil",
     "clearChat": "Ryd chat",

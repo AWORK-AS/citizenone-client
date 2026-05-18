@@ -5104,6 +5104,15 @@
       }
     }
   },
+  "journalNotes": {
+    "title": "Journal notes",
+    "citizen": "Citizen",
+    "department": "Department",
+    "newNote": "New note",
+    "selectCitizen": "Select citizen",
+    "citizenRequired": "Please select a citizen",
+    "assessment": "Assessment"
+  },
   "journalContents": {
     "addnNewJournalContent": "New journal content",
     "editJournalContent": "Edit journal content",
@@ -6540,7 +6549,8 @@
         "roleSuccessfullyUpdated": "Role successfully updated"
       },
       "name": "Name",
-      "permissions": "Permissions"
+      "permissions": "Permissions",
+      "level": "Level"
     },
     "newRole": "New role",
     "permissions": {
@@ -6598,7 +6608,10 @@
       },
       "name": "Name",
       "permissions": "Permissions",
-      "user": "User"
+      "user": "User",
+      "level": "Level",
+      "regular": "Regular",
+      "manager": "Manager"
     }
   },
   "rooms": {
@@ -6708,6 +6721,76 @@
         "accountantEmail": "Auditor or accounting e-mail (citizens' wallet transactions)",
         "alert": {
           "successfullyUpdated": "Company successfully updated"
+        },
+        "editRole": "Edit role",
+        "form": {
+            "alert": {
+                "newRoleSuccessfullySaved": "New role successfully saved",
+                "roleSuccessfullyUpdated": "Role successfully updated"
+            },
+            "name": "Name",
+            "permissions": "Permissions",
+            "level": "Level"
+        },
+        "newRole": "New role",
+        "permissions": {
+            "createCitizen": "Create citizen",
+            "createCitizenCalendar": "Create citizen calendar",
+            "createCitizenChildren": "Create citizen children",
+            "createCitizenContact": "Create citizen contact",
+            "createCitizenDocument": "Create citizen document",
+            "createCitizenEconomy": "Create citizen economy",
+            "createCitizenHealth": "Create citizen health",
+            "createCitizenJournal": "Create citizen journal",
+            "createCitizenMedicine": "Create citizen medicine",
+            "createCitizenPlan": "Create citizen plan",
+            "createSchedule": "Create schedule",
+            "deleteCalendar": "Delete calendar",
+            "deleteCitizenCalendar": "Delete citizen calendar",
+            "deleteCitizenChildren": "Delete citizen children",
+            "deleteCitizenContact": "Delete citizen contact",
+            "deleteCitizenDocument": "Delete citizen document",
+            "deleteCitizenEconomy": "Delete citizen economy",
+            "deleteCitizenHealth": "Delete citizen health",
+            "deleteCitizenJournal": "Delete citizen journal",
+            "deleteCitizenMedicine": "Delete citizen medicine",
+            "deleteCitizenPlan": "Delete citizen plan",
+            "deleteSchedule": "Delete schedule",
+            "readSchedule": "View schedule",
+            "scheduler": "Scheduler",
+            "updateCitizenCalendar": "Update citizen calendar",
+            "updateCitizenChildren": "Update citizen children",
+            "updateCitizenContact": "Update citizen contact",
+            "updateCitizenDocument": "Update citizen document",
+            "updateCitizenEconomy": "Update citizen economy",
+            "updateCitizenHealth": "Update citizen health",
+            "updateCitizenJournal": "Update citizen journal",
+            "updateCitizenMedicine": "Update citizen medicine",
+            "updateCitizenPlan": "Update citizen plan",
+            "updateCitizen": "Update citizen",
+            "updateFormFieldConfig": "Update citizen form field configuration",
+            "updateSchedule": "Update schedule",
+            "viewCitizenCalendar": "View citizen calendar",
+            "viewCitizenHealth": "View citizen health",
+            "viewCitizenJournal": "View citizen journal",
+            "viewSchedule": "View schedule"
+        },
+        "roles": "Roles",
+        "table": {
+            "actions": {
+                "delete": "Delete",
+                "edit": "Edit"
+            },
+            "admin": "Admin",
+            "confirmation": {
+                "deleteRoleConfirmation": "Are you sure you want to delete this role"
+            },
+            "name": "Name",
+            "permissions": "Permissions",
+            "user": "User",
+            "level": "Level",
+            "regular": "Regular",
+            "manager": "Manager"
         },
         "allowChangePassword": "Allow employees to change password",
         "allowGoals": "Allow employees to create goals",
@@ -6892,8 +6975,8 @@
       "nameDanish": "Name (danish)",
       "nameEnglish": "Name (english)",
       "paycode": "Paycode",
-      "timeIn": "Time out",
-      "timeOut": "Time in",
+      "timeIn": "Time in",
+      "timeOut": "Time out",
       "multiplierRules": "Hour multiplier rules",
       "multiplierRulesEmpty": "No rules configured",
       "addMultiplierRule": "Add rule",
@@ -6960,6 +7043,7 @@
     "messages": "Messages",
     "overview": "Overview",
     "protocols": "Protocols",
+    "journalNotes": "Journal notes",
     "pinSidebar": "Pin sidebar",
     "unpinSidebar": "Unpin sidebar"
   },
@@ -8029,6 +8113,9 @@
   "clear": "Clear",
   "ownChatGpt": {
     "apiKey": "OpenAI API Key",
+    "clearChatConfirmation": "Are you sure you want to clear the chat? This cannot be undone.",
+    "apiKeyInstructions": "Don't have an API key yet? You can create one at the OpenAI platform.",
+    "apiKeyInstructionsLink": "Get your API key →",
     "apiKeyPlaceholder": "sk-...",
     "attachFile": "Attach file",
     "clearChat": "Clear chat",

@@ -38,7 +38,7 @@
                             <Icon name="ph:address-book" class="h-4 w-4" aria-hidden="true" />
                             {{ $t('addressBook.assignFromAddressBook') }}
                         </FormButton>
-                        <FormButton buttonStyle="action" @click="state.modal.isAddContactOpen = true">
+                        <FormButton buttonStyle="action" @click="state.modal.isAddContactOpen = true" v-if="isAtLeast('Admin') || can('create_citizen_contact')">
                             <Icon name="ph:plus" class="h-4 w-4" aria-hidden="true" />
                             {{ $t('citizens.contacts.newContact') }}
                         </FormButton>
@@ -106,12 +106,14 @@
                                     <td width="10%">
                                         <div class="flex items-end justify-end gap-2">
                                             <FormButton type="button" buttonStyle="action"
-                                                @click="editContact(contact)">
+                                                @click="editContact(contact)"
+                                                v-if="isAtLeast('Admin') || can('update_citizen_contact')">
                                                 <Icon name="ph:pencil-simple" class="size-4" />
                                                 {{ $t('citizens.contacts.table.action.edit') }}
                                             </FormButton>
                                             <FormButton type="button" buttonStyle="danger"
-                                                @click="deleteContactConfirmation(contact)">
+                                                @click="deleteContactConfirmation(contact)"
+                                                v-if="isAtLeast('Admin') || can('delete_citizen_contact')">
                                                 <Icon name="ph:trash" class="size-4" />
                                                 {{ $t('citizens.contacts.table.action.delete') }}
                                             </FormButton>
@@ -152,6 +154,7 @@ import { useI18n } from "vue-i18n"
 import { useAlert } from '@/composables/alert'
 import { useCustomPagesStore } from '@/store/custom-pages'
 import { useUserStore } from '@/store/user'
+import { usePermissions } from '@/composables/usePermissions'
 import type { Error } from '@/types'
 
 const runtimeConfig = useRuntimeConfig()
@@ -162,6 +165,7 @@ const customPagesStore = useCustomPagesStore() as any
 const router = useRouter()
 const citizenUuid = router?.currentRoute?.value?.params?.uuid as any
 const userStore = useUserStore() as any
+const { isAtLeast, can } = usePermissions()
 let currentTablePage = 1
 const breadcrumbLinks = [
     {

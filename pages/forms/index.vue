@@ -27,9 +27,11 @@
 
 <script setup lang="ts">
 import { useUserStore } from '@/store/user'
+import { usePermissions } from '@/composables/usePermissions'
 
 const runtimeConfig = useRuntimeConfig()
 const userStore = useUserStore() as any
+const { isAtLeast } = usePermissions()
 const breadcrumbLinks = [
     {
         name: 'forms.forms',
@@ -45,8 +47,7 @@ const state = reactive({
 
 watch(() => userStore.getUser, (newValue: any) => {
     if (newValue != null) {
-        const isAdmin = userStore?.getUser.roles.some((role: any) => role.name === 'Admin')
-        state.isAdmin = isAdmin
+        state.isAdmin = isAtLeast('Admin')
     }
     state.isPageLoading = false
 })

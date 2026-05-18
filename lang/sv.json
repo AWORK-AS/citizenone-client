@@ -7987,5 +7987,29 @@
             }
         }
     },
-    "clear": "Ryd"
+    "clear": "Ryd",
+  "ownChatGpt": {
+    "apiKey": "OpenAI API-nyckel",
+    "clearChatConfirmation": "Är du säker på att du vill rensa chatten? Detta kan inte ångras.",
+    "apiKeyInstructions": "Har du ingen API-nyckel än? Du kan skapa en på OpenAI-plattformen.",
+    "apiKeyInstructionsLink": "Hämta din API-nyckel →",
+    "apiKeyPlaceholder": "sk-...",
+    "attachFile": "Bifoga fil",
+    "clearChat": "Rensa chatt",
+    "emptySubtitle": "Skriv ett meddelande nedan för att komma igång",
+    "emptyTitle": "Vad är på agendan idag?",
+    "outOfSync": "Ej synkroniserad",
+    "placeholder": "Fråga om vad som helst...",
+    "poweredByYourKey": "Drivs av din OpenAI-nyckel",
+    "save": "Spara",
+    "savedSuccess": "API-nyckel sparad",
+    "settings": "Inställningar",
+    "sync": "Synkronisera AI",
+    "syncComplete": "Synkronisering slutförd",
+    "syncReminderBody": "Detta säkerställer att AI:n har tillgång till företagets data.",
+    "synced": "Synkroniserad",
+    "syncReminderTitle": "Synkronisera AI:n med företagets AI innan du chattar.",
+    "syncing": "Synkroniserar...",
+    "title": "Din ChatGPT-integration"
+  }
 }

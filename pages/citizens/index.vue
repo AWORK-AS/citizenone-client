@@ -65,7 +65,7 @@
                             {{ customPagesStore.getCustomPagesName?.rooms || $t('rooms.rooms') }}
                         </FormButton>
                         <Menu
-                            v-if="userStore.getUser?.roles?.[0]?.name === 'Admin' || userStore.user?.permissions?.find((p: any) => p.name === 'create_citizen')"
+                            v-if="isAtLeast('Admin') || can('create_citizen')"
                             as="div" class="relative inline-block text-left z-20">
                             <div>
                                 <MenuButton>
@@ -95,7 +95,7 @@
                                         </button>
                                         </MenuItem>
                                         <MenuItem v-slot="{ active }"
-                                            v-if="userStore.getUser?.roles?.[0]?.name === 'Admin' || userStore.user?.permissions?.find((p: any) => p.name === 'update_form_field_config')">
+                                            v-if="isAtLeast('Admin') || can('update_form_field_config')">
                                         <button :class="[
                                             active && 'bg-gray-100',
                                             'group flex w-full justify-start items-center rounded-md px-2 py-2.5 text-sm text-left',
@@ -113,16 +113,16 @@
                             {{ $t('citizens.citizenJournals.shareJournals.sharedJournals') }}
                         </FormButton>
                         <FormButton buttonStyle="action" @click="state.modal.isImportCitizensOpen = true"
-                            v-if="userStore.getUser?.roles?.[0]?.name === 'Admin'">
+                            v-if="isAtLeast('Admin')">
                             <Icon name="ph:file-arrow-up" class="h-4 w-4" aria-hidden="true" />
                             {{ $t('citizens.importCitizens.importCitizens') }}
                         </FormButton>
                         <FormButton buttonStyle="action" @click="exportCitizens({})"
-                            v-if="userStore.getUser?.roles?.[0]?.name === 'Admin' && !isShelterOrCrisisCenter">
+                            v-if="isAtLeast('Admin') && !isShelterOrCrisisCenter">
                             <Icon name="ph:file-arrow-down" class="h-4 w-4" aria-hidden="true" />
                             {{ $t('citizens.exportCitizens') }}
                         </FormButton>
-                        <Menu v-if="userStore.getUser?.roles?.[0]?.name === 'Admin' && isShelterOrCrisisCenter" as="div"
+                        <Menu v-if="isAtLeast('Admin') && isShelterOrCrisisCenter" as="div"
                             class="relative inline-block text-left z-20">
                             <div>
                                 <MenuButton>
@@ -283,7 +283,7 @@
                                                 </FormButton>
                                             </Tooltip>
                                             <Tooltip :text="$t('citizens.table.actions.edit')"
-                                                v-if="userStore.getUser?.roles?.[0]?.name === 'Admin' || userStore.user?.permissions?.find((p: any) => p.name === 'update_citizen')">
+                                                v-if="isAtLeast('Admin') || can('update_citizen')">
                                                 <FormButton type="button" buttonStyle="action"
                                                     @click="navigateTo(`/citizens/${citizen.uuid}/edit`)">
                                                     <Icon name="ph:pencil-simple" class="size-4" />
@@ -375,6 +375,7 @@ import { saveAs } from 'file-saver'
 import { citizenInquiryService } from '@/components/api/user/CitizenInquiryService'
 import { departmentService } from '@/components/api/user/DepartmentService'
 import { useI18n } from 'vue-i18n'
+import { usePermissions } from '@/composables/usePermissions'
 
 const runtimeConfig = useRuntimeConfig()
 const departmentStore = useDepartmentStore()
@@ -382,6 +383,7 @@ const customPagesStore = useCustomPagesStore() as any
 const citizenStore = useCitizenStore() as any
 const userStore = useUserStore() as any
 const { t } = useI18n()
+const { isAtLeast, can } = usePermissions()
 
 const locationTracking = useLocationTracking()
 const workTimeTracking = useWorkTimeTracking()

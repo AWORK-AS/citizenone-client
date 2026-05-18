@@ -18,7 +18,7 @@
                 <div class="flex flex-wrap items-center justify-end gap-3">
                     <FormButton buttonStyle="action" @click="state.modal.isAddNewTimeLogOpen = true">
                         <Icon name="ph:plus" class="h-4 w-4" aria-hidden="true" />
-                        {{ isAdmin(userStore.getUser?.roles) ?
+                        {{ isAtLeast('Admin') ?
                             $t('timeLogs.newTimeLog') :
                             $t('timeLogs.requestNewTimeLog') }}
                     </FormButton>
@@ -111,13 +111,13 @@
                                         </FormButton>
                                         <FormButton type="button" buttonStyle="action"
                                             @click="confirmTimeLogApproval(log)"
-                                            v-if="log?.request_status === 'pending' && isAdmin(userStore.getUser?.roles)">
+                                            v-if="log?.request_status === 'pending' && isAtLeast('Admin')">
                                             <Icon name="ph:check" class="size-4" />
                                             {{ $t('timeLogs.table.actions.approve') }}
                                         </FormButton>
                                         <FormButton type="button" buttonStyle="danger"
                                             @click="confirmTimeLogDecline(log)"
-                                            v-if="log?.request_status === 'pending' && isAdmin(userStore.getUser?.roles)">
+                                            v-if="log?.request_status === 'pending' && isAtLeast('Admin')">
                                             <Icon name="ph:x" class="size-4" />
                                             {{ $t('timeLogs.table.actions.decline') }}
                                         </FormButton>
@@ -158,6 +158,7 @@ import { timeLogService } from '@/components/api/user/TimeLogService'
 import { useAlert } from '@/composables/alert'
 import { useI18n } from "vue-i18n"
 import { useUserStore } from '@/store/user'
+import { usePermissions } from '@/composables/usePermissions'
 import type { Error } from '@/types'
 
 const runtimeConfig = useRuntimeConfig()
@@ -165,6 +166,7 @@ const { formatDateTimeToReadable } = useDatetimeFormatter()
 const { successAlert } = useAlert()
 const { t } = useI18n()
 const userStore = useUserStore() as any
+const { isAtLeast, can } = usePermissions()
 let currentTablePage = 1
 const breadcrumbLinks = [
     {
@@ -247,9 +249,6 @@ function sort(sortingData: any) {
     fetchTimeLogs()
 }
 
-function isAdmin(roles: any) {
-    return roles && roles.some((role: any) => role.name === 'Admin')
-}
 
 function viewInterventionHours() {
     state.modal.isInterventionHoursOpen = true

@@ -99,12 +99,14 @@ import { newsService } from '@/components/api/user/NewsService'
 import { useI18n } from "vue-i18n"
 import { useAlert } from '@/composables/alert'
 import { useUserStore } from '@/store/user'
+import { usePermissions } from '@/composables/usePermissions'
 import type { Error } from '@/types'
 
 const runtimeConfig = useRuntimeConfig()
 const { successAlert } = useAlert()
 const { t } = useI18n()
 const userStore = useUserStore() as any
+const { isAtLeast } = usePermissions()
 let currentTablePage = 1
 const breadcrumbLinks = [
     {
@@ -213,9 +215,8 @@ async function deleteNews() {
 
 function canEdit(news: any): boolean {
     const currentUser = userStore.getUser
-    const isAdmin = currentUser?.roles?.some((role: any) => role.name === 'Admin')
     const isAuthor = currentUser?.uuid === news?.author?.uuid
-    return isAdmin || isAuthor
+    return isAtLeast('Admin') || isAuthor
 }
 
 function formatDate(dateStr: string): string {

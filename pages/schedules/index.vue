@@ -69,7 +69,7 @@
 
                     <!-- Compact Action Buttons -->
                     <FormButton buttonStyle="action" size="sm" class="rounded-lg !py-1 !px-3 !text-xs !h-[32px]"
-                        @click="navigateTo('/schedules/draft')" v-if="isAdmin(userStore.getUser?.role)">
+                        @click="navigateTo('/schedules/draft')" v-if="isAtLeast('Admin')">
                         <Icon name="ph:note" class="h-4 w-4" aria-hidden="true" />
                         <span class="hidden xl:inline">{{ $t('dutySchedules.draft.pageTitle') }}</span>
                     </FormButton>
@@ -641,6 +641,7 @@
 <script setup lang="ts">
 import moment from 'moment'
 import { useUserStore } from '@/store/user'
+import { usePermissions } from '@/composables/usePermissions'
 import { useCustomPagesStore } from '@/store/custom-pages'
 import { useDepartmentStore } from '@/store/department'
 // import { zenegyService } from '@/components/api/user/ZenegyService'
@@ -653,6 +654,7 @@ import { useI18n } from 'vue-i18n'
 const runtimeConfig = useRuntimeConfig()
 const customPagesStore = useCustomPagesStore() as any
 const userStore = useUserStore() as any
+const { isAtLeast, can } = usePermissions()
 const departmentStore = useDepartmentStore() as any
 const { successAlert, errorAlert } = useAlert()
 const { t, locale } = useI18n()
@@ -884,9 +886,6 @@ function openGuidedTour() {
     state.modal.isGuidedTourDutyScheduleOpen = true
 }
 
-function isAdmin(role: any) {
-    return role && role === 'Admin'
-}
 
 function setDutyScheduleCurrentDate(selectedDate: any) {
     state.selectedDate = selectedDate

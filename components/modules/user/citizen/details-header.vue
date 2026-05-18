@@ -378,6 +378,7 @@ import { useDatetimeFormatter } from '@/composables/datetimeFormatter'
 import { useCustomPagesStore } from '@/store/custom-pages'
 import { useCitizenStore } from '@/store/citizen'
 import { useUserStore } from '@/store/user'
+import { usePermissions } from '@/composables/usePermissions'
 import { useNumberFormatter } from '@/composables/numberFormatter'
 import { useI18n } from "vue-i18n"
 import type { Error } from '@/types'
@@ -390,6 +391,7 @@ const { t } = useI18n()
 const customPagesStore = useCustomPagesStore() as any
 const citizenStore = useCitizenStore() as any
 const userStore = useUserStore() as any
+const { isAtLeast, can } = usePermissions()
 const citizenUuid = router?.currentRoute?.value?.params?.uuid as string
 
 const locationTracking = useLocationTracking()
@@ -786,102 +788,99 @@ function switchToInterventionHours() {
 }
 
 // ... rest of your access control functions remain the same ...
-function isAdmin(roles: any) {
-    return roles && roles.some((role: any) => role.name === 'Admin')
-}
 
 function hasSocialSecurityNumberAccess() {
-    return isAdmin(userStore.getUser?.roles) ||
+    return isAtLeast('Admin') ||
         userStore.getUser?.company?.citizen_displays?.some((display: any) => display.en_name === 'Social security number')
 }
 
 function hasAddressAccess() {
-    return isAdmin(userStore.getUser?.roles) ||
+    return isAtLeast('Admin') ||
         userStore.getUser?.company?.citizen_displays?.some((display: any) => display.en_name === 'Address')
 }
 
 function hasInterventionHoursAccess() {
-    return isAdmin(userStore.getUser?.roles) ||
+    return isAtLeast('Admin') ||
         userStore.getUser?.company?.citizen_displays?.some((display: any) => display.en_name === 'Intervention hours')
 }
 
 function hasBirthdayAccess() {
-    return isAdmin(userStore.getUser?.roles) ||
+    return isAtLeast('Admin') ||
         userStore.getUser?.company?.citizen_displays?.some((display: any) => display.en_name === 'Birthday')
 }
 
 function hasEmailAddressAccess() {
-    return isAdmin(userStore.getUser?.roles) ||
+    return isAtLeast('Admin') ||
         userStore.getUser?.company?.citizen_displays?.some((display: any) => display.en_name === 'Email address')
 }
 
 function hasDateAdmittedAccess() {
-    return isAdmin(userStore.getUser?.roles) ||
+    return isAtLeast('Admin') ||
         userStore.getUser?.company?.citizen_displays?.some((display: any) => display.en_name === 'Date admitted')
 }
 
 function hasDateDischargedAccess() {
-    return isAdmin(userStore.getUser?.roles) ||
+    return isAtLeast('Admin') ||
         userStore.getUser?.company?.citizen_displays?.some((display: any) => display.en_name === 'Date discharged')
 }
 
 function hasEANNumberAccess() {
-    return isAdmin(userStore.getUser?.roles) ||
+    return isAtLeast('Admin') ||
         userStore.getUser?.company?.citizen_displays?.some((display: any) => display.en_name === 'EAN number')
 }
 
 function hasPricingAccess() {
-    return isAdmin(userStore.getUser?.roles) ||
+    return isAtLeast('Admin') ||
         userStore.getUser?.company?.citizen_displays?.some((display: any) => display.en_name === 'Pricing')
 }
 
 function hasPayingMunicipalityAccess() {
-    return isAdmin(userStore.getUser?.roles) ||
+    return isAtLeast('Admin') ||
         userStore.getUser?.company?.citizen_displays?.some((display: any) => display.en_name === 'Paying municipality')
 }
 
 function hasAssessmentMunicipalityAccess() {
-    return isAdmin(userStore.getUser?.roles) ||
+    return isAtLeast('Admin') ||
         userStore.getUser?.company?.citizen_displays?.some((display: any) => display.en_name === 'Assessment municipality')
 }
 
 function hasResponsibleMunicipalityAccess() {
-    return isAdmin(userStore.getUser?.roles) ||
+    return isAtLeast('Admin') ||
         userStore.getUser?.company?.citizen_displays?.some((display: any) => display.en_name === 'Responsible municipality')
 }
 
 function hasTransportationAccess() {
-    return isAdmin(userStore.getUser?.roles) ||
+    return isAtLeast('Admin') ||
         userStore.getUser?.company?.citizen_displays?.some((display: any) => display.en_name === 'Transportation')
 }
 
 function hasDepartmentAccess() {
-    return isAdmin(userStore.getUser?.roles) ||
+    return isAtLeast('Admin') ||
         userStore.getUser?.company?.citizen_displays?.some((display: any) => display.en_name === 'Department')
 }
 
 function hasAddictionsAccess() {
-    return isAdmin(userStore.getUser?.roles) ||
+    return isAtLeast('Admin') ||
         userStore.getUser?.company?.citizen_displays?.some((display: any) => display.en_name === 'Addictions')
 }
 
 function hasDiagnosesAccess() {
-    return isAdmin(userStore.getUser?.roles) ||
+    return isAtLeast('Admin') ||
         userStore.getUser?.company?.citizen_displays?.some((display: any) => display.en_name === 'Diagnoses')
 }
 
 function hasMedicationAllergiesAccess() {
-    return isAdmin(userStore.getUser?.roles) ||
+    return isAtLeast('Admin') ||
         userStore.getUser?.company?.citizen_displays?.some((display: any) => display.en_name === 'Medication allergies')
 }
 
 function hasRoomsAccess() {
-    return isAdmin(userStore.getUser?.roles) ||
+    return isAtLeast('Admin') ||
         userStore.getUser?.company?.citizen_displays?.some((display: any) => display.en_name === 'Rooms')
 }
 
 function hasNoteAccess() {
-    return isAdmin(userStore.getUser?.roles) ||
+    return isAtLeast('Admin') ||
         userStore.getUser?.company?.citizen_displays?.some((display: any) => display.en_name === 'Note')
 }
 </script>
