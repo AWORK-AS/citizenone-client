@@ -286,7 +286,7 @@
                                                 class="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-[#8891A4]" />
                                             <input v-model="wizard.companySearch" type="text"
                                                 :placeholder="$t('superadmin.orders.searchCompanyPlaceholder')"
-                                                class="co-input pl-9" @input="searchCompanies" />
+                                                class="co-input !pl-8" @input="searchCompanies" />
                                         </div>
                                         <div v-if="wizard.companyResults.length"
                                             class="mt-1 border border-[#EAECF0] rounded-xl bg-white shadow-lg max-h-48 overflow-y-auto">
@@ -313,7 +313,7 @@
                                             <div class="flex-1">
                                                 <p class="text-[13px] font-semibold text-[#205E77]">{{
                                                     wizard.selectedCompany.name
-                                                }}</p>
+                                                    }}</p>
                                                 <p v-if="wizard.selectedCompany.email"
                                                     class="text-[11px] text-[#42AED9]">{{
                                                         wizard.selectedCompany.email }}</p>
@@ -507,7 +507,7 @@
                                                     </div>
                                                     <div>
                                                         <p class="text-[13px] font-semibold text-[#1F2533]">{{ app.name
-                                                        }}</p>
+                                                            }}</p>
                                                         <p v-if="app.description"
                                                             class="text-[11px] text-[#5C6478] truncate max-w-[240px]">
                                                             {{ app.description }}
@@ -566,7 +566,7 @@
                                             <span class="text-[#5C6478]">{{ wizard.form.extra_users }} {{
                                                 $t('superadmin.orders.extraUsersRow') }}</span>
                                             <span class="font-medium text-[#1F2533]">kr. {{ wizard.form.extra_users * 39
-                                            }}{{
+                                                }}{{
                                                     $t('superadmin.orders.perMonth') }}</span>
                                         </div>
                                         <div v-if="wizard.form.extra_departments > 0"
@@ -588,7 +588,7 @@
                                                     kr. {{ app.one_time_price }}
                                                     <span class="text-[10px] text-[#D4900A]">{{
                                                         $t('superadmin.orders.oneTimeLower')
-                                                    }}</span>
+                                                        }}</span>
                                                 </span>
                                                 <span v-else-if="app.monthly_price > 0">kr. {{ app.monthly_price }}{{
                                                     $t('superadmin.orders.perMonth') }}</span>
