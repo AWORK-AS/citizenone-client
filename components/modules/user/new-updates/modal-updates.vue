@@ -58,8 +58,9 @@ function closeModal() {
 }
 
 const state = reactive({
-    currentVersion: '2026-05-08',
+    currentVersion: '2026-05-15',
     availableVersions: [
+        '2026-05-15',
         '2026-05-08',
         '2026-05-01',
         '2026-04-24',
@@ -91,6 +92,95 @@ const state = reactive({
 
 const allUpdates: Record<string, Record<string, { title: string, description: string[] }[]>> = {
     en: {
+        '2026-05-15': [
+            {
+                title: '🔁 Template & Copying Improvements',
+                description: [
+                    'It is now possible to copy shorter source weeks into multiple consecutive future weeks when creating a duty schedule template.',
+                    'Example: Copy 1 week into 2, 3, 4 (or more) consecutive weeks.',
+                ],
+            },
+            {
+                title: '📝 Dynamic Journal Note Fields Based on Title',
+                description: [
+                    'Journal notes now support dynamic, predefined fields based on the selected journal note title.',
+                    'When a user selects a journal note title, the system automatically displays relevant fields/questions associated with that title.',
+                    'Each field allows input (e.g., notes, answers, observations).',
+                    'These fields are configurable in advance via a catalog or settings.',
+                ],
+            },
+            {
+                title: '📅 Calendar Event – Journal Note & Completion Status',
+                description: [
+                    'It is now possible to create a journal note directly from a calendar event by clicking on the event and selecting "Create journal note".',
+                    'The event title is automatically copied into the journal note.',
+                    'After writing the note, the calendar event links to the journal note, and the journal note links back to the calendar event.',
+                    'It is now possible to mark an event as "Completed" or "Not completed".',
+                    'When selecting either option, a popup asks: "Do you want to write a journal note about this?" with "Yes" and "No" options.',
+                    'If proceeding with a journal note, there is an option to copy the note to a related plan, goal, or sub-goal.',
+                    'Statistics showing the number of times items are marked as "Completed" versus "Not completed" are now available for any given period.',
+                ],
+            },
+            {
+                title: '🧩 Roles & Permissions',
+                description: [
+                    'The Coordinator role and roles in general have been reviewed and improved so administrators no longer need to assign full Administrator rights unnecessarily.',
+                    'A clear overview and explanation of how specific permissions work is now available.',
+                    'It is now possible to define a role hierarchy (e.g., Administrator has higher privileges than Manager).',
+                    'Specialized domain-specific roles can now be created (e.g., "Medication Responsible") to control access to specific modules or functionalities.',
+                    'Multiple roles can now be assigned to a single employee (multi-select), and the system combines permissions from all assigned roles.',
+                ],
+            },
+            {
+                title: '📋 Journal Notes Overview Page',
+                description: [
+                    'The "See latest / all journal notes" function now opens a dedicated page where all journal notes can be viewed in one place.',
+                    'Access to journal notes respects the existing permission structure: users only see notes from citizens within their departments.',
+                    'Administrator roles can see all journal notes across the entire organisation.',
+                    'It is now possible to filter journal notes globally by citizen, department, tags, and other relevant filters.',
+                ],
+            },
+            {
+                title: '📆 iCal / CalDav – Subscribe to Calendar',
+                description: [
+                    'It is now possible to subscribe to the CitizenOne calendar via iCal / CalDav.',
+                    'This allows users to view their CitizenOne calendar events in external calendar applications.',
+                ],
+            },
+            {
+                title: '📋 Residence Data – Consent Declarations',
+                description: [
+                    'In the Residence Data form, it is now possible to select consent declarations with Yes / No options for: Photo, Parent collaboration, Student collaboration, and General consent.',
+                    'Custom consent declaration types can be created in the catalog.',
+                    'It is now possible to indicate Personal guardianship (Yes / No) and Financial guardianship (Yes / No).',
+                ],
+            },
+            {
+                title: '🏥 The 12 Nursing Care Areas – Status & Templates',
+                description: [
+                    'When updating the status of a nursing care area, it is now possible to select: Not an active problem, Potential problem, or Active problem.',
+                    'Templates can now be used for nursing care areas, defining which fields users must fill out (required or optional).',
+                    'When creating or updating a nursing care area, related areas can be viewed in a side panel – similar to how plans and goals are shown when creating a journal note.',
+                ],
+            },
+            {
+                title: '💊 Treatments – Improvements & UX Enhancements',
+                description: [
+                    'Templates can now be used for treatments, defining which fields users must complete (required or optional).',
+                    'The field "Completed" ("Afsluttet") has been renamed to "Mark as completed" ("Markér som afsluttet").',
+                    'It is now more visually clear which treatments are active (ongoing) versus completed, through clear UI indicators (e.g., labels, colors, or status badges).',
+                    'The main overview/dashboard now includes summary widgets such as "10 active treatments", which users can click to view the list.',
+                    'If treatments are created within a specific nursing care area, there is now a direct link from the nursing care area to those treatments.',
+                ],
+            },
+            {
+                title: '🌍 Norwegian & Swedish Language Support',
+                description: [
+                    'Norwegian and Swedish language options are now available in CitizenOne.',
+                    'Users can switch to Norwegian (Norsk) or Swedish (Svenska) from their language settings.',
+                ],
+            },
+        ],
         '2026-05-08': [
             {
                 title: '📇 Company Contacts & Address Book',
@@ -1481,6 +1571,95 @@ const allUpdates: Record<string, Record<string, { title: string, description: st
         ],
     },
     dk: {
+        '2026-05-15': [
+            {
+                title: '🔁 Forbedringer af skabeloner og kopiering',
+                description: [
+                    'Det er nu muligt at kopiere kortere kildeuge ind i flere på hinanden følgende fremtidige uger, når der oprettes en vagtplanskabelon.',
+                    'Eksempel: Kopiér 1 uge ind i 2, 3, 4 (eller flere) på hinanden følgende uger.',
+                ],
+            },
+            {
+                title: '📝 Dynamiske journalnotefelter baseret på titel',
+                description: [
+                    'Journalnoter understøtter nu dynamiske, foruddefinerede felter baseret på den valgte journalnotetitel.',
+                    'Når en bruger vælger en journalnotetitel, viser systemet automatisk relevante felter/spørgsmål tilknyttet den pågældende titel.',
+                    'Hvert felt tillader input (f.eks. noter, svar, observationer).',
+                    'Disse felter kan konfigureres på forhånd via et katalog eller indstillinger.',
+                ],
+            },
+            {
+                title: '📅 Kalenderbegivenhed – journalnote og afslutningsstatus',
+                description: [
+                    'Det er nu muligt at oprette en journalnote direkte fra en kalenderbegivenhed ved at klikke på begivenheden og vælge "Opret journalnote".',
+                    'Begivenhedstitlen kopieres automatisk ind i journalnoten.',
+                    'Kalenderbegivenheden linker til journalnoten, og journalnoten linker tilbage til kalenderbegivenheden.',
+                    'Det er nu muligt at markere en begivenhed som "Gennemført" eller "Ikke gennemført".',
+                    'Når en af mulighederne vælges, vises en popup med spørgsmålet: "Ønsker du at skrive en journalnote om dette?" med valgmulighederne "Ja" og "Nej".',
+                    'Hvis der fortsættes med en journalnote, er der en mulighed for at kopiere noten til en relateret plan, mål eller delmål.',
+                    'Statistik over antallet af gange emner markeres som "Gennemført" versus "Ikke gennemført" er nu tilgængelig for enhver given periode.',
+                ],
+            },
+            {
+                title: '🧩 Roller og tilladelser',
+                description: [
+                    'Koordinatorrollen og roller generelt er gennemgået og forbedret, så administratorer ikke længere behøver at tildele fulde administratorrettigheder unødvendigt.',
+                    'En klar oversigt og forklaring af, hvordan specifikke tilladelser fungerer, er nu tilgængelig.',
+                    'Det er nu muligt at definere et rollehierarki (f.eks. Administrator har højere privilegier end Leder).',
+                    'Specialiserede domænespecifikke roller kan nu oprettes (f.eks. "Medicinsansvarlig") for at styre adgang til specifikke moduler eller funktioner.',
+                    'Flere roller kan nu tildeles en enkelt medarbejder (flervalg), og systemet kombinerer tilladelser fra alle tildelte roller.',
+                ],
+            },
+            {
+                title: '📋 Oversigtsside for journalnoter',
+                description: [
+                    'Funktionen "Se seneste / alle journalnoter" åbner nu en dedikeret side, hvor alle journalnoter kan ses på ét sted.',
+                    'Adgang til journalnoter respekterer den eksisterende tilladelsesstruktur: brugere ser kun noter fra borgere inden for deres afdelinger.',
+                    'Administratorroller kan se alle journalnoter på tværs af hele organisationen.',
+                    'Det er nu muligt at filtrere journalnoter globalt efter borger, afdeling, tags og andre relevante filtre.',
+                ],
+            },
+            {
+                title: '📆 iCal / CalDav – Abonner på kalender',
+                description: [
+                    'Det er nu muligt at abonnere på CitizenOne-kalenderen via iCal / CalDav.',
+                    'Dette giver brugerne mulighed for at se deres CitizenOne-kalenderbegivenheder i eksterne kalenderapplikationer.',
+                ],
+            },
+            {
+                title: '📋 Opholdssagsdata – samtykkeerklæringer',
+                description: [
+                    'I opholdssagsdata-formularen er det nu muligt at vælge samtykkeerklæringer med Ja/Nej-muligheder for: Foto, Forældreinddragelse, Elevsamarbejde og Generelt samtykke.',
+                    'Brugerdefinerede samtykkeerklæringstyper kan oprettes i kataloget.',
+                    'Det er nu muligt at angive Personligt værgemål (Ja/Nej) og Økonomisk værgemål (Ja/Nej).',
+                ],
+            },
+            {
+                title: '🏥 De 12 omsorgsområder – status og skabeloner',
+                description: [
+                    'Når status for et omsorgsområde opdateres, er det nu muligt at vælge: Ikke et aktivt problem, Potentielt problem eller Aktivt problem.',
+                    'Skabeloner kan nu bruges til omsorgsområder, hvor man definerer, hvilke felter brugere skal udfylde (påkrævede eller valgfrie).',
+                    'Når et omsorgsområde oprettes eller opdateres, kan relaterede områder ses i et sidepanel – tilsvarende hvordan planer og mål vises ved oprettelse af en journalnote.',
+                ],
+            },
+            {
+                title: '💊 Behandlinger – forbedringer og UX-forbedringer',
+                description: [
+                    'Skabeloner kan nu bruges til behandlinger, hvor man definerer, hvilke felter brugere skal udfylde (påkrævede eller valgfrie).',
+                    'Feltet "Afsluttet" er omdøbt til "Markér som afsluttet".',
+                    'Det er nu tydeligere visuelt, hvilke behandlinger der er aktive (igangværende) i forhold til afsluttede, via klare UI-indikatorer (f.eks. etiketter, farver eller statusbadges).',
+                    'Hovedoversigten/dashboardet inkluderer nu oversigtswidgets som f.eks. "10 aktive behandlinger", som brugere kan klikke på for at se listen.',
+                    'Hvis behandlinger er oprettet inden for et specifikt omsorgsområde, er der nu et direkte link fra omsorgsområdet til disse behandlinger.',
+                ],
+            },
+            {
+                title: '🌍 Norsk og svensk sprogunderstøttelse',
+                description: [
+                    'Norsk og svensk er nu tilgængeligt som sprogmuligheder i CitizenOne.',
+                    'Brugere kan skifte til norsk (Norsk) eller svensk (Svenska) fra deres sprogindstillinger.',
+                ],
+            },
+        ],
         '2026-05-08': [
             {
                 title: '📇 Virksomhedskontakter og adressebog',
@@ -2869,11 +3048,2970 @@ const allUpdates: Record<string, Record<string, { title: string, description: st
                 ],
             },
         ],
+    },
+    no: {
+        '2026-05-15': [
+            {
+                title: '🔁 Forbedringer av maler og kopiering',
+                description: [
+                    'Det er nå mulig å kopiere kortere kildeuker inn i flere påfølgende fremtidige uker når du oppretter en vaktplanmal.',
+                    'Eksempel: Kopier 1 uke inn i 2, 3, 4 (eller flere) påfølgende uker.',
+                ],
+            },
+            {
+                title: '📝 Dynamiske journalnotatfelter basert på tittel',
+                description: [
+                    'Journalnotater støtter nå dynamiske, forhåndsdefinerte felter basert på den valgte journalnotattittelen.',
+                    'Når en bruker velger en journalnotattittel, viser systemet automatisk relevante felter/spørsmål knyttet til den tittelen.',
+                    'Hvert felt tillater inndata (f.eks. notater, svar, observasjoner).',
+                    'Disse feltene kan konfigureres på forhånd via en katalog eller innstillinger.',
+                ],
+            },
+            {
+                title: '📅 Kalenderhendelse – journalnotat og fullføringsstatus',
+                description: [
+                    'Det er nå mulig å opprette et journalnotat direkte fra en kalenderhendelse ved å klikke på hendelsen og velge "Opprett journalnotat".',
+                    'Hendelsestittelen kopieres automatisk inn i journalnotatet.',
+                    'Etter at notatet er skrevet, lenker kalenderhendelsen til journalnotatet, og journalnotatet lenker tilbake til kalenderhendelsen.',
+                    'Det er nå mulig å markere en hendelse som "Fullført" eller "Ikke fullført".',
+                    'Når et av alternativene velges, vises en popup som spør: "Vil du skrive et journalnotat om dette?" med alternativene "Ja" og "Nei".',
+                    'Hvis man fortsetter med et journalnotat, er det et alternativ for å kopiere notatet til en relatert plan, mål eller delmål.',
+                    'Statistikk som viser antall ganger elementer er markert som "Fullført" versus "Ikke fullført" er nå tilgjengelig for en gitt periode.',
+                ],
+            },
+            {
+                title: '🧩 Roller og tillatelser',
+                description: [
+                    'Koordinatorrollen og roller generelt er gjennomgått og forbedret slik at administratorer ikke lenger trenger å tildele fulle administratorrettigheter unødvendig.',
+                    'En tydelig oversikt og forklaring av hvordan spesifikke tillatelser fungerer er nå tilgjengelig.',
+                    'Det er nå mulig å definere et rollehierarki (f.eks. Administrator har høyere rettigheter enn Leder).',
+                    'Spesialiserte domenespesifikke roller kan nå opprettes (f.eks. "Medisinansvarlig") for å kontrollere tilgang til spesifikke moduler eller funksjoner.',
+                    'Flere roller kan nå tildeles en enkelt ansatt (flervalg), og systemet kombinerer tillatelser fra alle tildelte roller.',
+                ],
+            },
+            {
+                title: '📋 Oversiktsside for journalnotater',
+                description: [
+                    'Funksjonen "Se siste / alle journalnotater" åpner nå en dedikert side der alle journalnotater kan vises på ett sted.',
+                    'Tilgang til journalnotater respekterer den eksisterende tillatelsesstrukturen: brukere ser kun notater fra borgere i sine avdelinger.',
+                    'Administratorroller kan se alle journalnotater på tvers av hele organisasjonen.',
+                    'Det er nå mulig å filtrere journalnotater globalt etter borger, avdeling, tagger og andre relevante filtre.',
+                ],
+            },
+            {
+                title: '📆 iCal / CalDav – Abonner på kalender',
+                description: [
+                    'Det er nå mulig å abonnere på CitizenOne-kalenderen via iCal / CalDav.',
+                    'Dette lar brukere se sine CitizenOne-kalenderhendelser i eksterne kalenderapplikasjoner.',
+                ],
+            },
+            {
+                title: '📋 Oppholdsdata – Samtykkeerklæringer',
+                description: [
+                    'I oppholdsdataskjemaet er det nå mulig å velge samtykkeerklæringer med Ja / Nei-alternativer for: Foto, Foreldresamarbeid, Studentsamarbeid og Generelt samtykke.',
+                    'Egendefinerte samtykkeerklæringstyper kan opprettes i katalogen.',
+                    'Det er nå mulig å angi Personlig vergemål (Ja / Nei) og Økonomisk vergemål (Ja / Nei).',
+                ],
+            },
+            {
+                title: '🏥 De 12 sykepleieområdene – Status og maler',
+                description: [
+                    'Ved oppdatering av statusen for et sykepleieområde er det nå mulig å velge: Ikke et aktivt problem, Potensielt problem eller Aktivt problem.',
+                    'Maler kan nå brukes for sykepleieområder og definere hvilke felter brukere må fylle ut (obligatorisk eller valgfritt).',
+                    'Ved opprettelse eller oppdatering av et sykepleieområde kan relaterte områder vises i et sidepanel – på samme måte som planer og mål vises ved oppretting av et journalnotat.',
+                ],
+            },
+            {
+                title: '💊 Behandlinger – Forbedringer og UX-forbedringer',
+                description: [
+                    'Maler kan nå brukes for behandlinger og definere hvilke felter brukere må fylle ut (obligatorisk eller valgfritt).',
+                    'Feltet "Fullført" ("Afsluttet") er omdøpt til "Marker som fullført" ("Markér som afsluttet").',
+                    'Det er nå tydeligere visuelt hvilke behandlinger som er aktive (pågående) versus fullførte, gjennom tydelige UI-indikatorer (f.eks. etiketter, farger eller statusmerker).',
+                    'Hovedoversikten/dashbordet inkluderer nå sammendragswidgeter som "10 aktive behandlinger", som brukere kan klikke på for å se listen.',
+                    'Hvis behandlinger opprettes innenfor et bestemt sykepleieområde, er det nå en direkte lenke fra sykepleieområdet til disse behandlingene.',
+                ],
+            },
+            {
+                title: '🌍 Norsk og svensk språkstøtte',
+                description: [
+                    'Norske og svenske språkalternativer er nå tilgjengelige i CitizenOne.',
+                    'Brukere kan bytte til norsk (Norsk) eller svensk (Svenska) i språkinnstillingene.',
+                ],
+            },
+        ],
+        '2026-05-08': [
+            {
+                title: '📇 Firmakontakter og adressebok',
+                description: [
+                    'Firmakontakter kan nå opprettes på samme måte som borgerkontakter.',
+                    'Alle kontakter (f.eks. leger, saksbehandlere osv. – ikke pårørende) lagres nå sentralt i systemet slik at de kan gjenbrukes og tildeles flere borgere.',
+                    'En firmaomfattende adressebok er introdusert der kontakter lagres sentralt og kan velges ved behov.',
+                ],
+            },
+            {
+                title: '⚙️ Konfigurasjon av vakttyper',
+                description: [
+                    'Under Vakttyper er det nå mulig å definere at 1 arbeidstime tilsvarer 0,75 timer (valgfritt), og denne regelen kan også brukes innenfor et bestemt tidsintervall.',
+                    'For "Sovende nattevakt" er det nå mulig å definere en standard sluttid som er 1, 2 eller flere dager senere.',
+                ],
+            },
+            {
+                title: '📅 Vaktplan – Års- og halvårskalendervisning',
+                description: [
+                    'En års- og halvårskalendervisning er lagt til vaktplanen.',
+                    'Visningen kan vises per enkeltansatt og viser deres tildelte vakter og en oversikt over tid.',
+                ],
+            },
+            {
+                title: '💊 Medisinnotater – Informasjonsikon',
+                description: [
+                    'Et informasjonsikon ("i") er lagt til for medisinnotater.',
+                    'Når man holder musen over ikonet, vises den tilhørende merknaden for medisinen.',
+                    'Eksempel: "Skal ikke administreres hvis pasienten er påvirket av kokain."',
+                ],
+            },
+            {
+                title: '🤖 AI-bruksmerke på journalnotater',
+                description: [
+                    'Systemet registrerer nå når AI-assistenten har blitt brukt til å opprette eller bistå med et journalnotat.',
+                    'Et merke vises på journalnotatet som indikerer at AI-assistenten ble brukt.',
+                    'Merket viser: "CitizenOne AI ble brukt".',
+                ],
+            },
+            {
+                title: '🔐 Innloggingsbegrensning etter IP / enhet',
+                description: [
+                    'Administratorer kan nå begrense innloggingstilgang basert på IP-adresse og/eller enhet.',
+                    'Spesifikke IP-adresser (f.eks. kontornettverket) kan hvitelistes.',
+                    'Eventuelt kan tilgangen begrenses til godkjente enheter.',
+                    'Brukere utenfor tillatte IP-adresser/enheter vil bli blokkert eller måtte fullføre ekstra verifisering.',
+                    'Denne funksjonen øker sikkerheten og sikrer tilgang kun fra pålitelige miljøer.',
+                ],
+            },
+            {
+                title: '🎄 Helligdag- og søndagsbetalingsregler',
+                description: [
+                    'På helligdager gjelder et standardeksempel: 08:00 – 15:24 = 7,4 timer.',
+                    'På søndager må ansatte motta 1,5× timene sine.',
+                    'Hvis en ansatt arbeider på søndag eller helligdag, mottar de vakttimer × 1,5.',
+                ],
+            },
+        ],
+        '2026-05-01': [
+            {
+                title: 'Tillegg til ekstratimer (X-timer)',
+                description: [
+                    'En ny kolonne er lagt til som viser navnet på personen som opprettet ekstratime-oppføringen.',
+                    'En ny kolonne og tilhørende felt for avdelinger er lagt til ekstratimer.',
+                    'Ekstratimer er nå også synlige i utkast til vaktplaner.',
+                ],
+            },
+            {
+                title: '⏱ Forbedringer av tidsregistrering',
+                description: [
+                    'Ansatte kan nå be om registrering av en glemt innsjekking.',
+                    'Disse forespørslene må godkjennes av en administrator før de registreres.',
+                    'Administratorer kan nå redigere eksisterende tidsloggoppføringer.',
+                ],
+            },
+            {
+                title: '💊 Forbedringer av medisinoversikt',
+                description: [
+                    'Antall tabletter / dosering vises nå tydelig og fremtredende for hver medisin.',
+                    'Medisinoversikten skiller nå tydelig mellom PN- (ved behov) medisin og vanlig (planlagt) medisin.',
+                    'Filtreringsalternativer er lagt til: vis alle medisiner, kun PN-medisin eller kun vanlig medisin.',
+                    'Det er nå mulig å sortere kolonner i medisinoversikten alfabetisk (f.eks. etter medisinnavn) og numerisk (f.eks. etter dosering).',
+                    'Det er nå mulig å se alle medisiner samtidig, i stedet for å være begrenset til 10 oppføringer per side.',
+                ],
+            },
+            {
+                title: '👥 Tildeling av ansattgrupper til borgere',
+                description: [
+                    'Det er nå mulig å tildele en ansattgruppe til en borger, og omvendt – fra ansattgruppen tildele én eller flere borgere; fra borgerprofilen tildele én eller flere ansattgrupper.',
+                    'Når en ansattgruppe tildeles en borger, blir alle ansatte i den gruppen automatisk tildelt borgeren.',
+                    'Denne tildelingen oppfører seg på samme måte som å tildele en ansatt direkte via "Tildelte borgere" eller tildele en kontakt via "Kontakter" på borgeren.',
+                    'Forholdet holdes synkronisert: hvis en ansatt legges til eller fjernes fra gruppen, oppdateres borgertildelingen automatisk.',
+                    'Hvis en ansattgruppe fjernes fra en borger, fjernes alle tilknyttede ansatte også (med mindre de er tildelt manuelt andre steder).',
+                ],
+            },
+            {
+                title: '📥 Eksportfunksjonalitet for behandlinger',
+                description: [
+                    'Det er nå mulig å laste ned/eksportere behandlinger sammen med statusen deres, tilsvarende eksisterende eksport av medisinhistorikk.',
+                    'Eksporten inkluderer behandlingsdetaljer og gjeldende status (f.eks. aktiv, fullført osv.).',
+                ],
+            },
+            {
+                title: '📩 Forbedringer av henvendelser (Henvendelser)',
+                description: [
+                    'Henvendelser kan nå tildeles en avdeling, på samme måte som det fungerer for borgere.',
+                    'Et nytt "Avdeling"-felt er lagt til i henvendelsesskjemaet.',
+                    'På Henvendelser-siden er det nå mulig å filtrere henvendelser etter avdeling og eksportere henvendelser per avdeling.',
+                    'Henvendelseskategoriene "Herberger og forsorgshjem" og "Krisecenter" kan nå gis nytt navn i Innstillinger → Annet → Ordliste (f.eks. til §110 og §109).',
+                    'Feltene "Navn på spørger" og "Dato for henvendelser" kan nå gis nytt navn i Innstillinger → Annet → Ordliste.',
+                    'Feltene "Egne notater" og "Formål" kan nå fjernes via Innstillinger → Annet → Ordliste.',
+                ],
+            },
+            {
+                title: '💊 Medisin – Visning av handelsnavn',
+                description: [
+                    'Handelsnavnet på en medisin (f.eks. Panodil) vises nå tydelig sammen med eller som en del av medisininformasjonen.',
+                ],
+            },
+            {
+                title: '🔔 Påminnelser og oppgaveliste',
+                description: [
+                    'Det er nå tydeligere synlig om en påminnelse er markert som "Fullført".',
+                    'En logg er lagt til som viser hvilken bruker som fullførte en påminnelse.',
+                    'Påminnelsesfunksjonen fungerer nå som en fullstendig oppgaveliste, inspirert av Apples Påminnelser-app.',
+                    'En påminnelsesoversikt er lagt til på dashbordet/hjemmesiden.',
+                ],
+            },
+            {
+                title: '🔁 Vaktplanmal – Kopier på tvers av flere uker',
+                description: [
+                    'Det er nå mulig å kopiere kortere kildeuker inn i flere påfølgende fremtidige uker når du oppretter en vaktplanmal.',
+                    'Eksempel: kopier 1 uke inn i 2, 3, 4 eller flere påfølgende uker.',
+                ],
+            },
+            {
+                title: '📇 Firmakontakter og adressebok',
+                description: [
+                    'Firmakontakter kan nå opprettes på samme måte som borgerkontakter.',
+                    'Alle kontakter (f.eks. leger, saksbehandlere osv. – ikke pårørende) lagres nå sentralt i systemet slik at de kan gjenbrukes og tildeles flere borgere.',
+                    'En firmaomfattende adressebok er introdusert der kontakter lagres sentralt og kan velges ved behov.',
+                ],
+            },
+            {
+                title: '🔐 Innloggingsbegrensning etter IP / enhet',
+                description: [
+                    'Administratorer kan nå begrense innloggingstilgang basert på IP-adresse og/eller enhet.',
+                    'Spesifikke IP-adresser (f.eks. kontornettverket) kan hvitelistes.',
+                    'Eventuelt kan tilgangen begrenses til godkjente enheter.',
+                    'Brukere utenfor tillatte IP-adresser/enheter vil bli blokkert eller måtte fullføre ekstra verifisering.',
+                ],
+            },
+            {
+                title: '⚙️ Konfigurasjon av vakttyper',
+                description: [
+                    'Under Vakttyper er det nå mulig å definere at 1 arbeidstime tilsvarer 0,75 timer (valgfritt), og denne regelen kan også brukes innenfor et bestemt tidsintervall.',
+                    'For "Sovende nattevakt" er det nå mulig å definere en standard sluttid som er 1, 2 eller flere dager senere.',
+                ],
+            },
+            {
+                title: '🧩 Roller og tillatelser',
+                description: [
+                    'Koordinatorrollen og roller generelt er gjennomgått og forbedret slik at administratorer ikke lenger trenger å tildele fulle "Administrator"-rettigheter unødvendig.',
+                    'En tydelig oversikt og forklaring av hvordan spesifikke tillatelser fungerer er gitt.',
+                    'Det er nå mulig å definere et rollehierarki (f.eks. Administrator har høyere rettigheter enn Leder).',
+                    'Spesialiserte domenespesifikke roller kan nå opprettes (f.eks. "Medisinansvarlig") for å kontrollere tilgang til spesifikke moduler.',
+                    'Flere roller kan nå tildeles en enkelt ansatt (flervalg), og systemet kombinerer tillatelser fra alle tildelte roller.',
+                ],
+            },
+            {
+                title: '📅 Vaktplan – Års- og halvårsvisning per ansatt',
+                description: [
+                    'En års- og halvårskalendervisning er lagt til vaktplanen.',
+                    'Visningen kan vises per enkeltansatt og viser deres tildelte vakter og en oversikt over tid.',
+                ],
+            },
+        ],
+        '2026-04-24': [
+            {
+                title: '🏷 Tagger og filtrering – Utkast til vaktplan',
+                description: [
+                    'Tagger er nå synlige ved kopiering av vakter i utkastet til vaktplanen.',
+                    'Utkastet oppfører seg nå identisk med den publiserte planen, inkludert tagger og filtreringsfunksjonalitet.',
+                ],
+            },
+            {
+                title: '📢 Åpne vakter i utkast',
+                description: [
+                    'Det er nå mulig å opprette en åpen vakt direkte i utkastet til vaktplanen, tilsvarende oppførselen i den utvidede utkastvisningen.',
+                    'Vakten publiseres og utløser varsler først når utkastet offisielt frigis.',
+                ],
+            },
+            {
+                title: '🔔 Nyheter og oppdateringer – Varslingsteller',
+                description: [
+                    'Varslingstelleren for "Nyheter" og "Oppdateringer" tilbakestilles nå umiddelbart etter at brukeren har vist den.',
+                    'Denne tilbakestillingen skjer hver gang brukeren åpner "Nyheter" eller "Oppdateringer".',
+                ],
+            },
+            {
+                title: 'Avdelingskolonne i vaktplaneksporter',
+                description: [
+                    'Ved eksport av en vaktplan inkluderes en "Avdeling"-kolonne og plasseres før "Ansattnavn"-kolonnen.',
+                ],
+            },
+            {
+                title: 'Vaktplansortering – ansatte på vakt i dag',
+                description: [
+                    'Når veksleren "på vakt i dag" er aktivert, sorteres ansatte nå med dem hvis vakt starter tidligst først.',
+                ],
+            },
+            {
+                title: '📍 Innsjekking av ansatte – Geolokasjon',
+                description: [
+                    'Geolokasjon fanges nå opp når ansatte sjekker inn.',
+                    'Systemet registrerer plasseringen (breddegrad/lengdegrad) ved innsjekking.',
+                    'Plasseringen kan eventuelt vises på en kartvisning.',
+                ],
+            },
+            {
+                title: '📧 Apper – Aktivering av Mail',
+                description: [
+                    'Når "Mail"-appen aktiveres, lastes siden nå automatisk på nytt slik at Mail-modulen umiddelbart blir synlig i venstre sidemeny.',
+                ],
+            },
+            {
+                title: 'Fordeling av vakttyper',
+                description: [
+                    'Fordelingen av vakttyper kan nå filtreres etter start- og sluttdato/-tid og etter ansatt.',
+                ],
+            },
+            {
+                title: '🏠 Forbedringer av romadministrasjon',
+                description: [
+                    'Det er nå mulig å gi nytt navn til etiketten "Rom" i ordlisten.',
+                    'En ordentlig oversikt over rom og deres tilgjengelighet er nå tilgjengelig.',
+                    'Opptatte rom kan ikke lenger velges – kun tilgjengelige rom kan velges.',
+                ],
+            },
+            {
+                title: '⏱ Flerdagsvakter',
+                description: [
+                    'Vakter som strekker seg over flere dager (2–3 dager eller mer) behandles nå som én sammenhengende vakt.',
+                    'Ingen advarsler utløses for regelen om maksimalt 13-timers vakt eller 11-timers hvileperiode for slike vakter.',
+                ],
+            },
+            {
+                title: '🩺 Godkjenning av sykefravær og ferie',
+                description: [
+                    'Administratorer må nå godkjenne sykefravær- og ferieforespørsler sendt inn av ansatte via vaktplanen før de registreres.',
+                ],
+            },
+            {
+                title: '💊 Medisin – Planlagt periode og ekstradager',
+                description: [
+                    'Det er nå mulig å planlegge medisinadministrasjon over en spesifisert periode, i stedet for å kreve daglig administrasjon.',
+                    'Det er også mulig å legge til individuelle ekstra medisindager på bestemte datoer.',
+                    'Eksempel: et barn som vanligvis deltar i helgene, kan få medisin lagt til for en bestemt ekstra ukedag uten å endre den vanlige planen.',
+                ],
+            },
+            {
+                title: '💊 Medisinadministrasjon – Fleksibel registrering',
+                description: [
+                    'Det er nå mulig å administrere, registrere og markere avvik for medisin mye mer fleksibelt.',
+                ],
+            },
+            {
+                title: '💊 Medisin-UI – Flere administrasjonstider',
+                description: [
+                    'Medisin-UI støtter nå visning av flere administrasjonstider for en enkelt medisin.',
+                    'Hver medisinoppføring viser tydelig alle planlagte tider (f.eks. morgen, middag, kveld, natt eller spesifikke tidsstempler).',
+                    'Tider er visuelt gruppert under samme medisin slik at det er tydelig at de tilhører samme resept.',
+                ],
+            },
+            {
+                title: '💊 PN-medisin – Ingen fast administrasjonstid',
+                description: [
+                    'PN-medisin (ved behov) har ikke lenger en fast administrasjonstid, da den gis basert på behov.',
+                ],
+            },
+            {
+                title: '💊 Medisinbeholdning – Fiks for lagerberegning',
+                description: [
+                    'Problemer med feil beregning av medisinlager er undersøkt og løst.',
+                    'Lagernivåer gjenspeiler nå alltid nøyaktige mengder basert på registreringer.',
+                    'Lagerverdier kan ikke lenger falle under null.',
+                ],
+            },
+            {
+                title: '💊 Medisin – Visning av dato og tid',
+                description: [
+                    'Administrasjonsdatokolonnen for både vanlig og PN-medisin inkluderer nå også det eksakte administrasjonstidspunktet.',
+                ],
+            },
+            {
+                title: '💊 Medisinoversikt – Tilleggsfelter',
+                description: [
+                    'Medisinoversikten viser nå også "Maksimal dose per administrasjon" og "Beskrivelse".',
+                    'For PN-medisin vises nå feltet "Maksimal dose per administrasjon", i samsvar med vanlig medisin.',
+                ],
+            },
+            {
+                title: '⚠️ Konfigurasjon av advarsler – Vaktplan',
+                description: [
+                    'Det er nå mulig å deaktivere advarslene "13-timers vakt", "11-timers hvileregel" og "48-timers regel" i vaktplanen.',
+                ],
+            },
+            {
+                title: '📌 Forbedringer av oppslagstavle',
+                description: [
+                    'Hvert innlegg viser nå forfatter og tidsstempel (dato og tidspunkt for opprettelse).',
+                    'Kun den opprinnelige forfatteren av et innlegg eller en administrator kan redigere det.',
+                    'Flere innlegg kan nå fremheves/festes samtidig.',
+                    'Innlegg på dashbordet vises nå i listeformat med tittel og kort forhåndsvisning. Brukere kan klikke på et innlegg for å se hele innholdet.',
+                ],
+            },
+            {
+                title: '💊 PN-medisin – Effektevaluering',
+                description: [
+                    'Etter administrering av PN-medisin (ved behov) kan brukere nå utføre en effektevaluering.',
+                    'Klikk "Utfør effektevaluering" for å skrive inn og lagre notater, resultat eller effektobservasjoner.',
+                    'Flere effektevalueringer kan utføres for samme medisinoppføring.',
+                ],
+            },
+        ],
+        '2026-04-10': [
+            {
+                title: 'Forbedringer av meldings-UI og sletting av chathistorikk',
+                description: [
+                    'Meldingsgrensesnittet er oppdatert med et forbedret UI for bedre brukeropplevelse.',
+                    'Det er nå mulig å slette en hel meldings-chathistorikk direkte fra samtalelisten.',
+                ],
+            },
+            {
+                title: 'Avdelingskolonne i vaktplaneksporter',
+                description: [
+                    'Ved eksport av en vaktplan inkluderes nå en "Avdeling"-kolonne i eksporten.',
+                    'Avdelingskolonnen er plassert før "Ansattnavn"-kolonnen.',
+                ],
+            },
+            {
+                title: '💸 Utgifter',
+                description: [
+                    'Et borgerfelt er lagt til utgifter, som lar utgifter knyttes til en bestemt borger.',
+                    'Utgifter vises nå under "Økonomi"-seksjonen på borgerprofilen, i en egen "Utgifter"-fane sammen med den eksisterende "Lommebøker"-fanen.',
+                    'Utgifter kan nå redigeres etter avvisning.',
+                    'Utgifter kan også redigeres etter refusjon (utgift utbetalt).',
+                ],
+            },
+            {
+                title: '🕒 Justeringer av arbeidstid – Geolokasjonssporing',
+                description: [
+                    'Geolokasjon fanges nå opp når man starter og avslutter arbeidstid.',
+                    'Ingen kilometersporing er nødvendig – kun plasseringen ved start og slutt.',
+                    'En grønn markør vises for startplasseringen og en rød markør for sluttplasseringen.',
+                ],
+            },
+            {
+                title: '📌 Feste journalnotater',
+                description: [
+                    'Det er nå mulig å feste journalnotater på en borger.',
+                    'Festede notater vises øverst i journalnotatlisten og forblir synlige uavhengig av sortering eller filtrering.',
+                    'Notater kan enkelt festes og løsnes, og flere notater kan festes samtidig.',
+                    'Dette hjelper personalet med å fremheve viktig eller kritisk informasjon og forbedrer oversikt og tilgjengelighet.',
+                ],
+            },
+            {
+                title: '🔐 Sidetilgang – Synlighet for vaktplan',
+                description: [
+                    'Et alternativ er lagt til for å skjule eller fjerne tilgangen til "Vaktplan"-siden, i samsvar med hvordan andre sider administreres.',
+                    'Når den er skjult, vises ikke vaktplansiden i venstre sidemeny.',
+                ],
+            },
+            {
+                title: '👤 Opprettelse av borger og kontakt – Automatisk utfylling av postnummer',
+                description: [
+                    'Når du oppretter en borger, pårørende eller annen kontakt, vil oppgivelse av postnummer nå automatisk fylle ut feltene By, Region og Kommune.',
+                ],
+            },
+            {
+                title: 'Filtrer etter arkiverte/ikke-arkiverte ansatte i vaktplaneksporter',
+                description: [
+                    'Det er nå mulig å filtrere etter arkiverte og/eller ikke-arkiverte ansatte når man eksporterer vaktplaner.',
+                ],
+            },
+            {
+                title: '👤 Tillatelser for opprettelse av borger',
+                description: [
+                    'Opprettelse av borgere er ikke lenger begrenset til administratorprofiler.',
+                    'En ny "Opprett borger"-tillatelse er introdusert, som kan tildeles enhver rolle – inkludert standardbrukerrollen – under "Roller" i katalogen.',
+                    'Dette lar administratorer kontrollere hvilke brukere som har tillatelse til å opprette borgere.',
+                ],
+            },
+            {
+                title: 'Stopp kopiering fra gjeldende posisjon',
+                description: [
+                    'Det er nå mulig å stoppe en kopieringsprosess fra gjeldende posisjon i planen.',
+                    'Tidligere krevde stopping av kopieringen at man navigerte tilbake til opprinnelig startdato. Dette er ikke lenger nødvendig.',
+                ],
+            },
+            {
+                title: '"Avspaseringstimer" omdøpt til "Avspaseringstimer i år"',
+                description: [
+                    'Etiketten "Avspaseringstimer" er omdøpt til "Avspaseringstimer i år" for tydelighet.',
+                ],
+            },
+            {
+                title: '📊 Forbedringer av tidslogger',
+                description: [
+                    'Et borgerfelt er lagt til tidslogger, som lar tidslogger knyttes til en bestemt borger.',
+                    'Tidslogger vises nå på borgerprofilen.',
+                    'Statistikk, filtrering og eksport av tidsloggdata er nå tilgjengelig, tilsvarende funksjonaliteten for intervensjonstimer.',
+                ],
+            },
+            {
+                title: '11-timers og 48-timers regel – Ekskludering av fraværstyper',
+                description: [
+                    '11-timersregelen og 48-timersregelen teller ikke lenger ferietimer, sykdomstimer eller andre vakter merket som "fraværstyper" ved beregning av regelbrudd.',
+                    'Disse fraværsvakttypene kan fortsatt telles og beregnes mot normtimer.',
+                    'Advarselsindikatoren er endret til en advarseltrekantsikon for å redusere visuell støy, da den ble vist for ofte.',
+                ],
+            },
+            {
+                title: '📤 Borger-eksport per avdeling (Herberge og krisesenter)',
+                description: [
+                    'For kategoriene "Herberge" og "Krisesenter" støtter borger-eksporten nå filtrering og eksport av borgere per avdeling.',
+                    'Hver avdelings data kan eksporteres separat, tilsvarende hvordan "Eksporter henvendelser" fungerer.',
+                ],
+            },
+            {
+                title: 'Slettetillatelser for ansatte – Kalenderhendelser',
+                description: [
+                    'Ansatte har ikke lenger tillatelse til å slette elementer som standard, bortsett fra kalenderhendelser.',
+                    'En dedikert slettetillatelse for kalenderhendelser er lagt til under roller, og kan tildeles "Vanlig bruker"-rollen og andre roller.',
+                ],
+            },
+            {
+                title: '🎯 UI-forbedringer – Vaktplanindikatorer og vaktnotater',
+                description: [
+                    'Grønne og røde indikatorer i vaktplanen inkluderer nå et verktøytips ved hover som forklarer betydningen.',
+                    'Vaktmerknader/notater er nå tilgjengelige via et verktøytips ved hover på et ikon vist direkte på vakten i vaktplanen.',
+                ],
+            },
+            {
+                title: 'Tillegg til X-timer (ekstratimer)',
+                description: [
+                    'En kolonne som viser navnet på personen som opprettet ekstratime-oppføringen, er lagt til.',
+                    'En avdelingskolonne og tilhørende felt er lagt til ekstratimer.',
+                    'Ekstratimer er nå også inkludert i utkast til vaktplaner.',
+                ],
+            },
+            {
+                title: '⏱ Forbedringer av tidsregistrering',
+                description: [
+                    'Ansatte kan nå be om registrering av en glemt innsjekking direkte i systemet.',
+                    'Disse forespørslene må gjennomgås og godkjennes av en administrator før de registreres.',
+                    'Administratorer kan nå redigere eksisterende tidsloggoppføringer.',
+                ],
+            },
+        ],
+        '2026-02-20': [
+            {
+                title: 'Opprettelse og redigering av dokumenter online',
+                description: [
+                    'Brukere kan nå opprette og redigere dokumenter direkte online i systemet.',
+                    'Systemgenererte dokumenter kan lastes ned som PDF-filer.',
+                    'Opplastede dokumenter (Word- og Pages-formater) kan også redigeres online.',
+                    'Det er mulig å vise dokumenter i skrivebeskyttet modus uten å aktivere redigering.'
+                ],
+            },
+            {
+                title: 'Oversikt over avspasering og ferietimer',
+                description: [
+                    'Ansatte kan nå se en oversikt over avspaseringstimer og ferietimer for en valgt periode.',
+                    'Dette gir bedre gjennomsiktighet og planlegging av tilgjengelig fri.'
+                ],
+            },
+            {
+                title: 'Automatisk oppfølgingsfremheving på borgerrapporter',
+                description: [
+                    'Skjemaer kan nå konfigureres til automatisk å fremheve innsendte borgerrapporter etter en bestemt tidsperiode satt av den ansatte.',
+                    'Fremhevede rapporter vises i den generelle borger-oversikten, i Daglig oversikt (i en dedikert boks) og på borgerens profilside.',
+                    'Denne funksjonaliteten må aktiveres av en administrator på det spesifikke skjemaet før den kan brukes.'
+                ],
+            },
+            {
+                title: 'Konfigurerbare timer for intervensjonssporing',
+                description: [
+                    'Administratorer kan nå konfigurere antall timer for intervensjonssporing i systeminnstillingene.',
+                    'Standardverdien på 24 timer kan justeres til et hvilket som helst ønsket antall timer.'
+                ],
+            },
+            {
+                title: 'Tidsregistreringsfane for ansatte',
+                description: [
+                    'En dedikert tidsregistreringsfane er lagt til for ansatte.',
+                    'Dette sentraliserer og forenkler tidssporing og registreringer.'
+                ],
+            },
+            {
+                title: 'AI-prompting med filvedlegg og intern datatilgang',
+                description: [
+                    'AI-prompting støtter nå filvedlegg som en del av forespørselen.',
+                    'AI-en kan få tilgang til relevante interne systemdata (basert på tillatelser) for å gi mer nøyaktige og kontekstuelle svar.'
+                ],
+            },
+            {
+                title: 'Tagger på ekstratimer',
+                description: [
+                    'Det er nå mulig å legge til tagger på ekstratime-oppføringer.',
+                    'Dette forbedrer kategorisering, filtrering og rapportering av ekstra arbeidstimer.'
+                ],
+            },
+            {
+                title: 'Brukerspesifikke e-postsignaturer',
+                description: [
+                    'Brukere kan nå opprette og administrere sine egne e-postsignaturer.',
+                    'E-postsignaturer kan konfigureres individuelt per bruker.'
+                ],
+            },
+            {
+                title: 'Grafvisualisering av avspasering',
+                description: [
+                    'Avspasering visualiseres nå i en graf basert på normtimer.',
+                    'Grafen vises ved klikk på avspaseringstimer, under timevisningen i den eksisterende popup-modalen.'
+                ],
+            },
+            {
+                title: 'Koblede års- og ukenormtimer',
+                description: [
+                    'Et nytt felt for ukenormtimer er lagt til og koblet til feltet for årsnormtimer på skjemaet for opprettelse/redigering av ansatt.',
+                    'Begge feltene beregner og oppdaterer hverandre automatisk basert på et 52-ukers år.',
+                    'Verdien for ukenormtimer vises også under årsnormtimer i vaktplanvisningen.'
+                ],
+            },
+            {
+                title: 'Eksport basert på filtrert vaktplanvisning',
+                description: [
+                    'Det er nå mulig å eksportere data basert på de aktuelt anvendte filtrene i vaktplanvisningen.',
+                    'Brukere kan laste ned den filtrerte visningen som vist på skjermen.',
+                    'Vaktplanen kan eksporteres i CSV-format med enten semikolon- eller kommaseparerte verdier.'
+                ],
+            },
+            {
+                title: 'Klassifisering av fraværsvakttyper og eksportalternativer',
+                description: [
+                    'Vakttyper kan nå merkes som "fraværsvakttyper".',
+                    'Eksporter kan konfigureres til å inkludere kun fraværsvakttyper, kun vanlige vakter, eller begge kombinert i én eksportfil.'
+                ],
+            },
+            {
+                title: 'Passordbeskyttet skrivebeskyttet deling',
+                description: [
+                    'Vaktplaner og journaler kan nå deles via passordbeskyttede lenker.',
+                    'Mottakere kan få tilgang til det delte innholdet i skrivebeskyttet modus uten å logge inn i systemet.'
+                ],
+            },
+            {
+                title: 'Begrens synlighet av historiske vakter',
+                description: [
+                    'Administratorer kan konfigurere i innstillingene om ansatte har lov til å se andre ansattes historiske vakter.',
+                    'Uavhengig av denne innstillingen kan ansatte aldri se andre ansattes timedata.'
+                ],
+            },
+            {
+                title: 'Forbedrede alternativer for datovelger',
+                description: [
+                    'Oversiktsdatovelgeren lar nå brukere raskt velge mellom dagens dato, de neste 7 dagene eller et tilpasset datointervall.',
+                    'Dette gir mer fleksibilitet ved navigering og gjennomgang av data.'
+                ],
+            },
+            {
+                title: 'Ferieregistrering med avspaseringsalternativ',
+                description: [
+                    'Ved registrering av ferie kan brukere markere den som avspasering (afspadsering), både under opprettelse og redigering.',
+                    'Hvis markert, forblir avkrysningsboksen valgt.',
+                    'Hvis avspasering markeres under redigering etter opprettelse, justerer systemet avspaseringssaldoen basert på ferievakttimene.'
+                ],
+            },
+            {
+                title: 'Markering av transportbruk for refusjon',
+                description: [
+                    'Ansatte kan angi når transport er brukt og skal refunderes.',
+                    'Dette sikrer nøyaktig sporing og refusjon av transportutgifter.'
+                ],
+            },
+            {
+                title: 'Lønnskode / lønnselement per vakttype',
+                description: [
+                    'Hver vakttype kan nå inkludere et felt for lønnskode eller lønnselement.',
+                    'Dette feltet inkluderes i vakteksporter og lønnsrapporter for å sikre nøyaktig lønnsbehandling.'
+                ],
+            },
+            {
+                title: 'Varsler om vaktrotasjon',
+                description: [
+                    'Ansatte mottar et varsel når en ny vaktrotasjon rulles ut.',
+                    'Varsler sendes også når det gjøres endringer i en eksisterende vaktrotasjon.'
+                ],
+            },
+            {
+                title: 'Sluttdato med automatisk deaktivering av tilgang',
+                description: [
+                    'Et felt for sluttdato er tilgjengelig på skjemaer for opprettelse, redigering og visning av ansatt.',
+                    'Når sluttdatoen nås, deaktiveres den ansattes tilgang automatisk.'
+                ],
+            },
+            {
+                title: 'Behandlinger upåvirket av oversiktsdatovelger',
+                description: [
+                    'Behandlinger-seksjonen påvirkes ikke lenger av oversiktsdatovelgeren.',
+                    'Alle pågående (aktive) behandlinger vises uavhengig av valgt datointervall.'
+                ],
+            },
+        ],
+        '2026-01-30': [
+            {
+                title: 'Mulighet for å endre etikett i ordlistelisten',
+                description: [
+                    'Brukere kan nå endre etiketten "Avdeling" i ordlistelisten.',
+                    'Dette tilpasningsalternativet øker fleksibiliteten i terminologien på tvers av systemet.'
+                ],
+            },
+            {
+                title: 'Lagre rapporter som utkast',
+                description: [
+                    'Brukere har nå muligheten til å lagre rapporter som utkast i seksjonene for planer, mål og dokumenter.',
+                    'Dette lar brukere komme tilbake, redigere utkastene sine og publisere dem på et senere tidspunkt.'
+                ],
+            },
+            {
+                title: 'Avdelingsspesifikke tagger',
+                description: [
+                    'Tagger kan nå gjøres avdelingsspesifikke, noe som forbedrer kategorisering og filtrering basert på avdelingskontekst.',
+                    'Dette sikrer bedre organisering og relevans av tagger for hver avdeling.'
+                ],
+            },
+            {
+                title: 'Vis planer, mål og delmål i Daglig oversikt',
+                description: [
+                    'Planer, mål og delmål vises nå i Daglig oversikt, gruppert etter borger.',
+                    'Dette forbedrer den daglige gjennomgangsprosessen og gjør det enklere å spore fremdrift på enkeltindivider.'
+                ],
+            },
+            {
+                title: 'Vis planlagte tidsluker i Daglig oversikt',
+                description: [
+                    'Planlagte tidsluker er nå synlige i Daglig oversikt.',
+                    'Denne funksjonen gir en tydeligere og mer organisert visning av planlagte aktiviteter for dagen.'
+                ],
+            },
+            {
+                title: 'Angi transportbruk for refusjon',
+                description: [
+                    'Ansatte kan nå angi at de har brukt transport, og dermed har en utgift som skal refunderes.',
+                    'Denne funksjonen sikrer at ansatte enkelt kan rapportere transportutgifter for refusjonsbehandling.'
+                ],
+            },
+            {
+                title: 'Felt for lønnskode / lønnselement per vakttype',
+                description: [
+                    'Et felt for lønnskode eller lønnselement er lagt til per vakttype, og dette inkluderes i vakteksporter og rapporter.',
+                    'Dette gir bedre lønnssporing og rapportering, og sikrer nøyaktig lønnsbehandling.'
+                ],
+            },
+            {
+                title: 'Felt for sluttdato i ansattregistre',
+                description: [
+                    'Et felt for sluttdato er lagt til skjemaer for opprettelse, redigering og visning av ansatt.',
+                    'Når sluttdatoen nås, deaktiveres den ansattes tilgang automatisk, noe som sikrer trygg og rettidig tilgangskontroll.'
+                ],
+            },
+        ],
+        '2026-01-23': [
+            {
+                title: 'Redigeringsbegrensninger for journalnotater',
+                description: [
+                    'Vanlige ansatte kan nå kun redigere sine egne journalnotater, og kun innen 24 timer etter opprettelse.',
+                    'Etter 24-timersvinduet kan kun administratorer redigere journalnotater for å sikre reviderbarhet og sterkere innholdsstyring.'
+                ],
+            },
+            {
+                title: 'Optimalisert ytelse i medisinoversikt',
+                description: [
+                    'Medisinoversikten er optimalisert for forbedrede lastetider og responsivitet, særlig for større datasett.',
+                    'Oversikten henter og viser nå pålitelig hele listen over medisiner for å støtte fullstendig planlegging og gjennomgang.'
+                ],
+            },
+            {
+                title: 'Isolering av avdelingstilgang til data',
+                description: [
+                    'Brukere er nå begrenset til kun å se data for sin(e) tildelte avdeling(er).',
+                    'Synlighet på tvers av avdelinger (f.eks. at brukere fra Avdeling A ser Avdeling B, C, D) er ikke lenger tillatt, noe som styrker personvern og tilgangskontroll.'
+                ],
+            },
+            {
+                title: 'Oppdatert UI for Glemt passord, Tilbakestill passord og Opprett passord',
+                description: [
+                    'Sidene for glemt passord, tilbakestill passord og opprett passord er oppdatert for å samsvare med det fornyede innlogging-UI-et.',
+                    'Forbedringer inkluderer konsekvent layout, mellomrom og komponentstyling for en renere, mer sammenhengende autentiseringsopplevelse på tvers av enheter.'
+                ],
+            },
+            {
+                title: 'Datofiltreringsalternativer lagt til i oversikten',
+                description: [
+                    'Et nytt datofilter er lagt til oversikten for å forenkle planlegging og gjennomgang etter tidsrom.',
+                    'Brukere kan nå filtrere etter I dag, Neste 7 dager eller et tilpasset datointervall.'
+                ],
+            },
+        ],
+        '2026-01-16': [
+            {
+                title: 'UI-oppdateringer for innlogging, registrering og glemt passord',
+                description: [
+                    'Sidene for innlogging, registrering og glemt passord er oppdatert med et fornyet UI for en renere og mer konsekvent opplevelse.',
+                    'Forbedret layout, mellomrom og komponentstyling gjør autentiseringsflyter enklere å navigere på tvers av enheter.'
+                ],
+            },
+            {
+                title: 'Granulære tillatelser for katalogroller',
+                description: [
+                    'Det er nå mulig å tildele spesifikke tillatelser i rolleområdet i katalogen, noe som muliggjør mer finkornet tilgangskontroll.',
+                    'For eksempel kan du opprette en "Vaktkoordinator"-rolle som kun har tilgang til vaktplanen (og ikke andre områder).',
+                    'Denne tilnærmingen støtter flere rolletyper og tillatelseskombinasjoner etter organisasjonens behov.'
+                ],
+            },
+            {
+                title: '"Sugetabletter" lagt til i listen over doseringsformer',
+                description: [
+                    'Alternativet "Sugetabletter" er lagt til i listen "Doseringsform" i skjemaene for opprettelse/redigering av medisin.',
+                    'Dette forbedrer støtten for håndtering av ulike medisindoseringsformer konsekvent på tvers av systemet.'
+                ],
+            },
+            {
+                title: 'Last ned medisinoversikt fra medisinkort',
+                description: [
+                    'Et nytt alternativ på medisinkortet lar brukere laste ned en medisinoversikt.',
+                    'Oversikten inkluderer alle medisiner og deres planlagte administrasjonstider, og gir en lett delbar referanse for planlegging og dokumentasjon.'
+                ],
+            },
+            {
+                title: 'Medisinadministrasjon på faste ukedager',
+                description: [
+                    'Medisinplaner kan nå konfigureres til å administreres på faste ukedager (f.eks. mandager, onsdager og fredager).',
+                    'Dette gir fleksibilitet for tilbakevendende administrasjonsmønstre som ikke følger daglige intervaller.'
+                ],
+            },
+            {
+                title: 'Publiserte versjoner av utkastplaner',
+                description: [
+                    'Planer støtter nå utkast- og publiserte versjoner, slik at endringer kan forberedes før de går live.',
+                    'Administratorer kan gjennomgå og justere utkast før publisering, noe som sikrer at oppdateringer slippes ut på en kontrollert måte.'
+                ],
+            },
+            {
+                title: 'Tilgang til barneprofiler',
+                description: [
+                    'Støtte for tilgang til barneprofiler er lagt til, slik at relevante brukere kan få tilgang til og administrere barneprofiler etter tillatelse.',
+                    'Dette forbedrer brukervennligheten for organisasjoner som administrerer omsorg og planlegging for barn, samtidig som tilgangskontroller opprettholdes.'
+                ],
+            },
+            {
+                title: 'Lesesporing i meldinger',
+                description: [
+                    'Meldinger inkluderer nå lesesporing slik at avsendere kan se når meldinger er lest.',
+                    'Dette forbedrer kommunikasjonens tydelighet og reduserer behovet for manuell oppfølging.'
+                ],
+            },
+        ],
+        '2026-01-09': [
+            {
+                title: 'Gjentakende hendelser i kalenderen',
+                description: [
+                    'Ved redigering av en enkelt hendelse spør systemet nå brukere om de skal anvende endringer på kun denne hendelsen eller alle fremtidige hendelser.',
+                    'Denne funksjonaliteten sikrer mer fleksibilitet og kontroll over gjentakende hendelser.'
+                ],
+            },
+            {
+                title: 'Automatisk gjentakende ukerotasjon i vaktplanen',
+                description: [
+                    'Administratorer kan nå opprette automatiske gjentakende ukerotasjoner i vaktplanen, slik som en 8-ukers rotasjon, som gjentas til den stoppes manuelt.',
+                    'Systemet spør administratorer ved redigering av en vakt innenfor en gjentakende rotasjon, om endringen skal gjelde kun denne vakten eller hele det gjentakende mønsteret.'
+                ],
+            },
+            {
+                title: 'Mulighet til å søke etter en bestemt dag i vaktplanen og kalenderen',
+                description: [
+                    'Brukere kan nå søke etter en bestemt dag i vaktplanen og kalenderen, noe som muliggjør mer presis navigering uten å måtte bla uke for uke.',
+                    'Denne forbedringen inkluderer også muligheten til å navigere etter måned.'
+                ],
+            },
+            {
+                title: 'Filteralternativer i vaktplaner',
+                description: [
+                    'Oversikten over vaktplaner inkluderer nå filteralternativer for å velge én eller flere ansatte.',
+                    'I tillegg er filtre for ansettelsesstatus lagt til, som gir mer skreddersydd planlegging og oversikt.'
+                ],
+            },
+            {
+                title: 'Visning av ansattes vakter på tvers av avdelinger',
+                description: [
+                    'Brukere kan nå veksle synligheten av vakter på tvers av avdelinger for alle ansatte.',
+                    'Denne funksjonen er kun tilgjengelig hvis flere avdelinger er satt opp i organisasjonen.'
+                ],
+            },
+            {
+                title: 'Forbedringer av håndtering av flerdagsvakter',
+                description: [
+                    'Når man oppretter vakter som strekker seg over flere dager, vil systemet nå automatisk dele dem opp i separate vakter for hver dag.',
+                    'En visuell forbindelse, slik som en linje eller start-/sluttekst, vil legges til for å indikere kontinuiteten av vakten på tvers av dagene.'
+                ],
+            },
+            {
+                title: 'Forbedringer i flyten for vaktoppretting',
+                description: [
+                    'Flyten for vaktoppretting er optimalisert: brukere må først velge vakttypen før andre visningsalternativer vises.',
+                    'Avdelingsfeltet fylles nå automatisk med den valgte avdelingen som standard, men det kan endres under opprettelsesprosessen.'
+                ],
+            },
+            {
+                title: 'Husk valgt avdeling i toppmenyen',
+                description: [
+                    'Når en avdeling er valgt i toppmenyen, vil den forbli valgt for fremtidige handlinger til den endres.',
+                    'Dette effektiviserer prosessen for administratorer og planleggere som arbeider innenfor en bestemt avdeling.'
+                ],
+            },
+            {
+                title: 'Opprett egendefinerte stillingstitler under "Kontakter" på borgere',
+                description: [
+                    'Administratorer kan nå opprette egendefinerte stillingstitler under "Kontakter"-seksjonen for borgere.',
+                    'Dette hjelper med å spore spesifikke roller eller titler innenfor organisasjonen.'
+                ],
+            },
+            {
+                title: 'Fest deg selv i vaktplanen',
+                description: [
+                    'Brukere kan nå feste seg selv i vaktplanen for å sikre at de alltid vises øverst på listen.',
+                    'Denne funksjonen hjelper brukere med å enkelt identifisere sine vakter, spesielt i store team.'
+                ],
+            },
+            {
+                title: 'Ferieplanlegging og vakterstatning',
+                description: [
+                    'Når en ansatt oppretter en ferieforespørsel, vil eventuelle eksisterende vakter automatisk bli fjernet og tilbudt andre for erstatning, tilsvarende håndtering av sykefravær.'
+                ],
+            },
+            {
+                title: 'Optimalisering av vakttilbud',
+                description: [
+                    'Vakttilbud er optimalisert for å vise kun vakter som er relevante for den tildelte avdelingen.',
+                    'Et stillingstittelfelt lar nå flere titler legges til, og nattvakter som strekker seg over flere dager kan tilbys som en enkelt vakt.'
+                ],
+            },
+            {
+                title: 'Avdelingsfilter for kalender',
+                description: [
+                    'Hendelser i kalenderen filtreres nå etter valgt avdeling, slik at brukere kun ser hendelser som er relevante for sin avdeling.',
+                    'Starttidspunktet for hendelser settes automatisk til 1 time senere enn starttidspunktet til det justeres manuelt.',
+                    'Ansattfeltet på en hendelse viser nå kun ansatte fra den valgte avdelingen.'
+                ],
+            },
+            {
+                title: 'Rolleinkludering i eksportfiler',
+                description: [
+                    'Ved eksport av ansatte inkluderes nå rollefeltet i eksportfilen.',
+                    'Dette sikrer at eksporterte data inkluderer rollene som er knyttet til hver ansatt.'
+                ],
+            },
+            {
+                title: 'Legger til "Sugetabletter" i "Doseringsform"-listen',
+                description: [
+                    'Alternativet "Sugetabletter" er lagt til i listen "Doseringsform" i skjemaene for opprettelse og redigering av medisin.',
+                    'Dette muliggjør bedre håndtering av doseringsformer i systemet.',
+                    'Håndtering av doseringsform er også tilgjengelig i kataloginnstillingene.'
+                ],
+            },
+            {
+                title: 'Tillatelser i katalogroller',
+                description: [
+                    'Det er nå mulig å tildele spesifikke tillatelser i rolleområdet for oppgaver som å administrere vaktplanen, noe som gir mer granulær kontroll over brukertilgang.',
+                    'For eksempel kan en "Vaktkoordinator"-rolle opprettes med begrenset tilgang til kun vaktplanen.'
+                ],
+            }
+        ],
+        '2025-12-12': [
+            {
+                title: 'Avansert søk og filtrering i vaktplanen og kalenderen',
+                description: [
+                    'Brukere kan nå søke direkte etter en bestemt dag i vaktplanen og kalenderen i stedet for å navigere uke for uke.',
+                    'Navigasjon er utvidet for å tillate flytting etter måned i tillegg til etter uke.',
+                    'Oversikten kan filtreres for å vise én eller flere valgte ansatte.',
+                    'Flere filtre er lagt til for ansettelsesstatus og avdeling for å forbedre tydelighet og planlegging.'
+                ],
+            },
+            {
+                title: 'Optimaliseringer av vaktplanen',
+                description: [
+                    'Flere ytelses- og brukervennlighetsoptimaliseringer er gjort i vaktplanen.',
+                    'Disse forbedringene gir raskere interaksjoner og en jevnere planleggingsopplevelse for både administratorer og ansatte.'
+                ],
+            },
+            {
+                title: 'Håndtering av flerdagsvakter',
+                description: [
+                    'Når man oppretter en vakt som strekker seg over flere dager, deler systemet den nå automatisk opp i separate daglige vakter.',
+                    'Dette sikrer mer nøyaktig planlegging, rapportering og enklere justeringer per dag.'
+                ],
+            },
+            {
+                title: 'Egendefinerte gjentakelsesalternativer på tvers av planlegging og varsler',
+                description: [
+                    'Egendefinerte gjentakelsesmønstre kan nå konfigureres for vaktplanen, kalenderhendelser samt varsler for planer og mål.',
+                    'Dette gir større fleksibilitet for å definere komplekse eller ikke-standardiserte gjentakelsesregler på tvers av plattformen.'
+                ],
+            }
+        ],
+        '2025-11-28': [
+            {
+                title: 'Overfør Zoho-chat til support-slide-over',
+                description: [
+                    'Zoho-chat-funksjonen er nå integrert i et slide-over-panel.',
+                    'Dette forbedrer tilgjengeligheten og opprettholder fokus på hovedinnholdet samtidig som det tillater raske interaksjoner.'
+                ],
+            },
+            {
+                title: 'Legg til sidetilgang i det nye ansattskjemaet',
+                description: [
+                    'Det nye ansattskjemaet er oppdatert for å inkludere alternativer for sidetilgang.',
+                    'Dette effektiviserer oppsettsprosessen for nyansatte og forbedrer onboardingopplevelsen deres.'
+                ],
+            },
+            {
+                title: 'Gjentakende hendelser i kalenderen',
+                description: [
+                    'Ved redigering av en enkelt hendelse spør systemet nå om endringene skal gjelde for kun denne hendelsen eller alle fremtidige gjentakende hendelser.',
+                    'Denne funksjonen øker fleksibilitet og presisjon ved håndtering av gjentakende hendelser.'
+                ],
+            },
+            {
+                title: 'Gjentakende automatisk ukerotasjon i vaktplanen',
+                description: [
+                    'Administratorer kan nå opprette en gjentakende automatisk ukerotasjon i vaktplanen.',
+                    'Administratorer kan sette en sluttdato for det gjentakende mønsteret.'
+                ],
+            },
+            {
+                title: 'Tilpasning av varslingsinnstillinger',
+                description: [
+                    'En ny innstilling lar brukere aktivere/deaktivere varsler basert på om den ansatte er på vakt.',
+                    'I tillegg er det lagt til et generelt alternativ for å deaktivere alle e-postvarsler, noe som gir brukere mer kontroll over varslingspreferansene sine.'
+                ],
+            },
+            {
+                title: 'Legge til/trekke fra ekstratimer i vaktplanen',
+                description: [
+                    'Administratorer og ansatte kan nå legge til eller trekke fra ekstratimer fra ukeplanen uten å opprette en spesifikk vakt.',
+                    'Et obligatorisk notatfelt kreves for hver justering, og det er to arbeidsflyter tilgjengelig for å håndtere disse endringene.'
+                ],
+            },
+            {
+                title: 'Sentralisert passordhåndtering for administratorer',
+                description: [
+                    'Administratorer kan nå administrere passordkontroll sentralt fra firmainnstillingene.',
+                    'Dette fjerner "Endre passord"-alternativet for brukere og lar administratorer generere nye passord for dem.'
+                ],
+            },
+            {
+                title: 'Visuelle forbedringer i borgeroversikten',
+                description: [
+                    'To visuelle ikoner er lagt til borgerens handlingsikoner for bedre statussporing.',
+                    'Plussikonet reflekterer statusen til borgerens planer/mål, mens pilleikonet gir direkte tilgang til medisinoversikten.'
+                ],
+            },
+            {
+                title: 'Gjentakende varsler i planer og mål',
+                description: [
+                    'I planer- og målseksjonen kan nå gjentakende varsler opprettes.',
+                    'Disse varslene kan kun tildeles borgerens tildelte kontaktpersoner, noe som sikrer målrettede og relevante varsler.'
+                ],
+            }
+        ],
+        '2025-11-14': [
+            {
+                title: 'Fargetilpasning av avdelings-nedtrekksmeny',
+                description: [
+                    'Det er nå mulig å endre fargen på avdelings-nedtrekksmenyen basert på avdelingen som vises.',
+                    'Dette gir en visuell fargeindikator i tillegg til avdelingsnavnet, noe som forbedrer tydelighet og rask gjenkjenning.'
+                ],
+            },
+            {
+                title: 'Oppdateringer av registreringsskjemaet',
+                description: [
+                    'Det er gjort flere forbedringer i registreringsskjemaet.',
+                    'Disse endringene forbedrer brukervennligheten, effektiviserer registreringsprosessen og forbedrer datanøyaktigheten.'
+                ],
+            },
+            {
+                title: 'Borgernes henvendelser og konverteringsprosess',
+                description: [
+                    'Det er gjort forbedringer i håndteringen av borgernes henvendelser.',
+                    'Det er nå enklere å administrere henvendelser og konvertere en henvendelse til en registrert borger.'
+                ],
+            },
+            {
+                title: 'UI-oppdatering for sikker e-post',
+                description: [
+                    'Brukergrensesnittet for sikker e-post er oppdatert.',
+                    'Disse forbedringene gir en tydeligere layout og forbedrer den generelle meldingsopplevelsen.'
+                ],
+            },
+            {
+                title: 'Klientinnlogging via dashbordet for hendelser',
+                description: [
+                    'En ny funksjon er lagt til som lar klienter logge inn for å se hendelser via dashbordet.',
+                    'Dette forbedrer tilgjengeligheten og gir en mer strømlinjeformet opplevelse for hendelsesrelatert informasjon.'
+                ],
+            }
+        ],
+        '2025-11-07': [
+            {
+                title: 'Ekstra felt (styrke) i medisinjournal',
+                description: [
+                    'Ved opprettelse eller redigering av en medisinjournal er det lagt til et nytt felt kalt "styrke".',
+                    'Dette muliggjør mer presis registrering av medisindetaljer og forbedrer tydeligheten i doseringsdokumentasjonen.'
+                ],
+            },
+            {
+                title: 'Daglig oversikt omdøpt til Oversikt',
+                description: [
+                    'Seksjonen som tidligere het "Daglig oversikt" er omdøpt til "Oversikt".',
+                    'Denne endringen gir en tydeligere og mer generell oversiktsseksjon for brukere.'
+                ],
+            },
+            {
+                title: '"Borgernes daglige hendelser" omdøpt til "Borgernes hendelser" i oversikten',
+                description: [
+                    'I oversikten er tittelen "Borgernes daglige hendelser" oppdatert til "Borgernes hendelser".',
+                    'Dette reflekterer at hendelser ikke er begrenset til daglige forekomster og forbedrer konsistens i navngivningen.'
+                ],
+            },
+            {
+                title: '"Daglig medisinoversikt" omdøpt til "Medisinoversikt" i oversikten',
+                description: [
+                    'Seksjonsnavnet "Daglig medisinoversikt" er endret til "Medisinoversikt".',
+                    'Dette representerer bedre den bredere funksjonaliteten og dekningen av oversikten.'
+                ],
+            },
+            {
+                title: 'Flere alternativer i "Kopier flere ukers planer"',
+                description: [
+                    'Flere alternativer er lagt til for å velge kildens og destinasjonens uker ved kopiering av flere ukers planer.',
+                    'Dette gir større fleksibilitet og kontroll ved håndtering av planer.'
+                ],
+            }
+        ],
+        '2025-10-31': [
+            {
+                title: 'Innsjekking og utsjekking på borgeren (med automatisk varsel etter 24 timer)',
+                description: [
+                    'Systemet støtter nå innsjekking og utsjekking på borgeren med forbedret funksjonalitet som sender et automatisk varsel 24 timer etter utsjekking.',
+                    'Varselet informerer om at utsjekkingen er logget og kan finnes i loggen, noe som sikrer bedre sporbarhet og oppfølging.'
+                ],
+            },
+            {
+                title: 'Henvendelsesdata og oppholdsdata for organisasjoner innen sosial velferd',
+                description: [
+                    'Organisasjoner og selskaper innen sosial velferd-bransjen med fasilitetstype krisesenter eller herberge kan nå få tilgang til henvendelses- og oppholdsdata.',
+                    'Dette muliggjør mer presis rapportering og analyse av borgersaker og opphold i sosiale institusjoner.'
+                ],
+            },
+            {
+                title: 'Romadministrasjon for borgere',
+                description: [
+                    'Det er lagt til ny funksjonalitet for romadministrasjon, som lar administratorer administrere romfordeling og status for borgere.',
+                    'Dette gir bedre synlighet av tilgjengelige rom, belegg og ressursutnyttelse ved fasiliteter som krisesentre og herberger.'
+                ],
+            },
+            {
+                title: 'Samtaleoppsummering for borgere knyttet til henvendelsesdata',
+                description: [
+                    'Det er nå mulig å legge til samtaleoppsummeringer for borgere som en del av deres henvendelsesdata.',
+                    'Dette muliggjør mer fullstendig dokumentasjon av borgersaker og sikrer at relevante notater og samtaler registreres sammen med andre data.'
+                ],
+            },
+            {
+                title: 'Forenklet registreringsskjema',
+                description: [
+                    'Andre felter i registreringsskjemaet er fjernet for å forbedre og effektivisere registreringsprosessen.',
+                    'Denne endringen reduserer kompleksitet og gjør det raskere og mer intuitivt for brukere å opprette en konto.'
+                ],
+            }
+        ],
+        '2025-10-24': [
+            {
+                title: 'Mulighet til å opprette flere utkast til vaktplaner for en enkelt avdeling eller for hele organisasjonen',
+                description: [
+                    'Klienter kan nå opprette flere utkast til vaktplaner for enten en enkelt avdeling eller hele organisasjonen i planleggingsfasen av vaktplanleggingen.',
+                    'Denne funksjonen gir større fleksibilitet i planlegging, med en tydelig indikasjon av hvilken avdeling utkastet publiseres for når det ferdigstilles.'
+                ],
+            },
+            {
+                title: 'Mulighet til å bytte mellom organisasjoner med én enkelt brukerkonto',
+                description: [
+                    'Brukere kan nå sømløst bytte mellom organisasjoner med én enkelt brukerkonto, noe som gjør det enklere for personer som arbeider på tvers av flere organisasjoner å håndtere sine ansvarsoppgaver.',
+                    'Dette forbedrer brukeropplevelsen og reduserer behovet for flere innlogginger eller kontohåndtering.'
+                ],
+            },
+            {
+                title: 'Beregning av dekningsbidrag på borgeren (synlig for administratorer eller autoriserte brukere)',
+                description: [
+                    'En funksjon er introdusert for å beregne dekningsbidrag per borger, som kun er synlig for administratorer eller brukere med nødvendige tillatelser.',
+                    'Dette muliggjør bedre finansiell sporing og analyse, og gir viktig innsikt i dekningsbidraget for enkeltborgere.'
+                ],
+            },
+            {
+                title: 'Innsjekking og utsjekking på borgeren',
+                description: [
+                    'En ny funksjonalitet for innsjekking og utsjekking er lagt til for borgere, som lar brukere registrere fremmøte- eller aktivitetstider.',
+                    'Denne funksjonen er nyttig for å spore borgerengasjement og sikre nøyaktige registreringer av deres deltakelse.'
+                ],
+            },
+            {
+                title: 'Tidsplan: tildeling og oppsummering av tidsbruk',
+                description: [
+                    'Brukere kan nå legge inn de tildelte timene/minuttene per dag, uke eller måned for en borger, og se en oppsummering (tidskonto) som viser hvor mye tid som er brukt i den valgte perioden.',
+                    'Dette sikrer at det er tydelig om den tildelte tiden brukes effektivt og om man er over eller under den tildelte tiden.'
+                ],
+            }
+        ],
+        '2025-10-17': [
+            {
+                title: 'Filvedlegg i SMTP- og Entra-e-poster (både innboks og sendte e-poster)',
+                description: [
+                    'En funksjon er introdusert for å tillate filvedlegg i både SMTP- og Entra-e-poster, som dekker både innboks og sendte e-poster.',
+                    'Denne forbedringen lar brukere legge ved og få tilgang til filer mer effektivt i både innkommende og utgående e-postkommunikasjon.'
+                ],
+            },
+            {
+                title: 'App- og web-varsel til ansatte ved publisering av en vaktplan fra utkast',
+                description: [
+                    'Ansatte mottar nå app- og web-varsler når en vaktplan som inkluderer dem publiseres fra utkast.',
+                    'Dette forbedrer kommunikasjonen og sikrer at ansatte raskt blir informert om endringer i sine vaktplaner.'
+                ],
+            },
+            {
+                title: 'Se en logg over slettede notater i journalnotater-området',
+                description: [
+                    'En loggfunksjon er lagt til for å la brukere se slettede notater i journalnotater-området.',
+                    'Dette gir et revisjonsspor for notatesletninger og forbedrer gjennomsiktighet og sporing i systemet.'
+                ],
+            },
+            {
+                title: 'Flytt et notat fra én borger til en annen (administratorfunksjonalitet)',
+                description: [
+                    'Administratorer kan nå flytte notater fra én borgers journal til en annen.',
+                    'Dette sikrer at notater er nøyaktig knyttet til riktig borger, og forbedrer datahåndtering og organisering.'
+                ],
+            },
+            {
+                title: 'Kopier et notat til en annen borger (administratorfunksjonalitet)',
+                description: [
+                    'Administratorer kan nå kopiere notater fra én borgers journal til en annen.',
+                    'Dette muliggjør enkel deling av relevant informasjon mellom borgere og sikrer effektiv notathåndtering.'
+                ],
+            }
+        ],
+        '2025-10-10': [
+            {
+                title: 'Filvedlegg ved sending av e-post',
+                description: [
+                    'En funksjon er introdusert for å tillate at vedlegg legges til ved sending av e-post.',
+                    'Dette forbedrer muligheten til å sende dokumenter og filer sammen med e-post, og forbedrer kommunikasjonseffektiviteten.'
+                ],
+            },
+            {
+                title: 'Nedlasting av vedlegg for sikker e-post',
+                description: [
+                    'En funksjonalitet er lagt til for å tillate nedlasting av vedlegg fra sikre e-poster.',
+                    'Dette forbedrer sikker tilgang til viktige filer og dokumenter sendt gjennom krypterte e-postkanaler.'
+                ],
+            },
+            {
+                title: 'Eksport av vaktplan per avdeling',
+                description: [
+                    'En ny funksjon er lagt til for å eksportere vaktplaner spesifikke for hver avdeling.',
+                    'Dette muliggjør enklere distribusjon og håndtering av avdelingsvise vaktlister, noe som forbedrer organisatorisk effektivitet.'
+                ],
+            },
+            {
+                title: 'Administratordefinert visning av borgerinformasjon',
+                description: [
+                    'Administratorer kan nå bestemme og definere hvilken informasjon som skal vises i den spesifikke borgerboksen når man ser på en enkelt borger.',
+                    'Dette gir mer tilpasset tilgang til borgerdetaljer og sikrer at kun relevant informasjon vises til vanlige brukere.'
+                ],
+            }
+        ],
+        '2025-10-03': [
+            {
+                title: 'Web-leads',
+                description: [
+                    'Leads-appen kan nå aktiveres og brukes til å se leads.',
+                    'Dette gir forbedret håndtering og sporing av potensielle leads i systemet.',
+                ],
+            },
+            {
+                title: 'Last ned og skriv ut spesifikke medisiner for borgeren',
+                description: [
+                    'En funksjon er lagt til for å tillate nedlasting og utskrift av spesifikke medisindetaljer for borgere.',
+                    'Dette forbedrer effektiviteten i håndtering og deling av medisininformasjon.',
+                ],
+            },
+            {
+                title: 'Flere faste tidsintervaller',
+                description: [
+                    'Flere faste tidsintervaller for maksimal dosering per tid er lagt til.',
+                    'Dette sikrer mer fleksibilitet og nøyaktighet i planleggingen av medisindosering.',
+                ],
+            },
+            {
+                title: 'Hjelpelenke for medisin',
+                description: [
+                    'En ny hjelpelenke for medisin er lagt til.',
+                    'Denne lenken gir relevante ressurser for å bistå personalet i arbeidet med medisinering.',
+                ],
+            },
+            {
+                title: 'Hjelpelenke for bruk av makt og avviksrapporter',
+                description: [
+                    'En hjelpelenke er introdusert for bruk av makt og avviksrapporter.',
+                    'Denne lenken gir nyttig informasjon og retningslinjer for håndtering av disse sensitive situasjonene.',
+                ],
+            },
+        ],
+        '2025-09-26': [
+            {
+                title: 'Visning av helligdager i kalenderen',
+                description: [
+                    'Helligdager vises nå direkte i kalenderen.',
+                    'Dette gir bedre synlighet for planlegging og koordinering.',
+                ],
+            },
+            {
+                title: '"Rask risikovurdering" i daglig oversikt',
+                description: [
+                    'Hvis aktivert i administratorinnstillingene, vises nå en rask risikovurdering i daglig oversikt.',
+                    'Dette muliggjør raskere identifikasjon av potensielle risikoer i daglig drift.',
+                ],
+            },
+            {
+                title: 'Aktuelle borgerbehandlinger i daglig oversikt',
+                description: [
+                    'Pågående borgerbehandlinger er nå synlige i daglig oversikt.',
+                    'Dette gir personalet en tydelig og umiddelbar oversikt over aktuelle omsorgsaktiviteter.',
+                ],
+            },
+        ],
+        '2025-09-19': [
+            {
+                title: 'Importer og eksporter ansatte via CSV-malfil',
+                description: [
+                    'Ansatte kan nå importeres og eksporteres ved hjelp av en CSV-malfil.',
+                    'Dette forenkler håndteringen av ansattdata og sikrer konsistens på tvers av registre.',
+                ],
+            },
+            {
+                title: 'Eksporter borgere',
+                description: [
+                    'Borgerregistre kan nå eksporteres.',
+                    'Dette muliggjør enklere rapportering, deling og sikkerhetskopiering av data.',
+                ],
+            },
+            {
+                title: 'Visning av helligdager i vaktplanen',
+                description: [
+                    'Helligdager vises nå i vaktplanen.',
+                    'Dette bidrar til å forbedre planleggingen og sikre nøyaktig planlegging rundt helligdager.',
+                ],
+            },
+        ],
+        '2025-09-12': [
+            {
+                title: 'Importer borgere via CSV-malfil',
+                description: [
+                    'Borgere kan nå importeres ved hjelp av en CSV-malfil.',
+                    'Dette effektiviserer datainnleggingsprosessen og sikrer konsistens i borgerregistre.',
+                ],
+            },
+            {
+                title: 'Brukernes 2FA',
+                description: [
+                    'Tofaktorautentisering (2FA) er nå tilgjengelig for brukere.',
+                    'Dette gir et ekstra lag med sikkerhet for brukerkontoer og beskytter sensitiv informasjon.',
+                ],
+            },
+            {
+                title: 'Nye felt i borgerens skjema: Trafikklys (Grønn, Gul og Rød)',
+                description: [
+                    'Nye felt for trafikklysstatus (Grønn, Gul og Rød) er lagt til i borgerens skjema.',
+                    'Gi en beskrivelse av borgerens tilstand når de er i Grønn, Gul eller Rød status ved opprettelse av et journalnotat.',
+                ],
+            },
+        ],
+        '2025-08-29': [
+            {
+                title: 'Standard vakttider i vaktplanen',
+                description: [
+                    'Du kan nå sette standard inn- og ut-tid for hver vakt i vaktplanen.',
+                    'Dette bidrar til å standardisere arbeidstider og reduserer manuelle innleggingsfeil.',
+                ],
+            },
+            {
+                title: 'Sporing av medisinallergier',
+                description: [
+                    'Borgeres medisinallergier kan nå registreres og spores.',
+                    'Dette sikrer bedre sikkerhet og informert beslutningstaking for helsepersonell.',
+                ],
+            },
+            {
+                title: 'Sykefravær telles som arbeidstimer',
+                description: [
+                    'Sykefravær kan nå telles som arbeidstimer i vaktplanen.',
+                    'Dette gir mer nøyaktig rapportering og mer rettferdig planlegging.',
+                ],
+            },
+        ],
+        '2025-08-15': [
+            {
+                title: 'Microsoft e-posthåndtering i Mail-appen',
+                description: [
+                    'Du kan nå koble til og administrere Microsoft-e-postkontoene dine direkte i Mail-appen.',
+                    'Dette gjør det enklere å sende, motta og organisere e-poster uten å bytte mellom plattformer.',
+                ],
+            },
+        ],
+        '2025-08-01': [
+            {
+                title: 'Intervensjonstimer i borgerområdet',
+                description: [
+                    'Borgere kan nå se tilgjengelige intervensjonstimer direkte i borgerseksjonen.',
+                    'Dette forbedrer gjennomsiktighet og tilgang til støttetjenester.',
+                ],
+            },
+            {
+                title: 'Ny app: CitizenOne AI',
+                description: [
+                    'Vi har nå lansert CitizenOne AI - din intelligente assistent som for eksempel kan gi deg en rask oversikt over hvordan en borger har hatt det den siste måneden, dele nyttig informasjon om organisasjonen din eller kollegene dine, og mye mer. Alt direkte i CitizenOne, slik at du kan jobbe smartere og raskere.'
+                ],
+            },
+            {
+                title: 'Endringslogger i vaktplanen',
+                description: [
+                    'Vaktplanen inkluderer nå en detaljert endringslogg.',
+                    'Spor alle oppdateringer og endringer i vaktoppdrag enkelt.',
+                ],
+            },
+        ],
+        '2025-07-25': [
+            {
+                title: 'Online kalenderbooking',
+                description: [
+                    'Nå tilgjengelig for kjøp i Apper-seksjonen.',
+                    'Etter kjøp, gå til Kalendere for å sette opp og administrere online bookinger.',
+                ],
+            },
+            {
+                title: 'Avdelinger i vaktplanen',
+                description: ['Du kan nå tildele vakter til spesifikke avdelinger.'],
+            },
+            {
+                title: 'Vaktnotater for administratorer',
+                description: ['Administratorer kan nå legge ved notater til enkeltvakter.'],
+            },
+            {
+                title: 'Veksle behandlingsvarsler',
+                description: ['Mulighet til å aktivere eller deaktivere varsler for behandlinger.'],
+            },
+            {
+                title: 'Rediger og slett meldinger i chatter',
+                description: ['Du kan nå redigere eller slette meldinger direkte i chatter for bedre kontroll og kommunikasjon.'],
+            },
+            {
+                title: 'Renere navigasjonsfelt',
+                description: [
+                    'Varslings- og meldingsmerker skjules når antallet er null.',
+                    'Nye funksjonsannonser vil også vises her fremover.',
+                ],
+            },
+        ],
+    },
+    sv: {
+        '2026-05-15': [
+            {
+                title: '🔁 Mall- och kopieringsförbättringar',
+                description: [
+                    'Det är nu möjligt att kopiera kortare källveckor till flera på varandra följande framtida veckor när du skapar en mall för tjänstgöringsschema.',
+                    'Exempel: Kopiera 1 vecka till 2, 3, 4 (eller fler) på varandra följande veckor.',
+                ],
+            },
+            {
+                title: '📝 Dynamiska journalanteckningsfält baserat på titel',
+                description: [
+                    'Journalanteckningar stöder nu dynamiska, fördefinierade fält baserat på den valda journalanteckningens titel.',
+                    'När en användare väljer en titel för journalanteckning visar systemet automatiskt relevanta fält/frågor som är kopplade till den titeln.',
+                    'Varje fält tillåter inmatning (t.ex. anteckningar, svar, observationer).',
+                    'Dessa fält kan konfigureras i förväg via en katalog eller inställningar.',
+                ],
+            },
+            {
+                title: '📅 Kalenderhändelse – Journalanteckning och slutförandestatus',
+                description: [
+                    'Det är nu möjligt att skapa en journalanteckning direkt från en kalenderhändelse genom att klicka på händelsen och välja "Skapa journalanteckning".',
+                    'Händelsens titel kopieras automatiskt till journalanteckningen.',
+                    'Efter att anteckningen skrivits länkar kalenderhändelsen till journalanteckningen, och journalanteckningen länkar tillbaka till kalenderhändelsen.',
+                    'Det är nu möjligt att markera en händelse som "Slutförd" eller "Ej slutförd".',
+                    'När något av alternativen väljs visas en popup med frågan: "Vill du skriva en journalanteckning om detta?" med alternativen "Ja" och "Nej".',
+                    'Om man fortsätter med en journalanteckning finns det ett alternativ att kopiera anteckningen till en relaterad plan, mål eller delmål.',
+                    'Statistik som visar antalet gånger objekt markeras som "Slutförd" jämfört med "Ej slutförd" är nu tillgänglig för valfri period.',
+                ],
+            },
+            {
+                title: '🧩 Roller och behörigheter',
+                description: [
+                    'Koordinatorrollen och roller generellt har granskats och förbättrats så att administratörer inte längre behöver tilldela fullständiga administratörsrättigheter i onödan.',
+                    'En tydlig översikt och förklaring av hur specifika behörigheter fungerar är nu tillgänglig.',
+                    'Det är nu möjligt att definiera en rollhierarki (t.ex. Administratör har högre privilegier än Chef).',
+                    'Specialiserade domänspecifika roller kan nu skapas (t.ex. "Medicineringsansvarig") för att kontrollera åtkomst till specifika moduler eller funktioner.',
+                    'Flera roller kan nu tilldelas en enskild anställd (flerval), och systemet kombinerar behörigheter från alla tilldelade roller.',
+                ],
+            },
+            {
+                title: '📋 Översiktssida för journalanteckningar',
+                description: [
+                    'Funktionen "Se senaste / alla journalanteckningar" öppnar nu en dedikerad sida där alla journalanteckningar kan visas på ett ställe.',
+                    'Åtkomst till journalanteckningar respekterar den befintliga behörighetsstrukturen: användare ser endast anteckningar från medborgare inom sina avdelningar.',
+                    'Administratörsroller kan se alla journalanteckningar i hela organisationen.',
+                    'Det är nu möjligt att filtrera journalanteckningar globalt efter medborgare, avdelning, taggar och andra relevanta filter.',
+                ],
+            },
+            {
+                title: '📆 iCal / CalDav – Prenumerera på kalender',
+                description: [
+                    'Det är nu möjligt att prenumerera på CitizenOne-kalendern via iCal / CalDav.',
+                    'Detta gör att användare kan se sina CitizenOne-kalenderhändelser i externa kalenderapplikationer.',
+                ],
+            },
+            {
+                title: '📋 Boendedata – Samtyckesförklaringar',
+                description: [
+                    'I formuläret för boendedata är det nu möjligt att välja samtyckesförklaringar med Ja/Nej-alternativ för: Foto, Föräldrasamarbete, Studentsamarbete och Allmänt samtycke.',
+                    'Anpassade typer av samtyckesförklaringar kan skapas i katalogen.',
+                    'Det är nu möjligt att ange Personlig förmyndarskap (Ja/Nej) och Ekonomisk förvaltarskap (Ja/Nej).',
+                ],
+            },
+            {
+                title: '🏥 De 12 omvårdnadsområdena – Status och mallar',
+                description: [
+                    'När statusen för ett omvårdnadsområde uppdateras är det nu möjligt att välja: Inte ett aktivt problem, Potentiellt problem eller Aktivt problem.',
+                    'Mallar kan nu användas för omvårdnadsområden, som definierar vilka fält användarna måste fylla i (obligatoriskt eller valfritt).',
+                    'När ett omvårdnadsområde skapas eller uppdateras kan relaterade områden visas i en sidopanel – liknande hur planer och mål visas när en journalanteckning skapas.',
+                ],
+            },
+            {
+                title: '💊 Behandlingar – Förbättringar och UX-förbättringar',
+                description: [
+                    'Mallar kan nu användas för behandlingar, som definierar vilka fält användarna måste fylla i (obligatoriskt eller valfritt).',
+                    'Fältet "Avslutad" ("Afsluttet") har bytt namn till "Markera som avslutad" ("Markér som afsluttet").',
+                    'Det är nu visuellt tydligare vilka behandlingar som är aktiva (pågående) jämfört med avslutade, genom tydliga UI-indikatorer (t.ex. etiketter, färger eller statusbadges).',
+                    'Huvudöversikten/dashboarden innehåller nu sammanfattningswidgetar som "10 aktiva behandlingar", som användare kan klicka på för att se listan.',
+                    'Om behandlingar skapas inom ett specifikt omvårdnadsområde finns det nu en direktlänk från omvårdnadsområdet till dessa behandlingar.',
+                ],
+            },
+            {
+                title: '🌍 Norskt och svenskt språkstöd',
+                description: [
+                    'Norska och svenska språkalternativ är nu tillgängliga i CitizenOne.',
+                    'Användare kan växla till norska (Norsk) eller svenska (Svenska) från sina språkinställningar.',
+                ],
+            },
+        ],
+        '2026-05-08': [
+            {
+                title: '📇 Företagskontakter och adressbok',
+                description: [
+                    'Företagskontakter kan nu skapas på samma sätt som medborgarkontakter.',
+                    'Alla kontakter (t.ex. läkare, handläggare etc. – inte anhöriga) lagras nu centralt i systemet så att de kan återanvändas och tilldelas flera medborgare.',
+                    'En företagsövergripande adressbok har införts där kontakter lagras centralt och kan väljas vid behov.',
+                ],
+            },
+            {
+                title: '⚙️ Konfiguration av skifttyp',
+                description: [
+                    'Under Skifttyper är det nu möjligt att definiera att 1 arbetstimme motsvarar 0,75 timmar (valfritt), och denna regel kan också tillämpas inom ett specifikt tidsintervall.',
+                    'För "Sovande nattskift" är det nu möjligt att definiera en standardsluttid som är 1, 2 eller fler dagar senare.',
+                ],
+            },
+            {
+                title: '📅 Tjänstgöringsschema – Års- och halvårsvy i kalender',
+                description: [
+                    'En års- och halvårsvy har lagts till i tjänstgöringsschemat.',
+                    'Vyn kan visas per enskild anställd, och visar deras tilldelade skift och en översikt över tid.',
+                ],
+            },
+            {
+                title: '💊 Medicineringsanteckningar – Informationsikon',
+                description: [
+                    'En informationsikon ("i") har lagts till för medicineringsanteckningar.',
+                    'När du för muspekaren över ikonen visas den tillhörande anmärkningen för den medicineringen.',
+                    'Exempel: "Administrera inte om patienten är påverkad av kokain."',
+                ],
+            },
+            {
+                title: '🤖 AI-användningsbadge på journalanteckningar',
+                description: [
+                    'Systemet registrerar nu när AI-assistenten har använts för att skapa eller bistå med en journalanteckning.',
+                    'En badge visas på journalanteckningen som indikerar att AI-assistenten användes.',
+                    'Badgen lyder: "CitizenOne AI användes".',
+                ],
+            },
+            {
+                title: '🔐 Inloggningsbegränsning efter IP/enhet',
+                description: [
+                    'Administratörer kan nu begränsa inloggningsåtkomst baserat på IP-adress och/eller enhet.',
+                    'Specifika IP-adresser (t.ex. kontorets nätverk) kan vitlistas.',
+                    'Eventuellt kan åtkomst begränsas till godkända enheter.',
+                    'Användare utanför tillåtna IP-adresser/enheter blockeras eller måste genomföra ytterligare verifiering.',
+                    'Denna funktion ökar säkerheten och säkerställer åtkomst endast från betrodda miljöer.',
+                ],
+            },
+            {
+                title: '🎄 Helgdags- och söndagsersättningsregler',
+                description: [
+                    'På helgdagar gäller ett standardexempel: 08:00 – 15:24 = 7,4 timmar.',
+                    'På söndagar måste anställda få 1,5× sina timmar.',
+                    'Om en anställd arbetar på en söndag eller helgdag får de skifttimmar × 1,5.',
+                ],
+            },
+        ],
+        '2026-05-01': [
+            {
+                title: 'Tillägg till extra timmar (X-timer)',
+                description: [
+                    'En ny kolumn har lagts till som visar namnet på personen som skapade posten för extra timmar.',
+                    'En ny kolumn och motsvarande fält för avdelningar har lagts till för extra timmar.',
+                    'Extra timmar är nu också synliga inom utkast till tjänstgöringsscheman.',
+                ],
+            },
+            {
+                title: '⏱ Förbättringar av tidsregistrering',
+                description: [
+                    'Anställda kan nu begära registrering av en missad incheckning.',
+                    'Dessa förfrågningar måste godkännas av en administratör innan de registreras.',
+                    'Administratörer kan nu redigera befintliga tidsloggposter.',
+                ],
+            },
+            {
+                title: '💊 Förbättringar av medicineringsöversikt',
+                description: [
+                    'Antalet tabletter/dosering visas nu tydligt och framträdande för varje medicinering.',
+                    'Medicineringsöversikten skiljer nu tydligt mellan PN-medicinering (vid behov) och regelbunden (schemalagd) medicinering.',
+                    'Filtreringsalternativ har lagts till: visa alla mediciner, endast PN-medicinering eller endast regelbunden medicinering.',
+                    'Det är nu möjligt att sortera kolumner i medicineringsöversikten alfabetiskt (t.ex. efter medicineringsnamn) och numeriskt (t.ex. efter dosering).',
+                    'Det är nu möjligt att se alla mediciner samtidigt, istället för att vara begränsad till 10 poster per sida.',
+                ],
+            },
+            {
+                title: '👥 Tilldelning av anställdgrupper till medborgare',
+                description: [
+                    'Det är nu möjligt att tilldela en anställdgrupp till en medborgare, och vice versa – från anställdgruppen, tilldela en eller flera medborgare; från medborgarprofilen, tilldela en eller flera anställdgrupper.',
+                    'När en anställdgrupp tilldelas en medborgare tilldelas automatiskt alla anställda inom den gruppen till medborgaren.',
+                    'Denna tilldelning fungerar på samma sätt som att tilldela en anställd direkt via "Tilldelade medborgare" eller tilldela en kontakt via "Kontakter" på medborgaren.',
+                    'Relationen förblir synkroniserad: om en anställd läggs till eller tas bort från gruppen uppdateras medborgartilldelningen automatiskt.',
+                    'Om en anställdgrupp tas bort från en medborgare avtilldelas också alla associerade anställda (såvida de inte tilldelats manuellt någon annanstans).',
+                ],
+            },
+            {
+                title: '📥 Exportfunktion för behandling',
+                description: [
+                    'Det är nu möjligt att ladda ner/exportera behandlingar tillsammans med deras status, liknande den befintliga exporten av medicineringshistorik.',
+                    'Exporten innehåller behandlingsdetaljer och aktuell status (t.ex. aktiv, avslutad osv.).',
+                ],
+            },
+            {
+                title: '📩 Förbättringar för förfrågningar (Henvendelser)',
+                description: [
+                    'Förfrågningar kan nu tilldelas en avdelning, liknande hur det fungerar för medborgare.',
+                    'Ett nytt "Avdelning"-fält har lagts till i förfrågningsformuläret.',
+                    'På förfrågningssidan är det nu möjligt att filtrera förfrågningar efter avdelning och exportera förfrågningar per avdelning.',
+                    'Förfrågningskategorierna "Härbärgen och vårdhem" och "Kriscenter" kan nu döpas om i Inställningar → Övrigt → Ordlista (t.ex. till §110 och §109).',
+                    'Fälten "Namn på frågeställare" och "Datum för förfrågningar" kan nu döpas om i Inställningar → Övrigt → Ordlista.',
+                    'Fälten "Egna anteckningar" och "Syfte" kan nu tas bort via Inställningar → Övrigt → Ordlista.',
+                ],
+            },
+            {
+                title: '💊 Medicinering – Visning av handelsnamn',
+                description: [
+                    'Handelsnamnet på en medicinering (t.ex. Panodil) visas nu tydligt tillsammans med eller som en del av medicineringsinformationen.',
+                ],
+            },
+            {
+                title: '🔔 Påminnelser och uppgiftslista',
+                description: [
+                    'Det är nu tydligare synligt om en påminnelse är markerad som "Slutförd".',
+                    'En logg har lagts till som visar vilken användare som slutförde en påminnelse.',
+                    'Påminnelsefunktionen fungerar nu som en fullständig uppgiftslista, inspirerad av Apples Påminnelser-app.',
+                    'En översikt över påminnelser har lagts till på dashboarden/startsidan.',
+                ],
+            },
+            {
+                title: '🔁 Mall för tjänstgöringsschema – Kopiera över flera veckor',
+                description: [
+                    'Det är nu möjligt att kopiera kortare källveckor till flera på varandra följande framtida veckor när du skapar en mall för tjänstgöringsschema.',
+                    'Exempel: kopiera 1 vecka till 2, 3, 4 eller fler på varandra följande veckor.',
+                ],
+            },
+            {
+                title: '📇 Företagskontakter och adressbok',
+                description: [
+                    'Företagskontakter kan nu skapas på samma sätt som medborgarkontakter.',
+                    'Alla kontakter (t.ex. läkare, handläggare etc. – inte anhöriga) lagras nu centralt i systemet så att de kan återanvändas och tilldelas flera medborgare.',
+                    'En företagsövergripande adressbok har införts där kontakter lagras centralt och kan väljas vid behov.',
+                ],
+            },
+            {
+                title: '🔐 Inloggningsbegränsning efter IP/enhet',
+                description: [
+                    'Administratörer kan nu begränsa inloggningsåtkomst baserat på IP-adress och/eller enhet.',
+                    'Specifika IP-adresser (t.ex. kontorets nätverk) kan vitlistas.',
+                    'Eventuellt kan åtkomst begränsas till godkända enheter.',
+                    'Användare utanför tillåtna IP-adresser/enheter blockeras eller måste genomföra ytterligare verifiering.',
+                ],
+            },
+            {
+                title: '⚙️ Konfiguration av skifttyp',
+                description: [
+                    'Under Skifttyper är det nu möjligt att definiera att 1 arbetstimme motsvarar 0,75 timmar (valfritt), och denna regel kan också tillämpas inom ett specifikt tidsintervall.',
+                    'För "Sovande nattskift" är det nu möjligt att definiera en standardsluttid som är 1, 2 eller fler dagar senare.',
+                ],
+            },
+            {
+                title: '🧩 Roller och behörigheter',
+                description: [
+                    'Koordinatorrollen och roller generellt har granskats och förbättrats så att administratörer inte längre behöver tilldela fullständiga "Administratör"-rättigheter i onödan.',
+                    'En tydlig översikt och förklaring av hur specifika behörigheter fungerar har tillhandahållits.',
+                    'Det är nu möjligt att definiera en rollhierarki (t.ex. Administratör har högre privilegier än Chef).',
+                    'Specialiserade domänspecifika roller kan nu skapas (t.ex. "Medicineringsansvarig") för att kontrollera åtkomst till specifika moduler.',
+                    'Flera roller kan nu tilldelas en enskild anställd (flerval), och systemet kombinerar behörigheter från alla tilldelade roller.',
+                ],
+            },
+            {
+                title: '📅 Tjänstgöringsschema – Års- och halvårsvy per anställd',
+                description: [
+                    'En års- och halvårsvy har lagts till i tjänstgöringsschemat.',
+                    'Vyn kan visas per enskild anställd, och visar deras tilldelade skift och en översikt över tid.',
+                ],
+            },
+        ],
+        '2026-04-24': [
+            {
+                title: '🏷 Taggar och filtrering – Utkast till tjänstgöringsschema',
+                description: [
+                    'Taggar är nu synliga när skift kopieras i utkastet till tjänstgöringsschema.',
+                    'Utkastet beter sig nu identiskt med det publicerade schemat, inklusive taggar och filtreringsfunktionalitet.',
+                ],
+            },
+            {
+                title: '📢 Öppna skift i utkast',
+                description: [
+                    'Det är nu möjligt att skapa ett öppet skift direkt i utkastet till tjänstgöringsschema, vilket matchar beteendet i den utökade utkastsvyn.',
+                    'Skiftet publiceras och utlöser aviseringar först när utkastet officiellt släpps.',
+                ],
+            },
+            {
+                title: '🔔 Nyheter och uppdateringar – Aviseringsräknare',
+                description: [
+                    'Aviseringsräknaren för "Nyheter" och "Uppdateringar" nollställs nu omedelbart efter att användaren har sett den.',
+                    'Denna återställning sker varje gång användaren öppnar "Nyheter" eller "Uppdateringar".',
+                ],
+            },
+            {
+                title: 'Avdelningskolumn i exporter av tjänstgöringsscheman',
+                description: [
+                    'Vid export av ett tjänstgöringsschema inkluderas en "Avdelning"-kolumn och placeras före kolumnen "Anställdsnamn".',
+                ],
+            },
+            {
+                title: 'Sortering av tjänstgöringsschema – anställda i tjänst idag',
+                description: [
+                    'När växeln "i tjänst idag" är aktiverad sorteras anställda nu med början från de vars skift börjar tidigast.',
+                ],
+            },
+            {
+                title: '📍 Anställdas incheckning – Geolokalisering',
+                description: [
+                    'Geolokalisering registreras nu när anställda checkar in.',
+                    'Systemet registrerar platsen (latitud/longitud) vid tidpunkten för incheckning.',
+                    'Platsen kan eventuellt visas på en kartvy.',
+                ],
+            },
+            {
+                title: '📧 Appar – E-postaktivering',
+                description: [
+                    'När "Mail"-appen aktiveras laddas sidan nu automatiskt om så att Mail-modulen omedelbart blir synlig i vänster sidofält.',
+                ],
+            },
+            {
+                title: 'Fördelning av skifttyper',
+                description: [
+                    'Skifttypsfördelning kan nu filtreras efter start- och slutdatum/-tid och efter anställd.',
+                ],
+            },
+            {
+                title: '🏠 Förbättringar av rumshantering',
+                description: [
+                    'Det är nu möjligt att byta namn på etiketten "Rum" i ordlistan/uppslagsverket.',
+                    'En ordentlig översikt över rum och deras tillgänglighet är nu tillgänglig.',
+                    'Upptagna rum kan inte längre väljas – endast lediga rum är valbara.',
+                ],
+            },
+            {
+                title: '⏱ Flerdagsskift',
+                description: [
+                    'Skift som sträcker sig över flera dagar (2–3 dagar eller mer) behandlas nu som ett kontinuerligt skift.',
+                    'Inga varningar utlöses för regeln om maximalt 13-timmars skift eller 11-timmars vilotidsregeln för sådana skift.',
+                ],
+            },
+            {
+                title: '🩺 Godkännande av sjukfrånvaro och semester',
+                description: [
+                    'Administratörer måste nu godkänna sjukfrånvaro och semesterförfrågningar som lämnats in av anställda via tjänstgöringsschemat innan de registreras.',
+                ],
+            },
+            {
+                title: '💊 Medicinering – Schemalagd period och extra dagar',
+                description: [
+                    'Det är nu möjligt att schemalägga medicinadministrering under en angiven period, istället för att kräva daglig administrering.',
+                    'Det är också möjligt att lägga till enskilda extra medicineringsdagar på specifika datum.',
+                    'Exempel: ett barn som vanligtvis vistas på helger kan få medicinering tillagd för en specifik extra veckodag utan att ändra det ordinarie schemat.',
+                ],
+            },
+            {
+                title: '💊 Medicinadministrering – Flexibel registrering',
+                description: [
+                    'Det är nu möjligt att administrera, registrera och markera avvikelser för medicinering mycket mer flexibelt.',
+                ],
+            },
+            {
+                title: '💊 Medicinerings-UI – Flera administreringstider',
+                description: [
+                    'Medicinerings-UI:t stöder nu visning av flera administreringstider för en enskild medicinering.',
+                    'Varje medicineringspost visar tydligt alla schemalagda tider (t.ex. morgon, middag, kväll, natt eller specifika tidsstämplar).',
+                    'Tider grupperas visuellt under samma medicinering så att det är tydligt att de hör till samma recept.',
+                ],
+            },
+            {
+                title: '💊 PN-medicinering – Ingen fast administreringstid',
+                description: [
+                    'PN-medicinering (vid behov) har inte längre någon fast administreringstid, eftersom den ges efter behov.',
+                ],
+            },
+            {
+                title: '💊 Medicineringslager – Korrigering av lagerberäkning',
+                description: [
+                    'Problem med felaktiga beräkningar av medicineringslager har utretts och åtgärdats.',
+                    'Lagernivåer återspeglar nu alltid korrekta kvantiteter baserat på registreringar.',
+                    'Lagervärden kan inte längre sjunka under noll.',
+                ],
+            },
+            {
+                title: '💊 Medicinering – Datum- och tidsvisning',
+                description: [
+                    'Kolumnen för administreringsdatum för både regelbunden och PN-medicinering inkluderar nu också den exakta administreringstiden.',
+                ],
+            },
+            {
+                title: '💊 Medicineringsöversikt – Ytterligare fält',
+                description: [
+                    'Medicineringsöversikten visar nu också "Maxdos per administrering" och "Beskrivning".',
+                    'För PN-medicinering visas nu fältet "Maxdos per administrering", i linje med regelbunden medicinering.',
+                ],
+            },
+            {
+                title: '⚠️ Varningskonfiguration – Tjänstgöringsschema',
+                description: [
+                    'Det är nu möjligt att inaktivera varningarna "13-timmars skift", "11-timmars vilotidsregel" och "48-timmarsregel" i tjänstgöringsschemat.',
+                ],
+            },
+            {
+                title: '📌 Förbättringar av anslagstavlan',
+                description: [
+                    'Varje inlägg visar nu författare och tidsstämpel (datum och tid för skapande).',
+                    'Endast den ursprungliga författaren till ett inlägg eller en administratör kan redigera det.',
+                    'Flera inlägg kan nu markeras/fästas samtidigt.',
+                    'Inlägg på dashboarden visas nu i listformat med titel och en kort förhandsvisning. Användare kan klicka på ett inlägg för att se hela innehållet.',
+                ],
+            },
+            {
+                title: '💊 PN-medicinering – Effektutvärdering',
+                description: [
+                    'Efter administrering av PN-medicinering (vid behov) kan användare nu utföra en effektutvärdering.',
+                    'Klicka på "Utför effektutvärdering" för att ange och spara anteckningar, resultat eller observationer av effekt.',
+                    'Flera effektutvärderingar kan utföras för samma medicineringspost.',
+                ],
+            },
+        ],
+        '2026-04-10': [
+            {
+                title: 'Förbättringar av meddelande-UI och radering av chatthistorik',
+                description: [
+                    'Meddelandegränssnittet har uppdaterats med ett förbättrat UI för en bättre användarupplevelse.',
+                    'Det är nu möjligt att radera en hel chatthistorik direkt från konversationslistan.',
+                ],
+            },
+            {
+                title: 'Avdelningskolumn i exporter av tjänstgöringsscheman',
+                description: [
+                    'Vid export av ett tjänstgöringsschema inkluderas nu en "Avdelning"-kolumn i exporten.',
+                    'Avdelningskolumnen placeras före kolumnen "Anställdsnamn".',
+                ],
+            },
+            {
+                title: '💸 Utgifter',
+                description: [
+                    'Ett medborgarfält har lagts till för utgifter, vilket gör det möjligt att koppla utgifter till en specifik medborgare.',
+                    'Utgifter visas nu under avsnittet "Ekonomi" på medborgarprofilen, i en dedikerad "Utgifter"-flik vid sidan av den befintliga "Plånböcker"-fliken.',
+                    'Utgifter kan nu redigeras efter avslag.',
+                    'Utgifter kan också redigeras efter ersättning (utgift utbetald).',
+                ],
+            },
+            {
+                title: '🕒 Justeringar av arbetstid – Geolokaliseringsspårning',
+                description: [
+                    'Geolokalisering registreras nu vid start och slut av arbetstid.',
+                    'Ingen kilometerspårning krävs – endast platsen vid start och slut.',
+                    'En grön markör visas för startplatsen och en röd markör för slutplatsen.',
+                ],
+            },
+            {
+                title: '📌 Fästa journalanteckningar',
+                description: [
+                    'Det är nu möjligt att fästa journalanteckningar på en medborgare.',
+                    'Fästa anteckningar visas högst upp i listan över journalanteckningar och förblir synliga oavsett sortering eller filtrering.',
+                    'Anteckningar kan enkelt fästas och lossas, och flera anteckningar kan fästas samtidigt.',
+                    'Detta hjälper personalen att lyfta fram viktig eller kritisk information och förbättrar översikt och tillgänglighet.',
+                ],
+            },
+            {
+                title: '🔐 Sidåtkomst – Synlighet för tjänstgöringsschema',
+                description: [
+                    'Ett alternativ har lagts till för att dölja eller ta bort åtkomst till sidan "Tjänstgöringsschema", i linje med hur andra sidor hanteras.',
+                    'När den är dold visas inte sidan Tjänstgöringsschema i vänster sidofält.',
+                ],
+            },
+            {
+                title: '👤 Skapande av medborgare och kontakt – Automatisk ifyllning av postnummer',
+                description: [
+                    'Vid skapande av en medborgare, anhörig eller annan kontakt fyller systemet nu automatiskt i fälten Ort, Region och Kommun när ett postnummer anges.',
+                ],
+            },
+            {
+                title: 'Filtrera efter arkiverade/icke-arkiverade anställda i exporter av tjänstgöringsscheman',
+                description: [
+                    'Det är nu möjligt att filtrera efter arkiverade och/eller icke-arkiverade anställda vid export av tjänstgöringsscheman.',
+                ],
+            },
+            {
+                title: '👤 Behörigheter för att skapa medborgare',
+                description: [
+                    'Skapande av medborgare är inte längre begränsat till administratörsprofiler.',
+                    'En ny behörighet "Skapa medborgare" har införts, som kan tilldelas vilken roll som helst – inklusive standardanvändarrollen – under "Roller" i katalogen.',
+                    'Detta gör det möjligt för administratörer att kontrollera vilka användare som har behörighet att skapa medborgare.',
+                ],
+            },
+            {
+                title: 'Sluta kopiera från nuvarande position',
+                description: [
+                    'Det är nu möjligt att stoppa en kopieringsprocess från den nuvarande positionen i schemat.',
+                    'Tidigare krävdes att man navigerade tillbaka till det ursprungliga startdatumet för att stoppa kopieringen. Detta är inte längre nödvändigt.',
+                ],
+            },
+            {
+                title: '"Komptid" omdöpt till "Komptid i år"',
+                description: [
+                    'Etiketten "Komptid" har bytt namn till "Komptid i år" för tydlighetens skull.',
+                ],
+            },
+            {
+                title: '📊 Förbättringar av tidsloggar',
+                description: [
+                    'Ett medborgarfält har lagts till för tidsloggar, vilket gör det möjligt att koppla tidsloggar till en specifik medborgare.',
+                    'Tidsloggar visas nu på medborgarprofilen.',
+                    'Statistik, filtrering och export av tidsloggdata är nu tillgängligt, vilket matchar funktionaliteten för insatstimmar.',
+                ],
+            },
+            {
+                title: '11-timmars- och 48-timmarsregel – Uteslutning av frånvarotyp',
+                description: [
+                    '11-timmarsregeln och 48-timmarsregeln räknar inte längre semestertimmar, sjuktimmar eller andra skift markerade som "frånvarotyper" vid beräkning av regelöverträdelser.',
+                    'Dessa frånvarotypsskift kan fortfarande räknas och beräknas mot normtimmar.',
+                    'Varningsindikatorn har ändrats till en varningstriangelikon för att minska visuellt brus, eftersom den visades för ofta.',
+                ],
+            },
+            {
+                title: '📤 Medborgarexport per avdelning (härbärge och kriscenter)',
+                description: [
+                    'För kategorierna "Härbärge" och "Kriscenter" stöder medborgarexporten nu filtrering och export av medborgare per avdelning.',
+                    'Varje avdelnings data kan exporteras separat, liknande hur "Exportera förfrågningar" fungerar.',
+                ],
+            },
+            {
+                title: 'Behörigheter för anställda att radera – Kalenderhändelser',
+                description: [
+                    'Anställda har inte längre behörighet att radera objekt som standard, förutom kalenderhändelser.',
+                    'En dedikerad raderingsbehörighet för kalenderhändelser har lagts till under roller och kan tilldelas rollen "Vanlig användare" och andra roller.',
+                ],
+            },
+            {
+                title: '🎯 UI-förbättringar – Indikatorer i tjänstgöringsschema och skiftanteckningar',
+                description: [
+                    'Gröna och röda indikatorer i tjänstgöringsschemat har nu ett verktygstips vid muspekare som förklarar deras betydelse.',
+                    'Skiftanmärkningar/-anteckningar är nu tillgängliga via ett verktygstips vid muspekare på en ikon som visas direkt på skiftet i tjänstgöringsschemat.',
+                ],
+            },
+            {
+                title: 'X-timer (extra timmar) tillägg',
+                description: [
+                    'En kolumn som visar namnet på personen som skapade posten för extra timmar har lagts till.',
+                    'En avdelningskolumn och motsvarande fält har lagts till för extra timmar.',
+                    'Extra timmar inkluderas nu också inom utkast till tjänstgöringsscheman.',
+                ],
+            },
+            {
+                title: '⏱ Förbättringar av tidsregistrering',
+                description: [
+                    'Anställda kan nu begära registrering av en missad incheckning direkt i systemet.',
+                    'Dessa förfrågningar måste granskas och godkännas av en administratör innan de registreras.',
+                    'Administratörer kan nu redigera befintliga tidsloggposter.',
+                ],
+            },
+        ],
+        '2026-02-20': [
+            {
+                title: 'Skapande och redigering av dokument online',
+                description: [
+                    'Användare kan nu skapa och redigera dokument direkt online i systemet.',
+                    'Systemgenererade dokument kan laddas ner som PDF-filer.',
+                    'Uppladdade dokument (Word- och Pages-format) kan också redigeras online.',
+                    'Det är möjligt att se dokument i skrivskyddat läge utan att aktivera redigering.'
+                ],
+            },
+            {
+                title: 'Översikt över komptid och semestertimmar',
+                description: [
+                    'Anställda kan nu se en översikt över komptid och semestertimmar för en vald period.',
+                    'Detta ger bättre transparens och planering av tillgänglig ledighet.'
+                ],
+            },
+            {
+                title: 'Automatisk uppföljningsmarkering på medborgarrapporter',
+                description: [
+                    'Formulär kan nu konfigureras för att automatiskt markera inlämnade medborgarrapporter efter en angiven tidsperiod som personalen ställer in.',
+                    'Markerade rapporter visas i den allmänna medborgaröversikten, i Översikten (i en dedikerad ruta) och på medborgarens profilsida.',
+                    'Denna funktionalitet måste aktiveras av en administratör på det specifika formuläret innan den kan användas.'
+                ],
+            },
+            {
+                title: 'Konfigurerbara timmar för insatsspårning',
+                description: [
+                    'Administratörer kan nu konfigurera antalet timmar för insatsspårning i systeminställningarna.',
+                    'Standardvärdet på 24 timmar kan justeras till valfritt antal timmar.'
+                ],
+            },
+            {
+                title: 'Tidsregistreringsflik för anställda',
+                description: [
+                    'En dedikerad flik för tidsregistrering har lagts till för anställda.',
+                    'Detta centraliserar och förenklar tidsspårning och registreringar.'
+                ],
+            },
+            {
+                title: 'AI-prompting med filbilaga och åtkomst till intern data',
+                description: [
+                    'AI-prompting stöder nu filbilagor som en del av förfrågan.',
+                    'AI:n kan komma åt relevant intern systemdata (baserat på behörigheter) för att ge mer korrekta och kontextuella svar.'
+                ],
+            },
+            {
+                title: 'Taggar på extra timmar',
+                description: [
+                    'Det är nu möjligt att lägga till taggar på poster med extra timmar.',
+                    'Detta förbättrar kategorisering, filtrering och rapportering av ytterligare arbetade timmar.'
+                ],
+            },
+            {
+                title: 'Användarspecifika e-postsignaturer',
+                description: [
+                    'Användare kan nu skapa och hantera sina egna e-postsignaturer.',
+                    'E-postsignaturer kan konfigureras individuellt per användare.'
+                ],
+            },
+            {
+                title: 'Grafvisualisering av komptid',
+                description: [
+                    'Komptid visualiseras nu i en graf baserad på normtimmar.',
+                    'Grafen visas när man klickar på komptidstimmar, under timvyn i den befintliga popup-modalen.'
+                ],
+            },
+            {
+                title: 'Länkade års- och veckonormtimmar',
+                description: [
+                    'Ett nytt fält för veckonormtimmar har lagts till och länkats till fältet för årsnormtimmar i formuläret för att skapa/redigera anställd.',
+                    'Båda fälten beräknar och uppdaterar automatiskt varandra baserat på ett 52-veckors år.',
+                    'Värdet för veckonormtimmar visas också under årsnormtimmarna i vyn för tjänstgöringsschema.'
+                ],
+            },
+            {
+                title: 'Export baserat på filtrerad vy av tjänstgöringsschema',
+                description: [
+                    'Det är nu möjligt att exportera data baserat på de filter som för närvarande är tillämpade i vyn för tjänstgöringsschema.',
+                    'Användare kan ladda ner den filtrerade vyn som den visas på skärmen.',
+                    'Tjänstgöringsschemat kan exporteras i CSV-format med antingen semikolonseparerade eller kommaseparerade värden.'
+                ],
+            },
+            {
+                title: 'Klassificering av frånvaroskifttyp och exportalternativ',
+                description: [
+                    'Skifttyper kan nu markeras som "frånvaroskifttyper".',
+                    'Exporter kan konfigureras för att inkludera endast frånvaroskifttyper, endast vanliga tjänstgöringsskift eller båda kombinerade i en enda exportfil.'
+                ],
+            },
+            {
+                title: 'Lösenordsskyddad skrivskyddad delning',
+                description: [
+                    'Tjänstgöringsscheman och journaler kan nu delas via lösenordsskyddade länkar.',
+                    'Mottagare kan komma åt det delade innehållet i skrivskyddat läge utan att logga in i systemet.'
+                ],
+            },
+            {
+                title: 'Begränsa synligheten av historiska skift',
+                description: [
+                    'Administratörer kan konfigurera i inställningarna om anställda ska få se andra anställdas historiska tjänstgöringsskift.',
+                    'Oavsett denna inställning kan anställda aldrig se andra anställdas timdata.'
+                ],
+            },
+            {
+                title: 'Förbättrade alternativ för datumväljare',
+                description: [
+                    'Datumväljaren i översikten gör det nu möjligt för användare att snabbt välja mellan dagens datum, de kommande 7 dagarna eller ett anpassat datumintervall.',
+                    'Detta ger mer flexibilitet vid navigering och granskning av data.'
+                ],
+            },
+            {
+                title: 'Semesterregistrering med alternativ för komptid',
+                description: [
+                    'Vid registrering av semester kan användare markera den som komptid (afspadsering), både vid skapande och redigering.',
+                    'Om den är markerad förblir kryssrutan vald.',
+                    'Om komptid markeras vid redigering efter skapande justerar systemet komptidssaldot baserat på semesterskifttimmarna.'
+                ],
+            },
+            {
+                title: 'Indikation av transportanvändning för ersättning',
+                description: [
+                    'Anställda kan ange när transport har använts och ska ersättas.',
+                    'Detta säkerställer korrekt spårning och ersättning av transportutgifter.'
+                ],
+            },
+            {
+                title: 'Lönekod / lönepost per skifttyp',
+                description: [
+                    'Varje skifttyp kan nu innehålla ett fält för lönekod eller lönepost.',
+                    'Detta fält inkluderas i skiftexporter och lönerapporter för att säkerställa korrekt lönehantering.'
+                ],
+            },
+            {
+                title: 'Aviseringar för skiftrotation',
+                description: [
+                    'Anställda får en avisering när en ny skiftrotation rullas ut.',
+                    'Aviseringar skickas också när ändringar görs i en befintlig skiftrotation.'
+                ],
+            },
+            {
+                title: 'Anställningens slutdatum med automatisk avstängning av åtkomst',
+                description: [
+                    'Ett fält för anställningens slutdatum är tillgängligt i formulären för att skapa, redigera och visa anställd.',
+                    'När slutdatumet har nåtts inaktiveras den anställdes åtkomst automatiskt.'
+                ],
+            },
+            {
+                title: 'Behandlingar opåverkade av datumväljare i översikten',
+                description: [
+                    'Avsnittet Behandlingar påverkas inte längre av datumväljaren i översikten.',
+                    'Alla pågående (aktiva) behandlingar visas oavsett valt datumintervall.'
+                ],
+            },
+        ],
+        '2026-01-30': [
+            {
+                title: 'Alternativ för att ändra etikett i ordlistelistan',
+                description: [
+                    'Användare kan nu ändra etiketten "Avdelning" i ordlistelistan.',
+                    'Detta anpassningsalternativ förbättrar flexibiliteten i terminologi över hela systemet.'
+                ],
+            },
+            {
+                title: 'Spara rapporter som utkast',
+                description: [
+                    'Användare har nu möjlighet att spara rapporter som utkast inom planer-, mål- och dokumentavsnitten.',
+                    'Detta gör det möjligt för användare att komma tillbaka, redigera sina utkast och publicera dem vid ett senare tillfälle.'
+                ],
+            },
+            {
+                title: 'Avdelningsspecifika taggar',
+                description: [
+                    'Taggar kan nu göras avdelningsspecifika, vilket förbättrar kategorisering och filtrering baserat på avdelningskontext.',
+                    'Detta säkerställer bättre organisation och relevans av taggar för varje avdelning.'
+                ],
+            },
+            {
+                title: 'Visa planer, mål och delmål i Översikten',
+                description: [
+                    'Planer, mål och delmål visas nu i Översikten, grupperade efter medborgare.',
+                    'Detta förbättrar den dagliga granskningsprocessen och gör det lättare att spåra framsteg för specifika individer.'
+                ],
+            },
+            {
+                title: 'Visa schemafack i Översikten',
+                description: [
+                    'Schemafack är nu synliga i Översikten.',
+                    'Denna funktion ger en tydligare och mer organiserad vy av schemalagda aktiviteter för dagen.'
+                ],
+            },
+            {
+                title: 'Indikera transportanvändning för ersättning',
+                description: [
+                    'Anställda kan nu ange att de har använt transport och därför har en utgift som ska ersättas.',
+                    'Denna funktion säkerställer att anställda enkelt kan rapportera transportutgifter för ersättningshantering.'
+                ],
+            },
+            {
+                title: 'Fält för lönekod / lönepost per skifttyp',
+                description: [
+                    'Ett fält för lönekod eller lönepost har lagts till per skifttyp, och detta inkluderas i skiftexporter och rapporter.',
+                    'Detta möjliggör bättre lönespårning och rapportering, och säkerställer korrekt lönehantering.'
+                ],
+            },
+            {
+                title: 'Fält för anställningens slutdatum för anställdregister',
+                description: [
+                    'Ett fält för anställningens slutdatum har lagts till i formulären för att skapa, redigera och visa anställd.',
+                    'När slutdatumet har nåtts inaktiveras den anställdes åtkomst automatiskt, vilket säkerställer säker och tidsenlig åtkomstkontroll.'
+                ],
+            },
+        ],
+        '2026-01-23': [
+            {
+                title: 'Begränsningar för redigering av journalanteckningar',
+                description: [
+                    'Vanliga anställda kan nu endast redigera sina egna journalanteckningar, och endast inom 24 timmar efter skapandet.',
+                    'Efter 24-timmarsfönstret kan endast administratörer redigera journalanteckningar för att säkerställa spårbarhet och starkare innehållsstyrning.'
+                ],
+            },
+            {
+                title: 'Optimerad prestanda för medicinöversikt',
+                description: [
+                    'Medicinöversikten har optimerats för förbättrade laddningstider och responsivitet, särskilt för större datamängder.',
+                    'Översikten hämtar och visar nu tillförlitligt hela listan över mediciner för att stödja fullständig planering och granskning.'
+                ],
+            },
+            {
+                title: 'Isolering av åtkomst till avdelningsdata',
+                description: [
+                    'Användare är nu begränsade till att endast se data för sina tilldelade avdelningar.',
+                    'Synlighet mellan avdelningar (t.ex. användare från avdelning A som ser avdelningarna B, C, D) är inte längre tillåten, vilket stärker integritet och åtkomstkontroll.'
+                ],
+            },
+            {
+                title: 'Uppdaterat UI för Glömt lösenord, Återställ lösenord och Konfigurera lösenord',
+                description: [
+                    'Sidorna för glömt lösenord, återställ lösenord och konfigurera lösenord har uppdaterats för att matcha det uppdaterade inloggnings-UI:t.',
+                    'Förbättringar inkluderar konsekvent layout, mellanrum och komponentstil för en renare, mer sammanhängande autentiseringsupplevelse på alla enheter.'
+                ],
+            },
+            {
+                title: 'Alternativ för datumfiltrering tillagda i översikten',
+                description: [
+                    'Ett nytt datumfilter har lagts till i översikten för att förenkla planering och granskning per tidsram.',
+                    'Användare kan nu filtrera efter Idag, Nästa 7 dagar eller ett anpassat datumintervall.'
+                ],
+            },
+        ],
+        '2026-01-16': [
+            {
+                title: 'UI-uppdateringar för Inloggning, Registrering och Glömt lösenord',
+                description: [
+                    'Sidorna för inloggning, registrering och glömt lösenord har uppdaterats med ett nytt UI för en renare och mer konsekvent upplevelse.',
+                    'Förbättrad layout, mellanrum och komponentstil gör autentiseringsflöden lättare att navigera på alla enheter.'
+                ],
+            },
+            {
+                title: 'Granulära behörigheter för katalogroller',
+                description: [
+                    'Det är nu möjligt att tilldela specifika behörigheter inom rollområdet i katalogen, vilket möjliggör mer finjusterad åtkomstkontroll.',
+                    'Du kan till exempel skapa en "Tjänstgöringskoordinator"-roll som endast har åtkomst till tjänstgöringsschemat (och inte andra områden).',
+                    'Denna metod stöder ytterligare rolltyper och behörighetskombinationer efter behov för organisationen.'
+                ],
+            },
+            {
+                title: 'Lagt till "Sugtabletter" i listan över doseringsformer',
+                description: [
+                    'Alternativet "Sugtabletter" har lagts till i listan "Doseringsform" i formulären för att skapa/redigera medicin.',
+                    'Detta förbättrar stödet för att hantera olika doseringsformer för medicinering konsekvent över hela systemet.'
+                ],
+            },
+            {
+                title: 'Ladda ner medicineringsöversikt från medicinkort',
+                description: [
+                    'Ett nytt alternativ på medicinkortet gör det möjligt för användare att ladda ner en medicineringsöversikt.',
+                    'Översikten innehåller alla mediciner och deras schemalagda administreringstider, och ger en lättdelad referens för planering och dokumentation.'
+                ],
+            },
+            {
+                title: 'Medicinadministrering på fasta veckodagar',
+                description: [
+                    'Medicineringsscheman kan nu konfigureras för att administreras på fasta veckodagar (t.ex. måndagar, onsdagar och fredagar).',
+                    'Detta ger flexibilitet för återkommande administreringsmönster som inte följer dagliga intervall.'
+                ],
+            },
+            {
+                title: 'Publicerade versioner av schemautkast',
+                description: [
+                    'Scheman stöder nu utkast- och publicerade versioner, vilket gör det möjligt att förbereda ändringar innan de blir aktiva.',
+                    'Administratörer kan granska och justera utkast innan publicering, vilket säkerställer att uppdateringar släpps på ett kontrollerat sätt.'
+                ],
+            },
+            {
+                title: 'Åtkomst till barnprofil',
+                description: [
+                    'Stöd för åtkomst till barnprofil har lagts till, vilket gör det möjligt för lämpliga användare att komma åt och hantera barnprofiler enligt behörighet.',
+                    'Detta förbättrar användbarheten för organisationer som hanterar vård och schemaläggning för barn samtidigt som åtkomstkontroller upprätthålls.'
+                ],
+            },
+            {
+                title: 'Läsbekräftelser för meddelanden',
+                description: [
+                    'Meddelanden inkluderar nu läsbekräftelser så att avsändare kan se när meddelanden har lästs.',
+                    'Detta förbättrar kommunikationstydligheten och minskar behovet av manuella uppföljningar.'
+                ],
+            },
+        ],
+        '2026-01-09': [
+            {
+                title: 'Återkommande händelser i kalendern',
+                description: [
+                    'Vid redigering av en enskild händelse uppmanar systemet nu användare att välja om ändringarna ska tillämpas på endast denna händelse eller alla framtida händelser.',
+                    'Denna funktionalitet säkerställer mer flexibilitet och kontroll över återkommande händelser.'
+                ],
+            },
+            {
+                title: 'Automatisk återkommande veckorotation i tjänstgöringsschema',
+                description: [
+                    'Administratörer kan nu skapa automatiska återkommande veckorotationer i tjänstgöringsschemat, såsom en 8-veckors rotation, som upprepas tills den stoppas manuellt.',
+                    'Systemet uppmanar administratörer vid redigering av ett tjänstgöringsskift inom en återkommande rotation och frågar om redigeringen ska tillämpas endast på detta skift eller hela det återkommande mönstret.'
+                ],
+            },
+            {
+                title: 'Möjlighet att söka efter en specifik dag i skiftschemat och kalendern',
+                description: [
+                    'Användare kan nu söka efter en specifik dag i skiftschemat och kalendern, vilket möjliggör mer exakt navigering utan att behöva bläddra vecka för vecka.',
+                    'Denna förbättring inkluderar också möjligheten att navigera per månad.'
+                ],
+            },
+            {
+                title: 'Filteralternativ i skiftplaner',
+                description: [
+                    'Översikten över skiftplaner inkluderar nu filteralternativ för att välja en eller flera anställda.',
+                    'Dessutom har filter för anställningsstatus lagts till, vilket möjliggör mer skräddarsydd planering och tydlighet.'
+                ],
+            },
+            {
+                title: 'Visa anställdas skift över avdelningar',
+                description: [
+                    'Användare kan nu växla synligheten av skift över avdelningar för alla anställda.',
+                    'Denna funktion är endast tillgänglig om flera avdelningar har konfigurerats i organisationen.'
+                ],
+            },
+            {
+                title: 'Förbättringar av hantering av flerdagsskift',
+                description: [
+                    'Vid skapande av skift som sträcker sig över flera dagar delar systemet nu automatiskt upp dem i separata skift för varje dag.',
+                    'En visuell koppling, såsom en linje eller start/slut-text, läggs till för att indikera skiftets kontinuitet över dagar.'
+                ],
+            },
+            {
+                title: 'Förbättringar av skiftskapandeflödet',
+                description: [
+                    'Skiftskapandeflödet har optimerats: användare måste först välja skifttyp innan andra visningsalternativ visas.',
+                    'Avdelningsfältet fylls nu automatiskt i med den valda avdelningen som standard, men det kan ändras under skapandeprocessen.'
+                ],
+            },
+            {
+                title: 'Kom ihåg vald avdelning i toppfältet',
+                description: [
+                    'När en avdelning har valts i toppfältet förblir den vald för framtida åtgärder tills den ändras.',
+                    'Detta effektiviserar processen för administratörer och schemaläggare som arbetar inom en specifik avdelning.'
+                ],
+            },
+            {
+                title: 'Skapa anpassade jobbtitlar under "Kontakter" på medborgare',
+                description: [
+                    'Administratörer kan nu skapa anpassade jobbtitlar under avsnittet "Kontakter" för medborgare.',
+                    'Detta hjälper till att spåra specifika roller eller titlar inom organisationen.'
+                ],
+            },
+            {
+                title: 'Fäst dig själv i skiftschemat',
+                description: [
+                    'Användare kan nu fästa sig själva i skiftschemat för att säkerställa att de alltid visas högst upp i listan.',
+                    'Denna funktion hjälper användare att enkelt identifiera sina skift, särskilt i stora team.'
+                ],
+            },
+            {
+                title: 'Semesterschemaläggning och skiftersättning',
+                description: [
+                    'När en anställd skapar en semesterförfrågan tas befintliga skift automatiskt bort och erbjuds andra för ersättning, liknande hantering av sjukfrånvaro.'
+                ],
+            },
+            {
+                title: 'Optimering av tjänstgöringsskifterbjudande',
+                description: [
+                    'Tjänstgöringsskifterbjudanden har optimerats för att endast visa skift som är relevanta för den tilldelade avdelningen.',
+                    'Ett jobbtitelfält gör det nu möjligt att lägga till flera titlar, och nattskift som sträcker sig över flera dagar kan erbjudas som ett enda skift.'
+                ],
+            },
+            {
+                title: 'Kalenderavdelningsfilter',
+                description: [
+                    'Händelser i kalendern filtreras nu efter den valda avdelningen, vilket säkerställer att användare endast ser händelser som är relevanta för deras avdelning.',
+                    'Starttiden för händelser ställs automatiskt in till 1 timme senare än starttiden tills den justeras manuellt.',
+                    'Anställdsfältet på en händelse visar nu endast anställda från den valda avdelningen.'
+                ],
+            },
+            {
+                title: 'Inkludering av roll i exportfiler',
+                description: [
+                    'Vid export av anställda inkluderas rollfältet nu i exportfilen.',
+                    'Detta säkerställer att den exporterade datan innehåller de roller som är associerade med varje anställd.'
+                ],
+            },
+            {
+                title: 'Lägga till "Sugtabletter" i listan över "Doseringsform"',
+                description: [
+                    'Alternativet "Sugtabletter" har lagts till i listan "Doseringsform" i formulären för att skapa och redigera medicin.',
+                    'Detta möjliggör bättre hantering av doseringsformer inom systemet.',
+                    'Hantering av doseringsform är också tillgänglig i kataloginställningarna.'
+                ],
+            },
+            {
+                title: 'Behörigheter i katalogroller',
+                description: [
+                    'Det är nu möjligt att tilldela specifika behörigheter i rollområdet för uppgifter som att hantera tjänstgöringsschemat, vilket möjliggör mer granulär kontroll över användaråtkomst.',
+                    'En "Tjänstgöringskoordinator"-roll kan till exempel skapas med begränsad åtkomst till endast tjänstgöringsschemat.'
+                ],
+            }
+        ],
+        '2025-12-12': [
+            {
+                title: 'Avancerad sökning och filtrering i skiftschema och kalender',
+                description: [
+                    'Användare kan nu söka direkt efter en specifik dag i skiftschemat och kalendern istället för att navigera vecka för vecka.',
+                    'Navigeringen har utökats till att tillåta förflyttning per månad samt per vecka.',
+                    'Översikten kan filtreras för att visa en eller flera valda anställda.',
+                    'Ytterligare filter har lagts till för anställningsstatus och avdelning för att förbättra tydlighet och planering.'
+                ],
+            },
+            {
+                title: 'Optimeringar av tjänstgöringsskiftsschema',
+                description: [
+                    'Flera prestanda- och användbarhetsoptimeringar har tillämpats på tjänstgöringsskiftsschemat.',
+                    'Dessa förbättringar resulterar i snabbare interaktioner och en smidigare schemaläggningsupplevelse för både administratörer och anställda.'
+                ],
+            },
+            {
+                title: 'Hantering av flerdagsskift',
+                description: [
+                    'När ett skift skapas som sträcker sig över flera dagar delar systemet nu automatiskt upp det i separata dagliga skift.',
+                    'Detta säkerställer mer exakt schemaläggning, rapportering och enklare justeringar per dag.'
+                ],
+            },
+            {
+                title: 'Anpassade återkommande alternativ över schemaläggning och aviseringar',
+                description: [
+                    'Anpassade återkommande mönster kan nu konfigureras för tjänstgöringsschemat, kalenderhändelser samt planer- och målaviseringar.',
+                    'Detta ger större flexibilitet för att definiera komplexa eller icke-standardiserade återkommande regler över hela plattformen.'
+                ],
+            }
+        ],
+        '2025-11-28': [
+            {
+                title: 'Överför Zoho-chatt till supportslide-over',
+                description: [
+                    'Zoho-chattfunktionen är nu integrerad i en slide-over-panel.',
+                    'Detta förbättrar tillgängligheten och bibehåller fokus på huvudinnehållet samtidigt som det möjliggör snabba interaktioner.'
+                ],
+            },
+            {
+                title: 'Lägg till sidåtkomst i formuläret för nya anställda',
+                description: [
+                    'Formuläret för nya anställda har uppdaterats för att inkludera alternativ för sidåtkomst.',
+                    'Detta effektiviserar konfigurationsprocessen för nyanställda och förbättrar deras onboardingupplevelse.'
+                ],
+            },
+            {
+                title: 'Återkommande händelser i kalendern',
+                description: [
+                    'Vid redigering av en enskild händelse uppmanar systemet nu om ändringarna ska tillämpas på endast denna händelse eller alla framtida återkommande händelser.',
+                    'Denna funktion förbättrar flexibilitet och precision vid hantering av återkommande händelser.'
+                ],
+            },
+            {
+                title: 'Återkommande automatisk veckorotation i tjänstgöringsschemat',
+                description: [
+                    'Administratörer kan nu skapa en återkommande automatisk veckorotation i tjänstgöringsschemat.',
+                    'Administratörer kan ställa in ett slutdatum för det återkommande mönstret.'
+                ],
+            },
+            {
+                title: 'Anpassning av aviseringsinställningar',
+                description: [
+                    'En ny inställning gör det möjligt för användare att aktivera/inaktivera aviseringar baserat på om den anställde är i skift.',
+                    'Dessutom har ett allmänt alternativ lagts till för att inaktivera alla e-postaviseringar, vilket ger användare mer kontroll över sina aviseringsinställningar.'
+                ],
+            },
+            {
+                title: 'Lägga till/dra av extra timmar i tjänstgöringsschemat',
+                description: [
+                    'Administratörer och anställda kan nu lägga till eller dra av extra timmar från veckoschemat utan att skapa ett specifikt skift.',
+                    'Ett obligatoriskt anteckningsfält krävs för varje justering, och det finns två arbetsflöden tillgängliga för att hantera dessa ändringar.'
+                ],
+            },
+            {
+                title: 'Centraliserad lösenordshantering för administratörer',
+                description: [
+                    'Administratörer kan nu hantera lösenordskontroll centralt från företagets inställningar.',
+                    'Detta eliminerar alternativet "Ändra lösenord" för användare och gör det möjligt för administratörer att generera nya lösenord åt dem.'
+                ],
+            },
+            {
+                title: 'Visuella förbättringar av medborgaröversikt',
+                description: [
+                    'Två visuella ikoner har lagts till bland medborgarens åtgärdsikoner för bättre statusspårning.',
+                    'Plusikonen återspeglar statusen för medborgarens planer/mål, medan pillerikonen ger direktåtkomst till medicineringsöversikten.'
+                ],
+            },
+            {
+                title: 'Återkommande aviseringar i planer och mål',
+                description: [
+                    'I avsnittet planer och mål kan återkommande aviseringar nu skapas.',
+                    'Dessa aviseringar kan endast tilldelas medborgarens tilldelade kontaktpersoner, vilket säkerställer riktade och relevanta varningar.'
+                ],
+            }
+        ],
+        '2025-11-14': [
+            {
+                title: 'Färganpassning av avdelningsmeny',
+                description: [
+                    'Det är nu möjligt att ändra färgen på avdelningsmenyn baserat på vilken avdelning som visas.',
+                    'Detta ger en visuell färgindikator utöver avdelningens namn, vilket förbättrar tydlighet och snabb igenkänning.'
+                ],
+            },
+            {
+                title: 'Uppdateringar av registreringsformuläret',
+                description: [
+                    'Flera förbättringar har gjorts av registreringsformuläret.',
+                    'Dessa ändringar förbättrar användbarheten, effektiviserar registreringsprocessen och förbättrar datakvaliteten.'
+                ],
+            },
+            {
+                title: 'Medborgares förfrågningar och konverteringsprocess',
+                description: [
+                    'Förbättringar har gjorts av hanteringen av medborgares förfrågningar.',
+                    'Det är nu lättare att hantera förfrågningar och konvertera en förfrågan till en registrerad medborgare.'
+                ],
+            },
+            {
+                title: 'UI-uppdatering för säker e-post',
+                description: [
+                    'Användargränssnittet för säker e-post har uppdaterats.',
+                    'Dessa förbättringar ger en tydligare layout och förbättrar den övergripande meddelandeupplevelsen.'
+                ],
+            },
+            {
+                title: 'Dashboard klientinloggning för händelser',
+                description: [
+                    'En ny funktion har lagts till som gör det möjligt för klienter att logga in för att se händelser via dashboarden.',
+                    'Detta förbättrar tillgängligheten och ger en mer strömlinjeformad upplevelse för händelserelaterad information.'
+                ],
+            }
+        ],
+        '2025-11-07': [
+            {
+                title: 'Ytterligare fält (styrka) i medicinjournal',
+                description: [
+                    'Vid skapande eller redigering av en medicinjournal har ett nytt fält som heter "styrka" lagts till.',
+                    'Detta möjliggör mer exakt registrering av medicineringsdetaljer och förbättrar tydligheten i doseringsdokumentation.'
+                ],
+            },
+            {
+                title: 'Daglig översikt omdöpt till Översikt',
+                description: [
+                    'Avsnittet som tidigare hette "Daglig översikt" har bytt namn till "Översikt".',
+                    'Denna ändring ger ett tydligare och mer allmänt översiktsavsnitt för användare.'
+                ],
+            },
+            {
+                title: '"Medborgares dagliga händelser" omdöpt till "Medborgares händelser" i översikten',
+                description: [
+                    'I översikten har titeln "Medborgares dagliga händelser" uppdaterats till "Medborgares händelser".',
+                    'Detta återspeglar att händelser inte är begränsade till dagliga förekomster och förbättrar konsekvens i namngivning.'
+                ],
+            },
+            {
+                title: '"Daglig medicineringsöversikt" omdöpt till "Medicineringsöversikt" i översikten',
+                description: [
+                    'Avsnittsnamnet "Daglig medicineringsöversikt" har ändrats till "Medicineringsöversikt".',
+                    'Detta representerar bättre den bredare funktionaliteten och täckningen av översikten.'
+                ],
+            },
+            {
+                title: 'Ytterligare alternativ i "Kopiera flera veckors scheman"',
+                description: [
+                    'Fler alternativ har lagts till för att välja veckornas källa och destination vid kopiering av flera veckors scheman.',
+                    'Detta ger större flexibilitet och kontroll vid hantering av scheman.'
+                ],
+            }
+        ],
+        '2025-10-31': [
+            {
+                title: 'Incheckning och utcheckning på medborgaren (med automatisk avisering efter 24 timmar)',
+                description: [
+                    'Systemet stöder nu incheckning och utcheckning på medborgaren med förbättrad funktionalitet som skickar en automatisk avisering 24 timmar efter utcheckning.',
+                    'Aviseringen informerar om att utcheckningen har loggats och kan hittas i loggen, vilket säkerställer bättre spårbarhet och uppföljning.'
+                ],
+            },
+            {
+                title: 'Förfrågningsdata och vistelsedata för organisationer inom socialt välmående',
+                description: [
+                    'Organisationer och företag inom socialvårdsbranschen med anläggningstyp kriscenter eller härbärge för hemlösa kan nu komma åt förfrågnings- och vistelsedata.',
+                    'Detta möjliggör mer exakt rapportering och analys av medborgarärenden och vistelser i sociala institutioner.'
+                ],
+            },
+            {
+                title: 'Rumshantering för medborgare',
+                description: [
+                    'Ny funktionalitet har lagts till för rumshantering, vilket gör det möjligt för administratörer att hantera rumstilldelning och status för medborgare.',
+                    'Detta ger bättre överblick över tillgängliga rum, beläggning och resursutnyttjande vid anläggningar som kriscenter och härbärgen för hemlösa.'
+                ],
+            },
+            {
+                title: 'Konversationssammanfattning för medborgare kopplad till förfrågningsdata',
+                description: [
+                    'Det är nu möjligt att lägga till konversationssammanfattningar för medborgare som en del av deras förfrågningsdata.',
+                    'Detta möjliggör mer komplett dokumentation av medborgarärenden och säkerställer att relevanta anteckningar och konversationer registreras tillsammans med annan data.'
+                ],
+            },
+            {
+                title: 'Förenklat registreringsformulär',
+                description: [
+                    'Andra fält i registreringsformuläret har tagits bort för att förbättra och effektivisera registreringsprocessen.',
+                    'Denna ändring minskar komplexiteten och gör det snabbare och mer intuitivt för användare att skapa ett konto.'
+                ],
+            }
+        ],
+        '2025-10-24': [
+            {
+                title: 'Möjlighet att skapa flera utkast till tjänstgöringsscheman för en enskild avdelning eller för hela organisationen',
+                description: [
+                    'Kunder kan nu skapa flera utkast till tjänstgöringsscheman för antingen en enskild avdelning eller hela organisationen under planeringsfasen av skiftschemaläggning.',
+                    'Denna funktion möjliggör större flexibilitet i planering och schemaläggning, med en tydlig indikation av vilken avdelning utkastet publiceras för när det slutförs.'
+                ],
+            },
+            {
+                title: 'Möjlighet att växla mellan organisationer med ett enda användarkonto',
+                description: [
+                    'Användare kan nu sömlöst växla mellan organisationer med ett enda användarkonto, vilket gör det lättare för individer som arbetar över flera organisationer att hantera sina ansvarsområden.',
+                    'Detta förbättrar användarupplevelsen och minskar behovet av flera inloggningar eller kontohantering.'
+                ],
+            },
+            {
+                title: 'Beräkning av bidragsmarginal på medborgaren (synlig för administratörer eller behöriga användare)',
+                description: [
+                    'En funktion har införts för att beräkna bidragsmarginalen per medborgare, vilken endast är synlig för administratörer eller användare med nödvändiga behörigheter.',
+                    'Detta möjliggör bättre ekonomisk spårning och analys, och ger viktiga insikter i bidragsmarginalen för enskilda medborgare.'
+                ],
+            },
+            {
+                title: 'Incheckning och utcheckning på medborgaren',
+                description: [
+                    'En ny funktion för incheckning och utcheckning har lagts till för medborgare, vilket gör det möjligt för användare att registrera närvaro- eller aktivitetstider.',
+                    'Denna funktion är användbar för att spåra medborgares engagemang och säkerställa korrekta register över deras deltagande.'
+                ],
+            },
+            {
+                title: 'Tidsschema: tilldelning och sammanfattning av tidsanvändning',
+                description: [
+                    'Användare kan nu ange tilldelade timmar/minuter per dag, vecka eller månad för en medborgare och se en sammanfattning (tidskonto) som visar hur mycket tid som har använts under den valda perioden.',
+                    'Detta säkerställer att det är tydligt om den tilldelade tiden används effektivt och om man är över eller under den tilldelade tiden.'
+                ],
+            }
+        ],
+        '2025-10-17': [
+            {
+                title: 'Bifoga fil i SMTP- och Entra-e-post (både inkorg och skickade meddelanden)',
+                description: [
+                    'En funktion har införts för att tillåta filbilagor i både SMTP- och Entra-e-post, vilket täcker inkorg och skickade meddelanden.',
+                    'Denna förbättring gör det möjligt för användare att bifoga och komma åt filer mer effektivt i både inkommande och utgående e-postkommunikation.'
+                ],
+            },
+            {
+                title: 'App- och webbavisering till anställda vid publicering av tjänstgöringsschema från utkast',
+                description: [
+                    'Anställda får nu app- och webbaviseringar när ett tjänstgöringsschema som inkluderar dem publiceras från utkast.',
+                    'Detta förbättrar kommunikationen och säkerställer att anställda omedelbart meddelas om ändringar i sina tjänstgöringsscheman.'
+                ],
+            },
+            {
+                title: 'Visa en logg över raderade anteckningar i journalanteckningsområdet',
+                description: [
+                    'En loggfunktion har lagts till för att göra det möjligt för användare att se raderade anteckningar i journalanteckningsområdet.',
+                    'Detta ger ett granskningsspår för raderingar av anteckningar, vilket förbättrar transparens och spårning inom systemet.'
+                ],
+            },
+            {
+                title: 'Flytta en anteckning från en medborgare till en annan (administratörsfunktion)',
+                description: [
+                    'Administratörer kan nu flytta anteckningar från en medborgares register till en annan.',
+                    'Detta säkerställer att anteckningar är korrekt associerade med rätt medborgare, vilket förbättrar datahantering och organisation.'
+                ],
+            },
+            {
+                title: 'Kopiera en anteckning till en annan medborgare (administratörsfunktion)',
+                description: [
+                    'Administratörer kan nu kopiera anteckningar från en medborgares register till en annan.',
+                    'Detta möjliggör enkel delning av relevant information mellan medborgare, vilket säkerställer effektiv anteckningshantering.'
+                ],
+            }
+        ],
+        '2025-10-10': [
+            {
+                title: 'Filbilagor vid sändning av e-post',
+                description: [
+                    'En funktion har införts för att tillåta att bilagor läggs till vid sändning av e-post.',
+                    'Detta förbättrar förmågan att skicka dokument och filer tillsammans med e-post, vilket förbättrar kommunikationseffektiviteten.'
+                ],
+            },
+            {
+                title: 'Nedladdning av bilaga för säker e-post',
+                description: [
+                    'En funktionalitet har lagts till för att tillåta nedladdning av bilagor från säker e-post.',
+                    'Detta förbättrar säker åtkomst till viktiga filer och dokument som skickas via krypterade e-postkanaler.'
+                ],
+            },
+            {
+                title: 'Export av tjänstgöringsschema per avdelning',
+                description: [
+                    'En ny funktion har lagts till för att exportera tjänstgöringsscheman specifika för varje avdelning.',
+                    'Detta möjliggör enklare distribution och hantering av avdelningsspecifika tjänstgöringslistor, vilket förbättrar organisatorisk effektivitet.'
+                ],
+            },
+            {
+                title: 'Administratörsdefinierad visning av medborgarinformation',
+                description: [
+                    'Administratörer kan nu bestämma och definiera vilken information som ska visas i den specifika medborgarrutan vid visning av en enskild medborgare.',
+                    'Detta möjliggör mer anpassad åtkomst till medborgardetaljer, vilket säkerställer att endast relevant information visas för vanliga användare.'
+                ],
+            }
+        ],
+        '2025-10-03': [
+            {
+                title: 'Webbleads',
+                description: [
+                    'Leads-appen kan nu aktiveras och användas för att se leads.',
+                    'Detta ger förbättrad hantering och spårning av potentiella leads i systemet.',
+                ],
+            },
+            {
+                title: 'Ladda ner och skriv ut specifik medicinering för medborgaren',
+                description: [
+                    'En funktion har lagts till för att tillåta nedladdning och utskrift av specifika medicineringsdetaljer för medborgare.',
+                    'Detta förbättrar effektiviteten i hantering och delning av medicineringsinformation.',
+                ],
+            },
+            {
+                title: 'Ytterligare fasta tidsintervall',
+                description: [
+                    'Ytterligare fasta tidsintervall för maximal dosering per tid har lagts till.',
+                    'Detta säkerställer mer flexibilitet och noggrannhet i schemaläggning av medicineringsdoseringar.',
+                ],
+            },
+            {
+                title: 'Hjälplänk för medicinering',
+                description: [
+                    'En ny hjälplänk för medicinering har lagts till.',
+                    'Denna länk tillhandahåller relevanta resurser för att hjälpa personalen i sitt arbete med medicinering.',
+                ],
+            },
+            {
+                title: 'Hjälplänk för användning av tvång och incidentrapporter',
+                description: [
+                    'En hjälplänk har införts för användning av tvång och incidentrapporter.',
+                    'Denna länk erbjuder användbar information och riktlinjer för att hantera dessa känsliga situationer.',
+                ],
+            },
+        ],
+        '2025-09-26': [
+            {
+                title: 'Lista över helgdagar i kalendern',
+                description: [
+                    'Helgdagar visas nu direkt i kalendern.',
+                    'Detta ger bättre synlighet för planering och samordning.',
+                ],
+            },
+            {
+                title: '"Snabb riskbedömning" i den dagliga översikten',
+                description: [
+                    'Om aktiverat i administratörsinställningarna visas nu en snabb riskbedömning i den dagliga översikten.',
+                    'Detta möjliggör snabbare identifiering av potentiella risker under dagliga operationer.',
+                ],
+            },
+            {
+                title: 'Aktuella medborgarbehandlingar i den dagliga översikten',
+                description: [
+                    'Pågående medborgarbehandlingar är nu synliga i den dagliga översikten.',
+                    'Detta ger personalen en tydlig och omedelbar översikt över aktuella vårdaktiviteter.',
+                ],
+            },
+        ],
+        '2025-09-19': [
+            {
+                title: 'Importera och exportera anställda via CSV-mallfil',
+                description: [
+                    'Anställda kan nu importeras och exporteras med en CSV-mallfil.',
+                    'Detta förenklar hanteringen av anställdas data och säkerställer konsekvens över register.',
+                ],
+            },
+            {
+                title: 'Exportera medborgare',
+                description: [
+                    'Medborgarregister kan nu exporteras.',
+                    'Detta möjliggör enklare rapportering, delning och databackup.',
+                ],
+            },
+            {
+                title: 'Lista över helgdagar i tjänstgöringsschemat',
+                description: [
+                    'Helgdagar visas nu inom tjänstgöringsschemat.',
+                    'Detta hjälper till att förbättra planeringen och säkerställa korrekt schemaläggning kring helgdagar.',
+                ],
+            },
+        ],
+        '2025-09-12': [
+            {
+                title: 'Importera medborgare via CSV-mallfil',
+                description: [
+                    'Medborgare kan nu importeras med en CSV-mallfil.',
+                    'Detta effektiviserar dataregistreringsprocessen och säkerställer konsekvens i medborgarregister.',
+                ],
+            },
+            {
+                title: 'Användares 2FA',
+                description: [
+                    'Tvåfaktorsautentisering (2FA) är nu tillgängligt för användare.',
+                    'Detta lägger till ett extra säkerhetslager för användarkonton och skyddar känslig information.',
+                ],
+            },
+            {
+                title: 'Nya fält i medborgarens formulär: Trafikljus (Grönt, Gult och Rött)',
+                description: [
+                    'Nya fält för trafikljusstatus (Grönt, Gult och Rött) har lagts till i medborgarens formulär.',
+                    'Ge en beskrivning av medborgarens tillstånd när de är i grön, gul eller röd status vid skapande av en journalanteckning.',
+                ],
+            },
+        ],
+        '2025-08-29': [
+            {
+                title: 'Standardskifttider i tjänstgöringsschema',
+                description: [
+                    'Du kan nu ställa in standardtid in och tid ut för varje skift i tjänstgöringsschemat.',
+                    'Detta hjälper till att standardisera arbetstider och minskar manuella inmatningsfel.',
+                ],
+            },
+            {
+                title: 'Spårning av medicineringsallergi',
+                description: [
+                    'Medborgares medicineringsallergier kan nu registreras och spåras.',
+                    'Detta säkerställer bättre säkerhet och informerat beslutsfattande för vårdpersonal.',
+                ],
+            },
+            {
+                title: 'Sjukfrånvaro räknad som arbetade timmar',
+                description: [
+                    'Sjukfrånvaro kan nu räknas som arbetade timmar i tjänstgöringsschemat.',
+                    'Detta ger mer korrekt rapportering och rättvisare schemaläggning.',
+                ],
+            },
+        ],
+        '2025-08-15': [
+            {
+                title: 'Microsoft e-posthantering i Mail-appen',
+                description: [
+                    'Du kan nu ansluta och hantera dina Microsoft e-postkonton direkt i Mail-appen.',
+                    'Detta gör det enklare att skicka, ta emot och organisera e-post utan att växla mellan plattformar.',
+                ],
+            },
+        ],
+        '2025-08-01': [
+            {
+                title: 'Insatstimmar i medborgarområdet',
+                description: [
+                    'Medborgare kan nu se tillgängliga insatstimmar direkt i Medborgare-avsnittet.',
+                    'Detta förbättrar transparens och åtkomst till stödtjänster.',
+                ],
+            },
+            {
+                title: 'Ny app: CitizenOne AI',
+                description: [
+                    'Vi har nu lanserat CitizenOne AI - din intelligenta assistent som till exempel kan ge dig en snabb översikt över hur en medborgare har mått den senaste månaden, dela användbar information om din organisation eller kollegor, och mycket mer. Allt direkt i CitizenOne, så att du kan arbeta smartare och snabbare.'
+                ],
+            },
+            {
+                title: 'Ändringsloggar i tjänstgöringsschema',
+                description: [
+                    'Tjänstgöringsschemat innehåller nu en detaljerad ändringslogg.',
+                    'Spåra alla uppdateringar och ändringar av tjänstgöringstilldelningar enkelt.',
+                ],
+            },
+        ],
+        '2025-07-25': [
+            {
+                title: 'Online kalenderbokning',
+                description: [
+                    'Nu tillgängligt för köp i Appar-sektionen.',
+                    'Efter köp, gå till Kalendrar för att konfigurera och hantera online-bokningar.',
+                ],
+            },
+            {
+                title: 'Avdelningar i tjänstgöringsschema',
+                description: ['Du kan nu tilldela skift till specifika avdelningar.'],
+            },
+            {
+                title: 'Skiftanteckningar för administratörer',
+                description: ['Administratörer kan nu bifoga anteckningar till enskilda skift.'],
+            },
+            {
+                title: 'Växel för behandlingsaviseringar',
+                description: ['Alternativ för att aktivera eller inaktivera aviseringar för behandlingar.'],
+            },
+            {
+                title: 'Redigera och radera meddelanden i chattar',
+                description: ['Du kan nu redigera eller radera meddelanden direkt i chattar för bättre kontroll och kommunikation.'],
+            },
+            {
+                title: 'Renare navigeringsfält',
+                description: [
+                    'Aviserings- och meddelandebadges döljs när antalet är noll.',
+                    'Nya funktionsmeddelanden visas också här framöver.',
+                ],
+            },
+        ],
     }
 }
 
 function loadUpdates(version: string) {
-    const lang = language.locale.value as 'en' | 'dk'
+    const locale = language.locale.value
+    const lang = (locale === 'dk' ? 'dk' : locale === 'no' ? 'no' : locale === 'sv' ? 'sv' : 'en') as 'en' | 'dk' | 'no' | 'sv'
     state.updates = allUpdates[lang][version] || []
 }
 
