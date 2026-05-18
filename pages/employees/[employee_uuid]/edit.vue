@@ -219,7 +219,7 @@ async function updateEmployee(employeeDetails: any) {
         params.append('birthday', employeeDetails.birthday)
         params.append('seniority_date', employeeDetails.seniority_date)
         params.append('departments_uuid', JSON.stringify(employeeDetails.departments))
-        params.append('roles', JSON.stringify(employeeDetails.roles))
+        employeeDetails.roles.forEach((role: string) => params.append('roles[]', role))
         params.append('permission', JSON.stringify(employeeDetails.permissions))
         params.append('show_working_hours', employeeDetails.show_working_hours)
         params.append('do_not_count_sick_leave', employeeDetails.do_not_count_sick_leave)
