@@ -34,7 +34,8 @@
 
                 <div>
                     <div class="mt-8 flex justify-end items-center mb-5 gap-x-2">
-                        <FormButton buttonStyle="action" @click="state.modal.isAddChildOpen = true">
+                        <FormButton buttonStyle="action" @click="state.modal.isAddChildOpen = true"
+                            v-if="isAtLeast('Admin') || can('create_citizen_children')">
                             <Icon name="ph:plus" class="h-4 w-4" aria-hidden="true" />
                             {{ $t('children.newChild') }}
                         </FormButton>
@@ -72,13 +73,15 @@
                                                     <Icon name="ph:eye" class="size-4" />
                                                 </FormButton>
                                             </Tooltip>
-                                            <Tooltip :text="$t('children.table.actions.edit')">
+                                            <Tooltip :text="$t('children.table.actions.edit')"
+                                                v-if="isAtLeast('Admin') || can('update_citizen_children')">
                                                 <FormButton type="button" buttonStyle="action"
                                                     @click="editChild(child)">
                                                     <Icon name="ph:pencil-simple" class="size-4" />
                                                 </FormButton>
                                             </Tooltip>
-                                            <Tooltip :text="$t('children.table.actions.delete')">
+                                            <Tooltip :text="$t('children.table.actions.delete')"
+                                                v-if="isAtLeast('Admin') || can('delete_citizen_children')">
                                                 <FormButton type="button" buttonStyle="danger"
                                                     @click="deleteChildConfirmation(child)">
                                                     <Icon name="heroicons:trash" class="size-4" />
@@ -111,6 +114,7 @@ import { useI18n } from "vue-i18n"
 import { useAlert } from '@/composables/alert'
 import { useCustomPagesStore } from '@/store/custom-pages'
 import { useUserStore } from '@/store/user'
+import { usePermissions } from '@/composables/usePermissions'
 import type { Error } from '@/types'
 
 const runtimeConfig = useRuntimeConfig()
@@ -120,6 +124,7 @@ const customPagesStore = useCustomPagesStore() as any
 const router = useRouter()
 const citizenUuid = router?.currentRoute?.value?.params?.uuid as any
 const userStore = useUserStore() as any
+const { isAtLeast, can } = usePermissions()
 let currentTablePage = 1
 const breadcrumbLinks = [
     {

@@ -9,11 +9,8 @@
                             <p class="text-sm text-gray-600">
                                 {{ $t('dutySchedules.viewSchedule.typeOfShift') }}:
                             </p>
-                            <p class="text-sm" v-if="language.locale.value === 'en'">
-                                {{ props?.selectedEmployeeSchedule?.shift_type?.en_name }}
-                            </p>
-                            <p class="text-sm" v-if="language.locale.value === 'dk'">
-                                {{ props?.selectedEmployeeSchedule?.shift_type?.dk_name }}
+                            <p class="text-sm">
+                                {{ language.locale.value === 'en' ? props?.selectedEmployeeSchedule?.shift_type?.en_name : language.locale.value === 'no' ? props?.selectedEmployeeSchedule?.shift_type?.no_name : language.locale.value === 'sv' ? props?.selectedEmployeeSchedule?.shift_type?.sv_name : props?.selectedEmployeeSchedule?.shift_type?.dk_name }}
                             </p>
                         </div>
                         <div class="flex items-center gap-x-1">

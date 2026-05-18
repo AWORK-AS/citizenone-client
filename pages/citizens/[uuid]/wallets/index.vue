@@ -35,7 +35,7 @@
 
                 <div>
                     <div class="mt-8 flex justify-end items-center mb-5 gap-x-2">
-                        <FormButton buttonStyle="action" @click="state.modal.isAddWalletOpen = true">
+                        <FormButton v-if="isAtLeast('Admin') || can('create_citizen_economy')" buttonStyle="action" @click="state.modal.isAddWalletOpen = true">
                             <Icon name="ph:plus" class="h-4 w-4" aria-hidden="true" />
                             {{ $t('citizens.wallets.newWallet') }}
                         </FormButton>
@@ -48,7 +48,7 @@
                     <TableSearch @search="handleSearch" />
                     <div>
                         <div class="mt-8 grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-5">
-                            <div v-for="(wallet, index) in state.wallets?.data" :key="index"
+                            <div v-for="(wallet, index) in state.wallets?.data" :key="index" :data-uuid="wallet.uuid"
                                 @click="Object.keys(state.selectedWallet)?.length === 0 && navigateTo(`/citizens/${citizenUuid}/wallets/${wallet?.uuid}`)">
                                 <div
                                     class="h-36 bg-white border-l-4 border-primary/70 px-4 py-5 relative overflow-clip ring-1 ring-gray-200 rounded-md cursor-pointer hover:bg-gray-100">
@@ -93,6 +93,7 @@ import { useAmountFormatter } from '@/composables/amountFormatter'
 import { useI18n } from "vue-i18n"
 import { useAlert } from '@/composables/alert'
 import { useCustomPagesStore } from '@/store/custom-pages'
+import { usePermissions } from '@/composables/usePermissions'
 import type { Error } from '@/types'
 
 const runtimeConfig = useRuntimeConfig()
@@ -100,6 +101,7 @@ const { formatAmount } = useAmountFormatter()
 const { successAlert } = useAlert()
 const { t } = useI18n()
 const customPagesStore = useCustomPagesStore() as any
+const { isAtLeast, can } = usePermissions()
 const router = useRouter()
 const citizenUuid = router?.currentRoute?.value?.params?.uuid as any
 let currentTablePage = 1

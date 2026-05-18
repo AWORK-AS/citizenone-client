@@ -54,11 +54,14 @@ const state = reactive({
     formShift: {
         en_name: '',
         dk_name: '',
+        no_name: '',
+        sv_name: '',
         pay_code: '',
         time_in: '',
         time_out: '',
         color: '',
         is_leave_shift_type: false,
+        multiplier_rules: [] as any[],
     },
     isPageLoading: false,
 })
@@ -76,11 +79,14 @@ async function fetchShift() {
             state.formShift = {
                 en_name: response?.data?.en_name ?? '',
                 dk_name: response?.data?.dk_name ?? '',
+                no_name: response?.data?.no_name ?? '',
+                sv_name: response?.data?.sv_name ?? '',
                 pay_code: response?.data?.pay_code ?? '',
                 time_in: response?.data?.time_in ?? '',
                 time_out: response?.data?.time_out ?? '',
                 color: response?.data?.color ?? '',
                 is_leave_shift_type: response?.data?.is_leave_shift_type ? true : false,
+                multiplier_rules: response?.data?.multiplier_rules ?? [],
             }
         }
     } catch (error: any) {
@@ -96,11 +102,14 @@ async function updateShift(shiftDetails: any) {
         const params = {
             en_name: shiftDetails.en_name,
             dk_name: shiftDetails.dk_name,
+            no_name: shiftDetails.no_name,
+            sv_name: shiftDetails.sv_name,
             pay_code: shiftDetails.pay_code,
             time_in: shiftDetails.time_in,
             time_out: shiftDetails.time_out,
             color: shiftDetails.color,
             is_leave_shift_type: shiftDetails.is_leave_shift_type,
+            multiplier_rules: shiftDetails.multiplier_rules?.length > 0 ? shiftDetails.multiplier_rules : null,
         }
         const response = await shiftService.updateShift(shiftUuid, params)
         if (response.data) {

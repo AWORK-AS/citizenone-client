@@ -23,6 +23,10 @@
                 userStore.getUser?.has_booking_app_access && 'mt-8',
                 'flex justify-end items-center mb-5 gap-x-2'
             ]">
+                <FormButton buttonStyle="action" @click="state.modal.isCompletionStatisticsOpen = true">
+                    <Icon name="ph:chart-bar" class="h-4 w-4" aria-hidden="true" />
+                    {{ $t('events.completionStatistics.title') }}
+                </FormButton>
                 <Menu as="div" class="relative inline-block text-left z-20">
                     <div>
                         <MenuButton>
@@ -72,10 +76,10 @@
                         </MenuItems>
                     </transition>
                 </Menu>
-                <!-- <FormButton buttonStyle="action"  @click="subscribe">
-                    <Icon name="ph:plus" class="h-4 w-4" aria-hidden="true" />
-                    {{ $t('events.subscribe') }}
-                </FormButton> -->
+                <FormButton buttonStyle="action" @click="subscribe">
+                    <Icon name="ph:bell-ringing" class="h-4 w-4" aria-hidden="true" />
+                    {{ $t('events.subscribe.label') }}
+                </FormButton>
             </div>
 
             <div class="grid lg:grid-cols-6 gap-3">
@@ -115,12 +119,19 @@
                     <ModulesUserMyCalendarDefaultView :myCalendarEvents="state.myCalendarEvents"
                         @changeMonthYear="changeMonthYear" @editMyCalendarEvent="editMyCalendarEvent"
                         @openEventDeletionModal="state.modal.isDeleteScheduleOpen = true"
-                        @deleteMyCalendarEvent="deleteMyCalendarEvent" v-if="state.calendarView === 'default'" />
+                        @deleteMyCalendarEvent="deleteMyCalendarEvent"
+                        @markEventAsStatus="handleMarkEventAsStatus"
+                        @createJournalFromEvent="handleCreateJournalFromEvent"
+                        v-if="state.calendarView === 'default'" />
                     <ModulesUserMyCalendarWeekView :myCalendarEvents="state.myCalendarEvents"
                         @changeDatePerWeek="changeDatePerWeek" @editMyCalendarEvent="editMyCalendarEvent"
+                        @markEventAsStatus="handleMarkEventAsStatus"
+                        @createJournalFromEvent="handleCreateJournalFromEvent"
                         v-if="state.calendarView === 'week'" />
                     <ModulesUserMyCalendarMonthView :myCalendarEvents="state.myCalendarEvents"
                         @changeMonthYear="changeMonthYear" @editMyCalendarEvent="editMyCalendarEvent"
+                        @markEventAsStatus="handleMarkEventAsStatus"
+                        @createJournalFromEvent="handleCreateJournalFromEvent"
                         v-if="state.calendarView === 'month'" />
                 </LoadingSpinner>
             </div>
@@ -140,6 +151,22 @@
             <ModulesUserGuidedTourModalCalendar v-if="state.modal.isGuidedTourCalendarOpen"
                 :isModalOpen="state.modal.isGuidedTourCalendarOpen" :isGuidedTour="false"
                 @close="state.modal.isGuidedTourCalendarOpen = false" />
+
+            <ModulesUserMyCalendarModalSubscribe :isModalOpen="state.modal.isSubscribeOpen"
+                @close="state.modal.isSubscribeOpen = false" />
+
+            <ModulesUserMyCalendarModalEventJournalPrompt :isModalOpen="state.modal.isEventJournalPromptOpen"
+                @close="state.modal.isEventJournalPromptOpen = false"
+                @yes="handleJournalPromptYes"
+                @no="state.modal.isEventJournalPromptOpen = false" />
+
+            <ModulesUserMyCalendarModalCreateJournal :isModalOpen="state.modal.isCreateEventJournalOpen"
+                :selectedEvent="state.selectedSchedule"
+                @close="state.modal.isCreateEventJournalOpen = false"
+                @journalCreated="fetchMyCalendarEvents" />
+
+            <ModulesUserMyCalendarModalCompletionStatistics :isModalOpen="state.modal.isCompletionStatisticsOpen"
+                @close="state.modal.isCompletionStatisticsOpen = false" />
         </NuxtLayout>
     </div>
 </template>
@@ -195,8 +222,13 @@ const state = reactive({
         isDeleteScheduleOpen: false,
         isEditEventOpen: false,
         isGuidedTourCalendarOpen: false,
-        isFilterCalendarOpen: false
+        isFilterCalendarOpen: false,
+        isSubscribeOpen: false,
+        isEventJournalPromptOpen: false,
+        isCreateEventJournalOpen: false,
+        isCompletionStatisticsOpen: false,
     },
+    pendingEventStatus: '' as 'completed' | 'not_completed' | '',
     myCalendarEvents: [] as any,
     selectedDate: {
         end_date: '',
@@ -516,19 +548,36 @@ async function deleteMyCalendarEvent(selectedCalendarEvent: any, isDeleteFuture:
     state.isPageLoading = false
 }
 
-async function subscribe() {
+function subscribe() {
+    state.modal.isSubscribeOpen = true
+}
+
+async function handleMarkEventAsStatus(selectedCalendarEvent: any, status: 'completed' | 'not_completed') {
     state.error = {}
     state.isPageLoading = true
+    state.selectedSchedule = selectedCalendarEvent
     try {
-        const response = await myCalendarService.downloadCalendar()
-        if (response) {
-            var file = new File([response], "my-schedule.ics")
-            // saveAs(file, 'my-schedule.ics')
+        const response = await myCalendarService.updateEventStatus(selectedCalendarEvent?.uuid, { status })
+        if (response?.data) {
+            fetchMyCalendarEvents()
+            successAlert(`${t('alert.success')}!`, `${t('events.alert.statusSuccessfullyUpdated')}.`)
+            if (selectedCalendarEvent?.type === 'citizens') {
+                state.modal.isEventJournalPromptOpen = true
+            }
         }
     } catch (error: any) {
         state.error = error
     }
     state.isPageLoading = false
+}
+
+function handleCreateJournalFromEvent(selectedCalendarEvent: any) {
+    state.selectedSchedule = selectedCalendarEvent
+    state.modal.isCreateEventJournalOpen = true
+}
+
+function handleJournalPromptYes() {
+    state.modal.isCreateEventJournalOpen = true
 }
 
 function setFilter(filter: any) {

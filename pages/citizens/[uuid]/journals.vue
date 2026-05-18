@@ -47,15 +47,18 @@
                                 </span>
                             </button>
                             <div class="flex items-center gap-x-2 justify-end">
-                                <FormButton buttonStyle="action" @click="state.modal.isAddJournalOpen = true">
+                                <FormButton buttonStyle="action" @click="state.modal.isAddJournalOpen = true"
+                                    v-if="isAtLeast('Admin') || can('create_citizen_journal')">
                                     <Icon name="ph:plus" class="h-4 w-4" aria-hidden="true" />
                                     {{ $t('citizens.citizenJournals.newNote') }}
                                 </FormButton>
-                                <FormButton buttonStyle="action" @click="showDownloadJournal">
+                                <FormButton buttonStyle="action" @click="showDownloadJournal"
+                                    v-if="isAtLeast('Admin') || can('view_citizen_journal')">
                                     <Icon name="ph:download" class="h-4 w-4" aria-hidden="true" />
                                     {{ $t('citizens.citizenJournals.download') }}
                                 </FormButton>
-                                <FormButton buttonStyle="action" @click="showDeletedJournalHistories">
+                                <FormButton buttonStyle="action" @click="showDeletedJournalHistories"
+                                    v-if="isAtLeast('Admin') || can('view_citizen_journal')">
                                     <Icon name="ph:clock-clockwise" class="h-4 w-4" aria-hidden="true" />
                                     {{ $t('citizens.citizenJournals.journalLogs.deletedNotes') }}
                                 </FormButton>
@@ -100,7 +103,7 @@
                             <div :class="[
                                 'bg-white ring-1 rounded-md p-5 border-l-4',
                                 journal.is_pinned ? 'ring-primary/40 border-primary' : 'ring-gray-200 border-secondary'
-                            ]" v-for="(journal, index) in state.journals?.data" :key="index">
+                            ]" v-for="(journal, index) in state.journals?.data" :key="index" :data-uuid="journal.uuid">
                                 <div class="space-y-3">
                                     <div class="space-y-1.5">
                                         <div>
@@ -119,6 +122,13 @@
                                                                 {{ $t('citizens.citizenJournals.form.draft') }}
                                                             </p>
                                                         </Badge>
+                                                    </div>
+                                                    <div v-if="journal.is_ai_used">
+                                                        <span
+                                                            class="inline-flex items-center gap-1 rounded-full bg-violet-100 px-2 py-0.5 text-xxs font-medium text-violet-700">
+                                                            <Icon name="ph:sparkle-fill" class="size-3 shrink-0" />
+                                                            {{ $t('citizens.citizenJournals.aiUsed') }}
+                                                        </span>
                                                     </div>
                                                 </div>
                                                 <div
@@ -331,11 +341,13 @@ import { useAlert } from '@/composables/alert'
 import { useCitizenJournalStore } from '@/store/citizen-journal'
 import type { Error } from '@/types'
 import { useCustomPagesStore } from '@/store/custom-pages'
+import { usePermissions } from '@/composables/usePermissions'
 
 const runtimeConfig = useRuntimeConfig()
 const { formatDateToReadable, formatDateTimeToReadable } = useDatetimeFormatter()
 const { successAlert } = useAlert()
 const { t } = useI18n()
+const { isAtLeast, can } = usePermissions()
 const language = useI18n()
 const customPagesStore = useCustomPagesStore() as any
 const router = useRouter()

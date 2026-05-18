@@ -460,28 +460,28 @@ const rules = computed(() => {
     return {
         formBooking: {
             firstname: {
-                required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
+                required: helpers.withMessage(() => `${t('validation.thisFieldIsRequired')}.`, required),
             },
             lastname: {
-                required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
+                required: helpers.withMessage(() => `${t('validation.thisFieldIsRequired')}.`, required),
             },
             email: fields?.email?.required
-                ? { required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required) }
+                ? { required: helpers.withMessage(() => `${t('validation.thisFieldIsRequired')}.`, required) }
                 : {},
             phone: fields?.phone?.required
-                ? { required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required) }
+                ? { required: helpers.withMessage(() => `${t('validation.thisFieldIsRequired')}.`, required) }
                 : {},
             address: fields?.address?.required
-                ? { required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required) }
+                ? { required: helpers.withMessage(() => `${t('validation.thisFieldIsRequired')}.`, required) }
                 : {},
             notes: fields?.notes?.required
-                ? { required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required) }
+                ? { required: helpers.withMessage(() => `${t('validation.thisFieldIsRequired')}.`, required) }
                 : {},
             social_security_number: fields?.social_security_number?.required
-                ? { required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required) }
+                ? { required: helpers.withMessage(() => `${t('validation.thisFieldIsRequired')}.`, required) }
                 : {},
             date_of_birth: fields?.date_of_birth?.required
-                ? { required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required) }
+                ? { required: helpers.withMessage(() => `${t('validation.thisFieldIsRequired')}.`, required) }
                 : {},
         },
     }
@@ -501,13 +501,13 @@ const availableDates = computed(() => {
 
 function identifyFlag() {
     const selectedLanguage = userStore.getLanguage
-    if (selectedLanguage === 'en') {
-        return '/img/icons/flags/united-kingdom.svg'
-    } else {
-        if (selectedLanguage === 'dk') {
-            return '/img/icons/flags/denmark.svg'
-        }
+    const flags: Record<string, string> = {
+        en: '/img/icons/flags/united-kingdom.svg',
+        dk: '/img/icons/flags/denmark.svg',
+        no: '/img/icons/flags/norway.svg',
+        sv: '/img/icons/flags/sweden.svg',
     }
+    return flags[selectedLanguage] ?? '/img/icons/flags/united-kingdom.svg'
 }
 
 function selectLanguage() {

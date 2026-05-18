@@ -4,7 +4,7 @@
             <template #modal-body>
                 <div class="flex justify-end items-center gap-x-5 mb-5">
                     <FormButton buttonStyle="action" @click="state.modal.newFolderStructureOpen = true"
-                        v-if="isAdmin(userStore.getUser?.roles)">
+                        v-if="isAtLeast('Admin')">
                         <Icon name="ph:plus" class="h-4 w-4" aria-hidden="true" />
                         {{ $t('folderStructure.newFolderStructure') }}
                     </FormButton>
@@ -35,7 +35,7 @@
                                             </FormButton>
                                             <FormButton type="button" buttonStyle="action"
                                                 @click="editFolderStructure(folder_structure)"
-                                                v-if="isAdmin(userStore.getUser?.roles)">
+                                                v-if="isAtLeast('Admin')">
                                                 <Icon name="ph:pencil-simple" class="size-4" />
                                                 {{ $t('folderStructure.table.actions.edit') }}
                                             </FormButton>
@@ -71,6 +71,7 @@
 <script setup lang="ts">
 import { folderStructureService } from '@/components/api/user/FolderStructureService'
 import { useUserStore } from '@/store/user'
+import { usePermissions } from '@/composables/usePermissions'
 import type { Error } from '@/types'
 
 const props = defineProps({
@@ -83,6 +84,7 @@ const router = useRouter()
 const citizenUuid = router?.currentRoute?.value?.params?.uuid as any
 const emit = defineEmits(['close'])
 const userStore = useUserStore() as any
+const { isAtLeast, can } = usePermissions()
 let currentTablePage = 1
 
 const state = reactive({
@@ -119,9 +121,6 @@ watch(() => props.isModalOpen, (isModalOpen: any) => {
     }
 })
 
-function isAdmin(roles: any) {
-    return roles && roles.some((role: any) => role.name === 'Admin')
-}
 
 async function fetchFolderStructures() {
     state.error = {}

@@ -32,7 +32,7 @@
                             :isLoading="state.isTableLoading" :sortData="state.sortData" @sort="sort">
                             <template #body v-if="!(state.isTableLoading || (state.shifts?.data?.length === 0))">
                                 <tr v-for="(shift, index) in state.shifts?.data" :key="index">
-                                    <td width="15%">
+                                    <td width="12%">
                                         <div class="flex items-center gap-x-1">
                                             <Tooltip :text="$t('shifts.table.standard')" position="right"
                                                 @click="state.modal.isStandardShiftOpen = true"
@@ -48,8 +48,14 @@
                                             {{ $t('shifts.table.markedAsLeave') }}
                                         </Badge>
                                     </td>
-                                    <td width="15%">
+                                    <td width="12%">
                                         <span>{{ shift?.dk_name }}</span>
+                                    </td>
+                                    <td width="12%">
+                                        <span>{{ shift?.no_name }}</span>
+                                    </td>
+                                    <td width="12%">
+                                        <span>{{ shift?.sv_name }}</span>
                                     </td>
                                     <td width="10%">
                                         <span>{{ shift?.pay_code }}</span>
@@ -59,6 +65,10 @@
                                     </td>
                                     <td width="10%">
                                         <span>{{ shift?.time_out }}</span>
+                                    </td>
+                                    <td width="10%">
+                                        <span v-if="shift?.working_hours_factor">{{ shift.working_hours_factor }}</span>
+                                        <span v-else class="text-gray-400">—</span>
                                     </td>
                                     <td width="10%">
                                         <span :style="{ backgroundColor: shift?.color }"
@@ -118,9 +128,12 @@ const state = reactive({
     columnHeaders: [
         { name: 'shifts.table.nameEnglish', isTranslateName: true, sorter: true, key: 'en_name' },
         { name: 'shifts.table.nameDanish', isTranslateName: true, sorter: true, key: 'dk_name' },
+        { name: 'shifts.table.nameNorwegian', isTranslateName: true, sorter: true, key: 'no_name' },
+        { name: 'shifts.table.nameSwedish', isTranslateName: true, sorter: true, key: 'sv_name' },
         { name: 'shifts.table.paycode', isTranslateName: true, sorter: true, key: 'pay_code' },
         { name: 'shifts.table.timeIn', isTranslateName: true, },
         { name: 'shifts.table.timeOut', isTranslateName: true, },
+        { name: 'shifts.table.workingHoursFactor', isTranslateName: true, },
         { name: 'shifts.table.color', isTranslateName: true, },
         { name: '' }
     ],

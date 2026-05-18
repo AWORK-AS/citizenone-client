@@ -45,7 +45,7 @@
                                 {{ formatAmount(state.wallet?.data?.running_balance) }}
                             </p>
                         </div>
-                        <FormButton buttonStyle="action" @click="state.modal.isAddWalletTransactionOpen = true">
+                        <FormButton v-if="isAtLeast('Admin') || can('create_citizen_economy')" buttonStyle="action" @click="state.modal.isAddWalletTransactionOpen = true">
                             <Icon name="ph:plus" class="h-4 w-4" aria-hidden="true" />
                             {{ $t('citizens.walletTransactions.newWalletTransaction') }}
                         </FormButton>
@@ -147,6 +147,7 @@ import { useDatetimeFormatter } from '@/composables/datetimeFormatter'
 import { useI18n } from "vue-i18n"
 import { useAlert } from '@/composables/alert'
 import { useCustomPagesStore } from '@/store/custom-pages'
+import { usePermissions } from '@/composables/usePermissions'
 import type { Error } from '@/types'
 
 const runtimeConfig = useRuntimeConfig()
@@ -155,6 +156,7 @@ const { formatDateTimeToReadable } = useDatetimeFormatter()
 const { successAlert } = useAlert()
 const { t } = useI18n()
 const customPagesStore = useCustomPagesStore() as any
+const { isAtLeast, can } = usePermissions()
 const router = useRouter()
 const citizenUuid = router?.currentRoute?.value?.params?.uuid as any
 const childUuid = router?.currentRoute?.value?.params?.child_uuid as any

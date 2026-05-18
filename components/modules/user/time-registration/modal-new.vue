@@ -1,6 +1,6 @@
 <template>
     <div>
-        <Modal size="xs" :title="isAdmin(userStore.getUser?.roles) ?
+        <Modal size="xs" :title="isAtLeast('Admin') ?
             $t('timeLogs.newTimeLog') :
             $t('timeLogs.requestNewTimeLog')" :show="props.isModalOpen" @close="closeModal">
             <template #modal-body>
@@ -19,6 +19,7 @@ import moment from 'moment'
 import { timeLogService } from '@/components/api/user/TimeLogService'
 import { useAlert } from '@/composables/alert'
 import { useUserStore } from '@/store/user'
+import { usePermissions } from '@/composables/usePermissions'
 import { useI18n } from "vue-i18n"
 import type { Error } from '@/types'
 
@@ -26,6 +27,7 @@ const { successAlert } = useAlert()
 const { t } = useI18n()
 const router = useRouter()
 const userStore = useUserStore() as any
+const { isAtLeast, can } = usePermissions()
 const employeeUuid = router?.currentRoute?.value?.params?.employee_uuid ?? userStore.getUser?.uuid
 
 const props = defineProps({
@@ -48,9 +50,6 @@ const state = reactive({
     isPageLoading: false,
 })
 
-function isAdmin(roles: any) {
-    return roles && roles.some((role: any) => role.name === 'Admin')
-}
 
 function closeModal() {
     emit('close')

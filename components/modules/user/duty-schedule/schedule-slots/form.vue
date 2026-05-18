@@ -222,7 +222,10 @@ async function fetchAllShifts() {
             response.data.forEach(
                 (shift: any) => options.push({
                     value: shift?.uuid,
-                    label: language.locale.value === 'en' ? shift?.en_name : shift?.dk_name,
+                    label: language.locale.value === 'en' ? shift?.en_name :
+                        language.locale.value === 'no' ? shift?.no_name :
+                            language.locale.value === 'sv' ? shift?.sv_name :
+                                shift?.dk_name,
                 })
             )
             state.options.shifts = options
@@ -294,16 +297,16 @@ const rules = computed(() => {
     return {
         formScheduleSlot: {
             date_time_start: {
-                required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
+                required: helpers.withMessage(() => `${t('validation.thisFieldIsRequired')}.`, required),
             },
             date_time_end: {
-                required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
+                required: helpers.withMessage(() => `${t('validation.thisFieldIsRequired')}.`, required),
             },
             available_slots: {
-                required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
+                required: helpers.withMessage(() => `${t('validation.thisFieldIsRequired')}.`, required),
             },
             shift_type: {
-                required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
+                required: helpers.withMessage(() => `${t('validation.thisFieldIsRequired')}.`, required),
             },
         },
     }

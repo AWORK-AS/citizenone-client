@@ -44,6 +44,16 @@
                             <Icon name="ph:calendar-dots" class="h-3.5 w-3.5" aria-hidden="true" />
                             {{ $t('calendar.view.monthView') }}
                         </button>
+                        <button @click="setCalendarView('half-year')"
+                            :class="[state.calendarView === 'half-year' ? 'bg-white text-primary shadow-sm' : 'text-slate-500 hover:text-slate-700', 'flex items-center gap-1.5 px-3 py-1.5 rounded-md text-xs font-semibold transition-all']">
+                            <Icon name="ph:calendar-blank" class="h-3.5 w-3.5" aria-hidden="true" />
+                            {{ $t('calendar.view.halfYearView') }}
+                        </button>
+                        <button @click="setCalendarView('year')"
+                            :class="[state.calendarView === 'year' ? 'bg-white text-primary shadow-sm' : 'text-slate-500 hover:text-slate-700', 'flex items-center gap-1.5 px-3 py-1.5 rounded-md text-xs font-semibold transition-all']">
+                            <Icon name="ph:calendar" class="h-3.5 w-3.5" aria-hidden="true" />
+                            {{ $t('calendar.view.yearView') }}
+                        </button>
                     </div>
 
                     <div class="hidden lg:block h-5 w-px bg-slate-200" />
@@ -59,7 +69,7 @@
 
                     <!-- Compact Action Buttons -->
                     <FormButton buttonStyle="action" size="sm" class="rounded-lg !py-1 !px-3 !text-xs !h-[32px]"
-                        @click="navigateTo('/schedules/draft')" v-if="isAdmin(userStore.getUser?.role)">
+                        @click="navigateTo('/schedules/draft')" v-if="isAtLeast('Admin')">
                         <Icon name="ph:note" class="h-4 w-4" aria-hidden="true" />
                         <span class="hidden xl:inline">{{ $t('dutySchedules.draft.pageTitle') }}</span>
                     </FormButton>
@@ -145,6 +155,12 @@
                     @setDutyScheduleCurrentDate="setDutyScheduleCurrentDate"
                     @setDutyScheduleCurrentFilter="setDutyScheduleCurrentFilter" />
                 <ModulesUserDutyScheduleMonthView v-if="state.calendarView === 'month'"
+                    @setDutyScheduleCurrentDate="setDutyScheduleCurrentDate"
+                    @setDutyScheduleCurrentFilter="setDutyScheduleCurrentFilter" />
+                <ModulesUserDutyScheduleHalfYearView v-if="state.calendarView === 'half-year'"
+                    @setDutyScheduleCurrentDate="setDutyScheduleCurrentDate"
+                    @setDutyScheduleCurrentFilter="setDutyScheduleCurrentFilter" />
+                <ModulesUserDutyScheduleYearView v-if="state.calendarView === 'year'"
                     @setDutyScheduleCurrentDate="setDutyScheduleCurrentDate"
                     @setDutyScheduleCurrentFilter="setDutyScheduleCurrentFilter" />
             </div>
@@ -625,6 +641,7 @@
 <script setup lang="ts">
 import moment from 'moment'
 import { useUserStore } from '@/store/user'
+import { usePermissions } from '@/composables/usePermissions'
 import { useCustomPagesStore } from '@/store/custom-pages'
 import { useDepartmentStore } from '@/store/department'
 // import { zenegyService } from '@/components/api/user/ZenegyService'
@@ -637,6 +654,7 @@ import { useI18n } from 'vue-i18n'
 const runtimeConfig = useRuntimeConfig()
 const customPagesStore = useCustomPagesStore() as any
 const userStore = useUserStore() as any
+const { isAtLeast, can } = usePermissions()
 const departmentStore = useDepartmentStore() as any
 const { successAlert, errorAlert } = useAlert()
 const { t, locale } = useI18n()
@@ -868,9 +886,6 @@ function openGuidedTour() {
     state.modal.isGuidedTourDutyScheduleOpen = true
 }
 
-function isAdmin(role: any) {
-    return role && role === 'Admin'
-}
 
 function setDutyScheduleCurrentDate(selectedDate: any) {
     state.selectedDate = selectedDate
@@ -1238,9 +1253,13 @@ async function fetchAndBuildShiftTypes() {
                     const hours = moment(to).diff(moment(from), 'hours', true)
                     if (hours <= 0) continue
 
-                    const shiftTypeName = locale.value === 'dk'
-                        ? (shift.type?.dk_name || shift.type?.en_name || t('dutySchedules.zenegy_unknown_shift'))
-                        : (shift.type?.en_name || shift.type?.dk_name || t('dutySchedules.zenegy_unknown_shift'))
+                    const shiftTypeName = locale.value === 'en'
+                        ? (shift.type?.en_name || shift.type?.dk_name || t('dutySchedules.zenegy_unknown_shift'))
+                        : locale.value === 'no'
+                        ? (shift.type?.no_name || shift.type?.dk_name || t('dutySchedules.zenegy_unknown_shift'))
+                        : locale.value === 'sv'
+                        ? (shift.type?.sv_name || shift.type?.dk_name || t('dutySchedules.zenegy_unknown_shift'))
+                        : (shift.type?.dk_name || shift.type?.en_name || t('dutySchedules.zenegy_unknown_shift'))
 
                     empData.shiftTypes.set(shiftTypeName, (empData.shiftTypes.get(shiftTypeName) || 0) + 1)
                 }
@@ -1421,9 +1440,13 @@ function buildRegistrationsPreview() {
                 const hours = Math.round(moment(to).diff(moment(from), 'hours', true) * 100) / 100
                 if (hours <= 0) continue
 
-                const shiftTypeName = locale.value === 'dk'
-                    ? (shift.type?.dk_name || shift.type?.en_name || t('dutySchedules.zenegy_unknown_shift'))
-                    : (shift.type?.en_name || shift.type?.dk_name || t('dutySchedules.zenegy_unknown_shift'))
+                const shiftTypeName = locale.value === 'en'
+                    ? (shift.type?.en_name || shift.type?.dk_name || t('dutySchedules.zenegy_unknown_shift'))
+                    : locale.value === 'no'
+                    ? (shift.type?.no_name || shift.type?.dk_name || t('dutySchedules.zenegy_unknown_shift'))
+                    : locale.value === 'sv'
+                    ? (shift.type?.sv_name || shift.type?.dk_name || t('dutySchedules.zenegy_unknown_shift'))
+                    : (shift.type?.dk_name || shift.type?.en_name || t('dutySchedules.zenegy_unknown_shift'))
 
                 registrations.push({
                     employeeName: empName,

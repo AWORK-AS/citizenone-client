@@ -18,7 +18,7 @@
                     <span>{{ $t('back') }}</span>
                 </NuxtLink>
                 <LoadingSpinner :isActive="state.isPageLoading">
-                    <div class="flex gap-x-3 justify-end" v-if="isAdmin(userStore.getUser?.roles)">
+                    <div class="flex gap-x-3 justify-end" v-if="isAtLeast('Admin')">
                         <div class="flex justify-end">
                             <FormButton type="button" buttonStyle="warning" @click="confirmCitizenArchiving">
                                 {{ $t('employees.archiveEmployee') }}
@@ -51,12 +51,14 @@ import { employeeService } from '@/components/api/user/EmployeeService'
 import { useI18n } from "vue-i18n"
 import { useAlert } from '@/composables/alert'
 import { useUserStore } from '@/store/user'
+import { usePermissions } from '@/composables/usePermissions'
 import type { EmployeeForm, Error } from '@/types'
 
 const runtimeConfig = useRuntimeConfig()
 const { successAlert } = useAlert()
 const { t } = useI18n()
 const userStore = useUserStore() as any
+const { isAtLeast } = usePermissions()
 const router = useRouter()
 const employeeUuid = router?.currentRoute?.value?.params?.employee_uuid
 const breadcrumbLinks = [
@@ -84,7 +86,7 @@ const state = reactive({
         birthday: '',
         seniority_date: '',
         departments: [],
-        role: '',
+        roles: [],
         street: '',
         region_uuid: '',
         municipality_uuid: '',
@@ -123,10 +125,6 @@ onMounted(() => {
     fetchEmployee()
 })
 
-function isAdmin(roles: any) {
-    return roles && roles.some((role: any) => role.name === 'Admin')
-}
-
 async function fetchEmployee() {
     state.isPageLoading = true
     state.error = {}
@@ -143,7 +141,7 @@ async function fetchEmployee() {
                 birthday: response?.data?.birthday ?? '',
                 seniority_date: response?.data?.seniority_date ?? '',
                 departments: [],
-                role: response?.data?.roles?.[0]?.name ?? '',
+                roles: response?.data?.roles?.map((r: any) => r.name) ?? [],
                 street: response?.data?.employee_address?.street ?? '',
                 region_uuid: response?.data?.employee_address?.region?.uuid?.toString() ?? '',
                 municipality_uuid: response?.data?.employee_address?.municipality?.uuid?.toString() ?? '',
@@ -221,7 +219,7 @@ async function updateEmployee(employeeDetails: any) {
         params.append('birthday', employeeDetails.birthday)
         params.append('seniority_date', employeeDetails.seniority_date)
         params.append('departments_uuid', JSON.stringify(employeeDetails.departments))
-        params.append('role', employeeDetails.role)
+        params.append('roles', JSON.stringify(employeeDetails.roles))
         params.append('permission', JSON.stringify(employeeDetails.permissions))
         params.append('show_working_hours', employeeDetails.show_working_hours)
         params.append('do_not_count_sick_leave', employeeDetails.do_not_count_sick_leave)

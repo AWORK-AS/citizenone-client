@@ -15,6 +15,12 @@
                     <span v-if="language.locale.value === 'dk'">
                         Dette er det sidste trin i rundturen for FindSocialeTilbud.dk
                     </span>
+                    <span v-if="language.locale.value === 'no'">
+                        Dette er det siste trinnet i omvisningen for FindSocialeTilbud.dk
+                    </span>
+                    <span v-if="language.locale.value === 'sv'">
+                        Detta är det sista steget i rundturen för FindSocialeTilbud.dk
+                    </span>
                 </p>
                 <button type="button"
                     class="top-4 right-3 z-10 outline-none px-0 py-2 text-gray-800 hover:text-gray-700"
@@ -30,6 +36,14 @@
                 <button v-if="language.locale.value === 'dk'" @click="doneAndClose"
                     class="px-4 py-2 z-50 bg-tertiary text-white rounded">
                     Næste
+                </button>
+                <button v-if="language.locale.value === 'no'" @click="doneAndClose"
+                    class="px-4 py-2 z-50 bg-tertiary text-white rounded">
+                    Neste
+                </button>
+                <button v-if="language.locale.value === 'sv'" @click="doneAndClose"
+                    class="px-4 py-2 z-50 bg-tertiary text-white rounded">
+                    Nästa
                 </button>
             </div>
         </div>

@@ -169,13 +169,13 @@ const rules = computed(() => {
     return {
         formTemplate: {
             folder_uuid: {
-                required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
+                required: helpers.withMessage(() => `${t('validation.thisFieldIsRequired')}.`, required),
             },
             form_uuid: {
-                required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
+                required: helpers.withMessage(() => `${t('validation.thisFieldIsRequired')}.`, required),
             },
             plan_uuid: state.selectedFormHasFollowUp && !(state.formTemplate.goal_uuid || state.formTemplate.subgoal_uuid) ? {
-                required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
+                required: helpers.withMessage(() => `${t('validation.thisFieldIsRequired')}.`, required),
             } : {},
         },
     }

@@ -34,7 +34,7 @@
 
                 <div>
                     <div class="mt-8 flex justify-end items-center mb-5 gap-x-2">
-                        <FormButton buttonStyle="action" @click="openAssignModal">
+                        <FormButton v-if="isAtLeast('Admin')" buttonStyle="action" @click="openAssignModal">
                             <Icon name="ph:plus" class="h-4 w-4" aria-hidden="true" />
                             {{ $t('citizens.employeeGroups.assignGroup') }}
                         </FormButton>
@@ -55,6 +55,7 @@
                                     <td width="20%">
                                         <div class="flex items-end justify-end gap-2">
                                             <FormButton type="button" buttonStyle="danger"
+                                                v-if="isAtLeast('Admin')"
                                                 @click="confirmUnassign(group)">
                                                 <Icon name="ph:trash" class="size-4" />
                                                 {{ $t('citizens.employeeGroups.table.actions.unassign') }}
@@ -110,12 +111,14 @@ import { required, helpers } from '@vuelidate/validators'
 import { useI18n } from 'vue-i18n'
 import { useAlert } from '@/composables/alert'
 import { useCustomPagesStore } from '@/store/custom-pages'
+import { usePermissions } from '@/composables/usePermissions'
 import type { Error } from '@/types'
 
 const runtimeConfig = useRuntimeConfig()
 const { successAlert } = useAlert()
 const { t } = useI18n()
 const customPagesStore = useCustomPagesStore() as any
+const { isAtLeast, can } = usePermissions()
 const router = useRouter()
 const citizenUuid = router?.currentRoute?.value?.params?.uuid as any
 let currentTablePage = 1
@@ -154,7 +157,7 @@ const state = reactive({
 const rules = computed(() => ({
     formAssign: {
         group_uuid: {
-            required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
+            required: helpers.withMessage(() => `${t('validation.thisFieldIsRequired')}.`, required),
         },
     },
 }))

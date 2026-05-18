@@ -293,13 +293,13 @@ const rules = computed(() => {
     return {
         formRiskAssessment: {
             citizen_uuid: {
-                required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
+                required: helpers.withMessage(() => `${t('validation.thisFieldIsRequired')}.`, required),
             },
             title: {
-                required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
+                required: helpers.withMessage(() => `${t('validation.thisFieldIsRequired')}.`, required),
             },
             date: {
-                required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
+                required: helpers.withMessage(() => `${t('validation.thisFieldIsRequired')}.`, required),
             },
         },
     }
@@ -461,10 +461,8 @@ async function generateNoteForRiskAssessmentNote() {
             prompt: state.formRiskAssessment.note,
         }
         const response = await aIAssistantService.generateNote(params)
-        if (response) {
-            if (JSON.parse(response)?.output?.[0]?.content?.[0]?.text) {
-                state.formRiskAssessment.note = JSON.parse(response)?.output?.[0]?.content?.[0]?.text
-            }
+        if (response?.data) {
+            state.formRiskAssessment.note = response?.data?.answer
         }
     } catch (error: any) {
         state.error = error

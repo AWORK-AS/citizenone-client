@@ -232,7 +232,7 @@
                                                     expandedRecords[employeeIndex as number] && 'hidden'
                                                 ]">
                                                     <div class="text-xs grid grid-cols-7"
-                                                        v-if="isAdmin(userStore.getUser?.role) || (!isAdmin(userStore.getUser?.role) && userStore.getUser?.show_working_hours)">
+                                                        v-if="isAtLeast('Admin') || (!isAtLeast('Admin') && userStore.getUser?.show_working_hours)">
                                                         <div class="col-span-3 space-y-2" />
                                                         <div class="col-span-2 flex gap-2 flex-col items-end">
                                                             <p class="text-xxs py-2 pr-2">
@@ -262,17 +262,24 @@
                                                                     'py-1'
                                                                 ]">
                                                                 <div class="pl-3">
-                                                                    <Tooltip
-                                                                        :text="language.locale.value === 'en' ? time?.shift?.en_name : time?.shift?.dk_name">
+                                                                    <Tooltip :text="language.locale.value === 'en' ? time?.shift?.en_name :
+                                                                        language.locale.value === 'no' ? time?.shift?.no_name :
+                                                                            language.locale.value === 'sv' ? time?.shift?.sv_name :
+                                                                                time?.shift?.dk_name">
                                                                         <div class="flex items-center gap-x-1">
                                                                             <div>
                                                                                 <div :class="`w-2 h-2 rounded-sm`"
                                                                                     :style="{ background: time?.shift?.color }" />
                                                                             </div>
                                                                             <div class="truncate w-36">
-                                                                                {{ language.locale.value === 'en' ?
-                                                                                    time?.shift?.en_name :
-                                                                                    time?.shift?.dk_name
+                                                                                {{
+                                                                                    language.locale.value === 'en' ?
+                                                                                        time?.shift?.en_name :
+                                                                                        language.locale.value === 'no' ?
+                                                                                            time?.shift?.no_name :
+                                                                                            language.locale.value === 'sv' ?
+                                                                                                time?.shift?.sv_name :
+                                                                                                time?.shift?.dk_name
                                                                                 }}
                                                                             </div>
                                                                         </div>
@@ -323,17 +330,17 @@
                                                         </div>
                                                         <div class="px-3 col-span-7 space-y-2 mt-1">
                                                             <div :class="[
-                                                                employee?.total_norm_hours?.available_vacation_hours > 0 ? 'text-green-700' : 'text-red-700',
+                                                                employee?.total_norm_hours?.available_vacation_days > 0 ? 'text-green-700' : 'text-red-700',
                                                                 'flex items-center gap-1 w-fit cursor-pointer'
                                                             ]" @click="viewAvailableVacationHours(employee)">
                                                                 <Icon name="ph:clock" class="h-3 w-3"
                                                                     aria-hidden="true" />
                                                                 {{
-                                                                    $t('dutySchedules.normHours.availableVacationHours')
+                                                                    $t('dutySchedules.normHours.availableVacationDays')
                                                                 }}:
                                                                 {{
                                                                     formatNumber(language.locale.value,
-                                                                        employee?.total_norm_hours?.available_vacation_hours ||
+                                                                        employee?.total_norm_hours?.available_vacation_days ||
                                                                         0)
                                                                 }}
                                                             </div>
@@ -465,6 +472,7 @@ import moment from 'moment'
 import { useDepartmentStore } from '@/store/department'
 import { useDraftDutyScheduleStore } from '@/store/draft-duty-schedule'
 import { useUserStore } from '@/store/user'
+import { usePermissions } from '@/composables/usePermissions'
 import { useNumberFormatter } from '@/composables/numberFormatter'
 import { useI18n } from "vue-i18n"
 import type { Error } from '@/types'
@@ -472,6 +480,7 @@ import { publishedVersionsService } from '~/components/api/user/PublishedVersion
 
 const language = useI18n()
 const userStore = useUserStore() as any
+const { isAtLeast, can } = usePermissions()
 const departmentStore = useDepartmentStore()
 const draftDutyScheduleStore = useDraftDutyScheduleStore() as any
 const { formatNumber } = useNumberFormatter()
@@ -553,9 +562,6 @@ onBeforeUnmount(() => {
     window.removeEventListener('scroll', handleScroll)
 })
 
-function isAdmin(role: any) {
-    return role && role === 'Admin'
-}
 
 function filterDutyScheduleDate(formDateRange: any) {
     state.shiftDateRange.formDateRange.start_date = formDateRange?.[0]

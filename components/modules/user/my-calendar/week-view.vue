@@ -37,16 +37,17 @@
                 </h3>
                 <div class="space-y-2">
                     <div class="flex items-center">
-                        <div class="inline-flex items-center rounded-lg border border-gray-200 bg-white shadow-sm overflow-hidden">
+                        <div
+                            class="inline-flex items-center rounded-lg border border-gray-200 bg-white shadow-sm overflow-hidden">
                             <button @click="previousWeek()" type="button"
-                                class="flex h-11 w-10 flex-shrink-0 items-center justify-center border-r border-gray-200 text-gray-400 hover:text-gray-600 hover:bg-gray-50 transition-colors">
+                                class="flex h-11 w-10 flex-shrink-0 items-center justify-center text-gray-400 hover:text-gray-600 hover:bg-gray-50 transition-colors">
                                 <span class="sr-only">Previous week</span>
                                 <Icon name="heroicons:chevron-left" class="h-5 w-5" aria-hidden="true" />
                             </button>
                             <FormDateField id="date" name="date" :placeholder="$t('dutySchedules.form.date')"
                                 dateType="calendar" v-model="state.selectedDate" />
                             <button @click="nextWeek()" type="button"
-                                class="flex h-11 w-10 flex-shrink-0 items-center justify-center border-l border-gray-200 text-gray-400 hover:text-gray-600 hover:bg-gray-50 transition-colors">
+                                class="flex h-11 w-10 flex-shrink-0 items-center justify-center text-gray-400 hover:text-gray-600 hover:bg-gray-50 transition-colors">
                                 <span class="sr-only">Next week</span>
                                 <Icon name="heroicons:chevron-right" class="h-5 w-5" aria-hidden="true" />
                             </button>
@@ -147,15 +148,86 @@
                                             </p>
                                         </div>
                                         <div v-for="myCalendarEvent in events" :key="myCalendarEvent.id"
-                                            class="bg-gray-200 p-2 rounded-md cursor-pointer" :class="[
+                                            class="relative bg-gray-200 p-2 rounded-md cursor-pointer" :class="[
                                                 myCalendarEvent?.type === 'citizens' && 'border-yellow-500',
                                                 myCalendarEvent?.type === 'employees' && 'border-green-700',
                                                 myCalendarEvent?.type === 'my_self' && 'border-primary',
                                                 'border-l-4'
                                             ]" @click="editMyCalendarEvent(myCalendarEvent)">
-                                            <p class="text-xs truncate">
-                                                {{ myCalendarEvent?.title }}
-                                            </p>
+                                            <div class="flex items-start justify-between gap-x-1">
+                                                <div class="min-w-0">
+                                                    <p class="text-xs truncate">
+                                                        {{ myCalendarEvent?.title }}
+                                                    </p>
+                                                    <span v-if="myCalendarEvent?.completion_status === 'completed'"
+                                                        class="inline-flex items-center gap-x-0.5 rounded-full bg-green-100 px-1.5 py-0.5 text-xxs font-medium text-green-700">
+                                                        <Icon name="ph:check-circle" class="h-3 w-3" />
+                                                        {{ $t('events.status.completed') }}
+                                                    </span>
+                                                    <span v-else-if="myCalendarEvent?.completion_status === 'not_completed'"
+                                                        class="inline-flex items-center gap-x-0.5 rounded-full bg-red-100 px-1.5 py-0.5 text-xxs font-medium text-red-700">
+                                                        <Icon name="ph:x-circle" class="h-3 w-3" />
+                                                        {{ $t('events.status.notCompleted') }}
+                                                    </span>
+                                                </div>
+                                                <Menu as="div" class="flex-shrink-0" @click.stop>
+                                                    <MenuButton class="flex items-center rounded p-0.5 text-gray-500 hover:bg-gray-300 hover:text-gray-700">
+                                                        <Icon name="heroicons:ellipsis-horizontal" class="h-3.5 w-3.5" />
+                                                    </MenuButton>
+                                                    <transition enter-active-class="transition ease-out duration-100"
+                                                        enter-from-class="transform opacity-0 scale-95"
+                                                        enter-to-class="transform opacity-100 scale-100"
+                                                        leave-active-class="transition ease-in duration-75"
+                                                        leave-from-class="transform opacity-100 scale-100"
+                                                        leave-to-class="transform opacity-0 scale-95">
+                                                        <MenuItems class="absolute right-0 z-20 mt-1 w-48 origin-top-right rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
+                                                            <div class="py-1">
+                                                                <MenuItem v-slot="{ active }">
+                                                                <a href="#" :class="[active && 'bg-gray-100', 'text-gray-700', 'flex items-center gap-x-1.5 px-4 py-2 text-sm']"
+                                                                    @click.stop="editMyCalendarEvent(myCalendarEvent)">
+                                                                    <Icon name="ph:pencil-simple" class="h-4 w-4" />
+                                                                    {{ $t('calendar.edit') }}
+                                                                </a>
+                                                                </MenuItem>
+                                                                <MenuItem v-slot="{ active }">
+                                                                <a href="#" :class="[active && 'bg-gray-100', 'text-red-600', 'flex items-center gap-x-1.5 px-4 py-2 text-sm']"
+                                                                    @click.stop="confirmEventDeletion(myCalendarEvent)">
+                                                                    <Icon name="ph:trash" class="h-4 w-4" />
+                                                                    {{ $t('calendar.delete') }}
+                                                                </a>
+                                                                </MenuItem>
+                                                                <template v-if="myCalendarEvent?.completion_status !== 'completed'">
+                                                                    <MenuItem v-slot="{ active }">
+                                                                    <a href="#" :class="[active && 'bg-gray-100', 'text-green-700', 'flex items-center gap-x-1.5 px-4 py-2 text-sm']"
+                                                                        @click.stop="markEventAsStatus(myCalendarEvent, 'completed')">
+                                                                        <Icon name="ph:check-circle" class="h-4 w-4" />
+                                                                        {{ $t('events.markAsCompleted') }}
+                                                                    </a>
+                                                                    </MenuItem>
+                                                                </template>
+                                                                <template v-if="myCalendarEvent?.completion_status !== 'not_completed'">
+                                                                    <MenuItem v-slot="{ active }">
+                                                                    <a href="#" :class="[active && 'bg-gray-100', 'text-red-700', 'flex items-center gap-x-1.5 px-4 py-2 text-sm']"
+                                                                        @click.stop="markEventAsStatus(myCalendarEvent, 'not_completed')">
+                                                                        <Icon name="ph:x-circle" class="h-4 w-4" />
+                                                                        {{ $t('events.markAsNotCompleted') }}
+                                                                    </a>
+                                                                    </MenuItem>
+                                                                </template>
+                                                                <template v-if="myCalendarEvent?.type === 'citizens'">
+                                                                    <MenuItem v-slot="{ active }">
+                                                                    <a href="#" :class="[active && 'bg-gray-100', 'text-gray-700', 'flex items-center gap-x-1.5 px-4 py-2 text-sm']"
+                                                                        @click.stop="openCreateJournal(myCalendarEvent)">
+                                                                        <Icon name="ph:notebook" class="h-4 w-4" />
+                                                                        {{ $t('events.createJournalNote') }}
+                                                                    </a>
+                                                                    </MenuItem>
+                                                                </template>
+                                                            </div>
+                                                        </MenuItems>
+                                                    </transition>
+                                                </Menu>
+                                            </div>
                                             <p class="text-xxs">
                                                 {{ moment(myCalendarEvent.date_time_start).format('HH:mm') }} -
                                                 {{ moment(myCalendarEvent.date_time_end).format('HH:mm') }}
@@ -206,7 +278,8 @@
                                                 <p>{{ $t('events.createdBy') }}:</p>
                                                 <div class="flex flex-wrap gap-1 mt-1">
                                                     <div class="bg-secondary text-xxs p-1 text-white rounded-md">
-                                                        {{ myCalendarEvent.creator?.firstname }} {{ myCalendarEvent.creator?.lastname }}
+                                                        {{ myCalendarEvent.creator?.firstname }} {{
+                                                            myCalendarEvent.creator?.lastname }}
                                                     </div>
                                                 </div>
                                             </div>
@@ -261,7 +334,7 @@
                                 {{ event?.user?.firstname }}
                                 {{ event?.user?.lastname }}
                             </h3>
-                            <div class="flex items-center gap-x-2">
+                            <div class="flex items-center gap-x-2 flex-wrap">
                                 <dt class="flex items-center">
                                     <span class="sr-only">Title</span>
                                     <Icon name="ph:clipboard" class="h-4 w-4 text-gray-400" aria-hidden="true" />
@@ -269,6 +342,16 @@
                                 <dd class="font-semibold text-gray-900 xl:pr-0">
                                     {{ event?.title }}
                                 </dd>
+                                <span v-if="event?.completion_status === 'completed'"
+                                    class="inline-flex items-center gap-x-1 rounded-full bg-green-100 px-2 py-0.5 text-xs font-medium text-green-700">
+                                    <Icon name="ph:check-circle" class="h-3.5 w-3.5" />
+                                    {{ $t('events.status.completed') }}
+                                </span>
+                                <span v-else-if="event?.completion_status === 'not_completed'"
+                                    class="inline-flex items-center gap-x-1 rounded-full bg-red-100 px-2 py-0.5 text-xs font-medium text-red-700">
+                                    <Icon name="ph:x-circle" class="h-3.5 w-3.5" />
+                                    {{ $t('events.status.notCompleted') }}
+                                </span>
                             </div>
                             <div class="flex gap-x-2">
                                 <dt class="flex mt-1">
@@ -341,15 +424,54 @@
                                 leave-from-class="transform opacity-100 scale-100"
                                 leave-to-class="transform opacity-0 scale-95">
                                 <MenuItems
-                                    class="absolute right-0 z-10 mt-2 w-36 origin-top-right rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
+                                    class="absolute right-0 z-10 mt-2 w-48 origin-top-right rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
                                     <div class="py-1">
                                         <MenuItem v-slot="{ active }">
                                         <a href="#"
-                                            :class="[active ? 'bg-gray-100 text-gray-900' : 'text-gray-700', 'block px-4 py-2 text-sm']"
+                                            :class="[active && 'bg-gray-100', 'text-gray-700', 'flex items-center gap-x-1.5 px-4 py-2 text-sm']"
                                             @click="editMyCalendarEvent(event)">
-                                            Edit
+                                            <Icon name="ph:pencil-simple" class="h-4 w-4" />
+                                            {{ $t('calendar.edit') }}
                                         </a>
                                         </MenuItem>
+                                        <MenuItem v-slot="{ active }">
+                                        <a href="#"
+                                            :class="[active && 'bg-gray-100', 'text-red-600', 'flex items-center gap-x-1.5 px-4 py-2 text-sm']"
+                                            @click="confirmEventDeletion(event)">
+                                            <Icon name="ph:trash" class="h-4 w-4" />
+                                            {{ $t('calendar.delete') }}
+                                        </a>
+                                        </MenuItem>
+                                        <template v-if="event?.completion_status !== 'completed'">
+                                            <MenuItem v-slot="{ active }">
+                                            <a href="#"
+                                                :class="[active && 'bg-gray-100', 'text-green-700', 'flex items-center gap-x-1.5 px-4 py-2 text-sm']"
+                                                @click="markEventAsStatus(event, 'completed')">
+                                                <Icon name="ph:check-circle" class="h-4 w-4" />
+                                                {{ $t('events.markAsCompleted') }}
+                                            </a>
+                                            </MenuItem>
+                                        </template>
+                                        <template v-if="event?.completion_status !== 'not_completed'">
+                                            <MenuItem v-slot="{ active }">
+                                            <a href="#"
+                                                :class="[active && 'bg-gray-100', 'text-red-700', 'flex items-center gap-x-1.5 px-4 py-2 text-sm']"
+                                                @click="markEventAsStatus(event, 'not_completed')">
+                                                <Icon name="ph:x-circle" class="h-4 w-4" />
+                                                {{ $t('events.markAsNotCompleted') }}
+                                            </a>
+                                            </MenuItem>
+                                        </template>
+                                        <template v-if="event?.type === 'citizens'">
+                                            <MenuItem v-slot="{ active }">
+                                            <a href="#"
+                                                :class="[active && 'bg-gray-100', 'text-gray-700', 'flex items-center gap-x-1.5 px-4 py-2 text-sm']"
+                                                @click="openCreateJournal(event)">
+                                                <Icon name="ph:notebook" class="h-4 w-4" />
+                                                {{ $t('events.createJournalNote') }}
+                                            </a>
+                                            </MenuItem>
+                                        </template>
                                     </div>
                                 </MenuItems>
                             </transition>
@@ -381,7 +503,7 @@ const props = defineProps({
         required: true,
     },
 })
-const emit = defineEmits(['changeDatePerWeek', 'editMyCalendarEvent', 'deleteMyCalendarEvent'])
+const emit = defineEmits(['changeDatePerWeek', 'editMyCalendarEvent', 'deleteMyCalendarEvent', 'markEventAsStatus', 'createJournalFromEvent'])
 const userStore = useUserStore() as any
 
 const currentDate = ref(moment())
@@ -533,7 +655,16 @@ function confirmEventDeletion(myCalendarEvent: any) {
     state.modal.isDeleteScheduleOpen = true
 }
 
-function deleteMyCalendarEvent(myCalendarEvent: any) {
-    emit('deleteMyCalendarEvent', deleteMyCalendarEvent)
+function deleteMyCalendarEvent() {
+    emit('deleteMyCalendarEvent', state.selectedSchedule)
+    state.modal.isDeleteScheduleOpen = false
+}
+
+function markEventAsStatus(myCalendarEvent: any, status: 'completed' | 'not_completed') {
+    emit('markEventAsStatus', myCalendarEvent, status)
+}
+
+function openCreateJournal(myCalendarEvent: any) {
+    emit('createJournalFromEvent', myCalendarEvent)
 }
 </script>

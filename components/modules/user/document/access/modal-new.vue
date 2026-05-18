@@ -90,7 +90,7 @@ const rules = computed(() => {
     return {
         formAccess: {
             user_uuid: {
-                required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
+                required: helpers.withMessage(() => `${t('validation.thisFieldIsRequired')}.`, required),
             },
         },
     }

@@ -83,7 +83,7 @@ const rules = computed(() => {
     return {
         formAbsence: {
             absence: {
-                required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
+                required: helpers.withMessage(() => `${t('validation.thisFieldIsRequired')}.`, required),
             },
         },
     }

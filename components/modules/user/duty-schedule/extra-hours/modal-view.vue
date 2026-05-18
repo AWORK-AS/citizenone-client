@@ -23,7 +23,7 @@
                         </div>
                         <FormButton buttonStyle="action" @click="state.modal.isAddNewExtraHoursOpen = true">
                             <Icon name="ph:plus" class="h-4 w-4" aria-hidden="true" />
-                            {{ isAdmin(userStore.getUser?.role) ?
+                            {{ isAtLeast('Admin') ?
                                 $t('dutySchedules.extraHours.newExtraHours') :
                                 $t('dutySchedules.extraHours.newExtraHoursRequest') }}
                         </FormButton>
@@ -97,29 +97,29 @@
                                             <div class="flex items-end gap-2">
                                                 <Tooltip :text="$t('dutySchedules.extraHours.table.actions.edit')"
                                                     @click="editExtraHours(extraHours)"
-                                                    v-if="isAdmin(userStore.getUser?.role) || ['pending'].includes(extraHours?.extra_hours_status)">
+                                                    v-if="isAtLeast('Admin') || ['pending'].includes(extraHours?.extra_hours_status)">
                                                     <FormButton type=" button" buttonStyle="action">
                                                         <Icon name="ph:pencil-simple" class="size-4" />
                                                     </FormButton>
                                                 </Tooltip>
                                                 <Tooltip :text="$t('dutySchedules.extraHours.table.actions.approve')"
                                                     @click="confirmApproveExtraHoursRequest(extraHours)"
-                                                    v-if="isAdmin(userStore.getUser?.role) && extraHours?.extra_hours_status === 'pending'"">
+                                                    v-if="isAtLeast('Admin') && extraHours?.extra_hours_status === 'pending'"">
                                                     <FormButton type=" button" buttonStyle="success">
                                                     <Icon name="ph:check" class="size-4" />
                                                     </FormButton>
                                                 </Tooltip>
                                                 <Tooltip :text="$t('dutySchedules.extraHours.table.actions.reject')"
                                                     @click="confirmRejectExtraHoursRequest(extraHours)"
-                                                    v-if="isAdmin(userStore.getUser?.role) && extraHours?.extra_hours_status === 'pending'"">
+                                                    v-if="isAtLeast('Admin') && extraHours?.extra_hours_status === 'pending'"">
                                                     <FormButton type=" button" buttonStyle="danger">
                                                     <Icon name="ph:x" class="size-4" />
                                                     </FormButton>
                                                 </Tooltip>
                                                 <Tooltip :text="$t('dutySchedules.extraHours.table.actions.delete')"
                                                     @click="confirmDeleteExtraHours(extraHours)"
-                                                    v-if="isAdmin(userStore.getUser?.role) ||
-                                                        (!isAdmin(userStore.getUser?.role) && ['pending'].includes(extraHours?.extra_hours_status))">
+                                                    v-if="isAtLeast('Admin') ||
+                                                        (!isAtLeast('Admin') && ['pending'].includes(extraHours?.extra_hours_status))">
                                                     <FormButton type="button" buttonStyle="danger">
                                                         <Icon name="ph:trash" class="size-4" />
                                                     </FormButton>
@@ -166,6 +166,7 @@ import { useNumberFormatter } from '@/composables/numberFormatter'
 import { useI18n } from "vue-i18n"
 import { useAlert } from '@/composables/alert'
 import { useUserStore } from '@/store/user'
+import { usePermissions } from '@/composables/usePermissions'
 import type { Error } from '@/types'
 
 const props = defineProps({
@@ -186,6 +187,7 @@ const { successAlert } = useAlert()
 const { t } = useI18n()
 const language = useI18n()
 const userStore = useUserStore() as any
+const { isAtLeast, can } = usePermissions()
 let currentTablePage = 1
 
 const state = reactive({
@@ -292,9 +294,6 @@ function filterExtraHoursByDateRange(formDateRange: any) {
     fetchExtraHours()
 }
 
-function isAdmin(role: any) {
-    return role && role === 'Admin'
-}
 
 function editExtraHours(extraHours: any) {
     state.selectedExtraHoursRequest = extraHours

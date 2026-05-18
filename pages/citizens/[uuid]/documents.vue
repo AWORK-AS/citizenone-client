@@ -45,11 +45,13 @@
                             <Icon name="ph:file" class="h-4 w-4" aria-hidden="true" />
                             {{ $t('citizens.documents.viewDraftFile') }}
                         </FormButton>
-                        <FormButton buttonStyle="action" @click="state.modal.isAddDirectoryOpen = true">
+                        <FormButton buttonStyle="action" @click="state.modal.isAddDirectoryOpen = true"
+                            v-if="isAtLeast('Admin') || can('create_citizen_document')">
                             <Icon name="ph:plus" class="h-4 w-4" aria-hidden="true" />
                             {{ $t('citizens.documents.createNewFolder') }}
                         </FormButton>
-                        <LoadingSpinner :isActive="state.isPageLoading">
+                        <LoadingSpinner :isActive="state.isPageLoading"
+                            v-if="isAtLeast('Admin') || can('create_citizen_document')">
                             <FormButton buttonStyle="action" @click="triggerFileInput">
                                 <Icon name="ph:upload" class="h-4 w-4" aria-hidden="true" />
                                 {{ $t('citizens.documents.uploadFile') }}
@@ -80,7 +82,7 @@
                         <Table :columnHeaders="state.columnHeaders" :data="state.documents"
                             :isLoading="state.isTableLoading" :sortData="state.sortData" @sort="sort">
                             <template #body v-if="!(state.isTableLoading || (state.documents?.data?.length === 0))">
-                                <tr v-for="(document, index) in state.documents?.data" :key="index">
+                                <tr v-for="(document, index) in state.documents?.data" :key="index" :data-uuid="document.uuid">
                                     <td width="25%">
                                         <div class="text-tertiary hover:text-tertiary-700 cursor-pointer flex items-center gap-x-1"
                                             v-if="document?.file_url" @click="downloadFile(document)">
@@ -138,14 +140,15 @@
                                                     <Icon name="ph:arrows-out" class="size-4" />
                                                 </FormButton>
                                             </Tooltip>
-                                            <Tooltip :text="$t('citizens.documents.table.actions.edit')">
+                                            <Tooltip :text="$t('citizens.documents.table.actions.edit')"
+                                                v-if="isAtLeast('Admin') || can('update_citizen_document')">
                                                 <FormButton type="button" buttonStyle="primary"
                                                     @click="editDocument(document)">
                                                     <Icon name="ph:pencil-simple" class="size-4" />
                                                 </FormButton>
                                             </Tooltip>
                                             <Tooltip :text="$t('citizens.documents.table.actions.access')"
-                                                v-if="isAdmin(userStore.getUser?.roles) && !is_draft">
+                                                v-if="isAtLeast('Admin') && !is_draft">
                                                 <FormButton type="button" buttonStyle="primary"
                                                     @click="viewDocumentAccess(document)">
                                                     <Icon name="ph:lock" class="size-4" />
@@ -159,13 +162,14 @@
                                                 </FormButton>
                                             </Tooltip>
                                             <Tooltip :text="$t('citizens.documents.table.actions.delete')"
-                                                v-if="document?.type === 'folder'">
+                                                v-if="document?.type === 'folder' && (isAtLeast('Admin') || can('delete_citizen_document'))">
                                                 <FormButton type="button" buttonStyle="danger"
                                                     @click="deleteDirectoryConfirmation(document)">
                                                     <Icon name="ph:trash" class="size-4" />
                                                 </FormButton>
                                             </Tooltip>
-                                            <Tooltip :text="$t('citizens.documents.table.actions.delete')" v-else>
+                                            <Tooltip :text="$t('citizens.documents.table.actions.delete')"
+                                                v-else-if="isAtLeast('Admin') || can('delete_citizen_document')">
                                                 <FormButton type="button" buttonStyle="danger"
                                                     @click="deleteFileConfirmation(document)">
                                                     <Icon name="ph:trash" class="size-4" />
@@ -227,6 +231,7 @@ import { useCustomPagesStore } from '@/store/custom-pages'
 import { useI18n } from "vue-i18n"
 import { useAlert } from '@/composables/alert'
 import { useUserStore } from '@/store/user'
+import { usePermissions } from '@/composables/usePermissions'
 import { saveAs } from 'file-saver'
 import type { Error } from '@/types'
 
@@ -236,6 +241,7 @@ const { successAlert } = useAlert()
 const { t } = useI18n()
 const customPagesStore = useCustomPagesStore() as any
 const userStore = useUserStore() as any
+const { isAtLeast, can } = usePermissions()
 const router = useRouter()
 const route = useRoute()
 const citizenUuid = router?.currentRoute?.value?.params?.uuid as any
@@ -315,9 +321,6 @@ function closeUpgradeStorageModal() {
     state.error = {}
 }
 
-function isAdmin(roles: any) {
-    return roles && roles.some((role: any) => role.name === 'Admin')
-}
 
 async function fetchDocuments(folderUuid: any = null) {
     state.error = {}

@@ -124,7 +124,7 @@
 
                         <div class="space-y-5">
                             <div class="bg-white ring-1 ring-gray-200 rounded-md p-5 border-l-4 border-secondary"
-                                v-for="(plan, index) in state.plans?.data" :key="index">
+                                v-for="(plan, index) in state.plans?.data" :key="index" :data-uuid="plan.uuid">
                                 <div class="flex flex-col md:flex-row md:items-center gap-3 md:gap-10">
                                     <div class="grow space-y-1">
                                         <Badge type="plans-and-goals" class="w-fit" v-if="plan?.is_plans_with_goals">
@@ -341,6 +341,7 @@ import { goalService } from '@/components/api/user/GoalService'
 import { useI18n } from "vue-i18n"
 import { useAlert } from '@/composables/alert'
 import { useUserStore } from '@/store/user'
+import { usePermissions } from '@/composables/usePermissions'
 import { useCitizenPlansAndGoalsStore } from '@/store/citizen-plans-and-goals'
 import { useCustomPagesStore } from '@/store/custom-pages'
 import type { Error } from '@/types'
@@ -353,6 +354,7 @@ const { t } = useI18n()
 const citizenPlansAndGoalsStore = useCitizenPlansAndGoalsStore()
 const customPagesStore = useCustomPagesStore() as any
 const userStore = useUserStore() as any
+const { isAtLeast, can } = usePermissions()
 const router = useRouter()
 const citizenUuid = router?.currentRoute?.value?.params?.uuid
 let currentTablePage = 1
@@ -408,20 +410,11 @@ onMounted(() => {
 })
 
 function hasCreatePlanAccess() {
-    const user = userStore.getUser
-    const hasAdminAccess = isAdmin(user?.roles)
-    const employeeCanCreatePlan = user?.company?.employee_create_plans_enabled
-    if (hasAdminAccess) {
-        return true
-    } else if (employeeCanCreatePlan) {
-        return true
-    }
-    return false
+    if (isAtLeast('Admin')) return true
+    const employeeCanCreatePlan = userStore.getUser?.company?.employee_create_plans_enabled
+    return employeeCanCreatePlan && can('create_citizen_plan')
 }
 
-function isAdmin(roles: any) {
-    return roles && roles.some((role: any) => role.name === 'Admin')
-}
 
 function setFilterView(formFilter: any) {
     citizenPlansAndGoalsStore.setFilterIsCompleted(formFilter?.is_completed)

@@ -42,8 +42,12 @@
                                         </td>
                                         <td width="20%">
                                             <p class="truncate">
-                                                {{ language.locale.value === 'en' ? slot?.shift?.en_name :
-                                                    slot?.shift?.dk_name }}
+                                                {{
+                                                    language.locale.value === 'en' ? slot?.shift?.en_name :
+                                                        language.locale.value === 'no' ? slot?.shift?.no_name :
+                                                            language.locale.value === 'sv' ? slot?.shift?.sv_name :
+                                                                slot?.shift?.dk_name
+                                                }}
                                             </p>
                                         </td>
                                         <td width="30%">

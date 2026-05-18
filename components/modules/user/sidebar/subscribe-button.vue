@@ -1,6 +1,6 @@
 <template>
     <div class="py-1">
-        <button @click="navigateTo('/subscription/subscribe')" class="w-full bg-secondary rounded-md p-4">
+        <button @click="navigateTo('/subscription/subscribe')" class="w-full bg-secondary p-4">
             <p class="text-sm text-white font-semibold">
                 {{ $t('subscription.noSubscription.upgradeNow') }}
             </p>

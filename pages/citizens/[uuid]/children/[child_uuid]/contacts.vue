@@ -35,7 +35,7 @@
 
                 <div>
                     <div class="mt-8 flex justify-end items-center mb-5 gap-x-2">
-                        <FormButton buttonStyle="action" @click="state.modal.isAddContactOpen = true">
+                        <FormButton v-if="isAtLeast('Admin') || can('create_citizen_contact')" buttonStyle="action" @click="state.modal.isAddContactOpen = true">
                             <Icon name="ph:plus" class="h-4 w-4" aria-hidden="true" />
                             {{ $t('citizens.contacts.newContact') }}
                         </FormButton>
@@ -53,8 +53,12 @@
                                 <tr v-for="(contact, index) in state.contacts?.data" :key="index">
                                     <td width="20%">
                                         <span>
-                                            {{ language.locale.value === 'en' ? contact?.contact_job_title?.en_title :
-                                                contact?.contact_job_title?.dk_title }}
+                                            {{
+                                                language.locale.value === 'en' ? contact?.contact_job_title?.en_title :
+                                                    language.locale.value === 'no' ? contact?.contact_job_title?.no_title :
+                                                        language.locale.value === 'sv' ? contact?.contact_job_title?.sv_title :
+                                                            contact?.contact_job_title?.dk_title
+                                            }}
                                         </span>
                                         {{ contact?.relationship }}
                                         <span v-if="contact?.contact_job_title?.system_name === 'relatives'">
@@ -96,11 +100,13 @@
                                     <td width="10%">
                                         <div class="flex items-end justify-end gap-2">
                                             <FormButton type="button" buttonStyle="action"
+                                                v-if="isAtLeast('Admin') || can('update_citizen_contact')"
                                                 @click="editContact(contact)">
                                                 <Icon name="ph:pencil-simple" class="size-4" />
                                                 {{ $t('citizens.contacts.table.action.edit') }}
                                             </FormButton>
                                             <FormButton type="button" buttonStyle="danger"
+                                                v-if="isAtLeast('Admin') || can('delete_citizen_contact')"
                                                 @click="deleteContactConfirmation(contact)">
                                                 <Icon name="ph:trash" class="size-4" />
                                                 {{ $t('citizens.contacts.table.action.delete') }}
@@ -139,6 +145,7 @@ import { useI18n } from "vue-i18n"
 import { useAlert } from '@/composables/alert'
 import { useCustomPagesStore } from '@/store/custom-pages'
 import { useUserStore } from '@/store/user'
+import { usePermissions } from '@/composables/usePermissions'
 import type { Error } from '@/types'
 
 const runtimeConfig = useRuntimeConfig()
@@ -150,6 +157,7 @@ const router = useRouter()
 const citizenUuid = router?.currentRoute?.value?.params?.uuid as any
 const childUuid = router?.currentRoute?.value?.params?.child_uuid as any
 const userStore = useUserStore() as any
+const { isAtLeast, can } = usePermissions()
 let currentTablePage = 1
 const breadcrumbLinks = [
     {

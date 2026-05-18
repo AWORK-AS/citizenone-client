@@ -19,16 +19,17 @@
                         {{ year }}
                     </h3>
                     <div class="space-y-2">
-                        <div class="inline-flex items-center rounded-lg border border-gray-200 bg-white shadow-sm overflow-hidden">
+                        <div
+                            class="inline-flex items-center rounded-lg border border-gray-200 bg-white shadow-sm overflow-hidden">
                             <button type="button" @click="previousMonth"
-                                class="flex h-11 w-10 flex-shrink-0 items-center justify-center border-r border-gray-200 text-gray-400 hover:text-gray-600 hover:bg-gray-50 transition-colors">
+                                class="flex h-11 w-10 flex-shrink-0 items-center justify-center text-gray-400 hover:text-gray-600 hover:bg-gray-50 transition-colors">
                                 <span class="sr-only">Previous month</span>
                                 <Icon name="heroicons:chevron-left" class="h-5 w-5" aria-hidden="true" />
                             </button>
                             <FormDateField id="date" name="date" :placeholder="$t('dutySchedules.form.date')"
                                 dateType="calendar" v-model="state.selectedDate" />
                             <button type="button" @click="nextMonth"
-                                class="flex h-11 w-10 flex-shrink-0 items-center justify-center border-l border-gray-200 text-gray-400 hover:text-gray-600 hover:bg-gray-50 transition-colors">
+                                class="flex h-11 w-10 flex-shrink-0 items-center justify-center text-gray-400 hover:text-gray-600 hover:bg-gray-50 transition-colors">
                                 <span class="sr-only">Next month</span>
                                 <Icon name="heroicons:chevron-right" class="h-5 w-5" aria-hidden="true" />
                             </button>
@@ -135,7 +136,7 @@
                                 {{ myCalendarEvent?.user?.firstname }}
                                 {{ myCalendarEvent?.user?.lastname }}
                             </h3>
-                            <div class="flex items-center gap-x-2">
+                            <div class="flex items-center gap-x-2 flex-wrap">
                                 <dt class="flex items-center">
                                     <span class="sr-only">Title</span>
                                     <Icon name="ph:clipboard" class="h-4 w-4 text-gray-400" aria-hidden="true" />
@@ -143,6 +144,22 @@
                                 <dd class="font-semibold text-gray-900 xl:pr-0">
                                     {{ myCalendarEvent?.title }}
                                 </dd>
+                                <span v-if="myCalendarEvent?.completion_status === 'completed'"
+                                    class="inline-flex items-center gap-x-1 rounded-full bg-green-100 px-2 py-0.5 text-xs font-medium text-green-700">
+                                    <Icon name="ph:check-circle" class="h-3.5 w-3.5" />
+                                    {{ $t('events.status.completed') }}
+                                </span>
+                                <span v-else-if="myCalendarEvent?.completion_status === 'not_completed'"
+                                    class="inline-flex items-center gap-x-1 rounded-full bg-red-100 px-2 py-0.5 text-xs font-medium text-red-700">
+                                    <Icon name="ph:x-circle" class="h-3.5 w-3.5" />
+                                    {{ $t('events.status.notCompleted') }}
+                                </span>
+                            </div>
+                            <div v-if="myCalendarEvent?.journal_uuid" class="mt-1">
+                                <span class="inline-flex items-center gap-x-1 text-xs text-primary hover:text-primary-700 cursor-pointer">
+                                    <Icon name="ph:notebook" class="h-3.5 w-3.5" />
+                                    {{ $t('events.viewJournalNote') }}
+                                </span>
                             </div>
                             <div class="flex gap-x-2">
                                 <dt class="flex mt-1">
@@ -232,22 +249,54 @@
                                 leave-from-class="transform opacity-100 scale-100"
                                 leave-to-class="transform opacity-0 scale-95">
                                 <MenuItems
-                                    class="absolute right-0 z-10 mt-2 w-36 origin-top-right rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
+                                    class="absolute right-0 z-10 mt-2 w-48 origin-top-right rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
                                     <div class="py-1">
                                         <MenuItem v-slot="{ active }">
                                         <a href="#"
-                                            :class="[active ? 'bg-gray-100 text-gray-900' : 'text-gray-700', 'block px-4 py-2 text-sm']"
+                                            :class="[active && 'bg-gray-100', 'text-gray-700', 'flex items-center gap-x-1.5 px-4 py-2 text-sm']"
                                             @click="editMyCalendarEvent(myCalendarEvent)">
+                                            <Icon name="ph:pencil-simple" class="h-4 w-4" />
                                             {{ $t('calendar.edit') }}
                                         </a>
                                         </MenuItem>
                                         <MenuItem v-slot="{ active }">
                                         <a href="#"
-                                            :class="[active ? 'bg-gray-100 text-gray-900' : 'text-gray-700', 'block px-4 py-2 text-sm']"
+                                            :class="[active && 'bg-gray-100', 'text-red-600', 'flex items-center gap-x-1.5 px-4 py-2 text-sm']"
                                             @click="deleteEventConfirmation(myCalendarEvent)">
+                                            <Icon name="ph:trash" class="h-4 w-4" />
                                             {{ $t('calendar.delete') }}
                                         </a>
                                         </MenuItem>
+                                        <template v-if="myCalendarEvent?.completion_status !== 'completed'">
+                                            <MenuItem v-slot="{ active }">
+                                            <a href="#"
+                                                :class="[active && 'bg-gray-100', 'text-green-700', 'flex items-center gap-x-1.5 px-4 py-2 text-sm']"
+                                                @click="markEventAsStatus(myCalendarEvent, 'completed')">
+                                                <Icon name="ph:check-circle" class="h-4 w-4" />
+                                                {{ $t('events.markAsCompleted') }}
+                                            </a>
+                                            </MenuItem>
+                                        </template>
+                                        <template v-if="myCalendarEvent?.completion_status !== 'not_completed'">
+                                            <MenuItem v-slot="{ active }">
+                                            <a href="#"
+                                                :class="[active && 'bg-gray-100', 'text-red-700', 'flex items-center gap-x-1.5 px-4 py-2 text-sm']"
+                                                @click="markEventAsStatus(myCalendarEvent, 'not_completed')">
+                                                <Icon name="ph:x-circle" class="h-4 w-4" />
+                                                {{ $t('events.markAsNotCompleted') }}
+                                            </a>
+                                            </MenuItem>
+                                        </template>
+                                        <template v-if="myCalendarEvent?.type === 'citizens'">
+                                            <MenuItem v-slot="{ active }">
+                                            <a href="#"
+                                                :class="[active && 'bg-gray-100', 'text-gray-700', 'flex items-center gap-x-1.5 px-4 py-2 text-sm']"
+                                                @click="openCreateJournal(myCalendarEvent)">
+                                                <Icon name="ph:notebook" class="h-4 w-4" />
+                                                {{ $t('events.createJournalNote') }}
+                                            </a>
+                                            </MenuItem>
+                                        </template>
                                     </div>
                                 </MenuItems>
                             </transition>
@@ -278,7 +327,7 @@ const props = defineProps({
         required: true,
     },
 })
-const emit = defineEmits(['changeMonthYear', 'editMyCalendarEvent', 'deleteMyCalendarEvent'])
+const emit = defineEmits(['changeMonthYear', 'editMyCalendarEvent', 'deleteMyCalendarEvent', 'markEventAsStatus', 'createJournalFromEvent'])
 const userStore = useUserStore() as any
 
 const currentMonth = ref(moment().startOf('month'))
@@ -423,5 +472,14 @@ function deleteEventConfirmation(myCalendarEvent: any) {
 
 function deleteMyCalendarEvent() {
     emit('deleteMyCalendarEvent', state.selectedSchedule)
+    state.modal.isDeleteScheduleOpen = false
+}
+
+function markEventAsStatus(myCalendarEvent: any, status: 'completed' | 'not_completed') {
+    emit('markEventAsStatus', myCalendarEvent, status)
+}
+
+function openCreateJournal(myCalendarEvent: any) {
+    emit('createJournalFromEvent', myCalendarEvent)
 }
 </script>

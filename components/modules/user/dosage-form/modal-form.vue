@@ -17,6 +17,20 @@
                 <FormError :error="v$?.formDosageForm?.dk_name?.$errors[0]?.$message.toString()" />
                 <FormError :error="props?.error?.errors?.dk_name?.[0]" />
             </div>
+            <div class="space-y-1">
+                <FormLabel for="no_name" :label="$t('dosageForms.form.nameNorwegian')" />
+                <FormTextField id="no_name" name="no_name" :placeholder="$t('dosageForms.form.nameNorwegian')"
+                    v-model="state.formDosageForm.no_name" />
+                <FormError :error="v$?.formDosageForm?.no_name?.$errors[0]?.$message.toString()" />
+                <FormError :error="props?.error?.errors?.no_name?.[0]" />
+            </div>
+            <div class="space-y-1">
+                <FormLabel for="sv_name" :label="$t('dosageForms.form.nameSwedish')" />
+                <FormTextField id="sv_name" name="sv_name" :placeholder="$t('dosageForms.form.nameSwedish')"
+                    v-model="state.formDosageForm.sv_name" />
+                <FormError :error="v$?.formDosageForm?.sv_name?.$errors[0]?.$message.toString()" />
+                <FormError :error="props?.error?.errors?.sv_name?.[0]" />
+            </div>
         </div>
         <div class="mt-6">
             <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
@@ -61,6 +75,8 @@ const state = reactive({
     formDosageForm: {
         en_name: '',
         dk_name: '',
+        no_name: '',
+        sv_name: '',
     },
 })
 
@@ -69,6 +85,8 @@ watch(() => props.selectedDosageForm, (newValue: any) => {
         state.formDosageForm = {
             en_name: newValue.en_name,
             dk_name: newValue.dk_name,
+            no_name: newValue.no_name ?? '',
+            sv_name: newValue.sv_name ?? '',
         }
     }
 })
@@ -77,10 +95,16 @@ const rules = computed(() => {
     return {
         formDosageForm: {
             en_name: {
-                required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
+                required: helpers.withMessage(() => `${t('validation.thisFieldIsRequired')}.`, required),
             },
             dk_name: {
-                required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
+                required: helpers.withMessage(() => `${t('validation.thisFieldIsRequired')}.`, required),
+            },
+            no_name: {
+                required: helpers.withMessage(() => `${t('validation.thisFieldIsRequired')}.`, required),
+            },
+            sv_name: {
+                required: helpers.withMessage(() => `${t('validation.thisFieldIsRequired')}.`, required),
             },
         },
     }

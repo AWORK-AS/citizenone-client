@@ -44,6 +44,14 @@ watch(() => userStore.getUser, (newValue: any) => {
                 ]
             },
             {
+                name: 'settings.tabs.addressBook',
+                isTranslateName: true,
+                href: `/settings/address-book`,
+                routeNames: [
+                    'settings-address-book'
+                ]
+            },
+            {
                 name: 'settings.tabs.bookingTags',
                 isTranslateName: true,
                 href: `/settings/booking-tags`,
@@ -57,6 +65,14 @@ watch(() => userStore.getUser, (newValue: any) => {
                 href: `/settings/calendar-tags`,
                 routeNames: [
                     'settings-calendar-tags'
+                ]
+            },
+            {
+                name: 'settings.tabs.consentDeclarationTypes',
+                isTranslateName: true,
+                href: `/settings/consent-declaration-types`,
+                routeNames: [
+                    'settings-consent-declaration-types'
                 ]
             },
             {
@@ -197,6 +213,14 @@ watch(() => userStore.getUser, (newValue: any) => {
                 ]
             },
             {
+                name: 'settings.tabs.nursingProfessionalRecordTemplates',
+                isTranslateName: true,
+                href: `/settings/nursing-professional-record-templates`,
+                routeNames: [
+                    'settings-nursing-professional-record-templates'
+                ]
+            },
+            {
                 name: 'settings.tabs.relationships',
                 isTranslateName: true,
                 href: `/settings/relationships`,
@@ -253,6 +277,14 @@ watch(() => userStore.getUser, (newValue: any) => {
                 ]
             },
             {
+                name: 'settings.tabs.treatmentTemplates',
+                isTranslateName: true,
+                href: `/settings/treatment-templates`,
+                routeNames: [
+                    'settings-treatment-templates'
+                ]
+            },
+            {
                 name: 'settings.tabs.units',
                 isTranslateName: true,
                 href: `/settings/units`,
@@ -273,11 +305,17 @@ function changeTab(value: any) {
     else if (value === '/settings/addictions') {
         navigateTo(`/settings/addictions`)
     }
+    else if (value === '/settings/address-book') {
+        navigateTo(`/settings/address-book`)
+    }
     else if (value === '/settings/booking-tags') {
         navigateTo(`/settings/booking-tags`)
     }
     else if (value === '/settings/calendar-tags') {
         navigateTo(`/settings/calendar-tags`)
+    }
+    else if (value === '/settings/consent-declaration-types') {
+        navigateTo(`/settings/consent-declaration-types`)
     }
     else if (value === '/settings/contact-job-titles') {
         navigateTo(`/settings/contact-job-titles`)
@@ -326,6 +364,12 @@ function changeTab(value: any) {
     }
     else if (value === '/settings/norm-periods') {
         navigateTo(`/settings/norm-periods`)
+    }
+    else if (value === '/settings/nursing-professional-record-templates') {
+        navigateTo(`/settings/nursing-professional-record-templates`)
+    }
+    else if (value === '/settings/treatment-templates') {
+        navigateTo(`/settings/treatment-templates`)
     }
     else if (value === '/settings/relationships') {
         navigateTo(`/settings/relationships`)

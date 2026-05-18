@@ -68,7 +68,7 @@ const rules = computed(() => {
     return {
         formJobSpecialty: {
             title: {
-                required: helpers.withMessage(`${t('validation.thisFieldIsRequired')}.`, required),
+                required: helpers.withMessage(() => `${t('validation.thisFieldIsRequired')}.`, required),
             },
         },
     }
