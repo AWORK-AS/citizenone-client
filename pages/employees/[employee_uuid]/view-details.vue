@@ -144,19 +144,8 @@
                                         <div class="text-xs flex flex-wrap gap-2"
                                             v-if="state.selectedEmployee?.permissions?.length > 0">
                                             <span v-for="(permission, index) in state.selectedEmployee?.permissions"
-                                                :key=index class="bg-primary px-2 py-1 text-white rounded-md">
-                                                <span v-if="permission?.name === 'create'">
-                                                    {{ $t('employees.permissions.create') }}
-                                                </span>
-                                                <span v-if="permission?.name === 'read'">
-                                                    {{ $t('employees.permissions.read') }}
-                                                </span>
-                                                <span v-if="permission?.name === 'update'">
-                                                    {{ $t('employees.permissions.update') }}
-                                                </span>
-                                                <span v-if="permission?.name === 'delete'">
-                                                    {{ $t('employees.permissions.delete') }}
-                                                </span>
+                                                :key=index class="bg-primary px-2 py-1 text-white rounded-md capitalize">
+                                                {{ permission?.name?.replace(/_/g, ' ') }}
                                             </span>
                                         </div>
                                     </div>
