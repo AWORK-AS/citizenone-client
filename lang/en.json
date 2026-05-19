@@ -7260,6 +7260,950 @@
         "type": "Type",
         "yearlyPrice": "Yearly price"
       }
+        "noSubscription": {
+            "itLooksLikeYouDontHaveAnActiveSubscriptionAtTheMoment": "It looks like you don't have an active subscription at the moment",
+            "noActiveSubscription": "No Active Subscription",
+            "subscribeNow": "Subscribe now",
+            "toEnjoyOurFullRangeOfServicesAndBenefits": "To enjoy our full range of services and benefits, consider subscribing to one of our plans",
+            "upgradeNow": "Upgrade now"
+        },
+        "subscribed": {
+            "goHome": "Go home",
+            "paymentSuccessful": "Payment successful",
+            "subscriptionSuccessful": "Subscription Successful",
+            "thankYouForSubscribing": "Thank you for subscribing",
+            "yourPaymentHasBeenSuccessfullyProcessed": "Your payment has been successfully processed",
+            "yourSubscriptionIsNowActive": "Your subscription is now active"
+        },
+        "subscription": "Subscription",
+        "updateSubscription": "Update subscription",
+        "upgrade": "Upgrade"
+    },
+    "superadmin": {
+        "accounts": {
+            "accounts": "Accounts",
+            "alert": {
+                "deletedSuccessfully": "Account successfully deleted"
+            },
+            "confirmation": {
+                "deleteConfirmation": "Are you sure you want to delete this account"
+            },
+            "editAccount": "Edit account",
+            "form": {
+                "alert": {
+                    "accountSuccessfullyActivated": "Account successfully activated",
+                    "accountSuccessfullyDeactivated": "Account successfully deactivated",
+                    "accountSuccessfullyUpdated": "Account successfully updated",
+                    "newAccountSuccessfullySaved": "New account successfully saved"
+                },
+                "birthday": "Birthday",
+                "changePassword": "Change password",
+                "emailAddress": "Email address",
+                "firstname": "First name",
+                "lastname": "Last name",
+                "password": "Password",
+                "permissions": {
+                    "create": "Create",
+                    "delete": "Delete",
+                    "permissions": "Permissions",
+                    "read": "Read",
+                    "update": "Update"
+                },
+                "phone": "Phone",
+                "role": "Role"
+            },
+            "newAccount": "New account",
+            "table": {
+                "actions": {
+                    "activate": "Activate",
+                    "deactivate": "Deactivate",
+                    "delete": "Delete",
+                    "edit": "Edit",
+                    "impersonate": "Impersonate"
+                },
+                "email": "Email",
+                "name": "Name",
+                "phone": "Phone",
+                "role": "Role"
+            }
+        },
+        "apps": {
+            "alert": {
+                "appSuccessfullyDeleted": "App successfully deleted"
+            },
+            "apps": "Apps",
+            "categories": {
+                "citizenone": "CitizenOne",
+                "fst": "FindSocialeTilbud.dk",
+                "marketing": "Marketing",
+                "other": "Other",
+                "visual": "Visual"
+            },
+            "confirmation": {
+                "deleteAppConfirmation": "Are you sure you want to delete this app"
+            },
+            "editApp": "Edit app",
+            "form": {
+                "alert": {
+                    "appSuccessfullyUpdated": "App successfully updated",
+                    "newAppSuccessfullySaved": "New app successfully saved"
+                },
+                "backgroundImage": "Background image",
+                "description": "Description",
+                "image": "Image",
+                "isOneTimeFee": "Is one time fee",
+                "link": "Link",
+                "logo": "Logo",
+                "monthlyPrice": "Monthly price",
+                "name": "Name",
+                "news": "News",
+                "popular": "Popular",
+                "price": "Price",
+                "quantifiable": "Quantifiable",
+                "recommended": "Recommended",
+                "thirdPartyApp": "Third party app",
+                "type": "Type",
+                "types": {
+                    "citizenone": "CitizenOne",
+                    "fst": "FindSocialeTilbud.dk",
+                    "marketing": "Marketing",
+                    "other": "Other",
+                    "visual": "Visual"
+                },
+                "yearlyPrice": "Yearly price"
+            },
+            "newApp": "New app",
+            "table": {
+                "actions": {
+                    "delete": "Delete",
+                    "edit": "Edit"
+                },
+                "link": "Link",
+                "logo": "Logo",
+                "monthlyPrice": "Monthly price",
+                "name": "Name",
+                "news": "News",
+                "oneTimeFee": "One time fee",
+                "popular": "Popular",
+                "price": "Price",
+                "recommended": "Recommended",
+                "thirdPartyApp": "Third party app",
+                "type": "Type",
+                "yearlyPrice": "Yearly price"
+            }
+        },
+        "companies": {
+            "companies": "Companies",
+            "company": "Company",
+            "createFirstClient": "Create your first client",
+            "import": "Import",
+            "noCompaniesFound": "No companies found",
+            "searchPlaceholder": "Search by name, email or domain...",
+            "showing": "Showing {from}–{to} of {total}",
+            "sort": {
+                "nameAsc": "Name A–Z",
+                "nameDesc": "Name Z–A",
+                "newestFirst": "Newest first",
+                "oldestFirst": "Oldest first"
+            },
+            "totalClients": "{count} clients in total",
+            "companyApps": {
+                "alert": {
+                    "appSuccessfullyActivated": "App successfully activated",
+                    "appSuccessfullyDeactivated": "App successfully deactivated"
+                },
+                "companyApps": "Company apps",
+                "confirmation": {
+                    "activateAppConfirmation": "Are you sure you want to activate this app",
+                    "deactivateAppConfirmation": "Are you sure you want to deactivate this app"
+                },
+                "table": {
+                    "actions": {
+                        "activate": "Activate",
+                        "deactivate": "Deactivate"
+                    },
+                    "active": "Active",
+                    "inactive": "Inactive",
+                    "name": "Name",
+                    "price": "Price",
+                    "status": "Status",
+                    "type": "Type"
+                }
+            },
+            "accounts": {
+                "activatedAppsAndModules": "Activated apps & modules",
+                "allCompanies": "All companies",
+                "cardLinkSent": "Card update link has been sent to the customer",
+                "loginAs": "Log in as",
+                "manualInvoice": "Manual invoice",
+                "monthly": "mo.",
+                "newAccount": "New account",
+                "noAccounts": "No user accounts",
+                "noAppsActivated": "No apps activated",
+                "paymentCard": "Payment card",
+                "sendCardLink": "Send card link",
+                "stats": {
+                    "activeLicenses": "active licenses",
+                    "activatedModules": "activated modules",
+                    "availableLicenses": "available licenses",
+                    "unused": "Unused"
+                },
+                "tabs": {
+                    "overview": "Overview"
+                },
+                "userAccounts": "User accounts",
+                "yearly": "yr."
+            },
+            "editCompany": "Edit company",
+            "form": {
+                "active": "Active",
+                "activeImmediately": "Active immediately",
+                "activeImmediatelyDesc": "The company is activated immediately",
+                "address": "Address",
+                "addressPlaceholder": "Street 1, 1234 City",
+                "adminUser": "Administrator user",
+                "adminUserDesc": "This user gets admin access to the company",
+                "alert": {
+                    "companySuccessfullyActivated": "Company successfully activated",
+                    "companySuccessfullyDeactivated": "Company successfully deactivated",
+                    "companySuccessfullyUpdated": "Company successfully updated",
+                    "newCompanySuccessfullySaved": "New company successfully saved"
+                },
+                "companyInformation": "Company information",
+                "companyName": "Company name",
+                "companyNamePlaceholder": "e.g. Acme Corp",
+                "confirmPassword": "Confirm password",
+                "creating": "Creating...",
+                "cvr": "CVR",
+                "emailAddress": "Email address",
+                "firstname": "First name",
+                "inactive": "Inactive",
+                "industry": "Industry",
+                "lastname": "Last name",
+                "password": "Password",
+                "passwordMismatch": "Passwords do not match",
+                "passwordPlaceholder": "Min. 8 characters",
+                "phone": "Phone",
+                "repeatPassword": "Repeat password",
+                "selectIndustry": "Select industry...",
+                "selectType": "Select type...",
+                "sendWelcomeEmail": "Send welcome email",
+                "sendWelcomeEmailDesc": "The administrator receives login instructions by email",
+                "settings": "Settings",
+                "typeOfFacility": "Type of facility",
+                "website": "Website"
+            },
+            "importCompanies": {
+                "alert": {
+                    "companiesSuccessfullyImported": "Companies successfully successfully imported"
+                },
+                "downloadTemplate": "Download template",
+                "importCompanies": "Import companies",
+                "importTemplate": "Import template",
+                "noFileSelected": "No file selected"
+            },
+            "licenseOverview": {
+                "licenseOverview": "License overview",
+                "licenses": "Licenses",
+                "table": {
+                    "license": "License",
+                    "user": "User",
+                    "department": "Department"
+                },
+                "unusedLicense": "Unused license",
+                "usedLicense": "Used license",
+                "userLicenses": "User licenses",
+                "departmentLicenses": "Department licenses",
+                "usedDepartmentLicense": "Used department license",
+                "unusedDepartmentLicense": "Unused department license"
+            },
+            "newCompany": "New company",
+            "subscriptions": {
+                "deal": {
+                    "admin": "Admin",
+                    "admins": "Admins",
+                    "automaticSynchronizationWithFMK": "Automatic synchronization with FMK",
+                    "chatSupport": "Support via chat, and email",
+                    "department": "Department",
+                    "departments": "departments",
+                    "goodForASmallTeam": "Good for a small team",
+                    "included": "Incl",
+                    "month": "Month",
+                    "perfectForLargerCompanies": "Perfect for larger companies",
+                    "storageSpace": "Storage space",
+                    "telephoneSupport": "Support via phone, chat, and email",
+                    "unlimitedNumberOfCitizens": "Unlimited number of citizens",
+                    "user": "User",
+                    "users": "Users",
+                    "year": "Year",
+                    "youCanHaveMultipleAdmins": "You can have multiple admins"
+                },
+                "noSubscription": {
+                    "itLooksLikeThisCompanyDontHaveAnActiveSubscriptionAtTheMoment": "It looks like this company don't have an active subscription at the moment",
+                    "noActiveSubscription": "No Active Subscription"
+                }
+            },
+            "table": {
+                "actions": {
+                    "activate": "Activate",
+                    "deactivate": "Deactivate",
+                    "edit": "Edit",
+                    "view": "View"
+                },
+                "active": "Active",
+                "cvr": "CVR",
+                "id": "ID",
+                "inactive": "Inactive",
+                "name": "Name",
+                "phone": "Phone",
+                "status": "Status",
+                "website": "Website"
+            },
+            "tabs": {
+                "accounts": "Accounts",
+                "active": "Active",
+                "all": "All",
+                "apps": "Apps",
+                "inactive": "Inactive",
+                "invoices": "Invoices",
+                "licenseOverview": "License overview",
+                "licenses": "Licenses"
+            }
+        },
+        "coupons": {
+            "active": "Active",
+            "coupons": "Coupons",
+            "editCoupon": "Edit coupon",
+            "form": {
+                "active": "Active",
+                "alert": {
+                    "couponSuccessfullyUpdated": "Coupon successfully updated",
+                    "newCouponSuccessfullySaved": "New coupon successfully saved"
+                },
+                "amount": "Amount",
+                "code": "Code",
+                "description": "Description",
+                "expiration": "Expiration",
+                "quantity": "Quantity",
+                "status": "Status",
+                "type": {
+                    "addOn": "Add-on",
+                    "deal": "Deal",
+                    "type": "Type"
+                },
+                "unit": {
+                    "amount": "Amount",
+                    "percentage": "Percentage",
+                    "unit": "Unit"
+                }
+            },
+            "newCoupon": "New coupon",
+            "table": {
+                "actions": {
+                    "delete": "Delete",
+                    "edit": "Edit"
+                },
+                "active": "Active",
+                "alert": {
+                    "couponSuccessfullyDeleted": "Coupon successfully deleted"
+                },
+                "amount": "Amount",
+                "code": "Code",
+                "confirmation": {
+                    "deleteCouponConfirmation": "Are you sure you want to delete this coupon"
+                },
+                "description": "Description",
+                "expiration": "Expiration",
+                "inactive": "Inctive",
+                "quantity": "Quantity",
+                "status": "Status",
+                "type": {
+                    "addOn": "Add-on",
+                    "deal": "Deal",
+                    "type": "Type"
+                },
+                "unit": {
+                    "amount": "Amount",
+                    "percentage": "Percentage",
+                    "unit": "Unit"
+                }
+            }
+        },
+        "dashboard": {
+            "companyStorage": {
+                "companyStorage": "Company Storage",
+                "storagePaid": "Storage paid",
+                "storageUsed": "Storage used",
+                "table": {
+                    "name": "Name",
+                    "storagePaid": "Storage paid",
+                    "storageUsed": "Storage used"
+                }
+            },
+            "active": "Active",
+            "activeCompanies": "Active companies",
+            "activeLicenses": "Active licenses",
+            "activeSubscribers": "Active subscribers",
+            "clients": "Clients",
+            "dashboard": "Dashboard",
+            "exclVat": "Excl. VAT",
+            "inactive": "Inactive",
+            "invoices": "Invoices",
+            "noCompaniesYet": "No companies yet",
+            "numberOfNonpayingCompanies": "Number of non-paying companies",
+            "numberOfPayingCompnanies": "Number of paying companies",
+            "numberOfTotalActiveLincenses": "Number of total active licenses",
+            "numberOfTotalCompanies": "Number of total companies",
+            "numberOfUnusedLicenses": "Number of unused licenses",
+            "numberOfUsersWithLicenses": "Number of users with licenses",
+            "paying": "Paying",
+            "recentCompanies": "Recent companies",
+            "registeredUsers": "Registered users",
+            "unusedLicenses": "Unused licenses",
+            "users": "Users",
+            "usersWithLicenses": "Users with licenses",
+            "revenue": {
+                "filter": "Filter",
+                "filterDate": "Filter date",
+                "revenue": "Revenue"
+            },
+            "sharedCitizenOne": "Shared CitizenOne",
+            "viewAll": "View all"
+        },
+        "invoiceDetails": {
+            "billTo": "Bill to",
+            "date": "Date",
+            "download": "Download",
+            "invoice": "Invoice",
+            "invoiceDetails": "Invoice details",
+            "invoiceNumber": "Invoice number",
+            "table": {
+                "amount": "Amount",
+                "description": "Description",
+                "price": "Price",
+                "quantity": "Quantity",
+                "tax": "Tax"
+            },
+            "thisInvoiceHasAlreadyBeenPaid": "This invoice has already been paid via your selected payment method in the CitizenOne™ system"
+        },
+        "invoices": {
+            "download": {
+                "date": "Date",
+                "download": "Download",
+                "filter": {
+                    "filterDate": "Filter date"
+                }
+            },
+            "form": {
+                "alert": {
+                    "invoiceMarkedAsPaid": "Invoice successfully marked as paid"
+                }
+            },
+            "invoices": "Invoices",
+            "table": {
+                "actions": {
+                    "markAsPaid": "Mark as paid",
+                    "view": "View"
+                },
+                "amount": "Amount",
+                "company": "Company",
+                "confirmation": {
+                    "markAsPaidConfirmation": "Are you sure you want to mark this invoice as paid"
+                },
+                "date": "Date",
+                "invoiceNumber": "Invoice number",
+                "new": "New",
+                "paid": "Paid",
+                "status": "Status",
+                "unpaid": "Unpaid",
+                "type": "Type"
+            },
+            "failed": "Failed",
+            "noInvoicesFound": "No invoices found",
+            "pending": "Pending",
+            "showing": "Showing {from}–{to} of {total}",
+            "totalInvoices": "{count} invoices in total",
+            "tryToClearFilters": "Try clearing your filters",
+            "filter": {
+                "allPayments": "All payments",
+                "clearFilters": "Clear filters",
+                "from": "From",
+                "to": "To",
+                "unpaid": "Unpaid"
+            },
+            "sort": {
+                "highestAmount": "Highest amount",
+                "invoiceNumber": "Invoice no.",
+                "newestFirst": "Newest first"
+            },
+            "tabs": {
+                "all": "All",
+                "failed": "Failed",
+                "paid": "Paid",
+                "pending": "Pending"
+            },
+            "searchPlaceholder": "Search by invoice number, company..."
+        },
+        "orders": {
+            "pageTitle": "Orders",
+            "header": "Orders",
+            "totalOrders": "orders in total",
+            "completed": "completed",
+            "pending": "pending",
+            "newOrder": "New order",
+            "searchPlaceholder": "Search by order no., company or plan...",
+            "tabAll": "All",
+            "tabActive": "Active",
+            "tabPending": "Pending",
+            "tabCancelled": "Cancelled",
+            "sortNewest": "Newest first",
+            "sortOldest": "Oldest first",
+            "sortHighestAmount": "Highest amount",
+            "sortStatus": "Status",
+            "noOrdersFound": "No orders found",
+            "createNewOrder": "Create new order",
+            "colOrder": "Order",
+            "colCompany": "Company",
+            "colProducts": "Products",
+            "colTotal": "Total",
+            "colStatus": "Status",
+            "colDate": "Date",
+            "extraUsers": "users",
+            "extraDepartments": "departments",
+            "perYear": "/yr",
+            "perMonth": "/mo.",
+            "approve": "Approve",
+            "cancel": "Cancel",
+            "cancelConfirm": "Cancel this order? This cannot be undone.",
+            "wizardTitle": "New order",
+            "stepCompany": "Company",
+            "stepProducts": "Products",
+            "stepPayment": "Payment",
+            "step1Title": "Select company",
+            "existingCompany": "Existing",
+            "existingCompanyDesc": "Add order to an existing company",
+            "newCompany": "New company",
+            "newCompanyDesc": "Create new company and add licenses",
+            "searchCompanyLabel": "Search company",
+            "searchCompanyPlaceholder": "Search name or email...",
+            "companyNameLabel": "Company name",
+            "companyNamePlaceholder": "Company name",
+            "firstNameLabel": "First name",
+            "lastNameLabel": "Last name",
+            "emailLabel": "Email",
+            "phoneLabel": "Phone",
+            "step2Title": "Select products",
+            "step2Subtitle": "Package, apps, courses and add-ons",
+            "subscriptionPackage": "Subscription package",
+            "billingPeriod": "Billing period",
+            "monthly": "Monthly",
+            "yearly": "Yearly",
+            "addOns": "Add-ons to package",
+            "extraUsersLabel": "Extra users",
+            "extraUsersPrice": "+kr. 39/mo. per user",
+            "extraDepartmentsLabel": "Extra departments",
+            "extraDepartmentsPrice": "+kr. 79/mo. per department",
+            "appsLabel": "Apps (App Store add-ons)",
+            "free": "Free",
+            "oneTime": "One time",
+            "orderSummary": "Order summary",
+            "selectAtLeastOne": "Select at least one product",
+            "extraUsersRow": "extra user(s)",
+            "extraDepartmentsRow": "extra department(s)",
+            "oneTimeLower": "one time",
+            "monthlyTotal": "Monthly total",
+            "oneTimeFees": "One-time fees",
+            "step3Title": "Payment & completion",
+            "sellerLabel": "Seller",
+            "sellerPlaceholder": "Your name",
+            "startDateLabel": "Start date",
+            "paymentMethodLabel": "Payment method",
+            "orderStatusLabel": "Order status",
+            "notesLabel": "Notes",
+            "notesPlaceholder": "Internal notes about the order...",
+            "companyLabel": "Company",
+            "planLabel": "Plan",
+            "cancelAction": "Cancel",
+            "backAction": "← Back",
+            "saving": "Saving...",
+            "continueAction": "Continue →",
+            "createOrderAction": "Create order",
+            "statusPending": "Pending",
+            "statusCompleted": "Completed",
+            "statusCancelled": "Cancelled",
+            "paymentCard": "Credit card",
+            "paymentInvoice": "Invoice",
+            "paymentFree": "Free",
+            "paymentOther": "Other",
+            "planFreeDesc": "1 user, 1 department, 1 GB",
+            "planBasisDesc": "1 user incl., unlimited citizens",
+            "planProDesc": "3 users, 3 departments, 3 GB, FMK",
+            "errorSelectCompany": "Select or search a company",
+            "errorCompanyName": "Company name is required",
+            "errorSelectProduct": "Select at least one package or app",
+            "successOrderCreated": "Order created!",
+            "successOrderCreatedBody": "Order for {name} has been created.",
+            "successUpdated": "Updated!",
+            "successOrderCompleted": "The order has been completed."
+        },
+        "polls": {
+            "confirmation": {
+                "deletePollConfirmation": "Are you sure you want to delete this poll",
+                "deletePollItemConfirmation": "Are you sure you want to delete this poll item"
+            },
+            "editPoll": "Edit poll",
+            "editPollItem": "Edit poll item",
+            "form": {
+                "active": "Active",
+                "alert": {
+                    "newPollItemSuccessfullySaved": "New poll item successfully saved",
+                    "newPollSuccessfullySaved": "New poll successfully saved",
+                    "pollItemSuccessfullyDeleted": "Poll item successfully deleted",
+                    "pollItemSuccessfullyUpdated": "Poll item successfully updated",
+                    "pollSuccessfullyDeleted": "Poll successfully deleted",
+                    "pollSuccessfullyUpdated": "Poll successfully updated"
+                },
+                "description": "Description",
+                "name": "Name",
+                "region": "Region",
+                "sender": "Afsender",
+                "title": "Title"
+            },
+            "newPoll": "New poll",
+            "newPollItem": "New poll item",
+            "pollItems": "Poll items",
+            "polls": "Polls",
+            "table": {
+                "actions": {
+                    "delete": "Delete",
+                    "edit": "Edit",
+                    "view": "View"
+                },
+                "active": "Active",
+                "description": "Description",
+                "inactive": "Inctive",
+                "region": "Region",
+                "sender": "Sender",
+                "status": "Status",
+                "title": "Title"
+            }
+        },
+        "salesCampaign": {
+            "confirmation": {
+                "deleteConfirmation": "Are you sure you want to delete this campaign"
+            },
+            "editCampaign": "Edit campaign",
+            "form": {
+                "active": "Active",
+                "alert": {
+                    "campaignSuccessfullyDeleted": "Campaign successfully deleted",
+                    "campaignSuccessfullyUpdated": "Campaign successfully updated",
+                    "newCampaignSuccessfullySaved": "New campaign successfully saved"
+                },
+                "content": "Content",
+                "image": "Image",
+                "link": "Link",
+                "title": "Title"
+            },
+            "newCampaign": "New campaign",
+            "salesCampaign": "Sales campaign",
+            "table": {
+                "actions": {
+                    "delete": "Delete",
+                    "edit": "Edit"
+                },
+                "active": "Active",
+                "content": "Content",
+                "image": "Image",
+                "inactive": "Inctive",
+                "link": "Link",
+                "status": "Status",
+                "title": "Title"
+            }
+        },
+        "sidebar": {
+            "apps": "Apps",
+            "breadcrumb": "Superadmin",
+            "cancellations": "Cancellations",
+            "clientRoles": "Roles & Rights",
+            "companies": "Companies",
+            "coupons": "Coupons",
+            "dashboard": "Dashboard",
+            "finance": "Finance",
+            "groups": {
+                "finance": "Finance",
+                "overview": "Overview",
+                "platform": "Platform"
+            },
+            "invoices": "Invoices",
+            "licenses": "Licenses",
+            "orders": "Orders",
+            "polls": "Polls",
+            "products": "Products",
+            "salesCampaign": "Sales campaign",
+            "superAdmin": "Super Admin",
+            "superAdminPanel": "Super admin panel",
+            "users": "Users"
+        },
+        "users": {
+            "confirmation": {
+                "deleteUserConfirmation": "Are you sure you want to delete this user"
+            },
+            "editUser": "Edit user",
+            "form": {
+                "alert": {
+                    "newUserSuccessfullySaved": "New user successfully saved",
+                    "userSuccessfullyDeleted": "User successfully deleted",
+                    "userSuccessfullyUpdated": "User successfully updated"
+                },
+                "birthday": "Birthday",
+                "emailAddress": "Email address",
+                "firstname": "First name",
+                "lastname": "Last name",
+                "phone": "Phone"
+            },
+            "newUser": "New user",
+            "table": {
+                "actions": {
+                    "delete": "Delete",
+                    "edit": "Edit"
+                },
+                "email": "Email",
+                "name": "Name",
+                "phone": "Phone",
+                "company": "Company",
+                "role": "Role",
+                "status": "Status"
+            },
+            "users": "Users",
+            "createFirstUser": "Create the first user",
+            "createUser": "Create user",
+            "noUsersFound": "No users found",
+            "searchPlaceholder": "Search by name, email or company...",
+            "showing": "Showing {from}–{to} of {total}",
+            "totalUsers": "{count} users in total",
+            "tabs": {
+                "admins": "Admins",
+                "all": "All",
+                "active": "Active",
+                "inactive": "Inactive"
+            },
+            "sort": {
+                "nameAsc": "Name A–Z",
+                "nameDesc": "Name Z–A",
+                "newestFirst": "Newest first",
+                "oldestFirst": "Oldest first"
+            },
+            "slider": {
+                "attachToCompany": "Attach to company",
+                "createAndAttach": "Create and attach to company",
+                "creating": "Creating...",
+                "leaveEmptyForWelcomeEmail": "Leave empty to send a welcome email with a link",
+                "minChars": "Min. 8 characters",
+                "password": "Password",
+                "roleAdmin": "Administrator",
+                "roleUser": "User",
+                "searchCompany": "Search company...",
+                "searchToAttach": "Search to attach an existing company",
+                "userCanLogin": "The user can log in",
+                "userInfo": "User information"
+            }
+        },
+        "finance": {
+            "pageTitle": "Finance",
+            "header": "Finance",
+            "subtitle": "Revenue · Companies · Growth · Risk",
+            "periodLabels": {
+                "7d": "Last 7 days",
+                "30d": "Last 30 days",
+                "90d": "Last 90 days",
+                "12m": "Last 12 months"
+            },
+            "revenueSubtitle": "Turnover and invoicing",
+            "vsPrevious": "vs. previous",
+            "forecastMRR": "Forecast based on MRR",
+            "collected": "Collected",
+            "collectionRateLabel": "collection rate",
+            "paidInPeriod": "Paid in the period",
+            "outstanding": "Outstanding",
+            "allPaid": "All paid",
+            "invoicesPending": "invoices pending",
+            "notYetCollected": "Not yet collected",
+            "mrrOverTime": "MRR over time",
+            "mrrHelp": "Helps identify growth stagnation and seasonal trends",
+            "newARR": "New ARR",
+            "noData": "No data yet",
+            "newRevenue": "New revenue",
+            "fromCompanies": "From new companies",
+            "expansionRevenue": "Expansion revenue",
+            "upgrades": "Upgrades",
+            "lostRevenue": "Lost revenue",
+            "fromChurn": "From churn / cancellations",
+            "companiesLicenses": "Companies & Licenses",
+            "subscriptions": "Subscriptions and plan distribution",
+            "activeCompanies": "Active companies",
+            "payingSubscribers": "Paying subscribers",
+            "activeLicenses": "Active licenses today",
+            "overBenchmark": "Above benchmark",
+            "underBenchmark": "Below benchmark",
+            "trialPeriods": "Trial periods",
+            "conversionRate": "conversion rate",
+            "activeTrials": "Active trial periods",
+            "expiringSoon": "Expiring soon",
+            "within7Days": "Within 7 days",
+            "requiresFollowUp": "Requires follow-up now",
+            "planDistribution": "Plan distribution",
+            "plans": "Which plans drive your revenue",
+            "comp": "comp.",
+            "annualPlanShare": "Annual plan share",
+            "topCompanies": "Top companies",
+            "top": "Top",
+            "highestPaying": "highest-paying customers",
+            "noDataYet": "No data yet",
+            "mo": "/mo",
+            "growth": "Growth",
+            "marketingRoas": "Marketing, conversion and ROAS",
+            "momGrowth": "MoM growth",
+            "newCompaniesVs": "New companies vs. previous mo.",
+            "newCompanies": "New companies",
+            "inPeriod": "In the period",
+            "netGrowth": "Net growth",
+            "goalRoas": "Goal: > 3x",
+            "conversionFunnel": "Conversion funnel",
+            "dropOffTrial": "Tracks drop-off in trial → paying customers",
+            "visitors": "Visitors",
+            "signup": "Sign-up",
+            "paying": "Paying",
+            "risk": "Risk",
+            "churnIssues": "Churn, payment issues and alerts",
+            "healthyLevel": "Healthy level",
+            "requiresAttention": "Requires attention",
+            "critical": "Critical — act now",
+            "goalUnder2": "Goal: under 2%/mo.",
+            "churnedRevenue": "Churned revenue",
+            "companiesLost": "companies lost",
+            "lostMRR": "Lost MRR in the period",
+            "paymentFailures": "Payment failures",
+            "requiresFollowUpShort": "Requires follow-up",
+            "declined": "Declined payments",
+            "goalNRR": "Goal: > 100%",
+            "churnOverTime": "Churn over time",
+            "churnSpikes": "Tracks churn spikes and seasonal patterns",
+            "churnReasons": "Churn reasons",
+            "whatDrives": "What drives cancellations",
+            "basedOn": "Based on cancellation flow data",
+            "churnReasonLabels": [
+                "Too expensive",
+                "Missing features",
+                "Switched competitor",
+                "Company closed",
+                "Other"
+            ],
+            "alertCriticalChurnTitle": "Critical churn:",
+            "alertCriticalChurnBody": "is above critical threshold of 5%.",
+            "alertPaymentTitle": "Payment errors:",
+            "alertPaymentBody": "invoices declined. Contact the affected companies.",
+            "alertTrialTitle": "Trial periods:",
+            "alertTrialBody": "expire within 7 days.",
+            "alertNRRTitle": "NRR below 100%:",
+            "alertNRRBody": "You are losing more than you gain. Focus on expansion and reducing churn.",
+            "revenue": "Revenue",
+            "mrrFull": "Monthly Recurring Revenue",
+            "arrFull": "Annual Recurring Revenue",
+            "arpuFull": "Avg. Revenue Per User",
+            "momFull": "Month-over-Month",
+            "roasFull": "Return on Ad Spend",
+            "ltvFull": "Lifetime Value",
+            "nrrFull": "Net Revenue Retention",
+            "months": [
+                "Jan",
+                "Feb",
+                "Mar",
+                "Apr",
+                "May",
+                "Jun",
+                "Jul",
+                "Aug",
+                "Sep",
+                "Oct",
+                "Nov",
+                "Dec"
+            ],
+            "monthsLong": [
+                "January",
+                "February",
+                "March",
+                "April",
+                "May",
+                "June",
+                "July",
+                "August",
+                "September",
+                "October",
+                "November",
+                "December"
+            ],
+            "churnRate": "Churn rate"
+        },
+        "licenses": {
+            "pageTitle": "App Licenses",
+            "header": "App Licenses",
+            "subtitle": "Define prices and license structures per app",
+            "newLicense": "New license",
+            "licenseModelLabel": "License model",
+            "licenseModelDesc": "Companies pay per app they activate, not a single plan. The price is per user/license with flexible billing intervals — monthly, yearly, or a specific agreement (e.g. public sector with large volume).",
+            "noAppsFound": "No apps found",
+            "noAppsFoundSub": "Add apps from the Apps page first",
+            "licenseTypes": "license types",
+            "activeCompanies": "active companies",
+            "addLicense": "Add license",
+            "noLicenseTypes": "No license types yet — add the first",
+            "volume": "Volume",
+            "inactive": "Inactive",
+            "free": "Free",
+            "perUser": "/ user",
+            "included": "incl.",
+            "min": "min.",
+            "users": "users",
+            "editLicense": "Edit license",
+            "appLabel": "App",
+            "selectAppPlaceholder": "Select app…",
+            "licenseNameLabel": "License name",
+            "licenseNamePlaceholder": "e.g. Standard, Enterprise, Public",
+            "descriptionLabel": "Description",
+            "descriptionPlaceholder": "Short description of the license type",
+            "priceLabel": "Price per user (kr)",
+            "billingIntervalLabel": "Billing interval",
+            "monthly": "Monthly",
+            "yearly": "Yearly",
+            "quarterly": "Quarterly",
+            "custom": "Custom agreement",
+            "includedSeatsLabel": "Included users",
+            "includedSeatsHint": "Included in base price (0 = none)",
+            "minSeatsLabel": "Min. purchase (users)",
+            "minSeatsHint": "Minimum that must be purchased",
+            "volumeAgreement": "Volume agreement",
+            "volumeAgreementDesc": "Enable for e.g. public institutions with many users (e.g. 6,300 users at kr. 29/each)",
+            "activeLabel": "Active",
+            "activeDesc": "The license type can be purchased by companies",
+            "assignToCompany": "Assign to company (optional)",
+            "assignToCompanyDesc": "Assign this license type directly to a company",
+            "searchCompanyPlaceholder": "Search company...",
+            "cancelAction": "Cancel",
+            "saving": "Saving...",
+            "saveChanges": "Save changes",
+            "createLicense": "Create license",
+            "errorSelectApp": "Select an app",
+            "errorLicenseName": "License name is required",
+            "errorPrice": "Price must be 0 or more",
+            "successSaved": "Saved!",
+            "successUpdatedBody": "License type '{name}' has been updated.",
+            "successCreated": "Created!",
+            "successCreatedBody": "License type '{name}' has been created.",
+            "successDeleted": "Deleted!",
+            "successDeletedBody": "License type '{name}' has been deleted.",
+            "deleteConfirm": "Delete license type '{name}'?"
+        }
     },
     "companies": {
       "companies": "Companies",

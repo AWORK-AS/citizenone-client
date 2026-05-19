@@ -3770,6 +3770,950 @@
         "employee": "Anställd",
         "link": "Länk"
       }
+        "noSubscription": {
+            "itLooksLikeYouDontHaveAnActiveSubscriptionAtTheMoment": "Det ser ut till, att du inte har ett aktivt prenumeration i ögonblicket",
+            "noActiveSubscription": "Inga aktiv prenumeration",
+            "subscribeNow": "Abonnér nu",
+            "toEnjoyOurFullRangeOfServicesAndBenefits": "För att nyde vår fulla udvalg av tjänster och fordele, overvej att prenumerera på en av vår planer",
+            "upgradeNow": "Opgradér nu"
+        },
+        "subscribed": {
+            "goHome": "Gå hjem",
+            "paymentSuccessful": "Betalning genomförd",
+            "subscriptionSuccessful": "Prenumeration",
+            "thankYouForSubscribing": "Tack eftersom du abonnerer",
+            "yourPaymentHasBeenSuccessfullyProcessed": "Din betalning är blivit behandlet",
+            "yourSubscriptionIsNowActive": "Ditt prenumeration är nu aktivt"
+        },
+        "subscription": "Prenumeration",
+        "updateSubscription": "Uppdatera prenumeration",
+        "upgrade": "Opgradér"
+    },
+    "superadmin": {
+        "accounts": {
+            "accounts": "Konton",
+            "alert": {
+                "deletedSuccessfully": "Konto raderad"
+            },
+            "confirmation": {
+                "deleteConfirmation": "Är du säker på att du vill radera denna konto"
+            },
+            "editAccount": "Redigera konto",
+            "form": {
+                "alert": {
+                    "accountSuccessfullyActivated": "Kontoen är blivit aktiverad",
+                    "accountSuccessfullyDeactivated": "Kontoen är blivit inaktiverad",
+                    "accountSuccessfullyUpdated": "Kontoen har uppdaterats",
+                    "newAccountSuccessfullySaved": "Ny konto har sparats"
+                },
+                "birthday": "Födelsedag",
+                "changePassword": "Byt lösenord",
+                "emailAddress": "E-postadress",
+                "firstname": "Förnamn",
+                "lastname": "Efternamn",
+                "password": "Lösenord",
+                "permissions": {
+                    "create": "Skapa",
+                    "delete": "Radera",
+                    "permissions": "Behörigheter",
+                    "read": "Läs",
+                    "update": "Uppdatera"
+                },
+                "phone": "Telefon",
+                "role": "Roll"
+            },
+            "newAccount": "Ny konto",
+            "table": {
+                "actions": {
+                    "activate": "Aktivera",
+                    "deactivate": "Deaktiver",
+                    "delete": "Radera",
+                    "edit": "Redigera",
+                    "impersonate": "Impersonér"
+                },
+                "email": "E-post",
+                "name": "Namn",
+                "phone": "Telefon",
+                "role": "Roll"
+            }
+        },
+        "apps": {
+            "alert": {
+                "appSuccessfullyDeleted": "App har raderats"
+            },
+            "apps": "Apps",
+            "categories": {
+                "citizenone": "CitizenOne",
+                "fst": "FindSocialeTilbud.dk",
+                "marketing": "Marketing",
+                "other": "Annat",
+                "visual": "Visuel"
+            },
+            "confirmation": {
+                "deleteAppConfirmation": "Är du säker på att du vill radera denna app?"
+            },
+            "editApp": "Redigera app",
+            "form": {
+                "alert": {
+                    "appSuccessfullyUpdated": "App har uppdaterats",
+                    "newAppSuccessfullySaved": "Ny app har sparats"
+                },
+                "backgroundImage": "Baggrundsbillede",
+                "description": "Beskrivning",
+                "image": "Bild",
+                "isOneTimeFee": "Én gang gebyr",
+                "link": "Länk",
+                "logo": "Logotyp",
+                "monthlyPrice": "Månadsvis pris",
+                "name": "Namn",
+                "news": "Nyhet",
+                "popular": "Populär",
+                "price": "Pris",
+                "quantifiable": "Kan kvantificeres",
+                "recommended": "Rekommenderad",
+                "thirdPartyApp": "Tredjeparts app",
+                "type": "Typ",
+                "types": {
+                    "citizenone": "CitizenOne",
+                    "fst": "FindSocialeTilbud.dk",
+                    "marketing": "Marketing",
+                    "other": "Annat",
+                    "visual": "Visuel"
+                },
+                "yearlyPrice": "Årlig pris"
+            },
+            "newApp": "Ny app",
+            "table": {
+                "actions": {
+                    "delete": "Radera",
+                    "edit": "Redigera"
+                },
+                "link": "Länk",
+                "logo": "Logotyp",
+                "monthlyPrice": "Månadsvis pris",
+                "name": "Namn",
+                "news": "Nyhet",
+                "oneTimeFee": "Én gang gebyr",
+                "popular": "Populär",
+                "price": "Pris",
+                "recommended": "Rekommenderad",
+                "thirdPartyApp": "Tredjeparts app",
+                "type": "Typ",
+                "yearlyPrice": "Årlig pris"
+            }
+        },
+        "companies": {
+            "companies": "Företag",
+            "company": "Företag",
+            "createFirstClient": "Skapa din första klient",
+            "import": "Importera",
+            "noCompaniesFound": "Inga företag hittades",
+            "searchPlaceholder": "Sök på namn, e-post eller domän...",
+            "showing": "Visar {from}–{to} av {total}",
+            "sort": {
+                "nameAsc": "Namn A–Z",
+                "nameDesc": "Namn Z–A",
+                "newestFirst": "Nyaste först",
+                "oldestFirst": "Äldsta först"
+            },
+            "totalClients": "{count} klienter totalt",
+            "companyApps": {
+                "alert": {
+                    "appSuccessfullyActivated": "App aktiverad",
+                    "appSuccessfullyDeactivated": "App inaktiverad"
+                },
+                "companyApps": "Virksomhedsapps",
+                "confirmation": {
+                    "activateAppConfirmation": "Är du säker på att du vill aktivere denna app",
+                    "deactivateAppConfirmation": "Är du säker på att du vill deaktivere denna app"
+                },
+                "table": {
+                    "actions": {
+                        "activate": "Aktivera",
+                        "deactivate": "Deaktiver"
+                    },
+                    "active": "Aktiv",
+                    "inactive": "Inaktiv",
+                    "name": "Namn",
+                    "price": "Pris",
+                    "status": "Status",
+                    "type": "Typ"
+                }
+            },
+            "accounts": {
+                "activatedAppsAndModules": "Aktiverade appar & moduler",
+                "allCompanies": "Alla företag",
+                "cardLinkSent": "Kortuppdateringslänk har skickats till kunden",
+                "loginAs": "Logga in som",
+                "manualInvoice": "Manuell faktura",
+                "monthly": "mån.",
+                "newAccount": "Nytt konto",
+                "noAccounts": "Inga användarkonton",
+                "noAppsActivated": "Inga appar aktiverade",
+                "paymentCard": "Betalkort",
+                "sendCardLink": "Skicka kortlänk",
+                "stats": {
+                    "activeLicenses": "aktiva licenser",
+                    "activatedModules": "aktiverade moduler",
+                    "availableLicenses": "lediga licenser",
+                    "unused": "Oanvända"
+                },
+                "tabs": {
+                    "overview": "Översikt"
+                },
+                "userAccounts": "Användarkonton",
+                "yearly": "år"
+            },
+            "editCompany": "Redigera företag",
+            "form": {
+                "active": "Aktiv",
+                "activeImmediately": "Aktiv direkt",
+                "activeImmediatelyDesc": "Företaget aktiveras omedelbart",
+                "address": "Adress",
+                "addressPlaceholder": "Gatunamn 1, 12345 Stad",
+                "adminUser": "Administratörsanvändare",
+                "adminUserDesc": "Denna användare får administratörsåtkomst till företaget",
+                "alert": {
+                    "companySuccessfullyActivated": "Företaget är aktiverad",
+                    "companySuccessfullyDeactivated": "Företaget är inaktiverad",
+                    "companySuccessfullyUpdated": "Företaget är uppdaterad",
+                    "newCompanySuccessfullySaved": "Ny företag är sparad"
+                },
+                "companyInformation": "Företagsinformation",
+                "companyName": "Företagsnamn",
+                "companyNamePlaceholder": "t.ex. Acme AB",
+                "confirmPassword": "Bekräfta lösenord",
+                "creating": "Skapar...",
+                "cvr": "ORGANISATIONSNUMMER",
+                "emailAddress": "E-postadress",
+                "firstname": "Förnamn",
+                "inactive": "Inaktiv",
+                "industry": "Bransch",
+                "lastname": "Efternamn",
+                "password": "Lösenord",
+                "passwordMismatch": "Lösenorden matchar inte",
+                "passwordPlaceholder": "Min. 8 tecken",
+                "phone": "Telefon",
+                "repeatPassword": "Upprepa lösenord",
+                "selectIndustry": "Välj bransch...",
+                "selectType": "Välj typ...",
+                "sendWelcomeEmail": "Skicka välkomstmejl",
+                "sendWelcomeEmailDesc": "Administratören får inloggningsinstruktioner via e-post",
+                "settings": "Inställningar",
+                "typeOfFacility": "Typ av erbjudande",
+                "website": "Websted"
+            },
+            "importCompanies": {
+                "alert": {
+                    "companiesSuccessfullyImported": "Företag är importeret"
+                },
+                "downloadTemplate": "Ladda ner mall",
+                "importCompanies": "Importera företag",
+                "importTemplate": "Importskabelon",
+                "noFileSelected": "Inga fil vald"
+            },
+            "licenseOverview": {
+                "licenseOverview": "Licensoversigt",
+                "licenses": "Licenser",
+                "table": {
+                    "license": "Licens",
+                    "user": "Användare",
+                    "department": "Avdelning"
+                },
+                "unusedLicense": "Ubrugt licens",
+                "usedLicense": "Brugt licens",
+                "userLicenses": "Brugerlicenser",
+                "departmentLicenses": "Afdelingslicenser",
+                "usedDepartmentLicense": "Brugt afdelingslicens",
+                "unusedDepartmentLicense": "Ubrugt afdelingslicens"
+            },
+            "newCompany": "Ny företag",
+            "subscriptions": {
+                "deal": {
+                    "admin": "Admin",
+                    "admins": "Administratörer",
+                    "automaticSynchronizationWithFMK": "Automatiskt synkronisering med FMK",
+                    "chatSupport": "Support via chatt och e-post",
+                    "department": "Avdelning",
+                    "departments": "Avdelningar",
+                    "goodForASmallTeam": "Bra till ett mindre team",
+                    "included": "Inkl",
+                    "month": "Månad",
+                    "perfectForLargerCompanies": "Perfekt till större företag",
+                    "storageSpace": "lagerplads",
+                    "telephoneSupport": "Support via telefon, chatt och e-post",
+                    "unlimitedNumberOfCitizens": "Ubegränset antal klienter",
+                    "user": "Användare",
+                    "users": "Användare",
+                    "year": "År",
+                    "youCanHaveMultipleAdmins": "Du kan bra have fler admins"
+                },
+                "noSubscription": {
+                    "itLooksLikeThisCompanyDontHaveAnActiveSubscriptionAtTheMoment": "Det ser ut till, att denna företag inte har ett aktivt prenumeration i ögonblicket",
+                    "noActiveSubscription": "Inga aktivt prenumeration"
+                }
+            },
+            "table": {
+                "actions": {
+                    "activate": "Aktivera",
+                    "deactivate": "Deaktiver",
+                    "edit": "Redigera",
+                    "view": "Visa"
+                },
+                "active": "Aktiv",
+                "cvr": "ORGANISATIONSNUMMER",
+                "id": "ID",
+                "inactive": "Inaktiv",
+                "name": "Namn",
+                "phone": "Telefon",
+                "status": "Status",
+                "website": "Websted"
+            },
+            "tabs": {
+                "accounts": "Konton",
+                "active": "Aktiva",
+                "all": "Alla",
+                "apps": "Apps",
+                "inactive": "Inaktiva",
+                "invoices": "Fakturor",
+                "licenseOverview": "Licensoversigt",
+                "licenses": "Licenser"
+            }
+        },
+        "coupons": {
+            "active": "Aktiv",
+            "coupons": "Kuponer",
+            "editCoupon": "Redigera kupong",
+            "form": {
+                "active": "Aktiv",
+                "alert": {
+                    "couponSuccessfullyUpdated": "Kupong uppdaterad",
+                    "newCouponSuccessfullySaved": "Ny kupong sparad"
+                },
+                "amount": "Belopp",
+                "code": "Kod",
+                "description": "Beskrivning",
+                "expiration": "Utgångsdatum",
+                "quantity": "Antal",
+                "status": "Status",
+                "type": {
+                    "addOn": "Tilföjelse",
+                    "deal": "Erbjudande",
+                    "type": "Typ"
+                },
+                "unit": {
+                    "amount": "Belopp",
+                    "percentage": "Procentdel",
+                    "unit": "Enhet"
+                }
+            },
+            "newCoupon": "Ny kupong",
+            "table": {
+                "actions": {
+                    "delete": "Radera",
+                    "edit": "Redigera"
+                },
+                "active": "Aktiv",
+                "alert": {
+                    "couponSuccessfullyDeleted": "Kupong raderad"
+                },
+                "amount": "Belopp",
+                "code": "Kod",
+                "confirmation": {
+                    "deleteCouponConfirmation": "Är du säker på att du vill radera denna kupong"
+                },
+                "description": "Beskrivning",
+                "expiration": "Utgångsdatum",
+                "inactive": "Inaktiv",
+                "quantity": "Mängd",
+                "status": "Status",
+                "type": {
+                    "addOn": "Tilföjelse",
+                    "deal": "Erbjudande",
+                    "type": "Typ"
+                },
+                "unit": {
+                    "amount": "Belopp",
+                    "percentage": "Procentdel",
+                    "unit": "Enhet"
+                }
+            }
+        },
+        "dashboard": {
+            "companyStorage": {
+                "companyStorage": "Virksomhedslager",
+                "storagePaid": "Betald lager",
+                "storageUsed": "Brugt lager",
+                "table": {
+                    "name": "Namn",
+                    "storagePaid": "Betald lager",
+                    "storageUsed": "Brugt lager"
+                }
+            },
+            "active": "Aktiv",
+            "activeCompanies": "Aktiva företag",
+            "activeLicenses": "Aktiva licenser",
+            "activeSubscribers": "Aktiva prenumeranter",
+            "clients": "Klienter",
+            "dashboard": "Dashboard",
+            "exclVat": "Exkl. moms",
+            "inactive": "Inaktiv",
+            "invoices": "Fakturor",
+            "noCompaniesYet": "Inga företag ännu",
+            "numberOfNonpayingCompanies": "Antal inte-betalende företag",
+            "numberOfPayingCompnanies": "Antal betalende företag",
+            "numberOfTotalActiveLincenses": "Antal aktiva licenser i allt",
+            "numberOfTotalCompanies": "Antal företag i allt",
+            "numberOfUnusedLicenses": "Antal ubrugte licenser",
+            "numberOfUsersWithLicenses": "Antal användare med licenser",
+            "paying": "Betalande",
+            "recentCompanies": "Senaste företag",
+            "registeredUsers": "Registrerade användare",
+            "unusedLicenses": "Oanvända licenser",
+            "users": "Användare",
+            "usersWithLicenses": "Användare med licenser",
+            "revenue": {
+                "filter": "Filtrera",
+                "filterDate": "Filtrera datum",
+                "revenue": "Omsätning"
+            },
+            "sharedCitizenOne": "Delad CitizenOne",
+            "viewAll": "Se alla"
+        },
+        "invoiceDetails": {
+            "billTo": "Faktureres till",
+            "date": "Datum",
+            "download": "Ladda ner",
+            "invoice": "Faktura",
+            "invoiceDetails": "Fakturaoplysninger",
+            "invoiceNumber": "Fakturanummer",
+            "table": {
+                "amount": "Belopp",
+                "description": "Beskrivning",
+                "price": "Pris",
+                "quantity": "Mängd",
+                "tax": "Moms"
+            },
+            "thisInvoiceHasAlreadyBeenPaid": "Denna faktura är allerede betald via din valda betalingsmetode i CitizenOne™ systemet"
+        },
+        "invoices": {
+            "download": {
+                "date": "Datum",
+                "download": "Ladda ner",
+                "filter": {
+                    "filterDate": "Filtrera datum"
+                }
+            },
+            "form": {
+                "alert": {
+                    "invoiceMarkedAsPaid": "Faktura markeret som betald"
+                }
+            },
+            "invoices": "Fakturor",
+            "table": {
+                "actions": {
+                    "markAsPaid": "Markera som betald",
+                    "view": "Se"
+                },
+                "amount": "Belopp",
+                "company": "Företag",
+                "confirmation": {
+                    "markAsPaidConfirmation": "Är du säker på att du vill markere denna faktura som betald"
+                },
+                "date": "Datum",
+                "invoiceNumber": "Fakturanummer",
+                "new": "Ny",
+                "paid": "Betald",
+                "status": "Status",
+                "unpaid": "Obetald",
+                "type": "Typ"
+            },
+            "failed": "Avvisad",
+            "noInvoicesFound": "Inga fakturor hittades",
+            "pending": "Väntande",
+            "showing": "Visar {from}–{to} av {total}",
+            "totalInvoices": "{count} fakturor totalt",
+            "tryToClearFilters": "Försök att rensa dina filter",
+            "filter": {
+                "allPayments": "Alla betalningar",
+                "clearFilters": "Rensa filter",
+                "from": "Från",
+                "to": "Till",
+                "unpaid": "Obetald"
+            },
+            "sort": {
+                "highestAmount": "Högsta belopp",
+                "invoiceNumber": "Fakturanr.",
+                "newestFirst": "Nyaste först"
+            },
+            "tabs": {
+                "all": "Alla",
+                "failed": "Avvisad",
+                "paid": "Betald",
+                "pending": "Väntande"
+            },
+            "searchPlaceholder": "Sök på fakturanummer, företag..."
+        },
+        "orders": {
+            "pageTitle": "Beställningar",
+            "header": "Beställningar",
+            "totalOrders": "beställningar totalt",
+            "completed": "genomförd",
+            "pending": "väntar",
+            "newOrder": "Ny beställning",
+            "searchPlaceholder": "Sök på ordernr., företag eller plan...",
+            "tabAll": "Alla",
+            "tabActive": "Aktiva",
+            "tabPending": "Väntar",
+            "tabCancelled": "Annullerad",
+            "sortNewest": "Nyaste först",
+            "sortOldest": "Äldsta först",
+            "sortHighestAmount": "Högsta belopp",
+            "sortStatus": "Status",
+            "noOrdersFound": "Inga beställningar hittades",
+            "createNewOrder": "Skapa ny beställning",
+            "colOrder": "Beställning",
+            "colCompany": "Företag",
+            "colProducts": "Produkter",
+            "colTotal": "Totalt",
+            "colStatus": "Status",
+            "colDate": "Datum",
+            "extraUsers": "användare",
+            "extraDepartments": "avdelningar",
+            "perYear": "/år",
+            "perMonth": "/mån.",
+            "approve": "Godkänn",
+            "cancel": "Avbryt",
+            "cancelConfirm": "Avbryt denna beställning? Det kan inte ångras.",
+            "wizardTitle": "Ny beställning",
+            "stepCompany": "Företag",
+            "stepProducts": "Produkter",
+            "stepPayment": "Betalning",
+            "step1Title": "Välj företag",
+            "existingCompany": "Befintligt",
+            "existingCompanyDesc": "Lägg till beställning till ett befintligt företag",
+            "newCompany": "Nytt företag",
+            "newCompanyDesc": "Skapa nytt företag och lägg till licenser",
+            "searchCompanyLabel": "Sök företag",
+            "searchCompanyPlaceholder": "Sök namn eller e-post...",
+            "companyNameLabel": "Företagsnamn",
+            "companyNamePlaceholder": "Företagsnamn",
+            "firstNameLabel": "Förnamn",
+            "lastNameLabel": "Efternamn",
+            "emailLabel": "E-post",
+            "phoneLabel": "Telefon",
+            "step2Title": "Välj produkter",
+            "step2Subtitle": "Paket, appar, kurser och tillägg",
+            "subscriptionPackage": "Abonnemangspaket",
+            "billingPeriod": "Faktureringsperiod",
+            "monthly": "Månadsvis",
+            "yearly": "Årsvis",
+            "addOns": "Tillägg till paket",
+            "extraUsersLabel": "Extra användare",
+            "extraUsersPrice": "+kr. 39/mån. per användare",
+            "extraDepartmentsLabel": "Extra avdelningar",
+            "extraDepartmentsPrice": "+kr. 79/mån. per avdelning",
+            "appsLabel": "Appar (App Store tillägg)",
+            "free": "Gratis",
+            "oneTime": "En gång",
+            "orderSummary": "Orderöversikt",
+            "selectAtLeastOne": "Välj minst en produkt",
+            "extraUsersRow": "extra användare",
+            "extraDepartmentsRow": "extra avdelning(ar)",
+            "oneTimeLower": "en gång",
+            "monthlyTotal": "Månadstotal",
+            "oneTimeFees": "Engångsavgifter",
+            "step3Title": "Betalning & avslutning",
+            "sellerLabel": "Säljare",
+            "sellerPlaceholder": "Ditt namn",
+            "startDateLabel": "Startdatum",
+            "paymentMethodLabel": "Betalningsmetod",
+            "orderStatusLabel": "Beställningsstatus",
+            "notesLabel": "Anteckningar",
+            "notesPlaceholder": "Interna anteckningar om beställningen...",
+            "companyLabel": "Företag",
+            "planLabel": "Plan",
+            "cancelAction": "Avbryt",
+            "backAction": "← Tillbaka",
+            "saving": "Sparar...",
+            "continueAction": "Fortsätt →",
+            "createOrderAction": "Skapa beställning",
+            "statusPending": "Väntar",
+            "statusCompleted": "Genomförd",
+            "statusCancelled": "Annullerad",
+            "paymentCard": "Betalkort",
+            "paymentInvoice": "Faktura",
+            "paymentFree": "Gratis",
+            "paymentOther": "Annat",
+            "planFreeDesc": "1 användare, 1 avdelning, 1 GB",
+            "planBasisDesc": "1 användare inkl., obegränsade medborgare",
+            "planProDesc": "3 användare, 3 avdelningar, 3 GB, FMK",
+            "errorSelectCompany": "Välj eller sök ett företag",
+            "errorCompanyName": "Företagsnamn krävs",
+            "errorSelectProduct": "Välj minst ett paket eller en app",
+            "successOrderCreated": "Beställning skapad!",
+            "successOrderCreatedBody": "Beställning för {name} har skapats.",
+            "successUpdated": "Uppdaterad!",
+            "successOrderCompleted": "Beställningen är genomförd."
+        },
+        "polls": {
+            "confirmation": {
+                "deletePollConfirmation": "Är du säker på att du vill radera denna omröstning",
+                "deletePollItemConfirmation": "Är du säker på att du vill radera detta afstemningselement"
+            },
+            "editPoll": "Redigera omröstning",
+            "editPollItem": "Redigera afstemningspunkt",
+            "form": {
+                "active": "Aktiv",
+                "alert": {
+                    "newPollItemSuccessfullySaved": "New poll item successfully saved",
+                    "newPollSuccessfullySaved": "New poll successfully saved",
+                    "pollItemSuccessfullyDeleted": "Poll item successfully deleted",
+                    "pollItemSuccessfullyUpdated": "Poll item successfully updated",
+                    "pollSuccessfullyDeleted": "Poll successfully deleted",
+                    "pollSuccessfullyUpdated": "Poll successfully updated"
+                },
+                "description": "Beskrivning",
+                "name": "Namn",
+                "region": "Region",
+                "sender": "Avsändare",
+                "title": "Titel"
+            },
+            "newPoll": "Ny omröstning",
+            "newPollItem": "Nytt afstemningspunkt",
+            "pollItems": "Afstemningspunkter",
+            "polls": "Afstemninger",
+            "table": {
+                "actions": {
+                    "delete": "Radera",
+                    "edit": "Redigera",
+                    "view": "Visa"
+                },
+                "active": "Aktiv",
+                "description": "Beskrivning",
+                "inactive": "Inaktiv",
+                "region": "Region",
+                "sender": "Avsändare",
+                "status": "Status",
+                "title": "Titel"
+            }
+        },
+        "salesCampaign": {
+            "confirmation": {
+                "deleteConfirmation": "Är du säker på att du vill radera denna kampanj"
+            },
+            "editCampaign": "Redigera kampanj",
+            "form": {
+                "active": "Aktiv",
+                "alert": {
+                    "campaignSuccessfullyDeleted": "Kampanj blev raderad",
+                    "campaignSuccessfullyUpdated": "Kampanj uppdaterad",
+                    "newCampaignSuccessfullySaved": "Ny kampanj är sparad"
+                },
+                "content": "Innehåll",
+                "image": "Bild",
+                "link": "Länk",
+                "title": "Titel"
+            },
+            "newCampaign": "Ny kampanj",
+            "salesCampaign": "Salgs kampanj",
+            "table": {
+                "actions": {
+                    "delete": "Radera",
+                    "edit": "Redigera"
+                },
+                "active": "Aktiv",
+                "content": "Innehåll",
+                "image": "Bild",
+                "inactive": "Inaktiv",
+                "link": "Länk",
+                "status": "Status",
+                "title": "Titel"
+            }
+        },
+        "sidebar": {
+            "apps": "Apps",
+            "breadcrumb": "Superadmin",
+            "cancellations": "Uppsägningar",
+            "clientRoles": "Roller & Rättigheter",
+            "companies": "Företag",
+            "coupons": "Kuponer",
+            "dashboard": "Dashboard",
+            "finance": "Ekonomi",
+            "groups": {
+                "finance": "Ekonomi",
+                "overview": "Översikt",
+                "platform": "Plattform"
+            },
+            "invoices": "Fakturor",
+            "licenses": "Licenser",
+            "orders": "Ordrar",
+            "polls": "Omröstningar",
+            "products": "Produkter",
+            "salesCampaign": "Försäljningskampanjer",
+            "superAdmin": "Super Admin",
+            "superAdminPanel": "Super admin panel",
+            "users": "Användare"
+        },
+        "users": {
+            "confirmation": {
+                "deleteUserConfirmation": "Är du säker på att du vill radera denna användare"
+            },
+            "editUser": "Redigera användare",
+            "form": {
+                "alert": {
+                    "newUserSuccessfullySaved": "Ny användare är blivit sparad",
+                    "userSuccessfullyDeleted": "Användare raderad",
+                    "userSuccessfullyUpdated": "Användare har uppdaterats"
+                },
+                "birthday": "Födelsedag",
+                "emailAddress": "Emailadresse",
+                "firstname": "Förnamn",
+                "lastname": "Efternamn",
+                "phone": "Telefon"
+            },
+            "newUser": "Ny användare",
+            "table": {
+                "actions": {
+                    "delete": "Radera",
+                    "edit": "Redigera"
+                },
+                "email": "Email",
+                "name": "Namn",
+                "phone": "Telefon",
+                "company": "Företag",
+                "role": "Roll",
+                "status": "Status"
+            },
+            "users": "Användare",
+            "createFirstUser": "Skapa den första användaren",
+            "createUser": "Skapa användare",
+            "noUsersFound": "Inga användare hittades",
+            "searchPlaceholder": "Sök på namn, e-post eller företag...",
+            "showing": "Visar {from}–{to} av {total}",
+            "totalUsers": "{count} användare totalt",
+            "tabs": {
+                "admins": "Admins",
+                "all": "Alla",
+                "active": "Aktiva",
+                "inactive": "Inaktiva"
+            },
+            "sort": {
+                "nameAsc": "Namn A–Z",
+                "nameDesc": "Namn Z–A",
+                "newestFirst": "Nyaste först",
+                "oldestFirst": "Äldsta först"
+            },
+            "slider": {
+                "attachToCompany": "Koppla till företag",
+                "createAndAttach": "Skapa och koppla till företag",
+                "creating": "Skapar...",
+                "leaveEmptyForWelcomeEmail": "Lämna tomt för att skicka välkomst-e-post med länk",
+                "minChars": "Min. 8 tecken",
+                "password": "Lösenord",
+                "roleAdmin": "Administratör",
+                "roleUser": "Användare",
+                "searchCompany": "Sök företag...",
+                "searchToAttach": "Sök för att koppla ett befintligt företag",
+                "userCanLogin": "Användaren kan logga in",
+                "userInfo": "Användaruppgifter"
+            }
+        },
+        "finance": {
+            "pageTitle": "Ekonomi",
+            "header": "Ekonomi",
+            "subtitle": "Intäkter · Företag · Tillväxt · Risk",
+            "periodLabels": {
+                "7d": "Senaste 7 dagarna",
+                "30d": "Senaste 30 dagarna",
+                "90d": "Senaste 90 dagarna",
+                "12m": "Senaste 12 månaderna"
+            },
+            "revenueSubtitle": "Omsättning och fakturering",
+            "vsPrevious": "vs. föregående",
+            "forecastMRR": "Prognos baserad på MRR",
+            "collected": "Insamlat",
+            "collectionRateLabel": "insamlingsgrad",
+            "paidInPeriod": "Betalt under perioden",
+            "outstanding": "Utestående",
+            "allPaid": "Alla betalt",
+            "invoicesPending": "fakturor väntar",
+            "notYetCollected": "Ej insamlat ännu",
+            "mrrOverTime": "MRR över tid",
+            "mrrHelp": "Hjälper till att identifiera tillväxtstagnation och säsongsvariationer",
+            "newARR": "Ny ARR",
+            "noData": "Ingen data ännu",
+            "newRevenue": "Ny intäkt",
+            "fromCompanies": "Från nya företag",
+            "expansionRevenue": "Expansionsintäkt",
+            "upgrades": "Uppgraderingar",
+            "lostRevenue": "Förlorad intäkt",
+            "fromChurn": "Från churn / uppsägningar",
+            "companiesLicenses": "Företag & Licenser",
+            "subscriptions": "Prenumerationer och planfördelning",
+            "activeCompanies": "Aktiva företag",
+            "payingSubscribers": "Betalande prenumeranter",
+            "activeLicenses": "Aktiva licenser idag",
+            "overBenchmark": "Över benchmark",
+            "underBenchmark": "Under benchmark",
+            "trialPeriods": "Provperioder",
+            "conversionRate": "konverteringsgrad",
+            "activeTrials": "Aktiva provperioder",
+            "expiringSoon": "Löper ut snart",
+            "within7Days": "Inom 7 dagar",
+            "requiresFollowUp": "Kräver uppföljning nu",
+            "planDistribution": "Planfördelning",
+            "plans": "Vilka planer driver din intäkt",
+            "comp": "fört.",
+            "annualPlanShare": "Årsplan andel",
+            "topCompanies": "Toppföretag",
+            "top": "De",
+            "highestPaying": "högst betalande kunderna",
+            "noDataYet": "Ingen data ännu",
+            "mo": "/mån",
+            "growth": "Tillväxt",
+            "marketingRoas": "Marknadsföring, konvertering och ROAS",
+            "momGrowth": "MoM tillväxt",
+            "newCompaniesVs": "Nya företag vs. föregående mån.",
+            "newCompanies": "Nya företag",
+            "inPeriod": "Under perioden",
+            "netGrowth": "Nettotillväxt",
+            "goalRoas": "Mål: > 3x",
+            "conversionFunnel": "Konverteringstratt",
+            "dropOffTrial": "Spårar bortfall i trial → betalande kunder",
+            "visitors": "Besökare",
+            "signup": "Registrering",
+            "paying": "Betalande",
+            "risk": "Risk",
+            "churnIssues": "Churn, betalningsproblem och varningar",
+            "healthyLevel": "Hälsosam nivå",
+            "requiresAttention": "Kräver uppmärksamhet",
+            "critical": "Kritisk — agera nu",
+            "goalUnder2": "Mål: under 2%/mån.",
+            "churnedRevenue": "Förlorad intäkt (churn)",
+            "companiesLost": "företag förlorade",
+            "lostMRR": "Förlorad MRR under perioden",
+            "paymentFailures": "Betalningsfel",
+            "requiresFollowUpShort": "Kräver uppföljning",
+            "declined": "Avvisade betalningar",
+            "goalNRR": "Mål: > 100%",
+            "churnOverTime": "Churn över tid",
+            "churnSpikes": "Spårar churn-toppar och säsongsmönster",
+            "churnReasons": "Churn-orsaker",
+            "whatDrives": "Vad driver uppsägningar",
+            "basedOn": "Baserat på data från uppsägningsflöde",
+            "churnReasonLabels": [
+                "För dyrt",
+                "Saknade funktioner",
+                "Bytt konkurrent",
+                "Företag stängt",
+                "Övrigt"
+            ],
+            "alertCriticalChurnTitle": "Kritisk churn:",
+            "alertCriticalChurnBody": "är över kritisk gräns på 5%.",
+            "alertPaymentTitle": "Betalningsfel:",
+            "alertPaymentBody": "fakturor avvisade. Kontakta de berörda företagen.",
+            "alertTrialTitle": "Provperioder:",
+            "alertTrialBody": "löper ut inom 7 dagar.",
+            "alertNRRTitle": "NRR under 100%:",
+            "alertNRRBody": "Du förlorar mer än du vinner. Fokus på expansion och minskning av churn.",
+            "revenue": "Intäkter",
+            "mrrFull": "Månadsvis återkommande intäkt",
+            "arrFull": "Årlig återkommande intäkt",
+            "arpuFull": "Gns. intäkt per användare",
+            "momFull": "Månad-över-månad",
+            "roasFull": "Avkastning på annonsering",
+            "ltvFull": "Livstidsvärde",
+            "nrrFull": "Netto intäktsretention",
+            "months": [
+                "Jan",
+                "Feb",
+                "Mar",
+                "Apr",
+                "Maj",
+                "Jun",
+                "Jul",
+                "Aug",
+                "Sep",
+                "Okt",
+                "Nov",
+                "Dec"
+            ],
+            "monthsLong": [
+                "Januari",
+                "Februari",
+                "Mars",
+                "April",
+                "Maj",
+                "Juni",
+                "Juli",
+                "Augusti",
+                "September",
+                "Oktober",
+                "November",
+                "December"
+            ],
+            "churnRate": "Churn rate"
+        },
+        "licenses": {
+            "pageTitle": "App-licenser",
+            "header": "App-licenser",
+            "subtitle": "Definiera priser och licensstrukturer per app",
+            "newLicense": "Ny licens",
+            "licenseModelLabel": "Licensmodell",
+            "licenseModelDesc": "Företag betalar per app de aktiverar, inte en samlad plan. Priset är per användare/licens med flexibla faktureringsintervall — månadsvis, årsvis eller specifikt avtal (t.ex. offentlig sektor med stor volym).",
+            "noAppsFound": "Inga appar hittades",
+            "noAppsFoundSub": "Lägg till appar från Apps-sidan först",
+            "licenseTypes": "licenstyper",
+            "activeCompanies": "aktiva företag",
+            "addLicense": "Lägg till licens",
+            "noLicenseTypes": "Inga licenstyper ännu — lägg till den första",
+            "volume": "Volym",
+            "inactive": "Inaktiv",
+            "free": "Gratis",
+            "perUser": "/ användare",
+            "included": "inkl.",
+            "min": "min.",
+            "users": "användare",
+            "editLicense": "Redigera licens",
+            "appLabel": "App",
+            "selectAppPlaceholder": "Välj app…",
+            "licenseNameLabel": "Licensnamn",
+            "licenseNamePlaceholder": "t.ex. Standard, Enterprise, Offentlig",
+            "descriptionLabel": "Beskrivning",
+            "descriptionPlaceholder": "Kort beskrivning av licenstypen",
+            "priceLabel": "Pris per användare (kr)",
+            "billingIntervalLabel": "Faktureringsintervall",
+            "monthly": "Månadsvis",
+            "yearly": "Årsvis",
+            "quarterly": "Kvartalsvis",
+            "custom": "Specifikt avtal",
+            "includedSeatsLabel": "Inkluderade användare",
+            "includedSeatsHint": "Inkluderat i baspriset (0 = ingen)",
+            "minSeatsLabel": "Min. köp (användare)",
+            "minSeatsHint": "Minimum som måste köpas",
+            "volumeAgreement": "Volymsavtal",
+            "volumeAgreementDesc": "Aktivera för t.ex. offentliga institutioner med många användare (t.ex. 6 300 användare till 29 kr/st.)",
+            "activeLabel": "Aktiv",
+            "activeDesc": "Licenstypen kan köpas av företag",
+            "assignToCompany": "Koppla till företag (valfritt)",
+            "assignToCompanyDesc": "Koppla denna licenstyp direkt till ett företag",
+            "searchCompanyPlaceholder": "Sök företag...",
+            "cancelAction": "Avbryt",
+            "saving": "Sparar...",
+            "saveChanges": "Spara ändringar",
+            "createLicense": "Skapa licens",
+            "errorSelectApp": "Välj en app",
+            "errorLicenseName": "Licensnamn krävs",
+            "errorPrice": "Priset måste vara 0 eller mer",
+            "successSaved": "Sparat!",
+            "successUpdatedBody": "Licenstyp '{name}' har uppdaterats.",
+            "successCreated": "Skapat!",
+            "successCreatedBody": "Licenstyp '{name}' har skapats.",
+            "successDeleted": "Raderat!",
+            "successDeletedBody": "Licenstyp '{name}' har raderats.",
+            "deleteConfirm": "Ta bort licenstyp '{name}'?"
+        }
     },
     "shiftNote": "Anteckning",
     "shiftSpan": {
