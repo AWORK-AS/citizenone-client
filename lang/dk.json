@@ -5205,8 +5205,8 @@
             "successfullyAdded": "Ny begivenhed blev tilføjet med succes",
             "successfullyDeleted": "Begivenhed slettet med succes",
             "successfullyUpdated": "Begivenhed blev opdateret med succes",
-            "statusSuccessfullyUpdated": "Event status successfully updated",
-            "journalSuccessfullyCreated": "Journal note successfully created"
+            "statusSuccessfullyUpdated": "Begivenhedsstatus opdateret med succes",
+            "journalSuccessfullyCreated": "Journalnotat oprettet med succes"
         },
         "calendar": "Kalender",
         "citizens": "Borgere",
@@ -5256,32 +5256,32 @@
             "title": "Abonner på kalender",
             "yourCalendarUrl": "Din personlige kalender-URL"
         },
-        "createJournalNote": "Create journal note",
-        "markAsCompleted": "Mark as completed",
-        "markAsNotCompleted": "Mark as not completed",
-        "viewJournalNote": "View journal note",
+        "createJournalNote": "Opret journalnotat",
+        "markAsCompleted": "Markér som gennemført",
+        "markAsNotCompleted": "Markér som ikke gennemført",
+        "viewJournalNote": "Se journalnotat",
         "status": {
-            "completed": "Completed",
-            "notCompleted": "Not completed"
+            "completed": "Gennemført",
+            "notCompleted": "Ikke gennemført"
         },
         "journalNotePrompt": {
-            "title": "Journal note",
-            "message": "Do you want to write a journal note about this?"
+            "title": "Journalnotat",
+            "message": "Vil du skrive et journalnotat om dette?"
         },
         "journalNote": {
             "form": {
-                "content": "How did it go?"
+                "content": "Hvordan gik det?"
             }
         },
         "completionStatistics": {
-            "title": "Completion statistics",
-            "completed": "Completed",
-            "notCompleted": "Not completed",
-            "total": "Total",
-            "fetchStatistics": "View statistics",
-            "noData": "No data for the selected period",
-            "startDate": "From",
-            "endDate": "To"
+            "title": "Gennemførelsesstatistik",
+            "completed": "Gennemført",
+            "notCompleted": "Ikke gennemført",
+            "total": "I alt",
+            "fetchStatistics": "Se statistik",
+            "noData": "Ingen data for den valgte periode",
+            "startDate": "Fra",
+            "endDate": "Til"
         }
     },
     "excludeVat": "ekskl. moms",
@@ -6823,18 +6823,18 @@
         "tasks": "Opgaver",
         "treatments": {
             "areaTypes": {
-                "communication": "Communication",
-                "excretionOfWaste": "Excretion of waste",
-                "functionalLevel": "Functional level",
-                "knowledgeAndDevelopment": "Knowledge and development",
-                "musculoskeletalSystem": "Musculoskeletal system",
-                "nutrition": "Nutrition",
-                "painAndSensoryImpressions": "Pain and sensory impressions",
-                "psychosocialConditions": "Psychosocial conditions",
-                "respirationAndCirculation": "Respiration and circulation",
-                "sexuality": "Sexuality",
-                "skinAndMucousMembranes": "Skin and mucous membranes",
-                "sleepAndRest": "Sleep and rest"
+                "communication": "Kommunikation",
+                "excretionOfWaste": "Affaldsudskillelse",
+                "functionalLevel": "Funktionsniveau",
+                "knowledgeAndDevelopment": "Viden og udvikling",
+                "musculoskeletalSystem": "Bevægeapparat",
+                "nutrition": "Ernæring",
+                "painAndSensoryImpressions": "Smerte og sanseindtryk",
+                "psychosocialConditions": "Psykosociale forhold",
+                "respirationAndCirculation": "Respiration og kredsløb",
+                "sexuality": "Seksualitet",
+                "skinAndMucousMembranes": "Hud og slimhinder",
+                "sleepAndRest": "Søvn og hvile"
             },
             "completionDate": "Afslutningsdato",
             "noTreatmentsToShow": "Ingen behandlinger at vise",

@@ -5205,8 +5205,8 @@
             "successfullyAdded": "Ny händelse har lagts till",
             "successfullyDeleted": "Händelse raderad",
             "successfullyUpdated": "Händelse har uppdaterats",
-            "statusSuccessfullyUpdated": "Event status successfully updated",
-            "journalSuccessfullyCreated": "Journal note successfully created"
+            "statusSuccessfullyUpdated": "Händelsestatus har uppdaterats",
+            "journalSuccessfullyCreated": "Journalanteckning har skapats"
         },
         "calendar": "Kalender",
         "citizens": "Klienter",
@@ -5256,32 +5256,32 @@
             "title": "Prenumerera på kalender",
             "yourCalendarUrl": "Din personliga kalender-URL"
         },
-        "createJournalNote": "Create journal note",
-        "markAsCompleted": "Mark as completed",
-        "markAsNotCompleted": "Mark as not completed",
-        "viewJournalNote": "View journal note",
+        "createJournalNote": "Skapa journalanteckning",
+        "markAsCompleted": "Markera som slutförd",
+        "markAsNotCompleted": "Markera som inte slutförd",
+        "viewJournalNote": "Visa journalanteckning",
         "status": {
-            "completed": "Completed",
-            "notCompleted": "Not completed"
+            "completed": "Slutförd",
+            "notCompleted": "Inte slutförd"
         },
         "journalNotePrompt": {
-            "title": "Journal note",
-            "message": "Do you want to write a journal note about this?"
+            "title": "Journalanteckning",
+            "message": "Vill du skriva en journalanteckning om detta?"
         },
         "journalNote": {
             "form": {
-                "content": "How did it go?"
+                "content": "Hur gick det?"
             }
         },
         "completionStatistics": {
-            "title": "Completion statistics",
-            "completed": "Completed",
-            "notCompleted": "Not completed",
-            "total": "Total",
-            "fetchStatistics": "View statistics",
-            "noData": "No data for the selected period",
-            "startDate": "From",
-            "endDate": "To"
+            "title": "Slutförandestatistik",
+            "completed": "Slutförd",
+            "notCompleted": "Inte slutförd",
+            "total": "Totalt",
+            "fetchStatistics": "Visa statistik",
+            "noData": "Inga data för den valda perioden",
+            "startDate": "Från",
+            "endDate": "Till"
         }
     },
     "excludeVat": "ekskl. moms",
@@ -6814,18 +6814,18 @@
         "tasks": "Opgaver",
         "treatments": {
             "areaTypes": {
-                "communication": "Communication",
-                "excretionOfWaste": "Excretion of waste",
-                "functionalLevel": "Functional level",
-                "knowledgeAndDevelopment": "Knowledge and development",
-                "musculoskeletalSystem": "Musculoskeletal system",
+                "communication": "Kommunikation",
+                "excretionOfWaste": "Avfallsutsöndring",
+                "functionalLevel": "Funktionsnivå",
+                "knowledgeAndDevelopment": "Kunskap och utveckling",
+                "musculoskeletalSystem": "Rörelseapparaten",
                 "nutrition": "Nutrition",
-                "painAndSensoryImpressions": "Pain and sensory impressions",
-                "psychosocialConditions": "Psychosocial conditions",
-                "respirationAndCirculation": "Andning and circulation",
-                "sexuality": "Sexuality",
-                "skinAndMucousMembranes": "Skin and mucous membranes",
-                "sleepAndRest": "Sleep and rest"
+                "painAndSensoryImpressions": "Smärta och sinnesintryck",
+                "psychosocialConditions": "Psykosociala förhållanden",
+                "respirationAndCirculation": "Andning och cirkulation",
+                "sexuality": "Sexualitet",
+                "skinAndMucousMembranes": "Hud och slemhinnor",
+                "sleepAndRest": "Sömn och vila"
             },
             "completionDate": "Avslutsdatum",
             "noTreatmentsToShow": "Inga behandlingar att visa",
