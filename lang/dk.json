@@ -4260,7 +4260,9 @@
     "alert": {
       "successfullyAdded": "Ny begivenhed blev tilføjet med succes",
       "successfullyDeleted": "Begivenhed slettet med succes",
-      "successfullyUpdated": "Begivenhed blev opdateret med succes"
+      "successfullyUpdated": "Begivenhed blev opdateret med succes",
+      "statusSuccessfullyUpdated": "Event status successfully updated",
+      "journalSuccessfullyCreated": "Journal note successfully created"
     },
     "calendar": "Kalender",
     "citizens": "Borgere",
@@ -4309,6 +4311,33 @@
       "regenerateWarning": "Regenerering vil ugyldiggøre din nuværende URL. Alle der har abonneret med det gamle link vil ikke længere modtage opdateringer.",
       "title": "Abonner på kalender",
       "yourCalendarUrl": "Din personlige kalender-URL"
+    },
+    "createJournalNote": "Create journal note",
+    "markAsCompleted": "Mark as completed",
+    "markAsNotCompleted": "Mark as not completed",
+    "viewJournalNote": "View journal note",
+    "status": {
+      "completed": "Completed",
+      "notCompleted": "Not completed"
+    },
+    "journalNotePrompt": {
+      "title": "Journal note",
+      "message": "Do you want to write a journal note about this?"
+    },
+    "journalNote": {
+      "form": {
+        "content": "How did it go?"
+      }
+    },
+    "completionStatistics": {
+      "title": "Completion statistics",
+      "completed": "Completed",
+      "notCompleted": "Not completed",
+      "total": "Total",
+      "fetchStatistics": "View statistics",
+      "noData": "No data for the selected period",
+      "startDate": "From",
+      "endDate": "To"
     }
   },
   "excludeVat": "ekskl. moms",
@@ -6695,74 +6724,74 @@
         },
         "editRole": "Rediger rolle",
         "form": {
-            "alert": {
-                "newRoleSuccessfullySaved": "Ny rolle gemt med succes",
-                "roleSuccessfullyUpdated": "Rolle opdateret med succes"
-            },
-            "name": "Navn",
-            "permissions": "Tilladelser",
-            "level": "Niveau"
+          "alert": {
+            "newRoleSuccessfullySaved": "Ny rolle gemt med succes",
+            "roleSuccessfullyUpdated": "Rolle opdateret med succes"
+          },
+          "name": "Navn",
+          "permissions": "Tilladelser",
+          "level": "Niveau"
         },
         "newRole": "Ny rolle",
         "permissions": {
-            "createCitizen": "Opret borger",
-            "createCitizenCalendar": "Opret borgerkalender",
-            "createCitizenChildren": "Opret borgerbørn",
-            "createCitizenContact": "Opret borgerkontakt",
-            "createCitizenDocument": "Opret borgerdokument",
-            "createCitizenEconomy": "Opret borgerøkonomi",
-            "createCitizenHealth": "Opret borgersundhed",
-            "createCitizenJournal": "Opret borgerjournal",
-            "createCitizenMedicine": "Opret borgermedicin",
-            "createCitizenPlan": "Opret borgerplan",
-            "createSchedule": "Opret vagtplan",
-            "deleteCalendar": "Slet kalender",
-            "deleteCalendarEvent": "Slet kalenderhændelse",
-            "deleteCitizenCalendar": "Slet borgerkalender",
-            "deleteCitizenChildren": "Slet borgerbørn",
-            "deleteCitizenContact": "Slet borgerkontakt",
-            "deleteCitizenDocument": "Slet borgerdokument",
-            "deleteCitizenEconomy": "Slet borgerøkonomi",
-            "deleteCitizenHealth": "Slet borgersundhed",
-            "deleteCitizenJournal": "Slet borgerjournal",
-            "deleteCitizenMedicine": "Slet borgermedicin",
-            "deleteCitizenPlan": "Slet borgerplan",
-            "deleteSchedule": "Slet vagtplan",
-            "readSchedule": "Se vagtplan",
-            "scheduler": "Vagtplanlægger",
-            "updateCitizenCalendar": "Rediger borgerkalender",
-            "updateCitizenChildren": "Rediger borgerbørn",
-            "updateCitizenContact": "Rediger borgerkontakt",
-            "updateCitizenDocument": "Rediger borgerdokument",
-            "updateCitizenEconomy": "Rediger borgerøkonomi",
-            "updateCitizenHealth": "Rediger borgersundhed",
-            "updateCitizenJournal": "Rediger borgerjournal",
-            "updateCitizenMedicine": "Rediger borgermedicin",
-            "updateCitizenPlan": "Rediger borgerplan",
-            "updateCitizen": "Rediger borger",
-            "updateFormFieldConfig": "Rediger borgerformular feltkonfiguration",
-            "updateSchedule": "Rediger vagtplan",
-            "viewCitizenCalendar": "Se borgerkalender",
-            "viewCitizenHealth": "Se borgersundhed",
-            "viewCitizenJournal": "Se borgerjournal",
-            "viewSchedule": "Se vagtplan"
+          "createCitizen": "Opret borger",
+          "createCitizenCalendar": "Opret borgerkalender",
+          "createCitizenChildren": "Opret borgerbørn",
+          "createCitizenContact": "Opret borgerkontakt",
+          "createCitizenDocument": "Opret borgerdokument",
+          "createCitizenEconomy": "Opret borgerøkonomi",
+          "createCitizenHealth": "Opret borgersundhed",
+          "createCitizenJournal": "Opret borgerjournal",
+          "createCitizenMedicine": "Opret borgermedicin",
+          "createCitizenPlan": "Opret borgerplan",
+          "createSchedule": "Opret vagtplan",
+          "deleteCalendar": "Slet kalender",
+          "deleteCalendarEvent": "Slet kalenderhændelse",
+          "deleteCitizenCalendar": "Slet borgerkalender",
+          "deleteCitizenChildren": "Slet borgerbørn",
+          "deleteCitizenContact": "Slet borgerkontakt",
+          "deleteCitizenDocument": "Slet borgerdokument",
+          "deleteCitizenEconomy": "Slet borgerøkonomi",
+          "deleteCitizenHealth": "Slet borgersundhed",
+          "deleteCitizenJournal": "Slet borgerjournal",
+          "deleteCitizenMedicine": "Slet borgermedicin",
+          "deleteCitizenPlan": "Slet borgerplan",
+          "deleteSchedule": "Slet vagtplan",
+          "readSchedule": "Se vagtplan",
+          "scheduler": "Vagtplanlægger",
+          "updateCitizenCalendar": "Rediger borgerkalender",
+          "updateCitizenChildren": "Rediger borgerbørn",
+          "updateCitizenContact": "Rediger borgerkontakt",
+          "updateCitizenDocument": "Rediger borgerdokument",
+          "updateCitizenEconomy": "Rediger borgerøkonomi",
+          "updateCitizenHealth": "Rediger borgersundhed",
+          "updateCitizenJournal": "Rediger borgerjournal",
+          "updateCitizenMedicine": "Rediger borgermedicin",
+          "updateCitizenPlan": "Rediger borgerplan",
+          "updateCitizen": "Rediger borger",
+          "updateFormFieldConfig": "Rediger borgerformular feltkonfiguration",
+          "updateSchedule": "Rediger vagtplan",
+          "viewCitizenCalendar": "Se borgerkalender",
+          "viewCitizenHealth": "Se borgersundhed",
+          "viewCitizenJournal": "Se borgerjournal",
+          "viewSchedule": "Se vagtplan"
         },
         "roles": "Roller",
         "table": {
-            "actions": {
-                "delete": "Slet",
-                "edit": "Rediger"
-            },
-            "admin": "Admin",
-            "confirmation": {
-                "deleteRoleConfirmation": "Er du sikker på, at du vil slette denne rolle"
-            },
-            "name": "Navn",
-            "permissions": "Tilladelser",
-            "user": "Bruger",
-            "level": "Niveau",
-            "regular": "Almindelig",
-            "manager": "Leder"
+          "actions": {
+            "delete": "Slet",
+            "edit": "Rediger"
+          },
+          "admin": "Admin",
+          "confirmation": {
+            "deleteRoleConfirmation": "Er du sikker på, at du vil slette denne rolle"
+          },
+          "name": "Navn",
+          "permissions": "Tilladelser",
+          "user": "Bruger",
+          "level": "Niveau",
+          "regular": "Almindelig",
+          "manager": "Leder"
         },
         "allowChangePassword": "Tillad medarbejdere at ændre adgangskode",
         "allowGoals": "Tillad medarbejdere at oprette mål",
