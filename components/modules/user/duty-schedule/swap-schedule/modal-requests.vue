@@ -22,8 +22,12 @@
                                         </td>
                                         <td width="20%">
                                             <p>
-                                                {{ language.locale.value === 'en' ? request?.schedule?.shift?.en_name :
-                                                    request?.schedule?.shift?.dk_name }}
+                                                {{
+                                                    language.locale.value === 'en' ? request?.schedule?.shift?.en_name :
+                                                        language.locale.value === 'no' ? request?.schedule?.shift?.no_name :
+                                                            language.locale.value === 'sv' ? request?.schedule?.shift?.sv_name :
+                                                                request?.schedule?.shift?.dk_name
+                                                }}
                                             </p>
                                         </td>
                                         <td width="20%">

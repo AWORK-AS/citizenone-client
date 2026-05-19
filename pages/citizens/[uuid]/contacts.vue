@@ -38,7 +38,7 @@
                             <Icon name="ph:address-book" class="h-4 w-4" aria-hidden="true" />
                             {{ $t('addressBook.assignFromAddressBook') }}
                         </FormButton>
-                        <FormButton buttonStyle="action" @click="state.modal.isAddContactOpen = true">
+                        <FormButton buttonStyle="action" @click="state.modal.isAddContactOpen = true" v-if="isAtLeast('Admin') || can('create_citizen_contact')">
                             <Icon name="ph:plus" class="h-4 w-4" aria-hidden="true" />
                             {{ $t('citizens.contacts.newContact') }}
                         </FormButton>
@@ -53,11 +53,16 @@
                         <Table :columnHeaders="state.columnHeaders" :data="state.contacts"
                             :isLoading="state.isTableLoading" :sortData="state.sortData" @sort="sort">
                             <template #body v-if="!(state.isTableLoading || (state.contacts?.data?.length === 0))">
-                                <tr v-for="(contact, index) in state.contacts?.data" :key="index" :data-uuid="contact.uuid">
+                                <tr v-for="(contact, index) in state.contacts?.data" :key="index"
+                                    :data-uuid="contact.uuid">
                                     <td width="20%">
                                         <span>
-                                            {{ language.locale.value === 'en' ? contact?.contact_job_title?.en_title :
-                                                contact?.contact_job_title?.dk_title }}
+                                            {{
+                                                language.locale.value === 'en' ? contact?.contact_job_title?.en_title :
+                                                    language.locale.value === 'no' ? contact?.contact_job_title?.no_title :
+                                                        language.locale.value === 'sv' ? contact?.contact_job_title?.sv_title :
+                                                            contact?.contact_job_title?.dk_title
+                                            }}
                                         </span>
                                         <Badge type="info" class="w-fit mt-1 ml-1" v-if="contact?.company_contact_id">
                                             <p class="text-xxs px-2">{{ $t('addressBook.addressBook') }}</p>
@@ -101,12 +106,14 @@
                                     <td width="10%">
                                         <div class="flex items-end justify-end gap-2">
                                             <FormButton type="button" buttonStyle="action"
-                                                @click="editContact(contact)">
+                                                @click="editContact(contact)"
+                                                v-if="isAtLeast('Admin') || can('update_citizen_contact')">
                                                 <Icon name="ph:pencil-simple" class="size-4" />
                                                 {{ $t('citizens.contacts.table.action.edit') }}
                                             </FormButton>
                                             <FormButton type="button" buttonStyle="danger"
-                                                @click="deleteContactConfirmation(contact)">
+                                                @click="deleteContactConfirmation(contact)"
+                                                v-if="isAtLeast('Admin') || can('delete_citizen_contact')">
                                                 <Icon name="ph:trash" class="size-4" />
                                                 {{ $t('citizens.contacts.table.action.delete') }}
                                             </FormButton>
@@ -124,11 +131,8 @@
                     <Pagination :data="state.contacts" @previous="previous" @next="next" />
                 </div>
 
-                <ModulesUserCitizenContactModalNew
-                    :isModalOpen="state.modal.isAddContactOpen"
-                    @close="closeNewContactModal"
-                    @saved="handleNewContactSaved"
-                />
+                <ModulesUserCitizenContactModalNew :isModalOpen="state.modal.isAddContactOpen"
+                    @close="closeNewContactModal" @refreshContacts="fetchContacts" />
                 <ModulesUserCitizenContactModalEdit :isModalOpen="state.modal.isEditContactOpen"
                     :selectedContact="state.selectedContact" @close="state.modal.isEditContactOpen = false"
                     @refreshContacts="fetchContacts" />
@@ -137,11 +141,8 @@
                     @close="state.modal.isDeleteContactOpen = false" @confirm="deleteContact" />
                 <ModulesUserMailModalSendEmail :isModalOpen="state.modal.isSendEmailOpen"
                     :selectedContact="state.selectedContact" @close="state.modal.isSendEmailOpen = false" />
-                <ModulesUserCitizenContactModalAssignAddressBook
-                    :isModalOpen="state.modal.isAssignFromAddressBookOpen"
-                    @close="state.modal.isAssignFromAddressBookOpen = false"
-                    @prefillContact="handlePrefillContact"
-                />
+                <ModulesUserCitizenContactModalAssignAddressBook :isModalOpen="state.modal.isAssignFromAddressBookOpen"
+                    @close="state.modal.isAssignFromAddressBookOpen = false" @prefillContact="handlePrefillContact" />
             </div>
         </NuxtLayout>
     </div>
@@ -153,6 +154,7 @@ import { useI18n } from "vue-i18n"
 import { useAlert } from '@/composables/alert'
 import { useCustomPagesStore } from '@/store/custom-pages'
 import { useUserStore } from '@/store/user'
+import { usePermissions } from '@/composables/usePermissions'
 import type { Error } from '@/types'
 
 const runtimeConfig = useRuntimeConfig()
@@ -163,6 +165,7 @@ const customPagesStore = useCustomPagesStore() as any
 const router = useRouter()
 const citizenUuid = router?.currentRoute?.value?.params?.uuid as any
 const userStore = useUserStore() as any
+const { isAtLeast, can } = usePermissions()
 let currentTablePage = 1
 const breadcrumbLinks = [
     {
@@ -311,11 +314,6 @@ async function handlePrefillContact(contact: any) {
 }
 
 function closeNewContactModal() {
-    state.modal.isAddContactOpen = false
-}
-
-async function handleNewContactSaved() {
-    await fetchContacts()
     state.modal.isAddContactOpen = false
 }
 </script>

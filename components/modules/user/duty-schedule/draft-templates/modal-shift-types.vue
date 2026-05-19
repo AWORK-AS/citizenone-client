@@ -23,8 +23,7 @@
                                             :style="{ backgroundColor: shiftPercentage?.color }">
                                         </div>
                                         <span>
-                                            {{ language.locale.value === 'en' ? shiftPercentage?.en_name :
-                                                shiftPercentage?.dk_name }}
+                                            {{ language.locale.value === 'en' ? shiftPercentage?.en_name : language.locale.value === 'no' ? shiftPercentage?.no_name : language.locale.value === 'sv' ? shiftPercentage?.sv_name : shiftPercentage?.dk_name }}
                                         </span>
                                     </div>
                                     <p class="text-xs">{{ shiftPercentage?.percentage }}%</p>

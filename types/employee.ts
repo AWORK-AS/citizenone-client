@@ -8,7 +8,7 @@ export interface EmployeeForm {
     birthday: string,
     seniority_date: string,
     departments: any,
-    role: string,
+    roles: string[],
     street: string,
     region_uuid: string,
     municipality_uuid: string,

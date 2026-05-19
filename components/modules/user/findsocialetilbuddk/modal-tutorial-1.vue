@@ -17,6 +17,12 @@
                 <span v-if="language.locale.value === 'dk'">
                     <h3 class="text-lg font-semibold">Her administrerer du din profil</h3>
                 </span>
+                <span v-if="language.locale.value === 'no'">
+                    <h3 class="text-lg font-semibold">Her administrerer du profilen din.</h3>
+                </span>
+                <span v-if="language.locale.value === 'sv'">
+                    <h3 class="text-lg font-semibold">Här hanterar du din profil.</h3>
+                </span>
                 <button type="button"
                     class="top-4 right-3 z-10 outline-none px-0 py-2 text-gray-800 hover:text-gray-700"
                     @click="$emit('button-click', '1')">
@@ -33,6 +39,14 @@
                     Start med at indtaste dine kontaktoplysninger, så sagsbehandlerne kan komme i kontakt med dig, når
                     de har en borger.
                 </span>
+                <span v-if="language.locale.value === 'no'">
+                    Start med å legge inn kontaktopplysningene dine slik at saksbehandlere kan ta kontakt med deg når
+                    de har en borger.
+                </span>
+                <span v-if="language.locale.value === 'sv'">
+                    Börja med att ange dina kontaktuppgifter så att handläggare kan kontakta dig när de har en
+                    medborgare.
+                </span>
             </p>
 
             <div class="mt-4 flex justify-center md:justify-end lg:justify-end">
@@ -43,6 +57,14 @@
                 <button v-if="language.locale.value === 'dk'" @click="handleNext"
                     class="px-4 py-2 z-50 bg-tertiary text-white rounded">
                     Næste
+                </button>
+                <button v-if="language.locale.value === 'no'" @click="handleNext"
+                    class="px-4 py-2 z-50 bg-tertiary text-white rounded">
+                    Neste
+                </button>
+                <button v-if="language.locale.value === 'sv'" @click="handleNext"
+                    class="px-4 py-2 z-50 bg-tertiary text-white rounded">
+                    Nästa
                 </button>
             </div>
         </div>

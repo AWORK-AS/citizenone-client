@@ -28,6 +28,18 @@ class MyCalendarService extends BaseAPIService {
     async refreshIcalToken(): Promise<any> {
         return await this.request(`/user/my-calendars/ical/token/refresh`, 'POST')
     }
+
+    async updateEventStatus(scheduleUuid: string, params: object): Promise<any> {
+        return await this.request(`/user/my-calendars/${scheduleUuid}/status`, 'PUT', params)
+    }
+
+    async createJournalFromEvent(scheduleUuid: string, params: object): Promise<any> {
+        return await this.request(`/user/my-calendars/${scheduleUuid}/journal`, 'POST', params)
+    }
+
+    async getCompletionStatistics(params: object): Promise<any> {
+        return await this.request(`/user/my-calendars/completion/statistics`, 'GET', params)
+    }
 }
 
 export const myCalendarService = new MyCalendarService()

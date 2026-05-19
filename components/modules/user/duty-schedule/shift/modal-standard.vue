@@ -32,6 +32,36 @@
                         systemet for at sikre, at alt fungerer korrekt.
                     </p>
                 </div>
+                <div class="space-y-3 text-justify" v-if="language.locale.value === 'no'">
+                    <p>
+                        Denne vakttypen er merket som standard fordi den er en viktig del av systemets
+                        kjernefunksjoner. Den brukes automatisk i forbindelse med bl.a. syketimer, ferie, nattevakter og
+                        andre typer fravær - og er knyttet til gjeldende regler og lovgivning.
+                    </p>
+                    <p>
+                        Derfor kan den ikke slettes, da det vil påvirke funksjoner som fraværsregistrering,
+                        timeberegning og vaktplaner.
+                    </p>
+                    <p>
+                        Du kan imidlertid fritt endre navn og farge om ønskelig - men selve vakttypen må forbli i
+                        systemet for å sikre at alt fortsetter å fungere korrekt.
+                    </p>
+                </div>
+                <div class="space-y-3 text-justify" v-if="language.locale.value === 'sv'">
+                    <p>
+                        Den här skifttypen är markerad som standard eftersom den är en viktig del av systemets
+                        kärnfunktioner. Den används automatiskt i samband med bl.a. sjuktimmar, semester, nattskift och
+                        andra typer av frånvaro - och är kopplad till gällande regler och lagstiftning.
+                    </p>
+                    <p>
+                        Därför kan den inte tas bort, eftersom det skulle påverka funktioner som frånvaroregistrering,
+                        tidsberäkning och schemaläggning.
+                    </p>
+                    <p>
+                        Du kan däremot fritt ändra namn och färg om du vill - men skifttypen måste finnas kvar i
+                        systemet för att säkerställa att allt fortsätter fungera korrekt.
+                    </p>
+                </div>
                 <div class="mt-5 flex gap-x-3 justify-end">
                     <FormButton buttonStyle="cancel" @click="closeModal">
                         {{ $t('close') }}

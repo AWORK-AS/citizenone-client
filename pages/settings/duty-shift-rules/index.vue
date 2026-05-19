@@ -79,10 +79,12 @@ import { useI18n } from "vue-i18n"
 import moment from 'moment'
 import { useAlert } from '@/composables/alert'
 import { useUserStore } from '@/store/user'
+import { usePermissions } from '@/composables/usePermissions'
 import type { Error } from '@/types'
 
 const runtimeConfig = useRuntimeConfig()
 const userStore = useUserStore() as any
+const { isAtLeast } = usePermissions()
 const { successAlert } = useAlert()
 const { t } = useI18n()
 let currentTablePage = 1
@@ -112,7 +114,7 @@ const state = reactive({
 
 watch(() => userStore.getUser, (newValue: any) => {
     if (newValue != null) {
-        state.isAdmin = userStore.getUser.roles.some((role: any) => role.name === 'Admin')
+        state.isAdmin = isAtLeast('Admin')
     }
 })
 

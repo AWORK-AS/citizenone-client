@@ -48,12 +48,14 @@
 import { useDatetimeFormatter } from '@/composables/datetimeFormatter'
 import { activityLogService } from '@/components/api/user/ActivityLogService'
 import { useUserStore } from '@/store/user'
+import { usePermissions } from '@/composables/usePermissions'
 import type { Error } from '@/types'
 
 const runtimeConfig = useRuntimeConfig()
 const { formatDateTimeToReadable } = useDatetimeFormatter()
 const userStore = useUserStore() as any
-const isUserLoggedInAdmin = userStore.getUser?.roles.some((role: any) => role.name === 'Admin')
+const { isAtLeast } = usePermissions()
+const isUserLoggedInAdmin = isAtLeast('Admin')
 let currentTablePage = 1
 const breadcrumbLinks = [
     {
