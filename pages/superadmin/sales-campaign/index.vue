@@ -77,7 +77,7 @@
                                 @input="debouncedSearch" />
                         </div>
                         <div class="flex items-center bg-white border border-[#EAECF0] rounded-lg p-0.5">
-                            <button v-for="filter in campaignFilters" :key="f.key"
+                            <button v-for="filter in campaignFilters" :key="filter.key"
                                 class="px-3 py-1.5 rounded-md text-[12px] font-medium transition-colors"
                                 :style="campaignFilter === filter.key ? 'background:#205E77;color:#fff' : 'color:#5C6478'"
                                 @click="campaignFilter = filter.key">
