@@ -1,26 +1,39 @@
 <template>
     <div>
         <NuxtLayout name="superadmin">
-            <Head><Title>Produkter - {{ runtimeConfig?.public?.appName }}</Title></Head>
-            <template #header>Produkter</template>
+
+            <Head>
+                <Title>
+                    {{ $t('superadmin.products.title') }} - {{ runtimeConfig?.public?.appName }}
+                </Title>
+            </Head>
+            <template #header>
+                {{ $t('superadmin.products.title') }}
+            </template>
 
             <div class="p-1">
                 <!-- Header -->
                 <div class="flex items-center justify-between mb-5">
                     <div>
-                        <h1 class="text-[22px] font-semibold text-[#1F2533]">Produktkatalog</h1>
-                        <p class="text-sm text-[#5C6478] mt-0.5">Pakker, tilkøb og apps — administrér alle priser ét sted</p>
+                        <h1 class="text-[22px] font-semibold text-[#1F2533]">
+                            {{ $t('superadmin.products.productCatalog') }}
+                        </h1>
+                        <p class="text-sm text-[#5C6478] mt-0.5">
+                            {{ $t('superadmin.products.subtitle') }}
+                        </p>
                     </div>
-                    <!-- Kontekstuel opret-knap -->
+                    <!-- Contextual create button -->
                     <button v-if="activeTab === 'plans'" @click="openPlanSlider(null)"
                         class="inline-flex items-center gap-1.5 px-4 py-2 rounded-lg text-sm font-semibold text-white shadow-sm"
                         style="background:#205E77">
-                        <Icon name="ph:plus" class="w-4 h-4" /> Ny pakke
+                        <Icon name="ph:plus" class="w-4 h-4" />
+                        {{ $t('superadmin.products.newPackage') }}
                     </button>
                     <button v-if="activeTab === 'apps'" @click="openAppSlider(null)"
                         class="inline-flex items-center gap-1.5 px-4 py-2 rounded-lg text-sm font-semibold text-white shadow-sm"
                         style="background:#205E77">
-                        <Icon name="ph:plus" class="w-4 h-4" /> Ny app
+                        <Icon name="ph:plus" class="w-4 h-4" />
+                        {{ $t('superadmin.products.newApp') }}
                     </button>
                 </div>
 
@@ -30,27 +43,26 @@
                         class="px-4 py-2.5 text-[13px] font-medium border-b-2 transition-colors -mb-px flex items-center gap-1.5"
                         :style="activeTab === tab.key
                             ? 'border-color:#205E77;color:#205E77'
-                            : 'border-color:transparent;color:#8891A4'"
-                        @click="activeTab = tab.key">
+                            : 'border-color:transparent;color:#8891A4'" @click="activeTab = tab.key">
                         <Icon :name="tab.icon" class="w-3.5 h-3.5" />
                         {{ tab.label }}
                     </button>
                 </div>
 
                 <!-- ══════════════════════════════════
-                     TAB: PAKKER & TILKØB
+                     TAB: PLANS & ADD-ONS
                 ══════════════════════════════════ -->
                 <div v-if="activeTab === 'plans'">
 
-                    <!-- Pakke-kort -->
+                    <!-- Plan cards -->
                     <div class="grid grid-cols-1 lg:grid-cols-3 gap-5 mb-6">
                         <div v-for="plan in plans" :key="plan.key"
                             class="bg-white rounded-2xl overflow-hidden shadow-sm border border-[#EAECF0] flex flex-col">
 
-                            <!-- Farvet top-stripe -->
+                            <!-- Coloured top stripe -->
                             <div class="h-1.5" :style="`background:${plan.color}`"></div>
 
-                            <!-- Pakke header -->
+                            <!-- Plan header -->
                             <div class="px-5 pt-4 pb-4 border-b border-[#F5F6F8]">
                                 <div class="flex items-center justify-between mb-3">
                                     <div class="flex items-center gap-3">
@@ -69,26 +81,33 @@
                                     </span>
                                 </div>
 
-                                <!-- Pris -->
+                                <!-- Price -->
                                 <div class="flex items-end gap-1 mt-2">
                                     <span class="text-[28px] font-extrabold leading-none text-[#1F2533]">
-                                        {{ plan.price === 0 ? 'Gratis' : `kr. ${plan.price}` }}
+                                        {{ plan.price === 0 ? $t('superadmin.products.free') : `kr. ${plan.price}` }}
                                     </span>
-                                    <span v-if="plan.price > 0" class="text-[12px] text-[#8891A4] mb-0.5">/md.</span>
+                                    <span v-if="plan.price > 0" class="text-[12px] text-[#8891A4] mb-0.5">
+                                        {{ $t('superadmin.products.perMonth') }}
+                                    </span>
                                 </div>
                                 <p v-if="plan.yearly_price > 0" class="text-[11px] text-[#8891A4] mt-0.5">
-                                    eller kr. {{ plan.yearly_price }}/år
+                                    {{ $t('superadmin.products.orYearly', { price: plan.yearly_price }) }}
                                     <span class="text-[#2E9E33] font-semibold ml-1">
-                                        (spar kr. {{ plan.price * 12 - plan.yearly_price }})
+                                        {{ $t('superadmin.products.saveAmount', {
+                                            amount: plan.price * 12 -
+                                                plan.yearly_price
+                                        }) }}
                                     </span>
                                 </p>
                             </div>
 
-                            <!-- Inkluderet -->
+                            <!-- Included -->
                             <div class="px-5 py-3 flex-1">
-                                <p class="text-[9px] font-bold text-[#8891A4] uppercase tracking-[0.1em] mb-2">Inkluderet</p>
+                                <p class="text-[9px] font-bold text-[#8891A4] uppercase tracking-[0.1em] mb-2">
+                                    {{ $t('superadmin.products.included') }}
+                                </p>
                                 <ul class="space-y-1.5">
-                                    <li v-for="feat in plan.features" :key="feat.label"
+                                    <li v-for="feat in plan.features" :key="feat.key"
                                         class="flex items-center justify-between text-[12px]">
                                         <span class="flex items-center gap-1.5 text-[#5C6478]">
                                             <Icon name="ph:check" class="w-3 h-3 flex-shrink-0"
@@ -100,17 +119,21 @@
                                 </ul>
                             </div>
 
-                            <!-- Tilkøb -->
+                            <!-- Add-ons -->
                             <div v-if="plan.addons.length" class="px-5 py-3 bg-[#F9FAFB] border-t border-[#F5F6F8]">
-                                <p class="text-[9px] font-bold text-[#8891A4] uppercase tracking-[0.1em] mb-2">Tilkøb</p>
+                                <p class="text-[9px] font-bold text-[#8891A4] uppercase tracking-[0.1em] mb-2">
+                                    {{ $t('superadmin.products.addons') }}
+                                </p>
                                 <div class="space-y-1.5">
-                                    <div v-for="addon in plan.addons" :key="addon.label"
+                                    <div v-for="addon in plan.addons" :key="addon.key"
                                         class="flex items-center justify-between text-[11px]">
                                         <span class="flex items-center gap-1.5 text-[#5C6478]">
                                             <Icon :name="addon.icon" class="w-3 h-3" />
                                             {{ addon.label }}
                                         </span>
-                                        <span class="font-semibold text-[#1F2533]">+kr. {{ addon.price }}/md.</span>
+                                        <span class="font-semibold text-[#1F2533]">
+                                            +kr. {{ addon.price }}{{ $t('superadmin.products.perMonth') }}
+                                        </span>
                                     </div>
                                 </div>
                             </div>
@@ -123,9 +146,9 @@
                                     @mouseover="e => e.currentTarget.style.opacity = '1'"
                                     @mouseleave="e => e.currentTarget.style.opacity = '0.9'">
                                     <Icon name="ph:pencil-simple" class="w-3.5 h-3.5" />
-                                    Rediger
+                                    {{ $t('superadmin.products.edit') }}
                                 </button>
-                                <button v-if="!['gratis','basis','pro'].includes(plan.key)"
+                                <button v-if="!['gratis', 'basis', 'pro'].includes(plan.key)"
                                     @click="confirmDeletePlan(plan)"
                                     class="w-9 h-9 rounded-xl flex items-center justify-center border border-[#EAECF0] text-[#CC3B2D] hover:bg-red-50 transition-colors">
                                     <Icon name="ph:trash" class="w-3.5 h-3.5" />
@@ -134,18 +157,22 @@
                         </div>
                     </div>
 
-                    <!-- Tilkøbs-priser panel -->
+                    <!-- Add-on prices panel -->
                     <div class="bg-white border border-[#EAECF0] rounded-2xl shadow-sm overflow-hidden">
                         <div class="px-6 py-4 border-b border-[#EAECF0] flex items-center justify-between">
                             <div>
-                                <h3 class="text-[14px] font-semibold text-[#1F2533]">Tilkøbspriser</h3>
-                                <p class="text-[12px] text-[#8891A4] mt-0.5">Gælder for Basis og Pro pakken</p>
+                                <h3 class="text-[14px] font-semibold text-[#1F2533]">
+                                    {{ $t('superadmin.products.addonPricesTitle') }}
+                                </h3>
+                                <p class="text-[12px] text-[#8891A4] mt-0.5">
+                                    {{ $t('superadmin.products.addonPricesSubtitle') }}
+                                </p>
                             </div>
                             <button @click="openAddonSlider"
                                 class="inline-flex items-center gap-1.5 px-3 py-2 rounded-lg text-[12px] font-semibold transition-colors"
                                 style="color:#205E77;background:#F0FAFD;border:1px solid rgba(66,174,217,0.3)">
                                 <Icon name="ph:pencil-simple" class="w-3.5 h-3.5" />
-                                Rediger priser
+                                {{ $t('superadmin.products.editPrices') }}
                             </button>
                         </div>
                         <div class="grid grid-cols-2 divide-x divide-[#F5F6F8]">
@@ -155,12 +182,20 @@
                                     <Icon name="ph:user-plus" class="w-5 h-5" style="color:#205E77" />
                                 </div>
                                 <div class="flex-1">
-                                    <p class="text-[13px] font-semibold text-[#1F2533]">Ekstra bruger</p>
-                                    <p class="text-[11px] text-[#8891A4]">Per medarbejder pr. måned</p>
+                                    <p class="text-[13px] font-semibold text-[#1F2533]">
+                                        {{ $t('superadmin.products.extraUser') }}
+                                    </p>
+                                    <p class="text-[11px] text-[#8891A4]">
+                                        {{ $t('superadmin.products.perEmployeePerMonth') }}
+                                    </p>
                                 </div>
                                 <div class="text-right">
-                                    <p class="text-[22px] font-extrabold text-[#205E77]">kr. {{ addonPrices.extra_user }}</p>
-                                    <p class="text-[10px] text-[#8891A4]">/md.</p>
+                                    <p class="text-[22px] font-extrabold text-[#205E77]">
+                                        kr. {{ addonPrices.extra_user }}
+                                    </p>
+                                    <p class="text-[10px] text-[#8891A4]">
+                                        {{ $t('superadmin.products.perMonth') }}
+                                    </p>
                                 </div>
                             </div>
                             <div class="px-6 py-4 flex items-center gap-4">
@@ -169,12 +204,20 @@
                                     <Icon name="ph:buildings" class="w-5 h-5" style="color:#2E9E33" />
                                 </div>
                                 <div class="flex-1">
-                                    <p class="text-[13px] font-semibold text-[#1F2533]">Ekstra afdeling</p>
-                                    <p class="text-[11px] text-[#8891A4]">Per afdeling pr. måned</p>
+                                    <p class="text-[13px] font-semibold text-[#1F2533]">
+                                        {{ $t('superadmin.products.extraDepartment') }}
+                                    </p>
+                                    <p class="text-[11px] text-[#8891A4]">
+                                        {{ $t('superadmin.products.perDepartmentPerMonth') }}
+                                    </p>
                                 </div>
                                 <div class="text-right">
-                                    <p class="text-[22px] font-extrabold text-[#2E9E33]">kr. {{ addonPrices.extra_department }}</p>
-                                    <p class="text-[10px] text-[#8891A4]">/md.</p>
+                                    <p class="text-[22px] font-extrabold text-[#2E9E33]">
+                                        kr. {{ addonPrices.extra_department }}
+                                    </p>
+                                    <p class="text-[10px] text-[#8891A4]">
+                                        {{ $t('superadmin.products.perMonth') }}
+                                    </p>
                                 </div>
                             </div>
                         </div>
@@ -188,19 +231,22 @@
                     <div v-if="state.isLoading" class="flex justify-center py-16">
                         <Icon name="ph:spinner" class="w-7 h-7 text-[#42AED9] animate-spin" />
                     </div>
-                    <div v-else-if="!state.apps.length"
-                        class="flex flex-col items-center gap-3 py-20 text-[#8891A4]">
+                    <div v-else-if="!state.apps.length" class="flex flex-col items-center gap-3 py-20 text-[#8891A4]">
                         <div class="w-16 h-16 rounded-2xl flex items-center justify-center mb-2"
                             style="background:#E4F1F6">
                             <Icon name="ph:squares-four" class="w-8 h-8" style="color:#205E77" />
                         </div>
-                        <p class="text-[15px] font-semibold text-[#1F2533]">Ingen apps endnu</p>
-                        <p class="text-[12px]">Tilføj apps til App Store kataloget</p>
+                        <p class="text-[15px] font-semibold text-[#1F2533]">
+                            {{ $t('superadmin.products.noAppsYet') }}
+                        </p>
+                        <p class="text-[12px]">
+                            {{ $t('superadmin.products.addAppsToStore') }}
+                        </p>
                         <button @click="openAppSlider(null)"
                             class="mt-2 px-5 py-2.5 rounded-lg text-sm font-semibold text-white shadow-sm"
                             style="background:#205E77">
                             <Icon name="ph:plus" class="w-4 h-4 inline mr-1.5" />
-                            Tilføj første app
+                            {{ $t('superadmin.products.addFirstApp') }}
                         </button>
                     </div>
                     <div v-else class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4">
@@ -215,11 +261,11 @@
                                         <Icon v-else :name="appIcon(app.name)" class="w-5 h-5"
                                             :style="`color:${appColor(app.name)}`" />
                                     </div>
-                                    <span class="text-[10px] font-bold px-2 py-0.5 rounded-full"
-                                        :class="app.is_active !== false
-                                            ? 'bg-[#EDF7EE] text-[#2E9E33]'
-                                            : 'bg-[#F5F6F8] text-[#8891A4]'">
-                                        {{ app.is_active !== false ? 'Aktiv' : 'Inaktiv' }}
+                                    <span class="text-[10px] font-bold px-2 py-0.5 rounded-full" :class="app.is_active !== false
+                                        ? 'bg-[#EDF7EE] text-[#2E9E33]'
+                                        : 'bg-[#F5F6F8] text-[#8891A4]'">
+                                        {{ app.is_active !== false ? $t('superadmin.products.active') :
+                                            $t('superadmin.products.inactive') }}
                                     </span>
                                 </div>
                                 <h3 class="text-[14px] font-bold text-[#1F2533]">{{ app.name }}</h3>
@@ -229,31 +275,51 @@
                                 </p>
                                 <div class="mt-3 pt-3 border-t border-[#F5F6F8] space-y-1">
                                     <div v-if="app.monthly_price > 0" class="flex justify-between text-[12px]">
-                                        <span class="text-[#8891A4]">Månedlig</span>
-                                        <span class="font-bold text-[#1F2533]">kr. {{ app.monthly_price }}/md.</span>
+                                        <span class="text-[#8891A4]">
+                                            {{ $t('superadmin.products.monthly') }}
+                                        </span>
+                                        <span class="font-bold text-[#1F2533]">
+                                            kr. {{ app.monthly_price }}{{ $t('superadmin.products.perMonth') }}
+                                        </span>
                                     </div>
                                     <div v-if="app.yearly_price > 0" class="flex justify-between text-[12px]">
-                                        <span class="text-[#8891A4]">Årlig</span>
-                                        <span class="font-bold text-[#1F2533]">kr. {{ app.yearly_price }}/år</span>
+                                        <span class="text-[#8891A4]">
+                                            {{ $t('superadmin.products.yearly') }}
+                                        </span>
+                                        <span class="font-bold text-[#1F2533]">
+                                            kr. {{ app.yearly_price }}/{{ $t('superadmin.products.yearly').toLowerCase()
+                                            }}
+                                        </span>
                                     </div>
-                                    <div v-if="(app.one_time_price ?? app.one_time_fee) > 0" class="flex justify-between text-[12px]">
-                                        <span class="text-[#8891A4]">Én gang</span>
-                                        <span class="font-bold text-[#D4900A]">kr. {{ app.one_time_price ?? app.one_time_fee }}</span>
+                                    <div v-if="(app.one_time_price ?? app.one_time_fee) > 0"
+                                        class="flex justify-between text-[12px]">
+                                        <span class="text-[#8891A4]">
+                                            {{ $t('superadmin.products.oneTime') }}
+                                        </span>
+                                        <span class="font-bold text-[#D4900A]">
+                                            kr. {{ app.one_time_price ?? app.one_time_fee }}
+                                        </span>
                                     </div>
                                     <div v-if="!app.monthly_price && !app.yearly_price && !(app.one_time_price ?? app.one_time_fee)"
-                                        class="text-[12px] text-[#8891A4]">Gratis</div>
+                                        class="text-[12px] text-[#8891A4]">
+                                        {{ $t('superadmin.products.free') }}
+                                    </div>
                                 </div>
                                 <div class="flex items-center justify-between mt-3">
-                                    <span class="text-[10px] font-semibold px-2 py-0.5 rounded-full bg-[#F5F6F8] text-[#5C6478]">
+                                    <span
+                                        class="text-[10px] font-semibold px-2 py-0.5 rounded-full bg-[#F5F6F8] text-[#5C6478]">
                                         {{ app.type ?? 'Other' }}
                                     </span>
                                 </div>
                                 <div class="flex gap-2 mt-4">
-                                    <button class="flex-1 py-2 rounded-xl text-[12px] font-semibold border border-[#EAECF0] text-[#5C6478] hover:bg-[#EEF4FB] hover:text-[#205E77] hover:border-[#42AED9]/30 transition-colors flex items-center justify-center gap-1.5"
+                                    <button
+                                        class="flex-1 py-2 rounded-xl text-[12px] font-semibold border border-[#EAECF0] text-[#5C6478] hover:bg-[#EEF4FB] hover:text-[#205E77] hover:border-[#42AED9]/30 transition-colors flex items-center justify-center gap-1.5"
                                         @click="openAppSlider(app)">
-                                        <Icon name="ph:pencil-simple" class="w-3.5 h-3.5" /> Rediger
+                                        <Icon name="ph:pencil-simple" class="w-3.5 h-3.5" />
+                                        {{ $t('superadmin.products.edit') }}
                                     </button>
-                                    <button class="w-9 h-9 rounded-xl flex items-center justify-center border border-[#EAECF0] text-[#CC3B2D] hover:bg-red-50 hover:border-red-200 transition-colors flex-shrink-0"
+                                    <button
+                                        class="w-9 h-9 rounded-xl flex items-center justify-center border border-[#EAECF0] text-[#CC3B2D] hover:bg-red-50 hover:border-red-200 transition-colors flex-shrink-0"
                                         @click="confirmDeleteApp(app)">
                                         <Icon name="ph:trash" class="w-3.5 h-3.5" />
                                     </button>
@@ -264,106 +330,137 @@
                 </div>
             </div>
 
-            <!-- ═══ SLIDE-OVER: NY / REDIGER PAKKE ═══ -->
+            <!-- ═══ SLIDE-OVER: NEW / EDIT PLAN ═══ -->
             <Teleport to="body">
-                <Transition enter-active-class="transition-opacity duration-300" enter-from-class="opacity-0" enter-to-class="opacity-100"
-                    leave-active-class="transition-opacity duration-200" leave-from-class="opacity-100" leave-to-class="opacity-0">
+                <Transition enter-active-class="transition-opacity duration-300" enter-from-class="opacity-0"
+                    enter-to-class="opacity-100" leave-active-class="transition-opacity duration-200"
+                    leave-from-class="opacity-100" leave-to-class="opacity-0">
                     <div v-if="planSlider.open" class="fixed inset-0 bg-black/30 z-40" @click="closePlanSlider" />
                 </Transition>
-                <Transition enter-active-class="transition-transform duration-300 ease-out" enter-from-class="translate-x-full" enter-to-class="translate-x-0"
-                    leave-active-class="transition-transform duration-200 ease-in" leave-from-class="translate-x-0" leave-to-class="translate-x-full">
-                    <div v-if="planSlider.open" class="fixed inset-y-0 right-0 z-50 w-full max-w-[480px] bg-white shadow-2xl flex flex-col">
+                <Transition enter-active-class="transition-transform duration-300 ease-out"
+                    enter-from-class="translate-x-full" enter-to-class="translate-x-0"
+                    leave-active-class="transition-transform duration-200 ease-in" leave-from-class="translate-x-0"
+                    leave-to-class="translate-x-full">
+                    <div v-if="planSlider.open"
+                        class="fixed inset-y-0 right-0 z-50 w-full max-w-[480px] bg-white shadow-2xl flex flex-col">
                         <div class="flex items-start justify-between px-6 py-5 border-b border-[#EAECF0]">
                             <div>
                                 <h2 class="text-[16px] font-semibold text-[#1F2533]">
-                                    {{ planSlider.editMode ? `Rediger ${planSlider.form.name}` : 'Ny pakke' }}
+                                    {{ planSlider.editMode
+                                        ? $t('superadmin.products.planSliderEditTitle', { name: planSlider.form.name })
+                                        : $t('superadmin.products.planSliderNewTitle') }}
                                 </h2>
                                 <p class="text-[12px] text-[#8891A4] mt-0.5">
-                                    {{ planSlider.editMode ? 'Opdater priser og indhold' : 'Tilføj en ny abonnementspakke' }}
+                                    {{ planSlider.editMode
+                                        ? $t('superadmin.products.planSliderEditSubtitle')
+                                        : $t('superadmin.products.planSliderNewSubtitle') }}
                                 </p>
                             </div>
-                            <button @click="closePlanSlider" class="w-8 h-8 rounded-lg flex items-center justify-center text-[#8891A4] hover:bg-[#F5F6F8]">
+                            <button @click="closePlanSlider"
+                                class="w-8 h-8 rounded-lg flex items-center justify-center text-[#8891A4] hover:bg-[#F5F6F8]">
                                 <Icon name="ph:x" class="w-4 h-4" />
                             </button>
                         </div>
                         <div class="flex-1 overflow-y-auto px-6 py-5 space-y-5">
 
-                            <!-- Grundinfo -->
+                            <!-- Basic info -->
                             <div class="space-y-3">
                                 <div v-if="!planSlider.editMode">
-                                    <label class="co-label">Pakkenavn <span class="text-red-500">*</span></label>
-                                    <input v-model="planSlider.form.name" type="text" placeholder="fx Enterprise" class="co-input" />
+                                    <label class="co-label">
+                                        {{ $t('superadmin.products.packageName') }}
+                                        <span class="text-red-500">*</span>
+                                    </label>
+                                    <input v-model="planSlider.form.name" type="text" placeholder="fx Enterprise"
+                                        class="co-input" />
                                 </div>
                                 <div>
-                                    <label class="co-label">Tagline</label>
-                                    <input v-model="planSlider.form.tagline" type="text" placeholder="fx Til store organisationer" class="co-input" />
+                                    <label class="co-label">{{ $t('superadmin.products.tagline') }}</label>
+                                    <input v-model="planSlider.form.tagline" type="text"
+                                        :placeholder="$t('superadmin.products.phTagline')" class="co-input" />
                                 </div>
                                 <div>
-                                    <label class="co-label">Beskrivelse</label>
+                                    <label class="co-label">{{ $t('superadmin.products.description') }}</label>
                                     <textarea v-model="planSlider.form.description" rows="3"
-                                        placeholder="Beskriv hvad pakken indeholder og hvem den er til..."
+                                        :placeholder="$t('superadmin.products.phPlanDescription')"
                                         class="co-input resize-none"></textarea>
                                 </div>
                             </div>
 
-                            <!-- Priser -->
+                            <!-- Prices -->
                             <div>
-                                <p class="text-[10px] font-bold text-[#8891A4] uppercase tracking-[0.08em] mb-3">Priser</p>
+                                <p class="text-[10px] font-bold text-[#8891A4] uppercase tracking-[0.08em] mb-3">
+                                    {{ $t('superadmin.products.prices') }}
+                                </p>
                                 <div class="grid grid-cols-2 gap-3">
                                     <div>
-                                        <label class="co-label">Månedlig pris (kr)</label>
+                                        <label class="co-label">{{ $t('superadmin.products.monthlyPrice') }}</label>
                                         <div class="relative">
-                                            <input v-model.number="planSlider.form.price" type="number" min="0" class="co-input pr-8" />
-                                            <span class="absolute right-3 top-1/2 -translate-y-1/2 text-[#8891A4] text-[12px]">kr</span>
+                                            <input v-model.number="planSlider.form.price" type="number" min="0"
+                                                class="co-input pr-8" />
+                                            <span
+                                                class="absolute right-3 top-1/2 -translate-y-1/2 text-[#8891A4] text-[12px]">kr</span>
                                         </div>
                                     </div>
                                     <div>
-                                        <label class="co-label">Årlig pris (kr)</label>
+                                        <label class="co-label">{{ $t('superadmin.products.yearlyPrice') }}</label>
                                         <div class="relative">
-                                            <input v-model.number="planSlider.form.yearly_price" type="number" min="0" class="co-input pr-8" />
-                                            <span class="absolute right-3 top-1/2 -translate-y-1/2 text-[#8891A4] text-[12px]">kr</span>
+                                            <input v-model.number="planSlider.form.yearly_price" type="number" min="0"
+                                                class="co-input pr-8" />
+                                            <span
+                                                class="absolute right-3 top-1/2 -translate-y-1/2 text-[#8891A4] text-[12px]">kr</span>
                                         </div>
                                     </div>
                                 </div>
                             </div>
 
-                            <!-- Inkluderet -->
+                            <!-- Included -->
                             <div>
-                                <p class="text-[10px] font-bold text-[#8891A4] uppercase tracking-[0.08em] mb-3">Inkluderet i pakken</p>
+                                <p class="text-[10px] font-bold text-[#8891A4] uppercase tracking-[0.08em] mb-3">
+                                    {{ $t('superadmin.products.includedInPackage') }}
+                                </p>
                                 <div class="space-y-3">
                                     <div class="grid grid-cols-2 gap-3">
                                         <div>
-                                            <label class="co-label">Inkl. brugere</label>
-                                            <input v-model.number="planSlider.form.included_users" type="number" min="0" class="co-input" />
+                                            <label class="co-label">{{ $t('superadmin.products.includedUsers')
+                                                }}</label>
+                                            <input v-model.number="planSlider.form.included_users" type="number" min="0"
+                                                class="co-input" />
                                         </div>
                                         <div>
-                                            <label class="co-label">Inkl. afdelinger</label>
-                                            <input v-model.number="planSlider.form.included_departments" type="number" min="0" class="co-input" />
+                                            <label class="co-label">{{ $t('superadmin.products.includedDepartments')
+                                                }}</label>
+                                            <input v-model.number="planSlider.form.included_departments" type="number"
+                                                min="0" class="co-input" />
                                         </div>
                                     </div>
                                     <div class="grid grid-cols-2 gap-3">
                                         <div>
-                                            <label class="co-label">Borgere</label>
+                                            <label class="co-label">{{ $t('superadmin.products.citizens') }}</label>
                                             <select v-model="planSlider.form.included_citizens" class="co-input">
-                                                <option value="1">1 borger</option>
-                                                <option value="unlimited">Ubegrænset</option>
+                                                <option value="1">{{ $t('superadmin.products.oneCitizen') }}</option>
+                                                <option value="unlimited">{{ $t('superadmin.products.unlimited') }}
+                                                </option>
                                             </select>
                                         </div>
                                         <div>
-                                            <label class="co-label">Lagerplads (GB)</label>
-                                            <input v-model.number="planSlider.form.storage_gb" type="number" min="0" class="co-input" />
+                                            <label class="co-label">{{ $t('superadmin.products.storageGb') }}</label>
+                                            <input v-model.number="planSlider.form.storage_gb" type="number" min="0"
+                                                class="co-input" />
                                         </div>
                                     </div>
                                 </div>
                             </div>
 
-                            <!-- Features — dynamisk liste -->
+                            <!-- Features — dynamic list -->
                             <div>
                                 <div class="flex items-center justify-between mb-3">
-                                    <p class="text-[10px] font-bold text-[#8891A4] uppercase tracking-[0.08em]">Features & fordele</p>
+                                    <p class="text-[10px] font-bold text-[#8891A4] uppercase tracking-[0.08em]">
+                                        {{ $t('superadmin.products.featuresAndBenefits') }}
+                                    </p>
                                     <button type="button" @click="addFeature"
                                         class="inline-flex items-center gap-1 px-2.5 py-1 rounded-lg text-[11px] font-semibold text-[#205E77] bg-[#E4F1F6] hover:bg-[#D4EAF4] transition-colors">
-                                        <Icon name="ph:plus" class="w-3 h-3" /> Tilføj
+                                        <Icon name="ph:plus" class="w-3 h-3" />
+                                        {{ $t('superadmin.products.add') }}
                                     </button>
                                 </div>
                                 <div class="space-y-2">
@@ -374,7 +471,7 @@
                                             <Icon name="ph:check" class="w-3.5 h-3.5" style="color:#205E77" />
                                         </div>
                                         <input v-model="planSlider.form.featureList[i]" type="text"
-                                            :placeholder="`fx Funktion ${i + 1}`"
+                                            :placeholder="$t('superadmin.products.phFeatureN', { n: i + 1 })"
                                             class="flex-1 px-3 py-2 text-[13px] border border-[#EAECF0] rounded-xl outline-none focus:border-[#42AED9] focus:ring-2 focus:ring-[#42AED9]/10 text-[#1F2533] bg-white transition-colors" />
                                         <button type="button" @click="removeFeature(i)"
                                             class="w-7 h-7 rounded-lg flex items-center justify-center text-[#CC3B2D] hover:bg-red-50 transition-colors flex-shrink-0">
@@ -383,14 +480,16 @@
                                     </div>
                                     <div v-if="!planSlider.form.featureList.length"
                                         class="text-[12px] text-[#8891A4] text-center py-3 border border-dashed border-[#EAECF0] rounded-xl">
-                                        Ingen features endnu — klik "Tilføj" for at starte
+                                        {{ $t('superadmin.products.noFeaturesYet') }}
                                     </div>
                                 </div>
                             </div>
 
-                            <!-- Feature-toggles -->
+                            <!-- Feature toggles -->
                             <div>
-                                <p class="text-[10px] font-bold text-[#8891A4] uppercase tracking-[0.08em] mb-3">Særlige features</p>
+                                <p class="text-[10px] font-bold text-[#8891A4] uppercase tracking-[0.08em] mb-3">
+                                    {{ $t('superadmin.products.specialFeatures') }}
+                                </p>
                                 <div class="space-y-2">
                                     <div v-for="feat in planFeatureToggles" :key="feat.key"
                                         class="flex items-center justify-between py-2.5 px-4 border border-[#EAECF0] rounded-xl">
@@ -402,7 +501,8 @@
                                             @click="planSlider.form.features[feat.key] = !planSlider.form.features[feat.key]"
                                             class="relative inline-flex h-6 w-11 items-center rounded-full transition-colors flex-shrink-0"
                                             :style="planSlider.form.features[feat.key] ? 'background:#42AED9' : 'background:#D5D9E2'">
-                                            <span class="inline-block h-4 w-4 transform rounded-full bg-white shadow transition-transform"
+                                            <span
+                                                class="inline-block h-4 w-4 transform rounded-full bg-white shadow transition-transform"
                                                 :class="planSlider.form.features[feat.key] ? 'translate-x-6' : 'translate-x-1'"></span>
                                         </button>
                                     </div>
@@ -412,179 +512,252 @@
                         <div class="flex items-center gap-3 px-6 py-4 border-t border-[#EAECF0]">
                             <button @click="closePlanSlider"
                                 class="flex-1 py-2.5 rounded-lg text-sm font-medium text-[#5C6478] border border-[#EAECF0] hover:bg-[#F5F6F8]">
-                                Annuller
+                                {{ $t('superadmin.products.cancel') }}
                             </button>
                             <button @click="savePlan"
                                 class="flex-1 py-2.5 rounded-lg text-sm font-semibold text-white shadow-sm"
                                 style="background:#205E77" :disabled="planSlider.isSaving">
                                 <span v-if="planSlider.isSaving" class="flex items-center justify-center gap-2">
-                                    <Icon name="ph:spinner" class="w-4 h-4 animate-spin" /> Gemmer...
+                                    <Icon name="ph:spinner" class="w-4 h-4 animate-spin" />
+                                    {{ $t('superadmin.products.saving') }}
                                 </span>
-                                <span v-else>{{ planSlider.editMode ? 'Gem pakke' : 'Opret pakke' }}</span>
+                                <span v-else>
+                                    {{ planSlider.editMode
+                                        ? $t('superadmin.products.savePlan')
+                                        : $t('superadmin.products.createPlan') }}
+                                </span>
                             </button>
                         </div>
                     </div>
                 </Transition>
 
-                <!-- SLIDE-OVER: REDIGER TILKØBS-PRISER -->
-                <Transition enter-active-class="transition-opacity duration-300" enter-from-class="opacity-0" enter-to-class="opacity-100"
-                    leave-active-class="transition-opacity duration-200" leave-from-class="opacity-100" leave-to-class="opacity-0">
+                <!-- SLIDE-OVER: EDIT ADD-ON PRICES -->
+                <Transition enter-active-class="transition-opacity duration-300" enter-from-class="opacity-0"
+                    enter-to-class="opacity-100" leave-active-class="transition-opacity duration-200"
+                    leave-from-class="opacity-100" leave-to-class="opacity-0">
                     <div v-if="addonSlider.open" class="fixed inset-0 bg-black/30 z-40" @click="closeAddonSlider" />
                 </Transition>
-                <Transition enter-active-class="transition-transform duration-300 ease-out" enter-from-class="translate-x-full" enter-to-class="translate-x-0"
-                    leave-active-class="transition-transform duration-200 ease-in" leave-from-class="translate-x-0" leave-to-class="translate-x-full">
-                    <div v-if="addonSlider.open" class="fixed inset-y-0 right-0 z-50 w-full max-w-[420px] bg-white shadow-2xl flex flex-col">
+                <Transition enter-active-class="transition-transform duration-300 ease-out"
+                    enter-from-class="translate-x-full" enter-to-class="translate-x-0"
+                    leave-active-class="transition-transform duration-200 ease-in" leave-from-class="translate-x-0"
+                    leave-to-class="translate-x-full">
+                    <div v-if="addonSlider.open"
+                        class="fixed inset-y-0 right-0 z-50 w-full max-w-[420px] bg-white shadow-2xl flex flex-col">
                         <div class="flex items-start justify-between px-6 py-5 border-b border-[#EAECF0]">
                             <div>
-                                <h2 class="text-[16px] font-semibold text-[#1F2533]">Tilkøbspriser</h2>
-                                <p class="text-[12px] text-[#8891A4] mt-0.5">Ekstra bruger og afdeling</p>
+                                <h2 class="text-[16px] font-semibold text-[#1F2533]">
+                                    {{ $t('superadmin.products.addonSliderTitle') }}
+                                </h2>
+                                <p class="text-[12px] text-[#8891A4] mt-0.5">
+                                    {{ $t('superadmin.products.addonSliderSubtitle') }}
+                                </p>
                             </div>
-                            <button @click="closeAddonSlider" class="w-8 h-8 rounded-lg flex items-center justify-center text-[#8891A4] hover:bg-[#F5F6F8]">
+                            <button @click="closeAddonSlider"
+                                class="w-8 h-8 rounded-lg flex items-center justify-center text-[#8891A4] hover:bg-[#F5F6F8]">
                                 <Icon name="ph:x" class="w-4 h-4" />
                             </button>
                         </div>
                         <div class="flex-1 overflow-y-auto px-6 py-5 space-y-4">
                             <div class="p-4 border border-[#EAECF0] rounded-xl">
                                 <div class="flex items-center gap-3 mb-3">
-                                    <div class="w-9 h-9 rounded-lg flex items-center justify-center" style="background:#E4F1F6">
+                                    <div class="w-9 h-9 rounded-lg flex items-center justify-center"
+                                        style="background:#E4F1F6">
                                         <Icon name="ph:user-plus" class="w-4 h-4" style="color:#205E77" />
                                     </div>
                                     <div>
-                                        <p class="text-[13px] font-semibold text-[#1F2533]">Ekstra bruger</p>
-                                        <p class="text-[11px] text-[#8891A4]">Per medarbejder pr. måned</p>
+                                        <p class="text-[13px] font-semibold text-[#1F2533]">
+                                            {{ $t('superadmin.products.extraUser') }}
+                                        </p>
+                                        <p class="text-[11px] text-[#8891A4]">
+                                            {{ $t('superadmin.products.perEmployeePerMonth') }}
+                                        </p>
                                     </div>
                                 </div>
                                 <div class="relative">
-                                    <input v-model.number="addonSlider.form.extra_user" type="number" min="0" class="co-input pr-14" />
-                                    <span class="absolute right-3 top-1/2 -translate-y-1/2 text-[#8891A4] text-[12px]">kr/md.</span>
+                                    <input v-model.number="addonSlider.form.extra_user" type="number" min="0"
+                                        class="co-input pr-14" />
+                                    <span class="absolute right-3 top-1/2 -translate-y-1/2 text-[#8891A4] text-[12px]">
+                                        kr{{ $t('superadmin.products.perMonth') }}
+                                    </span>
                                 </div>
                             </div>
                             <div class="p-4 border border-[#EAECF0] rounded-xl">
                                 <div class="flex items-center gap-3 mb-3">
-                                    <div class="w-9 h-9 rounded-lg flex items-center justify-center" style="background:#EDF7EE">
+                                    <div class="w-9 h-9 rounded-lg flex items-center justify-center"
+                                        style="background:#EDF7EE">
                                         <Icon name="ph:buildings" class="w-4 h-4" style="color:#2E9E33" />
                                     </div>
                                     <div>
-                                        <p class="text-[13px] font-semibold text-[#1F2533]">Ekstra afdeling</p>
-                                        <p class="text-[11px] text-[#8891A4]">Per afdeling pr. måned</p>
+                                        <p class="text-[13px] font-semibold text-[#1F2533]">
+                                            {{ $t('superadmin.products.extraDepartment') }}
+                                        </p>
+                                        <p class="text-[11px] text-[#8891A4]">
+                                            {{ $t('superadmin.products.perDepartmentPerMonth') }}
+                                        </p>
                                     </div>
                                 </div>
                                 <div class="relative">
-                                    <input v-model.number="addonSlider.form.extra_department" type="number" min="0" class="co-input pr-14" />
-                                    <span class="absolute right-3 top-1/2 -translate-y-1/2 text-[#8891A4] text-[12px]">kr/md.</span>
+                                    <input v-model.number="addonSlider.form.extra_department" type="number" min="0"
+                                        class="co-input pr-14" />
+                                    <span class="absolute right-3 top-1/2 -translate-y-1/2 text-[#8891A4] text-[12px]">
+                                        kr{{ $t('superadmin.products.perMonth') }}
+                                    </span>
                                 </div>
                             </div>
-                            <div class="px-4 py-3 bg-[#FFF9EC] rounded-xl border border-[#D4900A]/20 text-[12px] text-[#D4900A] flex items-start gap-2">
+                            <div
+                                class="px-4 py-3 bg-[#FFF9EC] rounded-xl border border-[#D4900A]/20 text-[12px] text-[#D4900A] flex items-start gap-2">
                                 <Icon name="ph:warning" class="w-4 h-4 flex-shrink-0 mt-0.5" />
-                                Prisændringer gælder ved næste faktureringsperiode for eksisterende kunder.
+                                {{ $t('superadmin.products.priceChangeWarning') }}
                             </div>
                         </div>
                         <div class="flex items-center gap-3 px-6 py-4 border-t border-[#EAECF0]">
-                            <button @click="closeAddonSlider" class="flex-1 py-2.5 rounded-lg text-sm font-medium text-[#5C6478] border border-[#EAECF0] hover:bg-[#F5F6F8]">
-                                Annuller
+                            <button @click="closeAddonSlider"
+                                class="flex-1 py-2.5 rounded-lg text-sm font-medium text-[#5C6478] border border-[#EAECF0] hover:bg-[#F5F6F8]">
+                                {{ $t('superadmin.products.cancel') }}
                             </button>
-                            <button @click="saveAddonPrices" class="flex-1 py-2.5 rounded-lg text-sm font-semibold text-white shadow-sm"
+                            <button @click="saveAddonPrices"
+                                class="flex-1 py-2.5 rounded-lg text-sm font-semibold text-white shadow-sm"
                                 style="background:#205E77" :disabled="addonSlider.isSaving">
                                 <span v-if="addonSlider.isSaving" class="flex items-center justify-center gap-2">
-                                    <Icon name="ph:spinner" class="w-4 h-4 animate-spin" /> Gemmer...
+                                    <Icon name="ph:spinner" class="w-4 h-4 animate-spin" />
+                                    {{ $t('superadmin.products.saving') }}
                                 </span>
-                                <span v-else>Gem priser</span>
+                                <span v-else>{{ $t('superadmin.products.savePrices') }}</span>
                             </button>
                         </div>
                     </div>
                 </Transition>
 
-                <!-- SLIDE-OVER: NY / REDIGER APP -->
-                <Transition enter-active-class="transition-opacity duration-300" enter-from-class="opacity-0" enter-to-class="opacity-100"
-                    leave-active-class="transition-opacity duration-200" leave-from-class="opacity-100" leave-to-class="opacity-0">
+                <!-- SLIDE-OVER: NEW / EDIT APP -->
+                <Transition enter-active-class="transition-opacity duration-300" enter-from-class="opacity-0"
+                    enter-to-class="opacity-100" leave-active-class="transition-opacity duration-200"
+                    leave-from-class="opacity-100" leave-to-class="opacity-0">
                     <div v-if="appSlider.open" class="fixed inset-0 bg-black/30 z-40" @click="closeAppSlider" />
                 </Transition>
-                <Transition enter-active-class="transition-transform duration-300 ease-out" enter-from-class="translate-x-full" enter-to-class="translate-x-0"
-                    leave-active-class="transition-transform duration-200 ease-in" leave-from-class="translate-x-0" leave-to-class="translate-x-full">
-                    <div v-if="appSlider.open" class="fixed inset-y-0 right-0 z-50 w-full max-w-[460px] bg-white shadow-2xl flex flex-col">
+                <Transition enter-active-class="transition-transform duration-300 ease-out"
+                    enter-from-class="translate-x-full" enter-to-class="translate-x-0"
+                    leave-active-class="transition-transform duration-200 ease-in" leave-from-class="translate-x-0"
+                    leave-to-class="translate-x-full">
+                    <div v-if="appSlider.open"
+                        class="fixed inset-y-0 right-0 z-50 w-full max-w-[460px] bg-white shadow-2xl flex flex-col">
                         <div class="flex items-start justify-between px-6 py-5 border-b border-[#EAECF0]">
                             <div>
-                                <h2 class="text-[16px] font-semibold text-[#1F2533]">{{ appSlider.editMode ? 'Rediger app' : 'Ny app' }}</h2>
-                                <p class="text-[12px] text-[#8891A4] mt-0.5">{{ appSlider.editMode ? 'Opdater app oplysninger og priser' : 'Tilføj til produktkataloget og App Store' }}</p>
+                                <h2 class="text-[16px] font-semibold text-[#1F2533]">
+                                    {{ appSlider.editMode
+                                        ? $t('superadmin.products.editApp')
+                                        : $t('superadmin.products.newAppTitle') }}
+                                </h2>
+                                <p class="text-[12px] text-[#8891A4] mt-0.5">
+                                    {{ appSlider.editMode
+                                        ? $t('superadmin.products.editAppSubtitle')
+                                        : $t('superadmin.products.newAppSubtitle') }}
+                                </p>
                             </div>
-                            <button @click="closeAppSlider" class="w-8 h-8 rounded-lg flex items-center justify-center text-[#8891A4] hover:bg-[#F5F6F8]">
+                            <button @click="closeAppSlider"
+                                class="w-8 h-8 rounded-lg flex items-center justify-center text-[#8891A4] hover:bg-[#F5F6F8]">
                                 <Icon name="ph:x" class="w-4 h-4" />
                             </button>
                         </div>
                         <div class="flex-1 overflow-y-auto px-6 py-5 space-y-4">
-                            <Alert type="danger" :text="appSlider.error?.message" v-if="appSlider.error?.message?.length > 0" />
+                            <Alert type="danger" :text="appSlider.error?.message"
+                                v-if="appSlider.error?.message?.length > 0" />
 
                             <div>
-                                <label class="co-label">Navn <span class="text-red-500">*</span></label>
-                                <input v-model="appSlider.form.name" type="text" placeholder="fx Online Kursus"
-                                    class="co-input" :class="appSlider.errors.name ? 'border-red-300' : ''" />
+                                <label class="co-label">
+                                    {{ $t('superadmin.products.name') }}
+                                    <span class="text-red-500">*</span>
+                                </label>
+                                <input v-model="appSlider.form.name" type="text"
+                                    :placeholder="$t('superadmin.products.phAppName')" class="co-input"
+                                    :class="appSlider.errors.name ? 'border-red-300' : ''" />
                                 <p v-if="appSlider.errors.name" class="co-error">{{ appSlider.errors.name }}</p>
                             </div>
 
                             <div>
-                                <label class="co-label">Beskrivelse</label>
+                                <label class="co-label">{{ $t('superadmin.products.description') }}</label>
                                 <textarea v-model="appSlider.form.description" rows="3"
-                                    placeholder="Kort beskrivelse som kunderne ser i App Store..."
+                                    :placeholder="$t('superadmin.products.phAppDescription')"
                                     class="co-input resize-none"></textarea>
                             </div>
 
                             <div>
-                                <label class="co-label">Type</label>
+                                <label class="co-label">{{ $t('superadmin.products.type') }}</label>
                                 <div class="grid grid-cols-2 gap-2">
-                                    <button v-for="t in appTypes" :key="t.value"
+                                    <button v-for="appType in appTypes" :key="appType.value"
                                         class="py-2.5 px-3 rounded-xl border-2 text-[12px] font-medium transition-colors flex items-center gap-2"
-                                        :style="appSlider.form.type === t.value
+                                        :style="appSlider.form.type === appType.value
                                             ? 'border-color:#42AED9;background:#F0FAFD;color:#205E77'
                                             : 'border-color:#EAECF0;color:#5C6478'"
-                                        @click="appSlider.form.type = t.value">
-                                        <Icon :name="t.icon" class="w-4 h-4" />
-                                        {{ t.label }}
+                                        @click="appSlider.form.type = appType.value">
+                                        <Icon :name="appType.icon" class="w-4 h-4" />
+                                        {{ appType.label }}
                                     </button>
                                 </div>
                             </div>
 
                             <div>
-                                <p class="text-[10px] font-bold text-[#8891A4] uppercase tracking-[0.08em] mb-3">Priser</p>
+                                <p class="text-[10px] font-bold text-[#8891A4] uppercase tracking-[0.08em] mb-3">
+                                    {{ $t('superadmin.products.prices') }}
+                                </p>
                                 <div class="space-y-3">
                                     <div>
-                                        <label class="co-label">Månedlig pris (kr)</label>
+                                        <label class="co-label">{{ $t('superadmin.products.monthlyPrice') }}</label>
                                         <div class="relative">
-                                            <input v-model.number="appSlider.form.monthly_price" type="number" min="0" placeholder="0" class="co-input pr-8" />
-                                            <span class="absolute right-3 top-1/2 -translate-y-1/2 text-[#8891A4] text-[12px]">kr</span>
+                                            <input v-model.number="appSlider.form.monthly_price" type="number" min="0"
+                                                placeholder="0" class="co-input pr-8" />
+                                            <span
+                                                class="absolute right-3 top-1/2 -translate-y-1/2 text-[#8891A4] text-[12px]">kr</span>
                                         </div>
                                     </div>
                                     <div>
-                                        <label class="co-label">Årlig pris (kr)</label>
+                                        <label class="co-label">{{ $t('superadmin.products.yearlyPrice') }}</label>
                                         <div class="relative">
-                                            <input v-model.number="appSlider.form.yearly_price" type="number" min="0" placeholder="0" class="co-input pr-8" />
-                                            <span class="absolute right-3 top-1/2 -translate-y-1/2 text-[#8891A4] text-[12px]">kr</span>
+                                            <input v-model.number="appSlider.form.yearly_price" type="number" min="0"
+                                                placeholder="0" class="co-input pr-8" />
+                                            <span
+                                                class="absolute right-3 top-1/2 -translate-y-1/2 text-[#8891A4] text-[12px]">kr</span>
                                         </div>
                                     </div>
                                     <div>
-                                        <label class="co-label">Én gang gebyr (kr)</label>
+                                        <label class="co-label">{{ $t('superadmin.products.oneTimeFee') }}</label>
                                         <div class="relative">
-                                            <input v-model.number="appSlider.form.one_time_price" type="number" min="0" placeholder="0" class="co-input pr-8" />
-                                            <span class="absolute right-3 top-1/2 -translate-y-1/2 text-[#8891A4] text-[12px]">kr</span>
+                                            <input v-model.number="appSlider.form.one_time_price" type="number" min="0"
+                                                placeholder="0" class="co-input pr-8" />
+                                            <span
+                                                class="absolute right-3 top-1/2 -translate-y-1/2 text-[#8891A4] text-[12px]">kr</span>
                                         </div>
-                                        <p class="text-[11px] text-[#8891A4] mt-1">For kurser og engangsbetalinger</p>
+                                        <p class="text-[11px] text-[#8891A4] mt-1">
+                                            {{ $t('superadmin.products.oneTimeFeeHint') }}
+                                        </p>
                                     </div>
                                 </div>
                             </div>
 
                             <div>
-                                <label class="co-label">Billede URL <span class="text-[#8891A4] font-normal">(valgfri)</span></label>
-                                <input v-model="appSlider.form.image" type="url" placeholder="https://..." class="co-input" />
+                                <label class="co-label">
+                                    {{ $t('superadmin.products.imageUrl') }}
+                                    <span class="text-[#8891A4] font-normal">
+                                        {{ $t('superadmin.products.optional') }}
+                                    </span>
+                                </label>
+                                <input v-model="appSlider.form.image" type="url" placeholder="https://..."
+                                    class="co-input" />
                             </div>
 
                             <div class="flex items-center justify-between py-3 px-4 border border-[#EAECF0] rounded-xl">
                                 <div>
-                                    <p class="text-[13px] font-medium text-[#1F2533]">Synlig i App Store</p>
-                                    <p class="text-[11px] text-[#8891A4] mt-0.5">Kunder kan se og købe denne app</p>
+                                    <p class="text-[13px] font-medium text-[#1F2533]">
+                                        {{ $t('superadmin.products.visibleInAppStore') }}
+                                    </p>
+                                    <p class="text-[11px] text-[#8891A4] mt-0.5">
+                                        {{ $t('superadmin.products.visibleInAppStoreHint') }}
+                                    </p>
                                 </div>
                                 <button type="button" @click="appSlider.form.is_active = !appSlider.form.is_active"
                                     class="relative inline-flex h-6 w-11 items-center rounded-full transition-colors flex-shrink-0"
                                     :style="appSlider.form.is_active ? 'background:#42AED9' : 'background:#D5D9E2'">
-                                    <span class="inline-block h-4 w-4 transform rounded-full bg-white shadow transition-transform"
+                                    <span
+                                        class="inline-block h-4 w-4 transform rounded-full bg-white shadow transition-transform"
                                         :class="appSlider.form.is_active ? 'translate-x-6' : 'translate-x-1'"></span>
                                 </button>
                             </div>
@@ -592,26 +765,29 @@
                         <div class="flex items-center gap-3 px-6 py-4 border-t border-[#EAECF0]">
                             <button @click="closeAppSlider"
                                 class="flex-1 py-2.5 rounded-lg text-sm font-medium text-[#5C6478] border border-[#EAECF0] hover:bg-[#F5F6F8]">
-                                Annuller
+                                {{ $t('superadmin.products.cancel') }}
                             </button>
                             <button @click="saveApp"
                                 class="flex-1 py-2.5 rounded-lg text-sm font-semibold text-white shadow-sm"
                                 style="background:#205E77" :disabled="appSlider.isSaving">
                                 <span v-if="appSlider.isSaving" class="flex items-center justify-center gap-2">
-                                    <Icon name="ph:spinner" class="w-4 h-4 animate-spin" /> Gemmer...
+                                    <Icon name="ph:spinner" class="w-4 h-4 animate-spin" />
+                                    {{ $t('superadmin.products.saving') }}
                                 </span>
-                                <span v-else>{{ appSlider.editMode ? 'Gem ændringer' : 'Opret app' }}</span>
+                                <span v-else>
+                                    {{ appSlider.editMode
+                                        ? $t('superadmin.products.saveChanges')
+                                        : $t('superadmin.products.createApp') }}
+                                </span>
                             </button>
                         </div>
                     </div>
                 </Transition>
             </Teleport>
 
-            <DialogConfirmation
-                :isModalOpen="state.modal.isDeleteAppOpen"
-                :message="`Slet '${state.selectedApp?.name}'? Den fjernes fra App Store.`"
-                @close="state.modal.isDeleteAppOpen = false"
-                @confirm="deleteApp" />
+            <DialogConfirmation :isModalOpen="state.modal.isDeleteAppOpen"
+                :message="$t('superadmin.products.deleteAppConfirm', { name: state.selectedApp?.name })"
+                @close="state.modal.isDeleteAppOpen = false" @confirm="deleteApp" />
         </NuxtLayout>
     </div>
 </template>
@@ -620,85 +796,112 @@
 import { appService } from '@/components/api/superadmin/AppService'
 import { productService } from '@/components/api/superadmin/ProductService'
 import { useAlert } from '@/composables/alert'
+import { useI18n } from 'vue-i18n'
 import type { Error } from '@/types'
 
 const runtimeConfig = useRuntimeConfig()
 const { successAlert } = useAlert()
+const { t } = useI18n()
 
 const activeTab = ref('plans')
 
-const tabs = [
-    { key: 'plans', label: 'Pakker & Tilkøb', icon: 'ph:package' },
-    { key: 'apps',  label: 'Apps',             icon: 'ph:squares-four' },
-]
+// ── Static arrays as computed for locale reactivity ──
 
-const appTypes = [
-    { value: 'Module',      label: 'Modul',       icon: 'ph:squares-four' },
-    { value: 'Course',      label: 'Kursus',      icon: 'ph:graduation-cap' },
-    { value: 'Integration', label: 'Integration', icon: 'ph:plugs-connected' },
-    { value: 'Other',       label: 'Andet',       icon: 'ph:package' },
-]
+const tabs = computed(() => [
+    { key: 'plans', label: t('superadmin.products.tabPlans'), icon: 'ph:package' },
+    { key: 'apps', label: t('superadmin.products.tabApps'), icon: 'ph:squares-four' },
+])
 
-const planFeatureToggles = [
-    { key: 'phone_support', label: 'Telefonsupport',   icon: 'ph:phone' },
-    { key: 'fmk',           label: 'FMK integration',  icon: 'ph:pills' },
-    { key: 'app_store',     label: 'App Store adgang', icon: 'ph:squares-four' },
-    { key: 'api_access',    label: 'API adgang',       icon: 'ph:code' },
-]
+const appTypes = computed(() => [
+    { value: 'Module', label: t('superadmin.products.appTypeModule'), icon: 'ph:squares-four' },
+    { value: 'Course', label: t('superadmin.products.appTypeCourse'), icon: 'ph:graduation-cap' },
+    { value: 'Integration', label: t('superadmin.products.appTypeIntegration'), icon: 'ph:plugs-connected' },
+    { value: 'Other', label: t('superadmin.products.appTypeOther'), icon: 'ph:package' },
+])
 
-const COLORS = ['#205E77','#2E9E33','#368F8B','#1A4D99','#D4900A','#9B4D9B']
+const planFeatureToggles = computed(() => [
+    { key: 'phone_support', label: t('superadmin.products.featurePhoneSupport'), icon: 'ph:phone' },
+    { key: 'fmk', label: t('superadmin.products.featureFmk'), icon: 'ph:pills' },
+    { key: 'app_store', label: t('superadmin.products.featureAppStore'), icon: 'ph:squares-four' },
+    { key: 'api_access', label: t('superadmin.products.featureApiAccess'), icon: 'ph:code' },
+])
+
+// ── Addon prices (mutable, updated from server and slider) ──
+const addonPrices = reactive({ extra_user: 39, extra_department: 79 })
+
+// ── Per-plan price overrides from server ──
+const planPriceOverrides = reactive({} as Record<string, { price?: number; yearly_price?: number; tagline?: string }>)
+
+// ── Plans as computed — derives labels from t(), prices from planPriceOverrides + addonPrices ──
+const plans = computed(() => [
+    {
+        key: 'gratis', name: 'Gratis',
+        tagline: planPriceOverrides['gratis']?.tagline ?? t('superadmin.products.planTaglineFree'),
+        price: planPriceOverrides['gratis']?.price ?? 0,
+        yearly_price: planPriceOverrides['gratis']?.yearly_price ?? 0,
+        color: '#8891A4', icon: 'ph:gift',
+        features: [
+            { key: 'admin', label: t('superadmin.products.featureAdmin'), value: '1', rawValue: 1 },
+            { key: 'users', label: t('superadmin.products.featureUsers'), value: '1', rawValue: 1 },
+            { key: 'departments', label: t('superadmin.products.featureDepartments'), value: '1', rawValue: 1 },
+            { key: 'citizens', label: t('superadmin.products.featureCitizens'), value: '1', rawValue: '1' },
+            { key: 'storage', label: t('superadmin.products.featureStorage'), value: '1 GB', rawValue: 1 },
+            { key: 'support', label: t('superadmin.products.featureSupport'), value: t('superadmin.products.featureValueSupportBase') },
+        ],
+        addons: [] as any[],
+    },
+    {
+        key: 'basis', name: 'Basis',
+        tagline: planPriceOverrides['basis']?.tagline ?? t('superadmin.products.planTaglineBasis'),
+        price: planPriceOverrides['basis']?.price ?? 249,
+        yearly_price: planPriceOverrides['basis']?.yearly_price ?? 0,
+        color: '#42AED9', icon: 'ph:star',
+        features: [
+            { key: 'admin', label: t('superadmin.products.featureAdmin'), value: '1', rawValue: 1 },
+            { key: 'users', label: t('superadmin.products.featureUsers'), value: `1 ${t('superadmin.products.incl')}`, rawValue: 1 },
+            { key: 'departments', label: t('superadmin.products.featureDepartments'), value: `1 ${t('superadmin.products.incl')}`, rawValue: 1 },
+            { key: 'citizens', label: t('superadmin.products.featureCitizens'), value: t('superadmin.products.unlimited'), rawValue: 'unlimited' },
+            { key: 'storage', label: t('superadmin.products.featureStorage'), value: '1 GB', rawValue: 1 },
+            { key: 'support', label: t('superadmin.products.featureSupport'), value: t('superadmin.products.featureValueSupportBase') },
+        ],
+        addons: [
+            { key: 'extra_user', label: t('superadmin.products.extraUser'), icon: 'ph:user-plus', price: addonPrices.extra_user },
+            { key: 'extra_department', label: t('superadmin.products.extraDepartment'), icon: 'ph:buildings', price: addonPrices.extra_department },
+        ],
+    },
+    {
+        key: 'pro', name: 'Pro',
+        tagline: planPriceOverrides['pro']?.tagline ?? t('superadmin.products.planTaglinePro'),
+        price: planPriceOverrides['pro']?.price ?? 449,
+        yearly_price: planPriceOverrides['pro']?.yearly_price ?? 0,
+        color: '#205E77', icon: 'ph:crown-simple',
+        features: [
+            { key: 'admin', label: t('superadmin.products.featureAdmin'), value: '1', rawValue: 1 },
+            { key: 'users', label: t('superadmin.products.featureUsers'), value: `3 ${t('superadmin.products.incl')}`, rawValue: 3 },
+            { key: 'departments', label: t('superadmin.products.featureDepartments'), value: `3 ${t('superadmin.products.incl')}`, rawValue: 3 },
+            { key: 'citizens', label: t('superadmin.products.featureCitizens'), value: t('superadmin.products.unlimited'), rawValue: 'unlimited' },
+            { key: 'storage', label: t('superadmin.products.featureStorage'), value: '3 GB', rawValue: 3 },
+            { key: 'support', label: t('superadmin.products.featureSupport'), value: t('superadmin.products.featureValueSupportPro') },
+            { key: 'fmk', label: t('superadmin.products.featureFMKLabel'), value: '✓' },
+        ],
+        addons: [
+            { key: 'extra_user', label: t('superadmin.products.extraUser'), icon: 'ph:user-plus', price: addonPrices.extra_user },
+            { key: 'extra_department', label: t('superadmin.products.extraDepartment'), icon: 'ph:buildings', price: addonPrices.extra_department },
+        ],
+    },
+])
+
+const COLORS = ['#205E77', '#2E9E33', '#368F8B', '#1A4D99', '#D4900A', '#9B4D9B']
 const APP_ICONS: Record<string, string> = {
-    mail:'ph:envelope', booking:'ph:calendar', kursus:'ph:graduation-cap',
-    leads:'ph:funnel', ai:'ph:robot',
+    mail: 'ph:envelope', booking: 'ph:calendar', kursus: 'ph:graduation-cap',
+    leads: 'ph:funnel', ai: 'ph:robot',
 }
 const appIcon = (name: string) => {
-    const k = (name||'').toLowerCase()
+    const k = (name || '').toLowerCase()
     const found = Object.keys(APP_ICONS).find(key => k.includes(key))
     return found ? APP_ICONS[found] : 'ph:squares-four'
 }
 const appColor = (name: string) => COLORS[(name?.charCodeAt(0) ?? 0) % COLORS.length]
-
-const addonPrices = reactive({ extra_user: 39, extra_department: 79 })
-
-const plans = reactive([
-    {
-        key: 'gratis', name: 'Gratis', tagline: 'Til den mindre virksomhed',
-        price: 0, yearly_price: 0, color: '#8891A4', icon: 'ph:gift',
-        features: [
-            { label: 'Admin', value: '1' }, { label: 'Brugere', value: '1' },
-            { label: 'Afdelinger', value: '1' }, { label: 'Borgere', value: '1' },
-            { label: 'Lagerplads', value: '1 GB' }, { label: 'Support', value: 'Chat & mail' },
-        ],
-        addons: [],
-    },
-    {
-        key: 'basis', name: 'Basis', tagline: 'God til et mindre team',
-        price: 249, yearly_price: 0, color: '#42AED9', icon: 'ph:star',
-        features: [
-            { label: 'Admin', value: '1' }, { label: 'Brugere', value: '1 inkl.' },
-            { label: 'Afdelinger', value: '1 inkl.' }, { label: 'Borgere', value: 'Ubegrænset' },
-            { label: 'Lagerplads', value: '1 GB' }, { label: 'Support', value: 'Chat & mail' },
-        ],
-        addons: [
-            { label: 'Ekstra bruger', icon: 'ph:user-plus', price: 39 },
-            { label: 'Ekstra afdeling', icon: 'ph:buildings', price: 79 },
-        ],
-    },
-    {
-        key: 'pro', name: 'Pro', tagline: 'Perfekt til større virksomheder',
-        price: 449, yearly_price: 0, color: '#205E77', icon: 'ph:crown-simple',
-        features: [
-            { label: 'Admin', value: '1' }, { label: 'Brugere', value: '3 inkl.' },
-            { label: 'Afdelinger', value: '3 inkl.' }, { label: 'Borgere', value: 'Ubegrænset' },
-            { label: 'Lagerplads', value: '3 GB' }, { label: 'Support', value: 'Telefon, chat & mail' },
-            { label: 'FMK', value: '✓' },
-        ],
-        addons: [
-            { label: 'Ekstra bruger', icon: 'ph:user-plus', price: 39 },
-            { label: 'Ekstra afdeling', icon: 'ph:buildings', price: 79 },
-        ],
-    },
-])
 
 const state = reactive({
     apps: [] as any[],
@@ -716,7 +919,7 @@ const planSlider = reactive({
         included_users: 1, included_departments: 1,
         included_citizens: 'unlimited', storage_gb: 1,
         featureList: [] as string[],
-        features: { phone_support: false, fmk: false, app_store: true, api_access: false },
+        features: { phone_support: false, fmk: false, app_store: true, api_access: false } as Record<string, boolean>,
     },
 })
 
@@ -733,11 +936,14 @@ const addonSlider = reactive({
 const appSlider = reactive({
     open: false, editMode: false, isSaving: false,
     error: {} as any, editingId: null as any,
-    form: { name:'', description:'', type:'Module', monthly_price:0, yearly_price:0, one_time_price:0, image:'', is_active:true },
-    errors: { name:'' },
+    form: { name: '', description: '', type: 'Module', monthly_price: 0, yearly_price: 0, one_time_price: 0, image: '', is_active: true },
+    errors: { name: '' },
 })
 
-onMounted(() => { fetchApps(); fetchPlanSettings() })
+onMounted(() => {
+    fetchApps()
+    fetchPlanSettings()
+})
 
 watch(activeTab, (tab) => { if (tab === 'apps') fetchApps() })
 
@@ -750,15 +956,14 @@ async function fetchPlanSettings() {
         }
         if (r?.plans) {
             r.plans.forEach((p: any) => {
-                const local = plans.find(pl => pl.key === p.key)
-                if (local) {
-                    local.price = p.price ?? local.price
-                    local.yearly_price = p.yearly_price ?? 0
-                    local.tagline = p.tagline ?? local.tagline
+                planPriceOverrides[p.key] = {
+                    price: p.price,
+                    yearly_price: p.yearly_price ?? 0,
+                    tagline: p.tagline,
                 }
             })
         }
-    } catch (_) {}
+    } catch (_) { }
 }
 
 async function fetchApps() {
@@ -770,46 +975,50 @@ async function fetchApps() {
     state.isLoading = false
 }
 
-// Plan
+// ── Plan ──
 function openPlanSlider(plan: any) {
     planSlider.editMode = !!plan
     planSlider.plan = plan
     planSlider.form = plan ? {
-        name: plan.name, tagline: plan.tagline, description: plan.description ?? '',
-        price: plan.price, yearly_price: plan.yearly_price ?? 0,
-        included_users: parseInt(plan.features.find((f:any) => f.label==='Brugere')?.value) || 1,
-        included_departments: parseInt(plan.features.find((f:any) => f.label==='Afdelinger')?.value) || 1,
-        included_citizens: plan.features.find((f:any) => f.label==='Borgere')?.value === 'Ubegrænset' ? 'unlimited' : '1',
-        storage_gb: parseInt(plan.features.find((f:any) => f.label==='Lagerplads')?.value) || 1,
+        name: plan.name,
+        tagline: plan.tagline,
+        description: plan.description ?? '',
+        price: plan.price,
+        yearly_price: plan.yearly_price ?? 0,
+        included_users: plan.features.find((f: any) => f.key === 'users')?.rawValue ?? 1,
+        included_departments: plan.features.find((f: any) => f.key === 'departments')?.rawValue ?? 1,
+        included_citizens: plan.features.find((f: any) => f.key === 'citizens')?.rawValue ?? 'unlimited',
+        storage_gb: plan.features.find((f: any) => f.key === 'storage')?.rawValue ?? 1,
         featureList: plan.featureList ? [...plan.featureList] : [],
-        features: { phone_support: plan.key==='pro', fmk: plan.key==='pro', app_store: plan.key!=='gratis', api_access: false },
+        features: { phone_support: plan.key === 'pro', fmk: plan.key === 'pro', app_store: plan.key !== 'gratis', api_access: false },
     } : {
-        name:'', tagline:'', description:'', price:0, yearly_price:0,
-        included_users:1, included_departments:1, included_citizens:'unlimited', storage_gb:1,
+        name: '', tagline: '', description: '', price: 0, yearly_price: 0,
+        included_users: 1, included_departments: 1, included_citizens: 'unlimited', storage_gb: 1,
         featureList: [],
-        features:{ phone_support:false, fmk:false, app_store:true, api_access:false },
+        features: { phone_support: false, fmk: false, app_store: true, api_access: false },
     }
-    planSlider.open = true; document.body.style.overflow = 'hidden'
+    planSlider.open = true
+    document.body.style.overflow = 'hidden'
 }
-function closePlanSlider() { planSlider.open = false; document.body.style.overflow = '' }
+function closePlanSlider() {
+    planSlider.open = false
+    document.body.style.overflow = ''
+}
 
 async function savePlan() {
     planSlider.isSaving = true
     try {
         if (planSlider.editMode) {
             await productService.updatePlan(planSlider.plan.key, planSlider.form)
-            const local = plans.find(p => p.key === planSlider.plan.key)
-            if (local) {
-                local.price = planSlider.form.price
-                local.yearly_price = planSlider.form.yearly_price
-                local.tagline = planSlider.form.tagline
-                ;(local as any).description = planSlider.form.description
-                ;(local as any).featureList = [...planSlider.form.featureList]
+            planPriceOverrides[planSlider.plan.key] = {
+                price: planSlider.form.price,
+                yearly_price: planSlider.form.yearly_price,
+                tagline: planSlider.form.tagline,
             }
-            successAlert('Gemt!', `${planSlider.form.name} er opdateret.`)
+            successAlert(t('superadmin.products.successSaved'), t('superadmin.products.successUpdated', { name: planSlider.form.name }))
         } else {
             await productService.createPlan(planSlider.form)
-            successAlert('Oprettet!', `${planSlider.form.name} pakken er oprettet.`)
+            successAlert(t('superadmin.products.successCreated'), t('superadmin.products.successPlanCreated', { name: planSlider.form.name }))
             await fetchPlanSettings()
         }
         closePlanSlider()
@@ -817,16 +1026,20 @@ async function savePlan() {
     planSlider.isSaving = false
 }
 
-function confirmDeletePlan(plan: any) {
-    // Kun tilladte for custom pakker
+function confirmDeletePlan(_plan: any) {
+    // Only allowed for custom plans
 }
 
-// Addon
+// ── Addon ──
 function openAddonSlider() {
     addonSlider.form = { extra_user: addonPrices.extra_user, extra_department: addonPrices.extra_department }
-    addonSlider.open = true; document.body.style.overflow = 'hidden'
+    addonSlider.open = true
+    document.body.style.overflow = 'hidden'
 }
-function closeAddonSlider() { addonSlider.open = false; document.body.style.overflow = '' }
+function closeAddonSlider() {
+    addonSlider.open = false
+    document.body.style.overflow = ''
+}
 
 async function saveAddonPrices() {
     addonSlider.isSaving = true
@@ -834,59 +1047,74 @@ async function saveAddonPrices() {
         await productService.updateAddonPrices(addonSlider.form)
         addonPrices.extra_user = addonSlider.form.extra_user
         addonPrices.extra_department = addonSlider.form.extra_department
-        plans.filter(p => p.addons.length).forEach(p => {
-            p.addons.forEach((a: any) => {
-                if (a.label.includes('bruger')) a.price = addonSlider.form.extra_user
-                if (a.label.includes('afdeling')) a.price = addonSlider.form.extra_department
-            })
-        })
-        successAlert('Gemt!', 'Tilkøbspriser opdateret.')
+        // plans is computed — it derives addon prices directly from addonPrices above
+        successAlert(t('superadmin.products.successSaved'), t('superadmin.products.successAddonPrices'))
         closeAddonSlider()
     } catch (e: any) { console.error(e) }
     addonSlider.isSaving = false
 }
 
-// App
+// ── App ──
 function openAppSlider(app: any) {
-    appSlider.editMode = !!app; appSlider.editingId = app?.uuid ?? app?.id ?? null
-    appSlider.error = {}; appSlider.errors = { name:'' }
+    appSlider.editMode = !!app
+    appSlider.editingId = app?.uuid ?? app?.id ?? null
+    appSlider.error = {}
+    appSlider.errors = { name: '' }
     appSlider.form = app ? {
-        name: app.name??'', description: app.description??'', type: app.type??'Module',
-        monthly_price: app.monthly_price??0, yearly_price: app.yearly_price??0,
-        one_time_price: app.one_time_price??app.one_time_fee??0,
-        image: app.image??'', is_active: app.is_active!==false,
-    } : { name:'', description:'', type:'Module', monthly_price:0, yearly_price:0, one_time_price:0, image:'', is_active:true }
-    appSlider.open = true; document.body.style.overflow = 'hidden'
+        name: app.name ?? '', description: app.description ?? '', type: app.type ?? 'Module',
+        monthly_price: app.monthly_price ?? 0, yearly_price: app.yearly_price ?? 0,
+        one_time_price: app.one_time_price ?? app.one_time_fee ?? 0,
+        image: app.image ?? '', is_active: app.is_active !== false,
+    } : { name: '', description: '', type: 'Module', monthly_price: 0, yearly_price: 0, one_time_price: 0, image: '', is_active: true }
+    appSlider.open = true
+    document.body.style.overflow = 'hidden'
 }
-function closeAppSlider() { appSlider.open = false; document.body.style.overflow = '' }
+
+function closeAppSlider() {
+    appSlider.open = false
+    document.body.style.overflow = ''
+}
 
 async function saveApp() {
-    if (!appSlider.form.name) { appSlider.errors.name = 'Navn er påkrævet'; return }
-    appSlider.isSaving = true; appSlider.error = {}
+    if (!appSlider.form.name) {
+        appSlider.errors.name = t('superadmin.products.errorNameRequired')
+        return
+    }
+    appSlider.isSaving = true
+    appSlider.error = {}
     try {
         const params = {
-            name: appSlider.form.name, description: appSlider.form.description, type: appSlider.form.type,
-            monthly_price: appSlider.form.monthly_price, yearly_price: appSlider.form.yearly_price,
-            one_time_fee: appSlider.form.one_time_price, image: appSlider.form.image, is_active: appSlider.form.is_active,
+            name: appSlider.form.name,
+            description: appSlider.form.description,
+            type: appSlider.form.type,
+            monthly_price: appSlider.form.monthly_price,
+            yearly_price: appSlider.form.yearly_price,
+            one_time_fee: appSlider.form.one_time_price,
+            image: appSlider.form.image,
+            is_active: appSlider.form.is_active,
         }
         if (appSlider.editMode && appSlider.editingId) {
             await appService.updateApp(appSlider.editingId, params)
-            successAlert('Gemt!', `${appSlider.form.name} er opdateret.`)
+            successAlert(t('superadmin.products.successSaved'), t('superadmin.products.successUpdated', { name: appSlider.form.name }))
         } else {
             await appService.saveApp(params)
-            successAlert('Oprettet!', `${appSlider.form.name} er tilføjet til App Store.`)
+            successAlert(t('superadmin.products.successCreated'), t('superadmin.products.successAppAdded', { name: appSlider.form.name }))
         }
-        closeAppSlider(); fetchApps()
+        closeAppSlider()
+        fetchApps()
     } catch (e: any) { appSlider.error = e }
     appSlider.isSaving = false
 }
 
-function confirmDeleteApp(app: any) { state.selectedApp = app; state.modal.isDeleteAppOpen = true }
+function confirmDeleteApp(app: any) {
+    state.selectedApp = app
+    state.modal.isDeleteAppOpen = true
+}
 
 async function deleteApp() {
     try {
         await appService.deleteApp(state.selectedApp?.uuid ?? state.selectedApp?.id)
-        successAlert('Slettet!', `${state.selectedApp?.name} er fjernet.`)
+        successAlert(t('superadmin.products.successDeleted'), t('superadmin.products.successAppRemoved', { name: state.selectedApp?.name }))
         fetchApps()
     } catch (e: any) { state.error = e }
 }
@@ -894,18 +1122,47 @@ async function deleteApp() {
 onMounted(() => {
     window.addEventListener('keydown', e => {
         if (e.key === 'Escape') {
-            if (planSlider.open)  closePlanSlider()
+            if (planSlider.open) closePlanSlider()
             if (addonSlider.open) closeAddonSlider()
-            if (appSlider.open)   closeAppSlider()
+            if (appSlider.open) closeAppSlider()
         }
     })
 })
 </script>
 
 <style scoped>
-.co-label { display:block; font-size:13px; font-weight:600; color:#1F2533; margin-bottom:5px }
-.co-input { width:100%; padding:9px 13px; font-size:14px; color:#1F2533; background:white; border:1px solid #D5D9E2; border-radius:10px; outline:none; transition:border-color 0.15s }
-.co-input:focus { border-color:#42AED9; box-shadow:0 0 0 3px rgba(66,174,217,0.12) }
-.co-input::placeholder { color:#B0B8C4 }
-.co-error { font-size:11px; color:#CC3B2D; margin-top:4px }
+.co-label {
+    display: block;
+    font-size: 13px;
+    font-weight: 600;
+    color: #1F2533;
+    margin-bottom: 5px
+}
+
+.co-input {
+    width: 100%;
+    padding: 9px 13px;
+    font-size: 14px;
+    color: #1F2533;
+    background: white;
+    border: 1px solid #D5D9E2;
+    border-radius: 10px;
+    outline: none;
+    transition: border-color 0.15s
+}
+
+.co-input:focus {
+    border-color: #42AED9;
+    box-shadow: 0 0 0 3px rgba(66, 174, 217, 0.12)
+}
+
+.co-input::placeholder {
+    color: #B0B8C4
+}
+
+.co-error {
+    font-size: 11px;
+    color: #CC3B2D;
+    margin-top: 4px
+}
 </style>
