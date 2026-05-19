@@ -118,61 +118,64 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                <tr v-for="c in filteredCampaigns" :key="c.uuid ?? c.id"
+                                <tr v-for="campaign in filteredCampaigns" :key="campaign.uuid ?? campaign.id"
                                     class="border-b border-[#F5F6F8] hover:bg-[#F9FAFB] transition-colors group">
                                     <td class="co-td">
+                                        <img :src="campaign.image" :alt="$t('imageFailedToLoad')"
+                                            class="w-20 h-20 object-cover" />
                                         <p class="text-[13px] font-semibold text-[#1F2533]">
-                                            {{ c.name }}
+                                            {{ campaign.title }}
                                         </p>
-                                        <p v-if="c.description"
+                                        <p v-if="campaign.content"
                                             class="text-[11px] text-[#8891A4] truncate max-w-[200px]">
-                                            {{ c.description }}
+                                            {{ campaign.content }}
                                         </p>
                                     </td>
                                     <td class="co-td">
                                         <span class="co-badge co-badge-navy text-[11px]">
-                                            <Icon :name="campaignTypeIcon(c.type)" class="w-3 h-3" />
-                                            {{ campaignTypeLabel(c.type) }}
+                                            <Icon :name="campaignTypeIcon(campaign.type)" class="w-3 h-3" />
+                                            {{ campaignTypeLabel(campaign.type) }}
                                         </span>
                                     </td>
                                     <td class="co-td">
                                         <span class="text-[14px] font-bold text-[#1F2533]">
                                             {{
-                                                c.discount_type === 'percent' ? `${c.discount_value ?? 0}%` :
-                                                    c.discount_type === 'fixed' ? `kr. ${c.discount_value ?? 0}` :
-                                                        c.discount_type === 'free_months' ? `${c.discount_value ?? 0}
+                                                campaign.discount_type === 'percent' ? `${campaign.discount_value ?? 0}%` :
+                                                    campaign.discount_type === 'fixed' ? `kr. ${campaign.discount_value ?? 0}` :
+                                                        campaign.discount_type === 'free_months' ? `${campaign.discount_value ?? 0}
                                             ${$t('superadmin.salesCampaign.monthsFree')}` : '—'
                                             }}
                                         </span>
                                     </td>
                                     <td class="co-td text-[12px] text-[#5C6478]">
-                                        {{ c.target_plan ? c.target_plan : $t('superadmin.salesCampaign.allPlans') }}
+                                        {{ campaign.target_plan ? campaign.target_plan :
+                                            $t('superadmin.salesCampaign.allPlans') }}
                                     </td>
                                     <td class="co-td text-[12px] text-[#5C6478]">
-                                        <span v-if="c.start_date">{{ formatDate(c.start_date) }}</span>
-                                        <span v-if="c.start_date && c.end_date"> – </span>
-                                        <span v-if="c.end_date">{{ formatDate(c.end_date) }}</span>
-                                        <span v-if="!c.start_date && !c.end_date" class="text-[#8891A4]">
+                                        <span v-if="campaign.start_date">{{ formatDate(campaign.start_date) }}</span>
+                                        <span v-if="campaign.start_date && campaign.end_date"> – </span>
+                                        <span v-if="campaign.end_date">{{ formatDate(campaign.end_date) }}</span>
+                                        <span v-if="!campaign.start_date && !campaign.end_date" class="text-[#8891A4]">
                                             {{ $t('superadmin.salesCampaign.noExpiry') }}
                                         </span>
                                     </td>
                                     <td class="co-td">
-                                        <span class="co-badge text-[11px]" :style="campaignStatusStyle(c)">
+                                        <span class="co-badge text-[11px]" :style="campaignStatusStyle(campaign)">
                                             <span class="w-1.5 h-1.5 rounded-full"
-                                                :style="`background:${campaignStatusDot(c)}`"></span>
-                                            {{ campaignStatusLabel(c) }}
+                                                :style="`background:${campaignStatusDot(campaign)}`"></span>
+                                            {{ campaignStatusLabel(campaign) }}
                                         </span>
                                     </td>
                                     <td class="co-td">
                                         <div
                                             class="flex items-center gap-1.5 justify-end opacity-0 group-hover:opacity-100 transition-opacity">
-                                            <button class="co-action-btn" @click="openSlider(c)">
+                                            <button class="co-action-btn" @click="openSlider(campaign)">
                                                 <Icon name="ph:pencil-simple" class="w-3.5 h-3.5" />
                                                 {{ $t('superadmin.salesCampaign.edit') }}
                                             </button>
                                             <button
                                                 class="co-action-btn !text-[#CC3B2D] hover:!bg-red-50 !border-red-200"
-                                                @click="confirmDelete('campaign', c)">
+                                                @click="confirmDelete('campaign', campaign)">
                                                 <Icon name="ph:trash" class="w-3.5 h-3.5" />
                                             </button>
                                         </div>
