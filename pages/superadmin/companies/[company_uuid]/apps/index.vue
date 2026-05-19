@@ -9,14 +9,26 @@
 
             <template #header>{{ $t('superadmin.companies.companyApps.companyApps') }}</template>
 
-            <div>
-                <NuxtLink class="flex items-center gap-x-2 mb-3 max-w-fit hover:cursor-pointer"
-                    to="/superadmin/companies">
-                    <Icon name="ph:arrow-left" size="20" class="text-black" />
-                    <span>{{ $t('back') }}</span>
+            <div class="p-1">
+                <!-- Back -->
+                <NuxtLink to="/superadmin/companies"
+                    class="inline-flex items-center gap-1.5 text-sm text-[#5C6478] hover:text-[#1F2533] mb-5 transition-colors">
+                    <Icon name="ph:arrow-left" class="w-4 h-4" />
+                    {{ $t('superadmin.companies.accounts.allCompanies') }}
                 </NuxtLink>
 
-                <ModulesSuperadminCompanyTab />
+                <!-- Sub-nav tabs -->
+                <div class="flex items-center gap-1 mb-6 border-b border-[#EAECF0]">
+                    <button v-for="tab in detailTabs" :key="tab.href"
+                        class="px-4 py-2.5 text-[13px] font-medium transition-colors border-b-2 -mb-px" :class="$route.path === tab.href
+                            ? 'border-[#42AED9] text-[#205E77]'
+                            : 'border-transparent text-[#5C6478] hover:text-[#1F2533]'" @click="navigateTo(tab.href)">
+                        <div class="flex items-center gap-1.5">
+                            <Icon :name="tab.icon" class="w-4 h-4" />
+                            {{ tab.label }}
+                        </div>
+                    </button>
+                </div>
 
                 <div class="mt-10 space-y-5">
                     <Alert type="danger" :text="state?.error?.message"
@@ -75,6 +87,14 @@ const { t } = useI18n()
 const router = useRouter()
 const companyUuid = router?.currentRoute?.value?.params?.company_uuid
 let currentTablePage = 1
+
+const detailTabs = computed(() => [
+    { label: t('superadmin.companies.accounts.tabs.overview'), href: `/superadmin/companies/${companyUuid}/accounts`, icon: 'ph:house' },
+    { label: t('superadmin.sidebar.licenses'), href: `/superadmin/companies/${companyUuid}/license-overview`, icon: 'ph:key' },
+    { label: t('superadmin.sidebar.apps'), href: `/superadmin/companies/${companyUuid}/apps`, icon: 'ph:squares-four' },
+    { label: t('superadmin.sidebar.invoices'), href: `/superadmin/companies/${companyUuid}/invoices`, icon: 'ph:invoice' },
+    { label: t('superadmin.companies.table.actions.edit'), href: `/superadmin/companies/${companyUuid}/edit`, icon: 'ph:pencil-simple' },
+])
 
 const state = reactive({
     columnHeaders: [
