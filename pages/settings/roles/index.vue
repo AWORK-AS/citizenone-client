@@ -44,7 +44,11 @@
                                         </span>
                                     </td>
                                     <td width="15%">
-                                        <span v-if="role?.level === 50"
+                                        <span v-if="role?.level === 80"
+                                            class="bg-red-100 text-red-800 text-xs px-2 py-1 rounded-md font-medium">
+                                            {{ $t('roles.table.admin') }}
+                                        </span>
+                                        <span v-else-if="role?.level === 50"
                                             class="bg-blue-100 text-blue-800 text-xs px-2 py-1 rounded-md font-medium">
                                             {{ $t('roles.table.manager') }}
                                         </span>
