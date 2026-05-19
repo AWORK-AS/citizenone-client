@@ -8194,7 +8194,25 @@
                 "thirdPartyApp": "Tredjeparts app",
                 "type": "Type",
                 "yearlyPrice": "Årlig pris"
-            }
+            },
+            "noSubscription": {
+                "itLooksLikeYouDontHaveAnActiveSubscriptionAtTheMoment": "Det ser ut til at du ikke har et aktivt abonnement for øyeblikket",
+                "noActiveSubscription": "Ingen aktivt abonnement",
+                "subscribeNow": "Abonner nå",
+                "toEnjoyOurFullRangeOfServicesAndBenefits": "For å nyte vårt fulle utvalg av tjenester og fordeler, vurder å abonnere på en av våre pakker",
+                "upgradeNow": "Oppgrader nå"
+            },
+            "subscribed": {
+                "goHome": "Gå til hjem",
+                "paymentSuccessful": "Betaling vellykket",
+                "subscriptionSuccessful": "Abonnement vellykket",
+                "thankYouForSubscribing": "Takk for ditt abonnement",
+                "yourPaymentHasBeenSuccessfullyProcessed": "Betalingen din er behandlet",
+                "yourSubscriptionIsNowActive": "Abonnementet ditt er nå aktivt"
+            },
+            "subscription": "Abonnement",
+            "updateSubscription": "Oppdater abonnement",
+            "upgrade": "Oppgrader"
         },
         "companies": {
             "companies": "Virksomheter",
@@ -8240,7 +8258,26 @@
                 "lastname": "Etternavn",
                 "phone": "Telefon",
                 "typeOfFacility": "Type av tilbud",
-                "website": "Websted"
+                "website": "Websted",
+                "activeImmediately": "Aktiv umiddelbart",
+                "activeImmediatelyDesc": "Bedriften aktiveres umiddelbart",
+                "address": "Adresse",
+                "addressPlaceholder": "Gate 1, 1234 By",
+                "adminUser": "Administratorbruker",
+                "adminUserDesc": "Denne brukeren får administratortilgang til bedriften",
+                "companyInformation": "Bedriftsinformasjon",
+                "companyNamePlaceholder": "f.eks. Acme AS",
+                "confirmPassword": "Bekreft passord",
+                "creating": "Oppretter...",
+                "password": "Passord",
+                "passwordMismatch": "Passordene samsvarer ikke",
+                "passwordPlaceholder": "Min. 8 tegn",
+                "repeatPassword": "Gjenta passord",
+                "selectIndustry": "Velg bransje...",
+                "selectType": "Velg type...",
+                "sendWelcomeEmail": "Send velkomst-e-post",
+                "sendWelcomeEmailDesc": "Administratoren mottar påloggingsinstruksjoner på e-post",
+                "settings": "Innstillinger"
             },
             "importCompanies": {
                 "alert": {
@@ -8289,8 +8326,23 @@
                 },
                 "noSubscription": {
                     "itLooksLikeThisCompanyDontHaveAnActiveSubscriptionAtTheMoment": "Det ser ut til, at denne virksomhet ikke har et aktivt abonnement i øjeblikket",
-                    "noActiveSubscription": "Ingen aktivt abonnement"
-                }
+                    "noActiveSubscription": "Ingen aktivt abonnement",
+                    "itLooksLikeYouDontHaveAnActiveSubscriptionAtTheMoment": "Det ser ut til at du ikke har et aktivt abonnement for øyeblikket",
+                    "subscribeNow": "Abonner nå",
+                    "toEnjoyOurFullRangeOfServicesAndBenefits": "For å nyte vårt fulle utvalg av tjenester og fordeler, vurder å abonnere på en av våre pakker",
+                    "upgradeNow": "Oppgrader nå"
+                },
+                "subscribed": {
+                    "goHome": "Gå hjem",
+                    "paymentSuccessful": "Betaling vellykket",
+                    "subscriptionSuccessful": "Abonnement vellykket",
+                    "thankYouForSubscribing": "Takk for ditt abonnement",
+                    "yourPaymentHasBeenSuccessfullyProcessed": "Betalingen din er behandlet",
+                    "yourSubscriptionIsNowActive": "Abonnementet ditt er nå aktivt"
+                },
+                "subscription": "Abonnement",
+                "updateSubscription": "Oppdater abonnement",
+                "upgrade": "Oppgrader"
             },
             "table": {
                 "actions": {
@@ -8328,7 +8380,32 @@
                 "oldestFirst": "Eldste først"
             },
             "noCompaniesFound": "Ingen bedrifter funnet",
-            "createFirstClient": "Opprett din første klient"
+            "createFirstClient": "Opprett din første klient",
+            "accounts": {
+                "activatedAppsAndModules": "Aktiverte apper og moduler",
+                "allCompanies": "Alle bedrifter",
+                "cardLinkSent": "Kortoppdateringslenke er sendt til kunden",
+                "loginAs": "Logg inn som",
+                "manualInvoice": "Manuell faktura",
+                "monthly": "mnd.",
+                "newAccount": "Ny konto",
+                "noAccounts": "Ingen brukerkontoer",
+                "noAppsActivated": "Ingen apper aktivert",
+                "paymentCard": "Betalingskort",
+                "sendCardLink": "Send kortlenke",
+                "stats": {
+                    "activatedModules": "aktiverte moduler",
+                    "activeLicenses": "aktive lisenser",
+                    "availableLicenses": "tilgjengelige lisenser",
+                    "unused": "Ubrukt"
+                },
+                "tabs": {
+                    "overview": "Oversikt"
+                },
+                "userAccounts": "Brukerkontoer",
+                "yearly": "år."
+            },
+            "showing": "Viser {from}–{to} av {total}"
         },
         "coupons": {
             "active": "Aktiv",
@@ -8501,7 +8578,8 @@
                 "paid": "Betalt",
                 "pending": "Venter",
                 "failed": "Mislykket"
-            }
+            },
+            "showing": "Viser {from}–{to} av {total}"
         },
         "orders": {
             "orders": "Ordrer",
@@ -8762,6 +8840,21 @@
                 "active": "Aktive",
                 "inactive": "Inaktive",
                 "admins": "Admins"
+            },
+            "showing": "Viser {from}–{to} av {total}",
+            "slider": {
+                "attachToCompany": "Knytt til bedrift",
+                "createAndAttach": "Opprett og knytt til bedrift",
+                "creating": "Oppretter...",
+                "leaveEmptyForWelcomeEmail": "La stå tomt for å sende en velkomst-e-post med lenke",
+                "minChars": "Min. 8 tegn",
+                "password": "Passord",
+                "roleAdmin": "Administrator",
+                "roleUser": "Bruker",
+                "searchCompany": "Søk bedrift...",
+                "searchToAttach": "Søk for å knytte til en eksisterende bedrift",
+                "userCanLogin": "Brukeren kan logge inn",
+                "userInfo": "Brukerinformasjon"
             }
         },
         "finance": {
@@ -8818,46 +8911,95 @@
             "registration": "Registrering",
             "paying": "Betalende",
             "churnReasons": "Avgangsgrunner",
-            "churnReasonLabels": {
-                "0": "Pris",
-                "1": "Funksjonalitet",
-                "2": "Support",
-                "3": "Alternativ løsning",
-                "4": "Annet"
-            },
+            "churnReasonLabels": [
+                "For dyrt",
+                "Manglende funksjoner",
+                "Byttet konkurrent",
+                "Bedrift lagt ned",
+                "Annet"
+            ],
             "paymentFailures": "Betalingsfeil",
             "goalRoas": "Mål-ROAS",
-            "months": {
-                "0": "Jan",
-                "1": "Feb",
-                "2": "Mar",
-                "3": "Apr",
-                "4": "Mai",
-                "5": "Jun",
-                "6": "Jul",
-                "7": "Aug",
-                "8": "Sep",
-                "9": "Okt",
-                "10": "Nov",
-                "11": "Des"
-            },
-            "monthsLong": {
-                "0": "Januar",
-                "1": "Februar",
-                "2": "Mars",
-                "3": "April",
-                "4": "Mai",
-                "5": "Juni",
-                "6": "Juli",
-                "7": "August",
-                "8": "September",
-                "9": "Oktober",
-                "10": "November",
-                "11": "Desember"
-            },
+            "months": [
+                "Jan",
+                "Feb",
+                "Mar",
+                "Apr",
+                "Mai",
+                "Jun",
+                "Jul",
+                "Aug",
+                "Sep",
+                "Okt",
+                "Nov",
+                "Des"
+            ],
+            "monthsLong": [
+                "Januar",
+                "Februar",
+                "Mars",
+                "April",
+                "Mai",
+                "Juni",
+                "Juli",
+                "August",
+                "September",
+                "Oktober",
+                "November",
+                "Desember"
+            ],
             "besogende": "Besøkende",
             "tilmelding": "Registrering",
-            "betalende": "Betalende"
+            "betalende": "Betalende",
+            "activeLicenses": "Aktive lisenser i dag",
+            "alertCriticalChurnBody": "er over kritisk terskel på 5%.",
+            "alertCriticalChurnTitle": "Kritisk frafall:",
+            "alertNRRBody": "Du taper mer enn du vinner. Fokuser på ekspansjon og redusering av frafall.",
+            "alertNRRTitle": "NRR under 100%:",
+            "alertPaymentBody": "fakturaer avvist. Kontakt de berørte bedriftene.",
+            "alertPaymentTitle": "Betalingsfeil:",
+            "alertTrialBody": "utløper innen 7 dager.",
+            "alertTrialTitle": "Prøveperioder:",
+            "annualPlanShare": "Andel årsabonnementer",
+            "basedOn": "Basert på data fra oppsigelsesflyt",
+            "churnIssues": "Frafall, betalingsproblemer og varsler",
+            "churnOverTime": "Frafall over tid",
+            "churnSpikes": "Sporer frafallstopper og sesongmønstre",
+            "comp": "selskap.",
+            "companiesLost": "tapte bedrifter",
+            "conversionFunnel": "Konverteringstrakt",
+            "critical": "Kritisk — handle nå",
+            "declined": "Avviste betalinger",
+            "dropOffTrial": "Sporer frafall i prøveperiode → betalende kunder",
+            "goalNRR": "Mål: > 100%",
+            "goalUnder2": "Mål: under 2%/mnd.",
+            "healthyLevel": "Sunt nivå",
+            "highestPaying": "høyest betalende kunder",
+            "inPeriod": "I perioden",
+            "lostMRR": "Tapt MRR i perioden",
+            "ltvFull": "Livstidsverdi",
+            "marketingRoas": "Markedsføring, konvertering og ROAS",
+            "mo": "/mnd",
+            "momFull": "Måned-over-Måned",
+            "momGrowth": "MoM-vekst",
+            "netGrowth": "Nettovekst",
+            "newCompanies": "Nye bedrifter",
+            "newCompaniesVs": "Nye bedrifter vs. forrige mnd.",
+            "noData": "Ingen data ennå",
+            "noDataYet": "Ingen data ennå",
+            "nrrFull": "Netto inntektsretensjon",
+            "planDistribution": "Pakkefordeling",
+            "plans": "Hvilke pakker driver inntekten din",
+            "requiresFollowUp": "Krever oppfølging nå",
+            "requiresFollowUpShort": "Krever oppfølging",
+            "risk": "Risiko",
+            "roasFull": "Avkastning på annonsespend",
+            "signup": "Registrering",
+            "top": "Topp",
+            "topCompanies": "Topp bedrifter",
+            "underBenchmark": "Under referanseverdien",
+            "vsPrevious": "vs. forrige",
+            "whatDrives": "Hva driver oppsigelser"
         },
         "licenses": {
             "pageTitle": "App-lisenser",

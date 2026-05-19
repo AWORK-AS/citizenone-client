@@ -8194,7 +8194,25 @@
                 "thirdPartyApp": "Tredjeparts app",
                 "type": "Typ",
                 "yearlyPrice": "Årlig pris"
-            }
+            },
+            "noSubscription": {
+                "itLooksLikeYouDontHaveAnActiveSubscriptionAtTheMoment": "Det verkar som att du inte har en aktiv prenumeration just nu",
+                "noActiveSubscription": "Ingen aktiv prenumeration",
+                "subscribeNow": "Prenumerera nu",
+                "toEnjoyOurFullRangeOfServicesAndBenefits": "För att njuta av vårt fulla utbud av tjänster och förmåner, överväg att prenumerera på ett av våra paket",
+                "upgradeNow": "Uppgradera nu"
+            },
+            "subscribed": {
+                "goHome": "Gå till start",
+                "paymentSuccessful": "Betalning genomförd",
+                "subscriptionSuccessful": "Prenumeration genomförd",
+                "thankYouForSubscribing": "Tack för din prenumeration",
+                "yourPaymentHasBeenSuccessfullyProcessed": "Din betalning har behandlats",
+                "yourSubscriptionIsNowActive": "Din prenumeration är nu aktiv"
+            },
+            "subscription": "Prenumeration",
+            "updateSubscription": "Uppdatera prenumeration",
+            "upgrade": "Uppgradera"
         },
         "companies": {
             "companies": "Företag",
@@ -8240,7 +8258,26 @@
                 "lastname": "Efternamn",
                 "phone": "Telefon",
                 "typeOfFacility": "Typ av erbjudande",
-                "website": "Websted"
+                "website": "Websted",
+                "activeImmediately": "Aktiv omedelbart",
+                "activeImmediatelyDesc": "Företaget aktiveras omedelbart",
+                "address": "Adress",
+                "addressPlaceholder": "Gata 1, 1234 Stad",
+                "adminUser": "Administratörsanvändare",
+                "adminUserDesc": "Den här användaren får administratörsåtkomst till företaget",
+                "companyInformation": "Företagsinformation",
+                "companyNamePlaceholder": "t.ex. Acme AB",
+                "confirmPassword": "Bekräfta lösenord",
+                "creating": "Skapar...",
+                "password": "Lösenord",
+                "passwordMismatch": "Lösenorden matchar inte",
+                "passwordPlaceholder": "Min. 8 tecken",
+                "repeatPassword": "Upprepa lösenord",
+                "selectIndustry": "Välj bransch...",
+                "selectType": "Välj typ...",
+                "sendWelcomeEmail": "Skicka välkomstmejl",
+                "sendWelcomeEmailDesc": "Administratören får inloggningsinstruktioner via e-post",
+                "settings": "Inställningar"
             },
             "importCompanies": {
                 "alert": {
@@ -8289,8 +8326,23 @@
                 },
                 "noSubscription": {
                     "itLooksLikeThisCompanyDontHaveAnActiveSubscriptionAtTheMoment": "Det ser ut till, att denna företag inte har ett aktivt prenumeration i ögonblicket",
-                    "noActiveSubscription": "Inga aktivt prenumeration"
-                }
+                    "noActiveSubscription": "Inga aktivt prenumeration",
+                    "itLooksLikeYouDontHaveAnActiveSubscriptionAtTheMoment": "Det verkar som att du inte har en aktiv prenumeration just nu",
+                    "subscribeNow": "Prenumerera nu",
+                    "toEnjoyOurFullRangeOfServicesAndBenefits": "För att njuta av vårt fulla utbud av tjänster och förmåner, överväg att prenumerera på ett av våra paket",
+                    "upgradeNow": "Uppgradera nu"
+                },
+                "subscribed": {
+                    "goHome": "Gå till start",
+                    "paymentSuccessful": "Betalning genomförd",
+                    "subscriptionSuccessful": "Prenumeration genomförd",
+                    "thankYouForSubscribing": "Tack för din prenumeration",
+                    "yourPaymentHasBeenSuccessfullyProcessed": "Din betalning har behandlats",
+                    "yourSubscriptionIsNowActive": "Din prenumeration är nu aktiv"
+                },
+                "subscription": "Prenumeration",
+                "updateSubscription": "Uppdatera prenumeration",
+                "upgrade": "Uppgradera"
             },
             "table": {
                 "actions": {
@@ -8328,7 +8380,32 @@
                 "oldestFirst": "Äldsta först"
             },
             "noCompaniesFound": "Inga företag hittades",
-            "createFirstClient": "Skapa din första klient"
+            "createFirstClient": "Skapa din första klient",
+            "accounts": {
+                "activatedAppsAndModules": "Aktiverade appar och moduler",
+                "allCompanies": "Alla företag",
+                "cardLinkSent": "Kortuppdateringslänk har skickats till kunden",
+                "loginAs": "Logga in som",
+                "manualInvoice": "Manuell faktura",
+                "monthly": "mån.",
+                "newAccount": "Nytt konto",
+                "noAccounts": "Inga användarkonton",
+                "noAppsActivated": "Inga appar aktiverade",
+                "paymentCard": "Betalkort",
+                "sendCardLink": "Skicka kortlänk",
+                "stats": {
+                    "activatedModules": "aktiverade moduler",
+                    "activeLicenses": "aktiva licenser",
+                    "availableLicenses": "tillgängliga licenser",
+                    "unused": "Oanvända"
+                },
+                "tabs": {
+                    "overview": "Översikt"
+                },
+                "userAccounts": "Användarkonton",
+                "yearly": "år."
+            },
+            "showing": "Visar {from}–{to} av {total}"
         },
         "coupons": {
             "active": "Aktiv",
@@ -8501,7 +8578,8 @@
                 "paid": "Betald",
                 "pending": "Väntar",
                 "failed": "Misslyckad"
-            }
+            },
+            "showing": "Visar {from}–{to} av {total}"
         },
         "orders": {
             "orders": "Ordrer",
@@ -8762,6 +8840,21 @@
                 "active": "Aktiva",
                 "inactive": "Inaktiva",
                 "admins": "Admins"
+            },
+            "showing": "Visar {from}–{to} av {total}",
+            "slider": {
+                "attachToCompany": "Koppla till företag",
+                "createAndAttach": "Skapa och koppla till företag",
+                "creating": "Skapar...",
+                "leaveEmptyForWelcomeEmail": "Lämna tomt för att skicka ett välkomstmejl med länk",
+                "minChars": "Min. 8 tecken",
+                "password": "Lösenord",
+                "roleAdmin": "Administratör",
+                "roleUser": "Användare",
+                "searchCompany": "Sök företag...",
+                "searchToAttach": "Sök för att koppla till ett befintligt företag",
+                "userCanLogin": "Användaren kan logga in",
+                "userInfo": "Användarinformation"
             }
         },
         "finance": {
@@ -8818,46 +8911,95 @@
             "registration": "Registrering",
             "paying": "Betalande",
             "churnReasons": "Avhoppsskäl",
-            "churnReasonLabels": {
-                "0": "Pris",
-                "1": "Funktionalitet",
-                "2": "Support",
-                "3": "Alternativ lösning",
-                "4": "Annat"
-            },
+            "churnReasonLabels": [
+                "För dyrt",
+                "Saknade funktioner",
+                "Bytte konkurrent",
+                "Företaget lade ner",
+                "Övrigt"
+            ],
             "paymentFailures": "Betalningsfel",
             "goalRoas": "Mål-ROAS",
-            "months": {
-                "0": "Jan",
-                "1": "Feb",
-                "2": "Mar",
-                "3": "Apr",
-                "4": "Maj",
-                "5": "Jun",
-                "6": "Jul",
-                "7": "Aug",
-                "8": "Sep",
-                "9": "Okt",
-                "10": "Nov",
-                "11": "Dec"
-            },
-            "monthsLong": {
-                "0": "Januari",
-                "1": "Februari",
-                "2": "Mars",
-                "3": "April",
-                "4": "Maj",
-                "5": "Juni",
-                "6": "Juli",
-                "7": "Augusti",
-                "8": "September",
-                "9": "Oktober",
-                "10": "November",
-                "11": "December"
-            },
+            "months": [
+                "Jan",
+                "Feb",
+                "Mar",
+                "Apr",
+                "Maj",
+                "Jun",
+                "Jul",
+                "Aug",
+                "Sep",
+                "Okt",
+                "Nov",
+                "Dec"
+            ],
+            "monthsLong": [
+                "Januari",
+                "Februari",
+                "Mars",
+                "April",
+                "Maj",
+                "Juni",
+                "Juli",
+                "Augusti",
+                "September",
+                "Oktober",
+                "November",
+                "December"
+            ],
             "besogende": "Besökare",
             "tilmelding": "Registrering",
-            "betalende": "Betalande"
+            "betalende": "Betalande",
+            "activeLicenses": "Aktiva licenser idag",
+            "alertCriticalChurnBody": "är över kritisk tröskel på 5%.",
+            "alertCriticalChurnTitle": "Kritiskt bortfall:",
+            "alertNRRBody": "Du förlorar mer än du vinner. Fokusera på expansion och att minska bortfallet.",
+            "alertNRRTitle": "NRR under 100%:",
+            "alertPaymentBody": "fakturor nekade. Kontakta de berörda företagen.",
+            "alertPaymentTitle": "Betalningsfel:",
+            "alertTrialBody": "löper ut inom 7 dagar.",
+            "alertTrialTitle": "Provperioder:",
+            "annualPlanShare": "Andel årsabonnemang",
+            "basedOn": "Baserat på data från uppsägningsflöde",
+            "churnIssues": "Bortfall, betalningsproblem och varningar",
+            "churnOverTime": "Bortfall över tid",
+            "churnSpikes": "Spårar toppar i bortfall och säsongsmönster",
+            "comp": "företag.",
+            "companiesLost": "förlorade företag",
+            "conversionFunnel": "Konverteringstratt",
+            "critical": "Kritiskt — agera nu",
+            "declined": "Nekade betalningar",
+            "dropOffTrial": "Spårar bortfall i provperiod → betalande kunder",
+            "goalNRR": "Mål: > 100%",
+            "goalUnder2": "Mål: under 2%/mån.",
+            "healthyLevel": "Hälsosam nivå",
+            "highestPaying": "högst betalande kunder",
+            "inPeriod": "Under perioden",
+            "lostMRR": "Förlorad MRR under perioden",
+            "ltvFull": "Livstidsvärde",
+            "marketingRoas": "Marknadsföring, konvertering och ROAS",
+            "mo": "/mån",
+            "momFull": "Månad-över-Månad",
+            "momGrowth": "MoM-tillväxt",
+            "netGrowth": "Nettotillväxt",
+            "newCompanies": "Nya företag",
+            "newCompaniesVs": "Nya företag vs. föregående mån.",
+            "noData": "Ingen data ännu",
+            "noDataYet": "Ingen data ännu",
+            "nrrFull": "Netto intäktsretention",
+            "planDistribution": "Paketfördelning",
+            "plans": "Vilka paket driver din intäkt",
+            "requiresFollowUp": "Kräver uppföljning nu",
+            "requiresFollowUpShort": "Kräver uppföljning",
+            "risk": "Risk",
+            "roasFull": "Avkastning på annonsutgifter",
+            "signup": "Registrering",
+            "top": "Topp",
+            "topCompanies": "Toppföretag",
+            "underBenchmark": "Under riktmärket",
+            "vsPrevious": "vs. föregående",
+            "whatDrives": "Vad driver uppsägningar"
         },
         "licenses": {
             "pageTitle": "App-licenser",
