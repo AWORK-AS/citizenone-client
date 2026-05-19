@@ -6759,6 +6759,1454 @@
             },
             "name": "Navn",
             "permissions": "Tilladelser",
+            "user": "Bruger"
+        }
+    },
+    "rooms": {
+        "addNewRoom": "Tilføj nyt værelse",
+        "editRoom": "Rediger værelse",
+        "form": {
+            "alert": {
+                "newRoomSuccessfullySaved": "Nyt værelse gemt",
+                "roomSuccessfullyUpdated": "Værelse opdateret"
+            },
+            "capacity": "Kapacitet",
+            "name": "Navn"
+        },
+        "addCitizen": "Tilføj borger",
+        "citizenAddedSuccessfully": "Borger tilføjet til værelse",
+        "citizenRemovedSuccessfully": "Borger fjernet fra værelse",
+        "full": "Fuldt",
+        "noCitizens": "Ingen borgere på dette værelse",
+        "removeConfirmation": "Er du sikker på, at du vil fjerne",
+        "newRoom": "Nyt værelse",
+        "rooms": "Værelser",
+        "table": {
+            "actions": {
+                "delete": "Slet",
+                "edit": "Rediger"
+            },
+            "alert": {
+                "roomSuccessfullyDeleted": "Værelse slettet"
+            },
+            "confirmation": {
+                "deleteRoomConfirmation": "Er du sikker på, at du vil slette dette værelse"
+            },
+            "capacity": "Kapacitet",
+            "name": "Navn"
+        }
+    },
+    "save": "Gem",
+    "saving": "Gemmer",
+    "scheduleTags": {
+        "addNewScheduleTag": "Tilføj ny vagtplan tag",
+        "alert": {
+            "scheduleTagSuccessfullyDeleted": "Vagtplan tag slettet med succes"
+        },
+        "editScheduleTag": "Rediger vagtplan tag",
+        "form": {
+            "alert": {
+                "newScheduleTagSuccessfullySaved": "Ny vagtplan tag gemt med succes",
+                "scheduleTagSuccessfullyUpdated": "Vagtplan tag opdateret med succes"
+            },
+            "color": "Farve",
+            "department": "Afdeling",
+            "name": "Navn"
+        },
+        "newScheduleTag": "Ny vagtplan tag",
+        "scheduleTags": "Vagtplan tags",
+        "table": {
+            "actions": {
+                "delete": "Slet",
+                "edit": "Rediger"
+            },
+            "color": "Farve",
+            "confirmation": {
+                "deleteScheduleTagConfirmation": "Er du sikker på, at du vil slette dette vagtplan tag"
+            },
+            "department": "Afdeling",
+            "name": "Navn"
+        }
+    },
+    "search": "Søg",
+    "sections": {
+        "addNewSection": "Tilføj ny paragraf",
+        "alert": {
+            "sectionSuccessfullyDeleted": "Paragraf slettet med succes"
+        },
+        "editSection": "Rediger paragraf",
+        "form": {
+            "alert": {
+                "newSectionSuccessfullySaved": "Ny paragraf gemt med succes",
+                "sectionSuccessfullyUpdated": "Paragraf opdateret med succes"
+            },
+            "name": "Navn"
+        },
+        "newSection": "Ny paragraf",
+        "sections": "Paragraffer",
+        "table": {
+            "actions": {
+                "delete": "Slet",
+                "edit": "Rediger"
+            },
+            "confirmation": {
+                "deleteSectionConfirmation": "Er du sikker på, at du vil slette denne paragraf"
+            },
+            "name": "Navn"
+        }
+    },
+    "select": "Vælg",
+    "selectADate": "Vælg en dato",
+    "selectADateAndTime": "Vælg en dato og tid",
+    "selectFile": "Vælg fil",
+    "selectFiles": "Vælg filer",
+    "selectedFile": "Valgt fil",
+    "selectedFiles": "Valgte fil(er)",
+    "settings": {
+        "company": {
+            "form": {
+                "2fa": "To-faktor-godkendelse",
+                "accountantEmail": "Revisor eller regnskabs e-mail (borgernes wallet transaktioner)",
+                "alert": {
+                    "successfullyUpdated": "Firma opdateret med succes"
+                },
+                "allowChangePassword": "Tillad medarbejdere at ændre adgangskode",
+                "allowGoals": "Tillad medarbejdere at oprette mål",
+                "allowPlans": "Tillad medarbejdere at oprette planer",
+                "allowSubGoals": "Tillad medarbejdere at oprette delmål",
+                "checkinOut": "Check ind/ud",
+                "chooseNotificationDepartments": "Vælg hvilke afdelinger du vil modtage notifikationer fra",
+                "citizensDisplay": "Borgerens visning",
+                "city": "By",
+                "companyLogo": "Firmalogo",
+                "companyName": "Firmanavn",
+                "cvr": "CVR",
+                "enableEmailNotifications": "Aktivér e-mail-notifikationer",
+                "enableSystemNotifications": "Aktivér systemnotifikationer",
+                "groupChat": "Gruppechat",
+                "interventionCheckinOut": "Check ind/ud for indsats",
+                "interventionNotificationHours": "Varslingstimer for indsats",
+                "isSortByStatus": "Tillad visning af \"Vikarer\" nederst i vagtplanen og \"Fast personale\" øverst",
+                "lockPastSchedules": "Lås tidligere vagtplaner",
+                "municipality": "Kommune",
+                "onlySendItWhenIAmOnADutyShift": "Send kun, når jeg er på en vagt",
+                "phone": "Telefon",
+                "postCode": "Postnummer",
+                "quickRiskAssessment": "Hurtig risikovurdering",
+                "region": "Region",
+                "registerTransport": "Registrer transport",
+                "sundayShiftCalculation": "Aktivér søndagsvagtberegning",
+                "remove": "Fjern firmalogo",
+                "street": "Gade",
+                "transferNormHours": "Overfør normtimer til næste år, hvis de ikke er brugt",
+                "warning13HourShift": "Advarsel ved vagter over 13 timer",
+                "warning11HourRest": "Advarsel ved hviletid under 11 timer",
+                "warning48HourRule": "Advarsel ved 48-timers reglen",
+                "website": "Hjemmeside",
+                "ipRestriction": "IP-begrænsning",
+                "enableIpRestriction": "Aktivér IP-begrænsning",
+                "ipRestrictionAction": "Begrænsningshandling",
+                "manageIpWhitelist": "Administrér IP-hvidliste",
+                "deviceRestriction": "Enhedsbegrænsning",
+                "enableDeviceRestriction": "Aktivér enhedsbegrænsning",
+                "deviceRestrictionAction": "Begrænsningshandling",
+                "manageApprovedDevices": "Administrér godkendte enheder",
+                "actionBlock": "Blokér adgang",
+                "actionOtp": "Kræv OTP-bekræftelse"
+            }
+        },
+        "licenseOverview": {
+            "licenseOverview": "Licensoversigt",
+            "licenses": "Licenser",
+            "table": {
+                "license": "Licens",
+                "user": "Bruger",
+                "department": "Afdeling"
+            },
+            "unusedLicense": "Ubrugt licens",
+            "usedLicense": "Brugt licens",
+            "userLicenses": "Brugerlicenser",
+            "departmentLicenses": "Afdelingslicenser",
+            "usedDepartmentLicense": "Brugt afdelingslicens",
+            "unusedDepartmentLicense": "Ubrugt afdelingslicens"
+        },
+        "profile": {
+            "form": {
+                "alert": {
+                    "successfullyUpdated": "Profil opdateret med succes"
+                },
+                "birthday": "Fødselsdag",
+                "changePassword": "Skift adgangskode",
+                "emailAddress": "E-mailadresse",
+                "firstname": "Fornavn",
+                "language": "Sprog",
+                "lastname": "Efternavn",
+                "pageAccess": "Sideadgang",
+                "password": "Adgangskode",
+                "phone": "Telefon"
+            },
+            "profile": "Profil"
+        },
+        "settings": "Indstillinger",
+        "subscription": {
+            "subscription": "Abonnement"
+        },
+        "tabs": {
+            "absences": "Fravær",
+            "activityLogs": "Aktivitetslogfiler",
+            "addictions": "Stofmisbrug",
+            "addressBook": "Adressebog",
+            "archived": "Arkiveret",
+            "bookingTags": "Booking tags",
+            "calendarTags": "Kalenderetiketter",
+            "catalog": "Katalog",
+            "company": "Virksomhed",
+            "consentDeclarationTypes": "Samtykkeerklæringstyper",
+            "contactJobTitles": "Kontaktjobtitler",
+            "customPages": "Ordliste",
+            "departments": "Afdelinger",
+            "diagnoses": "Diagnoser",
+            "dosageForms": "Doseringsformer",
+            "dutyShiftRules": "Vagtregler",
+            "employeeGroups": "Medarbejdergrupper",
+            "expenseCategories": "Udgiftskategorier",
+            "extraHoursTags": "Ekstra timer tags",
+            "foreignCities": "Udenlandske byer",
+            "invoices": "Fakturaer",
+            "jobTitles": "Jobtitler",
+            "journalContents": "Journal indhold",
+            "journalNoteTags": "Journalnotetag",
+            "journalTitles": "Journal titler",
+            "licenseOverview": "Licensoversigt",
+            "licenses": "Licenser",
+            "massUnits": "Masseenheder",
+            "medicationAllergies": "Medicinallergier (CAVE)",
+            "medicines": "Medicin",
+            "normPeriods": "Normperioder",
+            "other": "Andet",
+            "profile": "Profil",
+            "relationships": "Forhold",
+            "roles": "Roller",
+            "rooms": "Værelser",
+            "scheduleTags": "Vagtplan tags",
+            "sections": "Paragraffer",
+            "shifts": "Vagter",
+            "storage": "Lager",
+            "subscription": "Abonnement",
+            "timeAccounts": "Tidskonti",
+            "timeLogs": "Tidslogfiler",
+            "transactions": "Transaktioner",
+            "units": "Enheder",
+            "ipRestrictions": "IP-begrænsninger",
+            "approvedDevices": "Godkendte enheder",
+            "nursingProfessionalRecordTemplates": "Sygeplejejournalskabeloner",
+            "treatmentTemplates": "Behandlingsskabeloner"
+        },
+        "wallets": {
+            "citizenWalletTransactions": "Transaktioner for borgernes wallets",
+            "form": {
+                "alert": {
+                    "successfullySent": "Transaktioner for borgernes wallets er sendt med succes"
+                },
+                "citizens": "Borgere",
+                "send": "Send",
+                "sendCitizenWalletTransactions": "Send borger tegnebogstransaktioner",
+                "wallets": "Wallets"
+            }
+        }
+    },
+    "setupPassword": {
+        "form": {
+            "confirmPassword": "Bekræft adgangskode",
+            "password": "Adgangskode"
+        },
+        "headlineLine1": "Opret din",
+        "headlineLine2": "adgangskode.",
+        "loginHereInstead": "Log ind her i stedet",
+        "or": "Eller",
+        "panelDescription": "Vælg en stærk adgangskode for at komme godt i gang med CitizenOne.",
+        "passwordEncryptedSub": "Dine data er sikre og krypterede",
+        "passwordEncryptedTitle": "Adgangskoden er krypteret",
+        "setPassword": "Opret adgangskode",
+        "setupPassword": "Opret adgangskode",
+        "strongPasswordSub": "Brug mindst 8 tegn med tal og symboler",
+        "strongPasswordTitle": "Opret en stærk adgangskode"
+    },
+    "shifts": {
+        "addNewShift": "Tilføj ny vagt",
+        "alert": {
+            "shiftSuccessfullyDeleted": "Vagt slettet med succes"
+        },
+        "editShift": "Rediger vagt",
+        "form": {
+            "alert": {
+                "newShiftSuccessfullySaved": "Ny vagt gemt med succes",
+                "shiftSuccessfullyUpdated": "Vagt opdateret med succes"
+            },
+            "color": "Farve",
+            "endTimeDayOffset": "Standard sluttidspunkt (dag-offset)",
+            "endTimeDayOffsetOneDayLater": "1 dag senere",
+            "endTimeDayOffsetSameDay": "Samme dag",
+            "endTimeDayOffsetThreeDaysLater": "3 dage senere",
+            "endTimeDayOffsetTwoDaysLater": "2 dage senere",
+            "markAsLeaveType": "Marker som fraværstype",
+            "nameDanish": "Navn (dansk)",
+            "nameEnglish": "Navn (engelsk)",
+            "nameNorwegian": "Navn (norsk)",
+            "nameSwedish": "Navn (svensk)",
+            "paycode": "Lønningskode",
+            "timeIn": "Tid ind",
+            "timeOut": "Tid ud",
+            "workingHoursFactor": "Arbejdstidsfaktor",
+            "workingHoursFactorFrom": "Fra",
+            "workingHoursFactorInterval": "Anvend inden for tidsinterval (valgfrit)",
+            "workingHoursFactorPlaceholder": "f.eks. 0.75",
+            "workingHoursFactorTo": "Til"
+        },
+        "newShift": "Ny vagt",
+        "shifts": "Vagter",
+        "table": {
+            "actions": {
+                "delete": "Slet",
+                "edit": "Rediger"
+            },
+            "color": "Farve",
+            "confirmation": {
+                "deleteShiftConfirmation": "Er du sikker på, at du vil slette denne vagt"
+            },
+            "markedAsLeave": "Markeret som ferie",
+            "nameDanish": "Navn (dansk)",
+            "nameEnglish": "Navn (engelsk)",
+            "nameNorwegian": "Navn (norsk)",
+            "nameSwedish": "Navn (svensk)",
+            "paycode": "Lønningskode",
+            "standard": "Standard",
+            "standardShift": "Standard vagt",
+            "timeIn": "Tid ind",
+            "timeOut": "Tid ud",
+            "workingHoursFactor": "Arbejdstidsfaktor"
+        }
+    },
+    "show": "Vis",
+    "showAll": "Vis alle",
+    "showHide": "Vis / skjul",
+    "showLess": "Vis mindre",
+    "showMore": "Vis mere",
+    "sidebar": {
+        "bulletBoard": "Opslagstavle",
+        "calendar": "Kalender",
+        "citizens": "Borgere",
+        "companyId": "Virksomheds-ID",
+        "coupons": "Kuponer",
+        "documents": "Dokumenter",
+        "dutySchedules": "Vagtskema",
+        "leads": "Leads",
+        "mail": "Mail",
+        "messages": "Beskeder",
+        "overview": "Oversigt",
+        "protocols": "Protokol",
+        "pinSidebar": "Fastgør sidebar",
+        "unpinSidebar": "Frigør sidebar"
+    },
+    "somethingWentWrong": "Noget gik galt",
+    "storage": {
+        "alert": {
+            "messageSuccessfullySent": "Besked sendt succesfuldt"
+        },
+        "available": "Tilgængelig",
+        "contactUs": "Kontakt os",
+        "currentPlan": "Nuværende plan",
+        "doYouNeedMoreStorage": "Har du brug for mere plads",
+        "documents": "Dokumenter",
+        "form": {
+            "howMuchStorageDoYouNeed": "Hvor meget opbevaring har du brug for",
+            "pleaseWriteHere": "Skriv venligst her",
+            "sendMessage": "Send besked",
+            "tellUsHowMuchStorage": "Fortæl os, hvor meget opbevaring du har brug for, og vi vender tilbage så hurtigt som muligt"
+        },
+        "info-1": "Her kan du se, hvor meget lagerplads der er brugt i CitizenOne. Den gule bjælke viser forbruget af lokale dokumenter.",
+        "info-2": "Hvis du har forbundet OneDrive, vises forbruget heraf med en blå bjælke. De to typer lagerplads er separate og håndteres uafhængigt af hinanden.",
+        "info-3": "Har du brug for mere plads, kan du opgradere dit abonnement ved at klikke på 'Opgradér'.",
+        "month": "Måned",
+        "storage": "Lagerplads",
+        "upgrade": "Opgradér",
+        "upgrade-info-1": "På denne side kan du opgradere din CitizenOne lagerplads. Vælg den pakke der passer til dit behov.",
+        "upgrade-info-2": "Lagerplads i CitizenOne bruges til at gemme lokale dokumenter og filer. 1 GB svarer til cirka 5.000 filer.",
+        "upgrade-info-3": "",
+        "upgradeOptions": "Opgradéringsmuligheder"
+    },
+    "submit": "Indsend",
+    "subscription": {
+        "addOnDeals": {
+            "addOnDeals": "Ekstra brugere og afdelinger",
+            "checkout": "Betal og tilføj",
+            "extraDepartment": "Ekstra afdeling",
+            "extraUser": "Ekstra bruger",
+            "purchaseExtraLicenses": "Køb ekstra licenser",
+            "total": "Total"
+        },
+        "coupon": {
+            "coupon": "Coupon",
+            "enterYourCouponCodeHereForExclusiveSavings": "Indtast din kuponkode her for eksklusive besparelser",
+            "form": {
+                "alert": {
+                    "couponCodeSuccessfullyAdded": "Kuponkode tilføjet med succes"
+                },
+                "apply": "Anvend",
+                "couponCode": "Kuponkode"
+            },
+            "remove": "Fjern"
+        },
+        "currentSubscription": "Nuværende abonnement",
+        "deal": {
+            "additionalPurchaseFor": "tilkøb ekstra for",
+            "admin": "Admin",
+            "admins": "Administratorer",
+            "annually": "Årligt",
+            "automaticSynchronizationWithFMK": "Mulighed for synkronisering med FMK",
+            "chatSupport": "Support via chat og e-mail",
+            "department": "Afdeling",
+            "departments": "Afdelinger",
+            "forExtraDepartment": "For ekstra afdeling",
+            "forExtraUser": "For ekstra bruger",
+            "goodForASmallTeam": "God til et mindre team",
+            "included": "Inkl",
+            "month": "Måned",
+            "monthly": "Månedligt",
+            "perfectForLargerCompanies": "Perfekt til større virksomheder",
+            "recommended": "Anbefalet",
+            "selectPackage": "Vælg pakke",
+            "storageSpace": "lagerplads",
+            "telephoneSupport": "Support via telefon, chat og mail",
+            "unlimitedNumberOfCitizens": "Ubegrænset antal borgere",
+            "user": "Bruger",
+            "users": "Brugere",
+            "year": "År",
+            "youCanHaveMultipleAdmins": "Du kan godt have flere admins"
+        },
+        "discount": {
+            "discount": "Rabat",
+            "save": "Spar",
+            "whenChoosingYearly": "Når du vælger årligt"
+        },
+        "noSubscription": {
+            "itLooksLikeYouDontHaveAnActiveSubscriptionAtTheMoment": "Det ser ud til, at du ikke har et aktivt abonnement i øjeblikket",
+            "noActiveSubscription": "Ingen aktiv abonnement",
+            "subscribeNow": "Abonnér nu",
+            "toEnjoyOurFullRangeOfServicesAndBenefits": "For at nyde vores fulde udvalg af tjenester og fordele, overvej at abonnere på en af vores planer",
+            "upgradeNow": "Opgradér nu"
+        },
+        "subscribed": {
+            "goHome": "Gå hjem",
+            "paymentSuccessful": "Betaling gennemført med succes",
+            "subscriptionSuccessful": "Abonnement succesfuldt",
+            "thankYouForSubscribing": "Tak fordi du abonnerer",
+            "yourPaymentHasBeenSuccessfullyProcessed": "Din betaling er blevet behandlet med succes",
+            "yourSubscriptionIsNowActive": "Dit abonnement er nu aktivt"
+        },
+        "subscription": "Abonnement",
+        "updateSubscription": "Opdater abonnement",
+        "upgrade": "Opgradér"
+    },
+    "superadmin": {
+        "accounts": {
+            "accounts": "Kontoer",
+            "alert": {
+                "deletedSuccessfully": "Konto slettet med succes"
+            },
+            "confirmation": {
+                "deleteConfirmation": "Er du sikker på, at du vil slette denne konto"
+            },
+            "editAccount": "Rediger konto",
+            "form": {
+                "alert": {
+                    "accountSuccessfullyActivated": "Kontoen er blevet aktiveret",
+                    "accountSuccessfullyDeactivated": "Kontoen er blevet deaktiveret",
+                    "accountSuccessfullyUpdated": "Kontoen er blevet opdateret",
+                    "newAccountSuccessfullySaved": "Ny konto blev gemt"
+                },
+                "birthday": "Fødselsdag",
+                "changePassword": "Skift adgangskode",
+                "emailAddress": "E-mailadresse",
+                "firstname": "Fornavn",
+                "lastname": "Efternavn",
+                "password": "Adgangskode",
+                "permissions": {
+                    "create": "Opret",
+                    "delete": "Slet",
+                    "permissions": "Tilladelser",
+                    "read": "Læs",
+                    "update": "Opdater"
+                },
+                "phone": "Telefon",
+                "role": "Rolle"
+            },
+            "newAccount": "Ny konto",
+            "table": {
+                "actions": {
+                    "activate": "Aktivér",
+                    "deactivate": "Deaktiver",
+                    "delete": "Slet",
+                    "edit": "Rediger",
+                    "impersonate": "Impersonér"
+                },
+                "email": "E-mail",
+                "name": "Navn",
+                "phone": "Telefon",
+                "role": "Rolle"
+            }
+        },
+        "apps": {
+            "alert": {
+                "appSuccessfullyDeleted": "App blev slettet"
+            },
+            "apps": "Apps",
+            "categories": {
+                "citizenone": "CitizenOne",
+                "fst": "FindSocialeTilbud.dk",
+                "marketing": "Marketing",
+                "other": "Andet",
+                "visual": "Visuel"
+            },
+            "confirmation": {
+                "deleteAppConfirmation": "Er du sikker på, at du vil slette denne app?"
+            },
+            "editApp": "Rediger app",
+            "form": {
+                "alert": {
+                    "appSuccessfullyUpdated": "App blev opdateret",
+                    "newAppSuccessfullySaved": "Ny app blev gemt"
+                },
+                "backgroundImage": "Baggrundsbillede",
+                "description": "Beskrivelse",
+                "image": "Billede",
+                "isOneTimeFee": "Én gang gebyr",
+                "link": "Link",
+                "logo": "Logo",
+                "monthlyPrice": "Månedlig pris",
+                "name": "Navn",
+                "news": "Nyhed",
+                "popular": "Populær",
+                "price": "Pris",
+                "quantifiable": "Kan kvantificeres",
+                "recommended": "Anbefalet",
+                "thirdPartyApp": "Tredjeparts app",
+                "type": "Type",
+                "types": {
+                    "citizenone": "CitizenOne",
+                    "fst": "FindSocialeTilbud.dk",
+                    "marketing": "Marketing",
+                    "other": "Andet",
+                    "visual": "Visuel"
+                },
+                "yearlyPrice": "Årlig pris"
+            },
+            "newApp": "Ny app",
+            "table": {
+                "actions": {
+                    "delete": "Slet",
+                    "edit": "Rediger"
+                },
+                "link": "Link",
+                "logo": "Logo",
+                "monthlyPrice": "Månedlig pris",
+                "name": "Navn",
+                "news": "Nyhed",
+                "oneTimeFee": "Én gang gebyr",
+                "popular": "Populær",
+                "price": "Pris",
+                "recommended": "Anbefalet",
+                "thirdPartyApp": "Tredjeparts app",
+                "type": "Type",
+                "yearlyPrice": "Årlig pris"
+            }
+        },
+        "companies": {
+            "companies": "Virksomheder",
+            "company": "Virksomhed",
+            "createFirstClient": "Opret din første klient",
+            "import": "Importer",
+            "noCompaniesFound": "Ingen virksomheder fundet",
+            "searchPlaceholder": "Søg på navn, email eller domæne...",
+            "showing": "Viser {from}–{to} af {total}",
+            "sort": {
+                "nameAsc": "Navn A–Z",
+                "nameDesc": "Navn Z–A",
+                "newestFirst": "Nyeste først",
+                "oldestFirst": "Ældste først"
+            },
+            "totalClients": "{count} klienter i alt",
+            "companyApps": {
+                "alert": {
+                    "appSuccessfullyActivated": "App aktiveret med succes",
+                    "appSuccessfullyDeactivated": "App deaktiveret med succes"
+                },
+                "companyApps": "Virksomhedsapps",
+                "confirmation": {
+                    "activateAppConfirmation": "Er du sikker på, at du vil aktivere denne app",
+                    "deactivateAppConfirmation": "Er du sikker på, at du vil deaktivere denne app"
+                },
+                "table": {
+                    "actions": {
+                        "activate": "Aktivér",
+                        "deactivate": "Deaktiver"
+                    },
+                    "active": "Aktiv",
+                    "inactive": "Inaktiv",
+                    "name": "Navn",
+                    "price": "Pris",
+                    "status": "Status",
+                    "type": "Type"
+                }
+            },
+            "accounts": {
+                "activatedAppsAndModules": "Aktiverede apps & moduler",
+                "allCompanies": "Alle virksomheder",
+                "cardLinkSent": "Kortupdate-link er sendt til kunden",
+                "loginAs": "Log ind som",
+                "manualInvoice": "Manuel faktura",
+                "monthly": "md.",
+                "newAccount": "Ny konto",
+                "noAccounts": "Ingen brugerkonti",
+                "noAppsActivated": "Ingen apps aktiveret",
+                "paymentCard": "Betalingskort",
+                "sendCardLink": "Send kortlink",
+                "stats": {
+                    "activeLicenses": "aktive licenser",
+                    "activatedModules": "aktiverede moduler",
+                    "availableLicenses": "ledige licenser",
+                    "unused": "Ubrugte"
+                },
+                "tabs": {
+                    "overview": "Oversigt"
+                },
+                "userAccounts": "Brugerkonti",
+                "yearly": "år"
+            },
+            "editCompany": "Rediger virksomhed",
+            "form": {
+                "active": "Aktiv",
+                "activeImmediately": "Aktiv med det samme",
+                "activeImmediatelyDesc": "Virksomheden aktiveres øjeblikkeligt",
+                "address": "Adresse",
+                "addressPlaceholder": "Vejnavn 1, 1234 By",
+                "adminUser": "Administrator-bruger",
+                "adminUserDesc": "Denne bruger får admin-adgang til virksomheden",
+                "alert": {
+                    "companySuccessfullyActivated": "Virksomheden er aktiveret med succes",
+                    "companySuccessfullyDeactivated": "Virksomheden er deaktiveret med succes",
+                    "companySuccessfullyUpdated": "Virksomheden er opdateret med succes",
+                    "newCompanySuccessfullySaved": "Ny virksomhed er gemt med succes"
+                },
+                "companyInformation": "Virksomhedsoplysninger",
+                "companyName": "Firmanavn",
+                "companyNamePlaceholder": "fx Danmarks Fængsler",
+                "confirmPassword": "Bekræft adgangskode",
+                "creating": "Opretter...",
+                "cvr": "CVR",
+                "emailAddress": "E-mailadresse",
+                "firstname": "Fornavn",
+                "inactive": "Inaktiv",
+                "industry": "Branche",
+                "lastname": "Efternavn",
+                "password": "Adgangskode",
+                "passwordMismatch": "Adgangskoderne matcher ikke",
+                "passwordPlaceholder": "Min. 8 tegn",
+                "phone": "Telefon",
+                "repeatPassword": "Gentag adgangskode",
+                "selectIndustry": "Vælg branche...",
+                "selectType": "Vælg type...",
+                "sendWelcomeEmail": "Send velkomst-email",
+                "sendWelcomeEmailDesc": "Administratoren modtager login-instruktioner på email",
+                "settings": "Indstillinger",
+                "typeOfFacility": "Type af tilbud",
+                "website": "Websted"
+            },
+            "importCompanies": {
+                "alert": {
+                    "companiesSuccessfullyImported": "Virksomheder er importeret med succes"
+                },
+                "downloadTemplate": "Download skabelon",
+                "importCompanies": "Importer virksomheder",
+                "importTemplate": "Importskabelon",
+                "noFileSelected": "Ingen fil valgt"
+            },
+            "licenseOverview": {
+                "licenseOverview": "Licensoversigt",
+                "licenses": "Licenser",
+                "table": {
+                    "license": "Licens",
+                    "user": "Bruger",
+                    "department": "Afdeling"
+                },
+                "unusedLicense": "Ubrugt licens",
+                "usedLicense": "Brugt licens",
+                "userLicenses": "Brugerlicenser",
+                "departmentLicenses": "Afdelingslicenser",
+                "usedDepartmentLicense": "Brugt afdelingslicens",
+                "unusedDepartmentLicense": "Ubrugt afdelingslicens"
+            },
+            "newCompany": "Ny virksomhed",
+            "subscriptions": {
+                "deal": {
+                    "admin": "Admin",
+                    "admins": "Administratorer",
+                    "automaticSynchronizationWithFMK": "Automatisk synkronisering med FMK",
+                    "chatSupport": "Support via chat og e-mail",
+                    "department": "Afdeling",
+                    "departments": "Afdelinger",
+                    "goodForASmallTeam": "God til et mindre team",
+                    "included": "Inkl",
+                    "month": "Måned",
+                    "perfectForLargerCompanies": "Perfekt til større virksomheder",
+                    "storageSpace": "lagerplads",
+                    "telephoneSupport": "Support via telefon, chat og mail",
+                    "unlimitedNumberOfCitizens": " Ubegrænset antal borgere",
+                    "user": "Bruger",
+                    "users": "Brugere",
+                    "year": "År",
+                    "youCanHaveMultipleAdmins": "Du kan godt have flere admins"
+                },
+                "noSubscription": {
+                    "itLooksLikeThisCompanyDontHaveAnActiveSubscriptionAtTheMoment": "Det ser ud til, at denne virksomhed ikke har et aktivt abonnement i øjeblikket",
+                    "noActiveSubscription": "Ingen aktivt abonnement"
+                }
+            },
+            "table": {
+                "actions": {
+                    "activate": "Aktivér",
+                    "deactivate": "Deaktiver",
+                    "edit": "Rediger",
+                    "view": "Vis"
+                },
+                "active": "Aktiv",
+                "cvr": "CVR",
+                "id": "ID",
+                "inactive": "Inaktiv",
+                "name": "Navn",
+                "phone": "Telefon",
+                "status": "Status",
+                "website": "Websted"
+            },
+            "tabs": {
+                "accounts": "Kontoer",
+                "active": "Aktive",
+                "all": "Alle",
+                "apps": "Apps",
+                "inactive": "Inaktive",
+                "invoices": "Fakturaer",
+                "licenseOverview": "Licensoversigt",
+                "licenses": "Licenser"
+            }
+        },
+        "coupons": {
+            "active": "Aktiv",
+            "coupons": "Kuponer",
+            "editCoupon": "Rediger kupon",
+            "form": {
+                "active": "Aktiv",
+                "alert": {
+                    "couponSuccessfullyUpdated": "Kupon opdateret med succes",
+                    "newCouponSuccessfullySaved": "Ny kupon gemt med succes"
+                },
+                "amount": "Beløb",
+                "code": "Kode",
+                "description": "Beskrivelse",
+                "expiration": "Udløbsdato",
+                "quantity": "Antal",
+                "status": "Status",
+                "type": {
+                    "addOn": "Tilføjelse",
+                    "deal": "Tilbud",
+                    "type": "Type"
+                },
+                "unit": {
+                    "amount": "Beløb",
+                    "percentage": "Procentdel",
+                    "unit": "Enhed"
+                }
+            },
+            "newCoupon": "Ny kupon",
+            "table": {
+                "actions": {
+                    "delete": "Slet",
+                    "edit": "Rediger"
+                },
+                "active": "Aktiv",
+                "alert": {
+                    "couponSuccessfullyDeleted": "Kupon slettet med succes"
+                },
+                "amount": "Beløb",
+                "code": "Kode",
+                "confirmation": {
+                    "deleteCouponConfirmation": "Er du sikker på, at du vil slette denne kupon"
+                },
+                "description": "Beskrivelse",
+                "expiration": "Udløbsdato",
+                "inactive": "Inaktiv",
+                "quantity": "Mængde",
+                "status": "Status",
+                "type": {
+                    "addOn": "Tilføjelse",
+                    "deal": "Tilbud",
+                    "type": "Type"
+                },
+                "unit": {
+                    "amount": "Beløb",
+                    "percentage": "Procentdel",
+                    "unit": "Enhed"
+                }
+            }
+        },
+        "dashboard": {
+            "companyStorage": {
+                "companyStorage": "Virksomhedslager",
+                "storagePaid": "Betalt lager",
+                "storageUsed": "Brugt lager",
+                "table": {
+                    "name": "Navn",
+                    "storagePaid": "Betalt lager",
+                    "storageUsed": "Brugt lager"
+                }
+            },
+            "active": "Aktiv",
+            "activeCompanies": "Aktive virksomheder",
+            "activeLicenses": "Aktive licenser",
+            "activeSubscribers": "Aktive abonnenter",
+            "clients": "Klienter",
+            "dashboard": "Dashboard",
+            "exclVat": "Ekskl. moms",
+            "inactive": "Inaktiv",
+            "invoices": "Fakturaer",
+            "noCompaniesYet": "Ingen virksomheder endnu",
+            "numberOfNonpayingCompanies": "Antal ikke-betalende virksomheder",
+            "numberOfPayingCompnanies": "Antal betalende virksomheder",
+            "numberOfTotalActiveLincenses": "Antal aktive licenser i alt",
+            "numberOfTotalCompanies": "Antal virksomheder i alt",
+            "numberOfUnusedLicenses": "Antal ubrugte licenser",
+            "numberOfUsersWithLicenses": "Antal brugere med licenser",
+            "paying": "Betalende",
+            "recentCompanies": "Seneste virksomheder",
+            "registeredUsers": "Registrerede brugere",
+            "unusedLicenses": "Ubrugte licenser",
+            "users": "Brugere",
+            "usersWithLicenses": "Brugere med licenser",
+            "revenue": {
+                "filter": "Filtrer",
+                "filterDate": "Filtrer dato",
+                "revenue": "Omsætning"
+            },
+            "sharedCitizenOne": "Delt CitizenOne",
+            "viewAll": "Se alle"
+        },
+        "invoiceDetails": {
+            "billTo": "Faktureres til",
+            "date": "Dato",
+            "download": "Download",
+            "invoice": "Faktura",
+            "invoiceDetails": "Fakturaoplysninger",
+            "invoiceNumber": "Fakturanummer",
+            "table": {
+                "amount": "Beløb",
+                "description": "Beskrivelse",
+                "price": "Pris",
+                "quantity": "Mængde",
+                "tax": "Moms"
+            },
+            "thisInvoiceHasAlreadyBeenPaid": "Denne faktura er allerede betalt via din valgte betalingsmetode i CitizenOne™ systemet"
+        },
+        "invoices": {
+            "download": {
+                "date": "Dato",
+                "download": "Download",
+                "filter": {
+                    "filterDate": "Filtrer dato"
+                }
+            },
+            "form": {
+                "alert": {
+                    "invoiceMarkedAsPaid": "Faktura markeret som betalt"
+                }
+            },
+            "invoices": "Fakturaer",
+            "table": {
+                "actions": {
+                    "markAsPaid": "Marker som betalt",
+                    "view": "Se"
+                },
+                "amount": "Beløb",
+                "company": "Virksomhed",
+                "confirmation": {
+                    "markAsPaidConfirmation": "Er du sikker på, at du vil markere denne faktura som betalt"
+                },
+                "date": "Dato",
+                "invoiceNumber": "Fakturanummer",
+                "new": "Ny",
+                "paid": "Betalt",
+                "status": "Status",
+                "unpaid": "Ubetalt",
+                "type": "Type"
+            },
+            "failed": "Afvist",
+            "noInvoicesFound": "Ingen fakturaer fundet",
+            "pending": "Afventer",
+            "showing": "Viser {from}–{to} af {total}",
+            "totalInvoices": "{count} fakturaer i alt",
+            "tryToClearFilters": "Prøv at ryde dine filtre",
+            "filter": {
+                "allPayments": "Alle betalinger",
+                "clearFilters": "Ryd filtre",
+                "from": "Fra",
+                "to": "Til",
+                "unpaid": "Ubetalt"
+            },
+            "sort": {
+                "highestAmount": "Højeste beløb",
+                "invoiceNumber": "Fakturanr.",
+                "newestFirst": "Nyeste først"
+            },
+            "tabs": {
+                "all": "Alle",
+                "failed": "Afvist",
+                "paid": "Betalt",
+                "pending": "Afventer"
+            },
+            "searchPlaceholder": "Søg på fakturanummer, virksomhed..."
+        },
+        "orders": {
+            "pageTitle": "Ordrer",
+            "header": "Ordrer",
+            "totalOrders": "ordrer i alt",
+            "completed": "gennemført",
+            "pending": "afventer",
+            "newOrder": "Ny ordre",
+            "searchPlaceholder": "Søg på ordrenr., virksomhed eller plan...",
+            "tabAll": "Alle",
+            "tabActive": "Aktive",
+            "tabPending": "Afventer",
+            "tabCancelled": "Annulleret",
+            "sortNewest": "Nyeste først",
+            "sortOldest": "Ældste først",
+            "sortHighestAmount": "Højeste beløb",
+            "sortStatus": "Status",
+            "noOrdersFound": "Ingen ordrer fundet",
+            "createNewOrder": "Opret ny ordre",
+            "colOrder": "Ordre",
+            "colCompany": "Virksomhed",
+            "colProducts": "Produkter",
+            "colTotal": "Total",
+            "colStatus": "Status",
+            "colDate": "Dato",
+            "extraUsers": "brugere",
+            "extraDepartments": "afdelinger",
+            "perYear": "/år",
+            "perMonth": "/md.",
+            "approve": "Godkend",
+            "cancel": "Annuller",
+            "cancelConfirm": "Annuller denne ordre? Den kan ikke fortrydes.",
+            "wizardTitle": "Ny ordre",
+            "stepCompany": "Virksomhed",
+            "stepProducts": "Produkter",
+            "stepPayment": "Betaling",
+            "step1Title": "Vælg virksomhed",
+            "existingCompany": "Eksisterende",
+            "existingCompanyDesc": "Tilføj ordre til en eksisterende virksomhed",
+            "newCompany": "Ny virksomhed",
+            "newCompanyDesc": "Opret ny virksomhed og tilføj licenser",
+            "searchCompanyLabel": "Søg virksomhed",
+            "searchCompanyPlaceholder": "Søg navn eller email...",
+            "companyNameLabel": "Virksomhedsnavn",
+            "companyNamePlaceholder": "Virksomhedsnavn",
+            "firstNameLabel": "Fornavn",
+            "lastNameLabel": "Efternavn",
+            "emailLabel": "Email",
+            "phoneLabel": "Telefon",
+            "step2Title": "Vælg produkter",
+            "step2Subtitle": "Pakke, apps, kurser og tilkøb",
+            "subscriptionPackage": "Abonnementspakke",
+            "billingPeriod": "Faktureringsperiode",
+            "monthly": "Månedlig",
+            "yearly": "Årlig",
+            "addOns": "Tilkøb til pakke",
+            "extraUsersLabel": "Ekstra brugere",
+            "extraUsersPrice": "+kr. 39/md. per bruger",
+            "extraDepartmentsLabel": "Ekstra afdelinger",
+            "extraDepartmentsPrice": "+kr. 79/md. per afdeling",
+            "appsLabel": "Apps (App Store tilkøb)",
+            "free": "Gratis",
+            "oneTime": "Én gang",
+            "orderSummary": "Ordreoversigt",
+            "selectAtLeastOne": "Vælg mindst ét produkt",
+            "extraUsersRow": "ekstra bruger(e)",
+            "extraDepartmentsRow": "ekstra afdeling(er)",
+            "oneTimeLower": "én gang",
+            "monthlyTotal": "Månedlig total",
+            "oneTimeFees": "Én gangs gebyrer",
+            "step3Title": "Betaling & afslutning",
+            "sellerLabel": "Sælger",
+            "sellerPlaceholder": "Dit navn",
+            "startDateLabel": "Startdato",
+            "paymentMethodLabel": "Betalingsmetode",
+            "orderStatusLabel": "Ordrestatus",
+            "notesLabel": "Noter",
+            "notesPlaceholder": "Interne noter om ordren...",
+            "companyLabel": "Virksomhed",
+            "planLabel": "Plan",
+            "cancelAction": "Annuller",
+            "backAction": "← Tilbage",
+            "saving": "Gemmer...",
+            "continueAction": "Fortsæt →",
+            "createOrderAction": "Opret ordre",
+            "statusPending": "Afventer",
+            "statusCompleted": "Gennemført",
+            "statusCancelled": "Annulleret",
+            "paymentCard": "Betalingskort",
+            "paymentInvoice": "Faktura",
+            "paymentFree": "Gratis",
+            "paymentOther": "Andet",
+            "planFreeDesc": "1 bruger, 1 afdeling, 1 GB",
+            "planBasisDesc": "1 bruger inkl., ubegrænset borgere",
+            "planProDesc": "3 brugere, 3 afdelinger, 3 GB, FMK",
+            "errorSelectCompany": "Vælg eller søg en virksomhed",
+            "errorCompanyName": "Virksomhedsnavn er påkrævet",
+            "errorSelectProduct": "Vælg mindst en pakke eller en app",
+            "successOrderCreated": "Ordre oprettet!",
+            "successOrderCreatedBody": "Ordre til {name} er oprettet.",
+            "successUpdated": "Opdateret!",
+            "successOrderCompleted": "Ordren er gennemført."
+        },
+        "polls": {
+            "confirmation": {
+                "deletePollConfirmation": "Er du sikker på, at du vil slette denne afstemning",
+                "deletePollItemConfirmation": "Er du sikker på, at du vil slette dette afstemningselement"
+            },
+            "editPoll": "Rediger afstemning",
+            "editPollItem": "Rediger afstemningspunkt",
+            "form": {
+                "active": "Aktiv",
+                "alert": {
+                    "newPollItemSuccessfullySaved": "New poll item successfully saved",
+                    "newPollSuccessfullySaved": "New poll successfully saved",
+                    "pollItemSuccessfullyDeleted": "Poll item successfully deleted",
+                    "pollItemSuccessfullyUpdated": "Poll item successfully updated",
+                    "pollSuccessfullyDeleted": "Poll successfully deleted",
+                    "pollSuccessfullyUpdated": "Poll successfully updated"
+                },
+                "description": "Beskrivelse",
+                "name": "Navn",
+                "region": "Region",
+                "sender": "Afsender",
+                "title": "Titel"
+            },
+            "newPoll": "Ny afstemning",
+            "newPollItem": "Nyt afstemningspunkt",
+            "pollItems": "Afstemningspunkter",
+            "polls": "Afstemninger",
+            "table": {
+                "actions": {
+                    "delete": "Slet",
+                    "edit": "Rediger",
+                    "view": "Vis"
+                },
+                "active": "Aktiv",
+                "description": "Beskrivelse",
+                "inactive": "Inaktiv",
+                "region": "Region",
+                "sender": "Afsender",
+                "status": "Status",
+                "title": "Titel"
+            }
+        },
+        "salesCampaign": {
+            "confirmation": {
+                "deleteConfirmation": "Er du sikker på, at du vil slette denne kampagne"
+            },
+            "editCampaign": "Rediger kampagne",
+            "form": {
+                "active": "Aktiv",
+                "alert": {
+                    "campaignSuccessfullyDeleted": "Kampagne blev succesfuldt slettet",
+                    "campaignSuccessfullyUpdated": "Kampagne opdateret",
+                    "newCampaignSuccessfullySaved": "Ny kampagne er gemt"
+                },
+                "content": "Indhold",
+                "image": "Billede",
+                "link": "Link",
+                "title": "Titel"
+            },
+            "newCampaign": "Ny kampagne",
+            "salesCampaign": "Salgs kampagne",
+            "table": {
+                "actions": {
+                    "delete": "Slet",
+                    "edit": "Rediger"
+                },
+                "active": "Aktiv",
+                "content": "Indhold",
+                "image": "Billede",
+                "inactive": "Inaktiv",
+                "link": "Link",
+                "status": "Status",
+                "title": "Titel"
+            }
+        },
+        "sidebar": {
+            "apps": "Apps",
+            "breadcrumb": "Superadmin",
+            "cancellations": "Opsigelser",
+            "clientRoles": "Roller & Rettigheder",
+            "companies": "Virksomheder",
+            "coupons": "Kuponer",
+            "dashboard": "Dashboard",
+            "finance": "Økonomi",
+            "groups": {
+                "finance": "Økonomi",
+                "overview": "Oversigt",
+                "platform": "Platform"
+            },
+            "invoices": "Fakturaer",
+            "licenses": "Licenser",
+            "orders": "Ordrer",
+            "polls": "Afstemninger",
+            "products": "Produkter",
+            "salesCampaign": "Salgskampagner",
+            "superAdmin": "Super Admin",
+            "superAdminPanel": "Super admin panel",
+            "users": "Brugere"
+        },
+        "users": {
+            "confirmation": {
+                "deleteUserConfirmation": "Er du sikker på, at du vil slette denne bruger"
+            },
+            "editUser": "Rediger bruger",
+            "form": {
+                "alert": {
+                    "newUserSuccessfullySaved": "Ny bruger er blevet gemt",
+                    "userSuccessfullyDeleted": "Bruger slettet med succes",
+                    "userSuccessfullyUpdated": "Bruger er blevet opdateret"
+                },
+                "birthday": "Fødselsdag",
+                "emailAddress": "Emailadresse",
+                "firstname": "Fornavn",
+                "lastname": "Efternavn",
+                "phone": "Telefon"
+            },
+            "newUser": "Ny bruger",
+            "table": {
+                "actions": {
+                    "delete": "Slet",
+                    "edit": "Rediger"
+                },
+                "email": "Email",
+                "name": "Navn",
+                "phone": "Telefon",
+                "company": "Virksomhed",
+                "role": "Rolle",
+                "status": "Status"
+            },
+            "users": "Brugere",
+            "createFirstUser": "Opret den første bruger",
+            "createUser": "Opret bruger",
+            "noUsersFound": "Ingen brugere fundet",
+            "searchPlaceholder": "Søg på navn, email eller virksomhed...",
+            "showing": "Viser {from}–{to} af {total}",
+            "totalUsers": "{count} brugere i alt",
+            "tabs": {
+                "admins": "Admins",
+                "all": "Alle",
+                "active": "Aktive",
+                "inactive": "Inaktive"
+            },
+            "sort": {
+                "nameAsc": "Navn A–Z",
+                "nameDesc": "Navn Z–A",
+                "newestFirst": "Nyeste først",
+                "oldestFirst": "Ældste først"
+            },
+            "slider": {
+                "attachToCompany": "Tilknyt til virksomhed",
+                "createAndAttach": "Opret og tilknyt til virksomhed",
+                "creating": "Opretter...",
+                "leaveEmptyForWelcomeEmail": "Lad stå tom for at sende velkomst-email med link",
+                "minChars": "Min. 8 tegn",
+                "password": "Adgangskode",
+                "roleAdmin": "Administrator",
+                "roleUser": "Bruger",
+                "searchCompany": "Søg virksomhed...",
+                "searchToAttach": "Søg for at tilknytte en eksisterende virksomhed",
+                "userCanLogin": "Brugeren kan logge ind",
+                "userInfo": "Brugeroplysninger"
+            }
+        },
+        "finance": {
+            "pageTitle": "Økonomi",
+            "header": "Økonomi",
+            "subtitle": "Revenue · Virksomheder · Vækst · Risiko",
+            "periodLabels": {
+                "7d": "Seneste 7 dage",
+                "30d": "Seneste 30 dage",
+                "90d": "Seneste 90 dage",
+                "12m": "Seneste 12 måneder"
+            },
+            "revenueSubtitle": "Omsætning og fakturering",
+            "vsPrevious": "vs. forrige",
+            "forecastMRR": "Prognose baseret på MRR",
+            "collected": "Indsamlet",
+            "collectionRateLabel": "opkrævningsrate",
+            "paidInPeriod": "Betalt i perioden",
+            "outstanding": "Udestående",
+            "allPaid": "Alle betalt",
+            "invoicesPending": "fakturaer afventer",
+            "notYetCollected": "Ikke indsamlet endnu",
+            "mrrOverTime": "MRR over tid",
+            "mrrHelp": "Hjælper med at spotte vækststagnation og sæsonudsving",
+            "newARR": "Ny ARR",
+            "noData": "Ingen data endnu",
+            "newRevenue": "Ny revenue",
+            "fromCompanies": "Fra nye virksomheder",
+            "expansionRevenue": "Expansion revenue",
+            "upgrades": "Opgraderinger",
+            "lostRevenue": "Tabt revenue",
+            "fromChurn": "Fra churn / opsigelser",
+            "companiesLicenses": "Virksomheder & Licenser",
+            "subscriptions": "Abonnementer og planfordeling",
+            "activeCompanies": "Aktive virksomheder",
+            "payingSubscribers": "Betalende abonnenter",
+            "activeLicenses": "Aktive licenser i dag",
+            "overBenchmark": "Over benchmark",
+            "underBenchmark": "Under benchmark",
+            "trialPeriods": "Prøveperioder",
+            "conversionRate": "konverteringsrate",
+            "activeTrials": "Aktive prøveperioder",
+            "expiringSoon": "Udløber snart",
+            "within7Days": "Inden for 7 dage",
+            "requiresFollowUp": "Kræver opfølgning nu",
+            "planDistribution": "Planfordeling",
+            "plans": "Hvilke planer driver din revenue",
+            "comp": "virks.",
+            "annualPlanShare": "Årsplan andel",
+            "topCompanies": "Top virksomheder",
+            "top": "De",
+            "highestPaying": "højest-betalende kunder",
+            "noDataYet": "Ingen data endnu",
+            "mo": "/md",
+            "growth": "Vækst",
+            "marketingRoas": "Marketing, konvertering og ROAS",
+            "momGrowth": "MoM vækst",
+            "newCompaniesVs": "Nye virksomheder vs. forrige md.",
+            "newCompanies": "Nye virksomheder",
+            "inPeriod": "I perioden",
+            "netGrowth": "Nettotilvækst",
+            "goalRoas": "Mål: > 3x",
+            "conversionFunnel": "Konverteringsfunnel",
+            "dropOffTrial": "Spotter frafald i trial → betalende kunder",
+            "visitors": "Besøgende",
+            "signup": "Tilmelding",
+            "paying": "Betalende",
+            "risk": "Risiko",
+            "churnIssues": "Churn, betalingsproblemer og advarsler",
+            "healthyLevel": "Sundt niveau",
+            "requiresAttention": "Kræver opmærksomhed",
+            "critical": "Kritisk — handle nu",
+            "goalUnder2": "Mål: under 2%/md.",
+            "churnedRevenue": "Churnet revenue",
+            "companiesLost": "virksomheder tabt",
+            "lostMRR": "Tabt MRR i perioden",
+            "paymentFailures": "Betalingsfejl",
+            "requiresFollowUpShort": "Kræver opfølgning",
+            "declined": "Afviste betalinger",
+            "goalNRR": "Mål: > 100%",
+            "churnOverTime": "Churn over tid",
+            "churnSpikes": "Spotter churn-spikes og sæsonmønstre",
+            "churnReasons": "Churn årsager",
+            "whatDrives": "Hvad driver opsigelser",
+            "basedOn": "Baseret på opsigelsesflow-data",
+            "churnReasonLabels": [
+                "For dyrt",
+                "Manglende funktioner",
+                "Skiftet konkurrent",
+                "Virksomhed lukket",
+                "Andet"
+            ],
+            "alertCriticalChurnTitle": "Kritisk churn:",
+            "alertCriticalChurnBody": "er over kritisk grænse på 5%.",
+            "alertPaymentTitle": "Betalingsfejl:",
+            "alertPaymentBody": "fakturaer afvist. Kontakt de berørte virksomheder.",
+            "alertTrialTitle": "Prøveperioder:",
+            "alertTrialBody": "udløber inden for 7 dage.",
+            "alertNRRTitle": "NRR under 100%:",
+            "alertNRRBody": "Du mister mere end du vinder. Fokus på expansion og reduktion af churn.",
+            "revenue": "Revenue",
+            "mrrFull": "Månedlig tilbagevendende omsætning",
+            "arrFull": "Årlig tilbagevendende omsætning",
+            "arpuFull": "Gns. omsætning pr. bruger",
+            "momFull": "Måned-over-måned",
+            "roasFull": "Afkast på annoncering",
+            "ltvFull": "Livstidsværdi",
+            "nrrFull": "Netto omsætningsfastholdelse",
+            "months": [
+                "Jan",
+                "Feb",
+                "Mar",
+                "Apr",
+                "Maj",
+                "Jun",
+                "Jul",
+                "Aug",
+                "Sep",
+                "Okt",
+                "Nov",
+                "Dec"
+            ],
+            "monthsLong": [
+                "Januar",
+                "Februar",
+                "Marts",
+                "April",
+                "Maj",
+                "Juni",
+                "Juli",
+                "August",
+                "September",
+                "Oktober",
+                "November",
+                "December"
+            ],
+            "churnRate": "Churn rate"
+        },
+        "licenses": {
+            "pageTitle": "App Licenser",
+            "header": "App Licenser",
+            "subtitle": "Definer priser og licensstrukturer per app",
+            "newLicense": "Ny licens",
+            "licenseModelLabel": "Licensmodel",
+            "licenseModelDesc": "Virksomheder betaler per app de aktiverer, ikke en samlet plan. Prisen er per bruger/licens med fleksible faktureringsintervaller — månedlig, årlig eller specifik aftale (fx offentlig sektor med stor volumen).",
+            "noAppsFound": "Ingen apps fundet",
+            "noAppsFoundSub": "Tilføj apps fra Apps-siden først",
+            "licenseTypes": "licenstyper",
+            "activeCompanies": "aktive virksomheder",
+            "addLicense": "Tilføj licens",
+            "noLicenseTypes": "Ingen licenstyper endnu — tilføj den første",
+            "volume": "Volumen",
+            "inactive": "Inaktiv",
+            "free": "Gratis",
+            "perUser": "/ bruger",
+            "included": "inkl.",
+            "min": "min.",
+            "users": "brugere",
+            "editLicense": "Rediger licens",
+            "appLabel": "App",
+            "selectAppPlaceholder": "Vælg app…",
+            "licenseNameLabel": "Licensnavn",
+            "licenseNamePlaceholder": "fx Standard, Enterprise, Offentlig",
+            "descriptionLabel": "Beskrivelse",
+            "descriptionPlaceholder": "Kort beskrivelse af licenstypen",
+            "priceLabel": "Pris per bruger (kr)",
+            "billingIntervalLabel": "Faktureringsinterval",
+            "monthly": "Månedlig",
+            "yearly": "Årlig",
+            "quarterly": "Kvartalsvis",
+            "custom": "Specifik aftale",
+            "includedSeatsLabel": "Inkluderede brugere",
+            "includedSeatsHint": "Inkluderet i basisprisen (0 = ingen)",
+            "minSeatsLabel": "Min. køb (brugere)",
+            "minSeatsHint": "Minimum der skal tilkøbes",
+            "volumeAgreement": "Volumenaftale",
+            "volumeAgreementDesc": "Aktivér for fx offentlige institutioner med mange brugere (fx 6.300 brugere til 29 kr/stk.)",
+            "activeLabel": "Aktiv",
+            "activeDesc": "Licenstypen kan tilkøbes af virksomheder",
+            "assignToCompany": "Tilknyt til virksomhed (valgfri)",
+            "assignToCompanyDesc": "Tilknyt denne licenstype direkte til en virksomhed",
+            "searchCompanyPlaceholder": "Søg virksomhed...",
+            "cancelAction": "Annuller",
+            "saving": "Gemmer...",
+            "saveChanges": "Gem ændringer",
+            "createLicense": "Opret licens",
+            "errorSelectApp": "Vælg en app",
+            "errorLicenseName": "Licensnavn er påkrævet",
+            "errorPrice": "Prisen skal være 0 eller mere",
+            "successSaved": "Gemt!",
+            "successUpdatedBody": "Licenstype '{name}' er opdateret.",
+            "successCreated": "Oprettet!",
+            "successCreatedBody": "Licenstype '{name}' er oprettet.",
+            "successDeleted": "Slettet!",
+            "successDeletedBody": "Licenstype '{name}' er slettet.",
+            "deleteConfirm": "Slet licenstype '{name}'?"
+        }
+    },
+    "support": {
+        "chatWithSupport": "Chat med support",
+        "courseDetails": "Hvis du og dine kollegaer har brug for et kursus i CitizenOne, så klik på knappen nedenfor for at se, hvad vi kan tilbyde, så I bliver godt klædt på",
+        "findGuidesHere": "Find vejledninger her",
+        "getAGuidedTour": "Få en guided video-tour",
+        "latestNewFeatures": "Seneste nye funktioner",
+        "latestNewFeaturesDetails": "Følg med i de nyeste forbedringer og funktioner i CitizenOne. Vi opdaterer løbende, så du altid er opdateret",
+        "needACourse": "Brug for et kursus",
+        "newFeatureRequest": "Har du ønsker til nye funktioner",
+        "newFeatureRequestDetails": "CitizenOne udvikles i tæt samarbejde med vores brugere. Har du forslag eller idéer til nye funktioner? Så del dem med os - vi lytter og prioriterer løbende",
+        "seeTheNewFeatures": "Se de nye funktioner",
+        "sendUsYourRequests": "Send os dine ønsker",
+        "support": "Support",
+        "viewCourses": "Se kurser",
+        "weAreReadyToHelp": "Vi er klar til at hjælpe"
+    },
+    "tasks": {
+        "addNewTask": "Tilføj ny opgave",
+        "alert": {
+            "taskSuccessfullyDeleted": "Opgave slettet med succes"
+        },
+        "confirmation": {
+            "deleteConfirmation": "Er du sikker på, at du vil slette denne opgave",
+            "deleteFutureEvents": "Delete future events"
+        },
+        "editTask": "Rediger opgave",
+        "form": {
+            "alert": {
+                "newTaskSuccessfullySaved": "Ny opgave gemt med succes",
+                "taskSuccessfullyUpdated": "Opgave opdateret med succes"
+            },
+            "attachFile": "Vedhæft fil",
+            "content": "Indhold",
+            "isActive": "Er aktiv",
+            "title": "Titel"
+        },
+        "newTask": "Ny opgave",
+        "table": {
+            "actions": {
+                "delete": "Slet",
+                "edit": "Rediger",
+                "seeProgress": "Se fremskridt",
+                "view": "Se"
+            },
+            "active": "Aktiv",
+            "content": "Indhold",
+            "inactive": "Inaktiv",
+            "status": "Status",
+            "title": "Titel"
+        },
+        "tasks": "Opgaver"
+    },
+    "theListIsEmpty": "Listen er tom",
+    "theresNoDataAvailableToDisplay": "Der er ingen data til rådighed at vise",
+    "timeAccounts": {
+        "alert": {
+            "timeAccountSuccessfullyDeleted": "Timekonto slettet med succes"
+        },
+        "confirmation": {
+            "deleteTimeAccountConfirmation": "Er du sikker på, at du vil slette denne timekonto?"
+        },
+        "roles": "Roller",
+        "table": {
+            "actions": {
+                "delete": "Slet",
+                "edit": "Rediger"
+            },
+            "admin": "Admin",
+            "confirmation": {
+                "deleteRoleConfirmation": "Er du sikker på, at du vil slette denne rolle"
+            },
+            "name": "Navn",
+            "permissions": "Tilladelser",
             "user": "Bruger",
             "level": "Niveau",
             "regular": "Almindelig",
