@@ -1,5 +1,9 @@
 import { useUserStore } from '@/store/user'
 
+export function getPermissionLabel(permission: any, locale: string): string {
+    return permission?.[`${locale}_name`] || permission?.name?.replace(/_/g, ' ') || ''
+}
+
 const ROLE_LEVELS: Record<string, number> = {
     Admin: 80,
     Manager: 50,

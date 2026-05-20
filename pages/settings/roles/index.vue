@@ -61,7 +61,7 @@
                                         <div class="text-xxs flex flex-wrap gap-1">
                                             <span v-for="(permission, index) in role?.permissions" :key=index
                                                 class="bg-primary px-2 py-1 text-white rounded-md">
-                                                {{ permission?.translated_name || permission?.name }}
+                                                {{ getPermissionLabel(permission, locale) }}
                                             </span>
                                         </div>
                                     </td>
@@ -97,13 +97,14 @@
 
 <script setup lang="ts">
 import { roleService } from '@/components/api/user/RoleService'
+import { getPermissionLabel } from '@/composables/usePermissions'
 import { useI18n } from "vue-i18n"
 import { useAlert } from '@/composables/alert'
 import type { Error } from '@/types'
 
 const runtimeConfig = useRuntimeConfig()
 const { successAlert } = useAlert()
-const { t } = useI18n()
+const { t, locale } = useI18n()
 let currentTablePage = 1
 const breadcrumbLinks = [
     {
