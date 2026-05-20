@@ -144,8 +144,8 @@
                                         <div class="text-xs flex flex-wrap gap-2"
                                             v-if="state.selectedEmployee?.permissions?.length > 0">
                                             <span v-for="(permission, index) in state.selectedEmployee?.permissions"
-                                                :key=index class="bg-primary px-2 py-1 text-white rounded-md capitalize">
-                                                {{ permission?.name?.replace(/_/g, ' ') }}
+                                                :key=index class="bg-primary px-2 py-1 text-white rounded-md">
+                                                {{ getPermissionLabel(permission, locale) }}
                                             </span>
                                         </div>
                                     </div>
@@ -457,7 +457,8 @@ import { useDatetimeFormatter } from '@/composables/datetimeFormatter'
 import { employeeService } from '@/components/api/user/EmployeeService'
 import { useCustomPagesStore } from '@/store/custom-pages'
 import { useUserStore } from '@/store/user'
-import { usePermissions } from '@/composables/usePermissions'
+import { usePermissions, getPermissionLabel } from '@/composables/usePermissions'
+import { useI18n } from 'vue-i18n'
 import type { Error } from '@/types'
 
 const runtimeConfig = useRuntimeConfig()
@@ -465,6 +466,7 @@ const router = useRouter()
 const customPagesStore = useCustomPagesStore() as any
 const userStore = useUserStore() as any
 const { isAtLeast } = usePermissions()
+const { locale } = useI18n()
 const { formatDateToReadable } = useDatetimeFormatter()
 const employeeUuid = router?.currentRoute?.value?.params?.employee_uuid
 const breadcrumbLinks = [
