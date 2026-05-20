@@ -144,8 +144,8 @@
                                         <div class="text-xs flex flex-wrap gap-2"
                                             v-if="state.selectedEmployee?.permissions?.length > 0">
                                             <span v-for="(permission, index) in state.selectedEmployee?.permissions"
-                                                :key=index class="bg-primary px-2 py-1 text-white rounded-md capitalize">
-                                                {{ permission?.name?.replace(/_/g, ' ') }}
+                                                :key=index class="bg-primary px-2 py-1 text-white rounded-md">
+                                                {{ permission?.translated_name || permission?.name?.replace(/_/g, ' ') }}
                                             </span>
                                         </div>
                                     </div>

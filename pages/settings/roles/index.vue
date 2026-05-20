@@ -61,7 +61,7 @@
                                         <div class="text-xxs flex flex-wrap gap-1">
                                             <span v-for="(permission, index) in role?.permissions" :key=index
                                                 class="bg-primary px-2 py-1 text-white rounded-md">
-                                                {{ $t(PERMISSION_LABELS[permission?.name] || permission?.name) }}
+                                                {{ permission?.translated_name || permission?.name }}
                                             </span>
                                         </div>
                                     </td>
@@ -97,7 +97,6 @@
 
 <script setup lang="ts">
 import { roleService } from '@/components/api/user/RoleService'
-import { PERMISSION_LABELS } from '@/composables/usePermissions'
 import { useI18n } from "vue-i18n"
 import { useAlert } from '@/composables/alert'
 import type { Error } from '@/types'

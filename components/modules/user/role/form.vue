@@ -43,7 +43,6 @@
 
 <script setup lang="ts">
 import { permissionService } from '@/components/api/user/PermissionService'
-import { PERMISSION_LABELS } from '@/composables/usePermissions'
 import { useVuelidate } from "@vuelidate/core"
 import { required, helpers } from '@vuelidate/validators'
 import { useI18n } from "vue-i18n"
@@ -66,7 +65,7 @@ const props = defineProps({
 
 const emit = defineEmits(['isPageLoading', 'submitForm'])
 
-const { t, locale } = useI18n()
+const { t } = useI18n()
 
 const state = reactive({
     error: {} as Error,
@@ -78,7 +77,7 @@ const state = reactive({
         is_name_editable: true,
         level: '20',
     },
-    permissions: [] as Array<{ uuid: string, name: string }>,
+    permissions: [] as Array<{ uuid: string, name: string, translated_name: string }>,
 })
 
 const levelOptions = computed(() => [
@@ -140,6 +139,7 @@ async function fetchAllPermissions() {
             state.permissions = response.data.map((item: any) => ({
                 uuid: item?.uuid,
                 name: item?.name,
+                translated_name: item?.translated_name,
             }))
         }
     } catch (error: any) {
@@ -149,15 +149,10 @@ async function fetchAllPermissions() {
 }
 
 const translatedPermissions = computed(() => {
-    locale.value // reactive dependency so labels re-compute on locale change
-
-    return state.permissions.map((permission) => {
-        const translationKey = PERMISSION_LABELS[permission.name]
-        return {
-            value: permission.uuid,
-            label: translationKey ? t(translationKey) : permission.name,
-        }
-    })
+    return state.permissions.map((permission) => ({
+        value: permission.uuid,
+        label: permission.translated_name || permission.name,
+    }))
 })
 
 function submitForm() {
