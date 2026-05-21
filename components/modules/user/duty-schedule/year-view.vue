@@ -131,7 +131,8 @@
                     <!-- Employee avatars with rich popover -->
                     <div v-for="(employee, employeeIndex) in sidebarEmployees" :key="'sidebar-' + employee.uuid"
                         class="border-b border-gray-100 flex flex-col items-center justify-center py-3 px-2 cursor-default relative"
-                        @mouseenter="showPopover(employeeIndex)" @mouseleave="hidePopoverWithDelay()">
+                        @mouseenter="(isAtLeast('Admin') || userStore.getUser?.uuid === employee?.uuid) && showPopover(employeeIndex)"
+                        @mouseleave="hidePopoverWithDelay()">
                         <img :src="employee?.profile_image ?? `https://ui-avatars.com/api/?background=42AED9&color=fff&name=${employee?.firstname + ' ' + employee?.lastname}`"
                             :class="[
                                 employee?.shift_threshold === 'high' && 'ring-green-500',
@@ -234,7 +235,7 @@
                                         </span>
                                     </div>
                                     <div class="col-span-2 text-right pr-2">{{ time?.monthly_hours || time?.weekly_hours
-                                    }}</div>
+                                        }}</div>
                                     <div class="col-span-2 text-right pr-2 border-l border-gray-100">{{
                                         time?.yearly_hours }}</div>
                                 </div>
@@ -676,6 +677,7 @@ import { dutyScheduleService } from '@/components/api/user/DutyScheduleService'
 import { useDepartmentStore } from '@/store/department'
 import { useNumberFormatter } from '@/composables/numberFormatter'
 import { useDutyScheduleStore } from '@/store/duty-schedule'
+import { usePermissions } from '@/composables/usePermissions'
 import { useUserStore } from '@/store/user'
 import { useI18n } from 'vue-i18n'
 import type { Error } from '@/types'
@@ -687,6 +689,7 @@ const dutyScheduleStore = useDutyScheduleStore() as any
 const userStore = useUserStore() as any
 const departmentStore = useDepartmentStore()
 const { formatNumber } = useNumberFormatter()
+const { isAtLeast, can } = usePermissions()
 
 // Current year as a ref — navigation changes this
 const currentYear = ref(moment().year())
