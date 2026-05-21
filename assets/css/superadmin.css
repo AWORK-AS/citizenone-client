@@ -20,10 +20,11 @@
     @apply inline-flex items-center gap-1 px-2 py-[3px] rounded-full text-[11px] font-semibold whitespace-nowrap;
 }
 
+.co-badge-blue  { @apply bg-[#EEF4FB] text-[#1A4D99]; }
 .co-badge-green { @apply bg-[#EDF7EE] text-[#2E9E33]; }
-.co-badge-red   { @apply bg-[#FFF0F0] text-[#CC3B2D]; }
-.co-badge-navy  { @apply bg-[#E4F1F6] text-[#205E77]; }
 .co-badge-gray  { @apply bg-[#F5F6F8] text-[#5C6478]; }
+.co-badge-navy  { @apply bg-[#E4F1F6] text-[#205E77]; }
+.co-badge-red   { @apply bg-[#FFF0F0] text-[#CC3B2D]; }
 
 /* ----------------------------------------------------------------------------------------------------
     Form
