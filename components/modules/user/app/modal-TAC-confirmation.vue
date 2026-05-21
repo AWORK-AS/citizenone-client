@@ -5,7 +5,7 @@
             <template #modal-body>
                 <div>
                     <div class="mx-auto max-w-sm md:max-w-md mt-16 relative"
-                        v-if="!props.selectedApp?.is_one_time_fee && props.selectedApp?.generic_name === null">
+                        v-if="!props.selectedApp?.is_one_time_fee && props.selectedApp?.generic_name === null && !isYearlySubscription">
                         <div class="flex justify-center">
                             <fieldset aria-label="Payment frequency">
                                 <RadioGroup v-model="state.formApp.frequency"
@@ -101,6 +101,7 @@
 import { RadioGroup, RadioGroupOption } from '@headlessui/vue'
 import { useAmountFormatter } from '@/composables/amountFormatter'
 import { useI18n } from "vue-i18n"
+import { useUserStore } from '@/store/user'
 
 const props = defineProps({
     isModalOpen: {
@@ -124,10 +125,15 @@ const props = defineProps({
 const emit = defineEmits(['close', 'confirmAppActivation'])
 const { formatAmount } = useAmountFormatter()
 const language = useI18n()
+const userStore = useUserStore() as any
 const frequencies = [
     { value: 'monthly', label: 'Monthly', priceSuffix: '/month' },
     { value: 'annually', label: 'Annually', priceSuffix: '/year' },
 ]
+
+const isYearlySubscription = computed(() =>
+    ['yearly', 'custom_yearly'].includes(userStore.getUser?.user_subscription?.type)
+)
 
 const state = reactive({
     agreeToTermsValidation: false,
@@ -144,6 +150,7 @@ watch(() => props.isModalOpen, (isModalOpen: any) => {
     if (isModalOpen) {
         state.agreeToTermsValidation = false
         state.formTAC.agreeToTerms = false
+        state.formApp.frequency = isYearlySubscription.value ? frequencies[1] : frequencies[0]
     }
 })
 
