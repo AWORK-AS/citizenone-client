@@ -110,7 +110,15 @@
                         </div>
                     </div>
                     <div class="space-y-1">
-                        <p class="text-sm text-gray-500">{{ $t('shifts.form.multiplierRuleTimeInterval') }}</p>
+                        <div class="flex items-center justify-between">
+                            <p class="text-sm text-gray-500">{{ $t('shifts.form.multiplierRuleTimeInterval') }}</p>
+                            <button v-if="rule.time_from || rule.time_to" type="button"
+                                @click="rule.time_from = ''; rule.time_to = ''"
+                                class="text-xs text-gray-400 hover:text-gray-600 flex items-center gap-1">
+                                <Icon name="ph:x" size="12" />
+                                {{ $t('clear') }}
+                            </button>
+                        </div>
                         <div class="flex items-center gap-3">
                             <div class="flex-1 space-y-1">
                                 <FormLabel :label="$t('shifts.form.multiplierRuleTimeFrom')" />
