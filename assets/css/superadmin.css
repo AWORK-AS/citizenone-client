@@ -11,3 +11,41 @@
 .co-td {
     @apply py-3 px-4 align-middle;
 }
+
+/* ----------------------------------------------------------------------------------------------------
+    Badge
+---------------------------------------------------------------------------------------------------- */
+
+.co-badge {
+    @apply inline-flex items-center gap-1 px-2 py-[3px] rounded-full text-[11px] font-semibold whitespace-nowrap;
+}
+
+.co-badge-green { @apply bg-[#EDF7EE] text-[#2E9E33]; }
+.co-badge-red   { @apply bg-[#FFF0F0] text-[#CC3B2D]; }
+.co-badge-navy  { @apply bg-[#E4F1F6] text-[#205E77]; }
+.co-badge-gray  { @apply bg-[#F5F6F8] text-[#5C6478]; }
+
+/* ----------------------------------------------------------------------------------------------------
+    Form
+---------------------------------------------------------------------------------------------------- */
+
+.co-label {
+    @apply block text-[13px] font-semibold text-[#1F2533] mb-[5px];
+}
+
+.co-input {
+    @apply w-full px-[13px] py-[9px] text-sm text-[#1F2533] bg-white border border-[#D5D9E2] rounded-[10px] outline-none transition-all;
+}
+
+.co-input:focus {
+    @apply border-[#42AED9];
+    box-shadow: 0 0 0 3px rgba(66, 174, 217, 0.12);
+}
+
+.co-input::placeholder {
+    @apply text-[#B0B8C4];
+}
+
+.co-error {
+    @apply text-[11px] text-[#CC3B2D] mt-1;
+}
