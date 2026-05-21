@@ -46,14 +46,8 @@
 
                 <!-- Search + tabs + sort -->
                 <div class="flex flex-wrap items-center gap-3 mb-4">
-                    <div class="relative flex-1 min-w-[220px] max-w-[380px]">
-                        <Icon name="ph:magnifying-glass"
-                            class="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-[#8891A4]" />
-                        <input v-model="searchQuery" type="text"
-                            :placeholder="$t('superadmin.orders.searchPlaceholder')"
-                            class="w-full pl-9 pr-3 py-2 text-sm border border-[#EAECF0] rounded-lg bg-white text-[#1F2533] placeholder-[#8891A4] outline-none focus:border-[#42AED9] focus:ring-2 focus:ring-[#42AED9]/10 transition-colors"
-                            @input="debouncedSearch" />
-                    </div>
+                    <SuperadminTableSearch v-model="searchQuery"
+                        :placeholder="$t('superadmin.orders.searchPlaceholder')" @input="debouncedSearch" />
                     <div class="flex items-center bg-white border border-[#EAECF0] rounded-lg p-0.5">
                         <button v-for="tab in tabs" :key="tab.key"
                             class="px-3 py-1.5 rounded-md text-[12px] font-medium transition-colors flex items-center gap-1.5"
@@ -80,114 +74,80 @@
                     v-if="state.error?.message && state.error.message.length > 0" />
 
                 <!-- Table -->
-                <div class="bg-white border border-[#EAECF0] rounded-xl overflow-hidden shadow-sm">
-                    <div v-if="state.isLoading" class="flex justify-center py-16">
-                        <Icon name="ph:spinner" class="w-7 h-7 text-[#42AED9] animate-spin" />
-                    </div>
-                    <div v-else-if="!state.orders?.data?.length"
-                        class="flex flex-col items-center gap-3 py-16 text-[#8891A4]">
-                        <Icon name="ph:receipt" class="w-12 h-12 opacity-30" />
-                        <p class="text-sm font-medium">
-                            {{ $t('superadmin.orders.noOrdersFound') }}
-                        </p>
-                        <button @click="openWizard" class="mt-1 px-4 py-2 rounded-lg text-sm font-semibold text-white"
-                            style="background:#205E77">
-                            {{ $t('superadmin.orders.createNewOrder') }}
-                        </button>
-                    </div>
-                    <table v-else class="w-full">
-                        <thead>
-                            <tr class="border-b border-[#EAECF0] bg-[#F9FAFB]">
-                                <th class="co-th">{{ $t('superadmin.orders.colOrder') }}</th>
-                                <th class="co-th">{{ $t('superadmin.orders.colCompany') }}</th>
-                                <th class="co-th">{{ $t('superadmin.orders.colProducts') }}</th>
-                                <th class="co-th">{{ $t('superadmin.orders.colTotal') }}</th>
-                                <th class="co-th">{{ $t('superadmin.orders.colStatus') }}</th>
-                                <th class="co-th">{{ $t('superadmin.orders.colDate') }}</th>
-                                <th class="co-th"></th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr v-for="order in state.orders.data" :key="order.uuid ?? order.id"
-                                class="border-b border-[#F5F6F8] hover:bg-[#F9FAFB] transition-colors group">
-                                <td class="co-td text-[12px] text-[#8891A4] font-mono">
-                                    #{{ order.id ?? order.uuid?.slice(-6) }}
-                                </td>
-                                <td class="co-td">
-                                    <div class="flex items-center gap-2">
-                                        <div class="w-7 h-7 rounded-lg flex items-center justify-center text-[11px] font-bold text-white flex-shrink-0"
-                                            :style="`background:${avatarColor(order.company?.name ?? order.company_name)}`">
-                                            {{
-                                                (order.company?.name ?? order.company_name ??
-                                                    '?').charAt(0).toUpperCase()
-                                            }}
-                                        </div>
-                                        <span class="text-[13px] font-medium text-[#1F2533]">
-                                            {{ order.company?.name ?? order.company_name ?? '—' }}
-                                        </span>
+                <SuperadminTable :columnHeaders="state.columnHeaders" :data="state.orders" :isLoading="state.isLoading"
+                    :sortData="state.sortData" :emptyMessage="$t('superadmin.orders.noOrdersFound')"
+                    emptyIcon="ph:receipt" rowKey="uuid" @sort="handleSort">
+                    <template #body>
+                        <tr v-for="order in state.orders?.data" :key="order.uuid ?? order.id"
+                            class="border-b border-[#F5F6F8] hover:bg-[#F9FAFB] transition-colors group">
+                            <td class="co-td text-[12px] text-[#8891A4] font-mono">
+                                #{{ order.id ?? order.uuid?.slice(-6) }}
+                            </td>
+                            <td class="co-td">
+                                <div class="flex items-center gap-2">
+                                    <div class="w-7 h-7 rounded-lg flex items-center justify-center text-[11px] font-bold text-white flex-shrink-0"
+                                        :style="`background:${avatarColor(order.company?.name ?? order.company_name)}`">
+                                        {{ (order.company?.name ?? order.company_name ?? '?').charAt(0).toUpperCase() }}
                                     </div>
-                                </td>
-                                <td class="co-td">
-                                    <div class="flex flex-wrap gap-1">
-                                        <span v-if="order.plan" class="co-badge co-badge-navy text-[10px]">
-                                            {{ planLabel(order.plan) }}
-                                        </span>
-                                        <span v-for="app in (order.apps ?? [])" :key="app"
-                                            class="co-badge co-badge-gray text-[10px]">
-                                            {{ app }}
-                                        </span>
-                                        <span v-if="order.extra_users > 0" class="co-badge co-badge-gray text-[10px]">
-                                            +{{ order.extra_users }} {{ $t('superadmin.orders.extraUsers') }}
-                                        </span>
-                                        <span v-if="order.extra_departments > 0"
-                                            class="co-badge co-badge-gray text-[10px]">
-                                            +{{ order.extra_departments }}
-                                            {{ $t('superadmin.orders.extraDepartments') }}
-                                        </span>
-                                    </div>
-                                </td>
-                                <td class="co-td">
-                                    <p class="text-[14px] font-bold text-[#1F2533]">
-                                        kr. {{ order.total ?? 0 }}
-                                    </p>
-                                    <p class="text-[11px] text-[#8891A4]">
-                                        {{
-                                            order.billing_period === 'yearly' ?
-                                                $t('superadmin.orders.perYear') :
-                                                $t('superadmin.orders.perMonth')
-                                        }}
-                                    </p>
-                                </td>
-                                <td class="co-td">
-                                    <span class="co-badge text-[11px]"
-                                        :style="`background:${statusMap[order.status]?.bg};color:${statusMap[order.status]?.color}`">
-                                        <Icon :name="statusMap[order.status]?.icon ?? 'ph:clock'" class="w-3 h-3" />
-                                        {{ statusMap[order.status]?.label ?? order.status }}
+                                    <span class="text-[13px] font-medium text-[#1F2533]">
+                                        {{ order.company?.name ?? order.company_name ?? '—' }}
                                     </span>
-                                </td>
-                                <td class="co-td text-[12px] text-[#5C6478]">
-                                    {{ formatDate(order.created_at) }}
-                                </td>
-                                <td class="co-td">
-                                    <div
-                                        class="flex items-center gap-1.5 justify-end opacity-0 group-hover:opacity-100 transition-opacity">
-                                        <button v-if="order.status === 'pending'"
-                                            class="co-action-btn !text-green-700 !bg-green-50 !border-green-200"
-                                            @click="completeOrder(order)">
-                                            <Icon name="ph:check" class="w-3.5 h-3.5" />
-                                            {{ $t('superadmin.orders.approve') }}
-                                        </button>
-                                        <button class="co-action-btn !text-[#CC3B2D] hover:!bg-red-50 !border-red-200"
-                                            @click="confirmCancel(order)">
-                                            <Icon name="ph:x" class="w-3.5 h-3.5" />
-                                            {{ $t('superadmin.orders.cancel') }}
-                                        </button>
-                                    </div>
-                                </td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
+                                </div>
+                            </td>
+                            <td class="co-td">
+                                <div class="flex flex-wrap gap-1">
+                                    <span v-if="order.plan" class="co-badge co-badge-navy text-[10px]">
+                                        {{ planLabel(order.plan) }}
+                                    </span>
+                                    <span v-for="app in (order.apps ?? [])" :key="app"
+                                        class="co-badge co-badge-gray text-[10px]">
+                                        {{ app }}
+                                    </span>
+                                    <span v-if="order.extra_users > 0" class="co-badge co-badge-gray text-[10px]">
+                                        +{{ order.extra_users }} {{ $t('superadmin.orders.extraUsers') }}
+                                    </span>
+                                    <span v-if="order.extra_departments > 0" class="co-badge co-badge-gray text-[10px]">
+                                        +{{ order.extra_departments }} {{ $t('superadmin.orders.extraDepartments') }}
+                                    </span>
+                                </div>
+                            </td>
+                            <td class="co-td">
+                                <p class="text-[14px] font-bold text-[#1F2533]">kr. {{ order.total ?? 0 }}</p>
+                                <p class="text-[11px] text-[#8891A4]">
+                                    {{
+                                        order.billing_period === 'yearly' ?
+                                            $t('superadmin.orders.perYear') :
+                                            $t('superadmin.orders.perMonth')
+                                    }}
+                                </p>
+                            </td>
+                            <td class="co-td">
+                                <span class="co-badge text-[11px]"
+                                    :style="`background:${statusMap[order.status]?.bg};color:${statusMap[order.status]?.color}`">
+                                    <Icon :name="statusMap[order.status]?.icon ?? 'ph:clock'" class="w-3 h-3" />
+                                    {{ statusMap[order.status]?.label ?? order.status }}
+                                </span>
+                            </td>
+                            <td class="co-td text-[12px] text-[#5C6478]">
+                                {{ formatDate(order.created_at) }}
+                            </td>
+                            <td class="co-td" @click.stop>
+                                <div
+                                    class="flex items-center gap-1.5 justify-end opacity-0 group-hover:opacity-100 transition-opacity">
+                                    <SuperadminTableButton v-if="order.status === 'pending'" buttonStyle="success"
+                                        @click="completeOrder(order)">
+                                        <Icon name="ph:check" class="w-3.5 h-3.5" />
+                                        {{ $t('superadmin.orders.approve') }}
+                                    </SuperadminTableButton>
+                                    <SuperadminTableButton buttonStyle="danger" @click="confirmCancel(order)">
+                                        <Icon name="ph:x" class="w-3.5 h-3.5" />
+                                        {{ $t('superadmin.orders.cancel') }}
+                                    </SuperadminTableButton>
+                                </div>
+                            </td>
+                        </tr>
+                    </template>
+                </SuperadminTable>
                 <div class="mt-4">
                     <Pagination :data="state.orders" @previous="previous" @next="next" />
                 </div>
@@ -834,16 +794,27 @@ const statusMap = computed<Record<string, any>>(() => ({
 }))
 
 const state = reactive({
-    orders: [] as any,
-    availableApps: [] as any[],
     activeTab: 'all',
-    completedCount: 0, pendingCount: 0, cancelledCount: 0,
+    availableApps: [] as any[],
+    cancelledCount: 0,
+    columnHeaders: computed(() => [
+        { key: 'id', name: t('superadmin.orders.colOrder') },
+        { key: 'company', name: t('superadmin.orders.colCompany') },
+        { key: 'apps', name: t('superadmin.orders.colProducts') },
+        { key: 'total', name: t('superadmin.orders.colTotal'), sorter: true },
+        { key: 'status', name: t('superadmin.orders.colStatus') },
+        { key: 'created_at', name: t('superadmin.orders.colDate'), sorter: true },
+        { key: 'actions', name: '' },
+    ]),
+    completedCount: 0,
+    dataFilter: { search: '' },
     error: {} as Error,
     isLoading: false,
     modal: { isCancelOpen: false },
+    orders: [] as any,
+    pendingCount: 0,
     selectedOrder: {} as any,
     sortData: { sortField: 'id', sortOrder: 'descend' },
-    dataFilter: { search: '' },
 })
 
 const wizard = reactive({
@@ -905,8 +876,11 @@ function toggleApp(app: any) {
 }
 
 function openWizard() {
-    wizard.step = 1; wizard.companyMode = 'existing'
-    wizard.companySearch = ''; wizard.companyResults = []; wizard.selectedCompany = null
+    wizard.step = 1
+    wizard.companyMode = 'existing'
+    wizard.companySearch = ''
+    wizard.companyResults = []
+    wizard.selectedCompany = null
     wizard.newCompany = { name: '', firstname: '', lastname: '', email: '', phone: '' }
     wizard.form = { plan: '', billing_period: 'monthly', extra_users: 0, extra_departments: 0, selectedApps: [], seller_name: '', notes: '', start_date: new Date().toISOString().split('T')[0], payment_method: 'card', status: 'pending' }
     wizard.errors = { company: '', newName: '', plan: '' }
@@ -914,7 +888,10 @@ function openWizard() {
     document.body.style.overflow = 'hidden'
 }
 
-function closeWizard() { wizard.open = false; document.body.style.overflow = '' }
+function closeWizard() {
+    wizard.open = false
+    document.body.style.overflow = ''
+}
 
 function wizardBack() {
     if (wizard.step === 1) closeWizard()
@@ -976,9 +953,16 @@ function searchCompanies() {
     }, 300)
 }
 
-function selectCompany(c: any) { wizard.selectedCompany = c; wizard.companySearch = c.name; wizard.companyResults = [] }
+function selectCompany(c: any) {
+    wizard.selectedCompany = c
+    wizard.companySearch = c.name
+    wizard.companyResults = []
+}
 
-onMounted(() => { fetchOrders(); fetchApps() })
+onMounted(() => {
+    fetchOrders()
+    fetchApps()
+})
 
 async function fetchApps() {
     try {
@@ -1008,132 +992,63 @@ function debouncedSearch() {
     clearTimeout(searchTimeout)
     searchTimeout = setTimeout(() => { state.dataFilter.search = searchQuery.value; currentPage = 1; fetchOrders() }, 350)
 }
-function setTab(tab: string) { state.activeTab = tab; currentPage = 1; fetchOrders() }
+
+function setTab(tab: string) {
+    state.activeTab = tab
+    currentPage = 1
+    fetchOrders()
+}
+
 function handleSortChange() {
     const parts = sortLabel.value.split('_'); const order = parts.pop()
     state.sortData.sortField = parts.join('_'); state.sortData.sortOrder = order === 'asc' ? 'ascend' : 'descend'
-    currentPage = 1; fetchOrders()
+    currentPage = 1
+    fetchOrders()
 }
-function previous() { currentPage--; fetchOrders() }
-function next() { currentPage++; fetchOrders() }
-function confirmCancel(order: any) { state.selectedOrder = order; state.modal.isCancelOpen = true }
+
+function handleSort({ sort, column }: { sort: string | null; column: string | null }) {
+    state.sortData.sortField = column ?? 'id'
+    state.sortData.sortOrder = sort ?? 'descend'
+    currentPage = 1
+    fetchOrders()
+}
+
+function previous() {
+    currentPage--
+    fetchOrders()
+}
+
+function next() {
+    currentPage++
+    fetchOrders()
+}
+
+function confirmCancel(order: any) {
+    state.selectedOrder = order
+    state.modal.isCancelOpen = true
+}
 
 async function cancelOrder() {
     try { await orderService.updateOrderStatus(state.selectedOrder.uuid ?? state.selectedOrder.id, 'cancelled'); fetchOrders() }
     catch (error: any) { state.error = error }
 }
+
 async function completeOrder(order: any) {
-    try { await orderService.updateOrderStatus(order.uuid ?? order.id, 'completed'); successAlert(t('superadmin.orders.successUpdated'), t('superadmin.orders.successOrderCompleted')); fetchOrders() }
-    catch (error: any) { state.error = error }
+    try {
+        await orderService.updateOrderStatus(order.uuid ?? order.id, 'completed')
+        successAlert(t('superadmin.orders.successUpdated'), t('superadmin.orders.successOrderCompleted'))
+        fetchOrders()
+    }
+    catch (error: any) {
+        state.error = error
+    }
 }
 
-onMounted(() => { window.addEventListener('keydown', (e) => { if (e.key === 'Escape' && wizard.open) closeWizard() }) })
+onMounted(() => {
+    window.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape' && wizard.open) {
+            closeWizard()
+        }
+    })
+})
 </script>
-
-<style scoped>
-.co-th {
-    text-align: left;
-    padding: 10px 16px;
-    font-size: 11px;
-    font-weight: 600;
-    color: #8891A4;
-    text-transform: uppercase;
-    letter-spacing: 0.06em
-}
-
-.co-td {
-    padding: 12px 16px;
-    vertical-align: middle
-}
-
-.co-badge {
-    display: inline-flex;
-    align-items: center;
-    gap: 4px;
-    padding: 3px 8px;
-    border-radius: 999px;
-    font-size: 11px;
-    font-weight: 600;
-    white-space: nowrap
-}
-
-.co-badge-green {
-    background: #EDF7EE;
-    color: #2E9E33
-}
-
-.co-badge-red {
-    background: #FFF0F0;
-    color: #CC3B2D
-}
-
-.co-badge-navy {
-    background: #E4F1F6;
-    color: #205E77
-}
-
-.co-badge-gray {
-    background: #F5F6F8;
-    color: #5C6478
-}
-
-.co-badge-warn {
-    background: #FFF9EC;
-    color: #D4900A
-}
-
-.co-action-btn {
-    display: inline-flex;
-    align-items: center;
-    gap: 4px;
-    padding: 5px 10px;
-    border-radius: 8px;
-    font-size: 12px;
-    font-weight: 500;
-    background: #F5F6F8;
-    color: #5C6478;
-    border: 1px solid #EAECF0;
-    transition: all 0.15s;
-    cursor: pointer
-}
-
-.co-action-btn:hover {
-    background: #EEF4FB;
-    color: #205E77
-}
-
-.co-label {
-    display: block;
-    font-size: 13px;
-    font-weight: 600;
-    color: #1F2533;
-    margin-bottom: 5px
-}
-
-.co-input {
-    width: 100%;
-    padding: 9px 13px;
-    font-size: 14px;
-    color: #1F2533;
-    background: white;
-    border: 1px solid #D5D9E2;
-    border-radius: 10px;
-    outline: none;
-    transition: border-color 0.15s, box-shadow 0.15s
-}
-
-.co-input:focus {
-    border-color: #42AED9;
-    box-shadow: 0 0 0 3px rgba(66, 174, 217, 0.12)
-}
-
-.co-input::placeholder {
-    color: #B0B8C4
-}
-
-.co-error {
-    font-size: 11px;
-    color: #CC3B2D;
-    margin-top: 4px
-}
-</style>
