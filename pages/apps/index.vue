@@ -205,6 +205,10 @@
                                             <span v-if="app?.is_one_time_fee">
                                                 {{ formatAmount(app?.price) }}
                                             </span>
+                                            <span v-else-if="['yearly', 'custom_yearly'].includes(userStore.getUser?.user_subscription?.type)">
+                                                {{ formatAmount(app?.yearly_price) }}
+                                                <span class="lowercase">/{{ $t('apps.year') }}</span>
+                                            </span>
                                             <span v-else>
                                                 {{ formatAmount(app?.monthly_price) }}
                                                 <span class="lowercase">/{{ $t('apps.month') }}</span>
