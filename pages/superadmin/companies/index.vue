@@ -40,17 +40,9 @@
                     </div>
                 </div>
 
-                <!-- Search + tabs + sort -->
                 <div class="flex flex-wrap items-center gap-3 mb-4">
-                    <!-- Search -->
-                    <div class="relative flex-1 min-w-[220px] max-w-[380px]">
-                        <Icon name="ph:magnifying-glass"
-                            class="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-[#8891A4]" />
-                        <input v-model="searchQuery" type="text"
-                            :placeholder="$t('superadmin.companies.searchPlaceholder')"
-                            class="w-full pl-9 pr-3 py-2 text-sm border border-[#EAECF0] rounded-lg bg-white text-[#1F2533] placeholder-[#8891A4] outline-none focus:border-[#42AED9] focus:ring-2 focus:ring-[#42AED9]/10 transition-colors"
-                            @input="debouncedSearch" />
-                    </div>
+                    <SuperadminTableSearch v-model="searchQuery"
+                        :placeholder="$t('superadmin.companies.searchPlaceholder')" @input="debouncedSearch" />
 
                     <!-- Status tabs -->
                     <div class="flex items-center bg-white border border-[#EAECF0] rounded-lg p-0.5">
@@ -77,111 +69,77 @@
                 <Alert type="danger" :text="state?.error?.message"
                     v-if="state.error?.message && state.error.message.length > 0" />
 
-                <!-- Table card -->
-                <div class="bg-white border border-[#EAECF0] rounded-xl overflow-hidden shadow-sm">
-                    <!-- Loading -->
-                    <div v-if="state.isTableLoading" class="flex items-center justify-center py-16">
-                        <Icon name="ph:spinner" class="w-7 h-7 text-[#42AED9] animate-spin" />
-                    </div>
-
-                    <!-- Empty -->
-                    <div v-else-if="!state.companies?.data?.length"
-                        class="flex flex-col items-center gap-3 py-16 text-[#8891A4]">
-                        <Icon name="ph:magnifying-glass" class="w-12 h-12 opacity-30" />
-                        <p class="text-sm font-medium">{{ $t('superadmin.companies.noCompaniesFound') }}</p>
-                        <p class="text-xs">{{ $t('superadmin.companies.createFirstClient') }}</p>
-                    </div>
-
-                    <!-- Table -->
-                    <table v-else class="w-full">
-                        <thead>
-                            <tr class="border-b border-[#EAECF0] bg-[#F9FAFB]">
-                                <th class="co-th">{{ $t('superadmin.companies.company') }}</th>
-                                <th class="co-th">{{ $t('superadmin.companies.table.status') }}</th>
-                                <th class="co-th">{{ $t('superadmin.companies.table.phone') }}</th>
-                                <th class="co-th">{{ $t('superadmin.companies.table.cvr') }}</th>
-                                <th class="co-th">{{ $t('superadmin.companies.table.website') }}</th>
-                                <th class="co-th"></th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr v-for="(company, index) in state.companies?.data" :key="index"
-                                class="border-b border-[#F5F6F8] hover:bg-[#F9FAFB] transition-colors group cursor-pointer"
-                                @click="navigateTo(`/superadmin/companies/${company.uuid}/accounts`)">
-
-                                <!-- Name + avatar -->
-                                <td class="co-td">
-                                    <div class="flex items-center gap-3">
-                                        <div class="w-8 h-8 rounded-lg flex items-center justify-center flex-shrink-0 text-[11px] font-bold text-white"
-                                            :style="`background:${avatarColor(company?.name)}`">
-                                            {{ initials(company?.name) }}
-                                        </div>
-                                        <div>
-                                            <p class="text-[13px] font-semibold text-[#1F2533]">{{ company?.name || '—'
-                                            }}</p>
-                                            <p class="text-[11px] text-[#8891A4]">{{ company?.email || '' }}</p>
-                                        </div>
+                <!-- Table -->
+                <SuperadminTable :columnHeaders="state.columnHeaders" :data="state.companies"
+                    :isLoading="state.isTableLoading" :sortData="state.sortData"
+                    :emptyMessage="$t('superadmin.companies.noCompaniesFound')"
+                    :emptySubMessage="$t('superadmin.companies.createFirstClient')" rowKey="uuid" @sort="handleSort">
+                    <template #body>
+                        <tr v-for="(company, index) in state.companies?.data" :key="index"
+                            class="border-b border-[#F5F6F8] hover:bg-[#F9FAFB] transition-colors group cursor-pointer"
+                            @click="navigateTo(`/superadmin/companies/${company.uuid}/accounts`)">
+                            <td class="co-td">
+                                <div class="flex items-center gap-3">
+                                    <div class="w-8 h-8 rounded-lg flex items-center justify-center flex-shrink-0 text-[11px] font-bold text-white"
+                                        :style="`background:${avatarColor(company?.name)}`">
+                                        {{ initials(company?.name) }}
                                     </div>
-                                </td>
-
-                                <!-- Status -->
-                                <td class="co-td">
-                                    <span v-if="company?.is_active"
-                                        class="inline-flex items-center gap-1 px-2.5 py-1 rounded-full text-[11px] font-semibold bg-[#EDF7EE] text-[#2E9E33]">
-                                        <span class="w-1.5 h-1.5 rounded-full bg-[#2E9E33]"></span>
-                                        {{ $t('superadmin.companies.table.active') }}
-                                    </span>
-                                    <span v-else
-                                        class="inline-flex items-center gap-1 px-2.5 py-1 rounded-full text-[11px] font-semibold bg-[#FFF0F0] text-[#CC3B2D]">
-                                        <span class="w-1.5 h-1.5 rounded-full bg-[#CC3B2D]"></span>
-                                        {{ $t('superadmin.companies.table.inactive') }}
-                                    </span>
-                                </td>
-
-                                <!-- Phone -->
-                                <td class="co-td text-[13px] text-[#5C6478]">{{ company?.phone || '—' }}</td>
-
-                                <!-- CVR -->
-                                <td class="co-td text-[13px] text-[#5C6478] font-mono">{{ company?.cvr || '—' }}</td>
-
-                                <!-- Website -->
-                                <td class="co-td">
-                                    <a v-if="company?.website" :href="company.website" target="_blank"
-                                        class="text-[12px] text-[#42AED9] hover:underline truncate block max-w-[160px]"
-                                        @click.stop>
-                                        {{ company.website.replace(/^https?:\/\//, '') }}
-                                    </a>
-                                    <span v-else class="text-[#8891A4] text-[13px]">—</span>
-                                </td>
-
-                                <!-- Actions (reveal on hover) -->
-                                <td class="co-td" @click.stop>
-                                    <div
-                                        class="flex items-center gap-1.5 justify-end opacity-0 group-hover:opacity-100 transition-opacity">
-                                        <button class="co-action-btn"
-                                            @click="navigateTo(`/superadmin/companies/${company.uuid}/accounts`)">
-                                            <Icon name="ph:eye" class="w-3.5 h-3.5" />
-                                            {{ $t('superadmin.companies.table.actions.view') }}
-                                        </button>
-                                        <button class="co-action-btn"
-                                            @click="navigateTo(`/superadmin/companies/${company.uuid}/edit`)">
-                                            <Icon name="ph:pencil-simple" class="w-3.5 h-3.5" />
-                                        </button>
-                                        <button class="co-action-btn"
-                                            :class="company.is_active ? 'text-[#CC3B2D] hover:bg-red-50 border-red-200' : 'text-[#2E9E33] hover:bg-green-50 border-green-200'"
-                                            @click="activateDeactivateCompany(index as number, company)">
-                                            <Icon :name="company.is_active ? 'ph:x' : 'ph:check'" class="w-3.5 h-3.5" />
-                                        </button>
+                                    <div>
+                                        <p class="text-[13px] font-semibold text-[#1F2533]">{{ company?.name || '—' }}
+                                        </p>
+                                        <p class="text-[11px] text-[#8891A4]">{{ company?.email || '' }}</p>
                                     </div>
-                                </td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
-
+                                </div>
+                            </td>
+                            <td class="co-td">
+                                <span v-if="company?.is_active"
+                                    class="inline-flex items-center gap-1 px-2.5 py-1 rounded-full text-[11px] font-semibold bg-[#EDF7EE] text-[#2E9E33]">
+                                    <span class="w-1.5 h-1.5 rounded-full bg-[#2E9E33]"></span>
+                                    {{ $t('superadmin.companies.table.active') }}
+                                </span>
+                                <span v-else
+                                    class="inline-flex items-center gap-1 px-2.5 py-1 rounded-full text-[11px] font-semibold bg-[#FFF0F0] text-[#CC3B2D]">
+                                    <span class="w-1.5 h-1.5 rounded-full bg-[#CC3B2D]"></span>
+                                    {{ $t('superadmin.companies.table.inactive') }}
+                                </span>
+                            </td>
+                            <td class="co-td text-[13px] text-[#5C6478]">
+                                {{ company?.phone || '—' }}
+                            </td>
+                            <td class="co-td text-[13px] text-[#5C6478] font-mono">
+                                {{ company?.cvr || '—' }}
+                            </td>
+                            <td class="co-td">
+                                <a v-if="company?.website" :href="company.website" target="_blank"
+                                    class="text-[12px] text-[#42AED9] hover:underline truncate block max-w-[160px]"
+                                    @click.stop>
+                                    {{ company.website.replace(/^https?:\/\//, '') }}
+                                </a>
+                                <span v-else class="text-[#8891A4] text-[13px]">—</span>
+                            </td>
+                            <td class="co-td" @click.stop>
+                                <div
+                                    class="flex items-center gap-1.5 justify-end opacity-0 group-hover:opacity-100 transition-opacity">
+                                    <SuperadminTableButton
+                                        @click="navigateTo(`/superadmin/companies/${company.uuid}/accounts`)">
+                                        <Icon name="ph:eye" class="w-3.5 h-3.5" />
+                                        {{ $t('superadmin.companies.table.actions.view') }}
+                                    </SuperadminTableButton>
+                                    <SuperadminTableButton
+                                        @click="navigateTo(`/superadmin/companies/${company.uuid}/edit`)">
+                                        <Icon name="ph:pencil-simple" class="w-3.5 h-3.5" />
+                                    </SuperadminTableButton>
+                                    <SuperadminTableButton :buttonStyle="company.is_active ? 'danger' : 'success'"
+                                        @click="activateDeactivateCompany(index as number, company)">
+                                        <Icon :name="company.is_active ? 'ph:x' : 'ph:check'" class="w-3.5 h-3.5" />
+                                    </SuperadminTableButton>
+                                </div>
+                            </td>
+                        </tr>
+                    </template>
+                </SuperadminTable>
                 <Pagination :data="state.companies" @previous="previous" @next="next" />
             </div>
-
             <ModulesSuperadminCompanyModalImport :isModalOpen="state.modal.isImportCompanyOpen"
                 @close="state.modal.isImportCompanyOpen = false" />
         </NuxtLayout>
@@ -205,19 +163,30 @@ const searchQuery = ref('')
 const sortLabel = ref('id_desc')
 
 const state = reactive({
-    companies: [] as any,
+    activeCount: 0,
     activeTab: 'all',
     allCount: 0,
-    activeCount: 0,
-    inactiveCount: 0,
-    error: {} as Error,
-    isTableLoading: false,
-    modal: { isImportCompanyOpen: false },
-    sortData: { sortField: 'id', sortOrder: 'descend' },
+    columnHeaders: computed(() => [
+        { key: 'name', name: t('superadmin.companies.company'), sorter: true },
+        { key: 'status', name: t('superadmin.companies.table.status') },
+        { key: 'phone', name: t('superadmin.companies.table.phone') },
+        { key: 'cvr', name: t('superadmin.companies.table.cvr') },
+        { key: 'website', name: t('superadmin.companies.table.website') },
+        { key: 'actions', name: '' },
+    ]),
+    companies: [] as any,
     dataFilter: {
         search: '',
         status: ''
     } as any,
+    error: {} as Error,
+    inactiveCount: 0,
+    isTableLoading: false,
+    modal: { isImportCompanyOpen: false },
+    sortData: {
+        sortField: 'id',
+        sortOrder: 'descend'
+    },
 })
 
 const tabs = computed(() => [
@@ -289,8 +258,22 @@ function handleSortChange() {
     fetchCompanies()
 }
 
-function previous() { currentTablePage--; fetchCompanies() }
-function next() { currentTablePage++; fetchCompanies() }
+function handleSort({ sort, column }: { sort: string | null; column: string | null }) {
+    state.sortData.sortField = column ?? 'id'
+    state.sortData.sortOrder = sort ?? 'descend'
+    currentTablePage = 1
+    fetchCompanies()
+}
+
+function previous() {
+    currentTablePage--
+    fetchCompanies()
+}
+
+function next() {
+    currentTablePage++
+    fetchCompanies()
+}
 
 async function activateDeactivateCompany(index: number, company: any) {
     try {
@@ -305,41 +288,3 @@ async function activateDeactivateCompany(index: number, company: any) {
     } catch (error: any) { state.error = error }
 }
 </script>
-
-<style scoped>
-.co-th {
-    text-align: left;
-    padding: 10px 16px;
-    font-size: 11px;
-    font-weight: 600;
-    color: #8891A4;
-    text-transform: uppercase;
-    letter-spacing: 0.06em;
-    white-space: nowrap;
-}
-
-.co-td {
-    padding: 12px 16px;
-    vertical-align: middle;
-}
-
-.co-action-btn {
-    display: inline-flex;
-    align-items: center;
-    gap: 4px;
-    padding: 5px 10px;
-    border-radius: 8px;
-    font-size: 12px;
-    font-weight: 500;
-    background: #F5F6F8;
-    color: #5C6478;
-    border: 1px solid #EAECF0;
-    transition: all 0.15s;
-    cursor: pointer;
-}
-
-.co-action-btn:hover {
-    background: #EEF4FB;
-    color: #205E77;
-}
-</style>
