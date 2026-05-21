@@ -25,7 +25,6 @@
                     </button>
                 </div>
 
-                <!-- Stats -->
                 <div class="grid grid-cols-4 gap-4 mb-6">
                     <div class="bg-white border border-[#EAECF0] rounded-xl p-4 shadow-sm">
                         <div class="text-[10px] font-semibold text-[#8891A4] uppercase tracking-[.06em] mb-1">
@@ -73,19 +72,17 @@
                     </div>
                 </div>
 
-                <!-- Filters -->
                 <div class="flex items-center gap-3 mb-4">
-                    <div class="relative flex-1 max-w-sm">
-                        <Icon name="ph:magnifying-glass"
-                            class="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-[#8891A4]" />
-                        <input v-model="search" type="text"
-                            :placeholder="$t('superadmin.cancellations.searchPlaceholder')"
-                            class="w-full pl-9 pr-4 py-2 text-sm border border-[#D5D9E2] rounded-lg outline-none focus:border-[#42AED9] bg-white" />
-                    </div>
+                    <SuperadminTableSearch v-model="search"
+                        :placeholder="$t('superadmin.cancellations.searchPlaceholder')" />
                     <select v-model="reasonFilter"
                         class="bg-white border border-[#D5D9E2] rounded-lg px-3 py-2 text-sm text-[#5C6478] outline-none">
-                        <option value="">{{ $t('superadmin.cancellations.allReasons') }}</option>
-                        <option v-for="r in cancelReasons" :key="r.key" :value="r.key">{{ r.label }}</option>
+                        <option value="">
+                            {{ $t('superadmin.cancellations.allReasons') }}
+                        </option>
+                        <option v-for="r in cancelReasons" :key="r.key" :value="r.key">
+                            {{ r.label }}
+                        </option>
                     </select>
                     <select v-model="periodFilter"
                         class="bg-white border border-[#D5D9E2] rounded-lg px-3 py-2 text-sm text-[#5C6478] outline-none">
@@ -96,101 +93,55 @@
                     </select>
                 </div>
 
-                <!-- Table -->
-                <div class="bg-white border border-[#EAECF0] rounded-xl shadow-sm overflow-hidden">
-                    <div v-if="loading" class="flex justify-center py-16">
-                        <Icon name="ph:spinner" class="w-6 h-6 text-[#42AED9] animate-spin" />
-                    </div>
-                    <div v-else-if="filteredCancellations.length === 0"
-                        class="flex flex-col items-center py-16 text-center">
-                        <div class="w-12 h-12 rounded-xl bg-[#FFF0F0] flex items-center justify-center mb-3">
-                            <Icon name="ph:x-circle" class="w-6 h-6 text-[#CC3B2D]" />
-                        </div>
-                        <p class="text-[14px] font-medium text-[#1F2533]">
-                            {{ $t('superadmin.cancellations.emptyTitle') }}
-                        </p>
-                        <p class="text-[12px] text-[#8891A4] mt-1">
-                            {{ $t('superadmin.cancellations.emptyDesc') }}
-                        </p>
-                        <button @click="openModal()" class="mt-4 px-4 py-2 rounded-lg text-sm font-semibold text-white"
-                            style="background:#CC3B2D">
-                            {{ $t('superadmin.cancellations.registerFirst') }}
-                        </button>
-                    </div>
-                    <table v-else class="w-full">
-                        <thead>
-                            <tr class="border-b border-[#EAECF0]">
-                                <th
-                                    class="text-left text-[11px] font-semibold text-[#8891A4] uppercase tracking-[.06em] px-5 py-3">
-                                    {{ $t('superadmin.cancellations.colCompany') }}
-                                </th>
-                                <th
-                                    class="text-left text-[11px] font-semibold text-[#8891A4] uppercase tracking-[.06em] px-5 py-3">
-                                    {{ $t('superadmin.cancellations.colProduct') }}
-                                </th>
-                                <th
-                                    class="text-left text-[11px] font-semibold text-[#8891A4] uppercase tracking-[.06em] px-5 py-3">
-                                    {{ $t('superadmin.cancellations.colReason') }}
-                                </th>
-                                <th
-                                    class="text-left text-[11px] font-semibold text-[#8891A4] uppercase tracking-[.06em] px-5 py-3">
-                                    {{ $t('superadmin.cancellations.colMrrLost') }}
-                                </th>
-                                <th
-                                    class="text-left text-[11px] font-semibold text-[#8891A4] uppercase tracking-[.06em] px-5 py-3">
-                                    {{ $t('superadmin.cancellations.colDate') }}
-                                </th>
-                                <th
-                                    class="text-left text-[11px] font-semibold text-[#8891A4] uppercase tracking-[.06em] px-5 py-3">
-                                    {{ $t('superadmin.cancellations.colNotes') }}
-                                </th>
-                                <th class="px-5 py-3"></th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr v-for="c in filteredCancellations" :key="c.id ?? c.uuid"
-                                class="border-b border-[#EAECF0] last:border-0 hover:bg-[#F9FAFB] transition-colors">
-                                <td class="px-5 py-3">
-                                    <div class="flex items-center gap-2.5">
-                                        <div class="w-7 h-7 rounded-lg flex items-center justify-center text-[11px] font-bold text-white flex-shrink-0"
-                                            :style="`background:${avatarColor(c.company_name ?? c.company?.name ?? '?')}`">
-                                            {{ (c.company_name ?? c.company?.name ?? '?').charAt(0).toUpperCase() }}
-                                        </div>
-                                        <span class="text-[13px] font-medium text-[#1F2533]">
-                                            {{ c.company_name ?? c.company?.name ?? '—' }}
-                                        </span>
+                <SuperadminTable :columnHeaders="state.columnHeaders" :data="cancellationsTableData"
+                    :isLoading="loading" :emptyMessage="$t('superadmin.cancellations.emptyTitle')"
+                    :emptySubMessage="$t('superadmin.cancellations.emptyDesc')" emptyIcon="ph:x-circle" rowKey="id">
+                    <template #body>
+                        <tr v-for="cancellation in filteredCancellations" :key="cancellation.id ?? cancellation.uuid"
+                            class="border-b border-[#F5F6F8] hover:bg-[#F9FAFB] transition-colors group">
+                            <td class="co-td">
+                                <div class="flex items-center gap-2.5">
+                                    <div class="w-7 h-7 rounded-lg flex items-center justify-center text-[11px] font-bold text-white flex-shrink-0"
+                                        :style="`background:${avatarColor(cancellation.company_name ?? cancellation.company?.name ?? '?')}`">
+                                        {{ (cancellation.company_name ?? cancellation.company?.name ??
+                                            '?').charAt(0).toUpperCase() }}
                                     </div>
-                                </td>
-                                <td class="px-5 py-3 text-[13px] text-[#5C6478]">
-                                    {{ c.product_name ?? c.license?.product?.name ?? '—' }}
-                                </td>
-                                <td class="px-5 py-3">
-                                    <span
-                                        class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-[11px] font-medium"
-                                        :style="reasonStyle(c.reason)">
-                                        <Icon :name="reasonIcon(c.reason)" class="w-3 h-3" />
-                                        {{ reasonLabel(c.reason) }}
+                                    <span class="text-[13px] font-medium text-[#1F2533]">
+                                        {{ cancellation.company_name ?? cancellation.company?.name ?? '—' }}
                                     </span>
-                                </td>
-                                <td class="px-5 py-3 text-[13px] font-medium text-[#CC3B2D]">
-                                    {{ c.mrr_lost ? fmt(c.mrr_lost) : '—' }}
-                                </td>
-                                <td class="px-5 py-3 text-[13px] text-[#5C6478]">
-                                    {{ formatDate(c.cancelled_at) }}
-                                </td>
-                                <td class="px-5 py-3 text-[12px] text-[#8891A4] max-w-[200px] truncate">
-                                    {{ c.notes || '—' }}
-                                </td>
-                                <td class="px-5 py-3">
-                                    <button @click="openModal(c)"
-                                        class="w-7 h-7 rounded-lg flex items-center justify-center text-[#8891A4] hover:bg-[#F5F6F8] hover:text-[#1F2533] transition-colors">
+                                </div>
+                            </td>
+                            <td class="co-td text-[13px] text-[#5C6478]">
+                                {{ cancellation.product_name ?? cancellation.license?.product?.name ?? '—' }}
+                            </td>
+                            <td class="co-td">
+                                <span
+                                    class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-[11px] font-medium"
+                                    :style="reasonStyle(cancellation.reason)">
+                                    <Icon :name="reasonIcon(cancellation.reason)" class="w-3 h-3" />
+                                    {{ reasonLabel(cancellation.reason) }}
+                                </span>
+                            </td>
+                            <td class="co-td text-[13px] font-medium text-[#CC3B2D]">
+                                {{ cancellation.mrr_lost ? fmt(cancellation.mrr_lost) : '—' }}
+                            </td>
+                            <td class="co-td text-[13px] text-[#5C6478]">
+                                {{ formatDate(cancellation.cancelled_at) }}
+                            </td>
+                            <td class="co-td text-[12px] text-[#8891A4] max-w-[200px] truncate">
+                                {{ cancellation.notes || '—' }}
+                            </td>
+                            <td class="co-td" @click.stop>
+                                <div
+                                    class="flex items-center justify-end opacity-0 group-hover:opacity-100 transition-opacity">
+                                    <SuperadminTableButton @click="openModal(cancellation)">
                                         <Icon name="ph:pencil-simple" class="w-3.5 h-3.5" />
-                                    </button>
-                                </td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
+                                    </SuperadminTableButton>
+                                </div>
+                            </td>
+                        </tr>
+                    </template>
+                </SuperadminTable>
 
                 <!-- Reason breakdown -->
                 <div v-if="cancellations.length > 0"
@@ -199,17 +150,17 @@
                         {{ $t('superadmin.cancellations.reasonBreakdown') }}
                     </h3>
                     <div class="space-y-3">
-                        <div v-for="r in reasonDistribution" :key="r.key">
+                        <div v-for="reason in reasonDistribution" :key="reason.key">
                             <div class="flex justify-between text-[12px] mb-1">
                                 <span class="text-[#5C6478] flex items-center gap-1.5">
-                                    <Icon :name="reasonIcon(r.key)" class="w-3.5 h-3.5" />
-                                    {{ r.label }}
+                                    <Icon :name="reasonIcon(reason.key)" class="w-3.5 h-3.5" />
+                                    {{ reason.label }}
                                 </span>
-                                <span class="font-medium text-[#1F2533]">{{ r.count }} ({{ r.pct }}%)</span>
+                                <span class="font-medium text-[#1F2533]">{{ reason.count }} ({{ reason.pct }}%)</span>
                             </div>
                             <div class="h-2 bg-[#EAECF0] rounded-full overflow-hidden">
                                 <div class="h-full rounded-full bg-[#CC3B2D] transition-all"
-                                    :style="`width:${r.pct}%;opacity:${0.4 + r.pct / 100}`" />
+                                    :style="`width:${reason.pct}%;opacity:${0.4 + reason.pct / 100}`" />
                             </div>
                         </div>
                     </div>
@@ -396,6 +347,18 @@ const reasonDistribution = computed(() => {
         .sort((a, b) => b.count - a.count)
 })
 
+const state = reactive({
+    columnHeaders: computed(() => [
+        { key: 'company', name: t('superadmin.cancellations.colCompany') },
+        { key: 'product', name: t('superadmin.cancellations.colProduct') },
+        { key: 'reason', name: t('superadmin.cancellations.colReason') },
+        { key: 'mrr_lost', name: t('superadmin.cancellations.colMrrLost') },
+        { key: 'cancelled_at', name: t('superadmin.cancellations.colDate') },
+        { key: 'notes', name: t('superadmin.cancellations.colNotes') },
+        { key: 'actions', name: '' },
+    ]),
+})
+
 const filteredCancellations = computed(() => {
     let list = cancellations.value
     if (search.value) {
@@ -415,6 +378,8 @@ const filteredCancellations = computed(() => {
     }
     return list
 })
+
+const cancellationsTableData = computed(() => ({ data: filteredCancellations.value }))
 
 // ── Helpers ───────────────────────────────────────────────────────────────
 const COLORS = [['#EEF4FB', '#003080'], ['#EEF8F8', '#22706A'], ['#EAF3DE', '#3B6D11'], ['#FAEEDA', '#633806']]
@@ -515,34 +480,7 @@ async function fetchCancellations() {
     loading.value = false
 }
 
-onMounted(() => fetchCancellations())
+onMounted(() =>
+    fetchCancellations()
+)
 </script>
-
-<style scoped>
-.co-label {
-    font-size: 12px;
-    font-weight: 600;
-    color: #5C6478
-}
-
-.co-input {
-    width: 100%;
-    padding: 9px 13px;
-    font-size: 14px;
-    color: #1F2533;
-    background: white;
-    border: 1px solid #D5D9E2;
-    border-radius: 10px;
-    outline: none;
-    transition: border-color 0.15s
-}
-
-.co-input:focus {
-    border-color: #42AED9;
-    box-shadow: 0 0 0 3px rgba(66, 174, 217, 0.12)
-}
-
-.co-input::placeholder {
-    color: #B0B8C4
-}
-</style>
