@@ -8426,6 +8426,8 @@
                 }
             },
             "newCoupon": "New coupon",
+            "noCouponsFound": "No coupons found",
+            "searchPlaceholder": "Search coupons...",
             "table": {
                 "actions": {
                     "delete": "Delete",
@@ -8710,8 +8712,10 @@
             },
             "newPoll": "New poll",
             "newPollItem": "New poll item",
+            "noPollsFound": "No polls found",
             "pollItems": "Poll items",
             "polls": "Polls",
+            "searchPlaceholder": "Search polls...",
             "table": {
                 "actions": {
                     "delete": "Delete",

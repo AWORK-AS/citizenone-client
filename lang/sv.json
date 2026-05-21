@@ -8417,6 +8417,8 @@
                 }
             },
             "newCoupon": "Ny kupong",
+            "noCouponsFound": "Inga kuponger hittades",
+            "searchPlaceholder": "Sök kuponger...",
             "table": {
                 "actions": {
                     "delete": "Radera",
@@ -8700,9 +8702,11 @@
                 "title": "Titel"
             },
             "newPoll": "Ny omröstning",
-            "newPollItem": "Nytt afstemningspunkt",
-            "pollItems": "Afstemningspunkter",
-            "polls": "Afstemninger",
+            "newPollItem": "Nytt omröstningspunkt",
+            "noPollsFound": "Inga omröstningar hittades",
+            "pollItems": "Omröstningspunkter",
+            "polls": "Omröstningar",
+            "searchPlaceholder": "Sök omröstningar...",
             "table": {
                 "actions": {
                     "delete": "Radera",

@@ -153,7 +153,8 @@
                 <div v-if="activeTab === 'coupons'">
                     <div class="flex items-center justify-between gap-3 mb-4">
                         <SuperadminTableSearch v-model="couponSearch"
-                            :placeholder="$t('superadmin.salesCampaign.searchCoupons')" />
+                            :placeholder="$t('superadmin.salesCampaign.searchCoupons')"
+                            @input="debouncedCouponSearch" />
                         <button @click="openCouponSlider(null)"
                             class="inline-flex items-center gap-1.5 px-3 py-2 rounded-lg text-sm font-semibold text-white"
                             style="background:#205E77">
@@ -763,6 +764,7 @@ const couponSearch = ref('')
 const campaignFilter = ref('all')
 
 let searchTimeout: any = null
+let couponSearchTimeout: any = null
 let trialSearchTimeout: any = null
 
 const COLORS = ['#205E77', '#2E9E33', '#368F8B', '#1A4D99', '#D4900A', '#9B4D9B']
@@ -841,6 +843,9 @@ const state = reactive({
         { key: 'actions', name: '' },
     ]),
     coupons: [] as any[],
+    dataFilter: {
+        search: ''
+    } as any,
     deleteTarget: null as any,
     deleteType: '' as string,
     error: {} as Error,
@@ -868,28 +873,17 @@ const mainTabs = computed(() => [
 ])
 
 const filteredCampaigns = computed(() => {
-    let list = state.campaigns
-    if (searchQuery.value) {
-        const q = searchQuery.value.toLowerCase()
-        list = list.filter(c => (c.name || '').toLowerCase().includes(q))
-    }
-    if (campaignFilter.value !== 'all') {
-        list = list.filter(c => {
-            const s = campaignStatus(c)
-            if (campaignFilter.value === 'active') return s === 'active'
-            if (campaignFilter.value === 'draft') return s === 'draft'
-            if (campaignFilter.value === 'expired') return s === 'expired'
-            return true
-        })
-    }
-    return list
+    if (campaignFilter.value === 'all') return state.campaigns
+    return state.campaigns.filter(c => {
+        const s = campaignStatus(c)
+        if (campaignFilter.value === 'active') return s === 'active'
+        if (campaignFilter.value === 'draft') return s === 'draft'
+        if (campaignFilter.value === 'expired') return s === 'expired'
+        return true
+    })
 })
 
-const filteredCoupons = computed(() => {
-    if (!couponSearch.value) return state.coupons
-    const q = couponSearch.value.toLowerCase()
-    return state.coupons.filter(c => (c.code || '').toLowerCase().includes(q) || (c.description || '').toLowerCase().includes(q))
-})
+const filteredCoupons = computed(() => state.coupons)
 
 const campaignsTableData = computed(() => ({
     data: filteredCampaigns.value
@@ -933,22 +927,25 @@ onMounted(() => {
 async function fetchCampaigns() {
     state.isLoading = true
     try {
-        const response = await campaignService.getCampaigns()
-        state.campaigns = Array.isArray(response) ? response : (response?.data ?? [])
-    } catch (error: any) {
-        state.error = error
-    }
+        const params: any = {
+            ...state.dataFilter,
+        }
+        const response = await campaignService.getCampaigns(params)
+        if (response) {
+            state.campaigns = Array.isArray(response) ? response : (response?.data ?? [])
+        }
+    } catch (error: any) { state.error = error }
     state.isLoading = false
 }
 
 async function fetchCoupons() {
     state.isLoading = true
     try {
-        const response = await campaignService.getCoupons()
+        const params: any = {}
+        if (couponSearch.value) params.search = couponSearch.value.trim()
+        const response = await campaignService.getCoupons(params)
         state.coupons = Array.isArray(response) ? response : (response?.data ?? [])
-    } catch (error: any) {
-        state.error = error
-    }
+    } catch (error: any) { state.error = error }
     state.isLoading = false
 }
 
@@ -1099,7 +1096,17 @@ async function saveBanner() {
 
 function debouncedSearch() {
     clearTimeout(searchTimeout)
-    searchTimeout = setTimeout(() => { }, 300)
+    searchTimeout = setTimeout(() => {
+        state.dataFilter.search = Array(searchQuery.value.trim().split(/\s+/))
+        fetchCampaigns()
+    }, 350)
+}
+
+function debouncedCouponSearch() {
+    clearTimeout(couponSearchTimeout)
+    couponSearchTimeout = setTimeout(() => {
+        fetchCoupons()
+    }, 350)
 }
 
 onMounted(() => {

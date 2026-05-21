@@ -164,7 +164,9 @@ const state = reactive({
         { key: 'status', name: t('superadmin.users.table.status') },
         { key: 'actions', name: '' },
     ]),
-    dataFilter: { search: '' },
+    dataFilter: {
+        search: ''
+    } as any,
     error: {} as Error,
     inactiveCount: 0,
     isTableLoading: false,
@@ -215,7 +217,7 @@ async function fetchUsers() {
 function debouncedSearch() {
     clearTimeout(searchTimeout)
     searchTimeout = setTimeout(() => {
-        state.dataFilter.search = searchQuery.value
+        state.dataFilter.search = Array(searchQuery.value.trim().split(/\s+/))
         currentTablePage = 1
         fetchUsers()
     }, 350)

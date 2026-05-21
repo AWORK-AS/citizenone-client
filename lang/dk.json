@@ -8426,6 +8426,8 @@
                 }
             },
             "newCoupon": "Ny kupon",
+            "noCouponsFound": "Ingen kuponer fundet",
+            "searchPlaceholder": "Søg i kuponer...",
             "table": {
                 "actions": {
                     "delete": "Slet",
@@ -8710,8 +8712,10 @@
             },
             "newPoll": "Ny afstemning",
             "newPollItem": "Nyt afstemningspunkt",
+            "noPollsFound": "Ingen afstemninger fundet",
             "pollItems": "Afstemningspunkter",
             "polls": "Afstemninger",
+            "searchPlaceholder": "Søg i afstemninger...",
             "table": {
                 "actions": {
                     "delete": "Slet",

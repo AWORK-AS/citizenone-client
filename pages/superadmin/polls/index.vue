@@ -103,7 +103,7 @@ const state = reactive({
     ]),
     dataFilter: {
         search: ''
-    },
+    } as any,
     error: {} as Error,
     isTableLoading: false,
     modal: {
@@ -140,7 +140,7 @@ async function fetchPolls() {
 function debouncedSearch() {
     clearTimeout(searchTimeout)
     searchTimeout = setTimeout(() => {
-        state.dataFilter.search = searchQuery.value
+        state.dataFilter.search = Array(searchQuery.value.trim().split(/\s+/))
         currentTablePage = 1
         fetchPolls()
     }, 350)
