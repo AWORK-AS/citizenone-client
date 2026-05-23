@@ -1,34 +1,10 @@
 <template>
-    <LoadingSpinner :isActive="state.isPageLoading">
-
-        <Alert type="danger" :text="state.error?.message"
-            v-if="state.error?.message && state.error.message.length > 0" />
-
-        <form @submit.prevent="handleSubmit" class="space-y-5">
-
-            <ModulesSuperadminCompanyForm ref="formRef" :serverErrors="state.error?.errors" />
-
-            <!-- Action buttons -->
-            <div class="flex items-center justify-end gap-3 pb-6">
-                <button type="button" @click="navigateTo('/superadmin/companies')"
-                    class="px-5 py-2.5 rounded-lg text-sm font-medium text-[#5C6478] bg-white border border-[#EAECF0] hover:bg-[#F5F6F8] transition-colors">
-                    {{ $t('cancel') }}
-                </button>
-                <button type="submit"
-                    class="px-5 py-2.5 rounded-lg text-sm font-semibold text-white transition-colors shadow-sm"
-                    style="background:#205E77" :disabled="state.isPageLoading">
-                    <span v-if="state.isPageLoading" class="flex items-center gap-2">
-                        <Icon name="ph:spinner" class="w-4 h-4 animate-spin" />
-                        {{ $t('superadmin.companies.form.creating') }}
-                    </span>
-                    <span v-else>
-                        {{ $t('superadmin.companies.saveCompany') }}
-                    </span>
-                </button>
-            </div>
-
-        </form>
-    </LoadingSpinner>
+    <div>
+        <LoadingSpinner :isActive="state.isPageLoading">
+            <ModulesSuperadminCompanyForm :error="state.error"
+                @isPageLoading="(value: boolean) => state.isPageLoading = value" @submitForm="saveCompany" />
+        </LoadingSpinner>
+    </div>
 </template>
 
 <script setup lang="ts">
@@ -40,19 +16,10 @@ import type { Error } from '@/types'
 const { successAlert } = useAlert()
 const { t } = useI18n()
 
-const formRef = ref()
-
 const state = reactive({
-    isPageLoading: false,
     error: {} as Error,
+    isPageLoading: false,
 })
-
-async function handleSubmit() {
-    const isValid = await formRef.value?.validate()
-    if (isValid) {
-        await saveCompany(formRef.value.getFormData())
-    }
-}
 
 async function saveCompany(formData: Record<string, any>) {
     state.error = {} as Error
